@@ -31,6 +31,9 @@ struct CompilerSmallSymbol : CompilerNamedSymbol {
 struct CompilerKind4Symbol : CompilerNamedSymbol {
     DWORD initial_context;             /* original +24, kind4 */
 };
+struct CompilerAbstractSymbol : CompilerNamedSymbol {
+    struct CompilerAbstractType *type; /* original +10; actual16-byte payload */
+};
 /* Extended members are accessed only for the larger IR symbol variants.
  * They must never enlarge the actual 20-byte namespace allocation. */
 struct CompilerIrSymbol : CompilerNamedSymbol {

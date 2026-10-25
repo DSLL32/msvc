@@ -67,6 +67,8 @@ typedef struct FrontendData {
     unsigned symbol_size_class[26];   /* cd680..cd6e8 */
     struct CompilerSymbolLink *recycled_symbols[11]; /* cc52c, actual NULL heads */
     struct CompilerHashTable *symbol_groups; /* cc5c8, initializedNULL */
+    unsigned compiler_mode_flags; /* ccf78, initialized0; separate from ccf7c */
+    int declaration_context_index; /* cd538, initialized-1; sign selects arena */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -83,6 +85,13 @@ typedef struct FrontendSourcePosition {
     void *origin;
     unsigned position;
 } FrontendSourcePosition;
+
+/* The original declaration context is28 bytes. Resolve reads these two
+ * actual BYTEs; its other26 bytes have no native placeholder or copy claim. */
+typedef struct CompilerDeclarationContext {
+    BYTE class_flags;   /* original c4d10 / declarator+1c, low3 classification */
+    BYTE context_flags; /* original c4d11 / declarator+1d, bit2 boolean */
+} CompilerDeclarationContext;
 
 /* Frame contents remain unknown until a semantic consumer is reached. */
 typedef struct DeferredWorkFrame DeferredWorkFrame;
@@ -250,6 +259,8 @@ typedef struct FrontendBss {
     unsigned symbol_arena_kind; /* ba910, BSS0; global initialization selects4 */
     struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* ba914, NULL */
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
+    CompilerDeclarationContext declaration_context; /* c4d10, BSS-zero owner */
+    int declaration_depth; /* c0808, signed scope-entry/exit counter, BSS0 */
 } FrontendBss;
 
 #ifdef __cplusplus

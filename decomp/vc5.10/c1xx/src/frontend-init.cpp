@@ -16,9 +16,6 @@ extern "C" __declspec(dllimport) FILE _iob[];
 #define stdout (&_iob[1])
 #endif
 
-/* Shared original c4d10 identity; its28-byte context stays behind Initialize. */
-static CompilerDeclarationContext default_declaration_context;
-
 extern "C" {
 int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
 void __cdecl normalize_frontend_options(void);
@@ -277,7 +274,7 @@ extern "C" void __cdecl initialize_frontend(void)
                  * are modeled. Pending consumers must recover any others. */
                 declaration.flags = 7;
                 declaration.type = types->type_0060;
-                lookup.Initialize(types->type_0060, &default_declaration_context);
+                lookup.Initialize(types->type_0060, &frontend_bss.declaration_context);
                 lookup.Resolve();
                 declare_builtin(&declaration,
                     lookup_builtin(frontend_data.bool_identifier, &lookup));
@@ -466,7 +463,7 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     CompilerParameterDescription *shape;
     CompilerArena *arena = &frontend_bss.arenas[5];
     BYTE *memory;
-    declaration.Initialize(base, &default_declaration_context);
+    declaration.Initialize(base, &frontend_bss.declaration_context);
     memory = arena->cursor;
     arena->cursor += 28;
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
@@ -635,4 +632,44 @@ extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
 void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *qualifiers) { __asm { int 3 } }
 
-extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
+{
+    CompilerAbstractSymbol *symbol = NULL;
+    CompilerNameEntry *name = frontend_data.builtin_names.abstract_declarator;
+    CompilerArena *arena;
+    CompilerSymbolLink *link;
+    unsigned arena_kind, size_class;
+    BYTE *memory;
+    if ((frontend_data.compiler_mode_flags & 0x10000000) ||
+        (frontend_data.compiler_flags & 0x48))
+        arena_kind = 0;
+    else if (frontend_bss.declaration_depth > 0)
+        arena_kind = 3 + (frontend_data.declaration_context_index < 0);
+    else
+        arena_kind = 5;
+    if (!arena_kind) {
+        size_class = frontend_data.symbol_size_class[13];
+        link = frontend_data.recycled_symbols[size_class];
+        if (link) {
+            frontend_data.recycled_symbols[size_class] = link->next;
+            symbol = (CompilerAbstractSymbol *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+            link->name = NULL; link->next = NULL;
+            memset(symbol, 0, frontend_data.symbol_record_bytes[13]);
+            symbol->link.name = name;
+            symbol->kind = 13;
+        }
+    }
+    arena = &frontend_bss.arenas[arena_kind];
+    if (!symbol) {
+        memory = arena->cursor;
+        arena->cursor += (frontend_data.symbol_record_bytes[13] + 3) & ~3U;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        symbol = memory ? (CompilerAbstractSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(13, name, arena_kind) : NULL;
+    }
+    memory = arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    symbol->type = (CompilerAbstractType *)memory;
+    return symbol;
+}

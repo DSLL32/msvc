@@ -54,6 +54,11 @@ int c1xx_test_exception_counters(void)
     frontend_bss.lexer_backend = (CompilerLexerBackend *)&frontend_data;
     frontend_bss.saved_options.normalized_stack_checks = 131;
     frontend_bss.processor_instruction_mask = 137;
+    frontend_bss.declaration_context.class_flags = 0xd3;
+    frontend_bss.declaration_context.context_flags = 0xa6;
+    frontend_bss.declaration_depth = 211;
+    frontend_data.compiler_mode_flags = 223;
+    frontend_data.declaration_context_index = 5;
     frontend_data.canonical_token_records[137] = (struct CompilerTokenRecord *)&frontend_data;
     frontend_data.keyword_table = (struct CompilerKeywordTable *)&frontend_data;
     frontend_data.current_identifier = (CompilerNameEntry *)&frontend_data;
@@ -109,6 +114,10 @@ int c1xx_test_exception_counters(void)
         frontend_bss.output_kinds[3] == 0 && frontend_bss.preprocessor_output == NULL &&
         frontend_bss.lexer_backend == NULL && frontend_bss.saved_options.normalized_stack_checks == 0 &&
         frontend_bss.processor_instruction_mask == 0 && frontend_data.browser_mode == 0 &&
+        frontend_bss.declaration_context.class_flags == 0 &&
+        frontend_bss.declaration_context.context_flags == 0 &&
+        frontend_bss.declaration_depth == 0 && frontend_data.compiler_mode_flags == 0 &&
+        frontend_data.declaration_context_index == -1 &&
         frontend_data.named_browser == NULL && frontend_data.initial_backend == NULL &&
         frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
         frontend_bss.expression_seek_result == 0 &&

@@ -163,14 +163,11 @@ struct CompilerDeclaratorQualifiers {
     WORD flags;
     unsigned value;
 };
-/* Original c4d10 supplies a28-byte context. It currently has identity only:
- * no raw contents or unknown fields are synthesized by the native projection. */
-struct CompilerDeclarationContext {};
 struct CompilerDeclarator {
     CompilerType *base_type; /* original +0 */
     CompilerType *type; /* original +3c, resolved result */
     CompilerSymbol *symbol; /* original +38 */
-    CompilerDeclarationContext context; /* original +1c..37, no projected fields */
+    CompilerDeclarationContext context; /* two mapped BYTEs at original+1c/+1d */
     /* Remaining original72-byte storage stays unmodeled. */
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const void *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);

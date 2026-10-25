@@ -1363,8 +1363,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_make_abstract_declarator", .entry_rva = 0x692c,
-        .code = (const ReconExtent[]){{0x692c, 0x692d}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x692c, 0x69e7}, {0x69e8, 0x6a19}, {0x532bb, 0x532fc}},
+        .code_count = 3, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "make_abstract_declarator",
     },
     {

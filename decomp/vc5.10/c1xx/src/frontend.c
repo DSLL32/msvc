@@ -111,7 +111,8 @@ FrontendData frontend_data = {
     { 0,48,48,48,40,40,48,48,48,48,48,48,48,48,48,24,20,20,20,48,48,28,48,20,20,20 },
     { 0,9,9,9,10,5,9,9,9,9,9,9,9,9,9,2,7,7,4,9,9,3,9,6,1,8 },
     { NULL },
-    NULL /* symbol-group hash table, cc5c8 */
+    NULL, /* symbol-group hash table, cc5c8 */
+    0, -1 /* compiler mode flags, declaration context index */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -149,6 +150,9 @@ int initialize_compiler_pass(void)
         frontend_bss.preprocessor_output = NULL;
         frontend_bss.lexer_backend = NULL;
         frontend_bss.processor_instruction_mask = 0;
+        frontend_bss.declaration_context.class_flags = 0;
+        frontend_bss.declaration_context.context_flags = 0;
+        frontend_bss.declaration_depth = 0;
         frontend_bss.expression_seek_result = 0;
         frontend_bss.symbol_arena_kind = 0;
         frontend_bss.saved_symbol_arenas = NULL;
