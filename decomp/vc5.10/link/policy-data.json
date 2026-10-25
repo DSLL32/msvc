@@ -6359,6 +6359,11 @@
         "expected_cleanup": [
           32
         ]
+      },
+      "_record_symbol_reference@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },

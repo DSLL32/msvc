@@ -1009,7 +1009,25 @@ static int input_symbol_definition(void)
 {
     return recon_native_at_entry(define_input_symbol,check_input_symbol_definition,invoke_hello,NULL)==1;
 }
+static void __stdcall check_symbol_reference(StringNode *symbol,void *owner)
+{
+    DWORD flags;
+    IMAGE_SYMBOL before;
+    if (!symbol || owner!=current_input_library->module_head || incremental_enabled ||
+        (symbol->flags & 0x1001) || symbol->reference_owner)
+        recon_native_entry_finish(0);
+    flags=symbol->flags;
+    before=symbol->symbol;
+    record_symbol_reference(symbol,owner);
+    recon_native_entry_finish(symbol->reference_owner==owner && symbol->flags==flags &&
+        !memcmp(&symbol->symbol,&before,sizeof(before)));
+}
+static int symbol_reference(void)
+{
+    return recon_native_at_entry(record_symbol_reference,check_symbol_reference,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"symbol-reference-owner",1,symbol_reference},
     {"input-symbol-definition",1,input_symbol_definition},
     {"symbol-class-call",1,symbol_class_call},
     {"symbol-cursor-call",1,symbol_cursor},

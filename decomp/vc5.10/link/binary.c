@@ -125,7 +125,7 @@ static const ReconFunction functions[] = {
     {"_enable_order_file",0x58150,(const ReconExtent[]){{0x58150,0x58158}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"enable_order_file",NULL,NULL,0,NULL},
     {"_find_argument@8",0x5cc50,(const ReconExtent[]){{0x5cc50,0x5cc9e}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"find_argument",NULL,NULL,0,NULL},
     {"_parse_machine@8",0x61b80,(const ReconExtent[]){{0x61b80,0x61cce}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"parse_machine",NULL,NULL,0,NULL},
-    {"_record_symbol_reference@8",0x62070,(const ReconExtent[]){{0x62070,0x6210d}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_symbol_reference",NULL,NULL,0,NULL},
+    {"_record_symbol_reference@8",0x62070,(const ReconExtent[]){{0x62070,0x6210d}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"record_symbol_reference",NULL,NULL,0,NULL},
     {"StringTable::Lookup",0x61ee0,(const ReconExtent[]){{0x61ee0,0x61f11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11StringTable6LookupEPKhPh",NULL,NULL,0,"?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z"},
     {"_clear_buffer@4",0x4f530,(const ReconExtent[]){{0x4f530,0x4f531}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"clear_buffer",NULL,NULL,0,NULL},
     {"_search_library_paths@8",0x5c530,(const ReconExtent[]){{0x5c530,0x5c646}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"search_library_paths",NULL,NULL,0,NULL},

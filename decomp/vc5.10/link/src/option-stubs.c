@@ -21,4 +21,3 @@ void __stdcall set_mac_import_versions(const char *library,const char *current,c
 void __cdecl enable_order_file(void) { __asm { int 3 } }
 BYTE __stdcall find_argument(const char *name,InputArguments *list) { __asm { int 3 } return 0; }
 WORD __stdcall parse_machine(LinkContext *context,const char *name) { __asm { int 3 } return 0; }
-void __stdcall record_symbol_reference(StringNode *symbol,void *owner) { __asm { int 3 } }

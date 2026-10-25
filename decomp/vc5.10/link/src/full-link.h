@@ -138,7 +138,9 @@ typedef char ContributionInputFields[(offsetof(Contribution,relocation_count)==0
  * remain unknown until their users are reconstructed. */
 typedef struct SymbolAuxiliary {
     struct SymbolAuxiliary *next;
+    void *owners[4];
 } SymbolAuxiliary;
+typedef char SymbolAuxiliarySize[(sizeof(SymbolAuxiliary)==20)?1:-1];
 struct StringNode {
     IMAGE_SYMBOL symbol;
     WORD input_flags;
@@ -146,7 +148,7 @@ struct StringNode {
     DWORD final_value;
     union { StringNode **undefined_previous; StringNode *defined_next; };
     StringNode *undefined_next;
-    SymbolAuxiliary *auxiliary;
+    union { SymbolAuxiliary *auxiliary; void *reference_owner; };
     DWORD reserved28, reserved2c;
     union { DWORD flags; BYTE flag_byte; };
     WORD attributes;

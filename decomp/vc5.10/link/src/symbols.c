@@ -175,3 +175,35 @@ void __stdcall define_input_symbol(StringNode *symbol,Contribution *contribution
         module->defined_symbols=symbol;
     }
 }
+
+void __stdcall record_symbol_reference(StringNode *symbol,void *owner)
+{
+    SymbolAuxiliary *references,*additional;
+    unsigned index;
+    if (!incremental_enabled && (symbol->flags & 1)) return;
+    if (!(symbol->flags & 0x1000)) {
+        if (!symbol->reference_owner) {
+            symbol->reference_owner=owner;
+            return;
+        }
+        references=(SymbolAuxiliary *)allocate_link_memory(1,sizeof(SymbolAuxiliary));
+        references->owners[0]=symbol->reference_owner;
+        references->owners[1]=owner;
+        references->next=NULL;
+        symbol->auxiliary=references;
+        symbol->flags |= 0x1000;
+        return;
+    }
+    references=symbol->auxiliary;
+    /* The first owner is occupied when a list node is installed. */
+    for (index=1;index<4;++index) {
+        if (!references->owners[index]) {
+            references->owners[index]=owner;
+            return;
+        }
+    }
+    additional=(SymbolAuxiliary *)allocate_link_memory(1,sizeof(SymbolAuxiliary));
+    additional->owners[0]=owner;
+    additional->next=symbol->auxiliary;
+    symbol->auxiliary=additional;
+}
