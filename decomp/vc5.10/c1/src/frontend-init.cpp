@@ -821,8 +821,20 @@ extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *s
 void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void) { __asm { int 3 } }
 WORD RECON_THISCALL CompilerDeclarator::ApplyCallingConvention(CompilerTypeShape *shape,
     unsigned convention) { __asm { int 3 } return 0; }
+extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 WORD RECON_THISCALL CompilerDeclarator::ResolveFunctionAttributes(CompilerTypeShape *shape)
-{ __asm { int 3 } return 0; }
+{
+    if (shape->flags & 0x8000) {
+        if (c1_data.options.fastcall_calls || c1_data.options.pascal_calls)
+            report_language_diagnostic(2, 96, 37, 106);
+        return 0x10;
+    }
+    if (c1_data.options.fastcall_calls)
+        return 0x40;
+    if (c1_data.options.stdcall_calls)
+        return 0x60;
+    return c1_data.options.pascal_calls ? 0x20 : 0x10;
+}
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape)
 { __asm { int 3 } return NULL; }
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternUntil(CompilerTypeShape *stop)
