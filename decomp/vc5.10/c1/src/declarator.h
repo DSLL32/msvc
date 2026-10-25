@@ -8,20 +8,23 @@
 struct CompilerParameterDescription {
     unsigned value, kind;
     struct CompilerSymbolTable *scope;
+    void RECON_THISCALL Normalize(void);
 };
 struct CompilerDeclarationAttributes { unsigned flags, extra; };
 struct CompilerDeclarator {
     CompilerType *base_type;
     CompilerTypeShape *shape;
-    BYTE unmodeled_08[4];
+    CompilerTypeShape *last_shape;
     CompilerDeclarationAttributes attributes;
-    BYTE unmodeled_14[8];
+    BYTE unmodeled_14[4];
+    CompilerParameterDescription *parameters;
     CompilerSourcePosition position;
     CompilerIrSymbol *symbol;
     CompilerType *resolved_type;
     unsigned flags;
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const CompilerSourcePosition *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);
+    void RECON_THISCALL AppendShape(CompilerTypeShape *);
     void RECON_THISCALL ApplyAttributes(const CompilerDeclarationAttributes *);
     CompilerType *RECON_THISCALL Resolve(void);
 };

@@ -480,8 +480,39 @@ CompilerIrSymbol *RECON_THISCALL CompilerIrSymbol::Initialize(unsigned kind,
         kind4_context = NULL;
     return this;
 }
+extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
 void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *parameters)
+{
+    int first = shape == NULL;
+    unsigned value = 0;
+    CompilerTypeShape *function;
+    flags |= 0x10;
+    parameters->Normalize();
+    function = create_type_shape(4, 0, &value);
+    function->SetParameters(parameters->value, parameters->kind);
+    if (first && (attributes.flags & 0x70)) {
+        function->attributes |= attributes.flags & 0x70;
+        attributes.flags &= ~0x70U;
+    }
+    AppendShape(function);
+    if (!last_shape) {
+        last_shape = function;
+        shape = function;
+    } else {
+        last_shape->base = function;
+        last_shape = function;
+    }
+    if (first) {
+        this->parameters = parameters;
+        flags |= 8;
+    }
+}
+void RECON_THISCALL CompilerParameterDescription::Normalize(void) { __asm { int 3 } }
+extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned attributes,
+    const unsigned *value) { __asm { int 3 } return NULL; }
+void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned kind)
 { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
 { __asm { int 3 } }
 CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } return NULL; }

@@ -82,8 +82,15 @@ typedef struct CompilerIrSymbol {
 } CompilerIrSymbol;
 struct CompilerTypeShape {
     WORD flags;
-    BYTE storage;
+    union {
+        WORD attributes;
+        struct { BYTE storage, attribute_high; };
+    };
     struct CompilerTypeShape *base;
+    unsigned value;
+#ifdef __cplusplus
+    void RECON_THISCALL SetParameters(unsigned value, unsigned kind);
+#endif
 };
 
 typedef struct CompilerBuiltinTypes {
