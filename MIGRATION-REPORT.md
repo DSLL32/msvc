@@ -465,7 +465,7 @@ current-case WIP remains excluded until the encompassing case is complete.
 | C1XX | 174 / 27,227 | 3.62% | Minimal C++: large writer and subsequent frontend work remain current-case WIP; `9cf5cc28d` |
 | C2 | 209 / 51,805 | 9.04% | Numeric case: new_optimizer_context; `6ae5a84a2` |
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
-| CVPACK | 144 / 45,285 | 72.27% | Nine cases complete, including C7 conversion and a compiler-PDB type server; `aaafcf21d`, fixture asset correction `b83e321f3` |
+| CVPACK | 161 / 47,975 | 76.56% | Eleven cases complete, including internal stream-cache and mapped/stream growth workloads; `02e73c3d6`, `8a3e36831` |
 | LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
 | RCDLL | 146 / 36,846 | 49.39% | Rich corpus: rc_read_resource_preamble after menu control flow; `da06c240b` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
@@ -531,6 +531,24 @@ capture assets (`b83e321f3`); affected native replay passes in 10.719 ms.
 Historical original reports remain intact, with no fabricated derived receipt
 or publication-only original rerun. Other binaries' current-case working
 implementations remain separate from the committed snapshots above.
+
+Internal DIRECT cases `0009` and `0010` then add 17 App functions and 2,690
+code bytes without claiming ordinary CLI reach. The cache case uses real
+two-page/two-descriptor owners for copy/readback, cross-page seeks, reuse,
+LRU/closed-entry eviction and shrink (`02e73c3d6`). Its final genuine original
+completes in 1,041.236 ms; native takes 15.099 ms (setup 6.837, execution 6.214,
+checks 2.048 ms). The ten-case/23-unit/original-build/159-graph checkpoint takes
+0.605 s. Earlier marker reentry and a lost report-path receipt remain failed or
+limited evidence; the final pair supplies the complete acceptance receipt.
+The growth case uses real mapped and stream owners to write/read 4 MiB + 8,193
+deterministic bytes, shrink to 2 MiB + 37 bytes and close both files
+(`8a3e36831`). Both final hashes independently match the recipe. Original
+completion takes 1,245.389 ms, native 239.704 ms (setup 4.815, execution 203.429,
+checks 31.460 ms). All eleven cases, 23 units, the original build and full
+161-graph/160-RET audit with the existing Release qualification pass in a
+0.505 s incremental batch. No new shim,
+provider or observer framework is needed. Full suites and commits occur at
+case completion, rather than after each reconstructed function.
 
 C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
 and native builds, full code/data graph and ABI gates, 36 units and a fresh
