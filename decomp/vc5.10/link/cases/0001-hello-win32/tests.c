@@ -1325,7 +1325,24 @@ static int library_index_position(void)
     return recon_native_at_entry(native_library_read_index,check_library_index_position,
         invoke_hello,NULL)==1;
 }
+extern DWORD archive_member_size;
+extern IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void);
+static IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl check_archive_header_call(void)
+{
+    FileRecord *record=file_slots[current_input_file];
+    recon_native_entry_finish(archive_member_offset==8 && archive_member_size==0 &&
+        record && record->view && record->file_size==8 &&
+        !memcmp(record->view,"!<arch>\n",8));
+    return NULL;
+}
+static int archive_header_call(void)
+{
+    archive_member_size=0x13579bdf;
+    return recon_native_at_entry(read_archive_member_header,check_archive_header_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"archive-header-call",1,archive_header_call},
     {"library-index-position",1,library_index_position},
     {"library-reader-input",1,library_reader_input},
     {"library-search-input",1,library_search_input},

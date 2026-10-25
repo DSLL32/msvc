@@ -45,7 +45,7 @@ struct OutputLibrary {
     LONG module_count;
     BYTE active, reserved11[3];
     const char *path;
-    DWORD reserved18;
+    DWORD archive_symbol_count;
     /* Opaque library-owned index buffers, released after input processing. */
     void *index_data[5];
     DWORD flags, input_tag;
