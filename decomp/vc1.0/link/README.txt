@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 93 numbered case directories. Native
+The shared recon-tool harness discovers the 94 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,16 +21,20 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 810 application functions (759 public-reached, 51 direct-support),
-with accepted App extent union 230353/281634 (81.7916161%). The resource-support
-workflow adds three whole functions/331 bytes after the four-method demangler
-checkpoint. Support-inclusive historical accepted extent is 261292/281634
-(92.7771505%). The 1009 historical frontier count includes shipped CRT/import
+set now has 811 application functions (759 public-reached, 52 direct-support),
+with accepted App extent union 230438/281634 (81.8217971%). The sorted-external
+diagnostic wrapper adds one whole function/85 bytes after the resource-support
+checkpoint. Support-inclusive historical accepted extent is 261377/281634
+(92.8073315%). The 1010 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
-application credit. A complete non-CRT denominator remains unavailable; 11196
-bytes remain unaccepted and unclassified under the preserved partial
-body/data/alignment inventory. The prior 11403 decreases by 207 newly accepted
-resource-helper bytes outside that inventory; resource_usage was already classified.
+application credit. A complete non-CRT denominator remains unavailable. The old
+partial body/data/alignment inventory leaves 11111 unaccepted bytes unclassified
+within that historical inventory; this is not a current-registry classification
+count. It includes already classified, unreached CRT such as __cwild and helpers.
+The current registry leaves 9479 bytes outside known App/CRT/import extents,
+including the explicit Unknown rows. This gap includes code/data/alignment and
+incomplete placeholder extents, not a reliable application denominator; no gap
+has been relabeled as CRT merely because of its location or appearance.
 These extent totals are not a count of executed instructions. Unknown provenance
 is not treated as CRT. Direct callbacks remain explicitly
 external test inputs and do not establish public command-line reachability.
@@ -93,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 847 graphs for calls, RET cleanup, live function
+Current shared validation checks 848 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -179,3 +183,35 @@ Shared C/H hashes remain identical across the final native batch. Raw captures,
 GDB packets, body/provenance bindings and timing/source hashes remain in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/resource-support/
+
+Case 0093 directly exercises the sorted defined/undefined diagnostic wrapper over
+real create_image/lookup_external/set_external_defined owners. Its coherent
+lifecycle includes an empty table, twelve mixed short/long names with nonzero
+COFF values, and a subsequent definition reversal. Each actual External56B and
+ImageOptions72B remains unchanged across diagnostics; the owned 512-byte input
+and complete 2048-byte report are strict. Report SHA256 is
+48e423a5ad0853722d1b61e2e41e946a3359898afbc992e5dbe047dfb519ef48.
+This is direct-support coverage. Zero-valued unresolved-symbol warnings and
+nonzero undefined-counter restoration remain unexercised; the observed counter
+stays at actual loader zero. No post-main stack owner, catalog or global seed is
+used. The first test-driver version omitted real invalidate_symbol_sorts after
+the empty dump and then inserted into a table with a cached empty sort; its
+original AV is retained. Version 2 supplies that genuine API step before insertion,
+without repairing target code or assigning cache fields.
+
+One corrected untouched-original baseline took 1.086s. Fresh masked first entry
+at RVA12f70 took 1.226s and its native mate 17.274ms; masked completion took
+0.889s and exactly matches baseline inputs/report/status/streams. Ordinary native
+completion took 16.415ms (setup 10.311, execution 3.115, checks 2.989).
+Native GDB took 191.813ms and checks three actual entry/return pairs: both live
+formal pointers, cdecl ESP/nonvolatiles, errors and CW027f/SW0/empty tags. Void
+EAX is unclaimed. Failed debugger symbol/return-observer attempts are retained
+separately; they did not change reconstruction source or original references.
+The original compiler plus 848-function graph/ABI audit passed in 15.357s combined
+(unsplit). Raw captures, live observations, source/ABI binding and timing files:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/sorted-external-diagnostics/
+Final sorted-external checkpoint: all 94 native cases and seven focused tests
+pass in 1.750s parallel wall time, after a 0.537s incremental native/case rebuild.
+The batch uses published shared bbd1bf5f6 with identical C/H before/after hashes.
+No original invocation occurs during these cached checks.

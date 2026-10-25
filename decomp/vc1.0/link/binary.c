@@ -1068,6 +1068,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_print_defined_undefined_externals",
+        .entry_rva = 0x12f70,
+        .code = (const ReconExtent[]){{0x12f70, 0x12fc5}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "print_defined_undefined_externals",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_emit_externals",
         .entry_rva = 0x12890,
         .code = (const ReconExtent[]){{0x12890, 0x12b40}},

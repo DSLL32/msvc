@@ -66,3 +66,14 @@ void emit_string_table(SymbolTable *table)
         write_file(output_file,table->strings.data,table->strings.length);
     } else write_file(output_file,&empty,sizeof(empty));
 }
+
+/* Sorted diagnostic wrapper [00022f70,00022fc5). */
+void print_defined_undefined_externals(SymbolTable *table,ImageOptions *options)
+{
+    unsigned long saved=undefined_symbols;
+    printf("Defined Externals\n");
+    emit_externals(table,1,0,1,options);
+    printf("Undefined Externals\n");
+    emit_externals(table,0,0,1,options);
+    undefined_symbols=saved;
+}

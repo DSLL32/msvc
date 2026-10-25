@@ -56,6 +56,7 @@ void sort_externals(SymbolTable *);
 void read_absolute_symbols(const char *,ExternalLink *,SymbolTable *);
 void resolve_entry_symbol(SymbolTable *);
 void resolve_local_imports(Image *,Contribution **,ExternalLink **);
+void print_defined_undefined_externals(SymbolTable *,ImageOptions *);
 void emit_externals(SymbolTable *,unsigned char defined,unsigned char emit,unsigned char name_order,ImageOptions *);
 unsigned char contribution_discarded(Contribution *);
 unsigned write_coff_symbol(int,IMAGE_SYMBOL *);
