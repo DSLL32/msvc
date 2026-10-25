@@ -60,8 +60,11 @@ with tempfile.TemporaryDirectory(prefix='reference-control-', dir=Path.home() / 
     legacy = {key: receipt[key] for key in ('case', 'oracle_written', 'terminal', 'first_entry_order')}
     run('explicit-legacy-match', legacy, True)
     wrong = copy.deepcopy(receipt)
-    wrong.update(terminal='frontier:1000', first_entry_order=[0x1000])
-    run('wrong-frontier-order', wrong, False, 'expected frontier 1000')
+    wrong.update(terminal='frontier:1400', first_entry_order=[0x1000])
+    run('wrong-frontier-order', wrong, False, 'expected frontier 1400')
+    wrong = copy.deepcopy(receipt)
+    wrong['terminal'] = 'frontier:1000'
+    run('implemented-selected-frontier', wrong, False, 'unimplemented App registry entry')
     for name, key, value, error in (
         ('wrong-capture', 'capture_sha256', '00' * 32, 'capture SHA256 differs'),
         ('wrong-case', 'case', 'other-case', 'case differs'),
@@ -73,6 +76,31 @@ with tempfile.TemporaryDirectory(prefix='reference-control-', dir=Path.home() / 
         wrong = copy.deepcopy(receipt)
         wrong['identity'][key] = value
         run('wrong-' + key, wrong, False, 'identity differs')
+    # The previously expected App entry has just been implemented. Cached replay
+    # must reject its stale descriptor; explicit discovery uses the selected
+    # pending frontier without requiring a descriptor edit before the fresh pair.
+    stale_source = work / 'stale-case.c'
+    stale_case = work / 'stale-case.so'
+    stale_source.write_text('''#include "recon-tool.h"
+extern int fixture_main(int, char **);
+static const uint32_t order[] = {0x1000, 0x1200};
+RECON_EXPORT const ReconCase case_descriptor = {
+ .abi_version=RECON_ABI_VERSION, .struct_size=sizeof(ReconCase), .name="stale-reference",
+ .description="explicit-reference regression", .first_entry_order=order, .first_entry_count=2,
+ .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x1000, .io=fixture_main};
+''')
+    subprocess.run(['cc', '-m32', '-fPIC', '-shared', '-I' + str(ROOT / 'include'),
+                    str(stale_source), str(FIXTURE / '.build/libbinary.so'),
+                    '-Wl,-rpath,' + str(FIXTURE / '.build'), '-o', str(stale_case)], check=True)
+    stale_report = copy.deepcopy(receipt)
+    stale_report['case'] = stale_report['identity']['case'] = 'stale-reference'
+    selected = work / 'stale-reference.json'
+    selected.write_text(json.dumps(stale_report))
+    cached = subprocess.run([TOOL, 'run', stale_case, '--capture', capture], capture_output=True, text=True)
+    assert cached.returncode != 0 and 'frontier must name an unimplemented App' in cached.stdout + cached.stderr, (cached.returncode, cached.stdout, cached.stderr)
+    current = subprocess.run([TOOL, 'run', stale_case, '--capture', capture,
+                              '--original-report', selected], capture_output=True, text=True)
+    assert current.returncode == 0, current.stdout + current.stderr
     for command in ([TOOL, 'run', case, '--original-report', work / 'new-bound-match.json'],
                     [TOOL, 'run', case, case, '--capture', capture,
                      '--original-report', work / 'new-bound-match.json']):

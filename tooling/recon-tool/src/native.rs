@@ -420,6 +420,7 @@ unsafe fn executor(
     tests: bool,
     debug: &debug::Options,
     supervisor: i32,
+    explicit_reference: bool,
 ) -> Result<()> {
     let setup_start = Instant::now();
     unsafe {
@@ -493,7 +494,13 @@ unsafe fn executor(
     std::env::set_current_dir(cwd)?;
     let receipt = status::Receipt::create(root)?;
     crate::errno::set(0);
-    let loaded = unsafe { Loaded::open(case_path) }?;
+    let loaded = unsafe {
+        if explicit_reference {
+            Loaded::open_for_progress(case_path)
+        } else {
+            Loaded::open(case_path)
+        }
+    }?;
     let constructor_errno = crate::errno::get();
     let recorder =
         unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
@@ -714,6 +721,7 @@ fn supervise(
                     tests,
                     debug,
                     supervisor,
+                    reference.is_some(),
                 )
             };
             if let Err(e) = result {
@@ -931,7 +939,9 @@ fn supervise(
         }
         // Reuse the descriptor validated by this executor; do not dlopen the
         // entire application a second time just to check its trace.
-        let mut info: abi::Info = serde_json::from_slice(&fs::read(root.join("descriptor"))?)?;
+        let descriptor = fs::read(root.join("descriptor"))
+            .with_context(|| format!("executor descriptor missing: {}", errors.join("; ")))?;
+        let mut info: abi::Info = serde_json::from_slice(&descriptor)?;
         let mut expected_fixture = f.clone();
         if let Some(reference) = reference {
             reference.apply(&mut info, &mut expected_fixture)?;
@@ -1067,6 +1077,9 @@ fn supervise(
     Ok(report)
 }
 pub fn inspect(path: &Path) -> Result<abi::Info> {
+    inspect_for_reference(path, false)
+}
+fn inspect_for_reference(path: &Path, explicit_reference: bool) -> Result<abi::Info> {
     let mut pipe = [0; 2];
     if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
         bail!("pipe")
@@ -1077,7 +1090,13 @@ pub fn inspect(path: &Path) -> Result<abi::Info> {
     if pid == 0 {
         drop(reader);
         let result = (|| -> Result<_> {
-            let loaded = unsafe { Loaded::open(path) }?;
+            let loaded = unsafe {
+                if explicit_reference {
+                    Loaded::open_for_progress(path)
+                } else {
+                    Loaded::open(path)
+                }
+            }?;
             Ok(serde_json::to_vec(&loaded.info)?)
         })();
         let data = match result {
@@ -1127,7 +1146,7 @@ pub fn run(
             crate::original_reference::Expected::load(
                 report,
                 fixture.context("original report needs --capture")?,
-                &inspect(&path)?,
+                &inspect_for_reference(&path, true)?,
             )
         })
         .transpose()?;

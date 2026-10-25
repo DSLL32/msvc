@@ -113,8 +113,8 @@ impl Expected {
             ensure!(
                 info.functions
                     .iter()
-                    .any(|f| f.rva == rva && f.definition == 4),
-                "original frontier is not an App registry entry"
+                    .any(|f| f.rva == rva && f.definition == 4 && f.implementation == 0),
+                "original frontier is not an unimplemented App registry entry"
             );
             Terminal::Frontier(rva)
         } else if let Some(text) = receipt.terminal.strip_prefix("exit:") {

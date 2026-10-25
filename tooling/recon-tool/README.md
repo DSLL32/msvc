@@ -716,3 +716,8 @@ identity. A mismatch rejects before the application callback runs. An explicitly
 selected older receipt remains usable: the native report records both selected
 file hashes and `source_binding_available: false`; no source identity is inferred
 or added to that old receipt. The option requires one case and `--capture`.
+
+An explicit original report also permits the descriptor's previous frontier to
+become implemented during fresh progress. The selected report must still name
+an unimplemented App frontier. Cached replay without the flag retains strict
+descriptor validation.
