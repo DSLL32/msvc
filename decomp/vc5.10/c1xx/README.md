@@ -10,18 +10,18 @@ and their declarations are in crt/, with their retained-variant rationale in
 crt/startup.c. Native case adapters and the import-library build definition are
 in harness/. Numbered case files contain descriptors and entry orders only.
 
-The single registry is binary.c. The current prefix has 100 accepted application
-functions / 9277 code bytes; historical CRT support is separate
+The single registry is binary.c. The current prefix has 101 accepted application
+functions / 11613 code bytes; historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
-9740 bytes are compared with a 751216-byte .text extent; that denominator also
+12076 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
-The audit checks 102 source bodies. The two six-byte import endpoints retain
+The audit checks 103 source bodies. The two six-byte import endpoints retain
 identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual
 CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
-the genuine initialize_frontend INT3 at RVA39d42, not completed compilation.
+the genuine create_input INT3 at RVA3a434, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
 The minimal case uses a small original Win32 host in
@@ -72,3 +72,14 @@ consumers. All newly encountered initialized fields and BSS join snapshot/reset,
 with a focused nonzero unit. Current execution stops at initialize_frontend,
 before the settings transfer and virtual calls. Fresh original/native timings
 were 1.472 s/10.766 ms (setup 5.617, execution 4.001, checks 1.147).
+
+The 2,336-byte frontend initializer is in src/frontend-init.cpp. Its fresh
+reference reaches create_input(0,&input,&text_input), with actual preprologue
+arguments recorded: original 1.467 s/native 10.796 ms. Later allocations,
+builtin types, lexer construction and C++ bool declaration are static/source
+coverage only. Original allocations remain 16/572/88/12 bytes where encountered;
+compact semantic projections do not claim their unknown tails or full layouts.
+The six newly grounded normalized options also join the PCH projection (756
+known bytes/296 unmodeled). The focused reset unit checks the actual nonzero
+stack-check default. Only this initializer TU uses /Ob1 to inline proven helper
+constructors/placement new; real application functions remain outlined.

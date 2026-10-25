@@ -20,6 +20,7 @@ typedef struct OutputBuffer {
     unsigned char mode;
 #ifdef __cplusplus
     int RECON_THISCALL Close(void);
+    int RECON_THISCALL Open(const char *, const char *, const char *);
     int RECON_THISCALL Grow(int bytes);
 #endif
 } OutputBuffer;

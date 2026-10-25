@@ -96,7 +96,8 @@ FrontendData frontend_data = {
     -1, /* language_context_depth */
     C1XX_SCANNER_DEFAULTS,
     0, /* recursion_depth */
-    NULL, NULL, 0, 0, NULL, 0 /* encountered driver data */
+    NULL, NULL, 0, 0, NULL, 0, /* encountered driver data */
+    { NULL }, 1, 0, 0, 0, 0, 0, 0, 0, NULL /* frontend initialization data */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -126,6 +127,13 @@ int initialize_compiler_pass(void)
         frontend_bss.debug_module = NULL;
         frontend_bss.input = NULL;
         frontend_bss.preprocessed_stream = NULL;
+        frontend_bss.text_input = NULL;
+        frontend_bss.browser_filename = NULL;
+        frontend_bss.pch_replayed = 0;
+        frontend_bss.pch_file_failed = 0;
+        for (i = 0; i < 6; ++i) frontend_bss.output_kinds[i] = 0;
+        frontend_bss.preprocessor_output = NULL;
+        frontend_bss.lexer_backend = NULL;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;

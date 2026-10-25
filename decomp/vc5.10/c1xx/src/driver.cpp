@@ -2,6 +2,7 @@
 #include <string.h>
 #include "frontend.h"
 #include "pdb-context.h"
+#include "frontend-init.h"
 #pragma intrinsic(memcpy)
 #include <recon.h>
 
@@ -13,36 +14,6 @@
 extern "C" __declspec(dllimport) FILE _iob[];
 #define stdout (&_iob[1])
 #endif
-
-/* Only the encountered virtual slots have semantic names. Unrecovered
- * preceding slots are declarations, never instantiated or given fake bodies. */
-struct CompilerBackend {
-    virtual void Finish(void) = 0;
-};
-struct CompilerDebugModule {
-    virtual int Finish(void) = 0;
-    virtual int Close(void) = 0;
-};
-struct CompilerInput {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual void UnrecoveredSlot3(void) = 0;
-    virtual void Close(void) = 0;
-};
-/* External MSPDB interface, not a reconstruction of that dependency. */
-struct PDB {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual int QueryLastError(char *text) = 0;
-};
-struct CompilerTranslationUnit {
-    void RECON_THISCALL Finish(void);
-};
-struct CompilerDependency {
-    void RECON_THISCALL Finish(int success);
-};
 
 extern "C" {
 void __cdecl initialize_frontend(void);
@@ -133,6 +104,12 @@ int __cdecl report_response_error(int, ...);
     frontend_bss.saved_options.incremental_rebuild_forced = frontend_data.options.incremental_rebuild_forced; \
     frontend_bss.saved_options.extern_c_no_throw = frontend_data.options.extern_c_no_throw; \
     frontend_bss.saved_options.pch_option_flags = frontend_data.pch_option_flags; \
+    frontend_bss.saved_options.normalized_stack_checks = frontend_data.normalized_stack_checks; \
+    frontend_bss.saved_options.normalized_oq = frontend_data.normalized_oq; \
+    frontend_bss.saved_options.normalized_pool_strings = frontend_data.normalized_pool_strings; \
+    frontend_bss.saved_options.normalized_readonly_strings = frontend_data.normalized_readonly_strings; \
+    frontend_bss.saved_options.browser_enabled = frontend_data.browser_enabled; \
+    frontend_bss.saved_options.browser_full = frontend_data.browser_full; \
 } while (0)
 
 extern "C" int __cdecl run_compiler(void)
@@ -260,7 +237,6 @@ finish_streams:
     return frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1);
 }
 
-extern "C" void __cdecl initialize_frontend(void) { __asm { int 3 } }
 extern "C" unsigned __cdecl pack_option_flags(void) { __asm { int 3 } return 0; }
 extern "C" void __cdecl prepare_translation_unit(void) { __asm { int 3 } }
 extern "C" void __cdecl load_precompiled_header(const char *path, int required) { __asm { int 3 } }
@@ -285,7 +261,7 @@ extern "C" void __cdecl finish_parser(int result) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }
 void RECON_THISCALL CompilerTranslationUnit::Finish(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } }
+int RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } return 0; }
 int RECON_THISCALL OutputBuffer::Close(void) { __asm { int 3 } return 0; }
 int RECON_THISCALL OutputBuffer::Grow(int bytes) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerPdbContext::Finish(void) { __asm { int 3 } }

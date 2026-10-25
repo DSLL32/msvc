@@ -69,5 +69,8 @@ typedef struct CompilerPchSettings {
     int incremental_rebuild_forced; /* RVA cd4a4 */
     int extern_c_no_throw; /* RVA cd4a8 */
     unsigned pch_option_flags; /* RVA cd130 */
+    int normalized_stack_checks, normalized_oq;
+    int normalized_pool_strings, normalized_readonly_strings;
+    int browser_enabled, browser_full;
 } CompilerPchSettings;
 #endif

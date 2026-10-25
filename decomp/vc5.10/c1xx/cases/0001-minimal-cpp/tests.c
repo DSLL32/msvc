@@ -28,6 +28,24 @@ int c1xx_test_exception_counters(void)
     frontend_bss.saved_options.database_path[3] = 'x';
     frontend_bss.saved_options.pch_link_path[5] = 'y';
     frontend_bss.saved_options.pch_option_flags = 71;
+    frontend_data.normalized_stack_checks = 73;
+    frontend_data.normalized_oq = 79;
+    frontend_data.normalized_pool_strings = 83;
+    frontend_data.normalized_readonly_strings = 89;
+    frontend_data.browser_enabled = 97;
+    frontend_data.browser_full = 101;
+    frontend_data.pch_separate_debug = 103;
+    frontend_data.current_vtordisp = 107;
+    frontend_data.current_scope = (struct CompilerScope *)&frontend_data;
+    frontend_data.builtin_types.type_0060 = (CompilerType *)&frontend_data;
+    frontend_bss.text_input = (struct CompilerTextInput *)&frontend_data;
+    frontend_bss.browser_filename = (char *)&frontend_data;
+    frontend_bss.pch_replayed = 109;
+    frontend_bss.pch_file_failed = 113;
+    frontend_bss.output_kinds[3] = 127;
+    frontend_bss.preprocessor_output = (FILE *)&frontend_data;
+    frontend_bss.lexer_backend = (CompilerLexerBackend *)&frontend_data;
+    frontend_bss.saved_options.normalized_stack_checks = 131;
     if (initialize_compiler_pass())
         return 0;
     return frontend_data.recursion_depth == 0 && frontend_bss.error_count == 0 &&
@@ -41,5 +59,14 @@ int c1xx_test_exception_counters(void)
         frontend_bss.saved_options.language_extensions == 0 &&
         frontend_bss.saved_options.database_path[3] == 0 &&
         frontend_bss.saved_options.pch_link_path[5] == 0 &&
-        frontend_bss.saved_options.pch_option_flags == 0;
+        frontend_bss.saved_options.pch_option_flags == 0 &&
+        frontend_data.normalized_stack_checks == 1 && frontend_data.normalized_oq == 0 &&
+        frontend_data.normalized_pool_strings == 0 && frontend_data.normalized_readonly_strings == 0 &&
+        frontend_data.browser_enabled == 0 && frontend_data.browser_full == 0 &&
+        frontend_data.pch_separate_debug == 0 && frontend_data.current_vtordisp == 0 &&
+        frontend_data.current_scope == NULL && frontend_data.builtin_types.type_0060 == NULL &&
+        frontend_bss.text_input == NULL && frontend_bss.browser_filename == NULL &&
+        frontend_bss.pch_replayed == 0 && frontend_bss.pch_file_failed == 0 &&
+        frontend_bss.output_kinds[3] == 0 && frontend_bss.preprocessor_output == NULL &&
+        frontend_bss.lexer_backend == NULL && frontend_bss.saved_options.normalized_stack_checks == 0;
 }

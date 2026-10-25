@@ -5,6 +5,7 @@
 #include "options.h"
 #include "scanner.h"
 #include "frontend-driver.h"
+#include "frontend-types.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -38,6 +39,14 @@ typedef struct FrontendData {
     int saved_pch_mode; /* cd4dc, zero */
     struct CompilerDependency *dependency; /* cd5bc, NULL */
     int report_statistics; /* cd7b0, zero */
+    CompilerBuiltinTypes builtin_types; /* cc4a8..cc524, explicit type pointers */
+    int normalized_stack_checks; /* cd150, default1 */
+    int normalized_oq; /* cd478, default0 */
+    int normalized_pool_strings, normalized_readonly_strings; /* cd10c/cd114 */
+    int browser_enabled, browser_full; /* cd128/cd12c */
+    int pch_separate_debug; /* cd4e8 */
+    int current_vtordisp; /* ccb80, zero */
+    struct CompilerScope *current_scope; /* cc698, NULL */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -45,6 +54,9 @@ typedef struct FrontendContextStack {
     void *origin;
     unsigned position;
     void *top;
+#ifdef __cplusplus
+    void RECON_THISCALL Push(void *, unsigned, int, int, FrontendContextStack *);
+#endif
 } FrontendContextStack;
 
 typedef struct FrontendSourcePosition {
@@ -193,6 +205,12 @@ typedef struct FrontendBss {
     struct CompilerDebugModule *debug_module; /* c0b48 */
     struct CompilerInput *input; /* c0a0c */
     FILE *preprocessed_stream; /* c0ab4 */
+    struct CompilerTextInput *text_input; /* c6498 */
+    char *browser_filename; /* c082c */
+    int pch_replayed, pch_file_failed; /* bf20c/c0970 */
+    unsigned char output_kinds[6]; /* scattered BYTE destinations */
+    FILE *preprocessor_output; /* c080c */
+    CompilerLexerBackend *lexer_backend; /* ba918 */
 } FrontendBss;
 
 #ifdef __cplusplus
