@@ -394,6 +394,12 @@ capture still needs the intended typed Win32 setup/invocation counterpart,
 letting each compiler handle target-call ABIs; the native hook does not solve
 that remaining transport gap.
 
+The approved replacement loads typed probe support through a normal DLL import
+added offline to the masked scratch EXE. Preserve existing imports, code/data
+locations, entry and relocations; the pristine original remains hash-bound and
+unchanged. Unsupported image layouts fail explicitly. This replaces remote
+helper loading; integration qualification is still pending.
+
 The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
 remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs,
 not arbitrary register conventions such as Watcom watcall.
