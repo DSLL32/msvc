@@ -113,7 +113,6 @@ TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, Type
 
 
 
-void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }
 
 
 

@@ -1,19 +1,20 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **261 accepted application
-functions, 74,746 original code bytes, and 14 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **262 accepted application
+functions, 74,815 original code bytes, and 13 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`convert_old_based_bprel16` (sequence 261, 121 original code bytes, `src/oldsymbols.c`).
+`queue_type_match` (sequence 262, 69 original code bytes, `src/types.c`).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 74 application functions.
+The resumed workload has accepted 75 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All fourteen cached cases and unit executors passed the 258-function
-checkpoint. Thirteen cases complete;0013 remains at its explicit BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
+checks. All sixteen cached IO cases and sixteen unit executors, the original
+compiler build and strict graph/ABI/data audits passed the262-function gate
+in2.062s. Fourteen cases complete;0013 and parked0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -70,8 +71,22 @@ stage. No source, debug-record or binary-format edits are made. The genuine
 Normal invocation is `CVPACK.EXE /nologo /cvold /verbose SUPERPAD.EXE`.
 The full original exits0 with127 first entries and raw2,558,036-byte output
 SHA256 `47105870ef1ae343bacd5465b9bb72822cd7815d276eddd8dfc161d2f5feffd8`.
-Its current masked-original/native frontier is `queue_type_match` (`0x16280`),
-with82 matching unseeded entries. Actual expanded recursion-list allocations
+The masked original and native now both complete with127 unseeded entries,
+exit0 and matching streams/artifacts. `queue_type_match` is accepted. The
+existing recursive comparator now preserves the original deterministic defect:
+a nonempty1..3-byte interval rejects because zero-count REPE CMPSD retains
+the pointer-addition flags. This fixes the defined type/symbol mismatch; no
+type order or defined-content comparison is relaxed. Six genuine deferred
+queue nodes retain their next pointers across the original free-then-read
+ordering in this native run. The original leaves S_PROCREF/S_DATAREF output
+alignment WORDs unwritten; reconstructed records now explicitly write zero.
+This case masks exactly3,205 such structural tails (6,410 bytes) and requires
+native zeroes. All other bytes match canonical full-file SHA256
+`ce16118bbb1831d75257ccdc96a334ddf851efdc53e8b613dca0d086cf35cd3f`;
+the raw original and its hash above remain preserved in scratch. Comparison
+metadata adds35,257 serialized bytes without a duplicate output asset. Producer
+setup/build took18.316s; final masked-original capture1052.664ms and explicitly
+report-bound native replay107.177ms (setup8.677/execution68.555/checks29.945). Actual expanded recursion-list allocations
 are now reached; the existing original storage/growth/free logic is unchanged,
 with historical native coverage-only rejections lifted and bounds retained.
 The supplied `/Zi` debug configuration was also built unchanged in scratch:
@@ -100,9 +115,8 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Thirteen dispatched cases complete;0013 retains its matching BARRAY frontier
-and0015 its parked based-symbol frontier;0016 is active at its type-match
-frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Fourteen dispatched cases complete;0013 retains its matching BARRAY frontier
+and0015 its parked based-symbol frontier;0016 SUPERPAD now completes. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent

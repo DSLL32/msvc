@@ -1506,6 +1506,20 @@ typedef struct TypeMatch {
 } TypeMatch;
 TypeMatch *first_type_match, *last_type_match;
 
+void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named)
+{
+    TypeMatch *match = checked_alloc(sizeof(*match));
+    match->type = type;
+    match->named = named;
+    match->next = NULL;
+    if (!first_type_match)
+        first_type_match = last_type_match = match;
+    else {
+        last_type_match->next = match;
+        last_type_match = match;
+    }
+}
+
 void finish_recursive_types(void)
 {
     TypeMatch *match = first_type_match;
@@ -1514,9 +1528,6 @@ void finish_recursive_types(void)
     unsigned short relative, unused, converted, *field;
     unsigned short length, other_length;
 #ifdef RECON_NATIVE_TEST
-    /* The Win32 loop reads next after free. No host allocator lifetime
-       equivalence has been established for that nonempty queue path. */
-    if (match) __asm { int 3 }
 #define MATCH_OFFSET(offset) do { if (entry->recursive_count >= 12) __asm { int 3 } \
     entry->recursion.small[entry->recursive_count++] = (offset); } while (0)
 #else
@@ -1565,6 +1576,8 @@ void finish_recursive_types(void)
             memcpy(match->named->type+2, original+2, length);
             match->named->flags |= 1;
         }
+        /* The original reads next after freeing this node. Preserve that
+           ordering rather than repairing the original lifetime defect. */
         free(match);
         match = match->next;
     }
@@ -2101,11 +2114,11 @@ void record_symbol_offsets(unsigned char *symbols, unsigned long size,
 }
 
 /* S_PROCREF/S_DATAREF point back into a module symbol stream rather than
-   carrying an inline name. The final alignment word is not initialized. */
+   carrying an inline name. */
 typedef struct SymbolReferenceRecord {
     unsigned short length, kind;
     unsigned long checksum, offset;
-    unsigned short module;
+    unsigned short module, reserved;
 } SymbolReferenceRecord;
 typedef char SymbolReferenceRecordSize[(sizeof(SymbolReferenceRecord)==16)?1:-1];
 
@@ -2130,6 +2143,8 @@ void create_symbol_reference(unsigned char *record, void **buckets,
     reference->checksum = hash;
     reference->module = module;
     reference->offset = offset;
+    /* The original leaves this output alignment WORD uninitialized. */
+    reference->reserved = 0;
     node->next = buckets[bucket];
     buckets[bucket] = node;
 }
@@ -2246,7 +2261,10 @@ int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type,
         }
         count = (unsigned short)(next-position);
         if (count) {
-            /* The original intrinsic compares this same byte interval. */
+            /* Original defect: ADD of the candidate pointer follows SHR of
+               the DWORD count. For 1..3 bytes, REPE CMPSD does no work and
+               JNE retains ADD's nonzero result, rejecting even equal tails. */
+            if (count < 4) goto different;
             for (i = 0; i < count; ++i)
                 if (original[position+i] != record[position+i]) goto different;
             position = next;

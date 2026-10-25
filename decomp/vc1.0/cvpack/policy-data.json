@@ -1219,7 +1219,7 @@
       },
       "@queue_type_match@8": {
         "abi": "void __fastcall queue_type_match(unsigned short,TypeCacheEntry *)",
-        "source": "src/stubs.c",
+        "source": "src/types.c",
         "stack_cleanup": 0,
         "roots": []
       },
