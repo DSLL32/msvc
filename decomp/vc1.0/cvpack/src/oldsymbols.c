@@ -191,3 +191,34 @@ void convert_old_symbol_change_segment(void)
     old_symbol_segment = *(unsigned short *)(old_symbol_input+2);
     old_symbol_input += old_symbol_input[0]+1;
 }
+
+void convert_old_symbol_procedure16(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned char *name;
+    unsigned short length = (unsigned short)(old_symbol_input[0]+15);
+    unsigned short name_length = (unsigned short)(old_symbol_input[0]-14);
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned long *)(record+4) = 0;
+    *(unsigned long *)(record+8) = 0;
+    *(unsigned long *)(record+12) = 0;
+    *(unsigned short *)(record+24) = old_symbol_segment;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+22) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+26) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+16) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+18) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+20) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 4;
+    record[28] = *old_symbol_input++;
+    name = record+29;
+    while (name_length--) *name++ = *old_symbol_input++;
+    while (padding--) *name++ = 0;
+    *(unsigned short *)(record+26) = convert_old_type(*(unsigned short *)(record+26));
+    old_symbol_output = name;
+}
