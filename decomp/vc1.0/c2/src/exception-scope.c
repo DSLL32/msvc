@@ -468,3 +468,13 @@ void __fastcall remember_exception_local(SymbolHeader *symbol)
     if (!find_exception_local(scope->locals, symbol->identifier))
         insert_exception_local(scope->locals, symbol);
 }
+
+/* Original [00066480,000664a4). Hash low identifier bits, then return
+   the borrowed symbol itself rather than its temporary link record. */
+SymbolHeader *__fastcall find_exception_local(ExceptionLocalSet *set, unsigned identifier)
+{
+    ExceptionLocalEntry *entry;
+    for (entry = set->buckets[identifier & 15]; entry; entry = entry->next)
+        if (entry->symbol->identifier == identifier) return entry->symbol;
+    return 0;
+}

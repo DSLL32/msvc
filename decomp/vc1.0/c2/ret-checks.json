@@ -135,6 +135,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@find_exception_local@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

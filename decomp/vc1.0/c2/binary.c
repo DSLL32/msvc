@@ -5,9 +5,9 @@
 static const ReconFunction functions[] = {
     {
         .name = "@find_exception_local@8", .entry_rva = 0x56480,
-        .code = (const ReconExtent[]) { { 0x56480, 0x56481 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x56480, 0x564a4 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "find_exception_local",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@insert_exception_local@8", .entry_rva = 0x564b0,

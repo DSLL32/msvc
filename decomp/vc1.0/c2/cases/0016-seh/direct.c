@@ -211,3 +211,20 @@ int c2_scope_find_local_inputs(void)
     return recon_native_at_entry((const void *)find_exception_local,
         (const void *)find_local_entry,real_input,0)==1;
 }
+
+static void __fastcall insert_local_entry(ExceptionLocalSet *set,SymbolHeader *symbol)
+{
+    Arena *arena=&arenas[4];unsigned i;
+    int valid=symbol->identifier==0xa6&&symbol->kind==1&&
+        exception_scope_stack_depth==1&&prepared_exception_scopes==exception_scope_stack[0]&&
+        prepared_exception_scopes->locals==set&&(char *)set==(char *)arena->blocks+4&&
+        arena->next==(char *)set+64&&
+        arena->remaining==(char *)arena->blocks+1024-arena->next;
+    for(i=0;i<16;++i)if(set->buckets[i])valid=0;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_insert_local_inputs(void)
+{
+    return recon_native_at_entry((const void *)insert_exception_local,
+        (const void *)insert_local_entry,real_input,0)==1;
+}
