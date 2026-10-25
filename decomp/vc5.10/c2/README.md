@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 153 accepted application functions / 35,576 code bytes.
+The registry preserves 154 accepted application functions / 36,102 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
-2,000 bytes of contextual text data are separate. The full text extent is
+2,028 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `convert_input_operand` at original RVA 0x25d0f.
+  current accepted frontier is `pop_input_expression` at original RVA 0x25f81.
   Twenty-eight narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -52,3 +52,7 @@ The pragma-field interpreter models the encountered control1 source-line, contro
 filename, control31 signed-long and control32 sign-extended short descriptors. Other rows and each row's unused second DWORD remain unmodeled behind
 native guards. Its unvisited warning-state branch zeros the original's unwritten
 terminal short; the defect is documented at the copy.
+
+Register offset36 and the fourth `new_address_register` argument are signed byte
+displacements. Earlier provisional pointer views at cold callsites were superseded
+without changing DWORD layout, register inputs or RET8 cleanup.

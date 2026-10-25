@@ -2619,8 +2619,12 @@ static const ReconFunction functions[] = {
     {
         .name = "@convert_input_operand@16",
         .entry_rva = 0x25d0f,
+        .code = (const ReconExtent[]){{0x25d0f, 0x25eca}, {0x6b4f2, 0x6b545}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x25ecc, 0x25ee8}},
+        .text_data_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_input_operand",
     },
     {
@@ -2854,6 +2858,13 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "new_input_local",
+    },
+    {
+        .name = "@convert_deferred_input_operand@12",
+        .entry_rva = 0x4635b,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_deferred_input_operand",
     },
     {
         .name = "@convert_input_pointer@8",

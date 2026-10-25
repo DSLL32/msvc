@@ -75,7 +75,7 @@ C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *
 C2Expression * __fastcall new_temporary_operand(unsigned short type);
 C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall new_control_expression(unsigned opcode);
-C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, C2FunctionRegister *base);
+C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, long displacement);
 C2Expression * __fastcall convert_input_expression(C2Expression **expression, unsigned short type, C2Expression **prior);
 C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char convention, C2Expression *target, C2Expression *arguments, C2Expression *result, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);
@@ -113,6 +113,7 @@ void __fastcall release_small_node_list(C2SmallNode *nodes);
 C2Expression * __fastcall pop_input_trees(C2InputStack **stack);
 unsigned __fastcall resolve_input_source_line(unsigned serial);
 unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes);
+C2Expression *__fastcall convert_deferred_input_operand(C2InputStack *stack, unsigned short type, int flags);
 C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned short type, unsigned bytes, int flags);
 int __fastcall needs_input_return_storage(unsigned convention, unsigned short type, unsigned bytes);
 C2Expression * __fastcall pop_input_expression(C2InputStack *stack);

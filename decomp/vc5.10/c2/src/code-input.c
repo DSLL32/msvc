@@ -218,7 +218,7 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
                 release_small_node(left);
                 saved = right->left;
                 release_small_node(right);
-                reg = new_address_register(reg, 0x5000, 0, (C2FunctionRegister *)saved);
+                reg = new_address_register(reg, 0x5000, 0, (long)saved);
                 value = new_register_expression(INPUT_REGISTER_OPCODE(reg->kind), reg);
                 value->type = 0x3004;
                 INPUT_LINK(stack->last, value);
@@ -1243,7 +1243,7 @@ C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value)
             tree->type = type;
             if (tree->kind == 2)
                 tree->value.reg = new_address_register(tree->value.reg, type,
-                                                       bytes, tree->value.reg->base);
+                                                       bytes, tree->value.reg->displacement);
         }
         temporary = new_input_temporary(tree->type);
         return new_binary_expression(0x131, tree->type, temporary, tree,
@@ -1462,4 +1462,68 @@ void __fastcall read_input_type(C2ILToken *token)
     if (token->opcode == 39) return;
     token->type = (unsigned short)adjust_input_return_size(kind, bytes);
     if ((token->type & 0xf000) == 0x5000) token->bytes = bytes;
+}
+
+C2Expression *__fastcall convert_input_operand(C2InputStack *stack, unsigned short type,
+                                               unsigned bytes, int flags)
+{
+    C2Expression *tree, *assignment, *operand, *constant;
+    C2FunctionRegister *reg, *canonical;
+    if (stack->flags & 4) return convert_deferred_input_operand(stack, type, flags);
+    tree = pop_input_expression(stack);
+    if (tree->type != 0x3004)
+        convert_input_expression(&tree, 0x3004, &stack->last);
+    if (tree->location.expression.properties & 0x10)
+        tree = copy_input_expression(tree);
+    switch (tree->kind) {
+    case 3:
+        mark_first_input_expression(tree);
+        tree->type = type;
+        if (tree->kind == 2) {
+            reg = tree->value.reg;
+            canonical = reg->canonical;
+            tree->value.reg = new_address_register(canonical, type, bytes,
+                reg->displacement - canonical->displacement);
+        }
+        break;
+    case 4: case 7:
+        assignment = new_assignment_expression(0x131, 0x3004, tree,
+                                                link_code_nodes, (C2Record *)stack->last);
+        tree = new_aggregate_expression(0x122, type, NULL, NULL,
+                                        assignment->tail.right, NULL, 0);
+        stack->last = assignment;
+        break;
+    case 6:
+        assignment = new_assignment_expression(0x131, 0x3004, tree,
+                                                link_code_nodes, (C2Record *)stack->last);
+        stack->last = assignment;
+        tree = assignment->tail.right;
+        /* Fall through to the same register-result folding. */
+    case 1:
+        if (INPUT_IS_REGISTER(tree) && (assignment = tree->value.reg->value) != NULL &&
+            assignment->opcode == 0x141 && assignment->left->kind == 3 &&
+            assignment->left->next->kind == 7 &&
+            (long)assignment->left->next->immediate >= 0) {
+            release_small_node(tree);
+            operand = assignment->left;
+            constant = operand->next;
+            reg = new_address_register(operand->value.reg, type, bytes,
+                                       (long)constant->immediate);
+            tree = new_typed_register_expression(operand->opcode, type, reg);
+            if (stack->last == assignment) stack->last = assignment->previous;
+            unlink_input_record((C2Record *)assignment);
+            release_small_node(assignment);
+            break;
+        }
+        /* Fall through to the ordinary conversion. */
+    case 2:
+        tree = new_aggregate_expression(0x122, type, NULL, NULL, tree, NULL, 0);
+        break;
+    default:
+        break;
+    }
+    link_code_nodes((C2Record *)stack->last, (C2Record *)tree);
+    stack->last = tree;
+    if (flags) tree->location.expression.properties |= 0x40;
+    return tree;
 }

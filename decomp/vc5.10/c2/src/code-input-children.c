@@ -51,7 +51,7 @@ C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned sh
 }
 
 
-C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, C2FunctionRegister *base)
+C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, long displacement)
 {
     __asm { int 3 }
     return 0;
@@ -97,12 +97,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-
-C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned short type, unsigned bytes, int flags)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Expression * __fastcall pop_input_expression(C2InputStack *stack)
 {
@@ -433,4 +427,11 @@ void __fastcall release_input_exception_context(C2Expression *tree)
 void __fastcall release_input_assembly_context(C2Expression *tree)
 {
     __asm { int 3 }
+}
+
+C2Expression *__fastcall convert_deferred_input_operand(C2InputStack *stack,
+                                                       unsigned short type, int flags)
+{
+    __asm { int 3 }
+    return 0;
 }

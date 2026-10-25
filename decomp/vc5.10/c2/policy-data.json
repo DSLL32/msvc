@@ -881,6 +881,30 @@
             ]
           ]
         }
+      },
+      "@convert_input_operand@16": {
+        "original": {
+          "text_data": [
+            [
+              4349644,
+              4349672
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@convert_input_operand@16",
+                "offset": 703
+              },
+              {
+                "rebuilt_symbol": "@convert_input_operand@16",
+                "offset": 731
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],
