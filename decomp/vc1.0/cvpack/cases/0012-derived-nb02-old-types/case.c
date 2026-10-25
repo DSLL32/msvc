@@ -95,11 +95,12 @@ static const uint32_t order[] = {
     0x14250,
     0x14280,
     0x14670,
+    0x14500,
 
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase),
     "derived-nb02-old-types", "Authentic legacy payloads with target-width directory entries.",
-    order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x14670,
+    order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x14500,
     NULL, invoke, NULL, NULL, 0
 };
