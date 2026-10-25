@@ -953,6 +953,34 @@
             ]
           ]
         }
+      },
+      "@input_has_side_effects@4": {
+        "original": {
+          "text_data": [
+            [
+              4207776,
+              4207862
+            ],
+            [
+              4207872,
+              4208169
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_has_side_effects@4",
+                "offset": 662
+              },
+              {
+                "rebuilt_symbol": "@input_has_side_effects@4",
+                "offset": 946
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

@@ -106,6 +106,8 @@ C2ILToken * __fastcall read_input_token(C2Function *function, C2ILToken *token);
 extern C2InputStack *free_input_stacks;
 C2InputStack *new_input_stack(void);
 void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees);
+int __fastcall input_basic_has_side_effects(C2Expression *tree);
+int __fastcall input_instruction_has_side_effects(C2Expression *tree);
 int __fastcall input_has_side_effects(C2Expression *tree);
 C2Expression *__fastcall prune_cached_input(C2Expression *tree);
 int __fastcall rewrite_input_reference(C2Expression *tree, C2Expression *result);

@@ -6,7 +6,7 @@
 
 unsigned record_source_line;
 unsigned short record_line_delta;
-extern int c2_internal_listing;
+extern int c2_internal_listing, c2_basic_mode, c2_exception_mode;
 extern char *c2_output_name;
 
 void __fastcall link_code_nodes(C2Record *first, C2Record *last)
@@ -522,4 +522,58 @@ C2Expression *__fastcall new_transfer_expression(unsigned opcode, unsigned short
     if (link) link(prior, (C2Record *)record);
     record->location.line = record_line_delta;
     return record;
+}
+
+int __fastcall input_has_side_effects(C2Expression *tree)
+{
+    C2Expression *child;
+    unsigned intrinsic;
+    switch (tree->kind) {
+    case 1: case 2: case 3: case 4: case 6:
+        return (tree->location.expression.properties & 0x40) ||
+               (tree->location.expression.comparison & 8);
+    case 11:
+        if (c2_basic_mode && input_basic_has_side_effects(tree)) return 1;
+        if (tree->opcode == 0x16c) return 1;
+        if (tree->opcode && tree->opcode < 0x11b)
+            return input_instruction_has_side_effects(tree);
+        /* Fall through to both operand lists. */
+    case 12: case 15:
+        for (child = tree->tail.right; child; child = child->next)
+            if (input_has_side_effects(child)) return 1;
+        for (child = tree->left; child; child = child->next)
+            if (input_has_side_effects(child)) return 1;
+        return 0;
+    case 13: case 14: case 16: case 18: case 20:
+        return 1;
+    case 17:
+        intrinsic = tree->detail.intrinsic;
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+        if (intrinsic >= C2_INTRINSIC_COUNT)
+            recon_unsupported("unmodeled C2 intrinsic side-effect row");
+#endif
+        if (intrinsics[intrinsic].flags & 0x20) return 0;
+        if (intrinsic <= 18)
+            return !(intrinsic >= 13 || intrinsic == 3 || intrinsic == 5);
+        if (intrinsic <= 23) return intrinsic != 23 && intrinsic != 20;
+        if (intrinsic <= 33) return intrinsic != 33 && intrinsic != 28;
+        if (intrinsic <= 79) {
+            if (intrinsic >= 78 || intrinsic == 71) return 0;
+            if (intrinsic <= 72) return 1;
+            return intrinsic > 74;
+        }
+        if (intrinsic >= 88 && intrinsic <= 139) return 0;
+        switch (intrinsic) {
+        case 165: case 167: case 170: case 174:
+        case 217: case 218: case 222: case 229:
+        case 236: case 237: case 339: case 340:
+            return 0;
+        default:
+            return 1;
+        }
+    case 19:
+        return tree->opcode == 0x175 ? !c2_exception_mode : 1;
+    default:
+        return 0;
+    }
 }

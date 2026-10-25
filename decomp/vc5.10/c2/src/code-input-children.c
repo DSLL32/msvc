@@ -307,12 +307,6 @@ C2Expression *__fastcall last_input_tree(C2Expression *tree)
     return 0;
 }
 
-int __fastcall input_has_side_effects(C2Expression *tree)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression *__fastcall prune_cached_input(C2Expression *tree)
 {
     __asm { int 3 }
@@ -431,4 +425,16 @@ void __fastcall replace_input_result(C2Expression *owner, C2Expression *old,
                                      C2Expression *replacement)
 {
     __asm { int 3 }
+}
+
+int __fastcall input_basic_has_side_effects(C2Expression *tree)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __fastcall input_instruction_has_side_effects(C2Expression *tree)
+{
+    __asm { int 3 }
+    return 0;
 }

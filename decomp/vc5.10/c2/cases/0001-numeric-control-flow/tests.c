@@ -767,6 +767,39 @@ static int copied_operand_ownership(void)
     return 1;
 }
 
+extern int c2_exception_mode;
+static int input_effect_flags(void)
+{
+    C2Expression tree;
+    unsigned char flags;
+    memset(&tree, 0, sizeof(tree));
+    tree.kind = 2;
+    tree.location.expression.properties = 0x10;
+    if (input_has_side_effects(&tree)) return 0;
+    tree.location.expression.properties |= 0x40;
+    if (input_has_side_effects(&tree) != 1) return 0;
+    tree.location.expression.properties = 0;
+    tree.location.expression.comparison = 8;
+    if (input_has_side_effects(&tree) != 1) return 0;
+    tree.location.expression.comparison = 0x40;
+    if (input_has_side_effects(&tree)) return 0;
+    tree.kind = 19;
+    tree.opcode = 0x175;
+    c2_exception_mode = 0;
+    if (input_has_side_effects(&tree) != 1) return 0;
+    c2_exception_mode = 1;
+    if (input_has_side_effects(&tree)) return 0;
+    tree.kind = 17;
+    tree.detail.intrinsic = 0;
+    flags = intrinsics[0].flags;
+    intrinsics[0].flags = 0;
+    if (input_has_side_effects(&tree) != 1) return 0;
+    intrinsics[0].flags = 0x20;
+    if (input_has_side_effects(&tree)) return 0;
+    intrinsics[0].flags = flags;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -802,5 +835,6 @@ const ReconTest numeric_tests[] = {
     {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types},
     {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width},
     {"temporary and binary node sizes preserve allocation canaries", 1, temporary_node_sizes},
-    {"operand copying preserves payloads, originals and allocation canaries", 1, copied_operand_ownership}
+    {"operand copying preserves payloads, originals and allocation canaries", 1, copied_operand_ownership},
+    {"side-effect flags retain volatile, exception and intrinsic distinctions", 1, input_effect_flags}
 };

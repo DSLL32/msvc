@@ -43,7 +43,7 @@ struct C2Expression {
         };
         C2IntegerWords integer;
     };
-    union { void *data; C2InputUse *use; struct C2InputClause *clauses; } detail;
+    union { void *data; C2InputUse *use; struct C2InputClause *clauses; unsigned short intrinsic; } detail;
     C2Expression *aggregate_value, *aggregate_second;
 };
 struct C2Record {
