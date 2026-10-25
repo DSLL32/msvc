@@ -1113,3 +1113,14 @@ void __fastcall set_function_input_options(unsigned options)
         input_global_optimization_active = 0;
     }
 }
+
+void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees)
+{
+    C2InputStack *entry = new_input_stack();
+    link_code_nodes((C2Record *)entry->last, (C2Record *)trees);
+    while (trees->next)
+        trees = trees->next;
+    entry->last = trees;
+    entry->next = *stack;
+    *stack = entry;
+}

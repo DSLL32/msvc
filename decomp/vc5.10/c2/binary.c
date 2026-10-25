@@ -2467,9 +2467,18 @@ static const ReconFunction functions[] = {
     {
         .name = "@push_input_trees@8",
         .entry_rva = 0x25a4a,
+        .code = (const ReconExtent[]){{0x25a4a, 0x25a7f}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "push_input_trees",
+    },
+    {
+        .name = "_new_input_stack",
+        .entry_rva = 0x25a7f,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "push_input_trees",
+        .native_symbol = "new_input_stack",
     },
     {
         .name = "@append_input_trees@8",
