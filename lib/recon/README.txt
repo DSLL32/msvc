@@ -634,11 +634,14 @@ Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty
 uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with
 setvbuf routed separately from the Microsoft40 implementation. Its reached
-success domain is fresh nonterminal text stdout with a caller-owned128B buffer,
-mode0200/size128 and no pending/previous buffer. The exact supplied base/ptr is
+success domain is fresh nonterminal text stdout with a caller-owned128B or256B
+buffer and mode0200. A disjoint256B user buffer may replace an established256B
+buffer only when no bytes are pending; the old buffer is neither flushed nor
+freed, preserving the observed permanent-allocation ownership. The exact supplied base/ptr is
 retained as user-owned storage; separate Watcom line-buffer state makes newline
 writes flush through existing fputc/lowio paths, with capacity and explicit
-flush unchanged. Other streams/modes/sizes/reconfiguration remain denied.
+flush unchanged. Other streams/modes/sizes,128B replacement and pending-buffer
+reconfiguration remain denied.
 Blank auxiliary/printer slots still use benign generic fclose (EOF ignored,
 no underlying handle close/free); no initialization/private FILE26 or general
 auxiliary/printer runtime model is added. Original per-call errors are unmeasured.

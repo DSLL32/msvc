@@ -51,6 +51,7 @@ ShimFILE recon_iob[20];
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
 /* Native semantic state, separate from either CRT's private FILE flag layout. */
 static char *watcom_stdout_line_buffer;
+static size_t watcom_stdout_line_size;
 #endif
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 /* Canonical provider .data points stdin at its static4096-byte buffer.
@@ -1118,7 +1119,7 @@ int recon_fputc(int c,ShimFILE *s)
     unsigned char byte=c;
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
     if(s==&recon_iob[1] && watcom_stdout_line_buffer &&
-       (s->_base!=watcom_stdout_line_buffer || s->_bufsiz!=128 ||
+       (s->_base!=watcom_stdout_line_buffer || s->_bufsiz!=(int)watcom_stdout_line_size ||
         !(s->_flag&0x100) || s->_file!=1))
         recon_unsupported("Watcom line-buffer ownership/state change");
 #endif
@@ -1520,23 +1521,31 @@ WEAK int recon_fclose(ShimFILE *s)
         else if (s->_tmpfname) free(s->_tmpfname);
     }
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    if(s==&recon_iob[1]) watcom_stdout_line_buffer=NULL;
+    if(s==&recon_iob[1]) { watcom_stdout_line_buffer=NULL;watcom_stdout_line_size=0; }
 #endif
     s->_flag=0; return result;
 }
 int __cdecl recon_watcom_setvbuf(ShimFILE *stream,char *buffer,int mode,size_t size)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    if(stream!=&recon_iob[1] || !buffer || mode!=0x0200 || size!=128 ||
-       (uintptr_t)buffer>UINTPTR_MAX-128 || watcom_stdout_line_buffer ||
-       stream->_file!=1 || stream->_flag!=2 || stream->_base || stream->_ptr ||
-       stream->_cnt || stream->_bufsiz || stream->_tmpfname ||
+    if(stream!=&recon_iob[1] || !buffer || mode!=0x0200 || (size!=128 && size!=256) ||
+       (uintptr_t)buffer>UINTPTR_MAX-size || stream->_file!=1 || stream->_tmpfname ||
        recon_nhandle<=1 || (recon_osfile[1]&~8)!=0x81 || os_handles[1]<=0)
         recon_unsupported("Watcom supplied stdout line-buffer domain");
-    /* The caller owns all128 bytes; no allocation/free or old-buffer discard.
+    if(watcom_stdout_line_buffer) {
+        if(size!=256 || watcom_stdout_line_size!=256 || stream->_flag!=0x102 ||
+           stream->_base!=watcom_stdout_line_buffer || stream->_ptr!=stream->_base ||
+           stream->_cnt || stream->_bufsiz!=256 ||
+           ((uintptr_t)buffer<(uintptr_t)watcom_stdout_line_buffer+256 &&
+            (uintptr_t)watcom_stdout_line_buffer<(uintptr_t)buffer+256))
+            recon_unsupported("Watcom stdout replacement outside empty256B userbuffer");
+    } else if(stream->_flag!=2 || stream->_base || stream->_ptr || stream->_cnt || stream->_bufsiz)
+        recon_unsupported("Watcom supplied stdout initial state");
+    /* The caller owns both sizes. The observed empty256B replacement neither
+     * flushes nor frees its old permanent buffer; ownership stays with App.
      * Existing fwrite/printf paths reach fputc and the normal lowio flush. */
-    stream->_base=stream->_ptr=buffer;stream->_bufsiz=128;stream->_cnt=0;
-    stream->_flag|=0x100;watcom_stdout_line_buffer=buffer;
+    stream->_base=stream->_ptr=buffer;stream->_bufsiz=size;stream->_cnt=0;
+    stream->_flag|=0x100;watcom_stdout_line_buffer=buffer;watcom_stdout_line_size=size;
     return 0;
 #else
     (void)stream;(void)buffer;(void)mode;(void)size;
