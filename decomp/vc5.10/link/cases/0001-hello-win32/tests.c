@@ -416,6 +416,29 @@ static int section_symbol_ranges_call(void)
     return recon_native_at_entry(build_section_symbol_ranges,check_section_symbol_ranges,
         invoke_hello,NULL)==1;
 }
+extern const char *__stdcall get_symbol_name(StringNode *,const void *,WORD *,BYTE *);
+extern char *current_module_strings;
+static void __stdcall check_comdat_symbol_name(StringNode *symbol,const void *strings,
+    WORD *kind,BYTE *is_import)
+{
+    static const DWORD expected[14]={3,0xffffffff,5,7,11,13,18,0xffffffff,
+        20,22,30,32,35,0xffffffff};
+    OutputModule *module=current_input_library->module_head;
+    FileRecord *file=file_slots[current_input_file];
+    IMAGE_SYMBOL *symbols=(IMAGE_SYMBOL *)((BYTE *)file->view+1135);
+    recon_native_entry_finish((IMAGE_SYMBOL *)symbol==symbols+7 &&
+        symbol->symbol.N.Name.Short==0 && symbol->symbol.N.Name.Long==4 &&
+        symbol->symbol.SectionNumber==2 && symbol->symbol.StorageClass==2 &&
+        strings==current_module_strings && strings==(BYTE *)file->view+1801 &&
+        kind && !is_import && comdat_symbol_module==module && section_symbol_ranges &&
+        !memcmp(section_symbol_ranges,expected,sizeof(expected)) &&
+        ((Contribution *)module->contributions)[1].comdat_selection==0);
+}
+static int comdat_symbol_name(void)
+{
+    return recon_native_at_entry(get_symbol_name,check_comdat_symbol_name,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -436,5 +459,6 @@ const ReconTest hello_tests[]={
     {"module-filename",1,module_filename},
     {"default-library-entry",1,default_library_entry},
     {"first-comdat",1,first_comdat},
-    {"section-symbol-ranges-call",1,section_symbol_ranges_call}
+    {"section-symbol-ranges-call",1,section_symbol_ranges_call},
+    {"comdat-symbol-name",1,comdat_symbol_name}
 };

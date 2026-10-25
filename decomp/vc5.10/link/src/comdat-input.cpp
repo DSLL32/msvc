@@ -242,7 +242,26 @@ duplicate:
     return 0;
 }
 DWORD *__stdcall build_section_symbol_ranges(Contribution *contribution,IMAGE_SYMBOL *symbols)
-{ __asm { int 3 } return NULL; }
+{
+    OutputModule *module=contribution->module;
+    DWORD *ranges=(DWORD *)allocate_memory(module->section_count*8);
+    DWORD index;
+    SHORT section;
+    for (index=0;index<module->section_count;++index) {
+        ranges[index*2]=0xffffffff;
+        ranges[index*2+1]=0xffffffff;
+    }
+    for (index=0;index<module->symbol_count;) {
+        section=symbols->SectionNumber;
+        if (section>0) {
+            if (ranges[(section-1)*2]==0xffffffff) ranges[(section-1)*2]=index;
+            else if (ranges[(section-1)*2+1]==0xffffffff) ranges[(section-1)*2+1]=index;
+        }
+        index+=symbols->NumberOfAuxSymbols+1;
+        symbols+=symbols->NumberOfAuxSymbols+1;
+    }
+    return ranges;
+}
 void __stdcall discard_associated_comdats(Contribution *parent) { __asm { int 3 } }
 void __stdcall report_duplicate_comdat(LinkOptions *options,const char *module,const char *symbol,const char *previous) { __asm { int 3 } }
 void __stdcall record_undefined_comdat(StringNode *symbol,const char *name,OutputModule *module) { __asm { int 3 } }

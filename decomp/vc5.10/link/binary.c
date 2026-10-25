@@ -344,7 +344,7 @@ static const ReconFunction functions[] = {
     {"_remember_module_directive@12",0x38790,(const ReconExtent[]){{0x38790,0x387c4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_module_directive",NULL,NULL,0,NULL},
     {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16d59}},1,(const ReconExtent[]){{0x2364,0x2369}},1,RECON_APP,RECON_IMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
     {"_extend_incremental_heap@4",0x4fc00,(const ReconExtent[]){{0x4fc00,0x4fcd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"extend_incremental_heap",NULL,NULL,0,NULL},
-    {"_build_section_symbol_ranges@8",0x5fe80,(const ReconExtent[]){{0x5fe80,0x5ff07}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"build_section_symbol_ranges",NULL,NULL,0,NULL},
+    {"_build_section_symbol_ranges@8",0x5fe80,(const ReconExtent[]){{0x5fe80,0x5ff07}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"build_section_symbol_ranges",NULL,NULL,0,NULL},
     {"_discard_associated_comdats@4",0x5ff10,(const ReconExtent[]){{0x5ff10,0x5ff6f}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"discard_associated_comdats",NULL,NULL,0,NULL},
     {"_report_duplicate_comdat@16",0x5ef50,(const ReconExtent[]){{0x5ef50,0x5efb9}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"report_duplicate_comdat",NULL,NULL,0,NULL},
     {"_record_undefined_comdat@12",0x5f010,(const ReconExtent[]){{0x5f010,0x5f06c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_undefined_comdat",NULL,NULL,0,NULL},

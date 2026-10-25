@@ -5850,6 +5850,11 @@
         "expected_cleanup": [
           20
         ]
+      },
+      "_build_section_symbol_ranges@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }
