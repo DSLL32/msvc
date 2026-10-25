@@ -712,3 +712,36 @@ unsigned short convert_old_based_data16(unsigned char *output, unsigned char *in
     while (padding--) *output++ = 0;
     return (unsigned short)(output-start);
 }
+
+/* Original [000238a0,00023919): copy the genuine wide C6 base declaration. */
+unsigned short convert_old_based_bprel32(unsigned char *output, unsigned char *input)
+{
+    unsigned char *start = output;
+    unsigned short count = input[0]-1;
+    unsigned short length = input[0]+3;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(output+2) = 0x200;
+    input += 2;
+    output += 4;
+    while (count--) *output++ = *input++;
+    while (padding--) *output++ = 0;
+    return (unsigned short)(output-start);
+}
+
+
+/* Original [000239a0,00023a19): serialize the wide C6 data base declaration. */
+unsigned short convert_old_based_data32(unsigned char *output, unsigned char *input)
+{
+    unsigned char *start = output;
+    unsigned short count = input[0]-1;
+    unsigned short length = input[0]+3;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(output+2) = 0x201;
+    input += 2;
+    output += 4;
+    while (count--) *output++ = *input++;
+    while (padding--) *output++ = 0;
+    return (unsigned short)(output-start);
+}

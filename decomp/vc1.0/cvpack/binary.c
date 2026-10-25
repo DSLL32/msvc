@@ -4167,8 +4167,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_bprel32",
         .entry_rva = 0x138a0,
+        .code = (const ReconExtent[]){{0x138a0, 0x13919}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_based_bprel32",
     },
     {
@@ -4183,8 +4185,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_data32",
         .entry_rva = 0x139a0,
+        .code = (const ReconExtent[]){{0x139a0, 0x13a19}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_based_data32",
     },
 };

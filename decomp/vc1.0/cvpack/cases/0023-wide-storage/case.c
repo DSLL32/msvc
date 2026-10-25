@@ -1,4 +1,7 @@
 #include <recon-tool.h>
+#include <recon-output.h>
+#include <stdio.h>
+#include <string.h>
 extern int main(int,char **,char **);
 static int invoke(int argc,char **argv) {return main(argc,argv,(char **)0);}
 static const uint32_t order[]={
@@ -73,10 +76,83 @@ static const uint32_t order[]={
  0x83a0,
  0x13730,
  0x138a0,
+ 0x12d60,
+ 0xf0f0,
+ 0x17100,
+ 0xcb40,
+ 0xf120,
+ 0x139a0,
+ 0x13780,
+ 0x14500,
+ 0xbd60,
+ 0x8430,
+ 0x8a60,
+ 0x9140,
+ 0x9100,
+ 0x94f0,
+ 0xbf10,
+ 0xd440,
+ 0xd390,
+ 0xd350,
+ 0xd3f0,
+ 0x100a0,
+ 0x11320,
+ 0x18090,
+ 0x10cb0,
+ 0xb6d0,
+ 0xdde0,
+ 0x9530,
+ 0xcb90,
+ 0xd070,
+ 0xba10,
+ 0xdac0,
+ 0x10ec0,
+ 0xb240,
+ 0x130e0,
+ 0x130f0,
+ 0x181f0,
+ 0x1a670,
+ 0x1a450,
+ 0x19ba0,
+ 0x19c50,
+ 0x19ed0,
+ 0x19f50,
+ 0x1a850,
+ 0x1a120,
 };
 RECON_EXPORT const ReconCase case_descriptor={
  RECON_ABI_VERSION,sizeof(ReconCase),"wide-storage",
  "Format-authored two-module storage project; normal CLI, complete old-format container and record invariants.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x138a0,
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_EXIT,0,
  NULL,invoke,NULL,NULL,0
+};
+
+/* Only reserved attribute bit 0x0800 is unwritten by the original converter.
+   The comparison masks its byte; require all eight native bits to be zero,
+   independently preserving the seven defined bits as well as our zero rule. */
+static int check_outputs(const ReconOutputContext *context)
+{
+    static const unsigned short bytes[] = {1409, 1441, 1473, 1505, 1537, 1569, 1601, 1633, 1665, 1697, 1729, 1761, 1793, 1825, 1857, 1889};
+    unsigned char output[2152];
+    char path[4096];
+    unsigned i;
+    FILE *file;
+    int okay;
+    if (!context || context->struct_size != sizeof(*context) ||
+        context->terminal_kind != RECON_OUTPUT_EXIT || context->terminal_value ||
+        !context->workspace_cwd) return 0;
+    if (snprintf(path, sizeof(path), "%s/storage-unpacked.dbg", context->workspace_cwd)
+        >= (int)sizeof(path)) return 0;
+    file = fopen(path, "rb");
+    if (!file) return 0;
+    okay = fread(output, 1, sizeof(output), file) == sizeof(output) &&
+           fgetc(file) == EOF && !ferror(file);
+    if (fclose(file)) okay = 0;
+    if (!okay || memcmp(output, "NB09", 4)) return 0;
+    for (i = 0; i < RECON_COUNT(bytes); ++i)
+        if (bytes[i] >= sizeof(output) || output[bytes[i]]) return 0;
+    return 1;
+}
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+ RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), check_outputs
 };

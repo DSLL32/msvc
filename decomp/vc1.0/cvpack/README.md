@@ -1,23 +1,24 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **279 accepted application
-functions, 78,451 original code bytes, and 3 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **281 accepted application
+functions, 78,693 original code bytes, and 1 named trapping stub**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
-streams and defined artifact bytes. The last accepted function is `write_old_packed_types` (sequence 279,
-1,480 original code bytes, `src/output.c`). The two empty callbacks accepted at
+streams and defined artifact bytes. The last accepted function is `convert_old_based_data32` (sequence 281,
+121 original code bytes), after `convert_old_based_bprel32` (sequence 280,
+121 bytes), both in `src/oldsymbols.c`. The two empty callbacks accepted at
 sequences 269/270 each retain one byte of credit; their alignment remains excluded.
 Encountered converter dispatch and calls identified additional App helpers;
-remaining helpers retain named trapping stubs and no accepted credit.
+the remaining BARRAY routine retains a named trapping stub and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 92 application functions.
+The resumed workload has accepted 94 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. The previous nineteen-case/nineteen-unit aggregate passed in 0.661s.
 The new callback case/check/unit, original compiler and strict 270-function
 graph/ABI/data gate passed in 1.846s without another aggregate replay.
-Twenty-two cases are active; twenty complete, with 0013 retaining its BARRAY
-frontier and 0023 qualified at its wide based-symbol serializer frontier. The previous baseline ended at `type_server_close` (sequence 187,
+Twenty-two cases are active; twenty-one complete, with only 0013 retaining its
+BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -105,17 +106,14 @@ report-bound native replay took 8.936 ms (5.267 ms setup, 1.863 ms execution,
 1.805 ms checks). Native candidate rebuild was 0.470s, original typed helper
 compilation 2.409s. All receipts remain in owned `0021-noop-callbacks/` scratch.
 
-Five application stubs remain. `convert_old_barray` depends on the genuinely
+One application stub remains: `convert_old_barray` depends on the genuinely
 uninitialized stack WORD observed as both 0 and 0x7e, so the user's allowance for
-a consistent observed constant does not apply. `read_packed_modules` and
-`write_old_packed_types` need an authentic NB08 input; available producer output
-is NB09, which must not be relabelled. `convert_old_based_bprel32` and
-`convert_old_based_data32` need authentic wide C6 declarations; CFIG386 supplies
-only narrow ones. A genuine NB08 artifact/older producer or genuine wide C6
-artifact could enable the latter four. More inputs do not by themselves resolve
-the BARRAY undefined-state problem. No substantial genuine next workload is
-currently available, so work is paused at this verified checkpoint. No synthetic
-records, format relabelling or guessed control value are used to claim completion.
+a consistent observed constant does not apply. The other four former limitations
+are resolved by the explicitly authorized format-authored NB08/NB02 CLI cases
+0022/0023 below. Well-formed authored old-format inputs are legitimate original
+oracle workloads; no historical producer provenance is claimed for them. More
+inputs do not by themselves resolve the BARRAY undefined-state problem, and no
+control value is guessed. Reconstruction pauses at that honest residual limit.
 
 There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,
@@ -279,8 +277,8 @@ symbol sizing and conversion tables establish their genuine App identity; the
 typed return test grants no additional wide-record or CLI reach coverage.
 `get_old_symbol` and `convert_old_based_symbol` were accepted through the
 historical workload; the genuine CFIG386 API case independently exercises the
-serializer dispatcher and its narrow record families. The two wide serializers
-remain pending.
+serializer dispatcher and its narrow record families. The two wide serializers now have normal-CLI coverage through the authored
+NB02 storage workload (0023).
 `runtime-policy.json` qualifies the original `__sopen`, `__freebuf` and `_setvbuf`
 variants as CRT identity boundaries with exact extents, hashes and provenance.
 The original mask leaves these CRT bodies executable while unfinished App code
@@ -359,3 +357,27 @@ comparison-only derivation and full commands remain in owned
 `resume-20261025/0022-packed-storage/` scratch. Original unwritten cache locals
 and the writer's unbounded post-last-gap lookup remain faithfully documented;
 no sentinel, allocator tuning or control-field repair was introduced.
+
+
+`0023-wide-storage` completes the companion two-module NB02 normal-CLI case.
+Its unchanged authored 1,219-byte input SHA256 is
+`16204a790b4ebc98d00e38c27b3a0e605b20b7df9795151aff4d35f2d3c7722e`.
+The builder uses the recovered target's twelve-byte directory dialect and
+complete C6 records, including wide BP-relative/data declarations referenced by
+valid based-pointer types, ordinary register declarations, source files and
+module contributions. It excludes BARRAY and the nonadvancing no-op CLI record.
+The original accepted the complete input without warnings; fresh masked
+original/native runs match all 114 first entries, exit 0, streams and the complete
+2,152-byte output. Original capture took 1,144.179 ms; the final report-bound
+native run took 13.146 ms (setup 5.817, execution 3.328, checks 4.002).
+Its raw SHA256 is `dbb4c124834106412f8aba39e829580977caf20847c51b5e695d19d9217fee13`.
+Sixteen pointer attributes contain the original's proven unwritten reserved
+bit 0x0800. Comparison masks the containing byte; a case-owned assertion requires
+all eight native bits to be zero, independently keeping the seven defined bits
+exact. Every other output byte remains hash-checked; no ordering is relaxed.
+The raw oracle and comparison-only derivation remain in owned
+`resume-20261025/0023-wide-storage/` scratch. The final `make -j4 check unit win32
+audit` passed all 22 cached cases, all 22 unit invocations, the original compiler,
+281 strict graphs/ABIs/ownership/extents and 217 contextual objects in 2.667 s.
+No original is run by that regression batch. The varying BARRAY control defect,
+0013 partial oracle and parked historical 0015 work remain unchanged.
