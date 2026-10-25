@@ -1,0 +1,98 @@
+{
+  "status": "accepted",
+  "scope": "Three App bodies through the genuine pending OpenResFile frontier, not a completed help case. CRT bootstrap/body ownership remains independently justified and earns no App credit.",
+  "accepted": [
+    {
+      "name": "main",
+      "va": [
+        4270695,
+        4270837
+      ],
+      "bytes": 142
+    },
+    {
+      "name": "CheckMemoryHook",
+      "va": [
+        4267999,
+        4268000
+      ],
+      "bytes": 1
+    },
+    {
+      "name": "InitMsg",
+      "va": [
+        4279294,
+        4279399
+      ],
+      "bytes": 105
+    }
+  ],
+  "accepted_bytes": 248,
+  "next_frontier": {
+    "name": "OpenResFile",
+    "rva": 101064
+  },
+  "candidate_runner": {
+    "path": "/root/.ai-tmp/msvc2/watcom-main-argv-20261025/tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
+    "sha256": "d33881b55d57656fbe76d2f2dbbb784d65396bbb3f8ebd69c92ccbe3b69b2759",
+    "source": "/root/.ai-tmp/msvc2/watcom-main-argv-20261025/tooling/recon-tool/src/original.rs",
+    "source_sha256": "453ab8b4892510b9271bf946dc32b7241940e2b0270dfe55f221e931f9c3989f",
+    "status": "Exact shared candidate authorized and independently source/test reviewed by orchestrator before this run; canonical publication not required for this retained evidence."
+  },
+  "original_report": {
+    "path": "cases/0000-help/progress-openresfile.json",
+    "sha256": "5c536a06759d55cee2cb43a705a2844d4629f6473f117741cc956f0a59506244"
+  },
+  "original_capture": {
+    "path": "cases/0000-help/progress-openresfile.bin",
+    "sha256": "5d078175948dd758b773b556b8f1e80d1766f72713fbab5228caf561e2989470"
+  },
+  "native_report": {
+    "path": "cases/0000-help/native-openresfile.json",
+    "sha256": "1700c8e7425ec3ca3e5946cc4cc0d1763e1c4fe77747eeb3b93a9078222d077f"
+  },
+  "native_adoption": {
+    "path": "harness/native-adoption.json",
+    "sha256": "bced5aba36ec8f20c61965ff4fc420b2a9a4ab7559b81b9ad8fe66b68df8053d"
+  },
+  "heap_closure": {
+    "path": "harness/first-main-heap.json",
+    "sha256": "43a88e9b5f61d369a862f6eecd56c6aef78074dd20e005ae754cc96d9a333d5b"
+  },
+  "App_sources": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/memory.c": "eabb8dd8496875c2d5745ce086f942a86b939f27c1f8cfec02bf0f863bcbec95",
+    "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
+    "src/stubs.c": "5d0eea3d9dbce94cbde503fabecffbcaf7f92ad584c342ef952e6e850076fe63",
+    "src/wlib.h": "38f9ebb161f0516def5474cd670927b5db90bbb46924ccf76cc576abca895649"
+  },
+  "native_elf": {
+    "path": ".build/libbinary.so",
+    "sha256": "3b1bb58fcd8fed3acd4d604179581e7ce71df1f9be6650310c42fad7980123d9"
+  },
+  "period_build": {
+    "PE_sha256": "59160bf90b5f62a3efc0b608af106a2ca918ca9daf5a76e9b007a5cc40110276",
+    "MAP_sha256": "36925d4a5488b936a49cc4da18187b087b47a38efb7057dee85cc35f417376af",
+    "compile_flags": "-bt=nt -3r -od -d2 -s",
+    "scope": "Win32 Watcom ABI; native GCC ABI is the explicitly authorized semantic projection."
+  },
+  "App_graph_audit": {
+    "report_sha256": "83bb0026111d821d7b73516abf26c3d69ee87f1fb9ab38ae453af1bd8f8dc18e",
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "checked_App_bodies": 3,
+    "support_body_certification": false
+  },
+  "timing_ms": {
+    "original_capture": 682.672716,
+    "native_total": 5.31993,
+    "native_setup": 3.26667,
+    "native_execution": 1.46899,
+    "native_checks": 0.583896
+  },
+  "input_semantics": "New regular-file stdin64LF; original requested argv and actual observed Watcom main argv retained separately. Native used the observed vector. No self-image read has occurred at this frontier."
+}

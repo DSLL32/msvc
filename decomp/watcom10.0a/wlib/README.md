@@ -1,126 +1,19 @@
 # Watcom 10.0a WLIB
 
-Application reconstruction is paused by user instruction. `messages.c` is
-unaccepted InitMsg WIP: original compile/static graph checks passed, but it has
-no original or native runtime capture and no native build. `make fixtures`
-holds explicitly while that WIP is present. The last accepted fixture snapshot
-is commit `fd15744cb`; accepted counts remain two functions and 143 bytes.
-See `cases/help/initmsg-frontier/WIP.json` for the exact preserved state.
+Fresh standardized reconstruction of the native PE32 `binnt/WLIB.EXE`.
+The one numbered case is actual-supported bare `?`, with a fresh regular stdin
+file containing 64 LF bytes. Old pipe captures are not its oracle.
 
-`src/main.c` reconstructs the actual 142-byte application entry, with named
-trapping application/support callees. Main and the empty `CheckMemoryHook` are accepted: two application functions,
-143 original bytes, through the matching `InitMsg` frontier. Later application
-callees remain trapping. Both `make -j4 native` (GCC i386) and `make -j4 reference-build` (original
-Watcom Win32) compile the source. `make -j4 audit-main-candidate` checks the real
-Watcom MAP/PE with the canonical Rust graph auditor: nine callee identities,
-callback references, RET cleanup, ownership and extents match. Native tests use
-GCC semantic formals; original Win32 builds preserve Watcom conventions.
+`make -j4 native cases` uses the shared native i386 DSO/case harness.
+`make -j4 win32` checks source with the original Watcom compiler through the
+shared launcher. Fixtures never launch Wine or recapture originals.
 
-One reviewed masked original prefix reached `CheckMemoryHook` after `_heapchk`.
-At actual main, the helper verified all five CRT initializers, then masked every
-one of the 50,688 BEGTEXT bytes and restored only main's 142 bytes and the proved
-416-byte CRT heap-check closure. The real hook CALL trapped with the mask still
-intact. Heap-check returned zero, changed its private clean flag from 0 to 1,
-and preserved observed application/error/FP state. Owned termination 151 was
-confirmed through the actual exit event and signaled process handle. This was
-a frontier stop, not successful help completion; elapsed time was 1.167 seconds.
-`cases/help/main-frontier/` retains source/body provenance and raw observations.
-The native input check exposed CW `037f` versus original `127f`; the reviewed
-shared Watcom startup option now supplies `127f`. The explicit first-call empty
-target allocation namespace contract supplies the reached heap boundary without
-claiming glibc integrity validation. Native paired checks passed with matching
-arguments, 52-byte jump storage, flags, errors and architectural x87 state.
-`make -j4 fixtures` runs the current native main→hook→InitMsg prefix with no Wine
-or recapture. The hook case took 0.267 seconds overall (debugger execution/checks
-0.181 seconds); parallel native/original build plus two-function graph audit
-took 1.241 seconds. `cases/help/hook-frontier/` retains the fresh masked/native
-comparison, original C3 extent, actual hook return and InitMsg image-name formal.
-
-The original is a native i386 PE32 console program, SHA256
-`f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3`.
-Image base is `0x400000`; entry RVA `0x18690` jumps to `0x41992b`, where startup
-calls `0x418e8b` then `0x41afaa`. These are observed addresses, not accepted
-application identities. There are 25 KERNEL32 imports, no exports, no debug
-directory, and no COFF symbols. Executable `BEGTEXT` includes code and literal
-data: immediately after the five-byte entry jump is a CRT copyright banner.
-Never treat linear disassembly of that section as a function inventory.
-
-The five section records and appended 3,858-byte overlay are recorded in
-`binary.json`. Help/error strings occur in the overlay; their resource encoding
-and lookup boundary remain to be established. No message table is copied into
-reconstructed source. The binary identifies itself as WATCOM Library Manager
-Version 3.0, copyright 1988, 1994, with patch level `.a`.
-
-Internal code uses Watcom register arguments, including EAX, EDX, EBX and ECX.
-The path-splitting helper at `0x418733` also consumes two stack arguments with
-`ret 8`. GCC `regparm(3)` does not implement this ABI. Exact register assignment,
-preservation, stack cleanup and return forms need per-signature proof in the
-original-toolchain build. GCC native tests intentionally use GCC's own ABI,
-without per-function veneers or raw-register identity claims.
-
-Source reference: scratch checkout
-`/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, exact initial commit
-`6b9cb4438959d845a2b4dd4bf19f7908ecd608e9` (2002-05-15). Relevant files are
-`bld/nwlib/c/cmdline.c`, `bld/nwlib/c/error.c`, `bld/nwlib/c/wlib.c` and
-`bld/nwlib/wlib.msg`. The newer tree has `nwlib`, not the old `wlib` directory,
-and includes IDE/DLL, ELF/COFF and ORL architecture absent or unproved in this
-1994 target. `WlibMainLine` documents a July 1999 reset-flow change. Reuse source
-only where the original instructions establish matching logic and function
-edges; preserve its applicable license notices when copying code.
-
-Original startup loads `argc` from `0x430464` into EAX and `argv` from
-`0x430460` into EDX, then calls `0x412a67` at `0x41afea`. This establishes
-the candidate application `main` entry and its first two original formals;
-native entry observation will read the corresponding GCC stack formals.
-This does not classify the entire startup or all subsequent calls as CRT.
-
-Initial case is a candidate `WLIB -?` in an empty directory, documented under
-`cases/help/plan.json`. The historical switch, stream bytes and status are not
-assumed accepted from newer source. After architecture review, explicit reference
-capture will establish them and the application/CRT boundary. Fixtures will
-compare only the native ELF against that cache, without Wine or recapture.
-`cases/help/capture-plan.md` provides the concrete execution and boundary plan
-submitted for review. Its baseline execution and diagnostic results follow.
-
-The subsequently approved unmasked baseline timed out with empty streams after
-30.019 seconds. Two explicit diagnostics reached the resource reader, observed
-GS change from Wine's `0x63` to flat DS `0x2b`, and reached `ExitProcess(1)` while
-GS remained `0x2b`; process exit stalled. Each diagnostic terminated its owned
-child with status 126 and observed the real exit debug event. These are failed
-captures, not successful help or reconstruction acceptance. Raw event logs and
-hash-bound receipts are in `cases/help/diagnostic/`.
-
-The corrected diagnostic proved a caller-owned 128-byte stack buffer, actual
-far selector equal to DS, completed `option\0` writes and unchanged remaining
-121 bytes. Its after-character breakpoint is a shared loop join reached before
-the first actual character store; it is explicitly not an adjacent post-store
-observation. The proposed four-site Wine-only patch is documented in
-`cases/help/diagnostic/gs-patch-proposal.json`, including exact bytes, candidate
-hash, relocation nonoverlap and future-selector restrictions. A separate exact
-patched copy was subsequently approved and created, as recorded in
-`cases/help/diagnostic/gs-patched-copy.json`. Persistent all-invocation guards passed 198 native policy checks and all 13
-authored Win32 controls before the separately approved captures described below.
-See `cases/help/guard-probes/authored-v4/`. The original `-?` is a diagnostic
-input; bare `?` is successful help.
-
-The reference resource reader in
-`bld/sdk/rc/wres/c/loadstr.c:GetString` closely matches the original 128-byte
-chunking, string selection, bounded byte copies and final NUL. This supports
-source correlation, not wholesale acceptance. WRes support logic is not assumed
-to be CRT merely because it is in a library.
-
-
-The approved separate patched `-?` diagnostic now completes normally and
-reproducibly: actual target exit 1, 234 stdout bytes, empty stderr, no artifacts.
-Both runs guarded four reader calls, four RET12/owner returns and eight TF rearms;
-initial GS `0x63` and DS `0x2b` remained intact. Actual argv0 and first resource
-self-open both named the patched EXE. Launcher times were 0.816 and 0.867 seconds.
-`cases/patched-minus-question/capture-summary.json` retains exact streams/events
-and patch provenance. These are unmasked references with zero app acceptance.
-A separately approved bare `?` help case then completed twice with exit 0 and
-identical 1,870-byte stdout, empty stderr and no artifacts. Each guarded 32 reader
-calls and 64 rearms. Times were 0.616 and 0.866 seconds; evidence is retained in
-`cases/patched-help/capture-summary.json`. Both cases observed actual exit debug
-events; the frozen helper did not verify a signaled process handle on normal
-exit, and these receipts make no such claim. These unmasked captures accepted no functions; the later masked main acceptance
-is described above.
+The first App main is currently an unimplemented INT3. No fresh original-backed
+capture or application acceptance exists yet. The shared capture owner is
+qualifying the finite GS resource compatibility conditions before execution.
+`harness/startup-runtime.json` records the individually reviewed CRT/bootstrap
+catalog, including full 74-byte `__CMain` separately from its 69-byte startup execution
+subset, exact 257-byte `_IsTable`, shared RET and backward heap trampoline.
+`harness/gs-boundary.json` records the bounded reader/owned-buffer conditions;
+`harness/gs-patched-copy-provenance.json` retains historical patch provenance.
+The pristine toolchain image remains untouched.

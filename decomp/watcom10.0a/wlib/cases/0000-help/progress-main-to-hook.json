@@ -1,0 +1,53 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "e571be7fa76e7f518c886d079fb7e90350552c461ceecebb5bd5c2e15b12af90",
+  "case": "help",
+  "elapsed_ms": 979.43263,
+  "first_entry_order": [
+    76391,
+    73695
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 0,
+      "ebp": 3276604,
+      "ebx": 3425124,
+      "ecx": 2,
+      "edi": 0,
+      "edx": 3425124,
+      "eflags": 582,
+      "eip": 4267999,
+      "esi": 0,
+      "esp": 3276588
+    },
+    "rva": 73695,
+    "stack": "hex:772a4100000000000010ff3fefaf410050ff3100908641003e99410094ff3100aa82410068ff310040eab77b0010ff3f83cecf7b83cecf7b0010ff3f80ff3100",
+    "stack_address": 3276588,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLIB.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "418b4ee595c80b81f1cb757a5c116328f445f0e08b93e36f91711ea84fd8532f",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLIB.EXE",
+      "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+      "staged": "/tmp/recon/run-NTxW64/WLIB.EXE"
+    }
+  ],
+  "terminal": "frontier:11fdf",
+  "workspace": "/tmp/recon/run-NTxW64"
+}

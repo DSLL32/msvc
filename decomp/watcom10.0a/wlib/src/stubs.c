@@ -30,6 +30,8 @@ int FiniMsg( void )
     return( 0 );
 }
 
+
+
 int OpenResFile( HANDLE_INFO *instance )
 {
     WLIB_FRONTIER();

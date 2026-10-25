@@ -1,0 +1,41 @@
+{
+  "scope": "Previously reviewed416B first-main healthy heap CRT closure (415B below plus shared no-op RET418d82 already cataloged). Not App credit or blanket CRT restoration.",
+  "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "historical_proof_file": "harness/heap-bootstrap-reference-historical.json",
+  "historical_proof_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625",
+  "functions": [
+    {
+      "name": "_heapchk_",
+      "va": [
+        4292291,
+        4292442
+      ],
+      "sha256": "8f04b28a0e7df701baad26a3bbac251eec6ba729c720b8e9f468152b52ca53b8"
+    },
+    {
+      "name": "checkFree (private CRT role)",
+      "va": [
+        4292230,
+        4292291
+      ],
+      "sha256": "eee64c6d744ecda4253628ce319d60fb0c3f5581276cc04722dd8ee3b658fbd7"
+    },
+    {
+      "name": "checkFreeList (private CRT role)",
+      "va": [
+        4292149,
+        4292230
+      ],
+      "sha256": "78bd35ce242c388ccb5523fb8537d258a49baf7ce94e8880359f62f2b5f47b1b"
+    },
+    {
+      "name": "__NHeapWalk (private CRT role)",
+      "va": [
+        4298522,
+        4298644
+      ],
+      "sha256": "90a3c2dd7be5f54465eb91d9423de2848b259de7bc0c8d8467e42bd31ac383bc"
+    }
+  ],
+  "identity_note": "Public _heapchk boundary417ec3 is distinct from private checkFree417e86. The latter checks one free-list node and is NOT public_nheapchk. Walk helper41971a has source role__NHeapWalk, not public_nheapwalk wrapper. Private role labels intentionally have no rebuilt public mapping."
+}

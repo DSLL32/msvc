@@ -1,0 +1,42 @@
+{
+  "scope": "Current build static DSO adoption evidence, not an execution result or application promotion",
+  "native_elf": ".build/libbinary.so",
+  "native_elf_sha256": "3b1bb58fcd8fed3acd4d604179581e7ce71df1f9be6650310c42fad7980123d9",
+  "host_source": "harness/heap-contract.c",
+  "host_source_sha256": "29d6a7651b5207df5ded81ddbc6a8107036aa802bb1d6a76ff3145f68a1dc945",
+  "closure": "harness/first-main-heap.json",
+  "closure_sha256": "43a88e9b5f61d369a862f6eecd56c6aef78074dd20e005ae754cc96d9a333d5b",
+  "init_array": [
+    {
+      "address": 87895,
+      "symbol": "recon_trace_initialize_trace"
+    },
+    {
+      "address": 37318,
+      "symbol": "initialize_terminal_status"
+    },
+    {
+      "address": 76367,
+      "symbol": "initialize_direct_main_precision"
+    },
+    {
+      "address": 27887,
+      "symbol": "bind_first_main_heap"
+    },
+    {
+      "address": 26656,
+      "symbol": "frame_dummy"
+    },
+    {
+      "address": 61761,
+      "symbol": "initialize_crt"
+    }
+  ],
+  "App_object_hashes": {
+    ".build/pic/src/main.c.o": "177881e1a8b806406dec7248e22214c02582bb280629d5bc48a906a4b78a26af",
+    ".build/pic/src/memory.c.o": "6dda1613fb40df41acad127b3b54bd969ee6821330815253170fbb8cfa3c0d2a",
+    ".build/pic/src/messages.c.o": "6c0ff3c41e0dd5101bcac4f60dd2a10e41b708aa73c199c2139b6ec539d9cfa9",
+    ".build/pic/src/stubs.c.o": "5d3d5cd1149d4b794ad559cf747bc3398eb5820374dab3ee1721a8427054799e"
+  },
+  "all_dependency_hashes_current": true
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-AFgV4y",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 101064,
+    "trap_site": 4156660788,
+    "elapsed_ms": 5.319929999999999,
+    "setup_ms": 3.26667,
+    "execution_ms": 1.4689900000000002,
+    "checks_ms": 0.583896,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-initmsg-to-openresfile.json",
+      "report_sha256": "5c536a06759d55cee2cb43a705a2844d4629f6473f117741cc956f0a59506244",
+      "capture_sha256": "5d078175948dd758b773b556b8f1e80d1766f72713fbab5228caf561e2989470",
+      "source_binding_available": true
+    }
+  }
+]

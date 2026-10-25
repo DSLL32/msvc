@@ -1,7 +1,0 @@
-18690 pe_entry e9
-19942 crt_init_argv 53
-1a39c crt_setenvp 53
-194e4 crt_init_stack c3
-1a5ed crt_init_files 53
-1984d crt_chk8087 52
-12a67 main 53

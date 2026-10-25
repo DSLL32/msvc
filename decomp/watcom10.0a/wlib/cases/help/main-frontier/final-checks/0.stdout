@@ -1,22 +1,0 @@
-gcc -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie -no-pie build/native/main.o build/native/stubs.o scripts/native-host.c ../../../lib/recon/src/compat.c ../../../lib/recon/src/crt.c ../../../lib/recon/src/decimal.c ../../../lib/recon/src/entry.c ../../../lib/recon/src/process.c ../../../lib/recon/src/trace.c ../../../lib/recon/src/win32.c -o build/native/WLIB
-python3 scripts/original.py compile src/main.c build/main.obj
-python3 scripts/original.py compile src/stubs.c build/stubs.obj
-WATCOM C32 Optimizing Compiler  Version 10.0a
-Copyright by WATCOM International Corp. 1984, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-R:\decomp\watcom10.0a\wlib\src\stubs.c: 42 lines, included 1660, 0 warnings, 0 errors
-Code size: 191
-WATCOM C32 Optimizing Compiler  Version 10.0a
-Copyright by WATCOM International Corp. 1984, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-R:\decomp\watcom10.0a\wlib\src\main.c: 30 lines, included 1660, 0 warnings, 0 errors
-Code size: 184
-python3 scripts/original.py link build/main.obj build/stubs.obj
-WATCOM Linker Version 10.0
-Copyright by WATCOM International Corp. 1985, 1994. All rights reserved.
-WATCOM is a trademark of WATCOM International Corp.
-loading object files
-searching libraries
-creating map file
-creating a PE executable
-{"checked_accepted_extents":null,"checked_functions":1,"checked_unique_accepted_extents":null,"checks":["call_graph","ret_cleanup","function_references","extent_ownership","whole_extent_boundaries"],"discovery":"cfg","functions":{"main":{"edges":["CheckMemoryHook_","FiniMsg_","FiniToolState_","InitMsg_","InitToolState_","ProcessCommands_","_heapchk_","_setjmp_","signal_"]}},"image_inputs":{"map":{"absolute_symbols":{"__DOSseg__":4660},"format":"watcom10-pe","map_sha256":"aa303388069f688b2a0ee8692e3f1568a6702186b14f863d35becdf292ad2360","rebuilt_pe_sha256":"b598eb8b8e70580b089e01bc0cbaae226e269ec2b70b573575b7d20947606059","segment_group_bases":{"1":4259840,"2":4325376}},"original":{"coordinates":"preferred-va","format":"pe32","original_file_sha256":"f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3","preferred_base":4194304},"rebuilt":{"coordinates":"preferred-va","format":"pe32","original_file_sha256":"b598eb8b8e70580b089e01bc0cbaae226e269ec2b70b573575b7d20947606059","preferred_base":4194304}},"original_accepted_graphs":null,"profile":"cl"}

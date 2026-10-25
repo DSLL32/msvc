@@ -1,7 +1,5 @@
-/* Original 0x411fdf..0x411fe0 is exactly C3 (RET), with no argument,
-   callee, memory access or side effect. Its original name is unknown; keep
-   the descriptive name rather than inventing a CRT identity. Both calls
-   remain genuine application/support function vertices. */
+/* Original 0x411fdf..0x411fe0 is exactly RET. This remains an App/support
+   vertex because no CRT identity is proved for this hook. */
 #include "wlib.h"
 #include <recon.h>
 

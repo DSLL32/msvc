@@ -1,60 +1,32 @@
-PYTHON ?= python3
-NATIVE_CC ?= gcc
-RECON ?= ../../../lib/recon
-SOURCES = $(wildcard src/*.c)
-HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
-NATIVE_FLAGS = -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
+RECON = ../../../lib/recon
+NATIVE_CC = gcc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS = -std=gnu89
+BINARY_SOURCES = $(wildcard src/*.c)
+BINARY_SUPPORT_SOURCES = harness/heap-contract.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+ORIGINAL_TOOLCHAIN = watcom10.0a
+ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386.EXE --
+ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK.EXE --
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = build/WLIB.EXE
+ORIGINAL_MAP = build/wlib.map
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/h
+winpath = $(subst /,\,$(1))
+ORIGINAL_COMPILE = $(ORIGINAL_CC) -bt=nt -3r -od -d2 -s '-i=$(call winpath,$(RECON)/include)' '-i=$(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/h)' '-fo=$(call winpath,$@)' '$(call winpath,$<)'
+ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) '@build\wlib.lnk'
+RECON_POLICY = policy-data.json
+RECON_AUDIT_PREREQUISITES = harness/rebuilt-runtime.json harness/call-identity.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+RECON_AUDIT_PROFILE = cl
+RECON_IMAGE_BASE = 4194304
+# App-body audit only: the canonical registry retains all support masking and
+# endpoint identities. Empty external catalogs assert no support-body match.
+RECON_AUDIT_FLAGS = --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLIB.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --check-ret --check-ownership --check-extents --runtime harness/rebuilt-runtime.json --rebuilt-runtime harness/rebuilt-runtime.json
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
-.PHONY: all native original reference-build metadata inspect check fixtures audit-main-candidate audit-hook-candidate
-all: native
-
-native: build/native/WLIB
-
-build/native:
-	mkdir -p $@
-
-build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-
-build/native/WLIB: $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) $(HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) -o $@
-
-original reference-build: build/WLIB.EXE build/wlib.map
-
-build:
-	mkdir -p $@
-
-build/%.obj: src/%.c $(HEADERS) scripts/original.py | build
-	$(PYTHON) scripts/original.py compile $< $@
-
-build/WLIB.EXE build/wlib.map &: $(OBJECTS) scripts/original.py Makefile
-	$(PYTHON) scripts/original.py link $(OBJECTS)
-
-metadata inspect:
-	$(PYTHON) scripts/metadata.py
-
-# Metadata verification only. No successful application fixture exists yet.
-check:
-	$(PYTHON) scripts/metadata.py --check binary.json
-
-# Current accepted prefix; later application callees remain INT3 frontiers.
-fixtures:
-	@printf "%s\n" "HOLD: user paused application reconstruction; InitMsg is unaccepted WIP. Accepted fixture snapshot: fd15744cb." >&2
-	@exit 2
-
-include ../../../tooling/graph-audit/graph-audit.mk
-
-# Candidate static checks do not grant runtime reconstruction acceptance.
-audit-main-candidate: reference-build $(GRAPH_AUDIT_BIN)
-	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)"
-
-# The next candidate's driver pins must replace their pending runtime entries.
-audit-hook-candidate: reference-build $(GRAPH_AUDIT_BIN)
-	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)" cases/help/hook-frontier/audit-candidate.json build/hook-static-graph.json
-
-audit-initmsg-candidate: reference-build $(GRAPH_AUDIT_BIN)
-	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)" cases/help/initmsg-frontier/audit-candidate.json build/initmsg-static-graph.json cases/help/initmsg-frontier/runtime-pins.json
+# Period-linker input; original commands use only the common tool launcher.
+$(ORIGINAL_OUTPUT) $(ORIGINAL_MAP): build/wlib.lnk
+build/wlib.lnk: Makefile $(ORIGINAL_OBJECTS)
+	@mkdir -p $(@D)
+	@printf '%s\n' 'format windows nt' 'runtime console' 'debug all' 'option map=build\wlib.map' 'name build\WLIB.EXE' $(foreach o,$(ORIGINAL_OBJECTS),'file $(call winpath,$(o))') 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/NT)' 'library clib3r' 'library nt' > $@

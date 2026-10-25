@@ -1,0 +1,114 @@
+{
+  "scope": "Fresh bare? help capture; static compatibility proof and finite owner contract. No old pipe evidence relabeled. Shared capture must validate required conditions.",
+  "original_sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "patched_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "historical_evidence_commit": "d6e9a58ae6b0db4a171316fc533657616b3a55ef",
+  "historical_case": "decomp/watcom10.0a/wlib/cases/patched-help",
+  "initial_help_input": "?",
+  "fresh_stdin": {
+    "kind": "file",
+    "size": 64,
+    "bytes_hex": "0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a"
+  },
+  "owner_entry_rva": 85095,
+  "owner_opcode": 83,
+  "owner_pointer_register": "edx",
+  "reader_entry_rva": 100576,
+  "reader_opcode": 81,
+  "reader_return_rva": 101054,
+  "reader_return_byte": 131,
+  "reader_formals": {
+    "pointer": "u32[entryESP+4]",
+    "selector": "low16(u32[entryESP+8])",
+    "capacity": "u32[entryESP+12]",
+    "stack_return": "u32[entryESP]",
+    "callee_cleanup": 12
+  },
+  "known_owned_128B_buffers": [
+    {
+      "return_rva": 85250,
+      "base": "ebp",
+      "displacement": -42,
+      "capacity": 128,
+      "return_byte": 199
+    },
+    {
+      "return_rva": 85487,
+      "base": "ebp",
+      "displacement": -130,
+      "capacity": 128,
+      "return_byte": 137
+    },
+    {
+      "return_rva": 85497,
+      "base": "ebp",
+      "displacement": -2,
+      "capacity": 128,
+      "return_byte": 128
+    },
+    {
+      "return_rva": 85515,
+      "base": "ebp",
+      "displacement": 126,
+      "capacity": 128,
+      "return_byte": 235
+    },
+    {
+      "return_rva": 85608,
+      "base": "ebp",
+      "displacement": 126,
+      "capacity": 128,
+      "return_byte": 128
+    }
+  ],
+  "unknown_80B_error_owner_return_rva": 74899,
+  "unknown_owners": "deny",
+  "max_reader_calls": 4096,
+  "invariants": [
+    "Actual selector at every reached reader equals actual DS; initial DS/GS remain preserved.",
+    "Reader pointer/capacity equal live caller-owned stack object; unknown owner or altered return/stack/thread denies.",
+    "Static MsgGet always constructs current DS selector and128capacity; LoadString transports them unchanged.",
+    "Only bare? is this case. Masked unknown App paths must trap; exact original helper/source byte proof cannot authorize arbitrary far pointers."
+  ],
+  "static_ranges": [
+    {
+      "name": "MsgGet",
+      "va": [
+        4279399,
+        4279438
+      ],
+      "sha256": "d6d96b2647062fab4a564adcc1767500639f2715aeeaef25f55d885645afc111"
+    },
+    {
+      "name": "LoadString",
+      "va": [
+        4295208,
+        4295367
+      ],
+      "sha256": "bedecf05cdf9a9dcae9c3725c84be378f6507ba4f0cdcae4ae0e6dd631e397da"
+    },
+    {
+      "name": "Usage_owned_stack_prefix",
+      "va": [
+        4279882,
+        4279912
+      ],
+      "sha256": "76b39c9a4e34dfb10a69ecae6fc27a40d3e55793e8114b43f34d06eb899937f6"
+    }
+  ],
+  "single_direct_call_chains": [
+    {
+      "site_va": 4279422,
+      "target_va": 4295208
+    },
+    {
+      "site_va": 4295353,
+      "target_va": 4294880
+    }
+  ],
+  "static_only_minimum_proposal": {
+    "all_reader_DS_derivation": "Only LoadString\u2192reader relativeCALL418ab9; only MsgGet\u2192LoadString relativeCALL414c7e. MsgGet constructs ECX=actualDS each call; LoadString faithfully transports lowWORD to reader far-pointer formal.",
+    "help_owner": "Only permitted help MsgGet return414e68; Usage ENTER128 then biasedEBP+126 points at the exact128B local. Capacity128 constant in MsgGet.",
+    "pending_review": "Parent/common owner must decide whether finite hash-bound caller/extent proof suffices instead of persistent debugger machinery; no broad all-path or80Bowner equivalence."
+  }
+}

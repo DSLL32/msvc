@@ -1,0 +1,42 @@
+{
+  "status": "concrete native input mismatch; no application acceptance",
+  "original_architectural": {
+    "cw": 4735,
+    "sw": 0,
+    "tag": 65535
+  },
+  "native_architectural": {
+    "cw": 895,
+    "sw": 0,
+    "tag": 65535
+  },
+  "original_context_upper_words": "ffff debug transport extension; not architectural input",
+  "actual_data_word": {
+    "va": 4328120,
+    "file_offset": 54456,
+    "value": 4735
+  },
+  "proven_initialization_path": "actual initializer41984d calls419819, which readsWORD420ab8 and tailcalls__init_80x87 at41a758; FINIT41a777 thenFLDCW[ESP]41a77a installs127f",
+  "body_hashes": [
+    {
+      "start": 4298777,
+      "end_exclusive": 4298819,
+      "sha256": "9fcbbe45a2a91a16232ba88f5512543c994a62c40f7920df69b9949998dfec27"
+    },
+    {
+      "start": 4298829,
+      "end_exclusive": 4298892,
+      "sha256": "0b6d21af812331a7d611dddaff2b8a88805521a561e9665c0c0e72aab9538f8d"
+    },
+    {
+      "start": 4302680,
+      "end_exclusive": 4302725,
+      "sha256": "4612e4a8a01a7641bb3c5e6653cd7a1f91d879904d15d3bf90d3dbfbb599ee29"
+    }
+  ],
+  "shared_layer_request": "opt-in actual Watcom startup input; binary source must not seed x87 locally",
+  "native_receipt_sha256": "2edf7f26e2e963531850a17cd4f58059b5fcf8aeee43820a61ce83e0ddee0952",
+  "source_commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+  "source_path": "bld/clib/startup/c/chk8087.c",
+  "scope": "Previously reviewed static FP startup provenance retained for fresh shared-harness startup; no capture or application credit."
+}

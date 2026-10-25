@@ -1,0 +1,120 @@
+{
+  "scope": "Finite original/rebuilt endpoint-name correlation for Appgraph audit only; no original/new launches or inferredbodypermission. ActualMAP parsed and verified by shared graph tool.",
+  "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "entries": [
+    {
+      "name": "signal_",
+      "original_entry_va": 4293038,
+      "rebuilt_MAP_symbol": "signal_",
+      "original_prefix32_sha256": "d8d6b1c92126fc309ac78c051b6079b99ea126d8e833a28185550a90be5a439d",
+      "source": {
+        "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/clib/process/c/signlwnt.c",
+        "sha256": "ec1bdd82190fe588a64f5951da36ca5eb2a80b3188aae339b1eb48b68a30c0ba",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9"
+      },
+      "library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "signlwnt",
+        "THEADR_file_offset": 108464,
+        "publics": [
+          {
+            "name": "signal_",
+            "segment": 1,
+            "offset": 133
+          }
+        ]
+      },
+      "correlation": "Watcom signal-table registration endpoint; main uses shipped SIGNAL.H values1,7,6,4 with HandleSignal.",
+      "actual_call_sites": [
+        {
+          "site_va": 4270728,
+          "exact_bytes": "e821570000",
+          "target_va": 4293038
+        },
+        {
+          "site_va": 4270743,
+          "exact_bytes": "e812570000",
+          "target_va": 4293038
+        },
+        {
+          "site_va": 4270758,
+          "exact_bytes": "e803570000",
+          "target_va": 4293038
+        },
+        {
+          "site_va": 4270773,
+          "exact_bytes": "e8f4560000",
+          "target_va": 4293038
+        }
+      ],
+      "limits": "Endpoint-name correlation ONLY. Unknown0 entry remains bodyless/unimplemented/no native symbol. No CRT reclassification, body extent, ABI waiver, unmasking or execution admission."
+    },
+    {
+      "name": "_setjmp_",
+      "original_entry_va": 4294120,
+      "rebuilt_MAP_symbol": "_setjmp_",
+      "original_prefix32_sha256": "e563676f28e53ecc367b70f50348330907e9bf9d74405fed7a41b42fef12498f",
+      "source": {
+        "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/clib/startup/a/stjmp386.asm",
+        "sha256": "9489897eedcec1485be9ee1740bc1e89b291fb5c1a8bead2c47a7d05a4070a4a",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9"
+      },
+      "library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "stjmp386",
+        "THEADR_file_offset": 94480,
+        "publics": [
+          {
+            "name": "_setjmp_",
+            "segment": 1,
+            "offset": 0
+          }
+        ]
+      },
+      "correlation": "Watcom register/FS jump-context save endpoint; main passes52B Env and consumesAL, source/headercorroborated.",
+      "actual_call_sites": [
+        {
+          "site_va": 4270783,
+          "exact_bytes": "e8245b0000",
+          "target_va": 4294120
+        }
+      ],
+      "limits": "Endpoint-name correlation ONLY. Unknown0 entry remains bodyless/unimplemented/no native symbol. No CRT reclassification, body extent, ABI waiver, unmasking or execution admission."
+    },
+    {
+      "name": "write_",
+      "original_entry_va": 4289675,
+      "rebuilt_MAP_symbol": "write_",
+      "original_prefix32_sha256": "39ba41dbf73488cdec54c9fb9d3be34d8fc6c36062e46c45dce8158b91dedc59",
+      "source": {
+        "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/clib/handleio/c/write.c",
+        "sha256": "cc212ea1cb484efa65ddadd162083d9fd6474938f67b9cb10c90ca97a96ff6eb",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9"
+      },
+      "library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "write",
+        "THEADR_file_offset": 170480,
+        "publics": [
+          {
+            "name": "write_",
+            "segment": 1,
+            "offset": 0
+          }
+        ]
+      },
+      "correlation": "Watcom byte-write CRT endpoint; InitMsg errorbranch passes stdout descriptor,46B literal and count46; never claimed reached here.",
+      "actual_call_sites": [
+        {
+          "site_va": 4279379,
+          "exact_bytes": "e833280000",
+          "target_va": 4289675
+        }
+      ],
+      "limits": "Endpoint-name correlation ONLY. Unknown0 entry remains bodyless/unimplemented/no native symbol. No CRT reclassification, body extent, ABI waiver, unmasking or execution admission."
+    }
+  ]
+}

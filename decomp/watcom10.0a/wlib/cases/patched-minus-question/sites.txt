@@ -1,6 +1,0 @@
-18690 pe_entry e9
-14c67 guard_owner_begin 53
-188e0 guard_reader_entry 51
-1c466 guard_final_exit ff
-12a67 main 53
-1c490 observe_CreateFileA ff
