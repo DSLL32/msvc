@@ -1,0 +1,46 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-qb4qwP",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832,
+      106520,
+      111040,
+      111188,
+      106272,
+      110976,
+      110848,
+      110672,
+      105848
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 105848,
+    "trap_site": 4156623380,
+    "elapsed_ms": 7.887544,
+    "setup_ms": 4.321195,
+    "execution_ms": 1.967205,
+    "checks_ms": 1.599302,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-addll-to-reslist.json",
+      "report_sha256": "d8303b13911c04394494176b28ed143f0004d63a2a81af33ef28bfddc0cdebc2",
+      "capture_sha256": "321e2eedabfde083874a597d79c63fa4659d41e2e2824297e4ed5f486de21381",
+      "source_binding_available": true
+    }
+  }
+]

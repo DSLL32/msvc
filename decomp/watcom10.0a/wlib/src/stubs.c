@@ -63,7 +63,3 @@ int readResList( int handle, WResTypeNode *type, unsigned short version )
     return( 0 );
 }
 
-void ResAddLLItemAtEnd( void **head, void **tail, void *item )
-{
-    WLIB_FRONTIER();
-}

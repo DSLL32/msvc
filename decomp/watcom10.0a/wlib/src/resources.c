@@ -306,6 +306,27 @@ int WResIDExtraBytes( const WResID *id )
     return( 0 );
 }
 
+/* Original 0x41b050..0x41b075: shared doubly-linked list append. */
+void ResAddLLItemAtEnd( void **head, void **tail, void *item )
+{
+    struct resource_link {
+        struct resource_link *Next, *Prev;
+    } *node;
+
+    node = item;
+    if( *head == 0 ) {
+        *tail = item;
+        *head = item;
+        node->Next = 0;
+        node->Prev = 0;
+    } else {
+        node->Next = 0;
+        node->Prev = *tail;
+        ((struct resource_link *)*tail)->Next = node;
+        *tail = item;
+    }
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

@@ -646,8 +646,10 @@ static const ReconFunction functions[] = {
     {
         .name = "ResAddLLItemAtEnd",
         .entry_rva = 0x1b050,
+        .code = (const ReconExtent[]) { {0x1b050, 0x1b075} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "ResAddLLItemAtEnd",
         .original_symbol = "ResAddLLItemAtEnd_",
     },
