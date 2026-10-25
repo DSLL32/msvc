@@ -858,13 +858,14 @@ enum InputTokenForm {
 };
 static struct {
     unsigned char pending00[38], variable, pending39[6], parameter, pending46[24];
-    unsigned char function_entry, pending71[8], pragma, pending80[3], scope_begin;
+    unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
 } input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
-                       INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+                       INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 70 ? input_token_forms.function_entry : \
+    (unsigned)(op) == 76 ? input_token_forms.parameter_end : \
     (unsigned)(op) == 79 ? input_token_forms.pragma : \
     (unsigned)(op) == 83 ? input_token_forms.scope_begin : \
     (recon_unsupported("unmodeled input token form"), 0))

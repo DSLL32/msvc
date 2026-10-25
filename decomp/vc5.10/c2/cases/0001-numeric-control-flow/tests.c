@@ -540,6 +540,23 @@ static int input_encoded_types(void)
         adjust_input_return_size(7, 0xffffffffU) == 0x1004;
 }
 
+static int typed_register_record(void)
+{
+    unsigned char allocation[32];
+    C2FunctionRegister reg;
+    C2Expression *tree = (C2Expression *)allocation;
+    memset(allocation, 0xa5, sizeof(allocation));
+    tree->next = NULL;
+    free_small_nodes[28] = (C2SmallNode *)tree;
+    if (new_typed_register_expression(0x120, 0x2004, &reg) != tree ||
+        free_small_nodes[28] || tree->kind != 2 || tree->opcode != 0x120 ||
+        tree->type != 0x2004 || tree->value.reg != &reg || tree->left ||
+        tree->next || tree->previous || tree->flags || tree->location.attributes)
+        return 0;
+    return allocation[28] == 0xa5 && allocation[29] == 0xa5 &&
+        allocation[30] == 0xa5 && allocation[31] == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -565,5 +582,6 @@ const ReconTest numeric_tests[] = {
     {"filename selection retains cached string identity", 1, input_filename_identity},
     {"source-line mapping preserves spans and filename identity", 1, input_line_mapping},
     {"symbol register cache preserves owner and allocation identity", 1, input_register_cache},
-    {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types}
+    {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types},
+    {"typed register expression clears exact size and keeps register identity", 1, typed_register_record}
 };

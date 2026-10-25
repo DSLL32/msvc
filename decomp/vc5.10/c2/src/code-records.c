@@ -268,3 +268,13 @@ C2Expression *__fastcall new_function_entry(C2Function *function)
     record->location.line = record_line_delta;
     return record;
 }
+
+C2Expression *__fastcall new_typed_register_expression(unsigned opcode,
+                               unsigned short type, C2FunctionRegister *reg)
+{
+    C2Expression *tree = (C2Expression *)allocate_small_node(2);
+    tree->opcode = opcode;
+    tree->type = type;
+    tree->value.reg = reg;
+    return tree;
+}

@@ -450,10 +450,3 @@ void __fastcall release_input_assembly_context(C2Expression *tree)
 {
     __asm { int 3 }
 }
-
-C2Expression *__fastcall new_typed_register_expression(unsigned opcode,
-                               unsigned short type, C2FunctionRegister *reg)
-{
-    __asm { int 3 }
-    return 0;
-}
