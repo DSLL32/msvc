@@ -31,6 +31,9 @@ if mode=='native':
 if mode=='original':
     output=next(arg[3:] for arg in args if arg.startswith('/Fo')) if '/c' in args else next(arg[5:] for arg in args if arg.startswith('/out:'))
     Path(output).write_text('original')
+    if '/c' not in args:
+        for arg in args:
+            if arg.startswith('/map:'): Path(arg[5:]).write_text('map')
 if mode=='tool' and args[0] in ('registry-export','identify-runtime'):
     Path(args[args.index('--output')+1]).write_text('[]' if args[0]=='identify-runtime' else '{}')
 if mode=='tool' and args[0] in ('run','test'):
@@ -68,6 +71,7 @@ BINARY_SUPPORT_SOURCES := support/a_b.c support/a/b.c
 ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
 ORIGINAL_BUILD := original
 ORIGINAL_OUTPUT := original/app.exe
+ORIGINAL_MAP := original/app.map
 ORIGINAL_CC := python3 {wrapper} original
 ORIGINAL_LINK := python3 {wrapper} original
 ORIGINAL_INCLUDE_DIRS := src
@@ -77,7 +81,7 @@ RECON_IMAGE_BASE := 65536
 RECON_POLICY := policy.json
 RECON_AUDIT_FLAGS := --discovery cfg --check-ret
 RECON_AUDIT_METADATA := original/metadata.json
-RECON_AUDIT_PREREQUISITES := $(ORIGINAL_OUTPUT)
+RECON_AUDIT_PREREQUISITES := $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 include $(RECON_TOOL_DIR)/recon-tool.mk
 generated/code.c: template.c
 \t@mkdir -p $(@D)
@@ -156,7 +160,8 @@ local-audit:
                                    '--report', 'selected.json']]
     assert not any(row[0] == 'original' for row in commands()), 'native checks ran original build'
 
-    make('win32')
+    make('win32', 'audit')
+    assert (root/'original/app.map').read_text() == 'map'
     originals = [row for row in commands() if row[0] == 'original']
     assert len(originals) == 5, originals
     for source in ['src/one.c', 'other/one.c', 'generated/code.c', 'src/runtime.c']:
@@ -166,6 +171,12 @@ local-audit:
     before = len(commands())
     make('win32')
     assert len(commands()) == before, 'unchanged original build ran compiler/linker'
+    (root/'original/app.map').unlink()
+    make('win32', 'audit')
+    relinks = [row for row in commands()[before:] if row[0] == 'original']
+    assert len(relinks) == 1 and '/out:original/app.exe' in relinks[0], relinks
+    assert (root/'original/app.map').exists() and (root/'original/app.exe').exists()
+    before = len(commands())
     time.sleep(.02)
     write('src/nested.h', '#define VALUE 3\n')
     make('win32')

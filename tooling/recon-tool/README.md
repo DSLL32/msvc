@@ -44,6 +44,7 @@ ORIGINAL_TOOLCHAIN := 1.0-nt
 ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
 ORIGINAL_BUILD := build
 ORIGINAL_OUTPUT := build/example.exe
+ORIGINAL_MAP := build/example.map
 ORIGINAL_CPPFLAGS := /Isrc /I../../../lib/recon/include
 ORIGINAL_CFLAGS := /nologo /c /Od /G3
 ORIGINAL_LDFLAGS := /nologo /subsystem:console
@@ -76,6 +77,8 @@ native targets never depend on the original build.
 and each discovered case's `.build`.
 
 `win32`/`recon-original` build `ORIGINAL_OUTPUT` when `ORIGINAL_SOURCES` is set.
+Optional `ORIGINAL_MAP` owns the linker MAP alongside the EXE as a grouped output;
+shared rules add `/map:` and relink if either file is missing.
 `ORIGINAL_TOOLCHAIN` selects the shared compiler/linker launcher; MSVC defaults
 are CL.EXE and LINK.EXE. No binary-specific Wine wrapper is needed.
 `ORIGINAL_TOOLCHAIN_ROOT` is the derived toolchain path relative to the binary.
