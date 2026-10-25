@@ -56,8 +56,12 @@ with self/type/segment forms and base kinds93/94/97/98; BARRAY is excluded.
 1,320-byte input SHA256 `4fb473791a75b1c5aeed6ab6cd4084f8bad4f98a7deaff250c8ff9c821716e52`.
 The original accepts it without warnings (exit0,118 entries), raw2,432-byte
 output SHA256 `17696a0ae7fd41cc7e5fb764b6988898d6118622b9c1678ff1157c355936d77e`.
-The current qualified frontier is `get_old_symbol` (`0x83a0`), with73 matching
-unseeded first entries. The superseded malformed constant
+This hand-authored workload is parked unfinished at
+`convert_old_based_data16` (`0x13920`), with 76 matching unseeded first entries.
+At the user's direction, new work uses ordinary compiler/linker-produced
+artifacts rather than additional constructed debug records. The replacement
+proposal is the unchanged shipped MFC 2.0 SUPERPAD sample's debug executable/PDB,
+built with the original VC1 tools; no new producer or reference has run yet. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
 conversion no-op does not advance the CLI dispatcher, so it needs a bounded
