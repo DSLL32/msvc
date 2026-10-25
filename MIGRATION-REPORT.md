@@ -658,12 +658,38 @@ integration removes `tooling/watcom-capture/`, its tests and all consumers.
 Finite static evidence now identifies WCC/WPP's three and WASM's four XI
 callbacks as CRT using shipped-library bodies/fixups. Callback order is derived
 statically, not observed. WASM's `main_init`, `ObjRecInit` and `GenMSOmfInit`
-remain App code inside main. Broader allocator/fatal/startup service closures
-are still partial. Original-only CRT structural export is under read-only common
-tool review; an unlike NT startup must not be passed off as a paired CF graph.
-Arbitrary gateway/far-service transfers, callbacks/SEH/APCs and new threads stay
-unproved or fail closed. This milestone does not release the five application
-workers or establish ordinary capture readiness.
+remain App code inside main. Original-only CRT structural export is now published
+in `307e3ed37`: it supplies bound original instruction facts with no invented NT
+counterpart, checked ABI or execution permission. Arbitrary gateway/far-service
+transfers, callbacks/SEH/APCs and new threads stay unproved or fail closed. This
+milestone does not release the five application workers or establish ordinary
+capture readiness.
+
+**Shortest path to WCC's first real help frontier.** Static inspection found that
+CRT FILE initialization calls the compiler's private allocator at CF offset
+`47c77`, before main. Its source-correlated memory manager is application code,
+not shipped CLIB `nmalloc`; the first real App call passes size 8 in EAX and
+returns to `2f4d8`. No gateway service precedes that entry. The following finite
+work replaces a broad startup-CRT campaign:
+
+| Blocker | Owner | Minimum action |
+| --- | --- | --- |
+| Ordinary public CF capture | Shared recon-tool owner | Finish catalog admission, actual App entry traces, frontier/raw/oracle finalization; qualify the existing authored arena through the public frontend. |
+| Five original support owners | WCC worker supplies witnesses; shared owner validates/consumes them | Bind `_cstart_` `2fe00..2feb4`, `__InitRtns` `48526..48571`, `_init_stk` `482c6..482ce`, `__InitFiles_` `4a1e5..4a25d`, and allocation wrapper `2f4cd..2f4db`. Preserve actual complete extents separately from execution subsets; stop at App `47c77`. |
+| Reached startup instructions and data | Shared recon-tool owner | Qualify operand-size-16 MOV/selector stores, LODSB, bounded REP BSS clearing and flat-segment PUSH/POP. Validate actual launch block, environment, stack, exact BSS `7c448..80774`, startup globals, selector, XI and accessed FILE spans; do not grant the entire allocation writable. |
+| Equivalent native startup | WCC worker after release | Add a target-specific bootstrap under `harness/` that performs the proved CRT-to-App allocation callback with its real arguments, order and state effects. Host CRT will not call this allocator automatically; trace-only calls are insufficient. |
+| Later progress in the same help case | WCC worker and shared owner when reached | Reconstruct the App allocator normally. Its later AH=48h boundary dispatches to actual loader `410e27` and `LocalAlloc(0, EBX)`, initially requesting 65,536 bytes; bind returned ownership and actual flags/effects. Keep conditional fatal/OOM, unknown services and asynchronous execution closed. |
+
+The wrapper's LEAVE and the memory-sourced startup stack reservation occur after
+the first allocator call returns; they are later progression requirements, not
+prerequisites for the first frontier. The exact five-owner witness, including
+bytes, CF fixups, return contracts and first-entry effects, is
+`~/.ai-tmp/msvc2/watcom-shared-integration/wcc-startup/first-frontier.json`
+(SHA-256 `d29b80632db9a5f9b30fc48dcf703e98ac205e0d613288cf514cb316aedcfa0e`).
+The actual loader service mapping is separately documented in
+`wcc-gateway-minimum/summary.md` under the same scratch root. These static packets
+and planned adaptations authorize no application execution; all five workers
+remain paused until ordinary transport is qualified and released.
 
 **3. Only when a DIRECT case is requested.** The typed original helper is already
 implemented; do not add a generic watcall remote-call engine. Its current
