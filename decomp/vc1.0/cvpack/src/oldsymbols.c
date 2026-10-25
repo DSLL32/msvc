@@ -475,3 +475,17 @@ void convert_old_symbol_constant(void)
     old_symbol_output = output;
 }
 #undef OLD_SIGNED_CONSTANT
+
+void convert_old_symbol12(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned short count = old_symbol_input[0]-1;
+    unsigned short length = old_symbol_input[0]+3;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    old_symbol_input += 2;
+    old_symbol_output += 4;
+    while (count--) *old_symbol_output++ = *old_symbol_input++;
+    while (padding--) *old_symbol_output++ = 0;
+    *(unsigned short *)(record+4) = convert_old_type(*(unsigned short *)(record+4));
+}
