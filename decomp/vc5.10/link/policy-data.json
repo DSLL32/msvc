@@ -4490,6 +4490,20 @@
             }
           ]
         }
+      },
+      "_emit_symbol_class@8": {
+        "original": {
+          "switches": [
+            {
+              "site": 4462137,
+              "targets": [
+                4462144,
+                4462160,
+                4462162
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -6234,6 +6248,11 @@
       "_next_coff_symbol@4": {
         "expected_cleanup": [
           4
+        ]
+      },
+      "_emit_symbol_class@8": {
+        "expected_cleanup": [
+          8
         ]
       }
     }

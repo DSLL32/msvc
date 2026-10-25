@@ -111,3 +111,19 @@ IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **cursor)
     read_file_symbol(current_input_file,&streamed_symbol);
     return &streamed_symbol;
 }
+
+BYTE __stdcall emit_symbol_class(BYTE symbol_class,LinkOptions *options)
+{
+    if(!(options->debug_formats & 1)) return 0;
+    switch(symbol_class) {
+    case IMAGE_SYM_CLASS_EXTERNAL:
+    case IMAGE_SYM_CLASS_STATIC:
+    case IMAGE_SYM_CLASS_FAR_EXTERNAL:
+    case IMAGE_SYM_CLASS_WEAK_EXTERNAL:
+        return 1;
+    case IMAGE_SYM_CLASS_FILE:
+        return options->debug_level!=1;
+    default:
+        return 0;
+    }
+}

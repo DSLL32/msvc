@@ -960,9 +960,14 @@ static BYTE __stdcall check_symbol_class(BYTE symbol_class,LinkOptions *options)
     LinkContext *context;
     if(!options)recon_native_entry_finish(0);
     context=(LinkContext *)((BYTE *)options - offsetof(LinkContext,options));
-    recon_native_entry_finish(symbol_class==103 && !options->debug_formats &&
-        !options->debug_level && context->command_line_library==current_input_library &&
-        context->symbols && current_input_library->module_head->symbol_count==37);
+    if(symbol_class!=103 || options->debug_formats || options->debug_level ||
+        context->command_line_library!=current_input_library || !context->symbols ||
+        current_input_library->module_head->symbol_count!=37)recon_native_entry_finish(0);
+    {
+        LinkOptions before=*options;
+        BYTE result=emit_symbol_class(symbol_class,options);
+        recon_native_entry_finish(!result && !memcmp(options,&before,sizeof(before)));
+    }
     return 0;
 }
 static int symbol_class_call(void)

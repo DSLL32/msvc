@@ -54,7 +54,6 @@ void RECON_THISCALL LinkContext::ResolveUndefined(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::FinalizeOrder(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::FinishNativeSections(void) { __asm { int 3 } }
-extern "C" BYTE __stdcall emit_symbol_class(BYTE symbol_class,LinkOptions *options) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::WriteLocalImports(Contribution *contribution,IncludeSymbol **aliases) { __asm { int 3 } }
 extern "C" void __stdcall write_coff_symbols(LinkContext *context,DWORD image_rva) { __asm { int 3 } }
