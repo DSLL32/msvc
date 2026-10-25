@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1587 historical frontiers/1480 App bodies.
+ * Current reviewed boundary:1588 historical frontiers/1481 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_virtual_thunk_key@4",
+        .entry_rva = 0x6bbd0,
+        .code = (const ReconExtent[]) { { 0x6bbd0, 0x6bbe0 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_virtual_thunk_key",
+    },
     {
         .name = "_mark_pch_friend_records@4",
         .entry_rva = 0x21e80,
@@ -409,6 +417,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_virtual_thunks",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_declaration_thunks",

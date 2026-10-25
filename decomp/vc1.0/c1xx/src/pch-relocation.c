@@ -14,6 +14,7 @@
 #include "global-ir.h"
 #include "pragma.h"
 #include "class-members.h"
+#include "virtual-table-output.h"
 #include <recon.h>
 
 extern unsigned char *permanent_next;
@@ -864,4 +865,14 @@ void __stdcall mark_pch_friend_records(FriendRecord *record)
         mark_pch_pointer((void **)&record->next);
         record = record->next;
     }
+}
+
+void __stdcall mark_pch_virtual_thunk_key(VirtualThunkKey *key);
+
+/* Original0x7bbb0..0x7bbc6. Virtual-adjustment cache keys and their
+   declaration values have distinct pointer traversals. */
+void mark_pch_virtual_thunks(void)
+{
+    mark_pch_hash_table(virtual_adjustment_thunks,
+        (PchVisit)mark_pch_virtual_thunk_key, (PchVisit)mark_pch_symbol_chain);
 }
