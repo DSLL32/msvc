@@ -137,3 +137,37 @@ int __stdcall rc_find_macro_parameter(const WCHAR *name)
     }
     return -1;
 }
+
+WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
+{
+    WCHAR character,*limit=rc_string_buffer+2043;
+    unsigned short token;
+
+#ifdef RECON_NATIVE_TEST
+    if((DWORD)cursor<(DWORD)rc_string_buffer ||
+       (DWORD)cursor>(DWORD)(rc_string_buffer+2044) ||
+       (((DWORD)cursor-(DWORD)rc_string_buffer)&1)){ __asm int 3 }
+#endif
+    *cursor++=delimiter;
+    while(cursor<=limit){
+        character=*rc_source_cursor++;
+        token=rc_character_token(character);
+        if(token==3){
+            if(rc_resume_input()!=16)continue;
+            *cursor++=L'\\';
+            character=rc_get_logical_character();
+            if(character==L'\\' && rc_splice_line())continue;
+        }else if(token==5){
+            strcpy(rc_error_text,rc_message(2001));
+            rc_input_error(2001);
+            --rc_source_cursor;
+            character=delimiter;
+        }
+        if((token==7 || token==8 || token==5) && character==delimiter){
+            *cursor=character;
+            return cursor+1;
+        }
+        *cursor++=character;
+    }
+    return limit;
+}

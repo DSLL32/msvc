@@ -169,12 +169,6 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
 
 
 
-WCHAR *__stdcall rc_copy_replacement_quoted(WCHAR *cursor,WCHAR delimiter)
-{
-    __asm int 3
-    return NULL;
-}
-
 void __stdcall rc_macro_buffer_fatal(unsigned message)
 {
     __asm int 3

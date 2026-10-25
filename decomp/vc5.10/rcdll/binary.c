@@ -163,7 +163,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_check_macro_space" },
     { .name="rc_copy_replacement_quoted", .original_symbol="_rc_copy_replacement_quoted@8", .entry_rva=0x521c,
       .code=(const ReconExtent[]){{0x521c,0x52fa}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_copy_replacement_quoted" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_copy_replacement_quoted" },
     { .name="rc_expand_macro", .original_symbol="_rc_expand_macro@4", .entry_rva=0x52fa,
       .code=(const ReconExtent[]){{0x52fa,0x5693}}, .code_count=1,
       .text_data=(const ReconExtent[]){{0x130c,0x131c}}, .text_data_count=1,

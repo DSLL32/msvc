@@ -139,11 +139,27 @@ static int comment_mode_identity(void)
     rc_block_comment();
     return rc_source_cursor==input+8 && rc_preparing_line==line;
 }
+static int replacement_quoted_contract(void)
+{
+    WCHAR source[]=L"abc\"tail";
+    const WCHAR expected[]={L'"',L'a',L'b',L'c',L'"'};
+    WCHAR *out=rc_string_buffer+10,*end;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    rc_source_cursor=source;
+    end=rc_copy_replacement_quoted(out,L'"');
+    if(end!=out+5 || rc_source_cursor!=source+4 ||
+       memcmp(out,expected,sizeof(expected)) || out[5]!=0xa7a7)return 0;
+    rc_source_cursor=source;
+    end=rc_copy_replacement_quoted(rc_string_buffer+2044,L'"');
+    return end==rc_string_buffer+2043 && rc_source_cursor==source &&
+        rc_string_buffer[2044]==L'"';
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
     {"wide-copy-end-contract",1,copy_end_contract},
     {"comment-preservation-option-identity",1,comment_mode_identity},
+    {"replacement-quoted-copy-contract",1,replacement_quoted_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
