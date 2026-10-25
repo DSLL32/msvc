@@ -185,6 +185,7 @@ typedef struct CompilerBss {
     char *browser_filename;                         /* RVA54ddc */
     int pch_replayed;                               /* RVA53d7c */
     int pch_file_failed;                            /* RVA54f20 */
+    unsigned processor_instruction_mask;             /* RVA55098; opcode-table mask */
     FILE *preprocessor_output;                      /* RVA54dbc */
     /* Six output-token prefixes used by the non-IL path. */
     BYTE output_kinds[6];

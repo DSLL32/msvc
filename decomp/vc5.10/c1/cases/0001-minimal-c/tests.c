@@ -30,7 +30,21 @@ static int packing_alignment(void)
 
 extern int c1_test_input_factory(void);
 
-const ReconTest minimal_tests[2] = {
+extern void __cdecl normalize_frontend_options(void);
+static int processor_instruction_mask(void)
+{
+    c1_bss.processor_instruction_mask = 0xffffffff;
+    c1_data.options.processor = 0;
+    c1_data.options.minimal_rebuild = 0;
+    normalize_frontend_options();
+    if (c1_bss.processor_instruction_mask != 1) return 0;
+    c1_data.options.processor = 4;
+    c1_data.options.minimal_rebuild = 1;
+    normalize_frontend_options();
+    return c1_bss.processor_instruction_mask == 0x50;
+}
+const ReconTest minimal_tests[3] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
-    { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory }
+    { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
+    { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask }
 };
