@@ -7,6 +7,19 @@ unsigned short record_line_delta;
 extern int c2_internal_listing;
 extern char *c2_output_name;
 
+void __fastcall link_code_nodes(C2Record *first, C2Record *last)
+{
+    C2Record *old = first->next;
+    first->next = last;
+    last->previous = first;
+    if (old) {
+        while (last->next)
+            last = last->next;
+        last->next = old;
+        old->previous = last;
+    }
+}
+
 C2DebugLink *__fastcall prepare_function_records(C2Function *function)
 {
     C2FunctionSymbol *owner;

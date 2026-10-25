@@ -7,10 +7,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void __fastcall link_code_nodes(C2Record *first, C2Record *last)
-{
-    __asm { int 3 }
-}
 void __fastcall create_function_flow(C2Function *function, C2Record *first,
                                      C2Record *last, int pool)
 {

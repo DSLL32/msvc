@@ -12,7 +12,6 @@ extern int input_line_needs_record;
 unsigned reset_function_line_input(void);
 C2Record *new_statement_boundary(void);
 C2SmallNode *__fastcall allocate_small_node(unsigned char kind);
-void __fastcall link_code_nodes(C2Record *first, C2Record *last);
 void __fastcall create_function_flow(C2Function *function, C2Record *first,
                                      C2Record *last, int pool);
 void __fastcall read_function_code(C2Function *function, C2Record **pending,

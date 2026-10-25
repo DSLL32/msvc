@@ -237,6 +237,23 @@ static int small_node_reuse(void)
     return 1;
 }
 
+static int code_node_splice(void)
+{
+    C2Record nodes[5];
+    memset(nodes, 0, sizeof(nodes));
+    nodes[0].next = &nodes[1];
+    nodes[1].previous = &nodes[0];
+    nodes[1].next = &nodes[2];
+    nodes[2].previous = &nodes[1];
+    nodes[3].next = &nodes[4];
+    nodes[4].previous = &nodes[3];
+    link_code_nodes(&nodes[0], &nodes[3]);
+    return nodes[0].next == &nodes[3] && nodes[3].previous == &nodes[0] &&
+        nodes[3].next == &nodes[4] && nodes[4].previous == &nodes[3] &&
+        nodes[4].next == &nodes[1] && nodes[1].previous == &nodes[4] &&
+        nodes[1].next == &nodes[2] && nodes[2].previous == &nodes[1] && !nodes[2].next;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -250,5 +267,6 @@ const ReconTest numeric_tests[] = {
     {"byte and word stack-slot alignment", 1, stack_slot_alignment},
     {"successive local stack allocations", 1, local_storage_sequence},
     {"function line reset retains the cumulative line", 1, function_line_reset},
-    {"small-node reuse clears exactly its owned size", 1, small_node_reuse}
+    {"small-node reuse clears exactly its owned size", 1, small_node_reuse},
+    {"code-node insertion preserves both chains", 1, code_node_splice}
 };

@@ -2171,8 +2171,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@link_code_nodes@8",
         .entry_rva = 0x9825,
+        .code = (const ReconExtent[]){{0x9825, 0x984a}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "link_code_nodes",
     },
     {
