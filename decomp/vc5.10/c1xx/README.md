@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 128 accepted application functions / 18466
+The single registry is binary.c: 129 accepted application functions / 18682
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 130
+as are four six-byte import endpoints (24 bytes, zero App credit). The 131
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine intern_type INT3 at RVA1000;
+and currently reaches the genuine initialize_global_scope INT3 at RVA3aea7;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -75,9 +75,16 @@ with exact 8192/4096/4096/2048-byte requests. Own lookup masks establish
 Their original initialized NULL owners join snapshot restoration and the focused
 nonzero unit. No entry layout or broader table contents are inferred here.
 
-Original/native took 1.396 s / 10.566 ms (native setup 4.930, execution 4.070,
-checks 1.565); build/audit/unit took 8.666 s. Actual selected-report order,
-partial files and the genuine type-interner frontier match.
+The 216-byte type interner preserves the low-WORD pointer hash, WORD auxiliary
+comparison, duplicate identity, 20-byte pool nodes and conditional debug-cache
+reset. CompilerType has 14 semantic bytes in a 16-byte natural layout; original
++a..b remain unmodeled padding. Typed transfer does not claim byte equivalence
+for that padding. The first real builtin loop supplies zero-backed 16-byte
+prototypes; broader unknown consumers stay behind their reconstruction frontiers.
+
+Original/native took 1.474 s / 11.247 ms (native setup 5.470, execution 4.022,
+checks 1.755); build/audit/unit took 7.727 s. Actual selected-report order,
+partial files and the genuine global-scope initializer frontier match.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

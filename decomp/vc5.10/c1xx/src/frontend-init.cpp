@@ -163,7 +163,8 @@ extern "C" void __cdecl initialize_frontend(void)
     description->attributes = 0;
     description->shape = NULL;
     description->auxiliary = 0;
-    /* Upper auxiliary WORD and final DWORD are not initialized here. */
+    /* Natural padding and debug_cache are not explicitly initialized here;
+     * this descriptor occupies the original zero-backed arena allocation. */
     description->flags = 0;
     types->type_0000 = intern_type(description);
     description->flags = 0x4041;
@@ -349,7 +350,31 @@ extern "C" void __cdecl initialize_type_table(void)
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
     frontend_data.type_tables.sequences = (CompilerTypeSequenceHash *)table;
 }
-extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl intern_type(CompilerType *description)
+{
+    unsigned hash = (((WORD)(unsigned)description->shape >> 2) +
+        description->attributes + description->flags + description->auxiliary) & 0x7ff;
+    CompilerInternedType **bucket = &frontend_data.type_tables.types->buckets[hash];
+    CompilerInternedType *entry;
+    CompilerPool *pool = &frontend_bss.pools[0];
+    for (entry = *bucket; entry; entry = entry->next) {
+        CompilerType *type = &entry->type;
+        if (type->shape == description->shape && type->auxiliary == description->auxiliary &&
+            type->flags == description->flags && type->attributes == description->attributes)
+            return type;
+    }
+    if (pool->remaining < 20) pool->Refill(20);
+    entry = (CompilerInternedType *)pool->cursor;
+    pool->cursor += 20;
+    pool->remaining -= 20;
+    entry->next = *bucket;
+    *bucket = entry;
+    /* A typed value transfer preserves the modeled members. No equivalence
+     * or semantic read is claimed for the original two padding bytes. */
+    entry->type = *description;
+    if (frontend_data.options.debug_info) entry->type.debug_cache = 0;
+    return &entry->type;
+}
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }

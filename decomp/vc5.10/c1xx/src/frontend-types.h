@@ -23,8 +23,16 @@ typedef struct CompilerType {
     WORD flags, attributes;
     struct CompilerTypeShape *shape;
     WORD auxiliary;
-    /* Original upper auxiliary WORD and final DWORD remain unmodeled. */
+    /* Original +a..b remain unmodeled natural padding, never a comparison
+     * field. The conditional debug-info path explicitly zeroes +c. */
+    unsigned debug_cache;
 } CompilerType;
+typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
+typedef struct CompilerInternedType {
+    struct CompilerInternedType *next;
+    CompilerType type;
+} CompilerInternedType;
+typedef char CompilerInternedType_size[sizeof(CompilerInternedType) == 20 ? 1 : -1];
 typedef struct CompilerBuiltinTypes {
     CompilerType *type_0000, *type_4041_first, *type_0063, *type_4063_first;
     CompilerType *type_0041, *type_4041_second, *type_0042, *type_4042_first;

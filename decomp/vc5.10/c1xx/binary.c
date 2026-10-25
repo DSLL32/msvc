@@ -1140,9 +1140,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_intern_type", .entry_rva = 0x1000,
-        .code = (const ReconExtent[]){{0x1000, 0x1001}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x1000, 0x10cc}, {0x50923, 0x5092f}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "intern_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_global_scope", .entry_rva = 0x3aea7,
