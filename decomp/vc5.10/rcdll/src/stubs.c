@@ -32,11 +32,7 @@ void __stdcall rc_copy_resource_token(RcResourceToken *to,const RcResourceToken 
 {
     __asm int 3
 }
-unsigned __stdcall rc_scan_resource_token(unsigned flags)
-{
-    __asm int 3
-    return 0;
-}
+
 void __stdcall rc_resource_input_fatal(unsigned message)
 {
     __asm int 3
@@ -376,4 +372,26 @@ unsigned __stdcall rc_decimal_resource_id(const WCHAR *text)
 void __stdcall rc_read_resource_marker(int mode,DWORD character)
 {
     __asm int 3
+}
+
+void __cdecl rc_read_resource_string(void)
+{
+    __asm int 3
+}
+void __cdecl rc_expand_resource_string(void)
+{
+    __asm int 3
+}
+void __cdecl rc_read_resource_number(void)
+{
+    __asm int 3
+}
+void __cdecl rc_read_resource_integer(void)
+{
+    __asm int 3
+}
+int __stdcall rc_read_resource_symbol(unsigned flags)
+{
+    __asm int 3
+    return 0;
 }

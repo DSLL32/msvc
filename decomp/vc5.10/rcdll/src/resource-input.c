@@ -1,6 +1,7 @@
 #include <wctype.h>
 #include "command.h"
 #include "resource-input.h"
+#include "resources.h"
 #include <recon.h>
 
 /* Resource status at 25d3c is distinct from the command result at 1853c.
@@ -173,4 +174,39 @@ unsigned __cdecl rc_read_resource_code_unit(void)
     character=rc_resource_read_buffer[rc_resource_buffer_index];
     if(character)++rc_resource_buffer_index;
     return character;
+}
+
+unsigned __stdcall rc_scan_resource_token(unsigned flags)
+{
+read_again:
+    while(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
+          rc_resource_character<=32)rc_next_resource_character();
+    if(rc_resource_character==0xe001)rc_read_resource_marker(flags,0xe001);
+    rc_resource_token.text[0]=0;
+    rc_resource_token.line=rc_resource_line;
+    rc_resource_token.file_index=rc_resource_file_index;
+    rc_resource_token.kind=127;
+    switch(rc_resource_character){
+    case L'"':
+        rc_read_resource_string();
+        break;
+    case L'-': case L'~':
+        if(flags&0x8000)rc_read_resource_integer();
+        else rc_read_resource_number();
+        break;
+    case 127:
+        break;
+    default:
+        if((rc_resource_character==L'('&&!(flags&0x8000))||
+           iswctype(rc_resource_character,4)){
+            if(flags&0x8000)rc_read_resource_integer();
+            else rc_read_resource_number();
+            if(rc_resource_character==0xe001)
+                rc_read_resource_marker(flags,0xe001);
+        }else{
+            if(!rc_read_resource_symbol(flags))goto read_again;
+            if(rc_resource_token.kind==137)rc_expand_resource_string();
+        }
+    }
+    return rc_resource_token.kind;
 }
