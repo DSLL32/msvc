@@ -518,3 +518,12 @@ loader lookup. Missing exports return absent without dlsym/dlerror: loader error
 strings otherwise allocate/free memory in the target's libc heap. A declared
 export that cannot resolve remains a hard error. This complements Rust allocator
 isolation; it does not initialize unwritten application fields.
+
+
+Compiled historical CRT override anchors use the unique selected-object MAP
+owner, so a same-named shipped library definition remains a separate identity.
+Explicit CRT entries in the authoritative function registry may qualify compiled
+callee anchors even when their original extent is pending. Exact compiled bytes,
+relocations and object ownership remain mandatory. This adds no original runtime
+body, availability, reconstruction credit or graph acceptance; newly qualified
+callee addresses can also reject previous unvalidated byte-shape aliases.

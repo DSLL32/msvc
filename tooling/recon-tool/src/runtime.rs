@@ -702,6 +702,23 @@ impl LinkMap {
         );
         Ok(Self { symbols })
     }
+    fn symbol_owned(&self, name: &str, object: &str) -> Result<&MapSymbol> {
+        let entries = self
+            .symbols
+            .get(name)
+            .with_context(|| format!("override MAP lacks symbol {name}"))?;
+        let mut matches = entries.iter().filter(|entry| {
+            !entry.object.contains(':') && entry.object.eq_ignore_ascii_case(object)
+        });
+        let owner = matches
+            .next()
+            .with_context(|| format!("override MAP lacks {name} in selected object {object}"))?;
+        ensure!(
+            matches.next().is_none(),
+            "ambiguous override MAP symbol {name} in {object}"
+        );
+        Ok(owner)
+    }
     fn symbol(&self, name: &str) -> Result<&MapSymbol> {
         let entries = self
             .symbols
@@ -727,8 +744,8 @@ fn validate_override(
     section: &Section,
     symbol: &Symbol,
     end: usize,
+    start: u32,
 ) -> Result<u32> {
-    let start = map.symbol(&symbol.name)?.address;
     let begin = usize::try_from(symbol.value)?;
     ensure!(end > begin, "empty override function {}", symbol.name);
     let mut fragment = section.clone();
@@ -788,16 +805,7 @@ fn validate_override(
     }
     Ok(start)
 }
-fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSet<u32>>> {
-    if options.override_objects.is_empty() {
-        return Ok(HashMap::new());
-    }
-    let registry: serde_json::Value = serde_json::from_slice(&fs::read(
-        options
-            .override_registry
-            .as_ref()
-            .context("override registry required")?,
-    )?)?;
+fn override_names(registry: &serde_json::Value) -> Result<HashSet<String>> {
     let rows = registry
         .get("driver")
         .and_then(serde_json::Value::as_array)
@@ -815,6 +823,36 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
             );
         }
     }
+    if let Some(rows) = registry.get("function_registry") {
+        for row in rows
+            .as_array()
+            .context("override function_registry must be an array")?
+        {
+            if row.get("definition").and_then(serde_json::Value::as_u64) != Some(3) {
+                continue;
+            }
+            let name = row
+                .get("original_symbol")
+                .and_then(serde_json::Value::as_str)
+                .or_else(|| row.get("name").and_then(serde_json::Value::as_str))
+                .context("classified CRT anchor lacks symbol")?;
+            ensure!(!name.is_empty(), "empty classified CRT anchor");
+            eligible.insert(name.to_owned());
+        }
+    }
+    Ok(eligible)
+}
+fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSet<u32>>> {
+    if options.override_objects.is_empty() {
+        return Ok(HashMap::new());
+    }
+    let registry: serde_json::Value = serde_json::from_slice(&fs::read(
+        options
+            .override_registry
+            .as_ref()
+            .context("override registry required")?,
+    )?)?;
+    let eligible = override_names(&registry)?;
     let map = LinkMap::parse(
         &fs::read_to_string(
             options
@@ -855,7 +893,7 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
                     "selected override {} is not an explicit runtime registry entry",
                     symbol.name
                 );
-                let owner = map.symbol(&symbol.name)?;
+                let owner = map.symbol_owned(&symbol.name, name)?;
                 ensure!(
                     owner.object.eq_ignore_ascii_case(name) && !owner.object.contains(':'),
                     "override MAP owner differs for {}: {}",
@@ -867,7 +905,7 @@ fn override_targets(pe: &Pe, options: &Options) -> Result<HashMap<String, HashSe
                 } else {
                     section.data.len()
                 };
-                let address = validate_override(pe, &map, section, symbol, end)?;
+                let address = validate_override(pe, &map, section, symbol, end, owner.address)?;
                 ensure!(
                     targets
                         .insert(symbol.name.clone(), HashSet::from([address]))
@@ -1323,5 +1361,57 @@ mod tests {
         prune(&pe, &mut candidates, &HashMap::new()).unwrap();
         assert_eq!(candidates.len(), 1);
         assert_eq!(candidates[0].start, 0x1020);
+    }
+}
+
+#[cfg(test)]
+mod override_identity_tests {
+    use super::*;
+    #[test]
+    fn selected_object_disambiguates_source_from_library_only() {
+        let map = LinkMap {
+            symbols: HashMap::from([(
+                "_flsall".into(),
+                vec![
+                    MapSymbol {
+                        address: 0x1000,
+                        object: "flush-all.c.obj".into(),
+                    },
+                    MapSymbol {
+                        address: 0x2000,
+                        object: "LIBC:FFLUSH.OBJ".into(),
+                    },
+                ],
+            )]),
+        };
+        assert!(map.symbol("_flsall").is_err());
+        assert_eq!(
+            map.symbol_owned("_flsall", "FLUSH-ALL.C.OBJ")
+                .unwrap()
+                .address,
+            0x1000
+        );
+        assert!(map.symbol_owned("_flsall", "other.obj").is_err());
+        let mut bad = map;
+        bad.symbols.get_mut("_flsall").unwrap().push(MapSymbol {
+            address: 0x3000,
+            object: "flush-all.c.obj".into(),
+        });
+        assert!(bad.symbol_owned("_flsall", "flush-all.c.obj").is_err());
+    }
+    #[test]
+    fn pending_classified_crt_is_identity_only_not_app_eligibility() {
+        let registry = serde_json::json!({"driver":[{"name":"_source","category":"runtime"}],"function_registry":[{"name":"__commit","definition":3,"implementation":0,"code":[]},{"name":"pending-app","definition":4,"implementation":0},{"name":"import-name","definition":1},{"name":"logical-crt","original_symbol":"_actual_crt","definition":3,"implementation":0}]});
+        let names = override_names(&registry).unwrap();
+        assert_eq!(
+            names,
+            HashSet::from(["_source".into(), "__commit".into(), "_actual_crt".into()])
+        );
+        assert!(
+            registry["function_registry"][0]["code"]
+                .as_array()
+                .unwrap()
+                .is_empty()
+        );
     }
 }
