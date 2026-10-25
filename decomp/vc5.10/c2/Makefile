@@ -1,71 +1,70 @@
-PYTHON ?= python3
-NATIVE_CC ?= clang
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
-TC = ../../../toolchains/5.10
-TOOL = $(PYTHON) scripts/wine-tool.py
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -Wno-ignored-attributes -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -O0 -g -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
-NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
-PROVENANCE_NATIVE = $(wildcard src/*) scripts/native-host.c $(wildcard $(RECON)/src/*.c $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h) Makefile
-PROVENANCE_ORIGINAL = $(wildcard src/*) Makefile
-NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-.DEFAULT_GOAL := native
-include ../../../tooling/graph-audit/graph-audit.mk
+NATIVE_CC = clang
+NATIVE_CXX = clang++
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0 -DRECON_CRT_PROFILE_MSVCRT_510 -Dmain=c2_main -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks -Wno-ignored-attributes
+BINARY_SOURCES = src/stubs.c \
+    src/startup.c \
+    src/precision.c \
+    src/main.c \
+    src/onexit.c \
+    src/environment.c \
+    src/options.c \
+    src/option-table.c \
+    src/option-match.c \
+    src/integer-option.c \
+    src/il-files.c \
+    src/il-input.c \
+    src/diagnostics.c \
+    src/cleanup.c \
+    src/symbols.c \
+    src/nodes.c \
+    src/constants.c \
+    src/intrinsics.c \
+    src/machine-init.c \
+    src/sections.c \
+    src/records.c \
+    src/symbol-input.c \
+    src/functions.c \
+    src/function-records.c \
+    src/register-sets.c \
+    src/function-setup.c \
+    src/registers.c \
+    src/code-records.c \
+    src/assembly-output.c \
+    src/output-callbacks.c \
+    src/coff-output.c
+BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
-.PHONY: all native original inspect groundwork audit check fixtures capture-original-help
-all: native
-native: build/native/c2
-original: build/c2.exe
-inspect groundwork:
-	$(PYTHON) scripts/inspect.py
-build build/native:
-	mkdir -p $@
-build/native/input-start.json: $(PROVENANCE_NATIVE) scripts/build-provenance.py | build/native
-	$(PYTHON) scripts/build-provenance.py begin native
-build/original/input-start.json: $(PROVENANCE_ORIGINAL) scripts/build-provenance.py | build
-	$(PYTHON) scripts/build-provenance.py begin original
-build/native/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native build/native/input-start.json
-	$(NATIVE_CC) $(NATIVE_FLAGS) -Dmain=c2_main -DRECON_NATIVE_TRACE -finstrument-functions -c $< -o $@
-build/native/c2: build/messages.rmr build/native/stubs.o build/native/startup.o build/native/precision.o build/native/main.o build/native/onexit.o build/native/environment.o build/native/options.o build/native/option-table.o build/native/option-match.o build/native/integer-option.o build/native/il-files.o build/native/il-input.o build/native/diagnostics.o build/native/cleanup.o build/native/symbols.o build/native/nodes.o build/native/constants.o build/native/intrinsics.o build/native/machine-init.o build/native/sections.o build/native/records.o build/native/symbol-input.o build/native/functions.o build/native/function-records.o build/native/register-sets.o build/native/function-setup.o build/native/registers.o build/native/code-records.o build/native/assembly-output.o build/native/output-callbacks.o build/native/coff-output.o scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile build/native/input-start.json
-	$(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
-	$(PYTHON) scripts/build-provenance.py finish native --binary $@
-ORIGINAL_CRT_FLAGS = /MD
-# The target compiler intrinsicizes strlen in option action diagnostics.
-build/option-match.obj build/diagnostics.obj build/il-files.obj build/symbols.obj build/nodes.obj build/symbol-input.obj build/coff-output.obj build/function-records.obj build/register-sets.obj: ORIGINAL_EXTRA_FLAGS = /Oi
-build/precision.obj: ORIGINAL_CRT_FLAGS = /ML /Zl
-build/%.obj: src/%.c $(wildcard src/*.h) Makefile | build build/original/input-start.json
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 $(ORIGINAL_CRT_FLAGS) $(ORIGINAL_EXTRA_FLAGS) /I$(RECON)/include /Fo$@ $<
-build/messages.rmr: src/messages.rc cases/analysis/encountered-strings.json scripts/prepare-resources.py | build
-	$(PYTHON) scripts/prepare-resources.py
-build/messages.res: src/messages.rc | build
-	$(TOOL) RC.EXE /r /fo build/messages.res src/messages.rc
-build/c2.exe: build/messages.res build/stubs.obj build/startup.obj build/precision.obj build/main.obj build/onexit.obj build/environment.obj build/options.obj build/option-table.obj build/option-match.obj build/integer-option.obj build/il-files.obj build/il-input.obj build/diagnostics.obj build/cleanup.obj build/symbols.obj build/nodes.obj build/constants.obj build/intrinsics.obj build/machine-init.obj build/sections.obj build/records.obj build/symbol-input.obj build/functions.obj build/function-records.obj build/register-sets.obj build/function-setup.obj build/registers.obj build/code-records.obj build/assembly-output.obj build/output-callbacks.obj build/coff-output.obj build/original/input-start.json
-	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:mainCRTStartup /map:build/c2.map /out:$@ $(filter %.obj %.res,$^) kernel32.lib user32.lib
-	$(PYTHON) scripts/build-provenance.py finish original --binary $@
-build/helper/input-start.json: scripts/debug-run.c Makefile $(wildcard $(RECON)/include/*.h) | build
-	$(PYTHON) scripts/build-provenance.py begin helper
-build/debug-run.obj: scripts/debug-run.c Makefile | build build/helper/input-start.json
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 /ML /I$(RECON)/include /Fo$@ $<
-build/debug-run.exe: build/debug-run.obj build/helper/input-start.json
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $(filter %.obj,$^)
-	$(PYTHON) scripts/build-provenance.py finish helper --binary $@
-build/runtime.json build/graph-metadata.json &: build/c2.exe build/c2.map functions.json scripts/build-index.py
-	$(PYTHON) scripts/build-index.py
-build/c2.map: build/c2.exe
-	@test -f $@
-build/trial.json: functions.json scripts/state.py | build
-	$(PYTHON) -c "import sys; sys.path.insert(0,'scripts'); from state import trial_configuration; from pathlib import Path; Path('$@').write_bytes(trial_configuration(Path('functions.json').read_bytes())[1])"
-audit: build/c2.exe build/runtime.json build/graph-metadata.json build/trial.json $(GRAPH_AUDIT_BIN)
-	"$(GRAPH_AUDIT_BIN)" --profile cl --repo "$(abspath ../../..)" --project "$(CURDIR)" --original "$(abspath $(TC)/bin/C2.EXE)" --rebuilt "$(CURDIR)/build/c2.exe" --map "$(CURDIR)/build/c2.map" --config "$(CURDIR)/build/trial.json" --runtime "$(CURDIR)/runtime.json" --rebuilt-runtime "$(CURDIR)/build/runtime.json" --metadata "$(CURDIR)/build/graph-metadata.json" --discovery cfg --check-ret --check-imports --check-references --check-accepted-extents --check-ownership --check-extents --report "$(CURDIR)/build/graph-audit.json"
-check fixtures: native
-	$(PYTHON) scripts/check-native.py
-capture-original-help:
-	@echo 'Use explicit capture-original.py with canonical provider; old groundwork capture is historical.' >&2
-	@exit 2
+ORIGINAL_TOOLCHAIN = 5.10
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = build
+ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c2.exe
+ORIGINAL_MAP = $(ORIGINAL_BUILD)/c2.map
+ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /MD
+ORIGINAL_LDFLAGS = /nologo /subsystem:console /entry:mainCRTStartup
+ORIGINAL_LDLIBS = $(ORIGINAL_BUILD)/messages.res $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/USER32.LIB
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
-build/capture/input-start.json: scripts/capture-inputs.c Makefile $(wildcard $(RECON)/include/*.h) | build
-	$(PYTHON) scripts/build-provenance.py begin capture
-build/capture-inputs.obj: scripts/capture-inputs.c Makefile | build build/capture/input-start.json
-	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 /ML /I$(RECON)/include /Fo$@ $<
-build/capture-inputs.exe: build/capture-inputs.obj build/capture/input-start.json
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $(filter %.obj,$^)
-	$(PYTHON) scripts/build-provenance.py finish capture --binary $@
+RECON_AUDIT_PROFILE = cl
+RECON_IMAGE_BASE = 4194304
+RECON_POLICY = policy-data.json
+RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_METADATA_REBUILT_MAP = $(ORIGINAL_BUILD)/c2.map
+RECON_AUDIT_REGISTRY_RUNTIME = 1
+RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE) --rebuilt $(abspath $(ORIGINAL_OUTPUT)) --map $(abspath $(ORIGINAL_BUILD)/c2.map) --discovery cfg --check-ret --check-imports --check-references --check-accepted-extents --check-ownership --check-extents
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
+RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
+RECON_RUNTIME_OVERRIDE_OBJECTS = $(addprefix $(ORIGINAL_BUILD)/obj/src/,startup.c.obj onexit.c.obj precision.c.obj)
+RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
+include $(RECON_TOOL_DIR)/recon-tool.mk
+
+# Preserve encountered compiler intrinsic choices and the genuine CRT thunk.
+$(addprefix $(ORIGINAL_BUILD)/obj/src/,option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj): ORIGINAL_CFLAGS += /Oi
+$(ORIGINAL_BUILD)/obj/src/precision.c.obj: ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /ML /Zl
+$(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
+	@mkdir -p $(@D)
+	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo $@ $<

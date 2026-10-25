@@ -436,10 +436,6 @@ void __fastcall function_pass_433906(C2Function *function)
 }
 
 
-void output_callback_41eb89()
-{
-    __asm { int 3 }
-}
 
 
 void output_callback_41f3f2()

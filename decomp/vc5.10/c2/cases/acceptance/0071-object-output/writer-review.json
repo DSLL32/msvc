@@ -1,8 +1,0 @@
-{
-  "approved": true,
-  "boundary_sha256": "989b47ba5a50b62de4da3d40c6634cf152755197e9e61393ab745d334451856e",
-  "scope": "32B initialized typed record and3 stores-only pending callback identities; finite8 EDI contracts independently reviewed before promotion.",
-  "review_id": "orchestrator-c2-writer71-2026-10-23",
-  "review_receipt": "/root/.ai-tmp/msvc2/vc5.10/c2/writer-parent-review/orchestrator-review.json",
-  "review_receipt_sha256": "77a4d61bf79912590cb33ee974e2f32b7dde89c7ec1f0365507f5b0ec134b231"
-}

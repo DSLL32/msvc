@@ -1,7 +1,0 @@
-{
-  "status": "Corrected before any fresh original/native acceptance capture",
-  "finding": "Independent direct target-table comparison caught mistaken storage24/28 actions in provisional source/model. Correct original values are24\u2192@ and28\u2192_; both full29-index tables now checked independently.",
-  "earlier_static_inputs": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/symbol-name-static/win32-inputs",
-  "earlier_static_provenance_sha256": "009324562dcec048a7b58ed7ac3b6a8e036a66d00091c0d87e4cc3fae09f1ce6",
-  "current_model_sha256": "1cd46a6add78630c3e0c8a750cb0764d137027cde4ad74098f44e7cbea32c2b7"
-}

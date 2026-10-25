@@ -184,7 +184,7 @@ append:
     }
     /* The original shares this single RET0 body with startup's _setargv.
        This reviewed use supplies the link head in ECX, with no stack arguments
-       or result. The seventeen pending callback identities stay stores-only. */
+       or result. Other unresolved callback views stay stores-only. */
     ((void (__fastcall *)(C2DebugLink *)) c2_set_argv)(head);
     global_records_processing = 0;
     return head;

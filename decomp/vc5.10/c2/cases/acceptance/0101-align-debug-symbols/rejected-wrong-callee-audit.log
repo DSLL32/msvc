@@ -1,5 +1,0 @@
-python3 scripts/build-index.py
-python3 -c "import sys; sys.path.insert(0,'scripts'); from state import trial_configuration; from pathlib import Path; Path('build/trial.json').write_bytes(trial_configuration(Path('functions.json').read_bytes())[1])"
-"/root/msvc2/tooling/graph-audit/target/release/graph-audit" --profile cl --repo "/root/msvc2" --project "/root/msvc2/decomp/vc5.10/c2" --original "/root/msvc2/toolchains/5.10/bin/C2.EXE" --rebuilt "/root/msvc2/decomp/vc5.10/c2/build/c2.exe" --map "/root/msvc2/decomp/vc5.10/c2/build/c2.map" --config "/root/msvc2/decomp/vc5.10/c2/build/trial.json" --runtime "/root/msvc2/decomp/vc5.10/c2/runtime.json" --rebuilt-runtime "/root/msvc2/decomp/vc5.10/c2/build/runtime.json" --metadata "/root/msvc2/decomp/vc5.10/c2/build/graph-metadata.json" --discovery cfg --check-ret --check-imports --check-references --check-accepted-extents --check-ownership --check-extents --report "/root/msvc2/decomp/vc5.10/c2/build/graph-audit.json"
-graph-audit: @align_pending_debug_symbols@4 call graph differs: original {"@is_known_symbol@4"}; reconstruction {"@has_local_symbol@4"}
-make: *** [Makefile:58: audit] Error 1

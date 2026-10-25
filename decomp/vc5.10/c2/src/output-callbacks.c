@@ -37,27 +37,27 @@ void initialize_pass_functions(void)
         output_slot_499a00.target = output_callback_4432a1;
         output_slot_497e10.target = output_callback_454ba8;
     } else {
-        output_slot_497de4.target = output_callback_41eb89;
-        output_slot_499a00.target = output_callback_41eb89;
-        output_slot_497e10.target = output_callback_41eb89;
+        output_slot_497de4.target = c2_set_argv;
+        output_slot_499a00.target = c2_set_argv;
+        output_slot_497e10.target = c2_set_argv;
     }
     if (!c2_output_name) {
-        output_slot_497dbc.target = output_callback_41eb89;
-        output_slot_497de0.target = output_callback_41eb89;
-        output_slot_497ce4.target = output_callback_41eb89;
+        output_slot_497dbc.target = c2_set_argv;
+        output_slot_497de0.target = c2_set_argv;
+        output_slot_497ce4.target = c2_set_argv;
         output_slot_497dec.target = output_callback_4849f2;
-        output_slot_497db0.target = output_callback_41eb89;
-        output_slot_497dd4.target = output_callback_41eb89;
-        output_slot_499750.target = output_callback_41eb89;
-        output_slot_491070.target = output_callback_41eb89;
-        output_slot_497db4.target = output_callback_41eb89;
-        output_slot_491078.target = output_callback_41eb89;
-        output_slot_497f60.target = output_callback_41eb89;
-        output_slot_497ddc.target = output_callback_41eb89;
-        output_slot_497dcc.target = output_callback_41eb89;
-        output_slot_497dfc.target = output_callback_41eb89;
+        output_slot_497db0.target = c2_set_argv;
+        output_slot_497dd4.target = c2_set_argv;
+        output_slot_499750.target = c2_set_argv;
+        output_slot_491070.target = c2_set_argv;
+        output_slot_497db4.target = c2_set_argv;
+        output_slot_491078.target = c2_set_argv;
+        output_slot_497f60.target = c2_set_argv;
+        output_slot_497ddc.target = c2_set_argv;
+        output_slot_497dcc.target = c2_set_argv;
+        output_slot_497dfc.target = c2_set_argv;
         output_slot_497f50.target = output_callback_4849f5;
-        output_slot_49971c.target = (C2OutputDirectiveWriter) output_callback_41eb89;
+        output_slot_49971c.target = (C2OutputDirectiveWriter) c2_set_argv;
         output_slot_497cec.target = output_callback_4849fa;
         return;
     }
@@ -72,8 +72,8 @@ void initialize_pass_functions(void)
             output_slot_497ddc.target = output_callback_442d21;
             output_slot_497dcc.target = output_callback_442b9f;
         } else {
-            output_slot_497ddc.target = output_callback_41eb89;
-            output_slot_497dcc.target = output_callback_41eb89;
+            output_slot_497ddc.target = c2_set_argv;
+            output_slot_497dcc.target = c2_set_argv;
         }
         output_slot_499750.target = output_callback_4850f5;
         output_slot_491070.target = output_callback_43696a;

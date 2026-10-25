@@ -1,0 +1,592 @@
+{
+  "schema": 1,
+  "scope": "Finite live normal-return register/import contracts only. Bounds below identify proof bytes, never discovery ownership or implementation status; binary.c remains authoritative. No dependency/source credit.",
+  "original_image": {
+    "path": "toolchains/5.10/bin/C2.EXE",
+    "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae"
+  },
+  "canonical_crt": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "normal_return_callees": [
+    {
+      "function": "@new_initializer@4",
+      "abi": "fastcall intkindECX -> C2InitRecord*EAX RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4530866,
+          "end": 4530924,
+          "sha256": "947a23e4f7a5764e9fe8691f418ab063582a3d612fc9289dab4f9372b91efb92"
+        }
+      ],
+      "review": "Complete primary: no EBP write or saved-slot access, bothRET0 paths preserve it. Typed call to accepted pool allocator preserves nonvolatile EBP."
+    },
+    {
+      "function": "_input_varuint",
+      "abi": "cdecl no parameters, unsignedEAX RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4325968,
+          "end": 4326187,
+          "sha256": "2cbdb15a77676a386986d7a96e585f1d4516a786dd029f98088a04b542f29843"
+        },
+        {
+          "start": 4628522,
+          "end": 4628747,
+          "sha256": "20d994e9a418f315890404f21c6876c364f208b1613837d49d58939090c7e814"
+        }
+      ],
+      "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation."
+    },
+    {
+      "function": "_input_compact_signed",
+      "abi": "cdecl no parameters, signed longEAX RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4325621,
+          "end": 4325829,
+          "sha256": "77eb426bc3639d3bf7ac40dbf254c8aa7f4fccacadc1c479e01f49d1beb8f258"
+        }
+      ],
+      "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation."
+    },
+    {
+      "function": "@read_initializer_values@4",
+      "abi": "fastcall C2InitRecord*recordECX, voidRET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4531369,
+          "end": 4531778,
+          "sha256": "23e93e1b502b3a8ee08e91d0138d645e0da01ef8a8a2f9def73ef34b37de5e13"
+        },
+        {
+          "start": 4670020,
+          "end": 4670520,
+          "sha256": "111992417d71e53e7d6c633a442f690fc6751f7304258cdc3d477f3f75b7d947"
+        }
+      ],
+      "review": "PUSHEBP4524ac before XOR/MOV use. Dispatch/cold cases rejoin452567/452548 and common POPEBP45263d,ADDESP28,RET452641. Root writes/stacktemporaries stay below saved incoming EBP."
+    },
+    {
+      "function": "@queue_initializer@4",
+      "abi": "fastcall C2InitRecord*recordECX -> C2InitRecord*EAX RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4538474,
+          "end": 4538574,
+          "sha256": "3f3146e3412bd05185c2e561bf1ecf90f11c4bc633c6e3af46fd6fdb42066b5f"
+        },
+        {
+          "start": 4672989,
+          "end": 4673155,
+          "sha256": "469bd7b1d5f55286b78090a0f13a8060da1ccb3f86599ceb1df0fb5c6ae748fc"
+        }
+      ],
+      "review": "PUSHEBP45406c; EBP=root. Complete cold list operations rejoin hot continuation and common POPEBP4540c3/RET4540c6. No saved caller slot write."
+    },
+    {
+      "function": "@emit_initializer@4",
+      "abi": "fastcall C2InitRecord*recordECX, voidRET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4499172,
+          "end": 4499357,
+          "sha256": "c5c5744842308032817b37a2f3ead53285f5a28a8af7327fdcd261ac20dd038a"
+        },
+        {
+          "start": 4659864,
+          "end": 4659899,
+          "sha256": "d96a56b71948782cd901aed79694bfa9a966d2642b4ab55b7a10ca3b8a2420c4"
+        }
+      ],
+      "review": "PUSHEBP44a6e6; EBP=root. Both returns restore original EBP at44a749 or471ab7 before RET; ordinary calls/callback remain opaque application behavior, not accepted body credit."
+    },
+    {
+      "function": "@free_initializer@4",
+      "abi": "fastcall C2InitRecord*recordECX, voidRET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4499141,
+          "end": 4499172,
+          "sha256": "09323160357f304b246dfae318b9eea1dab579d4467a4745927c9203304351d2"
+        }
+      ],
+      "review": "Complete leaf list traversal neither reads/writes EBP nor caller saved slot, RET0."
+    },
+    {
+      "function": "_c2_read_il_byte",
+      "abi": "cdecl, no parameters; int byte/EOF result",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4325585,
+          "end": 4325621,
+          "sha256": "cce363325812e8af6e508ff5bb4b9388ba6619f9ce857be43c4a4a8cc6a91a42"
+        }
+      ],
+      "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation."
+    },
+    {
+      "function": "@input_string@8",
+      "abi": "fastcall char*bufferECX unsignedcapacityEDX; RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4329076,
+          "end": 4329147,
+          "sha256": "53e4761d8ddf800bb2ee49e058b4b0011b4d234346edf5888ed3faa632214be7"
+        },
+        {
+          "start": 4629740,
+          "end": 4629760,
+          "sha256": "2bd8ee898c96f28d0113f8c3298520416ab0f17f71ce22b928142018e60fdeab"
+        }
+      ],
+      "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation."
+    },
+    {
+      "function": "@lookup_source_file@8",
+      "abi": "fastcall nameECX unsigned*bytesEDX; char*EAX RET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4766384,
+          "end": 4766540,
+          "sha256": "a181cff80f176fe5dbc8133b578e27214b11ad280826967267ec912b9eaab191"
+        }
+      ],
+      "review": "Complete primary has no EBP write. Bounded local stack temporaries and ordinary declared cdecl imported/diagnostic calls; RET0."
+    },
+    {
+      "function": "@c2_report_internal@8",
+      "abi": "fastcall, ECX source path EDX line",
+      "preserves": [
+        "ebp",
+        "edi",
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4746044,
+          "end": 4746068,
+          "sha256": "d1222201b050d99e59f2baf303180a425ce140909f1a8f075ccc409239e0a12b"
+        }
+      ],
+      "review": "Complete wrapper no EBP write; cdecl diagnostic call with12Bcleanup andRET0. Terminating diagnostics need no returning transfer. EDI likewise never written; its existing terminating diagnostic child preserves nonvolatile state on its theoretical normalreturn, no custom-register signature assumed. ESI: wrapper never writes ESI and passes no saved-register storage. Its sole accepted c2_fatal child48b367 always invokes canonical public exit48d09c (nonreturning); no reached returning path. No invented POP/save claimed."
+    },
+    {
+      "function": "@read_initializer_records@4",
+      "abi": "fastcall FILE*inputECX, voidRET0",
+      "preserves": [
+        "ebp"
+      ],
+      "original": [
+        {
+          "start": 4531154,
+          "end": 4531317,
+          "sha256": "eaf94b27fd67f4840cc10adc1699087235548145d78352a9c0511326e6c06808"
+        },
+        {
+          "start": 4669894,
+          "end": 4670020,
+          "sha256": "1718ada6ec24222ba9ff12e970054c26cafeb43e053feb599cfff6a5a26e7eb6"
+        }
+      ],
+      "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET."
+    },
+    {
+      "function": "@c2_pool_allocate@8",
+      "abi": "fastcall int pool ECX,unsigned bytes EDX; pointer result, no stack parameters",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4198400,
+          "end": 4198618,
+          "sha256": "ac8765418aa377d4626a66fc883ca168309d676cfdb7e6182a1a8ca23a7909a3"
+        },
+        {
+          "start": 4609967,
+          "end": 4610006,
+          "sha256": "ef102f5ee1b6f3648e07b6fca6fd3039d1983fbf272d252a0578d8e160a13ab8"
+        }
+      ],
+      "review": "Complete accepted allocator saves incomingEDI at401011. Both normal exits restore it at401033/RET401036 and4010d4/RET4010d9. Cold allocation-failure fragment rejoins401049/4010a9; explicit memset/REP writes only data derived from allocated/free blocks, never the savedEDI stack slot."
+    },
+    {
+      "function": "_query_incremental_stream_size",
+      "abi": "cdecl noargs unsignedEAX RET0",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4766779,
+          "end": 4766795,
+          "sha256": "46bf5ca5ccb7eab6580a0dec4696e48946f2ca21d20c9f152e4e10dab72fd377"
+        }
+      ],
+      "review": "Complete16B noEDIwrite/save-slot escape. Actual MSPDB StreamQueryCb externalcdecl boundary and methodinterface nonvolatileEDI reviewed separately; only finite normalreturn claim."
+    },
+    {
+      "function": "@read_incremental_stream@8",
+      "abi": "fastcall void*bufferECX unsignedbytesEDX; unsignedEAX RET0",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4766795,
+          "end": 4766854,
+          "sha256": "e1f91e65a79b2cc1e1c026158da37fd0d3e2965a13b3839a477dadcf5be4c2fc"
+        }
+      ],
+      "review": "Complete59B noEDIwrite. Actual MSPDB StreamRead externalcdecl boundary reviewed separately; error branch calls terminating diagnostic. Normal nonerrorreturn EAX from caller-owned DWORD stackslot; no address of EDI/savedcallerstate passed."
+    },
+    {
+      "function": "_read_incremental_byte",
+      "abi": "cdecl noargs unsignedcharAL RET0",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4739862,
+          "end": 4739878,
+          "sha256": "bc08d8e421bfc61a87e2ea23ce12de1d2647ec6c1ab9d42c12027ae2f5e09d26"
+        }
+      ],
+      "review": "Complete16B noEDIwrite, no calls, oneRET0; only ECX/global cursor and AL are written."
+    },
+    {
+      "function": "_validate_incremental_options",
+      "abi": "cdecl noargs intEAX RET0",
+      "preserves": [
+        "edi"
+      ],
+      "original": [
+        {
+          "start": 4707690,
+          "end": 4707918,
+          "sha256": "3c1439bd2f9fa1426d19875c4de721f0a7e5a3c6829dd6a9bfca54e9453bbfaf"
+        }
+      ],
+      "review": "Complete228B noEDIwrite or indirect calls. All return paths popESI/popECX/RET0. Actual called readers485316 and4852f1 are complete noEDIwrite/no-call leaves, included supplementalnormalreturn evidence."
+    },
+    {
+      "function": "_initialize_coff_lists",
+      "abi": "cdecl noargs voidRET0",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4537798,
+          "end": 4537831,
+          "sha256": "55aaf58c85a270fe0812e19429bb44607ade5d26a0da9f4bc38d5782994b1a12"
+        }
+      ],
+      "review": "Complete33B writes only six globalDWORDs with EAX; no ESI write/call/stack escape; RET453de6."
+    },
+    {
+      "function": "@new_output_list@8",
+      "abi": "fastcall intbufferedECX intcount_onlyEDX; C2OutputList*EAX RET0",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4320150,
+          "end": 4320202,
+          "sha256": "07b9bf7ee400887a4de04cc44721a5fba8d279b2c9a64753f590c2f0df11ca6b"
+        }
+      ],
+      "review": "Complete52B saves ESI41eb97 before all work/nested calls; common POPESI41ebc7 and RET41ebc9. No saved-register slot address escapes; ordinary child calls cannot alter caller saved slot. Second DWORD refined from zero-only context label to integer count-only flag using actual0/1 callers and fullDWORD consumer equality; ESI save/restore, original range and RET0 unchanged."
+    },
+    {
+      "function": "_read_incremental_output",
+      "abi": "cdecl noargs intEAX RET0",
+      "preserves": [
+        "esi"
+      ],
+      "original": [
+        {
+          "start": 4741010,
+          "end": 4743384,
+          "sha256": "3d4f78b87ec44c5ae6b74b6e5fa80644ebb172254200cd3ade09c7b3fbd087cc"
+        }
+      ],
+      "review": "Complete2374B includes post-RET switch cases. PUSHESI4857a2 under fixed local frame; only normal exits restore POPESI48584c/485eee before RET485852/485ef9. Caller-frame writes and passed buffers stay above saved register slots; no saved-slot escape. External104B classmap+8-entry32B jump table separately pinned; all targets in this interval. No body/data unmask or source credit."
+    }
+  ],
+  "writer_provider_evidence": [
+    {
+      "path": "toolchains/5.10/bin/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "symbol": "fopen",
+      "export": {
+        "ordinal": 597,
+        "address": 2013425683
+      },
+      "ranges": [
+        {
+          "start": 2013425683,
+          "end": 2013425704,
+          "sha256": "444f28a41d720555531a8c267acf1bc3012edbf74cf95e61cd5dd827728d3c2d"
+        },
+        {
+          "start": 2013295368,
+          "end": 2013295425,
+          "sha256": "ec76fb9b0fd6987449dfaacd4c7d4a6a36607e4c98869ec563477efbe1a67d9e"
+        },
+        {
+          "start": 2013326722,
+          "end": 2013326724,
+          "sha256": "41413de3f89a7db9cf71f85c23fcb9279b21c053a967961b4b01b69547885a91"
+        },
+        {
+          "start": 2013295425,
+          "end": 2013295562,
+          "sha256": "207de6add0be5b23d77ee00dfe2c74c9a5cb7cb297ff0ceafc2efe23a57fa4c0"
+        },
+        {
+          "start": 2013326724,
+          "end": 2013326820,
+          "sha256": "46908237eba1b70feabb323e53a655417d5ebfe89ddd366d2e73ed3c577f1cf4"
+        }
+      ]
+    },
+    {
+      "path": "toolchains/5.10/bin/MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "symbol": "fclose",
+      "export": {
+        "ordinal": 586,
+        "address": 2013298950
+      },
+      "ranges": [
+        {
+          "start": 2013298950,
+          "end": 2013299003,
+          "sha256": "727ea93c046e7175f8d781fb19c964d70ad0a6eacbdf75c2fa36056cca9cca54"
+        },
+        {
+          "start": 2013329003,
+          "end": 2013329015,
+          "sha256": "5fafb3fbb84c7a387c114ce739139588c9f48055102c6d6fc742aba8f0e008fb"
+        }
+      ]
+    },
+    {
+      "path": "toolchains/5.10/bin/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "symbol": "StreamQueryCb",
+      "export": {
+        "ordinal": 137,
+        "address": 271586280
+      },
+      "ranges": [
+        {
+          "start": 271586280,
+          "end": 271586288,
+          "sha256": "59a801373cafd1c8f90fc490482343f01a42dcc40c91e64f4aad27b7ef580282"
+        }
+      ]
+    },
+    {
+      "path": "toolchains/5.10/bin/MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "symbol": "StreamRead",
+      "export": {
+        "ordinal": 138,
+        "address": 271585772
+      },
+      "ranges": [
+        {
+          "start": 271585772,
+          "end": 271585794,
+          "sha256": "426f62d2478c5e402e3c735f7743d6e3def28ee1316d817a05a6722a642f8a97"
+        }
+      ]
+    }
+  ],
+  "coff_provider_evidence": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "symbol": "malloc",
+    "export": {
+      "address": 2013271192,
+      "ordinal": 655
+    },
+    "ranges": [
+      {
+        "start": 2013271192,
+        "end": 2013271212,
+        "sha256": "331aa5d001b9b25d0c8c7f16d7c8e34d094187484b47ec5adb5c7df6e8be2262"
+      },
+      {
+        "start": 2013271212,
+        "end": 2013271268,
+        "sha256": "13deb68c0f0038200c3c3e4c8e29e5f4cd57e0265bf17ddae7b6b5978a6ef45f"
+      },
+      {
+        "start": 2013309126,
+        "end": 2013309175,
+        "sha256": "192ffa525b5a7f6dcaa0156dec6f11a6159371b94c9b6fc85eea2d1821fccd9d"
+      }
+    ],
+    "review": "Canonical public cdecl malloc wrapper no ESI write. Nested allocator PUSHESI780014ac and both hot/cold paths restore POPESI780014e2 before RET780014e3. Saved slot never passed or addressed; no allocator implementation reconstructed."
+  },
+  "strncmp": {
+    "scope": "One publicstrncmp normalreturn EBP preservation, existingreader13/writer8/coff5 unchanged; noCRTbodycoverage",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "symbol": "strncmp",
+    "ordinal": 702,
+    "entry": 2013376125,
+    "body": [
+      2013376125,
+      2013376181
+    ],
+    "body_sha256": "e2f944563c7483cd4085f1878325de050424e2b192c3220c5e73a802f698e0da",
+    "entry_bytes": "558bec",
+    "exit_bytes": "5b5e5fc9c3",
+    "calls": [],
+    "normal_returns": [
+      2013376180
+    ],
+    "header": "toolchains/5.10/include/STRING.H",
+    "header_sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+    "declaration": "_CRTIMP int     __cdecl strncmp(const char *, const char *, size_t);",
+    "header_line": 153,
+    "iat": 4772036,
+    "seed": [
+      4320432,
+      4320438
+    ],
+    "call_sites": [
+      4320446,
+      4320467,
+      4320488,
+      4320509,
+      4320530
+    ],
+    "live_scope": "No other callee while cached EBPlive; fivecdecl calls preserveEBP, later EBP flagswritekillsimport. Owner optin create_coff_section only.",
+    "ABI": "cdeclconstchar*,constchar*,size_t stack3DWORD/intEAX,RET0; targetcaller ADDESP12; imported CRT boundary only."
+  },
+  "mspdb_public_interface": {
+    "repository": "https://github.com/microsoft/microsoft-pdb",
+    "commit": "805655a28bd8198004be2ac27e6e0290121a5e89",
+    "retrieved_utc": "2026-10-23",
+    "files": [
+      {
+        "path": "langapi/include/pdb.h",
+        "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/langapi/include/pdb.h",
+        "sha256": "5774eba54fce86ce9e9832e0f4eddc38b5b9d13cc44a5e7134f44aadd75ff784",
+        "bytes": 69797,
+        "excerpts": [
+          {
+            "start_line": 259,
+            "end_line": 259,
+            "lines": [
+              "#define PDBCALL  __cdecl"
+            ]
+          },
+          {
+            "start_line": 838,
+            "end_line": 840,
+            "lines": [
+              "PdbInterface Stream {",
+              "    virtual long QueryCb() pure;",
+              "    virtual BOOL Read(long off, void* pvBuf, long* pcbBuf) pure;"
+            ]
+          },
+          {
+            "start_line": 1649,
+            "end_line": 1649,
+            "lines": [
+              "PDBAPI(long)   StreamQueryCb(Stream* pstream);"
+            ]
+          },
+          {
+            "start_line": 1650,
+            "end_line": 1650,
+            "lines": [
+              "PDBAPI(BOOL)   StreamRead(Stream* pstream, long off, void* pvBuf, long* pcbBuf);"
+            ]
+          }
+        ]
+      },
+      {
+        "path": "PDB/dbi/cbind.cpp",
+        "url": "https://raw.githubusercontent.com/microsoft/microsoft-pdb/805655a28bd8198004be2ac27e6e0290121a5e89/PDB/dbi/cbind.cpp",
+        "sha256": "f9c17752617c2e26f3d03923547ffea082b72e3a056890b3788ea84f303c7cbf",
+        "bytes": 23165,
+        "excerpts": [
+          {
+            "start_line": 243,
+            "end_line": 246,
+            "lines": [
+              "StreamQueryCb(Stream* pstream)",
+              "{",
+              "    return pstream->QueryCb();",
+              "}"
+            ]
+          },
+          {
+            "start_line": 249,
+            "end_line": 252,
+            "lines": [
+              "StreamRead(Stream* pstream, OFF off, void* pvBuf, CB* pcbBuf)",
+              "{",
+              "    return pstream->Read(off, pvBuf, pcbBuf);",
+              "}"
+            ]
+          }
+        ]
+      }
+    ],
+    "scope": "Later published Microsoft declaration/method interface corroboration only, not VC5 provider behavioral oracle. Actual shipped export and wrapper bytes authoritative. No source/dependency body credit or implementation."
+  },
+  "mspdb_scope": "Unreached cold static normal-return EDI property at identified public cdecl/thiscall boundary only. Shipped provider authoritative; later Microsoft interface corroboration only. No virtual target identity, hidden args/output, dependency body or invocation proof.",
+  "writer_provider_review": {
+    "fopen": "Public21B cdecl wrapper does not writeEDI; calls_fsopen. _fsopen calls_getstream before savingEDI; _getstream savesEDI at78007344 and all cold paths rejoin normal POPEDI780073c5/RET780073c9. After it returns _fsopen savesEDI78007324 and restores7800733e/RET78007340, zero-stream path returns7800ed83 without modifyingEDI. No savedEDI slot address is passed to nested calls.",
+    "fclose": "Public53B primary savesEDI7800810b and normalpath restores78008138; cold string-stream branch also restores7800f674. Saved slot is not written or passed; nested calls may change workingEDI but original stackvalue retained."
+  },
+  "free_boundary": {
+    "dll": "MSVCRT.dll",
+    "symbol": "free",
+    "abi": "cdecl void free(void*); pointer push, caller cleanup4; EBP nonvolatile",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "original_iat_slot": 4772064,
+    "scope": "Public cdecl normal-return EBP preservation only; no provider implementation or data credit."
+  }
+}

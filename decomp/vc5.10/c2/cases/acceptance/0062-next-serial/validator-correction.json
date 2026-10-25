@@ -1,6 +1,0 @@
-{
-  "issue": "Comparator still expected the decoded header counter146 after serial allocation.",
-  "raw_observations": "Original and native already matched counter147, newsectionserial146 and allCOMDAT/queue/poolstate.",
-  "change": "Keep frozen input count146, expect mutable allocator counter147 at symbol-put-input only.",
-  "transport": "Validator-only correction; retained the same fresh original/native raw/helper/binaries; no recapture or relabel."
-}

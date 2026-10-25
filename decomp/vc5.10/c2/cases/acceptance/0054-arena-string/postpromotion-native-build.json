@@ -1,8 +1,0 @@
-{
-  "captured_elf_sha256": "13549b02c3ade2a11eccd2292f5b88a0659433afa983751485b9ac984ba4d74f",
-  "fixture_elf_sha256": "5fb4f47fa8021eca7334ab42621d34c310882ce289c9d85f087d2c5d5aaff8b4",
-  "shared_input_drift": [
-    "lib/recon/src/crt.c"
-  ],
-  "note": "Accepted proof retains actual immutable ELF/shared inputs. Subsequent native fixture consumes later shared updates; make-total timing includes any rebuild."
-}

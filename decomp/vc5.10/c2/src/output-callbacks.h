@@ -6,7 +6,8 @@
 /* Stores-only function identities until the actual consumer supplies its ABI.
  * The member deliberately has an incomplete prototype. Direct slot(...) is
  * ill-typed; invocation or escape of .target is a review hold. No accepted
- * consumer currently calls these slots. Targets remain genuine INT3 stubs.
+ * consumer currently calls these slots. Unresolved targets remain INT3 stubs;
+ * the known shared no-op address is the existing c2_set_argv function.
  */
 typedef struct C2PendingCallback {
     void (__cdecl *target)();
@@ -54,7 +55,6 @@ extern C2PendingCallback output_slot_497dfc;
 extern C2PendingCallback output_slot_497f50;
 extern C2DirectiveCallback output_slot_49971c;
 extern C2SymbolCallback output_slot_497cec;
-void output_callback_41eb89();
 void __fastcall select_output_section(C2Section *section);
 void output_callback_41f3f2();
 void __fastcall output_callback_41fa04(C2Symbol *symbol);

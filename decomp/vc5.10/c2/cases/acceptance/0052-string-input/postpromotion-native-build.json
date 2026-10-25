@@ -1,9 +1,0 @@
-{
-  "captured_elf_sha256": "e10000f3e0594d45365063ef9b1eb3f3dec5a876a2127132e7cdb979fe5d0e82",
-  "fixture_elf_sha256": "49eba3b92857bcd1c3de1f7a0abce1dbf7a72b8f2101c42e68ed8cefa7300b88",
-  "shared_input_drift": [
-    "lib/recon/include/recon.h",
-    "lib/recon/src/crt.c"
-  ],
-  "note": "Accepted proof retains actual immutable captured ELF/shared compiled inputs. Subsequent make fixtures may rebuild to consume shared changes; its own native regression result is reported separately."
-}
