@@ -767,7 +767,57 @@ CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void)
     }
     return result;
 }
-void RECON_THISCALL CompilerDeclarator::FinalizeShape(void) { __asm { int 3 } }
+extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *);
+/* The tagged-type consumer establishes only this flag byte. Its producer,
+ * allocation extent and other fields remain pending. */
+struct CompilerTagState { BYTE unmodeled_00[4]; BYTE flags; };
+void RECON_THISCALL CompilerDeclarator::FinalizeShape(void)
+{
+    if (base_type->shape) {
+        CompilerTypeShape *copy = copy_type_shape_chain(base_type->shape);
+        switch (copy->flags & 7) {
+        case 1: case 3:
+            break;
+        case 2:
+            AppendArray(copy);
+            break;
+        case 4:
+            AppendShape(copy);
+            break;
+        default:
+            return;
+        }
+        if (last_shape)
+            last_shape->base = copy;
+        else
+            shape = copy;
+        last_shape = copy;
+        return;
+    }
+    if (!shape)
+        return;
+    if ((base_type->flags & 0x2fcf) == 0x80 &&
+        (last_shape->flags & 7) == 2) {
+        compiler_warning(182, symbol);
+        flags |= 1;
+        base_type = c1_data.builtin_types.type_0063;
+    }
+    if ((last_shape->flags & 7) == 2 && !base_type->shape &&
+        (base_type->flags & 0x400)) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("FinalizeShape: tagged-type owner is not yet modeled");
+#endif
+        CompilerTagState *tag = (CompilerTagState *)base_type->auxiliary;
+        if (tag->flags & 1) {
+            compiler_warning(233, symbol);
+            flags |= 1;
+        }
+    }
+}
+void RECON_THISCALL CompilerDeclarator::AppendArray(CompilerTypeShape *shape)
+{ __asm { int 3 } }
+extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *shape)
+{ __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void) { __asm { int 3 } }
 WORD RECON_THISCALL CompilerDeclarator::ApplyCallingConvention(CompilerTypeShape *shape,
     unsigned convention) { __asm { int 3 } return 0; }

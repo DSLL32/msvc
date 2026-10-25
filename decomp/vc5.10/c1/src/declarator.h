@@ -30,6 +30,7 @@ struct CompilerDeclarator {
     void RECON_THISCALL ApplyAttributes(const CompilerDeclarationAttributes *);
     CompilerType *RECON_THISCALL Resolve(void);
     void RECON_THISCALL FinalizeShape(void);
+    void RECON_THISCALL AppendArray(CompilerTypeShape *);
     void RECON_THISCALL ApplyBaseAttributes(void);
     WORD RECON_THISCALL ApplyCallingConvention(CompilerTypeShape *, unsigned);
     WORD RECON_THISCALL ResolveFunctionAttributes(CompilerTypeShape *);
