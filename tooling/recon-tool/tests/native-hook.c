@@ -21,15 +21,15 @@ struct Owner
 static const void *watched;
 static int entered, mutated, callback_count;
 static int trap_pipe[2];
-void NOINST __attribute__((visibility("protected")))
-__cyg_profile_func_enter(void *function, void *caller)
+void NOINST __attribute__((visibility("protected"))) __cyg_profile_func_enter(
+    void *function, void *caller)
 {
     (void)caller;
     if (function == watched)
         ++entered;
 }
-void NOINST __attribute__((visibility("protected")))
-__cyg_profile_func_exit(void *function, void *caller)
+void NOINST __attribute__((visibility("protected"))) __cyg_profile_func_exit(
+    void *function, void *caller)
 {
     (void)function;
     (void)caller;
@@ -43,8 +43,7 @@ static void STDCALL marker_stdcall(struct Owner *owner, int value)
 {
     marker_cdecl(owner, value);
 }
-static int FASTCALL marker_fastcall(struct Owner *owner, unsigned edx,
-                                    int value)
+static int FASTCALL marker_fastcall(struct Owner *owner, unsigned edx, int value)
 {
     marker_cdecl(owner, value + edx);
     return value;
@@ -52,19 +51,17 @@ static int FASTCALL marker_fastcall(struct Owner *owner, unsigned edx,
 static void callback_cdecl(struct Owner *owner, int value)
 {
     ++callback_count;
-    recon_native_entry_finish(owner->value == 17 && *owner->live == 31 &&
-                              value == 43);
+    recon_native_entry_finish(owner->value == 17 && *owner->live == 31 && value == 43);
 }
 static void STDCALL callback_stdcall(struct Owner *owner, int value)
 {
     callback_cdecl(owner, value);
 }
-static int FASTCALL callback_fastcall(struct Owner *owner, unsigned edx,
-                                      int value)
+static int FASTCALL callback_fastcall(struct Owner *owner, unsigned edx, int value)
 {
     ++callback_count;
-    recon_native_entry_finish(owner->value == 17 && *owner->live == 31 &&
-                              edx == 59 && value == 43);
+    recon_native_entry_finish(owner->value == 17 && *owner->live == 31 && edx == 59 &&
+                              value == 43);
 }
 static void invoke(void *kind)
 {
@@ -84,7 +81,10 @@ static void invoke(void *kind)
     }
     ++mutated; /* Must never resume after callback state mutation. */
 }
-static void missed(void *argument) { (void)argument; }
+static void missed(void *argument)
+{
+    (void)argument;
+}
 static void callback_returns(struct Owner *owner, int value)
 {
     (void)owner;
@@ -106,11 +106,41 @@ static void unrelated(void *argument)
     (void)argument;
     __asm__ volatile("int $3");
 }
+static int resume_value, resume_body, resume_continued, resume_observed;
+struct ResumeState
+{
+    int *error;
+    int value;
+};
+static int resume_marker(int add)
+{
+    assert(errno == EDOM);
+    ++resume_body;
+    return resume_value + add;
+}
+static void resume_observer(void *argument)
+{
+    struct ResumeState *state = argument;
+    ++resume_observed;
+    resume_value = state->value;
+    *state->error = ERANGE;
+}
+static void resume_invoke(void *argument)
+{
+    (void)argument;
+    errno = EDOM;
+    assert(resume_marker(1) == 42);
+    ++resume_continued;
+}
+static void observer_finishes(void *argument)
+{
+    (void)argument;
+    recon_native_entry_finish(1);
+}
 int main(void)
 {
     const void *entries[] = {marker_cdecl, marker_stdcall, marker_fastcall};
-    const void *callbacks[] = {callback_cdecl, callback_stdcall,
-                               callback_fastcall};
+    const void *callbacks[] = {callback_cdecl, callback_stdcall, callback_fastcall};
     struct sigaction original, before, after, action;
     int i, status;
     pid_t child;
@@ -132,6 +162,30 @@ int main(void)
                before.sa_flags == after.sa_flags);
         assert(recon_native_at_entry(entries[i], callbacks[i], missed, 0) == 0);
         assert(*(const unsigned char *)entries[i] == first);
+    }
+    {
+        struct ResumeState state = {&errno, 41};
+        unsigned char first = *(const unsigned char *)resume_marker;
+        watched = resume_marker;
+        entered = 0;
+        assert(recon_native_observe_entry(resume_marker, resume_observer, &state,
+                                          resume_invoke, 0) == 1);
+        assert(resume_observed == 1 && resume_body == 1 && resume_continued == 1 &&
+               entered == 1 && errno == EDOM);
+        assert(*(const unsigned char *)resume_marker == first);
+        assert(recon_native_observe_entry(resume_marker, resume_observer, &state,
+                                          missed, 0) == 0);
+        assert(resume_observed == 1 && *(const unsigned char *)resume_marker == first);
+        child = fork();
+        assert(child >= 0);
+        if (!child)
+        {
+            recon_native_observe_entry(resume_marker, observer_finishes, 0,
+                                       resume_invoke, 0);
+            _exit(99);
+        }
+        assert(waitpid(child, &status, 0) == child && WIFEXITED(status) &&
+               WEXITSTATUS(status) == 126);
     }
     assert(recon_native_at_entry(0, callback_cdecl, invoke, 0) == -1 &&
            errno == EINVAL);
@@ -161,8 +215,7 @@ int main(void)
     }
     assert(waitpid(child, &status, 0) == child && WIFSIGNALED(status) &&
            WTERMSIG(status) == SIGTRAP);
-    assert(read(trap_pipe[0], trap_record, sizeof(trap_record)) ==
-           sizeof(trap_record));
+    assert(read(trap_pipe[0], trap_record, sizeof(trap_record)) == sizeof(trap_record));
     assert(trap_record[0] > (uintptr_t)unrelated &&
            trap_record[0] < (uintptr_t)unrelated + 256);
     assert((trap_record[1] == SI_KERNEL || trap_record[1] == TRAP_BRKPT) &&

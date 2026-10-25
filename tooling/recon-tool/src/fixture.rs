@@ -174,6 +174,9 @@ pub struct Fixture {
     pub partial: Option<Partial>,
     #[serde(default)]
     pub readonly_dependencies: Vec<Dependency>,
+    /// Exact file membership, using the hashes already in readonly_dependencies.
+    #[serde(default)]
+    pub readonly_tree_roots: Vec<String>,
 }
 fn version() -> u32 {
     VERSION
@@ -289,6 +292,28 @@ impl Fixture {
             if !Path::new(&d.path).is_absolute() || unhex(&d.sha256)?.len() != 32 {
                 bail!("invalid readonly dependency")
             }
+        }
+        let mut tree_roots = std::collections::BTreeSet::new();
+        for root in &self.readonly_tree_roots {
+            let path = Path::new(root);
+            anyhow::ensure!(
+                path.is_absolute()
+                    && !root.contains('\0')
+                    && !path
+                        .components()
+                        .any(|c| matches!(c, Component::ParentDir | Component::CurDir)),
+                "readonly tree root must be absolute and normalized: {root}"
+            );
+            anyhow::ensure!(
+                tree_roots.insert(path),
+                "duplicate readonly tree root: {root}"
+            );
+            anyhow::ensure!(
+                self.readonly_dependencies.iter().any(|d| Path::new(&d.path)
+                    .strip_prefix(path)
+                    .is_ok_and(|p| !p.as_os_str().is_empty())),
+                "readonly tree root has no declared dependencies: {root}"
+            );
         }
         if self.hold_stdin_open && self.stdin_kind != StdinKind::Pipe {
             bail!("hold_stdin_open requires stdin_kind: pipe")

@@ -28,6 +28,6 @@ int main(int argc,char **argv) {
     run = time.perf_counter()
     result = subprocess.run([path/'load', path/'test.so'], stderr=subprocess.PIPE, text=True)
     assert result.returncode == 0, result.stderr
-    assert result.stderr == 'recon-tool: native entry hook failed\n', result.stderr
+    assert result.stderr == 'recon-tool: native entry hook failed\n'*2, result.stderr
     print('native entry hook PASS: build %.3fs, execution %.3fs' %
           (run-started, time.perf_counter()-run))

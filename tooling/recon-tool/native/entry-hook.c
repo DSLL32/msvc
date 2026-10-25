@@ -18,6 +18,8 @@ static sigjmp_buf checkpoint;
 static struct sigaction previous_action;
 static unsigned char *target;
 static const void *replacement;
+static void (*entry_observer)(void *);
+static void *observer_argument;
 static void *page;
 static size_t page_size;
 static unsigned char original_byte;
@@ -47,8 +49,7 @@ static void restore(void)
     if (sigaction(SIGTRAP, &previous_action, 0) != 0)
         fail_closed();
 }
-static void __attribute__((noreturn, force_align_arg_pointer))
-callback_returned(void)
+static void __attribute__((noreturn, force_align_arg_pointer)) callback_returned(void)
 {
     /* Returning would resume parser mutation after a state-changing test. */
     fail_closed();
@@ -66,6 +67,16 @@ static void trapped(int signal, siginfo_t *info, void *context)
         void *caller = (void *)stack[0];
         restore();
         reached = 1;
+        if (entry_observer)
+        {
+            /* Only signal-safe scalar/pointer writes are allowed here. The
+             * genuine prologue, ABI and instrumentation execute after sigreturn. */
+            entry_observer(observer_argument);
+            result = 1;
+            state->uc_mcontext.gregs[REG_EIP] = (greg_t)(uintptr_t)target;
+            errno = saved_errno;
+            return;
+        }
         /* Redirecting before the prologue skips compiler entry instrumentation.
          * Record the genuine marker once through the SAME shared tracer. */
         __cyg_profile_func_enter(target, caller);
@@ -136,12 +147,13 @@ static int arm(void)
         fail_closed();
     return 0;
 }
-int recon_native_at_entry(const void *entry, const void *typed_callback,
-                          ReconNativeInvoke invoke, void *argument)
+static int run_entry(const void *entry, const void *typed_callback,
+                     void (*observer)(void *), void *observer_arg,
+                     ReconNativeInvoke invoke, void *argument)
 {
     long size;
-    if (running || !entry || !typed_callback || entry == typed_callback ||
-        !invoke)
+    if (running || !entry || (!typed_callback && !observer) ||
+        entry == typed_callback || !invoke)
     {
         errno = running ? EBUSY : EINVAL;
         return -1;
@@ -154,6 +166,8 @@ int recon_native_at_entry(const void *entry, const void *typed_callback,
     }
     target = (unsigned char *)entry;
     replacement = typed_callback;
+    entry_observer = observer;
+    observer_argument = observer_arg;
     page_size = (size_t)size;
     page = (void *)((uintptr_t)entry & ~(uintptr_t)(page_size - 1));
     running = 1;
@@ -163,17 +177,32 @@ int recon_native_at_entry(const void *entry, const void *typed_callback,
         if (arm() != 0)
         {
             running = 0;
+            entry_observer = 0;
+            observer_argument = 0;
             return -1;
         }
         invoke(argument);
     }
     restore();
     running = 0;
+    entry_observer = 0;
+    observer_argument = 0;
     return reached ? result : 0;
+}
+int recon_native_at_entry(const void *entry, const void *typed_callback,
+                          ReconNativeInvoke invoke, void *argument)
+{
+    return run_entry(entry, typed_callback, 0, 0, invoke, argument);
+}
+int recon_native_observe_entry(const void *entry, void (*observer)(void *),
+                               void *observer_arg, ReconNativeInvoke invoke,
+                               void *argument)
+{
+    return run_entry(entry, 0, observer, observer_arg, invoke, argument);
 }
 void recon_native_entry_finish(int passed)
 {
-    if (!running || !reached)
+    if (!running || !reached || entry_observer)
         fail_closed();
     result = passed != 0;
     siglongjmp(checkpoint, 1);

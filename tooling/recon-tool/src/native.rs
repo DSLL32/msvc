@@ -130,7 +130,115 @@ pub(crate) fn dependencies(f: &Fixture) -> Result<()> {
             bail!("readonly dependency hash differs: {}", d.path)
         }
     }
+    fn files(directory: &Path, result: &mut std::collections::BTreeSet<PathBuf>) -> Result<()> {
+        for entry in fs::read_dir(directory)? {
+            let entry = entry?;
+            let kind = entry.file_type()?;
+            if kind.is_dir() {
+                files(&entry.path(), result)?;
+            } else if kind.is_file() {
+                result.insert(entry.path());
+            } else {
+                bail!(
+                    "readonly tree contains a symlink or special file: {}",
+                    entry.path().display()
+                );
+            }
+        }
+        Ok(())
+    }
+    for root in &f.readonly_tree_roots {
+        let root = Path::new(root);
+        anyhow::ensure!(
+            fs::symlink_metadata(root)?.file_type().is_dir(),
+            "readonly tree root must be an actual directory: {}",
+            root.display()
+        );
+        let expected: std::collections::BTreeSet<_> = f
+            .readonly_dependencies
+            .iter()
+            .map(|d| PathBuf::from(&d.path))
+            .filter(|p| p.starts_with(root))
+            .collect();
+        let mut actual = std::collections::BTreeSet::new();
+        files(root, &mut actual)?;
+        anyhow::ensure!(
+            actual == expected,
+            "readonly tree file membership differs in {}: added {:?}; missing {:?}",
+            root.display(),
+            actual.difference(&expected).next(),
+            expected.difference(&actual).next()
+        );
+    }
     Ok(())
+}
+
+#[cfg(test)]
+mod readonly_tree_tests {
+    use super::*;
+    #[test]
+    fn exact_file_membership_and_hashes_reject_mutation() {
+        use std::os::unix::fs::symlink;
+        let root = PathBuf::from(std::env::var_os("HOME").unwrap())
+            .join(".ai-tmp")
+            .join(format!(
+                "recon-readonly-{}-{}",
+                std::process::id(),
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)
+                    .unwrap()
+                    .as_nanos()
+            ));
+        fs::create_dir_all(root.join("nested")).unwrap();
+        let path = root.join("nested/input.h");
+        fs::write(&path, b"declared").unwrap();
+        let mut f = Fixture::default();
+        f.readonly_dependencies.push(fixture::Dependency {
+            path: path.to_str().unwrap().into(),
+            sha256: fixture::hex(&Sha256::digest(b"declared")),
+        });
+        f.readonly_tree_roots.push(root.to_str().unwrap().into());
+        f.validate().unwrap();
+        dependencies(&f).unwrap();
+        fs::create_dir(root.join("empty")).unwrap();
+        dependencies(&f).unwrap(); // Contract covers files, not empty directories.
+        let added = root.join("new.h");
+        fs::write(&added, b"added").unwrap();
+        assert!(
+            dependencies(&f)
+                .unwrap_err()
+                .to_string()
+                .contains("membership")
+        );
+        fs::remove_file(&added).unwrap();
+        symlink(&path, &added).unwrap();
+        assert!(
+            dependencies(&f)
+                .unwrap_err()
+                .to_string()
+                .contains("symlink")
+        );
+        fs::remove_file(&added).unwrap();
+        fs::write(&path, b"changed").unwrap();
+        assert!(
+            dependencies(&f)
+                .unwrap_err()
+                .to_string()
+                .contains("hash differs")
+        );
+        fs::remove_file(&path).unwrap();
+        assert!(dependencies(&f).is_err());
+        fs::remove_dir_all(root).unwrap();
+        for roots in [
+            vec!["relative".into()],
+            vec!["/not/covered".into()],
+            vec!["/x".into(), "/x".into()],
+        ] {
+            let mut invalid = Fixture::default();
+            invalid.readonly_tree_roots = roots;
+            assert!(invalid.validate().is_err());
+        }
+    }
 }
 pub(crate) fn workspace_cwd(f: &Fixture, root: &Path) -> Result<PathBuf> {
     if let Some(cwd) = &f.logical_cwd {

@@ -558,3 +558,18 @@ explicit capture value or removal takes precedence, including unit forks. A
 capture's explicit logical R drive can still select its isolated workspace when
 no environment override is declared. Standalone fixtures without a discoverable
 repository leave this default unset. Wine mappings are never changed.
+
+One-shot native entry observation uses
+`recon_native_observe_entry(entry, observer, observer_argument, invoke, argument)`.
+The observer makes only signal-safe scalar/pointer writes inside SIGTRAP; the
+real prologue, ABI, entry instrumentation and caller then execute normally.
+Registers, stack/FP context and errno are restored. It returns one if observed,
+zero if missed, or minus one for invalid configuration. It shares the one active
+hook with the typed finish hook; calling entry_finish in observer mode fails.
+
+Optional capture `readonly_tree_roots` lists absolute dependency directories.
+Before/after execution, the runner verifies their complete regular-file membership
+against existing `readonly_dependencies` paths and hashes. Additions, missing files,
+changed bytes, symlinks and special files fail. Every root needs declared files;
+empty directory membership is outside this file-set contract. This adds an optional
+version-2 capture field without changing the C descriptor ABI.
