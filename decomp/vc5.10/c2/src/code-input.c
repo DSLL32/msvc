@@ -1527,3 +1527,55 @@ C2Expression *__fastcall convert_input_operand(C2InputStack *stack, unsigned sho
     if (flags) tree->location.expression.properties |= 0x40;
     return tree;
 }
+
+C2Expression *__fastcall pop_input_expression(C2InputStack *stack)
+{
+    C2InputStack *local = stack;
+    C2Expression *tree, *value, *component, *first, *last;
+    local->flags &= ~0x20;
+    if (local->flags & 4) {
+        materialize_input_operand(local, local->last->type);
+        return pop_input_expression(local);
+    }
+    tree = local->last;
+    if (INPUT_IS_OPERAND(tree)) {
+        value = tree->previous;
+        tree->previous = NULL;
+        local->last = value;
+        local->last->next = NULL;
+        return tree;
+    }
+    if (!(local->flags & 1) && (input_preserve_operand || tree->opcode != 0x151)) {
+        value = tree->tail.right;
+        if (value->kind == 6 &&
+            (!(component = value->aggregate_value) ||
+             (INPUT_IS_REGISTER(component) && component->value.reg->value)) &&
+            (!(component = value->aggregate_second) ||
+             (INPUT_IS_REGISTER(component) && component->value.reg->value))) {
+            value = extract_aggregate_result(value, tree, &first, &last);
+            if ((value->kind == 2 && value->value.reg->kind == 3 && !value->value.reg->value) ||
+                (value->kind == 6 && value->aggregate_value->kind == 2 &&
+                 value->aggregate_value->value.reg->kind == 3 &&
+                 !value->aggregate_value->value.reg->value)) {
+                link_code_nodes((C2Record *)local->last->previous, (C2Record *)first);
+                return value;
+            }
+            link_code_nodes((C2Record *)local->last, (C2Record *)first);
+            local->last = last;
+            return value;
+        }
+        if (value->next) {
+            value = copy_input_expression(value);
+            value->next = NULL;
+        }
+        return value;
+    }
+    tree = new_integer_expression(0x1004, 1);
+    push_input_trees(&local, tree);
+    tree = new_integer_expression(0x1004, 0);
+    push_input_trees(&local, tree);
+    input_argument_list(&local);
+    if (local != stack)
+        c2_report_internal("E:\\utc\\src\\\\P2\\reader.c", 4385);
+    return pop_input_expression(local);
+}

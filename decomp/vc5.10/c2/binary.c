@@ -2641,8 +2641,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@pop_input_expression@4",
         .entry_rva = 0x25f81,
+        .code = (const ReconExtent[]){{0x25f81, 0x260ee}, {0x6b551, 0x6b60a}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "pop_input_expression",
     },
     {
@@ -2858,6 +2860,20 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "new_input_local",
+    },
+    {
+        .name = "@materialize_input_operand@8",
+        .entry_rva = 0x4638f,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "materialize_input_operand",
+    },
+    {
+        .name = "@extract_aggregate_result@16",
+        .entry_rva = 0x4422c,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "extract_aggregate_result",
     },
     {
         .name = "@convert_deferred_input_operand@12",

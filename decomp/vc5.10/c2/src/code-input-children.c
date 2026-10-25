@@ -98,12 +98,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-C2Expression * __fastcall pop_input_expression(C2InputStack *stack)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 
 void __fastcall mark_first_input_expression(C2Expression *expression)
 {
@@ -431,6 +425,19 @@ void __fastcall release_input_assembly_context(C2Expression *tree)
 
 C2Expression *__fastcall convert_deferred_input_operand(C2InputStack *stack,
                                                        unsigned short type, int flags)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall materialize_input_operand(C2InputStack *stack, unsigned short type)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall extract_aggregate_result(C2Expression *value, C2Expression *owner,
+                                                  C2Expression **first, C2Expression **last)
 {
     __asm { int 3 }
     return 0;

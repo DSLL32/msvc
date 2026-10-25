@@ -609,6 +609,25 @@ static int input_type_fields(void)
         input._ptr == (char *)bytes + sizeof(bytes);
 }
 
+static int input_operand_pop(void)
+{
+    C2InputStack stack;
+    C2Expression sentinel, operand, tail;
+    memset(&stack, 0, sizeof(stack));
+    memset(&sentinel, 0, sizeof(sentinel));
+    memset(&operand, 0xa5, sizeof(operand));
+    stack.first = &sentinel;
+    stack.last = &operand;
+    stack.flags = 0xa0;
+    sentinel.next = &operand;
+    operand.kind = 3;
+    operand.previous = &sentinel;
+    operand.next = &tail;
+    return pop_input_expression(&stack) == &operand && stack.flags == 0x80 &&
+        stack.last == &sentinel && stack.first == &sentinel && !sentinel.next &&
+        !operand.previous && operand.next == &tail && operand.flags == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -637,5 +656,6 @@ const ReconTest numeric_tests[] = {
     {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types},
     {"typed register expression clears exact size and keeps register identity", 1, typed_register_record},
     {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions},
-    {"input type decoding retains untouched token fields", 1, input_type_fields}
+    {"input type decoding retains untouched token fields", 1, input_type_fields},
+    {"operand pop clears only owned stack links and flag", 1, input_operand_pop}
 };
