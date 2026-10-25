@@ -1,9 +1,11 @@
 #include "work-list.h"
 /* Permanent zeroed allocation arena, original globals 0x9f1e0/0x9f41c. */
 #include <stdlib.h>
+#include <stdio.h>
 #include "options.h"
 #include "pch-format.h"
 #include "pch-relocation.h"
+#include "operators.h"
 #include "diagnostics.h"
 #include <recon.h>
 
@@ -360,4 +362,68 @@ void encode_pch_pages(void)
             }
         }
     }
+}
+
+extern FILE *pch_file;
+
+/* Original0x6adf0..0x6ae77. The last page contains only the used prefix;
+   earlier pages retain their full logical allocation span. */
+void write_pch_pages(void)
+{
+    int page;
+    fwrite(pch_relocation_chains, 1, pch_relocation_count * 8, pch_file);
+    for (page = 0; page < permanent_page_count - 1; ++page)
+        fwrite(permanent_pages[page].start, 1, 0xeffc, pch_file);
+    fwrite(permanent_pages[page].start, 1, 0xeffc - permanent_available, pch_file);
+}
+
+/* Original0x6aae0..0x6ab42. Operator names are mandatory; operand words
+   retain the original low-WORD test before decoding a nonempty slot. */
+void restore_pch_operators(void)
+{
+    BuiltinOperator *entry;
+    unsigned reference, operand;
+    for (entry = builtin_operators; entry->token; ++entry) {
+        reference = (unsigned)entry->name;
+        entry->name = (char *)permanent_pages[reference >> 16].start +
+            (reference & 0xffff);
+        for (operand = 0; operand < 2; ++operand) {
+            reference = (unsigned)entry->operands[operand].type;
+            if ((unsigned short)reference)
+                entry->operands[operand].type = (CType *)(
+                    permanent_pages[reference >> 16].start + (reference & 0xffff));
+        }
+    }
+}
+
+/* Original0x6abb0..0x6aca7. Restore the canonical root owners, operator
+   table and backward-linked arena slots without changing the serialized file. */
+void restore_pch_pointers(void)
+{
+    unsigned root, reference, location, value;
+    int index;
+    unsigned char *target;
+    unsigned *slot;
+    for (root = 0; root < 149; ++root) {
+        reference = *pch_root_cells[root];
+        if (reference) {
+            *pch_root_cells[root] = (unsigned)permanent_pages[reference >> 16].start +
+                (reference & 0xffff);
+            pch_compiler_image.roots[root] = *pch_root_cells[root];
+        }
+    }
+    restore_pch_operators();
+    for (index = 0; index < (int)pch_relocation_count; ++index) {
+        location = pch_relocation_chains[index].head;
+        target = permanent_pages[pch_relocation_chains[index].page].start;
+        while (location) {
+            slot = (unsigned *)(permanent_pages[location >> 16].start +
+                (location & 0xffff));
+            value = *slot;
+            *slot = (unsigned)target + (value & 0xffff);
+            if (!(unsigned short)(value >> 16)) break;
+            location -= (unsigned short)(value >> 16);
+        }
+    }
+    free(pch_relocation_chains);
 }

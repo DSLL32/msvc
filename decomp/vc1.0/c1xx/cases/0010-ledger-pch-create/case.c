@@ -1,8 +1,14 @@
+#define RECON_SHIM_IMPL
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <recon-tool.h>
+#include <recon-output.h>
 #include "entry.h"
+#include "case.h"
 
 /* Accepted application seed frozen before this paired PCH workload. */
-static const uint32_t order[] = { 0x13310, 0x14840, 0xf600, 0x5cc50, 0x45be0, 0x3ee20, 0x606f0, 0x5f950, 0x5e300, 0x64400, 0x5c5f0, 0x5d200, 0x5d140, 0x1c4f0, 0x5a830, 0x59d50, 0x59d70, 0x5af60, 0x5a6c0, 0x59dd0, 0x59ed0, 0x5a540, 0x6c250, 0x6c300, 0x5a5a0, 0x5a110, 0x5a5e0, 0x5a640, 0x59fc0, 0x59ff0, 0x5a020, 0x5a030, 0x5a060, 0x5a090, 0x5a460, 0x5a490, 0x5a4c0, 0x5a4f0, 0x4b0b0, 0x59cf0, 0x5a510, 0x5a330, 0x5a300, 0x5a190, 0x5a1e0, 0x5a2d0, 0x5a240, 0x5a210, 0x5a6a0, 0x5a6b0, 0x118a0, 0x5a690, 0x1e660, 0x6c370, 0x27980, 0x21eb0, 0x21e80, 0x6bbb0, 0x3dc60, 0x3dbb0, 0x44580, 0x446c0, 0x45ff0, 0x46000, 0x46100, 0x46170, 0x27170, 0x21330, 0x5a770, 0x5a870, 0x5a8f0, 0x5adf0 };
+static const uint32_t order[] = { 0x13310, 0x14840, 0xf600, 0x5cc50, 0x45be0, 0x3ee20, 0x606f0, 0x5f950, 0x5e300, 0x64400, 0x5c5f0, 0x5d200, 0x5d140, 0x1c4f0, 0x5a830, 0x59d50, 0x59d70, 0x5af60, 0x5a6c0, 0x59dd0, 0x59ed0, 0x5a540, 0x6c250, 0x6c300, 0x5a5a0, 0x5a110, 0x5a5e0, 0x5a640, 0x59fc0, 0x59ff0, 0x5a020, 0x5a030, 0x5a060, 0x5a090, 0x5a460, 0x5a490, 0x5a4c0, 0x5a4f0, 0x4b0b0, 0x59cf0, 0x5a510, 0x5a330, 0x5a300, 0x5a190, 0x5a1e0, 0x5a2d0, 0x5a240, 0x5a210, 0x5a6a0, 0x5a6b0, 0x118a0, 0x5a690, 0x1e660, 0x6c370, 0x27980, 0x21eb0, 0x21e80, 0x6bbb0, 0x3dc60, 0x3dbb0, 0x44580, 0x446c0, 0x45ff0, 0x46000, 0x46100, 0x46170, 0x27170, 0x21330, 0x5a770, 0x5a870, 0x5a8f0, 0x5adf0, 0x5abb0, 0x5aae0 };
 static const uint32_t seen[] = {
     0x2d410,
     0x14740,
@@ -1431,6 +1437,121 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "ledger_pch_create",
     "Ledger PCH create: nested macro/conditional includes, packed types, virtual/copy/default/member-pointer lifetimes, inline/browser/Z7 state; independent frozen invocation",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x5adf0,
-    NULL, c1xx_case_invoke, NULL, NULL, 0
+    RECON_IO, RECON_EXIT, 0,
+    NULL, c1xx_case_invoke, NULL, ledger_pch_tests, 1
+};
+
+static uint32_t pch_word(const unsigned char *p)
+{
+    return p[0] | ((uint32_t)p[1] << 8) | ((uint32_t)p[2] << 16) |
+        ((uint32_t)p[3] << 24);
+}
+
+unsigned char *ledger_pch_oracle(const char *assets)
+{
+    char path[4096];
+    FILE *file;
+    unsigned char *bytes;
+    int length;
+    if (!assets) return NULL;
+    length = snprintf(path, sizeof(path), "%s/oracle.pch", assets);
+    if (length < 0 || (unsigned)length >= sizeof(path)) return NULL;
+    file = fopen(path, "rb");
+    if (!file) return NULL;
+    bytes = malloc(LEDGER_PCH_BYTES);
+    if (!bytes || fread(bytes, 1, LEDGER_PCH_BYTES, file) != LEDGER_PCH_BYTES ||
+        fgetc(file) != EOF) {
+        free(bytes);
+        bytes = NULL;
+    }
+    fclose(file);
+    return bytes;
+}
+
+/* Only the154 positively identified pointer fields are qualified. All other
+   bytes still pass the ordinary whole-file hash. Raw output is never changed.
+   The4 reserved WORDs are original uninitialized output, and must be zero here. */
+int ledger_pch_compare(const unsigned char *actual, const unsigned char *oracle,
+    size_t bytes)
+{
+    uint32_t base, anchor, value, expected, offset, previous_end = 0;
+    uint32_t native_heap[23], original_heap[23];
+    unsigned owner, member, heap_count = 0, arena_count = 0, i;
+    static const unsigned adjustments[] = { 0xa226, 0xa236, 0xaf2e, 0xaf3e };
+    if (bytes != LEDGER_PCH_BYTES || memcmp(actual, "DTJPCH0", 8) ||
+        pch_word(actual + 48) != 1) return 0;
+    /* The retired LEDGER_TRANSIENT macro's name points to the independently
+       bound interner spelling at page+2b09. Recover a process-local base;
+       never require either process to use the other's address. */
+    if (memcmp(actual + LEDGER_PAGE_OFFSET + 0x2b09, "LEDGER_TRANSIENT", 17))
+        return 0;
+    anchor = pch_word(actual + LEDGER_PAGE_OFFSET + 0x9194);
+    if (anchor < 0x2b09) return 0;
+    base = anchor - 0x2b09;
+    if (!base || (base & 0xfff) || base > UINT32_MAX - LEDGER_PAGE_BYTES) return 0;
+    for (owner = 0; owner < RECON_COUNT(ledger_pch_owners); ++owner) {
+        const LedgerPchOwner *record = &ledger_pch_owners[owner];
+        if (record->offset < previous_end ||
+            record->offset + record->bytes > LEDGER_PAGE_BYTES) return 0;
+        previous_end = record->offset + record->bytes;
+        /* These two symbols remain live, but their sole table-pointer reader
+           is naming code, gated off by the actual already-decorated flag. */
+        if (record->offset == 0xa254 || record->offset == 0xaf5c) {
+            offset = LEDGER_PAGE_OFFSET + record->offset;
+            if ((actual[offset] & 31) != 9 || !(actual[offset + 3] & 2)) return 0;
+        }
+        for (member = 0; member < 16; ++member) {
+            if (!(record->fields & (1u << member))) continue;
+            if (member * 4 + 4 > record->bytes) return 0;
+            offset = LEDGER_PAGE_OFFSET + record->offset + member * 4;
+            expected = pch_word(oracle + offset);
+            value = pch_word(actual + offset);
+            if (expected >= LEDGER_ORIGINAL_PAGE &&
+                expected - LEDGER_ORIGINAL_PAGE < LEDGER_PAGE_BYTES) {
+                if (value < base || value - base != expected - LEDGER_ORIGINAL_PAGE)
+                    return 0;
+                ++arena_count;
+            } else {
+                if (!expected || !value || heap_count == 23 ||
+                    (value >= base && value - base < LEDGER_PAGE_BYTES)) return 0;
+                for (i = 0; i < heap_count; ++i)
+                    if ((expected == original_heap[i]) != (value == native_heap[i]))
+                        return 0;
+                original_heap[heap_count] = expected;
+                native_heap[heap_count++] = value;
+            }
+        }
+    }
+    for (i = 0; i < RECON_COUNT(adjustments); ++i) {
+        offset = LEDGER_PAGE_OFFSET + adjustments[i];
+        if (actual[offset] || actual[offset + 1]) return 0;
+    }
+    return arena_count == 131 && heap_count == 23;
+}
+
+static int ledger_pch_output(const ReconOutputContext *context)
+{
+    unsigned char *actual, *oracle;
+    char path[4096];
+    FILE *file;
+    int length, ok = 0;
+    if (context->terminal_kind != RECON_OUTPUT_EXIT || context->terminal_value)
+        return 0;
+    oracle = ledger_pch_oracle(context->assets_root);
+    if (!oracle) return 0;
+    length = snprintf(path, sizeof(path), "%s/state.pch", context->workspace_cwd);
+    file = length >= 0 && (unsigned)length < sizeof(path) ? fopen(path, "rb") : NULL;
+    actual = malloc(LEDGER_PCH_BYTES);
+    if (file && actual && fread(actual, 1, LEDGER_PCH_BYTES, file) == LEDGER_PCH_BYTES &&
+        fgetc(file) == EOF)
+        ok = ledger_pch_compare(actual, oracle, LEDGER_PCH_BYTES);
+    if (file) fclose(file);
+    free(actual);
+    free(oracle);
+    if (!ok) fprintf(stderr, "Ledger PCH finite pointer/owner comparison failed\n");
+    return ok;
+}
+
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+    RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), ledger_pch_output
 };

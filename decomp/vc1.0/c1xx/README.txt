@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1494 App bodies and1601
+original/native matching at compare_filenames; there are1497 App bodies and1604
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -223,29 +223,53 @@ beyond the runner descriptor check. Original1.283s, native34.520ms
 audit2.262s and cached12+21units0.482s pass. Build/header setup38.404s
 is separate; shared SDK COMDAT declaration publication changed no successful
 C1XX behavior. Full PCH output comparison remains pending.
-Ledger writer/restoration WIP remains UNACCEPTED beyond1494 App bodies.
-The provisional135B writer,247B pointer restorer and98B operator decoder reach
-original/native exit0 with matching74-entry order; all six IR/browser artifacts
-are exact, but state.pch still differs at154 defined, unmarked pointer DWORDs.
-Raw files and strict PCH hash remain unchanged; a comparison-policy decision
-is pending. No pointer normalization or new reconstruction credit is applied.
-Two old source errors were exposed: __cplusplus must use original expansion
-code-9, and begin_browser_pch_record writes browser_symbols_overflowed, not
-browser_records_suppressed. Both are corrected against original instructions.
+Ledger producer is COMPLETE: write_pch_pages(135B), restore_pch_pointers(247B)
+and restore_pch_operators(98B) are accepted, bringing the reviewed boundary to
+1497 App bodies/1604 historical frontiers. Original/native exit0 and74-entry
+order match. All six IR/browser artifacts are exact. Consumer restoration
+remains pending at restore_pch_frontend(881B).
+The user approved a finite comparison for this53932B PCH only: the77 allocation
+owners/154 pointer fields in cases/0010-ledger-pch-create/case.h are checked
+against the immutable raw original asset. All131 arena pointers must retain
+exact arena-relative targets; the23 discarded heap pointers must remain nonnull
+and preserve their four alias classes. No equality of heap pointee bytes is
+claimed. Two live table-symbol owners retain already-decorated flag0x200,
+which bypasses their table-pointer naming reader. The other75 owners have no
+incoming root/operator/restored-slot references in this frozen snapshot.
+Only those154 DWORDs and four proven uninitialized reserved WORDs are excluded
+from the ordinary PCH hash; the callback separately checks every qualified
+pointer and requires the four native WORDs to be zero. All other bytes remain
+exact. This exception does not extend to other PCHs, inputs or binaries. Raw
+files and authentic defined-pointer source behavior are unchanged.
+Positive and wrong-target/wrong-heap-alias/nonzero-reserved/wrong-owner controls
+pass. The original compiler and1505-function six-check audit pass; all12 cached
+cases and22 unit groups pass0.505s. Producer39.640ms splits into setup22.104ms,
+execution7.899ms and checks9.636ms. Audit/build setup33.296s includes a full
+shared-header Win32 rebuild, not33s of graph execution.
+Shared derive-reference82150d6ad preserves the untouched parent45 capture/report
+and proves unchanged target inputs, invocation, environment and observations.
+The labelled comparison-only receipt binds the approved capture and raw parents;
+only the154 DWORD/four WORD rules and raw oracle asset differ. The actual
+candidate pair passed74 entries/exit0 in37.258ms (setup21.453ms, execution7.525ms,
+checks8.279ms; wrapper82.169ms). Canonical publication matches the reviewed tool
+source; the final receipt changes only its explanatory reason. No original or
+unchanged broad regression was rerun solely for that publication.
+Two old source errors were exposed: __cplusplus uses original expansion code-9,
+and begin_browser_pch_record writes browser_symbols_overflowed, not the separate
+browser_records_suppressed. Both were corrected against original instructions.
 The original virtual-adjustment initializer leaves its reserved WORD unwritten
-before whole-entry PCH copies. Per output-padding policy, reconstruction now
-zeros it and comments on that defect; four actual output WORDs are identified.
-The coherent1505-function six-check audit and21units pass; all11 unaffected
-cached cases pass0.229s. The producer still fails only its PCH hash. Audit/build
-setup38.143s includes a shared towlower-header rebuild; it is not graph-only time.
+before whole-entry PCH copies. Reconstruction now zeros it and comments on that
+original defect; this is separate from the154 initialized pointer fields.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:
 22 qualified-declarator resolution pointers and one retired destructor-call vector
 item, all outside the1178-slot relocation chain and restored root graph. These
 are defined temporary addresses, not clock/padding/uninitialized bytes. Raw files
-remain unchanged; no pointer mask/zeroing/allocator tuning is authorized. Wait for
-actual completed-native PCH differences before any new comparison proposal.
+remain unchanged. That driver/standalone comparison alone did not authorize
+normalization; the later user-approved154-field rule above was based on actual
+completed native output against the standalone oracle. No allocator tuning or
+defined-pointer zeroing is used.
 One native GDB allocation/backtrace run is observational only (quit→signal9),
 not fixture parity. The shared raw-artifact export was exercised once; no original
 was rerun solely for static relocation analysis.

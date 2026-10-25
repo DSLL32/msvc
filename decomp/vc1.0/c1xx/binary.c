@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1601 historical frontiers/1494 App bodies.
+ * Current reviewed boundary:1604 historical frontiers/1497 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -578,6 +578,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_restore_pch_operators",
+        .entry_rva = 0x5aae0,
+        .code = (const ReconExtent[]) { { 0x5aae0, 0x5ab42 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_operators",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_encode_pch_pages",
         .entry_rva = 0x5a8f0,
         .code = (const ReconExtent[]) { { 0x5a8f0, 0x5aadc } },
@@ -620,6 +629,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_pch_pointers",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_pch_pages",
@@ -628,6 +638,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_pch_pages",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_pch_events@12",

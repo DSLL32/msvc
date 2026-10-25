@@ -558,8 +558,6 @@ int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) 
 void restore_pch_frontend(void) { __asm { int 3 } }
 void declare_pch_debug_library(void) { __asm { int 3 } }
 unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
-void write_pch_pages(void) { __asm { int 3 } }
-void restore_pch_pointers(void) { __asm { int 3 } }
 
 void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry) { __asm { int 3 } }
 void __stdcall mark_pch_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
