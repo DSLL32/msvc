@@ -458,3 +458,15 @@ void __stdcall mark_pch_virtual_call(VirtualCallEntry *entry)
 {
     mark_pch_pointer((void **)&entry->function);
 }
+
+/* Original0x6a5a0..0x6a5db. Inline vectors own their item slots directly;
+   no separate array pointer exists in this layout. */
+void __stdcall mark_pch_inline_vector(InlineVector *vector, PchVisit visit)
+{
+    int i;
+    if (!vector) return;
+    for (i = 0; i < vector->count; ++i) {
+        mark_pch_pointer(&vector->items[i]);
+        if (visit) (*visit)(vector->items[i]);
+    }
+}
