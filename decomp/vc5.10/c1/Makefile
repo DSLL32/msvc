@@ -6,7 +6,7 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -Isrc -Icrt
 NATIVE_CFLAGS = -fms-extensions -fasm-blocks -Wno-ignored-attributes
 NATIVE_CXXFLAGS = -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_LINKER = $(NATIVE_CC)
-BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp
+BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp
 BINARY_SUPPORT_SOURCES = harness/dll-cases.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN = 5.10
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
@@ -34,6 +34,10 @@ RECON_AUDIT_FLAGS = -q --discovery cfg --original $(abspath ../../../toolchains/
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 $(filter .build/pic/src/%,$(BINARY_OBJECTS)): NATIVE_CPPFLAGS += -Dmain=c1_main
+
+# Only explicit inline construction helpers expand here; actual target methods
+# remain out of class and outlined. The strict graph audit checks this boundary.
+build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj: ORIGINAL_CFLAGS += /Ob1
 
 build/mspdb50.lib: src/mspdb50.def | $(RECON_TOOL)
 	@mkdir -p $(@D)

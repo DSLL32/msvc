@@ -28,6 +28,13 @@ typedef struct CompilerInitializedState {
     int saved_pch_mode;                              /* RVA5f32c */
     struct CompilerDependency *dependency;           /* RVA5f3d4 */
     int report_statistics;                          /* RVA5f500 */
+    CompilerBuiltinTypes builtin_types;             /* Encountered type globals */
+    int normalized_pool_strings;                    /* RVA5ef74 */
+    int normalized_readonly_strings;                /* RVA5ef7c */
+    int browser_enabled, browser_full;              /* RVA5ef90/5ef94 */
+    int normalized_stack_checks;                    /* RVA5efa8; default1 */
+    int normalized_oq;                              /* RVA5f2d0 */
+    int pch_separate_debug;                         /* RVA5f338 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -36,6 +43,10 @@ typedef struct CompilerContextState {
     void *object;
     unsigned value;
     struct CompilerContextFrame *saved_frame;
+#ifdef __cplusplus
+    void RECON_THISCALL Push(struct CompilerLexer *, unsigned, unsigned,
+                            unsigned, const struct CompilerContextState *);
+#endif
 } CompilerContextState;
 typedef void (__cdecl *C1BufferRelocator)(void *, unsigned char *, unsigned char *);
 typedef struct CompilerOutputBuffer {
@@ -51,6 +62,7 @@ typedef struct CompilerOutputBuffer {
 #ifdef __cplusplus
     int RECON_THISCALL Close(void);
     int RECON_THISCALL Grow(int);
+    int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif
 } CompilerOutputBuffer;
 /* Recovered numeric alternative only. Other original value-record members
@@ -168,6 +180,14 @@ typedef struct CompilerBss {
     const char *pch_input_file;                      /* RVA54fcc */
     struct CompilerDebugModule *debug_module;       /* RVA550cc */
     FILE *preprocessed_stream;                      /* RVA55060 */
+    struct CompilerTextInput *text_input;           /* RVA58f48 */
+    CompilerLexerBackend *lexer_backend;            /* RVA518e0 */
+    char *browser_filename;                         /* RVA54ddc */
+    int pch_replayed;                               /* RVA53d7c */
+    int pch_file_failed;                            /* RVA54f20 */
+    FILE *preprocessor_output;                      /* RVA54dbc */
+    /* Six output-token prefixes used by the non-IL path. */
+    BYTE output_kinds[6];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

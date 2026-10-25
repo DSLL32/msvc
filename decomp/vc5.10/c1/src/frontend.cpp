@@ -1,47 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "compiler-state.h"
+#include "frontend.h"
 #pragma intrinsic(memcpy)
 #include <recon.h>
-
-/* C1 imports MSVCRT's FILE array directly. The supplied /MD SDK instead
- * expands stdout through __p__iob; preserve the target's actual data import. */
-#if defined(_MSC_VER) && !defined(RECON_NATIVE_TEST)
-#undef _iob
-#undef stdout
-extern "C" __declspec(dllimport) FILE _iob[];
-#define stdout (&_iob[1])
-#endif
-
-/* Only the encountered virtual slots have semantic names. Unrecovered
- * preceding slots are declarations, never instantiated or given fake bodies. */
-struct CompilerBackend {
-    virtual void Finish(void) = 0;
-};
-struct CompilerDebugModule {
-    virtual int Finish(void) = 0;
-    virtual int Close(void) = 0;
-};
-struct CompilerInput {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual void UnrecoveredSlot3(void) = 0;
-    virtual void Close(void) = 0;
-};
-/* External MSPDB interface, not a reconstruction of that dependency. */
-struct PDB {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual int QueryLastError(char *text) = 0;
-};
-struct CompilerTranslationUnit {
-    void RECON_THISCALL Finish(void);
-};
-struct CompilerDependency {
-    void RECON_THISCALL Finish(int success);
-};
 
 extern "C" {
 void __cdecl initialize_frontend(void);
@@ -73,7 +34,7 @@ void __cdecl report_response_error(int, ...);
 
 /* Each assignment is a known setting within the original 1028-byte copy.
  * Unknown settings are neither filled nor semantically consumed here. Future
- * consumers of the remaining 340 bytes must stop until their types are known. */
+ * consumers of the remaining 316 bytes must stop until their types are known. */
 #define SAVE_OPTION(field) c1_bss.saved_options.field = c1_data.options.field
 #define SAVE_KNOWN_PCH_SETTINGS() do { \
     SAVE_OPTION(preprocess_only); SAVE_OPTION(language_extensions); \
@@ -104,6 +65,12 @@ void __cdecl report_response_error(int, ...);
     SAVE_OPTION(incremental_compile); SAVE_OPTION(debug_types); \
     SAVE_OPTION(function_records); SAVE_OPTION(split_pdbs); \
     SAVE_OPTION(no_eh_for_new); \
+    c1_bss.saved_options.normalized_pool_strings = c1_data.normalized_pool_strings; \
+    c1_bss.saved_options.normalized_readonly_strings = c1_data.normalized_readonly_strings; \
+    c1_bss.saved_options.browser_enabled = c1_data.browser_enabled; \
+    c1_bss.saved_options.browser_full = c1_data.browser_full; \
+    c1_bss.saved_options.normalized_stack_checks = c1_data.normalized_stack_checks; \
+    c1_bss.saved_options.normalized_oq = c1_data.normalized_oq; \
 } while (0)
 
 extern "C" int __cdecl run_compiler(void)
@@ -230,7 +197,6 @@ finish_streams:
     return c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1);
 }
 
-extern "C" void __cdecl initialize_frontend(void) { __asm { int 3 } }
 extern "C" unsigned __cdecl pack_option_flags(void) { __asm { int 3 } return 0; }
 extern "C" void __cdecl prepare_translation_unit(void) { __asm { int 3 } }
 extern "C" void __cdecl load_precompiled_header(const char *path, int required) { __asm { int 3 } }
