@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 118 accepted application functions / 14603
+The single registry is binary.c: 119 accepted application functions / 14962
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 120
+as are three six-byte import endpoints (18 bytes, zero App credit). The 121
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine open_expression_output INT3 at RVA3acef;
+and currently reaches the genuine OutputBuffer::Open INT3 at RVA3bd53;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,16 +42,14 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The 102-byte pointer-array creator and 13-byte signed-short size helper each
-passed fresh pairs and strict audits. The creator preserves the temporary
-pointer-one initialization guard and recursive zero-capacity header.
-The latest actual original/native frontier is open_expression_output:
-1.604 s / 10.771 ms (native setup 6.189, execution 3.066, checks 1.515).
-The two build/audit/unit batches took 8.136 s and 3.243 s. An initial predicted
-case frontier was corrected from initialize_type_table to the actual identical
-frontier on both executions; the unchanged original was reused with a pinned
-descriptor-only correction and fresh native check. The failed expectation and
-both actual reports remain in scratch; no source or mask was changed for it.
+The latest 359-byte expression-output initializer reaches the real
+OutputBuffer::Open(prefix,"ex","w+b") call. The matching original/native pair
+took 1.411 s / 10.542 ms (native setup 5.134, execution 3.964, checks 1.442).
+The first build/audit/unit batch took 8.469 s. An unvisited PCH branch mode was
+corrected to the original "wb" before acceptance; the unchanged original was
+reused with an explicit one-literal source derivation, current strict audit and
+fresh native check (build batch 3.302 s). The explicit selected original-report
+gate and independent actual sequence/frontier comparison both pass.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

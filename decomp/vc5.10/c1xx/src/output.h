@@ -22,6 +22,7 @@ typedef struct OutputBuffer {
     int RECON_THISCALL Close(void);
     int RECON_THISCALL Open(const char *, const char *, const char *);
     int RECON_THISCALL Grow(int bytes);
+    void RECON_THISCALL Flush(void);
 #endif
 } OutputBuffer;
 

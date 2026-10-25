@@ -54,6 +54,7 @@ typedef struct FrontendData {
     struct CompilerIdentifier *current_identifier; /* cc450, NULL */
     struct CompilerPointerArray *frontend_pointer_table; /* cc5b4, NULL */
     struct CompilerPointerArray *empty_pointer_array; /* cc6b0, NULL; temporary guard1 */
+    int pch_expression_file; /* cd4e0, zero */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -218,6 +219,7 @@ typedef struct FrontendBss {
     unsigned char output_kinds[6]; /* scattered BYTE destinations */
     FILE *preprocessor_output; /* c080c */
     CompilerLexerBackend *lexer_backend; /* ba918 */
+    int expression_seek_result; /* c5388, zero */
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
 } FrontendBss;
 

@@ -10,7 +10,7 @@ BINARY_CRT_SOURCES = crt/startup.c
 BINARY_APP_SOURCES = src/dllmain.c src/exports.c src/frontend.c \
  src/initializers.c src/output.c src/pdb-context.c src/types.c src/options.c \
  src/option-matcher.c src/checksum.c src/scanner.c \
- src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp src/path.c src/packing.cpp src/driver.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/token-init.cpp src/keywords.cpp src/pointer-array.cpp
+ src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp src/path.c src/packing.cpp src/driver.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/token-init.cpp src/keywords.cpp src/pointer-array.cpp src/expression-output.cpp
 BINARY_SOURCES = $(BINARY_CRT_SOURCES) $(BINARY_APP_SOURCES)
 BINARY_HARNESS_SOURCES = harness/lifecycle.c harness/minimal.c harness/input-checks.cpp
 BINARY_SUPPORT_SOURCES = $(BINARY_HARNESS_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)

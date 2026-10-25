@@ -52,6 +52,8 @@ int c1xx_test_exception_counters(void)
     frontend_data.current_identifier = (struct CompilerIdentifier *)&frontend_data;
     frontend_data.frontend_pointer_table = (struct CompilerPointerArray *)&frontend_data;
     frontend_data.empty_pointer_array = (struct CompilerPointerArray *)&frontend_data;
+    frontend_data.pch_expression_file = 149;
+    frontend_bss.expression_seek_result = 151;
     frontend_data.browser_mode = 139;
     frontend_data.named_browser = (struct CompilerBackend *)&frontend_data;
     frontend_data.initial_backend = (struct CompilerBackend *)&frontend_data;
@@ -80,5 +82,6 @@ int c1xx_test_exception_counters(void)
         frontend_bss.lexer_backend == NULL && frontend_bss.saved_options.normalized_stack_checks == 0 &&
         frontend_bss.processor_instruction_mask == 0 && frontend_data.browser_mode == 0 &&
         frontend_data.named_browser == NULL && frontend_data.initial_backend == NULL &&
-        frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL;
+        frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
+        frontend_bss.expression_seek_result == 0;
 }

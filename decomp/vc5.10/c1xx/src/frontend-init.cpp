@@ -329,7 +329,6 @@ extern "C" void __cdecl initialize_frontend_tables(void)
     ++array->count;
     frontend_data.frontend_pointer_table = array;
 }
-extern "C" void __cdecl open_expression_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_global_scope(void) { __asm { int 3 } }

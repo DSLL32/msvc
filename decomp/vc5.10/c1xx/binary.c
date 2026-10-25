@@ -3,6 +3,20 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_prepare_expression_input", .entry_rva = 0x3be05,
+        .code = (const ReconExtent[]){{0x3be05, 0x3be06}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "prepare_expression_input",
+    },
+    {
+        .name = "OutputBuffer::Flush", .entry_rva = 0x3982,
+        .code = (const ReconExtent[]){{0x3982, 0x3983}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN12OutputBuffer5FlushEv",
+        .original_symbol = "?Flush@OutputBuffer@@QAEXXZ",
+    },
+
+    {
         .name = "_pointer_array_size", .entry_rva = 0x149ba,
         .code = (const ReconExtent[]){{0x149ba, 0x149c7}},
         .code_count = 1, .definition = RECON_APP,
@@ -1096,9 +1110,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_open_expression_output", .entry_rva = 0x3acef,
-        .code = (const ReconExtent[]){{0x3acef, 0x3acf0}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3acef, 0x3ae14}, {0x72e01, 0x72e43}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "open_expression_output",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_type_table", .entry_rva = 0x3ae14,
