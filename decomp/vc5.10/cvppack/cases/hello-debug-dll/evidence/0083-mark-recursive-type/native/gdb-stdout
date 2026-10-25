@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x56627d94 in hash_type_reference (record=0xf7aaf970, ordinal=2) at src/stubs.c:75
-75	unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short ordinal) { __asm { int 3 } return 0; }

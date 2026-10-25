@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565971f1 in files_initialize (pages=16, files=16, page_shift=2, file_pages=16, file_shift=2, mapped=1) at src/stubs.c:5
-5	void files_initialize(int pages, int files, int page_shift, int file_pages, int file_shift, int mapped) { __asm { int 3 } }

@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5662d7a4 in main (argc=2, argv=0xff8953b4, environment=0xff8953c0) at scripts/native-driver.c:9
-9	    __asm int 3

@@ -1,6 +1,0 @@
-{
-  "schema": 1,
-  "promoted": false,
-  "reason": "Original compiler rejected missing pack.h declaration; no capture/promotion.",
-  "corrected_pair": "0086-lookup-global-type-arena-contract"
-}

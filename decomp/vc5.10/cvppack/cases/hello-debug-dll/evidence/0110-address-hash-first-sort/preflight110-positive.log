@@ -1,9 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 316, in <module>
-    print(json.dumps(run(args.config, args.candidate, args.output,args.reuse_original,args.reuse_native), indent=2))
-                     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 154, in run
-    assert ret_result.returncode==0,ret_result.stderr.decode()
-           ^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: graph-audit: duplicate preservation target
-

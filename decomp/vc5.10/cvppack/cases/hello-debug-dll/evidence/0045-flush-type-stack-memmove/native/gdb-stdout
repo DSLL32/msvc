@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5658d695 in insert_public_symbol (record=0xfff40474 "\032", key=0x5658d5f0 <symbol_record_key>) at src/stubs.c:45
-45	void insert_public_symbol(unsigned char *record, SymbolKeyProc key) { __asm { int 3 } }

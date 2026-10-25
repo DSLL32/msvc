@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5659074e in emit_widen (object=0x565bc4f8 <opaque>, output=0xff863e2c, input=0x582fdf34, size=57, flags=0) at src/stubs.c:43
-43	int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags) { __asm { int 3 } return 0; }

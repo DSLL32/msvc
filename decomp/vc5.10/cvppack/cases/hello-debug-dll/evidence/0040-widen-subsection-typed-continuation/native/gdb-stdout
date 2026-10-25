@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565f71b5 in pack_symbols (symbols=0x57d0cae0, entry=0x57cde32c) at src/stubs.c:29
-29	void pack_symbols(void *symbols, CodeViewDirectoryEntry *entry) { __asm { int 3 } }

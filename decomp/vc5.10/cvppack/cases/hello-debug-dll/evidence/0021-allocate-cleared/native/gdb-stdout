@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565e6895 in initialize_arena (arena=0x5660482c <type_arena>, capacity=4096) at src/stubs.c:23
-23	void initialize_arena(TypeArena *arena, unsigned capacity) { __asm { int 3 } }

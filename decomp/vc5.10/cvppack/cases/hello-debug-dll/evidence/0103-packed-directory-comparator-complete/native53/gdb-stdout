@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565e8372 in begin_buffered_output (file=15) at src/stubs.c:64
-64	void begin_buffered_output(int file) { __asm { int 3 } }

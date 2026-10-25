@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565809d1 in symbol_record_key (record=0xffe0a924 "\032", hash=0xffe0a8e4, name=0xffe0a8ce, segment=0xffe0a8cc, offset=0xffe0a8e0, flags=4096) at src/stubs.c:44
-44	unsigned short symbol_record_key(const unsigned char *record, unsigned *hash, unsigned short *name, unsigned short *segment, unsigned *offset, unsigned flags) { __asm { int 3 } return 0; }

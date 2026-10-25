@@ -1,108 +1,42 @@
-# VC5.10 CVPACK
+CVPACK 5.10 reconstruction
+========================
 
-Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
-`cvppack`. Reconstructed source is readable Win32 C with a minimal genuine C++ DLL interface, compiled with the provided
-5.10 toolchain and also as native i386 Linux code through `lib/recon`.
+`make -j4 check unit` runs the two cached cases and narrow native tests through
+the shared runner. `make -j4 win32 audit` checks original-compiler compatibility
+and the function graph/ABIs. Fixtures never invoke Wine.
 
-`/help` is complete: status 1, 193 stdout bytes, no stderr, six application
-entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-the global-symbol writer (`write_globals`),
-after all 21 Widen lifetimes. There are 113 accepted application functions /
-37,019 extent bytes, plus 784 associated switch-data
-bytes. This is 59.08% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
-it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
-and five import thunks (30 bytes) remain separate support.
+The accepted runnable baseline is 113 application functions totaling 37,019 original code
+bytes, unchanged from 8f832c69. This is 59.08% of the 62,662-byte whole-text extent;
+that denominator also contains CRT/support, unknown code and padding. A complete
+non-CRT denominator is not established. CRT/import selection earns no App credit.
 
-## Build and validation
+0000-help completes with status 1, 193 stdout bytes and empty stderr.
+0001-hello-debug-dll invokes `/nologo hello.dll` on the original embedded-CodeView
+DLL. Its current frontier is the named `write_globals` stub (RVA 0xd9a0); the
+948-byte prospective body remains analysis only. Its capture distinguishes the
+actual partial artifact from the final NB11 master. No new references were run
+for this migration.
 
-```
-make -j4 all native
-make -j4 check audit-native
-```
+The native MSPDB adapter is a strict 21-lifetime typed response provider. Only
+the captured factory/Query/Emit/Release sequence and complete inputs are allowed;
+unknown methods or inputs fail. It writes observed output prefixes and preserves
+each native buffer's own unwritten capacity. It is outside the App graph.
 
-`all` uses the shared repository Wine prefix for the original compiler only.
-Fixtures, GDB, dependency responses and regression checks run natively. Never
-rebuild concurrently with an immutable pair check: build once, freeze its input
-content and PE/MAP/ELF hashes, then run validators. Shared-source changes may
-require native-only rebuild/capture. Reuse original raw only when its target,
-mask, effective candidate, configuration and execution inputs are unchanged;
-strict current sidecars bind both generations and regenerate current metadata.
+`binary.c` is the sole function/extent/status registry. `policy-data.json` holds
+live finite graph/ABI/table rules; `abi-policy.json` records their original/provider/SDK
+premises. The exact opaque 8-byte Release tail has its reviewed ABI residual;
+every other accepted body retains strict cleanup checks. Historical acceptance
+proofs and superseded observers remain in Git history rather than fixture data.
 
-The source retains standard `main`; its documented native target-TU alias
-`cvpack_main` separates it from the host driver. `src/crt-imports.h` preserves the
-original direct `_iob` data import instead of adding the SDK accessor.
+Migration timing (2026-10-25): combined parallel native/Win32 build 9.088s;
+12 native boundary tests 17.637ms. Current case replay measurements:
 
-The shared Rust audit checks candidate-inclusive CFG/RET, qualified imports,
-function references, ownership and complete extents. Encountered switch tables
-have exact COFF/relocation/linked-byte proofs. Narrow provider/SDK preservation
-witnesses resolve cached EBX/ESI/EDI/EBP imports. Main additionally requires all
-five original cached free calls and only the genuine checksum callback as
-unresolved. Actual GDB DWARF formals independently check argument count/names,
-integer/pointer kind, width and known pointee size before typed state comparison.
+| Case | Setup | Execution | Checks | Total |
+| --- | ---: | ---: | ---: | ---: |
+| help | 3.957ms | 2.666ms | 0.587ms | 7.210ms |
+| hello-debug-dll | 3.722ms | 7.264ms | 21.791ms | 32.778ms |
 
-## Cases and evidence
+These replay checks cover first-entry order, terminal status, streams and actual file
+artifacts. Historical per-function GDB/state proof campaigns are not rerun.
 
-Case definitions and immutable original inputs/masters live under `cases/`.
-`hello-debug-dll` was prepared by the actual 5.10 compiler/linker with `/Z7`,
-`/DEBUG /DEBUGTYPE:CV /PDB:NONE /NOPACK /INCREMENTAL:NO`. Its NB05 input and NB11
-master are specific to this toolchain; no VC1 output is reused.
-
-The current prefix compares 336 type records and all 384,000 initialized table
-bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents, defined symbol/source-module buffers, and 87 owned counted type-name
-cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
-global pointer slots and direct/pool interned-node ownership. Lookup outputs use actual DWORD caller storage; the recursive-reference helper shares its saved DWORD/WORD local through an explicit union. Earlier byte-schema scaffolds were rejected before the callee executed. Local/global symbol hash heads
-retain their actual shared public-arena nodes, full initialized records and owned padding where defined
-and separate byte/count counters. Three new reference nodes bind module/source offsets and initialized14B payloads while retaining each native allocation's own two unwritten alignment bytes. The source-line flag is one original WORD shared by pack_module and main; its old statistics_enabled label is metadata-only. The default dispatch row and
-next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
-remain native owned; explicit positive controls permit changing them. Extended reference arrays retain their actual cleared allocation identities and
-full initialized capacities, including zero spare bytes. Recursive hash nodes
-retain their actual 12-byte pool ownership and per-bucket counts. Arena-record
-arguments bind initialized bytes to local records and global index slots. The first
-module's type-table contract fails closed on reuse until that lifetime is observed.
-
-Known original callee extents may supply tail RET closure while their source
-remains INT3, masked, unaccepted and excluded from coverage. The allocator and
-both compactors use one original `discard_types` flag, with a nonzero native
-identity control.
-
-The pointer compactor preserves an original unwritten-offset path for unsupported
-embedded symbol kinds. Native execution traps before that unvalidated read; a
-focused native control verifies it. Recognized offsets and current pointers run
-normally. This limitation has no unsupported-path equivalence claim.
-
-Module source-line copies bind the complete original256B input to one allocation shared by its directory and ModuleInfo. Rewrite allocation provenance retains actual call-time operands across module-global resets and input-buffer reuse.
-
-The reviewed MSPDB WidenTi case provider is outside application coverage and has
-now supplied all 21 complete factory/query/emit/release lifetimes. It enforces 21 actual lifetimes,
-complete inputs/aliases/sequences/capacities and actual thiscall interfaces,
-writing only observed prefixes and preserving each native allocation's own tail.
-The exact8B Release tail uses a reviewed local slot0/RET0 proof alongside full graph checks and common strict return checks on every other function. The unreached Record slot fails closed. See `cases/hello-debug-dll/DEPENDENCY.md`.
-
-Main cleanup records initialized inputs before each real CRT free, then retains
-only ended lifetimes and pointer identities. Current-state observations exclude
-freed payloads; a finite no-consumer continuation is checked before the next stub.
-Scratch cleanup uses the meaningful source name `free_widen_buffers`; the historical logical ID `write_debug_directory` remains explicit in evidence. Seven real frees cover 21,934 initialized bytes, including maximum written prefixes from the same scratch allocation generation; later untouched capacity remains native owned. Type-table cleanup adds five ended allocations: 39,854 byte-compared inputs plus 416,768 typed pre-free table bytes, 456,622 initialized bytes total. Released roots stay identity-only in current state; live child nodes are still distinct allocations. See `evidence/0099-finalize-derived-types/table-lifetime-review.json` and its independent parent review.
-
-`cases/hello-debug-dll/REVIEW-50.md` records the independent source/graph/ABI review.
-Each accepted function's `evidence/*/function-review.json` or `validation.json`
-records fresh/reused controls and separate build/capture/check/fixture times.
-Historical raw is never relabeled; incomplete and superseded trials retain their
-status. Guarded `TypesClose`/`PDBClose` imports have actual named-export/caller ABI witnesses; native host adapters deny125 until those paths are observed. No PDB behavior is credited. The source-file index builder now uses its meaningful source name `build_source_file_index`; historical `print_statistics` is metadata-only. Its first live module header has an explicit post-free allocation generation, separately observed even when its native address reuses an old table. Old roots remain historical and generic retired-range reads still fail. Current native help runs in roughly 31 ms; the partial debug fixture is
-about 20.01 s: 11.00 s for the GDB execution and 8.68 s for checks, including
-state decoding. The directory and address sorts contribute 687 callbacks. Completion will use native entry traces, exact streams,
-status and the cached NB11 master without launching Wine.
-
-The packed-directory sort now matches all 375 canonical callbacks, complete inputs/results/ABI, errors and all 840 initialized directory bytes. Its x87 comparison permits each side's own unused payload only for this integer-only path with control `027f`, status zero and all eight tags empty throughout; each full own raw baseline remains strictly preserved. This does not establish a live-FP or general CRT/CL rule.
-
-The output initializer establishes a separate 65,512-byte allocation generation, even when the original allocator reuses a retired type-table address. The current buffer has 8,292 initialized bytes; its remaining 57,220 bytes stay own unwritten storage. Historical tables are never restored as current memory, and later stale-root consumers remain held.
-
-The 58 subsections contribute 5,002 source bytes and 46 alignment bytes to the first 5,056 output bytes. Current directory row 58 now describes the public section `(0x12a, 0xffff, 5056, 3236)`. The remaining 132 initialized directory-tail bytes are unchanged, and 72 spare bytes remain unobserved. Sorted input pointers retain their separate historical identities.
-
-The public-symbol writer preserves all 64 input nodes and adds a 24-byte end marker from the same arena. Its eight-byte contribution brings the symbol stream to 2,116 bytes. This input never crosses an internal page boundary; that future path remains held. The two 24-byte hash-stream descriptors are retained as historical observations after their automatic frame returns; their typed heap blocks and payloads remain live.
-
-The name hash derives six buckets and two overflow nodes from the public records. Its canonical arena initialization and copy helpers have fresh contextual ABI evidence. Twenty-one copies and seven fills produce 564 initialized bytes; twelve CRT free calls end three temporary generations after checking 66,132 initialized pre-free bytes. The live name arena and 12-byte block stay separate from those historical tables, with the payload's 3,532-byte unwritten tail unclaimed. The reference helper checks complete consumption of its bounded 256-slot probe configuration before execution.
-
-The 742-byte address-hash builder groups symbols into segments of 27, 29 and 8 records. The 23-byte comparator completes all three sorts: 312 canonical callbacks match full inputs, results, return ABI, errors and each side's own full FP baseline. Four temporary allocations contain 548 initialized bytes and become historical after their actual frees. A separate 12-byte block and 540-byte initialized address payload remain live; the payload's 3,556-byte unwritten tail stays unclaimed. Both eight-byte block accessors now have actual cdecl/input/return/owner proofs. The caller copies all 564 name bytes and 540 address bytes, producing 8,292 initialized packed bytes and completing the public writer. Its former automatic descriptors stay historical; the four live heap block/payload owners retain 1,128 initialized bytes. The directory row stays unchanged, directory count becomes 59, and the next global-symbol writer receives row 59 and offset 8,292. The full mapped-input catalog is explicitly carried from the same execution's first-callback phase, with a bounded no-mapping-change/disjoint-write proof; it is not described as a fresh final original snapshot.
-
-The decoder reuses one fully validated historical-phase parse within a comparison invocation. Exact public-result bytes are unchanged; the same retained input measured 6.51 s before and 4.85 s after. Current raw events still decode independently, and different/premature/failed phase reuse cannot bypass validation.
+Final canonical graph/ABI audit: 0.198s (113 App bodies, 112 scoped RET checks).

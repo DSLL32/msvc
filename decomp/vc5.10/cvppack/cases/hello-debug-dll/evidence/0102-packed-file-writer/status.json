@@ -1,4 +1,0 @@
-{
-  "status": "not-promoted",
-  "reason": "Before original execution, new writer cached-import checker reused identity local for printf, shadowing older free identity; unchanged common reports correctly show free. Scoped writer_identity correction; old static failure retained."
-}

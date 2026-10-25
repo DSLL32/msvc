@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5656da14 in add_type_reference (record=0xf7a3f5f0, offset=8) at src/stubs.c:57
-57	void __fastcall add_type_reference(TypeRecord *record, unsigned short offset) { __asm { int 3 } }

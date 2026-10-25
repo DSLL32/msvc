@@ -1,6 +1,0 @@
-{
-  "schema": 1,
-  "promoted": false,
-  "reason": "Rejected: frontier stub declared real two formals but metadata was empty; no acceptance.",
-  "corrected_pair": "0085-index-recursive-type-dword-output"
-}

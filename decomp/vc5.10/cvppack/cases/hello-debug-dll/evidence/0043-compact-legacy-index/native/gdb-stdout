@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565c52e2 in map_primitive_type (index=0) at src/stubs.c:49
-49	unsigned map_primitive_type(unsigned index) { __asm { int 3 } return 0; }

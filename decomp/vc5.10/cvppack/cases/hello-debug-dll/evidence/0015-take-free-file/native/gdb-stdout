@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565721f1 in move_cached_file (file=0x581a8d40, source=0x5658d258 <free_files>, source_last=0x0, destination=0x5658d2b0 <active_files>, destination_last=0x0, append=0) at src/stubs.c:21
-21	void move_cached_file(CachedFile *file, CachedFile **source, CachedFile **source_last, CachedFile **destination, CachedFile **destination_last, int append) { __asm { int 3 } }

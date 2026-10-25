@@ -1,0 +1,1307 @@
+{
+  "schema": 1,
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "_main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_messages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_parse_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_files_initialize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_print_banner": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_select_input_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_type_tables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_image_debug": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_module_pack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_pack_module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_free_widen_buffers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_free_type_tables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_build_source_file_index": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_flush_packed_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_fatal_error": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_message_text": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_zero": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_page": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_open_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_open_mapped_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_take_free_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_duplicate_string": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_move_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_create_mapping": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mapped_seek": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_cleared": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_bytes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_arena": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_seek_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_tell_cached_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_codeview_signature": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_codeview_directory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_classify_debug_directory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mapped_read": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_directory_entries": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_load_debug_subsection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_module_info": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_single_module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_module_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_module_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_module_local_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_module_source_lines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_pack_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_scan_module_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_module_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_module_global_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_widen_subsection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_create_widen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_query_widen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_emit_widen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@map_legacy_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@map_type_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_symbol_record_key": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_insert_public_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compact_legacy_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_flush_type_stack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_map_primitive_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_lookup_global_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compact_legacy_pointer@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@match_forward_type@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "@compact_type_list@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resolve_recursive_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@intern_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compact_type_index@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_public_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_new_module_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_reset_type_name_cache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_module_type_storage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_add_symbol_segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_has_symbol_segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_bp_relative_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_enter_symbol_scope": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_leave_symbol_scope": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_type_name_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_object_name_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_procedure32_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_segment_record": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_link_symbol_scopes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_record_symbol_references": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_module_contains_address": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@add_type_reference@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_type_record@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_lookup_named_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@allocate_global_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_record_base_classes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@copy_type_arena@12": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_find_local_named_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@insert_global_symbol@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_recursive_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@compare_recursive_type@16": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "@intern_recursive_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@hash_type_reference@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@mark_recursive_type@4": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "@index_recursive_type@8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_record_symbol_reference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finalize_derived_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_append_source_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_begin_buffered_output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_packed_directory_entries": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_subsection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_publics": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_insert_symbol_page_padding": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_build_symbol_name_hash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_build_symbol_address_hash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_first_hash_output_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_next_hash_output_block": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_fill_type_arena": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_symbol_address": {
+        "expected_cleanup": [
+          0
+        ]
+      }
+    }
+  },
+  "native_limitations": [
+    "compact_legacy_pointer rejects the original uninitialized-offset unknown-kind path before consumption.",
+    "MSPDB provider permits only the21 captured Widen lifetimes/inputs and observed methods; Record0x0c, TypesClose/PDBClose and unknown requests deny.",
+    "write_globals remains the unimplemented frontier; no new body accepted during migration."
+  ],
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_reset_type_name_cache": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_build_source_file_index": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_flush_packed_file": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_parse_options": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_print_banner": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_fatal_error": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_read_image_debug": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_create_mapping": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_begin_buffered_output": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "@intern_type@4": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "@add_type_reference@8": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_free_widen_buffers": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_free_type_tables": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_build_symbol_address_hash": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_main": {
+        "register_imports": {
+          "require_all_register_calls_resolved": false,
+          "expected_sites": {
+            "original": {
+              "resolved_register_calls": [
+                {
+                  "site": 4212518,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": 4212529,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": 4212541,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": 4212553,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": 4212564,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                }
+              ],
+              "unresolved_register_calls": [
+                4212732
+              ],
+              "other_unresolved_calls": [],
+              "direct_import_calls": [
+                {
+                  "site": 4212307,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "__p__pgmptr"
+                  }
+                },
+                {
+                  "site": 4212344,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_setmode"
+                  }
+                },
+                {
+                  "site": 4212615,
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "LoadLibraryA"
+                  }
+                },
+                {
+                  "site": 4212647,
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "GetProcAddress"
+                  }
+                },
+                {
+                  "site": 4212812,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": 4212884,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ]
+            },
+            "rebuilt": {
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [],
+              "other_unresolved_calls": [
+                {
+                  "rebuilt_symbol": "_main",
+                  "offset": 551
+                }
+              ],
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 56
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "__p__pgmptr"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 93
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_setmode"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 316
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 331
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 347
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 363
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 378
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 438
+                  },
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "LoadLibraryA"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 473
+                  },
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "GetProcAddress"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 636
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 704
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "_pack_module": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_pack_module",
+                "offset": 847
+              },
+              {
+                "rebuilt_symbol": "_pack_module",
+                "offset": 886
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_pack_module",
+                "offset": 356
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 363
+                },
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 419
+                },
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 437
+                },
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 455
+                },
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 379
+                },
+                {
+                  "rebuilt_symbol": "_pack_module",
+                  "offset": 471
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "register_imports": {
+      "preservation_contracts": [
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          },
+          "preserves": [
+            "esi",
+            "ebp",
+            "edi",
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            }
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_strcmpi"
+            }
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_message_text"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_fatal_error"
+          },
+          "preserves": [
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_warning"
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_cached_file"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_tell_cached_file"
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_allocate_cleared"
+          },
+          "preserves": [
+            "esi",
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_seek_cached_file"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_begin_buffered_output"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_buffered_write"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_subsection"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_publics"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_globals"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_static_symbols"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_global_types"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "qsort"
+            }
+          },
+          "preserves": [
+            "edi",
+            "ebx"
+          ],
+          "evidence": {
+            "path": "abi-policy.json",
+            "sha256": "1c33b02b396fc4a76be397c25028e20a6b7d3a7346a410fccaee4d4b654f3914"
+          }
+        }
+      ]
+    },
+    "callback_tables": [
+      {
+        "label": "_symbol_rewriters",
+        "original": [
+          4268968,
+          4269280
+        ],
+        "rebuilt_begin": "_symbol_rewriters",
+        "count": 39,
+        "stride": 8,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_rewrite_bp_relative_symbol",
+          "_enter_symbol_scope",
+          "_rewrite_procedure32_symbol",
+          "_rewrite_procedure32_symbol",
+          "_leave_symbol_scope",
+          "_rewrite_symbol_type4",
+          "_rewrite_global_data_symbol",
+          "_rewrite_symbol_type4",
+          null,
+          "_rewrite_symbol_type4",
+          "_rewrite_symbol_type4",
+          "_rewrite_global_data_symbol",
+          null,
+          "_rewrite_register16_symbol",
+          "_enter_symbol_scope",
+          "_rewrite_procedure16_symbol",
+          "_rewrite_procedure16_symbol",
+          "_rewrite_data16_symbol",
+          "_rewrite_global_data16_symbol",
+          "_rewrite_data16_symbol",
+          null,
+          "_rewrite_type_name_symbol",
+          "_rewrite_bp_relative_symbol",
+          "_rewrite_mips_procedure_symbol",
+          "_rewrite_mips_procedure_symbol",
+          null,
+          "_rewrite_data16_symbol",
+          "_enter_symbol_scope",
+          "_enter_symbol_scope",
+          "_enter_symbol_scope",
+          "_enter_symbol_scope",
+          null,
+          null,
+          "_rewrite_type_name_symbol",
+          null,
+          null,
+          null,
+          "_rewrite_object_name_symbol",
+          null
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_type_index_mappers",
+        "original": [
+          4268312,
+          4268324
+        ],
+        "rebuilt_begin": "_type_index_mappers",
+        "count": 3,
+        "stride": 4,
+        "pointer_offset": 0,
+        "expected_functions": [
+          "@compact_legacy_index@4",
+          "@compact_type_index@4",
+          "@compact_type_index@4"
+        ],
+        "require_accepted": false
+      }
+    ]
+  }
+}

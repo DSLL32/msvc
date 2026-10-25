@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5663d7f5 in read_module_types (entry=0x569da324, precompiled=0) at src/stubs.c:25
-25	void read_module_types(CodeViewDirectoryEntry *entry, int precompiled) { __asm { int 3 } }

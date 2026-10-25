@@ -1,6 +1,0 @@
-{
-  "schema": 1,
-  "promoted": false,
-  "reason": "Original reached newlyrequired publicCRT memcmpthunk stillmasked; native continued to nextappstub. No promotion.",
-  "corrected_pair": "0087-compare-recursive-type-initialized-operands"
-}

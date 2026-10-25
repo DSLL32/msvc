@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x56645798 in append_source_name (name=0x5860f894 "\vhello-dll.c\001", tail=0xfff384c0, offset=0) at src/stubs.c:11
-11	SourceNameIndex *append_source_name(const unsigned char *name, SourceNameIndex *tail, unsigned offset) { __asm { int 3 } return NULL; }

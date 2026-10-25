@@ -1,5 +1,0 @@
-python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /Fobuild/debug-run.obj scripts/debug-run.c
-debug-run.c
-scripts/debug-run.c(742) : warning C4018: '!=' : signed/unsigned mismatch
-scripts/debug-run.c(758) : warning C4018: '!=' : signed/unsigned mismatch
-python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj

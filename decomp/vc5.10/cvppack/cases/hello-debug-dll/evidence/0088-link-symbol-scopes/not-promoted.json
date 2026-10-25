@@ -1,5 +1,0 @@
-{
-  "schema": 1,
-  "promoted": false,
-  "reason": "Actual new callback has3formals; empty provisional metadata rejected. Fresh typed-contract pair used for promotion."
-}

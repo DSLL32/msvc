@@ -1,5 +1,0 @@
-LIBRARY MSPDB50.DLL
-EXPORTS
-    ?fCreate@WidenTi@@SAHAAPAU1@IH@Z
-    TypesClose
-    PDBClose

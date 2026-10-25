@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565c3f02 in find_cached_file (name=0x565df2a0 <input_name> "hello.dll") at src/stubs.c:20
-20	CachedFile *find_cached_file(const char *name) { __asm { int 3 } return NULL; }

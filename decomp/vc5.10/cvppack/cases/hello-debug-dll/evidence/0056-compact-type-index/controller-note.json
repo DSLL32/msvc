@@ -1,4 +1,0 @@
-{
-  "schema": 1,
-  "issue": "An accidental stdout redirection created an empty promotion.json before the guarded promotion ran. Guard rejected without mutation. The subsequent stale-prefix native fixture also rejected. Empty output files removed; correct accept command writes its own proof; no raw evidence changed."
-}

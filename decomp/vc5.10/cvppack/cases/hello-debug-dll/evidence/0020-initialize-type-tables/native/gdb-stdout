@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5663a832 in allocate_cleared (size=16384) at src/stubs.c:22
-22	void *allocate_cleared(unsigned size) { __asm { int 3 } return NULL; }

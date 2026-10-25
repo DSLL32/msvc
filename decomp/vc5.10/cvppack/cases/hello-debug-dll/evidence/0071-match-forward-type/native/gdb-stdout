@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x5662b7c9 in lookup_named_type (kind=4101, name=0x585cc146 "\016tagPAINTSTRUCT\363\362\361\036", match=0xffa3a288) at src/stubs.c:64
-64	int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match) { __asm { int 3 } return 0; }

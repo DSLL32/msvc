@@ -1,78 +1,52 @@
-PYTHON ?= python3
-include ../../../tooling/graph-audit/graph-audit.mk
-RECON = ../../../lib/recon
-TOOL = $(PYTHON) scripts/wine-tool.py
-NATIVE_CC ?= clang
-NATIVE_CXX ?= clang++
-NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native -Isrc
-SOURCES = $(wildcard src/*.c)
-CPP_SOURCES = $(wildcard src/*.cpp)
-HEADERS = $(wildcard src/*.h)
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES))
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
-NATIVE_HOST = scripts/native-widen.c scripts/native-pdb.c
-NATIVE_HOST_HEADERS = scripts/native-widen-abi.h
-NATIVE_HEADERS = $(HEADERS) $(shell rg --files $(RECON)/include $(RECON)/native -g '*.h')
-CHECK_CASES = $(patsubst cases/%/case.json,%,$(wildcard cases/*/case.json))
+RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
+RECON := ../../../lib/recon
+NATIVE_CC := clang
+NATIVE_CXX := clang++
+BINARY_LINKER := clang
+BINARY_SOURCES := $(wildcard src/*.c) $(wildcard src/*.cpp) scripts/native-widen-factory.cpp
+BINARY_SUPPORT_SOURCES := scripts/native-driver.c scripts/native-widen.c scripts/native-pdb.c \
+ $(wildcard $(RECON)/src/*.c)
+NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 \
+ -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS := -std=gnu89 -fms-extensions -fasm-blocks
+NATIVE_CXXFLAGS := -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 
-.PHONY: all native check audit audit-native final-check inspect capture-help
-all: build/CVPACK.EXE
-native: build/native/CVPACK
-inspect:
-	$(PYTHON) scripts/inventory.py
+ORIGINAL_TOOLCHAIN := 5.10
+ORIGINAL_SOURCES := $(wildcard src/*.c) $(wildcard src/*.cpp)
+ORIGINAL_OUTPUT := build/CVPACK.EXE
+ORIGINAL_CPPFLAGS := /I$(RECON)/include
+ORIGINAL_CFLAGS := /nologo /c /MD /Od /W3
+ORIGINAL_INCLUDE_DIRS := src $(RECON)/include
+ORIGINAL_LDFLAGS := /nologo /subsystem:console /map:build/cvpack.map
+ORIGINAL_LDLIBS := build/resources.res build/mspdb50.lib
 
-build build/native:
-	mkdir -p $@
+RECON_AUDIT_PROFILE := cl
+RECON_IMAGE_BASE := 4194304
+RECON_POLICY := policy-data.json
+RECON_AUDIT_REGISTRY_METADATA := 1
+RECON_AUDIT_REGISTRY_RET_CHECKS := 1
+RECON_AUDIT_REGISTRY_RUNTIME := 1
+RECON_AUDIT_IDENTIFY_RUNTIME := 1
+RECON_RUNTIME_FLAGS := --library MSVCRT.LIB
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+RECON_METADATA_REBUILT_MAP := build/cvpack.map
+RECON_AUDIT_FLAGS = -q --discovery cfg --check-imports --resolve-register-imports \
+ --check-callbacks --check-references --check-ownership --check-extents \
+ --original ../../../toolchains/5.10/bin/CVPACK.EXE --rebuilt $(ORIGINAL_OUTPUT) --map build/cvpack.map
+RECON_AUDIT_PREREQUISITES = $(ORIGINAL_OUTPUT) build/cvpack.map
 
-build/%.obj: src/%.c $(HEADERS) $(RECON)/include/recon.h Makefile | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /I$(RECON)/include /Fo$@ $<
+include $(RECON_TOOL_DIR)/recon-tool.mk
+NATIVE_CXXFLAGS := $(filter-out -std=gnu89,$(NATIVE_CXXFLAGS))
 
-build/resources.res: src/cvpack.rc | build
-	$(TOOL) RC.EXE /r /fo$@ $<
+build/resources.res: src/cvpack.rc | $(RECON_TOOL)
+	@mkdir -p $(@D)
+	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo$@ $<
+build/mspdb50.lib: src/mspdb50.def | $(RECON_TOOL)
+	@mkdir -p $(@D)
+	$(RECON_TOOL) original tool 5.10 LIB.EXE -- /nologo /machine:IX86 /def:$< /out:$@
+build/cvpack.map: $(ORIGINAL_OUTPUT)
+	@test -f $@
 
-build/%.obj: src/%.cpp $(HEADERS) $(RECON)/include/recon.h Makefile | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /I$(RECON)/include /Fo$@ $<
-
-build/mspdb50.lib: src/mspdb50.def
-	$(TOOL) LIB.EXE /nologo /machine:IX86 /def:$< /out:$@
-
-build/CVPACK.EXE build/cvpack.map &: $(OBJECTS) build/resources.res build/mspdb50.lib
-	$(TOOL) LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE $(OBJECTS) build/resources.res build/mspdb50.lib
-
-build/native/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-
-build/native/%.o: src/%.cpp $(NATIVE_HEADERS) Makefile | build/native
-	$(NATIVE_CXX) $(NATIVE_CPPFLAGS) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -finstrument-functions -c $< -o $@
-
-build/native/widen-factory-host.o: scripts/native-widen-factory.cpp $(NATIVE_HEADERS) Makefile | build/native
-	$(NATIVE_CXX) $(NATIVE_CPPFLAGS) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
-
-build/native/driver.o: scripts/native-driver.c $(NATIVE_HEADERS) Makefile | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
-
-build/native/CVPACK: $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_SHIMS) $(NATIVE_HEADERS) $(NATIVE_HOST) $(NATIVE_HOST_HEADERS)
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) build/native/driver.o build/native/widen-factory-host.o $(NATIVE_HOST) $(NATIVE_SHIMS) -o $@
-
-build/debug-run.obj: scripts/debug-run.c scripts/sort-observer.inc scripts/output-buffer-observer.inc scripts/subsection-observer.inc scripts/public-padding-observer.inc scripts/name-hash-observer.inc scripts/name-hash-complete-observer.inc scripts/address-hash-observer.inc scripts/address-hash-complete-observer.inc scripts/hash-chain-observer.inc | build
-	$(TOOL) CL.EXE /nologo /c /MD /Od /W3 /Fo$@ $<
-
-build/debug-run.exe: build/debug-run.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
-
-# Original compilation and native-only regression/audit entry points.
-audit: all native $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py
-audit-native: native $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py
-final-check: native $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/check-final.py
-check: $(addprefix check-,$(CHECK_CASES))
-$(addprefix check-,$(CHECK_CASES)): check-%: native
-	$(PYTHON) scripts/check-native.py --case $*
-
-# Explicit original-only capture, never a fixture dependency.
-capture-help:
-	$(PYTHON) scripts/capture-help.py
+$(RECON_REGISTRY_OUTPUTS): abi-policy.json
+# Scalar dispatch tags are target-specific data, checked by the narrow case test.
+audit: cases/0001-hello-debug-dll/unit

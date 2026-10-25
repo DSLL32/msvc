@@ -1,8 +1,0 @@
-Traceback (most recent call last):
-  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/native-debug.py", line 121, in <module>
-    main()
-    ~~~~^^
-  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/native-debug.py", line 91, in main
-    assert result.returncode == 0 and state_path.is_file(), result.stderr
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-AssertionError: b"Python Exception <class 'AssertionError'>: symbol output allocation lifetime differs\n/root/msvc2/decomp/vc5.10/cvppack/cases/hello-debug-dll/evidence/0095-release-widen/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: symbol output allocation lifetime differs\n"

@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565f8478 in load_debug_subsection (entry=0x56b03640, data=0x56616354 <segment_map>, size=0x56616358 <segment_map_size>) at src/stubs.c:25
-25	void load_debug_subsection(CodeViewDirectoryEntry *entry, unsigned char **data, unsigned *size) { __asm { int 3 } }

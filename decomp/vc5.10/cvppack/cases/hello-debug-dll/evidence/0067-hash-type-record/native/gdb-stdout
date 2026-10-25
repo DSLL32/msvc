@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x56655228 in allocate_global_type (record=0xf7af0190) at src/stubs.c:66
-66	void __fastcall allocate_global_type(TypeRecord *record) { __asm { int 3 } }

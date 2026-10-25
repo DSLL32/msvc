@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x56641425 in write_publics (entry=0x57c705a8, offset=5056) at src/stubs.c:66
-66	void write_publics(CodeViewDirectoryEntry *entry, unsigned offset) { __asm { int 3 } }

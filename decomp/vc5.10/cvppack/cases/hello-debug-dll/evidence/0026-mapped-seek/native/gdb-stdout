@@ -1,6 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x565df6b8 in read_cached_file (file=15, buffer=0xff91df00, size=64) at src/stubs.c:22
-22	unsigned read_cached_file(int file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
