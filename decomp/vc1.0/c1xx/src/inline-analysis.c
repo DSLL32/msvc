@@ -235,3 +235,19 @@ void finish_inline_function(void)
     reconcile_inline_regions();
     write_global_record(15, function_symbol);
 }
+
+int inline_regions_changed; /* original0x9184c */
+void __stdcall propagate_inline_regions(unsigned short index);
+
+/* Original0x44e28..0x44e66. Repeat the tree reconciliation at most ten
+   times, retaining the original fatal diagnostic if it does not converge. */
+void reconcile_inline_regions(void)
+{
+    int pass;
+    for (pass = 0; pass <= 9; ++pass) {
+        inline_regions_changed = 0;
+        propagate_inline_regions(0);
+        if (!inline_regions_changed) return;
+    }
+    if (inline_regions_changed) fatal_error(1, pch_diagnostic_name, 751);
+}
