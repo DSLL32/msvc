@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string.h>
+#include <stdio.h>
 #include "input.h"
 #include "sections.h"
 #include "full-link-functions.h"
@@ -102,7 +103,16 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
         contribution->raw_size+=padding;
     }
 }
-char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *header,const char *strings) { __asm { int 3 } return NULL; }
+/* Shared mutable name storage; byte8 remains the original zero terminator. */
+char input_section_name[9];
+char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *header,const char *strings)
+{
+    LONG offset;
+    strncpy(input_section_name,(const char *)header->Name,8);
+    if (input_section_name[0]=='/' && sscanf(input_section_name+1,"%ld",&offset)==1)
+        return (char *)strings+offset;
+    return input_section_name;
+}
 DWORD __stdcall align_section_size(DWORD size,DWORD flags) { __asm { int 3 } return 0; }
 void __stdcall remember_mac_module_name(const char *name) { __asm { int 3 } }
 void __stdcall mark_incremental_contribution(Contribution *contribution) { __asm { int 3 } }

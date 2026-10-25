@@ -173,6 +173,22 @@ static int section_name_call(void)
     return recon_native_at_entry(get_input_section_name,check_section_name_call,
         invoke_hello,NULL)==1;
 }
+extern char input_section_name[9];
+extern Contribution *__stdcall create_contribution(const char *,DWORD,DWORD,DWORD,
+    OutputModule *,SectionList *,LinkContext *);
+static void __stdcall check_named_contribution(const char *name,DWORD bytes,DWORD flags,
+    DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context)
+{
+    recon_native_entry_finish(name==input_section_name && !strcmp(name,".drectve") &&
+        input_section_name[8]==0 && bytes==module_section_headers[0].SizeOfRawData &&
+        flags==module_section_headers[0].Characteristics && section_flags==flags &&
+        module==current_input_library->module_head && context && sections==&context->sections);
+}
+static int named_contribution(void)
+{
+    return recon_native_at_entry(create_contribution,check_named_contribution,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -180,5 +196,6 @@ const ReconTest hello_tests[]={
     {"symbol-read-mapping",1,symbol_read_mapping},
     {"symbol-mapped-range",1,symbol_mapping},
     {"string-mapped-range",1,string_mapping},
-    {"section-name-call",1,section_name_call}
+    {"section-name-call",1,section_name_call},
+    {"named-contribution",1,named_contribution}
 };
