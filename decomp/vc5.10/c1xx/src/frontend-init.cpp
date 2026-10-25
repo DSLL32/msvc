@@ -52,14 +52,15 @@ void __cdecl compiler_warning(int, ...);
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
 CompilerTypeShape *__cdecl copy_type_shape(CompilerTypeShape *);
-CompilerType *__cdecl find_declarator_type(CompilerSymbol *, unsigned);
+CompilerSymbol *__cdecl find_declarator_type(CompilerSymbol *, unsigned);
+CompilerSymbol *__cdecl current_declarator_context(void);
 int __cdecl check_member_declaration(CompilerSymbol *);
 void __cdecl diagnose_member_declaration(CompilerSymbol *);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
 CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 CompilerSymbol *__cdecl make_abstract_declarator(void);
 CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
-CompilerType *__cdecl qualify_type(CompilerType *, unsigned, WORD);
+CompilerType *__cdecl qualify_type(CompilerSymbol *, unsigned, WORD);
 CompilerSymbol *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
 }
 
@@ -604,7 +605,7 @@ CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *
 }
 void RECON_THISCALL CompilerDeclarator::Resolve(void)
 {
-    CompilerType *return_type;
+    CompilerSymbol *return_type;
     CompilerTypeShape *resolved;
     CompilerParameterDescription *description;
     CompilerMemberSymbol *member;
@@ -753,7 +754,7 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
                 flags |= 1;
             }
         } else {
-            qualified = qualify_type(last_shape->payload.type, 0x100, description->flags);
+            qualified = qualify_type(last_shape->payload.symbol, 0x100, description->flags);
             function->SetParameters(description->parameters,
                 link_parameter_symbols(description->context), qualified);
             function->attributes |= 0x2000;
@@ -805,7 +806,7 @@ void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
     case 0x10:
         last_shape->flags = (next->flags & 0xc820) | 0x20;
         if (!(next->flags & 0x2000)) {
-            next->SetType(qualify_type(last_shape->payload.type, 0x100, 0));
+            next->SetType(qualify_type(last_shape->payload.symbol, 0x100, 0));
             next->flags |= 0x2000;
         }
         break;
@@ -831,7 +832,7 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned
     shape->payload.value = *value;
     return shape;
 }
-extern "C" CompilerType *__cdecl qualify_type(CompilerType *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl qualify_type(CompilerSymbol *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl link_parameter_symbols(CompilerParameterContext *context) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *value)
 {
@@ -937,10 +938,39 @@ void RECON_THISCALL CompilerDeclarator::ValidateContext(void) { __asm { int 3 } 
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop) { __asm { int 3 } return NULL; }
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
-extern "C" CompilerType *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context)
+{
+    CompilerSymbolLink *next = ((CompilerNamedSymbol *)symbol)->link.next;
+    CompilerNamedSymbol *linked = next ? (CompilerNamedSymbol *)
+        ((BYTE *)next - offsetof(CompilerNamedSymbol, link)) : NULL;
+    CompilerSymbolBinding *binding;
+    CompilerSymbol *result;
+    if (linked) {
+        binding = ((CompilerBoundSymbol *)linked)->binding;
+        if (binding->owner->scope) {
+            binding = ((CompilerBoundSymbol *)linked)->binding;
+            if (binding) symbol = linked;
+        }
+    }
+    if (symbol->kind != 0x12) {
+        if (frontend_data.declaration_context_index < 0 ||
+            frontend_bss.declaration_depth || context)
+            return NULL;
+        return current_declarator_context();
+    }
+    binding = ((CompilerBoundSymbol *)symbol)->binding;
+    result = binding ? binding->owner->scope->symbol : current_declarator_context();
+    if (!result || result->kind == 0x17) return NULL;
+    if (result->kind != 4)
+        result = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[
+            ((CompilerIndexedTypeSymbol *)result)->type_index];
+    return result;
+}
 extern "C" int __cdecl check_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } return 0; }
 extern "C" void __cdecl diagnose_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } }
 
 extern "C" CompilerTypeShape *__cdecl copy_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::AddArrayShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::AddMemberPointerShape(CompilerTypeShape *shape) { __asm { int 3 } }
+
+extern "C" CompilerSymbol *__cdecl current_declarator_context(void) { __asm { int 3 } return NULL; }

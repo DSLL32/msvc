@@ -36,6 +36,7 @@ struct CompilerTypeShape {
     struct CompilerTypeShape *base;     /* +4 */
     union {
         CompilerType *type;
+        struct CompilerSymbol *symbol;
         struct CompilerTypeList *parameters;
         unsigned value;
     } payload;                         /* +8, interpreted by shape flags */

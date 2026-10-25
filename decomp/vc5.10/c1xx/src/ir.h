@@ -51,6 +51,23 @@ struct CompilerMemberSymbol : CompilerNamedSymbol {
     CompilerMemberContext *context; /* original +20 */
     BYTE declaration_flags; /* original +5, encountered bit0 */
 };
+/* The declarator lookup follows these pointer owners. Only the named
+ * pointers are modeled; no intervening bytes or other payload are copied. */
+struct CompilerSymbolBindingScope {
+    CompilerSymbol *symbol; /* original +8 */
+};
+struct CompilerSymbolBindingOwner {
+    CompilerSymbolBindingScope *scope; /* original +0 */
+};
+struct CompilerSymbolBinding {
+    CompilerSymbolBindingOwner *owner; /* original +0 */
+};
+struct CompilerBoundSymbol : CompilerNamedSymbol {
+    CompilerSymbolBinding *binding; /* original +10 */
+};
+struct CompilerIndexedTypeSymbol : CompilerNamedSymbol {
+    short type_index; /* original +14; interpreted only for non4/non23 kind */
+};
 struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */
     CompilerType *type;                /* original +4 */

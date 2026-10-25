@@ -1503,9 +1503,15 @@ static const ReconFunction functions[] = {
         .native_symbol = "intern_type_shape",
     },
     {
-        .name = "_find_declarator_type", .entry_rva = 0x8334,
-        .code = (const ReconExtent[]){{0x8334, 0x8335}},
+        .name = "_current_declarator_context", .entry_rva = 0x26811,
+        .code = (const ReconExtent[]){{0x26811, 0x26812}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "current_declarator_context",
+    },
+    {
+        .name = "_find_declarator_type", .entry_rva = 0x8334,
+        .code = (const ReconExtent[]){{0x8334, 0x83d3}, {0x54797, 0x547c6}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "find_declarator_type",
     },
     {
