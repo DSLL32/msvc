@@ -436,3 +436,36 @@ int __cdecl rc_read_resource_name(void)
     else rc_resource_token.value=(WORD)rc_decimal_resource_id(rc_resource_name);
     return 1;
 }
+
+WCHAR *__cdecl rc_collect_resource_name(void)
+{
+    WCHAR *cursor;
+    while(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
+          rc_resource_character<=32)rc_next_resource_character();
+    if(rc_resource_character==127){
+        rc_resource_token.kind=127;
+        return NULL;
+    }
+    if(rc_resource_character==0xe001)rc_read_resource_marker(1,0xe001);
+    rc_resource_token.text[0]=0;
+    rc_resource_name[0]=rc_resource_character;
+    cursor=rc_resource_name+1;
+    while(rc_read_resource_character()!=127){
+        if(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
+           rc_resource_character<=32)break;
+#ifdef RECON_NATIVE_TEST
+        /* The encountered name workspace has 257 WCHARs. Longer original
+         * input/storage is unclaimed; reserve a defined terminating word. */
+        if(cursor>=rc_resource_name+256)__asm int 3
+#endif
+        *cursor++=rc_resource_character;
+    }
+    *cursor=0;
+    rc_next_resource_character();
+    if(rc_resource_character==127)rc_resource_token.kind=127;
+    if(rc_resource_character==0xe001){
+        rc_read_resource_marker(1,0xe001);
+        rc_resource_token.unknown1038=rc_resource_token.value;
+    }
+    return rc_resource_name;
+}

@@ -70,4 +70,5 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
 WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *);
 WCHAR *__cdecl rc_collect_resource_name(void);
 unsigned __stdcall rc_decimal_resource_id(const WCHAR *);
+void __stdcall rc_read_resource_marker(int,DWORD);
 #endif

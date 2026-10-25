@@ -524,6 +524,33 @@ static int resource_type_lookup_contract(void)
     return passed;
 }
 
+extern int rc_resource_line_start;
+static void prepare_resource_name(unsigned length)
+{
+    unsigned i;
+    memset(rc_resource_read_buffer,0,sizeof(rc_resource_read_buffer));
+    for(i=0;i+1<length;++i)rc_resource_read_buffer[i]=L'a';
+    rc_resource_read_buffer[length-1]=L' ';
+    rc_resource_buffer_index=0;
+    rc_resource_character=L'a';rc_resource_line_start=0;
+    rc_resource_token.kind=3;rc_resource_token.text[0]=L'q';
+}
+static void overlong_resource_name(void)
+{
+    prepare_resource_name(257);
+    rc_collect_resource_name();
+}
+static int collected_resource_name_contract(void)
+{
+    unsigned i;
+    prepare_resource_name(256);
+    if(rc_collect_resource_name()!=rc_resource_name ||
+       rc_resource_name[256] || rc_resource_token.text[0] ||
+       rc_resource_character!=127 || rc_resource_token.kind!=127)return 0;
+    for(i=0;i<256;++i)if(rc_resource_name[i]!=L'a')return 0;
+    return trapped(overlong_resource_name);
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -544,6 +571,7 @@ const ReconTest rich_tests[]={
     {"resource-input-initialization",1,resource_input_contract},
     {"command-resource-reset-owners",1,command_reset_contract},
     {"resource-type-lookup-contract",1,resource_type_lookup_contract},
+    {"collected-resource-name-contract",1,collected_resource_name_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
