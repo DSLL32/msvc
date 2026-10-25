@@ -4,6 +4,7 @@
 #include <setjmp.h>
 #include <sys/timeb.h>
 #include <sys/time.h>
+#include <limits.h>
 #include <recon.h>
 
 /* Compiler-generated abstract vtables may reference this boundary during
@@ -43,10 +44,26 @@ __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
 int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    char path[PATH_MAX];struct stat information;int saved_errno=errno,fd;
+    const unsigned char *cursor=(const unsigned char *)name;
+    if(flags!=0x0200 || !name || !*name || strpbrk(name,"*?"))
+        recon_unsupported("Watcom open outside readonly binary tuple");
+    for(;*cursor;++cursor)if(*cursor>=128) recon_unsupported("Watcom open nonASCII path");
+    if(recon_host_path(name,path,sizeof(path)) || lstat(path,&information) || !S_ISREG(information.st_mode))
+        recon_unsupported("Watcom open regular existing path");
+    /* Preflight is host-only. The existing descriptor backend performs a real
+     * OPEN_EXISTING/shared-read-write open and publishes binary lowio state. */
+    errno=saved_errno;
+    fd=recon_open(name,0x8000);
+    if(fd<0) recon_unsupported("Watcom readonly binary open failure");
+    return fd;
+#else
     /* The actual caller supplies only two arguments. Do not fetch an unused
      * variadic permission word, or reinterpret these flags as Microsoft/Linux. */
     (void)name;(void)flags;
     recon_unsupported("unreviewed Watcom open");return -1;
+#endif
 }
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {

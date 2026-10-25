@@ -556,12 +556,20 @@ success/guards use `make wcsicmp-ascii-check`.
 
 The Watcom100A profile alone remaps bare open to a distinct cdecl variadic
 typed boundary and supplies encountered O_BINARY=0x0200 (O_RDONLY=0). Every
-input denies125, without fetching any variadic permission word or entering
-host open/Microsoft recon_open. WLIB's actual two-argument resource-table call
-and shipped FCNTL.H establish this staging; its actual legacy provider and
-CLIB3R openwnt member are not claimed byte-identical. Successful descriptor,
-sharing/error/position/self-image semantics, wider flags and FILE26 remain
-unqualified. Existing `make watcom-surface-check` includes these two denials.
+other mode denies125 without fetching any variadic permission word. Exact0200
+supports an ASCII nonempty/non-wildcard existing regular readonly path via the
+existing binary descriptor backend (mode8000, OPEN_EXISTING/shareREAD|WRITE).
+Host-only preflight preserves incoming errno; real descriptor publication,
+initial position0 and later binary read/close use that existing namespace.
+Unknown paths, nonregular files and open failures deny125 rather than exposing
+Microsoft/host failure errno as Watcom. WLIB's actual two-argument resource-table
+call, reviewed finite provider closure and shipped FCNTL.H establish the domain;
+its actual legacy provider and CLIB3R openwnt member are not byte-identical.
+The case supplies the exact captured staged self-image through the shared recipe;
+the reached caller only stores/tests the opaque descriptor before FindResources.
+Wider flags, errors/descriptor numeric identity, FILE26 and arbitrary private CRT
+state remain unclaimed. Existing `make watcom-surface-check` retains typed denial
+guards; `make watcom-open-check` verifies actual binary descriptor operations.
 
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without

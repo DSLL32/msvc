@@ -460,6 +460,12 @@ watcom-surface-check: build/watcom-surface-probe build/watcom-host-probe
 	./build/watcom-surface-probe
 	./build/watcom-host-probe
 
+.PHONY: watcom-open-check
+build/watcom-open-probe: tests/watcom-open-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-open-check: build/watcom-open-probe
+	$(PYTHON) tests/check-watcom-open.py $<
+
 .PHONY: mb-strstr-check
 build/mb-strstr-probe: tests/mb-strstr-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-strstr-probe.c $(SOURCES) -o $@
