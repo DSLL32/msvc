@@ -97,6 +97,7 @@ struct CompilerTranslationUnit {
     CompilerSymbolLink *pending_symbols;  /* +234 */
     CompilerTranslationRecord *records;  /* +238, pointee remains opaque */
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
+    CompilerSymbolLink **RECON_THISCALL EndParameterScope(void);
     void RECON_THISCALL Finish(void);
 };
 struct CompilerDependency {

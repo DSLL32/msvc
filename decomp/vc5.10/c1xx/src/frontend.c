@@ -153,6 +153,8 @@ int initialize_compiler_pass(void)
         frontend_bss.declaration_context.class_flags = 0;
         frontend_bss.declaration_context.context_flags = 0;
         frontend_bss.declaration_depth = 0;
+        frontend_bss.parser_context_depth = 0;
+        frontend_bss.parameter_contexts[0] = NULL;
         frontend_bss.expression_seek_result = 0;
         frontend_bss.symbol_arena_kind = 0;
         frontend_bss.saved_symbol_arenas = NULL;

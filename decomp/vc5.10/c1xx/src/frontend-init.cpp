@@ -674,7 +674,14 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
         flags |= 8;
     }
 }
-void RECON_THISCALL CompilerParameterDescription::Normalize(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerParameterDescription::Normalize(void)
+{
+    if (scope_open) frontend_data.translation_unit->EndParameterScope();
+    if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+    context = frontend_bss.parameter_contexts[frontend_bss.parser_context_depth];
+    frontend_bss.parameter_contexts[frontend_bss.parser_context_depth] = NULL;
+}
+CompilerSymbolLink **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerSymbol *symbols, CompilerType *type) { __asm { int 3 } }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned arena, const unsigned *value) { __asm { int 3 } return NULL; }

@@ -1348,9 +1348,16 @@ static const ReconFunction functions[] = {
         .native_symbol = "_ZN20FrontendContextStack4PushEPvjiiPS_", .original_symbol = "?Push@FrontendContextStack@@QAEXPAXIHHPAU1@@Z",
     },
     {
-        .name = "CompilerParameterDescription::Normalize", .entry_rva = 0x7e1a,
-        .code = (const ReconExtent[]){{0x7e1a, 0x7e1b}},
+        .name = "CompilerTranslationUnit::EndParameterScope", .entry_rva = 0xfdf6,
+        .code = (const ReconExtent[]){{0xfdf6, 0xfdf7}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN23CompilerTranslationUnit17EndParameterScopeEv",
+        .original_symbol = "?EndParameterScope@CompilerTranslationUnit@@QAEPAPAUCompilerSymbolLink@@XZ",
+    },
+    {
+        .name = "CompilerParameterDescription::Normalize", .entry_rva = 0x7e1a,
+        .code = (const ReconExtent[]){{0x7e1a, 0x7e51}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN28CompilerParameterDescription9NormalizeEv", .original_symbol = "?Normalize@CompilerParameterDescription@@QAEXXZ",
     },
     {

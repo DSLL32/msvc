@@ -261,6 +261,10 @@ typedef struct FrontendBss {
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
     CompilerDeclarationContext declaration_context; /* c4d10, BSS-zero owner */
     int declaration_depth; /* c0808, signed scope-entry/exit counter, BSS0 */
+    unsigned parser_context_depth; /* bf6f4, currently observed0 */
+    /* Only the actually reached first slot is modeled. This is not the
+     * original table's capacity; any other index stops before its read. */
+    struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
 } FrontendBss;
 
 #ifdef __cplusplus
