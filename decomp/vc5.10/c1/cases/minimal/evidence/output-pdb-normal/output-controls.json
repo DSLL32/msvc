@@ -1,1 +1,0 @@
-{"fresh_affected_count": 13, "seconds": 3.1558303078636527, "rejected": ["native-database", "native-names", "native-types", "native-minimal_rebuild", "native-rebuild_state", "native-read_mode", "native-layout", "native-alias", "original-final", "original-default", "metadata-gap", "metadata-provider", "metadata-field-alias"]}

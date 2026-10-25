@@ -1,4 +1,2 @@
-# Preserve exact captured streams/state, including original CRLF bytes.
-cases/**/*.bin binary
-# Raw environment assignments can have meaningful trailing spaces.
-cases/**/events.txt whitespace=-blank-at-eol
+# Capture wire format preserves exact original bytes.
+cases/*/capture.bin binary

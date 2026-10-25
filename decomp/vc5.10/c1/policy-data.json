@@ -1,0 +1,316 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "register_imports": {
+      "preservation_contracts": [
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "VirtualAlloc"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "function": "_compiler_fatal"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fgets"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_env_arguments"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "function": "_duplicate_argument"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_mbctolower"
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "isspace"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsstr"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "import-contracts.json",
+            "sha256": "0ea362d70e6aaf78dd1a6ead56f7e6cb94ca553804c3a06fdabd311aefd8de50"
+          }
+        }
+      ]
+    },
+    "functions": {
+      "_reserve_work_buffer": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_parse_internal_switch": {
+        "original": {
+          "text_data": [
+            [
+              274803080,
+              274803096
+            ]
+          ],
+          "switches": {
+            "274802963": [
+              274802970,
+              274924743,
+              274803056,
+              274924763
+            ]
+          }
+        }
+      },
+      "_parse_command_line": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_initialize_path_fold_table": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_match_option": {
+        "original": {
+          "text_data": [
+            [
+              274805088,
+              274805162
+            ]
+          ],
+          "switches": {
+            "274804728": [
+              274804821,
+              274804901,
+              274804893,
+              274804735,
+              274804784,
+              274804746,
+              274804883
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_match_option",
+                "offset": 699
+              },
+              {
+                "rebuilt_symbol": "_match_option",
+                "offset": 773
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_match_option",
+                "offset": 111
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 429
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 298
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 291
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 118
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 222
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 136
+                },
+                {
+                  "rebuilt_symbol": "_match_option",
+                  "offset": 570
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_apply_option_action": {
+        "original": {
+          "text_data": [
+            [
+              274805392,
+              274805463
+            ]
+          ],
+          "switches": {
+            "274805192": [
+              274805199,
+              274805212,
+              274805225,
+              274805307,
+              274805250,
+              274805272,
+              274925871,
+              274805377
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_apply_option_action",
+                "offset": 470
+              },
+              {
+                "rebuilt_symbol": "_apply_option_action",
+                "offset": 541
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_apply_option_action",
+                "offset": 47
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 54
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 71
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 192
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 238
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 393
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 415
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_apply_option_action",
+                  "offset": 466
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_parse_option_integer": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_resolve_option_path": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      }
+    }
+  }
+}

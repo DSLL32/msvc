@@ -1,1 +1,0 @@
-{"fresh_count": 8, "seconds": 0.04096472915261984, "rejected": ["different-ELF", "wrong-kind", "unstable-build", "wrong-ELF-hash", "missing-owned-source", "changed-owned-source", "missing-content", "corrupt-content"]}

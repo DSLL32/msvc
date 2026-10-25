@@ -1,9 +1,0 @@
-{
-  "status": "PASS",
-  "control": "ordinary candidate acceptance rejects honest API-entry-analysis role before any application acceptance",
-  "checker_sha256": "ca830254d17a0a1358eeb231c0a638ed27f99a29fde76b4d882079513c32f9e3",
-  "original_receipt_sha256": "8be7252b2181a2133ca2a8d161e30b1aec235f686f09671080170d7d8df77322",
-  "native_receipt_sha256": "db69c14925d98253a0fced340e608d9bae4ad77375d3ff63ada6756a1724f7f9",
-  "rejection": "assert n[\"kind\"] in (\"native-gdb-frontier\", \"native-gdb-completion\")",
-  "seconds": 0.6796052167192101
-}

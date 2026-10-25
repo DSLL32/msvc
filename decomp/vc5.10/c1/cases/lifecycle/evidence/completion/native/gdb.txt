@@ -1,7 +1,0 @@
-Breakpoint 1 at 0x804a820: file src/native-crt.c, line 20.
-Breakpoint 2 at 0x804a9bf: file src/native-crt.c, line 50.
-Breakpoint 3 at 0x804a71f: file src/dllmain.c, line 8.
-Breakpoint 4 at 0x804aaf9: file scripts/native-host.c, line 15.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-[Inferior 1 (process 1100842) exited normally]

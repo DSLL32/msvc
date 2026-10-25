@@ -1,0 +1,239 @@
+{
+  "schema": 1,
+  "scope": "Finite original/provider ABI and register preservation witnesses only; no runtime oracle, provider implementation credit or registry extents.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "contracts": [
+    {
+      "qualified_import": {
+        "dll": "kernel32.dll",
+        "name": "VirtualAlloc"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "sdk": {
+        "path": "toolchains/5.10/include/WINBASE.H",
+        "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+        "first_line": 1275,
+        "last_line": 1284,
+        "text": "WINBASEAPI\nLPVOID\nWINAPI\nVirtualAlloc(\n    LPVOID lpAddress,\n    DWORD dwSize,\n    DWORD flAllocationType,\n    DWORD flProtect\n    );\n"
+      },
+      "basis": "Existing approved finite SDK x86 WINAPI/stdcall normal-return contract preserves EDI; cached-import source callee compiler_fatal is an inspected ordinary cdecl C wrapper, with no own EDI writes. Unknown/custom callees are not registered.",
+      "providers": [
+        {
+          "name": "kernel32.dll",
+          "path": "/root/.ai-tmp/vc1.0-capture/wine/drive_c/windows/system32/kernel32.dll",
+          "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+          "bytes": 2008819,
+          "export": "VirtualAlloc",
+          "rva": 58664,
+          "entry_bytes": "8bff558bec5dff25003a857b"
+        },
+        {
+          "name": "kernelbase.dll",
+          "path": "/root/.ai-tmp/vc1.0-capture/wine/drive_c/windows/system32/kernelbase.dll",
+          "sha256": "0487dccab70545e92be2cd427c0f5255928f2a39d03113ab171ec2609c9611e3",
+          "bytes": 6153638,
+          "export": "VirtualAlloc",
+          "rva": 439280,
+          "entry_bytes": "8bff558bec83ec208b450cc7"
+        }
+      ]
+    },
+    {
+      "function": "_compiler_fatal",
+      "preserves": [
+        "edi"
+      ],
+      "instruction_rva": 287267,
+      "instruction_bytes": "8b44240450e84600000083c404c3",
+      "basis": "No own EDI write; ordinary single cdecl call to46273, caller stack cleanup4 and RET0. Callee remains masked, zero reconstruction credit; no recursive CRT reconstruction."
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "fgets"
+      },
+      "preserves": [
+        "ebx"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "export": "fgets",
+        "rva": 165902,
+        "bytes": "538b5c240c558b6c240c578bfd85db896c24107f0633c05f5d5bc3568b74241c56e864dafdff83c4044b74218b460448894604782f8b0e33c08a0141890e83f8ff742c8807473c0a74034b75dfc607008b7c241456e862dafdff83c4048bc75e5f5d5bc356e811f0fdff83c404ebcf3bfd75da5633ffe841dafdff83c4048bc75e5f5d5bc3",
+        "save_rva": 165902,
+        "restore_return_rvas": [
+          165927,
+          166000,
+          166033
+        ],
+        "contract": "Canonical public cdecl fgets, all three returning epilogues restore entry EBX; no recursive CRT reconstruction"
+      },
+      "caller": {
+        "cached_iat_rva": 381016,
+        "load": {
+          "rva": 197983,
+          "bytes": "8b1d58d06510"
+        },
+        "register_calls": [
+          {
+            "rva": 198010,
+            "bytes": "ffd3"
+          },
+          {
+            "rva": 198152,
+            "bytes": "ffd3"
+          }
+        ],
+        "callee_save_register": "ebx"
+      }
+    },
+    {
+      "function": "_read_env_arguments",
+      "preserves": [
+        "ebx"
+      ],
+      "entry_rva": 77703,
+      "save_rva": 198622,
+      "save_bytes": "53",
+      "restore_rva": 198929,
+      "restore_bytes": "5b",
+      "basis": "NULL hot path never writes EBX; nonNULL path saves307de/restores30911 before sole shared RET12f9b"
+    },
+    {
+      "function": "_duplicate_argument",
+      "preserves": [
+        "ebx"
+      ],
+      "entry_rva": 139722,
+      "save_rva": 139726,
+      "save_bytes": "53",
+      "restore_rva": 139818,
+      "restore_bytes": "5b",
+      "basis": "Entry221ce saves EBX; sole returning epilogue2222a restores EBX after hot/cold rejoin"
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "_mbctolower"
+      },
+      "preserves": [
+        "ebp"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "sdk": {
+        "path": "toolchains/5.10/include/MBSTRING.H",
+        "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+        "declaration": "_CRTIMP unsigned int __cdecl _mbctolower(unsigned int);"
+      },
+      "import_identity": {
+        "module": "MSVCRT.dll",
+        "name": "_mbctolower",
+        "import_by": "name",
+        "iat_rva": 381020,
+        "provider_export": {
+          "ordinal": 336,
+          "name": "_mbctolower",
+          "rva": 42451,
+          "forwarder": null
+        },
+        "entry_bytes": "83ec08538b5c241081fbff0000000f87ae6200008a93c9f1037880e21080fa1074078bc35b83c408c333c08a83f8f703"
+      },
+      "finite_preservation": {
+        "register": "ebp",
+        "input_domain": [
+          0,
+          255
+        ],
+        "provider_hot_bytes": "83ec08538b5c241081fbff0000000f87ae6200008a93c9f1037880e21080fa1074078bc35b83c408c333c08a83f8f703785b83c408c3",
+        "proof": "Every target loop argument is unsigned0..255. Canonical provider JAbove at a5e1 is never taken; all reachable hot instructions a5d3..a609 leave EBP untouched, no calls, both RET0 exits. Full graph still requires all cached EBP calls resolved; no generic caller-save assumptions.",
+        "source_input_proof": "unsigned character initialized0 and incremented while<256; only condition skips class35"
+      }
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "isspace"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "sdk": {
+        "path": "toolchains/5.10/include/CTYPE.H",
+        "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+        "declaration": "_CRTIMP int __cdecl isspace(int);"
+      },
+      "finite_preservation": {
+        "register": "edi",
+        "import_name": "isspace",
+        "module": "msvcrt.dll",
+        "provider_export_rva": 114878,
+        "provider_bytes": "833da0fb0378017e108b4424046a0850e8cde0ffff83c408c38b4c24048b159cfb03788a044a83e008c3",
+        "domain": {
+          "MB_CUR_MAX": 1,
+          "input_unsigned_byte": [
+            0,
+            255
+          ]
+        },
+        "basis": "Actual entire42-byte public export has no EDI write. Captured case MB_CUR_MAX1 takes direct table-load/mask/RET branch1c0d7..1c0e8, with no call or state write. The alternate MBCS internal callee is not being reconstructed or credited; this bounded witness does not claim that path ran.",
+        "existing_own_SBCS_reference": {
+          "path": "cases/minimal/evidence/option-actions/raw-references.json",
+          "sha256": "40e0632c247e0588ada766a9f7423c284e0074a776b04d53d02dc35b0c7bcbfb"
+        },
+        "required_fresh_runtime": "At each actual ctype entry/return retain MB_CUR_MAX1/full locale/scalars/tables and real EDI+other nonvolatile equality; no promotion from static contract alone."
+      }
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsstr"
+      },
+      "preserves": [
+        "esi"
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "export_name": "_mbsstr",
+        "export_rva": 149048,
+        "bytes": "a1c0f1037853555685c05775178b4424188b4c24145051e85151feff83c4085f5e5d5bc38b5c241883c9ff8bfb33c08b742414f2aef7d1498bee2be98bfe83c9fff2ae8a06f7d14903e984c074473bf577438a0e8bc384c974188bd62bd38a0884c9740e380c1075098a4c10014084c975ec803800741756e87febfdff8bf083c404803e0075c733c05f5e5d5bc38bc65f5e5d5bc35f5e5d33c05bc3"
+      },
+      "sdk": {
+        "path": "toolchains/5.10/include/MBSTRING.H",
+        "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+        "declaration": "_CRTIMP unsigned char * __cdecl _mbsstr(const unsigned char *, const unsigned char *);"
+      },
+      "caller": {
+        "name": "_resolve_option_path",
+        "iat_rva": 380996,
+        "load_rva": 199269,
+        "call_rvas": [
+          199285,
+          199321
+        ],
+        "preserved_register": "esi",
+        "saved_at_export_offset": 7,
+        "restored_at_return_rvas": [
+          149080,
+          149186,
+          149193,
+          149198
+        ]
+      },
+      "basis": "Function saves incoming ESI before both SBCS/MBCS branches and restores it at every RET0. Internal calls do not escape the saved stack slot. No broad callee/import rule; application current case stops before _mbsstr/_fullpath. Alternate inputs/provider behavior receive no execution credit."
+    }
+  ]
+}

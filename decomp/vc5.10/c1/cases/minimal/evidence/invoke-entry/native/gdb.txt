@@ -1,9 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-0x0804a7e5 in InvokeCompilerPass (argc=11, argv=0xffffd8e8, mode=1) at src/exports.c:7
-7	    __asm { int 3 }
-#0  0x0804a7e5 in InvokeCompilerPass (argc=11, argv=0xffffd8e8, mode=1) at src/exports.c:7
-#1  0x0804ad49 in c1_native_host (argc=2, argv=0xffffda14) at scripts/native-host.c:57
-#2  0x08053c65 in main (argc=2, argv=0xffffda14) at ../../../lib/recon/src/entry.c:14

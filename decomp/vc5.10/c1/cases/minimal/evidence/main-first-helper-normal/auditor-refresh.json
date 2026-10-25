@@ -1,8 +1,0 @@
-{
-  "kind": "auditor-only fresh validation; original/native execution unchanged",
-  "old_tool_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
-  "new_tool_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
-  "report_byte_identical": true,
-  "original_recapture": false,
-  "native_recapture": false
-}

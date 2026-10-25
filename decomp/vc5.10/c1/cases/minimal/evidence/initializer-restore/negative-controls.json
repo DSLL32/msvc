@@ -1,6 +1,0 @@
-{
-  "status": "PASS",
-  "count": 25,
-  "command": "python3 scripts/check-state-negative.py /root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001 /root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-restore-003",
-  "scope": "targeted typed-state/field-map/nonzero-restore/frontier rejection controls"
-}
