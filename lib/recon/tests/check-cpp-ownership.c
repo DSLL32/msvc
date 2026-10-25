@@ -7,7 +7,7 @@ int main(int argc,char **argv)
     unsigned n;uint64_t generation=0;
     struct rlimit limit;
     if(argc>1){
-        if(!strcmp(argv[1],"null"))crt_operator_delete(NULL);
+        if(!strcmp(argv[1],"null")){crt_operator_delete(NULL);return 0;}
         if(!strcmp(argv[1],"foreign"))crt_operator_delete(malloc(16));
         p=crt_operator_new(32);record=recon_cpp_allocations;
         if(!strcmp(argv[1],"interior"))crt_operator_delete((char*)p+1);

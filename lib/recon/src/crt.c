@@ -405,10 +405,16 @@ WEAK void *recon_realloc(void *pointer,size_t size)
 }
 WEAK void recon_cpp_delete(void *pointer)
 {
-    ReconCppAllocation *record=live_cpp_allocation(pointer);
-    int saved_errno=errno;
-    DWORD saved_error=recon_GetLastError();
-    if(!pointer || !record)recon_unsupported("operator delete without live new ownership");
+    ReconCppAllocation *record;
+    int saved_errno;
+    DWORD saved_error;
+    /* Canonical scalar delete delegates to free, whose NULL path returns
+     * without entering the heap. No ownership or public state changes. */
+    if(!pointer)return;
+    record=live_cpp_allocation(pointer);
+    saved_errno=errno;
+    saved_error=recon_GetLastError();
+    if(!record)recon_unsupported("operator delete without live new ownership");
     record->live=0;free(pointer);
     recon_SetLastError(saved_error);errno=saved_errno;
 }

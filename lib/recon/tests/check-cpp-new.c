@@ -5,7 +5,7 @@ int main(int argc,char **argv)
 {
     size_t sizes[]={12288,4000,4096,0}; unsigned n; void *p;
     struct rlimit limit; (void)argv;
-    if (argc>1 && !strcmp(argv[1],"delete")) {crt_operator_delete(NULL);return 1;}
+    if (argc>1 && !strcmp(argv[1],"delete")) {crt_operator_delete(NULL);return 0;}
     if (argc>1) {
         limit.rlim_cur=limit.rlim_max=32*1024*1024; assert(setrlimit(RLIMIT_AS,&limit)==0);
         crt_operator_new(256*1024*1024); return 1;

@@ -5,6 +5,7 @@
 #ifdef __cplusplus
 /* Allocating form binds the existing shared boundary, with no wrapper vertex. */
 void *__attribute__((cdecl)) operator new(size_t) __asm__("recon_cpp_new");
+void __attribute__((cdecl)) operator delete(void *) __asm__("recon_cpp_delete");
 /* Period NEW.H placement form: storage is already owned by the caller. */
 #ifndef __PLACEMENT_NEW_INLINE
 #define __PLACEMENT_NEW_INLINE

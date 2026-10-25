@@ -62,7 +62,7 @@ build/cpp-new-probe: tests/cpp-new-probe.c $(SOURCES) $(HEADERS) | build
 cpp-new-check: build/check-cpp-new build/cpp-new-probe
 	./build/check-cpp-new
 	$(PYTHON) -c "from pathlib import Path; import subprocess; p=subprocess.run(['build/cpp-new-probe'],capture_output=True,check=True); assert not p.stderr and p.stdout==Path('tests/cpp-new-original.stdout').read_bytes()"
-	$(PYTHON) -c "import subprocess; p=subprocess.run(['build/check-cpp-new','failure'],capture_output=True); assert p.returncode==125; p=subprocess.run(['build/check-cpp-new','delete'],capture_output=True); assert p.returncode==125"
+	$(PYTHON) -c "import subprocess; p=subprocess.run(['build/check-cpp-new','failure'],capture_output=True); assert p.returncode==125; p=subprocess.run(['build/check-cpp-new','delete'],capture_output=True); assert p.returncode==0"
 build/check-setjmp3: tests/check-setjmp3.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 tests/check-setjmp3.c $(SOURCES) -o $@
 setjmp3-check: build/check-setjmp3
@@ -645,3 +645,11 @@ build/pure-virtual-probe: build/pure-virtual-probe.o $(SOURCES)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
 pure-virtual-check: build/pure-virtual-probe
 	$(PYTHON) tests/check-pure-virtual.py build/pure-virtual-probe.o $<
+
+.PHONY: cpp-delete-binding-check
+build/cpp-delete-binding.o: tests/cpp-delete-binding.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -fPIC -fno-inline -finstrument-functions -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/cpp-delete-binding: build/cpp-delete-binding.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
+cpp-delete-binding-check: build/cpp-delete-binding
+	$(PYTHON) tests/check-cpp-delete-binding.py build/cpp-delete-binding.o $<

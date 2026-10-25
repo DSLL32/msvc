@@ -621,7 +621,10 @@ C++ import allocation ownership
 Distinct operator-new/delete imports use host-only recon_cpp_allocations records
 (base, requested bytes, rounded malloc request, generation, live state). Successful
 delete and ordinary free retire a live record; successful realloc retires old-new
-ownership, failure retains it. Tracked realloc(size0), NULL/foreign/interior/dead
+ownership, failure retains it. Scalar delete(NULL) is a no-op before ownership
+lookup, preserving public errors, full FP state and every allocation record.
+The authenticated provider delegates to free, whose NULL path returns without
+entering the heap. Tracked realloc(size0), foreign/interior/dead
 delete and unproved allocation failures are unsupported. Host malloc usable size
 and unwritten bytes are not application-owned evidence.
 A stale pointer numerically equal to a fresh allocation after reuse cannot be
@@ -1004,8 +1007,9 @@ no_instrument_function avoids materializing separate helper addresses solely
 for instrumentation. It must not be applied to a real original App function.
 Canonical VC5 uses __inline with a separately qualified /Ob1 translation unit.
 The native new.h subset supplies only caller-owned placement construction and
-a typed cdecl allocating-new declaration bound to existing recon_cpp_new. It
-adds no allocator wrapper, delete form, exception policy or libstdc++ dependency.
+typed cdecl scalar new/delete declarations bound directly to existing
+recon_cpp_new/recon_cpp_delete. It adds no wrapper vertex, array forms, exception
+policy or libstdc++ dependency.
 
 The native compiler-support __cxa_pure_virtual(void) symbol has C linkage and
 never returns: it reports unsupported invocation through the existing exit125
