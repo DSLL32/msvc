@@ -557,7 +557,6 @@ IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *refe
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void restore_pch_frontend(void) { __asm { int 3 } }
 void declare_pch_debug_library(void) { __asm { int 3 } }
-void mark_pch_relocations(void) { __asm { int 3 } }
 void __stdcall encode_pch_pointer(void *pointer) { __asm { int 3 } }
 void encode_pch_operators(void) { __asm { int 3 } }
 void initialize_pch_relocations(void) { __asm { int 3 } }
@@ -565,3 +564,32 @@ void encode_pch_pages(void) { __asm { int 3 } }
 unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
 void write_pch_pages(void) { __asm { int 3 } }
 void restore_pch_pointers(void) { __asm { int 3 } }
+
+void mark_pch_scopes(void) { __asm { int 3 } }
+void mark_pch_types(void) { __asm { int 3 } }
+void mark_pch_shapes(void) { __asm { int 3 } }
+void mark_pch_macros(void) { __asm { int 3 } }
+void mark_pch_identifiers(void) { __asm { int 3 } }
+void mark_pch_function_records(void) { __asm { int 3 } }
+void mark_pch_scope_directory(void) { __asm { int 3 } }
+void mark_pch_parameters(void) { __asm { int 3 } }
+void mark_pch_pragma_values(void) { __asm { int 3 } }
+void mark_pch_defines(void) { __asm { int 3 } }
+void mark_pch_include_directories(void) { __asm { int 3 } }
+void mark_pch_packing(void) { __asm { int 3 } }
+void mark_pch_translation_symbols(void) { __asm { int 3 } }
+void mark_pch_class_contexts(void) { __asm { int 3 } }
+void mark_pch_pending_tables(void) { __asm { int 3 } }
+void mark_pch_generated_members(void) { __asm { int 3 } }
+void mark_pch_declaration_table(void) { __asm { int 3 } }
+void mark_pch_virtual_thunks(void) { __asm { int 3 } }
+void mark_pch_declaration_thunks(void) { __asm { int 3 } }
+void mark_pch_deferred_types(void) { __asm { int 3 } }
+void mark_pch_member_contexts(void) { __asm { int 3 } }
+void mark_pch_typedef_aliases(void) { __asm { int 3 } }
+void mark_pch_static_member_aliases(void) { __asm { int 3 } }
+void mark_pch_static_member_names(void) { __asm { int 3 } }
+void mark_pch_global_bindings(void) { __asm { int 3 } }
+void mark_pch_method_aliases(void) { __asm { int 3 } }
+void mark_pch_constructor_closures(void) { __asm { int 3 } }
+void mark_pch_access_declarations(void) { __asm { int 3 } }

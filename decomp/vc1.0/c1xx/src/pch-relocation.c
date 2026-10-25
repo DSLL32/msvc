@@ -239,3 +239,75 @@ void relocate_pch_state(void)
     pch_compiler_image.token_flags = token_allocation_flags;
     pch_compiler_image.parser_flags = cpp_parser_flags;
 }
+
+/* Original0xa2278..0xa22e8: the encountered28 zero-argument cdecl visitors.
+   Table bounds and each RET0 contract come from the actual C1XX dispatcher
+   and callback bodies; discovery of a visitor does not credit its body. */
+void mark_pch_scopes(void);
+void mark_pch_types(void);
+void mark_pch_shapes(void);
+void mark_pch_macros(void);
+void mark_pch_identifiers(void);
+void mark_pch_function_records(void);
+void mark_pch_scope_directory(void);
+void mark_pch_parameters(void);
+void mark_pch_pragma_values(void);
+void mark_pch_defines(void);
+void mark_pch_include_directories(void);
+void mark_pch_packing(void);
+void mark_pch_translation_symbols(void);
+void mark_pch_class_contexts(void);
+void mark_pch_pending_tables(void);
+void mark_pch_generated_members(void);
+void mark_pch_declaration_table(void);
+void mark_pch_virtual_thunks(void);
+void mark_pch_declaration_thunks(void);
+void mark_pch_deferred_types(void);
+void mark_pch_member_contexts(void);
+void mark_pch_typedef_aliases(void);
+void mark_pch_static_member_aliases(void);
+void mark_pch_static_member_names(void);
+void mark_pch_global_bindings(void);
+void mark_pch_method_aliases(void);
+void mark_pch_constructor_closures(void);
+void mark_pch_access_declarations(void);
+
+void (* const pch_mark_callbacks[28])(void) = {
+    mark_pch_scopes,
+    mark_pch_types,
+    mark_pch_shapes,
+    mark_pch_macros,
+    mark_pch_identifiers,
+    mark_pch_function_records,
+    mark_pch_scope_directory,
+    mark_pch_parameters,
+    mark_pch_pragma_values,
+    mark_pch_defines,
+    mark_pch_include_directories,
+    mark_pch_packing,
+    mark_pch_translation_symbols,
+    mark_pch_class_contexts,
+    mark_pch_pending_tables,
+    mark_pch_generated_members,
+    mark_pch_declaration_table,
+    mark_pch_virtual_thunks,
+    mark_pch_declaration_thunks,
+    mark_pch_deferred_types,
+    mark_pch_member_contexts,
+    mark_pch_typedef_aliases,
+    mark_pch_static_member_aliases,
+    mark_pch_static_member_names,
+    mark_pch_global_bindings,
+    mark_pch_method_aliases,
+    mark_pch_constructor_closures,
+    mark_pch_access_declarations,
+};
+
+/* Original0x69d50..0x69d65. Each owning subsystem marks its live pointer
+   fields before root and arena-word encoding alters their representations. */
+void mark_pch_relocations(void)
+{
+    void (* const *mark)(void);
+    for (mark = pch_mark_callbacks; mark < pch_mark_callbacks + 28; ++mark)
+        (*mark)();
+}

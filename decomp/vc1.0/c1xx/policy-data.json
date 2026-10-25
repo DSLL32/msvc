@@ -3032,6 +3032,41 @@
       "name": "_asm_output_operands",
       "original": 573592,
       "bytes": 12
+    },
+    {
+      "kind": "function_pointers",
+      "name": "_pch_mark_callbacks",
+      "original": 664184,
+      "functions": [
+        "_mark_pch_scopes",
+        "_mark_pch_types",
+        "_mark_pch_shapes",
+        "_mark_pch_macros",
+        "_mark_pch_identifiers",
+        "_mark_pch_function_records",
+        "_mark_pch_scope_directory",
+        "_mark_pch_parameters",
+        "_mark_pch_pragma_values",
+        "_mark_pch_defines",
+        "_mark_pch_include_directories",
+        "_mark_pch_packing",
+        "_mark_pch_translation_symbols",
+        "_mark_pch_class_contexts",
+        "_mark_pch_pending_tables",
+        "_mark_pch_generated_members",
+        "_mark_pch_declaration_table",
+        "_mark_pch_virtual_thunks",
+        "_mark_pch_declaration_thunks",
+        "_mark_pch_deferred_types",
+        "_mark_pch_member_contexts",
+        "_mark_pch_typedef_aliases",
+        "_mark_pch_static_member_aliases",
+        "_mark_pch_static_member_names",
+        "_mark_pch_global_bindings",
+        "_mark_pch_method_aliases",
+        "_mark_pch_constructor_closures",
+        "_mark_pch_access_declarations"
+      ]
     }
   ],
   "buffered_streams": [
