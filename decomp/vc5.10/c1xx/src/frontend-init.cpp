@@ -1163,5 +1163,26 @@ extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionTy
     return &created->function;
 }
 
-WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeShape *shape) { __asm { int 3 } return 0; }
+WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeShape *function)
+{
+    if (function->flags & 0x8000) {
+        if (frontend_data.options.fastcall_calls || frontend_data.options.pascal_calls)
+            report_language_diagnostic(2, 96, 37, 106);
+        return 0x10;
+    }
+    if (function->flags & 0x2000) {
+        if ((context.class_flags & 7) != 3) {
+            CompilerNameEntry *name = ((CompilerNamedSymbol *)symbol)->link.name;
+            if (name != frontend_data.builtin_names.operator_new &&
+                name != frontend_data.builtin_names.operator_delete &&
+                name != frontend_data.builtin_names.operator_new_array &&
+                name != frontend_data.builtin_names.operator_delete_array)
+                return 0x70;
+        }
+        if (function != shape) return 0x70;
+    }
+    if (frontend_data.options.fastcall_calls) return 0x40;
+    if (frontend_data.options.stdcall_calls) return 0x60;
+    return frontend_data.options.pascal_calls ? 0x20 : 0x10;
+}
 WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes) { __asm { int 3 } return 0; }

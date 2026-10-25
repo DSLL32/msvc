@@ -159,6 +159,7 @@ static const uint32_t order[] = {
     0x84f9, /* intern_function_type */
     0x85c5, /* CompilerDeclarator::ValidateShapes */
     0x8730, /* CompilerDeclarator::DefaultCallingConvention */
+    0x87b2, /* CompilerDeclarator::ValidateContext */
 };
 extern int c1xx_test_exception_counters(void);
 extern int c1xx_test_input_alias(void);
@@ -176,7 +177,7 @@ static const ReconTest tests[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine CompilerDeclarator::DefaultCallingConvention INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine CompilerDeclarator::ValidateContext INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x8730, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
+    RECON_IO, RECON_FRONTIER, 0x87b2, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
 };

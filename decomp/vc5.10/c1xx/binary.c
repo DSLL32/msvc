@@ -1494,8 +1494,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerDeclarator::DefaultCallingConvention", .entry_rva = 0x8730,
-        .code = (const ReconExtent[]){{0x8730, 0x8731}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x8730, 0x87b2}, {0x54826, 0x54865}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN18CompilerDeclarator24DefaultCallingConventionEP17CompilerTypeShape",
         .original_symbol = "?DefaultCallingConvention@CompilerDeclarator@@QAEGPAUCompilerTypeShape@@@Z",
     },
