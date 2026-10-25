@@ -961,7 +961,65 @@ void RECON_THISCALL CompilerDeclarator::NormalizeBase(void)
         }
     }
 }
-void RECON_THISCALL CompilerDeclarator::ValidateShapes(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ValidateShapes(void)
+{
+    CompilerTypeShape *end = last_shape->base;
+    CompilerTypeShape *previous = NULL, *entry = shape;
+    WORD attributes;
+    unsigned kind, warning;
+    if (flags & 8) flags |= 2;
+    while (entry != end) {
+        attributes = entry->attributes & 0x70;
+        if (attributes) {
+            entry->attributes &= ~0x70;
+            warning = 0;
+            switch (entry->flags & 0x77) {
+            case 1:
+                warning = 165;
+                break;
+            case 3: case 0x20: case 0x44:
+                if (entry->base != end)
+                    attributes = PropagateQualifiers(entry->base, attributes);
+                break;
+            case 4:
+                attributes = PropagateQualifiers(entry, attributes);
+                if (entry != shape) previous->attributes |= attributes;
+                break;
+            case 0x10:
+                warning = 637;
+                break;
+            case 0x40:
+                warning = 532;
+                break;
+            default:
+                goto next;
+            }
+            if (warning) {
+                compiler_warning(warning, 120);
+                flags |= 1;
+                goto next;
+            }
+            entry->attributes |= attributes;
+        } else if ((entry->flags & 0x77) == 4) {
+            if (entry == shape) {
+                attributes = qualifiers.flags & 0x70;
+                if (attributes) qualifiers.flags &= ~0x70;
+                else {
+                    flags &= ~2;
+                    attributes = DefaultCallingConvention(entry);
+                }
+            } else {
+                attributes = previous->attributes & 0x70;
+                if (!attributes) attributes = DefaultCallingConvention(entry);
+                previous->attributes |= attributes;
+            }
+            entry->attributes |= attributes;
+        }
+next:
+        previous = entry;
+        entry = entry->base;
+    }
+}
 void RECON_THISCALL CompilerDeclarator::ValidateContext(void) { __asm { int 3 } }
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop) { __asm { int 3 } return NULL; }
@@ -1104,3 +1162,6 @@ extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionTy
     else *bucket = created;
     return &created->function;
 }
+
+WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeShape *shape) { __asm { int 3 } return 0; }
+WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes) { __asm { int 3 } return 0; }

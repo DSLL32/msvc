@@ -226,6 +226,8 @@ struct CompilerDeclarator {
     void RECON_THISCALL AddArrayShape(CompilerTypeShape *);
     void RECON_THISCALL AddMemberPointerShape(CompilerTypeShape *);
     void RECON_THISCALL ValidateShapes(void);
+    WORD RECON_THISCALL DefaultCallingConvention(CompilerTypeShape *);
+    WORD RECON_THISCALL PropagateQualifiers(CompilerTypeShape *, WORD);
     void RECON_THISCALL ValidateContext(void);
     CompilerType *RECON_THISCALL BuildType(CompilerTypeShape *);
 };
