@@ -26,3 +26,10 @@ extern "C" void release_widen(WidenTi *object)
 {
     object->Release();
 }
+
+/* Convert one narrow-index record through genuine slot0x0c [004102c0,004102d9). */
+extern "C" int record_widen(WidenTi *object, void *output,
+                            const void *input, unsigned *size)
+{
+    return object->Record(output, input, size);
+}

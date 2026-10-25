@@ -697,6 +697,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_record_widen": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

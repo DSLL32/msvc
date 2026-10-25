@@ -45,7 +45,6 @@ void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 
 
 
-int record_widen(WidenTi *object, void *output, const void *input, unsigned *size) { __asm { int 3 } return 0; }
 void register_type_server(void *leaf) { __asm { int 3 } }
 
 unsigned stream_write(CachedFile *file, const void *buffer, unsigned size) { __asm { int 3 } return 0; }

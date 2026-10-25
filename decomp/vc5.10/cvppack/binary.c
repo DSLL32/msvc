@@ -98,7 +98,7 @@ static const ReconFunction functions[] = {
     { .name="_read_legacy_module_types", .entry_rva=0xc6a0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="read_legacy_module_types" },
     { .name="_reset_type_name_cache", .entry_rva=0xc760, .code=(const ReconExtent[]){{0xc760,0xc7a1}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="reset_type_name_cache" },
     { .name="_initialize_module_type_storage", .entry_rva=0xc720, .code=(const ReconExtent[]){{0xc720,0xc75d}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="initialize_module_type_storage" },
-    { .name="_record_widen", .entry_rva=0x102c0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="record_widen" },
+    { .name="_record_widen", .entry_rva=0x102c0, .code=(const ReconExtent[]){{0x102c0,0x102d9}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="record_widen" },
     { .name="_find_precompiled_module", .entry_rva=0xcb70, .code=(const ReconExtent[]){{0xcb70,0xcc01}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="find_precompiled_module" },
     { .name="_use_precompiled_types", .entry_rva=0xc930, .code=(const ReconExtent[]){{0xc930,0xcb67}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="use_precompiled_types" },
     { .name="_register_type_server", .entry_rva=0xbca0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="register_type_server" },
