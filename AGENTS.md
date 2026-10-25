@@ -39,6 +39,12 @@ Then, for some case:
  - On no trap: 
    * if case successful - producing identical output to the original - move on to another and repeat this process. Else, debug, fix, and rerun.
 
+As reconstruction advances, inspect the remaining application code and design
+substantial cases that exercise as much of it as practical. Combine related
+features in one coherent workload where possible; avoid a succession of tiny
+cases when a broader case can reach the same remaining paths. CRT/stdlib code
+is not a reconstruction target.
+
 ## Native builds and testing
 
 Use native i386 Linux builds during reconstruction, debugging and fixture runs.
