@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1558 historical frontiers/1451 App bodies.
+ * Current reviewed boundary:1559 historical frontiers/1452 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_type_entries@4",
+        .entry_rva = 0x59ff0,
+        .code = (const ReconExtent[]) { { 0x59ff0, 0x5a012 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_type_entries",
+    },
     {
         .name = "_mark_pch_hash_entries@12",
         .entry_rva = 0x5a640,
@@ -130,6 +138,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_types",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_shapes",

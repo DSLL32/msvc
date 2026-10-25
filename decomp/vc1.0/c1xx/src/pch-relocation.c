@@ -519,3 +519,16 @@ void __stdcall mark_pch_hash_entries(HashEntry *entry, PchVisit key, PchVisit va
         entry = entry->next;
     }
 }
+
+void __stdcall mark_pch_type_entries(TypeEntry *entry);
+
+/* Original0x69fc0..0x69feb. Every type bucket head is itself an arena
+   pointer slot, followed by its linked interned descriptors. */
+void mark_pch_types(void)
+{
+    unsigned i;
+    for (i = 0; i < 1024; ++i) {
+        mark_pch_pointer((void **)&type_descriptor_buckets[i]);
+        mark_pch_type_entries(type_descriptor_buckets[i]);
+    }
+}
