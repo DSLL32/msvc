@@ -271,7 +271,7 @@ int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment,
     }
     loop->condition = operation;
     write_ir_record(0x3a, qc_loop_markers->label);
-    emit_label(continue_labels->label);
+    emit_label(control_labels->label);
     return 1;
 }
 
@@ -318,7 +318,7 @@ void finish_qc_loop(void)
 {
     QcLoopState *loop = qc_loop_analyses->value.pointer;
     IrToken *left, *right;
-    emit_label(control_labels->label);
+    emit_label(continue_labels->label);
     if (current_token_code == 0x85) record_line_information(1);
     if (loop->increment) {
         right = expand_qc_operand(&loop->step);
@@ -326,12 +326,12 @@ void finish_qc_loop(void)
         emit_expression_statement(new_left_typed_expression(loop->increment, left, right));
     }
     emit_label(qc_loop_markers->label);
-    if (!loop->condition) write_ir_record(0x3a, continue_labels->label);
+    if (!loop->condition) write_ir_record(0x3a, control_labels->label);
     else {
         right = expand_qc_operand(&loop->right);
         left = expand_qc_operand(&loop->left);
         emit_condition_to_label(binary_expression(loop->condition, left, right),
-            continue_labels->label, 1);
+            control_labels->label, 1);
     }
     emit_label(break_labels->label);
 }

@@ -161,7 +161,7 @@ void write_switch_dispatch(void);
 void end_switch_statement(void);
 void emit_seh_leave(void);
 void record_break_statement(void);
-void __stdcall record_qc_jump(unsigned char kind);
+void __stdcall record_qc_jump(int kind);
 void record_continue_statement(void);
 void begin_return_expression(void);
 void __stdcall emit_return_statement(IrToken *expression, int mode);

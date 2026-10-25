@@ -326,3 +326,17 @@ int __stdcall align_inline_slots(unsigned short first, unsigned short second)
     }
     return -1;
 }
+
+/* Original0x4505d..0x450b7, stdcall4. An unstructured jump disables
+   slot ranking; supported structured exits retain their own qc records. */
+void __stdcall record_qc_jump(int kind)
+{
+    if (!kind) ++inline_jump_count;
+    else if (inline_scope_depth < 8 && inline_region_count < 255) {
+        switch (kind) {
+        case 0: write_ir_record(0x95, 0); break;
+        case 1: write_ir_record(0x96, 0); break;
+        case 2: write_ir_record(0x98, 0); break;
+        }
+    }
+}
