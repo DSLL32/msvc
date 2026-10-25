@@ -428,12 +428,6 @@ void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegi
     __asm { int 3 }
 }
 
-unsigned short __fastcall common_input_value_type(unsigned short first, unsigned short second)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned short type,
     C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
 {

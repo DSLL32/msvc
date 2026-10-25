@@ -7,7 +7,7 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 162 accepted application functions / 39,292 code bytes.
+The registry preserves 163 accepted application functions / 39,502 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 2,072 bytes of contextual text data are separate. Three reviewed shipped shift
 helpers (107 bytes) are original-only CRT support with no reconstructed bodies. The full text extent is
@@ -15,8 +15,8 @@ helpers (107 bytes) are original-only CRT support with no reconstructed bodies. 
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `common_input_value_type` at original RVA 0x28eec.
-  Thirty-one narrow units retain real-conversion and register-list behavior checks.
+  current accepted frontier is `convert_input_expression` at original RVA 0x984a.
+  Thirty-two narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
 fresh original/native pair at the genuine node-constructor trap. Its prior

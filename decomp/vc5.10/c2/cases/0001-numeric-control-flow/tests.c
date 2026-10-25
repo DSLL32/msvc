@@ -679,6 +679,23 @@ static int integer_record_width(void)
         allocation[32] == 0xa5 && allocation[35] == 0xa5;
 }
 
+static int binary_value_types(void)
+{
+    static const unsigned short cases[][3] = {
+        {0x3004, 0x3008, 0x1004}, {0x3004, 0x4008, 0x3004},
+        {0x1008, 0x3004, 0x3004}, {0x4004, 0x1008, 0x4004},
+        {0x1008, 0x4004, 0x4004}, {0x4004, 0x4008, 0x4008},
+        {0x4008, 0x4004, 0x4008}, {0x1008, 0x2004, 0x1008},
+        {0x1004, 0x2008, 0x2008}, {0x1004, 0x2004, 0x2004},
+        {0x2004, 0x1004, 0x2004}, {0x5004, 0x1004, 0x1004}
+    };
+    unsigned i;
+    for (i = 0; i < sizeof(cases) / sizeof(cases[0]); ++i)
+        if (common_input_value_type(cases[i][0], cases[i][1]) != cases[i][2])
+            return 0;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -710,5 +727,6 @@ const ReconTest numeric_tests[] = {
     {"input type decoding retains untouched token fields", 1, input_type_fields},
     {"operand pop clears only owned stack links and flag", 1, input_operand_pop},
     {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view},
-    {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width}
+    {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width},
+    {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types}
 };

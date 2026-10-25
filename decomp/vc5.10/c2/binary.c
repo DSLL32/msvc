@@ -2807,8 +2807,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@common_input_value_type@8",
         .entry_rva = 0x28eec,
+        .code = (const ReconExtent[]){{0x28eec, 0x28f82}, {0x6c13b, 0x6c177}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "common_input_value_type",
     },
     {

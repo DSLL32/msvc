@@ -1734,3 +1734,20 @@ void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left,
         local->last = last;
     }
 }
+
+unsigned short __fastcall common_input_value_type(unsigned short first, unsigned short second)
+{
+    unsigned first_class = first & 0xf000, second_class = second & 0xf000;
+    if (first_class == 0x3000)
+        return second_class == 0x3000 ? 0x1004 : first;
+    if (second_class == 0x3000) return second;
+    if (first == second) return first;
+    if (first_class == 0x4000) {
+        if (second_class != 0x4000) return first;
+        return (first & 0xfff) >= (second & 0xfff) ? first : second;
+    }
+    if (second_class == 0x4000) return second;
+    if ((first & 0xfff) > (second & 0xfff)) return first;
+    if ((first & 0xfff) < (second & 0xfff)) return second;
+    return first_class == 0x2000 ? first : second;
+}
