@@ -205,6 +205,9 @@ pub struct Capture {
     /// Select the selected original toolchain's native MSVCRT, independently of target env.
     #[arg(long)]
     pub native_msvcrt: bool,
+    /// Export raw generated artifacts to a new external directory before normalization.
+    #[arg(long)]
+    pub artifacts_dir: Option<PathBuf>,
     /// Typed Win32 probe DLL compiled from case-owned direct.c; explicit original only.
     #[arg(long, requires = "marker_rva")]
     pub direct_helper: Option<PathBuf>,
@@ -525,6 +528,8 @@ struct FrontierSnapshot {
     stack: Option<Bytes>,
     stack_error: Option<String>,
 }
+const FRONTIER_STACK_BYTES: u32 = 64;
+
 fn frontier_snapshot(
     broker: &mut Broker,
     base: u32,
@@ -549,14 +554,17 @@ fn frontier_snapshot(
         })
         .collect();
     let esp = registers["esp"];
-    // Return PC plus the four DWORD formals needed by current original frontiers.
-    let (stack, stack_error) = match broker.rpc(1, esp, 20, 0, &[]) {
-        Ok(reply) if reply.data.len() == 20 => (Some(Bytes(reply.data)), None),
+    // Bounded diagnostic prefix, including return PC and current stack formals.
+    let (stack, stack_error) = match broker.rpc(1, esp, FRONTIER_STACK_BYTES, 0, &[]) {
+        Ok(reply) if reply.data.len() == FRONTIER_STACK_BYTES as usize => {
+            (Some(Bytes(reply.data)), None)
+        }
         Ok(reply) => (
             None,
             Some(format!(
-                "stack read returned {} of 20 bytes",
-                reply.data.len()
+                "stack read returned {} of {} bytes",
+                reply.data.len(),
+                FRONTIER_STACK_BYTES
             )),
         ),
         Err(error) => (None, Some(format!("{error:#}"))),
@@ -567,10 +575,88 @@ fn frontier_snapshot(
         registers,
         floating_save: Bytes(data[40..].to_vec()),
         stack_address: esp,
-        stack_requested: 20,
+        stack_requested: FRONTIER_STACK_BYTES,
         stack,
         stack_error,
     })
+}
+#[derive(Serialize, Deserialize)]
+struct RawArtifact {
+    path: String,
+    exported_path: PathBuf,
+    sha256: String,
+    size: u64,
+}
+fn reserve_artifacts(path: &Path, root: &Path, cwd: &Path) -> Result<PathBuf> {
+    let absolute = std::path::absolute(path)?;
+    let parent = absolute
+        .parent()
+        .context("artifact directory parent")?
+        .canonicalize()?;
+    let destination = parent.join(absolute.file_name().context("artifact directory name")?);
+    anyhow::ensure!(
+        !destination.starts_with(root.canonicalize()?)
+            && !destination.starts_with(cwd.canonicalize()?),
+        "artifact directory must be outside the ephemeral workspace and cwd"
+    );
+    fs::create_dir(&destination)
+        .with_context(|| format!("reserve new artifact directory {}", destination.display()))?;
+    fs::create_dir(destination.join("files"))?;
+    Ok(destination)
+}
+fn export_artifacts(
+    f: &Fixture,
+    cwd: &Path,
+    rules: &[OutputFile],
+    destination: &Path,
+) -> Result<Vec<RawArtifact>> {
+    let mut paths = BTreeSet::new();
+    native::output_paths(cwd, Path::new(""), &mut paths)?;
+    let mut artifacts = Vec::new();
+    for path in paths {
+        fixture::safe_relative(&path)?;
+        let bytes = fs::read(cwd.join(&path))?;
+        if !rules.iter().any(|v| v.path == path)
+            && f.input_files
+                .iter()
+                .any(|v| v.path == path && v.data.0 == bytes)
+        {
+            continue;
+        }
+        let exported_path = destination.join("files").join(&path);
+        let parent = exported_path.parent().context("artifact parent")?;
+        let files_root = destination.join("files").canonicalize()?;
+        let mut existing = parent;
+        while !existing.try_exists()? {
+            existing = existing.parent().context("artifact parent ancestor")?;
+        }
+        anyhow::ensure!(
+            existing.canonicalize()?.starts_with(&files_root),
+            "artifact parent escapes export directory"
+        );
+        fs::create_dir_all(parent)?;
+        anyhow::ensure!(
+            parent.canonicalize()?.starts_with(&files_root),
+            "artifact parent escapes export directory"
+        );
+        let mut file = OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&exported_path)?;
+        file.write_all(&bytes)?;
+        artifacts.push(RawArtifact {
+            path,
+            exported_path,
+            sha256: fixture::hex(&Sha256::digest(&bytes)),
+            size: bytes.len() as u64,
+        });
+    }
+    let mut manifest = OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(destination.join("manifest.json"))?;
+    manifest.write_all(&serde_json::to_vec_pretty(&artifacts)?)?;
+    Ok(artifacts)
 }
 #[derive(Serialize, Deserialize)]
 struct CaptureReport {
@@ -583,6 +669,10 @@ struct CaptureReport {
     staged_files: Vec<crate::original_stage::Provenance>,
     #[serde(default)]
     frontier: Option<FrontierSnapshot>,
+    #[serde(default)]
+    artifacts_dir: Option<PathBuf>,
+    #[serde(default)]
+    raw_artifacts: Vec<RawArtifact>,
 }
 fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
@@ -723,6 +813,7 @@ fn capture_executor(
     f: &Fixture,
     root: &Path,
     cwd: &Path,
+    artifacts_dir: Option<&Path>,
 ) -> Result<(Fixture, CaptureReport)> {
     let start = Instant::now();
     for key in [
@@ -1100,6 +1191,10 @@ fn capture_executor(
     } else {
         f.output_files.as_slice()
     };
+    let raw_artifacts = match artifacts_dir {
+        Some(directory) => export_artifacts(f, cwd, rules, directory)?,
+        None => vec![],
+    };
     let files = capture_files(f, cwd, rules)?;
     if partial {
         fixture.partial = Some(fixture::Partial {
@@ -1139,6 +1234,8 @@ fn capture_executor(
         workspace: root.display().to_string(),
         staged_files: staged.files,
         frontier: snapshot,
+        artifacts_dir: artifacts_dir.map(Path::to_owned),
+        raw_artifacts,
     };
     Ok((fixture, report))
 }
@@ -1224,11 +1321,16 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
             !options.output.starts_with(&root) && !options.output.starts_with(&cwd),
             "capture oracle must be saved outside ephemeral workspace"
         );
+        let artifacts_dir = options
+            .artifacts_dir
+            .as_deref()
+            .map(|path| reserve_artifacts(path, &root, &cwd))
+            .transpose()?;
         native::materialize(f, &cwd)?;
         native::dependencies(f)?;
         let pid = native::fork()?;
         if pid == 0 {
-            let result = capture_executor(options, f, &root, &cwd);
+            let result = capture_executor(options, f, &root, &cwd, artifacts_dir.as_deref());
             let status = match result {
                 Ok((fixture, report)) => {
                     let write = (|| -> Result<()> {
@@ -1478,5 +1580,112 @@ mod partial_output_tests {
         })();
         fs::remove_dir_all(root).unwrap();
         result.unwrap();
+    }
+}
+
+#[cfg(test)]
+mod raw_artifact_tests {
+    use super::*;
+    #[test]
+    fn exported_bytes_are_raw_while_fixture_hashes_remain_normalized() -> Result<()> {
+        let root = native::create_workspace()?;
+        let result = (|| -> Result<()> {
+            let capture = root.join("capture");
+            let cwd = capture.join("work");
+            fs::create_dir_all(cwd.join("nested"))?;
+            let raw = vec![1, 2, 3, 4, 5, 6, 7, 8];
+            fs::write(cwd.join("nested/out.obj"), &raw)?;
+            fs::write(cwd.join("manifest.json"), b"application output")?;
+            fs::write(cwd.join("keep.in"), b"unchanged input")?;
+            let mut fixture = Fixture::default();
+            fixture.input_files.push(InputFile {
+                path: "keep.in".into(),
+                data: Bytes(b"unchanged input".to_vec()),
+                mode: None,
+                modified_unix_seconds: None,
+            });
+            let rules = vec![
+                OutputFile {
+                    path: "nested/out.obj".into(),
+                    absent: false,
+                    data: None,
+                    sha256: None,
+                    zero_ranges: vec![[4, 8]],
+                },
+                OutputFile {
+                    path: "missing.obj".into(),
+                    absent: true,
+                    data: None,
+                    sha256: None,
+                    zero_ranges: vec![],
+                },
+            ];
+            let destination = reserve_artifacts(&root.join("raw"), &capture, &cwd)?;
+            let exported = export_artifacts(&fixture, &cwd, &rules, &destination)?;
+            assert_eq!(exported.len(), 2);
+            let object = exported
+                .iter()
+                .find(|v| v.path == "nested/out.obj")
+                .unwrap();
+            assert_eq!(fs::read(&object.exported_path)?, raw);
+            assert_eq!(object.sha256, fixture::hex(&Sha256::digest(&raw)));
+            assert_eq!(object.size, 8);
+            let observed = capture_files(&fixture, &cwd, &rules)?;
+            let mut normalized = raw.clone();
+            normalized[4..8].fill(0);
+            assert_eq!(
+                observed
+                    .iter()
+                    .find(|v| v.path == "nested/out.obj")
+                    .unwrap()
+                    .sha256,
+                Some(fixture::hex(&Sha256::digest(&normalized)))
+            );
+            assert!(observed.iter().all(|v| v.data.is_none()));
+            let manifest: Vec<RawArtifact> =
+                serde_json::from_slice(&fs::read(destination.join("manifest.json"))?)?;
+            assert_eq!(manifest.len(), 2);
+            assert!(!destination.join("files/keep.in").exists());
+            assert!(!destination.join("files/missing.obj").exists());
+            assert_eq!(
+                fs::read(destination.join("files/manifest.json"))?,
+                b"application output"
+            );
+            assert!(reserve_artifacts(&destination, &capture, &cwd).is_err());
+            assert!(export_artifacts(&fixture, &cwd, &rules, &destination).is_err());
+            assert_eq!(fs::read(&object.exported_path)?, raw);
+            let mut invalid = rules.clone();
+            invalid[0].zero_ranges = vec![[4, 99]];
+            assert!(capture_files(&fixture, &cwd, &invalid).is_err());
+            assert_eq!(fs::read(&object.exported_path)?, raw);
+            Ok(())
+        })();
+        fs::remove_dir_all(root)?;
+        result
+    }
+    #[test]
+    fn export_reservation_and_file_parents_cannot_escape_owned_directory() -> Result<()> {
+        let root = native::create_workspace()?;
+        let result = (|| -> Result<()> {
+            let capture = root.join("capture");
+            let cwd = capture.join("work");
+            fs::create_dir_all(cwd.join("nested"))?;
+            assert!(reserve_artifacts(&capture.join("inside"), &capture, &cwd).is_err());
+            assert!(reserve_artifacts(&cwd.join("inside"), &capture, &cwd).is_err());
+            std::os::unix::fs::symlink(&capture, root.join("alias"))?;
+            assert!(reserve_artifacts(&root.join("alias/inside"), &capture, &cwd).is_err());
+            let destination = reserve_artifacts(&root.join("raw"), &capture, &cwd)?;
+            let outside = root.join("outside");
+            fs::create_dir(&outside)?;
+            std::os::unix::fs::symlink(&outside, destination.join("files/nested"))?;
+            fs::create_dir(cwd.join("nested/deeper"))?;
+            fs::write(cwd.join("nested/deeper/file"), b"data")?;
+            assert!(export_artifacts(&Fixture::default(), &cwd, &[], &destination).is_err());
+            assert!(!outside.join("deeper").exists());
+            assert!(!outside.join("deeper/file").exists());
+            Ok(())
+        })();
+        fs::remove_dir_all(root)?;
+        result
     }
 }

@@ -301,6 +301,13 @@ optional `--program` selects that verified original path explicitly. Existing
 output files are not overwritten without `--replace`. Capturing is always an
 explicit command, never a side effect of run/test.
 
+`--artifacts-dir NEWDIR` optionally preserves raw generated files in
+`NEWDIR/files/<relative-path>` before normalization and workspace cleanup. The
+directory must be new, its parent must exist, and it must be outside the capture
+workspace/cwd. The manifest and report record raw SHA256, size and exported path;
+fixture artifacts remain normalized hashes. Existing export files are never
+overwritten. Without this option raw artifacts are not retained.
+
 Ordinary capture executes the untouched original and records exact stdout/stderr,
 exit status, changed/new/deleted files (hashes), and application first-entry RVAs.
 `--progress` creates a temporary masked copy, restoring classified CRT/import
@@ -320,7 +327,7 @@ start.exe fallback that could not run with the selected old native MSVCRT. The f
 explicit Wine transport; the broker itself uses static CRT and KERNEL32.
 An explicit fixture entry for WINEDLLOVERRIDES conflicts with the flag and is
 rejected. Frontier reports retain debugger registers, floating state,
-and a 20-byte stack prefix (or the diagnostic read error).
+and a 64-byte stack prefix (or the diagnostic read error).
 The Wine loader breakpoint is tracked independently of the target entry, since
 static DLL attachment precedes it. Only the first-chance main-thread ntdll
 process_breakpoint SEH instruction signature is consumed once; other external
