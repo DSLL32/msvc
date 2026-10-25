@@ -43,7 +43,23 @@ extern "C" void __cdecl open_expression_output(void)
 }
 
 extern "C" void __cdecl prepare_pch_expression_input(const char *filename) { __asm { int 3 } }
-void RECON_THISCALL CompilerOutputBuffer::Flush(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerOutputBuffer::Flush(void)
+{
+    unsigned used = (unsigned)(cursor - data);
+    if (used) {
+        if (c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1) == 0 &&
+            !c1_bss.options.preprocess_stdout && !c1_bss.options.prototypes_only) {
+            if (!good) {
+                report_response_error(88, 339, filename);
+            } else {
+                unsigned written = fwrite(data, 1, used, stream);
+                if (written != (unsigned)(cursor - data))
+                    report_response_error(88, 339, filename);
+            }
+        }
+        cursor = data;
+    }
+}
 
 int RECON_THISCALL CompilerOutputBuffer::Open(const char *prefix,
                                             const char *suffix,

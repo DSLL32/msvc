@@ -176,3 +176,28 @@ extern "C" int c1_test_output_grow(void)
     ::operator delete(buffer.data);
     return ok;
 }
+
+extern "C" int c1_test_output_flush_suppression(void)
+{
+    BYTE bytes[4] = { 0x51, 0x72, 0x93, 0xb4 };
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    unsigned mode;
+    buffer->data = bytes;
+    buffer->capacity = sizeof(bytes);
+    buffer->good = 0;
+    buffer->stream = NULL;
+    for (mode = 0; mode != 4; ++mode) {
+        c1_bss.error_count = mode == 0;
+        c1_bss.options.warnings_are_errors = mode == 1 ? 2 : 0;
+        c1_bss.options.preprocess_stdout = mode == 2;
+        c1_bss.options.prototypes_only = mode == 3;
+        buffer->cursor = bytes + 3;
+        buffer->Flush();
+        if (buffer->cursor != bytes || buffer->good ||
+            bytes[0] != 0x51 || bytes[1] != 0x72 ||
+            bytes[2] != 0x93 || bytes[3] != 0xb4) return 0;
+    }
+    c1_bss.options.prototypes_only = 0;
+    buffer->Flush(); /* An empty buffer needs neither a stream nor good state. */
+    return buffer->cursor == bytes;
+}

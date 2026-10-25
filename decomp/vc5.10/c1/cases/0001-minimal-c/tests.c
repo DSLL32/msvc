@@ -165,7 +165,8 @@ static int pending_line_record(void)
 }
 extern int c1_test_output_ensure(void);
 extern int c1_test_output_grow(void);
-const ReconTest minimal_tests[13] = {
+extern int c1_test_output_flush_suppression(void);
+const ReconTest minimal_tests[14] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -178,5 +179,6 @@ const ReconTest minimal_tests[13] = {
     { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes },
     { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record },
     { "output reservation bounds and no state mutation", 1, c1_test_output_ensure },
-    { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow }
+    { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow },
+    { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression }
 };
