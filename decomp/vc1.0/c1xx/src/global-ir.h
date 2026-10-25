@@ -62,16 +62,20 @@ extern unsigned hidden_frame_bytes;
 extern unsigned pragma_record_number;
 extern char *pragma_text;
 extern PragmaValue *pragma_values;
-/* Encountered serialized inline-region slots; other record bytes remain
-   an uninterpreted prefix/suffix until their writers are reconstructed. */
-typedef struct SerializedType {
-    unsigned char prefix[6], left_slot, right_slot, suffix[8];
-} SerializedType;
-typedef char SerializedTypeSizeMustBe16[(sizeof(SerializedType) == 16) ? 1 : -1];
-typedef char SerializedTypeLeftSlotOffsetMustBe6[(offsetof(SerializedType, left_slot) == 6) ? 1 : -1];
-typedef char SerializedTypeRightSlotOffsetMustBe7[(offsetof(SerializedType, right_slot) == 7) ? 1 : -1];
-extern SerializedType *declaration_type_stack;
-extern unsigned short declaration_type_index;
+/* Original qc records rank two parameter slots per control region.
+   The0xff0-byte allocator and16-byte index stride establish255 rows. */
+typedef struct InlineRegion {
+    unsigned short next_sibling, first_child;
+    unsigned char parameter_count, flags, left_slot, right_slot;
+    unsigned left_symbol_index, right_symbol_index;
+} InlineRegion;
+typedef char InlineRegionSizeMustBe16[(sizeof(InlineRegion) == 16) ? 1 : -1];
+typedef char InlineRegionSymbolOffsetMustBe8[
+    (offsetof(InlineRegion, left_symbol_index) == 8) ? 1 : -1];
+typedef char InlineRegionRightSymbolOffsetMustBe12[
+    (offsetof(InlineRegion, right_symbol_index) == 12) ? 1 : -1];
+extern InlineRegion *inline_regions;
+extern unsigned short inline_region_count;
 extern unsigned *source_file_index, source_file_counter;
 extern char last_record_source[256];
 extern unsigned next_symbol_index;

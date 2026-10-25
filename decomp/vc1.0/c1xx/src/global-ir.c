@@ -22,8 +22,6 @@ int function_not_inlinable; /* original 0x9fc08 */
 unsigned pragma_record_number; /* original 0x9f458 */
 char *pragma_text; /* original 0x9fab4 */
 PragmaValue *pragma_values; /* original 0x9f328 */
-SerializedType *declaration_type_stack; /* original 0x912f4 */
-unsigned short declaration_type_index; /* original 0x91300 */
 unsigned *source_file_index; /* original 0x9137c */
 unsigned source_file_counter = 10; /* original 0x9f78c */
 char last_record_source[256]; /* original 0x98050..0x98150 */
@@ -436,9 +434,11 @@ formats:
             GLOBAL_BYTE(stream, (signed char)code);
             break;
         case GF_TYPE_STACK:
+            /* The qc allocator and this serializer share the sole original
+               0x912f4 pointer and0x91300 count, not a second type-stack object. */
             GLOBAL_SHORT((symbol->attributes & 0x1000) >> 12);
-            GLOBAL_SHORT((unsigned short)((declaration_type_index + 1) << 4));
-            fwrite(declaration_type_stack, 16, (unsigned)declaration_type_index + 1, stream);
+            GLOBAL_SHORT((unsigned short)((inline_region_count + 1) << 4));
+            fwrite(inline_regions, 16, (unsigned)inline_region_count + 1, stream);
             break;
         case GF_METHOD_ALIAS_INDEX:
             GLOBAL_INDEX(method_alias(symbol)->index);

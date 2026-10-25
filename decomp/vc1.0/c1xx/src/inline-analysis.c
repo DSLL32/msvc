@@ -305,3 +305,24 @@ void __stdcall propagate_inline_regions(unsigned short index)
         child_index = child->next_sibling;
     }
 }
+
+/* Original0x44fdc..0x4505d, stdcall8. Swap the second region's two
+   choices when either known slot crosses the first region's ordering. */
+int __stdcall align_inline_slots(unsigned short first, unsigned short second)
+{
+    InlineRegion *left = &inline_regions[first];
+    InlineRegion *right = &inline_regions[second];
+    unsigned char slot;
+    unsigned symbol;
+    if ((right->right_slot != 0xff && left->left_slot == right->right_slot) ||
+        (right->left_slot != 0xff && left->right_slot == right->left_slot)) {
+        slot = right->left_slot;
+        right->left_slot = right->right_slot;
+        right->right_slot = slot;
+        symbol = right->left_symbol_index;
+        right->left_symbol_index = right->right_symbol_index;
+        right->right_symbol_index = symbol;
+        return 0;
+    }
+    return -1;
+}

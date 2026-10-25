@@ -130,12 +130,12 @@
           "bytes": 4
         },
         {
-          "name": "_declaration_type_stack",
+          "name": "_inline_regions",
           "original": 594676,
           "bytes": 4
         },
         {
-          "name": "_declaration_type_index",
+          "name": "_inline_region_count",
           "original": 594688,
           "bytes": 2
         },

@@ -262,15 +262,15 @@ IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *op
                 slot = find_inline_parameter_slot(inline_parameter_slots, inline_slot_count, symbol->index);
                 if (slot != -1) {
                     inline_parameter_slots[(unsigned char)slot] = 0xffff;
-                    region = (unsigned short)(declaration_type_index - 1);
+                    region = (unsigned short)(inline_region_count - 1);
                     while (inline_base_region < region) {
                         for (index = 0; index < inline_scope_depth; ++index)
                             if (inline_scopes[inline_scope_depth-index].region == region) break;
                         if (index >= inline_scope_depth) {
-                            if (declaration_type_stack[region].left_slot == (unsigned char)slot)
-                                declaration_type_stack[region].left_slot = 0xff;
-                            if (declaration_type_stack[region].right_slot == (unsigned char)slot)
-                                declaration_type_stack[region].right_slot = 0xff;
+                            if (inline_regions[region].left_slot == (unsigned char)slot)
+                                inline_regions[region].left_slot = 0xff;
+                            if (inline_regions[region].right_slot == (unsigned char)slot)
+                                inline_regions[region].right_slot = 0xff;
                         }
                         --region;
                     }

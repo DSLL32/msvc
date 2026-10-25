@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1632 historical frontiers/1525 App bodies.
+ * Current reviewed boundary:1633 historical frontiers/1526 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -13,6 +13,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "align_inline_slots",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_propagate_inline_regions@4",
