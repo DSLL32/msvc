@@ -70,9 +70,10 @@ unsigned char __stdcall scan_float_tail(char *destination)
     unsigned char character, following, token;
     Extended *value;
     character = read_numeric_character();
-    if (options.option_Og && !macro_rescan_depth) {
+    /* Original0x9186c is the -xc cell (rule0xa0198), not -Og. */
+    if (options.option_xc && !macro_rescan_depth) {
         compiler_warning(1, 12);
-        options.option_Og = 0;
+        options.option_xc = 0;
     }
     if ((character_flags[character] & CF_DECIMAL) || character == '.') {
         do {

@@ -57,6 +57,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/binary-expressions.c \
     src/condition-expressions.c \
     src/loop-output.c \
+    src/seh.c \
     src/constructor-initializers.c \
     src/browser.c \
     src/debug-info.c \
@@ -129,10 +130,11 @@ BINARY_SOURCES = src/c1xx.c \
     src/class-finalization.c \
     src/class-type-sets.c \
     src/special-members.c
-BINARY_SUPPORT_SOURCES = src/runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+CRT_SOURCES = crt/runtime.c
+BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) harness/entry.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 1.0-nt
-ORIGINAL_SOURCES = $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_SOURCES = $(BINARY_SOURCES) $(CRT_SOURCES)
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c1xx.exe
 ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
@@ -147,6 +149,7 @@ RECON_POLICY = policy-data.json
 RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents
 RECON_AUDIT_REGISTRY_METADATA = 1
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_RUNTIME_MAP = $(ORIGINAL_BUILD)/c1xx.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf

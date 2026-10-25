@@ -33,7 +33,6 @@
 #include "types.h"
 #include "parameters.h"
 #include "macros.h"
-#include "runtime.h"
 #include "global-ir.h"
 #include "source-input.h"
 #include "operators.h"
@@ -112,9 +111,6 @@ void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDecl
 
 
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
-void begin_seh_filter(void) { __asm { int 3 } }
-void begin_seh_finally(void) { __asm { int 3 } }
-void begin_seh_try(void) { __asm { int 3 } }
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
@@ -134,15 +130,9 @@ void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 }
 
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
-void emit_seh_leave(void) { __asm { int 3 } }
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
-void end_seh_except(void) { __asm { int 3 } }
-void end_seh_filter(void) { __asm { int 3 } }
-void end_seh_finally(void) { __asm { int 3 } }
-void end_seh_try(void) { __asm { int 3 } }
 
 void finish_qc_loop(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }

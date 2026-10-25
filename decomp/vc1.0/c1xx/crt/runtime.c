@@ -1,12 +1,14 @@
 /* Historical CRT compatibility only, without application reconstruction credit.
    These seven bodies predate the continuation and are retained by user direction
    for older original-CRT variants and their strict historical function graphs;
-   runtime-variants.json records the original C1/C1XX instruction/data comparison.
+   Historical runtime-variants.json (Git17c78f8c6) records the original
+   C1/C1XX instruction/data comparison.
    Shipped LIBC supplies all seven symbols. Relevant distinctions include FILE
    flags, text-mode seek/position accounting, sharing/inheritance and timezone
    rules versus the shared native fallbacks. An isolated native link without
-   these bodies passed all six current cached cases (five complete, one frontier):
-   evidence/crt-boundary-assessment/summary.json. Their necessity for those paths
+   these bodies passed all six then-current cached cases (five complete, one frontier):
+   evidence/crt-boundary-assessment/summary.json in Git17c78f8c6.
+   Their necessity for those paths
    is not demonstrated; broader edge equivalence remains unproved. Retaining
    these support bodies does not authorize further CRT reconstruction. */
 #include <stdio.h>

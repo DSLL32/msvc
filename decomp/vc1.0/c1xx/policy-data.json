@@ -298,6 +298,12 @@
       "bytes": 1160
     },
     {
+      "kind": "bytes",
+      "name": "_seh_exit_labels",
+      "original": 595316,
+      "bytes": 4
+    },
+    {
       "kind": "tokens",
       "name": "_token_spellings",
       "original": 660940,
@@ -3390,5 +3396,585 @@
       "pending_extent": false,
       "reason": "ABI-only tail target of finish_debug_info: original whole70950..7099f has cdecl RET0 at7099e and only internal branches; native source remains trapping RET0. Unimplemented, masked and zero acceptance/coverage credit."
     }
+  },
+  "runtime_candidate_disqualifications": {
+    "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+    "basis": "Exact finite disqualification of30short pattern matches. Complete owners include these instructions; no independent PEexport, initialized literal pointer, absolute-address operand or external CALL/JMP supports these candidate entries. Eleven direct branches are owner-internal. App/genuineCRT extents, implementation status and credit unchanged. No general matcher exemption.",
+    "candidates": [
+      {
+        "original": [
+          123920,
+          123936
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_release_input_handle",
+        "owner_ranges": [
+          [
+            123840,
+            123921
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          136592,
+          136608
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_initialize_packing",
+        "owner_ranges": [
+          [
+            136528,
+            136593
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          149552,
+          149568
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_trim_filename_space",
+        "owner_ranges": [
+          [
+            149424,
+            149553
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          215984,
+          216000
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_begin_function_body",
+        "owner_ranges": [
+          [
+            215408,
+            215985
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          223040,
+          223056
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_finish_parameter_scope",
+        "owner_ranges": [
+          [
+            222976,
+            223041
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          225696,
+          225712
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_default_constructor_closure_table",
+        "owner_ranges": [
+          [
+            225664,
+            225697
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          249568,
+          249584
+        ],
+        "candidate_names": [
+          "?sync@strstreambuf@@UAEHXZ",
+          "__init_collate",
+          "__matherr"
+        ],
+        "bytes_sha256": "7676ea3894060a447c26b257dd176b19a68ee78597a5eb32254361bd7b906ff9",
+        "owner": "_next_argument",
+        "owner_ranges": [
+          [
+            249536,
+            249571
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          284656,
+          284672
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_finish_conditional_branch",
+        "owner_ranges": [
+          [
+            284432,
+            284657
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          319440,
+          319456
+        ],
+        "candidate_names": [
+          "?sync@strstreambuf@@UAEHXZ",
+          "__init_collate",
+          "__matherr"
+        ],
+        "bytes_sha256": "7676ea3894060a447c26b257dd176b19a68ee78597a5eb32254361bd7b906ff9",
+        "owner": "_equal_tail_word_pairs",
+        "owner_ranges": [
+          [
+            319408,
+            319443
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          321184,
+          321200
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_begin_type_set",
+        "owner_ranges": [
+          [
+            321168,
+            321185
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          330912,
+          330928
+        ],
+        "candidate_names": [
+          "___inittime",
+          "__aar",
+          "__fgetwchar"
+        ],
+        "bytes_sha256": "ae243fedc9c2fd671cefd4ba134d700453735d44d72080f692679b0c4cccbddb",
+        "owner": "_emit_seh_leave",
+        "owner_ranges": [
+          [
+            330880,
+            330906
+          ]
+        ],
+        "reason": "owner-internal conditional block, not independent entry"
+      },
+      {
+        "original": [
+          375584,
+          375600
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_flush_initializer_records",
+        "owner_ranges": [
+          [
+            375360,
+            375585
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          405120,
+          405136
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_void_parameter_list",
+        "owner_ranges": [
+          [
+            405056,
+            405121
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          431648,
+          431664
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_initialize_frontend",
+        "owner_ranges": [
+          [
+            429280,
+            431649
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          433136,
+          433152
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_normalize_input_name",
+        "owner_ranges": [
+          [
+            432992,
+            433137
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          443872,
+          443888
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_open_expression_intermediate",
+        "owner_ranges": [
+          [
+            443600,
+            443873
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          461408,
+          461424
+        ],
+        "candidate_names": [
+          "__heapset",
+          "__inc"
+        ],
+        "bytes_sha256": "b8c0ab9a87095007b08f21f48eca4bbbf5ca37bb617f99062ea7434216002121",
+        "owner": "_reference_line_record_type",
+        "owner_ranges": [
+          [
+            461392,
+            461422
+          ]
+        ],
+        "reason": "owner-internal conditional block, not independent entry"
+      },
+      {
+        "original": [
+          525840,
+          525856
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__amsg_exit",
+        "owner_ranges": [
+          [
+            525808,
+            525856
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          530656,
+          530672
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_setlocale",
+        "owner_ranges": [
+          [
+            529952,
+            530672
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          534208,
+          534224
+        ],
+        "candidate_names": [
+          "?sync@strstreambuf@@UAEHXZ",
+          "__init_collate",
+          "__matherr"
+        ],
+        "bytes_sha256": "7676ea3894060a447c26b257dd176b19a68ee78597a5eb32254361bd7b906ff9",
+        "owner": "_rename",
+        "owner_ranges": [
+          [
+            534160,
+            534224
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          540688,
+          540704
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_fgetc",
+        "owner_ranges": [
+          [
+            540656,
+            540704
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          542496,
+          542512
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__hw_cw",
+        "owner_ranges": [
+          [
+            542336,
+            542512
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          543904,
+          543920
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__ld12told",
+        "owner_ranges": [
+          [
+            543776,
+            543920
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          546256,
+          546272
+        ],
+        "candidate_names": [
+          "?sync@strstreambuf@@UAEHXZ",
+          "__init_collate",
+          "__matherr"
+        ],
+        "bytes_sha256": "7676ea3894060a447c26b257dd176b19a68ee78597a5eb32254361bd7b906ff9",
+        "owner": "__GET_RTERRMSG",
+        "owner_ranges": [
+          [
+            546208,
+            546272
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          549392,
+          549408
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "___dtold",
+        "owner_ranges": [
+          [
+            549184,
+            549408
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          555904,
+          555920
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__validdrive",
+        "owner_ranges": [
+          [
+            555888,
+            555920
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          556688,
+          556704
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__fcloseall",
+        "owner_ranges": [
+          [
+            556640,
+            556704
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          557104,
+          557120
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__setmode",
+        "owner_ranges": [
+          [
+            556960,
+            557120
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          564048,
+          564064
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "__store_num",
+        "owner_ranges": [
+          [
+            563904,
+            564064
+          ]
+        ],
+        "reason": "owner tail instructions and alignment padding, not independent entry"
+      },
+      {
+        "original": [
+          331020,
+          331036
+        ],
+        "candidate_names": [
+          "___inc_tmpoff"
+        ],
+        "bytes_sha256": "ac201607733b9240ccf89070fcd6a9949070110ed1564d756fe8ee1d671b04e3",
+        "owner": "_begin_seh_finally",
+        "owner_ranges": [
+          [
+            331008,
+            331032
+          ]
+        ],
+        "reason": "owner load/increment/store/RET and alignment padding; finite entry/reference check found no independent entry"
+      }
+    ]
   }
 }

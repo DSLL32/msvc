@@ -1,6 +1,5 @@
 #include <recon-tool.h>
-extern int main(int, char **, char **);
-static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
+#include "entry.h"
 
 static const uint32_t order[] = {
     0xad30, /* read_operator_function_id */
@@ -851,5 +850,5 @@ RECON_EXPORT const ReconCase case_descriptor = {
     "Completed original-backed frontend case; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
     RECON_IO, RECON_EXIT, 0,
-    NULL, invoke, NULL, NULL, 0
+    NULL, c1xx_case_invoke, NULL, NULL, 0
 };
