@@ -71,7 +71,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
+
 
 
 
@@ -187,3 +187,5 @@ void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
 void convert_old_symbol12(void) { __asm { int 3 } }
 void convert_old_symbol_skip(void) { __asm { int 3 } }
 
+
+void rebuild_line_ranges(ModuleInfo *module) { __asm { int 3 } }

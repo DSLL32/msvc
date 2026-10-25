@@ -744,7 +744,7 @@
       },
       "_pack_new_lines": {
         "abi": "void pack_new_lines(void *,CvDirectoryEntry *,ModuleInfo *)",
-        "source": "src/stubs.c",
+        "source": "src/lines.c",
         "stack_cleanup": 0,
         "roots": []
       },
@@ -2237,6 +2237,12 @@
       "_convert_old_symbol_change_segment": {
         "abi": "void convert_old_symbol_change_segment(void)",
         "source": "src/oldsymbols.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_rebuild_line_ranges": {
+        "abi": "void rebuild_line_ranges(ModuleInfo *)",
+        "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
       }
