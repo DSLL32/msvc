@@ -1,3 +1,0 @@
-{"event":"create","pid":268,"parent":900,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /section:.store,rs!w /section:.code,ek!p /section:.rdata,a8 /section:.reloc,d /section:.miss,r edit.dll"}
-{"event":"exit","pid":268,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

@@ -1,7 +1,0 @@
-{
-  "status": "documented limitation; no reconstruction/reference change",
-  "original": "Original captured ignored mapped SetEndOfFile failure establishes1224 before successfulCloseHandle; later original unlink/longjmp retains1224.",
-  "native": "Native completed unlink/longjmp sample has0; no direct nativeCloseHandle entry/return1224\u21920 observation was captured. Actual writer is not established by this packet.",
-  "source_audit": "Maintainer confirms current recon_CloseHandle successful file/mapping branches preserve LastError since410fea95, including6ec snapshot. No CloseHandle correction or attribution is warranted.",
-  "def_use": "Prior root-approved original armedGetLastError/no-hit plus native no-reader evidence through actual finalexit remains unchanged. Exact live errno/DOS/inputs/result/fulloutputs/files/trace pass; ambient1224 equivalence is not claimed."
-}

@@ -1,7 +1,0 @@
-{"event":"create","pid":468,"parent":452,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /symbols /undecorate grammar.obj"}
-{"event":"entry","pid":468,"rva":188544,"name":"demangle_parse_template"}
-{"event":"entry","pid":468,"rva":200176,"name":"demangle_status_write"}
-{"event":"entry","pid":468,"rva":197696,"name":"demangle_name_plus_status"}
-{"event":"entry","pid":468,"rva":198880,"name":"demangle_name_assign_status"}
-{"event":"exit","pid":468,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

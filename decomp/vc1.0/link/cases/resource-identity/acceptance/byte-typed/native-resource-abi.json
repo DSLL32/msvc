@@ -1,8 +1,0 @@
-{
-  "logical": "resource_unicode_to_ansi_byte",
-  "caller_name": "resource_name_to_ansi",
-  "formals": {
-    "character": 233,
-    "argument_word": 233
-  }
-}

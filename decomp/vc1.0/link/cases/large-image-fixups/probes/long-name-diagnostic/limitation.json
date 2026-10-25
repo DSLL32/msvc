@@ -1,7 +1,0 @@
-{
-  "status": "Untouched original failure, no reconstruction acceptance",
-  "input_validity": "Ordinary original-compiled COFF with valid long function names; failure is diagnostic implementation, not malformed input.",
-  "failure": "Unexpected original exception stop at__output0x54c21 whileformatpointerEAX=0x11. Old helper didnot record exceptioncode, so exact rawcode is not claimed.",
-  "evidence": "Actual dump_symbols17de0..17e9b uses [external+4] directly for long names asfprintf format pointer; argument is COFF long-name stringtableoffset, not address. .ord truncated, other partial artifacts retained.",
-  "adjustment": "Short valid identifiers preserve coreworkflow; no pointer/path/padding normalization and no acceptance credit from failedprobe."
-}

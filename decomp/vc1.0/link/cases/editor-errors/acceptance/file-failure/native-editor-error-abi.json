@@ -1,9 +1,0 @@
-{
-  "logical": "file_failure",
-  "caller_name": "open_buffered_file",
-  "formals": {
-    "file": null,
-    "message": 7,
-    "detail": "missing.exe"
-  }
-}

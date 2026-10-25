@@ -1,7 +1,0 @@
-{
-  "logical": "recon_unlink",
-  "caller_name": "fatal_message",
-  "formals": {
-    "file": "identity.exe"
-  }
-}

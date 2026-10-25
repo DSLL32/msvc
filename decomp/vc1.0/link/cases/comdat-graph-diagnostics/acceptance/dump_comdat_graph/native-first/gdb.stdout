@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -1, dump_comdat_graph (first=0x2) at src/comdat-diagnostics.c:7
-7	int dump_comdat_graph(ComdatNode *first){__asm { int 3 }return 0;}

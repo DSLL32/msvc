@@ -1,6 +1,0 @@
-{"event":"create","pid":388,"parent":380,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /fpo /map /out:dump.txt debug.dll"}
-{"event":"entry","pid":388,"rva":148672,"name":"dump_fpo"}
-{"event":"entry","pid":388,"rva":149024,"name":"locate_fpo_data"}
-{"event":"entry","pid":388,"rva":143296,"name":"dump_symbol_map"}
-{"event":"exit","pid":388,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

@@ -1,7 +1,0 @@
-{"event":"create","pid":500,"parent":492,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /machine:M68K /nodefaultlib /entry:main /out:mac-debug.exe /debug:full /debugtype:coff /fixed mac-debug.obj"}
-{"event":"entry","pid":500,"rva":162672,"name":"finalize_mac_debug"}
-{"event":"entry","pid":500,"rva":162704,"name":"write_mac_section_debug"}
-{"event":"entry","pid":500,"rva":162944,"name":"write_mac_debug"}
-{"event":"entry","pid":500,"rva":157808,"name":"write_mac_swapper"}
-{"event":"exit","pid":500,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

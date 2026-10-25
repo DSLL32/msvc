@@ -1,0 +1,28 @@
+{
+  "c_stub_references": [
+    "_release_text"
+  ],
+  "runtime_audit_names": [
+    "__cfltcvt_init",
+    "__close",
+    "__control87",
+    "__filelength",
+    "__find",
+    "__fpmath",
+    "__free_osfhnd",
+    "__heap_grow_emptylist",
+    "__read",
+    "__setmode",
+    "__snprintf",
+    "__unlink",
+    "__write",
+    "_doexit",
+    "_parse_cmdline",
+    "_perror",
+    "_setbuf",
+    "_strtoul",
+    "_strtoxl",
+    "_system",
+    "_vfprintf"
+  ]
+}

@@ -1,4 +1,0 @@
-Python Exception <class 'AssertionError'>: ('callee saved', 'edi', 'IdeProbeWrite')
-Python Exception <class 'AssertionError'>: missing terminal or frontier
-Error occurred in Python: missing terminal or frontier
-Python Exception <class 'AttributeError'>: 'gdb.ExitedEvent' object has no attribute 'exit_code'

@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -3, read_ide_flags (output=0x2) at src/ide.c:51
-51	int read_ide_flags(char **output) { __asm { int 3 } return 0; }

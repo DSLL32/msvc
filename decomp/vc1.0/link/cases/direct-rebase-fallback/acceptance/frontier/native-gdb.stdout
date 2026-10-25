@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -1, fallback_process_relocations (page=0x3, count=4294957140, words=0xffffd864, delta=-10304) at src/edit-stubs.c:8
-8	unsigned short *WINAPI fallback_process_relocations(void *page,unsigned long count,unsigned short *words,long delta) { __asm { int 3 } return NULL; }

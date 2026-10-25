@@ -9,11 +9,8 @@ import hashlib
 from pathlib import Path
 import struct
 
-BINARY=Path(__file__).resolve().parents[1]
-
-
-def make_object():
-    base=(BINARY/'cases/m68k-reloc-loader/inputs/mac-reloc.obj').read_bytes()
+def make_object(source):
+    base=source.read_bytes()
     assert hashlib.sha256(base).hexdigest()=='ee86b6debb342172329b06b92b456cb237f1afc2c63c70dffb80788e11f03951'
     symbol,count=struct.unpack_from('<II',base,8)
     offset=symbol+18*count
@@ -30,9 +27,10 @@ def make_object():
 
 def main():
     p=argparse.ArgumentParser(description=__doc__)
+    p.add_argument('--input',type=Path,required=True,help='unpacked frozen mac-reloc.obj')
     p.add_argument('--output',type=Path,required=True)
     options=p.parse_args()
-    data=make_object()
+    data=make_object(options.input)
     options.output.parent.mkdir(parents=True,exist_ok=True)
     options.output.write_bytes(data)
     print(options.output,len(data),hashlib.sha256(data).hexdigest())

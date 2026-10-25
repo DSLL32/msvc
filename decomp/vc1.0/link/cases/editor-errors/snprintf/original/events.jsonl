@@ -1,9 +1,0 @@
-{"event":"create","pid":1556,"parent":1980,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /rebase:base=0x500000 fixed.dll"}
-{"event":"entry","pid":1556,"rva":274208,"name":"analysis_decoder_editor_snprintf","crt_errno":0}
-{"event":"context","pid":1556,"eip":339744,"esp":2750560,"eax":2750580,"ecx":9175208,"edx":0,"stack":[165829,2750580,340,544472,2751027,2883704,2750652,0,2897936,2,16777216,2948865,2883584,48,2900160,2883704,2,2750752,2750752,0,2750664,2077306274,2883584,0],"crt_errno":0,"dos_errno":0,"last_error":0,"exception_code":2147483651}
-{"event":"editor_error_abi","logical":"recon_snprintf","caller":165829,"formals":{"output_is_error_message":1,"output_extent":340,"capacity":340,"format":"can't rebase; %s invalid or linked with /FIXED","value":"fixed.dll"}}
-{"event":"entry","pid":1556,"rva":100293,"name":"analysis_decoder_editor_snprintf_return","crt_errno":0}
-{"event":"context","pid":1556,"eip":165829,"esp":2750564,"eax":53,"ecx":2750633,"edx":2750528,"stack":[2750580,340,544472,2751027,661545315,1701978228,1702060386,1768300603,778331512,543976548,1635151465,543451500,1814065775,1701539433,1769414756,790653044,1163413830,2687044,0,2750664,2077306274,2883584,0,2900168],"crt_errno":0,"dos_errno":0,"last_error":0,"exception_code":2147483651}
-{"event":"editor_snprintf_result","result":53,"errno":0,"capacity":340,"text":"can't rebase; fixed.dll invalid or linked with /FIXED"}
-{"event":"exit","pid":1556,"code":54,"packer":0}
-{"event":"summary","root_exit":54,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

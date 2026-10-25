@@ -1,5 +1,0 @@
-10b68 e8 0 analysis_decoder_omf_tempnam_before
-10b6d 83 0 analysis_decoder_omf_tempnam_after
-4b321 83 0 analysis_omf_tempnam_directory
-4b51e eb 0 analysis_omf_tempnam_candidate
-3817c 83 0 analysis_decoder_omf_warning_result

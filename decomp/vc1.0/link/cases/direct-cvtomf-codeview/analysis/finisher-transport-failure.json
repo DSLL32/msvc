@@ -1,8 +1,0 @@
-{
-  "status": "Controller build failure and accidentally stale helper run; no function accepted",
-  "build_logs": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-finish-entry-build.{stdout,stderr}",
-  "native": "/root/.ai-tmp/msvc2/vc1.0/link/cvtomf-gdb-chc0yudl",
-  "original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/direct-cvtomf-codeview/masked-cbb4nwni",
-  "cause": "C89 statement before declaration in external controller caused compilation failure; old executable remained. Subsequent trial used one-byte stub extent and failed21. Fixed declaration ordering and dependent commands now set-e. These captures are not acceptance/state proof.",
-  "retained_raw": true
-}

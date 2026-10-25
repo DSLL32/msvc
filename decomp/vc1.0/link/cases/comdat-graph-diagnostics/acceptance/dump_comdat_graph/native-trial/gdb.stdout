@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -2, debug_printf (format=0x12000040 "") at src/comdat-diagnostics.c:29
-29	int debug_printf(const char *format,...){__asm { int 3 }return 0;}

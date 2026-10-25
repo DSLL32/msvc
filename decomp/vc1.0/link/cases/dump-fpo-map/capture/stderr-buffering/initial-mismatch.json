@@ -1,6 +1,0 @@
-{
-  "method": "First fresh pair: named trap344c0/dump_fpo matches, but pre-trap redirected stderr buffering differs. Not accepted on this run.",
-  "original_stderr": "",
-  "native_stderr": "\r\nDump of file debug.dll\r\n",
-  "original_file_flags_static": "stderr2; actual runtime state sampled separately"
-}

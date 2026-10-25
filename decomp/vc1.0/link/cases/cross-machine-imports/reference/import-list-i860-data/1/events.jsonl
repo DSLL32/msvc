@@ -1,3 +1,0 @@
-{"event":"create","pid":264,"parent":1100,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /machine:i860 /list i860.lib"}
-{"event":"exit","pid":264,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

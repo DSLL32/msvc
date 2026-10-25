@@ -1,3 +1,0 @@
-{"event":"create","pid":376,"parent":416,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /machine:M68K /nodefaultlib /entry:main /out:loader-map.exe /debug:none /fixed /map:loader-map.map loader-map.obj"}
-{"event":"context","pid":376,"eip":233857,"esp":2750192,"eax":8288664,"ecx":8288772,"edx":0,"stack":[234470,8288744,8288664,5,8212188,8288744,8288744,155073,234233,453860,8288744,0,233856,2750267,5,8207420,8213318,8288744,8193396,0,147207,8288744,5,8193048],"crt_errno":0,"exception_code":2147483651}
-{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

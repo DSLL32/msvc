@@ -1119,7 +1119,7 @@
     "address": 545544,
     "name": "timezone_previous",
     "size": 4,
-    "owner": "src/runtime.c"
+    "owner": "crt/runtime.c"
   },
   {
     "address": 547488,
@@ -1833,7 +1833,7 @@
     "address": 547632,
     "name": "_days",
     "size": 52,
-    "owner": "src/runtime.c"
+    "owner": "crt/runtime.c"
   },
   {
     "address": 453792,

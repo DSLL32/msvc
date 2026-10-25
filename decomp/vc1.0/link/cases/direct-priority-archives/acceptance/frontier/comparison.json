@@ -1,6 +1,0 @@
-{
-  "status": "pass",
-  "matched_observations": 1,
-  "complete": false,
-  "scope": "Initialactualformals/ownednode0,4,12/graph/count/cursors/namesguards/argv/returnESP+nonvolatiles/errors/CW+SW+tags+emptyregisters; rawunwrittennode8 and writablepostcallparameters retained, not consumedoutputs/equalityclaims."
-}

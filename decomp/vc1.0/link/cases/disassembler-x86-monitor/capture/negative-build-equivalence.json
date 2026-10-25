@@ -1,8 +1,0 @@
-{
-  "status": "pass",
-  "current_sha256": "2ebb3dc418e1b4bb93d902868de9715b0f82a5a113827101e1f175e955daa472",
-  "prior_negative_artifact": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-wq3mu5l0/wrong-driver-call.exe",
-  "restored_mutation_offset": 42919,
-  "structural_coff_timestamp_offset": 136,
-  "proof": "Prior auditedcanonical artifact recovered by reversing its one recorded CALL mutation; complete PE then equals currentcanonical after only COFFtimestamp normalization. No target code/data changed, so retained negative suite applies to same code."
-}

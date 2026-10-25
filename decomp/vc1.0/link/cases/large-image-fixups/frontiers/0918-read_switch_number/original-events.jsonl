@@ -1,3 +1,0 @@
-{"event":"create","pid":48,"parent":632,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /dll /nodefaultlib /entry:E /out:large.dll /debug:full /debugtype:coff,fixup /map /order:@functions.ord /stack:0x200000,0x3000 /heap:0x100000,0x2000 large.obj"}
-{"event":"context","pid":48,"eip":239377,"esp":2747640,"eax":8193220,"ecx":8193128,"edx":8198724,"stack":[103902,8198724,0,8193220,2752268,0,12,1073680384,16777216,524288,0,0,0,0,0,0,8193476,0,0,0,0,0,0,0],"crt_errno":0,"exception_code":2147483651}
-{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

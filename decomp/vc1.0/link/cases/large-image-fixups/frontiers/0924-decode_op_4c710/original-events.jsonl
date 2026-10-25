@@ -1,4 +1,0 @@
-{"event":"create","pid":1184,"parent":564,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm large.obj"}
-{"event":"context","pid":1184,"eip":313105,"esp":2750844,"eax":8200185,"ecx":313104,"edx":8199984,"stack":[308663,8200185,2,8199948,97,8200184,308799,8200184,539124,8199948,8199948,532364,308641,8200183,1,8199948,6,8199948,308703,8200183,532364,8199948,319786,8200182],"crt_errno":0,"exception_code":2147483651}
-{"event":"decoder_state","words":[257,0,6,0,0,138428416,0,0,287,0,2,2,1,1,1,0,0,259,2,1,0,0,0,0,0,0,0,0,0,1,3,28,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"operand":2,"cursor":3}
-{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

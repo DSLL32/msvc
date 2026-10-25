@@ -1,5 +1,0 @@
-{"event":"create","pid":636,"parent":596,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /machine:M68K /nodefaultlib /entry:main /out:mac-pcode.exe /debug:none /fixed mac-pcode.obj"}
-{"event":"entry","pid":636,"rva":167504,"name":"resolve_mac_external"}
-{"event":"entry","pid":636,"rva":167792,"name":"resolve_mac_relocation_symbol"}
-{"event":"exit","pid":636,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

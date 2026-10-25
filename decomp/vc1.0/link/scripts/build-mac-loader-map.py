@@ -7,7 +7,7 @@ only test input. Distinct long external names deliberately avoid the historical
 original shared-short-name-buffer alias; no later artifact bytes are patched.
 """
 from pathlib import Path
-import hashlib,json,struct
+import hashlib,json,struct,sys
 
 def build():
     sections=[
@@ -36,6 +36,6 @@ def build():
     proof=dict(machine=0x268,sections=[dict(name=n,data=raw.hex(),flags=hex(f),relocations=r) for n,raw,f,r in sections],symbols=symbols,bytes=len(data),sha256=hashlib.sha256(data).hexdigest(),legacy_bits='Original preflight required; PE flags0x60000020 preserve legacy code/read/execute interpretation',runtime='No Macintosh instruction is executed')
     return data,proof
 if __name__=='__main__':
-    base=Path('cases/mac-loader-map/inputs');base.mkdir(parents=True,exist_ok=True)
+    base=Path(sys.argv[1]);base.mkdir(parents=True,exist_ok=True)
     data,proof=build();(base/'loader-map.obj').write_bytes(data);(base/'layout.json').write_text(json.dumps(proof,indent=2)+'\n')
     print(len(data),proof['sha256'])

@@ -1,8 +1,0 @@
-{"event":"controlled_tmp","directory":"S:\\vc1.0\\link\\resource-identity-duplicate-controlled"}
-{"event":"create","pid":1672,"parent":60,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res"}
-{"event":"entry","pid":1672,"rva":208384,"name":"resource_error_prefix","crt_errno":2}
-{"event":"entry","pid":1672,"rva":217472,"name":"resource_name_to_ansi","crt_errno":2}
-{"event":"entry","pid":1672,"rva":217568,"name":"resource_unicode_to_ansi_byte","crt_errno":2}
-{"event":"entry","pid":1672,"rva":71888,"name":"fatal_message","crt_errno":2}
-{"event":"exit","pid":1672,"code":26,"packer":0}
-{"event":"summary","root_exit":26,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

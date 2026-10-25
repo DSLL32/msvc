@@ -1,4 +1,0 @@
-python3 scripts/check-native.py --trace
-python3 scripts/check-legacy-diagnostics.py --trace
-python3 scripts/check-ide-protocol.py --trace
-make: Nothing to be done for 'replay'.

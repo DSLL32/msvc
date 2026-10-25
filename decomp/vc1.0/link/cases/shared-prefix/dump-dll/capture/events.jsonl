@@ -1,7 +1,0 @@
-{"event":"create","pid":1172,"parent":1164,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /all hello-debug.dll"}
-{"event":"entry","pid":1172,"rva":149296,"name":"dump_debug_directory"}
-{"event":"entry","pid":1172,"rva":146464,"name":"dump_imports"}
-{"event":"entry","pid":1172,"rva":147424,"name":"dump_exports"}
-{"event":"entry","pid":1172,"rva":142560,"name":"dump_base_relocation_block"}
-{"event":"exit","pid":1172,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

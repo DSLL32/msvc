@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -1, helper_main (argc=1, argv=0xffffd8f4) at src/stubs.c:4
-4	STUB(helper_main,(int argc,char **argv))

@@ -1,9 +1,0 @@
-{
-  "logical": "fatal_message",
-  "caller_name": "convert_resource_input",
-  "formals": {
-    "file": "identity.res",
-    "message": 26,
-    "first_variadic_string": ""
-  }
-}

@@ -1,9 +1,0 @@
-{
-  "status": "Historical input construction and rejected-behavior evidence; prior raw paths are provenance, never execution configuration",
-  "source_commit": "1d65dd416a0d46b1c643b67dd394f64e611fdc80",
-  "case": "dump-fpo-object",
-  "evidence": {
-    "input": "Unmodified original compiler hello-debug.obj from immutable fixtures/link-debug-dll/compiler-products/hello-debug.obj, renamed only.",
-    "scope": "Object .debug$F locator route, multiple FPO COMDAT sections and COFF symbol-map rows; no image optional header."
-  }
-}

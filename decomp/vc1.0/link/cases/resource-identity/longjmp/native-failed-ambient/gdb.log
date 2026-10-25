@@ -1,9 +1,0 @@
-Breakpoint 1 at 0x63f70: file ../../../lib/recon/src/crt.c, line 1492.
-Breakpoint 2 at 0x5ba70: file ../../../lib/recon/src/compat.c, line 47.
-Breakpoint 3 at 0x24535: file src/resources.c, line 36.
-Breakpoint 4 at 0x5b2c0: file src/diagnostics.c, line 21.
-Breakpoint 5 at 0x665d0: file ../../../lib/recon/src/crt.c, line 1822.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-[Inferior 1 (process 1541261) exited with code 032]
-RESOURCE_RECOVERED_THROUGH_FATAL

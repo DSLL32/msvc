@@ -1,6 +1,0 @@
-Microsoft (R) 32-Bit Executable Linker Version 1.00
-Copyright (C) Microsoft Corp 1992-93. All rights reserved.
-
-LINK : warning LNK4045: creating LINK_REPRO test case in dir "S:\vc1.0\link\rom-local-imports\repro"
-client.obj : warning LNK4006: _duplicate_value already defined in provider.obj; second definition ignored
-LINK : warning LNK4049: exported symbol "_local_fn" also imported

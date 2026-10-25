@@ -1,5 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint -5, print_comdat_edge (edge=0x12000040) at src/comdat-diagnostics.c:22
-22	int print_comdat_edge(ComdatEdge *edge){__asm { int 3 }return 0;}

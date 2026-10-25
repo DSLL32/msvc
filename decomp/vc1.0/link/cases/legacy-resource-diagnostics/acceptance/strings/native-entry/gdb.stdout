@@ -1,6 +1,0 @@
-Breakpoint 1 at 0x26fb0: file src/resource-legacy.c, line 289.
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Breakpoint 1, display_legacy_strings (input=0x3 <error: Cannot access memory at address 0x3>, size=4294957252) at src/resource-legacy.c:289
-289	void display_legacy_strings(const unsigned char *input,unsigned long size) { __asm { int 3 } }

@@ -1,9 +1,0 @@
-{"event":"create","pid":324,"parent":1692,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -link /nodefaultlib /entry:main /subsystem:console /debug:none /out:identity.exe test.obj identity.res"}
-{"event":"entry","pid":324,"rva":69671,"name":"analysis_decoder_tempnam_before","crt_errno":0}
-{"event":"context","pid":324,"eip":135207,"esp":2750800,"eax":2750808,"ecx":8213225,"edx":0,"stack":[503560,2750808,7368052,0,0,4096,11337728,4294967295,251443,88,2077212492,2069947092,84,8193028,8188792,503528,503536,503552,8188792,247615,8188792,0,119171,8198264],"crt_errno":0,"exception_code":2147483651}
-{"event":"resource_tempnam","before":1,"errno":0,"directory":"\\","prefix":"tmp"}
-{"event":"entry","pid":324,"rva":69676,"name":"analysis_decoder_tempnam_after","crt_errno":2}
-{"event":"context","pid":324,"eip":135212,"esp":2750800,"eax":8213248,"ecx":1,"edx":547770,"stack":[503560,2750808,7368052,0,0,4096,11337728,4294967295,251443,88,2077212492,2069947092,84,8193028,8188792,503528,503536,503552,8188792,247615,8188792,0,119171,8198264],"crt_errno":2,"exception_code":2147483651}
-{"event":"resource_tempnam","before":0,"errno":2,"result":"C:\\users\\root\\AppData\\Local\\Temp\\tmp41"}
-{"event":"exit","pid":324,"code":26,"packer":0}
-{"event":"summary","root_exit":26,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

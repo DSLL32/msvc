@@ -1,7 +1,0 @@
-{
-  "status": "pass",
-  "build_seconds": 1.5539102982729673,
-  "native_observer": "/root/.ai-tmp/msvc2/vc1.0/link/diagnostic-native-observations/strings-tf4589w3",
-  "shared_crt_sha256": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
-  "scope": "All257 original/native C ctype entries now match, including TAB28; original references unchanged. Existing payload does not consume TAB, so no dynamic TAB branch claim."
-}

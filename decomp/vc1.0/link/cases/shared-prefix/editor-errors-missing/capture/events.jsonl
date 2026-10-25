@@ -1,4 +1,0 @@
-{"event":"create","pid":1376,"parent":1964,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /section:.text,R missing.exe"}
-{"event":"entry","pid":1376,"rva":92944,"name":"file_failure","crt_errno":2}
-{"event":"exit","pid":1376,"code":7,"packer":0}
-{"event":"summary","root_exit":7,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

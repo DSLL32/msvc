@@ -1,9 +1,0 @@
-{"event":"create","pid":1144,"parent":268,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -lib /machine:mips /def:cross.def /name:cross.dll /debugtype:both /out:mips.lib"}
-{"event":"entry","pid":1144,"rva":102241,"name":"analysis_clock_library_before","crt_errno":0}
-{"event":"entry","pid":1144,"rva":102246,"name":"analysis_clock_library_after","crt_errno":0}
-{"event":"clock_boundary","caller":"build_import_library","result":1792775011,"output":1792775011,"argument_nonnull":1,"errno_before":0,"errno_after":0,"caller_stack_unchanged":1}
-{"event":"entry","pid":1144,"rva":130024,"name":"analysis_clock_member_before","crt_errno":0}
-{"event":"entry","pid":1144,"rva":130029,"name":"analysis_clock_member_after","crt_errno":0}
-{"event":"clock_boundary","caller":"build_archive_header","result":1792775011,"output":1792775011,"argument_nonnull":1,"errno_before":0,"errno_after":0,"caller_stack_unchanged":1}
-{"event":"exit","pid":1144,"code":0,"packer":0}
-{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

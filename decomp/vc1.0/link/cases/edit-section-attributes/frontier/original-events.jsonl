@@ -1,3 +1,0 @@
-{"event":"create","pid":1792,"parent":712,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /section:.data=.store,rw /section:.text=.code,er /section:.reloc,!d /section:.rdata,a4 edit.dll"}
-{"event":"context","pid":1792,"eip":164225,"esp":2751240,"eax":8061013,"ecx":0,"edx":8069198,"stack":[164161,8061013,2686981,8194072,0,0,163652,2752268,0,48,1073680384,40,1514995716,8193976,17744,9460301,3,4,65535,184,0,64,0,0],"crt_errno":0,"exception_code":2147483651}
-{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

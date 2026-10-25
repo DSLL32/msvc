@@ -1,4 +1,0 @@
-Microsoft (R) 32-Bit Library Manager Version 1.00
-Copyright (C) Microsoft Corp 1992-93. All rights reserved.
-
-i860.lib : error LNK1112: Has a conflicting machine type of "i860"

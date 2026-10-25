@@ -1,5 +1,0 @@
-Microsoft (R) 32-Bit Executable Linker Version 1.00
-Copyright (C) Microsoft Corp 1992-93. All rights reserved.
-
-CVTRES: error - Duplicate resource - Type:SAMPLE, Name:Café, Language:0x0409
-identity.res : error LNK1123: failure during conversion to COFF : file invalid or corrupt

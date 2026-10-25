@@ -1,7 +1,0 @@
-{
-  "status": "Native link preflight correction, no function accepted",
-  "old_inferred_name": "dump_symbol_table",
-  "new_inferred_name": "print_external_table",
-  "reason": "Known existing target global dump_symbol_table in src/dump.c owns the former spelling. Preserve that known data symbol; the unknown original function receives a distinct descriptive name.",
-  "unchanged": "Original baseline/capture bytes/addresses/ABI/output unchanged; no new original run."
-}
