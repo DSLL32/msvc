@@ -664,7 +664,7 @@
       },
       "_read_lines": {
         "abi": "void read_lines(unsigned long,const CvDirectoryEntry *)",
-        "source": "src/stubs.c",
+        "source": "src/modules.c",
         "stack_cleanup": 0,
         "roots": []
       },

@@ -230,6 +230,19 @@ void read_symbols(unsigned long directory, const CvDirectoryEntry *entry)
     symbol_directory = directory;
 }
 
+void read_lines(unsigned long directory, const CvDirectoryEntry *entry)
+{
+    if (cv_read_offset != (unsigned long)entry->location.offset) {
+        cv_read_offset = entry->location.offset;
+        ++subsection_reads;
+        seek_file(input_file, cv_file_offset+cv_read_offset, 0);
+    }
+    if (read_file(input_file, module_data, entry->size) != entry->size)
+        fatal_error(17, "SrcLnSeg", module_name(current_module));
+    cv_read_offset += entry->size;
+    old_line_directory = directory;
+}
+
 void read_publics(unsigned long directory, const CvDirectoryEntry *entry)
 {
     if (cv_read_offset != (unsigned long)entry->location.offset) {

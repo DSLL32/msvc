@@ -53,7 +53,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void read_lines(unsigned long directory,const CvDirectoryEntry * entry) { __asm { int 3 } }
+
 
 
 
