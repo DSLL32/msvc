@@ -1,6 +1,0 @@
-{
-  "kind": "finite cachedEBP public-import witness ablation; no original/native execution",
-  "exit": 1,
-  "rejection": "graph-audit: original _initialize_lowercase_table register imports: unresolved register import calls: {272864241}",
-  "seconds": 0.04538166429847479
-}

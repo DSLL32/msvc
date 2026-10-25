@@ -1,0 +1,4 @@
+/build/
+/.build/
+/cases/*/.build/
+**/__pycache__/

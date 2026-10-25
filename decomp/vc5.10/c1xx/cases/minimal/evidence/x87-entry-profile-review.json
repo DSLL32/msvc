@@ -1,9 +1,0 @@
-{
-  "schema": 1,
-  "profile_packet": "cases/minimal/evidence/x87-entry-profile.json",
-  "profile_packet_sha256": "689370f5e5aefc05da11cae5d49fcb4ca6a1c538444105f2db83d8f4e6cd6de7",
-  "independent_review": "PASS: actual seq0/entry2e3c6 raw112/provider closure; CW027f/SW20/tagffff/TOP0 all-empty",
-  "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/x87-entry-orchestrator-review.json",
-  "receipt_sha256": "e27b3110720290ae51784bd106bf619521350e4b8ab6075060c92cade489649b",
-  "native_application": "pending next required calculator candidate; no original replay solelyprofile"
-}
