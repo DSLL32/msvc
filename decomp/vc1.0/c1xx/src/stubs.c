@@ -199,7 +199,7 @@ void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall copy_quoted_literal(unsigned char delimiter) { __asm { int 3 } }
-unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
+unsigned __stdcall parse_asm_binary_digits(char *digits) { __asm { int 3 } return 0; }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
@@ -587,7 +587,6 @@ AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *valu
 
 AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall make_asm_constant(unsigned value) { __asm { int 3 } return 0; }
 
 
 unsigned __stdcall asm_symbol_length(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -609,13 +608,13 @@ void copy_asm_comment(void) { __asm { int 3 } }
 
 
 
-void serialize_asm_instruction(void) { __asm { int 3 } }
 
 int __stdcall fits_asm_integer(unsigned char bits, unsigned value) { __asm { int 3 } return 0; }
 
 unsigned normalize_asm_x87_operands(void) { __asm { int 3 } return 0; }
-void normalize_asm_addresses(void) { __asm { int 3 } }
 void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
 
 int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) { __asm { int 3 } return 0; }
 int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }
+
+void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }

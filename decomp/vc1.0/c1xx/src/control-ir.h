@@ -20,9 +20,9 @@ extern unsigned pending_pragma_kind;
 extern unsigned char *pending_pragma_text;
 extern unsigned char function_control_flags;
 extern unsigned short control_word, control_alignment, control_alignment_mode;
-/* Only the signed count prefix is established by the encountered consumer;
-   its still-unreconstructed producer will establish the remaining capacity. */
-extern char control_counted_data[1];
+/* Counted assembler record: encountered maximum encoded prefix, not a claim
+   about the historical allocation beyond its recovered writes. */
+extern char control_counted_data[78];
 void write_counted_ir(short length, char *text);
 void __stdcall emit_warning_controls(unsigned tag);
 #endif

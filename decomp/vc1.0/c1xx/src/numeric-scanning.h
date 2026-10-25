@@ -7,6 +7,7 @@ enum IntegerLiteralToken {
     TOK_UINT_CONSTANT = 9, TOK_ULONG_CONSTANT = 10
 };
 unsigned char read_numeric_character(void);
+unsigned __stdcall parse_asm_binary_digits(char *digits);
 unsigned __stdcall convert_integer_digits(char *digits, int length, int radix);
 int __stdcall integer_digit_value(unsigned character);
 unsigned char __stdcall classify_decimal_integer(unsigned value);

@@ -10,7 +10,11 @@ unsigned char function_control_flags; /* original 0x91378 */
 unsigned short control_word; /* original 0x8c020 */
 unsigned short control_alignment = 8; /* original 0x9fbf4 */
 unsigned short control_alignment_mode; /* original 0x9fbf8 */
-char control_counted_data[1]; /* original count byte at 0x8c0a4 */
+/* Encountered prefix0x8c0a4..0x8c0f2 of the assembler record workspace.
+   Three header bytes and at most three operands: longest format13 bytes,
+   plus two six-byte symbolic-register prefixes, give3+3*(13+12)=78.
+   The gap up to independent target_cpu_mask0x8c124 remains uncredited. */
+char control_counted_data[78];
 
 #define CONTROL_RAW(stream_, type_, value_) do { \
     FILE *out_ = (stream_); type_ raw_ = (value_); \

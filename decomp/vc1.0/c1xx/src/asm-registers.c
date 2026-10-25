@@ -109,3 +109,41 @@ AsmExpression *__stdcall make_asm_address_register(short reg)
     }
     return expression;
 }
+
+/* Original 0x7e672..0x7e782. Replace parser register IDs with backend x86
+   encodings; arrange base/index slots and preserve the index scale bits. */
+void normalize_asm_addresses(void)
+{
+    int index;
+    AsmOperand *operand;
+    AsmAddress *address;
+    for (index = 0; index < asm_operand_count; ++index) {
+        operand = &asm_operands[index];
+        if ((operand->flags & 1) && ASM_OPERAND_CATEGORY(operand->address) == ASM_REGISTER)
+            report_asm_operand_error(421,index);
+        address = operand->address;
+        if (address->second_register == 5) {
+            if (!(address->flags & 0xc0)) {
+                if (address->first_register == 5) report_asm_operand_error(431,index);
+                else {
+                    address->second_register = address->first_register;
+                    operand->address->first_register = 5;
+                }
+            } else report_asm_operand_error(431,index);
+        }
+        address = operand->address;
+        address->flags = (address->flags & 0xc0) |
+            (asm_register_properties[address->flags & 63] & 63);
+        operand->address->second_register =
+            (unsigned char)asm_register_properties[operand->address->second_register];
+        address = operand->address;
+        if (!(address->address_flags & 0x20)) {
+            if (!address->first_register) {
+                if (!(address->flags & 0xc0)) {
+                    address->first_register = address->second_register;
+                    operand->address->second_register = (unsigned char)asm_register_properties[0];
+                } else address->first_register = (unsigned char)asm_register_properties[0];
+            } else address->first_register = (unsigned char)asm_register_properties[address->first_register];
+        } else if (!options.configuration.option_qc) address->first_register += 40;
+    }
+}

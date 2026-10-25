@@ -1317,7 +1317,7 @@
         {
           "name": "_control_counted_data",
           "original": 573604,
-          "bytes": 1
+          "bytes": 78
         }
       ]
     },
@@ -2965,6 +2965,12 @@
       "count": 230,
       "stride": 8,
       "fields": "signed class DWORD0; processor BYTE4; padding excluded"
+    },
+    {
+      "kind": "string_pointers",
+      "name": "_asm_operand_formats",
+      "original": 697184,
+      "count": 21
     },
     {
       "kind": "bytes",
