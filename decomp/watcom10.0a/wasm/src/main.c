@@ -32,6 +32,7 @@
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. Actual Watcom 10.0a CF
  * cb28..cb5d determines the six edges, quiet+2 and unsigned error_count+8.
  * main was qualified by the first ordinary original/native pair. */
+#include <stdlib.h>
 #include "wasm.h"
 #include <recon.h>
 
@@ -62,4 +63,29 @@ void main_init(void)
     }
     ObjRecInit();
     GenMSOmfInit();
+}
+
+/* Actual 1994 ca94..cb26 differs from the later version macro and MsgInit. */
+void do_init_stuff(int argc, char **argv)
+{
+    char *env;
+    if (MsgInit(argv[0]) != 0) {
+        exit(1);
+    }
+    AsmInit(-1, -1, -1);
+    add_constant("__WASM__");
+    do_envvar_cmdline("WASM", 0);
+    parse_cmdline(argc, argv);
+    set_build_target();
+    get_os_include();
+    env = getenv("INCLUDE");
+    if (env != NULL) {
+        AddStringToIncludePath(env);
+    }
+    if (!Options.quiet && !Options.banner_printed) {
+        Options.banner_printed = 1;
+        trademark();
+    }
+    open_files();
+    PushLineQueue();
 }

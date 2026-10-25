@@ -32,12 +32,28 @@ int writeComdat(obj_rec *objr, pobj_state *state)
 int writeLinsym(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 
-void do_init_stuff(int argc, char **argv)
-{
-    (void)argc;
-    (void)argv;
-    WASM_PENDING();
-}
+int MsgInit(const char *program)
+{ (void)program; WASM_PENDING(); return 0; }
+void AsmInit(int cpu, int fpu, int use32)
+{ (void)cpu; (void)fpu; (void)use32; WASM_PENDING();  }
+void add_constant(char *string)
+{ (void)string; WASM_PENDING();  }
+void do_envvar_cmdline(char *envvar, int level)
+{ (void)envvar; (void)level; WASM_PENDING();  }
+void parse_cmdline(int argc, char **argv)
+{ (void)argc; (void)argv; WASM_PENDING();  }
+int set_build_target(void)
+{  WASM_PENDING(); return 0; }
+void get_os_include(void)
+{  WASM_PENDING();  }
+void AddStringToIncludePath(char *path)
+{ (void)path; WASM_PENDING();  }
+int trademark(void)
+{  WASM_PENDING(); return 0; }
+void open_files(void)
+{  WASM_PENDING();  }
+void PushLineQueue(void)
+{  WASM_PENDING();  }
 void WriteObjModule(void) { WASM_PENDING(); }
 void PrintStats(void) { WASM_PENDING(); }
 void MsgFini(void) { WASM_PENDING(); }

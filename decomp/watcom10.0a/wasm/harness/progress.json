@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 9,
-  "accepted_app_bytes": 340,
+  "accepted_app_functions": 10,
+  "accepted_app_bytes": 486,
   "accepted": [
     {
       "name": "main",
@@ -75,10 +75,18 @@
         63221
       ],
       "evidence": "cases/0001-help/evidence/0009-register-handlers"
+    },
+    {
+      "name": "do_init_stuff",
+      "extent": [
+        51860,
+        52006
+      ],
+      "evidence": "cases/0001-help/evidence/0010-init-stuff"
     }
   ],
-  "current_frontier": "do_init_stuff",
-  "native_ms": 5.179571,
+  "current_frontier": "MsgInit",
+  "native_ms": 5.514647,
   "original_ms": 1527.051,
-  "last_audit_ms": 12.369676493108273
+  "last_audit_ms": 15.14385174959898
 }
