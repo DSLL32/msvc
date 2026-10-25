@@ -117,3 +117,20 @@ int __stdcall intrinsic_enabled(int index)
     if (normalized_Op && (rule->result_type & 0x100)) return 0;
     return 1;
 }
+
+/* Original0x3d3b0..0x3d40a, stdcall8. Intrinsic declarations keep
+   the current declaration's extension bytes with external function storage,
+   then carry the builtin operation and its argument/behavior flags. */
+void __stdcall apply_intrinsic(CppSymbol *symbol, int index)
+{
+    unsigned char storage_class;
+    symbol->kind = 6;
+    symbol->storage[0] = (symbol->storage[0] & ~6) | 1;
+    storage_class = symbol->storage[0] & 7;
+    symbol->storage[0] = declaration_storage[0];
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    symbol->storage[0] = (symbol->storage[0] & ~7) | storage_class;
+    symbol->detail.intrinsic.operation = (unsigned short)intrinsic_rules[index].operation;
+    symbol->detail.intrinsic.flags = intrinsic_rules[index].flags;
+}

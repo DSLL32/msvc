@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1479 historical frontiers/1372 App bodies.
+ * Current reviewed boundary:1484 historical frontiers/1377 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -13,6 +13,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "access_declaration_table",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_access_declaration@16",
@@ -21,6 +22,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "new_access_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_insert_member_access_declaration@12",
@@ -2011,10 +2013,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_friend_reference@4",
         .entry_rva = 0x1c410,
-        .code = (const ReconExtent[]) { { 0x1c410, 0x1c411 } },
+        .code = (const ReconExtent[]) { { 0x1c410, 0x1c41f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_friend_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_type_reference@4",
@@ -2644,10 +2647,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_hash_word_triplet",
         .entry_rva = 0x21220,
-        .code = (const ReconExtent[]) { { 0x21220, 0x21221 } },
+        .code = (const ReconExtent[]) { { 0x21220, 0x2125b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "hash_word_triplet",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_equal_word_triplets",
@@ -5166,6 +5170,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "apply_intrinsic",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_intrinsic_enabled@4",

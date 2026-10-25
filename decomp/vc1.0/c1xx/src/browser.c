@@ -755,3 +755,10 @@ void __stdcall fill_browser_base(BrowserRecord *record, BaseClassLink *base)
     record->category = browser_base_categories[base->flags & 3];
     if (base->state & 1) record->category |= 1;
 }
+
+/* Original0x2c410..0x2c41f, stdcall4. Friend declarations retain their
+   distinct browser event even when naming an existing function. */
+void __stdcall browser_friend_reference(CppSymbol *symbol)
+{
+    queue_browser_record(13,symbol);
+}

@@ -4,6 +4,7 @@
 #include "class-lookup.h"
 #include "lexer.h"
 #include "class-members.h"
+#include "options.h"
 #include <recon.h>
 
 int base_initialization_access; /* original 0x97bc8 */
@@ -244,4 +245,37 @@ void __stdcall insert_member_access_declaration(CppSymbol *owner, BaseClassLink 
     HashTable *table = access_declaration_table();
     set_hash_value(table,key,member);
     owner->detail.class_info->flags2 |= 8;
+}
+
+/* Original0x311c0..0x31218, stdcall16. The retained declaration uses
+   permanent storage; lookup keys use the caller-selected transient arena. */
+AccessDeclaration *__stdcall new_access_declaration(CppSymbol *owner,
+    BaseClassLink *base, CppSymbol *member, short arena)
+{
+    AccessDeclaration *declaration;
+    ArenaPool *pool;
+    if (!arena) declaration = allocate_permanent(sizeof(AccessDeclaration));
+    else {
+        pool = &compiler_arena.pools[arena == -1 ? 0 : arena];
+        if (pool->remaining < (int)sizeof(AccessDeclaration))
+            refill_arena(&compiler_arena,pool);
+        declaration = (AccessDeclaration *)pool->next;
+        pool->remaining -= sizeof(AccessDeclaration);
+        pool->next += sizeof(AccessDeclaration);
+    }
+    declaration->owner = owner;
+    declaration->base = base;
+    declaration->member = member;
+    return declaration;
+}
+
+HashTable *member_access_declarations; /* original0x9f3fc */
+
+/* Original0x31290..0x312b1, cdecl0. Kind8 hashes all three pointer
+   words; equality kind7 compares that same owner/base/member triplet. */
+HashTable *access_declaration_table(void)
+{
+    if (!member_access_declarations)
+        member_access_declarations = new_hash_table(32,0,8,7);
+    return member_access_declarations;
 }

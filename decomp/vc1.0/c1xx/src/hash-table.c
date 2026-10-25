@@ -250,3 +250,12 @@ unsigned __cdecl hash_declaration_index(void *key)
 {
     return ((CppSymbol *)key)->index;
 }
+
+/* Original0x31220..0x3125b, cdecl1. The access-declaration key retains
+   three pointer words; sum their aligned low ten-bit indices. */
+unsigned __cdecl hash_word_triplet(void *key)
+{
+    unsigned *words = key;
+    return ((words[1] & 0xffc) >> 2) + ((words[2] & 0xffc) >> 2) +
+           ((words[0] & 0xffc) >> 2);
+}

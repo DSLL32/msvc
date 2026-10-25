@@ -100,7 +100,6 @@ TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) {
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 
 
-void __stdcall apply_intrinsic(CppSymbol *symbol, int index) { __asm { int 3 } }
 void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }
 
 
@@ -209,7 +208,6 @@ CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } r
 
 
 
-void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
 
 
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
@@ -396,7 +394,6 @@ char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { _
 
 
 unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0; }
-unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
@@ -593,7 +590,3 @@ CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 }
 int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding *binding, unsigned char *protection) { __asm { int 3 } return 0; }
 
 char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
-
-
-AccessDeclaration *__stdcall new_access_declaration(CppSymbol *owner, BaseClassLink *base, CppSymbol *member, short arena) { __asm { int 3 } return 0; }
-HashTable *access_declaration_table(void) { __asm { int 3 } return 0; }
