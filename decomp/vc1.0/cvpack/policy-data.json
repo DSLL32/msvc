@@ -853,7 +853,7 @@
       },
       "_read_old_global_types": {
         "abi": "void read_old_global_types(void *,unsigned long)",
-        "source": "src/stubs.c",
+        "source": "src/types.c",
         "stack_cleanup": 0,
         "roots": []
       },

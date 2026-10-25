@@ -120,6 +120,23 @@ TypeRecord *local_type_records;
 unsigned short local_type_capacity;
 unsigned long total_local_type_bytes;
 
+void read_old_global_types(void *types, unsigned long size)
+{
+    unsigned char *record = types, *end = record+size;
+    unsigned short skip;
+    reset_local_types();
+    while (record < end) {
+        skip = 0;
+        if (record[3] == 0x90)
+            skip = (unsigned short)(*(unsigned short *)(record+4)-local_type_count-0x200);
+        add_old_type(record, 0, 0, 0, skip);
+        if (record[3] == 0x79)
+            module_symbol_count += *(unsigned short *)(record+1)+10;
+        record += *(unsigned short *)(record+1)+3;
+    }
+    total_local_type_bytes += size;
+}
+
 void read_new_global_types(unsigned long size, int precompiled)
 {
     unsigned long consumed = 0, carry = 0, count, length, i;

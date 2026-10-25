@@ -77,7 +77,7 @@ void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 
 unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
 
-void read_old_global_types(void *types, unsigned long size) { __asm { int 3 } }
+
 
 
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
