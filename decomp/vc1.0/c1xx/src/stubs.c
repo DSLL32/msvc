@@ -331,7 +331,7 @@ unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop
 
 
 
-void __stdcall propagate_inline_regions(unsigned short index) { __asm { int 3 } }
+int __stdcall align_inline_slots(unsigned short first, unsigned short second) { __asm { int 3 } }
 
 
 void __cdecl prepare_line_record_tag(CppSymbol *tag) { __asm { int 3 } }

@@ -251,3 +251,57 @@ void reconcile_inline_regions(void)
     }
     if (inline_regions_changed) fatal_error(1, pch_diagnostic_name, 751);
 }
+
+int __stdcall align_inline_slots(unsigned short first, unsigned short second);
+
+/* Original0x44e66..0x44fdc, stdcall4. Reconcile child slot ordering,
+   inherit missing choices and propagate eligible child choices upward. */
+void __stdcall propagate_inline_regions(unsigned short index)
+{
+    InlineRegion *region = &inline_regions[index];
+    InlineRegion *child;
+    unsigned short child_index = region->first_child;
+    unsigned slot;
+    unsigned char *parent_slot, *child_slot;
+    unsigned *parent_symbol, *child_symbol;
+    while (child_index != 0xffff) {
+        align_inline_slots(index, child_index);
+        child = &inline_regions[child_index];
+        if (child->left_slot == 0xff) {
+            child->left_slot = region->left_slot;
+            child->left_symbol_index = region->left_symbol_index;
+        }
+        if (child->right_slot == 0xff) {
+            child->right_slot = region->right_slot;
+            child->right_symbol_index = region->right_symbol_index;
+        }
+        if (child->left_slot == child->right_slot) {
+            child->right_slot = 0xff;
+            child->right_symbol_index = 0;
+        }
+        if (child->next_sibling != 0xffff)
+            align_inline_slots(child_index, child->next_sibling);
+        propagate_inline_regions(child_index);
+        if (index && !(region->flags & 2)) {
+            for (slot = 0; slot < 2; ++slot) {
+                if (!slot) {
+                    parent_slot = &region->left_slot;
+                    child_slot = &child->left_slot;
+                    parent_symbol = &region->left_symbol_index;
+                    child_symbol = &child->left_symbol_index;
+                } else {
+                    parent_slot = &region->right_slot;
+                    child_slot = &child->right_slot;
+                    parent_symbol = &region->right_symbol_index;
+                    child_symbol = &child->right_symbol_index;
+                }
+                if (*parent_slot == 0xff && child->parameter_count > *child_slot) {
+                    inline_regions_changed = 1;
+                    *parent_slot = *child_slot;
+                    *parent_symbol = *child_symbol;
+                }
+            }
+        }
+        child_index = child->next_sibling;
+    }
+}
