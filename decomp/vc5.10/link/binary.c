@@ -351,9 +351,10 @@ static const ReconFunction functions[] = {
     {"_remove_module_symbol@8",0x34760,(const ReconExtent[]){{0x34760,0x347a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remove_module_symbol",NULL,NULL,0,NULL},
     {"_get_contribution_info@4",0x62f10,(const ReconExtent[]){{0x62f10,0x62f49}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_contribution_info",NULL,NULL,0,NULL},
     {"Contribution::CanOrder",0x31f30,(const ReconExtent[]){{0x31f30,0x31fa8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN12Contribution8CanOrderEPKc",NULL,NULL,0,"?CanOrder@Contribution@@QAEEPBD@Z"},
-    {"_lookup_hash@20",0x30e20,(const ReconExtent[]){{0x30e20,0x30f55}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"lookup_hash",NULL,NULL,0,NULL},
+    {"_lookup_hash@20",0x30e20,(const ReconExtent[]){{0x30e20,0x30f55}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"lookup_hash",NULL,NULL,0,NULL},
     {"_append_symbol_string@8",0x60740,(const ReconExtent[]){{0x60740,0x60782}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"append_symbol_string",NULL,NULL,0,NULL},
     {"_intern_symbol_string@8",0x60790,(const ReconExtent[]){{0x60790,0x60897}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"intern_symbol_string",NULL,NULL,0,NULL},
+    {"_grow_hash@8",0x30f60,(const ReconExtent[]){{0x30f60,0x30f61}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"grow_hash",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",

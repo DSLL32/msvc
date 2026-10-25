@@ -1,6 +1,6 @@
 # VC5.10 LINK
 
-126 application functions / 44,370 original code bytes are reconstructed;
+127 application functions / 44,679 original code bytes are reconstructed;
 13 shipped CRT/import boundaries add no application credit.
 `binary.c` is the function and extent registry. The native harness aliases the
 canonical driver `main` to `link_main` using a compilation flag.
@@ -12,13 +12,13 @@ the original build links the shipped MSVCRT library.
 
 `make -j4 check unit` runs the saved native invocations. Help is complete
 (full DWORD status 1100); Win32 hello is partial at the genuine
-`lookup_hash` INT3 (original RVA `0x30e20`).
+`intern_symbol_string` INT3 (original RVA `0x60790`).
 The hello capture retains both the final original output and the applicable
 partial output. No fixture invokes Wine.
 
 `make -j4 win32 audit` builds with the original 5.10 toolchain and checks the
-full 139-vertex graph, imports and ownership, with return-cleanup checks
-for the 126 application bodies and six CRT bodies. The seven import thunks
+full 140-vertex graph, imports and ownership, with return-cleanup checks
+for the 127 application bodies and six CRT bodies. The seven import thunks
 remain in the graph. Root policy files retain only live finite audit contracts;
 shared harness commands are documented in the repository's `STANDARDIZATION.md`.
 

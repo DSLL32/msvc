@@ -5865,6 +5865,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_lookup_hash@20": {
+        "expected_cleanup": [
+          20
+        ]
       }
     }
   }

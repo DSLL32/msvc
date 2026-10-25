@@ -10,7 +10,7 @@ extern "C" {
 
 typedef const char *(__stdcall *KeyNameFunction)(const void *,const void *);
 typedef struct HashState {
-    DWORD entries, bucket_count, physical_buckets, reserved0c, reserved10;
+    DWORD split_bucket, base_buckets, bucket_count, entries, reserved10;
     unsigned directory_capacity, initial_buckets;
     WORD flags, reserved1e;
     KeyNameFunction key_name;

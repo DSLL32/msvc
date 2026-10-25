@@ -480,6 +480,40 @@ static int comdat_hash_lookup(void)
     return recon_native_at_entry(lookup_hash,check_comdat_hash_lookup,
         invoke_hello,NULL)==1;
 }
+extern DWORD __stdcall intern_symbol_string(StringTable *,const char *);
+extern DWORD symbol_record_size;
+static DWORD __stdcall check_intern_symbol(StringTable *table,const char *name)
+{
+    HashState *state=table ? table->hash.state : NULL;
+    HashEntry **buckets;
+    HashEntry *entry;
+    const BYTE *bytes;
+    unsigned i;
+    int pass=state && state->entries==1 && state->split_bucket==0 &&
+        state->base_buckets==1024 && state->bucket_count==1024 &&
+        !table->hash.string_storage && !table->first && table->last==&table->first &&
+        name==current_module_strings+4 && !strcmp(name,"_HelloWindowProc@16") &&
+        symbol_record_size==60 && !incremental_enabled;
+    if (!pass) recon_native_entry_finish(0);
+    buckets=(HashEntry **)state->directory[0][0];
+    entry=buckets[277];
+    if (!entry || entry->next || !entry->value || !state->bucket_arena ||
+        state->bucket_arena->base!=(BYTE *)buckets ||
+        state->bucket_arena->base+4096!=(BYTE *)entry ||
+        state->bucket_arena->used!=4104 || state->bucket_arena->remaining!=4088 ||
+        state->bucket_arena->previous)
+        recon_native_entry_finish(0);
+    for(i=0;i<1024;++i) if(i!=277 && buckets[i]) recon_native_entry_finish(0);
+    bytes=(const BYTE *)entry->value;
+    for(i=0;i<60;++i) if(bytes[i]!=(i==16?2:0)) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+    return 0;
+}
+static int intern_symbol(void)
+{
+    return recon_native_at_entry(intern_symbol_string,check_intern_symbol,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -503,5 +537,6 @@ const ReconTest hello_tests[]={
     {"section-symbol-ranges-call",1,section_symbol_ranges_call},
     {"comdat-symbol-name",1,comdat_symbol_name},
     {"comdat-symbol-lookup",1,comdat_lookup},
-    {"comdat-hash-lookup",1,comdat_hash_lookup}
+    {"comdat-hash-lookup",1,comdat_hash_lookup},
+    {"intern-symbol",1,intern_symbol}
 };

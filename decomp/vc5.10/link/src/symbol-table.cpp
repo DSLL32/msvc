@@ -51,8 +51,6 @@ StringNode *RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,
     }
     return (StringNode *)entry->value;
 }
-extern "C" HashEntry *__stdcall lookup_hash(const char *name,HashState *state,BYTE create,
-    const void *strings,BYTE *created) { __asm { int 3 } return NULL; }
 extern "C" DWORD __stdcall append_symbol_string(StringTable *table,const char *name)
 { __asm { int 3 } return 0; }
 extern "C" DWORD __stdcall intern_symbol_string(StringTable *table,const char *name)
