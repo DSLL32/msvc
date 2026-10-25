@@ -461,7 +461,6 @@ void browser_compilation_error(void) { __asm { int 3 } }
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
 
-IrToken *__stdcall convert_runtime_initializer_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall emit_runtime_initializer_expression(unsigned operation, unsigned mode, IrToken *arguments) { __asm { int 3 } }
 
 

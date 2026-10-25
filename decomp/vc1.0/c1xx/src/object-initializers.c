@@ -634,3 +634,10 @@ void __stdcall emit_runtime_initializer_call(unsigned operation,
     arguments = append_expression(arguments, bytes, 1);
     emit_runtime_initializer_expression(operation, 2, arguments);
 }
+
+/* Original0x45b80..0x45b95, stdcall4. Runtime initialization uses
+   the shared canonical pointer-to-void type and ordinary conversion rules. */
+IrToken *__stdcall convert_runtime_initializer_pointer(IrToken *expression)
+{
+    return convert_initializer(1, type_indirect_0080_2, expression);
+}
