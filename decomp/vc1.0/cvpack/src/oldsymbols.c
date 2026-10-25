@@ -262,3 +262,35 @@ void convert_old_symbol_data16(void)
     while (padding--) *old_symbol_output++ = 0;
     *(unsigned short *)(record+8) = convert_old_type(*(unsigned short *)(record+8));
 }
+
+/* C6 register numbers are translated to the newer format.
+ * The original inclusive bound also reads the next table's first WORD for
+ * register 32; retain that initialized 0x0b09 value rather than widening it. */
+unsigned short old_register_numbers[33] = {
+    1, 2, 3, 4, 5, 6, 7, 8,
+    9, 10, 11, 12, 13, 14, 15, 16,
+    17, 18, 19, 20, 21, 22, 23, 24,
+    25, 26, 27, 28, 29, 30, 128, 0, 0x0b09
+};
+
+void convert_old_symbol_register(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned char *name;
+    unsigned short length = (unsigned short)(old_symbol_input[0]+4);
+    unsigned short count = (unsigned short)(old_symbol_input[0]-4);
+    unsigned short reg;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    old_symbol_input += 2;
+    *(unsigned short *)(record+4) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    reg = *old_symbol_input++;
+    if (reg <= 32) reg = old_register_numbers[reg];
+    *(unsigned short *)(record+6) = reg;
+    name = record+8;
+    while (count--) *name++ = *old_symbol_input++;
+    while (padding--) *name++ = 0;
+    *(unsigned short *)(record+4) = convert_old_type(*(unsigned short *)(record+4));
+    old_symbol_output = name;
+}
