@@ -395,7 +395,6 @@ int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 
 IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 
 
-DebugDatabase *__cdecl open_debug_database(char *filename, char *mode, unsigned signature) { __asm { int 3 } return 0; }
 void initialize_line_record_buffer(void) { __asm { int 3 } }
 void emit_line_record_database_reference(void) { __asm { int 3 } }
 

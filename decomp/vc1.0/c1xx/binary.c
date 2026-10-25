@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1655 historical frontiers/1548 App bodies.
+ * Current reviewed boundary:1656 historical frontiers/1549 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7,12 +7,49 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_DatabaseBlock_initialize",
+        .entry_rva = 0x8030,
+        .code = (const ReconExtent[]) { { 0x8030, 0x8048 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "_ZN13DatabaseBlock10initializeEj",
+        .original_symbol = "?initialize@DatabaseBlock@@QAEPAU1@I@Z",
+    },
+    {
+        .name = "_DatabasePool_release",
+        .entry_rva = 0x8120,
+        .code = (const ReconExtent[]) { { 0x8120, 0x813b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "_ZN12DatabasePool7releaseEv",
+        .original_symbol = "?release@DatabasePool@@QAEXXZ",
+    },
+    {
+        .name = "_DebugDatabase_create",
+        .entry_rva = 0x7300,
+        .code = (const ReconExtent[]) { { 0x7300, 0x7385 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "_ZN13DebugDatabase6createEPcj",
+        .original_symbol = "?create@DebugDatabase@@QAEHPADI@Z",
+    },
+    {
+        .name = "_DebugDatabase_load",
+        .entry_rva = 0x7390,
+        .code = (const ReconExtent[]) { { 0x7390, 0x762c } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "_ZN13DebugDatabase4loadEv",
+        .original_symbol = "?load@DebugDatabase@@QAEHXZ",
+    },
+    {
         .name = "_open_debug_database",
         .entry_rva = 0x7b70,
         .code = (const ReconExtent[]) { { 0x7b70, 0x7dc3 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "open_debug_database",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_line_record_buffer",

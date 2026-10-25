@@ -4,6 +4,8 @@ RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CXX = clang++
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CXXFLAGS = -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
+BINARY_LINKER = $(NATIVE_CC)
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 BINARY_SOURCES = src/c1xx.c \
     src/stubs.c \
@@ -65,6 +67,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/constructor-initializers.c \
     src/browser.c \
     src/debug-info.c \
+    src/debug-database.cpp \
     src/intrinsics.c \
     src/enumerators.c \
     src/braced-initializers.c \
