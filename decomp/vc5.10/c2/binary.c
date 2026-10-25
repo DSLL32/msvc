@@ -1685,8 +1685,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_flow_edge@12",
         .entry_rva = 0x282b,
+        .code = (const ReconExtent[]){{0x282b, 0x2866}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_flow_edge",
     },
     {

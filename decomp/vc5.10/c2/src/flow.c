@@ -181,3 +181,20 @@ C2FlowEdge *__fastcall new_function_edge(C2Function *function,
     edge->flags = 0;
     return edge;
 }
+
+C2FlowEdge *__fastcall new_flow_edge(C2FlowGraph *flow,
+    C2BasicBlock *source, C2BasicBlock *destination)
+{
+    C2FlowEdge *edge = flow->free_edges;
+    if (edge)
+        flow->free_edges = edge->next_outgoing;
+    else
+        edge = c2_pool_allocate(flow->pool, flow->edge_bytes);
+    edge->source = source;
+    edge->next_outgoing = source->outgoing;
+    source->outgoing = edge;
+    edge->destination = destination;
+    edge->next_incoming = destination->incoming;
+    destination->incoming = edge;
+    return edge;
+}

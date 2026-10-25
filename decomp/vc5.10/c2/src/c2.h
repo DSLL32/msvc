@@ -262,9 +262,13 @@ struct C2FunctionListing {
     unsigned short source_index, pending0e;
 };
 /* Only the record-list consumer's encountered block/flow prefixes. */
+typedef struct C2FlowEdge C2FlowEdge;
 struct C2BasicBlock {
     C2BasicBlock *previous, *next;
-    unsigned char pending08[16];
+    union {
+        unsigned char pending08[16];
+        struct { C2FlowEdge *incoming, *outgoing; unsigned char pending10[8]; };
+    };
     unsigned flags;
     C2Record *records, *last_record;
     unsigned char pending24[96];
@@ -276,7 +280,6 @@ typedef char C2BlockSizeCheck[sizeof(C2BasicBlock) == 140 ? 1 : -1];
 typedef char C2BlockNumbersCheck[offsetof(C2BasicBlock, number84) == 132 ? 1 : -1];
 /* The constructor proves a52-byte allocation. Unencountered flow fields are
  * reserved storage until their actual initializer/consumer is reconstructed. */
-typedef struct C2FlowEdge C2FlowEdge;
 struct C2FlowGraph {
     C2BasicBlock *last, *first;
     unsigned state08, state0c;

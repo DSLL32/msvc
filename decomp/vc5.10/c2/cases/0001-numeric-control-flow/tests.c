@@ -1080,7 +1080,30 @@ static int block_scope_and_flags(void)
         block.pending08[0] == 0xa5 && block.pending24[95] == 0xa5;
 }
 
+static int flow_edge_reuse_ownership(void)
+{
+    C2FlowGraph flow;
+    C2FlowEdge edge, next, outgoing, incoming, *result;
+    C2BasicBlock source, destination;
+    memset(&flow, 0, sizeof(flow));
+    memset(&edge, 0xa5, sizeof(edge));
+    memset(&source, 0xa5, sizeof(source));
+    memset(&destination, 0xa5, sizeof(destination));
+    flow.free_edges = &edge;
+    edge.next_outgoing = &next;
+    source.outgoing = &outgoing;
+    destination.incoming = &incoming;
+    result = new_flow_edge(&flow, &source, &destination);
+    return result == &edge && flow.free_edges == &next &&
+        edge.source == &source && edge.destination == &destination &&
+        edge.next_outgoing == &outgoing && edge.next_incoming == &incoming &&
+        source.outgoing == &edge && destination.incoming == &edge &&
+        edge.flags == 0xa5a5a5a5 && source.pending10[7] == 0xa5 &&
+        destination.pending10[0] == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
+    {"flow-edge reuse preserves flags and both endpoint-list owners", 1, flow_edge_reuse_ownership},
     {"flow partition tracks scope depth and only adds its owned block flag", 1, block_scope_and_flags},
     {"symbol range mode preserves full DWORD results and never writes its input", 1, symbol_boundary_full_width},
     {"pool12 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_twelve_reset},

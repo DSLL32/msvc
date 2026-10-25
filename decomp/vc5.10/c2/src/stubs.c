@@ -673,12 +673,6 @@ int __fastcall record_closes_scope(C2Record *record)
     return 0;
 }
 
-C2FlowEdge *__fastcall new_flow_edge(C2FlowGraph *flow,
-    C2BasicBlock *source, C2BasicBlock *destination)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 void __fastcall function_pass_408b54(C2Function *function)
 {
