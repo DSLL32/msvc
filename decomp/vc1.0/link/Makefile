@@ -20,7 +20,6 @@ BINARY_SOURCES = src/link.c \
     src/disassembler.c \
     src/disassembly-output.c \
     src/opcode-table.c \
-    src/disassembler-stubs.c \
     src/dump-stubs.c \
     src/resources.c \
     src/resource-legacy.c \

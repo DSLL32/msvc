@@ -1918,3 +1918,22 @@ unsigned char *decode_op_4da00(unsigned char *data,int operand,
     decode_op_4bb10(data,operand,state);
     return decode_modrm_operand_effects(data,operand,state);
 }
+
+/* Original [0004d850,0004d896). Historical XBTS/IBTS register effects. */
+unsigned char *decode_op_4d850(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    decode_modrm_register(data,operand,state);
+    state->registers_read|=register_masks[state->operand32?DIS_REG_EAX:DIS_REG_AX];
+    state->registers_read|=register_masks[DIS_REG_CL];
+    return data;
+}
+
+/* Original [0004b650,0004b664). Reserved opcode-table slots use the real
+ * decoder recovery context; the return is unreachable after longjmp. */
+unsigned char *decode_op_4b650(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    longjmp(disassembler_jump,1);
+    return data;
+}

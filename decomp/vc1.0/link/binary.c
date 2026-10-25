@@ -6068,11 +6068,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_decode_op_4b650",
         .entry_rva = 0x3b650,
-        .code = (const ReconExtent[]){{0x3b650, 0x3b651}},
+        .code = (const ReconExtent[]){{0x3b650, 0x3b664}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "decode_op_4b650",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_decode_op_4b670",
@@ -6933,11 +6933,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_decode_op_4d850",
         .entry_rva = 0x3d850,
-        .code = (const ReconExtent[]){{0x3d850, 0x3d851}},
+        .code = (const ReconExtent[]){{0x3d850, 0x3d896}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "decode_op_4d850",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_decode_op_4d8a0",

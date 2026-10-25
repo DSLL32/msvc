@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 100 numbered case directories. Native
+The shared recon-tool harness discovers the 101 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 823 application functions (759 public-reached, 64 direct-support),
-with accepted App extent union 230823/281634 (81.9584993%). The direct OMF symbol
-adjustment adds one whole function/63 bytes after the control-handler checkpoint.
-Support-inclusive historical accepted extent is 261762/281634 (92.9440337%).
-The 1022 historical frontier count includes shipped CRT/import
+set now has 825 application functions (761 public-reached, 64 direct-support),
+with accepted App extent union 230913/281634 (81.9904557%). The public compatibility
+decoder case adds two whole functions/90 extent bytes after the OMF checkpoint.
+Support-inclusive historical accepted extent is 261852/281634 (92.9759901%).
+The 1024 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8926 bytes outside known App/CRT/import extents,
+The current registry leaves 8838 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 860 graphs for calls, RET cleanup, live function
+Current shared validation checks 862 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -453,3 +453,43 @@ No per-function full audits, regression batches or commits were added. Raw
 variants, fresh pairs, source/helper hashes and split timings remain in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/omf-symbol-adjustment/
+
+
+Case 0100 supplies a valid original-compiled COFF object to public -dump -disasm.
+Fixture-only _emit bytes encode historical XBTS/IBTS register/memory forms,
+operand-size overrides and three reserved encodings. The object is inspected,
+never executed. Actual table dispatch reaches both formerly pending callbacks.
+The bit-string callback decodes its explicit register operand, reads implicit
+AX/EAX and CL masks, and returns the original data pointer. Reserved callbacks
+use the real disassembler longjmp recovery with value 1; the dump advances one
+byte, preserving the original subsequent instruction interpretation. Six forms,
+three recovery lines and ordinary following instructions match all 1420 stdout
+bytes, empty stderr, exit 0 and unchanged inputs/inventory without any masks.
+
+Actual fresh original stack packets contain all three cdecl formals. Constructor
+and decoder def-use establish the real live section/state owners; native GDB
+checks those named owners, six defined pointer returns, ESP/nonvolatiles/FP,
+and three actual registered nonopaque jump contexts/value 1. Original saved/current
+registration and scope-0 evidence is inherited from the unchanged historical
+public disassemble_section caller, not newly observed for this input. No filter,
+finalizer or internal SEH-unwind ABI equivalence is claimed. The empty decoder
+stub translation unit is removed. Two former one-byte placeholders now own their
+actual complete 70/20-byte extents; no trailing alignment is added.
+
+The initial native IO observation had CW 037f against original 027f. Its raw
+packet is retained. This new case alone applies the existing 53-bit startup
+setting before real main; native-only reobservation matches CW 027f/SW 0/empty
+tags against the same originals. No debugger/per-function seed, shared default
+change or original repeat was used. One prelaunch missing-case-library rejection
+and an observer syntax failure are also retained as technical failures.
+
+Original fixture compilation took 1.976s; the one untouched baseline took
+0.419s. Fresh masked frontiers took 0.796s/1.060s and completion 1.035s. Aligned
+native completion took 16.332ms (setup 10.937/execution 2.316/checks 3.079);
+GDB took 192.219ms. At completed-case gate, original compilation/relink and
+all 862 graph/RET/reference/ownership/boundary checks passed in 21.170s combined.
+Final native build took 4.689s; all 101 cached cases plus seven focused tests
+passed in 2.161s parallel wall time with identical coherent shared C/H before/after.
+Raw evidence, inherited-context bindings, source hashes and accounting:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/disassembler-compatibility/
