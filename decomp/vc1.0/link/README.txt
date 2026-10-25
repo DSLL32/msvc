@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 102 numbered case directories. Native
+The shared recon-tool harness discovers the 103 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 827 application functions (761 public-reached, 66 direct-support),
-with accepted App extent union 230995/281634 (82.0195715%). The direct COFF integer case adds two whole functions/82 extent bytes after
-the compatibility decoder checkpoint.
-Support-inclusive historical accepted extent is 261934/281634 (93.0051059%).
-The 1026 historical frontier count includes shipped CRT/import
+set now has 828 application functions (761 public-reached, 67 direct-support),
+with accepted App extent union 231017/281634 (82.0273831%). The direct OOM notification case adds one whole function/22 extent bytes after
+the COFF integer checkpoint.
+Support-inclusive historical accepted extent is 261956/281634 (93.0129175%).
+The 1027 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8757 bytes outside known App/CRT/import extents,
+The current registry leaves 8736 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 864 graphs for calls, RET cleanup, live function
+Current shared validation checks 865 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -533,3 +533,31 @@ are recorded truthfully in the snapshot without claiming LINK reaches them.
 Raw failures, original/helper/driver identities, entry observations and timing:
 
     /root/.ai-tmp/msvc2/vc1.0/link/coff-integer-helpers/
+
+
+Case 0102 explicitly calls the positively owned out_of_memory notification
+after creating genuine buffered file owners and temporary-input arguments.
+It does not induce allocation failure or claim public OOM reach. The original
+22-byte wrapper passes program_name, message 5 and an empty argument to the
+accepted fatal diagnostic. Real cleanup closes the cached files, removes the
+differently named temporary input, unlinks the actual default coff.out, flushes
+the exact LNK1102 diagnostic and exits 5. A closed retained file preserves all
+512 bytes, the unchanged same-name/rewritten inputs remain, and the full file
+inventory, 256-byte precleanup report and streams match without masks. The
+original-only catalog setup uses the same bounded owned sibling contract as
+0101. There are no private global seeds or allocator/provider fault injection.
+
+The original shared nonreturn seam observes the genuine callback entry and
+full DWORD exit 5. Fresh masked/native traps match the zero-formal cdecl entry.
+Native GDB observes workflow -> out_of_memory -> fatal_message -> real exit5,
+checks the three actual forwarded words/empty string, live argument owners and
+CW 027f/SW 0/empty tags. No post-exit helper reads or invented return checks are
+used. One untouched baseline took 0.787s; masked frontier/completion took
+1.218s/0.868s. Matching native completion took 16.663ms (setup 10.030/execution
+3.367/checks 3.266); GDB took 181.726ms. At case completion, original compilation
+and all 865 shared graph/RET/reference/ownership/boundary checks passed in
+31.251s combined. Incremental native build took 0.197s; all 103 cached cases and
+seven focused tests passed in 1.918s parallel wall time, with identical published
+shared C/H before/after. Raw observations and split timing remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/oom-notification/

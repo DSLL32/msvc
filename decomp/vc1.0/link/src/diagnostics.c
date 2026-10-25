@@ -50,7 +50,10 @@ void file_failure(char *file,int message,char *detail)
     fatal_message(file,(unsigned short)message,detail);
 }
 
-void out_of_memory(void) { __asm { int 3 } }
+void out_of_memory(void)
+{
+    fatal_message(program_name,5,"");
+}
 
 /* Catalog text lookup [000288a0,00028980). */
 char *lookup_diagnostic_text(unsigned index)

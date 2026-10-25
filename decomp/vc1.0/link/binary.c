@@ -998,11 +998,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_out_of_memory",
         .entry_rva = 0x11990,
-        .code = (const ReconExtent[]){{0x11990, 0x11991}},
+        .code = (const ReconExtent[]){{0x11990, 0x119a6}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "out_of_memory",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_allocate_checked",
