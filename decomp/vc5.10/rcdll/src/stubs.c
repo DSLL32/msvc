@@ -186,10 +186,6 @@ void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide)
     __asm int 3
 }
 
-void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
-{
-    __asm int 3
-}
 void __cdecl rc_advance_macro_text(void)
 {
     __asm int 3

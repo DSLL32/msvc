@@ -7,6 +7,7 @@
 #include <unistd.h>
 #include "command.h"
 #include "directives.h"
+#include "macro-expansion.h"
 #include <recon-tool.h>
 #include <recon-native.h>
 #include <recon.h>
@@ -187,6 +188,23 @@ static int undef_unlink_contract(void)
     return rc_macro_buckets[rc_macro_hash]==&last &&
         rc_macro_listing_hidden==5 && !rc_macro_listing_readonly;
 }
+static int packed_argument_contract(void)
+{
+    WCHAR *source=rc_string_buffer+1024;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    source[0]=L'a';source[1]=0;source[2]=L'x';
+    rc_macro_output_cursor=rc_string_buffer;
+    rc_pack_macro_argument(source,source+3);
+    if(rc_macro_output_cursor!=rc_string_buffer+6 ||
+       rc_string_buffer[0]!=12 || rc_string_buffer[1]!=L'a' ||
+       rc_string_buffer[2] || rc_string_buffer[3] || rc_string_buffer[4] ||
+       rc_string_buffer[5]!=L'A' || rc_string_buffer[6]!=0xa7a7 ||
+       source[0]!=L'a' || source[1] || source[2]!=L'x')return 0;
+    rc_pack_macro_argument(source,source);
+    return rc_macro_output_cursor==rc_string_buffer+9 &&
+        rc_string_buffer[6]==6 && !rc_string_buffer[7] &&
+        rc_string_buffer[8]==L'A' && rc_string_buffer[9]==0xa7a7;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -194,6 +212,7 @@ const ReconTest rich_tests[]={
     {"comment-preservation-option-identity",1,comment_mode_identity},
     {"replacement-quoted-copy-contract",1,replacement_quoted_contract},
     {"macro-undefinition-unlink-contract",1,undef_unlink_contract},
+    {"packed-argument-record-contract",1,packed_argument_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

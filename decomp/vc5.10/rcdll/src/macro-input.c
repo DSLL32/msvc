@@ -1,4 +1,5 @@
 #include <string.h>
+#include <wchar.h>
 #include "command.h"
 #include "macro-expansion.h"
 #include <recon.h>
@@ -75,4 +76,33 @@ int __cdecl rc_finish_macro_frame(void)
     --rc_macro_frames[rc_expanding_macro].macro->flags;
     --rc_expanding_macro;
     return 0;
+}
+
+void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
+{
+    int length;
+    WCHAR *cursor;
+
+#ifdef RECON_NATIVE_TEST
+    /* The encountered argument spelling is in the upper work area; packed
+     * records occupy the separate lower half. Odd record alignment is unproved. */
+    if(((DWORD)begin&1) || ((DWORD)end&1) ||
+       (DWORD)begin<(DWORD)&rc_string_buffer[1024] ||
+       (DWORD)end<(DWORD)begin ||
+       (DWORD)end>(DWORD)&rc_string_buffer[2045] ||
+       ((DWORD)rc_macro_output_cursor&1) ||
+       (DWORD)rc_macro_output_cursor<(DWORD)rc_string_buffer ||
+       (DWORD)rc_macro_output_cursor>(DWORD)&rc_string_buffer[1023]){ __asm int 3 }
+#endif
+    length=end-begin;
+    if(rc_macro_output_cursor+length>=&rc_string_buffer[1022])
+        rc_macro_buffer_fatal(10056);
+    wcsncpy(rc_macro_output_cursor+1,begin,length);
+    cursor=rc_macro_output_cursor+length+1;
+    *cursor=0;
+    if((DWORD)cursor&1)*++cursor=L'P';
+    *++cursor=L'A';
+    ++cursor;
+    *rc_macro_output_cursor=(WCHAR)((cursor-rc_macro_output_cursor)*sizeof(WCHAR));
+    rc_macro_output_cursor=cursor;
 }
