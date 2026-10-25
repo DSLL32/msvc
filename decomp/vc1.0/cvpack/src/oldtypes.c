@@ -468,3 +468,16 @@ void convert_old_leaf_8e(TypeRecord *entry)
     *(unsigned short *)record = 2;
     *(unsigned short *)(record+2) = 0x10;
 }
+
+void convert_old_leaf_72(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *record;
+    entry->flags |= 0x400;
+    record = checked_alloc(6);
+    *(unsigned short *)record = 4;
+    *(unsigned short *)(record+2) = 0x0e;
+    *(unsigned short *)(record+4) = old[5] == 0x73 ? 4 : 0;
+    if (entry->flags & 0x38) release_type_data(entry);
+    entry->flags |= 8;
+    entry->data = record;
+}
