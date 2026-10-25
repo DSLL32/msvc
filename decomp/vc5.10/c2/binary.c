@@ -2444,10 +2444,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "copy_input_operand",
     },
     {
-        .name = "@new_temporary_operand@4",
-        .entry_rva = 0x261c,
+        .name = "@new_temporary_register_expression@16",
+        .entry_rva = 0x228c,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "new_temporary_register_expression",
+    },
+    {
+        .name = "@new_temporary_operand@4",
+        .entry_rva = 0x261c,
+        .code = (const ReconExtent[]){{0x261c, 0x263f}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_temporary_operand",
     },
     {

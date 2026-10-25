@@ -345,3 +345,9 @@ C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned 
     result->value.reg->value = record;
     return record;
 }
+
+C2Expression *__fastcall new_temporary_operand(unsigned short type)
+{
+    C2FunctionRegister *reg = new_temporary_register(type);
+    return new_temporary_register_expression(0x11f, type, reg, reg);
+}

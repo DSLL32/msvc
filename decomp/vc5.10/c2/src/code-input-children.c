@@ -32,12 +32,6 @@ C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *
     return 0;
 }
 
-C2Expression * __fastcall new_temporary_operand(unsigned short type)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior)
 {
     __asm { int 3 }
@@ -465,4 +459,11 @@ int c2_real_to_unsigned(C2Real *input, unsigned *output)
 void __fastcall retain_aggregate_operands(C2Expression *expression)
 {
     __asm { int 3 }
+}
+
+C2Expression *__fastcall new_temporary_register_expression(unsigned opcode,
+    unsigned short type, C2FunctionRegister *reg, C2FunctionRegister *original)
+{
+    __asm { int 3 }
+    return 0;
 }

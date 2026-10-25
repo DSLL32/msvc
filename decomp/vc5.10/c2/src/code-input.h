@@ -73,6 +73,8 @@ C2Expression * __fastcall copy_input_expression(C2Expression *expression);
 C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression);
 void __fastcall unlink_input_record(C2Record *record);
 C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *value);
+C2Expression *__fastcall new_temporary_register_expression(unsigned opcode,
+    unsigned short type, C2FunctionRegister *reg, C2FunctionRegister *original);
 C2Expression * __fastcall new_temporary_operand(unsigned short type);
 C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall new_control_expression(unsigned opcode);
