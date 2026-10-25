@@ -98,3 +98,6 @@ void *__stdcall reallocate_memory(void *memory,unsigned bytes)
     if (!resized) out_of_memory();
     return resized;
 }
+
+void *__stdcall allocate_pool_memory(MemoryPool **pool,unsigned bytes)
+{ __asm { int 3 } return NULL; }

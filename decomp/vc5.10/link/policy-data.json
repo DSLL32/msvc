@@ -5920,6 +5920,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_duplicate_comdat_name@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

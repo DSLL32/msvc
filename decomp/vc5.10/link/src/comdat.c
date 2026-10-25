@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <string.h>
 #include "memory.h"
 #include "full-link-functions.h"
 #include <recon.h>
@@ -34,4 +35,11 @@ void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE li
     if (last_comdat) info->previous_contribution=last_comdat;
     last_comdat=contribution;
 }
-char *__stdcall duplicate_comdat_name(const char *name) { __asm { int 3 } return NULL; }
+void *__stdcall allocate_pool_memory(MemoryPool **,unsigned);
+#pragma intrinsic(strlen,memcpy)
+char *__stdcall duplicate_comdat_name(const char *name)
+{
+    char *copy=(char *)allocate_pool_memory(&comdat_names,strlen(name)+1);
+    memcpy(copy,name,strlen(name)+1);
+    return copy;
+}

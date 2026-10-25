@@ -731,6 +731,18 @@ static int comdat_name_copy(void)
     return recon_native_at_entry(duplicate_comdat_name,check_comdat_name_copy,
         invoke_hello,NULL)==1;
 }
+extern void *__stdcall allocate_pool_memory(MemoryPool **,unsigned);
+static void *__stdcall check_name_pool_call(MemoryPool **pool,unsigned bytes)
+{
+    recon_native_entry_finish(pool==&comdat_names && !*pool && bytes==20 &&
+        comdat_reference_arena && comdat_reference_arena->used==96 && !last_comdat);
+    return NULL;
+}
+static int name_pool_call(void)
+{
+    return recon_native_at_entry(allocate_pool_memory,check_name_pool_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -764,5 +776,6 @@ const ReconTest hello_tests[]={
     {"folded-contribution",1,folded_contribution},
     {"fold-record",1,fold_record},
     {"comdat-attachment",1,comdat_attachment},
-    {"comdat-name-copy",1,comdat_name_copy}
+    {"comdat-name-copy",1,comdat_name_copy},
+    {"name-pool-call",1,name_pool_call}
 };

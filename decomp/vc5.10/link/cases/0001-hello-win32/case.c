@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[33];
+extern const ReconTest hello_tests[34];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -135,10 +135,11 @@ static const uint32_t order[] = {
  0x616d0, /* _align_section_size@8 */
  0x62f50, /* _attach_comdat@12 */
  0x62e60, /* _duplicate_comdat_name@4 */
+ 0x4f700, /* _allocate_pool_memory@8 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
- "Win32 hello link; First COMDAT references allocated; genuine name-copy frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x62e60,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,33
+ "Win32 hello link; First COMDAT name copying; genuine heap-pool frontier.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x4f700,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,34
 };
