@@ -368,3 +368,8 @@ void size_old_symbol12(void)
 {
     module_type_base += 5;
 }
+
+void size_old_skip(void)
+{
+    module_type_count += symbol_input[0] + 1;
+}

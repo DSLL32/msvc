@@ -157,7 +157,7 @@ void size_old_label32(void) { __asm { int 3 } }
 void size_old_register_relative32(void) { __asm { int 3 } }
 
 
-void size_old_skip(void) { __asm { int 3 } }
+
 
 void size_old_bprel32(void) { __asm { int 3 } }
 
