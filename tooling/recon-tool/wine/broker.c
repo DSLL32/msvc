@@ -5,6 +5,7 @@
 #include <string.h>
 #include <windows.h>
 #include "environment.h"
+#include "loader-break.h"
 #define RECON_ORIGINAL_BROKER
 #include "../include/recon-original-direct.h"
 typedef LPVOID(WINAPI *AllocateRemote)(HANDLE, LPVOID, DWORD, DWORD, DWORD);
@@ -139,6 +140,59 @@ static int file_matches(HANDLE file, const BY_HANDLE_FILE_INFORMATION *wanted)
            actual.nFileIndexHigh == wanted->nFileIndexHigh &&
            actual.nFileIndexLow == wanted->nFileIndexLow;
 }
+/* Wine's initial process breakpoint follows static DLL attachment. Match its
+ * qualified ntdll process_breakpoint SEH wrapper, rather than any external INT3. */
+static int breakpoint_module(DWORD address, DWORD *allocation, DWORD *size,
+                             char module[256])
+{
+    MEMORY_BASIC_INFORMATION memory;
+    DWORD pe, signature, directory, name, i;
+    WORD magic;
+    module[0]=0; *allocation=0; *size=0;
+    if (!VirtualQueryEx(process,(void *)address,&memory,sizeof(memory))) return 0;
+    *allocation=(DWORD)memory.AllocationBase;
+    if (!*allocation || *allocation>0xffefffffUL ||
+        !read_memory(*allocation,&magic,2) || magic!=0x5a4d ||
+        !read_memory(*allocation+0x3c,&pe,4) || pe<64 || pe>0x100000 ||
+        *allocation>0xffffffffUL-pe-128 ||
+        !read_memory(*allocation+pe,&signature,4) || signature!=0x4550 ||
+        !read_memory(*allocation+pe+24,&magic,2) || magic!=0x10b ||
+        !read_memory(*allocation+pe+24+56,size,4) ||
+        *size>0xffffffffUL-*allocation || *size<pe+128 ||
+        address<*allocation || address-*allocation>=*size ||
+        !read_memory(*allocation+pe+24+96,&directory,4) ||
+        !directory || directory>*size-40 ||
+        !read_memory(*allocation+directory+12,&name,4) || !name || name>=*size)
+        return 0;
+    for(i=0;i<255 && i<*size-name;++i) {
+        if(!read_memory(*allocation+name+i,module+i,1)) return 0;
+        if(!module[i]) return 1;
+    }
+    module[0]=0;
+    return 0;
+}
+static int initial_loader_break(DWORD address, CONTEXT *c)
+{
+    DWORD allocation,size;
+    char module[256];
+    BYTE bytes[18];
+    if (loader_break || !event.u.Exception.dwFirstChance || c->Eip!=address+1 ||
+        !breakpoint_module(address,&allocation,&size,module) ||
+        address-allocation<6 || address-allocation>size-12 ||
+        !read_memory(address-6,bytes,sizeof(bytes))) return 0;
+    return original_loader_break(module,bytes,sizeof(bytes));
+}
+static void external_break(DWORD address, CONTEXT *c)
+{
+    DWORD allocation,size,words[5],i;
+    char module[256];
+    if(!breakpoint_module(address,&allocation,&size,module)) strcpy(module,"<unknown>");
+    fprintf(stderr,"original external breakpoint: pc=%08lx first_chance=%lu loader_seen=%d target_base=%08lx module_base=%08lx module=%s\n",address,event.u.Exception.dwFirstChance,loader_break,base,allocation,module);
+    fprintf(stderr,"registers eax=%08lx ebx=%08lx ecx=%08lx edx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx eip=%08lx flags=%08lx\n",c->Eax,c->Ebx,c->Ecx,c->Edx,c->Esi,c->Edi,c->Ebp,c->Esp,c->Eip,c->EFlags);
+    if(read_memory(c->Esp,words,sizeof(words))) {
+        fputs("stack20:",stderr);for(i=0;i<5;++i)fprintf(stderr," %08lx",words[i]);fputs("\n",stderr);
+    } else fputs("stack20: unreadable\n",stderr);
+}
 static int next(DWORD *where, Registers *r)
 {
     DWORD i, helper_pe, helper_size;
@@ -244,12 +298,13 @@ static int next(DWORD *where, Registers *r)
                         registers(r, &c);
                         return 1;
                     }
-                if (!loader_break &&
-                    (!base || *where < base || *where - base >= image_size))
+                if ((!base || *where < base || *where - base >= image_size) &&
+                    initial_loader_break(*where,&c))
                 {
                     loader_break = 1;
                     continue;
                 }
+                if (!base || *where<base || *where-base>=image_size) external_break(*where,&c);
                 c.Eip = *where;
                 registers(r, &c);
                 return 2;
@@ -488,7 +543,6 @@ int main(int argc, char **argv)
     tid = launch.dwThreadId;
     where = 0;
     kind = next(&where, &r);
-    loader_break = 1;
     if (kind != 1 || (provider_required && !provider_seen) || (typed_helper && !helper_base) || where != base + entry_rva ||
         !response(1, base, entry_rva, &r, sizeof(r))) {
         fprintf(stderr,"original startup before target entry: kind=%d status=%08lx base=%08lx expected=%08lx provider_seen=%d\n",kind,where,base,entry_rva,provider_seen);

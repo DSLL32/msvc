@@ -1001,8 +1001,10 @@ fn capture_executor(
                             && loaded.info.functions.iter().any(|f| f.rva == r.b
                                 && f.definition == 4
                                 && f.implementation == 0),
-                        "unexpected typed original INT3 at RVA {:x}",
-                        r.b
+                        "unexpected typed original INT3 at RVA {:x} (PC {:08x}, target base {:08x})",
+                        r.b,
+                        base.wrapping_add(r.b),
+                        base
                     );
                     broker.record(r.b);
                     snapshot = Some(frontier_snapshot(&mut broker, base, r.b, &r.data)?);
@@ -1041,8 +1043,10 @@ fn capture_executor(
                         .find(|f| f.rva == r.b && f.definition == 4 && f.implementation == 0);
                     anyhow::ensure!(
                         options.progress && frontier.is_some(),
-                        "unexpected original INT3 at RVA {:x}",
-                        r.b
+                        "unexpected original INT3 at RVA {:x} (PC {:08x}, target base {:08x})",
+                        r.b,
+                        base.wrapping_add(r.b),
+                        base
                     );
                     broker.record(r.b);
                     snapshot = Some(frontier_snapshot(&mut broker, base, r.b, &r.data)?);
