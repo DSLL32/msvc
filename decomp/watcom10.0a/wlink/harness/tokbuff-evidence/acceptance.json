@@ -1,0 +1,12 @@
+{
+  "scope": "InitTokBuff26B sets TokSize4096 and calls actual ChkLAlloc4096; allocation completes and reaches InitSpillFile.",
+  "application_functions": 32,
+  "application_bytes": 3371,
+  "ABI": "Original noformals/preservesEDX/RET0. Pointer/content ownership matches, unused buffer is not read or bulk initialized.",
+  "bindings": {
+    "src/objio.c": "0706f09eaa4e6ba19252df3afcd884d7fa16ee7df4ae61c03b38bade15f5c657",
+    "src/link.h": "86e475f41717c0ceecb604e26479781b76e997fdab7ccc7f99e7d287bd575c47",
+    "binary.c": "f175f839411d1c30b84f9dde86834cc1841eeee89c2551c8c932c72314ce43a0",
+    "policy-data.json": "c00fbb5c62c12d9f9da212d242b63399a6ad0e1b1655a24b49a681dde7fa3e45"
+  }
+}

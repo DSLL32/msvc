@@ -151,6 +151,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "InitTokBuff": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }
