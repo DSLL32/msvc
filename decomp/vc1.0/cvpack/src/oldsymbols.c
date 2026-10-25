@@ -79,3 +79,8 @@ void size_old_end(void)
     module_type_base += 2;
     --symbol_scope_depth;
 }
+
+void size_old_data16(void)
+{
+    module_type_base += 5;
+}
