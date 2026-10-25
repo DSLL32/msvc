@@ -194,3 +194,42 @@ void convert_old_pointer(TypeRecord *entry)
     *(unsigned short *)(record+4) = attributes;
     *(unsigned short *)(record+6) = referent;
 }
+
+/* Convert a bit-sized C6 array to LF_ARRAY's byte-sized numeric leaf. */
+void convert_old_array(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *cursor = old+4, *record;
+    unsigned char name[257], numeric[20];
+    unsigned short old_length, number_size, numeric_size, element, index;
+    unsigned short length, i;
+    unsigned long count;
+    for (i = 0; i < 257; ++i) name[i] = 0;
+    entry->flags |= 0x400;
+    old_length = *(unsigned short *)(old+1);
+    count = read_old_numeric(&cursor, &number_size)>>3;
+    numeric_size = write_numeric_leaf(numeric, count);
+    ++cursor;
+    element = *(unsigned short *)cursor;
+    cursor += 2;
+    if ((unsigned long)number_size+4 < old_length) {
+        ++cursor;
+        index = *(unsigned short *)cursor;
+        cursor += 2;
+    } else index = 0x85;
+    if ((unsigned short)(number_size+7) < old_length) {
+        if (*cursor == 0x82) ++cursor;
+        /* Preserve the original counted copy: it copies the length byte and
+           one fewer character, leaving the final name byte zero. */
+        for (i = 0; i < *cursor; ++i) name[i] = cursor[i];
+    }
+    length = (unsigned short)(name[0]+numeric_size+7);
+    if ((unsigned long)length <= (unsigned long)old_length+1) record = old;
+    else record = resize_old_type(entry, (unsigned short)(length+2));
+    *(unsigned short *)record = length;
+    *(unsigned short *)(record+2) = 3;
+    *(unsigned short *)(record+4) = element;
+    *(unsigned short *)(record+6) = index;
+    for (i = 0; i < numeric_size; ++i) record[8+i] = numeric[i];
+    record += 8+numeric_size;
+    for (i = 0; i < (unsigned short)name[0]+1; ++i) record[i] = name[i];
+}

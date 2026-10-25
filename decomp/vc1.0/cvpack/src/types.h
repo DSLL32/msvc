@@ -80,6 +80,7 @@ extern int type_recursion_error;
 unsigned short map_primitive(unsigned short);
 void convert_old_type_record(unsigned short);
 unsigned long read_old_numeric(unsigned char **,unsigned short *);
+unsigned short write_numeric_leaf(unsigned char *,unsigned long);
 void convert_old_argument_list(unsigned short,unsigned short);
 unsigned char * resize_old_type(TypeRecord *,unsigned short);
 

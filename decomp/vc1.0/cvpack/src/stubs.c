@@ -126,7 +126,7 @@ void recycle_small_type(void *buffer) { __asm { int 3 } }
 
 void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_structure(TypeRecord *entry) { __asm { int 3 } }
-void convert_old_array(TypeRecord *entry) { __asm { int 3 } }
+
 
 void convert_old_leaf_80(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_leaf_5c(TypeRecord *entry) { __asm { int 3 } }
@@ -140,3 +140,5 @@ void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
 unsigned char * resize_old_type(TypeRecord *entry, unsigned short size) { __asm { int 3 } return NULL; }
+
+unsigned short write_numeric_leaf(unsigned char *buffer, unsigned long value) { __asm { int 3 } return 0; }
