@@ -1,4 +1,0 @@
-case=direct-whitespace entry=debugger supplied ABI frame; no RC CLI
-function_rva=0000f3d0 argument_bytes=4
-ABI cleanup=4 nonvolatile=EBX,ESI,EDI,EBP preserved
-passed=256 output_canaries=not applicable

@@ -1,4 +1,0 @@
-case=direct-basename entry=debugger supplied ABI frame; no RC CLI
-function_rva=0000f530 argument_bytes=8
-ABI cleanup=8 nonvolatile=EBX,ESI,EDI,EBP preserved
-passed=6 output_canaries=preserved

@@ -1,0 +1,137 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {},
+    "callback_tables": [
+      {
+        "label": "xc",
+        "when_accepted": [
+          "_doexit",
+          "__endstdio"
+        ],
+        "original": [
+          16904192,
+          16904208
+        ],
+        "rebuilt_begin": "___xc_a",
+        "rebuilt_end": "___xc_z",
+        "require_accepted": true
+      },
+      {
+        "label": "xi",
+        "when_accepted": [
+          "_doexit",
+          "__endstdio"
+        ],
+        "original": [
+          16904224,
+          16904240
+        ],
+        "rebuilt_begin": "___xi_a",
+        "rebuilt_end": "___xi_z",
+        "require_accepted": true
+      },
+      {
+        "label": "xp",
+        "when_accepted": [
+          "_doexit",
+          "__endstdio"
+        ],
+        "original": [
+          16904256,
+          16904288
+        ],
+        "rebuilt_begin": "___xp_a",
+        "rebuilt_end": "___xp_z",
+        "require_accepted": true
+      },
+      {
+        "label": "xt",
+        "when_accepted": [
+          "_doexit",
+          "__endstdio"
+        ],
+        "original": [
+          16904304,
+          16904320
+        ],
+        "rebuilt_begin": "___xt_a",
+        "rebuilt_end": "___xt_z",
+        "require_accepted": true
+      },
+      {
+        "label": "floating-conversion",
+        "original": [
+          16899056,
+          16899080
+        ],
+        "rebuilt_begin": "__cfltcvt_tab",
+        "count": 6,
+        "require_accepted": false
+      }
+    ]
+  },
+  "runtime_audit_names": [
+    "import:GetCommandLineA",
+    "import:GetEnvironmentStrings",
+    "import:GetVersion",
+    "import:GetProcessHeap",
+    "__ioinit",
+    "import:GetStartupInfoA",
+    "import:GetStdHandle",
+    "import:GetFileType",
+    "import:GetModuleFileNameA",
+    "import:HeapAlloc",
+    "__setenvp",
+    "__strupr",
+    "_strncpy",
+    "__mktemp",
+    "__getpid",
+    "import:GetCurrentProcessId",
+    "__access",
+    "import:GetFileAttributesA",
+    "import:GetLastError",
+    "__dosmaperr",
+    "import:SetConsoleCtrlHandler",
+    "_fopen",
+    "__fsopen",
+    "__getstream",
+    "__openfile",
+    "import:CreateFileA",
+    "_getenv",
+    "__strnicmp",
+    "__chkstk",
+    "_sprintf",
+    "__flsbuf",
+    "__lseek",
+    "import:SetFilePointer",
+    "import:ReadFile",
+    "__flush",
+    "_fgetc",
+    "import:WriteFile",
+    "_fclose",
+    "import:HeapFree",
+    "import:CloseHandle",
+    "__spawnv",
+    "__spawnve",
+    "_strrchr",
+    "_comexecmd",
+    "import:CreateProcessA",
+    "import:WaitForSingleObject",
+    "import:GetExitCodeProcess",
+    "_wcslen",
+    "_wcscmp",
+    "_strchr",
+    "import:RtlAnsiStringToUnicodeString",
+    "__strcmpi",
+    "__fcloseall",
+    "_remove",
+    "import:DeleteFileA",
+    "__endstdio",
+    "import:ExitProcess",
+    "_fprintf",
+    "_vfprintf",
+    "_sscanf",
+    "import:RtlUnicodeStringToAnsiString"
+  ]
+}

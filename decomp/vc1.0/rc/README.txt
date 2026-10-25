@@ -3,154 +3,98 @@ vc1.0 RC.EXE reconstruction
 
 Target: toolchains/1.0-nt/bin/RC.EXE (resource compiler 3.10).
 SHA256: eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591.
-Reconstructed C and headers live in src/; utilities live in scripts/.
-Run make and scripts from this binary folder. Original builds/captures use the
-root-managed ~/.ai-tmp/vc1.0-capture/wine prefix with fixed R: (repository) and
-S: (~/.ai-tmp/msvc2) drives. Captures hold per-case locks and use
-S:\vc1.0\rc\<case> directories; no helper creates, remaps or stops a prefix.
-Native runs mirror the same S: case names in isolated native namespaces.
+Application Win32 C and headers live in src/; historical CRT bodies live in crt/.
+Shared native test glue lives in harness/. binary.c is the function registry;
+policy-data.json describes the ordered CRT callback tables. Only application
+records receive reconstruction credit. Historical reconstructed CRT bodies stay
+in the original-toolchain source build without becoming application targets.
+The policy retains the exact 61 previously accepted support-boundary names so
+all historical callback-table gates stay active; they add no graph bodies.
 
-Native reconstruction tests
----------------------------
-    make -j4 native
-    make -j4 native-trace
-    make -j4 check
-    make -j4 replay
-    python3 scripts/check-native-rejections.py
+From this folder:
+    make -j4 cases           build shared native library and numbered cases
+    make -j4 check           replay saved original outputs and entry traces
+    make -j4 unit            run applicable narrow case tests
+    make -j4 win32           compile/link with the original VC1.0 toolchain
+    make -j4 audit           check canonical function graph, ABIs and extents
 
-check and replay both run the native instrumented i386 executable against the
-cached original application first-entry segments and existing case oracles.
-Neither target has a Wine or original-toolchain build prerequisite. native-check
-runs the separate output-only ELF build. Native objects use -O0 -g; GDB can use
-source names and preserved stdcall/fastcall declarations. The shared compatibility
-sources under ../../../lib/recon compile directly at final link, without an
-archive or application instrumentation. Include <recon.h> last in reconstructed
-C/header include lists; it is empty for the original Win32 compiler.
+Shared tooling/recon-tool owns builds, native process isolation, fixture unpacking,
+tracing, output comparison, debugging and original-tool invocation. Native cases
+never run Wine or refresh original references. Each numbered folder contains its
+case descriptor, a packed cached capture, and optional direct/test glue. Diagnostic
+reports and authoring files belong in scratch space. Native code is i386 -O0 -g;
+case glue links to one .build/libbinary.so. The same reconstructed production
+sources remain compatible with original CL/LINK. The small scripts/import-library.py
+fixes the original librarian's decorated NTDLL import strings without changing
+object sizes, offsets or hints; it is not an execution/capture helper.
 
-The suite has 16 CLI cases and two explicitly labelled direct helper cases:
-resources-rich, help, invalid-switch, missing-input, alternate, lexical-error,
-parser-error, resource-error, kanji, wide-long, preprocessor-error, rcinclude,
-scanf-pushback, console-interrupt, verbose-names, path-fallback, and the whitespace
-and basename helpers. The rich case covers menus, dialogs/controls, multilingual
-strings, accelerators, icon/cursor groups, bitmap/raw/custom resources, FONT,
-DLGINCLUDE, message tables and VERSIONINFO. Other cases cover older image formats,
-CP932 KANJI ranges, Unicode escapes, native RCINCLUDE rewriting and diagnostics.
+Cases
+-----
+The suite contains sixteen CLI invocations and two labelled direct helper cases.
+The rich resource case covers includes, macros, conditional preprocessing, menus,
+dialogs/controls, multilingual strings, accelerators, icons/cursors, bitmaps,
+raw/custom data, FONT, DLGINCLUDE, message tables and VERSIONINFO. Other CLI cases
+cover diagnostics, older image formats, CP932 Kanji ranges, Unicode escapes,
+native RCINCLUDE rewriting, scanf pushback, console cleanup, verbose resource names
+and natural PATH fallback to RCPP.
+Two narrow unit tests reject altered prepared input and an unknown child
+executable. The shared harness owns trace-mismatch rejection.
 
-scripts/native-traces.py projects the frozen original acceptance history onto
-137 source-backed application definitions. Both sides exclude CRT, imports and
-shims. Prefix functions are seeded as already seen; repeated calls are not a
-new entry. Native object definitions must match this classification, including
-the three explicitly retained mixed-file CRT routines. The native entry adapter
-and shared shims are not reconstructed application functions. Each case has a
-fresh trace/state file; the shared state descriptor supports synchronous child
-history, although RC currently uses captured external RCPP responses. This is
-first-encounter regression evidence, not branch coverage or complete dataflow.
+First-entry expectations project the original accepted histories onto 137
+application definitions. CRT, imports, shims and case glue are excluded on both
+sides. Every seeded case declares its own prior-seen set; it does not depend on
+other cases running first. These checks measure first encounters, not branches
+or complete dataflow.
 
-Captured RCPP boundary
-----------------------
-Thirteen cases require RCPP. They consume independently verified original-only
-captures under cases/native-boundaries; no fixture launches RCPP.EXE or Wine.
-Each capture records exact invocation, relevant environment, full prepared input,
-every attempted input read including transitive includes and missing candidates,
-raw child streams, status and emitted bytes. Every response was independently
-reproduced with untouched original RCPP before adoption. Capture elapsed times
-are separate from native fixture setup/execution/check times.
+Thirteen CLI cases use independently reproduced, frozen original RCPP responses.
+The captured boundary must validate invocation, environment, prepared input and
+all recorded include reads before returning the recorded status, streams and
+preprocessed bytes. It never executes the original child. Temporary RC/RD names
+bind to the actual native PID; only explicitly recorded filename fields may vary.
+The verbose case checks all 349 stdout bytes, with six-digit PID fields only at
+offsets 161 and 173. Resource bytes, statuses, other streams and complete final
+file sets remain exact, including unchanged source files and cleanup.
 
-The broker checks executable spelling and hash, mode, argv, cwd, environment,
-complete prepared input and the full recorded read set before replying. Unknown
-invocations or changed bytes fail. Only recorded temporary filename tokens in
-RCPP #line directives are bound to RC's actual native PID; every other response
-byte is unchanged. PATHfallback requests a natural ENOENT for absent sibling,
-current-directory and first PATH candidates, then replays the verified original
-RCPP response at the declared existing target. No PE execution is permitted.
+The console case runs real input to the initialize_lexer entry using the common
+typed entry hook, asserts the exact source/prepared/preprocessed/empty-output file
+state, then delivers genuine native SIGINT. A second exact-ABI hook asserts
+CTRL_C_EVENT (zero) and invokes the actual cleanup callback. The expected result
+is exit 1, empty streams and only the unchanged source file remaining. Windows
+console membership, signal-created callback threads and SEH delivery remain
+historical original-only evidence; Linux delivery makes no claim about those
+Windows mechanisms.
 
-Every final case checks status, streams, output bytes and the complete remaining
-file set, including unchanged source files and cleanup. verbose-names compares
-all 349 stdout bytes, binding only six-digit fields at offsets 161 and 173 to the
-actual process PID and native RC/RD names. No PID override or broad path/stream
-normalization is used. All resource products are byte-exact.
+The whitespace direct case checks all 256 low-byte inputs, including signed 0xff.
+The basename direct case checks six empty/plain/separator/drive/trailing-path
+inputs, NUL-inclusive return counts and complete output canaries. Their recorded
+results are frozen original direct-function oracles; these cases do not establish
+public CLI reachability. Current original-toolchain graph/RET checks retain the
+individual Win32 ABIs. KanjiRange size/field-offset assertions remain in source,
+and the CP932 resource case checks actual behavior.
 
-Specialized cases
+Canonical analysis
 ------------------
-console-interrupt runs the real native SIGINT shim at a GDB pre-initialize_lexer
-boundary. It snapshots exact source/temporary/empty-output files before signal,
-observes callback argument zero, and requires status 1, empty streams and exact
-cleanup. Windows console membership, Windows signal-created callback threads
-and Windows SEH delivery remain original-only evidence; native Linux signals do
-not claim to reproduce those OS mechanisms.
+The shared graph checker compares the original and rebuilt source graphs, RET
+cleanup, direct references, ordered initializer/termination tables and six
+floating-conversion callback slots. Ownership and extent guards cover original
+file-backed ranges and every accepted function extent, including CRT/import
+boundaries outside the source graph. Early PE VirtualSize=0 uses backed raw
+sizes; uninitialized sections are zero-fill. Runtime identification is shared
+read-only COFF/library analysis, separate from case execution. runtime.json is the
+unchanged cached original COFF identity catalog; it includes identity aliases
+beyond the authored function ledger and adds no reconstruction credit.
+The canonical comparison covers 193 source graphs. Runtime-data checks preserve
+the twenty FILE objects, C locale/decimal storage, six floating callback slots
+and signed Kanji range layout/accesses. The six floating slots use the existing
+hash-qualified LIBC CRT0FP.OBJ __fptrap identity, with zero reconstruction credit.
+Support-extent checks retain original bounds for classified CRT/import records
+and proven rebuilt bounds, including the three historical routines whose
+callees use compiled CRT overrides. Five old unaccepted rebuilt endpoints have
+no proven bounds: __exit, __cexit, __c_exit, _get_short_arg and __amsg_exit. The
+shared report lists them explicitly; no next-MAP-public extent is inferred.
 
-The two direct cases run the existing stateless helpers without inventing CLI
-callers: one loop checks all 256 low-byte whitespace inputs; six basename cases
-check NUL-inclusive counts and every output canary. Returned data matches frozen
-original results. Canonical Win32 stdcall cleanup/nonvolatile ABI evidence and
-current original-toolchain function-graph/RET audits are retained separately.
-
-Original compiler and reference analysis
-----------------------------------------
-    make -j4 reference-build
-    make -j4 reference-audit
-    make -j4 graph-audit
-
-reference-build compiles Win32 C with original CL/LINK under Wine; reference-audit
-refreshes that build and its indexes before invoking the host-only graph-audit.
-The latter uses existing PE/MAP/index artifacts without Wine or recapture. Shared
-tooling/graph-audit is built quietly once through graph-audit.mk, then invoked
-directly. Its full JSON stdout is saved in build/graph-audit.json; actual error
-stderr remains visible. No cargo run or legacy Python graph walker is used.
-
-Common CFG checks preserve graph aliases/indirect topology, inherited RET cleanup,
-function references, ordered accepted initializer/termination callbacks and all
-six floating-conversion slots. The explicit flags are --check-ret,
---check-references, --check-callbacks, --check-ownership, --check-extents and
---check-accepted-extents. The last guard checks every accepted indexed extent on
-both sides, including CRT/imports outside the 193-function graph comparison.
-Ownership requires disjoint original file-backed driver ranges; whole-extent
-checks supplement reachable-instruction endpoint guards. Overlapping alternative
-instruction streams are not prohibited by an unsupported new assumption.
-
-scripts/audit-data.py retains only RC's non-graph data assertions: twenty 32-byte
-FILE objects and last-stream displacement, flags/descriptors, 257 C-locale class
-entries including EOF, multibyte/decimal storage, and zero-filled signed Kanji
-range words plus their exact MOVSX access offsets/stride. Its report is
-build/data-layout.json. Callback identities belong to the common Rust metadata.
-scripts/reference_indexes.py contains pure PE/map indexing, with no paired runner
-or execution fallback. The gap inventory consumes the fresh shared report via
---graph-report and retains all14 original uncovered incoming-reference targets;
-it does not rediscover graphs in Python. None of these audits run regression
-fixtures. Integration checks and timings are in cases/rust-graph-validation.json.
-
-Explicit original-only capture is also separate. capture-native-boundaries-reference
-builds the small original debugger and calls scripts/capture-native-boundaries.py;
-it refuses to overwrite a frozen case. CAPTURE_OPTIONS must explicitly select a
-new output directory with --directory; --case selects individual cases. Each
-original RC run records fresh one-shot application entry observations, raw
-streams and the complete final file set. Each required original RCPP response
-is independently reproduced at the same canonical cwd before registration. capture-direct-reference independently verifies
-the two original helper oracles. These operations are never fixture dependencies.
-
-RC predates the allocator in shipped LIBC/LIBCMT; heap-crt.c preserves its
-GetProcessHeap/HeapAlloc/HeapFree graph. heap.c contains the separate checked
-application wrappers. Native builds substitute the shared CRT boundary while
-canonical builds retain all recovered original CRT implementations. Early PE
-VirtualSize=0 uses backed raw extents, and uninitialized sections are zero-fill.
-
-Original accepted coverage remains 46,249 / 53,248 code-extent bytes (86.86%),
-including accepted CRT, shared text data and import thunks. It is not branch
-coverage. All 254 accepted frontiers and the 193 source-function graph/ABI audits
-remain recorded in validation.json/validation-frontiers.txt as historical
-original-backed evidence; native-adoption receipts are under cases/. Remaining
-unaccepted bytes are 3,377 CRT/common-runtime bytes and 3,622 recognized padding;
-no additional reconstruction was performed during native workflow adoption.
-
-Shared-prefix maintenance
---------------------------
-The 16 CLI references were explicitly recaptured under fixed R:/S:, including
-13 independent original RCPP reproductions. Native fixtures validate the exact
-canonical cwd against its isolated S: mirror and retain the host cwd check in
-the spawn protocol. PATH fallback mirrors only its declared fixed S: launch
-and child directories. No private T:/Z: mapping, PE execution, alternate
-transport bundle or Wine fallback remains in fixture code. Earlier first-entry
-acceptance history is retained as semantic reconstruction evidence. Current
-case proofs, split timings and prefix-retirement records are indexed by
-cases/native-all-validation.json. Resource/source bytes and application code
-are unchanged by this maintenance.
+Historical accepted coverage is 46,249 / 53,248 code-extent bytes (86.86%), including
+CRT, shared text data and import thunks. It is not branch coverage. Remaining
+unaccepted bytes consist of 3,377 CRT/common-runtime bytes and 3,622 recognized
+padding bytes; no native RC-specific reconstruction candidates remain. Migration
+does not accept new functions or alter recovered production implementations.

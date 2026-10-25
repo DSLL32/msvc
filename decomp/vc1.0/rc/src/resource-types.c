@@ -59,13 +59,3 @@ WCHAR * __stdcall duplicate_wide(WCHAR *text)
     wcscpy(copy, text);
     return copy;
 }
-
-/* Original 0x01013d70..0x01013d96. */
-wchar_t * __cdecl wcscpy(wchar_t *destination, const wchar_t *source)
-{
-    wchar_t *result = destination;
-    do {
-        *destination++ = *source;
-    } while (*source++);
-    return result;
-}

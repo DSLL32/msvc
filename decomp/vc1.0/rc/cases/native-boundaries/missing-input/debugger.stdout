@@ -1,9 +1,0 @@
-original pid 292
-entry resource_main
-entry switch_character
-entry resource_alloc
-entry prepare_input
-entry resource_finish
-snapshot failed 2
-snapshot failed 2
-exit 1; captured 0 launches and 3 deletes
