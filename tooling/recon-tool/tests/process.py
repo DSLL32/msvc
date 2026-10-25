@@ -22,6 +22,8 @@ try:
         data=json.loads(report.read_text())[0]
         assert (result.returncode==0)==passed,(name,result.stdout,result.stderr,data)
         assert not Path(data['workspace']).exists(),name+' leaked workspace'
+        if name=='rejected':
+            assert any('fixture policy rejected prepared input' in error for error in data['errors']),data
         if passed:
             assert data['process_requests']['requests']==1 and len(data['process_requests']['pids'])==1
     subprocess.run([TOOL,'test',FIXTURE/'cases/0008-process'],check=True,timeout=3)

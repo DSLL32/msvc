@@ -886,6 +886,24 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         if root.join("process-ready").exists() && !root.join("process-report").exists() {
             errors.push("process broker did not complete".into());
         }
+        // Preserve bounded private provider diagnostics before workspace cleanup.
+        // They never become part of the asserted application's stderr stream.
+        if errors.iter().any(|error| error.starts_with("process ")) {
+            if let Ok(bytes) = fs::read(root.join("process-diagnostics")) {
+                if !bytes.is_empty() {
+                    let limit = bytes.len().min(16 * 1024);
+                    errors.push(format!(
+                        "process diagnostics: {}{}",
+                        String::from_utf8_lossy(&bytes[..limit]),
+                        if limit < bytes.len() {
+                            " [truncated]"
+                        } else {
+                            ""
+                        }
+                    ));
+                }
+            }
+        }
         dependencies(f)?;
         if let Err(error) = assets::verify(f, &root) {
             errors.push(format!("{error:#}"));

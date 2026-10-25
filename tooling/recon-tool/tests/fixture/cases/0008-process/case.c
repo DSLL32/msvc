@@ -10,10 +10,11 @@ static int captured(const ReconProcessRequest *request,ReconProcessResponse *res
 {
     uint32_t i;
     FILE *file;
+    if(getenv("RECON_PROCESS_BAD")) { fputs("fixture policy rejected prepared input\n",stderr); return 0; }
     if(request->struct_size!=sizeof(*request) || request->index || request->mode ||
         strcmp(request->file,"captured.exe") || strcmp(request->cwd,request->workspace_cwd) ||
         request->argc!=2 || strcmp(request->argv[0],"captured.exe") || strcmp(request->argv[1],"x") ||
-        request->environment_count!=request->prepared_environment_count || getenv("RECON_PROCESS_BAD"))return 0;
+        request->environment_count!=request->prepared_environment_count)return 0;
     for(i=0;i<request->environment_count;++i)
         if(strcmp(request->environment[i],request->prepared_environment[i]))return 0;
     if(getenv("RECON_PROCESS_HANG"))for(;;)pause();
