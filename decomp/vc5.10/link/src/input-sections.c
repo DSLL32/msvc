@@ -22,7 +22,7 @@ char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *,const char *);
 DWORD __stdcall align_section_size(DWORD,DWORD);
 void __stdcall remember_mac_module_name(const char *);
 void __stdcall mark_incremental_contribution(Contribution *);
-BYTE __stdcall read_comdat_section(LinkContext *,Contribution *,IMAGE_SYMBOL *,SHORT,char **);
+BYTE __stdcall read_comdat_section(LinkContext *,Contribution *,IMAGE_SYMBOL *,DWORD,char **);
 void __stdcall read_section_directives(LinkContext *,Contribution *,const char *,InputArguments *);
 void *__stdcall add_comdat_reference(StringNode *,Contribution *,Contribution *);
 void __stdcall read_section_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,OutputModule *);
@@ -63,7 +63,7 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
     if (pdb_enabled && contribution->group==debug_precompiled_group)
         add_module_to_list(&precompiled_modules,module);
     if ((contribution->characteristics & 0x1000) &&
-        !read_comdat_section(context,contribution,symbols,(SHORT)index,&comdat_name)) {
+        !read_comdat_section(context,contribution,symbols,index,&comdat_name)) {
         contribution->characteristics |= 0x800;
         return;
     }
@@ -132,7 +132,7 @@ void __stdcall mark_incremental_contribution(Contribution *contribution)
         contribution->characteristics |= 0x800;
     }
 }
-BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,SHORT index,char **name) { __asm { int 3 } return 0; }
+BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,DWORD index,char **name) { __asm { int 3 } return 0; }
 void __stdcall collect_module_directives(LinkContext *,Contribution *,InputArguments *,char *);
 void __stdcall process_module_directives(LinkContext *,Contribution *,char *);
 void __stdcall read_section_directives(LinkContext *context,Contribution *contribution,

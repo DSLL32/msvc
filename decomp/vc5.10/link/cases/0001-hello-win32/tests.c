@@ -366,6 +366,35 @@ static int default_library_entry(void)
     return recon_native_at_entry(library_name_matches,check_default_library_entry,
         invoke_hello,NULL)==1;
 }
+extern BYTE __stdcall read_comdat_section(LinkContext *,Contribution *,IMAGE_SYMBOL *,DWORD,char **);
+static void __stdcall check_first_comdat(LinkContext *context,Contribution *contribution,
+    IMAGE_SYMBOL *symbols,DWORD index,char **name)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *parts=(Contribution *)module->contributions;
+    FileRecord *file=file_slots[current_input_file];
+    Contribution expected;
+    memset(&expected,0,sizeof(expected));
+    expected.characteristics=module_section_headers[1].Characteristics;
+    expected.raw_size=160;
+    expected.module=module;
+    expected.group=parts[1].group;
+    expected.relocation_count=8;
+    expected.relocation_offset=543;
+    expected.input_raw_offset=383;
+    recon_native_entry_finish(context && index==2 && name && !*name &&
+        contribution==parts+1 && symbols==(IMAGE_SYMBOL *)((BYTE *)file->view+1135) &&
+        (expected.characteristics & 0x1000) && module->contribution_count==2 &&
+        !memcmp(parts+1,&expected,sizeof(expected)) && expected.group &&
+        !strcmp(expected.group->name,".text") && expected.group->first==parts+1 &&
+        expected.group->last==parts+1 && !strcmp(expected.group->section->name,".text") &&
+        !strcmp(parts[0].group->name,".drectve") && option_arguments.count==4);
+}
+static int first_comdat(void)
+{
+    return recon_native_at_entry(read_comdat_section,check_first_comdat,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -384,5 +413,6 @@ const ReconTest hello_tests[]={
     {"collected-directives",1,collected_directives},
     {"module-name-call",1,module_name_call},
     {"module-filename",1,module_filename},
-    {"default-library-entry",1,default_library_entry}
+    {"default-library-entry",1,default_library_entry},
+    {"first-comdat",1,first_comdat}
 };

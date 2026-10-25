@@ -5823,6 +5823,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_library_name_matches@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

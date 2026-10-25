@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <string.h>
 #include "options.h"
 #include "memory.h"
 #include "pass-one.h"
@@ -28,4 +29,12 @@ void __stdcall add_default_library(const char *name,LinkPointerList *list)
     (*position)->owner=NULL;
     if (verbose_libraries) link_message(9017,name);
 }
-BYTE __stdcall library_name_matches(const char *name,DefaultLibrary *library) { __asm { int 3 } return 0; }
+#pragma intrinsic(strlen)
+BYTE __stdcall library_name_matches(const char *name,DefaultLibrary *library)
+{
+    unsigned length=strlen(name),other_length;
+    if (length>=4 && !_stricmp(name+length-4,".lib")) length-=4;
+    other_length=strlen(library->name);
+    if (other_length>=4 && !_stricmp(library->name+other_length-4,".lib")) other_length-=4;
+    return length==other_length && !_strnicmp(name,library->name,length);
+}

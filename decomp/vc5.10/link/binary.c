@@ -342,7 +342,7 @@ static const ReconFunction functions[] = {
     {"_format_contribution_module@8",0xe5b0,(const ReconExtent[]){{0xe5b0,0xe5d4}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"format_contribution_module",NULL,NULL,0,NULL},
     {"_next_directive_token@8",0x5c2c0,(const ReconExtent[]){{0x5c2c0,0x5c3f2}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_directive_token",NULL,NULL,0,NULL},
     {"_remember_module_directive@12",0x38790,(const ReconExtent[]){{0x38790,0x387c4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remember_module_directive",NULL,NULL,0,NULL},
-    {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16cc1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
+    {"_library_name_matches@8",0x16cc0,(const ReconExtent[]){{0x16cc0,0x16d59}},1,(const ReconExtent[]){{0x2364,0x2369}},1,RECON_APP,RECON_IMPLEMENTED,"library_name_matches",NULL,NULL,0,NULL},
     {"_extend_incremental_heap@4",0x4fc00,(const ReconExtent[]){{0x4fc00,0x4fcd1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"extend_incremental_heap",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
