@@ -2637,8 +2637,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_function_exit@4",
         .entry_rva = 0x2469c,
+        .code = (const ReconExtent[]){{0x2469c, 0x246bd}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_function_exit",
     },
     {

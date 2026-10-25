@@ -39,11 +39,7 @@ int __fastcall set_input_expression_type(C2Expression *expression, unsigned shor
     return 0;
 }
 
-C2Expression * __fastcall new_function_exit(C2Function *function)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 
 

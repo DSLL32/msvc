@@ -639,3 +639,12 @@ C2Expression *__fastcall resolve_symbol_input_operand(C2Expression *symbol, int 
     owner->storage.input_references += adjustment;
     return operand;
 }
+
+C2Expression *__fastcall new_function_exit(C2Function *function)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(23);
+    record->value.function = function;
+    record->opcode = 0x17b;
+    record->location.line = record_line_delta;
+    return record;
+}
