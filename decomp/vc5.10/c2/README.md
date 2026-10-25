@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 143 accepted application functions / 34,290 code bytes.
+The registry preserves 144 accepted application functions / 34,440 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 1,763 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `variable_input_expression` at original RVA 0x260ee.
+  current accepted frontier is `new_function_entry` at original RVA 0x28393.
   Twenty-three narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -25,7 +25,7 @@ uncommitted source, patch, and status were saved before migration in
 slots have proven NULL defaults; other slots remain unmodeled and guarded in
 native execution. Function-entry reset clears 49 size-indexed free-list pointers;
 their node-specific payload remains incomplete. The small-node size table currently
-models kind21 = 28 bytes and kind24 = 24 bytes; native guards reject unmodeled kind rows before reading. Old proof packages remain in Git history.
+models kinds4/21 = 28 bytes and kind24 = 24 bytes; native guards reject unmodeled kind rows before reading. Old proof packages remain in Git history.
 
 Migration also corrected 19 address stores in 17 callback slots to the existing
 physical `c2_set_argv` function and removed the duplicate trapping placeholder.
@@ -41,7 +41,7 @@ checks the allocated zeroed span and preserves an unrelated nonzero canary.
 
 The complete function-code dispatcher includes its hot/cold code and both switch
 families. Its pending value is a 28-byte expression-stack context; its EAX result
-is the final record pointer. Opcodes38/79/83 model their encountered classification bytes; opcodes38/79/83/86 model
+is the final record pointer. Opcodes38/70/79/83 model their encountered classification bytes; opcodes38/70/79/83/86 model
 only the two consumed high-byte properties. The inverse-comparison and register-opcode
 projections have no modeled rows. Native guards stop before unknown
 lookups; their reserved storage carries no default, low-bit or whole-table claim.

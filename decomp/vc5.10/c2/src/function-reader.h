@@ -18,6 +18,7 @@ extern C2InputLineMap *input_first_line_map;
 extern C2InputLineMap *input_line_cache;
 extern char *input_line_filename;
 extern unsigned input_last_line;
+extern unsigned short input_value_type;
 extern int input_line_needs_record;
 unsigned reset_function_line_input(void);
 C2Record *new_statement_boundary(void);

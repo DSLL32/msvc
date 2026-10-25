@@ -126,11 +126,6 @@ C2Expression * __fastcall pop_input_expression(C2InputStack *stack)
     return 0;
 }
 
-C2Expression * __fastcall variable_input_expression(C2InputSymbol *symbol)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Expression * __fastcall new_register_expression(unsigned opcode, C2FunctionRegister *reg)
 {
@@ -459,4 +454,10 @@ void __fastcall remove_input_result(C2Expression *tree, C2Expression *result)
 void __fastcall release_small_node_list(C2SmallNode *nodes)
 {
     __asm { int 3 }
+}
+
+C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol)
+{
+    __asm { int 3 }
+    return 0;
 }

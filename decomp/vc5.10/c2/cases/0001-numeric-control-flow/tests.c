@@ -369,6 +369,7 @@ static int control_record_reuse(void)
 {
     unsigned char allocation[32], expected[32];
     C2Expression *record;
+    C2InputSymbol symbol;
     memset(allocation, 0xa5, sizeof(allocation));
     *(C2SmallNode **)allocation = NULL;
     free_small_nodes[28] = (C2SmallNode *)allocation;
@@ -379,6 +380,20 @@ static int control_record_reuse(void)
     expected[8] = 21;
     *(unsigned short *)(expected + 16) = 0x1234;
     record = new_control_expression(0x182);
+    if (record != (C2Expression *)allocation || free_small_nodes[28] ||
+        memcmp(allocation, expected, sizeof(allocation))) return 0;
+    /* A symbol node reuses the same size bucket, clearing the control line. */
+    memset(&symbol, 0, sizeof(symbol));
+    symbol.symbol.kind = 3;
+    input_value_type = 0x3004;
+    *(C2SmallNode **)allocation = NULL;
+    free_small_nodes[28] = (C2SmallNode *)allocation;
+    memset(expected, 0, 28);
+    *(unsigned *)(expected + 4) = 0x12a;
+    expected[8] = 4;
+    *(unsigned short *)(expected + 10) = 0x3004;
+    *(C2Symbol **)(expected + 20) = &symbol.symbol;
+    record = variable_input_expression(&symbol);
     return record == (C2Expression *)allocation && !free_small_nodes[28] &&
         !memcmp(allocation, expected, sizeof(allocation));
 }

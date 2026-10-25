@@ -113,6 +113,7 @@ unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes
 C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned short type, unsigned bytes, int flags);
 int __fastcall needs_input_return_storage(unsigned convention, unsigned short type, unsigned bytes);
 C2Expression * __fastcall pop_input_expression(C2InputStack *stack);
+C2FunctionRegister *__fastcall input_symbol_register(C2InputSymbol *symbol);
 C2Expression * __fastcall variable_input_expression(C2InputSymbol *symbol);
 C2Expression * __fastcall new_register_expression(unsigned opcode, C2FunctionRegister *reg);
 void __fastcall mark_first_input_expression(C2Expression *expression);

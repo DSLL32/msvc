@@ -2611,9 +2611,18 @@ static const ReconFunction functions[] = {
     {
         .name = "@variable_input_expression@4",
         .entry_rva = 0x260ee,
+        .code = (const ReconExtent[]){{0x260ee, 0x2617d}, {0x6b60a, 0x6b611}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "variable_input_expression",
+    },
+    {
+        .name = "@input_symbol_register@4",
+        .entry_rva = 0x261ae,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "variable_input_expression",
+        .native_symbol = "input_symbol_register",
     },
     {
         .name = "@new_register_expression@8",

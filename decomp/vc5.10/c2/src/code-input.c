@@ -15,12 +15,14 @@ unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
- * Encountered pragma79, scope-begin83 and filename86 are boundaries.
+ * Encountered function-entry70, pragma79, scope-begin83 and filename86
+ * are boundaries; variable38 has neither consumed property.
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[38], variable, pending39[40], pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[8];
+    unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
+} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
@@ -28,6 +30,7 @@ static unsigned char input_condition_known[16];
 static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
+     (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
      (unsigned)(op) == 79 ? input_opcode_properties.pragma : \
      (unsigned)(op) == 83 ? input_opcode_properties.scope_begin : \
      (unsigned)(op) == 86 ? input_opcode_properties.filename : \
@@ -830,7 +833,7 @@ C2ILToken *__fastcall read_input_token(C2Function *function, C2ILToken *token)
     return result;
 }
 
-/* Only opcode38/79/83 classifier bytes are modeled. Padding is unavailable
+/* Only opcode38/70/79/83 classifier bytes are modeled. Padding is unavailable
  * backing, not a reconstruction of any other opcode's form/default. */
 enum InputTokenForm {
     INPUT_FORM_NONE, INPUT_FORM_TYPE, INPUT_FORM_SYMBOL,
@@ -843,10 +846,12 @@ enum InputTokenForm {
     INPUT_FORM_SIGNED_PAIR, INPUT_FORM_SYMBOLS_SHORT
 };
 static struct {
-    unsigned char pending00[38], variable, pending39[40], pragma, pending80[3], scope_begin;
-} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[8];
+    unsigned char pragma, pending80[3], scope_begin;
+} input_token_forms = {{0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 38 ? input_token_forms.variable : \
+    (unsigned)(op) == 70 ? input_token_forms.function_entry : \
     (unsigned)(op) == 79 ? input_token_forms.pragma : \
     (unsigned)(op) == 83 ? input_token_forms.scope_begin : \
     (recon_unsupported("unmodeled input token form"), 0))
@@ -1273,4 +1278,33 @@ void __fastcall release_input_stack(C2InputStack *stack)
     stack->first->next = NULL;
     stack->next = free_input_stacks;
     free_input_stacks = stack;
+}
+
+C2Expression *__fastcall variable_input_expression(C2InputSymbol *symbol)
+{
+    C2FunctionRegister *reg;
+    C2Expression *tree;
+    switch (symbol->symbol.kind) {
+    case 1:
+        reg = input_symbol_register(symbol);
+        return new_register_expression(INPUT_REGISTER_OPCODE(reg->kind), reg);
+    case 3:
+        tree = (C2Expression *)allocate_small_node(4);
+        tree->opcode = 0x12a;
+        tree->type = input_value_type;
+        tree->value.symbol = &symbol->symbol;
+        return tree;
+    case 4:
+        if (symbol->attributes & 0x1000) {
+            reg = input_symbol_register(symbol);
+            return new_register_expression(0x121, reg);
+        }
+        tree = (C2Expression *)allocate_small_node(4);
+        tree->opcode = 0x129;
+        tree->type = input_value_type;
+        tree->value.symbol = &symbol->symbol;
+        return tree;
+    default:
+        return (C2Expression *)symbol;
+    }
 }

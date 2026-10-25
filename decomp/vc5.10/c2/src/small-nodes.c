@@ -3,15 +3,15 @@
 
 /* Encountered prefix view, not the original table's whole extent. The first
  * unrelated rows are UNMODELED backing, with no zero-default or equality claim.
- * Kind21 is a 28-byte control node; kind24 is a 24-byte boundary. */
+ * Kinds4/21 are 28-byte symbol/control nodes; kind24 is a 24-byte boundary. */
 typedef struct C2SmallNodeKnownSizes {
-    unsigned unmodeled00[21], control, unmodeled22[2], statement_boundary;
+    unsigned unmodeled00[4], symbol, unmodeled05[16], control, unmodeled22[2], statement_boundary;
 } C2SmallNodeKnownSizes;
 typedef union C2SmallNodeSizeView {
     C2SmallNodeKnownSizes known;
     unsigned values[25];
 } C2SmallNodeSizeView;
-static const C2SmallNodeSizeView small_node_sizes = { { {0}, 28, {0}, 24 } };
+static const C2SmallNodeSizeView small_node_sizes = { { {0}, 28, {0}, 28, {0}, 24 } };
 typedef char C2SmallNodeSizeWidthCheck[sizeof(small_node_sizes.values[0]) == 4 ? 1 : -1];
 typedef char C2SmallNodeSizeOffsetCheck[
     offsetof(C2SmallNodeKnownSizes, statement_boundary) == 96 ? 1 : -1];
@@ -21,7 +21,7 @@ C2SmallNode *__fastcall allocate_small_node(unsigned char kind)
     C2SmallNode *node;
     unsigned bytes;
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if (kind != 21 && kind != 24)
+    if (kind != 4 && kind != 21 && kind != 24)
         recon_unsupported("unmodeled C2 small-node size row");
 #endif
     bytes = small_node_sizes.values[kind];
