@@ -11,6 +11,7 @@ mod original;
 mod original_cf;
 mod original_image;
 mod original_loader;
+mod original_reference;
 mod original_stage;
 mod output;
 mod pe_import;
@@ -53,6 +54,9 @@ enum Command {
         cases: Vec<PathBuf>,
         #[arg(long = "capture")]
         io: Option<PathBuf>,
+        /// Compare to an explicitly selected fresh original receipt.
+        #[arg(long, requires = "io")]
+        original_report: Option<PathBuf>,
         #[arg(long)]
         report: Option<PathBuf>,
         #[arg(long)]
@@ -160,16 +164,18 @@ fn execute() -> Result<()> {
             }
         },
         command => {
-            let (cases, io, report, tests, mut debug) = match command {
+            let (cases, io, original_report, report, tests, mut debug) = match command {
                 Command::Run {
                     cases,
                     io,
+                    original_report,
                     report,
                     gdb,
                     gdb_script,
                 } => (
                     cases,
                     io,
+                    original_report,
                     report,
                     false,
                     debug::Options {
@@ -188,6 +194,7 @@ fn execute() -> Result<()> {
                 } => (
                     cases,
                     io,
+                    None,
                     report,
                     true,
                     debug::Options {
@@ -225,7 +232,7 @@ fn execute() -> Result<()> {
                 let fixture = io
                     .as_deref()
                     .or_else(|| inferred.as_deref().filter(|p| p.exists()));
-                let result = native::run(&path, fixture, tests, &debug)
+                let result = native::run(&path, fixture, tests, &debug, original_report.as_deref())
                     .with_context(|| format!("case {}", path.display()))?;
                 println!(
                     "{} {} {} ({:.3} ms; setup {:.3} ms, execution {:.3} ms, checks {:.3} ms)",

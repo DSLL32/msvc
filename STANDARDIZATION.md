@@ -414,6 +414,22 @@ actual order/terminal but never promotes functions or rewrites case source.
 Progress discovery permits a previously expected App frontier to be marked
 implemented; ordinary native replay still requires an unimplemented frontier.
 
+Verify a fresh pair against its explicitly selected original receipt:
+
+```sh
+recon-tool original capture CASE --progress --output original.bin --report original-report.json
+recon-tool run CASE --capture original.bin --original-report original-report.json --report native-report.json
+```
+
+Supply any required host/provider/DIRECT options to the capture command. The
+selected original report controls first-entry order and terminal/frontier, and
+therefore final versus partial output checks. New reports bind the exact capture
+SHA-256 and binary/case/execution identity; mismatches reject. Explicit older
+reports remain usable with their unavailable source binding recorded honestly.
+Without `--original-report`, trace and terminal expectations come from the case
+descriptor; `--capture` alone selects invocation and I/O data. The explicit
+report option requires one case and an actual `--capture` file.
+
 DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
 file and its actual module base/entry. Binary-specific host source belongs in
@@ -432,9 +448,11 @@ thread-context redirection. Completion/frontier and four failure controls pass.
 The initial implementation supports EXE targets; C1 integration is in progress.
 The unused older remote-call prototype is being removed.
 
-The original backend supports PE32 i386 images; CF payloads/Watcom gateway capture
-remain separate. Typed probe code lets the original compiler supply the target
-ABI. The current loader/entry path does not yet support Watcom CF probes.
+The ordinary original backend supports PE32 i386 images. Shared CF entry-stop
+is diagnostic only: it executes no CF body and writes no fixture oracle.
+Ordinary CF progress/catalog support remains in development. Typed PE probe
+code lets the original compiler supply the target ABI; CF DIRECT probes remain
+unsupported.
 
 Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
 and uses regular-file or explicit null-device stdin. It rejects pipe/timed-console events rather than

@@ -105,6 +105,8 @@ pub struct Report {
     pub execution_ms: f64,
     pub checks_ms: f64,
     pub errors: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub original_reference: Option<crate::original_reference::Summary>,
 }
 fn descendants(pid: i32, out: &mut Vec<i32>) {
     if let Ok(s) = fs::read_to_string(format!("/proc/{pid}/task/{pid}/children")) {
@@ -648,7 +650,13 @@ unsafe fn executor(
         libc::_exit(0);
     }
 }
-fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options) -> Result<Report> {
+fn supervise(
+    case_path: &Path,
+    f: &Fixture,
+    tests: bool,
+    debug: &debug::Options,
+    reference: Option<&crate::original_reference::Expected>,
+) -> Result<Report> {
     signals();
     let start = Instant::now();
     let root = create_workspace()?;
@@ -923,7 +931,12 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         }
         // Reuse the descriptor validated by this executor; do not dlopen the
         // entire application a second time just to check its trace.
-        let info: abi::Info = serde_json::from_slice(&fs::read(root.join("descriptor"))?)?;
+        let mut info: abi::Info = serde_json::from_slice(&fs::read(root.join("descriptor"))?)?;
+        let mut expected_fixture = f.clone();
+        if let Some(reference) = reference {
+            reference.apply(&mut info, &mut expected_fixture)?;
+        }
+        let f = &expected_fixture;
         let names = fs::read_to_string(root.join("trace"))?;
         let mut order = vec![];
         let name_index: std::collections::HashMap<_, _> = info
@@ -1035,6 +1048,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             execution_ms,
             checks_ms: check_start.elapsed().as_secs_f64() * 1000.,
             errors,
+            original_reference: reference.map(|r| r.summary.clone()),
         })
     })();
     if result.is_err() {
@@ -1092,6 +1106,7 @@ pub fn run(
     fixture: Option<&Path>,
     tests: bool,
     debug: &debug::Options,
+    original_report: Option<&Path>,
 ) -> Result<Report> {
     signals();
     let path = path.canonicalize()?;
@@ -1106,6 +1121,16 @@ pub fn run(
             Fixture::default()
         }
     };
+    let reference = original_report
+        .map(|report| -> Result<_> {
+            anyhow::ensure!(!tests, "original report applies to a case run, not units");
+            crate::original_reference::Expected::load(
+                report,
+                fixture.context("original report needs --capture")?,
+                &inspect(&path)?,
+            )
+        })
+        .transpose()?;
     let mut pipe = [0; 2];
     if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
         bail!("pipe")
@@ -1115,7 +1140,7 @@ pub fn run(
     let pid = fork()?;
     if pid == 0 {
         drop(reader);
-        let result = supervise(&path, &f, tests, debug);
+        let result = supervise(&path, &f, tests, debug, reference.as_ref());
         let value = match result {
             Ok(r) => serde_json::to_value(r)?,
             Err(e) => serde_json::json!({"error":format!("{e:#}")}),

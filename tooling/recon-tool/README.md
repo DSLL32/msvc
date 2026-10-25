@@ -699,3 +699,20 @@ canonical bodies produce ordinary link errors. VC5 LINK and native i386 vtable
 controls qualify this metadata format; the binary still owns the ABI/identity
 proof and ordinary graph/vtable checks. Keep one canonical registry function and
 body; aliases add no function extents, wrappers or reconstruction credit.
+
+For a fresh original/native pair, pass its original receipt explicitly:
+
+```sh
+recon-tool run CASE --capture original.bin --original-report original-report.json --report native-report.json
+```
+
+This compares the actual native first-entry order and terminal/frontier against
+the selected original receipt, overriding the case descriptor's cached trace and
+terminal expectations. `--capture` by itself selects invocation and I/O data;
+trace and frontier expectations then come from the descriptor.
+
+New original receipts bind the exact capture SHA-256 and binary/case/execution
+identity. A mismatch rejects before the application callback runs. An explicitly
+selected older receipt remains usable: the native report records both selected
+file hashes and `source_binding_available: false`; no source identity is inferred
+or added to that old receipt. The option requires one case and `--capture`.

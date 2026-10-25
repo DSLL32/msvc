@@ -667,6 +667,10 @@ fn export_artifacts(
 #[derive(Serialize, Deserialize)]
 struct CaptureReport {
     #[serde(default)]
+    identity: Option<crate::original_reference::Identity>,
+    #[serde(default)]
+    capture_sha256: Option<String>,
+    #[serde(default)]
     oracle_written: bool,
     #[serde(default)]
     backend: Option<serde_json::Value>,
@@ -864,6 +868,8 @@ fn capture_executor(
             &environment,
         )?;
         let report = CaptureReport {
+            identity: Some(crate::original_reference::Identity::from_info(&loaded.info)),
+            capture_sha256: None,
             case: loaded.info.case,
             terminal: format!("entry-stop:{:x}", loaded.info.original_entry_rva),
             first_entry_order: vec![],
@@ -1264,6 +1270,8 @@ fn capture_executor(
     }
     native::dependencies(f)?;
     let report = CaptureReport {
+        identity: Some(crate::original_reference::Identity::from_info(&loaded.info)),
+        capture_sha256: None,
         oracle_written: true,
         backend: None,
         case: loaded.info.case,
@@ -1371,13 +1379,15 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
         if pid == 0 {
             let result = capture_executor(options, f, &root, &cwd, artifacts_dir.as_deref());
             let status = match result {
-                Ok((fixture, report)) => {
+                Ok((fixture, mut report)) => {
                     let write = (|| -> Result<()> {
                         if !options.replace && options.output.exists() {
                             bail!("capture output already exists")
                         }
                         if let Some(fixture) = fixture {
                             fixture::write(&options.output, &fixture)?;
+                            report.capture_sha256 =
+                                Some(fixture::hex(&Sha256::digest(fs::read(&options.output)?)));
                         }
                         fs::write(root.join("capture-report"), serde_json::to_vec(&report)?)?;
                         Ok(())
