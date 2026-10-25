@@ -12,7 +12,8 @@ typedef struct C2PendingInput C2PendingInput;
 C2Function *input_function;
 C2PendingInput *pending_input_records;
 int input_error_seen, input_scope_active, input_inline_mark;
-int retain_function_input_pool, pending_optimized_input;
+int retain_function_input_pool;
+C2InputSymbol *pending_optimized_input;
 unsigned input_source_line_base;
 unsigned short input_value_type = 0x1004;
 C2InputLineMap *input_line_cache;
@@ -47,7 +48,8 @@ C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
 {
     C2Function *function;
     C2SymbolListScope *scope;
-    C2Record *first, *last, *pending = NULL;
+    C2Record *first, *last;
+    C2InputStack *pending = NULL;
     FILE *file;
 
     function = c2_pool_allocate(0, sizeof(C2Function));
@@ -100,7 +102,7 @@ C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
     validate_function_code(first);
     finish_function_input();
     if (c2_global_optimize && pending_optimized_input) {
-        pending_optimized_input = 0;
+        pending_optimized_input = NULL;
         finish_optimized_function_input(function);
     }
     if (c2_codeview_types)

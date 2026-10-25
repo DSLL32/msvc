@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 127 accepted application functions / 23,794 code bytes.
+The registry preserves 128 accepted application functions / 30,996 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
-897 bytes of contextual text data are separate. The full text extent is
+1,479 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `read_function_code` at original RVA 0x264d2.
+  current accepted frontier is `read_input_token` at original RVA 0x25587.
   Sixteen narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
@@ -38,3 +38,10 @@ in the same migration scratch directory as `noop-consumer-inventory.json`.
 The flow allocator additionally models only the proven 12-byte pool12 slot;
 slots8–11 remain unmodeled backing and are guarded before lookup. The new unit
 checks the allocated zeroed span and preserves an unrelated nonzero canary.
+
+The complete function-code dispatcher includes its hot/cold code and both switch
+families. Its pending value is a 28-byte expression-stack context; its EAX result
+is the final record pointer. The opcode, inverse-comparison and register-opcode
+projections currently have no modeled rows. Native guards stop before unknown
+lookups; their reserved storage carries no default, low-bit or whole-table claim.
+Reader child functions retain genuine named INT3 stubs and zero body credit.

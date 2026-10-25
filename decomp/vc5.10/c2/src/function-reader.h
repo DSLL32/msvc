@@ -14,7 +14,8 @@ C2Record *new_statement_boundary(void);
 C2SmallNode *__fastcall allocate_small_node(unsigned char kind);
 void __fastcall create_function_flow(C2Function *function, C2Record *first,
                                      C2Record *last, int pool);
-void __fastcall read_function_code(C2Function *function, C2Record **pending,
+typedef struct C2InputStack C2InputStack;
+C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pending,
                                    C2Record *first, int limit, int outermost);
 void __fastcall validate_function_code(C2Record *first);
 void finish_function_input(void);

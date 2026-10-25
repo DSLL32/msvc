@@ -591,6 +591,82 @@
           "enabled": true,
           "require_all_register_calls_resolved": true
         }
+      },
+      "@read_function_code@20": {
+        "original": {
+          "text_data": [
+            [
+              4356928,
+              4357256
+            ],
+            [
+              4357256,
+              4357413
+            ],
+            [
+              4357416,
+              4357476
+            ],
+            [
+              4357476,
+              4357513
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8251
+              },
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8559
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8559
+              },
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8716
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8716
+              },
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8736
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8736
+              },
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8792
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8792
+              },
+              {
+                "rebuilt_symbol": "@read_function_code@20",
+                "offset": 8829
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

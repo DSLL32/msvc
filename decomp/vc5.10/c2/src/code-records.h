@@ -3,7 +3,6 @@
 #include "functions.h"
 #include <recon.h>
 
-typedef struct C2Expression C2Expression;
 /* Typed references are prefixes, with unvisited fields deliberately unnamed. */
 typedef struct C2SymbolReference { C2Symbol *symbol; } C2SymbolReference;
 typedef struct C2ExpressionReference {
@@ -13,10 +12,24 @@ typedef struct C2ExpressionReference {
 struct C2Expression {
     C2Expression *next;
     unsigned opcode;
-    unsigned char kind, pending09[11];
-    union { C2Symbol *symbol; C2ExpressionReference *reference; } value;
-    unsigned pending18;
-    C2ExpressionReference *indirect;
+    unsigned char kind, flags;
+    unsigned short type;
+    C2Expression *previous;
+    union {
+        unsigned short line;
+        struct { unsigned char properties, comparison; } expression;
+    } location;
+    unsigned char control_flags, pending13;
+    union {
+        C2Symbol *symbol;
+        C2ExpressionReference *reference;
+        C2FunctionRegister *reg;
+        void *pointer;
+    } value;
+    union { C2Expression *left; unsigned immediate; };
+    union { C2Expression *right; C2ExpressionReference *indirect; } tail;
+    union { void *data; struct C2InputClause *clauses; } detail;
+    C2Expression *aggregate_value;
 };
 struct C2Record {
     C2Record *next;
@@ -28,9 +41,14 @@ struct C2Record {
     union { C2Expression *arguments; C2InputSymbol *declaration; } value;
     C2Expression *results;
 };
+typedef char C2ExpressionTypeCheck[offsetof(C2Expression, type) == 10 ? 1 : -1];
+typedef char C2ExpressionLocationCheck[offsetof(C2Expression, location) == 16 ? 1 : -1];
+typedef char C2ExpressionControlCheck[offsetof(C2Expression, control_flags) == 18 ? 1 : -1];
+typedef char C2ExpressionDetailCheck[offsetof(C2Expression, detail) == 32 ? 1 : -1];
+typedef char C2ExpressionAggregateCheck[offsetof(C2Expression, aggregate_value) == 36 ? 1 : -1];
 typedef char C2ExpressionKindCheck[offsetof(C2Expression, kind) == 8 ? 1 : -1];
 typedef char C2ExpressionValueCheck[offsetof(C2Expression, value) == 20 ? 1 : -1];
-typedef char C2ExpressionIndirectCheck[offsetof(C2Expression, indirect) == 28 ? 1 : -1];
+typedef char C2ExpressionIndirectCheck[offsetof(C2Expression, tail) == 28 ? 1 : -1];
 typedef char C2RecordKindCheck[offsetof(C2Record, kind) == 8 ? 1 : -1];
 typedef char C2RecordPreviousCheck[offsetof(C2Record, previous) == 12 ? 1 : -1];
 typedef char C2RecordLineCheck[offsetof(C2Record, line) == 16 ? 1 : -1];

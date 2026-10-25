@@ -7,15 +7,23 @@ typedef struct C2RegisterBlock C2RegisterBlock;
 typedef struct C2RegisterSet C2RegisterSet;
 /* Only the encountered kind and number fields are named. The actual allocator's80B
  * records justify the extent; other fields/defaults remain unmodeled. */
-typedef struct C2FunctionRegister {
-    unsigned char pending00[4];
-    unsigned char kind;
-    unsigned char pending05[23];
+struct C2FunctionRegister {
+    C2Symbol *symbol;
+    unsigned char kind, pending05, flags, pending07;
+    C2FunctionRegister *canonical;
+    unsigned pending0c;
+    unsigned short type, pending12;
+    struct C2Expression *value;
+    unsigned pending18;
     unsigned number;
-    unsigned char pending32[8];
-    struct C2FunctionRegister *next_free;
-    unsigned char pending44[36];
-} C2FunctionRegister;
+    unsigned value_bytes, pending24;
+    C2FunctionRegister *next_free;
+    unsigned pending2c, properties;
+    unsigned char pending34[28];
+};
+typedef char C2FunctionRegisterValueCheck[offsetof(C2FunctionRegister, value) == 20 ? 1 : -1];
+typedef char C2FunctionRegisterCanonicalCheck[offsetof(C2FunctionRegister, canonical) == 8 ? 1 : -1];
+typedef char C2FunctionRegisterPropertiesCheck[offsetof(C2FunctionRegister, properties) == 48 ? 1 : -1];
 typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
 typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];
 typedef char C2FunctionRegisterNumberCheck[offsetof(C2FunctionRegister,number) == 28 ? 1 : -1];

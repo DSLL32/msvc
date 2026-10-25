@@ -8,11 +8,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void __fastcall read_function_code(C2Function *function, C2Record **pending,
-                                   C2Record *first, int limit, int outermost)
-{
-    __asm { int 3 }
-}
 void __fastcall validate_function_code(C2Record *first)
 {
     __asm { int 3 }

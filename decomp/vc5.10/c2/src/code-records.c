@@ -55,8 +55,8 @@ C2DebugLink *__fastcall prepare_function_records(C2Function *function)
                             symbol = NULL;
                         break;
                     case 5: case 6:
-                        symbol = expression->indirect ?
-                            expression->indirect->reference->symbol : NULL;
+                        symbol = expression->tail.indirect ?
+                            expression->tail.indirect->reference->symbol : NULL;
                         break;
                     default:
                         symbol = NULL;

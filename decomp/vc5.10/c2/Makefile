@@ -32,6 +32,8 @@ BINARY_SOURCES = crt/math-error.c \
     src/register-sets.c \
     src/function-setup.c \
     src/function-reader.c \
+    src/code-input.c \
+    src/code-input-children.c \
     src/symbol-storage.c \
     src/small-nodes.c \
     src/flow.c \

@@ -125,6 +125,8 @@ typedef struct C2SectionGroup C2SectionGroup;
 typedef struct C2SymbolScope C2SymbolScope;
 typedef struct C2Record C2Record;
 typedef struct C2BasicBlock C2BasicBlock;
+typedef struct C2FunctionRegister C2FunctionRegister;
+typedef struct C2Expression C2Expression;
 typedef struct C2FlowGraph C2FlowGraph;
 
 #pragma pack(2)
@@ -173,7 +175,8 @@ typedef struct C2FunctionSymbol {
     C2Symbol symbol;
     C2InitRecord *initializer;
     unsigned attributes;
-    unsigned char pending3a[5];
+    unsigned return_bytes;
+    unsigned char pending3e;
     signed char scope_line;
     unsigned char pending40[22];
     long input_order;
@@ -187,11 +190,12 @@ typedef struct C2FunctionSymbol {
  * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
 typedef struct C2InputSymbol {
     C2Symbol symbol;
-    C2InitRecord *initializer;
+    union { C2InitRecord *initializer; C2Expression *input_operand; };
     unsigned attributes;
     union {
         long frame_size;
         struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
+        struct { unsigned short pending3a; unsigned char anonymous, pending3d; } temporary;
     } storage;
     union {
         struct {
@@ -275,16 +279,22 @@ typedef char C2FlowBlocksCheck[offsetof(C2FlowGraph, free_blocks) == 28 ? 1 : -1
 typedef char C2FlowEdgesCheck[offsetof(C2FlowGraph, free_edges) == 32 ? 1 : -1];
 typedef struct C2Function {
     C2FunctionSymbol *symbol;
-    unsigned pending04;
+    C2InputSymbol *return_storage;
     C2FlowGraph *flow;
     unsigned pending0c;
     C2ScopeHash *symbols;
-    unsigned char pending14[12];
+    unsigned pending14;
+    unsigned options;
+    unsigned short *warning_state;
     C2DebugScope *debug_scope;
     unsigned source_line_base;
     unsigned char pending28[12];
     unsigned flags;
 } C2Function;
+typedef char C2FunctionReturnCheck[offsetof(C2Function, return_storage) == 4 ? 1 : -1];
+typedef char C2FunctionOptionsCheck[offsetof(C2Function, options) == 24 ? 1 : -1];
+typedef char C2FunctionWarningCheck[offsetof(C2Function, warning_state) == 28 ? 1 : -1];
+typedef char C2FunctionReturnBytesCheck[offsetof(C2FunctionSymbol, return_bytes) == 58 ? 1 : -1];
 typedef char C2FunctionFlowCheck[offsetof(C2Function, flow) == 8 ? 1 : -1];
 typedef char C2FunctionDebugCheck[offsetof(C2Function, debug_scope) == 32 ? 1 : -1];
 typedef char C2FunctionLineCheck[offsetof(C2Function, source_line_base) == 36 ? 1 : -1];
