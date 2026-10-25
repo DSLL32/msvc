@@ -37,7 +37,7 @@ void WresRecordError( WResStatus status )
     WLIB_FRONTIER();
 }
 
-int FindResources( HANDLE_INFO *instance )
+long res_seek( int handle, long position, int where )
 {
     WLIB_FRONTIER();
     return( 0 );

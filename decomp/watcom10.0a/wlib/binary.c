@@ -492,10 +492,22 @@ static const ReconFunction functions[] = {
     {
         .name = "FindResources",
         .entry_rva = 0x18b18,
+        .code = (const ReconExtent[]) { {0x18b18, 0x18c0e} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "FindResources",
         .original_symbol = "FindResources_",
+    },
+    {
+        .name = "res_seek",
+        .entry_rva = 0x14be4,
+        .code = (const ReconExtent[]) { {0x14be4, 0x14bfe} },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "res_seek",
+        .original_symbol = "res_seek_",
     },
     {
         .name = "InitResources",

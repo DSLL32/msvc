@@ -20,8 +20,13 @@ typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
 /* Only the encountered prefix of the resource callback table is defined. */
 struct WResRoutines {
     int (__cdecl *open)( const char *, int, ... );
+    int (*close)( int );
+    int (*write)( int, const void *, unsigned );
+    int (*read)( int, void *, unsigned );
+    long (*seek)( int, long, int );
 };
 extern struct WResRoutines WResRtns;
+extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
     WRS_OPEN_FAILED = 5
 } WResStatus;
@@ -30,6 +35,7 @@ int OpenResFile( HANDLE_INFO *instance );
 int ResOpenFileRO( const char *filename );
 void WresRecordError( WResStatus status );
 int FindResources( HANDLE_INFO *instance );
+long res_seek( int handle, long position, int where );
 int InitResources( HANDLE_INFO *instance );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */

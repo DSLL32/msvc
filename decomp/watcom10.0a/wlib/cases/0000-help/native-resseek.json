@@ -1,0 +1,33 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-RPUnAl",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 84964,
+    "trap_site": 4154216146,
+    "elapsed_ms": 16.793749000000002,
+    "setup_ms": 13.293354,
+    "execution_ms": 1.8903589999999983,
+    "checks_ms": 1.609752,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-findresources-to-resseek.json",
+      "report_sha256": "83dbc4506bfb584f62c4c72db177a0b6cf40e61fbc04b13ee1fc688623a302e6",
+      "capture_sha256": "5fa3f368ed6e003fd3e10721241a276dcda67712e4c0191c75190b363bf61734",
+      "source_binding_available": true
+    }
+  }
+]

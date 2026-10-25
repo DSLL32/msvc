@@ -1,0 +1,30 @@
+{
+  "native_DSO_sha256": "177e7049606836ff22df61ecfd5b704a42ce4baaa5c36b4e3961ac22a6d71798",
+  "case_DSO_sha256": "538da4b31ded49aa39222787250a952beb633d6364b71684b731697a9592e54f",
+  "App_sources": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/memory.c": "eabb8dd8496875c2d5745ce086f942a86b939f27c1f8cfec02bf0f863bcbec95",
+    "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
+    "src/resources.c": "b60c799e2095b02626d39695b35cbecd484dfea0e6a5445a13e4f28e31ba0f8c",
+    "src/stubs.c": "70e05c229c44cd306083c8b3bd1003d3d674827b6f810b27bc783a47db80a2f7",
+    "src/wlib.h": "0e7eccfad74f53c10b45bfe4620f1ed18ba5cdc045a58c20a09a14c3c8dad8e8"
+  },
+  "App_objects_without_constructors": {
+    ".build/pic/src/main.c.o": "88b893b5fe23c250c50b5cb148dce1323e1ccb15e71978a22bd715ad195b55ae",
+    ".build/pic/src/memory.c.o": "6dda1613fb40df41acad127b3b54bd969ee6821330815253170fbb8cfa3c0d2a",
+    ".build/pic/src/messages.c.o": "98614db33b183d87f791c7ee19a2be1e3ad761f8049770da1ef3900bb01549d8",
+    ".build/pic/src/resources.c.o": "e233a269c878fcf9e26b7d542e859b6eec69ad7a5ed22f19c662193b156634fe",
+    ".build/pic/src/stubs.c.o": "f94e67ea2c8d64cbacf748e35de3131d0643262d99da7a0b3e344b3fa9df543c"
+  },
+  "runner_sha256": "3c28ee40cd718c2a68edd9700366128711f1c338bab34a7d388e9d31e4fac384",
+  "registry_sha256": "6b940db3112e123acb0a740bc7039b96cc9f9657cb16df49df7730e7449dd697",
+  "Win32_PE_sha256": "9a3f30a442fc4242bbb522106d46759d2e84672d834d3e5f94df9c732f4ef9e4",
+  "Win32_MAP_sha256": "42a5ef63b0f881c17cf8aa7ab11c5c48867c264de9199925b77ed5a8c06b3b1d",
+  "graph_sha256": "19ec15c75ca1cc72d4bbadff62271a7e25b9637ccbeed71027c52fd540e084fd",
+  "source_reuse": {
+    "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+    "path": "bld/sdk/rc/wres/c/loadstr.c",
+    "license": "Original Sybase/OpenWatcom license retained in src/resources.c",
+    "adaptations": "typed resource callbacks, explicit 14-byte packed header, 1994 branch/call-site/24-byte-and19-byte-level-check verification; Watcom memcmp intrinsic required to retain original inline comparison"
+  }
+}
