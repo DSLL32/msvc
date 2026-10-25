@@ -48,12 +48,6 @@ int __cdecl compile_translation_unit(void)
     return result;
 }
 
-int __cdecl run_compiler(void)
-{
-    __asm { int 3 }
-    return 1;
-}
-
 int __cdecl compiler_exception_filter(EXCEPTION_POINTERS *exception)
 {
     __asm { int 3 }

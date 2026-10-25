@@ -4,6 +4,7 @@
 #include "c1.h"
 #include "command-line.h"
 #include "scanner.h"
+#include "frontend-state.h"
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
@@ -19,6 +20,14 @@ typedef struct CompilerInitializedState {
     int memory_percent;
     CompilerOptionData options;
     CompilerScannerTables scanner;
+    /* Encountered frontend state in .datafe, initially zero. */
+    struct CompilerBackend *backend;                 /* RVA5e3cc */
+    struct CompilerTranslationUnit *translation_unit; /* RVA5e4f4 */
+    unsigned pch_option_flags;                       /* RVA5ef98 */
+    int dependency_local;                            /* RVA5efa4 */
+    int saved_pch_mode;                              /* RVA5f32c */
+    struct CompilerDependency *dependency;           /* RVA5f3d4 */
+    int report_statistics;                          /* RVA5f500 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -39,6 +48,10 @@ typedef struct CompilerOutputBuffer {
     int good;
     unsigned char mode;
     int file_descriptor;
+#ifdef __cplusplus
+    int RECON_THISCALL Close(void);
+    int RECON_THISCALL Grow(int);
+#endif
 } CompilerOutputBuffer;
 /* Recovered numeric alternative only. Other original value-record members
  * remain UNMODELED and must be recovered before any semantic consumer. */
@@ -146,6 +159,15 @@ typedef struct CompilerBss {
     char *current_argument;
     /* Diagnostic total, shared by guarded compilation and its reporting path. */
     int error_count;
+    unsigned initial_option_flags;                  /* RVA57f40 */
+    int global_expression_scope_active;             /* RVA53d74 */
+    unsigned forced_source_index;                   /* RVA57e34 */
+    CompilerPchSettings saved_options;               /* RVA57a30 projection */
+    struct CompilerInput *input;                    /* RVA54fb8 */
+    int pch_input_ready;                             /* RVA54fc0 */
+    const char *pch_input_file;                      /* RVA54fcc */
+    struct CompilerDebugModule *debug_module;       /* RVA550cc */
+    FILE *preprocessed_stream;                      /* RVA55060 */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -156,6 +178,9 @@ typedef struct CompilerPdbContext {
     struct MREngine *minimal_rebuild;
     struct CompilerMreState *rebuild_state;
     int read_mode;
+#ifdef __cplusplus
+    void RECON_THISCALL Finish(void);
+#endif
 } CompilerPdbContext;
 
 #ifdef __cplusplus
