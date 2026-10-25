@@ -39,6 +39,7 @@ BINARY_SOURCES = src/characters.c \
     src/rc-entry.c \
     src/resource-output.c \
     src/resource-input.c \
+    src/resources.c \
     src/scanning.c \
     crt/startup.c \
     src/strings.c \

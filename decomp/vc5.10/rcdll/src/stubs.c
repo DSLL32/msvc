@@ -5,6 +5,7 @@
 #include "macro-expansion.h"
 #include "resource-output.h"
 #include "resource-input.h"
+#include "resources.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -48,11 +49,6 @@ void *__stdcall rc_reserve_resource_bytes(WORD bytes)
 {
     __asm int 3
     return NULL;
-}
-int __stdcall rc_parse_resources(void)
-{
-    __asm int 3
-    return 0;
 }
 int __stdcall rc_flush_resources(FILE *file)
 {
@@ -202,3 +198,198 @@ void __stdcall rc_append_macro_text(const WCHAR *text)
     __asm int 3
 }
 
+
+int __cdecl rc_read_resource_name(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_parse_menu(int extended,RcResource *resource)
+{
+    __asm int 3
+}
+
+void __stdcall rc_resource_error(unsigned code)
+{
+    __asm int 3
+}
+
+long __cdecl rc_read_resource_file(void)
+{
+    __asm int 3
+    return 0;
+}
+
+RcResourceType * __stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
+{
+    __asm int 3
+    return NULL;
+}
+
+int __stdcall rc_read_resource_attributes(RcResource *resource)
+{
+    __asm int 3
+    return 0;
+}
+
+void __cdecl rc_initialize_resource_types(void)
+{
+    __asm int 3
+}
+
+void __cdecl rc_flush_font_directory(void)
+{
+    __asm int 3
+}
+
+unsigned __cdecl rc_read_resource_language(void)
+{
+    __asm int 3
+    return 0;
+}
+
+RcResource * __stdcall rc_parse_string_table(RcResource *resource)
+{
+    __asm int 3
+    return NULL;
+}
+
+void __stdcall rc_write_string_table(void *table)
+{
+    __asm int 3
+}
+
+void __stdcall rc_parse_accelerators(RcResource *resource)
+{
+    __asm int 3
+}
+
+void __cdecl rc_initialize_resource_buffer(void)
+{
+    __asm int 3
+}
+
+void __cdecl rc_reset_resource_buffer(void)
+{
+    __asm int 3
+}
+
+void __cdecl rc_release_resource_buffer(void)
+{
+    __asm int 3
+}
+
+long __stdcall rc_convert_icon_file(long size)
+{
+    __asm int 3
+    return 0;
+}
+
+long __cdecl rc_convert_bitmap_file(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_parse_raw_resource(RcResource *resource)
+{
+    __asm int 3
+}
+
+int __stdcall rc_parse_font_resource(RcResource *resource)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_write_resource(RcResourceType *type,RcResource *resource)
+{
+    __asm int 3
+}
+
+void __stdcall rc_convert_group_resource(RcResourceType *type,RcResource *resource,unsigned kind)
+{
+    __asm int 3
+}
+
+int __stdcall rc_is_riff_resource(long unused_size)
+{
+    __asm int 3
+    return 0;
+}
+
+long __stdcall rc_copy_riff_resource(long size)
+{
+    __asm int 3
+    return 0;
+}
+
+DWORD __stdcall rc_mac_long(DWORD value)
+{
+    __asm int 3
+    return 0;
+}
+
+unsigned __stdcall rc_mac_word(WORD value)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_mac_group_icon(RcResourceType *type,RcResource *resource)
+{
+    __asm int 3
+}
+
+void __stdcall rc_mac_group_cursor(RcResourceType *type,RcResource *resource)
+{
+    __asm int 3
+}
+
+void __cdecl rc_write_mac_resource_file(void)
+{
+    __asm int 3
+}
+
+void __stdcall rc_parse_version_resource(RcResource *resource)
+{
+    __asm int 3
+}
+
+void __stdcall rc_parse_dialog(RcResource *resource,void *dialog,int extended)
+{
+    __asm int 3
+}
+
+void __stdcall rc_parse_menu_template(int extended,RcResource *resource)
+{
+    __asm int 3
+}
+
+int __cdecl rc_parse_dialog_include(void)
+{
+    __asm int 3
+    return 0;
+}
+
+void __stdcall rc_parse_ansi_resource(RcResource *unused_resource)
+{
+    __asm int 3
+}
+
+void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *type,const WCHAR *filename)
+{
+    __asm int 3
+}
+
+void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase)
+{
+    __asm int 3
+}
+
+WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
+{
+    __asm int 3
+    return NULL;
+}

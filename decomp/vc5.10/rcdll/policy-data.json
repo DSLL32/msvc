@@ -80,6 +80,22 @@
             }
           ]
         }
+      },
+      "rc_parse_resources": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_parse_resources@0",
+                "offset": 3458
+              },
+              {
+                "rebuilt_symbol": "_rc_parse_resources@0",
+                "offset": 3771
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": []

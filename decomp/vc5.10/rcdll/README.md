@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_parse_resources` (RVA b209). Its partial streams and actual
+  stops at `rc_initialize_resource_types` (RVA b032). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **120 functions, 30,800 code bytes**
-This is 41.28% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **121 functions, 33,231 code bytes**
+This is 44.54% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (46.46%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (50.13%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -50,18 +50,20 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.569 s; matching native replay took 178.594 ms
-(setup 73.102, execution 35.988, checks 69.504 ms). Both builds and strict audit
-took 4.390 s, followed by a 0.657 s native-only shared-shim rebuild. The raw
-UTF16 reader preserves its initialized index 4097, 8,194-byte buffer and
-non-advancing EOF. Its byte wrapper uses the real input FILE, fread and ferror;
-an owned-file eight-byte read and untouched-tail unit passed in 143.448 ms.
-The first real filename read exposed the unsupported WCHAR16 towlower boundary.
-After the shared explicit-510 ASCII/default-C implementation was reviewed and
-published, native adoption reused the unchanged original and reached resource
-parsing. The original per-call towlower state was not measured; its pure integer
-provider path and native default-state observations are separately qualified.
-Later recording and APSTUDIO paths remain unsupported.
+The resource dispatcher now has its complete readable source and ABI-correct
+named traps for its unreconstructed dependencies. Its compiler-generated pointer
+and byte-remap tables use exact COFF-proven text-data intervals. The latest fresh
+pair stops at its first type-initializer call: 1.491 s original and 181.070 ms
+native (setup 74.572, execution 37.314, checks 69.184 ms). The final two builds and
+strict audit took 3.893 s. The two new WORD resets and no-argument caller boundary
+are observed; later resource-object, callback and conversion paths are unvisited.
+The dispatcher reuses existing command/result/language globals and token fields.
+
+The raw UTF16 reader preserves its initialized index 4097, 8,194-byte buffer and
+non-advancing EOF. Its byte wrapper uses the real input FILE, fread and ferror.
+Shared explicit-510 ASCII/default-C WCHAR16 towlower support was adopted against
+an unchanged original; original per-call API state was not measured. Later
+recording and APSTUDIO paths remain unsupported.
 Earlier failures and the unchanged original-reuse evidence remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
 Two custom argument helpers have named ABI-correct traps and no body credit.
