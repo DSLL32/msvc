@@ -3,6 +3,7 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    {"_cache_file_record@4",0xbe20,(const ReconExtent[]){{0xbe20,0xbe21}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"cache_file_record",NULL,NULL,0,NULL},
     {"_initialize_module_contribution_enumerator@8",0xfcb0,(const ReconExtent[]){{0xfcb0,0xfcd3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_module_contribution_enumerator",NULL,NULL,0,NULL},
     {"_next_module_contribution@4",0xfce0,(const ReconExtent[]){{0xfce0,0xfd14}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_module_contribution",NULL,NULL,0,NULL},
     {"_initialize_comdat_reference_enumerator@8",0x63800,(const ReconExtent[]){{0x63800,0x63824}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_comdat_reference_enumerator",NULL,NULL,0,NULL},
@@ -88,7 +89,7 @@ static const ReconFunction functions[] = {
     {"_canonicalize_argument@8",0x5c650,(const ReconExtent[]){{0x5c650,0x5c74f}},1,(const ReconExtent[]){{0x91fc,0x9200}},1,RECON_APP,RECON_IMPLEMENTED,"canonicalize_argument",NULL,NULL,0,NULL},
     {"_open_argument_file@12",0xb7f0,(const ReconExtent[]){{0xb7f0,0xb870}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"open_argument_file",NULL,NULL,0,NULL},
     {"_is_archive@8",0x5cd40,(const ReconExtent[]){{0x5cd40,0x5cdf9}},1,(const ReconExtent[]){{0x2e68,0x2e70}},1,RECON_APP,RECON_IMPLEMENTED,"is_archive",NULL,NULL,0,NULL},
-    {"_close_argument_file@8",0xbd10,(const ReconExtent[]){{0xbd10,0xbd11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"close_argument_file",NULL,NULL,0,NULL},
+    {"_close_argument_file@8",0xbd10,(const ReconExtent[]){{0xbd10,0xbd9c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"close_argument_file",NULL,NULL,0,NULL},
     {"_append_argument@8",0x5cca0,(const ReconExtent[]){{0x5cca0,0x5ccb3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_argument",NULL,NULL,0,NULL},
     {"_append_argument_record@12",0x5cc00,(const ReconExtent[]){{0x5cc00,0x5cc4b}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_argument_record",NULL,NULL,0,NULL},
     {"_allocate_incremental@4",0x4fce0,(const ReconExtent[]){{0x4fce0,0x4fd3f}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_incremental",NULL,NULL,0,NULL},

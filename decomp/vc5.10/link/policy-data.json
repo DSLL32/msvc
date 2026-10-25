@@ -6399,6 +6399,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_close_argument_file@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },

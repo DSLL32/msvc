@@ -333,3 +333,22 @@ void *__stdcall map_file_range(int file,LONG offset,unsigned bytes)
     if (end>(DWORD)record->size) record->size=(LONG)end;
     return (BYTE *)record->view+offset;
 }
+
+void __stdcall cache_file_record(FileRecord *);
+int __stdcall close_argument_file(int file,int flags)
+{
+    FileRecord *record;
+    if (file_access_statistics) record_file_access();
+    record=file_slots[file];
+    /* The physical second DWORD is consumed only through its low BYTE. */
+    if (!(BYTE)flags && !(record->flags & 2)) {
+        ++cached_file_count;
+        move_file_record(record,&pending_files,NULL,&cached_files,&cached_file_tail,1);
+        cache_file_record(record);
+        return 0;
+    }
+    move_file_record(record,&pending_files,NULL,&file_newest,NULL,0);
+    if (record->flags & 8) return close_mapped_file(record);
+    return close_buffered_file(record);
+}
+void __stdcall cache_file_record(FileRecord *record) { __asm { int 3 } }

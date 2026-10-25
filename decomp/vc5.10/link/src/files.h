@@ -36,6 +36,7 @@ LONG __stdcall seek_file(int file,long offset,int origin,DWORD *error);
 LONG __stdcall seek_mapped_file(FileRecord *,LONG,int,DWORD *);
 LONG __stdcall seek_buffered_file(FileRecord *,LONG,int);
 LONG __stdcall get_file_length(int);
+int __stdcall close_argument_file(int,int);
 unsigned __stdcall mapped_read(FileRecord *,void *,unsigned);
 BYTE __stdcall resize_file_mapping(FileRecord *,LONG,DWORD *);
 #ifdef __cplusplus

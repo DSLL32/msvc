@@ -76,7 +76,7 @@ void __cdecl finish_comdat_elimination(void);
 void __cdecl print_removed_comdats(void);
 void __stdcall clear_buffer(ByteBuffer *);
 int __stdcall open_argument_file(const char *,int,int);
-void __stdcall close_argument_file(int,int);
+int __stdcall close_argument_file(int,int);
 #ifdef __cplusplus
 }
 #endif

@@ -1129,7 +1129,25 @@ static int bound_comdat_references(void)
     return recon_native_at_entry(release_module_strings,check_bound_comdat_references,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall cache_file_record(FileRecord *);
+extern FileRecord *cached_files,*cached_file_tail,*pending_files;
+extern unsigned cached_file_count;
+extern int output_file;
+static void __stdcall check_cached_file_transition(FileRecord *record)
+{
+    recon_native_entry_finish(record==file_slots[current_input_file] &&
+        current_input_file==14 && record->index==14 && !strcmp(record->name,"hello.obj") &&
+        record->flags==9 && record->size==2262 && record->mapping_size==2262 &&
+        record->view && record->file && !record->previous &&
+        cached_files==record && cached_file_tail==record && cached_file_count==1 &&
+        pending_files==file_slots[output_file] && !pending_files->previous);
+}
+static int cached_file_transition(void)
+{
+    return recon_native_at_entry(cache_file_record,check_cached_file_transition,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"cached-file-transition",1,cached_file_transition},
     {"bound-comdat-references",1,bound_comdat_references},
     {"reference-enumerator",1,reference_enumerator},
     {"module-contribution-enumerator",1,module_contribution_enumerator},

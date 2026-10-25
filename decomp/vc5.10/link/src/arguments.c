@@ -120,7 +120,7 @@ void __stdcall expand_wildcards(const char *);
 char *__stdcall canonicalize_argument(const char *,const char *);
 int __stdcall open_argument_file(const char *,int,int);
 unsigned char __stdcall is_archive(const char *,int);
-void __stdcall close_argument_file(int,int);
+int __stdcall close_argument_file(int,int);
 InputArgument *__stdcall append_argument(InputArguments *,const char *);
 
 void __stdcall parse_argument(const char *text,unsigned char source)
@@ -200,7 +200,6 @@ unsigned char __stdcall search_library_paths(const char *name,char *found)
     }
     return 0;
 }
-void __stdcall close_argument_file(int file,int flags) { __asm { int 3 } }
 InputArgument *__stdcall append_argument_record(InputArguments *,const char *,const char *);
 InputArgument *__stdcall append_argument(InputArguments *list,const char *text)
 {
