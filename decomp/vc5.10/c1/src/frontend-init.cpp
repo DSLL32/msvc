@@ -844,7 +844,14 @@ WORD RECON_THISCALL CompilerDeclarator::ResolveFunctionAttributes(CompilerTypeSh
     return c1_data.options.pascal_calls ? 0x20 : 0x10;
 }
 CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape)
-{ __asm { int 3 } return NULL; }
+{
+    CompilerType description = *base_type;
+    description.attributes &= ~0x70;
+    description.shape = shape;
+    if (shape && (shape->flags & 7) == 4)
+        description.attributes |= shape->attributes & 0x70;
+    return intern_type(&description);
+}
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternUntil(CompilerTypeShape *stop)
 {
     /* The original recursively invokes this method for the NULL terminator;
