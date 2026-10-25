@@ -780,7 +780,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_UNKNOWN, .implementation=0, .native_symbol=NULL },
     { .name="rc_read_bytes", .original_symbol="_rc_read_bytes@12", .entry_rva=0x10a4f,
       .code=(const ReconExtent[]){{0x10a4f,0x10a84}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_read_bytes" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_read_bytes" },
     { .name="rc_write_bytes", .original_symbol="_rc_write_bytes@12", .entry_rva=0x10a84,
       .code=(const ReconExtent[]){{0x10a84,0x10ab0}}, .code_count=1,
       .text_data=(const ReconExtent[]){{0x1fa0,0x1fd1}}, .text_data_count=1,

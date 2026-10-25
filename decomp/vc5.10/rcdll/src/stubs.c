@@ -26,11 +26,7 @@ void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
 }
-unsigned __stdcall rc_read_bytes(FILE *file,void *buffer,unsigned bytes)
-{
-    __asm int 3
-    return 0;
-}
+
 void __stdcall rc_copy_resource_token(RcResourceToken *to,const RcResourceToken *from)
 {
     __asm int 3

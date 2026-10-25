@@ -457,6 +457,18 @@ static int resource_buffer_contract(void)
     if(rc_read_resource_code_unit()!=0xc9c9||rc_resource_buffer_index!=4097)return 0;
     return trapped(negative_resource_index);
 }
+static int byte_read_contract(void)
+{
+    unsigned char bytes[9];
+    unsigned received;
+    ShimFILE *file=recon_fopen("resources.rc","rb");
+    if(!file)return 0;
+    memset(bytes,0xa7,sizeof(bytes));
+    received=rc_read_bytes((FILE *)file,bytes,8);
+    if(received!=8 || memcmp(bytes,"#include",8) || bytes[8]!=0xa7 ||
+       recon_ferror(file))return 0;
+    return recon_fclose(file)==0;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -476,6 +488,7 @@ const ReconTest rich_tests[]={
     {"apstudio-service-hold",1,apstudio_hold},
     {"resource-input-initialization",1,resource_input_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
+    {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

@@ -202,3 +202,13 @@ void __stdcall rc_notify_progress(WPARAM kind,LPARAM value)
     if(rc_window&&SendMessageA(rc_window,0x420,kind,value))
         rc_fatal("\n");
 }
+
+unsigned __stdcall rc_read_bytes(FILE *file,void *buffer,unsigned bytes)
+{
+    unsigned received=fread(buffer,1,bytes,file);
+    if(ferror(file)){
+        rc_fatal(rc_message(1121));
+        received=0;
+    }
+    return received;
+}
