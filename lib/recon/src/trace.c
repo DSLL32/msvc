@@ -179,16 +179,12 @@ static void UNINSTRUMENTED recon_trace_insert_symbol(uintptr_t address,TraceName
 }
 /* The shared name bitmap survives exec, unlike native pointer addresses. The
  * adapter supplies one zero-filled state file per synchronous process tree. */
-static void UNINSTRUMENTED recon_trace_attach_shared_state(void)
+static void UNINSTRUMENTED recon_trace_attach_state_file(int descriptor)
 {
-    const char *value=getenv("RECON_TRACE_STATE_FD");
-    char *end; long descriptor; struct stat st;
+    struct stat st;
     uint32_t hash=2166136261u,*header;
     size_t n,length=32+name_count; unsigned char *mapping;
-    if (!value) return;
-    errno=0; descriptor=strtol(value,&end,10);
-    if (!*value || *end || errno || descriptor<0 || descriptor>INT_MAX ||
-        fstat((int)descriptor,&st)<0 || !S_ISREG(st.st_mode) ||
+    if (descriptor<0 || fstat(descriptor,&st)<0 || !S_ISREG(st.st_mode) ||
         st.st_size!=(off_t)length)
         recon_trace_trace_error("invalid RECON_TRACE_STATE_FD or state size");
     mapping=mmap(NULL,length,PROT_READ|PROT_WRITE,MAP_SHARED,(int)descriptor,0);
@@ -208,6 +204,16 @@ static void UNINSTRUMENTED recon_trace_attach_shared_state(void)
     shared_mapping=mapping;shared_mapping_size=length;
     shared_seen=mapping+32;
     for (n=0;n<name_count;++n) if (names[n].seen) shared_seen[n]=1;
+}
+static void UNINSTRUMENTED recon_trace_attach_shared_state(void)
+{
+    const char *value=getenv("RECON_TRACE_STATE_FD");
+    char *end;long descriptor;
+    if (!value) return;
+    errno=0;descriptor=strtol(value,&end,10);
+    if (!*value || *end || errno || descriptor<0 || descriptor>INT_MAX)
+        recon_trace_trace_error("invalid RECON_TRACE_STATE_FD or state size");
+    recon_trace_attach_state_file((int)descriptor);
 }
 static int UNINSTRUMENTED recon_trace_main_image_base(struct dl_phdr_info *info,size_t size,void *result)
 {
@@ -305,7 +311,7 @@ static void UNINSTRUMENTED recon_trace_release_configuration(void)
     }
     names=NULL;name_count=0;slots=NULL;slot_mask=0;
 }
-void UNINSTRUMENTED recon_trace_configure(const ReconTraceEntry *entries,size_t count,int fd)
+static void UNINSTRUMENTED recon_trace_configure_entries(const ReconTraceEntry *entries,size_t count,int fd,int state_fd)
 {
     int saved_errno=errno,flags;size_t n,bytes=0,capacity=1;char *strings;
     if (count>100000 || (count && !entries))
@@ -336,15 +342,29 @@ void UNINSTRUMENTED recon_trace_configure(const ReconTraceEntry *entries,size_t 
         recon_trace_sort_names();
         for (n=1;n<count;++n) if (!strcmp(names[n-1].name,names[n].name))
             recon_trace_trace_error("duplicate application function: %s",names[n].name);
+    }
+    if (state_fd>=0) recon_trace_attach_state_file(state_fd);
+    else if (count) {
         shared_mapping=mmap(NULL,count,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
         if (shared_mapping==MAP_FAILED) recon_trace_trace_error("cannot allocate shared trace state");
         shared_mapping_size=count;shared_seen=shared_mapping;
+    }
+    if (count) {
         while (capacity<count*2) capacity*=2;
         slots=recon_trace_allocate(capacity*sizeof(*slots));slot_mask=capacity-1;
         for (n=0;n<count;++n)
             recon_trace_insert_symbol((uintptr_t)entries[n].address,recon_trace_find_name(entries[n].name));
     }
     trace_configured=1;errno=saved_errno;
+}
+void UNINSTRUMENTED recon_trace_configure(const ReconTraceEntry *entries,size_t count,int fd)
+{
+    recon_trace_configure_entries(entries,count,fd,-1);
+}
+void UNINSTRUMENTED recon_trace_configure_shared(const ReconTraceEntry *entries,size_t count,int fd,int state_fd)
+{
+    if (state_fd<0) recon_trace_trace_error("invalid explicit shared trace fd");
+    recon_trace_configure_entries(entries,count,fd,state_fd);
 }
 void UNINSTRUMENTED recon_trace_enable(int enabled)
 {

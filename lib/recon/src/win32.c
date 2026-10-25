@@ -115,11 +115,52 @@ typedef struct NativeModuleMemory {
 } NativeModuleMemory;
 static NativeModuleMemory native_module_memory[32];
 static unsigned module_memory_count;
+typedef struct NativeImageOwner {
+    uintptr_t base;const ElfW(Phdr) *headers;int bound;
+} NativeImageOwner;
+static NativeImageOwner application_image,case_callback_image;
+typedef struct NativeImageAnchor { uintptr_t address;NativeImageOwner image; } NativeImageAnchor;
+static int native_image_anchor(struct dl_phdr_info *info,size_t size,void *context)
+{
+    NativeImageAnchor *anchor=context;unsigned n;(void)size;
+    for(n=0;n<info->dlpi_phnum;++n) {
+        const ElfW(Phdr) *header=info->dlpi_phdr+n;
+        uintptr_t begin=(uintptr_t)info->dlpi_addr+header->p_vaddr;
+        if(header->p_type==PT_LOAD && (header->p_flags&PF_R) &&
+           anchor->address>=begin && anchor->address-begin<header->p_memsz) {
+            anchor->image.base=info->dlpi_addr;anchor->image.headers=info->dlpi_phdr;
+            anchor->image.bound=1;return 1;
+        }
+    }
+    return 0;
+}
+void recon_register_native_image(const void *address,unsigned role)
+{
+    NativeImageAnchor anchor;NativeImageOwner *owner;int saved=errno;DWORD error=last_error;
+    if(!address || (role!=RECON_NATIVE_IMAGE_APPLICATION && role!=RECON_NATIVE_IMAGE_CASE_CALLBACKS) ||
+       (role==RECON_NATIVE_IMAGE_CASE_CALLBACKS && !application_image.bound))
+        recon_unsupported("native image anchor role/order");
+    memset(&anchor,0,sizeof(anchor));anchor.address=(uintptr_t)address;
+    dl_iterate_phdr(native_image_anchor,&anchor);
+    if(!anchor.image.bound)recon_unsupported("native image anchor is not loaded ELF");
+    owner=role==RECON_NATIVE_IMAGE_APPLICATION?&application_image:&case_callback_image;
+    if(owner->bound && (owner->base!=anchor.image.base || owner->headers!=anchor.image.headers))
+        recon_unsupported("native image owner replacement");
+    owner->base=anchor.image.base;owner->headers=anchor.image.headers;owner->bound=1;
+    errno=saved;last_error=error;
+}
+static int native_image_allowed(struct dl_phdr_info *info,int callbacks)
+{
+    if(!application_image.bound)return !info->dlpi_name || !*info->dlpi_name;
+    if(application_image.base==(uintptr_t)info->dlpi_addr && application_image.headers==info->dlpi_phdr)return 1;
+    return callbacks && case_callback_image.bound &&
+        case_callback_image.base==(uintptr_t)info->dlpi_addr && case_callback_image.headers==info->dlpi_phdr;
+}
 typedef struct NativeImageSpan { uintptr_t begin,end; int found; } NativeImageSpan;
 static int writable_image_span(struct dl_phdr_info *info,size_t size,void *context)
 {
     NativeImageSpan *span=context; unsigned n; (void)size;
-    if (info->dlpi_name && *info->dlpi_name) return 0;
+    if (!native_image_allowed(info,0)) return 0;
     for (n=0;n<info->dlpi_phnum;++n) {
         const ElfW(Phdr) *header=info->dlpi_phdr+n;
         uintptr_t begin=(uintptr_t)info->dlpi_addr+header->p_vaddr;
@@ -132,7 +173,7 @@ static int writable_image_span(struct dl_phdr_info *info,size_t size,void *conte
 static int executable_image_span(struct dl_phdr_info *info,size_t size,void *context)
 {
     NativeImageSpan *span=context; unsigned n; (void)size;
-    if (info->dlpi_name && *info->dlpi_name) return 0;
+    if (!native_image_allowed(info,1)) return 0;
     for (n=0;n<info->dlpi_phnum;++n) {
         const ElfW(Phdr) *header=info->dlpi_phdr+n;
         uintptr_t begin=(uintptr_t)info->dlpi_addr+header->p_vaddr;
@@ -149,7 +190,7 @@ static void require_native_callback(uintptr_t address)
     span.begin=address; span.end=address; span.found=0;
     dl_iterate_phdr(executable_image_span,&span);
     if (!address || !span.found)
-        recon_unsupported("module callback is not native main-image code");
+        recon_unsupported("module callback is not native owner-image code");
 }
 void recon_register_module_exports(HMODULE handle,const ReconModuleExportsSpec *spec)
 {
@@ -208,7 +249,7 @@ void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *pr
         recon_unsupported("module memory proof identity/extent");
     span.begin=(uintptr_t)address; span.end=span.begin+bytes; span.found=0;
     dl_iterate_phdr(writable_image_span,&span);
-    if (!span.found) recon_unsupported("module memory is not writable main image");
+    if (!span.found) recon_unsupported("module memory is not writable owner image");
     for (n=0;n<module_memory_count;++n) {
         entry=native_module_memory+n;
         if (span.begin<(uintptr_t)entry->address+entry->size && span.end>(uintptr_t)entry->address)

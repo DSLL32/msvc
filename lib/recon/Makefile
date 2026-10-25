@@ -592,3 +592,15 @@ build/mbslwr-surface-probe: tests/mbslwr-surface-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mbslwr-surface-check: build/mbslwr-surface-probe
 	$(PYTHON) tests/check-mbslwr-surface.py build/mbslwr-surface-probe
+
+build/trace-exec-driver: tests/trace-exec-driver.c include/recon-trace.h | build
+	$(CC) $(CFLAGS) $< -ldl -o $@
+build/native-image-module.so: tests/native-image-module.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fPIC -shared tests/native-image-module.c $(SOURCES) -o $@
+build/native-image-case.so: tests/native-image-case.c | build
+	$(CC) $(CFLAGS) -fPIC -shared $< -o $@
+build/native-image-driver: tests/native-image-driver.c | build
+	$(CC) $(CFLAGS) $< -ldl -o $@
+.PHONY: native-migration-check
+native-migration-check: build/trace-module.so build/trace-exec-driver build/native-image-module.so build/native-image-case.so build/native-image-driver
+	$(PYTHON) tests/check-native-migration.py $^

@@ -363,6 +363,11 @@ int __cdecl recon_wsprintfA(LPSTR,LPCSTR,...);
 typedef struct ReconModuleMemorySpec {
  const char *sha256; DWORD original_rva,size,original_image_base,original_va;
 } ReconModuleMemorySpec;
+/* Host-owned loaded ELF anchors; bind before module/case setup. Main-ELF
+ * ownership remains the default when no application anchor is supplied. */
+#define RECON_NATIVE_IMAGE_APPLICATION 1u
+#define RECON_NATIVE_IMAGE_CASE_CALLBACKS 2u
+void recon_register_native_image(const void *,unsigned);
 void recon_register_module_memory(HMODULE,const ReconModuleMemorySpec *,void *,size_t);
 void recon_load_module_resources(HMODULE,const char *);
 void recon_load_system_profile(const char *,const char *);
