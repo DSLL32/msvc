@@ -36,6 +36,32 @@ typedef struct WResTypeNode {
     struct WResResNode *Head, *Tail;
     WResTypeInfo Info;
 } WResTypeNode;
+typedef struct WResResInfo {
+    unsigned short NumResources;
+    WResID ResName;
+} WResResInfo;
+typedef struct WResResInfo1 {
+    unsigned short MemoryFlags;
+    unsigned long Offset, Length;
+    WResID ResName;
+} WResResInfo1;
+typedef struct WResResNode {
+    struct WResResNode *Next, *Prev;
+    struct WResLangNode *Head, *Tail;
+    WResResInfo Info;
+} WResResNode;
+typedef struct WResLangNode {
+    struct WResLangNode *Next, *Prev;
+    void *data;
+    struct {
+        struct {
+            unsigned short lang;
+            unsigned char sublang;
+        } lang;
+        unsigned short MemoryFlags;
+        unsigned long Offset, Length;
+    } Info;
+} WResLangNode;
 typedef struct WResDirHead {
     unsigned short NumResources;
     unsigned short NumTypes;
@@ -53,6 +79,10 @@ typedef struct WResExtHeader {
     unsigned short reserved[4];
 } WResExtHeader;
 #pragma pack()
+typedef char WlibResourceResInfoSize[(sizeof(WResResInfo) == 5) ? 1 : -1];
+typedef char WlibResourceResInfo1Size[(sizeof(WResResInfo1) == 13) ? 1 : -1];
+typedef char WlibResourceResNodeSize[(sizeof(WResResNode) == 21) ? 1 : -1];
+typedef char WlibResourceLangNodeSize[(sizeof(WResLangNode) == 25) ? 1 : -1];
 typedef char WlibResourceIDSize[(sizeof(WResID) == 3) ? 1 : -1];
 typedef char WlibResourceTypeInfoSize[(sizeof(WResTypeInfo) == 5) ? 1 : -1];
 typedef char WlibResourceTypeNodeSize[(sizeof(WResTypeNode) == 21) ? 1 : -1];
@@ -105,6 +135,9 @@ int WResIDExtraBytes( const WResID *id );
 int WResReadExtraWResID( WResID *id, int handle );
 void ResAddLLItemAtEnd( void **head, void **tail, void *item );
 int readResList( int handle, WResTypeNode *type, unsigned short version );
+int WResReadFixedResRecord1( WResResInfo1 *info, int handle );
+int WResReadFixedResRecord( WResResInfo *info, int handle );
+int readLangInfoList( int handle, WResResNode *node );
 int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */

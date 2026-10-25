@@ -1,0 +1,47 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-mFfOCe",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832,
+      106520,
+      111040,
+      111188,
+      106272,
+      110976,
+      110848,
+      110672,
+      105848,
+      110784
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 110784,
+    "trap_site": 4153826397,
+    "elapsed_ms": 7.807073,
+    "setup_ms": 4.2795890000000005,
+    "execution_ms": 1.9735989999999997,
+    "checks_ms": 1.553964,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-reslist-to-fixedres1.json",
+      "report_sha256": "a2c5ca4ef2e4ec15bce72d2e8cac628532d7114c7c3ee117c574dbcbc613a3ee",
+      "capture_sha256": "ea77f200dc7695bd6a7c21406dcc40f699285f8cf2c1de26646de1cf72af2144",
+      "source_binding_available": true
+    }
+  }
+]

@@ -327,6 +327,72 @@ void ResAddLLItemAtEnd( void **head, void **tail, void *item )
     }
 }
 
+/* Original 0x419d78..0x419f1d. Initial wrreaddi.c resource loop,
+   retaining the old13B fixed record and25B language node without fileinfo. */
+int readResList( int file, WResTypeNode *type, unsigned short version )
+{
+    WResResInfo info;
+    WResResInfo1 oldinfo;
+    WResResNode *node;
+    WResLangNode *lang;
+    WResID *id;
+    int error, resnum, extra;
+
+    for( resnum = 0, error = 0; resnum < type->Info.NumResources && !error; ++resnum ) {
+        if( version < 2 ) {
+            error = WResReadFixedResRecord1( &oldinfo, file );
+            id = &oldinfo.ResName;
+        } else {
+            error = WResReadFixedResRecord( &info, file );
+            id = &info.ResName;
+        }
+        if( !error ) {
+            extra = WResIDExtraBytes( id );
+            node = (*WResRtns.alloc)( sizeof(*node) + extra );
+            if( node == 0 ) {
+                error = 1;
+                WresRecordError( WRS_MALLOC_FAILED );
+            }
+        }
+        if( !error ) {
+            node->Head = 0;
+            node->Tail = 0;
+            if( version < 2 ) {
+                node->Info.NumResources = 1;
+                memcpy( &node->Info.ResName, &oldinfo.ResName, sizeof(WResID) );
+            } else {
+                memcpy( &node->Info, &info, sizeof(info) );
+            }
+            if( extra > 0 ) {
+                error = WResReadExtraWResID( &node->Info.ResName, file );
+            }
+            /* The target dispatches here even after a name-read error. */
+            if( version < 2 ) {
+                lang = (*WResRtns.alloc)( sizeof(*lang) );
+                if( lang == 0 ) {
+                    error = 1;
+                    WresRecordError( WRS_MALLOC_FAILED );
+                }
+                if( !error ) {
+                    lang->data = 0;
+                    lang->Info.MemoryFlags = oldinfo.MemoryFlags;
+                    lang->Info.Offset = oldinfo.Offset;
+                    lang->Info.Length = oldinfo.Length;
+                    lang->Info.lang.lang = 0;
+                    lang->Info.lang.sublang = 0;
+                    ResAddLLItemAtEnd( (void **)&node->Head, (void **)&node->Tail, lang );
+                }
+            } else {
+                error = readLangInfoList( file, node );
+            }
+        }
+        if( !error ) {
+            ResAddLLItemAtEnd( (void **)&type->Head, (void **)&type->Tail, node );
+        }
+    }
+    return error;
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )
