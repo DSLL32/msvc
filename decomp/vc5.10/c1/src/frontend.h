@@ -119,6 +119,7 @@ struct CompilerTranslationUnit {
     CompilerIrSymbol *symbols;
     CompilerTypeAlias *type_aliases;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
+    CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
     void RECON_THISCALL Finish(void);
 };
 typedef char CompilerTranslationUnit_size[sizeof(CompilerTranslationUnit) == 540 ? 1 : -1];

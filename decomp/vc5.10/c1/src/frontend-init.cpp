@@ -507,7 +507,18 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
         flags |= 8;
     }
 }
-void RECON_THISCALL CompilerParameterDescription::Normalize(void) { __asm { int 3 } }
+extern "C" unsigned __cdecl classify_parameter_list(const void *);
+void RECON_THISCALL CompilerParameterDescription::Normalize(void)
+{
+    if (scope)
+        c1_data.translation_unit->EndParameterScope();
+    if (kind == 6)
+        kind = classify_parameter_list((const void *)value);
+}
+CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void)
+{ __asm { int 3 } return NULL; }
+extern "C" unsigned __cdecl classify_parameter_list(const void *value)
+{ __asm { int 3 } return 0; }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned attributes,
     const unsigned *value) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned kind)

@@ -1544,8 +1544,8 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN16CompilerIrSymbol10InitializeEjP17CompilerNameEntryj",
       .original_symbol = "?Initialize@CompilerIrSymbol@@QAEPAU1@IPAUCompilerNameEntry@@I@Z" },
     { .name = "CompilerParameterDescription::Normalize", .entry_rva = 0x8932,
-      .code = (const ReconExtent[]){{0x8932, 0x8933}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "_ZN28CompilerParameterDescription9NormalizeEv", .original_symbol = "?Normalize@CompilerParameterDescription@@QAEXXZ" },
+      .code = (const ReconExtent[]){{0x8932, 0x895d}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN28CompilerParameterDescription9NormalizeEv", .original_symbol = "?Normalize@CompilerParameterDescription@@QAEXXZ" },
     { .name = "_create_type_shape", .entry_rva = 0x24c4,
       .code = (const ReconExtent[]){{0x24c4, 0x24c5}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "create_type_shape", .original_symbol = "_create_type_shape" },
@@ -1555,6 +1555,13 @@ static const ReconFunction functions[] = {
     { .name = "CompilerDeclarator::AppendShape", .entry_rva = 0x8b9f,
       .code = (const ReconExtent[]){{0x8b9f, 0x8ba0}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP17CompilerTypeShape", .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z" },
+    { .name = "CompilerTranslationUnit::EndParameterScope", .entry_rva = 0x9219,
+      .code = (const ReconExtent[]){{0x9219, 0x921a}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN23CompilerTranslationUnit17EndParameterScopeEv",
+      .original_symbol = "?EndParameterScope@CompilerTranslationUnit@@QAEPAPAUCompilerIrSymbol@@XZ" },
+    { .name = "_classify_parameter_list", .entry_rva = 0x9233,
+      .code = (const ReconExtent[]){{0x9233, 0x9234}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "classify_parameter_list" },
 };
 
 static const ReconExport exports[] = {
