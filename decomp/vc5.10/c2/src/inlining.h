@@ -7,7 +7,10 @@
 typedef struct C2InlineCall {
     struct C2InlineCall *next;
     C2Expression *call;
-    unsigned char allowed_depth, pending09[3];
+    union {
+        unsigned control;
+        struct { unsigned char allowed_depth, pending09[3]; };
+    };
 } C2InlineCall;
 typedef struct C2InlineBinding {
     struct C2InlineBinding *next;
@@ -42,5 +45,8 @@ void __fastcall discard_inline_function(C2Function *function);
 C2Expression * __fastcall save_inline_argument_context(C2Expression *before, C2Expression *call);
 void __fastcall print_inline_function(unsigned serial);
 int __fastcall reject_inline_cost(C2Function *function, C2Expression *call, C2Expression *entry);
+void __fastcall scan_inline_assembly(C2Expression *records);
+C2Expression *__fastcall resolve_inline_argument(C2Expression *assignment,
+    C2Expression *argument, C2Expression **context);
 #include <recon.h>
 #endif

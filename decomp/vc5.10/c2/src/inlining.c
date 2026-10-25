@@ -257,3 +257,103 @@ next_call: ;
     function->symbol->additional_flags &= ~0x10;
     return original_budget - budget;
 }
+
+extern C2Function *current_function;
+extern int c2_inline_limit;
+
+C2InlineCall *__fastcall collect_inline_calls(C2Function *function, int *count,
+                                             int force)
+{
+    C2InlineCall *first = NULL, *last = NULL, *pending;
+    C2Expression *record, *next, *target, *operand, *assignment, *value, *context;
+    C2FunctionRegister *reg;
+    C2FunctionSymbol *symbol;
+    int live_temporaries = 0;
+    unsigned control = 0;
+    *count = 0;
+    record = (C2Expression *)function->flow->last->records;
+    while (record) {
+        next = record->next;
+        if (!(record->flags & 1)) {
+            if (record->kind == 21) {
+                if (record->opcode == 0x182) {
+                    control = record->value.control;
+                    unlink_and_release_input_record((C2Record *)record);
+                }
+            } else if (record->kind == 25 &&
+                       record->declaration->symbol.source_kind == 'T') {
+                while (next->opcode != 0x174) next = next->next;
+                next = next->next;
+            }
+            goto next_record;
+        }
+        target = record->left;
+        for (operand = target; operand; operand = operand->next) {
+            if (INLINE_REGISTER(operand) && operand->value.reg->value)
+                --live_temporaries;
+            else if (operand->kind == 3 && record->opcode != 0x151)
+                for (reg = operand->value.reg->canonical; reg; reg = reg->variant_next)
+                    reg->view_flags |= 2;
+        }
+        record->control_flags = (unsigned char)live_temporaries;
+        for (operand = record->tail.right; operand; operand = operand->next)
+            if (INLINE_REGISTER(operand) && operand->value.reg->value) ++live_temporaries;
+        if (record->kind != 13) {
+            if (record->kind == 20)
+                scan_inline_assembly(record->detail.assembly);
+            goto next_record;
+        }
+        if (record->location.line) {
+            record_source_line = function->source_line_base + record->location.line;
+            record_line_delta = record->location.line;
+        }
+        symbol = NULL;
+        if (target->kind == 4) {
+            symbol = (C2FunctionSymbol *)target->value.symbol;
+            if (symbol->symbol.kind != 4 || !(symbol->attributes & 0x4000)) symbol = NULL;
+        } else if (target->kind == 2) {
+            symbol = (C2FunctionSymbol *)target->value.reg->canonical->symbol;
+            if (!symbol || symbol->symbol.kind != 4 ||
+                (symbol->attributes & 0x5000) != 0x5000) symbol = NULL;
+        }
+        if (!symbol) goto next_record;
+        if ((force && (symbol->additional_flags & 0x100)) ||
+            (!(current_function->flags & 0x8000) &&
+             !(current_function->symbol->additional_flags & 0x200) &&
+             (symbol->additional_flags & 0x300)) ||
+            (!c2_favor_speed && symbol->temporary_count >= c2_inline_limit) ||
+            !function_retains_symbols(symbol, c2_global_optimize)) {
+            if ((symbol->additional_flags & 0xc0) == 0xc0) {
+                set_diagnostic_function(symbol, 1);
+                compiler_warning(4, 0x2c6);
+            }
+            goto next_record;
+        }
+        for (operand = target->next; operand; operand = operand->next) {
+            if (!INLINE_REGISTER(operand) || !(assignment = operand->value.reg->value) ||
+                assignment->opcode != 0x13e) continue;
+            value = assignment->left;
+            if (INLINE_REGISTER(value) && value->value.reg->value)
+                value = value->value.reg->value;
+            else if (INLINE_REGISTER(value) && value->value.reg->kind == 3 &&
+                     !value->value.reg->value && (value->value.reg->flags & 0x40))
+                value = resolve_inline_argument(assignment, value, &context);
+            else
+                value = NULL;
+            if (value && ((value->kind == 17 && value->detail.intrinsic == 0xdf) ||
+                          value->opcode == 0x177)) goto next_record;
+        }
+        if (!(symbol->additional_flags & 0x10) || (control & 0xf00)) {
+            pending = c2_pool_allocate(4, sizeof(C2InlineCall));
+            pending->call = record;
+            pending->control = control;
+            if (last) last->next = pending;
+            else first = pending;
+            ++*count;
+            last = pending;
+        }
+next_record:
+        record = next;
+    }
+    return first;
+}

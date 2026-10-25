@@ -14,11 +14,7 @@ void __fastcall unlink_and_release_input_record(C2Record *record)
     __asm { int 3 }
 }
 
-C2InlineCall * __fastcall collect_inline_calls(C2Function *function, int *count, int force)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 char * __fastcall set_diagnostic_function(C2FunctionSymbol *symbol, int decorated)
 {
@@ -139,6 +135,17 @@ void __fastcall print_inline_function(unsigned serial)
 }
 
 int __fastcall reject_inline_cost(C2Function *function, C2Expression *call, C2Expression *entry)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall scan_inline_assembly(C2Expression *records)
+{
+    __asm { int 3 }
+}
+C2Expression *__fastcall resolve_inline_argument(C2Expression *assignment,
+    C2Expression *argument, C2Expression **context)
 {
     __asm { int 3 }
     return 0;

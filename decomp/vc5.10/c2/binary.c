@@ -1346,10 +1346,26 @@ static const ReconFunction functions[] = {
         .native_symbol = "unlink_and_release_input_record",
     },
     {
-        .name = "@collect_inline_calls@12",
-        .entry_rva = 0x251e8,
+        .name = "@scan_inline_assembly@4",
+        .entry_rva = 0x8ad1d,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "scan_inline_assembly",
+    },
+    {
+        .name = "@resolve_inline_argument@12",
+        .entry_rva = 0x5a02b,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "resolve_inline_argument",
+    },
+    {
+        .name = "@collect_inline_calls@12",
+        .entry_rva = 0x251e8,
+        .code = (const ReconExtent[]){{0x251e8, 0x25562}, {0x6b206, 0x6b27e}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "collect_inline_calls",
     },
     {

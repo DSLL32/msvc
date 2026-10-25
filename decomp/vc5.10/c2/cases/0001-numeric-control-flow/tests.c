@@ -7,6 +7,7 @@
 #include "small-nodes.h"
 #include "flow.h"
 #include "code-input.h"
+#include "inlining.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -945,7 +946,52 @@ static int pool_release_ownership(void)
     return 1;
 }
 
+static int inline_temporary_lifetimes(void)
+{
+    C2Function function;
+    C2FlowGraph flow;
+    C2BasicBlock block;
+    C2Expression record, next, input, output, definition;
+    C2FunctionRegister registers[2];
+    int count = 99;
+    memset(&function, 0, sizeof(function));
+    memset(&flow, 0, sizeof(flow));
+    memset(&block, 0, sizeof(block));
+    memset(&record, 0, sizeof(record));
+    memset(&next, 0, sizeof(next));
+    memset(&input, 0, sizeof(input));
+    memset(&output, 0, sizeof(output));
+    memset(registers, 0, sizeof(registers));
+    function.flow = &flow;
+    flow.last = &block;
+    block.records = (C2Record *)&record;
+    record.flags = next.flags = 1;
+    record.kind = next.kind = 11;
+    record.next = &next;
+    input.kind = output.kind = 1;
+    input.value.reg = &registers[0];
+    output.value.reg = &registers[1];
+    registers[0].value = registers[1].value = &definition;
+    record.left = &input;
+    record.tail.right = &output;
+    if (collect_inline_calls(&function, &count, 0) || count ||
+        record.control_flags != 0xff || next.control_flags) return 0;
+    input.kind = 3;
+    registers[0].canonical = &registers[0];
+    registers[0].variant_next = &registers[1];
+    registers[0].view_flags = 0x80;
+    registers[1].view_flags = 0x40;
+    record.tail.right = NULL;
+    record.opcode = 0x151;
+    if (collect_inline_calls(&function, &count, 0) || count ||
+        registers[0].view_flags != 0x80 || registers[1].view_flags != 0x40) return 0;
+    record.opcode = 0x131;
+    return !collect_inline_calls(&function, &count, 0) && !count &&
+        registers[0].view_flags == 0x82 && registers[1].view_flags == 0x42;
+}
+
 const ReconTest numeric_tests[] = {
+    {"inline collection tracks temporary lifetimes and address variants", 1, inline_temporary_lifetimes},
     {"pool release unlinks oversized blocks and retains the small-block chain", 1, pool_release_ownership},
     {"pending input cleanup releases each expression while retaining its pool", 1, pending_input_cleanup},
     {"generic pointer conversion respects shared operands and register ownership", 1, generic_pointer_types},

@@ -43,6 +43,7 @@ struct C2Expression {
         C2Real *real;
         C2Function *function;
         C2InputUse *use;
+        unsigned control;
         void *pointer;
     } value;
     union {
@@ -52,7 +53,7 @@ struct C2Expression {
         };
         C2IntegerWords integer;
     };
-    union { void *data; C2InputUse *use; struct C2InputClause *clauses; unsigned short intrinsic; } detail;
+    union { void *data; C2Expression *assembly; C2InputUse *use; struct C2InputClause *clauses; unsigned short intrinsic; } detail;
     C2Expression *aggregate_value, *aggregate_second;
 };
 struct C2Record {
