@@ -166,5 +166,19 @@ DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0;
 void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }
 void __stdcall collect_module_directives(LinkContext *context,Contribution *contribution,
     InputArguments *pending,char *directives) { __asm { int 3 } }
+char *__stdcall format_contribution_module(Contribution *,char *);
 void __stdcall process_module_directives(LinkContext *context,Contribution *contribution,
-    char *directives) { __asm { int 3 } }
+    char *directives)
+{
+    char module_name[512];
+    const char *name;
+    option_arguments.first=NULL;
+    option_arguments.last=NULL;
+    option_arguments.count=0;
+    collect_module_directives(context,contribution,&option_arguments,directives);
+    name=format_contribution_module(contribution,module_name);
+    /* The dispatcher's historical interface view consumes owner at offset18h,
+       the Contribution.module field. It does not describe a second object. */
+    configure_link_options(context,(DirectiveModule *)contribution,name);
+}
+char *__stdcall format_contribution_module(Contribution *contribution,char *name) { __asm { int 3 } return NULL; }

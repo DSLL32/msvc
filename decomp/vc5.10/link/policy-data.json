@@ -5647,6 +5647,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "_process_module_directives@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

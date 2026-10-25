@@ -266,6 +266,21 @@ static int directive_buffer(void)
     return recon_native_at_entry(process_module_directives,check_directive_buffer,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall collect_module_directives(LinkContext *,Contribution *,InputArguments *,char *);
+static void __stdcall check_directive_collection(LinkContext *context,Contribution *contribution,
+    InputArguments *arguments,char *directives)
+{
+    recon_native_entry_finish(context && contribution &&
+        contribution==(Contribution *)current_input_library->module_head->contributions &&
+        arguments==&option_arguments && !arguments->first && !arguments->last && !arguments->count &&
+        directives && strlen(directives)==83 &&
+        !memcmp(directives,(BYTE *)file_slots[current_input_file]->view+300,83));
+}
+static int directive_collection(void)
+{
+    return recon_native_at_entry(collect_module_directives,check_directive_collection,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -278,5 +293,6 @@ const ReconTest hello_tests[]={
     {"section-name-split",1,section_name_split},
     {"first-contribution",1,first_contribution},
     {"directive-reader-call",1,directive_reader_call},
-    {"directive-buffer",1,directive_buffer}
+    {"directive-buffer",1,directive_buffer},
+    {"directive-collection",1,directive_collection}
 };

@@ -338,7 +338,8 @@ static const ReconFunction functions[] = {
     {"_add_module_to_list@8",0xfab0,(const ReconExtent[]){{0xfab0,0xfae8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_module_to_list",NULL,NULL,0,NULL},
     {"_split_section_name@8",0xe5e0,(const ReconExtent[]){{0xe5e0,0xe619}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"split_section_name",NULL,NULL,0,NULL},
     {"_collect_module_directives@16",0x492f0,(const ReconExtent[]){{0x492f0,0x49379}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"collect_module_directives",NULL,NULL,0,NULL},
-    {"_process_module_directives@12",0x49380,(const ReconExtent[]){{0x49380,0x49381}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_module_directives",NULL,NULL,0,NULL},
+    {"_process_module_directives@12",0x49380,(const ReconExtent[]){{0x49380,0x493dd}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"process_module_directives",NULL,NULL,0,NULL},
+    {"_format_contribution_module@8",0xe5b0,(const ReconExtent[]){{0xe5b0,0xe5d4}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"format_contribution_module",NULL,NULL,0,NULL},
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconBinary),"vc5.10-link",
