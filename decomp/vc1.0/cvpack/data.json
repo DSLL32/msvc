@@ -1453,5 +1453,18 @@
     "original": 210444,
     "size": 4,
     "source": "src/oldsymbols.c"
+  },
+  {
+    "name": "old_symbol_converters",
+    "symbol": "_old_symbol_converters",
+    "original": 229136,
+    "size": 224,
+    "source": "src/oldsymbols.c",
+    "kind": "callback-table",
+    "stride": 16,
+    "pointer_offsets": [
+      4,
+      12
+    ]
   }
 ]

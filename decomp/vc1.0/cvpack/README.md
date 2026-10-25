@@ -1,14 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **216 accepted application
-functions, 64,913 original code bytes, and 31 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **217 accepted application
+functions, 65,060 original code bytes, and 48 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_symbols` (RVA `0x13690`), on the C6 local-symbol
-conversion path. The last accepted function is `pack_old_types`
-(sequence 216, 458 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
+frontier is now `convert_old_symbol_change_segment` (RVA `0x14250`), on the C6 local-symbol
+sizing path. The last accepted function is `convert_old_symbols`
+(sequence 217, 147 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted 29 application functions.
+credit. The resumed workload has accepted 30 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 213-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
@@ -26,7 +26,7 @@ cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
-`check-context.py` additionally checks 214 initial data objects, diagnostic
+`check-context.py` additionally checks 215 initial data objects, diagnostic
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
@@ -59,11 +59,12 @@ unaligned field-list draft serialized nondeterministic original padding and
 remains excluded; its raw input/oracle/reason stay in Git and the snapshot.
 
 `runtime.json` preserves the frozen original library/import identity index except
-for the reviewed false short-signature match at RVA `0x13260`. Its generic RET
+for the reviewed false short-signature match at RVAs `0x13260` and `0x14a50`. Their generic RET
 plus fifteen alignment bytes did not prove either library alias; the genuine
-application sizing table identifies a zero-argument callback using globals.
-`size_old_register_relative32` is now a pending named App trap. Its actual code
-is one RET byte; alignment is not application code credit. Other short matches
+application sizing table identifies zero-argument callbacks using globals.
+`size_old_register_relative32` and `convert_old_symbol_register_relative32`
+remain pending named App traps. Each has one RET byte of actual code; alignment
+is not application code credit. Other short matches
 are unchanged, and the raw former rows remain in Git and the owned snapshot.
 The newly encountered 14-row C6 symbol sizing table identifies eighteen application
 callbacks. Each body remains pending until its matching frontier and checks.

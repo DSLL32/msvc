@@ -167,4 +167,23 @@ void size_old_data32(void) { __asm { int 3 } }
 
 void size_old_procedure32(void) { __asm { int 3 } }
 
-void convert_old_symbols(unsigned char *end) { __asm { int 3 } }
+
+
+void convert_old_symbol_block16(void) { __asm { int 3 } }
+void convert_old_symbol_block32(void) { __asm { int 3 } }
+void convert_old_symbol_procedure16(void) { __asm { int 3 } }
+void convert_old_symbol_procedure32(void) { __asm { int 3 } }
+void convert_old_symbol_end(void) { __asm { int 3 } }
+void convert_old_symbol_bprel16(void) { __asm { int 3 } }
+void convert_old_symbol_bprel32(void) { __asm { int 3 } }
+void convert_old_symbol_data16(void) { __asm { int 3 } }
+void convert_old_symbol_data32(void) { __asm { int 3 } }
+void convert_old_symbol_label16(void) { __asm { int 3 } }
+void convert_old_symbol_label32(void) { __asm { int 3 } }
+void convert_old_symbol_register(void) { __asm { int 3 } }
+void convert_old_symbol_constant(void) { __asm { int 3 } }
+void convert_old_symbol_register_relative16(void) { __asm { int 3 } }
+void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
+void convert_old_symbol12(void) { __asm { int 3 } }
+void convert_old_symbol_skip(void) { __asm { int 3 } }
+void convert_old_symbol_change_segment(void) { __asm { int 3 } }

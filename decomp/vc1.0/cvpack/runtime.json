@@ -417,24 +417,6 @@
     },
     {
       "name": "??1Iostream_init@@QAE@XZ",
-      "start": 150096,
-      "end": 150112,
-      "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",
-      "library": "LIBC.LIB",
-      "nonrelocation_bytes": 16,
-      "relocations": []
-    },
-    {
-      "name": "__fpclear",
-      "start": 150096,
-      "end": 150112,
-      "object": "obj\\i386\\fpinit.obj",
-      "library": "LIBC.LIB",
-      "nonrelocation_bytes": 16,
-      "relocations": []
-    },
-    {
-      "name": "??1Iostream_init@@QAE@XZ",
       "start": 152688,
       "end": 152704,
       "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",

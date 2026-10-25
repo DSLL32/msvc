@@ -31,4 +31,32 @@ void size_old_procedure16(void);
 void size_old_procedure32(void);
 
 void convert_old_symbols(unsigned char *);
+typedef struct OldSymbolConverter {
+    unsigned char kind;
+    unsigned short narrow_kind;
+    void (__cdecl *narrow)(void);
+    unsigned short wide_kind;
+    void (__cdecl *wide)(void);
+} OldSymbolConverter;
+typedef char OldSymbolConverterSize[(sizeof(OldSymbolConverter)==16)?1:-1];
+extern OldSymbolConverter old_symbol_converters[14];
+void convert_old_symbol_block16(void);
+void convert_old_symbol_block32(void);
+void convert_old_symbol_procedure16(void);
+void convert_old_symbol_procedure32(void);
+void convert_old_symbol_end(void);
+void convert_old_symbol_bprel16(void);
+void convert_old_symbol_bprel32(void);
+void convert_old_symbol_data16(void);
+void convert_old_symbol_data32(void);
+void convert_old_symbol_label16(void);
+void convert_old_symbol_label32(void);
+void convert_old_symbol_register(void);
+void convert_old_symbol_constant(void);
+void convert_old_symbol_register_relative16(void);
+void convert_old_symbol_register_relative32(void);
+void convert_old_symbol12(void);
+void convert_old_symbol_skip(void);
+void convert_old_symbol_change_segment(void);
+
 #endif

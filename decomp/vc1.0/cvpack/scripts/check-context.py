@@ -81,7 +81,7 @@ def main():
         elif item.get('kind') == 'callback-table':
             stride = item['stride']
             pointers = tuple(item.get('pointer_offsets', [item.get('pointer_offset')]))
-            assert (stride, pointers, item['size']) in ((8, (4,), 256), (4, (0,), 8), (8, (4,), 104), (12, (4, 8), 168))
+            assert (stride, pointers, item['size']) in ((8, (4,), 256), (4, (0,), 8), (8, (4,), 104), (12, (4, 8), 168), (16, (4, 12), 224))
             for i in range(0, item['size'], stride):
                 cursor = 0
                 for pointer in pointers:

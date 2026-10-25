@@ -144,3 +144,44 @@ void pack_old_types(void *symbols, CvDirectoryEntry *entry, void *module_record,
     module->symbol_size = output_size;
     module->symbols = buffer;
 }
+
+OldSymbolConverter old_symbol_converters[14] = {
+    { 0x00, 0x107, convert_old_symbol_block16, 0x207, convert_old_symbol_block32 },
+    { 0x01, 0x104, convert_old_symbol_procedure16, 0x204, convert_old_symbol_procedure32 },
+    { 0x02, 0x6, convert_old_symbol_end, 0x6, convert_old_symbol_end },
+    { 0x04, 0x100, convert_old_symbol_bprel16, 0x200, convert_old_symbol_bprel32 },
+    { 0x05, 0x101, convert_old_symbol_data16, 0x201, convert_old_symbol_data32 },
+    { 0x0b, 0x109, convert_old_symbol_label16, 0x209, convert_old_symbol_label32 },
+    { 0x0c, 0x108, convert_old_symbol_block16, 0x208, convert_old_symbol_block32 },
+    { 0x0d, 0x2, convert_old_symbol_register, 0x2, convert_old_symbol_register },
+    { 0x0e, 0x3, convert_old_symbol_constant, 0x3, convert_old_symbol_constant },
+    { 0x0f, 0x104, convert_old_symbol_procedure16, 0x204, convert_old_symbol_procedure32 },
+    { 0x16, 0x10a, convert_old_symbol_register_relative16, 0x20a, convert_old_symbol_register_relative32 },
+    { 0x12, 0xb, convert_old_symbol12, 0xb, convert_old_symbol12 },
+    { 0x10, 0x0, convert_old_symbol_skip, 0x0, convert_old_symbol_skip },
+    { 0x11, 0x0, convert_old_symbol_change_segment, 0x0, convert_old_symbol_change_segment },
+};
+
+void convert_old_symbols(unsigned char *end)
+{
+    unsigned char kind, wide;
+    unsigned short i, converted;
+    while (old_symbol_input < end) {
+        wide = (unsigned char)(old_symbol_input[1] & 0x80);
+        kind = (unsigned char)(old_symbol_input[1] & 0x7f);
+        for (i = 0; i < 14; ++i)
+            if (old_symbol_converters[i].kind == kind)
+                break;
+        if (i == 14)
+            old_symbol_input += old_symbol_input[0]+1;
+        else if (wide) {
+            converted = old_symbol_converters[i].wide_kind;
+            if (converted) *(unsigned short *)(old_symbol_output+2) = converted;
+            old_symbol_converters[i].wide();
+        } else {
+            converted = old_symbol_converters[i].narrow_kind;
+            if (converted) *(unsigned short *)(old_symbol_output+2) = converted;
+            old_symbol_converters[i].narrow();
+        }
+    }
+}

@@ -315,6 +315,14 @@
         "__fpclear"
       ],
       "reason": "RET plus fifteen alignment bytes matched generic library signatures, without independent CRT ownership. The sole original pointer is the wide callback for C6 symbol kind 0x16 in the application sizing table. Genuine zero-argument cdecl callsites use application globals. Reclassified as pending App; actual code is one RET byte, not the alignment padding."
+    },
+    {
+      "name": "_convert_old_symbol_register_relative32",
+      "former_aliases": [
+        "??1Iostream_init@@QAE@XZ",
+        "__fpclear"
+      ],
+      "reason": "RET plus fifteen alignment bytes matched generic library signatures, without independent CRT ownership. The original pointer is the wide callback for C6 symbol kind 0x16 in the application conversion table. Genuine zero-argument cdecl callsites use old_symbol_input/output globals. Reclassified as pending App; actual code is one RET byte, not the alignment padding."
     }
   ]
 }

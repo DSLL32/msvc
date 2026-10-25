@@ -1,5 +1,5 @@
-/* Canonical registry: 216 accepted application functions (64,913 bytes),
- * 31 named trapping stubs.
+/* Canonical registry: 217 accepted application functions (65,060 bytes),
+ * 48 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
  * runtime-policy.json keeps their provenance and historical qualifications. */
@@ -7,10 +7,132 @@
 
 static const ReconFunction functions[] = {
     {
-        .name = "_convert_old_symbols",
-        .entry_rva = 0x13690,
+        .name = "_convert_old_symbol_block16",
+        .entry_rva = 0x13f20,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_block16",
+    },
+    {
+        .name = "_convert_old_symbol_block32",
+        .entry_rva = 0x14000,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_block32",
+    },
+    {
+        .name = "_convert_old_symbol_procedure16",
+        .entry_rva = 0x14280,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_procedure16",
+    },
+    {
+        .name = "_convert_old_symbol_procedure32",
+        .entry_rva = 0x143b0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_procedure32",
+    },
+    {
+        .name = "_convert_old_symbol_end",
+        .entry_rva = 0x14500,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_end",
+    },
+    {
+        .name = "_convert_old_symbol_bprel16",
+        .entry_rva = 0x14670,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_bprel16",
+    },
+    {
+        .name = "_convert_old_symbol_bprel32",
+        .entry_rva = 0x14730,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_bprel32",
+    },
+    {
+        .name = "_convert_old_symbol_data16",
+        .entry_rva = 0x147f0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_data16",
+    },
+    {
+        .name = "_convert_old_symbol_data32",
+        .entry_rva = 0x148b0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_data32",
+    },
+    {
+        .name = "_convert_old_symbol_label16",
+        .entry_rva = 0x140f0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_label16",
+    },
+    {
+        .name = "_convert_old_symbol_label32",
+        .entry_rva = 0x141a0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_label32",
+    },
+    {
+        .name = "_convert_old_symbol_register",
+        .entry_rva = 0x13a20,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_register",
+    },
+    {
+        .name = "_convert_old_symbol_constant",
+        .entry_rva = 0x13af0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_constant",
+    },
+    {
+        .name = "_convert_old_symbol_register_relative16",
+        .entry_rva = 0x14970,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_register_relative16",
+    },
+    {
+        .name = "_convert_old_symbol12",
+        .entry_rva = 0x145b0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol12",
+    },
+    {
+        .name = "_convert_old_symbol_skip",
+        .entry_rva = 0x144e0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_skip",
+    },
+    {
+        .name = "_convert_old_symbol_change_segment",
+        .entry_rva = 0x14250,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_change_segment",
+    },
+
+    {
+        .name = "_convert_old_symbols",
+        .entry_rva = 0x13690,
+        .code = (const ReconExtent[]){{0x13690, 0x13723}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_symbols",
     },
     {
@@ -2340,11 +2462,14 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
-        .name = "??1Iostream_init@@QAE@XZ|__fpclear",
+        .name = "_convert_old_symbol_register_relative32",
         .entry_rva = 0x14a50,
-        .code = (const ReconExtent[]){{0x14a50, 0x14a60}},
+        /* One RET byte; the following fifteen bytes are alignment. */
+        .code = (const ReconExtent[]){{0x14a50, 0x14a51}},
         .code_count = 1,
-        .definition = RECON_CRT,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "convert_old_symbol_register_relative32",
     },
     {
         .name = "??1Iostream_init@@QAE@XZ|__fpclear",
