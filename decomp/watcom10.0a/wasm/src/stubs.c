@@ -4,10 +4,11 @@
 #include "wasm.h"
 #include <recon.h>
 
-void *MemAlloc(size_t size)
+void *AsmAlloc(size_t size)
 {
     (void)size; WASM_PENDING(); return NULL;
 }
+void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
 void newBlk(cv_t *cv) { (void)cv; WASM_PENDING(); }
 void GenMSOmfInit(void) { WASM_PENDING(); }
 void do_init_stuff(int argc, char **argv)

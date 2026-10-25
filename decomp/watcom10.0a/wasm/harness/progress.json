@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 4,
-  "accepted_app_bytes": 180,
+  "accepted_app_functions": 5,
+  "accepted_app_bytes": 205,
   "accepted": [
     {
       "name": "main",
@@ -35,9 +35,17 @@
         109277
       ],
       "evidence": "cases/0001-help/evidence/0004-carve-create"
+    },
+    {
+      "name": "MemAlloc",
+      "extent": [
+        92356,
+        92381
+      ],
+      "evidence": "cases/0001-help/evidence/0005-memalloc"
     }
   ],
-  "current_frontier": "MemAlloc",
-  "native_ms": 5.263,
-  "original_ms": 730.484
+  "current_frontier": "AsmAlloc",
+  "native_ms": 5.225,
+  "original_ms": 1527.051
 }

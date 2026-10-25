@@ -1,0 +1,32 @@
+[
+  {
+    "case": "0001-help",
+    "workspace": "/tmp/recon/run-mdND5w",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      52008,
+      52236,
+      113808,
+      109224,
+      92356,
+      90604
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 90604,
+    "trap_site": 4156738247,
+    "elapsed_ms": 5.225229,
+    "setup_ms": 2.6677129999999996,
+    "execution_ms": 2.071709,
+    "checks_ms": 0.485674,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/shared-migration/fifth-original.json",
+      "report_sha256": "6aaa539783878cd2292e3ba27f7094cca3e71c5839725dd42c73dad33e6285cd",
+      "capture_sha256": "e66d2ec0d622d210dc743410548537fffd91748c5d454665590d89472c255922",
+      "source_binding_available": true
+    }
+  }
+]

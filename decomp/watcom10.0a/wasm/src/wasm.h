@@ -35,6 +35,8 @@ typedef struct carve_control {
 } cv_t;
 typedef void *carve_t;
 void *MemAlloc(size_t size);
+void *AsmAlloc(size_t size);
+void Fatal(unsigned message, ...);
 void newBlk(cv_t *cv);
 carve_t CarveCreate(size_t elm_size, size_t blk_size);
 void ObjRecInit(void);
