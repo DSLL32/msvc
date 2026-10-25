@@ -421,9 +421,9 @@ below include verified resumed work and exclude current unaccepted candidates.
 | C1XX | 94 / 7,510 | 1.00% | Minimal C++: packing chain after accepted path normalizer |
 | C2 | 112 / 22,668 | 3.95% | Numeric case: function_retains_symbols after accepted scope allocation |
 | CL | 108 / 18,238 | 95.68% | 14 cases complete; narrow live Job-chain DIRECT probe blocked before launch by PE import layout |
-| CVPACK | 123 / 40,628 | 64.84% | Debug DLL: final 15-byte free wrapper; mapped output already matches final master |
+| CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
 | LINK | 104 / 37,579 | 9.06% | Hello EXE: ReadSectionHeaders after accepted module loader |
-| RCDLL | 95 / 25,732 | 34.49% | Rich corpus: 124-byte candidate has a matching new baseline; waits canonical static-loader fix |
+| RCDLL | 95 / 25,732 | 34.49% | Rich corpus: 124-byte candidate has a matching new baseline; canonical loader fix released for acceptance |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -444,9 +444,11 @@ The concrete minimal capture work is:
   Parsed loader-data preservation and private host staging are published in
   `b36c3c674`. A subsequent static-attachment ordering issue is diagnosed:
   the broker consumed the loader-break allowance before Wine's real initial
-  process breakpoint. One corrected diagnostic capture matches the native
-  case; further originals wait for the canonical narrow fix, without repeating
-  that reference solely for publication.
+  process breakpoint. The narrow fix is published as `e0a52f698`: only the
+  initial main-thread ntdll process-breakpoint signature is consumed once;
+  unrelated traps remain errors. The genuine qualified original (1.460 s)
+  matches the native case (177.806 ms) and is reused without a publication-only
+  recapture.
 - Exact MSVCRT identity is required only when reusing provider-specific table or
   instruction qualifications. C2 withdrew a universal hash blocker. Intended
   native-provider selection plus once-per-capture loaded identity is enough
@@ -484,6 +486,16 @@ function reader and scope allocation). A normal/PCH selector error exposed
 beyond the previous child frontier was corrected without extra credit; the
 unchanged original reference was reused with fresh native evidence. It
 continues the original numeric case; no additional case has been started.
+
+CVPACK completed the released debug-DLL case and paused at `d967c21fc`, adding
+11 application functions / 3,624 bytes. The final original exits successfully
+in 1.045 s; native execution returns the same status and exact complete DLL
+SHA-256 `935d7828c7003e4f951e79cb4a709c747eac8006405ac996299dea4e64dd0d40`
+in 14.615 ms (5.339 ms setup, 7.852 ms execution, 1.424 ms checks). Both cached
+cases, 13 narrow tests and the strict 124-function graph / 123-owner RET audit
+pass in 0.287 s; final incremental native/original builds take 0.201/0.043 s.
+The existing qualified dependency contract is unchanged. A proposed larger
+multi-TU workload has not been started.
 
 ## Watcom compatibility report
 
