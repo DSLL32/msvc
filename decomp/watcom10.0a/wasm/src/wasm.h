@@ -26,7 +26,16 @@ typedef struct File_Info {
 
 extern File_Info AsmFiles;
 extern global_options Options;
+typedef struct carve_block carve_block;
+typedef struct carve_control {
+    size_t elm_size, blk_size, blk_top;
+    char *top_elm;
+    carve_block *blk_list;
+    void **free_list;
+} cv_t;
 typedef void *carve_t;
+void *MemAlloc(size_t size);
+void newBlk(cv_t *cv);
 carve_t CarveCreate(size_t elm_size, size_t blk_size);
 void ObjRecInit(void);
 void GenMSOmfInit(void);

@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 3,
-  "accepted_app_bytes": 127,
+  "accepted_app_functions": 4,
+  "accepted_app_bytes": 180,
   "accepted": [
     {
       "name": "main",
@@ -27,9 +27,17 @@
         113831
       ],
       "evidence": "cases/0001-help/evidence/0003-objrec-init"
+    },
+    {
+      "name": "CarveCreate",
+      "extent": [
+        109224,
+        109277
+      ],
+      "evidence": "cases/0001-help/evidence/0004-carve-create"
     }
   ],
-  "current_frontier": "CarveCreate",
-  "native_ms": 5.291,
-  "original_ms": 681.423
+  "current_frontier": "MemAlloc",
+  "native_ms": 5.263,
+  "original_ms": 730.484
 }

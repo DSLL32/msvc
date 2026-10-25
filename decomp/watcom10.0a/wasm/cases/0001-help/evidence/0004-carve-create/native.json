@@ -1,0 +1,31 @@
+[
+  {
+    "case": "0001-help",
+    "workspace": "/tmp/recon/run-TkOlND",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      52008,
+      52236,
+      113808,
+      109224,
+      92356
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 92356,
+    "trap_site": 4154219096,
+    "elapsed_ms": 5.26298,
+    "setup_ms": 2.6514170000000004,
+    "execution_ms": 2.124182,
+    "checks_ms": 0.487294,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/shared-migration/fourth-original.json",
+      "report_sha256": "8a18bdd73686f64e9dfbc8ee6189a8a6f55dde58918b05b82eaf0dd2a3dabab4",
+      "capture_sha256": "e66d2ec0d622d210dc743410548537fffd91748c5d454665590d89472c255922",
+      "source_binding_available": true
+    }
+  }
+]
