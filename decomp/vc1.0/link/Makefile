@@ -8,7 +8,6 @@ BINARY_SOURCES = src/link.c \
     src/ide.c \
     src/comdat-diagnostics.c \
     src/demangle.c \
-    src/demangle-stubs.c \
     src/omf.c \
     src/omf-debug.c \
     src/omf-stubs.c \

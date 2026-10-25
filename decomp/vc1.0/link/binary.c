@@ -4642,7 +4642,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "demangle_name_plus_reference",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@demangle_name_plus_status@16",
@@ -4683,11 +4683,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@demangle_name_append_reference@12",
         .entry_rva = 0x30630,
-        .code = (const ReconExtent[]){{0x30630, 0x30631}},
+        .code = (const ReconExtent[]){{0x30630, 0x306de}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "demangle_name_append_reference",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@demangle_name_append_status@12",
@@ -4701,11 +4701,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@demangle_name_merge_error@12",
         .entry_rva = 0x30770,
-        .code = (const ReconExtent[]){{0x30770, 0x30771}},
+        .code = (const ReconExtent[]){{0x30770, 0x307a9}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "demangle_name_merge_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@demangle_name_assign_char@12",
@@ -4737,11 +4737,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@demangle_name_assign_reference@12",
         .entry_rva = 0x30860,
-        .code = (const ReconExtent[]){{0x30860, 0x30861}},
+        .code = (const ReconExtent[]){{0x30860, 0x308d6}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "demangle_name_assign_reference",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@demangle_name_assign_status@12",

@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 91 numbered case directories. Native
+The shared recon-tool harness discovers the 92 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,13 +21,14 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set is unchanged from be93d9074: 803 application functions (759 public-reached,
-44 direct-support), with accepted App extent union 229595/281634 (81.5224724%).
-Support-inclusive
-historical accepted extent is 260534/281634 (92.5080068%). The 1002 historical
-frontier count includes shipped CRT/import support; 16 old handwritten crt/runtime.c
-overrides are preserved separately, without new application credit. A complete
-non-CRT denominator is unavailable; 11655 remaining bytes are still unclassified.
+set now has 807 application functions (759 public-reached, 48 direct-support),
+with accepted App extent union 230022/281634 (81.6740876%). The resumed
+reference-composition workflow adds four whole methods/427 bytes to the preserved
+803-function migration baseline. Support-inclusive historical accepted extent is
+260961/281634 (92.6596221%). The 1006 historical frontier count includes shipped
+CRT/import support; 16 old handwritten crt/runtime.c overrides remain separate,
+without new application credit. A complete non-CRT denominator remains unavailable;
+11655 separately unclassified bytes have not been relabeled as CRT.
 These extent totals are not a count of executed instructions. Unknown provenance
 is not treated as CRT. Direct callbacks remain explicitly
 external test inputs and do not establish public command-line reachability.
@@ -45,27 +46,52 @@ checksum defect. Host-only guards retain the unsupported buffered function-expor
 heap-pointer serialization and C6 LINNUM stale-use routes; Win32 source behavior
 is preserved. No allocator repair or pointer/padding normalization is applied.
 
-Reconstruction is paused. The prepared demangle_name_plus_reference body remains
-unaccepted in binary.c and is a named trapping stub in active source;
-append/assignment/error-merger work is not promoted.
-The held reference-composition experiment is deliberately not a 92nd case. Its
-exact prepared pre-migration source, external driver, raw inputs/results, failed pairs and
-patch are preserved at:
+Case 0091 resumes the approved direct DemangleName reference-composition
+workflow: plus-reference, append-reference, assign-reference and error merging.
+The real public demangler installs allocator/release callbacks; the first actual
+512-byte callback runs the owned-name workload while its outer allocation stays
+live. Nested allocations and stack name/reference/string owners stay live through
+every read. Normal demangler cleanup frees every owned block exactly once.
+No parser globals, allocator failure or internal mode are seeded.
+
+The typed original probe uses normal Win32 file reads and the target's already
+initialized malloc/free at RVAs 41160/40fa0. It does not initialize or pretend to
+use a private helper CRT. This version 3 dependency differs explicitly from the
+older initialized-helper v2. Fresh masked originals reached the four methods in
+order, and the complete original v3 3856-byte report is byte-identical to v2:
+SHA256 b3bb977c4c6a71fc8aba18a10684ebef58595bf6d75a723d49247b9a2e84d32f.
+Native checks the complete report/status/streams with no output zero ranges.
+The original probe completes through the shared helper, without claiming a target
+CRT-continuation run; the real demangler's own parser/cleanup does return normally.
+
+The prior failed full-temporary-flags comparison remains preserved. Only 403f0's
+actual 8-byte local at original entryESP-8/current native EBP-14 has unconsumed
+upper 26 bits. Its head and low six bits are strict; copy/status/reference/node
+callee closure consumes only those bits, and final copy transfers only the low
+six into the caller's independently owned result. Raw upper bits are retained in
+GDB packets, not claimed equal. All caller-owned flags/hidden results and every
+serialized result byte remain full-width strict. Six actual detailed observations
+match the retained original append-frontier packet under that exact qualification;
+focused offline controls reject head/low-bit/caller-upper-bit changes. The old full
+baseline did not observe the temporary at later calls, and is not relabeled as a
+complete temporary-state oracle.
+
+The original v1 setter quirk and observer-join failure remain distinct historical
+evidence. Exact old WIP/source/raw results are retained at:
 
     /root/.ai-tmp/msvc2/vc1.0/link/standardization-pre-20261025/
     git-owned.diff SHA256 ccc2226bd8d338a57714839d6ab6881c3a7e4a5026391857cc80c47eae196869
 
-Resume from the version 2 valid-source workflow. The approved but untested
-qualification applies only to 403f0's real 8-byte stack temporary at entryESP-8:
-exact head and low 6 status bits, with full raw flags retained. Caller-owned names
-and hidden results remain full 32-bit strict. Complete the current callee-closure
-proof before applying it or accepting append. Restore only the held plus body from
-the snapshot when reconstruction is explicitly resumed; the current source keeps
-the same signature with an INT3 scaffold. Earlier failed 26 observer join and
-version 1 setter-quirk observations remain distinct. No new original run occurred
-as part of migration.
+Current ordinary scratch files, frontier receipts, native GDB packets, source and
+timing references are at:
 
-Current shared validation checks 840 graphs for calls, RET cleanup, live function
+    /root/.ai-tmp/msvc2/vc1.0/link/demangle-resume/
+
+The initial custom-helper CRT link failure, occupied historical cwd, one-byte
+placeholder extent omission and diagnostic GDB-stop termination are retained.
+They are not reported as target semantic failures or successful completed runs.
+
+Current shared validation checks 844 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -105,3 +131,14 @@ history. Current cases contain only descriptors, typed drivers, narrow tests
 and capture.bin. Nine retained project-specific input generators take explicit
 input/output paths; regression tests consume captures without regenerating them.
 The three obsolete shared LINK capture scripts were retired with this migration.
+
+Reference-composition checkpoint validation: all 92 native cases and seven
+focused tests pass in 1.729s external parallel wall time. Native/case build took
+3.752s; the canonical original-toolchain build took 22.826s after the obsolete
+stub translation unit was removed; final 844-function graph/ABI audit took
+2.218s. The final batch used unchanged shared C/H before/after. Four fresh masked
+original frontier captures and one completed progress run took 2.016/1.686/
+1.927/1.847/1.910s respectively, excluding driver builds. The failed one-byte
+extent attempt is excluded from those successful timings. Complete native GDB
+observation took 281.532ms including setup/execution/checks. Per-command raw logs
+and checkpoint-summary.json remain in demangle-resume/ above.

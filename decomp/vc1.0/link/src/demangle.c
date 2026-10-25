@@ -389,6 +389,31 @@ DemangleName *__fastcall demangle_name_plus_name(const DemangleName *self,void *
     return demangle_name_copy(result,NULL,&combined);
 }
 
+/* Native thiscall [00040630,000406de); source reference, RET4. */
+DemangleName *__fastcall demangle_name_append_reference(DemangleName *self,
+    void *unused,DemangleName *source)
+{
+    DemangleReferenceNode *node;
+    int status;
+    if (source) {
+        if (demangle_name_is_empty(self,NULL))
+            return demangle_name_assign_reference(self,NULL,source);
+        status=source->flags&15;
+        if (status && status!=2) {
+            if (status&8) status-=16;
+            return demangle_name_append_status(self,NULL,status);
+        }
+        node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+        if (node) node=demangle_reference_node(node,NULL,source);
+        if (node) {
+            self->head=demangle_node_wrap(self->head,NULL);
+            if (self->head) demangle_node_append(self->head,NULL,&node->base);
+        } else self->head=NULL;
+        if (!self->head) self->flags=(self->flags&~12UL)|3;
+    }
+    return self;
+}
+
 /* Native thiscall [000406e0,00040770); RET4. */
 DemangleName *__fastcall demangle_name_append_status(DemangleName *self,void *unused,int status)
 {
@@ -441,6 +466,15 @@ DemangleNode *__fastcall demangle_node_append(DemangleNode *self,void *unused,De
             tail->next=next;
         } else self->next=next;
     }
+    return self;
+}
+
+/* Native thiscall [00040770,000407a9); merge only a source error, RET4. */
+DemangleName *__fastcall demangle_name_merge_error(DemangleName *self,
+    void *unused,const DemangleName *source)
+{
+    if ((self->flags&15)!=3 && !demangle_name_is_valid(source,NULL))
+        self->flags=(self->flags&~15UL)|(source->flags&15);
     return self;
 }
 
@@ -1806,6 +1840,20 @@ char *__fastcall demangle_status_write(DemangleStatusNode *self,void *unused,
     return NULL;
 }
 
+/* Native thiscall [000403f0,0004043e); hidden result/source, RET8. */
+DemangleName *__fastcall demangle_name_plus_reference(const DemangleName *self,
+    void *unused,DemangleName *result,DemangleName *source)
+{
+    /* The original copy transfers only six flag bits. The temporary's other
+     * bits are not consumed here and do not escape into the caller result. */
+    DemangleName combined;
+    demangle_name_copy(&combined,NULL,self);
+    if (demangle_name_is_empty(&combined,NULL))
+        demangle_name_assign_reference(&combined,NULL,source);
+    else demangle_name_append_reference(&combined,NULL,source);
+    return demangle_name_copy(result,NULL,&combined);
+}
+
 /* Native thiscall [00040440,0004048e), explicit aggregate result, RET8. */
 DemangleName *__fastcall demangle_name_plus_status(const DemangleName *self,void *unused,
     DemangleName *result,int status)
@@ -1815,6 +1863,23 @@ DemangleName *__fastcall demangle_name_plus_status(const DemangleName *self,void
     if (demangle_name_is_empty(&copy,NULL)) demangle_name_assign_status(&copy,NULL,status);
     else demangle_name_append_status(&copy,NULL,status);
     return demangle_name_copy(result,NULL,&copy);
+}
+
+/* Native thiscall [00040860,000408d6); source reference, RET4. */
+DemangleName *__fastcall demangle_name_assign_reference(DemangleName *self,
+    void *unused,DemangleName *source)
+{
+    DemangleReferenceNode *node;
+    unsigned status=self->flags&15;
+    if (!status || status==2) {
+        if (source) {
+            self->flags&=~0x30UL;
+            node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+            self->head=node?(DemangleNode *)demangle_reference_node(node,NULL,source):NULL;
+            if (!self->head) self->flags=(self->flags&~12UL)|3;
+        } else demangle_name_assign_status(self,NULL,3);
+    }
+    return self;
 }
 
 /* Native thiscall [000408e0,00040974), RET4; keep fatal error precedence. */
