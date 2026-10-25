@@ -134,6 +134,7 @@ int initialize_compiler_pass(void)
         for (i = 0; i < 6; ++i) frontend_bss.output_kinds[i] = 0;
         frontend_bss.preprocessor_output = NULL;
         frontend_bss.lexer_backend = NULL;
+        frontend_bss.processor_instruction_mask = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;

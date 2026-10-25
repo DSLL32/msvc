@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 102 accepted application functions / 11792
+The single registry is binary.c: 103 accepted application functions / 11828
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 104
+as are three six-byte import endpoints (18 bytes, zero App credit). The 105
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine normalize_frontend_options INT3 at RVA3a483;
+and currently reaches the genuine begin_browser_output INT3 at RVA3a4a7;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,12 +42,11 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The latest matching original/native pair reaches the no-argument option helper:
-1.138 s / 11.016 ms (native setup 5.750, execution 3.867, checks 1.399). The build,
-audit and unit batch took 6.564 s; the import-catalog correction/native audit
-batch took 0.338 s. The first required attempt exposed the still-masked genuine
-operator-new import thunk; it is now cataloged as support, with no local CRT body.
-Cached check/unit runs pass in 0.024 s wall time.
+The latest matching original/native pair reaches browser initialization:
+1.208 s / 12.764 ms (native setup 6.714, execution 4.650, checks 1.400).
+The original/native build, graph audit and unit batch took 6.094 s.
+The 36-byte processor-mask initializer preserves the original masked shift
+and optional 0x40 bit, with the newly modeled field included in the reset unit.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

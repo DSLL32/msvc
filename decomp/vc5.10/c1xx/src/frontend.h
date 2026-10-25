@@ -211,6 +211,7 @@ typedef struct FrontendBss {
     unsigned char output_kinds[6]; /* scattered BYTE destinations */
     FILE *preprocessor_output; /* c080c */
     CompilerLexerBackend *lexer_backend; /* ba918 */
+    unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
 } FrontendBss;
 
 #ifdef __cplusplus

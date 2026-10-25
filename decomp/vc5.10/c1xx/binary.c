@@ -775,9 +775,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_normalize_frontend_options", .entry_rva = 0x3a483,
-        .code = (const ReconExtent[]){{0x3a483, 0x3a484}},
+        .code = (const ReconExtent[]){{0x3a483, 0x3a4a7}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "normalize_frontend_options",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_format_processor_switch", .entry_rva = 0x33ed7,

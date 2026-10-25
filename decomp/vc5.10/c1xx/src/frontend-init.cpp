@@ -297,7 +297,12 @@ extern "C" void __cdecl initialize_frontend(void)
         begin_source_input();
 }
 
-extern "C" void __cdecl normalize_frontend_options(void) { __asm { int 3 } }
+extern "C" void __cdecl normalize_frontend_options(void)
+{
+    frontend_bss.processor_instruction_mask = 1U << (frontend_data.options.processor & 31);
+    if (frontend_data.options.minimal_rebuild)
+        frontend_bss.processor_instruction_mask |= 0x40;
+}
 extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
 extern "C" void __cdecl begin_browser_output(const char *filename) { __asm { int 3 } }
 extern "C" CompilerBackend *__cdecl acquire_initial_backend(void) { __asm { int 3 } return NULL; }
