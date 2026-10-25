@@ -1,4 +1,5 @@
 /* Precompiled-header path selection and saved frontend state. */
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include "initialization.h"
@@ -24,4 +25,19 @@ void __stdcall prepare_pch_output(char *filename)
         _makepath(options.option_Fp, drive, directory, basename, ".pch");
     }
     pragma_text = options.option_Fp;
+}
+
+/* Original 0x24840..0x248aa. Filename equality folds case and accepts either
+   path separator, but preserves exact termination rather than prefix matching. */
+int compare_filenames(char *first, char *second)
+{
+    while (*first && *second) {
+        if (toupper((unsigned char)*first) != toupper((unsigned char)*second) &&
+            !((*first == '/' || *first == '\\') &&
+              (*second == '/' || *second == '\\')))
+            return 0;
+        ++first;
+        ++second;
+    }
+    return *first == *second;
 }

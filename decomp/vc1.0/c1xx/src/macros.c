@@ -4,6 +4,7 @@
 #include "characters.h"
 #include "directives-internal.h"
 #include "macro-expansion.h"
+#include "browser.h"
 #include <time.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -524,4 +525,32 @@ int __stdcall find_macro_parameter(char *name)
         record += (unsigned char)*record;
     }
     return -1;
+}
+
+/* Original 0x1f600..0x1f697. Remove only this interned definition; predefined
+   names are protected, and browser references follow the actual removed owner. */
+void undefine_source_macro(void)
+{
+    MacroDefinition *definition, *previous;
+    unsigned bucket;
+    if (!include_depth && match_pch_string_event(7, 0, interned_name)) return;
+    if (interned_name == name_defined) {
+        report_macro_error("#undef");
+        return;
+    }
+    bucket = (unsigned)interned_name & 511;
+    previous = 0;
+    definition = macro_buckets[bucket];
+    while (definition && definition->name != interned_name) {
+        previous = definition;
+        definition = definition->next;
+    }
+    if (!definition) return;
+    if (definition->parameter_count < -2) {
+        report_macro_error("#undef");
+        return;
+    }
+    if (previous) previous->next = definition->next;
+    else macro_buckets[bucket] = definition->next;
+    if (browser_filename) reference_browser_macro(definition);
 }

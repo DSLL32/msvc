@@ -64,7 +64,6 @@ void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
-int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 
 void load_precompiled_header(void) { __asm { int 3 } }
@@ -397,7 +396,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
-void undefine_source_macro(void) { __asm { int 3 } }
 void capture_directive_text(void) { __asm { int 3 } }
 void __stdcall skip_directive_literal(unsigned char delimiter) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
@@ -562,3 +560,4 @@ int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 
 unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }

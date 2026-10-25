@@ -21,6 +21,7 @@ extern short pch_saved_page_count;
 extern int pch_input_changed, pch_abort_on_file_change;
 extern int permanent_page_count;
 void record_pch_string_event(unsigned kind, unsigned value, char *text);
+int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text);
 int resume_pch_source_input(void);
 unsigned __stdcall source_file_timestamp(char *filename);
 int evaluate_preprocessor_expression(void);

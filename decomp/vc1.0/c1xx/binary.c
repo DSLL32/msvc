@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1529 historical frontiers/1422 App bodies.
+ * Current reviewed boundary:1531 historical frontiers/1424 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_match_pch_string_event@12",
+        .entry_rva = 0x5b070,
+        .code = (const ReconExtent[]) { { 0x5b070, 0x5b133 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "match_pch_string_event",
+    },
     {
         .name = "_build_scalar_reference_temporary@12",
         .entry_rva = 0x57630,
@@ -947,10 +955,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_undefine_source_macro",
         .entry_rva = 0xf600,
-        .code = (const ReconExtent[]) { { 0xf600, 0xf601 } },
+        .code = (const ReconExtent[]) { { 0xf600, 0xf697 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "undefine_source_macro",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_define_source_macro",
@@ -1389,10 +1398,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compare_filenames",
         .entry_rva = 0x14840,
-        .code = (const ReconExtent[]) { { 0x14840, 0x14841 } },
+        .code = (const ReconExtent[]) { { 0x14840, 0x148aa } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_filenames",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_pascal_literal@4",
