@@ -392,3 +392,133 @@ short __stdcall find_asm_mnemonic(char *name)
     }
     return -1;
 }
+
+AsmDictionaryWord asm_keywords[76] = {
+    { "rnil ", 0 }, /* _rnil */
+    { "x", 9 }, /* ax */
+    { "nd", 61 }, /* and */
+    { "l", 17 }, /* al */
+    { "h", 21 }, /* ah */
+    { "yte", 51 }, /* byte */
+    { "x", 12 }, /* bx */
+    { "p", 14 }, /* bp */
+    { "l", 20 }, /* bl */
+    { "h", 24 }, /* bh */
+    { "x", 10 }, /* cx */
+    { "s", 26 }, /* cs */
+    { "r3", 34 }, /* cr3 */
+    { "r2", 33 }, /* cr2 */
+    { "r0", 32 }, /* cr0 */
+    { "l", 18 }, /* cl */
+    { "h", 22 }, /* ch */
+    { "x", 11 }, /* dx */
+    { "word", 47 }, /* dword */
+    { "s", 28 }, /* ds */
+    { "r7", 40 }, /* dr7 */
+    { "r6", 39 }, /* dr6 */
+    { "r3", 38 }, /* dr3 */
+    { "r2", 37 }, /* dr2 */
+    { "r1", 36 }, /* dr1 */
+    { "r0", 35 }, /* dr0 */
+    { "l", 19 }, /* dl */
+    { "i", 16 }, /* di */
+    { "h", 23 }, /* dh */
+    { "sp", 5 }, /* esp */
+    { "si", 7 }, /* esi */
+    { "s", 25 }, /* es */
+    { "q", 55 }, /* eq */
+    { "dx", 3 }, /* edx */
+    { "di", 8 }, /* edi */
+    { "cx", 2 }, /* ecx */
+    { "bx", 4 }, /* ebx */
+    { "bp", 6 }, /* ebp */
+    { "ax", 1 }, /* eax */
+    { "word", 48 }, /* fword */
+    { "s", 29 }, /* fs */
+    { "ar", 54 }, /* far */
+    { "t", 57 }, /* gt */
+    { "s", 30 }, /* gs */
+    { "e", 56 }, /* ge */
+    { "igh", 68 }, /* high */
+    { "t", 59 }, /* lt */
+    { "ow", 70 }, /* low */
+    { "ength", 69 }, /* length */
+    { "e", 58 }, /* le */
+    { "od", 62 }, /* mod */
+    { "ot", 63 }, /* not */
+    { "ear", 53 }, /* near */
+    { "e", 60 }, /* ne */
+    { "r", 64 }, /* or */
+    { "ffset", 71 }, /* offset */
+    { "tr", 72 }, /* ptr */
+    { "word", 49 }, /* qword */
+    { "t", 31 }, /* st */
+    { "s", 27 }, /* ss */
+    { "p", 13 }, /* sp */
+    { "ize", 74 }, /* size */
+    { "i", 15 }, /* si */
+    { "hr", 66 }, /* shr */
+    { "hort", 52 }, /* short */
+    { "hl", 65 }, /* shl */
+    { "eg", 73 }, /* seg */
+    { "ype", 75 }, /* type */
+    { "r7", 45 }, /* tr7 */
+    { "r6", 44 }, /* tr6 */
+    { "r5", 43 }, /* tr5 */
+    { "r4", 42 }, /* tr4 */
+    { "r3", 41 }, /* tr3 */
+    { "byte", 50 }, /* tbyte */
+    { "ord", 46 }, /* word */
+    { "or", 67 }, /* xor */
+};
+AsmDictionaryGroup asm_keyword_groups[28] = {
+    { 0, 1 }, /* '_' */
+    { 1, 1 }, /* '`' */
+    { 1, 5 }, /* 'a' */
+    { 5, 10 }, /* 'b' */
+    { 10, 17 }, /* 'c' */
+    { 17, 29 }, /* 'd' */
+    { 29, 39 }, /* 'e' */
+    { 39, 42 }, /* 'f' */
+    { 42, 45 }, /* 'g' */
+    { 45, 46 }, /* 'h' */
+    { 46, 46 }, /* 'i' */
+    { 46, 46 }, /* 'j' */
+    { 46, 46 }, /* 'k' */
+    { 46, 50 }, /* 'l' */
+    { 50, 51 }, /* 'm' */
+    { 51, 54 }, /* 'n' */
+    { 54, 56 }, /* 'o' */
+    { 56, 57 }, /* 'p' */
+    { 57, 58 }, /* 'q' */
+    { 58, 58 }, /* 'r' */
+    { 58, 67 }, /* 's' */
+    { 67, 74 }, /* 't' */
+    { 74, 74 }, /* 'u' */
+    { 74, 74 }, /* 'v' */
+    { 74, 75 }, /* 'w' */
+    { 75, 76 }, /* 'x' */
+    { 76, 76 }, /* 'y' */
+    { 76, 76 }, /* 'z' */
+};
+
+/* Original 0x7d42a..0x7d494, stdcall4. Register/type/operator
+   keywords use the same folded-initial boundary scheme as mnemonics. */
+short __stdcall find_asm_keyword(char *name)
+{
+    int letter;
+    short index, limit;
+    if (*name != '$') {
+        letter = tolower(*name);
+#ifdef RECON_NATIVE_TEST
+        /* Exact unsupported data domain; retain original Win32 indexing. */
+        if (letter < '_' || letter > 'z') { __asm { int 3 } }
+#endif
+        index = asm_keyword_groups[letter - '_'].first;
+        limit = asm_keyword_groups[letter - '_'].limit;
+        for (; index != limit; ++index)
+            if (!compare_names_ignore_case(asm_keywords[index].suffix, name + 1))
+                return asm_keywords[index].operation;
+    }
+    return -1;
+}

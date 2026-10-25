@@ -15,6 +15,17 @@ static int check_mnemonic_initial_domain(void)
     if (waitpid(child, &status, 0) != child) return 0;
     return WIFSIGNALED(status) && WTERMSIG(status) == SIGTRAP;
 }
+static int check_keyword_initial_domain(void)
+{
+    int child, status;
+    if (find_asm_keyword("$") != -1) return 0;
+    child = fork();
+    if (child < 0) return 0;
+    if (!child) { find_asm_keyword(""); _exit(99); }
+    if (waitpid(child, &status, 0) != child) return 0;
+    return WIFSIGNALED(status) && WTERMSIG(status) == SIGTRAP;
+}
 const ReconTest packet_tests[] = {
-    { "mnemonic initial data-domain guard", 1, check_mnemonic_initial_domain }
+    { "mnemonic initial data-domain guard", 1, check_mnemonic_initial_domain },
+    { "keyword initial data-domain guard", 1, check_keyword_initial_domain }
 };

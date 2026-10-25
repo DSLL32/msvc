@@ -569,7 +569,6 @@ void __stdcall emit_asm_label(char *name) { __asm { int 3 } }
 
 void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 3 } }
 
-void __stdcall select_asm_opcode(short opcode) { __asm { int 3 } }
 
 void emit_asm_instruction(void) { __asm { int 3 } }
 
@@ -585,7 +584,6 @@ void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 
 char *asm_error_context(void) { __asm { int 3 } return 0; }
 
-CppSymbol *__stdcall lookup_asm_symbol(char *name, int allow_label) { __asm { int 3 } return 0; }
 
 AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value) { __asm { int 3 } return 0; }
 
@@ -599,13 +597,11 @@ unsigned __stdcall asm_symbol_length(CppSymbol *symbol) { __asm { int 3 } return
 
 unsigned __stdcall asm_member_offset(char *name) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall make_asm_symbol(char *name) { __asm { int 3 } return 0; }
 
 AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }
 
 AsmExpression *__stdcall make_asm_offset(AsmExpression *value) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall make_asm_register(short reg) { __asm { int 3 } return 0; }
 
 AsmExpression *__stdcall make_asm_stack_register(short reg, int index) { __asm { int 3 } return 0; }
 
@@ -615,4 +611,5 @@ unsigned char __stdcall asm_size_encoding(unsigned bytes) { __asm { int 3 } retu
 
 void copy_asm_comment(void) { __asm { int 3 } }
 
-short __stdcall find_asm_keyword(char *name) { __asm { int 3 } return 0; }
+
+AsmExpression *__stdcall make_asm_address_register(short reg) { __asm { int 3 } return 0; }

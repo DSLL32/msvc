@@ -14092,10 +14092,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_select_asm_opcode@4",
         .entry_rva = 0x6d8b8,
-        .code = (const ReconExtent[]) { { 0x6d8b8, 0x6d8b9 } },
+        .code = (const ReconExtent[]) { { 0x6d8b8, 0x6d916 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "select_asm_opcode",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_asm_instruction",
@@ -14156,10 +14157,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_lookup_asm_symbol@8",
         .entry_rva = 0x6dd7d,
-        .code = (const ReconExtent[]) { { 0x6dd7d, 0x6dd7e } },
+        .code = (const ReconExtent[]) { { 0x6dd7d, 0x6de50 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_asm_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_evaluate_asm_unary@8",
@@ -14212,10 +14214,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_asm_symbol@4",
         .entry_rva = 0x6fe73,
-        .code = (const ReconExtent[]) { { 0x6fe73, 0x6fe74 } },
+        .code = (const ReconExtent[]) { { 0x6fe73, 0x70072 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_asm_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_asm_segment_value@4",
@@ -14236,10 +14239,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_asm_register@4",
         .entry_rva = 0x70311,
-        .code = (const ReconExtent[]) { { 0x70311, 0x70312 } },
+        .code = (const ReconExtent[]) { { 0x70311, 0x703f8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_asm_register",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_asm_stack_register@8",
@@ -14294,10 +14298,19 @@ static const ReconFunction functions[] = {
     {
         .name = "_find_asm_keyword@4",
         .entry_rva = 0x6d42a,
-        .code = (const ReconExtent[]) { { 0x6d42a, 0x6d42b } },
+        .code = (const ReconExtent[]) { { 0x6d42a, 0x6d495 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_asm_keyword",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_make_asm_address_register@4",
+        .entry_rva = 0x701c5,
+        .code = (const ReconExtent[]) { { 0x701c5, 0x701c6 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_asm_address_register",
     },
     {
         .name = "import:GetCPInfo",

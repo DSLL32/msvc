@@ -2951,6 +2951,26 @@
       "name": "_asm_opcode_aliases",
       "original": 696064,
       "bytes": 196
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand_class",
+      "original": 573456,
+      "bytes": 4
+    },
+    {
+      "kind": "asm_instruction_properties",
+      "name": "_asm_instruction_properties",
+      "original": 694208,
+      "count": 230,
+      "stride": 8,
+      "fields": "signed class DWORD0; processor BYTE4; padding excluded"
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_register_properties",
+      "original": 696928,
+      "bytes": 92
     }
   ],
   "buffered_streams": [
@@ -3286,6 +3306,17 @@
       "behavior": "Exact native-only INT3 before unmodeled biased boundary read; Win32 original unguarded indexing retained",
       "coverage_note": "Known dictionary boundary29shorts supports28 initials underscore through z. Preceding bytes belong to pointer vector; historical larger extent/public outside-domain reach UNKNOWN. Current packet source names are ordinary ASCII; no original-UB claim.",
       "authorization": "Root approved bounded unsupported-data-domain treatment after exact owner/caller analysis"
+    },
+    {
+      "function": "_find_asm_keyword@4",
+      "original": [
+        513066,
+        513173
+      ],
+      "condition": "name does not begin '$' and tolower(*name) outside ASCII95..122 before dictionary group read",
+      "behavior": "Exact native-only INT3 before unmodeled biased boundary read; Win32 original unguarded indexing retained",
+      "coverage_note": "Known keyword boundary29shorts supports28 initials underscore through z. Preceding bytes belong to76pointer vector; larger historical object/public outside-domain reach UNKNOWN. No original-UB claim.",
+      "authorization": "Root-approved same bounded lookup unsupported-data-domain policy"
     }
   ],
   "function_properties": {

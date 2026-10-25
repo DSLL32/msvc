@@ -1,17 +1,17 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at select_asm_opcode
-(RVA0x6d8b8). There are 1309 application source functions plus seven unchanged
-historical CRT source functions. Its first twenty-five accepted bodies add 6,935 code
+PARTIAL reconstruction; packet_engine is active at asm_symbol_type_size
+(RVA0x6d9f0). There are 1314 application source functions plus seven unchanged
+historical CRT source functions. Its first thirty accepted bodies add 8,089 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1317-function
-inherited graph/ABI audit, nine cached cases and 16 unit groups pass. Last native
-frontier run: 29.640ms; audit/setup: 1.920s; cached cases plus units: 0.260s.
-Last measured incremental native/original build: 6.334s; current fresh original
-capture: 1.543s. The subsequent assembler-parser source-list rebuild passed but
+Fresh original/native comparisons, original compilation, the 1322-function
+inherited graph/ABI audit, nine cached cases and 17 unit groups pass. Last native
+frontier run: 27.451ms; audit/setup: 1.933s; cached cases plus units: 0.249s.
+Last measured incremental native/original build: 2.173s; current fresh original
+capture: 0.900s. The subsequent assembler-parser source-list rebuild passed but
 its wall time was not measured.
 The one-time ABI2/shared-header rebuild took 50.602s. No old oracle was
 recaptured for shared changes. The untouched
@@ -22,7 +22,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1416: the 1302 trial baseline plus 88 browser and twenty-five packet application steps,
+1421: the 1302 trial baseline plus 88 browser and thirty packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -30,7 +30,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 321,477/476,418 .text bytes (67.48%); this is
+Application function extents cover 322,631/476,418 .text bytes (67.72%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -118,7 +118,7 @@ not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Nineteen exact native limitations remain in policy-data.json and source. They
+Twenty exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
@@ -177,3 +177,13 @@ a documented unmodeled-data domain with unknown public reach, not an original-UB
 claim. The dollar-name bypass and empty-initial guard control pass. The current
 packet case reaches no guard. Case-insensitive comparison retains the original
 signed raw-byte difference after unequal folded characters.
+
+Keyword lookup has the same precise native unsupported-initial domain as mnemonic
+lookup, with its distinct 76-row dictionary and a8428..a8462 boundary owner.
+Both narrow guard controls pass. Instruction selection defines230 logical
+class/processor rows, excluding record padding; the register constructor defines
+46 named bit-property rows. Both tables match independently read C1XX fields.
+C++ assembler symbol lookup additionally resolves kind16/17 overload sets through
+has_single_function, preserving its diagnostic244 recovery. Register construction
+retains unwritten expression fields. Its first build caught the C1-specific G4
+field spelling; configuration.option_G4 was corrected before reference capture.
