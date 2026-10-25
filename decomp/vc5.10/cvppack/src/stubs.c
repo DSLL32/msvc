@@ -8,8 +8,6 @@
 #include "writer.h"
 #include <recon.h>
 
-unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
-void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
 
 void open_stream_file(CachedFile *file, int flags, int mode, int created) { __asm { int 3 } }
 int release_cached_file(CachedFile *file) { __asm { int 3 } return 0; }

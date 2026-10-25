@@ -396,3 +396,29 @@ int resize_mapped_file(CachedFile *file, int size)
     file->length = size;
     return 0;
 }
+
+/* Preserve the file's logical position while measuring its end.
+ * Original [00401940,0040197b), ordinary cdecl. */
+unsigned int get_file_size(int file)
+{
+    unsigned int position, size;
+    position = seek_cached_file(file, 0, 1);
+    size = seek_cached_file(file, 0, 2);
+    if (size != position) seek_cached_file(file, position, 0);
+    return size;
+}
+
+/* Return a range in the file's mapped storage, growing it when necessary.
+ * Original [00402540,0040259a), ordinary cdecl. */
+void *map_file_region(int file, unsigned int offset, unsigned int size)
+{
+    CachedFile *entry = cached_files[file];
+    unsigned int end;
+    if (!(entry->flags & 8)) return NULL;
+    end = offset + size;
+    if (end > (unsigned)entry->capacity) {
+        if (!grow_mapping(entry, end)) fatal_error(1008, NULL, NULL);
+    }
+    if (end > (unsigned)entry->length) entry->length = end;
+    return (unsigned char *)entry->view + offset;
+}

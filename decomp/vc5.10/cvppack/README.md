@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-138 accepted application functions total 43,272 original code bytes: 69.06% of the
+140 accepted application functions total 43,421 original code bytes: 69.29% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -26,11 +26,18 @@ Completed cases:
   output must explicitly contain zeros there.
 
 - 0005-optimized-telemetry: optimized CRT-free three-TU telemetry readers,
-  exported global data and an ignored unknown option; status0, exact warning
-  and verbose statistics, and a17,808-byte packed DLL. Only the three proven
-  unwritten file-index alignment bytes at17577..17580 are masked; native
+  exported global data and an ignored unknown option; status 0, exact warning
+  and verbose statistics, and a 17,808-byte packed DLL. Only the three proven
+  unwritten file-index alignment bytes at 17577..17580 are masked; native
   output must contain zeros there. The warning and two DWORD-type symbol
   callbacks were reconstructed. No Widen dependency calls occur.
+- 0006-release-checksum: genuine LINK `/RELEASE` telemetry DLL, status 0,
+  verbose statistics and an 18,320-byte packed image. Each side's raw PE
+  checksum is independently correct before comparison. Only the proven
+  unwritten file-index tail at 18089..18092 and its dependent checksum DWORD
+  at 264..268 are masked; native padding must be zero. The file-size and
+  mapped-range helpers were reconstructed; shared IMAGEHLP supplies the
+  standard public checksum operation.
 
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
@@ -56,13 +63,13 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest telemetry verification (2026-10-25): original capture1.075s; fresh
-native replay12.951ms (setup4.518/execution7.021/checks1.412ms).
-Native/original build plus strict audit took9.214s. Final six-case replay,
-thirteen units, original-build freshness and strict audit passed in0.354s;
-the telemetry replay including its native-padding check took17.144ms.
-The original's checksum storage was also unified with its actual DWORD owner;
-this zero-credit repair is exercised only with checksum0 by these cases.
+Latest checksum verification (2026-10-25): original capture 0.623s; fresh
+native replay 17.700ms (setup 6.046/execution 7.771/checks 3.883ms).
+Native/original build plus strict audit took 10.397s. Final seven-case replay,
+thirteen units, original-build freshness and strict audit passed in 0.370s;
+the cached checksum replay took 14.902ms. The original checksum field and
+all raw original bytes remain retained in scratch. This also exercises the
+previous zero-credit checksum-storage identity repair with a nonzero value.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

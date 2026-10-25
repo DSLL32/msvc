@@ -687,6 +687,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_get_file_size": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_map_file_region": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
