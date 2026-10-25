@@ -3,6 +3,20 @@
 
 int flow_block_count;
 
+void __fastcall initialize_flow_pool(C2FlowGraph *flow, int pool,
+                                     unsigned bytes, unsigned count)
+{
+    flow->pool = pool;
+    flow->block_bytes = bytes;
+    flow->edge_bytes = count;
+    flow->entry = NULL;
+    flow->last = NULL;
+    flow->state08 = 0;
+    flow->state0c = 0;
+    flow->free_blocks = NULL;
+    flow->free_edges = NULL;
+}
+
 C2FlowGraph *__fastcall new_flow(int pool)
 {
     C2FlowGraph *flow = c2_pool_allocate(pool, sizeof(C2FlowGraph));

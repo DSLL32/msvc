@@ -250,8 +250,20 @@ struct C2FunctionListing {
 struct C2BasicBlock { unsigned char pending00[28]; C2Record *records; };
 /* The constructor proves a52-byte allocation. Unencountered flow fields are
  * reserved storage until their actual initializer/consumer is reconstructed. */
-struct C2FlowGraph { C2BasicBlock *entry; unsigned char pending04[48]; };
+typedef struct C2FlowEdge C2FlowEdge;
+struct C2FlowGraph {
+    C2BasicBlock *entry, *last;
+    unsigned state08, state0c;
+    int pool;
+    unsigned block_bytes, edge_bytes;
+    C2BasicBlock *free_blocks;
+    C2FlowEdge *free_edges;
+    unsigned char pending24[16];
+};
 typedef char C2FlowGraphSizeCheck[sizeof(C2FlowGraph) == 52 ? 1 : -1];
+typedef char C2FlowPoolCheck[offsetof(C2FlowGraph, pool) == 16 ? 1 : -1];
+typedef char C2FlowBlocksCheck[offsetof(C2FlowGraph, free_blocks) == 28 ? 1 : -1];
+typedef char C2FlowEdgesCheck[offsetof(C2FlowGraph, free_edges) == 32 ? 1 : -1];
 typedef struct C2Function {
     C2FunctionSymbol *symbol;
     unsigned pending04;
