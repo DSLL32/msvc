@@ -24,6 +24,28 @@ register-import contracts), retaining empty callback tables. Policy data must no
 `target`, `accepted`, or `driver`. Original-compiler builds and audits remain
 separate. Native execution never invokes Wine.
 
+When a reviewed comparison policy changes after a genuine original capture,
+preserve its report and capture and derive a labelled comparison receipt offline:
+
+```sh
+recon-tool capture derive-reference --original-report original.json \
+  --original-capture original.bin --capture comparison.bin \
+  --output comparison-reference.json --reason "reviewed comparison change"
+recon-tool run CASE --capture comparison.bin --original-report comparison-reference.json
+```
+
+The parent must contain modern identity and capture-SHA bindings. The command
+checks unchanged target arguments, input files, stdin, environment, events, cwd,
+dependencies, status, streams and other fixture settings. Only output comparison
+rules with unchanged file identities/absence and additional read-only harness
+assets may differ; existing assets remain unchanged. The new receipt retains
+all original observations verbatim, records precise changed rules and added
+asset hashes, and binds both untouched parents and the comparison capture.
+Native replay revalidates that chain. Derivation records provenance; it does
+not approve arbitrary normalization or replace fresh evidence for target changes.
+The output receipt must be a new file. Ordinary report/capture binding remains
+strict, and legacy or already-derived reports cannot serve as parents.
+
 For the qualified CF image, `registry-export --image-base 0 --cf-profile
 harness/cf-identity.json` derives graph image metadata using the same finite
 profile validator as original capture. Run it from the graph project directory;

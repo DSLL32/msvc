@@ -348,6 +348,10 @@ impl Fixture {
 }
 pub fn read(path: &Path) -> Result<Fixture> {
     let b = fs::read(path).with_context(|| format!("read {}", path.display()))?;
+    decode(&b)
+}
+/// Decode the same captured bytes that a provenance caller has hashed.
+pub fn decode(b: &[u8]) -> Result<Fixture> {
     if b.len() < 20 || &b[..8] != MAGIC || u32::from_le_bytes(b[8..12].try_into()?) != VERSION {
         bail!("invalid capture.bin header")
     }

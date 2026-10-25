@@ -108,6 +108,8 @@ enum OriginalCommand {
 }
 #[derive(Subcommand)]
 enum CaptureCommand {
+    /// Derive labelled comparison provenance without executing an original.
+    DeriveReference(original_reference::Derive),
     Pack {
         json: PathBuf,
         output: PathBuf,
@@ -149,6 +151,7 @@ fn execute() -> Result<()> {
             }
         },
         Command::Capture { command } => match command {
+            CaptureCommand::DeriveReference(options) => original_reference::derive(options)?,
             CaptureCommand::Pack { json, output } => {
                 let f: fixture::Fixture = serde_json::from_slice(&fs::read(json)?)?;
                 fixture::write(&output, &f)?;

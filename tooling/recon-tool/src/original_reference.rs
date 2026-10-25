@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{
     fs,
+    io::Write,
     path::{Path, PathBuf},
 };
 
@@ -36,6 +37,41 @@ pub struct Summary {
     pub report_sha256: String,
     pub capture_sha256: String,
     pub source_binding_available: bool,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub comparison_derivation: Option<Derivation>,
+}
+#[derive(clap::Args)]
+pub struct Derive {
+    #[arg(long)]
+    pub original_report: PathBuf,
+    #[arg(long)]
+    pub original_capture: PathBuf,
+    #[arg(long = "capture")]
+    pub comparison_capture: PathBuf,
+    #[arg(short, long)]
+    pub output: PathBuf,
+    /// Explain the separately reviewed comparison change; this grants no acceptance.
+    #[arg(long)]
+    pub reason: String,
+}
+#[derive(Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+struct FileBinding {
+    path: PathBuf,
+    sha256: String,
+}
+#[derive(Clone, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct Derivation {
+    schema: u32,
+    kind: String,
+    parent_report: FileBinding,
+    parent_capture: FileBinding,
+    comparison_capture_sha256: String,
+    unchanged_target_inputs_sha256: String,
+    changed_output_rules: Vec<serde_json::Value>,
+    added_harness_assets: Vec<serde_json::Value>,
+    reason: String,
 }
 #[derive(Deserialize)]
 struct Receipt {
@@ -48,6 +84,8 @@ struct Receipt {
     identity: Option<Identity>,
     #[serde(default)]
     capture_sha256: Option<String>,
+    #[serde(default)]
+    comparison_derivation: Option<Derivation>,
 }
 #[derive(Clone)]
 pub struct Expected {
@@ -66,6 +104,214 @@ enum Terminal {
 fn hash(bytes: &[u8]) -> String {
     fixture::hex(&Sha256::digest(bytes))
 }
+
+fn comparison_changes(
+    parent: &fixture::Fixture,
+    next: &fixture::Fixture,
+) -> Result<(String, Vec<serde_json::Value>, Vec<serde_json::Value>)> {
+    use serde_json::json;
+    parent.validate()?;
+    next.validate()?;
+    let input_view = |f: &fixture::Fixture| -> Result<serde_json::Value> {
+        let mut value = serde_json::to_value(f)?;
+        value["assets"] = json!([]);
+        value["output_files"] = json!([]);
+        if value["partial"].is_object() {
+            value["partial"]["output_files"] = json!([]);
+        }
+        Ok(value)
+    };
+    let inputs = input_view(parent)?;
+    ensure!(
+        inputs == input_view(next)?,
+        "comparison derivation changed target inputs, invocation, status or streams"
+    );
+    let mut changed = vec![];
+    for (scope, before, after) in [
+        (
+            "final",
+            parent.output_files.as_slice(),
+            next.output_files.as_slice(),
+        ),
+        (
+            "partial",
+            parent
+                .partial
+                .as_ref()
+                .map_or(&[][..], |p| p.output_files.as_slice()),
+            next.partial
+                .as_ref()
+                .map_or(&[][..], |p| p.output_files.as_slice()),
+        ),
+    ] {
+        ensure!(
+            before.len() == after.len(),
+            "comparison derivation changed {scope} output inventory"
+        );
+        for (a, b) in before.iter().zip(after) {
+            ensure!(
+                a.path == b.path && a.absent == b.absent,
+                "comparison derivation changed output identity or absence"
+            );
+            let (a, b) = (serde_json::to_value(a)?, serde_json::to_value(b)?);
+            if a != b {
+                changed.push(json!({"scope":scope,"path":a["path"],"before":a,"after":b}));
+            }
+        }
+    }
+    for asset in &parent.assets {
+        ensure!(
+            next.assets
+                .iter()
+                .any(|a| a.path == asset.path && a.data == asset.data),
+            "comparison derivation removed or modified an existing harness asset"
+        );
+    }
+    let added = next
+        .assets
+        .iter()
+        .filter(|a| !parent.assets.iter().any(|p| p.path == a.path))
+        .map(|a| json!({"path":a.path,"bytes":a.data.0.len(),"sha256":hash(&a.data.0)}))
+        .collect::<Vec<_>>();
+    ensure!(
+        !changed.is_empty() || !added.is_empty(),
+        "comparison derivation has no policy or asset changes"
+    );
+    Ok((hash(&serde_json::to_vec(&inputs)?), changed, added))
+}
+
+fn proof(
+    parent_raw: &[u8],
+    parent_capture: &[u8],
+    next_capture: &[u8],
+    parent: &fixture::Fixture,
+    next: &fixture::Fixture,
+    report_path: PathBuf,
+    capture_path: PathBuf,
+    reason: &str,
+) -> Result<Derivation> {
+    let receipt: Receipt = serde_json::from_slice(parent_raw)?;
+    ensure!(
+        receipt.comparison_derivation.is_none(),
+        "derive from the untouched original report, not another derivative"
+    );
+    ensure!(
+        receipt.oracle_written
+            && receipt.capture_sha256.as_deref() == Some(hash(parent_capture).as_str()),
+        "parent original report does not bind the original capture"
+    );
+    let identity = receipt
+        .identity
+        .context("comparison derivation requires modern original identity binding")?;
+    ensure!(
+        identity.case == receipt.case,
+        "parent original case identity differs"
+    );
+    ensure!(
+        !reason.trim().is_empty() && reason.len() <= 4096 && !reason.contains('\0'),
+        "derivation reason is empty or invalid"
+    );
+    let (inputs, changed, added) = comparison_changes(parent, next)?;
+    Ok(Derivation {
+        schema: 1,
+        kind: "output-comparison-only".into(),
+        parent_report: FileBinding {
+            path: report_path,
+            sha256: hash(parent_raw),
+        },
+        parent_capture: FileBinding {
+            path: capture_path,
+            sha256: hash(parent_capture),
+        },
+        comparison_capture_sha256: hash(next_capture),
+        unchanged_target_inputs_sha256: inputs,
+        changed_output_rules: changed,
+        added_harness_assets: added,
+        reason: reason.into(),
+    })
+}
+
+pub fn derive(options: Derive) -> Result<()> {
+    let report = options.original_report.canonicalize()?;
+    let capture = options.original_capture.canonicalize()?;
+    let parent_raw = fs::read(&report)?;
+    ensure!(
+        parent_raw.len() <= 8 * 1024 * 1024,
+        "original report exceeds 8 MiB"
+    );
+    let parent_capture = fs::read(&capture)?;
+    let next_capture = fs::read(&options.comparison_capture)?;
+    let parent = fixture::decode(&parent_capture)?;
+    let next = fixture::decode(&next_capture)?;
+    let derivation = proof(
+        &parent_raw,
+        &parent_capture,
+        &next_capture,
+        &parent,
+        &next,
+        report,
+        capture,
+        &options.reason,
+    )?;
+    let mut output: serde_json::Value = serde_json::from_slice(&parent_raw)?;
+    output["capture_sha256"] = serde_json::json!(derivation.comparison_capture_sha256);
+    output["comparison_derivation"] = serde_json::to_value(derivation)?;
+    let mut file = fs::OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open(&options.output)
+        .context("derived comparison report must have a new output path")?;
+    file.write_all(serde_json::to_string_pretty(&output)?.as_bytes())?;
+    file.write_all(b"\n")?;
+    Ok(())
+}
+
+fn validate_derivation(raw: &[u8], next_capture: &[u8], info: &Info) -> Result<Option<Derivation>> {
+    let receipt: Receipt = serde_json::from_slice(raw)?;
+    let Some(derivation) = receipt.comparison_derivation else {
+        return Ok(None);
+    };
+    let report = derivation.parent_report.path.canonicalize()?;
+    let capture = derivation.parent_capture.path.canonicalize()?;
+    let parent_raw = fs::read(&report)?;
+    ensure!(
+        parent_raw.len() <= 8 * 1024 * 1024,
+        "parent report exceeds 8 MiB"
+    );
+    let parent_capture = fs::read(&capture)?;
+    ensure!(
+        hash(&parent_raw) == derivation.parent_report.sha256
+            && hash(&parent_capture) == derivation.parent_capture.sha256,
+        "derived comparison parent bytes changed"
+    );
+    let expected = proof(
+        &parent_raw,
+        &parent_capture,
+        next_capture,
+        &fixture::decode(&parent_capture)?,
+        &fixture::decode(next_capture)?,
+        report.clone(),
+        capture,
+        &derivation.reason,
+    )?;
+    ensure!(
+        derivation == expected,
+        "derived comparison proof differs from actual parent/comparison fixtures"
+    );
+    let parent_value: serde_json::Value = serde_json::from_slice(&parent_raw)?;
+    let mut observation: serde_json::Value = serde_json::from_slice(raw)?;
+    observation
+        .as_object_mut()
+        .context("derived report must be an object")?
+        .remove("comparison_derivation");
+    observation["capture_sha256"] = parent_value["capture_sha256"].clone();
+    ensure!(
+        observation == parent_value,
+        "derived comparison report changed original observations"
+    );
+    Expected::parse(&parent_raw, &parent_capture, report, info)?;
+    Ok(Some(derivation))
+}
 impl Expected {
     pub fn load(path: &Path, capture: &Path, info: &Info) -> Result<Self> {
         let path = path.canonicalize()?;
@@ -74,7 +320,11 @@ impl Expected {
             raw.len() <= 8 * 1024 * 1024,
             "original report exceeds 8 MiB"
         );
-        Self::parse(&raw, &fs::read(capture)?, path, info)
+        let capture_raw = fs::read(capture)?;
+        let derivation = validate_derivation(&raw, &capture_raw, info)?;
+        let mut expected = Self::parse(&raw, &capture_raw, path, info)?;
+        expected.summary.comparison_derivation = derivation;
+        Ok(expected)
     }
     fn parse(raw: &[u8], capture: &[u8], path: PathBuf, info: &Info) -> Result<Self> {
         let receipt: Receipt =
@@ -156,6 +406,7 @@ impl Expected {
                 report_sha256: hash(raw),
                 capture_sha256,
                 source_binding_available: receipt.capture_sha256.is_some(),
+                comparison_derivation: None,
             },
         })
     }

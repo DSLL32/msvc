@@ -430,6 +430,15 @@ Without `--original-report`, trace and terminal expectations come from the case
 descriptor; `--capture` alone selects invocation and I/O data. The explicit
 report option requires one case and an actual `--capture` file.
 
+For an approved comparison-only change, `capture derive-reference
+--original-report P --original-capture C --capture D --output R --reason TEXT`
+creates labelled offline provenance. It requires modern raw parent bindings and
+unchanged target inputs, invocation/settings, status and streams; only output
+comparison rules with the same file identities/absence and additional harness
+assets may differ. Native `run --capture D --original-report R` revalidates both
+untouched parents and original observations. Derivation grants no normalization
+acceptance and requires no original rerun for a policy-only change.
+
 DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
 file and its actual module base/entry. Binary-specific host source belongs in
