@@ -1753,7 +1753,7 @@
       },
       "_write_old_packed_types": {
         "abi": "unsigned long write_old_packed_types(void)",
-        "source": "src/stubs.c",
+        "source": "src/output.c",
         "stack_cleanup": 0,
         "roots": []
       },

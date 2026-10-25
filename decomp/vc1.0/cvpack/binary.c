@@ -2252,8 +2252,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_write_old_packed_types",
         .entry_rva = 0xdf60,
+        .code = (const ReconExtent[]){{0xdf60, 0xe528}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "write_old_packed_types",
     },
     {

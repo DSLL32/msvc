@@ -1,4 +1,5 @@
 #include <recon-tool.h>
+#include "reference-padding.h"
 extern int main(int,char **,char **);
 static int invoke(int argc,char **argv) {return main(argc,argv,(char **)0);}
 static const uint32_t order[]={
@@ -67,10 +68,26 @@ static const uint32_t order[]={
  0xdac0,
  0xd050,
  0xdf60,
+ 0x180f0,
+ 0x1a670,
+ 0x1a450,
+ 0x181f0,
+ 0x19ba0,
+ 0x19c50,
+ 0x19ed0,
+ 0x19f50,
 };
 RECON_EXPORT const ReconCase case_descriptor={
  RECON_ABI_VERSION,sizeof(ReconCase),"packed-storage",
  "Format-authored two-module storage project; normal CLI, complete old-format container and record invariants.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0xdf60,
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_EXIT,0,
  NULL,invoke,NULL,NULL,0
+};
+
+static int check_outputs(const ReconOutputContext *context)
+{
+    return check_reference_padding(context, "storage-packed.dbg", 79192, 0, 12, 20);
+}
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+ RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), check_outputs
 };

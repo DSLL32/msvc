@@ -766,10 +766,12 @@ const char *module_name(ModuleInfo *module)
 
 #pragma intrinsic(memcpy)
 
+/* These legacy arena names predate the recovered packed subsection names:
+   0x129 uses global_symbol_hash; 0x12a uses public_symbol_hash. */
 void insert_packed_public(unsigned char *record)
 {
-    public_symbols_size += copy_packed_symbol(public_symbol_hash, record);
-    ++public_symbols_count;
+    global_symbols_size += copy_packed_symbol(global_symbol_hash, record);
+    ++global_symbols_count;
 }
 
 /* Packed records already carry their final type indices and alignment. */
@@ -793,6 +795,6 @@ unsigned short copy_packed_symbol(void **buckets, unsigned char *record)
 
 void insert_packed_global(unsigned char *record)
 {
-    global_symbols_size += copy_packed_symbol(global_symbol_hash, record);
-    ++global_symbols_count;
+    public_symbols_size += copy_packed_symbol(public_symbol_hash, record);
+    ++public_symbols_count;
 }

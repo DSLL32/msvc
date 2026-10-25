@@ -806,7 +806,6 @@ void *WINAPI image_nt_header(void *image)
     }
     return header;
 }
-#undef OUTPUT_BYTES
 
 /* Original [000280f0,000281e2): flush or bypass the output buffer. */
 #pragma intrinsic(memcpy)
@@ -829,3 +828,117 @@ unsigned short write_output(const void *buffer, unsigned long size)
     output_used = used+size;
     return 1;
 }
+
+/* NB08 offsets include the type header; NB09 offsets address the records.
+   Insert gaps where a complete aligned record would cross a 48K page. */
+unsigned long write_old_packed_types(void)
+{
+    struct TypePageGap { unsigned char *record; unsigned short fill, reserved; };
+    struct TypePageGap *gaps, *larger;
+    BufferBlock *header_block, *block, *record_block;
+    unsigned char *record, *record_start, *offset_slot;
+    unsigned long count, index, header_bytes, before, offset = 0;
+    unsigned long page_used = 0, total, written, bytes, i;
+    unsigned short gap_count = 0, gap_capacity, gap_index = 0;
+    unsigned short length, aligned, carry, skip, prefix, fill;
+    unsigned long zero = 0;
+
+    header_block = first_buffer_block(&type_symbol_storage);
+    count = *(unsigned short *)(header_block->data+4);
+    if (!count) {
+        OUTPUT_BYTES(header_block->data, header_block->used);
+        return header_block->used;
+    }
+    offset_slot = header_block->data+8;
+    gap_capacity = (unsigned short)(type_symbol_storage.block_count*2);
+    gaps = checked_alloc((unsigned long)gap_capacity*8);
+    header_bytes = count*4+8;
+    total = header_bytes;
+    before = 0;
+    block = first_buffer_block(&type_symbol_storage);
+    while (header_bytes >= before+block->used) {
+        before += block->used;
+        block = next_buffer_block(block);
+    }
+    record = block->data+header_bytes-before;
+    record_block = block;
+    record_start = record;
+    for (index = 0; index < count; ++index) {
+        length = (unsigned short)(*(unsigned short *)record+2);
+        aligned = (unsigned short)(length+3-((length-1)&3));
+        if (page_used+aligned > 0xc000) {
+            if (gap_count == gap_capacity) {
+                larger = checked_alloc((unsigned long)gap_capacity*8+400);
+                for (i = 0; i < (unsigned long)gap_capacity*8; ++i)
+                    ((unsigned char *)larger)[i] = ((unsigned char *)gaps)[i];
+                gap_capacity += 50;
+                free(gaps);
+                gaps = larger;
+            }
+            gaps[gap_count].record = record;
+            gaps[gap_count++].fill = (unsigned short)(0xc000-page_used);
+            offset += 0xc000-page_used;
+            page_used = 0;
+        }
+        page_used += aligned;
+        total += aligned;
+        *(unsigned long *)offset_slot = offset;
+        offset += aligned;
+        if (index+1 == count) break;
+        offset_slot += 4;
+        if (offset_slot >= header_block->data+header_block->used) {
+            header_block = next_buffer_block(header_block);
+            offset_slot = header_block->data;
+        }
+        if (record+aligned < block->data+block->used) {
+            record += aligned;
+        } else {
+            carry = (unsigned short)(record-block->data+aligned-block->used);
+            block = next_buffer_block(block);
+            while (carry >= block->used) {
+                carry = (unsigned short)(carry-block->used);
+                block = next_buffer_block(block);
+            }
+            record = block->data+carry;
+        }
+    }
+    block = first_buffer_block(&type_symbol_storage);
+    written = 0;
+    while (written < header_bytes) {
+        bytes = header_bytes-written;
+        if (bytes >= block->used) bytes = block->used;
+        bytes = (unsigned short)bytes;
+        OUTPUT_BYTES(block->data, bytes);
+        written += bytes;
+        if (written != header_bytes) block = next_buffer_block(block);
+    }
+    skip = (unsigned short)(record_start-record_block->data);
+    for (block = record_block; block; block = next_buffer_block(block)) {
+        /* Original defect: this lookup is not bounded by gap_count after
+           the last gap. Preserve that control read rather than invent a
+           sentinel or allocator-dependent initialization. */
+        record = gaps[gap_index].record;
+        if ((unsigned long)block->data <= (unsigned long)record &&
+            (unsigned long)record < (unsigned long)block->data+block->used) {
+            fill = gaps[gap_index].fill;
+            prefix = (unsigned short)(record-block->data-skip);
+            if (prefix) OUTPUT_BYTES(block->data+skip, prefix);
+            total += fill;
+            if (fill) {
+                fill = (unsigned short)((unsigned short)(fill+3)>>2);
+                do { OUTPUT_BYTES(&zero, 4); } while (--fill);
+            }
+            bytes = (unsigned short)(block->used-prefix-skip);
+            if (bytes) OUTPUT_BYTES(block->data+skip+prefix, bytes);
+            ++gap_index;
+        } else {
+            bytes = block->used-skip;
+            OUTPUT_BYTES(block->data+skip, bytes);
+        }
+        skip = 0;
+    }
+    free(gaps);
+    return total;
+}
+
+#undef OUTPUT_BYTES

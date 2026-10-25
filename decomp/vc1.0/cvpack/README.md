@@ -1,22 +1,23 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **270 accepted application
-functions, 75,348 original code bytes, and 5 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **279 accepted application
+functions, 78,451 original code bytes, and 3 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
-streams and defined artifact bytes. The last accepted function is
-`convert_old_symbol_register_relative32` (sequence 270, one original code byte,
-`src/oldsymbols.c`), after `size_old_register_relative32` (sequence 269, one byte).
+streams and defined artifact bytes. The last accepted function is `write_old_packed_types` (sequence 279,
+1,480 original code bytes, `src/output.c`). The two empty callbacks accepted at
+sequences 269/270 each retain one byte of credit; their alignment remains excluded.
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 83 application functions.
+The resumed workload has accepted 92 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. The previous nineteen-case/nineteen-unit aggregate passed in 0.661s.
 The new callback case/check/unit, original compiler and strict 270-function
 graph/ABI/data gate passed in 1.846s without another aggregate replay.
-Twenty cases are active; nineteen complete, with 0013 retaining its BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
+Twenty-two cases are active; twenty complete, with 0013 retaining its BARRAY
+frontier and 0023 qualified at its wide based-symbol serializer frontier. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -331,3 +332,30 @@ defect. It also initializes the unknown-encoding mode and procedure-convention
 fallback bytes to zero where the original left them unwritten. The completed
 legacy workload matches all defined type bytes and ordering with these
 corrections. No type fields or derived ordering differences are masked.
+
+
+`0022-packed-storage` is a complete format-authored NB08 normal-CLI workload,
+not relabelled NB09 or a claimed historical producer artifact. The shared
+`scripts/make-old-formats.py` builds its validated 78,024-byte two-module input
+(SHA256 `7386d280e034bcf060d1f7d416d07c6274a681617909b71c51ee44ea823e8387`)
+and the independently valid NB02 C6 companion `0023-wide-storage`.
+The packed input contains module/symbol/source subsections, four global and four
+public declarations, and 3,200 distinct C7 array types. Genuine CLI processing
+loads its 76,808-byte type subsection across 4 KiB buffers and rewrites the old
+header-relative offsets into NB09 record-relative offsets with a 48 KiB page gap.
+The reader revealed seven previously unregistered application helpers; the
+canonical registry now has 282 App identities, with no CRT credit increase.
+Its completed fresh masked original/native pair matches 73 first entries,
+exit 0, streams and the 79,192-byte output. An initial defined-output mismatch
+identified and corrected the new wrappers' reversed use of the historical
+public/global arena names; the raw whole-file hashes then matched exactly.
+The fixture masks only twenty known-unwritten S_DATAREF reserved WORDs and
+requires native zeroes; every other byte remains checked. There is no filename
+alignment tail in this input. The final paired native run took 16.456 ms
+(setup 6.912, execution 4.517, checks 5.027); original progress took 1,353.324 ms.
+The case/unit, original compiler and strict 279-function graph/ABI plus 217-object
+context gate passed in 1.950 s. Inputs, raw original/native bytes, the offline
+comparison-only derivation and full commands remain in owned
+`resume-20261025/0022-packed-storage/` scratch. Original unwritten cache locals
+and the writer's unbounded post-last-gap lookup remain faithfully documented;
+no sentinel, allocator tuning or control-field repair was introduced.
