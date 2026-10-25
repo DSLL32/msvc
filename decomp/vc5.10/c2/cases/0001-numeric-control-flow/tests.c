@@ -642,7 +642,13 @@ static int widest_address_view(void)
     rows[1].value_bytes = 16;
     rows[1].canonical = rows;
     memcpy(before, rows, sizeof(rows));
-    return new_address_register(rows, 0x5000, 0, 0) == rows + 1 &&
+    if (new_address_register(rows, 0x5000, 0, 0) != rows + 1 ||
+        memcmp(rows, before, sizeof(rows))) return 0;
+    rows[0].type = 0x3004;
+    rows[1].type = 0x2004;
+    rows[0].value_bytes = rows[1].value_bytes = 4;
+    memcpy(before, rows, sizeof(rows));
+    return new_address_register(rows, 0x2004, 0xa5a5a5a5U, 0) == rows &&
         !memcmp(rows, before, sizeof(rows));
 }
 
@@ -676,5 +682,5 @@ const ReconTest numeric_tests[] = {
     {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions},
     {"input type decoding retains untouched token fields", 1, input_type_fields},
     {"operand pop clears only owned stack links and flag", 1, input_operand_pop},
-    {"open-sized address view reuses widest aggregate without mutation", 1, widest_address_view}
+    {"address views reuse compatible widths and widest aggregates without mutation", 1, widest_address_view}
 };

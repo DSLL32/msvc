@@ -228,3 +228,14 @@ C2FunctionRegister *__fastcall new_address_register(C2FunctionRegister *source,
     }
     return reg;
 }
+
+int __fastcall register_types_match(unsigned short first, unsigned short second)
+{
+    unsigned first_kind = first >> 12, second_kind = second >> 12;
+    if (first == second) return 1;
+    if (first_kind != 1 && first_kind != 2 && first_kind != 3 && first_kind != 5)
+        return 0;
+    if (second_kind != 1 && second_kind != 2 && second_kind != 3 && second_kind != 5)
+        return 0;
+    return (first & 0xfff) == (second & 0xfff);
+}

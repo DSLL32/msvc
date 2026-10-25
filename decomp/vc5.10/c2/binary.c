@@ -2436,8 +2436,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@register_types_match@8",
         .entry_rva = 0x1e39,
+        .code = (const ReconExtent[]){{0x1e39, 0x1f05}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "register_types_match",
     },
     {
