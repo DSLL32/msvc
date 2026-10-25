@@ -125,10 +125,26 @@ void RECON_THISCALL DatabasePool::release(void)
 {
     __asm { int 3 }
 }
+/* Original0x17300..0x17385: ECX=this, filename/signature on the
+   stack, RET8. The fixed64B file header is a typed template, not arena data. */
 int RECON_THISCALL DebugDatabase::create(char *filename, unsigned signature)
 {
-    __asm { int 3 }
-    return 0;
+    static const DatabaseHeader initial = {
+        "Microsoft C/C++ program database 1.00\r\n\032JG", 0xe0d5c, 0, 0,
+        0x1000, 0x1000, 0
+    };
+    file = _open(filename, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
+    if (file < 0) return 0;
+    header = initial;
+    header.timestamp = signature;
+    if (_write(file, &header, sizeof(header)) != sizeof(header)) {
+        if (file >= 0) {
+            _close(file);
+            file = -1;
+        }
+        return 0;
+    }
+    return load();
 }
 int RECON_THISCALL DebugDatabase::load(void)
 {
