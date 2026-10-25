@@ -13,6 +13,14 @@ struct CompilerLexer;
 struct CompilerTypeShape;
 struct CompilerNameEntry;
 
+typedef struct CompilerBuiltinNames {
+    struct CompilerNameEntry *defined_operator, *formal_parameter, *ellipsis;
+    struct CompilerNameEntry *abstract_declarator, *main_entry, *winmain_entry;
+    struct CompilerNameEntry *dllmain_entry, *alignment_member, *unnamed;
+    struct CompilerNameEntry *dollar, *directive_section, *local_static_guard;
+    struct CompilerNameEntry *setjmp_name, *catch_name, *local_size, *line_variable;
+} CompilerBuiltinNames;
+
 typedef struct CompilerType {
     WORD flags, attributes;
     struct CompilerTypeShape *shape;

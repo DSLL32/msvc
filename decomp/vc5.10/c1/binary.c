@@ -1145,8 +1145,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_initialize_builtin_symbols", .entry_rva = 0x14a7e,
-.code = (const ReconExtent[]){{0x14a7e, 0x14a7f}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x14a7e, 0x14aa8}},
+.code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "initialize_builtin_symbols",
     },
     {
@@ -1477,6 +1477,9 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x12aac,0x12ab2}}, .code_count = 1,
       .definition = RECON_IMPORT_NAME, .import_dll = "msvcrt.dll", .import_name = "_ftol" },
 
+    { .name = "_find_or_create_identifier", .entry_rva = 0x11c67,
+      .code = (const ReconExtent[]){{0x11c67, 0x11c68}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "find_or_create_identifier" },
 };
 
 static const ReconExport exports[] = {

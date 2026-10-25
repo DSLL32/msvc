@@ -50,6 +50,7 @@ typedef struct CompilerInitializedState {
     struct CompilerTypeEntry **type_buckets; /* RVA5e9b0, defaultNULL; 2048 */
     struct CompilerTypeShapeEntry **type_shape_buckets; /* RVA5e40c, defaultNULL; 1024 */
     struct CompilerTypeListEntry **type_list_buckets; /* RVA5e404, defaultNULL; 1024 */
+    CompilerBuiltinNames builtin_names; /* Encountered builtin identifier slots; defaultNULL */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

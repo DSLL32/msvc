@@ -315,7 +315,36 @@ extern "C" void __cdecl initialize_global_scope(void)
     c1_bss.saved_symbol_arenas = NULL;
     c1_bss.symbol_arena_kind = 2;
 }
-extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+struct BuiltinNameDescription { CompilerNameEntry **slot; const char *name; };
+/* The original table at RVA60020 ends with a NULL destination slot. */
+static const BuiltinNameDescription builtin_names[] = {
+    { &c1_data.builtin_names.defined_operator, "defined" },
+    { &c1_data.builtin_names.formal_parameter, "__formal" },
+    { &c1_data.builtin_names.ellipsis, "..." },
+    { &c1_data.builtin_names.abstract_declarator, "abstract declarator" },
+    { &c1_data.builtin_names.main_entry, "main" },
+    { &c1_data.builtin_names.winmain_entry, "WinMain" },
+    { &c1_data.builtin_names.dllmain_entry, "DllMain" },
+    { &c1_data.builtin_names.alignment_member, ".alignment member." },
+    { &c1_data.builtin_names.unnamed, "__unnamed" },
+    { &c1_data.builtin_names.dollar, "$" },
+    { &c1_data.builtin_names.directive_section, ".drectve" },
+    { &c1_data.builtin_names.local_static_guard, ".local static guard." },
+    { &c1_data.builtin_names.setjmp_name, "_setjmp" },
+    { &c1_data.builtin_names.catch_name, "Catch" },
+    { &c1_data.builtin_names.local_size, "__LOCAL_SIZE" },
+    { &c1_data.builtin_names.line_variable, "__LINE__Var" },
+    { NULL, NULL }
+};
+extern "C" void __cdecl initialize_builtin_symbols(void)
+{
+    const BuiltinNameDescription *description;
+    for (description = builtin_names; description->slot; ++description)
+        *description->slot = find_or_create_identifier(description->name);
+}
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name)
+{ __asm { int 3 } return NULL; }
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
