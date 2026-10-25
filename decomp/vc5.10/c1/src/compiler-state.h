@@ -5,6 +5,7 @@
 #include "command-line.h"
 #include "scanner.h"
 #include "frontend-state.h"
+#include "preprocessor.h"
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
@@ -38,6 +39,7 @@ typedef struct CompilerInitializedState {
     struct CompilerBackend *named_browser;            /* RVA5e3d0 */
     struct CompilerBackend *initial_backend;          /* RVA5e3d4 */
     int pch_separate_debug;                         /* RVA5f338 */
+    CompilerTokenPrototype *predefined_tokens[245]; /* RVA5e5c4..5e998 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

@@ -6,7 +6,7 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -Isrc -Icrt
 NATIVE_CFLAGS = -fms-extensions -fasm-blocks -Wno-ignored-attributes
 NATIVE_CXXFLAGS = -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_LINKER = $(NATIVE_CC)
-BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp
+BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/preprocessor.cpp
 BINARY_SUPPORT_SOURCES = harness/dll-cases.c harness/input-tests.cpp $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN = 5.10
 ORIGINAL_SOURCES = $(BINARY_SOURCES)

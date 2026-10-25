@@ -3,11 +3,11 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 90 accepted application functions / 11,040 code bytes.
+The current prefix contains 91 accepted application functions / 11,169 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; three import thunks / 18 bytes. Owned text data is 161
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
-not been classified. Initialized state retains 4,020 unmodeled bytes, and the
+not been classified. Initialized state retains 3,040 unmodeled bytes, and the
 literal object's separate 16-byte tail remains unmodeled.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so` and discovers
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`initialize_preprocessor()`, RVA `0x13fad`. Its fresh reference uses logical cwd
+`initialize_keyword_table()`, RVA `0x14025`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -52,3 +52,6 @@ No new functions or cases were accepted during migration.
 support emits no code and preserves one canonical body per original address.
 The named browser allocation is 12 bytes; only its vptr/filename prefix is
 modeled, leaving the final four bytes unmodeled until a real consumer is reached.
+
+The 32-byte predefined token records currently model only kind/tag bytes at
+offsets 0/8; all other record bytes remain unmodeled and untouched.

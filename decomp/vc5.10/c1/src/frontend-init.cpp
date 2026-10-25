@@ -12,7 +12,7 @@ void __cdecl begin_browser_output(const char *);
 CompilerBackend *__cdecl acquire_initial_backend(void);
 int __cdecl prepare_pch_input(const char *);
 void __cdecl read_initial_input(void);
-void __cdecl initialize_preprocessor(void);
+void __cdecl initialize_predefined_tokens(void);
 void __cdecl initialize_keyword_table(void);
 void __cdecl initialize_floating_point(void);
 void __cdecl initialize_line_tables(void);
@@ -106,7 +106,7 @@ extern "C" void __cdecl initialize_frontend(void)
     c1_data.saved_pch_mode = c1_data.options.pch_create;
     c1_data.pch_separate_debug = c1_data.options.debug_info &&
         !c1_data.options.pch_debug && c1_data.options.pch_create;
-    initialize_preprocessor();
+    initialize_predefined_tokens();
     initialize_keyword_table();
     initialize_floating_point();
     initialize_line_tables();
@@ -262,7 +262,6 @@ extern "C" void __cdecl normalize_frontend_options(void)
 extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_preprocessor(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_keyword_table(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_floating_point(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { __asm { int 3 } }

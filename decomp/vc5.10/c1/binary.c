@@ -1006,10 +1006,11 @@ static const ReconFunction functions[] = {
 .native_symbol = "read_initial_input",
     },
     {
-.name = "_initialize_preprocessor", .entry_rva = 0x13fad,
-.code = (const ReconExtent[]){{0x13fad, 0x13fae}},
-.code_count = 1, .definition = RECON_APP,
-.native_symbol = "initialize_preprocessor",
+.name = "_initialize_predefined_tokens", .entry_rva = 0x13fad,
+.code = (const ReconExtent[]){{0x13fad, 0x14025}, {0x30fa0, 0x30fa9}},
+.code_count = 2, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
+.native_symbol = "initialize_predefined_tokens",
     },
     {
 .name = "_initialize_keyword_table", .entry_rva = 0x14025,

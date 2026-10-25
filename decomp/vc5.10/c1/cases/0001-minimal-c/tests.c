@@ -45,10 +45,44 @@ static int processor_instruction_mask(void)
 }
 extern int c1_test_browser_factory(void);
 extern int c1_test_backend_getter(void);
-const ReconTest minimal_tests[5] = {
+extern void __cdecl initialize_predefined_tokens(void);
+static int predefined_token_prototypes(void)
+{
+    BYTE storage[244 * 32 + 2];
+    CompilerTokenPrototype retained;
+    CompilerPool *pool = &c1_bss.pools[6];
+    unsigned kind, count = 0, i;
+    BYTE *next = storage + 1;
+    /* Test-owned nonzero bytes prove the initializer touches only its two
+     * defined fields. They are not an original-data equivalence claim. */
+    for (i = 0; i < sizeof(storage); ++i) storage[i] = 0xa5;
+    for (kind = 0; kind < 245; ++kind)
+        c1_data.predefined_tokens[kind] = &retained;
+    pool->cursor = next;
+    pool->remaining = 244 * 32;
+    initialize_predefined_tokens();
+    if (c1_data.predefined_tokens[0] != &retained ||
+        c1_data.predefined_tokens[6] != NULL ||
+        !c1_data.predefined_tokens[1] || !c1_data.predefined_tokens[244]) return 0;
+    for (kind = 1; kind < 245; ++kind) {
+        CompilerTokenPrototype *token = c1_data.predefined_tokens[kind];
+        if (!token) continue;
+        if ((BYTE *)token != next || token->kind != kind || token->tag != kind)
+            return 0;
+        for (i = 0; i < 32; ++i)
+            if (i != 0 && i != 8 && next[i] != 0xa5) return 0;
+        next += 32;
+        ++count;
+    }
+    return count == 167 && pool->cursor == next &&
+        pool->remaining == (244 - 167) * 32 && storage[0] == 0xa5 &&
+        storage[sizeof(storage) - 1] == 0xa5;
+}
+const ReconTest minimal_tests[6] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
     { "browser factory shared slots and owned filename prefix", 1, c1_test_browser_factory },
-    { "backend getter preserves existing identity and lazily constructs", 1, c1_test_backend_getter }
+    { "backend getter preserves existing identity and lazily constructs", 1, c1_test_backend_getter },
+    { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes }
 };
