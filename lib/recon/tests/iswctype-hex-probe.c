@@ -6,30 +6,38 @@ static void fp(unsigned char state[108])
 int main(int argc,char **argv)
 {
     static const char members[]="0123456789ABCDEFabcdef";
+    static const char alpha_digits[]="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     static const unsigned errors[][3]={{0,0,0},{2,2,0},{111,222,0x12345678}};
     unsigned char before[108],after[108],mb[257];unsigned short table[257];
     unsigned long handles[6];unsigned value,row,n,expected;int result;
+    WCHAR requested=128;
+    if(argc>1 && !strcmp(argv[argc-1],"alnum")){requested=0x107;--argc;}
     if(argc>1) {
-        if(!strcmp(argv[1],"nonascii")){iswctype(128,128);return 42;}
-        if(!strcmp(argv[1],"eof")){iswctype(0xffff,128);return 42;}
-        if(!strcmp(argv[1],"mask")){iswctype('0',132);return 42;}
+        if(!strcmp(argv[1],"nonascii")){iswctype(128,requested);return 42;}
+        if(!strcmp(argv[1],"eof")){iswctype(0xffff,requested);return 42;}
+        if(!strcmp(argv[1],"mask")){iswctype('0',requested==0x107?0x103:132);return 42;}
         if(!strcmp(argv[1],"locale"))recon_lc_handle[2]=1033;
         if(!strcmp(argv[1],"codepage"))recon_lc_codepage=1252;
         if(!strcmp(argv[1],"mb-codepage"))recon_mb_codepage=1252;
         if(!strcmp(argv[1],"mb-width"))recon_mb_cur_max=2;
-        if(strcmp(argv[1],"live")){iswctype('0',128);return 42;}
+        if(strcmp(argv[1],"live")){iswctype('0',requested);return 42;}
         __asm__ __volatile__("fld1\n\tfldpi":::"st");
     }
 #ifndef RECON_CRT_PROFILE_MSVCRT_510
-    iswctype('0',128);return 42;
+    iswctype('0',requested);return 42;
 #else
     memcpy(mb,recon_mbctype,sizeof(mb));memcpy(table,recon_pctype-1,sizeof(table));
     memcpy(handles,recon_lc_handle,sizeof(handles));
     for(row=0;row<sizeof(errors)/sizeof(errors[0]);++row)for(value=0;value<128;++value) {
         expected=0;
-        for(n=0;n<sizeof(members)-1;++n)if(value==(unsigned char)members[n])expected=128;
+        if(requested==128) {
+            for(n=0;n<sizeof(members)-1;++n)if(value==(unsigned char)members[n])expected=128;
+        } else {
+            for(n=0;n<sizeof(alpha_digits)-1;++n)
+                if(value==(unsigned char)alpha_digits[n])expected=n<26?1:n<52?2:4;
+        }
         errno=errors[row][0];recon_doserrno=errors[row][1];recon_SetLastError(errors[row][2]);
-        fp(before);result=iswctype((WCHAR)value,128);fp(after);
+        fp(before);result=iswctype((WCHAR)value,requested);fp(after);
         assert(result==(int)expected && !memcmp(before,after,108));
         assert(errno==(int)errors[row][0] && recon_doserrno==errors[row][1] &&
                recon_GetLastError()==errors[row][2]);

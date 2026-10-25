@@ -833,8 +833,11 @@ unchanged; this is provider initial-state behavior, not a case/API reseed.
 iswctype supports the proved default-C ASCII digit/space masks4/8, retaining
 those exact mask bits and both error slots. All128 ASCII values across4 sentinel
 pairs match the actual provider; non-ASCII/other masks/locales fail explicitly.
-Explicit MSVCRT510 additionally supports exact mask128 with default-C/MB state:
-0..9/A..F/a..f return128 and other ASCII returns0. The authenticated integer-only
+Explicit MSVCRT510 additionally supports exact masks128/0x107 with default-C/MB state:
+For128,0..9/A..F/a..f return128 and other ASCII returns0. For0x107,
+A..Z return1,a..z return2,0..9 return4 and other ASCII returns0, exactly
+matching the pristine wide-table AND (ASCII letters lack bit0x100). Mask0x103
+and other unvisited masks remain unsupported. The authenticated integer-only
 ASCII branch and pristine canonical wide table prove these bits; original
 selected per-call table identity/errors/FP remain unmeasured. No table is copied
 into production code. Prior masks4/8 and generic-profile behavior are unchanged.
