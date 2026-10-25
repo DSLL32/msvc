@@ -2625,6 +2625,12 @@ WEAK WCHAR *recon_wcschr(const WCHAR *text,WCHAR character)
     }
 }
 
+WEAK WCHAR *__cdecl recon_wcsupr(WCHAR *text)
+{
+    (void)text;
+    recon_unsupported("unreviewed _wcsupr");
+    return NULL;
+}
 WEAK WCHAR *recon_wcsdup(const WCHAR *text)
 {
     (void)text;recon_unsupported("unreviewed UTF16 _wcsdup");return NULL;

@@ -597,6 +597,12 @@ build/towlower-surface-probe: tests/towlower-surface-probe.c $(SOURCES) $(HEADER
 towlower-surface-check: build/towlower-surface-probe
 	$(PYTHON) tests/check-towlower-surface.py $<
 
+.PHONY: wcsupr-surface-check
+build/wcsupr-surface-probe: tests/wcsupr-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+wcsupr-surface-check: build/wcsupr-surface-probe
+	$(PYTHON) tests/check-wcsupr-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

@@ -565,6 +565,10 @@ were not observed in the reached RCDLL capture; static provider-path evidence
 is distinct from native state observations. No original API-only probe was run.
 towupper is unchanged.
 
+_wcsupr has the SDK WCHAR16* cdecl(WCHAR16*) declaration and native remap,
+but all inputs fail explicitly with status125. NULL, empty, ASCII and non-ASCII
+inputs have no successful string-mutation, return-alias or locale semantics.
+
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
 

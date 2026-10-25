@@ -278,6 +278,7 @@ WCHAR *recon_wcschr(const WCHAR *,WCHAR);
 size_t recon_wcslen(const WCHAR *);
 WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
 WCHAR *recon_wcsdup(const WCHAR *);
+WCHAR *__cdecl recon_wcsupr(WCHAR *);
 long recon_wcstol(const WCHAR *,WCHAR **,int);
 int recon_swprintf(WCHAR *,const WCHAR *,...);
 int recon_iswctype(WCHAR,WCHAR);
@@ -445,6 +446,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define wcslen recon_wcslen
 #define wcscat recon_wcscat
 #define _wcsdup recon_wcsdup
+#define _wcsupr recon_wcsupr
 #define wcstol recon_wcstol
 #define swprintf recon_swprintf
 #define iswctype recon_iswctype
