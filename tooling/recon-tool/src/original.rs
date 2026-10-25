@@ -13,6 +13,41 @@ fn windows(path: &Path, repo: &Path) -> Result<String> {
     );
     Ok(path)
 }
+/// Target environment controls never become Wine's Unix launch environment.
+fn target_environment(env: &std::collections::BTreeMap<String, Option<String>>) -> Result<Vec<u8>> {
+    let mut names = std::collections::BTreeSet::new();
+    let mut bytes = Vec::new();
+    for (key, value) in env {
+        anyhow::ensure!(
+            !key.is_empty()
+                && key.is_ascii()
+                && !key.contains(['=', '\0'])
+                && value
+                    .as_ref()
+                    .is_none_or(|v| v.is_ascii() && !v.contains('\0')),
+            "original target environment requires valid ASCII names/values"
+        );
+        anyhow::ensure!(
+            names.insert(key.to_ascii_uppercase()),
+            "duplicate case-insensitive target environment name: {key}"
+        );
+        bytes.extend_from_slice(key.as_bytes());
+        if let Some(value) = value {
+            bytes.push(b'=');
+            bytes.extend_from_slice(value.as_bytes());
+        }
+        bytes.push(0);
+    }
+    if bytes.is_empty() {
+        bytes.push(0);
+    }
+    bytes.push(0);
+    anyhow::ensure!(
+        bytes.len() <= 32767,
+        "original target environment overlay exceeds 32767 bytes"
+    );
+    Ok(bytes)
+}
 pub fn build_helper(repo: &Path) -> Result<PathBuf> {
     let repo = repo.canonicalize()?;
     let root = repo.join("tooling/recon-tool");
@@ -807,19 +842,20 @@ fn capture_executor(
             )?,
         )
         .current_dir(cwd);
-    if image.dll {
-        command.env("RECON_ORIGINAL_DLL", windows(&target, &options.repo)?);
+    let mut target_env = f.env.clone();
+    if image.dll
+        && !target_env
+            .keys()
+            .any(|key| key.eq_ignore_ascii_case("RECON_ORIGINAL_DLL"))
+    {
+        target_env.insert(
+            "RECON_ORIGINAL_DLL".into(),
+            Some(windows(&target, &options.repo)?),
+        );
     }
-    for (k, v) in &f.env {
-        match v {
-            Some(v) => {
-                command.env(k, v);
-            }
-            None => {
-                command.env_remove(k);
-            }
-        }
-    }
+    let environment = root.join("original-environment");
+    fs::write(&environment, target_environment(&target_env)?)?;
+    command.arg(windows(&environment, &options.repo)?);
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
     let input = child.stdin.take().unwrap();
     let output = child.stdout.take().unwrap();
@@ -1235,4 +1271,41 @@ pub fn capture(mut options: Capture) -> Result<()> {
         value["elapsed_ms"].as_f64().unwrap_or(0.)
     );
     Ok(())
+}
+
+#[cfg(test)]
+mod target_environment_tests {
+    use super::target_environment;
+    use std::collections::BTreeMap;
+    #[test]
+    fn target_overlay_distinguishes_empty_removal_and_rejects_ambiguous_inputs() {
+        let env = BTreeMap::from([
+            ("PATH".into(), Some(String::new())),
+            ("WINEPREFIX".into(), None),
+            ("VALUE".into(), Some("a=b".into())),
+        ]);
+        assert_eq!(
+            target_environment(&env).unwrap(),
+            b"PATH=\0VALUE=a=b\0WINEPREFIX\0\0"
+        );
+        assert_eq!(target_environment(&BTreeMap::new()).unwrap(), [0, 0]);
+        let mut duplicate = env.clone();
+        duplicate.insert("path".into(), None);
+        assert!(target_environment(&duplicate).is_err());
+        for (name, value) in [
+            ("", "x"),
+            ("=C:", "x"),
+            ("A=B", "x"),
+            ("A\0B", "x"),
+            ("A", "x\0y"),
+            ("A", "é"),
+        ] {
+            assert!(
+                target_environment(&BTreeMap::from([(name.into(), Some(value.into()))])).is_err()
+            );
+        }
+        assert!(
+            target_environment(&BTreeMap::from([("A".into(), Some("x".repeat(32767)))])).is_err()
+        );
+    }
 }

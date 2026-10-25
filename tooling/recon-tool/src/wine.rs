@@ -1,6 +1,7 @@
 //! Shared Wine transport for explicit original builds and reference runs.
 use anyhow::{Context, Result, bail};
 use std::{
+    ffi::CString,
     path::{Path, PathBuf},
     process::Command,
 };
@@ -33,6 +34,17 @@ pub fn windows(path: &Path, repo: &Path) -> Result<String> {
         path.display()
     )
 }
+fn executable() -> Result<PathBuf> {
+    let path = std::env::var_os("PATH").context("host PATH unset")?;
+    for directory in std::env::split_paths(&path) {
+        let candidate = std::path::absolute(directory.join("wine"))?;
+        let name = CString::new(candidate.as_os_str().as_encoded_bytes())?;
+        if candidate.is_file() && unsafe { libc::access(name.as_ptr(), libc::X_OK) } == 0 {
+            return Ok(candidate);
+        }
+    }
+    bail!("wine executable not found in host PATH")
+}
 pub fn command(repo: &Path) -> Result<Command> {
     let prefix = prefix()?;
     anyhow::ensure!(
@@ -56,7 +68,7 @@ pub fn command(repo: &Path) -> Result<Command> {
             bail!("shared Wine drive {drive} differs from expected mapping")
         }
     }
-    let mut c = Command::new("wine");
+    let mut c = Command::new(executable()?);
     c.env("WINEPREFIX", prefix)
         .env("WINEARCH", "win32")
         .env("WINEDEBUG", "-all")

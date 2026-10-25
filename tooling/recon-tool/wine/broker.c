@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <windows.h>
+#include "environment.h"
 #define RECON_ORIGINAL_BROKER
 #include "../include/recon-original-direct.h"
 typedef LPVOID(WINAPI *AllocateRemote)(HANDLE, LPVOID, DWORD, DWORD, DWORD);
@@ -332,6 +333,35 @@ static void stop(void)
         ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE);
     }
 }
+/* GetEnvironmentStrings in the original SDK is the ANSI baseline. Copy it;
+ * transport configuration belongs to the broker, never to the target overlay. */
+static char *target_environment(const char *path)
+{
+    HANDLE file;
+    DWORD size,got;
+    size_t base_size;
+    const char *base;
+    char *overlay,*result;
+    file=CreateFileA(path,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL);
+    if(file==INVALID_HANDLE_VALUE)return NULL;
+    size=GetFileSize(file,NULL);
+    if(size<2 || size>ORIGINAL_ENVIRONMENT_LIMIT){CloseHandle(file);return NULL;}
+    overlay=malloc(size);
+    if(!overlay){CloseHandle(file);return NULL;}
+    got=0;
+    if(!ReadFile(file,overlay,size,&got,NULL) || got!=size) {
+        CloseHandle(file);free(overlay);return NULL;
+    }
+    CloseHandle(file);
+    base=(const char *)GetEnvironmentStrings();
+    if(!base){free(overlay);return NULL;}
+    for(base_size=0;base_size+1<ORIGINAL_ENVIRONMENT_LIMIT;++base_size)
+        if(!base[base_size] && !base[base_size+1])break;
+    if(base_size+1==ORIGINAL_ENVIRONMENT_LIMIT){free(overlay);return NULL;}
+    result=original_environment_merge(base,base_size+2,overlay,size);
+    free(overlay);
+    return result;
+}
 int main(int argc, char **argv)
 {
     STARTUPINFOA startup;
@@ -342,10 +372,18 @@ int main(int argc, char **argv)
     Registers r, call_result[2];
     CONTEXT before, c;
     int kind, ok = 0;
-    char *command;
-    if (argc != 10 && argc != 14)
+    char *command,*environment=NULL;
+    int environment_argument=argc==11 || argc==15;
+    if (argc != 10 && argc != 11 && argc != 14 && argc != 15)
         return 2;
-    typed_helper = argc == 14;
+    typed_helper = argc == 14 || argc == 15;
+    if(environment_argument) {
+        environment=target_environment(argv[argc-1]);
+        if(!environment) {
+            fputs("invalid, oversized or non-ASCII original target environment\n",stderr);
+            return 2;
+        }
+    }
     rpc_input = GetStdHandle(STD_INPUT_HANDLE);
     rpc_output = GetStdHandle(STD_OUTPUT_HANDLE);
     handle_flags = (HandleFlags)GetProcAddress(GetModuleHandleA("kernel32.dll"),
@@ -413,8 +451,11 @@ int main(int argc, char **argv)
         return 5;
     strcpy(command, argv[1]);
     if (!CreateProcessA(argv[7], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
-                        NULL, argv[3], &startup, &launch))
+                        environment, argv[3], &startup, &launch)) {
+        free(environment);
         return 6;
+    }
+    free(environment);
     process = launch.hProcess;
     thread = launch.hThread;
     pid = launch.dwProcessId;

@@ -284,6 +284,18 @@ recon-tool original capture /path/to/case --repo /root/msvc2 \
 
 The helper is compiled with the existing VC1.0 original compiler. Its sources and
 build outputs live under this tool; no Python program is needed per binary/case.
+
+Wine's executable is resolved absolutely from the host PATH. The Unix launch
+retains its host PATH and the fixed shared Wine prefix/configuration. Fixture
+`env` entries apply only to the Windows target through an explicit CreateProcess
+block, preserving Wine's Windows defaults for unspecified names. Empty values
+and removals remain distinct; names are case-insensitive and duplicates fail.
+The broker keeps hidden drive-current-directory entries and sorts the child
+block by name. The current capture environment transport accepts ASCII only and
+bounds both its NUL-delimited overlay and resulting block to 32767 bytes.
+Rebuild the shared helper after updating these sources. Native replay is unchanged.
+`python3 tests/original-environment.py` checks this separation using a stand-in
+Wine plus the actual C merge routine; it never starts a Windows process.
 `capture` verifies the original SHA256 and entry against binary_descriptor. The
 optional `--program` selects that verified original path explicitly. Existing
 output files are not overwritten without `--replace`. Capturing is always an
