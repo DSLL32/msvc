@@ -1403,8 +1403,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_create_hash_table", .entry_rva = 0x1d287,
-        .code = (const ReconExtent[]){{0x1d287, 0x1d288}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x1d287, 0x1d319}, {0x6176d, 0x61779}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "create_hash_table",
     },
     {

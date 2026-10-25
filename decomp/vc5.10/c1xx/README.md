@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 137 accepted application functions / 19816
+The single registry is binary.c: 138 accepted application functions / 19974
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 139
+as are four six-byte import endpoints (24 bytes, zero App credit). The 140
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine create_hash_table INT3 at RVA1d287;
+and currently reaches the genuine make_function_type INT3 at RVA3840e;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -135,8 +135,16 @@ owner. Own later readers establish a symbol-group cache rather than the earlier
 provisional default-function-type name. That owner joins nonzero restoration.
 Original raw stack bytes independently retain all six inputs:16,0,4,3,1,1.
 
-Original/native took 1.391 s / 10.800 ms (native setup 5.702, execution 3.362,
-checks 1.736); build/audit/unit took 7.865 s. The 139-body strict audit and real
+The 158-byte generic hash-table constructor preserves both exact allocations:
+24-byte header and bucket_count*4 storage from the selected arena. Its comparison
+and hash callback selectors remain distinct, count narrows to WORD only for the
+stored count, two mode bits preserve the rest of their byte, and entry_count
+starts zero. The other mode bits, natural padding and entry pointees remain
+unmodeled. No explicit bucket clearing is invented; current storage is owned
+zero-backed arena memory. The real six arguments are16,0,4,3,1,1.
+
+Original/native took 0.685 s / 10.677 ms (native setup 4.906, execution 4.112,
+checks 1.659); build/audit/unit took 2.101 s. The 140-body strict audit and real
 selected-report order/frontier match; compilation is still unfinished.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.

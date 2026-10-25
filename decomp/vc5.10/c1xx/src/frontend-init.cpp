@@ -576,4 +576,24 @@ extern "C" void __cdecl initialize_symbol_groups(void)
 }
 extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
     unsigned arena, unsigned hash_kind, unsigned comparison_kind, unsigned flag0, unsigned flag1)
-{ __asm { int 3 } return NULL; }
+{
+    CompilerArena *storage = &frontend_bss.arenas[arena];
+    CompilerHashTable *table = (CompilerHashTable *)storage->cursor;
+    unsigned bytes;
+    BYTE *heads;
+    storage->cursor += 24;
+    if (storage->cursor > storage->committed_limit) storage->CommitExtent();
+    table->comparison_kind = comparison_kind;
+    table->hash_kind = hash_kind;
+    table->bucket_count = (WORD)buckets;
+    table->arena_kind = arena;
+    table->mode0 = flag0 & 1;
+    table->mode1 = flag1 & 1;
+    bytes = (buckets * 4 + 3) & ~3U;
+    heads = storage->cursor;
+    storage->cursor += bytes;
+    if (storage->cursor > storage->committed_limit) storage->CommitExtent();
+    table->buckets = (CompilerHashEntry **)heads;
+    table->entry_count = 0;
+    return table;
+}

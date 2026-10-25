@@ -3,6 +3,7 @@
 #include "frontend.h"
 #include "input.h"
 #include "scope.h"
+#include "hash-table.h"
 #include <recon.h>
 
 /* Only the encountered virtual slots have semantic names. Unrecovered
