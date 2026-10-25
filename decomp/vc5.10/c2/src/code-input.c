@@ -1697,3 +1697,40 @@ build:
     prepare_input_comparison(result->left, result->left->next, pointer_pair);
     *prior = result;
 }
+
+/* Preserve the two operands' deferred stacks while removing their tree lists. */
+void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left,
+                                  C2Expression **right, int condition)
+{
+    C2InputStack *local, *before, *after, *tail, *saved_after;
+    C2Expression *last, *trees;
+
+    if (!condition) *right = pop_input_expression(*stack);
+    local = *stack;
+    last = local->last;
+    before = local->before;
+    local->before = NULL;
+    after = local->after;
+    local->after = NULL;
+    trees = pop_input_trees(stack);
+    if (!condition) *left = pop_input_expression(*stack);
+    local = *stack;
+    if (!local->before) local->before = before;
+    else if (before) {
+        tail = local->before;
+        while (tail->next) tail = tail->next;
+        tail->next = before;
+    }
+    if (after) {
+        saved_after = local->after;
+        local->after = after;
+        if (saved_after) {
+            while (after->next) after = after->next;
+            after->next = saved_after;
+        }
+    }
+    if (trees) {
+        link_code_nodes((C2Record *)local->last, (C2Record *)trees);
+        local->last = last;
+    }
+}

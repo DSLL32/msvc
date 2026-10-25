@@ -96,11 +96,6 @@ void __fastcall finish_input_expression(C2InputStack *stack)
     __asm { int 3 }
 }
 
-void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2Expression **right, int condition)
-{
-    __asm { int 3 }
-}
-
 C2Expression * __fastcall new_input_expression(unsigned opcode, unsigned short type)
 {
     __asm { int 3 }
