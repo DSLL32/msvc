@@ -665,9 +665,22 @@ void reset_function_listing(void)
     __asm { int 3 }
 }
 
-void __fastcall function_pass_4088f4(C2Function *function)
+C2BasicBlock *__fastcall split_function_block(C2Function *function,
+    C2BasicBlock *block, C2Record *first)
 {
     __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall normalize_line_record(C2Record *record)
+{
+    __asm { int 3 }
+}
+
+int __fastcall record_closes_scope(C2Record *record)
+{
+    __asm { int 3 }
+    return 0;
 }
 
 void __fastcall function_pass_408ab8(C2Function *function)

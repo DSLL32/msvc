@@ -317,7 +317,7 @@ void __fastcall function_pass_4088c7(C2Function *function)
     rebuild_function_flow(function);
     group_symbol_records(function);
     simplify_symbol_records(function);
-    function_pass_4088f4(function);
+    partition_function_blocks(function);
     function_pass_408ab8(function);
     function_pass_408b54(function);
 }

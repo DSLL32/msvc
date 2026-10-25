@@ -264,10 +264,12 @@ struct C2FunctionListing {
 /* Only the record-list consumer's encountered block/flow prefixes. */
 struct C2BasicBlock {
     C2BasicBlock *previous, *next;
-    unsigned char pending08[20];
+    unsigned char pending08[16];
+    unsigned flags;
     C2Record *records, *last_record;
     unsigned char pending24[96];
-    unsigned short number84, number86, number88;
+    unsigned short number84, number86;
+    union { unsigned short number88, scope_depth; };
     unsigned char pending8a[2];
 };
 typedef char C2BlockSizeCheck[sizeof(C2BasicBlock) == 140 ? 1 : -1];

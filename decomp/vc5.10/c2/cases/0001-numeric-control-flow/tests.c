@@ -1049,7 +1049,39 @@ static int symbol_boundary_full_width(void)
     return 1;
 }
 
+static int block_scope_and_flags(void)
+{
+    C2Function function;
+    C2FlowGraph flow;
+    C2BasicBlock block;
+    C2Record records[5], before[5];
+    memset(&function, 0, sizeof(function));
+    memset(&flow, 0, sizeof(flow));
+    memset(&block, 0xa5, sizeof(block));
+    memset(records, 0, sizeof(records));
+    function.flow = &flow;
+    flow.first = flow.last = &block;
+    block.records = records;
+    block.last_record = &records[4];
+    block.flags = 0xa0020000;
+    records[0].next = &records[1];
+    records[1].next = &records[2];
+    records[2].next = &records[3];
+    records[3].next = &records[4];
+    records[1].kind = records[2].kind = 19;
+    records[1].opcode = 0x161;
+    records[2].opcode = 0x163;
+    records[3].kind = 16;
+    records[3].opcode = 0x15b;
+    memcpy(before, records, sizeof(records));
+    partition_function_blocks(&function);
+    return block.scope_depth == 1 && block.flags == 0xa1020000 &&
+        !memcmp(records, before, sizeof(records)) &&
+        block.pending08[0] == 0xa5 && block.pending24[95] == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
+    {"flow partition tracks scope depth and only adds its owned block flag", 1, block_scope_and_flags},
     {"symbol range mode preserves full DWORD results and never writes its input", 1, symbol_boundary_full_width},
     {"pool12 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_twelve_reset},
     {"inline collection tracks temporary lifetimes and address variants", 1, inline_temporary_lifetimes},

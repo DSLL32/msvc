@@ -1003,6 +1003,22 @@
             ]
           ]
         }
+      },
+      "@partition_function_blocks@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@partition_function_blocks@4",
+                "offset": 392
+              },
+              {
+                "rebuilt_symbol": "@partition_function_blocks@4",
+                "offset": 474
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

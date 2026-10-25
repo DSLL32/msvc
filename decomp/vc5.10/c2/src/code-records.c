@@ -2,6 +2,7 @@
 #include "output-callbacks.h"
 #include "code-input.h"
 #include "small-nodes.h"
+#include "flow.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -787,4 +788,50 @@ int __fastcall simplify_symbol_record(C2Expression *record)
     if (!record->declaration->detail.variable.flags)
         remove_symbol_record(record);
     return 1;
+}
+
+void __fastcall partition_function_blocks(C2Function *function)
+{
+    C2BasicBlock *block = function->flow->last;
+    C2Record *record = block->records->next;
+    C2Record *last = function->flow->first->last_record;
+    C2Record *next;
+    int split = 0;
+    unsigned short depth = 0;
+    while (record != last) {
+        next = record->next;
+        if (record->kind == 21) {
+            normalize_line_record(record);
+        } else {
+            if (split || record->kind == 25 || record->kind == 23) {
+                split = 0;
+                block = split_function_block(function, block, record);
+                block->scope_depth = depth;
+            }
+            switch (record->kind) {
+            case 16: case 18: case 22:
+                split = 1;
+                if (record->opcode == 0x15b) block->flags |= 0x01000000;
+                break;
+            case 19:
+                switch (record->opcode) {
+                case 0x161: case 0x171:
+                    ++depth;
+                    block->scope_depth = depth;
+                    break;
+                case 0x163: case 0x165:
+                    --depth;
+                    break;
+                case 0x172:
+                    if (record_closes_scope(record)) --depth;
+                    break;
+                }
+                break;
+            case 25:
+                record->owner.block = block;
+                break;
+            }
+        }
+        record = next;
+    }
 }
