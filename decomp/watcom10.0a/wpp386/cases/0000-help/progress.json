@@ -1,7 +1,7 @@
 {
   "scope": "initial help in progress; no completed output oracle",
-  "accepted_app_functions": 4,
-  "accepted_app_code_bytes": 407,
+  "accepted_app_functions": 5,
+  "accepted_app_code_bytes": 605,
   "functions": [
     {
       "name": "MemAlloc",
@@ -22,12 +22,17 @@
       "name": "SizeToClass",
       "entry": 531125,
       "bytes": 40
+    },
+    {
+      "name": "GetFromFrl",
+      "entry": 531165,
+      "bytes": 198
     }
   ],
-  "current_frontier": "GetFromFrl@0x81add",
+  "current_frontier": "MemFromSys@0x81d7e",
   "current_capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
   "shared_controller_expansion": false,
   "next": "Continue private allocator under ordinary debugger; no instruction admission machinery.",
-  "last_passing_frontier": "GetFromFrl@0x81add",
+  "last_passing_frontier": "MemFromSys@0x81d7e",
   "next_expected_frontier": null
 }

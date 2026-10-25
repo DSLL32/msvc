@@ -1,6 +1,16 @@
 #ifndef WPP_MEMORY_H
 #define WPP_MEMORY_H
 #include <recon.h>
+typedef struct frl frl;
+typedef struct next_prev {
+    frl *next, *prev;
+} next_prev;
+struct frl {
+    unsigned length;
+    int class;
+    next_prev link[8];
+};
+extern frl _FreeList;
 /* Original CF 0x81ba3: unsigned32 size in EAX, pointer result in EAX.
  * Native tests use GCC's ordinary ABI; original Watcom builds use -3r. */
 void *MemAlloc(unsigned size);

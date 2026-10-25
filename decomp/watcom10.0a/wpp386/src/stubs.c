@@ -13,7 +13,6 @@ void reconstruction_trap(void);
 #else
 #define STUB_TRAP() __asm__ __volatile__("int3")
 #endif
-void *GetFromFrl(unsigned size, int cls) { (void)size; (void)cls; STUB_TRAP(); return 0; }
 void *MemFromSys(unsigned size) { (void)size; STUB_TRAP(); return 0; }
 int myatoi(char *text) { (void)text; STUB_TRAP(); return 0; }
 void myitoa(int value, char *text) { (void)value; (void)text; STUB_TRAP(); }

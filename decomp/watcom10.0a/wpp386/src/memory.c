@@ -40,6 +40,16 @@
 
 int Initialized = 0;
 unsigned AllocSize, MemorySize;
+/* Encountered with GetFromFrl: eight empty circular lists share this sentinel.
+ * Original CF0xb9778: tag1, class0 and sixteen self-referencing pointers. */
+frl _FreeList = {
+    1, 0, {
+        { &_FreeList, &_FreeList }, { &_FreeList, &_FreeList },
+        { &_FreeList, &_FreeList }, { &_FreeList, &_FreeList },
+        { &_FreeList, &_FreeList }, { &_FreeList, &_FreeList },
+        { &_FreeList, &_FreeList }, { &_FreeList, &_FreeList }
+    }
+};
 
 int SizeToClass(unsigned amount)
 {
@@ -54,6 +64,41 @@ int SizeToClass(unsigned amount)
         amount >>= 1;
     } while (amount);
     return cls;
+}
+
+void *GetFromFrl(unsigned amount, int frl_class)
+{
+    frl *alloc, *free;
+    int i, cls, amount_left;
+
+    free = _FreeList.link[frl_class].next;
+    while (free != &_FreeList) {
+        amount_left = (int)(free->length - amount);
+        if (amount_left >= 0) {
+            if (amount_left >= 16) {
+                cls = SizeToClass(amount_left);
+                for (i = cls + 1; i <= free->class; ++i) {
+                    free->link[i].next->link[i].prev = free->link[i].prev;
+                    free->link[i].prev->link[i].next = free->link[i].next;
+                }
+                free->class = cls;
+                free->length = amount_left;
+                alloc = (frl *)((char *)free + amount_left);
+                alloc->length = amount;
+            } else {
+                for (i = 0; i <= free->class; ++i) {
+                    free->link[i].next->link[i].prev = free->link[i].prev;
+                    free->link[i].prev->link[i].next = free->link[i].next;
+                }
+                alloc = free;
+            }
+            AllocSize += alloc->length;
+            alloc->length |= 1;
+            return alloc;
+        }
+        free = free->link[frl_class].next;
+    }
+    return 0;
 }
 
 void *MemAlloc(unsigned amount)
