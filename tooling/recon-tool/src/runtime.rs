@@ -27,6 +27,9 @@ pub struct Options {
     /// Reviewed original-only bindings, checked against all declared hashes.
     #[arg(long)]
     pub bindings: Option<PathBuf>,
+    /// Optional compiled-image MAP qualification; never adds runtime candidates.
+    #[arg(long, conflicts_with = "bindings")]
+    pub map: Option<PathBuf>,
     /// Projected registry; only explicit historical category=runtime entries qualify.
     #[arg(long, requires = "override_objects")]
     pub override_registry: Option<PathBuf>,
@@ -580,7 +583,8 @@ fn collect(
         if !whole.is_empty() {
             pieces.push((text.clone(), funcs, whole));
         } else {
-            for sym in &funcs {
+            for aliases in funcs.chunk_by(|a, b| a.value == b.value) {
+                let sym = &aliases[0];
                 let begin = usize::try_from(sym.value)?;
                 let end = distinct_function_end(funcs.iter(), sym.value, text.data.len())?;
                 if begin == end {
@@ -604,10 +608,18 @@ fn collect(
                         fragment.relocs.push(reloc);
                     }
                 }
-                let mut sym = sym.clone();
-                sym.value = 0;
+                // Preserve the same-value COFF alias witness in each fragment.
+                // Equal code bytes from a different member are not aliases.
+                let symbols = aliases
+                    .iter()
+                    .cloned()
+                    .map(|mut sym| {
+                        sym.value = 0;
+                        sym
+                    })
+                    .collect();
                 let found = matches(code, &fragment)?;
-                pieces.push((fragment, vec![sym], found));
+                pieces.push((fragment, symbols, found));
             }
         }
         for (fragment, symbols, found) in pieces {
@@ -738,6 +750,31 @@ impl LinkMap {
         Ok(&entries[0])
     }
 }
+/// Restrict already matched records; MAP names never seed a candidate or body.
+fn qualify_candidates(map: &LinkMap, candidates: &mut Vec<Candidate>) {
+    for candidate in candidates.iter_mut() {
+        let qualified: HashSet<_> = candidate
+            .records
+            .iter()
+            .filter(|record| {
+                map.symbols.get(&record.name).is_some_and(|entries| {
+                    entries.iter().any(|symbol| symbol.address == record.start)
+                })
+            })
+            .map(|record| (record.start, record.end))
+            .collect();
+        candidate
+            .records
+            .retain(|record| match map.symbols.get(&record.name) {
+                Some(entries) => entries.iter().any(|symbol| symbol.address == record.start),
+                // Same-entry, same-end records in this candidate originate from
+                // same-value symbols in this exact COFF member/fragment.
+                None => qualified.contains(&(record.start, record.end)),
+            });
+    }
+    candidates.retain(|candidate| !candidate.records.is_empty());
+}
+
 /// Resolve public MAP addresses only after checking its identity against the PE.
 pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32>>> {
     let pe = Pe::parse(fs::read(image)?)?;
@@ -939,12 +976,24 @@ fn prune(
     candidates: &mut Vec<Candidate>,
     overrides: &HashMap<String, HashSet<u32>>,
 ) -> Result<()> {
+    prune_with_external_anchors(pe, candidates, overrides, &HashMap::new())
+}
+
+fn prune_with_external_anchors(
+    pe: &Pe,
+    candidates: &mut Vec<Candidate>,
+    overrides: &HashMap<String, HashSet<u32>>,
+    external_anchors: &HashMap<String, HashSet<u32>>,
+) -> Result<()> {
     let imports = pe.imports()?;
     loop {
-        let mut known: HashMap<&str, HashSet<u32>> = overrides
+        let mut known: HashMap<&str, HashSet<u32>> = external_anchors
             .iter()
             .map(|(name, addresses)| (name.as_str(), addresses.clone()))
             .collect();
+        for (name, addresses) in overrides {
+            known.entry(name).or_default().extend(addresses);
+        }
         for c in candidates.iter() {
             for r in &c.records {
                 known.entry(&r.name).or_default().insert(r.start);
@@ -1159,6 +1208,26 @@ pub fn identify(options: Options) -> Result<()> {
     }
     let overrides = override_targets(&pe, &options)?;
     prune(&pe, &mut candidates, &overrides)?;
+    if let Some(path) = &options.map {
+        let map =
+            LinkMap::parse(&fs::read_to_string(path)?, &pe).context("runtime MAP qualification")?;
+        // A removed identity must not become a permissive unknown on the
+        // second fixed point. MAP publics anchor external identities only;
+        // they never relax same-member relocations or add matched bodies.
+        let mut anchors: HashMap<String, HashSet<u32>> = candidates
+            .iter()
+            .flat_map(|candidate| &candidate.records)
+            .map(|record| (record.name.clone(), HashSet::new()))
+            .collect();
+        for (name, symbols) in &map.symbols {
+            anchors
+                .entry(name.clone())
+                .or_default()
+                .extend(symbols.iter().map(|s| s.address));
+        }
+        qualify_candidates(&map, &mut candidates);
+        prune_with_external_anchors(&pe, &mut candidates, &overrides, &anchors)?;
+    }
     let mut records: Vec<_> = candidates.into_iter().flat_map(|c| c.records).collect();
     for i in 0..records.len() {
         if records[i].name == "_strcat" {
@@ -1260,10 +1329,108 @@ mod tests {
                 assert_eq!(matching.len(), 1);
                 assert_eq!((matching[0].start, matching[0].end), (0x1000, 0x1008));
             }
+            assert!(candidates.iter().any(|candidate| {
+                candidate.records.iter().any(|r| r.name == "_first")
+                    && candidate.records.iter().any(|r| r.name == "_alias")
+            }));
             assert!(records.iter().all(|r| r.start < r.end));
             assert_eq!(records.iter().any(|r| r.name == "_next"), !change_neighbor);
         }
     }
+    #[test]
+    fn removed_map_identity_cannot_become_an_unknown_callee() {
+        let mut data = vec![0; 256];
+        data[129..133].copy_from_slice(&43i32.to_le_bytes());
+        let pe = Pe {
+            data,
+            base: 0x1000,
+            optional: 0,
+            sections: vec![PeSection {
+                name: ".text".into(),
+                rva: 0,
+                raw_size: 128,
+                offset: 128,
+                virtual_size: 128,
+                flags: 0x20,
+            }],
+        };
+        let make = || Candidate {
+            section: Section {
+                data: vec![0xe8, 0, 0, 0, 0],
+                relocs: vec![Relocation {
+                    offset: 1,
+                    target: symbol("_false_callee", 0),
+                    kind: 20,
+                }],
+                index: 1,
+                flags: 0x20,
+            },
+            start: 0x1000,
+            records: vec![record("_real_caller", 0x1000)],
+        };
+        // Losing all candidates for a formerly known name must remain a
+        // rejection on later fixed-point iterations, not become unknown.
+        let denied = HashMap::from([("_false_callee".into(), HashSet::new())]);
+        let mut candidates = vec![make()];
+        prune_with_external_anchors(&pe, &mut candidates, &HashMap::new(), &denied).unwrap();
+        assert!(candidates.is_empty());
+        // A bound MAP public is an identity witness without a body record.
+        let bound = HashMap::from([("_false_callee".into(), HashSet::from([0x1030]))]);
+        candidates = vec![make()];
+        prune_with_external_anchors(&pe, &mut candidates, &HashMap::new(), &bound).unwrap();
+        assert_eq!(candidates.len(), 1);
+        assert_eq!(candidates[0].records.len(), 1);
+        let wrong = HashMap::from([("_false_callee".into(), HashSet::from([0x1040]))]);
+        candidates = vec![make()];
+        prune_with_external_anchors(&pe, &mut candidates, &HashMap::new(), &wrong).unwrap();
+        assert!(candidates.is_empty());
+    }
+
+    #[test]
+    fn map_qualification_preserves_only_witnessed_aliases() {
+        let make = |names: &[&str]| Candidate {
+            section: Section {
+                data: vec![0xc3; 5],
+                relocs: vec![],
+                index: 1,
+                flags: 0x20,
+            },
+            start: 0x1000,
+            records: names.iter().map(|name| record(name, 0x1000)).collect(),
+        };
+        let map = LinkMap {
+            symbols: HashMap::from([
+                (
+                    "_real".into(),
+                    vec![MapSymbol {
+                        address: 0x1000,
+                        object: "real.obj".into(),
+                    }],
+                ),
+                (
+                    "_elsewhere".into(),
+                    vec![MapSymbol {
+                        address: 0x2000,
+                        object: "other.obj".into(),
+                    }],
+                ),
+            ]),
+        };
+        let mut candidates = vec![
+            make(&["_real", "_same_value_alias", "_elsewhere"]),
+            // Identical bytes from another member do not prove an alias.
+            make(&["_unrelated"]),
+        ];
+        qualify_candidates(&map, &mut candidates);
+        assert_eq!(candidates.len(), 1);
+        let names: Vec<_> = candidates[0]
+            .records
+            .iter()
+            .map(|r| r.name.as_str())
+            .collect();
+        assert_eq!(names, ["_real", "_same_value_alias"]);
+    }
+
     #[test]
     fn same_entry_aliases_share_next_distinct_symbol_boundary() {
         let mut first = symbol("__alloca_probe", 1);
