@@ -510,19 +510,26 @@ the accepted snapshot's trap in place of pending `InitMsg`. CF output-only cache
 must not be presented as complete trace or frontier oracles; missing entry
 evidence stays explicit.
 
-Two audit accommodations need shared-tool review:
+Two minimal audit accommodations remain; the graph maintainer confirmed the
+existing CF/MAP reader and catalog interfaces:
 
 - **CF registry projection — recon-tool owner:** `src/projection.rs::registry`
   currently forbids `policy.target` and constructs a PE-shaped target. Add a
   bounded way to retain the exact existing CF `target.path`/`target.image`
   descriptor, loader/container/relocation hashes and payload offsets at base 0.
   Use graph-audit's existing CF reader; no synthetic PE or second CFG walker.
-- **Reviewed runtime catalog reuse — recon-tool owner, graph owner reviewing:**
+  Entry-only CF names belong in the existing identity registry; do not invent
+  one-byte or whole-image code extents to make them owned function records.
+- **Reviewed runtime catalog reuse — recon-tool owner:**
   `src/runtime.rs` still requires COFF/ar input and a `.text` section. Watcom's
   CLIB3R objects/libraries are OMF and its Win32 code uses `BEGTEXT`. Preserve and
   validate the current explicit runtime identity/extent evidence through shared
   tooling instead of rebuilding a general OMF matcher for this migration.
   Known names alone cannot supply bounds, body availability or CRT exemptions.
+  Graph-audit already accepts flat `--runtime`/`--rebuilt-runtime` records
+  (`src/index.rs`); those inputs do not authenticate arbitrary JSON hashes.
+  The shared ingress must check the reviewed catalog, image/body/relocation
+  evidence and current rebuilt PE/MAP provenance before projecting records.
 
 DSO constructor ordering, WLIB's empty target-allocation namespace and actual
 entry FP state need migration validation, rather than new shim semantics. Case
@@ -531,6 +538,8 @@ Native GCC ABI is explicitly authorized; original Watcom builds retain true
 watcall/signature/export checks. No per-function veneers or OMF-to-ELF transport
 are needed. The exact WLINK-main noreturn residual and Watcom register ABI checks
 remain target-specific; RET cleanup checks do not prove the whole ABI.
+CF import and callback-table checks remain unsupported; their availability must
+not be inferred from the existing CF reader or native typed-hook support.
 
 **2. Before fresh original CLI/frontier captures.** Shared `original capture`
 remains PE32-only. Reuse the existing `tooling/watcom-capture/` controller behind
