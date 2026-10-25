@@ -243,3 +243,21 @@ void stage_initial_pch_streams(void)
     }
     free(pch_transfer_buffer);
 }
+
+/* Original0x6d140..0x6d1fe. Copy through the shared32K workspace. A short
+   read ends the transfer, retaining the original signed limit/low-WORD request. */
+unsigned __stdcall copy_pch_stream(FILE *source, FILE *destination, int bytes)
+{
+    int left = bytes;
+    unsigned count, request;
+    do {
+        request = left < 0x8000 ? (unsigned short)left : 0x8000;
+        count = fread(pch_transfer_buffer, 1, request, source);
+        left -= count;
+        if (source->_flag & 0x20) report_fatal(84, message_text(339), 0);
+        intermediate_status = fwrite(pch_transfer_buffer, 1, count, destination);
+        if (intermediate_status == -1)
+            report_error(85, message_text(339), 0, pch_diagnostic_name, 1485);
+    } while (count == 0x8000);
+    return (unsigned)bytes - left;
+}
