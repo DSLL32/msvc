@@ -3,20 +3,61 @@ RECON := ../../../lib/recon
 NATIVE_CC := clang
 NATIVE_CXX := clang++
 BINARY_LINKER := clang
-BINARY_SOURCES := $(wildcard src/*.c) $(wildcard src/*.cpp) scripts/native-widen-factory.cpp
-BINARY_SUPPORT_SOURCES := scripts/native-driver.c scripts/native-widen.c scripts/native-pdb.c \
+APP_SOURCES := src/derived-types.c \
+  src/diagnostics.c \
+  src/files.c \
+  src/global-symbols.c \
+  src/global-types.c \
+  src/image.c \
+  src/input.c \
+  src/legacy-types.c \
+  src/main.c \
+  src/messages.c \
+  src/modern-types.c \
+  src/module-types.c \
+  src/options.c \
+  src/pack.c \
+  src/primitive-types.c \
+  src/publics.c \
+  src/source-index.c \
+  src/stubs.c \
+  src/symbol-handlers.c \
+  src/symbol-reference.c \
+  src/symbol-references.c \
+  src/symbol-rewrite.c \
+  src/symbol-scan.c \
+  src/symbol-scopes.c \
+  src/type-arena.c \
+  src/type-compare.c \
+  src/type-hash.c \
+  src/type-index.c \
+  src/type-intern.c \
+  src/type-lists.c \
+  src/type-lookup.c \
+  src/type-names.c \
+  src/type-pointers.c \
+  src/type-recursive-hash.c \
+  src/type-recursive.c \
+  src/type-references.c \
+  src/types.c \
+  src/writer.c \
+  src/widen.cpp
+# Existing shared support rules compile C only; this host bridge uses their
+# C++ dispatch list until common C++ support is available. It earns no App credit.
+BINARY_SOURCES := $(APP_SOURCES) harness/native-widen-factory.cpp
+BINARY_SUPPORT_SOURCES := harness/native-driver.c harness/native-widen.c harness/native-pdb.c \
  $(wildcard $(RECON)/src/*.c)
 NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 \
- -I$(RECON)/include -I$(RECON)/native -Isrc
+ -I$(RECON)/include -I$(RECON)/native -Isrc -Icrt
 NATIVE_CFLAGS := -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS := -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 
 ORIGINAL_TOOLCHAIN := 5.10
-ORIGINAL_SOURCES := $(wildcard src/*.c) $(wildcard src/*.cpp)
+ORIGINAL_SOURCES := $(APP_SOURCES)
 ORIGINAL_OUTPUT := build/CVPACK.EXE
-ORIGINAL_CPPFLAGS := /I$(RECON)/include
+ORIGINAL_CPPFLAGS := /Isrc /Icrt /I$(RECON)/include
 ORIGINAL_CFLAGS := /nologo /c /MD /Od /W3
-ORIGINAL_INCLUDE_DIRS := src $(RECON)/include
+ORIGINAL_INCLUDE_DIRS := src crt $(RECON)/include
 ORIGINAL_LDFLAGS := /nologo /subsystem:console /map:build/cvpack.map
 ORIGINAL_LDLIBS := build/resources.res build/mspdb50.lib
 
