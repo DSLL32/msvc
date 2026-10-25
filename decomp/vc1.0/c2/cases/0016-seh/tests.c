@@ -6,6 +6,7 @@
 #include "intrinsics.h"
 #include "global-registers.h"
 #include "register-transfers.h"
+#include "seh-selection.h"
 #include <recon-native.h>
 #include <recon.h>
 extern Node *free_nodes;
@@ -32,6 +33,7 @@ extern int c2_refresh_region_inputs(void);
 extern int c2_restore_excluded_inputs(void);
 extern int c2_register_ends_inputs(void);
 extern int c2_assembly_record_inputs(void);
+extern int c2_scope_table_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -629,6 +631,120 @@ static int register_end_signed_comparison(void)
     }
     return 1;
 }
+/* Cold instruction-list assertions isolate the recovered selector's
+   operation order and operand ownership; they are not public-input traces. */
+static int seh_annotation_operations(void)
+{
+    static const unsigned short codes[]={0x26,0x27,0x27,0x27,0x2b,0x28,0x28,0x2d,0x2a};
+    static const unsigned expected[][4]={{MC_EFWAIT,MC_MOV,0,0},{MC_EFWAIT,MC_MOV,MC_PUSH,0},
+        {MC_EFWAIT,MC_MOV,MC_PUSH,0},{MC_EFWAIT,MC_MOV,0,0},{MC_MOV,0,0,0},
+        {0,0,0,0},{MC_MOV,MC_MOV,MC_MOV,MC_MOV},{MC_RET,0,0,0},{0,0,0,0}};
+    static const unsigned counts[]={2,3,3,2,1,0,4,1,0};
+    BackendSymbol registration,finally_stack;ExceptionScope scope;SymbolHeader label;
+    Node node;MachineInstruction *instruction;unsigned i,j;MachineOperand *destination,*source;
+    memset(&registration,0,sizeof registration);memset(&finally_stack,0,sizeof finally_stack);
+    memset(&label,0,sizeof label);
+    for(i=0;i<RECON_COUNT(codes);++i){
+        memset(&node,0,sizeof node);memset(&scope,0,sizeof scope);
+        node.opcode=0x4f;node.left.pointer=&scope;node.detail.control.code=(short)codes[i];
+        scope.identifier=9;scope.parent_identifier=-1;scope.kind=i==3?1:2;
+        scope.alternate_label=i==2?&label:0;scope.flags=i==6?1:0;
+        seh_registration=&registration;seh_finally_stack=&finally_stack;
+        machine_instructions=machine_tail=0;temporary_operand_count=0;
+        if(select_assembly_record(&node)!=0x1a)return 0;
+        instruction=machine_instructions;
+        for(j=0;j<counts[i];++j){
+            if(!instruction||((instruction->opcode>>8)&255)!=expected[i][j])return 0;
+            destination=&instruction->operands[0];source=&instruction->operands[1];
+            if(expected[i][j]==MC_MOV&&i!=6){
+                if((destination->flags&15)!=OPERAND_BASED||
+                    destination->value.address->symbol!=&registration.symbol||
+                    destination->value.address->first.displacement!=12||
+                    source->flags!=OPERAND_IMMEDIATE||
+                    source->value.constant!=(i==0?9:~0U))return 0;
+            }
+            if(expected[i][j]==MC_PUSH){
+                if(i==2){if((destination->flags&15)!=OPERAND_LABEL_ADDRESS||
+                    destination->value.address->symbol!=&label)return 0;}
+                else if(destination->flags!=OPERAND_IMMEDIATE||destination->value.constant)return 0;
+            }
+            if(expected[i][j]==MC_RET&&(destination->flags!=OPERAND_IMMEDIATE||
+                destination->value.constant))return 0;
+            if(i==6){
+                if(j==0){if(source->value.address->symbol!=&registration.symbol||
+                    source->value.address->first.displacement!=20)return 0;}
+                else if(j==1||j==2){if((source->flags&15)!=OPERAND_BASED||source->value.address->symbol||
+                    source->value.address->first.displacement||
+                    source->value.address->base.words.number!=destination->value.reg.words.number)return 0;}
+                else if(destination->value.address->symbol!=&finally_stack.symbol)return 0;
+            }
+            instruction=instruction->next;
+        }
+        if(instruction||seh_registration!=&registration||seh_finally_stack!=&finally_stack||
+           scope.identifier!=9||scope.parent_identifier!=-1)return 0;
+    }
+    return 1;
+}
+static int seh_intrinsic_operations(void)
+{
+    static const unsigned ids[]={0xf2,0xf2,0xf4,0xd9,0xda,0xd8,0xdb,0xdc};
+    static const unsigned expected[][3]={{MC_MOV,0,0},{MC_MOV,MC_SUB,MC_MOV},
+        {MC_EFWAIT,MC_MOV,0},{MC_MOV,0,0},{MC_MOV,0,0},{MC_MOV,0,0},{MC_MOV,0,0},{0,0,0}};
+    static const unsigned counts[]={1,3,2,1,1,1,1,0};
+    BackendSymbol registration,finally_stack,saved_stack;Node node,callee,argument,list;
+    MachineInstruction *instruction;unsigned i,j;unsigned short result;
+    memset(&registration,0,sizeof registration);memset(&finally_stack,0,sizeof finally_stack);
+    memset(&saved_stack,0,sizeof saved_stack);
+    for(i=0;i<RECON_COUNT(ids);++i){
+        memset(&node,0,sizeof node);memset(&callee,0,sizeof callee);
+        memset(&argument,0,sizeof argument);memset(&list,0,sizeof list);
+        node.opcode=i&1?0x7a:0x40;node.left.node=&callee;node.second.node=&list;
+        callee.left.value=ids[i];list.left.node=&argument;argument.left.value=i==0?0:20;
+        seh_registration=&registration;seh_finally_stack=&finally_stack;seh_saved_stack=&saved_stack;
+        machine_instructions=machine_tail=0;temporary_operand_count=0;
+        result=select_assembly_record(&node);instruction=machine_instructions;
+        if(i==3||i==4){if(!instruction||result!=instruction->operands[0].value.reg.words.number)return 0;}
+        else if(result!=0x1a)return 0;
+        for(j=0;j<counts[i];++j){
+            if(!instruction||((instruction->opcode>>8)&255)!=expected[i][j])return 0;
+            if(i==1&&j==1&&(instruction->operands[1].flags!=OPERAND_IMMEDIATE||
+                instruction->operands[1].value.constant!=20))return 0;
+            if(i==2&&j==1&&(instruction->operands[0].value.address->symbol!=&registration.symbol||
+                instruction->operands[0].value.address->first.displacement!=12||
+                instruction->operands[1].value.constant!=20))return 0;
+            if((i==3||i==4)&&(instruction->operands[1].value.address->symbol!=
+                (i==3?&finally_stack.symbol:&registration.symbol)||
+                instruction->operands[1].value.address->first.displacement!=(i==3?0:20)))return 0;
+            instruction=instruction->next;
+        }
+        if(instruction)return 0;
+    }
+    return 1;
+}
+static unsigned missing_seh_code;
+static void __fastcall missing_seh_owner(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==missing_seh_code&&!strcmp(source,"@(#)cgintrin.c:1.57"));
+}
+static void invoke_missing_seh_owner(void *argument)
+{
+    unsigned index=(unsigned)argument;Node node,callee;ExceptionScope scope;
+    memset(&node,0,sizeof node);memset(&callee,0,sizeof callee);memset(&scope,0,sizeof scope);
+    seh_finally_stack=seh_registration=seh_saved_stack=0;
+    if(index==2)node.opcode=0x47;
+    else if(index==3){node.opcode=0x4f;node.detail.control.code=0x28;
+        node.left.pointer=&scope;scope.flags=1;}
+    else{node.opcode=0x40;node.left.node=&callee;callee.left.value=index?0xd9:0xd8;}
+    select_assembly_record(&node);
+}
+static int seh_missing_owner_boundaries(void)
+{
+    static const unsigned codes[]={0x409,0x3fb,0x412,0x3b7};unsigned i;
+    for(i=0;i<RECON_COUNT(codes);++i){missing_seh_code=codes[i];
+        if(recon_native_at_entry((const void *)compiler_internal_error,
+            (const void *)missing_seh_owner,invoke_missing_seh_owner,(void *)i)!=1)return 0;}
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -685,5 +801,9 @@ const ReconTest c2_tests[]={
     {"actual definition-end Work/value/stack-range and binding aliases",1,c2_register_ends_inputs},
     {"definition ends insert typed markers after matching writes",1,register_end_annotations},
     {"definition range compares signed tree and unsigned packed number",1,register_end_signed_comparison},
-    {"actual assembly selector Node ECX and defined28B fields",1,c2_assembly_record_inputs}
+    {"actual assembly selector Node ECX and defined28B fields",1,c2_assembly_record_inputs},
+    {"SEH annotations preserve operation order and registration owners",1,seh_annotation_operations},
+    {"SEH intrinsic memory operations and returned register identities",1,seh_intrinsic_operations},
+    {"SEH missing owners reach exact diagnostic boundaries",1,seh_missing_owner_boundaries},
+    {"actual scope-table initializer hidden function/two-scope/symbol owners",1,c2_scope_table_inputs}
 };

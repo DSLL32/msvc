@@ -5,6 +5,7 @@
 #include "global-registers.h"
 #include "register-transfers.h"
 #include "instruction-selection.h"
+#include "seh-selection.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -357,4 +358,25 @@ int c2_assembly_record_inputs(void)
 {
     return recon_native_at_entry((const void *)select_assembly_record,
         (const void *)assembly_record_entry,real_input,0)==1;
+}
+
+static void scope_table_entry(void)
+{
+    ExceptionScope *first=current_function->exception_scopes,*second=first->next;
+    int valid=seh_scope_table&&seh_scope_table->symbol.value==24&&
+        seh_scope_table->symbol.kind==1&&seh_scope_table->symbol.field0d==0x26&&
+        seh_scope_table->symbol.field0e==0x80&&seh_scope_table->symbol.identifier==199&&
+        !seh_finally_stack&&!seh_registration&&!seh_saved_stack&&second&&!second->next&&
+        first->kind==1&&first->state==1&&!first->identifier&&!first->finally_depth&&
+        first->parent_identifier==-1&&first->handler_label&&first->filter_label&&
+        first->alternate_label&&!first->field24&&!first->locals&&first->flags==1&&
+        second->kind==2&&second->state==1&&second->identifier==1&&!second->finally_depth&&
+        !second->parent_identifier&&second->handler_label&&!second->filter_label&&
+        second->alternate_label&&!second->field24&&!second->locals&&!second->flags;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_table_inputs(void)
+{
+    return recon_native_at_entry((const void *)initialize_exception_scope_table,
+        (const void *)scope_table_entry,real_input,0)==1;
 }

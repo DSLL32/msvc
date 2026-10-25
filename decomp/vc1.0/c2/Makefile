@@ -76,6 +76,7 @@ BINARY_SOURCES = src/c2.c \
     src/instruction-rewrite.c \
     src/instruction-uses.c \
     src/function-selection.c \
+    src/seh-selection.c \
     src/register-use.c \
     src/bitsets.c \
     src/machine-records.c \

@@ -117,7 +117,7 @@ SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3
 
 
 MachineOperand *__fastcall high_dword_operand(MachineOperand *operand) { __asm int 3 }
-unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
+void initialize_exception_scope_table(void) { __asm int 3 }
 
 #include "register-use.h"
 

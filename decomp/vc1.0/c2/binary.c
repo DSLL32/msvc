@@ -9798,10 +9798,21 @@ static const ReconFunction functions[] = {
     {
         .name = "@select_assembly_record@4",
         .entry_rva = 0xbc00,
-        .code = (const ReconExtent[]) { { 0xbc00, 0xbc01 } },
+        .code = (const ReconExtent[]) { { 0xbc00, 0xc424 } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0xc424, 0xc49c } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "select_assembly_record",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_initialize_exception_scope_table",
+        .entry_rva = 0xd3b0,
+        .code = (const ReconExtent[]) { { 0xd3b0, 0xd3b1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "initialize_exception_scope_table",
         .implementation = RECON_UNIMPLEMENTED,
     },
     {
