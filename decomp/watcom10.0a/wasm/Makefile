@@ -15,13 +15,25 @@ ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/watc
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386 --
 ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK --
 ORIGINAL_COMPILE = $(ORIGINAL_CC) $(ORIGINAL_CFLAGS) $(ORIGINAL_CPPFLAGS) '-fo=$(subst /,\,$@)' '$(subst /,\,$<)'
-ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) @build/wasm.lnk
-include $(RECON_TOOL_DIR)/recon-tool.mk
+# The old linker consumes directive lines rather than MSVC switches.
+define WATCOM_NEWLINE
 
-$(ORIGINAL_LINK_OUTPUTS): build/wasm.lnk
-build/wasm.lnk: $(ORIGINAL_OBJECTS) Makefile scripts/write-link.py
-	@mkdir -p $(@D)
-	python3 scripts/write-link.py $@ $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) $(ORIGINAL_OBJECTS)
+
+endef
+define WATCOM_LINK_RESPONSE
+format windows nt
+runtime console
+debug all
+option map=$(subst /,\,$(ORIGINAL_MAP))
+name $(subst /,\,$(ORIGINAL_OUTPUT))
+$(foreach object,$(ORIGINAL_OBJECTS),file $(subst /,\,$(object))$(WATCOM_NEWLINE))
+libpath R:\toolchains\watcom10.0a\lib386
+libpath R:\toolchains\watcom10.0a\lib386\nt
+library clib3r
+library nt
+endef
+ORIGINAL_LINK_COMMAND = $(file >$(ORIGINAL_BUILD)/wasm.lnk,$(WATCOM_LINK_RESPONSE))$(ORIGINAL_LINK) @$(ORIGINAL_BUILD)/wasm.lnk
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
 .PHONY: original
 original: win32
