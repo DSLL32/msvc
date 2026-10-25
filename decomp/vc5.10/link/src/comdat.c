@@ -119,4 +119,19 @@ void __stdcall initialize_comdat_reference_enumerator(ComdatReferenceEnumerator 
     enumerator->index=0;
 }
 BYTE __stdcall next_comdat_reference(ComdatReferenceEnumerator *enumerator)
-{ __asm { int 3 } return 0; }
+{
+    ContributionInfo *block=enumerator->block;
+    enumerator->current=NULL;
+    if (enumerator->index==block->references_used) {
+        block=block->reference_overflow;
+        if (!block) return 0;
+        enumerator->block=block;
+        enumerator->index=0;
+    }
+    block=enumerator->block;
+    if (enumerator->index<block->references_used) {
+        enumerator->current=(ComdatReference *)block->references+enumerator->index;
+        ++enumerator->index;
+    }
+    return enumerator->current!=NULL;
+}

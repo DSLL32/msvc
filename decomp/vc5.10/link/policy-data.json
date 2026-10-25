@@ -6384,6 +6384,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_next_comdat_reference@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

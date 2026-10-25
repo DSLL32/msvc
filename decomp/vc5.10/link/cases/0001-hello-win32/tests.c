@@ -1075,16 +1075,51 @@ static void __stdcall check_reference_enumerator(ComdatReferenceEnumerator *enum
         recon_native_entry_finish(0);
     initialize_comdat_reference_enumerator(enumerator,block);
     /* The unused padding WORD is uninitialized on each side and unobserved. */
-    recon_native_entry_finish(enumerator->next==next_comdat_reference &&
+    if (!(enumerator->next==next_comdat_reference &&
         enumerator->end==(void (__stdcall *)(void *))end_section_enumerator &&
-        enumerator->block==block && !enumerator->current && !enumerator->index);
+        enumerator->block==block && !enumerator->current && !enumerator->index))
+        recon_native_entry_finish(0);
+    {
+        unsigned i;
+        for (i=0;i<8;++i) {
+            if (!enumerator->next(enumerator) || enumerator->index!=i+1 ||
+                enumerator->current!=(ComdatReference *)block->references+i)
+                recon_native_entry_finish(0);
+        }
+        recon_native_entry_finish(!enumerator->next(enumerator) && !enumerator->current &&
+            enumerator->block==block && enumerator->index==8);
+    }
 }
 static int reference_enumerator(void)
 {
     return recon_native_at_entry(initialize_comdat_reference_enumerator,
         check_reference_enumerator,invoke_hello,NULL)==1;
 }
+extern void __stdcall release_module_strings(char *);
+extern char *current_module_strings;
+static void __stdcall check_bound_comdat_references(char *strings)
+{
+    static const DWORD indices[8]={17,16,15,14,13,10,9,8};
+    OutputModule *module=current_input_library->module_head;
+    ComdatReference *references=(ComdatReference *)module->contribution_info[1].references;
+    unsigned i;
+    if(strings!=current_module_strings || !strings || module->section_map ||
+        module->contribution_info[1].references_used!=8) recon_native_entry_finish(0);
+    for(i=0;i<8;++i) {
+        if(references[i].contribution || references[i].flags ||
+            !current_module_symbols[indices[i]] ||
+            references[i].symbol!=current_module_symbols[indices[i]])
+            recon_native_entry_finish(0);
+    }
+    recon_native_entry_finish(1);
+}
+static int bound_comdat_references(void)
+{
+    return recon_native_at_entry(release_module_strings,check_bound_comdat_references,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"bound-comdat-references",1,bound_comdat_references},
     {"reference-enumerator",1,reference_enumerator},
     {"module-contribution-enumerator",1,module_contribution_enumerator},
     {"symbol-reference-owner",1,symbol_reference},
