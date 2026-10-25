@@ -6470,6 +6470,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_search_libraries@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

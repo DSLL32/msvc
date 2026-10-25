@@ -187,7 +187,53 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
     close_argument_file(current_input_file,0);
 }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
-extern "C" void __stdcall search_libraries(LinkContext *context) { __asm { int 3 } }
+extern "C" OutputLibrary *__stdcall load_next_default_library(LinkPointerList *list)
+{ __asm { int 3 } return NULL; }
+extern "C" void __stdcall ensure_library_loaded(LinkContext *context,OutputLibrary *library)
+{ __asm { int 3 } }
+void RECON_THISCALL OutputLibrary::SearchSymbols(LinkContext *context,
+    BYTE *changed,BYTE *keep_searching)
+{ __asm { int 3 } }
+extern "C" void __stdcall search_libraries(LinkContext *context)
+{
+    OutputLibrary *last_changed=NULL,*library;
+    LibraryEnumerator libraries;
+    BYTE keep_searching=1,initial_libraries,changed;
+    if (verbose_link) {
+        fputc('\n',stdout);
+        link_message(9002);
+    }
+    do {
+        initialize_library_enumerator(&libraries,(OutputLibrary *)context->pointer_list.first);
+        initial_libraries=1;
+        for (;;) {
+            if (initial_libraries && next_library(&libraries)) library=libraries.current;
+            else initial_libraries=0;
+            if (!initial_libraries) {
+                library=load_next_default_library(&context->pointer_list);
+                if (!library) break;
+            }
+            if (library==last_changed) goto done;
+            if (library->flags & 4) continue;
+            changed=0;
+            ensure_library_loaded(context,library);
+            library->SearchSymbols(context,&changed,&keep_searching);
+            if (incremental_enabled && incremental_status_code) goto done;
+            if (!keep_searching) {
+                if (initial_libraries)
+                    end_section_enumerator((SectionEnumerator *)&libraries);
+                goto done;
+            }
+            if (changed) last_changed=library;
+        }
+        if (!last_changed) break;
+    } while (keep_searching);
+done:
+    if (verbose_link) {
+        fputc('\n',stdout);
+        link_message(9003);
+    }
+}
 extern "C" StringNode *__stdcall resolve_entry_symbol(LinkContext *context)
 {
     char *name=(char *)context->entry_name;

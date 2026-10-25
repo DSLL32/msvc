@@ -6,6 +6,7 @@
 #include "symbols.h"
 #include <recon.h>
 
+struct LinkContext;
 typedef struct OutputModule OutputModule;
 typedef struct OutputLibrary OutputLibrary;
 typedef struct OutputSection OutputSection;
@@ -53,6 +54,7 @@ struct OutputLibrary {
     DWORD reserved40;
 #ifdef __cplusplus
     OutputModule *RECON_THISCALL FindModule(const char *,const void *);
+    void RECON_THISCALL SearchSymbols(struct LinkContext *,BYTE *,BYTE *);
 #endif
 };
 struct OutputModule {

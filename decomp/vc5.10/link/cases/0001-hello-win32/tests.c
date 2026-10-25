@@ -1279,7 +1279,24 @@ static int startup_undefined(void)
     return recon_native_at_entry(search_libraries,check_startup_undefined,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall ensure_library_loaded(LinkContext *,OutputLibrary *);
+static void __stdcall check_library_search_input(LinkContext *context,OutputLibrary *library)
+{
+    recon_native_entry_finish(context && library && library!=context->command_line_library &&
+        context->pointer_list.first==context->command_line_library &&
+        context->command_line_library->next==library &&
+        library->name && !strcmp(library->name,"R:\\toolchains\\5.10\\lib\\kernel32.lib") &&
+        !(library->flags & 4) && !library->index_data[3] && entry_symbol &&
+        !(entry_symbol->flags & 1) &&
+        context->optional_header.Subsystem==IMAGE_SUBSYSTEM_WINDOWS_GUI);
+}
+static int library_search_input(void)
+{
+    return recon_native_at_entry(ensure_library_loaded,check_library_search_input,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"library-search-input",1,library_search_input},
     {"startup-undefined",1,startup_undefined},
     {"decorated-entry",1,decorated_entry},
     {"initial-entry-copy",1,initial_entry_copy},
