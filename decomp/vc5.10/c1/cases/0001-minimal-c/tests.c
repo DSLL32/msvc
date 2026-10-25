@@ -376,7 +376,29 @@ static int intrinsic_record_fields(void)
     return storage[0] == 0xa5a5a5a5 && storage[14] == 0xa5a5a5a5;
 }
 extern int c1_test_scope_binding_chains(void);
-const ReconTest minimal_tests[31] = {
+extern struct CompilerTypeShape *__cdecl copy_type_shape(const struct CompilerTypeShape *);
+static int shallow_type_shape_copy(void)
+{
+    DWORD storage[5];
+    struct CompilerTypeShape input, retained, *copy;
+    unsigned i;
+    for (i = 0; i < 5; ++i) storage[i] = 0xa5a5a5a5;
+    input.flags = 0x1234;
+    input.attributes = 0x5678;
+    input.base = &retained;
+    input.value = 37;
+    c1_bss.arenas[3].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[3].committed_limit = (BYTE *)(storage + 4);
+    copy = copy_type_shape(&input);
+    return (void *)copy == storage + 1 && copy != &input &&
+        copy->flags == 0x1234 && copy->attributes == 0x5678 &&
+        copy->base == &retained && copy->value == 37 &&
+        input.flags == 0x1234 && input.attributes == 0x5678 &&
+        input.base == &retained && input.value == 37 &&
+        c1_bss.arenas[3].cursor == (BYTE *)(storage + 4) &&
+        storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[32] = {
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },
@@ -384,6 +406,7 @@ const ReconTest minimal_tests[31] = {
     { "byte arena allocation preserves exact stride and owned bytes at the limit", 1, c1_test_arena_byte_allocation },
     { "intrinsic metadata retains symbol payload and writes only known classification fields", 1, intrinsic_record_fields },
     { "scope collisions link embedded bindings and retain symbol payload", 1, c1_test_scope_binding_chains },
+    { "type shape copy is shallow, distinct and confined to12 owned bytes", 1, shallow_type_shape_copy },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },

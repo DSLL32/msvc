@@ -871,14 +871,14 @@ CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void)
     }
     return result;
 }
-extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *);
+extern "C" CompilerTypeShape *__cdecl copy_type_shape(const CompilerTypeShape *);
 /* The tagged-type consumer establishes only this flag byte. Its producer,
  * allocation extent and other fields remain pending. */
 struct CompilerTagState { BYTE unmodeled_00[4]; BYTE flags; };
 void RECON_THISCALL CompilerDeclarator::FinalizeShape(void)
 {
     if (base_type->shape) {
-        CompilerTypeShape *copy = copy_type_shape_chain(base_type->shape);
+        CompilerTypeShape *copy = copy_type_shape(base_type->shape);
         switch (copy->flags & 7) {
         case 1: case 3:
             break;
@@ -920,8 +920,17 @@ void RECON_THISCALL CompilerDeclarator::FinalizeShape(void)
 }
 void RECON_THISCALL CompilerDeclarator::AppendArray(CompilerTypeShape *shape)
 { __asm { int 3 } }
-extern "C" CompilerTypeShape *__cdecl copy_type_shape_chain(CompilerTypeShape *shape)
-{ __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl copy_type_shape(const CompilerTypeShape *shape)
+{
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerTypeShape *copy = (CompilerTypeShape *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    /* This is one shallow shape copy; its base retains the original identity. */
+    *copy = *shape;
+    return copy;
+}
 extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void)
 {
