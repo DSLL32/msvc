@@ -300,12 +300,23 @@ The queued strip case subsequently qualified in `2cac9d068`: fresh masked
 original capture took 1.228 s, with 34 App first entries; native replay took
 41.414 ms and its unit 10.351 ms. Eleven cases now run, with no new body credit.
 
+The reached C1XX readonly diagnostic-stream refill difference is corrected in
+`bbd1bf5f6`: after the first successful 512-byte read into an established owned
+4096-byte allocation, the default shim restores logical capacity 4096. Explicit
+VC5/Watcom profiles are unchanged. Focused capacity/ownership/error controls pass;
+C1XX adoption `f3ea9a154` matches the saved original and actual refill state
+(32.182 ms), with ten cached cases and 21 unit groups passing in 0.281 s. Shared
+rebuild took 0.746 s and audit 2.144 s. Earlier steps 44–45 matched outputs/order
+but lacked this state qualification; that limitation is recorded without
+relabeling raw evidence or rerunning originals.
+
 ## Recent shared capture work
 
-The target-environment correction is published and verified:
+The following corrections are published and verified:
 
 | Work | Consumers and purpose |
 | --- | --- |
+| Partial output normalization | `608025b10` selects partial output rules before collecting frontier artifacts. An empty partial object no longer inherits the final COFF timestamp mask; final bounds checks remain strict. Formatting and 34 i686 Rust tests pass (0.02 s). VC5.10 C2's next fresh pair succeeds: original 1.859 s, native 11.402 ms. |
 | Original-capture environment separation | `54bb2913f` separates case target-environment overlays from host Wine transport and resolves the Wine executable using host PATH. A real original control verifies empty target PATH, removed target Wine variables, retained defaults and target overrides: capture 1,735.471 ms, native 5.522 ms. Formatting, 33 Rust tests, C environment-merge controls and native smoke pass. CVPACK's queued strip capture subsequently succeeds. No extra Wine process or private prefix. |
 
 The earlier shared worker was repeatedly stopped by the platform's
@@ -400,13 +411,13 @@ that readiness review was read-only. The user subsequently released the seven
 unfinished binaries to implement the minimal capture prerequisites and finish
 their current cases, then pause and report before moving beyond them. RC and
 CVTRES remain complete for identified application code and stay idle. The counts
-below are the accepted baseline at release, not credit for current unaccepted work.
+below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
 | C1 | 82 / 7,037 | 2.18% | Resume minimal C at push_packing after typed host integration |
 | C1XX | 92 / 7,016 | 0.934% | Resume minimal C++ at resolve_option_path after typed host integration |
-| C2 | 106 / 21,801 | 3.80% | Resume numeric case at add_register_to_set |
+| C2 | 110 / 22,105 | 3.86% | Numeric case now at read_function; same case continues |
 | CL | 108 / 18,238 | 95.68% | 14 cases complete; bounded ordinary MRE retry case approved |
 | CVPACK | 113 / 37,019 | 59.08% | Resume debug DLL at write_globals |
 | LINK | 102 / 37,062 | 8.93% | Resume hello EXE at section-header allocator |
@@ -439,6 +450,12 @@ The concrete minimal capture work is:
   Its 41-byte retry helper needs a real reached retry combination; if absent,
   a narrow typed Job-chain DIRECT test is preferable to a broad MRE framework.
 
+VCPACK's empty target PATH was copied from old native harness sanitization during
+migration, not captured as an application requirement. Its genuinely new baseline
+removes that override and other unrelated harness controls, preserving the old
+capture/history. Removing it did not by itself fix the observed pre-entry failure;
+the shared owner is qualifying the separate Wine launcher/provider correction.
+
 The target-environment separation fix is published as `54bb2913f`, including a
 real original control and subsequent CVPACK capture. The shared prerequisite
 owner also owns explicit native-MSVCRT Wine launch selection, separately from
@@ -446,6 +463,13 @@ fixture target environment and without a universal provider-hash gate. Workers
 are active only within the released current-case scope; no replacement was
 necessary. New ordinary-IO frontier state needs and capture transport failures
 are routed to shared tooling, not local observer frameworks.
+
+The independent C2 partial-output collection fix is published as `608025b10`:
+frontier captures choose partial output rules before normalization, while final
+COFF bounds checks remain strict. C2 verified it with fresh original/native pairs
+and strict graph/ABI checks, then committed four application advances through
+`1c9640684` (register insertion, node construction, clearing and input-state reset).
+It continues the original numeric case; no additional case has been started.
 
 ## Watcom compatibility report
 
