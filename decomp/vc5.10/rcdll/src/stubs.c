@@ -233,10 +233,6 @@ int __stdcall rc_read_resource_attributes(RcResource *resource)
     return 0;
 }
 
-void __cdecl rc_initialize_resource_types(void)
-{
-    __asm int 3
-}
 
 void __cdecl rc_flush_font_directory(void)
 {
@@ -352,7 +348,7 @@ void __cdecl rc_write_mac_resource_file(void)
     __asm int 3
 }
 
-void __stdcall rc_parse_version_resource(RcResource *resource)
+void __stdcall rc_parse_toolbar_resource(RcResource *resource)
 {
     __asm int 3
 }
@@ -367,13 +363,13 @@ void __stdcall rc_parse_menu_template(int extended,RcResource *resource)
     __asm int 3
 }
 
-int __cdecl rc_parse_dialog_include(void)
+int __cdecl rc_parse_version_resource(void)
 {
     __asm int 3
     return 0;
 }
 
-void __stdcall rc_parse_ansi_resource(RcResource *unused_resource)
+void __stdcall rc_parse_dialog_include(RcResource *unused_resource)
 {
     __asm int 3
 }

@@ -253,10 +253,10 @@ dispatch:
             type=rc_find_resource_type(L"MENU",0);
             goto write_resource;
         case 16:
-            rc_parse_dialog_include();
+            rc_parse_version_resource();
             goto write_resource;
         case 17:
-            rc_parse_ansi_resource(resource);
+            rc_parse_dialog_include(resource);
             goto write_resource;
         case 18:
             rc_dialog_template=rc_allocate(0x826);
@@ -280,7 +280,7 @@ riff:
             type->id=saved_type;
             break;
         case 241:
-            rc_parse_version_resource(resource);
+            rc_parse_toolbar_resource(resource);
             goto write_resource;
         default:
             if(rc_resource_token.kind!=13){
@@ -347,4 +347,30 @@ finish:
     rc_release_resource_buffer();
     if(rc_verbose)printf("\n");
     return rc_result==0;
+}
+
+void __cdecl rc_initialize_resource_types(void)
+{
+    rc_find_resource_type(L"CURSOR",12);
+    rc_find_resource_type(L"ICON",14);
+    rc_find_resource_type(L"BITMAP",2);
+    rc_find_resource_type(L"MENU",4);
+    rc_find_resource_type(L"DIALOG",5);
+    rc_find_resource_type(L"STRINGTABLE",6);
+    rc_find_resource_type(L"FONTDIR",7);
+    rc_find_resource_type(L"FONT",8);
+    rc_find_resource_type(L"ACCELERATORS",9);
+    rc_find_resource_type(L"RCDATA",10);
+    rc_find_resource_type(L"MESSAGETABLE",11);
+    rc_find_resource_type(L"VERSIONINFO",16);
+    rc_find_resource_type(L"DLGINCLUDE",17);
+    rc_find_resource_type(L"MENUEX",15);
+    rc_find_resource_type(L"DIALOGEX",18);
+    rc_find_resource_type(L"PLUGPLAY",19);
+    rc_find_resource_type(L"VXD",20);
+    rc_find_resource_type(L"DLGINIT",240);
+    rc_find_resource_type(L"TOOLBAR",241);
+    rc_find_resource_type(L"ANIICON",22);
+    rc_find_resource_type(L"ANICURSOR",21);
+    rc_find_resource_type(L"HTML",23);
 }
