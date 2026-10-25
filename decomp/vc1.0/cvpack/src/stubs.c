@@ -65,7 +65,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void prepare_old_types(void * types,unsigned long size) { __asm { int 3 } }
+
 
 void pack_old_types(void * types,CvDirectoryEntry * entry,void * module_record,ModuleInfo * module) { __asm { int 3 } }
 

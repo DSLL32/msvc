@@ -1,15 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **208 accepted application
-functions, 64,084 original code bytes, and 38 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **209 accepted application
+functions, 64,237 original code bytes, and 37 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `prepare_old_types` (RVA `0x13100`), the C6 local-symbol
-sizing pass. The last accepted function is `convert_old_numeric_leaf`
-(sequence 208, 456 original bytes plus 36 bytes of original switch-table data,
-`src/oldtypes.c`). Encountered converter dispatch and its calls have identified
+frontier is now `size_old_change_segment` (RVA `0x13290`), on the C6 local-symbol
+sizing path. The last accepted function is `prepare_old_types`
+(sequence 209, 153 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted twenty-one application functions.
+credit. The resumed workload has accepted 22 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 201-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
@@ -66,8 +65,8 @@ application sizing table identifies a zero-argument callback using globals.
 `size_old_register_relative32` is now a pending named App trap. Its actual code
 is one RET byte; alignment is not application code credit. Other short matches
 are unchanged, and the raw former rows remain in Git and the owned snapshot.
-The newly encountered 14-row C6 symbol sizing table identifies eighteen pending
-callbacks, without accepting their bodies.
+The newly encountered 14-row C6 symbol sizing table identifies eighteen application
+callbacks. Each body remains pending until its matching frontier and checks.
 `runtime-policy.json` qualifies the original `__sopen`, `__freebuf` and `_setvbuf`
 variants as CRT identity boundaries with exact extents, hashes and provenance.
 The original mask leaves these CRT bodies executable while unfinished App code
