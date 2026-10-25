@@ -300,4 +300,7 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm
 int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
-void __fastcall rewrite_exception_expressions(Function *function) { __asm int 3 }
+
+Node *__fastcall new_exception_annotation(unsigned short code) { __asm int 3 }
+Node *__fastcall new_finally_unwind(unsigned depth) { __asm int 3 }
+Node *__fastcall insert_exception_unwind(Expression *previous, Node *before, long target) { __asm int 3 }

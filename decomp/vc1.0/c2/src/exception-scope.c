@@ -184,3 +184,122 @@ void __cdecl pop_exception_scope(void)
     exception_scope_stack_depth = --depth;
     exception_scope_stack[depth] = 0;
 }
+
+/* Original [00065730,00065ae1). Walk only the original expression stream:
+   inserted annotation/unwind expressions are deliberately skipped. The
+   predecessor starts at the head because that head is a retained marker. */
+void __fastcall rewrite_exception_expressions(Function *function)
+{
+    Expression *expression, *previous, *next;
+    Node *node, *tree, *unwind, *temporary;
+    ExceptionScope *scope;
+    LabelSymbol *label;
+    unsigned kind, bytes;
+    previous = function->expressions;
+    for (expression = function->expressions; expression; expression = next) {
+        next = expression->next;
+        node = expression->tree;
+        switch (node->opcode) {
+        case 0x3a:
+            insert_exception_unwind(previous, node,
+                ((LabelSymbol *)node->right.symbol)->field28);
+            scope = current_exception_scope();
+            if (scope && scope->state == 0x8e &&
+                ((LabelSymbol *)node->right.symbol)->field28 != scope->identifier)
+                insert_tree_expression(previous, node, new_finally_unwind(0));
+            break;
+        case 0x41:
+            unwind = insert_exception_unwind(previous, node, -1);
+            if (!unwind) break;
+            bytes = node->attributes.words.type == 0x8000 ? node->info.value :
+                node->attributes.words.type & 0xff;
+            temporary = new_temporary_reference(bytes, 0x200);
+            /* Original recipes at80d10 (PPNT) and8022c (PNT). */
+            tree = build_tree("PPNT", temporary, node->left.node, 0x32, node);
+            insert_tree_expression(previous, unwind, tree);
+            node->left.node = build_tree("PNT", temporary, 0x30, node);
+            if (next->tree->opcode == 0x3a) next = next->next;
+            break;
+        case 0x8d:
+            scope = node->right.pointer;
+            scope->state = 0x8d;
+            insert_tree_expression(previous, node, new_exception_annotation(0x27));
+            tree = new_node(0x3a);
+            tree->right.symbol = scope->alternate_label;
+            insert_tree_expression(previous, node, tree);
+            tree = new_node(0x29);
+            tree->right.symbol = scope->filter_label;
+            insert_tree_expression(previous, node, tree);
+            insert_tree_expression(previous, node, new_exception_annotation(0x28));
+            insert_tree_expression(previous, next->tree, new_exception_annotation(0x29));
+            tree = new_node(0x3a);
+            tree->right.symbol = exception_return_label->right.symbol;
+            insert_tree_expression(previous, next->tree, tree);
+            tree = new_node(0x29);
+            tree->right.symbol = scope->handler_label;
+            insert_tree_expression(previous, next->tree, tree);
+            expression->next->next->next->source_location = next->source_location;
+            insert_tree_expression(previous, next->tree, new_exception_annotation(0x2a));
+            insert_tree_expression(previous, next->tree,
+                new_finally_unwind(scope->finally_depth));
+            break;
+        case 0x8e:
+            scope = node->right.pointer;
+            scope->state = 0x8e;
+            insert_tree_expression(previous, node, new_exception_annotation(0x27));
+            tree = new_node(0x3a);
+            tree->right.symbol = scope->handler_label;
+            insert_tree_expression(previous, node, tree);
+            tree = new_node(0x29);
+            tree->right.symbol = scope->handler_label;
+            insert_tree_expression(previous, next->tree, tree);
+            insert_tree_expression(previous, next->tree, new_exception_annotation(0x2c));
+            break;
+        case 0x8f:
+            scope = node->right.pointer;
+            push_exception_scope(scope);
+            scope->state = 0x8f;
+            kind = scope->kind;
+            if (kind == 1) {
+                label = new_internal_label();
+                scope->filter_label = &label->symbol;
+                label->label_kind |= 4;
+                label->symbol.field0e |= 0x1000;
+                label->field28 = scope->identifier;
+            }
+            if (kind == 1 || kind == 2) {
+                label = new_internal_label();
+                scope->handler_label = &label->symbol;
+                label->label_kind |= 4;
+                label->symbol.field0e |= 0x1000;
+                label->field28 = scope->identifier;
+                label = new_internal_label();
+                scope->alternate_label = &label->symbol;
+                label->field28 = scope->parent_identifier;
+                if (kind == 2) {
+                    label->symbol.field0e |= 0x1000;
+                    label->label_kind |= 4;
+                }
+            }
+            insert_tree_expression(previous, next->tree, new_exception_annotation(0x26));
+            expression->next->source_location = next->source_location;
+            break;
+        case 0x90:
+            scope = node->right.pointer;
+            if (scope->kind == 2) {
+                insert_tree_expression(previous, node, new_exception_annotation(0x2d));
+                tree = new_node(0x3a);
+                tree->right.symbol = scope->alternate_label;
+                insert_tree_expression(previous, next->tree, tree);
+            } else {
+                insert_tree_expression(previous, node, new_exception_annotation(0x2b));
+            }
+            tree = new_node(0x29);
+            tree->right.symbol = scope->alternate_label;
+            insert_tree_expression(previous, next->tree, tree);
+            pop_exception_scope();
+            break;
+        }
+        previous = expression;
+    }
+}

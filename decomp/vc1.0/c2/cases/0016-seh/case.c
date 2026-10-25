@@ -1,5 +1,5 @@
 #include <recon-tool.h>
-extern const ReconTest c2_tests[11];
+extern const ReconTest c2_tests[13];
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
 static const uint32_t order[] = {
@@ -19,6 +19,7 @@ static const uint32_t order[] = {
     0x560d0,
     0x55ec0,
     0x55730,
+    0x56240,
 };
 static const uint32_t seen[] = {
     0x3c100, /* main */
@@ -1220,8 +1221,8 @@ static const uint32_t seen[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "seh",
-    "SEH current frontier rewrite_exception_expressions cached original C2 invocation; exact IR/environment and full final artifacts; explicit per-case first-entry seed. Untouched CL transport preserved.",
+    "SEH current frontier new_exception_annotation cached original C2 invocation; exact IR/environment and full final artifacts; explicit per-case first-entry seed. Untouched CL transport preserved.",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x55730,
-    NULL, invoke, NULL, c2_tests, 11
+    RECON_IO, RECON_FRONTIER, 0x56240,
+    NULL, invoke, NULL, c2_tests, 13
 };

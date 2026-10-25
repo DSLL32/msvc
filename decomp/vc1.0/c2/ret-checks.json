@@ -95,6 +95,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@rewrite_exception_expressions@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

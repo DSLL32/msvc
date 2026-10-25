@@ -8,6 +8,7 @@ extern int c2_scope_push_inputs(void);
 extern int c2_scope_current_inputs(void);
 extern int c2_scope_pop_inputs(void);
 extern int c2_scope_rewrite_inputs(void);
+extern int c2_scope_annotation_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -98,6 +99,27 @@ static int pop_underflow_boundary(void)
     return recon_native_at_entry((const void *)compiler_internal_error,
         (const void *)underflow_entry,underflowing_pop,0)==1;
 }
+/* The plain stream has no SEH transformation: preserve each link/tree
+   and source position, including the initial marker/predecessor alias. */
+static int rewrite_plain_stream(void)
+{
+    Function function;Expression expressions[3];Node nodes[3];unsigned i;
+    memset(&function,0,sizeof function);
+    rewrite_exception_expressions(&function);
+    memset(expressions,0,sizeof expressions);memset(nodes,0,sizeof nodes);
+    for(i=0;i<3;++i){
+        expressions[i].next=i==2?0:&expressions[i+1];
+        expressions[i].tree=&nodes[i];expressions[i].source_location=19+i;
+        nodes[i].opcode=0x56+i;
+    }
+    function.expressions=expressions;rewrite_exception_expressions(&function);
+    if(function.expressions!=expressions)return 0;
+    for(i=0;i<3;++i)
+        if(expressions[i].next!=(i==2?0:&expressions[i+1])||
+           expressions[i].tree!=&nodes[i]||expressions[i].source_location!=19+i||
+           nodes[i].opcode!=0x56+i)return 0;
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -109,5 +131,7 @@ const ReconTest c2_tests[]={
     {"actual scope pop receives two owned active pointers",1,c2_scope_pop_inputs},
     {"scope pop clears exactly the active top slot",1,pop_scopes},
     {"scope pop underflow reaches exact pending diagnostic",1,pop_underflow_boundary},
-    {"actual rewrite Function formal and expression-list owner",1,c2_scope_rewrite_inputs}
+    {"actual rewrite Function formal and expression-list owner",1,c2_scope_rewrite_inputs},
+    {"SEH rewrite empty and ordinary streams preserve owners",1,rewrite_plain_stream},
+    {"actual annotation CX and active-scope identity",1,c2_scope_annotation_inputs}
 };

@@ -102,3 +102,16 @@ int c2_scope_rewrite_inputs(void)
     return recon_native_at_entry((const void *)rewrite_exception_expressions,
         (const void *)rewrite_entry,real_input,0)==1;
 }
+
+static Node *__fastcall annotation_entry(unsigned short code)
+{
+    int valid=code==0x26&&exception_scope_stack_depth==1&&
+        prepared_exception_scopes==exception_scope_stack[0]&&
+        !exception_scope_stack[1];
+    recon_native_entry_finish(valid);
+}
+int c2_scope_annotation_inputs(void)
+{
+    return recon_native_at_entry((const void *)new_exception_annotation,
+        (const void *)annotation_entry,real_input,0)==1;
+}

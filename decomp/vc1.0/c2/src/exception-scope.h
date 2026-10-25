@@ -18,4 +18,7 @@ void __fastcall push_exception_scope(ExceptionScope *scope);
 void __cdecl pop_exception_scope(void);
 void __fastcall collect_exception_scopes(Function *function);
 void __fastcall rewrite_exception_expressions(Function *function);
+Node *__fastcall new_exception_annotation(unsigned short code);
+Node *__fastcall new_finally_unwind(unsigned depth);
+Node *__fastcall insert_exception_unwind(Expression *previous, Node *before, long target);
 #endif
