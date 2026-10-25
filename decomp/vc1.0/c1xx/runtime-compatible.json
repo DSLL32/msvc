@@ -68,7 +68,9 @@
     "public_contract": {
       "case": "member_registry_browser",
       "basis": "fresh binary update w+ browser FILE; existing historical setvbuf(NULL,_IOFBF,4096); flush then original rewind retains4096 and clears update direction; regular binary read skips text/CTRLZ state",
-      "validation": "shared binding hashes, genuine downstream original/native trace and complete applicable outputs; no per-input CRT recapture campaign"
+      "validation": "shared binding hashes, genuine downstream original/native trace and complete applicable outputs; no per-input CRT recapture campaign",
+      "additional_case": "dsp_bank",
+      "additional_basis": "Actual registered read-only C1.ERR flags9/owned4096B backing; historical fseek temporarily sets logical512. Successful first512read restores4096 then next sequentialread4096, confirmed with shared bbd1bf5f6 against canonical original82526..8253c and unchanged fresh downstream46 outputs/order. Other native FILE states remain unqualified."
     },
     "source_credit": 0,
     "application_credit": 0

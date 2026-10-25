@@ -307,7 +307,6 @@ IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression) { 
 
 IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
-unsigned __stdcall function_parameter_bytes(CppSymbol *parameters) { __asm { int 3 } return 0; }
 
 void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } }
 

@@ -1,11 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1412 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1413 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted forty-five bodies (6201B and100B switch data), including named segments
+dsp_bank has accepted forty-six bodies (6392B and100B switch data), including named segments
 and catalog reading/position lookup alongside access declarations and pragmas;
-active at the next named frontier (RVA0x24550). The completed packet_engine
+active at disable_intrinsic_function (RVA0x2d580). The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -37,15 +37,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1519: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first forty-five DSP application steps, and the one additional CRT boundary.
+1520: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first forty-six DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 339,490/476,418 .text bytes (71.26%); this is
+Application function extents cover 339,681/476,418 .text bytes (71.30%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -187,11 +187,17 @@ flag 0x400 before restoring a 512-byte owned buffer to 4096. Compatibility requi
 flag 0x400 clear, buffer size other than 512, or ownership flag 8 clear. This case's
 fresh binary update browser stream uses 4096-byte buffering and rewind retains
 that size. Newly reached incompatible state must hold; no general variant
-equivalence is claimed. The shared native default does not perform the 512-to4096
-promotion at all: a newly reached read-only seek that shrinks the buffer to 512
-must hold even if the shipped/original flag 0x400 condition above would permit it.
-Native compatibility here is limited to the actual 4096-byte browser path.
-The prior decimal-parser binding remains unchanged.
+equivalence is claimed. DSP44 first reached a read-only catalog seek that
+shrinks an existing4096B allocation to512B. The44/45 output/order matches did not
+qualify its refill capacity; the prior claim that this path had not yet run was
+wrong. Those raw captures remain unchanged. Shared correction bbd1bf5f6 restores
+4096 only after a successful512B read for the reached registered flags9 owner
+with actual4096B backing. Current native46 confirms capacity4096/count512 after
+that read, then the next sequential4096B refill, matching the canonical original.
+Original46 order/streams/partial artifacts, full graph/ABI audit and all ten native
+cases plus21 unit groups pass. The observational GDB runs stop at the final INT3
+and are state evidence only; ordinary native46 separately passes. Other newly
+reached unqualified FILE states must still hold. The decimal binding is unchanged.
 
 The line-record debug initializer/finalizer remain unimplemented and masked.
 Their known 156-byte body 70800..7089c (RET0 at 7085c/7089b) and 79-byte body 70950..7099f

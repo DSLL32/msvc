@@ -448,3 +448,24 @@ CppSymbol *make_missing_function_declaration(void)
     symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
     return symbol;
 }
+
+unsigned __stdcall parameter_type_size(CType *type, int promote_float);
+
+/* Original0x34550..0x3460f, stdcall4. Sum four-byte ABI slots
+   over the parameter declaration ring, ignoring entries without a type. */
+unsigned __stdcall function_parameter_bytes(CppSymbol *parameters)
+{
+    CppSymbol *parameter, *first;
+    unsigned bytes = 0;
+    while (parameters && (parameters->kind & 31) != 10 && (parameters->kind & 31) != 11)
+        parameters = parameters->next;
+    if (!parameters) return 0;
+    parameter = first = parameters->detail.parameter_next;
+    while (parameter) {
+        if (parameter->type)
+            bytes += (parameter_type_size(parameter->type,0) + 3) & ~3U;
+        parameter = parameter->detail.parameter_next;
+        if (parameter == first) break;
+    }
+    return bytes;
+}
