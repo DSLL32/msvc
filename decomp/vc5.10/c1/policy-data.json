@@ -140,6 +140,48 @@
             "path": "keyword-imports.json",
             "sha256": "4f2f6d8bb092b0f00ba4cb01de11db6543a2b35539adcb1f699026547d5b75b0"
           }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_sopen"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "source-file-imports.json",
+            "sha256": "c99b763cdd63fa65ec68bd29de15d65bba31116e0bbe852f2f085bc2553feec3"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_errno"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "source-file-imports.json",
+            "sha256": "c99b763cdd63fa65ec68bd29de15d65bba31116e0bbe852f2f085bc2553feec3"
+          }
+        },
+        {
+          "target": {
+            "function": "_close_old_source_descriptor"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "source-file-imports.json",
+            "sha256": "c99b763cdd63fa65ec68bd29de15d65bba31116e0bbe852f2f085bc2553feec3"
+          }
         }
       ]
     },
@@ -926,6 +968,11 @@
               ]
             }
           ]
+        }
+      },
+      "_open_source_descriptor": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
         }
       }
     }

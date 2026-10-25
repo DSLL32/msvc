@@ -1,5 +1,9 @@
 #include <string.h>
 #include <time.h>
+#include <io.h>
+#include <fcntl.h>
+#include <share.h>
+#include <errno.h>
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
@@ -287,7 +291,23 @@ CompilerSourceFile *RECON_THISCALL CompilerTranslationUnit::FindSourceFile(
     return file;
 }
 extern "C" void __cdecl select_pch_input(void *cursor) { __asm { int 3 } }
-extern "C" int __cdecl open_source_descriptor(const char *name) { __asm { int 3 } return -1; }
+extern "C" const char *__cdecl prepare_source_path(const char *);
+extern "C" int __cdecl close_old_source_descriptor(void);
+extern "C" int __cdecl open_source_descriptor(const char *name)
+{
+    const char *path = prepare_source_path(name);
+    int descriptor = -1;
+    int attempt = 1;
+    while (attempt < 2) {
+        descriptor = _sopen(path, _O_BINARY, _SH_DENYWR);
+        if (descriptor != -1 || errno != EMFILE) break;
+        close_old_source_descriptor();
+        ++attempt;
+    }
+    return descriptor;
+}
+extern "C" const char *__cdecl prepare_source_path(const char *name) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl close_old_source_descriptor(void) { __asm { int 3 } return 0; }
 extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)
 { __asm { int 3 } }
 extern "C" void __cdecl report_include_file(int depth, const char *name) { __asm { int 3 } }

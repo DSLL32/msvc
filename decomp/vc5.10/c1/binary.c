@@ -1718,8 +1718,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x11f8c, 0x11f8d}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "select_pch_input" },
     { .name = "_open_source_descriptor", .entry_rva = 0xad0f,
-      .code = (const ReconExtent[]){{0xad0f, 0xad10}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "open_source_descriptor" },
+      .code = (const ReconExtent[]){{0xad0f, 0xad5f}, {0x2c47f, 0x2c48a}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "open_source_descriptor" },
     { .name = "_push_source_context", .entry_rva = 0xad84,
       .code = (const ReconExtent[]){{0xad84, 0xad85}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "push_source_context" },
@@ -1733,6 +1733,12 @@ static const ReconFunction functions[] = {
     { .name = "_intern_name_span", .entry_rva = 0x28b5,
       .code = (const ReconExtent[]){{0x28b5, 0x29f9}}, .code_count = 1,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "intern_name_span" },
+    { .name = "_prepare_source_path", .entry_rva = 0xad5f,
+      .code = (const ReconExtent[]){{0xad5f, 0xad60}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "prepare_source_path" },
+    { .name = "_close_old_source_descriptor", .entry_rva = 0x3c399,
+      .code = (const ReconExtent[]){{0x3c399, 0x3c39a}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "close_old_source_descriptor" },
 };
 
 static const ReconExport exports[] = {
