@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "options.h"
 #include "pch-format.h"
+#include "pch-relocation.h"
 #include "diagnostics.h"
 #include <recon.h>
 
@@ -246,4 +247,28 @@ char *__stdcall copy_string(char *text, int arena)
     ++length;
     for (i = 0; i < length; ++i) destination[i] = text[i];
     return destination;
+}
+
+unsigned char *pch_reference_base; /* original0xa2300: cached page start */
+unsigned short pch_reference_page; /* original0xa2304: cached page index */
+void __stdcall encode_pch_pointer(void *pointer);
+
+/* Original0x6af60..0x6afe5. A non-NULL slot value marks the slot's own
+   arena address, not its target. Foreign slots have no relocation bit. */
+int __stdcall mark_pch_pointer(void **slot)
+{
+    unsigned reference, offset;
+    unsigned short page;
+    if (!*slot) return 0;
+    pch_encoded_pointer = (unsigned)slot - (unsigned)pch_reference_base;
+    if (pch_encoded_pointer > 0xeffc) encode_pch_pointer(slot);
+    else pch_encoded_pointer = (pch_encoded_pointer & 0xffff) |
+        ((unsigned)pch_reference_page << 16);
+    reference = pch_encoded_pointer;
+    page = (unsigned short)(reference >> 16);
+    if (page == 0xffff) return 0;
+    offset = (unsigned short)reference;
+    permanent_pages[page].relocations->bits[offset >> 3] |=
+        (unsigned char)(1 << (offset & 7));
+    return 1;
 }

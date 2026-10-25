@@ -565,7 +565,6 @@ unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int m
 void write_pch_pages(void) { __asm { int 3 } }
 void restore_pch_pointers(void) { __asm { int 3 } }
 
-int __stdcall mark_pch_pointer(void **slot) { __asm { int 3 } return 0; }
 void __stdcall mark_pch_symbol_chain(CppSymbol *symbol) { __asm { int 3 } }
 void mark_pch_types(void) { __asm { int 3 } }
 void mark_pch_shapes(void) { __asm { int 3 } }
