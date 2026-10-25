@@ -2278,9 +2278,65 @@
       },
       "_convert_old_symbol_constant": {
         "abi": "void convert_old_symbol_constant(void)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
-        "roots": []
+        "roots": [],
+        "switches": {
+          "146356": [
+            146432,
+            146544,
+            146368,
+            146641,
+            146368,
+            146368,
+            146368,
+            146753,
+            146368,
+            146864,
+            146368,
+            146368,
+            146368,
+            146368,
+            146368,
+            146875
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 147156,
+            "targets": [
+              146432,
+              146544,
+              146368,
+              146641,
+              146368,
+              146368,
+              146368,
+              146753,
+              146368,
+              146864,
+              146368,
+              146368,
+              146368,
+              146368,
+              146368,
+              146875
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          16
+        ],
+        "alignment_padding": [
+          [
+            146363,
+            146368
+          ],
+          [
+            146859,
+            146864
+          ]
+        ]
       },
       "_convert_old_symbol_register_relative16": {
         "abi": "void convert_old_symbol_register_relative16(void)",

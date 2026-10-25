@@ -394,3 +394,84 @@ void convert_old_symbol_register_relative16(void)
     old_symbol_output += 14;
     while (padding--) *old_symbol_output++ = 0;
 }
+
+#define OLD_SIGNED_CONSTANT(t) ((((t)&0xf0)==0x10 && !((t)&0x700)) || (t)==0x72 || (t)==0x74 || (t)==0x70)
+void convert_old_symbol_constant(void)
+{
+    unsigned char *record = old_symbol_output, *input, *output;
+    unsigned short type, count, length, padding, leaf, i;
+    old_symbol_input += 2;
+    type = convert_old_type(*(unsigned short *)old_symbol_input);
+    old_symbol_input += 2;
+    *(unsigned short *)(record+4) = type;
+    output = record+6;
+    if (*old_symbol_input >= 0x80)
+        convert_old_numeric_leaf(&old_symbol_input, &output);
+    else {
+        input = old_symbol_input;
+        count = *input++;
+        leaf = 0;
+        if (type >= 0x1000) leaf = 0x8010;
+        else switch (count) {
+        case 1:
+            if (OLD_SIGNED_CONSTANT(type)) leaf = 0x8000;
+            if (leaf) {
+                *(unsigned short *)output = leaf;
+                output += 2;
+            }
+            *(unsigned short *)output = *input++;
+            output += 2;
+            break;
+        case 2:
+            if (*(unsigned short *)input >= 0x8000) {
+                *(unsigned short *)output = OLD_SIGNED_CONSTANT(type) ? 0x8001 : 0x8002;
+                output += 2;
+            }
+            *(unsigned short *)output = *(unsigned short *)input;
+            input += 2;
+            output += 2;
+            break;
+        case 4:
+            if ((type&0xf0)==0x40 && !(type&0x700)) leaf = 0x8005;
+            else leaf = OLD_SIGNED_CONSTANT(type) ? 0x8003 : 0x8004;
+            *(unsigned short *)output = leaf;
+            output += 2;
+            *(unsigned long *)output = *(unsigned long *)input;
+            input += 4;
+            output += 4;
+            break;
+        case 8:
+            if ((type&0xf0)==0x50 && !(type&0x700)) leaf = 0x800c;
+            else if ((type&0xf0)==0x40 && !(type&0x700)) leaf = 0x8006;
+            else leaf = OLD_SIGNED_CONSTANT(type) ? 0x8009 : 0x800a;
+            break;
+        case 10: leaf = 0x8007; break;
+        case 16:
+            leaf = (type&0xf0)==0x50 && !(type&0x700) ? 0x800d : 0x8008;
+            break;
+        default: leaf = 0x8010; break;
+        }
+        if (leaf == 0x8010) {
+            *(unsigned short *)output = leaf;
+            *(unsigned short *)(output+2) = count;
+            output += 4;
+            for (i = 0; i < count; ++i) *output++ = *input++;
+        } else if (count == 8 || count == 10 || count == 16) {
+            *(unsigned short *)output = leaf;
+            output += 2;
+            memcpy(output, input, count);
+            output += count;
+            input += count;
+        }
+        old_symbol_input = input;
+    }
+    count = *old_symbol_input++;
+    *output++ = (unsigned char)count;
+    while (count--) *output++ = *old_symbol_input++;
+    length = (unsigned short)(output-record);
+    padding = 3-((length-1)&3);
+    *(unsigned short *)record = length+padding-2;
+    while (padding--) *output++ = 0;
+    old_symbol_output = output;
+}
+#undef OLD_SIGNED_CONSTANT
