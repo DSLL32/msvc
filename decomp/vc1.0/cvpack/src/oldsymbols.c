@@ -73,3 +73,9 @@ void size_old_bprel16(void)
 {
     module_type_base += 5;
 }
+
+void size_old_end(void)
+{
+    module_type_base += 2;
+    --symbol_scope_depth;
+}
