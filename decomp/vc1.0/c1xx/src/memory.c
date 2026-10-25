@@ -272,3 +272,31 @@ int __stdcall mark_pch_pointer(void **slot)
         (unsigned char)(1 << (offset & 7));
     return 1;
 }
+
+/* Original0x6a6c0..0x6a768. Locate the actual permanent page and cache its
+   base; the shared result packs a16-bit byte offset followed by page index. */
+void __stdcall encode_pch_pointer(void *pointer)
+{
+    unsigned short index, count;
+    unsigned offset;
+    if (!pointer) {
+        pch_encoded_pointer = 0;
+        return;
+    }
+    pch_reference_page = 0;
+    count = (unsigned short)permanent_page_count;
+    for (index = 0; index < count; ++index) {
+        offset = (unsigned)pointer - (unsigned)permanent_pages[index].start;
+        pch_encoded_pointer = offset;
+        if (offset < 0xeffc) {
+            pch_reference_page = index;
+            pch_encoded_pointer = (offset & 0xffff) | ((unsigned)index << 16);
+            pch_reference_base = permanent_pages[index].start;
+            return;
+        }
+        pch_reference_page = index + 1;
+    }
+    pch_encoded_pointer = 0xffffffff;
+    pch_reference_page = 0xffff;
+    pch_reference_base = 0;
+}
