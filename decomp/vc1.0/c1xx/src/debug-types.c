@@ -871,3 +871,12 @@ void __stdcall reference_function_debug_type(CType *type)
     debug_types[record].attributes = count;
     debug_types[record].related_type = 0;
 }
+
+/* Original0x706f0..0x70703. qsort receives addresses of symbol pointers;
+   retain the original target-word subtraction rather than a tri-state order. */
+int compare_debug_symbol_indices(const void *left, const void *right)
+{
+    const CppSymbol *first = *(CppSymbol * const *)left;
+    const CppSymbol *second = *(CppSymbol * const *)right;
+    return (int)(first->index - second->index);
+}
