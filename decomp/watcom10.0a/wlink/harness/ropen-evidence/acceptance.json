@@ -1,0 +1,26 @@
+{
+  "scope": "ResOpenFileRO37B genuine indirect cdecl open filename+Watcom O_BINARY0200; original/native successful readonly self-open reach FindResources. Failure remains named WresRecordError trap. No CRT App credit.",
+  "application_functions": 8,
+  "application_bytes": 1040,
+  "ABI": "Original filename EAX, callee saves EDX, indirect variadic cdecl stack filename/0200, ADD ESP8; result EAX. Target old graph has no newer setmode edge.",
+  "program_image": {
+    "logical_path": "T:\\run-VVO0Of\\WLINK.EXE",
+    "source_path": "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE",
+    "source_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+    "sha256": "5943a1cffdf6b083ad0bf85a8bea52e4552bc07dac912fd1a595dc46ec98734b",
+    "size": 209744
+  },
+  "mask_range_count": 230,
+  "shared_support_commits": [
+    "cd6b47a7d",
+    "974310433"
+  ],
+  "bindings": {
+    "src/resource.c": "292849894972f29a4bb8c318f9f5b2ed048840c2310445c984494977ede44366",
+    "src/link.h": "b50fb282d3c8b93c7c037387255c4dd211c1e14e4ef2e678327cf884780f2fb2",
+    "binary.c": "3a8f0102b5404890d9788e989f7b9599c7c068afd00dce61ea8ae5d1ce526b7b",
+    "policy-data.json": "117e4465b1285c4e7ff0b7f8535a9a794f88f22551349be209af5405715a57c7",
+    "harness/open-runtime.json": "52f9ed30277ac0448b0e45d5de74cf2038dc837633cb893d0906fe712c14e37d",
+    "harness/open-runtime-review.json": "621baf056b88f13335b61d6ab5ef33600fa9e9857f25edd7e3f6d3f25775ffee"
+  }
+}

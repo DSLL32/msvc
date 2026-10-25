@@ -1,0 +1,338 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 8,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "selected_ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "DoLinkFromCommandLine": {
+      "edges": [
+        "AutoGroup",
+        "CalcAddresses",
+        "CheckClassOrder",
+        "CheckErr",
+        "CheckSymbolPass",
+        "ConvertLazyRefs",
+        "DecideFormat",
+        "DefBSSSyms",
+        "DoCmdFile",
+        "DoDefaultSystem",
+        "EndTime",
+        "FindLibPaths",
+        "FiniLoadFile",
+        "GetBSSSize",
+        "GetStkAddr",
+        "InitLoadFile",
+        "LnkInit",
+        "LnkMsg",
+        "MapInit",
+        "ObjPass2",
+        "PostAddrCalcFormatSpec",
+        "PreAddrCalcFormatSpec",
+        "PrepareSegments",
+        "ProcObjFiles",
+        "ReportLinkMap",
+        "ReportUndefined",
+        "ResolveUndefined",
+        "SetFormat",
+        "SetStkSize",
+        "StartTime",
+        "signal"
+      ]
+    },
+    "InitMsg": {
+      "edges": [
+        "FindResources",
+        "InitResources",
+        "OpenResFile",
+        "QWrite",
+        "memset"
+      ]
+    },
+    "LnkInit": {
+      "edges": [
+        "InitMsg",
+        "InitNodes",
+        "InitObjIO",
+        "InitSpillFile",
+        "InitSym",
+        "InitTokBuff",
+        "LnkFilesInit",
+        "LnkMemFini",
+        "NewSection"
+      ]
+    },
+    "LnkMemFini": {
+      "edges": []
+    },
+    "OpenResFile": {
+      "edges": [
+        "ResOpenFileRO"
+      ]
+    },
+    "ResOpenFileRO": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "Spawn": {
+      "edges": [
+        "_setjmp",
+        "indirect"
+      ]
+    },
+    "main": {
+      "edges": [
+        "BurnSystemList",
+        "CleanLinkStruct",
+        "CleanLoadFile",
+        "CleanTraces",
+        "CloseSpillFile",
+        "FiniMsg",
+        "FreeFormatStuff",
+        "FreeList",
+        "FreeObjInfo",
+        "FreePaths",
+        "FreeUndefs",
+        "FreeVirtMem",
+        "LnkMemFini",
+        "QClose",
+        "QDelete",
+        "Spawn",
+        "_LnkFree",
+        "exit"
+      ]
+    }
+  },
+  "image_inputs": {
+    "map": {
+      "absolute_symbols": {
+        "__DOSseg__": 4660
+      },
+      "format": "watcom10-pe",
+      "map_sha256": "ed5552388ef7460f6033ddd9536e64060cadf65aa37c56a5f2ae9801c454979d",
+      "rebuilt_pe_sha256": "3b1fe0c2215192ede906fb744fd43056c8b5c70542791ca74707da6a97d4c4e1",
+      "segment_group_bases": {
+        "1": 4259840,
+        "2": 4325376
+      }
+    },
+    "original": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "preferred_base": 4194304
+    },
+    "rebuilt": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "3b1fe0c2215192ede906fb744fd43056c8b5c70542791ca74707da6a97d4c4e1",
+      "preferred_base": 4194304
+    }
+  },
+  "original_accepted_graphs": null,
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 1040,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4342728,
+            4343077
+          ]
+        ],
+        "InitMsg": [
+          [
+            4343888,
+            4344022
+          ]
+        ],
+        "LnkInit": [
+          [
+            4343212,
+            4343433
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4403968,
+            4403969
+          ]
+        ],
+        "OpenResFile": [
+          [
+            4409528,
+            4409543
+          ]
+        ],
+        "ResOpenFileRO": [
+          [
+            4417664,
+            4417701
+          ]
+        ],
+        "Spawn": [
+          [
+            4287804,
+            4287855
+          ]
+        ],
+        "main": [
+          [
+            4342496,
+            4342728
+          ]
+        ]
+      },
+      "interval_count": 8,
+      "logical_function_count": 8,
+      "unique_code_bytes": 1040
+    },
+    "rebuilt": {
+      "declared_code_bytes": 1385,
+      "functions": {
+        "DoLinkFromCommandLine": [
+          [
+            4261856,
+            4262254
+          ]
+        ],
+        "InitMsg": [
+          [
+            4260251,
+            4260424
+          ]
+        ],
+        "LnkInit": [
+          [
+            4262254,
+            4262550
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4260230,
+            4260251
+          ]
+        ],
+        "OpenResFile": [
+          [
+            4260424,
+            4260477
+          ]
+        ],
+        "ResOpenFileRO": [
+          [
+            4260477,
+            4260547
+          ]
+        ],
+        "Spawn": [
+          [
+            4259856,
+            4259933
+          ]
+        ],
+        "main": [
+          [
+            4259933,
+            4260230
+          ]
+        ]
+      },
+      "interval_count": 8,
+      "logical_function_count": 8,
+      "unique_code_bytes": 1385
+    }
+  },
+  "profile": "cl",
+  "ret_cleanup_checks": {
+    "functions": {
+      "DoLinkFromCommandLine": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "InitMsg": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkInit": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkMemFini": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "OpenResFile": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ResOpenFileRO": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "Spawn": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      }
+    },
+    "input_sha256": "8972382fbf93ba2bf90ca6661c1e097dd0e7b6a70158dc846eb967aeb3fd731c"
+  }
+}

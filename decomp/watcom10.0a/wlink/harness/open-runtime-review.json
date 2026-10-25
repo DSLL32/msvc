@@ -1,0 +1,9 @@
+{
+  "scope": "independent read-only finite provider comparison; no search, target launch or App credit",
+  "proposal_sha256": "52f9ed30277ac0448b0e45d5de74cf2038dc837633cb893d0906fe712c14e37d",
+  "fifteen_body_bytes_and_actual_fixups": true,
+  "direct_targets_explicit_or_same_body": true,
+  "exact_union_bytes": 830,
+  "target_IAT_metadata_corrected": true,
+  "eight_provider_slots_and_literal": true
+}

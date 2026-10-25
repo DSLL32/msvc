@@ -1,0 +1,845 @@
+{
+  "scope": "STATIC finite reached-open CRT role correspondence. No restoration/execution/App acceptance. No global search or generic CRT matcher.",
+  "original_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "WLIB_original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "WLIB_reviewed_packet": {
+    "path": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-open/classification-proposal.json",
+    "sha256": "af01846ac20ee409175891dc13e25e7da249886dd035f30a18829f386acfb07b"
+  },
+  "functions": [
+    {
+      "entry_va": 4409858,
+      "name": "open_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4409858,
+          4409889
+        ]
+      ],
+      "body_sha256": "291e1ce2253b09ab6fd6be3ccda1d45ed3c302746de7324d36f24ddf4dafc998",
+      "library_module": "openwnt",
+      "THEADR_offset": 164256,
+      "public": "open_",
+      "public_definition": {
+        "name": "open_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/handleio/c/openwnt.c",
+      "source_sha256": "3c93aa5763e31cb2dfe84db491120cd57754dd0fed240862fc8e8dc34186d9fe",
+      "WLIB_edges": [
+        [
+          4290799,
+          4290809,
+          "direct-call"
+        ]
+      ],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4290778,
+      "WLIB_body_sha256": "291e1ce2253b09ab6fd6be3ccda1d45ed3c302746de7324d36f24ddf4dafc998",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "legacy cdecl wrapper: extracts caller filename/mode, forwards SH_COMPAT0 and unused mode word to sopen; optimized shipped wrapper differs",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4409889,
+      "name": "sopen_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4409889,
+          4410261
+        ]
+      ],
+      "body_sha256": "15061586056470693f841c2eef394b08f4c37ef386785e9da5f8eac0bbda7c7f",
+      "library_module": "openwnt",
+      "THEADR_offset": 164256,
+      "public": "sopen_",
+      "public_definition": {
+        "name": "sopen_",
+        "segment": 1,
+        "offset": 36
+      },
+      "source": "bld/clib/handleio/c/openwnt.c",
+      "source_sha256": "3c93aa5763e31cb2dfe84db491120cd57754dd0fed240862fc8e8dc34186d9fe",
+      "WLIB_edges": [
+        [
+          4290823,
+          4297290,
+          "direct-call"
+        ],
+        [
+          4290837,
+          4297848,
+          "direct-call"
+        ],
+        [
+          4290866,
+          4298314,
+          "direct-call"
+        ],
+        [
+          4290882,
+          4298358,
+          "direct-call"
+        ],
+        [
+          4290995,
+          4298405,
+          "direct-call"
+        ],
+        [
+          4291004,
+          4297713,
+          "direct-call"
+        ],
+        [
+          4291021,
+          0,
+          "pointer-slot:0x420a2c"
+        ],
+        [
+          4291087,
+          4296067,
+          "pointer-slot:0x420980"
+        ],
+        [
+          4291165,
+          4297800,
+          "direct-call"
+        ],
+        [
+          4291045,
+          4310160,
+          "direct-call"
+        ],
+        [
+          4291059,
+          4297940,
+          "direct-call"
+        ],
+        [
+          4291069,
+          4290371,
+          "direct-call"
+        ]
+      ],
+      "WLIB_unresolved": [
+        [
+          4291021,
+          "dword ptr [0x420a2c]",
+          "unresolved pointer value 0x0"
+        ]
+      ],
+      "WLIB_entry": 4290809,
+      "WLIB_body_sha256": "8de8db264415cf00f4cd2f6ed8402279f3436f631bf168652106727bae227b69",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 172,
+          "old_value": 4327980,
+          "new_value": 4466396
+        },
+        {
+          "offset": 180,
+          "old_value": 4290774,
+          "new_value": 4409854
+        },
+        {
+          "offset": 214,
+          "old_value": 4327980,
+          "new_value": 4466396
+        },
+        {
+          "offset": 280,
+          "old_value": 4327808,
+          "new_value": 4466152
+        },
+        {
+          "offset": 342,
+          "old_value": 4327581,
+          "new_value": 4465885
+        }
+      ],
+      "WLIB_rationale": "legacy variant: file-slot check, access/share mapping, CreateFileA, handle-table registration and I/O mode; old flags/handle allocation order differs from2002",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4419548,
+      "name": "__NTAtMaxFiles_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4419548,
+          4419607
+        ]
+      ],
+      "body_sha256": "d0b5aca84f4f6f3555f857279be9be7519336fcedb9f1fcbd80c08d0d4f7144f",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTAtMaxFiles_",
+      "public_definition": {
+        "name": "__NTAtMaxFiles_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4297290,
+      "WLIB_body_sha256": "4c75d350b313cd2830897a984627ef2c535e00b3a6caee28bc4dad6293446dab",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 3,
+          "old_value": 4392020,
+          "new_value": 4522964
+        },
+        {
+          "offset": 9,
+          "old_value": 4327864,
+          "new_value": 4466436
+        },
+        {
+          "offset": 21,
+          "old_value": 4392020,
+          "new_value": 4522964
+        },
+        {
+          "offset": 34,
+          "old_value": 4392024,
+          "new_value": 4522968
+        }
+      ],
+      "WLIB_rationale": "legacy variant: compares handle count against configured maximum then scans CRT-owned NULL handle slots; public/provider role and callers consistent",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4413826,
+      "name": "__set_errno_dos_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4413826,
+          4413918
+        ]
+      ],
+      "body_sha256": "4428f4047e14414af627948bb7c5227dad638c7002ffd9a6282a1aab030b0154",
+      "library_module": "dosret",
+      "THEADR_offset": 8192,
+      "public": "__set_errno_dos_",
+      "public_definition": {
+        "name": "__set_errno_dos_",
+        "segment": 1,
+        "offset": 12
+      },
+      "source": "bld/clib/_dos/c/dosret.c",
+      "source_sha256": "75199a4f239f60c920d32b776ab4fda129f35411a4b83c7b33ef0158c48de7b9",
+      "WLIB_edges": [
+        [
+          4297851,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297865,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297888,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297924,
+          4296061,
+          "pointer-slot:0x420974"
+        ]
+      ],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4297848,
+      "WLIB_body_sha256": "d4d6b7caa783591f194c1b61a1628ca8092e643e557a3dd8bc0675cc5d2c098a",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 5,
+          "old_value": 4327796,
+          "new_value": 4466140
+        },
+        {
+          "offset": 19,
+          "old_value": 4327796,
+          "new_value": 4466140
+        },
+        {
+          "offset": 42,
+          "old_value": 4327796,
+          "new_value": 4466140
+        },
+        {
+          "offset": 69,
+          "old_value": 4327952,
+          "new_value": 4466204
+        },
+        {
+          "offset": 78,
+          "old_value": 4327796,
+          "new_value": 4466140
+        }
+      ],
+      "WLIB_rationale": "legacy20-entry Windows/DOS error-to-errno table plus explicit123/183 cases; writes provider-thread errno/doserrno fields, returns-1; shipped/newer error coverage differs",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4420028,
+      "name": "__GetNTAccessAttr_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4420028,
+          4420072
+        ]
+      ],
+      "body_sha256": "2db5aa0a81e87d356ce157880088fdf2b0d712407e5ab1d20441f0998171b116",
+      "library_module": "ntfio",
+      "THEADR_offset": 82704,
+      "public": "__GetNTAccessAttr_",
+      "public_definition": {
+        "name": "__GetNTAccessAttr_",
+        "segment": 1,
+        "offset": 45
+      },
+      "source": "bld/clib/streamio/c/ntfio.c",
+      "source_sha256": "b69373993fd3388dc0f6b4cbfd90fb4fccd91c4a3a2bd25e1fa0111a4997eff9",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4298314,
+      "WLIB_body_sha256": "2db5aa0a81e87d356ce157880088fdf2b0d712407e5ab1d20441f0998171b116",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "all12 normalized instructions match shipped public; read-only maps GENERIC_READ and FILE_SHARE_READ",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4420072,
+      "name": "__GetNTShareAttr_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4420072,
+          4420119
+        ]
+      ],
+      "body_sha256": "7e6ade9fe46a322499495cd14aba400ed502f953954eaf972e16671f8189928b",
+      "library_module": "ntfio",
+      "THEADR_offset": 82704,
+      "public": "__GetNTShareAttr_",
+      "public_definition": {
+        "name": "__GetNTShareAttr_",
+        "segment": 1,
+        "offset": 89
+      },
+      "source": "bld/clib/streamio/c/ntfio.c",
+      "source_sha256": "b69373993fd3388dc0f6b4cbfd90fb4fccd91c4a3a2bd25e1fa0111a4997eff9",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4298358,
+      "WLIB_body_sha256": "7e6ade9fe46a322499495cd14aba400ed502f953954eaf972e16671f8189928b",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "all16 normalized instructions match shipped public; SH_COMPAT0 and SH_DENYNO40 map FILE_SHARE_READ|FILE_SHARE_WRITE",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4404202,
+      "name": "stricmp_ / strcmpi_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4404202,
+          4404257
+        ]
+      ],
+      "body_sha256": "08f06f39dc0a31255acc90c2a2398fefc8815c97b5975818746aaf694546cb44",
+      "library_module": "stricmp",
+      "THEADR_offset": 41696,
+      "public": "stricmp_",
+      "public_definition": {
+        "name": "stricmp_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/string/c/stricmp.c",
+      "source_sha256": "d945be485d7daaeb7765f3dcc25e91dc37590f0c1ef48d5188feaf0b910133e4",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4298405,
+      "WLIB_body_sha256": "08f06f39dc0a31255acc90c2a2398fefc8815c97b5975818746aaf694546cb44",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "legacy byte ASCII casefold comparison; shipped source same CRT role but later optimization differs",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4419971,
+      "name": "__NTGetFakeHandle_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4419971,
+          4419983
+        ]
+      ],
+      "body_sha256": "a5d9b6d6720f8d8c8018c8e5f33834833bd5f10f65b12ae8c2ee42f5d0edd1b1",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTGetFakeHandle_",
+      "public_definition": {
+        "name": "__NTGetFakeHandle_",
+        "segment": 1,
+        "offset": 443
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4297713,
+      "WLIB_body_sha256": "5a6ea2c5362c4e2893704f7892c69686d00554c7245033a1b861f24a2798fdab",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 2,
+          "old_value": 4327860,
+          "new_value": 4466432
+        },
+        {
+          "offset": 7,
+          "old_value": 4327860,
+          "new_value": 4466432
+        }
+      ],
+      "WLIB_rationale": "legacy monotonic fake-handle counter, unlike newer CreateEvent-backed source. Optional console/window hook path is not authorized merely from this provenance",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4413465,
+      "name": "__NTAddFileHandle callback trampoline",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4413465,
+          4413470
+        ]
+      ],
+      "body_sha256": "b727ad121b6d499519bcadc90d72a2a65cbc1b5627de57ddec05084c36b6a903",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTAddFileHandle_",
+      "public_definition": {
+        "name": "__NTAddFileHandle_",
+        "segment": 1,
+        "offset": 69
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "WLIB_edges": [
+        [
+          4296067,
+          4297349,
+          "tail"
+        ]
+      ],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4296067,
+      "WLIB_body_sha256": "557b04474dcd26a3efca0f3896591772bf675cd51655ab8ef02dbb25c3aa444d",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "exact JMP to independently classified original __NTAddFileHandle419285; callback slot420980 selects this trampoline",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4420194,
+      "name": "__SetIOMode_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4420194,
+          4420211
+        ]
+      ],
+      "body_sha256": "a785af342ce1fc82cc27999b39e5a79c97bdc0470fc2ce7172339b04c64b78f8",
+      "library_module": "iomode",
+      "THEADR_offset": 81696,
+      "public": "__SetIOMode_",
+      "public_definition": {
+        "name": "__SetIOMode_",
+        "segment": 1,
+        "offset": 85
+      },
+      "source": "bld/clib/handleio/c/iomode.c",
+      "source_sha256": "252398649d846e832b4416bb09c6f87894235ae9962c3f9c9e449167e659c19e",
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4297800,
+      "WLIB_body_sha256": "1d70c08c3c9f21fecacd05865138a8620891ff259fa542d1640479559768c930",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 8,
+          "old_value": 4327948,
+          "new_value": 4466520
+        }
+      ],
+      "WLIB_rationale": "legacy direct CRT I/O-mode array write, OR initialized0x4000; newer bounds/growth checks not substituted",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4429662,
+      "name": "CreateFileA",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4429662,
+          4429668
+        ]
+      ],
+      "body_sha256": "ce1752316484470d0586c030a87a8b4fe6c4f5e0794e4c5b856a5b9ba8159d98",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4587688,
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4310160,
+      "WLIB_body_sha256": "1ce6165ea5b967a03f52f46a845785f6a617f25d67935bb740af3f11891965fd",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 2,
+          "old_value": 4456596,
+          "new_value": 4587688
+        }
+      ],
+      "WLIB_IAT_va": 4456596,
+      "WLIB_rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer."
+    },
+    {
+      "entry_va": 4413918,
+      "name": "__set_errno_nt_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4413918,
+          4413933
+        ]
+      ],
+      "body_sha256": "f4d023a763aef82255c5f77d379fdd451984b64c118ff5e4ab5dd90bafc00e3b",
+      "library_module": "dosret",
+      "THEADR_offset": 8192,
+      "public": "__set_errno_nt_",
+      "public_definition": {
+        "name": "__set_errno_nt_",
+        "segment": 1,
+        "offset": 78
+      },
+      "source": "bld/clib/_dos/c/dosret.c",
+      "source_sha256": "75199a4f239f60c920d32b776ab4fda129f35411a4b83c7b33ef0158c48de7b9",
+      "WLIB_edges": [
+        [
+          4297942,
+          4310076,
+          "direct-call"
+        ],
+        [
+          4297947,
+          4297848,
+          "direct-call"
+        ]
+      ],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4297940,
+      "WLIB_body_sha256": "1dcdb292921e249a457213e1bd78e6a7bdeea1f25dd53b10a3f4409acc05aa92",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [],
+      "WLIB_rationale": "all7 normalized instructions match shipped public: GetLastError thunk then existing errno mapper",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4412040,
+      "name": "isatty_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4412040,
+          4412103
+        ]
+      ],
+      "body_sha256": "5cee06b6cab5d2b75126bc7635637adfb81e78a9d5e81c1a56718e71f63b8c7f",
+      "library_module": "isattwnt",
+      "THEADR_offset": 177936,
+      "public": "isatty_",
+      "public_definition": {
+        "name": "isatty_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/environ/c/isattwnt.c",
+      "source_sha256": "4aaf7f2e0f3f6ecd1496374ca2ca07dbf3b3a69d9d792eab9c74260e2d1a4665",
+      "WLIB_edges": [
+        [
+          4290388,
+          4296066,
+          "pointer-slot:0x420978"
+        ],
+        [
+          4290395,
+          4310184,
+          "direct-call"
+        ],
+        [
+          4290407,
+          4296066,
+          "pointer-slot:0x42097c"
+        ],
+        [
+          4290422,
+          4296066,
+          "pointer-slot:0x42097c"
+        ]
+      ],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4290371,
+      "WLIB_body_sha256": "6223a7609e7ead1356c3e5a3b11476e1c7894a2062eebb8ca5289ef8e019bc7e",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 8,
+          "old_value": 4392024,
+          "new_value": 4522968
+        },
+        {
+          "offset": 19,
+          "old_value": 4327800,
+          "new_value": 4466144
+        },
+        {
+          "offset": 38,
+          "old_value": 4327804,
+          "new_value": 4466148
+        },
+        {
+          "offset": 53,
+          "old_value": 4327804,
+          "new_value": 4466148
+        }
+      ],
+      "WLIB_rationale": "legacy variant: resolves OS handle through CRT handle table, access/release hooks and GetFileType==FILE_TYPE_CHAR; same CRT provider role, not byte identity",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer.",
+      "WLIB_body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical"
+    },
+    {
+      "entry_va": 4429584,
+      "name": "GetLastError",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4429584,
+          4429590
+        ]
+      ],
+      "body_sha256": "0090b18de308e909ac2101cd246e172820de50d82e60eff5248312f4f51676a7",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4587744,
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4310076,
+      "WLIB_body_sha256": "206a4357989f01f6574e723c41a5f784d9d2f8443d2b3b600c5c49a4d95fa12f",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 2,
+          "old_value": 4456636,
+          "new_value": 4587744
+        }
+      ],
+      "WLIB_IAT_va": 4456636,
+      "WLIB_rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer."
+    },
+    {
+      "entry_va": 4429632,
+      "name": "GetFileType",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4429632,
+          4429638
+        ]
+      ],
+      "body_sha256": "a55b04df357f0e5a0f7b894efdc937ea5bc5519f6f2a5e470001a74e05a1970f",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4587740,
+      "WLIB_edges": [],
+      "WLIB_unresolved": [],
+      "WLIB_entry": 4310184,
+      "WLIB_body_sha256": "7774dd89f8931fec34fa208586b62f4740f1a8d2c96eb2def9f8edd63488b91c",
+      "correspondence": "All bytes match after only actual HIGHLOW fixups and direct branch/call relocation fields; every direct target is explicitly paired or same body offset.",
+      "actual_relocation_values": [
+        {
+          "offset": 2,
+          "old_value": 4456632,
+          "new_value": 4587740
+        }
+      ],
+      "WLIB_IAT_va": 4456632,
+      "WLIB_rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching",
+      "rationale": "Same finite CLIB/import role and ABI as reviewed peer, verified here by exact own bytes/actual HIGHLOW fixups/direct-target correspondence. Absolute addresses in WLIB_rationale refer only to the peer."
+    }
+  ],
+  "reference_map": [
+    {
+      "old": 4290774,
+      "new": 4409854
+    },
+    {
+      "old": 4327581,
+      "new": 4465885
+    },
+    {
+      "old": 4327796,
+      "new": 4466140
+    },
+    {
+      "old": 4327800,
+      "new": 4466144
+    },
+    {
+      "old": 4327804,
+      "new": 4466148
+    },
+    {
+      "old": 4327808,
+      "new": 4466152
+    },
+    {
+      "old": 4327860,
+      "new": 4466432
+    },
+    {
+      "old": 4327864,
+      "new": 4466436
+    },
+    {
+      "old": 4327948,
+      "new": 4466520
+    },
+    {
+      "old": 4327952,
+      "new": 4466204
+    },
+    {
+      "old": 4327980,
+      "new": 4466396
+    },
+    {
+      "old": 4392020,
+      "new": 4522964
+    },
+    {
+      "old": 4392024,
+      "new": 4522968
+    },
+    {
+      "old": 4456596,
+      "new": 4587688
+    },
+    {
+      "old": 4456632,
+      "new": 4587740
+    },
+    {
+      "old": 4456636,
+      "new": 4587744
+    }
+  ],
+  "code_union_bytes": 830,
+  "provider_slots": [
+    {
+      "va": 4464532,
+      "value": 4409858
+    },
+    {
+      "va": 4466140,
+      "value": 4413459
+    },
+    {
+      "va": 4466144,
+      "value": 4413464
+    },
+    {
+      "va": 4466148,
+      "value": 4413464
+    },
+    {
+      "va": 4466152,
+      "value": 4413465
+    },
+    {
+      "va": 4466184,
+      "value": 4413464
+    },
+    {
+      "va": 4466188,
+      "value": 4413464
+    },
+    {
+      "va": 4466396,
+      "value": 0
+    }
+  ],
+  "text_data": [
+    {
+      "owner": "sopen_",
+      "range": [
+        4409854,
+        4409858
+      ],
+      "bytes_hex": "636f6e00",
+      "sha256": "1360fa2fb09adca5ae31490aa15b1eb941be293bb48034b39c87f3a2dae50247"
+    }
+  ],
+  "boundary": {
+    "caller": "ResOpenFileRO",
+    "range": [
+      4417664,
+      4417701
+    ],
+    "call_va": 4417671,
+    "pointer_slot": 4464532,
+    "provider_va": 4409858,
+    "cdecl_stack_arguments": [
+      "constchar*actualmainargv0",
+      "intO_RDONLY|O_BINARY0200"
+    ],
+    "caller_cleanup": 8,
+    "unused_variadic_mode": "Notprovided/notsemanticallyread without O_CREAT; native must not copy ambient third-argument bytes.",
+    "originalbody_sha256": "95a0a8b8f2932aafa680e5c0df77f22372d86140afc6fdf6056c3cd9d6727afa"
+  },
+  "scope_limits": "Normalread-onlyactualT:fullyqualifiedselfresourcefilename only. Windowcallback pointer4426dc initial0; unknowncallbacksnotgranted. A fullT:path also differsfromcon. No selfopen until commonsource/inputqualification. Do not transport privateCRT fields/rawhandles; genuine App WRes support notCRTclassified.",
+  "new_CRT_bytes": 812,
+  "existing_import_bytes": 18
+}

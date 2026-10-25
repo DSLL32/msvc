@@ -73,4 +73,5 @@ unsigned QWrite( int file, void *buffer, unsigned length, char *name )
     return 0;
 }
 
-int ResOpenFileRO( const char *filename ) { filename = filename; TRAP(); return 0; }
+
+void WresRecordError( int status ) { status = status; TRAP(); }
