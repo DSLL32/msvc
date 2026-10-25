@@ -1,6 +1,7 @@
 #include <new.h>
 #include <string.h>
 #include "frontend-init.h"
+#include "preprocessor.h"
 #include <recon.h>
 
 /* The real mode-reset override is declared first to supply the native key
@@ -88,7 +89,11 @@ extern "C" CompilerBackend *__cdecl acquire_initial_backend(void)
 }
 
 void RECON_THISCALL CompilerNullBrowser::Slot20(unsigned value0) { __asm { int 3 } }
-void RECON_THISCALL CompilerNullBrowser::Slot28(CompilerMacro *value0) { __asm { int 3 } }
+void RECON_THISCALL CompilerNullBrowser::Slot28(CompilerMacro *macro)
+{
+    if (frontend_data.browser_mode == 3)
+        macro->identifier->flags |= 0x200000;
+}
 int RECON_THISCALL CompilerNullBrowser::Slot54(unsigned value0, unsigned value1) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNullBrowser::Slot5c(void) { __asm { int 3 } }

@@ -104,8 +104,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerNullBrowser::Slot28", .entry_rva = 0x23837,
-        .code = (const ReconExtent[]){{0x23837, 0x23838}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x23837, 0x23847}, {0x661d7, 0x661e9}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN19CompilerNullBrowser6Slot28EP13CompilerMacro", .original_symbol = "?Slot28@CompilerNullBrowser@@UAEXPAUCompilerMacro@@@Z",
     },
     {

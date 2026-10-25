@@ -1,6 +1,7 @@
 #include <string.h>
 #include <time.h>
 #include "frontend-init.h"
+#include "preprocessor.h"
 #pragma intrinsic(strcpy, memcpy)
 #include <recon.h>
 
@@ -97,17 +98,6 @@ extern "C" void __cdecl initialize_macro_buffers(void)
     frontend_bss.macro_text_cursor = frontend_bss.work_buffers[1].data;
     frontend_bss.saved_macro_text_cursor = frontend_bss.work_buffers[1].data;
 }
-/* Only the reached kind and text fields are interpreted. The leading four
- * bytes retain their real storage and remain semantically unmodeled. */
-struct CompilerMacroBody {
-    BYTE unmodeled_prefix[4];
-    signed char kind;
-    char payload[1];
-};
-struct CompilerMacro {
-    CompilerNameEntry *identifier;
-    CompilerMacroBody *body;
-};
 extern "C" void __cdecl record_macro_definition(const char *, const char *, int);
 extern "C" int __cdecl compare_macro_text(const void *, const void *, unsigned);
 extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
