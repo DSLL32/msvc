@@ -221,11 +221,6 @@ long __cdecl rc_read_resource_file(void)
     return 0;
 }
 
-RcResourceType * __stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
-{
-    __asm int 3
-    return NULL;
-}
 
 int __stdcall rc_read_resource_attributes(RcResource *resource)
 {
@@ -385,6 +380,12 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
 }
 
 WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
+{
+    __asm int 3
+    return NULL;
+}
+
+RcResourceType *__stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
 {
     __asm int 3
     return NULL;

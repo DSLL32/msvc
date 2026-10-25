@@ -88,8 +88,11 @@ establish that storage identity. The corrected native replay against the
 unchanged original took 192.661 ms; the branch unit took 151.867 ms. No new
 original capture or additional code credit was needed.
 
-The resource-input reset at RVA 25d3c shares the existing rc_result DWORD.
-A zero-credit correction removed accidental duplicate storage. The initializer's
-other three fields were also checked against exact original/rebuilt operands and
-MAP identities. A noncoincident reset unit and native replay against the unchanged
-original passed; earlier equal-zero evidence did not prove this storage alias.
+The resource status at RVA 25d3c is distinct from the command result at
+1853c. A mistaken source-name-based correction in 4f7a7b5e merged them; that
+history and its equal-zero evidence remain preserved with their limitation.
+The corrected mapping binds actual main/initializer/resource-parser operands,
+restores distinct storage, and replaces old reset placeholders with the genuine
+font count, type-list head and HWB offset. Seventeen bounded fields have explicit
+operand/MAP identities. Noncoincident command/resource reset units and a fresh
+native pair against the unchanged original pass. This adds no code credit.

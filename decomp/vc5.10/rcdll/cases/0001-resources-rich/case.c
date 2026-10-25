@@ -20,5 +20,5 @@ RECON_EXPORT const ReconCase case_descriptor = {
  .first_entry_order=order, .first_entry_count=RECON_COUNT(order),
  .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0xaee9,
  .setup=setup_native_host,
- .io=rcdll_native_invoke, .tests=rich_tests, .test_count=21
+ .io=rcdll_native_invoke, .tests=rich_tests, .test_count=22
 };

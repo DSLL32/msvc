@@ -6,6 +6,7 @@
 #include <setjmp.h>
 #include "rcdll.h"
 #include "command.h"
+#include "resources.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -312,9 +313,6 @@ bad_option:
     return rc_result;
 }
 
-WORD rc_cancelled;
-void *rc_resource_state;
-int rc_scan_state;
 char rc_input_name[260];
 
 HANDLE __stdcall rc_initialize(void)
@@ -322,11 +320,11 @@ HANDLE __stdcall rc_initialize(void)
     rc_language=128;
     rc_result=0;
     rc_codepage=0;
-    rc_cancelled=0;
+    rc_font_resource_count=0;
     rc_input_temporary=NULL;
     rc_output_temporary=NULL;
-    rc_resource_state=NULL;
-    rc_scan_state=0;
+    rc_hwb_resource_offset=0;
+    rc_resource_types=NULL;
     rc_verbose=0;
     rc_mac=0;
     rc_input_name[0]=0;

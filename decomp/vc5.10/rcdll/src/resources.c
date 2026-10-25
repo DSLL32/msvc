@@ -13,7 +13,7 @@ extern FILE *rc_output_file;
 extern int rc_mac,rc_verbose;
 extern unsigned rc_default_language;
 extern char rc_input_path[260];
-extern void *rc_resource_state;
+void *rc_string_tables;
 extern DWORD rc_resource_recording;
 
 /* New fields are in the verified loader-zero .data tail. The default language
@@ -157,7 +157,7 @@ int __stdcall rc_parse_resources(void)
             }
             type=rc_find_resource_type(rc_resource_name,0);
         }else type=rc_find_resource_type(NULL,rc_resource_token.value);
-        if(!type)return rc_result==0;
+        if(!type)return rc_resource_status==0;
         rc_scan_resource_token(0);
         id=type->id;
         if(id==1||id==8||(id>=3&&id<=5)||id==15||id==17||id==18)
@@ -342,11 +342,11 @@ next_resource:
 finish:
     if(!rc_explicit_font_directory&&rc_font_resource_count)
         rc_flush_font_directory();
-    if(rc_resource_state)rc_write_string_table(rc_resource_state);
+    if(rc_string_tables)rc_write_string_table(rc_string_tables);
     if(rc_mac)rc_write_mac_resource_file();
     rc_release_resource_buffer();
     if(rc_verbose)printf("\n");
-    return rc_result==0;
+    return rc_resource_status==0;
 }
 
 void __cdecl rc_initialize_resource_types(void)
@@ -374,3 +374,8 @@ void __cdecl rc_initialize_resource_types(void)
     rc_find_resource_type(L"ANICURSOR",21);
     rc_find_resource_type(L"HTML",23);
 }
+
+/* Resource-type list head at RVA 25d44, independently loader-zero. Nodes are
+ * the genuine 20-byte zeroed allocations, not image data. */
+RcResourceType *rc_resource_types;
+

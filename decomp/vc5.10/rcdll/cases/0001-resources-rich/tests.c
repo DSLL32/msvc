@@ -9,6 +9,7 @@
 #include "directives.h"
 #include "macro-expansion.h"
 #include "resource-input.h"
+#include "resources.h"
 #include <recon-tool.h>
 #include <recon-native.h>
 #include <recon.h>
@@ -424,13 +425,17 @@ static void apstudio_unobserved(void)
 static int apstudio_hold(void){return trapped(apstudio_unobserved);}
 static void resource_input_invoke(void *unused)
 {
-    rc_result=5;rc_resource_file_index=7;rc_resource_line=9;
+    rc_result=17;rc_resource_status=5;rc_resource_file_index=7;rc_resource_line=9;
+    rc_font_resource_count=0x4455;rc_hwb_resource_offset=0x55667788;
+    rc_resource_types=(RcResourceType *)0x12345670;
     rc_resource_input_file=(FILE *)0x23456780;
     rc_initialize_input((FILE *)0x12345678);
 }
 static unsigned __cdecl resource_character_boundary(void)
 {
-    recon_native_entry_finish(!rc_result&&!rc_resource_file_index&&
+    recon_native_entry_finish(rc_result==17&&!rc_resource_status&&!rc_resource_file_index&&
+        rc_font_resource_count==0x4455&&rc_hwb_resource_offset==0x55667788&&
+        rc_resource_types==(RcResourceType *)0x12345670&&
         rc_resource_line==1&&rc_resource_input_file==(FILE *)0x12345678);
 }
 static int resource_input_contract(void)
@@ -469,6 +474,38 @@ static int byte_read_contract(void)
        recon_ferror(file))return 0;
     return recon_fclose(file)==0;
 }
+
+extern WORD rc_language;
+extern int rc_verbose,rc_mac;
+extern char rc_input_name[260],rc_output_path[260];
+extern char *rc_output_temporary;
+static void command_reset_invoke(void *unused)
+{
+    rc_result=17;rc_resource_status=51;rc_codepage=88;rc_language=0x1234;
+    rc_font_resource_count=0x2345;
+    rc_input_temporary=(char *)0x11111110;
+    rc_output_temporary=(char *)0x22222220;
+    rc_hwb_resource_offset=0x33445566;
+    rc_resource_types=(RcResourceType *)0x12345670;
+    rc_string_tables=(void *)0x44444440;
+    rc_verbose=1;rc_mac=1;rc_input_name[0]='q';rc_output_path[0]='q';
+    rc_initialize();
+}
+static HANDLE WINAPI command_reset_boundary(DWORD flags,DWORD initial,DWORD maximum)
+{
+    recon_native_entry_finish(flags==1&&!initial&&!maximum&&
+        !rc_result&&rc_resource_status==51&&!rc_codepage&&rc_language==128&&
+        !rc_font_resource_count&&!rc_input_temporary&&!rc_output_temporary&&
+        !rc_hwb_resource_offset&&!rc_resource_types&&
+        rc_string_tables==(void *)0x44444440&&
+        !rc_verbose&&!rc_mac&&!rc_input_name[0]&&!rc_output_path[0]);
+}
+static int command_reset_contract(void)
+{
+    return recon_native_at_entry(recon_HeapCreate,command_reset_boundary,
+                                  command_reset_invoke,NULL)==1;
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -487,6 +524,7 @@ const ReconTest rich_tests[]={
     {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
     {"apstudio-service-hold",1,apstudio_hold},
     {"resource-input-initialization",1,resource_input_contract},
+    {"command-resource-reset-owners",1,command_reset_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

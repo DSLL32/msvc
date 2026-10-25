@@ -23,6 +23,8 @@ typedef char RcResourceLayout[
     offsetof(RcResource,language)==36 && offsetof(RcResource,prefix)==44 &&
     sizeof(RcResourceType)==20 && offsetof(RcResourceType,id)==12 ? 1 : -1];
 extern WCHAR rc_resource_name[257];
+extern RcResourceType *rc_resource_types;
+extern void *rc_string_tables;
 extern WORD rc_font_resource_count,rc_next_resource_id;
 extern DWORD rc_resource_version,rc_resource_characteristics;
 extern int rc_explicit_font_directory;

@@ -4,7 +4,7 @@
 #include <stddef.h>
 #include "rcdll.h"
 #include <recon.h>
-extern DWORD rc_resource_file_index,rc_resource_line;
+extern DWORD rc_resource_status,rc_resource_file_index,rc_resource_line;
 extern FILE *rc_resource_input_file;
 extern WCHAR rc_resource_character;
 extern char rc_resource_filename[MAX_PATH];
