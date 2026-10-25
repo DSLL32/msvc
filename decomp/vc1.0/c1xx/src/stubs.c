@@ -84,7 +84,6 @@ CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value)
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
-char *__stdcall copy_string(char *text, int arena) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }

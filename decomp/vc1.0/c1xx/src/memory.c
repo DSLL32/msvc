@@ -223,3 +223,27 @@ unsigned __stdcall minimum_unsigned(unsigned left, unsigned right)
 {
     return right < left ? right : left;
 }
+
+/* Original0x74400..0x74483. Copy a terminated string into a four-byte-rounded
+   arena allocation; only the actual string bytes are copied. */
+char *__stdcall copy_string(char *text, int arena)
+{
+    char *destination;
+    ArenaPool *pool;
+    unsigned length, bytes, i;
+    for (length = 0; text[length]; ++length) ;
+    bytes = (length + 4) & ~3U;
+    if (!arena) destination = allocate_permanent(bytes);
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)bytes) refill_arena(&compiler_arena, pool);
+        destination = (char *)pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+    }
+    for (length = 0; text[length]; ++length) ;
+    ++length;
+    for (i = 0; i < length; ++i) destination[i] = text[i];
+    return destination;
+}
