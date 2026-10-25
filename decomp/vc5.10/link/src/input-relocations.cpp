@@ -2,12 +2,17 @@
  * the original C-linkage stdcall ABI. */
 #include <windows.h>
 #include "input.h"
+#include "files.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
 extern "C" {
 extern OutputModule *output_module;
 DWORD total_relocation_count;
+BYTE relocation_data_active,relocations_mapped;
+ByteBuffer relocation_buffer;
+extern BYTE file_access_statistics;
+void __stdcall reserve_byte_buffer(ByteBuffer *,unsigned);
 DWORD __stdcall read_x86_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD);
 DWORD __stdcall read_mips_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD);
 DWORD __stdcall read_alpha_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD);
@@ -65,8 +70,61 @@ DWORD __stdcall read_mac_ppc_relocations(LinkContext *,OutputModule *,Contributi
 DWORD __stdcall read_ppc_relocations(LinkContext *,OutputModule *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD) { __asm { int 3 } return 0; }
 void __stdcall release_relocations(IMAGE_RELOCATION *) { __asm { int 3 } }
 }
-IMAGE_RELOCATION *RECON_THISCALL Contribution::ReadRelocations(DWORD *)
+/* Converted modules carry their physical input offset in optional_data[3].
+ * This expression is deliberately re-evaluated after child calls, matching
+ * the original module/owner loads rather than caching mutable fields. */
+#define CONTRIBUTION_INPUT_OFFSET(c) \
+    (((c)->module->library->flags & 16) ? 0 : \
+    (((c)->module->flags & 0x40) ? ((DWORD *)(c)->module->optional_data)[3] : \
+    (DWORD)(c)->module->identity))
+IMAGE_RELOCATION *RECON_THISCALL Contribution::ReadRelocations(DWORD *count)
+{
+    IMAGE_RELOCATION first;
+    IMAGE_RELOCATION *relocations=NULL,*overflow;
+    FileRecord *file;
+    DWORD n,error;
+    relocation_data_active=1;
+    n=module==output_module ? 0 : relocation_count;
+    if (characteristics & 0x01000000) { /* IMAGE_SCN_LNK_NRELOC_OVFL */
+        if (n!=0xffff) link_contribution_fatal(this,1183,n);
+        overflow=(IMAGE_RELOCATION *)map_file_range(current_input_file,
+            CONTRIBUTION_INPUT_OFFSET(this)+relocation_offset,sizeof(first));
+        if (!overflow) {
+            error=0;
+            seek_file(current_input_file,CONTRIBUTION_INPUT_OFFSET(this)+relocation_offset,
+                FILE_BEGIN,&error);
+            if (file_access_statistics) record_file_access();
+            file=file_slots[current_input_file];
+            if (file->flags & 8) mapped_read(file,&first,sizeof(first));
+            else buffered_read(file,&first,sizeof(first));
+            overflow=&first;
+        }
+        n=overflow->VirtualAddress;
+        if (n<0xffff) link_contribution_fatal(this,1183,n);
+    }
+    *count=n;
+    n*=sizeof(IMAGE_RELOCATION);
+    if ((module->library->flags & 16) || !(module->flags & 0x40))
+        relocations=(IMAGE_RELOCATION *)map_file_range(current_input_file,
+            CONTRIBUTION_INPUT_OFFSET(this)+relocation_offset,n);
+    relocations_mapped=relocations!=NULL;
+    if (relocations) return relocations;
+    reserve_byte_buffer(&relocation_buffer,n);
+    relocations=(IMAGE_RELOCATION *)relocation_buffer.data;
+    if (!(module->library->flags & 16) && (module->flags & 0x40)) {
+        ReadConvertedRelocations(relocations,n);
+        return relocations;
+    }
+    error=0;
+    seek_file(current_input_file,CONTRIBUTION_INPUT_OFFSET(this)+relocation_offset,
+        FILE_BEGIN,&error);
+    if (file_access_statistics) record_file_access();
+    file=file_slots[current_input_file];
+    if (file->flags & 8) mapped_read(file,relocations,n);
+    else buffered_read(file,relocations,n);
+    return relocations;
+}
+void RECON_THISCALL Contribution::ReadConvertedRelocations(void *,DWORD)
 {
     __asm { int 3 }
-    return NULL;
 }

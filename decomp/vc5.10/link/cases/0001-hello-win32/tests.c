@@ -795,6 +795,29 @@ static int relocation_load(void)
     return recon_native_at_entry(native_read_relocations,check_relocation_load,
         invoke_hello,NULL)==1;
 }
+extern DWORD __stdcall read_x86_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *,DWORD,DWORD);
+extern BYTE relocation_data_active,relocations_mapped;
+extern ByteBuffer relocation_buffer;
+static DWORD __stdcall check_x86_relocation_read(LinkContext *context,Contribution *contribution,
+    IMAGE_SYMBOL *symbols,IMAGE_RELOCATION *relocations,DWORD count,DWORD index)
+{
+    OutputModule *module=current_input_library->module_head;
+    FileRecord *file=file_slots[current_input_file];
+    recon_native_entry_finish(context && context->file_header.Machine==0x14c &&
+        contribution==(Contribution *)module->contributions+1 &&
+        symbols==(IMAGE_SYMBOL *)((BYTE *)file->view+1135) &&
+        relocations==(IMAGE_RELOCATION *)((BYTE *)file->view+543) &&
+        sizeof(*relocations)==10 && count==8 && index==2 &&
+        total_relocation_count==8 && relocation_data_active==1 && relocations_mapped==1 &&
+        !relocation_buffer.data && !relocation_buffer.used && !relocation_buffer.capacity &&
+        !module->base_relocation_size);
+    return 0;
+}
+static int x86_relocation_read(void)
+{
+    return recon_native_at_entry(read_x86_relocations,check_x86_relocation_read,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -831,5 +854,6 @@ const ReconTest hello_tests[]={
     {"comdat-name-copy",1,comdat_name_copy},
     {"name-pool-call",1,name_pool_call},
     {"relocation-reader",1,relocation_reader},
-    {"relocation-load",1,relocation_load}
+    {"relocation-load",1,relocation_load},
+    {"x86-relocation-read",1,x86_relocation_read}
 };

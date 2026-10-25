@@ -5935,6 +5935,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "?ReadRelocations@Contribution@@QAEPAU_IMAGE_RELOCATION@@PAK@Z": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

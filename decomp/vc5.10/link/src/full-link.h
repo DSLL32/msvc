@@ -122,6 +122,7 @@ struct Contribution {
 #ifdef __cplusplus
     BYTE RECON_THISCALL CanFold(const char *name);
     IMAGE_RELOCATION *RECON_THISCALL ReadRelocations(DWORD *count);
+    void RECON_THISCALL ReadConvertedRelocations(void *buffer,DWORD bytes);
 #endif
 };
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
