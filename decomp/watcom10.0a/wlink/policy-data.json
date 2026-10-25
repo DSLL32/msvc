@@ -6,6 +6,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "DoLinkFromCommandLine": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

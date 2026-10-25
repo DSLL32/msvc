@@ -10,7 +10,6 @@ void reconstruction_trap( void );
 #define TRAP() __asm__ __volatile__( "int3" )
 #endif
 
-void DoLinkFromCommandLine( void ) { TRAP(); }
 void QClose( int handle, char *name ) { handle = handle; name = name; TRAP(); }
 void QDelete( char *name ) { name = name; TRAP(); }
 void _LnkFree( void *memory ) { memory = memory; TRAP(); }
@@ -27,3 +26,35 @@ void FreeObjInfo( void ) { TRAP(); }
 void FreeVirtMem( void ) { TRAP(); }
 void FiniMsg( void ) { TRAP(); }
 void LnkMemFini( void ) { TRAP(); }
+
+void LnkInit( void ) { TRAP(); }
+void TrapBreak( int value ) { value = value; TRAP(); }
+void StartTime( void ) { TRAP(); }
+void DoCmdFile( char *text ) { text = text; TRAP(); }
+void CheckErr( void ) { TRAP(); }
+void MapInit( void ) { TRAP(); }
+void ProcObjFiles( void ) { TRAP(); }
+void DoDefaultSystem( void ) { TRAP(); }
+void FindLibPaths( void ) { TRAP(); }
+void ResolveUndefined( void ) { TRAP(); }
+void DecideFormat( void ) { TRAP(); }
+void SetFormat( void ) { TRAP(); }
+void ConvertLazyRefs( void ) { TRAP(); }
+void PrepareSegments( void ) { TRAP(); }
+void CheckSymbolPass( int value ) { value = value; TRAP(); }
+void DefBSSSyms( void ) { TRAP(); }
+void ReportUndefined( void ) { TRAP(); }
+void PreAddrCalcFormatSpec( void ) { TRAP(); }
+void CheckClassOrder( void ) { TRAP(); }
+void SetStkSize( void ) { TRAP(); }
+void AutoGroup( void ) { TRAP(); }
+void CalcAddresses( void ) { TRAP(); }
+void GetBSSSize( void ) { TRAP(); }
+void GetStkAddr( void ) { TRAP(); }
+void PostAddrCalcFormatSpec( void ) { TRAP(); }
+void ReportLinkMap( void ) { TRAP(); }
+void InitLoadFile( void ) { TRAP(); }
+void ObjPass2( void ) { TRAP(); }
+void FiniLoadFile( void ) { TRAP(); }
+void EndTime( void ) { TRAP(); }
+void LnkMsg( unsigned message, const char *types, ... ) { message = message; types = types; TRAP(); }

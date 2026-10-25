@@ -45,5 +45,36 @@ extern void exit( int );
 #pragma aux exit aborts;
 #endif
 
+extern void LnkInit( void );
+extern void TrapBreak( int );
+extern void StartTime( void );
+extern void DoCmdFile( char * );
+extern void CheckErr( void );
+extern void MapInit( void );
+extern void ProcObjFiles( void );
+extern void DoDefaultSystem( void );
+extern void FindLibPaths( void );
+extern void ResolveUndefined( void );
+extern void DecideFormat( void );
+extern void SetFormat( void );
+extern void ConvertLazyRefs( void );
+extern void PrepareSegments( void );
+extern void CheckSymbolPass( int );
+extern void DefBSSSyms( void );
+extern void ReportUndefined( void );
+extern void PreAddrCalcFormatSpec( void );
+extern void CheckClassOrder( void );
+extern void SetStkSize( void );
+extern void AutoGroup( void );
+extern void CalcAddresses( void );
+extern void GetBSSSize( void );
+extern void GetStkAddr( void );
+extern void PostAddrCalcFormatSpec( void );
+extern void ReportLinkMap( void );
+extern void InitLoadFile( void );
+extern void ObjPass2( void );
+extern void FiniLoadFile( void );
+extern void EndTime( void );
+extern void LnkMsg( unsigned, const char *, ... );
 #include <recon.h>
 #endif
