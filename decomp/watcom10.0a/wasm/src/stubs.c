@@ -32,8 +32,8 @@ int writeComdat(obj_rec *objr, pobj_state *state)
 int writeLinsym(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 
-int OpenResFile(HANDLE_INFO *instance)
-{ (void)instance; WASM_PENDING(); return 0; }
+int ResOpenFileRO(const char *filename)
+{ (void)filename; WASM_PENDING(); return 0; }
 int FindResources(HANDLE_INFO *instance)
 { (void)instance; WASM_PENDING(); return 0; }
 int InitResources(HANDLE_INFO *instance)

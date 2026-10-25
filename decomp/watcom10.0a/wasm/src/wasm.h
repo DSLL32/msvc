@@ -71,6 +71,7 @@ typedef struct HANDLE_INFO {
     int handle;
     const char *filename;
 } HANDLE_INFO;
+int ResOpenFileRO(const char *filename);
 int OpenResFile(HANDLE_INFO *instance);
 int FindResources(HANDLE_INFO *instance);
 int InitResources(HANDLE_INFO *instance);

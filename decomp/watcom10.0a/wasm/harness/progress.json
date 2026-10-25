@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 11,
-  "accepted_app_bytes": 593,
+  "accepted_app_functions": 12,
+  "accepted_app_bytes": 608,
   "accepted": [
     {
       "name": "main",
@@ -91,10 +91,18 @@
         91919
       ],
       "evidence": "cases/0001-help/evidence/0011-message-init"
+    },
+    {
+      "name": "OpenResFile",
+      "extent": [
+        124680,
+        124695
+      ],
+      "evidence": "cases/0001-help/evidence/0012-open-resource"
     }
   ],
-  "current_frontier": "OpenResFile",
-  "native_ms": 5.837257999999999,
+  "current_frontier": "ResOpenFileRO",
+  "native_ms": 5.771037,
   "original_ms": 1527.051,
-  "last_audit_ms": 15.790341421961784
+  "last_audit_ms": 17.815430648624897
 }
