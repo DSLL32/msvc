@@ -37,5 +37,11 @@
       "unsupported_native": "Exact other-kind INT3; original uninitialized local record type remains original source assumption. No old local seed or invented type. Real other kind holds for contract/ABI review.",
       "evidence": "cases/omf-public-checkpoint.json"
     }
-  ]
+  ],
+  "function_properties": {
+    "@compiler_internal_error@8": {
+      "pending_extent": false,
+      "reason": "ABI-only tail target of lookup_runtime_intrinsic_opcode. Original indexed6fb70..6fb90 is whole19B body plus13B LEA padding: INC[8316c] at6fb70; PUSH EDX/ECX/1; CALL70260 at6fb7a; ADD ESP,12 at6fb7f; RET0 at6fb82; padding6fb83..6fb90. No branches or hidden stack arguments. Source stays named trapping fastcall2 stub, UNIMPLEMENTED/masked/zero App credit. Restores historical scoped cleanup closure without accepting body."
+    }
+  }
 }

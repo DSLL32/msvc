@@ -16,7 +16,7 @@ is normalized; OMF bytes are exact. Final SEH output remains unachieved.
 Rust CFG/ownership/extent audits. Global RET comparison cannot prove the
 unresolved finish_debugging indirect-tail ABI, so global --check-ret remains off;
 shared --ret-checks ret-checks.json retains the15 existing explicit cleanup
-contracts. Function signatures remain typed. Five historical CRT overrides in src/runtime.c
+contracts. Function signatures remain typed. Five historical CRT overrides in crt/runtime.c
 are retained in the canonical and uninstrumented native support build, as before;
 no CRT reconstruction is added by migration.
 
@@ -48,3 +48,22 @@ or function acceptance occurred. The source's existing frame-output conversion
 warnings are unchanged. Old owned C2 fixture trees and local helper EXEs were
 retired; only flat captures remain. Historical CRT aliases share entries, so
 the canonical registry picks the whole chkstk body over its zero-extent alias.
+
+Layout cleanup: `src/` contains application reconstruction; `crt/runtime.c`
+contains only the five historical earlier-CRT overrides. Their translated
+text-position, lowio open and FILE buffer flag behavior differs from the later
+shipped library bodies, so their existing canonical/native support definitions
+are retained unchanged and receive zero application credit. Case-local adapters
+and tests stay beside their numbered descriptor as specified by the shared
+format; C2 has no separate native host or shared case helper requiring a
+`harness/` source. The paused SEH INT3 and scratch WIP are unchanged.
+
+Layout validation:17 cached cases and12 tests pass on the final library;
+1212 paired graphs and15 RET contracts pass. Combined native/case/original
+build35.338s (unsplit); qualified audit7.752s includes a native rebuild for
+the shared include-path correction, so it is not graph-only timing. Final
+cached check+unit.335s. The shared exporter now marks unimplemented extents
+pending; the existing complete32B compiler_internal_error interval is explicitly
+qualified for ABI closure only, with its19B RET0 body/13B padding proof in
+policy-data.json. It remains unimplemented, masked and zero App credit.
+Full logs/timing: `~/.ai-tmp/msvc2/vc1.0/c2/layout-validation.json`.

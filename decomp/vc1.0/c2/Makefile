@@ -131,9 +131,9 @@ BINARY_SOURCES = src/c2.c \
     src/machine-state.c \
     src/frame.c \
     src/frame-output.c
-BINARY_SUPPORT_SOURCES = src/runtime.c $(wildcard $(RECON)/src/*.c)
+BINARY_SUPPORT_SOURCES = crt/runtime.c $(wildcard $(RECON)/src/*.c)
 ORIGINAL_TOOLCHAIN = 1.0-nt
-ORIGINAL_SOURCES = $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_SOURCES = $(BINARY_SOURCES) crt/runtime.c
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c2.exe
 ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
@@ -147,6 +147,6 @@ RECON_POLICY = policy-data.json
 RECON_AUDIT_FLAGS = -q --discovery cfg --check-ownership --check-extents --check-accepted-extents --ret-checks ret-checks.json
 RECON_AUDIT_PREREQUISITES = ret-checks.json
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
-RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/src/runtime.c.obj
+RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
