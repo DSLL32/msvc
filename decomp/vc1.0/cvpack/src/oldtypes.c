@@ -266,3 +266,54 @@ unsigned char *resize_old_type(TypeRecord *entry, unsigned short size)
     entry->data = buffer;
     return buffer;
 }
+
+/* C6 structures carry separate member-type and member-name/offset lists. */
+void convert_old_structure(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *cursor = old+4, *end, *record;
+    unsigned char numeric[20], name[257];
+    unsigned short old_length, numeric_size, count, types, names, fields;
+    unsigned short properties = 0, length, i;
+    unsigned long value;
+    entry->flags |= 0x400;
+    old_length = *(unsigned short *)(old+1);
+    end = old+old_length+3;
+    emit_udt_symbols = 1;
+    value = read_old_numeric(&cursor, NULL);
+    if (value) value = ((value-1)>>3)+1;
+    numeric_size = write_numeric_leaf(numeric, value);
+    value = read_old_numeric(&cursor, NULL);
+    count = value > 0xffff ? 0xffff : (unsigned short)value;
+    types = names = 0xffff;
+    if (*cursor++ == 0x83) {
+        types = *(unsigned short *)cursor;
+        cursor += 2;
+    }
+    if (*cursor++ == 0x83) {
+        names = *(unsigned short *)cursor;
+        cursor += 2;
+    }
+    fields = convert_old_field_list(types, names, count);
+    name[0] = 0;
+    if (cursor < end) {
+        if (*cursor == 0x82) {
+            ++cursor;
+            for (i = 0; i < (unsigned short)*cursor+1; ++i) name[i] = cursor[i];
+            cursor += *cursor+1;
+        }
+        if (cursor < end) properties = *cursor == 0x68 ? 1 : 0;
+    }
+    length = (unsigned short)(name[0]+numeric_size+13);
+    if ((unsigned long)old_length+1 >= length) record = old;
+    else record = resize_old_type(entry, (unsigned short)(length+2));
+    *(unsigned short *)record = length;
+    *(unsigned short *)(record+2) = 5;
+    *(unsigned short *)(record+4) = count;
+    *(unsigned short *)(record+6) = fields;
+    *(unsigned short *)(record+8) = properties;
+    *(unsigned short *)(record+10) = 0;
+    *(unsigned short *)(record+12) = 0;
+    for (i = 0; i < numeric_size; ++i) record[14+i] = numeric[i];
+    record += 14+numeric_size;
+    for (i = 0; i < (unsigned short)name[0]+1; ++i) record[i] = name[i];
+}

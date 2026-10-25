@@ -79,6 +79,7 @@ void initialize_buffer(GrowingBuffer *,unsigned long);
 extern int type_recursion_error;
 unsigned short map_primitive(unsigned short);
 void convert_old_type_record(unsigned short);
+unsigned short convert_old_field_list(unsigned short,unsigned short,unsigned short);
 unsigned long read_old_numeric(unsigned char **,unsigned short *);
 unsigned short write_numeric_leaf(unsigned char *,unsigned long);
 void convert_old_argument_list(unsigned short,unsigned short);

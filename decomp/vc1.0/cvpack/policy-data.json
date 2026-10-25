@@ -1879,9 +1879,15 @@
       },
       "_convert_old_structure": {
         "abi": "void convert_old_structure(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
-        "roots": []
+        "roots": [],
+        "alignment_padding": [
+          [
+            139771,
+            139776
+          ]
+        ]
       },
       "_convert_old_array": {
         "abi": "void convert_old_array(TypeRecord *)",
@@ -1964,6 +1970,12 @@
       "_write_numeric_leaf": {
         "abi": "unsigned short write_numeric_leaf(unsigned char *,unsigned long)",
         "source": "src/oldtypes.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_field_list": {
+        "abi": "unsigned short convert_old_field_list(unsigned short,unsigned short,unsigned short)",
+        "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
       }

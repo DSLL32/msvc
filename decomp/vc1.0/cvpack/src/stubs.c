@@ -125,7 +125,7 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
-void convert_old_structure(TypeRecord *entry) { __asm { int 3 } }
+
 
 
 void convert_old_leaf_80(TypeRecord *entry) { __asm { int 3 } }
@@ -142,3 +142,5 @@ void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
 
+
+unsigned short convert_old_field_list(unsigned short types, unsigned short names, unsigned short count) { __asm { int 3 } return 0; }
