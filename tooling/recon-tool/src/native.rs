@@ -2,7 +2,7 @@ use crate::{
     abi::{self, Loaded},
     assets, debug,
     fixture::{self, Action, Fixture},
-    process, status, trap,
+    output, process, status, trap,
 };
 use anyhow::{Context, Result, bail};
 use serde::{Deserialize, Serialize};
@@ -97,6 +97,7 @@ pub struct Report {
     pub logical_exit_code: Option<u32>,
     pub first_entry_order: Vec<u32>,
     pub tests: bool,
+    pub process_requests: Option<process::ProcessReport>,
     pub trap_rva: Option<u32>,
     pub trap_site: Option<u32>,
     pub elapsed_ms: f64,
@@ -206,7 +207,12 @@ pub(crate) fn output_paths(root: &Path, relative: &Path, out: &mut BTreeSet<Stri
 fn checks(f: &Fixture, cwd: &Path, root: &Path) -> Result<()> {
     for (name, want) in [("stdout", &f.stdout), ("stderr", &f.stderr)] {
         if let Some(want) = want {
-            let got = fs::read(root.join(name))?;
+            let stream = if root.join("output-go").exists() {
+                format!("{name}-compare")
+            } else {
+                name.to_owned()
+            };
+            let got = fs::read(root.join(stream))?;
             if got != want.0 {
                 bail!(
                     "{name} differs: actual {} bytes, expected {}",
@@ -300,6 +306,7 @@ unsafe fn executor(
     stdin: RawFd,
     trace: RawFd,
     spawn: RawFd,
+    process_server: process::DenyServer,
     tests: bool,
     debug: &debug::Options,
     supervisor: i32,
@@ -371,6 +378,8 @@ unsafe fn executor(
             bail!("case setup failed")
         }
     }
+    output::prepare(&loaded, f, root, cwd, tests)?;
+    process::prepare(&loaded, f, root, cwd, process_server, tests)?;
     if tests {
         fs::write(
             root.join("executor-setup-ms"),
@@ -548,14 +557,13 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             )?;
             (File::open(root.join("stdin"))?, None)
         };
-        let (mut process_server, process_client) = process::DenyServer::new()?;
+        let (process_server, process_client) = process::DenyServer::new()?;
         let trace = open_stream(&root.join("trace"))?;
         let setup_ms = start.elapsed().as_secs_f64() * 1000.;
         let run = Instant::now();
         let supervisor = unsafe { libc::getpid() };
         let pid = fork()?;
         if pid == 0 {
-            drop(process_server);
             drop(writer.take());
             let result = unsafe {
                 executor(
@@ -566,6 +574,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                     input.as_raw_fd(),
                     trace.as_raw_fd(),
                     process_client.as_raw_fd(),
+                    process_server,
                     tests,
                     debug,
                     supervisor,
@@ -583,6 +592,7 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         }
         drop(input);
         drop(process_client);
+        let mut process_server = Some(process_server);
         let mut close_requested = false;
         let mut pending = if f.stdin_kind == fixture::StdinKind::Pipe {
             f.stdin.as_ref().map_or(vec![], |b| b.0.clone())
@@ -592,12 +602,20 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
         let mut offset = 0;
         let mut fired = vec![false; f.events.len()];
         let mut executor_status = None;
+        let mut execution_end = None;
         let mut timed_out = false;
         let mut errors = vec![];
         let mut debugger_started = false;
         let mut debugger: Option<debug::Session> = None;
         loop {
-            match process_server.poll() {
+            if process_server.is_some() && root.join("process-ready").exists() {
+                drop(process_server.take());
+                fs::write(root.join("process-go"), b"go")?;
+            }
+            match process_server
+                .as_mut()
+                .map_or_else(|| Ok(vec![]), |server| server.poll())
+            {
                 Ok(denied) => errors.extend(denied),
                 Err(error) => {
                     errors.push(format!("process boundary: {error:#}"));
@@ -702,13 +720,44 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             if n < 0 {
                 let e = std::io::Error::last_os_error();
                 if e.raw_os_error() == Some(libc::ECHILD) {
+                    execution_end.get_or_insert_with(Instant::now);
                     break;
                 }
                 if e.raw_os_error() != Some(libc::EINTR) {
                     return Err(e.into());
                 }
             }
+            if let (Some(status), Some(checker)) = (executor_status, output::checker(&root)?) {
+                if !root.join("output-go").exists() && !root.join("output-cancel").exists() {
+                    let mut live = vec![];
+                    descendants(supervisor, &mut live);
+                    if live == [checker] {
+                        execution_end.get_or_insert_with(Instant::now);
+                        if timed_out
+                            || !errors.is_empty()
+                            || root.join("executor-error").exists()
+                            || root.join("process-error").exists()
+                        {
+                            fs::write(root.join("output-cancel"), b"cancel")?;
+                        } else if let Err(error) = output::release(&root, pid, status) {
+                            errors.push(format!("{error:#}"));
+                            fs::write(root.join("output-cancel"), b"cancel")?;
+                        }
+                    }
+                }
+            }
             std::thread::sleep(Duration::from_millis(2));
+        }
+        let execution_end = execution_end.context("execution endpoint missing")?;
+        let check_start = execution_end;
+        if let Err(error) = output::verify(&root) {
+            errors.push(format!("{error:#}"));
+        }
+        if let Ok(error) = fs::read_to_string(root.join("process-error")) {
+            errors.push(format!("process policy: {error}"));
+        }
+        if root.join("process-ready").exists() && !root.join("process-report").exists() {
+            errors.push("process broker did not complete".into());
         }
         dependencies(f)?;
         if let Err(error) = assets::verify(f, &root) {
@@ -720,8 +769,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             .unwrap_or(0.)
             * 1000.;
         let setup_ms = setup_ms + executor_setup_ms;
-        let execution_ms = (run.elapsed().as_secs_f64() * 1000. - executor_setup_ms).max(0.);
-        let check_start = Instant::now();
+        let execution_ms =
+            (execution_end.duration_since(run).as_secs_f64() * 1000. - executor_setup_ms).max(0.);
         let status = executor_status.context("executor status missing")?;
         if let Ok(e) = fs::read_to_string(root.join("executor-error")) {
             errors.push(e)
@@ -829,6 +878,10 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             logical_exit_code,
             first_entry_order: order,
             tests,
+            process_requests: fs::read(root.join("process-report"))
+                .ok()
+                .map(|bytes| serde_json::from_slice(&bytes))
+                .transpose()?,
             trap_rva,
             trap_site,
             elapsed_ms: start.elapsed().as_secs_f64() * 1000.,

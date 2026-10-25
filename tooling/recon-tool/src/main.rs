@@ -8,6 +8,7 @@ mod host_alloc;
 mod native;
 mod original;
 mod original_image;
+mod output;
 mod process;
 mod projection;
 mod runtime;

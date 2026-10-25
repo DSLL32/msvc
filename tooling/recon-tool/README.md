@@ -442,11 +442,11 @@ Focused allocator checks are available as the host_allocator_contract Rust test
 (run with --test-threads=1). They cover alignment/reallocation, arena reuse,
 libc symbol ownership, and inherited live allocation behavior across fork.
 
-Native execution always installs a process boundary. Until a case's declared
-captured-response policy is supported, every RSP1/RSP2 request is denied; it
-cannot fall back to executing a host program. A rejected request fails the whole
-fixture even if the application handles the rejection. Ordinary host controller
-forks remain supervised independently. Unit mode also has no native fallback.
+Native execution always installs a process boundary. Without an explicit case
+policy every RSP1/RSP2 request is denied, with no fallback to a host program. A
+rejected request fails the entire fixture even if the application handles the
+rejection. Ordinary host controller forks remain supervised independently.
+Unit mode has the same deny boundary but does not consume the IO request budget.
 
 
 ## Capture-owned fixture assets
@@ -465,5 +465,48 @@ assets/logical cwd return NULL. Assets are host metadata, never a target
 environment variable (`RECON_CASE_ASSETS` is removed). The shared make include
 links the small uninstrumented support once in libbinary.so. This optional capture
 field preserves version 2 compatibility; ordinary `input_files` remain target
-inputs. Typed process/output policy headers remain authoring interfaces until
-their implementations are published.
+inputs.
+
+
+## Captured process responses
+
+A case may export `const ReconProcessPolicy case_process_policy` from
+`<recon-process.h>`. Set the version, exact structure size, expected request count
+and typed callback. The callback receives the complete request and a trusted
+prepared environment/workspace snapshot; it must check the complete invocation
+and relevant input bytes before replaying declared file effects and replying.
+Captured streams belong to the response, not callback stdout/stderr. Callback
+work is untraced in a separate pristine post-setup broker; its diagnostics stay
+outside asserted target streams. Request/response pointers have the borrowed
+lifetimes documented in the header. Assets can hold large captured bytes without
+adding harness files to the target tree.
+
+The broker supports RSP1 captured status `-1` (errno 1..4095) or 0..255, with exact
+stdout/stderr. RSP2 keeps its existing reviewed success/parent-state contract.
+Malformed replies, rejection, extra or missing requests fail the fixture. The
+supervisor hands over its socket before target execution; the broker closes
+inherited client, status and trace endpoints, and finalizes the request count
+only at EOF after all target client holders exit. Unit mode does not run this
+IO provider or require its expected requests. Intentionally suspended responses
+and native self re-entry are not implemented in this checkpoint; `SELF` replies
+fail explicitly. No original executable or Wine is invoked.
+
+## Post-exit file checks
+
+A case may export `const ReconOutputPolicy case_output_policy` from
+`<recon-output.h>`. Its typed `check_outputs` callback runs in a pristine snapshot
+forked after setup, with tracing off and private diagnostics. The supervisor sends
+GO only after reaping the executor and every other execution descendant; the
+checker closes inherited transport endpoints and cannot hold the process broker
+open. Callback failure, crash, cancellation or timeout fails the fixture; the
+checker is reaped before workspace cleanup. Setup/constructors are not rerun.
+
+`ReconOutputContext` supplies the actual executor PID, full DWORD exit status or
+signal, actual cwd/assets paths, raw immutable stdout/stderr paths, and separate
+comparison copies. The callback is for files and outputs, never target post-exit
+globals. A case-specific dynamic substitution must first validate actual values
+and exact identified offsets, then change only comparison copies. Raw streams
+are hashed and checked unchanged. Generic frozen stream/file assertions always
+run after the callback; a true callback cannot override them. Execution timing stops when the target and all nonchecker descendants are
+reaped. The supervised checker phase, dependency/asset validation and generic
+assertions contribute to checks_ms.

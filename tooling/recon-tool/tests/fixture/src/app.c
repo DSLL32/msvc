@@ -7,6 +7,61 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "recon-fixture.h"
+
+int fixture_state=7;
+extern char **environ;
+static int write_bytes(int fd, const void *data, size_t size)
+{
+    const char *bytes=data;
+    while(size) { ssize_t n=write(fd,bytes,size); if(n<=0)return 0;bytes+=n;size-=n; }
+    return 1;
+}
+static int read_bytes(int fd, void *data, size_t size)
+{
+    char *bytes=data;
+    while(size) { ssize_t n=read(fd,bytes,size); if(n<=0)return 0;bytes+=n;size-=n; }
+    return 1;
+}
+static int send_string(int fd,const char *text)
+{
+    uint32_t n=(uint32_t)strlen(text);
+    return write_bytes(fd,&n,4) && write_bytes(fd,text,n);
+}
+static int process_fixture(void)
+{
+    char cwd[4096],buffer[128];
+    const char *setting=getenv("RECON_SPAWN_FD");
+    uint32_t reply[3],lengths[2],fields[8],header[2],failure;
+    int fd,i,envc=0,iterations=getenv("RECON_PROCESS_EXTRA")?2:1;
+    if(getenv("RECON_PROCESS_MISSING"))return 0;
+    if(!setting || !getcwd(cwd,sizeof(cwd)))return 30;
+    while(environ[envc])++envc;
+    fd=atoi(setting);
+    for(i=0;i<iterations;++i)
+    {
+        unsigned j;
+        fields[0]=0;fields[1]=(uint32_t)getpid();fields[2]=2;fields[3]=envc;
+        fields[4]=0;fields[5]=2;fields[6]=2;fields[7]=2;
+        header[0]=getenv("RECON_PROCESS_RSP2")?0x32505352:0x31505352;
+        header[1]=(header[0]==0x32505352?32:16)+4+12+4+strlen(cwd)+4+12+4+1;
+        for(j=0;j<(unsigned)envc;++j)header[1]+=4+strlen(environ[j]);
+        if(!write_bytes(fd,header,8) || !write_bytes(fd,fields,header[0]==0x32505352?32:16) ||
+            !send_string(fd,"captured.exe") || !send_string(fd,cwd) || !send_string(fd,"captured.exe") || !send_string(fd,"x"))return 31;
+        for(j=0;j<(unsigned)envc;++j)if(!send_string(fd,environ[j]))return 32;
+        if(!read_bytes(fd,reply,12))return 33;
+        if(reply[1]!=2 && reply[2]!=(getenv("RECON_PROCESS_FAIL")?0xffffffffu:getenv("RECON_PROCESS_SEVEN")?7u:0u))return 39;
+        if(reply[1]==2)return 0;
+        if(header[0]==0x32505352) {uint32_t state[6];if(reply[1]!=5 || !read_bytes(fd,state,24) || state[0]!=0 || state[1]!=2 || state[2]!=2 || state[3] || state[4] || state[5]!=2)return 34;}
+        else if(reply[1]==4) {if(!read_bytes(fd,&failure,4) || failure!=2)return 35;}
+        else if(reply[1]!=3)return 36;
+        if(!read_bytes(fd,lengths,8))return 37;
+        for(j=0;j<2;++j) {
+            if(lengths[j]>sizeof(buffer) || !read_bytes(fd,buffer,lengths[j]) || !write_bytes(j+1,buffer,lengths[j]))return 38;
+        }
+    }
+    return 0;
+}
+
 static void hold_interrupt(int sig) { (void)sig; write(1,"interrupt\n",10); _exit(0); }
 int fixture_add(int a, int b) { return a + b; }
 int fixture_trap(void)
@@ -26,6 +81,17 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_OUTPUT"))
+    {
+        int result=process_fixture();
+        if(result)return result;
+        fixture_state=99;
+        printf("pid:%u\n",(unsigned)getpid());
+        if(!fork()) {usleep(20000);f=fopen("descendant.txt","wb");if(f){fputs("done",f);fclose(f);}_exit(0);}
+        return 0;
+    }
+    if (getenv("RECON_CHECK_POLICY"))
+        return process_fixture();
     if (getenv("RECON_CHECK_ASSETS"))
     {
         char cwd[4096], path[4096];
