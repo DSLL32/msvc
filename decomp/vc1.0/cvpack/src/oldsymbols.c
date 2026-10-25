@@ -510,3 +510,8 @@ void size_old_data32(void)
 {
     module_type_base += 5;
 }
+
+void size_old_label32(void)
+{
+    module_type_base += 7;
+}
