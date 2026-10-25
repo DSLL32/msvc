@@ -1,5 +1,6 @@
 #include "code-records.h"
 #include "output-callbacks.h"
+#include "code-input.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -249,4 +250,12 @@ void __fastcall write_record_initializers(C2DebugLink *records)
         for (; records; records = records->next)
             emit_initializer(((C2InputSymbol *)records->symbol)->initializer);
     }
+}
+
+C2Expression *__fastcall new_control_expression(unsigned opcode)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(21);
+    record->opcode = opcode;
+    record->location.line = record_line_delta;
+    return record;
 }

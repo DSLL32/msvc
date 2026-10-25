@@ -54,11 +54,6 @@ C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned sh
     return 0;
 }
 
-C2Expression * __fastcall new_control_expression(unsigned opcode)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2FunctionRegister * __fastcall new_address_register(C2FunctionRegister *source, unsigned short type, unsigned attributes, C2FunctionRegister *base)
 {

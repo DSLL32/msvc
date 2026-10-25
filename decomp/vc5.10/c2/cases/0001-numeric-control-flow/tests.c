@@ -365,6 +365,24 @@ static int pragma_signed_fields(void)
     return input._cnt == 0 && input._ptr == (char *)bytes + sizeof(bytes);
 }
 
+static int control_record_reuse(void)
+{
+    unsigned char allocation[32], expected[32];
+    C2Expression *record;
+    memset(allocation, 0xa5, sizeof(allocation));
+    *(C2SmallNode **)allocation = NULL;
+    free_small_nodes[28] = (C2SmallNode *)allocation;
+    record_line_delta = 0x1234;
+    memset(expected, 0, 28);
+    memset(expected + 28, 0xa5, 4);
+    *(unsigned *)(expected + 4) = 0x182;
+    expected[8] = 21;
+    *(unsigned short *)(expected + 16) = 0x1234;
+    record = new_control_expression(0x182);
+    return record == (C2Expression *)allocation && !free_small_nodes[28] &&
+        !memcmp(allocation, expected, sizeof(allocation));
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -384,5 +402,6 @@ const ReconTest numeric_tests[] = {
     {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse},
     {"ended module does not consume or modify another token", 1, ended_token_input},
     {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases},
-    {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields}
+    {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields},
+    {"control record clears its exact 28-byte allocation", 1, control_record_reuse}
 };

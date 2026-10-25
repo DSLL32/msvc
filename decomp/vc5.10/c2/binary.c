@@ -2400,8 +2400,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_control_expression@4",
         .entry_rva = 0x2df6,
+        .code = (const ReconExtent[]){{0x2df6, 0x2e10}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_control_expression",
     },
     {
