@@ -48,6 +48,10 @@ WEAK int recon_mbtowc(WCHAR *destination,const char *source,size_t count)
     return value?1:0;
 }
 ShimFILE recon_iob[20];
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+/* Native semantic state, separate from either CRT's private FILE flag layout. */
+static char *watcom_stdout_line_buffer;
+#endif
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 /* Canonical provider .data points stdin at its static4096-byte buffer.
  * This is user-buffer ownership: fclose/freebuf must never heap-free it. */
@@ -1112,6 +1116,12 @@ int recon_fgetc(ShimFILE *s)
 int recon_fputc(int c,ShimFILE *s)
 {
     unsigned char byte=c;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(s==&recon_iob[1] && watcom_stdout_line_buffer &&
+       (s->_base!=watcom_stdout_line_buffer || s->_bufsiz!=128 ||
+        !(s->_flag&0x100) || s->_file!=1))
+        recon_unsupported("Watcom line-buffer ownership/state change");
+#endif
     if (!(s->_flag&2)) {
         if ((s->_flag&1) && !(s->_flag&0x80)) { s->_flag|=0x20; return EOF; }
         s->_flag=(s->_flag&~1)|2; s->_cnt=0; s->_ptr=s->_base;
@@ -1145,6 +1155,9 @@ int recon_fputc(int c,ShimFILE *s)
     *s->_ptr++=byte;
     /* _cnt is observable to the reconstructed CRT. */
     s->_cnt=s->_bufsiz-(s->_ptr-s->_base);
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(s==&recon_iob[1] && watcom_stdout_line_buffer && byte=='\n' && recon_flush(s)) return EOF;
+#endif
     return byte;
 }
 char *recon_fgets(char *dest,int size,ShimFILE *s)
@@ -1506,7 +1519,29 @@ WEAK int recon_fclose(ShimFILE *s)
         if (recon_close(s->_file)<0) result=EOF;
         else if (s->_tmpfname) free(s->_tmpfname);
     }
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(s==&recon_iob[1]) watcom_stdout_line_buffer=NULL;
+#endif
     s->_flag=0; return result;
+}
+int __cdecl recon_watcom_setvbuf(ShimFILE *stream,char *buffer,int mode,size_t size)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(stream!=&recon_iob[1] || !buffer || mode!=0x0200 || size!=128 ||
+       (uintptr_t)buffer>UINTPTR_MAX-128 || watcom_stdout_line_buffer ||
+       stream->_file!=1 || stream->_flag!=2 || stream->_base || stream->_ptr ||
+       stream->_cnt || stream->_bufsiz || stream->_tmpfname ||
+       recon_nhandle<=1 || (recon_osfile[1]&~8)!=0x81 || os_handles[1]<=0)
+        recon_unsupported("Watcom supplied stdout line-buffer domain");
+    /* The caller owns all128 bytes; no allocation/free or old-buffer discard.
+     * Existing fwrite/printf paths reach fputc and the normal lowio flush. */
+    stream->_base=stream->_ptr=buffer;stream->_bufsiz=128;stream->_cnt=0;
+    stream->_flag|=0x100;watcom_stdout_line_buffer=buffer;
+    return 0;
+#else
+    (void)stream;(void)buffer;(void)mode;(void)size;
+    recon_unsupported("Watcom setvbuf requires explicit profile");return -1;
+#endif
 }
 WEAK int recon_setvbuf(ShimFILE *s,char *buffer,int mode,size_t size)
 {

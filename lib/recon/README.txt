@@ -633,9 +633,15 @@ success, private CRT implementation or host import fallback is supported.
 Watcom compile spellings stdaux/stdprn identify existing native iob slots3/4;
 this does not initialize their handles or qualify closing them. Bare isatty
 uses the existing descriptor boolean helper. _IOLBF retains Watcom0200, with
-setvbuf routed to a distinct typed125 boundary rather than the Microsoft40
-implementation. No stream mutation, buffering/close or FILE26 success is added;
-WCC's current first InitGlobalVars trap precedes these operations.
+setvbuf routed separately from the Microsoft40 implementation. Its reached
+success domain is fresh nonterminal text stdout with a caller-owned128B buffer,
+mode0200/size128 and no pending/previous buffer. The exact supplied base/ptr is
+retained as user-owned storage; separate Watcom line-buffer state makes newline
+writes flush through existing fputc/lowio paths, with capacity and explicit
+flush unchanged. Other streams/modes/sizes/reconfiguration remain denied.
+Blank auxiliary/printer slots still use benign generic fclose (EOF ignored,
+no underlying handle close/free); no initialization/private FILE26 or general
+auxiliary/printer runtime model is added. Original per-call errors are unmeasured.
 
 The native conio.h surface and Watcom-only int getch(void) spelling are typed
 link support only: invocation always denies125, with no console read. WLIB's

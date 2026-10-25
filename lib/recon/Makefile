@@ -806,3 +806,9 @@ build/mbsnbcmp-probe: tests/mbsnbcmp-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mbsnbcmp-check: build/mbsnbcmp-probe
 	$(PYTHON) tests/check-mbsnbcmp.py $<
+
+.PHONY: watcom-buffering-check
+build/watcom-buffering-probe: tests/watcom-buffering-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-buffering-check: build/watcom-buffering-probe
+	$(PYTHON) tests/check-watcom-buffering.py $<

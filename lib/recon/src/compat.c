@@ -124,11 +124,6 @@ int __cdecl recon_watcom_getch(void)
 {
     recon_unsupported("unreviewed Watcom getch");return 0;
 }
-int __cdecl recon_watcom_setvbuf(ShimFILE *stream,char *buffer,int mode,size_t size)
-{
-    (void)stream;(void)buffer;(void)mode;(void)size;
-    recon_unsupported("unreviewed Watcom setvbuf");return -1;
-}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
