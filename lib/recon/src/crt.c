@@ -1708,6 +1708,21 @@ char *recon_ultoa(unsigned long value,char *out,int radix)
     return out;
 }
 char *recon_itoa(int n,char *s,int radix) { if (n<0 && radix==10) { *s='-'; recon_ultoa(0U-(unsigned)n,s+1,radix); } else recon_ultoa((unsigned)n,s,radix); return s; }
+char *__cdecl recon_ltoa(long value,char *output,int radix)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    (void)value;(void)output;(void)radix;
+    recon_unsupported("unreviewed Watcom _ltoa");return NULL;
+#else
+    if(radix!=10 || !output) recon_unsupported("_ltoa decimal output domain");
+    return recon_itoa((int)value,output,10);
+#endif
+}
+char *__cdecl recon_gcvt(double value,int digits,char *output)
+{
+    (void)value;(void)digits;(void)output;
+    recon_unsupported("unreviewed _gcvt");return NULL;
+}
 ReconMktempObservation recon_mktemp_observation;
 static unsigned mktemp_process_owner;
 static void mktemp_expected_state(const char *text,unsigned values[3])

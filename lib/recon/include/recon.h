@@ -265,6 +265,8 @@ char *recon_fullpath(char *,const char *,size_t),*recon_strupr(char *),*recon_st
 char *recon_getcwd(char *,int);
 char *recon_find(const char *);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
+char *__cdecl recon_ltoa(long,char *,int);
+char *__cdecl recon_gcvt(double,int,char *);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
 char *__cdecl recon_tmpnam(char *);
 typedef struct ReconMktempObservation {
@@ -616,6 +618,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _strlwr recon_strlwr
 #define _ultoa recon_ultoa
 #define _itoa recon_itoa
+#define _ltoa recon_ltoa
+#define _gcvt recon_gcvt
 #define _mktemp recon_mktemp
 #define _tempnam recon_tempnam
 #define tmpnam recon_tmpnam

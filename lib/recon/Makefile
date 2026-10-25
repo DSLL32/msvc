@@ -793,3 +793,10 @@ build/watcom-storage-probe: tests/watcom-storage-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-storage-check: build/watcom-storage-probe
 	./$<
+
+.PHONY: ltoa-gcvt-check
+build/ltoa-gcvt-probe: tests/ltoa-gcvt-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+ltoa-gcvt-check: build/ltoa-gcvt-probe
+	./$<
+	./$< live

@@ -594,6 +594,13 @@ binary0200/text0100. Input text mode and unknown/closed descriptors deny125;
 Microsoft _setmode and native FILE representation remain unchanged. WLINK's
 normal startup requests binary on public fileno(stdin/stdout), ignoring returns.
 
+Microsoft _ltoa(long,char*,int) supports the reached signed32 decimal domain
+by reusing recon_itoa; successful output is returned by exact alias with its
+NUL and preserved errors/FP. Other radices/NULL and Watcom remain unsupported.
+C1XX's caller supplies owned text-workspace storage; the cold octal path stays
+denied. _gcvt(double,int,char*) has only a typed cdecl link boundary that always
+denies125, with no floating conversion, output access or formatter framework.
+
 The private MSPDB NameMap::open(PDB*,int,NameMap**) static cdecl import has a
 native declaration-only asmname binding to recon_mspdb_NameMap_open. Its opaque
 struct types preserve the caller signature without a forwarding wrapper or
