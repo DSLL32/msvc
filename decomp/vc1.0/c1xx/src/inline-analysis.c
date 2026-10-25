@@ -32,3 +32,27 @@ void allocate_inline_storage(void)
     for (i = 0; i < 8 * sizeof(InlineScope); ++i)
         ((unsigned char *)inline_scopes)[i] = 0;
 }
+
+unsigned short inline_region_count; /* original0x91300 */
+unsigned short inline_tail_region; /* original0x91850 */
+unsigned inline_control_state; /* original0x91854 */
+unsigned short inline_current_region; /* original0x9185c */
+
+/* Original0x44635..0x446c1. Each function starts at region zero with
+   explicit missing-link/slot sentinels and one active scope record. */
+void initialize_function_inline_analysis(void)
+{
+    inline_current_region = 0;
+    inline_tail_region = 0;
+    inline_region_count = 0;
+    inline_base_region = 0;
+    inline_scope_depth = -1;
+    inline_slot_count = 0;
+    inline_control_state = 0;
+    inline_regions[0].child = 0xffff;
+    inline_regions[0].next = inline_regions[0].child;
+    inline_regions[0].state07 = 0xff;
+    inline_regions[0].state06 = inline_regions[0].state07;
+    ++inline_scope_depth;
+    inline_scopes[inline_scope_depth].region = 0;
+}

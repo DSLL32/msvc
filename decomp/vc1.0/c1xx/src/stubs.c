@@ -280,7 +280,6 @@ void __stdcall report_named_type_difference(unsigned code, CType *context, char 
 
 
 
-void initialize_function_inline_analysis(void) { __asm { int 3 } }
 
 
 
