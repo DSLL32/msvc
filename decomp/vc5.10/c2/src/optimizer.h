@@ -44,7 +44,7 @@ C2Expression * __fastcall finish_optimizer_records(C2Record *first, unsigned lim
 void __fastcall emit_optimizer_records(C2Expression *records, void *register_map, unsigned limit);
 unsigned __fastcall collect_optimizer_symbols(C2RegisterSet *used, C2RegisterSet *defined);
 C2RegisterSet * __fastcall copy_optimizer_symbol_set(C2RegisterSet *source);
-void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination, C2RegisterSet *source);
+void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination, C2RegisterSet *source);
 C2OptimizerNode * __fastcall map_optimizer_records(C2BasicBlock *block, unsigned count, C2RegisterSet *symbols, C2OptimizerNode **table, C2RegisterSet *copy);
 void __fastcall set_optimizer_record_mode(C2BasicBlock *block, int mode);
 void __fastcall reset_block_analysis(C2BasicBlock *block);
@@ -65,6 +65,8 @@ struct C2OptimizerRegisterInfo {
 typedef char C2OptimizerInfoSizeCheck[sizeof(C2OptimizerRegisterInfo) == 20 ? 1 : -1];
 C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
     C2FunctionRegister *reg, int unique);
-void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
+void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination,
     C2RegisterSet *source);
+void __fastcall remove_register_set_node(C2RegisterSet *set,
+    C2RegisterSetNode *node);
 #endif

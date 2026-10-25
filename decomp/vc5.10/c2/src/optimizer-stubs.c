@@ -91,10 +91,6 @@ C2RegisterSet * __fastcall copy_optimizer_symbol_set(C2RegisterSet *source)
     return NULL;
 }
 
-void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination, C2RegisterSet *source)
-{
-    __asm { int 3 }
-}
 
 C2OptimizerNode * __fastcall map_optimizer_records(C2BasicBlock *block, unsigned count, C2RegisterSet *symbols, C2OptimizerNode **table, C2RegisterSet *copy)
 {
@@ -142,8 +138,13 @@ C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
     return NULL;
 }
 
-void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
+void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination,
     C2RegisterSet *source)
+{
+    __asm { int 3 }
+}
+
+void __fastcall remove_register_set_node(C2RegisterSet *set, C2RegisterSetNode *node)
 {
     __asm { int 3 }
 }

@@ -1198,7 +1198,29 @@ static int optimizer_operand_numbers(void)
         operands[0].control_flags == 0xa5 && operands[1].control_flags == 0xa5;
 }
 
+static int optimizer_set_difference(void)
+{
+    C2RegisterSet destination, source;
+    C2RegisterSetNode output[2], input[3], before[3];
+    memset(&destination, 0xa5, sizeof(destination));
+    memset(&source, 0x5a, sizeof(source));
+    output[0].group = 0; output[0].bits = 0xf0000001U; output[0].next = &output[1];
+    output[1].group = 64; output[1].bits = 0x80000003U; output[1].next = NULL;
+    input[0].group = 31; input[0].bits = 0xf0000000U; input[0].next = &input[1];
+    input[1].group = 32; input[1].bits = 0xffffffffU; input[1].next = &input[2];
+    input[2].group = 64; input[2].bits = 0x80000000U; input[2].next = NULL;
+    destination.links.first = output;
+    source.links.first = input;
+    memcpy(before, input, sizeof(input));
+    subtract_optimizer_symbol_sets(&destination, &source);
+    return destination.links.first == output && output[0].bits == 1 &&
+        output[1].bits == 3 && output[0].next == &output[1] && !output[1].next &&
+        destination.state == 0xa5a5a5a5U && source.state == 0x5a5a5a5aU &&
+        !memcmp(input, before, sizeof(input));
+}
+
 const ReconTest numeric_tests[] = {
+    {"optimizer set subtraction preserves unsigned masks and source ownership", 1, optimizer_set_difference},
     {"optimizer operands retain integer alias numbers and group membership", 1, optimizer_operand_numbers},
     {"optimizer alias groups retain scalar indices and pool6 ownership", 1, optimizer_alias_group_ownership},
     {"optimizer counts real scope entries and disables alias work for large functions", 1, optimizer_scope_and_fallback},

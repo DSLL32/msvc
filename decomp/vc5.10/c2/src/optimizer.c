@@ -45,7 +45,7 @@ void __fastcall optimize_function_flow(C2Function *function)
         defined = new_register_set(6);
         symbols = collect_optimizer_symbols(used, defined);
         copy = copy_optimizer_symbol_set(defined);
-        merge_optimizer_symbol_sets(copy, used);
+        subtract_optimizer_symbol_sets(copy, used);
         symbol_table = c2_pool_allocate(4, symbols * 4);
         root = map_optimizer_records(block, symbols, used, symbol_table, copy);
         set_optimizer_record_mode(block, 0);
@@ -312,8 +312,8 @@ C2OptimizerAlias *__fastcall build_optimizer_aliases(C2BasicBlock *first,
                             if (reg->displacement <= variant->displacement &&
                                 (long)((unsigned)variant->displacement + variant->value_bytes) <=
                                 (long)((unsigned)reg->displacement + reg->value_bytes)) {
-                                merge_optimizer_symbol_sets(uses, variant->optimizer->aliases);
-                                subtract_optimizer_symbol_sets(kills, variant->optimizer->aliases);
+                                subtract_optimizer_symbol_sets(uses, variant->optimizer->aliases);
+                                merge_optimizer_symbol_sets(kills, variant->optimizer->aliases);
                             }
                         add_register_to_set(uses, number);
                         table[number].record = record;
@@ -332,4 +332,21 @@ C2OptimizerAlias *__fastcall build_optimizer_aliases(C2BasicBlock *first,
             if (reg->kind != 16 && (reg->view_flags & 8))
                 table[number++].reg = reg;
     return table;
+}
+
+void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source)
+{
+    C2RegisterSetNode *input, *node;
+    unsigned group;
+    if (!destination->links.first) return;
+    for (input = source->links.first; input; input = input->next) {
+        group = input->group & ~31U;
+        node = destination->links.first;
+        while (node && node->group < group) node = node->next;
+        if (node && node->group == group) {
+            node->bits &= ~input->bits;
+            if (!node->bits) remove_register_set_node(destination, node);
+        }
+    }
 }

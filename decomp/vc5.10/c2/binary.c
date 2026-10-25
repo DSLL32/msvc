@@ -1806,11 +1806,11 @@ static const ReconFunction functions[] = {
         .native_symbol = "number_optimizer_operands",
     },
     {
-        .name = "@subtract_optimizer_symbol_sets@8",
+        .name = "@merge_optimizer_symbol_sets@8",
         .entry_rva = 0x19df,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "subtract_optimizer_symbol_sets",
+        .native_symbol = "merge_optimizer_symbol_sets",
     },
     {
         .name = "@build_optimizer_aliases@12",
@@ -1906,11 +1906,20 @@ static const ReconFunction functions[] = {
         .native_symbol = "copy_optimizer_symbol_set",
     },
     {
-        .name = "@merge_optimizer_symbol_sets@8",
-        .entry_rva = 0x1a84,
+        .name = "@remove_register_set_node@8",
+        .entry_rva = 0x1bca,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "merge_optimizer_symbol_sets",
+        .native_symbol = "remove_register_set_node",
+    },
+    {
+        .name = "@subtract_optimizer_symbol_sets@8",
+        .entry_rva = 0x1a84,
+        .code = (const ReconExtent[]){{0x1a84, 0x1ae3}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "subtract_optimizer_symbol_sets",
     },
     {
         .name = "@map_optimizer_records@20",
