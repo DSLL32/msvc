@@ -58,6 +58,7 @@ try:
         output_files=[dict(path='exit.txt',data='text:closed')],reject_unexpected_files=True))
     run('default-argv','0004',dict(env={'RECON_CHECK_ARGV':'1'},stdout='text:argc=1 argv0=fixture\n',stderr='text:',exit_code=0))
     run('null-stdin','0004',dict(stdin_kind='null',env={'RECON_CHECK_NULL':'1'},stdout='text:null\n',stderr='text:',exit_code=0))
+    run('hold-stdin','0004',dict(stdin_kind='pipe',hold_stdin_open=True,env={'RECON_CHECK_HOLD':'1'},stdout='text:ready\ninterrupt\n',stderr='text:',exit_code=0,events=[dict(stdout_contains='text:ready\n',action=dict(kind='signal',signal=2))]))
     run('wrong-frontier','0007',dict(args=['fixture','backtrap']),passed=False)
     run('direct-false','0005',dict(env={'RECON_DIRECT_FAIL':'1'},exit_code=1),passed=False)
     run('wrong-output', '0000', dict(args=['fixture'], stdin='text:x\n', stdout='text:WRONG'), passed=False)

@@ -636,9 +636,10 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
             }
             if offset == pending.len()
                 && (close_requested
-                    || !f.events.iter().zip(&fired).any(|(e, fired)| {
-                        !fired && matches!(e.action, Action::Stdin { .. } | Action::CloseStdin)
-                    }))
+                    || !f.hold_stdin_open
+                        && !f.events.iter().zip(&fired).any(|(e, fired)| {
+                            !fired && matches!(e.action, Action::Stdin { .. } | Action::CloseStdin)
+                        }))
             {
                 writer.take();
             }

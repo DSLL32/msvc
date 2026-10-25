@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <signal.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 #include <unistd.h>
+static void hold_interrupt(int sig) { (void)sig; write(1,"interrupt\n",10); _exit(0); }
 int fixture_add(int a, int b) { return a + b; }
 int fixture_trap(void)
 {
@@ -22,6 +24,13 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_HOLD"))
+    {
+        signal(SIGINT,hold_interrupt);
+        puts("ready"); fflush(stdout);
+        if(!fgets(line,sizeof(line),stdin)) return 8;
+        return 9;
+    }
     if (getenv("RECON_CHECK_NULL"))
     {
         struct stat status;

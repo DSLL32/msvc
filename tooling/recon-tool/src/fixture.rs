@@ -139,6 +139,8 @@ pub struct Fixture {
     #[serde(default)]
     pub stdin_kind: StdinKind,
     #[serde(default)]
+    pub hold_stdin_open: bool,
+    #[serde(default)]
     pub stdout: Option<Bytes>,
     #[serde(default)]
     pub stderr: Option<Bytes>,
@@ -258,6 +260,9 @@ impl Fixture {
             if !Path::new(&d.path).is_absolute() || unhex(&d.sha256)?.len() != 32 {
                 bail!("invalid readonly dependency")
             }
+        }
+        if self.hold_stdin_open && self.stdin_kind != StdinKind::Pipe {
+            bail!("hold_stdin_open requires stdin_kind: pipe")
         }
         if self.stdin_kind == StdinKind::Null && self.stdin.is_some() {
             bail!("stdin_kind: null cannot contain stdin bytes (omit stdin)")

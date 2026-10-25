@@ -96,6 +96,12 @@ pub struct FunctionInfo {
     pub rva: u32,
     pub native_symbol: Option<String>,
     pub original_symbol: Option<String>,
+    #[serde(default)]
+    pub import_dll: Option<String>,
+    #[serde(default)]
+    pub import_name: Option<String>,
+    #[serde(default)]
+    pub import_ordinal: u32,
     pub definition: u32,
     pub implementation: u32,
     pub code: Vec<[u32; 2]>,
@@ -243,6 +249,17 @@ impl Loaded {
                 } else {
                     Some(unsafe { string(f.original_symbol) }?)
                 },
+                import_dll: if f.import_dll.is_null() {
+                    None
+                } else {
+                    Some(unsafe { string(f.import_dll) }?)
+                },
+                import_name: if f.import_name.is_null() {
+                    None
+                } else {
+                    Some(unsafe { string(f.import_name) }?)
+                },
+                import_ordinal: f.import_ordinal,
                 definition: f.definition,
                 implementation: f.implementation,
                 code: ranges(f.code, f.code_count)?,
@@ -337,6 +354,9 @@ mod tests {
             rva: 0x8180,
             native_symbol: Some("old_frontier".into()),
             original_symbol: None,
+            import_dll: None,
+            import_name: None,
+            import_ordinal: 0,
             definition: 4,
             implementation: 0,
             code: vec![[0x8180, 0x8200]],

@@ -259,7 +259,23 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     Ok(policy)
 }
 
-fn runtime_records(info: &Info, image_base: u32) -> Result<Value> {
+fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value> {
+    let audited = policy
+        .get("runtime_audit_names")
+        .map(|v| v.as_array().context("runtime_audit_names must be an array"))
+        .transpose()?;
+    let mut qualified = std::collections::HashSet::new();
+    for name in audited.into_iter().flatten() {
+        let name = name.as_str().context("runtime audit name must be string")?;
+        ensure!(
+            qualified.insert(name)
+                && info
+                    .functions
+                    .iter()
+                    .any(|f| f.name == name && matches!(f.definition, 1..=3) && !f.code.is_empty()),
+            "runtime audit qualification lacks unique classified extent: {name}"
+        );
+    }
     let add = |rva: u32| image_base.checked_add(rva).context("runtime VA overflow");
     let mut records = vec![];
     for function in info
@@ -280,7 +296,12 @@ fn runtime_records(info: &Info, image_base: u32) -> Result<Value> {
                     function.name
                 )
             })?;
-        records.push(json!({"name":function.name,"start":add(primary[0])?,"end":add(primary[1])?,"shared":function.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":function.code.iter().filter(|r| *r != primary).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"category":"runtime","evidence":"binary.c classified CRT/import with verified original extents"}));
+        let mut row = json!({"name":function.name,"start":add(primary[0])?,"end":add(primary[1])?,"shared":function.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":function.code.iter().filter(|r| *r != primary).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"category":"runtime"});
+        if qualified.contains(function.name.as_str()) {
+            row["evidence"] =
+                json!("binary.c classified extent; finite runtime_audit_names graph qualification");
+        }
+        records.push(row);
     }
     Ok(json!(records))
 }
@@ -310,7 +331,8 @@ pub fn export(options: Options) -> Result<()> {
     if let Some(path) = options.runtime_output {
         fs::write(
             path,
-            serde_json::to_string_pretty(&runtime_records(&info, options.image_base)?)? + "\n",
+            serde_json::to_string_pretty(&runtime_records(&info, options.image_base, &policy)?)?
+                + "\n",
         )?;
     }
     if let Some(path) = options.ret_checks_output {
@@ -366,8 +388,15 @@ mod tests {
         crt.code.push([30, 40]);
         crt.text_data.push([20, 24]);
         i.functions.push(crt);
-        let records = runtime_records(&i, 0x400000).unwrap();
+        let records = runtime_records(&i, 0x400000, &json!({})).unwrap();
         assert_eq!(records.as_array().unwrap().len(), 1);
+        assert!(records[0].get("evidence").is_none());
+        assert!(
+            runtime_records(&i, 0, &json!({"runtime_audit_names":["crt"]})).unwrap()[0]
+                .get("evidence")
+                .is_some()
+        );
+        assert!(runtime_records(&i, 0, &json!({"runtime_audit_names":["method"]})).is_err());
         assert_eq!(records[0]["start"], 0x400010);
         assert_eq!(records[0]["code_chunks"][0], json!([0x40001e, 0x400028]));
         assert_eq!(records[0]["shared"][0], json!([0x400014, 0x400018]));

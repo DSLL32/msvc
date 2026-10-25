@@ -403,3 +403,15 @@ MSVCRT.LIB. Both describe imports, never CRT function bodies, and are skipped by
 code matching. Malformed/unsupported members fail. Dynamic import thunks remain
 the graph auditor's PE-import catalog responsibility; a pure /MD image can
 legitimately produce an empty matched-static-runtime array.
+
+Classified runtime entries provide endpoint names; they do not automatically
+become audited CRT implementations. `policy.runtime_audit_names` is a finite
+list of previously reviewed CRT/import graph vertices to qualify for
+`--include-evidenced-runtime`. Every listed name must have a classified verified
+extent. Other classified records retain identity/ranges without graph evidence.
+`function_registry` also carries DLL/name/ordinal import identities.
+
+For a pipe that must stay open while the target waits for a signal, set
+`hold_stdin_open:true`. It is valid only with `stdin_kind:"pipe"`; explicit
+`close_stdin` still closes after queued bytes drain. Otherwise the existing
+finite-input automatic EOF behavior is unchanged.
