@@ -425,13 +425,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 91 / 11,169 | 3.47% | Minimal C: keyword-table setup after predefined tokens; `fcb8281ca` |
-| C1XX | 107 / 12,192 | 1.62% | Minimal C++: keyword/language registration; `ecde14e78` |
-| C2 | 136 / 32,982 | 5.75% | Numeric case: prune_input_tree after input-tree stack handling; `b1b2f71f4` |
+| C1 | 94 / 13,521 | 4.20% | Minimal C: keyword classification after identifier interning; `635eba52d` |
+| C1XX | 116 / 14,488 | 1.93% | Minimal C++: pointer-array allocation; `2ec67e3d8` |
+| C2 | 139 / 33,800 | 5.90% | Numeric case: lookup_input_filename after tree pruning/pop; `6bf9ec8f4` |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 132 / 45,148 | 10.88% | Hello EXE: set_symbol_defined after interning and byte appending; `e80c5ca93` |
-| RCDLL | 114 / 29,347 | 39.33% | Rich corpus: resource initialization after completed preprocessing and cleanup; `97358bf98` |
+| LINK | 132 / 45,148 | 10.88% | Hello EXE: definition-state candidate held for explicit original-report runner gate; `e80c5ca93` |
+| RCDLL | 117 / 29,882 | 40.05% | Rich corpus: underlying resource character reader; `d471e8eab` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -446,6 +446,13 @@ the failed assertion remains recorded. RCDLL similarly retained a cleanup
 timeout caused by an omitted typed header, corrected the actual AX return-width
 use, and now treats implicit function declarations as native compile errors.
 Neither correction required an observer framework or another original capture.
+LINK's next candidate exposed an unvisited wrong-field read and, separately,
+the fact that runner `--capture` selected inputs/IO while trace/frontier checks
+still used descriptor expectations. Its independent actual-report comparison
+caught the divergence before promotion. The source correction reuses the
+unchanged original; the explicit `--original-report` shared comparison is in
+qualification. Other active workers retain direct actual-pair equality, and no
+historical replay campaign is required.
 
 The concrete minimal capture work is:
 
