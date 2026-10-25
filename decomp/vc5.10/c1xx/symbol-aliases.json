@@ -6,6 +6,120 @@
       "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
       "native_alias": "_ZN17CompilerPlainText5ResetEv",
       "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Finish@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6FinishEv",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot04@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot04Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot08@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot08Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot0c@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot0cEv",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot10@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot10Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot14@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot14Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot18@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot18Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot1c@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot1cEj",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot24@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot24Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot2c@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot2cEv",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot30@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot30Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot34@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot34Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot38@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot38Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot3c@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot3cEj",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot40@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot40Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot44@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot44Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot48@CompilerNullBrowser@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot48Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot4c@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot4cEj",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slot50@CompilerNullBrowser@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot50Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
     }
   ]
 }

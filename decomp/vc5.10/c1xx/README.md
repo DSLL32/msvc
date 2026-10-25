@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 103 accepted application functions / 11828
+The single registry is binary.c: 104 accepted application functions / 11947
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 105
+as are three six-byte import endpoints (18 bytes, zero App credit). The 106
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine begin_browser_output INT3 at RVA3a4a7;
+and currently reaches the genuine acquire_initial_backend INT3 at RVA7ca9;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,11 +42,15 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The latest matching original/native pair reaches browser initialization:
-1.208 s / 12.764 ms (native setup 6.714, execution 4.650, checks 1.400).
-The original/native build, graph audit and unit batch took 6.094 s.
-The 36-byte processor-mask initializer preserves the original masked shift
-and optional 0x40 bit, with the newly modeled field included in the reset unit.
+The latest matching original/native pair reaches the backend accessor:
+1.454 s / 10.723 ms (native setup 5.627, execution 3.690, checks 1.406).
+The original/native build, graph audit and initial unit batch took 7.185 s;
+the affected alias/reset units and audit took 0.418 s. Browser construction
+preserves the original 4/12-byte allocations and known filename prefix. Its
+24-slot interfaces retain original order and stack widths. Nineteen repeated
+no-op slots use the existing two canonical pending bodies; the production
+48-slot PE check and native object unit verify aliases without calling them.
+New initialized browser pointers/mode join typed snapshot/restore checks.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

@@ -6,8 +6,34 @@
 
 /* Only the encountered virtual slots have semantic names. Unrecovered
  * preceding slots are declarations, never instantiated or given fake bodies. */
+/* Browser interface: exact 24-slot order from the two original vtables.
+ * Unknown operations retain neutral slot names and proven stack widths. */
 struct CompilerBackend {
+    RECON_FORCEINLINE CompilerBackend() {}
     virtual void RECON_THISCALL Finish(void) = 0;
+    virtual void RECON_THISCALL Slot04(void) = 0;
+    virtual void RECON_THISCALL Slot08(void) = 0;
+    virtual void RECON_THISCALL Slot0c(void) = 0;
+    virtual void RECON_THISCALL Slot10(void) = 0;
+    virtual void RECON_THISCALL Slot14(unsigned) = 0;
+    virtual void RECON_THISCALL Slot18(void) = 0;
+    virtual void RECON_THISCALL Slot1c(unsigned) = 0;
+    virtual void RECON_THISCALL Slot20(unsigned) = 0;
+    virtual void RECON_THISCALL Slot24(unsigned) = 0;
+    virtual void RECON_THISCALL Slot28(unsigned) = 0;
+    virtual void RECON_THISCALL Slot2c(void) = 0;
+    virtual void RECON_THISCALL Slot30(unsigned) = 0;
+    virtual void RECON_THISCALL Slot34(void) = 0;
+    virtual void RECON_THISCALL Slot38(void) = 0;
+    virtual void RECON_THISCALL Slot3c(unsigned) = 0;
+    virtual void RECON_THISCALL Slot40(void) = 0;
+    virtual void RECON_THISCALL Slot44(unsigned) = 0;
+    virtual void RECON_THISCALL Slot48(void) = 0;
+    virtual void RECON_THISCALL Slot4c(unsigned) = 0;
+    virtual void RECON_THISCALL Slot50(unsigned) = 0;
+    virtual int RECON_THISCALL Slot54(unsigned, unsigned) = 0;
+    virtual void RECON_THISCALL ResetMode(void) = 0;
+    virtual void RECON_THISCALL Slot5c(void) = 0;
 };
 struct CompilerDebugModule {
     virtual int RECON_THISCALL Finish(void) = 0;

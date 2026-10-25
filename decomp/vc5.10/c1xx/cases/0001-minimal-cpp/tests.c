@@ -47,6 +47,9 @@ int c1xx_test_exception_counters(void)
     frontend_bss.lexer_backend = (CompilerLexerBackend *)&frontend_data;
     frontend_bss.saved_options.normalized_stack_checks = 131;
     frontend_bss.processor_instruction_mask = 137;
+    frontend_data.browser_mode = 139;
+    frontend_data.named_browser = (struct CompilerBackend *)&frontend_data;
+    frontend_data.initial_backend = (struct CompilerBackend *)&frontend_data;
     if (initialize_compiler_pass())
         return 0;
     return frontend_data.recursion_depth == 0 && frontend_bss.error_count == 0 &&
@@ -70,5 +73,6 @@ int c1xx_test_exception_counters(void)
         frontend_bss.pch_replayed == 0 && frontend_bss.pch_file_failed == 0 &&
         frontend_bss.output_kinds[3] == 0 && frontend_bss.preprocessor_output == NULL &&
         frontend_bss.lexer_backend == NULL && frontend_bss.saved_options.normalized_stack_checks == 0 &&
-        frontend_bss.processor_instruction_mask == 0;
+        frontend_bss.processor_instruction_mask == 0 && frontend_data.browser_mode == 0 &&
+        frontend_data.named_browser == NULL && frontend_data.initial_backend == NULL;
 }
