@@ -1,5 +1,8 @@
 /* Diagnostic vocabulary used by message_text, original table 0xa3a48. */
+#include <stdlib.h>
+#include <ctype.h>
 #include "diagnostics.h"
+#include "initialization.h"
 #include "pragma.h"
 #include <recon.h>
 
@@ -84,4 +87,102 @@ int __stdcall warning_setting(unsigned code)
 {
     if (options.option_E) return 13;
     return (signed char)warning_levels[code];
+}
+
+FILE *diagnostic_message_file; /* original0x8cc84 */
+/* Original0xa27c0..0xa28c0. Also the address-only upper-bound sentinel
+   used by the arena code; no separate Arena occupies these bytes. */
+char diagnostic_message_buffer[256];
+
+/* Original0x72e90..0x72f13, stdcall4. Open the message catalog once
+   and remember a failed open with the original sentinel FILE pointer. */
+char *__stdcall diagnostic_format(unsigned code)
+{
+    FILE *stream = diagnostic_message_file;
+    if (!stream) {
+        if (options.error_file) {
+            stream = fopen(options.error_file,"r");
+            diagnostic_message_file = stream;
+        }
+        if (!stream) {
+            diagnostic_message_file = (FILE *)-1;
+            return "";
+        }
+    } else if (stream == (FILE *)-1) return "";
+    diagnostic_message_file = stream;
+    fseek(stream,diagnostic_message_offset(code),SEEK_SET);
+    return read_diagnostic_message(code,diagnostic_message_buffer,
+        sizeof(diagnostic_message_buffer));
+}
+
+typedef struct DiagnosticMessagePosition {
+    int code;
+    long offset;
+} DiagnosticMessagePosition;
+typedef char DiagnosticMessagePositionSizeMustBe8[
+    (sizeof(DiagnosticMessagePosition) == 8) ? 1 : -1];
+/* Original0xa28c0..0xa2960: twenty code/position cache records. */
+DiagnosticMessagePosition diagnostic_message_positions[20];
+
+/* Original0x730f0..0x73174, stdcall4. Reuse the nearest earlier
+   cached record in the same thousand-code category, or start at the file head. */
+long __stdcall diagnostic_message_offset(unsigned code)
+{
+    int index, best = -1, distance, nearest = 32767;
+    DiagnosticMessagePosition *entry;
+    for (index = 0; index < 20; ++index) {
+        entry = &diagnostic_message_positions[index];
+        if (!entry->code) break;
+        distance = (int)(code - (unsigned)entry->code);
+        if (!distance) {
+            best = index;
+            break;
+        }
+        if (distance > 0 && distance < nearest &&
+            (int)code / -1000 == entry->code / -1000) {
+            nearest = distance;
+            best = index;
+        }
+    }
+    return best >= 0 ? diagnostic_message_positions[best].offset : 0;
+}
+
+char *__stdcall parse_diagnostic_code(char *text, int *code);
+void __stdcall remember_diagnostic_position(long offset, unsigned code);
+char *__stdcall unquote_diagnostic_message(char *text);
+
+/* Original0x72f20..0x72fe7, stdcall12. Scan the external catalog for
+   an exact code or its category default, retaining the exact record position. */
+char *__stdcall read_diagnostic_message(unsigned code, char *buffer, unsigned bytes)
+{
+    long offset;
+    char *text;
+    int found;
+    for (;;) {
+        offset = ftell(diagnostic_message_file);
+        if (!fgets(buffer,bytes,diagnostic_message_file)) {
+            report_fatal(83,message_text(314),options.error_file);
+            exit(68);
+        }
+        text = parse_diagnostic_code(buffer,&found);
+        if (found == (int)code) {
+            remember_diagnostic_position(offset,code);
+            break;
+        }
+        if (!(found % 1000) && found / -1000 == (int)code / -1000) break;
+    }
+    return unquote_diagnostic_message(text);
+}
+
+/* Original0x73040..0x73097, stdcall8. The unconsumed suffix holds
+   the quoted message. Blank/comment lines publish the ordinary zero code. */
+char *__stdcall parse_diagnostic_code(char *text, int *code)
+{
+    unsigned value = 0;
+    while (isdigit(*text)) {
+        value = value * 10 + *text - '0';
+        ++text;
+    }
+    *code = (int)value;
+    return text;
 }

@@ -507,7 +507,6 @@ void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 void unpack_option_flags(unsigned flags) { __asm { int 3 } }
 
 
-char *__stdcall diagnostic_format(unsigned code) { __asm { int 3 } return 0; }
 void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments) { __asm { int 3 } }
 
 void browser_compilation_error(void) { __asm { int 3 } }
@@ -584,3 +583,7 @@ int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding
 char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
 
 int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
+
+
+void __stdcall remember_diagnostic_position(long offset, unsigned code) { __asm { int 3 } }
+char *__stdcall unquote_diagnostic_message(char *text) { __asm { int 3 } return 0; }

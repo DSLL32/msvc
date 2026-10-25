@@ -2,6 +2,7 @@
 /* Permanent zeroed allocation arena, original globals 0x9f1e0/0x9f41c. */
 #include <stdlib.h>
 #include "options.h"
+#include "diagnostics.h"
 #include <recon.h>
 
 static unsigned char *permanent_next;
@@ -77,7 +78,6 @@ void *__stdcall checked_malloc(unsigned bytes)
 }
 
 Arena compiler_arena = { 0x3ff4, 0 }; /* original 0xa2740 */
-Arena diagnostic_arena; /* original 0xa27c0 */
 
 /* Original 0x72db0..0x72e5b. */
 void __stdcall refill_arena(Arena *arena, ArenaPool *pool)
@@ -89,7 +89,7 @@ void __stdcall refill_arena(Arena *arena, ArenaPool *pool)
     else {
         block = malloc(arena->block_bytes + 12);
         if (!block)
-            fatal_error(arena == &diagnostic_arena ? 60 : 59);
+            fatal_error((void *)arena == (void *)diagnostic_message_buffer ? 60 : 59);
         block->bytes = arena->block_bytes;
     }
     block->next = 0;
@@ -135,7 +135,8 @@ void *__stdcall copy_arena_bytes(void *source, int arena, unsigned bytes)
 unsigned arena_release_word_1, arena_release_word_2;
 
 /* Original 0x72d50..0x72db0. The original root range contains just the
-   compiler arena; the diagnostic arena is the excluded upper bound. */
+   compiler arena;0xa27c0 is its excluded one-past bound and the
+   first byte of the diagnostic catalog buffer, not another Arena. */
 void __stdcall release_arena(int index)
 {
     ArenaPool *pool = &compiler_arena.pools[index];

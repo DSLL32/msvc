@@ -1,11 +1,54 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1495 historical frontiers/1388 App bodies.
+ * Current reviewed boundary:1499 historical frontiers/1392 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_unquote_diagnostic_message@4",
+        .entry_rva = 0x62ff0,
+        .code = (const ReconExtent[]) { { 0x62ff0, 0x63039 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "unquote_diagnostic_message",
+    },
+    {
+        .name = "_remember_diagnostic_position@8",
+        .entry_rva = 0x630a0,
+        .code = (const ReconExtent[]) { { 0x630a0, 0x630e2 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "remember_diagnostic_position",
+    },
+    {
+        .name = "_parse_diagnostic_code@8",
+        .entry_rva = 0x63040,
+        .code = (const ReconExtent[]) { { 0x63040, 0x63097 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "parse_diagnostic_code",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_read_diagnostic_message@12",
+        .entry_rva = 0x62f20,
+        .code = (const ReconExtent[]) { { 0x62f20, 0x62fe7 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "read_diagnostic_message",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_diagnostic_message_offset@4",
+        .entry_rva = 0x630f0,
+        .code = (const ReconExtent[]) { { 0x630f0, 0x63174 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "diagnostic_message_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_segment_name_has_suffix@8",
         .entry_rva = 0x45070,
@@ -16858,10 +16901,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_diagnostic_format@4",
         .entry_rva = 0x62e90,
-        .code = (const ReconExtent[]) { { 0x62e90, 0x62e91 } },
+        .code = (const ReconExtent[]) { { 0x62e90, 0x62f13 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "diagnostic_format",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_diagnostic",
