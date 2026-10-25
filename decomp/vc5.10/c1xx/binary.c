@@ -1035,9 +1035,11 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "OutputBuffer::Grow", .entry_rva = 0x2e323,
-        .code = (const ReconExtent[]){{0x2e323, 0x2e324}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x2e323, 0x2e3c6}, {0x6ac9a, 0x6acb3}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "_ZN12OutputBuffer4GrowEi", .original_symbol = "?Grow@OutputBuffer@@QAEHH@Z",
+
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_create_input", .entry_rva = 0x3a434,
@@ -1877,6 +1879,13 @@ static const ReconFunction functions[] = {
         .code_count = 1, .definition = RECON_IMPORT_NAME,
         .import_dll = "MSVCRT.dll",
         .import_name = "??2@YAPAXI@Z",
+    },
+    {
+        .name = "import:operator_delete", .entry_rva = 0x1ed31,
+        .code = (const ReconExtent[]){{0x1ed31, 0x1ed37}},
+        .code_count = 1, .definition = RECON_IMPORT_NAME,
+        .import_dll = "MSVCRT.dll",
+        .import_name = "??3@YAXPAX@Z",
     },
     {
         .name = "import:_ftol", .entry_rva = 0x38f04,

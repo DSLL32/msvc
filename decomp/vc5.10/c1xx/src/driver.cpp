@@ -261,7 +261,6 @@ extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }
 void RECON_THISCALL CompilerTranslationUnit::Finish(void) { __asm { int 3 } }
 int RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } return 0; }
 int RECON_THISCALL OutputBuffer::Close(void) { __asm { int 3 } return 0; }
-int RECON_THISCALL OutputBuffer::Grow(int bytes) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerPdbContext::Finish(void) { __asm { int 3 } }
 
 extern "C" void __cdecl initialize_compilation_output(void) { __asm { int 3 } }
