@@ -1219,7 +1219,22 @@ static int entry_symbol_predicate(void)
     return recon_native_at_entry(infer_subsystem,check_entry_symbol_predicate,
         invoke_hello,NULL)==1;
 }
+extern BYTE __stdcall resolve_initial_entry(LinkContext *);
+static BYTE __stdcall check_inferred_startup(LinkContext *context)
+{
+    recon_native_entry_finish(context && !context->entry_name && !entry_symbol &&
+        entry_point_name && !strcmp(entry_point_name,"WinMainCRTStartup") &&
+        context->optional_header.Subsystem==IMAGE_SUBSYSTEM_WINDOWS_GUI &&
+        !(context->file_header.Characteristics & IMAGE_FILE_DLL));
+    return 0;
+}
+static int inferred_startup(void)
+{
+    return recon_native_at_entry(resolve_initial_entry,check_inferred_startup,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"inferred-startup",1,inferred_startup},
     {"entry-symbol-predicate",1,entry_symbol_predicate},
     {"gui-subsystem",1,gui_subsystem},
     {"entry-symbol-lookup",1,entry_symbol_lookup},

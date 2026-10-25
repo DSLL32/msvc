@@ -266,7 +266,7 @@ static const ReconFunction functions[] = {
     {"_search_libraries@4",0x49b90,(const ReconExtent[]){{0x49b90,0x49b91}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"search_libraries",NULL,NULL,0,NULL},
     {"_resolve_initial_entry@4",0x495f0,(const ReconExtent[]){{0x495f0,0x495f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resolve_initial_entry",NULL,NULL,0,NULL},
     {"_infer_subsystem@4",0x4b710,(const ReconExtent[]){{0x4b710,0x4b7c5}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"infer_subsystem",NULL,NULL,0,NULL},
-    {"_infer_entry_point@4",0x4b590,(const ReconExtent[]){{0x4b590,0x4b591}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"infer_entry_point",NULL,NULL,0,NULL},
+    {"_infer_entry_point@4",0x4b590,(const ReconExtent[]){{0x4b590,0x4b6ea}},1,(const ReconExtent[]){{0x4b6ec,0x4b710},{0x86c0,0x86d6},{0x86d8,0x86eb},{0x86ec,0x8702},{0x8704,0x8714},{0x8714,0x8723},{0x8724,0x8737},{0x8738,0x874a},{0x874c,0x875d}},9,RECON_APP,RECON_IMPLEMENTED,"infer_entry_point",NULL,NULL,0,NULL},
     {"_process_definition_file@8",0x49d10,(const ReconExtent[]){{0x49d10,0x49d11}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_definition_file",NULL,NULL,0,NULL},
     {"_finalize_mac_entry@8",0x514f0,(const ReconExtent[]){{0x514f0,0x514f1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"finalize_mac_entry",NULL,NULL,0,NULL},
     {"_set_subsystem_version@4",0x4b7d0,(const ReconExtent[]){{0x4b7d0,0x4b7d1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"set_subsystem_version",NULL,NULL,0,NULL},

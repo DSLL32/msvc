@@ -257,7 +257,57 @@ extern "C" void __stdcall find_gui_entry_symbols(LinkContext *context,
     *win_main_symbol=table->FindSymbol(name);
     *wide_win_main_symbol=table->FindSymbol(wide_name);
 }
-extern "C" BYTE __stdcall infer_entry_point(LinkContext *context) { __asm { int 3 } return 0; }
+extern "C" BYTE __stdcall infer_entry_point(LinkContext *context)
+{
+    const char *startup=NULL;
+    StringNode *main_symbol,*wide_main_symbol;
+    BYTE ambiguous=0;
+    if (context->options.rom || context->is_vxd==1) return 0;
+    if (context->file_header.Characteristics & IMAGE_FILE_DLL) {
+        if (!context->options.no_entry && !incremental_reuse) {
+            switch (context->optional_header.Subsystem) {
+            case IMAGE_SUBSYSTEM_WINDOWS_GUI:
+            case IMAGE_SUBSYSTEM_WINDOWS_CUI:
+                startup=context->file_header.Machine==IMAGE_FILE_MACHINE_I386 ?
+                    "_DllMainCRTStartup@12" : "_DllMainCRTStartup";
+                break;
+            case 9:
+                startup="_DllMainCRTStartup";
+                break;
+            }
+        }
+    } else {
+        switch (context->optional_header.Subsystem) {
+        case IMAGE_SUBSYSTEM_NATIVE:
+            startup="NtProcessStartup";
+            break;
+        case IMAGE_SUBSYSTEM_WINDOWS_GUI:
+        case 9:
+            find_gui_entry_symbols(context,&main_symbol,&wide_main_symbol);
+            startup="WinMainCRTStartup";
+            if (wide_main_symbol) {
+                if (main_symbol) ambiguous=1;
+                else startup="wWinMainCRTStartup";
+            }
+            break;
+        case IMAGE_SUBSYSTEM_WINDOWS_CUI:
+            find_console_entry_symbols(context,&main_symbol,&wide_main_symbol);
+            startup="mainCRTStartup";
+            if (wide_main_symbol) {
+                if (main_symbol) ambiguous=1;
+                else startup="wmainCRTStartup";
+            }
+            break;
+        case IMAGE_SUBSYSTEM_POSIX_CUI:
+            startup="__PosixProcessStartup";
+            break;
+        }
+    }
+    if (!startup) return 0;
+    if (ambiguous) link_warning(NULL,4067,startup);
+    entry_point_name=duplicate_argument(startup);
+    return resolve_initial_entry(context);
+}
 extern "C" BYTE __stdcall process_definition_file(LinkContext *context,const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context) { __asm { int 3 } }
 extern "C" void __stdcall set_subsystem_version(LinkContext *context) { __asm { int 3 } }

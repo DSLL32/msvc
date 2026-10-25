@@ -4583,6 +4583,22 @@
             }
           }
         }
+      },
+      "_infer_entry_point@4": {
+        "original": {
+          "switches": [
+            {
+              "site": 4503021,
+              "targets": [
+                4503028,
+                4503038,
+                4503093,
+                4503217,
+                4503141
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -6433,6 +6449,11 @@
       "_find_gui_entry_symbols@12": {
         "expected_cleanup": [
           12
+        ]
+      },
+      "_infer_entry_point@4": {
+        "expected_cleanup": [
+          4
         ]
       }
     }
