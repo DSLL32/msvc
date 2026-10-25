@@ -9,10 +9,6 @@ C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Express
     return 0;
 }
 
-void __fastcall unlink_input_record(C2Record *record)
-{
-    __asm { int 3 }
-}
 
 C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *value)
 {
