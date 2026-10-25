@@ -26,7 +26,7 @@ void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
 }
-unsigned __cdecl rc_next_resource_character(void)
+unsigned __cdecl rc_read_resource_character(void)
 {
     __asm int 3
     return 0;
