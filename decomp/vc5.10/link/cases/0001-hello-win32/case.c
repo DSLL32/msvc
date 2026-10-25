@@ -1,7 +1,7 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[37];
+extern const ReconTest hello_tests[38];
 static const uint32_t order[] = {
  0x24e60, /* _initialize_buffer12 */
  0x24e70, /* _allocate_buffer12 */
@@ -139,10 +139,11 @@ static const uint32_t order[] = {
  0x5e400, /* _read_section_relocations@16 */
  0x60c80, /* Contribution::ReadRelocations */
  0x31a00, /* _read_x86_relocations@24 */
+ 0x31230, /* _classify_x86_relocation@16 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
  "Win32 hello link; Relocation dispatcher complete; genuine contribution relocation-loader frontier.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x31a00,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,37
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x31230,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,38
 };

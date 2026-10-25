@@ -1,0 +1,3 @@
+LIBRARY MSPDB50
+EXPORTS
+    SigForPbCb

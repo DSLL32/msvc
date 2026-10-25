@@ -818,6 +818,22 @@ static int x86_relocation_read(void)
     return recon_native_at_entry(read_x86_relocations,check_x86_relocation_read,
         invoke_hello,NULL)==1;
 }
+static BYTE __stdcall check_x86_classify(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    OutputModule *module=current_input_library->module_head;
+    ContributionInfo *info=module->contribution_info+1;
+    recon_native_entry_finish(contribution==(Contribution *)module->contributions+1 &&
+        type==6 && !mode && !vxd && total_relocation_count==8 &&
+        relocation_data_active==1 && relocations_mapped==1 &&
+        buffer4.remaining==1 && ((ContributionInfo **)buffer4.base)[0]==info &&
+        !info->reserved14);
+    return 0;
+}
+static int x86_classify(void)
+{
+    return recon_native_at_entry(classify_x86_relocation,check_x86_classify,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -855,5 +871,6 @@ const ReconTest hello_tests[]={
     {"name-pool-call",1,name_pool_call},
     {"relocation-reader",1,relocation_reader},
     {"relocation-load",1,relocation_load},
-    {"x86-relocation-read",1,x86_relocation_read}
+    {"x86-relocation-read",1,x86_relocation_read},
+    {"x86-classifier",1,x86_classify}
 };

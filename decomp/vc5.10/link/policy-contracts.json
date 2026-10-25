@@ -582,6 +582,167 @@
         "bytes": 277776,
         "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
       }
+    },
+    {
+      "identity": "mspdb50.dll!SigForPbCb",
+      "provider_export": {
+        "ordinal": 127,
+        "rva": 61997
+      },
+      "entry_bytes": "558bec8b450c4878278d48018b450856",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSPDB50.DLL",
+        "bytes": 167424,
+        "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "actual cdecl3 DWORD inputs/RET0; complete53-byte call-free body has no EDI reads/writes. Original third incoming by-value argument slot is modified, caller ADD12 discards it before use.",
+      "body_sha256": "0c863c2888221375919652e30969b70894039b67288033e727d321c29ef8f77c",
+      "body_instructions": [
+        {
+          "site": 271643181,
+          "bytes": "55",
+          "instruction": "push ebp"
+        },
+        {
+          "site": 271643182,
+          "bytes": "8bec",
+          "instruction": "mov ebp, esp"
+        },
+        {
+          "site": 271643184,
+          "bytes": "8b450c",
+          "instruction": "mov eax, dword ptr [ebp + 0xc]"
+        },
+        {
+          "site": 271643187,
+          "bytes": "48",
+          "instruction": "dec eax"
+        },
+        {
+          "site": 271643188,
+          "bytes": "7827",
+          "instruction": "js 0x1030f25d"
+        },
+        {
+          "site": 271643190,
+          "bytes": "8d4801",
+          "instruction": "lea ecx, [eax + 1]"
+        },
+        {
+          "site": 271643193,
+          "bytes": "8b4508",
+          "instruction": "mov eax, dword ptr [ebp + 8]"
+        },
+        {
+          "site": 271643196,
+          "bytes": "56",
+          "instruction": "push esi"
+        },
+        {
+          "site": 271643197,
+          "bytes": "0fb65510",
+          "instruction": "movzx edx, byte ptr [ebp + 0x10]"
+        },
+        {
+          "site": 271643201,
+          "bytes": "0fb630",
+          "instruction": "movzx esi, byte ptr [eax]"
+        },
+        {
+          "site": 271643204,
+          "bytes": "33d6",
+          "instruction": "xor edx, esi"
+        },
+        {
+          "site": 271643206,
+          "bytes": "8b7510",
+          "instruction": "mov esi, dword ptr [ebp + 0x10]"
+        },
+        {
+          "site": 271643209,
+          "bytes": "c1ee08",
+          "instruction": "shr esi, 8"
+        },
+        {
+          "site": 271643212,
+          "bytes": "8b1495301a3210",
+          "instruction": "mov edx, dword ptr [edx*4 + 0x10321a30]"
+        },
+        {
+          "site": 271643219,
+          "bytes": "33d6",
+          "instruction": "xor edx, esi"
+        },
+        {
+          "site": 271643221,
+          "bytes": "40",
+          "instruction": "inc eax"
+        },
+        {
+          "site": 271643222,
+          "bytes": "49",
+          "instruction": "dec ecx"
+        },
+        {
+          "site": 271643223,
+          "bytes": "895510",
+          "instruction": "mov dword ptr [ebp + 0x10], edx"
+        },
+        {
+          "site": 271643226,
+          "bytes": "75e1",
+          "instruction": "jne 0x1030f23d"
+        },
+        {
+          "site": 271643228,
+          "bytes": "5e",
+          "instruction": "pop esi"
+        },
+        {
+          "site": 271643229,
+          "bytes": "8b4510",
+          "instruction": "mov eax, dword ptr [ebp + 0x10]"
+        },
+        {
+          "site": 271643232,
+          "bytes": "5d",
+          "instruction": "pop ebp"
+        },
+        {
+          "site": 271643233,
+          "bytes": "c3",
+          "instruction": "ret "
+        }
+      ],
+      "shared_semantics": "lib/recon/signature-crc-validation.json; same canonical provider/API, no additional API capture."
+    },
+    {
+      "identity": "msvcrt.dll!strncpy",
+      "provider_export": {
+        "ordinal": 703,
+        "rva": 35290
+      },
+      "entry_bytes": "8b4c240c5785c9746256538bd98b7424",
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      },
+      "preserves": [
+        "edi"
+      ],
+      "abi": "qualified public x86 cdecl normal-return ABI preserves EDI",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 155,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strncpy(char *, const char *, size_t);"
+        }
+      ]
     }
   ],
   "functions": [
@@ -3320,6 +3481,820 @@
         ]
       },
       "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+    },
+    {
+      "name": "_classify_x86_relocation@16",
+      "preserves": [
+        "edi"
+      ],
+      "original_witness": {
+        "begin": 4395568,
+        "end": 4395634,
+        "sha256": "8cbcd9c10e23a9ee8d0bdab47d700ffdbf8e3a15d76ba050f47e48edefc186c6",
+        "qualification": "No own EDI writes. The invalid-type fatal edge reaches the existing nonreturning diagnostic/exit chain; all genuine normal returns preserve EDI.",
+        "instructions": [
+          {
+            "site": 4395568,
+            "bytes": "8b442408",
+            "instruction": "mov eax, dword ptr [esp + 8]"
+          },
+          {
+            "site": 4395572,
+            "bytes": "25ffff0000",
+            "instruction": "and eax, 0xffff"
+          },
+          {
+            "site": 4395577,
+            "bytes": "83f814",
+            "instruction": "cmp eax, 0x14"
+          },
+          {
+            "site": 4395580,
+            "bytes": "771c",
+            "instruction": "ja 0x43125a"
+          },
+          {
+            "site": 4395582,
+            "bytes": "33c9",
+            "instruction": "xor ecx, ecx"
+          },
+          {
+            "site": 4395584,
+            "bytes": "8a888c124300",
+            "instruction": "mov cl, byte ptr [eax + 0x43128c]"
+          },
+          {
+            "site": 4395590,
+            "bytes": "ff248d74124300",
+            "instruction": "jmp dword ptr [ecx*4 + 0x431274]"
+          },
+          {
+            "site": 4395597,
+            "bytes": "b001",
+            "instruction": "mov al, 1"
+          },
+          {
+            "site": 4395599,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          },
+          {
+            "site": 4395602,
+            "bytes": "8a4c2410",
+            "instruction": "mov cl, byte ptr [esp + 0x10]"
+          },
+          {
+            "site": 4395606,
+            "bytes": "84c9",
+            "instruction": "test cl, cl"
+          },
+          {
+            "site": 4395608,
+            "bytes": "7513",
+            "instruction": "jne 0x43126d"
+          },
+          {
+            "site": 4395610,
+            "bytes": "8b542404",
+            "instruction": "mov edx, dword ptr [esp + 4]"
+          },
+          {
+            "site": 4395614,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4395615,
+            "bytes": "68a6040000",
+            "instruction": "push 0x4a6"
+          },
+          {
+            "site": 4395620,
+            "bytes": "52",
+            "instruction": "push edx"
+          },
+          {
+            "site": 4395621,
+            "bytes": "e806f0ffff",
+            "instruction": "call 0x430270"
+          },
+          {
+            "site": 4395626,
+            "bytes": "83c40c",
+            "instruction": "add esp, 0xc"
+          },
+          {
+            "site": 4395629,
+            "bytes": "32c0",
+            "instruction": "xor al, al"
+          },
+          {
+            "site": 4395631,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4395599,
+            "cleanup": 16,
+            "bytes": "c21000"
+          },
+          {
+            "site": 4395631,
+            "cleanup": 16,
+            "bytes": "c21000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "_get_symbol_name@16",
+      "preserves": [
+        "edi"
+      ],
+      "original_witness": {
+        "begin": 4595072,
+        "end": 4595139,
+        "sha256": "056d73f12c5c948a8b692ab393a4ca94b8b04b606aa7dcc281c44e0076762c6e",
+        "qualification": "Call-free, no EDI writes.",
+        "instructions": [
+          {
+            "site": 4595072,
+            "bytes": "8b442404",
+            "instruction": "mov eax, dword ptr [esp + 4]"
+          },
+          {
+            "site": 4595076,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          {
+            "site": 4595077,
+            "bytes": "833800",
+            "instruction": "cmp dword ptr [eax], 0"
+          },
+          {
+            "site": 4595080,
+            "bytes": "8b4c2410",
+            "instruction": "mov ecx, dword ptr [esp + 0x10]"
+          },
+          {
+            "site": 4595084,
+            "bytes": "7514",
+            "instruction": "jne 0x461da2"
+          },
+          {
+            "site": 4595086,
+            "bytes": "85c9",
+            "instruction": "test ecx, ecx"
+          },
+          {
+            "site": 4595088,
+            "bytes": "7405",
+            "instruction": "je 0x461d97"
+          },
+          {
+            "site": 4595090,
+            "bytes": "66c7010000",
+            "instruction": "mov word ptr [ecx], 0"
+          },
+          {
+            "site": 4595095,
+            "bytes": "8b4004",
+            "instruction": "mov eax, dword ptr [eax + 4]"
+          },
+          {
+            "site": 4595098,
+            "bytes": "8b4c240c",
+            "instruction": "mov ecx, dword ptr [esp + 0xc]"
+          },
+          {
+            "site": 4595102,
+            "bytes": "03c1",
+            "instruction": "add eax, ecx"
+          },
+          {
+            "site": 4595104,
+            "bytes": "eb09",
+            "instruction": "jmp 0x461dab"
+          },
+          {
+            "site": 4595106,
+            "bytes": "85c9",
+            "instruction": "test ecx, ecx"
+          },
+          {
+            "site": 4595108,
+            "bytes": "7405",
+            "instruction": "je 0x461dab"
+          },
+          {
+            "site": 4595110,
+            "bytes": "66c7010100",
+            "instruction": "mov word ptr [ecx], 1"
+          },
+          {
+            "site": 4595115,
+            "bytes": "8b4c2414",
+            "instruction": "mov ecx, dword ptr [esp + 0x14]"
+          },
+          {
+            "site": 4595119,
+            "bytes": "85c9",
+            "instruction": "test ecx, ecx"
+          },
+          {
+            "site": 4595121,
+            "bytes": "740c",
+            "instruction": "je 0x461dbf"
+          },
+          {
+            "site": 4595123,
+            "bytes": "8a18",
+            "instruction": "mov bl, byte ptr [eax]"
+          },
+          {
+            "site": 4595125,
+            "bytes": "33d2",
+            "instruction": "xor edx, edx"
+          },
+          {
+            "site": 4595127,
+            "bytes": "80fb7f",
+            "instruction": "cmp bl, 0x7f"
+          },
+          {
+            "site": 4595130,
+            "bytes": "0f94c2",
+            "instruction": "sete dl"
+          },
+          {
+            "site": 4595133,
+            "bytes": "8811",
+            "instruction": "mov byte ptr [ecx], dl"
+          },
+          {
+            "site": 4595135,
+            "bytes": "5b",
+            "instruction": "pop ebx"
+          },
+          {
+            "site": 4595136,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4595136,
+            "cleanup": 16,
+            "bytes": "c21000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "_record_relocation_reference@16",
+      "preserves": [
+        "edi"
+      ],
+      "original_witness": {
+        "begin": 4599936,
+        "end": 4600144,
+        "sha256": "76289c8954d24340849c72d1a0bc1ee19f906e460a16c08bab9fd213f6e72de3",
+        "qualification": "PUSH EDI precedes first EDI write; each of three normal RET16 paths POP EDI.",
+        "instructions": [
+          {
+            "site": 4599936,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          {
+            "site": 4599937,
+            "bytes": "8b542410",
+            "instruction": "mov edx, dword ptr [esp + 0x10]"
+          },
+          {
+            "site": 4599941,
+            "bytes": "55",
+            "instruction": "push ebp"
+          },
+          {
+            "site": 4599942,
+            "bytes": "8b6c2418",
+            "instruction": "mov ebp, dword ptr [esp + 0x18]"
+          },
+          {
+            "site": 4599946,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4599947,
+            "bytes": "8b742414",
+            "instruction": "mov esi, dword ptr [esp + 0x14]"
+          },
+          {
+            "site": 4599951,
+            "bytes": "8b4504",
+            "instruction": "mov eax, dword ptr [ebp + 4]"
+          },
+          {
+            "site": 4599954,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          {
+            "site": 4599955,
+            "bytes": "8b7e18",
+            "instruction": "mov edi, dword ptr [esi + 0x18]"
+          },
+          {
+            "site": 4599958,
+            "bytes": "8d0cc0",
+            "instruction": "lea ecx, [eax + eax*8]"
+          },
+          {
+            "site": 4599961,
+            "bytes": "8d0c4a",
+            "instruction": "lea ecx, [edx + ecx*2]"
+          },
+          {
+            "site": 4599964,
+            "bytes": "8a5110",
+            "instruction": "mov dl, byte ptr [ecx + 0x10]"
+          },
+          {
+            "site": 4599967,
+            "bytes": "80fa02",
+            "instruction": "cmp dl, 2"
+          },
+          {
+            "site": 4599970,
+            "bytes": "0f8483000000",
+            "instruction": "je 0x46312b"
+          },
+          {
+            "site": 4599976,
+            "bytes": "80fa44",
+            "instruction": "cmp dl, 0x44"
+          },
+          {
+            "site": 4599979,
+            "bytes": "747e",
+            "instruction": "je 0x46312b"
+          },
+          {
+            "site": 4599981,
+            "bytes": "80fa69",
+            "instruction": "cmp dl, 0x69"
+          },
+          {
+            "site": 4599984,
+            "bytes": "7479",
+            "instruction": "je 0x46312b"
+          },
+          {
+            "site": 4599986,
+            "bytes": "668b410c",
+            "instruction": "mov ax, word ptr [ecx + 0xc]"
+          },
+          {
+            "site": 4599990,
+            "bytes": "6685c0",
+            "instruction": "test ax, ax"
+          },
+          {
+            "site": 4599993,
+            "bytes": "0f8e8a000000",
+            "instruction": "jle 0x463149"
+          },
+          {
+            "site": 4599999,
+            "bytes": "8b5768",
+            "instruction": "mov edx, dword ptr [edi + 0x68]"
+          },
+          {
+            "site": 4600002,
+            "bytes": "0fbfc0",
+            "instruction": "movsx eax, ax"
+          },
+          {
+            "site": 4600005,
+            "bytes": "c1e006",
+            "instruction": "shl eax, 6"
+          },
+          {
+            "site": 4600008,
+            "bytes": "8d5c10c0",
+            "instruction": "lea ebx, [eax + edx - 0x40]"
+          },
+          {
+            "site": 4600012,
+            "bytes": "a078454900",
+            "instruction": "mov al, byte ptr [0x494578]"
+          },
+          {
+            "site": 4600017,
+            "bytes": "84c0",
+            "instruction": "test al, al"
+          },
+          {
+            "site": 4600019,
+            "bytes": "7442",
+            "instruction": "je 0x463117"
+          },
+          {
+            "site": 4600021,
+            "bytes": "f6410f80",
+            "instruction": "test byte ptr [ecx + 0xf], 0x80"
+          },
+          {
+            "site": 4600025,
+            "bytes": "743c",
+            "instruction": "je 0x463117"
+          },
+          {
+            "site": 4600027,
+            "bytes": "66837d0828",
+            "instruction": "cmp word ptr [ebp + 8], 0x28"
+          },
+          {
+            "site": 4600032,
+            "bytes": "7435",
+            "instruction": "je 0x463117"
+          },
+          {
+            "site": 4600034,
+            "bytes": "8b442414",
+            "instruction": "mov eax, dword ptr [esp + 0x14]"
+          },
+          {
+            "site": 4600038,
+            "bytes": "6a00",
+            "instruction": "push 0"
+          },
+          {
+            "site": 4600040,
+            "bytes": "51",
+            "instruction": "push ecx"
+          },
+          {
+            "site": 4600041,
+            "bytes": "6a01",
+            "instruction": "push 1"
+          },
+          {
+            "site": 4600043,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4600044,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4600045,
+            "bytes": "e8dee8ffff",
+            "instruction": "call 0x4619d0"
+          },
+          {
+            "site": 4600050,
+            "bytes": "0fbf480c",
+            "instruction": "movsx ecx, word ptr [eax + 0xc]"
+          },
+          {
+            "site": 4600054,
+            "bytes": "8b5768",
+            "instruction": "mov edx, dword ptr [edi + 0x68]"
+          },
+          {
+            "site": 4600057,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          {
+            "site": 4600058,
+            "bytes": "c1e106",
+            "instruction": "shl ecx, 6"
+          },
+          {
+            "site": 4600061,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4600062,
+            "bytes": "6a00",
+            "instruction": "push 0"
+          },
+          {
+            "site": 4600064,
+            "bytes": "8d7c11c0",
+            "instruction": "lea edi, [ecx + edx - 0x40]"
+          },
+          {
+            "site": 4600068,
+            "bytes": "e8d7feffff",
+            "instruction": "call 0x462fe0"
+          },
+          {
+            "site": 4600073,
+            "bytes": "57",
+            "instruction": "push edi"
+          },
+          {
+            "site": 4600074,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4600075,
+            "bytes": "e800080000",
+            "instruction": "call 0x463910"
+          },
+          {
+            "site": 4600080,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "site": 4600081,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4600082,
+            "bytes": "5d",
+            "instruction": "pop ebp"
+          },
+          {
+            "site": 4600083,
+            "bytes": "5b",
+            "instruction": "pop ebx"
+          },
+          {
+            "site": 4600084,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          },
+          {
+            "site": 4600087,
+            "bytes": "3bf3",
+            "instruction": "cmp esi, ebx"
+          },
+          {
+            "site": 4600089,
+            "bytes": "742e",
+            "instruction": "je 0x463149"
+          },
+          {
+            "site": 4600091,
+            "bytes": "53",
+            "instruction": "push ebx"
+          },
+          {
+            "site": 4600092,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4600093,
+            "bytes": "6a00",
+            "instruction": "push 0"
+          },
+          {
+            "site": 4600095,
+            "bytes": "e8bcfeffff",
+            "instruction": "call 0x462fe0"
+          },
+          {
+            "site": 4600100,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "site": 4600101,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4600102,
+            "bytes": "5d",
+            "instruction": "pop ebp"
+          },
+          {
+            "site": 4600103,
+            "bytes": "5b",
+            "instruction": "pop ebx"
+          },
+          {
+            "site": 4600104,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          },
+          {
+            "site": 4600107,
+            "bytes": "6a00",
+            "instruction": "push 0"
+          },
+          {
+            "site": 4600109,
+            "bytes": "56",
+            "instruction": "push esi"
+          },
+          {
+            "site": 4600110,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4600111,
+            "bytes": "e8acfeffff",
+            "instruction": "call 0x462fe0"
+          },
+          {
+            "site": 4600116,
+            "bytes": "8a0d78454900",
+            "instruction": "mov cl, byte ptr [0x494578]"
+          },
+          {
+            "site": 4600122,
+            "bytes": "84c9",
+            "instruction": "test cl, cl"
+          },
+          {
+            "site": 4600124,
+            "bytes": "740b",
+            "instruction": "je 0x463149"
+          },
+          {
+            "site": 4600126,
+            "bytes": "66837d0828",
+            "instruction": "cmp word ptr [ebp + 8], 0x28"
+          },
+          {
+            "site": 4600131,
+            "bytes": "7404",
+            "instruction": "je 0x463149"
+          },
+          {
+            "site": 4600133,
+            "bytes": "c6400801",
+            "instruction": "mov byte ptr [eax + 8], 1"
+          },
+          {
+            "site": 4600137,
+            "bytes": "5f",
+            "instruction": "pop edi"
+          },
+          {
+            "site": 4600138,
+            "bytes": "5e",
+            "instruction": "pop esi"
+          },
+          {
+            "site": 4600139,
+            "bytes": "5d",
+            "instruction": "pop ebp"
+          },
+          {
+            "site": 4600140,
+            "bytes": "5b",
+            "instruction": "pop ebx"
+          },
+          {
+            "site": 4600141,
+            "bytes": "c21000",
+            "instruction": "ret 0x10"
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4600084,
+            "cleanup": 16,
+            "bytes": "c21000"
+          },
+          {
+            "site": 4600104,
+            "cleanup": 16,
+            "bytes": "c21000"
+          },
+          {
+            "site": 4600141,
+            "cleanup": 16,
+            "bytes": "c21000"
+          }
+        ]
+      }
+    },
+    {
+      "name": "_link_contribution_fatal",
+      "preserves": [
+        "edi"
+      ],
+      "original_witness": {
+        "begin": 4391536,
+        "end": 4391594,
+        "sha256": "2b9389df44b7dae9117de856ab8a13098441c29b8f94be648fdb9215bb135158",
+        "qualification": "No own EDI writes. Genuine fatal diagnostic chain has no normal return; physical RET is retained, not used to infer a returned error result.",
+        "instructions": [
+          {
+            "site": 4391536,
+            "bytes": "8b4c2404",
+            "instruction": "mov ecx, dword ptr [esp + 4]"
+          },
+          {
+            "site": 4391540,
+            "bytes": "81ec08020000",
+            "instruction": "sub esp, 0x208"
+          },
+          {
+            "site": 4391546,
+            "bytes": "8d442400",
+            "instruction": "lea eax, [esp]"
+          },
+          {
+            "site": 4391550,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4391551,
+            "bytes": "51",
+            "instruction": "push ecx"
+          },
+          {
+            "site": 4391552,
+            "bytes": "e82be3fdff",
+            "instruction": "call 0x40e5b0"
+          },
+          {
+            "site": 4391557,
+            "bytes": "8b842410020000",
+            "instruction": "mov eax, dword ptr [esp + 0x210]"
+          },
+          {
+            "site": 4391564,
+            "bytes": "8d942414020000",
+            "instruction": "lea edx, [esp + 0x214]"
+          },
+          {
+            "site": 4391571,
+            "bytes": "52",
+            "instruction": "push edx"
+          },
+          {
+            "site": 4391572,
+            "bytes": "50",
+            "instruction": "push eax"
+          },
+          {
+            "site": 4391573,
+            "bytes": "6a01",
+            "instruction": "push 1"
+          },
+          {
+            "site": 4391575,
+            "bytes": "8d4c240c",
+            "instruction": "lea ecx, [esp + 0xc]"
+          },
+          {
+            "site": 4391579,
+            "bytes": "6a00",
+            "instruction": "push 0"
+          },
+          {
+            "site": 4391581,
+            "bytes": "51",
+            "instruction": "push ecx"
+          },
+          {
+            "site": 4391582,
+            "bytes": "e8bdfeffff",
+            "instruction": "call 0x430160"
+          },
+          {
+            "site": 4391587,
+            "bytes": "81c408020000",
+            "instruction": "add esp, 0x208"
+          },
+          {
+            "site": 4391593,
+            "bytes": "c3",
+            "instruction": "ret "
+          }
+        ],
+        "normal_returns": [
+          {
+            "site": 4391593,
+            "cleanup": 0,
+            "bytes": "c3"
+          }
+        ]
+      }
     }
   ],
   "callback": {
