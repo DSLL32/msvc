@@ -985,6 +985,10 @@ fn supervise(
             }
             let terminal_ok = if info.terminal == 0 {
                 let returned_direct = info.execution == 1 && root.join("direct-return").exists();
+                if returned_direct && reference.is_some_and(|r| r.summary.direct_noreturn.is_some())
+                {
+                    errors.push("nonreturn DIRECT callback returned instead of exiting".into());
+                }
                 if returned_direct && fs::read(root.join("direct-return"))? != b"1" {
                     errors.push("direct callback assertions failed".into());
                 }

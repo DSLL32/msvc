@@ -31,6 +31,7 @@ static DWORD helper_base, helper_completion, helper_context;
 static BY_HANDLE_FILE_INFORMATION helper_info;
 static int typed_helper;
 static DWORD helper_state_rva, helper_completion_rva, helper_marker_rva;
+static DWORD helper_callback_rva, helper_callback, callback_entered, marker_seen;
 static BY_HANDLE_FILE_INFORMATION target_info, provider_info;
 static int provider_required, provider_seen;
 static Point *points;
@@ -236,10 +237,15 @@ static int next(DWORD *where, Registers *r)
                     !read_memory(helper_base + helper_pe + 24 + 56, &helper_size, 4) ||
                     helper_state_rva >= helper_size ||
                     sizeof(ReconOriginalProbe) > helper_size - helper_state_rva ||
-                    helper_completion_rva >= helper_size)
+                    helper_completion_rva >= helper_size ||
+                    (helper_callback_rva && helper_callback_rva >= helper_size))
                     return -1;
                 helper_context = helper_base + helper_state_rva;
                 helper_completion = helper_base + helper_completion_rva;
+                if (helper_callback_rva) {
+                    helper_callback = helper_base + helper_callback_rva;
+                    if (!arm(helper_callback)) return -1;
+                }
             }
             if (target_dll && event.u.LoadDll.hFile)
             {
@@ -277,6 +283,7 @@ static int next(DWORD *where, Registers *r)
                 if (typed_helper && *where == base + helper_marker_rva &&
                     event.u.Exception.dwFirstChance)
                 {
+                    marker_seen = 1;
                     pending_status = DBG_EXCEPTION_NOT_HANDLED;
                     registers(r, &c);
                     return 1;
@@ -286,6 +293,9 @@ static int next(DWORD *where, Registers *r)
                     registers(r, &c);
                     return 2;
                 }
+                if (helper_callback && *where == helper_callback &&
+                    (!marker_seen || callback_entered || !event.u.Exception.dwFirstChance ||
+                     c.Eip != *where + 1)) return -1;
                 for (i = 0; i < point_count; ++i)
                     if (points[i].active && points[i].address == *where)
                     {
@@ -295,9 +305,17 @@ static int next(DWORD *where, Registers *r)
                         c.Eip = *where;
                         if (!SetThreadContext(thread, &c))
                             return -1;
+                        if (helper_callback && *where == helper_callback) {
+                            if (callback_entered || !marker_seen ||
+                                !event.u.Exception.dwFirstChance) return -1;
+                            callback_entered = 1;
+                            break;
+                        }
                         registers(r, &c);
                         return 1;
                     }
+                if (i < point_count && helper_callback && *where == helper_callback)
+                    continue;
                 if ((!base || *where < base || *where - base >= image_size) &&
                     initial_loader_break(*where,&c))
                 {
@@ -432,13 +450,15 @@ int main(int argc, char **argv)
     CONTEXT before, c;
     int kind, ok = 0;
     char *command,*environment=NULL;
-    int environment_argument=argc==11 || argc==12 || argc==15 || argc==16;
-    provider_required=argc==12 || argc==16;
-    if (argc != 10 && argc != 11 && argc != 12 && argc != 14 && argc != 15 && argc != 16) {
+    int callback_argument=argc>=15 && !strncmp(argv[14],"callback=",9);
+    int environment_argument=callback_argument?(argc==16 || argc==17):
+        (argc==11 || argc==12 || argc==15 || argc==16);
+    provider_required=callback_argument?argc==17:(argc==12 || argc==16);
+    if (argc != 10 && argc != 11 && argc != 12 && argc != 14 && argc != 15 && argc != 16 && !(argc == 17 && callback_argument)) {
         fprintf(stderr,"original broker argument count: %d\n",argc);
         return 2;
     }
-    typed_helper = argc == 14 || argc == 15 || argc == 16;
+    typed_helper = argc == 14 || argc == 15 || argc == 16 || (argc == 17 && callback_argument);
     if(environment_argument) {
         environment=target_environment(argv[argc-1-provider_required]);
         if(!environment) {
@@ -480,6 +500,11 @@ int main(int argc, char **argv)
         helper_state_rva = strtoul(argv[11], NULL, 0);
         helper_completion_rva = strtoul(argv[12], NULL, 0);
         helper_marker_rva = strtoul(argv[13], NULL, 0);
+        if (callback_argument) {
+            char *end;
+            helper_callback_rva = strtoul(argv[14]+9,&end,0);
+            if (!helper_callback_rva || *end) return 3;
+        }
         if (!ok || target_dll || !helper_state_rva || !helper_completion_rva ||
             !helper_marker_rva)
             return 3;
@@ -622,6 +647,12 @@ int main(int argc, char **argv)
             {
                 if (!typed_completed())
                     break;
+                continue;
+            }
+            if (kind == 0 && typed_helper && helper_callback) {
+                DWORD proof[4];
+                proof[0]=callback_entered;proof[1]=helper_callback;proof[2]=pid;proof[3]=tid;
+                if (!response(ok,0,where,proof,sizeof(proof))) break;
                 continue;
             }
             if (!response(ok, (DWORD)kind,

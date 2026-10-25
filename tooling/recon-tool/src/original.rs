@@ -220,6 +220,9 @@ pub struct Capture {
     /// Genuine App entry at which the typed original callback takes over.
     #[arg(long, requires = "direct_helper")]
     pub marker_rva: Option<u32>,
+    /// Typed callback must terminate the target with the fixture's expected status.
+    #[arg(long, requires = "direct_helper", conflicts_with = "cf_profile")]
+    pub direct_noreturn: bool,
     #[arg(short, long)]
     pub output: PathBuf,
     #[arg(long)]
@@ -687,6 +690,8 @@ struct CaptureReport {
     artifacts_dir: Option<PathBuf>,
     #[serde(default)]
     raw_artifacts: Vec<RawArtifact>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    direct_noreturn: Option<crate::original_reference::DirectExit>,
 }
 fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
@@ -792,6 +797,27 @@ fn typed_results(data: &[u8]) -> Result<Vec<InputFile>> {
 #[cfg(test)]
 mod typed_tests {
     use super::*;
+
+    #[test]
+    fn nonreturn_exit_keeps_dword_and_rejects_missing_or_wrong_proof() {
+        let bytes: Vec<u8> = [1u32, 0x10001000, 123, 124]
+            .into_iter()
+            .flat_map(u32::to_le_bytes)
+            .collect();
+        assert_eq!(
+            direct_exit(true, true, u32::MAX, u32::MAX, &bytes)
+                .unwrap()
+                .actual_exit,
+            u32::MAX
+        );
+        assert!(direct_exit(false, true, 4, 4, &bytes).is_err());
+        assert!(direct_exit(true, false, 4, 4, &bytes).is_err());
+        assert!(direct_exit(true, true, 4, 5, &bytes).is_err());
+        assert!(direct_exit(true, true, 4, 4, &[]).is_err());
+        let mut missing = bytes;
+        missing[..4].fill(0);
+        assert!(direct_exit(true, true, 4, 4, &missing).is_err());
+    }
 
     fn packet(names: &[&str]) -> Vec<u8> {
         let mut result = (names.len() as u32).to_le_bytes().to_vec();
@@ -936,6 +962,7 @@ fn capture_executor(
             raw_artifacts,
             oracle_written: !entry_stop,
             backend: Some(backend),
+            direct_noreturn: None,
         };
         return Ok((captured, report));
     }
@@ -967,6 +994,13 @@ fn capture_executor(
     );
     // Configure only the private on-disk helper and executable, before launch.
     // The Windows loader loads the import; the DLL owns its local VEH/callback.
+    anyhow::ensure!(
+        !options.direct_noreturn
+            || (options.direct_helper.is_some()
+                && loaded.info.execution == 1
+                && f.exit_code.is_some()),
+        "nonreturn DIRECT requires a typed DIRECT case and expected fixture exit_code"
+    );
     let mut typed = None;
     let private_image =
         options.progress || options.direct_helper.is_some() || options.native_msvcrt;
@@ -1005,7 +1039,7 @@ fn capture_executor(
                 );
                 Ok(*values.first().unwrap())
             };
-            lookup("case_original_at_marker", "_case_original_at_marker@4")?;
+            let callback = lookup("case_original_at_marker", "_case_original_at_marker@4")?;
             let complete = lookup(
                 "recon_original_completion_trap",
                 "_recon_original_completion_trap@0",
@@ -1033,7 +1067,7 @@ fn capture_executor(
                 "recon-direct-probe.dll",
                 "recon_original_completion_trap",
             )?;
-            typed = Some((staged, state, complete, marker));
+            typed = Some((staged, state, complete, marker, callback));
         }
         let path = root.join(program.file_name().context("original filename")?);
         fs::write(&path, target_bytes)?;
@@ -1102,12 +1136,13 @@ fn capture_executor(
         } else {
             "-".into()
         });
-    if let Some((helper, state, complete, marker)) = &typed {
+    if let Some((helper, state, complete, marker, callback)) = &typed {
         command
             .arg(windows(helper, &options.repo)?)
             .arg(state.to_string())
             .arg(complete.to_string())
-            .arg(marker.to_string());
+            .arg(marker.to_string())
+            .arg(format!("callback={callback}"));
     }
     command
         .stdin(Stdio::piped())
@@ -1170,14 +1205,26 @@ fn capture_executor(
     anyhow::ensure!(hello.b == image.entry, "Wine debugger entry mismatch");
     let terminal;
     let mut snapshot = None;
-    if let Some((_, _, _, marker)) = typed {
+    let mut direct_noreturn = None;
+    if let Some((_, _, _, marker, _)) = typed {
         broker.record(image.entry);
         broker.arm()?;
         let mut invoked = false;
         loop {
             let r = broker.rpc(7, 0, 0, 0, &[])?;
             match r.a {
-                0 => bail!("original exited before typed helper completion: {}", r.b),
+                0 => {
+                    let expected = f.exit_code.unwrap_or(0) as u32;
+                    direct_noreturn = Some(direct_exit(
+                        options.direct_noreturn,
+                        invoked,
+                        expected,
+                        r.b,
+                        &r.data,
+                    )?);
+                    terminal = format!("exit:{}", r.b);
+                    break;
+                }
                 1 => {
                     broker.record(r.b);
                     if !invoked && r.b == marker {
@@ -1203,7 +1250,7 @@ fn capture_executor(
                 3 => bail!("typed original exception {:08x}", r.b),
                 4 => {
                     anyhow::ensure!(
-                        invoked && r.b == 1,
+                        !options.direct_noreturn && invoked && r.b == 1,
                         "typed original callback assertions failed"
                     );
                     broker.emitted.extend(typed_results(&r.data)?);
@@ -1306,13 +1353,13 @@ fn capture_executor(
         fixture.stdout = Some(stdout);
         fixture.stderr = Some(stderr);
         fixture.output_files = files;
-        fixture.exit_code = Some(if loaded.info.execution == 1 {
+        fixture.exit_code = Some(if terminal == "direct:pass" {
             0
         } else {
             terminal
                 .strip_prefix("exit:")
                 .context("expected original exit")?
-                .parse()?
+                .parse::<u32>()? as i32
         });
     }
     for file in broker.emitted {
@@ -1329,6 +1376,7 @@ fn capture_executor(
         capture_sha256: None,
         oracle_written: true,
         backend: None,
+        direct_noreturn,
         case: loaded.info.case,
         terminal,
         first_entry_order: broker.order,
@@ -1340,6 +1388,43 @@ fn capture_executor(
         raw_artifacts,
     };
     Ok((Some(fixture), report))
+}
+
+fn direct_exit(
+    enabled: bool,
+    marker_seen: bool,
+    expected: u32,
+    actual: u32,
+    bytes: &[u8],
+) -> Result<crate::original_reference::DirectExit> {
+    anyhow::ensure!(
+        enabled,
+        "original exited before typed helper completion: {actual}"
+    );
+    anyhow::ensure!(
+        marker_seen && bytes.len() == 16,
+        "nonreturn DIRECT lacks actual callback-entry proof"
+    );
+    let words: Vec<u32> = bytes
+        .chunks_exact(4)
+        .map(|w| u32::from_le_bytes(w.try_into().unwrap()))
+        .collect();
+    anyhow::ensure!(
+        words[0] == 1 && words[1..].iter().all(|w| *w != 0),
+        "nonreturn DIRECT lacks actual callback-entry proof"
+    );
+    anyhow::ensure!(
+        actual == expected,
+        "nonreturn DIRECT exit differs: actual {actual}, expected {expected}"
+    );
+    Ok(crate::original_reference::DirectExit {
+        callback_observed: true,
+        callback_pc: words[1],
+        pid: words[2],
+        tid: words[3],
+        expected_exit: expected,
+        actual_exit: actual,
+    })
 }
 
 fn canonical_capture_cwd(

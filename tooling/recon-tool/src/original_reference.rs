@@ -31,12 +31,24 @@ impl Identity {
         }
     }
 }
+#[derive(Clone, Debug, Deserialize, Serialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct DirectExit {
+    pub callback_observed: bool,
+    pub callback_pc: u32,
+    pub pid: u32,
+    pub tid: u32,
+    pub expected_exit: u32,
+    pub actual_exit: u32,
+}
 #[derive(Clone, Deserialize, Serialize)]
 pub struct Summary {
     pub report: PathBuf,
     pub report_sha256: String,
     pub capture_sha256: String,
     pub source_binding_available: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub direct_noreturn: Option<DirectExit>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub comparison_derivation: Option<Derivation>,
 }
@@ -75,6 +87,8 @@ pub struct Derivation {
 }
 #[derive(Deserialize)]
 struct Receipt {
+    #[serde(default)]
+    direct_noreturn: Option<DirectExit>,
     case: String,
     terminal: String,
     first_entry_order: Vec<u32>,
@@ -354,6 +368,14 @@ impl Expected {
                 "original report binary/case/execution identity differs"
             );
         }
+        ensure!(
+            receipt.direct_noreturn.is_none()
+                || (info.execution == 1
+                    && receipt.terminal.starts_with("exit:")
+                    && receipt.identity.is_some()
+                    && receipt.capture_sha256.is_some()),
+            "nonreturn DIRECT proof requires a bound DIRECT exit receipt"
+        );
         let terminal = if let Some(text) = receipt.terminal.strip_prefix("frontier:") {
             let rva = u32::from_str_radix(text, 16).context("invalid original frontier")?;
             ensure!(
@@ -370,7 +392,16 @@ impl Expected {
         } else if let Some(text) = receipt.terminal.strip_prefix("exit:") {
             let status: u32 = text.parse().context("invalid original exit")?;
             ensure!(
-                info.execution == 0 && receipt.terminal == format!("exit:{status}"),
+                receipt.terminal == format!("exit:{status}")
+                    && (info.execution == 0
+                        || (info.execution == 1
+                            && receipt.direct_noreturn.as_ref().is_some_and(|proof| proof
+                                .callback_observed
+                                && proof.callback_pc != 0
+                                && proof.pid != 0
+                                && proof.tid != 0
+                                && proof.expected_exit == status
+                                && proof.actual_exit == status))),
                 "original exit differs from execution contract"
             );
             Terminal::Exit(status)
@@ -406,6 +437,7 @@ impl Expected {
                 report_sha256: hash(raw),
                 capture_sha256,
                 source_binding_available: receipt.capture_sha256.is_some(),
+                direct_noreturn: receipt.direct_noreturn.clone(),
                 comparison_derivation: None,
             },
         })
@@ -473,6 +505,35 @@ mod tests {
             info,
         )
     }
+    #[test]
+    fn direct_process_exit_requires_explicit_callback_proof() {
+        let mut info = info();
+        info.execution = 1;
+        let mut receipt = report(&info, true);
+        receipt["terminal"] = json!("exit:4294967295");
+        assert!(parse(&receipt, &info).is_err());
+        receipt["direct_noreturn"] = json!({"callback_observed":true,
+            "callback_pc":0x10001000u32,"pid":123,"tid":124,
+            "expected_exit":u32::MAX,"actual_exit":u32::MAX});
+        let expected = parse(&receipt, &info).unwrap();
+        let mut fixture = fixture::Fixture::default();
+        expected.apply(&mut info, &mut fixture).unwrap();
+        assert_eq!(fixture.exit_code, Some(-1));
+        assert!(expected.summary.direct_noreturn.is_some());
+        for (pointer, value) in [
+            ("/direct_noreturn/callback_observed", json!(false)),
+            ("/direct_noreturn/callback_pc", json!(0)),
+            ("/direct_noreturn/tid", json!(0)),
+            ("/direct_noreturn/actual_exit", json!(4)),
+            ("/direct_noreturn/expected_exit", json!(4)),
+            ("/terminal", json!("direct:pass")),
+        ] {
+            let mut bad = receipt.clone();
+            *bad.pointer_mut(pointer).unwrap() = value;
+            assert!(parse(&bad, &info).is_err(), "{pointer}");
+        }
+    }
+
     #[test]
     fn fresh_original_expectations_override_provisional_descriptor() {
         for bound in [false, true] {

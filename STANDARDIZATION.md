@@ -454,8 +454,12 @@ handler, invokes the typed callback with genuine live owners/registers/stack,
 and publishes a bounded result receipt. The broker observes normal entry traps
 and reads that receipt; typed invocation uses no remote allocation, writes or
 thread-context redirection. Completion/frontier and four failure controls pass.
-The initial implementation supports EXE targets; C1 integration is in progress.
-The unused older remote-call prototype is being removed.
+Typed probes support EXE targets. An intentionally nonreturning callback uses
+`--direct-noreturn` with an explicit fixture exit code. The broker must observe
+its actual exported callback entry before accepting the genuine expected DWORD
+exit. The report records that callback PC/PID/TID and expected/actual status;
+native pairing must exit without returning from DIRECT. Returning probes retain
+their normal completion contract. No helper globals are read after process exit.
 
 The original backend supports PE32 i386 and finite WCC CF progress. CF entry-stop
 remains diagnostic, with no CF body execution or fixture oracle. Ordinary CF

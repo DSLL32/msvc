@@ -805,3 +805,15 @@ catalog. CF instruction admission supports 32-bit `ENTER imm16,0` only when the
 entire frame fits the observed writable stack and the continuation is owned.
 The saved EBP, resulting EBP/ESP, and flags are checked after the real instruction.
 Nested or 16-bit ENTER remains unsupported.
+
+A typed DIRECT callback that intentionally terminates the original process uses
+`original capture ... --direct-helper PROBE --marker-rva RVA --direct-noreturn`.
+The input fixture must specify its expected exit code. The broker observes the
+actual exported callback entry through an owned breakpoint before accepting the
+genuine process exit; expected/actual DWORD status and callback PC/PID/TID are
+recorded in `direct_noreturn`. A wrong status, exit before callback entry, or a
+returning callback fails. The native pair uses `run ... --capture CAPTURE
+--original-report REPORT` and must also exit without returning from its DIRECT
+callback. Ordinary returning probes continue to use `recon_original_finish`.
+Nonreturn probes compare status, entry trace, streams and artifacts; they do not
+read helper globals or publish emitted helper result buffers after process exit.
