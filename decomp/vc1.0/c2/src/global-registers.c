@@ -659,6 +659,26 @@ void __fastcall exclude_exception_registers(WorkItem *head)
     release_bitset(excluded);
 }
 
+
+/* Original [00063590,00063604). Restore saved memory addresses for virtual
+   registers excluded by protected edges. The packed short is sign-extended
+   before clearing bits14/15: negative numbers keep their high sign bits. */
+void __fastcall restore_excluded_registers(Node *node)
+{
+    unsigned number;
+    if (node->opcode == 0x3c) restore_excluded_registers(node->left.node);
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    restore_excluded_registers(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND)
+        restore_excluded_registers(node->second.node);
+    if ((node_shapes[node->opcode] & NODE_MEMORY_ACCESS) &&
+        node->left.node->opcode == 0xa2) {
+        number = (unsigned)(int)node->left.node->left.word & 0xffff3fffU;
+        if (bitset_contains(allocation_excluded_registers, number))
+            node->left.node = node->detail.node;
+    }
+}
+
 /* Original [000634b0,000634be). Return a range record to its own pool. */
 void __fastcall release_allocation_range(AllocationRange *range)
 {

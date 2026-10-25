@@ -3,6 +3,7 @@
 #include "exception-scope.h"
 #include "backend.h"
 #include "global-registers.h"
+#include "register-transfers.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -325,4 +326,22 @@ int c2_restore_excluded_inputs(void)
 {
     return recon_native_at_entry((const void *)restore_excluded_registers,
         (const void *)restore_excluded_entry,real_input,0)==1;
+}
+
+static void __fastcall register_ends_entry(WorkItem *work,AllocationValue *value,AllocationRange *range)
+{
+    AllocationBinding *binding=&allocation_register_bindings[0x27];
+    Node *tree=work->body.expressions->tree;
+    int valid=work->next&&work->previous&&work->body.expressions->next&&
+        value==binding->value&&range==binding->range&&!value->next&&
+        !range->next&&range->number==0x4027&&range->flags==1&&
+        value->node->opcode==0x30&&value->node->attributes.value==0x50104&&
+        tree->opcode==0x29&&!tree->attributes.value&&!tree->info.value&&
+        !tree->left.value&&!tree->second.value&&tree->right.symbol&&!tree->detail.value;
+    recon_native_entry_finish(valid);
+}
+int c2_register_ends_inputs(void)
+{
+    return recon_native_at_entry((const void *)mark_register_definition_ends,
+        (const void *)register_ends_entry,real_input,0)==1;
 }

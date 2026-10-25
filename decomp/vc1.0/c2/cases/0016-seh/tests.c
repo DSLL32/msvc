@@ -4,6 +4,7 @@
 #include "expression-fields.h"
 #include "tree-rewrite.h"
 #include "intrinsics.h"
+#include "global-registers.h"
 #include <recon-native.h>
 #include <recon.h>
 extern int c2_scope_owned_record(void);
@@ -26,6 +27,7 @@ extern int c2_scope_lookup_inputs(void);
 extern int c2_protected_edge_inputs(void);
 extern int c2_refresh_region_inputs(void);
 extern int c2_restore_excluded_inputs(void);
+extern int c2_register_ends_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -521,6 +523,54 @@ static int region_last_signed_order(void)
     }
     return 1;
 }
+/* Independent cold controls: live first entry is filename leaf56. These
+   exercise recursion and the original sign-extension/mask, without claiming
+   all opcode/number combinations were present in the public input. */
+static int restore_excluded_numbers(void)
+{
+    static const unsigned opcodes[]={0x0f,0x10,0x11,0x12,0x13,0x14,0x15,0x16,
+        0x17,0x18,0x19,0x30,0x32,0x35,0x36,0x5a,0x7d,0x87};
+    static const unsigned numbers[]={5,0x4005,0x8005,0xc005,6};
+    BitSet set[2];Node node,reg,leaf,saved;unsigned i,j;
+    memset(set,0,sizeof set);set[0].base=-1;set[0].next=&set[1];set[1].bits=1U<<5;
+    allocation_excluded_registers=set;
+    for(i=0;i<RECON_COUNT(opcodes);++i)for(j=0;j<RECON_COUNT(numbers);++j){
+        memset(&node,0,sizeof node);memset(&reg,0,sizeof reg);
+        memset(&leaf,0,sizeof leaf);memset(&saved,0,sizeof saved);
+        node.opcode=opcodes[i];reg.opcode=0xa2;reg.left.word=(short)numbers[j];
+        node.left.node=&reg;node.second.node=&leaf;node.detail.node=&saved;
+        restore_excluded_registers(&node);
+        if(node.left.node!=(j<2?&saved:&reg)||node.second.node!=&leaf||
+           node.detail.node!=&saved||reg.left.word!=(short)numbers[j]||
+           allocation_excluded_registers!=set||set[0].base!=-1||set[0].next!=&set[1]||
+           set[0].bits||set[1].base||set[1].next||set[1].bits!=(1U<<5))return 0;
+    }
+    return 1;
+}
+static int restore_excluded_tree_paths(void)
+{
+    Node root,wrapper,loads[2],regs[2],saved[2],leaf;BitSet set[2];unsigned i;
+    memset(&root,0,sizeof root);memset(&wrapper,0,sizeof wrapper);
+    memset(loads,0,sizeof loads);memset(regs,0,sizeof regs);
+    memset(saved,0,sizeof saved);memset(&leaf,0,sizeof leaf);memset(set,0,sizeof set);
+    set[0].base=-1;set[0].next=&set[1];set[1].bits=(1U<<5)|(1U<<7);
+    allocation_excluded_registers=set;
+    for(i=0;i<2;++i){loads[i].opcode=0x30;loads[i].left.node=&regs[i];
+        loads[i].detail.node=&saved[i];regs[i].opcode=0xa2;regs[i].left.word=(short)(5+i*2);}
+    root.opcode=2;root.left.node=&loads[0];root.second.node=&loads[1];
+    wrapper.opcode=0x3c;wrapper.left.node=&root;
+    restore_excluded_registers(&wrapper);
+    if(loads[0].left.node!=&saved[0]||loads[1].left.node!=&saved[1]||
+       root.left.node!=&loads[0]||root.second.node!=&loads[1]||wrapper.left.node!=&root)return 0;
+    loads[0].left.node=&regs[0];allocation_excluded_registers=0;
+    restore_excluded_registers(&loads[0]);if(loads[0].left.node!=&regs[0])return 0;
+    allocation_excluded_registers=set;loads[0].left.node=&leaf;
+    restore_excluded_registers(&loads[0]);if(loads[0].left.node!=&leaf)return 0;
+    root.opcode=8;root.left.node=&regs[0];root.detail.node=&saved[0];
+    restore_excluded_registers(&root);if(root.left.node!=&regs[0])return 0;
+    return allocation_excluded_registers==set&&set[0].next==&set[1]&&
+        set[1].bits==((1U<<5)|(1U<<7));
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -571,5 +621,8 @@ const ReconTest c2_tests[]={
     {"protected allocation retains recycled high flags",1,protected_recycled_flags},
     {"actual25-work region aliases/numbers/initial last",1,c2_refresh_region_inputs},
     {"region last uses signed maxima and retains tie identity",1,region_last_signed_order},
-    {"actual excluded-register root/Expression/Work ownership",1,c2_restore_excluded_inputs}
+    {"actual excluded-register root/Expression/Work ownership",1,c2_restore_excluded_inputs},
+    {"excluded registers preserve signed-short mask across memory shapes",1,restore_excluded_numbers},
+    {"excluded restoration traverses binary and special leaf owners",1,restore_excluded_tree_paths},
+    {"actual definition-end Work/value/stack-range and binding aliases",1,c2_register_ends_inputs}
 };

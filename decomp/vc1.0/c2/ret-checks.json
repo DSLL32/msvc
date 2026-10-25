@@ -170,6 +170,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@restore_excluded_registers@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

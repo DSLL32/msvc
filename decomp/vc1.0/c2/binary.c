@@ -6675,11 +6675,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@restore_excluded_registers@4",
         .entry_rva = 0x53590,
-        .code = (const ReconExtent[]) { { 0x53590, 0x53591 } },
+        .code = (const ReconExtent[]) { { 0x53590, 0x53604 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_excluded_registers",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@bitsets_overlap@8",
