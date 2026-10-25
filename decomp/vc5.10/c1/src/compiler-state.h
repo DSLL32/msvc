@@ -6,6 +6,9 @@
 #include "scanner.h"
 #include "frontend-state.h"
 #include "preprocessor.h"
+#ifdef __cplusplus
+#include "declarator.h"
+#endif
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
@@ -222,6 +225,7 @@ typedef struct CompilerBss {
     CompilerIrSymbol *current_function; /* RVA54c90 */
     CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
     int pending_line_delta; /* RVA5780c; current line minus saved line origin */
+    CompilerSourcePosition declaration_position; /* RVA57810..57818; BSS */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

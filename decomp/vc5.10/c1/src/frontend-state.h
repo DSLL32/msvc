@@ -12,6 +12,8 @@ struct CompilerTextInput;
 struct CompilerLexer;
 struct CompilerTypeShape;
 struct CompilerNameEntry;
+/* Encoded two-DWORD declaration position; component meanings remain pending. */
+typedef struct CompilerSourcePosition { DWORD first, second; } CompilerSourcePosition;
 
 typedef struct CompilerBuiltinNames {
     struct CompilerNameEntry *defined_operator, *formal_parameter, *ellipsis;

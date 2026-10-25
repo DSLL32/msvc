@@ -343,7 +343,30 @@ extern "C" void __cdecl initialize_builtin_symbols(void)
     for (description = builtin_names; description->slot; ++description)
         *description->slot = find_or_create_identifier(description->name);
 }
-extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base)
+{
+    CompilerDeclarator declarator;
+    CompilerArena *arena = &c1_bss.arenas[3];
+    CompilerParameterDescription *parameters;
+    CompilerDeclarationAttributes applied;
+    declarator.Initialize(base, &c1_bss.declaration_position);
+    parameters = (CompilerParameterDescription *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    if (parameters) {
+        parameters->kind = 1;
+        parameters->scope = NULL;
+        parameters->value = 0;
+    }
+    declarator.AddFunction(parameters);
+    /* Original writes only a WORD here, leaving the high WORD of the first
+     * attributes DWORD uninitialized. Do not reproduce those incidental bytes. */
+    applied.flags = (WORD)attributes;
+    applied.extra = 0;
+    declarator.ApplyAttributes(&applied);
+    return declarator.Resolve();
+}
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
@@ -389,3 +412,10 @@ CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol
 void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerSymbolTable::Check(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerSymbolTable::Link(CompilerIrSymbol *symbol) { __asm { int 3 } }
+CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *base,
+    const CompilerSourcePosition *position) { __asm { int 3 } return this; }
+void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *parameters)
+{ __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
+{ __asm { int 3 } }
+CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } return NULL; }

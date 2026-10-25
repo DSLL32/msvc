@@ -1151,8 +1151,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_make_function_type", .entry_rva = 0x14b64,
-.code = (const ReconExtent[]){{0x14b64, 0x14b65}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x14b64, 0x14bf0}, {0x311d1, 0x311e7}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "make_function_type",
     },
     {
@@ -1520,6 +1520,22 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x877a, 0x877b}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "_ZN19CompilerSymbolTable4LinkEP16CompilerIrSymbol",
       .original_symbol = "?Link@CompilerSymbolTable@@UAEXPAUCompilerIrSymbol@@@Z" },
+    { .name = "CompilerDeclarator::Initialize", .entry_rva = 0x14bf0,
+      .code = (const ReconExtent[]){{0x14bf0, 0x14bf1}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator10InitializeEP12CompilerTypePK22CompilerSourcePosition",
+      .original_symbol = "?Initialize@CompilerDeclarator@@QAEPAU1@PAUCompilerType@@PBUCompilerSourcePosition@@@Z" },
+    { .name = "CompilerDeclarator::AddFunction", .entry_rva = 0x8896,
+      .code = (const ReconExtent[]){{0x8896, 0x8897}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator11AddFunctionEP28CompilerParameterDescription",
+      .original_symbol = "?AddFunction@CompilerDeclarator@@QAEXPAUCompilerParameterDescription@@@Z" },
+    { .name = "CompilerDeclarator::ApplyAttributes", .entry_rva = 0xb58d,
+      .code = (const ReconExtent[]){{0xb58d, 0xb58e}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator15ApplyAttributesEPK29CompilerDeclarationAttributes",
+      .original_symbol = "?ApplyAttributes@CompilerDeclarator@@QAEXPBUCompilerDeclarationAttributes@@@Z" },
+    { .name = "CompilerDeclarator::Resolve", .entry_rva = 0x2500,
+      .code = (const ReconExtent[]){{0x2500, 0x2501}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator7ResolveEv",
+      .original_symbol = "?Resolve@CompilerDeclarator@@QAEPAUCompilerType@@XZ" },
 };
 
 static const ReconExport exports[] = {
