@@ -1,8 +1,8 @@
 {
   "case": "0001-help",
   "complete": false,
-  "accepted_app_functions": 10,
-  "accepted_app_bytes": 486,
+  "accepted_app_functions": 11,
+  "accepted_app_bytes": 593,
   "accepted": [
     {
       "name": "main",
@@ -83,10 +83,18 @@
         52006
       ],
       "evidence": "cases/0001-help/evidence/0010-init-stuff"
+    },
+    {
+      "name": "MsgInit",
+      "extent": [
+        91812,
+        91919
+      ],
+      "evidence": "cases/0001-help/evidence/0011-message-init"
     }
   ],
-  "current_frontier": "MsgInit",
-  "native_ms": 5.514647,
+  "current_frontier": "OpenResFile",
+  "native_ms": 5.837257999999999,
   "original_ms": 1527.051,
-  "last_audit_ms": 15.14385174959898
+  "last_audit_ms": 15.790341421961784
 }

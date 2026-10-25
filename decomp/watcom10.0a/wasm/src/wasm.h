@@ -67,6 +67,13 @@ int writeComdat(obj_rec *objr, pobj_state *state);
 int writeLinsym(obj_rec *objr, pobj_state *state);
 void PObjRegList(const pobj_list *list, size_t len);
 void GenMSOmfInit(void);
+typedef struct HANDLE_INFO {
+    int handle;
+    const char *filename;
+} HANDLE_INFO;
+int OpenResFile(HANDLE_INFO *instance);
+int FindResources(HANDLE_INFO *instance);
+int InitResources(HANDLE_INFO *instance);
 int MsgInit(const char *program);
 void AsmInit(int cpu, int fpu, int use32);
 void add_constant(char *string);

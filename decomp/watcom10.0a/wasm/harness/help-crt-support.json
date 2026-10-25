@@ -200,5 +200,16 @@
       ],
       "sha256": "06f1f8be604b940042811a1a623237028e09d66dc5365ae85f121cbb304de8be"
     }
+  ],
+  "source_role_classifications": [
+    {
+      "name": "write",
+      "start": 123179,
+      "end": 123659,
+      "sha256": "112646f603123a7d9c6af160f477d117bb0afa843f3bb5bc914b90a97c2d0b29",
+      "basis": "MsgInit error-path call EAX=fd1/EDX=46-byte literal/EBX=count46; implementation validates __IOMode, handles text-mode CRLF conversion, invokes AH40 handle write via the preserved CRT gateway, and returns EAX bytecount/errno errors; sole shared epilogue RET at1e30a. Correlates CLIB handleio write role and DOS shipped write_ public/ABI, but actual480B differs from shipped465B; no exact byte-match claim.",
+      "source": "bld/clib/handleio/c/write.c",
+      "runtime_scope": "Error-only call not exercised by successful resource initialization; original CRT is restored, not reconstructed."
+    }
   ]
 }

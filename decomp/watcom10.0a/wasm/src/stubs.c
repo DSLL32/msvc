@@ -32,8 +32,13 @@ int writeComdat(obj_rec *objr, pobj_state *state)
 int writeLinsym(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 
-int MsgInit(const char *program)
-{ (void)program; WASM_PENDING(); return 0; }
+int OpenResFile(HANDLE_INFO *instance)
+{ (void)instance; WASM_PENDING(); return 0; }
+int FindResources(HANDLE_INFO *instance)
+{ (void)instance; WASM_PENDING(); return 0; }
+int InitResources(HANDLE_INFO *instance)
+{ (void)instance; WASM_PENDING(); return 0; }
+
 void AsmInit(int cpu, int fpu, int use32)
 { (void)cpu; (void)fpu; (void)use32; WASM_PENDING();  }
 void add_constant(char *string)
