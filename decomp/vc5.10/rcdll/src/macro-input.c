@@ -6,6 +6,7 @@
 
 #ifdef _MSC_VER
 #pragma intrinsic(strcpy)
+#pragma intrinsic(memcpy)
 #endif
 
 int __cdecl rc_resume_input(void)
@@ -55,7 +56,9 @@ int __cdecl rc_resume_input(void)
 int __cdecl rc_finish_macro_frame(void)
 {
 #ifdef RECON_NATIVE_TEST
-    if(rc_number_buffer_active!=1||rc_expanding_macro<1||rc_expanding_macro>=64||
+    if((rc_number_buffer_active!=1 &&
+        !(rc_number_buffer_active==2&&rc_expanding_macro==2))||
+       rc_expanding_macro<1||rc_expanding_macro>=64||
        ((DWORD)rc_number_buffer&1)||
        (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]||
        (DWORD)rc_number_buffer>=(DWORD)&rc_string_buffer[2045]){ __asm int 3 }
@@ -156,3 +159,92 @@ void __stdcall rc_select_macro_argument(unsigned char index)
 }
 
 #undef ARGUMENT_RECORD
+
+#ifdef RECON_NATIVE_TEST
+#define IDENTIFIER_SPACE() \
+    if(((DWORD)rc_number_buffer&1) || \
+       (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024] || \
+       (DWORD)rc_number_buffer>(DWORD)&rc_string_buffer[2044]){ __asm int 3 }
+#else
+#define IDENTIFIER_SPACE()
+#endif
+
+int __stdcall rc_collect_macro_identifier(WCHAR first)
+{
+    WCHAR *begin=rc_number_buffer,character;
+    const WCHAR *text;
+    int valid=1,argument_mode=0;
+    unsigned blocked_length=0;
+
+    IDENTIFIER_SPACE();
+copy_part:
+    if(rc_character_token(first)==36){
+        text=rc_substitute_macro_argument(&argument_mode);
+        if(text){
+            while(*text){
+                if(!(rc_character_class(*text)&16))valid=0;
+                if(rc_number_buffer>=&rc_string_buffer[2043])
+                    rc_macro_buffer_fatal(10056);
+                IDENTIFIER_SPACE();
+                *rc_number_buffer++=*text++;
+            }
+        }
+    }else{
+        IDENTIFIER_SPACE();
+        *rc_number_buffer++=first;
+    }
+    for(;;){
+        character=*rc_source_cursor++;
+        if(rc_character_class(character)&16){
+            if(rc_number_buffer>=&rc_string_buffer[2043])
+                rc_macro_buffer_fatal(10056);
+            IDENTIFIER_SPACE();
+            *rc_number_buffer++=character;
+            continue;
+        }
+        if(rc_character_token(character)==39){
+            blocked_length=*rc_source_cursor++;
+            continue;
+        }
+        if(rc_character_token(character)==36){
+            argument_mode=1;
+            first=character;
+            goto copy_part;
+        }
+        --rc_source_cursor;
+        break;
+    }
+    if(valid && blocked_length==(unsigned)(rc_number_buffer-begin))valid=0;
+    if(valid){
+        if((int)(rc_number_buffer-begin)*2>62 && !rc_cpp_active){
+            rc_number_buffer=begin+31;
+            IDENTIFIER_SPACE();
+            *rc_number_buffer=0;
+            rc_error_template=rc_message(4011);
+            rc_format(rc_error_text,2048,rc_error_template,begin);
+            rc_input_warning(4011);
+        }else{
+            IDENTIFIER_SPACE();
+            *rc_number_buffer=0;
+        }
+        if((unsigned)(rc_number_buffer-begin)>512){
+            rc_number_buffer=begin+31;
+            IDENTIFIER_SPACE();
+            *rc_number_buffer=0;
+            rc_error_template=rc_message(4011);
+            rc_format(rc_error_text,2048,rc_error_template,begin);
+            rc_input_warning(4011);
+        }
+#ifdef RECON_NATIVE_TEST
+        /* The original permits 512 characters plus a terminator. That extra
+         * destination word is outside the encountered name storage. */
+        if(rc_number_buffer<begin || rc_number_buffer-begin+1>512){ __asm int 3 }
+#endif
+        memcpy(rc_macro_name,begin,(rc_number_buffer-begin+1)*sizeof(WCHAR));
+        rc_macro_hash=rc_hash_macro_name(rc_macro_name);
+        rc_macro_name_length=rc_number_buffer-begin+1;
+    }
+    return valid;
+}
+
+#undef IDENTIFIER_SPACE

@@ -214,6 +214,77 @@ static int packed_argument_contract(void)
     return rc_source_cursor==rc_string_buffer+7 &&
         rc_macro_frames[1].arguments==2 && rc_macro_frames[1].expanded==0xa7;
 }
+static int collected_identifier_contract(void)
+{
+    WCHAR source[]=L"ASE_FROM_COMMAND ";
+    WCHAR blocked[]={L'A',L'S',L'E',4,4,L' ',0};
+    WCHAR long_source[34];
+    unsigned i;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    rc_number_buffer=rc_string_buffer+1024;
+    rc_source_cursor=source;
+    rc_cpp_active=1;rc_cpp_C=0;
+    if(!rc_collect_macro_identifier(L'C') || rc_macro_name_length!=18 ||
+       rc_macro_hash!=13 || rc_number_buffer!=rc_string_buffer+1041 ||
+       rc_source_cursor!=source+16 ||
+       memcmp(rc_macro_name,L"CASE_FROM_COMMAND",36) ||
+       rc_string_buffer[1041] || rc_string_buffer[1042]!=0xa7a7)return 0;
+    for(i=0;i<32;++i)long_source[i]=L'A';
+    long_source[32]=L' ';long_source[33]=0;
+    rc_number_buffer=rc_string_buffer+1024;
+    rc_source_cursor=long_source;
+    if(!rc_collect_macro_identifier(L'A') || rc_macro_name_length!=34 ||
+       rc_macro_hash!=97 || rc_source_cursor!=long_source+32)return 0;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    rc_number_buffer=rc_string_buffer+1024;
+    rc_source_cursor=blocked;
+    rc_macro_name[0]=0xc9c9;rc_macro_name_length=0x12345678;rc_macro_hash=0xa7;
+    rc_set_character_token(4,39);
+    return !rc_collect_macro_identifier(L'C') &&
+        rc_number_buffer==rc_string_buffer+1028 && rc_source_cursor==blocked+5 &&
+        rc_macro_name[0]==0xc9c9 && rc_macro_name_length==0x12345678 &&
+        rc_macro_hash==0xa7 && rc_string_buffer[1028]==0xa7a7;
+}
+static void nested_number_call(void){rc_read_number(L'2');}
+static void nested_finish_call(void){rc_finish_macro_frame();}
+static int nested_number_contract(void)
+{
+    WCHAR spelling[]={L'2',L'1',0,L'D',0};
+    RcMacro macro={NULL,L"BASE_VALUE",spelling,0,1,0};
+    unsigned i;
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    rc_expanding_macro=2;rc_number_buffer_active=2;rc_cpp_active=1;
+    rc_macro_frames[2].macro=&macro;
+    rc_source_cursor=spelling+1;
+    rc_number_buffer=rc_string_buffer+1026;
+    if(rc_read_number(L'2')!=1 || rc_number_buffer!=rc_string_buffer+1028 ||
+       rc_source_cursor!=spelling+2 || rc_string_buffer[1026]!=L'2' ||
+       rc_string_buffer[1027]!=L'1' || rc_string_buffer[1028] ||
+       memcmp(spelling,L"21\0D",sizeof(spelling)))return 0;
+    for(i=0;i<2045;++i)
+        if((i<1026||i>1028)&&rc_string_buffer[i]!=0xa7a7)return 0;
+    rc_source_cursor=spelling+1;rc_number_buffer=rc_string_buffer+1026;
+    rc_number_buffer_active=3;
+    if(!trapped(nested_number_call))return 0;
+    rc_number_buffer_active=2;rc_expanding_macro=3;
+    if(!trapped(nested_number_call))return 0;
+    rc_expanding_macro=2;rc_source_cursor=spelling+2;
+    if(!trapped(nested_number_call))return 0;
+    rc_source_cursor=spelling+1;rc_number_buffer=rc_string_buffer+2044;
+    if(!trapped(nested_number_call))return 0;
+    rc_number_buffer=rc_string_buffer+1028;
+    rc_macro_frames[2].source=rc_string_buffer+11;
+    rc_macro_frames[2].output=rc_string_buffer+13;
+    rc_macro_output_cursor=rc_string_buffer+20;
+    if(rc_finish_macro_frame()!=0 || rc_number_buffer_active!=1 ||
+       rc_expanding_macro!=1 || macro.flags ||
+       rc_source_cursor!=rc_string_buffer+11 ||
+       rc_macro_output_cursor!=rc_string_buffer+13 ||
+       rc_number_buffer!=rc_string_buffer+1028 ||
+       rc_string_buffer[1029]!=0xa7a7)return 0;
+    rc_expanding_macro=2;rc_number_buffer_active=3;
+    return trapped(nested_finish_call);
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -222,6 +293,8 @@ const ReconTest rich_tests[]={
     {"replacement-quoted-copy-contract",1,replacement_quoted_contract},
     {"macro-undefinition-unlink-contract",1,undef_unlink_contract},
     {"packed-argument-record-contract",1,packed_argument_contract},
+    {"collected-identifier-output-contract",1,collected_identifier_contract},
+    {"nested-numeric-spelling-contract",1,nested_number_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

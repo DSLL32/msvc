@@ -170,11 +170,6 @@ void __stdcall rc_macro_buffer_fatal(unsigned message)
     __asm int 3
 }
 
-int __stdcall rc_collect_macro_identifier(WCHAR first)
-{
-    __asm int 3
-    return 0;
-}
 
 int __cdecl rc_macro_is_wide(void)
 {

@@ -25,7 +25,9 @@ unsigned char __stdcall rc_read_number(WCHAR first)
 #ifdef RECON_NATIVE_TEST
     if(rc_number_buffer_active){
         RcMacro *macro;
-        if(rc_number_buffer_active!=1||rc_expanding_macro<1||rc_expanding_macro>=64||
+        if((rc_number_buffer_active!=1 &&
+            !(rc_number_buffer_active==2&&rc_expanding_macro==2))||
+           rc_expanding_macro<1||rc_expanding_macro>=64||
            ((DWORD)rc_number_buffer&1)||
            (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]||
            (DWORD)rc_number_buffer>=(DWORD)&rc_string_buffer[2045]){ __asm int 3 }
