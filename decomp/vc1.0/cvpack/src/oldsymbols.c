@@ -305,3 +305,22 @@ void size_old_block16(void)
     module_type_base += 15;
     ++symbol_scope_depth;
 }
+
+void convert_old_symbol_label16(void)
+{
+    unsigned char *record = old_symbol_output;
+    unsigned char *name;
+    unsigned short length = (unsigned short)(old_symbol_input[0]+5);
+    unsigned short count = (unsigned short)(old_symbol_input[0]-4);
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)record = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(record+6) = old_symbol_segment;
+    old_symbol_input += 2;
+    *(unsigned short *)(record+4) = *(unsigned short *)old_symbol_input;
+    old_symbol_input += 2;
+    record[8] = *old_symbol_input++;
+    name = record+9;
+    while (count--) *name++ = *old_symbol_input++;
+    while (padding--) *name++ = 0;
+    old_symbol_output = name;
+}
