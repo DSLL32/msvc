@@ -1,0 +1,32 @@
+{
+  "runtime_evidence": {
+    "_cstart_": {
+      "path": "harness/startup-witness.json",
+      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    },
+    "__InitRtns": {
+      "path": "harness/startup-witness.json",
+      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    },
+    "_init_stk": {
+      "path": "harness/startup-witness.json",
+      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    },
+    "__InitFiles_": {
+      "path": "harness/startup-witness.json",
+      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    },
+    "malloc_segment_wrapper": {
+      "path": "harness/startup-witness.json",
+      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    }
+  },
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {}
+  },
+  "rebuilt": {
+    "path": "build/WPP386.EXE",
+    "map": "build/wpp386.map"
+  }
+}
