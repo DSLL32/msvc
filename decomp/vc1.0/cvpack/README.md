@@ -17,13 +17,21 @@ checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
-There is no candidate body at this checkpoint. Continue with substantial inputs
-for the remaining C6 type leaves, 32-bit symbol families and multiple-file line
-ranges. The packed-module reader/writer requires a genuine or explicitly authored
-NB08 container; NB09 exits early. The remaining file-cache/mapping and TypeServer
-paths may require typed DIRECT probes with real live owners. The two no-op
-register-relative callbacks remain unaccepted; the wide conversion no-op does
-not advance the CLI dispatcher, so it needs a bounded callback probe.
+There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
+format-authored NB02 workload with two modules, twelve C6 types per module,
+valid 16/32-bit local symbols, multiple files and contributions. Its exact
+1,127-byte input SHA256 is
+`1477fef370c99e7e5b51291f4aa90f99f5c3b1afb9394cbc9f4d5733cc4cb137`;
+`scripts/make-mixed-c6-input.py OUTPUT_DIRECTORY` reproduces and validates it.
+This is explicitly authored data, not historical producer output. The original
+accepted it without warnings (exit 0, 142 first entries); its raw 1,796-byte
+output SHA256 is `c7ae04c29ec0b09bc33c246d62edbf3cca5b0c98977d58e559698bddec36fb1e`.
+The current qualified frontier is `size_old_register_relative16` (`0x13240`),
+with 49 matching unseeded first entries. The superseded malformed constant
+encoding and its CK4003 warnings remain in owned scratch, without coverage
+credit. The two no-op register-relative callbacks remain unaccepted; the wide
+conversion no-op does not advance the CLI dispatcher, so it needs a bounded
+callback probe. Remaining mapping/TypeServer paths may also require typed probes.
 
 `src/` contains application reconstruction only. Shared fixture checks live in
 `harness/`; this binary has no private native host or binary-specific CRT
@@ -31,7 +39,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the twelve numbered `case.c` descriptors, and runs their
+automatically discovers the thirteen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -40,8 +48,8 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-All twelve dispatched cases complete and retain explicit
-unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Twelve dispatched cases complete; the mixed C6 case retains a matching
+partial frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent
