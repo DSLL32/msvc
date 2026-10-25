@@ -53,3 +53,11 @@ StringNode *RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,
 }
 extern "C" DWORD __stdcall append_symbol_string(StringTable *table,const char *name)
 { __asm { int 3 } return 0; }
+
+StringNode *RECON_THISCALL StringTable::FindSymbol(const char *name)
+{
+    BYTE created;
+    /* lookup_hash never reads/writes this output when create is zero. */
+    HashEntry *entry=lookup_hash(name,hash.state,0,&hash.string_storage,&created);
+    return entry ? (StringNode *)entry->value : NULL;
+}

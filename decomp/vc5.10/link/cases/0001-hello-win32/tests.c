@@ -1159,9 +1159,18 @@ extern StringNode *RECON_THISCALL native_find_entry_symbol(StringTable *,const c
     __asm__("_ZN11StringTable10FindSymbolEPKc");
 static StringNode *RECON_THISCALL check_entry_symbol_lookup(StringTable *table,const char *name)
 {
-    recon_native_entry_finish(table && table->hash.state && table->hash.state->entries &&
+    if (!(table && table->hash.state && table->hash.state->entries &&
         table->hash.state->key_name==string_key_name && table->hash.strings.data &&
-        table->hash.strings.used>=4 && name && !strcmp(name,"_main"));
+        table->hash.strings.used>=4 && name && !strcmp(name,"_main") &&
+        (table->hash.state->entries<<4)/table->hash.state->bucket_count<=48))
+        recon_native_entry_finish(0);
+    {
+        HashState state=*table->hash.state;
+        StringTable before=*table;
+        StringNode *result=native_find_entry_symbol(table,name);
+        recon_native_entry_finish(!result && !memcmp(table,&before,sizeof(before)) &&
+            !memcmp(table->hash.state,&state,sizeof(state)));
+    }
     return NULL;
 }
 static int entry_symbol_lookup(void)

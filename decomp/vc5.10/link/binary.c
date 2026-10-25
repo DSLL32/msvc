@@ -235,7 +235,7 @@ static const ReconFunction functions[] = {
     {"_finish_symbol_tables",0x61b50,(const ReconExtent[]){{0x61b50,0x61b51}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"finish_symbol_tables",NULL,NULL,0,NULL},
     {"_get_symbol_name@16",0x61d80,(const ReconExtent[]){{0x61d80,0x61dc3}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"get_symbol_name",NULL,NULL,0,NULL},
     {"StringTable::LookupSymbol",0x61dd0,(const ReconExtent[]){{0x61dd0,0x61ed2}},1,(const ReconExtent[]){{0x20f0,0x2102}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN11StringTable12LookupSymbolEtPKcPh",NULL,NULL,0,"?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"},
-    {"StringTable::FindSymbol",0x61f20,(const ReconExtent[]){{0x61f20,0x61f21}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN11StringTable10FindSymbolEPKc",NULL,NULL,0,"?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"},
+    {"StringTable::FindSymbol",0x61f20,(const ReconExtent[]){{0x61f20,0x61f46}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN11StringTable10FindSymbolEPKc",NULL,NULL,0,"?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"},
     {"_set_symbol_defined@12",0x61f50,(const ReconExtent[]){{0x61f50,0x62028}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"set_symbol_defined",NULL,NULL,0,NULL},
     {"_initialize_comdats",0x62eb0,(const ReconExtent[]){{0x62eb0,0x62ebb}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_comdats",NULL,NULL,0,NULL},
     {"_release_comdat_tables",0x62ec0,(const ReconExtent[]){{0x62ec0,0x62ec1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_comdat_tables",NULL,NULL,0,NULL},

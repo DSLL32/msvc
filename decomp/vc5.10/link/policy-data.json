@@ -6424,6 +6424,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "StringTable::FindSymbol": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

@@ -84,7 +84,6 @@ void RECON_THISCALL StringTable::SortSymbols(void) { __asm { int 3 } }
 extern "C" char * __stdcall replace_extension(const char *file,const char *extension) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::UpdateChecksum(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_symbol_tables(void) { __asm { int 3 } }
-StringNode * RECON_THISCALL StringTable::FindSymbol(const char *name) { __asm { int 3 } return 0; }
 extern "C" void __cdecl release_comdat_tables(void) { __asm { int 3 } }
 extern "C" void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,Contribution *owner,ComdatRoot **roots) { __asm { int 3 } }
 extern "C" void __stdcall add_special_comdat_roots(StringTable *symbols) { __asm { int 3 } }
