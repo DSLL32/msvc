@@ -116,11 +116,18 @@ typedef char ContributionInputFields[(offsetof(Contribution,relocation_count)==0
 /* A COFF symbol is the public prefix of the linker's extended symbol record.
  * The flags and owner slots below are read by FullLink; later tail members
  * remain unknown until their users are reconstructed. */
+typedef struct SymbolAuxiliary {
+    struct SymbolAuxiliary *next;
+} SymbolAuxiliary;
 struct StringNode {
     IMAGE_SYMBOL symbol;
     WORD reserved12;
     Contribution *contribution;
-    DWORD final_value, reserved1c[5];
+    DWORD final_value;
+    StringNode **undefined_previous;
+    StringNode *undefined_next;
+    SymbolAuxiliary *auxiliary;
+    DWORD reserved28, reserved2c;
     union { DWORD flags; BYTE flag_byte; };
     WORD attributes;
 };
@@ -174,6 +181,8 @@ typedef char SymbolOwnerAt14[(offsetof(StringNode,contribution)==0x14)?1:-1];
 typedef char SymbolValueAt18[(offsetof(StringNode,final_value)==0x18)?1:-1];
 typedef char ContributionComdatFields[(offsetof(Contribution,comdat_checksum)==0x38 &&
     offsetof(Contribution,comdat_selection)==0x3c)?1:-1];
+typedef char SymbolUndefinedLinks[(offsetof(StringNode,undefined_previous)==0x1c &&
+    offsetof(StringNode,undefined_next)==0x20 && offsetof(StringNode,auxiliary)==0x24)?1:-1];
 typedef char SymbolAttributesAt34[(offsetof(StringNode,attributes)==0x34)?1:-1];
 typedef char SymbolFlagsAt30[(offsetof(StringNode,flags)==0x30)?1:-1];
 

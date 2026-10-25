@@ -2,6 +2,7 @@
 #include <string.h>
 #include "symbols.h"
 #include "files.h"
+#include "full-link.h"
 #include <recon.h>
 
 extern void *__stdcall allocate_link_memory(unsigned,unsigned);
@@ -13,8 +14,8 @@ StringTable *__stdcall create_string_table(StringTable **table,unsigned buckets,
 {
     *table=(StringTable *)allocate_link_memory(1,sizeof(StringTable));
     initialize_hash_table(&(*table)->hash,buckets,capacity,string_key_name,0);
-    (*table)->first=NULL;
-    (*table)->last=&(*table)->first;
+    (*table)->undefined_first=NULL;
+    (*table)->undefined_last=&(*table)->undefined_first;
     return *table;
 }
 void __stdcall initialize_hash_table(HashTable *hash,unsigned buckets,unsigned capacity,
@@ -84,3 +85,40 @@ HashEntry *__stdcall lookup_hash(const char *name,HashState *state,BYTE create,
     return entry;
 }
 void __stdcall grow_hash(HashState *state,const void *strings) { __asm { int 3 } }
+
+extern BYTE incremental_enabled;
+void __stdcall release_memory(void *);
+void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *table)
+{
+    SymbolAuxiliary *auxiliary;
+    StringNode **previous;
+    if ((symbol->flag_byte & 1)==(defined!=0)) return;
+    if (defined) {
+        if (!incremental_enabled && (symbol->flags & 0x1000)) {
+            while (symbol->auxiliary) {
+                auxiliary=symbol->auxiliary;
+                symbol->auxiliary=auxiliary->next;
+                release_memory(auxiliary);
+            }
+            symbol->flags &= ~0x1000U;
+        }
+        symbol->flags |= 1;
+        if (symbol->undefined_next)
+            symbol->undefined_next->undefined_previous=symbol->undefined_previous;
+        *symbol->undefined_previous=symbol->undefined_next;
+        if (table->undefined_last==&symbol->undefined_next)
+            table->undefined_last=symbol->undefined_previous;
+        symbol->undefined_previous=NULL;
+        symbol->undefined_next=NULL;
+    } else {
+        symbol->flags &= ~1U;
+        previous=table->undefined_last;
+        symbol->undefined_previous=previous;
+        symbol->undefined_next=*previous;
+        *previous=symbol;
+        if (symbol->undefined_next)
+            symbol->undefined_next->undefined_previous=&symbol->undefined_next;
+        if (table->undefined_last==previous) table->undefined_last=&symbol->undefined_next;
+        if (!incremental_enabled) symbol->auxiliary=NULL;
+    }
+}

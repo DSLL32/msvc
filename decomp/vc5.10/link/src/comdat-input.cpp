@@ -23,7 +23,7 @@ typedef struct ContributionInfo {
     Contribution *ordered_contribution;
     DWORD reserved24;
 } ContributionInfo;
-/* The ordering vector is the existing original buffer4 (494398/9c/a0),
+/* The folding vector is the existing original buffer4 (494398/9c/a0),
  * initialized and freed by its already reconstructed application callbacks. */
 #define ordered_contributions ((ContributionInfo **)buffer4.base)
 #define ordered_contribution_count (buffer4.remaining)
@@ -107,9 +107,9 @@ BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contributi
     if (incremental_reuse) {
         if (symbol->flags & 0x100) {
             created=1;
-            symbol->reserved1c[3]=0; /* offset28: role not yet consumed. */
-            symbol->reserved1c[0]=0;
-            symbol->reserved1c[1]=0;
+            symbol->reserved28=0; /* offset28: role not yet consumed. */
+            symbol->undefined_previous=NULL;
+            symbol->undefined_next=NULL;
             symbol->flags=1;
             set_symbol_defined(symbol,0,context->symbols);
             if (mac_target) symbol->attributes &= 0xffbe;
@@ -202,7 +202,7 @@ BYTE __stdcall read_comdat_section(LinkContext *context,Contribution *contributi
     symbol->flags |= 0x20;
     if (incremental_enabled && (symbol->flags & 0x40000)) symbol->flags &= ~0x40000U;
 accepted:
-    if (!context->options.order) return 1;
+    if (!context->options.fold_identical_comdats) return 1;
     if (associated) {
         info=get_contribution_info(associated);
         info->ordered_contribution=NULL;

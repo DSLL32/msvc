@@ -41,8 +41,8 @@ HashEntry *__stdcall lookup_hash(const char *,HashState *,BYTE,const void *,BYTE
 typedef struct StringNode StringNode;
 typedef struct StringTable {
     HashTable hash;
-    StringNode *first;
-    StringNode **last;
+    StringNode *undefined_first;
+    StringNode **undefined_last;
 #ifdef __cplusplus
     StringNode *RECON_THISCALL Lookup(const unsigned char *,BYTE *);
     void RECON_THISCALL SortSymbols(void);

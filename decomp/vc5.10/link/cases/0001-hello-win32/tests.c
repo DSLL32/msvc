@@ -444,8 +444,8 @@ extern StringNode *RECON_THISCALL native_lookup_symbol(StringTable *,WORD,const 
 static StringNode *RECON_THISCALL check_comdat_lookup(StringTable *table,WORD kind,
     const char *name,BYTE *created)
 {
-    recon_native_entry_finish(table && table->hash.state && !table->first &&
-        table->last==&table->first && kind==0 &&
+    recon_native_entry_finish(table && table->hash.state && !table->undefined_first &&
+        table->undefined_last==&table->undefined_first && kind==0 &&
         name==current_module_strings+4 && !strcmp(name,"_HelloWindowProc@16") &&
         created && !*created &&
         comdat_symbol_module==current_input_library->module_head);
@@ -491,7 +491,7 @@ static DWORD __stdcall check_intern_symbol(StringTable *table,const char *name)
     unsigned i;
     int pass=state && state->entries==1 && state->split_bucket==0 &&
         state->base_buckets==1024 && state->bucket_count==1024 &&
-        !table->hash.string_storage && !table->first && table->last==&table->first &&
+        !table->hash.string_storage && !table->undefined_first && table->undefined_last==&table->undefined_first &&
         name==current_module_strings+4 && !strcmp(name,"_HelloWindowProc@16") &&
         symbol_record_size==60 && !incremental_enabled;
     if (!pass) recon_native_entry_finish(0);
@@ -595,6 +595,34 @@ static int symbol_definition(void)
     return recon_native_at_entry(set_symbol_defined,check_symbol_definition,
         invoke_hello,NULL)==1;
 }
+static void __stdcall check_definition_transition(StringNode *symbol,BYTE defined,StringTable *table)
+{
+    BYTE expected[60];
+    if (!symbol || !table || defined || table->undefined_first ||
+        table->undefined_last!=&table->undefined_first || symbol->flags!=1)
+        recon_native_entry_finish(0);
+    /* The hook restores the real entry before redirecting here. Invoke that
+     * exact function with its genuine live inputs and inspect its normal return. */
+    set_symbol_defined(symbol,defined,table);
+    if (table->undefined_first!=symbol || table->undefined_last!=&symbol->undefined_next ||
+        symbol->undefined_previous!=&table->undefined_first || symbol->undefined_next ||
+        symbol->auxiliary || symbol->flags)
+        recon_native_entry_finish(0);
+    memset(expected,0,sizeof(expected));
+    expected[4]=4; expected[16]=2;
+    *(StringNode ***)(expected+0x1c)=&table->undefined_first;
+    if (memcmp(symbol,expected,60)) recon_native_entry_finish(0);
+    set_symbol_defined(symbol,0,table);
+    recon_native_entry_finish(table->undefined_first==symbol &&
+        table->undefined_last==&symbol->undefined_next &&
+        symbol->undefined_previous==&table->undefined_first && !symbol->undefined_next &&
+        !memcmp(symbol,expected,60));
+}
+static int definition_transition(void)
+{
+    return recon_native_at_entry(set_symbol_defined,check_definition_transition,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -623,5 +651,6 @@ const ReconTest hello_tests[]={
     {"string-tree-pool",1,string_tree_pool},
     {"string-buffer-reserve",1,string_buffer_reserve},
     {"symbol-string-append",1,symbol_string_append},
-    {"symbol-definition",1,symbol_definition}
+    {"symbol-definition",1,symbol_definition},
+    {"symbol-definition-transition",1,definition_transition}
 };

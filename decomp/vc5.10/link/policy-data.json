@@ -5895,6 +5895,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_set_symbol_defined@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }
