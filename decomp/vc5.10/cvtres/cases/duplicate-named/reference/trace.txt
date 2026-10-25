@@ -1,9 +1,0 @@
-main
-seek_file
-tell_file
-convert_resources
-read_bytes
-allocate_block
-read_identifier
-load_message
-insert_resource

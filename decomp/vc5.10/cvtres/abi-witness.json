@@ -1,0 +1,318 @@
+{
+  "scope": "Existing Win32 i386 cdecl/stdcall ABI preservation only; no inferred target, extent, progress, or execution evidence. All App bodies remain compiler-generated ordinary C with the same declared ABI.",
+  "preserves": [
+    "ebx",
+    "esi",
+    "edi",
+    "ebp"
+  ],
+  "sdk_files": {
+    "../../../toolchains/5.10/include/STDIO.H": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "../../../toolchains/5.10/include/STDLIB.H": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+    "../../../toolchains/5.10/include/STRING.H": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+    "../../../toolchains/5.10/include/WINDOWS.H": "2e245569ce83bc955d50612e566cd3fa0224d3d556a3b6da9f7f58649050953b"
+  },
+  "canonical_crt": {
+    "path": "../../../toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "imports": [
+    {
+      "dll": "kernel32.dll",
+      "name": "GetProcAddress",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "kernel32.dll",
+      "name": "LoadLibraryA",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_XcptFilter",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__getmainargs",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__p___initenv",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__p__commode",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__p__fmode",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__p__iob",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__set_app_type",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "__setusermatherr",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_adjust_fdiv",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_chsize",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_controlfp",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_except_handler3",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_exit",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_fsopen",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_initterm",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_makepath",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_splitpath",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_stricmp",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_strnicmp",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "_tzset",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "calloc",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "exit",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fclose",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fprintf",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fread",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "free",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fseek",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "ftell",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fwrite",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "printf",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "puts",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "sprintf",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "strncpy",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "vprintf",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "wcscmp",
+      "abi": "MSVCRT cdecl or Win32 stdcall as declared in the shipped SDK; callee-saved x86 registers"
+    }
+  ],
+  "app_declarations": [
+    {
+      "name": "_main",
+      "source": "src/main.c",
+      "abi": "int __cdecl main(int,char **,char **)"
+    },
+    {
+      "name": "_usage@4",
+      "source": "src/usage.c",
+      "abi": "void __stdcall usage(int)"
+    },
+    {
+      "name": "_load_message@4",
+      "source": "src/messages.c",
+      "abi": "char *__stdcall load_message(unsigned)"
+    },
+    {
+      "name": "_error",
+      "source": "src/diagnostics.c",
+      "abi": "void __cdecl error(unsigned short,...)"
+    },
+    {
+      "name": "_warning",
+      "source": "src/diagnostics.c",
+      "abi": "void __cdecl warning(unsigned short,...)"
+    },
+    {
+      "name": "_seek_file@12",
+      "source": "src/file.c",
+      "abi": "long __stdcall seek_file(FILE*,long,int)"
+    },
+    {
+      "name": "_convert_resources@20",
+      "source": "src/convert.c",
+      "abi": "int __stdcall convert_resources(FILE*,FILE*,unsigned long,int,unsigned long)"
+    },
+    {
+      "name": "_tell_file@4",
+      "source": "src/file.c",
+      "abi": "long __stdcall tell_file(FILE*)"
+    },
+    {
+      "name": "_allocate_block@4",
+      "source": "src/memory.c",
+      "abi": "void* __stdcall allocate_block(unsigned long)"
+    },
+    {
+      "name": "_read_bytes@12",
+      "source": "src/file.c",
+      "abi": "int __stdcall read_bytes(FILE*,void*,unsigned long)"
+    },
+    {
+      "name": "_write_bytes@12",
+      "source": "src/file.c",
+      "abi": "int __stdcall write_bytes(FILE*,const void*,unsigned long)"
+    },
+    {
+      "name": "_copy_bytes@12",
+      "source": "src/file.c",
+      "abi": "unsigned long __stdcall copy_bytes(FILE*,FILE*,unsigned long)"
+    },
+    {
+      "name": "_read_identifier@4",
+      "source": "src/identifiers.c",
+      "abi": "ResourceIdentifier* __stdcall read_identifier(FILE*)"
+    },
+    {
+      "name": "_insert_resource@12",
+      "source": "src/tree.c",
+      "abi": "ResourceEntry* __stdcall insert_resource(ResourceIdentifier*,ResourceIdentifier*,ResourceHeader*)"
+    },
+    {
+      "name": "_init_directory@24",
+      "source": "src/directory.c",
+      "abi": "IMAGE_RESOURCE_DIRECTORY* __stdcall init_directory(IMAGE_RESOURCE_DIRECTORY*,DWORD,DWORD,DWORD,WORD,WORD)"
+    },
+    {
+      "name": "_init_data_entry@20",
+      "source": "src/directory.c",
+      "abi": "IMAGE_RESOURCE_DATA_ENTRY* __stdcall init_data_entry(IMAGE_RESOURCE_DATA_ENTRY*,DWORD,DWORD,DWORD,DWORD)"
+    },
+    {
+      "name": "_convert_ce_image@20",
+      "source": "src/bitmap.c",
+      "abi": "int __stdcall convert_ce_image(int,FILE*,FILE*,ResourceEntry*,int)"
+    },
+    {
+      "name": "_free_block@4",
+      "source": "src/memory.c",
+      "abi": "int __stdcall free_block(void*)"
+    },
+    {
+      "name": "_color_to_gray@4",
+      "source": "src/pixels.c",
+      "abi": "DWORD __stdcall color_to_gray(DWORD)"
+    },
+    {
+      "name": "_read_pixel@12",
+      "source": "src/pixels.c",
+      "abi": "DWORD __stdcall read_pixel(const BYTE*,DWORD,WORD)"
+    },
+    {
+      "name": "_write_pixel@12",
+      "source": "src/pixels.c",
+      "abi": "void __stdcall write_pixel(BYTE*,DWORD,BYTE)"
+    },
+    {
+      "name": "_convert_rows@28",
+      "source": "src/pixels.c",
+      "abi": "void __stdcall convert_rows(DWORD*,WORD,DWORD,DWORD,DWORD,BYTE**,BYTE**)"
+    }
+  ]
+}

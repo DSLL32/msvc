@@ -1,46 +1,35 @@
-PYTHON ?= python3
-.DEFAULT_GOAL := native
-include ../../../tooling/graph-audit/graph-audit.mk
-RECON := ../../../lib/recon
-NATIVE_CC ?= clang
-NATIVE_FLAGS := -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
-NATIVE_CPPFLAGS := -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
-SOURCES := $(wildcard src/*.c)
-HEADERS := $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
-NATIVE_OBJECTS := $(patsubst src/%.c,build/native/%.o,$(SOURCES))
-ORIGINAL_OBJECTS := $(patsubst src/%.c,build/%.obj,$(SOURCES))
-SHIMS := $(wildcard $(RECON)/src/*.c)
-TOOL := $(PYTHON) scripts/wine-tool.py
-.PHONY: native original inspect audit fixtures capture-initial
-native: build/native/CVTRES
-original: build/CVTRES.EXE
-inspect:
-	$(PYTHON) scripts/pe_inventory.py
-build build/native:
-	mkdir -p $@
-build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-build/native/CVTRES: $(NATIVE_OBJECTS) scripts/native-entry.c $(HEADERS) $(SHIMS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) scripts/native-entry.c $(SHIMS) -o $@
-	$(PYTHON) scripts/build-snapshot.py --kind native --binary $@ --output build/native/inputs.json
-build/%.obj: src/%.c $(HEADERS) | build
-	$(TOOL) CL.EXE /nologo /c /Od /MD /I$(RECON)/include /Fo$@ $<
-build/messages.res: src/resources.rc src/messages.rc src/ce-messages.rc src/diagnostic-messages.rc src/resource-messages.rc | build
-	$(TOOL) RC.EXE /r /fobuild/messages.res src/resources.rc
-build/ce-messages.res: src/ce-messages.rc | build
-	$(TOOL) RC.EXE /r /fobuild/ce-messages.res src/ce-messages.rc
-build/diagnostic-messages.res: src/diagnostic-messages.rc | build
-	$(TOOL) RC.EXE /r /fobuild/diagnostic-messages.res src/diagnostic-messages.rc
-build/resource-messages.res: src/resource-messages.rc | build
-	$(TOOL) RC.EXE /r /fobuild/resource-messages.res src/resource-messages.rc
-build/CVTRES.EXE build/cvtres.map &: $(ORIGINAL_OBJECTS) build/messages.res Makefile
-	$(TOOL) LINK.EXE /nologo /subsystem:console /incremental:no /map:build/cvtres.map /out:build/CVTRES.EXE $(ORIGINAL_OBJECTS) build/messages.res
-	$(PYTHON) scripts/build-snapshot.py --kind original --binary build/CVTRES.EXE --output build/original-inputs.json
-build/capture-host.exe: scripts/capture-host.c | build
-	$(TOOL) CL.EXE /nologo /W3 /MT /Od /Fobuild/capture-host.obj /Febuild/capture-host.exe $< /link /incremental:no
-	$(PYTHON) scripts/build-snapshot.py --kind capture-host --binary $@ --output build/capture-host-inputs.json
-# Original builds and fresh acceptance capture are explicit, outside fixtures.
-audit: native original $(GRAPH_AUDIT_BIN)
-	$(PYTHON) scripts/audit.py --output build/audit-$(shell date +%s%N)
-fixtures:
-	$(PYTHON) scripts/fixtures.py
+RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
+RECON = ../../../lib/recon
+NATIVE_CC = clang
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
+BINARY_SOURCES = $(wildcard src/*.c)
+BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)
+ORIGINAL_TOOLCHAIN = 5.10
+ORIGINAL_SOURCES = $(BINARY_SOURCES)
+ORIGINAL_BUILD = .build/original
+ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/CVTRES.EXE
+ORIGINAL_MAP = $(ORIGINAL_BUILD)/cvtres.map
+ORIGINAL_CPPFLAGS = /I$(RECON)/include
+ORIGINAL_CFLAGS = /nologo /c /Od /MD
+ORIGINAL_LDFLAGS = /nologo /subsystem:console /incremental:no
+ORIGINAL_LDLIBS = $(ORIGINAL_BUILD)/messages.res
+ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
+RECON_AUDIT_PROFILE = c2
+RECON_IMAGE_BASE = 16777216
+RECON_POLICY = policy-data.json
+RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-ownership --check-extents --check-accepted-extents --check-imports --resolve-register-imports
+RECON_AUDIT_REGISTRY_METADATA = 1
+RECON_AUDIT_REGISTRY_RET_CHECKS = 1
+RECON_AUDIT_REGISTRY_RUNTIME = 1
+RECON_AUDIT_IDENTIFY_RUNTIME = 1
+RECON_METADATA_REBUILT_MAP = $(ORIGINAL_MAP)
+RECON_AUDIT_FLAGS += --original ../../../toolchains/5.10/bin/CVTRES.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP)
+RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+include $(RECON_TOOL_DIR)/recon-tool.mk
+
+# Encountered target message source, original build only; never a fixture dependency.
+$(ORIGINAL_BUILD)/messages.res: $(wildcard src/*.rc) | $(RECON_TOOL)
+	@mkdir -p $(@D)
+	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo$@ src/resources.rc

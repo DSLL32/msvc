@@ -1,0 +1,3164 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_main": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16782614,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": 16783000,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": 16783415,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16783434,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                },
+                {
+                  "site": 16783634,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_splitpath"
+                  }
+                },
+                {
+                  "site": 16783684,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_makepath"
+                  }
+                },
+                {
+                  "site": 16783825,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_makepath"
+                  }
+                },
+                {
+                  "site": 16783888,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_tzset"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16782640,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782658,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782676,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782713,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782750,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782768,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782806,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782824,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782849,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782888,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782936,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16782959,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783033,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783051,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783069,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783087,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783105,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783130,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783155,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783180,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783198,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783212,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783246,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783264,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783301,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": 16783724,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_fsopen"
+                  }
+                },
+                {
+                  "site": 16783758,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": 16783854,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_fsopen"
+                  }
+                },
+                {
+                  "site": 16783883,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": 16783919,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": 16783922,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": 16783932,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 182
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 226
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 251
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 299
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 347
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 405
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 463
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 531
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 589
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 644
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 699
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 756
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 796
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 861
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_strnicmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 905
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 930
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 970
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 995
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1035
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1075
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1115
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1155
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1185
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1210
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1258
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1303
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1358
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_stricmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1454
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1474
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1787
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_splitpath"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1840
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_makepath"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1874
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_fsopen"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1914
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 1997
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_makepath"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2031
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_fsopen"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2077
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2086
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_tzset"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2134
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2150
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fclose"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_main",
+                    "offset": 2172
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_usage@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16782449,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16782489,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16782474,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                },
+                {
+                  "site": 16782483,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_usage@4",
+                    "offset": 19
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_usage@4",
+                    "offset": 39
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_usage@4",
+                    "offset": 53
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "puts"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_usage@4",
+                    "offset": 66
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_load_message@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16789785,
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "LoadLibraryA"
+                  }
+                },
+                {
+                  "site": 16789818,
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "GetProcAddress"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": [
+                16789859
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_message@4",
+                    "offset": 17
+                  },
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "LoadLibraryA"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_load_message@4",
+                    "offset": 61
+                  },
+                  "identity": {
+                    "dll": "kernel32.dll",
+                    "name": "GetProcAddress"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [
+                {
+                  "rebuilt_symbol": "_load_message@4",
+                  "offset": 106
+                }
+              ],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          }
+        }
+      },
+      "_error": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784357,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "vprintf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16784335,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16784368,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_error",
+                    "offset": 33
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_error",
+                    "offset": 61
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "vprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_error",
+                    "offset": 75
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_warning": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784423,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "vprintf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16784401,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16784434,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_warning",
+                    "offset": 33
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_warning",
+                    "offset": 61
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "vprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_warning",
+                    "offset": 75
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_seek_file@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784130,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": 16784156,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_seek_file@12",
+                    "offset": 15
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fseek"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_seek_file@12",
+                    "offset": 44
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_convert_resources@20": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16789048,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": 16789075,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "strncpy"
+                  }
+                },
+                {
+                  "site": 16789138,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_chsize"
+                  }
+                },
+                {
+                  "site": 16789503,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16789549,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16789581,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 318
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 392
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 426
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 469
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 506
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 552
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 2945
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "sprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 2990
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "strncpy"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_resources@20",
+                    "offset": 3066
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "_chsize"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_tell_file@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784078,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "ftell"
+                  }
+                },
+                {
+                  "site": 16784104,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_tell_file@4",
+                    "offset": 8
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "ftell"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_tell_file@4",
+                    "offset": 41
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_allocate_block@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16783954,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "calloc"
+                  }
+                },
+                {
+                  "site": 16783982,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_allocate_block@4",
+                    "offset": 10
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "calloc"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_allocate_block@4",
+                    "offset": 47
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_read_bytes@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784031,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": 16784058,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_read_bytes@12",
+                    "offset": 17
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fread"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_read_bytes@12",
+                    "offset": 46
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_write_bytes@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784190,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": 16784217,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_write_bytes@12",
+                    "offset": 17
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_write_bytes@12",
+                    "offset": 46
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_copy_bytes@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_read_identifier@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784589,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_read_identifier@4",
+                    "offset": 227
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_insert_resource@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784818,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": 16784974,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": 16785001,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": 16785239,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16785107,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16785182,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16785232,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 215
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 493
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 531
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "wcscmp"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 614
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 651
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 725
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 759
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 804
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 846
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_insert_resource@12",
+                    "offset": 857
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "exit"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_init_directory@24": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_init_data_entry@20": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_convert_ce_image@20": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16786213,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16786681,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": 16786862,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "__p__iob"
+                  }
+                },
+                {
+                  "site": 16786872,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [
+                {
+                  "site": 16786374,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": 16786402,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": 16786825,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": 16786847,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                }
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 464
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "printf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 736
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 755
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "__p__iob"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 765
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 811
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fwrite"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 830
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "__p__iob"
+                  }
+                },
+                {
+                  "site": {
+                    "rebuilt_symbol": "_convert_ce_image@20",
+                    "offset": 840
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "fprintf"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_free_block@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [
+                {
+                  "site": 16784005,
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [
+                {
+                  "site": {
+                    "rebuilt_symbol": "_free_block@4",
+                    "offset": 13
+                  },
+                  "identity": {
+                    "dll": "msvcrt.dll",
+                    "name": "free"
+                  }
+                }
+              ],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_color_to_gray@4": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_read_pixel@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_read_pixel@12",
+                "offset": 277
+              },
+              {
+                "rebuilt_symbol": "_read_pixel@12",
+                "offset": 301
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "_read_pixel@12",
+                "offset": 301
+              },
+              {
+                "rebuilt_symbol": "_read_pixel@12",
+                "offset": 325
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_read_pixel@12",
+                "offset": 47
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 231
+                },
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 178
+                },
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 123
+                },
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 108
+                },
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 54
+                },
+                {
+                  "rebuilt_symbol": "_read_pixel@12",
+                  "offset": 271
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_pixel@12": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_convert_rows@28": {
+        "register_imports": {
+          "enabled": true,
+          "expected_sites": {
+            "original": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": [],
+              "other_unresolved_calls": [],
+              "resolved_register_calls": [],
+              "unresolved_register_calls": []
+            }
+          },
+          "require_all_register_calls_resolved": true
+        }
+      }
+    },
+    "callback_tables": [],
+    "register_imports": {
+      "preservation_contracts": [
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__p__iob"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_chsize"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_fsopen"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_strnicmp"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_tzset"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fclose"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fread"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fseek"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncpy"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "vprintf"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "wcscmp"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_main"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_usage@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_load_message@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_error"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_warning"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_seek_file@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_convert_resources@20"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_tell_file@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_allocate_block@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_bytes@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_bytes@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_copy_bytes@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_identifier@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_insert_resource@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_init_directory@24"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_init_data_entry@20"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_convert_ce_image@20"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_free_block@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_color_to_gray@4"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_pixel@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_write_pixel@12"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        },
+        {
+          "target": {
+            "function": "_convert_rows@28"
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "abi-witness.json",
+            "sha256": "a495f93bf6b77996007301e002bbf766ef5872ec08e183ac80d7e5632418c741"
+          }
+        }
+      ]
+    }
+  },
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "_main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_usage@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_load_message@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_error": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_warning": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_seek_file@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_convert_resources@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_tell_file@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_allocate_block@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_read_bytes@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_write_bytes@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_copy_bytes@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_read_identifier@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_insert_resource@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_init_directory@24": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_init_data_entry@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_convert_ce_image@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_free_block@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_color_to_gray@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_read_pixel@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_write_pixel@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_convert_rows@28": {
+        "expected_cleanup": [
+          28
+        ]
+      }
+    }
+  },
+  "qualification": {
+    "application_functions": 22,
+    "application_code_bytes": 7445,
+    "unsupported_pixel_depth": "Original AX/low-byte/residual-high-EAX semantics remain unvalidated. Preserve Win32 fallthrough; native guard remains INT3. No 16bpp/public reachability claim.",
+    "resources": "Only 18 encountered ASCII message IDs are provided as saved fixture inputs; other target resource/API/format paths remain outside validated scope."
+  }
+}

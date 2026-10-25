@@ -1,9 +1,0 @@
-image-base 01000000
-module 7bcf0000 size 3372656 path \\?\Z:\usr\lib\i386-linux-gnu\wine\i386-windows\ntdll.dll
-module 7bb70000 size 2008819 path \\?\Z:\usr\lib\i386-linux-gnu\wine\i386-windows\kernel32.dll
-module 7b600000 size 6153638 path \\?\Z:\usr\lib\i386-linux-gnu\wine\i386-windows\kernelbase.dll
-module 78000000 size 277776 path \\?\S:\vc5.10\cvtres\resources-rich-master-01\MSVCRT.DLL
-provider-dump S:\vc5.10\cvtres\resources-rich-master-01\loaded-msvcrt.dll
-module 10000000 size 528384 path \\?\Z:\usr\lib\i386-linux-gnu\wine\i386-windows\tzres.dll
-module 10000000 size 528384 path \\?\Z:\usr\lib\i386-linux-gnu\wine\i386-windows\tzres.dll
-exit 0
