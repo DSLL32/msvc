@@ -908,6 +908,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_console_rows": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1025,7 +1030,8 @@
       "import:memcpy",
       "import:strcmp",
       "_deferred_from_jobs",
-      "_toggle_pass"
+      "_toggle_pass",
+      "_console_rows"
     ]
   },
   "runtime_audit_names": [

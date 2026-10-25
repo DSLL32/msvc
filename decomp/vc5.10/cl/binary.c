@@ -242,7 +242,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .native_symbol="join_text", .implementation=RECON_IMPLEMENTED },
     { .name="_console_rows", .entry_rva=0x5816,
       .code=(const ReconExtent[]){{0x5816,0x5871}}, .code_count=1,
-      .definition=RECON_APP, .native_symbol="console_rows", .implementation=RECON_UNIMPLEMENTED },
+      .definition=RECON_APP, .native_symbol="console_rows", .implementation=RECON_IMPLEMENTED },
     { .name="_create_input", .entry_rva=0x1063,
       .code=(const ReconExtent[]){{0x1063,0x1094}}, .code_count=1,
       .definition=RECON_APP, .native_symbol="create_input", .implementation=RECON_IMPLEMENTED },
