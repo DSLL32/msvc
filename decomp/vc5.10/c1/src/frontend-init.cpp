@@ -275,4 +275,3 @@ extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) 
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
 CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void) { __asm { int 3 } return this; }
-int RECON_THISCALL CompilerOutputBuffer::Open(const char *prefix, const char *suffix, const char *mode) { __asm { int 3 } return 0; }

@@ -101,7 +101,19 @@ static int keyword_storage(void)
     return 1;
 }
 extern int c1_test_identifier_interning(void);
-const ReconTest minimal_tests[8] = {
+static int output_filename_constructor(void)
+{
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    unsigned i;
+    for (i = 0; i < MAX_PATH; ++i) buffer->filename[i] = 'x';
+    buffer->file_descriptor = 123;
+    initialize_output_buffer_124c1();
+    if (buffer->filename[0] || buffer->file_descriptor != -1) return 0;
+    for (i = 1; i < MAX_PATH; ++i)
+        if (buffer->filename[i] != 'x') return 0;
+    return 1;
+}
+const ReconTest minimal_tests[9] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -109,5 +121,6 @@ const ReconTest minimal_tests[8] = {
     { "backend getter preserves existing identity and lazily constructs", 1, c1_test_backend_getter },
     { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes },
     { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage },
-    { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning }
+    { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning },
+    { "output constructor clears only first filename byte", 1, output_filename_constructor }
 };

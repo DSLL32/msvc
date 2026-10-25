@@ -64,7 +64,9 @@ typedef struct CompilerOutputBuffer {
     void *relocation_context;
     FILE *stream;
     int good;
-    unsigned char mode;
+    /* Original+0x1c begins a260-byte filename, followed by fd at+0x120.
+     * Constructor writes only filename[0]; BSS reset supplies static zeros. */
+    char filename[MAX_PATH];
     int file_descriptor;
 #ifdef __cplusplus
     int RECON_THISCALL Close(void);
@@ -73,6 +75,8 @@ typedef struct CompilerOutputBuffer {
     int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif
 } CompilerOutputBuffer;
+typedef char CompilerOutputBuffer_filename_offset[offsetof(CompilerOutputBuffer, filename) == 28 ? 1 : -1];
+typedef char CompilerOutputBuffer_descriptor_offset[offsetof(CompilerOutputBuffer, file_descriptor) == 288 ? 1 : -1];
 /* Recovered numeric alternative only. Other original value-record members
  * remain UNMODELED and must be recovered before any semantic consumer. */
 typedef struct CompilerValue {

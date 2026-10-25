@@ -1148,8 +1148,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "CompilerOutputBuffer::Open", .entry_rva = 0x11ec8,
-.code = (const ReconExtent[]){{0x11ec8, 0x11ec9}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x11ec8, 0x11f7a}, {0x30184, 0x301cb}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "_ZN20CompilerOutputBuffer4OpenEPKcS1_S1_",
 .original_symbol = "?Open@CompilerOutputBuffer@@QAEHPBD00@Z",
     },

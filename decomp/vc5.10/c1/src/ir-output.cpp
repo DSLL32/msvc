@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include "frontend.h"
+#include <string.h>
+#pragma intrinsic(strcmp, strcpy, strcat)
 #include <recon.h>
 
 extern "C" {
@@ -41,3 +43,18 @@ extern "C" void __cdecl open_expression_output(void)
 
 extern "C" void __cdecl prepare_pch_expression_input(const char *filename) { __asm { int 3 } }
 void RECON_THISCALL CompilerOutputBuffer::Flush(void) { __asm { int 3 } }
+
+int RECON_THISCALL CompilerOutputBuffer::Open(const char *prefix,
+                                            const char *suffix,
+                                            const char *mode)
+{
+    if (!strcmp(prefix, "nul"))
+        suffix = NULL;
+    strcpy(filename, prefix);
+    if (suffix)
+        strcat(filename, suffix);
+    stream = fopen(filename, mode);
+    if (!stream)
+        report_response_error(83, 339, filename);
+    return setvbuf(stream, NULL, _IOFBF, 4096);
+}
