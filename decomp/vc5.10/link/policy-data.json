@@ -6495,6 +6495,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_archive_big_endian_dword@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

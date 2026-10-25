@@ -16,7 +16,10 @@ extern BYTE file_access_statistics;
 DWORD archive_member_size;
 IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void);
 DWORD __stdcall archive_big_endian_dword(const void *value)
-{ __asm { int 3 } return 0; }
+{
+    const BYTE *bytes=(const BYTE *)value;
+    return ((DWORD)bytes[0]<<24)|((DWORD)bytes[1]<<16)|((DWORD)bytes[2]<<8)|bytes[3];
+}
 unsigned __stdcall buffered_read(FileRecord *,void *,unsigned);
 }
 

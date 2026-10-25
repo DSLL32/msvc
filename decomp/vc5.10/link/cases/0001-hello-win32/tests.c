@@ -1355,7 +1355,42 @@ static int archive_count_bytes(void)
     return recon_native_at_entry(archive_big_endian_dword,check_archive_count_bytes,
         invoke_hello,NULL)==1;
 }
+extern void RECON_THISCALL native_check_library_machine(LinkContext *,const char *,WORD)
+    __asm__("_ZN11LinkContext12CheckMachineEPKct");
+static void RECON_THISCALL check_archive_index_tables(LinkContext *context,const char *name,WORD machine)
+{
+    OutputLibrary *library=context->command_line_library->next;
+    FileRecord *record=file_slots[current_input_file];
+    const BYTE *input=(const BYTE *)record->view;
+    char *cursor=(char *)library->index_data[2];
+    char *end=cursor+32402;
+    unsigned i;
+    if (!(library && name==library->name && machine==IMAGE_FILE_MACHINE_I386 &&
+        library->flags==1 && library->archive_symbol_count==1353 &&
+        record->size==635638 && record->file_size==75854 &&
+        archive_member_offset==37946 && archive_member_size==37828 &&
+        library->index_data[0] && library->index_data[1] && cursor &&
+        library->index_data[3] && !library->index_data[4] &&
+        !memcmp((DWORD *)library->index_data[0]+1,input+37950,678*4) &&
+        !memcmp(library->index_data[1],input+40666,1353*2) &&
+        !memcmp(cursor,input+43372,32402))) recon_native_entry_finish(0);
+    /* The unused leading offset DWORD is original allocator prestate; do not
+       compare it. Every written pointer must own its actual copied name. */
+    for (i=0;i<1353;++i) {
+        if (((char **)library->index_data[3])[i]!=cursor) recon_native_entry_finish(0);
+        while (cursor<end && *cursor) ++cursor;
+        if (cursor==end) recon_native_entry_finish(0);
+        ++cursor;
+    }
+    recon_native_entry_finish(1);
+}
+static int archive_index_tables(void)
+{
+    return recon_native_at_entry(native_check_library_machine,check_archive_index_tables,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"archive-index-tables",1,archive_index_tables},
     {"archive-count-bytes",1,archive_count_bytes},
     {"archive-header-call",1,archive_header_call},
     {"library-index-position",1,library_index_position},
