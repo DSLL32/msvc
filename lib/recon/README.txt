@@ -931,15 +931,6 @@ behavior remains unchanged. Native controls cover cold slots and reused4096,
 16 and512 capacities with independent charbuf sentinels, ownership and FP state;
 the actual C2 writer-entry proof reuses its unchanged original capture.
 
-RECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES opts a native host into constructor102
-cleanup of the GLIBC_TUNABLES environment entry, after the dynamic loader has
-consumed allocator settings and before main exposes the active environment.
-The constructor preserves errno, DOS errno, LastError and the complete native
-x87 environment. Allocator configuration remains part of the explicit native
-fixture host profile: bind its exact libc/settings and verify actual target
-namespace exclusion and the complete case result. Unconfigured startup is
-unchanged.
-
 Native hosts built with RECON_SHIM_IMPL can read
 recon_local_clock_call_count(): the existing configured-clock sequence count
 starts at zero and advances at each configured _ftime call. Its existing resets

@@ -520,14 +520,6 @@ build/mapview-full-probe: tests/mapview-full-probe.c $(SOURCES) $(HEADERS) | bui
 mapview-full-check: build/mapview-full-probe
 	$(PYTHON) tests/check-mapview-full.py build/mapview-full-probe
 
-.PHONY: startup-host-control-check
-build/startup-host-control-probe: tests/startup-host-control-probe.c $(SOURCES) $(HEADERS) | build
-	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_STARTUP_CONSUME_GLIBC_TUNABLES $< $(SOURCES) -o $@
-build/startup-host-control-default: tests/startup-host-control-probe.c $(SOURCES) $(HEADERS) | build
-	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
-startup-host-control-check: build/startup-host-control-probe build/startup-host-control-default
-	$(PYTHON) tests/check-startup-host-control.py build/startup-host-control-probe build/startup-host-control-default
-
 .PHONY: local-clock-count-check
 build/local-clock-count-probe: tests/local-clock-count-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
