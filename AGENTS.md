@@ -82,10 +82,10 @@ errors, and build diagnostics if compilation fails. Do not use `cargo run` per a
 Fixtures must never invoke Wine, directly or through helpers/children. Capture
 inputs and outputs of otherwise-required Windows invocations beforehand. Verify
 invocation and complete input before replaying captured responses; unknown
-dependencies fail. Normalize only identified clock fields. If the original writes
-uninitialized output padding, zero that padding in the reconstruction and comment
-on the original defect. Preserve raw captures; do not tune the allocator to make
-uninitialized output bytes match.
+dependencies fail. Normalize only identified clock fields. When the original
+outputs proven uninitialized bytes, mask those bytes in comparisons, write zeros
+in the reconstruction, and flag the original defect in a source comment.
+Preserve raw captures; do not tune the allocator to reproduce uninitialized bytes.
 Record elapsed fixture times, splitting build/setup/execution/checks where measured.
 
 ## Reconstruction source

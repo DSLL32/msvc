@@ -153,11 +153,12 @@ output paths/hashes, input environment, exit code and synchronized input events 
 as Ctrl+C. Distinguish missing values/files from present-but-empty ones. Check
 unexpected and deleted outputs where relevant. Normalize only specifically
 identified nondeterministic fields, such as established clock fields.
-If the original writes uninitialized output padding, zero that padding in the
-reconstructed source and comment on the original defect. Preserve raw captures
-and do not tune allocator behavior to reproduce incidental padding. CVPACK's
-affected references contain zero padding, so their exact output hashes remain
-the expected results without normalization.
+When the original outputs proven uninitialized bytes, mask those bytes in
+comparisons, zero them in reconstructed source, and comment on the original
+defect. Preserve raw captures and do not tune allocator behavior to reproduce
+incidental bytes. Keep checks on defined content, structure and checksum
+correctness; a derived checksum must not indirectly reintroduce comparison of
+the masked bytes.
 
 The `recon-tool` implementer owns the wire format. Provide clap subcommands to
 construct and deconstruct `capture.bin`, preserving arbitrary bytes and the
