@@ -502,6 +502,7 @@ unsafe fn executor(
         }
     }
     output::prepare(&loaded, f, root, cwd, tests)?;
+    crate::self_child::save_paths(f, root)?;
     process::prepare(&loaded, f, root, cwd, process_server, tests)?;
     if tests {
         fs::write(
@@ -564,51 +565,35 @@ unsafe fn executor(
             }
         }
     } else {
-        // Configure the single shared library tracer before calling application code.
-        #[repr(C)]
-        struct TraceEntry {
-            address: *const libc::c_void,
-            name: *const libc::c_char,
+        let self_enabled = std::env::var_os("RECON_SELF_SPAWN").is_some_and(|v| v == "1");
+        let trace_state = if self_enabled {
+            let file = OpenOptions::new()
+                .read(true)
+                .write(true)
+                .create_new(true)
+                .open(root.join("trace-state"))?;
+            crate::self_child::inheritable(file.as_raw_fd())?;
+            Some(file)
+        } else {
+            None
+        };
+        crate::self_child::configure_trace(
+            &loaded,
+            root,
+            trace,
+            trace_state.as_ref().map(AsRawFd::as_raw_fd),
+            true,
+        )?;
+        if self_enabled {
+            crate::self_child::register(
+                &loaded,
+                case_path,
+                root,
+                cwd,
+                trace,
+                trace_state.as_ref().unwrap().as_raw_fd(),
+            )?;
         }
-        type Initialize = unsafe extern "C" fn(*const TraceEntry, usize, i32);
-        let initialize = unsafe { loaded.library.get::<Initialize>(b"recon_trace_configure\0") }
-            .context("libbinary.so must supply shared recon_trace_configure")?;
-        let symbols = loaded.symbols()?;
-        let ranges: Vec<_> = symbols
-            .iter()
-            .map(|(f, address, size)| {
-                Ok(trap::Range {
-                    start: u32::try_from(*address)?,
-                    end: u32::try_from(
-                        address
-                            .checked_add(*size)
-                            .context("native symbol range overflow")?,
-                    )?,
-                    rva: f.rva,
-                })
-            })
-            .collect::<Result<_>>()?;
-        fs::write(root.join("native-ranges"), serde_json::to_vec(&ranges)?)?;
-        let strings: Vec<CString> = symbols
-            .iter()
-            .filter(|(func, _, _)| !loaded.info.first_entry_seen.contains(&func.rva))
-            .map(|(f, _, _)| CString::new(f.native_symbol.as_ref().unwrap().as_str()).unwrap())
-            .collect();
-        let pointers: Vec<_> = strings.iter().map(|s| s.as_ptr()).collect();
-        let addresses: Vec<_> = symbols
-            .iter()
-            .filter(|(func, _, _)| !loaded.info.first_entry_seen.contains(&func.rva))
-            .map(|(_, address, _)| *address)
-            .collect();
-        let entries: Vec<_> = addresses
-            .iter()
-            .zip(&pointers)
-            .map(|(address, name)| TraceEntry {
-                address: *address as *const _,
-                name: *name,
-            })
-            .collect();
-        unsafe { initialize(entries.as_ptr(), entries.len(), trace) };
         type Enable = unsafe extern "C" fn(i32);
         let enable = unsafe { loaded.library.get::<Enable>(b"recon_trace_enable\0") }?;
         fs::write(

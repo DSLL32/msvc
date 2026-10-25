@@ -511,8 +511,41 @@ supervisor hands over its socket before target execution; the broker closes
 inherited client, status and trace endpoints, and finalizes the request count
 only at EOF after all target client holders exit. Unit mode does not run this
 IO provider or require its expected requests. Intentionally suspended responses
-and native self re-entry are not implemented in this checkpoint; `SELF` replies
-fail explicitly. No original executable or Wine is invoked.
+are unsupported. No original executable or Wine is invoked.
+
+For a genuine synchronous same-program child, set the input environment
+`RECON_SELF_SPAWN=1` and return `RECON_PROCESS_SELF` only after validating the
+complete request and its inputs. SELF requires RSP1 and an otherwise empty,
+zero-status response; RSP2 retains its captured-success-only contract. The shared
+shim matches the canonical program path and launches the registered public command:
+
+```text
+recon-tool native-child /absolute/case.so --workspace /tmp/recon/run-... \
+  --cwd /tmp/recon/run-.../case-cwd --trace-fd N --trace-state-fd N -- ARGS...
+```
+
+The command uses an existing supervisor-owned workspace and inherited descriptors.
+`ARGS` includes the application's argv[0]. Its actual cwd, environment and standard
+streams are inherited normally; `--cwd` retains the prepared fixture path accessor.
+The launcher forks before loading the target DSO, giving the executor fresh
+application/CRT globals, configures the existing fixture paths, reruns setup, and
+calls the IO adapter. The shared RST1 bitmap attaches without resetting, so parent
+and children record each application first entry only once. Nested policy requests
+use the requesting executor's post-setup environment snapshot.
+
+Readable `children/PID/result.json` files outside the application cwd record the
+kernel terminal, full DWORD receipt, and any child INT3 owner RVA/site. Results
+are included in the final report's `process_requests.self_children` before workspace
+cleanup. The broker checks the permitted SELF count against completed results.
+Unexpected child signals, setup failures and invalid/missing receipts fail the
+whole fixture even if the application parent handles the child failure. The
+existing supervisor owns descendants, timeout and cleanup.
+
+The launcher preserves a normal exit byte, including nonzero status 7, and
+propagates real terminal signals. The current shim's synchronous parent sees only
+the POSIX exit byte; full DWORD values are retained in reports, not propagated as
+full DWORD parent statuses. Run `python3 tests/self-child.py` for focused native
+self-child controls.
 
 ## Post-exit file checks
 

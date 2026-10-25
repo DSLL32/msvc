@@ -24,7 +24,7 @@ typedef struct ReconProcessRequest {
     uint32_t parent_doserrno, parent_last_error, environment_source;
     /* Trusted runner paths; cwd above is the actual shim's untrusted request. */
     const char *workspace_cwd, *logical_cwd, *assets_root;
-    /* Full host environment at the prepared broker snapshot. Explicit target-OS
+    /* Requesting executor's full post-setup host environment. Explicit target-OS
      * environments and application mutations require their own case contract. */
     uint32_t prepared_environment_count;
     const char *const *prepared_environment;

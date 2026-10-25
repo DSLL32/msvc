@@ -93,18 +93,27 @@ pub fn verify(f: &Fixture, workspace: &Path) -> Result<()> {
     Ok(())
 }
 pub fn configure(loaded: &Loaded, f: &Fixture, workspace: &Path, cwd: &Path) -> Result<()> {
+    configure_paths(
+        loaded,
+        cwd,
+        f.logical_cwd.as_deref(),
+        root(f, workspace).as_deref(),
+    )
+}
+pub fn configure_paths(
+    loaded: &Loaded,
+    cwd: &Path,
+    logical: Option<&str>,
+    assets: Option<&Path>,
+) -> Result<()> {
     type Configure =
         unsafe extern "C" fn(*const libc::c_char, *const libc::c_char, *const libc::c_char) -> i32;
     let configure = unsafe { loaded.optional::<Configure>(b"recon_case_configure_paths\0") }?;
     match configure {
         Some(configure) => {
             let cwd = CString::new(cwd.as_os_str().as_encoded_bytes())?;
-            let logical = f
-                .logical_cwd
-                .as_ref()
-                .map(|v| CString::new(v.as_str()))
-                .transpose()?;
-            let assets = root(f, workspace)
+            let logical = logical.map(CString::new).transpose()?;
+            let assets = assets
                 .map(|v| CString::new(v.as_os_str().as_encoded_bytes()))
                 .transpose()?;
             ensure!(
@@ -121,7 +130,7 @@ pub fn configure(loaded: &Loaded, f: &Fixture, workspace: &Path, cwd: &Path) -> 
         }
         None => {
             ensure!(
-                f.assets.is_empty(),
+                assets.is_none(),
                 "libbinary.so must include shared native fixture-path support for assets"
             );
             Ok(())

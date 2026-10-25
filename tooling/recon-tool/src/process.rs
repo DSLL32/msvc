@@ -221,6 +221,8 @@ pub struct ProcessReport {
     pub requests: u32,
     pub pids: Vec<u32>,
     pub errors: Vec<String>,
+    #[serde(default)]
+    pub self_children: Vec<crate::self_child::ChildResult>,
 }
 #[repr(C)]
 struct Policy {
@@ -268,10 +270,23 @@ fn response_bytes(protocol: u32, state: [u32; 4], response: &Response) -> Result
         response.struct_size as usize == size_of::<Response>(),
         "process response size mismatch"
     );
-    ensure!(
-        response.action == 0,
-        "native self re-entry is not implemented by this checkpoint"
-    );
+    if response.action == 1 {
+        ensure!(
+            protocol == RSP1
+                && response.status == 0
+                && response.failure_errno == 0
+                && response.stdout_size == 0
+                && response.stderr_size == 0
+                && response.stdout_data.is_null()
+                && response.stderr_data.is_null(),
+            "SELF requires RSP1 and an empty zero-status response"
+        );
+        return Ok([protocol, 0, 0]
+            .into_iter()
+            .flat_map(u32::to_le_bytes)
+            .collect());
+    }
+    ensure!(response.action == 0, "unknown process response action");
     ensure!(
         (-1..=255).contains(&response.status),
         "captured process status must be -1 or 0..255"
@@ -406,6 +421,8 @@ pub fn prepare(
     let assets = crate::assets::root(fixture, root)
         .map(|p| CString::new(p.as_os_str().as_encoded_bytes()))
         .transpose()?;
+    let owner = unsafe { libc::getpid() } as u32;
+    let self_enabled = std::env::var_os("RECON_SELF_SPAWN").is_some_and(|v| v == "1");
     let child = crate::native::fork()?;
     if child == 0 {
         let result = (|| -> Result<()> {
@@ -417,9 +434,9 @@ pub fn prepare(
             close_broker_descriptors(server.stream.as_raw_fd(), diagnostics.as_raw_fd())?;
             wait_for_handoff(root);
             server.stream.set_nonblocking(false)?;
-            let prepared_pointers: Vec<_> = prepared.iter().map(|s| s.as_ptr()).collect();
             let mut stream = server.stream;
             let mut count = 0;
+            let mut self_count = 0;
             let mut errors = vec![];
             let mut pids = vec![];
             loop {
@@ -439,6 +456,15 @@ pub fn prepare(
                 let mut payload = vec![0; length];
                 stream.read_exact(&mut payload)?;
                 let request = decode(protocol, &payload)?;
+                // Each fresh executor publishes its own post-setup environment.
+                let child_prepared;
+                let prepared = if request.pid == owner {
+                    &prepared
+                } else {
+                    child_prepared = crate::self_child::environment(root, request.pid)?;
+                    &child_prepared
+                };
+                let prepared_pointers: Vec<_> = prepared.iter().map(|s| s.as_ptr()).collect();
                 let args: Vec<_> = request.args.iter().map(|s| s.as_ptr()).collect();
                 let env: Vec<_> = request.env.iter().map(|s| s.as_ptr()).collect();
                 let call = CallbackRequest {
@@ -478,7 +504,11 @@ pub fn prepare(
                 pids.push(request.pid);
                 count += 1;
                 let reply = if accepted {
-                    response_bytes(protocol, request.state, &response)
+                    if response.action == 1 && !self_enabled {
+                        Err(anyhow::anyhow!("SELF requires RECON_SELF_SPAWN=1"))
+                    } else {
+                        response_bytes(protocol, request.state, &response)
+                    }
                 } else {
                     Err(anyhow::anyhow!(
                         "case rejected child request {}: {}",
@@ -487,7 +517,12 @@ pub fn prepare(
                     ))
                 };
                 match reply {
-                    Ok(bytes) => stream.write_all(&bytes)?,
+                    Ok(bytes) => {
+                        if response.action == 1 {
+                            self_count += 1;
+                        }
+                        stream.write_all(&bytes)?;
+                    }
                     Err(error) => {
                         errors.push(format!("{error:#}"));
                         for value in [protocol, 2, 0] {
@@ -502,10 +537,19 @@ pub fn prepare(
                     policy.expected_request_count
                 ));
             }
+            let self_children = crate::self_child::results(root, self_count)?;
+            for child in &self_children {
+                errors.extend(
+                    child
+                        .errors
+                        .iter()
+                        .map(|error| format!("native child {}: {error}", child.launcher_pid)),
+                );
+            }
             fs::write(
                 root.join("process-report"),
                 serde_json::to_vec(
-                    &serde_json::json!({"requests":count,"pids":pids,"errors":errors}),
+                    &serde_json::json!({"requests":count,"pids":pids,"errors":errors,"self_children":self_children}),
                 )?,
             )?;
             ensure!(errors.is_empty(), "{}", errors.join("; "));
@@ -568,6 +612,18 @@ mod response_tests {
         assert!(response_bytes(RSP1, [0; 4], &r).is_err());
         r = response();
         r.action = 1;
+        assert_eq!(
+            response_bytes(RSP1, [0; 4], &r).unwrap(),
+            [RSP1, 0, 0]
+                .into_iter()
+                .flat_map(u32::to_le_bytes)
+                .collect::<Vec<_>>()
+        );
+        assert!(response_bytes(RSP2, [0; 4], &r).is_err());
+        r.status = 7;
+        assert!(response_bytes(RSP1, [0; 4], &r).is_err());
+        r.status = 0;
+        r.stdout_size = 1;
         assert!(response_bytes(RSP1, [0; 4], &r).is_err());
     }
 }

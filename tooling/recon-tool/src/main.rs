@@ -13,6 +13,7 @@ mod pe_import;
 mod process;
 mod projection;
 mod runtime;
+mod self_child;
 mod status;
 mod toolchain;
 mod trap;
@@ -31,6 +32,8 @@ struct Cli {
 }
 #[derive(Subcommand)]
 enum Command {
+    /// Execute a fresh native application child in an existing case workspace.
+    NativeChild(self_child::Options),
     /// Identify shipped i386 COFF runtime code without executing the image.
     IdentifyRuntime(runtime::Options),
     /// Inspect descriptors without running the case.
@@ -109,6 +112,7 @@ fn main() {
 fn execute() -> Result<()> {
     host_alloc::verify()?;
     match Cli::parse().command {
+        Command::NativeChild(options) => self_child::run(options)?,
         Command::IdentifyRuntime(options) => runtime::identify(options)?,
         Command::Inspect { case } => println!(
             "{}",

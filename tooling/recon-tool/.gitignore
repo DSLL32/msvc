@@ -3,3 +3,5 @@
 /tests/fixture/cases/*/.build/
 /.build/
 __pycache__/
+/tests/native-self/.build/
+/tests/native-self/cases/*/.build/
