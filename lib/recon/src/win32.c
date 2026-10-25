@@ -463,10 +463,38 @@ static int handle_fd(HANDLE handle)
 }
 DWORD WINAPI recon_GetLastError(void) { return last_error; }
 void WINAPI recon_SetLastError(DWORD error) { last_error=error; }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static int headless_conout_state(void)
+{
+    struct stat input,output,error,null_device;
+    int terminal;
+    if(standard_handles[0]!=(HANDLE)1 || standard_handles[1]!=(HANDLE)2 ||
+       standard_handles[2]!=(HANDLE)3) return 0;
+    if(fstat(0,&input) || fstat(1,&output) || fstat(2,&error) ||
+       stat("/dev/null",&null_device)) return 0;
+    if(!S_ISCHR(input.st_mode) || !S_ISCHR(null_device.st_mode) ||
+       input.st_rdev!=null_device.st_rdev || !S_ISREG(output.st_mode) ||
+       !S_ISREG(error.st_mode)) return 0;
+    terminal=open("/dev/tty",O_RDWR|O_NOCTTY|O_CLOEXEC);
+    if(terminal>=0) { close(terminal);return 0; }
+    return errno==ENXIO || errno==ENODEV || errno==ENOTTY;
+}
+#endif
 HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_ATTRIBUTES security,DWORD disposition,DWORD attributes,HANDLE template)
 {
     char path[PATH_MAX]; int flags,fd,saved_errno=errno;
     (void)share; (void)template;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(name && !strcmp(name,"CONOUT$")) {
+        if(access!=(GENERIC_READ|GENERIC_WRITE) || share || security ||
+           disposition!=OPEN_EXISTING || attributes || template)
+            recon_unsupported("CONOUT$ outside reviewed open tuple");
+        flags=headless_conout_state();errno=saved_errno;
+        if(!flags) recon_unsupported("CONOUT$ outside reviewed headless state");
+        last_error=ERROR_INVALID_HANDLE;
+        return INVALID_HANDLE_VALUE;
+    }
+#endif
     if (recon_host_path(name,path,sizeof(path))<0) { last_error=error_code(errno); errno=saved_errno; return INVALID_HANDLE_VALUE; }
     recon_fsopen_check_path(path);
     flags=(access&GENERIC_WRITE)?(access&GENERIC_READ)?O_RDWR:O_WRONLY:O_RDONLY;

@@ -610,6 +610,16 @@ wcsupr-ascii-check: build/wcsupr-ascii-probe build/wcsupr-surface-probe
 	$(PYTHON) tests/check-wcsupr-ascii.py $<
 	$(PYTHON) tests/check-wcsupr-surface.py build/wcsupr-surface-probe
 
+.PHONY: conout-headless-check
+build/conout-headless-default: tests/conout-headless-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/conout-headless-510: tests/conout-headless-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+conout-headless-check: build/conout-headless-default build/conout-headless-510
+	test -n "$(CONOUT_REFERENCE)"
+	$(PYTHON) tests/check-conout-headless.py $< "$(CONOUT_REFERENCE)"
+	$(PYTHON) tests/check-conout-headless.py build/conout-headless-510 "$(CONOUT_REFERENCE)" 510
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

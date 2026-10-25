@@ -575,6 +575,15 @@ other profiles and changed locale/MB state fail125. Original per-call pointed
 bytes/errors/FP were not measured in RCDLL's reached capture; static provider
 semantics and native observations are separate. No API-only original was run.
 
+One explicit MSVCRT510 headless CONOUT$ open is supported: exact name,
+GENERIC_READ|GENERIC_WRITE, share0, NULL security/template, OPEN_EXISTING and
+attributes0 return INVALID_HANDLE_VALUE/ERROR_INVALID_HANDLE6. The native
+domain requires unchanged standard handle roles, /dev/null stdin, regular
+stdout/stderr and no controlling terminal. Host checks preserve independent
+caller errno; DOS errno, FILEs, lowio flags, FP and output buffers are untouched.
+Other CONOUT$ tuples/environments fail125; other profiles retain their prior
+path. This adds no console handle, viewport, CSBI success or controller.
+
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
 
