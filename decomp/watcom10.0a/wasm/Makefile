@@ -1,49 +1,27 @@
-PYTHON ?= python3
-NATIVE_CC ?= gcc
-RECON = ../../../lib/recon
-SOURCES = $(wildcard src/*.c)
-HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
-NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
-OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
-NATIVE_FLAGS = -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie
+RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
+RECON := ../../../lib/recon
+BINARY_SOURCES := src/main.c
+BINARY_SUPPORT_SOURCES := $(wildcard $(RECON)/src/*.c)
+NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CFLAGS := -std=gnu89
 
-.PHONY: all inspect native original win32 fixtures check help
+ORIGINAL_TOOLCHAIN := watcom10.0a
+ORIGINAL_SOURCES := $(BINARY_SOURCES)
+ORIGINAL_OUTPUT := build/WASM.EXE
+ORIGINAL_MAP := build/wasm.map
+ORIGINAL_CFLAGS := -bt=nt -3r -od -s -d2
+ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include'
+ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/watcom10.0a/h
+ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386 --
+ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK --
+ORIGINAL_COMPILE = $(ORIGINAL_CC) $(ORIGINAL_CFLAGS) $(ORIGINAL_CPPFLAGS) '-fo=$(subst /,\,$@)' '$(subst /,\,$<)'
+ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) @build/wasm.lnk
+include $(RECON_TOOL_DIR)/recon-tool.mk
 
-all: native
+$(ORIGINAL_LINK_OUTPUTS): build/wasm.lnk
+build/wasm.lnk: $(ORIGINAL_OBJECTS) Makefile scripts/write-link.py
+	@mkdir -p $(@D)
+	python3 scripts/write-link.py $@ $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) $(ORIGINAL_OBJECTS)
 
-inspect:
-	$(PYTHON) scripts/inspect-image.py
-
-native: build/native/WASM
-
-build/native:
-	mkdir -p $@
-
-build/native/%.o: src/%.c $(HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
-
-build/native/WASM: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
-
-original win32: build/WASM.EXE build/wasm.map
-
-build:
-	mkdir -p $@
-
-build/%.obj: src/%.c $(HEADERS) | build
-	$(PYTHON) scripts/original.py compile $< $@
-
-build/WASM.EXE build/wasm.map &: $(OBJECTS) scripts/original.py Makefile
-	$(PYTHON) scripts/original.py link $(OBJECTS)
-
-check fixtures:
-	@echo "$@: blocked pending the shared CF masking and service capture contracts" >&2
-	@exit 2
-
-help:
-	@echo 'inspect: verify original hashes and embedded CF metadata without executing it'
-	@echo 'native: build the named main INT3 stub; no accepted application functions yet'
-	@echo 'original: build the Win32 stub with original Watcom and patched WLINK'
-	@echo 'check: blocked until CF masking and service capture are approved'
+.PHONY: original
+original: win32

@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "status": "shared scaffold builds; first help capture blocked on shared WASM support",
+  "application_functions_implemented": 0,
+  "application_functions_accepted": 0,
+  "case": "0001-help",
+  "case_success": false,
+  "capture_bin_present": false,
+  "validation": {
+    "native": "i386 ELF libbinary.so and case.so, debug info, shared recon-tool make rules",
+    "original": "Watcom10.0a WCC386 -bt=nt -3r -od -s -d2 and WLINK Win32 PE/MAP, shared launcher; zero warnings/errors",
+    "ABI": "Original MAP main_ at section1+10; bytes41001d/410020 store argcEAX/argvEDX; actual inlineINT3 at410023, RET0. Candidate PE not executed.",
+    "descriptor": "shared runner ABI2 inspect passed",
+    "timing_seconds": {
+      "incremental_build": 0.028706,
+      "descriptor_inspect": 0.005248,
+      "fixture_build_setup_execution_checks": null
+    }
+  },
+  "common_blocker": "Only finite WCC CF geometry is qualified. WASM pre-main olderCRT heap reaches AH48 LocalAlloc4096 beforeAppmain; runtime identity/closure, owner checks and service effects need shared qualification. ResourceGS guard is a distinct laterApp phase.",
+  "historical_reference": "Commit25bcbf9e retains the old guarded patched /? capture; its outputs were not relabeled or used as a fresh shared-case oracle.",
+  "next_action": "Shared-tool owner reviews finite profile/olderCRT/service proposal, then fresh paired mainfrontier capture. Reconstruct one help case through completion and pause."
+}
