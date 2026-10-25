@@ -418,13 +418,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 85 / 8,533 | 2.65% | Minimal C: initialize_frontend after accepted orchestration |
-| C1XX | 100 / 9,277 | 1.23% | Minimal C++: initialize_frontend after accepted full driver |
-| C2 | 125 / 23,706 | 4.14% | Numeric case: prepend_flow_block; code-reader work continues |
+| C1 | 88 / 10,869 | 3.37% | Minimal C: browser factory; shared-method alias build support in progress |
+| C1XX | 101 / 11,613 | 1.55% | Minimal C++: input factory; same alias accommodation in progress |
+| C2 | 127 / 23,794 | 4.15% | Numeric case: substantial read_function_code dispatcher under reconstruction |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 111 / 40,114 | 9.67% | Hello EXE: split_section_name after accepted contribution constructor |
-| RCDLL | 102 / 26,884 | 36.03% | Rich corpus: rc_undefine_macro after accepted quote copier |
+| LINK | 117 / 41,130 | 9.92% | Hello EXE: format_contribution_module after accepted tokenizer |
+| RCDLL | 105 / 28,055 | 37.60% | Rich corpus: rc_advance_macro_text after accepted argument packer |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -446,6 +446,13 @@ The concrete minimal capture work is:
   real allocation/initialization edges without extra constructor vertices.
   This is compiler support, not application acceptance or CRT reconstruction.
   The shared tree is published and stable at `446d1949e`.
+- Both frontends next encounter vtables whose different source methods share
+  one original physical function. The approved accommodation uses code-free
+  weak COFF aliases and native linker aliases from a binary-specific map,
+  preserving one canonical body/registry entry and actual pointer equality.
+  The shared build helper is in progress; both workers hold those factories
+  while continuing read-only analysis. Scratch VC5/native tests pass without
+  wrappers, raw vtables, duplicate body credit or a graph waiver.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
@@ -472,7 +479,7 @@ The concrete minimal capture work is:
   and native DIRECT completion passes; no local PE loader, console machinery
   or MRE emulation was added.
 
-VCPACK's empty target PATH was copied from old native harness sanitization during
+CVPACK's empty target PATH was copied from old native harness sanitization during
 migration, not captured as an application requirement. Its genuinely new baseline
 removes that override and other unrelated harness controls, preserving the old
 capture/history. Removing it did not by itself fix the observed pre-entry failure;
