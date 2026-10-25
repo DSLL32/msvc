@@ -148,7 +148,13 @@ int __stdcall type_server_open_file(TypeServer *server, const char *name, const 
     int okay;
     unsigned i;
     server->writing = *mode == 'w';
-    if (mode[1] == 'c') server->loaded = 1;
+    if (mode[1] == 'c') {
+        server->loaded = 1;
+        /* Original defect: rc mode never initializes this control DWORD.
+           Two independent natural SUPERPAD/PDB runs read zero throughout
+           its lifetime. Use that observed value, as explicitly authorized. */
+        if (*mode == 'r') server->incremental = 0;
+    }
     else {
         if (mode[1] != 'i') server->loaded = 1;
         server->incremental = 1;

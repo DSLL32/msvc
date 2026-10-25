@@ -12,9 +12,9 @@ The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
 The resumed workload has accepted 75 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All sixteen cached IO cases and sixteen unit executors, the original
+checks. All seventeen cached IO cases and seventeen unit executors, the original
 compiler build and strict graph/ABI/data audits passed the262-function gate
-in2.062s. Fourteen cases complete;0013 and parked0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
+in3.578s. Fifteen cases complete;0013 and parked0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -89,12 +89,30 @@ setup/build took18.316s; final masked-original capture1052.664ms and explicitly
 report-bound native replay107.177ms (setup8.677/execution68.555/checks29.945). Actual expanded recursion-list allocations
 are now reached; the existing original storage/growth/free logic is unchanged,
 with historical native coverage-only rejections lifted and bounds retained.
-The supplied `/Zi` debug configuration was also built unchanged in scratch:
-its ordinary LINK automatically invokes CVPACK (producing NB09), and its
-`/nopack` variant preserves a real compiler PDB. That separate run remains
-unqualified because TypeServer's original `incremental` control field is
-unwritten in `"rc"` mode and native residue takes a different branch. The PDB,
-raw artifacts and diagnosis are preserved; no field is zeroed or hardcoded. The superseded malformed constant
+`0017-superpad-pdb` uses the supplied `/Zi` debug configuration, also built
+unchanged. Its ordinary LINK automatically invokes CVPACK (producing NB09);
+a normal `/nopack` relink separates the CVPACK invocation and preserves the
+real 234,606-byte compiler PDB, SHA256
+`c98d80a1e225986b065e2299a55c167e38d55bddd7d6f85dd303aa43ab008463`.
+The unpacked executable SHA256 is
+`20a3990c4e792d821e0db2a5c99e9e41ac2956293547c4cd9a9c81529f28ff05`.
+The original TypeServer constructor leaves its `incremental` DWORD unwritten
+in exact `"rc"` mode. Two independent natural original invocations each had
+one TypeServer lifetime: its value was zero at open entry, record-read entry
+and the actual control test, and both processes exited0. This is evidence for
+those two runs, not a universal allocator property. Under the user's explicit
+allowance, `type_server_open_file` now initializes that exact mode to the
+observed zero, with a source defect comment in both builds. The varying BARRAY
+word remains pending; it was never constant. The genuine PDB case now completes
+with138 matching entries, exit0, exact streams and the 2,506,972-byte output
+SHA256 `6ef7547e30dd814adac91915596c76e95584f9928d0659271564580f444853b9`.
+Its3,180 proven reference padding words are masked and required to be zero;
+the raw original already had zeroes there, so its canonical hash is unchanged.
+Final original capture took895.397ms; report-bound native replay108.706ms
+(setup9.791/execution65.949/checks32.967), separate from prior producer work
+(15.863s compile/setup,3.169s corrected ordinary link,4.133s `/nopack` relink).
+The original PDB, executable, output and earlier unqualified history remain in
+owned scratch; no reconstruction credit is added for this case. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
 conversion no-op does not advance the CLI dispatcher, so it needs a bounded
@@ -106,7 +124,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the sixteen numbered `case.c` descriptors, and runs their
+automatically discovers the seventeen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -115,8 +133,8 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Fourteen dispatched cases complete;0013 retains its matching BARRAY frontier
-and0015 its parked based-symbol frontier;0016 SUPERPAD now completes. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Fifteen dispatched cases complete;0013 retains its matching BARRAY frontier
+and0015 its parked based-symbol frontier;0016 and0017 SUPERPAD both complete. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent
