@@ -25,9 +25,13 @@ static struct {
 } input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 static unsigned input_register_opcode[17];
+/* The typed-operand family uses a distinct opcode table. No row has yet
+ * been consumed: storage is UNMODELED and native reads are guarded. */
+static unsigned input_operand_opcode[17];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
 static unsigned char input_register_opcode_known[17];
+static unsigned char input_operand_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
@@ -43,10 +47,15 @@ static unsigned char input_register_opcode_known[17];
     ((unsigned)(kind) < 17 && input_register_opcode_known[(kind)] ? \
      input_register_opcode[(kind)] : \
      (recon_unsupported("unmodeled input register opcode"), 0))
+#define INPUT_OPERAND_OPCODE(kind) \
+    ((unsigned)(kind) < 17 && input_operand_opcode_known[(kind)] ? \
+     input_operand_opcode[(kind)] : \
+     (recon_unsupported("unmodeled input operand opcode"), 0))
 #else
 #define INPUT_PROPERTIES(op) (((unsigned char *)&input_opcode_properties)[(op)])
 #define INPUT_INVERSE(condition) input_inverse_condition[(condition)]
 #define INPUT_REGISTER_OPCODE(kind) input_register_opcode[(kind)]
+#define INPUT_OPERAND_OPCODE(kind) input_operand_opcode[(kind)]
 #endif
 #define INPUT_IS_REGISTER(node) ((1U << ((node)->kind & 31)) & 6U)
 #define INPUT_IS_OPERAND(node) ((1U << ((node)->kind & 31)) & 0x7feU)
@@ -1309,4 +1318,10 @@ C2Expression *__fastcall variable_input_expression(C2InputSymbol *symbol)
     default:
         return (C2Expression *)symbol;
     }
+}
+
+C2Expression *__fastcall input_symbol_operand(C2InputSymbol *symbol)
+{
+    C2FunctionRegister *reg = input_symbol_register(symbol);
+    return new_typed_register_expression(INPUT_OPERAND_OPCODE(reg->kind), reg->type, reg);
 }

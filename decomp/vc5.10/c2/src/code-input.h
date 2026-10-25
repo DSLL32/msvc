@@ -123,6 +123,7 @@ void __fastcall mark_first_input_expression(C2Expression *expression);
 unsigned __fastcall set_input_filename(char *filename);
 C2Expression * __fastcall new_function_entry(C2Function *function);
 void __fastcall set_function_input_options(unsigned options);
+C2Expression *__fastcall new_typed_register_expression(unsigned opcode, unsigned short type, C2FunctionRegister *reg);
 C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol);
 void __fastcall finish_input_expression(C2InputStack *stack);
 void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2Expression **right, int condition);

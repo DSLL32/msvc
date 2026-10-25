@@ -137,11 +137,6 @@ void __fastcall mark_first_input_expression(C2Expression *expression)
 
 
 
-C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 void __fastcall finish_input_expression(C2InputStack *stack)
 {
@@ -466,4 +461,11 @@ void __fastcall release_input_exception_context(C2Expression *tree)
 void __fastcall release_input_assembly_context(C2Expression *tree)
 {
     __asm { int 3 }
+}
+
+C2Expression *__fastcall new_typed_register_expression(unsigned opcode,
+                               unsigned short type, C2FunctionRegister *reg)
+{
+    __asm { int 3 }
+    return 0;
 }
