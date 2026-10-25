@@ -616,3 +616,21 @@ unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *valu
     }
     return value->tail.string.length;
 }
+
+IrToken *__stdcall convert_runtime_initializer_pointer(IrToken *expression);
+void __stdcall emit_runtime_initializer_expression(unsigned operation,
+    unsigned mode, IrToken *arguments);
+
+/* Original0x45ba0..0x45bf0, stdcall16. Build destination/source/size
+   arguments, retaining the source's integer form for the fill operation. */
+void __stdcall emit_runtime_initializer_call(unsigned operation,
+    IrToken *destination, IrToken *source, IrToken *bytes)
+{
+    IrToken *arguments;
+    if (operation != 0xad) source = convert_runtime_initializer_pointer(source);
+    destination = convert_runtime_initializer_pointer(destination);
+    arguments = append_expression(0, destination, 2);
+    arguments = append_expression(arguments, source, 2);
+    arguments = append_expression(arguments, bytes, 1);
+    emit_runtime_initializer_expression(operation, 2, arguments);
+}

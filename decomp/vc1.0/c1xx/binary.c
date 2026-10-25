@@ -1,11 +1,27 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1646 historical frontiers/1539 App bodies.
+ * Current reviewed boundary:1647 historical frontiers/1540 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_convert_runtime_initializer_pointer@4",
+        .entry_rva = 0x35b80,
+        .code = (const ReconExtent[]) { { 0x35b80, 0x35b95 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "convert_runtime_initializer_pointer",
+    },
+    {
+        .name = "_emit_runtime_initializer_expression@12",
+        .entry_rva = 0x35c20,
+        .code = (const ReconExtent[]) { { 0x35c20, 0x35d8a } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_runtime_initializer_expression",
+    },
     {
         .name = "_diagnose_member_reference_temporary",
         .entry_rva = 0x57720,
@@ -7452,10 +7468,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_runtime_initializer_call@16",
         .entry_rva = 0x35ba0,
-        .code = (const ReconExtent[]) { { 0x35ba0, 0x35ba1 } },
+        .code = (const ReconExtent[]) { { 0x35ba0, 0x35bf0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_runtime_initializer_call",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_runtime_initializer_list@8",
