@@ -490,3 +490,18 @@ void __stdcall mark_pch_member_index(PchMemberIndex *index)
         ++bucket;
     }
 }
+
+void __stdcall mark_pch_hash_entries(HashEntry *entry, PchVisit key, PchVisit value);
+
+/* Original0x6a5e0..0x6a636. Mark each actual bucket slot, then traverse its
+   entry chain through the key/value visitors supplied by its owning table. */
+void __stdcall mark_pch_hash_table(HashTable *table, PchVisit key, PchVisit value)
+{
+    unsigned i;
+    if (!table) return;
+    mark_pch_pointer((void **)&table->buckets);
+    for (i = 0; i < table->bucket_count; ++i) {
+        mark_pch_pointer((void **)&table->buckets[i]);
+        mark_pch_hash_entries(table->buckets[i], key, value);
+    }
+}

@@ -564,7 +564,7 @@ unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int m
 void write_pch_pages(void) { __asm { int 3 } }
 void restore_pch_pointers(void) { __asm { int 3 } }
 
-void __stdcall mark_pch_hash_table(HashTable *table, void (__stdcall *key)(void *), void (__stdcall *value)(void *)) { __asm { int 3 } }
+void __stdcall mark_pch_hash_entries(HashEntry *entry, void (__stdcall *key)(void *), void (__stdcall *value)(void *)) { __asm { int 3 } }
 void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry) { __asm { int 3 } }
 void __stdcall mark_pch_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
 void mark_pch_types(void) { __asm { int 3 } }
