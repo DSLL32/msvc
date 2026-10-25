@@ -6,3 +6,12 @@ int inline_scope_depth; /* original 0x912f8 */
 InlineScope *inline_scopes; /* original 0x912fc */
 unsigned inline_parameter_slots[10]; /* original 0x91304..0x9132c */
 unsigned char inline_slot_count; /* original 0x91354 */
+
+void allocate_inline_storage(void);
+
+/* Original0x44630..0x44635. The original tail entry shares the ordinary
+   no-argument cdecl contract with its storage allocator. */
+void initialize_inline_queries(void)
+{
+    allocate_inline_storage();
+}

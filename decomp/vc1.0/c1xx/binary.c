@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1612 historical frontiers/1505 App bodies.
+ * Current reviewed boundary:1613 historical frontiers/1506 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_allocate_inline_storage",
+        .entry_rva = 0x350b7,
+        .code = (const ReconExtent[]) { { 0x350b7, 0x3510f } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "allocate_inline_storage",
+    },
     {
         .name = "_extract_pch_intermediates",
         .entry_rva = 0x5d470,
@@ -7202,10 +7210,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_initialize_inline_queries",
         .entry_rva = 0x34630,
-        .code = (const ReconExtent[]) { { 0x34630, 0x34631 } },
+        .code = (const ReconExtent[]) { { 0x34630, 0x34635 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initialize_inline_queries",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_function_inline_analysis",

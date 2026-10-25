@@ -3470,6 +3470,10 @@
     "_finish_line_record_debug_info": {
       "pending_extent": false,
       "reason": "ABI-only tail target of finish_debug_info: original whole70950..7099f has cdecl RET0 at7099e and only internal branches; native source remains trapping RET0. Unimplemented, masked and zero acceptance/coverage credit."
+    },
+    "_allocate_inline_storage": {
+      "pending_extent": false,
+      "reason": "ABI-only tail target of initialize_inline_queries: whole original450b7..4510f allocates/clears two tables and cdecl RET0 at4510e. Native remains trapping RET0, unimplemented/masked with zero credit."
     }
   },
   "runtime_candidate_disqualifications": {
