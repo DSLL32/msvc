@@ -124,7 +124,7 @@ static const ReconFunction functions[] = {
     {"_mapped_read@12",0xcab0,(const ReconExtent[]){{0xcab0,0xcb37}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"mapped_read",NULL,NULL,0,NULL},
     {"_mapped_write@12",0xcb40,(const ReconExtent[]){{0xcb40,0xcb41}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"mapped_write",NULL,NULL,0,NULL},
     {"_record_file_access",0xce80,(const ReconExtent[]){{0xce80,0xce81}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_file_access",NULL,NULL,0,NULL},
-    {"_map_file_range@12",0xcfc0,(const ReconExtent[]){{0xcfc0,0xcfc1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"map_file_range",NULL,NULL,0,NULL},
+    {"_map_file_range@12",0xcfc0,(const ReconExtent[]){{0xcfc0,0xd044}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"map_file_range",NULL,NULL,0,NULL},
     {"_initialize_contribution_pools",0xe360,(const ReconExtent[]){{0xe360,0xe3a2}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_contribution_pools",NULL,NULL,0,NULL},
     {"_initialize_output_modules@4",0xe3b0,(const ReconExtent[]){{0xe3b0,0xe414}},1,(const ReconExtent[]){{0x183c,0x1854},{0x1854,0x186b}},2,RECON_APP,RECON_IMPLEMENTED,"initialize_output_modules",NULL,NULL,0,NULL},
     {"_find_contribution_group@8",0xe670,(const ReconExtent[]){{0xe670,0xe6fd}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"find_contribution_group",NULL,NULL,0,NULL},

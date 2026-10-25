@@ -5607,6 +5607,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "_map_file_range@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }

@@ -319,3 +319,17 @@ int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char create
 }
 void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
 int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }
+
+void *__stdcall map_file_range(int file,LONG offset,unsigned bytes)
+{
+    FileRecord *record=file_slots[file];
+    DWORD error=0,end=(DWORD)offset+bytes;
+    if (!(record->flags & 8)) return NULL;
+    if (end>(DWORD)record->mapping_size &&
+        !resize_file_mapping(record,(LONG)end,&error)) {
+        if (error==112) link_fatal(record->name,1180);
+        link_fatal(record->name,1106,end);
+    }
+    if (end>(DWORD)record->size) record->size=(LONG)end;
+    return (BYTE *)record->view+offset;
+}

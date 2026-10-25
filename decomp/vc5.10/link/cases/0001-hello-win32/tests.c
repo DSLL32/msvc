@@ -115,9 +115,25 @@ static int symbol_read_mapping(void)
     return recon_native_at_entry(map_file_range,check_symbol_read_mapping,
         invoke_hello,NULL)==1;
 }
+extern char *__stdcall read_module_string_table(const char *,DWORD,DWORD *);
+static void __stdcall check_symbol_mapping(const char *name,DWORD offset,DWORD *size)
+{
+    FileRecord *file=file_slots[current_input_file];
+    recon_native_entry_finish(name && !strcmp(name,"hello.obj") && offset==1801 && size &&
+        file && file->view && file->size==2262 && file->file_size==300 &&
+        module_symbols_active==1 && module_symbols_mapped==1 &&
+        !symbol_read_buffer.data && !strcmp(default_phase,"ReadSymbolTable") &&
+        map_file_range(current_input_file,1135,666)==(BYTE *)file->view+1135);
+}
+static int symbol_mapping(void)
+{
+    return recon_native_at_entry(read_module_string_table,check_symbol_mapping,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
     {"section-header-read",1,section_header_read},
-    {"symbol-read-mapping",1,symbol_read_mapping}
+    {"symbol-read-mapping",1,symbol_read_mapping},
+    {"symbol-mapped-range",1,symbol_mapping}
 };
