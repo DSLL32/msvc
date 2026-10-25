@@ -365,3 +365,13 @@ void sort_line_ranges(void *record, unsigned char *lines)
     }
     free(entries);
 }
+
+int __cdecl compare_line_ranges(const void *left, const void *right)
+{
+    const LineSortEntry *a = left, *b = right;
+    int order = (int)a->segment-(int)b->segment;
+    if (order) return order;
+    if (a->start < b->start) return -1;
+    if (a->start > b->start) return 1;
+    return 0;
+}

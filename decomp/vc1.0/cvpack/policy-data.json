@@ -2382,7 +2382,7 @@
       },
       "_compare_line_ranges": {
         "abi": "int __cdecl compare_line_ranges(const void *,const void *)",
-        "source": "src/stubs.c",
+        "source": "src/lines.c",
         "stack_cleanup": 0,
         "roots": []
       },
