@@ -2266,8 +2266,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@allocate_small_node@4",
         .entry_rva = 0x10da,
+        .code = (const ReconExtent[]){{0x10da, 0x1139}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "allocate_small_node",
     },
     {

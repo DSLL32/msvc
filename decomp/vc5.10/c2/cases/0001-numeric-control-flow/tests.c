@@ -4,6 +4,7 @@
 #include "functions.h"
 #include "symbol-storage.h"
 #include "function-reader.h"
+#include "small-nodes.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -217,6 +218,25 @@ static int function_line_reset(void)
         input_line_needs_record == 1 && !input_line_cache && !input_line_filename;
 }
 
+static int small_node_reuse(void)
+{
+    union { unsigned alignment; unsigned char bytes[24]; } storage[2], saved;
+    C2SmallNode *first = (C2SmallNode *)&storage[0];
+    C2SmallNode *second = (C2SmallNode *)&storage[1];
+    unsigned i;
+    memset(storage, 0xa5, sizeof(storage));
+    first->next = second;
+    saved = storage[1];
+    free_small_nodes[23] = (C2SmallNode *)0x13579bdfU;
+    free_small_nodes[24] = first;
+    if (allocate_small_node(24) != first || free_small_nodes[24] != second ||
+        free_small_nodes[23] != (C2SmallNode *)0x13579bdfU ||
+        memcmp(&storage[1], &saved, sizeof(saved))) return 0;
+    for (i = 0; i < sizeof(storage[0]); ++i)
+        if (storage[0].bytes[i] != (i == 8 ? 24 : 0)) return 0;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -229,5 +249,6 @@ const ReconTest numeric_tests[] = {
     {"parameter storage padding and idempotence", 1, parameter_storage_layout},
     {"byte and word stack-slot alignment", 1, stack_slot_alignment},
     {"successive local stack allocations", 1, local_storage_sequence},
-    {"function line reset retains the cumulative line", 1, function_line_reset}
+    {"function line reset retains the cumulative line", 1, function_line_reset},
+    {"small-node reuse clears exactly its owned size", 1, small_node_reuse}
 };

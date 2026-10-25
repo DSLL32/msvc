@@ -7,11 +7,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2SmallNode *__fastcall allocate_small_node(unsigned char kind)
-{
-    __asm { int 3 }
-    return NULL;
-}
 void __fastcall link_code_nodes(C2Record *first, C2Record *last)
 {
     __asm { int 3 }
