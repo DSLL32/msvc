@@ -8,6 +8,7 @@
 ExceptionScope *prepared_exception_scopes;
 Node *exception_return_label;
 unsigned exception_finally_depth, next_exception_scope_identifier;
+ExceptionScope *exception_scope_stack[20];
 unsigned exception_scope_stack_depth; /* 00084e84, separate active-scope stack cursor */
 
 /* Original [000656e0,00065725). The established provisional symbol name
@@ -133,4 +134,17 @@ ExceptionScope *__cdecl allocate_exception_scope(void)
         ;
     *link = scope;
     return scope;
+}
+
+/* Original [00066380,000663ad). Push/pop establish depth0..20; inactive
+   slots are not input to the search. No tighter guard is introduced here. */
+ExceptionScope *__cdecl enclosing_try_scope(void)
+{
+    unsigned depth = exception_scope_stack_depth;
+    ExceptionScope *scope;
+    while (depth) {
+        scope = exception_scope_stack[--depth];
+        if (scope->kind == 0) return scope;
+    }
+    return 0;
 }

@@ -7,6 +7,8 @@
 extern ExceptionScope *prepared_exception_scopes; /* 0007b998 */
 extern Node *exception_return_label; /* 0007b99c */
 extern unsigned exception_finally_depth; /* 0007b9a0 */
+extern ExceptionScope *exception_scope_stack[20]; /* 0007e850, active slots only */
+extern unsigned exception_scope_stack_depth; /* 00084e84 */
 extern unsigned next_exception_scope_identifier; /* 0007b9a4 */
 void __cdecl reset_exception_scope_stack(void);
 ExceptionScope *__cdecl current_exception_scope(void);

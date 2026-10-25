@@ -75,6 +75,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_enclosing_try_scope": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

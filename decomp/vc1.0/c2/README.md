@@ -1,10 +1,10 @@
 # VC1.0 C2 reconstruction
 
-Paused at verified historical checkpoint1322:1207 application/support bodies,
-five historical handwritten CRT bodies (1776B, zero application credit),93
-shipped runtime and17 import acceptances. App extent330494/399693B (82.687%);
-all accepted extents348794/399693B (87.2655%), not branch coverage. Remaining
-unclassified code prevents a reliable non-CRT denominator.
+Active at checkpoint1323:1208 application/support bodies. Source extent
+330539/399693B (82.6982%); historical accepted union348839/399693B (87.2767%),
+not branch coverage. Five historical handwritten CRT bodies remain1776B and
+receive zero application credit. Remaining unclassified code prevents a reliable
+non-CRT denominator. Current SEH frontier is push_exception_scope65ef0.
 
 `binary.c` is the sole function registry. `make -j4 check unit` uses shared
 native recon-tool;16 complete output invocations and the partial SEH case keep
@@ -20,11 +20,11 @@ contracts. Function signatures remain typed. Five historical CRT overrides in cr
 are retained in the canonical and uninstrumented native support build, as before;
 no CRT reconstruction is added by migration.
 
-The unaccepted45B enclosing_try_scope candidate and exact pending invocation,
-source/proofs/paused status are preserved at
+The former paused45B enclosing_try_scope candidate and original pending
+invocation/source proofs remain preserved at
 `~/.ai-tmp/msvc2/vc1.0/c2/standardization/before/` and `paused-wip.patch`.
-Runnable source restores its verified1322 named trap. Resume reconstruction
-only on instruction; this migration accepts no functions. Superseded proof
+That candidate has now been reconstructed; the historical migration itself
+accepted no functions. Superseded proof
 hierarchies remain in Git history, not in fixture payloads.
 
 Narrow unit checks retain original-backed register spellings, scalar and x87
@@ -67,3 +67,15 @@ pending; the existing complete32B compiler_internal_error interval is explicitly
 qualified for ABI closure only, with its19B RET0 body/13B padding proof in
 policy-data.json. It remains unimplemented, masked and zero App credit.
 Full logs/timing: `~/.ai-tmp/msvc2/vc1.0/c2/layout-validation.json`.
+
+SEH progress1323: whole45B enclosing-try search66380..663ad and contextual
+20-pointer active stack recovered. Current real path has depth0; explicit unit
+controls cover valid depth0..20, nearest kind-zero identity and read-only storage.
+Fresh shared original/native pair reaches push_exception_scope65ef0. The new
+fastcall scope argument has48 defined bytes and genuine arena1 ownership:
+zeros except parent ID-1, headNULL/nextID1/finally0/depth0. A bounded read-only
+scratch broker diagnostic confirms actual ECX/ESI/arena/return66216 aliases; the
+shared native typed-entry assertion checks the same inputs. Diagnostic inspection
+did not change the real frontier or13-entry suffix. No extra reconstruction case
+or local controller was added.16 RET contracts/1213 graphs,17 I/O cases and14
+unit tests pass. Timing/raw diagnostic: `~/.ai-tmp/msvc2/vc1.0/c2/seh-resume/`.

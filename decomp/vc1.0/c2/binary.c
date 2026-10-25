@@ -1,4 +1,4 @@
-/* Canonical original registry. Paused1322:1207 App bodies; historical
+/* Canonical original registry. Application implementation status is explicit;
  * five source CRT overrides and shipped runtime/imports get zero App credit.
  * One-byte unimplemented extents are entry placeholders only. */
 #include <recon-tool.h>
@@ -1501,11 +1501,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_enclosing_try_scope",
         .entry_rva = 0x56380,
-        .code = (const ReconExtent[]) { { 0x56380, 0x56381 } },
+        .code = (const ReconExtent[]) { { 0x56380, 0x563ad } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "enclosing_try_scope",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_pop_exception_scope",
