@@ -1,0 +1,21 @@
+#ifndef C2_FUNCTION_READER_H
+#define C2_FUNCTION_READER_H
+#include "code-records.h"
+#include <recon.h>
+
+C2ScopeHash *new_function_scope(void);
+unsigned reset_function_line_input(void);
+C2Record *new_statement_boundary(void);
+void __fastcall link_code_nodes(C2Record *first, C2Record *last);
+void __fastcall create_function_flow(C2Function *function, C2Record *first,
+                                     C2Record *last, int pool);
+void __fastcall read_function_code(C2Function *function, C2Record **pending,
+                                   C2Record *first, int limit, int outermost);
+void __fastcall validate_function_code(C2Record *first);
+void finish_function_input(void);
+void __fastcall finish_function_debug(C2Function *function);
+void __fastcall finish_optimized_function_input(C2Function *function);
+FILE *__fastcall read_pdb_symbol_il(unsigned serial, unsigned index);
+FILE *__fastcall read_pdb_expression_symbols(unsigned serial, unsigned index);
+FILE *__fastcall read_pdb_expression_il(unsigned serial, unsigned index);
+#endif

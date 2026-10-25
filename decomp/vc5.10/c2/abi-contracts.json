@@ -588,5 +588,87 @@
     "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
     "original_iat_slot": 4772064,
     "scope": "Public cdecl normal-return EBP preservation only; no provider implementation or data credit."
+  },
+  "function_reader_fseek_ebp": {
+    "scope": "Only normal-return EBP preservation for the cached fseek identity in read_function; no provider private-state or body equivalence claim.",
+    "target": "toolchains/5.10/bin/C2.EXE",
+    "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+    "owner": {
+      "entry": 4358376,
+      "code": [
+        [
+          4358376,
+          4358816
+        ],
+        [
+          4636322,
+          4636423
+        ]
+      ]
+    },
+    "import": {
+      "dll": "MSVCRT.dll",
+      "name": "fseek",
+      "iat": 4771924,
+      "seed": [
+        4358456,
+        4358462
+      ],
+      "calls": [
+        4358505,
+        4358592
+      ],
+      "declaration": "_CRTIMP int __cdecl fseek(FILE *, long, int);",
+      "header": "toolchains/5.10/include/STDIO.H",
+      "header_sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+      "header_line": 350,
+      "normal_return_contract": "Win32 x86 cdecl preserves EBP; both actual calls pass FILE*, long, SEEK_SET and caller cleans12B."
+    },
+    "read_symbols": {
+      "entry": 4326292,
+      "code": [
+        [
+          4326292,
+          4327018
+        ],
+        [
+          4628747,
+          4628851
+        ]
+      ],
+      "save": [
+        4326293,
+        4326294
+      ],
+      "restore": [
+        4327015,
+        4327016
+      ],
+      "normal_ret": [
+        4327017,
+        4327018
+      ],
+      "statement": "Entry PUSH EBP occurs before writes/calls; the whole primary+cold body has a single normal RET after POP EBP, balanced EBX/ESI/EDI saves. Cold returns rejoin primary, no other exit/tail. Callee stack preservation remains its ordinary ABI, not dependency reconstruction."
+    },
+    "lifetime": "Seed to first/second fseek. First fseek and read_symbols are the only normal-path calls while fseek in EBP is live; direct assignment of marker to EBP after second fseek ends lifetime. PDB branches do not execute either fseek call after their independent branches; no vtable/provider-private proof added.",
+    "pdb_symbol_wrapper": {
+      "scope": "Finite EBP normal-return fact only on presently unexecuted static branch; pending target remains INT3/masked, no target/dependency body credit. Actual future execution requires its fresh owner/ABI proof.",
+      "target_entry": 4766540,
+      "target_code": [
+        4766540,
+        4766601
+      ],
+      "target_behavior": "No EBP writes. Five pushed arguments to actual IAT48d00c ILModGetIL; caller ADD ESP20; two RET0 paths.",
+      "provider": "toolchains/5.10/bin/MSPDB50.DLL",
+      "provider_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "export_name": "ILModGetIL",
+      "export_ordinal": 47,
+      "export_rva": 70846,
+      "export_code": [
+        271652030,
+        271652055
+      ],
+      "provider_behavior": "PUSH EBP; MOV EBP,ESP; pass four DWORD arguments and ECX=this to vtable slot+8; normal-return POP EBP; RET0. This public cdecl wrapper restores the actual saved EBP. Standard thiscall stack cleanup16 required; no virtual body identity/output contract inferred."
+    }
   }
 }

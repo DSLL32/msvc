@@ -2,9 +2,70 @@
 #include "coff-output.h"
 #include "function-records.h"
 #include "register-sets.h"
+#include "function-reader.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
+C2ScopeHash *new_function_scope(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
+unsigned reset_function_line_input(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+C2Record *new_statement_boundary(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
+void __fastcall link_code_nodes(C2Record *first, C2Record *last)
+{
+    __asm { int 3 }
+}
+void __fastcall create_function_flow(C2Function *function, C2Record *first,
+                                     C2Record *last, int pool)
+{
+    __asm { int 3 }
+}
+void __fastcall read_function_code(C2Function *function, C2Record **pending,
+                                   C2Record *first, int limit, int outermost)
+{
+    __asm { int 3 }
+}
+void __fastcall validate_function_code(C2Record *first)
+{
+    __asm { int 3 }
+}
+void finish_function_input(void)
+{
+    __asm { int 3 }
+}
+void __fastcall finish_function_debug(C2Function *function)
+{
+    __asm { int 3 }
+}
+void __fastcall finish_optimized_function_input(C2Function *function)
+{
+    __asm { int 3 }
+}
+FILE *__fastcall read_pdb_symbol_il(unsigned serial, unsigned index)
+{
+    __asm { int 3 }
+    return NULL;
+}
+FILE *__fastcall read_pdb_expression_symbols(unsigned serial, unsigned index)
+{
+    __asm { int 3 }
+    return NULL;
+}
+FILE *__fastcall read_pdb_expression_il(unsigned serial, unsigned index)
+{
+    __asm { int 3 }
+    return NULL;
+}
 void c2_print_banner(void)
 {
     __asm { int 3 }
@@ -138,11 +199,6 @@ void finish_deferred_function(void)
 }
 
 
-C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 void __fastcall activate_scope(C2ScopeHash *scope)
 {
