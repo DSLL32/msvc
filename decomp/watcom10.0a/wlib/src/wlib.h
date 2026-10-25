@@ -17,6 +17,25 @@ typedef struct handle_info {
 } HANDLE_INFO;
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
 #pragma pack(1)
+typedef struct WResID {
+    unsigned char IsName;
+    union {
+        unsigned short Num;
+        struct {
+            unsigned char NumChars;
+            char Name[1];
+        } Name;
+    } ID;
+} WResID;
+typedef struct WResTypeInfo {
+    unsigned short NumResources;
+    WResID TypeName;
+} WResTypeInfo;
+typedef struct WResTypeNode {
+    struct WResTypeNode *Next, *Prev;
+    struct WResResNode *Head, *Tail;
+    WResTypeInfo Info;
+} WResTypeNode;
 typedef struct WResDirHead {
     unsigned short NumResources;
     unsigned short NumTypes;
@@ -34,6 +53,9 @@ typedef struct WResExtHeader {
     unsigned short reserved[4];
 } WResExtHeader;
 #pragma pack()
+typedef char WlibResourceIDSize[(sizeof(WResID) == 3) ? 1 : -1];
+typedef char WlibResourceTypeInfoSize[(sizeof(WResTypeInfo) == 5) ? 1 : -1];
+typedef char WlibResourceTypeNodeSize[(sizeof(WResTypeNode) == 21) ? 1 : -1];
 typedef char WlibResourceHeaderSize[(sizeof(WResHeader) == 18) ? 1 : -1];
 typedef char WlibResourceExtHeaderSize[(sizeof(WResExtHeader) == 10) ? 1 : -1];
 typedef char WlibResourceDirectorySize[(sizeof(WResDirHead) == 14) ? 1 : -1];
@@ -78,6 +100,11 @@ int readWResDir( int handle, WResDir dir );
 int WResReadHeaderRecord( WResHeader *header, int handle );
 int WResReadExtHeader( WResExtHeader *header, int handle );
 int readTypeList( int handle, WResDir dir, unsigned short version );
+int WResReadFixedTypeRecord( WResTypeInfo *info, int handle );
+int WResIDExtraBytes( const WResID *id );
+int WResReadExtraWResID( WResID *id, int handle );
+void ResAddLLItemAtEnd( void **head, void **tail, void *item );
+int readResList( int handle, WResTypeNode *type, unsigned short version );
 int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */

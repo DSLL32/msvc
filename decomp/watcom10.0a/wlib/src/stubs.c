@@ -48,8 +48,32 @@ int readMResDir( int handle, WResDir dir, int *dup_discarded )
     return( 0 );
 }
 
-int readTypeList( int handle, WResDir dir, unsigned short version )
+
+int WResReadFixedTypeRecord( WResTypeInfo *info, int handle )
 {
     WLIB_FRONTIER();
     return( 0 );
+}
+
+int WResIDExtraBytes( const WResID *id )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int WResReadExtraWResID( WResID *id, int handle )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int readResList( int handle, WResTypeNode *type, unsigned short version )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+void ResAddLLItemAtEnd( void **head, void **tail, void *item )
+{
+    WLIB_FRONTIER();
 }

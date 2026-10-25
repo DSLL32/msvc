@@ -42,7 +42,7 @@
 
 #if defined(__WATCOMC__)
 /* The original comparison is the compiler's inline memcmp intrinsic. */
-#pragma intrinsic(memcmp)
+#pragma intrinsic(memcmp,memcpy)
 #endif
 
 /* Encountered prefix of the resource callback table at 0x42044c. */
@@ -247,6 +247,40 @@ int WResReadExtHeader( WResExtHeader *header, int file )
         return 1;
     }
     return 0;
+}
+
+/* Original 0x419f20..0x41a018. Initial wrreaddi.c type loop with
+   the actual three-byte ID and five-byte fixed type record. */
+int readTypeList( int file, WResDir dir, unsigned short version )
+{
+    WResTypeNode *node;
+    WResTypeInfo info;
+    int error, typenum, extra;
+
+    for( error = 0, typenum = 0; typenum < dir->NumTypes && !error; ++typenum ) {
+        error = WResReadFixedTypeRecord( &info, file );
+        if( !error ) {
+            extra = WResIDExtraBytes( &info.TypeName );
+            node = (*WResRtns.alloc)( sizeof( *node ) + extra );
+            if( node == 0 ) {
+                error = 1;
+                WresRecordError( WRS_MALLOC_FAILED );
+            }
+        }
+        if( !error ) {
+            node->Head = 0;
+            node->Tail = 0;
+            memcpy( &node->Info, &info, sizeof(info) );
+            if( extra > 0 ) {
+                error = WResReadExtraWResID( &node->Info.TypeName, file );
+            }
+        }
+        if( !error ) {
+            ResAddLLItemAtEnd( (void **)&dir->Head, (void **)&dir->Tail, node );
+            error = readResList( file, node, version );
+        }
+    }
+    return error;
 }
 
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
