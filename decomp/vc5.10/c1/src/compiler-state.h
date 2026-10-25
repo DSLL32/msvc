@@ -46,6 +46,7 @@ typedef struct CompilerInitializedState {
     unsigned ir_reference_epoch; /* RVA5f96c, default1; lowbit in symbol flags */
     int ir_symbol_state_ready;   /* RVA5f370, default1 */
     int ir_symbol_state_changed; /* RVA5f374, default0 */
+    int last_line_delta; /* RVA5f4d8, default0 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -214,6 +215,7 @@ typedef struct CompilerBss {
     unsigned ir_record_count; /* RVA55058 */
     CompilerIrSymbol *current_function; /* RVA54c90 */
     CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
+    int pending_line_delta; /* RVA5780c; current line minus saved line origin */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

@@ -397,7 +397,37 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
 #undef UPDATE_REFERENCE
 #undef IR_RESERVE
 
-extern "C" void __cdecl emit_pending_line_record(void) { __asm { int 3 } }
+extern "C" void __cdecl emit_pending_line_record(void)
+{
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    int available, delta;
+    if (c1_bss.pending_line_delta &&
+        c1_bss.pending_line_delta != c1_data.last_line_delta) {
+        c1_data.last_line_delta = c1_bss.pending_line_delta;
+        available = 1;
+        if (buffer->cursor + 2 > buffer->data + buffer->capacity)
+            available = buffer->Grow(2);
+        buffer->good &= available;
+        if (buffer->good) *buffer->cursor++ = 0x4f;
+        available = 1;
+        if (buffer->cursor + 2 > buffer->data + buffer->capacity)
+            available = buffer->Grow(2);
+        buffer->good &= available;
+        if (buffer->good) *buffer->cursor++ = 0x24;
+        delta = (short)c1_bss.pending_line_delta;
+        available = 1;
+        if (buffer->cursor + 4 > buffer->data + buffer->capacity)
+            available = buffer->Grow(4);
+        buffer->good &= available;
+        if (buffer->good) {
+            if ((unsigned)delta & ~0x7fU) {
+                *buffer->cursor++ = 0x80;
+                *(WORD *)buffer->cursor = (WORD)delta;
+                buffer->cursor += 2;
+            } else *buffer->cursor++ = (BYTE)delta;
+        }
+    }
+}
 extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant *node, int mode) { __asm { int 3 } }
 extern "C" void __cdecl write_symbol_record(CompilerIrSymbol *symbol) { __asm { int 3 } }
 extern "C" int __cdecl has_debug_symbol_index(unsigned index) { __asm { int 3 } return 0; }

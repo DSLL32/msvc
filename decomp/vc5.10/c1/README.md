@@ -3,11 +3,11 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 107 accepted application functions / 16,150 code bytes.
+The current prefix contains 108 accepted application functions / 16,520 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; three import thunks / 18 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
-not been classified. Initialized state retains 3,016 unmodeled bytes, and the
+not been classified. Initialized state retains 3,012 unmodeled bytes, and the
 literal object's separate 16-byte tail remains unmodeled.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so` and discovers
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`emit_pending_line_record()`, RVA `0x1000`. Its fresh reference uses logical cwd
+`CompilerOutputBuffer::Ensure()`, RVA `0x1012`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -57,7 +57,7 @@ The 32-byte predefined token records currently model only kind/tag bytes at
 offsets 0/8; all other record bytes remain unmodeled and untouched.
 
 The IL writer preserves its full operand-format graph and contextual tables.
-The current case reaches its first line-record helper with opcode0x5b and an
-integer operand; later operand branches have not been exercised. Storage-width
+The current case passes the empty line-record path and reaches buffer reservation
+for opcode0x5b with an integer operand; later operand branches have not been exercised. Storage-width
 classes without an established original width fail closed natively before use,
 while the original Win32 source retains its unset-local behavior.

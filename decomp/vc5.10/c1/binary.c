@@ -5,8 +5,8 @@
 
 static const ReconFunction functions[] = {
     { .name = "_emit_pending_line_record", .entry_rva = 0x1000,
-      .code = (const ReconExtent[]){{0x1000, 0x1001}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "emit_pending_line_record" },
+      .code = (const ReconExtent[]){{0x1000, 0x1012}, {0x260de, 0x2623e}}, .code_count = 2,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "emit_pending_line_record" },
     { .name = "_write_ir_operand", .entry_rva = 0x1cec9,
       .code = (const ReconExtent[]){{0x1cec9, 0x1ceca}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "write_ir_operand" },

@@ -137,7 +137,33 @@ static int integer_nodes(void)
         node->integer == 7 && c1_bss.arenas[3].cursor == (BYTE *)storage + 76 &&
         storage[0] == 0xa5a5a5a5 && storage[19] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[10] = {
+extern void __cdecl emit_pending_line_record(void);
+static int pending_line_record(void)
+{
+    BYTE bytes[16];
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    buffer->data = bytes;
+    buffer->cursor = bytes;
+    buffer->capacity = sizeof(bytes);
+    buffer->good = 7;
+    c1_bss.ir_record_count = 67;
+    c1_bss.pending_line_delta = 5;
+    c1_data.last_line_delta = 9;
+    emit_pending_line_record();
+    if (buffer->cursor != bytes + 3 || buffer->good != 1 ||
+        bytes[0] != 0x4f || bytes[1] != 0x24 || bytes[2] != 5 ||
+        c1_data.last_line_delta != 5) return 0;
+    emit_pending_line_record();
+    c1_bss.pending_line_delta = 0;
+    emit_pending_line_record();
+    if (buffer->cursor != bytes + 3 || c1_data.last_line_delta != 5) return 0;
+    c1_bss.pending_line_delta = -2;
+    emit_pending_line_record();
+    return buffer->cursor == bytes + 8 && bytes[3] == 0x4f && bytes[4] == 0x24 &&
+        bytes[5] == 0x80 && bytes[6] == 0xfe && bytes[7] == 0xff &&
+        c1_data.last_line_delta == -2 && c1_bss.ir_record_count == 67;
+}
+const ReconTest minimal_tests[11] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -147,5 +173,6 @@ const ReconTest minimal_tests[10] = {
     { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage },
     { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning },
     { "output constructor clears only first filename byte", 1, output_filename_constructor },
-    { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes }
+    { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes },
+    { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record }
 };
