@@ -1218,6 +1218,10 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
         .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if a.check_registry_support_extents {
+        result["registry_support_extents"] =
+            registry_support_extents(&d, x, &metadata, a.check_instruction_overlap)?;
+    }
     if let Some(checks) = &ret_checks {
         ensure!(
             ret_report.len() == checks.len(),
@@ -1639,6 +1643,112 @@ fn declared_evidence(value: &Value) -> bool {
         Value::Number(v) => v.as_f64().is_some_and(|v| v != 0.0),
     }
 }
+fn structural_record(
+    d: &Decoder,
+    pe: &impl ImageView,
+    record: &Record,
+    metadata: &Value,
+    side: &str,
+    index: &[Record],
+    forbid_overlap: bool,
+) -> Result<crate::flow::Graph> {
+    let mut options = crate::flow::Options {
+        infer_switches: true,
+        infer_seh: !pe.explicit_flat_ownership(),
+        require_explicit_seh_roots: pe.explicit_flat_ownership(),
+        code_chunks: record.code_chunks.clone(),
+        allow_extent_end: true,
+        forbid_overlapping_instructions: forbid_overlap,
+        ..Default::default()
+    };
+    apply_metadata(&mut options, &metadata["functions"][&record.name][side])?;
+    validate_text_data(pe, record, &options.data, index)?;
+    let graph =
+        crate::flow::walk(d, pe, record.start, record.end, &options).with_context(|| {
+            format!(
+                "{side} accepted extent {} {:x}..{:x}",
+                record.name, record.start, record.end
+            )
+        })?;
+    validate_inferred_data(pe, record, &graph, index)?;
+    cfg_boundaries(d, pe, record, &graph, &options.data, false)
+        .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
+    Ok(graph)
+}
+
+fn registry_support_extents(
+    d: &Decoder,
+    x: &Inputs,
+    metadata: &Value,
+    forbid_overlap: bool,
+) -> Result<Value> {
+    let mut original = 0usize;
+    let mut rebuilt = 0usize;
+    let mut unavailable = Vec::new();
+    let mut original_ranges = BTreeSet::new();
+    let mut rebuilt_ranges = BTreeSet::new();
+    for record in &x.registry_support {
+        let graph =
+            structural_record(d, &x.o, record, metadata, "original", &x.oi, forbid_overlap)?;
+        ensure!(
+            record.shared.iter().all(|&(a, b)| graph
+                .instructions
+                .values()
+                .all(|i| i.next() <= a || b <= i.a)),
+            "registry support shared data overlaps original instruction: {}",
+            record.name
+        );
+        original += 1;
+        original_ranges.extend(record.code_ranges());
+        let mut addresses: BTreeSet<_> = x
+            .rebuilt_entry_names
+            .iter()
+            .filter(|(_, names)| names.contains(&record.name))
+            .map(|(address, _)| *address)
+            .collect();
+        addresses.extend(
+            x.ri.iter()
+                .filter(|r| r.name == record.name)
+                .map(|r| r.start),
+        );
+        ensure!(
+            addresses.len() <= 1,
+            "ambiguous rebuilt registry support entry {}",
+            record.name
+        );
+        let found: Vec<_> =
+            x.ri.iter()
+                .filter(|r| addresses.contains(&r.start) && r.start < r.end)
+                .collect();
+        if found.is_empty() {
+            unavailable.push(json!({"name":record.name,"original_start":record.start,"reason":"no proven rebuilt structural extent"}));
+            continue;
+        }
+        let bounds: BTreeSet<_> = found
+            .iter()
+            .map(|r| (r.start, r.end, &r.code_chunks))
+            .collect();
+        ensure!(
+            bounds.len() == 1,
+            "ambiguous rebuilt registry support extent {}",
+            record.name
+        );
+        let mut other = found[0].clone();
+        other.name = record.name.clone();
+        ensure!(
+            other.code_ranges().all(|(a, b)| x.r.file_backed_code(a, b)),
+            "registry support extent outside rebuilt file-backed code: {}",
+            record.name
+        );
+        structural_record(d, &x.r, &other, metadata, "rebuilt", &x.ri, forbid_overlap)?;
+        rebuilt += 1;
+        rebuilt_ranges.extend(other.code_ranges());
+    }
+    Ok(
+        json!({"checked_records":{"original":original,"rebuilt":rebuilt},"checked_unique_intervals":{"original":original_ranges.len(),"rebuilt":rebuilt_ranges.len()},"structurally_unavailable_rebuilt_count":unavailable.len(),"structurally_unavailable_rebuilt":unavailable}),
+    )
+}
+
 fn paired_record<'a>(
     index: &'a [Record],
     entries: &crate::index::EntryNames,
@@ -1696,33 +1806,12 @@ fn accepted_extents(
             )) {
                 continue;
             }
-            let mut options = crate::flow::Options {
-                infer_switches: true,
-                infer_seh: !pe.explicit_flat_ownership(),
-                require_explicit_seh_roots: pe.explicit_flat_ownership(),
-                code_chunks: record.code_chunks.clone(),
-                allow_extent_end: true,
-                forbid_overlapping_instructions: forbid_overlap,
-                ..Default::default()
-            };
-            apply_metadata(&mut options, &metadata["functions"][&record.name][side])?;
-            validate_text_data(pe, record, &options.data, index)?;
-            let graph = crate::flow::walk(d, pe, record.start, record.end, &options).with_context(
-                || {
-                    format!(
-                        "{side} accepted extent {} {:x}..{:x}",
-                        record.name, record.start, record.end
-                    )
-                },
-            )?;
+            let graph = structural_record(d, pe, record, metadata, side, index, forbid_overlap)?;
             if side == "original" {
                 let raw = raw_original.entry(record.name.clone()).or_default();
                 raw.0.extend(&graph.calls);
                 raw.1.extend(&graph.references);
             }
-            validate_inferred_data(pe, record, &graph, index)?;
-            cfg_boundaries(d, pe, record, &graph, &options.data, false)
-                .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
         }
         counts.insert(side, records);
         unique_counts.insert(side, checked.len());

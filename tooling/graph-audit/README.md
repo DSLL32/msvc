@@ -687,3 +687,14 @@ file. The legacy CVPACK format and cache policy remain supported unchanged.
 Kanji predicates. It does not change graph-body selection and is rejected for
 other profiles. Runtime/import structural extents and graph-body acceptance are
 separate policies; naming an endpoint grants neither.
+
+`--check-registry-support-extents` separately walks every nonempty reviewed
+CRT/import interval in `function_registry`, using the same instruction-boundary
+and code/data validation as accepted extents. It skips Unknown records,
+unimplemented App entries and entry-only support declarations. Original bounds
+come directly from the registry. Rebuilt checks require unique existing real
+Record, shared identifier or verified import-thunk bounds, including physical
+aliases; the flag never invents a bound from the next MAP public. Missing rebuilt
+structural bounds are listed explicitly with counts and names. Accepted graph
+bodies still require their rebuilt counterparts independently. This flag neither
+selects graph/RET bodies nor grants acceptance, restoration or execution credit.

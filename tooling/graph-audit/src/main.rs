@@ -98,6 +98,11 @@ pub struct Args {
     pub check_accepted_extents: bool,
     #[arg(
         long,
+        help = "Structurally check canonical CRT/import extents without accepting graph bodies"
+    )]
+    pub check_registry_support_extents: bool,
+    #[arg(
+        long,
         help = "Assume instructions cannot overlap within a function (not a universal x86 rule)"
     )]
     pub check_instruction_overlap: bool,
@@ -148,6 +153,7 @@ fn run() -> Result<()> {
                 || args.check_instruction_overlap
                 || args.include_evidenced_runtime
                 || args.check_accepted_extents
+                || args.check_registry_support_extents
                 || args.metadata.is_some()
                 || args.map_format != MapFormat::Msvc),
         "optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
@@ -174,6 +180,10 @@ fn run() -> Result<()> {
             "per-owner register imports require a standalone CFG profile"
         );
     }
+    anyhow::ensure!(
+        !args.check_registry_support_extents || args.profile != Profile::Cvpack,
+        "registry support extent checks require a standalone CFG profile"
+    );
     anyhow::ensure!(
         !args.check_runtime_data || args.profile == Profile::Rc,
         "--check-runtime-data requires the RC CFG profile"
@@ -206,6 +216,10 @@ fn run() -> Result<()> {
             (args.check_extents, "whole_extent_boundaries"),
             (args.include_evidenced_runtime, "evidenced_runtime_graphs"),
             (args.check_accepted_extents, "accepted_index_extents"),
+            (
+                args.check_registry_support_extents,
+                "registry_support_extents",
+            ),
             (
                 args.check_instruction_overlap,
                 "nonoverlapping_instruction_assumption",

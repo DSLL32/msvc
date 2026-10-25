@@ -1,0 +1,168 @@
+{
+  "baseline_sha256": "1d6e8f74a8673f4da16315c1350c922948400bfde390e2a9933992cb4eb7a829",
+  "release_sha256": "86cedb9ba14f84874fcb64130424d68e50445e5ca60fa539c1a6535aff31beee",
+  "source_files": {
+    "src/main.rs": "4423c31a716764b01f40e22ebf8e6af1c331f51dd3dcb7d852296cc234b7d5a1",
+    "src/index.rs": "7f145cfcf72a041d3882fbbb466f12fb24631234c943b89ad4f5d0a376686446",
+    "src/audit.rs": "f045f9c82f568717ef52cccfa2e9bb4b81377959b4044629bf24741f92ccb0ad",
+    "README.md": "86ef594c86a146de14f044d0b044b0bcf24331b1197c03eecf3f718c6aeae586"
+  },
+  "tests": [
+    {
+      "name": "published-ordinary",
+      "status": 0,
+      "seconds": 0.2768395021557808,
+      "stderr": ""
+    },
+    {
+      "name": "ordinary",
+      "status": 0,
+      "seconds": 0.2733357958495617,
+      "stderr": ""
+    },
+    {
+      "name": "support",
+      "status": 0,
+      "seconds": 0.362312083132565,
+      "stderr": ""
+    },
+    {
+      "name": "clipped-original-jmp-ordinary-control",
+      "status": 0,
+      "seconds": 0.27621790021657944,
+      "stderr": ""
+    },
+    {
+      "name": "clipped-original-jmp",
+      "status": 1,
+      "seconds": 0.27371074445545673,
+      "stderr": "graph-audit: original accepted extent __getpid 100e3a0..100e3a4: instruction crosses code chunk boundary at 100e3a0\n"
+    },
+    {
+      "name": "missing-code-field",
+      "status": 1,
+      "seconds": 0.009674852713942528,
+      "stderr": "graph-audit: registry support code intervals: invalid type: null, expected a sequence\n"
+    },
+    {
+      "name": "outside-image",
+      "status": 1,
+      "seconds": 0.008273572660982609,
+      "stderr": "graph-audit: registry support extent outside original file-backed code: __getpid\n"
+    },
+    {
+      "name": "outside-data",
+      "status": 1,
+      "seconds": 0.009116827510297298,
+      "stderr": "graph-audit: registry support text data outside original file-backed code: __getpid\n"
+    },
+    {
+      "name": "data-instruction-overlap",
+      "status": 1,
+      "seconds": 0.27413799706846476,
+      "stderr": "graph-audit: registry support shared data overlaps original instruction: __getpid\n"
+    },
+    {
+      "name": "clipped-rebuilt-jmp",
+      "status": 1,
+      "seconds": 0.27666958421468735,
+      "stderr": "graph-audit: rebuilt accepted extent __getpid 20e30..20e34: instruction crosses code chunk boundary at 20e30\n"
+    },
+    {
+      "name": "ambiguous-rebuilt-bounds",
+      "status": 1,
+      "seconds": 0.2840634547173977,
+      "stderr": "graph-audit: ambiguous rebuilt registry support extent __getpid\n"
+    },
+    {
+      "name": "missing-rebuilt-no-inference",
+      "status": 0,
+      "seconds": 0.3209316683933139,
+      "stderr": ""
+    },
+    {
+      "name": "legacy-denial",
+      "status": 1,
+      "seconds": 0.0018265070393681526,
+      "stderr": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks\n"
+    },
+    {
+      "name": "integrated-profile-denial",
+      "status": 1,
+      "seconds": 0.0026458697393536568,
+      "stderr": "graph-audit: registry support extent checks require a standalone CFG profile\n"
+    }
+  ],
+  "runtime_support_facts": {
+    "checked_records": {
+      "original": 122,
+      "rebuilt": 114
+    },
+    "checked_unique_intervals": {
+      "original": 122,
+      "rebuilt": 114
+    },
+    "structurally_unavailable_rebuilt": [
+      {
+        "name": "__exit",
+        "original_start": 16835072,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "__cexit",
+        "original_start": 16835104,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "__c_exit",
+        "original_start": 16835120,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "_comexecmd",
+        "original_start": 16835584,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "__spawnve",
+        "original_start": 16835696,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "__endstdio",
+        "original_start": 16840880,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "_get_short_arg",
+        "original_start": 16848848,
+        "reason": "no proven rebuilt structural extent"
+      },
+      {
+        "name": "__amsg_exit",
+        "original_start": 16849584,
+        "reason": "no proven rebuilt structural extent"
+      }
+    ],
+    "structurally_unavailable_rebuilt_count": 8
+  },
+  "ordinary_report_exactly_unchanged": true,
+  "flag_removal_report_exactly_unchanged": true,
+  "graph_functions": 193,
+  "units": 71,
+  "fmt": true,
+  "clippy": true,
+  "scope": "RC1 structural extents only; no graph/RET/acceptance/source changes; no Wine, fixture, capture or next-public bound inference",
+  "historically_accepted_rebuilt_structural_unavailable": [
+    "_comexecmd",
+    "__spawnve",
+    "__endstdio"
+  ],
+  "historically_unaccepted_rebuilt_structural_unavailable": [
+    "__exit",
+    "__cexit",
+    "__c_exit",
+    "_get_short_arg",
+    "__amsg_exit"
+  ]
+}

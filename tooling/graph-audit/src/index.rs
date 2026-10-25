@@ -141,6 +141,7 @@ pub struct Inputs {
     pub oi: Vec<Record>,
     pub ri: Vec<Record>,
     pub drivers: Vec<Record>,
+    pub registry_support: Vec<Record>,
     pub original_entry_names: EntryNames,
     pub rebuilt_entry_names: EntryNames,
     pub original_import_entries: BTreeSet<u32>,
@@ -461,7 +462,13 @@ impl Inputs {
                 "CRT global differs {n}"
             );
         }
+        let registry_support = if a.check_registry_support_extents {
+            registry_support_records(&cfg, &o)?
+        } else {
+            Vec::new()
+        };
         Ok(Self {
+            registry_support,
             o,
             r,
             oi,
@@ -780,6 +787,70 @@ fn registry_entry_names(
     );
     Ok(out)
 }
+fn registry_support_records(cfg: &Value, image: &Image) -> Result<Vec<Record>> {
+    let base = num(&cfg["target"]["base"])?;
+    let registry = cfg["function_registry"]
+        .as_array()
+        .context("registry support checks require function_registry")?;
+    let mut result = Vec::new();
+    for entry in registry {
+        if ![1, 2, 3].contains(&num(&entry["definition"])?) {
+            continue;
+        }
+        let name = entry["name"].as_str().context("registry support name")?;
+        let ranges: Vec<(u32, u32)> = serde_json::from_value(entry["code"].clone())
+            .context("registry support code intervals")?;
+        if ranges.is_empty() {
+            continue;
+        }
+        let convert = |(a, b): (u32, u32)| -> Result<(u32, u32)> {
+            ensure!(a < b, "invalid registry support interval: {name}");
+            Ok((
+                base.checked_add(a)
+                    .context("registry support address overflow")?,
+                base.checked_add(b)
+                    .context("registry support address overflow")?,
+            ))
+        };
+        ensure!(
+            ranges[0].0 == num(&entry["rva"])?,
+            "registry support primary interval does not begin at entry: {name}"
+        );
+        let mut code = ranges
+            .into_iter()
+            .map(convert)
+            .collect::<Result<Vec<_>>>()?;
+        let (start, end) = code.remove(0);
+        let data: Vec<(u32, u32)> = serde_json::from_value(entry["text_data"].clone())
+            .context("registry support text_data intervals")?;
+        let record = Record {
+            name: name.into(),
+            start,
+            end,
+            code_chunks: code,
+            shared: data.into_iter().map(convert).collect::<Result<_>>()?,
+            evidence: Value::Null,
+            pending_extent: false,
+        };
+        ensure!(
+            record
+                .code_ranges()
+                .all(|(a, b)| image.file_backed_code(a, b)),
+            "registry support extent outside original file-backed code: {name}"
+        );
+        ensure!(
+            record
+                .shared
+                .iter()
+                .all(|&(a, b)| image.file_backed_code(a, b)),
+            "registry support text data outside original file-backed code: {name}"
+        );
+        validate_chunk_ownership(image, std::slice::from_ref(&record))?;
+        result.push(record);
+    }
+    Ok(result)
+}
+
 pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
     ensure!(width <= 8, "unsupported CRT global width {width}");
     ensure!(
@@ -793,6 +864,30 @@ pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
 mod registry_tests {
     use super::*;
     use serde_json::json;
+    #[test]
+    fn registry_support_uses_only_exact_known_support_intervals() {
+        let image = Image::Pe(crate::tests::image(&[0x90, 0x90, 0x90, 0xc3]));
+        let entry = serde_json::json!({"name":"support","definition":3,"rva":0x1000,"code":[[0x1000,0x1004]],"text_data":[]});
+        let mut cfg = serde_json::json!({"target":{"base":0x400000},"function_registry":[entry]});
+        assert_eq!(registry_support_records(&cfg, &image).unwrap().len(), 1);
+        for definition in [0, 4] {
+            cfg["function_registry"][0]["definition"] = serde_json::json!(definition);
+            assert!(registry_support_records(&cfg, &image).unwrap().is_empty());
+        }
+        cfg["function_registry"][0]["definition"] = serde_json::json!(3);
+        cfg["function_registry"][0]["code"] = serde_json::json!([]);
+        assert!(registry_support_records(&cfg, &image).unwrap().is_empty());
+        for code in [
+            serde_json::json!(null),
+            serde_json::json!([[0x1001, 0x1004]]),
+            serde_json::json!([[0x1000, 0x1000]]),
+            serde_json::json!([[0x1000, 0x2000]]),
+            serde_json::json!([[0x1000, 0x1004], [0x1002, 0x1004]]),
+        ] {
+            cfg["function_registry"][0]["code"] = code;
+            assert!(registry_support_records(&cfg, &image).is_err());
+        }
+    }
     #[test]
     fn entry_names_do_not_invent_bodies_and_import_classification_is_explicit() {
         let cfg = json!({"target":{"base":0x400000},"function_registry":[{"name":"pending","rva":0x1000,"definition":4,"original_symbol":"actual"}]});
