@@ -283,6 +283,19 @@ int readTypeList( int file, WResDir dir, unsigned short version )
     return error;
 }
 
+/* Original 0x41b180..0x41b1b8: packed five-byte fixed type record. */
+int WResReadFixedTypeRecord( WResTypeInfo *info, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, info, sizeof( *info ) );
+    if( count == sizeof( *info ) ) {
+        return 0;
+    }
+    WresRecordError( count == -1 ? WRS_READ_FAILED : WRS_READ_INCOMPLETE );
+    return 1;
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

@@ -618,8 +618,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResReadFixedTypeRecord",
         .entry_rva = 0x1b180,
+        .code = (const ReconExtent[]) { {0x1b180, 0x1b1b8} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResReadFixedTypeRecord",
         .original_symbol = "WResReadFixedTypeRecord_",
     },

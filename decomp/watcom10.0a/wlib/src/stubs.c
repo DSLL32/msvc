@@ -49,11 +49,6 @@ int readMResDir( int handle, WResDir dir, int *dup_discarded )
 }
 
 
-int WResReadFixedTypeRecord( WResTypeInfo *info, int handle )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 int WResIDExtraBytes( const WResID *id )
 {
