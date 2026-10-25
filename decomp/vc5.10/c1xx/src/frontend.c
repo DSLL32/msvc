@@ -106,7 +106,8 @@ FrontendData frontend_data = {
     0, 1, 1, /* force_type_serialization, type_debug_mode, reference_context */
     0, /* last_ir_line_delta, original cd6f0 */
     { NULL, NULL, NULL, NULL }, /* type hash heads, actual defaults */
-    { NULL } /* builtin name slots, independently read NULL defaults */
+    { NULL }, /* builtin name slots, independently read NULL defaults */
+    20 /* namespace symbol allocation, original cd674 */
 };
 FrontendBss frontend_bss;
 int restore_mode;

@@ -2,6 +2,7 @@
 #define C1XX_FRONTEND_INIT_H
 #include "frontend.h"
 #include "input.h"
+#include "scope.h"
 #include <recon.h>
 
 /* Only the encountered virtual slots have semantic names. Unrecovered
@@ -78,6 +79,21 @@ struct PDB {
     virtual int RECON_THISCALL QueryLastError(char *text) = 0;
 };
 struct CompilerTranslationUnit {
+    CompilerScope *root, *current;         /* original +0/+4 */
+    CompilerScope *scopes[128];            /* +8; only slot0 written here */
+    BYTE depth;                            /* +208; d86e bounds it by 128 */
+    CompilerSavedLookup *saved_lookup;    /* +20c */
+    CompilerScope *retired_scopes;        /* +210 */
+    CompilerSymbolLink *deferred_symbols; /* +214 */
+    struct CompilerTypeAlias *type_aliases; /* +218 */
+    BYTE lookup_context;                   /* +21c: 1 initially, later diagnostic tag */
+    int suppress_lookup_errors;           /* +220 */
+    int lookup_override;                  /* +224 */
+    /* Original +228 has no modeled storage or default claim. */
+    CompilerSymbol *global_namespace;     /* +22c */
+    CompilerScope *deferred_scopes;       /* +230 */
+    CompilerSymbolLink *pending_symbols;  /* +234 */
+    CompilerTranslationRecord *records;  /* +238, pointee remains opaque */
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     void RECON_THISCALL Finish(void);
 };

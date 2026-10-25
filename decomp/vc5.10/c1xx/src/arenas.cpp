@@ -1,6 +1,8 @@
 #include "frontend.h"
 #include <recon.h>
 
+BYTE *RECON_THISCALL CompilerArena::Allocate(unsigned bytes) { __asm { int 3 } return NULL; }
+
 const ArenaDescriptor arena_descriptors[9] = {
     { 0, 0x3200000, 0x10000, 0x21, 1 },
     { 1, 0xa00000, 0x8000, 0x10, 4 },

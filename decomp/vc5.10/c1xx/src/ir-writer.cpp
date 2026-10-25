@@ -248,10 +248,10 @@ unsigned __cdecl external_symbol_index(CompilerSymbol *);
     } \
 } while (0)
 #define REFERENCE_SYMBOL(symbol) do { \
-    unsigned references = (symbol)->emission_state & 3; \
+    unsigned references = ((CompilerIrSymbol *)(symbol))->emission_state & 3; \
     if (references < 3) \
-        (symbol)->emission_state = ((symbol)->emission_state & ~3U) | (references + 1); \
-    (symbol)->emission_state = ((symbol)->emission_state & ~4U) | \
+        ((CompilerIrSymbol *)(symbol))->emission_state = (((CompilerIrSymbol *)(symbol))->emission_state & ~3U) | (references + 1); \
+    ((CompilerIrSymbol *)(symbol))->emission_state = (((CompilerIrSymbol *)(symbol))->emission_state & ~4U) | \
         ((frontend_data.reference_context & 1) << 2); \
 } while (0)
 
@@ -325,7 +325,7 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
             switch (kind) {
             case 0x26:
                 symbol = node->value.symbol;
-                if (needs_external_symbol(symbol->emission_state >> 3))
+                if (needs_external_symbol(((CompilerIrSymbol *)symbol)->emission_state >> 3))
                     frontend_bss.debug_module->UnrecoveredSlot32();
                 break;
             case 0x27:
@@ -337,11 +337,11 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
             case 0x2d:
                 resolved = node->value.symbol;
                 if (frontend_data.option_c9il)
-                    index = resolved->encoded_index & 0xffffff;
-                else if (!(resolved->emission_state & ~7U))
+                    index = ((CompilerIrSymbol *)resolved)->encoded_index & 0xffffff;
+                else if (!(((CompilerIrSymbol *)resolved)->emission_state & ~7U))
                     index = external_symbol_index(resolved);
                 else
-                    index = resolved->emission_state >> 3;
+                    index = ((CompilerIrSymbol *)resolved)->emission_state >> 3;
                 break;
             case 0x38:
             case 0x39:
@@ -374,16 +374,16 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
                         symbol = NULL;
                     symbol->EmitDeclaration();
                 } else if (symbol->kind == 7 || symbol->kind == 8) {
-                    if (symbol->queue_flags & 0x80)
+                    if (((CompilerIrSymbol *)symbol)->queue_flags & 0x80)
                         frontend_bss.pending_groups.Add(symbol);
-                    if (symbol->linkage_flags & 2)
+                    if (((CompilerIrSymbol *)symbol)->linkage_flags & 2)
                         get_import_symbol(symbol)->EmitDeclaration();
                 }
-                if (symbol->reference_flags & 1) {
+                if (((CompilerIrSymbol *)symbol)->reference_flags & 1) {
                     resolved = resolve_symbol_reference(symbol);
-                    if ((resolved->encoded_index & 0xffffff) == 5 &&
+                    if ((((CompilerIrSymbol *)resolved)->encoded_index & 0xffffff) == 5 &&
                         frontend_bss.current_function &&
-                        !(frontend_bss.current_function->function_flags & 1)) {
+                        !(((CompilerIrSymbol *)frontend_bss.current_function)->function_flags & 1)) {
                         frontend_data.force_type_serialization = 1;
                         frontend_data.type_debug_mode = 0;
                     }

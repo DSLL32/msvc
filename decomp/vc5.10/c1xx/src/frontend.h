@@ -63,6 +63,7 @@ typedef struct FrontendData {
     unsigned last_ir_line_delta; /* cd6f0, zero */
     CompilerTypeTables type_tables; /* four original initialized NULL heads */
     CompilerBuiltinNames builtin_names; /* own named initializedNULL slots; boolaliasescc698 above */
+    unsigned namespace_symbol_bytes; /* cd674, actual initialized20 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -159,6 +160,7 @@ typedef struct CompilerArena {
     void RECON_THISCALL Reset(void);
     unsigned char *RECON_THISCALL AllocatePages(unsigned pages, unsigned *remaining_bytes);
     void RECON_THISCALL CommitExtent(void);
+    BYTE *RECON_THISCALL Allocate(unsigned bytes);
 #endif
 } CompilerArena;
 

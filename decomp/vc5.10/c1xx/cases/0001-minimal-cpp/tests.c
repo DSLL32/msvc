@@ -70,6 +70,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.type_tables.mapped = (CompilerTypeMap *)&frontend_data;
     frontend_data.type_tables.composite = (CompilerCompositeTypeHash *)&frontend_data;
     frontend_data.type_tables.sequences = (CompilerTypeSequenceHash *)&frontend_data;
+    frontend_data.namespace_symbol_bytes = 193;
     frontend_bss.ir_record_count = 173;
     frontend_bss.current_ir_symbol = (struct CompilerSymbol *)&frontend_data;
     frontend_bss.current_function = (struct CompilerSymbol *)&frontend_data;
@@ -112,5 +113,6 @@ int c1xx_test_exception_counters(void)
         frontend_bss.symbol_arena_kind == 0 && frontend_bss.saved_symbol_arenas == NULL &&
         frontend_data.type_tables.types == NULL && frontend_data.type_tables.mapped == NULL &&
         frontend_data.type_tables.composite == NULL && frontend_data.type_tables.sequences == NULL &&
-        frontend_bss.current_ir_symbol == NULL && frontend_bss.current_function == NULL;
+        frontend_bss.current_ir_symbol == NULL && frontend_bss.current_function == NULL &&
+        frontend_data.namespace_symbol_bytes == 20;
 }

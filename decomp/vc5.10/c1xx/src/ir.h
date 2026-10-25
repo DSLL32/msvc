@@ -1,21 +1,34 @@
 #ifndef C1XX_IR_H
 #define C1XX_IR_H
 #include "frontend-types.h"
+#include "names.h"
 #include <recon.h>
 
 struct CompilerExpression;
 struct CompilerString;
-/* Encountered symbol members only; comments identify their original storage.
- * Unrelated bytes and the full symbol size remain unmodeled. */
+struct CompilerSymbolLink;
+/* The common header applies to the short namespace records too. Original
+ * +1/+3 and other unrecovered bytes have no native placeholder. */
 struct CompilerSymbol {
     BYTE kind;                         /* +0 */
     BYTE attributes;                   /* +4, encountered bit6 */
+    BYTE definition_flags;             /* +2, namespace definition bit2 */
+    CompilerSymbol *RECON_THISCALL Initialize(unsigned, CompilerNameEntry *, unsigned);
+    void RECON_THISCALL EmitDeclaration(void);
+};
+struct CompilerNamedSymbol : CompilerSymbol {
+    CompilerNameEntry *name;           /* +8 */
+    CompilerSymbolLink *next;          /* +c */
+};
+/* Extended members are accessed only for the larger IR symbol variants.
+ * They must never enlarge the actual 20-byte namespace allocation. */
+struct CompilerIrSymbol : CompilerNamedSymbol {
+    struct CompilerSymbolPayload *payload; /* +10 */
     unsigned emission_state;           /* +14, low2 reference count, bit2 context */
     unsigned encoded_index;            /* +18 */
     BYTE function_flags;               /* +1d, encountered bit0 */
     BYTE reference_flags;              /* +1f, encountered bit0 */
     BYTE linkage_flags, queue_flags;   /* +2d bit1, +2e bit7 */
-    void RECON_THISCALL EmitDeclaration(void);
 };
 struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */

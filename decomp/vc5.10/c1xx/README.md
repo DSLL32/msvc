@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 132 accepted application functions / 19125
+The single registry is binary.c: 133 accepted application functions / 19545
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 134
+as are four six-byte import endpoints (24 bytes, zero App credit). The 135
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine CompilerTranslationUnit::Initialize INT3 at RVA3aee6;
+and currently reaches the genuine recycled-symbol allocator INT3 at RVA6897;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -102,10 +102,20 @@ arena strings and folded low-WORD flag update. No token/category field or
 unmodeled generic tail is accessed. All 62 builtin names now execute before
 the genuine translation-unit initializer trap.
 
-Original/native took 1.438 s / 11.420 ms (native setup 6.584, execution 3.009,
-checks 1.826); build/audit/unit took 2.485 s. Actual selected-report order,
-partial files and the genuine member frontier match. The typed-only _wcsupr
-bytes consumed by this build are published ca070c16a; no publication-only replay.
+The 420-byte translation-unit initializer preserves its 375 hot and 45 cold
+bytes. Its 32-byte root scope has the actual eleven-slot C++ virtual table;
+original and rebuilt slots plus a native object check retain the pending ABIs.
+The 572-byte translation-unit allocation exposes only encountered fields, with
++228 and unwritten scope slots left unmodeled. Short namespace symbols share
+only their real common/named prefix; larger IR fields have a separate view.
+The actual namespace symbol allocation default is 20 and joins reset/restore.
+The first real allocator call precedes symbol initialization and payload use.
+
+Original/native took 1.434 s / 10.833 ms (native setup 6.181, execution 2.925,
+checks 1.727); final incremental build/audit/unit took 0.263 s. Full original
+and native builds and the 135-body strict audit passed during preparation.
+Actual selected-report order, partial files and the genuine allocator frontier
+match. Consumed shared _wcsupr bytes are now published 576e772ac.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

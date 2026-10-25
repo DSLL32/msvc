@@ -49,6 +49,7 @@ void __cdecl initialize_scope_symbols(void);
 CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerLookup *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
+CompilerSymbol *__cdecl find_symbol(unsigned, CompilerNameEntry *, unsigned);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -461,7 +462,57 @@ extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
-CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void) { __asm { int 3 } return this; }
+CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)
+{
+    CompilerPool *pool = &frontend_bss.pools[8]; /* original c0b00 */
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    CompilerNamespaceSymbol *symbol;
+    CompilerNameEntry *name;
+    void *memory;
+    unsigned bytes;
+    depth = 0;
+    saved_lookup = NULL; retired_scopes = NULL; deferred_symbols = NULL;
+    type_aliases = NULL; lookup_context = 1;
+    suppress_lookup_errors = 0; lookup_override = 0;
+    deferred_scopes = NULL; pending_symbols = NULL; records = NULL;
+    if (pool->remaining < 32) pool->Refill(32);
+    memory = pool->cursor; pool->cursor += 32; pool->remaining -= 32;
+    root = memory ? new(memory) CompilerScope : NULL;
+    bytes = root->bucket_mask * 4 + 4;
+    if (pool->remaining < bytes) pool->Refill(bytes);
+    root->buckets = (CompilerSymbolLink **)pool->cursor;
+    pool->cursor += bytes; pool->remaining -= bytes;
+    current = root; scopes[0] = root;
+    name = frontend_data.builtin_names.global_namespace;
+    symbol = (CompilerNamespaceSymbol *)find_symbol(0x17, name, 0);
+    if (!symbol) {
+        memory = arena->Allocate((frontend_data.namespace_symbol_bytes + 3) & ~3U);
+        symbol = memory ? (CompilerNamespaceSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(0x17, name, 0) : NULL;
+    }
+    global_namespace = symbol;
+    memory = arena->cursor;
+    arena->cursor += 8;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    symbol->data = (CompilerNamespaceData *)memory;
+    symbol->data->scope = root;
+    symbol->definition_flags |= 4;
+    return this;
+}
+
+extern "C" CompilerSymbol *__cdecl find_symbol(unsigned kind, CompilerNameEntry *name, unsigned context) { __asm { int 3 } return NULL; }
+CompilerSymbol *RECON_THISCALL CompilerSymbol::Initialize(unsigned kind, CompilerNameEntry *name, unsigned context) { __asm { int 3 } return this; }
+int RECON_THISCALL CompilerScope::HasBuckets(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerScope::HasSecondary(void) { __asm { int 3 } return 0; }
+void RECON_THISCALL CompilerScope::Insert(CompilerSymbol *symbol) { __asm { int 3 } }
+CompilerScopeLookup *RECON_THISCALL CompilerScope::Find(CompilerNameEntry *name, unsigned context) { __asm { int 3 } return NULL; }
+CompilerSymbol *RECON_THISCALL CompilerScope::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+CompilerSymbol *RECON_THISCALL CompilerScope::Lookup(CompilerNameEntry *name, unsigned flags, unsigned *found) { __asm { int 3 } return NULL; }
+int RECON_THISCALL CompilerScope::FindNested(CompilerNameEntry *name, CompilerSymbol **found) { __asm { int 3 } return 0; }
+CompilerSymbolLink **RECON_THISCALL CompilerScope::FindLink(CompilerSymbolLink *symbol) { __asm { int 3 } return NULL; }
+void RECON_THISCALL CompilerScope::Serialize(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerScope::Check(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerScope::Link(CompilerSymbol *symbol) { __asm { int 3 } }
 
 extern "C" void __cdecl initialize_first_token(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_language_symbols(void) { __asm { int 3 } }
