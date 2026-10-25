@@ -126,7 +126,6 @@ IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 
-IrToken *__stdcall expand_qc_operand(QcOperand *operand) { __asm { int 3 } return 0; }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
 

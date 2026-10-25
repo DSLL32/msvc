@@ -335,3 +335,25 @@ void finish_qc_loop(void)
     }
     emit_label(break_labels->label);
 }
+
+/* Original0x45490..0x45533, stdcall4. Restore compact operands in
+   right-before-left order; pointer-symbol attributes retain their type peel. */
+IrToken *__stdcall expand_qc_operand(QcOperand *operand)
+{
+    IrToken *result, *left, *right;
+    unsigned value;
+    if (operand->operation == 2) return symbol_reference(operand->value.symbol);
+    if (operand->operation == OP_DEREFERENCE || operand->operation == 0xb1) {
+        result = indirect_storage_expression(symbol_reference(operand->value.symbol));
+        if (operand->value.symbol->attributes & 0x400)
+            result->type = drop_first_type_shape(result->type);
+        return result;
+    }
+    if (operand->operation == OP_SUBSCRIPT) {
+        right = expand_qc_operand(operand->value.pair + 1);
+        left = expand_qc_operand(operand->value.pair);
+        return new_left_typed_expression(OP_SUBSCRIPT, left, right);
+    }
+    value = operand->value.integer;
+    return new_literal_constant(operand->operation, &value);
+}
