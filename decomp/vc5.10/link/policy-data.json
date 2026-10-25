@@ -4415,6 +4415,61 @@
             }
           }
         }
+      },
+      "_classify_x86_relocation@16": {
+        "original": {
+          "switches": [
+            {
+              "site": 4395590,
+              "targets": [
+                4395597,
+                4395602,
+                4395629,
+                4395610
+              ]
+            }
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_classify_x86_relocation@16",
+                "offset": 100
+              },
+              {
+                "rebuilt_symbol": "_classify_x86_relocation@16",
+                "offset": 145
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_classify_x86_relocation@16",
+                "offset": 32
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_classify_x86_relocation@16",
+                  "offset": 39
+                },
+                {
+                  "rebuilt_symbol": "_classify_x86_relocation@16",
+                  "offset": 43
+                },
+                {
+                  "rebuilt_symbol": "_classify_x86_relocation@16",
+                  "offset": 61
+                },
+                {
+                  "rebuilt_symbol": "_classify_x86_relocation@16",
+                  "offset": 65
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [
@@ -6129,6 +6184,11 @@
       "_read_x86_relocations@24": {
         "expected_cleanup": [
           24
+        ]
+      },
+      "_classify_x86_relocation@16": {
+        "expected_cleanup": [
+          16
         ]
       }
     }

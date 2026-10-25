@@ -834,6 +834,30 @@ static int x86_classify(void)
     return recon_native_at_entry(classify_x86_relocation,check_x86_classify,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall record_relocation_reference(LinkContext *,Contribution *,IMAGE_SYMBOL *,IMAGE_RELOCATION *);
+static void __stdcall check_relocation_reference(LinkContext *context,Contribution *contribution,
+    IMAGE_SYMBOL *symbols,IMAGE_RELOCATION *relocation)
+{
+    OutputModule *module=current_input_library->module_head;
+    FileRecord *file=file_slots[current_input_file];
+    ContributionInfo *info=module->contribution_info+1;
+    unsigned i;
+    if (!context || !context->options.fold_identical_comdats ||
+        contribution!=(Contribution *)module->contributions+1 ||
+        symbols!=(IMAGE_SYMBOL *)((BYTE *)file->view+1135) ||
+        relocation!=(IMAGE_RELOCATION *)((BYTE *)file->view+543) ||
+        relocation->VirtualAddress!=39 || relocation->SymbolTableIndex!=17 ||
+        relocation->Type!=6 || info->reference_count!=8 || info->reserved14 ||
+        info->references!=comdat_reference_arena->base || comdat_reference_arena->used!=96)
+        recon_native_entry_finish(0);
+    for(i=0;i<96;++i) if(comdat_reference_arena->base[i]) recon_native_entry_finish(0);
+    recon_native_entry_finish(1);
+}
+static int relocation_reference(void)
+{
+    return recon_native_at_entry(record_relocation_reference,check_relocation_reference,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -872,5 +896,6 @@ const ReconTest hello_tests[]={
     {"relocation-reader",1,relocation_reader},
     {"relocation-load",1,relocation_load},
     {"x86-relocation-read",1,x86_relocation_read},
-    {"x86-classifier",1,x86_classify}
+    {"x86-classifier",1,x86_classify},
+    {"relocation-reference",1,relocation_reference}
 };

@@ -294,7 +294,7 @@ static const ReconFunction functions[] = {
     {"_initialize_ppc_backend@8",0x5ae60,(const ReconExtent[]){{0x5ae60,0x5ae61}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_ppc_backend",NULL,NULL,0,NULL},
     {"_initialize_arm_backend@8",0xb120,(const ReconExtent[]){{0xb120,0xb121}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"initialize_arm_backend",NULL,NULL,0,NULL},
     {"_get_machine_name@8",0x5ce00,(const ReconExtent[]){{0x5ce00,0x5ce01}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_machine_name",NULL,NULL,0,NULL},
-    {"_classify_x86_relocation@16",0x31230,(const ReconExtent[]){{0x31230,0x31231}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"classify_x86_relocation",NULL,NULL,0,NULL},
+    {"_classify_x86_relocation@16",0x31230,(const ReconExtent[]){{0x31230,0x31272}},1,(const ReconExtent[]){{0x31274,0x312a1}},1,RECON_APP,RECON_IMPLEMENTED,"classify_x86_relocation",NULL,NULL,0,NULL},
     {"_process_x86_relocations@28",0x312b0,(const ReconExtent[]){{0x312b0,0x312b1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_x86_relocations",NULL,NULL,0,NULL},
     {"_validate_import_object_header@4",0x61040,(const ReconExtent[]){{0x61040,0x61041}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"validate_import_object_header",NULL,NULL,0,NULL},
     {"OutputLibrary::FindModule",0xf7a0,(const ReconExtent[]){{0xf7a0,0xf82c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN13OutputLibrary10FindModuleEPKcPKv",NULL,NULL,0,"?FindModule@OutputLibrary@@QAEPAUOutputModule@@PBDPBX@Z"},

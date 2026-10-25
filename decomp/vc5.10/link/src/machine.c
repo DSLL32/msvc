@@ -87,7 +87,20 @@ void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_sup
         context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
     }
 }
-BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd) { __asm { int 3 } return 0; }
+BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    switch (type) {
+    case 0: /* IMAGE_REL_I386_ABSOLUTE */
+        return 1;
+    case 1: case 2: /* IMAGE_REL_I386_DIR16 / REL16: VxD only. */
+        if (vxd) return 0;
+        break;
+    case 6: case 7: case 10: case 11: case 20:
+        return 0;
+    }
+    link_contribution_fatal(contribution,1190,(unsigned)type);
+    return 0;
+}
 void __stdcall process_x86_relocations(Contribution *contribution,void *relocations,DWORD count,void *contents,void *symbols,LinkContext *context,DWORD mode) { __asm { int 3 } }
 void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
