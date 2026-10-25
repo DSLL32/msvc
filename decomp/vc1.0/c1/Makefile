@@ -3,7 +3,7 @@ RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CXX = clang++
-NATIVE_CPPFLAGS = -DRECON_NATIVE_STARTUP_CONTROLFP_53 -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_STARTUP_CONTROLFP_53 -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc -Icrt
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 BINARY_SOURCES = src/c1.c \
     src/stubs.c \
@@ -81,25 +81,26 @@ BINARY_SOURCES = src/c1.c \
     src/browser-stubs.c \
     src/program-database.c \
     src/inline-query.c
-BINARY_SUPPORT_SOURCES = src/runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+CRT_SOURCES = crt/runtime.c crt/decimal.c
+BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 1.0-nt
-ORIGINAL_SOURCES = $(BINARY_SOURCES) src/runtime.c
+ORIGINAL_SOURCES = $(BINARY_SOURCES) $(CRT_SOURCES)
 ORIGINAL_BUILD = build
 ORIGINAL_OUTPUT = $(ORIGINAL_BUILD)/c1.exe
 ORIGINAL_MAP = $(ORIGINAL_BUILD)/c1.map
-ORIGINAL_CPPFLAGS = /Isrc /I$(RECON)/include
+ORIGINAL_CPPFLAGS = /Isrc /Icrt /I$(RECON)/include
 ORIGINAL_CFLAGS = /nologo /c /Od /G3
 ORIGINAL_LDFLAGS = /nologo /subsystem:console
 ORIGINAL_LDLIBS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/BINMODE.OBJ
-ORIGINAL_INCLUDE_DIRS = src $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
+ORIGINAL_INCLUDE_DIRS = src crt $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
 RECON_AUDIT_PROFILE = c1
 RECON_IMAGE_BASE = 65536
 RECON_POLICY = policy-data.json
 RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-ownership --check-extents
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
-RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/src/runtime.c.obj
+RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c1.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
 

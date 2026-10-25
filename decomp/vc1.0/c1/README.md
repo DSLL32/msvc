@@ -27,6 +27,22 @@ identification and quiet successful output. Its explicit historical runtime
 object binding permits shipped callers of the unchanged `_sopen` override.
 Only grammar and fixture-source generators remain under `scripts/`.
 
+Application reconstruction is under `src/`; existing CRT exceptions are under
+`crt/`. Case-specific adapters/tests stay beside their numbered descriptors;
+there is currently no separate native host or shared case C helper to place in
+`harness/`. Shared compatibility stays in `lib/recon/`.
+
+`crt/runtime.c` retains ten historical variants: `setvbuf`, `_freebuf`, `_filbuf`,
+`ftell`, `fseek` and `fclose` preserve this executable's older stream flags and
+buffer/seek/close behavior; `_sopen` preserves its descriptor flags and Win32
+open/share call graph; `_unlink` retains its separate forwarding entry;
+`__tzset` and `_isindst` retain its timezone defaults and historical DST rules.
+`crt/decimal.c` retains the existing `__strgtold12` scanner, its twelve-byte
+result/end-pointer/status contract, 25-digit workspace and conversion-helper
+graph. Its private representation is in `crt/decimal.h`. These are documented
+compatibility exceptions already present before this layout change, not new
+CRT reconstruction or application credit.
+
 Cases 0000–0064 preserve 65 cached public invocations. Cases 0065–0171 preserve
 107 original-backed internal direct invocations; these do not establish public
 source reachability. The typed shared entry hook pauses genuine main/parser/PDB
