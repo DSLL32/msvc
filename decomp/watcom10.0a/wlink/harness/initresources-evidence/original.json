@@ -1,0 +1,78 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "87c741cc662198802cc5460d2048ec0c32077154e94bde6ac8037f766029202b",
+  "case": "help",
+  "elapsed_ms": 418.503246,
+  "first_entry_order": [
+    148192,
+    93500,
+    148424,
+    148908,
+    209664,
+    149584,
+    215224,
+    223360,
+    215304,
+    151696,
+    151116,
+    151756,
+    215240,
+    223408
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 4464520,
+      "ebp": 512,
+      "ebx": 4464520,
+      "ecx": 3422532,
+      "edi": 0,
+      "edx": 4294967295,
+      "eflags": 582,
+      "eip": 4417712,
+      "esi": 0,
+      "esp": 3276464
+    },
+    "rva": 223408,
+    "stack": "hex:d1484300ffffffff96000000a14842000000000000000000ffffffffdf4542003cff31000000000000000000d74342000000000000000000000000000010ff3f",
+    "stack_address": 3276464,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLINK.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLINK.EXE",
+    "original_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "b9d19a01f44620ea7af6de1e0a55c6a30700844487c810569a7db72d18473673",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE",
+      "source_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "staged": "/tmp/recon/run-pv7TI0/WLINK.EXE"
+    }
+  ],
+  "terminal": "frontier:368b0",
+  "watcom_main_argv": {
+    "actual": [
+      "T:\\run-pv7TI0\\WLINK.EXE",
+      "?"
+    ],
+    "argc": 2,
+    "argv_address": 3425200,
+    "entry_rva": 148192,
+    "requested": [
+      "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+      "?"
+    ]
+  },
+  "workspace": "/tmp/recon/run-pv7TI0"
+}

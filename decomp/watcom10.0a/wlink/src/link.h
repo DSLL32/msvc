@@ -95,7 +95,10 @@ extern int FindResources( HANDLE_INFO * );
 extern long ResSeek( int, long, int );
 extern long QLSeek( int, long, int, char * );
 extern void CheckBreak( void );
+typedef struct WResDirHead *WResDir;
 extern int InitResources( HANDLE_INFO * );
+extern WResDir WResInitDir( void );
+extern int WResReadDir( int, WResDir, int * );
 extern unsigned QWrite( int, void *, unsigned, char * );
 #include <recon.h>
 #endif

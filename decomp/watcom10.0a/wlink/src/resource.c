@@ -136,3 +136,14 @@ long ResSeek( int file, long position, int where )
     }
     return QLSeek( file, position, where, 0 );
 }
+
+WResDir MainDir; /* original4503c4 */
+
+int InitResources( HANDLE_INFO *instance )
+{
+    MainDir = WResInitDir();
+    if( MainDir == 0 ) {
+        return -1;
+    }
+    return WResReadDir( instance->handle, MainDir, 0 );
+}

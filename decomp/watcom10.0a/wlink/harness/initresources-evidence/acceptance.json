@@ -1,0 +1,12 @@
+{
+  "scope": "InitResources40B directly initializes MainDir and calls WResReadDir(file,dir,NULL); preserves actual1994 graph without newer InitResources2 wrapper. Stops at WResInitDir.",
+  "application_functions": 13,
+  "application_bytes": 1460,
+  "ABI": "Original HANDLE_INFO*EAX, preservesEBX/EDX; genuineNULL->-1, normal WResReadDir argsEAXfd/EDXdir/EBXnull;RET0.",
+  "bindings": {
+    "src/resource.c": "37f3681a61a620fdb6ad0606bdc89d0466d61ee85e7401ac896f17506ddbcdf6",
+    "src/link.h": "f2a9750815482ec720109ff52542f5c5cef4056f6f7b388c450948b66f5bbd96",
+    "binary.c": "e64f557a4ba5f422bbd4e94206e560f0ff3d36573a570ea5400a303293b1cd03",
+    "policy-data.json": "e7f4253ef65c7b97391594a89c3b9f000e451021b02b74e07cc751b2411f52cb"
+  }
+}

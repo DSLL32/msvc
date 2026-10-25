@@ -56,6 +56,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "InitResources": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

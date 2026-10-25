@@ -64,7 +64,9 @@ void InitSym( void ) { TRAP(); }
 void * NewSection( void ) { TRAP(); return 0; }
 void InitObjIO( void ) { TRAP(); }
 
-int InitResources( HANDLE_INFO *instance ) { instance = instance; TRAP(); return 0; }
+WResDir WResInitDir( void ) { TRAP(); return 0; }
+int WResReadDir( int file, WResDir dir, int *duplicates )
+{ file = file; dir = dir; duplicates = duplicates; TRAP(); return 0; }
 unsigned QWrite( int file, void *buffer, unsigned length, char *name )
 {
     file = file; buffer = buffer; length = length; name = name;
