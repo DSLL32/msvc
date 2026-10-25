@@ -18,8 +18,12 @@ state; never relabel old raw evidence.
    Original MSVC toolchains with one folder per version (e.g. 7.1-sp1, 1.0-nt)
  - decomp/
    Reconstructions, with one folder per project - if project consists of more than one binary, one subfolder for each under the project
-   Within each binary folder, keep reconstructed source in src/ and scripts in
-   scripts/. Keep the Makefile at the binary root; invoke its scripts from that
+   Within each binary folder, keep reconstructed application source in src/,
+   justified binary-specific CRT implementations in crt/, and native hosts,
+   fixture adapters and other test glue in harness/. Keep project-specific
+   scripts in scripts/. Shared compatibility remains in lib/recon/.
+   This separation is required during migration, including finished binaries.
+   Keep the Makefile at the binary root; invoke its scripts from that
    root so existing case and build paths remain stable. Keep case metadata under cases/.
  - lib/recon/
    Shared native Win32/CRT compatibility and tracing support.

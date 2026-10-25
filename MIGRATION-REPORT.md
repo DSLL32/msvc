@@ -20,7 +20,13 @@ regressions use saved references and do not invoke Wine.
   cases, original builds and applicable graph/ABI checks pass.
 - **Watcom:** the coordinator has completed a read-only compatibility
   assessment. No Watcom migration, new capture or reconstruction was performed
-  as part of that assessment; details are below.
+as part of that assessment; details are below.
+
+The updated migration layout also separates reconstructed application code
+(`src/`), justified binary-specific CRT implementations (`crt/`) and native
+hosts/fixture/test glue (`harness/`). This applies to finished and already
+migrated binaries; folder cleanup is now an additional migration requirement,
+so earlier completed runtime migrations do not yet imply layout compliance.
 
 Accepted application functions and original references are preserved during
 migration, with the explicit source corrections documented below. Unaccepted

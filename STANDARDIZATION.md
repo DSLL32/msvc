@@ -25,7 +25,9 @@ and first-entry order for later native comparison.
 decomp/{project}/{binary}/
     binary.c                    # exports binary_descriptor
     Makefile
-    src/                        # reconstructed source
+    src/                        # reconstructed application source only
+    crt/                        # justified binary-specific CRT implementations
+    harness/                    # native hosts, fixture adapters, shared test glue
     scripts/                    # project-specific helpers only
     .build/libbinary.so         # shared native reconstruction + binary.c
     cases/
@@ -41,6 +43,14 @@ decomp/{project}/{binary}/
 `scripts/` is for project-specific helpers that do not warrant shared support,
 such as generators for that binary's grammar. Common build, capture, replay,
 CRT-identification and graph-audit machinery belongs in shared tooling.
+
+Keep application reconstruction, exceptional CRT implementations and testing
+glue in those separate folders. Document why each binary-specific CRT variant
+is needed; this is not permission to reconstruct more CRT code. Split mixed
+files where necessary without changing function identity or ABI. Shared shim
+implementations remain in `lib/recon/`. These layout requirements apply to all
+migrations, including already migrated and finished binaries. Shared case C
+helpers belong in `harness/`, leaving `cases/` for numbered case directories.
 
 After migration, case directories contain only the applicable files shown
 above. No nested directories except generated, untracked `.build/` output;
