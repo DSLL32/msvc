@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1621 historical frontiers/1514 App bodies.
+ * Current reviewed boundary:1622 historical frontiers/1515 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_equal_based_expressions@8",
+        .entry_rva = 0x1ab40,
+        .code = (const ReconExtent[]) { { 0x1ab40, 0x1acc5 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "equal_based_expressions",
+    },
     {
         .name = "_allocate_inline_storage",
         .entry_rva = 0x350b7,
@@ -2573,10 +2581,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_qualify_based_storage@4",
         .entry_rva = 0x1aae0,
-        .code = (const ReconExtent[]) { { 0x1aae0, 0x1aae1 } },
+        .code = (const ReconExtent[]) { { 0x1aae0, 0x1ab40 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "qualify_based_storage",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_format_browser_temporary_name@4",

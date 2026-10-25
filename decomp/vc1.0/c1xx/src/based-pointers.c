@@ -2,6 +2,8 @@
 #include "lexer.h"
 #include "parser.h"
 #include "class-lookup.h"
+#include "unary-expressions.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 /* Original0x2a580..0x2a655, stdcall4. A named base must resolve to a
@@ -32,4 +34,22 @@ CppSymbol *__stdcall lookup_based_symbol(char *name)
         else symbol->references += (unsigned short)options.configuration.debug_info;
     } else report_syntax_error(213, name);
     return symbol;
+}
+
+IrToken *__stdcall based_type_expression(CType *type);
+int __stdcall equal_based_expressions(IrToken *first, IrToken *second);
+
+/* Original0x2aae0..0x2ab40, stdcall4. Attach the type's base exactly once
+   when an expression carries one of the based storage attributes. */
+IrToken *__stdcall qualify_based_storage(IrToken *expression)
+{
+    TypeShape *shape;
+    IrToken *base;
+    if (!expression) return 0;
+    shape = expression->type->related;
+    if (!shape || !(shape->attributes & 0xc)) return expression;
+    base = based_type_expression(expression->type);
+    if (expression->kind == 0x67 && equal_based_expressions(base, expression->tail.right))
+        return expression;
+    return new_left_typed_expression(0x67, expression, base);
 }
