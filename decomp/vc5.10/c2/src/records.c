@@ -9,6 +9,13 @@ C2Symbol *global_special_symbols;
 unsigned current_source_file = (unsigned)-1;
 C2Filename *filenames;
 
+int __fastcall function_retains_symbols(C2FunctionSymbol *symbol, int conditional)
+{
+    unsigned flags = symbol->additional_flags;
+    return (flags & 0x40) && (conditional || (flags & 0x80)) &&
+           !(symbol->symbol.flags & 0x1400) && !(flags & 0x200);
+}
+
 void __fastcall record_filename(C2Symbol *symbol)
 {
     C2Filename *file = c2_pool_allocate(0, sizeof(C2Filename));

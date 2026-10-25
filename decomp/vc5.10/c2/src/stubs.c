@@ -71,11 +71,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-int __fastcall function_retains_symbols(C2FunctionSymbol *symbol, int conditional)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
 {

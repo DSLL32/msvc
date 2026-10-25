@@ -139,6 +139,27 @@ static int clear_small_node_lists(void)
     return 1;
 }
 
+static int symbol_retention_flags(void)
+{
+    static const struct { unsigned extra, ordinary; int conditional, result; } rows[] = {
+        {0, 0, 1, 0}, {0x40, 0, 1, 1}, {0x40, 0, 0, 0},
+        {0xc0, 0, 0, 1}, {0x80, 0, 1, 0}, {0x240, 0, 1, 0},
+        {0x40, 0x400, 1, 0}, {0x40, 0x1000, 1, 0},
+        {0x40, 0x2000, 1, 1}, {0xc0, 0, -1, 1}
+    };
+    C2FunctionSymbol symbol, saved;
+    unsigned i;
+    for (i = 0; i < sizeof(rows) / sizeof(rows[0]); ++i) {
+        memset(&symbol, 0xa5, sizeof(symbol));
+        symbol.additional_flags = rows[i].extra;
+        symbol.symbol.flags = rows[i].ordinary;
+        saved = symbol;
+        if (function_retains_symbols(&symbol, rows[i].conditional) != rows[i].result ||
+            memcmp(&symbol, &saved, sizeof(symbol))) return 0;
+    }
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -146,5 +167,6 @@ const ReconTest numeric_tests[] = {
     {"existing unsigned register-set groups", 1, register_set_existing_groups},
     {"register-set node reuse clears only the popped node", 1, register_set_node_reuse},
     {"clearing a register set appends its nodes", 1, register_set_clear},
-    {"function entry clears all small-node free lists", 1, clear_small_node_lists}
+    {"function entry clears all small-node free lists", 1, clear_small_node_lists},
+    {"local-symbol retention flag combinations", 1, symbol_retention_flags}
 };

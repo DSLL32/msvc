@@ -1106,8 +1106,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@function_retains_symbols@8",
         .entry_rva = 0x25562,
+        .code = (const ReconExtent[]){{0x25562, 0x25587}, {0x6b27e, 0x6b28b}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "function_retains_symbols",
     },
     {
