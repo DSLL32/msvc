@@ -68,3 +68,8 @@ void size_old_procedure16(void)
     ++symbol_scope_depth;
     module_type_base += 17;
 }
+
+void size_old_bprel16(void)
+{
+    module_type_base += 5;
+}

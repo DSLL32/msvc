@@ -158,7 +158,7 @@ void size_old_register_relative32(void) { __asm { int 3 } }
 void size_old_symbol12(void) { __asm { int 3 } }
 
 void size_old_skip(void) { __asm { int 3 } }
-void size_old_bprel16(void) { __asm { int 3 } }
+
 void size_old_bprel32(void) { __asm { int 3 } }
 void size_old_register(void) { __asm { int 3 } }
 void size_old_constant(void) { __asm { int 3 } }
