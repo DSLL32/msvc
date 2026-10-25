@@ -434,22 +434,23 @@ unfinished binaries to implement the minimal capture prerequisites and finish
 their current cases, then pause and report before moving beyond them. The user
 later explicitly released CL and CVPACK to continue autonomously beyond a
 single function or case; the other five unfinished tools retain the original
-current-case scope. RC and CVTRES remain complete and idle. The counts
+current-case scope. CL has now completed all identified application code and
+joined RC and CVTRES in the finished, idle group. The counts
 below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 130 / 20,178 | 6.26% | Minimal C: FinalizeShape after declarator resolution; `dfbbc228e` |
-| C1XX | 139 / 20,136 | 2.68% | Minimal C++: declarator initializer after function-type construction; `10066dc4e` |
-| C2 | 174 / 42,994 | 7.50% | Numeric case: finish_input_expression; `680e00bc8` |
-| CL | 109 / 18,279 | 95.89% | Active: coherent remaining pass configuration and console/control DIRECT work; prior `677a11cab` preserved |
-| CVPACK | 128 / 41,373 | 66.03% | C++ debug-DLL growth complete; selecting the next coherent workload; `30d0665a4` |
-| LINK | 147 / 48,026 | 11.58% | Hello EXE: module-symbol processor after qualified real-destructor DIRECT; `d97668667` |
-| RCDLL | 134 / 35,167 | 47.13% | Rich corpus: digit reader after word collector; `2886b974c` |
+| C1 | 143 / 22,643 | 7.03% | Minimal C: CompilerSymbolTable::Insert after intrinsic setup; `c854f2c31` |
+| C1XX | 148 / 22,443 | 2.99% | Minimal C++: type-owning symbol lookup after normalization; `d1ab266fc` |
+| C2 | 185 / 45,209 | 7.89% | Numeric case: release_input_pool; `311875d4d` |
+| CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
+| CVPACK | 135 / 43,007 | 68.63% | Growth/catalog/PCH diagnostic cases complete; preparing telemetry workload; `ed298d304` |
+| LINK | 151 / 50,336 | 12.13% | Hello EXE: define_input_symbol after rooted module-symbol processor; `daf70ea4` |
+| RCDLL | 138 / 35,390 | 47.43% | Rich corpus: symbol reader after operator scan; `168428252` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
-CL has a separately supported 98.57% identified-App percentage; other unfinished
+CL has a separately supported 100% identified-App percentage; other unfinished
 non-CRT denominators remain unclassified. Whole-text ratios include runtime,
 data and padding.
 
@@ -463,10 +464,34 @@ The three cached cases, 13 units and strict audit pass in 0.193 s; the final
 combined original/native build and audit takes 24.04 s after shared headers
 force a full rebuild.
 
-CL's pass configuration has verified progress, but its console rows and inactive
-control-handler candidates remain unaccepted: the former has an unresolved
-public error difference, and the latter needs genuine nonreturning DIRECT
-status support. No console controller or post-exit assertion hook is retained.
+CVPACK subsequently completed a genuine CK1017 PCH diagnostic and a successful
+CRT-free schema catalog. Both use actual original compiler output; no CodeView
+data was fabricated. A duplicate `/min` flag was corrected to the single
+original DWORD owner. Two independently proved unwritten source-index tail
+bytes are zeroed natively and masked precisely under the documented defect
+policy; every defined byte remains strict. Five cached cases, 13 units and the
+original-build/strict-audit checkpoint pass in 2.020 s. The diagnostic's counted
+copy adoption reuses its unchanged original and completes in 15.597 ms natively.
+
+CL completed pass configuration, the observed headless CONOUT$ failure path and
+the typed inactive control handler. The final original handler exits with the
+genuine status 4 and 59-entry cleanup trace (899.556 ms); the final native run
+matches in 8.056 ms. All 18 cached cases, 18 unit invocations, original VC5 build
+and graph/ABI gates pass in a fail-fast 3.744 s batch. An earlier cached-PASS
+claim was wrong: missing descriptor trace fields failed, and a subsequent shell
+command hid Make's exit status. That failed log is retained; the descriptor was
+corrected and the complete batch passed before the final commit. No console
+controller or post-exit assertion hook is retained. Public MRE helper reach,
+console-success/pagination, delivered console events and active-DLL abort remain
+outside the completed case claims.
+
+LINK's module-symbol processor preserves its real C++ lifetime and two compiler
+cleanup chunks under one App owner. Full rooted graph/ownership/import checks
+remain strict; only this processor's aggregate RET assertion is replaced by a
+small exact normal-RET24/action-RET0/handler-role check. All other scoped RET
+checks remain active. A TU-specific native compiler setting eliminates the
+same unused normal lifetime as the original while retaining the real outlined,
+instrumented destructor for its genuine DIRECT case.
 
 The current C2 descriptor-byte check caught a signed-short field-code error
 that matching trace/output values had hidden. Its corrected source, focused
