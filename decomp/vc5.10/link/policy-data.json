@@ -6419,6 +6419,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_find_console_entry_symbols@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   },

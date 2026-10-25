@@ -1155,7 +1155,22 @@ static int cached_file_transition(void)
 {
     return recon_native_at_entry(cache_file_record,check_cached_file_transition,invoke_hello,NULL)==1;
 }
+extern StringNode *RECON_THISCALL native_find_entry_symbol(StringTable *,const char *)
+    __asm__("_ZN11StringTable10FindSymbolEPKc");
+static StringNode *RECON_THISCALL check_entry_symbol_lookup(StringTable *table,const char *name)
+{
+    recon_native_entry_finish(table && table->hash.state && table->hash.state->entries &&
+        table->hash.state->key_name==string_key_name && table->hash.strings.data &&
+        table->hash.strings.used>=4 && name && !strcmp(name,"_main"));
+    return NULL;
+}
+static int entry_symbol_lookup(void)
+{
+    return recon_native_at_entry(native_find_entry_symbol,check_entry_symbol_lookup,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"entry-symbol-lookup",1,entry_symbol_lookup},
     {"cached-file-transition",1,cached_file_transition},
     {"bound-comdat-references",1,bound_comdat_references},
     {"reference-enumerator",1,reference_enumerator},

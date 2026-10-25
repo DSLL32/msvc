@@ -210,7 +210,28 @@ extern "C" BYTE __stdcall infer_subsystem(LinkContext *context)
     return infer_entry_point(context);
 }
 extern "C" void __stdcall find_console_entry_symbols(LinkContext *context,
-    StringNode **main_symbol,StringNode **wide_main_symbol) { __asm { int 3 } }
+    StringNode **main_symbol,StringNode **wide_main_symbol)
+{
+    StringTable *table=context->symbols;
+    /* The original default passes its defined context pointer as both names.
+     * Every supported machine below replaces that consumed legacy fallback. */
+    const char *main_name=(const char *)context,*wide_name=(const char *)context;
+    switch (context->file_header.Machine) {
+    case IMAGE_FILE_MACHINE_I386:
+    case 0x1a2: case 0x1a6: case 0x601:
+        main_name="_main";
+        wide_name="_wmain";
+        break;
+    case IMAGE_FILE_MACHINE_R4000:
+    case 0x168: case IMAGE_FILE_MACHINE_ALPHA:
+    case 0x1c0: case IMAGE_FILE_MACHINE_POWERPC:
+        main_name="main";
+        wide_name="wmain";
+        break;
+    }
+    *main_symbol=table->FindSymbol(main_name);
+    *wide_main_symbol=table->FindSymbol(wide_name);
+}
 extern "C" void __stdcall find_gui_entry_symbols(LinkContext *context,
     StringNode **win_main_symbol,StringNode **wide_win_main_symbol) { __asm { int 3 } }
 extern "C" BYTE __stdcall infer_entry_point(LinkContext *context) { __asm { int 3 } return 0; }
