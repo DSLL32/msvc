@@ -1,4 +1,5 @@
 #include "input.h"
+#include "keywords.h"
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -83,4 +84,37 @@ extern "C" int c1_test_backend_getter(void)
     recon_cpp_delete(first);
     recon_cpp_delete(second);
     return 1;
+}
+
+extern "C" void __cdecl intern_identifier(const char *);
+extern "C" int c1_test_identifier_interning(void)
+{
+    CompilerNameEntry *buckets[2048] = { 0 };
+    DWORD records[15] = { 0 };
+    unsigned char names[64];
+    CompilerNameEntry *first = (CompilerNameEntry *)records;
+    CompilerNameEntry *second = (CompilerNameEntry *)((BYTE *)records + 20);
+    memset(names, 0xa5, sizeof(names));
+    c1_data.name_buckets = buckets;
+    c1_bss.pools[6].cursor = (BYTE *)records;
+    c1_bss.pools[6].remaining = sizeof(records);
+    c1_bss.arenas[0].cursor = names;
+    c1_bss.arenas[0].committed_limit = names + sizeof(names);
+    first->flags = 0x9abc0000;
+    first->token = 77;
+    first->category = 88;
+    intern_identifier("aa");
+    if (c1_data.current_identifier != first || strcmp(first->name, "aa") ||
+        first->flags != 0x9abc01eb || first->token != 77 || first->category != 88)
+        return 0;
+    intern_identifier("b]"); /* Same hash491, different spelling. */
+    if (c1_data.current_identifier != second || second->next != first ||
+        buckets[491] != second || strcmp(second->name, "b]")) return 0;
+    intern_identifier("aa");
+    return c1_data.current_identifier == first && buckets[491] == first &&
+        first->next == second && !second->next &&
+        c1_bss.pools[6].cursor == (BYTE *)records + 40 &&
+        c1_bss.pools[6].remaining == 20 &&
+        c1_bss.arenas[0].cursor == names + 8 && names[3] == 0xa5 &&
+        names[7] == 0xa5 && first->flags == 0x9abc01eb;
 }

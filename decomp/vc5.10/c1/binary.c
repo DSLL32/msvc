@@ -5,8 +5,8 @@
 
 static const ReconFunction functions[] = {
     { .name = "_intern_identifier", .entry_rva = 0x146a4,
-      .code = (const ReconExtent[]){{0x146a4, 0x146a5}},
-      .code_count = 1, .definition = RECON_APP, .native_symbol = "intern_identifier" },
+      .code = (const ReconExtent[]){{0x146a4, 0x147fb}, {0x310da, 0x31103}},
+      .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "intern_identifier" },
     { .name = "_unreserve_keyword", .entry_rva = 0x147fb,
       .code = (const ReconExtent[]){{0x147fb, 0x147fc}},
       .code_count = 1, .definition = RECON_APP, .native_symbol = "unreserve_keyword" },

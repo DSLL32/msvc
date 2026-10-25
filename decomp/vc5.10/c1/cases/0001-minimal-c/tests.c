@@ -100,12 +100,14 @@ static int keyword_storage(void)
     for (i = 0; i < 2050; ++i) if (storage[i] != 0xa5a5a5a5) return 0;
     return 1;
 }
-const ReconTest minimal_tests[7] = {
+extern int c1_test_identifier_interning(void);
+const ReconTest minimal_tests[8] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
     { "browser factory shared slots and owned filename prefix", 1, c1_test_browser_factory },
     { "backend getter preserves existing identity and lazily constructs", 1, c1_test_backend_getter },
     { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes },
-    { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage }
+    { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage },
+    { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning }
 };

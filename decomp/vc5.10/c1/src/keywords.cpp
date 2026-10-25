@@ -1,6 +1,7 @@
 #include <string.h>
 #include "compiler-state.h"
 #include "keywords.h"
+#pragma intrinsic(memcpy, memcmp)
 #include <recon.h>
 
 /* Encountered keyword spellings and their byte token codes. Original rows
@@ -309,7 +310,49 @@ extern "C" void __cdecl initialize_language_keywords(void)
     }
 }
 
-extern "C" void __cdecl intern_identifier(const char *name) { __asm { int 3 } }
+extern "C" void __cdecl intern_identifier(const char *name)
+{
+    const unsigned char *text = (const unsigned char *)name;
+    unsigned hash = 0, length, folded;
+    CompilerNameEntry **bucket, **link, *entry;
+    CompilerPool *pool = &c1_bss.pools[6];
+    CompilerArena *arena = &c1_bss.arenas[0];
+    while (*text) {
+        hash = (hash >> 4) + hash * 4 + *text;
+        ++text;
+    }
+    length = (unsigned)(text - (const unsigned char *)name);
+    folded = ((hash >> 16) ^ hash) & 0xffff;
+    bucket = &c1_data.name_buckets[hash & 0x7ff];
+    link = bucket;
+    for (entry = *link; entry; link = &entry->next, entry = *link) {
+        if ((entry->flags & 0xffff) == folded && entry->name[length] == 0 &&
+            memcmp(name, entry->name, length) == 0) {
+            *link = entry->next;
+            entry->next = *bucket;
+            *bucket = entry;
+            c1_data.current_identifier = entry;
+            return;
+        }
+    }
+    /* The compact view omits original DWORD12 and its allocation tail.
+     * Preserve the actual20-byte pool stride, not sizeof the projection. */
+    if (pool->remaining < 20)
+        pool->Refill(20);
+    entry = (CompilerNameEntry *)pool->cursor;
+    pool->cursor += 20;
+    pool->remaining -= 20;
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->name = (char *)arena->cursor;
+    arena->cursor += (length + 4) & ~3U;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    memcpy(entry->name, name, length);
+    entry->name[length] = 0;
+    c1_data.current_identifier = entry;
+    entry->flags = (entry->flags & 0xffff0000) | folded;
+}
 extern "C" void __cdecl unreserve_keyword(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category2(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category3(const char *name) { __asm { int 3 } }
