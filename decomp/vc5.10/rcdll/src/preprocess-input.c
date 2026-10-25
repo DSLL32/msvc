@@ -1,7 +1,7 @@
 #include <string.h>
 #include <wchar.h>
 #include "command.h"
-#include "preprocess.h"
+#include "directives.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -230,4 +230,44 @@ void __cdecl rc_scan_line_start(void)
             return;
         }
     }
+}
+
+/* Close the exhausted source and restore the including source, if any. */
+unsigned short __cdecl rc_open_source_frame(void)
+{
+    RcMacro marker;
+    RcSourceFrame *source;
+    unsigned saved_line;
+
+    if(rc_source_depth==-1)return 0;
+    if(rc_source_file)fclose(rc_source_file);
+    --rc_source_depth;
+    saved_line=rc_preparing_line;
+    rc_preparing_line=rc_source_depth;
+    marker.next=NULL;
+    marker.name=L"!";
+    marker.text=L"";
+    marker.parameters=0;
+    marker.flags=0;
+    rc_list_macro(&marker);
+    rc_preparing_line=saved_line;
+    ++rc_source_depth;
+    source=&rc_source_frames[rc_source_depth];
+    rc_copy_wide_end(rc_filename_storage,source->filename);
+    saved_line=rc_preparing_line;
+    rc_preparing_line=source->saved_line;
+    rc_source_cursor=source->saved_cursor;
+    rc_release(source->buffer);
+    if(--rc_source_depth<0){
+        rc_preparing_line=saved_line;
+        return 0;
+    }
+    source=&rc_source_frames[rc_source_depth];
+    rc_source_file=source->file;
+    rc_source_encoding=source->encoding;
+    if(rc_cpp_E){
+        rc_write_preprocessed(L"\r\n",4,1,rc_cpp_output_file);
+        rc_emit_source_line();
+    }
+    return 1;
 }
