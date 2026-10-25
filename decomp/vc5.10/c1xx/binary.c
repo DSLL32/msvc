@@ -1383,9 +1383,27 @@ static const ReconFunction functions[] = {
         .original_symbol = "?SetType@CompilerTypeShape@@QAEXPAUCompilerType@@@Z",
     },
     {
-        .name = "_create_function_parameters", .entry_rva = 0x842e,
-        .code = (const ReconExtent[]){{0x842e, 0x842f}},
+        .name = "_empty_parameter_types", .entry_rva = 0x1db84,
+        .code = (const ReconExtent[]){{0x1db84, 0x1db85}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "empty_parameter_types",
+    },
+    {
+        .name = "_collect_parameter_types", .entry_rva = 0xfaa5,
+        .code = (const ReconExtent[]){{0xfaa5, 0xfaa6}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "collect_parameter_types",
+    },
+    {
+        .name = "_intern_function_type", .entry_rva = 0x84f9,
+        .code = (const ReconExtent[]){{0x84f9, 0x84fa}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "intern_function_type",
+    },
+    {
+        .name = "_create_function_parameters", .entry_rva = 0x842e,
+        .code = (const ReconExtent[]){{0x842e, 0x84f9}, {0x547c6, 0x547f0}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "create_function_parameters",
     },
     {

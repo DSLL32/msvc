@@ -166,6 +166,19 @@ struct CompilerParameterEntry {
 struct CompilerParameterContext {
     CompilerParameterEntry *head; /* original +0 */
 };
+struct CompilerParameterSet {
+    CompilerSymbolLink *head; /* original +4, borrowed symbol-link list */
+};
+struct CompilerTypedSymbol : CompilerNamedSymbol {
+    CompilerType *type; /* original +10 in this parameter-symbol variant */
+};
+struct CompilerParameterTypes;
+struct CompilerFunctionType {
+    CompilerType *type; /* original +0 */
+    BYTE symbol_count; /* +4; natural padding+5..7 is not a semantic field */
+    CompilerParameterLink *symbols; /* +8 */
+    CompilerParameterTypes *parameters; /* +c */
+};
 /* Function-parameter description, distinct from an interned type shape.
  * Only the builder's stores are modeled; the full28-byte layout is unknown. */
 struct CompilerParameterDescription {

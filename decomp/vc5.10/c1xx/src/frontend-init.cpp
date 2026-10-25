@@ -63,6 +63,9 @@ CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned 
 CompilerType *__cdecl qualify_type(CompilerSymbol *, unsigned, WORD);
 CompilerParameterLink *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
 CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *, WORD *, CompilerParameterLink *, CompilerType *);
+CompilerParameterTypes *__cdecl empty_parameter_types(void);
+CompilerParameterTypes *__cdecl collect_parameter_types(unsigned, CompilerParameterSet *);
+CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -1000,4 +1003,60 @@ void RECON_THISCALL CompilerDeclarator::AddMemberPointerShape(CompilerTypeShape 
 
 extern "C" CompilerSymbol *__cdecl current_declarator_context(void) { __asm { int 3 } return NULL; }
 
-extern "C" CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *parameters, WORD *flags, CompilerParameterLink *symbols, CompilerType *type) { __asm { int 3 } return NULL; }
+extern "C" CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *parameters,
+    WORD *flags, CompilerParameterLink *symbols, CompilerType *type)
+{
+    CompilerParameterTypes *types;
+    CompilerArena *arena;
+    CompilerFunctionType *function;
+    unsigned count = 0;
+    int empty = parameters == NULL;
+    if (parameters) {
+        CompilerSymbolLink *entry = parameters->head;
+        CompilerTypedSymbol *last;
+        int void_parameter = 0;
+        while (entry) {
+            last = (CompilerTypedSymbol *)((BYTE *)entry - offsetof(CompilerNamedSymbol, link));
+            if (last->type == frontend_data.builtin_types.type_0080)
+                void_parameter = 1;
+            ++count;
+            if (!last->type) {
+                *flags |= 0x8000;
+                break;
+            }
+            entry = entry->next;
+        }
+        if (void_parameter) {
+            if (count != 1) compiler_warning(860);
+            last->definition_flags |= 8;
+            empty = 1;
+        }
+    }
+    if (empty) {
+        *flags |= 0x4000;
+        types = empty_parameter_types();
+    } else {
+        types = collect_parameter_types(count, parameters);
+    }
+    arena = &frontend_bss.arenas[5];
+    function = (CompilerFunctionType *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    function->parameters = types;
+    if (symbols) {
+        BYTE total = 0;
+        CompilerParameterLink *entry = symbols;
+        function->symbols = symbols;
+        do {
+            ++total;
+            entry = entry->next;
+        } while (entry);
+        function->symbol_count = total;
+    }
+    function->type = type;
+    return intern_function_type(function);
+}
+
+extern "C" CompilerParameterTypes *__cdecl empty_parameter_types(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerParameterTypes *__cdecl collect_parameter_types(unsigned count, CompilerParameterSet *parameters) { __asm { int 3 } return NULL; }
+extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *function) { __asm { int 3 } return NULL; }
