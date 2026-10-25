@@ -503,6 +503,13 @@ Fresh read-only assessment, 2026-10-25. No Watcom migration, build, capture or
 application reconstruction was run for this assessment. All five workers remain
 paused for the user's review and case assignments.
 
+The user subsequently approved integrating this backend into shared
+`recon-tool original capture`. The shared recon-tool owner implements the
+integration; the Watcom coordinator supplies controller contracts and review.
+After verified shared READY and root release, each worker may replace the old
+minimal source/cases with a fresh standard scaffold, complete one actual help
+case, then pause. No application runs are released before that checkpoint.
+
 | Binary | Accepted application reconstruction | Current paused state |
 | --- | --- | --- |
 | WCC386 | 0 functions | CF main stub; cached `?` output is not a captured application entry order. |
@@ -570,12 +577,23 @@ not be inferred from the existing CF reader or native typed-hook support.
 remains PE32-only. Reuse the existing `tooling/watcom-capture/` controller behind
 an explicit shared capture adapter for CF allocation, full relocation identity,
 entry/transfer gating and base-relative trace receipts. Mixed CF code/data cannot
-be bulk-masked. WLIB/WLINK/WASM patched originals also require their existing
+be bulk-masked. WLIB can use the ordinary offline PE masker: its DGROUP tables,
+resource overlay and file length survive. The missing prerequisite is a finite,
+validated transitive startup CRT/import closure, including actual code and any
+demonstrated owned text data. Existing direct-entry hashes omit some called
+helpers and executable import thunks. Reaching a callee during startup alone
+does not classify it as CRT; application callbacks stay masked. The old
+bootstrap-then-mask/two-mode transport is not itself a requirement.
+WLIB/WLINK/WASM patched originals also require their existing
 GS-patch provenance and all-invocation selector/buffer-owner guards; a hash alone
 does not establish the patch's semantic conditions. Retain verified CRT bootstrap
 boundaries. Preserve actual stdin semantics: shared original capture supports
 NUL/file, but WLIB's saved pipe input is not yet supported there. Cached native
 replay does not require implementing or rerunning this capture path first.
+Fresh cases may explicitly capture staged argv0/self-open paths rather than
+permanently retaining historical path quirks. Missing CF FP evidence stays
+explicitly absent or unsupported; full DIRECT state is not a blanket initial
+I/O migration prerequisite.
 
 Actual controller evidence is narrower than full readiness: original WCC
 allocation/relocation and masked CF-entry stop passed; eight authored controls
@@ -600,4 +618,5 @@ waits for a concrete requested marker and the existing controller adapter.
 
 Existing FILE26, signal and nonlocal-jump denials remain explicit. No general
 allocator, DLL loader, ABI engine or new shim family is proposed. This report
-records support needs; it authorizes no migration, new case or reconstruction.
+records support needs and conditional release stages; it claims no newly
+qualified backend or application reconstruction.
