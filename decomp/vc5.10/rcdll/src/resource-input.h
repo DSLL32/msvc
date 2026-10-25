@@ -55,6 +55,8 @@ int __stdcall rc_read_resource_operator(WCHAR *);
 void __cdecl rc_skip_resource_space(void);
 void __cdecl rc_read_resource_integer(void);
 int __stdcall rc_read_resource_symbol(unsigned);
+WORD __stdcall rc_lookup_resource_keyword(const WCHAR *);
+void __stdcall rc_resource_input_fatal_name(unsigned,const WCHAR *);
 void __stdcall rc_resource_input_fatal(unsigned);
 void __stdcall rc_read_apstudio_directive(int,DWORD);
 void *__stdcall rc_reserve_resource_bytes(WORD);

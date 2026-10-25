@@ -654,6 +654,32 @@ static int resource_operator_contract(void)
         rc_resource_buffer_index==2;
 }
 
+static void prepare_resource_punctuation(WCHAR character)
+{
+    rc_resource_character=character;rc_resource_line_start=0;
+    rc_resource_buffer_index=0;rc_resource_read_buffer[0]=L'a';
+    rc_resource_read_buffer[1]=0;rc_resource_token.value=0x1234;
+}
+static int resource_symbol_contract(void)
+{
+    RcResourcePunctuation saved=rc_resource_punctuation[0];
+    int result;
+    prepare_resource_punctuation(L',');
+    if(rc_read_resource_symbol(0)!=1||rc_resource_token.value||
+       rc_resource_token.kind!=15||rc_resource_character!=L'a')return 0;
+    prepare_resource_punctuation(L',');
+    rc_resource_punctuation[0].reserved2=0xabcd;
+    rc_resource_punctuation[0].reserved5[0]=0xee;
+    rc_resource_punctuation[0].kind=1;
+    result=!rc_read_resource_symbol(0)&&!rc_resource_token.value&&
+        rc_resource_token.kind==1&&rc_resource_character==L'a';
+    rc_resource_punctuation[0]=saved;
+    if(!result)return 0;
+    prepare_resource_punctuation(L'(');
+    return !rc_read_resource_symbol(0)&&!rc_resource_token.value&&
+        rc_resource_token.kind==1&&rc_resource_character==L'a';
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -680,6 +706,7 @@ const ReconTest rich_tests[]={
     {"resource-digit-contract",1,resource_digit_contract},
     {"resource-hexadecimal-contract",1,resource_hexadecimal_contract},
     {"resource-operator-contract",1,resource_operator_contract},
+    {"resource-symbol-contract",1,resource_symbol_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},

@@ -387,11 +387,7 @@ void __cdecl rc_read_resource_integer(void)
 {
     __asm int 3
 }
-int __stdcall rc_read_resource_symbol(unsigned flags)
-{
-    __asm int 3
-    return 0;
-}
+
 
 
 
@@ -417,4 +413,14 @@ DWORD __cdecl rc_parse_resource_decimal(void)
 {
     __asm int 3
     return 0;
+}
+
+WORD __stdcall rc_lookup_resource_keyword(const WCHAR *text)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_resource_input_fatal_name(unsigned code,const WCHAR *name)
+{
+    __asm int 3
 }

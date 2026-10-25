@@ -412,3 +412,33 @@ int __stdcall rc_read_resource_operator(WCHAR *operation)
     }
     return 0;
 }
+
+int __stdcall rc_read_resource_symbol(unsigned flags)
+{
+    RcResourcePunctuation *punctuation;
+    for(punctuation=rc_resource_punctuation;punctuation->character;++punctuation){
+        if(punctuation->character==rc_resource_character){
+            rc_resource_token.value=0;
+            rc_resource_token.kind=punctuation->kind;
+            rc_next_resource_character();
+            return rc_resource_token.kind>=11;
+        }
+    }
+    rc_collect_resource_word(rc_resource_name);
+    if(!rc_resource_name[1]&&(WCHAR)towupper(rc_resource_name[0])==L'L'&&
+       rc_resource_character==L'"'){
+        rc_resource_token.kind=137;
+        return 1;
+    }
+    rc_resource_token.value=rc_lookup_resource_keyword(rc_resource_name);
+    if(rc_resource_token.value!=0xffff)
+        rc_resource_token.kind=(BYTE)rc_resource_token.value;
+    else{
+        if(flags){
+            rc_resource_input_fatal_name(2104,rc_resource_name);
+            return 0;
+        }
+        rc_resource_token.kind=0;
+    }
+    return 1;
+}
