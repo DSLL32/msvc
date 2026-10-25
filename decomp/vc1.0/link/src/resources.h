@@ -51,4 +51,6 @@ unsigned long resource_write(int file,const void *buffer,unsigned long count);
 unsigned resource_unicode_to_ansi_byte(unsigned short);
 void *resource_reallocate(void *allocation,unsigned short size);
 int resource_release(void *allocation);
+int detect_resource_encoding(FILE *);
+int resource_byte_order(void);
 #endif

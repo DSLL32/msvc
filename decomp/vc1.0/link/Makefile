@@ -22,6 +22,7 @@ BINARY_SOURCES = src/link.c \
     src/dump-stubs.c \
     src/resources.c \
     src/resource-legacy.c \
+    src/resource-encoding.c \
     src/codeview.c \
     src/debug-symbols.c \
     src/map-file.c \

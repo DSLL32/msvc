@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 104 numbered case directories. Native
+The shared recon-tool harness discovers the 105 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 829 application functions (761 public-reached, 68 direct-support),
-with accepted App extent union 231076/281634 (82.0483322%). The direct deferred-debug case adds one whole function/59 extent bytes after
-the OOM notification checkpoint.
-Support-inclusive historical accepted extent is 262015/281634 (93.0338666%).
-The 1028 historical frontier count includes shipped CRT/import
+set now has 831 application functions (761 public-reached, 70 direct-support),
+with accepted App extent union 231469/281634 (82.1878750%). The direct resource encoding case adds two whole functions/393 extent bytes
+after the deferred-debug checkpoint.
+Support-inclusive historical accepted extent is 262408/281634 (93.1734095%).
+The 1030 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8678 bytes outside known App/CRT/import extents,
+The current registry leaves 8285 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 866 graphs for calls, RET cleanup, live function
+Current shared validation checks 868 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -597,8 +597,45 @@ owner/ABI observations, hashes and split timing are in:
     /root/.ai-tmp/msvc2/vc1.0/link/omf-deferred-debug/
 
 All currently named application entries are implemented. This is not a complete
-binary/non-CRT claim: 8678 bytes outside known registry extents still include
+binary/non-CRT claim: 8285 bytes outside known registry extents still include
 unattributed code, data/alignment and incomplete boundaries. Dormant Unicode,
 far-string/custom-sort and floating-parser provenance remains unresolved; the
 legacy resource serializer retains its proven unwritten file-descriptor issue.
 No generic utility has been reconstructed or called CRT merely to close that gap.
+
+
+Case 0104 follows positive distinctive provenance, beyond table sharing or a
+failed CRT match: the formerly unattributed LINK detector and RCPP's actually
+App-called encoding helper each have 129 original instructions, with 111 byte
+identical and 18 differences explained by relocations, locale width/helper,
+equivalent comparisons, zero-register choice, alignment and cdecl/stdcall RET.
+RCPP's real rc_open_include calls its helper at original 010098fe. Both sample
+40-byte blocks, use the four-fifths heuristic, skip odd starting positions and
+restore the stream. Both endian companions return one on both nominal paths.
+LINK keeps its actual DWORD/signed locale test and cdecl ABI. This establishes
+resource-family application/support provenance for this pair only; the four
+Unicode writers remain unattributed.
+
+Eight direct phases open genuine target CRT binary FILE owners for ASCII with
+TAB/CR/LF, LE/BE ASCII code units, control bytes and empty input. Odd-position
+phases check the exact restored position and next byte; the control stream
+requires repeated blocks before EOF. The full 512-byte report, empty streams,
+exit 0 and unchanged input inventory match without clocks or masks. Default
+C locale is observed, not seeded. Negative-character/DBCS paths are not claimed.
+No private FILE-layout equality is asserted. GDB verifies eight live FILE
+formals, eight byte-order calls, defined returns, cdecl stack cleanup, preserved
+nonvolatiles and FP state. An initial GDB observer selected glibc FILE instead
+of the explicit 32-byte ShimFILE type; that technical failure is preserved and
+only the corrected observer was rerun against the same reference.
+
+One untouched baseline took 0.894s; masked frontiers took 0.717s/1.172s and
+completion 1.318s. Matching native completion took 16.908ms (setup 11.681/
+execution 1.699/checks 3.528); corrected GDB took 195.757ms. At completion,
+original compilation/relink and all 868 shared graph/RET/reference/ownership/
+boundary checks passed in 20.610s combined. Native build took 4.723s; all 105
+cached cases plus seven focused tests passed in 2.041s parallel wall time.
+Shared C/H before/after matched published 0d7c3de15. Whole-body correspondence,
+raw observations, input/formal ownership and split timings remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/resource-encoding/
+    /root/.ai-tmp/msvc2/vc1.0/link/remaining-after-deferred/
