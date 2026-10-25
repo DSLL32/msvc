@@ -4,7 +4,7 @@ Native reconstruction test shims
 This library supplies the Linux test-build boundary for reconstructed Win32
 command-line programs. The canonical build remains a Win32 executable compiled
 with the original toolchain. RECON_NATIVE_TEST enables this header only on Linux;
-without it, recon.h is empty.
+without it, only the shared ABI/trace/inline annotations remain.
 
 Requirements: an i386-capable C compiler and 32-bit libc development files.
 On this Debian host gcc-multilib and libc6-dev-i386 supply the missing support.
@@ -21,7 +21,14 @@ Header contract
 ---------------
 
 Include <recon.h> at the end of each reconstruction source/header include list.
-The header consumes host stdio/stdlib and other ordinary header declarations
+The stable include/recon.h retains shared ABI/trace/inline annotations. Its
+Linux native branch includes <recon-remaps.h> from native/, where shim types,
+declarations and remaps live. Original builds search include/ only; native
+builds search both include/ and native/. Thus native-only API edits invalidate
+native dependencies, while shared annotation/header changes still invalidate
+original builds. This uses ordinary include resolution, without dependency
+scanner exceptions or caches; the split itself requires one initial rebuild.
+The native remap header consumes host stdio/stdlib and other ordinary header declarations
 before mapping names. It defines the 32-byte Microsoft-style ShimFILE structure,
 matching fields the reconstructed CRT and application access, and remaps FILE,
 stdio, Microsoft CRT names, and the supported Win32 calls.
