@@ -1,6 +1,7 @@
 #include <io.h>
 #include <new.h>
 #include "frontend-init.h"
+#include "pointer-array.h"
 #include "packing.h"
 #include <recon.h>
 
@@ -317,8 +318,19 @@ extern "C" void __cdecl initialize_keyword_table(void)
         frontend_data.keyword_table = (CompilerKeywordTable *)table;
     }
 }
-extern "C" void __cdecl initialize_line_tables(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_frontend_tables(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_line_tables(void) {}
+extern "C" CompilerPointerArray *__cdecl new_pointer_array(unsigned capacity) { __asm { int 3 } return NULL; }
+extern "C" CompilerPointerArray *__cdecl grow_pointer_array(CompilerPointerArray *array) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl initialize_frontend_tables(void)
+{
+    CompilerPointerArray *array = new_pointer_array(1600);
+    frontend_data.frontend_pointer_table = array;
+    if (array->count == array->capacity)
+        array = grow_pointer_array(array);
+    array->items[array->count] = NULL;
+    ++array->count;
+    frontend_data.frontend_pointer_table = array;
+}
 extern "C" void __cdecl open_expression_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_type_table(void) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl intern_type(CompilerType *description) { __asm { int 3 } return NULL; }

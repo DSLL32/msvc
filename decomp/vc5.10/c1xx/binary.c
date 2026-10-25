@@ -3,6 +3,19 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_new_pointer_array", .entry_rva = 0x14954,
+        .code = (const ReconExtent[]){{0x14954, 0x14955}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "new_pointer_array",
+    },
+    {
+        .name = "_grow_pointer_array", .entry_rva = 0x4c5c9,
+        .code = (const ReconExtent[]){{0x4c5c9, 0x4c5ca}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "grow_pointer_array",
+    },
+
+    {
         .name = "_intern_identifier", .entry_rva = 0x3aa9a,
         .code = (const ReconExtent[]){{0x3aa9a, 0x3abf1}, {0x72dca, 0x72df3}},
         .code_count = 2, .definition = RECON_APP,
@@ -1063,12 +1076,14 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x3acbb, 0x3acbc}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "initialize_line_tables",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_frontend_tables", .entry_rva = 0x3acbc,
-        .code = (const ReconExtent[]){{0x3acbc, 0x3acbd}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3acbc, 0x3acef}, {0x72df3, 0x72e01}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "initialize_frontend_tables",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_open_expression_output", .entry_rva = 0x3acef,

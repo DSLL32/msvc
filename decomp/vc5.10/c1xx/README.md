@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 114 accepted application functions / 14422
+The single registry is binary.c: 116 accepted application functions / 14488
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 116
+as are three six-byte import endpoints (18 bytes, zero App credit). The 118
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine initialize_line_tables INT3 at RVA3acbb;
+and currently reaches the genuine new_pointer_array INT3 at RVA14954;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,13 +42,13 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The five keyword classification helpers each passed a separate fresh pair and
-strict current audit. Their actual original/native report orders and frontier
-RVAs were also compared directly, independently of case expectations.
-The latest pair reaches initialize_line_tables: 1.368 s / 11.361 ms (native
-setup 5.983, execution 3.452, checks 1.926). The five build/audit/unit batches
-took 14.654 s total. These 202 code bytes clear keyword status or classify
-existing reserved identifiers; they introduce no new state fields.
+The one-byte line hook and 65-byte frontend pointer-table setup each passed
+fresh original/native receipt equality and strict audits. The latest pair
+reaches new_pointer_array(1600): 0.637 s / 10.337 ms (native setup 4.811,
+execution 4.190, checks 1.336). Their build/audit/unit batches took 7.754 s and
+6.042 s. The table header has signed short count/capacity and inline pointer
+items; element meaning remains opaque. Its initialized owner pointer joins
+snapshot restoration and the focused nonzero unit.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
