@@ -243,9 +243,10 @@
           "bytes": 4
         },
         {
-          "name": "_browser_saved_position",
+          "name": "_pch_header",
           "original": 664380,
-          "bytes": 4
+          "bytes": 4,
+          "offset": 44
         },
         {
           "name": "_browser_file",
@@ -1581,14 +1582,16 @@
           "bytes": 4
         },
         {
-          "name": "_pch_symbol_bytes",
+          "name": "_pch_header",
           "original": 664348,
-          "bytes": 4
+          "bytes": 4,
+          "offset": 12
         },
         {
-          "name": "_pch_expression_bytes",
+          "name": "_pch_header",
           "original": 664356,
-          "bytes": 4
+          "bytes": 4,
+          "offset": 20
         },
         {
           "name": "_normalized_Oq",
@@ -2116,9 +2119,10 @@
           "bytes": 4
         },
         {
-          "name": "_permanent_page_count",
+          "name": "_pch_header",
           "original": 664384,
-          "bytes": 4
+          "bytes": 4,
+          "offset": 48
         }
       ]
     },
@@ -4029,6 +4033,25 @@
           ]
         ],
         "reason": "complete33Bgetter finalRET plus15B alignment; no direct transfers, address operands, initialized pointers or exports to candidate; pendingowner/status unchanged"
+      },
+      {
+        "original": [
+          442464,
+          442480
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_restore_pch_frontend",
+        "owner_ranges": [
+          [
+            441584,
+            442465
+          ]
+        ],
+        "reason": "whole881B pendingowner finalRET plus15B alignment; independent finite review found no external/direct transfers, address operands, initialized pointers or exports to candidate; owner/status/credit unchanged"
       }
     ]
   }

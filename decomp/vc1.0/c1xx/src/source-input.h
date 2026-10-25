@@ -1,6 +1,7 @@
 #ifndef SOURCE_INPUT_H
 #define SOURCE_INPUT_H
 #include "global-ir.h"
+#include "pch-format.h"
 #include <recon.h>
 typedef struct SourceFile {
     unsigned capacity;
@@ -24,7 +25,6 @@ extern int conditional_depth;
 extern int macro_expansion_active;
 #define macro_saved_input_cursor (macro_expansion_frames[1].source_cursor)
 extern unsigned browser_file_cookie;
-extern long browser_saved_position;
 extern FILE *browser_file;
 char *normalize_input_name(char *filename);
 int release_input_handle(void);

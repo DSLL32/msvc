@@ -19,7 +19,6 @@ typedef char PchInputTextOffsetMustBe12[(offsetof(PchInputRecord, text) == 12) ?
 extern PchInputRecord *pch_input_record;
 extern short pch_saved_page_count;
 extern int pch_input_changed, pch_abort_on_file_change;
-extern int permanent_page_count;
 void record_pch_string_event(unsigned kind, unsigned value, char *text);
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text);
 int resume_pch_source_input(void);

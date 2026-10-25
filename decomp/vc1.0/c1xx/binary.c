@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1532 historical frontiers/1425 App bodies.
+ * Current reviewed boundary:1533 historical frontiers/1426 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7,12 +7,21 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_restore_pch_frontend",
+        .entry_rva = 0x5bcf0,
+        .code = (const ReconExtent[]) { { 0x5bcf0, 0x5c061 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restore_pch_frontend",
+    },
+    {
         .name = "_read_pch_file",
         .entry_rva = 0x5c070,
         .code = (const ReconExtent[]) { { 0x5c070, 0x5c4c4 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "read_pch_file",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_match_pch_string_event@12",
@@ -11647,13 +11656,6 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "begin_automatic_pch",
-    },
-    {
-        .name = "??1Iostream_init@@QAE@XZ",
-        .entry_rva = 0x5c060,
-        .code = (const ReconExtent[]) { { 0x5c060, 0x5c070 } },
-        .code_count = 1,
-        .definition = RECON_CRT,
     },
     {
         .name = "_open_expression_intermediate",

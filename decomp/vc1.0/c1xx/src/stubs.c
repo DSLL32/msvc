@@ -560,4 +560,4 @@ unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0
 
 IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
-void read_pch_file(void) { __asm { int 3 } }
+void restore_pch_frontend(void) { __asm { int 3 } }

@@ -2,7 +2,7 @@
 #include "entry.h"
 
 /* Accepted application seed frozen before this paired PCH workload. */
-static const uint32_t order[] = { 0x131c0, 0x14840, 0x13310, 0x5c070 };
+static const uint32_t order[] = { 0x131c0, 0x14840, 0x13310, 0x5c070, 0x5bcf0 };
 static const uint32_t seen[] = {
     0x2d410,
     0x14740,
@@ -1431,6 +1431,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "ledger_pch_use",
     "Ledger PCH use: nested macro/conditional includes, packed types, virtual/copy/default/member-pointer lifetimes, inline/browser/Z7 state; independent frozen invocation",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x5c070,
+    RECON_IO, RECON_FRONTIER, 0x5bcf0,
     NULL, c1xx_case_invoke, NULL, NULL, 0
 };

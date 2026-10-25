@@ -24,7 +24,6 @@ unsigned source_line_number; /* original 0x8cc98 */
 int conditional_depth = -1; /* original 0x9fbc8 */
 int macro_expansion_active; /* original 0x91880 */
 unsigned browser_file_cookie; /* original 0x94b10 */
-long browser_saved_position; /* original 0xa233c */
 FILE *browser_file; /* original 0x8eff8 */
 
 /* Original 0x24290..0x243bc, stdcall4. Search the configured include

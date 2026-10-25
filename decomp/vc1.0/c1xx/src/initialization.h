@@ -2,6 +2,7 @@
 #define INITIALIZATION_H
 #include "frontend.h"
 #include "literal-workspace.h"
+#include "pch-format.h"
 #include <recon.h>
 
 typedef struct WorkingStack {
@@ -67,7 +68,6 @@ void begin_browser_output(void);
 FILE *open_intermediate(char *prefix, char *extension, char *mode);
 void open_expression_intermediate(void);
 void __stdcall prepare_pch_output(char *filename);
-extern unsigned pch_symbol_bytes, pch_expression_bytes;
 extern int pch_expression_output, intermediate_status;
 extern char *pch_diagnostic_name;
 void initialize_inline_queries(void);

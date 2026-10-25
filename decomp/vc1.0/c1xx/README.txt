@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1425 App bodies and1532
+original/native matching at compare_filenames; there are1426 App bodies and1533
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -16,7 +16,19 @@ match_pch_string_event@12 remains an unimplemented stub with no coverage credit.
 load_precompiled_header(328B) is accepted at the consumer read_pch_file frontier;
 original build3.171s, fresh original1.214s, native25.240ms (setup16.443ms,
 execution2.172ms, checks6.625ms), audit/setup2.164s, cached12+21units0.318s.
-The reader itself remains an unimplemented whole1108B helper, with no new credit.
+read_pch_file(1108B) is now accepted at restore_pch_frontend; fresh original1.374s,
+native26.998ms (setup16.436ms, execution4.041ms, checks6.521ms) and1434-function
+six-check audit pass. The56B typed header has one owner: existing symbol/expression
+sizes, browser offset and permanent page count alias its actual fields. The
+pending881B restorer remains unimplemented. Its finalRET was incorrectly named
+as another old short CRT candidate; exact2raw aliases/1canonical row were removed
+after independent byte/entry/reference review, with zero application credit.
+The header rebuild took30.434s plus4.009s incremental correction. Final audit/setup
+37.871s includes128 Win32 and136 native compilations triggered by shared
+recon-inline.h publication477bd3d95; maintainer confirmed no C1XX semantics change.
+All12 cached cases and21 unit groups pass; their10.908s wrapper includes10.56s
+shared Cargo build-lock setup, while individual native phases remain19--27ms.
+No additional original or duplicate regression was run solely for that annotation.
 Native first pair26.683ms (setup17.078ms, execution3.035ms, checks6.570ms).
 The default-path strlen source calls were replaced by the actual inline loops
 before passing graph checks. One discovery started before the library relink
@@ -193,7 +205,7 @@ entryESP-4 read. The normal grammar caller and current packet use the defined
 addition path; a narrow unsupported-operator trap test passes. Public reachability
 of the default remains unknown, with no original-stack equivalence claim.
 
-Thirty-one old short-pattern CRT identities were disqualified because their
+Thirty-two old short-pattern CRT identities were disqualified because their
 instructions belong to complete application/CRT owners, not independent entries.
 They include the release_input_handle RET at0x1e410, the __leave diagnostic
 branch at0x50ca0 and the finally-depth update at0x50d0c. policy-data.json retains the exact candidate names/ranges/hashes
