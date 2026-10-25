@@ -424,19 +424,27 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 90 / 11,040 | 3.43% | Minimal C: initialize_preprocessor after browser factory and getter; `e2c5d7494` |
-| C1XX | 102 / 11,792 | 1.57% | Minimal C++: normalize_frontend_options after input factory; `d74c0cd10` |
-| C2 | 130 / 32,064 | 5.59% | Numeric case: read_control_fields after token decoder; `c3193864e` |
+| C1 | 91 / 11,169 | 3.47% | Minimal C: keyword-table setup after predefined tokens; `fcb8281ca` |
+| C1XX | 107 / 12,192 | 1.62% | Minimal C++: keyword/language registration; `ecde14e78` |
+| C2 | 136 / 32,982 | 5.75% | Numeric case: prune_input_tree after input-tree stack handling; `b1b2f71f4` |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 125 / 44,112 | 10.63% | Hello EXE: StringTable::LookupSymbol after COFF name resolver; `19bf1ef57` |
-| RCDLL | 110 / 28,839 | 38.65% | Rich corpus: rc_copy_quoted after macro lookahead; `a162aeb44` |
+| LINK | 132 / 45,148 | 10.88% | Hello EXE: set_symbol_defined after interning and byte appending; `e80c5ca93` |
+| RCDLL | 114 / 29,347 | 39.33% | Rich corpus: resource initialization after completed preprocessing and cleanup; `97358bf98` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
 CL has a separately supported 98.57% identified-App percentage; other unfinished
 non-CRT denominators remain unclassified. Whole-text ratios include runtime,
 data and padding.
+
+The current C2 descriptor-byte check caught a signed-short field-code error
+that matching trace/output values had hidden. Its corrected source, focused
+signed-value check and fresh native run reuse the unchanged genuine original;
+the failed assertion remains recorded. RCDLL similarly retained a cleanup
+timeout caused by an omitted typed header, corrected the actual AX return-width
+use, and now treats implicit function declarations as native compile errors.
+Neither correction required an observer framework or another original capture.
 
 The concrete minimal capture work is:
 
