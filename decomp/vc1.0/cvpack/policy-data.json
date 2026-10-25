@@ -1957,7 +1957,7 @@
       },
       "_resize_old_type": {
         "abi": "unsigned char * resize_old_type(TypeRecord *,unsigned short)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

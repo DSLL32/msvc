@@ -250,3 +250,19 @@ unsigned short write_numeric_leaf(unsigned char *buffer, unsigned long value)
     *(unsigned long *)(buffer+2) = value;
     return 6;
 }
+
+/* Select the application's small, medium or separately owned record storage. */
+unsigned char *resize_old_type(TypeRecord *entry, unsigned short size)
+{
+    unsigned long bytes = (unsigned long)size+2;
+    unsigned char *buffer;
+    if (bytes > 900) buffer = checked_alloc(bytes);
+    else if (bytes > 32) buffer = allocate_medium_type();
+    else buffer = allocate_small_type();
+    if (entry->flags & 0x38) release_type_data(entry);
+    if (bytes > 900) entry->flags |= 8;
+    else if (bytes > 32) entry->flags |= 0x20;
+    else entry->flags |= 0x10;
+    entry->data = buffer;
+    return buffer;
+}
