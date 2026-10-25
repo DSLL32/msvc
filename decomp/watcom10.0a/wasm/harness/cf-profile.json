@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "backend": "watcom-cf",
+  "mode": "debugger",
+  "target": {
+    "path": "toolchains/watcom10.0a/.patched/binb/WASM.EXE",
+    "sha256": "f7189b9de3de853139d381816ab5ed9aefdd6a4fd988e29a023f1f5fbd640de9",
+    "coordinates": "image-offset",
+    "analysis_base": 0,
+    "header": {
+      "header_file_offset": 80,
+      "image_file_offset": 8704,
+      "initialized_size": 164482,
+      "relocation_offset": 158638,
+      "allocation_size": 192512,
+      "entry_offset": 121366
+    },
+    "initialized_sha256": "c4ea0ad0cbf4594f8d1fd670191b75acfeee737364b80be4f2965c38f2eb6676",
+    "relocation_sha256": "3445a245ff06c07d6b13fd8606b66a89be09cf26f131d658854ae2f58a9bac71",
+    "relocation_count": 2915,
+    "relocation_groups": 3
+  },
+  "loader": {
+    "path": "toolchains/watcom10.0a/.patched/binnt/WASM.EXE",
+    "sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "protocol": "watcom10.0a-loader-v1"
+  },
+  "runtime_catalog": null,
+  "code_layout": {
+    "code": [
+      [
+        0,
+        143800
+      ]
+    ],
+    "text_data": [
+      [
+        16,
+        15979
+      ],
+      [
+        15980,
+        16004
+      ],
+      [
+        28240,
+        28264
+      ],
+      [
+        121364,
+        121366
+      ],
+      [
+        121546,
+        121550
+      ]
+    ],
+    "evidence": {
+      "path": "decomp/watcom10.0a/wasm/harness/cf-layout.json",
+      "sha256": "e9fee87edda6d13b25bc8637f67cdbbbc9743d8afbf34de99e5a267e74f22f9e"
+    }
+  }
+}
