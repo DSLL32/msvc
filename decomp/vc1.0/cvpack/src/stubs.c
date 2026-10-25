@@ -119,7 +119,7 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 
-void *allocate_small_type(void) { __asm { int 3 } return NULL; }
+
 void recycle_small_type(void *buffer) { __asm { int 3 } }
 
 

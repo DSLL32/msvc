@@ -2609,6 +2609,9 @@ void convert_bp_relative16(void)
     *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
 }
 
+unsigned char *small_type_free_list;
+unsigned short small_type_free_count;
+
 unsigned char *medium_type_free_list;
 unsigned short medium_type_free_count;
 
@@ -2646,6 +2649,16 @@ void merge_field_list(unsigned char *record, TypeRecord *entry)
     else entry->flags |= 0x10;
     memcpy(buffer+prefix, source+4, payload);
     *(unsigned short *)entry->data += (unsigned short)(payload-4);
+}
+
+void *allocate_small_type(void)
+{
+    unsigned char *buffer;
+    if (!small_type_free_list) return checked_alloc(32);
+    buffer = small_type_free_list;
+    small_type_free_list = *(unsigned char **)buffer;
+    --small_type_free_count;
+    return buffer;
 }
 
 void *allocate_medium_type(void)

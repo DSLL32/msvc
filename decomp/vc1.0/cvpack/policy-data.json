@@ -1831,7 +1831,7 @@
       },
       "_allocate_small_type": {
         "abi": "void * allocate_small_type(void)",
-        "source": "src/stubs.c",
+        "source": "src/types.c",
         "stack_cleanup": 0,
         "roots": []
       },

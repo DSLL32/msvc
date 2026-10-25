@@ -1,16 +1,17 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **203 accepted application
-functions, 62,331 original code bytes, and 23 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **204 accepted application
+functions, 62,374 original code bytes, and 22 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `allocate_small_type` (RVA `0xf0a0`). The last accepted
-function is `resize_old_type` (sequence 203, 145 original bytes,
-`src/oldtypes.c`). Encountered converter dispatch and its calls have identified
-additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted sixteen application functions. Each
-has matching original/native progress and strict compiler/graph/data checks.
-All twelve cached cases and unit executors passed the 201-function checkpoint.
+frontier is now `recycle_small_type` (RVA `0xf0d0`). The last accepted
+function is `allocate_small_type` (sequence 204, 43 original bytes,
+`src/types.c`), CVPACK's application-owned small-record free list.
+Encountered converter dispatch and its calls have identified additional App
+helpers; these retain named trapping stubs and no accepted credit. The resumed
+workload has accepted seventeen application functions. Each has matching
+original/native progress and strict compiler/graph/data checks. All twelve
+cached cases and unit executors passed the 201-function checkpoint.
 The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
@@ -26,7 +27,7 @@ cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
-`check-context.py` additionally checks 208 initial data objects, diagnostic
+`check-context.py` additionally checks 210 initial data objects, diagnostic
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 

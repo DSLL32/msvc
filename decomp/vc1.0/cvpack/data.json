@@ -1405,5 +1405,19 @@
     "kind": "callback-table",
     "stride": 8,
     "pointer_offset": 4
+  },
+  {
+    "name": "small_type_free_list",
+    "symbol": "_small_type_free_list",
+    "original": 227380,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "small_type_free_count",
+    "symbol": "_small_type_free_count",
+    "original": 227388,
+    "size": 2,
+    "source": "src/types.c"
   }
 ]
