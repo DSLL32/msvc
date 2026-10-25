@@ -212,10 +212,13 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     policy.as_object_mut().unwrap().remove("ret_checks");
     let add = |rva: u32| image_base.checked_add(rva).context("original VA overflow");
     policy["target"] = json!({"path":info.original_path,"sha256":info.original_sha256,"base":image_base,"entry":add(info.original_entry_rva)?});
+    let audited = qualified_runtime_names(info, &policy)?;
     policy["accepted"] = json!(
         info.functions
             .iter()
-            .filter(|f| f.definition == 4 && f.implementation == 1 || matches!(f.definition, 1..=3))
+            .filter(|f| f.definition == 4 && f.implementation == 1
+                || f.definition == 3 && f.native_symbol.is_some() && !f.code.is_empty()
+                || audited.contains(f.name.as_str()))
             .map(|f| &f.name)
             .collect::<Vec<_>>()
     );
@@ -259,7 +262,10 @@ fn registry(info: &Info, image_base: u32, mut policy: Value) -> Result<Value> {
     Ok(policy)
 }
 
-fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value> {
+fn qualified_runtime_names<'a>(
+    info: &Info,
+    policy: &'a Value,
+) -> Result<std::collections::HashSet<&'a str>> {
     let audited = policy
         .get("runtime_audit_names")
         .map(|v| v.as_array().context("runtime_audit_names must be an array"))
@@ -276,6 +282,11 @@ fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value
             "runtime audit qualification lacks unique classified extent: {name}"
         );
     }
+    Ok(qualified)
+}
+
+fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value> {
+    let qualified = qualified_runtime_names(info, policy)?;
     let add = |rva: u32| image_base.checked_add(rva).context("runtime VA overflow");
     let mut records = vec![];
     for function in info
@@ -402,6 +413,21 @@ mod tests {
         assert_eq!(records[0]["shared"][0], json!([0x400014, 0x400018]));
         let v = registry(&i, 0x400000, json!({})).unwrap();
         assert_eq!(v["function_registry"].as_array().unwrap().len(), 3);
+        assert!(!v["accepted"].as_array().unwrap().contains(&json!("crt")));
+        let qualified = registry(&i, 0, json!({"runtime_audit_names":["crt"]})).unwrap();
+        assert!(
+            qualified["accepted"]
+                .as_array()
+                .unwrap()
+                .contains(&json!("crt"))
+        );
+        i.functions[2].native_symbol = Some("native_crt".into());
+        assert!(
+            registry(&i, 0, json!({})).unwrap()["accepted"]
+                .as_array()
+                .unwrap()
+                .contains(&json!("crt"))
+        );
         assert_eq!(v["function_registry"][1]["code"], json!([]));
         let mut i = info();
         i.functions[1].code = vec![[32, 33]];
