@@ -28,6 +28,12 @@ void *__stdcall allocate_permanent(unsigned bytes)
     return result;
 }
 
+/* Original0x44bf0..0x44bf3. As in the corresponding C1XX interface,
+   permanent pages retain their allocations; only the two stack slots go away. */
+void __stdcall release_permanent(void *block, unsigned bytes)
+{
+}
+
 /* Original 0x44b80..0x44b91, RET8. Sizes use the unsigned comparison. */
 unsigned __stdcall smaller_size(unsigned left, unsigned right)
 {

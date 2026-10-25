@@ -380,6 +380,30 @@ int __stdcall get_file_timestamp(int handle, long *timestamp)
     return 1;
 }
 
+/* Original0x4be50..0x4bed2, cdecl one packed DOS timestamp. The original
+   calendar applies a four-year cycle, including its behavior beyond2099. */
+int __cdecl dos_date_weekday(unsigned timestamp)
+{
+    int day = (timestamp >> 16) & 31;
+    int month = (timestamp >> 21) & 15;
+    int year = timestamp >> 25;
+    int preceding_month;
+    if (month > 2) {
+        --day;
+        if (year % 4) --day;
+    }
+    day += (2 * month - 2) * 15;
+    preceding_month = month - 1;
+    if (preceding_month) {
+        do {
+            --preceding_month;
+            if ((1U << preceding_month) & 0xad5U) ++day;
+        } while (preceding_month);
+    }
+    year += 11;
+    return (day + year + year / 4 + 2) % 7;
+}
+
 /* Original0x1b970..0x1b9a8. Fatal input shutdown consumes the active
    stack without returning its records to the normal free list. */
 void close_source_inputs(void)

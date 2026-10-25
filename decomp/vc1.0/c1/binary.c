@@ -1,5 +1,5 @@
-/* Authoritative original-RVA registry: 985 accepted application bodies,
- * 229103 App bytes. Eleven historical CRT overrides carry no App credit.
+/* Authoritative original-RVA registry: 987 accepted application bodies,
+ * 229236 App bytes. Eleven historical CRT overrides carry no App credit.
  * The residual numeric and ASM interfaces have original-backed direct cases.
  * Whole PDB interfaces now own their7070/7140 RET tails; prior one-byte
  * library aliases never established independent CRT entries.
@@ -6749,6 +6749,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_release_permanent@8",
+        .entry_rva = 0x34bf0,
+        .code = (const ReconExtent[]){{0x34bf0, 0x34bf3}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "release_permanent",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_copy_permanent_bytes@12",
         .entry_rva = 0x34c00,
         .code = (const ReconExtent[]){{0x34c00, 0x34c36}},
@@ -8092,6 +8101,16 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        /* Shared frontend portability family; original source name unknown. */
+        .name = "_dos_date_weekday",
+        .entry_rva = 0x3be50,
+        .code = (const ReconExtent[]){{0x3be50, 0x3bed2}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "dos_date_weekday",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_pack_option_flags",
         .entry_rva = 0x3bee0,
         .code = (const ReconExtent[]){{0x3bee0, 0x3bf0c}},
@@ -8952,6 +8971,22 @@ static const ReconFunction functions[] = {
         .definition = RECON_IMPORT_NAME,
         .import_dll = "KERNEL32.dll",
         .import_name = "SetHandleCount",
+    },
+    {
+        /* WINSIG.OBJ callback role, caller registration and signal slots. */
+        .name = "_ctrlevent_capture@4",
+        .entry_rva = 0x43010,
+        .code = (const ReconExtent[]){{0x43010, 0x43062}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+    },
+    {
+        /* ieee87.obj __clearfp plus the original's two FWAIT prefixes. */
+        .name = "__clearfp",
+        .entry_rva = 0x44670,
+        .code = (const ReconExtent[]){{0x44670, 0x4468a}},
+        .code_count = 1,
+        .definition = RECON_CRT,
     },
     {
         /* Whole shipped STRNCPY.OBJ .text; 37 bytes, no relocations. */

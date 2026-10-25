@@ -1,7 +1,7 @@
 /* Direct CodeView/PDB support using a genuine frontend-created owner. */
 #include <recon-tool.h>
 extern int c1_direct(void);
-static const uint32_t order[] = { 0x7040, 0x7080 };
+static const uint32_t order[] = { 0x7040, 0x7080, 0x34bf0, 0x3be50 };
 static const uint32_t seen[] = {
     0x3f0cd, /* write_asm_segment_prefix */
     0x7000, /* warning_setting */

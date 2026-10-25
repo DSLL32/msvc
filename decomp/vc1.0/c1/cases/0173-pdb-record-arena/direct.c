@@ -10,6 +10,8 @@
 #include <string.h>
 #include <errno.h>
 #include "debug-info.h"
+#include "pch-relocate.h"
+#include "options.h"
 #ifdef RECON_ORIGINAL_DIRECT
 #include <recon-original-direct.h>
 #else
@@ -24,11 +26,26 @@ static ReconOriginalProbe *probe;
 #define query_program_database_record (*(unsigned char *(__fastcall *)(ProgramDatabase *, unsigned, unsigned short))AT(0x7970))
 #define codeview_leaf_offset (*(unsigned (__cdecl *)(unsigned short *))AT(0x7040))
 #define reserve_program_database_record (*(unsigned char *(__cdecl *)(unsigned, ProgramDatabase *, unsigned short *))AT(0x7080))
+#define dos_date_weekday (*(int (__cdecl *)(unsigned))AT(0x3be50))
+#define allocate_permanent (*(void *(__stdcall *)(unsigned))AT(0x34ba0))
+#define release_permanent (*(void (__stdcall *)(void *, unsigned))AT(0x34bf0))
+#define permanent_next (*(unsigned char **)AT(0x5b650))
+#define permanent_available (*(unsigned *)AT(0x5b7dc))
+#define permanent_page_count (*(int *)AT(0x5de00))
+#define permanent_pages (*(PermanentPage (*)[512])AT(0x56370))
+#define current_page (*(PermanentPage **)AT(0x5ddcc))
 #define close_program_database (*(int (__cdecl *)(ProgramDatabase *))AT(0x7ee0))
 #endif
 
 static unsigned invoked;
-static unsigned observed[14];
+static unsigned observed[20];
+/* Valid dates, including the original DOS calendar's century boundary. */
+#define DOS_DATE(year, month, day) \
+    (((unsigned)(year) - 1980U) << 25 | (unsigned)(month) << 21 | (unsigned)(day) << 16)
+static unsigned packed_dates[6] = {
+    DOS_DATE(1980, 1, 1), DOS_DATE(1980, 2, 29), DOS_DATE(1980, 3, 1),
+    DOS_DATE(1981, 3, 1), DOS_DATE(2000, 3, 1), DOS_DATE(2100, 3, 1)
+};
 static void fail(void)
 {
 #ifdef RECON_ORIGINAL_DIRECT
@@ -46,7 +63,11 @@ static void __fastcall at_create(ProgramDatabase *self, unsigned ignored,
     unsigned char *record[8], *first, *second;
     unsigned i, bytes[2], count, capacity, sp0, sp1, saved0[4], saved1[4];
     unsigned short cw0, cw1;
-    unsigned char before[116], payload[160];
+    unsigned char before[116], payload[160], block_before[32];
+    unsigned char *block, *next_before;
+    unsigned available_before;
+    int pages_before;
+    PermanentPage page_before, *page;
     (void)ignored;
     (void)signature;
     if (invoked++ || !self || strcmp(path, "S:\\vc1.0\\c1\\legacy-pdb-object\\msvc.pdb") ||
@@ -169,13 +190,74 @@ static void __fastcall at_create(ProgramDatabase *self, unsigned ignored,
     observed[12] = tail->available;
     observed[13] = self->records.count;
     if (memcmp(payload, loaded + 1, sizeof payload)) fail();
+    /* Real initialized permanent owner; release must preserve arena state. */
+    block = allocate_permanent(32);
+    if (permanent_page_count <= 0 || permanent_page_count > 511 ||
+        current_page != &permanent_pages[permanent_page_count - 1] ||
+        block < current_page->start + 4 || block + 32 > current_page->start + 0xeffc)
+        fail();
+    memcpy(block_before, block, sizeof block_before);
+    next_before = permanent_next;
+    available_before = permanent_available;
+    pages_before = permanent_page_count;
+    page = current_page;
+    page_before = *page;
+    __asm {
+        lea eax,saved0
+        mov [eax],ebx
+        mov [eax+4],esi
+        mov [eax+8],edi
+        mov [eax+12],ebp
+        mov sp0,esp
+        fnstcw cw0
+    }
+    release_permanent(block, 32);
+    __asm {
+        mov sp1,esp
+        fnstcw cw1
+        lea eax,saved1
+        mov [eax],ebx
+        mov [eax+4],esi
+        mov [eax+8],edi
+        mov [eax+12],ebp
+    }
+    if (sp0 != sp1 || cw0 != cw1 || memcmp(saved0, saved1, sizeof saved0) ||
+        memcmp(block_before, block, sizeof block_before) ||
+        permanent_next != next_before || permanent_available != available_before ||
+        permanent_page_count != pages_before || current_page != page ||
+        memcmp(page, &page_before, sizeof page_before)) fail();
+    /* Value-only portability interface: ordinary valid DOS timestamp inputs,
+       no compiler token/type/global setup is synthesized. */
+    for (i = 0; i < 6; ++i) {
+        __asm {
+            lea eax,saved0
+            mov [eax],ebx
+            mov [eax+4],esi
+            mov [eax+8],edi
+            mov [eax+12],ebp
+            mov sp0,esp
+            fnstcw cw0
+        }
+        observed[14 + i] = dos_date_weekday(packed_dates[i]);
+        __asm {
+            mov sp1,esp
+            fnstcw cw1
+            lea eax,saved1
+            mov [eax],ebx
+            mov [eax+4],esi
+            mov [eax+8],edi
+            mov [eax+12],ebp
+        }
+        if (sp0 != sp1 || cw0 != cw1 || memcmp(saved0, saved1, sizeof saved0) ||
+            observed[14 + i] > 6) fail();
+    }
     if (!close_program_database(self)) fail();
 #ifdef RECON_ORIGINAL_DIRECT
     if (!recon_original_emit(probe, ".recon-arena.bin", observed, sizeof observed)) fail();
     recon_original_finish(probe, 1);
 #else
     {
-        unsigned expected[14];
+        unsigned expected[20];
         char extra;
         int fd = syscall(SYS_open, ".recon-arena.bin", 0, 0);
         if (fd < 0 || syscall(SYS_read, fd, expected, sizeof expected) != sizeof expected ||

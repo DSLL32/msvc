@@ -2,9 +2,9 @@
 
 VC1.0 frontend reconstruction, toolchain `1.0-nt`. `binary.c` is the function
 registry; its RVAs use original image base `0x10000`.
-There are 985 implemented application functions covering 229103 bytes. The
-accepted code/data union is 251878/277234 bytes (90.8539%); the
-application numerator is 82.6389% of all code, not a claimed non-CRT denominator.
+There are 987 implemented application functions covering 229236 bytes. The
+accepted code/data union is 252119/277234 bytes (90.9409%); the
+application numerator is 82.6868% of all code, not a claimed non-CRT denominator.
 Eleven historical handwritten CRT bodies remain unchanged and receive no App
 credit. Unknown library aliases and unattributed unlisted code remain unresolved.
 The PDB interfaces now own their previously ambiguous `17070`/`17140` return
@@ -176,14 +176,57 @@ Both complete extents include their genuine final RETs; no alias or tail was
 credited twice. The original success path took1.411s and native20.236ms;
 bundled original/native build and strict audit took5.390s (996 source functions).
 
-The bounded remaining mixed-code survey retains the unattributed36B stdcall
-byte copier42bf0..42c14,130B packed-DOS weekday helper4be50..4bed2 and3B RET8
-44bf0..44bf3. Positive console/FPU/decimal CRT leads and alignment/data patterns
-remain separate. Lack of callers is not proof of CRT or dead code; no binary
-completion/non-CRT denominator claim follows from this case.
+The bounded survey left a36B stdcall byte copier42bf0..42c14 and73B decimal
+wrapper58660..586a9 without sufficient origin/identity. Lack of callers is not
+proof of CRT or dead code. Alignment/data patterns are also not new functions;
+no binary completion/non-CRT denominator claim follows from this case.
 
 The final174-case gate passed: bundled incremental build/case rebuild/audit8.03s,
 all cached native invocations1.48s, and unit executors1.14s. The original
 frontier captures took1.995s (7040) and1.394s (7080); no final bookkeeping
 original replay was performed. The source/ABI/trace assertions and compact
 raw results remain in shared fixtures and scratch, without a private runner.
+
+### Permanent release and calendar extension
+
+The same case now includes `release_permanent` (44bf0..44bf3, 3B,
+void stdcall2). Its provenance is the exact corresponding C1XX permanent-arena
+family and accepted release caller, not a generic RET8 byte match. Actual
+`allocate_permanent(32)` supplies the initialized owner. The call leaves its
+32 bytes, current page entry, next cursor, remaining capacity and page count
+unchanged, with correct two-slot cleanup, nonvolatiles and control word.
+
+`dos_date_weekday` (4be50..4bed2, 130B, cdecl1/RET0) is attributed by inference
+to shared frontend DOS-portability support: both C1 and C1XX retain the same
+bespoke timestamp formatter/time/fstat/weekday/packed-option family, with this
+whole130B body identical at C1XX74600. No original source name or CLI caller
+is claimed. The six ordinary valid DOS timestamps exercise January, February,
+March, leap/nonleap years and2100. Results are2,5,6,0,3,2; the last preserves
+the original four-year calendar rather than applying a Gregorian century fix.
+The initial provisional stdcall declaration was corrected from the actualRET0
+before any body-return acceptance; fresh corrected-ABI original/native proof
+is retained. No parser state or globals are synthesized for these scalar inputs.
+
+The case now covers four interfaces/375B, with fresh order
+`[7040,7080,34bf0,3be50]` after its explicit983-entry historical seed. Its
+scalar fixture grows from56 to80 bytes; old case/oracle remains in Git history.
+The final shared original run passed in1.835s, fresh native comparison21.048ms.
+The canonical original/native build and strict998-function audit took20.905s.
+
+Two positively identified CRT boundaries were added without source or App
+credit: `_ctrlevent_capture@4` (53010..53062,82B) matches the shipped WINSIG.OBJ
+role, actual `_signal` registration and SIGINT/SIGBREAK slots/handler semantics;
+`__clearfp` (54670..5468a,26B) matches shipped ieee87.obj, with two original
+FWAIT prefixes and the same proven `__abstract_sw` callee. The73B decimal
+wrapper's four-argument/status contract differs from shipped `__atodbl`, so
+that name and identity are not assigned.
+
+The finite origin survey found no COFF symbols, debug directory or exports in
+C1 and no decoded call/jump into any byte of the remaining36B copier.
+Whole-byte scans of shipped1.0-nt providers do not attribute the copier. This
+negative evidence is retained as a limitation, not CRT/dead-code proof. No
+additional exhaustive search or speculative CRT reconstruction is implied.
+
+The final extension gate passes all174 cached native invocations in1.47s and
+all unit executors in1.14s. The bundled incremental build/case rebuild/audit
+is8.20s. These are native regressions; no original is rerun for bookkeeping.
