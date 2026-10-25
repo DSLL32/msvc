@@ -87,7 +87,7 @@ typedef struct CompilerIrSymbol {
     unsigned reference_flags;
     unsigned record_id;
     union {
-        struct { BYTE unmodeled_1c, scope_flags, unmodeled_1e, identifier_flags; };
+        struct { BYTE intrinsic_low_flags, scope_flags, unmodeled_1e, identifier_flags; };
         unsigned intrinsic_flags;
     };
     union {

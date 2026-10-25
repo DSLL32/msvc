@@ -168,4 +168,13 @@ extern "C" int __cdecl intrinsic_enabled(unsigned index)
     return 1;
 }
 extern "C" void __cdecl initialize_intrinsic_symbol(CompilerIrSymbol *symbol, unsigned index)
-{ __asm { int 3 } }
+{
+    symbol->kind = 6;
+    /* Preserve the original byte-sized classification write on each side
+     * of the complete flag-DWORD clear. */
+    symbol->intrinsic_low_flags = (symbol->intrinsic_low_flags & 0xf8) ^ 1;
+    symbol->intrinsic_flags = 0;
+    symbol->intrinsic_low_flags = (symbol->intrinsic_low_flags & 0xf8) | 1;
+    symbol->intrinsic_opcode = intrinsic_specs[index].opcode;
+    symbol->intrinsic_traits = intrinsic_specs[index].traits;
+}
