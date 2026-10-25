@@ -1,0 +1,39 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-gGMtp2",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832,
+      106520
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 106520,
+    "trap_site": 4153852757,
+    "elapsed_ms": 14.384875,
+    "setup_ms": 9.770796,
+    "execution_ms": 2.7415780000000005,
+    "checks_ms": 1.872108,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-readuint32-to-readwresdir.json",
+      "report_sha256": "0b658e49c22c81f7a9b2d386b3c5c17990b225a53a151e7b6a287977b33400ca",
+      "capture_sha256": "8e532a36577167c0578e2bc8fe854b5bf3ce9114adf527f5dacb7a722f32ae3b",
+      "source_binding_available": true
+    }
+  }
+]

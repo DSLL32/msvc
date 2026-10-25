@@ -45,6 +45,8 @@ extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
     WRS_OPEN_FAILED = 5,
     WRS_SEEK_FAILED = 9,
+    WRS_READ_FAILED = 8,
+    WRS_READ_INCOMPLETE = 14,
     WRS_MALLOC_FAILED = 13
 } WResStatus;
 

@@ -149,6 +149,20 @@ int WResIsWResFile( int handle )
                      magic[1] == 0xc3d2cdcfUL );
 }
 
+/* Original 0x41c090..0x41c0cd. Read the little-endian DWORD in one
+   callback, preserving distinct I/O-error and short-read status values. */
+int ResReadUint32( unsigned long *value, int handle )
+{
+    int count;
+
+    count = (*WResRtns.read)( handle, value, sizeof(*value) );
+    if( count != sizeof(*value) ) {
+        WresRecordError( count == -1 ? WRS_READ_FAILED : WRS_READ_INCOMPLETE );
+        return( 1 );
+    }
+    return( 0 );
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

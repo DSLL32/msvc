@@ -579,7 +579,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]) { {0x1c090, 0x1c0cd} },
         .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "ResReadUint32",
         .original_symbol = "ResReadUint32_",
     },

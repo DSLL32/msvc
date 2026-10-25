@@ -42,12 +42,6 @@ void __FreeTypeList( WResDir dir )
     WLIB_FRONTIER();
 }
 
-int ResReadUint32( unsigned long *value, int handle )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
-
 int readWResDir( int handle, WResDir dir )
 {
     WLIB_FRONTIER();
