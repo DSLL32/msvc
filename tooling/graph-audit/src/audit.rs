@@ -1218,6 +1218,12 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         .then(|| crate::instruction_export::finish(x, &metadata, instruction_exports, &report))
         .transpose()?;
     let mut result = json!({"profile":a.profile,"discovery":"cfg","checked_functions":report.len(),"checked_accepted_extents":accepted.as_ref().map(|v|&v.0),"checked_unique_accepted_extents":accepted.as_ref().map(|v|&v.1),"original_accepted_graphs":accepted.as_ref().map(|v|&v.2),"functions":report});
+    if !x.identity_only_entries.is_empty() {
+        result["identity_only_entries"] = json!({"schema":1,
+            "semantics":"endpoint correlation names only; no body, ABI, classification, acceptance or execution permission",
+            "images":{"original":x.o.provenance(),"rebuilt":x.r.provenance()},
+            "map":x.map_provenance,"entries":x.identity_only_entries});
+    }
     if !x.original_support.is_empty() {
         let mut functions = BTreeMap::new();
         for record in &x.original_support {

@@ -143,6 +143,7 @@ pub struct Inputs {
     pub drivers: Vec<Record>,
     pub registry_support: Vec<Record>,
     pub original_support: Vec<Record>,
+    pub identity_only_entries: Vec<Value>,
     pub original_entry_names: EntryNames,
     pub rebuilt_entry_names: EntryNames,
     pub original_import_entries: BTreeSet<u32>,
@@ -414,7 +415,7 @@ impl Inputs {
                 }
             }
         }
-        let registry_entries = registry_entry_names(
+        let mut registry_entries = registry_entry_names(
             &cfg,
             &raw_publics,
             &absolute_publics,
@@ -422,6 +423,13 @@ impl Inputs {
             &ri,
             original_imports.as_ref(),
             rebuilt_imports.as_ref(),
+        )?;
+        let identity_only_entries = identity_only_entries(
+            &cfg,
+            &raw_publics,
+            &absolute_publics,
+            &mut registry_entries,
+            &a.project,
         )?;
         validate_registry_entry_bytes(&o, &registry_entries.original, "original")?;
         validate_registry_entry_bytes(&r, &registry_entries.rebuilt, "rebuilt")?;
@@ -477,6 +485,7 @@ impl Inputs {
         )?;
         Ok(Self {
             original_support,
+            identity_only_entries,
             registry_support,
             o,
             r,
@@ -796,6 +805,130 @@ fn registry_entry_names(
     );
     Ok(out)
 }
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct IdentityOnlyEntry {
+    name: String,
+    evidence: Value,
+}
+
+/// Explicit correlation names have no body, classification or ABI meaning.
+fn identity_only_entries(
+    cfg: &Value,
+    publics: &BTreeMap<String, u32>,
+    absolutes: &BTreeMap<String, u32>,
+    entries: &mut RegistryEntries,
+    project: &Path,
+) -> Result<Vec<Value>> {
+    let Some(value) = cfg.get("identity_only_entries") else {
+        return Ok(vec![]);
+    };
+    let selected: Vec<IdentityOnlyEntry> = serde_json::from_value(value.clone())
+        .context("identity_only_entries must be an array of name/evidence objects")?;
+    ensure!(
+        !selected.is_empty(),
+        "identity_only_entries must not be empty"
+    );
+    let registry = cfg["function_registry"]
+        .as_array()
+        .context("identity_only_entries requires function_registry")?;
+    let base = num(&cfg["target"]["base"])?;
+    let mut seen = BTreeSet::new();
+    let mut result = Vec::new();
+    for selected in selected {
+        let name = selected.name;
+        ensure!(
+            !name.trim().is_empty() && seen.insert(name.clone()),
+            "empty or duplicate identity-only endpoint: {name}"
+        );
+        let candidates: Vec<_> = registry
+            .iter()
+            .filter(|item| item["name"] == name)
+            .collect();
+        ensure!(
+            candidates.len() == 1,
+            "missing or ambiguous identity-only registry endpoint: {name}"
+        );
+        let item = candidates[0];
+        ensure!(
+            item["definition"] == 0
+                && item["implementation"] == 0
+                && item["code"].as_array().is_some_and(Vec::is_empty)
+                && item["text_data"].as_array().is_some_and(Vec::is_empty)
+                && registry_optional_str(item, "native_symbol")?.is_none(),
+            "identity-only endpoint requires Unknown unimplemented registry entry without owned code/data or native body: {name}"
+        );
+        ensure!(
+            !cfg["accepted"]
+                .as_array()
+                .into_iter()
+                .flatten()
+                .any(|v| v.as_str() == Some(&name))
+                && !cfg["driver"]
+                    .as_array()
+                    .into_iter()
+                    .flatten()
+                    .any(|v| v["name"] == name),
+            "identity-only endpoint must not be accepted or have a driver body: {name}"
+        );
+        let rva = num(&item["rva"])?;
+        let original = base
+            .checked_add(rva)
+            .context("identity-only endpoint address overflow")?;
+        let symbol = registry_optional_str(item, "original_symbol")?
+            .filter(|s| !s.is_empty())
+            .context("identity-only endpoint needs an explicit original_symbol")?;
+        ensure!(
+            !absolutes.contains_key(symbol),
+            "identity-only endpoint MAP symbol is absolute: {name}"
+        );
+        let rebuilt = *publics.get(symbol).with_context(|| {
+            format!("identity-only endpoint MAP symbol missing: {name} ({symbol})")
+        })?;
+        for other in registry {
+            if std::ptr::eq(other, item) {
+                continue;
+            }
+            ensure!(
+                num(&other["rva"])? != rva,
+                "identity-only endpoint shares an original address with another registry identity: {name}"
+            );
+            if let Some(other_symbol) =
+                registry_optional_str(other, "original_symbol")?.or_else(|| other["name"].as_str())
+            {
+                ensure!(
+                    publics.get(other_symbol) != Some(&rebuilt),
+                    "identity-only endpoint shares a rebuilt address with another registry identity: {name}"
+                );
+            }
+            let code: Vec<(u32, u32)> = serde_json::from_value(other["code"].clone())
+                .context("identity-only endpoint registry code intervals")?;
+            ensure!(
+                !code.iter().any(|&(a, b)| a <= rva && rva < b),
+                "identity-only endpoint is inside another registry body: {name}"
+            );
+        }
+        ensure!(
+            !entries.original.contains_key(&original) && !entries.rebuilt.contains_key(&rebuilt),
+            "identity-only endpoint conflicts with an existing classified identity: {name}"
+        );
+        let evidence = crate::register_imports::verified_evidence(project, &selected.evidence)
+            .with_context(|| format!("identity-only endpoint witness {name}"))?;
+        entries
+            .original
+            .insert(original, BTreeSet::from([name.clone()]));
+        entries
+            .rebuilt
+            .insert(rebuilt, BTreeSet::from([name.clone()]));
+        result.push(
+            serde_json::json!({"name":name,"original":original,"rebuilt":rebuilt,
+            "original_symbol":symbol,"evidence":evidence}),
+        );
+    }
+    result.sort_by(|a, b| a["name"].as_str().cmp(&b["name"].as_str()));
+    Ok(result)
+}
+
 fn registry_support_records(cfg: &Value, image: &Image) -> Result<Vec<Record>> {
     let base = num(&cfg["target"]["base"])?;
     let registry = cfg["function_registry"]
@@ -873,6 +1006,92 @@ pub(crate) fn integer_bytes(value: u64, width: usize) -> Result<[u8; 8]> {
 mod registry_tests {
     use super::*;
     use serde_json::json;
+    #[test]
+    fn unknown_endpoint_selection_is_evidenced_names_only_and_strict() {
+        let witness = json!({"path":"fixtures/register-preservation.json",
+            "sha256":hash(include_bytes!("../fixtures/register-preservation.json"))});
+        let cfg = json!({"target":{"base":0x400000},"accepted":[],"driver":[],
+            "identity_only_entries":[{"name":"external","evidence":witness}],
+            "function_registry":[{"name":"external","rva":0x1000,"definition":0,
+                "implementation":0,"code":[],"text_data":[],"native_symbol":null,"original_symbol":"actual"}]});
+        let publics = BTreeMap::from([("actual".into(), 0x401000)]);
+        let project = Path::new(env!("CARGO_MANIFEST_DIR"));
+        let run =
+            |cfg: &Value, publics: &BTreeMap<String, u32>, absolutes: &BTreeMap<String, u32>| {
+                let mut entries = RegistryEntries::default();
+                let report = identity_only_entries(cfg, publics, absolutes, &mut entries, project)?;
+                Ok::<_, anyhow::Error>((report, entries))
+            };
+        let (report, entries) = run(&cfg, &publics, &BTreeMap::new()).unwrap();
+        assert_eq!(report.len(), 1);
+        assert!(entries.original[&0x401000].contains("external"));
+        assert!(entries.rebuilt[&0x401000].contains("external"));
+        assert!(entries.original_imports.is_empty() && entries.rebuilt_imports.is_empty());
+        assert_eq!(cfg["function_registry"][0]["definition"], 0);
+        assert!(
+            run(&json!({}), &BTreeMap::new(), &BTreeMap::new())
+                .unwrap()
+                .0
+                .is_empty()
+        );
+        for (key, value) in [
+            ("definition", json!(3)),
+            ("implementation", json!(1)),
+            ("code", json!([[0x1000, 0x1001]])),
+            ("text_data", json!([[0x1000, 0x1001]])),
+            ("native_symbol", json!("native")),
+            ("original_symbol", Value::Null),
+            ("original_symbol", json!(7)),
+            ("rva", json!(0xffff_ffffu32)),
+        ] {
+            let mut wrong = cfg.clone();
+            wrong["function_registry"][0][key] = value;
+            assert!(run(&wrong, &publics, &BTreeMap::new()).is_err(), "{key}");
+        }
+        for value in [
+            json!([]),
+            Value::Null,
+            json!(["external"]),
+            json!([{"name":"external","evidence":witness,"typo":true}]),
+            json!([{"name":"missing","evidence":witness}]),
+            json!([{"name":"external","evidence":null}]),
+            json!([{"name":"external","evidence":{"path":"fixtures/register-preservation.json","sha256":"0".repeat(64)}}]),
+        ] {
+            let mut wrong = cfg.clone();
+            wrong["identity_only_entries"] = value;
+            assert!(run(&wrong, &publics, &BTreeMap::new()).is_err());
+        }
+        for key in ["identity_only_entries", "function_registry"] {
+            let mut wrong = cfg.clone();
+            let copy = wrong[key][0].clone();
+            wrong[key].as_array_mut().unwrap().push(copy);
+            assert!(run(&wrong, &publics, &BTreeMap::new()).is_err());
+        }
+        for key in ["accepted", "driver"] {
+            let mut wrong = cfg.clone();
+            wrong[key] = if key == "accepted" {
+                json!(["external"])
+            } else {
+                json!([{"name":"external"}])
+            };
+            assert!(run(&wrong, &publics, &BTreeMap::new()).is_err());
+        }
+        let mut wrong = cfg.clone();
+        wrong["function_registry"]
+            .as_array_mut()
+            .unwrap()
+            .push(json!({"name":"other","rva":0x1000,"code":[],"original_symbol":"other"}));
+        assert!(run(&wrong, &publics, &BTreeMap::new()).is_err());
+        wrong["function_registry"][1]["rva"] = json!(0x1002);
+        wrong["function_registry"][1]["code"] = json!([[0x1000, 0x1003]]);
+        assert!(run(&wrong, &publics, &BTreeMap::new()).is_err());
+        wrong["function_registry"][1]["code"] = json!([]);
+        let aliased = BTreeMap::from([("actual".into(), 0x401000), ("other".into(), 0x401000)]);
+        assert!(run(&wrong, &aliased, &BTreeMap::new()).is_err());
+        assert!(run(&cfg, &BTreeMap::new(), &BTreeMap::new()).is_err());
+        assert!(run(&cfg, &publics, &publics).is_err());
+    }
+
     #[test]
     fn registry_support_uses_only_exact_known_support_intervals() {
         let image = Image::Pe(crate::tests::image(&[0x90, 0x90, 0x90, 0xc3]));

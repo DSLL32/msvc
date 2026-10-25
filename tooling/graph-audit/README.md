@@ -695,6 +695,21 @@ Kanji predicates. It does not change graph-body selection and is rejected for
 other profiles. Runtime/import structural extents and graph-body acceptance are
 separate policies; naming an endpoint grants neither.
 
+
+For a correlated external endpoint whose whole body/classification is still unknown,
+`identity_only_entries` may explicitly select an existing unique Unknown registry
+row. Each selector is `{ "name": "write", "evidence": { "path": "owned.json",
+"sha256": "..." } }`. The row must remain unimplemented, with empty code/data,
+no native symbol, no driver/acceptance, and an explicit actual rebuilt MAP
+`original_symbol`. The existing contained witness SHA check binds the correlation
+packet; it does not interpret that packet's semantic proof. Both entry bytes must
+be initialized (executable for PE); absolute/missing MAP symbols, interior body
+entries and conflicting physical identities fail. This adds endpoint names only,
+with a separate report binding. It grants no extent, CRT classification, ABI fact,
+body availability or runtime permission. Without this policy, Unknown entries
+remain unmapped. The paired graph still checks every edge normally.
+
+
 `--check-registry-support-extents` separately walks every nonempty reviewed
 CRT/import interval in `function_registry`, using the same instruction-boundary
 and code/data validation as accepted extents. It skips Unknown records,
