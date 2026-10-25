@@ -15,7 +15,7 @@ C2OptimizerNode *optimizer_first_block;       /* 490bb0 */
 unsigned optimizer_state_a;                  /* 490bc4 */
 unsigned optimizer_state_b;                  /* 490ba4 */
 unsigned optimizer_state_c;                  /* 490bac */
-C2Expression *optimizer_input_records;       /* 490bec */
+unsigned optimizer_operand_limit;       /* 490bec */
 C2OptimizerNode *optimizer_root;              /* 48fb58 */
 unsigned optimizer_register_count;            /* 490ba8 */
 void *optimizer_register_map;                /* 491010: address passed only */
@@ -30,7 +30,7 @@ void __fastcall optimize_function_flow(C2Function *function)
     C2OptimizerNode *root, *symbol_root, **symbol_table;
     C2RegisterSet *used, *defined, *copy;
     C2Expression *records;
-    unsigned count, symbols;
+    unsigned count, symbols, operand_limit;
 
     reset_input_pool(4);
     reset_input_pool(6);
@@ -62,17 +62,17 @@ void __fastcall optimize_function_flow(C2Function *function)
     if (optimizer_context_mode) prepare_alias_input(function);
     optimizer_original_limit = optimizer_index_limit;
     block = function->flow->last;
-    records = build_optimizer_input(block->records, alias_count);
-    optimizer_first_block = collect_optimizer_blocks(block, alias_count, records);
+    operand_limit = number_optimizer_operands(block->records, alias_count);
+    optimizer_first_block = collect_optimizer_blocks(block, alias_count, operand_limit);
     optimizer_state_a = optimizer_state_b = optimizer_state_c = 0;
-    optimizer_input_records = records;
+    optimizer_operand_limit = operand_limit;
     root = translate_optimizer_input(block, count, c2_alias_optimization,
                                      input_no_global_optimization);
     optimizer_root = root;
-    if (c2_alias_optimization) records = fold_optimizer_records(records);
-    if (c2_zero_alignment) prepare_optimizer_values(records);
-    analyze_optimizer_values(alias_count, records, c2_alias_optimization);
-    if (c2_alias_optimization) rewrite_optimizer_records(records);
+    if (c2_alias_optimization) operand_limit = fold_optimizer_records(operand_limit);
+    if (c2_zero_alignment) prepare_optimizer_values(operand_limit);
+    analyze_optimizer_values(alias_count, operand_limit, c2_alias_optimization);
+    if (c2_alias_optimization) rewrite_optimizer_records(operand_limit);
     initialize_optimizer_registers();
     number_optimizer_registers();
     build_optimizer_register_sets(root, count, alias_count, optimizer_register_count,
@@ -262,4 +262,22 @@ unsigned __fastcall assign_optimizer_registers(int aliases, int mode)
     }
     optimizer_initial_register_count = optimizer_register_count;
     return groups;
+}
+
+unsigned __fastcall number_optimizer_operands(C2Record *first, unsigned alias_count)
+{
+    C2Expression *record, *operand;
+    C2OptimizerRegisterInfo *info;
+    for (record = (C2Expression *)first; record; record = record->next)
+        if (record->flags & 1)
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if (operand->kind == 2 && (operand->value.reg->view_flags & 8)) {
+                    info = operand->value.reg->optimizer;
+                    operand->optimizer_alias_number = alias_count;
+                    add_register_to_set(info->aliases, alias_count);
+                    ++alias_count;
+                } else
+                    operand->optimizer_alias_number = 0;
+            }
+    return alias_count;
 }

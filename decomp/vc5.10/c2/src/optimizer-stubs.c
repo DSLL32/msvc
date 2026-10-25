@@ -24,13 +24,8 @@ void __fastcall prepare_alias_input(C2Function *function)
     __asm { int 3 }
 }
 
-C2Expression * __fastcall build_optimizer_input(C2Record *first, unsigned alias_count)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
-C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, unsigned alias_count, C2Expression *records)
+C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, unsigned alias_count, unsigned operand_limit)
 {
     __asm { int 3 }
     return NULL;
@@ -42,23 +37,23 @@ C2OptimizerNode * __fastcall translate_optimizer_input(C2BasicBlock *block, unsi
     return NULL;
 }
 
-C2Expression * __fastcall fold_optimizer_records(C2Expression *records)
+unsigned __fastcall fold_optimizer_records(unsigned operand_limit)
 {
     __asm { int 3 }
-    return NULL;
+    return 0;
 }
 
-void __fastcall prepare_optimizer_values(C2Expression *records)
-{
-    __asm { int 3 }
-}
-
-void __fastcall analyze_optimizer_values(unsigned alias_count, C2Expression *records, int aliases)
+void __fastcall prepare_optimizer_values(unsigned operand_limit)
 {
     __asm { int 3 }
 }
 
-void __fastcall rewrite_optimizer_records(C2Expression *records)
+void __fastcall analyze_optimizer_values(unsigned alias_count, unsigned operand_limit, int aliases)
+{
+    __asm { int 3 }
+}
+
+void __fastcall rewrite_optimizer_records(unsigned operand_limit)
 {
     __asm { int 3 }
 }

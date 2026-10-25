@@ -30,7 +30,7 @@ struct C2Expression {
     unsigned opcode;
     unsigned char kind, flags;
     union { unsigned short type; struct { unsigned char convention, pending0b; }; };
-    C2Expression *previous;
+    union { C2Expression *previous; unsigned optimizer_alias_number; };
     union {
         unsigned short line, attributes;
         struct { unsigned char properties, comparison; } expression;

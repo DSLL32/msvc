@@ -1797,11 +1797,13 @@ static const ReconFunction functions[] = {
         .native_symbol = "prepare_alias_input",
     },
     {
-        .name = "@build_optimizer_input@8",
+        .name = "@number_optimizer_operands@8",
         .entry_rva = 0x2448a,
+        .code = (const ReconExtent[]){{0x2448a, 0x244df}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "build_optimizer_input",
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "number_optimizer_operands",
     },
     {
         .name = "@collect_optimizer_blocks@12",

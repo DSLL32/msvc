@@ -1169,7 +1169,37 @@ static int optimizer_alias_group_ownership(void)
     return valid;
 }
 
+static int optimizer_operand_numbers(void)
+{
+    C2Expression record, operands[2];
+    C2FunctionRegister reg;
+    C2OptimizerRegisterInfo info;
+    unsigned result;
+    memset(&record, 0, sizeof(record));
+    memset(operands, 0xa5, sizeof(operands));
+    memset(&reg, 0, sizeof(reg));
+    memset(&info, 0, sizeof(info));
+    reset_input_pool(6);
+    info.aliases = new_register_set(6);
+    reg.view_flags = 8;
+    reg.optimizer = &info;
+    record.flags = 1;
+    record.tail.right = operands;
+    operands[0].kind = 2;
+    operands[0].value.reg = &reg;
+    operands[0].next = &operands[1];
+    operands[1].kind = 7;
+    operands[1].next = NULL;
+    result = number_optimizer_operands((C2Record *)&record, 6);
+    return result == 7 && operands[0].optimizer_alias_number == 6 &&
+        operands[1].optimizer_alias_number == 0 &&
+        info.aliases->links.first && info.aliases->links.first->group == 0 &&
+        info.aliases->links.first->bits == 0x40 &&
+        operands[0].control_flags == 0xa5 && operands[1].control_flags == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
+    {"optimizer operands retain integer alias numbers and group membership", 1, optimizer_operand_numbers},
     {"optimizer alias groups retain scalar indices and pool6 ownership", 1, optimizer_alias_group_ownership},
     {"optimizer counts real scope entries and disables alias work for large functions", 1, optimizer_scope_and_fallback},
     {"pool6 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_six_reset},
