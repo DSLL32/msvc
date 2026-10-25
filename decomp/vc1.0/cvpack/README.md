@@ -1,14 +1,14 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **220 accepted application
-functions, 65,571 original code bytes, and 45 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **221 accepted application
+functions, 65,737 original code bytes, and 44 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `convert_old_symbol_end` (RVA `0x14500`), on the C6 local-symbol
-sizing path. The last accepted function is `convert_old_symbol_bprel16`
-(sequence 220, 187 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
+frontier is now `convert_old_symbol_data16` (RVA `0x147f0`), on the C6 local-symbol
+sizing path. The last accepted function is `convert_old_symbol_end`
+(sequence 221, 166 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
 additional App helpers; these retain named trapping stubs and no accepted
-credit. The resumed workload has accepted 33 application functions.
+credit. The resumed workload has accepted 34 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 213-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,

@@ -236,3 +236,15 @@ void convert_old_symbol_bprel16(void)
     while (padding--) *old_symbol_output++ = 0;
     *(unsigned short *)(record+6) = convert_old_type(*(unsigned short *)(record+6));
 }
+
+void convert_old_symbol_end(void)
+{
+    unsigned short length = (unsigned short)(old_symbol_input[0]+3);
+    unsigned short count = (unsigned short)(old_symbol_input[0]-1);
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)old_symbol_output = (unsigned short)(((length+3)&0xfffc)-2);
+    old_symbol_input += 2;
+    old_symbol_output += 4;
+    while (count--) *old_symbol_output++ = *old_symbol_input++;
+    while (padding--) *old_symbol_output++ = 0;
+}
