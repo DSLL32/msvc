@@ -796,7 +796,7 @@
       },
       "@compact_old_type@4": {
         "abi": "unsigned short __fastcall compact_old_type(unsigned short)",
-        "source": "src/stubs.c",
+        "source": "src/types.c",
         "stack_cleanup": 0,
         "roots": []
       },
@@ -1856,6 +1856,12 @@
       "_compare_old_directory": {
         "abi": "int __cdecl compare_old_directory(const void *,const void *)",
         "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_type_record": {
+        "abi": "void convert_old_type_record(unsigned short)",
+        "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []
       }

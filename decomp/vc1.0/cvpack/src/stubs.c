@@ -75,7 +75,7 @@ void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) {
 
 
 
-unsigned short __fastcall compact_old_type(unsigned short type) { __asm { int 3 } return 0; }
+
 
 
 
@@ -121,3 +121,5 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 void *allocate_small_type(void) { __asm { int 3 } return NULL; }
 void recycle_small_type(void *buffer) { __asm { int 3 } }
+
+void convert_old_type_record(unsigned short relative) { __asm { int 3 } }

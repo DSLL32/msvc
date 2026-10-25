@@ -1,15 +1,17 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **194 accepted application
-functions, 58,443 original code bytes, and 14 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **195 accepted application
+functions, 60,228 original code bytes, and 14 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `compact_old_type` (RVA `0x159c0`). The last accepted function
-is `read_lines` (sequence 194, 136 original bytes, `src/modules.c`).
-The resumed legacy workload has accepted seven application functions, including
+frontier is now `convert_old_type_record` (RVA `0x11cf0`), a newly identified
+application helper with an honest trapping stub. The last accepted function is
+`compact_old_type` (sequence 195, 1,785 original bytes, `src/types.c`).
+The resumed legacy workload has accepted eight application functions, including
 the omitted old comparator, module conversion, public symbols and type indexing.
 All have matching original/native progress and strict compiler/graph/data
-checks. The previous baseline ended at `type_server_close` (sequence 187,
+checks. All twelve cached cases and unit executors pass at this checkpoint.
+The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 

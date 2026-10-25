@@ -499,6 +499,168 @@ void convert_udt_symbol(void)
 /* Current type path and the earliest unresolved member of its recursive group. */
 unsigned short type_path[256], type_path_depth, recursive_type_root;
 
+/* Compact C6 type indices while retaining the shared recursive-group path. */
+unsigned short __fastcall compact_old_type(unsigned short type)
+{
+    unsigned short relative, unused, previous_root, candidate, field;
+    unsigned char recursive_count = 0;
+    TypeRecord *entry, *resolved;
+    TypeCacheEntry *named;
+    unsigned char *record;
+    int last, i;
+
+#ifdef RECON_NATIVE_TEST
+#define OLD_TYPE_LIMIT(test) do { if (!(test)) __asm { int 3 } } while (0)
+#else
+#define OLD_TYPE_LIMIT(test) ((void)0)
+#endif
+#define OLD_TYPE_ENTRY(destination,index) \
+    do { \
+        relative = (index); \
+        if (!type_signature && relative == (unsigned short)(0xffff-first_user_type)) \
+            (destination) = empty_type; \
+        else { \
+            (destination) = &local_type_records[relative]; \
+            if ((destination)->flags & 0x1000) \
+                (destination) = get_type_record((unsigned short)((destination)->forward_index-0x1000), &unused); \
+        } \
+    } while (0)
+#define NOTE_OLD_RECURSIVE(index) \
+    do { \
+        candidate = (index); \
+        if (candidate) { \
+            if (!recursive_type_root) recursive_type_root = candidate; \
+            else { \
+                last = (int)type_path_depth-1; \
+                OLD_TYPE_LIMIT(last >= 0 && last < 256); \
+                while (type_path[last] != recursive_type_root) { --last; OLD_TYPE_LIMIT(last >= 0); } \
+                for (i = 0; i < last; ++i) \
+                    if (type_path[i] == candidate) { recursive_type_root = candidate; break; } \
+            } \
+        } \
+    } while (0)
+#define OLD_RECURSIVE_OFFSET(offset) \
+    do { \
+        OLD_TYPE_LIMIT(recursive_count < 12); \
+        entry->recursion.small[recursive_count++] = (offset); \
+    } while (0)
+
+    if (type < 0x200) {
+        recursive_type_reference = 0;
+        return map_primitive(type);
+    }
+    if ((unsigned long)type >= (unsigned long)local_type_count+0x200) {
+        recursive_type_reference = 0;
+        return 0;
+    }
+    OLD_TYPE_ENTRY(entry, (unsigned short)(type-0x200));
+    if (entry->flags & 0x8006) {
+        recursive_type_reference = 0;
+        return entry->index;
+    }
+    if (entry->flags & 0x80) {
+        resolved = entry;
+        do {
+            entry = resolved;
+            OLD_TYPE_ENTRY(resolved, (unsigned short)(entry->index-0x200));
+        } while (resolved->flags & 0x80);
+        recursive_type_reference = 1;
+        NOTE_OLD_RECURSIVE(entry->index);
+        return type;
+    }
+    if (entry->flags & 0x40) {
+        recursive_type_reference = 1;
+        NOTE_OLD_RECURSIVE(type);
+        return type;
+    }
+    entry->flags |= 0x40;
+    OLD_TYPE_LIMIT(type_path_depth < 256);
+    type_path[type_path_depth++] = type;
+    previous_root = recursive_type_root;
+    recursive_type_root = 0;
+    relative = type-0x200;
+    record = entry->data;
+    switch (record[3]) {
+    case 0x75:                      /* Procedure: result and argument list. */
+        convert_old_type_record(relative);
+        record = entry->data+2;
+        *(unsigned short *)(record+2) = compact_old_type(*(unsigned short *)(record+2));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(4);
+        *(unsigned short *)(record+8) = compact_type_list(*(unsigned short *)(record+8), *(unsigned short *)(record+6));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(10);
+        break;
+    case 0x76:                      /* Alias: retain the already compacted index. */
+        field = compact_old_type(*(unsigned short *)(record+5));
+        entry->flags |= 0x8000;
+        entry->index = field;
+        break;
+    case 0x78:                      /* Array: element and index types. */
+        convert_old_type_record(relative);
+        record = entry->data+2;
+        *(unsigned short *)(record+2) = compact_old_type(*(unsigned short *)(record+2));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(4);
+        *(unsigned short *)(record+4) = compact_old_type(*(unsigned short *)(record+4));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(6);
+        break;
+    case 0x79:                      /* Structure: named identity and field list. */
+        convert_old_type_record(relative);
+        if (find_named_type(entry, &named, 0) == 3) {
+            --type_path_depth;
+            queue_type_match(type, named);
+            recursive_type_reference = 0;
+            recursive_type_root = previous_root;
+            entry->flags |= 2;
+            entry->index = named->index;
+            return entry->index;
+        }
+        record = entry->data+2;
+        *(unsigned short *)(record+4) = compact_type_list(*(unsigned short *)(record+4), *(unsigned short *)(record+2));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(6);
+        break;
+    case 0x7a: case 0x91:          /* Pointer records share the new representation. */
+        convert_old_type_record(relative);
+        recursive_count = compact_pointer(entry);
+        break;
+    case 0x8c: case 0xa6:          /* Based array and modifier. */
+        convert_old_type_record(relative);
+        record = entry->data+2;
+        *(unsigned short *)(record+2) = compact_old_type(*(unsigned short *)(record+2));
+        if (recursive_type_reference) OLD_RECURSIVE_OFFSET(4);
+        break;
+    case 0x5d: case 0x68: case 0x99: case 0xa3:
+        break;
+    default:
+        convert_old_type_record(relative);
+        break;
+    }
+    entry->recursive_count = recursive_count;
+    --type_path_depth;
+    if (recursive_type_root == type) {
+        recursive_type_reference = 0;
+        recursive_type_root = previous_root;
+        entry->index = intern_type(entry, type);
+        return entry->index;
+    }
+    if (recursive_type_root) {
+        recursive_type_reference = 1;
+        entry->index = recursive_type_root;
+        NOTE_OLD_RECURSIVE(previous_root);
+        entry->flags |= 0x80;
+        return type;
+    }
+    recursive_type_reference = 0;
+    recursive_type_root = previous_root;
+    if (!(entry->flags & 0x8000)) {
+        entry->flags |= 4;
+        store_type(entry);
+    }
+    return entry->index;
+#undef OLD_RECURSIVE_OFFSET
+#undef NOTE_OLD_RECURSIVE
+#undef OLD_TYPE_ENTRY
+#undef OLD_TYPE_LIMIT
+}
+
 unsigned short __fastcall compact_new_type(unsigned short type)
 {
     unsigned short relative, mapped, unused, previous_root, candidate, field;
