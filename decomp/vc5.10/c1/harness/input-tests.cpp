@@ -336,3 +336,19 @@ extern "C" int c1_test_append_type_shape(void)
         declarator.shape_flags == 0x81 && declarator.flags == 0x400 &&
         next.flags == 0xffff && next.value == 37;
 }
+
+extern "C" int c1_test_arena_byte_allocation(void)
+{
+    BYTE storage[23];
+    unsigned i;
+    for (i = 0; i < sizeof(storage); ++i) storage[i] = 0xa5;
+    CompilerArena *arena = &c1_bss.arenas[0];
+    arena->cursor = storage + 1;
+    arena->committed_limit = storage + 21;
+    if (arena->AllocateBytes(7) != storage + 1 || arena->cursor != storage + 8 ||
+        arena->AllocateBytes(13) != storage + 8 || arena->cursor != storage + 21)
+        return 0;
+    for (i = 0; i < sizeof(storage); ++i)
+        if (storage[i] != 0xa5) return 0;
+    return 1;
+}

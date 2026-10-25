@@ -115,3 +115,12 @@ void RECON_THISCALL CompilerArena::CommitExtent(void)
     committed_limit += bytes;
     committed_bytes += bytes;
 }
+
+BYTE *RECON_THISCALL CompilerArena::AllocateBytes(unsigned bytes)
+{
+    BYTE *memory = cursor;
+    cursor += bytes;
+    if (cursor > committed_limit)
+        CommitExtent();
+    return memory;
+}

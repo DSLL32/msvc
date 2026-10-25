@@ -169,5 +169,3 @@ extern "C" int __cdecl intrinsic_enabled(unsigned index)
 }
 extern "C" void __cdecl initialize_intrinsic_symbol(CompilerIrSymbol *symbol, unsigned index)
 { __asm { int 3 } }
-BYTE *RECON_THISCALL CompilerArena::AllocateBytes(unsigned bytes)
-{ __asm { int 3 } return NULL; }

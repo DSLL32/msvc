@@ -357,11 +357,13 @@ static int intrinsic_selection_policy(void)
         c1_data.options.intrinsics == 1 && c1_data.options.language_extensions == 1 &&
         c1_data.options.precise_float == 1;
 }
-const ReconTest minimal_tests[28] = {
+extern int c1_test_arena_byte_allocation(void);
+const ReconTest minimal_tests[29] = {
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },
     { "intrinsic selection retains mandatory names and respects extension and floating policy", 1, intrinsic_selection_policy },
+    { "byte arena allocation preserves exact stride and owned bytes at the limit", 1, c1_test_arena_byte_allocation },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
