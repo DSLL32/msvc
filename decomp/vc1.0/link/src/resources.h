@@ -3,6 +3,7 @@
 #include "pass-one.h"
 #include <recon.h>
 int convert_resources(int,char **);
+int serialize_legacy_resources(int input,int output,unsigned long size);
 void resource_usage(int error);
 void * resource_allocate(unsigned short size);
 long resource_seek(int file,long position,int origin);

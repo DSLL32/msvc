@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 105 numbered case directories. Native
+The shared recon-tool harness discovers the 106 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,20 +21,30 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 831 application functions (761 public-reached, 70 direct-support),
-with accepted App extent union 231469/281634 (82.1878750%). The direct resource encoding case adds two whole functions/393 extent bytes
-after the deferred-debug checkpoint.
-Support-inclusive historical accepted extent is 262408/281634 (93.1734095%).
-The 1030 historical frontier count includes shipped CRT/import
-support; 16 old handwritten crt/runtime.c overrides remain separate, without new
-application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
-partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
-that historical inventory was not recomputed for this case and is not a current
-registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8285 bytes outside known App/CRT/import extents,
-including the explicit Unknown rows. This gap includes code/data/alignment and
-incomplete placeholder extents, not a reliable application denominator; no gap
-has been relabeled as CRT merely because of its location or appearance.
+set now has 832 application functions (761 public-reached, 71 direct-support),
+with accepted App extent union 232211/281634 (82.4513376%). Case 0105 adds one
+whole 742-byte resource serializer after the encoding checkpoint.
+Support-inclusive historical accepted extent is 263150/281634 (93.4368720%).
+The 1031 historical frontier count includes shipped CRT/import support; 16 old
+handwritten crt/runtime.c overrides remain separate, without new application
+credit. A complete non-CRT denominator remains unavailable.
+
+The registry separately classifies 1896 bytes as CRT code/text data from positive
+shipped-library evidence: ___strgtold12 has 1775 code bytes and a 48-byte switch
+table; ___STRINGTOLD has 73 code bytes. Three complete intrncvt.obj callers use
+named ___strgtold12 REL32 relocations, and the complete wrapper matches shipped
+strgtold.obj except its named relocations. The parser's code generation differs
+from that shipped object, so its exact original CFG/RET/table partition was
+reviewed independently. Eight adjacent alignment bytes remain unowned. These
+are origin-only records, with no native body, App credit, historical frontier
+increment or added evidenced-runtime graph claim. The historical accepted
+extent total above does not include this new classification-only gain.
+
+The current registry leaves 5647 bytes outside known App/CRT/import extents,
+including explicit Unknown rows. This includes code/data/alignment and incomplete
+boundaries, not a reliable application denominator. Dormant Unicode writers,
+far-copy/custom-sort and several utility groups still have unresolved origin;
+no gap has been relabeled as CRT merely from its location or appearance.
 These extent totals are not a count of executed instructions. Unknown provenance
 is not treated as CRT. Direct callbacks remain explicitly
 external test inputs and do not establish public command-line reachability.
@@ -596,12 +606,13 @@ owner/ABI observations, hashes and split timing are in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/omf-deferred-debug/
 
-All currently named application entries are implemented. This is not a complete
-binary/non-CRT claim: 8285 bytes outside known registry extents still include
-unattributed code, data/alignment and incomplete boundaries. Dormant Unicode,
-far-string/custom-sort and floating-parser provenance remains unresolved; the
-legacy resource serializer retains its proven unwritten file-descriptor issue.
-No generic utility has been reconstructed or called CRT merely to close that gap.
+At the encoding checkpoint, all then-named application entries were implemented,
+but 8285 bytes still lay outside known registry extents. Case 0105 below resolves
+the defined serializer output path and the bounded float-library provenance.
+The older serializer note incorrectly called the unwritten scalar a file
+descriptor: actual call43f2d/43f2f/43f30 passes it as the seek distance, also
+printed as Size. The input descriptor itself comes from the real first formal.
+Raw earlier analysis remains preserved; no undefined input-pass claim is made.
 
 
 Case 0104 follows positive distinctive provenance, beyond table sharing or a
@@ -639,3 +650,43 @@ raw observations, input/formal ownership and split timings remain in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/resource-encoding/
     /root/.ai-tmp/msvc2/vc1.0/link/remaining-after-deferred/
+
+
+Case 0105 exercises the legacy resource serializer as direct support. A normal
+converter invocation reads two valid Win16 named records X/Y and X/Z, each with
+four bytes of payload and zero flags. Actual conversion creates all tree/name/
+record owners and leaves them live after closing the files. Their rewritten
+positions are relative to the produced COFF .rsrc$02 section, so the driver
+extracts that actual section into an owned payload stream. It never reuses .res
+file offsets or manufactures resource nodes. Empty and populated serializer
+calls pass the defined third formal zero. The full 28-byte legacy output equals
+the original resource input; live entries, records and names remain unchanged.
+The complete COFF, eight-byte payload, empty result, 512-byte report, streams,
+status and inventory are checked. Only the five structurally identified COFF/
+resource-directory clock DWORDs are normalized; every other byte is strict.
+
+The whole original function remains readable C, including its representation
+quirks. It tests pointer high words instead of ResourceName.kind and writes
+length+1 bytes from UTF16 text. One-character ASCII names work; ordinal and
+longer-name conformance is not claimed. The nonzero third-formal input branch
+uses an unwritten seek-distance/Size scalar and flags. An uninstrumented native
+host bridge rejects that precise route with unsupported status125 before entry;
+a focused denial test checks it. No local seed, guessed fd, source repair or
+undefined-path original execution is used. Original Win32 behavior is retained.
+
+The fresh masked entry matches the actual three words (3,4,0). Native GDB checks
+both calls, live owned records/name identities, genuine return1, cdecl ESP,
+nonvolatile registers and exact CW027f/SW0/empty tags. One untouched baseline
+took 1.219s; masked frontier/completion took 1.033s/0.894s. Matching native
+completion took 20.469ms (setup13.986/execution3.430/checks3.053); GDB took
+187.716ms. At completion the original compiler and all869 graph/RET/reference/
+ownership/boundary checks passed in20.526s combined. Native build took4.640s;
+all106 cached cases and eight focused tests passed in2.071s parallel wall time.
+Shared C/H hashes matched before/after; the unused explicit510 ctype candidate
+is identified truthfully in the frozen snapshot. The initial fixture helper
+name/prototype collision was corrected before any execution. Raw observations,
+source/ABI bindings and split timing remain in ordinary scratch files:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/resource-serialization/
+    /root/.ai-tmp/msvc2/vc1.0/link/remaining-after-deferred/
+    /root/.ai-tmp/graph-audit/link-float-parser-partition/

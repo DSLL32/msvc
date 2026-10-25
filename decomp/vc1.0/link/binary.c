@@ -5077,6 +5077,15 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_serialize_legacy_resources",
+        .entry_rva = 0x33db0,
+        .code = (const ReconExtent[]){{0x33db0, 0x34096}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "serialize_legacy_resources",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_convert_legacy_resource",
         .entry_rva = 0x340a0,
         .code = (const ReconExtent[]){{0x340a0, 0x34270}},
@@ -9253,6 +9262,27 @@ static const ReconFunction functions[] = {
         .name = "___shr_12",
         .entry_rva = 0x4a1a0,
         .code = (const ReconExtent[]){{0x4a1a0, 0x4a1f0}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+    },
+    {
+        /* CRT origin: three complete intrncvt.obj callers relocate by the
+         * original ___strgtold12 name. Body codegen differs from shipped LIBC;
+         * exact original CFG/RET/table partition was reviewed independently. */
+        .name = "___strgtold12",
+        .entry_rva = 0x4a2e0,
+        .code = (const ReconExtent[]){{0x4a2e0, 0x4a9cf}},
+        .code_count = 1,
+        .text_data = (const ReconExtent[]){{0x4a9d0, 0x4aa00}},
+        .text_data_count = 1,
+        .definition = RECON_CRT,
+    },
+    {
+        /* Whole shipped ___STRINGTOLD wrapper matches except named REL32s;
+         * exclude the following seven alignment bytes. No native CRT body. */
+        .name = "___STRINGTOLD",
+        .entry_rva = 0x4aa00,
+        .code = (const ReconExtent[]){{0x4aa00, 0x4aa49}},
         .code_count = 1,
         .definition = RECON_CRT,
     },

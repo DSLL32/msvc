@@ -5,6 +5,7 @@
 #include "../src/editor-image.h"
 #include "../src/import-library.h"
 #include "../src/omf.h"
+#include "../src/resources.h"
 #include <recon.h>
 int link_native_host_setup(void)
 {
@@ -72,4 +73,14 @@ Module *link_native_create_module(const char *display_name,const char *path,
 {
     return create_module(display_name,path,member_offset,machine,symbol_offset,
         symbol_count,optional_size,characteristics,sections,library,inserted);
+}
+
+/* The legacy input pass uses an unwritten seek-distance/Size scalar and flags.
+ * Only the defined third-formal-zero output pass is supported natively. This
+ * bridge runs before the genuine application entry; it neither seeds locals
+ * nor claims that the original defective input pass has a defined result. */
+int link_native_serialize_legacy_resources(int input,int output,unsigned long size)
+{
+    if(size)recon_unsupported("LINK legacy serializer uninitialized input seek distance");
+    return serialize_legacy_resources(input,output,size);
 }
