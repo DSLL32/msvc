@@ -1,15 +1,15 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **204 accepted application
-functions, 62,374 original code bytes, and 22 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **205 accepted application
+functions, 62,399 original code bytes, and 21 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `recycle_small_type` (RVA `0xf0d0`). The last accepted
-function is `allocate_small_type` (sequence 204, 43 original bytes,
-`src/types.c`), CVPACK's application-owned small-record free list.
+frontier is now `convert_old_structure` (RVA `0x12090`). The last accepted
+function is `recycle_small_type` (sequence 205, 25 original bytes,
+`src/types.c`), completing CVPACK's application-owned small-record free list.
 Encountered converter dispatch and its calls have identified additional App
 helpers; these retain named trapping stubs and no accepted credit. The resumed
-workload has accepted seventeen application functions. Each has matching
+workload has accepted eighteen application functions. Each has matching
 original/native progress and strict compiler/graph/data checks. All twelve
 cached cases and unit executors passed the 201-function checkpoint.
 The previous baseline ended at `type_server_close` (sequence 187,

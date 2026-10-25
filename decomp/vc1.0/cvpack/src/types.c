@@ -2661,6 +2661,13 @@ void *allocate_small_type(void)
     return buffer;
 }
 
+void recycle_small_type(void *buffer)
+{
+    *(unsigned char **)buffer = small_type_free_list;
+    small_type_free_list = buffer;
+    ++small_type_free_count;
+}
+
 void *allocate_medium_type(void)
 {
     unsigned char *buffer;

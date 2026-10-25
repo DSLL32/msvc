@@ -120,7 +120,7 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 
-void recycle_small_type(void *buffer) { __asm { int 3 } }
+
 
 
 
