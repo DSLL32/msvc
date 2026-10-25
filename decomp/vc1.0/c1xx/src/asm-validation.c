@@ -287,3 +287,11 @@ int validate_asm_operands(void)
     }
     return 1;
 }
+
+/* Original0x7f15c..0x7f17f, stdcall8. The x86 shift masks its count;
+   the signed comparison deliberately retains wrapped ABS(INT_MIN). */
+int __stdcall fits_asm_integer(unsigned char bits, unsigned value)
+{
+    unsigned magnitude = (int)value < 0 ? 0U - value : value;
+    return (int)(1U << (bits & 31)) > (int)magnitude;
+}

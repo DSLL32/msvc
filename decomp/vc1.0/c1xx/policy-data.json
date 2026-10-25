@@ -3368,6 +3368,17 @@
       "behavior": "Exact native-only INT3 before unmodeled biased boundary read; Win32 original unguarded indexing retained",
       "coverage_note": "Known keyword boundary29shorts supports28 initials underscore through z. Preceding bytes belong to76pointer vector; larger historical object/public outside-domain reach UNKNOWN. No original-UB claim.",
       "authorization": "Root-approved same bounded lookup unsupported-data-domain policy"
+    },
+    {
+      "function": "_combine_asm_addresses@12",
+      "original": [
+        523328,
+        523665
+      ],
+      "condition": "operator not22/23/28/35 at default return",
+      "behavior": "Exact native-only INT3 before uninitialized local return; Win32 original unwritten result retained",
+      "coverage_note": "SUB4+three savedregisters makes7fd84 [ESP+0xc] entryESP-4. Only valid branches define their return. Grammar normal callers use22/23/28/35; public outside-domain reach UNKNOWN, no stale-stack equivalence claim.",
+      "authorization": "Settled exact native unsupported uninitialized-local policy"
     }
   ],
   "function_properties": {

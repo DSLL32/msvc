@@ -14144,10 +14144,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_combine_asm_addresses@12",
         .entry_rva = 0x6fc40,
-        .code = (const ReconExtent[]) { { 0x6fc40, 0x6fc41 } },
+        .code = (const ReconExtent[]) { { 0x6fc40, 0x6fd91 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "combine_asm_addresses",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_set_asm_address_operator@4",
@@ -14261,18 +14262,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_asm_stack_register@8",
         .entry_rva = 0x703f8,
-        .code = (const ReconExtent[]) { { 0x703f8, 0x703f9 } },
+        .code = (const ReconExtent[]) { { 0x703f8, 0x704ce } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_asm_stack_register",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_set_asm_operand_size@4",
         .entry_rva = 0x6d916,
-        .code = (const ReconExtent[]) { { 0x6d916, 0x6d917 } },
+        .code = (const ReconExtent[]) { { 0x6d916, 0x6d99b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_asm_operand_size",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_size_encoding@4",
@@ -14383,10 +14386,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_fits_asm_integer@8",
         .entry_rva = 0x6f15c,
-        .code = (const ReconExtent[]) { { 0x6f15c, 0x6f15d } },
+        .code = (const ReconExtent[]) { { 0x6f15c, 0x6f17f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fits_asm_integer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_swap_asm_pointer_slots@8",
@@ -14408,10 +14412,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_normalize_asm_x87_operands",
         .entry_rva = 0x6e4c2,
-        .code = (const ReconExtent[]) { { 0x6e4c2, 0x6e4c3 } },
+        .code = (const ReconExtent[]) { { 0x6e4c2, 0x6e62e } },
+        .text_data = (const ReconExtent[]) { { 0x6e62e, 0x6e646 } },
+        .text_data_count = 1,
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "normalize_asm_x87_operands",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_choose_asm_instruction_size",

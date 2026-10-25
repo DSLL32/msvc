@@ -576,7 +576,6 @@ AsmExpression *__stdcall multiply_asm_expression(unsigned short operation, AsmEx
 
 AsmExpression *__stdcall evaluate_asm_binary(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
 
-AsmExpression *__stdcall combine_asm_addresses(unsigned short operation, AsmExpression *left, AsmExpression *right) { __asm { int 3 } return 0; }
 
 void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 
@@ -599,9 +598,7 @@ AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { 
 AsmExpression *__stdcall make_asm_offset(AsmExpression *value) { __asm { int 3 } return 0; }
 
 
-AsmExpression *__stdcall make_asm_stack_register(short reg, int index) { __asm { int 3 } return 0; }
 
-void __stdcall set_asm_operand_size(unsigned char size) { __asm { int 3 } }
 
 
 void copy_asm_comment(void) { __asm { int 3 } }
@@ -609,9 +606,7 @@ void copy_asm_comment(void) { __asm { int 3 } }
 
 
 
-int __stdcall fits_asm_integer(unsigned char bits, unsigned value) { __asm { int 3 } return 0; }
 
-unsigned normalize_asm_x87_operands(void) { __asm { int 3 } return 0; }
 void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
 
 int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) { __asm { int 3 } return 0; }

@@ -1,20 +1,19 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at fits_asm_integer
-(RVA0x6f15c). There are 1329 application source functions plus seven unchanged
-historical CRT source functions. Its first forty-five accepted bodies add 14,308 code
+PARTIAL reconstruction; packet_engine is active at begin_seh_try
+(RVA0x40d20). There are 1334 application source functions plus seven unchanged
+historical CRT source functions. Its first fifty accepted bodies add 15,391 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
 runtime initializer emission, initializer object references and assembler state/operands and its separate whole grammar driver, token classification and instruction-name lookup.
-Fresh original/native comparisons, original compilation, the 1337-function
-inherited graph/ABI audit, nine cached cases and 17 unit groups pass. Last native
-frontier run: 28.759ms; audit/setup: 1.968s; nine cached cases plus units:0.237s.
+Fresh original/native comparisons, original compilation, the 1342-function
+inherited graph/ABI audit, nine cached cases and 18 unit groups pass. Last native
+frontier run:37.273ms; audit/setup:1.990s; nine cached cases plus units:0.265s.
 An earlier regression command took19.582s including a shared native-fixture
 rebuild/relink; its individual case/test executions were14–33ms.
-Last native/original source-list rebuild:34.811s; current fresh original
-capture:1.562s. Ordinary incremental builds for the preceding two functions
-took3.374s and3.430s.
+Last native/original incremental build:2.685s; current fresh original capture:
+1.475s. The preceding source-list rebuild took34.811s.
 Assembler serialization reuses control_counted_data at original0x8c0a4.
 The encountered78-byte prefix covers three header bytes plus three maximum
 25-byte operands; bytes0x8c0f2..0x8c124 remain uncredited. All21 format strings
@@ -30,7 +29,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1436: the 1302 trial baseline plus 88 browser and forty-five packet application steps,
+1441: the 1302 trial baseline plus 88 browser and fifty packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -38,7 +37,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 328,850/476,418 .text bytes (69.03%); this is
+Application function extents cover 329,933/476,418 .text bytes (69.25%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -126,12 +125,18 @@ not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Twenty exact native limitations remain in policy-data.json and source. They
+Twenty-one exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
 These traps preserve honest unsupported paths; no broad malformed-only or public
 reachability claim is implied. The wide string-name branch remains unvalidated.
+
+The assembler address combiner retains the original unwritten local return for
+operators outside22/23/28/35 in Win32. Native-only code traps exactly before that
+entryESP-4 read. The normal grammar caller and current packet use the defined
+addition path; a narrow unsupported-operator trap test passes. Public reachability
+of the default remains unknown, with no original-stack equivalence claim.
 
 Seven old runtime.c bodies are retained unchanged by user direction, support-only
 credit: setvbuf, sopen, freebuf, fseek, ftell, tzset, isindst. Their necessity for

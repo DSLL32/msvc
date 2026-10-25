@@ -496,3 +496,78 @@ unsigned char resolve_asm_operand_size(void)
     }
     return size;
 }
+
+/* Original0x7d916..0x7d99b, stdcall4. Explicit PTR width and address
+   qualification share the current operand; diagnostics retain their context. */
+void __stdcall set_asm_operand_size(unsigned char size)
+{
+    char *context;
+    AsmAddress *address;
+    if (asm_operand->flags & 1) {
+        context = asm_error_context();
+        report_syntax_error(408,context);
+    } else {
+        asm_operand->size = size;
+        if (asm_operand->size == 15) {
+            context = asm_error_context();
+            report_syntax_error(408,context);
+        }
+    }
+    if (!asm_address_mode && asm_operand->address->symbol) {
+        address = asm_operand->address;
+        if (address->symbol == translation_sentinel && !(address->flags & 63))
+            address->flags = (address->flags & 0xda) | 0x1a;
+        asm_operand->address->address_flags |= 0x10;
+    }
+    asm_operand->flags |= 1;
+}
+
+/* Original0x7e4c2..0x7e62e; owned opcode dispatch0x7e62e..0x7e646.
+   Supply implicit ST operands and choose popping/reversed operation forms.
+   The returned flag asks the emitter to exchange the operand slots. */
+unsigned normalize_asm_x87_operands(void)
+{
+    short operation = asm_operation;
+    int index;
+    switch (operation) {
+    case 69: operation = 75; break;
+    case 70: operation = 76; break;
+    case 71: operation = 77; break;
+    case 72: operation = 78; break;
+    case 73: operation = 79; break;
+    case 74: operation = 80; break;
+    }
+    if (asm_operand_class == 40) {
+        if (asm_operation == 97) return 0;
+        if (!asm_operand_count) {
+            asm_operand_count = 1;
+            asm_operand = reset_asm_operand(0);
+            make_asm_stack_register(31,1);
+            return 0;
+        }
+    } else if (asm_operand_class == 43) {
+        if (!asm_operand_count) {
+            asm_operand_count = 1;
+            asm_operand = reset_asm_operand(0);
+            make_asm_stack_register(31,1);
+            index = asm_operand_count++;
+            asm_operand = reset_asm_operand(index);
+            make_asm_stack_register(31,0);
+            if (asm_operand_class != 43) operation = asm_operation;
+            asm_operation = operation;
+            return operation == 92 || operation == 93 || operation == 209 || operation == 210;
+        }
+    } else if (asm_operand_class == 57) {
+        asm_operand_count = 2;
+        asm_operand = reset_asm_operand(1);
+        make_asm_stack_register(31,0);
+        return 1;
+    } else return 0;
+    if (asm_operand_count == 1 && asm_operand_class != 40) {
+        asm_operand_count = 2;
+        asm_operand = reset_asm_operand(1);
+        make_asm_stack_register(31,0);
+        return 1;
+    }
+    return 0;
+}
