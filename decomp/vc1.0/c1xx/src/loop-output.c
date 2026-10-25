@@ -274,3 +274,40 @@ int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment,
     emit_label(continue_labels->label);
     return 1;
 }
+
+/* Original0x45160..0x45285, stdcall8. Compact operands keep the
+   actual symbol/value word; an indexed operand owns an adjacent8B pair. */
+int __stdcall describe_qc_operand(IrToken *expression, QcOperand *operand)
+{
+    IrToken *left, *right;
+    QcOperand *pair;
+    ArenaPool *pool = &compiler_arena.pools[3];
+    operand->operation = expression->kind;
+    if (expression->kind == 2 || (expression->kind >= 7 && expression->kind <= 10)) {
+        operand->value.integer = expression->value.integer;
+        return 1;
+    }
+    if (expression->kind == OP_DEREFERENCE || expression->kind == 0xb1) {
+        left = expression->value.pointer;
+        if (!left || left->kind != 2) return 0;
+        operand->value.integer = left->value.integer;
+        return 1;
+    }
+    if (expression->kind == OP_SUBSCRIPT) {
+        left = expression->value.pointer;
+        right = expression->tail.right;
+        if (!left || !right || left->kind != 2) return 0;
+        if (token_categories[right->kind] != 0x6f || !(right->type->flags & 0x40)) return 0;
+        if (pool->remaining < 2 * (int)sizeof(QcOperand)) refill_arena(&compiler_arena, pool);
+        pair = (QcOperand *)pool->next;
+        pool->remaining -= 2 * sizeof(QcOperand);
+        pool->next += 2 * sizeof(QcOperand);
+        operand->value.pair = pair;
+        pair[0].value.integer = left->value.integer;
+        pair[0].operation = left->kind;
+        pair[1].value.integer = right->value.integer;
+        pair[1].operation = right->kind;
+        return 1;
+    }
+    return 0;
+}
