@@ -16,6 +16,8 @@ typedef struct handle_info {
     const char *filename;
 } HANDLE_INFO;
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
+typedef struct WResDirHead *WResDir;
+extern WResDir MainDir;            /* Original VA 0x430444. */
 
 /* Only the encountered prefix of the resource callback table is defined. */
 struct WResRoutines {
@@ -37,6 +39,8 @@ void WresRecordError( WResStatus status );
 int FindResources( HANDLE_INFO *instance );
 long res_seek( int handle, long position, int where );
 int InitResources( HANDLE_INFO *instance );
+WResDir WResInitDir( void );
+int WResReadDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */
 int InitMsg( const char *image_name );

@@ -1,0 +1,35 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-uM3lMD",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 105584,
+    "trap_site": 4154130405,
+    "elapsed_ms": 7.867563,
+    "setup_ms": 4.169627,
+    "execution_ms": 2.152369,
+    "checks_ms": 1.545509,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-initresources-to-wresinitdir.json",
+      "report_sha256": "5f8484d08e46ad798481af398d25e65b4c96e899d0a452747998b9f8c0200b3a",
+      "capture_sha256": "0baf42b2b52be5219d06846c2a59f38fb8fa09bba0205ec56372dd6e4263c88c",
+      "source_binding_available": true
+    }
+  }
+]

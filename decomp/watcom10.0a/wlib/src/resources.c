@@ -48,6 +48,7 @@
 /* Encountered prefix of the resource callback table at 0x42044c. */
 struct WResRoutines WResRtns = { open, close, write, read, res_seek };
 long FileShift;
+WResDir MainDir;
 
 /* Original 0x414be4..0x414bfe. Same callback as res_seek in the initial
    bld/nwlib/c/error.c: resource-relative SEEK_SET, ordinary other origins. */
@@ -63,6 +64,17 @@ long res_seek( int handle, long position, int where )
 int OpenResFile( HANDLE_INFO *instance )
 {
     return( instance->handle = ResOpenFileRO( instance->filename ) );
+}
+
+/* Original 0x418ad8..0x418b00 calls the directory routines directly;
+   the newer InitResources2 wrapper is absent from the original graph. */
+int InitResources( HANDLE_INFO *instance )
+{
+    MainDir = WResInitDir();
+    if( MainDir == NULL ) {
+        return( -1 );
+    }
+    return( WResReadDir( instance->handle, MainDir, NULL ) );
 }
 
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.

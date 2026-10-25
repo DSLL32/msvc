@@ -37,7 +37,13 @@ void WresRecordError( WResStatus status )
     WLIB_FRONTIER();
 }
 
-int InitResources( HANDLE_INFO *instance )
+WResDir WResInitDir( void )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int WResReadDir( int handle, WResDir dir, int *dup_discarded )
 {
     WLIB_FRONTIER();
     return( 0 );
