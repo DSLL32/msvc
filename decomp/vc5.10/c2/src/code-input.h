@@ -135,6 +135,8 @@ C2Expression * __fastcall new_function_entry(C2Function *function);
 void __fastcall set_function_input_options(unsigned options);
 C2Expression *__fastcall new_typed_register_expression(unsigned opcode, unsigned short type, C2FunctionRegister *reg);
 C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol);
+void __fastcall replace_input_result(C2Expression *owner, C2Expression *old,
+                                     C2Expression *replacement);
 void __fastcall finish_input_expression(C2InputStack *stack);
 void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2Expression **right, int condition);
 unsigned short __fastcall common_input_value_type(unsigned short first, unsigned short second);
