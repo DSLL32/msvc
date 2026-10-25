@@ -557,6 +557,26 @@ static int typed_register_record(void)
         allocation[30] == 0xa5 && allocation[31] == 0xa5;
 }
 
+static int return_storage_conventions(void)
+{
+    unsigned convention, bytes;
+    for (convention = 0; convention <= 24; ++convention) {
+        if (convention & 3) {
+            if (needs_input_return_storage(convention, 0x2004, 4) != 7) return 0;
+            continue;
+        }
+        if (needs_input_return_storage(convention, 0x2004, 4) ||
+            needs_input_return_storage(convention, 0x400a, 10) != (convention == 8))
+            return 0;
+        for (bytes = 0; bytes <= 10; ++bytes) {
+            int expected = !bytes || bytes > 8 || (bytes & (bytes - 1));
+            if (needs_input_return_storage(convention, 0x5000, bytes) != !!expected)
+                return 0;
+        }
+    }
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -583,5 +603,6 @@ const ReconTest numeric_tests[] = {
     {"source-line mapping preserves spans and filename identity", 1, input_line_mapping},
     {"symbol register cache preserves owner and allocation identity", 1, input_register_cache},
     {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types},
-    {"typed register expression clears exact size and keeps register identity", 1, typed_register_record}
+    {"typed register expression clears exact size and keeps register identity", 1, typed_register_record},
+    {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions}
 };

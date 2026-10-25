@@ -2626,8 +2626,12 @@ static const ReconFunction functions[] = {
     {
         .name = "@needs_input_return_storage@12",
         .entry_rva = 0x25ee8,
+        .code = (const ReconExtent[]){{0x25ee8, 0x25f47}, {0x6b545, 0x6b551}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x25f48, 0x25f68}, {0x25f68, 0x25f81}},
+        .text_data_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "needs_input_return_storage",
     },
     {

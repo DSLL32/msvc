@@ -15,16 +15,21 @@ unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
 
 /* Only the two high-byte properties read by this dispatcher are represented.
- * Encountered function-entry70, pragma79, scope-begin83 and filename86
+ * Encountered function-entry70, parameter-end76, pragma79, scope-begin83 and filename86
  * are boundaries; variable38 has neither consumed property.
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[8];
+    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[5];
+    unsigned char parameter_end, pending77[2];
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
-static unsigned input_register_opcode[17];
+/* Only the encountered tracked-register kind4 opcode is modeled. */
+static union {
+    struct { unsigned pending00[4], tracked, pending05[12]; } row;
+    unsigned values[17];
+} input_register_opcodes = {{{0}, 0x120, {0}}};
 /* Typed operand kind5 is the encountered local-register opcode. All other
  * backing rows remain UNMODELED, and native guards precede their reads. */
 static union {
@@ -33,10 +38,10 @@ static union {
 } input_operand_opcodes = {{{0}, 0x120, {0}}};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 static unsigned char input_condition_known[16];
-static unsigned char input_register_opcode_known[17];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
+     (unsigned)(op) == 76 ? input_opcode_properties.parameter_end : \
      (unsigned)(op) == 79 ? input_opcode_properties.pragma : \
      (unsigned)(op) == 83 ? input_opcode_properties.scope_begin : \
      (unsigned)(op) == 86 ? input_opcode_properties.filename : \
@@ -46,8 +51,8 @@ static unsigned char input_register_opcode_known[17];
      input_inverse_condition[(condition)] : \
      (recon_unsupported("unmodeled input comparison inverse"), 0))
 #define INPUT_REGISTER_OPCODE(kind) \
-    ((unsigned)(kind) < 17 && input_register_opcode_known[(kind)] ? \
-     input_register_opcode[(kind)] : \
+    ((unsigned)(kind) == 4 ? \
+     input_register_opcodes.row.tracked : \
      (recon_unsupported("unmodeled input register opcode"), 0))
 #define INPUT_OPERAND_OPCODE(kind) \
     ((unsigned)(kind) == 5 ? \
@@ -56,7 +61,7 @@ static unsigned char input_register_opcode_known[17];
 #else
 #define INPUT_PROPERTIES(op) (((unsigned char *)&input_opcode_properties)[(op)])
 #define INPUT_INVERSE(condition) input_inverse_condition[(condition)]
-#define INPUT_REGISTER_OPCODE(kind) input_register_opcode[(kind)]
+#define INPUT_REGISTER_OPCODE(kind) input_register_opcodes.values[(kind)]
 #define INPUT_OPERAND_OPCODE(kind) input_operand_opcodes.values[(kind)]
 #endif
 #define INPUT_IS_REGISTER(node) ((1U << ((node)->kind & 31)) & 6U)
@@ -1406,5 +1411,31 @@ unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes
         /* The original clears AX after this diagnostic. Its upper return
          * bits depend on the diagnostic's unspecified EAX; callers use AX. */
         return 0;
+    }
+}
+
+int __fastcall needs_input_return_storage(unsigned convention, unsigned short type, unsigned bytes)
+{
+#if !defined(__linux__)
+    unsigned saved_eax;
+    /* The original's convention>24 path returns entry EAX unchanged. Ordinary
+     * fastcall C cannot express that incoming register; capture only this ABI
+     * value before the compiler uses EAX. No extra argument or helper exists. */
+    __asm { mov saved_eax, eax }
+#endif
+    switch (convention) {
+    case 0: case 4: case 8: case 12: case 16: case 20: case 24:
+        if ((type >> 12) == 4) return convention == 8;
+        if ((type >> 12) != 5) return 0;
+        return !bytes || bytes > 8 || (bytes & (bytes - 1)) != 0;
+    default:
+        if (convention <= 24) return 7;
+#if defined(__linux__)
+        /* This unvisited domain needs the original incoming-EAX ABI, which
+         * the instrumented native C entry does not supply. */
+        recon_unsupported("unmodeled return-convention incoming EAX");
+#else
+        return saved_eax;
+#endif
     }
 }

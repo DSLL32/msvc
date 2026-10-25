@@ -843,6 +843,44 @@
             ]
           ]
         }
+      },
+      "@needs_input_return_storage@12": {
+        "original": {
+          "text_data": [
+            [
+              4349768,
+              4349800
+            ],
+            [
+              4349800,
+              4349825
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@needs_input_return_storage@12",
+                "offset": 170
+              },
+              {
+                "rebuilt_symbol": "@needs_input_return_storage@12",
+                "offset": 202
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@needs_input_return_storage@12",
+                "offset": 202
+              },
+              {
+                "rebuilt_symbol": "@needs_input_return_storage@12",
+                "offset": 227
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

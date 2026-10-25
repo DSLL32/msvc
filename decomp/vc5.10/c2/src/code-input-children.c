@@ -104,12 +104,6 @@ C2Expression * __fastcall convert_input_operand(C2InputStack *stack, unsigned sh
     return 0;
 }
 
-int __fastcall needs_input_return_storage(unsigned convention, unsigned short type, unsigned bytes)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall pop_input_expression(C2InputStack *stack)
 {
     __asm { int 3 }
