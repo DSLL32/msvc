@@ -773,3 +773,15 @@ void begin_browser_pch_record(void)
     emit_browser_record(&record.header);
     browser_symbols_overflowed = 1;
 }
+
+/* Original0x2c4a0..0x2c4e8, stdcall4. Reopen a browser PCH source with
+   an owned filename, retaining the template's remaining record fields. */
+void __stdcall restore_pch_browser_name(char *filename)
+{
+    BrowserRecord record = browser_record_template;
+    flush_browser_records();
+    record.header.kind = 15;
+    record.header.flags |= 2;
+    record.name = duplicate_browser_text(filename);
+    emit_browser_record(&record.header);
+}

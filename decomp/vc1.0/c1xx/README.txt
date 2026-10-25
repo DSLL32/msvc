@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1500 App bodies and1607
+original/native matching at compare_filenames; there are1501 App bodies and1608
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -633,3 +633,10 @@ per row. Fresh original1.131s/native27.519ms (setup16.833ms, execution3.426ms,
 checks7.260ms) match actual nine-entry order and partial output inventory.
 Original build2.458s and1508-function six-check audit plus12cached/22units
 2.252s pass; reviewed1500 App/1607 historical frontiers.
+
+restore_pch_browser_name@4(72B) is accepted at read_pch_pages. It copies the real
+browser template, drains pending records, owns the saved filename and emits the
+PCH-source record. Original0.809s/native26.959ms (setup17.205ms,
+execution3.410ms, checks6.343ms) match ten actual entries and partial artifacts.
+Build2.607s,1509-function six-check audit plus12cached/22units2.260s pass.
+Reviewed1501 App/1608 historical frontiers; final consumer oracle unchanged.
