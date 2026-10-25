@@ -162,6 +162,11 @@ contents belong outside the committed case directory.
 Environment variables are inputs only. Captured dependency responses must verify
 the request and inputs before replay.
 
+Capture `assets` hold harness-only payloads outside application cwd. Cases use
+the shared asset accessor after setup; unit forks inherit the same asset root.
+The runner verifies complete asset membership, bytes and modes after descendants
+exit. Application inputs and outputs remain in the working directory inventory.
+
 IO execution uses a standard binary adapter: reconstructed main for an EXE,
 or attach, typed export invocation and detach for a DLL. Existing DLL export
 inputs are principally argument strings, scalars and callbacks.
