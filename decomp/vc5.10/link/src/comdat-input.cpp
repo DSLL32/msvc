@@ -19,16 +19,11 @@ OutputModule *comdat_symbol_module;
 /* Short COFF names are copied here before string operations. Byte8 is the
  * shared zero terminator; the original object begins at47f128. */
 char short_symbol_name[9];
-typedef struct ContributionInfo {
-    DWORD reserved[8];
-    Contribution *ordered_contribution;
-    DWORD reserved24;
-} ContributionInfo;
 /* The folding vector is the existing original buffer4 (494398/9c/a0),
  * initialized and freed by its already reconstructed application callbacks. */
-#define ordered_contributions ((ContributionInfo **)buffer4.base)
-#define ordered_contribution_count (buffer4.remaining)
-#define ordered_contribution_capacity (buffer4.capacity)
+#define fold_candidates ((ContributionInfo **)buffer4.base)
+#define fold_candidate_count (buffer4.remaining)
+#define fold_candidate_capacity (buffer4.capacity)
 char *__stdcall format_contribution_module(Contribution *,char *);
 DWORD *__stdcall build_section_symbol_ranges(Contribution *,IMAGE_SYMBOL *);
 void __stdcall discard_associated_comdats(Contribution *);
@@ -206,34 +201,34 @@ accepted:
     if (!context->options.fold_identical_comdats) return 1;
     if (associated) {
         info=get_contribution_info(associated);
-        info->ordered_contribution=NULL;
-        i=ordered_contribution_count;
+        info->fold_candidate=NULL;
+        i=fold_candidate_count;
         while (i) {
             --i;
-            if (ordered_contributions[i]==info) {
-                ordered_contributions[i]=NULL;
+            if (fold_candidates[i]==info) {
+                fold_candidates[i]=NULL;
                 break;
             }
         }
     } else if (contribution->CanFold(*name)) {
         info=get_contribution_info(contribution);
-        info->ordered_contribution=contribution;
-        count=ordered_contribution_count+1;
-        if (count>ordered_contribution_capacity) {
-            capacity=ordered_contribution_capacity*3/2;
+        info->fold_candidate=contribution;
+        count=fold_candidate_count+1;
+        if (count>fold_candidate_capacity) {
+            capacity=fold_candidate_capacity*3/2;
             if (capacity<count) capacity=count;
             grown=(ContributionInfo **)crt_operator_new(capacity*4);
             if (!grown) return 1;
-            if (ordered_contributions) {
-                for (i=0;i<ordered_contribution_count;++i)
-                    grown[i]=ordered_contributions[i];
-                crt_operator_delete(ordered_contributions);
+            if (fold_candidates) {
+                for (i=0;i<fold_candidate_count;++i)
+                    grown[i]=fold_candidates[i];
+                crt_operator_delete(fold_candidates);
             }
             buffer4.base=grown;
-            ordered_contribution_capacity=capacity;
+            fold_candidate_capacity=capacity;
         }
-        ordered_contribution_count=count;
-        ordered_contributions[count-1]=info;
+        fold_candidate_count=count;
+        fold_candidates[count-1]=info;
     }
     return 1;
 duplicate:
@@ -267,7 +262,6 @@ void __stdcall discard_associated_comdats(Contribution *parent) { __asm { int 3 
 void __stdcall report_duplicate_comdat(LinkOptions *options,const char *module,const char *symbol,const char *previous) { __asm { int 3 } }
 void __stdcall record_undefined_comdat(StringNode *symbol,const char *name,OutputModule *module) { __asm { int 3 } }
 BYTE __stdcall remove_module_symbol(OutputModule *module,StringNode *symbol) { __asm { int 3 } return 0; }
-ContributionInfo *__stdcall get_contribution_info(Contribution *contribution) { __asm { int 3 } return NULL; }
 }
 BYTE RECON_THISCALL Contribution::CanFold(const char *name)
 {

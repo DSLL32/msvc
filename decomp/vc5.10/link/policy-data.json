@@ -5905,6 +5905,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_get_contribution_info@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

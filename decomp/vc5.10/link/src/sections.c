@@ -227,3 +227,17 @@ void __stdcall split_section_name(const char *name,const char **base)
     separator=strchr(section_base_name,'$');
     if (separator) *separator=0;
 }
+
+ContributionInfo *__stdcall get_contribution_info(Contribution *contribution)
+{
+    OutputModule *module=contribution->module;
+    DWORD address=(DWORD)contribution;
+    DWORD base=(DWORD)module->contributions;
+    WORD index;
+    /* Preserve the original inclusive upper comparison, including its
+     * one-past-array behavior; do not silently tighten this to >=. */
+    if (address<base || address>base+module->section_count*64)
+        return (ContributionInfo *)((BYTE *)contribution+64);
+    index=(WORD)((LONG)(address-base)>>6);
+    return module->contribution_info+index;
+}

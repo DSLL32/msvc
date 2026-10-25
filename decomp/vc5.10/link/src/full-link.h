@@ -16,6 +16,14 @@ typedef struct SectionFileMap {
     DWORD virtual_address,line_number_offset;
 } SectionFileMap;
 typedef char SectionFileMapSize[(sizeof(SectionFileMap)==8)?1:-1];
+/* Internal per-contribution records at module+60h, separate from COFF headers. */
+typedef struct ContributionInfo {
+    DWORD reserved[8];
+    Contribution *fold_candidate;
+    DWORD reserved24;
+} ContributionInfo;
+typedef char ContributionInfoSize[(sizeof(ContributionInfo)==40)?1:-1];
+typedef char FoldCandidateAt20[(offsetof(ContributionInfo,fold_candidate)==0x20)?1:-1];
 
 /* Only fields consumed by reached reconstruction logic are named here. These are prefixes, not
  * claims about an allocation's complete size or its as-yet unknown tail. */
@@ -56,7 +64,7 @@ struct OutputModule {
     BYTE *section_flags;
     DWORD auxiliary;
     BYTE reserved54[12];
-    IMAGE_SECTION_HEADER *saved_section_headers;
+    ContributionInfo *contribution_info;
     OutputLibrary *library;
     /* Original allocation uses 64 bytes per section; the public Contribution
        prefix does not yet describe that complete record. */
@@ -166,7 +174,7 @@ typedef char ModuleConstructorFields[(offsetof(OutputModule,module_index)==8 &&
     offsetof(OutputModule,symbol_indices)==148 && offsetof(OutputModule,flags)==152)?1:-1];
 typedef char LibraryModuleHeadAt38[(offsetof(OutputLibrary,module_head)==56)?1:-1];
 typedef char OutputModuleSectionMapAt2c[(offsetof(OutputModule,section_map)==0x2c)?1:-1];
-typedef char SavedSectionHeadersAt60[(offsetof(OutputModule,saved_section_headers)==0x60)?1:-1];
+typedef char ContributionInfoAt60[(offsetof(OutputModule,contribution_info)==0x60)?1:-1];
 typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];
 typedef char SectionFileOffsetAt18[(offsetof(OutputSection,file_offset)==0x18)?1:-1];

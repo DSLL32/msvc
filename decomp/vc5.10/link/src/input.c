@@ -158,8 +158,8 @@ void __stdcall validate_import_object_header(void *header) { __asm { int 3 } }
 MemoryArena *section_header_arena;
 void __stdcall allocate_module_section_headers(OutputModule *module)
 {
-    module->saved_section_headers=(IMAGE_SECTION_HEADER *)reserve_memory(
-        &section_header_arena,module->section_count*sizeof(IMAGE_SECTION_HEADER));
+    module->contribution_info=(ContributionInfo *)reserve_memory(
+        &section_header_arena,module->section_count*sizeof(ContributionInfo));
 }
 void __stdcall infer_output_file_name(LinkContext *context,InputArgument *argument)
 {

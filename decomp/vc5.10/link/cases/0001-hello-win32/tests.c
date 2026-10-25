@@ -22,12 +22,12 @@ static void __stdcall check_section_headers(LinkContext *context,void *parent,
     pass=module->library==context->command_line_library &&
         module->library->module_head==module && module->section_count==7 &&
         !strcmp(module->name,"hello.obj") && !module->section_headers &&
-        module->saved_section_headers && section_header_arena &&
+        module->contribution_info && section_header_arena &&
         !section_header_arena->previous && section_header_arena->used==280 &&
         section_header_arena->remaining==4096-280 &&
-        section_header_arena->base==(BYTE *)module->saved_section_headers;
+        section_header_arena->base==(BYTE *)module->contribution_info;
     if (!pass) recon_native_entry_finish(0);
-    bytes=(BYTE *)module->saved_section_headers;
+    bytes=(BYTE *)module->contribution_info;
     for (i=0;i<280;++i) if (bytes[i]) recon_native_entry_finish(0);
     recon_native_entry_finish(1);
 }
@@ -55,7 +55,7 @@ static void RECON_THISCALL check_section_header_call(OutputModule *module,
     recon_native_entry_finish(module && headers &&
         module->library==current_input_library &&
         module->library->module_head==module && module->section_count==7 &&
-        module->saved_section_headers && !module->section_headers &&
+        module->contribution_info && !module->section_headers &&
         sizeof(*headers)==4);
 }
 static int section_header_call(void)
@@ -651,6 +651,29 @@ static int folded_contribution(void)
     return recon_native_at_entry(get_contribution_info,check_folded_contribution,
         invoke_hello,NULL)==1;
 }
+extern DWORD __stdcall align_section_size(DWORD,DWORD);
+static DWORD __stdcall check_fold_record(DWORD bytes,DWORD flags)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *contribution=(Contribution *)module->contributions+1;
+    ContributionInfo expected[7];
+    memset(expected,0,sizeof(expected));
+    expected[1].fold_candidate=contribution;
+    recon_native_entry_finish(bytes==1 && flags==module_section_headers[1].Characteristics &&
+        module->contribution_info && module->contribution_info!=(void *)module->section_headers &&
+        !memcmp(module->contribution_info,expected,sizeof(expected)) &&
+        section_header_arena && section_header_arena->base==(BYTE *)module->contribution_info &&
+        section_header_arena->used==280 && buffer4.remaining==1 && buffer4.capacity==1024 &&
+        ((ContributionInfo **)buffer4.base)[0]==module->contribution_info+1 &&
+        module->contribution_info[1].fold_candidate==contribution &&
+        contribution->comdat_selection==1 && !contribution->comdat_checksum);
+    return 0;
+}
+static int fold_record(void)
+{
+    return recon_native_at_entry(align_section_size,check_fold_record,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -681,5 +704,6 @@ const ReconTest hello_tests[]={
     {"symbol-string-append",1,symbol_string_append},
     {"symbol-definition",1,symbol_definition},
     {"symbol-definition-transition",1,definition_transition},
-    {"folded-contribution",1,folded_contribution}
+    {"folded-contribution",1,folded_contribution},
+    {"fold-record",1,fold_record}
 };
