@@ -190,7 +190,6 @@ CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 
 void __stdcall flush_current_function(int retain) { __asm { int 3 } }
-CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first) { __asm { int 3 } return 0; }
 
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }

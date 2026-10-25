@@ -627,3 +627,14 @@ CppSymbol *__stdcall lookup_tag_name(char *name)
     }
     return symbol;
 }
+
+/* Original0x2d490..0x2d4b3, stdcall8. The caller supplies a nonempty
+   symbol chain; tag matching uses its already interned name identity. */
+CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first)
+{
+    do {
+        if (first->name == name && (first->kind & 31) == 4) return first;
+        first = first->next;
+    } while (first);
+    return 0;
+}

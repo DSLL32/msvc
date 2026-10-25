@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1615 historical frontiers/1508 App bodies.
+ * Current reviewed boundary:1616 historical frontiers/1509 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -3063,10 +3063,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_find_tag_in_chain@8",
         .entry_rva = 0x1d490,
-        .code = (const ReconExtent[]) { { 0x1d490, 0x1d491 } },
+        .code = (const ReconExtent[]) { { 0x1d490, 0x1d4b3 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_tag_in_chain",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_lookup_tag_name@4",
