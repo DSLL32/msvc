@@ -1,0 +1,19 @@
+{
+  "case": "0001-help",
+  "complete": false,
+  "accepted_app_functions": 1,
+  "accepted_app_bytes": 53,
+  "accepted": [
+    {
+      "name": "main",
+      "extent": [
+        52008,
+        52061
+      ],
+      "evidence": "cases/0001-help/evidence/0001-main"
+    }
+  ],
+  "current_frontier": "main_init",
+  "native_ms": 5.345894,
+  "original_ms": 1288.378
+}
