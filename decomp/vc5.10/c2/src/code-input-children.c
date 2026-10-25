@@ -397,10 +397,6 @@ void __fastcall read_input_type(C2ILToken *token)
     __asm { int 3 }
 }
 
-void __fastcall read_control_fields(C2ILToken *token)
-{
-    __asm { int 3 }
-}
 
 unsigned __int64 __cdecl read_input_longlong(void)
 {
@@ -448,4 +444,16 @@ void __cdecl input_real_from_float(float *input, C2Real *output)
 void __cdecl input_real_from_double(double *input, C2Real *output)
 {
     __asm { int 3 }
+}
+
+short __fastcall read_counted_input_text(char *text, int capacity)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+char *__fastcall lookup_input_filename(unsigned serial)
+{
+    __asm { int 3 }
+    return 0;
 }

@@ -2847,9 +2847,27 @@ static const ReconFunction functions[] = {
     {
         .name = "@read_control_fields@4",
         .entry_rva = 0x25898,
+        .code = (const ReconExtent[]){{0x25898, 0x2599f}, {0x6b401, 0x6b4c0}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x259a0, 0x259d4}, {0x259d8, 0x25a4a}},
+        .text_data_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "read_control_fields",
+    },
+    {
+        .name = "@read_counted_input_text@8",
+        .entry_rva = 0x8b2bd,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "read_control_fields",
+        .native_symbol = "read_counted_input_text",
+    },
+    {
+        .name = "@lookup_input_filename@4",
+        .entry_rva = 0x282d2,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "lookup_input_filename",
     },
     {
         .name = "_read_input_longlong",

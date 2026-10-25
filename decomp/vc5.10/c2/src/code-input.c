@@ -977,3 +977,105 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
     }
     return token;
 }
+
+/* Pragma 31 consumes one signed-long field. Other descriptor rows and the
+ * unused second DWORD of each row are unmodeled, not zero-valued defaults. */
+typedef struct C2ControlFields {
+    signed char *fields;
+    unsigned pending04;
+} C2ControlFields;
+static struct {
+    C2ControlFields pending00[31], signed_value;
+} input_control_fields = {{{0}}, {"\024", 0}};
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+#define INPUT_CONTROL_FIELDS(control) \
+    ((control) == 31 ? input_control_fields.signed_value.fields : \
+     (recon_unsupported("unmodeled input control fields"), (signed char *)0))
+#else
+#define INPUT_CONTROL_FIELDS(control) \
+    (((C2ControlFields *)&input_control_fields)[(control)].fields)
+#endif
+char *input_current_filename;
+unsigned input_pragma_value, input_saved_pragma_value;
+
+void __fastcall read_control_fields(C2ILToken *token)
+{
+    signed char *fields = INPUT_CONTROL_FIELDS((signed char)token->value.scalar.control);
+    union {
+        char text[0x80c];
+        struct { short code, state; } warnings[0x203];
+    } buffer;
+    unsigned bytes, index;
+    short length;
+    void *destination;
+    if (fields == NULL) return;
+    for (; *fields != 0; ++fields) {
+        switch (*fields) {
+        case 2:
+            token->value.integer = (long)(input_last_source_index +
+                                         (unsigned short)input_compact_short());
+            break;
+        case 11:
+            read_module_directive((signed char)c2_read_il_byte());
+            break;
+        case 12:
+            length = read_counted_input_text(buffer.text, 0x80a);
+            bytes = (int)length + 1;
+            destination = c2_pool_allocate(2, bytes);
+            token->value.scalar.low = (unsigned)destination;
+            buffer.text[length] = 0;
+            memcpy(destination, buffer.text, bytes);
+            break;
+        case 13:
+            c2_report_internal("E:\\utc\\src\\\\P2\\p2pragma.c", 142);
+            break;
+        case 14:
+            *(short *)&token->value.scalar.low = input_compact_short();
+            break;
+        case 20:
+            token->value.integer = input_compact_signed();
+            break;
+        case 22:
+            input_pragma_value = input_saved_pragma_value = input_varuint();
+            break;
+        case 23:
+            index = 0;
+            bytes = 4;
+            buffer.warnings[0].code = input_compact_short();
+            while (buffer.warnings[index].code != -1) {
+                buffer.warnings[index].state = (signed char)c2_read_il_byte();
+                ++index;
+                bytes += 4;
+                buffer.warnings[index].code = input_compact_short();
+            }
+            /* Original defect: the terminal pair's state is uninitialized,
+             * although all four bytes are copied. Keep that padding defined. */
+            buffer.warnings[index].state = 0;
+            destination = c2_pool_allocate(1, bytes);
+            token->value.scalar.argument.pointer = destination;
+            memcpy(destination, buffer.text, bytes);
+            break;
+        case 24:
+            token->value.scalar.low = input_varuint();
+            break;
+        case 108:
+            if (c2_il_extended_header) {
+                input_last_source_index = input_compact_signed();
+                token->value.integer = (long)input_last_source_index;
+                break;
+            }
+            /* Fall through to the old-format short source line. */
+        case 21:
+            token->value.integer = (long)input_compact_short();
+            break;
+        case 115:
+            input_current_filename = lookup_input_filename(input_varuint());
+            token->value.scalar.argument.text = input_current_filename;
+            token->opcode = 86;
+            break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\p2pragma.c", 219);
+            break;
+        }
+    }
+}

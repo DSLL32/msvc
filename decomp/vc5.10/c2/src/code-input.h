@@ -81,6 +81,8 @@ int __fastcall set_input_expression_type(C2Expression *expression, unsigned shor
 C2Expression * __fastcall new_function_exit(C2Function *function);
 void __fastcall read_input_type(C2ILToken *token);
 void __fastcall read_control_fields(C2ILToken *token);
+short __fastcall read_counted_input_text(char *text, int capacity);
+char *__fastcall lookup_input_filename(unsigned serial);
 unsigned __int64 read_input_longlong(void);
 unsigned __int64 read_input_qword(void);
 C2Real read_input_real(void);
