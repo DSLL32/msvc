@@ -599,3 +599,20 @@ void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *argume
     IrToken *selector = make_integer_constant(operation);
     emit_expression_statement(new_left_typed_expression(0x81,selector,arguments));
 }
+
+/* Original0x45d90..0x45deb, stdcall8/AX. Bound literal bytes by the
+   target array, retaining the original sixteen-bit multiplication/truncation. */
+unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value)
+{
+    TypeShape *shape = symbol->type->related;
+    unsigned short capacity;
+    if (symbol->attributes & 2) shape = shape->related;
+    capacity = (unsigned short)shape->data.array_bound;
+    capacity = (unsigned short)(capacity *
+        ((value->tail.string.auxiliary_flags & 1) ? 2U : 1U));
+    if (capacity && value->tail.string.length > capacity) {
+        report_syntax_error(117, value->value.text);
+        return capacity;
+    }
+    return value->tail.string.length;
+}
