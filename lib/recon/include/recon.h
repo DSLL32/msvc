@@ -282,6 +282,7 @@ long recon_wcstol(const WCHAR *,WCHAR **,int);
 int recon_swprintf(WCHAR *,const WCHAR *,...);
 int recon_iswctype(WCHAR,WCHAR);
 WCHAR recon_towupper(WCHAR);
+WCHAR __cdecl recon_towlower(WCHAR);
 WCHAR *recon_wcscpy(WCHAR *,const WCHAR *),*recon_wcsncpy(WCHAR *,const WCHAR *,size_t);
 unsigned recon_control87(unsigned,unsigned),recon_controlfp(unsigned,unsigned);
 void recon_apply_x87_empty_entry_profile(const char *,unsigned,unsigned,unsigned);
@@ -448,6 +449,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define swprintf recon_swprintf
 #define iswctype recon_iswctype
 #define towupper recon_towupper
+#define towlower recon_towlower
 #define wcscpy recon_wcscpy
 #define wcsncpy recon_wcsncpy
 #define _control87 recon_control87

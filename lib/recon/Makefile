@@ -591,6 +591,12 @@ build/tmpnam-surface-probe: tests/tmpnam-surface-probe.c $(SOURCES) $(HEADERS) |
 tmpnam-surface-check: build/tmpnam-surface-probe
 	$(PYTHON) tests/check-tmpnam-surface.py $<
 
+.PHONY: towlower-surface-check
+build/towlower-surface-probe: tests/towlower-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+towlower-surface-check: build/towlower-surface-probe
+	$(PYTHON) tests/check-towlower-surface.py $<
+
 build/trace-exec-driver: tests/trace-exec-driver.c include/recon-trace.h | build
 	$(CC) $(CFLAGS) $< -ldl -o $@
 build/native-image-module.so: tests/native-image-module.c $(SOURCES) $(HEADERS) | build

@@ -555,6 +555,10 @@ invocation fails explicitly with status125, including NULL and caller storage.
 This prevents unvisited target calls from escaping to host libc; no temporary
 name, allocation, output-buffer or successful service behavior is supported.
 
+towlower has the SDK WCHAR16 cdecl(WCHAR16) declaration and native remap.
+Every code unit, including NUL and ASCII, fails explicitly with status125;
+no successful conversion or locale behavior is supported. towupper is unchanged.
+
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.
 

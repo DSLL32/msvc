@@ -2501,6 +2501,12 @@ WEAK int recon_iswctype(WCHAR character,WCHAR mask)
     return character==' ' || (character>='\t' && character<='\r')?8:0;
 }
 
+WEAK WCHAR __cdecl recon_towlower(WCHAR character)
+{
+    (void)character;
+    recon_unsupported("unreviewed towlower");
+    return 0;
+}
 WEAK WCHAR recon_towupper(WCHAR character)
 {
     if (character>=128 || recon_lc_handle[2] || recon_lc_codepage)
