@@ -162,3 +162,12 @@ void __fastcall push_exception_scope(ExceptionScope *scope)
     exception_scope_stack[depth] = scope;
     exception_scope_stack_depth = depth + 1;
 }
+
+/* Original [000660d0,000660e8), including the internal alignment LEA.
+   Only the active top pointer is read; neither its pointee nor inactive
+   slots are consumed. Push/pop establish the valid depth0..20 contract. */
+ExceptionScope *__cdecl current_exception_scope(void)
+{
+    unsigned depth = exception_scope_stack_depth;
+    return depth ? exception_scope_stack[depth - 1] : 0;
+}

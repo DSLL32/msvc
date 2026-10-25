@@ -67,3 +67,21 @@ int c2_scope_current_inputs(void)
     return recon_native_at_entry((const void *)current_exception_scope,
         (const void *)current_entry,real_input,0)==1;
 }
+
+static void __cdecl pop_entry(void)
+{
+    Arena *arena=&arenas[1];
+    int valid=exception_scope_stack_depth==2&&
+        prepared_exception_scopes==exception_scope_stack[0]&&
+        (char *)exception_scope_stack[1]==arena->next-48&&
+        (char *)exception_scope_stack[0]>=(char *)arena->blocks+4&&
+        exception_scope_stack[0]<exception_scope_stack[1]&&
+        arena->next<=(char *)arena->blocks+1024&&
+        arena->remaining==(char *)arena->blocks+1024-arena->next;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_pop_inputs(void)
+{
+    return recon_native_at_entry((const void *)pop_exception_scope,
+        (const void *)pop_entry,real_input,0)==1;
+}

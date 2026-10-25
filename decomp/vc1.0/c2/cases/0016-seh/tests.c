@@ -6,6 +6,7 @@
 extern int c2_scope_owned_record(void);
 extern int c2_scope_push_inputs(void);
 extern int c2_scope_current_inputs(void);
+extern int c2_scope_pop_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -58,11 +59,27 @@ static int push_overflow_boundary(void)
     return recon_native_at_entry((const void *)compiler_internal_error,
         (const void *)overflow_entry,overflowing_push,&scope)==1;
 }
+/* Return identity and read-only storage, including null top pointers. */
+static int current_scopes(void)
+{
+    ExceptionScope records[20];unsigned d,i;
+    for(d=0;d<=20;++d){
+        for(i=0;i<20;++i)exception_scope_stack[i]=&records[i];
+        exception_scope_stack_depth=d;
+        if(current_exception_scope()!=(d?&records[d-1]:0))return 0;
+        if(exception_scope_stack_depth!=d)return 0;
+        for(i=0;i<20;++i)if(exception_scope_stack[i]!=&records[i])return 0;
+        if(d){exception_scope_stack[d-1]=0;if(current_exception_scope()!=0)return 0;}
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
     {"actual fastcall scope pointer/defined48B before push",1,c2_scope_push_inputs},
     {"scope push opaque-pointer store and20-slot boundary",1,push_scopes},
     {"scope push overflow reaches exact pending diagnostic",1,push_overflow_boundary},
-    {"actual current query consumes two live owned pointers",1,c2_scope_current_inputs}
+    {"actual current query consumes two live owned pointers",1,c2_scope_current_inputs},
+    {"current scope pointer identity with valid active depths",1,current_scopes},
+    {"actual scope pop receives two owned active pointers",1,c2_scope_pop_inputs}
 };

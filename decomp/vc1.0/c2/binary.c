@@ -1528,11 +1528,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_current_exception_scope",
         .entry_rva = 0x560d0,
-        .code = (const ReconExtent[]) { { 0x560d0, 0x560d1 } },
+        .code = (const ReconExtent[]) { { 0x560d0, 0x560e8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "current_exception_scope",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@rewrite_exception_expressions@4",

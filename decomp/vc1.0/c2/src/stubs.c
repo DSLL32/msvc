@@ -301,5 +301,4 @@ int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 void __fastcall rewrite_exception_expressions(Function *function) { __asm int 3 }
-ExceptionScope *__cdecl current_exception_scope(void) { __asm int 3 }
 void __cdecl pop_exception_scope(void) { __asm int 3 }
