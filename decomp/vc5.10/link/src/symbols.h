@@ -8,6 +8,12 @@
 extern "C" {
 #endif
 
+typedef struct ByteBuffer { BYTE *data; unsigned used, capacity; } ByteBuffer;
+typedef struct StringTreeNode {
+    DWORD offset;
+    struct StringTreeNode *left,*right;
+} StringTreeNode;
+typedef char StringTreeNodeSize[(sizeof(StringTreeNode)==12)?1:-1];
 typedef const char *(__stdcall *KeyNameFunction)(const void *,const void *);
 typedef struct HashState {
     DWORD split_bucket, base_buckets, bucket_count, entries, reserved10;
@@ -21,8 +27,10 @@ typedef struct HashState {
 } HashState;
 typedef struct HashTable {
     HashState *state;
-    const void *string_storage;
-    DWORD reserved[6];
+    /* These views describe the same embedded buffer, not separate storage. */
+    union { const void *string_storage; ByteBuffer strings; };
+    StringTreeNode *string_tree;
+    DWORD reserved[3];
 } HashTable;
 typedef struct HashEntry {
     void *value;
@@ -46,6 +54,8 @@ StringTable *__stdcall create_string_table(StringTable **,unsigned,unsigned);
 void __stdcall initialize_hash_table(HashTable *,unsigned,unsigned,KeyNameFunction,WORD);
 const char *__stdcall string_key_name(const void *,const void *);
 typedef char HashStateSize[(sizeof(HashState)==56)?1:-1];
+typedef char StringTreeAt10[(offsetof(HashTable,string_tree)==0x10)?1:-1];
+typedef char HashTableSize[(sizeof(HashTable)==32)?1:-1];
 typedef char StringStorageAt04[(offsetof(HashTable,string_storage)==4)?1:-1];
 typedef char StringTableSize[(sizeof(StringTable)==40)?1:-1];
 

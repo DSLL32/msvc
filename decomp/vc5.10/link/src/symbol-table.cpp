@@ -53,5 +53,3 @@ StringNode *RECON_THISCALL StringTable::LookupSymbol(WORD kind,const char *name,
 }
 extern "C" DWORD __stdcall append_symbol_string(StringTable *table,const char *name)
 { __asm { int 3 } return 0; }
-extern "C" DWORD __stdcall intern_symbol_string(StringTable *table,const char *name)
-{ __asm { int 3 } return 0; }

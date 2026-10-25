@@ -5870,6 +5870,11 @@
         "expected_cleanup": [
           20
         ]
+      },
+      "_intern_symbol_string@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

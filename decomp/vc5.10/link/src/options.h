@@ -11,7 +11,6 @@ extern "C" {
 /* The directive owner is the only module field this dispatcher consumes. */
 typedef struct DirectiveModule { DWORD reserved[6]; void *owner; } DirectiveModule;
 typedef struct IncludeSymbol { StringNode *symbol; struct IncludeSymbol *next; } IncludeSymbol;
-typedef struct ByteBuffer { BYTE *data; unsigned used, capacity; } ByteBuffer;
 
 void __stdcall configure_link_options(LinkContext *,DirectiveModule *,const char *);
 BYTE __stdcall switch_number(SwitchInfo *,WORD,DWORD *);

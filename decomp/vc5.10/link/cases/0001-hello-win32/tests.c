@@ -514,6 +514,22 @@ static int intern_symbol(void)
     return recon_native_at_entry(intern_symbol_string,check_intern_symbol,
         invoke_hello,NULL)==1;
 }
+extern void *__stdcall allocate_symbol_string_block(unsigned);
+extern BYTE *symbol_string_pool;
+extern DWORD symbol_string_pool_remaining,symbol_string_pool_previous;
+extern DWORD symbol_string_pool_size;
+static void *__stdcall check_string_tree_pool(unsigned bytes)
+{
+    recon_native_entry_finish(bytes==12 && !symbol_string_pool &&
+        !symbol_string_pool_remaining && !symbol_string_pool_previous &&
+        symbol_string_pool_size==4096);
+    return NULL;
+}
+static int string_tree_pool(void)
+{
+    return recon_native_at_entry(allocate_symbol_string_block,check_string_tree_pool,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -538,5 +554,6 @@ const ReconTest hello_tests[]={
     {"comdat-symbol-name",1,comdat_symbol_name},
     {"comdat-symbol-lookup",1,comdat_lookup},
     {"comdat-hash-lookup",1,comdat_hash_lookup},
-    {"intern-symbol",1,intern_symbol}
+    {"intern-symbol",1,intern_symbol},
+    {"string-tree-pool",1,string_tree_pool}
 };
