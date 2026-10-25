@@ -102,7 +102,7 @@ def native_library(name,exe,data,entry,symbols,at,dll=False,progress=False):
         if at(rva)[:2]==b'\xff\x25':
             records.append(f'{{.name="import:{symbol}",.entry_rva={rva},.code=(const ReconExtent[]){{{{{rva},{rva+6}}}}},.code_count=1,.definition=RECON_IMPORT_NAME,.import_dll="kernel32.dll",.import_name="{symbol.lstrip(chr(95)).split(chr(64))[0]}"}}')
     registry='#include "recon-tool.h"\nstatic const ReconFunction functions[]={\n'+',\n'.join(records)+'\n};\n'
-    registry+=f'const ReconBinary binary_descriptor={{.abi_version=1,.struct_size=sizeof(ReconBinary),.name="original-test",.original_path="{exe}",.original_sha256="{hashlib.sha256(data).hexdigest()}",.original_entry_rva={entry},.functions=functions,.function_count=RECON_COUNT(functions)}};\n'
+    registry+=f'const ReconBinary binary_descriptor={{.abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconBinary),.name="original-test",.original_path="{exe}",.original_sha256="{hashlib.sha256(data).hexdigest()}",.original_entry_rva={entry},.functions=functions,.function_count=RECON_COUNT(functions)}};\n'
     (root/'binary.c').write_text(registry);(root/'app.c').write_text(DLL_NATIVE if dll else NATIVE_SOURCE)
     includes=['-I'+str(TOOL_ROOT/'include')]
     common=['gcc','-m32','-fPIC','-O0','-g',*includes]
@@ -135,7 +135,7 @@ def build_case(root,number,symbols,dll=False,direct=False,progress=False):
             return 1;
         }}\n'''
     code+='static const uint32_t order[]={'+','.join(map(str,order))+'};\n'
-    code+='const ReconCase case_descriptor={.abi_version=1,.struct_size=sizeof(ReconCase),.name="'+number+'",.description="authored shared transport test",.first_entry_order=order,.first_entry_count=RECON_COUNT(order),'
+    code+='const ReconCase case_descriptor={.abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconCase),.name="'+number+'",.description="authored shared transport test",.first_entry_order=order,.first_entry_count=RECON_COUNT(order),'
     code+=f'.execution={"RECON_DIRECT" if direct else "RECON_IO"},.terminal={"RECON_FRONTIER" if progress else "RECON_EXIT"},.frontier_rva={probe if progress else 0},'
     code+='.direct=direct_native' if direct else '.io='+('dll_adapter' if dll else 'adapter')
     code+='};\n';(case/'case.c').write_text(code)

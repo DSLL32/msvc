@@ -26,6 +26,7 @@ pub struct Function {
     pub import_dll: *const c_char,
     pub import_name: *const c_char,
     pub import_ordinal: u32,
+    pub original_symbol: *const c_char,
 }
 #[repr(C)]
 pub struct Export {
@@ -94,6 +95,7 @@ pub struct FunctionInfo {
     pub name: String,
     pub rva: u32,
     pub native_symbol: Option<String>,
+    pub original_symbol: Option<String>,
     pub definition: u32,
     pub implementation: u32,
     pub code: Vec<[u32; 2]>,
@@ -165,9 +167,9 @@ impl Loaded {
         let case = unsafe { *library.get::<*const Case>(b"case_descriptor\0")? };
         let binary = unsafe { binary.as_ref() }.context("NULL binary_descriptor")?;
         let case = unsafe { case.as_ref() }.context("NULL case_descriptor")?;
-        if binary.abi_version != 1
+        if binary.abi_version != 2
             || binary.struct_size as usize != size_of::<Binary>()
-            || case.abi_version != 1
+            || case.abi_version != 2
             || case.struct_size as usize != size_of::<Case>()
         {
             bail!("descriptor ABI/version/size mismatch")
@@ -225,6 +227,11 @@ impl Loaded {
                 name: unsafe { string(f.name) }?,
                 rva: f.entry_rva,
                 native_symbol,
+                original_symbol: if f.original_symbol.is_null() {
+                    None
+                } else {
+                    Some(unsafe { string(f.original_symbol) }?)
+                },
                 definition: f.definition,
                 implementation: f.implementation,
                 code: ranges(f.code, f.code_count)?,
@@ -318,6 +325,7 @@ mod tests {
             name: "old_frontier".into(),
             rva: 0x8180,
             native_symbol: Some("old_frontier".into()),
+            original_symbol: None,
             definition: 4,
             implementation: 0,
             code: vec![[0x8180, 0x8200]],

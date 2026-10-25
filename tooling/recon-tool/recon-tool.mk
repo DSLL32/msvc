@@ -46,12 +46,18 @@ ifeq ($(RECON_AUDIT_REGISTRY_METADATA),1)
 RECON_AUDIT_METADATA ?= $(ORIGINAL_BUILD)/graph-metadata.json
 endif
 include $(RECON_TOOL_DIR)/../graph-audit/graph-audit.mk
-RECON_REGISTRY_OUTPUTS := $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),$(RECON_AUDIT_METADATA))
-$(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
+ifeq ($(RECON_AUDIT_REGISTRY_RET_CHECKS),1)
+RECON_AUDIT_RET_CHECKS ?= $(BINARY_BUILD)/ret-checks.json
+RECON_AUDIT_FLAGS += --ret-checks $(RECON_AUDIT_RET_CHECKS)
+RECON_AUDIT_PREREQUISITES += $(RECON_AUDIT_RET_CHECKS)
+endif
+RECON_REGISTRY_OUTPUTS := $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),$(RECON_AUDIT_METADATA)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RET_CHECKS)),$(RECON_AUDIT_RET_CHECKS))
+RECON_PROJECTION_INPUTS := $(if $(RECON_METADATA_REBUILT_MAP),$(ORIGINAL_OUTPUT) $(RECON_METADATA_REBUILT_MAP))
+$(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_PROJECTION_INPUTS) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
 	@test -n "$(CASE_DIRS)" || { echo 'Registry export needs a numbered case' >&2; exit 1; }
 	@test -n "$(RECON_IMAGE_BASE)" || { echo 'Set RECON_IMAGE_BASE for registry export' >&2; exit 1; }
 	@mkdir -p $(dir $(RECON_REGISTRY_OUTPUTS))
-	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA))
+	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RET_CHECKS)),--ret-checks-output $(RECON_AUDIT_RET_CHECKS)) $(if $(RECON_METADATA_REBUILT_MAP),--rebuilt-image $(ORIGINAL_OUTPUT) --rebuilt-map $(RECON_METADATA_REBUILT_MAP))
 # CRT naming for the rebuilt image is shared read-only analysis, never Wine.
 ifeq ($(RECON_AUDIT_IDENTIFY_RUNTIME),1)
 RECON_AUDIT_RUNTIME ?= $(ORIGINAL_BUILD)/runtime.json

@@ -6,7 +6,7 @@
 extern "C"
 {
 #endif
-#define RECON_ABI_VERSION 1u
+#define RECON_ABI_VERSION 2u
 #define RECON_EXPORT __attribute__((visibility("default")))
 #define RECON_COUNT(a) ((uint32_t)(sizeof(a) / sizeof((a)[0])))
     /* All ranges are half-open original image RVAs. */
@@ -40,6 +40,7 @@ extern "C"
         const char *native_symbol; /* ELF symbol, including static or mangled names. */
         const char *import_dll, *import_name;
         uint32_t import_ordinal;
+        const char *original_symbol; /* Optional original-toolchain MAP symbol; name otherwise. */
     } ReconFunction;
     typedef struct ReconExport
     {

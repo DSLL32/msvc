@@ -19,11 +19,32 @@ the ephemeral workspace; keep authoring JSON and reports outside case folders.
 `inspect CASE.so` prints descriptors. `registry-export CASE --image-base 65536
 --policy policy-data.json --output .build/functions.json` projects the binary's
 single registry for the existing graph auditor. `--metadata-output PATH` also
-projects declared callback tables for the graph audit. Policy data must not duplicate
+projects finite `policy.graph_metadata` (schema 1, functions, callback tables and
+register-import contracts), retaining empty callback tables. Policy data must not duplicate
 `target`, `accepted`, or `driver`. Original-compiler builds and audits remain
 separate. Native execution never invokes Wine.
 
-Include `include/recon-tool.h` for the versioned C ABI. A binary Makefile defines
+Include `include/recon-tool.h` for descriptor ABI **2**. Rebuild the binary and
+case modules when this header changes; old descriptor versions are rejected.
+`ReconFunction.original_symbol` optionally supplies the original compiler's MAP
+name; `native_symbol` remains the ELF name, and `name` the logical identity.
+Pending App entries with unknown extents remain in the registry but are omitted
+from graph-driver projection. Known implemented/CRT extents remain mandatory.
+
+Metadata annotations cannot override registry names, extents, classifications or
+implementation status. Rebuilt address values may be
+`{"rebuilt_symbol":"exact MAP symbol","offset":12}`; use
+`--rebuilt-image PE --rebuilt-map MAP` to resolve them after PE/MAP base and
+timestamp validation. Switch maps can be authored as
+`[{"site":address,"targets":[address,...]}]`; register-call maps
+`resolved_register_calls` and `direct_import_calls` may likewise use
+`[{"site":address,"identity":identity}]`. These become the auditor's ordinary
+address-keyed objects. `--ret-checks-output PATH` projects the separate finite
+`policy.ret_checks` schema 1/functions/expected_cleanup contract.
+Shared make exposes `RECON_METADATA_REBUILT_MAP`,
+`RECON_AUDIT_REGISTRY_RET_CHECKS=1` and optional `RECON_AUDIT_RET_CHECKS`.
+
+A binary Makefile defines
 its source lists/flags, then includes `recon-tool.mk` once. It builds the
 reconstruction, `binary.c`, and uninstrumented support into one PIC `libbinary.so`.
 `case.mk` links only case glue/tests against that library. `binary.mk` remains
@@ -309,7 +330,9 @@ are rejected/unsupported. ANSI transport requires ASCII paths, arguments and
 explicit environment strings; arbitrary file/stream bytes are preserved. Native
 replay supports saved pipe/events.
 Arguments are a complete argv vector, defaulting to `[binary_descriptor.name]`.
-`stdin_kind` is `file` by default; set `pipe` for stdin/close events. Normal IO
+`stdin_kind` is `file` by default; set `pipe` for stdin/close events, or
+`null` for genuine `/dev/null` (native) / `NUL` (original) device input. Null
+input requires omitting `stdin`; it cannot contain stdin/close events. Normal IO
 completion uses libc exit with application tracing active through atexit callbacks.
 
 The native SIGTRAP observer records the actual PC/cause, verifies INT3, and resolves

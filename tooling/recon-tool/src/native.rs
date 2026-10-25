@@ -531,6 +531,8 @@ fn supervise(case_path: &Path, f: &Fixture, tests: bool, debug: &debug::Options)
                 bail!("nonblocking stdin pipe")
             }
             (input, Some(writer))
+        } else if f.stdin_kind == fixture::StdinKind::Null {
+            (File::open("/dev/null")?, None)
         } else {
             fs::write(
                 root.join("stdin"),

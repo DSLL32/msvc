@@ -599,6 +599,16 @@ impl LinkMap {
         Ok(&entries[0])
     }
 }
+/// Resolve public MAP addresses only after checking its identity against the PE.
+pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32>>> {
+    let pe = Pe::parse(fs::read(image)?)?;
+    let map = LinkMap::parse(&fs::read_to_string(map)?, &pe)?;
+    Ok(map
+        .symbols
+        .into_iter()
+        .map(|(name, values)| (name, values.into_iter().map(|v| v.address).collect()))
+        .collect())
+}
 fn validate_override(
     pe: &Pe,
     map: &LinkMap,

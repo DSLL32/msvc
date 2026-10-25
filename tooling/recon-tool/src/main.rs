@@ -6,6 +6,7 @@ mod fixture;
 mod native;
 mod original;
 mod original_image;
+mod projection;
 mod runtime;
 mod status;
 mod toolchain;
@@ -30,18 +31,7 @@ enum Command {
     /// Inspect descriptors without running the case.
     Inspect { case: PathBuf },
     /// Generate graph-audit's legacy config from the single binary registry.
-    RegistryExport {
-        case: PathBuf,
-        #[arg(long)]
-        image_base: u32,
-        #[arg(long)]
-        policy: Option<PathBuf>,
-        /// Project declared callback tables for graph-audit alongside the registry.
-        #[arg(long)]
-        metadata_output: Option<PathBuf>,
-        #[arg(short, long)]
-        output: Option<PathBuf>,
-    },
+    RegistryExport(projection::Options),
     /// Run native case(s), asserting trace, terminal and available final oracle.
     Run {
         #[arg(required = true)]
@@ -116,100 +106,7 @@ fn execute() -> Result<()> {
             "{}",
             serde_json::to_string_pretty(&native::inspect(&case.canonicalize()?)?)?
         ),
-        Command::RegistryExport {
-            case,
-            image_base,
-            policy,
-            metadata_output,
-            output,
-        } => {
-            let path = if case.is_dir() {
-                case.join(".build/case.so")
-            } else {
-                case
-            };
-            let info = native::inspect(&path.canonicalize()?)?;
-            let mut v = if let Some(policy) = policy {
-                serde_json::from_slice::<serde_json::Value>(&fs::read(policy)?)?
-            } else {
-                serde_json::json!({})
-            };
-            anyhow::ensure!(v.is_object(), "policy must be a JSON object");
-            for field in ["target", "accepted", "driver"] {
-                anyhow::ensure!(
-                    v.get(field).is_none(),
-                    "policy must not duplicate registry field {field}"
-                )
-            }
-            let add = |rva: u32| image_base.checked_add(rva).context("original VA overflow");
-            v["target"] = serde_json::json!({"sha256":info.original_sha256,"base":image_base,"entry":add(info.original_entry_rva)?});
-            v["accepted"] = serde_json::to_value(
-                info.functions
-                    .iter()
-                    .filter(|f| {
-                        f.definition == 4 && f.implementation == 1 || matches!(f.definition, 1..=3)
-                    })
-                    .map(|f| &f.name)
-                    .collect::<Vec<_>>(),
-            )?;
-            let mut drivers = vec![];
-            for f in &info.functions {
-                if f.definition != 4 && !(f.definition == 3 && f.native_symbol.is_some()) {
-                    continue;
-                }
-                let entry = f
-                    .code
-                    .iter()
-                    .find(|r| r[0] <= f.rva && f.rva < r[1])
-                    .context("driver function entry not in code extents")?;
-                anyhow::ensure!(
-                    entry[0] == f.rva,
-                    "graph-audit requires primary code extent to begin at entry"
-                );
-                let mut row = serde_json::json!({"name":f.name,"start":add(entry[0])?,"end":add(entry[1])?,"shared":f.text_data.iter().map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?,"code_chunks":f.code.iter().filter(|r|*r!=entry).map(|r|Ok([add(r[0])?,add(r[1])?])).collect::<Result<Vec<_>>>()?});
-                if f.definition == 3 {
-                    row["category"] = serde_json::json!("runtime")
-                };
-                drivers.push(row);
-            }
-            v["driver"] = serde_json::to_value(drivers)?;
-            if let Some(path) = metadata_output {
-                let mut tables = vec![];
-                for table in v["tables"].as_array().into_iter().flatten() {
-                    if table["kind"] != "function_pointers" {
-                        continue;
-                    }
-                    let functions = table["functions"]
-                        .as_array()
-                        .context("callback table functions")?;
-                    let begin = table["original"]
-                        .as_u64()
-                        .context("callback table original address")?;
-                    let end = begin
-                        .checked_add(
-                            (functions.len() as u64)
-                                .checked_mul(4)
-                                .context("callback table size overflow")?,
-                        )
-                        .context("callback table extent overflow")?;
-                    let name = table["name"].as_str().context("callback table name")?;
-                    tables.push(serde_json::json!({"label":name,"original":[begin,end],"rebuilt_begin":name,"count":functions.len(),"require_accepted":false}));
-                }
-                anyhow::ensure!(!tables.is_empty(), "missing declared callback tables");
-                fs::write(
-                    path,
-                    serde_json::to_string_pretty(
-                        &serde_json::json!({"schema":1,"functions":{},"callback_tables":tables}),
-                    )? + "\n",
-                )?;
-            }
-            let text = serde_json::to_string_pretty(&v)? + "\n";
-            if let Some(output) = output {
-                fs::write(output, text)?
-            } else {
-                print!("{text}")
-            }
-        }
+        Command::RegistryExport(options) => projection::export(options)?,
         Command::Original { command } => match command {
             OriginalCommand::Tool(options) => toolchain::run(options)?,
             OriginalCommand::Capture(options) => original::capture(options)?,

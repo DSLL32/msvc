@@ -125,6 +125,7 @@ pub enum StdinKind {
     #[default]
     File,
     Pipe,
+    Null,
 }
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
@@ -258,6 +259,9 @@ impl Fixture {
                 bail!("invalid readonly dependency")
             }
         }
+        if self.stdin_kind == StdinKind::Null && self.stdin.is_some() {
+            bail!("stdin_kind: null cannot contain stdin bytes (omit stdin)")
+        }
         let mut closed = false;
         for e in &self.events {
             if matches!(e.action, Action::Stdin { .. } | Action::CloseStdin)
@@ -310,4 +314,21 @@ pub fn write(path: &Path, f: &Fixture) -> Result<()> {
     b.extend(data);
     fs::write(path, b)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod transport_tests {
+    use super::*;
+    #[test]
+    fn null_input_is_a_device_not_empty_file_bytes() {
+        let f: Fixture = serde_json::from_value(serde_json::json!({"stdin_kind":"null"})).unwrap();
+        assert!(f.validate().is_ok());
+        for value in [
+            serde_json::json!({"stdin_kind":"null","stdin":"hex:"}),
+            serde_json::json!({"stdin_kind":"null","events":[{"after_ms":0,"action":{"kind":"close_stdin"}}]}),
+        ] {
+            let f: Fixture = serde_json::from_value(value).unwrap();
+            assert!(f.validate().is_err());
+        }
+    }
 }

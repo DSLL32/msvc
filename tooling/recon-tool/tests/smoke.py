@@ -57,6 +57,7 @@ try:
     run('atexit','0006',dict(args=['fixture','atexit'],stdout='text:bye\n',stderr='text:',exit_code=0,
         output_files=[dict(path='exit.txt',data='text:closed')],reject_unexpected_files=True))
     run('default-argv','0004',dict(env={'RECON_CHECK_ARGV':'1'},stdout='text:argc=1 argv0=fixture\n',stderr='text:',exit_code=0))
+    run('null-stdin','0004',dict(stdin_kind='null',env={'RECON_CHECK_NULL':'1'},stdout='text:null\n',stderr='text:',exit_code=0))
     run('wrong-frontier','0007',dict(args=['fixture','backtrap']),passed=False)
     run('direct-false','0005',dict(env={'RECON_DIRECT_FAIL':'1'},exit_code=1),passed=False)
     run('wrong-output', '0000', dict(args=['fixture'], stdin='text:x\n', stdout='text:WRONG'), passed=False)

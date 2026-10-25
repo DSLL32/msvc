@@ -523,7 +523,11 @@ fn capture_executor(
         .arg(commandline)
         .arg(image.entry.to_string())
         .arg(windows(cwd, &options.repo)?)
-        .arg(windows(&stdin, &options.repo)?)
+        .arg(if f.stdin_kind == fixture::StdinKind::Null {
+            "NUL".to_owned()
+        } else {
+            windows(&stdin, &options.repo)?
+        })
         .arg(windows(&stdout, &options.repo)?)
         .arg(windows(&stderr, &options.repo)?)
         .arg(program_windows)
@@ -728,7 +732,7 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
         "original capture timeout must be at most one day"
     );
     anyhow::ensure!(
-        f.stdin_kind == fixture::StdinKind::File,
+        f.stdin_kind != fixture::StdinKind::Pipe,
         "original pipe stdin capture is not implemented; captured stdin transport is never silently changed"
     );
     anyhow::ensure!(

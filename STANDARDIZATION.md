@@ -382,7 +382,15 @@ remain separate. Direct calls use ECX/EDX and stack words for ordinary MSVC ABIs
 not arbitrary register conventions such as Watcom watcall.
 
 Current original capture transport is single-threaded, ANSI/ASCII-path/argument based,
-and uses regular-file stdin. It rejects pipe/timed-console events rather than
+and uses regular-file or explicit null-device stdin. It rejects pipe/timed-console events rather than
 silently changing them. Native replay can still exercise saved interactive cases.
 DLLs without an entry point and repeated target-module reload are unsupported. SIGKILL of a supervisor can leave a folder;
 its `.owner` marker and saved workspace path support explicit manual cleanup.
+
+Descriptor ABI 2 appends an optional `original_symbol` MAP name while preserving
+logical and native ELF identities separately. `registry-export` merges finite
+`policy.graph_metadata`, resolves explicit rebuilt symbol+offset address leaves
+with a matching PE/MAP, and can project separate RET checks. Unknown-extent
+unimplemented App entries stay registered but are omitted from audit driver
+rows; no original extent is invented. `stdin_kind: null` preserves genuine
+native `/dev/null` and original `NUL` semantics.

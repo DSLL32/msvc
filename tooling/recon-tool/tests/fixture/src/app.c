@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/wait.h>
+#include <sys/stat.h>
 #include <unistd.h>
 int fixture_add(int a, int b) { return a + b; }
 int fixture_trap(void)
@@ -21,6 +22,14 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_NULL"))
+    {
+        struct stat status;
+        if (fstat(0, &status) || !S_ISCHR(status.st_mode) || getchar() != EOF)
+            return 8;
+        puts("null");
+        return 0;
+    }
     if (getenv("RECON_CHECK_ARGV"))
     {
         printf("argc=%d argv0=%s\n", argc, argc ? argv[0] : "none");
