@@ -28,6 +28,6 @@ void __stdcall rc_expand_macro_arguments(RcMacro *macro,int count);
 const WCHAR *__stdcall rc_substitute_macro_argument(int *expanded);
 int __cdecl rc_macro_identifier_follows(void);
 void __stdcall rc_append_macro_text(const WCHAR *text);
-int __cdecl rc_macro_is_wide(void);
-void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide);
+const WCHAR *__cdecl rc_macro_argument_text(void);
+void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,const WCHAR *text);
 #endif

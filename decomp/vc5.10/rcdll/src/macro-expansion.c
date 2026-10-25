@@ -136,10 +136,10 @@ continue_expansion:
                 rc_evaluate_defined(rc_macro_name);
             continue;
         case 37:
-            rc_copy_expanded_quoted(L'"',rc_macro_is_wide());
+            rc_copy_expanded_quoted(L'"',rc_macro_argument_text());
             continue;
         case 38:
-            rc_copy_expanded_quoted(L'\'',rc_macro_is_wide());
+            rc_copy_expanded_quoted(L'\'',rc_macro_argument_text());
             continue;
         }
         *rc_number_buffer++=character;
@@ -278,10 +278,10 @@ collect_argument:
                 rc_append_macro_text(rc_substitute_macro_argument(&expanded));
                 continue;
             case 37:
-                rc_copy_expanded_quoted(L'"',rc_macro_is_wide());
+                rc_copy_expanded_quoted(L'"',rc_macro_argument_text());
                 continue;
             case 38:
-                rc_copy_expanded_quoted(L'\'',rc_macro_is_wide());
+                rc_copy_expanded_quoted(L'\'',rc_macro_argument_text());
                 continue;
             }
             ARGUMENT_WRITE_SPACE();

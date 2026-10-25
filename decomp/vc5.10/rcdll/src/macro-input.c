@@ -189,6 +189,32 @@ const WCHAR *__stdcall rc_substitute_macro_argument(int *expanded)
     return cursor+1;
 }
 
+const WCHAR *__cdecl rc_macro_argument_text(void)
+{
+    unsigned short index;
+    WCHAR *cursor;
+#ifdef RECON_NATIVE_TEST
+    RcMacro *macro;
+    if(rc_expanding_macro<1||rc_expanding_macro>=64||
+       ((DWORD)rc_source_cursor&1)){ __asm int 3 }
+    macro=rc_macro_frames[rc_expanding_macro].macro;
+    if(!macro||!macro->text||
+       (DWORD)rc_source_cursor<(DWORD)macro->text||
+       (DWORD)rc_source_cursor>=(DWORD)(macro->text+wcslen(macro->text))){ __asm int 3 }
+#endif
+    index=*rc_source_cursor++;
+    cursor=rc_macro_frames[rc_expanding_macro].output;
+    if(index>rc_macro_frames[rc_expanding_macro].arguments)return NULL;
+    if(index){
+        while(--index){
+            ARGUMENT_RECORD(cursor);
+            cursor=(WCHAR *)((char *)cursor+*(short *)cursor);
+        }
+    }
+    ARGUMENT_RECORD(cursor);
+    return cursor+1;
+}
+
 #undef ARGUMENT_RECORD
 
 #ifdef RECON_NATIVE_TEST

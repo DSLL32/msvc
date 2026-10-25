@@ -168,12 +168,8 @@ void __stdcall rc_macro_buffer_fatal(unsigned message)
 }
 
 
-int __cdecl rc_macro_is_wide(void)
-{
-    __asm int 3
-    return 0;
-}
-void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,int wide)
+
+void __stdcall rc_copy_expanded_quoted(WCHAR delimiter,const WCHAR *text)
 {
     __asm int 3
 }

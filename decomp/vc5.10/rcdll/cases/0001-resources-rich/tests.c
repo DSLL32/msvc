@@ -376,6 +376,26 @@ static int quoted_output_contract(void)
     quoted_resume=long_text+254;
     return recon_native_at_entry(rc_write_preprocessed,quoted_write_boundary,quoted_invoke,NULL)==1;
 }
+static int raw_macro_argument_contract(void)
+{
+    WCHAR text[]={1,L')',0};
+    WCHAR *spelling=rc_string_buffer+1024;
+    RcMacro macro={NULL,L"RAW",text,2,1,0};
+    memset(rc_string_buffer,0xa7,sizeof(rc_string_buffer));
+    spelling[0]=L'a';spelling[1]=0;
+    rc_macro_output_cursor=rc_string_buffer;
+    rc_pack_macro_argument(spelling,spelling+1);
+    spelling[0]=L'b';
+    rc_pack_macro_argument(spelling,spelling+1);
+    rc_expanding_macro=1;rc_macro_frames[1].arguments=2;
+    rc_macro_frames[1].macro=&macro;rc_macro_frames[1].output=rc_string_buffer;
+    rc_source_cursor=text;
+    if(rc_macro_argument_text()!=rc_string_buffer+1||rc_source_cursor!=text+1)return 0;
+    text[0]=2;rc_source_cursor=text;
+    if(rc_macro_argument_text()!=rc_string_buffer+5||rc_source_cursor!=text+1)return 0;
+    text[0]=3;rc_source_cursor=text;
+    return !rc_macro_argument_text()&&rc_source_cursor==text+1;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -390,6 +410,7 @@ const ReconTest rich_tests[]={
     {"identifier-lookahead-contract",1,identifier_lookahead_contract},
     {"interior-numeric-spelling-contract",1,interior_number_contract},
     {"quoted-output-chunk-contract",1,quoted_output_contract},
+    {"raw-macro-argument-contract",1,raw_macro_argument_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
