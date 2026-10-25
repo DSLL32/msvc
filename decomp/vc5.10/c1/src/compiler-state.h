@@ -85,6 +85,7 @@ typedef struct CompilerInitializedState {
     /* RVA5e398: mutable ctime-derived text, including original extra NUL.
      * Date/time macros borrow slices of the reformatted text. */
     char predefined_time_text[26];
+    unsigned macro_reset_value; /* RVA5e3fc, default0; reset by macro setup */
     /* Last: snapshot transfer excludes all unknown size slots. */
     CompilerRecordSizes record_sizes;
 } CompilerInitializedState;
@@ -268,6 +269,9 @@ typedef struct CompilerBss {
     int preprocessor_header_ready; /* RVA54f28; suppresses initial global header */
     CompilerVector *pending_forced_includes; /* RVA54da8 */
     short forced_include_index; /* RVA54dac */
+    BYTE *macro_token_cursor; /* RVA5003c; first work-buffer cursor */
+    BYTE *macro_text_cursor; /* RVA50040; second work-buffer cursor */
+    BYTE *saved_macro_text_cursor; /* RVA50034 */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

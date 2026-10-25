@@ -147,7 +147,12 @@ extern "C" char *__cdecl format_predefined_time(long stamp)
     return c1_data.predefined_time_text;
 }
 extern "C" void __cdecl initialize_macro_buffers(void)
-{ __asm { int 3 } }
+{
+    c1_data.macro_reset_value = 0;
+    c1_bss.macro_token_cursor = c1_bss.work_buffers[0].data;
+    c1_bss.macro_text_cursor = c1_bss.work_buffers[1].data;
+    c1_bss.saved_macro_text_cursor = c1_bss.work_buffers[1].data;
+}
 extern "C" void __cdecl define_command_line_macro(char *definition)
 { __asm { int 3 } }
 extern "C" void __cdecl define_preprocessor_macro(const char *text, unsigned length, int kind)

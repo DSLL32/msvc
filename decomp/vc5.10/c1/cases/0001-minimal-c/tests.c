@@ -308,11 +308,13 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
         memcmp(c1_data.predefined_time_text, "......Unknown date......\0", 26) ||
+        c1_data.macro_reset_value != 0 ||
         c1_data.global_symbol_cache_index != 9 ||
         c1_data.anonymous_global_symbol || c1_data.local_size_symbol ||
         c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
         return 0;
     memset(c1_data.predefined_time_text, 0x37, 26);
+    c1_data.macro_reset_value = 83;
     c1_data.type_arena_kind = 2;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
@@ -339,6 +341,7 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
     }
     memset(c1_data.predefined_time_text, 0x61, 26);
+    c1_data.macro_reset_value = 97;
     saved->first_call = 0;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
@@ -360,7 +363,8 @@ static int type_arena_snapshot(void)
     for (i = 0; i < 26; ++i)
         if (c1_data.predefined_time_text[i] != 0x37 ||
             saved->predefined_time_text[i] != 0x37) return 0;
-    return c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
+    return c1_data.macro_reset_value == 83 && saved->macro_reset_value == 83 &&
+        c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&
         c1_data.record_sizes.known.abstract_symbol_bytes == 43 &&
@@ -466,7 +470,27 @@ static int symbol_size_indexing(void)
         if (owned[i] != 0xa5) return 0;
     return 1;
 }
-const ReconTest minimal_tests[33] = {
+extern void __cdecl initialize_macro_buffers(void);
+static int macro_buffer_reset(void)
+{
+    BYTE first[3] = { 0xa5, 0x96, 0x87 };
+    BYTE second[3] = { 0x78, 0x69, 0x5a };
+    c1_data.macro_reset_value = 37;
+    c1_bss.work_buffers[0].data = first + 1;
+    c1_bss.work_buffers[1].data = second + 1;
+    c1_bss.macro_token_cursor = second + 2;
+    c1_bss.macro_text_cursor = first;
+    c1_bss.saved_macro_text_cursor = first + 2;
+    initialize_macro_buffers();
+    return !c1_data.macro_reset_value &&
+        c1_bss.macro_token_cursor == first + 1 &&
+        c1_bss.macro_text_cursor == second + 1 &&
+        c1_bss.saved_macro_text_cursor == second + 1 &&
+        first[0] == 0xa5 && first[1] == 0x96 && first[2] == 0x87 &&
+        second[0] == 0x78 && second[1] == 0x69 && second[2] == 0x5a;
+}
+const ReconTest minimal_tests[34] = {
+    { "macro reset preserves work-buffer identities and all owned bytes", 1, macro_buffer_reset },
     { "symbol allocator uses only known indexed sizes, byte kind and aligned stride", 1, symbol_size_indexing },
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
