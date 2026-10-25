@@ -1,7 +1,9 @@
 #include <io.h>
 #include <new.h>
+#include <string.h>
 #include "frontend.h"
 #include "packing.h"
+#pragma intrinsic(memset)
 #include <recon.h>
 
 extern "C" {
@@ -412,8 +414,20 @@ CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol
 void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerSymbolTable::Check(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerSymbolTable::Link(CompilerIrSymbol *symbol) { __asm { int 3 } }
+extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void);
 CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *base,
-    const CompilerSourcePosition *position) { __asm { int 3 } return this; }
+    const CompilerSourcePosition *position)
+{
+    /* The actual initializer clears all48 object bytes, including the fields
+     * whose meanings remain unrecovered. This is not an image-state copy. */
+    memset(this, 0, sizeof(*this));
+    symbol = make_abstract_declarator();
+    this->position = *position;
+    base_type = base;
+    return this;
+}
+extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void)
+{ __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription *parameters)
 { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)

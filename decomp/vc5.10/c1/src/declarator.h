@@ -17,7 +17,7 @@ struct CompilerDeclarator {
     CompilerDeclarationAttributes attributes;
     BYTE unmodeled_14[8];
     CompilerSourcePosition position;
-    CompilerIrSymbol *scope;
+    CompilerIrSymbol *symbol;
     CompilerType *resolved_type;
     unsigned flags;
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const CompilerSourcePosition *);
