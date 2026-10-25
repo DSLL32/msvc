@@ -16,7 +16,17 @@ typedef struct handle_info {
     const char *filename;
 } HANDLE_INFO;
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
-typedef struct WResDirHead *WResDir;
+#pragma pack(1)
+typedef struct WResDirHead {
+    unsigned short NumResources;
+    unsigned short NumTypes;
+    struct WResTypeNode *Head;
+    struct WResTypeNode *Tail;
+    unsigned short TargetOS;
+} WResDirHead;
+#pragma pack()
+typedef char WlibResourceDirectorySize[(sizeof(WResDirHead) == 14) ? 1 : -1];
+typedef WResDirHead *WResDir;
 extern WResDir MainDir;            /* Original VA 0x430444. */
 
 /* Only the encountered prefix of the resource callback table is defined. */
@@ -26,11 +36,15 @@ struct WResRoutines {
     int (*write)( int, const void *, unsigned );
     int (*read)( int, void *, unsigned );
     long (*seek)( int, long, int );
+    long (*tell)( int );
+    void *(*alloc)( unsigned );
+    void (*free)( void * );
 };
 extern struct WResRoutines WResRtns;
 extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
-    WRS_OPEN_FAILED = 5
+    WRS_OPEN_FAILED = 5,
+    WRS_MALLOC_FAILED = 13
 } WResStatus;
 
 int OpenResFile( HANDLE_INFO *instance );

@@ -37,12 +37,6 @@ void WresRecordError( WResStatus status )
     WLIB_FRONTIER();
 }
 
-WResDir WResInitDir( void )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
-
 int WResReadDir( int handle, WResDir dir, int *dup_discarded )
 {
     WLIB_FRONTIER();

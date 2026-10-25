@@ -46,7 +46,8 @@
 #endif
 
 /* Encountered prefix of the resource callback table at 0x42044c. */
-struct WResRoutines WResRtns = { open, close, write, read, res_seek };
+struct WResRoutines WResRtns = { open, close, write, read, res_seek,
+                                 tell, malloc, free };
 long FileShift;
 WResDir MainDir;
 
@@ -75,6 +76,25 @@ int InitResources( HANDLE_INFO *instance )
         return( -1 );
     }
     return( WResReadDir( instance->handle, MainDir, NULL ) );
+}
+
+/* Original 0x419c70..0x419cb8. Reused from initial-commit
+   bld/sdk/rc/wres/c/wrinitdi.c; the packed directory header is 14 bytes. */
+WResDir WResInitDir( void )
+{
+    WResDirHead *newdir;
+
+    newdir = (*WResRtns.alloc)( sizeof(WResDirHead) );
+    if( newdir == NULL ) {
+        WresRecordError( WRS_MALLOC_FAILED );
+    } else {
+        newdir->NumResources = 0;
+        newdir->NumTypes = 0;
+        newdir->TargetOS = 1;       /* WRES_OS_WIN16 */
+        newdir->Head = NULL;
+        newdir->Tail = NULL;
+    }
+    return( newdir );
 }
 
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.

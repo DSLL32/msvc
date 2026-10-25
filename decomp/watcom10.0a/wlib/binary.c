@@ -525,7 +525,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]) { {0x19c70, 0x19cb8} },
         .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResInitDir",
         .original_symbol = "WResInitDir_",
     },
