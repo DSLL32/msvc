@@ -185,6 +185,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_initialize_exception_scope_table": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -6,6 +6,7 @@
 #include "register-transfers.h"
 #include "instruction-selection.h"
 #include "seh-selection.h"
+#include "intrinsic-selection.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -369,14 +370,25 @@ static void scope_table_entry(void)
         !seh_finally_stack&&!seh_registration&&!seh_saved_stack&&second&&!second->next&&
         first->kind==1&&first->state==1&&!first->identifier&&!first->finally_depth&&
         first->parent_identifier==-1&&first->handler_label&&first->filter_label&&
-        first->alternate_label&&!first->field24&&!first->locals&&first->flags==1&&
+        first->alternate_label&&first->filter_label->identifier==191&&
+        first->handler_label->identifier==192&&!first->field24&&!first->locals&&first->flags==1&&
         second->kind==2&&second->state==1&&second->identifier==1&&!second->finally_depth&&
         !second->parent_identifier&&second->handler_label&&!second->filter_label&&
-        second->alternate_label&&!second->field24&&!second->locals&&!second->flags;
+        second->alternate_label&&second->handler_label->identifier==194&&!second->field24&&!second->locals&&!second->flags;
     recon_native_entry_finish(valid);
 }
 int c2_scope_table_inputs(void)
 {
     return recon_native_at_entry((const void *)initialize_exception_scope_table,
         (const void *)scope_table_entry,real_input,0)==1;
+}
+
+static SymbolHeader *__fastcall external_name_entry(char *name)
+{
+    recon_native_entry_finish(!memcmp(name,"__except_list",14));
+}
+int c2_external_name_inputs(void)
+{
+    return recon_native_at_entry((const void *)lookup_external_name,
+        (const void *)external_name_entry,real_input,0)==1;
 }

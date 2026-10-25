@@ -3,6 +3,7 @@
 #include "intrinsic-selection.h"
 #include "records.h"
 #include "bitsets.h"
+#include "initializers.h"
 #include <recon.h>
 extern unsigned code_pointer_bytes;
 BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes,
@@ -186,4 +187,55 @@ unsigned short __fastcall select_assembly_record(Node *node)
         break;
     }
     return 0x1a;
+}
+
+/* Original [0001d3b0,0001d4d2). Each scope contributes three DWORDs:
+   its parent state and the optional filter/handler label addresses. The
+   table symbol and scope chain belong to the active function. */
+void initialize_exception_scope_table(void)
+{
+    Initializer *block = new_initializer(0), *datum, **tail;
+    ExceptionScope *scope;
+    block->content.reference.symbol_id = seh_scope_table->symbol.identifier;
+    tail = &block->next;
+    for (scope = current_function->exception_scopes; scope; scope = scope->next) {
+        datum = new_initializer(1);
+        *tail = datum;
+        datum->repeat = 1;
+        datum->content.datum.bytes = 4;
+        datum->content.datum.type = 1;
+        datum->content.datum.value.integer = scope->parent_identifier;
+        tail = &datum->next;
+        if (scope->filter_label) {
+            datum = new_initializer(2);
+            *tail = datum;
+            datum->content.relocation.offset = 0;
+            datum->content.relocation.flags = 4;
+            datum->content.relocation.symbol_id = scope->filter_label->identifier;
+        } else {
+            datum = new_initializer(1);
+            *tail = datum;
+            datum->repeat = 1;
+            datum->content.datum.bytes = 4;
+            datum->content.datum.type = 1;
+            datum->content.datum.value.integer = 0;
+        }
+        tail = &datum->next;
+        if (scope->handler_label) {
+            datum = new_initializer(2);
+            *tail = datum;
+            datum->content.relocation.offset = 0;
+            datum->content.relocation.flags = 4;
+            datum->content.relocation.symbol_id = scope->handler_label->identifier;
+        } else {
+            datum = new_initializer(1);
+            *tail = datum;
+            datum->repeat = 1;
+            datum->content.datum.bytes = 4;
+            datum->content.datum.type = 1;
+            datum->content.datum.value.integer = 0;
+        }
+        tail = &datum->next;
+    }
+    insert_initializer(block);
 }

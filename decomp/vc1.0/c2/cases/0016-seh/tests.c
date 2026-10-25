@@ -7,6 +7,7 @@
 #include "global-registers.h"
 #include "register-transfers.h"
 #include "seh-selection.h"
+#include "initializers.h"
 #include <recon-native.h>
 #include <recon.h>
 extern Node *free_nodes;
@@ -34,6 +35,7 @@ extern int c2_restore_excluded_inputs(void);
 extern int c2_register_ends_inputs(void);
 extern int c2_assembly_record_inputs(void);
 extern int c2_scope_table_inputs(void);
+extern int c2_external_name_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -745,6 +747,39 @@ static int seh_missing_owner_boundaries(void)
             (const void *)missing_seh_owner,invoke_missing_seh_owner,(void *)i)!=1)return 0;}
     return 1;
 }
+static int seh_scope_table_records(void)
+{
+    Function function;BackendSymbol table;ExceptionScope scopes[3];SymbolHeader labels[6];
+    Initializer *block,*datum;unsigned row,i,j;long parents[]={-1,0,0x7fffffffL};
+    memset(&function,0,sizeof function);memset(&table,0,sizeof table);
+    memset(labels,0,sizeof labels);for(i=0;i<6;++i)labels[i].identifier=100+i;
+    current_function=&function;seh_scope_table=&table;table.symbol.identifier=991;
+    global_initializers=0;initialize_exception_scope_table();block=global_initializers;
+    if(!block||block->kind||block->next||block->content.reference.link||
+       block->content.reference.value||block->content.reference.symbol_id!=991)return 0;
+    for(row=0;row<4;++row){
+        memset(scopes,0,sizeof scopes);function.exception_scopes=scopes;
+        for(i=0;i<3;++i){scopes[i].next=i==2?0:&scopes[i+1];scopes[i].parent_identifier=parents[i];
+            scopes[i].filter_label=row&1?&labels[i*2]:0;
+            scopes[i].handler_label=row&2?&labels[i*2+1]:0;}
+        global_initializers=0;initialize_exception_scope_table();block=global_initializers;
+        if(!block||block->kind||block->content.reference.symbol_id!=991||
+           block->content.reference.link||block->content.reference.value)return 0;
+        datum=block->next;
+        for(i=0;i<3;++i)for(j=0;j<3;++j){
+            SymbolHeader *label=j==1?scopes[i].filter_label:scopes[i].handler_label;
+            if(!datum)return 0;
+            if(j&&label){if(datum->kind!=2||datum->content.relocation.offset||
+                datum->content.relocation.flags!=4||datum->repeat||
+                datum->content.relocation.symbol_id!=label->identifier)return 0;}
+            else if(datum->kind!=1||datum->repeat!=1||datum->content.datum.bytes!=4||
+                datum->content.datum.type!=1||datum->content.datum.value.integer!=(j?0:parents[i]))return 0;
+            datum=datum->next;
+        }
+        if(datum||function.exception_scopes!=scopes||table.symbol.identifier!=991)return 0;
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -805,5 +840,7 @@ const ReconTest c2_tests[]={
     {"SEH annotations preserve operation order and registration owners",1,seh_annotation_operations},
     {"SEH intrinsic memory operations and returned register identities",1,seh_intrinsic_operations},
     {"SEH missing owners reach exact diagnostic boundaries",1,seh_missing_owner_boundaries},
-    {"actual scope-table initializer hidden function/two-scope/symbol owners",1,c2_scope_table_inputs}
+    {"actual scope-table initializer hidden function/two-scope/symbol owners",1,c2_scope_table_inputs},
+    {"scope table owns threeDWORD rows and optional label relocations",1,seh_scope_table_records},
+    {"actual external-name ECX consumes exact except-list literal",1,c2_external_name_inputs}
 };

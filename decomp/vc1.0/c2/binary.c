@@ -9809,11 +9809,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_initialize_exception_scope_table",
         .entry_rva = 0xd3b0,
-        .code = (const ReconExtent[]) { { 0xd3b0, 0xd3b1 } },
+        .code = (const ReconExtent[]) { { 0xd3b0, 0xd4d2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initialize_exception_scope_table",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@emit_label@4",
