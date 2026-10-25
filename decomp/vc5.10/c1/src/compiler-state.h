@@ -34,6 +34,9 @@ typedef struct CompilerInitializedState {
     int browser_enabled, browser_full;              /* RVA5ef90/5ef94 */
     int normalized_stack_checks;                    /* RVA5efa8; default1 */
     int normalized_oq;                              /* RVA5f2d0 */
+    unsigned browser_mode;                          /* RVA5e3c4 */
+    struct CompilerBackend *named_browser;            /* RVA5e3d0 */
+    struct CompilerBackend *initial_backend;          /* RVA5e3d4 */
     int pch_separate_debug;                         /* RVA5f338 */
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of

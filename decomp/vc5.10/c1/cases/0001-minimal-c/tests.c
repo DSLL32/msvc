@@ -43,8 +43,10 @@ static int processor_instruction_mask(void)
     normalize_frontend_options();
     return c1_bss.processor_instruction_mask == 0x50;
 }
-const ReconTest minimal_tests[3] = {
+extern int c1_test_browser_factory(void);
+const ReconTest minimal_tests[4] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
-    { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask }
+    { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
+    { "browser factory shared slots and owned filename prefix", 1, c1_test_browser_factory }
 };

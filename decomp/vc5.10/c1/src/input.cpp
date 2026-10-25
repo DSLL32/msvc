@@ -28,7 +28,7 @@ void RECON_THISCALL CompilerPlainInput::Close(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerPlainInput::Location(unsigned first, unsigned second) { __asm { int 3 } }
 int RECON_THISCALL CompilerPlainText::TakeText(BYTE **bytes, unsigned *length) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerPlainText::MapLocation(unsigned first, unsigned second, unsigned third) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerPlainText::Reset(void) { __asm { int 3 } }
+/* Reset shares the original Lexer::Reset body through the alias identity map. */
 int RECON_THISCALL CompilerRecordedInput::Begin(const void *context) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerRecordedInput::End(const void *context) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerRecordedInput::Flush(void) { __asm { int 3 } }
