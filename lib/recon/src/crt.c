@@ -2506,8 +2506,21 @@ char *__cdecl recon_unDName(char *output,const char *name,int capacity,
 
 int __cdecl recon_wcsicmp(const WCHAR *left,const WCHAR *right)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned a,b;
+    ascii_multibyte_scope();
+    if(!left || !right) recon_unsupported("_wcsicmp NULL argument");
+    for(;;) {
+        a=*left++;b=*right++;
+        if(a>=128 || b>=128) recon_unsupported("_wcsicmp nonASCII comparison prefix");
+        if(a>='A' && a<='Z') a+='a'-'A';
+        if(b>='A' && b<='Z') b+='a'-'A';
+        if(a!=b || !a) return (int)a-(int)b;
+    }
+#else
     (void)left;(void)right;
     recon_unsupported("unreviewed _wcsicmp");return 0;
+#endif
 }
 WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
 {

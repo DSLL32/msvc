@@ -542,9 +542,17 @@ errors/FP/FILE/lowio preservation, same-inode denials and other-inode mapping.
 _wcsicmp has the SDK STRING.H234/WCHAR.H689 cdecl int(const WCHAR*,const WCHAR*)
 declaration/remap, with native16-bit units. RCDLL's actual IAT109c/calla139 and
 eight-byte caller cleanup establish the boundary; signed EAX is consumed.
-Every input denies125, including NULL/empty/ASCII/nonASCII. No comparison,
-case-folding, locale or host wchar32 behavior is supported by this typed slice.
-`make wcsicmp-surface-check` verifies typing/denials/no plain host import.
+The generic profile still denies125. Explicit510 supports nonNULL readable
+ASCII comparison prefixes under the existing default-C/LC_CTYPE/codepage/MB1
+guard: fold A..Z by32, stop at unequal units or NUL, and return the unsigned16
+folded difference. The authenticated canonical3fcd..40a4 zero-locale branch has
+no calls/stores/error/FP work. NonASCII units that would be read and unsupported
+state deny; unread tails are not inspected. Native checks cover source/tables,
+exact ordering/differences, error/full108-byte-FP preservation and guard-page
+stopping. Original per-call state remains unmeasured; RCDLL reuses its genuine
+0143 receipt, without an API-only original or host wchar32 conversion. The
+generic `wcsicmp-surface-check` retains denial/type checks; the explicit510
+success/guards use `make wcsicmp-ascii-check`.
 
 The Watcom100A profile alone remaps bare open to a distinct cdecl variadic
 typed boundary and supplies encountered O_BINARY=0x0200 (O_RDONLY=0). Every

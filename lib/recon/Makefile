@@ -665,6 +665,15 @@ build/wcsicmp-surface-probe: tests/wcsicmp-surface-probe.c $(SOURCES) $(HEADERS)
 wcsicmp-surface-check: build/wcsicmp-surface-probe
 	$(PYTHON) tests/check-wcsicmp-surface.py $<
 
+.PHONY: wcsicmp-ascii-check
+build/wcsicmp-ascii-default: tests/wcsicmp-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/wcsicmp-ascii-510: tests/wcsicmp-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+wcsicmp-ascii-check: build/wcsicmp-ascii-default build/wcsicmp-ascii-510
+	$(PYTHON) tests/check-wcsicmp-ascii.py $< default
+	$(PYTHON) tests/check-wcsicmp-ascii.py build/wcsicmp-ascii-510
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
