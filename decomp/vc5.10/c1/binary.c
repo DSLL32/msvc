@@ -988,8 +988,9 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_acquire_initial_backend", .entry_rva = 0x10591,
-.code = (const ReconExtent[]){{0x10591, 0x10592}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x10591, 0x1059f}, {0x2f73b, 0x2f761}},
+.code_count = 2, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
 .native_symbol = "acquire_initial_backend",
     },
     {

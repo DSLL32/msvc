@@ -260,7 +260,6 @@ extern "C" void __cdecl normalize_frontend_options(void)
         c1_bss.processor_instruction_mask |= 0x40;
 }
 extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
-extern "C" CompilerBackend *__cdecl acquire_initial_backend(void) { __asm { int 3 } return NULL; }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_preprocessor(void) { __asm { int 3 } }

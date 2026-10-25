@@ -80,6 +80,15 @@ extern "C" void __cdecl begin_browser_output(const char *filename)
     }
 }
 
+extern "C" CompilerBackend *__cdecl acquire_initial_backend(void)
+{
+    if (!c1_data.initial_backend) {
+        void *memory = ::operator new(4);
+        c1_data.initial_backend = memory ? new(memory) CompilerNullBrowser : NULL;
+    }
+    return c1_data.initial_backend;
+}
+
 void RECON_THISCALL CompilerNullBrowser::Slot20(void *value) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNullBrowser::Slot28(void *value) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 }  }

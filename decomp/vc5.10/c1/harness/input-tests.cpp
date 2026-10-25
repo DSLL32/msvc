@@ -64,3 +64,23 @@ extern "C" int c1_test_browser_factory(void)
     recon_cpp_delete(default_object);
     return 1;
 }
+
+extern "C" CompilerBackend *__cdecl acquire_initial_backend(void);
+extern "C" int c1_test_backend_getter(void)
+{
+    unsigned owned_marker = 0;
+    CompilerBackend *first, *second;
+    begin_browser_output(NULL);
+    first = c1_data.initial_backend;
+    if (!first || acquire_initial_backend() != first) return 0;
+    c1_data.initial_backend = NULL;
+    c1_data.browser_mode = 37;
+    c1_data.named_browser = (CompilerBackend *)&owned_marker;
+    second = acquire_initial_backend();
+    if (!second || second == first || c1_data.initial_backend != second ||
+        *(void **)second != *(void **)first || c1_data.browser_mode != 37 ||
+        c1_data.named_browser != (CompilerBackend *)&owned_marker) return 0;
+    recon_cpp_delete(first);
+    recon_cpp_delete(second);
+    return 1;
+}
