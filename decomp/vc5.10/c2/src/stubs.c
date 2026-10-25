@@ -7,7 +7,7 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2Record *new_statement_boundary(void)
+C2SmallNode *__fastcall allocate_small_node(unsigned char kind)
 {
     __asm { int 3 }
     return NULL;

@@ -2162,8 +2162,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_new_statement_boundary",
         .entry_rva = 0x2277,
+        .code = (const ReconExtent[]){{0x2277, 0x228c}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_statement_boundary",
     },
     {
@@ -2260,6 +2262,13 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_IMPLEMENTED,
         .native_symbol = "align_stack_storage",
+    },
+    {
+        .name = "@allocate_small_node@4",
+        .entry_rva = 0x10da,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "allocate_small_node",
     },
     {
         .name = "_controlfp",

@@ -35,6 +35,14 @@ C2ScopeHash *new_function_scope(void)
     return scope;
 }
 
+C2Record *new_statement_boundary(void)
+{
+    C2Record *record = (C2Record *)allocate_small_node(24);
+    record->opcode = 0x179;
+    record->line = 0;
+    return record;
+}
+
 C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
 {
     C2Function *function;
