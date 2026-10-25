@@ -213,7 +213,7 @@ void compile_functions(void)
         function_pass_result = 0;
         if (c2_global_optimize) {
             rebuild_function_flow(function);
-            function_pass_402b6e(function);
+            group_symbol_records(function);
             function_pass_state = 0;
         }
         if (!(function->flags & 0x800)) {
@@ -228,7 +228,7 @@ void compile_functions(void)
             function_pass_state = 0;
             function_pass_42f060(function);
             function_pass_state = 0;
-            function_pass_402b6e(function);
+            group_symbol_records(function);
             function_pass_state = 0;
             function_pass_402c2c(function);
             function_pass_42f3e4(function);
@@ -315,7 +315,7 @@ void __fastcall canonicalize_function(C2Function *function)
 void __fastcall function_pass_4088c7(C2Function *function)
 {
     rebuild_function_flow(function);
-    function_pass_402b6e(function);
+    group_symbol_records(function);
     function_pass_402c2c(function);
     function_pass_4088f4(function);
     function_pass_408ab8(function);

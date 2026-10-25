@@ -704,3 +704,38 @@ void __fastcall unlink_and_release_input_record(C2Record *record)
     next->previous = previous;
     release_small_node(record);
 }
+
+void __fastcall group_symbol_records(C2Function *function)
+{
+    C2Expression *record = (C2Expression *)function->flow->last->records;
+    C2Expression *first = NULL, *last = NULL, *anchor = NULL, *next;
+    int active = 0, have_boundary = 0;
+    while (record) {
+        next = record->next;
+        if (record->kind != 21) {
+            if (record->kind == 25) {
+                if (!active) {
+                    active = 1;
+                    have_boundary = symbol_range_boundary(record);
+                    first = anchor = record;
+                    last = NULL;
+                } else if (symbol_range_boundary(record)) {
+                    if (!have_boundary) {
+                        have_boundary = 1;
+                        anchor = record;
+                        last = record;
+                    } else {
+                        if (last) splice_symbol_record_range(first, last, anchor);
+                        first = anchor = record;
+                        last = NULL;
+                    }
+                } else
+                    last = record;
+            } else if (active) {
+                if (last) splice_symbol_record_range(first, last, anchor);
+                active = 0;
+            }
+        }
+        record = next;
+    }
+}
