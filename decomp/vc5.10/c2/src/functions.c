@@ -302,7 +302,7 @@ void __fastcall canonicalize_function(C2Function *function)
     if (limit < 1000) limit = 1000;
     else if (limit > 35000) limit = 35000;
     retain_function_input_pool = 1;
-    changed = canonicalize_function_input(function, 1, limit, 0);
+    changed = inline_function_calls(function, 1, limit, 0);
     retain_function_input_pool = 0;
     reset_input_pool(4);
     input_source_line_base = function->source_line_base;

@@ -190,7 +190,7 @@ typedef struct C2FunctionSymbol {
     C2FunctionListing *listing;
     union {
         unsigned pending62;
-        struct { unsigned short pending62_low; short temporary_count; };
+        struct { short parameter_count, temporary_count; };
     };
     struct C2FunctionSymbol *pending_next;
     unsigned additional_flags;

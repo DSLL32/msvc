@@ -28,6 +28,8 @@ BINARY_SOURCES = crt/math-error.c \
     src/records.c \
     src/symbol-input.c \
     src/functions.c \
+    src/inlining.c \
+    src/inlining-stubs.c \
     src/function-records.c \
     src/register-sets.c \
     src/function-setup.c \
@@ -70,7 +72,7 @@ RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Preserve encountered compiler intrinsic choices and the genuine CRT thunk.
-$(addprefix $(ORIGINAL_BUILD)/obj/src/,option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj function-setup.c.obj small-nodes.c.obj flow.c.obj code-input.c.obj code-records.c.obj function-reader.c.obj): ORIGINAL_CFLAGS += /Oi
+$(addprefix $(ORIGINAL_BUILD)/obj/src/,option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj function-setup.c.obj small-nodes.c.obj flow.c.obj code-input.c.obj code-records.c.obj function-reader.c.obj inlining.c.obj): ORIGINAL_CFLAGS += /Oi
 $(ORIGINAL_BUILD)/obj/crt/precision.c.obj: ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /ML /Zl
 $(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
 	@mkdir -p $(@D)
