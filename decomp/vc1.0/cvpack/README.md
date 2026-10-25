@@ -1,21 +1,22 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **266 accepted application
-functions, 75,066 original code bytes, and 9 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **268 accepted application
+functions, 75,346 original code bytes, and 7 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`type_server_record_init` (sequence 266, 29 original code bytes, `src/pdb.c`),
-after `type_server_fill_alloc` (sequence 265, 38 bytes).
+`convert_old_based_register` (sequence 268, 159 original code bytes,
+`src/oldsymbols.c`), after `convert_old_based_data16` (sequence 267, 121 bytes).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 79 application functions.
+The resumed workload has accepted 81 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All nineteen cached cases and nineteen unit executors, the original
-compiler build and strict graph/ABI/data audits passed the 266-function gate
-in 7.193s. Seventeen cases complete; 0013 and parked 0015 retain explicit frontiers. The previous baseline ended at `type_server_close` (sequence 187,
+checks. All nineteen active cached cases and nineteen unit executors pass.
+The original compiler and strict 268-function graph/ABI/data gate passed in
+2.009s; final active-case discovery/check/unit/audit verification passed in
+0.661s. Eighteen cases complete; 0013 retains its explicit BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -66,6 +67,34 @@ Fresh masked original/native runs match 25 first entries and complete
 input provenance and full command logs remain under owned
 `resume-20261025/0019-pdb-record-api/` scratch.
 
+
+`0020-cfig-symbol-api` is internal serializer API coverage using unchanged shipped
+`toolchains/watcom10.0a/bin/CFIG386.EXE`, 80,575 bytes, SHA256
+`c9adb1a1b7c9a37f8ea2f365bf4d21b1220855e01436f981b3d3430a002cfc5f`.
+Its authentic NB02 payload is the historical 37,096-byte SHA256
+`2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4`;
+no directory, signature or record is changed. After genuine buffered CLI file
+initialization, the zero-argument hook reads and closes the real input owner.
+It passes all 423 actual BP-relative/data/register declarations (307/106/10) to
+`convert_old_based_symbol(output,input)` with caller-owned buffers. Every input
+record remains unchanged. Exact output includes module/offset, raw input bytes,
+returned size and every converted byte; its 16,504-byte SHA256 is
+`86c61cd8a4cd1417137e7ca21591c327f680b9958386a7f6625e6ff67efdc9b8`.
+Fresh masked original/native runs match all 28 first entries and complete
+(original 1279.282 ms; native 21.490 ms, including 6.881 ms setup,
+12.704 ms execution and 1.906 ms checks). Native candidate rebuild was
+0.477s; original typed-helper compilation was 6.665s. This does not establish
+based-pointer CLI reach or wide-record coverage. The superseded mapped setup
+left its small input extended because of the known leaked mapping handle;
+that raw attempt remains in scratch and is not part of this buffered fixture.
+
+Seven application stubs remain: the varying BARRAY control defect; two packed
+NB08 reader/writer routines for which no genuine NB08 provider is available;
+two 32-bit based-symbol serializers without authentic wide C6 records; and the
+two one-byte no-op C6 callbacks. The available CFIG386 artifact has no based-
+pointer leaves or wide register-relative records. No synthetic wide records,
+format relabelling or constant BARRAY substitute is used to claim completion.
+
 There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,
 valid 16/32-bit local symbols, multiple files and contributions. Its exact
@@ -97,18 +126,25 @@ The versioned workload now completes with all 141 unseeded first entries,
 exit 0, matching streams and exact defined output bytes. Its two unwritten
 module-filename padding bytes (`0x33` and `0x5f`) are excluded from the comparison
 hash, and its callback requires actual native zeroes. Both original bytes were
-already zero, so the raw and canonical output hashes coincide. `0015-based-symbol-families` independently exercises C6 based pointers whose
-embedded symbol offsets identify actual bprel/data/register records in the same
-module's loaded local stream. Its two modules cover narrow and wide families,
-with self/type/segment forms and base kinds93/94/97/98; BARRAY is excluded.
-`scripts/make-based-symbol-input.py OUTPUT_DIRECTORY` reproduces the authored
-1,320-byte input SHA256 `4fb473791a75b1c5aeed6ab6cd4084f8bad4f98a7deaff250c8ff9c821716e52`.
-The original accepts it without warnings (exit0,118 entries), raw2,432-byte
-output SHA256 `17696a0ae7fd41cc7e5fb764b6988898d6118622b9c1678ff1157c355936d77e`.
-This hand-authored workload is parked unfinished at
-`convert_old_based_data16` (`0x13920`), with 76 matching unseeded first entries.
-At the user's direction, new work uses ordinary compiler/linker-produced
-artifacts rather than additional constructed debug records. The replacement `0016-superpad-embedded` uses the unchanged shipped MFC 2.0
+already zero, so the raw and canonical output hashes coincide.
+
+The historical hand-authored `cases/0015-based-symbol-families` workload is
+parked and removed from the active case tree at the user's direction. Its
+1,320-byte input SHA256 was
+`4fb473791a75b1c5aeed6ab6cd4084f8bad4f98a7deaff250c8ff9c821716e52`;
+the original full oracle had 118 entries and raw 2,432-byte output SHA256
+`17696a0ae7fd41cc7e5fb764b6988898d6118622b9c1678ff1157c355936d77e`.
+Its last qualified partial descriptor stopped at `convert_old_based_data16`,
+76 entries. That frontier is now implemented through the genuine 0020 case;
+the old descriptor cannot remain a valid runnable regression. No new frontier
+was invented and the old oracle was not relabelled or rerun. The entire folder,
+including ignored build files, is preserved at
+`~/.ai-tmp/msvc2/vc1.0/cvpack/resume-20261025/0015-based-symbol-families/parked-final-tree-20261025/`
+and in Git through `d8357e775`. `PARKED.json` in that scratch parent records the
+reason and confirms no unfinished source body existed only in the folder.
+The historical generator remains a reproduction recipe, not the next workload.
+New work uses genuine producer artifacts rather than constructed debug records.
+The replacement `0016-superpad-embedded` uses the unchanged shipped MFC 2.0
 SUPERPAD text-editor sample from `toolchains/1.0-nt/mfc/SAMPLES/SUPERPAD`.
 Original NMAKE/CL/RC/LINK build its supplied project with normal debug/PCH
 options, `/Z7` embedded types (also the option in supplied `SAMPLE_.MAK`),
@@ -172,7 +208,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the seventeen numbered `case.c` descriptors, and runs their
+automatically discovers the nineteen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -181,8 +217,9 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Fifteen dispatched cases complete;0013 retains its matching BARRAY frontier
-and0015 its parked based-symbol frontier;0016 and0017 SUPERPAD both complete. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+Eighteen dispatched cases complete; 0013 retains its matching BARRAY frontier.
+0015 is retired from the active tree. All active cases retain explicit unseeded
+first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent
@@ -218,9 +255,10 @@ is not application code credit. Other short matches
 are unchanged, and the raw former rows remain in Git and the owned snapshot.
 The 14-row C6 symbol sizing and conversion tables have exercised their valid
 16/32-bit families. Their two nonadvancing/no-op callbacks remain pending.
-The based-pointer converter also identifies pending `get_old_symbol` and
-`convert_old_based_symbol` helpers through genuine optional calls; these grant
-no body credit.
+`get_old_symbol` and `convert_old_based_symbol` were accepted through the
+historical workload; the genuine CFIG386 API case independently exercises the
+serializer dispatcher and its narrow record families. The two wide serializers
+remain pending.
 `runtime-policy.json` qualifies the original `__sopen`, `__freebuf` and `_setvbuf`
 variants as CRT identity boundaries with exact extents, hashes and provenance.
 The original mask leaves these CRT bodies executable while unfinished App code

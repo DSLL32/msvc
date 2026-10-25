@@ -2401,7 +2401,7 @@
       },
       "_convert_old_based_register": {
         "abi": "unsigned short convert_old_based_register(unsigned char *,unsigned char *)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
         "roots": [],
         "return_bits": 16
@@ -2422,7 +2422,7 @@
       },
       "_convert_old_based_data16": {
         "abi": "unsigned short convert_old_based_data16(unsigned char *,unsigned char *)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
         "roots": [],
         "return_bits": 16

@@ -652,6 +652,24 @@ unsigned short convert_old_based_symbol(unsigned char *output, unsigned char *in
     return old_based_converters[i].narrow(output, input);
 }
 
+/* Original [00023780,0002381f): widen the C6 register byte for S_REGISTER. */
+unsigned short convert_old_based_register(unsigned char *output, unsigned char *input)
+{
+    unsigned char *start = output;
+    unsigned short count = input[0]-4;
+    unsigned short length = input[0]+4;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(output+2) = 2;
+    *(unsigned short *)(output+4) = *(unsigned short *)(input+2);
+    *(unsigned short *)(output+6) = input[4];
+    input += 5;
+    output += 8;
+    while (count--) *output++ = *input++;
+    while (padding--) *output++ = 0;
+    return (unsigned short)(output-start);
+}
+
 unsigned short convert_old_based_bprel16(unsigned char *output, unsigned char *input)
 {
     unsigned char *start = output;
@@ -660,6 +678,22 @@ unsigned short convert_old_based_bprel16(unsigned char *output, unsigned char *i
     unsigned padding = 3-((length-1)&3);
     *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
     *(unsigned short *)(output+2) = 0x100;
+    input += 2;
+    output += 4;
+    while (count--) *output++ = *input++;
+    while (padding--) *output++ = 0;
+    return (unsigned short)(output-start);
+}
+
+/* Original [00023920,00023999): serialize a genuine C6 16-bit data declaration. */
+unsigned short convert_old_based_data16(unsigned char *output, unsigned char *input)
+{
+    unsigned char *start = output;
+    unsigned short count = input[0]-1;
+    unsigned short length = input[0]+3;
+    unsigned padding = 3-((length-1)&3);
+    *(unsigned short *)output = (unsigned short)(((length+3)&0xfffc)-2);
+    *(unsigned short *)(output+2) = 0x101;
     input += 2;
     output += 4;
     while (count--) *output++ = *input++;

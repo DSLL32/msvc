@@ -4080,8 +4080,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_register",
         .entry_rva = 0x13780,
+        .code = (const ReconExtent[]){{0x13780, 0x1381f}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_based_register",
     },
     {
@@ -4103,8 +4105,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_based_data16",
         .entry_rva = 0x13920,
+        .code = (const ReconExtent[]){{0x13920, 0x13999}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_based_data16",
     },
     {
