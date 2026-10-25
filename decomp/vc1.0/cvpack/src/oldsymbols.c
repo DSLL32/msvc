@@ -500,3 +500,8 @@ void size_old_procedure32(void)
     ++symbol_scope_depth;
     module_type_base += 23;
 }
+
+void size_old_bprel32(void)
+{
+    module_type_base += 5;
+}
