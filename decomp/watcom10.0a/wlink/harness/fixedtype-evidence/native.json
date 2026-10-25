@@ -1,0 +1,51 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-TWQA4N",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360,
+      215304,
+      151696,
+      151116,
+      151756,
+      215240,
+      223408,
+      209700,
+      209668,
+      224900,
+      232368,
+      234080,
+      224344,
+      230256,
+      230404,
+      224096,
+      230192,
+      230064
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 230064,
+    "trap_site": 4153972886,
+    "elapsed_ms": 17.175798,
+    "setup_ms": 9.892945,
+    "execution_ms": 2.9440750000000007,
+    "checks_ms": 4.338893,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-fixedtype/original.json",
+      "report_sha256": "883e4102cb5f1145de8f15de1a798b7ff234db0e04859d32e6427623b2b3c98c",
+      "capture_sha256": "fbbbb15a368c4f847d5a7fe35c8daef1ae324d70606fe7e8cace799442f19911",
+      "source_binding_available": true
+    }
+  }
+]

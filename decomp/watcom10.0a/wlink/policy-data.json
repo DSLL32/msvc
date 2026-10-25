@@ -111,6 +111,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "WResReadFixedTypeRecord": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

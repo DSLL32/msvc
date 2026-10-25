@@ -2,11 +2,11 @@
   "scope": "Exact original-compiler module contribution; no terminal linker alignment. No text_data or additional body permission.",
   "rebuilt_PE": {
     "path": "build/WLINK.EXE",
-    "sha256": "ad80e9bf9cc28c61ce33fb1559d9eb40f8c262331987e91edba4458ed7b1f739"
+    "sha256": "3c57b9d8d8369245db8cb70e361cc99d597b35a2c30f8554dd7457d4e628aade"
   },
   "rebuilt_MAP": {
     "path": "build/wlink.map",
-    "sha256": "b591285efbaf4c8f76bac1a8d62272b66837e780a4ac6acf7378a5f7f7ced9c2"
+    "sha256": "644623a43cbdfa6c402c78fc66399a4ed015099fb587099121c7f427b428da17"
   },
   "object": {
     "path": "build/obj/src/wlink.c.obj",
@@ -31,13 +31,13 @@
     }
   },
   "arithmetic": {
-    "module_start": 4264225,
-    "LnkInit_entry": 4264623,
-    "contribution_end": 4264919,
+    "module_start": 4264289,
+    "LnkInit_entry": 4264687,
+    "contribution_end": 4264983,
     "LnkInit_body_length": 296,
-    "last_RET": 4264918,
+    "last_RET": 4264982,
     "next_module_symbol": "_lseek_",
-    "next_module_entry": 4264919,
+    "next_module_entry": 4264983,
     "padding_hex": ""
   },
   "limits": "PE/MAP/object are current built artifacts. Every refreshed build must regenerate/rebind this witness before its descriptor is used. No original executable run was needed."

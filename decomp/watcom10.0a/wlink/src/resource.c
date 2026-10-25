@@ -385,3 +385,15 @@ int readTypeList( int file, WResDir dir, unsigned short version )
     }
     return error;
 }
+
+int WResReadFixedTypeRecord( WResTypeInfo *info, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, info, sizeof( *info ) );
+    if( count == sizeof( *info ) ) {
+        return 0;
+    }
+    WresRecordError( count == -1 ? 8 : 14 );
+    return 1;
+}

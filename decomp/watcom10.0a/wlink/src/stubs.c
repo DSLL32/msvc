@@ -67,8 +67,6 @@ void InitObjIO( void ) { TRAP(); }
 unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 long QPos( int file ) { file = file; TRAP(); return 0; }
 void __FreeTypeList( WResDir dir ) { dir = dir; TRAP(); }
-int WResReadFixedTypeRecord( WResTypeInfo *info, int file )
-{ info = info; file = file; TRAP(); return 0; }
 int WResIDExtraBytes( const WResID *id ) { id = id; TRAP(); return 0; }
 int WResReadExtraWResID( WResID *id, int file ) { id = id; file = file; TRAP(); return 0; }
 void ResAddLLItemAtEnd( void **head, void **tail, void *node )
