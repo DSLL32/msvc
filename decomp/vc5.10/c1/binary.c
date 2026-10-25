@@ -1550,8 +1550,8 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x24c4, 0x2500}, {0x26ea9, 0x26eb8}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "create_type_shape", .original_symbol = "_create_type_shape" },
     { .name = "CompilerTypeShape::SetParameters", .entry_rva = 0x895d,
-      .code = (const ReconExtent[]){{0x895d, 0x895e}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "_ZN17CompilerTypeShape13SetParametersEjj", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXII@Z" },
+      .code = (const ReconExtent[]){{0x895d, 0x8987}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN17CompilerTypeShape13SetParametersEjj", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXII@Z" },
     { .name = "CompilerDeclarator::AppendShape", .entry_rva = 0x8b9f,
       .code = (const ReconExtent[]){{0x8b9f, 0x8ba0}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP17CompilerTypeShape", .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z" },
@@ -1562,6 +1562,9 @@ static const ReconFunction functions[] = {
     { .name = "_classify_parameter_list", .entry_rva = 0x9233,
       .code = (const ReconExtent[]){{0x9233, 0x9234}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "classify_parameter_list" },
+    { .name = "_intern_function_parameters", .entry_rva = 0x8987,
+      .code = (const ReconExtent[]){{0x8987, 0x8988}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "intern_function_parameters" },
 };
 
 static const ReconExport exports[] = {

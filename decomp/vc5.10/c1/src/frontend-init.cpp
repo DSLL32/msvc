@@ -533,8 +533,18 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned 
     /* The original leaves the base/link field for the caller to establish. */
     return shape;
 }
+extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *,
+    CompilerTypeShape *, unsigned);
 void RECON_THISCALL CompilerTypeShape::SetParameters(unsigned value, unsigned kind)
-{ __asm { int 3 } }
+{
+    if (kind == 2)
+        value = 0;
+    CompilerTypeList *parameters = intern_function_parameters((const void *)value, this, kind);
+    flags |= 0x400;
+    this->parameters = parameters;
+}
+extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *value,
+    CompilerTypeShape *function, unsigned kind) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
 { __asm { int 3 } }

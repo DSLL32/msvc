@@ -87,7 +87,10 @@ struct CompilerTypeShape {
         struct { BYTE storage, attribute_high; };
     };
     struct CompilerTypeShape *base;
-    unsigned value;
+    union {
+        unsigned value;
+        struct CompilerTypeList *parameters;
+    };
 #ifdef __cplusplus
     void RECON_THISCALL SetParameters(unsigned value, unsigned kind);
 #endif
