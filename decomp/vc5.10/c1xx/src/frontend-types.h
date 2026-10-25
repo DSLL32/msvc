@@ -50,6 +50,11 @@ struct CompilerTypeShape {
         struct CompilerParameterLink *, CompilerType *);
 #endif
 };
+struct CompilerMappedType {
+    struct CompilerMappedType *next;
+    struct CompilerTypeShape shape;
+};
+typedef char CompilerMappedType_size[sizeof(struct CompilerMappedType) == 16 ? 1 : -1];
 typedef struct CompilerInternedType {
     struct CompilerInternedType *next;
     CompilerType type;

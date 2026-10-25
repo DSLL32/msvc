@@ -1538,8 +1538,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_intern_type_shape", .entry_rva = 0x10cc,
-        .code = (const ReconExtent[]){{0x10cc, 0x10cd}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x10cc, 0x11ab}, {0x5092f, 0x5093d}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "intern_type_shape",
     },
     {

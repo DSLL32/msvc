@@ -1035,7 +1035,32 @@ CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeSha
     base = base->InternChain(stop);
     return intern_type_shape(this);
 }
-extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape)
+{
+    unsigned hash;
+    CompilerMappedType **bucket, *entry;
+    CompilerPool *pool;
+    if (!shape) return NULL;
+    hash = (((WORD)shape->payload.value >> 2) +
+        ((WORD)(unsigned)shape->base >> 2) + shape->flags + shape->attributes) & 0x3ff;
+    bucket = &frontend_data.type_tables.mapped->buckets[hash];
+    for (entry = *bucket; entry; entry = entry->next) {
+        CompilerTypeShape *candidate = &entry->shape;
+        if (shape->base == candidate->base && shape->payload.value == candidate->payload.value &&
+            shape->flags == candidate->flags && shape->attributes == candidate->attributes)
+            return candidate;
+    }
+    pool = &frontend_bss.pools[1]; /* actual bf5b0 */
+    if (pool->remaining < 16) pool->Refill(16);
+    entry = (CompilerMappedType *)pool->cursor;
+    pool->cursor += 16;
+    pool->remaining -= 16;
+    if (entry) memset(&entry->shape, 0, sizeof(entry->shape));
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->shape = *shape;
+    return &entry->shape;
+}
 extern "C" CompilerSymbol *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context)
 {
     CompilerSymbolLink *next = ((CompilerNamedSymbol *)symbol)->link.next;
