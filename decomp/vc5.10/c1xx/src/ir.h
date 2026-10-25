@@ -23,6 +23,14 @@ struct CompilerSymbol {
 struct CompilerNamedSymbol : CompilerSymbol {
     CompilerSymbolLink link;           /* original +8 name / +c next */
 };
+/* Distinct constructor variants: only the observed DWORD zero stores are
+ * modeled. Their later interpretations remain behind pending consumers. */
+struct CompilerSmallSymbol : CompilerNamedSymbol {
+    DWORD initial_payload;             /* original +10, kinds16/17 */
+};
+struct CompilerKind4Symbol : CompilerNamedSymbol {
+    DWORD initial_context;             /* original +24, kind4 */
+};
 /* Extended members are accessed only for the larger IR symbol variants.
  * They must never enlarge the actual 20-byte namespace allocation. */
 struct CompilerIrSymbol : CompilerNamedSymbol {

@@ -1252,8 +1252,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerSymbol::Initialize", .entry_rva = 0x7cb7,
-        .code = (const ReconExtent[]){{0x7cb7, 0x7cb8}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x7cb7, 0x7d17}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN14CompilerSymbol10InitializeEjP17CompilerNameEntryj", .original_symbol = "?Initialize@CompilerSymbol@@QAEPAU1@IPAUCompilerNameEntry@@I@Z",
     },
     {

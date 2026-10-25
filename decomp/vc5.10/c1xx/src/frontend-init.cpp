@@ -526,7 +526,20 @@ extern "C" CompilerSymbol *__cdecl recycle_symbol(unsigned kind, CompilerNameEnt
     symbol->kind = (BYTE)kind;
     return symbol;
 }
-CompilerSymbol *RECON_THISCALL CompilerSymbol::Initialize(unsigned kind, CompilerNameEntry *name, unsigned context) { __asm { int 3 } return this; }
+CompilerSymbol *RECON_THISCALL CompilerSymbol::Initialize(unsigned kind, CompilerNameEntry *name, unsigned context)
+{
+    CompilerSymbolLink *binding = &((CompilerNamedSymbol *)this)->link;
+    this->kind = (BYTE)kind;
+    if (binding) {
+        binding->next = NULL;
+        binding->name = name;
+        if ((BYTE)kind == 4)
+            ((CompilerKind4Symbol *)this)->initial_context = 0;
+        else if ((BYTE)kind >= 16 && (BYTE)kind <= 17)
+            ((CompilerSmallSymbol *)this)->initial_payload = 0;
+    }
+    return this;
+}
 int RECON_THISCALL CompilerScope::HasBuckets(void) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerScope::HasSecondary(void) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerScope::Insert(CompilerSymbol *symbol) { __asm { int 3 } }

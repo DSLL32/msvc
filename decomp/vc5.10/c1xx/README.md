@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 135 accepted application functions / 19694
+The single registry is binary.c: 136 accepted application functions / 19790
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 137
+as are four six-byte import endpoints (24 bytes, zero App credit). The 138
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine CompilerSymbol::Initialize INT3 at RVA7cb7;
+and currently reaches the genuine initialize_default_function_type INT3 at RVA3b05d;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -123,10 +123,16 @@ The 31-byte Arena::Allocate member preserves the old cursor, advances it by
 the actual request, commits only when it passes the current limit, and returns
 the original pointer with thiscall RET4. No new state was introduced.
 
-Original/native took 0.639 s / 10.503 ms (native setup 4.834, execution 4.125,
-checks 1.544); build/audit/unit took 1.757 s. The 137-body strict audit and real
-selected-report order/frontier match. The exact allocator extent is 690d..692c
-(31 bytes); this supersedes the earlier provisional 25-byte analysis shorthand.
+The 96-byte symbol constructor preserves the kind byte, common name/link
+publication and distinct kind4/kind16/kind17 DWORD zero stores. The variant
+views contain no intervening placeholders; later interpretations of those zeroed
+cells remain unsupported. Current kind23 writes only its named prefix, then the
+translation-unit initializer assigns the real namespace payload and scope.
+
+Original/native took 1.325 s / 10.938 ms (native setup 5.824, execution 3.321,
+checks 1.793); build/audit/unit took 4.288 s. The 138-body strict audit and real
+selected-report order/frontier match. The case now passes the first complete
+translation-unit initialization; it remains an unfinished compilation.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
