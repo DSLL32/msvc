@@ -610,3 +610,11 @@ build/filbuf-capacity-510: tests/filbuf-capacity-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 filbuf-capacity-check: build/filbuf-capacity-default build/filbuf-capacity-510
 	$(PYTHON) tests/check-filbuf-capacity.py $^
+
+.PHONY: forceinline-placement-check
+build/forceinline-placement-probe.o: tests/forceinline-placement-probe.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -fPIC -fno-inline -finstrument-functions -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/forceinline-placement-probe: build/forceinline-placement-probe.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
+forceinline-placement-check: build/forceinline-placement-probe
+	$(PYTHON) tests/check-forceinline-placement.py build/forceinline-placement-probe.o $<

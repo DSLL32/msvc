@@ -982,3 +982,12 @@ the reached older C1XX read-only diagnostic catalog following its CRT fseek.
 Actual512-byte allocations, user buffers, other flags/owners and EOF/error exits
 retain their existing behavior. The explicit510 and Watcom branches are unchanged;
 this does not qualify the original/shipped filbuf difference when flag0x400 is set.
+
+RECON_FORCEINLINE is reserved for helpers/construction proved inlined into an
+original App vertex. Native always_inline overrides the global no-inline build;
+no_instrument_function avoids materializing separate helper addresses solely
+for instrumentation. It must not be applied to a real original App function.
+Canonical VC5 uses __inline with a separately qualified /Ob1 translation unit.
+The native new.h subset supplies only caller-owned placement construction and
+a typed cdecl allocating-new declaration bound to existing recon_cpp_new. It
+adds no allocator wrapper, delete form, exception policy or libstdc++ dependency.

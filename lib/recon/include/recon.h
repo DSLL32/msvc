@@ -1,6 +1,7 @@
 #ifndef RECON_SHIMS_H
 #define RECON_SHIMS_H
 #include <trace-abi.h>
+#include <recon-inline.h>
 /* VC5 expresses this convention implicitly on C++ members. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define RECON_THISCALL __attribute__((thiscall))
