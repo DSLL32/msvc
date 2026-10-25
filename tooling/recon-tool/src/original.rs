@@ -514,13 +514,13 @@ struct CaptureReport {
     elapsed_ms: f64,
     workspace: String,
 }
-fn capture_files(f: &Fixture, cwd: &Path) -> Result<Vec<OutputFile>> {
+fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
     native::output_paths(cwd, Path::new(""), &mut paths)?;
     let mut result = vec![];
     for path in paths {
         let bytes = fs::read(cwd.join(&path))?;
-        let explicit = f.output_files.iter().find(|v| v.path == path);
+        let explicit = output_rules.iter().find(|v| v.path == path);
         let unchanged = f
             .input_files
             .iter()
@@ -549,7 +549,7 @@ fn capture_files(f: &Fixture, cwd: &Path) -> Result<Vec<OutputFile>> {
         .input_files
         .iter()
         .map(|v| &v.path)
-        .chain(f.output_files.iter().map(|v| &v.path))
+        .chain(output_rules.iter().map(|v| &v.path))
     {
         if !cwd.join(path).exists() && !result.iter().any(|v| v.path == *path) {
             result.push(OutputFile {
@@ -984,8 +984,16 @@ fn capture_executor(
     fixture.args = args;
     let stdout = Bytes(fs::read(stdout)?);
     let stderr = Bytes(fs::read(stderr)?);
-    let files = capture_files(f, cwd)?;
-    if options.progress && terminal.starts_with("frontier:") {
+    let partial = options.progress && terminal.starts_with("frontier:");
+    let rules = if partial {
+        f.partial
+            .as_ref()
+            .map_or(&[][..], |p| p.output_files.as_slice())
+    } else {
+        f.output_files.as_slice()
+    };
+    let files = capture_files(f, cwd, rules)?;
+    if partial {
         fixture.partial = Some(fixture::Partial {
             stdout: Some(stdout),
             stderr: Some(stderr),
@@ -1307,5 +1315,58 @@ mod target_environment_tests {
         assert!(
             target_environment(&BTreeMap::from([("A".into(), Some("x".repeat(32767)))])).is_err()
         );
+    }
+}
+
+#[cfg(test)]
+mod partial_output_tests {
+    use super::*;
+    #[test]
+    fn empty_partial_does_not_inherit_final_coff_normalization() {
+        let root = crate::native::create_workspace().unwrap();
+        let result = (|| -> Result<()> {
+            fs::write(root.join("out.obj"), [])?;
+            let mut f = Fixture::default();
+            let final_rule = OutputFile {
+                path: "out.obj".into(),
+                absent: false,
+                data: None,
+                sha256: None,
+                zero_ranges: vec![[4, 8]],
+            };
+            f.output_files.push(final_rule);
+            let partial = OutputFile {
+                path: "out.obj".into(),
+                absent: false,
+                data: Some(Bytes(vec![])),
+                sha256: None,
+                zero_ranges: vec![],
+            };
+            let observed = capture_files(&f, &root, &[partial])?;
+            assert!(observed[0].zero_ranges.is_empty());
+            assert!(!observed[0].absent);
+            assert!(capture_files(&f, &root, &f.output_files).is_err());
+            fs::write(root.join("out.obj"), [1u8; 12])?;
+            let observed = capture_files(&f, &root, &f.output_files)?;
+            assert_eq!(
+                observed
+                    .iter()
+                    .find(|v| v.path == "out.obj")
+                    .unwrap()
+                    .zero_ranges,
+                vec![[4, 8]]
+            );
+            fs::remove_file(root.join("out.obj"))?;
+            assert!(
+                capture_files(&f, &root, &f.output_files)?
+                    .iter()
+                    .find(|v| v.path == "out.obj")
+                    .unwrap()
+                    .absent
+            );
+            Ok(())
+        })();
+        fs::remove_dir_all(root).unwrap();
+        result.unwrap();
     }
 }
