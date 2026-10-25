@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "scope": "Finite EBX preservation for the actual cached public isspace loop in _define_command_line_macro; no provider body or nonlocal-return claim.",
+  "original_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "contracts": [
+    {
+      "target": "MSVCRT.dll!isspace",
+      "declaration": "_CRTIMP int __cdecl isspace(int);",
+      "source": "toolchains/5.10/include/CTYPE.H:171",
+      "basis": "Microsoft i386 cdecl preserves EBX on normal return. The public import is loaded from IAT RVA c9154 at3b587 and called through EBX at3b5b7. No MBCS implementation or raw mask equality is inferred."
+    },
+    {
+      "target": "_grow_work_buffer",
+      "declaration": "void __cdecl grow_work_buffer(BYTE *cursor, BYTE *base, BYTE **limit);",
+      "basis": "The actual three-stack-argument calls at72f70/72f97/72fab are followed by ADD ESP,12. The identified i386 cdecl function preserves EBX on normal return; its entry80a31 saves EBX and normal epilogue80a82 restores it. Reconstructed pending signature retains this ABI. No successful growth claim."
+    }
+  ],
+  "inherited_edi_contract": {
+    "path": "integer-imports.json",
+    "sha256": "e73e572f5404dca9c7ea17c97031d1544d7b1333ce27e1cc1a50fa4cdc8bfbdf",
+    "scope": "Existing qualified EDI-only isspace witness is unchanged. The single policy target combines that retained EDI fact with cdecl EBX preservation."
+  }
+}

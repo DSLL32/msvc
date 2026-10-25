@@ -798,6 +798,11 @@
             }
           ]
         }
+      },
+      "_define_command_line_macro": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [],
@@ -892,11 +897,12 @@
             }
           },
           "preserves": [
-            "edi"
+            "edi",
+            "ebx"
           ],
           "evidence": {
-            "path": "integer-imports.json",
-            "sha256": "e73e572f5404dca9c7ea17c97031d1544d7b1333ce27e1cc1a50fa4cdc8bfbdf"
+            "path": "macro-imports.json",
+            "sha256": "0ebb673e003681b484d0dcb3e72c48d8ce92becd2fb47d4dfc3c66ef80ab3004"
           }
         },
         {
@@ -939,6 +945,18 @@
           "evidence": {
             "path": "keyword-imports.json",
             "sha256": "b320303926ac65be06fbe324a340f47b9202974f68a893db180d98e11416410b"
+          }
+        },
+        {
+          "target": {
+            "function": "_grow_work_buffer"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "macro-imports.json",
+            "sha256": "0ebb673e003681b484d0dcb3e72c48d8ce92becd2fb47d4dfc3c66ef80ab3004"
           }
         }
       ]

@@ -1244,8 +1244,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_define_command_line_macro", .entry_rva = 0x3b4da,
-        .code = (const ReconExtent[]){{0x3b4da, 0x3b4db}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3b4da, 0x3b5e4}, {0x72f63, 0x72fd2}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "define_command_line_macro",
     },
     {
@@ -1271,6 +1271,12 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x4679e, 0x4679f}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "compare_macro_text",
+    },
+    {
+        .name = "_grow_work_buffer", .entry_rva = 0x80a31,
+        .code = (const ReconExtent[]){{0x80a31, 0x80a32}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "grow_work_buffer",
     },
     {
         .name = "_begin_line_output", .entry_rva = 0x807bc,

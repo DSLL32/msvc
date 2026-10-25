@@ -1,5 +1,6 @@
 #include <string.h>
 #include <time.h>
+#include <ctype.h>
 #include "frontend-init.h"
 #include "preprocessor.h"
 #pragma intrinsic(strcpy, memcpy)
@@ -159,6 +160,60 @@ extern "C" void __cdecl record_macro_definition(const char *name, const char *te
 { __asm { int 3 } }
 extern "C" int __cdecl compare_macro_text(const void *left, const void *right, unsigned bytes)
 { __asm { int 3 } return 0; }
-extern "C" void __cdecl define_command_line_macro(char *definition) { __asm { int 3 } }
+extern "C" void __cdecl grow_work_buffer(BYTE *, BYTE *, BYTE **);
+extern "C" void __cdecl define_command_line_macro(char *definition)
+{
+    char *source = definition;
+    char *equals = NULL;
+    BYTE *cursor = frontend_bss.work_buffers[1].data;
+    BYTE *space_start = NULL;
+    while (*source && *source != '=') {
+        if (frontend_data.scanner.classes[(unsigned char)*source] == SC_LEAD)
+            ++source;
+        ++source;
+    }
+    if (*source == '=') {
+        equals = source;
+        *source++ = 0;
+        while (*source) {
+            if (cursor >= frontend_bss.work_buffers[1].limit)
+                grow_work_buffer(cursor, frontend_bss.work_buffers[1].data,
+                    &frontend_bss.work_buffers[1].limit);
+            *cursor++ = *source;
+            unsigned ch = (unsigned char)*source;
+            if (frontend_data.scanner.classes[ch] == SC_LEAD) {
+                *cursor++ = *++source;
+                space_start = NULL;
+            } else if ((isspace)(ch)) {
+                if (!space_start)
+                    space_start = cursor;
+            } else {
+                space_start = NULL;
+            }
+            ++source;
+        }
+        if (space_start)
+            cursor = space_start;
+    } else {
+        if (cursor >= frontend_bss.work_buffers[1].limit)
+            grow_work_buffer(cursor, cursor, &frontend_bss.work_buffers[1].limit);
+        *cursor++ = '1';
+    }
+    find_or_create_identifier(definition);
+    BYTE *base = frontend_bss.work_buffers[1].data;
+    if (cursor == base) {
+        define_preprocessor_macro(NULL, 0, 0);
+    } else {
+        if (cursor >= frontend_bss.work_buffers[1].limit)
+            grow_work_buffer(cursor, base, &frontend_bss.work_buffers[1].limit);
+        *cursor++ = 0;
+        *cursor++ = 'D';
+        define_preprocessor_macro((const char *)base, (unsigned)(cursor - base), 0);
+    }
+    if (equals)
+        *equals = '=';
+}
+extern "C" void __cdecl grow_work_buffer(BYTE *cursor, BYTE *base, BYTE **limit)
+{ __asm { int 3 } }
 extern "C" int __cdecl open_source_file(const char *name, int kind, int report, int mode, int track) { __asm { int 3 } return -1; }
 extern "C" void __cdecl report_source_file_error(const char *name, int file) { __asm { int 3 } }
