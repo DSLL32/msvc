@@ -366,7 +366,14 @@ extern "C" void __cdecl set_keyword_category2(const char *name)
         c1_data.current_identifier->category = 2;
     }
 }
-extern "C" void __cdecl set_keyword_category3(const char *name) { __asm { int 3 } }
+extern "C" void __cdecl set_keyword_category3(const char *name)
+{
+    intern_identifier(name);
+    if (c1_data.current_identifier->flags & 0x10000) {
+        c1_data.current_identifier->token = 243;
+        c1_data.current_identifier->category = 3;
+    }
+}
 extern "C" void __cdecl set_keyword_category1(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category5(const char *name) { __asm { int 3 } }
 extern "C" void __cdecl set_keyword_category4(const char *name) { __asm { int 3 } }
