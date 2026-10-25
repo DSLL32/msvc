@@ -10,7 +10,8 @@ enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
     INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
-    INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179 };
+    INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
+    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242 };
 
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83f98..83fb8: square root reached after binary power lowering. */
@@ -54,6 +55,18 @@ const IntrinsicDescription string_length_intrinsic = { 0x404, 0, "vE0", "", 0x40
    and returning Packet records. Normalize its arguments and retain the first
    address tree; no scalar type override or signature flags are present. */
 const IntrinsicDescription aggregate_value_intrinsic = { 0, 0, "nE0", "", 0 };
+/* Original848e8..84908: the two SEH calls built by the scope and finally
+   unwind constructors. Each16B descriptor has no scalar override or flags;
+   commands/runtime names both point at the empty string839d0. These no-op
+   lowering recipes retain their typed call/argument nodes for selection. */
+/* Original84748..84758, reached SEH status IDd7: empty lowering recipe,
+   fixed-argument flag10. The distinct no-argument signature is at84aa8. */
+const IntrinsicDescription seh_status_intrinsic = { 0, 0, "", "", 0x10 };
+/* Original84768..84778, actual SEH IDd9: scalar default202, call-class20,
+   no command/runtime spelling. Its exact source intrinsic name is pending. */
+const IntrinsicDescription seh_d9_intrinsic = { 0x202, 0, "", "", 0x20 };
+const IntrinsicDescription scope_finally_intrinsic = { 0, 0, "", "", 0 };
+const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
 /* An explicit data frontier, not a substitute implementation for another
    intrinsic. Inline INT3 is the intentional unreconstructed-data trap; keeping
    this dispatch inline introduces no nonoriginal function/call edge. */
@@ -74,6 +87,10 @@ const IntrinsicDescription aggregate_value_intrinsic = { 0, 0, "nE0", "", 0 };
     case INTRINSIC_AGGREGATE_FILL: (description) = &aggregate_fill_intrinsic; break; \
     case INTRINSIC_POWER_DOUBLE: (description) = &power_double_intrinsic; break; \
     case INTRINSIC_AGGREGATE_VALUE: (description) = &aggregate_value_intrinsic; break; \
+    case INTRINSIC_SEH_D9: (description) = &seh_d9_intrinsic; break; \
+    case INTRINSIC_SEH_STATUS: (description) = &seh_status_intrinsic; break; \
+    case INTRINSIC_SCOPE_FINALLY: (description) = &scope_finally_intrinsic; break; \
+    case INTRINSIC_FINALLY_DEPTH: (description) = &finally_depth_intrinsic; break; \
     default: __asm { int 3 } \
         (description) = 0; break; \
     } \
@@ -247,6 +264,7 @@ typedef char IntrinsicArgumentRecordSizeCheck[sizeof(IntrinsicArgumentRecord) ==
 static const IntrinsicArgumentRecord intrinsic_argument_records[] = {
     { INTRINSIC_AGGREGATE_COPY, 0, { 0x104, 0x404, 0x404, 0, 0, 0 } },
     { INTRINSIC_AGGREGATE_FILL, 0, { 0x104, 0x104, 0x404, 0, 0, 0 } },
+    { INTRINSIC_SEH_STATUS, 0, { 0, 0, 0, 0, 0, 0 } },
     { 0, 0, { 0, 0, 0, 0, 0, 0 } }
 };
 /* Original [000636c0,0006374c). Scalar-type intrinsics share a five-slot

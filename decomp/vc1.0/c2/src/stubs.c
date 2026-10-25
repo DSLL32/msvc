@@ -301,5 +301,4 @@ int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
-Node *__fastcall new_finally_unwind(unsigned depth) { __asm int 3 }
 Node *__fastcall new_scope_unwind(long target) { __asm int 3 }

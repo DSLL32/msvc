@@ -23,9 +23,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "@new_finally_unwind@4", .entry_rva = 0x56270,
-        .code = (const ReconExtent[]) { { 0x56270, 0x56271 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x56270, 0x562b8 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "new_finally_unwind",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@insert_exception_unwind@12", .entry_rva = 0x562c0,

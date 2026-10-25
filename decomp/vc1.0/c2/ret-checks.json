@@ -115,6 +115,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@new_finally_unwind@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

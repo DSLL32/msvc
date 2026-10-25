@@ -88,7 +88,7 @@ int c2_scope_pop_inputs(void)
 
 /* ECX is the actual current Function owner. Only expressions is consumed
    by the rewrite driver; other raw Function words are not an input claim. */
-static void __fastcall rewrite_entry(Function *function)
+static void __fastcall function_owner_entry(Function *function)
 {
     int valid=function==current_function&&function->expressions&&
         function->expressions->next&&function->expressions->tree&&
@@ -100,7 +100,7 @@ static void __fastcall rewrite_entry(Function *function)
 int c2_scope_rewrite_inputs(void)
 {
     return recon_native_at_entry((const void *)rewrite_exception_expressions,
-        (const void *)rewrite_entry,real_input,0)==1;
+        (const void *)function_owner_entry,real_input,0)==1;
 }
 
 static Node *__fastcall annotation_entry(unsigned short code)
@@ -153,4 +153,10 @@ int c2_finally_inputs(void)
 {
     return recon_native_at_entry((const void *)new_finally_unwind,
         (const void *)finally_entry,real_input,0)==1;
+}
+
+int c2_scope_finish_inputs(void)
+{
+    return recon_native_at_entry((const void *)finish_inline_function,
+        (const void *)function_owner_entry,real_input,0)==1;
 }

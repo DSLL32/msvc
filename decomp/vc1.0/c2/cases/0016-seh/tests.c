@@ -2,6 +2,8 @@
 #include "exception-scope.h"
 #include "c2.h"
 #include "expression-fields.h"
+#include "tree-rewrite.h"
+#include "intrinsics.h"
 #include <recon-native.h>
 #include <recon.h>
 extern int c2_scope_owned_record(void);
@@ -13,6 +15,7 @@ extern int c2_scope_annotation_inputs(void);
 extern int c2_scope_unwind_inputs(void);
 extern int c2_scope_finally_inputs(void);
 extern int c2_finally_inputs(void);
+extern int c2_scope_finish_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -171,6 +174,63 @@ static int finally_unwind_call(void)
     }
     return 1;
 }
+static int finally_depth_call(void)
+{
+    static const unsigned depths[]={0,1,20};unsigned i;Node *node,*argument;
+    sentinel_node=new_node(0x4c);
+    for(i=0;i<RECON_COUNT(depths);++i){
+        node=new_finally_unwind(depths[i]);
+        if(node->opcode!=0x40||node->attributes.words.type!=0x104||
+           node->left.node->opcode!=0x33||node->left.node->left.value!=0xf2||
+           node->left.node->attributes.words.type!=0x104)return 0;
+        argument=node->second.node;
+        if(argument->opcode!=0x55||argument->second.node!=sentinel_node||
+           argument->left.node->opcode!=0x33||
+           argument->left.node->left.value!=depths[i]*4||
+           argument->left.node->attributes.words.type!=0x104)return 0;
+    }
+    return 1;
+}
+static int seh_intrinsic_lowering(void)
+{
+    Node *nodes[2],*node,*callee,*argument;unsigned i;
+    sentinel_node=new_node(0x4c);
+    nodes[0]=new_scope_finally_unwind(-1);nodes[1]=new_finally_unwind(3);
+    for(i=0;i<2;++i){
+        node=nodes[i];callee=node->left.node;argument=node->second.node;
+        if(lower_intrinsic(node,0)!=node||node->left.node!=callee||
+           node->second.node!=argument||node->attributes.words.type!=0x104||
+           node->detail.control.code!=8||
+           node->left.node->left.value!=(i?0xf2:0xf1)||
+           argument->left.node->left.value!=(i?12:~0U)||
+           argument->second.node!=sentinel_node)return 0;
+    }
+    return 1;
+}
+static int seh_status_lowering(void)
+{
+    Node *node,*callee;const unsigned *types;unsigned i;
+    sentinel_node=new_node(0x4c);callee=integer_node(0xd7,0x104);
+    node=build_tree("PPNYt",sentinel_node,callee,0x40,0x104);
+    types=intrinsic_argument_types(0xd7);
+    /* The fixed signature must not alias the mutable scalar-type cache. */
+    intrinsic_argument_types(0xd9);
+    for(i=0;i<5;++i)if(types[i])return 0;
+    return lower_intrinsic(node,0)==node&&node->opcode==0x40&&
+        node->left.node==callee&&node->second.node==sentinel_node&&
+        node->attributes.words.type==0x104&&node->detail.control.code==8;
+}
+static int seh_d9_lowering(void)
+{
+    Node *node,*callee;const unsigned *types;unsigned i;
+    sentinel_node=new_node(0x4c);callee=integer_node(0xd9,0x104);
+    node=build_tree("PPNYt",sentinel_node,callee,0x7a,0x202);
+    types=intrinsic_argument_types(0xd9);
+    for(i=0;i<5;++i)if(types[i]!=0x202)return 0;
+    return lower_intrinsic(node,0)==node&&node->opcode==0x7a&&
+        node->left.node==callee&&node->second.node==sentinel_node&&
+        node->attributes.words.type==0x202&&node->detail.control.code==8;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -190,5 +250,10 @@ const ReconTest c2_tests[]={
     {"unwind absent/same/outermost-finally bypasses preserve state",1,unwind_bypass},
     {"actual finally-unwind scalar ECX target",1,c2_scope_finally_inputs},
     {"finally-aware unwind call typed target and intrinsic identity",1,finally_unwind_call},
-    {"actual finally-depth constructor scalar ECX",1,c2_finally_inputs}
+    {"actual finally-depth constructor scalar ECX",1,c2_finally_inputs},
+    {"finally depth becomes four-byte displacement call argument",1,finally_depth_call},
+    {"encountered SEH intrinsic recipes preserve typed arguments",1,seh_intrinsic_lowering},
+    {"SEH status fixed signature and empty recipe",1,seh_status_lowering},
+    {"encountered SEH d9 scalar default and empty recipe",1,seh_d9_lowering},
+    {"actual scope finalizer Function and expression owner",1,c2_scope_finish_inputs}
 };
