@@ -452,3 +452,9 @@ void __stdcall mark_pch_virtual_table(VirtualTable *table)
     }
     mark_pch_vector(table->shared_owners, 0);
 }
+
+/* Original0x7c300..0x7c30d. Dispatch entries mark the function slot. */
+void __stdcall mark_pch_virtual_call(VirtualCallEntry *entry)
+{
+    mark_pch_pointer((void **)&entry->function);
+}
