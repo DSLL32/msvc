@@ -1,7 +1,5 @@
 #include <recon-tool.h>
-extern int main(int, char **, char **);
-extern int cvtres_case_setup(void);
-static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
+#include "adapter.h"
 static const uint32_t order[] = {
     0x14a5, /* main */
     0x1460, /* usage */
@@ -13,5 +11,5 @@ RECON_EXPORT const ReconCase case_descriptor = {
     .description = "Saved original invocation; exact streams, status, complete artifacts and unseeded App order. Migration only.",
     .first_entry_order = order, .first_entry_count = RECON_COUNT(order),
     .execution = RECON_IO, .terminal = RECON_EXIT,
-    .setup = cvtres_case_setup, .io = invoke,
+    .setup = cvtres_case_setup, .io = cvtres_case_invoke,
 };

@@ -1,9 +1,7 @@
 /* Sole original function registry. App 22/7445 bytes; CRT 400 +imports 24
  * remain runtime boundaries. Original unsupported-depth AX/residual-EAX
  * behavior is unvalidated; the preserved native-only guard traps. */
-#include <stdlib.h>
 #include <recon-tool.h>
-#include <recon.h>
 
 static const ReconFunction functions[] = {
     {
@@ -296,18 +294,3 @@ RECON_EXPORT const ReconBinary binary_descriptor = {
     .functions = functions,
     .function_count = RECON_COUNT(functions),
 };
-
-/* Native adapter setup, excluded from the application registry/trace. */
-RECON_EXPORT int cvtres_case_setup(void)
-{
-    ReconModuleSpec spec;
-    HMODULE module;
-    spec.name = "CVTRES.EXE";
-    spec.path = getenv("RECON_PROGRAM_PATH");
-    spec.sha256 = binary_descriptor.original_sha256;
-    spec.flags = RECON_MODULE_PRIMARY | RECON_MODULE_NO_TLS;
-    module = recon_register_module(&spec);
-    if (!module) return 0;
-    recon_load_module_resources(module, "cvtres.resources");
-    return 1;
-}

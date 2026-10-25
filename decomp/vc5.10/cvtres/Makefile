@@ -1,10 +1,23 @@
 RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I$(RECON)/include -I$(RECON)/native -Isrc -Iharness
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
-BINARY_SOURCES = $(wildcard src/*.c)
-BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)
+BINARY_SOURCES = src/bitmap.c \
+    src/convert.c \
+    src/diagnostics.c \
+    src/directory.c \
+    src/file.c \
+    src/identifiers.c \
+    src/main.c \
+    src/memory.c \
+    src/messages.c \
+    src/pixels.c \
+    src/stubs.c \
+    src/tree.c \
+    src/usage.c
+BINARY_SUPPORT_SOURCES = harness/adapter.c \
+    $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN = 5.10
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
 ORIGINAL_BUILD = .build/original

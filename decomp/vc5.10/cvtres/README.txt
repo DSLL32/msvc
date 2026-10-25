@@ -3,7 +3,10 @@ CVTRES 5.00.1668.1
 Application reconstruction is complete for the identified 22 functions/7445
 code bytes. Four CRT bodies 400 bytes and four import thunks 24 bytes are runtime
 boundaries, not reconstruction credit. binary.c is the sole function registry.
-Source under src/ is unchanged by the harness migration.
+src/ contains application source and encountered resources only. Application
+C/header/resource bodies are unchanged by the layout cleanup. Native setup and
+main adapters live in harness/; binary.c contains registry metadata only. There
+are no binary-specific CRT implementations, so no crt/ folder is needed.
 
 Nine numbered I/O cases preserve saved original arguments, inputs, full streams,
 status, complete object bytes and unseeded App entry order. The target's 18
