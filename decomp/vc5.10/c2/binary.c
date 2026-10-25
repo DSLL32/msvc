@@ -2107,8 +2107,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@clear_register_set@4",
         .entry_rva = 0x1967,
+        .code = (const ReconExtent[]){{0x1967, 0x19ba}, {0x65807, 0x6580b}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "clear_register_set",
     },
     {

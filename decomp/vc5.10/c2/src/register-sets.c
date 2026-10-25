@@ -71,3 +71,22 @@ C2RegisterSetNode *__fastcall new_register_set_node(C2RegisterSet *set)
     node->bits = 0;
     return node;
 }
+
+void __fastcall clear_register_set(C2RegisterSet *set)
+{
+    C2RegisterSetNode *node;
+    unsigned pool;
+
+    node = set->links.first;
+    if (!node)
+        return;
+    pool = set->pool;
+    if (free_register_set_nodes[C2_REGISTER_SET_POOL(pool)])
+        last_free_register_set_nodes[C2_REGISTER_SET_POOL(pool)]->next = node;
+    else
+        free_register_set_nodes[C2_REGISTER_SET_POOL(pool)] = node;
+    while (node->next)
+        node = node->next;
+    last_free_register_set_nodes[C2_REGISTER_SET_POOL(pool)] = node;
+    set->links.first = NULL;
+}

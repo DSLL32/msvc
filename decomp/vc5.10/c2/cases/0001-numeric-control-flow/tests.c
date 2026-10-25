@@ -103,10 +103,35 @@ static int register_set_node_reuse(void)
         !memcmp(&nodes[1], &saved, sizeof(saved));
 }
 
+static int register_set_clear(void)
+{
+    C2RegisterSet set;
+    C2RegisterSetNode nodes[3];
+    memset(&set, 0xa5, sizeof(set));
+    memset(nodes, 0xa5, sizeof(nodes));
+    set.links.first = &nodes[0];
+    set.pool = 1;
+    nodes[0].next = &nodes[1];
+    nodes[1].next = NULL;
+    nodes[2].next = NULL;
+    free_register_set_nodes[1] = &nodes[2];
+    last_free_register_set_nodes[1] = &nodes[2];
+    clear_register_set(&set);
+    if (set.links.first || free_register_set_nodes[1] != &nodes[2] ||
+        last_free_register_set_nodes[1] != &nodes[1] ||
+        nodes[2].next != &nodes[0] || nodes[0].next != &nodes[1] ||
+        nodes[1].next || set.state != 0xa5a5a5a5U) return 0;
+    set.pool = 12; /* Empty-set return does not read an unmodeled pool slot. */
+    clear_register_set(&set);
+    return !set.links.first && free_register_set_nodes[1] == &nodes[2] &&
+        last_free_register_set_nodes[1] == &nodes[1];
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
     {"original 0/1/2 extended-real results", 1, original_real_results},
     {"existing unsigned register-set groups", 1, register_set_existing_groups},
-    {"register-set node reuse clears only the popped node", 1, register_set_node_reuse}
+    {"register-set node reuse clears only the popped node", 1, register_set_node_reuse},
+    {"clearing a register set appends its nodes", 1, register_set_clear}
 };

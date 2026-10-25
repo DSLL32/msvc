@@ -670,8 +670,3 @@ void reset_function_listing(void)
 {
     __asm { int 3 }
 }
-
-void __fastcall clear_register_set(C2RegisterSet *set)
-{
-    __asm { int 3 }
-}
