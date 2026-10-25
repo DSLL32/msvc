@@ -139,6 +139,7 @@ they do not imply that pending integrations have passed.
 
 | Change | Why it was needed | Commit and verification |
 | --- | --- | --- |
+| Ordinary CF debugger and controller retirement | Execute original CF instructions/CRT/gateway under Wine, mask recovered CODE envelopes, restore registry code/data, and collect real App entry/frontier traps. Remove Gate/Session/Capstone and old instruction-specific controllers/tests. | WCC GetEnvVar to SizeToClass: four matching entries, original 1,374.865 ms, native 5.716 ms. Execution-phase wall 2.106 ms, setup 1,226.292 ms; 2,559 RPCs; frontend CPU 420.694 ms, waited-child CPU 312.027 ms. 62 Rust, five mask/wire, 19 format and 19 native IPC controls pass; all three migrated CF profiles project through the common exporter. Old failed observations remain preserved. |
 | Exact staged self-image input | Watcom resource code opens its actual staged argv0. A readonly source plus CC-only raw ranges freezes the exact masked file and recreates it as an owned T: sibling outside cwd, with unchanged-byte verification. | 57 baseline Rust tests and four focused recipe controls pass. Actual WLIB self-open reaches FindResources: original 1,269.207 ms, native 8.225 ms (setup 5.119 ms, execution 1.504 ms, checks 1.601 ms); exact 62,738 B file and 3,858 B overlay preserved. |
 | Observed Watcom PE main arguments | Watcom startup replaces command-line argv0 with the staged module path. Bounded reads at the existing main entry retain requested and actual vectors separately and project observed args into native IO. | Three argv-specific controls and existing 53 Rust tests pass; no broker change. Actual WLIB main/hook/InitMsg to OpenResFile pair passes: original 682.673 ms, native 5.320 ms, four matching App entries. The subsequent exact staged-image input release qualifies its actual self-open. |
 | Explicit nonreturn DIRECT terminal | Genuine target ExitProcess from a typed callback must retain its status and cleanup trace. Actual callback entry is observed through an owned breakpoint; pre-callback/wrong exits and returning callbacks fail the explicit contract. | 53 Rust tests and five authored controls pass (0.489–1.224 s per capture), plus native pairing/return rejection. Actual CL handler original exit 4 and 59 App entries pass in 899.556 ms; matching native passes in 7.961 ms. No post-exit helper reads or atexit machinery. |
@@ -636,7 +637,9 @@ multi-TU workload has not been started.
 
 ## Watcom compatibility report
 
-Shared integration is published and READY in `04ee1337ad2f627d691b784f186d1d46b348da27`.
+Shared integration is published. The simpler ordinary CF debugger is READY in
+`cea53023405fcce7f9900f4626986008d8ded4db`, superseding the active instruction
+controller from `04ee1337ad2f627d691b784f186d1d46b348da27`.
 Qualified real CF paths now include WCC and WPP startup through their first two
 application functions; this does not establish complete help execution or qualify
 WASM's geometry. Root has released all five existing workers to build fresh
@@ -665,33 +668,42 @@ WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
 shared build/runner and retire their local capture launchers. WASM's response
 cleanup is committed as `e9836ce56`. WLINK and WASM now generate Watcom link
 responses with Make's file function; cleanup required no extra original runs.
-Current accepted application work is WCC386 2 functions / 347 bytes (`MemAlloc`
-and `MemInit`, `a0f0e8a2b`), WPP386 2 / 347 bytes (`a192b685f` and `558cd1aca`),
-WLINK 3 / 632 bytes (`74b8bca6c`), WLIB 3 / 248 bytes (`71904f510`), and zero in
-WASM: ten functions / 1,574 bytes in total. Built implementation flags and
-unaccepted candidate counts are not acceptance.
+Current committed application checkpoints are WCC386 2 functions / 347 bytes
+(`MemAlloc` and `MemInit`, `a0f0e8a2b`), WPP386 2 / 347 bytes (`a192b685f` and
+`558cd1aca`), WLINK 22 / 2,361 bytes (resource header parsing, `f28888dac`), WLIB
+6 / 546 bytes (through `FindResources`, `0be6fde0a`), and zero in WASM. WLIB's
+additional 26-byte `res_seek` pair passes and awaits its acceptance checkpoint.
+WCC's 20-byte `GetEnvVar` pair also passes; canonical READY releases promotion
+using the unchanged successful capture/report. Built implementation flags and unaccepted
+candidate counts are not acceptance. No complete code-coverage denominator is
+claimed.
 WCC's genuine native bootstrap consumes the real allocator result into its FILE
-node list; its fresh pair now reaches `GetEnvVar 66a2e`. WLINK's accepted prefix
-reaches `LnkInit`; that candidate is held on a rebuilt padding audit issue. No
-complete application coverage denominator is claimed.
+node list. Its new debugger pair reaches `SizeToClass 47b89`; WLINK now reaches
+`readTypeList 436b60` after real resource-directory/header parsing. WLIB reaches
+`InitResources 18ad8` after its genuine read/seek scan.
 Shared release `b277c67f7` supports WCC's reached `ENTER 88,0` and finite WPP
 geometry plus Make profile wiring. WPP's actual first-frontier qualification and
 fresh native comparison now pass; complete help execution remains unfinished.
-WCC's next candidate reaches a normal CRT `MOV ES,EAX` rejected by the old
-instruction controller; WPP reaches the analogous environment-lookup stage.
-Both hold new opcode/service-controller expansion while the shared owner replaces
-that machinery with ordinary debugger masking and entry breakpoints.
+The old instruction controller rejected WCC's normal CRT `MOV ES,EAX`. The
+replacement ordinary-debugger path now executes the original `getenv` unchanged
+and passes the real WCC continuation: all four App entries match native and the
+selected original report binds the next frontier. WCC/WPP/WASM profiles now use
+binary-owned CODE/text-data layout without an instruction catalog. Canonical
+release `cea530234` removes 31 obsolete controller/test/assets files and retains
+the qualified debugger transport. All three canonical CF profile projections
+match the reviewed candidate; WCC/WPP/WASM are reactivated for their initial
+help cases. No further opcode/service-controller expansion is authorized.
 WLIB/WLINK first-main captures are independent of resource-reader code that has
 not executed. Later GS checks must address concrete reached values or missing
 static proof, rather than preserve an old observer framework.
 
 | Binary | Native measurement | Setup / execution / checks | Period compiler check |
 | --- | --- | --- | --- |
-| WCC386 | Fresh pair after MemInit: 5.127 ms; original 9.943 s | 2.572 / 2.142 / 0.413 ms | Passed; initial scaffold check 0.554 s |
+| WCC386 | Ordinary-debugger GetEnvVar pair: native 5.716 ms; original 1.375 s (1.719 s wrapper) | 3.199 / 2.053 / 0.465 ms | Passed; candidate static graph and period build retained |
 | WPP386 | Fresh MemAlloc pair: original 9.382 s; native command wall 22.5 ms | 2.725 / 2.004 / 0.423 ms | Passed; build plus audit 1.234 s. Later MemInit pair also passes; its native measurement includes GDB. |
 | WASM | Authored scaffold frontier smoke: 4.889 ms | 2.599 / 2.020 / 0.270 ms | Passed; no timing claimed |
-| WLIB | Fresh InitMsg pair: 5.320 ms; original 682.673 ms | 3.267 / 1.469 / 0.584 ms | Passed; canonical build plus App audit 1.649 s |
-| WLINK | Fresh DoLink pair: about 8.5 ms; original 431 ms | Not separately reported | Passed; initial scaffold check 1.332 s |
+| WLIB | Real seek/read pair to InitResources: native 9.564 ms; original 836.569 ms | 5.875 / 1.862 / 1.827 ms | Passed; seven prospective App graphs and parallel build/audit 1.404 s |
+| WLINK | Resource allocation pair to WResReadDir: native 18.335 ms; original 540.948 ms | Not separately reported | Passed; strict graph/RET/extents and main noreturn residual retained |
 
 The authored scaffold smokes are not original-backed acceptance. WASM has
 finished independent scaffold work and is waiting for shared support before its
@@ -706,12 +718,19 @@ bytes are memory displacements smaller by four. This supports classification,
 not byte identity, normalization or automatic admission. Native fixtures never
 launch Wine; new original captures remain explicit.
 
-WLIB's accepted pair qualifies the small shared `--watcom-main-argv` candidate:
-actual EAX argc / EDX argv are read at the existing main-entry stop, requested
-and observed vectors remain separate, and native IO receives the observed argv0.
-This closes the staged module-path input seam without a new broker or observer
-framework. Its next pending `OpenResFile` has not opened the image; any self-file
-materialization contract is deferred until that actual dependency is reached.
+Published `--watcom-main-argv` (`2d650edd0`) reads actual EAX argc / EDX argv
+at the existing main stop, keeps requested and observed vectors separate, and
+supplies the real argv0 to native IO. Exact self-image support (`cd6b47a7d`)
+reconstructs the readonly staged image from its hash-bound source and compact
+CC-only mask ranges outside the native cwd. WLIB and WLINK both qualify genuine
+self-open/resource parsing with that input; no unmasked substitute or full image
+blob is cached. Watcom's exact readonly binary open (`974310433`) and normal
+regular-descriptor lseek (`657661533`) delegate to the existing descriptor
+backend. Unknown flags/failures remain unsupported. The finite 496-byte
+read/lseek/IOMode support closure is positively classified and shared between
+these binaries with actual relocation/target comparison; cold errno/strerror
+bodies remain masked. No API-only observer or new provider-identification engine
+was needed.
 
 Engineering time has dominated these run costs. WCC estimates 60–75% of recent
 effort on scaffolding, startup classification and shared coordination, including
@@ -790,7 +809,17 @@ corroborates conservative CODE envelopes WCC `[0,0x704c4)`, WPP `[0,0xaad20)` an
 WASM `[0,0x231b8)`, including embedded text data that must be preserved/restored.
 These are recovered layout boundaries, not section fields stored in CF. Fine
 CONST/DATA subdivision and a universal instruction inventory are unnecessary.
-This simpler shared implementation is not yet published.
+This simpler implementation passed the meaningful WCC GetEnvVar pair and is
+canonically published as `cea530234`. The original records actual order
+`47c77,47f15,66a2e,47b89`; native matches all four and traps at `47b89`.
+The original report is bound by SHA-256
+`638f94cbbac5da3b8205d4d4c7f105b537b3cd37071056cc53fc774127962b1b`.
+Original elapsed time is 1,374.865 ms (1,226.292 ms setup, 2.106 ms between
+ordinary resumes/stops); that execution-phase measurement is wall time, not CPU.
+Separate frontend and waited-child CPU are 420.694 and 312.027 ms, excluding the
+shared wineserver. The broker makes 2,559 RPCs, returns 0 and confirms owned
+teardown without an outer kill. Native is 5.716 ms. No publication-only original
+rerun is needed.
 
 Shared `original capture --progress` currently
 provides ordinary finite WCC frontier capture, App entry order and a bound partial
@@ -815,7 +844,7 @@ permanently retaining historical path quirks. Missing CF FP evidence stays
 explicitly absent or unsupported; full DIRECT state is not a blanket initial
 I/O migration prerequisite.
 
-The published milestone preserves the original eight authored results under
+**Historical transport milestones.** The former controller preserved the original eight authored results under
 their original bindings. The corrected thread denial now passes in 982.778 ms;
 the folded private backend also passes four-return prefix progress in
 1,470.722 ms and wrong-PC denial in 875.519 ms. These are backend controls,
@@ -837,9 +866,12 @@ callbacks as CRT using shipped-library bodies/fixups. Callback order is derived
 statically, not observed. WASM's `main_init`, `ObjRecInit` and `GenMSOmfInit`
 remain App code inside main. Original-only CRT structural export is now published
 in `307e3ed37`: it supplies bound original instruction facts with no invented NT
-counterpart, checked ABI or execution permission. Arbitrary gateway/far-service
-transfers, callbacks/SEH/APCs and new threads stay unproved or fail closed. The
-release qualifies ordinary capture only for the finite WCC path below; root separately released the five initial-case workers.
+counterpart, checked ABI or execution permission. Those exports and the former
+per-instruction admission receipts are historical support facts, not an active
+opcode permission requirement. In ordinary debugger mode the original CRT and
+gateway execute directly; unknown code remains masked, while additional
+processes/threads and CF DIRECT remain unsupported. Root separately released the
+five initial-case workers.
 
 **Shortest path to WCC's first real help frontier.** Static inspection found that
 CRT FILE initialization calls the compiler's private allocator at CF offset
@@ -852,9 +884,9 @@ remaining target-owned actions are:
 | --- | --- | --- |
 | Ordinary public CF capture | Shared recon-tool owner | Published: actual App entry/frontier/oracle path passed the public authored control and genuine WCC startup. |
 | Five original support owners | WCC worker and shared owner | Qualified 397 bytes: `_cstart_` `2fe00..2feb4`, `__InitRtns` `48526..48571`, `_init_stk` `482c6..482ce`, `__InitFiles_` `4a1e5..4a25d`, allocation wrapper `2f4cd..2f4db`. Complete extents and execution subsets remain distinct. |
-| Reached startup instructions and data | Shared recon-tool owner | Qualified operand-size-16 MOV/selector stores, LODSB, bounded REP BSS clearing, flat-segment PUSH/POP and exact launch/environment/stack/BSS/XI/FILE owners. Unknown instructions, services and callbacks still fail closed. |
+| Startup loading and layout | Shared recon-tool owner and binary workers | The ordinary debugger verifies the real loader allocation/relocations, preserves globals and encountered text data, restores positively classified CRT plus implemented App bodies, and stops at pending App entries. Original instructions and gateway services execute normally; no opcode implementation is needed. |
 | Equivalent native startup | WCC worker | Implemented and paired: the target-specific `harness/` bootstrap performs the real callback and consumes its result into the FILE node list with proved order and state effects. |
-| Later progress in the same help case | WCC worker and shared owner when reached | Reconstruct the App allocator normally. Its later AH=48h boundary dispatches to actual loader `410e27` and `LocalAlloc(0, EBX)`, initially requesting 65,536 bytes; bind returned ownership and actual flags/effects. Keep conditional fatal/OOM, unknown services and asynchronous execution closed. |
+| Later progress in the same help case | WCC worker | MemAlloc/MemInit already pass. Native harness/shims reproduce the real allocation effects, while the original loader executes AH=48h/LocalAlloc itself. Continue ordinary App reconstruction; classify concrete newly reached CRT bodies without inventing a service interpreter. |
 
 The wrapper's LEAVE and the memory-sourced startup stack reservation occur after
 the first allocator call returns; they are later progression requirements, not
@@ -884,8 +916,8 @@ The genuine capture/report remain unchanged and reusable only with their exact
 `wcc-first-help-frontier` / `WCC386.EXE` / IO-0 / empty-seen case and input identity.
 The binary-owned native bootstrap now reproduces the real callback and state
 effects through `--original-report`; publication required no repeat original run.
-Other CF geometries require their own qualified captures; gateway services,
-CF DIRECT and normal complete
+WPP/WASM layouts project through the shared exporter; their next actual pairs
+must still qualify the real original/native continuation. CF DIRECT and complete
 help execution remain unqualified. Canonical controls pass; READY receipt is
 `~/.ai-tmp/msvc2/watcom-ordinary-capture-20261025/READY.json` (SHA-256
 `463c1de1773c77406dddc60fc9cafc5ff6f84d3bb968f525c2d96bdff6b57cbe`).
