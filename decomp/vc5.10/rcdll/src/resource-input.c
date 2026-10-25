@@ -278,3 +278,44 @@ DWORD __cdecl rc_parse_resource_term(void)
     rc_skip_resource_space();
     return rc_resource_token.unknown0;
 }
+
+/* The collector writes the WORD at27f74; this parser initializes the separate
+ * cursor at27f80 before digit readers consume it. No prior defaults claimed. */
+WCHAR rc_resource_number_character,*rc_resource_number_cursor;
+
+void __cdecl rc_parse_resource_integer(void)
+{
+    DWORD value;
+    int negative=0,complement=0;
+    if(rc_resource_character==L'~'){
+        while(rc_resource_character!=0xe001&&rc_resource_character!=0xe000&&
+              rc_resource_character<=32)rc_next_resource_character();
+    }
+    rc_collect_resource_word(rc_resource_name);
+    rc_resource_number_cursor=rc_resource_name+1;
+    rc_resource_token.kind=20;
+    if(rc_resource_number_character==L'-'){
+        negative=1;
+        rc_next_resource_digit();
+    }
+    if(rc_resource_number_character==L'~'){
+        complement=1;
+        rc_next_resource_digit();
+    }
+    if(rc_resource_number_character==L'0'){
+        rc_next_resource_digit();
+        if(rc_resource_number_character==L'x')
+            value=rc_parse_resource_hexadecimal();
+        else if(rc_resource_number_character==L'o')
+            value=rc_parse_resource_octal();
+        else value=rc_parse_resource_decimal();
+    }else value=rc_parse_resource_decimal();
+    if(rc_resource_number_character==L'L'||rc_resource_number_character==L'l'){
+        rc_resource_token.unknown12=1;
+        rc_next_resource_digit();
+    }else rc_resource_token.unknown12=0;
+    if(negative)value=0-value;
+    if((WORD)complement)value=~value;
+    rc_resource_token.unknown0=value;
+    rc_resource_token.value=(WORD)value;
+}

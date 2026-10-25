@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_parse_resource_integer` (RVA 9d9f). Its partial streams and actual
+  stops at `rc_collect_resource_word` (RVA 9d3f). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **132 functions, 34,828 code bytes**
-This is 46.68% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **133 functions, 35,071 code bytes**
+This is 47.01% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (52.53%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (52.90%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -176,3 +176,11 @@ expression owner. Exact COFF relocation/87-byte remap proof now bounds that
 The failed preflight is preserved, and no original was captured before its
 correction. Fresh original/native reach the integer parser in 1.415 s /
 181.601 ms. No integer-parser body is credited yet.
+
+The full integer parser preserves sign/complement/radix/suffix flow and token
+outputs. Its numeric character/cursor owners are the actual WORD 27f74 and
+pointer 27f80; no prior defaults are claimed. Fresh original/native reach the
+word collector with its actual mutable resource-name pointer in 1.021 s /
+180.134 ms, with both builds/full audit taking 4.110 s. The native pointer alias
+is directly verified; original pointed bytes were not captured and are not
+claimed equal. Radix readers and the collector remain pending.
