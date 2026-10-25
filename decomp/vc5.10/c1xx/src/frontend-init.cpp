@@ -1028,7 +1028,15 @@ void RECON_THISCALL CompilerDeclarator::ValidateContext(void)
         qualifiers.value = 0;
     }
 }
-CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape)
+{
+    CompilerType description = *base_type;
+    description.attributes &= ~0x70;
+    description.shape = shape;
+    if (shape && (shape->flags & 0x77) == 4)
+        description.attributes |= shape->attributes & 0x70;
+    return intern_type(&description);
+}
 CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop)
 {
     if (this == stop) return this;
