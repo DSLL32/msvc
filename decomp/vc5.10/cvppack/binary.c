@@ -1,4 +1,4 @@
-/* Accepted runnable baseline: 114 App bodies / 37967 original code bytes.
+/* Accepted runnable baseline: 117 App bodies / 40111 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
@@ -147,8 +147,9 @@ static const ReconFunction functions[] = {
     { .name="_write_subsection", .entry_rva=0x68a0, .code=(const ReconExtent[]){{0x68a0,0x69da}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_subsection" },
     { .name="_write_publics", .entry_rva=0xd600, .code=(const ReconExtent[]){{0xd600,0xd998}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_publics" },
     { .name="_write_globals", .entry_rva=0xd9a0, .code=(const ReconExtent[]){{0xd9a0,0xdd54}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_globals" },
-    { .name="_write_static_symbols", .entry_rva=0xf5f0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="write_static_symbols" },
-    { .name="_write_global_types", .entry_rva=0x6460, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="write_global_types" },
+    { .name="_write_static_symbols", .entry_rva=0xf5f0, .code=(const ReconExtent[]){{0xf5f0,0xf95b}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_static_symbols" },
+    { .name="_write_global_types", .entry_rva=0x6460, .code=(const ReconExtent[]){{0x6460,0x689b}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="write_global_types" },
+    { .name="_prepare_type_offsets", .entry_rva=0xd130, .code=(const ReconExtent[]){{0xd130,0xd1ea}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="prepare_type_offsets" },
     { .name="_write_cached_file", .entry_rva=0x1cc0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="write_cached_file" },
     { .name="_resize_cached_file", .entry_rva=0x11b0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="resize_cached_file" },
     { .name="_insert_symbol_page_padding", .entry_rva=0xf960, .code=(const ReconExtent[]){{0xf960,0xfad2}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="insert_symbol_page_padding" },

@@ -373,6 +373,111 @@ void write_globals(CodeViewDirectoryEntry *entry, unsigned offset)
         "\t\t", packed_symbol_bytes, '\n', "\t\t", header.symbol_bytes, '\n');
 }
 
+/* Static/reference-symbol output: [0040f5f0,0040f95b). */
+extern unsigned reference_symbol_bytes, reference_symbol_count;
+void write_static_symbols(CodeViewDirectoryEntry *entry, unsigned offset)
+{
+    SymbolHashHeader header;
+    TypeArena names, addresses;
+    TypeArenaBlock *block;
+    PublicSymbol *node;
+    unsigned bucket, added, padding = 0;
+    unsigned short written;
+    header.name_method = header.address_method = 0;
+    header.symbol_bytes = header.name_bytes = header.address_bytes = 0;
+    added = insert_symbol_page_padding((PublicSymbol **)type_table_forward, 0);
+    reference_symbol_bytes += added;
+    header.symbol_bytes = reference_symbol_bytes;
+    build_symbol_name_hash(symbol_record_key, &header.name_method, &header.name_bytes,
+        &names, reference_symbol_count, (PublicSymbol **)type_table_forward);
+    build_symbol_address_hash(&header.address_method, &header.address_bytes,
+        &addresses, reference_symbol_count, (PublicSymbol **)type_table_forward);
+    entry->offset = offset;
+    entry->subsection = 0x134;
+    entry->module = 0xffff;
+    entry->size = sizeof(header) + header.symbol_bytes + header.name_bytes + header.address_bytes;
+    BUFFER_WRITE(&header, sizeof(header), written);
+    if (!written) fatal_error(1008, NULL, NULL);
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (node = ((PublicSymbol **)type_table_forward)[bucket]; node; node = node->next) {
+            BUFFER_WRITE(node->record, *(unsigned short *)node->record + 2, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    if (header.name_method) {
+        for (block = first_hash_output_block(&names); block; block = next_hash_output_block(block)) {
+            BUFFER_WRITE(block->data, block->used, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    if (header.address_method) {
+        for (block = first_hash_output_block(&addresses); block; block = next_hash_output_block(block)) {
+            BUFFER_WRITE(block->data, block->used, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+        }
+    }
+    added = 4 - (entry->size & 3);
+    if (added != 4) {
+        BUFFER_WRITE(&padding, added, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+}
+
+/* Packed global-type offsets and 48K record pages [00406460,0040689b). */
+unsigned write_global_types(void)
+{
+    unsigned count = symbol_rewriters.state.next_global_type - 0x1000;
+    unsigned flags = 2, zero = 0, index, amount, total, room, words;
+    unsigned short size, padding, position = 0, written;
+    unsigned char *record, *end;
+    TypeArenaBlock *block;
+    prepare_type_offsets();
+    BUFFER_WRITE(&flags, 4, written);
+    if (!written) fatal_error(1008, NULL, NULL);
+    BUFFER_WRITE(&count, 4, written);
+    if (!written) fatal_error(1008, NULL, NULL);
+    for (index = 0; index < count; index += amount) {
+        amount = count - index;
+        if (amount > 512) amount = 512;
+        BUFFER_WRITE(global_type_blocks[index >> 9], amount * 4, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+    total = count * 4 + 8;
+    for (block = first_hash_output_block(&type_large_arena); block;
+         block = next_hash_output_block(block)) {
+        record = block->data;
+        end = record + block->used;
+        while (record < end) {
+            size = (unsigned short)(*(unsigned short *)record + 2);
+            padding = (unsigned short)(3 - ((size - 1) & 3));
+            if ((unsigned)position + size + padding > 0xc000) {
+                room = (unsigned short)(0xc000 - position);
+                total += room;
+                for (words = (room + 3) >> 2; words; --words) {
+                    BUFFER_WRITE(&zero, 4, written);
+                    if (!written) fatal_error(1008, NULL, NULL);
+                }
+                position = 0;
+            }
+            position = (unsigned short)(position + size + padding);
+            BUFFER_WRITE(record, size, written);
+            if (!written) fatal_error(1008, NULL, NULL);
+            if (padding) {
+                BUFFER_WRITE(&zero, padding, written);
+                if (!written) fatal_error(1008, NULL, NULL);
+            }
+            record += size;
+            total += size + padding;
+        }
+    }
+    output_padding_size = 4 - (total & 3);
+    if (output_padding_size != 4) {
+        BUFFER_WRITE(output_padding, output_padding_size, written);
+        if (!written) fatal_error(1008, NULL, NULL);
+    }
+    return total;
+}
+
 /* Sort module records first, then unsigned module/subsection order.
  * [004063f0,0040645b), ordinary cdecl comparator. */
 int __cdecl compare_packed_directory_entries(const void *first, const void *second)

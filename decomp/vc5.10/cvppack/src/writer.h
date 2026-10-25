@@ -57,6 +57,7 @@ void write_publics(CodeViewDirectoryEntry *entry, unsigned offset);
 void write_globals(CodeViewDirectoryEntry *entry, unsigned offset);
 void write_static_symbols(CodeViewDirectoryEntry *entry, unsigned offset);
 unsigned write_global_types(void);
+void prepare_type_offsets(void);
 unsigned write_cached_file(int file, const void *buffer, unsigned size);
 void resize_cached_file(int file, unsigned size);
 #endif

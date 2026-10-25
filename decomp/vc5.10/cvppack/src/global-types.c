@@ -116,3 +116,25 @@ void record_base_classes(unsigned index, unsigned list)
         } else return;
     }
 }
+
+/* Convert the final type-pointer table to offsets in the packed 48K pages.
+ * The original reuses each four-byte slot after all pointer consumers finish.
+ * [0040d130,0040d1ea). */
+void prepare_type_offsets(void)
+{
+    unsigned index, offset = 0;
+    unsigned short position = 0, size, padding;
+    unsigned char **slot;
+    for (index = 0; index < symbol_rewriters.state.next_global_type - 0x1000; ++index) {
+        slot = &global_type_blocks[index >> 9][index & 511];
+        size = (unsigned short)(*(unsigned short *)*slot + 2);
+        padding = (unsigned short)(3 - ((size - 1) & 3));
+        if ((unsigned)position + size + padding > 0xc000) {
+            offset += 0xc000 - position;
+            position = 0;
+        }
+        *slot = (unsigned char *)offset;
+        offset += size + padding;
+        position = (unsigned short)(position + size + padding);
+    }
+}

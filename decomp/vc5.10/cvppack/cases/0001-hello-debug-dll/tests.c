@@ -338,7 +338,25 @@ static int test_callback_table_tags(void)
   if(symbol_rewriters.entries[i].kind!=kinds[i] || symbol_rewriters.entries[i].reserved) return 0;
  return 1;
 }
-const ReconTest cvpack_tests[12] = {
+/* The last record must start on the next 48K page, leaving four zero-fill
+ * bytes. Verify the destructive pointer-to-offset slot transition directly. */
+extern void prepare_type_offsets(void);
+static int test_type_offset_page(void)
+{
+    unsigned char first[8], middle[0xbff4], last[8];
+    unsigned char *slots[3];
+    *(unsigned short *)first = sizeof(first) - 2;
+    *(unsigned short *)middle = sizeof(middle) - 2;
+    *(unsigned short *)last = sizeof(last) - 2;
+    slots[0] = first; slots[1] = middle; slots[2] = last;
+    global_type_blocks[0] = slots;
+    symbol_rewriters.state.next_global_type = 0x1003;
+    prepare_type_offsets();
+    return (unsigned)slots[0] == 0 && (unsigned)slots[1] == 8 &&
+        (unsigned)slots[2] == 0xc000 && *(unsigned short *)first == 6 &&
+        *(unsigned short *)middle == 0xbff2 && *(unsigned short *)last == 6;
+}
+const ReconTest cvpack_tests[13] = {
  {"global-symbol",1,test_global_symbol},
  {"lookup-type",1,test_lookup_type},
  {"recursive-compare",1,test_recursive_compare},
@@ -350,5 +368,6 @@ const ReconTest cvpack_tests[12] = {
  {"type-flag",1,test_type_flag},
  {"pointer-gap",1,test_pointer_gap},
  {"callback-table-tags",1,test_callback_table_tags},
- {"unsupported-pointer-kind",1,test_unsupported_pointer_kind}
+ {"unsupported-pointer-kind",1,test_unsupported_pointer_kind},
+ {"type-offset-page",1,test_type_offset_page}
 };

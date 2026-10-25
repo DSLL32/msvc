@@ -567,13 +567,28 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_write_static_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_global_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_type_offsets": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
   "native_limitations": [
     "compact_legacy_pointer rejects the original uninitialized-offset unknown-kind path before consumption.",
     "MSPDB provider permits only the21 captured Widen lifetimes/inputs and observed methods; Record0x0c, TypesClose/PDBClose and unknown requests deny.",
-    "write_static_symbols remains the unimplemented frontier; accepted App code totals114 functions/37967bytes."
+    "end_buffered_output is the current unimplemented frontier; accepted App code totals117 functions/40111bytes."
   ],
   "graph_metadata": {
     "schema": 1,

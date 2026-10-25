@@ -3,7 +3,7 @@ extern int cvpack_native_setup(int,const char *);
 extern int cvpack_main(int,char **,char **);
 static int setup(void) { return cvpack_native_setup(1,"T:\\run-nOh4cQ\\CVPACK.EXE"); }
 static int invoke(int argc,char **argv) { return cvpack_main(argc,argv,(char **)0); }
-extern const ReconTest cvpack_tests[12];
+extern const ReconTest cvpack_tests[13];
 static const uint32_t order[] = {
     0x4620, /* cvpack_main */
     0x7680, /* initialize_messages */
@@ -117,11 +117,14 @@ static const uint32_t order[] = {
     0x100d0, /* next_hash_output_block */
     0xd9a0, /* write_globals */
     0xf5f0, /* write_static_symbols */
+    0x6460, /* write_global_types */
+    0xd130, /* prepare_type_offsets */
+    0x10240, /* end_buffered_output */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  .abi_version=RECON_ABI_VERSION,.struct_size=sizeof(ReconCase),
- .name="hello-debug-dll",.description="Embedded CodeView DLL; unfinished at write_static_symbols",
+ .name="hello-debug-dll",.description="Embedded CodeView DLL; unfinished at end_buffered_output",
  .first_entry_order=order,.first_entry_count=RECON_COUNT(order),
- .execution=RECON_IO,.terminal=RECON_FRONTIER,.frontier_rva=0xf5f0,
- .setup=setup,.io=invoke,.tests=cvpack_tests,.test_count=12
+ .execution=RECON_IO,.terminal=RECON_FRONTIER,.frontier_rva=0x10240,
+ .setup=setup,.io=invoke,.tests=cvpack_tests,.test_count=13
 };
