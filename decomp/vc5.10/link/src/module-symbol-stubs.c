@@ -3,8 +3,8 @@
 #include <recon.h>
 
 /* Named pending callees: declarations retain actual stack cleanup, no body credit. */
-IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **cursor)
-{ __asm { int 3 } return NULL; }
+void __stdcall read_file_symbol(int file,IMAGE_SYMBOL *symbol)
+{ __asm { int 3 } }
 void __stdcall mark_symbol_bit(DWORD *bits,DWORD index)
 { __asm { int 3 } }
 void __stdcall collect_weak_external(StringTable *table,IMAGE_SYMBOL **cursor,

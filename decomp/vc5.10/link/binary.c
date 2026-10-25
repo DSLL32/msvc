@@ -3,7 +3,8 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
-    {"_next_coff_symbol@4",0x61010,(const ReconExtent[]){{0x61010,0x61011}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"next_coff_symbol",NULL,NULL,0,NULL},
+    {"_read_file_symbol@8",0x61300,(const ReconExtent[]){{0x61300,0x61301}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_file_symbol",NULL,NULL,0,NULL},
+    {"_next_coff_symbol@4",0x61010,(const ReconExtent[]){{0x61010,0x6103a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_coff_symbol",NULL,NULL,0,NULL},
     {"_mark_symbol_bit@8",0x61d00,(const ReconExtent[]){{0x61d00,0x61d01}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"mark_symbol_bit",NULL,NULL,0,NULL},
     {"_collect_weak_external@32",0x5e590,(const ReconExtent[]){{0x5e590,0x5e591}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"collect_weak_external",NULL,NULL,0,NULL},
     {"_has_incremental_symbol@8",0x38c50,(const ReconExtent[]){{0x38c50,0x38c51}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"has_incremental_symbol",NULL,NULL,0,NULL},

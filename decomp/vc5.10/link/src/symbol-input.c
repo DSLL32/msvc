@@ -97,3 +97,17 @@ const char *__stdcall get_symbol_name(StringNode *symbol,const void *strings,
     if (is_import) *is_import=(BYTE)((unsigned char)*name==0x7f);
     return name;
 }
+
+/* This is the original18-byte BSS owner at4948c8, used only by streamed input. */
+static IMAGE_SYMBOL streamed_symbol;
+void __stdcall read_file_symbol(int,IMAGE_SYMBOL *);
+IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **cursor)
+{
+    IMAGE_SYMBOL *symbol=*cursor;
+    if(symbol) {
+        *cursor=symbol+1;
+        return symbol;
+    }
+    read_file_symbol(current_input_file,&streamed_symbol);
+    return &streamed_symbol;
+}

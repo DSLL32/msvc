@@ -6230,6 +6230,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_next_coff_symbol@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

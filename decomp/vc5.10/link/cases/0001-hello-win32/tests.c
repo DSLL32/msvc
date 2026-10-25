@@ -940,6 +940,13 @@ static IMAGE_SYMBOL *__stdcall check_symbol_cursor(IMAGE_SYMBOL **cursor)
         relocation_data_active || total_relocation_count!=21)
         recon_native_entry_finish(0);
     for(i=0;i<37;++i) if(current_module_symbols[i])recon_native_entry_finish(0);
+    {
+        IMAGE_SYMBOL *before=*cursor;
+        /* Shared hook restores the genuine entry before this typed callback. */
+        IMAGE_SYMBOL *result=next_coff_symbol(cursor);
+        if(result!=before || *cursor!=before+1 || result->StorageClass!=103)
+            recon_native_entry_finish(0);
+    }
     recon_native_entry_finish(1);
     return NULL;
 }
@@ -947,7 +954,23 @@ static int symbol_cursor(void)
 {
     return recon_native_at_entry(next_coff_symbol,check_symbol_cursor,invoke_hello,NULL)==1;
 }
+extern BYTE __stdcall emit_symbol_class(BYTE,LinkOptions *);
+static BYTE __stdcall check_symbol_class(BYTE symbol_class,LinkOptions *options)
+{
+    LinkContext *context;
+    if(!options)recon_native_entry_finish(0);
+    context=(LinkContext *)((BYTE *)options - offsetof(LinkContext,options));
+    recon_native_entry_finish(symbol_class==103 && !options->debug_formats &&
+        !options->debug_level && context->command_line_library==current_input_library &&
+        context->symbols && current_input_library->module_head->symbol_count==37);
+    return 0;
+}
+static int symbol_class_call(void)
+{
+    return recon_native_at_entry(emit_symbol_class,check_symbol_class,invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"symbol-class-call",1,symbol_class_call},
     {"symbol-cursor-call",1,symbol_cursor},
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
