@@ -440,7 +440,36 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
     }
 }
 
-extern "C" void __cdecl write_current_source_line(void) { __asm { int 3 } }
+/* The line delta is relative to the current source-file line origin. Only
+ * its signed low WORD is serialized by this compact line record. */
+extern "C" void __cdecl write_current_source_line(void)
+{
+    OutputBuffer *buffer = &frontend_bss.output_buffers[3];
+    unsigned delta = frontend_bss.ir_line_delta;
+    short line;
+    int good;
+    if (!delta || delta == frontend_data.last_ir_line_delta)
+        return;
+    frontend_data.last_ir_line_delta = delta;
+    good = buffer->cursor + 2 <= buffer->data + buffer->capacity || buffer->Grow(2) != 0;
+    buffer->ok &= good;
+    if (buffer->ok) BYTE_OUT(0x4f);
+    good = buffer->cursor + 2 <= buffer->data + buffer->capacity || buffer->Grow(2) != 0;
+    buffer->ok &= good;
+    if (buffer->ok) BYTE_OUT(0x24);
+    delta = frontend_bss.ir_line_delta;
+    good = buffer->cursor + 4 <= buffer->data + buffer->capacity || buffer->Grow(4) != 0;
+    buffer->ok &= good;
+    if (buffer->ok) {
+        line = (short)delta;
+        if (!((unsigned)(int)line & ~0x7fU)) BYTE_OUT(line);
+        else {
+            BYTE_OUT(0x80);
+            *(WORD *)buffer->cursor = (WORD)line;
+            buffer->cursor += 2;
+        }
+    }
+}
 extern "C" void __cdecl serialize_ir_type(int kind, const CompilerExpression *node, int mode) { __asm { int 3 } }
 extern "C" void __cdecl assign_symbol_id(CompilerSymbol *symbol) { __asm { int 3 } }
 extern "C" int __cdecl needs_external_symbol(unsigned index) { __asm { int 3 } return 0; }

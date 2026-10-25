@@ -1708,9 +1708,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_write_current_source_line", .entry_rva = 0x11b1,
-        .code = (const ReconExtent[]){{0x11b1, 0x11b2}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x11b1, 0x11c3}, {0x5093d, 0x50a9d}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "write_current_source_line",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_serialize_ir_type", .entry_rva = 0x162d9,

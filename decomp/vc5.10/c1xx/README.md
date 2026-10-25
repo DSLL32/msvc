@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 123 accepted application functions / 17510
+The single registry is binary.c: 124 accepted application functions / 17880
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 125
+as are three six-byte import endpoints (18 bytes, zero App credit). The 126
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine write_current_source_line INT3 at RVA11b1;
+and currently reaches the genuine OutputBuffer::Ensure INT3 at RVA11c3;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -51,10 +51,15 @@ New initialized defaults and BSS members join the focused nonzero restore unit.
 The type-class fallback retains the original reused argument-slot value; no
 address-byte output equivalence is claimed for that unexercised path.
 
-The fresh original/native pair took 1.385 s / 10.718 ms (native setup 5.903,
-execution 3.206, checks 1.610), with selected original-report equality.
-The build/audit/unit batch took 3.003 s. Current shared towlower support is
-published as 1ccba02a2; no publication-only replay was run.
+The 370-byte source-line helper preserves its 18 hot and 352 cold bytes,
+including inline buffer-room checks and signed-WORD delta encoding. Its source
+line delta and last-emitted delta join reset/restore with exact zero defaults.
+The fresh pair reaches Ensure(2) with the real expression buffer receiver.
+Original/native took 1.591 s / 11.253 ms (native setup 6.401, execution 3.064,
+checks 1.788); the build/audit/unit batch took 7.740 s. A separate native GDB
+entry observation confirmed the thiscall receiver and stack argument; its batch
+ended at the intended INT3 and supervisor cleanup reported SIGKILL, so that
+diagnostic is not counted as a passing fixture. The ordinary paired run passed.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

@@ -59,6 +59,7 @@ typedef struct FrontendData {
     int force_type_serialization; /* cd550, zero */
     int type_debug_mode; /* cd54c, default1 */
     int reference_context; /* cdc1c, default1 */
+    unsigned last_ir_line_delta; /* cd6f0, zero */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -234,6 +235,7 @@ typedef struct FrontendBss {
     FILE *preprocessor_output; /* c080c */
     CompilerLexerBackend *lexer_backend; /* ba918 */
     unsigned ir_record_count; /* c0aac, zero */
+    unsigned ir_line_delta; /* c4c68, zero; current source line minus file origin */
     struct CompilerSymbol *current_ir_symbol; /* c06e0, NULL */
     struct CompilerSymbol *current_function; /* c0824, NULL */
     int expression_seek_result; /* c5388, zero */

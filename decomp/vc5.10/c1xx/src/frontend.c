@@ -103,7 +103,8 @@ FrontendData frontend_data = {
     NULL, NULL, NULL, NULL, /* keyword table/current, pointer table/empty */
     0, /* PCH expression file */
     5, /* constant_arena_index, original cd88c */
-    0, 1, 1 /* force_type_serialization, type_debug_mode, reference_context */
+    0, 1, 1, /* force_type_serialization, type_debug_mode, reference_context */
+    0 /* last_ir_line_delta, original cd6f0 */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -143,6 +144,7 @@ int initialize_compiler_pass(void)
         frontend_bss.processor_instruction_mask = 0;
         frontend_bss.expression_seek_result = 0;
         frontend_bss.ir_record_count = 0;
+        frontend_bss.ir_line_delta = 0;
         frontend_bss.current_ir_symbol = NULL;
         frontend_bss.current_function = NULL;
         for (i = 0; i < 32; ++i)
