@@ -3,6 +3,13 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_allocate_integer_constant", .entry_rva = 0x3fdc,
+        .code = (const ReconExtent[]){{0x3fdc, 0x401f}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "allocate_integer_constant",
+    },
+
+    {
         .name = "_prepare_expression_input", .entry_rva = 0x3be05,
         .code = (const ReconExtent[]){{0x3be05, 0x3be06}},
         .code_count = 1, .definition = RECON_APP,
@@ -902,9 +909,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_make_integer_constant", .entry_rva = 0x3fc2,
-        .code = (const ReconExtent[]){{0x3fc2, 0x3fc3}},
+        .code = (const ReconExtent[]){{0x3fc2, 0x3fdc}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "make_integer_constant",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_global_header", .entry_rva = 0x2e54d,

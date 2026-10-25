@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 120 accepted application functions / 15211
+The single registry is binary.c: 121 accepted application functions / 15237
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are three six-byte import endpoints (18 bytes, zero App credit). The 122
+as are three six-byte import endpoints (18 bytes, zero App credit). The 123
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine make_integer_constant INT3 at RVA3fc2;
+and currently reaches the genuine allocate_integer_constant INT3 at RVA3fdc;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -42,14 +42,12 @@ vtables resolve to one physical function. The alias unit inspects a real object
 without invoking pending methods. These aliases add no code credit. Only the
 initializer/factory TUs use /Ob1 for helpers proved inline in the original.
 
-The 249-byte OutputBuffer::Open now creates the expression output and selects
-its 4096-byte stdio buffer. The actual original/native pair reaches
-make_integer_constant(0x484): 1.316 s / 11.107 ms (native setup 5.611,
-execution 3.908, checks 1.587), with the explicit original-report gate.
-The build/audit/unit batch took 8.281 s. The former unnamed BYTE at original
-+1c is now the encountered 260-byte filename array, ending before descriptor
-+120. Constructors initialize its first byte; modeled BSS reset clears it, and
-the affected nonzero unit checks the final byte resets correctly.
+The 26-byte integer-constant wrapper passes current strict audit and an actual
+selected-original-report pair at allocate_integer_constant(0x484):
+1.507 s / 10.625 ms (native setup 5.104, execution 3.973, checks 1.549).
+The build/audit/unit batch took 9.034 s. The source preserves the zero-value
+marker bit on the returned node and leaves all other node storage unmodeled
+until the pending builder is reconstructed.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
