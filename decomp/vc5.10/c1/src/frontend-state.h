@@ -110,6 +110,12 @@ struct CompilerTypeShape {
 #endif
 };
 
+struct CompilerTypeShapeEntry {
+    struct CompilerTypeShapeEntry *next;
+    struct CompilerTypeShape shape;
+};
+typedef char CompilerTypeShapeEntry_size[sizeof(struct CompilerTypeShapeEntry) == 16 ? 1 : -1];
+
 typedef struct CompilerBuiltinTypes {
     CompilerType *type_0000, *type_4041_first, *type_0063, *type_4063_first;
     CompilerType *type_0041, *type_4041_second, *type_0042, *type_4042_first;

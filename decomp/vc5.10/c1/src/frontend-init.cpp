@@ -855,4 +855,34 @@ CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternUntil(CompilerTypeSha
     return intern_type_shape(this);
 }
 extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape)
-{ __asm { int 3 } return NULL; }
+{
+    CompilerTypeShapeEntry *entry;
+    CompilerPool *pool = &c1_bss.pools[1];
+    unsigned hash;
+    if (!shape)
+        return NULL;
+    hash = (((WORD)(unsigned)shape->parameters >> 2) +
+        ((WORD)(unsigned)shape->base >> 2) + shape->flags +
+        shape->attributes) & 1023;
+    CompilerTypeShapeEntry **bucket = &c1_data.type_shape_buckets[hash];
+    for (entry = *bucket; entry; entry = entry->next)
+        if (entry->shape.base == shape->base && entry->shape.value == shape->value &&
+            entry->shape.flags == shape->flags &&
+            entry->shape.attributes == shape->attributes)
+            return &entry->shape;
+    if (pool->remaining < 16)
+        pool->Refill(16);
+    entry = (CompilerTypeShapeEntry *)pool->cursor;
+    pool->cursor += 16;
+    pool->remaining -= 16;
+    if (entry) {
+        entry->shape.flags = 0;
+        entry->shape.attributes = 0;
+        entry->shape.base = NULL;
+        entry->shape.value = 0;
+    }
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->shape = *shape;
+    return &entry->shape;
+}

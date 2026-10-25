@@ -266,7 +266,40 @@ static int cached_empty_type_list(void)
         storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
 }
 extern int c1_test_append_type_shape(void);
-const ReconTest minimal_tests[24] = {
+extern struct CompilerTypeShape *__cdecl intern_type_shape(struct CompilerTypeShape *);
+static int interned_type_shapes(void)
+{
+    struct CompilerTypeShapeEntry *buckets[1024];
+    struct CompilerTypeShape first, collision, *a, *b;
+    DWORD storage[10];
+    unsigned i, hash;
+    for (i = 0; i < 1024; ++i) buckets[i] = NULL;
+    for (i = 0; i < 10; ++i) storage[i] = 0xa5a5a5a5;
+    first.flags = 4;
+    first.attributes = 0x10;
+    first.base = NULL;
+    first.value = 1;
+    collision = first;
+    collision.value = 4097;
+    c1_data.type_shape_buckets = buckets;
+    c1_bss.pools[1].cursor = (BYTE *)(storage + 1);
+    c1_bss.pools[1].remaining = 32;
+    a = intern_type_shape(&first);
+    b = intern_type_shape(&collision);
+    hash = 4 + 0x10;
+    return a == (struct CompilerTypeShape *)(storage + 2) &&
+        b == (struct CompilerTypeShape *)(storage + 6) && a != b &&
+        a->value == 1 && b->value == 4097 && a->flags == 4 &&
+        a->attributes == 0x10 && !a->base &&
+        (void *)buckets[hash] == storage + 5 &&
+        (void *)buckets[hash]->next == storage + 1 &&
+        !buckets[hash]->next->next && intern_type_shape(&first) == a &&
+        intern_type_shape(NULL) == NULL && c1_bss.pools[1].remaining == 0 &&
+        c1_bss.pools[1].cursor == (BYTE *)(storage + 9) &&
+        storage[0] == 0xa5a5a5a5 && storage[9] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[25] = {
+    { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
