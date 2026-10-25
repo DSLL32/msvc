@@ -1,4 +1,5 @@
 /* Shared workspace and entry to C++ symbol decoration. */
+#include <ctype.h>
 #include "mangling.h"
 #include "lexer.h"
 #include "operators.h"
@@ -887,4 +888,39 @@ void __stdcall cache_function_parameter_bytes(CppSymbol *function)
     if (shape && !(shape->flags & 0x77)) shape = shape->related;
     function->field2c = declaration_parameter_bytes(shape->data.parameters);
     function->attributes |= 0x4000;
+}
+
+/* Original0x44460..0x445f9, stdcall8. Literal-name escapes preserve
+   signed-byte classification and the original arithmetic high-nibble shift. */
+char *__stdcall encode_literal_name_byte(char *cursor, signed char character)
+{
+    unsigned char low;
+    if (isalnum(character) || character == '_' || character == '$') {
+        *cursor++ = character;
+        return cursor;
+    }
+    *cursor++ = '?';
+    low = (unsigned char)character & 0x7f;
+    if (isalpha(low)) {
+        *cursor++ = low;
+        return cursor;
+    }
+    switch (character) {
+    case ',': *cursor++ = '0'; break;
+    case '/': *cursor++ = '1'; break;
+    case '\\': *cursor++ = '2'; break;
+    case ':': *cursor++ = '3'; break;
+    case '.': *cursor++ = '4'; break;
+    case ' ': *cursor++ = '5'; break;
+    case '\n': *cursor++ = '6'; break;
+    case '\t': *cursor++ = '7'; break;
+    case '\'': *cursor++ = '8'; break;
+    case '-': *cursor++ = '9'; break;
+    default:
+        *cursor++ = '$';
+        *cursor++ = 'A' + (character >> 4);
+        *cursor++ = 'A' + (character & 15);
+        break;
+    }
+    return cursor;
 }

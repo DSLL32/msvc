@@ -422,7 +422,6 @@ void write_ir_double(double *value) { __asm { int 3 } }
 char *__stdcall mangle_array_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_tag_for_result_type(CType *type) { __asm { int 3 } return 0; }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
@@ -448,7 +447,6 @@ short __stdcall format_based_declaration(unsigned short attributes, void *base) 
 int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol) { __asm { int 3 } return 0; }
-void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail) { __asm { int 3 } }
 unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }
 
 void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
@@ -456,7 +454,6 @@ void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
-char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
 
 
 
@@ -500,7 +497,6 @@ void browser_compilation_error(void) { __asm { int 3 } }
 
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination, IrToken *source, IrToken *bytes) { __asm { int 3 } }
 
@@ -565,3 +561,5 @@ char *__stdcall member_protection_keyword(unsigned char protection) { __asm { in
 int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
 
 unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }

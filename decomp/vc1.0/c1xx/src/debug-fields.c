@@ -344,3 +344,24 @@ void __stdcall emit_debug_field_list(CppSymbol *tag, unsigned first_member,
 }
 #undef NAME_BYTES
 #undef FIELD_SPACE
+
+/* Original0x6e9a0..0x6ea3f, cdecl4. End a field leaf with a
+   continuation index, then queue its actual class/member-array continuation. */
+void split_debug_field_record(unsigned char kind, void *subject, unsigned first, unsigned tail)
+{
+    unsigned char *continuation = debug_record_buffer + debug_field_bytes + 4;
+    unsigned record;
+    *(unsigned short *)continuation = 0x405;
+    *(unsigned short *)(continuation + 2) = next_debug_type_index;
+    record = reserve_debug_type(kind);
+    if (kind == 2) {
+        debug_types[record].subject.symbol = (CppSymbol *)subject;
+        debug_types[record].attributes = (unsigned short)first;
+        debug_types[record].related_type = (unsigned short)tail;
+    } else {
+        debug_types[record].subject.members = (CppSymbol **)subject;
+        debug_types[record].detail.first_member = (int)first;
+        debug_types[record].attributes = (unsigned short)tail;
+    }
+    emit_debug_type_record(debug_field_bytes + 6);
+}

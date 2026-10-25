@@ -146,3 +146,20 @@ IrToken *__stdcall bind_reference_lvalue(CType *referent, CType *reference,
     result->type = referent;
     return result;
 }
+
+IrToken *__stdcall build_scalar_reference_temporary(CType *referent,
+    CType *reference, IrToken *expression);
+
+/* Original0x67550..0x67593, stdcall12. Class temporaries use the
+   ordinary operand conversion; scalar references need an addressable value. */
+IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference,
+    IrToken *expression)
+{
+    IrToken *result;
+    if (is_unqualified_class_type(referent))
+        result = convert_operand_if_needed(1,referent,expression);
+    else result = build_scalar_reference_temporary(referent,reference,expression);
+    initializing_symbol = 0;
+    initializing_reference = 0;
+    return result;
+}

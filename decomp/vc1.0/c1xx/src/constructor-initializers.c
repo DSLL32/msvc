@@ -1792,3 +1792,39 @@ void __stdcall emit_default_ctor_closure_body(CppSymbol *tag)
     IrToken *object = adjusted_this_expression(0);
     make_constructor_call(tag,object,0,1,1);
 }
+
+/* Original0x66ee0..0x67008, stdcall12. Construct an addressable
+   copy using either the active initializer owner or a fresh temporary index. */
+IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type,
+    IrToken *expression)
+{
+    TypeShape *function = constructor->type->related;
+    CType *referent;
+    CppSymbol *temporary;
+    IrToken *object, *arguments, *result;
+    unsigned storage, index;
+    if (function && !(function->flags & 0x77)) function = function->related;
+    referent = dereference_pointer_type(function->data.parameters->associated_type);
+    if (initializing_symbol) {
+        if (member_initializer_active) {
+            if (options.configuration.extensions_enabled)
+                report_syntax_error(354,initializing_symbol->name);
+            else compiler_warning(1,354,initializing_symbol->name);
+        }
+        storage = member_initializer_active ? 4 : initializing_symbol->storage[0] & 7;
+        temporary = create_initializer_temporary((unsigned char)storage,referent);
+        object = builtin_unary_expression(0x3b,resolve_symbol_expression(temporary));
+        record_initialized_temporary(temporary,type);
+    } else {
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        index = next_symbol_index++;
+        object = new_temporary_reference(index,referent);
+        register_temporary_destruction(object,type);
+    }
+    arguments = append_expression(0,expression,2);
+    result = make_resolved_call(constructor,object,arguments,1,0);
+    if (result) result->type = type;
+    return result;
+}

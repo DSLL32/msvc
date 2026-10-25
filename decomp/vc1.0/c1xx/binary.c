@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1524 historical frontiers/1417 App bodies.
+ * Current reviewed boundary:1528 historical frontiers/1421 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_build_scalar_reference_temporary@12",
+        .entry_rva = 0x57630,
+        .code = (const ReconExtent[]) { { 0x57630, 0x5771b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "build_scalar_reference_temporary",
+    },
     {
         .name = "_make_intrinsic_external@4",
         .entry_rva = 0x2d410,
@@ -6406,10 +6414,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_encode_literal_name_byte@8",
         .entry_rva = 0x34460,
-        .code = (const ReconExtent[]) { { 0x34460, 0x34461 } },
+        .code = (const ReconExtent[]) { { 0x34460, 0x345f9 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "encode_literal_name_byte",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_cache_function_parameter_bytes@4",
@@ -11003,10 +11012,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_copy_constructor_call@12",
         .entry_rva = 0x56ee0,
-        .code = (const ReconExtent[]) { { 0x56ee0, 0x56ee1 } },
+        .code = (const ReconExtent[]) { { 0x56ee0, 0x57008 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_copy_constructor_call",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_declare_temporary_storage@12",
@@ -11137,10 +11147,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_initialize_reference_temporary@12",
         .entry_rva = 0x57550,
-        .code = (const ReconExtent[]) { { 0x57550, 0x57551 } },
+        .code = (const ReconExtent[]) { { 0x57550, 0x57593 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initialize_reference_temporary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_retain_reference_temporary@12",
@@ -11799,10 +11810,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_split_debug_field_record",
         .entry_rva = 0x5e9a0,
-        .code = (const ReconExtent[]) { { 0x5e9a0, 0x5e9a1 } },
+        .code = (const ReconExtent[]) { { 0x5e9a0, 0x5ea3f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "split_debug_field_record",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_debug_member_name_length@12",

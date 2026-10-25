@@ -1,11 +1,20 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1417 application
-source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted fifty bodies (6745B and100B switch data), including named segments
-and catalog reading/position lookup alongside access declarations and pragmas;
-active at the next named frontier (RVA0x34460). The completed packet_engine
+PARTIAL reconstruction; dsp_bank is COMPLETE. There are1421 application source
+functions plus seven unchanged historical CRT source functions. The DSP case
+accepted54 whole bodies (7676 code bytes and100 owned switch-data bytes), covering
+access declarations, intrinsic/section pragmas, diagnostics, x87 constant folding,
+assembler literals/addressing/comments/labels, temporary copies and large debug
+field-list continuation. Fresh original54 and native exit0,54 first encounters,
+streams and all six artifacts match the unchanged full pipeline oracle; no byte
+normalization was added. The1429-function inherited graph/ABI audit, all ten native
+cases and21 unit groups pass. Final native32.337ms (setup17.096ms, execution9.617ms,
+checks5.624ms); native/original incremental build2.988s, original capture1.061s,
+audit/setup2.194s, all cached cases plus units0.278s. The shared refill correction
+and earlier44/45 qualification gap are recorded under Boundaries.
+
+The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -37,15 +46,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1524: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first fifty DSP application steps, and the one additional CRT boundary.
+1528: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the fifty-four DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 340,034/476,418 .text bytes (71.37%); this is
+Application function extents cover 340,965/476,418 .text bytes (71.57%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
