@@ -1141,3 +1141,30 @@ int __stdcall check_conversion_qualifiers(unsigned char operation,
         return 2;
     }
 }
+
+/* Original0x619b0..0x61a7d, stdcall4. Yield the assigned lvalue
+   after evaluation. Nonrepeatable addresses are captured in a temporary so
+   the complete assignment evaluates the original address only once. */
+IrToken *__stdcall make_assignment_lvalue(IrToken *expression)
+{
+    IrToken *left, *right, *temporary, *copy, *assignment, *value;
+    CType *type;
+    unsigned index;
+    if (!expression || !(left = expression->value.pointer)) return 0;
+    right = expression->tail.right;
+    if (expression_can_be_repeated(left)) {
+        type = left->type;
+        copy = clone_expression(left, 0);
+        return new_ir_expression(0x40, expression, copy, type);
+    }
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    index = next_symbol_index++;
+    temporary = new_temporary_reference(index, left->type);
+    assignment = new_right_typed_expression(OP_ASSIGN, temporary, left);
+    assignment = new_right_typed_expression(OP_ASSIGN, assignment, right);
+    copy = clone_expression(temporary, 0);
+    value = new_typed_unary_expression(OP_DEREFERENCE, left->type, copy);
+    return new_ir_expression(0x40, assignment, value, left->type);
+}

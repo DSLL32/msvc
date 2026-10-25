@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include <time.h>
 #include "debug-info.h"
+#include "debug-types.h"
 #include "global-ir.h"
 #include "control-ir.h"
 #include <recon.h>
@@ -133,4 +134,57 @@ void begin_line_record_debug_info(void)
     *(unsigned *)line_record_buffer = 1;
     write_debug_record(3, 4, line_record_buffer);
     emit_line_record_database_reference();
+}
+
+/* Original0x70930..0x70948. Keep the two-byte record length and its leaf
+   in one allocated owner; the leaf global is the interior pointer. */
+void initialize_line_record_buffer(void)
+{
+    line_record_buffer = checked_malloc(0xff00);
+    line_record_leaf = line_record_buffer + 2;
+}
+
+/* Original0x708a0..0x7092a. The type-server leaf contains its signature,
+   age and counted database filename, then the original descending padding. */
+void emit_line_record_database_reference(void)
+{
+    unsigned char *leaf = line_record_leaf;
+    unsigned short length, padding;
+    if (!debug_database) return;
+    *(unsigned short *)leaf = 0x16;
+    *(unsigned *)(leaf + 2) = debug_database_signature(debug_database);
+    *(unsigned *)(leaf + 6) = debug_database_age(debug_database);
+    length = copy_line_record_name(leaf + 10, options.configuration.database_path) + 10;
+    padding = pad_line_record(line_record_buffer + length + 2, (unsigned short)(length + 2));
+    *(unsigned short *)line_record_buffer = padding + length;
+    write_debug_record(11, line_record_buffer);
+}
+/* Original0x72c20..0x72c39, cdecl2/RET0, defined AX result. */
+unsigned short copy_line_record_name(unsigned char *destination, char *name)
+{
+    return (unsigned short)(copy_debug_name(destination, name) - destination);
+}
+/* Original0x72650..0x72684, cdecl2/RET0 with a defined AX result.
+   Distinct original function from the ordinary CodeView field padder. */
+unsigned short pad_line_record(unsigned char *destination, unsigned short length)
+{
+    unsigned short padding = (unsigned short)(-length) & 3, left;
+    for (left = padding; left; --left)
+        *destination++ = (unsigned char)(0xf0 + left);
+    return padding;
+}
+
+int __cdecl debug_database_commit(DebugDatabase *database);
+int __cdecl debug_database_close(DebugDatabase *database);
+
+/* Original0x70950..0x7099f, cdecl0. End the debug stream before
+   committing and closing the type server; retain failure short-circuiting. */
+void finish_line_record_debug_info(void)
+{
+    write_debug_record(7);
+    if (debug_database) {
+        if (!debug_database_commit(debug_database) || !debug_database_close(debug_database))
+            report_syntax_error(471, options.configuration.database_path);
+        debug_database = 0;
+    }
 }

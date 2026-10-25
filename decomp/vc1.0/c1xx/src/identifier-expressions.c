@@ -540,3 +540,31 @@ IrToken *most_derived_expression(void)
 {
     return make_most_derived_test(adjusted_this_expression(0));
 }
+
+/* Original0x39fb0..0x3a06e, stdcall8. Qualified assignment needs a
+   member overload: bind a unique function or match the expected member type,
+   then retain that exact binding for the member-pointer expression. */
+IrToken *__stdcall resolve_qualified_assignment_operand(CType *type,
+    QualifiedDeclarator *reference)
+{
+    QualifierBinding *binding = reference->resolution->binding;
+    CppSymbol *symbol = (CppSymbol *)binding->target;
+    TypeShape *shape;
+    if ((symbol->kind & 31) != 17) {
+        report_syntax_error(597, format_qualified_name(binding, 0));
+        return make_error_expression();
+    }
+    if (has_single_function(symbol)) symbol = ((OverloadSet *)symbol)->functions;
+    else {
+        if (!type || !(shape = type->related)) return make_error_expression();
+        if (!(shape->flags & 0x20) && (shape->flags & 0x77) != 3)
+            return make_error_expression();
+        symbol = find_matching_overload(symbol, drop_first_type_shape(type), 1);
+    }
+    if (!symbol) {
+        report_syntax_error(563);
+        return make_error_expression();
+    }
+    binding->target = (ClassReference *)symbol;
+    return member_pointer_expression(reference);
+}

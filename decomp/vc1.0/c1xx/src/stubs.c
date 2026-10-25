@@ -86,7 +86,6 @@ int release_input_handle(void) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
-CppSymbol *get_current_class_symbol(void) { __asm { int 3 } return 0; }
 char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 
@@ -106,7 +105,6 @@ void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDecl
 
 
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
-void __stdcall diagnose_overload_failure(OverloadCandidate *candidate, OverloadSearch *search, IrToken *argument) { __asm { int 3 } }
 OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand) { __asm { int 3 } return 0; }
@@ -124,12 +122,10 @@ IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 
-void increment_expression_record_depth(void) { __asm { int 3 } }
 
 
 
 
-IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 
 
 
@@ -155,8 +151,6 @@ ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
-unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
-QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }
 
 
 
@@ -200,7 +194,6 @@ void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *me
 
 
 
-void __stdcall set_deferred_type_name(DeferredToken *token) { __asm { int 3 } }
 int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
@@ -264,7 +257,7 @@ void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __as
 void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
     FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following) { __asm { int 3 } }
 
-void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
+void __stdcall report_named_type_difference(unsigned code, CppSymbol *context, char *name,
     CType *source, CType *destination) { __asm { int 3 } }
 
 
@@ -302,7 +295,6 @@ void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken *
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
 IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_assignment_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_comma_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_conditional_lvalue(IrToken *expression) { __asm { int 3 } return 0; }
 
@@ -324,9 +316,6 @@ unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop
 
 
 
-void __cdecl prepare_line_record_tag(CppSymbol *tag) { __asm { int 3 } }
-unsigned short __cdecl line_record_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
-unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
 
 
 
@@ -347,7 +336,6 @@ void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned 
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall resolve_qualified_assignment_operand(CType *type, QualifiedDeclarator *reference) { __asm { int 3 } return 0; }
 
 
 char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
@@ -362,7 +350,6 @@ int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
-unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
@@ -392,11 +379,8 @@ void write_ir_double(double *value) { __asm { int 3 } }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
 int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression) { __asm { int 3 } return 0; }
 
 
-void initialize_line_record_buffer(void) { __asm { int 3 } }
-void emit_line_record_database_reference(void) { __asm { int 3 } }
 
 
 
@@ -405,7 +389,6 @@ void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __a
 
 
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
-void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
@@ -440,7 +423,6 @@ IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, 
 IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement) { __asm { int 3 } return 0; }
-void finish_line_record_debug_info(void) { __asm { int 3 } }
 void __stdcall fill_browser_generated_symbol(BrowserRecord *record) { __asm { int 3 } }
 
 void suppress_browser_records(void) { __asm { int 3 } }
@@ -508,7 +490,6 @@ AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { 
 
 void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
 
-int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) { __asm { int 3 } return 0; }
 int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }
 
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
@@ -523,7 +504,6 @@ int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 
 
 unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 void restore_pch_separate_debug(void) { __asm { int 3 } }

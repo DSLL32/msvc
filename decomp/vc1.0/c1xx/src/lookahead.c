@@ -1,5 +1,8 @@
 /* Deferred C++ declaration/expression lookahead and token reinterpretation. */
+#include <stdlib.h>
 #include "lookahead.h"
+#include "source-input.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
 int parenthesis_lookahead_depth; /* original 0x9d7cc */
@@ -227,4 +230,185 @@ int deferred_tokens_may_be_declaration(void)
    error callback deliberately emits no diagnostic and does not read its text. */
 void __stdcall report_lookahead_error(char *unused_text)
 {
+}
+
+/* Original0x18e90..0x18e9e, stdcall4. Reclassify both token views
+   together; the deferred value and type-specifier owner remain intact. */
+void __stdcall set_deferred_type_name(DeferredToken *token)
+{
+    token->lexical_token = token->parser_token = 0x28;
+}
+
+unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
+    const unsigned char *source, unsigned bytes);
+unsigned char *__stdcall copy_argument_spelling(unsigned char *destination, char *text);
+unsigned char *__stdcall copy_argument_type(unsigned char *destination, CType *type);
+void __stdcall copy_qualified_argument_name(QualifiedDeclarator *qualified);
+
+/* Original0x195d0..0x19b71, cdecl0/RET0; numeric-class dispatch owns
+   seven jump targets19b74..19b90. Capture real tokens into the existing text
+   workspace while ordinary preprocessor output is temporarily suppressed. */
+unsigned char read_deferred_argument_text(void)
+{
+    WorkingStack *saved_stack;
+    unsigned saved_line, length;
+    unsigned char *start;
+    unsigned char token;
+    int parentheses = 0, braces = 0;
+    char *spelling;
+    IrToken *number;
+    double real;
+    token_allocation_flags &= ~0x20;
+    saved_stack = compiler_stack;
+    compiler_stack = 0;
+    saved_line = source_line_number;
+    argument_text_mode = 1;
+    preprocessor_stream = 0;
+    start = text_work_cursor;
+    for (;;) {
+        token = read_parser_token();
+        switch (token) {
+        case 1: case 0x93:
+            break;
+        case 0:
+            source_line_number = saved_line;
+            fatal_error(502);
+            /* The original falls into the left-brace arm if fatal returns. */
+        case 0x7f:
+            ++braces;
+            *text_work_cursor++ = '{';
+            break;
+        case 2:
+            if (token_allocation_flags & 0x10000000UL) {
+                text_work_cursor = copy_argument_spelling(text_work_cursor, current_token_value.name);
+                *text_work_cursor++ = ' ';
+            }
+            break;
+        case 3: case 0xc3:
+            if (token_allocation_flags & 0x10000000UL) {
+                if (current_token_value.string.flags & 1) *text_work_cursor++ = 'L';
+                *text_work_cursor++ = '"';
+                text_work_cursor = copy_bytes_forward(text_work_cursor,
+                    (unsigned char *)current_token_value.string.text,
+                    (unsigned)current_token_value.string.length - 1);
+                *text_work_cursor++ = '"';
+            }
+            break;
+        case 0x28: case 0xb5:
+            text_work_cursor = copy_argument_type(text_work_cursor, current_token_value.declaration.type);
+            break;
+        case 0x4a:
+            *text_work_cursor++ = '[';
+            break;
+        case 0x6f:
+            number = current_token_value.expression;
+            switch (current_token_code) {
+            case 4: case 5: case 6:
+                if (!(token_allocation_flags & 0x10000000UL)) break;
+#ifdef RECON_NATIVE_TEST
+                /* Original ignores failure and then consumes an unwritten
+                   double at entryESP-8. Trap before that exact native use. */
+                if (extended_to_double(number->value.pointer, &real)) { __asm { int 3 } }
+#else
+                extended_to_double(number->value.pointer, &real);
+#endif
+                _gcvt(real, 16, (char *)text_work_cursor);
+                while (*text_work_cursor) ++text_work_cursor;
+                *text_work_cursor++ = ' ';
+                break;
+            case 7: case 8:
+                if (!(token_allocation_flags & 0x10000000UL)) break;
+                if (number->type == type_0041_q1000) {
+                    *text_work_cursor++ = '\'';
+                    *text_work_cursor++ = '\\';
+                    _ltoa(number->value.integer, (char *)text_work_cursor, 8);
+                    while (*text_work_cursor) ++text_work_cursor;
+                    *text_work_cursor++ = '\'';
+                } else {
+                    _ltoa(number->value.integer, (char *)text_work_cursor, 10);
+                    while (*text_work_cursor) ++text_work_cursor;
+                    if (current_token_code == 8) *text_work_cursor++ = 'L';
+                }
+                *text_work_cursor++ = ' ';
+                break;
+            case 9: case 10:
+                if (!(token_allocation_flags & 0x10000000UL)) break;
+                if (number->type == type_4041_q1000) {
+                    *text_work_cursor++ = '\'';
+                    *text_work_cursor++ = '\\';
+                    _ultoa(number->value.integer, (char *)text_work_cursor, 8);
+                    while (*text_work_cursor) ++text_work_cursor;
+                    *text_work_cursor++ = '\'';
+                } else {
+                    _ultoa(number->value.integer, (char *)text_work_cursor, 10);
+                    while (*text_work_cursor) ++text_work_cursor;
+                    /* Preserve the original BL test, not current_token_code. */
+                    if (token == 10) *text_work_cursor++ = 'L';
+                    /* Original defect: missing increment overwrites this U. */
+                    *text_work_cursor = 'U';
+                }
+                *text_work_cursor++ = ' ';
+                break;
+            }
+            break;
+        case 0x80:
+            ++parentheses;
+            *text_work_cursor++ = '(';
+            break;
+        case 0x84:
+            *text_work_cursor++ = ']';
+            break;
+        case 0x85:
+            --braces;
+            *text_work_cursor++ = '}';
+            break;
+        case 0x88:
+            --parentheses;
+            /* Fall through to the original comma/parenthesis termination. */
+        case 0x40:
+            if (parentheses < 0 || (!parentheses && token == 0x40)) goto finished;
+            *text_work_cursor++ = token == 0x88 ? ')' : ',';
+            break;
+        case 0xa1:
+            if (token_allocation_flags & 0x10000000UL)
+                copy_qualified_argument_name(current_token_value.context);
+            break;
+        case 0xa3:
+            text_work_cursor = copy_argument_type(text_work_cursor, current_token_value.expression->type);
+            break;
+        default:
+            spelling = token_spellings[current_token_code];
+            for (length = 0; spelling[length]; ++length) ;
+            text_work_cursor = copy_bytes_forward(text_work_cursor, (unsigned char *)spelling, length);
+            break;
+        }
+    }
+finished:
+    argument_text_mode = 0;
+    preprocessor_stream = stdout;
+    compiler_stack = saved_stack;
+    if (text_work_cursor != start) {
+        unget_token(token);
+        *text_work_cursor++ = 0;
+        token = 0xc3;
+        current_token_value.string.length = (unsigned short)(text_work_cursor - start);
+        current_token_value.string.text = (char *)start;
+        cpp_parser_flags |= 0x00080000UL;
+    }
+    token_allocation_flags |= 0x20;
+    return token;
+}
+unsigned char *__stdcall copy_argument_spelling(unsigned char *destination, char *text)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned char *__stdcall copy_argument_type(unsigned char *destination, CType *type)
+{
+    __asm { int 3 }
+    return 0;
+}
+void __stdcall copy_qualified_argument_name(QualifiedDeclarator *qualified)
+{
+    __asm { int 3 }
 }

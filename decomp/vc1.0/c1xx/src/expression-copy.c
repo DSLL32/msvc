@@ -165,3 +165,12 @@ IrToken *__stdcall replace_temporary_reference(IrToken *expression, unsigned ind
     }
     return copy;
 }
+
+/* Original0x19510..0x19534, stdcall12. This deliberately copies forward;
+   the actual updated destination, including zero-count identity, is returned. */
+unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
+    const unsigned char *source, unsigned bytes)
+{
+    while (bytes--) *destination++ = *source++;
+    return destination;
+}

@@ -379,3 +379,54 @@ not_pointer:
     report_syntax_error(541);
     return 0;
 }
+
+/* Original0x4ff60..0x4ffa5, stdcall4. Reuse the list nodes for
+   comma expressions, retaining the final operand's type at the chain tail. */
+IrToken *__stdcall scalar_new_initializer_expression(IrToken *initializer)
+{
+    IrToken *result, *node, *next;
+    if (!initializer->tail.right) return initializer->value.pointer;
+    result = node = initializer->linkage.list_head;
+    initializer->linkage.list_head = 0;
+    for (;;) {
+        next = node->linkage.list_head;
+        node->kind = 0x40;
+        if (!next->linkage.list_head) break;
+        node->tail.right = next;
+        node = next;
+    }
+    node->tail.right = next->value.pointer;
+    node->type = node->tail.right->type;
+    return result;
+}
+
+/* Original0x4ff00..0x4ff54, stdcall8. Preserve the allocated pointer
+   while assigning through its dereference, then guard the complete operation. */
+IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer)
+{
+    IrToken *saved;
+    initializer = scalar_new_initializer_expression(initializer);
+    capture_allocation_pointer(&saved, &object);
+    object = builtin_unary_expression(OP_DEREFERENCE, object);
+    object = builtin_binary_expression(OP_ASSIGN, object, initializer);
+    object = make_assignment_lvalue(object);
+    return guard_allocation_result(saved, object);
+}
+
+/* Original0x63c20..0x63ca4, stdcall4. A class-valued delete operand
+   converts only when overload ranking finds one unambiguous pointer target. */
+IrToken *__stdcall convert_delete_operand_to_pointer(IrToken *expression)
+{
+    SourceConversionSearch search;
+    CppSymbol *tag = cpp_context_stack->items[expression->type->field08];
+    CType *target;
+    search.rank = 0x2000;
+    search.count = 0;
+    search.type = 0;
+    search.ambiguous = 0;
+    target = make_tagged_type(0x84);
+    rank_source_conversion_functions(tag, target, &search);
+    if (search.rank < 0x400 && search.count == 1 && !search.ambiguous)
+        return convert_initializer(1, search.type, expression);
+    return expression;
+}

@@ -1529,3 +1529,11 @@ void __stdcall record_member_access_declaration(CppSymbol *owner,
     if (!has_member_access_declaration(owner,base,member))
         insert_member_access_declaration(owner,base,member);
 }
+
+/* Original0x32bd0..0x32be6, cdecl0/RET0. A negative current context
+   denotes namespace/global scope rather than a class table index. */
+CppSymbol *get_current_class_symbol(void)
+{
+    if (current_class_context < 0) return 0;
+    return class_contexts[current_class_context].symbol;
+}

@@ -8,6 +8,9 @@
 #include "class-finalization.h"
 #include "call-expressions.h"
 #include "global-ir.h"
+#include "class-lookup.h"
+#include "member-expressions.h"
+#include "member-access.h"
 #include <recon.h>
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
@@ -945,4 +948,1032 @@ unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymb
     }
     *(unsigned short *)destination = length;
     return (unsigned)length + 2;
+}
+
+/* Original0x70a50..0x70a6e, cdecl1/RET0. Prototype-only compilation
+   suppresses this separate type database in the same way as ordinary debug. */
+unsigned short __cdecl reference_line_record_type(CType *type)
+{
+    if (options.prototypes_only) return 0;
+    return ensure_line_record_type(type);
+}
+/* Original0x70a70..0x70ab0, cdecl1/RET0. Cache the actual separate
+   database index in the same descriptor field used by ordinary CodeView. */
+unsigned short ensure_line_record_type(CType *type)
+{
+    if (!type->debug_index) {
+        if (type->related) return bind_line_record_shape(type, type->related);
+        if (type->attributes & 0x3000) return qualify_line_record_type(type);
+        type->debug_index = line_record_base_type(type);
+    }
+    return type->debug_index;
+}
+/* Original0x70ab0..0x70b5a, cdecl2/RET0. The passed first shape
+   remains distinct from the interned descriptor made after removing it. */
+unsigned short bind_line_record_shape(CType *type, TypeShape *shape)
+{
+    unsigned short base = line_record_primitive_pointer(type, shape);
+    if (base) {
+        type->debug_index = base;
+        return base;
+    }
+    base = ensure_line_record_type(line_record_drop_shape(type));
+    switch (shape->flags & 0x77) {
+    case 0:
+        type->debug_index = base;
+        break;
+    case 1: case 3: case 0x10: case 0x20: case 0x40:
+        type->debug_index = line_record_pointer_type(type, base);
+        break;
+    case 2:
+        type->debug_index = line_record_array_type(type, base);
+        break;
+    case 4:
+        type->debug_index = line_record_function_type(type, base);
+        break;
+    default:
+        return 0;
+    }
+    return type->debug_index;
+}
+/* Original0x71130..0x711b2, cdecl1/RET0. Reference the unqualified
+   descriptor first, then record this const/volatile combination. */
+unsigned short qualify_line_record_type(CType *type)
+{
+    unsigned short *words = (unsigned short *)line_record_leaf;
+    unsigned short base = ensure_line_record_type(line_record_unqualified_type(type));
+    words[0] = 1;
+    words[1] = (line_record_properties & ~3) |
+        ((type->attributes & 0x1000) ? 1 : 0) |
+        ((type->attributes & 0x2000) ? 2 : 0);
+    words[2] = base;
+    type->debug_index = intern_line_record(6);
+    return type->debug_index;
+}
+/* Original0x72880..0x728b5, cdecl1/RET0. */
+CType *line_record_unqualified_type(CType *type)
+{
+    CType description = *type;
+    description.attributes &= 0xcfff;
+    description.debug_index = 0;
+    return intern_type((TypeDescription *)&description);
+}
+/* Original0x711c0..0x7124b, cdecl1/RET0. Tags use actual context
+   entries; builtin leaves use the separate module's predefined conversion. */
+unsigned short line_record_base_type(CType *type)
+{
+    unsigned short flags = type->flags;
+    if (flags & 0x200) {
+        type->debug_index = line_record_enum_type(cpp_context_stack->items[type->field08]);
+        return type->debug_index;
+    }
+    if (flags & 0x400) {
+        type->debug_index = line_record_tag_type(cpp_context_stack->items[type->field08]);
+        return type->debug_index;
+    }
+    if (flags & 0x80) return 3;
+    if (flags & 0x800) return 2;
+    if (!flags) return 0;
+    if (flags == 0x802) return 2;
+    return line_record_primitive_type(flags);
+}
+unsigned short line_record_enum_type(CppSymbol *tag)
+{
+    __asm { int 3 }
+    return 0;
+}
+/* Original0x70c00..0x70c85, cdecl1/RET0. This separate module has
+   identical encountered scalar rows at a26a0/a26b8/a26d0/a26e8/a2700;
+   their11/9 logical entries were independently checked against the named
+   CodeView constants above. Only values are observed, so share those constants
+   without absorbing neighbouring alignment or inventing wider table domains. */
+unsigned short line_record_primitive_type(unsigned short flags)
+{
+    unsigned width;
+    if (flags & 0x80) return 3;
+    if (!(flags & 0x140)) return 0;
+    width = flags & 15;
+#ifdef RECON_NATIVE_TEST
+    /* Exact unsupported data-domain guard before any unproved table row.
+       This is not a claim of original UB or public reachability. */
+    if (width >= ((flags & 0x100) ? 11 : 9)) { __asm { int 3 } }
+#endif
+    if (flags & 0x100) return cv_real_types[width];
+    if ((flags & 0x60) == 0x60 || (width == 1 && !(flags & 0xc000))) {
+        if (flags & 0x4000) return cv_unsigned_int_types[width];
+        return cv_signed_int_types[width];
+    }
+    if (flags & 0x4000) return cv_unsigned_size_types[width];
+    return cv_signed_size_types[width];
+}
+
+/* Original0x70b60..0x70bff, cdecl2/RET0. Only an unqualified,
+   single ordinary pointer can fold into a predefined scalar index. */
+unsigned short line_record_primitive_pointer(CType *type, TypeShape *shape)
+{
+    unsigned short index, model;
+    if (shape->related || (shape->flags & 0x77) != 1 ||
+        (shape->attributes & 0x300c)) return 0;
+    index = line_record_primitive_type(type->flags);
+    if (!index) return 0;
+    switch (shape->attributes & 15) {
+    case 1: return (index & 0xfcff) | 0x400;
+    case 2: return (index & 0xfdff) | 0x500;
+    case 3: return (index & 0xfbff) | 0x300;
+    }
+    model = (options.configuration.option_M & 2) ? 5 : 4;
+    return (index & 0xf8ff) | (model << 8);
+}
+
+/* Original0x72840..0x72878, cdecl1/RET0. Intern the actual descriptor
+   with one shape removed and no inherited cached database index. */
+CType * line_record_drop_shape(CType *type)
+{
+    CType description = *type;
+    description.debug_index = 0;
+    description.related = type->related->related;
+    return intern_type((TypeDescription *)&description);
+}
+
+/* Original0x70c90..0x70f66, cdecl2/RET0. Serialize the pointer's
+   distance, member owner, qualifiers and actual segmented based-symbol leaf. */
+unsigned short line_record_pointer_type(CType *type, unsigned short base)
+{
+    TypeShape *shape = type->related;
+    unsigned short flags = shape->flags, attributes = shape->attributes;
+    unsigned short extra = 0, owner_index, kind, mode;
+    unsigned char *leaf = line_record_leaf;
+    CppSymbol *symbol, *debug_symbol;
+    if (flags & 0x30) owner_index = line_record_tag_type(shape->data.tag_symbol);
+    if ((attributes & 12) && (attributes & 4)) {
+        symbol = shape->data.based_symbol;
+        mode = attributes & 7;
+        if (mode == 5) {
+            if ((symbol->kind & 31) == 13) {
+                if (symbol->index != 6) {
+                    ensure_debug_constant_symbol(symbol);
+                    debug_symbol = (CppSymbol *)symbol->field28;
+                    ensure_line_record_type(debug_symbol->type);
+                }
+            } else ensure_line_record_type(symbol->type);
+        } else if (mode == 6 || mode == 7) ensure_line_record_type(symbol->type);
+    }
+    *(unsigned short *)leaf = 2;
+    *(unsigned short *)(leaf + 2) = line_record_properties;
+    *(unsigned short *)(leaf + 4) = base;
+    if (flags & 0x40) leaf[2] = (leaf[2] & 31) | 0x20;
+    else if (flags & 0x30) {
+        leaf[2] = (leaf[2] & 31) | ((flags & 0x10) ? 0x40 : 0x60);
+        *(unsigned short *)(leaf + 6) = owner_index;
+        *(unsigned short *)(leaf + 8) = 0;
+        extra = 4;
+    } else leaf[2] &= 31;
+    if (attributes & 0x1000) leaf[3] |= 4;
+    if (attributes & 0x2000) leaf[3] |= 2;
+    if (attributes & 12) {
+        if (attributes & 4) {
+            symbol = shape->data.based_symbol;
+            switch (attributes & 7) {
+            case 4:
+                leaf[2] = (leaf[2] & 0xe8) | 8;
+                *(unsigned short *)(leaf + 6) = 3;
+                leaf[8] = 0;
+                extra = 3;
+                break;
+            case 5:
+                if ((symbol->kind & 31) == 13 && symbol->index == 6) {
+                    leaf[2] = (leaf[2] & 0xe5) | 5;
+                    *(unsigned short *)(leaf + 6) = 7;
+                    *(unsigned short *)(leaf + 8) = 2;
+                    *(unsigned short *)(leaf + 10) = 0;
+                    *(unsigned short *)(leaf + 12) = 0x1b;
+                    leaf[14] = 0;
+                    extra = 9;
+                } else {
+                    leaf[2] = (leaf[2] & 0xe4) | 4;
+                    debug_symbol = (symbol->kind & 31) == 13 ? (CppSymbol *)symbol->field28 : symbol;
+                    extra = encode_line_record_based_symbol(leaf + 6, debug_symbol);
+                }
+                break;
+            case 6:
+                leaf[2] = (leaf[2] & 0xe7) | 7;
+                extra = encode_line_record_based_symbol(leaf + 6, symbol);
+                break;
+            case 7:
+                leaf[2] = (leaf[2] & 0xe5) | 5;
+                extra = encode_line_record_based_symbol(leaf + 6, symbol);
+                break;
+            }
+        } else if (attributes & 8) leaf[2] = (leaf[2] & 0xe9) | 9;
+    } else {
+        /* The preceding !(attributes&12) proves the low-nibble domain0..3.
+           Original a2714..a2718 independently matches cv_pointer_models. */
+        leaf[2] = (leaf[2] & ~31) | cv_pointer_models[attributes & 15];
+        if (!(attributes & 15)) {
+            kind = flags & 0x77;
+            switch (kind) {
+            case 1: case 2: case 3: case 4: case 0x10: case 0x20: case 0x40:
+                /* This module always chooses near32 here, unlike the older
+                   ordinary CodeView module's option_M-sensitive default. */
+                leaf[2] = (leaf[2] & ~31) | 10;
+                break;
+            }
+        }
+    }
+    return intern_line_record((unsigned short)(extra + 6));
+}
+void __stdcall ensure_debug_constant_symbol(CppSymbol *symbol)
+{
+    __asm { int 3 }
+}
+unsigned short encode_line_record_based_symbol(unsigned char *destination, CppSymbol *symbol)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+/* Original0x70f70..0x70fbe, cdecl2. Separate-debug arrays retain
+   their byte size and an empty counted name after the element/index types. */
+unsigned short line_record_array_type(CType *type, unsigned short base)
+{
+    unsigned char *leaf = line_record_leaf;
+    unsigned short length;
+    *(unsigned short *)leaf = 3;
+    *(unsigned short *)(leaf + 2) = base;
+    *(unsigned short *)(leaf + 4) = 0x11;
+    length = encode_line_record_unsigned(leaf + 6, type_size(type));
+    leaf[length + 6] = 0;
+    return intern_line_record((unsigned short)(length + 7));
+}
+
+/* Original0x71030..0x7110c and0x71110..0x71128: separate-debug
+   argument-list ownership and count helpers, pending genuine entry. */
+unsigned line_record_argument_count(FunctionParameters *parameters);
+
+/* Original cursor a2718 starts at the BSS workspace991b8. This is
+   only the encountered six-WORD prefix, not a historical full-size claim;
+   subsequent indexed users must establish their actual owned span. */
+/* Root's actual vfptr and five retained overload groups bound this prefix:
+   the ctor's temporary pair and each at-most-one parameter stay within6WORDs.
+   This is a reached-owner bound, not an inferred historical allocation size. */
+unsigned short line_record_scratch[6];
+unsigned char *line_record_cursor = (unsigned char *)line_record_scratch;
+
+/* Original0x72cd0..0x72cd6, cdecl0. */
+unsigned char *line_record_cursor_position(void)
+{
+    return line_record_cursor;
+}
+/* Original0x72ce0..0x72cea, cdecl1. Callers supply the mark
+   previously returned by line_record_cursor_position, preserving nesting. */
+void line_record_restore_cursor(unsigned char *position)
+{
+    line_record_cursor = position;
+}
+/* Original0x72cf0..0x72d06, cdecl1. The actual71083 caller has
+   two arguments at initial991b8; Root method queues extend the proved prefix. */
+void line_record_push_type(unsigned short index)
+{
+#ifdef RECON_NATIVE_TEST
+    if ((unsigned)line_record_cursor < (unsigned)line_record_scratch ||
+        (unsigned)line_record_cursor > (unsigned)line_record_scratch +
+            sizeof(line_record_scratch) - sizeof(unsigned short)) {
+        __asm { int 3 }
+    }
+#endif
+    *(unsigned short *)line_record_cursor = index;
+    line_record_cursor += sizeof(unsigned short);
+}
+
+/* Original0x71030..0x7110c, cdecl1. Nested type emission uses a
+   separate WORD scratch cursor; save and restore the same caller-owned mark. */
+unsigned short line_record_argument_list(FunctionParameters *parameters)
+{
+    unsigned char *mark = line_record_cursor_position(), *leaf;
+    DeclarationParameterInfo *declarations = parameters->declarations;
+    CType **type = declarations->types;
+    unsigned count, remaining;
+    if (declarations->debug_index) return declarations->debug_index;
+    count = line_record_argument_count(parameters);
+    for (remaining = count; remaining; --remaining, ++type)
+        line_record_push_type(*type ? ensure_line_record_type(*type) : 0);
+    check_line_record_size(count * 2 + 4);
+    leaf = line_record_leaf;
+    *(unsigned short *)leaf = 0x201;
+    *(unsigned short *)(leaf + 2) = (unsigned short)count;
+    line_record_restore_cursor(mark);
+    /* Original REP MOVS copies precisely count WORDs, without a CRT call. */
+    for (remaining = 0; remaining < count * 2; ++remaining)
+        leaf[remaining + 4] = mark[remaining];
+    line_record_restore_cursor(mark);
+    declarations->debug_index = intern_line_record((unsigned short)(count * 2 + 4));
+    return declarations->debug_index;
+}
+/* Original0x71110..0x71128, cdecl1. The canonical sole void
+   parameter denotes an empty argument list; otherwise retain the real count. */
+unsigned line_record_argument_count(FunctionParameters *parameters)
+{
+    DeclarationParameterInfo *declarations = parameters->declarations;
+    if (declarations->types[0] == type_0080) return 0;
+    return declarations->count;
+}
+
+/* Original0x70fc0..0x71029, cdecl2. Resolve the argument list before
+   taking the reusable leaf, since that lookup can emit its own records. */
+unsigned short line_record_function_type(CType *type, unsigned short base)
+{
+    unsigned short arguments = line_record_argument_list(type->related->data.parameters);
+    unsigned char *leaf = line_record_leaf;
+    unsigned short *words = (unsigned short *)leaf;
+    words[0] = 8;
+    words[1] = base;
+    leaf[4] = (unsigned char)debug_calling_convention(type->related->attributes);
+    leaf[5] = 0;
+    words[3] = (unsigned short)line_record_argument_count(type->related->data.parameters);
+    words[4] = arguments;
+    return intern_line_record(10);
+}
+
+unsigned short line_record_properties; /* original0xa2698, shared leaf properties */
+
+/* Original0x715c0..0x71775, cdecl1/RET0. A named incomplete tag gets
+   a forward leaf; anonymous declarations need their genuine complete form. */
+unsigned short __cdecl line_record_tag_type(CppSymbol *tag)
+{
+    unsigned char *leaf = line_record_leaf;
+    unsigned short *words = (unsigned short *)leaf;
+    CType *type = tag->type;
+    unsigned short flags = type->flags, numeric, length;
+    if (type->debug_index) return type->debug_index;
+    if (tag->name == name_unnamed) {
+        type->debug_index = prepare_line_record_tag(tag);
+        return tag->type->debug_index;
+    }
+    tag->flags &= ~8;
+    words[1] = 0;
+    if (flags == 0x402 || flags == 0x408) {
+        words[0] = flags == 0x402 ? 5 : 4;
+        words[3] = line_record_properties | 0x80;
+        words[3] = (words[3] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+        words[2] = words[5] = words[4] = 0;
+        numeric = encode_line_record_unsigned(leaf + 12, 0);
+        length = copy_line_record_name(leaf + 12 + numeric, tag->name) + numeric + 12;
+    } else if (flags == 0x404) {
+        words[0] = 6;
+        words[3] = line_record_properties | 0x80;
+        words[3] = (words[3] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+        words[2] = 0;
+        numeric = encode_line_record_unsigned(leaf + 8, 0);
+        length = copy_line_record_name(leaf + 8 + numeric, tag->name) + numeric + 8;
+    } else if (flags & 0x200) return line_record_enum_type(tag);
+    else {
+#ifdef RECON_NATIVE_TEST
+        /* Original0x71751 reads the never-written WORD at entryESP-2.
+           Keep the original Win32 defect and trap exactly before that use. */
+        __asm { int 3 }
+#endif
+    }
+    tag->type->debug_index = intern_line_record(length);
+    return tag->type->debug_index;
+}
+/* Original0x72be0..0x72c1f, cdecl2/RET0, defined AX count. */
+unsigned short encode_line_record_unsigned(unsigned char *destination, unsigned value)
+{
+    if (value < 0x8000) {
+        *(unsigned short *)destination = (unsigned short)value;
+        return 2;
+    }
+    if (value < 0x10000) {
+        *(unsigned short *)destination = 0x8002;
+        *(unsigned short *)(destination + 2) = (unsigned short)value;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8004;
+    *(unsigned *)(destination + 2) = value;
+    return 6;
+}
+/* Original0x709c0..0x70a47, cdecl1/RET0. Intern the padded record,
+   then clear exactly the bytes consumed from the reusable serialization owner. */
+unsigned short intern_line_record(unsigned short length)
+{
+    unsigned short index;
+    unsigned i;
+    if (!debug_database) return 0;
+    length += pad_line_record(line_record_buffer + length + 2, (unsigned short)(length + 2));
+    *(unsigned short *)line_record_buffer = length;
+    check_line_record_size(length);
+    index = debug_database_intern(debug_database, line_record_buffer);
+    for (i = 0; i < (unsigned)length + 2; ++i) line_record_buffer[i] = 0;
+    return index;
+}
+/* Original0x709a0..0x709b5, cdecl1/RET0. */
+void check_line_record_size(unsigned length)
+{
+    if (length >= 0xfafe) fatal_error(67);
+}
+
+unsigned short prepare_line_record_enum(CppSymbol *tag)
+{
+    __asm { int 3 }
+    return 0;
+}
+unsigned short encode_line_record_number(unsigned char *destination, int value);
+
+/* Original0x72020..0x72050, cdecl1. Replace only the access bits
+   in the shared class-field properties with this direct base's access. */
+unsigned short line_record_base_properties(BaseClassLink *base)
+{
+    return (line_record_properties & ~3) | (base->flags & 3);
+}
+
+/* Original0x71e70..0x71ed0, cdecl4. Nonvirtual base records carry
+   access, the already resolved tag index and the signed object displacement. */
+unsigned short line_record_nonvirtual_base(int pass, BaseClassLink *base, CppSymbol *tag, unsigned char *destination)
+{
+    if (pass == 1) {
+        ensure_line_record_type(tag->type);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x400;
+    *(unsigned short *)(destination + 4) = line_record_base_properties(base);
+    *(unsigned short *)(destination + 2) = tag->type->debug_index;
+    return (unsigned short)(encode_line_record_number(destination + 6, (int)base->displacement) + 6);
+}
+/* Original0x72630..0x7264f, cdecl3. Only the serialization pass
+   writes the existing record-padding encoding; the discovery pass is empty. */
+unsigned short line_record_field_padding(int pass, unsigned char *destination, unsigned short bytes)
+{
+    if (pass == 2) return pad_line_record(destination, bytes);
+    return 0;
+}
+/* Original0x71f60..0x72014, cdecl4. Virtual-base records retain
+   the vbptr displacement and the table offset in pointer-size units. */
+unsigned short line_record_virtual_base_data(int pass, unsigned char *destination,
+    CppSymbol *tag, CppSymbol *owner)
+{
+    unsigned pointer_offset, table_offset;
+    CType *pointer_type;
+    unsigned short numeric;
+#ifdef RECON_NATIVE_TEST
+    int found = query_virtual_base_pointer(tag, owner,
+        &pointer_offset, &table_offset, &pointer_type);
+#else
+    query_virtual_base_pointer(tag, owner, &pointer_offset, &table_offset, &pointer_type);
+#endif
+    if (pass == 1) {
+        ensure_line_record_type(tag->type);
+#ifdef RECON_NATIVE_TEST
+        /* Original ignores failure and then reads the unwritten type at
+           entryESP-12. Preserve the preceding genuine tag reference. */
+        if (!found) { __asm { int 3 } }
+#endif
+        ensure_line_record_type(pointer_type);
+        return 0;
+    }
+#ifdef RECON_NATIVE_TEST
+    /* Pass2 first consumes the unwritten offset at entryESP-4. */
+    if (!found) { __asm { int 3 } }
+#endif
+    numeric = encode_line_record_number(destination + 8, (int)pointer_offset);
+    *(unsigned short *)(destination + 2) = tag->type->debug_index;
+    *(unsigned short *)(destination + 4) = pointer_type->debug_index;
+    return (unsigned short)(numeric + encode_line_record_unsigned(destination + 8 + numeric,
+        (unsigned)((int)table_offset / (int)(pointer_type->flags & 15))) + 8);
+}
+
+/* Original0x71ed0..0x71f0c, cdecl5. Direct virtual bases preserve
+   their access properties before writing the shared virtual-base payload. */
+unsigned short line_record_virtual_base(int pass, BaseClassLink *base, CppSymbol *tag, CppSymbol *owner, unsigned char *destination)
+{
+    if (pass == 2) {
+        *(unsigned short *)destination = 0x401;
+        *(unsigned short *)(destination + 6) = line_record_base_properties(base);
+    }
+    return line_record_virtual_base_data(pass, destination, tag, owner);
+}
+/* Original0x72050..0x72088, cdecl2. Keep the incoming field
+   properties while recovering access through the actual virtual-base path. */
+unsigned short line_record_virtual_base_properties(CppSymbol *tag, CppSymbol *owner)
+{
+    unsigned short properties = line_record_properties;
+    unsigned char access = virtual_base_access_level(tag, owner);
+    return (properties & ~3) | (access & 3);
+}
+
+/* Original0x71f10..0x71f5d, cdecl4. Indirect virtual bases use
+   the recovered path access with the same virtual-base payload. */
+unsigned short line_record_indirect_base(int pass, CppSymbol *tag, CppSymbol *owner, unsigned char *destination)
+{
+    if (pass == 2) {
+        *(unsigned short *)destination = 0x402;
+        *(unsigned short *)(destination + 6) = line_record_virtual_base_properties(tag, owner);
+    }
+    return line_record_virtual_base_data(pass, destination, tag, owner);
+}
+unsigned short line_record_read_type(void);
+
+/* Original0x72410..0x7251f, cdecl1. Member-function leaves bind
+   the actual class, optional this type, arguments and this adjustment. */
+unsigned short line_record_method_type(CppSymbol *function)
+{
+    CType *type = intern_type((TypeDescription *)strip_based_shape(function->type));
+    TypeShape *shape;
+    CType *this_type;
+    unsigned char *leaf;
+    unsigned short *words;
+    unsigned short result, owner, arguments, this_index;
+    if (!type->debug_index) {
+        leaf = line_record_leaf;
+        shape = type->related;
+        result = ensure_line_record_type(line_record_drop_shape(type));
+        this_type = shape->data.parameters->associated_type;
+        owner = line_record_tag_type(cpp_context_stack->items[function->auxiliary.declaring_class]);
+        arguments = line_record_argument_list(type->related->data.parameters);
+        if (function->cpp.parts.member_flags & 1) this_index = ensure_line_record_type(this_type);
+        else this_index = 0;
+        words = (unsigned short *)leaf;
+        words[0] = 9;
+        words[1] = result;
+        words[2] = owner;
+        words[3] = this_index;
+        leaf[8] = (unsigned char)debug_calling_convention(type->related->attributes);
+        leaf[9] = 0;
+        words[5] = (unsigned short)line_record_argument_count(type->related->data.parameters);
+        words[6] = arguments;
+        *(int *)(leaf + 14) = function->this_displacement;
+        type->debug_index = intern_line_record(18);
+    }
+    function->type->debug_index = type->debug_index;
+    return function->type->debug_index;
+}
+
+/* Original0x72140..0x72402, cdecl1. Resolve retained method types
+   into the WORD scratch area, rewind it, then emit the method descriptors. */
+unsigned short line_record_method_list(OverloadSet *methods)
+{
+    unsigned char *leaf = line_record_leaf, *mark = line_record_cursor_position(), *field;
+    CppSymbol *function, *next, *owner;
+    unsigned short length = 0, properties, index;
+    if (methods) {
+        function = methods->functions;
+        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+        if ((methods->name == name_ctor &&
+             (owner->detail.class_info->trivial_special_members & 3) == 3) ||
+            (methods->name == name_assignment &&
+             (owner->detail.class_info->trivial_special_members & 4)) ||
+            (methods->name == name_dtor &&
+             (owner->detail.class_info->trivial_special_members & 8))) next = 0;
+        else next = function;
+    } else {
+#ifdef RECON_NATIVE_TEST
+        /* Original721d0 consumes the unwritten entryESP-8 next pointer
+           only when the overload-set input skipped its initialization. */
+        __asm { int 3 }
+#endif
+    }
+    while (next) {
+        function = next;
+        next = function->next;
+        if (function->name == name_ctor) {
+            if (function->cpp.parts.member_flags & 0x20) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 2) continue;
+            }
+            if (function->cpp.parts.member_flags & 0x10) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 1) continue;
+            }
+        }
+        index = line_record_method_type(function);
+        line_record_push_type(index);
+    }
+    line_record_restore_cursor(mark);
+    /* At7224a the restore argument is still on the stack: ESP+14
+       selects the saved leaf (oldESP+10), before caller cleanup. */
+    *(unsigned short *)leaf = 0x207;
+    if (methods) {
+        function = methods->functions;
+        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+        if ((methods->name == name_ctor &&
+             (owner->detail.class_info->trivial_special_members & 3) == 3) ||
+            (methods->name == name_assignment &&
+             (owner->detail.class_info->trivial_special_members & 4)) ||
+            (methods->name == name_dtor &&
+             (owner->detail.class_info->trivial_special_members & 8))) next = 0;
+        else next = function;
+    }
+    while (next) {
+        function = next;
+        next = function->next;
+        if (function->name == name_ctor) {
+            if (function->cpp.parts.member_flags & 0x20) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 2) continue;
+            }
+            if (function->cpp.parts.member_flags & 0x10) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 1) continue;
+            }
+        }
+        length += pad_line_record(leaf + length + 2, length);
+        field = leaf + length + 2;
+        properties = (line_record_properties & ~3) | (function->flags & 3);
+        *(unsigned short *)field = properties;
+        length += 4;
+        *(unsigned short *)(field + 2) = line_record_read_type();
+        if (function->storage[1] & 2) {
+            if (function->cpp.parts.member_flags & 2)
+                properties = (properties & ~0x18) | 4;
+            else {
+                properties = (properties & ~0xc) | 0x10;
+                length += 4;
+                *(unsigned *)(field + 4) = function->detail.virtual_table_offset;
+            }
+        } else if ((function->storage[0] & 7) == 3)
+            properties = (properties & ~0x14) | 8;
+        else properties &= ~0x1c;
+        *(unsigned short *)field = properties;
+    }
+    line_record_restore_cursor(mark);
+    return intern_line_record((unsigned short)(length + 2));
+}
+void __stdcall format_diagnostic_symbol(short text, CppSymbol *symbol);
+void __stdcall release_type_diagnostic(short text);
+
+/* Original0x728c0..0x72b5c, cdecl3. Counted browser/debug names
+   retain operator spellings, conversion types and constructor/destructor names.
+   Byte copies express the original inline string operations without CRT calls. */
+unsigned short copy_line_record_method_name(unsigned char *destination,
+    CppSymbol *function, int qualified)
+{
+    char *name = (char *)destination + 1, *cursor = name, *source, *text, *end;
+    short handle;
+    CppSymbol *owner;
+    unsigned char length;
+#define APPEND_METHOD_TEXT(text_) do { \
+    source = (text_); \
+    while ((*cursor = *source++) != 0) ++cursor; \
+} while (0)
+    if (!(function->declaration_flags & 0x400)) {
+        APPEND_METHOD_TEXT(function->name);
+    } else {
+        if (qualified) {
+            begin_type_diagnostic();
+            handle = reserve_type_diagnostic();
+            owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+            format_diagnostic_symbol(handle, owner);
+            text = type_diagnostic_text(handle) + 2;
+            APPEND_METHOD_TEXT(text);
+            APPEND_METHOD_TEXT("::");
+            end_type_diagnostic();
+        } else *cursor = 0;
+        if (function->cpp.parts.token != 1) {
+            APPEND_METHOD_TEXT("operator");
+            if (function->declaration_flags & 0x4000) {
+                handle = format_declarator(0, line_record_drop_shape(function->type));
+                text = type_diagnostic_text(handle);
+                end = text;
+                while (*end) ++end;
+                if (end[-1] == ' ') end[-1] = 0;
+                APPEND_METHOD_TEXT(" ");
+                APPEND_METHOD_TEXT(text);
+                release_type_diagnostic(handle);
+            } else {
+                if (function->cpp.parts.token == 0x97 || function->cpp.parts.token == 0x98) {
+                    APPEND_METHOD_TEXT(" ");
+                }
+                APPEND_METHOD_TEXT(function->name);
+            }
+        } else if (function->declaration_flags & 0x1000) {
+            owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+            APPEND_METHOD_TEXT(owner->name);
+        } else if (function->declaration_flags & 0x2000) {
+            APPEND_METHOD_TEXT("~");
+            owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+            APPEND_METHOD_TEXT(owner->name);
+        } else {
+            APPEND_METHOD_TEXT(function->name);
+        }
+    }
+    length = (unsigned char)(cursor - name);
+    destination[0] = length;
+#undef APPEND_METHOD_TEXT
+    /* Original AX sign-extends the low length byte, rather than returning
+       the full string size; callers retain that historical count ABI. */
+    return (unsigned short)(short)(signed char)length;
+}
+
+/* Original0x72090..0x7213c, cdecl5. Emit the overload-set name and
+   method-list reference, counting only the functions retained by the compiler. */
+unsigned short line_record_methods(int pass, OverloadSet *methods, unsigned char *destination, unsigned *count, unsigned short *properties)
+{
+    CppSymbol *function = methods->functions;
+    unsigned emitted = count_emitted_overloads(methods);
+    unsigned short index;
+    if (!emitted) return 0;
+    if (pass == 1) {
+        index = line_record_method_list(methods);
+        line_record_push_type(index);
+        return 0;
+    }
+    if (function->cpp.parts.token != 1) *properties |= 4;
+    if (methods->name == name_ctor || methods->name == name_dtor) *properties |= 2;
+    *(unsigned short *)destination = 0x408;
+    *(unsigned short *)(destination + 2) = (unsigned short)emitted;
+    *(unsigned short *)(destination + 4) = line_record_read_type();
+    *count += emitted;
+    return (unsigned short)(copy_line_record_method_name(destination + 6, function, 0) + 7);
+}
+unsigned short line_record_virtual_shape(CppSymbol *tag);
+
+/* Original0x72570..0x725bc, cdecl4. Bind the vftable shape through
+   the pointer leaf in pass1; pass2 reads that same queued type reference. */
+unsigned short line_record_vftable_pointer(int pass, CppSymbol *symbol, CppSymbol *owner, unsigned char *destination)
+{
+    unsigned short shape, pointer;
+    if (pass == 1) {
+        shape = line_record_virtual_shape(owner);
+        pointer = line_record_pointer_type(symbol->type, shape);
+        line_record_push_type(pointer);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x40a;
+    *(unsigned short *)(destination + 2) = line_record_read_type();
+    return 4;
+}
+/* Original0x725c0..0x7262d, cdecl3. Static members name their
+   type and access properties without an object-relative byte displacement. */
+unsigned short line_record_static_member(int pass, CppSymbol *symbol, unsigned char *destination)
+{
+    if (pass == 1) {
+        ensure_line_record_type(symbol->type);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x407;
+    *(unsigned short *)(destination + 2) = symbol->type->debug_index;
+    *(unsigned short *)(destination + 4) = (line_record_properties & ~3) | (symbol->flags & 3);
+    return (unsigned short)(copy_line_record_name(destination + 6, symbol->name) + 6);
+}
+/* Original0x72760..0x727a5, cdecl1. Enum bit-fields use the
+   canonical integer type before their width and offset are emitted. */
+unsigned short line_record_bit_field_type(CppSymbol *symbol)
+{
+    unsigned char *leaf = line_record_leaf;
+    CType *type = symbol->type;
+    unsigned short index;
+    if (type->flags & 0x200) type = type_0064;
+    index = ensure_line_record_type(type);
+    *(unsigned short *)leaf = 0x206;
+    leaf[2] = symbol->auxiliary.bit_field.width;
+    leaf[3] = symbol->auxiliary.bit_field.offset;
+    *(unsigned short *)(leaf + 4) = index;
+    return intern_line_record(6);
+}
+/* Original0x72d10..0x72d20, cdecl0. Advance the common cursor
+   before loading the current WORD, retaining the original side-effect order. */
+unsigned short line_record_read_type(void)
+{
+    unsigned char *position = line_record_cursor;
+#ifdef RECON_NATIVE_TEST
+    /* Keep the original address increment observable even at an unsupported
+       prefix boundary, without forming a native out-of-array C pointer sum. */
+    line_record_cursor = (unsigned char *)((unsigned)position + sizeof(unsigned short));
+    if ((unsigned)position < (unsigned)line_record_scratch ||
+        (unsigned)position > (unsigned)line_record_scratch +
+            sizeof(line_record_scratch) - sizeof(unsigned short)) {
+        __asm { int 3 }
+    }
+#else
+    line_record_cursor += sizeof(unsigned short);
+#endif
+    return *(unsigned short *)position;
+}
+unsigned short encode_line_record_signed(unsigned char *destination, int value)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+/* Original0x72b60..0x72b80, cdecl2. Nonnegative values use the
+   existing unsigned encoding; negative values retain the signed leaf form. */
+unsigned short encode_line_record_number(unsigned char *destination, int value)
+{
+    if (value < 0) return encode_line_record_signed(destination, value);
+    return encode_line_record_unsigned(destination, (unsigned)value);
+}
+
+/* Original0x72690..0x72752, cdecl3. Bit-field type indices pass
+   through the shared WORD cursor; ordinary members use their type's index. */
+unsigned short line_record_data_member(int pass, CppSymbol *symbol, unsigned char *destination)
+{
+    unsigned short numeric, index, properties;
+    if (pass == 1) {
+        if ((symbol->kind & 31) == 2) {
+            index = line_record_bit_field_type(symbol);
+            line_record_push_type(index);
+        } else ensure_line_record_type(symbol->type);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x406;
+    properties = line_record_properties;
+    *(unsigned short *)(destination + 4) = (properties & ~3) | (symbol->flags & 3);
+    if ((symbol->kind & 31) == 2) index = line_record_read_type();
+    else index = symbol->type->debug_index;
+    *(unsigned short *)(destination + 2) = index;
+    numeric = encode_line_record_number(destination + 6, (int)symbol->detail.value);
+    return (unsigned short)(numeric + copy_line_record_name(destination + 6 + numeric, symbol->name) + 6);
+}
+/* Original0x72520..0x7256d, cdecl3. Nested tags and typedefs
+   name their separately resolved type without a data-member displacement. */
+unsigned short line_record_nested_type(int pass, CppSymbol *symbol, unsigned char *destination)
+{
+    if (pass == 1) {
+        ensure_line_record_type(symbol->type);
+        return 0;
+    }
+    *(unsigned short *)destination = 0x409;
+    *(unsigned short *)(destination + 2) = symbol->type->debug_index;
+    return (unsigned short)(copy_line_record_name(destination + 4, symbol->name) + 4);
+}
+/* Original0x70710..0x70748, stdcall4. Compiler-generated deleting
+   destructors and constructor closures are omitted from the method list. */
+int __stdcall line_record_skip_method(OverloadSet *methods)
+{
+    char *name = methods->name;
+    return name == name_vbase_dtor || name == name_delete_dtor ||
+        name == name_vector_delete_dtor || name == name_default_ctor_closure;
+}
+/* Original0x70780..0x707f2, stdcall8. Indirect virtual groups
+   omit a base already represented by an active direct-base declaration. */
+int __stdcall line_record_has_direct_base(CppSymbol *owner, CppSymbol *base)
+{
+    CppSymbol *member;
+    BaseClassLink *link;
+    for (member = owner->auxiliary.scope_members; member; member = member->next) {
+        if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+        link = (BaseClassLink *)member;
+        if (cpp_context_stack->items[link->context_index] == base) return 1;
+    }
+    return 0;
+}
+
+/* Original0x71a60..0x71e6b, cdecl4. Process nonvirtual bases,
+   virtual bases, indirect virtual groups, then the ordinary declaration chain.
+   Pass1 resolves types; pass2 writes the same fields in that order. */
+unsigned short build_line_record_class_fields(int pass, CppSymbol *tag,
+    unsigned *count, unsigned short *properties)
+{
+    unsigned char *leaf = line_record_leaf;
+    unsigned short length = 0;
+    unsigned kind, storage;
+    CppSymbol *member, *base;
+    BaseClassLink *link;
+    VirtualBaseSearch search;
+    *count = 0;
+    if (pass == 2) *(unsigned short *)leaf = 0x204;
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+        link = (BaseClassLink *)member;
+        base = cpp_context_stack->items[link->context_index];
+        if (link->state & 1) continue;
+        length += line_record_nonvirtual_base(pass, link, base, line_record_leaf + length + 2);
+        length += line_record_field_padding(pass, leaf + length + 2, length);
+        ++*count;
+        check_line_record_size((unsigned)length + 2);
+    }
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        if ((member->kind & 31) != 15 || (member->flags & 0x80)) continue;
+        link = (BaseClassLink *)member;
+        base = cpp_context_stack->items[link->context_index];
+        if (!(link->state & 1)) continue;
+        length += line_record_virtual_base(pass, link, base, tag, line_record_leaf + length + 2);
+        length += line_record_field_padding(pass, leaf + length + 2, length);
+        ++*count;
+        check_line_record_size((unsigned)length + 2);
+    }
+    begin_virtual_base_search(&search, tag);
+    while (next_virtual_base_search(&search)) {
+        if (line_record_has_direct_base(tag, search.tag)) continue;
+        length += line_record_indirect_base(pass, search.tag, tag, line_record_leaf + length + 2);
+        length += line_record_field_padding(pass, leaf + length + 2, length);
+        ++*count;
+        check_line_record_size((unsigned)length + 2);
+    }
+    for (member = tag->auxiliary.scope_members; member; member = member->next) {
+        kind = member->kind & 31;
+        if (kind == 15) continue;
+        if (kind == 17 && line_record_skip_method((OverloadSet *)member)) continue;
+        if (!member->type || member->name == name_vbptr || kind == 5) continue;
+        if (!(kind == 4 && member->name == name_unnamed && (member->type->flags & 0x200))) {
+            if (!member->name || member->name == name_unnamed || member->name == name_alignment)
+                continue;
+            if (kind >= 1 && kind <= 13 && kind != 5 && !member->type) continue;
+        }
+        if (kind == 17) {
+            if (tag->name == name_unnamed) continue;
+            length += line_record_methods(pass, (OverloadSet *)member,
+                line_record_leaf + length + 2, count, properties);
+            --*count;
+        } else {
+            storage = member->storage[0] & 7;
+            if (kind == 4 || storage == 7)
+                length += line_record_nested_type(pass, member, line_record_leaf + length + 2);
+            else if (member->name == name_vfptr)
+                length += line_record_vftable_pointer(pass, member, tag,
+                    line_record_leaf + length + 2);
+            else if (storage == 3)
+                length += line_record_static_member(pass, member, line_record_leaf + length + 2);
+            else length += line_record_data_member(pass, member, line_record_leaf + length + 2);
+        }
+        length += line_record_field_padding(pass, leaf + length + 2, length);
+        ++*count;
+        check_line_record_size((unsigned)length + 2);
+    }
+    if (pass == 2) return intern_line_record((unsigned short)(length + 2));
+    return 0;
+}
+
+/* Original0x71a10..0x71a5e, cdecl3. Two passes share the same
+   scratch mark while counting/resolving then serializing the field list. */
+unsigned short line_record_class_fields(CppSymbol *tag, unsigned *count,
+    unsigned short *properties)
+{
+    unsigned char *mark = line_record_cursor_position();
+    unsigned short fields;
+    build_line_record_class_fields(1, tag, count, properties);
+    line_record_restore_cursor(mark);
+    fields = build_line_record_class_fields(2, tag, count, properties);
+    line_record_restore_cursor(mark);
+    return fields;
+}
+/* Original0x727b0..0x72840, cdecl1. Two near32 virtual-method
+   descriptors share each byte, with the odd tail's low nibble kept zero. */
+unsigned short line_record_virtual_shape(CppSymbol *tag)
+{
+    unsigned char *leaf = line_record_leaf;
+    int count = 0, index;
+    VirtualEntryIterator iterator;
+    *(unsigned short *)leaf = 10;
+    begin_virtual_entries(&iterator,
+        first_vector_item(tag->detail.class_info->virtual_tables));
+    while (next_virtual_entry(&iterator)) {
+        index = count / 2;
+        if (count & 1) leaf[index + 4] |= 5;
+        else leaf[index + 4] = 0x50;
+        check_line_record_size(index + 4);
+        ++count;
+    }
+    *(unsigned short *)(leaf + 2) = (unsigned short)count;
+    return intern_line_record((unsigned short)((count + 1) / 2 + 4));
+}
+
+/* Original0x71780..0x71a0b, cdecl1. Complete class leaves have
+   independent cached indices; named types first retain a forward reference
+   so recursive member types can refer back to the same declaration. */
+unsigned short __cdecl prepare_line_record_tag(CppSymbol *tag)
+{
+    unsigned char *leaf = line_record_leaf;
+    unsigned short *words = (unsigned short *)leaf;
+    unsigned short properties = line_record_properties, vshape = 0;
+    unsigned short flags = tag->type->flags, fields, numeric, length;
+    unsigned count = 0;
+    ClassInfo *info = tag->detail.class_info;
+    if (info->debug_index) return info->debug_index;
+    if (flags & 0x200) return prepare_line_record_enum(tag);
+    if (!tag->type->debug_index && tag->name != name_unnamed)
+        line_record_tag_type(tag);
+    if (!(tag->flags & 4)) return 0;
+    tag->flags &= ~8;
+    fields = line_record_class_fields(tag, &count, &properties);
+    if ((info->alignment_flags & 0x40) && (flags == 0x402 || flags == 0x408))
+        vshape = line_record_virtual_shape(tag);
+    words[1] = (unsigned short)count;
+    if (flags == 0x402 || flags == 0x408) {
+        words[0] = flags == 0x402 ? 5 : 4;
+        words[3] = properties;
+        words[2] = fields;
+        words[5] = vshape;
+        words[3] = (words[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+        words[4] = 0;
+        words[3] = (words[3] & ~8) | ((info->flags & 2) << 2);
+        numeric = encode_line_record_unsigned(leaf + 12, info->size);
+        length = numeric + copy_line_record_name(leaf + 12 + numeric, tag->name) + 12;
+    } else if (flags == 0x404) {
+        words[0] = 6;
+        words[3] = properties;
+        words[2] = fields;
+        words[3] = (words[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+        words[3] = (words[3] & ~8) | ((info->flags & 2) << 2);
+        numeric = encode_line_record_unsigned(leaf + 8, info->size);
+        length = numeric + copy_line_record_name(leaf + 8 + numeric, tag->name) + 8;
+    } else {
+#ifdef RECON_NATIVE_TEST
+        /* Original7187a consumes the never-written length WORD at
+           entryESP-6 only on this nonenum, completed unknown-kind route. */
+        __asm { int 3 }
+#endif
+    }
+    info->debug_index = intern_line_record(length);
+    if (tag->name == name_unnamed) tag->type->debug_index = info->debug_index;
+    return info->debug_index;
 }

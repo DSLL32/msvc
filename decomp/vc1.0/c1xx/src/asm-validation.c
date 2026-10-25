@@ -295,3 +295,10 @@ int __stdcall fits_asm_integer(unsigned char bits, unsigned value)
     unsigned magnitude = (int)value < 0 ? 0U - value : value;
     return (int)(1U << (bits & 31)) > (int)magnitude;
 }
+
+/* Original0x7f1ba..0x7f1dc, stdcall8. An unspecified operand size
+   accepts the instruction's size; an explicit size must agree exactly. */
+int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size)
+{
+    return !(operand->flags & 1) || operand->size == size;
+}

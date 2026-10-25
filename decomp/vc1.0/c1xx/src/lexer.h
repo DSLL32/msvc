@@ -34,6 +34,7 @@ void __stdcall restore_qualified_lookup(QualifierBinding *binding);
 unsigned char __stdcall resolve_parenthesis_candidate(int allow_expression);
 unsigned char __stdcall resolve_typename_token(CppSymbol *symbol);
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena);
+QualifierResolution *__stdcall copy_qualifier_resolution(QualifierResolution *source, int arena);
 void __stdcall browser_type_reference(CppSymbol *symbol);
 unsigned char read_operator_function_id(void);
 unsigned char __stdcall resolve_identifier_token(char *name);

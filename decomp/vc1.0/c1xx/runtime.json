@@ -119,13 +119,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "___inc_tmpoff",
-    "start": 258249,
-    "end": 258265,
-    "object": "stdio\\obj\\i386\\TMPFILE.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__execv",
     "start": 320816,
     "end": 320848,
@@ -186,20 +179,6 @@
     "start": 352608,
     "end": 352624,
     "object": "stdio\\obj\\i386\\FILENO.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_localeconv",
-    "start": 470224,
-    "end": 470240,
-    "object": "misc\\obj\\i386\\LCONV.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "_srand",
-    "start": 470240,
-    "end": 470256,
-    "object": "misc\\obj\\i386\\RAND.OBJ",
     "library": "LIBC.LIB"
   },
   {

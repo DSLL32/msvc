@@ -3484,6 +3484,77 @@
       "win32": "original unwritten fallback name/result_type locals remain uninitialized",
       "public_reachability": "UNKNOWN; current bank uses the defined copy operation0xac",
       "coverage_note": "no native fallback stack-equivalence or malformed-only claim"
+    },
+    {
+      "function": "line_record_primitive_type",
+      "original_entry": 461824,
+      "condition": "At an indexed scalar table read, floating width>=11 or integral width>=9",
+      "behavior": "Native-only INT3 before unmodeled row; Win32 flags&15 lookup unchanged",
+      "scope": "Encountered11/9-row prefixes independently equal ordinary CodeView constants; no historical full-extent, public reachability or original-UB claim",
+      "authorization": "Established exact unsupported-data-domain policy; no neighboring data or guard credit"
+    },
+    {
+      "function": "line_record_tag_type",
+      "original_entry": 464320,
+      "condition": "Uncached named tag flags outside0x402/404/408 and lacking0x200, after genuine tagflag clear and leaf count zero",
+      "behavior": "Native-only INT3 before original0x71751 consumes unwritten entryESP-2 WORD length",
+      "win32": "Original local remains uninitialized; no fabricated length",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established exact uninitialized-control policy"
+    },
+    {
+      "function": "read_deferred_argument_text",
+      "original_entry": 103888,
+      "condition": "Actual extended_to_double failure before original ignored-return caller consumes unwritten entryESP-8 double for _gcvt",
+      "behavior": "Native-only INT3 after real conversion failure; original Win32 ignored return and uninitialized local preserved",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established precise unwritten-output consumption policy; no initialized real or CRT emulation invented"
+    },
+    {
+      "function": "diagnose_overload_failure",
+      "original_entry": 485552,
+      "condition": "Phase3 typeless argument resolves a NULL symbol before any assignment to the diagnostic-symbol local",
+      "behavior": "Native-only INT3 before original76a48 consumes unwritten entryESP-8 DWORD; Win32 local remains unwritten",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established exact uninitialized-control policy; no fabricated symbol/type or broad malformed-input claim"
+    },
+    {
+      "function": "_line_record_push_type",
+      "original": 470256,
+      "condition": "Actual WORD write outside the encountered six-WORD scratch prefix starting991b8",
+      "native": "INT3 immediately before that unmodeled indexed write; Win32 cursor/write logic remains unchanged",
+      "classification": "Unsupported data-domain extent, not proven original UB. Actual71083 caller at current first push has total2/remaining2 and original savedmark991b8; later actual Root vfptr/five retained method queues with ctor pair/parameters<=1 prove six WORD prefix. Full historical workspace capacity and future larger/nested domain remain unclaimed."
+    },
+    {
+      "function": "prepare_line_record_tag",
+      "original_entry": 464768,
+      "condition": "Nonenum completed uncached tag has flags outside402/404/408 after actual field-list and optional-vshape effects",
+      "behavior": "Native-only INT3 before original7187a consumes unwritten length WORD entryESP-6; Win32 local remains unwritten",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established exact uninitialized-control policy; preserve preceding real effects and no blanket type guard"
+    },
+    {
+      "function": "line_record_method_list",
+      "original_entry": 467264,
+      "condition": "NULL overload-set skips every writer of next-method local",
+      "behavior": "Native-only INT3 before original721d0 consumes unwritten entryESP-8 pointer, after genuine cursor getter; Win32 local stays unwritten",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established exact uninitialized-control policy; actual current caller has nonnull overload set"
+    },
+    {
+      "function": "line_record_read_type",
+      "original_entry": 470288,
+      "condition": "WORD read outside encountered six-WORD scratch prefix991b8",
+      "behavior": "Native-only INT3 immediately before unmodeled read, after genuine cursor increment; Win32 read remains unchanged",
+      "classification": "Unsupported data-domain extent, not proven original UB; historical full workspace capacity remains unknown"
+    },
+    {
+      "function": "line_record_virtual_base_data",
+      "original_entry": 466784,
+      "condition": "Actual query_virtual_base_pointer returns false and leaves requested output locals unwritten",
+      "behavior": "Native-only INT3 at first output consumption: pass1 after genuine tag-type reference before pointer_type entryESP-12; other passes before pointer_offset entryESP-4. Win32 retains ignored return/unwritten outputs",
+      "public_reachability": "UNKNOWN",
+      "authorization": "Established exact ignored-return/uninitialized-control policy; no output initialization or broader base restriction"
     }
   ],
   "function_properties": {
@@ -3502,7 +3573,7 @@
   },
   "runtime_candidate_disqualifications": {
     "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
-    "basis": "Exact finite disqualification of33short pattern matches. Complete owners include these instructions; no independent PEexport, initialized literal pointer, absolute-address operand or external CALL/JMP supports these candidate entries. Eleven direct branches are owner-internal. App/genuineCRT extents, implementation status and credit unchanged. No general matcher exemption.",
+    "basis": "Exact finite candidate disqualifications. Earlier suffix/padding matches lack independent entry support; whole-entry compiler cursor matches instead have positive caller/global/CodeView ownership. Each listed row has its own bounded reason. Preserve all other matches; no general matcher exemption.",
     "candidates": [
       {
         "original": [
@@ -4134,6 +4205,60 @@
           ]
         ],
         "reason": "complete177B owner finalRET plus15B LEA alignment; independent finite review found no transfers, decoded address operands, initialized pointer cells or exports to candidate; preserve ten other same-name rows and owner credit"
+      },
+      {
+        "original": [
+          258249,
+          258265
+        ],
+        "candidate_names": [
+          "___inc_tmpoff"
+        ],
+        "bytes_sha256": "a43c1b1323915842c48fd19e0710910bf0da0097288ba0365c0e78864b36be31",
+        "owner": "_increment_expression_record_depth",
+        "owner_ranges": [
+          [
+            258240,
+            258261
+          ]
+        ],
+        "reason": "complete21B frontend owner checks allow_incomplete_class9fc80 and increments established ir_expression_deptha0a0c; candidate is internal increment plus4B alignment. Independent direct/address/initialized-pointer/export scan found no suffix entry. Actual calls target owner3f0c0; fresh stackreturn2806b binds one. Earlier preservation was not independent CRT proof; no extra function/byte credit for identity correction."
+      },
+      {
+        "original": [
+          470224,
+          470240
+        ],
+        "candidate_names": [
+          "_localeconv"
+        ],
+        "owner": "_line_record_cursor_position",
+        "owner_ranges": [
+          [
+            470224,
+            470230
+          ]
+        ],
+        "owner_bytes_sha256": "44337eacf9fc1f17f78968308fdfd8abace7aa6b0c68933fd738e0a80969b7bb",
+        "reason": "Whole independent compiler scratch-cursor helper, not CRT: getter/setter share a2718 initialized991b8 with WORD append/read helpers. Caller71030 saves/restores it around parameter type WORDs copied to CodeView0201. Independent full references/callers confirm role; preserve all other same-name matches and assign no implementation credit from reclassification."
+      },
+      {
+        "original": [
+          470240,
+          470256
+        ],
+        "candidate_names": [
+          "_srand"
+        ],
+        "owner": "_line_record_restore_cursor",
+        "owner_ranges": [
+          [
+            470240,
+            470250
+          ]
+        ],
+        "owner_bytes_sha256": "6affde14fc112e9fc2b8fab350e4031e57d827840e6523fd61c9dcd405f1e280",
+        "reason": "Whole independent compiler scratch-cursor helper, not CRT: getter/setter share a2718 initialized991b8 with WORD append/read helpers. Caller71030 saves/restores it around parameter type WORDs copied to CodeView0201. Independent full references/callers confirm role; preserve all other same-name matches and assign no implementation credit from reclassification."
       }
     ]
   }

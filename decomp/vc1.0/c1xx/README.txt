@@ -1,6 +1,45 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Catalog-database case0013 is COMPLETE. The coherent /Zi /Brepro /FR /Ob1
+scene-query workload exercises packed keys, virtual hierarchies, nested cursors,
+member pointers, deferred defaults, scalar/reference temporaries and the embedded
+type database. All 82 fresh original/native first encounters, exit 0, streams and
+seven final IR/PDB/browser artifacts match the untouched standalone master exactly.
+No output normalization or downstream C2/runtime equivalence claim was added.
+
+This case accepted 82 whole application bodies / 14,610 code bytes, plus 88 owned
+switch-data bytes. Current totals are 1,629 App bodies / 1,736 historical frontiers
+and the unchanged seven historical CRT source bodies. The application code-extent
+union is 375,495 / 476,418 bytes (78.82% of the whole original code extent, not a
+non-CRT denominator); CRT/import and owned-data credit are excluded.
+
+Final fresh native replay: 34.448 ms (setup 16.876 ms, execution 11.578 ms,
+checks 5.994 ms). Original capture: 1.218 s; incremental native/Win32 build:
+3.608 s. The completed-case gate passed all 14 cached native cases, 30 unit groups
+and the 1,637-function six-check graph/ABI audit in 2.736 s. Header-triggered
+original builds took about 36-37 s; a shared Cargo build-lock wait raised another
+build to 52.755 s. These are build/setup costs, separate from fixture execution.
+
+The case corrected three initializer predicates to use the real alignment marker.
+An actual PDB mismatch also exposed a misread stack offset before caller cleanup:
+the debug writer must update its saved leaf, not the scratch cursor. The corrected
+3,574-byte PDB matches the original byte for byte; failed artifacts remain in
+scratch. Independently reviewed false CRT matches were reclassified without
+implementation credit; the real compiler cursor helpers were then reconstructed
+and paired normally. No additional handwritten CRT implementation was introduced.
+
+The debug argument workspace has one owner with an encountered six-WORD prefix;
+its historical full capacity remains unknown. A valid Root method list reached
+the earlier two-WORD limit, which was expanded from actual producer/owner proof.
+Exact native-only traps remain for unmodeled workspace reads/writes and proven
+uninitialized control paths, while Win32 behavior is preserved. The case follows
+their supported paths; policy-data.json records 35 known native limitations.
+The deferred-default case reached its string arm; newly supplied shared decimal
+conversion support was not exercised and gains no numeric-behavior qualification.
+
+Earlier completed arena-bank case:
+
 Arena-bank case0012 is COMPLETE. The coherent /Z7 /FR /Ob2 -qc -Ol workload
 compiles relocatable based-pointer linked records, two movable buffers, array
 views, overloaded visitors, class-array/copy/reference temporaries and runtime

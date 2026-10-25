@@ -1550,3 +1550,10 @@ void end_else_statement(void)
     close_if_records();
     if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }
+
+/* Original0x3f0c0..0x3f0d5, cdecl0/RET0. Incomplete-class probing
+   suppresses expression nesting without touching the shared depth counter. */
+void increment_expression_record_depth(void)
+{
+    if (!allow_incomplete_class) ++ir_expression_depth;
+}

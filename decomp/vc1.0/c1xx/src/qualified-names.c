@@ -559,3 +559,53 @@ void __stdcall restore_qualified_lookup(QualifierBinding *binding)
     }
     enter_qualified_class((CppSymbol *)binding->target,0,temporary);
 }
+
+/* Original0x1cbf0..0x1cc50, stdcall8. Copy the resolution into the
+   requested arena while preserving constructor-owned low flag bits. */
+QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena)
+{
+    QualifiedDeclarator *copy = new_qualified_declarator(
+        copy_qualifier_resolution(source->resolution, arena), source->name, arena);
+    copy->declaration_flags = (copy->declaration_flags & ~0xb000) |
+        (source->declaration_flags & 0xb000);
+    copy->flags = (copy->flags & 0x7f) | (source->flags & 0x80);
+    return copy;
+}
+QualifierBinding *__stdcall copy_qualifier_binding(QualifierBinding *source, int arena);
+
+/* Original0x1cb90..0x1cbef, stdcall8. The copied resolution deliberately
+   stores its new first binding in both fields, matching the original. */
+QualifierResolution *__stdcall copy_qualifier_resolution(QualifierResolution *source, int arena)
+{
+    QualifierResolution *copy;
+    ArenaPool *pool;
+    if (!arena) copy = allocate_permanent(sizeof(QualifierResolution));
+    else {
+        pool = &compiler_arena.pools[arena == -1 ? 0 : arena];
+        if (pool->remaining < 8) refill_arena(&compiler_arena, pool);
+        copy = (QualifierResolution *)pool->next;
+        pool->remaining -= 8;
+        pool->next += 8;
+    }
+    copy->binding = copy->tail = copy_qualifier_binding(source->binding, arena);
+    return copy;
+}
+/* Original0x1cb10..0x1cb81, stdcall8. Clone only the next/target
+   chain; the original does not initialize or copy the following link. */
+QualifierBinding *__stdcall copy_qualifier_binding(QualifierBinding *source, int arena)
+{
+    QualifierBinding *copy;
+    ArenaPool *pool;
+    if (!source) return 0;
+    if (!arena) copy = allocate_permanent(sizeof(QualifierBinding));
+    else {
+        pool = &compiler_arena.pools[arena == -1 ? 0 : arena];
+        if (pool->remaining < 12) refill_arena(&compiler_arena, pool);
+        copy = (QualifierBinding *)pool->next;
+        pool->remaining -= 12;
+        pool->next += 12;
+    }
+    copy->target = source->target;
+    copy->next = copy_qualifier_binding(source->next, arena);
+    return copy;
+}

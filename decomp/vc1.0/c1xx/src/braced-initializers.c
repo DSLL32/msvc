@@ -174,11 +174,11 @@ void flush_initializer_constructors(void)
     if (error_count > saved_errors) initializer_value_error_reported = 1;
 }
 
-/* An anonymous aggregate can expose its following declarations directly.
+/* An alignment-marker aggregate can expose its following declarations directly.
    Keep this local predicate inline rather than inventing an application call. */
 #define INITIALIZER_ANONYMOUS_CHAIN(symbol_) \
     (((symbol_)->kind & 31) >= 1 && ((symbol_)->kind & 31) <= 13 && \
-     ((symbol_)->kind & 31) != 5 && (symbol_)->name == name_unnamed && \
+     ((symbol_)->kind & 31) != 5 && (symbol_)->name == name_alignment && \
      ((symbol_)->attributes & 0x800))
 
 /* Original 0x46c40..0x46f43. Descend into array elements and completed
@@ -406,14 +406,14 @@ int __stdcall select_braced_initializer(IrToken *value)
 }
 
 /* Original 0x46f50..0x47000. Skip declarations that do not own an
-   initializable data member. Anonymous markers delimit nested aggregate
+   initializable data member. Alignment markers delimit nested aggregate
    lists; padding records also terminate an accumulated bit-field unit. */
 CppSymbol *__stdcall find_next_initializer_member(CppSymbol *owner, CppSymbol *member)
 {
     unsigned kind;
     while (member) {
         kind = member->kind & 31;
-        if (kind >= 1 && kind <= 13 && kind != 5 && member->name == name_unnamed) {
+        if (kind >= 1 && kind <= 13 && kind != 5 && member->name == name_alignment) {
             if (!(member->attributes & 0x1800)) {
                 if (initializer_bit_field_pending) {
                     integer_constant_scratch = initializer_bit_field_value;
@@ -492,7 +492,7 @@ int finish_braced_initializer_element(void)
                 nesting = 1;
                 do {
                     member = member->next;
-                    if (INITIALIZER_DECLARATION(member) && member->name == name_unnamed) {
+                    if (INITIALIZER_DECLARATION(member) && member->name == name_alignment) {
                         if (member->attributes & 0x800) ++nesting;
                         else if (member->attributes & 0x1000) --nesting;
                     }
@@ -661,4 +661,14 @@ IrToken *__stdcall initializer_object_expression(CType *type)
     offset = make_integer_constant(initializer_offset);
     object = symbol_reference(initializer_storage_symbol);
     return new_ir_expression(0x59, object, offset, type);
+}
+
+/* Original0x45800..0x4582a, stdcall4. Alignment members carry the
+   padding byte count. Runtime-only initialization suppresses the data record
+   but still advances the common initializer offset. */
+void __stdcall emit_initializer_padding(CppSymbol *symbol)
+{
+    integer_constant_scratch = symbol->detail.value;
+    if (!(token_allocation_flags & 0x200000)) emit_initializer_constant(0);
+    initializer_offset += integer_constant_scratch;
 }

@@ -15,7 +15,10 @@
 #include "frontend-records.h"
 #include "function-definitions.h"
 #include "type-sizes.h"
+#include "expression-records.h"
 #include <recon.h>
+
+BuiltinOperator *__stdcall find_builtin_operator(unsigned char operation);
 
 /* Original 0x65500..0x65a76, stdcall 8. An explicit cast permits the
    scalar/pointer conversions below while diagnosing invalid function, array
@@ -1370,4 +1373,76 @@ IrToken *__stdcall append_default_call_argument(IrToken *arguments, void *expres
         value = value->value.pointer;
     }
     return append_expression(arguments, value, 4);
+}
+
+/* Original0x768b0..0x76b51, stdcall12; seven phase targets76b54..76b70.
+   Diagnostics distinguish a unique call from an overloaded set, retaining the
+   actual selected function and failing argument in the conversion messages. */
+void __stdcall diagnose_overload_failure(OverloadCandidate *candidate,
+    OverloadSearch *search, IrToken *argument)
+{
+    unsigned count;
+    int constructor = 0;
+    CppSymbol *function, *context = 0, *symbol, *argument_symbol;
+    CType *argument_type;
+    IrToken *node;
+    char *name, *text;
+    if (!(search->flags & 1) || ((search->flags & 2) && search->phase == 1)) return;
+    count = search->argument_count;
+    if (search->functions) {
+        function = ((OverloadSet *)search->functions)->functions;
+        if (function->next && candidate && candidate->function)
+            context = function = candidate->function;
+        name = format_symbol_name(function);
+        if (function->declaration_flags & 0x400) --count;
+        if (function->declaration_flags & 0x1000) constructor = 1;
+    } else name = find_builtin_operator(search->operation)->name;
+    switch (search->phase) {
+    case 1:
+        if (constructor && !count) report_syntax_error(512, name);
+        else report_syntax_error(search->total_count == 1 ? 660 : 661, name, count);
+        break;
+    case 2:
+        if (search->total_count != 1 && search->field2c != 1)
+            report_syntax_error(663, name, search->field2c);
+        else report_named_type_difference(662, context, name, argument->type, candidate->this_type);
+        break;
+    case 3:
+        if (!argument) argument_type = 0;
+        else if (argument->type) argument_type = argument->type;
+        else {
+            node = strip_address_expression(argument);
+            if (node->kind == OP_ARROW) node = node->tail.right;
+            symbol = node->value.pointer;
+            if ((symbol->kind & 31) == 18)
+                symbol = (CppSymbol *)((QualifiedDeclarator *)symbol)->resolution->binding->target;
+            if (symbol) {
+                if ((symbol->kind & 31) == 16 || (symbol->kind & 31) == 17)
+                    symbol = ((OverloadSet *)symbol)->functions;
+                argument_symbol = symbol;
+            } else {
+#ifdef RECON_NATIVE_TEST
+                /* Original0x76a48 consumes the never-written entryESP-8
+                   symbol local on this exact NULL-symbol route. */
+                __asm { int 3 }
+#endif
+            }
+            symbol = argument_symbol;
+            if (symbol && ((symbol->kind & 31) == 6 || (symbol->kind & 31) == 7))
+                argument_symbol = symbol->next;
+            argument_type = symbol->type;
+        }
+        if (search->total_count != 1 && search->field2c != 1) {
+            begin_type_diagnostic();
+            text = type_diagnostic_text(format_declarator(0, argument_type));
+            report_syntax_error(665, name, search->field2c, search->field28, text);
+            end_type_diagnostic();
+        } else report_argument_conversion(664, context, 0, name, search->field28,
+            argument_type, candidate->current_parameter);
+        break;
+    case 4: report_syntax_error(666, name, search->field2c); break;
+    case 5: report_syntax_error(667, name, search->field2c); break;
+    case 6: report_syntax_error(668, name); break;
+    case 7: report_syntax_error(593, name); break;
+    }
 }

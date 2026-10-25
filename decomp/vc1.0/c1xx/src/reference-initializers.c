@@ -7,6 +7,8 @@
 #include "operators.h"
 #include "expression-preparation.h"
 #include "call-expressions.h"
+#include "global-ir.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 /* Original 0x67100..0x671ec, stdcall 8. */
@@ -239,4 +241,39 @@ void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type)
     }
     initializing_symbol = 0;
     initializing_reference = 0;
+}
+
+/* Original0x67630..0x6771b, stdcall12. A reference-bound scalar
+   needs addressable storage. Initializer context supplies a declaration;
+   ordinary expression context supplies a fresh indexed temporary. */
+IrToken *__stdcall build_scalar_reference_temporary(CType *referent,
+    CType *reference, IrToken *expression)
+{
+    IrToken *temporary, *copy, *assignment, *result;
+    CppSymbol *symbol;
+    unsigned index;
+    unsigned char storage;
+    if (initializing_symbol) {
+        diagnose_member_reference_temporary();
+        storage = member_initializer_active ? 4 : initializing_symbol->storage[0] & 7;
+        symbol = create_initializer_temporary(storage, referent);
+        temporary = builtin_unary_expression(0x3b, resolve_symbol_expression(symbol));
+        initializing_symbol = 0;
+        initializing_reference = 0;
+    } else {
+        if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        index = next_symbol_index++;
+        temporary = new_temporary_reference(index, referent);
+    }
+    copy = clone_expression(temporary, 0);
+    expression = convert_initializer(1, referent, expression);
+    assignment = new_left_typed_expression(0x3d, temporary, expression);
+    assignment->type = referent;
+    result = builtin_binary_expression(0x40, assignment, copy);
+    result->type = reference;
+    result = indirect_storage_expression(result);
+    result->type = referent;
+    return result;
 }

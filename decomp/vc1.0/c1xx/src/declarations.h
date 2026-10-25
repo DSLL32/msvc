@@ -297,7 +297,7 @@ int __stdcall equivalent_base_type_flags(unsigned short left, unsigned short rig
 int __stdcall equivalent_storage_extensions(StorageSpec left, StorageSpec right);
 int __stdcall compatible_declaration_storage(CppSymbol *existing, CppSymbol *declaration);
 unsigned __stdcall compatible_declaration_attributes(unsigned short left, unsigned short right, int function);
-void __stdcall report_named_type_difference(unsigned code, CType *context, char *name,
+void __stdcall report_named_type_difference(unsigned code, CppSymbol *context, char *name,
     CType *source, CType *destination);
 int __stdcall merge_declared_symbol(CppSymbol *existing, CppSymbol *declaration);
 CppSymbol *__stdcall static_member_alias(CppSymbol *symbol);
