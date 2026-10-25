@@ -417,17 +417,17 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 84 / 7,231 | 2.24% | Minimal C: run_compiler orchestration; same case continues |
-| C1XX | 94 / 7,510 | 1.00% | Minimal C++: packing chain after accepted path normalizer |
-| C2 | 112 / 22,668 | 3.95% | Numeric case: function_retains_symbols after accepted scope allocation |
-| CL | 108 / 18,238 | 95.68% | 14 cases complete; narrow live Job-chain DIRECT probe blocked before launch by PE import layout |
+| C1 | 85 / 8,533 | 2.65% | Minimal C: initialize_frontend after accepted orchestration |
+| C1XX | 97 / 7,726 | 1.03% | Minimal C++: push_packing after accepted frame acquisition |
+| C2 | 117 / 23,312 | 4.07% | Numeric case: new_statement_boundary after accepted line-input reset |
+| CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 104 / 37,579 | 9.06% | Hello EXE: ReadSectionHeaders after accepted module loader |
-| RCDLL | 95 / 25,732 | 34.49% | Rich corpus: 124-byte candidate has a matching new baseline; canonical loader fix released for acceptance |
+| LINK | 105 / 37,873 | 9.13% | Hello EXE: read_module_symbols after accepted section-header reader |
+| RCDLL | 99 / 26,309 | 35.26% | Rich corpus: rc_skip_inactive_quoted after source-frame cleanup and copy helper |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
-CL has a separately supported 98.34% identified-App percentage; other unfinished
+CL has a separately supported 98.57% identified-App percentage; other unfinished
 non-CRT denominators remain unclassified. Whole-text ratios include runtime,
 data and padding.
 
@@ -458,9 +458,11 @@ The concrete minimal capture work is:
   successfully but did not reach the 41-byte helper; it gains no App credit.
   The approved fallback is one NULL/tail/head typed DIRECT probe on the genuine
   live Job chain at prepare_jobs. Its first attempt was rejected before Wine
-  launch because the original PE has no spare section-header slot for the
-  helper import; shared tooling owns that layout gap. No local PE loader,
-  console machinery or MRE emulation is being added.
+  launch: bound-import metadata occupied the spare section-header slot. Shared
+  fix `2cea3119e` relocates only that validated loader block into the helper
+  section, preserving target code, sections and RVAs. The subsequent original
+  and native DIRECT completion passes; no local PE loader, console machinery
+  or MRE emulation was added.
 
 VCPACK's empty target PATH was copied from old native harness sanitization during
 migration, not captured as an application requirement. Its genuinely new baseline
@@ -486,6 +488,16 @@ function reader and scope allocation). A normal/PCH selector error exposed
 beyond the previous child frontier was corrected without extra credit; the
 unchanged original reference was reused with fresh native evidence. It
 continues the original numeric case; no additional case has been started.
+
+CL's bounded completion adds the 41-byte deferred-job helper: 109 application
+functions / 18,279 bytes. The genuine original DIRECT run passes in 1.328 s;
+native passes in 7.661 ms (4.416 ms setup, 2.511 ms execution, 0.734 ms checks).
+The original-emitted result and live ownership/link/ABI assertions cover NULL,
+tail and head inputs. All 15 discovered cases (14 public IO plus one internal
+DIRECT) and their tests pass in 0.602 s including case rebuilds; original build,
+full 124-vertex audit and qualified 112-owner audit pass. This establishes
+internal behavior, not ordinary public MRE reach. The remaining 266 App bytes
+are the deferred console/control paths and 113-byte pass toggle.
 
 CVPACK completed the released debug-DLL case and paused at `d967c21fc`, adding
 11 application functions / 3,624 bytes. The final original exits successfully
