@@ -520,7 +520,7 @@ extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
     }
     return intern_type(description);
 }
-extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_intermediate_output(void) {}
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
