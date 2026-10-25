@@ -588,8 +588,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResReadHeaderRecord",
         .entry_rva = 0x1b1c0,
+        .code = (const ReconExtent[]) { {0x1b1c0, 0x1b251} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResReadHeaderRecord",
         .original_symbol = "WResReadHeaderRecord_",
     },

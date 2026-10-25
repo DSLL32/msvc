@@ -209,6 +209,33 @@ int readWResDir( int file, WResDir dir )
     return error;
 }
 
+/* Original 0x41b1c0..0x41b251. Preserve the saved resource-relative
+   position after a complete 18-byte header read. */
+int WResReadHeaderRecord( WResHeader *header, int file )
+{
+    long position;
+    int count;
+    int error;
+
+    error = 1;
+    position = (*WResRtns.seek)( file, 0L, SEEK_SET );
+    if( position == -1L ) {
+        WresRecordError( WRS_SEEK_FAILED );
+    } else {
+        count = (*WResRtns.read)( file, header, sizeof( *header ) );
+        if( count != sizeof( *header ) ) {
+            WresRecordError( count == -1 ? WRS_READ_FAILED : WRS_READ_INCOMPLETE );
+        } else {
+            if( (*WResRtns.seek)( file, position, SEEK_SET ) == -1L ) {
+                WresRecordError( WRS_SEEK_FAILED );
+            } else {
+                error = 0;
+            }
+        }
+    }
+    return error;
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

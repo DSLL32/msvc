@@ -1,0 +1,79 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "dd1bcf42c08ad9b2004295e35a7e85b3bb11849dd1f60e3a87116398df3995f0",
+  "case": "help",
+  "elapsed_ms": 494.606916,
+  "first_entry_order": [
+    76391,
+    73695,
+    84990,
+    101064,
+    105536,
+    101144,
+    84964,
+    101080,
+    105584,
+    107076,
+    113152,
+    114832,
+    106520,
+    111040,
+    111188
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 3276516,
+      "ebp": 0,
+      "ebx": 58898,
+      "ecx": 0,
+      "edi": 3425024,
+      "edx": 3,
+      "eflags": 582,
+      "eip": 4305492,
+      "esi": 3,
+      "esp": 3276492
+    },
+    "rva": 111188,
+    "stack": "hex:b3a04100d7c1d4c3cfcdd2c3650e00000a000100010041004eba4100d7c1d4c3cfcdd2c300000000004334000300000000e600009ba241003cff310000000000",
+    "stack_address": 3276492,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLIB.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "original_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "adbab107b6022723b213a562049711510879bbc0eb78d9362faaea4c11fa278f",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLIB.EXE",
+      "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+      "staged": "/tmp/recon/run-8Z1j3A/WLIB.EXE"
+    }
+  ],
+  "terminal": "frontier:1b254",
+  "watcom_main_argv": {
+    "actual": [
+      "T:\\run-8Z1j3A\\WLIB.EXE",
+      "?"
+    ],
+    "argc": 2,
+    "argv_address": 3424988,
+    "entry_rva": 76391,
+    "requested": [
+      "WLIB.EXE",
+      "?"
+    ]
+  },
+  "workspace": "/tmp/recon/run-8Z1j3A"
+}
