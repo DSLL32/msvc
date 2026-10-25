@@ -1951,7 +1951,7 @@
       },
       "_convert_old_argument_list": {
         "abi": "void convert_old_argument_list(unsigned short,unsigned short)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

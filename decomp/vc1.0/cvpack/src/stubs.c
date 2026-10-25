@@ -138,5 +138,5 @@ void convert_old_modifier(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
-void convert_old_argument_list(unsigned short type, unsigned short count) { __asm { int 3 }  }
+
 unsigned char * resize_old_type(TypeRecord *entry, unsigned short size) { __asm { int 3 } return NULL; }

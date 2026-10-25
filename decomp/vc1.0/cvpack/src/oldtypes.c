@@ -131,3 +131,44 @@ unsigned long read_old_numeric(unsigned char **cursor, unsigned short *size)
     if (size) *size = length;
     return result;
 }
+
+/* Replace a C6 argument list with LF_ARGLIST, preserving its owning slot. */
+void convert_old_argument_list(unsigned short type, unsigned short count)
+{
+    unsigned short relative = type-0x200, unused, length, i;
+    TypeRecord *entry;
+    unsigned char *cursor, *converted;
+    unsigned long bytes, n;
+    int reuse;
+    if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+        entry = empty_type;
+    else {
+        entry = &local_type_records[relative];
+        if (entry->flags & 0x1000)
+            entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);
+    }
+    if (entry->flags & 0x400) return;
+    entry->flags |= 0x400;
+    cursor = entry->data;
+    length = (unsigned short)(count*2+4);
+    bytes = (unsigned long)length+2;
+    reuse = (unsigned long)*(unsigned short *)(cursor+1)+3 >= bytes;
+    converted = reuse ? type_scratch(bytes) : checked_alloc(bytes);
+    cursor += 4;
+    *(unsigned short *)converted = length;
+    *(unsigned short *)(converted+2) = 0x201;
+    *(unsigned short *)(converted+4) = count;
+    for (i = 0; i < count; ++i) {
+        if (*cursor++ == 0x83) {
+            *(unsigned short *)(converted+6+i*2) = *(unsigned short *)cursor;
+            cursor += 2;
+        } else *(unsigned short *)(converted+6+i*2) = 0xffff;
+    }
+    if (reuse) {
+        for (n = 0; n < bytes; ++n) entry->data[n] = converted[n];
+    } else {
+        if (entry->flags & 0x38) release_type_data(entry);
+        entry->flags |= 8;
+        entry->data = converted;
+    }
+}
