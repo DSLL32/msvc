@@ -413,7 +413,8 @@ implemented; ordinary native replay still requires an unimplemented frontier.
 
 DLL capture supplies `--host HOST.exe`; typed Win32 host glue loads the path in
 `RECON_ORIGINAL_DLL` and invokes exports. The broker identifies that exact loaded
-file and its actual module base/entry.
+file and its actual module base/entry. Binary-specific host source belongs in
+that binary's `harness/`; reuse a suitable shipped host when available.
 
 Original DIRECT capture uses a typed Win32 probe DLL compiled with the original
 compiler. Add its normal import and marker trap offline to the scratch EXE;

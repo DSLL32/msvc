@@ -295,16 +295,18 @@ All three variants are CRT definition 3 / implementation 0, while historical
 graph anchors remain accepted false / unmask false. The production mask check
 changes only their 1,253 bytes and leaves all 20 unfinished application traps.
 The final audit passes 187 graphs, 206 data objects and 207 identities. No
-application bodies, capture hashes or acceptance counts changed; the queued
-strip case remains unstarted.
+application bodies, capture hashes or acceptance counts changed in that correction.
+The queued strip case subsequently qualified in `2cac9d068`: fresh masked
+original capture took 1.228 s, with 34 App first entries; native replay took
+41.414 ms and its unit 10.351 ms. Eleven cases now run, with no new body credit.
 
-## Shared work still pending
+## Recent shared capture work
 
-These are approved or under design, not completed integrations:
+The target-environment correction is published and verified:
 
 | Work | Consumers and purpose |
 | --- | --- |
-| Original-capture environment separation | CVPACK's first queued-strip reference attempt stopped before Wine launch because target PATH empty was applied to host executable lookup; target WINEPREFIX removal would also override the fixed transport prefix. The shared owner is implementing explicit target-environment overlay separate from host Wine transport, without another Wine process or private prefix. Native execution is unaffected. |
+| Original-capture environment separation | `54bb2913f` separates case target-environment overlays from host Wine transport and resolves the Wine executable using host PATH. A real original control verifies empty target PATH, removed target Wine variables, retained defaults and target overrides: capture 1,735.471 ms, native 5.522 ms. Formatting, 33 Rust tests, C environment-merge controls and native smoke pass. CVPACK's queued strip capture subsequently succeeds. No extra Wine process or private prefix. |
 
 The earlier shared worker was repeatedly stopped by the platform's
 possible-cybersecurity-risk flag while preparing self-child support. At the
@@ -390,6 +392,51 @@ waiver was rejected. The bounded canonical-pointer repair and consumer
 inventory are verified and committed in `dccbd1906`; original compilation,
 strict 111-function graph/reference checks and both cached cases pass. It adds
 no reconstruction credit.
+
+## VC5.10 readiness reread
+
+All nine actual workers reread the current guidance and their own documentation;
+no reconstruction, captures, edits or builds occurred during this readiness
+review. RC and CVTRES remain complete for identified application code. The seven
+unfinished binaries can use native builds/replay; fresh capture gaps are narrower
+than their initial reports suggested.
+
+| Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
+| --- | --- | ---: | --- |
+| C1 | 82 / 7,037 | 2.18% | push_packing; finish minimal C, then broad preprocessing/C workload |
+| C1XX | 92 / 7,016 | 0.934% | resolve_option_path; finish minimal C++, then object/lifetime workload |
+| C2 | 106 / 21,801 | 3.80% | add_register_to_set; numeric case, then switches/register pressure/conversions |
+| CL | 108 / 18,238 | 95.68% | 14 cases complete; ordinary MRE retry proposed |
+| CVPACK | 113 / 37,019 | 59.08% | write_globals; debug DLL then multi-file C++ types/symbols |
+| LINK | 102 / 37,062 | 8.93% | section-header allocator; hello EXE then exported DLL |
+| RCDLL | 95 / 25,732 | 34.49% | rc_run_preprocessor; finish rich resource corpus |
+| RC | 2 / 277 | 19.26% | Complete: all identified App code |
+| CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
+
+CL has a separately supported 98.34% identified-App percentage; other unfinished
+non-CRT denominators remain unclassified. Whole-text ratios include runtime,
+data and padding.
+
+The concrete minimal capture work is:
+
+- C1/C1XX need small typed three-argument compiler-export hosts in each binary's `harness/`,
+  using existing shared `--host`. Old HOST argv/environment vectors and forced
+  LastError values were observer choices, not required App inputs.
+- RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
+  change its static attachment lifecycle. Its IAT/debug/import/export data in
+  executable sections must survive progress masking as verified data ranges.
+- Exact MSVCRT identity is required only when reusing provider-specific table or
+  instruction qualifications. C2 withdrew a universal hash blocker. Intended
+  native-provider selection plus once-per-capture loaded identity is enough
+  where such proofs are used; no per-function scans or CRT reconstruction.
+- CL's 91-byte console_rows and separate 62-byte control handler can remain
+  explicitly pending while an ordinary two-source warm-IDB MRE case is tried.
+  Its 41-byte retry helper needs a real reached retry combination; if absent,
+  a narrow typed Job-chain DIRECT test is preferable to a broad MRE framework.
+
+The target-environment separation fix is published as `54bb2913f`, including a
+real original control and subsequent CVPACK capture. VC5.10 workers remain paused
+pending root release; no replacement was necessary.
 
 ## Watcom compatibility report
 
