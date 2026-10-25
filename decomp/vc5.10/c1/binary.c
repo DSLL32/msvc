@@ -1157,8 +1157,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_make_tagged_type", .entry_rva = 0x14c23,
-.code = (const ReconExtent[]){{0x14c23, 0x14c24}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x14c23, 0x14c8b}, {0x311e7, 0x31229}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "make_tagged_type",
     },
     {
@@ -1536,6 +1536,12 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]){{0x2500, 0x267e}, {0x26eb8, 0x26ef7}}, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "_ZN18CompilerDeclarator7ResolveEv",
       .original_symbol = "?Resolve@CompilerDeclarator@@QAEPAUCompilerType@@XZ" },
+    { .name = "_resolve_shape_attributes", .entry_rva = 0x14c8b,
+      .code = (const ReconExtent[]){{0x14c8b, 0x14c8c}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "resolve_shape_attributes" },
+    { .name = "_make_type_shape", .entry_rva = 0xf6ab,
+      .code = (const ReconExtent[]){{0xf6ab, 0xf6ac}}, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "make_type_shape" },
     { .name = "CompilerDeclarator::FinalizeShape", .entry_rva = 0x267e,
       .code = (const ReconExtent[]){{0x267e, 0x272d}, {0x26ef7, 0x26f44}}, .code_count = 2,
       .text_data = (const ReconExtent[]){{0x2730, 0x2740}}, .text_data_count = 1,

@@ -369,7 +369,34 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     declarator.ApplyAttributes(&applied);
     return declarator.Resolve();
 }
-extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
+extern "C" WORD __cdecl resolve_shape_attributes(unsigned, unsigned);
+extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned);
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
+extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
+{
+    CompilerArena *arena = &c1_bss.arenas[(flags & 0x80) ? 3 : c1_data.type_arena_kind];
+    CompilerType *description = (CompilerType *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    description->flags = (WORD)flags;
+    if (flags & 0x80) {
+        description->attributes = 0;
+        description->auxiliary = 0;
+        WORD attributes = resolve_shape_attributes(1, 0);
+        description->shape = intern_type_shape(make_type_shape(1, attributes, 0));
+    } else {
+#ifdef RECON_NATIVE_TEST
+        /* This alternate producer leaves the remaining descriptor fields
+         * unwritten. Their carried values are not modeled for native use. */
+        recon_unsupported("make_tagged_type: unwritten descriptor fields");
+#endif
+    }
+    return intern_type(description);
+}
+extern "C" WORD __cdecl resolve_shape_attributes(unsigned kind, unsigned attributes) { __asm { int 3 } return 0; }
+extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned kind, unsigned attributes,
+    unsigned value) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }

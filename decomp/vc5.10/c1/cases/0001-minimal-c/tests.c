@@ -298,8 +298,23 @@ static int interned_type_shapes(void)
         c1_bss.pools[1].cursor == (BYTE *)(storage + 9) &&
         storage[0] == 0xa5a5a5a5 && storage[9] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[25] = {
+static int type_arena_snapshot(void)
+{
+    CompilerInitializedState saved = c1_data;
+    if (c1_data.type_arena_kind != 3) return 0;
+    saved.first_call = 0;
+    saved.type_arena_kind = 2;
+    c1_data.first_call = 0;
+    c1_data.type_arena_kind = 5;
+    c1_bss.saved_data = &saved;
+    c1_pass_mode = 1;
+    return initialize_compiler_pass() == 0 && c1_data.type_arena_kind == 2 &&
+        c1_bss.saved_data == &saved && saved.type_arena_kind == 2 &&
+        !c1_reuse_state;
+}
+const ReconTest minimal_tests[26] = {
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
+    { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
