@@ -100,3 +100,49 @@ void free_type_tables(void)
         type_pdb_close_status |= PDBClose(type_pdb);
     }
 }
+
+/* Reusable type payloads store the free-list link in their first DWORD.
+ * Original small-list pointer00412d0c and countWORD00412d14. */
+typedef struct FreeTypePayload {
+    struct FreeTypePayload *next;
+} FreeTypePayload;
+static FreeTypePayload *small_type_free, *medium_type_free;
+static unsigned short small_type_free_count, medium_type_free_count;
+
+/* [0040fbd0,0040fbf4). */
+unsigned char *allocate_small_type(void)
+{
+    FreeTypePayload *data = small_type_free;
+    if (!data) return allocate_bytes(32);
+    small_type_free = data->next;
+    --small_type_free_count;
+    return (unsigned char *)data;
+}
+
+/* [0040fc00,0040fc19). */
+void recycle_small_type(unsigned char *data)
+{
+    FreeTypePayload *payload = (FreeTypePayload *)data;
+    payload->next = small_type_free;
+    ++small_type_free_count;
+    small_type_free = payload;
+}
+
+/* Medium-list pointer00412d10/countWORD00412d18; [0040fc20,0040fc47). */
+unsigned char *allocate_medium_type(void)
+{
+    FreeTypePayload *data = medium_type_free;
+    if (!data) return allocate_bytes(900);
+    medium_type_free = data->next;
+    --medium_type_free_count;
+    return (unsigned char *)data;
+}
+
+/* [0040fc50,0040fc69). */
+void recycle_medium_type(unsigned char *data)
+{
+    FreeTypePayload *payload = (FreeTypePayload *)data;
+    payload->next = medium_type_free;
+    ++medium_type_free_count;
+    medium_type_free = payload;
+}

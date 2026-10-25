@@ -3,6 +3,8 @@
 #include "pack.h"
 #include <recon.h>
 
+#pragma intrinsic(memcpy)
+
 TypeIndexMapper type_index_mappers[3] = {
     compact_legacy_index, compact_type_index, compact_type_index
 };
@@ -202,4 +204,40 @@ unsigned __fastcall compact_type_list(unsigned index, unsigned count)
     record->status |= 4;
     intern_type(record);
     return record->mapped_index;
+}
+
+/* Replace a terminal LF_INDEX by the referenced field-list payload.
+ * The allocation class belongs to this TypeRecord until it is interned.
+ * [004044d0,00404619). */
+void append_type_field_list(unsigned char *field, TypeRecord *record)
+{
+    unsigned index = *(unsigned *)(field + 4) - module_type_base;
+    unsigned from_global, prefix, suffix, size;
+    unsigned short added;
+    TypeRecord *target;
+    unsigned char *data, *joined;
+    if (!module_type_low && index == 0xffff - module_type_base)
+        target = empty_type_record;
+    else {
+        target = &type_records[index];
+        if (target->status & 0x1000)
+            target = lookup_global_type(target->global_index - 0x1000, &from_global);
+    }
+    data = target->data;
+    added = (unsigned short)(*(unsigned short *)data - 2);
+    suffix = added;
+    prefix = (unsigned short)(field - record->data);
+    size = prefix + suffix;
+    if (size > 900) joined = allocate_bytes(size);
+    else if (size > 32) joined = allocate_medium_type();
+    else joined = allocate_small_type();
+    memcpy(joined, record->data, prefix);
+    if (record->status & 0x38) release_type_payload(record);
+    record->data = joined;
+    if (size > 900) record->status |= 8;
+    else if (size > 32) record->status |= 0x20;
+    else record->status |= 0x10;
+    memcpy(joined + prefix, data + 4, suffix);
+    added = (unsigned short)(added - 8);
+    *(unsigned short *)record->data += added;
 }

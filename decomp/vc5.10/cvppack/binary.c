@@ -1,4 +1,4 @@
-/* Accepted runnable baseline: 162 App bodies / 48023 original code bytes.
+/* Accepted runnable baseline: 168 App bodies / 48556 original code bytes.
  * Original CRT/import selection is support only. All addresses below are RVAs.
  * Native host adapters and dependency responses are outside the App graph. */
 #include <recon-tool.h>
@@ -137,12 +137,16 @@ static const ReconFunction functions[] = {
     { .name="_record_symbol_references", .entry_rva=0xf4a0, .code=(const ReconExtent[]){{0xf4a0,0xf5c1}}, .code_count=1, .text_data=(const ReconExtent[]){{0xf5c4,0xf5e4}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="record_symbol_references" },
     { .name="_module_contains_address", .entry_rva=0xaf80, .code=(const ReconExtent[]){{0xaf80,0xafe9}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="module_contains_address" },
     { .name="@add_type_reference@8", .entry_rva=0x4360, .code=(const ReconExtent[]){{0x4360,0x44cf}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="add_type_reference" },
-    { .name="_append_type_field_list", .entry_rva=0x44d0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="append_type_field_list" },
+    { .name="_append_type_field_list", .entry_rva=0x44d0, .code=(const ReconExtent[]){{0x44d0,0x4619}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="append_type_field_list" },
     { .name="@hash_type_record@4", .entry_rva=0xe1a0, .code=(const ReconExtent[]){{0xe1a0,0xe4e1}}, .code_count=1, .text_data=(const ReconExtent[]){{0xe4e4,0xe514}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="hash_type_record" },
     { .name="_lookup_named_type", .entry_rva=0xce70, .code=(const ReconExtent[]){{0xce70,0xcf38}}, .code_count=1, .text_data=(const ReconExtent[]){{0xcf38,0xcf48}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="lookup_named_type" },
     { .name="@allocate_global_type@4", .entry_rva=0xb490, .code=(const ReconExtent[]){{0xb490,0xb878}}, .code_count=1, .text_data=(const ReconExtent[]){{0xb878,0xb888}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="allocate_global_type" },
     { .name="_record_base_classes", .entry_rva=0xb3c0, .code=(const ReconExtent[]){{0xb3c0,0xb48a}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="record_base_classes" },
-    { .name="_release_type_payload", .entry_rva=0xe8d0, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="release_type_payload" },
+    { .name="_allocate_small_type", .entry_rva=0xfbd0, .code=(const ReconExtent[]){{0xfbd0,0xfbf4}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="allocate_small_type" },
+    { .name="_allocate_medium_type", .entry_rva=0xfc20, .code=(const ReconExtent[]){{0xfc20,0xfc47}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="allocate_medium_type" },
+    { .name="_recycle_small_type", .entry_rva=0xfc00, .code=(const ReconExtent[]){{0xfc00,0xfc19}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="recycle_small_type" },
+    { .name="_recycle_medium_type", .entry_rva=0xfc50, .code=(const ReconExtent[]){{0xfc50,0xfc69}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="recycle_medium_type" },
+    { .name="_release_type_payload", .entry_rva=0xe8d0, .code=(const ReconExtent[]){{0xe8d0,0xe91f}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="release_type_payload" },
     { .name="@copy_type_arena@12", .entry_rva=0xff80, .code=(const ReconExtent[]){{0xff80,0x1000a}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="copy_type_arena" },
     { .name="_find_local_named_type", .entry_rva=0xcda0, .code=(const ReconExtent[]){{0xcda0,0xce54}}, .code_count=1, .text_data=(const ReconExtent[]){{0xce54,0xce64}}, .text_data_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="find_local_named_type" },
     { .name="_record_base_relation", .entry_rva=0xe520, .code=(const ReconExtent[]){{0xe520,0xe63f}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="record_base_relation" },

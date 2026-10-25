@@ -50,3 +50,20 @@ void __fastcall intern_type(TypeRecord *record)
     if ((kind == 0x1004 || kind == 0x1005) && !(data[6] & 0x80))
         record_base_classes(entry->index, *(unsigned *)(data + 8));
 }
+
+/* Release only the ownership class carried by this record; the pointer itself
+ * remains in place until the caller substitutes its interned/joined payload.
+ * [0040e8d0,0040e91f). */
+void release_type_payload(TypeRecord *record)
+{
+    if (record->status & 8) {
+        free(record->data);
+        record->status &= 0xfff7;
+    } else if (record->status & 0x20) {
+        recycle_medium_type(record->data);
+        record->status &= 0xffdf;
+    } else if (record->status & 0x10) {
+        recycle_small_type(record->data);
+        record->status &= 0xffef;
+    }
+}

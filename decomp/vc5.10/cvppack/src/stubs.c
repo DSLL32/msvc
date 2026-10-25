@@ -28,8 +28,6 @@ const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }
 
 
 void convert_legacy_record(unsigned index) { __asm { int 3 } }
-void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }
-void release_type_payload(TypeRecord *record) { __asm { int 3 } }
 
 
 

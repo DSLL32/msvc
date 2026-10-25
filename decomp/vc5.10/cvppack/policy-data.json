@@ -807,6 +807,36 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_append_type_field_list": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_small_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release_type_payload": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_recycle_small_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate_medium_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_recycle_medium_type": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
