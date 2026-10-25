@@ -148,11 +148,6 @@ void __fastcall mark_first_input_expression(C2Expression *expression)
     __asm { int 3 }
 }
 
-unsigned __fastcall set_input_filename(char *filename)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 C2Expression * __fastcall new_function_entry(C2Function *function)
 {

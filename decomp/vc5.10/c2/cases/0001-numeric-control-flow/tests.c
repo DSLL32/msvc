@@ -421,6 +421,25 @@ static int input_stack_reuse_and_link(void)
         entries[0].last == &sentinel && !sentinel.next;
 }
 
+static int input_filename_identity(void)
+{
+    C2InputLineMap entries[2];
+    char first[] = "one.c", second[] = "two.c", equal[] = "two.c";
+    memset(entries, 0xa5, sizeof(entries));
+    entries[0].next = &entries[1];
+    entries[1].next = NULL;
+    entries[0].filename = first;
+    entries[1].filename = second;
+    input_line_cache = entries;
+    input_line_filename = NULL;
+    if (set_input_filename(equal) || input_line_filename != second) return 0;
+    if (set_input_filename(equal) || input_line_filename != second) return 0;
+    if (set_input_filename("new.c") || !input_line_filename ||
+        input_line_filename == first || input_line_filename == second ||
+        strcmp(input_line_filename, "new.c")) return 0;
+    return entries[0].pending08[0] == 0xa5 && entries[1].pending08[11] == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -442,5 +461,6 @@ const ReconTest numeric_tests[] = {
     {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases},
     {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields},
     {"control record clears its exact 28-byte allocation", 1, control_record_reuse},
-    {"input stack reuse and drain preserve complete tree chain", 1, input_stack_reuse_and_link}
+    {"input stack reuse and drain preserve complete tree chain", 1, input_stack_reuse_and_link},
+    {"filename selection retains cached string identity", 1, input_filename_identity}
 };

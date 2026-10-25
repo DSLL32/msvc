@@ -1,4 +1,5 @@
 #include "function-reader.h"
+#include "code-input.h"
 #include <recon.h>
 
 extern FILE *expression_input, *function_symbol_input;
@@ -109,4 +110,19 @@ C2Function *__fastcall read_function(C2FunctionSymbol *symbol)
         finish_function_debug(function);
     input_inline_mark = 0;
     return function;
+}
+
+unsigned __fastcall set_input_filename(char *filename)
+{
+    C2InputLineMap *entry;
+    if (input_line_filename && !strcmp(input_line_filename, filename)) return 0;
+    for (entry = input_line_cache; entry; entry = entry->next) {
+        if (!strcmp(filename, entry->filename)) {
+            input_line_filename = entry->filename;
+            return 0;
+        }
+    }
+    input_line_filename = c2_pool_allocate(0, strlen(filename) + 1);
+    strcpy(input_line_filename, filename);
+    return 0;
 }

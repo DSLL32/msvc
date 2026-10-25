@@ -979,7 +979,8 @@ C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function,
     return token;
 }
 
-/* Encountered pragmas consume a filename (2), signed long (31), or short (32).
+/* Encountered pragmas consume a source line (1), filename (2), signed long
+ * (31), or short (32).
  * Other rows and the
  * unused second DWORD of each row are unmodeled, not zero-valued defaults. */
 typedef struct C2ControlFields {
@@ -987,11 +988,12 @@ typedef struct C2ControlFields {
     unsigned pending04;
 } C2ControlFields;
 static struct {
-    C2ControlFields pending00[2], filename, pending03[28], signed_value, short_value;
-} input_control_fields = {{{0}}, {"s", 0}, {{0}}, {"\024", 0}, {"\025", 0}};
+    C2ControlFields pending00, source_line, filename, pending03[28], signed_value, short_value;
+} input_control_fields = {{0}, {"l", 0}, {"s", 0}, {{0}}, {"\024", 0}, {"\025", 0}};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_CONTROL_FIELDS(control) \
-    ((control) == 2 ? input_control_fields.filename.fields : \
+    ((control) == 1 ? input_control_fields.source_line.fields : \
+     (control) == 2 ? input_control_fields.filename.fields : \
      (control) == 31 ? input_control_fields.signed_value.fields : \
      (control) == 32 ? input_control_fields.short_value.fields : \
      (recon_unsupported("unmodeled input control fields"), (signed char *)0))

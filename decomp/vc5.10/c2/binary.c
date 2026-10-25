@@ -2628,8 +2628,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@set_input_filename@4",
         .entry_rva = 0x282e6,
+        .code = (const ReconExtent[]){{0x282e6, 0x28393}, {0x6bf07, 0x6bf43}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "set_input_filename",
     },
     {
