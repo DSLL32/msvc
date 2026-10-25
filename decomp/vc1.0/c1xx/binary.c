@@ -1,11 +1,37 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1489 historical frontiers/1382 App bodies.
+ * Current reviewed boundary:1494 historical frontiers/1387 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_segment_name_has_suffix@8",
+        .entry_rva = 0x45070,
+        .code = (const ReconExtent[]) { { 0x45070, 0x450db } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "segment_name_has_suffix",
+    },
+    {
+        .name = "_new_segment_symbol@16",
+        .entry_rva = 0x44f00,
+        .code = (const ReconExtent[]) { { 0x44f00, 0x44f4c } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "new_segment_symbol",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_find_segment_symbol@4",
+        .entry_rva = 0x44e80,
+        .code = (const ReconExtent[]) { { 0x44e80, 0x44ecd } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "find_segment_symbol",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_access_declaration_table",
         .entry_rva = 0x21290,
@@ -9001,10 +9027,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_lookup_segment_symbol@16",
         .entry_rva = 0x450e0,
-        .code = (const ReconExtent[]) { { 0x450e0, 0x450e1 } },
+        .code = (const ReconExtent[]) { { 0x450e0, 0x45265 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_segment_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_compound_statement",
@@ -9090,10 +9117,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_find_c_linkage_function@4",
         .entry_rva = 0x45c00,
-        .code = (const ReconExtent[]) { { 0x45c00, 0x45c01 } },
+        .code = (const ReconExtent[]) { { 0x45c00, 0x45c7d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_c_linkage_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_bind_function_overload@8",
@@ -16743,10 +16771,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_enable_intrinsic_function@4",
         .entry_rva = 0x2d4e0,
-        .code = (const ReconExtent[]) { { 0x2d4e0, 0x2d4e1 } },
+        .code = (const ReconExtent[]) { { 0x2d4e0, 0x2d580 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "enable_intrinsic_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_disable_intrinsic_function@4",

@@ -1,11 +1,11 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is COMPLETE. There are1382 application
+PARTIAL reconstruction; packet_engine is COMPLETE. There are1387 application
 source functions plus seven unchanged historical CRT source functions. The new
-dsp_bank has accepted fifteen bodies (2053B) across access declarations,
-hashes, browser/intrinsic handling and pragma arguments/messages/warnings;
-active at enable_intrinsic_function (RVA0x2d4e0). The completed packet_engine
+dsp_bank has accepted twenty bodies (2880B), including named-segment
+lookup/creation alongside access declarations, intrinsics and pragmas; active
+at assign_symbol_segment (RVA0x52860). The completed packet_engine
 /O2 /G5 /Ob1 /Z7 /FR case accepted83 whole application bodies:
 18,747 code bytes and820 owned switch-data bytes. It covers packed/anonymous
 aggregates, generated special members/defaults, temporaries, nested SEH,
@@ -37,15 +37,15 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1489: the 1302 trial baseline plus 88 browser and83 packet application steps,
-the first fifteen DSP application steps, and the one additional CRT boundary.
+1494: the 1302 trial baseline plus 88 browser and83 packet application steps,
+the first twenty DSP application steps, and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
 original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 335,342/476,418 .text bytes (70.39%); this is
+Application function extents cover 336,169/476,418 .text bytes (70.56%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture
@@ -147,7 +147,7 @@ not claims that all historical GDB injections remain fixtures.
 
 Boundaries
 ----------
-Twenty-two exact native limitations remain in policy-data.json and source. They
+Twenty-three exact native limitations remain in policy-data.json and source. They
 include original unwritten locals (lookahead, empty include/name, null overload
 iterators, debug-query/output scope and missing-colon false result), unknown
 internal type/member-pointer domains and the unmodeled browser category prefix.
@@ -291,11 +291,16 @@ The prefreeze draft rejected public access promotion and a trailing-const member
 pointer declarator; its source/logs remain in scratch. The valid source retains
 a protected access declaration and uses a nonconst virtual/member-call probe.
 
-DSP checkpoint15 matches fresh original/native first-entry order and partial
-outputs at enable_intrinsic_function. Original compilation, the1390-function
-full graph/ABI audit, ten cached cases and19 unit groups pass. Native 38.516ms
-(setup23.554ms, execution8.192ms, checks6.770ms). Pragma trailing-token diagnostics
-preserve the original ineffective warning-suppression store; no silent fix.
+DSP checkpoint20 matches fresh original/native first-entry order and partial
+outputs at assign_symbol_segment. Original compilation, the1395-function full
+graph/ABI audit, ten cached cases and20 unit groups pass. Native31.661ms
+(setup17.546ms, execution7.373ms, checks6.741ms); incremental build3.023s,
+original1.869s, audit2.140s and cached/unit aggregate0.282s.
+The segment record reuses the existing52B symbol layout and segment_symbols
+owner, with named union views at32/36. Its header rebuild took35.057s separately.
+NULL find_c_linkage_function skips an original cursor writer and remains an
+exact unsupported native trap; the defined chain and guard unit pass. Public
+NULL reach is unknown; Win32 retains its original uninitialized cursor.
 The shared errno-boundary runner e0116ffcb is covered by ordinary cached checks.
 The31st false CRT identity was the access-table getter final RET at312b0 plus15
 padding bytes. Only its two raw alias records and one canonical row were removed

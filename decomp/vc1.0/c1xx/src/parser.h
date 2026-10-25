@@ -211,7 +211,8 @@ IrToken *__stdcall identifier_expression(char *name);
 IrToken *__stdcall symbol_expression(CppSymbol *symbol);
 CppSymbol *__stdcall recover_undeclared_identifier(char *name);
 IrToken *most_derived_expression(void);
-typedef struct SegmentSymbol SegmentSymbol;
+/* Kind13 segments share the established52-byte symbol record. */
+typedef CppSymbol SegmentSymbol;
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode);
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source);
 IrToken *__stdcall new_expression(unsigned char operation, TypeShape *modifier, IrToken *placement,

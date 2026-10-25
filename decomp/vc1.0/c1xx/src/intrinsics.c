@@ -134,3 +134,36 @@ void __stdcall apply_intrinsic(CppSymbol *symbol, int index)
     symbol->detail.intrinsic.operation = (unsigned short)intrinsic_rules[index].operation;
     symbol->detail.intrinsic.flags = intrinsic_rules[index].flags;
 }
+
+CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions);
+
+/* Original0x3d4e0..0x3d580, stdcall4. Explicit intrinsic pragmas require
+   a known builtin and a declared C-linkage function; /qc leaves it unchanged. */
+void __stdcall enable_intrinsic_function(char *name)
+{
+    int index;
+    unsigned kind;
+    CppSymbol *symbol;
+    if (options.configuration.option_qc) return;
+    index = find_intrinsic_index(name);
+    if (index == -1) {
+        compiler_warning(1,163,name);
+        return;
+    }
+    symbol = find_outer_name(name);
+    if (!symbol) {
+        compiler_warning(1,164,name);
+        return;
+    }
+    symbol = find_c_linkage_function(symbol);
+    if (!symbol) {
+        compiler_warning(1,162,name);
+        return;
+    }
+    kind = symbol->kind & 31;
+    if (kind != 6 && kind != 7) {
+        report_syntax_error(170,name);
+        return;
+    }
+    apply_intrinsic(symbol,index);
+}

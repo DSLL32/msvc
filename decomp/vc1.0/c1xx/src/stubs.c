@@ -3,6 +3,7 @@
 #include "browser.h"
 #include "member-pointers.h"
 #include "member-access.h"
+#include "segments.h"
 #include "builtin-operators.h"
 #include "reference-initializers.h"
 #include "symbol-output.h"
@@ -146,7 +147,6 @@ unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *valu
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
-SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value) { __asm { int 3 } return 0; }
@@ -232,7 +232,6 @@ int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 
 
 
-CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
 
 
 
@@ -503,7 +502,6 @@ void warn_bad_pragma(void) { __asm { int 3 } }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
-void __stdcall enable_intrinsic_function(char *name) { __asm { int 3 } }
 void __stdcall disable_intrinsic_function(char *name) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
@@ -585,3 +583,5 @@ CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 }
 int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding *binding, unsigned char *protection) { __asm { int 3 } return 0; }
 
 char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
+
+int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }

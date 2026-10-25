@@ -1231,3 +1231,30 @@ void __stdcall merge_declaration_storage(CppSymbol *existing, CppSymbol *declara
     if (inherit_storage_modifiers((StorageSpec *)existing->storage, storage))
         existing->flags &= ~8;
 }
+
+/* Original0x55c00..0x55c7d, stdcall4. Find the first C-linkage
+   function in a declaration/overload chain. NULL skips the original cursor
+   store at55c23, leaving entryESP-8 unwritten at its55c30 read. */
+CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions)
+{
+    CppSymbol *next, *function;
+    unsigned kind;
+    if (functions) {
+        kind = functions->kind & 31;
+        if (kind == 16 || kind == 17)
+            next = ((OverloadSet *)functions)->functions;
+        else next = functions;
+    }
+#ifdef RECON_NATIVE_TEST
+    /* Preserve the Win32 source bug; never read an unrelated native cursor. */
+    if (!functions) { __asm { int 3 } }
+#endif
+    while (next) {
+        function = next;
+        kind = function->kind & 31;
+        if (kind != 6 && kind != 7) break;
+        next = function->next;
+        if (function->declaration_flags & 0x200) return function;
+    }
+    return 0;
+}

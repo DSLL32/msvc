@@ -3397,6 +3397,18 @@
       "win32": "Original uninitialized table local retained",
       "coverage_note": "SUB36/saveESI+EDI8 makes7c1e0 [ESP+36] entryESP-8. Only nonempty-table7c1dc writes it. Empty-table exhaustion7c19d bypasses writer; public reachability UNKNOWN, no original-stack equivalence claim. Current packet uses defined nonempty table.",
       "authorization": "Settled original-uninitialized-control-path native guard policy"
+    },
+    {
+      "function": "_find_c_linkage_function@4",
+      "original": [
+        351232,
+        351357
+      ],
+      "condition": "functions == NULL",
+      "behavior": "explicit native-only INT3 before original entryESP-8 unwritten cursor read55c30",
+      "win32": "NULL skips55c23 cursor writer; original uninitialized local retained",
+      "authorization": "Established preserve-Win32-bug/exact-native-unsupported policy after whole-body def-use analysis",
+      "coverage_note": "public NULL reach UNKNOWN; current pragma caller checks nonnull; no original stale-stack equality claim"
     }
   ],
   "function_properties": {

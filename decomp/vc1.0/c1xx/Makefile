@@ -33,6 +33,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/scopes.c \
     src/declarations.c \
     src/declaration-bind.c \
+    src/segments.c \
     src/declaration-lookup.c \
     src/special-functions.c \
     src/runtime-symbols.c \
