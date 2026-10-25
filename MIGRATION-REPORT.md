@@ -424,19 +424,21 @@ no reconstruction credit.
 All nine actual workers reread the current guidance and their own documentation;
 that readiness review was read-only. The user subsequently released the seven
 unfinished binaries to implement the minimal capture prerequisites and finish
-their current cases, then pause and report before moving beyond them. RC and
-CVTRES remain complete for identified application code and stay idle. The counts
+their current cases, then pause and report before moving beyond them. The user
+later explicitly released CL and CVPACK to continue autonomously beyond a
+single function or case; the other five unfinished tools retain the original
+current-case scope. RC and CVTRES remain complete and idle. The counts
 below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 116 / 17,712 | 5.50% | Minimal C: translation-unit initialization after type/name interning; `dc5cddcd4` |
-| C1XX | 129 / 18,682 | 2.49% | Minimal C++: global/scope setup after own type interner; `97bd8ce54` |
-| C2 | 157 / 37,497 | 6.54% | Numeric case: register_types_match after address-register construction; `017c823a3` |
-| CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
-| CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 146 / 48,010 | 11.57% | Hello EXE: module-symbol processor after relocation completion; `4d27b6fcd` |
-| RCDLL | 123 / 33,633 | 45.08% | Rich corpus: resource-name duplication after type lookup; `e06b3898e` |
+| C1 | 121 / 18,441 | 5.72% | Minimal C: AddFunction after declarator/symbol initialization; `93e9bc627` |
+| C1XX | 132 / 19,125 | 2.55% | Minimal C++: translation-unit initializer; `5102c0cd9` |
+| C2 | 163 / 39,502 | 6.89% | Numeric case: convert_input_expression after operand-pair/type selection; `52608581f` |
+| CL | 109 / 18,279 | 95.89% | Active: coherent remaining pass configuration and console/control DIRECT work; prior `677a11cab` preserved |
+| CVPACK | 124 / 40,643 | 64.86% | Active: substantial multi-TU C++ debug-DLL growth case; prior completion `d967c21fc` preserved |
+| LINK | 146 / 48,010 | 11.57% | Hello EXE: narrow real-destructor DIRECT prerequisite for module-symbol processor lifetime; `4d27b6fcd` |
+| RCDLL | 127 / 34,097 | 45.70% | Rich corpus: WORD-returning language reader after collector and shared ASCII uppercase adoption; `b5903e5eb` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
