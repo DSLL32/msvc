@@ -121,6 +121,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResAddLLItemAtEnd": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

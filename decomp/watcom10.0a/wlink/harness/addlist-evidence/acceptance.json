@@ -1,0 +1,12 @@
+{
+  "scope": "ResAddLLItemAtEnd37B preserves empty/nonempty doubly-linked-list insertion and exact field write ordering. Current empty type node links successfully; stops at readResList.",
+  "application_functions": 26,
+  "application_bytes": 2720,
+  "ABI": "Original EAXheadslot/EDXtailslot/EBXnode, preservesECX, RET0; intrusive Next/Prev offsets0/4.",
+  "bindings": {
+    "src/resource.c": "1d83c50437b8981978df3753f7ca75acafde2ee9ec5ed0b5fb874fc849208df9",
+    "src/link.h": "98f07cc53a2f16e73026f9ca19aafb58f2c95d287a4f462dec4918b9a3c2d531",
+    "binary.c": "8746a21ca6c710f65a3dca69681695c6081d71d447cbf982ae7e10a436665671",
+    "policy-data.json": "3e6aae5a969858a05a505198c87fb426d7b125956cb476f07a61c700c4c62ef9"
+  }
+}

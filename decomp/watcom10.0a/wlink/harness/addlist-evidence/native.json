@@ -1,0 +1,53 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-QxemPF",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      148192,
+      93500,
+      148424,
+      148908,
+      209664,
+      149584,
+      215224,
+      223360,
+      215304,
+      151696,
+      151116,
+      151756,
+      215240,
+      223408,
+      209700,
+      209668,
+      224900,
+      232368,
+      234080,
+      224344,
+      230256,
+      230404,
+      224096,
+      230192,
+      230064,
+      229888,
+      223672
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 223672,
+    "trap_site": 4153973228,
+    "elapsed_ms": 13.474535,
+    "setup_ms": 7.761481,
+    "execution_ms": 1.857534,
+    "checks_ms": 3.855448,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlink-addlist/original.json",
+      "report_sha256": "ea6a93f5b300989d92db566e7d030af8f9292ebe7fc50b8f10f476d6ebaf62fe",
+      "capture_sha256": "a6629e543fe8f0d5d7843ac191b50eef19a8566b532c0ba081bce3f427cb8021",
+      "source_binding_available": true
+    }
+  }
+]

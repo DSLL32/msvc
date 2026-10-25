@@ -405,3 +405,23 @@ int WResIDExtraBytes( const WResID *id )
     }
     return 0;
 }
+
+void ResAddLLItemAtEnd( void **head, void **tail, void *item )
+{
+    struct resource_link {
+        struct resource_link *Next, *Prev;
+    } *node;
+
+    node = item;
+    if( *head == 0 ) {
+        *tail = item;
+        *head = item;
+        node->Next = 0;
+        node->Prev = 0;
+    } else {
+        node->Next = 0;
+        node->Prev = *tail;
+        ((struct resource_link *)*tail)->Next = node;
+        *tail = item;
+    }
+}
