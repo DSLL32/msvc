@@ -2,6 +2,7 @@
 #include <recon.h>
 
 extern int c2_alias_optimization, input_no_global_optimization;
+extern int c2_zero_alignment;
 
 /* Encountered optimizer state. These are independent original DWORDs; the
  * record/index limits are distinct from frontend register numbering. */
@@ -16,7 +17,6 @@ unsigned optimizer_state_b;                  /* 490ba4 */
 unsigned optimizer_state_c;                  /* 490bac */
 C2Expression *optimizer_input_records;       /* 490bec */
 C2OptimizerNode *optimizer_root;              /* 48fb58 */
-int optimizer_prepare_values_mode;           /* 490b74 */
 void *optimizer_register_sets;               /* 490ba8: address passed only */
 void *optimizer_register_map;                /* 491010: address passed only */
 int optimizer_records_finished;              /* 48fb3c */
@@ -69,7 +69,7 @@ void __fastcall optimize_function_flow(C2Function *function)
                                      input_no_global_optimization);
     optimizer_root = root;
     if (c2_alias_optimization) records = fold_optimizer_records(records);
-    if (optimizer_prepare_values_mode) prepare_optimizer_values(records);
+    if (c2_zero_alignment) prepare_optimizer_values(records);
     analyze_optimizer_values(context, records, c2_alias_optimization);
     if (c2_alias_optimization) rewrite_optimizer_records(records);
     initialize_optimizer_registers();
