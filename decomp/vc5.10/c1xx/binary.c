@@ -3,6 +3,49 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_intern_identifier", .entry_rva = 0x3aa9a,
+        .code = (const ReconExtent[]){{0x3aa9a, 0x3aa9b}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "intern_identifier",
+    },
+    {
+        .name = "_unreserve_keyword", .entry_rva = 0x3abf1,
+        .code = (const ReconExtent[]){{0x3abf1, 0x3abf2}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "unreserve_keyword",
+    },
+    {
+        .name = "_set_keyword_category3", .entry_rva = 0x3ac0b,
+        .code = (const ReconExtent[]){{0x3ac0b, 0x3ac0c}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "set_keyword_category3",
+    },
+    {
+        .name = "_set_keyword_category1", .entry_rva = 0x3ac37,
+        .code = (const ReconExtent[]){{0x3ac37, 0x3ac38}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "set_keyword_category1",
+    },
+    {
+        .name = "_set_keyword_category5", .entry_rva = 0x3ac63,
+        .code = (const ReconExtent[]){{0x3ac63, 0x3ac64}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "set_keyword_category5",
+    },
+    {
+        .name = "_set_keyword_category4", .entry_rva = 0x3ac8f,
+        .code = (const ReconExtent[]){{0x3ac8f, 0x3ac90}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "set_keyword_category4",
+    },
+    {
+        .name = "_report_language_diagnostic", .entry_rva = 0x2088a,
+        .code = (const ReconExtent[]){{0x2088a, 0x2088b}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "report_language_diagnostic",
+    },
+
+    {
         .name = "CompilerNullBrowser::Slot20", .entry_rva = 0x880d2,
         .code = (const ReconExtent[]){{0x880d2, 0x880d3}},
         .code_count = 1, .definition = RECON_APP,
@@ -1003,9 +1046,11 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_floating_point", .entry_rva = 0x3a57c,
-        .code = (const ReconExtent[]){{0x3a57c, 0x3a57d}},
-        .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "initialize_floating_point",
+        .code = (const ReconExtent[]){{0x3a57c, 0x3aa9a}, {0x72c7c, 0x72dca}},
+        .code_count = 2, .definition = RECON_APP,
+        .native_symbol = "initialize_language_keywords",
+        .original_symbol = "_initialize_language_keywords",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_line_tables", .entry_rva = 0x3acbb,

@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "sdk": {
+    "path": "toolchains/5.10/include/STRING.H",
+    "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024"
+  },
+  "caller": {
+    "name": "_initialize_floating_point",
+    "register": "edi",
+    "iat_rva": 823660,
+    "call_site": 240082,
+    "import": "strncmp",
+    "count": 2,
+    "comparison": "nonzero only; no exact result magnitude claim"
+  },
+  "contracts": [
+    {
+      "function": "_intern_identifier",
+      "code": [
+        {
+          "range": [
+            240282,
+            240625
+          ],
+          "bytes": "83ec088b4c240c5355568a118bf133c04184d257897424108854241c741f8bd0c1ea048d04828b54241c81e2ff00000003c28a11418854241c84d275e18b1530c44c102bce498bd88bf18bc825ff07000081e1ffff0000c1eb108d3c8233d98bd789742414897c241c8b0285c00f8592000000833d64054c10140f82b9820300a160054c108d4e048be883c014a360054c10a164054c1083e81483e1fca364054c108b07894500892fa100654c108bf803c18b0d04654c10a300654c103bc10f87858203008bce8b7424108bd1897d04c1e902f3a58bca83e103f3a48b45048b4c2414c6040100892d50c44c108b450833d881e3ffff000033d8895d085f5e5d5b83c408c38b480881e1ffff00003bcb75348b7804803c3e00752b8bce8b74241033edf3a60f85058203008b085f890a8b4c24185e5d8b115b89108901a350c44c1083c408c38bd08b0085c075b78b7c241ce91cffffff"
+        },
+        {
+          "range": [
+            470474,
+            470515
+          ],
+          "bytes": "8b742414e90d7efcff6a14b960054c10e84ac0faffe9367dfcffb900654c10e84aa9faffe96c7dfcff"
+        }
+      ],
+      "basis": "Every normal return restores entry EDI from the stack. PUSH EDI at3aaad dominates all calls and both normal returns POP EDI before RET0. No exception or nonlocal-return preservation claim."
+    },
+    {
+      "import": "msvcrt.dll!strncmp",
+      "code": {
+        "range": [
+          110205,
+          110261
+        ],
+        "bytes": "558bec5756538b4d10e3268bd98b7d088bf733c0f2aef7d903cb8bfe8b750cf3a68a46ff33c93a47ff770474044949f7d18bc15b5e5fc9c3"
+      },
+      "basis": "Entire canonical public export is56bytes. PUSH EDI at1ae80 and sole POP EDI at1aeb2 enclose both zero-count and comparison paths. No calls or nonlocal exits; EDI restored on sole RET0. Actual caller uses two valid bytes from keyword strings and literal double underscore."
+    }
+  ]
+}

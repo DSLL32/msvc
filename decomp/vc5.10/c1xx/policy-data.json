@@ -195,6 +195,11 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_initialize_floating_point": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [],
@@ -309,6 +314,33 @@
           "evidence": {
             "path": "resolver-imports.json",
             "sha256": "999270e9fc85e86e560e2d5d604dae474a244f7ec7107c19f22822659f09b8cf"
+          }
+        },
+        {
+          "target": {
+            "function": "_intern_identifier"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "keyword-imports.json",
+            "sha256": "b320303926ac65be06fbe324a340f47b9202974f68a893db180d98e11416410b"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "keyword-imports.json",
+            "sha256": "b320303926ac65be06fbe324a340f47b9202974f68a893db180d98e11416410b"
           }
         }
       ]

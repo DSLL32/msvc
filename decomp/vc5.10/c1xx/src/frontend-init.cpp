@@ -26,7 +26,7 @@ int __cdecl prepare_pch_input(const char *);
 void __cdecl read_initial_input(void);
 void __cdecl initialize_preprocessor(void);
 void __cdecl initialize_keyword_table(void);
-void __cdecl initialize_floating_point(void);
+void __cdecl initialize_language_keywords(void);
 void __cdecl initialize_line_tables(void);
 void __cdecl initialize_frontend_tables(void);
 void __cdecl open_expression_output(void);
@@ -133,7 +133,7 @@ extern "C" void __cdecl initialize_frontend(void)
         initialize_preprocessor();
     }
     initialize_keyword_table();
-    initialize_floating_point();
+    initialize_language_keywords();
     initialize_line_tables();
     initialize_frontend_tables();
     if (!frontend_bss.options.preprocess_stdout && !frontend_bss.options.prototypes_only) {
@@ -154,7 +154,7 @@ extern "C" void __cdecl initialize_frontend(void)
         }
     }
     initialize_type_table();
-    arena = &frontend_bss.arenas[3];
+    arena = &frontend_bss.arenas[5];
     description = (CompilerType *)arena->cursor;
     arena->cursor += 16; /* actual allocation; unmodeled tail has no fields */
     if (arena->cursor > arena->committed_limit)
@@ -317,7 +317,6 @@ extern "C" void __cdecl initialize_keyword_table(void)
         frontend_data.keyword_table = (CompilerKeywordTable *)table;
     }
 }
-extern "C" void __cdecl initialize_floating_point(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_frontend_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl open_expression_output(void) { __asm { int 3 } }
