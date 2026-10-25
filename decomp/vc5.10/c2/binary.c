@@ -1808,8 +1808,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@merge_optimizer_symbol_sets@8",
         .entry_rva = 0x19df,
+        .code = (const ReconExtent[]){{0x19df, 0x1a34}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "merge_optimizer_symbol_sets",
     },
     {

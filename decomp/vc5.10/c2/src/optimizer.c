@@ -350,3 +350,26 @@ void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination,
         }
     }
 }
+
+void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source)
+{
+    C2RegisterSetNode *input, *node, **place;
+    unsigned group;
+    for (input = source->links.first; input; input = input->next) {
+        group = input->group & ~31U;
+        place = &destination->links.first;
+        node = *place;
+        while (node && node->group < group) {
+            place = &node->next;
+            node = *place;
+        }
+        if (!node || node->group != group) {
+            node = new_register_set_node(destination);
+            node->group = group;
+            node->next = *place;
+            *place = node;
+        }
+        node->bits |= input->bits;
+    }
+}

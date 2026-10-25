@@ -1219,7 +1219,33 @@ static int optimizer_set_difference(void)
         !memcmp(input, before, sizeof(input));
 }
 
+static int optimizer_set_union(void)
+{
+    C2RegisterSet destination, source;
+    C2RegisterSetNode existing, input[3], before[3], *node;
+    memset(&destination, 0, sizeof(destination));
+    memset(&source, 0, sizeof(source));
+    reset_input_pool(6);
+    destination.pool = 6;
+    destination.state = 0x87654321;
+    destination.links.first = &existing;
+    existing.group = 64; existing.bits = 1; existing.next = NULL;
+    input[0].group = 0; input[0].bits = 0x80000000U; input[0].next = &input[1];
+    input[1].group = 64; input[1].bits = 2; input[1].next = &input[2];
+    input[2].group = 96; input[2].bits = 0x12345678; input[2].next = NULL;
+    source.links.first = input;
+    memcpy(before, input, sizeof(input));
+    merge_optimizer_symbol_sets(&destination, &source);
+    node = destination.links.first;
+    return node && node != &existing && node->group == 0 && node->bits == 0x80000000U &&
+        node->next == &existing && existing.bits == 3 && existing.next &&
+        existing.next->group == 96 && existing.next->bits == 0x12345678 &&
+        !existing.next->next && destination.state == 0x87654321 &&
+        !memcmp(input, before, sizeof(input));
+}
+
 const ReconTest numeric_tests[] = {
+    {"optimizer set union inserts sorted groups and retains both owners", 1, optimizer_set_union},
     {"optimizer set subtraction preserves unsigned masks and source ownership", 1, optimizer_set_difference},
     {"optimizer operands retain integer alias numbers and group membership", 1, optimizer_operand_numbers},
     {"optimizer alias groups retain scalar indices and pool6 ownership", 1, optimizer_alias_group_ownership},
