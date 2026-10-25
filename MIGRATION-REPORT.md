@@ -12,9 +12,9 @@ the shared native i386 runner, `binary.c`, numbered flat cases and
 `capture.bin`. Original builds and graph/ABI checks remain separate. Normal
 regressions use saved references and do not invoke Wine.
 
-- **VC1.0:** C1, C1XX and C2 have migrated. C1XX has resumed reconstruction;
+- **VC1.0:** C1, C1XX, C2 and RCPP have migrated. C1XX has resumed reconstruction;
   C1's current case still needs the shared original-DIRECT facility. LINK,
-  CVPACK, CL, RC and RCPP are migrating. Finished binaries are included.
+  CVPACK, CL and RC are migrating. Finished binaries are included.
 - **VC5.10:** all nine binaries are in scope, including finished RC and CVTRES.
   All nine have committed their migrations and paused. Their 38 invocation
   cases, original builds and applicable graph/ABI checks pass.
@@ -44,6 +44,13 @@ Completed VC5.10 migrations:
 These measurements come from different individual verification runs, rather
 than a simultaneous whole-project benchmark. Unaccepted work remains preserved
 for later reconstruction.
+
+RCPP's completed migration is committed in `d55f26767`. All 20 native I/O
+cases and the two nonempty unit groups pass, including 40,048 classifier and
+131,080 catalog checks. The parallel replay/unit batch took 0.317 s; its
+161-function audit took 0.237 s and original compilation 8.775 s. All 179
+historical original/rebuilt extent guards remain covered. The 112 accepted
+application functions and original captures are unchanged.
 
 ## Shared runner and build foundation
 
@@ -78,6 +85,7 @@ they do not imply that pending integrations have passed.
 | Explicit runtime graph-evidence scope | Preserve each binary's previously reviewed CRT audit scope without promoting dormant CRT stubs merely because their classification or original extent is known. | `709574db9`, `fefa5c09e`. Focused tests passed; real LINK 840-graph and VC5.10 C1XX 94-graph audits passed. |
 | Explicit accepted subsets for additional audits | Preserve CL's qualified import checks as a separate projection while its normal full graph audit remains intact. The named subset must contain nonempty, unique, known and currently accepted functions; stale names fail. | `fd5da7843`. Thirteen tests and formatting checks passed; VC5.10 CL's full 123-graph and scoped 111-function audits passed (`745c08633`). |
 | Isolated Rust host allocation and default-deny child requests | Keep runner allocations out of target libc's heap; reject undeclared child requests even if the application handles the denial. Target allocation and reuse remain unchanged. | `1bcee0073`. Sixteen focused tests plus native/GDB/event smoke tests passed. Published RCPP rich replay passes in 83.450 ms and CVPACK DOS in 10.888 ms, with exact entry orders/outputs and unchanged target/capture hashes. C1XX's routine nine-case regression also passed. Captured-response routing is still pending. |
+| Capture-owned harness assets | Store response payloads and host configuration inside the capture but outside application cwd; expose them to case setup and units without environment metadata. | `5341dfc25`. Eighteen tests and real C accessor/tamper controls passed. Complete bytes, membership and modes are checked after descendants exit. No descriptor ABI change. |
 | Actual null stdin and explicitly held-open pipe input | Preserve NUL versus file/pipe behavior and allow an existing synchronized Ctrl+C case to wait for its input event without premature EOF. | `0fb1c85aa`, `709574db9`. Native smoke and a stdout-ready-to-SIGINT pipe test passed. |
 | Explicit tracing for loaded application libraries | Register resolved application addresses/names with the existing instrumentation rather than assuming the application is the main ELF executable. | `00875e919`. Eleven GCC/Clang DSO checks, 18 existing trace checks and eight fork/exec checks passed. |
 | Module ownership and shared trace attachment | A loaded application library and case library need explicit ownership for application data/callback addresses. Child execution must attach to existing trace state without resetting it. | `161776ca1`. Focused and existing tests passed; real LINK help and editor-bind cases passed. Application data ownership and case callback ownership remain distinct. |
@@ -182,8 +190,7 @@ These are approved or under design, not completed integrations:
 | Original DIRECT helper | Generic original/native completion and masked-frontier controls passed with exact three-entry order. C1 project integration, build rules and publication remain incomplete; original-process work is paused after repeated automatic cybersecurity-risk terminations of the tool worker. No actual C1 trial has run. |
 | Captured child request/response broker and native-child mode | CL, RC, RCPP, LINK and CVPACK need existing dependency boundaries replayed only after validating the invocation and complete relevant inputs. Default-deny is now published; typed captured responses and self-child runner integration remain pending. Fixtures must never fall back to Wine. |
 | Post-exit output checks | LINK and RC need narrow checks after the application and its descendants have exited, including structural output checks and assertions on identified PID fields. Raw captured streams must remain intact; generic equality still applies. |
-| Capture-owned harness assets outside application cwd | Keep captured dependency responses and host configuration out of exact application input/output inventories. These belong inside the capture but outside the logical application working directory. |
-| CL entry-state observer and exact read-only tree membership | Preserve three existing internal-state cases and reject added SDK files, rather than validating only the hashes of known files. Concrete APIs remain to be settled. |
+| CL entry-state observer and exact read-only tree membership | Preserve existing internal-state cases and reject added SDK files, rather than validating only the hashes of known files. Approved designs use a signal-safe one-shot observer that resumes the genuine entry and complete file membership derived from existing dependency hashes. Implementation remains pending. |
 | RC support-extent guards | A separate structural check for reviewed CRT/import extents is in scratch validation. It must preserve original guards without inventing rebuilt bounds or changing graph/RET/credit scope. RCPP already retains all 179 original/rebuilt accepted-extent guards through its existing finite scope and does not need this extra flag. |
 
 ## Retired local checks and historical evidence
