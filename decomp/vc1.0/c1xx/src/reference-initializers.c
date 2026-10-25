@@ -185,3 +185,14 @@ IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference,
     record_initialized_temporary(symbol, referent);
     return result;
 }
+
+/* Original0x67720..0x67754. Member initializers diagnose this
+   temporary-lifetime extension using the active member's actual name. */
+void diagnose_member_reference_temporary(void)
+{
+    if (member_initializer_active) {
+        if (options.configuration.extensions_enabled)
+            report_syntax_error(354, initializing_symbol->name);
+        else compiler_warning(1, 354, initializing_symbol->name);
+    }
+}
