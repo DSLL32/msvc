@@ -3,14 +3,14 @@
 #include "resource-input.h"
 #include <recon.h>
 
-/* Distinct DWORD stores at original RVAs 25d3c, 27f78, 27f7c and 27f84.
- * The first field's role beyond initialization remains unobserved. */
-DWORD rc_resource_status,rc_resource_file_index,rc_resource_line;
+/* The first reset is the existing command result (RVA 25d3c).
+ * File index, line and stream are distinct fields at 27f78/27f7c/27f84. */
+DWORD rc_resource_file_index,rc_resource_line;
 FILE *rc_resource_input_file;
 
 int __stdcall rc_initialize_input(FILE *file)
 {
-    rc_resource_status=0;
+    rc_result=0;
     rc_resource_file_index=0;
     rc_resource_line=1;
     rc_resource_input_file=file;

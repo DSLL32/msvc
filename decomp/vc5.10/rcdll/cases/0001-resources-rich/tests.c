@@ -424,13 +424,13 @@ static void apstudio_unobserved(void)
 static int apstudio_hold(void){return trapped(apstudio_unobserved);}
 static void resource_input_invoke(void *unused)
 {
-    rc_resource_status=5;rc_resource_file_index=7;rc_resource_line=9;
+    rc_result=5;rc_resource_file_index=7;rc_resource_line=9;
     rc_resource_input_file=(FILE *)0x23456780;
     rc_initialize_input((FILE *)0x12345678);
 }
 static unsigned __cdecl resource_character_boundary(void)
 {
-    recon_native_entry_finish(!rc_resource_status&&!rc_resource_file_index&&
+    recon_native_entry_finish(!rc_result&&!rc_resource_file_index&&
         rc_resource_line==1&&rc_resource_input_file==(FILE *)0x12345678);
 }
 static int resource_input_contract(void)

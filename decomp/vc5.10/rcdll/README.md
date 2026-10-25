@@ -85,3 +85,9 @@ opposite-state native unit (C=0, active=1). Earlier partial matches did not
 establish that storage identity. The corrected native replay against the
 unchanged original took 192.661 ms; the branch unit took 151.867 ms. No new
 original capture or additional code credit was needed.
+
+The resource-input reset at RVA 25d3c shares the existing rc_result DWORD.
+A zero-credit correction removed accidental duplicate storage. The initializer's
+other three fields were also checked against exact original/rebuilt operands and
+MAP identities. A noncoincident reset unit and native replay against the unchanged
+original passed; earlier equal-zero evidence did not prove this storage alias.
