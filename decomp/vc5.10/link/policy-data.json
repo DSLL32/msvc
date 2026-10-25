@@ -6190,6 +6190,11 @@
         "expected_cleanup": [
           16
         ]
+      },
+      "_record_relocation_reference@16": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   }
