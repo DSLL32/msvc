@@ -362,11 +362,6 @@ void __fastcall function_pass_42e6a6(C2Function *function)
 
 
 
-int __fastcall symbol_range_boundary(C2Expression *record)
-{
-    __asm { int 3 }
-    return 0;
-}
 void __fastcall splice_symbol_record_range(C2Expression *first,
     C2Expression *last, C2Expression *anchor)
 {

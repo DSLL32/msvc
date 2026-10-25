@@ -1017,7 +1017,40 @@ static int input_pool_twelve_reset(void)
         last_free_register_set_nodes[5] == (C2RegisterSetNode *)0x66778899U;
 }
 
+static int symbol_boundary_full_width(void)
+{
+    C2Expression record;
+    C2InputSymbol symbol;
+    unsigned char expected[sizeof(symbol)];
+    int saved = group_optimized_symbols;
+    memset(&record, 0, sizeof(record));
+    memset(&symbol, 0xa5, sizeof(symbol));
+    record.declaration = &symbol;
+    symbol.detail.variable.flags = 0;
+    symbol.symbol.source_kind = 5;
+    group_optimized_symbols = 0x12345678;
+    memcpy(expected, &symbol, sizeof(symbol));
+    if (symbol_range_boundary(&record) != 0x12345678 ||
+        memcmp(expected, &symbol, sizeof(symbol))) return 0;
+    symbol.symbol.source_kind = 12;
+    if (symbol_range_boundary(&record) != 0x12345678) return 0;
+    group_optimized_symbols = -1;
+    symbol.symbol.source_kind = 7;
+    if (symbol_range_boundary(&record) != -1) return 0;
+    symbol.detail.variable.flags = 0x80;
+    if (symbol_range_boundary(&record) != 1) return 0;
+    symbol.detail.variable.flags = 0;
+    symbol.symbol.source_kind = 0xff;
+    if (symbol_range_boundary(&record)) return 0;
+    group_optimized_symbols = 0;
+    symbol.symbol.source_kind = 0;
+    if (symbol_range_boundary(&record) != 1) return 0;
+    group_optimized_symbols = saved;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
+    {"symbol range mode preserves full DWORD results and never writes its input", 1, symbol_boundary_full_width},
     {"pool12 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_twelve_reset},
     {"inline collection tracks temporary lifetimes and address variants", 1, inline_temporary_lifetimes},
     {"pool release unlinks oversized blocks and retains the small-block chain", 1, pool_release_ownership},

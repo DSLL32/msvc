@@ -1864,8 +1864,12 @@ static const ReconFunction functions[] = {
     {
         .name = "@symbol_range_boundary@4",
         .entry_rva = 0x2a5a,
+        .code = (const ReconExtent[]){{0x2a5a, 0x2a91}},
+        .code_count = 1,
+        .text_data = (const ReconExtent[]){{0x2a98, 0x2ab5}},
+        .text_data_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "symbol_range_boundary",
     },
     {

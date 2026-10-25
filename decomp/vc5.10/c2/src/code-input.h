@@ -187,6 +187,7 @@ C2Expression * __fastcall parse_input_assembly(unsigned char *text, C2ScopeHash 
 C2Expression * __fastcall new_input_assembly_record(unsigned opcode, unsigned short type);
 void __fastcall input_aggregate_return(C2InputStack **stack, C2ILToken *token);
 void __fastcall finish_input_declaration(C2InputStack *stack);
+extern int group_optimized_symbols;
 int __fastcall symbol_range_boundary(C2Expression *record);
 void __fastcall splice_symbol_record_range(C2Expression *first,
     C2Expression *last, C2Expression *anchor);

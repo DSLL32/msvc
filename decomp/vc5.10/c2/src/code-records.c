@@ -739,3 +739,21 @@ void __fastcall group_symbol_records(C2Function *function)
         record = next;
     }
 }
+
+/* Original DWORD48e0dc starts at1; later optimizer passes replace it with
+ * their current mode. Preserve its full value, rather than normalizing BOOL. */
+int group_optimized_symbols = 1;
+
+int __fastcall symbol_range_boundary(C2Expression *record)
+{
+    C2InputSymbol *symbol = record->declaration;
+    if (symbol->detail.variable.flags) return 1;
+    switch ((signed char)symbol->symbol.source_kind) {
+    case 0:
+        return 1;
+    case 5: case 6: case 7: case 12:
+        return group_optimized_symbols;
+    default:
+        return 0;
+    }
+}
