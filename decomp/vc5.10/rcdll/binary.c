@@ -324,7 +324,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_initialize_input" },
     { .name="rc_next_resource_digit", .original_symbol="_rc_next_resource_digit", .entry_rva=0x9201,
       .code=(const ReconExtent[]){{0x9201,0x9217}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_next_resource_digit" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_next_resource_digit" },
     { .name="rc_next_resource_character", .original_symbol="_rc_next_resource_character", .entry_rva=0x9217,
       .code=(const ReconExtent[]){{0x9217,0x9247}}, .code_count=1,
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_next_resource_character" },

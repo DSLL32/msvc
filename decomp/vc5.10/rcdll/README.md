@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_next_resource_digit` (RVA 9201). Its partial streams and actual
+  stops at `rc_parse_resource_hexadecimal` (RVA 9c7d). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **134 functions, 35,167 code bytes**
-This is 47.14% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **135 functions, 35,189 code bytes**
+This is 47.16% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (53.05%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (53.08%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -195,3 +195,12 @@ reserved NUL. Fresh original/native reach the digit reader in 892.039 /
 181.854 ms. The current native initialized spelling is exactly `0x09` plus NUL;
 later stale buffer words are retained raw and unclaimed. Original pointed bytes
 remain unmeasured. Shared header-only RETAIN publication changed no runtime.
+
+The digit reader retains its WORD return/global store and pointer advance.
+Native reads require the real aligned cursor inside the current terminated
+name, including its initialized NUL; foreign, lower, unaligned, unterminated and
+past-NUL states trap. A focused unit passes in 151.616 ms. GDB confirms the real
+production trap when cursor5 exceeds terminator4, independently of controller
+policy. Fresh original/native advance to the hex parser in 1.445 s /179.653 ms;
+both builds/full audit took 10.227 s with shared-header fanout. Upper EAX outside
+the actual WORD result is unclaimed.

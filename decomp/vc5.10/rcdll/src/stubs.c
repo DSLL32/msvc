@@ -413,11 +413,7 @@ void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name)
 }
 
 
-WCHAR __cdecl rc_next_resource_digit(void)
-{
-    __asm int 3
-    return 0;
-}
+
 DWORD __cdecl rc_parse_resource_hexadecimal(void)
 {
     __asm int 3

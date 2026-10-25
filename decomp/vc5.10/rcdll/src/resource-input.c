@@ -357,3 +357,20 @@ finish:
     *cursor=0;
     return cursor;
 }
+
+WCHAR __cdecl rc_next_resource_digit(void)
+{
+#ifdef RECON_NATIVE_TEST
+    WCHAR *end;
+    unsigned long address=(unsigned long)rc_resource_number_cursor;
+    /* The real collector establishes the terminated current name. Do not
+     * infer readability from an arbitrary mapped pointer or stale tail. */
+    if(address<(unsigned long)(rc_resource_name+1)||
+       address>=(unsigned long)(rc_resource_name+257)||
+       ((address-(unsigned long)rc_resource_name)&1))__asm int 3
+    for(end=rc_resource_name;end<rc_resource_name+257&&*end;++end);
+    if(end==rc_resource_name+257||rc_resource_number_cursor>end)__asm int 3
+#endif
+    rc_resource_number_character=*rc_resource_number_cursor++;
+    return rc_resource_number_character;
+}

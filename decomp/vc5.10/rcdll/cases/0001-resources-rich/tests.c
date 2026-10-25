@@ -595,6 +595,31 @@ static int resource_word_contract(void)
     return trapped(overlong_resource_word)&&trapped(foreign_resource_word);
 }
 
+static void resource_digit_call(void){rc_next_resource_digit();}
+static int resource_digit_contract(void)
+{
+    WCHAR foreign[2]={L'x',0};
+    unsigned i;
+    rc_resource_name[0]=L'0';rc_resource_name[1]=L'x';
+    rc_resource_name[2]=L'0';rc_resource_name[3]=L'9';rc_resource_name[4]=0;
+    rc_resource_number_cursor=rc_resource_name+1;rc_resource_character=0x55;
+    if(rc_next_resource_digit()!=L'x'||rc_resource_number_cursor!=rc_resource_name+2||
+       rc_resource_number_character!=L'x')return 0;
+    if(rc_next_resource_digit()!=L'0'||rc_next_resource_digit()!=L'9'||
+       rc_next_resource_digit()!=0||rc_resource_number_cursor!=rc_resource_name+5||
+       rc_resource_character!=0x55)return 0;
+    if(!trapped(resource_digit_call))return 0;
+    rc_resource_number_cursor=rc_resource_name;
+    if(!trapped(resource_digit_call))return 0;
+    rc_resource_number_cursor=(WCHAR *)((char *)rc_resource_name+3);
+    if(!trapped(resource_digit_call))return 0;
+    rc_resource_number_cursor=foreign;
+    if(!trapped(resource_digit_call))return 0;
+    for(i=0;i<257;++i)rc_resource_name[i]=L'a';
+    rc_resource_number_cursor=rc_resource_name+1;
+    return trapped(resource_digit_call);
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -618,6 +643,7 @@ const ReconTest rich_tests[]={
     {"collected-resource-name-contract",1,collected_resource_name_contract},
     {"resource-number-reset-contract",1,resource_number_reset_contract},
     {"resource-word-contract",1,resource_word_contract},
+    {"resource-digit-contract",1,resource_digit_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
