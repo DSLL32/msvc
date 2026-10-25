@@ -2456,8 +2456,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@read_input_token@8",
         .entry_rva = 0x25587,
+        .code = (const ReconExtent[]){{0x25587, 0x255f4}, {0x6b28b, 0x6b2bc}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "read_input_token",
     },
     {
@@ -2823,6 +2825,13 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "finish_input_declaration",
+    },
+    {
+        .name = "@decode_input_token@12",
+        .entry_rva = 0x255f4,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "decode_input_token",
     },
     {
         .name = "_controlfp",

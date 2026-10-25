@@ -9,6 +9,7 @@ typedef struct C2PendingInput C2PendingInput;
 extern C2PendingInput *pending_input_records;
 
 int input_preserve_operand, input_address_mode;
+int input_end_of_module;
 int input_saved_global_optimize = 1;
 unsigned input_aggregate_bytes, input_last_source_index;
 C2InputClause *input_clauses;
@@ -802,4 +803,25 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
             return cursor;
         }
     }
+}
+
+C2ILToken *__fastcall read_input_token(C2Function *function, C2ILToken *token)
+{
+    unsigned char opcode;
+    C2ILToken *result;
+    if (input_end_of_module)
+        return NULL;
+    opcode = (unsigned char)c2_read_il_byte();
+    if (opcode == 0xff)
+        c2_fatal(1, "E:\\utc\\src\\\\P2\\reader.c", 1709);
+    if (opcode == 77) {
+        input_end_of_module = 1;
+        return NULL;
+    }
+    token->flags = 0;
+    token->type = 0;
+    result = decode_input_token(opcode, function, token);
+    if ((result->type & 0xf000) == 0x4000)
+        function->flags |= 8;
+    return result;
 }

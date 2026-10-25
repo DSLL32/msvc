@@ -6,6 +6,7 @@
 #include "function-reader.h"
 #include "small-nodes.h"
 #include "flow.h"
+#include "code-input.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -293,6 +294,20 @@ static int flow_block_reuse(void)
     return 1;
 }
 
+static int ended_token_input(void)
+{
+    C2Function function, saved_function;
+    C2ILToken token, saved_token;
+    memset(&function, 0xa5, sizeof(function));
+    memset(&token, 0x5a, sizeof(token));
+    saved_function = function;
+    saved_token = token;
+    input_end_of_module = 1;
+    return read_input_token(&function, &token) == NULL &&
+        !memcmp(&function, &saved_function, sizeof(function)) &&
+        !memcmp(&token, &saved_token, sizeof(token));
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -309,5 +324,6 @@ const ReconTest numeric_tests[] = {
     {"small-node reuse clears exactly its owned size", 1, small_node_reuse},
     {"code-node insertion preserves both chains", 1, code_node_splice},
     {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation},
-    {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse}
+    {"flow-block reuse clears only the popped allocation", 1, flow_block_reuse},
+    {"ended module does not consume or modify another token", 1, ended_token_input}
 };

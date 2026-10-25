@@ -74,6 +74,8 @@ C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);
 C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes);
 int __fastcall set_input_expression_type(C2Expression *expression, unsigned short type);
 C2Expression * __fastcall new_function_exit(C2Function *function);
+extern int input_end_of_module;
+C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function, C2ILToken *token);
 C2ILToken * __fastcall read_input_token(C2Function *function, C2ILToken *token);
 void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees);
 C2Record * __fastcall append_input_trees(C2InputStack *stack, C2Record *prior);

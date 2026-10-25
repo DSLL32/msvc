@@ -102,11 +102,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
     return 0;
 }
 
-C2ILToken * __fastcall read_input_token(C2Function *function, C2ILToken *token)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees)
 {
@@ -394,4 +389,10 @@ void __fastcall input_aggregate_return(C2InputStack **stack, C2ILToken *token)
 void __fastcall finish_input_declaration(C2InputStack *stack)
 {
     __asm { int 3 }
+}
+
+C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function, C2ILToken *token)
+{
+    __asm { int 3 }
+    return NULL;
 }
