@@ -4,6 +4,15 @@
 int function_input_flags;
 int function_analysis_available;
 
+/* Size-indexed free lists. Allocation/release treats these as node pointers;
+ * node payload and the remaining allocator are not reconstructed yet. */
+C2SmallNode *free_small_nodes[49];
+
+void clear_function_input_state(void)
+{
+    memset(free_small_nodes, 0, sizeof(free_small_nodes));
+}
+
 void begin_function_input(void)
 {
     reset_register_marks();

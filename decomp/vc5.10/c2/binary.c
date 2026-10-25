@@ -2093,8 +2093,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_clear_function_input_state",
         .entry_rva = 0x2870d,
+        .code = (const ReconExtent[]){{0x2870d, 0x2871e}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "clear_function_input_state",
     },
     {

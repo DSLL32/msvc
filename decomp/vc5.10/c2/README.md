@@ -7,15 +7,15 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 109 accepted application functions / 22,088 code bytes.
+The registry preserves 110 accepted application functions / 22,105 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 853 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `clear_function_input_state` at original RVA 0x2870d.
-  Six narrow units retain real-conversion and register-list behavior checks.
+  current accepted frontier is `read_function` at original RVA 0x280e8.
+  Seven narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a
 fresh original/native pair at the genuine node-constructor trap. Its prior
@@ -23,7 +23,8 @@ uncommitted source, patch, and status were saved before migration in
 `~/.ai-tmp/msvc2/vc5.10/c2/migration-20261025/owned-worktree/` and
 `uncommitted.patch`. The 126-byte node constructor is also accepted. Its two pool1 free-list pointer
 slots have proven NULL defaults; other slots remain unmodeled and guarded in
-native execution. Old proof packages remain in Git history.
+native execution. Function-entry reset clears 49 size-indexed free-list pointers;
+their node payload remains incomplete. Old proof packages remain in Git history.
 
 Migration also corrected 19 address stores in 17 callback slots to the existing
 physical `c2_set_argv` function and removed the duplicate trapping placeholder.

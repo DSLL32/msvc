@@ -27,6 +27,8 @@ extern unsigned code_generation_state;
 extern int function_input_flags, function_analysis_available;
 void reset_register_marks(void);
 void initialize_function_records(void);
+typedef struct C2SmallNode C2SmallNode;
+extern C2SmallNode *free_small_nodes[49];
 void clear_function_input_state(void);
 void reset_function_listing(void);
 void begin_function_input(void);

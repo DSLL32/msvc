@@ -661,10 +661,6 @@ void __fastcall write_assembly_initializer(C2InitRecord *record)
 
 
 
-void clear_function_input_state(void)
-{
-    __asm { int 3 }
-}
 
 void reset_function_listing(void)
 {

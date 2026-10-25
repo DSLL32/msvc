@@ -1,6 +1,7 @@
 /* Narrow retained behavior checks; synthetic list contexts do not claim public reach. */
 #define RECON_SHIM_IMPL
 #include "register-sets.h"
+#include "functions.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -127,11 +128,23 @@ static int register_set_clear(void)
         last_free_register_set_nodes[1] == &nodes[1];
 }
 
+static int clear_small_node_lists(void)
+{
+    unsigned i;
+    for (i = 0; i < 49; ++i)
+        free_small_nodes[i] = (C2SmallNode *)(0x1000U + 16 * i);
+    clear_function_input_state();
+    for (i = 0; i < 49; ++i)
+        if (free_small_nodes[i]) return 0;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
     {"original 0/1/2 extended-real results", 1, original_real_results},
     {"existing unsigned register-set groups", 1, register_set_existing_groups},
     {"register-set node reuse clears only the popped node", 1, register_set_node_reuse},
-    {"clearing a register set appends its nodes", 1, register_set_clear}
+    {"clearing a register set appends its nodes", 1, register_set_clear},
+    {"function entry clears all small-node free lists", 1, clear_small_node_lists}
 };
