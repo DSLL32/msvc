@@ -573,6 +573,18 @@ unsigned long omf_debug_primitive_size(unsigned type)
     return 4;
 }
 
+/* Original [0004ad60,0004ad9b). The resolver interprets offset as a row;
+ * the separate structure converter's extra scaling remains unchanged. */
+void omf_register_debug_fixup(unsigned index,unsigned long offset)
+{
+    OmfDeferredDebugType *pending=malloc(sizeof(*pending));
+    if (!pending) omf_error("Not enough memory to process type data");
+    pending->type=index;
+    pending->offset=offset;
+    pending->next=omf_deferred_debug_types;
+    omf_deferred_debug_types=pending;
+}
+
 /* Original [0004ada0,0004adf3). The stored offset is scaled by a COFF
  * symbol stride here, including the original constructor's prior scaling. */
 void omf_resolve_debug_types(void)

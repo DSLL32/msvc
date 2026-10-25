@@ -10,7 +10,6 @@ BINARY_SOURCES = src/link.c \
     src/demangle.c \
     src/omf.c \
     src/omf-debug.c \
-    src/omf-stubs.c \
     src/checksum.c \
     src/editor.c \
     src/editor-rebase.c \

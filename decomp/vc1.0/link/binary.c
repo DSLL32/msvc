@@ -5978,11 +5978,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_omf_register_debug_fixup",
         .entry_rva = 0x3ad60,
-        .code = (const ReconExtent[]){{0x3ad60, 0x3ad61}},
+        .code = (const ReconExtent[]){{0x3ad60, 0x3ad9b}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "omf_register_debug_fixup",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_omf_resolve_debug_types",

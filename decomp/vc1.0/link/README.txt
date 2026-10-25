@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 103 numbered case directories. Native
+The shared recon-tool harness discovers the 104 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 828 application functions (761 public-reached, 67 direct-support),
-with accepted App extent union 231017/281634 (82.0273831%). The direct OOM notification case adds one whole function/22 extent bytes after
-the COFF integer checkpoint.
-Support-inclusive historical accepted extent is 261956/281634 (93.0129175%).
-The 1027 historical frontier count includes shipped CRT/import
+set now has 829 application functions (761 public-reached, 68 direct-support),
+with accepted App extent union 231076/281634 (82.0483322%). The direct deferred-debug case adds one whole function/59 extent bytes after
+the OOM notification checkpoint.
+Support-inclusive historical accepted extent is 262015/281634 (93.0338666%).
+The 1028 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8736 bytes outside known App/CRT/import extents,
+The current registry leaves 8678 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 865 graphs for calls, RET cleanup, live function
+Current shared validation checks 866 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -561,3 +561,44 @@ seven focused tests passed in 1.918s parallel wall time, with identical publishe
 shared C/H before/after. Raw observations and split timing remain in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/oom-notification/
+
+
+Case 0103 uses the exact 259-byte $$TYPES payload from case 0081's immutable
+older-CodeView input. Real writer/converter APIs build its 17-row type map.
+The defined Value/Node aggregate slots identify genuine existing COFF tags 0/6.
+Two real symbol/auxiliary constructors return rows 17/19; the direct registrar
+allocates 12-byte nodes and prepends them to the real deferred list. Actual
+resolution writes the corresponding TagIndex words and frees both nodes. Empty
+resolution is a no-op, the real finalizer frees the map, and the real COFF writer
+serializes and releases its 20-symbol owner. No freed node/map is read afterward.
+Input bytes/guards, all unrelated symbol bytes and defined map fields remain
+unchanged. The 384-byte COFF and 512-byte report, streams and full inventory
+match; only established COFF timestamp bytes [4,8) are clock-normalized.
+
+This is direct support with actual returned row indices, not public conversion
+qualification. The separate structure caller's auxrow*18 followed by resolver
+row*18 remains an original defect; the failing forward-reference case is not
+repaired or relabeled. The 59-byte producer itself initializes all three node
+words and preserves its allocation-error branch. Its former stub unit is removed.
+Actual fresh original stack formals match the typed native frontier. Native GDB
+checks both registrations, head/next ownership, real map rows, three resolver
+calls with list lengths 0/2/0, ESP cleanup/nonvolatiles and exact FP state.
+
+One untouched baseline took 0.472s; fresh frontier/completion took 0.860s/0.768s.
+Matching native completion took 13.947ms (setup 9.907/execution 1.153/checks
+2.887); GDB took 186.199ms. At completion, original compilation/relink plus all
+866 graph/RET/reference/ownership/boundary checks passed in 22.764s combined.
+Native build took 4.470s; all 104 cached cases and seven focused tests passed
+in 2.043s parallel wall time, with identical coherent shared C/H before/after.
+The frozen snapshot includes an unused Watcom-only buffering candidate, stated
+explicitly without claiming LINK exercises it. Input derivation, raw originals,
+owner/ABI observations, hashes and split timing are in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/omf-deferred-debug/
+
+All currently named application entries are implemented. This is not a complete
+binary/non-CRT claim: 8678 bytes outside known registry extents still include
+unattributed code, data/alignment and incomplete boundaries. Dormant Unicode,
+far-string/custom-sort and floating-parser provenance remains unresolved; the
+legacy resource serializer retains its proven unwritten file-descriptor issue.
+No generic utility has been reconstructed or called CRT merely to close that gap.
