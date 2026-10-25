@@ -79,12 +79,17 @@ def main():
                 else:
                     raise AssertionError('unterminated diagnostic string')
         elif item.get('kind') == 'callback-table':
-            stride, pointer = item['stride'], item['pointer_offset']
-            assert (stride, pointer, item['size']) in ((8, 4, 256), (4, 0, 8), (8, 4, 104))
+            stride = item['stride']
+            pointers = tuple(item.get('pointer_offsets', [item.get('pointer_offset')]))
+            assert (stride, pointers, item['size']) in ((8, (4,), 256), (4, (0,), 8), (8, (4,), 104), (12, (4, 8), 168))
             for i in range(0, item['size'], stride):
-                assert left[i:i + pointer] == right[i:i + pointer], 'callback fields differ'
-                a, b = word(left[i + pointer:i + pointer + 4]), word(right[i + pointer:i + pointer + 4])
-                assert a == 0 and b == 0 or a in targets and targets[a] == b, 'callback target differs'
+                cursor = 0
+                for pointer in pointers:
+                    assert left[i + cursor:i + pointer] == right[i + cursor:i + pointer], 'callback fields differ'
+                    a, b = word(left[i + pointer:i + pointer + 4]), word(right[i + pointer:i + pointer + 4])
+                    assert a == 0 and b == 0 or a in targets and targets[a] == b, 'callback target differs'
+                    cursor = pointer + 4
+                assert left[i + cursor:i + stride] == right[i + cursor:i + stride], 'callback fields differ'
         else:
             assert left == right, ('initial contextual data differs', item['name'])
     print('%d contextual data objects and %d application source/stub identities passed' % (len(data), len(functions)))

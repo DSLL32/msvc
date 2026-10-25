@@ -1,11 +1,131 @@
 /* Canonical registry: 208 accepted application functions (64,084 bytes),
- * 20 named trapping stubs.
+ * 38 named trapping stubs.
  * CRT identities include three reviewed, nonexact original CRT boundaries.
  * They grant no application credit or shipped-library body equivalence;
  * runtime-policy.json keeps their provenance and historical qualifications. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_size_old_block16",
+        .entry_rva = 0x131a0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_block16",
+    },
+    {
+        .name = "_size_old_block32",
+        .entry_rva = 0x131c0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_block32",
+    },
+    {
+        .name = "_size_old_end",
+        .entry_rva = 0x131e0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_end",
+    },
+    {
+        .name = "_size_old_label16",
+        .entry_rva = 0x13200,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_label16",
+    },
+    {
+        .name = "_size_old_label32",
+        .entry_rva = 0x13220,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_label32",
+    },
+    {
+        .name = "_size_old_register_relative16",
+        .entry_rva = 0x13240,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_register_relative16",
+    },
+    {
+        .name = "_size_old_symbol12",
+        .entry_rva = 0x13270,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_symbol12",
+    },
+    {
+        .name = "_size_old_change_segment",
+        .entry_rva = 0x13290,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_change_segment",
+    },
+    {
+        .name = "_size_old_skip",
+        .entry_rva = 0x13300,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_skip",
+    },
+    {
+        .name = "_size_old_bprel16",
+        .entry_rva = 0x13320,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_bprel16",
+    },
+    {
+        .name = "_size_old_bprel32",
+        .entry_rva = 0x13340,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_bprel32",
+    },
+    {
+        .name = "_size_old_register",
+        .entry_rva = 0x13360,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_register",
+    },
+    {
+        .name = "_size_old_constant",
+        .entry_rva = 0x13380,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_constant",
+    },
+    {
+        .name = "_size_old_data16",
+        .entry_rva = 0x133a0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_data16",
+    },
+    {
+        .name = "_size_old_data32",
+        .entry_rva = 0x133c0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_data32",
+    },
+    {
+        .name = "_size_old_procedure16",
+        .entry_rva = 0x133e0,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_procedure16",
+    },
+    {
+        .name = "_size_old_procedure32",
+        .entry_rva = 0x13400,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_procedure32",
+    },
+
     {
         .name = "_main",
         .entry_rva = 0x7000,
@@ -2124,11 +2244,11 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
-        .name = "??1Iostream_init@@QAE@XZ|__fpclear",
+        .name = "_size_old_register_relative32",
         .entry_rva = 0x13260,
-        .code = (const ReconExtent[]){{0x13260, 0x13270}},
-        .code_count = 1,
-        .definition = RECON_CRT,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "size_old_register_relative32",
     },
     {
         .name = "??1Iostream_init@@QAE@XZ|__fpclear",

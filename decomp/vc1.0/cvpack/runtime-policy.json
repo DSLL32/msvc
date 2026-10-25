@@ -306,5 +306,15 @@
       "nonexact_difference": "Original text-mode tail omits a byte initialization and tests _read return == 1 where shipped OPEN.OBJ tests == 0; binary mode skips those differing paths. Original inheritable handles versus native CLOEXEC remain an observed platform distinction, not whole-function equivalence."
     }
   ],
-  "graph_identity_scope": "identity_only_anchors accepted:false/unmask:false apply to graph body availability and credit only. Original execution is separately authorized by crt_identity_boundaries and canonical RECON_CRT classification; no CRT body graph-equivalence claim."
+  "graph_identity_scope": "identity_only_anchors accepted:false/unmask:false apply to graph body availability and credit only. Original execution is separately authorized by crt_identity_boundaries and canonical RECON_CRT classification; no CRT body graph-equivalence claim.",
+  "short_identity_corrections": [
+    {
+      "name": "_size_old_register_relative32",
+      "former_aliases": [
+        "??1Iostream_init@@QAE@XZ",
+        "__fpclear"
+      ],
+      "reason": "RET plus fifteen alignment bytes matched generic library signatures, without independent CRT ownership. The sole original pointer is the wide callback for C6 symbol kind 0x16 in the application sizing table. Genuine zero-argument cdecl callsites use application globals. Reclassified as pending App; actual code is one RET byte, not the alignment padding."
+    }
+  ]
 }

@@ -1,5 +1,5 @@
 CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **208 accepted application
-functions, 64,084 original code bytes, and 20 named trapping stubs**.
+functions, 64,084 original code bytes, and 38 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
@@ -27,7 +27,7 @@ cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
-`check-context.py` additionally checks 210 initial data objects, diagnostic
+`check-context.py` additionally checks 211 initial data objects, diagnostic
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
@@ -59,7 +59,15 @@ The superseded
 unaligned field-list draft serialized nondeterministic original padding and
 remains excluded; its raw input/oracle/reason stay in Git and the snapshot.
 
-`runtime.json` is the unchanged frozen original library/import identity index.
+`runtime.json` preserves the frozen original library/import identity index except
+for the reviewed false short-signature match at RVA `0x13260`. Its generic RET
+plus fifteen alignment bytes did not prove either library alias; the genuine
+application sizing table identifies a zero-argument callback using globals.
+`size_old_register_relative32` is now a pending named App trap. Its actual code
+is one RET byte; alignment is not application code credit. Other short matches
+are unchanged, and the raw former rows remain in Git and the owned snapshot.
+The newly encountered 14-row C6 symbol sizing table identifies eighteen pending
+callbacks, without accepting their bodies.
 `runtime-policy.json` qualifies the original `__sopen`, `__freebuf` and `_setvbuf`
 variants as CRT identity boundaries with exact extents, hashes and provenance.
 The original mask leaves these CRT bodies executable while unfinished App code

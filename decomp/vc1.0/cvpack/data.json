@@ -1419,5 +1419,18 @@
     "original": 227388,
     "size": 2,
     "source": "src/types.c"
+  },
+  {
+    "name": "old_symbol_sizers",
+    "symbol": "_old_symbol_sizers",
+    "original": 229408,
+    "size": 168,
+    "source": "src/oldsymbols.c",
+    "kind": "callback-table",
+    "stride": 12,
+    "pointer_offsets": [
+      4,
+      8
+    ]
   }
 ]

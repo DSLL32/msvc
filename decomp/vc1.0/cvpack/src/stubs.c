@@ -4,6 +4,7 @@
 #include "pdb.h"
 #include "strip.h"
 #include "output.h"
+#include "oldsymbols.h"
 #include <recon.h>
 
 
@@ -146,3 +147,22 @@ void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 
 
+
+void size_old_block16(void) { __asm { int 3 } }
+void size_old_block32(void) { __asm { int 3 } }
+void size_old_end(void) { __asm { int 3 } }
+void size_old_label16(void) { __asm { int 3 } }
+void size_old_label32(void) { __asm { int 3 } }
+void size_old_register_relative16(void) { __asm { int 3 } }
+void size_old_register_relative32(void) { __asm { int 3 } }
+void size_old_symbol12(void) { __asm { int 3 } }
+void size_old_change_segment(void) { __asm { int 3 } }
+void size_old_skip(void) { __asm { int 3 } }
+void size_old_bprel16(void) { __asm { int 3 } }
+void size_old_bprel32(void) { __asm { int 3 } }
+void size_old_register(void) { __asm { int 3 } }
+void size_old_constant(void) { __asm { int 3 } }
+void size_old_data16(void) { __asm { int 3 } }
+void size_old_data32(void) { __asm { int 3 } }
+void size_old_procedure16(void) { __asm { int 3 } }
+void size_old_procedure32(void) { __asm { int 3 } }
