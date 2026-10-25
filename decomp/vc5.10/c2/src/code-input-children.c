@@ -100,11 +100,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-C2Expression * __fastcall pop_input_trees(C2InputStack **stack)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 unsigned __fastcall resolve_input_source_line(unsigned serial)
 {
@@ -471,6 +466,16 @@ int __fastcall rewrite_input_reference(C2Expression *tree, C2Expression *result)
 }
 
 void __fastcall remove_input_result(C2Expression *tree, C2Expression *result)
+{
+    __asm { int 3 }
+}
+
+void __fastcall release_input_stack(C2InputStack *stack)
+{
+    __asm { int 3 }
+}
+
+void __fastcall release_small_node_list(C2SmallNode *nodes)
 {
     __asm { int 3 }
 }

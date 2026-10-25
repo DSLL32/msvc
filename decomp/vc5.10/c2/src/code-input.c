@@ -1246,3 +1246,15 @@ C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value)
     release_small_node(tree);
     return prior;
 }
+
+C2Expression *__fastcall pop_input_trees(C2InputStack **stack)
+{
+    C2InputStack *entry = *stack;
+    C2Expression *trees = entry->first->next;
+    if (trees) trees->previous = NULL;
+    *stack = entry->next;
+    if (entry->alternatives)
+        release_small_node_list((C2SmallNode *)entry->alternatives);
+    release_input_stack(entry);
+    return trees;
+}

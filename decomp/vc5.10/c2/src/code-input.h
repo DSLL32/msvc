@@ -105,6 +105,8 @@ C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value);
 void __fastcall discard_input_tree(C2Expression *tree);
 C2Expression *__fastcall last_input_tree(C2Expression *tree);
 C2Record * __fastcall append_input_trees(C2InputStack *stack, C2Record *prior);
+void __fastcall release_input_stack(C2InputStack *stack);
+void __fastcall release_small_node_list(C2SmallNode *nodes);
 C2Expression * __fastcall pop_input_trees(C2InputStack **stack);
 unsigned __fastcall resolve_input_source_line(unsigned serial);
 unsigned __fastcall adjust_input_return_size(unsigned short type, unsigned bytes);

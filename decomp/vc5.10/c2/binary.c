@@ -2547,9 +2547,25 @@ static const ReconFunction functions[] = {
     {
         .name = "@pop_input_trees@4",
         .entry_rva = 0x25b17,
+        .code = (const ReconExtent[]){{0x25b17, 0x25b4b}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "pop_input_trees",
+    },
+    {
+        .name = "@release_input_stack@4",
+        .entry_rva = 0x25b4b,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "pop_input_trees",
+        .native_symbol = "release_input_stack",
+    },
+    {
+        .name = "@release_small_node_list@4",
+        .entry_rva = 0x2a42,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "release_small_node_list",
     },
     {
         .name = "@resolve_input_source_line@4",
