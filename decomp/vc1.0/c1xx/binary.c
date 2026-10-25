@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1617 historical frontiers/1510 App bodies.
+ * Current reviewed boundary:1618 historical frontiers/1511 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7125,10 +7125,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_mangle_pointer_base@8",
         .entry_rva = 0x341c0,
-        .code = (const ReconExtent[]) { { 0x341c0, 0x341c1 } },
+        .code = (const ReconExtent[]) { { 0x341c0, 0x3420f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mangle_pointer_base",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mangle_enum_representation@8",

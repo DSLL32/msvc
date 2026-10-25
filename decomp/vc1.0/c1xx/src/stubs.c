@@ -346,7 +346,6 @@ unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 }
 
 
 char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
-char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
 
 IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 

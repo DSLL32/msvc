@@ -924,3 +924,16 @@ char *__stdcall encode_literal_name_byte(char *cursor, signed char character)
     }
     return cursor;
 }
+
+/* Original0x441c0..0x4420f, stdcall8. Function returns contribute their
+   pointed-to base; an absent/array shape uses the ordinary unbased marker. */
+char *__stdcall mangle_pointer_base(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    if (shape && (shape->flags & 0x77) == 4) type = drop_first_type_shape(type);
+    shape = type->related;
+    if (shape && (shape->flags & 0x77) != 2)
+        return mangle_based_symbol(cursor, shape->attributes, shape->data.based_symbol);
+    *cursor++ = '9';
+    return cursor;
+}
