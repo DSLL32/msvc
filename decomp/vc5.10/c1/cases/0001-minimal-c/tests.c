@@ -314,6 +314,7 @@ static int type_arena_snapshot(void)
     c1_data.next_symbol_record_id = 95;
     c1_data.first_call = 0;
     c1_data.type_arena_kind = 5;
+    c1_bss.declaration_scope_active = 1;
     c1_bss.saved_data = &saved;
     c1_pass_mode = 1;
     return initialize_compiler_pass() == 0 && c1_data.type_arena_kind == 2 &&
@@ -321,7 +322,7 @@ static int type_arena_snapshot(void)
         c1_data.intrinsic_symbol_bytes == 37 && c1_data.intrinsic_symbol_cache_index == 7 &&
         c1_data.next_symbol_record_id == 83 && saved.intrinsic_symbol_bytes == 37 &&
         saved.intrinsic_symbol_cache_index == 7 && saved.next_symbol_record_id == 83 &&
-        !c1_reuse_state;
+        !c1_reuse_state && !c1_bss.declaration_scope_active;
 }
 extern struct CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
 static int type_shape_write_extent(void)

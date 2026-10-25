@@ -236,6 +236,7 @@ typedef struct CompilerBss {
     int pending_line_delta; /* RVA5780c; current line minus saved line origin */
     CompilerSourcePosition declaration_position; /* RVA57810..57818; BSS */
     int declaration_nesting; /* RVA54db8; nested declarations select arena2 */
+    BYTE declaration_scope_active; /* RVA54c7c, BSS; participates in symbol scope bits */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

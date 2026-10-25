@@ -511,7 +511,6 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     return this;
 }
 int RECON_THISCALL CompilerSymbolTable::HasBuckets(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerSymbolTable::Insert(CompilerIrSymbol *symbol) { __asm { int 3 } }
 void *RECON_THISCALL CompilerSymbolTable::Find(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
 void *RECON_THISCALL CompilerSymbolTable::Lookup(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
 void *RECON_THISCALL CompilerSymbolTable::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }

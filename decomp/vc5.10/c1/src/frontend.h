@@ -62,7 +62,7 @@ struct CompilerDebugModule {
     virtual void RECON_THISCALL Slot3c(void) = 0;
     virtual void RECON_THISCALL Slot40(void) = 0;
     virtual void RECON_THISCALL Slot44(void) = 0;
-    virtual void RECON_THISCALL Slot48(void) = 0;
+    virtual int RECON_THISCALL Slot48(void) = 0;
     virtual void RECON_THISCALL Slot4c(void) = 0;
     virtual void RECON_THISCALL Slot50(void) = 0;
     virtual void RECON_THISCALL Slot54(void) = 0;
@@ -120,6 +120,7 @@ struct CompilerTranslationUnit {
     CompilerTypeAlias *type_aliases;
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
+    void RECON_THISCALL PushScope(CompilerSymbolTable *);
     void RECON_THISCALL Finish(void);
 };
 typedef char CompilerTranslationUnit_size[sizeof(CompilerTranslationUnit) == 540 ? 1 : -1];
