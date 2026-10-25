@@ -5,3 +5,5 @@
 __pycache__/
 /tests/native-self/.build/
 /tests/native-self/cases/*/.build/
+/tests/native-errno/.build/
+/tests/native-errno/cases/*/.build/

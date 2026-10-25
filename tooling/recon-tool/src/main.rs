@@ -3,6 +3,7 @@ compile_error!("recon-tool must be built for i686-unknown-linux-gnu");
 mod abi;
 mod assets;
 mod debug;
+mod errno;
 mod fixture;
 mod host_alloc;
 mod native;

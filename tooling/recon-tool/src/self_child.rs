@@ -232,7 +232,9 @@ unsafe fn executor(options: &Options, root: &Path) -> Result<()> {
     let trap_file = File::create(root.join("trap"))?;
     trap::install(trap_file.as_raw_fd())?;
     let receipt = status::Receipt::create(root)?;
+    crate::errno::set(0);
     let loaded = unsafe { Loaded::open(&options.case) }?;
+    let constructor_errno = crate::errno::get();
     ensure!(
         loaded.case.execution == 0,
         "native-child requires an IO adapter"
@@ -249,9 +251,13 @@ unsafe fn executor(options: &Options, root: &Path) -> Result<()> {
         paths.logical_cwd.as_deref(),
         paths.assets.as_deref(),
     )?;
-    if let Some(setup) = loaded.case.setup {
-        ensure!(unsafe { setup() } != 0, "case setup failed");
-    }
+    let setup_errno = if let Some(setup) = loaded.case.setup {
+        let (passed, value) = crate::errno::invoke(constructor_errno, || unsafe { setup() });
+        ensure!(passed != 0, "case setup failed");
+        value
+    } else {
+        constructor_errno
+    };
     save_environment(&options.workspace)?;
     configure_trace(
         &loaded,
@@ -281,8 +287,11 @@ unsafe fn executor(options: &Options, root: &Path) -> Result<()> {
         .collect::<Vec<_>>();
     args.push(std::ptr::null_mut());
     unsafe { enable(1) };
-    let exit = unsafe { loaded.case.io.unwrap()(strings.len() as i32, args.as_mut_ptr()) };
+    let (exit, target_errno) = crate::errno::invoke(setup_errno, || unsafe {
+        loaded.case.io.unwrap()(strings.len() as i32, args.as_mut_ptr())
+    });
     receipt.returned(recorder.as_ref().map(|record| **record), exit as u32)?;
+    crate::errno::set(target_errno);
     unsafe { libc::exit(exit & 255) }
 }
 pub fn run(options: Options) -> Result<()> {

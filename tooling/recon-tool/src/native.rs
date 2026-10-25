@@ -490,17 +490,23 @@ unsafe fn executor(
     }
     std::env::set_current_dir(cwd)?;
     let receipt = status::Receipt::create(root)?;
+    crate::errno::set(0);
     let loaded = unsafe { Loaded::open(case_path) }?;
+    let constructor_errno = crate::errno::get();
     let recorder =
         unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
     receipt.supported(root, recorder.is_some())?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     assets::configure(&loaded, f, root, cwd)?;
-    if let Some(setup) = loaded.case.setup {
-        if unsafe { setup() } == 0 {
+    let setup_errno = if let Some(setup) = loaded.case.setup {
+        let (passed, value) = crate::errno::invoke(constructor_errno, || unsafe { setup() });
+        if passed == 0 {
             bail!("case setup failed")
         }
-    }
+        value
+    } else {
+        constructor_errno
+    };
     output::prepare(&loaded, f, root, cwd, tests)?;
     crate::self_child::save_paths(f, root)?;
     process::prepare(&loaded, f, root, cwd, process_server, tests)?;
@@ -514,6 +520,7 @@ unsafe fn executor(
                 bail!("unknown unit test {name:?}")
             }
         }
+        let mut callback_errno = setup_errno;
         for (index, t) in unsafe { abi::items(loaded.case.tests, loaded.case.test_count) }?
             .iter()
             .enumerate()
@@ -548,7 +555,8 @@ unsafe fn executor(
                     std::env::set_current_dir(&dir)?;
                     assets::configure(&loaded, f, root, &dir)?;
                     debug::checkpoint(debug, root, supervisor)?;
-                    let result = unsafe { t.exec.unwrap()() };
+                    let (result, _) =
+                        crate::errno::invoke(setup_errno, || unsafe { t.exec.unwrap()() });
                     unsafe {
                         libc::fflush(std::ptr::null_mut());
                         libc::_exit(if result != 0 { 0 } else { 1 });
@@ -558,7 +566,10 @@ unsafe fn executor(
                 libc::WIFEXITED(status) && libc::WEXITSTATUS(status) == 0
             } else {
                 debug::checkpoint(debug, root, supervisor)?;
-                unsafe { t.exec.unwrap()() != 0 }
+                let (result, value) =
+                    crate::errno::invoke(callback_errno, || unsafe { t.exec.unwrap()() });
+                callback_errno = value;
+                result != 0
             };
             if !pass {
                 bail!("unit test failed: {}", unsafe { abi::string(t.name) }?)
@@ -602,7 +613,7 @@ unsafe fn executor(
         )?;
         unsafe { enable(1) };
         debug::checkpoint(debug, root, supervisor)?;
-        let exit = if loaded.case.execution == 0 {
+        let (exit, target_errno) = if loaded.case.execution == 0 {
             let effective_args = if f.args.is_empty() {
                 vec![loaded.info.binary.clone()]
             } else {
@@ -614,15 +625,20 @@ unsafe fn executor(
                 .collect::<std::result::Result<_, _>>()?;
             let mut args: Vec<_> = strings.iter().map(|s| s.as_ptr() as *mut _).collect();
             args.push(std::ptr::null_mut());
-            unsafe { loaded.case.io.unwrap()(strings.len() as i32, args.as_mut_ptr()) }
+            crate::errno::invoke(setup_errno, || unsafe {
+                loaded.case.io.unwrap()(strings.len() as i32, args.as_mut_ptr())
+            })
         } else {
-            let passed = unsafe { loaded.case.direct.unwrap()() } != 0;
+            let (result, value) =
+                crate::errno::invoke(setup_errno, || unsafe { loaded.case.direct.unwrap()() });
+            let passed = result != 0;
             fs::write(root.join("direct-return"), if passed { b"1" } else { b"0" })?;
-            if passed { 0 } else { 1 }
+            (if passed { 0 } else { 1 }, value)
         };
         receipt.returned(recorder.as_ref().map(|record| **record), exit as u32)?;
         // A returned EXE main / typed DLL adapter must take the normal C exit
         // path. Keep application tracing active through its atexit callbacks.
+        crate::errno::set(target_errno);
         unsafe {
             libc::exit(exit & 255);
         }

@@ -214,6 +214,8 @@ impl Loaded {
     unsafe fn open_with_validation(path: &Path, validation: FrontierValidation) -> Result<Self> {
         let library =
             unsafe { Library::new(path) }.with_context(|| format!("load {}", path.display()))?;
+        // Constructors own the value left by dlopen. Metadata below is host work.
+        let _errno = crate::errno::Preserve::new();
         let binary = unsafe { *library.get::<*const Binary>(b"binary_descriptor\0")? };
         let case = unsafe { *library.get::<*const Case>(b"case_descriptor\0")? };
         let binary = unsafe { binary.as_ref() }.context("NULL binary_descriptor")?;
