@@ -19,8 +19,10 @@ struct C2FunctionRegister {
     unsigned value_bytes;
     long displacement;
     C2FunctionRegister *next_free;
-    unsigned pending2c, properties;
-    unsigned char pending34[28];
+    unsigned pending2c;
+    union { unsigned properties; C2OptimizerRegisterInfo *optimizer; C2OptimizerUse *optimizer_uses; };
+    unsigned optimizer_index;
+    unsigned char pending38[24];
 };
 typedef char C2FunctionRegisterValueCheck[offsetof(C2FunctionRegister, value) == 20 ? 1 : -1];
 typedef char C2FunctionRegisterCanonicalCheck[offsetof(C2FunctionRegister, canonical) == 8 ? 1 : -1];

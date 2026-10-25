@@ -17,7 +17,7 @@ unsigned optimizer_state_b;                  /* 490ba4 */
 unsigned optimizer_state_c;                  /* 490bac */
 C2Expression *optimizer_input_records;       /* 490bec */
 C2OptimizerNode *optimizer_root;              /* 48fb58 */
-void *optimizer_register_sets;               /* 490ba8: address passed only */
+unsigned optimizer_register_count;            /* 490ba8 */
 void *optimizer_register_map;                /* 491010: address passed only */
 int optimizer_records_finished;              /* 48fb3c */
 
@@ -25,7 +25,8 @@ void __fastcall optimize_function_flow(C2Function *function)
 {
     C2FlowGraph *flow;
     C2BasicBlock *block;
-    C2OptimizerContext *context, *symbol_context;
+    C2OptimizerContext *symbol_context;
+    unsigned alias_count;
     C2OptimizerNode *root, *symbol_root, **symbol_table;
     C2RegisterSet *used, *defined, *copy;
     C2Expression *records;
@@ -57,12 +58,12 @@ void __fastcall optimize_function_flow(C2Function *function)
         release_optimizer_symbol_set(copy);
     }
     optimizer_initial_limit = optimizer_index_limit;
-    context = new_optimizer_context(c2_alias_optimization, optimizer_context_mode);
+    alias_count = assign_optimizer_registers(c2_alias_optimization, optimizer_context_mode);
     if (optimizer_context_mode) prepare_alias_input(function);
     optimizer_original_limit = optimizer_index_limit;
     block = function->flow->last;
-    records = build_optimizer_input(block->records, context);
-    optimizer_first_block = collect_optimizer_blocks(block, context, records);
+    records = build_optimizer_input(block->records, alias_count);
+    optimizer_first_block = collect_optimizer_blocks(block, alias_count, records);
     optimizer_state_a = optimizer_state_b = optimizer_state_c = 0;
     optimizer_input_records = records;
     root = translate_optimizer_input(block, count, c2_alias_optimization,
@@ -70,14 +71,14 @@ void __fastcall optimize_function_flow(C2Function *function)
     optimizer_root = root;
     if (c2_alias_optimization) records = fold_optimizer_records(records);
     if (c2_zero_alignment) prepare_optimizer_values(records);
-    analyze_optimizer_values(context, records, c2_alias_optimization);
+    analyze_optimizer_values(alias_count, records, c2_alias_optimization);
     if (c2_alias_optimization) rewrite_optimizer_records(records);
     initialize_optimizer_registers();
     number_optimizer_registers();
-    build_optimizer_register_sets(root, count, context, optimizer_register_sets,
+    build_optimizer_register_sets(root, count, alias_count, optimizer_register_count,
                                    c2_alias_optimization);
     if (function->flags & 0x40)
-        finish_optimizer_symbol_map(symbol_context, symbol_root, optimizer_register_sets);
+        finish_optimizer_symbol_map(symbol_context, symbol_root, optimizer_register_count);
     records = finish_optimizer_records(block->records, optimizer_index_limit,
                                         optimizer_original_limit, c2_alias_optimization);
     emit_optimizer_records(records, optimizer_register_map, optimizer_index_limit);
@@ -157,4 +158,108 @@ unsigned __fastcall count_optimizer_records(C2Record *first)
         optimizer_context_mode = 1;
     }
     return scopes;
+}
+
+C2FunctionRegister *optimizer_memory_register;       /* 48fb54 */
+C2FunctionRegister *optimizer_parameter_register;    /* 48fb38 */
+C2RegisterSet *optimizer_live_registers;             /* 48fa58 */
+unsigned optimizer_initial_register_count;          /* 490ba0 */
+
+unsigned __fastcall assign_optimizer_registers(int aliases, int mode)
+{
+    C2RegisterBlock *block;
+    C2FunctionRegister *reg;
+    C2InputSymbol *symbol;
+    C2OptimizerRegisterInfo *info;
+    unsigned groups = 1, unnamed_index = 0, unnamed_register = 0;
+    unsigned char flags;
+
+    optimizer_memory_register = c2_pool_allocate(1, sizeof(C2FunctionRegister));
+    optimizer_memory_register->kind = 12;
+    optimizer_parameter_register = c2_pool_allocate(1, sizeof(C2FunctionRegister));
+    optimizer_parameter_register->kind = 12;
+    optimizer_live_registers = new_register_set(1);
+    optimizer_register_count = 1;
+    for (block = first_function_register_block; block; block = block->next) {
+        for (reg = block->records; reg < block->cursor; ++reg) {
+            if (reg->kind == 16) continue;
+            flags = reg->view_flags;
+            reg->optimizer_index = 0;
+            if (!(flags & 2)) {
+                if (reg->kind == 4 || reg->kind == 5 ||
+                    (reg->kind == 3 && !reg->value)) {
+                    if ((reg->kind != 3 || reg->value) && reg->canonical == reg) {
+                        symbol = (C2InputSymbol *)reg->symbol;
+                        symbol->detail.optimizer_number = (unsigned short)optimizer_index_limit++;
+                        reg->optimizer_index = optimizer_register_count++;
+                    }
+                    if (!mode) {
+                        reg->view_flags = flags | 8;
+                        info = c2_pool_allocate(4, sizeof(*info));
+                        reg->optimizer = info;
+                        info->aliases = new_register_set(6);
+                        add_register_to_set(info->aliases, groups);
+                        info->number = groups++;
+                    } else
+                        reg->optimizer = NULL;
+                } else {
+                    reg->optimizer = NULL;
+                    if (reg->canonical != reg || (reg->kind != 7 && reg->kind != 8))
+                        continue;
+                    if (!(flags & 4)) {
+                        optimizer_memory_register->optimizer_uses = add_optimizer_use(
+                            optimizer_memory_register->optimizer_uses, reg, 1);
+                        add_register_to_set(optimizer_live_registers, reg->number);
+                    }
+                    if (aliases) {
+                        info = c2_pool_allocate(4, sizeof(*info));
+                        reg->optimizer = info;
+                        info->secondary = c2_pool_allocate(4, sizeof(*info));
+                    }
+                    symbol = (C2InputSymbol *)reg->symbol;
+                    if (symbol->symbol.name) {
+                        symbol->detail.optimizer_number = (unsigned short)optimizer_index_limit++;
+                        reg->optimizer_index = optimizer_register_count++;
+                    } else {
+                        if (!unnamed_index) {
+                            unnamed_index = optimizer_index_limit++;
+                            unnamed_register = optimizer_register_count++;
+                        }
+                        symbol->detail.optimizer_number = (unsigned short)unnamed_index;
+                        reg->optimizer_index = unnamed_register;
+                    }
+                }
+            } else {
+                reg->optimizer = NULL;
+                if (reg->canonical != reg || reg->kind == 10 || reg->kind == 11)
+                    continue;
+                add_register_to_set(optimizer_live_registers, reg->number);
+                symbol = (C2InputSymbol *)reg->symbol;
+                if (symbol->symbol.name || reg->kind == 4 || reg->kind == 5) {
+                    symbol->detail.optimizer_number = (unsigned short)optimizer_index_limit++;
+                    reg->optimizer_index = optimizer_register_count++;
+                } else {
+                    if (!unnamed_index) {
+                        unnamed_index = optimizer_index_limit++;
+                        unnamed_register = optimizer_register_count++;
+                    }
+                    symbol->detail.optimizer_number = (unsigned short)unnamed_index;
+                    reg->optimizer_index = unnamed_register;
+                }
+                if (aliases) {
+                    info = c2_pool_allocate(4, sizeof(*info));
+                    reg->optimizer = info;
+                    info->secondary = c2_pool_allocate(4, sizeof(*info));
+                }
+                if (reg->kind == 5)
+                    optimizer_parameter_register->optimizer_uses = add_optimizer_use(
+                        optimizer_parameter_register->optimizer_uses, reg, 1);
+                else if (reg->kind == 7 || reg->kind == 8)
+                    optimizer_memory_register->optimizer_uses = add_optimizer_use(
+                        optimizer_memory_register->optimizer_uses, reg, 1);
+            }
+        }
+    }
+    optimizer_initial_register_count = optimizer_register_count;
+    return groups;
 }

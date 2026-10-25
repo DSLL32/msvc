@@ -1135,7 +1135,42 @@ static int optimizer_scope_and_fallback(void)
     return i;
 }
 
+extern unsigned optimizer_register_count, optimizer_index_limit;
+static int optimizer_alias_group_ownership(void)
+{
+    C2RegisterBlock block, *saved = first_function_register_block;
+    C2InputSymbol symbol;
+    C2FunctionRegister *reg;
+    unsigned result;
+    int valid;
+    memset(&block, 0, sizeof(block));
+    memset(&symbol, 0, sizeof(symbol));
+    symbol.symbol.name = "auxiliary optimizer parameter";
+    block.cursor = &block.records[2];
+    reg = &block.records[0];
+    reg->kind = 4;
+    reg->canonical = reg;
+    reg->symbol = &symbol.symbol;
+    block.records[1].kind = 16;
+    block.records[1].optimizer_index = 0x13579bdf;
+    first_function_register_block = &block;
+    reset_input_pool(6);
+    optimizer_index_limit = 10;
+    result = assign_optimizer_registers(0, 0);
+    valid = result == 2 && optimizer_register_count == 2 && optimizer_index_limit == 11 &&
+        symbol.detail.optimizer_number == 10 && reg->optimizer_index == 1 &&
+        (reg->view_flags & 8) && reg->optimizer && reg->optimizer->number == 1 &&
+        reg->optimizer->aliases && reg->optimizer->aliases->pool == 6 &&
+        reg->optimizer->aliases->links.first &&
+        reg->optimizer->aliases->links.first->group == 0 &&
+        reg->optimizer->aliases->links.first->bits == 2 &&
+        !reg->optimizer->secondary && block.records[1].optimizer_index == 0x13579bdf;
+    first_function_register_block = saved;
+    return valid;
+}
+
 const ReconTest numeric_tests[] = {
+    {"optimizer alias groups retain scalar indices and pool6 ownership", 1, optimizer_alias_group_ownership},
     {"optimizer counts real scope entries and disables alias work for large functions", 1, optimizer_scope_and_fallback},
     {"pool6 reset clears only its encountered cells and preserves unknown gaps", 1, input_pool_six_reset},
     {"flow-edge reuse preserves flags and both endpoint-list owners", 1, flow_edge_reuse_ownership},

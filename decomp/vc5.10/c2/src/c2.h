@@ -132,6 +132,8 @@ typedef struct C2FunctionRegister C2FunctionRegister;
 typedef struct C2InputUse C2InputUse;
 typedef struct C2Expression C2Expression;
 typedef struct C2BranchTarget C2BranchTarget;
+typedef struct C2OptimizerRegisterInfo C2OptimizerRegisterInfo;
+typedef struct C2OptimizerUse C2OptimizerUse;
 typedef struct C2FlowGraph C2FlowGraph;
 
 #pragma pack(2)
@@ -210,6 +212,7 @@ typedef struct C2InputSymbol {
         struct { unsigned short pending3a; unsigned char anonymous, pending3d; } temporary;
     } storage;
     union {
+        unsigned short optimizer_number;
         struct {
             unsigned char flags;
             signed char scope_line;

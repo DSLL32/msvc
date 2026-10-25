@@ -119,6 +119,9 @@ void __fastcall reset_input_pool(unsigned pool)
     free_register_sets[pool] = NULL;
     last_free_register_sets[pool] = NULL;
     input_pool_reset_state_a = input_pool_reset_state_b = 0;
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+    if (pool == 6) register_set_pool_six_initialized = 1;
+#endif
 }
 
 void __fastcall release_input_pool(C2Pool *pool)

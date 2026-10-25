@@ -2,6 +2,7 @@
 #define C2_CASE_HOST_H
 #define RECON_SHIM_IMPL
 #include "c2.h"
+#include "register-sets.h"
 #include <recon-tool.h>
 #include <recon.h>
 
@@ -14,6 +15,7 @@ static int setup(void)
     unsigned count,offset;
     ReconModuleSpec module;
     HMODULE instance;
+    register_set_pool_six_initialized = 0;
     file=fopen("target-environment.bin","rb");
     if(!file || fseek(file,0,SEEK_END))return 0;
     size=ftell(file);

@@ -35,7 +35,8 @@ extern C2RegisterSet *last_free_register_sets[13];
 extern C2RegisterSetNode *free_register_set_nodes[13];
 extern C2RegisterSetNode *last_free_register_set_nodes[13];
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-#define C2_REGISTER_SET_POOL(pool) ((pool) == 1 ? 1 : \
+extern int register_set_pool_six_initialized;
+#define C2_REGISTER_SET_POOL(pool) ((pool) == 1 ? 1 : ((pool) == 6 && register_set_pool_six_initialized) ? 6 : \
     (recon_unsupported("unmodeled C2 register-set free-head slot"), 1))
 #else
 #define C2_REGISTER_SET_POOL(pool) (pool)

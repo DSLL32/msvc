@@ -18,24 +18,19 @@ void __fastcall scan_optimizer_clauses(C2InputClause *clauses)
     __asm { int 3 }
 }
 
-C2OptimizerContext * __fastcall new_optimizer_context(int aliases, int mode)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 void __fastcall prepare_alias_input(C2Function *function)
 {
     __asm { int 3 }
 }
 
-C2Expression * __fastcall build_optimizer_input(C2Record *first, C2OptimizerContext *context)
+C2Expression * __fastcall build_optimizer_input(C2Record *first, unsigned alias_count)
 {
     __asm { int 3 }
     return NULL;
 }
 
-C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, C2OptimizerContext *context, C2Expression *records)
+C2OptimizerNode * __fastcall collect_optimizer_blocks(C2BasicBlock *block, unsigned alias_count, C2Expression *records)
 {
     __asm { int 3 }
     return NULL;
@@ -58,7 +53,7 @@ void __fastcall prepare_optimizer_values(C2Expression *records)
     __asm { int 3 }
 }
 
-void __fastcall analyze_optimizer_values(C2OptimizerContext *context, C2Expression *records, int aliases)
+void __fastcall analyze_optimizer_values(unsigned alias_count, C2Expression *records, int aliases)
 {
     __asm { int 3 }
 }
@@ -78,7 +73,7 @@ void number_optimizer_registers(void)
     __asm { int 3 }
 }
 
-void __fastcall build_optimizer_register_sets(C2OptimizerNode *root, unsigned count, C2OptimizerContext *context, void *map, int aliases)
+void __fastcall build_optimizer_register_sets(C2OptimizerNode *root, unsigned count, unsigned alias_count, unsigned register_count, int aliases)
 {
     __asm { int 3 }
 }
@@ -144,8 +139,15 @@ void __fastcall release_optimizer_symbol_set(C2RegisterSet *set)
     __asm { int 3 }
 }
 
-void __fastcall finish_optimizer_symbol_map(C2OptimizerContext *context, C2OptimizerNode *root, void *map)
+void __fastcall finish_optimizer_symbol_map(C2OptimizerContext *context, C2OptimizerNode *root, unsigned register_count)
 {
     __asm { int 3 }
 }
 
+
+C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
+    C2FunctionRegister *reg, int unique)
+{
+    __asm { int 3 }
+    return NULL;
+}

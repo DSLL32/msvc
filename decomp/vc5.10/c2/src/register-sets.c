@@ -1,8 +1,14 @@
 #include "register-sets.h"
 #include <recon.h>
 
-/* Slot1 has a proved original NULL default. Slots4/12 are defined only by reset;
- * gaps0/2/3/5..11 are unmodeled storage, never original default claims. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+/* Host knowledge only: reset6, rather than a presumed original initializer,
+ * makes this partial static slot available to the native reader. */
+int register_set_pool_six_initialized;
+#endif
+
+/* Slot1 has a proved original NULL default. Slots4/6/12 are defined only by reset;
+ * gaps0/2/3/5/7..11 are unmodeled storage, never original default claims. */
 C2RegisterSet *free_register_sets[13];
 C2RegisterSet *last_free_register_sets[13];
 /* Separate node queues. Only pool1's two NULL pointer defaults are modeled. */

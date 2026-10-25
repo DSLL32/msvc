@@ -1774,11 +1774,20 @@ static const ReconFunction functions[] = {
         .native_symbol = "count_optimizer_records",
     },
     {
-        .name = "@new_optimizer_context@8",
-        .entry_rva = 0x241a9,
+        .name = "@add_optimizer_use@12",
+        .entry_rva = 0x21fff,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
-        .native_symbol = "new_optimizer_context",
+        .native_symbol = "add_optimizer_use",
+    },
+    {
+        .name = "@assign_optimizer_registers@8",
+        .entry_rva = 0x241a9,
+        .code = (const ReconExtent[]){{0x241a9, 0x2448a}, {0x6aee6, 0x6af73}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "assign_optimizer_registers",
     },
     {
         .name = "@prepare_alias_input@4",
