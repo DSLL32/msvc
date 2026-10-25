@@ -396,3 +396,26 @@ void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken 
         return;
     }
 }
+
+/* Original 0x611d0..0x61235, stdcall8. Deferred defaults keep
+   their member-reference groups in a wrapper with no independent result type. */
+IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups)
+{
+    ArenaPool *pool;
+    IrToken *wrapper;
+    if (token_allocation_flags & 0x20000020UL)
+        wrapper = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        wrapper = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    wrapper->flags = 7;
+    wrapper->kind = 0xca;
+    wrapper->value.pointer = expression;
+    wrapper->tail.reference_groups = groups;
+    wrapper->type = 0;
+    return wrapper;
+}

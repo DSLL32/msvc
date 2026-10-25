@@ -109,7 +109,6 @@ void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned
 void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 
-void begin_else_body(void) { __asm { int 3 } }
 
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
 void begin_seh_filter(void) { __asm { int 3 } }
@@ -137,7 +136,6 @@ IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3
 void emit_inline_assembly(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
-void end_else_statement(void) { __asm { int 3 } }
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
@@ -158,7 +156,6 @@ IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initial
 
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
 int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
@@ -486,7 +483,6 @@ void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
-IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
 short __stdcall format_based_declaration(unsigned short attributes, void *base) { __asm { int 3 } return 0; }
 
 int compare_debug_symbol_indices(const void *left, const void *right) { __asm { int 3 } return 0; }
@@ -556,5 +552,7 @@ void browser_compilation_error(void) { __asm { int 3 } }
 
 char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall declare_temporary_storage(CType *type, unsigned bytes, IrToken *reference) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+
+void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination, IrToken *source, IrToken *bytes) { __asm { int 3 } }
+void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments) { __asm { int 3 } }

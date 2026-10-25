@@ -9,6 +9,7 @@
 #include "class-finalization.h"
 #include "initializer-records.h"
 #include "function-finalization.h"
+#include "braced-initializers.h"
 #include <recon.h>
 
 char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function);
@@ -554,4 +555,39 @@ void __stdcall finish_local_static_initialization(CppSymbol *symbol)
         }
     }
     emit_label(local_static_guard_label);
+}
+
+void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination,
+    IrToken *source, IrToken *bytes);
+void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments);
+
+/* Original 0x45df0..0x45ef6, stdcall8. Retain scalar assignment
+   and string-copy forms separately, including the frontend-specific intrinsic
+   route and the exact byte-offset advancement after emission. */
+void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value)
+{
+    IrToken *destination, *arguments, *length;
+    unsigned bytes;
+    if (!check_static_initializer(symbol, &value))
+        report_declaration_diagnostic(204, 97);
+    destination = initializer_object_expression(symbol->type);
+    if (is_character_array_initializer(symbol, value)) {
+        value->tail.string.length = fit_string_initializer(symbol, value);
+        if (!options.configuration.option_qc && !(options.configuration.option_M & 4)) {
+            length = make_integer_constant(value->tail.string.length);
+            arguments = append_expression(0, destination, 1);
+            arguments = append_expression(arguments, value, 1);
+            arguments = append_expression(arguments, length, 1);
+            emit_runtime_initializer_list(0xac, arguments);
+        } else {
+            length = make_integer_constant(value->tail.string.length);
+            emit_runtime_initializer_call(0xac, destination, value, length);
+        }
+        initializer_offset += value->tail.string.length;
+    } else {
+        destination->type = symbol->type;
+        bytes = type_size(symbol->type);
+        emit_initializer_assignment(destination, value);
+        initializer_offset += bytes;
+    }
 }

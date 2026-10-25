@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1401 historical frontiers/1294 App bodies.
+ * Current reviewed boundary:1406 historical frontiers/1299 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -5351,18 +5351,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_begin_else_body",
         .entry_rva = 0x2f3c0,
-        .code = (const ReconExtent[]) { { 0x2f3c0, 0x2f3c1 } },
+        .code = (const ReconExtent[]) { { 0x2f3c0, 0x2f480 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "begin_else_body",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_end_else_statement",
         .entry_rva = 0x2f480,
-        .code = (const ReconExtent[]) { { 0x2f480, 0x2f481 } },
+        .code = (const ReconExtent[]) { { 0x2f480, 0x2f56e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "end_else_statement",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_close_if_records",
@@ -6357,12 +6359,29 @@ static const ReconFunction functions[] = {
         .native_symbol = "fit_string_initializer",
     },
     {
+        .name = "_emit_runtime_initializer_call@16",
+        .entry_rva = 0x35ba0,
+        .code = (const ReconExtent[]) { { 0x35ba0, 0x35ba1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_runtime_initializer_call",
+    },
+    {
+        .name = "_emit_runtime_initializer_list@8",
+        .entry_rva = 0x35bf0,
+        .code = (const ReconExtent[]) { { 0x35bf0, 0x35bf1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_runtime_initializer_list",
+    },
+    {
         .name = "_emit_runtime_symbol_initializer@8",
         .entry_rva = 0x35df0,
-        .code = (const ReconExtent[]) { { 0x35df0, 0x35df1 } },
+        .code = (const ReconExtent[]) { { 0x35df0, 0x35ef7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_runtime_symbol_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_emit_runtime_bit_field_initializer@4",
@@ -9796,10 +9815,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_wrap_default_argument_members@8",
         .entry_rva = 0x511d0,
-        .code = (const ReconExtent[]) { { 0x511d0, 0x511d1 } },
+        .code = (const ReconExtent[]) { { 0x511d0, 0x51236 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "wrap_default_argument_members",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_left_typed_expression@12",
@@ -10789,10 +10809,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_declare_temporary_storage@12",
         .entry_rva = 0x57010,
-        .code = (const ReconExtent[]) { { 0x57010, 0x57011 } },
+        .code = (const ReconExtent[]) { { 0x57010, 0x57051 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "declare_temporary_storage",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_construct_copy_initializer@12",

@@ -1484,3 +1484,69 @@ void __stdcall record_label_definition(CppSymbol *label)
         emit_nonnull_expression_statement(process_expression_records(0));
     }
 }
+
+/* Original 0x3f3c0..0x3f47f, cdecl. Close the then region and
+   attach a separate else opener, retaining its own goto-count baseline. */
+void begin_else_body(void)
+{
+    BranchBoundaryRecord record;
+    ConditionalFrontendRecord *conditional;
+    jmp_buf recovery;
+    record.header.kind = 22;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.goto_count = 0;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    end_if_statement(0);
+    record.goto_count = ir_goto_count;
+    append_frontend_record(&record.header, sizeof(record));
+    conditional = (ConditionalFrontendRecord *)find_frontend_record(ir_record_tail, 17, 1);
+    conditional->else_record = ir_record_tail;
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}
+
+/* Original 0x3f480..0x3f56d, cdecl. An empty else removes its
+   opener; an occupied else retains cleanup and its goto delta before folding. */
+void end_else_statement(void)
+{
+    FrontendRecord record;
+    ConditionalFrontendRecord *conditional;
+    BranchBoundaryRecord *branch;
+    jmp_buf recovery;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 22) {
+        conditional = (ConditionalFrontendRecord *)find_frontend_record(ir_record_tail, 17, 1);
+        conditional->else_record = 0;
+        remove_last_frontend_record();
+    } else {
+        branch = (BranchBoundaryRecord *)find_frontend_record(ir_record_tail, 22, 1);
+        branch->goto_count -= ir_goto_count;
+        record.kind = 23;
+        record.flags = 0;
+        record.field02 = 0;
+        record.sequence = 0;
+        record.next = 0;
+        record.previous = 0;
+        append_frontend_record(&record, sizeof(record));
+        emit_nonnull_expression_statement(process_expression_records(0));
+    }
+    close_if_records();
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}

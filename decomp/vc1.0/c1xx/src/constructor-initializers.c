@@ -1660,7 +1660,17 @@ void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag
     emit_condition_to_label(value, label, 1);
 }
 
-IrToken *__stdcall declare_temporary_storage(CType *type, unsigned bytes, IrToken *reference);
+/* Original 0x67010..0x67050, stdcall12. Declare the temporary's
+   byte extent and reference before it participates in the constructor value. */
+IrToken *__stdcall declare_temporary_storage(CType *type, unsigned bytes, IrToken *reference)
+{
+    IrToken *arguments, *result;
+    arguments = append_expression(0, make_integer_constant(bytes), 2);
+    arguments = append_expression(arguments, reference, 2);
+    result = new_left_typed_expression(0x81, make_integer_constant(0xde), arguments);
+    result->type = type;
+    return result;
+}
 IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *type, IrToken *expression);
 
 /* Original 0x66d30..0x66ed9, stdcall12. Detach a saved source
