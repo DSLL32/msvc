@@ -190,7 +190,15 @@ extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flag
 extern "C" OutputLibrary *__stdcall load_next_default_library(LinkPointerList *list)
 { __asm { int 3 } return NULL; }
 extern "C" void __stdcall ensure_library_loaded(LinkContext *context,OutputLibrary *library)
-{ __asm { int 3 } }
+{
+    if (library->name && !library->index_data[3]) {
+        int saved_file=current_input_file;
+        current_input_file=open_argument_file(library->name,0x8000,0);
+        read_library_index(library,context);
+        close_argument_file(current_input_file,0);
+        current_input_file=saved_file;
+    }
+}
 void RECON_THISCALL OutputLibrary::SearchSymbols(LinkContext *context,
     BYTE *changed,BYTE *keep_searching)
 { __asm { int 3 } }

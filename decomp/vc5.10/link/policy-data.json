@@ -6475,6 +6475,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_ensure_library_loaded@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },

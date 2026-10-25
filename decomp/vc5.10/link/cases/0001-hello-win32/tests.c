@@ -1295,7 +1295,23 @@ static int library_search_input(void)
     return recon_native_at_entry(ensure_library_loaded,check_library_search_input,
         invoke_hello,NULL)==1;
 }
+static void __stdcall check_library_reader_input(OutputLibrary *library,LinkContext *context)
+{
+    FileRecord *record=file_slots[current_input_file];
+    recon_native_entry_finish(context && library &&
+        library==context->command_line_library->next && library->name &&
+        !library->index_data[3] && record && record->index==current_input_file &&
+        record->name && !strcmp(record->name,library->name) && record->file &&
+        record->view && record->size &&
+        current_input_library==context->command_line_library && entry_symbol);
+}
+static int library_reader_input(void)
+{
+    return recon_native_at_entry(read_library_index,check_library_reader_input,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"library-reader-input",1,library_reader_input},
     {"library-search-input",1,library_search_input},
     {"startup-undefined",1,startup_undefined},
     {"decorated-entry",1,decorated_entry},
