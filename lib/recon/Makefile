@@ -787,3 +787,9 @@ build/namemap-open-probe: build/namemap-open-probe.o $(SOURCES)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
 namemap-open-check: build/namemap-open-probe
 	./$<
+
+.PHONY: watcom-storage-check
+build/watcom-storage-probe: tests/watcom-storage-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-storage-check: build/watcom-storage-probe
+	./$<

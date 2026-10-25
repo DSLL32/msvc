@@ -601,6 +601,13 @@ new App vertex; canonical Win32 keeps the original decorated import. The native
 boundary always denies125 without reading database/output storage or changing
 it. C1's current branch is unvisited; no database/name-map success is modeled.
 
+The Watcom profile exposes unsigned32 _amblksiz storage initialized to the
+actual WCC DWORD16; main's assignment remains real source-visible state. This
+does not tune host malloc or claim original CRT heap metadata. Native-only
+__far is empty for the separately reviewed flat-DS semantic pointer projection;
+original Watcom retains its keyword. No general segmented storage or selector
+conversion is supported by this annotation.
+
 Watcom-only bare memicmp/getcmd spellings have typed cdecl link boundaries:
 int(const void *,const void *,size_t) and char *(char *), matching shipped
 STRING.H83/PROCESS.H63. Both always deny125 without reading input or writing

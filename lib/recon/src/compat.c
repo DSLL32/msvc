@@ -48,6 +48,8 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
  * target namespace heap check below has an established success contract. */
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
+/* Actual WCC initialized DWORD is16; native malloc policy is independent. */
+unsigned recon_watcom_amblksiz=16;
 int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

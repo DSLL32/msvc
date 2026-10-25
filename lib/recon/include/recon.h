@@ -302,6 +302,7 @@ int __cdecl recon_watcom_open(const char *,int,...);
 long __cdecl recon_watcom_lseek(int,long,int);
 long __cdecl recon_watcom_tell(int);
 int __cdecl recon_watcom_setmode(int,int);
+extern unsigned recon_watcom_amblksiz;
 int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
 char *__cdecl recon_watcom_getcmd(char *);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
@@ -477,6 +478,11 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _controlfp recon_controlfp
 #define _ftime recon_ftime
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#ifndef __far
+/* Only the reviewed flat-DS native semantic ABI; no segmented storage. */
+#define __far
+#endif
+#define _amblksiz recon_watcom_amblksiz
 #define open recon_watcom_open
 #define lseek recon_watcom_lseek
 #define tell recon_watcom_tell
