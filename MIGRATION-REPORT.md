@@ -13,7 +13,7 @@ the shared native i386 runner, `binary.c`, numbered flat cases and
 regressions use saved references and do not invoke Wine.
 
 - **VC1.0:** C1, C1XX, C2, CVPACK and RCPP have migrated. C1XX has resumed reconstruction;
-  C1 is exercising the published original-DIRECT facility. RC is also complete;
+  C1 has completed its current case using the published original-DIRECT facility. RC is also complete;
   LINK and CL are finishing migration. Finished binaries are included.
 - **VC5.10:** all nine binaries are in scope, including finished RC and CVTRES.
   All nine have committed their migrations and paused. Their 38 invocation
@@ -102,6 +102,16 @@ eight cases and units took 0.388 s including case builds. Its queued strip case
 and conditional original-CRT capture requirements remain documented for later
 reconstruction. The authorized padding correction is described below.
 
+C1's actual original-DIRECT integration and current residual case are complete
+in `bd5093ae9`. The final assembly helper adds one application function / 98
+bytes; exact `_strncpy` identity adds no application credit. Final original and
+native DIRECT executions pass at the same entry, including ABI, streams,
+workspace and status checks: 1.395 s original versus 20.227 ms native. The
+combined original/native/case rebuild and strict audit took 11.334 s;
+173 cached native cases took 1.478 s and unit executors 1.162 s. The accepted
+application total is 983 functions / 228,861 bytes. C1 is paused after its
+scoped commit, with no new case queued.
+
 ## Shared runner and build foundation
 
 The accounting starts at tag `b4-test-migration`, so it includes the initial
@@ -116,7 +126,7 @@ shared runner as well as fixes found while migrating consumers.
 | Shared Make rules | One application shared library; automatic flat-case discovery and generated targets; shared binary/case compiler flags; no per-case Makefiles or recursive case builds; readable support-object paths. | `9820c0788`, `552562511`, `4bcafcab5`, `36fac3867` |
 | Original tools and runtime identification | Toolchain-name-based shared Wine launcher and original build support; shared runtime identification replaces local copies. Reviewed CRT overrides require registry/MAP/object identity rather than relaxed matching. | `8901269a5`, `e92c1fd0f`, `8bc59cc24` |
 | Input-only environment | Capture environment fields describe inputs, not process environment changes as outputs. | `fd4d526e2` |
-| Live-state native probes | One-shot exact-ABI entry hook runs a typed callback with genuine live owners/registers/stack, then finishes at the shared checkpoint without resuming parser mutation. Resume-capable observation is a separate pending feature. | `e311c8862` |
+| Live-state native probes | One-shot exact-ABI entry hook runs a typed callback with genuine live owners/registers/stack, then finishes at the shared checkpoint without resuming parser mutation. Resume-capable observation was subsequently added in `a4954756a`. | `e311c8862` |
 
 The shared tool includes native smoke cases for I/O, frontiers, descendants,
 timeouts, events, direct execution and exit callbacks, plus original-capture,
@@ -151,7 +161,9 @@ they do not imply that pending integrations have passed.
 | Native repository drive default | Restore the old native runner's `RECON_DRIVE_R` repository mapping before module load while respecting explicit case set/unset values. Wine prefix mappings are untouched. | `82451ad47`. Three real i386 default/set/unset controls pass, about 2.8 ms each; the canonical release is verified and RC integration passes in `8dc33696f`. |
 | Same-entry runtime aliases | Use the next distinct COFF symbol boundary so genuine aliases share the actual body rather than producing zero-length records. | `205851271`. Eight focused tests and actual original/rebuilt catalogs pass: record counts and physical code unions unchanged, two zero-length aliases corrected per image. |
 | Optional MAP-qualified runtime identities | Qualify byte/relocation matches against hash-bound rebuilt MAP names and addresses, retaining proven same-member aliases and rechecking external-reference closure. | `9a5ace9f8`. Ten tests and unchanged default-output comparisons pass. C1XX runtime records fall from 242 to 209, removing ten false overlap groups without changing the code union or reconstruction credit; about 403 ms versus 397 ms without qualification. |
-| Normal-loader original DIRECT probes | Add a helper import offline to a scratch PE; let its local exception handler invoke original-compiler typed probe code and publish a read-only broker receipt. | `29265595b`, `934790b33`. Host/i386 writer tests, completion/frontier and four failure controls pass. Original controls take about 1.4–2.1 s; matching native controls about 5.5 ms. C1's actual trial reached an unclassified shipped `_strncpy` boundary in 1.973 s; exact 37-byte COFF proof qualified it as CRT, without application credit. Trial continuation and unused remote-call prototype cleanup remain separate. |
+| Normal-loader original DIRECT probes | Add a helper import offline to a scratch PE; let its local exception handler invoke original-compiler typed probe code and publish a read-only broker receipt. | `29265595b`, `934790b33`. Host/i386 writer tests, completion/frontier and four failure controls pass. Original controls take about 1.4–2.1 s; matching native controls about 5.5 ms. C1's first trial reached an unclassified shipped `_strncpy` boundary in 1.973 s; exact 37-byte COFF proof qualified it as CRT, without application credit. The actual typed pair then passed at RVA `3f0cd`: original 1.639 s, native 17.452 ms, identical first-entry order. Unused remote-call prototype cleanup remains separate. |
+| Resume-capable native entry observer and exact dependency trees | A signal-safe one-shot observer inspects live entry state and resumes the genuine entry; optional read-only roots verify complete file membership as well as existing dependency hashes. | `a4954756a`. Focused observer controls pass (215 ms build, 3 ms run), membership tests and formatting pass. No descriptor ABI change; the optional capture field remains version 2. CL consumer integration is pending. |
+| Retained process-policy failure diagnostics | Preserve bounded private broker diagnostics before temporary-workspace cleanup, without mixing them into target stderr. | `fe1756fd8`. A rejected-input control passes in 7.299 ms; error details are bounded to 16 KiB. CL then identified a consumer image-input mismatch rather than a transport defect. |
 | Separate application, CRT and harness builds | Default source discovery covers src/crt, explicitly selected C++ harness support uses C++ compiler/flags/linker, and quote-only local include paths preserve system headers. | `f71bc7e1c`. Focused parallel/incremental native/original Make tests pass, including C++ support and a local link.h shadowing regression. Existing explicit source lists remain supported. |
 | Optional registry support-extent guards | Structurally walk reviewed CRT/import intervals independently of accepted application graphs, reporting unavailable rebuilt bounds explicitly. | `493a69af8`. 71 tests and focused denial controls passed; canonical release matched frozen validation. RC's initial 114 rebuilt intervals became 117 after the qualified runtime recovery above; all 122 original guards remain. Default reports and graph/RET scope are unchanged. |
 
@@ -267,9 +279,19 @@ These are approved or under design, not completed integrations:
 
 | Work | Consumers and purpose |
 | --- | --- |
-| C1 original DIRECT integration | The new normal-import/local-handler implementation is published and its authored controls pass. C1 ran its first actual trial; a previously unclassified exact shipped `_strncpy` boundary was identified before the intended application target. The narrow CRT classification is approved; continuation is pending. Pristine originals remain untouched; the unused legacy transport is being removed separately. |
 | Native self-child mode and consumer integration | Typed captured responses and post-exit output checks are published. LINK's focused integrations pass; its declared native self-child is still pending before the final 91-case batch. CVPACK's integration is complete. Fixtures must never fall back to Wine. |
-| CL entry-state observer and exact read-only tree membership | Preserve existing internal-state cases and reject added SDK files, rather than validating only the hashes of known files. Approved designs use a signal-safe one-shot observer that resumes the genuine entry and complete file membership derived from existing dependency hashes. Implementation and focused tests are complete in scratch; root review approved publication. Consumer integration remains pending. |
+| CL entry-state observer and exact read-only tree membership | Preserve existing internal-state cases and reject added SDK files, rather than validating only the hashes of known files. Approved designs use a signal-safe one-shot observer that resumes the genuine entry and complete file membership derived from existing dependency hashes. Published in `a4954756a`; focused observer and membership tests pass, with no descriptor ABI change. CL is integrating the observer and removing its overinclusive whole-SDK inventory before final verification. |
+
+CL initially carried forward the old suite's whole 894-file SDK inventory in
+all 57 cases. The user rejected that overinclusive check; CL has removed it,
+retaining validation of the specific child executable and actual captured
+workspace inputs. No per-child file-open readset is claimed. The shared
+optional tree feature remains available, but is not a CL requirement.
+The entry observer serves three existing cases that start through `main`,
+intervene at a genuine internal function entry and then assert resulting I/O.
+For example, one selects OMF response generation at `link_pass`. Their current
+IO classification describes output assertions; these are not untouched CLI
+invocations.
 
 ## Retired local checks and historical evidence
 
