@@ -352,3 +352,29 @@ extern "C" int c1_test_arena_byte_allocation(void)
         if (storage[i] != 0xa5) return 0;
     return 1;
 }
+
+extern "C" int c1_test_scope_binding_chains(void)
+{
+    CompilerSymbolTable scope;
+    CompilerSymbolBinding *buckets[8] = { 0 };
+    CompilerIrSymbol first, second;
+    CompilerNameEntry name1, name2;
+    memset(&first, 0xa5, sizeof(first));
+    memset(&second, 0x96, sizeof(second));
+    name1.flags = 0x10003;
+    name2.flags = 0x20003;
+    first.binding.name = &name1;
+    second.binding.name = &name2;
+    scope.buckets = buckets;
+    scope.bucket_mask = 7;
+    scope.Link(&first);
+    scope.Link(&second);
+    if (buckets[3] != &second.binding || second.binding.next != &first.binding ||
+        first.binding.next || first.binding.name != &name1 || second.binding.name != &name2 ||
+        first.record_id != 0xa5a5a5a5 || second.record_id != 0x96969696)
+        return 0;
+    unsigned i;
+    for (i = 0; i < 8; ++i)
+        if (i != 3 && buckets[i]) return 0;
+    return 1;
+}

@@ -91,7 +91,7 @@ struct CompilerSymbolTable {
     CompilerSymbolTable *next;
     BYTE level;
     CompilerSymbolTable *outer;
-    CompilerIrSymbol **buckets;
+    CompilerSymbolBinding **buckets;
     unsigned bucket_mask;
     RECON_FORCEINLINE CompilerSymbolTable()
         : next(NULL), level(0), outer(NULL), bucket_mask(1023) {}

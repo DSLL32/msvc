@@ -503,7 +503,7 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     bytes = table->bucket_mask * 4 + 4;
     if (pool->remaining < bytes)
         pool->Refill(bytes);
-    table->buckets = (CompilerIrSymbol **)pool->cursor;
+    table->buckets = (CompilerSymbolBinding **)pool->cursor;
     pool->cursor += bytes;
     pool->remaining -= bytes;
     current = root;
@@ -518,7 +518,6 @@ void RECON_THISCALL CompilerSymbolTable::FindNested(CompilerNameEntry *name, voi
 CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerSymbolTable::Check(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerSymbolTable::Link(CompilerIrSymbol *symbol) { __asm { int 3 } }
 extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void);
 CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *base,
     const CompilerSourcePosition *position)

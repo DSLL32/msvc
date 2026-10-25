@@ -375,13 +375,15 @@ static int intrinsic_record_fields(void)
         if (i != 0 && (i < 28 || i >= 36) && bytes[i] != 0xa5) return 0;
     return storage[0] == 0xa5a5a5a5 && storage[14] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[30] = {
+extern int c1_test_scope_binding_chains(void);
+const ReconTest minimal_tests[31] = {
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },
     { "intrinsic selection retains mandatory names and respects extension and floating policy", 1, intrinsic_selection_policy },
     { "byte arena allocation preserves exact stride and owned bytes at the limit", 1, c1_test_arena_byte_allocation },
     { "intrinsic metadata retains symbol payload and writes only known classification fields", 1, intrinsic_record_fields },
+    { "scope collisions link embedded bindings and retain symbol payload", 1, c1_test_scope_binding_chains },
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
