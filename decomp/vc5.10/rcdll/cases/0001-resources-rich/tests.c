@@ -127,10 +127,23 @@ static int copy_end_contract(void)
         destination[3]==0xa7a7 && rc_copy_wide_end(empty,L"")==empty &&
         !empty[0] && empty[1]==0xc9c9;
 }
+/* Preserve-comments is independent of whether preprocessing emits output. */
+static int comment_mode_identity(void)
+{
+    WCHAR input[]=L"hidden*/tail";
+    unsigned line=rc_preparing_line;
+    rc_cpp_C=0;
+    rc_cpp_active=1;
+    rc_cpp_output_file=NULL;
+    rc_source_cursor=input;
+    rc_block_comment();
+    return rc_source_cursor==input+8 && rc_preparing_line==line;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
     {"wide-copy-end-contract",1,copy_end_contract},
+    {"comment-preservation-option-identity",1,comment_mode_identity},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

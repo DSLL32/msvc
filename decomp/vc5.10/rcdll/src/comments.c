@@ -58,7 +58,7 @@ void __cdecl rc_block_comment(void)
     WCHAR character;
     unsigned short token;
 
-    if(!rc_cpp_active){
+    if(!rc_cpp_C){
         rc_skip_block_comment();
         return;
     }

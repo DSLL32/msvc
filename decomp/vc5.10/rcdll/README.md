@@ -34,7 +34,8 @@ Other unavailable native data/modes retain production traps.
 
 Accepted application reconstruction is **100 functions, 26,460 code bytes**
 (the d08815612 baseline plus the preprocessor output loop, block-comment
-preservation, source-frame closure its custom copy-end helper and skipped quoted text). The provisional discovered application denominator is 299
+preservation, source-frame closure, its custom copy-end helper and skipped quoted text).
+The provisional discovered application denominator is 299
 functions / 66,295 bytes (39.91%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
@@ -54,7 +55,7 @@ scratch namespace. Unavailable descriptors still trap before native consumption.
 The latest original capture took 1.535 s; native replay took 178.511 ms
 (setup 76.416, execution 33.103, checks 68.991 ms). The quoted-skipper
 original/native builds and whole-candidate graph preflight took 3.826 s.
-A focused native unit checks its terminator return, WCHAR16 content, empty
+A focused native unit checks the copy helper's terminator return, WCHAR16 content, empty
 input and untouched tail; it took 147.958 ms (3.183 ms execution).
 The earlier external loader
 INT3 failure and its shared-tool diagnostic remain in scratch; no program
@@ -65,3 +66,10 @@ checks and four unit groups together 0.244 s; 97-function graph and SEH-role
 audit 0.501 s. Help IO took 8.048 ms (setup 4.396, execution 2.459, checks 1.193);
 rich partial IO took 174.830 ms (76.011 / 30.249 / 68.571). Application bodies,
 registry identities, case captures and policy are unchanged by this reorganization.
+
+Comment preservation uses the distinct `-C` option, not the preprocessor-active
+flag. A zero-credit correction binds both original/rebuilt operands and an
+opposite-state native unit (C=0, active=1). Earlier partial matches did not
+establish that storage identity. The corrected native replay against the
+unchanged original took 192.661 ms; the branch unit took 151.867 ms. No new
+original capture or additional code credit was needed.

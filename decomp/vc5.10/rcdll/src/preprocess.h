@@ -43,7 +43,7 @@ extern RcSourceFrame rc_source_frames[1024];
 extern RcMacro *rc_macro_buckets[256];
 extern int rc_apstudio;
 
-extern int rc_cpp_remaining,rc_cpp_active,rc_cpp_E,rc_cpp_P;
+extern int rc_cpp_remaining,rc_cpp_active,rc_cpp_C,rc_cpp_E,rc_cpp_P;
 extern int rc_cpp_nesting_level;
 extern int rc_cpp_extensions,rc_cpp_ZE;
 extern WCHAR **rc_cpp_arguments,*rc_cpp_bad_argument;
