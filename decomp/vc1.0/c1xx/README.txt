@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1424 App bodies and1531
+original/native matching at compare_filenames; there are1425 App bodies and1532
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -13,6 +13,10 @@ current genuine frontier is finish_pch_output. Their original build3.953s, fresh
 original0.518s, native25.240ms (setup15.619ms, execution4.189ms, checks5.431ms),
 full inherited audit7.492s and cached12+21units0.312s pass. Discovered whole
 match_pch_string_event@12 remains an unimplemented stub with no coverage credit.
+load_precompiled_header(328B) is accepted at the consumer read_pch_file frontier;
+original build3.171s, fresh original1.214s, native25.240ms (setup16.443ms,
+execution2.172ms, checks6.625ms), audit/setup2.164s, cached12+21units0.318s.
+The reader itself remains an unimplemented whole1108B helper, with no new credit.
 Native first pair26.683ms (setup17.078ms, execution3.035ms, checks6.570ms).
 The default-path strlen source calls were replaced by the actual inline loops
 before passing graph checks. One discovery started before the library relink

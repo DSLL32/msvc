@@ -4,6 +4,8 @@
 #include <string.h>
 #include "initialization.h"
 #include "global-ir.h"
+#include "pragma.h"
+#include "browser.h"
 #include <recon.h>
 
 /* Original 0x23310..0x233dd. The default name retains the source drive and
@@ -40,4 +42,50 @@ int compare_filenames(char *first, char *second)
         ++second;
     }
     return *first == *second;
+}
+
+void read_pch_file(void);
+
+/* Original 0x231c0..0x23308. Consume forced inputs and physical source up to
+   /Yu's named include or hdrstop, then restore the actual saved frontend. */
+void load_precompiled_header(void)
+{
+    char *filename;
+    token_allocation_flags |= 0x10000;
+    final_newline_emitted = 1;
+    if (options.pch_use_file) {
+        while (forced_source_inputs->count > forced_source_index) {
+            current_forced_source = forced_source_inputs->items[forced_source_index++];
+            if (compare_filenames(options.pch_use_file, current_forced_source)) {
+                prepare_pch_output(options.pch_use_file);
+                final_newline_emitted = 0;
+                break;
+            }
+        }
+    } else {
+        while (forced_source_inputs->count > forced_source_index)
+            current_forced_source = forced_source_inputs->items[forced_source_index++];
+    }
+    while (final_newline_emitted) {
+        if ((unsigned char)options.pch_use) {
+            while (read_skipped_directive() != PP_PRAGMA) ;
+            read_pragma_token();
+            if (current_token_code == 2 && classify_pragma(current_token_value.name) == 29) {
+                synchronize_pch_pragma();
+                prepare_pch_output(options.source_file);
+                final_newline_emitted = 0;
+            } else skip_source_line();
+        } else {
+            while (read_skipped_directive() != PP_INCLUDE) ;
+            filename = read_include_name();
+            if (compare_filenames(options.pch_use_file, filename)) {
+                prepare_pch_output(options.pch_use_file);
+                final_newline_emitted = 0;
+            }
+        }
+    }
+    browser_include_begin();
+    read_pch_file();
+    browser_include_begin();
+    token_allocation_flags &= ~0x10000U;
 }

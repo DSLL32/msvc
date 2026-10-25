@@ -66,7 +66,6 @@ void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void begin_automatic_pch(void) { __asm { int 3 } }
 
-void load_precompiled_header(void) { __asm { int 3 } }
 void record_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
 int resume_pch_source_input(void) { __asm { int 3 } return 0; }
 unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } return 0; }
@@ -561,3 +560,4 @@ unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0
 
 IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
+void read_pch_file(void) { __asm { int 3 } }
