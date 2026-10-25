@@ -91,7 +91,7 @@ def main():
     build_helper(HERE.parent / 'minimal-c/run-phase.c', tools / 'run-phase.exe', env)
     if args.phase in ('all', 'link'):
         build_helper(HERE / 'dll-host.c', tools / 'dll-host.exe', env, ('USER32.LIB',))
-        build_helper(ROOT / 'decomp/vc1.0/cl/src/gui-check.c', tools / 'gui-check.exe',
+        build_helper(ROOT / 'decomp/vc1.0/cl/harness/gui-check.c', tools / 'gui-check.exe',
                      env, ('USER32.LIB', 'GDI32.LIB'))
     receipt = dict(case=manifest['case'], phases={}, link_repetitions=2, prefix=str(PREFIX),
         seconds=dict(build=time.perf_counter()-build_start))

@@ -70,7 +70,7 @@ def main():
            for name, case in manifest['phases'].items() if args.phase in ('all', name)):
         gui_checker = case_scratch / 'gui-check.exe'
         gui_obj = case_scratch / 'gui-check.obj'
-        for command in ([windows(TC / 'bin/CL.EXE'), '/nologo', '/c', '/Od', '/G3', '/Fo'+windows(gui_obj), windows(ROOT/'decomp/vc1.0/cl/src/gui-check.c')],
+        for command in ([windows(TC / 'bin/CL.EXE'), '/nologo', '/c', '/Od', '/G3', '/Fo'+windows(gui_obj), windows(ROOT/'decomp/vc1.0/cl/harness/gui-check.c')],
                         [windows(TC / 'bin/LINK.EXE'), '/nologo', '/subsystem:console', '/out:'+windows(gui_checker), windows(gui_obj), windows(TC/'lib/USER32.LIB'), windows(TC/'lib/GDI32.LIB')]):
             result = invoke(command, env, cwd=case_scratch)
             if result.returncode:
