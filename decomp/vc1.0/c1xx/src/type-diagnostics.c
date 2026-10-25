@@ -706,3 +706,27 @@ short __stdcall format_storage_extensions(short text, StorageSpec storage)
     }
     return text;
 }
+
+/* Original0x67d50..0x67e02, stdcall8. Spell the actual Microsoft based
+   declaration in a normal nested diagnostic string handle. */
+short __stdcall format_based_declaration(unsigned short attributes, void *base)
+{
+    short text = reserve_type_diagnostic();
+    unsigned kind = attributes & 7;
+    CppSymbol *symbol;
+    append_type_diagnostic(text, "__based(");
+    if (kind == 4) append_type_diagnostic(text, "void");
+    else if (attributes & 8) append_type_diagnostic(text, "(__segment)__self");
+    else {
+        symbol = base;
+        if ((symbol->kind & 31) == 13) append_type_diagnostic(text, "__segname(\"");
+        if (kind == 7 || kind == 6) {
+            append_type_diagnostic(text, "(__segment)");
+            if (kind == 6) append_type_diagnostic(text, "&");
+        }
+        append_type_diagnostic(text, symbol->name);
+        if ((symbol->kind & 31) == 13) append_type_diagnostic(text, "\")");
+    }
+    append_type_diagnostic(text, ") ");
+    return text;
+}
