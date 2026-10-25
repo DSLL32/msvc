@@ -418,13 +418,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 88 / 10,869 | 3.37% | Minimal C: browser factory; published alias helper released for production checks |
-| C1XX | 101 / 11,613 | 1.55% | Minimal C++: input factory; same alias production checks underway |
-| C2 | 129 / 31,154 | 5.44% | Numeric case: decode_input_token after accepted full code dispatcher and token input |
+| C1 | 90 / 11,040 | 3.43% | Minimal C: initialize_preprocessor after browser factory and getter; `e2c5d7494` |
+| C1XX | 102 / 11,792 | 1.57% | Minimal C++: normalize_frontend_options after input factory; `d74c0cd10` |
+| C2 | 130 / 32,064 | 5.59% | Numeric case: read_control_fields after token decoder; `c3193864e` |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 123 / 43,910 | 10.59% | Hello EXE: build_section_symbol_ranges after accepted COMDAT reader |
-| RCDLL | 108 / 28,651 | 38.40% | Rich corpus: rc_substitute_macro_argument after accepted identifier collection |
+| LINK | 125 / 44,112 | 10.63% | Hello EXE: StringTable::LookupSymbol after COFF name resolver; `19bf1ef57` |
+| RCDLL | 110 / 28,839 | 38.65% | Rich corpus: rc_copy_quoted after macro lookahead; `a162aeb44` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -455,6 +455,12 @@ The concrete minimal capture work is:
   Scratch VC5/native tests and Make wiring pass without wrappers, raw vtables,
   duplicate body credit or a graph waiver. No additional helper Wine controls
   or preliminary target capture is required.
+  Both production integrations now pass: C1's two 24-slot PE vtables establish
+  all 17 alias equalities, and C1XX's PE/ELF vtables share its pending Reset
+  entry. Normal strict audits and real-object native units pass. C1XX's first
+  attempt exposed a genuinely masked six-byte operator-new import thunk;
+  the authenticated import endpoint was added with zero App credit before
+  the required corrected-mask original/native pair.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
