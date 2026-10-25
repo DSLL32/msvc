@@ -98,10 +98,6 @@ C2OptimizerNode * __fastcall map_optimizer_records(C2BasicBlock *block, unsigned
     return NULL;
 }
 
-void __fastcall set_optimizer_record_mode(C2BasicBlock *block, int mode)
-{
-    __asm { int 3 }
-}
 
 void __fastcall reset_block_analysis(C2BasicBlock *block)
 {
@@ -142,4 +138,29 @@ C2OptimizerUse *__fastcall add_optimizer_use(C2OptimizerUse *head,
 void __fastcall remove_register_set_node(C2RegisterSet *set, C2RegisterSetNode *node)
 {
     __asm { int 3 }
+}
+
+void __fastcall intersect_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source)
+{
+    __asm { int 3 }
+}
+
+void __fastcall copy_optimizer_symbol_set_into(C2RegisterSet *destination,
+    C2RegisterSet *source)
+{
+    __asm { int 3 }
+}
+
+void __fastcall update_optimizer_alias_set(C2RegisterSet *destination,
+    C2RegisterSet *input, C2RegisterSet *kills, C2RegisterSet *uses)
+{
+    __asm { int 3 }
+}
+
+int __fastcall optimizer_symbol_sets_equal(C2RegisterSet *first,
+    C2RegisterSet *second)
+{
+    __asm { int 3 }
+    return 0;
 }

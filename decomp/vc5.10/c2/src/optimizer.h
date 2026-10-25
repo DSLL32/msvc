@@ -46,7 +46,7 @@ unsigned __fastcall collect_optimizer_symbols(C2RegisterSet *used, C2RegisterSet
 C2RegisterSet * __fastcall copy_optimizer_symbol_set(C2RegisterSet *source);
 void __fastcall subtract_optimizer_symbol_sets(C2RegisterSet *destination, C2RegisterSet *source);
 C2OptimizerNode * __fastcall map_optimizer_records(C2BasicBlock *block, unsigned count, C2RegisterSet *symbols, C2OptimizerNode **table, C2RegisterSet *copy);
-void __fastcall set_optimizer_record_mode(C2BasicBlock *block, int mode);
+void __fastcall solve_optimizer_alias_sets(C2BasicBlock *block, int mode);
 void __fastcall reset_block_analysis(C2BasicBlock *block);
 C2OptimizerContext * __fastcall build_optimizer_symbol_map(C2OptimizerNode *root, C2RegisterSet *symbols, unsigned count, C2OptimizerNode **table);
 C2OptimizerNode * __fastcall apply_optimizer_symbol_map(C2BasicBlock *block, C2OptimizerContext *context, unsigned count, C2RegisterSet *used, C2RegisterSet *defined, C2OptimizerNode **table, C2RegisterSet *copy);
@@ -69,4 +69,12 @@ void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination,
     C2RegisterSet *source);
 void __fastcall remove_register_set_node(C2RegisterSet *set,
     C2RegisterSetNode *node);
+void __fastcall intersect_optimizer_symbol_sets(C2RegisterSet *destination,
+    C2RegisterSet *source);
+void __fastcall copy_optimizer_symbol_set_into(C2RegisterSet *destination,
+    C2RegisterSet *source);
+void __fastcall update_optimizer_alias_set(C2RegisterSet *destination,
+    C2RegisterSet *input, C2RegisterSet *kills, C2RegisterSet *uses);
+int __fastcall optimizer_symbol_sets_equal(C2RegisterSet *first,
+    C2RegisterSet *second);
 #endif

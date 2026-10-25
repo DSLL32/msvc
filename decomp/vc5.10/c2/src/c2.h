@@ -283,7 +283,8 @@ struct C2BasicBlock {
             C2RegisterSet *alias_uses;
             unsigned pending30;
             C2RegisterSet *alias_kills;
-            unsigned char pending38[76];
+            C2RegisterSet *alias_in, *alias_out, *alias_constraints;
+            unsigned char pending44[64];
         };
     };
     unsigned short number84, number86;

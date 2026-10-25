@@ -48,7 +48,7 @@ void __fastcall optimize_function_flow(C2Function *function)
         subtract_optimizer_symbol_sets(copy, used);
         symbol_table = c2_pool_allocate(4, symbols * 4);
         root = map_optimizer_records(block, symbols, used, symbol_table, copy);
-        set_optimizer_record_mode(block, 0);
+        solve_optimizer_alias_sets(block, 0);
         reset_block_analysis(flow->first);
         symbol_context = build_optimizer_symbol_map(root, used, symbols, symbol_table);
         symbol_root = apply_optimizer_symbol_map(block, symbol_context, symbols,
@@ -324,7 +324,7 @@ C2OptimizerAlias *__fastcall build_optimizer_aliases(C2BasicBlock *first,
             record = record->next;
         }
     }
-    set_optimizer_record_mode(first, 0);
+    solve_optimizer_alias_sets(first, 0);
     number = 1;
     for (register_block = first_function_register_block; register_block;
          register_block = register_block->next)
@@ -372,4 +372,34 @@ void __fastcall merge_optimizer_symbol_sets(C2RegisterSet *destination,
         }
         node->bits |= input->bits;
     }
+}
+
+void __fastcall solve_optimizer_alias_sets(C2BasicBlock *first, int constrained)
+{
+    C2BasicBlock *block;
+    C2FlowEdge *edge;
+    C2RegisterSet *temporary;
+    int changed;
+    for (block = first; block; block = block->previous) {
+        block->alias_in = new_register_set(6);
+        block->alias_out = copy_optimizer_symbol_set(block->alias_uses);
+    }
+    temporary = new_register_set(6);
+    do {
+        changed = 0;
+        for (block = first->previous; block; block = block->previous) {
+            clear_register_set(temporary);
+            for (edge = block->incoming; edge; edge = edge->next_incoming)
+                merge_optimizer_symbol_sets(temporary, edge->source->alias_out);
+            if (constrained)
+                intersect_optimizer_symbol_sets(temporary, block->alias_constraints);
+            if (!optimizer_symbol_sets_equal(temporary, block->alias_in)) {
+                copy_optimizer_symbol_set_into(block->alias_in, temporary);
+                update_optimizer_alias_set(block->alias_out, temporary,
+                                            block->alias_kills, block->alias_uses);
+                changed = 1;
+            }
+        }
+    } while (changed);
+    release_optimizer_symbol_set(temporary);
 }
