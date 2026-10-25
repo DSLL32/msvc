@@ -1,4 +1,5 @@
 #include "mangling.h"
+#include "asm.h"
 #include "browser.h"
 #include "member-pointers.h"
 #include "builtin-operators.h"
@@ -133,7 +134,6 @@ void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 }
 
 int __stdcall emit_qc_loop_control(IrToken *condition, IrToken *increment, WorkList *analysis) { __asm { int 3 } return 0; }
 IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
-void emit_inline_assembly(void) { __asm { int 3 } }
 void __stdcall emit_seh_filter(IrToken *expression) { __asm { int 3 } }
 void emit_seh_leave(void) { __asm { int 3 } }
 
@@ -478,7 +478,6 @@ void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __a
 
 
 void __stdcall emit_runtime_bit_field_initializer(IrToken *value) { __asm { int 3 } }
-IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
@@ -556,3 +555,5 @@ IrToken *__stdcall make_copy_constructor_call(CppSymbol *constructor, CType *typ
 
 void __stdcall emit_runtime_initializer_call(unsigned operation, IrToken *destination, IrToken *source, IrToken *bytes) { __asm { int 3 } }
 void __stdcall emit_runtime_initializer_list(unsigned operation, IrToken *arguments) { __asm { int 3 } }
+
+int parse_inline_assembler(void) { __asm { int 3 } return 0; }

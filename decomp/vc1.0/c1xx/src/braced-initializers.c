@@ -649,3 +649,16 @@ unsigned inferred_initializer_count(void)
     while (!braced_initializers[index].offset) ++index;
     return braced_initializers[index].offset;
 }
+
+/* Original 0x45a90..0x45ad6, stdcall4. Scalar initialization
+   names the object directly; aggregate elements retain their byte displacement
+   and selected element type in a distinct address expression. */
+IrToken *__stdcall initializer_object_expression(CType *type)
+{
+    IrToken *offset, *object;
+    if (is_scalar_initializer_symbol(initializer_storage_symbol))
+        return symbol_reference(initializer_storage_symbol);
+    offset = make_integer_constant(initializer_offset);
+    object = symbol_reference(initializer_storage_symbol);
+    return new_ir_expression(0x59, object, offset, type);
+}

@@ -2819,6 +2819,78 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_skip_initial_newlines",
+      "original": 573764,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand",
+      "original": 573440,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_brackets_used",
+      "original": 573444,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operation",
+      "original": 573464,
+      "bytes": 2
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_opcode",
+      "original": 573528,
+      "bytes": 2
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_member_mode",
+      "original": 573468,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand_count",
+      "original": 573476,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_instruction_flags",
+      "original": 573736,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operand_mode",
+      "original": 573740,
+      "bytes": 4
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_operands",
+      "original": 573480,
+      "bytes": 48
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_addresses",
+      "original": 573556,
+      "bytes": 36
+    },
+    {
+      "kind": "bytes",
+      "name": "_asm_member_context",
+      "original": 573744,
+      "bytes": 4
     }
   ],
   "buffered_streams": [

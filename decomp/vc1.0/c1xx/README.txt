@@ -1,16 +1,16 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
-PARTIAL reconstruction; packet_engine is active at initializer_object_expression
-(RVA0x35a90). There are 1299 application source functions plus seven unchanged
-historical CRT source functions. Its first fifteen accepted bodies add 2,623 code
+PARTIAL reconstruction; packet_engine is active at parse_inline_assembler
+(RVA0x6c4a7). There are 1303 application source functions plus seven unchanged
+historical CRT source functions. Its first nineteen accepted bodies add 2,941 code
 bytes: packing and anonymous aggregates, static alias lookup, the empty lookahead
 error callback, copy-constructor selection/materialization, deferred defaults, else regions and
-runtime initializer emission.
-Fresh original/native comparisons, original compilation, the 1307-function
+runtime initializer emission, initializer object references and assembler state/operands.
+Fresh original/native comparisons, original compilation, the 1311-function
 inherited graph/ABI audit, nine cached cases and 15 unit groups pass. Last native
-frontier run: 24.813ms; audit/setup: 1.903s; cached cases plus units: 0.199s.
-Last incremental native/original build: 3.101s; fresh original capture: 1.900s.
+frontier run: 28.262ms; audit/setup: 1.887s; cached cases plus units: 0.201s.
+Last incremental native/original build: 3.260s; fresh original capture: 1.877s.
 The one-time ABI2/shared-header rebuild took 50.602s. No old oracle was
 recaptured for shared changes. The untouched
 /O2 /G5 /Ob1 /Z7 /FR pipeline and generated executable both exit 0. All six frozen
@@ -20,7 +20,7 @@ member_registry_browser is COMPLETE. Its completion
 accepted 88 whole application bodies (19,276 code bytes and 560 owned text-data
 bytes) after the five-function trial. The newly identified 215-byte filbuf library
 boundary has zero application/source credit. Historical frontier bookkeeping is
-1406: the 1302 trial baseline plus 88 browser and fifteen packet application steps,
+1410: the 1302 trial baseline plus 88 browser and nineteen packet application steps,
 and the one additional CRT boundary.
 
 The case exits 0 with 132 first encounters beyond its explicit seed. Fresh masked
@@ -28,7 +28,7 @@ original/native order, status, streams and all six complete artifacts match the
 unchanged trial oracle: five IR files and registry.sbr; registry.sbt is absent.
 No byte normalization was added. Original compilation, inherited graph/ABI audits
 (1292 mapped functions), all eight cached cases and 15 unit groups pass.
-Application function extents cover 317,165/476,418 .text bytes (66.57%); this is
+Application function extents cover 317,483/476,418 .text bytes (66.64%); this is
 extent coverage over all .text, not a non-CRT-only denominator or branch coverage.
 
 Final measured wall times: combined native/original build 2.764s, original capture

@@ -92,6 +92,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/expression-copy.c \
     src/unary-expressions.c \
     src/inline-analysis.c \
+    src/asm.c \
     src/control-ir.c \
     src/control-formats.c \
     src/ir-encoding.c \
