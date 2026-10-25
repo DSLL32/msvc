@@ -415,3 +415,9 @@ For a pipe that must stay open while the target waits for a signal, set
 `hold_stdin_open:true`. It is valid only with `stdin_kind:"pipe"`; explicit
 `close_stdin` still closes after queued bytes drain. Otherwise the existing
 finite-input automatic EOF behavior is unchanged.
+
+An explicit second audit view can use `registry-export --accepted-scope NAME`.
+`policy.accepted_scopes[NAME]` must be a nonempty array of unique, currently
+accepted registry names. Missing, stale or unaccepted names fail; the selected
+view changes only `accepted`, retaining the complete driver/identity indexes.
+The normal export and full graph audit remain unrestricted.

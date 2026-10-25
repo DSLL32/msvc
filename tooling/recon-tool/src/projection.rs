@@ -9,6 +9,9 @@ pub struct Options {
     pub case: PathBuf,
     #[arg(long)]
     pub image_base: u32,
+    /// Select a finite policy.accepted_scopes view; never adds accepted functions.
+    #[arg(long)]
+    pub accepted_scope: Option<String>,
     #[arg(long)]
     pub policy: Option<PathBuf>,
     #[arg(long)]
@@ -317,6 +320,33 @@ fn runtime_records(info: &Info, image_base: u32, policy: &Value) -> Result<Value
     Ok(json!(records))
 }
 
+fn accepted_view(config: &mut Value, info: &Info, policy: &Value, scope: &str) -> Result<()> {
+    let names = policy["accepted_scopes"]
+        .get(scope)
+        .with_context(|| format!("unknown accepted scope {scope}"))?
+        .as_array()
+        .context("accepted scope must be an array")?;
+    ensure!(!names.is_empty(), "accepted scope must not be empty");
+    let accepted = config["accepted"].as_array().unwrap();
+    let mut selected = std::collections::HashSet::new();
+    for name in names {
+        let name = name
+            .as_str()
+            .context("accepted scope name must be string")?;
+        ensure!(
+            selected.insert(name)
+                && info.functions.iter().any(|f| f.name == name)
+                && accepted.iter().any(|v| v.as_str() == Some(name)),
+            "unaccepted/unknown/duplicate accepted scope function {name}"
+        );
+    }
+    config["accepted"]
+        .as_array_mut()
+        .unwrap()
+        .retain(|name| name.as_str().is_some_and(|name| selected.contains(name)));
+    Ok(())
+}
+
 pub fn export(options: Options) -> Result<()> {
     let path = if options.case.is_dir() {
         options.case.join(".build/case.so")
@@ -328,7 +358,10 @@ pub fn export(options: Options) -> Result<()> {
         Some(path) => serde_json::from_slice(&fs::read(path)?)?,
         None => json!({}),
     };
-    let config = registry(&info, options.image_base, policy.clone())?;
+    let mut config = registry(&info, options.image_base, policy.clone())?;
+    if let Some(scope) = options.accepted_scope {
+        accepted_view(&mut config, &info, &policy, &scope)?;
+    }
     if let Some(path) = options.metadata_output {
         let mut metadata = metadata(&policy, &info)?;
         let publics = match (options.rebuilt_image, options.rebuilt_map) {
@@ -387,6 +420,36 @@ mod tests {
     use super::*;
     fn info() -> Info {
         serde_json::from_value(json!({"binary":"test","original_path":"tool.exe","original_sha256":"","original_entry_rva":16,"case":"case","description":"","execution":0,"terminal":0,"frontier_rva":0,"first_entry_order":[],"first_entry_seen":[],"functions":[{"name":"method","rva":16,"native_symbol":"_ZNmethod","original_symbol":"?method@@","definition":4,"implementation":1,"code":[[16,20]],"text_data":[]},{"name":"pending","rva":32,"native_symbol":"pending","original_symbol":null,"definition":4,"implementation":0,"code":[],"text_data":[]}],"tests":[],"module":"libbinary.so"})).unwrap()
+    }
+    #[test]
+    fn accepted_views_intersect_verified_scope_without_changing_identity() {
+        let i = info();
+        let p = json!({"accepted_scopes":{"imports":["method"]}});
+        let mut v = registry(&i, 0, p.clone()).unwrap();
+        let driver = v["driver"].clone();
+        accepted_view(&mut v, &i, &p, "imports").unwrap();
+        assert_eq!(v["accepted"], json!(["method"]));
+        assert_eq!(v["driver"], driver);
+        assert!(
+            accepted_view(
+                &mut v,
+                &i,
+                &json!({"accepted_scopes":{"bad":["unknown"]}}),
+                "bad"
+            )
+            .is_err()
+        );
+        assert!(accepted_view(&mut v, &i, &p, "missing").is_err());
+        assert!(
+            accepted_view(
+                &mut v,
+                &i,
+                &json!({"accepted_scopes":{"bad":["pending"]}}),
+                "bad"
+            )
+            .is_err()
+        );
+        assert!(accepted_view(&mut v, &i, &json!({"accepted_scopes":{"bad":[]}}), "bad").is_err());
     }
     #[test]
     fn original_runtime_projection_is_classified_and_has_no_app_credit() {
