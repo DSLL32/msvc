@@ -1175,8 +1175,8 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_allocate_symbol_record", .entry_rva = 0x150e5,
-.code = (const ReconExtent[]){{0x150e5, 0x150e6}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x150e5, 0x1511f}, {0x3144e, 0x31458}},
+.code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
 .native_symbol = "allocate_symbol_record",
     },
     {

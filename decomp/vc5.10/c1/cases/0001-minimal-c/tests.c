@@ -439,7 +439,29 @@ static int shallow_type_shape_copy(void)
         c1_bss.arenas[3].cursor == (BYTE *)(storage + 4) &&
         storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5;
 }
-const ReconTest minimal_tests[32] = {
+extern void *__cdecl allocate_symbol_record(unsigned, unsigned, unsigned);
+static int symbol_size_indexing(void)
+{
+    BYTE owned[130];
+    unsigned i;
+    memset(owned, 0xa5, sizeof(owned));
+    c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
+    c1_data.record_sizes.known.global_symbol_bytes = 41;
+    c1_data.record_sizes.known.abstract_symbol_bytes = 43;
+    c1_bss.arenas[1].cursor = owned + 1;
+    c1_bss.arenas[1].committed_limit = owned + 129;
+    if (allocate_symbol_record(999, 0x106, 1) != owned + 1 ||
+        c1_bss.arenas[1].cursor != owned + 41 ||
+        allocate_symbol_record(1, 9, 1) != owned + 41 ||
+        c1_bss.arenas[1].cursor != owned + 85 ||
+        allocate_symbol_record(0, 13, 1) != owned + 85 ||
+        c1_bss.arenas[1].cursor != owned + 129) return 0;
+    for (i = 0; i < sizeof(owned); ++i)
+        if (owned[i] != 0xa5) return 0;
+    return 1;
+}
+const ReconTest minimal_tests[33] = {
+    { "symbol allocator uses only known indexed sizes, byte kind and aligned stride", 1, symbol_size_indexing },
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },

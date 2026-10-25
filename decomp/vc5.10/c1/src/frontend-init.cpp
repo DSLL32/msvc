@@ -534,7 +534,25 @@ extern "C" void __cdecl initialize_translation_state(void)
     symbol->flags |= 1;
 }
 extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigned kind, unsigned arena)
-{ __asm { int 3 } return NULL; }
+{
+    unsigned bytes;
+    kind &= 0xff;
+#ifdef RECON_NATIVE_TEST
+    if (kind != 6 && kind != 9 && kind != 13)
+        recon_unsupported("symbol allocation: unmodeled record-size index");
+    if (arena >= 6)
+        recon_unsupported("symbol allocation: unmodeled arena index");
+#endif
+    /* The first formal is passed by the allocation expression but the
+     * original reads its contextual kind table instead. */
+    bytes = (c1_data.record_sizes.indexed[kind] + 3) & ~3U;
+    CompilerArena *storage = &c1_bss.arenas[arena];
+    BYTE *memory = storage->cursor;
+    storage->cursor += bytes;
+    if (storage->cursor > storage->committed_limit)
+        storage->CommitExtent();
+    return memory;
+}
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
