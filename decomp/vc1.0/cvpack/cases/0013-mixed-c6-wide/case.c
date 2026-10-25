@@ -79,11 +79,16 @@ static const uint32_t order[] = {
     0xcb40,
     0x12cd0,
     0x12510,
+    0xf170,
+    0x12d60,
+    0xf0a0,
+    0xf0d0,
+    0x122e0,
 
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase),
  "mixed-c6-wide", "Authored 16/32-bit C6 symbols, types and multifile line ranges.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x12510,
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x122e0,
  NULL, invoke, NULL, NULL, 0
 };

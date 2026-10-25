@@ -132,7 +132,7 @@ void convert_old_based_pointer(TypeRecord *entry) { __asm { int 3 } }
 
 
 
-void convert_old_leaf_8d(TypeRecord *entry) { __asm { int 3 } }
+
 
 void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
 void convert_old_modifier(TypeRecord *entry) { __asm { int 3 } }

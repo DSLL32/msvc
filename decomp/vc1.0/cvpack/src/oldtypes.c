@@ -499,3 +499,28 @@ void convert_old_leaf_5c(TypeRecord *entry)
     entry->flags |= 8;
     entry->data = record;
 }
+
+/* Scalar arrays use a fixed scalar element/index pair and a numeric size. */
+void convert_old_leaf_8d(TypeRecord *entry)
+{
+    unsigned char *cursor = entry->data, *record;
+    unsigned char numeric[8];
+    unsigned short consumed, size, i;
+    unsigned long value;
+    entry->flags |= 0x400;
+    if (cursor[4] == 0) {
+        cursor += 5;
+        value = read_old_numeric(&cursor, &consumed);
+        size = write_numeric_leaf(numeric, value);
+        record = resize_old_type(entry, (unsigned short)(size+9));
+        *(unsigned short *)record = size+7;
+        *(unsigned short *)(record+2) = 3;
+        *(unsigned short *)(record+4) = 0x10;
+        *(unsigned short *)(record+6) = 0x21;
+        for (i = 0; i < size; ++i) record[8+i] = numeric[i];
+        record[8+size] = 0;
+    } else if (cursor[4] == 1) {
+        *(unsigned short *)cursor = 2;
+        *(unsigned short *)(cursor+2) = 0x10;
+    }
+}
