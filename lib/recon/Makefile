@@ -686,6 +686,12 @@ build/imagehlp-surface-probe: tests/imagehlp-surface-probe.c $(SOURCES) $(HEADER
 imagehlp-surface-check: build/imagehlp-surface-probe
 	$(PYTHON) tests/check-imagehlp-surface.py $<
 
+.PHONY: heap-realloc-surface-check
+build/heap-realloc-surface-probe: tests/heap-realloc-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+heap-realloc-surface-check: build/heap-realloc-surface-probe
+	$(PYTHON) tests/check-heap-realloc-surface.py $<
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

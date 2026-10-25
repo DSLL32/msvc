@@ -1250,6 +1250,11 @@ LPVOID WINAPI recon_HeapAlloc(HANDLE handle,DWORD flags,DWORD size)
     errno=saved_errno;
     return block->payload;
 }
+LPVOID WINAPI recon_HeapReAlloc(HANDLE handle,DWORD flags,LPVOID payload,DWORD size)
+{
+    (void)handle;(void)flags;(void)payload;(void)size;
+    recon_unsupported("unreviewed HeapReAlloc");return NULL;
+}
 BOOL WINAPI recon_HeapFree(HANDLE handle,DWORD flags,LPVOID payload)
 {
     NativeHeap *heap; NativeHeapBlock **slot,*block; size_t length;

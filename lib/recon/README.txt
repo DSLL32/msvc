@@ -583,6 +583,14 @@ The actual CVPACK main branch now reaches its genuine App file-size/mapping
 frontiers instead of silently skipping checksum work. `make
 imagehlp-surface-check` verifies routing, signature, state preservation and denial.
 
+HeapReAlloc has only the shipped WINBASE.H1382..1389 WINAPI4 declaration/remap
+LPVOID(HANDLE,DWORD,LPVOID,DWORD). RCDLL's unvisited growth edge supplies flags9
+and its allocation base through actual IAT100c/callc9a0; the live reserve request
+fits existing capacity. Every invocation denies125 without inspecting an owner,
+moving/freeing storage or publishing a result. No reallocation/error/zero-fill
+semantics or original API execution is claimed. `make heap-realloc-surface-check`
+checks signature/denial/no plain host import.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at

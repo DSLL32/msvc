@@ -420,6 +420,7 @@ void recon_load_system_info_profile(const char *,const char *);
  X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
  X(int,LCMapStringW,(DWORD,DWORD,LPCWSTR,int,LPWSTR,int)) \
  X(HANDLE,HeapCreate,(DWORD,DWORD,DWORD)) X(LPVOID,HeapAlloc,(HANDLE,DWORD,DWORD)) \
+ X(LPVOID,HeapReAlloc,(HANDLE,DWORD,LPVOID,DWORD)) \
  X(BOOL,HeapFree,(HANDLE,DWORD,LPVOID)) X(LRESULT,SendMessageA,(HWND,UINT,WPARAM,LPARAM)) \
  X(BOOL,HeapDestroy,(HANDLE)) \
  X(BOOL,IsDBCSLeadByteEx,(UINT,BYTE)) X(BOOL,IsValidCodePage,(UINT)) X(UINT,GetACP,(void)) X(LPSTR,CharNextA,(LPCSTR)) \
@@ -725,6 +726,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define wsprintfA recon_wsprintfA
 #define HeapCreate recon_HeapCreate
 #define HeapAlloc recon_HeapAlloc
+#define HeapReAlloc recon_HeapReAlloc
 #define HeapFree recon_HeapFree
 #define SendMessageA recon_SendMessageA
 #define HeapDestroy recon_HeapDestroy
