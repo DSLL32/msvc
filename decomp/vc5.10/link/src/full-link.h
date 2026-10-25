@@ -55,6 +55,7 @@ struct OutputLibrary {
 #ifdef __cplusplus
     OutputModule *RECON_THISCALL FindModule(const char *,const void *);
     void RECON_THISCALL SearchSymbols(struct LinkContext *,BYTE *,BYTE *);
+    void RECON_THISCALL ReadIndex(struct LinkContext *);
 #endif
 };
 struct OutputModule {

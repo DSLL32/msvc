@@ -61,7 +61,6 @@ OutputModule *__stdcall read_input_argument(InputArgument *argument,OutputLibrar
     }
     return read_object_file(argument,context,library);
 }
-void __stdcall read_library_index(OutputLibrary *library,LinkContext *context) { __asm { int 3 } }
 BYTE __stdcall is_mac_resource_file(int file)
 {
     LONG length=get_file_length(file);

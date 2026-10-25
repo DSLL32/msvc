@@ -1310,7 +1310,23 @@ static int library_reader_input(void)
     return recon_native_at_entry(read_library_index,check_library_reader_input,
         invoke_hello,NULL)==1;
 }
+extern void RECON_THISCALL native_library_read_index(OutputLibrary *,LinkContext *)
+    __asm__("_ZN13OutputLibrary9ReadIndexEP11LinkContext");
+static void RECON_THISCALL check_library_index_position(OutputLibrary *library,LinkContext *context)
+{
+    FileRecord *record=file_slots[current_input_file];
+    recon_native_entry_finish(context && library==context->command_line_library->next &&
+        library->name && !library->index_data[3] && record && record->view &&
+        (record->flags & 8) && record->file_size==8 && record->size>=68 &&
+        !memcmp(record->view,"!<arch>\n",8));
+}
+static int library_index_position(void)
+{
+    return recon_native_at_entry(native_library_read_index,check_library_index_position,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"library-index-position",1,library_index_position},
     {"library-reader-input",1,library_reader_input},
     {"library-search-input",1,library_search_input},
     {"startup-undefined",1,startup_undefined},

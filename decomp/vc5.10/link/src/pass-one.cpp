@@ -389,3 +389,12 @@ extern "C" void __stdcall set_subsystem_version(LinkContext *context) { __asm { 
 extern "C" void __stdcall warn_unused_libraries(OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall warn_missing_default_libraries(LinkPointerList *libraries) { __asm { int 3 } }
 extern "C" void __stdcall warn_unused_delay_libraries(void) { __asm { int 3 } }
+
+void RECON_THISCALL OutputLibrary::ReadIndex(LinkContext *context)
+{ __asm { int 3 } }
+extern "C" void __stdcall read_library_index(OutputLibrary *library,LinkContext *context)
+{
+    DWORD error=0;
+    seek_file(current_input_file,8,0,&error);
+    library->ReadIndex(context);
+}

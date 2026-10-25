@@ -6480,6 +6480,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_read_library_index@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },
