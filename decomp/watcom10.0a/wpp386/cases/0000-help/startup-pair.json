@@ -1,0 +1,41 @@
+{
+  "scope": "genuine initial original/native first-frontier pair; no App body accepted",
+  "accepted_app_functions": 0,
+  "accepted_app_bytes": 0,
+  "terminal": "frontier:81ba3",
+  "first_entry_order": [
+    531363
+  ],
+  "original_report_sha256": "a5e2a284e1f41d17d54253deb427348b7e7de7d80de8f4fbed41be43a6aae04e",
+  "original_report_gzip_sha256": "fe3e559a6b57eb37181c654da877a2ed5f3d4c1e04b16f1004ab4212f8282b23",
+  "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+  "native_report_sha256": "0c459b27c56cac21bb1ae41aab7e9ca499d65fc79e92916ac071d9a39d6a30ff",
+  "original": {
+    "wall_seconds": 8.988079553470016,
+    "tool_elapsed_ms": 8950.9217,
+    "phases_ms": {
+      "catalog_ms": 90.46130441129208,
+      "cpu_scope": "frontend and children waited by it; shared wineserver excluded",
+      "entry_setup_ms": 1225.7030010223389,
+      "frontend_cpu_ms": 7769.168848,
+      "guarded_runtime_ms": 7003.988106735051,
+      "waited_child_cpu_ms": 4962.27
+    },
+    "cf_instruction_count": 9799,
+    "pending_entry": 531363,
+    "argument_size": 8,
+    "FILE_pointer_offset": 757120,
+    "FILE_flag": 1,
+    "ownership": "stop before MemAlloc original byte0; no allocator body or service gateway ran"
+  },
+  "native": {
+    "wall_seconds": 0.16725472547113895,
+    "tool_elapsed_ms": 150.259363,
+    "setup_ms": 2.907915,
+    "execution_ms": 146.941265,
+    "checks_ms": 0.409923,
+    "typed_state": "GDB amount8, one real call; XI kinds0/0/2, stderr0x402, stdinflag1, NULL open/closed lists",
+    "state_log_sha256": "f4e5c990de38982ea65e6f86bba1bc0c23d19df78c2e082fd7d49c2e1831d98c"
+  },
+  "runtime_claim": "Recorded initializer order now has actual guarded original evidence; prior static packet remains labelled static."
+}

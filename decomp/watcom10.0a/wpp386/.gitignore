@@ -1,5 +1,6 @@
 /.build/
 /build/
+/cases/*/initial-original-report.json
 cases/*/.build/
 __pycache__/
 *.pyc

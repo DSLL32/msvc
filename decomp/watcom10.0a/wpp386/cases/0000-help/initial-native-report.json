@@ -1,0 +1,27 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-qngunY",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      531363
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 531363,
+    "trap_site": 4153763907,
+    "elapsed_ms": 150.259363,
+    "setup_ms": 2.907915,
+    "execution_ms": 146.941265,
+    "checks_ms": 0.409923,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/initial-original-report.json",
+      "report_sha256": "a5e2a284e1f41d17d54253deb427348b7e7de7d80de8f4fbed41be43a6aae04e",
+      "capture_sha256": "29f6ad364a40722093e2c324d6b4cadeb42d67ada63f400b81c384149eeb0348",
+      "source_binding_available": true
+    }
+  }
+]

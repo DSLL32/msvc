@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+0xf7f2a579 in __kernel_vsyscall ()
+Breakpoint 1 at 0xf7956a09: file harness/startup.c, line 38.
+WPP first App size=8
+startup_checked=1 allocation_calls=1 SS=43 DS=43
+XI kinds=0,0,2 stderr=402 firstFILE=1
+
+Program terminated with signal SIGTRAP, Trace/breakpoint trap.
+The program no longer exists.
+PASS help signal:5 (150.259 ms; setup 2.908 ms, execution 146.941 ms, checks 0.410 ms)
+recon-tool: GDB attached to invocation PID 3160567; quitting terminates any remaining invocation
