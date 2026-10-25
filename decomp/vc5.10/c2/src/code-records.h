@@ -53,8 +53,9 @@ struct C2Expression {
         };
         C2IntegerWords integer;
     };
-    union { void *data; C2Expression *assembly; C2InputUse *use; struct C2InputClause *clauses; unsigned short intrinsic; } detail;
-    C2Expression *aggregate_value, *aggregate_second;
+    union { void *data; C2Expression *assembly; C2InputUse *use; struct C2InputClause *clauses; C2BranchTarget *branch; unsigned short intrinsic; } detail;
+    C2Expression *aggregate_value;
+    union { C2Expression *aggregate_second; unsigned branch_flags; };
 };
 struct C2Record {
     C2Record *next;

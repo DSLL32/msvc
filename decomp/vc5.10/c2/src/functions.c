@@ -319,5 +319,5 @@ void __fastcall function_pass_4088c7(C2Function *function)
     simplify_symbol_records(function);
     partition_function_blocks(function);
     build_function_edges(function);
-    function_pass_408b54(function);
+    expand_branch_edges(function);
 }

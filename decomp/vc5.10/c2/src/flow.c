@@ -198,3 +198,17 @@ C2FlowEdge *__fastcall new_flow_edge(C2FlowGraph *flow,
     destination->incoming = edge;
     return edge;
 }
+
+void __fastcall expand_branch_edges(C2Function *function)
+{
+    C2BasicBlock *block;
+    C2Expression *last;
+    for (block = function->flow->last; block; block = block->previous) {
+        last = (C2Expression *)block->last_record->previous;
+        if (last->kind == 18 && (last->branch_flags & 1)) {
+            remove_function_edge(block, last->detail.branch->block, function);
+            new_function_edge(function, block, last->detail.branch->block);
+            rebuild_branch_target_edges(function, block, last->aggregate_value);
+        }
+    }
+}

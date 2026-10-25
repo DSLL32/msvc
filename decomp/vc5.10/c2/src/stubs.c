@@ -674,7 +674,14 @@ int __fastcall record_closes_scope(C2Record *record)
 }
 
 
-void __fastcall function_pass_408b54(C2Function *function)
+void __fastcall remove_function_edge(C2BasicBlock *source,
+    C2BasicBlock *destination, C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void __fastcall rebuild_branch_target_edges(C2Function *function,
+    C2BasicBlock *source, C2Expression *targets)
 {
     __asm { int 3 }
 }

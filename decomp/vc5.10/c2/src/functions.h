@@ -93,5 +93,5 @@ void __fastcall function_pass_47d1d3(C2Function *function);
 void __fastcall function_pass_433906(C2Function *function);
 void __fastcall partition_function_blocks(C2Function *function);
 void __fastcall build_function_edges(C2Function *function);
-void __fastcall function_pass_408b54(C2Function *function);
+void __fastcall expand_branch_edges(C2Function *function);
 #endif

@@ -131,6 +131,7 @@ typedef struct C2BasicBlock C2BasicBlock;
 typedef struct C2FunctionRegister C2FunctionRegister;
 typedef struct C2InputUse C2InputUse;
 typedef struct C2Expression C2Expression;
+typedef struct C2BranchTarget C2BranchTarget;
 typedef struct C2FlowGraph C2FlowGraph;
 
 #pragma pack(2)

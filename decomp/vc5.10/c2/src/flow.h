@@ -3,6 +3,12 @@
 #include "function-reader.h"
 #include <recon.h>
 
+/* Only the encountered target pointer is modeled here; preceding fields remain
+ * unnamed until their actual producer or consumer is reconstructed. */
+struct C2BranchTarget {
+    unsigned char pending00[20];
+    C2BasicBlock *block;
+};
 struct C2FlowEdge {
     C2FlowEdge *next_outgoing, *next_incoming;
     C2BasicBlock *source, *destination;
@@ -29,4 +35,8 @@ C2FlowEdge *__fastcall new_function_edge(C2Function *function,
     C2BasicBlock *source, C2BasicBlock *destination);
 C2FlowEdge *__fastcall new_flow_edge(C2FlowGraph *flow,
     C2BasicBlock *source, C2BasicBlock *destination);
+void __fastcall remove_function_edge(C2BasicBlock *source,
+    C2BasicBlock *destination, C2Function *function);
+void __fastcall rebuild_branch_target_edges(C2Function *function,
+    C2BasicBlock *source, C2Expression *targets);
 #endif
