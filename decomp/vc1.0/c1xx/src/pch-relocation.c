@@ -311,3 +311,23 @@ void mark_pch_relocations(void)
     for (mark = pch_mark_callbacks; mark < pch_mark_callbacks + 28; ++mark)
         (*mark)();
 }
+
+int __stdcall mark_pch_pointer(void **slot);
+void __stdcall mark_pch_symbol_chain(CppSymbol *symbol);
+
+/* Original0x69d70..0x69dcc. Mark the scope record's links and every bucket
+   head before visiting each declaration chain and the segment declarations. */
+void mark_pch_scopes(void)
+{
+    SymbolScope *scope = global_scope;
+    unsigned count, i;
+    mark_pch_pointer((void **)&scope->next);
+    mark_pch_pointer((void **)&scope->parent);
+    mark_pch_pointer((void **)&scope->buckets);
+    count = (unsigned)scope->bucket_mask + 1;
+    for (i = 0; i < count; ++i) {
+        mark_pch_pointer((void **)&scope->buckets[i]);
+        mark_pch_symbol_chain(scope->buckets[i]);
+    }
+    mark_pch_symbol_chain(segment_symbols);
+}
