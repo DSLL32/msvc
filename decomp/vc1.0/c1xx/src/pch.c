@@ -6,6 +6,7 @@
 #include "global-ir.h"
 #include "pragma.h"
 #include "browser.h"
+#include "function-finalization.h"
 #include <recon.h>
 
 /* Original 0x23310..0x233dd. The default name retains the source drive and
@@ -265,5 +266,17 @@ void finish_pch_output(void)
         pending_pragma_kind = 7;
         pending_pragma_text = (unsigned char *)"\003\000\240\007";
         record_line_information(11);
+    }
+}
+
+void finish_pch_debug_types(void);
+
+/* Original0x55be0..0x55bfa. Finalize the current global scope before the
+   PCH-specific type terminator; diagnostics suppress both operations. */
+void finish_pch_debug_symbols(void)
+{
+    if (!error_count) {
+        serialize_scope(global_scope);
+        finish_pch_debug_types();
     }
 }
