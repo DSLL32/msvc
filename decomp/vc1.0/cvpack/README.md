@@ -1,16 +1,16 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **256 accepted application
-functions, 74,132 original code bytes, and 14 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **257 accepted application
+functions, 74,305 original code bytes, and 13 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`convert_old_symbol_data32` (sequence 256, 187 original code bytes, `src/oldsymbols.c`).
+`convert_old_symbol_label32` (sequence 257, 173 original code bytes, `src/oldsymbols.c`).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 69 application functions.
+The resumed workload has accepted 70 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 230-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
@@ -40,8 +40,8 @@ Its 1,079-byte input SHA256 is
 the original accepted it without warnings (exit 0, 141 first entries), producing
 1,744 bytes with raw SHA256
 `4693013813fc9f19c1bb7fd8f07eb3672a01aeccc59d17827f0d1746837fde57`.
-The current qualified frontier is `141a0` (RVA `0x141a0`),
-with 110 matching unseeded first entries. The superseded malformed constant
+The current qualified frontier is `14000` (RVA `0x14000`),
+with 111 matching unseeded first entries. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
 conversion no-op does not advance the CLI dispatcher, so it needs a bounded
