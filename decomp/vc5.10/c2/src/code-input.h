@@ -70,12 +70,15 @@ unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigne
 C2Expression * __fastcall new_integer_expression(unsigned short type, unsigned __int64 value);
 C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall copy_input_expression(C2Expression *expression);
-C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression **slot, C2Expression *expression);
+C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression);
 void __fastcall unlink_input_record(C2Record *record);
 C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *value);
 C2Expression * __fastcall new_temporary_operand(unsigned short type);
 C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall new_control_expression(unsigned opcode);
+C2Expression *__fastcall fold_input_constant(C2Expression *expression, unsigned short type, C2Expression *owner);
+C2FunctionRegister *__fastcall new_temporary_register(unsigned short type);
+void __fastcall release_function_register(C2FunctionRegister *reg);
 C2Expression * __fastcall convert_input_expression(C2Expression **expression, unsigned short type, C2Expression **prior);
 C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char convention, C2Expression *target, C2Expression *arguments, C2Expression *result, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);

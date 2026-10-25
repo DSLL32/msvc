@@ -749,7 +749,7 @@ C2Record *__fastcall read_function_code(C2Function *function, C2InputStack **pen
             left = stack->last;
             if (left->opcode == 0x142 && left->left->kind == 7) {
                 value = new_integer_expression(0x1004, 0);
-                attach_input_expression(left, &left->left->next, value);
+                attach_input_expression(left, left->left, value);
             }
             break;
         case 141:
@@ -1750,4 +1750,116 @@ unsigned short __fastcall common_input_value_type(unsigned short first, unsigned
     if ((first & 0xfff) > (second & 0xfff)) return first;
     if ((first & 0xfff) < (second & 0xfff)) return second;
     return first_class == 0x2000 ? first : second;
+}
+
+/* Convert an operand, retaining the first emitted conversion as the result. */
+C2Expression *__fastcall convert_input_expression(C2Expression **expression,
+    unsigned short type, C2Expression **prior)
+{
+    C2Expression *tree = *expression, *first = NULL, *record, *emitted;
+    C2Expression *old_prior, *previous, *copy;
+    C2FunctionRegister *reg;
+    unsigned source_bytes, bytes;
+    unsigned short source_type;
+
+    if (((1U << (tree->kind & 31)) & 0x180) &&
+        (first = fold_input_constant(tree, type, NULL))) {
+        *expression = first;
+        return NULL;
+    }
+    source_type = tree->type;
+    if (type == source_type) return NULL;
+    if ((type & 0xf000) == 0x4000) {
+        if ((source_type & 0xf000) == 0x4000) {
+            if (!((type ^ source_type) & 0xfff)) return first;
+            record = new_assignment_expression(0x135, type, tree, link_code_nodes,
+                                               (C2Record *)*prior);
+            *prior = record;
+            *expression = record->tail.right;
+            return record;
+        }
+        if ((source_type & 0xfff) < 4) {
+            first = new_assignment_expression(0x135, 0x1004, tree, link_code_nodes,
+                                              (C2Record *)*prior);
+            *prior = first;
+            *expression = first->tail.right;
+        }
+        record = new_assignment_expression(0x135, type, *expression, link_code_nodes,
+                                           (C2Record *)*prior);
+        *prior = record;
+        *expression = record->tail.right;
+        return first ? first : record;
+    }
+    if ((source_type & 0xf000) == 0x4000) {
+        first = new_assignment_expression(0x135, type, tree, link_code_nodes,
+                                          (C2Record *)*prior);
+        *prior = first;
+        if (tree->kind == 1 && tree->value.reg->kind == 3 &&
+            (record = tree->value.reg->value) && record->opcode == 0x138) {
+            attach_input_expression(first, first->left, record->left);
+            unlink_input_record((C2Record *)record);
+            release_small_node(record);
+        }
+        *expression = first->tail.right;
+        return first;
+    }
+    if (tree->kind == 1 && tree->value.reg->kind == 3 &&
+        (record = tree->value.reg->value) && record->opcode == 0x135) {
+        bytes = type & 0xfff;
+        source_bytes = source_type & 0xfff;
+        if (bytes <= source_bytes && bytes <= (record->left->type & 0xfff) &&
+            ((1U << (record->left->type >> 12)) & 0xe) &&
+            (record->left->type & 0xfff) <= 4) {
+            old_prior = *prior;
+            previous = old_prior->previous;
+            if (!(tree->location.expression.properties & 0x10))
+                release_small_node(tree);
+            copy = copy_input_expression(record->left);
+            *expression = copy;
+            copy->location.expression.properties &= ~0x10;
+            unlink_input_record((C2Record *)record);
+            if (old_prior == record) *prior = previous;
+            release_function_register(record->tail.right->value.reg->canonical);
+            release_small_node(record);
+            goto convert_width;
+        }
+        if ((record->left->type & 0xfff) <= source_bytes &&
+            ((source_type & 0xf000) != 0x2000 ||
+             (record->left->type & 0xf000) != 0x1000)) {
+            if (!(tree->location.expression.properties & 0x10)) {
+                release_small_node(tree);
+                *expression = record->tail.right;
+            }
+            tree = *expression;
+            release_function_register(tree->value.reg);
+            reg = new_temporary_register(type);
+            tree->value.reg = reg;
+            bind_input_temporary(reg, record);
+            tree->type = type;
+            record->type = type;
+            record->tail.right->type = type;
+            return first;
+        }
+    }
+convert_width:
+    tree = *expression;
+    bytes = type & 0xfff;
+    source_bytes = tree->type & 0xfff;
+    if (source_bytes < bytes || (bytes < source_bytes && source_bytes > 4)) {
+        if (bytes > 4 && source_bytes < 4)
+            first = convert_input_expression(expression, 0x1004, prior);
+        emitted = new_assignment_expression(0x135, type, *expression, link_code_nodes,
+                                            (C2Record *)*prior);
+        *prior = emitted;
+        *expression = emitted->tail.right;
+        if (!first) first = emitted;
+    } else {
+        if (tree->location.expression.properties & 0x10)
+            *expression = copy_input_expression(tree);
+        tree = *expression;
+        tree->type = type;
+        if ((1U << (tree->kind & 31)) & 6)
+            tree->value.reg = new_address_register(tree->value.reg, type, bytes, 0);
+    }
+    return first;
 }
