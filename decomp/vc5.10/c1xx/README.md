@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 131 accepted application functions / 18745
+The single registry is binary.c: 132 accepted application functions / 19125
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 133
+as are four six-byte import endpoints (24 bytes, zero App credit). The 134
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine find_or_create_identifier INT3 at RVA6608;
+and currently reaches the genuine CompilerTranslationUnit::Initialize INT3 at RVA3aee6;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -95,10 +95,17 @@ observations retain their narrower meaning. All slots join the reset unit.
 A common next/name/flags header now describes both generic 16-byte and keyword
 20-byte allocations; only keyword records expose token/category fields.
 
-Original/native took 0.950 s / 11.658 ms (native setup 6.851, execution 3.004,
-checks 1.803); build/audit/unit took 9.114 s. Actual selected-report order,
-partial files and genuine returning-interner frontier match. The exact consumed
-typed-only _wcsupr C/H bytes are published ca070c16a; no publication-only replay.
+The 380-byte returning interner shares only the common header, buckets and
+current-name pointer with keyword interning. It preserves the hash, content
+check, move-to-front identity, actual 16-byte records from own pool six, aligned
+arena strings and folded low-WORD flag update. No token/category field or
+unmodeled generic tail is accessed. All 62 builtin names now execute before
+the genuine translation-unit initializer trap.
+
+Original/native took 1.438 s / 11.420 ms (native setup 6.584, execution 3.009,
+checks 1.826); build/audit/unit took 2.485 s. Actual selected-report order,
+partial files and the genuine member frontier match. The typed-only _wcsupr
+bytes consumed by this build are published ca070c16a; no publication-only replay.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

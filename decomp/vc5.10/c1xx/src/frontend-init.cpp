@@ -453,8 +453,6 @@ extern "C" void __cdecl initialize_builtin_symbols(void)
     for (entry = builtin_names; entry->destination; ++entry)
         *entry->destination = find_or_create_identifier(entry->text);
 }
-extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name)
-{ __asm { int 3 } return NULL; }
 
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }

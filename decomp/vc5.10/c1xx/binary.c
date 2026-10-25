@@ -1161,9 +1161,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_find_or_create_identifier", .entry_rva = 0x6608,
-        .code = (const ReconExtent[]){{0x6608, 0x6609}},
+        .code = (const ReconExtent[]){{0x6608, 0x6784}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "find_or_create_identifier",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_function_type", .entry_rva = 0x3840e,

@@ -356,3 +356,46 @@ extern "C" void __cdecl set_keyword_category4(const char *name)
     }
 }
 extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned number, ...) { __asm { int 3 } }
+
+/* Returning lookup for generic 16-byte names. It shares only the common
+ * header with 20-byte keyword records and never reads their extension. */
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name)
+{
+    const unsigned char *text = (const unsigned char *)name;
+    unsigned hash = 0, length, folded;
+    CompilerNameEntry **bucket, **link, *entry;
+    CompilerPool *pool = &frontend_bss.pools[6]; /* own original c0560 */
+    CompilerArena *arena = &frontend_bss.arenas[0];
+    while (*text) {
+        hash = (hash >> 4) + hash * 4 + *text;
+        ++text;
+    }
+    length = (unsigned)(text - (const unsigned char *)name);
+    folded = ((hash >> 16) ^ hash) & 0xffff;
+    bucket = &frontend_data.keyword_table->buckets[hash & 0x7ff];
+    link = bucket;
+    for (entry = *link; entry; link = &entry->next, entry = *link) {
+        if ((entry->flags & 0xffff) == folded && entry->name[length] == 0 &&
+            memcmp(name, entry->name, length) == 0) {
+            *link = entry->next;
+            entry->next = *bucket;
+            *bucket = entry;
+            frontend_data.current_identifier = entry;
+            return entry;
+        }
+    }
+    if (pool->remaining < 16) pool->Refill(16);
+    entry = (CompilerNameEntry *)pool->cursor;
+    pool->cursor += 16;
+    pool->remaining -= 16;
+    entry->next = *bucket;
+    *bucket = entry;
+    entry->name = (char *)arena->cursor;
+    arena->cursor += (length + 4) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    memcpy(entry->name, name, length);
+    entry->name[length] = 0;
+    frontend_data.current_identifier = entry;
+    entry->flags = (entry->flags & 0xffff0000) | folded;
+    return entry;
+}
