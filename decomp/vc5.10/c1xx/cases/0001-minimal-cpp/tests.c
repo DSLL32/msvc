@@ -1,9 +1,11 @@
 /* Narrow projection regression for the newly encountered exception counters. */
+#include <string.h>
 #include "frontend.h"
 #include <recon.h>
 
 int c1xx_test_exception_counters(void)
 {
+    CompilerBuiltinNames empty_names = { NULL };
     if (frontend_data.recursion_depth || frontend_bss.error_count)
         return 0;
     if (initialize_compiler_pass())
@@ -36,7 +38,8 @@ int c1xx_test_exception_counters(void)
     frontend_data.browser_full = 101;
     frontend_data.pch_separate_debug = 103;
     frontend_data.current_vtordisp = 107;
-    frontend_data.current_scope = (struct CompilerScope *)&frontend_data;
+    frontend_data.bool_identifier = (CompilerNameEntry *)&frontend_data;
+    memset(&frontend_data.builtin_names, 0xa5, sizeof(frontend_data.builtin_names));
     frontend_data.builtin_types.type_0060 = (CompilerType *)&frontend_data;
     frontend_bss.text_input = (struct CompilerTextInput *)&frontend_data;
     frontend_bss.browser_filename = (char *)&frontend_data;
@@ -49,7 +52,7 @@ int c1xx_test_exception_counters(void)
     frontend_bss.processor_instruction_mask = 137;
     frontend_data.canonical_token_records[137] = (struct CompilerTokenRecord *)&frontend_data;
     frontend_data.keyword_table = (struct CompilerKeywordTable *)&frontend_data;
-    frontend_data.current_identifier = (struct CompilerIdentifier *)&frontend_data;
+    frontend_data.current_identifier = (CompilerNameEntry *)&frontend_data;
     frontend_data.frontend_pointer_table = (struct CompilerPointerArray *)&frontend_data;
     frontend_data.empty_pointer_array = (struct CompilerPointerArray *)&frontend_data;
     frontend_data.pch_expression_file = 149;
@@ -91,7 +94,8 @@ int c1xx_test_exception_counters(void)
         frontend_data.normalized_pool_strings == 0 && frontend_data.normalized_readonly_strings == 0 &&
         frontend_data.browser_enabled == 0 && frontend_data.browser_full == 0 &&
         frontend_data.pch_separate_debug == 0 && frontend_data.current_vtordisp == 0 &&
-        frontend_data.current_scope == NULL && frontend_data.builtin_types.type_0060 == NULL &&
+        frontend_data.bool_identifier == NULL &&
+        memcmp(&frontend_data.builtin_names, &empty_names, sizeof(empty_names)) == 0 && frontend_data.builtin_types.type_0060 == NULL &&
         frontend_bss.text_input == NULL && frontend_bss.browser_filename == NULL &&
         frontend_bss.pch_replayed == 0 && frontend_bss.pch_file_failed == 0 &&
         frontend_bss.output_kinds[3] == 0 && frontend_bss.preprocessor_output == NULL &&

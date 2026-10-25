@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 130 accepted application functions / 18703
+The single registry is binary.c: 131 accepted application functions / 18745
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 132
+as are four six-byte import endpoints (24 bytes, zero App credit). The 133
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine initialize_builtin_symbols INT3 at RVA3aebc;
+and currently reaches the genuine find_or_create_identifier INT3 at RVA6608;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -87,9 +87,18 @@ selects arena four. Own readers establish the arena stride and linked saved
 contexts. These two BSS fields join the existing nonzero reset unit; the frame
 pointee remains opaque until a semantic consumer is reached.
 
-Original/native took 1.055 s / 11.826 ms (native setup 6.712, execution 3.248,
-checks 1.866); build/audit/unit took 6.797 s. Actual selected-report order,
-partial files and the genuine builtin-name initializer frontier match.
+The 42-byte builtin initializer preserves the 62 semantic name/destination pairs
+and stops at the first genuine returning name interner. The existing cc698 cell
+is now correctly named bool_identifier, including its actual lookup argument;
+it is not duplicated in the 61 new initialized name slots. Earlier zero/unvisited
+observations retain their narrower meaning. All slots join the reset unit.
+A common next/name/flags header now describes both generic 16-byte and keyword
+20-byte allocations; only keyword records expose token/category fields.
+
+Original/native took 0.950 s / 11.658 ms (native setup 6.851, execution 3.004,
+checks 1.803); build/audit/unit took 9.114 s. Actual selected-report order,
+partial files and genuine returning-interner frontier match. The exact consumed
+typed-only _wcsupr C/H bytes are published ca070c16a; no publication-only replay.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

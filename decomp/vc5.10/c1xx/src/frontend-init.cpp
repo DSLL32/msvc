@@ -46,7 +46,7 @@ void __cdecl initialize_first_token(void);
 void __cdecl initialize_default_function_type(void);
 void __cdecl initialize_language_symbols(void);
 void __cdecl initialize_scope_symbols(void);
-CompilerSymbol *__cdecl lookup_builtin(struct CompilerScope *, CompilerLookup *);
+CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerLookup *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
 }
@@ -275,7 +275,7 @@ extern "C" void __cdecl initialize_frontend(void)
                 lookup.Initialize(types->type_0060, &builtin_bool_name);
                 lookup.Resolve();
                 declare_builtin(&declaration,
-                    lookup_builtin(frontend_data.current_scope, &lookup));
+                    lookup_builtin(frontend_data.bool_identifier, &lookup));
             }
         }
     }
@@ -380,7 +380,82 @@ extern "C" void __cdecl initialize_global_scope(void)
     frontend_bss.saved_symbol_arenas = NULL;
     frontend_bss.symbol_arena_kind = 4;
 }
-extern "C" void __cdecl initialize_builtin_symbols(void) { __asm { int 3 } }
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+struct BuiltinNameDescription { CompilerNameEntry **destination; const char *text; };
+static const BuiltinNameDescription builtin_names[] = {
+    { &frontend_data.builtin_names.return_udt, "__$ReturnUdt" }, /* original 0xcc638 */
+    { &frontend_data.builtin_names.this_parameter, "this" }, /* original 0xcc640 */
+    { &frontend_data.builtin_names.that_parameter, "__that" }, /* original 0xcc63c */
+    { &frontend_data.builtin_names.vftable, "$vftable" }, /* original 0xcc680 */
+    { &frontend_data.builtin_names.local_vftable, "$locvftable" }, /* original 0xcc684 */
+    { &frontend_data.builtin_names.vbtable, "$vbtable" }, /* original 0xcc64c */
+    { &frontend_data.builtin_names.vfptr, "$vfptr" }, /* original 0xcc650 */
+    { &frontend_data.builtin_names.vbptr, "$vbptr" }, /* original 0xcc648 */
+    { &frontend_data.builtin_names.vdispmap, "$vdispmap" }, /* original 0xcc654 */
+    { &frontend_data.builtin_names.initialize_virtual_bases, "$initVBases" }, /* original 0xcc61c */
+    { &frontend_data.builtin_names.flags_parameter, "__flags" }, /* original 0xcc618 */
+    { &frontend_data.builtin_names.destructor, "__dtor" }, /* original 0xcc614 */
+    { &frontend_data.builtin_names.vbase_destructor, "__vbaseDtor" }, /* original 0xcc644 */
+    { &frontend_data.builtin_names.deleting_destructor, "__delDtor" }, /* original 0xcc60c */
+    { &frontend_data.builtin_names.vector_deleting_destructor, "__vecDelDtor" }, /* original 0xcc664 */
+    { &frontend_data.builtin_names.assignment_operator, "=" }, /* original 0xcc460 */
+    { &frontend_data.builtin_names.most_derived_parameter, "__most_derived__" }, /* original 0xcc6f0 */
+    { &frontend_data.builtin_names.operator_new, "new" }, /* original 0xcc62c */
+    { &frontend_data.builtin_names.operator_delete, "delete" }, /* original 0xcc610 */
+    { &frontend_data.builtin_names.operator_new_array, "new[]" }, /* original 0xcc630 */
+    { &frontend_data.builtin_names.operator_delete_array, "delete[]" }, /* original 0xcc634 */
+    { &frontend_data.builtin_names.constructor, "__ctor" }, /* original 0xcc608 */
+    { &frontend_data.builtin_names.default_constructor_closure, "__dflt_ctor_closure" }, /* original 0xcc6d8 */
+    { &frontend_data.builtin_names.local_vftable_constructor_closure, "__local_vftable_ctor_closure" }, /* original 0xcc6dc */
+    { &frontend_data.builtin_names.copy_constructor_closure, "__copy_ctor_closure" }, /* original 0xcc6e0 */
+    { &frontend_data.builtin_names.local_static_destructor, ".local static destructor." }, /* original 0xcc620 */
+    { &frontend_data.builtin_names.template_static_constructor, ".template static data member ctor function." }, /* original 0xcc624 */
+    { &frontend_data.builtin_names.template_static_destructor, ".template static data member dtor function." }, /* original 0xcc628 */
+    { &frontend_data.builtin_names.vector_constructor, "__vec_ctor" }, /* original 0xcc668 */
+    { &frontend_data.builtin_names.vector_vbase_constructor, "__vec_ctor_vb" }, /* original 0xcc66c */
+    { &frontend_data.builtin_names.vector_destructor, "__vec_dtor" }, /* original 0xcc670 */
+    { &frontend_data.builtin_names.eh_vector_constructor, "__ehvec_ctor" }, /* original 0xcc674 */
+    { &frontend_data.builtin_names.eh_vector_vbase_constructor, "__ehvec_ctor_vb" }, /* original 0xcc678 */
+    { &frontend_data.builtin_names.eh_vector_destructor, "__ehvec_dtor" }, /* original 0xcc67c */
+    { &frontend_data.builtin_names.new_target, "Target of operator new()" }, /* original 0xcc688 */
+    { &frontend_data.builtin_names.atexit_name, "atexit" }, /* original 0xcc68c */
+    { &frontend_data.builtin_names.tls_destructor_registration, "__tlregdtor" }, /* original 0xcc690 */
+    { &frontend_data.builtin_names.global_namespace, "`global namespace'" }, /* original 0xcc694 */
+    { &frontend_data.bool_identifier, "bool" }, /* original 0xcc698 */
+    { &frontend_data.builtin_names.defined_operator, "defined" }, /* original 0xcc468 */
+    { &frontend_data.builtin_names.formal_parameter, "__formal" }, /* original 0xcc47c */
+    { &frontend_data.builtin_names.ellipsis, "..." }, /* original 0xcc478 */
+    { &frontend_data.builtin_names.abstract_declarator, "abstract declarator" }, /* original 0xcc464 */
+    { &frontend_data.builtin_names.main_entry, "main" }, /* original 0xcc484 */
+    { &frontend_data.builtin_names.winmain_entry, "WinMain" }, /* original 0xcc490 */
+    { &frontend_data.builtin_names.dllmain_entry, "DllMain" }, /* original 0xcc494 */
+    { &frontend_data.builtin_names.alignment_member, ".alignment member." }, /* original 0xcc45c */
+    { &frontend_data.builtin_names.unnamed, "__unnamed" }, /* original 0xcc498 */
+    { &frontend_data.builtin_names.dollar, "$" }, /* original 0xcc46c */
+    { &frontend_data.builtin_names.directive_section, ".drectve" }, /* original 0xcc470 */
+    { &frontend_data.builtin_names.local_static_guard, ".local static guard." }, /* original 0xcc480 */
+    { &frontend_data.builtin_names.setjmp_name, "_setjmp" }, /* original 0xcc488 */
+    { &frontend_data.builtin_names.catch_name, "Catch" }, /* original 0xcc48c */
+    { &frontend_data.builtin_names.local_size, "__LOCAL_SIZE" }, /* original 0xcc474 */
+    { &frontend_data.builtin_names.rtti_dynamic_cast, "__RTDynamicCast" }, /* original 0xccad8 */
+    { &frontend_data.builtin_names.rtti_cast_to_void, "__RTCastToVoid" }, /* original 0xccadc */
+    { &frontend_data.builtin_names.rtti_typeid, "__RTtypeid" }, /* original 0xccae0 */
+    { &frontend_data.builtin_names.rtti_typeid_return_type, "__RTtypeidReturnType" }, /* original 0xccae4 */
+    { &frontend_data.builtin_names.type_info_vtable, "??_7type_info@@6B@" }, /* original 0xccae8 */
+    { &frontend_data.builtin_names.line_variable, "__LINE__Var" }, /* original 0xccb08 */
+    { &frontend_data.builtin_names.uuidof_return_type, "__COMuuidofReturnType" }, /* original 0xccb18 */
+    { &frontend_data.builtin_names.guid_tag, "__s_GUID" }, /* original 0xccb1c */
+    { NULL, NULL }
+};
+extern "C" void __cdecl initialize_builtin_symbols(void)
+{
+    const BuiltinNameDescription *entry;
+    for (entry = builtin_names; entry->destination; ++entry)
+        *entry->destination = find_or_create_identifier(entry->text);
+}
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *name)
+{ __asm { int 3 } return NULL; }
+
 extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, CompilerType *base) { __asm { int 3 } return NULL; }
 extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
@@ -393,7 +468,7 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
 extern "C" void __cdecl initialize_first_token(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_language_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_scope_symbols(void) { __asm { int 3 } }
-extern "C" CompilerSymbol *__cdecl lookup_builtin(struct CompilerScope *scope, CompilerLookup *lookup) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name, CompilerLookup *lookup) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl declare_builtin(CompilerDeclaration *declaration, CompilerSymbol *symbol) { __asm { int 3 } }
 CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned arena_kind) { __asm { int 3 } return this; }
 void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena, int first, int second, FrontendContextStack *owner) { __asm { int 3 } }

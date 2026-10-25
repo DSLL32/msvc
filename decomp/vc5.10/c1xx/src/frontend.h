@@ -6,6 +6,7 @@
 #include "scanner.h"
 #include "frontend-driver.h"
 #include "frontend-types.h"
+#include "names.h"
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
@@ -46,12 +47,12 @@ typedef struct FrontendData {
     int browser_enabled, browser_full; /* cd128/cd12c */
     int pch_separate_debug; /* cd4e8 */
     int current_vtordisp; /* ccb80, zero */
-    struct CompilerScope *current_scope; /* cc698, NULL */
+    CompilerNameEntry *bool_identifier; /* cc698, NULL; interned builtin "bool" */
     int browser_mode; /* initialized cc3d8, zero */
     struct CompilerBackend *named_browser, *initial_backend; /* cc3e4/cc3e8, NULL */
     struct CompilerTokenRecord *canonical_token_records[244]; /* cc704..ccad4, NULL */
     struct CompilerKeywordTable *keyword_table; /* cc430, NULL; pointee not yet read */
-    struct CompilerIdentifier *current_identifier; /* cc450, NULL */
+    CompilerNameEntry *current_identifier; /* cc450, shared generic/keyword header */
     struct CompilerPointerArray *frontend_pointer_table; /* cc5b4, NULL */
     struct CompilerPointerArray *empty_pointer_array; /* cc6b0, NULL; temporary guard1 */
     int pch_expression_file; /* cd4e0, zero */
@@ -61,6 +62,7 @@ typedef struct FrontendData {
     int reference_context; /* cdc1c, default1 */
     unsigned last_ir_line_delta; /* cd6f0, zero */
     CompilerTypeTables type_tables; /* four original initialized NULL heads */
+    CompilerBuiltinNames builtin_names; /* own named initializedNULL slots; boolaliasescc698 above */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

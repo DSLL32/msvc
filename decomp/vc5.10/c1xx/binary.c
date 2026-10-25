@@ -1154,9 +1154,16 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_builtin_symbols", .entry_rva = 0x3aebc,
-        .code = (const ReconExtent[]){{0x3aebc, 0x3aebd}},
+        .code = (const ReconExtent[]){{0x3aebc, 0x3aee6}},
         .code_count = 1, .definition = RECON_APP,
         .native_symbol = "initialize_builtin_symbols",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_find_or_create_identifier", .entry_rva = 0x6608,
+        .code = (const ReconExtent[]){{0x6608, 0x6609}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "find_or_create_identifier",
     },
     {
         .name = "_make_function_type", .entry_rva = 0x3840e,

@@ -178,7 +178,7 @@ extern "C" void __cdecl initialize_language_keywords(void)
     for (entry = keywords; entry->name; ++entry) {
         intern_identifier(entry->name);
         frontend_data.current_identifier->flags |= 0x10000;
-        frontend_data.current_identifier->token = entry->token;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->token = entry->token;
     }
     unreserve_keyword("__interrupt");
     unreserve_keyword("__loadds");
@@ -254,18 +254,18 @@ extern "C" void __cdecl initialize_language_keywords(void)
             if (strncmp(entry->name, "__", 2)) continue;
             intern_identifier(entry->name);
             if (!(frontend_data.current_identifier->flags & 0x10000)) continue;
-            token = frontend_data.current_identifier->token;
+            token = ((CompilerIdentifier *)frontend_data.current_identifier)->token;
             if (token != 243) {
                 intern_identifier(entry->name + 1);
                 frontend_data.current_identifier->flags |= 0x10000;
-                frontend_data.current_identifier->token = token;
+                ((CompilerIdentifier *)frontend_data.current_identifier)->token = token;
             } else {
-                token = frontend_data.current_identifier->category;
+                token = ((CompilerIdentifier *)frontend_data.current_identifier)->category;
                 if (token != 1 && token != 5) continue;
                 intern_identifier(entry->name + 1);
                 frontend_data.current_identifier->flags |= 0x10000;
-                frontend_data.current_identifier->token = 243;
-                frontend_data.current_identifier->category = token;
+                ((CompilerIdentifier *)frontend_data.current_identifier)->token = 243;
+                ((CompilerIdentifier *)frontend_data.current_identifier)->category = token;
             }
         }
     }
@@ -273,7 +273,7 @@ extern "C" void __cdecl initialize_language_keywords(void)
         intern_identifier(*attribute);
         frontend_data.current_identifier->flags |= 0x800000;
         if (!(frontend_data.current_identifier->flags & 0x10000))
-            frontend_data.current_identifier->token = (BYTE)code;
+            ((CompilerIdentifier *)frontend_data.current_identifier)->token = (BYTE)code;
     }
 }
 
@@ -281,7 +281,7 @@ extern "C" void __cdecl intern_identifier(const char *name)
 {
     const unsigned char *text = (const unsigned char *)name;
     unsigned hash = 0, length, folded;
-    CompilerIdentifier **bucket, **link, *entry;
+    CompilerNameEntry **bucket, **link, *entry;
     CompilerPool *pool = &frontend_bss.pools[6]; /* original c0560 */
     CompilerArena *arena = &frontend_bss.arenas[0];
     while (*text) {
@@ -304,7 +304,7 @@ extern "C" void __cdecl intern_identifier(const char *name)
     }
     if (pool->remaining < 20)
         pool->Refill(20);
-    entry = (CompilerIdentifier *)pool->cursor;
+    entry = (CompilerNameEntry *)pool->cursor;
     pool->cursor += 20;
     pool->remaining -= 20;
     entry->next = *bucket;
@@ -327,32 +327,32 @@ extern "C" void __cdecl set_keyword_category3(const char *name)
 {
     intern_identifier(name);
     if (frontend_data.current_identifier->flags & 0x10000) {
-        frontend_data.current_identifier->token = 243;
-        frontend_data.current_identifier->category = 3;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->token = 243;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->category = 3;
     }
 }
 extern "C" void __cdecl set_keyword_category1(const char *name)
 {
     intern_identifier(name);
     if (frontend_data.current_identifier->flags & 0x10000) {
-        frontend_data.current_identifier->token = 243;
-        frontend_data.current_identifier->category = 1;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->token = 243;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->category = 1;
     }
 }
 extern "C" void __cdecl set_keyword_category5(const char *name)
 {
     intern_identifier(name);
     if (frontend_data.current_identifier->flags & 0x10000) {
-        frontend_data.current_identifier->token = 243;
-        frontend_data.current_identifier->category = 5;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->token = 243;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->category = 5;
     }
 }
 extern "C" void __cdecl set_keyword_category4(const char *name)
 {
     intern_identifier(name);
     if (frontend_data.current_identifier->flags & 0x10000) {
-        frontend_data.current_identifier->token = 243;
-        frontend_data.current_identifier->category = 4;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->token = 243;
+        ((CompilerIdentifier *)frontend_data.current_identifier)->category = 4;
     }
 }
 extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned number, ...) { __asm { int 3 } }

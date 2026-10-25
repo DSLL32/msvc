@@ -1,17 +1,16 @@
 #ifndef C1XX_KEYWORDS_H
 #define C1XX_KEYWORDS_H
+#include "names.h"
 #include <recon.h>
 
-/* Original next/name/flags are +0/+4/+8, token/category +16/+17.
- * The compact projection has no placeholder for original +12 or tail bytes.
- * The actual 20-byte allocation and hash-bucket width remain unchanged. */
+/* The keyword-only extension follows the common header in the compact view.
+ * Original token/category are +10/+11; original+c and the tail stay unmodeled.
+ * Generic records expose only CompilerNameEntry, never this extension. */
 struct CompilerIdentifier {
-    CompilerIdentifier *next;
-    char *name;
-    unsigned flags;
+    CompilerNameEntry header;
     BYTE token, category;
 };
 struct CompilerKeywordTable {
-    CompilerIdentifier *buckets[2048]; /* hash mask 0x7ff; allocation 8192 */
+    CompilerNameEntry *buckets[2048]; /* hash mask 0x7ff; allocation8192 */
 };
 #endif
