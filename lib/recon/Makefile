@@ -629,6 +629,18 @@ iswctype-hex-check: build/iswctype-hex-default build/iswctype-hex-510
 	$(PYTHON) tests/check-iswctype-hex.py $< default
 	$(PYTHON) tests/check-iswctype-hex.py build/iswctype-hex-510
 
+.PHONY: mb-nbcopy-check
+build/mb-nbcopy-default: tests/mb-nbcopy-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/mb-nbcopy-510: tests/mb-nbcopy-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/mb-nbcopy-watcom: tests/mb-nbcopy-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+mb-nbcopy-check: build/mb-nbcopy-default build/mb-nbcopy-510 build/mb-nbcopy-watcom
+	$(PYTHON) tests/check-mb-nbcopy.py $<
+	$(PYTHON) tests/check-mb-nbcopy.py build/mb-nbcopy-510
+	$(PYTHON) tests/check-mb-nbcopy.py build/mb-nbcopy-watcom watcom
+
 .PHONY: towlower-ascii-check
 build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@

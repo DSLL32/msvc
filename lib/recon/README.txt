@@ -493,6 +493,21 @@ SDK-typed surfaces; _mbspbrk remains unsupported. _mbsnbicmp now supports
 the verified CP0/SBCS/C-locale ASCII path, folding A..Z and returning normalized
 -1/0/+1 within bytecount/NUL bounds (count0 returns0 before dereferencing).
 
+_mbsnbcpy supports generic Microsoft and explicit510 default-C ASCII, requiring
+the existing LC_CTYPE/codepage/MB-width guard and MB gate0; Watcom is denied.
+Canonical e390 MSVCRT ordinal358/RVA6daa gate0 branches through e843 to strncpy
+89da (including cold padding path fa15): copy at most count, stop reading at NUL,
+pad the remainder with zero, and return the destination alias. The shared body
+prevalidates only that bounded read span before writing; byte[count] is never
+required. Positive counts require nonNULL, disjoint valid spans without address
+wrap; nonASCII and unsupported state deny before writes. Count0 returns the
+alias without accessing either buffer after the profile/locale guard. Errors,
+FP state, source and destination tails are naturally preserved. The reached
+CVPACK request copies exactly15 nonterminated ASCII bytes from precompiled.obj;
+the following newline is outside its read span. Provider effects are established
+statically; original per-call state was not measured and no API-only original
+run is claimed. `make mb-nbcopy-check` covers these bounded native contracts.
+
 Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
 FOOPEN; set requires that sentinel, and free relinquishes ownership without
 closing the OS handle. For fd0..2, set/free update the Win32 standard table at

@@ -2461,7 +2461,32 @@ WEAK int recon_mbsicmp(const unsigned char *left,const unsigned char *right)
 }
 WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
 {
-    (void)out;(void)text;(void)bytes;recon_unsupported("unreviewed _mbsnbcpy");return NULL;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    (void)out;(void)text;(void)bytes;
+    recon_unsupported("_mbsnbcpy Microsoft profile required");return NULL;
+#else
+    size_t copied=0,read_bytes;uintptr_t destination=(uintptr_t)out,source=(uintptr_t)text;
+    ascii_multibyte_scope();
+    if (recon_mb_codepage_gate) recon_unsupported("_mbsnbcpy multibyte gate");
+    if (!bytes) return out;
+    if (!out || !text || bytes>UINTPTR_MAX-destination)
+        recon_unsupported("_mbsnbcpy NULL/wrapped span");
+    /* The canonical gate-zero path delegates to strncpy. Validate only its
+     * bounded read span, before any writes; text[bytes] need not exist. */
+    while (copied<bytes) {
+        if (copied>=UINTPTR_MAX-source)
+            recon_unsupported("_mbsnbcpy wrapped source");
+        if (!text[copied]) break;
+        if (text[copied]>=128) recon_unsupported("_mbsnbcpy nonASCII span");
+        ++copied;
+    }
+    read_bytes=copied<bytes?copied+1:bytes;
+    if (destination<source?bytes>source-destination:read_bytes>destination-source)
+        recon_unsupported("_mbsnbcpy overlapping spans");
+    if (copied) memcpy(out,text,copied);
+    if (copied<bytes) memset(out+copied,0,bytes-copied);
+    return out;
+#endif
 }
 
 WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
