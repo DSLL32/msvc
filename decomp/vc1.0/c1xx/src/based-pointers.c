@@ -142,3 +142,16 @@ IrToken *__stdcall convert_based_expression(CType *type, IrToken *expression)
     if ((type->related->attributes & 7) == 4) expression = qualify_based_storage(expression);
     return expression;
 }
+
+/* Original0x2a530..0x2a576, stdcall4. A symbol-based pointer is indirect
+   when its base symbol itself retains a pointer/array declarator layer. */
+int __stdcall based_pointer_has_indirect_base(TypeShape *shape)
+{
+    CppSymbol *symbol;
+    TypeShape *base;
+    if ((shape->flags & 0x77) != 1 || (shape->attributes & 7) != 5) return 0;
+    symbol = shape->data.based_symbol;
+    base = symbol->type->related;
+    if (base && !(base->flags & 0x77)) base = base->related;
+    return base && (base->flags & 3);
+}

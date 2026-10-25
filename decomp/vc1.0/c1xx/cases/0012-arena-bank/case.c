@@ -2,7 +2,7 @@
 #include "entry.h"
 extern const ReconTest arena_bank_tests[1];
 
-static const uint32_t order[] = { 0x34630, 0x350b7, 0x1a580, 0x1d490, 0x57d50, 0x341c0, 0x34110, 0x340a0, 0x34635, 0x1aae0, 0x1a810, 0x1aa10, 0x1a530 };
+static const uint32_t order[] = { 0x34630, 0x350b7, 0x1a580, 0x1d490, 0x57d50, 0x341c0, 0x34110, 0x340a0, 0x34635, 0x1aae0, 0x1a810, 0x1aa10, 0x1a530, 0x34d77 };
 
 /* Accepted1505-App seed before the coherent relocatable-bank workload. */
 static const uint32_t seen[] = {
@@ -1517,6 +1517,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "arena_bank",
     "C++ relocatable based-pointer bank: linked records, array views, overloaded visitors, class-array/copy/reference temporaries and qc inline control",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x1a530,
+    RECON_IO, RECON_FRONTIER, 0x34d77,
     NULL, c1xx_case_invoke, NULL, arena_bank_tests, RECON_COUNT(arena_bank_tests)
 };
