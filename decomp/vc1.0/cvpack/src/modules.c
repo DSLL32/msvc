@@ -765,3 +765,34 @@ const char *module_name(ModuleInfo *module)
 }
 
 #pragma intrinsic(memcpy)
+
+void insert_packed_public(unsigned char *record)
+{
+    public_symbols_size += copy_packed_symbol(public_symbol_hash, record);
+    ++public_symbols_count;
+}
+
+/* Packed records already carry their final type indices and alignment. */
+unsigned short copy_packed_symbol(void **buckets, unsigned char *record)
+{
+    unsigned short segment = 0, name_offset, bucket;
+    unsigned long offset = 0, hash, count, i;
+    PublicSymbol *node;
+    bucket = hash_public(record, &hash, &name_offset, &segment, &offset, 0x1000);
+    node = allocate_symbol(*(unsigned short *)record+0x16);
+    node->hash = hash;
+    node->name_offset = name_offset;
+    node->segment = segment;
+    node->offset = offset;
+    count = *(unsigned short *)record+2;
+    for (i = 0; i < count; ++i) node->record[i] = record[i];
+    node->next = buckets[bucket];
+    buckets[bucket] = node;
+    return (unsigned short)(*(unsigned short *)record+2);
+}
+
+void insert_packed_global(unsigned char *record)
+{
+    global_symbols_size += copy_packed_symbol(global_symbol_hash, record);
+    ++global_symbols_count;
+}

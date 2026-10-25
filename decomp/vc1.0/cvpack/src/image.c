@@ -454,3 +454,144 @@ void read_old_directory(void)
     qsort(directory_entries, directory_entry_count, sizeof(CvDirectoryEntry),
           compare_old_directory);
 }
+
+/* Reload the module-local and global subsections of an NB08 input. */
+void read_packed_modules(void)
+{
+    unsigned short index, previous;
+    ModuleInfo *module;
+    CvDirectoryEntry *entry;
+
+    /* Original defect: previous and module are unwritten until the first
+       different, non-special module number is encountered. */
+    module_count = 0;
+    for (index = 0; index < directory_entry_count; ++index) {
+        entry = &directory_entries[index];
+        if (entry->module && entry->module != 0xffff && entry->module != previous) {
+            previous = entry->module;
+            module = find_module(previous, 1);
+        }
+        switch (entry->subsection) {
+        case 0x120:
+            ++module_count;
+        case 0x125: case 0x127:
+            load_packed_module(module, entry);
+            if (entry->subsection == 0x127) statistics_enabled = 1;
+            break;
+        case 0x128:
+            read_subsection(entry, &libraries, &libraries_size);
+            break;
+        case 0x129:
+            load_packed_publics(entry);
+            break;
+        case 0x12a:
+            load_packed_globals(entry);
+            break;
+        case 0x12b:
+            load_packed_types(entry);
+            break;
+        case 0x12d:
+            read_subsection(entry, &segment_map, &segment_map_size);
+            break;
+        case 0x12e:
+            read_subsection(entry, &segment_names, &segment_names_size);
+            break;
+        default:
+            fatal_error(25, NULL, NULL);
+        }
+    }
+    for (module = module_list; module; module = module->next)
+        if (module->symbols)
+            record_symbol_offsets(module->symbols, module->symbol_size, module->module);
+}
+
+void load_packed_module(ModuleInfo *module, CvDirectoryEntry *entry)
+{
+    unsigned char *data = malloc((unsigned short)entry->size);
+    if (!data) {
+        fatal_error(14, NULL, NULL);
+        if (!data) fatal_error(14, NULL, NULL);
+    }
+    seek_file(input_file, cv_file_offset+entry->location.offset, 0);
+    if (read_file(input_file, data, (unsigned short)entry->size) != entry->size)
+        fatal_error(17, NULL, NULL);
+    switch (entry->subsection) {
+    case 0x120:
+        module->record = data;
+        module->record_size = entry->size;
+        break;
+    case 0x125:
+        module->symbol_size = entry->size;
+        module->symbols = data;
+        break;
+    case 0x127:
+        module->lines = data;
+        module->line_size = entry->size;
+        break;
+    }
+}
+
+void load_packed_publics(CvDirectoryEntry *entry)
+{
+    unsigned char record[512];
+    unsigned short length;
+    long remaining;
+    struct { unsigned short names, addresses; unsigned long symbols, name_bytes, address_bytes; } hashes;
+    if (seek_file(input_file, cv_file_offset+entry->location.offset, 0) == -1 ||
+        read_file(input_file, &hashes, 16) != 16)
+        fatal_error(17, NULL, NULL);
+    remaining = hashes.symbols;
+    while (remaining > 0) {
+        if (read_file(input_file, &length, 2) != 2) fatal_error(17, NULL, NULL);
+        *(unsigned short *)record = length;
+        if (read_file(input_file, record+2, length) != length)
+            fatal_error(17, NULL, NULL);
+        remaining -= (unsigned long)length+2;
+        insert_packed_public(record);
+    }
+}
+
+void load_packed_globals(CvDirectoryEntry *entry)
+{
+    unsigned char record[512];
+    unsigned short length;
+    long remaining;
+    struct { unsigned short names, addresses; unsigned long symbols, name_bytes, address_bytes; } hashes;
+    if (seek_file(input_file, cv_file_offset+entry->location.offset, 0) == -1 ||
+        read_file(input_file, &hashes, 16) != 16)
+        fatal_error(17, NULL, NULL);
+    remaining = hashes.symbols;
+    while (remaining > 0) {
+        if (read_file(input_file, &length, 2) != 2) fatal_error(17, NULL, NULL);
+        *(unsigned short *)record = length;
+        if (read_file(input_file, record+2, length) != length)
+            fatal_error(17, NULL, NULL);
+        remaining -= (unsigned long)length+2;
+        insert_packed_global(record);
+    }
+}
+
+void load_packed_types(CvDirectoryEntry *entry)
+{
+    unsigned char *data = checked_alloc(4096);
+    unsigned long remaining = entry->size, chunks, offset = 0;
+    initialize_buffer(&type_symbol_storage, 4096);
+    if (remaining > 4096) {
+        chunks = (remaining-1)>>12;
+        remaining -= chunks*4096;
+        do {
+            seek_file(input_file, cv_file_offset+entry->location.offset+offset, 0);
+            if (read_file(input_file, data, 4096) != 4096) fatal_error(17, NULL, NULL);
+            append_buffer(&type_symbol_storage, data, 4096);
+            offset += 4096;
+        } while (--chunks);
+    }
+    if (remaining) {
+        seek_file(input_file, cv_file_offset+entry->location.offset+offset, 0);
+        if (read_file(input_file, data, (unsigned short)remaining) != (unsigned short)remaining)
+            fatal_error(17, NULL, NULL);
+        append_buffer(&type_symbol_storage, data, (unsigned short)remaining);
+    }
+    entry->location.data = (unsigned char *)&type_symbol_storage;
+    /* The original retains the temporary 4K allocation. */
+}

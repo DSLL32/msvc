@@ -580,9 +580,63 @@
       },
       "_read_packed_modules": {
         "abi": "void read_packed_modules(void)",
-        "source": "src/stubs.c",
+        "source": "src/image.c",
         "stack_cleanup": 0,
-        "roots": []
+        "roots": [],
+        "switches": {
+          "137147": [
+            137170,
+            137154,
+            137154,
+            137154,
+            137154,
+            137177,
+            137154,
+            137177,
+            137264,
+            137285,
+            137296,
+            137312,
+            137154,
+            137328,
+            137352
+          ]
+        },
+        "switch_tables": [
+          {
+            "start": 137416,
+            "targets": [
+              137170,
+              137154,
+              137154,
+              137154,
+              137154,
+              137177,
+              137154,
+              137177,
+              137264,
+              137285,
+              137296,
+              137312,
+              137154,
+              137328,
+              137352
+            ]
+          }
+        ],
+        "compiler_switch_counts": [
+          15
+        ],
+        "alignment_padding": [
+          [
+            137307,
+            137312
+          ],
+          [
+            137323,
+            137328
+          ]
+        ]
       },
       "_seek_mapped_file": {
         "abi": "long seek_mapped_file(FileSlot *,long,int)",
@@ -2433,6 +2487,49 @@
         "stack_cleanup": 0,
         "roots": [],
         "return_bits": 16
+      },
+      "_load_packed_module": {
+        "abi": "void load_packed_module(ModuleInfo *,CvDirectoryEntry *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_load_packed_types": {
+        "abi": "void load_packed_types(CvDirectoryEntry *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_load_packed_globals": {
+        "abi": "void load_packed_globals(CvDirectoryEntry *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_load_packed_publics": {
+        "abi": "void load_packed_publics(CvDirectoryEntry *)",
+        "source": "src/image.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_copy_packed_symbol": {
+        "abi": "unsigned short copy_packed_symbol(void **,unsigned char *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": [],
+        "return_bits": 16
+      },
+      "_insert_packed_global": {
+        "abi": "void insert_packed_global(unsigned char *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_insert_packed_public": {
+        "abi": "void insert_packed_public(unsigned char *)",
+        "source": "src/modules.c",
+        "stack_cleanup": 0,
+        "roots": []
       }
     },
     "callback_tables": []
