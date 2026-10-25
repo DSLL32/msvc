@@ -40,8 +40,8 @@ pub fn prepare(loaded: &Loaded, f: &Fixture, root: &Path, cwd: &Path, tests: boo
     if tests {
         return Ok(());
     }
-    let policy = unsafe { loaded.library.get::<*const Policy>(b"case_output_policy\0") };
-    let Ok(policy) = policy else {
+    let policy = unsafe { loaded.optional::<*const Policy>(b"case_output_policy\0") }?;
+    let Some(policy) = policy else {
         return Ok(());
     };
     let policy = unsafe { (*policy).as_ref() }.context("NULL case_output_policy")?;
@@ -51,11 +51,9 @@ pub fn prepare(loaded: &Loaded, f: &Fixture, root: &Path, cwd: &Path, tests: boo
             && policy.check_outputs.is_some(),
         "invalid case output policy"
     );
-    if let Ok(disable) = unsafe {
-        loaded
-            .library
-            .get::<unsafe extern "C" fn(i32)>(b"recon_trace_enable\0")
-    } {
+    if let Some(disable) =
+        unsafe { loaded.optional::<unsafe extern "C" fn(i32)>(b"recon_trace_enable\0") }?
+    {
         unsafe {
             disable(0);
         }

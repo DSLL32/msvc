@@ -364,12 +364,8 @@ unsafe fn executor(
     std::env::set_current_dir(cwd)?;
     let receipt = status::Receipt::create(root)?;
     let loaded = unsafe { Loaded::open(case_path) }?;
-    let recorder = unsafe {
-        loaded
-            .library
-            .get::<status::Recorder>(b"recon_record_terminal_status\0")
-    }
-    .ok();
+    let recorder =
+        unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
     receipt.supported(root, recorder.is_some())?;
     fs::write(root.join("descriptor"), serde_json::to_vec(&loaded.info)?)?;
     assets::configure(&loaded, f, root, cwd)?;

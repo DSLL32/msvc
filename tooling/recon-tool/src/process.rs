@@ -370,12 +370,8 @@ pub fn prepare(
     if tests {
         return Ok(());
     }
-    let policy = unsafe {
-        loaded
-            .library
-            .get::<*const Policy>(b"case_process_policy\0")
-    };
-    let Ok(policy) = policy else {
+    let policy = unsafe { loaded.optional::<*const Policy>(b"case_process_policy\0") }?;
+    let Some(policy) = policy else {
         return Ok(());
     };
     let policy = unsafe { (*policy).as_ref() }.context("NULL case_process_policy")?;
@@ -386,11 +382,9 @@ pub fn prepare(
             && policy.request.is_some(),
         "invalid case process policy"
     );
-    if let Ok(disable) = unsafe {
-        loaded
-            .library
-            .get::<unsafe extern "C" fn(i32)>(b"recon_trace_enable\0")
-    } {
+    if let Some(disable) =
+        unsafe { loaded.optional::<unsafe extern "C" fn(i32)>(b"recon_trace_enable\0") }?
+    {
         unsafe {
             disable(0);
         }

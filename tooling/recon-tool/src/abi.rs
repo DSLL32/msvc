@@ -3,6 +3,7 @@ use libloading::Library;
 use object::{Object, ObjectSymbol};
 use serde::{Deserialize, Serialize};
 use std::{
+    collections::HashSet,
     ffi::{CStr, c_char, c_void},
     path::{Path, PathBuf},
     slice,
@@ -129,6 +130,50 @@ pub struct Loaded {
     pub case: &'static Case,
     pub info: Info,
     pub base: usize,
+    exports: HashSet<Vec<u8>>,
+}
+fn public_dynamic_symbol(info: u8, other: u8) -> bool {
+    matches!(info >> 4, 1 | 2 | 10) && matches!(other & 3, 0 | 3)
+}
+fn dynamic_exports(paths: &[&Path]) -> Result<HashSet<Vec<u8>>> {
+    let mut names = HashSet::new();
+    for path in paths {
+        let bytes =
+            std::fs::read(path).with_context(|| format!("read ELF exports {}", path.display()))?;
+        let elf = object::File::parse(bytes.as_slice())?;
+        if elf.architecture() != object::Architecture::I386 {
+            bail!("optional export module is not i386");
+        }
+        for symbol in elf.dynamic_symbols() {
+            if !symbol.is_definition() {
+                continue;
+            }
+            if let object::SymbolFlags::Elf { st_info, st_other } = symbol.flags() {
+                if public_dynamic_symbol(st_info, st_other) {
+                    names.insert(symbol.name_bytes()?.to_vec());
+                }
+            }
+        }
+    }
+    Ok(names)
+}
+unsafe fn optional_export<'a, T>(
+    library: &'a Library,
+    exports: &HashSet<Vec<u8>>,
+    name: &[u8],
+) -> Result<Option<libloading::Symbol<'a, T>>> {
+    let name = std::ffi::CStr::from_bytes_with_nul(name)?;
+    if !exports.contains(name.to_bytes()) {
+        return Ok(None);
+    }
+    Ok(Some(
+        unsafe { library.get(name.to_bytes_with_nul()) }.with_context(|| {
+            format!(
+                "declared optional ELF export failed to resolve: {}",
+                name.to_string_lossy()
+            )
+        })?,
+    ))
 }
 #[derive(Clone, Copy)]
 enum FrontierValidation {
@@ -192,11 +237,15 @@ impl Loaded {
             bail!("cannot resolve binary module")
         }
         let module = PathBuf::from(unsafe { string(dl.dli_fname) }?).canonicalize()?;
+        let exports = dynamic_exports(&[path, module.as_path()])?;
         // Bind shared ownership checks to the actual loaded modules before setup.
-        if let Ok(register) = unsafe {
-            library
-                .get::<unsafe extern "C" fn(*const c_void, u32)>(b"recon_register_native_image\0")
-        } {
+        if let Some(register) = unsafe {
+            optional_export::<unsafe extern "C" fn(*const c_void, u32)>(
+                &library,
+                &exports,
+                b"recon_register_native_image\0",
+            )
+        }? {
             unsafe {
                 register(binary as *const _ as *const c_void, 1);
                 register(case as *const _ as *const c_void, 2);
@@ -309,7 +358,13 @@ impl Loaded {
             case,
             info,
             base: dl.dli_fbase as usize,
+            exports,
         })
+    }
+    /// Missing optional symbols must not allocate/free a glibc dlerror string in
+    /// the application's heap. Only consult dlsym after checking owned ELF exports.
+    pub unsafe fn optional<T>(&self, name: &[u8]) -> Result<Option<libloading::Symbol<'_, T>>> {
+        unsafe { optional_export(&self.library, &self.exports, name) }
     }
     pub fn symbols(&self) -> Result<Vec<(FunctionInfo, usize, usize)>> {
         let bytes = std::fs::read(&self.info.module)?;
@@ -403,5 +458,54 @@ mod tests {
             // Exit cases do not declare a frontier at all.
             assert!(validate_frontier(0, 0, &[], policy).is_ok());
         }
+    }
+}
+
+#[cfg(test)]
+mod optional_tests {
+    use super::*;
+    #[test]
+    fn optional_absence_does_not_create_dlerror_and_present_is_resolved() -> Result<()> {
+        let exports = dynamic_exports(&[Path::new("/lib32/libc.so.6")])?;
+        let library = unsafe { Library::new("/lib32/libc.so.6") }?;
+        unsafe {
+            libc::dlerror();
+        }
+        assert!(
+            unsafe {
+                optional_export::<*const c_void>(
+                    &library,
+                    &exports,
+                    b"recon_absent_optional_policy_must_not_enter_dlerror\0",
+                )
+            }?
+            .is_none()
+        );
+        assert!(unsafe { libc::dlerror() }.is_null());
+        let getpid = unsafe {
+            optional_export::<unsafe extern "C" fn() -> i32>(&library, &exports, b"getpid\0")
+        }?
+        .context("getpid export missing")?;
+        assert_eq!(unsafe { getpid() }, unsafe { libc::getpid() });
+        assert!(unsafe { libc::dlerror() }.is_null());
+        // A positive metadata claim must fail loudly if the loader disagrees.
+        let declared =
+            HashSet::from([b"recon_absent_optional_policy_must_not_enter_dlerror".to_vec()]);
+        assert!(
+            unsafe {
+                optional_export::<*const c_void>(
+                    &library,
+                    &declared,
+                    b"recon_absent_optional_policy_must_not_enter_dlerror\0",
+                )
+            }
+            .is_err()
+        );
+        assert!(public_dynamic_symbol(0x12, 0));
+        assert!(public_dynamic_symbol(0x22, 3));
+        assert!(!public_dynamic_symbol(0x12, 2));
+        assert!(!public_dynamic_symbol(0x12, 1));
+        assert!(!public_dynamic_symbol(0x02, 0));
+        Ok(())
     }
 }

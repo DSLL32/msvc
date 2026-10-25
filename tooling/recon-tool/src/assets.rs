@@ -95,13 +95,9 @@ pub fn verify(f: &Fixture, workspace: &Path) -> Result<()> {
 pub fn configure(loaded: &Loaded, f: &Fixture, workspace: &Path, cwd: &Path) -> Result<()> {
     type Configure =
         unsafe extern "C" fn(*const libc::c_char, *const libc::c_char, *const libc::c_char) -> i32;
-    let configure = unsafe {
-        loaded
-            .library
-            .get::<Configure>(b"recon_case_configure_paths\0")
-    };
+    let configure = unsafe { loaded.optional::<Configure>(b"recon_case_configure_paths\0") }?;
     match configure {
-        Ok(configure) => {
+        Some(configure) => {
             let cwd = CString::new(cwd.as_os_str().as_encoded_bytes())?;
             let logical = f
                 .logical_cwd
@@ -123,7 +119,7 @@ pub fn configure(loaded: &Loaded, f: &Fixture, workspace: &Path, cwd: &Path) -> 
             );
             Ok(())
         }
-        Err(_) => {
+        None => {
             ensure!(
                 f.assets.is_empty(),
                 "libbinary.so must include shared native fixture-path support for assets"

@@ -510,3 +510,11 @@ are hashed and checked unchanged. Generic frozen stream/file assertions always
 run after the callback; a true callback cannot override them. Execution timing stops when the target and all nonchecker descendants are
 reaped. The supervised checker phase, dependency/asset validation and generic
 assertions contribute to checks_ms.
+
+
+Optional native APIs and case policies are checked against the actually defined,
+visible dynamic exports of the loaded case/application ELF modules before any
+loader lookup. Missing exports return absent without dlsym/dlerror: loader error
+strings otherwise allocate/free memory in the target's libc heap. A declared
+export that cannot resolve remains a hard error. This complements Rust allocator
+isolation; it does not initialize unwritten application fields.
