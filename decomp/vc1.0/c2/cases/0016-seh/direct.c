@@ -85,3 +85,20 @@ int c2_scope_pop_inputs(void)
     return recon_native_at_entry((const void *)pop_exception_scope,
         (const void *)pop_entry,real_input,0)==1;
 }
+
+/* ECX is the actual current Function owner. Only expressions is consumed
+   by the rewrite driver; other raw Function words are not an input claim. */
+static void __fastcall rewrite_entry(Function *function)
+{
+    int valid=function==current_function&&function->expressions&&
+        function->expressions->next&&function->expressions->tree&&
+        function->expressions->tree->opcode==0x56&&
+        prepared_exception_scopes&&!exception_scope_stack_depth&&
+        !exception_scope_stack[0]&&!exception_scope_stack[1];
+    recon_native_entry_finish(valid);
+}
+int c2_scope_rewrite_inputs(void)
+{
+    return recon_native_at_entry((const void *)rewrite_exception_expressions,
+        (const void *)rewrite_entry,real_input,0)==1;
+}

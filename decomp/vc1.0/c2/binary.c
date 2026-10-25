@@ -1510,11 +1510,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_pop_exception_scope",
         .entry_rva = 0x55ec0,
-        .code = (const ReconExtent[]) { { 0x55ec0, 0x55ec1 } },
+        .code = (const ReconExtent[]) { { 0x55ec0, 0x55ef0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pop_exception_scope",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_allocate_exception_scope",

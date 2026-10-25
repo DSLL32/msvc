@@ -90,6 +90,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_pop_exception_scope": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -7,6 +7,7 @@ extern int c2_scope_owned_record(void);
 extern int c2_scope_push_inputs(void);
 extern int c2_scope_current_inputs(void);
 extern int c2_scope_pop_inputs(void);
+extern int c2_scope_rewrite_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -73,6 +74,30 @@ static int current_scopes(void)
     }
     return 1;
 }
+static int pop_scopes(void)
+{
+    ExceptionScope records[20];unsigned d,i;
+    for(d=1;d<=20;++d){
+        for(i=0;i<20;++i)exception_scope_stack[i]=&records[i];
+        exception_scope_stack_depth=d;pop_exception_scope();
+        if(exception_scope_stack_depth!=d-1)return 0;
+        for(i=0;i<20;++i)if(exception_scope_stack[i]!=(i==d-1?0:&records[i]))return 0;
+    }
+    return 1;
+}
+static void __fastcall underflow_entry(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==0x307&&!strcmp(source,"@(#)except.c:1.25"));
+}
+static void underflowing_pop(void *argument)
+{
+    exception_scope_stack_depth=0;pop_exception_scope();
+}
+static int pop_underflow_boundary(void)
+{
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)underflow_entry,underflowing_pop,0)==1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -81,5 +106,8 @@ const ReconTest c2_tests[]={
     {"scope push overflow reaches exact pending diagnostic",1,push_overflow_boundary},
     {"actual current query consumes two live owned pointers",1,c2_scope_current_inputs},
     {"current scope pointer identity with valid active depths",1,current_scopes},
-    {"actual scope pop receives two owned active pointers",1,c2_scope_pop_inputs}
+    {"actual scope pop receives two owned active pointers",1,c2_scope_pop_inputs},
+    {"scope pop clears exactly the active top slot",1,pop_scopes},
+    {"scope pop underflow reaches exact pending diagnostic",1,pop_underflow_boundary},
+    {"actual rewrite Function formal and expression-list owner",1,c2_scope_rewrite_inputs}
 };

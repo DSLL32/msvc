@@ -171,3 +171,16 @@ ExceptionScope *__cdecl current_exception_scope(void)
     unsigned depth = exception_scope_stack_depth;
     return depth ? exception_scope_stack[depth - 1] : 0;
 }
+
+/* Original [00065ec0,00065ef0). The returning-error branch reloads the
+   shared cursor and retains the original unchecked decrement/store. */
+void __cdecl pop_exception_scope(void)
+{
+    unsigned depth = exception_scope_stack_depth;
+    if ((int)depth <= 0) {
+        compiler_internal_error("@(#)except.c:1.25", 0x307);
+        depth = exception_scope_stack_depth;
+    }
+    exception_scope_stack_depth = --depth;
+    exception_scope_stack[depth] = 0;
+}
