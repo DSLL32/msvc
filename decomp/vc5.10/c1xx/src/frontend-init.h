@@ -38,6 +38,37 @@ struct CompilerBackend {
 struct CompilerDebugModule {
     virtual int RECON_THISCALL Finish(void) = 0;
     virtual int RECON_THISCALL Close(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot2(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot3(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot4(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot5(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot6(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot7(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot8(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot9(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot10(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot11(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot12(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot13(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot14(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot15(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot16(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot17(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot18(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot19(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot20(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot21(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot22(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot23(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot24(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot25(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot26(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot27(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot28(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot29(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot30(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot31(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot32(void) = 0;
 };
 /* External MSPDB interface, not a reconstruction of that dependency. */
 struct PDB {

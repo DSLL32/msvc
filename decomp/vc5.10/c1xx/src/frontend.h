@@ -56,6 +56,9 @@ typedef struct FrontendData {
     struct CompilerPointerArray *empty_pointer_array; /* cc6b0, NULL; temporary guard1 */
     int pch_expression_file; /* cd4e0, zero */
     unsigned constant_arena_index; /* cd88c, original initialized5 */
+    int force_type_serialization; /* cd550, zero */
+    int type_debug_mode; /* cd54c, default1 */
+    int reference_context; /* cdc1c, default1 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -162,6 +165,16 @@ typedef struct CompilerChecksumTables {
     unsigned char low[256];
 } CompilerChecksumTables;
 
+/* Original c6b40 is the existing pending-group head, not a second object.
+ * The tail slot at+4 is not modeled until the genuine Add member is reached. */
+struct CompilerSymbol;
+typedef struct PendingGroupList {
+    struct PendingGroup *head;
+#ifdef __cplusplus
+    struct CompilerSymbol *RECON_THISCALL Add(struct CompilerSymbol *);
+#endif
+} PendingGroupList;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -181,7 +194,7 @@ typedef struct FrontendBss {
     unsigned char complex_type_rank[69];
     unsigned char empty_metadata_prototype[20];
     PchContext pch_context;
-    struct PendingGroup *pending_group_head;
+    PendingGroupList pending_groups;
     struct PendingGroup *active_group;
     int com_initialized;
     /* The encountered 73-character value and NUL, not the original capacity. */
@@ -220,6 +233,9 @@ typedef struct FrontendBss {
     unsigned char output_kinds[6]; /* scattered BYTE destinations */
     FILE *preprocessor_output; /* c080c */
     CompilerLexerBackend *lexer_backend; /* ba918 */
+    unsigned ir_record_count; /* c0aac, zero */
+    struct CompilerSymbol *current_ir_symbol; /* c06e0, NULL */
+    struct CompilerSymbol *current_function; /* c0824, NULL */
     int expression_seek_result; /* c5388, zero */
     unsigned processor_instruction_mask; /* c0aec, opcode-table mask */
 } FrontendBss;

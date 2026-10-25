@@ -164,7 +164,7 @@ void initialize_frontend_36(void)
 
 void initialize_frontend_38(void)
 {
-    frontend_bss.pending_group_head = NULL;
+    frontend_bss.pending_groups.head = NULL;
     frontend_bss.active_group = NULL;
 }
 

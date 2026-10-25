@@ -102,7 +102,8 @@ FrontendData frontend_data = {
     { NULL }, /* canonical token records */
     NULL, NULL, NULL, NULL, /* keyword table/current, pointer table/empty */
     0, /* PCH expression file */
-    5 /* constant_arena_index, original cd88c */
+    5, /* constant_arena_index, original cd88c */
+    0, 1, 1 /* force_type_serialization, type_debug_mode, reference_context */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -140,7 +141,10 @@ int initialize_compiler_pass(void)
         frontend_bss.preprocessor_output = NULL;
         frontend_bss.lexer_backend = NULL;
         frontend_bss.processor_instruction_mask = 0;
-    frontend_bss.expression_seek_result = 0;
+        frontend_bss.expression_seek_result = 0;
+        frontend_bss.ir_record_count = 0;
+        frontend_bss.current_ir_symbol = NULL;
+        frontend_bss.current_function = NULL;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;
@@ -203,7 +207,7 @@ int initialize_compiler_pass(void)
         frontend_bss.pch_context.scratch_arena = NULL;
         frontend_bss.pch_context.original_pages = NULL;
         frontend_bss.pch_context.mapped_pages = NULL;
-        frontend_bss.pending_group_head = NULL;
+        frontend_bss.pending_groups.head = NULL;
         frontend_bss.active_group = NULL;
         frontend_bss.com_initialized = 0;
         for (i = 0; i < sizeof(frontend_bss.generated_comment); ++i)

@@ -23,6 +23,14 @@ typedef struct OutputBuffer {
     int RECON_THISCALL Open(const char *, const char *, const char *);
     int RECON_THISCALL Grow(int bytes);
     void RECON_THISCALL Flush(void);
+    int RECON_THISCALL Ensure(int bytes);
+    int RECON_THISCALL Prepare(int bytes);
+    void RECON_THISCALL WriteIndex(unsigned value);
+    int RECON_THISCALL WriteCompact(unsigned value);
+    int RECON_THISCALL WriteBytes(const void *data, unsigned bytes);
+    void RECON_THISCALL WriteUShort(unsigned value);
+    void RECON_THISCALL WriteStringData(const void *data);
+    void RECON_THISCALL WriteStringTag(unsigned value);
 #endif
 } OutputBuffer;
 
