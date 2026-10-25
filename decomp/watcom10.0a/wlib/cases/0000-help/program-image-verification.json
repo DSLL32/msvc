@@ -1,0 +1,11 @@
+{
+  "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "masked_sha256": "f5024a7e82c303e287af598c00d6152d83309377c316dd7e17af4e645219babc",
+  "logical_path": "T:\\run-gcKVy6\\WLIB.EXE",
+  "size": 62738,
+  "range_count": 81,
+  "masked_bytes": 45620,
+  "all_transforms_in_code": true,
+  "overlay3858B_unchanged": true,
+  "fixture_sha256": "fc1030ef56d477b2ff751f8a39bdb191b5e568116e75def9a989ae603340718c"
+}

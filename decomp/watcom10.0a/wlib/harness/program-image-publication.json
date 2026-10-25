@@ -1,0 +1,15 @@
+{
+  "runner_sha256": "3c28ee40cd718c2a68edd9700366128711f1c338bab34a7d388e9d31e4fac384",
+  "files": {
+    "tooling/recon-tool/src/program_image.rs": "b8d76d77723bffbdbf95a117a2cbcb69a75939c2551ee2781be0e726f71cb0d1",
+    "tooling/recon-tool/src/main.rs": "04b3511d3bbb56539c33ae935bdb33a5680cd881c1b3230511508423599ca934",
+    "tooling/recon-tool/src/fixture.rs": "a0371262db6814984441857e2254d2959542b49f59c06dd04e7ac995a7ae01c5",
+    "tooling/recon-tool/src/native.rs": "66e4054af05b0ce6573983ec51e714678940a6305173b2a11f97888a2a2ed408",
+    "tooling/recon-tool/src/original.rs": "4b68cf8ee03901b2de70ec28d94237868f8d3ba99d9bf3f22db5d90842c2e256"
+  },
+  "actual_qualification": "WLIB ResOpenFileRO to FindResources",
+  "original_ms": 1269.207,
+  "native_ms": 8.225,
+  "original_repeated_for_publication": false,
+  "helper_sha256": "2360c2a8ffe2de894c51b03ace3ef408214829c4d85ca5ef88f56b1d586a5e49"
+}

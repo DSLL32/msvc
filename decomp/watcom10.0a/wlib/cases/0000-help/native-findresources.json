@@ -1,0 +1,32 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-BdEFOt",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 101144,
+    "trap_site": 4156792147,
+    "elapsed_ms": 8.224506,
+    "setup_ms": 5.1192720000000005,
+    "execution_ms": 1.5035219999999998,
+    "checks_ms": 1.601376,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-resopenfilero-to-findresources.json",
+      "report_sha256": "017c53547e396f119fbb5c4fd72e14ee286cce71c18ca97522dedab94e925119",
+      "capture_sha256": "fc1030ef56d477b2ff751f8a39bdb191b5e568116e75def9a989ae603340718c",
+      "source_binding_available": true
+    }
+  }
+]
