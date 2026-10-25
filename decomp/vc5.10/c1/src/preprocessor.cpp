@@ -1,4 +1,5 @@
 #include <string.h>
+#include <time.h>
 #include "compiler-state.h"
 #pragma intrinsic(strcpy)
 #include <recon.h>
@@ -128,7 +129,7 @@ extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions)
     c1_bss.pending_forced_includes = c1_bss.options.forced_includes;
 }
 extern "C" long __cdecl get_compilation_time(long *result)
-{ __asm { int 3 } return 0; }
+{ return time(result); }
 extern "C" char *__cdecl format_predefined_time(long stamp)
 { __asm { int 3 } return NULL; }
 extern "C" void __cdecl initialize_macro_buffers(void)
