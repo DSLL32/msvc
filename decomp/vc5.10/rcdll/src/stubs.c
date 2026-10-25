@@ -393,8 +393,19 @@ int __stdcall rc_read_resource_symbol(unsigned flags)
     return 0;
 }
 
-DWORD __cdecl rc_parse_resource_expression(void)
+
+
+DWORD __cdecl rc_parse_resource_term(void)
 {
     __asm int 3
     return 0;
+}
+int __stdcall rc_read_resource_operator(WCHAR *operation)
+{
+    __asm int 3
+    return 0;
+}
+void __cdecl rc_skip_resource_space(void)
+{
+    __asm int 3
 }

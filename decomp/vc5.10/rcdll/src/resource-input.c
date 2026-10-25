@@ -227,3 +227,34 @@ void __cdecl rc_read_resource_number(void)
     rc_resource_token.value=(WORD)value;
     rc_resource_token.kind=20;
 }
+
+DWORD __cdecl rc_parse_resource_expression(void)
+{
+    DWORD value,right;
+    WCHAR operation;
+    int found;
+    value=rc_parse_resource_term();
+    if(rc_resource_character==0xe001){
+        rc_read_resource_marker(1,0xe001);
+        rc_resource_token.unknown1038=rc_resource_token.value;
+    }
+    for(;;){
+        found=rc_read_resource_operator(&operation);
+        if(operation==L')'){
+            --rc_resource_parentheses;
+            rc_next_resource_character();
+            rc_skip_resource_space();
+        }
+        if(!found)break;
+        rc_resource_token.text[0]=0;
+        right=rc_parse_resource_term();
+        switch(operation){
+        case L'&': value&=right;break;
+        case L'+': value+=right;break;
+        case L'-': value-=right;break;
+        case L'|': value|=right;break;
+        }
+    }
+    rc_resource_token.unknown1038=(WORD)value;
+    return value;
+}
