@@ -556,8 +556,14 @@ This prevents unvisited target calls from escaping to host libc; no temporary
 name, allocation, output-buffer or successful service behavior is supported.
 
 towlower has the SDK WCHAR16 cdecl(WCHAR16) declaration and native remap.
-Every code unit, including NUL and ASCII, fails explicitly with status125;
-no successful conversion or locale behavior is supported. towupper is unchanged.
+Only explicit MSVCRT510 with default-C LC_CTYPE/codepage/MB state supports ASCII:
+A..Z become a..z, and other ASCII code units are unchanged. The authenticated
+provider's default path uses no calls, table access, global writes or FP work;
+native errors and full x87 state remain unchanged naturally. Non-ASCII, changed
+locale/MB state and other profiles fail125. Original per-call errors/FP/locale
+were not observed in the reached RCDLL capture; static provider-path evidence
+is distinct from native state observations. No original API-only probe was run.
+towupper is unchanged.
 
 _errno returns the real host thread-local errno address, so cached pointer writes
 and native libc strtol updates refer to the same slot, preserving aliasing.

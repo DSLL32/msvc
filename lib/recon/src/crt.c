@@ -2503,9 +2503,18 @@ WEAK int recon_iswctype(WCHAR character,WCHAR mask)
 
 WEAK WCHAR __cdecl recon_towlower(WCHAR character)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    /* The authenticated provider's default-C path is integer-only and reads
+     * no character table. Its caller consumes AX, not unspecified upper EAX. */
+    if (character>=128 || recon_lc_handle[2] || recon_lc_codepage ||
+        recon_mb_codepage || recon_mb_cur_max!=1)
+        recon_unsupported("towlower outside MSVCRT510 default-C ASCII scope");
+    return character>='A' && character<='Z'?character+('a'-'A'):character;
+#else
     (void)character;
     recon_unsupported("unreviewed towlower");
     return 0;
+#endif
 }
 WEAK WCHAR recon_towupper(WCHAR character)
 {

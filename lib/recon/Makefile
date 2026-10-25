@@ -597,6 +597,13 @@ build/towlower-surface-probe: tests/towlower-surface-probe.c $(SOURCES) $(HEADER
 towlower-surface-check: build/towlower-surface-probe
 	$(PYTHON) tests/check-towlower-surface.py $<
 
+.PHONY: towlower-ascii-check
+build/towlower-ascii-probe: tests/towlower-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+towlower-ascii-check: build/towlower-ascii-probe build/towlower-surface-probe
+	$(PYTHON) tests/check-towlower-ascii.py $<
+	$(PYTHON) tests/check-towlower-surface.py build/towlower-surface-probe
+
 build/trace-exec-driver: tests/trace-exec-driver.c include/recon-trace.h | build
 	$(CC) $(CFLAGS) $< -ldl -o $@
 build/native-image-module.so: tests/native-image-module.c $(SOURCES) $(HEADERS) | build
