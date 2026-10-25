@@ -44,7 +44,7 @@ void grow_mapping(FileSlot *slot, long size) { __asm { int 3 } }
 
 
 
-void read_old_module(unsigned long directory,ModuleInfo * module) { __asm { int 3 } }
+
 
 
 

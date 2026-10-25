@@ -628,7 +628,7 @@
       },
       "_read_old_module": {
         "abi": "void read_old_module(unsigned long,ModuleInfo *)",
-        "source": "src/stubs.c",
+        "source": "src/modules.c",
         "stack_cleanup": 0,
         "roots": []
       },

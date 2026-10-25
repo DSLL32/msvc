@@ -1,13 +1,13 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **188 accepted application
-functions, 56,844 original code bytes, and 20 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **189 accepted application
+functions, 57,627 original code bytes, and 19 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `read_old_module` (RVA `0x8090`). The last accepted function is
-`compare_old_directory` (sequence 188, 85 original bytes, `src/image.c`),
-qualified by matching original/native progress and strict compiler/graph/data
-checks. The previous baseline ended at `type_server_close` (sequence 187,
+frontier is now `read_symbols` (RVA `0x7cf0`). The last accepted function is
+`read_old_module` (sequence 189, 783 original bytes, `src/modules.c`), following
+`compare_old_directory` (sequence 188, 85 bytes). Both have matching
+original/native progress and strict compiler/graph/data checks. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -84,3 +84,9 @@ unchanged. Input SHA256 changes from
 The untouched original accepts it and emits a packed debug container; the
 full final oracle remains in the partial capture. Exact derivation and validation
 are saved in `~/.ai-tmp/msvc2/vc1.0/cvpack/resume-20261025/0012-derived-nb02-old-types/input-provenance.json`.
+
+The recovered old-module converter also left its counted filename's final byte
+and alignment tail unwritten. Its reconstruction explicitly zeros that proven
+uninitialized tail and documents the original defect. The current partial
+frontier precedes output emission; any emitted tail must be masked when the
+legacy workload reaches a completed artifact comparison.

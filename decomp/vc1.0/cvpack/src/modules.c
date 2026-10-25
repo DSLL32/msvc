@@ -109,6 +109,95 @@ int pack_module(unsigned short module)
 
 unsigned short subsection_reads;
 
+/* NB02 module records carry the first contribution before the counted name,
+   and any additional contributions after it. */
+typedef struct OldModule16 {
+    unsigned short segment, offset, size, overlay, library;
+    unsigned char contributions, reserved, name_length, name[1];
+} OldModule16;
+typedef struct OldModule32 {
+    unsigned short segment, reserved;
+    unsigned long offset, size;
+    unsigned short overlay, library;
+    unsigned char contributions, flags, name_length, name[1];
+} OldModule32;
+typedef struct OldContribution16 {
+    unsigned short segment, offset, size;
+} OldContribution16;
+typedef char OldModule16NameOffset[(offsetof(OldModule16,name)==13)?1:-1];
+typedef char OldModule32NameOffset[(offsetof(OldModule32,name)==19)?1:-1];
+
+#pragma function(memcpy)
+void read_old_module(unsigned long directory, ModuleInfo *module)
+{
+    CvDirectoryEntry *entry = &directory_entries[directory];
+    OldModule16 *old16;
+    OldModule32 *old32;
+    ModuleContribution *contribution;
+    unsigned char *buffer, *name, *extra, *converted_name;
+    unsigned short count, name_length, allocation, i;
+    unsigned long used;
+
+    if (cv_read_offset != (unsigned long)entry->location.offset) {
+        cv_read_offset = entry->location.offset;
+        ++subsection_reads;
+        seek_file(input_file, cv_file_offset+cv_read_offset, 0);
+    }
+    if (read_file(input_file, directory_data, entry->size) != entry->size)
+        fatal_error(17, NULL, NULL);
+    cv_read_offset += entry->size;
+    old16 = directory_data;
+    old32 = directory_data;
+    count = is_pe_image ? old32->contributions : old16->contributions;
+    if (!count) count = 1;
+    name_length = is_pe_image ? old32->name_length : old16->name_length;
+    name = is_pe_image ? old32->name : old16->name;
+    extra = name+name_length;
+    allocation = (unsigned short)(count*12+8+((name_length+5)&0xfffc));
+    buffer = malloc(allocation);
+    if (!buffer) fatal_error(14, NULL, NULL);
+    module_record_buffer = buffer;
+    if (!module_record_buffer) fatal_error(14, NULL, NULL);
+    *(unsigned short *)buffer = is_pe_image ? old32->overlay : old16->overlay;
+    *(unsigned short *)(buffer+2) = is_pe_image ? old32->library : old16->library;
+    *(unsigned short *)(buffer+4) = count;
+    buffer[6] = 'C';
+    buffer[7] = 'V';
+    contribution = (ModuleContribution *)(buffer+8);
+    contribution->segment = old16->segment;
+    contribution->reserved = 0;
+    contribution->offset = is_pe_image ? old32->offset : old16->offset;
+    contribution->size = is_pe_image ? old32->size : old16->size;
+    for (i = 1; i < count; ++i) {
+        ++contribution;
+        contribution->reserved = 0;
+        if (is_pe_image) {
+            ModuleContribution *item = (ModuleContribution *)(extra+(i-1)*12);
+            contribution->segment = item->segment;
+            contribution->offset = item->offset;
+            contribution->size = item->size;
+        } else {
+            OldContribution16 *item = (OldContribution16 *)(extra+(i-1)*6);
+            contribution->segment = item->segment;
+            contribution->offset = item->offset;
+            contribution->size = item->size;
+        }
+    }
+    converted_name = buffer+8+count*12;
+    *converted_name = (unsigned char)name_length;
+    memcpy(converted_name+1, name, name_length);
+    /* The original left the byte after the counted filename and its alignment
+       tail uninitialized. Write zeros for deterministic reconstructed output. */
+    used = 8+count*12+name_length+1;
+    while (used < allocation) buffer[used++] = 0;
+    entry->subsection = 0x120;
+    entry->location.data = buffer;
+    entry->size = allocation;
+    module->record_size = count*12+name_length+10;
+    module->record = buffer;
+}
+#pragma intrinsic(memcpy)
+
 void read_module(CvDirectoryEntry *entry, ModuleInfo *module)
 {
     unsigned char *buffer = malloc(entry->size);
