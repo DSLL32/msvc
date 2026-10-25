@@ -2860,10 +2860,19 @@ static const ReconFunction functions[] = {
         .native_symbol = "common_input_value_type",
     },
     {
-        .name = "@new_folded_binary_expression@24",
-        .entry_rva = 0x1a2d2,
+        .name = "@retain_aggregate_operands@4",
+        .entry_rva = 0x131b,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "retain_aggregate_operands",
+    },
+    {
+        .name = "@new_folded_binary_expression@24",
+        .entry_rva = 0x1a2d2,
+        .code = (const ReconExtent[]){{0x1a2d2, 0x1a3dd}, {0x690a2, 0x690ba}},
+        .code_count = 2,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_folded_binary_expression",
     },
     {

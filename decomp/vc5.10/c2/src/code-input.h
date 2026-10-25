@@ -135,6 +135,7 @@ C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol);
 void __fastcall finish_input_expression(C2InputStack *stack);
 void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2Expression **right, int condition);
 unsigned short __fastcall common_input_value_type(unsigned short first, unsigned short second);
+void __fastcall retain_aggregate_operands(C2Expression *expression);
 C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned short type,
     C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior);
 C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned short type,

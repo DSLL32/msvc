@@ -422,13 +422,6 @@ void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegi
     __asm { int 3 }
 }
 
-C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned short type,
-    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned short type,
     C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
 {
@@ -467,4 +460,9 @@ int c2_real_to_unsigned(C2Real *input, unsigned *output)
 {
     __asm { int 3 }
     return 0;
+}
+
+void __fastcall retain_aggregate_operands(C2Expression *expression)
+{
+    __asm { int 3 }
 }

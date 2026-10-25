@@ -310,3 +310,38 @@ unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigne
         return value & (~(unsigned __int64)0 >> shift);
     return (unsigned __int64)((__int64)(value << shift) >> shift);
 }
+
+/* Construct a two-input operation with a separate temporary result operand. */
+C2Expression *__fastcall new_folded_binary_expression(unsigned opcode, unsigned short type,
+    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
+{
+    C2Expression *result = new_temporary_operand(type), *record, *value;
+    record = (C2Expression *)allocate_small_node(11);
+    record->type = type;
+    record->opcode = opcode;
+    record->flags |= 1;
+    value = result;
+    if ((1U << (value->kind & 31)) & 0x7fe) {
+        if (value->location.expression.properties & 0x10)
+            value = copy_input_expression(value);
+        value->location.expression.properties |= 0x10;
+    }
+    record->tail.right = value;
+    if ((1U << (left->kind & 31)) & 0x7fe) {
+        if (left->location.expression.properties & 0x10)
+            left = copy_input_expression(left);
+        left->location.expression.properties |= 0x10;
+    }
+    record->left = left;
+    if ((1U << (right->kind & 31)) & 0x7fe) {
+        if (right->location.expression.properties & 0x10)
+            right = copy_input_expression(right);
+        right->location.expression.properties |= 0x10;
+    }
+    left->next = right;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    result->value.reg->value = record;
+    return record;
+}
