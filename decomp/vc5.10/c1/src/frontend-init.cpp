@@ -691,4 +691,91 @@ void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclaratio
     }
     this->attributes = *attributes;
 }
-CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape);
+CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void)
+{
+    CompilerType *result;
+    if ((WORD)attributes.flags == 0 && !shape) {
+        if (base_type->shape)
+            base_type->shape = intern_type_shape(base_type->shape);
+        base_type = intern_type(base_type);
+        flags |= 4;
+        result = base_type;
+    } else {
+        FinalizeShape();
+        if (shape_flags & 1) {
+            CompilerTypeShape *stop = last_shape->base;
+            CompilerTypeShape *previous = NULL, *part;
+            if (flags & 8)
+                flags |= 2;
+            for (part = shape; part != stop; previous = part, part = part->base) {
+                WORD convention = part->attributes & 0x70;
+                if (convention) {
+                    int warning = 0;
+                    part->attributes &= ~0x70;
+                    switch (part->flags & 7) {
+                    case 1:
+                        warning = 165;
+                        break;
+                    case 3:
+                        if (part->base != stop)
+                            convention = ApplyCallingConvention(part->base, convention);
+                        break;
+                    case 4:
+                        convention = ApplyCallingConvention(part, convention);
+                        if (part != shape)
+                            previous->attributes |= convention;
+                        break;
+                    default:
+                        continue;
+                    }
+                    if (part == shape && warning) {
+                        compiler_warning(warning, 120);
+                        flags |= 1;
+                        continue;
+                    }
+                    part->attributes |= convention;
+                } else if ((part->flags & 7) == 4) {
+                    if (part == shape) {
+                        convention = (WORD)attributes.flags & 0x70;
+                        if (convention)
+                            attributes.flags = (attributes.flags & ~0xffffU) |
+                                ((WORD)attributes.flags & ~0x70);
+                        else {
+                            flags &= ~2;
+                            convention = ResolveFunctionAttributes(part);
+                        }
+                    } else {
+                        convention = previous->attributes & 0x70;
+                        if (!convention) {
+                            convention = ResolveFunctionAttributes(part);
+                            previous->attributes |= convention;
+                        }
+                    }
+                    part->attributes |= convention;
+                }
+            }
+        }
+        ApplyBaseAttributes();
+        CompilerTypeShape *stop = last_shape ? last_shape->base : NULL;
+        result = BuildType(shape->InternUntil(stop));
+    }
+    resolved_type = result;
+    if (!result) {
+        flags |= 1;
+        resolved_type = c1_data.builtin_types.type_0063;
+    }
+    return result;
+}
+void RECON_THISCALL CompilerDeclarator::FinalizeShape(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ApplyBaseAttributes(void) { __asm { int 3 } }
+WORD RECON_THISCALL CompilerDeclarator::ApplyCallingConvention(CompilerTypeShape *shape,
+    unsigned convention) { __asm { int 3 } return 0; }
+WORD RECON_THISCALL CompilerDeclarator::ResolveFunctionAttributes(CompilerTypeShape *shape)
+{ __asm { int 3 } return 0; }
+CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape)
+{ __asm { int 3 } return NULL; }
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternUntil(CompilerTypeShape *stop)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape)
+{ __asm { int 3 } return NULL; }

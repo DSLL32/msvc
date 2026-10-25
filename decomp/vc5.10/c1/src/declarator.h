@@ -29,6 +29,11 @@ struct CompilerDeclarator {
         const CompilerDeclarationAttributes *);
     void RECON_THISCALL ApplyAttributes(const CompilerDeclarationAttributes *);
     CompilerType *RECON_THISCALL Resolve(void);
+    void RECON_THISCALL FinalizeShape(void);
+    void RECON_THISCALL ApplyBaseAttributes(void);
+    WORD RECON_THISCALL ApplyCallingConvention(CompilerTypeShape *, unsigned);
+    WORD RECON_THISCALL ResolveFunctionAttributes(CompilerTypeShape *);
+    CompilerType *RECON_THISCALL BuildType(CompilerTypeShape *);
 };
 typedef char CompilerDeclarator_size[sizeof(CompilerDeclarator) == 48 ? 1 : -1];
 #endif

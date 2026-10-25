@@ -106,6 +106,7 @@ struct CompilerTypeShape {
     };
 #ifdef __cplusplus
     void RECON_THISCALL SetParameters(unsigned value, unsigned kind);
+    CompilerTypeShape *RECON_THISCALL InternUntil(CompilerTypeShape *stop);
 #endif
 };
 
