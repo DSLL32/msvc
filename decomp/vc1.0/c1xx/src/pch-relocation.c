@@ -783,3 +783,64 @@ void __stdcall mark_pch_declaration_parameter_entries(DeclarationParameterEntry 
         entry = entry->next;
     }
 }
+
+/* Original0x6a210..0x6a237. Pragma nodes own their link and counted value. */
+void mark_pch_pragma_values(void)
+{
+    PragmaValue *value = pragma_values;
+    while (value) {
+        mark_pch_pointer((void **)&value->next);
+        mark_pch_pointer((void **)&value->value);
+        value = value->next;
+    }
+}
+
+/* Original0x6a6a0..0x6a6ae and0x6a6b0..0x6a6be. Saved option vectors
+   own only their copied strings, so neither requires an item visitor. */
+void mark_pch_defines(void)
+{
+    mark_pch_vector(pch_saved_defines, 0);
+}
+
+void mark_pch_include_directories(void)
+{
+    mark_pch_vector(pch_saved_include_directories, 0);
+}
+
+/* Original0x218a0..0x218dc. Traverse the active packing chain, retaining
+   the original conditional label mark and leaving its free chain untouched. */
+void mark_pch_packing(void)
+{
+    PackingEntry *entry;
+    mark_pch_pointer((void **)packing_stack);
+    entry = top_packing(packing_stack);
+    while (entry) {
+        mark_pch_pointer((void **)&entry->next);
+        if (entry->label) mark_pch_pointer((void **)&entry->label);
+        entry = entry->next;
+    }
+}
+
+/* Original0x6a690..0x6a69e. Translation-unit initializer symbols. */
+void mark_pch_translation_symbols(void)
+{
+    mark_pch_vector(translation_symbols, 0);
+}
+
+/* Original0x2e660..0x2e677,0x7c370..0x7c387 and0x37980..0x37997.
+   These three subsystem roots are optional inline vectors. */
+void mark_pch_class_contexts(void)
+{
+    if (cpp_context_stack) mark_pch_inline_vector(cpp_context_stack, 0);
+}
+
+void mark_pch_pending_tables(void)
+{
+    if (classes_pending_table_output)
+        mark_pch_inline_vector(classes_pending_table_output, 0);
+}
+
+void mark_pch_generated_members(void)
+{
+    if (generated_member_queue) mark_pch_inline_vector(generated_member_queue, 0);
+}
