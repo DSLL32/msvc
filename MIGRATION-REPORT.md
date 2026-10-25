@@ -453,16 +453,17 @@ their current cases, then pause and report before moving beyond them. The user
 later explicitly released CL and CVPACK to continue autonomously beyond a
 single function or case; the other five unfinished tools retain the original
 current-case scope. CL has now completed all identified application code and
-joined RC and CVTRES in the finished, idle group. The counts
-below include verified resumed work and exclude current unaccepted candidates.
+joined RC and CVTRES in the finished, idle group. The table records reported
+committed checkpoints, rather than intermediate function progress. Matching
+current-case WIP remains excluded until the encompassing case is complete.
 
-| Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
+| Binary | Committed App functions / bytes | Whole-text coverage | Reported committed checkpoint |
 | --- | --- | ---: | --- |
 | C1 | 159 / 33,030 | 10.25% | Minimal C: open_source_descriptor after the global-record writer and source-file lookup; `1d81b1477` |
-| C1XX | 174 / 27,227 | 3.62% | Minimal C++: write_global_ir_record; full 8,626-byte candidate remains scratch-only; `9cf5cc28d` |
+| C1XX | 174 / 27,227 | 3.62% | Minimal C++: large writer and subsequent frontend work remain current-case WIP; `9cf5cc28d` |
 | C2 | 209 / 51,805 | 9.04% | Numeric case: new_optimizer_context; `6ae5a84a2` |
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
-| CVPACK | 140 / 43,421 | 69.29% | Seven cases complete; new old-compiler archive stops at a typed MSPDB conversion boundary; `fed3a6c99` |
+| CVPACK | 144 / 45,285 | 72.27% | Nine cases complete, including C7 conversion and a compiler-PDB type server; `aaafcf21d`, fixture asset correction `b83e321f3` |
 | LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
 | RCDLL | 146 / 36,846 | 49.39% | Rich corpus: rc_read_resource_preamble after menu control flow; `da06c240b` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
@@ -502,18 +503,40 @@ tail zeros. The finished case commits as `fed3a6c99`: original 622.530 ms,
 native 17.700 ms, original/native build and audit 10.397 s, then all seven cached
 cases, 13 units and strict graph/RET gates in 0.370 s. Publication reused the
 identical tested source and pair without another original run.
-The next genuine VC1.0 `/Z7` two-TU archive reaches `record_widen` through C7
-narrow-index conversion, not C6 legacy conversion. Its 647.7 ms untouched
-original baseline is retained. The new factory/Record/query/emit boundary stays
-unsupported and case `0007` unaccepted pending a bounded typed observation plan;
-the old input-specific Widen oracle is not reused.
+Case `0007` subsequently completed a genuine VC1.0 `/Z7` two-TU archive through
+C7 narrow-index conversion, not C6 legacy conversion (`d9eb4fded`). The real
+25-byte `record_widen` wrapper uses a separately observed, case-bound typed
+dependency response: four object lifetimes, 35 Record inputs and two symbol
+Query/Emit spans. Its bounded observation ends at the final dependency return;
+the distinct ordinary CLI pair establishes completion and the identical
+5,216-byte output (original 1.333 s, native 10.433 ms). Eight cases, 18 units,
+the original build and strict graph/RET gates pass in 8.548 s. The old
+input-specific Widen oracle is not reused.
+
+Case `0008` completes a genuine VC5 `/Zi` two-TU archive with its 53,248-byte
+compiler PDB (`aaafcf21d`). Three App bodies add 1,839 code bytes. Existing
+read/until/emit support observes the actual successful typed PDB exports and
+19 mutable record spans totaling 532 bytes, retained through the real Close
+calls. No PDB parser or new capture framework is introduced; successful Open's
+unconsumed error output stays unclaimed. The final CLI pair produces an exact
+5,208-byte output and leaves the PDB unchanged: original 688.717 ms, native
+13.956 ms (setup 7.604, execution 4.515, checks 1.837 ms). Nine cases, 23 units
+and the original build pass; the 45.479 s batch includes a shared Cargo build
+wait. Required cached-import metadata uses the documented cdecl nonvolatile
+contract; the corrected 144-graph/143-RET audit takes 0.315 s without another
+execution. The harness-only PPB transcript then moves outside App cwd into
+capture assets (`b83e321f3`); affected native replay passes in 10.719 ms.
+Historical original reports remain intact, with no fabricated derived receipt
+or publication-only original rerun. Other binaries' current-case working
+implementations remain separate from the committed snapshots above.
 
 C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
 and native builds, full code/data graph and ABI gates, 36 units and a fresh
 758.922 ms original / 11.034 ms native pair. Its supported native domain is the
 reached NULL/opcode-17/IL header; source-only symbol/non-IL fields stay explicitly
-unmodeled behind the entry guard. C1XX is independently recovering its larger
-8,626-byte counterpart and its own contextual data; that draft has no credit.
+unmodeled behind the entry guard. C1XX's independently recovered larger
+8,626-byte counterpart and subsequent frontend work remain uncommitted until
+its current case completes; neither is included in the checkpoint table.
 These large owners explain why function counts can stay flat during substantial
 source work. Recent RCDLL menu-stage checks take 0.318 s for two native cases and
 36 groups, compared with 11.348 s for original/native strict preflight; its
