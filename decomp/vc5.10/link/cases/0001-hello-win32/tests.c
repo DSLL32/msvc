@@ -776,6 +776,25 @@ static int relocation_reader(void)
     return recon_native_at_entry(read_section_relocations,check_relocation_reader,
         invoke_hello,NULL)==1;
 }
+extern IMAGE_RELOCATION *RECON_THISCALL native_read_relocations(Contribution *,DWORD *)
+    __asm__("_ZN12Contribution15ReadRelocationsEPm");
+extern DWORD total_relocation_count;
+static IMAGE_RELOCATION *RECON_THISCALL check_relocation_load(Contribution *contribution,
+    DWORD *count)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution *expected=(Contribution *)module->contributions+1;
+    recon_native_entry_finish(contribution==expected && count &&
+        contribution->relocation_count==8 && contribution->relocation_offset==543 &&
+        !total_relocation_count && !module->base_relocation_size &&
+        sizeof(*count)==4);
+    return NULL;
+}
+static int relocation_load(void)
+{
+    return recon_native_at_entry(native_read_relocations,check_relocation_load,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -811,5 +830,6 @@ const ReconTest hello_tests[]={
     {"comdat-attachment",1,comdat_attachment},
     {"comdat-name-copy",1,comdat_name_copy},
     {"name-pool-call",1,name_pool_call},
-    {"relocation-reader",1,relocation_reader}
+    {"relocation-reader",1,relocation_reader},
+    {"relocation-load",1,relocation_load}
 };

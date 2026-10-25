@@ -5930,6 +5930,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_read_section_relocations@16": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   }

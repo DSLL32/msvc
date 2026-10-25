@@ -175,7 +175,6 @@ void __stdcall read_section_directives(LinkContext *context,Contribution *contri
     release_memory(directives);
 }
 void *__stdcall add_comdat_reference(StringNode *symbol,Contribution *parent,Contribution *child) { __asm { int 3 } return NULL; }
-void __stdcall read_section_relocations(LinkContext *context,Contribution *contribution,IMAGE_SYMBOL *symbols,OutputModule *module) { __asm { int 3 } }
 DWORD __stdcall mac_contribution_padding(DWORD size) { __asm { int 3 } return 0; }
 void __stdcall add_module_to_list(ModuleListNode **list,OutputModule *module) { __asm { int 3 } }
 char *__stdcall next_directive_token(char *,BYTE *);

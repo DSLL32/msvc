@@ -63,7 +63,8 @@ struct OutputModule {
     WORD optional_header_size, characteristics;
     DWORD section_count;
     DWORD contribution_count;
-    BYTE reserved20[12];
+    BYTE reserved20[8];
+    DWORD base_relocation_size;
     SectionFileMap *section_map;
     DWORD reserved30, input_tag, timestamp, file_size;
     DWORD section_offset;
@@ -120,6 +121,7 @@ struct Contribution {
     BYTE comdat_selection, reserved3d[3];
 #ifdef __cplusplus
     BYTE RECON_THISCALL CanFold(const char *name);
+    IMAGE_RELOCATION *RECON_THISCALL ReadRelocations(DWORD *count);
 #endif
 };
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
