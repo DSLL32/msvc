@@ -3,7 +3,7 @@ RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TRACE -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_LEGACY_JMP_WORDS=16 -DRECON_NATIVE_SETJMP3_COUNT0 -Dmain=rcdll_command_main -I$(RECON)/include -I$(RECON)/native -Isrc -Icrt -DRECON_RESOURCE_FILE='"$(abspath .build/help-resources.bin)"'
-NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks -fshort-wchar
+NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks -fshort-wchar -Werror=implicit-function-declaration
 BINARY_SOURCES = src/characters.c \
     src/command.c \
     src/comments.c \

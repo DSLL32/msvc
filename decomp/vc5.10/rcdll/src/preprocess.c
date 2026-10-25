@@ -3,6 +3,7 @@
 #include <wctype.h>
 #include "command.h"
 #include "preprocess.h"
+#include "directives.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -355,4 +356,10 @@ RcMacro *__cdecl rc_find_macro(void)
         if(!bytes) return macro;
     }
     return NULL;
+}
+
+void __cdecl rc_close_preprocessor(void)
+{
+    while(rc_open_source_frame()) {}
+    if(rc_cpp_output_file)fclose(rc_cpp_output_file);
 }

@@ -128,7 +128,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_open_preprocessor" },
     { .name="rc_close_preprocessor", .original_symbol="_rc_close_preprocessor", .entry_rva=0x476f,
       .code=(const ReconExtent[]){{0x476f,0x478b}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_close_preprocessor" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_close_preprocessor" },
     { .name="rc_directive_code", .original_symbol="_rc_directive_code@4", .entry_rva=0x478b,
       .code=(const ReconExtent[]){{0x478b,0x47f0}}, .code_count=1,
       .text_data=(const ReconExtent[]){{0x12f0,0x12fc},{0x12e4,0x12ee},{0x12d8,0x12e2},{0x12d0,0x12d8},{0x12c8,0x12d0},{0x12b8,0x12c6},{0x12ac,0x12b8},{0x12a0,0x12aa},{0x129c,0x12a0},{0x1290,0x129a},{0x1288,0x1290},{0x127c,0x1288},{0x1270,0x127a}}, .text_data_count=13,
