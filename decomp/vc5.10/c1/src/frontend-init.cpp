@@ -553,7 +553,6 @@ extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigne
         storage->CommitExtent();
     return memory;
 }
-extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
 

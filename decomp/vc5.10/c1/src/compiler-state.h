@@ -259,6 +259,12 @@ typedef struct CompilerBss {
     CompilerSourcePosition declaration_position; /* RVA57810..57818; BSS */
     int declaration_nesting; /* RVA54db8; nested declarations select arena2 */
     BYTE declaration_scope_active; /* RVA54c7c, BSS; participates in symbol scope bits */
+    char macro_date_time[26]; /* RVA550d0; ctime text, split into date/time strings */
+    char *macro_date; /* RVA54fbc */
+    char *macro_time; /* RVA54db4 */
+    int preprocessor_header_ready; /* RVA54f28; suppresses initial global header */
+    CompilerVector *pending_forced_includes; /* RVA54da8 */
+    short forced_include_index; /* RVA54dac */
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
