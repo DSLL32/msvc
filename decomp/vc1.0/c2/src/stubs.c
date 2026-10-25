@@ -228,7 +228,6 @@ int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 
 
 
 int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
-void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *value, AllocationRange *range) { __asm int 3 }
 
 MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer) { __asm int 3 }
 

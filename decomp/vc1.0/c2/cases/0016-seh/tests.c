@@ -5,8 +5,11 @@
 #include "tree-rewrite.h"
 #include "intrinsics.h"
 #include "global-registers.h"
+#include "register-transfers.h"
 #include <recon-native.h>
 #include <recon.h>
+extern Node *free_nodes;
+extern Expression *free_expressions;
 extern int c2_scope_owned_record(void);
 extern int c2_scope_push_inputs(void);
 extern int c2_scope_current_inputs(void);
@@ -28,6 +31,7 @@ extern int c2_protected_edge_inputs(void);
 extern int c2_refresh_region_inputs(void);
 extern int c2_restore_excluded_inputs(void);
 extern int c2_register_ends_inputs(void);
+extern int c2_assembly_record_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -571,6 +575,60 @@ static int restore_excluded_tree_paths(void)
     return allocation_excluded_registers==set&&set[0].next==&set[1]&&
         set[1].bits==((1U<<5)|(1U<<7));
 }
+static int register_end_annotations(void)
+{
+    static const unsigned opcodes[]={0x0f,0x30,8,0x0f,0x32};
+    WorkItem work;AllocationValue value;AllocationRange range;
+    Expression expressions[5],spares[4],*cursor;Node trees[5],regs[5],nodes[4],type;
+    unsigned i,inserted=0;memset(&work,0,sizeof work);
+    mark_register_definition_ends(&work,0,0);
+    memset(&value,0,sizeof value);memset(&range,0,sizeof range);memset(&type,0,sizeof type);
+    memset(expressions,0,sizeof expressions);memset(spares,0,sizeof spares);
+    memset(trees,0,sizeof trees);memset(regs,0,sizeof regs);memset(nodes,0,sizeof nodes);
+    value.node=&type;type.attributes.value=0x50104;range.number=0x4027;
+    work.body.expressions=expressions;
+    for(i=0;i<4;++i){nodes[i].left.node=i==3?0:&nodes[i+1];spares[i].next=i==3?0:&spares[i+1];}
+    free_nodes=nodes;free_expressions=spares;
+    for(i=0;i<5;++i){expressions[i].next=i==4?0:&expressions[i+1];
+        expressions[i].tree=&trees[i];expressions[i].source_location=70+i;
+        trees[i].opcode=opcodes[i];trees[i].left.node=&regs[i];
+        regs[i].opcode=0xa2;regs[i].left.word=i==3?0x4028:0x4027;}
+    mark_register_definition_ends(&work,&value,&range);
+    cursor=work.body.expressions;
+    for(i=0;i<5;++i){
+        if(cursor!=&expressions[i]||cursor->tree!=&trees[i]||cursor->source_location!=70+i||
+           trees[i].left.node!=&regs[i]||trees[i].opcode!=opcodes[i])return 0;
+        cursor=cursor->next;
+        if(i==0||i==4){Node *node;if(cursor!=&spares[inserted])return 0;
+            node=cursor->tree;if(node!=&nodes[inserted]||node->opcode!=0x4f||
+                node->attributes.value!=0x104||node->info.value||node->left.value!=0x4027||
+                node->second.value||node->right.value||node->detail.value!=0x25||
+                cursor->field08||cursor->source_location)return 0;
+            ++inserted;cursor=cursor->next;}
+    }
+    return !cursor&&inserted==2&&free_nodes==&nodes[2]&&free_expressions==&spares[2]&&
+        range.number==0x4027&&value.node==&type&&type.attributes.value==0x50104;
+}
+static int register_end_signed_comparison(void)
+{
+    static const unsigned words[]={5,0x4005,0x8005,0xffff,5};
+    static const unsigned ranges[]={5,0x4005,0x8005,0xffff,0x4005};
+    WorkItem work;AllocationValue value;AllocationRange range;Expression expression,spare;
+    Node store,reg,type,node;unsigned i;
+    for(i=0;i<RECON_COUNT(words);++i){
+        memset(&work,0,sizeof work);memset(&value,0,sizeof value);memset(&range,0,sizeof range);
+        memset(&expression,0,sizeof expression);memset(&spare,0,sizeof spare);
+        memset(&store,0,sizeof store);memset(&reg,0,sizeof reg);memset(&type,0,sizeof type);
+        memset(&node,0,sizeof node);work.body.expressions=&expression;expression.tree=&store;
+        store.opcode=0x0f;store.left.node=&reg;reg.opcode=0xa2;reg.left.word=(short)words[i];
+        value.node=&type;range.number=(unsigned short)ranges[i];free_nodes=&node;free_expressions=&spare;
+        mark_register_definition_ends(&work,&value,&range);
+        if(i<2){if(expression.next!=&spare||spare.tree!=&node||spare.next||
+            node.left.value!=ranges[i]||node.detail.control.code!=0x25)return 0;}
+        else if(expression.next||free_nodes!=&node||free_expressions!=&spare)return 0;
+    }
+    return 1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -624,5 +682,8 @@ const ReconTest c2_tests[]={
     {"actual excluded-register root/Expression/Work ownership",1,c2_restore_excluded_inputs},
     {"excluded registers preserve signed-short mask across memory shapes",1,restore_excluded_numbers},
     {"excluded restoration traverses binary and special leaf owners",1,restore_excluded_tree_paths},
-    {"actual definition-end Work/value/stack-range and binding aliases",1,c2_register_ends_inputs}
+    {"actual definition-end Work/value/stack-range and binding aliases",1,c2_register_ends_inputs},
+    {"definition ends insert typed markers after matching writes",1,register_end_annotations},
+    {"definition range compares signed tree and unsigned packed number",1,register_end_signed_comparison},
+    {"actual assembly selector Node ECX and defined28B fields",1,c2_assembly_record_inputs}
 };

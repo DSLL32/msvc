@@ -4,6 +4,7 @@
 #include "backend.h"
 #include "global-registers.h"
 #include "register-transfers.h"
+#include "instruction-selection.h"
 #include <recon.h>
 extern unsigned exception_scope_stack_depth;
 struct Arena { void *blocks; char *next; unsigned remaining; int heap_flags; };
@@ -344,4 +345,16 @@ int c2_register_ends_inputs(void)
 {
     return recon_native_at_entry((const void *)mark_register_definition_ends,
         (const void *)register_ends_entry,real_input,0)==1;
+}
+
+static unsigned short __fastcall assembly_record_entry(Node *node)
+{
+    int valid=node->opcode==0x46&&!node->attributes.value&&!node->info.value&&
+        node->left.node&&node->second.node&&node->right.symbol&&!node->detail.value;
+    recon_native_entry_finish(valid);
+}
+int c2_assembly_record_inputs(void)
+{
+    return recon_native_at_entry((const void *)select_assembly_record,
+        (const void *)assembly_record_entry,real_input,0)==1;
 }

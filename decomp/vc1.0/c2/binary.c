@@ -6648,11 +6648,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@mark_register_definition_ends@12",
         .entry_rva = 0x51370,
-        .code = (const ReconExtent[]) { { 0x51370, 0x51371 } },
+        .code = (const ReconExtent[]) { { 0x51370, 0x513ea } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_register_definition_ends",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@split_register_transfer_edge@16",

@@ -188,6 +188,30 @@ void assign_global_registers(void)
     release_bitset(special);
 }
 
+
+/* Original [00061370,000613ea). End a hinted range after each definition
+   of its virtual register. Only writes qualify; memory reads do not. The
+   tree's signed packed short is compared with the unsigned range number. */
+void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *value,
+    AllocationRange *range)
+{
+    Expression *expression;
+    Node *tree, *directive, *before;
+    for (expression = work->body.expressions; expression; expression = expression->next) {
+        tree = expression->tree;
+        if (!(node_shapes[tree->opcode] & NODE_MEMORY_ACCESS) ||
+            tree->opcode == 0x30 || tree->opcode == 0x5a ||
+            tree->left.node->opcode != 0xa2 ||
+            (int)tree->left.node->left.word != (int)range->number) continue;
+        directive = new_node(0x4f);
+        directive->detail.control.code = 0x25;
+        directive->left.value = range->number;
+        directive->attributes.words.type = value->node->attributes.words.type;
+        before = expression->next ? expression->next->tree : 0;
+        insert_tree_expression(expression, before, directive);
+    }
+}
+
 /* Original [00061bc0,00061d40). An opcode-4f directive carries a load or
    store operation, its virtual register and value type. Place it near the
    first access, after the last write, or at the requested pinned boundary. */

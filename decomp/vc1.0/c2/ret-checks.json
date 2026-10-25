@@ -175,6 +175,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@mark_register_definition_ends@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }
