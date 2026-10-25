@@ -419,12 +419,12 @@ below include verified resumed work and exclude current unaccepted candidates.
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
 | C1 | 85 / 8,533 | 2.65% | Minimal C: initialize_frontend after accepted orchestration |
-| C1XX | 97 / 7,726 | 1.03% | Minimal C++: push_packing after accepted frame acquisition |
-| C2 | 117 / 23,312 | 4.07% | Numeric case: new_statement_boundary after accepted line-input reset |
+| C1XX | 100 / 9,277 | 1.23% | Minimal C++: initialize_frontend after accepted full driver |
+| C2 | 125 / 23,706 | 4.14% | Numeric case: prepend_flow_block; code-reader work continues |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 105 / 37,873 | 9.13% | Hello EXE: read_module_symbols after accepted section-header reader |
-| RCDLL | 99 / 26,309 | 35.26% | Rich corpus: rc_skip_inactive_quoted after source-frame cleanup and copy helper |
+| LINK | 111 / 40,114 | 9.67% | Hello EXE: split_section_name after accepted contribution constructor |
+| RCDLL | 102 / 26,884 | 36.03% | Rich corpus: rc_undefine_macro after accepted quote copier |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -439,6 +439,13 @@ The concrete minimal capture work is:
   Both hosts now have successful genuine original/native frontier pairs.
   Old HOST argv/environment vectors and forced LastError values were observer
   choices, not required App inputs.
+- C1's next genuine inline object construction required small compiler
+  portability support: `477bd3d95` supplies qualified inline/placement-new
+  declarations, and `aaa964cd1` denies unsupported native pure-virtual calls.
+  Original/native compiler experiments preserve the 8/20/88-byte layouts and
+  real allocation/initialization edges without extra constructor vertices.
+  This is compiler support, not application acceptance or CRT reconstruction.
+  The shared tree is published and stable at `446d1949e`.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
