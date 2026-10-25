@@ -989,9 +989,10 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_preprocessor", .entry_rva = 0x3a4d3,
-        .code = (const ReconExtent[]){{0x3a4d3, 0x3a4d4}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3a4d3, 0x3a54b}, {0x72c64, 0x72c6d}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "initialize_preprocessor",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_keyword_table", .entry_rva = 0x3a54b,

@@ -49,6 +49,7 @@ typedef struct FrontendData {
     struct CompilerScope *current_scope; /* cc698, NULL */
     int browser_mode; /* initialized cc3d8, zero */
     struct CompilerBackend *named_browser, *initial_backend; /* cc3e4/cc3e8, NULL */
+    struct CompilerTokenRecord *canonical_token_records[244]; /* cc704..ccad4, NULL */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
