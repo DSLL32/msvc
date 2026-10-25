@@ -31,10 +31,10 @@ typedef struct PchCompilerImage {
     unsigned roots[149];
     unsigned reserved_after_roots, relocation_count, permanent_available;
     unsigned operator_count, function_directory_index, reserved_count;
-    int plmf_active, plmn_active, native_caller_seen;
+    int plmn_active, plmf_active, member_full_generality;
     int member_generality_fixed, member_requested_model;
     unsigned next_symbol_index, browser_symbol_limit;
-    unsigned reserved_one, reserved_zero, hidden_frame_bytes;
+    unsigned anonymous_identifier_count, reserved_zero, hidden_frame_bytes;
     unsigned short next_debug_index, reserved_debug;
     unsigned pragma_record_number, debug_stream_offset;
     int vtordisp;

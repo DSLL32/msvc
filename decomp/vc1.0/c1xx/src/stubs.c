@@ -557,7 +557,11 @@ IrToken *__stdcall build_scalar_reference_temporary(CType *referent, CType *refe
 int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
 void restore_pch_frontend(void) { __asm { int 3 } }
 void declare_pch_debug_library(void) { __asm { int 3 } }
-void relocate_pch_state(void) { __asm { int 3 } }
+void mark_pch_relocations(void) { __asm { int 3 } }
+void __stdcall encode_pch_pointer(void *pointer) { __asm { int 3 } }
+void encode_pch_operators(void) { __asm { int 3 } }
+void initialize_pch_relocations(void) { __asm { int 3 } }
+void encode_pch_pages(void) { __asm { int 3 } }
 unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
 void write_pch_pages(void) { __asm { int 3 } }
 void restore_pch_pointers(void) { __asm { int 3 } }

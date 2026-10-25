@@ -6,8 +6,8 @@
 #include "diagnostics.h"
 #include <recon.h>
 
-static unsigned char *permanent_next;
-static unsigned permanent_available;
+unsigned char *permanent_next;
+unsigned permanent_available;
 
 /* Original 0x6ad50..0x6ad9a. */
 void *__stdcall allocate_permanent(unsigned bytes)

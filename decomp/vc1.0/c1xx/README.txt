@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1437 App bodies and1544
+original/native matching at compare_filenames; there are1438 App bodies and1545
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -80,6 +80,17 @@ begin_browser_pch_record(57B) is accepted at relocate_pch_state. Browser prefix
 flush/terminator/suppression and all partial artifact bytes match. Original
 build3.604s, fresh original1.401s,1445-function audit2.205s and cached12+21units
 0.321s pass. Root relocation/marshaling remains unimplemented and uncredited.
+relocate_pch_state(54B) is accepted at mark_pch_relocations. Its explicit149-cell
+semantic table binds existing live globals, including the original21-slot shape
+cache and41 interned identifiers. Reserved/unmodeled cells remain owned solely
+by the image view and retain actual loaded values; no independent-consumer or
+full serialization equivalence is claimed before those helpers execute. The
+three private allocation/parameter owners are exposed without duplicate storage.
+Provisional suffix labels were corrected before first use: PLMN/PLMF order,
+member-pointer full generality and anonymous-identifier count. Five new whole
+relocation helpers remain trapping/uncredited. The actual snapshot consumer and
+restorer must use these same owners. Fresh original/native order and partial
+artifacts, original compiler,1446-function six-check audit and12cached+21units pass.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:

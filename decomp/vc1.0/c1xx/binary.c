@@ -1,11 +1,51 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1544 historical frontiers/1437 App bodies.
+ * Current reviewed boundary:1545 historical frontiers/1438 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_relocations",
+        .entry_rva = 0x59d50,
+        .code = (const ReconExtent[]) { { 0x59d50, 0x59d65 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_relocations",
+    },
+    {
+        .name = "_encode_pch_pointer@4",
+        .entry_rva = 0x5a6c0,
+        .code = (const ReconExtent[]) { { 0x5a6c0, 0x5a768 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "encode_pch_pointer",
+    },
+    {
+        .name = "_encode_pch_operators",
+        .entry_rva = 0x5a770,
+        .code = (const ReconExtent[]) { { 0x5a770, 0x5a7dd } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "encode_pch_operators",
+    },
+    {
+        .name = "_initialize_pch_relocations",
+        .entry_rva = 0x5a870,
+        .code = (const ReconExtent[]) { { 0x5a870, 0x5a8e6 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "initialize_pch_relocations",
+    },
+    {
+        .name = "_encode_pch_pages",
+        .entry_rva = 0x5a8f0,
+        .code = (const ReconExtent[]) { { 0x5a8f0, 0x5aadc } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "encode_pch_pages",
+    },
     {
         .name = "_copy_pch_stream@12",
         .entry_rva = 0x5d140,
@@ -64,6 +104,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "relocate_pch_state",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_browser_pch_record",
