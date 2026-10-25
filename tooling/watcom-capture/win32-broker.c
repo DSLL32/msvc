@@ -16,7 +16,8 @@ enum { MAP_BYTES=16384, PAYLOAD=256, MAX_PAYLOAD=4096, MAX_SEQUENCE=1000000,
        MAX_TRAPS=64, MAX_EVENTS=10000, MAX_STEPS=10000, MAX_READ=512 };
 enum { OP_EVENT=10, OP_CONTEXT=11, OP_READ=12, OP_TRAP=13, OP_CONSUME=14,
        OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20,
-       OP_WCC_PREFIX=21, OP_WCC_ENTRY=22, OP_WCC_ENTRY_TRAP=23 };
+       OP_WCC_PREFIX=21, OP_WCC_ENTRY=22, OP_WCC_ENTRY_TRAP=23,
+       OP_ARENA=24, OP_FRONTIER_TRAP=25, OP_AUTHORED_SETUP=26 };
 typedef struct Trap { DWORD address; BYTE saved; int active; } Trap;
 static BYTE *area;
 static HANDLE map_file=INVALID_HANDLE_VALUE, map_handle, child, thread;
@@ -30,6 +31,11 @@ static int wcc_handoff, wcc_at_entry, wcc_trap_running, wcc_entry_stopped;
 static unsigned wcc_instruction;
 static DWORD wcc_cf_base, wcc_cf_entry;
 static CONTEXT wcc_entry_context;
+static int arena_enabled, frontier_running, frontier_stopped;
+static DWORD arena_base, arena_size, frontier_address;
+static CONTEXT frontier_context;
+static int authored_setup, authored_stopped;
+static DWORD authored_ready;
 static DWORD child_pid, child_tid, image_base, image_size, entry_rva, entry_byte;
 static DWORD teb, entry_address, ntdll_base, ntdll_size;
 static DWORD events, steps, started, lease_tick, lease_value, seen;
@@ -101,10 +107,12 @@ static int budget(void)
 }
 static int in_image(DWORD address)
 { return address>=image_base && address-image_base<image_size; }
+static int in_arena(DWORD address)
+{ return arena_enabled && address>=arena_base && address-arena_base<arena_size; }
 static int add_trap(DWORD address,DWORD expected,DWORD *index)
 {
     unsigned i;
-    if(!pending || armed || expected>255 || !in_image(address) || trap_count==MAX_TRAPS ||
+    if(!pending || armed || expected>255 || (!in_image(address) && !in_arena(address)) || trap_count==MAX_TRAPS ||
        (!entry_reached && (address!=entry_address || expected!=entry_byte))) return 0;
     for(i=0;i<trap_count;i++) if(traps[i].address==address) return 0;
     if(!patch(address,(BYTE)expected,0xcc)) return 0;
@@ -212,13 +220,30 @@ static int next_event(void)
                 /* Raw full context is returned. Consumed TF is permitted only after
                    the recorded exact ARM readback; no other flags are normalized. */
                 armed=0;
-                if(wcc_handoff) {
+                if(wcc_handoff && !arena_enabled) {
                     if(++wcc_instruction==6) {
                         if(value.Eip!=wcc_cf_entry || !trap_ready(wcc_cf_entry)) return 0;
                         wcc_at_entry=1;wcc_entry_context=value;
                         fprintf(log_file,"wcc-cf-entry-db pc=%08lx cf-instructions=0\n",value.Eip);
                     }
                 }
+            } else if(frontier_running && !frontier_stopped &&
+                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                      event.u.Exception.dwFirstChance &&
+                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==frontier_address &&
+                      value.Eip==frontier_address+1 && trap_ready(frontier_address)) {
+                CONTEXT expected=frontier_context;
+                expected.Eip=frontier_address+1;
+                if(!same_context(&expected,&value)) return 0;
+                frontier_stopped=1;
+                fprintf(log_file,"arena-frontier-int3 pc=%08lx original-target-instructions=0\n",value.Eip);
+            } else if(authored_setup && !authored_stopped &&
+                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                      event.u.Exception.dwFirstChance &&
+                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==authored_ready &&
+                      value.Eip==authored_ready+1 && !(value.EFlags&0x100) && trap_ready(authored_ready)) {
+                authored_stopped=1;
+                fprintf(log_file,"authored-ready-stopped pc=%08lx arena-instructions=0\n",value.Eip);
             } else if(wcc_trap_running && !wcc_entry_stopped &&
                       event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                       event.u.Exception.dwFirstChance &&
@@ -288,7 +313,7 @@ static int arm(const DWORD *packet)
        !memory(before.Eip,&opcode,1) || opcode==0xcc) return 0;
     pack_context(actual,&before);
     if(memcmp(actual,packet,64)) return 0;
-    if(wcc_handoff) {
+    if(wcc_handoff && !arena_enabled) {
         static const DWORD offsets[]={0x10763,0x10015,0x10016,0x10019,0x1001b,0x1001d};
         static const BYTE lengths[]={5,1,3,2,2,2};
         static const BYTE instructions[6][5]={{0xe8,0xad,0xf8,0xff,0xff},{0x0e},
@@ -378,6 +403,56 @@ static int continue_wcc_entry_trap(void)
     if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
     pending=0;return 1;
 }
+static int register_arena(DWORD base,DWORD size)
+{
+    DWORD cursor,end,stack_bounds[2];MEMORY_BASIC_INFORMATION region;
+    if(!budget() || !pending || armed || arena_enabled || !size || size>0x1000000 ||
+       !bounds(base,size) || !(wcc_entry_stopped || authored_stopped) ||
+       !memory(teb+4,stack_bounds,sizeof(stack_bounds))) return 0;
+    end=base+size;
+    if(end<=base || (base<image_base+image_size && image_base<end) ||
+       (base<stack_bounds[0] && stack_bounds[1]<end) ||
+       (wcc_entry_stopped && (base!=wcc_cf_base || size!=0x91000))) return 0;
+    for(cursor=base;cursor<end;) {
+        if(!budget() || VirtualQueryEx(child,(void *)cursor,&region,sizeof(region))!=sizeof(region) ||
+           region.State!=MEM_COMMIT || region.Type!=MEM_PRIVATE ||
+           region.Protect&(PAGE_GUARD|PAGE_NOACCESS) || !region.RegionSize ||
+           (DWORD)region.BaseAddress>cursor ||
+           (DWORD)region.BaseAddress+region.RegionSize<=cursor) return 0;
+        cursor=(DWORD)region.BaseAddress+region.RegionSize;
+    }
+    arena_base=base;arena_size=size;arena_enabled=1;
+    fprintf(log_file,"arena-registered base=%08lx size=%08lx\n",base,size);fflush(log_file);
+    return 1;
+}
+static int continue_frontier_trap(DWORD index)
+{
+    CONTEXT value;
+    if(!budget() || !pending || !arena_enabled || armed || frontier_running || index>=trap_count ||
+       !context(&value) || value.EFlags&0x100 || !traps[index].active ||
+       !in_arena(traps[index].address) || value.Eip!=traps[index].address || !trap_ready(value.Eip) ||
+       event.dwDebugEventCode!=EXCEPTION_DEBUG_EVENT ||
+       event.u.Exception.ExceptionRecord.ExceptionCode!=EXCEPTION_SINGLE_STEP ||
+       !event.u.Exception.dwFirstChance) return 0;
+    frontier_address=value.Eip;frontier_context=value;frontier_running=1;
+    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
+    pending=0;return 1;
+}
+static int continue_authored_setup(const DWORD *packet,DWORD *index)
+{
+    static const char signature[16]="WCF-AUTHORED-v1";
+    BYTE observed[16];CONTEXT value;
+    if(!budget() || !pending || !entry_reached || armed || wcc_prefix || authored_setup ||
+       !context(&value) || value.Eip!=entry_address || value.EFlags&0x100 ||
+       packet[0]>=image_size || packet[1]>255 || packet[2]>image_size-16 ||
+       !memory(image_base+packet[2],observed,16) || memcmp(observed,signature,16) ||
+       !add_trap(image_base+packet[0],packet[1],index)) return 0;
+    authored_setup=1;authored_ready=image_base+packet[0];
+    fprintf(log_file,"authored-setup entry=%08lx ready=%08lx\n",entry_address,authored_ready);
+    fflush(log_file);
+    if(!ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
+    pending=0;return 1;
+}
 static int teardown(DWORD code)
 {
     DWORD began=GetTickCount(),actual=STILL_ACTIVE;DEBUG_EVENT drain;unsigned i;int extras_done;
@@ -437,15 +512,21 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
     MEMORY_BASIC_INFORMATION region;unsigned i;
     *reply_length=0;
     if(length>sizeof(packet)) return 0;
+    if(frontier_running && operation!=OP_CONTEXT && operation!=OP_READ && operation!=OP_SELECTORS &&
+       operation!=OP_REGION && operation!=OP_STOP && !(operation==OP_EVENT && !frontier_stopped)) return 0;
+    if(authored_setup && !arena_enabled && operation!=OP_CONTEXT && operation!=OP_READ &&
+       operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
+       !(operation==OP_EVENT && !authored_stopped) && !(operation==OP_ARENA && authored_stopped)) return 0;
     /* Default prefix capture is permanently stopped. Explicit OP22 admits only
        six byte-bound loader instructions, then inspection/STOP at CF entry.
        No RPC can admit the first CF body byte or a different transfer target. */
-    if(wcc_prefix && operation!=OP_CONTEXT && operation!=OP_READ &&
+    if(wcc_prefix && !arena_enabled && operation!=OP_CONTEXT && operation!=OP_READ &&
        operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
        !(operation==OP_EVENT && (!wcc_stopped || (wcc_handoff && !wcc_at_entry) ||
                                 (wcc_trap_running && !wcc_entry_stopped))) &&
        !(operation==OP_WCC_ENTRY && wcc_stopped && !wcc_handoff) &&
        !(operation==OP_WCC_ENTRY_TRAP && wcc_at_entry && !wcc_trap_running) &&
+       !(operation==OP_ARENA && wcc_entry_stopped) &&
        !((operation==OP_ARM || operation==OP_STEP) && wcc_handoff && !wcc_at_entry)) return 0;
     memcpy(packet,area+PAYLOAD,length);
     if(operation==OP_EVENT && !length) {
@@ -498,6 +579,11 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
         *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
     }
     if(operation==OP_WCC_ENTRY_TRAP && !length) return continue_wcc_entry_trap();
+    if(operation==OP_ARENA && length==8) return register_arena(packet[0],packet[1]);
+    if(operation==OP_FRONTIER_TRAP && length==4) return continue_frontier_trap(packet[0]);
+    if(operation==OP_AUTHORED_SETUP && length==12 && continue_authored_setup(packet,&index)) {
+        *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
+    }
     if(operation==OP_STOP && !length) return teardown(0x6000);
     return 0;
 }

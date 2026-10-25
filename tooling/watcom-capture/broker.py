@@ -109,6 +109,26 @@ class Broker:
             raise ProtocolError("actual CF entry INT3/context mismatch")
         return event,actual
 
+    def arena(self,base,size):
+        self.fixed(24,words((base,size)),0)
+
+    def frontier_trap(self,index,before):
+        self.fixed(25,words((index,)),0)
+        event=self.event();actual=self.context();expected=dict(before);expected['eip']+=1
+        if (event['code']!=1 or event['exception']!=0x80000003 or not event['first_chance'] or
+                event['exception_address']!=before['eip'] or actual!=expected):
+            raise ProtocolError('actual arena frontier INT3/context mismatch')
+        return event,actual
+
+    def authored_setup(self,ready_rva,expected,signature_rva):
+        index=struct.unpack('<I',self.fixed(26,words((ready_rva,expected,signature_rva)),4))[0]
+        event=self.event();actual=self.context()
+        if (event['code']!=1 or event['exception']!=0x80000003 or not event['first_chance'] or
+                event['exception_address']!=event['base']+ready_rva or
+                actual['eip']!=event['base']+ready_rva+1):
+            raise ProtocolError('authored setup did not stop at owned ready trap')
+        return index,event,actual
+
     def flat_selectors(self,actual):
         packet=struct.unpack("<12I",self.fixed(19,b"",48));result={};proof=[]
         for index,name in enumerate(("cs","ss","ds","es")):
