@@ -135,7 +135,7 @@ void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { _
 
 
 void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
-void convert_old_modifier(TypeRecord *entry) { __asm { int 3 } }
+
 void convert_old_leaf_a7(TypeRecord *entry) { __asm { int 3 } }
 
 

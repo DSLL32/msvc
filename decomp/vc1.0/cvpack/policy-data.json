@@ -2011,7 +2011,7 @@
       },
       "_convert_old_modifier": {
         "abi": "void convert_old_modifier(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },
