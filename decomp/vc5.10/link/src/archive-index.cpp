@@ -1,6 +1,7 @@
 /* COFF archive linker members and the optional long-name table. */
 #include <windows.h>
 #include <string.h>
+#include <stdio.h>
 #include "link.h"
 #include "input.h"
 #include "files.h"
@@ -13,8 +14,7 @@ extern "C" {
 extern BYTE file_access_statistics;
 /* Original47f084, paired with archive_member_offset47eed8. */
 DWORD archive_member_size;
-IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void)
-{ __asm { int 3 } return NULL; }
+IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void);
 DWORD __stdcall archive_big_endian_dword(const void *value)
 { __asm { int 3 } return 0; }
 unsigned __stdcall buffered_read(FileRecord *,void *,unsigned);
@@ -34,6 +34,19 @@ typedef struct ArchiveBufferedPosition { DWORD reserved[3],position; } ArchiveBu
     destination=(file_record->flags & 8) ? file_record->file_size : \
         ((ArchiveBufferedPosition *)file_record->base)->position; \
 } while (0)
+/* Original494820: one shared, writable member-header result. */
+static IMAGE_ARCHIVE_MEMBER_HEADER archive_header;
+extern "C" IMAGE_ARCHIVE_MEMBER_HEADER *__cdecl read_archive_member_header(void)
+{
+    FileRecord *file_record;
+    DWORD position=archive_member_offset+archive_member_size,error=0;
+    if (position & 1) ++position;
+    seek_file(current_input_file,position,0,&error);
+    READ_ARCHIVE(&archive_header,60);
+    archive_member_offset=position+60;
+    sscanf((const char *)archive_header.Size,"%ld",(long *)&archive_member_size);
+    return &archive_header;
+}
 #pragma intrinsic(memcmp)
 void RECON_THISCALL OutputLibrary::ReadIndex(LinkContext *context)
 {

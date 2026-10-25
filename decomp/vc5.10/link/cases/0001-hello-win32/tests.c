@@ -1341,7 +1341,22 @@ static int archive_header_call(void)
     return recon_native_at_entry(read_archive_member_header,check_archive_header_call,
         invoke_hello,NULL)==1;
 }
+extern DWORD __stdcall archive_big_endian_dword(const void *);
+static DWORD __stdcall check_archive_count_bytes(const void *value)
+{
+    FileRecord *record=file_slots[current_input_file];
+    recon_native_entry_finish(value && record && record->view &&
+        record->file_size==72 && archive_member_offset==68 && archive_member_size==37818 &&
+        !memcmp(value,(const BYTE *)record->view+68,4) && *(const DWORD *)value==0x49050000);
+    return 0;
+}
+static int archive_count_bytes(void)
+{
+    return recon_native_at_entry(archive_big_endian_dword,check_archive_count_bytes,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
+    {"archive-count-bytes",1,archive_count_bytes},
     {"archive-header-call",1,archive_header_call},
     {"library-index-position",1,library_index_position},
     {"library-reader-input",1,library_reader_input},

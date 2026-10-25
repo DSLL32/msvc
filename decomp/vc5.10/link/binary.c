@@ -294,7 +294,7 @@ static const ReconFunction functions[] = {
     {"_load_object_module@16",0x5fc90,(const ReconExtent[]){{0x5fc90,0x5fe75}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"load_object_module",NULL,NULL,0,NULL},
     {"_infer_output_file_name@8",0x49990,(const ReconExtent[]){{0x49990,0x49991}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"infer_output_file_name",NULL,NULL,0,NULL},
     {"_read_library_index@8",0x497b0,(const ReconExtent[]){{0x497b0,0x497df}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"read_library_index",NULL,NULL,0,NULL},
-    {"_read_archive_member_header",0x5d6d0,(const ReconExtent[]){{0x5d6d0,0x5d764}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"read_archive_member_header",NULL,NULL,0,NULL},
+    {"_read_archive_member_header",0x5d6d0,(const ReconExtent[]){{0x5d6d0,0x5d764}},1,(const ReconExtent[]){{0x66c4,0x66c8}},1,RECON_APP,RECON_IMPLEMENTED,"read_archive_member_header",NULL,NULL,0,NULL},
     {"_archive_big_endian_dword@4",0x5d830,(const ReconExtent[]){{0x5d830,0x5d831}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"archive_big_endian_dword",NULL,NULL,0,NULL},
     {"OutputLibrary::ReadIndex",0x5cff0,(const ReconExtent[]){{0x5cff0,0x5d6c1}},1,(const ReconExtent[]){{0x673c,0x674c},{0x66dc,0x66ec}},2,RECON_APP,RECON_IMPLEMENTED,"_ZN13OutputLibrary9ReadIndexEP11LinkContext",NULL,NULL,0,"?ReadIndex@OutputLibrary@@QAEXPAULinkContext@@@Z"},
     {"_is_mac_resource_file@4",0x4e620,(const ReconExtent[]){{0x4e620,0x4e6aa}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"is_mac_resource_file",NULL,NULL,0,NULL},

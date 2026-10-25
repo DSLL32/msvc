@@ -6490,6 +6490,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_read_archive_member_header": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
