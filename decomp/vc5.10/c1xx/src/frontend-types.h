@@ -29,6 +29,7 @@ typedef struct CompilerType {
 } CompilerType;
 typedef char CompilerType_size[sizeof(CompilerType) == 16 ? 1 : -1];
 struct CompilerParameterSet;
+struct CompilerParameterLink;
 struct CompilerSymbol;
 /* Interned shape header, distinct from the28-byte parser parameter object. */
 struct CompilerTypeShape {
@@ -44,7 +45,7 @@ struct CompilerTypeShape {
     CompilerTypeShape *RECON_THISCALL InternChain(CompilerTypeShape *);
     void RECON_THISCALL SetType(CompilerType *);
     void RECON_THISCALL SetParameters(struct CompilerParameterSet *,
-        struct CompilerSymbol *, CompilerType *);
+        struct CompilerParameterLink *, CompilerType *);
 #endif
 };
 typedef struct CompilerInternedType {

@@ -1386,7 +1386,7 @@ static const ReconFunction functions[] = {
         .name = "CompilerTypeShape::SetParameters", .entry_rva = 0x8408,
         .code = (const ReconExtent[]){{0x8408, 0x8409}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "_ZN17CompilerTypeShape13SetParametersEP20CompilerParameterSetP14CompilerSymbolP12CompilerType", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXPAUCompilerParameterSet@@PAUCompilerSymbol@@PAUCompilerType@@@Z",
+        .native_symbol = "_ZN17CompilerTypeShape13SetParametersEP20CompilerParameterSetP21CompilerParameterLinkP12CompilerType", .original_symbol = "?SetParameters@CompilerTypeShape@@QAEXPAUCompilerParameterSet@@PAUCompilerParameterLink@@PAUCompilerType@@@Z",
     },
     {
         .name = "_create_type_shape", .entry_rva = 0x7e51,
@@ -1402,8 +1402,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_link_parameter_symbols", .entry_rva = 0x83d3,
-        .code = (const ReconExtent[]){{0x83d3, 0x83d4}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x83d3, 0x8408}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "link_parameter_symbols",
     },
     {

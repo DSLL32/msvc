@@ -61,7 +61,7 @@ CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsig
 CompilerSymbol *__cdecl make_abstract_declarator(void);
 CompilerTypeShape *__cdecl create_type_shape(unsigned, unsigned, const unsigned *);
 CompilerType *__cdecl qualify_type(CompilerSymbol *, unsigned, WORD);
-CompilerSymbol *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
+CompilerParameterLink *__cdecl link_parameter_symbols(struct CompilerParameterContext *);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -820,7 +820,7 @@ void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
         last_shape->attributes &= ~3;
     }
 }
-void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerSymbol *symbols, CompilerType *type) { __asm { int 3 } }
+void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerParameterLink *symbols, CompilerType *type) { __asm { int 3 } }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned attributes, const unsigned *value)
 {
     CompilerArena *arena = &frontend_bss.arenas[5];
@@ -833,7 +833,25 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned
     return shape;
 }
 extern "C" CompilerType *__cdecl qualify_type(CompilerSymbol *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
-extern "C" CompilerSymbol *__cdecl link_parameter_symbols(CompilerParameterContext *context) { __asm { int 3 } return NULL; }
+extern "C" CompilerParameterLink *__cdecl link_parameter_symbols(CompilerParameterContext *context)
+{
+    CompilerParameterEntry *entry;
+    CompilerParameterLink *first, *last, *next;
+    if (!context) return NULL;
+    entry = context->head;
+    first = entry->parameter;
+    entry = entry->next;
+    last = first;
+    while (entry) {
+        next = entry->parameter;
+        last->next = next;
+        next->previous = last;
+        entry = entry->next;
+        last = last->next;
+    }
+    first->previous = last;
+    return first;
+}
 void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualifiers *value)
 {
     if (value->flags & 1) {

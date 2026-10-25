@@ -153,6 +153,19 @@ struct CompilerDeclaration {
     unsigned flags; /* original +4 */
     CompilerType *type; /* original +1c */
 };
+/* Parsed parameter entries become a doubly linked argument chain. These
+ * views expose only the actual pointer stores; other payload stays opaque. */
+struct CompilerParameterLink {
+    CompilerParameterLink *previous; /* original +8, first.previous is tail */
+    CompilerParameterLink *next;     /* original +14 */
+};
+struct CompilerParameterEntry {
+    CompilerParameterEntry *next; /* original +4 */
+    CompilerParameterLink *parameter; /* original +10 */
+};
+struct CompilerParameterContext {
+    CompilerParameterEntry *head; /* original +0 */
+};
 /* Function-parameter description, distinct from an interned type shape.
  * Only the builder's stores are modeled; the full28-byte layout is unknown. */
 struct CompilerParameterDescription {
