@@ -104,5 +104,10 @@ Do not bulk copy data sections into the reconstruction in any format. Define dat
 Keep ordinary string literals at their point of use. Introduce named string objects only when sharing, mutation, or observable address identity requires them.
 While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target. Feel free to reorganize code or update function, type, and field names as your knowledge of the target grows during reconstruction.
 Compile with the original toolchain that built the target. Create a GNU Makefile in the binary's folder to do the build - invoking the toolchain via wine - and support parallel original-toolchain and native build targets.
-Commit as you please, suggested is per function reconstruction or other substantial work.
+While working on a case, do not commit after individual functions or run the
+complete regression suite or full audit. Use current-case replay, necessary
+builds, and narrowly targeted checks during reconstruction. Once the case is
+complete, run the full regression suite and audit, then commit the completed
+case. Make an interim commit only when explicitly requested or needed to hand
+work to another worker.
 Update a binary's README only when a case is finished, not after individual functions or intermediate progress.
