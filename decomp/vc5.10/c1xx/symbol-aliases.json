@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "aliases": [
+    {
+      "win32_alias": "?Reset@CompilerPlainText@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN17CompilerPlainText5ResetEv",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    }
+  ]
+}

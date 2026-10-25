@@ -328,7 +328,6 @@ extern "C" void __cdecl initialize_language_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_scope_symbols(void) { __asm { int 3 } }
 extern "C" CompilerSymbol *__cdecl lookup_builtin(struct CompilerScope *scope, CompilerLookup *lookup) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl declare_builtin(CompilerDeclaration *declaration, CompilerSymbol *symbol) { __asm { int 3 } }
-extern "C" int __cdecl create_input(int record, CompilerInput **input, CompilerTextInput **text) { __asm { int 3 } return 0; }
 CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned arena_kind) { __asm { int 3 } return this; }
 void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena, int first, int second, FrontendContextStack *owner) { __asm { int 3 } }
 CompilerLookup *RECON_THISCALL CompilerLookup::Initialize(CompilerType *type, const void *name) { __asm { int 3 } return this; }

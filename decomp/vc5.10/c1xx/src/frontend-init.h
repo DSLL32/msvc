@@ -1,30 +1,24 @@
 #ifndef C1XX_FRONTEND_INIT_H
 #define C1XX_FRONTEND_INIT_H
 #include "frontend.h"
+#include "input.h"
 #include <recon.h>
 
 /* Only the encountered virtual slots have semantic names. Unrecovered
  * preceding slots are declarations, never instantiated or given fake bodies. */
 struct CompilerBackend {
-    virtual void Finish(void) = 0;
+    virtual void RECON_THISCALL Finish(void) = 0;
 };
 struct CompilerDebugModule {
-    virtual int Finish(void) = 0;
-    virtual int Close(void) = 0;
-};
-struct CompilerInput {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual void UnrecoveredSlot3(void) = 0;
-    virtual void Close(void) = 0;
+    virtual int RECON_THISCALL Finish(void) = 0;
+    virtual int RECON_THISCALL Close(void) = 0;
 };
 /* External MSPDB interface, not a reconstruction of that dependency. */
 struct PDB {
-    virtual void UnrecoveredSlot0(void) = 0;
-    virtual void UnrecoveredSlot1(void) = 0;
-    virtual void UnrecoveredSlot2(void) = 0;
-    virtual int QueryLastError(char *text) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot0(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot1(void) = 0;
+    virtual void RECON_THISCALL UnrecoveredSlot2(void) = 0;
+    virtual int RECON_THISCALL QueryLastError(char *text) = 0;
 };
 struct CompilerTranslationUnit {
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
