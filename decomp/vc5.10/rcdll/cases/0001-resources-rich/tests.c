@@ -117,9 +117,20 @@ static int no_space_guard(void)
     return recon_native_at_entry((const void *)rc_define_macro,
         (const void *)no_space_boundary,no_space,NULL)==1;
 }
+static int copy_end_contract(void)
+{
+    const WCHAR source[]={L'x',0x1234,0};
+    WCHAR destination[]={0xa7a7,0xa7a7,0xa7a7,0xa7a7};
+    WCHAR empty[]={0xa7a7,0xc9c9};
+    return rc_copy_wide_end(destination,source)==destination+2 &&
+        destination[0]==L'x' && destination[1]==0x1234 && !destination[2] &&
+        destination[3]==0xa7a7 && rc_copy_wide_end(empty,L"")==empty &&
+        !empty[0] && empty[1]==0xc9c9;
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
+    {"wide-copy-end-contract",1,copy_end_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };

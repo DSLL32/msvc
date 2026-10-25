@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_copy_wide_end` (RVA bfc4). Its partial streams and actual
+  stops at `rc_skip_inactive_quoted` (RVA 6cbc). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,10 +32,10 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **98 functions, 26,275 code bytes**
+Accepted application reconstruction is **99 functions, 26,309 code bytes**
 (the d08815612 baseline plus the preprocessor output loop, block-comment
-preservation and source-frame closure). The provisional discovered application denominator is 299
-functions / 66,295 bytes (39.63%); Ghidra discovery is not a completed ownership
+preservation, source-frame closure and its custom copy-end helper). The provisional discovered application denominator is 299
+functions / 66,295 bytes (39.68%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -44,17 +44,18 @@ semantics (the original caller requests 0x42c4); native execution uses its
 compiler-owned frame, not a fake C helper call. Shared identify-runtime matches
 the shipped MSVCRT.LIB helper. Unknown entries stay unknown.
 
-The preprocessor output loop, block-comment preservation, source-frame closure
-and their encountered
+The preprocessor output loop, block-comment preservation, source-frame closure, the custom copy-end helper and their encountered
 literals/descriptors now pass the
 original/compiler and native builds, the strict graph/ABI audit, and a fresh
 matching original/native frontier pair. The former WIP snapshot remains at
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.335 s; native replay took 177.534 ms
-(setup 77.730, execution 30.755, checks 69.048 ms). The source-frame
-original/native builds and whole-candidate graph preflight took 7.127 s.
+The latest original capture took 1.527 s; native replay took 176.039 ms
+(setup 75.758, execution 30.986, checks 69.293 ms). The copy-end
+original/native builds and whole-candidate graph preflight took 3.688 s.
+A focused native unit checks its terminator return, WCHAR16 content, empty
+input and untouched tail; it took 147.958 ms (3.183 ms execution).
 The earlier external loader
 INT3 failure and its shared-tool diagnostic remain in scratch; no program
 behavior was changed to bypass that stop.

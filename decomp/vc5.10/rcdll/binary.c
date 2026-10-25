@@ -482,7 +482,7 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=1, .native_symbol="rc_copy_macro_text" },
     { .name="rc_copy_wide_end", .original_symbol="_rc_copy_wide_end@8", .entry_rva=0xbfc4,
       .code=(const ReconExtent[]){{0xbfc4,0xbfe6}}, .code_count=1,
-      .definition=RECON_APP, .implementation=0, .native_symbol="rc_copy_wide_end" },
+      .definition=RECON_APP, .implementation=1, .native_symbol="rc_copy_wide_end" },
     { .name="rc_emit_macro_reference", .original_symbol="_rc_emit_macro_reference@4", .entry_rva=0xbfe6,
       .code=(const ReconExtent[]){{0xbfe6,0xc036}}, .code_count=1,
       .definition=RECON_APP, .implementation=0, .native_symbol="rc_emit_macro_reference" },

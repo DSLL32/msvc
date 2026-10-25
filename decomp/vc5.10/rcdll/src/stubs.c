@@ -226,8 +226,3 @@ void __stdcall rc_skip_inactive_quoted(WCHAR delimiter)
     __asm int 3
 }
 
-WCHAR *__stdcall rc_copy_wide_end(WCHAR *destination,const WCHAR *source)
-{
-    __asm int 3
-    return NULL;
-}

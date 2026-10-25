@@ -44,3 +44,13 @@ done:
     *cursor=0;
     rc_string_length=(unsigned short)(cursor-(WCHAR *)rc_token_value+1);
 }
+
+/* Return the copied terminator, rather than the initial destination. */
+WCHAR *__stdcall rc_copy_wide_end(WCHAR *destination,const WCHAR *source)
+{
+    while((*destination=*source)!=0){
+        ++destination;
+        ++source;
+    }
+    return destination;
+}
