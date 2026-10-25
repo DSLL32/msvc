@@ -42,6 +42,17 @@ qualification: individually identified embedded CRT boundaries may substitute
 compatible native runtime behavior despite differing internal graphs; the exact
 originating older runtime is unknown. No new CRT reconstruction was done.
 
+`src/` contains application reconstruction. The existing binary-specific runtime
+support lives in `crt/`: `startup.c` and `arguments.c` preserve the embedded
+startup/argument contracts; `runtime.c` preserves its process-heap allocator;
+`file-runtime.c` preserves its file-open flags and FILE/buffer behavior.
+`legacy-ctype.c` and its header retain the observed older CRT classification
+prefix used by signed character indices. `stubs.c` holds the two unavailable CRT
+frontiers, with no new implementation credit; `rcpp.h` declares these runtime
+interfaces. Compatible common runtime support remains in `lib/recon/`.
+Case-specific console and direct/unit glue remains in its numbered case; there
+are no separate binary-specific native hosts or shared case helpers.
+
 Migration snapshot, authoring files and diagnostics are under
 `~/.ai-tmp/msvc2/vc1.0/rcpp/standardization/`; case directories contain only
 standard descriptors, captures and narrow direct/unit glue. Superseded receipts,
@@ -54,6 +65,7 @@ application initialization was changed. All 20 replay invocations and both
 nonempty unit groups pass. The shared audit retains the exact historical 179
 accepted entry names and ranges on both sides, including 18 import endpoints.
 
-Measured checks: parallel replay/unit targets 0.317 s; stale case build 0.782 s;
-original compiler build 8.775 s; shared runtime identification 1.629 s; core
-161-graph/358-extent audit 0.237 s. Diagnostic receipts remain in scratch.
+Layout verification: native/case build 2.129 s; parallel replay/unit targets
+0.328 s; original compiler build 8.742 s; shared runtime identification,
+registry export and 161-graph/358-extent audit together 0.400 s. These checks used
+the existing captures. Diagnostic receipts remain in scratch.
