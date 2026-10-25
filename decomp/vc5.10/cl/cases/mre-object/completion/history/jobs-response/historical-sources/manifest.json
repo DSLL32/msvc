@@ -1,9 +1,0 @@
-{
-  "qualification": "Reconstructed exact historical source versions; each content hash checked against immutable execution/control receipt, without rewriting those receipts. Native1 is rejected validator run; preliminary32 mixed-source controls remain superseded.",
-  "files": {
-    "native-1-mre_state.py": "d188ca58e4cfbc4f9d8b118e89368fe0113378f40302eb32f4841595064d5d55",
-    "native-1-jobs_native_state.py": "aa5777bf6488798d6fa325c8b5a0893f9d90dbd1a106a088aeb91436d8d38d41",
-    "native-1-mre_native.py": "d016081b5810dfbd8e0db8b27684b29d059ccaddd4c36b540707a0af56562725",
-    "native-33-checker.py": "9d87580e895d0b5e1a9c82c55bfa47a49473f104599ec940f6ed20742bcb35f7"
-  }
-}

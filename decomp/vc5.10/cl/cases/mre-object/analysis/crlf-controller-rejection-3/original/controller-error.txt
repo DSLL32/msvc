@@ -1,1 +1,0 @@
-AssertionError('unexpected original file-copy request')

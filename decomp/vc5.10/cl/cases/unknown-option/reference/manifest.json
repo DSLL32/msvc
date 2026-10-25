@@ -1,9 +1,0 @@
-{
-  "streams": {
-    "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-    "stderr": "c59ff632161dc817cc5581252a7ce0fb0da3f4024bd6d648796e6401045d73ec"
-  },
-  "status": 2,
-  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
-  "source_capture_sha256": "603d1dc8125dab6bddb52835be061b40fd925fb49faed477b8b30625b9a60e92"
-}

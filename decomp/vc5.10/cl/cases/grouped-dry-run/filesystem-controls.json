@@ -1,1 +1,0 @@
-{"passed": true, "negative_controls": 6, "controls": ["C: success is not a missing parent proof", "wrong errno", "wrong doserrno", "wrong LastError", "directory traversal", "empty path component"]}

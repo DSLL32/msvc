@@ -1,1 +1,0 @@
-{"passed": true, "negative_controls": 10, "controls": ["wrong IAT", "wrong callsite", "provider identity", "unproved provider bytes", "missing second call", "wrong qualified import", "extra unknown original", "extra unknown rebuilt", "removed write preservation", "wrong write preserved register"]}

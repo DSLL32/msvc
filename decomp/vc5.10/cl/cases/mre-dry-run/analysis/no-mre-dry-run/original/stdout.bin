@@ -1,3 +1,0 @@
-test.c
-`S:\vc5.10\cl\mre-prefix-analysis-1\c1.dll -il .\a01600 -f test.c -W 1 -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -D_M_IX86=500 -G5 -Gs -Ot -Ob0 -Fotest.obj -pc \:/ -D_MSC_VER=1100 -D_WIN32 -nologo -DVALUE=7 -Fdcase.pdb -I R:\toolchains\5.10\include'
-`S:\vc5.10\cl\mre-prefix-analysis-1\c2.exe -il .\a01600 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdcase.idb'

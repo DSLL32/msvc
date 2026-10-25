@@ -1,1 +1,0 @@
-{"result": "PASS", "negatives": 10, "controls": ["original: NULL FILE argument", "original: FILE descriptor", "original: NULL format argument", "original: format byte", "original: consumed variadic character", "native: NULL FILE argument", "native: FILE descriptor", "native: NULL format argument", "native: format byte", "native: consumed variadic character"]}

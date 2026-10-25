@@ -1,4 +1,0 @@
-call sequence=1 site=00403066 function=780063f8 argument=0031f430 mode=4
-state phase=access-1-before teb=3ffe2000 tid=1424 tls_index=1 ptd=00890100
-return sequence=1 result=00000000
-state phase=access-1-after teb=3ffe2000 tid=1424 tls_index=1 ptd=00890100

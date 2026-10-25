@@ -1,0 +1,1036 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {
+      "_mainCRTStartup": {
+        "original": {
+          "roots": [
+            4217326,
+            4217347
+          ],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_mainCRTStartup",
+              "offset": 270
+            },
+            {
+              "rebuilt_symbol": "_mainCRTStartup",
+              "offset": 291
+            }
+          ],
+          "text_data": [],
+          "switches": []
+        }
+      },
+      "_main": {
+        "original": {
+          "roots": [
+            4201109,
+            4201139
+          ],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_main",
+              "offset": 1150
+            },
+            {
+              "rebuilt_symbol": "_main",
+              "offset": 1198
+            }
+          ],
+          "text_data": [],
+          "switches": []
+        }
+      },
+      "_execute_pass": {
+        "original": {
+          "roots": [
+            4216535,
+            4216565
+          ],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_execute_pass",
+              "offset": 664
+            },
+            {
+              "rebuilt_symbol": "_execute_pass",
+              "offset": 712
+            }
+          ],
+          "text_data": [],
+          "switches": []
+        },
+        "register_imports": {
+          "require_all_register_calls_resolved": false
+        }
+      },
+      "_read_option": {
+        "original": {
+          "roots": [],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_read_option",
+                "offset": 938
+              },
+              {
+                "rebuilt_symbol": "_read_option",
+                "offset": 992
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_read_option",
+                "offset": 515
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 610
+                },
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 588
+                },
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 566
+                },
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 544
+                },
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 522
+                },
+                {
+                  "rebuilt_symbol": "_read_option",
+                  "offset": 632
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_format_message": {
+        "original": {
+          "roots": [],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_format_message",
+                "offset": 654
+              },
+              {
+                "rebuilt_symbol": "_format_message",
+                "offset": 696
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_format_message",
+                "offset": 155
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_format_message",
+                  "offset": 435
+                },
+                {
+                  "rebuilt_symbol": "_format_message",
+                  "offset": 366
+                },
+                {
+                  "rebuilt_symbol": "_format_message",
+                  "offset": 162
+                },
+                {
+                  "rebuilt_symbol": "_format_message",
+                  "offset": 366
+                },
+                {
+                  "rebuilt_symbol": "_format_message",
+                  "offset": 473
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_expand_word": {
+        "original": {
+          "roots": [],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_expand_word",
+                "offset": 348
+              },
+              {
+                "rebuilt_symbol": "_expand_word",
+                "offset": 484
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_expand_word",
+                "offset": 94
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 120
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 181
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 238
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 115
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 283
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 101
+                },
+                {
+                  "rebuilt_symbol": "_expand_word",
+                  "offset": 313
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_prepare_inputs": {
+        "original": {
+          "roots": [],
+          "text_data": [],
+          "switches": {}
+        },
+        "rebuilt": {
+          "roots": [],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_prepare_inputs",
+                "offset": 380
+              },
+              {
+                "rebuilt_symbol": "_prepare_inputs",
+                "offset": 396
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_prepare_inputs",
+                "offset": 213
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_prepare_inputs",
+                  "offset": 220
+                },
+                {
+                  "rebuilt_symbol": "_prepare_inputs",
+                  "offset": 234
+                },
+                {
+                  "rebuilt_symbol": "_prepare_inputs",
+                  "offset": 248
+                },
+                {
+                  "rebuilt_symbol": "_prepare_inputs",
+                  "offset": 348
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_link_message": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      }
+    },
+    "callback_tables": [],
+    "register_imports": {
+      "preservation_contracts": [
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "import-policy.json",
+            "sha256": "5c8fd0f2afbf7500ef7fee35b82de8325fda01434f9228a5be54654072880f27"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_write"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "import-policy.json",
+            "sha256": "5c8fd0f2afbf7500ef7fee35b82de8325fda01434f9228a5be54654072880f27"
+          }
+        }
+      ]
+    }
+  },
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "_main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_install_control_handler": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_split_arguments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_count_arguments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_program_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_initialize_driver": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_show_usage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_has_nologo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_show_banner": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_parse_arguments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_message": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_inputs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_environment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_show_help": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_allocate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_append_text": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_warning": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_release": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_fatal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_execution": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_run_driver": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_driver_exit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_skip_space": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_program_directory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_duplicate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_load_string": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_format_message": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_format_number": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_response": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_classify_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_add_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_special": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_apply_special": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_match_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_has_prefix": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_rule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_new_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_append_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_expand_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_detach_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_delete_options": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_option_conflict": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_match_pattern": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_define_macro": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_link_arguments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_c_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_cpp_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_object_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_validate_value": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_expand_word": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_expand_alternative": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_append_literal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_append_escaped": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_apply_extension": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_options_match": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_copy_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_unlink_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_delete_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_last_separator": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_undefine_macro": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_has_any_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_option_for_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_expand_filename": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_configure_assembly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_enable_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_disable_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_set_output_option": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_set_pass_suffix": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_set_pass_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_undefine_defaults": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_enable_dll": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_file_basename": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_file_directory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_make_map_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_join_text": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_create_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_source_jobs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_jobs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_next_jobs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_run_jobs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_run_passes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_link_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_final_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_file_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_create_job": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_option_signature": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_jobs_from_deferred": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_advance_jobs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_configure_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_cleanup_files": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_find_file": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_search_path": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_quoted_length": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_expanded_length": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_quote_argument": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_start_timer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_stop_timer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_execute_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_unload_pass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_delete_temporary": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_vwrite_message": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_typed_input": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_link_response": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_link_message": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_option_strings": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_option_matching_selector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_mainCRTStartup": {
+        "expected_cleanup": [
+          0
+        ]
+      }
+    }
+  },
+  "accepted_scopes": {
+    "qualified-imports": [
+      "_install_control_handler",
+      "_count_arguments",
+      "_program_name",
+      "_initialize_driver",
+      "_show_usage",
+      "_has_nologo",
+      "_show_banner",
+      "_parse_arguments",
+      "_write_message",
+      "_finish_options",
+      "_prepare_inputs",
+      "_prepare_environment",
+      "_allocate",
+      "_append_text",
+      "_warning",
+      "_release",
+      "_fatal",
+      "_prepare_execution",
+      "_run_driver",
+      "_driver_exit",
+      "_skip_space",
+      "_program_directory",
+      "_duplicate",
+      "_load_string",
+      "_read_response",
+      "_classify_input",
+      "_add_input",
+      "_find_special",
+      "_apply_special",
+      "_match_option",
+      "_has_prefix",
+      "_find_rule",
+      "_read_option",
+      "_new_option",
+      "_append_option",
+      "_expand_options",
+      "_detach_options",
+      "_delete_options",
+      "_option_conflict",
+      "_match_pattern",
+      "_link_arguments",
+      "_c_input",
+      "_cpp_input",
+      "_object_input",
+      "_expand_word",
+      "_expand_alternative",
+      "_append_literal",
+      "_apply_extension",
+      "_options_match",
+      "_copy_option",
+      "_unlink_option",
+      "_delete_option",
+      "_find_last_separator",
+      "_undefine_macro",
+      "_has_any_option",
+      "_option_for_pass",
+      "_expand_filename",
+      "_configure_assembly",
+      "_enable_pass",
+      "_disable_pass",
+      "_set_pass_suffix",
+      "_set_pass_name",
+      "_undefine_defaults",
+      "_enable_dll",
+      "_file_basename",
+      "_file_directory",
+      "_make_map_name",
+      "_join_text",
+      "_create_input",
+      "_source_jobs",
+      "_prepare_jobs",
+      "_next_jobs",
+      "_run_jobs",
+      "_run_passes",
+      "_link_pass",
+      "_final_pass",
+      "_file_name",
+      "_create_job",
+      "_option_signature",
+      "_jobs_from_deferred",
+      "_advance_jobs",
+      "_configure_pass",
+      "_cleanup_files",
+      "_search_path",
+      "_expanded_length",
+      "_start_timer",
+      "_stop_timer",
+      "_execute_pass",
+      "_unload_pass",
+      "_delete_temporary",
+      "_vwrite_message",
+      "_typed_input",
+      "_write_link_response",
+      "_write_link_message",
+      "_compare_option_strings",
+      "_option_matching_selector",
+      "_mainCRTStartup",
+      "___setargv",
+      "__setdefaultprecision",
+      "__matherr",
+      "__setargv",
+      "import:_except_handler3",
+      "import:_XcptFilter",
+      "import:_initterm",
+      "import:_controlfp",
+      "import:memset",
+      "import:strlen",
+      "import:strcat",
+      "import:strcpy",
+      "import:memcpy",
+      "import:strcmp"
+    ]
+  },
+  "runtime_audit_names": [
+    "_mainCRTStartup",
+    "___setargv",
+    "__setdefaultprecision",
+    "__matherr",
+    "__setargv",
+    "import:_except_handler3",
+    "import:_XcptFilter",
+    "import:_initterm",
+    "import:_controlfp",
+    "import:memset",
+    "import:strlen",
+    "import:strcat",
+    "import:strcpy",
+    "import:memcpy",
+    "import:strcmp"
+  ]
+}

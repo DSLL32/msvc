@@ -6,7 +6,7 @@
 #include <unistd.h>
 #include <recon.h>
 
-static void __attribute__((constructor)) configure_module(void)
+static void configure_module(void)
 {
     const char *path = getenv("RECON_PROGRAM_PATH");
     const char *provider = getenv("RECON_RESOURCE_PROVIDER");
@@ -26,11 +26,12 @@ static void __attribute__((constructor)) configure_module(void)
 /* GNU ld adapts the Linux CRT caller, leaving the target's main symbol intact.
  * This is the same verified entry setup supplied by shared entry.c, whose
  * optional host main is disabled for this target. */
-extern int __real_main(int, char **, char **);
+extern int main(int, char **, char **);
+extern void cl_configure_dependency(void);
 extern char **cl_dependency_bind_entry(int, char **, char **);
 extern char **link_bind_entry(int, char **, char **);
 extern char **mre_bind_entry(int, char **, char **);
-int __wrap_main(int argc, char **argv, char **envp)
+int cl_case_main(int argc, char **argv, char **envp)
 {
     int result;
     DWORD entry_error;
@@ -105,6 +106,8 @@ int __wrap_main(int argc, char **argv, char **envp)
         entry_error=0;
     else
         recon_unsupported("unknown CL native entry profile");
+    configure_module();
+    cl_configure_dependency();
     envp = cl_dependency_bind_entry(argc, argv, envp);
     envp = link_bind_entry(argc, argv, envp);
     envp = mre_bind_entry(argc, argv, envp);
@@ -112,7 +115,7 @@ int __wrap_main(int argc, char **argv, char **envp)
     recon_doserrno = 0;
     recon_SetLastError(entry_error);
     recon_controlfp(0x10000, 0x30000);
-    result = __real_main(argc, argv, envp);
+    result = main(argc, argv, envp);
     recon_record_terminal_status((uint32_t)result);
     return result;
 }

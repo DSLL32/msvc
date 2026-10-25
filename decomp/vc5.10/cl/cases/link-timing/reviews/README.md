@@ -1,1 +1,0 @@
-These are frozen review-source copies and historical identity descriptors, not current-worktree execution inputs. Each manifest member has its exact frozen copy beside the manifest. The active executable/raw/source proof closure is in ../milestones/start-timer/manifest.json. Prior states and the rejected UTC0 run remain unchanged.

@@ -1,7 +1,0 @@
-[Thread debugging using libthread_db enabled]
-Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
-
-Program received signal SIGTRAP, Trace/breakpoint trap.
-startup_frontier () at src/frontiers.c:8
-8	}
-NATIVE_FRONTIER_SYMBOL=startup_frontier

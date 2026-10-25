@@ -295,7 +295,7 @@ static char *configuration_text(void)
     return value;
 }
 
-static void __attribute__((constructor)) configure_dependency(void)
+void cl_configure_dependency(void)
 {
     const char *descriptor = getenv("CL_DEPENDENCY_FD");
     const char *path = getenv("CL_DEPENDENCY_CONFIG");

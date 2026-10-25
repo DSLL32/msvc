@@ -1,9 +1,0 @@
-{
-  "source_capture_sha256": "5a77963d9fec273c9790ce12c452e128cd04e205a4520367f2ae6642de62fa7b",
-  "status": 0,
-  "streams": {
-    "stderr": "c237d1b34f85ce6fe6439f8f5b726a01c80e92a93daa4b6883a0c063bea33a3b",
-    "stdout": "21e6f366ad477da99f24c65c932736f96032ae3b9ec925d1ece8a3085dc5fcb0"
-  },
-  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
-}

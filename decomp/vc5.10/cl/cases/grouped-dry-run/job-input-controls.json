@@ -1,1 +1,0 @@
-{"passed": true, "negative_controls": 10, "controls": ["original: NULL head", "original: truncate list", "original: cycle list", "original: second node used as head", "original: source sequence", "native: NULL head", "native: truncate list", "native: cycle list", "native: second node used as head", "native: source sequence"]}

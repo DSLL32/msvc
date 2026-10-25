@@ -1,9 +1,0 @@
-{
-  "state": "completed",
-  "application_credit_bytes": 152,
-  "completed": "completed.json",
-  "coverage": "coverage.json",
-  "timings": "timings.json",
-  "normal_completion_proof": "completion/manifest.json",
-  "prefix_proof": "milestones/start-timer/manifest.json"
-}

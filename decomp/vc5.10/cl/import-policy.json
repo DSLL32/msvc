@@ -1,0 +1,35 @@
+{
+  "kind": "Finite qualified-import preservation policy; provider internals are not reconstructed.",
+  "GetProcAddress": {
+    "import": "kernel32.dll!GetProcAddress",
+    "original_target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "iat": 4235736,
+    "cache_register": "edi",
+    "callsites": [
+      4216405,
+      4216416
+    ],
+    "preserved": [
+      "edi"
+    ],
+    "qualification": "Observed ordinary WINAPI nonvolatile contract at the two reached lookups. Only actual Invoke remains a genuine indirect callback. No claim for arbitrary provider internals."
+  },
+  "_write": {
+    "import": "msvcrt.dll!_write",
+    "provider_path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "public_entry_rva": 13059,
+    "public_hot": [
+      13059,
+      13153
+    ],
+    "public_cold": [
+      47976,
+      48004
+    ],
+    "preserved": [
+      "esi"
+    ],
+    "qualification": "Both normal wrapper returns restore saved caller ESI; explicit outer PUSH/POP closure, no private callee-state or external RET inference."
+  }
+}

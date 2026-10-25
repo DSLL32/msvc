@@ -1,4 +1,0 @@
-/nologo
-/dll
-/implib:out/path.lib
-/map:

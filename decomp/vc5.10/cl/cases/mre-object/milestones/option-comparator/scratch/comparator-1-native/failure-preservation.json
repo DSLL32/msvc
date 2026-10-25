@@ -1,8 +1,0 @@
-{
-  "kind": "Additive native-controller failure retention",
-  "capture_sha256": "8ddaa3147907349ac71109cda2f16912d8d9736509749f680bfc25c98b32f908",
-  "native_ELF_sha256": "2d907f6bc65a8053ec4f3d6e26dc4a32e366cc60cd1300883b7e63384c5f422d",
-  "actual_first_return": 1,
-  "failure": "Temporary first-callback return breakpoint was not explicitly deleted after False; duplicate observation guard stopped before API4. No strcmp magnitude mismatch claimed.",
-  "application_credit": 0
-}

@@ -1,8 +1,0 @@
-call sequence=1 id=302 module=00400000 output=00409698 capacity=256
-return sequence=1 id=302 value=27
-call sequence=2 id=4002 module=00400000 output=00409698 capacity=256
-return sequence=2 id=4002 value=28
-call sequence=3 id=303 module=00400000 output=00409698 capacity=256
-return sequence=3 id=303 value=25
-call sequence=4 id=2003 module=00400000 output=00409698 capacity=256
-return sequence=4 id=2003 value=23
