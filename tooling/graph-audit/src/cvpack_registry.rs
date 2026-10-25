@@ -11,6 +11,71 @@ use std::{
     path::Path,
 };
 
+fn validate_pending_driver(item: &Value, driver: &Value, base: u32, symbol: &str) -> Result<()> {
+    let name = item["name"].as_str().context("pending application name")?;
+    ensure!(
+        driver["pending_extent"] == true,
+        "CVPACK pending driver must remain pending: {name}"
+    );
+    let code = item["code"]
+        .as_array()
+        .context("pending canonical code intervals")?;
+    ensure!(
+        code.len() == 1,
+        "CVPACK pending driver needs one canonical interval: {name}"
+    );
+    let interval = code[0]
+        .as_array()
+        .context("pending canonical code interval")?;
+    ensure!(
+        interval.len() == 2,
+        "invalid pending canonical interval: {name}"
+    );
+    let begin = num(&interval[0])?;
+    let end = num(&interval[1])?;
+    ensure!(
+        begin == num(&item["rva"])? && begin < end,
+        "invalid pending canonical extent: {name}"
+    );
+    ensure!(
+        base.checked_add(end)
+            .context("pending canonical address overflow")?
+            == num(&driver["end"])?,
+        "CVPACK pending driver extent differs: {name}"
+    );
+    ensure!(
+        driver
+            .get("symbol")
+            .is_none_or(|value| value.as_str() == Some(symbol))
+            && driver
+                .get("native")
+                .is_none_or(|value| value == &item["native_symbol"]),
+        "CVPACK pending driver identity differs: {name}"
+    );
+    ensure!(
+        driver["code_chunks"].as_array().is_some_and(Vec::is_empty),
+        "CVPACK pending driver has unsupported code chunks: {name}"
+    );
+    let text_data: Vec<[u32; 2]> = serde_json::from_value(item["text_data"].clone())?;
+    let shared = text_data
+        .into_iter()
+        .map(|[a, b]| {
+            ensure!(a < b, "invalid pending canonical text data: {name}");
+            Ok([
+                base.checked_add(a)
+                    .context("pending text data address overflow")?,
+                base.checked_add(b)
+                    .context("pending text data address overflow")?,
+            ])
+        })
+        .collect::<Result<Vec<_>>>()?;
+    ensure!(
+        driver["shared"] == json!(shared),
+        "CVPACK pending driver text data differs: {name}"
+    );
+    Ok(())
+}
+
 pub fn configuration(input: &Value, metadata: &Value, runtime: &Value) -> Result<Value> {
     ensure!(
         metadata["schema"] == 1,
@@ -36,6 +101,10 @@ pub fn configuration(input: &Value, metadata: &Value, runtime: &Value) -> Result
         let start = base
             .checked_add(num(&item["rva"])?)
             .context("CVPACK registry address overflow")?;
+        ensure!(
+            item["implementation"] == 0 || item["implementation"] == 1,
+            "invalid CVPACK application implementation: {name}"
+        );
         let implemented = item["implementation"] == 1;
         ensure!(
             accepted.contains(name) == implemented,
@@ -43,13 +112,12 @@ pub fn configuration(input: &Value, metadata: &Value, runtime: &Value) -> Result
         );
         let symbol = item["original_symbol"].as_str().unwrap_or(name);
         let mut row = json!({"name":name,"symbol":symbol,"original":start,"kind":"application","status":if implemented{"accepted"}else{"stub"},"extent":null,"text_data":[]});
-        if implemented {
-            let found: Vec<_> = drivers.iter().filter(|d| d["name"] == name).collect();
-            ensure!(
-                found.len() == 1,
-                "CVPACK accepted driver missing or ambiguous: {name}"
-            );
-            let driver = found[0];
+        let found: Vec<_> = drivers.iter().filter(|d| d["name"] == name).collect();
+        ensure!(
+            found.len() <= 1 && (!implemented || found.len() == 1),
+            "CVPACK application driver missing or ambiguous: {name}"
+        );
+        if let Some(driver) = found.first() {
             ensure!(
                 num(&driver["start"])? == start,
                 "CVPACK driver entry differs: {name}"
@@ -58,12 +126,18 @@ pub fn configuration(input: &Value, metadata: &Value, runtime: &Value) -> Result
                 driver["code_chunks"].as_array().is_none_or(Vec::is_empty),
                 "CVPACK registry adapter does not support fragmented bodies"
             );
-            row["extent"] = json!([driver["start"], driver["end"]]);
-            row["text_data"] = driver["shared"].clone();
-            row["symbol"] = driver
-                .get("symbol")
-                .cloned()
-                .unwrap_or_else(|| json!(symbol));
+            if implemented {
+                row["extent"] = json!([driver["start"], driver["end"]]);
+                row["text_data"] = driver["shared"].clone();
+                row["symbol"] = driver
+                    .get("symbol")
+                    .cloned()
+                    .unwrap_or_else(|| json!(symbol));
+            } else {
+                validate_pending_driver(item, driver, base, symbol)?;
+                // Consume the canonical declaration while preserving a stub
+                // with no restored extent, text data or accepted graph body.
+            }
             used.insert(name);
         }
         let policy = metadata["functions"][name]
@@ -332,6 +406,57 @@ pub fn rebuilt_runtime(flat: Value, rebuilt: &Pe) -> Result<Value> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn canonical_pending_driver_stays_an_unavailable_stub() {
+        let input = json!({"target":{"base":65536},"accepted":[],"restored_runtime_names":[],
+            "function_registry":[{"name":"pending","original_symbol":"_pending","native_symbol":"pending",
+                "definition":4,"implementation":0,"rva":16,"code":[[16,32]],"text_data":[[64,68]]}],
+            "driver":[{"name":"pending","symbol":"_pending","native":"pending","start":65552,"end":65568,
+                "pending_extent":true,"shared":[[65600,65604]],"code_chunks":[]}]});
+        let metadata = json!({"schema":1,"functions":{"pending":{}}});
+        let runtime = json!({"functions":[],"imports":[]});
+        let output = configuration(&input, &metadata, &runtime).unwrap();
+        assert_eq!(output["functions"][0]["status"], "stub");
+        assert!(output["functions"][0]["extent"].is_null());
+        assert_eq!(output["functions"][0]["text_data"], json!([]));
+        assert_eq!(output["support_unmasked"], json!([]));
+        for (key, value) in [
+            ("start", json!(65553)),
+            ("end", json!(65569)),
+            ("symbol", json!("wrong")),
+            ("symbol", json!(7)),
+            ("native", json!("wrong")),
+            ("pending_extent", json!(false)),
+            ("shared", json!([])),
+            ("code_chunks", json!("wrong")),
+            ("name", json!("not_in_registry")),
+        ] {
+            let mut wrong = input.clone();
+            wrong["driver"][0][key] = value;
+            assert!(configuration(&wrong, &metadata, &runtime).is_err(), "{key}");
+        }
+        let mut wrong = input.clone();
+        let row = wrong["driver"][0].clone();
+        wrong["driver"].as_array_mut().unwrap().push(row);
+        assert!(configuration(&wrong, &metadata, &runtime).is_err());
+        wrong = input.clone();
+        wrong["function_registry"][0]["definition"] = json!(3);
+        assert!(configuration(&wrong, &metadata, &runtime).is_err());
+        wrong = input.clone();
+        wrong["accepted"] = json!(["pending"]);
+        assert!(configuration(&wrong, &metadata, &runtime).is_err());
+        wrong = input.clone();
+        wrong["function_registry"][0]["code"] = json!([]);
+        assert!(configuration(&wrong, &metadata, &runtime).is_err());
+        let mut no_extent = input.clone();
+        no_extent["driver"] = json!([]);
+        no_extent["function_registry"][0]["code"] = json!([]);
+        assert_eq!(
+            configuration(&no_extent, &metadata, &runtime).unwrap(),
+            output
+        );
+    }
+
     #[test]
     fn reviewed_crt_anchor_classification_does_not_grant_body_availability() {
         let entry = json!({"definition":3,"implementation":0});
