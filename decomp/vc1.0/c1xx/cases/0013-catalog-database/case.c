@@ -1,6 +1,6 @@
 #include <recon-tool.h>
 #include "entry.h"
-static const uint32_t order[] = { 0x60800, 0x7b70, 0x8030 };
+static const uint32_t order[] = { 0x60800, 0x7b70, 0x8030, 0x7300 };
 /* Accepted1547-App seed before the coherent separate-debug catalog workload. */
 static const uint32_t seen[] = {
     0x7000,
@@ -1555,6 +1555,6 @@ RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "catalog_database",
     "C++ scene catalog with nested/packed/virtual node types, visitor/default conversions, scalar/reference lifetimes and reproducible separate CodeView database",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x8030,
+    RECON_IO, RECON_FRONTIER, 0x7300,
     NULL, c1xx_case_invoke, NULL, NULL, 0
 };

@@ -112,10 +112,14 @@ DebugDatabase *__cdecl open_debug_database(char *filename, char *mode, unsigned 
     return 0;
 }
 
+/* Original0x18030..0x18048: ECX=this, one stack DWORD/RET4,
+   returning the actual block owner in EAX. */
 DatabaseBlock * RECON_THISCALL DatabaseBlock::initialize(unsigned capacity)
 {
-    __asm { int 3 }
-    return 0;
+    remaining = capacity;
+    cursor = (unsigned char *)(this + 1);
+    next = 0;
+    return this;
 }
 void RECON_THISCALL DatabasePool::release(void)
 {
