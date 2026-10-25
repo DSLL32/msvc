@@ -8,15 +8,21 @@ typedef struct C2NodeHeader {
 } C2NodeHeader;
 
 unsigned long c2_node_bytes[4];
-C2Pool c2_pools[8];
+C2Pool c2_pools[13];
 C2PoolBlock *c2_free_blocks;
 
 void *__fastcall c2_pool_allocate(int pool, unsigned bytes)
 {
     unsigned rounded = (bytes + 3) & ~3U;
-    C2Pool *arena = &c2_pools[pool];
+    C2Pool *arena;
     C2PoolBlock *block;
     unsigned char *result;
+
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+    if ((unsigned)pool >= 8 && pool != 12)
+        recon_unsupported("unmodeled C2 allocation-pool slot");
+#endif
+    arena = &c2_pools[pool];
 
     if (rounded <= 4088) {
         if ((int)rounded > arena->remaining) {

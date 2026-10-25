@@ -254,6 +254,22 @@ static int code_node_splice(void)
         nodes[1].next == &nodes[2] && nodes[2].previous == &nodes[1] && !nodes[2].next;
 }
 
+static int flow_pool_allocation(void)
+{
+    C2Pool canary;
+    unsigned char *bytes;
+    unsigned i;
+    memset(&c2_pools[11], 0xa5, sizeof(C2Pool)); /* Own untouched backing only. */
+    canary = c2_pools[11];
+    bytes = c2_pool_allocate(12, 52);
+    if (!bytes || !c2_pools[12].blocks || c2_pools[12].cursor != bytes + 52 ||
+        c2_pools[12].remaining != 4088 - 52 ||
+        memcmp(&c2_pools[11], &canary, sizeof(canary))) return 0;
+    for (i = 0; i < 52; ++i)
+        if (bytes[i]) return 0;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -268,5 +284,6 @@ const ReconTest numeric_tests[] = {
     {"successive local stack allocations", 1, local_storage_sequence},
     {"function line reset retains the cumulative line", 1, function_line_reset},
     {"small-node reuse clears exactly its owned size", 1, small_node_reuse},
-    {"code-node insertion preserves both chains", 1, code_node_splice}
+    {"code-node insertion preserves both chains", 1, code_node_splice},
+    {"pool12 zeroed allocation leaves unknown backing alone", 1, flow_pool_allocation}
 };

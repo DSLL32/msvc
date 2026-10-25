@@ -2279,8 +2279,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@new_flow@4",
         .entry_rva = 0x2c91,
+        .code = (const ReconExtent[]){{0x2c91, 0x2cb6}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_flow",
     },
     {
@@ -2289,6 +2291,13 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "create_function_block",
+    },
+    {
+        .name = "@initialize_flow_pool@16",
+        .entry_rva = 0x2b47,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "initialize_flow_pool",
     },
     {
         .name = "_controlfp",

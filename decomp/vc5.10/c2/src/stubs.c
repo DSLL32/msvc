@@ -8,10 +8,10 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-C2FlowGraph *__fastcall new_flow(int pool)
+void __fastcall initialize_flow_pool(C2FlowGraph *flow, int pool,
+                                     unsigned bytes, unsigned count)
 {
     __asm { int 3 }
-    return NULL;
 }
 C2BasicBlock *__fastcall create_function_block(C2Function *function,
     C2BasicBlock *after, C2Record *first, C2Record *last)

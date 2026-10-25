@@ -84,8 +84,12 @@ typedef struct C2Pool {
     unsigned char *cursor;
     int remaining;
 } C2Pool;
-/* Pool4 is used directly for retained source-file names, not node accounting. */
-extern C2Pool c2_pools[8];
+/* Existing pools0..7 and the encountered pool12. Slots8..11 are UNMODELED
+ * backing only, with no original default or whole-array extent claim. */
+extern C2Pool c2_pools[13];
+typedef char C2PoolSizeCheck[sizeof(C2Pool) == 12 ? 1 : -1];
+typedef char C2PoolCursorCheck[offsetof(C2Pool, cursor) == 4 ? 1 : -1];
+typedef char C2PoolRemainingCheck[offsetof(C2Pool, remaining) == 8 ? 1 : -1];
 extern C2PoolBlock *c2_free_blocks;
 extern void *c2_types;
 typedef struct C2Real {
@@ -244,7 +248,10 @@ struct C2FunctionListing {
 };
 /* Only the record-list consumer's encountered block/flow prefixes. */
 struct C2BasicBlock { unsigned char pending00[28]; C2Record *records; };
-struct C2FlowGraph { C2BasicBlock *entry; };
+/* The constructor proves a52-byte allocation. Unencountered flow fields are
+ * reserved storage until their actual initializer/consumer is reconstructed. */
+struct C2FlowGraph { C2BasicBlock *entry; unsigned char pending04[48]; };
+typedef char C2FlowGraphSizeCheck[sizeof(C2FlowGraph) == 52 ? 1 : -1];
 typedef struct C2Function {
     C2FunctionSymbol *symbol;
     unsigned pending04;
