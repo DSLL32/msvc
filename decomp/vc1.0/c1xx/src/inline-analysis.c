@@ -351,3 +351,12 @@ int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count,
         if (slots[i] == symbol_index) return i;
     return -1;
 }
+
+void free_inline_query_tables(void);
+
+/* Original0x446d4..0x446d9. This final inline-query entry tail-transfers
+   to cleanup of the two tables allocated during frontend initialization. */
+void generate_inline_queries(void)
+{
+    free_inline_query_tables();
+}

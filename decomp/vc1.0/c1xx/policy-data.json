@@ -3494,6 +3494,10 @@
     "_finish_line_record_debug_info": {
       "pending_extent": false,
       "reason": "ABI-only tail target of finish_debug_info: original whole70950..7099f has cdecl RET0 at7099e and only internal branches; native source remains trapping RET0. Unimplemented, masked and zero acceptance/coverage credit."
+    },
+    "_free_inline_query_tables": {
+      "pending_extent": false,
+      "reason": "ABI-only whole29B tail target of generate_inline_queries: original4510f..4512c calls free twice thencdeclRET0 at4512b; native pendingstubRET0. Remains unimplemented/masked, zero function/byte credit."
     }
   },
   "runtime_candidate_disqualifications": {
