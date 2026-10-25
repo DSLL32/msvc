@@ -1891,7 +1891,7 @@
       },
       "_convert_old_procedure": {
         "abi": "void convert_old_procedure(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },
@@ -1939,6 +1939,24 @@
       },
       "_convert_old_leaf_a7": {
         "abi": "void convert_old_leaf_a7(TypeRecord *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_read_old_numeric": {
+        "abi": "unsigned long read_old_numeric(unsigned char **,unsigned short *)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_convert_old_argument_list": {
+        "abi": "void convert_old_argument_list(unsigned short,unsigned short)",
+        "source": "src/stubs.c",
+        "stack_cleanup": 0,
+        "roots": []
+      },
+      "_resize_old_type": {
+        "abi": "unsigned char * resize_old_type(TypeRecord *,unsigned short)",
         "source": "src/stubs.c",
         "stack_cleanup": 0,
         "roots": []

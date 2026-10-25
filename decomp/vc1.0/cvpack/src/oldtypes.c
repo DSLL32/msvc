@@ -47,3 +47,49 @@ void convert_old_type_record(unsigned short relative)
         convert_old_leaf_80(entry);
     }
 }
+
+/* LF_PROCEDURE holds a counted return type and a legacy argument-list index. */
+void convert_old_procedure(TypeRecord *entry)
+{
+    unsigned char *cursor = entry->data+5, *record;
+    unsigned short result, arguments, count;
+    unsigned long numeric;
+    unsigned char convention = 0, kind;
+    entry->flags |= 0x400;
+    if (*cursor == 0x83) {
+        ++cursor;
+        result = *(unsigned short *)cursor;
+        cursor += 2;
+    } else result = *cursor++;
+    kind = *cursor++;
+    switch (kind) {
+    case 0x63: convention = 0; break;
+    case 0x64: convention = 1; break;
+    case 0x73: convention = 3; break;
+    case 0x74: convention = 2; break;
+    case 0x95: convention = 4; break;
+    case 0x96: convention = 5; break;
+    case 0x97: convention = 6; break;
+    default:
+        /* The original leaves this output byte uninitialized for an unknown
+           convention. Keep the reconstructed byte deterministically zero. */
+        break;
+    }
+    numeric = read_old_numeric(&cursor, NULL);
+    count = numeric > 0xffff ? 0xffff : (unsigned short)numeric;
+    ++cursor;
+    if (count) {
+        arguments = *(unsigned short *)cursor;
+        convert_old_argument_list(arguments, count);
+    } else arguments = 0xffff;
+    if ((unsigned long)*(unsigned short *)(cursor+1)+1 >= 10)
+        record = entry->data;
+    else record = resize_old_type(entry, 12);
+    *(unsigned short *)record = 10;
+    *(unsigned short *)(record+2) = 8;
+    *(unsigned short *)(record+4) = result;
+    record[6] = convention;
+    record[7] = 0;
+    *(unsigned short *)(record+8) = count;
+    *(unsigned short *)(record+10) = arguments;
+}
