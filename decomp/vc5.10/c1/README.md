@@ -3,7 +3,7 @@
 `binary.c` is the function/export registry for original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 128 accepted application functions / 19,674 code bytes.
+The current prefix contains 129 accepted application functions / 19,733 code bytes.
 Historical linked startup support remains separately classified: two CRT
 functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 398
 bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
@@ -26,7 +26,7 @@ zero static matches, while the historical CRT rows retain strict graph checks.
 The lifecycle case attaches, resolves both exports without invoking them, and
 detaches. Minimal invokes the actual supported direct 11-argument
 `_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`CompilerDeclarator::ApplyAttributes()`, RVA `0xb58d`. Its fresh reference uses logical cwd
+`CompilerDeclarator::Resolve()`, RVA `0x2500`. Its fresh reference uses logical cwd
 `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
 Final IR from other invocations is not merged into this oracle. Both cases run
 entirely natively against cached original observations.
@@ -69,7 +69,7 @@ scope uses the actual ten-slot virtual interface, with operations still pending.
 
 The declarator receiver retains its actual48-byte extent. Offsets8/20/24 now hold
 the shape tail, shape-state flags and parameter description. The function-type caller zeros an original unwritten upper
-attribute WORD; that later path remains unexecuted at the current frontier.
+attribute WORD; the copied upper WORD has no original writer; later consumers remain bounded by their actual reads.
 
 Abstract-symbol reuse models only encountered free-list head9, original size52
 and cache-index9 defaults. Other indexes remain valid original states but hold

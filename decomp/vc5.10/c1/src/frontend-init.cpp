@@ -684,5 +684,11 @@ void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
 void RECON_THISCALL CompilerDeclarator::MergeQualifiers(const CompilerDeclarationAttributes *first,
     const CompilerDeclarationAttributes *second) { __asm { int 3 } }
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
-{ __asm { int 3 } }
+{
+    if (attributes->flags & 1) {
+        compiler_warning(493);
+        flags |= 1;
+    }
+    this->attributes = *attributes;
+}
 CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } return NULL; }
