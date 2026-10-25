@@ -2512,7 +2512,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x13260, 0x13261}},
         .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "size_old_register_relative32",
     },
     {
@@ -2585,7 +2585,7 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x14a50, 0x14a51}},
         .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_symbol_register_relative32",
     },
     {

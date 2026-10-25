@@ -354,6 +354,12 @@ void convert_old_symbol_block16(void)
     old_symbol_output = name;
 }
 
+/* Original [00023260,00023261): a genuine zero-argument App table callback.
+   The following fifteen bytes are alignment, not part of this function. */
+void size_old_register_relative32(void)
+{
+}
+
 void size_old_register_relative16(void)
 {
     module_type_base += 9;
@@ -376,6 +382,12 @@ void size_old_skip(void)
 
 /* This legacy converter consumes the fixed narrow record, including two
    trailing words; it does not remap either through the type compactor. */
+/* Original [00024a50,00024a51): this callback returns without changing state.
+   In particular it does not advance old_symbol_input in the CLI dispatcher. */
+void convert_old_symbol_register_relative32(void)
+{
+}
+
 void convert_old_symbol_register_relative16(void)
 {
     unsigned char *record = old_symbol_output;

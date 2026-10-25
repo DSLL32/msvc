@@ -1,22 +1,22 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **268 accepted application
-functions, 75,346 original code bytes, and 7 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **270 accepted application
+functions, 75,348 original code bytes, and 5 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
 streams and defined artifact bytes. The last accepted function is
-`convert_old_based_register` (sequence 268, 159 original code bytes,
-`src/oldsymbols.c`), after `convert_old_based_data16` (sequence 267, 121 bytes).
+`convert_old_symbol_register_relative32` (sequence 270, one original code byte,
+`src/oldsymbols.c`), after `size_old_register_relative32` (sequence 269, one byte).
 Encountered converter dispatch and calls identified additional App helpers;
 remaining helpers retain named trapping stubs and no accepted credit.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 81 application functions.
+The resumed workload has accepted 83 application functions.
 Each has matching original/native progress and strict compiler/graph/data
-checks. All nineteen active cached cases and nineteen unit executors pass.
-The original compiler and strict 268-function graph/ABI/data gate passed in
-2.009s; final active-case discovery/check/unit/audit verification passed in
-0.661s. Eighteen cases complete; 0013 retains its explicit BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
+checks. The previous nineteen-case/nineteen-unit aggregate passed in 0.661s.
+The new callback case/check/unit, original compiler and strict 270-function
+graph/ABI/data gate passed in 1.846s without another aggregate replay.
+Twenty cases are active; nineteen complete, with 0013 retaining its BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -88,12 +88,33 @@ based-pointer CLI reach or wide-record coverage. The superseded mapped setup
 left its small input extended because of the known leaked mapping handle;
 that raw attempt remains in scratch and is not part of this buffered fixture.
 
-Seven application stubs remain: the varying BARRAY control defect; two packed
-NB08 reader/writer routines for which no genuine NB08 provider is available;
-two 32-bit based-symbol serializers without authentic wide C6 records; and the
-two one-byte no-op C6 callbacks. The available CFIG386 artifact has no based-
-pointer leaves or wide register-relative records. No synthetic wide records,
-format relabelling or constant BARRAY substitute is used to claim completion.
+
+`0021-noop-callbacks` is a minimal internal return test of the two genuine
+zero-argument App callbacks at RVAs 0x13260 and 0x14a50. The actual main-entry
+hook runs before parser work, calls both real routines and completes only after
+they return. It invents no records or target globals and resumes no parser.
+The sizing/conversion table call sites establish the `void __cdecl(void)` ABI;
+the fresh original/native sequence is main, sizing callback, conversion callback.
+Both empty C functions retain distinct emitted identities under the existing
+noinline/build policy. Only each original RET byte is credited; the following
+fifteen alignment bytes are excluded. The original conversion callback does not
+advance `old_symbol_input`, so this test does not claim that the CLI's wide-record
+dispatcher can progress. Final masked original capture took 1133.943 ms;
+report-bound native replay took 8.936 ms (5.267 ms setup, 1.863 ms execution,
+1.805 ms checks). Native candidate rebuild was 0.470s, original typed helper
+compilation 2.409s. All receipts remain in owned `0021-noop-callbacks/` scratch.
+
+Five application stubs remain. `convert_old_barray` depends on the genuinely
+uninitialized stack WORD observed as both 0 and 0x7e, so the user's allowance for
+a consistent observed constant does not apply. `read_packed_modules` and
+`write_old_packed_types` need an authentic NB08 input; available producer output
+is NB09, which must not be relabelled. `convert_old_based_bprel32` and
+`convert_old_based_data32` need authentic wide C6 declarations; CFIG386 supplies
+only narrow ones. A genuine NB08 artifact/older producer or genuine wide C6
+artifact could enable the latter four. More inputs do not by themselves resolve
+the BARRAY undefined-state problem. No substantial genuine next workload is
+currently available, so work is paused at this verified checkpoint. No synthetic
+records, format relabelling or guessed control value are used to claim completion.
 
 There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,
@@ -198,9 +219,9 @@ Final original capture took895.397ms; report-bound native replay108.706ms
 The original PDB, executable, output and earlier unqualified history remain in
 owned scratch; no reconstruction credit is added for this case. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
-credit. The two no-op register-relative callbacks remain unaccepted; the wide
-conversion no-op does not advance the CLI dispatcher, so it needs a bounded
-callback probe. Remaining mapping/TypeServer paths may also require typed probes.
+credit. The two no-op register-relative callbacks are now accepted through the
+minimal typed return test described below. The wide conversion still does not
+advance its CLI dispatcher; its original behavior is preserved.
 
 `src/` contains application reconstruction only. Shared fixture checks live in
 `harness/`; this binary has no private native host or binary-specific CRT
@@ -208,7 +229,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the nineteen numbered `case.c` descriptors, and runs their
+automatically discovers the twenty numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -217,7 +238,7 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Eighteen dispatched cases complete; 0013 retains its matching BARRAY frontier.
+Nineteen dispatched cases complete; 0013 retains its matching BARRAY frontier.
 0015 is retired from the active tree. All active cases retain explicit unseeded
 first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
@@ -250,11 +271,11 @@ for the reviewed false short-signature match at RVAs `0x13260` and `0x14a50`. Th
 plus fifteen alignment bytes did not prove either library alias; the genuine
 application sizing table identifies zero-argument callbacks using globals.
 `size_old_register_relative32` and `convert_old_symbol_register_relative32`
-remain pending named App traps. Each has one RET byte of actual code; alignment
-is not application code credit. Other short matches
-are unchanged, and the raw former rows remain in Git and the owned snapshot.
-The 14-row C6 symbol sizing and conversion tables have exercised their valid
-16/32-bit families. Their two nonadvancing/no-op callbacks remain pending.
+are accepted empty C functions. Each has one RET byte of actual original code;
+alignment is not application code credit. Other short matches are unchanged,
+and the raw former rows remain in Git and the owned snapshot. The 14-row C6
+symbol sizing and conversion tables establish their genuine App identity; the
+typed return test grants no additional wide-record or CLI reach coverage.
 `get_old_symbol` and `convert_old_based_symbol` were accepted through the
 historical workload; the genuine CFIG386 API case independently exercises the
 serializer dispatcher and its narrow record families. The two wide serializers

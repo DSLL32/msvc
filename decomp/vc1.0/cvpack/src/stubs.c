@@ -156,7 +156,6 @@ void convert_old_barray(TypeRecord *entry) { __asm { int 3 } }
 
 
 
-void size_old_register_relative32(void) { __asm { int 3 } }
 
 
 
@@ -185,7 +184,8 @@ void size_old_register_relative32(void) { __asm { int 3 } }
 
 
 
-void convert_old_symbol_register_relative32(void) { __asm { int 3 } }
+
+
 
 
 
