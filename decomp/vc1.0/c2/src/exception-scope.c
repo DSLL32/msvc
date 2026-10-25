@@ -528,3 +528,19 @@ int __fastcall exception_local_visible(SymbolHeader *symbol)
     }
     return 0;
 }
+
+/* Original [00066450,0006647c). Identifier-1 is the absent parent.
+   A missing ordinary identifier calls the named diagnostic and then RETs
+   with its incidental EAX: there is no defined C return after that call.
+   Preserve the Win32 missing-return source bug. If the still-unaccepted
+   diagnostic returns, native stops rather than inventing a pointer result. */
+ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long identifier)
+{
+    if (identifier == -1) return 0;
+    for (; scopes; scopes = scopes->next)
+        if (scopes->identifier == (unsigned)identifier) return scopes;
+    compiler_internal_error("@(#)except.c:1.25", 0x2f4);
+#ifdef RECON_NATIVE_TEST
+    __asm int 3
+#endif
+}

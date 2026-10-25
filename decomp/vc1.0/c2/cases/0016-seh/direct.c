@@ -273,3 +273,19 @@ int c2_scope_lookup_inputs(void)
     return recon_native_at_entry((const void *)lookup_exception_scope,
         (const void *)lookup_scope_entry,real_input,0)==1;
 }
+
+static void __fastcall protected_edge_entry(WorkItem *source,WorkItem *target)
+{
+    ExceptionScope *scope=current_function->exception_scopes;
+    int valid=source!=target&&!source->successors&&!target->predecessors&&
+        source->body.expressions&&target->body.expressions&&
+        target->body.expressions->tree->opcode==0x29&&
+        target->body.expressions->tree->right.symbol==scope->handler_label&&
+        source->exception_scope==(short)scope->identifier;
+    recon_native_entry_finish(valid);
+}
+int c2_protected_edge_inputs(void)
+{
+    return recon_native_at_entry((const void *)add_protected_flow_edge,
+        (const void *)protected_edge_entry,real_input,0)==1;
+}

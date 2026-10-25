@@ -155,6 +155,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@lookup_exception_scope@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

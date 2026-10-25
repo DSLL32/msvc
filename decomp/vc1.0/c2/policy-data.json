@@ -36,6 +36,19 @@
       "actual_kind": 1,
       "unsupported_native": "Exact other-kind INT3; original uninitialized local record type remains original source assumption. No old local seed or invented type. Real other kind holds for contract/ABI review.",
       "evidence": "cases/omf-public-checkpoint.json"
+    },
+    {
+      "function": "@lookup_exception_scope@8",
+      "defined_paths": "Identifier-1 returnsNULL without list read; a matching identifier returns borrowed scope.",
+      "unsupported_native": "Missing ordinary identifier calls original named compiler_internal_error code2f4; if that unaccepted child returns, exact nativeINT3 holds original incidental EAX/missing-C-return behavior. No invented pointer result; Win32 omission preserved.",
+      "original_extent": [
+        418896,
+        418940
+      ],
+      "original_missing_return_tail": [
+        418923,
+        418940
+      ]
     }
   ],
   "function_properties": {

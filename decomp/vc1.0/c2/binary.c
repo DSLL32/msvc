@@ -7845,11 +7845,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lookup_exception_scope@8",
         .entry_rva = 0x56450,
-        .code = (const ReconExtent[]) { { 0x56450, 0x56451 } },
+        .code = (const ReconExtent[]) { { 0x56450, 0x5647c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_exception_scope",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@reference_assembly_flow_symbol@8",

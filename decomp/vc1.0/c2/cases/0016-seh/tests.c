@@ -23,6 +23,7 @@ extern int c2_scope_insert_local_inputs(void);
 extern int c2_scope_mark_inputs(void);
 extern int c2_scope_visible_inputs(void);
 extern int c2_scope_lookup_inputs(void);
+extern int c2_protected_edge_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -419,6 +420,33 @@ static int visible_local_paths(void)
         scope.locals==&set&&scope.flags==0x40&&symbol.identifier==0xab&&
         exception_scope_stack_depth==1&&exception_scope_stack[0]==&scope;
 }
+static int scope_list_lookup(void)
+{
+    ExceptionScope scopes[3];unsigned i;
+    memset(scopes,0xa5,sizeof scopes);
+    for(i=0;i<3;++i){scopes[i].identifier=i==1?7:3;scopes[i].next=i==2?0:&scopes[i+1];}
+    if(lookup_exception_scope((ExceptionScope *)1,-1)||
+       lookup_exception_scope(scopes,3)!=&scopes[0]||
+       lookup_exception_scope(scopes,7)!=&scopes[1])return 0;
+    for(i=0;i<3;++i)
+        if(scopes[i].identifier!=(i==1?7:3)||scopes[i].next!=(i==2?0:&scopes[i+1]))return 0;
+    return 1;
+}
+static void __fastcall missing_identifier_entry(char *source,unsigned code)
+{
+    recon_native_entry_finish(code==0x2f4&&!strcmp(source,"@(#)except.c:1.25"));
+}
+static void lookup_missing_identifier(void *argument)
+{
+    ExceptionScope scope;
+    memset(&scope,0,sizeof scope);scope.identifier=3;
+    lookup_exception_scope(&scope,7);
+}
+static int scope_missing_identifier_boundary(void)
+{
+    return recon_native_at_entry((const void *)compiler_internal_error,
+        (const void *)missing_identifier_entry,lookup_missing_identifier,0)==1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -461,5 +489,8 @@ const ReconTest c2_tests[]={
     {"scope marking distinguishes loads/stores and absent symbols",1,mark_reference_flags},
     {"actual visible-local symbol and parent-scope contract",1,c2_scope_visible_inputs},
     {"visible local packed-tag/no-owner/borrowed-id match",1,visible_local_paths},
-    {"actual parent lookup ECX head/EDX identifier and aliases",1,c2_scope_lookup_inputs}
+    {"actual parent lookup ECX head/EDX identifier and aliases",1,c2_scope_lookup_inputs},
+    {"scope lookup sentinel/first identity and unchanged links",1,scope_list_lookup},
+    {"scope lookup missing identifier exact diagnostic boundary",1,scope_missing_identifier_boundary},
+    {"actual protected-edge Work owners and empty directional lists",1,c2_protected_edge_inputs}
 };
