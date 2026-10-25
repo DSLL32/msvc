@@ -886,3 +886,13 @@ void mark_pch_declaration_thunks(void)
     mark_pch_hash_table(declaration_thunks,
         (PchVisit)mark_pch_declaration_thunk_key, (PchVisit)mark_pch_symbol_chain);
 }
+
+void __stdcall mark_pch_deferred_type_key(void *description);
+
+/* Original0x4dbb0..0x4dbc6. Deferred type descriptions and their generated
+   symbol values retain independent key/value traversal callbacks. */
+void mark_pch_deferred_types(void)
+{
+    mark_pch_hash_table(deferred_type_tables,
+        mark_pch_deferred_type_key, (PchVisit)mark_pch_symbol_chain);
+}

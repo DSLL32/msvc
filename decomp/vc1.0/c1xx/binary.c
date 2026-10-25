@@ -1,11 +1,19 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1589 historical frontiers/1482 App bodies.
+ * Current reviewed boundary:1590 historical frontiers/1483 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_deferred_type_key@4",
+        .entry_rva = 0x3dbd0,
+        .code = (const ReconExtent[]) { { 0x3dbd0, 0x3dbe8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_deferred_type_key",
+    },
     {
         .name = "_mark_pch_declaration_thunk_key@4",
         .entry_rva = 0x3dc80,
@@ -443,6 +451,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_deferred_types",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_member_contexts",
