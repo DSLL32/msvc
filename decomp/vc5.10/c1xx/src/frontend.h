@@ -69,6 +69,7 @@ typedef struct FrontendData {
     struct CompilerHashTable *symbol_groups; /* cc5c8, initializedNULL */
     unsigned compiler_mode_flags; /* ccf78, initialized0; separate from ccf7c */
     int declaration_context_index; /* cd538, initialized-1; sign selects arena */
+    int declaration_mode_index; /* cd580, initialized-1 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
@@ -265,6 +266,7 @@ typedef struct FrontendBss {
     /* Only the actually reached first slot is modeled. This is not the
      * original table's capacity; any other index stops before its read. */
     struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
+    int default_declaration_mode; /* c13cc, BSS0: c13d0[-1] only */
 } FrontendBss;
 
 #ifdef __cplusplus

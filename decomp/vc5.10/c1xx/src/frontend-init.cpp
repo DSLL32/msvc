@@ -49,6 +49,11 @@ CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerDeclarator *
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
 void __cdecl compiler_warning(int, ...);
+void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
+CompilerType *__cdecl find_declarator_type(CompilerSymbol *, unsigned);
+int __cdecl check_member_declaration(CompilerSymbol *);
+void __cdecl diagnose_member_declaration(CompilerSymbol *);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
 CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 CompilerSymbol *__cdecl make_abstract_declarator(void);
@@ -596,7 +601,99 @@ CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *
     base_type = type;
     return this;
 }
-void RECON_THISCALL CompilerDeclarator::Resolve(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::Resolve(void)
+{
+    CompilerType *return_type;
+    CompilerTypeShape *resolved;
+    CompilerParameterDescription *description;
+    CompilerMemberSymbol *member;
+    unsigned function_attribute;
+    int mode;
+    if (flags & 0x20) ValidateSpecialFunction();
+    if (!qualifiers.flags && !shape) {
+        if (base_type->shape)
+            base_type->shape = intern_type_shape(base_type->shape);
+        base_type = intern_type(base_type);
+        flags |= 4;
+        type = base_type;
+    } else {
+        NormalizeBase();
+        if (flags & 8) {
+            return_type = find_declarator_type(symbol, (context.context_flags >> 2) & 1);
+            description = parameters;
+            if (return_type && (context.class_flags & 7) != 7) {
+                CompilerType *qualified = qualify_type(return_type, 0x100, description->flags);
+                shape->SetParameters(description->parameters,
+                    link_parameter_symbols(description->context), qualified);
+                shape->flags |= 0x2000;
+            } else {
+                shape->SetParameters(description->parameters,
+                    link_parameter_symbols(description->context), NULL);
+            }
+            if (parameters->flags &&
+                ((context.class_flags & 7) == 3 || !return_type)) {
+                CompilerNameEntry *name = ((CompilerNamedSymbol *)symbol)->link.name;
+                if (name == frontend_data.builtin_names.operator_new ||
+                    name == frontend_data.builtin_names.operator_delete ||
+                    name == frontend_data.builtin_names.operator_new_array ||
+                    name == frontend_data.builtin_names.operator_delete_array)
+                    compiler_warning(271, symbol);
+                else if ((context.class_flags & 7) == 3)
+                    compiler_warning(272, symbol);
+                else
+                    compiler_warning(270, symbol);
+                flags |= 1;
+            }
+        }
+        if ((flags & 0x10) && (last_shape->flags & 0x77) == 4 &&
+            !base_type->shape && !base_type->shape &&
+            (base_type->flags & 0x400) && (short)base_type->auxiliary >= 0) {
+            member = (CompilerMemberSymbol *)frontend_data.frontend_pointer_table->items[
+                (short)base_type->auxiliary];
+            function_attribute = last_shape->flags & 0x2000;
+            if (member->context->flags & 0x80) {
+                diagnose_member_declaration(member);
+                flags |= 1;
+            }
+            if ((member->definition_flags & 4) ||
+                (function_attribute && (context.class_flags & 7) != 3)) {
+                if (!function_attribute || (context.class_flags & 7) == 3) {
+                    if (!check_member_declaration(member)) {
+                        function_attribute = 0x100;
+                        goto set_function_attribute;
+                    }
+                }
+                /* Model only c13d0[-1], not an inferred table capacity. */
+                if (frontend_data.declaration_mode_index != -1) { __asm { int 3 } }
+                mode = frontend_bss.default_declaration_mode;
+                if (mode == 2 &&
+                    (!function_attribute || (context.class_flags & 7) == 3))
+                    report_language_diagnostic(1, 190, symbol, member);
+                function_attribute = 0x200;
+            } else {
+                if (frontend_data.declaration_mode_index != -1) { __asm { int 3 } }
+                mode = frontend_bss.default_declaration_mode;
+                function_attribute = mode == 2 ? 0x100 : 0x200;
+            }
+set_function_attribute:
+            last_shape->flags |= function_attribute;
+        }
+        if (shape_flags & 2) {
+            compiler_warning(540);
+            flags |= 1;
+            shape->flags &= ~0x1000;
+            shape->payload.value = 1;
+        }
+        if (shape_flags & 1) ValidateShapes();
+        ValidateContext();
+        resolved = shape->InternChain(last_shape ? last_shape->base : NULL);
+        type = BuildType(resolved);
+    }
+    if (!type) {
+        flags |= 1;
+        type = frontend_data.builtin_types.type_0063;
+    }
+}
 unsigned RECON_THISCALL CompilerLexer::Read(void) { __asm { int 3 } return 0; }
 unsigned RECON_THISCALL CompilerLexer::Peek(void) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerLexer::Unread(unsigned token) { __asm { int 3 } }
@@ -788,3 +885,14 @@ extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
 
 void RECON_THISCALL CompilerDeclarator::AddPointer(CompilerDeclaratorQualifiers *first, CompilerDeclaratorQualifiers *second) { __asm { int 3 } }
 void RECON_THISCALL CompilerTypeShape::SetType(CompilerType *type) { __asm { int 3 } }
+
+void RECON_THISCALL CompilerDeclarator::ValidateSpecialFunction(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::NormalizeBase(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ValidateShapes(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ValidateContext(void) { __asm { int 3 } }
+CompilerType *RECON_THISCALL CompilerDeclarator::BuildType(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::InternChain(CompilerTypeShape *stop) { __asm { int 3 } return NULL; }
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl find_declarator_type(CompilerSymbol *symbol, unsigned context) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl check_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } return 0; }
+extern "C" void __cdecl diagnose_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } }

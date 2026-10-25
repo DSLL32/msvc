@@ -44,6 +44,12 @@ struct CompilerIrSymbol : CompilerNamedSymbol {
     BYTE reference_flags;              /* +1f, encountered bit0 */
     BYTE linkage_flags, queue_flags;   /* +2d bit1, +2e bit7 */
 };
+/* Resolve's indexed class/member path reads only these two fields. The
+ * original context's other bytes and the symbol tail remain unmodeled. */
+struct CompilerMemberContext { BYTE flags; /* original +3b, bit7 */ };
+struct CompilerMemberSymbol : CompilerNamedSymbol {
+    CompilerMemberContext *context; /* original +20 */
+};
 struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */
     CompilerType *type;                /* original +4 */
