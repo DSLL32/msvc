@@ -59,9 +59,27 @@ output SHA256 `17696a0ae7fd41cc7e5fb764b6988898d6118622b9c1678ff1157c355936d77e`
 This hand-authored workload is parked unfinished at
 `convert_old_based_data16` (`0x13920`), with 76 matching unseeded first entries.
 At the user's direction, new work uses ordinary compiler/linker-produced
-artifacts rather than additional constructed debug records. The replacement
-proposal is the unchanged shipped MFC 2.0 SUPERPAD sample's debug executable/PDB,
-built with the original VC1 tools; no new producer or reference has run yet. The superseded malformed constant
+artifacts rather than additional constructed debug records. The replacement `0016-superpad-embedded` uses the unchanged shipped MFC 2.0
+SUPERPAD text-editor sample from `toolchains/1.0-nt/mfc/SAMPLES/SUPERPAD`.
+Original NMAKE/CL/RC/LINK build its supplied project with normal debug/PCH
+options, `/Z7` embedded types (also the option in supplied `SAMPLE_.MAK`),
+explicit MFC include/library paths and LINK `/nopack` to separate the CVPACK
+stage. No source, debug-record or binary-format edits are made. The genuine
+4,194,304-byte input SHA256 is
+`6c5e2e9f12cd30c408a729a1166e027585dd4df3be7005ad66acfe1954a3fc09`.
+Normal invocation is `CVPACK.EXE /nologo /cvold /verbose SUPERPAD.EXE`.
+The full original exits0 with127 first entries and raw2,558,036-byte output
+SHA256 `47105870ef1ae343bacd5465b9bb72822cd7815d276eddd8dfc161d2f5feffd8`.
+Its current masked-original/native frontier is `queue_type_match` (`0x16280`),
+with82 matching unseeded entries. Actual expanded recursion-list allocations
+are now reached; the existing original storage/growth/free logic is unchanged,
+with historical native coverage-only rejections lifted and bounds retained.
+The supplied `/Zi` debug configuration was also built unchanged in scratch:
+its ordinary LINK automatically invokes CVPACK (producing NB09), and its
+`/nopack` variant preserves a real compiler PDB. That separate run remains
+unqualified because TypeServer's original `incremental` control field is
+unwritten in `"rc"` mode and native residue takes a different branch. The PDB,
+raw artifacts and diagnosis are preserved; no field is zeroed or hardcoded. The superseded malformed constant
 encoding and its CK4003 warnings remain in owned scratch, without coverage
 credit. The two no-op register-relative callbacks remain unaccepted; the wide
 conversion no-op does not advance the CLI dispatcher, so it needs a bounded
@@ -73,7 +91,7 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the fifteen numbered `case.c` descriptors, and runs their
+automatically discovers the sixteen numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
@@ -83,7 +101,8 @@ strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
 Thirteen dispatched cases complete;0013 retains its matching BARRAY frontier
-and0015 its based-symbol frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
+and0015 its parked based-symbol frontier;0016 is active at its type-match
+frontier. All retain explicit unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
 were packed without relabeling or rerunning the original. Future path-dependent

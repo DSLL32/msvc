@@ -1722,11 +1722,6 @@ void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset)
 {
     unsigned short *offsets, i;
     unsigned char *marks;
-#ifdef RECON_NATIVE_TEST
-    /* Heap ownership for expanded recursion lists has not yet been reached. */
-    if ((entry->flags & 0x100) || offset > 255 || entry->recursive_count >= 5)
-        __asm { int 3 }
-#endif
     if (offset <= 255 && entry->recursive_count < 5)
         entry->recursion.small[entry->recursive_count] = (unsigned char)offset;
     else {
@@ -1810,8 +1805,8 @@ unsigned long __fastcall hash_recursive_type(TypeRecord *entry)
         break;
     default:
 #ifdef RECON_NATIVE_TEST
-        /* Expanded offset/mark allocations require their own reached proof. */
-        if ((entry->flags & 0x100) || entry->recursive_count > 12) __asm { int 3 }
+        /* Inline storage has twelve bytes; expanded lists own separate arrays. */
+        if (!(entry->flags & 0x100) && entry->recursive_count > 12) __asm { int 3 }
 #endif
         size = *(unsigned short *)record+2;
         position = 0;
@@ -1888,8 +1883,8 @@ unsigned short __fastcall commit_recursive_type(unsigned short type)
     publish_recursive_type(entry);
     for (i = 0; i < entry->recursive_count; ++i) {
 #ifdef RECON_NATIVE_TEST
-        /* Expanded offsets/mark allocation ownership is not yet reached. */
-        if ((entry->flags & 0x100) || i >= 12) __asm { int 3 }
+        /* Expanded records use the separately owned offset/mark arrays. */
+        if (!(entry->flags & 0x100) && i >= 12) __asm { int 3 }
 #endif
         marks = entry->flags & 0x100 ? entry->recursion.large.marks[i>>3] : entry->recursion.small[8];
         if (marks & (0x80>>(i&7))) continue;
@@ -1935,8 +1930,8 @@ unsigned short __fastcall hash_referenced_type(TypeRecord *entry, unsigned short
     unsigned char *record = entry->data;
     TypeRecord *referenced;
 #ifdef RECON_NATIVE_TEST
-    /* Expanded offset arrays need their own observed allocation ownership. */
-    if ((entry->flags & 0x100) || number >= entry->recursive_count) __asm { int 3 }
+    /* The selected offset must belong to this record in either representation. */
+    if (number >= entry->recursive_count) __asm { int 3 }
 #endif
     offset = entry->flags & 0x100 ? entry->recursion.large.offsets[number] : entry->recursion.small[number];
     type = *(unsigned short *)(record+offset);
@@ -2232,8 +2227,8 @@ int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type,
     length = (unsigned short)(*(unsigned short *)original + 2);
     number = position = 0;
 #ifdef RECON_NATIVE_TEST
-    /* Expanded recursive arrays still require their reached ownership proof. */
-    if ((entry->flags & 0x100) || entry->recursive_count > 12) __asm { int 3 }
+    /* Expanded records use the separately owned offset/mark arrays. */
+    if (!(entry->flags & 0x100) && entry->recursive_count > 12) __asm { int 3 }
 #endif
     while (position < length) {
         while (number != entry->recursive_count) {
