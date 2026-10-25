@@ -2230,11 +2230,23 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
         .native_symbol = "validate_function_code",
     },
+    /* Whole 72B extent/RET0 known for caller tail ABI only; body stays masked. */
+    {
+        .name = "@reset_input_pool@4",
+        .entry_rva = 0x24a9,
+        .code = (const ReconExtent[]){{0x24a9, 0x24f1}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "reset_input_pool",
+    },
     {
         .name = "_finish_function_input",
         .entry_rva = 0x248d2,
+        .code = (const ReconExtent[]){{0x248d2, 0x24907}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "finish_function_input",
     },
     {

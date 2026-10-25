@@ -889,7 +889,34 @@ static int generic_pointer_types(void)
         block.records[1].type == 0x3004 && block.records[2].type == 0x1004;
 }
 
+extern int retain_function_input_pool;
+
+static int pending_input_cleanup(void)
+{
+    C2PendingInput first, second;
+    C2Expression left, right;
+    C2SmallNode *saved = free_small_nodes[32];
+    int retain = retain_function_input_pool;
+    memset(&left, 0, sizeof(left));
+    memset(&right, 0, sizeof(right));
+    left.kind = right.kind = 7;
+    first.next = &second;
+    second.next = NULL;
+    first.expression = &left;
+    second.expression = &right;
+    pending_input_records = &first;
+    retain_function_input_pool = 1;
+    free_small_nodes[32] = NULL;
+    finish_function_input();
+    if (pending_input_records || free_small_nodes[32] != (C2SmallNode *)&right ||
+        right.next != &left || left.next) return 0;
+    free_small_nodes[32] = saved;
+    retain_function_input_pool = retain;
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
+    {"pending input cleanup releases each expression while retaining its pool", 1, pending_input_cleanup},
     {"generic pointer conversion respects shared operands and register ownership", 1, generic_pointer_types},
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},

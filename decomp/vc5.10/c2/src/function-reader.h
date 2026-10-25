@@ -4,6 +4,14 @@
 #include <recon.h>
 
 C2ScopeHash *new_function_scope(void);
+/* Encountered cleanup prefix; no tail layout or allocation extent claimed. */
+typedef struct C2PendingInput {
+    struct C2PendingInput *next;
+    C2Expression *expression;
+} C2PendingInput;
+typedef char C2PendingInputExpressionCheck[offsetof(C2PendingInput, expression) == 4 ? 1 : -1];
+extern C2PendingInput *pending_input_records;
+void __fastcall reset_input_pool(unsigned pool);
 /* Each24-byte map associates a contiguous internal line span with source
  * lines in one filename. The cache walks older maps through previous. */
 typedef struct C2InputLineMap {

@@ -8,7 +8,7 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void finish_function_input(void)
+void __fastcall reset_input_pool(unsigned pool)
 {
     __asm { int 3 }
 }

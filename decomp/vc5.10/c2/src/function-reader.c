@@ -9,7 +9,6 @@ extern int c2_global_optimize;
 
 /* These stores precede the function's IL consumers. The pending-list payload
  * is deferred until its actual writer/consumer is reconstructed. */
-typedef struct C2PendingInput C2PendingInput;
 C2Function *input_function;
 C2PendingInput *pending_input_records;
 int input_error_seen, input_scope_active, input_inline_mark;
@@ -158,4 +157,13 @@ unsigned __fastcall resolve_input_source_line(unsigned serial)
     entry->previous = input_line_cache;
     input_line_cache = entry;
     return line;
+}
+
+void finish_function_input(void)
+{
+    while (pending_input_records) {
+        release_small_node(pending_input_records->expression);
+        pending_input_records = pending_input_records->next;
+    }
+    if (!retain_function_input_pool) reset_input_pool(4);
 }

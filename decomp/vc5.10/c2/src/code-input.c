@@ -5,8 +5,6 @@ extern int c2_basic_mode, c2_codeview_types, c2_global_optimize;
 extern int retain_function_input_pool, input_error_seen, c2_il_extended_header;
 extern C2InputSymbol *pending_optimized_input;
 extern C2SymbolListScope *current_symbol_list_scope;
-typedef struct C2PendingInput C2PendingInput;
-extern C2PendingInput *pending_input_records;
 
 int input_preserve_operand, input_address_mode;
 int input_end_of_module;
