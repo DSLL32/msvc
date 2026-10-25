@@ -300,3 +300,23 @@ unsigned __fastcall reference_assembly_flow_symbol(SymbolHeader *symbol, void *c
         connect_flow_blocks((WorkItem *)context, lookup_flow_label(symbol)->work);
     return 0;
 }
+
+/* Original [0005af40,0005afaf). Protected and ordinary edges may connect
+   the same two blocks. Append missing protected links independently to the
+   source successor and target predecessor lists, retaining allocator flags. */
+void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor)
+{
+    FlowLink **link;
+    for (link = &work->successors; *link; link = &(*link)->next)
+        if ((*link)->work == successor && ((*link)->flags & 1)) break;
+    if (!*link) {
+        *link = new_flow_link(successor);
+        (*link)->flags |= 1;
+    }
+    for (link = &successor->predecessors; *link; link = &(*link)->next)
+        if ((*link)->work == work && ((*link)->flags & 1)) break;
+    if (!*link) {
+        *link = new_flow_link(work);
+        (*link)->flags |= 1;
+    }
+}

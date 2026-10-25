@@ -187,7 +187,6 @@ void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
 
 
-void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor) { __asm int 3 }
 
 
 

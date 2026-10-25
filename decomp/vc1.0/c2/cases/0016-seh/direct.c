@@ -289,3 +289,25 @@ int c2_protected_edge_inputs(void)
     return recon_native_at_entry((const void *)add_protected_flow_edge,
         (const void *)protected_edge_entry,real_input,0)==1;
 }
+
+static void __fastcall refresh_region_entry(WorkItem *work)
+{
+    WorkItem *items[25],*cursor=work;FlowRegion *region=0;unsigned i;int valid=work==global_entry_work;
+    for(i=0;i<25;++i){
+        if(!cursor)recon_native_entry_finish(0);
+        items[i]=cursor;if(cursor->number!=(short)i)valid=0;
+        if(i==8||i==9||i==10||i==11||i==12||i==14||i==15){
+            if(!cursor->region)valid=0;
+            if(!region)region=cursor->region;
+            if(cursor->region!=region)valid=0;
+        }else if(cursor->region)valid=0;
+        cursor=cursor->next;
+    }
+    if(cursor||!region||region->last!=items[15]||region->last->number!=15)valid=0;
+    recon_native_entry_finish(valid);
+}
+int c2_refresh_region_inputs(void)
+{
+    return recon_native_at_entry((const void *)refresh_region_entries,
+        (const void *)refresh_region_entry,real_input,0)==1;
+}

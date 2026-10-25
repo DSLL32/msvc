@@ -24,6 +24,7 @@ extern int c2_scope_mark_inputs(void);
 extern int c2_scope_visible_inputs(void);
 extern int c2_scope_lookup_inputs(void);
 extern int c2_protected_edge_inputs(void);
+extern int c2_refresh_region_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -447,6 +448,56 @@ static int scope_missing_identifier_boundary(void)
     return recon_native_at_entry((const void *)compiler_internal_error,
         (const void *)missing_identifier_entry,lookup_missing_identifier,0)==1;
 }
+static int protected_edge_pairs(void)
+{
+    WorkItem source,target,other;FlowLink ordinary_out,ordinary_in,old_out,old_in;
+    FlowLink *out,*in,*head_out,*head_in;unsigned row;
+    for(row=0;row<6;++row){
+        memset(&source,0,sizeof source);memset(&target,0,sizeof target);
+        memset(&other,0,sizeof other);memset(&ordinary_out,0,sizeof ordinary_out);
+        memset(&ordinary_in,0,sizeof ordinary_in);memset(&old_out,0,sizeof old_out);
+        memset(&old_in,0,sizeof old_in);free_flow_links=0;
+        if(row==1){
+            ordinary_out.work=&target;ordinary_in.work=&source;
+            source.successors=&ordinary_out;target.predecessors=&ordinary_in;
+        }else if(row==2){
+            old_out.work=old_in.work=&other;old_out.flags=old_in.flags=1;
+            source.successors=&old_out;target.predecessors=&old_in;
+        }else if(row==3){
+            old_out.work=&target;old_out.flags=0xa1;source.successors=&old_out;
+        }else if(row==4){
+            old_in.work=&source;old_in.flags=0xb1;target.predecessors=&old_in;
+        }
+        add_protected_flow_edge(&source,row==5?&source:&target);
+        out=source.successors;in=row==5?source.predecessors:target.predecessors;
+        if(row==1){if(out!=&ordinary_out||in!=&ordinary_in||out->flags||in->flags)return 0;
+            out=out->next;in=in->next;}
+        if(row==2){if(out!=&old_out||in!=&old_in||out->work!=&other||in->work!=&other)return 0;
+            out=out->next;in=in->next;}
+        if(!out||!in||out==in||out->next||in->next||
+           out->work!=(row==5?&source:&target)||in->work!=&source||
+           !(out->flags&1)||!(in->flags&1))return 0;
+        if(row==3&&(out!=&old_out||out->flags!=0xa1))return 0;
+        if(row==4&&(in!=&old_in||in->flags!=0xb1))return 0;
+        head_out=source.successors;head_in=row==5?source.predecessors:target.predecessors;
+        add_protected_flow_edge(&source,row==5?&source:&target);
+        if(source.successors!=head_out||(row==5?source.predecessors:target.predecessors)!=head_in||
+           out->next||in->next||source.predecessors!=(row==5?in:0)||target.successors)return 0;
+    }
+    return 1;
+}
+static int protected_recycled_flags(void)
+{
+    WorkItem source,target;FlowLink recycled[2];
+    memset(&source,0,sizeof source);memset(&target,0,sizeof target);
+    memset(recycled,0,sizeof recycled);recycled[0].next=&recycled[1];
+    recycled[0].flags=0xa4;recycled[1].flags=0xb2;free_flow_links=recycled;
+    add_protected_flow_edge(&source,&target);
+    return source.successors==&recycled[0]&&target.predecessors==&recycled[1]&&
+        recycled[0].work==&target&&recycled[1].work==&source&&
+        !recycled[0].next&&!recycled[1].next&&recycled[0].flags==0xa5&&
+        recycled[1].flags==0xb3&&!free_flow_links;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -492,5 +543,8 @@ const ReconTest c2_tests[]={
     {"actual parent lookup ECX head/EDX identifier and aliases",1,c2_scope_lookup_inputs},
     {"scope lookup sentinel/first identity and unchanged links",1,scope_list_lookup},
     {"scope lookup missing identifier exact diagnostic boundary",1,scope_missing_identifier_boundary},
-    {"actual protected-edge Work owners and empty directional lists",1,c2_protected_edge_inputs}
+    {"actual protected-edge Work owners and empty directional lists",1,c2_protected_edge_inputs},
+    {"protected reciprocal edges coexist/append/deduplicate/self-link",1,protected_edge_pairs},
+    {"protected allocation retains recycled high flags",1,protected_recycled_flags},
+    {"actual25-work region aliases/numbers/initial last",1,c2_refresh_region_inputs}
 };

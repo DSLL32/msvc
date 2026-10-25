@@ -7890,11 +7890,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@add_protected_flow_edge@8",
         .entry_rva = 0x4af40,
-        .code = (const ReconExtent[]) { { 0x4af40, 0x4af41 } },
+        .code = (const ReconExtent[]) { { 0x4af40, 0x4afaf } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "add_protected_flow_edge",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@add_flow_successor@8",

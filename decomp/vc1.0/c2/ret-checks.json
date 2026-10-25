@@ -160,6 +160,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@add_protected_flow_edge@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }
