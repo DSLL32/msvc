@@ -802,7 +802,8 @@ static int input_effect_flags(void)
 
 static int symbol_use_ownership(void)
 {
-    C2Expression symbol_record, use;
+    C2Expression symbol_record, use, *operand;
+    union { unsigned alignment; unsigned char bytes[32]; } operand_storage;
     C2InputSymbol symbol;
     union { unsigned alignment; unsigned char bytes[24]; } storage;
     C2SymbolInputUse *entry = (C2SymbolInputUse *)&storage;
@@ -823,7 +824,18 @@ static int symbol_use_ownership(void)
         return 0;
     for (i = 20; i < sizeof(storage.bytes); ++i)
         if (storage.bytes[i] != 0xa5) return 0;
-    return !entry->pending09[0] && !entry->pending09[1] && !entry->pending09[2];
+    if (entry->pending09[0] || entry->pending09[1] || entry->pending09[2]) return 0;
+    memset(&operand_storage, 0xa5, sizeof(operand_storage));
+    ((C2SmallNode *)&operand_storage)->next = NULL;
+    free_small_nodes[28] = (C2SmallNode *)&operand_storage;
+    symbol.storage.input_references = 0;
+    operand = resolve_symbol_input_operand(&symbol_record, -1);
+    if (operand != (C2Expression *)&operand_storage || operand->kind != 4 ||
+        operand->opcode != 0x12a || operand->value.symbol != &symbol.symbol ||
+        symbol.storage.input_references != 0xffffffffU || free_small_nodes[28]) return 0;
+    for (i = 28; i < sizeof(operand_storage.bytes); ++i)
+        if (operand_storage.bytes[i] != 0xa5) return 0;
+    return 1;
 }
 
 const ReconTest numeric_tests[] = {

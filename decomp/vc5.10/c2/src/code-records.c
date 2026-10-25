@@ -629,3 +629,13 @@ void __fastcall bind_symbol_input_use(C2Expression *symbol, C2Expression *use)
     entry->expression = use;
     symbol->declaration->storage.input_references++;
 }
+
+C2Expression *__fastcall resolve_symbol_input_operand(C2Expression *symbol, int adjustment)
+{
+    C2Expression *operand = (C2Expression *)allocate_small_node(4);
+    C2InputSymbol *owner = symbol->declaration;
+    operand->opcode = 0x12a;
+    operand->value.symbol = &owner->symbol;
+    owner->storage.input_references += adjustment;
+    return operand;
+}

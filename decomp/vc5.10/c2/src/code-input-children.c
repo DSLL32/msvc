@@ -427,12 +427,6 @@ int __fastcall input_instruction_has_side_effects(C2Expression *tree)
     return 0;
 }
 
-C2Expression *__fastcall resolve_symbol_input_operand(C2Expression *symbol, int adjustment)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void __fastcall attach_call_result(C2Expression *call, C2Expression *result)
 {
     __asm { int 3 }
