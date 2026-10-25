@@ -1,0 +1,51 @@
+{
+  "scope": "Root-approved main-only positive noreturn endpoint; no global RET relaxation or CRT acceptance",
+  "canonical_graph_sha256": "8a01fffd460cac38f8373a9376850dcc38b13fe2c0d28ded6209a90dc3ec7ce7",
+  "original": {
+    "start": 4342496,
+    "end_exclusive": 4342728,
+    "body_sha256": "ce895ad3573f2552c233246b719f66310272c50104dd0a7bbeb93a7a52c9c5b8",
+    "ret_instructions_anywhere": 0,
+    "sole_external_tail": {
+      "address": 4342723,
+      "target": 4407190,
+      "bytes": "e9cefb0000"
+    },
+    "instruction_count": 55
+  },
+  "rebuilt": {
+    "start": 4260093,
+    "end_exclusive": 4260390,
+    "body_sha256": "5db58a81f9608d0945b5d0ba429809445808a078003963120418ecf317f7ef30",
+    "ret_instructions_anywhere": 0,
+    "sole_external_tail": {
+      "address": 4260385,
+      "target": 4264210,
+      "bytes": "e9ec0e0000"
+    },
+    "instruction_count": 74
+  },
+  "exit_closure": {
+    "original_exit_tail": 4407237,
+    "original_NTFini": 4413771,
+    "original_status_push_and_call": 4413789,
+    "original_thunk": 4429608,
+    "original_iat": 4587696,
+    "rebuilt_exit": 4264210,
+    "rebuilt__exit": 4264234,
+    "rebuilt_NTFini": 4268260,
+    "rebuilt_thunk": 4278714,
+    "rebuilt_iat": 4456656,
+    "import": "KERNEL32.DLL!ExitProcess",
+    "no_return_model": "Exact static exit chain reaches nonreturning Win32 ExitProcess. No fabricated RET/cleanup; whole-case actual exit remains to be verified.",
+    "original_closure_bytes_sha256": "912511f2addbf07414ce8299437939e74b8865f8e03d53bc4a4d637d5c11878c"
+  },
+  "bindings": {
+    "toolchains/watcom10.0a/.patched/WLINK.EXE": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+    "decomp/watcom10.0a/wlink/build/WLINK.EXE": "e470ceb7f7498ea2ab5a0e6786ea72b8e2d9785108ebef251dc939355be14eb5",
+    "decomp/watcom10.0a/wlink/build/wlink.map": "fd503b2547446820ebb1efb45d6155a1a6dc0c2c282d6592789cb380e64b6d02",
+    "decomp/watcom10.0a/wlink/src/link.h": "22ddb075a40e035905757da43fa2eb3649b57ae69f10ac1d4d8172fbe3f1b588"
+  },
+  "application_acceptance": false,
+  "remaining": "Fresh masked original/native frontier required. Strict RET checks remain required for genuinely returning application bodies."
+}

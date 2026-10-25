@@ -86,6 +86,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResReadUint32": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

@@ -222,3 +222,15 @@ int WResIsWResFile( int file )
     }
     return !error && magic[0] == 0xc3d4c1d7UL && magic[1] == 0xc3d2cdcfUL;
 }
+
+int ResReadUint32( unsigned long *value, int file )
+{
+    int count;
+
+    count = (*WResRtns.read)( file, value, sizeof( *value ) );
+    if( count != sizeof( *value ) ) {
+        WresRecordError( count == -1 ? 8 : 14 );
+        return 1;
+    }
+    return 0;
+}
