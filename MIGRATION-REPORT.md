@@ -428,13 +428,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 106 / 14,523 | 4.51% | Minimal C: IR writer after expression-output open and integer node; `a87a64f9e` |
-| C1XX | 122 / 15,300 | 2.04% | Minimal C++: own IR writer after integer node; `966190714` |
-| C2 | 144 / 34,440 | 6.01% | Numeric case: new_function_entry after variable expression; `abb6e868b` |
+| C1 | 116 / 17,712 | 5.50% | Minimal C: translation-unit initialization after type/name interning; `dc5cddcd4` |
+| C1XX | 129 / 18,682 | 2.49% | Minimal C++: global/scope setup after own type interner; `97bd8ce54` |
+| C2 | 157 / 37,497 | 6.54% | Numeric case: register_types_match after address-register construction; `017c823a3` |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 136 / 45,695 | 11.02% | Hello EXE: COMDAT attachment after auxiliary lookup/alignment; `678d90935` |
-| RCDLL | 118 / 30,648 | 41.08% | Rich corpus: raw reader after resource character reader; `9bce0bc1d` |
+| LINK | 146 / 48,010 | 11.57% | Hello EXE: module-symbol processor after relocation completion; `4d27b6fcd` |
+| RCDLL | 123 / 33,633 | 45.08% | Rich corpus: resource-name duplication after type lookup; `e06b3898e` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -458,6 +458,17 @@ explicit `--original-report` comparison and permit stale descriptor expectations
 only on that selected-report path. The saved mismatch rejects, the corrected
 native matches, and LINK's acceptance has resumed. Other active workers use the
 same explicit gate; no historical replay campaign is required.
+
+RCDLL's attempted result-storage merge in `4f7a7b5e1` was later disproved:
+the resource reset/parser result is RVA `25d3c`, while command initialization and
+the main return use distinct RVA `1853c`. The earlier review had verified the
+resource operand but relied on a source name for the supposed shared owner.
+That was insufficient. Correction `f534ae93b` restores distinct storage and
+binds both actual consumer chains, a bounded 17-field reset/consumer map and
+noncoincident tests. A separate two-consumer check maps parser callback context
+and main HeapDestroy to the same real heap owner (`1d87c43c`). Both corrections
+have zero coverage credit; mistaken history and equal-zero limitations remain
+explicit, with unchanged originals reused for fresh native checks.
 
 The concrete minimal capture work is:
 
