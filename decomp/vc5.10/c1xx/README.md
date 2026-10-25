@@ -11,18 +11,18 @@ and their declarations are in crt/, with their retained-variant rationale in
 crt/startup.c. Native case adapters and the import-library build definition are
 in harness/. Numbered case files contain descriptors and entry orders only.
 
-The single registry is binary.c. The current prefix has 94 accepted application
-functions / 7510 code bytes; historical CRT support is separate
+The single registry is binary.c. The current prefix has 95 accepted application
+functions / 7580 code bytes; historical CRT support is separate
 (2 functions / 451 bytes), with 12 bytes of generated import support. These
-7973 bytes are compared with a 751216-byte .text extent; that denominator also
+8043 bytes are compared with a 751216-byte .text extent; that denominator also
 contains runtime, data and padding and is not a non-CRT coverage measure.
-The audit checks 96 source bodies. The two six-byte import endpoints retain
+The audit checks 97 source bodies. The two six-byte import endpoints retain
 identity/catalog checks and zero application credit; they are not RET-body targets.
 
 0000 checks typed DLL attach, export presence without invoking exports, and
 detach against the completed original lifecycle case. 0001 invokes the actual
 CL-derived 26-argument C++ pass with BOOL1 on minimal.cpp. Its current oracle is
-the genuine initialize_packing INT3 at RVA3990d, not completed compilation.
+the genuine allocate_packing_storage INT3 at RVA39949, not completed compilation.
 Both cases compare the original-backed first application encounters.
 
 The minimal case uses a small original Win32 host in
@@ -39,15 +39,14 @@ HOST3/environment inputs remain historical evidence, not current dependencies.
 The new host baseline captured the same 93 application encounters in 1.585 s;
 its matching native fixture took 8.46 ms (setup 5.13, execution 2.32, checks 1.01).
 
-The 422-byte resolve_option_path body is reconstructed in src/path.c, with its
-full hot/cold graph and finite cached-import preservation witness. The resolver
-reference reached the real normalizer stub in 1.430 s; native replay took
-10.625 ms and its ESI-contract removal control rejects. The 72-byte normalizer
-then advanced the real case to packing initialization, with fresh original
-1.318 s/native 8.291 ms and separate build 1.777 s/audit 0.168 s. It uses the
-existing filename table; original dead incoming-slot reuse is documented in
-source without requiring caller-stack mutation.
-The prior compiled-but-unaccepted resolver WIP remains historical under
+Path resolution and normalization are reconstructed in src/path.c. Packing
+initialization in src/packing.cpp uses the observed 8-byte stack and 12-byte
+frames, with a genuine pending thiscall member and cdecl allocation helpers.
+The latest fresh pair reaches allocate_packing_storage(size8): original
+1.372 s, native 7.756 ms (setup 3.907, execution 2.981, checks 0.867).
+Final layout-guard build took 2.656 s and the strict audit 0.183 s; complete
+phase logs remain in `~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/`.
+The prior unaccepted resolver archive remains historical under
 `~/.ai-tmp/msvc2/vc5.10/c1xx/standardization-20261025/resolver-wip/`;
 its missing old DLL is not claimed as preserved. Current fixtures have no
 private HOST-vector dependencies.

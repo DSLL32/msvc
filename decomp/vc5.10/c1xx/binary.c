@@ -781,9 +781,29 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "_initialize_packing", .entry_rva = 0x3990d,
-        .code = (const ReconExtent[]){{0x3990d, 0x3990e}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x3990d, 0x39949}, {0x72752, 0x7275c}},
+        .code_count = 2, .definition = RECON_APP,
         .native_symbol = "initialize_packing",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_allocate_packing_storage", .entry_rva = 0x39949,
+        .code = (const ReconExtent[]){{0x39949, 0x39974}, {0x7275c, 0x7276b}},
+        .code_count = 2, .definition = RECON_APP,
+        .native_symbol = "allocate_packing_storage",
+    },
+    {
+        .name = "CompilerPacking::AcquireFrame", .entry_rva = 0x2b85a,
+        .code = (const ReconExtent[]){{0x2b85a, 0x2b89d}, {0x693a5, 0x693ba}},
+        .code_count = 2, .definition = RECON_APP,
+        .native_symbol = "_ZN15CompilerPacking12AcquireFrameEv",
+        .original_symbol = "?AcquireFrame@CompilerPacking@@QAEPAUPackingFrame@@XZ",
+    },
+    {
+        .name = "_push_packing", .entry_rva = 0x2b89d,
+        .code = (const ReconExtent[]){{0x2b89d, 0x2b8c2}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "push_packing",
     },
     {
         .name = "_compare_pch_paths", .entry_rva = 0x3b726,
