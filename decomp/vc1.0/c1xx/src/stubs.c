@@ -572,11 +572,6 @@ struct VirtualThunkKey;
 void __stdcall mark_pch_virtual_thunk_key(struct VirtualThunkKey *key) { __asm { int 3 } }
 void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __asm { int 3 } }
 void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
-void mark_pch_member_contexts(void) { __asm { int 3 } }
-void mark_pch_typedef_aliases(void) { __asm { int 3 } }
-void mark_pch_static_member_aliases(void) { __asm { int 3 } }
-void mark_pch_static_member_names(void) { __asm { int 3 } }
-void mark_pch_global_bindings(void) { __asm { int 3 } }
-void mark_pch_method_aliases(void) { __asm { int 3 } }
-void mark_pch_constructor_closures(void) { __asm { int 3 } }
-void mark_pch_access_declarations(void) { __asm { int 3 } }
+
+void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
+void __stdcall mark_pch_access_key(AccessDeclaration *access) { __asm { int 3 } }

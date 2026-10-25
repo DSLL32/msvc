@@ -15,6 +15,7 @@
 #include "pragma.h"
 #include "class-members.h"
 #include "virtual-table-output.h"
+#include "member-access.h"
 #include <recon.h>
 
 extern unsigned char *permanent_next;
@@ -895,4 +896,56 @@ void mark_pch_deferred_types(void)
 {
     mark_pch_hash_table(deferred_type_tables,
         mark_pch_deferred_type_key, (PchVisit)mark_pch_symbol_chain);
+}
+
+/* These pending lookup maps have no reconstructed writer yet. Their actual
+   root cells remain the sole owners; the PCH visitor supplies the typed view. */
+#define global_symbol_bindings (*(HashTable **)&pch_compiler_image.roots[97])
+#define typedef_aliases (*(HashTable **)&pch_compiler_image.roots[98])
+void __stdcall mark_pch_symbol_binding(void *binding);
+void __stdcall mark_pch_access_key(AccessDeclaration *access);
+
+/* Original0x54580..0x54590 and0x546c0..0x546d0. */
+void mark_pch_member_contexts(void)
+{
+    mark_pch_hash_table(member_context_links, 0, 0);
+}
+
+void mark_pch_typedef_aliases(void)
+{
+    mark_pch_hash_table(typedef_aliases, 0, 0);
+}
+
+/* Original0x55ff0..0x56000 and0x56000..0x56010. */
+void mark_pch_static_member_aliases(void)
+{
+    mark_pch_hash_table(static_member_aliases, 0, 0);
+}
+
+void mark_pch_static_member_names(void)
+{
+    mark_pch_hash_table(static_member_name_bindings, 0, 0);
+}
+
+/* Original0x56100..0x56113. Only binding values have an extra traversal. */
+void mark_pch_global_bindings(void)
+{
+    mark_pch_hash_table(global_symbol_bindings, 0, mark_pch_symbol_binding);
+}
+
+/* Original0x56170..0x56180 and0x37170..0x37180. */
+void mark_pch_method_aliases(void)
+{
+    mark_pch_hash_table(method_aliases, 0, 0);
+}
+
+void mark_pch_constructor_closures(void)
+{
+    mark_pch_hash_table(constructor_closures, 0, 0);
+}
+
+/* Original0x31330..0x31343. Access keys contain three real pointer words. */
+void mark_pch_access_declarations(void)
+{
+    mark_pch_hash_table(member_access_declarations, (PchVisit)mark_pch_access_key, 0);
 }

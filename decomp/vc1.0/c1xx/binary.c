@@ -1,11 +1,27 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1590 historical frontiers/1483 App bodies.
+ * Current reviewed boundary:1598 historical frontiers/1491 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_mark_pch_symbol_binding@4",
+        .entry_rva = 0x46120,
+        .code = (const ReconExtent[]) { { 0x46120, 0x46138 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_symbol_binding",
+    },
+    {
+        .name = "_mark_pch_access_key@4",
+        .entry_rva = 0x21350,
+        .code = (const ReconExtent[]) { { 0x21350, 0x21371 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "mark_pch_access_key",
+    },
     {
         .name = "_mark_pch_deferred_type_key@4",
         .entry_rva = 0x3dbd0,
@@ -460,6 +476,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_member_contexts",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_typedef_aliases",
@@ -468,6 +485,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_typedef_aliases",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_static_member_aliases",
@@ -476,6 +494,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_static_member_aliases",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_static_member_names",
@@ -484,6 +503,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_static_member_names",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_global_bindings",
@@ -492,6 +512,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_global_bindings",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_method_aliases",
@@ -500,6 +521,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_method_aliases",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_constructor_closures",
@@ -508,6 +530,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_constructor_closures",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_access_declarations",
@@ -516,6 +539,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_access_declarations",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_relocations",

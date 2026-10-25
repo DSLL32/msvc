@@ -5,7 +5,7 @@ Ledger paired PCH is IN PROGRESS. Untouched /Yc producer and /Yu consumer
 /O2 /G5 /Ob1 /Z7 /FR driver pipelines and the generated ledger.exe exit0.
 The independent native cases freeze source timestamps/cwds and the original
 53932-byte consumer PCH input. prepare_pch_output@4 (205B) is accepted with fresh
-original/native matching at compare_filenames; there are1483 App bodies and1590
+original/native matching at compare_filenames; there are1491 App bodies and1598
 historical frontiers. Original compilation,1430-function inherited graph/ABI
 checks, all12 cached cases and21 unit groups pass (audit/setup2.180s, cached0.375s).
 compare_filenames(106B) and undefine_source_macro(151B) are also accepted;
@@ -200,6 +200,13 @@ mark_pch_deferred_types(22B) is accepted at mark_pch_member_contexts.
 The unvisited24B description-key helper remains a trapping pending function.
 Original build2.843s, fresh original1.039s,1491-function audit2.275s and
 cached12+21units0.321s pass.
+Eight remaining root-cache visitors(134B total) are accepted with every actual
+entry in matching fresh order. All28 dispatch callbacks now complete; native
+root encoding reaches encode_pch_operators. The pending lookup maps use typed
+aliases of their sole existing image-view cells97/98, not duplicate globals.
+Unvisited key/value leaf helpers remain trapping/uncredited. Original build
+2.270s, fresh original0.519s,1499-function audit2.269s and cached12+21units0.318s
+pass. Full native PCH serialization/consumer parity is still pending.
 Producer IR/browser outputs match the driver. Raw export from the genuine
 standalone invocation matches ALL seven already-frozen master hashes, including
 state.pch. The driver-vs-standalone PCH differs by47bytes in23 arena DWORDs:
