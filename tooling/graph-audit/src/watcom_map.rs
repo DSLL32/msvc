@@ -190,6 +190,7 @@ fn parse_text(text: &str, pe: &Pe) -> Result<Publics> {
     }
     let mut addresses = BTreeMap::new();
     let mut absolutes = BTreeMap::new();
+    let mut boundaries = BTreeMap::new();
     let mut seen = BTreeMap::new();
     for (segment, offset, name) in raw_symbols {
         if let Some(old) = seen.insert(name.clone(), (segment, offset)) {
@@ -209,10 +210,24 @@ fn parse_text(text: &str, pe: &Pe) -> Result<Publics> {
         let address = base
             .checked_add(offset)
             .context("Watcom MAP public address overflow")?;
-        ensure!(
-            mapped(pe, address),
-            "Watcom MAP public outside actual PE mapped region: {name}"
-        );
+        if !mapped(pe, address) {
+            ensure!(
+                segments.iter().any(|s| s.segment == segment
+                    && s.offset == offset
+                    && s.size == 0
+                    && s.class == "DATA")
+                    && pe
+                        .sections
+                        .iter()
+                        .any(|s| u64::from(s.start) + u64::from(s.virtual_size)
+                            == u64::from(address)),
+                "Watcom MAP public outside actual PE mapped region: {name}"
+            );
+            // An empty DATA table can name its one-past end. Preserve that
+            // boundary as metadata, never as a callable/function public.
+            boundaries.insert(name, address);
+            continue;
+        }
         let owners = segments
             .iter()
             .filter(|s| {
@@ -238,8 +253,12 @@ fn parse_text(text: &str, pe: &Pe) -> Result<Publics> {
         }
         addresses.insert(name, address);
     }
+    let mut provenance = json!({"format":"watcom10-pe","map_sha256":crate::index::hash(text.as_bytes()),"rebuilt_pe_sha256":crate::index::hash(&pe.data),"segment_group_bases":anchors,"absolute_symbols":absolutes});
+    if !boundaries.is_empty() {
+        provenance["boundary_symbols"] = json!(boundaries);
+    }
     Ok(Publics {
-        provenance: json!({"format":"watcom10-pe","map_sha256":crate::index::hash(text.as_bytes()),"rebuilt_pe_sha256":crate::index::hash(&pe.data),"segment_group_bases":anchors,"absolute_symbols":absolutes}),
+        provenance,
         addresses,
         absolutes,
     })
@@ -295,6 +314,41 @@ mod tests {
         let map = map + "0001:00000010  Foo_\n";
         assert!(parse_text(&map, &pe).is_ok());
     }
+    #[test]
+    fn empty_data_section_end_is_metadata_not_a_function_public() {
+        let (pe, map) = fixture();
+        let segment = format!(
+            "{:<23}{:<15}{:<15}{:<16}{}\n",
+            "TI", "DATA", "DGROUP", "0002:00000040", "00000000"
+        );
+        let declared = map.replace("|   Memory Map   |", &(segment + "|   Memory Map   |"));
+        let positive = declared.clone() + "0002:00000040 __start_TI\n0002:00000040 __end_TI\n";
+        let parsed = parse_text(&positive, &pe).unwrap();
+        assert_eq!(
+            parsed.provenance["boundary_symbols"]["__start_TI"],
+            0x420040
+        );
+        assert_eq!(parsed.provenance["boundary_symbols"]["__end_TI"], 0x420040);
+        assert!(!parsed.addresses.contains_key("__start_TI"));
+        assert!(!parsed.absolutes.contains_key("__start_TI"));
+        assert_eq!(parsed.addresses, parse_text(&map, &pe).unwrap().addresses);
+        for wrong in [
+            map + "0002:00000040 __start_TI\n",
+            positive.replace("00000040", "00000080"),
+            positive.replace("TI                     DATA", "TI                     CODE"),
+            positive.replace("0002:00000040   00000000", "0002:00000040   00000001"),
+        ] {
+            assert!(parse_text(&wrong, &pe).is_err(), "{wrong}");
+        }
+        assert!(
+            parse_text(&declared, &pe)
+                .unwrap()
+                .provenance
+                .get("boundary_symbols")
+                .is_none()
+        );
+    }
+
     #[test]
     fn map_conflicts_unmapped_and_unowned_publics_reject() {
         let (pe, map) = fixture();

@@ -720,3 +720,8 @@ aliases; the flag never invents a bound from the next MAP public. Missing rebuil
 structural bounds are listed explicitly with counts and names. Accepted graph
 bodies still require their rebuilt counterparts independently. This flag neither
 selects graph/RET bodies nor grants acceptance, restoration or execution credit.
+
+Watcom zero-sized DATA tables may name a boundary exactly one past an actual PE
+section. Such otherwise-unmapped markers are recorded as `boundary_symbols` in
+MAP provenance only. They are never callable publics, body extents or mapped
+bytes; nonzero/CODE or arbitrary outside symbols still reject.
