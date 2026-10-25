@@ -448,13 +448,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 143 / 22,643 | 7.03% | Minimal C: CompilerSymbolTable::Insert after intrinsic setup; `c854f2c31` |
-| C1XX | 148 / 22,443 | 2.99% | Minimal C++: type-owning symbol lookup after normalization; `d1ab266fc` |
-| C2 | 185 / 45,209 | 7.89% | Numeric case: release_input_pool; `311875d4d` |
+| C1 | 159 / 33,030 | 10.25% | Minimal C: open_source_descriptor after the global-record writer and source-file lookup; `1d81b1477` |
+| C1XX | 174 / 27,227 | 3.62% | Minimal C++: write_global_ir_record; full 8,626-byte candidate remains scratch-only; `9cf5cc28d` |
+| C2 | 209 / 51,805 | 9.04% | Numeric case: new_optimizer_context; `6ae5a84a2` |
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
-| CVPACK | 135 / 43,007 | 68.63% | Growth/catalog/PCH diagnostic cases complete; preparing telemetry workload; `ed298d304` |
-| LINK | 151 / 50,336 | 12.13% | Hello EXE: define_input_symbol after rooted module-symbol processor; `daf70ea4` |
-| RCDLL | 138 / 35,390 | 47.43% | Rich corpus: symbol reader after operator scan; `168428252` |
+| CVPACK | 140 / 43,421 | 69.29% | Seven cases complete; new old-compiler archive stops at a typed MSPDB conversion boundary; `fed3a6c99` |
+| LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
+| RCDLL | 146 / 36,846 | 49.39% | Rich corpus: rc_read_resource_preamble after menu control flow; `da06c240b` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -480,6 +480,35 @@ bytes are zeroed natively and masked precisely under the documented defect
 policy; every defined byte remains strict. Five cached cases, 13 units and the
 original-build/strict-audit checkpoint pass in 2.020 s. The diagnostic's counted
 copy adoption reuses its unchanged original and completes in 15.597 ms natively.
+
+CVPACK has now also completed the telemetry workload and case `0006` using
+`/RELEASE`. The latter exposed the real IMAGEHLP load/export and public checksum
+dependency. Shared `69e2f1106` supplies the typed named route; `c63eea9e6`
+implements the bounded mapped-PE32 checksum. The captured 18,320-byte input and
+completed original independently establish checksum `0x4b2a`. Each output's raw
+checksum is checked separately; comparison masks only three proved unwritten
+source-index tail bytes and their dependent checksum DWORD, and asserts native
+tail zeros. The finished case commits as `fed3a6c99`: original 622.530 ms,
+native 17.700 ms, original/native build and audit 10.397 s, then all seven cached
+cases, 13 units and strict graph/RET gates in 0.370 s. Publication reused the
+identical tested source and pair without another original run.
+The next genuine VC1.0 `/Z7` two-TU archive reaches `record_widen` through C7
+narrow-index conversion, not C6 legacy conversion. Its 647.7 ms untouched
+original baseline is retained. The new factory/Record/query/emit boundary stays
+unsupported and case `0007` unaccepted pending a bounded typed observation plan;
+the old input-specific Widen oracle is not reused.
+
+C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
+and native builds, full code/data graph and ABI gates, 36 units and a fresh
+758.922 ms original / 11.034 ms native pair. Its supported native domain is the
+reached NULL/opcode-17/IL header; source-only symbol/non-IL fields stay explicitly
+unmodeled behind the entry guard. C1XX is independently recovering its larger
+8,626-byte counterpart and its own contextual data; that draft has no credit.
+These large owners explain why function counts can stay flat during substantial
+source work. Recent RCDLL menu-stage checks take 0.318 s for two native cases and
+36 groups, compared with 11.348 s for original/native strict preflight; its
+original/native pair takes 1.404 s / 188.450 ms. C2's latest original build and
+audit take 3.016 s / 0.629 s, while native replay takes 11.013 ms.
 
 CL completed pass configuration, the observed headless CONOUT$ failure path and
 the typed inactive control handler. The final original handler exits with the
@@ -529,6 +558,17 @@ and main HeapDestroy to the same real heap owner (`1d87c43c`). Both corrections
 have zero coverage credit; mistaken history and equal-zero limitations remain
 explicit, with unchanged originals reused for fresh native checks.
 
+Further bounded storage corrections retain their earlier matching-state limits:
+C1 removes a duplicate of the existing preprocess-stdout option at `54f28`
+(`ee056a13a`); C1XX fixes two interner pool receivers and the token pool receiver
+using the actual initializer addresses (`f4e3c5313`); LINK corrects an
+entry-point-name versus entry-symbol predicate and tests distinct values
+(`9a15f8d89`); C2 replaces a duplicate optimizer flag with the existing
+`-bzalign` owner (`ac8675064`). None adds credit. Their current checks reuse
+unchanged genuine originals; the C2 nonzero branch controls are explicitly
+static, not executed-path claims. Newly encountered addresses are checked
+against existing owners before declaring more storage.
+
 The concrete minimal capture work is:
 
 - C1/C1XX have implemented and original-compiled small typed three-argument
@@ -573,8 +613,8 @@ The concrete minimal capture work is:
   instruction qualifications. C2 withdrew a universal hash blocker. Intended
   native-provider selection plus once-per-capture loaded identity is enough
   where such proofs are used; no per-function scans or CRT reconstruction.
-- CL's 91-byte console_rows and separate 62-byte control handler remain
-  explicitly pending. The one ordinary two-source warm-IDB MRE retry completed
+- At an earlier checkpoint, CL's 91-byte console_rows and separate 62-byte
+  control handler were still pending. The ordinary two-source warm-IDB MRE retry completed
   successfully but did not reach the 41-byte helper; it gains no App credit.
   The approved fallback is one NULL/tail/head typed DIRECT probe on the genuine
   live Job chain at prepare_jobs. Its first attempt was rejected before Wine
@@ -616,15 +656,16 @@ This does not claim dynamic coverage of its 82 dispatch targets: unknown opcode
 property rows remain guarded and unmodeled, with no raw 160-WORD table copy.
 Subsequent token input is committed as `c156f83f8`, reaching the next decoder.
 
-CL's bounded completion adds the 41-byte deferred-job helper: 109 application
+CL's earlier bounded completion added the 41-byte deferred-job helper: 109 application
 functions / 18,279 bytes. The genuine original DIRECT run passes in 1.328 s;
 native passes in 7.661 ms (4.416 ms setup, 2.511 ms execution, 0.734 ms checks).
 The original-emitted result and live ownership/link/ABI assertions cover NULL,
 tail and head inputs. All 15 discovered cases (14 public IO plus one internal
 DIRECT) and their tests pass in 0.602 s including case rebuilds; original build,
 full 124-vertex audit and qualified 112-owner audit pass. This establishes
-internal behavior, not ordinary public MRE reach. The remaining 266 App bytes
-are the deferred console/control paths and 113-byte pass toggle.
+internal behavior, not ordinary public MRE reach. At that checkpoint the
+remaining 266 App bytes were the console/control paths and pass toggle;
+their subsequent qualified completion is recorded above.
 
 CVPACK completed the released debug-DLL case and paused at `d967c21fc`, adding
 11 application functions / 3,624 bytes. The final original exits successfully
@@ -633,8 +674,9 @@ SHA-256 `935d7828c7003e4f951e79cb4a709c747eac8006405ac996299dea4e64dd0d40`
 in 14.615 ms (5.339 ms setup, 7.852 ms execution, 1.424 ms checks). Both cached
 cases, 13 narrow tests and the strict 124-function graph / 123-owner RET audit
 pass in 0.287 s; final incremental native/original builds take 0.201/0.043 s.
-The existing qualified dependency contract is unchanged. A proposed larger
-multi-TU workload has not been started.
+The existing qualified dependency contract was unchanged. The autonomous
+growth, catalog, diagnostic, telemetry and checksum work described above
+followed that earlier pause.
 
 ## Watcom compatibility report
 
