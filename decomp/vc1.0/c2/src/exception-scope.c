@@ -422,3 +422,31 @@ void __fastcall finish_inline_function(Function *function)
     prepared_exception_scopes = 0;
     reset_arena(4);
 }
+
+/* Original [00065fd0,00066083). The old opcode bit2000 is exactly the
+   normalized HAS_SECOND property (all182 rows checked independently).
+   Recurse through second operands and iterate down the left-hand spine. */
+void __fastcall collect_exception_references(Node *node, unsigned filter_depth)
+{
+    ExceptionScope *scope;
+    unsigned opcode;
+    while ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        opcode = node->opcode;
+        switch (opcode) {
+        case 0x30: case 0x32: case 0x55:
+            if (filter_depth && node->right.symbol && node->right.symbol->kind == 1)
+                remember_exception_local(node->right.symbol);
+            break;
+        case 0x40: case 0x7a:
+            if (node->left.node->left.value == 0xd9) {
+                scope = current_exception_scope();
+                if (!scope) compiler_internal_error("@(#)except.c:1.25", 0xca);
+                scope->flags |= 1;
+            }
+            break;
+        }
+        if (node_shapes[opcode] & NODE_HAS_SECOND)
+            collect_exception_references(node->second.node, filter_depth);
+        node = node->left.node;
+    }
+}

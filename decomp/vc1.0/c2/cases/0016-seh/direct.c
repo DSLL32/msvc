@@ -177,3 +177,20 @@ int c2_scope_collect_inputs(void)
     return recon_native_at_entry((const void *)collect_exception_references,
         (const void *)collect_entry,real_input,0)==1;
 }
+
+static void __fastcall remember_entry(SymbolHeader *symbol)
+{
+    ExceptionScope *scope=exception_scope_stack[0];
+    int valid=symbol->kind==1&&!symbol->field0d&&symbol->value==4&&
+        symbol->field0e==0x100&&symbol->name&&
+        symbol->field18.identifier==6&&symbol->identifier==0xa6&&
+        exception_scope_stack_depth==1&&scope==prepared_exception_scopes&&
+        scope->kind==1&&scope->state==0x8d&&!scope->identifier&&
+        !scope->finally_depth&&scope->parent_identifier==-1&&!scope->locals;
+    recon_native_entry_finish(valid);
+}
+int c2_scope_remember_inputs(void)
+{
+    return recon_native_at_entry((const void *)remember_exception_local,
+        (const void *)remember_entry,real_input,0)==1;
+}
