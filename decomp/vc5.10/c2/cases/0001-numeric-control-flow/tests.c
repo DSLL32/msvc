@@ -582,6 +582,33 @@ static int return_storage_conventions(void)
     return 1;
 }
 
+static int input_type_fields(void)
+{
+    unsigned char bytes[] = {0x42, 0x06, 0x80, 0x00, 0x10, 0x00, 0x00, 0x42};
+    ShimFILE input;
+    FILE *saved = c2_current_il;
+    C2ILToken token, expected;
+    memset(&input, 0, sizeof(input));
+    input._ptr = (char *)bytes;
+    input._cnt = sizeof(bytes);
+    c2_current_il = (FILE *)&input;
+    memset(&token, 0xa5, sizeof(token));
+    token.opcode = 48;
+    expected = token;
+    expected.type = 0x2004;
+    read_input_type(&token);
+    if (memcmp(&token, &expected, sizeof(token))) return 0;
+    expected.type = 0x5000;
+    expected.bytes = 4096;
+    read_input_type(&token);
+    if (memcmp(&token, &expected, sizeof(token))) return 0;
+    token.opcode = expected.opcode = 39;
+    read_input_type(&token);
+    c2_current_il = saved;
+    return !memcmp(&token, &expected, sizeof(token)) && !input._cnt &&
+        input._ptr == (char *)bytes + sizeof(bytes);
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -609,5 +636,6 @@ const ReconTest numeric_tests[] = {
     {"symbol register cache preserves owner and allocation identity", 1, input_register_cache},
     {"input type encoding retains defined width and signed size boundary", 1, input_encoded_types},
     {"typed register expression clears exact size and keeps register identity", 1, typed_register_record},
-    {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions}
+    {"defined return conventions retain aggregate and power-of-two rules", 1, return_storage_conventions},
+    {"input type decoding retains untouched token fields", 1, input_type_fields}
 };

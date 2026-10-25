@@ -2995,8 +2995,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@read_input_type@4",
         .entry_rva = 0x25cac,
+        .code = (const ReconExtent[]){{0x25cac, 0x25d0f}, {0x6b4d9, 0x6b4f2}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "read_input_type",
     },
     {

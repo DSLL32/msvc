@@ -20,10 +20,11 @@ C2InputClause *input_clauses;
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[38], variable, pending39[31], function_entry, pending71[5];
+    unsigned char pending00[38], variable, pending39[9], conversion, pending49[21];
+    unsigned char function_entry, pending71[5];
     unsigned char parameter_end, pending77[2];
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 /* Only encountered tracked-register kind4 and parameter kind5 are modeled. */
 static union {
@@ -40,6 +41,7 @@ static union {
 static unsigned char input_condition_known[16];
 #define INPUT_PROPERTIES(op) \
     ((unsigned)(op) == 38 ? input_opcode_properties.variable : \
+     (unsigned)(op) == 48 ? input_opcode_properties.conversion : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
      (unsigned)(op) == 76 ? input_opcode_properties.parameter_end : \
      (unsigned)(op) == 79 ? input_opcode_properties.pragma : \
@@ -63,6 +65,13 @@ static unsigned char input_condition_known[16];
 #define INPUT_INVERSE(condition) input_inverse_condition[(condition)]
 #define INPUT_REGISTER_OPCODE(kind) input_register_opcodes.values[(kind)]
 #define INPUT_OPERAND_OPCODE(kind) input_operand_opcodes.values[(kind)]
+#endif
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+/* No opcode has yet consumed this distinct high-byte qualifier property. */
+#define INPUT_TYPE_PROPERTY(op) \
+    (recon_unsupported("unmodeled input type property"), 0)
+#else
+#define INPUT_TYPE_PROPERTY(op) (((unsigned char *)&input_opcode_properties)[(op)] & 4)
 #endif
 #define INPUT_IS_REGISTER(node) ((1U << ((node)->kind & 31)) & 6U)
 #define INPUT_IS_OPERAND(node) ((1U << ((node)->kind & 31)) & 0x7feU)
@@ -1440,4 +1449,17 @@ int __fastcall needs_input_return_storage(unsigned convention, unsigned short ty
         return saved_eax;
 #endif
     }
+}
+
+void __fastcall read_input_type(C2ILToken *token)
+{
+    unsigned encoded = input_type();
+    unsigned bytes = (encoded >> 4) & 31;
+    unsigned short kind = (unsigned short)(encoded & 15);
+    if ((encoded & 0x1000) && INPUT_TYPE_PROPERTY(token->opcode))
+        token->flags |= 0x800;
+    if (kind == 6 && !bytes) bytes = input_compact_signed();
+    if (token->opcode == 39) return;
+    token->type = (unsigned short)adjust_input_return_size(kind, bytes);
+    if ((token->type & 0xf000) == 0x5000) token->bytes = bytes;
 }

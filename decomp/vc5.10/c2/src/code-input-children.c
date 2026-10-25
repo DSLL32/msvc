@@ -322,10 +322,6 @@ void __fastcall finish_input_declaration(C2InputStack *stack)
 }
 
 
-void __fastcall read_input_type(C2ILToken *token)
-{
-    __asm { int 3 }
-}
 
 
 unsigned __int64 __cdecl read_input_longlong(void)
