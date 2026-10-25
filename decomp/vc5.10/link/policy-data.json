@@ -5803,6 +5803,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_format_contribution_module@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   }

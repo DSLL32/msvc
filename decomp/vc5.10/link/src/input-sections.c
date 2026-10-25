@@ -226,4 +226,9 @@ void __stdcall process_module_directives(LinkContext *context,Contribution *cont
        the Contribution.module field. It does not describe a second object. */
     configure_link_options(context,(DirectiveModule *)contribution,name);
 }
-char *__stdcall format_contribution_module(Contribution *contribution,char *name) { __asm { int 3 } return NULL; }
+extern OutputModule *output_module;
+char *__stdcall format_contribution_module(Contribution *contribution,char *name)
+{
+    if (contribution->module==output_module) return NULL;
+    return format_module_name(contribution->module,name);
+}

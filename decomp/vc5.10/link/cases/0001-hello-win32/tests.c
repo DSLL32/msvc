@@ -318,6 +318,20 @@ static int collected_directives(void)
     return recon_native_at_entry(format_contribution_module,check_collected_directives,
         invoke_hello,NULL)==1;
 }
+extern char *__stdcall format_module_name(OutputModule *,char *);
+extern OutputModule *output_module;
+static void __stdcall check_module_name_call(OutputModule *module,char *name)
+{
+    recon_native_entry_finish(module && module!=output_module &&
+        module==current_input_library->module_head && module->library==current_input_library &&
+        (module->library->flags & 16) && !strcmp(module->name,"hello.obj") && name &&
+        option_arguments.count==4);
+}
+static int module_name_call(void)
+{
+    return recon_native_at_entry(format_module_name,check_module_name_call,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -333,5 +347,6 @@ const ReconTest hello_tests[]={
     {"directive-buffer",1,directive_buffer},
     {"directive-collection",1,directive_collection},
     {"first-directive-token",1,first_directive_token},
-    {"collected-directives",1,collected_directives}
+    {"collected-directives",1,collected_directives},
+    {"module-name-call",1,module_name_call}
 };
