@@ -19,6 +19,14 @@
     "malloc_segment_wrapper": {
       "path": "harness/startup-witness.json",
       "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
+    },
+    "getenv": {
+      "path": "cases/0000-help/environment-crt-evidence.json",
+      "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
+    },
+    "strnicmp": {
+      "path": "cases/0000-help/environment-crt-evidence.json",
+      "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
     }
   },
   "graph_metadata": {

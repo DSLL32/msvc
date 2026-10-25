@@ -8,17 +8,6 @@ void reconstruction_trap(void);
 #pragma aux reconstruction_trap = 0xcc;
 #endif
 
-unsigned char GetEnvVar(char *name, char *buffer, int length)
-{
-    (void)name; (void)buffer; (void)length;
-#if defined(__WATCOMC__)
-    reconstruction_trap();
-#else
-    __asm__ __volatile__("int3");
-#endif
-    return 0;
-}
-
 #if defined(__WATCOMC__)
 #define STUB_TRAP() reconstruction_trap()
 #else

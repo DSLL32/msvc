@@ -14,7 +14,7 @@ ORIGINAL_MAP = build/wpp386.map
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386.EXE --
 ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK.EXE --
 original-windows = $(subst /,\,$(1))
-ORIGINAL_CPPFLAGS = -isrc '-i$(call original-windows,$(RECON)/include)'
+ORIGINAL_CPPFLAGS = -isrc '-i$(call original-windows,$(RECON)/include)' '-i$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/h)' '-i$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/h/NT)'
 ORIGINAL_CFLAGS = -bt=nt -3r -od -d2 -s
 ORIGINAL_COMPILE = $(ORIGINAL_CC) $(ORIGINAL_CPPFLAGS) $(ORIGINAL_CFLAGS) '-fo=$(call original-windows,$@)' '$(call original-windows,$<)'
 ORIGINAL_LINK_COMMAND = $(ORIGINAL_LINK) format windows nt runtime console debug all option 'map=$(call original-windows,$(ORIGINAL_MAP))' name '$(call original-windows,$(ORIGINAL_OUTPUT))' $(foreach obj,$(ORIGINAL_OBJECTS),file '$(call original-windows,$(obj))') libpath '$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' libpath '$(call original-windows,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/NT)' library clib3r library nt

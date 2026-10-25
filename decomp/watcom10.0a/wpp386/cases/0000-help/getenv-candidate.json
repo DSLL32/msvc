@@ -1,0 +1,142 @@
+{
+  "scope": "static GetEnvVar20-byte candidate; no new App acceptance, original capture or native case execution",
+  "accepted_app_functions": 2,
+  "accepted_app_code_bytes": 347,
+  "candidate": {
+    "name": "GetEnvVar",
+    "entry": 660889,
+    "extent": [
+      660889,
+      660909
+    ],
+    "code_bytes": 20,
+    "body_sha256": "e8ff3bd711bcc76f3767dbd29fe04b5dd5a958493a700ba12d5c8723006e2725",
+    "source": {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/src/environment.c",
+      "sha256": "1af351b88baaf9dddda8c815da49b4646f386a22eba2e035e80d17bd263f5dc4"
+    },
+    "reference": {
+      "path": "/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443/bld/cg/c/envvar.c",
+      "sha256": "f02fcfb0f2a43ae76e85a5b732501b2142bc8a78a433e12ae19d01aee12e02ed",
+      "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+      "adaptation": "actual1994 calls CRT getenv directly instead of later FEGetEnv; unused length retained; CopyStr branch remains named App stub"
+    },
+    "abi": {
+      "arguments": [
+        "EAX char* name",
+        "EDX char* output buffer",
+        "EBX int length (unused)"
+      ],
+      "return": "unsigned char bool in AL; upper EAX unspecified",
+      "near_return_cleanup": 0,
+      "native": "authorized native GCC ABI; compare semantic values at future pair"
+    }
+  },
+  "callees": [
+    {
+      "name": "getenv",
+      "entry": 426445,
+      "classification": "exact shipped CRT; native shared shim; no local body"
+    },
+    {
+      "name": "CopyStr",
+      "entry": 507480,
+      "classification": "pending App with named trap stub, reached only if getenv returns non-NULL"
+    }
+  ],
+  "crt_evidence": {
+    "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/environment-crt-evidence.json",
+    "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
+  },
+  "audit": {
+    "report": {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/graph-audit.json",
+      "sha256": "edc52c2e91bb78b7190ca62eb2c1ebd7de9e4ead612c284315eeab253b611f2e"
+    },
+    "producer": {
+      "path": "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "sha256": "93f93ec2285595d9a4c343fd466d786710904480d6c62b0d97406c7a806bce4a"
+    },
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "checked_functions": 3,
+    "original_local_ret": [
+      0
+    ],
+    "original_checked_ret": [
+      0
+    ],
+    "original_record_sha256": "b4e5e43e933bc8406fb74cfc3a1e3cef6feedfebe78e5671ed8cb5d0f05e2f89",
+    "rebuilt_record_sha256": "0861621dfd53433c77ab9c8fcc05ad1834cccb0ffee65a6e479c5fffb25017d6"
+  },
+  "timing": {
+    "build_and_static_audit": {
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 0.9718429194763303,
+      "status": 0,
+      "scope": "final candidate source/native+period build/static audit only; no original or native case launched"
+    },
+    "failed_attempt": {
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 0.6491718478500843,
+      "status": 2,
+      "scope": "candidate source, native/period build and static graph/ABI only; no original or native case run"
+    },
+    "failure_fix": "stdlib.h first exposed missing Watcom h and h/NT search directories; added relative Windows paths to compiler flags.",
+    "phase_split": "native build/period build/audit aggregate measured; independent phase times not measured",
+    "prior_passing_build_before_comment_cleanup": {
+      "command": [
+        "make",
+        "-j4",
+        "audit"
+      ],
+      "seconds": 1.3486845949664712,
+      "status": 0,
+      "scope": "candidate source/build/static audit only; no original or native case launched"
+    },
+    "final_rebuild_reason": "Verify final source/comment bytes and corresponding artifact bindings."
+  },
+  "case_state": {
+    "WCGMEMORY": null,
+    "last_passing_frontier": "GetEnvVar@0xa1599 at commit558cd1aca",
+    "next_expected_frontier": "SizeToClass@0x81ab5, amount16 after absent WCGMEMORY and completed MemInit",
+    "fresh_pair_required": true,
+    "current_cached_original_report": "previous accepted pair only; not relabelled as candidate evidence"
+  },
+  "held": "No old-controller capture or opcode/gateway expansion; wait for supported simpler CF debugger path before original/native acceptance.",
+  "artifacts": [
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/WPP386.EXE",
+      "sha256": "2d86c0e8304ad88e937c6474eb2260f7171922621bb160aecbc8ca8d3ae7452f"
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/build/wpp386.map",
+      "sha256": "23231501c490c30663da4f9fdecf022b5d3671155fe790ee989b8f2599ee2b40"
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/.build/libbinary.so",
+      "sha256": "dd2edfa15e826a96a4b452d383f103990091fca1632741ad437e6456f23ea996"
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/cases/0000-help/.build/case.so",
+      "sha256": "c32ccdaad5f8fe85b5bc1f3e6f80c5527e719548e2a2c986c89ab32e34566432"
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wpp386/harness/help-inputs.json",
+      "sha256": "2e21bf6deaab582ac176654d1bab954f33ccc1131754ee59f3366fed48e43159"
+    }
+  ],
+  "prior_runtime_evidence": "Latest successful original/native runtime pair remains at558cd1aca; current candidate has only fresh build/static evidence."
+}

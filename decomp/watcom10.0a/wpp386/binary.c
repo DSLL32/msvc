@@ -30,8 +30,18 @@ static const ReconFunction functions[] = {
       .definition=RECON_APP, .implementation=RECON_IMPLEMENTED,
       .native_symbol="MemInit", .original_symbol="MemInit_" },
     { .name="GetEnvVar", .entry_rva=0xa1599,
-      .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED,
+      .code=(const ReconExtent[]){{0xa1599,0xa15ad}}, .code_count=1,
+      /* Implementation availability is not acceptance; see candidate evidence. */
+      .definition=RECON_APP, .implementation=RECON_IMPLEMENTED,
       .native_symbol="GetEnvVar", .original_symbol="GetEnvVar_" },
+    /* Exact shipped CRT members, not reconstructed bodies or old-controller
+     * instruction admission. Native GetEnvVar uses the shared getenv shim. */
+    { .name="getenv", .entry_rva=0x681cd,
+      .code=(const ReconExtent[]){{0x681cd,0x68227}}, .code_count=1,
+      .definition=RECON_CRT, .original_symbol="getenv_" },
+    { .name="strnicmp", .entry_rva=0x6622d,
+      .code=(const ReconExtent[]){{0x6622d,0x66284}}, .code_count=1,
+      .definition=RECON_CRT, .original_symbol="strnicmp_" },
     { .name="myatoi", .entry_rva=0x81eb0,
       .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED,
       .native_symbol="myatoi", .original_symbol="myatoi_" },
