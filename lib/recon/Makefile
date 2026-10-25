@@ -618,3 +618,11 @@ build/forceinline-placement-probe: build/forceinline-placement-probe.o $(SOURCES
 	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
 forceinline-placement-check: build/forceinline-placement-probe
 	$(PYTHON) tests/check-forceinline-placement.py build/forceinline-placement-probe.o $<
+
+.PHONY: pure-virtual-check
+build/pure-virtual-probe.o: tests/pure-virtual-probe.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -fPIC -fno-inline -finstrument-functions -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/pure-virtual-probe: build/pure-virtual-probe.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
+pure-virtual-check: build/pure-virtual-probe
+	$(PYTHON) tests/check-pure-virtual.py build/pure-virtual-probe.o $<

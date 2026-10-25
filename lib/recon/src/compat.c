@@ -6,6 +6,18 @@
 #include <sys/time.h>
 #include <recon.h>
 
+/* Compiler-generated abstract vtables may reference this boundary during
+ * otherwise inlined construction. Invocation remains unsupported; this does
+ * not model an original CRT purecall diagnostic or successful return. */
+#ifdef __cplusplus
+extern "C"
+#endif
+__attribute__((noreturn)) void __cxa_pure_virtual(void)
+{
+    recon_unsupported("pure virtual invocation");
+    __builtin_unreachable();
+}
+
 /* Qualified MSPDB50 raw reflected CRC signature. The polynomial generates
  * every canonical table entry; no provider table or private state is copied. */
 __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(

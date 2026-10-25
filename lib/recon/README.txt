@@ -991,3 +991,8 @@ Canonical VC5 uses __inline with a separately qualified /Ob1 translation unit.
 The native new.h subset supplies only caller-owned placement construction and
 a typed cdecl allocating-new declaration bound to existing recon_cpp_new. It
 adds no allocator wrapper, delete form, exception policy or libstdc++ dependency.
+
+The native compiler-support __cxa_pure_virtual(void) symbol has C linkage and
+never returns: it reports unsupported invocation through the existing exit125
+boundary. This permits abstract vtable references without a libstdc++ dependency;
+it claims no original purecall diagnostic, success semantics or App body credit.
