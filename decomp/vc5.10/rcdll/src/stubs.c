@@ -256,10 +256,6 @@ void __stdcall rc_parse_accelerators(RcResource *resource)
     __asm int 3
 }
 
-void __cdecl rc_initialize_resource_buffer(void)
-{
-    __asm int 3
-}
 
 void __cdecl rc_reset_resource_buffer(void)
 {

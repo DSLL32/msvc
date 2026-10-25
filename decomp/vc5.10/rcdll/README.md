@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_initialize_resource_buffer` (RVA c924). Its partial streams and actual
+  stops at `rc_read_resource_name` (RVA a1db). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **124 functions, 33,684 code bytes**
-This is 45.15% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **125 functions, 33,706 code bytes**
+This is 45.18% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (50.81%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (50.84%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -112,3 +112,9 @@ The custom resource-name allocator/copy now executes for all 22 built-ins.
 A fresh original/native pair reaches resource-buffer initialization; full build
 and graph/ABI preflight passed. The name helper retains its NULL branch and
 uses the existing application allocator and shared WCHAR16 CRT operations.
+
+The 128,000-byte resource-buffer initializer is accepted with its two actual
+storage operands bound. The fresh pair reaches the pending name reader in
+1.614 s original / 183.577 ms native (36.191 ms execution); both builds and strict
+audit took 3.948 s. The shared allocator's existing ownership contract applies;
+no new original pointed-buffer snapshot is claimed.

@@ -407,3 +407,9 @@ WCHAR *__stdcall rc_duplicate_resource_name(const WCHAR *name)
     }
     return copy;
 }
+
+void __cdecl rc_initialize_resource_buffer(void)
+{
+    rc_resource_buffer_size=128000;
+    rc_resource_buffer=rc_allocate(rc_resource_buffer_size);
+}
