@@ -175,7 +175,7 @@ void convert_old_symbol_block32(void) { __asm { int 3 } }
 
 
 
-void convert_old_symbol_bprel32(void) { __asm { int 3 } }
+
 
 void convert_old_symbol_data32(void) { __asm { int 3 } }
 

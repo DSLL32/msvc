@@ -2242,7 +2242,7 @@
       },
       "_convert_old_symbol_bprel32": {
         "abi": "void convert_old_symbol_bprel32(void)",
-        "source": "src/stubs.c",
+        "source": "src/oldsymbols.c",
         "stack_cleanup": 0,
         "roots": []
       },
