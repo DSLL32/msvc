@@ -1111,7 +1111,10 @@ static void __stdcall check_bound_comdat_references(char *strings)
             references[i].symbol!=current_module_symbols[indices[i]])
             recon_native_entry_finish(0);
     }
-    recon_native_entry_finish(1);
+    if (!module_strings_active || !module_symbols_active) recon_native_entry_finish(0);
+    release_module_strings(strings);
+    recon_native_entry_finish(!module_strings_active && module_symbols_active &&
+        strings==current_module_strings && *(DWORD *)strings==461);
 }
 static int bound_comdat_references(void)
 {

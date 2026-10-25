@@ -6389,6 +6389,11 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "_release_module_strings@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },

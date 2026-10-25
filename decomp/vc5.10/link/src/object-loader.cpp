@@ -7,7 +7,7 @@
 #include <recon.h>
 
 extern "C" {
-extern BYTE mac_target,incremental_reuse;
+extern BYTE mac_target,incremental_reuse,module_strings_active;
 extern DWORD coff_string_size;
 extern BYTE *module_section_map;
 extern IMAGE_SECTION_HEADER *module_section_headers;
@@ -116,7 +116,10 @@ BYTE __stdcall process_incremental_sections(LinkContext *context,OutputModule *m
     __asm { int 3 }
     return 0;
 }
-void __stdcall release_module_strings(char *strings) { __asm { int 3 } }
+void __stdcall release_module_strings(char *strings)
+{
+    module_strings_active=0;
+}
 void __stdcall release_module_symbols(IMAGE_SYMBOL *symbols) { __asm { int 3 } }
 
 void __stdcall resize_module_section_buffers(unsigned count) { __asm { int 3 } }

@@ -327,7 +327,7 @@ static const ReconFunction functions[] = {
     {"_process_module_symbols@24",0x5f430,(const ReconExtent[]){{0x5f430,0x5fc88},{0x655d0,0x655db},{0x655db,0x655e5}},3,(const ReconExtent[]){{0x1ed4,0x1edc},{0x8c30,0x8c42},{0x657b0,0x657d8}},3,RECON_APP,RECON_IMPLEMENTED,"process_module_symbols",NULL,NULL,0,NULL},
     {"_process_incremental_sections@12",0x387d0,(const ReconExtent[]){{0x387d0,0x388e5}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"process_incremental_sections",NULL,NULL,0,NULL},
     {"_record_module_comdats@4",0x63150,(const ReconExtent[]){{0x63150,0x631d9}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"record_module_comdats",NULL,NULL,0,NULL},
-    {"_release_module_strings@4",0x60bb0,(const ReconExtent[]){{0x60bb0,0x60bba}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_module_strings",NULL,NULL,0,NULL},
+    {"_release_module_strings@4",0x60bb0,(const ReconExtent[]){{0x60bb0,0x60bba}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"release_module_strings",NULL,NULL,0,NULL},
     {"_release_module_symbols@4",0x61000,(const ReconExtent[]){{0x61000,0x6100a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"release_module_symbols",NULL,NULL,0,NULL},
     {"_resize_module_section_buffers@4",0xe2c0,(const ReconExtent[]){{0xe2c0,0xe35c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"resize_module_section_buffers",NULL,NULL,0,NULL},
     {"_reserve_byte_buffer@8",0x4f450,(const ReconExtent[]){{0x4f450,0x4f489}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"reserve_byte_buffer",NULL,NULL,0,NULL},
