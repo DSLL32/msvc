@@ -81,6 +81,12 @@ int fixture_main(int argc, char **argv)
 {
     char line[128];
     FILE *f;
+    if (getenv("RECON_CHECK_REPO"))
+    {
+        const char *repository=getenv("RECON_DRIVE_R");
+        printf("R=%s\n",repository?repository:"unset");
+        return 0;
+    }
     if (getenv("RECON_CHECK_OUTPUT"))
     {
         int result=process_fixture();

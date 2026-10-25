@@ -527,3 +527,11 @@ callee anchors even when their original extent is pending. Exact compiled bytes,
 relocations and object ownership remain mandatory. This adds no original runtime
 body, availability, reconstruction credit or graph acceptance; newly qualified
 callee addresses can also reject previous unvalidated byte-shape aliases.
+
+
+Native execution infers the repository before changing cwd/loading the target and
+defaults `RECON_DRIVE_R` to that root, matching the shared original prefix. An
+explicit capture value or removal takes precedence, including unit forks. A
+capture's explicit logical R drive can still select its isolated workspace when
+no environment override is declared. Standalone fixtures without a discoverable
+repository leave this default unset. Wine mappings are never changed.

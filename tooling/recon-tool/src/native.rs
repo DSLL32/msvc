@@ -340,6 +340,23 @@ unsafe fn executor(
             std::env::remove_var(key);
         }
     }
+    // Mirror the shared original prefix's fixed repository drive. An explicit
+    // capture value (including removal) takes precedence over this default.
+    if !f.env.contains_key("RECON_DRIVE_R") {
+        let repository = case_path
+            .ancestors()
+            .find(|root| {
+                root.join("toolchains").is_dir()
+                    && root.join("tooling/recon-tool/Cargo.toml").is_file()
+            })
+            .map(Path::to_owned)
+            .or_else(|| crate::toolchain::repository(None).ok());
+        if let Some(repository) = repository {
+            unsafe {
+                std::env::set_var("RECON_DRIVE_R", repository);
+            }
+        }
+    }
     for (k, v) in &f.env {
         unsafe {
             match v {
@@ -351,7 +368,9 @@ unsafe fn executor(
     unsafe {
         std::env::set_var("RECON_DRIVE_T", root);
         if let Some(drive) = &f.logical_drive {
-            std::env::set_var(format!("RECON_DRIVE_{}", drive.to_uppercase()), root);
+            if !drive.eq_ignore_ascii_case("R") || !f.env.contains_key("RECON_DRIVE_R") {
+                std::env::set_var(format!("RECON_DRIVE_{}", drive.to_uppercase()), root);
+            }
         }
         if let Some(cwd) = &f.logical_cwd {
             std::env::set_var("RECON_CANONICAL_CWD", cwd);
@@ -407,10 +426,14 @@ unsafe fn executor(
                     unsafe {
                         std::env::set_var("RECON_DRIVE_T", &test_root);
                         if let Some(drive) = &f.logical_drive {
-                            std::env::set_var(
-                                format!("RECON_DRIVE_{}", drive.to_uppercase()),
-                                &test_root,
-                            );
+                            if !drive.eq_ignore_ascii_case("R")
+                                || !f.env.contains_key("RECON_DRIVE_R")
+                            {
+                                std::env::set_var(
+                                    format!("RECON_DRIVE_{}", drive.to_uppercase()),
+                                    &test_root,
+                                );
+                            }
                         }
                     }
                     std::env::set_current_dir(&dir)?;
