@@ -1,4 +1,7 @@
 /* Derived NB02 directory-width conversion; qualified original/native reconstruction frontier. */
+#include <limits.h>
+#include <stdio.h>
+#include <recon-output.h>
 #include <recon-tool.h>
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
@@ -140,11 +143,56 @@ static const uint32_t order[] = {
     0x1a670,
     0x1a450,
     0x19a50,
+    0x19ba0,
+    0x19c50,
+    0x19ed0,
+    0x19f50,
 
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase),
     "derived-nb02-old-types", "Authentic legacy payloads with target-width directory entries.",
-    order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x19a50,
+    order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_EXIT, 0,
     NULL, invoke, NULL, NULL, 0
+};
+
+/* read_old_module left one byte after each counted filename unwritten.
+ * capture.bin masks only these 98 original fields; require our zeroes. */
+static const uint16_t module_padding[] = {
+    0x29, 0x4c, 0x70, 0x94, 0xb7, 0xd9, 0xfd, 0x130,
+    0x153, 0x171, 0x190, 0x1b2, 0x1d2, 0x1f3, 0x211, 0x230,
+    0x254, 0x278, 0x299, 0x2bb, 0x2d9, 0x2fb, 0x31b, 0x33b,
+    0x35b, 0x379, 0x399, 0x3ba, 0x3d9, 0x3f9, 0x41a, 0x438,
+    0x458, 0x47b, 0x498, 0x4bd, 0x4e0, 0x504, 0x528, 0x54b,
+    0x56f, 0x593, 0x5b9, 0x5e1, 0x602, 0x622, 0x643, 0x663,
+    0x688, 0x6ab, 0x6cb, 0x6f0, 0x718, 0x740, 0x767, 0x789,
+    0x7ac, 0x7cc, 0x7f0, 0x813, 0x831, 0x856, 0x87a, 0x89d,
+    0x8be, 0x8e0, 0x904, 0x928, 0x950, 0x972, 0x993, 0x9b3,
+    0x9d1, 0x9f1, 0xa11, 0xa39, 0xa5c, 0xa81, 0xaa5, 0xac6,
+    0xae9, 0xb0c, 0xb2f, 0xb51, 0xb6f, 0xb8d, 0xbac, 0xbce,
+    0xbed, 0xc10, 0xc34, 0xc58, 0xc79, 0xc9a, 0xcb9, 0xcd9,
+    0xcfa, 0xd19,
+};
+static int check_module_padding(const ReconOutputContext *context)
+{
+    char path[PATH_MAX];
+    FILE *file;
+    size_t i;
+    int length, okay = 1;
+    if (!context || context->struct_size != sizeof(*context) ||
+        context->terminal_kind != RECON_OUTPUT_EXIT || context->terminal_value ||
+        !context->workspace_cwd) return 0;
+    length = snprintf(path, sizeof(path), "%s/legacy-wide.dbg", context->workspace_cwd);
+    if (length < 0 || length >= (int)sizeof(path)) return 0;
+    file = fopen(path, "rb");
+    if (!file) return 0;
+    if (fseek(file, 0, SEEK_END) || ftell(file) != 63960) okay = 0;
+    for (i = 0; okay && i < RECON_COUNT(module_padding); ++i)
+        if (fseek(file, module_padding[i], SEEK_SET) || fgetc(file) != 0)
+            okay = 0;
+    if (fclose(file)) okay = 0;
+    return okay;
+}
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+    RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), check_module_padding
 };

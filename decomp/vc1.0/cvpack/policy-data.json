@@ -339,7 +339,7 @@
       },
       "_grow_page_table": {
         "abi": "void grow_page_table(FileSlot *)",
-        "source": "src/stubs.c",
+        "source": "src/files.c",
         "stack_cleanup": 0,
         "roots": []
       },

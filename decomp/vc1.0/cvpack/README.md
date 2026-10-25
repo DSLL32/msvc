@@ -1,21 +1,29 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **230 accepted application
-functions, 70,438 original code bytes, and 38 named trapping stubs**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **231 accepted application
+functions, 70,545 original code bytes, and 37 named trapping stubs**.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
-`read_old_directory`'s previously wrong newer-callback reference. The matching
-frontier is now `grow_page_table` (RVA `0x19a50`), on the C6 local-symbol
-sizing path. The last accepted function is `convert_old_symbol_block16`
-(sequence 230, 221 original code bytes, `src/oldsymbols.c`). Encountered converter dispatch and its calls have identified
-additional App helpers; these retain named trapping stubs and no accepted
-credit. The reached line path also corrected `read_lines` to publish `line_directory`
+`read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
+streams and defined artifact bytes. The last accepted function is
+`grow_page_table` (sequence 231, 107 original code bytes, `src/files.c`).
+Encountered converter dispatch and calls identified additional App helpers;
+remaining helpers retain named trapping stubs and no accepted credit.
+The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 43 application functions.
+The resumed workload has accepted 44 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. All twelve cached cases and unit executors passed the 230-function
 checkpoint. The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
+
+There is no candidate body at this checkpoint. Continue with substantial inputs
+for the remaining C6 type leaves, 32-bit symbol families and multiple-file line
+ranges. The packed-module reader/writer requires a genuine or explicitly authored
+NB08 container; NB09 exits early. The remaining file-cache/mapping and TypeServer
+paths may require typed DIRECT probes with real live owners. The two no-op
+register-relative callbacks remain unaccepted; the wide conversion no-op does
+not advance the CLI dispatcher, so it needs a bounded callback probe.
 
 `src/` contains application reconstruction only. Shared fixture checks live in
 `harness/`; this binary has no private native host or binary-specific CRT
@@ -32,8 +40,7 @@ application CFGs, RET cleanup, extent ownership and instruction overlap;
 strings, typed callback identities and source/stub inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Eleven dispatched cases complete; the derived NB02 case has an original-backed
-partial frontier. All twelve retain explicit
+All twelve dispatched cases complete and retain explicit
 unseeded first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
 filenames. Existing references retain their historical Z: program path; they
@@ -97,19 +104,27 @@ unchanged. Input SHA256 changes from
 `2e01fe1d2d150f1e20352225636081e0373cae3d79c8b601d8482a4cedc4ddf4` to
 `801316eb6012ec914c4dc8a2eb29eae2416fbdf17ddd9a8aa75e18f7ba6a5dcb`.
 The untouched original accepts it and emits a packed debug container; the
-full final oracle remains in the partial capture. Exact derivation and validation
+final capture retains its complete oracle. Exact derivation and validation
 are saved in `~/.ai-tmp/msvc2/vc1.0/cvpack/resume-20261025/0012-derived-nb02-old-types/input-provenance.json`.
 
-The recovered old-module converter also left its counted filename's final byte
-and alignment tail unwritten. Its reconstruction explicitly zeros that proven
-uninitialized tail and documents the original defect. The current partial
-frontier precedes output emission; any emitted tail must be masked when the
-legacy workload reaches a completed artifact comparison.
+The old-module converter left one byte after every counted filename and its
+unused allocation alignment tail unwritten. Its reconstruction zeros this tail
+with an original-defect comment. The emitted legacy artifact contains exactly
+98 of these post-filename bytes. `capture.bin` masks those fixed one-byte fields;
+the case callback requires actual zeroes. One raw original byte was `09` at file
+`0xfd`; the other 97 were already zero. All other bytes, section offsets and type
+ordering match exactly. The 63,960-byte raw original has SHA256
+`0901776a8202d75eee36d42df0980f493ad2dc3801b433bd621f7726a24d9082`;
+zeroing only those 98 fields gives the native/comparison SHA256
+`46a29369441111914418faabd7b028f17e4789c7ee7c71cf7fa648218840ea2c`.
+The raw original, native file, structural field inventory and command logs remain
+under `resume-20261025/0012-derived-nb02-old-types/` in owned scratch; the original
+is `original231-export/files/legacy-wide.dbg`. No raw artifact is hidden in the
+capture or duplicated as an asset.
 
 The old basic-pointer converter left reserved attribute bit `0x0800`
 uninitialized. Its reconstruction zeros this bit and documents the original
 defect. It also initializes the unknown-encoding mode and procedure-convention
-fallback bytes to zero where the original left them unwritten. The current
-valid-input frontier passes with these corrections. No broad artifact masks or
-derived type-order changes have been assumed equivalent; actual output
-consequences must be diagnosed at the completed legacy path.
+fallback bytes to zero where the original left them unwritten. The completed
+legacy workload matches all defined type bytes and ordering with these
+corrections. No type fields or derived ordering differences are masked.

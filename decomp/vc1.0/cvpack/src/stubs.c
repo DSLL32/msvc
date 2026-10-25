@@ -31,7 +31,7 @@ unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
 
 
 
-void grow_page_table(FileSlot *slot) { __asm { int 3 } }
+
 
 
 

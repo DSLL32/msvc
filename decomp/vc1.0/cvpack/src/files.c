@@ -677,3 +677,14 @@ Page *remove_lru_page(void)
     page->newer = NULL;
     return page;
 }
+
+#pragma intrinsic(memset)
+void grow_page_table(FileSlot *slot)
+{
+    long pages = slot->allocated/4096;
+    long count = pages*2;
+    slot->storage.pages = realloc(slot->storage.pages, count*sizeof(Page *));
+    if (!slot->storage.pages) file_failure(13, NULL, NULL);
+    memset(slot->storage.pages+pages, 0, (count-pages)*sizeof(Page *));
+    slot->allocated = count*4096;
+}
