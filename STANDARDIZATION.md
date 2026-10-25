@@ -75,6 +75,10 @@ retain per-case process isolation or a defined pristine fork starting point.
 Reconstruction source remains faithful Win32 code and must still compile with
 the original compiler. The original-toolchain build and graph/ABI checks remain
 separate from native case execution. Reuse `tooling/graph-audit/`.
+Shared original-build dependency scanning resolves literal header names with
+Windows case-insensitive lookup and backslash separators. Ambiguous host case
+collisions fail; macro includes and not-yet-generated headers still need explicit
+Make prerequisites.
 
 ## Binary descriptor
 

@@ -16,8 +16,8 @@ regressions use saved references and do not invoke Wine.
   C1's current case still needs the shared original-DIRECT facility. LINK,
   CVPACK, CL, RC and RCPP are migrating. Finished binaries are included.
 - **VC5.10:** all nine binaries are in scope, including finished RC and CVTRES.
-  C1, C1XX, CL, RCDLL and CVTRES have committed their migrations and paused.
-  The other four are completing verification and shared integrations.
+  All nine have committed their migrations and paused. Their 38 invocation
+  cases, original builds and applicable graph/ABI checks pass.
 - **Watcom:** the coordinator has completed a read-only compatibility
   assessment. No Watcom migration, new capture or reconstruction was performed
   as part of that assessment; details are below.
@@ -26,6 +26,24 @@ Accepted application functions and original references are preserved during
 migration. Unaccepted source work is saved separately and does not acquire
 acceptance through the new registry. Historical CRT classifications and audit
 qualifications do not count as reconstructed application code.
+
+Completed VC5.10 migrations:
+
+| Binary | Commit | Cases | Reported native fixture time |
+| --- | --- | ---: | --- |
+| C1 | `72e82f150` | 2 | 5.3–7.9 ms per case |
+| C1XX | `a7233aef5` | 2 | 5.0–7.6 ms per case |
+| C2 | `dccbd1906` | 2 | 7.8–8.7 ms per case |
+| CL | `745c08633` | 14 | 349 ms total |
+| CVPACK | `efab2086e` | 2 | 7.2–32.8 ms per case |
+| LINK | `6e70c7e1d` | 2 | 5.6–18.8 ms per case |
+| RCDLL | `a43df3cdc2` | 2 | 5.2–171.8 ms per case |
+| RC | `783eff148` | 3 | 8.6–148.3 ms per case |
+| CVTRES | `6bed7f7f6` | 9 | 55 ms total |
+
+These measurements come from different individual verification runs, rather
+than a simultaneous whole-project benchmark. Unaccepted work remains preserved
+for later reconstruction.
 
 ## Shared runner and build foundation
 
@@ -68,6 +86,7 @@ they do not imply that pending integrations have passed.
 | Strided callback tables and exact import-site assertions | Express VC5.10 CVPACK's existing callback layout, explicit null rows and resolver-site inventory in the common audit engine. | `8b6ea0935`. 67 tests and ten denial checks; real CVPACK 113-graph audit passed in about 0.202 s. |
 | More precise graph-audit failure diagnostics | Identify the owner, side, source and target of an unknown tail-call ABI instead of reporting only a generic failure. | `df221a941`. Exposed C1XX's specific pending debug-helper boundary; error reporting only, with no audit semantic change. |
 | Mask immediates are not function pointers | Exclude TEST/AND/OR/XOR mask constants from function-reference discovery, while retaining actual address-bearing MOV/PUSH/CMP and arithmetic checks. | `a7f50d042`, `433be1cd3`. Both discovery paths have regression coverage; the full C1XX audit passed. |
+| Canonical graph-registry adapters | Consume RCPP/CVPACK registries, resolve identity-only endpoint names and explicit PE import thunks, and reuse RC runtime-data checks without local frameworks. No names invent extents or body availability. | `dacb8c249`. Seven real profile checks, 70 tests, 12 denial controls and two unchanged legacy reports; canonical release matched the reviewed frozen bytes. |
 
 The runtime changes separate classification, available native body and reviewed
 graph evidence. They do not add CRT reconstruction or silently waive application
@@ -165,7 +184,7 @@ These are approved or under design, not completed integrations:
 | Post-exit output checks | LINK and RC need narrow checks after the application and its descendants have exited, including structural output checks and assertions on identified PID fields. Raw captured streams must remain intact; generic equality still applies. |
 | Capture-owned harness assets outside application cwd | Keep captured dependency responses and host configuration out of exact application input/output inventories. These belong inside the capture but outside the logical application working directory. |
 | CL entry-state observer and exact read-only tree membership | Preserve three existing internal-state cases and reject added SDK files, rather than validating only the hashes of known files. Concrete APIs remain to be settled. |
-| Remaining graph adapters | RCPP/CVPACK registry consumers, identity-only names for extentless entries, and descriptor-aware import-thunk normalization passed six affected profiles in a frozen staged build; publication/review is pending. These must retain existing graph/ABI policy without granting extents, body availability or reconstruction credit. RC's separate support-extent guard remains pending. |
+| RC support-extent guards | A separate structural check for reviewed CRT/import extents is in scratch validation. It must preserve original guards without inventing rebuilt bounds or changing graph/RET/credit scope. RCPP already retains all 179 original/rebuilt accepted-extent guards through its existing finite scope and does not need this extra flag. |
 
 ## Retired local checks and historical evidence
 
@@ -189,9 +208,10 @@ historical material.
 The stricter canonical registry also exposed a VC5.10 C2 source identity issue:
 17 distinct callback slots used a separate trapping placeholder for an original
 entry already represented by a real CRT function. A shared per-owner alias
-waiver was rejected. A bounded repair to use the canonical function pointer,
-with consumer inventory and existing strict checks, is authorized but not yet
-verified. It adds no reconstruction credit.
+waiver was rejected. The bounded canonical-pointer repair and consumer
+inventory are verified and committed in `dccbd1906`; original compilation,
+strict 111-function graph/reference checks and both cached cases pass. It adds
+no reconstruction credit.
 
 ## Watcom compatibility report
 
