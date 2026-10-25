@@ -99,11 +99,6 @@ C2Expression * __fastcall new_function_exit(C2Function *function)
 
 
 
-void __fastcall mark_first_input_expression(C2Expression *expression)
-{
-    __asm { int 3 }
-}
-
 
 
 

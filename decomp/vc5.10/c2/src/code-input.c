@@ -1579,3 +1579,10 @@ C2Expression *__fastcall pop_input_expression(C2InputStack *stack)
         c2_report_internal("E:\\utc\\src\\\\P2\\reader.c", 4385);
     return pop_input_expression(local);
 }
+
+/* Change implicit register kind3 to explicit kind2; all other kinds become
+ * aggregate kind6. The provisional historical symbol is kept for trace identity. */
+void __fastcall mark_first_input_expression(C2Expression *expression)
+{
+    expression->kind = expression->kind == 3 ? 2 : 6;
+}

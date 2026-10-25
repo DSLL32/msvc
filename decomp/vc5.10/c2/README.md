@@ -7,14 +7,14 @@ Both invocations retain the original NUL stdin and frozen target environment.
 Application code is in `src/`; existing target CRT boundaries and their rationale
 are in `crt/`. The common native case adapter is in `harness/`.
 
-The registry preserves 155 accepted application functions / 36,652 code bytes.
+The registry preserves 156 accepted application functions / 36,671 code bytes.
 Five historical CRT helpers (438 bytes), four import thunks (24 bytes), and
 2,028 bytes of contextual text data are separate. The full text extent is
 573,183 bytes including CRT/data/padding; no complete non-CRT denominator is known.
 
 - `0000-unsupported-help`: completed `/?` diagnostic, exit 1 and 51 stderr bytes.
 - `0001-numeric-control-flow`: original CL `/O2 /G5` IL and final COFF oracle;
-  current accepted frontier is `mark_first_input_expression` at original RVA 0x264bf.
+  current accepted frontier is `new_address_register` at original RVA 0x398b.
   Twenty-nine narrow units retain real-conversion and register-list behavior checks.
 
 The 74-byte `add_register_to_set` (0x40189f..0x4018e9) is now accepted after a

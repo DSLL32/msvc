@@ -2679,8 +2679,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@mark_first_input_expression@4",
         .entry_rva = 0x264bf,
+        .code = (const ReconExtent[]){{0x264bf, 0x264d2}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "mark_first_input_expression",
     },
     {
