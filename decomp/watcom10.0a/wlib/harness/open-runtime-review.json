@@ -1,0 +1,12 @@
+{
+  "scope": "read-only finite CRT provider review; no target launch or App credit",
+  "proposal_sha256": "af01846ac20ee409175891dc13e25e7da249886dd035f30a18829f386acfb07b",
+  "actual_body_hashes": 15,
+  "actual_bytes": 830,
+  "source_hashes_verified": true,
+  "provider_slots_verified": 8,
+  "actual_import_names_verified": 3,
+  "module_name_comparison": "case-insensitive Windows DLL identity; actual names retained",
+  "text_data_bytes_verified": 4,
+  "unresolved_callback": "WindowsNewWindow stays NULL/not admitted; unexpected actual target remains masked"
+}

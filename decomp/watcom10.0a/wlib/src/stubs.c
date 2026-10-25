@@ -32,10 +32,9 @@ int FiniMsg( void )
 
 
 
-int ResOpenFileRO( const char *filename )
+void WresRecordError( WResStatus status )
 {
     WLIB_FRONTIER();
-    return( 0 );
 }
 
 int FindResources( HANDLE_INFO *instance )

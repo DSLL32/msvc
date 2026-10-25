@@ -1,0 +1,549 @@
+{
+  "scope": "Finite STATIC reached-open provider classification proposal only; no original body restoration/run or successful native open qualification yet. No App credit.",
+  "target_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "source_commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+  "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+  "functions": [
+    {
+      "entry_va": 4290778,
+      "name": "open_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4290778,
+          4290809
+        ]
+      ],
+      "body_sha256": "291e1ce2253b09ab6fd6be3ccda1d45ed3c302746de7324d36f24ddf4dafc998",
+      "library_module": "openwnt",
+      "THEADR_offset": 164256,
+      "public": "open_",
+      "public_definition": {
+        "name": "open_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/handleio/c/openwnt.c",
+      "source_sha256": "3c93aa5763e31cb2dfe84db491120cd57754dd0fed240862fc8e8dc34186d9fe",
+      "rationale": "legacy cdecl wrapper: extracts caller filename/mode, forwards SH_COMPAT0 and unused mode word to sopen; optimized shipped wrapper differs",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4290799,
+          4290809,
+          "direct-call"
+        ]
+      ],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4290809,
+      "name": "sopen_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4290809,
+          4291181
+        ]
+      ],
+      "body_sha256": "8de8db264415cf00f4cd2f6ed8402279f3436f631bf168652106727bae227b69",
+      "library_module": "openwnt",
+      "THEADR_offset": 164256,
+      "public": "sopen_",
+      "public_definition": {
+        "name": "sopen_",
+        "segment": 1,
+        "offset": 36
+      },
+      "source": "bld/clib/handleio/c/openwnt.c",
+      "source_sha256": "3c93aa5763e31cb2dfe84db491120cd57754dd0fed240862fc8e8dc34186d9fe",
+      "rationale": "legacy variant: file-slot check, access/share mapping, CreateFileA, handle-table registration and I/O mode; old flags/handle allocation order differs from2002",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4290823,
+          4297290,
+          "direct-call"
+        ],
+        [
+          4290837,
+          4297848,
+          "direct-call"
+        ],
+        [
+          4290866,
+          4298314,
+          "direct-call"
+        ],
+        [
+          4290882,
+          4298358,
+          "direct-call"
+        ],
+        [
+          4290995,
+          4298405,
+          "direct-call"
+        ],
+        [
+          4291004,
+          4297713,
+          "direct-call"
+        ],
+        [
+          4291021,
+          0,
+          "pointer-slot:0x420a2c"
+        ],
+        [
+          4291087,
+          4296067,
+          "pointer-slot:0x420980"
+        ],
+        [
+          4291165,
+          4297800,
+          "direct-call"
+        ],
+        [
+          4291045,
+          4310160,
+          "direct-call"
+        ],
+        [
+          4291059,
+          4297940,
+          "direct-call"
+        ],
+        [
+          4291069,
+          4290371,
+          "direct-call"
+        ]
+      ],
+      "unresolved": [
+        [
+          4291021,
+          "dword ptr [0x420a2c]",
+          "unresolved pointer value 0x0"
+        ]
+      ]
+    },
+    {
+      "entry_va": 4297290,
+      "name": "__NTAtMaxFiles_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4297290,
+          4297349
+        ]
+      ],
+      "body_sha256": "4c75d350b313cd2830897a984627ef2c535e00b3a6caee28bc4dad6293446dab",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTAtMaxFiles_",
+      "public_definition": {
+        "name": "__NTAtMaxFiles_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "rationale": "legacy variant: compares handle count against configured maximum then scans CRT-owned NULL handle slots; public/provider role and callers consistent",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4297848,
+      "name": "__set_errno_dos_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4297848,
+          4297940
+        ]
+      ],
+      "body_sha256": "d4d6b7caa783591f194c1b61a1628ca8092e643e557a3dd8bc0675cc5d2c098a",
+      "library_module": "dosret",
+      "THEADR_offset": 8192,
+      "public": "__set_errno_dos_",
+      "public_definition": {
+        "name": "__set_errno_dos_",
+        "segment": 1,
+        "offset": 12
+      },
+      "source": "bld/clib/_dos/c/dosret.c",
+      "source_sha256": "75199a4f239f60c920d32b776ab4fda129f35411a4b83c7b33ef0158c48de7b9",
+      "rationale": "legacy20-entry Windows/DOS error-to-errno table plus explicit123/183 cases; writes provider-thread errno/doserrno fields, returns-1; shipped/newer error coverage differs",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4297851,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297865,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297888,
+          4296061,
+          "pointer-slot:0x420974"
+        ],
+        [
+          4297924,
+          4296061,
+          "pointer-slot:0x420974"
+        ]
+      ],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4298314,
+      "name": "__GetNTAccessAttr_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4298314,
+          4298358
+        ]
+      ],
+      "body_sha256": "2db5aa0a81e87d356ce157880088fdf2b0d712407e5ab1d20441f0998171b116",
+      "library_module": "ntfio",
+      "THEADR_offset": 82704,
+      "public": "__GetNTAccessAttr_",
+      "public_definition": {
+        "name": "__GetNTAccessAttr_",
+        "segment": 1,
+        "offset": 45
+      },
+      "source": "bld/clib/streamio/c/ntfio.c",
+      "source_sha256": "b69373993fd3388dc0f6b4cbfd90fb4fccd91c4a3a2bd25e1fa0111a4997eff9",
+      "rationale": "all12 normalized instructions match shipped public; read-only maps GENERIC_READ and FILE_SHARE_READ",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4298358,
+      "name": "__GetNTShareAttr_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4298358,
+          4298405
+        ]
+      ],
+      "body_sha256": "7e6ade9fe46a322499495cd14aba400ed502f953954eaf972e16671f8189928b",
+      "library_module": "ntfio",
+      "THEADR_offset": 82704,
+      "public": "__GetNTShareAttr_",
+      "public_definition": {
+        "name": "__GetNTShareAttr_",
+        "segment": 1,
+        "offset": 89
+      },
+      "source": "bld/clib/streamio/c/ntfio.c",
+      "source_sha256": "b69373993fd3388dc0f6b4cbfd90fb4fccd91c4a3a2bd25e1fa0111a4997eff9",
+      "rationale": "all16 normalized instructions match shipped public; SH_COMPAT0 and SH_DENYNO40 map FILE_SHARE_READ|FILE_SHARE_WRITE",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4298405,
+      "name": "stricmp_ / strcmpi_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4298405,
+          4298460
+        ]
+      ],
+      "body_sha256": "08f06f39dc0a31255acc90c2a2398fefc8815c97b5975818746aaf694546cb44",
+      "library_module": "stricmp",
+      "THEADR_offset": 41696,
+      "public": "stricmp_",
+      "public_definition": {
+        "name": "stricmp_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/string/c/stricmp.c",
+      "source_sha256": "d945be485d7daaeb7765f3dcc25e91dc37590f0c1ef48d5188feaf0b910133e4",
+      "rationale": "legacy byte ASCII casefold comparison; shipped source same CRT role but later optimization differs",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4297713,
+      "name": "__NTGetFakeHandle_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4297713,
+          4297725
+        ]
+      ],
+      "body_sha256": "5a6ea2c5362c4e2893704f7892c69686d00554c7245033a1b861f24a2798fdab",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTGetFakeHandle_",
+      "public_definition": {
+        "name": "__NTGetFakeHandle_",
+        "segment": 1,
+        "offset": 443
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "rationale": "legacy monotonic fake-handle counter, unlike newer CreateEvent-backed source. Optional console/window hook path is not authorized merely from this provenance",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4296067,
+      "name": "__NTAddFileHandle callback trampoline",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4296067,
+          4296072
+        ]
+      ],
+      "body_sha256": "557b04474dcd26a3efca0f3896591772bf675cd51655ab8ef02dbb25c3aa444d",
+      "library_module": "nthdl",
+      "THEADR_offset": 162960,
+      "public": "__NTAddFileHandle_",
+      "public_definition": {
+        "name": "__NTAddFileHandle_",
+        "segment": 1,
+        "offset": 69
+      },
+      "source": "bld/clib/handleio/c/hdlman.c",
+      "source_sha256": "5b947e31c0adc44bb17a828df7a5ad1d627125a807f738ffc4133e1bf41f3244",
+      "rationale": "exact JMP to independently classified original __NTAddFileHandle419285; callback slot420980 selects this trampoline",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4296067,
+          4297349,
+          "tail"
+        ]
+      ],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4297800,
+      "name": "__SetIOMode_ (legacy role)",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4297800,
+          4297817
+        ]
+      ],
+      "body_sha256": "1d70c08c3c9f21fecacd05865138a8620891ff259fa542d1640479559768c930",
+      "library_module": "iomode",
+      "THEADR_offset": 81696,
+      "public": "__SetIOMode_",
+      "public_definition": {
+        "name": "__SetIOMode_",
+        "segment": 1,
+        "offset": 85
+      },
+      "source": "bld/clib/handleio/c/iomode.c",
+      "source_sha256": "252398649d846e832b4416bb09c6f87894235ae9962c3f9c9e449167e659c19e",
+      "rationale": "legacy direct CRT I/O-mode array write, OR initialized0x4000; newer bounds/growth checks not substituted",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4310160,
+      "name": "CreateFileA",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4310160,
+          4310166
+        ]
+      ],
+      "body_sha256": "1ce6165ea5b967a03f52f46a845785f6a617f25d67935bb740af3f11891965fd",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4456596,
+      "rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching"
+    },
+    {
+      "entry_va": 4297940,
+      "name": "__set_errno_nt_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4297940,
+          4297955
+        ]
+      ],
+      "body_sha256": "1dcdb292921e249a457213e1bd78e6a7bdeea1f25dd53b10a3f4409acc05aa92",
+      "library_module": "dosret",
+      "THEADR_offset": 8192,
+      "public": "__set_errno_nt_",
+      "public_definition": {
+        "name": "__set_errno_nt_",
+        "segment": 1,
+        "offset": 78
+      },
+      "source": "bld/clib/_dos/c/dosret.c",
+      "source_sha256": "75199a4f239f60c920d32b776ab4fda129f35411a4b83c7b33ef0158c48de7b9",
+      "rationale": "all7 normalized instructions match shipped public: GetLastError thunk then existing errno mapper",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4297942,
+          4310076,
+          "direct-call"
+        ],
+        [
+          4297947,
+          4297848,
+          "direct-call"
+        ]
+      ],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4290371,
+      "name": "isatty_",
+      "classification": "CRT",
+      "code_chunks": [
+        [
+          4290371,
+          4290434
+        ]
+      ],
+      "body_sha256": "6223a7609e7ead1356c3e5a3b11476e1c7894a2062eebb8ca5289ef8e019bc7e",
+      "library_module": "isattwnt",
+      "THEADR_offset": 177936,
+      "public": "isatty_",
+      "public_definition": {
+        "name": "isatty_",
+        "segment": 1,
+        "offset": 0
+      },
+      "source": "bld/clib/environ/c/isattwnt.c",
+      "source_sha256": "4aaf7f2e0f3f6ecd1496374ca2ca07dbf3b3a69d9d792eab9c74260e2d1a4665",
+      "rationale": "legacy variant: resolves OS handle through CRT handle table, access/release hooks and GetFileType==FILE_TYPE_CHAR; same CRT provider role, not byte identity",
+      "body_identity": "exact normalized candidate only where explicitly stated; no legacy variant is claimed byte-identical",
+      "edges": [
+        [
+          4290388,
+          4296066,
+          "pointer-slot:0x420978"
+        ],
+        [
+          4290395,
+          4310184,
+          "direct-call"
+        ],
+        [
+          4290407,
+          4296066,
+          "pointer-slot:0x42097c"
+        ],
+        [
+          4290422,
+          4296066,
+          "pointer-slot:0x42097c"
+        ]
+      ],
+      "unresolved": []
+    },
+    {
+      "entry_va": 4310076,
+      "name": "GetLastError",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4310076,
+          4310082
+        ]
+      ],
+      "body_sha256": "206a4357989f01f6574e723c41a5f784d9d2f8443d2b3b600c5c49a4d95fa12f",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4456636,
+      "rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching"
+    },
+    {
+      "entry_va": 4310184,
+      "name": "GetFileType",
+      "classification": "import",
+      "code_chunks": [
+        [
+          4310184,
+          4310190
+        ]
+      ],
+      "body_sha256": "7774dd89f8931fec34fa208586b62f4740f1a8d2c96eb2def9f8edd63488b91c",
+      "dll": "KERNEL32.dll",
+      "IAT_va": 4456632,
+      "rationale": "Actual FF25 import thunk and pristine PE import name, not generic six-byte shape matching"
+    }
+  ],
+  "new_code_union_bytes": 830,
+  "provider_slots": [
+    {
+      "va": 4326476,
+      "initial_u32": 4290778
+    },
+    {
+      "va": 4327800,
+      "initial_u32": 4296066
+    },
+    {
+      "va": 4327804,
+      "initial_u32": 4296066
+    },
+    {
+      "va": 4327808,
+      "initial_u32": 4296067
+    },
+    {
+      "va": 4327840,
+      "initial_u32": 4296066
+    },
+    {
+      "va": 4327844,
+      "initial_u32": 4296066
+    },
+    {
+      "va": 4327796,
+      "initial_u32": 4296061
+    },
+    {
+      "va": 4327980,
+      "initial_u32": 0
+    }
+  ],
+  "new_text_data": [
+    {
+      "name": "console filename literal used only by optional window callback branch",
+      "va": [
+        4290774,
+        4290778
+      ],
+      "sha256": "1360fa2fb09adca5ae31490aa15b1eb941be293bb48034b39c87f3a2dae50247"
+    }
+  ],
+  "unresolved_scope": "WindowsNewWindow slot420a2c is initially NULL; no optional callback is admitted. Native contract and original qualifying run remain read-only self-resource path; unknown callback/state must HOLD.",
+  "private_state": "Existing CRT handle-count/table and iomode roots in DGROUP/BSS belong to proved bootstrap; original CRT may update/grow them through already classified allocator/add-handle bodies. Do not project raw pointers or reproduce those private layouts natively.",
+  "analysis_inputs": {
+    "raw_CFG_sha256": "01e6e7a69dde2625efc07b0587daf02c540a125cfdabd0f8596282ff5591206b",
+    "library_correlation_sha256": "aa893715644e87c48821666c694a6f972333bf26d2b1b0bc35510e04c5217ab5",
+    "boundary_sha256": "77ac2b7f038373dc2fbdb6187c709ea528b0d6ae7da1725cbbe9ffb49aa7018b"
+  }
+}

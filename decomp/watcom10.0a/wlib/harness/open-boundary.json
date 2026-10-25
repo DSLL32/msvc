@@ -1,0 +1,81 @@
+{
+  "scope": "Reached CRT open boundary staging; typing/denial only. No original open execution or successful file contract has yet been observed.",
+  "original": {
+    "path": "toolchains/watcom10.0a/.patched/WLIB.EXE",
+    "sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e"
+  },
+  "caller": {
+    "name": "ResOpenFileRO",
+    "va": [
+      4299840,
+      4299877
+    ],
+    "sha256": "2f8edfd6250713008a539a9a3a1495103cbc4679a0f439dad24d5b806f3e52c7",
+    "call_va": 4299847,
+    "pointer_slot_va": 4326476,
+    "actual_static_target_va": 4290778,
+    "formal_arguments": [
+      "const char *filename, read-only observed main argv[0]",
+      "int flags=0x0200 (O_RDONLY0 | Watcom O_BINARY0200)"
+    ],
+    "calling_convention": "cdecl variadic provider; caller PUSH0200/PUSHfilename/CALLslot then ADDESP8. No variadic argument is supplied or semantically needed without O_CREAT."
+  },
+  "provider": {
+    "identity": "open public CRT role (legacy variant)",
+    "va": [
+      4290778,
+      4290809
+    ],
+    "sha256": "291e1ce2253b09ab6fd6be3ccda1d45ed3c302746de7324d36f24ddf4dafc998",
+    "behavior": "Reads filename/mode from stack and forwards to sopen4178f9 with SH_COMPAT0. Native must not copy unused third-argument stack bytes.",
+    "library": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+    "library_sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+    "OMF_module": "openwnt",
+    "OMF_publics": [
+      "open_",
+      "sopen_"
+    ],
+    "byte_identity": false,
+    "source": "bld/clib/handleio/c/openwnt.c",
+    "source_sha256": "3c93aa5763e31cb2dfe84db491120cd57754dd0fed240862fc8e8dc34186d9fe",
+    "source_commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9"
+  },
+  "flag_header": {
+    "path": "toolchains/watcom10.0a/h/FCNTL.H",
+    "sha256": "dc5ae8a746c111a332245ae7abfbcb0777adb7706dcd5a97976bb18588b9c89b",
+    "O_RDONLY": 0,
+    "O_BINARY": 512
+  },
+  "latest_actual_self_image": {
+    "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-openresfile-to-resopenfilero.json",
+    "report_sha256": "e120c66a9a5dd158848f681bd4d77d020124ba27e18b3fa7229c1bc693bd2cc2",
+    "observed_main_argv": {
+      "actual": [
+        "T:\\run-4eZJ38\\WLIB.EXE",
+        "?"
+      ],
+      "argc": 2,
+      "argv_address": 3424944,
+      "entry_rva": 76391,
+      "requested": [
+        "WLIB.EXE",
+        "?"
+      ]
+    },
+    "staged_image": {
+      "role": "target",
+      "sha256": "c03840e7b7cc32dbcebe52c980378830213703e878f5905ee4d70bfdb2e169d1",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLIB.EXE",
+      "source_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+      "staged": "/tmp/recon/run-4eZJ38/WLIB.EXE"
+    },
+    "extent": "Exact62738-byte PE, including3858-byte overlay at file offset58880. The next mask changes when ResOpenFileRO is implemented; this is the latest observed stage, not a future immutable oracle.",
+    "required_future_semantics": "Read-only binary open of actual staged masked self-image; no normalized path, no unmasked-byte substitution as a claimed complete identical input. Exact file ownership, returned descriptor, file position, errors and later read/seek/close consumers remain to qualify."
+  },
+  "requested_shared_surface": {
+    "profile": "RECON_CRT_PROFILE_WATCOM_100A",
+    "declaration": "int __cdecl open(const char *, int, ...);",
+    "flags": "native target O_BINARY0200",
+    "initial_behavior": "Unconditional recon_unsupported/exit125, not host open or Microsoft recon_open. No FILE26 support."
+  }
+}
