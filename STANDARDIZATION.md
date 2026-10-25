@@ -269,8 +269,10 @@ The first implementation lives in `tooling/recon-tool/`; its shared C ABI is
 `check`/`replay`/`fixtures`, `unit`/`test-all-cases`, and generated-output cleanup.
 Every discovered case participates in both execution and unit-test targets.
 Numbered directories with `case.c` or `case.cpp` are discovered automatically.
-Shared rules generate object/library targets; `check` and `unit` depend on those
-targets without recursive make. Cases have no individual Makefiles and inherit
+Shared rules generate per-case `/check` and `/unit` targets, each depending on its
+library and invoking recon-tool once. Aggregate `check` and `unit` targets let
+`make -j4` run four cases concurrently, without recursive make.
+Cases have no individual Makefiles and inherit
 the binary compilation settings, including instrumentation. The application
 registry filters case/test glue out of the recorded trace.
 The common library is an order-only prerequisite so changes to it do not relink

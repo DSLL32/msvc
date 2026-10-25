@@ -15,17 +15,25 @@ CASE_DESCRIPTORS := $(wildcard $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/case.c $(CAS
 CASE_DIRS := $(sort $(patsubst %/,%,$(dir $(CASE_DESCRIPTORS))))
 CASE_TARGETS := $(addsuffix /.build/case.so,$(CASE_DIRS))
 include $(RECON_TOOL_DIR)/case.mk
+CASE_CHECK_TARGETS := $(addsuffix /check,$(CASE_DIRS))
+CASE_UNIT_TARGETS := $(addsuffix /unit,$(CASE_DIRS))
+define recon-case-check-rules
+.PHONY: $(1)/check $(1)/unit
+$(1)/check: $(1)/.build/case.so $(RECON_TOOL)
+	$$(RECON_TOOL) run $(1) $$(RECON_RUN_FLAGS)
+$(1)/unit: $(1)/.build/case.so $(RECON_TOOL)
+	$$(RECON_TOOL) test $(1) $$(RECON_TEST_FLAGS)
+endef
+$(foreach dir,$(CASE_DIRS),$(eval $(call recon-case-check-rules,$(dir))))
 .PHONY: all native native-trace cases check replay fixtures unit test-all-cases clean $(CASE_DIRS)
 all native native-trace: recon-native
 cases: $(CASE_TARGETS)
-check replay fixtures: $(CASE_TARGETS) $(RECON_TOOL)
+check replay fixtures: $(CASE_CHECK_TARGETS)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
-	$(RECON_TOOL) run $(CASE_DIRS) $(RECON_RUN_FLAGS)
 clean:
 	rm -rf -- $(BINARY_BUILD) $(ORIGINAL_BUILD) $(addsuffix /.build,$(CASE_DIRS))
-unit test-all-cases: $(CASE_TARGETS) $(RECON_TOOL)
+unit test-all-cases: $(CASE_UNIT_TARGETS)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
-	$(RECON_TOOL) test $(CASE_DIRS) $(RECON_TEST_FLAGS)
 
 # Optional graph audit: the profile and target-specific flags remain explicit.
 # Local Makefiles may append data/grammar checks to audit without overriding a

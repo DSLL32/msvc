@@ -21,6 +21,7 @@ import json
 from pathlib import Path
 import subprocess
 import sys
+import time
 root=Path(__file__).resolve().parent
 mode,*args=sys.argv[1:]
 with (root/'commands.jsonl').open('a') as log:
@@ -32,6 +33,13 @@ if mode=='original':
     Path(output).write_text('original')
 if mode=='tool' and args[0] in ('registry-export','identify-runtime'):
     Path(args[args.index('--output')+1]).write_text('[]' if args[0]=='identify-runtime' else '{}')
+if mode=='tool' and args[0] in ('run','test'):
+    def event(kind):
+        with (root/'checks.jsonl').open('a') as log:
+            log.write(json.dumps([time.monotonic_ns(),kind,args[0],args[1]])+'\\n')
+    event('start')
+    time.sleep(.1)
+    event('end')
 ''')
     write('tool', f'#!/bin/sh\nexec python3 {wrapper} tool "$@"\n').chmod(0o755)
     write('graph/graph-audit.mk', '')
@@ -130,11 +138,22 @@ local-audit:
     before = len(commands())
     output = make('cases/0000-first/.build/case.so')
     assert len(commands()) == before and 'make[1]' not in output, output
-    output = make('check', 'unit')
+    output = make('check', 'replay', 'fixtures', 'unit', 'test-all-cases')
     assert 'make[1]' not in output, output
     invocations = [row for row in commands() if row[0] == 'tool']
-    assert [row[1] for row in invocations] == ['run', 'test'] or [row[1] for row in invocations] == ['test', 'run']
-    assert all(row[2:] == ['cases/0000-first', 'cases/0001-second'] for row in invocations)
+    expected = [[kind, f'cases/{name}'] for kind in ['run', 'test']
+                for name in ['0000-first', '0001-second']]
+    assert sorted(row[1:] for row in invocations) == sorted(expected), invocations
+    active = peak = 0
+    for _, event, _, _ in sorted(json.loads(line) for line in
+                                 (root/'checks.jsonl').read_text().splitlines()):
+        active += 1 if event == 'start' else -1
+        peak = max(peak, active)
+    assert active == 0 and peak >= 2, 'make -j4 did not overlap case checks'
+    before = len(commands())
+    make('cases/0000-first/check', 'RECON_RUN_FLAGS=--report selected.json')
+    assert commands()[before:] == [['tool', 'run', 'cases/0000-first',
+                                   '--report', 'selected.json']]
     assert not any(row[0] == 'original' for row in commands()), 'native checks ran original build'
 
     make('win32')

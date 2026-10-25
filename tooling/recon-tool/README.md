@@ -56,8 +56,11 @@ include $(RECON_TOOL_DIR)/recon-tool.mk
 `all`, `native` and `native-trace` build the library. `cases` discovers numbered
 `cases/NNNN-name/` directories containing `case.c` or `case.cpp` and generates
 object and `case.so` targets directly. Cases have no individual Makefiles.
-`check`/`replay`/`fixtures` depend on those files and run all discovered cases;
-`unit`/`test-all-cases` run their unit tests. These builds never recurse. Each
+`check`/`replay`/`fixtures` depend on generated `cases/NNNN-name/check` targets;
+`unit`/`test-all-cases` depend on corresponding `/unit` targets. Each starts one
+runner invocation, so `make -j4 check` runs up to four cases concurrently. Select
+one with `make cases/0000-example/check` or its `/unit` target.
+These builds never recurse. Each
 case library has an order-only dependency on the common library, so an app
 change does not relink unchanged cases. Build one case from the binary root with
 `make cases/0000-example/.build/case.so`.
