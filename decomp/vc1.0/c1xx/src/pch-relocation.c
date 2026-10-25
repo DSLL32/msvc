@@ -414,3 +414,16 @@ void __stdcall mark_pch_tag(CppSymbol *tag)
         mark_pch_pointer((void **)&tag->auxiliary.enumerators);
     }
 }
+
+/* Original0x6a540..0x6a594. Mark the vector's separate item allocation
+   only when it has capacity, then visit each current element in order. */
+void __stdcall mark_pch_vector(Vector *vector, PchVisit visit)
+{
+    int i;
+    if (!vector) return;
+    if (vector->capacity > 0) mark_pch_pointer((void **)&vector->items);
+    for (i = 0; i < vector->count; ++i) {
+        mark_pch_pointer(&vector->items[i]);
+        if (visit) (*visit)(vector->items[i]);
+    }
+}
