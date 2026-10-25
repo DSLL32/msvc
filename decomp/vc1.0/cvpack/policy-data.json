@@ -688,7 +688,7 @@
       },
       "_prepare_symbols": {
         "abi": "void prepare_symbols(void *,unsigned long)",
-        "source": "src/stubs.c",
+        "source": "src/modules.c",
         "stack_cleanup": 0,
         "roots": []
       },

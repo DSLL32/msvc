@@ -243,6 +243,25 @@ void read_publics(unsigned long directory, const CvDirectoryEntry *entry)
     public_directory = directory;
 }
 
+void prepare_symbols(void *symbols, unsigned long size)
+{
+    unsigned char *cursor = symbols, *end = cursor+size;
+    unsigned char type_offset = is_pe_image ? 6 : 4;
+    while (cursor < end) {
+        if (type_signature == 0) {
+            if (minimum_types == 1) *(unsigned short *)(cursor+type_offset) = 0;
+            else *(unsigned short *)(cursor+type_offset) =
+                convert_old_type(*(unsigned short *)(cursor+type_offset));
+        } else if (type_signature == 1) {
+            if (minimum_types == 1) *(unsigned short *)(cursor+type_offset) = 0;
+            else *(unsigned short *)(cursor+type_offset) =
+                convert_new_type(*(unsigned short *)(cursor+type_offset));
+        } else *(unsigned short *)(cursor+type_offset) = 0;
+        cursor += type_offset+2;
+        cursor += *cursor+1;
+    }
+}
+
 unsigned long symbol_scope_depth;
 
 void pack_public_symbols(void *symbols, CvDirectoryEntry *entry)
