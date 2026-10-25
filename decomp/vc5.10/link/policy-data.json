@@ -6254,6 +6254,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_string_key_name@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },

@@ -45,8 +45,17 @@ void *__stdcall hash_allocate(HashState *state,MemoryArena **arena,unsigned coun
     if (state->incremental_mode) return allocate_link_memory(count,size);
     return reserve_memory(arena,count*size);
 }
+/* Hash callbacks share this separate short-name result at original4948e8.
+ * The eight-byte copy pads short names; the ninth remains the BSS terminator. */
+static char hash_short_name[9];
 const char *__stdcall string_key_name(const void *key,const void *context)
-{ __asm { int 3 } return NULL; }
+{
+    const IMAGE_SYMBOL *symbol=(const IMAGE_SYMBOL *)key;
+    const ByteBuffer *strings=(const ByteBuffer *)context;
+    if (!symbol->N.Name.Short)
+        return (const char *)strings->data+symbol->N.Name.Long;
+    return strncpy(hash_short_name,(const char *)symbol->N.ShortName,8);
+}
 
 void __stdcall grow_hash(HashState *,const void *);
 #pragma intrinsic(strcmp)

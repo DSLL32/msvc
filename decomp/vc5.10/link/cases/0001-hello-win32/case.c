@@ -147,10 +147,11 @@ static const uint32_t order[] = {
  0x61010, /* _next_coff_symbol@4 */
  0x41610, /* _emit_symbol_class@8 */
  0x622e0, /* _string_key_name@8 */
+ 0x5f220, /* _define_input_symbol@32 */
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
  "Win32 hello window object compiled /O2 /G5, linked as an ordinary executable.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x622e0,
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x5f220,
  recon_link_setup,recon_link_invoke,NULL,hello_tests,44
 };

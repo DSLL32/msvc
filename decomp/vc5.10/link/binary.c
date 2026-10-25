@@ -98,7 +98,7 @@ static const ReconFunction functions[] = {
     {"_create_string_table@12",0x62220,(const ReconExtent[]){{0x62220,0x6225c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"create_string_table",NULL,NULL,0,NULL},
     {"_allocate_memory@4",0x4fe50,(const ReconExtent[]){{0x4fe50,0x4fe70}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"allocate_memory",NULL,NULL,0,NULL},
     {"_initialize_hash_table@20",0x30c70,(const ReconExtent[]){{0x30c70,0x30d23}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"initialize_hash_table",NULL,NULL,0,NULL},
-    {"_string_key_name@8",0x622e0,(const ReconExtent[]){{0x622e0,0x62309}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"string_key_name",NULL,NULL,0,NULL},
+    {"_string_key_name@8",0x622e0,(const ReconExtent[]){{0x622e0,0x62309}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"string_key_name",NULL,NULL,0,NULL},
     {"_hash_allocate@16",0x30c30,(const ReconExtent[]){{0x30c30,0x30c64}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"hash_allocate",NULL,NULL,0,NULL},
     {"_reserve_memory@8",0x4f5e0,(const ReconExtent[]){{0x4f5e0,0x4f63a}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"reserve_memory",NULL,NULL,0,NULL},
     {"_create_memory_arena@4",0x4f640,(const ReconExtent[]){{0x4f640,0x4f682}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"create_memory_arena",NULL,NULL,0,NULL},
