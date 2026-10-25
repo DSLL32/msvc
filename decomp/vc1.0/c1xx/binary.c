@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current reviewed boundary:1477 historical frontiers/1370 App bodies.
+ * Current reviewed boundary:1479 historical frontiers/1372 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7,12 +7,29 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_access_declaration_table",
+        .entry_rva = 0x21290,
+        .code = (const ReconExtent[]) { { 0x21290, 0x212b1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "access_declaration_table",
+    },
+    {
+        .name = "_new_access_declaration@16",
+        .entry_rva = 0x211c0,
+        .code = (const ReconExtent[]) { { 0x211c0, 0x21218 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "new_access_declaration",
+    },
+    {
         .name = "_insert_member_access_declaration@12",
         .entry_rva = 0x212c0,
         .code = (const ReconExtent[]) { { 0x212c0, 0x212ef } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "insert_member_access_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_member_protection_keyword@4",
@@ -2641,19 +2658,13 @@ static const ReconFunction functions[] = {
         .native_symbol = "equal_word_triplets",
     },
     {
-        .name = "??1Iostream_init@@QAE@XZ",
-        .entry_rva = 0x212b0,
-        .code = (const ReconExtent[]) { { 0x212b0, 0x212c0 } },
-        .code_count = 1,
-        .definition = RECON_CRT,
-    },
-    {
         .name = "_has_member_access_declaration@12",
         .entry_rva = 0x212f0,
-        .code = (const ReconExtent[]) { { 0x212f0, 0x212f1 } },
+        .code = (const ReconExtent[]) { { 0x212f0, 0x21329 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "has_member_access_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_qualified_path_has_virtual_base@4",

@@ -2,6 +2,7 @@
 #include "asm.h"
 #include "browser.h"
 #include "member-pointers.h"
+#include "member-access.h"
 #include "builtin-operators.h"
 #include "reference-initializers.h"
 #include "symbol-output.h"
@@ -374,8 +375,6 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 void report_denied_member_access(void) { __asm { int 3 } }
 
-int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
-    CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
     unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
 
@@ -595,4 +594,6 @@ int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding
 
 char *__stdcall member_protection_keyword(unsigned char protection) { __asm { int 3 } return 0; }
 
-void __stdcall insert_member_access_declaration(CppSymbol *owner, BaseClassLink *base, CppSymbol *member) { __asm { int 3 } }
+
+AccessDeclaration *__stdcall new_access_declaration(CppSymbol *owner, BaseClassLink *base, CppSymbol *member, short arena) { __asm { int 3 } return 0; }
+HashTable *access_declaration_table(void) { __asm { int 3 } return 0; }

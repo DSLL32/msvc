@@ -84,20 +84,6 @@
     "library": "SETARGV.OBJ"
   },
   {
-    "name": "??1Iostream_init@@QAE@XZ",
-    "start": 201392,
-    "end": 201408,
-    "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 201392,
-    "end": 201408,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "_localeconv",
     "start": 204896,
     "end": 204912,

@@ -221,3 +221,27 @@ unsigned char __stdcall virtual_base_access_level(CppSymbol *base, CppSymbol *de
     group = find_virtual_base_group(base, derived->detail.class_info->virtual_table_groups);
     return group->flags;
 }
+
+/* Original0x312f0..0x31329, stdcall12. The class flag avoids constructing
+   a transient hash key until an access declaration has actually been recorded. */
+int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
+    CppSymbol *member)
+{
+    AccessDeclaration *key;
+    HashTable *table;
+    if (!(owner->detail.class_info->flags2 & 8)) return 0;
+    key = new_access_declaration(owner,base,member,2);
+    table = access_declaration_table();
+    return find_hash_value(table,key) != 0;
+}
+
+/* Original0x312c0..0x312ef, stdcall12. Retain a permanent key and the
+   member value, then mark the owning class as having access declarations. */
+void __stdcall insert_member_access_declaration(CppSymbol *owner, BaseClassLink *base,
+    CppSymbol *member)
+{
+    AccessDeclaration *key = new_access_declaration(owner,base,member,0);
+    HashTable *table = access_declaration_table();
+    set_hash_value(table,key,member);
+    owner->detail.class_info->flags2 |= 8;
+}

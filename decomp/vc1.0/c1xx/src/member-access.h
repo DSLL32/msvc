@@ -15,6 +15,16 @@ unsigned char __stdcall combine_member_access(unsigned char member_access,
     unsigned char base_access);
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
     unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base);
+/* The access table keys are three original pointer words in this order. */
+typedef struct AccessDeclaration {
+    CppSymbol *owner;
+    BaseClassLink *base;
+    CppSymbol *member;
+} AccessDeclaration;
+typedef char AccessDeclarationSizeMustBe12[(sizeof(AccessDeclaration) == 12) ? 1 : -1];
+AccessDeclaration *__stdcall new_access_declaration(CppSymbol *owner,
+    BaseClassLink *base, CppSymbol *member, short arena);
+HashTable *access_declaration_table(void);
 extern CppSymbol *access_failure_owner, *access_failure_member;
 extern unsigned char access_failure_protection;
 extern int access_through_virtual_base;
