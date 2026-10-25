@@ -5,7 +5,18 @@
 extern "C" int __cdecl create_input(int record, CompilerInput **input,
                                     CompilerTextInput **text)
 {
-    __asm { int 3 }
+    if (record) {
+        void *memory = ::operator new(20);
+        CompilerRecordedInput *object = memory ? new(memory) CompilerRecordedInput : NULL;
+        *input = object;
+        *text = object ? &object->text : NULL;
+    } else {
+        void *memory = ::operator new(8);
+        CompilerPlainInput *object = memory ? new(memory) CompilerPlainInput : NULL;
+        *input = object;
+        *text = object ? &object->text : NULL;
+    }
+    /* Allocation failure is represented by the two NULL outputs, not FALSE. */
     return 1;
 }
 

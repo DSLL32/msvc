@@ -961,8 +961,9 @@ static const ReconFunction functions[] = {
     },
     {
 .name = "_create_input", .entry_rva = 0x13f0e,
-.code = (const ReconExtent[]){{0x13f0e, 0x13f0f}},
-.code_count = 1, .definition = RECON_APP,
+.code = (const ReconExtent[]){{0x13f0e, 0x13f5d}, {0x30ef1, 0x30f55}},
+.code_count = 2, .definition = RECON_APP,
+.implementation = RECON_IMPLEMENTED,
 .native_symbol = "create_input",
     },
     {

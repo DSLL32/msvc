@@ -28,6 +28,9 @@ static int packing_alignment(void)
         predecessor.previous == NULL && predecessor.alignment == 8 && predecessor.tag == tag;
 }
 
-const ReconTest minimal_tests[1] = {
-    { "packing alignment inheritance and explicit override", 1, packing_alignment }
+extern int c1_test_input_factory(void);
+
+const ReconTest minimal_tests[2] = {
+    { "packing alignment inheritance and explicit override", 1, packing_alignment },
+    { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory }
 };
