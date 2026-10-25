@@ -141,6 +141,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "InitNodes": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   }

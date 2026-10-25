@@ -56,7 +56,7 @@ void ObjPass2( void ) { TRAP(); }
 void FiniLoadFile( void ) { TRAP(); }
 void EndTime( void ) { TRAP(); }
 void LnkMsg( unsigned message, const char *types, ... ) { message = message; types = types; TRAP(); }
-void InitNodes( void ) { TRAP(); }
+nodearray *MakeArray( unsigned size ) { size = size; TRAP(); return 0; }
 void InitTokBuff( void ) { TRAP(); }
 void InitSpillFile( void ) { TRAP(); }
 void InitSym( void ) { TRAP(); }

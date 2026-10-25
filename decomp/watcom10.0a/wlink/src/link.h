@@ -79,6 +79,8 @@ extern void LnkMsg( unsigned, const char *, ... );
 extern int InitMsg( char * );
 extern void LnkFilesInit( void );
 extern void InitNodes( void );
+typedef struct nodearray nodearray;
+extern nodearray *MakeArray( unsigned );
 extern void InitTokBuff( void );
 extern void InitSpillFile( void );
 extern void InitSym( void );

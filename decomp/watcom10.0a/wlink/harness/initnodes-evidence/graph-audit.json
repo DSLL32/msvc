@@ -1,0 +1,987 @@
+{
+  "checked_accepted_extents": null,
+  "checked_functions": 30,
+  "checked_unique_accepted_extents": null,
+  "checks": [
+    "call_graph",
+    "selected_ret_cleanup",
+    "function_references",
+    "extent_ownership",
+    "whole_extent_boundaries"
+  ],
+  "discovery": "cfg",
+  "functions": {
+    "CheckBreak": {
+      "edges": [
+        "LnkMsg"
+      ]
+    },
+    "ChkLAlloc": {
+      "edges": [
+        "LAlloc",
+        "LnkMsg"
+      ]
+    },
+    "DoLinkFromCommandLine": {
+      "edges": [
+        "AutoGroup",
+        "CalcAddresses",
+        "CheckClassOrder",
+        "CheckErr",
+        "CheckSymbolPass",
+        "ConvertLazyRefs",
+        "DecideFormat",
+        "DefBSSSyms",
+        "DoCmdFile",
+        "DoDefaultSystem",
+        "EndTime",
+        "FindLibPaths",
+        "FiniLoadFile",
+        "GetBSSSize",
+        "GetStkAddr",
+        "InitLoadFile",
+        "LnkInit",
+        "LnkMsg",
+        "MapInit",
+        "ObjPass2",
+        "PostAddrCalcFormatSpec",
+        "PreAddrCalcFormatSpec",
+        "PrepareSegments",
+        "ProcObjFiles",
+        "ReportLinkMap",
+        "ReportUndefined",
+        "ResolveUndefined",
+        "SetFormat",
+        "SetStkSize",
+        "StartTime",
+        "signal"
+      ]
+    },
+    "FindResources": {
+      "edges": [
+        "indirect"
+      ]
+    },
+    "InitMsg": {
+      "edges": [
+        "FindResources",
+        "InitResources",
+        "OpenResFile",
+        "QWrite",
+        "memset"
+      ]
+    },
+    "InitNodes": {
+      "edges": [
+        "MakeArray"
+      ]
+    },
+    "InitResources": {
+      "edges": [
+        "WResInitDir",
+        "WResReadDir"
+      ]
+    },
+    "LAlloc": {
+      "edges": [
+        "FreeUpMemory",
+        "malloc"
+      ]
+    },
+    "LnkFilesInit": {
+      "edges": [
+        "setmode_"
+      ]
+    },
+    "LnkInit": {
+      "edges": [
+        "InitMsg",
+        "InitNodes",
+        "InitObjIO",
+        "InitSpillFile",
+        "InitSym",
+        "InitTokBuff",
+        "LnkFilesInit",
+        "LnkMemFini",
+        "NewSection"
+      ]
+    },
+    "LnkMemFini": {
+      "edges": []
+    },
+    "OpenResFile": {
+      "edges": [
+        "ResOpenFileRO"
+      ]
+    },
+    "QLSeek": {
+      "edges": [
+        "CheckBreak",
+        "LnkMsg",
+        "__get_errno_ptr_",
+        "lseek_",
+        "strerror_"
+      ]
+    },
+    "ResAddLLItemAtEnd": {
+      "edges": []
+    },
+    "ResOpenFileRO": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "ResReadUint32": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "ResSeek": {
+      "edges": [
+        "QLSeek"
+      ]
+    },
+    "Spawn": {
+      "edges": [
+        "_setjmp",
+        "indirect"
+      ]
+    },
+    "WResIDExtraBytes": {
+      "edges": []
+    },
+    "WResInitDir": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "WResIsWResFile": {
+      "edges": [
+        "ResReadUint32",
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "WResReadDir": {
+      "edges": [
+        "WResIsWResFile",
+        "WresRecordError",
+        "__FreeTypeList",
+        "indirect",
+        "readMResDir",
+        "readWResDir"
+      ]
+    },
+    "WResReadExtHeader": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "WResReadFixedResRecord1": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "WResReadFixedTypeRecord": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "WResReadHeaderRecord": {
+      "edges": [
+        "WresRecordError",
+        "indirect"
+      ]
+    },
+    "main": {
+      "edges": [
+        "BurnSystemList",
+        "CleanLinkStruct",
+        "CleanLoadFile",
+        "CleanTraces",
+        "CloseSpillFile",
+        "FiniMsg",
+        "FreeFormatStuff",
+        "FreeList",
+        "FreeObjInfo",
+        "FreePaths",
+        "FreeUndefs",
+        "FreeVirtMem",
+        "LnkMemFini",
+        "QClose",
+        "QDelete",
+        "Spawn",
+        "_LnkFree",
+        "exit"
+      ]
+    },
+    "readResList": {
+      "edges": [
+        "ResAddLLItemAtEnd",
+        "WResIDExtraBytes",
+        "WResReadExtraWResID",
+        "WResReadFixedResRecord",
+        "WResReadFixedResRecord1",
+        "WresRecordError",
+        "indirect",
+        "readLangInfoList"
+      ]
+    },
+    "readTypeList": {
+      "edges": [
+        "ResAddLLItemAtEnd",
+        "WResIDExtraBytes",
+        "WResReadExtraWResID",
+        "WResReadFixedTypeRecord",
+        "WresRecordError",
+        "indirect",
+        "readResList"
+      ]
+    },
+    "readWResDir": {
+      "edges": [
+        "WResReadExtHeader",
+        "WResReadHeaderRecord",
+        "WresRecordError",
+        "indirect",
+        "readTypeList"
+      ]
+    }
+  },
+  "image_inputs": {
+    "map": {
+      "absolute_symbols": {
+        "__DOSseg__": 4660
+      },
+      "format": "watcom10-pe",
+      "map_sha256": "5264fac95a3f531ea62b4e75d86af94d6dd0dc08813d441c84ca31bac5dd0e0e",
+      "rebuilt_pe_sha256": "e9fc663a7e35aa47b0f05dbf8091f9fb42ace648659554e70c46696420d152c5",
+      "segment_group_bases": {
+        "1": 4259840,
+        "2": 4325376
+      }
+    },
+    "original": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "preferred_base": 4194304
+    },
+    "rebuilt": {
+      "coordinates": "preferred-va",
+      "format": "pe32",
+      "original_file_sha256": "e9fc663a7e35aa47b0f05dbf8091f9fb42ace648659554e70c46696420d152c5",
+      "preferred_base": 4194304
+    }
+  },
+  "original_accepted_graphs": null,
+  "owned_code_chunks": {
+    "original": {
+      "declared_code_bytes": 3314,
+      "functions": {
+        "CheckBreak": [
+          [
+            4346060,
+            4346097
+          ]
+        ],
+        "ChkLAlloc": [
+          [
+            4404004,
+            4404034
+          ]
+        ],
+        "DoLinkFromCommandLine": [
+          [
+            4342728,
+            4343077
+          ]
+        ],
+        "FindResources": [
+          [
+            4409608,
+            4409854
+          ]
+        ],
+        "InitMsg": [
+          [
+            4343888,
+            4344022
+          ]
+        ],
+        "InitNodes": [
+          [
+            4310096,
+            4310167
+          ]
+        ],
+        "InitResources": [
+          [
+            4409544,
+            4409584
+          ]
+        ],
+        "LAlloc": [
+          [
+            4403972,
+            4404003
+          ]
+        ],
+        "LnkFilesInit": [
+          [
+            4344736,
+            4344777
+          ]
+        ],
+        "LnkInit": [
+          [
+            4343212,
+            4343433
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4403968,
+            4403969
+          ]
+        ],
+        "OpenResFile": [
+          [
+            4409528,
+            4409543
+          ]
+        ],
+        "QLSeek": [
+          [
+            4345420,
+            4345482
+          ]
+        ],
+        "ResAddLLItemAtEnd": [
+          [
+            4424192,
+            4424229
+          ]
+        ],
+        "ResOpenFileRO": [
+          [
+            4417664,
+            4417701
+          ]
+        ],
+        "ResReadUint32": [
+          [
+            4428384,
+            4428445
+          ]
+        ],
+        "ResSeek": [
+          [
+            4346000,
+            4346035
+          ]
+        ],
+        "Spawn": [
+          [
+            4287804,
+            4287855
+          ]
+        ],
+        "WResIDExtraBytes": [
+          [
+            4424368,
+            4424386
+          ]
+        ],
+        "WResInitDir": [
+          [
+            4417712,
+            4417784
+          ]
+        ],
+        "WResIsWResFile": [
+          [
+            4426672,
+            4426805
+          ]
+        ],
+        "WResReadDir": [
+          [
+            4419204,
+            4419313
+          ]
+        ],
+        "WResReadExtHeader": [
+          [
+            4424708,
+            4424769
+          ]
+        ],
+        "WResReadFixedResRecord1": [
+          [
+            4424304,
+            4424365
+          ]
+        ],
+        "WResReadFixedTypeRecord": [
+          [
+            4424496,
+            4424552
+          ]
+        ],
+        "WResReadHeaderRecord": [
+          [
+            4424560,
+            4424705
+          ]
+        ],
+        "main": [
+          [
+            4342496,
+            4342728
+          ]
+        ],
+        "readResList": [
+          [
+            4417976,
+            4418397
+          ]
+        ],
+        "readTypeList": [
+          [
+            4418400,
+            4418648
+          ]
+        ],
+        "readWResDir": [
+          [
+            4418648,
+            4418907
+          ]
+        ]
+      },
+      "interval_count": 30,
+      "logical_function_count": 30,
+      "unique_code_bytes": 3314
+    },
+    "rebuilt": {
+      "declared_code_bytes": 4542,
+      "functions": {
+        "CheckBreak": [
+          [
+            4259964,
+            4260016
+          ]
+        ],
+        "ChkLAlloc": [
+          [
+            4260472,
+            4260537
+          ]
+        ],
+        "DoLinkFromCommandLine": [
+          [
+            4265168,
+            4265566
+          ]
+        ],
+        "FindResources": [
+          [
+            4260983,
+            4261262
+          ]
+        ],
+        "InitMsg": [
+          [
+            4260596,
+            4260769
+          ]
+        ],
+        "InitNodes": [
+          [
+            4260769,
+            4260860
+          ]
+        ],
+        "InitResources": [
+          [
+            4261349,
+            4261425
+          ]
+        ],
+        "LAlloc": [
+          [
+            4260537,
+            4260596
+          ]
+        ],
+        "LnkFilesInit": [
+          [
+            4260016,
+            4260077
+          ]
+        ],
+        "LnkInit": [
+          [
+            4265566,
+            4265862
+          ]
+        ],
+        "LnkMemFini": [
+          [
+            4260451,
+            4260472
+          ]
+        ],
+        "OpenResFile": [
+          [
+            4260860,
+            4260913
+          ]
+        ],
+        "QLSeek": [
+          [
+            4259856,
+            4259964
+          ]
+        ],
+        "ResAddLLItemAtEnd": [
+          [
+            4262996,
+            4263111
+          ]
+        ],
+        "ResOpenFileRO": [
+          [
+            4260913,
+            4260983
+          ]
+        ],
+        "ResReadUint32": [
+          [
+            4261877,
+            4261977
+          ]
+        ],
+        "ResSeek": [
+          [
+            4261262,
+            4261349
+          ]
+        ],
+        "Spawn": [
+          [
+            4260077,
+            4260154
+          ]
+        ],
+        "WResIDExtraBytes": [
+          [
+            4262941,
+            4262996
+          ]
+        ],
+        "WResInitDir": [
+          [
+            4261425,
+            4261533
+          ]
+        ],
+        "WResIsWResFile": [
+          [
+            4261693,
+            4261877
+          ]
+        ],
+        "WResReadDir": [
+          [
+            4261533,
+            4261693
+          ]
+        ],
+        "WResReadExtHeader": [
+          [
+            4262467,
+            4262567
+          ]
+        ],
+        "WResReadFixedResRecord1": [
+          [
+            4263604,
+            4263704
+          ]
+        ],
+        "WResReadFixedTypeRecord": [
+          [
+            4262841,
+            4262941
+          ]
+        ],
+        "WResReadHeaderRecord": [
+          [
+            4262296,
+            4262467
+          ]
+        ],
+        "main": [
+          [
+            4260154,
+            4260451
+          ]
+        ],
+        "readResList": [
+          [
+            4263111,
+            4263604
+          ]
+        ],
+        "readTypeList": [
+          [
+            4262567,
+            4262841
+          ]
+        ],
+        "readWResDir": [
+          [
+            4261977,
+            4262296
+          ]
+        ]
+      },
+      "interval_count": 30,
+      "logical_function_count": 30,
+      "unique_code_bytes": 4542
+    }
+  },
+  "profile": "cl",
+  "ret_cleanup_checks": {
+    "functions": {
+      "CheckBreak": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ChkLAlloc": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "DoLinkFromCommandLine": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "FindResources": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "InitMsg": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "InitNodes": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "InitResources": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LAlloc": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkFilesInit": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkInit": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "LnkMemFini": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "OpenResFile": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "QLSeek": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ResAddLLItemAtEnd": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ResOpenFileRO": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ResReadUint32": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "ResSeek": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "Spawn": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResIDExtraBytes": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResInitDir": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResIsWResFile": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResReadDir": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResReadExtHeader": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResReadFixedResRecord1": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResReadFixedTypeRecord": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "WResReadHeaderRecord": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "readResList": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "readTypeList": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      },
+      "readWResDir": {
+        "expected_cleanup": [
+          0
+        ],
+        "original": [
+          0
+        ],
+        "rebuilt": [
+          0
+        ]
+      }
+    },
+    "input_sha256": "d32fcbc3e08d1ca558802a5fbf1f120dd1fa9866831f81827ce5e46107937b23"
+  }
+}
