@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 136 accepted application functions / 19790
+The single registry is binary.c: 137 accepted application functions / 19816
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 138
+as are four six-byte import endpoints (24 bytes, zero App credit). The 139
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine initialize_default_function_type INT3 at RVA3b05d;
+and currently reaches the genuine create_hash_table INT3 at RVA1d287;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -129,10 +129,15 @@ views contain no intervening placeholders; later interpretations of those zeroed
 cells remain unsupported. Current kind23 writes only its named prefix, then the
 translation-unit initializer assigns the real namespace payload and scope.
 
-Original/native took 1.325 s / 10.938 ms (native setup 5.824, execution 3.321,
-checks 1.793); build/audit/unit took 4.288 s. The 138-body strict audit and real
-selected-report order/frontier match. The case now passes the first complete
-translation-unit initialization; it remains an unfinished compilation.
+The 26-byte symbol-group initializer calls the genuine six-argument hash-table
+constructor and stores its result in the independently NULL-initialized cc5c8
+owner. Own later readers establish a symbol-group cache rather than the earlier
+provisional default-function-type name. That owner joins nonzero restoration.
+Original raw stack bytes independently retain all six inputs:16,0,4,3,1,1.
+
+Original/native took 1.391 s / 10.800 ms (native setup 5.702, execution 3.362,
+checks 1.736); build/audit/unit took 7.865 s. The 139-body strict audit and real
+selected-report order/frontier match; compilation is still unfinished.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 

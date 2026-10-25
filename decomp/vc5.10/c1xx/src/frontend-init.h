@@ -78,6 +78,7 @@ struct PDB {
     virtual void RECON_THISCALL UnrecoveredSlot2(void) = 0;
     virtual int RECON_THISCALL QueryLastError(char *text) = 0;
 };
+struct CompilerHashTable;
 struct CompilerTranslationUnit {
     CompilerScope *root, *current;         /* original +0/+4 */
     CompilerScope *scopes[128];            /* +8; only slot0 written here */

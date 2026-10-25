@@ -1402,10 +1402,16 @@ static const ReconFunction functions[] = {
         .native_symbol = "_ZN13CompilerLexer7DestroyEj", .original_symbol = "?Destroy@CompilerLexer@@UAEPAXI@Z",
     },
     {
-        .name = "_initialize_default_function_type", .entry_rva = 0x3b05d,
-        .code = (const ReconExtent[]){{0x3b05d, 0x3b05e}},
+        .name = "_create_hash_table", .entry_rva = 0x1d287,
+        .code = (const ReconExtent[]){{0x1d287, 0x1d288}},
         .code_count = 1, .definition = RECON_APP,
-        .native_symbol = "initialize_default_function_type",
+        .native_symbol = "create_hash_table",
+    },
+    {
+        .name = "_initialize_symbol_groups", .entry_rva = 0x3b05d,
+        .code = (const ReconExtent[]){{0x3b05d, 0x3b077}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+        .native_symbol = "initialize_symbol_groups",
     },
     {
         .name = "CompilerPlainInput::Begin", .entry_rva = 0x23f79,

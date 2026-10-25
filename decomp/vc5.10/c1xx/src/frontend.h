@@ -66,6 +66,7 @@ typedef struct FrontendData {
     unsigned symbol_record_bytes[26]; /* cd618..cd680, includes cd674 kind23 */
     unsigned symbol_size_class[26];   /* cd680..cd6e8 */
     struct CompilerSymbolLink *recycled_symbols[11]; /* cc52c, actual NULL heads */
+    struct CompilerHashTable *symbol_groups; /* cc5c8, initializedNULL */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */

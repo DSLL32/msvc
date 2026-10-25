@@ -77,6 +77,7 @@ int c1xx_test_exception_counters(void)
     memset(frontend_data.symbol_record_bytes, 0xa5, sizeof(record_bytes));
     memset(frontend_data.symbol_size_class, 0xa5, sizeof(size_class));
     memset(frontend_data.recycled_symbols, 0xa5, sizeof(empty_recycled));
+    frontend_data.symbol_groups = (struct CompilerHashTable *)&frontend_data;
     frontend_bss.ir_record_count = 173;
     frontend_bss.current_ir_symbol = (struct CompilerSymbol *)&frontend_data;
     frontend_bss.current_function = (struct CompilerSymbol *)&frontend_data;
@@ -122,5 +123,6 @@ int c1xx_test_exception_counters(void)
         frontend_bss.current_ir_symbol == NULL && frontend_bss.current_function == NULL &&
         memcmp(frontend_data.symbol_record_bytes, record_bytes, sizeof(record_bytes)) == 0 &&
         memcmp(frontend_data.symbol_size_class, size_class, sizeof(size_class)) == 0 &&
-        memcmp(frontend_data.recycled_symbols, empty_recycled, sizeof(empty_recycled)) == 0;
+        memcmp(frontend_data.recycled_symbols, empty_recycled, sizeof(empty_recycled)) == 0 &&
+        frontend_data.symbol_groups == NULL;
 }

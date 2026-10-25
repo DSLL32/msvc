@@ -110,7 +110,8 @@ FrontendData frontend_data = {
     /* Per-kind allocation widths and free-list classes, not record contents. */
     { 0,48,48,48,40,40,48,48,48,48,48,48,48,48,48,24,20,20,20,48,48,28,48,20,20,20 },
     { 0,9,9,9,10,5,9,9,9,9,9,9,9,9,9,2,7,7,4,9,9,3,9,6,1,8 },
-    { NULL }
+    { NULL },
+    NULL /* symbol-group hash table, cc5c8 */
 };
 FrontendBss frontend_bss;
 int restore_mode;

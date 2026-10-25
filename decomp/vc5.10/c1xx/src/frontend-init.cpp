@@ -46,13 +46,14 @@ void __cdecl define_command_line_macros(CompilerVector *);
 void __cdecl begin_line_output(void);
 void __cdecl begin_source_input(void);
 void __cdecl initialize_first_token(void);
-void __cdecl initialize_default_function_type(void);
+void __cdecl initialize_symbol_groups(void);
 void __cdecl initialize_language_symbols(void);
 void __cdecl initialize_scope_symbols(void);
 CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerLookup *);
 void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
 int __cdecl report_response_error(int, ...);
 CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
+CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, unsigned, unsigned);
 }
 
 extern "C" void __cdecl initialize_frontend(void)
@@ -250,7 +251,7 @@ extern "C" void __cdecl initialize_frontend(void)
         }
     }
     if (!frontend_bss.options.preprocess_stdout) {
-        initialize_default_function_type();
+        initialize_symbol_groups();
         types->implicit_int_function = make_function_type(0, types->type_0063);
         types->tagged_0080 = make_tagged_type(0x80);
         if (!frontend_bss.options.prototypes_only)
@@ -569,4 +570,10 @@ int RECON_THISCALL CompilerLexer::Valid(void) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerLexer::Reset(void) { __asm { int 3 } }
 void *RECON_THISCALL CompilerLexer::Destroy(unsigned flags) { __asm { int 3 } return this; }
 
-extern "C" void __cdecl initialize_default_function_type(void) { __asm { int 3 } }
+extern "C" void __cdecl initialize_symbol_groups(void)
+{
+    frontend_data.symbol_groups = create_hash_table(16, 0, 4, 3, 1, 1);
+}
+extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned buckets,
+    unsigned arena, unsigned hash_kind, unsigned comparison_kind, unsigned flag0, unsigned flag1)
+{ __asm { int 3 } return NULL; }
