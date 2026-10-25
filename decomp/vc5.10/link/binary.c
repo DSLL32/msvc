@@ -103,7 +103,7 @@ static const ReconFunction functions[] = {
     {"_record_incremental_include@8",0x346d0,(const ReconExtent[]){{0x346d0,0x346f3}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_incremental_include",NULL,NULL,0,NULL},
     {"_copy_repro_file@8",0x44c40,(const ReconExtent[]){{0x44c40,0x44e4d}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"copy_repro_file",NULL,NULL,0,NULL},
     {"_add_mac_data@12",0x4e1c0,(const ReconExtent[]){{0x4e1c0,0x4e2df}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_mac_data",NULL,NULL,0,NULL},
-    {"_append_bytes@12",0x4f4e0,(const ReconExtent[]){{0x4f4e0,0x4f52d}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"append_bytes",NULL,NULL,0,NULL},
+    {"_append_bytes@12",0x4f4e0,(const ReconExtent[]){{0x4f4e0,0x4f52d}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"append_bytes",NULL,NULL,0,NULL},
     {"_set_mac_initializer@8",0x510b0,(const ReconExtent[]){{0x510b0,0x51158}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"set_mac_initializer",NULL,NULL,0,NULL},
     {"_set_mac_terminator@8",0x51160,(const ReconExtent[]){{0x51160,0x51208}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"set_mac_terminator",NULL,NULL,0,NULL},
     {"_add_mac_import@16",0x559e0,(const ReconExtent[]){{0x559e0,0x55b6a}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"add_mac_import",NULL,NULL,0,NULL},

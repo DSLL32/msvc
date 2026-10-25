@@ -569,6 +569,32 @@ static int symbol_string_append(void)
     return recon_native_at_entry(append_bytes,check_symbol_string_append,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall set_symbol_defined(StringNode *,BYTE,StringTable *);
+static void __stdcall check_symbol_definition(StringNode *symbol,BYTE defined,StringTable *table)
+{
+    HashEntry *entry;
+    BYTE expected[60];
+    StringTreeNode *node=(StringTreeNode *)symbol_string_pool;
+    if (!symbol || !table || !table->hash.state || defined ||
+        table->hash.state->entries!=1 || !table->hash.strings.data ||
+        table->hash.strings.used!=24 || table->hash.strings.capacity!=0x4000 ||
+        table->hash.string_tree!=node || !node || node->offset!=4 || node->left || node->right)
+        recon_native_entry_finish(0);
+    entry=((HashEntry **)table->hash.state->directory[0][0])[277];
+    if (!entry || entry->value!=symbol || entry->next) recon_native_entry_finish(0);
+    memset(expected,0,sizeof(expected));
+    expected[4]=4;
+    expected[16]=2;
+    expected[48]=1;
+    recon_native_entry_finish(!memcmp(symbol,expected,sizeof(expected)) &&
+        !memcmp(table->hash.strings.data+4,"_HelloWindowProc@16",20));
+    /* Buffer prefix0..3 and tail24..capacity are still uninitialized. */
+}
+static int symbol_definition(void)
+{
+    return recon_native_at_entry(set_symbol_defined,check_symbol_definition,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -596,5 +622,6 @@ const ReconTest hello_tests[]={
     {"intern-symbol",1,intern_symbol},
     {"string-tree-pool",1,string_tree_pool},
     {"string-buffer-reserve",1,string_buffer_reserve},
-    {"symbol-string-append",1,symbol_string_append}
+    {"symbol-string-append",1,symbol_string_append},
+    {"symbol-definition",1,symbol_definition}
 };

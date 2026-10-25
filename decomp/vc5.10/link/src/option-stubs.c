@@ -14,7 +14,6 @@ void __stdcall add_librarian_export(const char *name,void *library,BYTE from_swi
 void __stdcall record_incremental_include(void *owner,StringNode *symbol) { __asm { int 3 } }
 void __stdcall copy_repro_file(const char *name,BYTE copy_object) { __asm { int 3 } }
 void __stdcall add_mac_data(const unsigned char *name,int enabled,DWORD id) { __asm { int 3 } }
-unsigned __stdcall append_bytes(ByteBuffer *buffer,const void *bytes,unsigned count) { __asm { int 3 } return 0; }
 void __stdcall set_mac_initializer(LinkContext *context,const char *name) { __asm { int 3 } }
 void __stdcall set_mac_terminator(LinkContext *context,const char *name) { __asm { int 3 } }
 BYTE __stdcall add_mac_import(const unsigned char *name,const unsigned char *library,DirectiveModule *module,LinkContext *context) { __asm { int 3 } return 0; }

@@ -5890,6 +5890,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_append_bytes@12": {
+        "expected_cleanup": [
+          12
+        ]
       }
     }
   }
