@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check Windows include resolution without running an original toolchain."""
 from pathlib import Path
+import os
 import subprocess
 import sys
 import tempfile
@@ -10,6 +11,7 @@ def main():
     scratch = Path.home() / '.ai-tmp'
     scratch.mkdir(exist_ok=True)
     scanner = Path(__file__).resolve().parents[1] / 'original-deps.py'
+    repo = Path(os.environ.get('RECON_TOOL_TEST_REPO', scanner.parents[2]))
     with tempfile.TemporaryDirectory(prefix='recon-deps-', dir=scratch) as temporary:
         root = Path(temporary)
         source, sdk = root / 'src', root / 'SDK'
@@ -50,6 +52,24 @@ def main():
                 collision.rmdir()
             else:
                 collision.unlink()
+        # Use actual shared header layout, with the actual distinct search roots.
+        (source / 'header-split.c').write_text('#include <recon.h>\n')
+        shared = repo / 'lib/recon'
+        command = [sys.executable, str(scanner), '--object-root', 'obj',
+                   '--output', str(output), '--include', str(shared / 'include'),
+                   'src/header-split.c']
+        subprocess.run(command, cwd=root, check=True)
+        dependencies = output.read_text()
+        for name in ['recon.h', 'trace-abi.h', 'recon-inline.h']:
+            assert str(shared / 'include' / name) in dependencies, name
+        assert 'recon-remaps.h' not in dependencies and 'win32.h' not in dependencies
+        # No conditional evaluator or special exclusion: if made available in
+        # the supplied search roots, the guarded native include is still scanned.
+        command[-1:-1] = ['--include', str(shared / 'native')]
+        subprocess.run(command, cwd=root, check=True)
+        dependencies = output.read_text()
+        assert str(shared / 'native/recon-remaps.h') in dependencies
+        assert str(shared / 'include/win32.h') in dependencies
     print('PASS Windows include dependencies, search order, cycles and ambiguity rejection')
 
 

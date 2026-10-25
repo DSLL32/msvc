@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Focused make integration: discovery, one shared build, and header increments."""
 import json
+import os
 from pathlib import Path
 import shutil
 import subprocess
@@ -8,8 +9,12 @@ import tempfile
 import time
 
 TOOL_DIR = Path(__file__).resolve().parents[1]
+REPO = Path(os.environ.get('RECON_TOOL_TEST_REPO', TOOL_DIR.parents[1]))
 root = Path(tempfile.mkdtemp(prefix='recon-tool-make-', dir=Path.home() / '.ai-tmp'))
 try:
+    # Only copied headers are mutated by incremental controls.
+    for directory in ['include', 'native']:
+        shutil.copytree(REPO / 'lib/recon' / directory, root / 'shared' / directory)
     def write(name, text):
         path = root / name
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -55,7 +60,7 @@ if mode=='tool' and args[0] in ('run','test'):
     write('graph/target/release/graph-audit', f'#!/bin/sh\nexec python3 {wrapper} graph "$@"\n').chmod(0o755)
     write('src/nested.h', '#define VALUE 1\n')
     write('src/local.h', '#include "nested.h"\n')
-    write('src/one.c', '#include "local.h"\nint one(void) { return VALUE; }\n')
+    write('src/one.c', '#include "local.h"\n#include <recon.h>\nint one(void) { return VALUE; }\n')
     write('other/one.c', 'int another(void) { return 2; }\n')
     write('template.c', 'int generated(void) { return 3; }\n')
     write('src/runtime.c', 'int original_runtime(void) { return 0; }\n')
@@ -69,7 +74,7 @@ if mode=='tool' and args[0] in ('run','test'):
 RECON_TOOL := {root}/tool
 NATIVE_CC := python3 {wrapper} native
 NATIVE_CXX := python3 {wrapper} native-cxx
-NATIVE_CPPFLAGS := -DINHERITED_BUILD_FLAGS
+NATIVE_CPPFLAGS := -DINHERITED_BUILD_FLAGS -DRECON_NATIVE_TEST -Ishared/include -Ishared/native
 NATIVE_CFLAGS := -std=gnu89
 NATIVE_CXXFLAGS := -std=gnu++98
 BINARY_SOURCES := src/one.c other/one.c generated/code.c
@@ -81,7 +86,7 @@ ORIGINAL_OUTPUT := original/app.exe
 ORIGINAL_MAP := original/app.map
 ORIGINAL_CC := python3 {wrapper} original
 ORIGINAL_LINK := python3 {wrapper} original
-ORIGINAL_INCLUDE_DIRS := src
+ORIGINAL_INCLUDE_DIRS := src shared/include
 GRAPH_AUDIT_DIR := {root}/graph
 RECON_AUDIT_PROFILE := example
 RECON_IMAGE_BASE := 65536
@@ -182,6 +187,31 @@ local-audit:
     before = len(commands())
     make('win32')
     assert len(commands()) == before, 'unchanged original build ran compiler/linker'
+    # Native-only API additions must not invalidate original sources. The real
+    # dependency scanner sees only headers available in the original search path.
+    time.sleep(.02)
+    remaps = root / 'shared/native/recon-remaps.h'
+    remaps.write_text(remaps.read_text() + '\nvoid recon_dependency_probe(void);\n')
+    start = time.monotonic()
+    make('cases', 'win32')
+    elapsed = time.monotonic() - start
+    delta = commands()[before:]
+    assert len(delta) == 2 and delta[0][0] == 'native' and 'src/one.c' in delta[0], delta
+    assert not any(row[0] == 'original' for row in delta), delta
+    print(f'native-only header: one native compile/link, zero original compiles/links ({elapsed:.3f}s)')
+    before = len(commands())
+    time.sleep(.02)
+    common = root / 'shared/include/trace-abi.h'
+    common.write_text(common.read_text() + '\n#define RECON_DEPENDENCY_ABI_CONTROL 1\n')
+    start = time.monotonic()
+    make('cases', 'win32')
+    elapsed = time.monotonic() - start
+    delta = commands()[before:]
+    originals = [row for row in delta if row[0] == 'original']
+    assert len(originals) == 2 and 'src/one.c' in originals[0] and '/c' not in originals[1], delta
+    assert len([row for row in delta if row[0].startswith('native')]) == 2, delta
+    print(f'common ABI header: affected native and original compile/link ({elapsed:.3f}s)')
+    before = len(commands())
     (root/'original/app.map').unlink()
     make('win32', 'audit')
     relinks = [row for row in commands()[before:] if row[0] == 'original']
