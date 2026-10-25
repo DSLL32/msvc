@@ -20,12 +20,12 @@ C2InputClause *input_clauses;
  * Reserved bytes are NOT reconstructed defaults; guards precede unknown reads.
  * The original WORDs, including unmodeled low bits, stay in analysis evidence. */
 static struct {
-    unsigned char pending00[5], divide, pending06[6], bit_or, pending13[25], variable, pending39[9], conversion, pending49[2];
+    unsigned char pending00[5], divide, pending06[6], bit_or, pending13[25], variable, pending39[9], conversion, pending49, typed_operator;
     unsigned char number, pending52[18];
     unsigned char function_entry, pending71[5];
     unsigned char parameter_end, pending77[2];
     unsigned char pragma, pending80[3], scope_begin, pending84[2], filename, pending87[71];
-} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0, {0}, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
+} input_opcode_properties = {{0}, 0, {0}, 0, {0}, 0, {0}, 0, 0, 0, 0, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}, 0x10, {0}};
 static unsigned char input_inverse_condition[16];
 /* Only encountered tracked-register kind4 and parameter kind5 are modeled. */
 static union {
@@ -45,6 +45,7 @@ static unsigned char input_condition_known[16];
      (unsigned)(op) == 12 ? input_opcode_properties.bit_or : \
      (unsigned)(op) == 38 ? input_opcode_properties.variable : \
      (unsigned)(op) == 48 ? input_opcode_properties.conversion : \
+     (unsigned)(op) == 50 ? input_opcode_properties.typed_operator : \
      (unsigned)(op) == 51 ? input_opcode_properties.number : \
      (unsigned)(op) == 70 ? input_opcode_properties.function_entry : \
      (unsigned)(op) == 76 ? input_opcode_properties.parameter_end : \
@@ -876,16 +877,17 @@ enum InputTokenForm {
 };
 static struct {
     unsigned char pending00[5], divide, pending06[6], bit_or, pending13[25], variable, pending39[6], parameter, pending46[2];
-    unsigned char conversion, pending49[2], number, pending52[18];
+    unsigned char conversion, pending49, typed_operator, number, pending52[18];
     unsigned char function_entry, pending71[5], parameter_end, pending77[2], pragma, pending80[3], scope_begin;
 } input_token_forms = {{0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_SYMBOL, {0}, INPUT_FORM_SYMBOL, {0},
-                       INPUT_FORM_TYPE, {0}, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
+                       INPUT_FORM_TYPE, 0, INPUT_FORM_TYPE, INPUT_FORM_NUMBER, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_NONE, {0}, INPUT_FORM_PRAGMA, {0}, INPUT_FORM_NONE};
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 #define INPUT_TOKEN_FORM(op) ((unsigned)(op) == 5 ? input_token_forms.divide : \
     (unsigned)(op) == 12 ? input_token_forms.bit_or : \
     (unsigned)(op) == 38 ? input_token_forms.variable : \
     (unsigned)(op) == 45 ? input_token_forms.parameter : \
     (unsigned)(op) == 48 ? input_token_forms.conversion : \
+    (unsigned)(op) == 50 ? input_token_forms.typed_operator : \
     (unsigned)(op) == 51 ? input_token_forms.number : \
     (unsigned)(op) == 70 ? input_token_forms.function_entry : \
     (unsigned)(op) == 76 ? input_token_forms.parameter_end : \

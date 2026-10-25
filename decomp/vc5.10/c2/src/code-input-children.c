@@ -9,12 +9,6 @@ C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short 
     return 0;
 }
 
-C2Expression * __fastcall copy_input_expression(C2Expression *expression)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression)
 {
     __asm { int 3 }
@@ -448,4 +442,9 @@ int c2_real_to_unsigned(C2Real *input, unsigned *output)
 {
     __asm { int 3 }
     return 0;
+}
+
+void __fastcall copy_input_assembly_context(C2Expression *source, C2Expression *copy)
+{
+    __asm { int 3 }
 }

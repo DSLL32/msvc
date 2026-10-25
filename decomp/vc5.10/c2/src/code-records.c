@@ -1,6 +1,7 @@
 #include "code-records.h"
 #include "output-callbacks.h"
 #include "code-input.h"
+#include "small-nodes.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -393,4 +394,78 @@ void __fastcall retain_aggregate_operands(C2Expression *expression)
             }
         }
     }
+}
+
+C2Expression *__fastcall copy_input_expression(C2Expression *expression)
+{
+    unsigned char kind = expression->kind;
+    C2Expression *copy = (C2Expression *)allocate_small_node(kind);
+    C2Expression *source, *tail;
+    int retained_components = 0;
+    /* allocate_small_node guards unknown size rows before this shared lookup. */
+    memcpy(copy, expression, small_node_sizes.values[kind]);
+    copy->next = NULL;
+    switch (kind) {
+    case 1: case 2:
+        copy->location.expression.properties &= ~0x30;
+        copy->location.expression.comparison &= ~0x10;
+        return copy;
+    case 5: case 6:
+        if (expression->aggregate_value) {
+            copy->aggregate_value = copy_input_expression(expression->aggregate_value);
+            copy->aggregate_value->location.expression.properties |= 0x30;
+        }
+        if (expression->aggregate_second) {
+            copy->aggregate_second = copy_input_expression(expression->aggregate_second);
+            copy->aggregate_second->location.expression.properties |= 0x30;
+        }
+        /* Fall through. */
+    case 3: case 4: case 7: case 8: case 9: case 10:
+        copy->location.expression.properties &= ~0x10;
+        return copy;
+    case 20:
+        copy->detail.data = copy_input_expression_list(expression->detail.data);
+        /* Fall through to ordinary operand/result list copying. */
+    case 11: case 12: case 13: case 14: case 15: case 16:
+    case 17: case 18: case 19:
+        if (kind == 19 && expression->opcode == 0x16d)
+            copy_input_assembly_context(expression, copy);
+        source = expression->left;
+        if (source) {
+            tail = copy_input_expression(source);
+            copy->left = tail;
+            if ((1U << (tail->kind & 31)) & 0x7fe)
+                tail->location.expression.properties |= 0x10;
+            for (source = source->next; source; source = source->next) {
+                if (((1U << (source->kind & 31)) & 0x7fe) &&
+                    (source->location.expression.properties & 0x20)) {
+                    retained_components = 1;
+                    continue;
+                }
+                tail->next = copy_input_expression(source);
+                tail = tail->next;
+                if ((1U << (tail->kind & 31)) & 0x7fe)
+                    tail->location.expression.properties |= 0x10;
+            }
+        }
+        source = expression->tail.right;
+        if (source) {
+            tail = copy_input_expression(source);
+            copy->tail.right = tail;
+            if ((1U << (tail->kind & 31)) & 0x7fe)
+                tail->location.expression.properties |= 0x10;
+            for (source = source->next; source; source = source->next) {
+                tail->next = copy_input_expression(source);
+                tail = tail->next;
+                if ((1U << (tail->kind & 31)) & 0x7fe)
+                    tail->location.expression.properties |= 0x10;
+            }
+        }
+        if (retained_components) retain_aggregate_operands(copy);
+        /* Fall through. */
+    case 21: case 22: case 23: case 24: case 25: case 26:
+        copy->previous = NULL;
+        break;
+    }
+    return copy;
 }

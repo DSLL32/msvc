@@ -929,6 +929,30 @@
             ]
           ]
         }
+      },
+      "@copy_input_expression@4": {
+        "original": {
+          "text_data": [
+            [
+              4200404,
+              4200462
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@copy_input_expression@4",
+                "offset": 777
+              },
+              {
+                "rebuilt_symbol": "@copy_input_expression@4",
+                "offset": 835
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

@@ -69,6 +69,7 @@ void __fastcall release_input_assembly_context(C2Expression *tree);
 unsigned __int64 __fastcall normalize_integer_value(unsigned short type, unsigned __int64 value);
 C2Expression * __fastcall new_integer_expression(unsigned short type, unsigned __int64 value);
 C2Expression * __fastcall new_binary_expression(unsigned opcode, unsigned short type, C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior);
+void __fastcall copy_input_assembly_context(C2Expression *source, C2Expression *copy);
 C2Expression * __fastcall copy_input_expression(C2Expression *expression);
 C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression);
 void __fastcall unlink_input_record(C2Record *record);

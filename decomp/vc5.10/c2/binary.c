@@ -2416,10 +2416,21 @@ static const ReconFunction functions[] = {
         .native_symbol = "new_binary_expression",
     },
     {
-        .name = "@copy_input_expression@4",
-        .entry_rva = 0x15d6,
+        .name = "@copy_input_assembly_context@8",
+        .entry_rva = 0x63e66,
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "copy_input_assembly_context",
+    },
+    {
+        .name = "@copy_input_expression@4",
+        .entry_rva = 0x15d6,
+        .code = (const ReconExtent[]){{0x15d6, 0x17d2}, {0x657f7, 0x65807}},
+        .code_count = 2,
+        .text_data = (const ReconExtent[]){{0x17d4, 0x180e}},
+        .text_data_count = 1,
+        .definition = RECON_APP,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "copy_input_expression",
     },
     {

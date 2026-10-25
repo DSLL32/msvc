@@ -737,6 +737,34 @@ static int temporary_node_sizes(void)
     return 1;
 }
 
+static int copied_operand_ownership(void)
+{
+    C2Expression source, *copy;
+    union { unsigned alignment; unsigned char bytes[36]; } storage;
+    unsigned char expected[36];
+    unsigned kind, size;
+    for (kind = 1; kind <= 7; kind += 6) {
+        size = kind == 1 ? 28 : 32;
+        memset(&source, 0xa5, sizeof(source));
+        source.kind = kind;
+        source.next = &source;
+        memset(&storage, 0xa5, sizeof(storage));
+        ((C2SmallNode *)&storage)->next = NULL;
+        free_small_nodes[size] = (C2SmallNode *)&storage;
+        memcpy(expected, storage.bytes, sizeof(expected));
+        memcpy(expected, &source, size);
+        memset(expected, 0, 4);
+        expected[16] &= kind == 1 ? 0xcf : 0xef;
+        if (kind == 1) expected[17] &= 0xef;
+        copy = copy_input_expression(&source);
+        if (copy != (C2Expression *)&storage ||
+            memcmp(storage.bytes, expected, sizeof(expected)) ||
+            source.next != &source || source.location.expression.properties != 0xa5 ||
+            source.location.expression.comparison != 0xa5) return 0;
+    }
+    return 1;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -771,5 +799,6 @@ const ReconTest numeric_tests[] = {
     {"integer records preserve signed width, full payload and allocation canary", 1, integer_record_width},
     {"binary type selection preserves pointer, real and unsigned precedence", 1, binary_value_types},
     {"constant narrowing marks only changed values and preserves record tails", 1, folded_integer_width},
-    {"temporary and binary node sizes preserve allocation canaries", 1, temporary_node_sizes}
+    {"temporary and binary node sizes preserve allocation canaries", 1, temporary_node_sizes},
+    {"operand copying preserves payloads, originals and allocation canaries", 1, copied_operand_ownership}
 };
