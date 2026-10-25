@@ -15,3 +15,8 @@ before applying captured dependency effects; unknown or missing calls fail.
 Provider setup runs after the execution checkpoint. Fixtures never invoke Wine.
 The original console research and failed AllocConsole analysis remain in scratch
 and Git history; console_rows remains a named trap.
+
+Application code stays in src/. Native adapters, provider callbacks and import
+checks live in harness/; the strict CL contract helper remains in scripts/.
+No binary-specific CRT source is compiled: the original build uses shipped CRT
+libraries, and native compatibility comes from lib/recon/.
