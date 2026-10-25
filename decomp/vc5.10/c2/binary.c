@@ -2237,8 +2237,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@allocate_local_storage@8",
         .entry_rva = 0xdf40,
+        .code = (const ReconExtent[]){{0xdf40, 0xdf8a}, {0x672b4, 0x672cd}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "allocate_local_storage",
     },
     {
@@ -2247,6 +2249,13 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .implementation = RECON_UNIMPLEMENTED,
         .native_symbol = "reserve_section_symbol",
+    },
+    {
+        .name = "@align_stack_storage@12",
+        .entry_rva = 0xdf8a,
+        .definition = RECON_APP,
+        .implementation = RECON_UNIMPLEMENTED,
+        .native_symbol = "align_stack_storage",
     },
     {
         .name = "_controlfp",

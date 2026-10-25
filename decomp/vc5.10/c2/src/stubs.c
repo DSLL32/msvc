@@ -86,7 +86,7 @@ void __fastcall queue_symbol_debug(C2Symbol *symbol)
 }
 
 
-long __fastcall allocate_local_storage(unsigned bytes, unsigned alignment)
+unsigned __fastcall align_stack_storage(unsigned position, unsigned bytes, int alignment)
 {
     __asm { int 3 }
     return 0;

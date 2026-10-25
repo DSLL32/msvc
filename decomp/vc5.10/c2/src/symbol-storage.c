@@ -7,6 +7,22 @@ int local_storage_alignment = 4;
 int argument_stack_offset = 8;
 int argument_layout_kind = 4;
 int argument_alignment = 4;
+long local_stack_offset;
+
+long __fastcall allocate_local_storage(unsigned bytes, unsigned alignment)
+{
+    unsigned position;
+    if (alignment)
+        bytes = (bytes + alignment - 1) & ~(alignment - 1);
+    local_stack_offset = (long)((unsigned)local_stack_offset - bytes);
+    if (!alignment)
+        alignment = local_storage_alignment;
+    position = align_stack_storage(0U - (unsigned)local_stack_offset, bytes, alignment);
+    local_stack_offset = (long)(0U - position);
+    if (local_stack_offset > 0)
+        c2_fatal(126, "2G");
+    return local_stack_offset;
+}
 
 unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
 {
