@@ -1,6 +1,9 @@
 # Optional original-toolchain build. Source paths are relative to the binary
 # root; retaining the entire path and extension avoids basename collisions.
 ORIGINAL_BUILD ?= build
+ifneq ($(strip $(ORIGINAL_TOOLCHAIN)),)
+ORIGINAL_SOURCES ?= $(wildcard src/*.c src/*.cpp crt/*.c crt/*.cpp)
+endif
 ORIGINAL_LINK_OUTPUTS := $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 ORIGINAL_OBJECTS := $(addprefix $(ORIGINAL_BUILD)/obj/,$(addsuffix .obj,$(ORIGINAL_SOURCES)))
 OBJECTS := $(ORIGINAL_OBJECTS)

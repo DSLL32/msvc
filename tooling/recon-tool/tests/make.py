@@ -26,8 +26,11 @@ root=Path(__file__).resolve().parent
 mode,*args=sys.argv[1:]
 with (root/'commands.jsonl').open('a') as log:
     log.write(json.dumps([mode,*args])+'\\n')
-if mode=='native':
-    sys.exit(subprocess.call(['gcc',*args]))
+if mode in ('native','native-cxx'):
+    # These authored C++ fixtures need no C++ runtime; test driver selection
+    # without requiring an unrelated i386 libstdc++ development package.
+    driver=['clang++','-nostdlib++'] if mode=='native-cxx' else ['gcc']
+    sys.exit(subprocess.call([*driver,*args]))
 if mode=='original':
     output=next(arg[3:] for arg in args if arg.startswith('/Fo')) if '/c' in args else next(arg[5:] for arg in args if arg.startswith('/out:'))
     Path(output).write_text('original')
@@ -56,18 +59,22 @@ if mode=='tool' and args[0] in ('run','test'):
     write('other/one.c', 'int another(void) { return 2; }\n')
     write('template.c', 'int generated(void) { return 3; }\n')
     write('src/runtime.c', 'int original_runtime(void) { return 0; }\n')
-    write('support/a_b.c', 'int native_support(void) { return 0; }\n')
+    write('src/link.h', '#error local header must not shadow system link.h\n')
+    write('support/a_b.c', '#include <link.h>\nint native_support(void) { return 0; }\n')
     write('support/a/b.c', 'int another_support(void) { return 1; }\n')
+    write('harness/host.cpp', 'extern "C" int cpp_host(void) { return 7; }\n')
     write('binary.c', 'int binary_descriptor;\n')
     write('policy.json', '{}')
     write('Makefile', f'''RECON_TOOL_DIR := {TOOL_DIR}
 RECON_TOOL := {root}/tool
 NATIVE_CC := python3 {wrapper} native
-NATIVE_CXX := python3 {wrapper} native
+NATIVE_CXX := python3 {wrapper} native-cxx
 NATIVE_CPPFLAGS := -DINHERITED_BUILD_FLAGS
+NATIVE_CFLAGS := -std=gnu89
+NATIVE_CXXFLAGS := -std=gnu++98
 BINARY_SOURCES := src/one.c other/one.c generated/code.c
 BINARY_SOURCE_ROOT := {root}
-BINARY_SUPPORT_SOURCES := support/a_b.c support/a/b.c
+BINARY_SUPPORT_SOURCES := support/a_b.c support/a/b.c harness/host.cpp
 ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c
 ORIGINAL_BUILD := original
 ORIGINAL_OUTPUT := original/app.exe
@@ -116,6 +123,10 @@ local-audit:
     initial = commands()
     common_links = [row for row in initial if '-Wl,-soname,libbinary.so' in row]
     assert len(common_links) == 1, common_links
+    assert common_links[0][0] == 'native-cxx', 'C++ support needs the C++ linker'
+    support_cpp = next(row for row in initial if 'harness/host.cpp' in row)
+    assert support_cpp[0] == 'native-cxx' and '-std=gnu++98' in support_cpp
+    assert '-std=gnu89' not in support_cpp and '-finstrument-functions' not in support_cpp
     assert all(row[0] != 'original' for row in initial)
     assert (root/'.build/support/support/a_b.c.o').is_file()
     assert (root/'.build/support/support/a/b.c.o').is_file()
@@ -198,8 +209,8 @@ local-audit:
     make('audit', *runtime_flags)
     assert [row for row in commands() if row[:2] == ['tool', 'identify-runtime']] == identified
     # Dependency scanning must terminate on ordinary include-guard cycles too.
-    write('src/cycle-a.h', '#include "cycle-b.h"\n')
-    write('src/cycle-b.h', '#include "cycle-a.h"\n#include "nested.h"\n')
+    write('src/cycle-a.h', '#ifndef CYCLE_A_H\n#define CYCLE_A_H\n#include "cycle-b.h"\n#endif\n')
+    write('src/cycle-b.h', '#ifndef CYCLE_B_H\n#define CYCLE_B_H\n#include "cycle-a.h"\n#include "nested.h"\n#endif\n')
     write('src/cycle.c', '#include "cycle-a.h"\n')
     subprocess.run(['python3', str(TOOL_DIR/'original-deps.py'), '--object-root', 'obj',
                     '--output', str(root/'cycles.mk'), 'src/cycle.c'], cwd=root, check=True)
@@ -215,6 +226,19 @@ local-audit:
     make('clean')
     assert not (root/'.build').exists() and not (root/'original').exists()
     assert all(not path.parent.exists() for path in cases)
+    # Default reconstruction discovery includes CRT code, while harness sources
+    # remain explicitly selected (some are original-only hosts or unit helpers).
+    write('crt/extra.c', 'int crt_extra(void) { return 9; }\n')
+    layout = (root/'Makefile').read_text()
+    layout = layout.replace('BINARY_SOURCES := src/one.c other/one.c generated/code.c\n', '')
+    layout = layout.replace('ORIGINAL_SOURCES := $(BINARY_SOURCES) src/runtime.c\n', '')
+    (root/'Makefile').write_text(layout)
+    make('cases')
+    assert (root/'.build/pic/crt/extra.c.o').is_file()
+    assert not (root/'.build/pic/harness/host.cpp.o').exists()
+    dry = make('-n', 'win32')
+    assert 'original/obj/crt/extra.c.obj' in dry
+    assert 'original/obj/harness/' not in dry
     print('shared make discovery, parallel/incremental native+original, audit checks passed')
 finally:
     shutil.rmtree(root)
