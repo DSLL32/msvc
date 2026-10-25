@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 98 numbered case directories. Native
+The shared recon-tool harness discovers the 99 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 821 application functions (759 public-reached, 62 direct-support),
-with accepted App extent union 230750/281634 (81.9325792%). The iterator end-callback
-lifecycle adds five whole functions/five bytes after the resource resize/release
-checkpoint. Support-inclusive historical accepted extent is 261689/281634
-(92.9181136%). The 1020 historical frontier count includes shipped CRT/import
+set now has 822 application functions (759 public-reached, 63 direct-support),
+with accepted App extent union 230760/281634 (81.9361299%). The synchronous control
+handler adds one whole function/ten code bytes after the iterator checkpoint.
+Support-inclusive historical accepted extent is 261699/281634 (92.9216643%).
+The 1021 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. At the prior cleanup checkpoint the old
 partial body/data/alignment inventory left 11108 unaccepted bytes unclassified;
 that historical inventory was not recomputed for this case and is not a current
 registry classification count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 8983 bytes outside known App/CRT/import extents,
+The current registry leaves 8989 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 858 graphs for calls, RET cleanup, live function
+Current shared validation checks 859 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -389,3 +389,32 @@ shared-source inventories before/after. Three now-empty stub translation units
 are retired. Full raw receipts, GDB observations and timing/source accounting:
 
     /root/.ai-tmp/msvc2/vc1.0/link/iterator-lifecycle/
+
+
+Case 0098 invokes the real BOOL WINAPI control_handler(DWORD) synchronously over
+the genuine mapped-file/temporary-input lifecycle from case 0094. The original
+10-byte body ignores its argument and always calls link_cleanup; it has no event
+filter or returning-event branches. Its unreachable FALSE/RET 4 tail is retained.
+Six trailing alignment bytes are excluded from its extent, which increases the
+known-registry gap by six without changing application credit. This direct case
+qualifies no public console delivery, control thread, TLS or asynchronous safety.
+
+The actual original stack formal is DWORD 0. The precleanup report has version 2
+and records that event; all 512 bytes match (SHA256
+0f3fbcc4a62c164c1ae20748e95f374d384d48272bb2e5b12f0a7523358595fa).
+The retained 2MB output, deleted live outputs/temporary input, unchanged inputs,
+complete inventory, empty streams and genuine exit 1 are strict with no masks.
+Native GDB confirms workflow -> control_handler -> link_cleanup -> ExitProcess(1),
+actual argument 0 and CW 027f/SW 0/empty tags. No post-exit helper reads or dynamic
+return-state equivalence are claimed.
+
+One untouched baseline took 1.016s inside capture (2.521s external command wall);
+the masked frontier and completion took 1.316s and 1.111s. Matching native completion
+took 33.031ms (setup 11.368/execution 2.047/checks 19.617), and GDB took 185.531ms.
+Canonical original compilation/relink plus the 859-function graph/RET/reference/
+ownership/boundary audit passed in 21.935s combined. Final native build took
+2.226s; all 99 cached cases and seven focused tests passed in 2.024s parallel wall
+time, with identical published shared C/H before and after. Raw captures, actual
+entry input, GDB state, complete file hashes and split accounting remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/control-handler/

@@ -20,4 +20,9 @@ void set_debug_flag(int index,unsigned char value)
     debug_flags[index]=value;
 }
 int debug_enabled(int index) { return debug_flags[index]; }
-BOOL WINAPI control_handler(DWORD event) { link_cleanup(); return FALSE; }
+/* The original ignores the event and always exits through linker cleanup. */
+BOOL WINAPI control_handler(DWORD event)
+{
+    link_cleanup();
+    return FALSE;
+}

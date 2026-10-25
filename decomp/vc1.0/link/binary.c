@@ -1981,11 +1981,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_control_handler@4",
         .entry_rva = 0x170f0,
-        .code = (const ReconExtent[]){{0x170f0, 0x17100}},
+        .code = (const ReconExtent[]){{0x170f0, 0x170fa}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "control_handler",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_map",
