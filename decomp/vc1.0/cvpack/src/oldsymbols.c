@@ -48,3 +48,17 @@ void prepare_old_types(void *symbols, unsigned long size)
     }
     total_new_type_bytes += size;
 }
+
+extern unsigned short extra_types[254];
+
+void size_old_change_segment(void)
+{
+    unsigned short segment = *(unsigned short *)(symbol_input + 2);
+    if (!has_extra_type(segment)) {
+        module_type_base += 7;
+        extra_types[extra_type_count++] = segment;
+        if (extra_type_count > 254)
+            fatal_error(27, module_name(current_module), NULL);
+    } else
+        module_type_count += 6;
+}
