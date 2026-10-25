@@ -607,6 +607,39 @@ autonomous queue is authorized.
 | WLIB | 2 functions / 143 bytes | Fresh scaffold and help; finite PE runtime catalog and shared GS guard required. New explicit file stdin can replace old pipe input after genuine capture. |
 | WLINK | 1 function / 232 bytes | Fresh scaffold and help; exact GS guard and startup catalog requirements remain explicit. |
 
+**Current migration checkpoints; no initial help case is complete yet.**
+WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
+shared build/runner and retire their local capture launchers. WASM's response
+cleanup is committed as `e9836ce56`. WLINK and WASM now generate Watcom link
+responses with Make's file function; cleanup required no extra original runs.
+WCC's genuine native bootstrap matches the saved original allocator frontier;
+its first 93-byte App `MemAlloc` has now passed paired graph/RET and fresh
+original/native comparison to the next pending `MemInit 47f15`. That is one
+accepted App function, not a complete help case or a total coverage percentage.
+WLIB/WLINK first-main captures are independent of resource-reader code that has
+not executed. Later GS checks must address concrete reached values or missing
+static proof, rather than preserve an old observer framework.
+
+| Binary | Native measurement | Setup / execution / checks | Period compiler check |
+| --- | --- | --- | --- |
+| WCC386 | Fresh pair after first App acceptance: 3.405 ms; original 9.514 s | 2.082 / 0.904 / 0.418 ms | Passed; initial scaffold check 0.554 s |
+| WPP386 | Native/case build 0.533 s; no fixture execution yet | Not measured | Passed, 0.612 s; initial 0.504 s path failure retained |
+| WASM | Authored scaffold frontier smoke: 4.889 ms | 2.599 / 2.020 / 0.270 ms | Passed; no timing claimed |
+| WLIB | Authored scaffold frontier smoke: 5.197 ms | 2.787 / 1.954 / 0.455 ms | Passed; no timing claimed |
+| WLINK | Authored scaffold frontier smoke: 9.722 ms | 5.025 / 2.474 / 2.223 ms | Passed, 1.332 s |
+
+The authored scaffold smokes are not original-backed acceptance. WASM has
+finished independent scaffold work and is waiting for shared support before its
+first genuine pair. WPP's first
+App entry is its compiler allocator `81ba3`, size 8, before main. WASM differs:
+its older CRT allocator reaches AH=48h before main, initially requesting 4,096
+bytes. That finite heap/service and WASM geometry remain shared qualification
+work; the WCC 65,536-byte App-allocator request does not qualify them. A WASM
+435-byte heap member strongly correlates with shipped CRT code: all 32 differing
+bytes are memory displacements smaller by four. This supports classification,
+not byte identity, normalization or automatic admission. Native fixtures never
+launch Wine; new original captures remain explicit.
+
 **Already shipped.** The native i386 DSO runner, flat captures, typed native
 entry hooks, static-symbol tracing, full DWORD receipts and parallel check/unit
 targets apply to all five. Public native SELF children, captured dependency
