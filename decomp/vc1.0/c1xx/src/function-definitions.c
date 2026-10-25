@@ -469,3 +469,12 @@ unsigned __stdcall function_parameter_bytes(CppSymbol *parameters)
     }
     return bytes;
 }
+
+/* Original0x33920..0x33933, stdcall4. Preserve the class-type query
+   boundary used by constructor-result reference analysis. */
+CppSymbol *__stdcall class_tag_for_result_type(CType *type)
+{
+    CppSymbol *tag = class_tag_for_type(type);
+    if (!tag) return 0;
+    return tag;
+}
