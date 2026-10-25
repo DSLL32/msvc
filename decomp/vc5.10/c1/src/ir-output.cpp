@@ -59,7 +59,19 @@ int RECON_THISCALL CompilerOutputBuffer::Open(const char *prefix,
     return setvbuf(stream, NULL, _IOFBF, 4096);
 }
 
-extern "C" CompilerIntegerConstant *__cdecl create_integer_constant(int value) { __asm { int 3 } return NULL; }
+extern "C" CompilerIntegerConstant *__cdecl create_integer_constant(int value)
+{
+    CompilerArena *arena = &c1_bss.arenas[c1_data.expression_arena_kind];
+    CompilerIntegerConstant *node = (CompilerIntegerConstant *)arena->cursor;
+    arena->cursor += 24;
+    if (arena->cursor > arena->committed_limit)
+        arena->CommitExtent();
+    node->flags = 3;
+    node->kind = 101;
+    node->type = c1_data.builtin_types.type_0063;
+    node->integer = value;
+    return node;
+}
 extern "C" CompilerIntegerConstant *__cdecl make_integer_constant(int value)
 {
     CompilerIntegerConstant *node = create_integer_constant(value);

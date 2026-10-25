@@ -5,8 +5,8 @@
 
 static const ReconFunction functions[] = {
     { .name = "_create_integer_constant", .entry_rva = 0x99ab,
-      .code = (const ReconExtent[]){{0x99ab, 0x99ac}}, .code_count = 1,
-      .definition = RECON_APP, .native_symbol = "create_integer_constant" },
+      .code = (const ReconExtent[]){{0x99ab, 0x99ee}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED, .native_symbol = "create_integer_constant" },
     { .name = "_prepare_pch_expression_input", .entry_rva = 0x19463,
       .code = (const ReconExtent[]){{0x19463, 0x19464}}, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "prepare_pch_expression_input" },

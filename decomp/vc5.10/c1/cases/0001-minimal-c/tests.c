@@ -113,7 +113,31 @@ static int output_filename_constructor(void)
         if (buffer->filename[i] != 'x') return 0;
     return 1;
 }
-const ReconTest minimal_tests[9] = {
+extern CompilerIntegerConstant *__cdecl create_integer_constant(int);
+extern CompilerIntegerConstant *__cdecl make_integer_constant(int);
+static int integer_nodes(void)
+{
+    DWORD storage[20];
+    CompilerType type;
+    CompilerIntegerConstant *node;
+    unsigned i;
+    for (i = 0; i < 20; ++i) storage[i] = 0xa5a5a5a5;
+    c1_data.expression_arena_kind = 3;
+    c1_data.builtin_types.type_0063 = &type;
+    c1_bss.arenas[3].cursor = (BYTE *)storage + 4;
+    c1_bss.arenas[3].committed_limit = (BYTE *)storage + sizeof(storage);
+    node = create_integer_constant(-17);
+    if ((BYTE *)node != (BYTE *)storage + 4 || node->kind != 101 ||
+        node->flags != 3 || node->type != &type || node->integer != -17) return 0;
+    node = make_integer_constant(0);
+    if ((BYTE *)node != (BYTE *)storage + 28 || node->flags != 0x83 ||
+        node->kind != 101 || node->integer || node->type != &type) return 0;
+    node = make_integer_constant(7);
+    return (BYTE *)node == (BYTE *)storage + 52 && node->flags == 3 &&
+        node->integer == 7 && c1_bss.arenas[3].cursor == (BYTE *)storage + 76 &&
+        storage[0] == 0xa5a5a5a5 && storage[19] == 0xa5a5a5a5;
+}
+const ReconTest minimal_tests[10] = {
     { "packing alignment inheritance and explicit override", 1, packing_alignment },
     { "input factory interfaces and recorded-buffer defaults", 1, c1_test_input_factory },
     { "processor mask replaces prior value and adds compatibility bit", 1, processor_instruction_mask },
@@ -122,5 +146,6 @@ const ReconTest minimal_tests[9] = {
     { "fixed-token prototype tags, stride and untouched bytes", 1, predefined_token_prototypes },
     { "keyword storage extent, lazy identity and untouched bytes", 1, keyword_storage },
     { "identifier collision, move-to-front, retained flags and allocation stride", 1, c1_test_identifier_interning },
-    { "output constructor clears only first filename byte", 1, output_filename_constructor }
+    { "output constructor clears only first filename byte", 1, output_filename_constructor },
+    { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes }
 };
