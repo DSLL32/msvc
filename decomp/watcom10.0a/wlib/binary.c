@@ -628,8 +628,10 @@ static const ReconFunction functions[] = {
     {
         .name = "WResIDExtraBytes",
         .entry_rva = 0x1b100,
+        .code = (const ReconExtent[]) { {0x1b100, 0x1b112} },
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "WResIDExtraBytes",
         .original_symbol = "WResIDExtraBytes_",
     },

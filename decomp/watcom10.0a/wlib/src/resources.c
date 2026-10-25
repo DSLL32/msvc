@@ -296,6 +296,16 @@ int WResReadFixedTypeRecord( WResTypeInfo *info, int file )
     return 1;
 }
 
+/* Original 0x41b100..0x41b112. A Pascal name's first character is
+   already included in the old three-byte ID; numeric IDs need no tail. */
+int WResIDExtraBytes( const WResID *id )
+{
+    if( id->IsName ) {
+        return( id->ID.Name.NumChars - 1 );
+    }
+    return( 0 );
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

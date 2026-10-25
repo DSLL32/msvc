@@ -1,6 +1,6 @@
 {
   "status": "accepted",
-  "scope": "17 App bodies through genuine pending WResIDExtraBytes; help remains incomplete. Runtime support earns no App credit.",
+  "scope": "18 App bodies through genuine pending ResAddLLItemAtEnd; help remains incomplete. Runtime support earns no App credit.",
   "accepted": [
     {
       "name": "main",
@@ -137,12 +137,20 @@
         4305336
       ],
       "bytes": 56
+    },
+    {
+      "name": "WResIDExtraBytes",
+      "va": [
+        4305152,
+        4305170
+      ],
+      "bytes": 18
     }
   ],
-  "accepted_bytes": 1756,
+  "accepted_bytes": 1774,
   "next_frontier": {
-    "name": "WResIDExtraBytes",
-    "rva": 110848
+    "name": "ResAddLLItemAtEnd",
+    "rva": 110672
   },
   "candidate_runner": {
     "path": "/root/.ai-tmp/msvc2/program-image-input-20261025/tooling/recon-tool/target/i686-unknown-linux-gnu/release/recon-tool",
@@ -152,16 +160,16 @@
     "publication_sha256": "f8cbd511a867c09ed7fb745b97757d6d4d8e680b873b1c4fe34ee34281a041fc"
   },
   "original_report": {
-    "path": "cases/0000-help/progress-wresidextrabytes.json",
-    "sha256": "cf25b0ef53e3ee2e0f3ecf2b29d322401cb6930271c03620fb0fd3226bf52a71"
+    "path": "cases/0000-help/progress-resaddllitematend.json",
+    "sha256": "a3a0d8ecc132979f35b3548c1e008aada42929e33106b00e75f806f67d9b5a79"
   },
   "original_capture": {
-    "path": "cases/0000-help/progress-wresidextrabytes.bin",
-    "sha256": "5c69275b8299a7cbc481d1ea8bbdf0c985f1c889d3e6cc18afc3feadbecb1f5e"
+    "path": "cases/0000-help/progress-resaddllitematend.bin",
+    "sha256": "6087eaef69e0bad392835deca98de35dcac5319040dd5c3f6ddd770c3b0a16e7"
   },
   "native_report": {
-    "path": "cases/0000-help/native-wresidextrabytes.json",
-    "sha256": "ce38ed3e7b1909a952cb08cc3192366e1c9d296fb6be60e06febab90a2aefc5f"
+    "path": "cases/0000-help/native-resaddllitematend.json",
+    "sha256": "9e7ce403c727eb7198f30dc8a360ba6616bcd093f6b6656869ce601eb676c422"
   },
   "heap_closure": {
     "path": "harness/first-main-heap.json",
@@ -171,29 +179,29 @@
     "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
     "src/memory.c": "eabb8dd8496875c2d5745ce086f942a86b939f27c1f8cfec02bf0f863bcbec95",
     "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
-    "src/resources.c": "411bc4ab8a2a5e3f2daa09e751971264eb996f4e18fca366c1736dae535b77ea",
-    "src/stubs.c": "54d631749478e1c3f102da845f1706b17393c1a727b04652d2a6f52b09a8ca0f",
+    "src/resources.c": "0064f4a47c2eaf7aa7a3100147ece1652c6d4d0556582f8e89a24e2e54a318c9",
+    "src/stubs.c": "75a47c0df20574e540a5e791f3582c504e300e0da219e969d9f63ff05b989d3e",
     "src/wlib.h": "62722fc566dde97e0f366f85041562351769d0d223d248c495aaf5d4808ae701"
   },
   "native_elf": {
     "path": ".build/libbinary.so",
-    "sha256": "ca9d8d015d0c6ab5a90c4befa8cda726737b86b3cc49f178621106793b2ee414"
+    "sha256": "edcbbc94036978fe902b44269f14a5aaea00c810292b123222673e0c886da346"
   },
   "period_build": {
-    "PE_sha256": "890adeb43c6a65b5d63df07ff3150485e4f89ab82a254611e6ed976b33888583",
-    "MAP_sha256": "885908f079d48e0a1ef24fdbde221d5013db28a955da72d47c626ff6eb4567a0",
+    "PE_sha256": "37eb51fa5a70df1acea666c8f95c658ef753545531a359c1f794187219a16547",
+    "MAP_sha256": "779ff7558528128b06ed41d3e6f60347f1e78030daad218bca4164f08ff0dbf8",
     "compile_flags": "-bt=nt -3r -od -d2 -s",
     "scope": "Win32 Watcom ABI; native GCC ABI is the explicitly authorized semantic projection."
   },
   "App_graph_audit": {
-    "report_sha256": "247b3d6add7256980fac7143dd10b25754c4761b005c923b7db26b03bd726fc9",
+    "report_sha256": "296e0c80259592221ae5fc597e02691eebb54ee2e94b1058efd43689eb33f189",
     "checks": [
       "call_graph",
       "ret_cleanup",
       "extent_ownership",
       "whole_extent_boundaries"
     ],
-    "checked_App_bodies": 17,
+    "checked_App_bodies": 18,
     "support_body_certification": false,
     "tail_RET_support": {
       "path": "harness/ret-runtime-original.json",
@@ -202,12 +210,12 @@
     }
   },
   "timing_ms": {
-    "original_capture": 513.125427,
-    "native_total": 7.845398,
-    "native_setup": 4.716202,
-    "native_execution": 1.5310450000000002,
-    "native_checks": 1.598327,
-    "build_period_native_audit": 595.9651060402393
+    "original_capture": 902.960936,
+    "native_total": 8.440722,
+    "native_setup": 5.020033,
+    "native_execution": 1.594932,
+    "native_checks": 1.834558,
+    "build_period_native_audit": 877.323686145246
   },
   "input_semantics": "Fresh regular-file stdin64LF; actual main argv0 and exact masked62738B self-image captured separately from requestedCLI. Native reconstructs81 capturedCC ranges, verifies source/masked hashes and unchanged3858B overlay, stages read-only sibling input outsidecwd, and verifies unchanged after execution. Readonly binary open succeeded; WresRecordError was not reached. Descriptor is opaque at pendingFindResources; no failure/FILE26/numeric-fd claim.",
   "initial_heap_adoption": {
@@ -215,8 +223,8 @@
     "sha256": "bced5aba36ec8f20c61965ff4fc420b2a9a4ab7559b81b9ad8fe66b68df8053d"
   },
   "current_build_bindings": {
-    "path": "cases/0000-help/wresreadfixedtyperecord-build-bindings.json",
-    "sha256": "816b244c2845f1d7035d1ec4837a90ecf064c794e5bc425e8ab4674d3242df5d"
+    "path": "cases/0000-help/wresidextrabytes-build-bindings.json",
+    "sha256": "a860da7a61a801118517da2cb54548a11cc436892ce09ebf8ca6b8a65d4f4821"
   },
   "PE_helper_sha256": "2360c2a8ffe2de894c51b03ace3ef408214829c4d85ca5ef88f56b1d586a5e49",
   "normal_open_READY": "974310433",
@@ -230,7 +238,7 @@
     "path": "cases/0000-help/program-image-verification.json",
     "sha256": "a83e48b80adeb866dfdd46aa125d2e35415dc2d19d3f8f8e44b4aedcc0932770"
   },
-  "current_program_image": "Exact historical source/hash/CC recipe is embedded in cases/0000-help/progress-wresidextrabytes.bin and verified readonly by native runner; initial qualification remains separate.",
+  "current_program_image": "Exact historical source/hash/CC recipe is embedded in cases/0000-help/progress-resaddllitematend.bin and verified readonly by native runner; initial qualification remains separate.",
   "source_reuse": {
     "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
     "path": "bld/sdk/rc/wres/c/loadstr.c",
@@ -245,7 +253,8 @@
     "WResReadHeaderRecord": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c.",
     "WResReadExtHeader": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c.",
     "readTypeList": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c.",
-    "WResReadFixedTypeRecord": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c."
+    "WResReadFixedTypeRecord": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c.",
+    "WResIDExtraBytes": "Initial Open Watcom source algorithm, matched to this exact1994 body/call graph/ABI; retained Sybase license in src/resources.c."
   },
   "lseek_READY": "657661533",
   "lseek_compat_sha256": "fb66f1828fe3dd3188abe3e570233b462ae275a67128afdfdfc64bf790871a3d",

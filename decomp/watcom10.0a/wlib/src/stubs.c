@@ -50,11 +50,6 @@ int readMResDir( int handle, WResDir dir, int *dup_discarded )
 
 
 
-int WResIDExtraBytes( const WResID *id )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 int WResReadExtraWResID( WResID *id, int handle )
 {

@@ -1,0 +1,45 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-aasR2H",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152,
+      114832,
+      106520,
+      111040,
+      111188,
+      106272,
+      110976,
+      110848,
+      110672
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 110672,
+    "trap_site": 4153833923,
+    "elapsed_ms": 8.440722,
+    "setup_ms": 5.020033,
+    "execution_ms": 1.594932,
+    "checks_ms": 1.834558,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-idextra-to-addll.json",
+      "report_sha256": "a3a0d8ecc132979f35b3548c1e008aada42929e33106b00e75f806f67d9b5a79",
+      "capture_sha256": "6087eaef69e0bad392835deca98de35dcac5319040dd5c3f6ddd770c3b0a16e7",
+      "source_binding_available": true
+    }
+  }
+]

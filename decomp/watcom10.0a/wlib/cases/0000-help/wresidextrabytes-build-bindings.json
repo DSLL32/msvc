@@ -1,0 +1,34 @@
+{
+  "native_DSO_sha256": "edcbbc94036978fe902b44269f14a5aaea00c810292b123222673e0c886da346",
+  "case_DSO_sha256": "01494093952b767b5ddae8bf708d8d698b87e019a550f1282ba93f880568b778",
+  "App_sources": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/memory.c": "eabb8dd8496875c2d5745ce086f942a86b939f27c1f8cfec02bf0f863bcbec95",
+    "src/messages.c": "1b881ecdf47f100b69ecb47e4812a368c079790349b05ece8711b73c07c57e47",
+    "src/resources.c": "0064f4a47c2eaf7aa7a3100147ece1652c6d4d0556582f8e89a24e2e54a318c9",
+    "src/stubs.c": "75a47c0df20574e540a5e791f3582c504e300e0da219e969d9f63ff05b989d3e",
+    "src/wlib.h": "62722fc566dde97e0f366f85041562351769d0d223d248c495aaf5d4808ae701"
+  },
+  "App_objects_without_constructors": {
+    ".build/pic/src/main.c.o": "08092ca49824decda2177a42524be4a96c73d7706262e34805f48536f75b2c6f",
+    ".build/pic/src/memory.c.o": "6dda1613fb40df41acad127b3b54bd969ee6821330815253170fbb8cfa3c0d2a",
+    ".build/pic/src/messages.c.o": "cda953fc1217e8f96b4e56c77c744a45c762a9a7704ae9cf79725abdcf3f3dea",
+    ".build/pic/src/resources.c.o": "9b86297d0370bfafc23beb187367286a0987205e34bce1848cf9524f3d844461",
+    ".build/pic/src/stubs.c.o": "475a2f3ad9b7db2bfbd0475eff1f2e80316486d26124a0b1a2716456ffedb790"
+  },
+  "shared_sources": {
+    "lib/recon/src/compat.c": "c7038851e08b19bd279c130a92d835ca85525bc3c704ffff2ed627abed55ac7f",
+    "lib/recon/src/crt.c": "019ea6e4b2c34a602b8569568554adb1680bbbd446c06ce0889cf2def8fae971",
+    "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "lib/recon/src/process.c": "a51903690d9377edd9322caf28b303c0c39e5a9bf0ea3cdaa97132459d2dd2c3",
+    "lib/recon/src/trace.c": "ffd1a1466f033366d78727b0cc2a2ac0526f06431aa94b6d728911b4337105ef",
+    "lib/recon/src/win32.c": "2615d33bbcd23b83e2bbaa78406971ae524a1a9c175016c175acd47d589ea8b1"
+  },
+  "shared_header_sha256": "a9ae9711c12273e562f4f41fb2cf6a12cda63c2e6a680100cd4b8d1c9fcdb942",
+  "registry_sha256": "96445bec35a86fc591244b2ea6be4146683778b9d62ae36fbad5b7c47839d319",
+  "Win32_PE_sha256": "37eb51fa5a70df1acea666c8f95c658ef753545531a359c1f794187219a16547",
+  "Win32_MAP_sha256": "779ff7558528128b06ed41d3e6f60347f1e78030daad218bca4164f08ff0dbf8",
+  "graph_sha256": "296e0c80259592221ae5fc597e02691eebb54ee2e94b1058efd43689eb33f189",
+  "runner_sha256": "281ed196d3597c78d7343c12db2089f8814db806ff9e252a24ac10661558ed20"
+}
