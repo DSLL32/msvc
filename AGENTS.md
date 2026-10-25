@@ -105,3 +105,4 @@ Keep ordinary string literals at their point of use. Introduce named string obje
 While we must preserve the original function graph, you have full ownership of source layout, identifiers, libraries, headers, etc. Code in a style faithful to the reconstruction target. Feel free to reorganize code or update function, type, and field names as your knowledge of the target grows during reconstruction.
 Compile with the original toolchain that built the target. Create a GNU Makefile in the binary's folder to do the build - invoking the toolchain via wine - and support parallel original-toolchain and native build targets.
 Commit as you please, suggested is per function reconstruction or other substantial work.
+Update a binary's README only when a case is finished, not after individual functions or intermediate progress.
