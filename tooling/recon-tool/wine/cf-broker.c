@@ -31,7 +31,7 @@ static int loader_break_seen;
 static int wcc_prefix, wcc_stopped;
 static int wcc_handoff, wcc_at_entry, wcc_trap_running, wcc_entry_stopped;
 static unsigned wcc_instruction;
-static DWORD wcc_cf_base, wcc_cf_entry;
+static DWORD wcc_cf_base, wcc_cf_entry, wcc_cf_size;
 static CONTEXT wcc_entry_context;
 static int arena_enabled, frontier_running, frontier_stopped;
 static DWORD arena_base, arena_size, frontier_address;
@@ -375,13 +375,15 @@ static int continue_wcc_prefix(DWORD *index)
 }
 static int prepare_wcc_entry(DWORD *index)
 {
-    DWORD slots[3];CONTEXT value;MEMORY_BASIC_INFORMATION region;unsigned i;
+    DWORD slots[3], cf_size;CONTEXT value;MEMORY_BASIC_INFORMATION region;unsigned i;
     /* This is one verified loader-to-CF entry, not permission for a CF body.
        All initialized bytes/fixups must already match in the controller. */
     if(!pending || !wcc_stopped || wcc_handoff || armed || !context(&value) ||
        value.Eip!=image_base+0x10764 || value.EFlags&0x100 ||
        !memory(image_base+0x30000,slots,sizeof(slots)) || !slots[1] || slots[1]!=slots[2] ||
-       !bounds(slots[1],0x91000) || slots[0]!=slots[1]+0x2fe00 || value.Esi!=slots[0] ||
+       !((bounds(slots[1],0x91000) && slots[0]==slots[1]+0x2fe00) ||
+         (bounds(slots[1],0xe0000) && slots[0]==slots[1]+0x664f4)) ||
+       value.Esi!=slots[0] ||
        value.Ebx!=slots[1] || value.Edx!=image_base+0x10788 ||
        trap_count==MAX_TRAPS ||
        VirtualQueryEx(child,(void *)slots[0],&region,sizeof(region))!=sizeof(region) ||
@@ -391,7 +393,8 @@ static int prepare_wcc_entry(DWORD *index)
     traps[trap_count].active=1;*index=trap_count++;
     for(i=0;i<trap_count;i++) if(traps[i].address==image_base+0x10763 && traps[i].active) break;
     if(i==trap_count || !consume(i)) return 0;
-    wcc_cf_base=slots[1];wcc_cf_entry=slots[0];wcc_handoff=1;
+    cf_size=slots[0]-slots[1]==0x2fe00?0x91000:0xe0000;
+    wcc_cf_base=slots[1];wcc_cf_entry=slots[0];wcc_cf_size=cf_size;wcc_handoff=1;
     fprintf(log_file,"wcc-entry-armed base=%08lx entry=%08lx original=88 masked=cc\n",wcc_cf_base,wcc_cf_entry);
     fflush(log_file);return 1;
 }
@@ -418,7 +421,7 @@ static int register_arena(DWORD base,DWORD size)
     end=base+size;
     if(end<=base || (base<image_base+image_size && image_base<end) ||
        (base<stack_bounds[0] && stack_bounds[1]<end) ||
-       (wcc_entry_stopped && (base!=wcc_cf_base || size!=0x91000))) return 0;
+       (wcc_entry_stopped && (base!=wcc_cf_base || size!=wcc_cf_size))) return 0;
     for(cursor=base;cursor<end;) {
         if(!budget() || VirtualQueryEx(child,(void *)cursor,&region,sizeof(region))!=sizeof(region) ||
            region.State!=MEM_COMMIT || region.Type!=MEM_PRIVATE ||

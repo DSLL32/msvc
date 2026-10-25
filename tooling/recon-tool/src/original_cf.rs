@@ -113,15 +113,34 @@ fn validate(
         );
         return Ok(());
     }
+    let expected = match profile.loader.protocol.as_str() {
+        "watcom10.0a-wcc-entry-v1" => (
+            "WCC386.EXE",
+            "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+            [0x50, 0x2200, 0x8209c, 0x7c448, 0x91000, 0x2fe00],
+            "67510f8687dc06331c2bd85b56382a3be729be7a434f4330db06dcbffb2747c7",
+            "a9aac7fd5813bb859f95bbe287ddfcc2ee32c38bae5103fd4fedcb74738d3640",
+            11801,
+            8,
+        ),
+        "watcom10.0a-wpp-entry-v1" => (
+            "WPP386.EXE",
+            "647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f",
+            [0x50, 0x2200, 0xc3a44, 0xbc438, 0xe0000, 0x664f4],
+            "1f96d6ad4cf3deb8078ab02fe58e0d56b51001b058beb39ee9eb1ffeadae7e07",
+            "9829d0e260bb569d85ee056419390a15e84bcf613c07c9417b4d43aaccc63f9b",
+            15085,
+            12,
+        ),
+        _ => anyhow::bail!("unqualified CF loader protocol"),
+    };
     ensure!(
         profile.loader.setup_catalog.is_none()
-            && profile.loader.protocol == "watcom10.0a-wcc-entry-v1"
-            && profile.loader.path == "toolchains/watcom10.0a/binnt/WCC386.EXE"
+            && profile.loader.path == format!("toolchains/watcom10.0a/binnt/{}", expected.0)
             && profile.loader.sha256
                 == "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
-            && profile.target.path == "toolchains/watcom10.0a/binb/WCC386.EXE"
-            && profile.target.sha256
-                == "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b"
+            && profile.target.path == format!("toolchains/watcom10.0a/binb/{}", expected.0)
+            && profile.target.sha256 == expected.1
             && [
                 h.header_file_offset,
                 h.image_file_offset,
@@ -129,13 +148,11 @@ fn validate(
                 h.relocation_offset,
                 h.allocation_size,
                 h.entry_offset
-            ] == [0x50, 0x2200, 0x8209c, 0x7c448, 0x91000, 0x2fe00]
-            && profile.target.initialized_sha256
-                == "67510f8687dc06331c2bd85b56382a3be729be7a434f4330db06dcbffb2747c7"
-            && profile.target.relocation_sha256
-                == "a9aac7fd5813bb859f95bbe287ddfcc2ee32c38bae5103fd4fedcb74738d3640"
-            && profile.target.relocation_count == 11801
-            && profile.target.relocation_groups == 8,
+            ] == expected.2
+            && profile.target.initialized_sha256 == expected.3
+            && profile.target.relocation_sha256 == expected.4
+            && profile.target.relocation_count == expected.5
+            && profile.target.relocation_groups == expected.6,
         "unqualified CF loader protocol or payload geometry"
     );
     Ok(())
@@ -347,6 +364,43 @@ mod tests {
         )
         .is_ok()
     }
+    #[test]
+    fn wpp_profile_has_its_own_finite_geometry_and_loader_name() {
+        let value: serde_json::Value =
+            serde_json::from_str(include_str!("../tests/cf-wpp-profile.json")).unwrap();
+        let check = |value: serde_json::Value| {
+            let profile: Profile = serde_json::from_value(value).unwrap();
+            validate(
+                &profile,
+                &profile.target.path,
+                &profile.target.sha256,
+                profile.target.header.entry_offset,
+            )
+            .is_ok()
+        };
+        assert!(check(value.clone()));
+        for (path, replacement) in [
+            (
+                "/loader/path",
+                serde_json::json!("toolchains/watcom10.0a/binnt/WCC386.EXE"),
+            ),
+            (
+                "/loader/protocol",
+                serde_json::json!("watcom10.0a-wcc-entry-v1"),
+            ),
+            ("/target/header/entry_offset", serde_json::json!(0x2fe00)),
+            ("/target/relocation_count", serde_json::json!(11801)),
+            (
+                "/target/relocation_sha256",
+                serde_json::json!("0".repeat(64)),
+            ),
+        ] {
+            let mut bad = value.clone();
+            *bad.pointer_mut(path).unwrap() = replacement;
+            assert!(!check(bad), "{path}");
+        }
+    }
+
     #[test]
     fn launch_executable_is_a_json_string_for_python_subprocess() {
         let command = Command::new("/usr/bin/wine");

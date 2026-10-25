@@ -15,6 +15,11 @@ def require(condition,message):
 
 def enter(broker,event,launch,allocation,entry,initialized):
     base=event['base'];thread=event['tid'];initial_sp=launch['esp']
+    geometry = {0x2fe00: 0x91000, 0x664f4: 0xe0000}
+    offset = entry - allocation
+    require(offset in geometry and offset + 16 <= len(initialized),
+            'handoff has no reviewed entry/allocation geometry')
+    allocation_size = geometry[offset]
     stack_base,stack_limit=struct.unpack('<II',broker.read(event['teb']+4,8))
     region=broker.region(initial_sp-12)
     require(region['state']==0x1000 and region['protect'] in (4,8,0x40,0x80),
@@ -22,9 +27,9 @@ def enter(broker,event,launch,allocation,entry,initialized):
     low=max(stack_limit,region['base']);high=min(stack_base,region['base']+region['size'])
     require(low<=initial_sp-12<initial_sp<=high,'handoff implicit stack writes outside actual TEB stack')
     require(not (initial_sp-12<base+0x60000 and base<initial_sp) and
-            not (initial_sp-12<allocation+0x91000 and allocation<initial_sp),
+            not (initial_sp-12<allocation+allocation_size and allocation<initial_sp),
             'handoff stack overlaps image/CF allocation')
-    require(broker.read(entry,16)==initialized[0x2fe00:0x2fe10],'actual CF entry bytes changed')
+    require(broker.read(entry,16)==initialized[offset:offset+16],'actual CF entry bytes changed')
     index=broker.wcc_prepare_entry();current=broker.context()
     expected=dict(launch);expected['eip']=base+0x10763
     require(current==expected and broker.read(entry,1)==b'\xcc','CF trap/launch rewind mismatch')

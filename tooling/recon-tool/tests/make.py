@@ -198,6 +198,18 @@ local-audit:
     assert '--profile' in graph and 'example' in graph and '--check-ret' in graph
     assert '--metadata' in graph and '--report' in graph
     assert (root/'original/local-audit').is_file()
+    # The CF identity profile is a normal projection input, not runtime policy.
+    profile = write('identity.json', '{}')
+    before = len(commands())
+    make('audit', 'RECON_CF_PROFILE=identity.json')
+    projection = [row for row in commands()[before:] if row[:2] == ['tool', 'registry-export']]
+    assert len(projection) == 1 and projection[0][projection[0].index('--cf-profile') + 1] == 'identity.json'
+    make('audit', 'RECON_CF_PROFILE=identity.json')
+    assert len([row for row in commands()[before:] if row[:2] == ['tool', 'registry-export']]) == 1
+    time.sleep(.02)
+    profile.write_text('{"changed":true}')
+    make('audit', 'RECON_CF_PROFILE=identity.json')
+    assert len([row for row in commands()[before:] if row[:2] == ['tool', 'registry-export']]) == 2
     # Runtime identification is an inherited incremental rule, not a local script.
     runtime_flags = ['RECON_AUDIT_IDENTIFY_RUNTIME=1', 'ORIGINAL_TOOLCHAIN=1.0-nt',
                      'RECON_RUNTIME_INPUTS=']

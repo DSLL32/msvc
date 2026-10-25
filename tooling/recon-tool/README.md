@@ -698,7 +698,9 @@ recon-tool original capture CASE --repo ROOT --capture INPUT \
   --output UNUSED_ORACLE_PATH --report REPORT
 ```
 
-This mode currently recognizes only the hash-bound WCC386 fixed loader protocol.
+This mode recognizes finite, separately bound WCC386 and WPP386 image geometries
+with the same hash-verified fixed loader. Each payload still needs its own
+reviewed startup catalog and actual frontier qualification.
 The profile identifies the original binb payload, its base-zero CF header and
 relocation metadata, and the separate binnt loader. Both retain their original
 sibling paths. Fixture arguments, stdin, cwd and environment remain inputs; the
@@ -795,3 +797,11 @@ canonical driver; empty/malformed/overlapping, primary-entry and non-executable
 ranges reject. Original ownership, classification and acceptance stay unchanged.
 The graph auditor still validates full primary/chunk ownership and instructions;
 this property grants no ABI or runtime permission.
+
+The shared Make projection accepts `RECON_CF_PROFILE = harness/cf-identity.json`
+before including `recon-tool.mk`. The identity-only profile is a normal input to
+registry export; the ordinary capture profile separately binds its admission
+catalog. CF instruction admission supports 32-bit `ENTER imm16,0` only when the
+entire frame fits the observed writable stack and the continuation is owned.
+The saved EBP, resulting EBP/ESP, and flags are checked after the real instruction.
+Nested or 16-bit ENTER remains unsupported.

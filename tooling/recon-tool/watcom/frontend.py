@@ -1,6 +1,6 @@
 """Private explicit-original backend; native replay never imports this package.
 
-The hash-bound WCC handoff supports diagnostic entry stops and explicitly
+The hash-bound WCC/WPP handoff supports diagnostic entry stops and explicitly
 cataloged ordinary progress to a genuine pending App entry. Unknown operations,
 owners and gateways remain closed. Native replay never imports this module.
 """
@@ -20,6 +20,15 @@ def sha(data):return hashlib.sha256(data).hexdigest()
 def file_sha(path):return sha(Path(path).read_bytes())
 def require(condition,message):
     if not condition:raise ProtocolError(message)
+def startup_bss(target_sha):
+    """Finite image-bound zero spans, never the entire CF allocation."""
+    spans = {
+        'c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b': (0x7c448, 0x80774),
+        '647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f': (0xbc438, 0xbf6a0),
+    }
+    require(target_sha in spans, 'startup BSS has no qualified image identity')
+    return spans[target_sha]
+
 def win(path):
     path=Path(path).resolve()
     for root,drive in ((ROOT,'R:'),(SCRATCH,'S:'),(Path('/tmp/recon'),'T:')):
@@ -198,7 +207,8 @@ def execute(request):
                 if catalog is not None:
                     # Six byte-scan/next-entry operations per environment byte plus
                     # exact BSS zero iterations and the finite initializer prefix.
-                    budget = 6 * len(environment) + ((0x80774 - 0x7c448) // 4) + 2048
+                    bss_start, bss_end = startup_bss(image.container_sha256)
+                    budget = 6 * len(environment) + ((bss_end - bss_start) // 4) + 2048
                     require(budget <= catalog.spec['max_steps'], 'actual startup input exceeds explicit step budget')
                     receipt['startup_budget'] = {'environment_bytes': len(environment),
                         'conservative_required_steps': budget, 'maximum_steps': catalog.spec['max_steps']}
@@ -249,8 +259,8 @@ def execute(request):
                     spans.append(span)
                     if row['name'] == 'startup BSS zero':
                         require(zero_span is None and row['write'] and
-                                [row['start'], row['end']] == [0x7c448, 0x80774],
-                                'startup zero span differs from proved WCC BSS')
+                                (row['start'], row['end']) == startup_bss(image.container_sha256),
+                                'startup zero span differs from proved image BSS')
                         zero_span = span
                 app_entries = [allocation + row['rva'] for row in request['registry'] if row['definition'] == 4]
                 session = Session(b, event, session_context, image, allocation, snapshot, setup_functions + functions, spans,

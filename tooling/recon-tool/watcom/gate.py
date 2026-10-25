@@ -252,14 +252,14 @@ class Gate:
             return self.plan_lodsb(context, owner, end, sp)
         if name.startswith(("int", "iret", "sys", "rep")) or name in {
                 "popf", "popfd", "pushf", "pushfd", "cli", "sti", "hlt",
-                "lcall", "ljmp", "enter", "leave", "xlatb"}:
+                "lcall", "ljmp", "leave", "xlatb"}:
             raise Hold("unapproved trap, far/service or TF/implicit-stack operation")
         linear = {"mov", "movzx", "movsx", "lea", "add", "sub", "adc", "sbb",
                   "and", "or", "xor", "test", "cmp", "inc", "dec", "not", "neg",
                   "shl", "shr", "sar", "sal", "rol", "ror", "rcl", "rcr",
                   "imul", "mul", "idiv", "div", "cdq", "cwd", "cwde", "cbw",
                   "xchg", "nop", "clc", "stc", "cmc", "cld", "std", "lahf",
-                  "sahf", "push", "pop"}
+                  "sahf", "push", "pop", "enter"}
         if name not in linear | {"call", "ret", "retf", "jmp"} and not name.startswith(("j", "loop", "set", "cmov")):
             raise Hold("unsupported instruction semantics")
         # All currently supported data segments are explicitly flat. A transport
@@ -330,6 +330,21 @@ class Gate:
                 raise Hold("unsupported branch form")
             taken = name == "jmp" or self.condition(name, self.reg(context, "eflags"), self.reg(context, "ecx"))
             next_pc = self.operand(instruction, operands[0], context) if taken else end
+        elif name == "enter":
+            # Only the reached 32-bit, zero-nesting frame form. Every reserved
+            # byte must remain within the observed writable thread stack.
+            if len(raw) != 4 or raw[0] != 0xc8 or raw[3] != 0:
+                raise Hold("unproved ENTER nesting or width")
+            if end not in self.code:
+                raise Hold("ENTER continuation must have an owned instruction")
+            reservation = struct.unpack_from("<H", raw, 1)[0]
+            saved_bp = sp - 4
+            next_sp = saved_bp - reservation
+            self.stack_access(next_sp, reservation + 4, write=True)
+            writes.append((saved_bp, 4))
+            register_checks = (("ebp", saved_bp),
+                               ("stack_dword", saved_bp, self.reg(context, "ebp")),
+                               ("flags_unchanged", self.reg(context, "eflags") & ~0x100))
         elif name == "push":
             segment_push = self.startup and raw in {b"\x06", b"\x1e"}
             if len(operands) != 1 or (operands[0].size != 4 and not segment_push):
@@ -419,6 +434,12 @@ class Gate:
             if check[0] == "stack_selector":
                 if struct.unpack("<H", self.read(check[1], 2))[0] != check[2]:
                     raise Hold("actual pushed selector low word differs")
+            elif check[0] == "stack_dword":
+                if struct.unpack("<I", self.read(check[1], 4))[0] != check[2]:
+                    raise Hold("actual saved ENTER frame pointer differs")
+            elif check[0] == "flags_unchanged":
+                if self.reg(context, "eflags") & ~0x100 != check[1]:
+                    raise Hold("ENTER changed flags")
             elif self.reg(context, check[0]) != check[1]:
                 raise Hold("observed startup register differs: " + check[0])
         for segment in ("ds", "es", "ss"):
