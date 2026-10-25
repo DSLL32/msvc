@@ -1246,8 +1246,8 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerArena::Allocate", .entry_rva = 0x690d,
-        .code = (const ReconExtent[]){{0x690d, 0x690e}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x690d, 0x692c}},
+        .code_count = 1, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "_ZN13CompilerArena8AllocateEj", .original_symbol = "?Allocate@CompilerArena@@QAEPAEI@Z",
     },
     {

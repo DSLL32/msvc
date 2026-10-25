@@ -6,9 +6,9 @@ through shared recon-tool. `make -j4 win32 audit` builds the real DLL with 5.10
 CL/LINK and checks the function graph, imports, individual ABIs and extents.
 Native fixtures never invoke Wine.
 
-The single registry is binary.c: 134 accepted application functions / 19663
+The single registry is binary.c: 135 accepted application functions / 19694
 code bytes. Historical startup support is separate (2 functions / 451 bytes),
-as are four six-byte import endpoints (24 bytes, zero App credit). The 136
+as are four six-byte import endpoints (24 bytes, zero App credit). The 137
 source-body audits exclude import RET-body credit. The whole .text extent is
 751216 bytes, including runtime/data/padding; it is not a non-CRT denominator.
 
@@ -20,7 +20,7 @@ _InvokeCompilerPass@12(argc26,argv,mode1), then FreeLibrary. Build that host wit
 `--host build/host/c1xx-host.exe --progress --native-msvcrt`.
 
 0000 checks completed DLL attach/export-presence/detach. 0001 compiles minimal.cpp
-and currently reaches the genuine CompilerArena::Allocate INT3 at RVA690d;
+and currently reaches the genuine CompilerSymbol::Initialize INT3 at RVA7cb7;
 compilation is unfinished. Its stable cwd is T:\vc5.10\c1xx\0001-minimal-cpp.
 Only the consumed MSC_CMD_FLAGS absence is declared. Native setup binds the
 forwarded argument vector and that finite environment scope, without old private
@@ -119,10 +119,14 @@ the nonzero restore unit, with a separate owned-record reuse test. Record tails
 remain semantically unmodeled. Values beyond the encountered table stop before
 an unsupported consumer. The natural namespace call finds an empty free list.
 
-Original/native took 1.316 s / 10.496 ms (native setup 4.835, execution 4.132,
-checks 1.529); build/audit/unit took 2.263 s. The 136-body strict audit and real
-selected-report order/frontier match. Original raw arguments independently show
-arena zero, byte count20 and the actual translation-unit caller return address.
+The 31-byte Arena::Allocate member preserves the old cursor, advances it by
+the actual request, commits only when it passes the current limit, and returns
+the original pointer with thiscall RET4. No new state was introduced.
+
+Original/native took 0.639 s / 10.503 ms (native setup 4.834, execution 4.125,
+checks 1.544); build/audit/unit took 1.757 s. The 137-body strict audit and real
+selected-report order/frontier match. The exact allocator extent is 690d..692c
+(31 bytes); this supersedes the earlier provisional 25-byte analysis shorthand.
 Full logs, immutable sources/binaries and failed attempts remain under
 ~/.ai-tmp/msvc2/vc5.10/c1xx/minimal-resume-20261025/.
 
