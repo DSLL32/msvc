@@ -7,6 +7,7 @@
 unsigned record_source_line;
 unsigned short record_line_delta;
 extern int c2_internal_listing, c2_basic_mode, c2_exception_mode;
+extern int function_input_flags;
 extern char *c2_output_name;
 
 void __fastcall link_code_nodes(C2Record *first, C2Record *last)
@@ -647,4 +648,51 @@ C2Expression *__fastcall new_function_exit(C2Function *function)
     record->opcode = 0x17b;
     record->location.line = record_line_delta;
     return record;
+}
+
+/* Replace the front end's generic pointer types before machine analysis. */
+void __fastcall validate_function_code(C2Record *first)
+{
+    C2Expression *record = (C2Expression *)first, *operand;
+    C2FunctionRegister *reg;
+    C2RegisterBlock *block;
+    unsigned short type;
+    while (record) {
+        if (record->flags & 1) {
+            type = 0x1004;
+            if (record->opcode == 0x151) type = 0x2004;
+            else if (record->opcode == 0x16d)
+                validate_function_code(*(C2Record **)record->detail.data);
+            if ((record->type & 0xf000) == 0x3000) record->type = type;
+            else if ((record->type & 0xf000) == 0x4000) function_input_flags = 1;
+            for (operand = record->tail.right; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x3000) continue;
+                operand->type = type;
+                if (!((1U << (operand->kind & 31)) & 6U)) continue;
+                reg = operand->value.reg;
+                if (reg->type == 0x3004) {
+                    reg->type = type;
+                    reg->flags |= 8;
+                } else if (!register_types_match(reg->type, type))
+                    operand->value.reg = new_address_register(reg, type, 0, 0);
+            }
+            for (operand = record->left; operand; operand = operand->next) {
+                if ((operand->type & 0xf000) != 0x3000) continue;
+                operand->type = operand->location.expression.properties & 0x20 ? 0x1004 : type;
+                if (!((1U << (operand->kind & 31)) & 6U)) continue;
+                reg = operand->value.reg;
+                if (reg->type == 0x3004) {
+                    reg->type = operand->type;
+                    reg->flags |= 8;
+                }
+            }
+        } else if (record->kind == 22) {
+            for (operand = record->left; operand; operand = operand->next)
+                if ((operand->type & 0xf000) == 0x3000) operand->type = 0x1004;
+        }
+        record = record->next;
+    }
+    for (block = first_function_register_block; block; block = block->next)
+        for (reg = block->records; reg < block->cursor; ++reg)
+            if (reg->kind != 0x10 && reg->type == 0x3004) reg->type = 0x2004;
 }

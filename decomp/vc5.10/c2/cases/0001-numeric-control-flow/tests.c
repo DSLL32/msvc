@@ -838,7 +838,59 @@ static int symbol_use_ownership(void)
     return 1;
 }
 
+static int generic_pointer_types(void)
+{
+    C2Expression record, right, left, boundary, parameter, real;
+    C2RegisterBlock block;
+    C2FunctionRegister right_reg, left_reg;
+    C2RegisterBlock *saved = first_function_register_block;
+    int flags = function_input_flags;
+    memset(&record, 0, sizeof(record));
+    memset(&right, 0, sizeof(right));
+    memset(&left, 0, sizeof(left));
+    memset(&boundary, 0, sizeof(boundary));
+    memset(&parameter, 0, sizeof(parameter));
+    memset(&real, 0, sizeof(real));
+    memset(&block, 0, sizeof(block));
+    memset(&right_reg, 0, sizeof(right_reg));
+    memset(&left_reg, 0, sizeof(left_reg));
+    record.flags = 1;
+    record.opcode = 0x151;
+    record.type = right.type = left.type = parameter.type = 0x3004;
+    right.kind = left.kind = 1;
+    right.value.reg = &right_reg;
+    left.value.reg = &left_reg;
+    right_reg.type = left_reg.type = 0x3004;
+    right_reg.flags = left_reg.flags = 0x40;
+    left.location.expression.properties = 0x20;
+    record.tail.right = &right;
+    record.left = &left;
+    record.next = &boundary;
+    boundary.kind = 22;
+    boundary.left = &parameter;
+    boundary.next = &real;
+    real.flags = 1;
+    real.type = 0x4008;
+    block.cursor = block.records + 3;
+    block.records[0].type = block.records[1].type = 0x3004;
+    block.records[1].kind = 0x10;
+    block.records[2].type = 0x1004;
+    first_function_register_block = &block;
+    function_input_flags = 0;
+    validate_function_code((C2Record *)&record);
+    first_function_register_block = saved;
+    if (function_input_flags != 1) return 0;
+    function_input_flags = flags;
+    return record.type == 0x2004 && right.type == 0x2004 && left.type == 0x1004 &&
+        right_reg.type == 0x2004 && left_reg.type == 0x1004 &&
+        right_reg.flags == 0x48 && left_reg.flags == 0x48 &&
+        left.location.expression.properties == 0x20 && parameter.type == 0x1004 &&
+        real.type == 0x4008 && block.records[0].type == 0x2004 &&
+        block.records[1].type == 0x3004 && block.records[2].type == 0x1004;
+}
+
 const ReconTest numeric_tests[] = {
+    {"generic pointer conversion respects shared operands and register ownership", 1, generic_pointer_types},
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
     {"original 0/1/2 extended-real results", 1, original_real_results},

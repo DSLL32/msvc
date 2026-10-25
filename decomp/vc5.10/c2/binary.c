@@ -2224,8 +2224,10 @@ static const ReconFunction functions[] = {
     {
         .name = "@validate_function_code@4",
         .entry_rva = 0x246bd,
+        .code = (const ReconExtent[]){{0x246bd, 0x248d2}, {0x6af7c, 0x6af8f}},
+        .code_count = 2,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "validate_function_code",
     },
     {

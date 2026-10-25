@@ -8,10 +8,6 @@
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
-void __fastcall validate_function_code(C2Record *first)
-{
-    __asm { int 3 }
-}
 void finish_function_input(void)
 {
     __asm { int 3 }
