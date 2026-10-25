@@ -15,6 +15,101 @@ static const PdbHeader initial_header = {
     0, 0, 0x1000, 0x1000, 0
 };
 
+/* Leaf names at0x6a3d8. The lookup below visits the catalog by eight-byte
+   rows. Preserve the original duplicate LF_NUMERIC/LF_CHAR value. */
+typedef struct CodeViewLeafName {
+    unsigned short leaf;
+    char *name;
+} CodeViewLeafName;
+static CodeViewLeafName codeview_leaf_names[] = {
+    {0x001, "LF_MODIFIER"}, {0x002, "LF_POINTER"},
+    {0x003, "LF_ARRAY"}, {0x004, "LF_CLASS"},
+    {0x005, "LF_STRUCTURE"}, {0x006, "LF_UNION"},
+    {0x007, "LF_ENUM"}, {0x008, "LF_PROCEDURE"},
+    {0x009, "LF_MFUNCTION"}, {0x00a, "LF_VTSHAPE"},
+    {0x00b, "LF_COBOL0"}, {0x00c, "LF_COBOL1"},
+    {0x00d, "LF_BARRAY"}, {0x00e, "LF_LABEL"},
+    {0x00f, "LF_NULL"}, {0x010, "LF_NOTTRAN"},
+    {0x011, "LF_DIMARRAY"}, {0x012, "LF_VFTPATH"},
+    {0x013, "LF_PRECOMP"}, {0x014, "LF_ENDPRECOMP"},
+    {0x200, "LF_SKIP"}, {0x201, "LF_ARGLIST"},
+    {0x202, "LF_DEFARG"}, {0x203, "LF_LIST"},
+    {0x204, "LF_FIELDLIST"}, {0x205, "LF_DERIVED"},
+    {0x206, "LF_BITFIELD"}, {0x207, "LF_METHODLIST"},
+    {0x208, "LF_DIMCONU"}, {0x209, "LF_DIMCONLU"},
+    {0x20a, "LF_DIMVARU"}, {0x20b, "LF_DIMVARLU"},
+    {0x20c, "LF_REFSYM"}, {0x400, "LF_BCLASS"},
+    {0x401, "LF_VBCLASS"}, {0x402, "LF_IVBCLASS"},
+    {0x403, "LF_ENUMERATE"}, {0x404, "LF_FRIENDFCN"},
+    {0x405, "LF_INDEX"}, {0x406, "LF_MEMBER"},
+    {0x407, "LF_STMEMBER"}, {0x408, "LF_METHOD"},
+    {0x409, "LF_NESTTYPE"}, {0x40a, "LF_VFUNCTAB"},
+    {0x40b, "LF_FRIENDCLS"}, {0x8000, "LF_NUMERIC"},
+    {0x8000, "LF_CHAR"}, {0x8001, "LF_SHORT"},
+    {0x8002, "LF_USHORT"}, {0x8003, "LF_LONG"},
+    {0x8004, "LF_ULONG"}, {0x8005, "LF_REAL32"},
+    {0x8006, "LF_REAL64"}, {0x8007, "LF_REAL80"},
+    {0x8008, "LF_REAL128"}, {0x8009, "LF_QUADWORD"},
+    {0x800a, "LF_UQUADWORD"}, {0x800b, "LF_REAL48"},
+    {0, "???"}
+};
+typedef char CodeViewLeafName_size[sizeof(CodeViewLeafName) == 8 ? 1 : -1];
+
+/* Original0x17040..0x17071, cdecl one pointer. The catalog scan has no
+   observable result; the returned unsigned offset is always leaf minus two. */
+unsigned codeview_leaf_offset(unsigned short *leaf)
+{
+    unsigned code = *leaf;
+    CodeViewLeafName *entry;
+    if (codeview_leaf_names[0].leaf != code) {
+        entry = codeview_leaf_names;
+        do {
+            if (!entry->leaf) break;
+            ++entry;
+        } while (entry->leaf != code);
+    }
+    return code - 2U;
+}
+
+/* Original0x17080..0x17141, cdecl(prefix, owner, length_word).
+   This standalone interface inlines both reservations and block initialization;
+   calling the related methods would add edges absent from the original. */
+unsigned char *reserve_program_database_record(unsigned prefix, ProgramDatabase *self,
+                                             unsigned short *record)
+{
+    unsigned bytes = prefix + (unsigned short)(*record + 2);
+    unsigned capacity;
+    PdbBufferList *list = &self->records;
+    PdbBuffer *buffer = list->tail;
+    unsigned char *result;
+    if (buffer->available >= bytes) {
+        buffer->available -= bytes;
+        result = buffer->cursor;
+        buffer->cursor += bytes;
+    } else result = 0;
+    if (!result) {
+        capacity = (bytes + 8191U) & ~4095U;
+        buffer = malloc(capacity + sizeof(PdbBuffer));
+        if (buffer) {
+            buffer->available = capacity;
+            buffer->cursor = (unsigned char *)(buffer + 1);
+            buffer->next = 0;
+        }
+        list->tail->next = buffer;
+        list->tail = buffer;
+        /* As in the original, failed allocation reaches this dereference
+           before its later fatal-error check. The direct case uses success. */
+        if (buffer->available >= bytes) {
+            buffer->available -= bytes;
+            result = buffer->cursor;
+            buffer->cursor += bytes;
+        } else result = 0;
+        if (!result) fatal_error(1, "typesrvr.cpp", 58);
+    }
+    list->count += bytes;
+    return result;
+}
+
 /* Original0x17150..0x172b1, ECX this plus three stack operands, RET12.
    Unlike open_program_database, this method does not own the object and
    does not destroy it on failure. Its create path is inline in the original. */

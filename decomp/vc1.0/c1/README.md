@@ -2,12 +2,14 @@
 
 VC1.0 frontend reconstruction, toolchain `1.0-nt`. `binary.c` is the function
 registry; its RVAs use original image base `0x10000`.
-There are 983 implemented application functions covering 228861 bytes. The
-accepted code/data union is 251636/277234 bytes (90.7666%); the
-application numerator is 82.5516% of all code, not a claimed non-CRT denominator.
+There are 985 implemented application functions covering 229103 bytes. The
+accepted code/data union is 251878/277234 bytes (90.8539%); the
+application numerator is 82.6389% of all code, not a claimed non-CRT denominator.
 Eleven historical handwritten CRT bodies remain unchanged and receive no App
-credit. Unknown library aliases, the `17070`/`17140` RET tails and unattributed
-unlisted code remain unresolved.
+credit. Unknown library aliases and unattributed unlisted code remain unresolved.
+The PDB interfaces now own their previously ambiguous `17070`/`17140` return
+bytes through genuine whole-function entries; the old one-byte library aliases
+never established independent CRT ownership.
 
 Run from this directory:
 
@@ -43,8 +45,8 @@ graph. Its private representation is in `crt/decimal.h`. These are documented
 compatibility exceptions already present before this layout change, not new
 CRT reconstruction or application credit.
 
-Cases 0000–0064 preserve 65 cached public invocations. Cases 0065–0172 preserve
-108 original-backed internal direct invocations; these do not establish public
+Cases 0000–0064 preserve 65 cached public invocations. Cases 0065–0173 preserve
+109 original-backed internal direct invocations; these do not establish public
 source reachability. The typed shared entry hook pauses genuine main/parser/PDB
 constructor contexts, preserving live owners and calling conventions. Returning
 helper tests assert defined state, pending streams and owned artifacts, then
@@ -144,3 +146,44 @@ The successful new original frontier and completed typed invocation took
 1.64 s and 1.40 s respectively; final native comparison took 20.23 ms.
 Earlier failed/mismatched captures and the exact CRT qualification remain in
 scratch; there was no additional original replay for final bookkeeping.
+
+## PDB record and arena support
+
+Case 0173 runs genuine `/Zi` input to `create_program_database`, retaining the
+actual 116-byte owner and two initialized twelve-byte list heads. Accepted
+`open_program_database_object` loads the captured valid eight-record database in
+`wc` mode, defining cumulative/index/record state through its normal interface.
+No token, compiler flag or owner field is seeded. The full resolved database
+path is an assertion on the actual producer, not a harness-supplied owner.
+
+The unlisted `codeview_leaf_offset` (17040..17071, 49B, cdecl one pointer)
+reads real leaf-code addresses and retains its encountered CodeView catalog
+scan before returning unsigned leaf-minus-two. Its table's names are ordinary
+literals in their catalog entries, including the original duplicate8000 code.
+`reserve_program_database_record` (17080..17141, 193B, cdecl three arguments)
+reserves prefix-plus-record bytes from the owner list. The case tests growth
+for a 34-byte stored record followed by a ten-byte reservation that fits. It
+checks list topology, capacity/cursors/counts, source records, the initialized
+first reservation, stack cleanup, nonvolatiles and control word. Unwritten new
+capacity is not read or compared. The actual deleting close frees the owner;
+parsing never resumes and the writer is not called on these unindexed records.
+
+Both original/native frontiers agree, then final order is `[7040,7080]` with
+all983 preexisting App entries explicitly seeded. The independent 56-byte
+scalar result is captured as fixture input; complete status, separate streams
+and on-disk outputs also match. This is direct support, not public reach.
+Both complete extents include their genuine final RETs; no alias or tail was
+credited twice. The original success path took1.411s and native20.236ms;
+bundled original/native build and strict audit took5.390s (996 source functions).
+
+The bounded remaining mixed-code survey retains the unattributed36B stdcall
+byte copier42bf0..42c14,130B packed-DOS weekday helper4be50..4bed2 and3B RET8
+44bf0..44bf3. Positive console/FPU/decimal CRT leads and alignment/data patterns
+remain separate. Lack of callers is not proof of CRT or dead code; no binary
+completion/non-CRT denominator claim follows from this case.
+
+The final174-case gate passed: bundled incremental build/case rebuild/audit8.03s,
+all cached native invocations1.48s, and unit executors1.14s. The original
+frontier captures took1.995s (7040) and1.394s (7080); no final bookkeeping
+original replay was performed. The source/ABI/trace assertions and compact
+raw results remain in shared fixtures and scratch, without a private runner.

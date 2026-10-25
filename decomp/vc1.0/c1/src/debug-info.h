@@ -170,6 +170,8 @@ extern unsigned char *pdb_record_buffer;
 extern unsigned char *pdb_record_cursor;
 unsigned short __fastcall insert_program_database_type(ProgramDatabase *self, unsigned unused_edx, unsigned char *record);
 unsigned short hash_pdb_record(unsigned char *record);
+unsigned codeview_leaf_offset(unsigned short *leaf);
+unsigned char *reserve_program_database_record(unsigned prefix, ProgramDatabase *self, unsigned short *record);
 unsigned char *__fastcall reserve_pdb_record_bytes(PdbBufferList *self, unsigned unused_edx, unsigned bytes);
 unsigned short intern_program_database_type(ProgramDatabase *self, unsigned char *record);
 int __fastcall write_program_database(ProgramDatabase *self);

@@ -1,7 +1,9 @@
-/* Authoritative original-RVA registry: 983 accepted application bodies,
- * 228861 App bytes. Eleven historical CRT overrides carry no App credit.
+/* Authoritative original-RVA registry: 985 accepted application bodies,
+ * 229103 App bytes. Eleven historical CRT overrides carry no App credit.
  * The residual numeric and ASM interfaces have original-backed direct cases.
- * Unaccepted weak library aliases and17070/17140 tails remain unresolved. */
+ * Whole PDB interfaces now own their7070/7140 RET tails; prior one-byte
+ * library aliases never established independent CRT entries.
+ * Remaining unattributed helpers and weak library aliases stay unresolved. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
@@ -12,6 +14,24 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "warning_setting",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_codeview_leaf_offset",
+        .entry_rva = 0x7040,
+        .code = (const ReconExtent[]){{0x7040, 0x7071}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "codeview_leaf_offset",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_reserve_program_database_record",
+        .entry_rva = 0x7080,
+        .code = (const ReconExtent[]){{0x7080, 0x7141}},
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "reserve_program_database_record",
         .implementation = RECON_IMPLEMENTED,
     },
     {
