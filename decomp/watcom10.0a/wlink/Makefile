@@ -10,7 +10,7 @@ ORIGINAL_SOURCES := $(BINARY_SOURCES)
 ORIGINAL_BUILD := build
 ORIGINAL_OUTPUT := $(ORIGINAL_BUILD)/WLINK.EXE
 ORIGINAL_MAP := $(ORIGINAL_BUILD)/wlink.map
-ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include'
+ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include' '-i=..\..\..\toolchains\watcom10.0a\h'
 ORIGINAL_CFLAGS := -bt=nt -3r -od -s -d2
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386.EXE --
 ORIGINAL_LINK = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WLINK.EXE --
@@ -33,6 +33,8 @@ library nt
 endef
 ORIGINAL_LINK_COMMAND = $(file >$(ORIGINAL_BUILD)/wlink.lnk,$(WATCOM_LINK_RESPONSE))$(ORIGINAL_LINK) @$(ORIGINAL_BUILD)/wlink.lnk
 ORIGINAL_INCLUDE_DIRS := src $(RECON)/include ../../../toolchains/watcom10.0a/h
+RECON_POLICY := policy-data.json
+RECON_AUDIT_REGISTRY_RET_CHECKS := 1
 RECON_AUDIT_PROFILE := cl
 RECON_IMAGE_BASE := 4194304
 RECON_AUDIT_REGISTRY_RUNTIME := 1

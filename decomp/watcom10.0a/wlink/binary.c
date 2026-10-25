@@ -7,11 +7,15 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    { .name = "_setjmp", .entry_rva = 0x33b14, .definition = RECON_CRT,
+      .code = (const ReconExtent[]) { {0x33b14, 0x33b4d} }, .code_count = 1,
+      .original_symbol = "_setjmp_" },
     /* Known nonreturning CRT endpoint; no body restored before Spawn. */
     { .name = "exit", .entry_rva = 0x33f96, .definition = RECON_CRT,
       .original_symbol = "exit_" },
     { .name = "Spawn", .entry_rva = 0x16d3c, .definition = RECON_APP,
-      .implementation = RECON_UNIMPLEMENTED, .native_symbol = "Spawn", .original_symbol = "Spawn_" },
+      .code = (const ReconExtent[]) { {0x16d3c, 0x16d6f} }, .code_count = 1,
+      .implementation = RECON_IMPLEMENTED, .native_symbol = "Spawn", .original_symbol = "Spawn_" },
     { .name = "DoLinkFromCommandLine", .entry_rva = 0x243c8, .definition = RECON_APP,
       .implementation = RECON_UNIMPLEMENTED, .native_symbol = "DoLinkFromCommandLine", .original_symbol = "DoLinkFromCommandLine_" },
     { .name = "QClose", .entry_rva = 0x24e10, .definition = RECON_APP,

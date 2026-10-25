@@ -1,0 +1,12 @@
+{
+  "ret_checks": {
+    "schema": 1,
+    "functions": {
+      "Spawn": {
+        "expected_cleanup": [
+          0
+        ]
+      }
+    }
+  }
+}

@@ -10,13 +10,6 @@ void reconstruction_trap( void );
 #define TRAP() __asm__ __volatile__( "int3" )
 #endif
 
-int Spawn( void (*callback)(void) )
-{
-    callback = callback;
-    TRAP();
-    return 0;
-}
-
 void DoLinkFromCommandLine( void ) { TRAP(); }
 void QClose( int handle, char *name ) { handle = handle; name = name; TRAP(); }
 void QDelete( char *name ) { name = name; TRAP(); }

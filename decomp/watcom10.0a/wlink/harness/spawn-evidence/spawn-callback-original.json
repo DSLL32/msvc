@@ -1,0 +1,54 @@
+{
+  "artifacts_dir": null,
+  "backend": null,
+  "capture_sha256": "212b94f3f315749ac7a5c3e3c1e48d95b1ece77c0661e686db85b87c88819a38",
+  "case": "help",
+  "elapsed_ms": 838.843234,
+  "first_entry_order": [
+    148192,
+    93500,
+    148424
+  ],
+  "frontier": {
+    "floating_save": "hex:7f12ffff0000ffffffffffff0000000023000000000000002b00ffff0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000080ffff0000000000000080ff7f00000000",
+    "image_base": 4194304,
+    "registers": {
+      "eax": 0,
+      "ebp": 3276604,
+      "ebx": 1073680384,
+      "ecx": 0,
+      "edi": 0,
+      "edx": 0,
+      "eflags": 582,
+      "eip": 4342728,
+      "esi": 0,
+      "esp": 3276528
+    },
+    "rva": 148424,
+    "stack": "hex:616d41000010ff3f00000000b043340000000000000000003cff3100576d4100f4fe31002b002b0023006b0063002b0048ff3100d4274400c8434200b0433400",
+    "stack_address": 3276528,
+    "stack_error": null,
+    "stack_requested": 64
+  },
+  "identity": {
+    "binary": "WLINK.EXE",
+    "case": "help",
+    "execution": 0,
+    "first_entry_seen": [],
+    "original_path": "toolchains/watcom10.0a/.patched/WLINK.EXE",
+    "original_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b"
+  },
+  "oracle_written": true,
+  "raw_artifacts": [],
+  "staged_files": [
+    {
+      "role": "target",
+      "sha256": "792633ca000299b1bc20a1430d2a6a7bbeffacc3219d9bf9a621d575ab8d4fdd",
+      "source": "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE",
+      "source_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+      "staged": "/tmp/recon/run-nJVUIu/WLINK.EXE"
+    }
+  ],
+  "terminal": "frontier:243c8",
+  "workspace": "/tmp/recon/run-nJVUIu"
+}
