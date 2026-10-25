@@ -94,6 +94,7 @@ void input_real_from_double(double *input, C2Real *output);
 extern int input_end_of_module;
 C2ILToken *__fastcall decode_input_token(unsigned opcode, C2Function *function, C2ILToken *token);
 C2ILToken * __fastcall read_input_token(C2Function *function, C2ILToken *token);
+extern C2InputStack *free_input_stacks;
 C2InputStack *new_input_stack(void);
 void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees);
 C2Record * __fastcall append_input_trees(C2InputStack *stack, C2Record *prior);

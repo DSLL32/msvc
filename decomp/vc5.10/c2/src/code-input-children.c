@@ -444,9 +444,3 @@ char *__fastcall lookup_input_filename(unsigned serial)
     __asm { int 3 }
     return 0;
 }
-
-C2InputStack *new_input_stack(void)
-{
-    __asm { int 3 }
-    return 0;
-}

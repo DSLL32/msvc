@@ -383,6 +383,30 @@ static int control_record_reuse(void)
         !memcmp(allocation, expected, sizeof(allocation));
 }
 
+static int input_stack_reuse_and_link(void)
+{
+    C2InputStack entries[2], expected, *stack = &entries[1];
+    C2Expression sentinel, trees[2];
+    memset(entries, 0xa5, sizeof(entries));
+    memset(&sentinel, 0, sizeof(sentinel));
+    memset(trees, 0, sizeof(trees));
+    entries[0].next = NULL;
+    entries[0].first = &sentinel;
+    free_input_stacks = &entries[0];
+    trees[0].next = &trees[1];
+    trees[1].previous = &trees[0];
+    memset(&expected, 0, sizeof(expected));
+    expected.first = &sentinel;
+    expected.last = &trees[1];
+    expected.next = &entries[1];
+    push_input_trees(&stack, trees);
+    return stack == entries && !free_input_stacks &&
+        !memcmp(&entries[0], &expected, sizeof(expected)) &&
+        sentinel.next == trees && trees[0].previous == &sentinel &&
+        trees[0].next == &trees[1] && trees[1].previous == trees &&
+        !trees[1].next && entries[1].flags == 0xa5;
+}
+
 const ReconTest numeric_tests[] = {
     {"plain register reuse preserves number", 1, plain_reuse},
     {"set reuse preserves unrelated bytes", 1, set_reuse},
@@ -403,5 +427,6 @@ const ReconTest numeric_tests[] = {
     {"ended module does not consume or modify another token", 1, ended_token_input},
     {"function option stores share CLI globals and retain active state", 1, per_function_option_aliases},
     {"pragma short/long sign extension preserves unrelated token fields", 1, pragma_signed_fields},
-    {"control record clears its exact 28-byte allocation", 1, control_record_reuse}
+    {"control record clears its exact 28-byte allocation", 1, control_record_reuse},
+    {"input stack reuse preserves sentinel and links complete tree chain", 1, input_stack_reuse_and_link}
 };

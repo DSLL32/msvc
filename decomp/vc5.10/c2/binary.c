@@ -2476,8 +2476,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_new_input_stack",
         .entry_rva = 0x25a7f,
+        .code = (const ReconExtent[]){{0x25a7f, 0x25acb}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "new_input_stack",
     },
     {

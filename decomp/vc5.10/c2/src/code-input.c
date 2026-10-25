@@ -1124,3 +1124,20 @@ void __fastcall push_input_trees(C2InputStack **stack, C2Expression *trees)
     entry->next = *stack;
     *stack = entry;
 }
+
+C2InputStack *free_input_stacks;
+C2InputStack *new_input_stack(void)
+{
+    C2InputStack *entry = free_input_stacks;
+    C2Expression *sentinel;
+    if (entry) {
+        free_input_stacks = entry->next;
+        sentinel = entry->first;
+        memset(entry, 0, sizeof(C2InputStack));
+        entry->first = entry->last = sentinel;
+    } else {
+        entry = c2_pool_allocate(4, sizeof(C2InputStack));
+        entry->first = entry->last = (C2Expression *)new_statement_boundary();
+    }
+    return entry;
+}
