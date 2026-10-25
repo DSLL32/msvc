@@ -10,6 +10,8 @@ extern WCHAR rc_resource_character;
 unsigned __cdecl rc_next_resource_character(void);
 unsigned __cdecl rc_read_resource_character(void);
 unsigned __cdecl rc_read_resource_code_unit(void);
+extern int rc_resource_buffer_index;
+extern WCHAR rc_resource_read_buffer[4097];
 typedef struct RcResourceToken {
     DWORD unknown0,line,file_index,unknown12;
     WORD value;

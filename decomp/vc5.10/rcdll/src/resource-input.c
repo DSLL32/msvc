@@ -147,3 +147,30 @@ finish:
     }
     return rc_resource_character;
 }
+
+/* Actual initialized .data sentinel at RVA14d60; the loader-zeroed read
+ * buffer occupies exactly 8194 bytes at RVA25f70. */
+int rc_resource_buffer_index=4097;
+WCHAR rc_resource_read_buffer[4097];
+
+unsigned __cdecl rc_read_resource_code_unit(void)
+{
+    unsigned bytes,character;
+#ifdef RECON_NATIVE_TEST
+    if(rc_resource_buffer_index<0){ __asm int 3 }
+#endif
+    if(rc_resource_buffer_index>=4097){
+        rc_resource_buffer_index=0;
+        bytes=rc_read_bytes(rc_resource_input_file,rc_resource_read_buffer,8194);
+#ifdef RECON_NATIVE_TEST
+        if(bytes>sizeof(rc_resource_read_buffer)){ __asm int 3 }
+#endif
+        if(bytes<8194){
+            fclose(rc_resource_input_file);
+            rc_resource_read_buffer[bytes/2]=0;
+        }
+    }
+    character=rc_resource_read_buffer[rc_resource_buffer_index];
+    if(character)++rc_resource_buffer_index;
+    return character;
+}

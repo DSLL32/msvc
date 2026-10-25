@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_read_resource_code_unit` (RVA 9247). Its partial streams and actual
+  stops at `rc_read_bytes` (RVA 10a4f). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **118 functions, 30,648 code bytes**
-This is 41.08% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **119 functions, 30,747 code bytes**
+This is 41.21% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (46.23%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (46.38%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -50,18 +50,15 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.393 s; matching native replay took 180.638 ms
-(setup 76.230, execution 34.700, checks 69.708 ms). Both builds and strict audit
-took 10.744 s, including the shared typed-header fanout. Fresh acceptance now
-passes --original-report explicitly, comparing the actual selected receipt's
-trace/frontier rather than only descriptor expectations. The underlying reader
-preserves full token backup/restore, #line filename/line tracking, #pragma code
-pages and newline handling. Its 1,040-byte contextual token type is checked against
-the complete original field copier; unidentified fields and uninitialized local
-string tails stay unknown. Actual current execution stops at its first raw
-code-unit reader. APSTUDIO directives/recording stay natively held, and WCHAR16
-towlower remains typed fail-125 until reached. Both cached cases and all 19 unit
-groups pass at this checkpoint.
+The latest original capture took 1.596 s; matching native replay took 178.622 ms
+(setup 74.834, execution 34.553, checks 69.236 ms). Both builds and strict audit
+took 9.618 s. The raw UTF16 reader preserves its actual initialized index4097,
+8,194-byte buffer and non-advancing EOF. A focused non-refill/last-word/negative
+index unit passed in 145.758 ms. The fresh original stack and native GDB establish
+the next reader's requested8194 bytes and exact buffer alias; its FILE argument
+is the bound resource-input stream. The byte-read wrapper remains pending, so
+no refill bytes or FILE mutation are assumed yet. Later recording/APSTUDIO paths
+and typed towlower success remain unsupported.
 Earlier failures and the unchanged original-reuse evidence remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
 Two custom argument helpers have named ABI-correct traps and no body credit.

@@ -18,6 +18,7 @@ extern int rc_apstudio;
 extern WCHAR rc_filename_storage[257],*rc_filename;
 extern unsigned rc_preparing_line,rc_prepared_lines;
 unsigned __stdcall rc_write_bytes(FILE *,const void *,unsigned);
+unsigned __stdcall rc_read_bytes(FILE *,void *,unsigned);
 int __stdcall rc_detect_encoding(FILE *);
 int __stdcall rc_is_text_unicode(const void *,unsigned,unsigned *);
 int __stdcall rc_read_wide_line(WCHAR *,unsigned,int,FILE *);

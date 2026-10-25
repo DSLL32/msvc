@@ -438,6 +438,25 @@ static int resource_input_contract(void)
     return recon_native_at_entry(rc_next_resource_character,
         resource_character_boundary,resource_input_invoke,NULL)==1;
 }
+static void negative_resource_index(void)
+{
+    rc_resource_buffer_index=-1;
+    rc_read_resource_code_unit();
+}
+static int resource_buffer_contract(void)
+{
+    rc_resource_buffer_index=0;
+    rc_resource_read_buffer[0]=0x1234;
+    rc_resource_read_buffer[1]=0;
+    rc_resource_character=0xa7a7;
+    if(rc_read_resource_code_unit()!=0x1234||rc_resource_buffer_index!=1||
+       rc_resource_character!=0xa7a7)return 0;
+    if(rc_read_resource_code_unit()||rc_resource_buffer_index!=1||
+       rc_read_resource_code_unit()||rc_resource_buffer_index!=1)return 0;
+    rc_resource_buffer_index=4096;rc_resource_read_buffer[4096]=0xc9c9;
+    if(rc_read_resource_code_unit()!=0xc9c9||rc_resource_buffer_index!=4097)return 0;
+    return trapped(negative_resource_index);
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -456,6 +475,7 @@ const ReconTest rich_tests[]={
     {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
     {"apstudio-service-hold",1,apstudio_hold},
     {"resource-input-initialization",1,resource_input_contract},
+    {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
