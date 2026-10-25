@@ -17,7 +17,7 @@ Cases retain the original invocations and outputs:
   Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
 - `0001-resources-rich`: include/macro/conditional/resource corpus with the
   single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_substitute_macro_argument` (RVA 5d8a). Its partial streams and actual
+  stops at `rc_macro_identifier_follows` (RVA 5d4d). Its partial streams and actual
   temporary/output files are checked separately from the final 3,672-byte RES
   oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
   paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
@@ -32,11 +32,11 @@ fabricated pending-function frontier. Native execution uses proved readable norm
 is unclaimed.
 Other unavailable native data/modes retain production traps.
 
-Accepted application reconstruction is **108 functions, 28,651 code bytes**
-This is 38.40% of the 74,609-byte whole-text extent.
+Accepted application reconstruction is **109 functions, 28,778 code bytes**
+This is 38.57% of the 74,609-byte whole-text extent.
 The d08815612 baseline was 95 functions / 25,732 bytes.
 The provisional discovered application denominator is 299
-functions / 66,295 bytes (43.22%); Ghidra discovery is not a completed ownership
+functions / 66,295 bytes (43.41%); Ghidra discovery is not a completed ownership
 classification. The entire .text virtual extent is 74,609 bytes and includes
 non-code. Two historical startup CRT source bodies (555 bytes), import thunks
 (12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
@@ -50,15 +50,17 @@ fresh matching original/native frontier evidence. The former WIP snapshot remain
 `~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
 research remains under `analysis/output-descriptor-data/rows.json` in the same
 scratch namespace. Unavailable descriptors still trap before native consumption.
-The latest original capture took 1.453 s; matching native replay took 179.292 ms
-(setup 77.943, execution 32.418, checks 68.931 ms). The final corrected build
-and whole-candidate audit took 4.593 s. Identifier and nested numeric/frame
-units passed in 150.455 and 147.081 ms respectively. The collector's initially
-incorrect local argument mode was corrected to the actual captured zero before
-acceptance. Native guards now also permit the reached rc_number_buffer_active=2,
-rc_expanding_macro=2 state with the existing spelling/workspace checks; other
-unproved modes remain trapped. The initialized 10-byte BASE_VALUE payload and
-parent-frame restoration were verified separately, with no numeric body credit.
+The latest original capture took 1.323 s; matching native replay took 182.477 ms
+(setup 78.153, execution 34.622, checks 69.701 ms). Builds and strict
+whole-candidate audit took 3.594 s. Argument substitution retains its WORD
+record index, signed record lengths, out-parameter, and stdcall RET4; its
+identifier lookahead dependency remains a named no-argument trap. The invalid
+index unit checks that only the input cursor advances and the out-parameter
+remains untouched. The preceding collector's initially incorrect local mode
+was corrected to the captured zero before acceptance. Native numeric/frame
+guards permit the reached rc_number_buffer_active=2, rc_expanding_macro=2
+state with existing spelling/workspace checks and verified parent restoration;
+other unproved modes remain trapped. No numeric body credit was added.
 Earlier failures and the unchanged original-reuse evidence remain in
 `~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
 Two custom argument helpers have named ABI-correct traps and no body credit.

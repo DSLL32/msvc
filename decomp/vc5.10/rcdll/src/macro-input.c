@@ -158,6 +158,37 @@ void __stdcall rc_select_macro_argument(unsigned char index)
     rc_source_cursor=cursor+1;
 }
 
+const WCHAR *__stdcall rc_substitute_macro_argument(int *expanded)
+{
+    unsigned short index;
+    WCHAR *cursor;
+    int follows;
+#ifdef RECON_NATIVE_TEST
+    RcMacro *macro;
+    if(rc_expanding_macro<1||rc_expanding_macro>=64||!expanded||
+       ((DWORD)rc_source_cursor&1)){ __asm int 3 }
+    macro=rc_macro_frames[rc_expanding_macro].macro;
+    if(!macro||!macro->text||
+       (DWORD)rc_source_cursor<(DWORD)macro->text||
+       (DWORD)rc_source_cursor>=(DWORD)(macro->text+wcslen(macro->text))){ __asm int 3 }
+#endif
+    index=*rc_source_cursor++;
+    cursor=rc_macro_frames[rc_expanding_macro].output;
+    if(index>rc_macro_frames[rc_expanding_macro].arguments)return NULL;
+    follows=rc_macro_identifier_follows();
+    if(!*expanded&&!follows)
+        index+=rc_macro_frames[rc_expanding_macro].arguments;
+    *expanded=follows;
+    if(index){
+        while(--index){
+            ARGUMENT_RECORD(cursor);
+            cursor=(WCHAR *)((char *)cursor+*(short *)cursor);
+        }
+    }
+    ARGUMENT_RECORD(cursor);
+    return cursor+1;
+}
+
 #undef ARGUMENT_RECORD
 
 #ifdef RECON_NATIVE_TEST

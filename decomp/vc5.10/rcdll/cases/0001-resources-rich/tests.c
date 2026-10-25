@@ -285,6 +285,20 @@ static int nested_number_contract(void)
     rc_expanding_macro=2;rc_number_buffer_active=3;
     return trapped(nested_finish_call);
 }
+static int substitute_invalid_index(void)
+{
+    WCHAR text[]={2,L')',0};
+    RcMacro macro={NULL,L"ARG",text,1,1,0};
+    int expanded=0x12345678;
+    rc_expanding_macro=1;
+    rc_macro_frames[1].macro=&macro;
+    rc_macro_frames[1].arguments=1;
+    rc_macro_frames[1].output=rc_string_buffer;
+    rc_source_cursor=text;
+    return !rc_substitute_macro_argument(&expanded) &&
+        expanded==0x12345678 && rc_source_cursor==text+1 &&
+        text[0]==2 && text[1]==L')' && !text[2];
+}
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -295,6 +309,7 @@ const ReconTest rich_tests[]={
     {"packed-argument-record-contract",1,packed_argument_contract},
     {"collected-identifier-output-contract",1,collected_identifier_contract},
     {"nested-numeric-spelling-contract",1,nested_number_contract},
+    {"substitution-invalid-index",1,substitute_invalid_index},
     {"packed-macro-parameter",1,parameters},
     {"old-no-space-before-unsupported-copy",1,no_space_guard}
 };
