@@ -418,13 +418,13 @@ below include verified resumed work and exclude current unaccepted candidates.
 
 | Binary | Accepted App functions / bytes | Whole-text coverage | Current frontier / plan |
 | --- | --- | ---: | --- |
-| C1 | 88 / 10,869 | 3.37% | Minimal C: browser factory; shared-method alias build support in progress |
-| C1XX | 101 / 11,613 | 1.55% | Minimal C++: input factory; same alias accommodation in progress |
-| C2 | 127 / 23,794 | 4.15% | Numeric case: substantial read_function_code dispatcher under reconstruction |
+| C1 | 88 / 10,869 | 3.37% | Minimal C: browser factory; published alias helper released for production checks |
+| C1XX | 101 / 11,613 | 1.55% | Minimal C++: input factory; same alias production checks underway |
+| C2 | 129 / 31,154 | 5.44% | Numeric case: decode_input_token after accepted full code dispatcher and token input |
 | CL | 109 / 18,279 | 95.89% | Bounded live Job-chain DIRECT complete, committed `677a11cab` and paused; 14 public cases unchanged |
 | CVPACK | 124 / 40,643 | 64.86% | Debug DLL complete, committed `d967c21fc`; paused before another case |
-| LINK | 117 / 41,130 | 9.92% | Hello EXE: format_contribution_module after accepted tokenizer |
-| RCDLL | 105 / 28,055 | 37.60% | Rich corpus: rc_advance_macro_text after accepted argument packer |
+| LINK | 123 / 43,910 | 10.59% | Hello EXE: build_section_symbol_ranges after accepted COMDAT reader |
+| RCDLL | 108 / 28,651 | 38.40% | Rich corpus: rc_substitute_macro_argument after accepted identifier collection |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -450,9 +450,11 @@ The concrete minimal capture work is:
   one original physical function. The approved accommodation uses code-free
   weak COFF aliases and native linker aliases from a binary-specific map,
   preserving one canonical body/registry entry and actual pointer equality.
-  The shared build helper is in progress; both workers hold those factories
-  while continuing read-only analysis. Scratch VC5/native tests pass without
-  wrappers, raw vtables, duplicate body credit or a graph waiver.
+  The shared build helper is published as `097ce4cac`; both workers are released
+  for ordinary production links, vtable/ABI checks, audits and fresh pairs.
+  Scratch VC5/native tests and Make wiring pass without wrappers, raw vtables,
+  duplicate body credit or a graph waiver. No additional helper Wine controls
+  or preliminary target capture is required.
 - RCDLL reuses shipped RC.EXE; a new dynamic-loading host would unnecessarily
   change its static attachment lifecycle. Its IAT/debug/import/export data in
   executable sections must survive progress masking as verified data ranges.
@@ -503,6 +505,13 @@ function reader and scope allocation). A normal/PCH selector error exposed
 beyond the previous child frontier was corrected without extra credit; the
 unchanged original reference was reused with fresh native evidence. It
 continues the original numeric case; no additional case has been started.
+
+C2 has reconstructed the complete 7,202-byte hot/cold IL dispatcher and its
+exact owned switch data, reaching the first pending token-reader child in a
+fresh 1.337 s original / 11.668 ms native pair. All 133 graphs and 16 units pass.
+This does not claim dynamic coverage of its 82 dispatch targets: unknown opcode
+property rows remain guarded and unmodeled, with no raw 160-WORD table copy.
+Subsequent token input is committed as `c156f83f8`, reaching the next decoder.
 
 CL's bounded completion adds the 41-byte deferred-job helper: 109 application
 functions / 18,279 bytes. The genuine original DIRECT run passes in 1.328 s;
