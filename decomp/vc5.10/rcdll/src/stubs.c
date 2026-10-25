@@ -361,9 +361,15 @@ void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *typ
     __asm int 3
 }
 
-void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase)
+char *__stdcall rc_format_resource_ordinal(WORD id,char *text,int radix)
 {
     __asm int 3
+    return NULL;
+}
+unsigned __stdcall rc_write_apstudio_string(FILE *file,const WCHAR *text)
+{
+    __asm int 3
+    return 0;
 }
 
 

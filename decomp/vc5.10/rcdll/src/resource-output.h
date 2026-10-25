@@ -4,4 +4,6 @@
 #include "rcdll.h"
 #include <recon.h>
 void __stdcall rc_write_apstudio_header(FILE *,DWORD,WORD);
+char *__stdcall rc_format_resource_ordinal(WORD,char *,int);
+unsigned __stdcall rc_write_apstudio_string(FILE *,const WCHAR *);
 #endif

@@ -1,11 +1,13 @@
 #include <string.h>
 #include <stdio.h>
+#include <wchar.h>
 #include "command.h"
 #include "resource-output.h"
+#include "resources.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
-#pragma intrinsic(strcpy)
+#pragma intrinsic(strcpy,strlen)
 #endif
 
 /* Encountered APSTUDIO scratch streams. These exact locations lie in the
@@ -53,4 +55,58 @@ int __stdcall rc_initialize_resource(void)
         rc_write_apstudio_header(rc_apstudio_stream4,rc_apstudio_size4,2);
     }
     return 1;
+}
+
+/* APSTUDIO metadata has separate binary and textual side streams. The rich
+ * case uses the early return; the native unobserved service path stays held. */
+void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase)
+{
+    WORD ordinal=0xffff,type_id;
+    DWORD reserved=0;
+    char text[36];
+    if(!rc_apstudio)return;
+#ifdef RECON_NATIVE_TEST
+    __asm int 3
+#endif
+    if(!resource){
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,L"$",2);
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,&ordinal,2);
+    }else if(phase){
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->size,4);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->data_offset,4);
+        type_id=type->id;
+        if(type_id){
+            if(type_id==15)type_id=0;
+            else if(type_id==18)type_id=5;
+            rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&ordinal,2);
+            rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&type_id,2);
+        }else rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,type->name,(wcslen(type->name)+1)*2);
+        if(resource->id){
+            rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&ordinal,2);
+            rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->id,2);
+        }else rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,resource->name,(wcslen(resource->name)+1)*2);
+        rc_apstudio_size4+=rc_align_output(rc_apstudio_stream4);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&reserved,4);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->flags,2);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->language,2);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->version,4);
+        rc_apstudio_size4+=rc_write_bytes(rc_apstudio_stream4,&resource->characteristics,4);
+    }else{
+        type_id=type->id;
+        if(!type_id)rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,type->name);
+        else{
+            if(type_id==15)type_id=4;
+            else if(type_id==18)type_id=5;
+            rc_format_resource_ordinal(type_id,text,10);
+            rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,text,strlen(text)+1);
+        }
+        if(!resource->id)rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,resource->name);
+        else{
+            rc_format_resource_ordinal(resource->id,text,10);
+            rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,text,strlen(text)+1);
+        }
+        rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,resource->prefix);
+        rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,resource->prefix+248);
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,resource->prefix+508,2);
+    }
 }

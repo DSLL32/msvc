@@ -729,6 +729,27 @@ static int resource_attribute_contract(void)
         !memcmp(&resource,&expected,sizeof(resource));
 }
 
+extern DWORD rc_apstudio_size3,rc_apstudio_size4;
+static void metadata_unobserved(void)
+{
+    rc_apstudio=1;
+    rc_write_resource_metadata(NULL,NULL,0);
+}
+static int resource_metadata_contract(void)
+{
+    RcResource resource,saved;
+    RcResourceType type,saved_type;
+    memset(&resource,0xa5,sizeof(resource));saved=resource;
+    memset(&type,0x5a,sizeof(type));saved_type=type;
+    rc_apstudio=0;rc_apstudio_size3=17;rc_apstudio_size4=19;
+    rc_write_resource_metadata(&resource,&type,0);
+    rc_write_resource_metadata(&resource,&type,1);
+    rc_write_resource_metadata(NULL,NULL,0);
+    return rc_apstudio_size3==17&&rc_apstudio_size4==19&&
+        !memcmp(&resource,&saved,sizeof(resource))&&
+        !memcmp(&type,&saved_type,sizeof(type))&&trapped(metadata_unobserved);
+}
+
 const ReconTest rich_tests[]={
     {"production-native-guards",1,guards},
     {"string-storage-aliases",1,string_layout},
@@ -759,6 +780,7 @@ const ReconTest rich_tests[]={
     {"resource-decimal-id-contract",1,resource_decimal_id_contract},
     {"resource-keyword-contract",1,resource_keyword_contract},
     {"resource-attribute-contract",1,resource_attribute_contract},
+    {"resource-metadata-contract",1,resource_metadata_contract},
     {"resource-read-buffer-contract",1,resource_buffer_contract},
     {"resource-byte-read-contract",1,byte_read_contract},
     {"packed-macro-parameter",1,parameters},
