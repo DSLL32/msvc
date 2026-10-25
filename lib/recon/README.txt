@@ -583,6 +583,13 @@ The Watcom-only long tell(int) callback spelling delegates to that same
 lseek(fd,0,SEEK_CUR) operation and leaves the descriptor position unchanged.
 The existing Watcom open checks cover the coupled seek/tell/read/close namespace.
 
+Watcom-only setmode(int,int) accepts the reached O_BINARY0200 request on an
+open shared descriptor, changes the real lowio text bit through recon_setmode,
+and translates the previous Microsoft binary8000/text4000 result to Watcom
+binary0200/text0100. Input text mode and unknown/closed descriptors deny125;
+Microsoft _setmode and native FILE representation remain unchanged. WLINK's
+normal startup requests binary on public fileno(stdin/stdout), ignoring returns.
+
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
 module routes. Only after that load can GetProcAddress resolve the exact name

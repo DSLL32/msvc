@@ -87,6 +87,21 @@ long __cdecl recon_watcom_tell(int fd)
 {
     return recon_watcom_lseek(fd,0,SEEK_CUR);
 }
+int __cdecl recon_watcom_setmode(int fd,int mode)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    int previous;
+    if(mode!=0x0200 || (unsigned)fd>=recon_nhandle || !(recon_osfile[fd]&1))
+        recon_unsupported("Watcom setmode binary descriptor domain");
+    previous=recon_setmode(fd,0x8000);
+    if(previous==0x8000) return 0x0200;
+    if(previous==0x4000) return 0x0100;
+    recon_unsupported("Watcom setmode unsupported previous mode");return -1;
+#else
+    (void)fd;(void)mode;
+    recon_unsupported("Watcom setmode requires explicit profile");return -1;
+#endif
+}
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
