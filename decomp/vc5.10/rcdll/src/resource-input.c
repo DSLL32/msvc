@@ -1,3 +1,4 @@
+#include <wctype.h>
 #include "command.h"
 #include "resource-input.h"
 #include <recon.h>
@@ -26,6 +27,123 @@ unsigned __cdecl rc_next_resource_character(void)
         while(rc_read_resource_character()!=127){
             if(rc_resource_character==L'\n')break;
         }
+    }
+    return rc_resource_character;
+}
+
+/* Whole-token backups use the exact field widths copied by the original
+ * token copier. Unidentified field roles and untouched string tails stay
+ * unknown; a local backup is deliberately not initialized. */
+RcResourceToken rc_resource_token;
+int rc_resource_line_start=1;
+DWORD rc_resource_total_lines,rc_resource_recording;
+char rc_resource_filename[MAX_PATH];
+
+unsigned __cdecl rc_read_resource_character(void)
+{
+    WCHAR filename[MAX_PATH],*cursor,lower;
+    RcResourceToken saved_token;
+    unsigned dot=0,skip=0,escape=0,saved_start,previous_lines;
+
+read_again:
+    rc_resource_character=(WCHAR)rc_read_resource_code_unit();
+    if(rc_resource_character==L'\t'||rc_resource_character==L' ')
+        goto check_skip;
+    if(!rc_resource_character){
+        rc_resource_character=127;
+        goto finish;
+    }
+    if(rc_resource_character==L'\r'){
+        rc_resource_character=L' ';
+        goto check_skip;
+    }
+    if(rc_resource_character==L'\n'){
+        ++rc_resource_line;
+        previous_lines=rc_resource_total_lines++;
+        rc_resource_line_start=1;
+        if(!(previous_lines&31))rc_notify_progress(2,rc_resource_total_lines);
+        goto check_skip;
+    }
+    if(rc_resource_character==0xfeff)goto read_again;
+    if(rc_resource_character==0xe000){
+#ifdef RECON_NATIVE_TEST
+        /* APSTUDIO directive records are not yet an encountered input. */
+        __asm int 3
+#endif
+        saved_start=rc_resource_line_start;
+        rc_read_apstudio_directive(1,rc_resource_character);
+        rc_resource_line_start=saved_start;
+        goto read_again;
+    }
+    if(rc_resource_character!=L'#'||!rc_resource_line_start){
+        rc_resource_line_start=0;
+        goto check_skip;
+    }
+    dot=0;
+    lower=(WCHAR)rc_read_resource_code_unit();
+    if(lower==L'p'){
+        if(rc_read_resource_code_unit()!=L'r'||rc_read_resource_code_unit()!=L'a'||
+           rc_read_resource_code_unit()!=L'g'||rc_read_resource_code_unit()!=L'm'||
+           rc_read_resource_code_unit()!=L'a')goto malformed;
+        rc_copy_resource_token(&saved_token,&rc_resource_token);
+        rc_scan_resource_token(0);
+        rc_scan_resource_token(0);
+        rc_scan_resource_token(0x8000);
+        rc_codepage=rc_resource_token.value;
+        while(rc_resource_character!=L'\n')
+            rc_resource_character=(WCHAR)rc_read_resource_code_unit();
+        rc_copy_resource_token(&rc_resource_token,&saved_token);
+        goto read_again;
+    }
+    if(lower!=L'l'||rc_read_resource_code_unit()!=L'i'||
+       rc_read_resource_code_unit()!=L'n'||rc_read_resource_code_unit()!=L'e')
+        goto malformed;
+    rc_resource_line=0;
+    do{
+        if(rc_resource_character>=L'0'&&rc_resource_character<=L'9')
+            rc_resource_line=rc_resource_line*10+rc_resource_character-L'0';
+        rc_resource_character=(WCHAR)rc_read_resource_code_unit();
+    }while(rc_resource_character!=L'"'&&rc_resource_character!=L'\n');
+    if(rc_resource_character==L'\n')goto read_again;
+    cursor=filename;
+filename_read:
+    rc_resource_character=(WCHAR)rc_read_resource_code_unit();
+    lower=towlower(rc_resource_character);
+    if(!lower||lower==L'\n')goto malformed;
+    if(lower==L'"')goto filename_check;
+    if(lower==L'\\'){
+        if(escape){escape=0;goto filename_check;}
+        escape=1;
+        skip=0;dot=0;
+    }else if(lower==L'.'){
+        dot=1;escape=0;
+    }else if(lower==L'c'||lower==L'h'){
+        escape=0;skip=dot;dot=0;
+    }else{skip=0;dot=0;}
+#ifdef RECON_NATIVE_TEST
+    if(cursor>=filename+MAX_PATH-1){ __asm int 3 }
+#endif
+    *cursor++=rc_resource_character;
+filename_check:
+    if(rc_resource_character!=L'"')goto filename_read;
+    *cursor=0;
+    WideCharToMultiByte(rc_codepage,0,filename,-1,rc_resource_filename,
+                        MAX_PATH,NULL,NULL);
+    do rc_resource_character=(WCHAR)rc_read_resource_code_unit();
+    while(rc_resource_character!=L'\n');
+    goto read_again;
+malformed:
+    rc_resource_input_fatal(2101);
+    goto filename_check;
+check_skip:
+    if(skip)goto read_again;
+finish:
+    if(rc_resource_recording){
+#ifdef RECON_NATIVE_TEST
+        /* Resource-text capture storage has not been characterized. */
+        __asm int 3
+#endif
+        *(WCHAR *)rc_reserve_resource_bytes(2)=rc_resource_character;
     }
     return rc_resource_character;
 }

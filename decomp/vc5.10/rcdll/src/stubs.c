@@ -26,10 +26,32 @@ void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
 }
-unsigned __cdecl rc_read_resource_character(void)
+unsigned __cdecl rc_read_resource_code_unit(void)
 {
     __asm int 3
     return 0;
+}
+void __stdcall rc_copy_resource_token(RcResourceToken *to,const RcResourceToken *from)
+{
+    __asm int 3
+}
+unsigned __stdcall rc_scan_resource_token(unsigned flags)
+{
+    __asm int 3
+    return 0;
+}
+void __stdcall rc_resource_input_fatal(unsigned message)
+{
+    __asm int 3
+}
+void __stdcall rc_read_apstudio_directive(int unused_mode,DWORD unused_character)
+{
+    __asm int 3
+}
+void *__stdcall rc_reserve_resource_bytes(WORD bytes)
+{
+    __asm int 3
+    return NULL;
 }
 int __stdcall rc_parse_resources(void)
 {
