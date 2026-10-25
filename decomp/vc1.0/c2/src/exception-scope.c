@@ -313,3 +313,29 @@ Node *__fastcall new_exception_annotation(unsigned short code)
     node->left.pointer = current_exception_scope();
     return node;
 }
+
+/* Original [000662c0,00066375). Crossed finally scopes select the
+   finally-aware unwind form. A handler already executing its finally
+   starts searching at the enclosing try scope rather than itself. */
+Node *__fastcall insert_exception_unwind(Expression *previous, Node *before, long target)
+{
+    ExceptionScope *scope = current_exception_scope();
+    Node *tree;
+    if (!scope || scope->identifier == (unsigned)target) return 0;
+    if (scope->state == 0x8e) {
+        if (scope->parent_identifier == -1) return 0;
+        scope = lookup_exception_scope(prepared_exception_scopes, scope->parent_identifier);
+    }
+    while (scope->identifier != (unsigned)target) {
+        if (scope->kind == 2) {
+            tree = new_scope_finally_unwind(target);
+            insert_tree_expression(previous, before, tree);
+            return tree;
+        }
+        if (scope->parent_identifier == -1) break;
+        scope = lookup_exception_scope(prepared_exception_scopes, scope->parent_identifier);
+    }
+    tree = new_scope_unwind(target);
+    insert_tree_expression(previous, before, tree);
+    return tree;
+}

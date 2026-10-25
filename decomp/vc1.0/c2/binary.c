@@ -4,6 +4,18 @@
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
     {
+        .name = "@new_scope_finally_unwind@4", .entry_rva = 0x563b0,
+        .code = (const ReconExtent[]) { { 0x563b0, 0x563b1 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "new_scope_finally_unwind",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
+        .name = "@new_scope_unwind@4", .entry_rva = 0x56400,
+        .code = (const ReconExtent[]) { { 0x56400, 0x56401 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "new_scope_unwind",
+        .implementation = RECON_UNIMPLEMENTED,
+    },
+    {
         .name = "@new_exception_annotation@4", .entry_rva = 0x56240,
         .code = (const ReconExtent[]) { { 0x56240, 0x56261 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "new_exception_annotation",
@@ -17,9 +29,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "@insert_exception_unwind@12", .entry_rva = 0x562c0,
-        .code = (const ReconExtent[]) { { 0x562c0, 0x562c1 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x562c0, 0x56375 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "insert_exception_unwind",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "import:SetEndOfFile",

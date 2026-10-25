@@ -105,6 +105,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@insert_exception_unwind@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

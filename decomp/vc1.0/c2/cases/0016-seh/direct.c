@@ -133,3 +133,14 @@ int c2_scope_unwind_inputs(void)
     return recon_native_at_entry((const void *)insert_exception_unwind,
         (const void *)unwind_entry,real_input,0)==1;
 }
+
+/* This constructor consumes only ECX; other registers are caller residue. */
+static Node *__fastcall scope_finally_entry(long target)
+{
+    recon_native_entry_finish(target==-1);
+}
+int c2_scope_finally_inputs(void)
+{
+    return recon_native_at_entry((const void *)new_scope_finally_unwind,
+        (const void *)scope_finally_entry,real_input,0)==1;
+}

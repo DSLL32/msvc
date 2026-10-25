@@ -10,6 +10,7 @@ extern int c2_scope_pop_inputs(void);
 extern int c2_scope_rewrite_inputs(void);
 extern int c2_scope_annotation_inputs(void);
 extern int c2_scope_unwind_inputs(void);
+extern int c2_scope_finally_inputs(void);
 /* Cold valid-stack controls support the recovered whole45B search. These
    synthetic kind lists are not claimed executed by the current public IR. */
 static int enclosing_scopes(void)
@@ -138,6 +139,19 @@ static int annotation_values(void)
     }
     return 1;
 }
+static int unwind_bypass(void)
+{
+    ExceptionScope scope;
+    exception_scope_stack_depth=0;
+    if(insert_exception_unwind(0,0,-1))return 0;
+    memset(&scope,0,sizeof scope);scope.identifier=9;
+    exception_scope_stack[0]=&scope;exception_scope_stack_depth=1;
+    if(insert_exception_unwind(0,0,9))return 0;
+    scope.state=0x8e;scope.parent_identifier=-1;
+    if(insert_exception_unwind(0,0,3))return 0;
+    return exception_scope_stack_depth==1&&exception_scope_stack[0]==&scope&&
+        scope.identifier==9&&scope.state==0x8e&&scope.parent_identifier==-1;
+}
 const ReconTest c2_tests[]={
     {"actual SEH owned48B allocation at parent query",1,c2_scope_owned_record},
     {"nearest active try scope through valid20-slot stack",1,enclosing_scopes},
@@ -153,5 +167,7 @@ const ReconTest c2_tests[]={
     {"SEH rewrite empty and ordinary streams preserve owners",1,rewrite_plain_stream},
     {"actual annotation CX and active-scope identity",1,c2_scope_annotation_inputs},
     {"annotation code width and borrowed scope pointer",1,annotation_values},
-    {"actual unwind previous/tree/stack target and scope owner",1,c2_scope_unwind_inputs}
+    {"actual unwind previous/tree/stack target and scope owner",1,c2_scope_unwind_inputs},
+    {"unwind absent/same/outermost-finally bypasses preserve state",1,unwind_bypass},
+    {"actual finally-unwind scalar ECX target",1,c2_scope_finally_inputs}
 };
