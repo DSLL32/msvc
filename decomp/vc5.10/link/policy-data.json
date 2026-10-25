@@ -5900,6 +5900,11 @@
         "expected_cleanup": [
           12
         ]
+      },
+      "Contribution::CanFold": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   }

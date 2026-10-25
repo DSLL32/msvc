@@ -103,7 +103,7 @@ struct Contribution {
     DWORD comdat_checksum;
     BYTE comdat_selection, reserved3d[3];
 #ifdef __cplusplus
-    BYTE RECON_THISCALL CanOrder(const char *name);
+    BYTE RECON_THISCALL CanFold(const char *name);
 #endif
 };
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];

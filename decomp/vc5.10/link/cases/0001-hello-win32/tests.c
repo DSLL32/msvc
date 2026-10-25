@@ -4,6 +4,7 @@
 #include <string.h>
 #include "../../src/input.h"
 #include "../../src/memory.h"
+#include "../../src/initializers.h"
 #include "../../src/files.h"
 #include "../../src/options.h"
 #include "../../harness/startup.h"
@@ -623,6 +624,33 @@ static int definition_transition(void)
     return recon_native_at_entry(set_symbol_defined,check_definition_transition,
         invoke_hello,NULL)==1;
 }
+extern void *__stdcall get_contribution_info(Contribution *);
+static void *__stdcall check_folded_contribution(Contribution *contribution)
+{
+    OutputModule *module=current_input_library->module_head;
+    Contribution expected;
+    Contribution *parts=(Contribution *)module->contributions;
+    memset(&expected,0,sizeof(expected));
+    expected.characteristics=module_section_headers[1].Characteristics;
+    expected.raw_size=160;
+    expected.module=module;
+    expected.group=parts[1].group;
+    expected.relocation_count=8;
+    expected.relocation_offset=543;
+    expected.input_raw_offset=383;
+    expected.comdat_selection=1;
+    recon_native_entry_finish(contribution==parts+1 &&
+        !memcmp(contribution,&expected,sizeof(expected)) && expected.group &&
+        expected.group->first==contribution && expected.group->last==contribution &&
+        !strcmp(expected.group->name,".text") &&
+        buffer4.base && buffer4.remaining==0 && buffer4.capacity==1024);
+    return NULL;
+}
+static int folded_contribution(void)
+{
+    return recon_native_at_entry(get_contribution_info,check_folded_contribution,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -652,5 +680,6 @@ const ReconTest hello_tests[]={
     {"string-buffer-reserve",1,string_buffer_reserve},
     {"symbol-string-append",1,symbol_string_append},
     {"symbol-definition",1,symbol_definition},
-    {"symbol-definition-transition",1,definition_transition}
+    {"symbol-definition-transition",1,definition_transition},
+    {"folded-contribution",1,folded_contribution}
 };

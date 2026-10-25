@@ -13,7 +13,8 @@ extern "C" {
 extern DWORD *section_symbol_ranges;
 extern char *current_module_strings;
 extern BYTE mac_target,incremental_enabled,incremental_reuse;
-extern OutputSection *procedure_section,*architecture_section;
+extern OutputSection *procedure_section,*architecture_section,*debug_section;
+extern OutputModule *output_module;
 OutputModule *comdat_symbol_module;
 /* Short COFF names are copied here before string operations. Byte8 is the
  * shared zero terminator; the original object begins at47f128. */
@@ -214,7 +215,7 @@ accepted:
                 break;
             }
         }
-    } else if (contribution->CanOrder(*name)) {
+    } else if (contribution->CanFold(*name)) {
         info=get_contribution_info(contribution);
         info->ordered_contribution=contribution;
         count=ordered_contribution_count+1;
@@ -268,4 +269,11 @@ void __stdcall record_undefined_comdat(StringNode *symbol,const char *name,Outpu
 BYTE __stdcall remove_module_symbol(OutputModule *module,StringNode *symbol) { __asm { int 3 } return 0; }
 ContributionInfo *__stdcall get_contribution_info(Contribution *contribution) { __asm { int 3 } return NULL; }
 }
-BYTE RECON_THISCALL Contribution::CanOrder(const char *name) { __asm { int 3 } return 0; }
+BYTE RECON_THISCALL Contribution::CanFold(const char *name)
+{
+    if (group->section==debug_section || (module->flags & 0x40) || !raw_size ||
+        module==output_module || !(characteristics & IMAGE_SCN_MEM_EXECUTE)) return 0;
+    if (name && !strncmp("_$E",name,3)) return 0;
+    return !(characteristics & IMAGE_SCN_MEM_WRITE) ||
+        (characteristics & IMAGE_SCN_CNT_CODE);
+}

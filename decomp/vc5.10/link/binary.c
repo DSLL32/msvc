@@ -350,7 +350,7 @@ static const ReconFunction functions[] = {
     {"_record_undefined_comdat@12",0x5f010,(const ReconExtent[]){{0x5f010,0x5f06c}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_undefined_comdat",NULL,NULL,0,NULL},
     {"_remove_module_symbol@8",0x34760,(const ReconExtent[]){{0x34760,0x347a1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"remove_module_symbol",NULL,NULL,0,NULL},
     {"_get_contribution_info@4",0x62f10,(const ReconExtent[]){{0x62f10,0x62f49}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"get_contribution_info",NULL,NULL,0,NULL},
-    {"Contribution::CanOrder",0x31f30,(const ReconExtent[]){{0x31f30,0x31fa8}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN12Contribution8CanOrderEPKc",NULL,NULL,0,"?CanOrder@Contribution@@QAEEPBD@Z"},
+    {"Contribution::CanFold",0x31f30,(const ReconExtent[]){{0x31f30,0x31fa8}},1,(const ReconExtent[]){{0x6ff4,0x6ff8}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN12Contribution7CanFoldEPKc",NULL,NULL,0,"?CanFold@Contribution@@QAEEPBD@Z"},
     {"_lookup_hash@20",0x30e20,(const ReconExtent[]){{0x30e20,0x30f55}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"lookup_hash",NULL,NULL,0,NULL},
     {"_append_symbol_string@8",0x60740,(const ReconExtent[]){{0x60740,0x60782}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"append_symbol_string",NULL,NULL,0,NULL},
     {"_intern_symbol_string@8",0x60790,(const ReconExtent[]){{0x60790,0x60897}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"intern_symbol_string",NULL,NULL,0,NULL},
