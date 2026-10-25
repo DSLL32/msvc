@@ -37,7 +37,24 @@ void WresRecordError( WResStatus status )
     WLIB_FRONTIER();
 }
 
-int WResReadDir( int handle, WResDir dir, int *dup_discarded )
+void __FreeTypeList( WResDir dir )
+{
+    WLIB_FRONTIER();
+}
+
+int WResIsWResFile( int handle )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int readWResDir( int handle, WResDir dir )
+{
+    WLIB_FRONTIER();
+    return( 0 );
+}
+
+int readMResDir( int handle, WResDir dir, int *dup_discarded )
 {
     WLIB_FRONTIER();
     return( 0 );

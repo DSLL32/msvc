@@ -1,0 +1,37 @@
+[
+  {
+    "case": "help",
+    "workspace": "/tmp/recon/run-skP3vn",
+    "pass": true,
+    "terminal": "signal:5",
+    "logical_exit_code": null,
+    "first_entry_order": [
+      76391,
+      73695,
+      84990,
+      101064,
+      105536,
+      101144,
+      84964,
+      101080,
+      105584,
+      107076,
+      113152
+    ],
+    "tests": false,
+    "process_requests": null,
+    "trap_rva": 113152,
+    "trap_site": 4154110397,
+    "elapsed_ms": 7.908505999999999,
+    "setup_ms": 4.436942,
+    "execution_ms": 1.869513,
+    "checks_ms": 1.602144,
+    "errors": [],
+    "original_reference": {
+      "report": "/root/.ai-tmp/msvc2/watcom-shared-integration/wlib-fresh-help/original-wresreaddir-to-iswresfile.json",
+      "report_sha256": "d495b3e5f5ec33c913243a812194f983397384c739a2cecee9a8ea201186d866",
+      "capture_sha256": "5af3ec5f279857af5add8c5321363f780e71985d51920cbdb3fe132f007cab46",
+      "source_binding_available": true
+    }
+  }
+]

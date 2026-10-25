@@ -97,6 +97,34 @@ WResDir WResInitDir( void )
     return( newdir );
 }
 
+/* Original 0x41a244..0x41a2b1. The 1994 entry contains the dispatch
+   itself, with neither the later WResReadDir2 wrapper nor Win32-resource
+   variant/fileinfo arguments. Source algorithm: initial wrreaddi.c. */
+int WResReadDir( int handle, WResDir dir, int *dup_discarded )
+{
+    int error;
+
+    error = 0;
+    if( dup_discarded != NULL ) {
+        *dup_discarded = 0;
+    }
+    if( dir->Head != NULL ) {
+        __FreeTypeList( dir );
+    }
+    if( (*WResRtns.seek)( handle, 0L, SEEK_SET ) == -1L ) {
+        error = 1;
+        WresRecordError( WRS_SEEK_FAILED );
+    }
+    if( !error ) {
+        if( WResIsWResFile( handle ) ) {
+            error = readWResDir( handle, dir );
+        } else {
+            error = readMResDir( handle, dir, dup_discarded );
+        }
+    }
+    return( error );
+}
+
 /* Original 0x419c40..0x419c65 passes binary mode directly to open.
    The newer released source adds a setmode call absent from this binary. */
 int ResOpenFileRO( const char *filename )

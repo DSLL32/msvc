@@ -44,6 +44,7 @@ extern struct WResRoutines WResRtns;
 extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
     WRS_OPEN_FAILED = 5,
+    WRS_SEEK_FAILED = 9,
     WRS_MALLOC_FAILED = 13
 } WResStatus;
 
@@ -55,6 +56,10 @@ long res_seek( int handle, long position, int where );
 int InitResources( HANDLE_INFO *instance );
 WResDir WResInitDir( void );
 int WResReadDir( int handle, WResDir dir, int *dup_discarded );
+void __FreeTypeList( WResDir dir );
+int WResIsWResFile( int handle );
+int readWResDir( int handle, WResDir dir );
+int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */
 int InitMsg( const char *image_name );
