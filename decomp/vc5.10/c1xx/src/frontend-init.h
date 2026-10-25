@@ -181,6 +181,7 @@ struct CompilerDeclarator {
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const void *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);
     void RECON_THISCALL AppendShape(CompilerTypeShape *);
+    void RECON_THISCALL AddPointer(CompilerDeclaratorQualifiers *, CompilerDeclaratorQualifiers *);
     void RECON_THISCALL ApplyQualifiers(CompilerDeclaratorQualifiers *);
     void RECON_THISCALL Resolve(void);
 };

@@ -682,7 +682,45 @@ void RECON_THISCALL CompilerParameterDescription::Normalize(void)
     frontend_bss.parameter_contexts[frontend_bss.parser_context_depth] = NULL;
 }
 CompilerSymbolLink **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void) { __asm { int 3 } return NULL; }
-void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
+{
+    shape_flags |= 1;
+    if (!shape) return;
+    switch (last_shape->flags & 0x77) {
+    case 1:
+        last_shape->flags = (next->flags & 0xc803) | 3;
+        break;
+    case 2:
+        compiler_warning(92);
+        last_shape->payload.value = 0;
+        last_shape->flags = 1;
+        break;
+    case 4: {
+        CompilerDeclaratorQualifiers first, second;
+        compiler_warning(91);
+        first.flags = second.flags = 0;
+        first.value = second.value = 0;
+        AddPointer(&first, &second);
+        last_shape->flags = 3;
+        break;
+    }
+    case 0x10:
+        last_shape->flags = (next->flags & 0xc820) | 0x20;
+        if (!(next->flags & 0x2000)) {
+            next->SetType(qualify_type(last_shape->payload.type, 0x100, 0));
+            next->flags |= 0x2000;
+        }
+        break;
+    case 0x40:
+        last_shape->flags = (next->flags & 0xc844) | 0x44;
+        break;
+    }
+    if (last_shape->attributes & 3) {
+        compiler_warning(212, symbol);
+        flags |= 1;
+        last_shape->attributes &= ~3;
+    }
+}
 void RECON_THISCALL CompilerTypeShape::SetParameters(CompilerParameterSet *parameters, CompilerSymbol *symbols, CompilerType *type) { __asm { int 3 } }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned attributes, const unsigned *value)
 {
@@ -740,3 +778,6 @@ extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
     symbol->type = (CompilerAbstractType *)memory;
     return symbol;
 }
+
+void RECON_THISCALL CompilerDeclarator::AddPointer(CompilerDeclaratorQualifiers *first, CompilerDeclaratorQualifiers *second) { __asm { int 3 } }
+void RECON_THISCALL CompilerTypeShape::SetType(CompilerType *type) { __asm { int 3 } }

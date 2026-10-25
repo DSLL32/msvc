@@ -1362,9 +1362,25 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "CompilerDeclarator::AppendShape", .entry_rva = 0x7e8d,
-        .code = (const ReconExtent[]){{0x7e8d, 0x7e8e}},
-        .code_count = 1, .definition = RECON_APP,
+        .code = (const ReconExtent[]){{0x7e8d, 0x7f0d}, {0x545b3, 0x54670}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+        .text_data = (const ReconExtent[]){{0x7f10, 0x7f28}, {0x7f28, 0x7f68}},
+        .text_data_count = 2,
         .native_symbol = "_ZN18CompilerDeclarator11AppendShapeEP17CompilerTypeShape", .original_symbol = "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+    },
+    {
+        .name = "CompilerDeclarator::AddPointer", .entry_rva = 0x28de4,
+        .code = (const ReconExtent[]){{0x28de4, 0x28de5}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN18CompilerDeclarator10AddPointerEP28CompilerDeclaratorQualifiersS1_",
+        .original_symbol = "?AddPointer@CompilerDeclarator@@QAEXPAUCompilerDeclaratorQualifiers@@0@Z",
+    },
+    {
+        .name = "CompilerTypeShape::SetType", .entry_rva = 0x8eeb4,
+        .code = (const ReconExtent[]){{0x8eeb4, 0x8eeb5}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "_ZN17CompilerTypeShape7SetTypeEP12CompilerType",
+        .original_symbol = "?SetType@CompilerTypeShape@@QAEXPAUCompilerType@@@Z",
     },
     {
         .name = "CompilerTypeShape::SetParameters", .entry_rva = 0x8408,

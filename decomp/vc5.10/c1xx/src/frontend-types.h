@@ -40,6 +40,7 @@ struct CompilerTypeShape {
         unsigned value;
     } payload;                         /* +8, interpreted by shape flags */
 #ifdef __cplusplus
+    void RECON_THISCALL SetType(CompilerType *);
     void RECON_THISCALL SetParameters(struct CompilerParameterSet *,
         struct CompilerSymbol *, CompilerType *);
 #endif

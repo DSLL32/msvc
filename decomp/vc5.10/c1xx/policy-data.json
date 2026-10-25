@@ -458,6 +458,88 @@
             }
           ]
         }
+      },
+      "CompilerDeclarator::AppendShape": {
+        "original": {
+          "text_data": [
+            [
+              272662288,
+              272662312
+            ],
+            [
+              272662312,
+              272662376
+            ]
+          ],
+          "switches": {
+            "272662214": [
+              272662221,
+              272975345,
+              272662240,
+              272975374,
+              272662255,
+              272975283
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                "offset": 434
+              },
+              {
+                "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                "offset": 458
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                "offset": 458
+              },
+              {
+                "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                "offset": 522
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                "offset": 85
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 92
+                },
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 123
+                },
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 162
+                },
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 228
+                },
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 323
+                },
+                {
+                  "rebuilt_symbol": "?AppendShape@CompilerDeclarator@@QAEXPAUCompilerTypeShape@@@Z",
+                  "offset": 349
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": [],
