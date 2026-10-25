@@ -516,6 +516,72 @@
           "declaration": "_CRTIMP char * __cdecl getenv(const char *);"
         }
       ]
+    },
+    {
+      "identity": "msvcrt.dll!memmove",
+      "provider_export": {
+        "ordinal": 662,
+        "rva": 21517
+      },
+      "entry_bytes": "558bec57568b750c8b4d108b7d088b",
+      "abi": "x86 __cdecl; EBX/EBP preserved on ordinary normal return; public CRT declaration, no callback or nonlocal-return contract",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 136,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP void *  __cdecl memmove(void *, const void *, size_t);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!_ismbcspace",
+      "provider_export": {
+        "ordinal": 300,
+        "rva": 32845
+      },
+      "entry_bytes": "518b4424083dff0000000f87567500",
+      "abi": "x86 __cdecl; EBX/EBP preserved on ordinary normal return; exact public CRT declaration and canonical provider, no callback/nonlocal-return premise",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 191,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP int __cdecl _ismbcspace(unsigned int);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!_mbschr",
+      "provider_export": {
+        "ordinal": 342,
+        "rva": 12735
+      },
+      "entry_bytes": "a1c0f1037853565785c00f84f48800",
+      "abi": "x86 __cdecl; EBX/EBP preserved on ordinary normal return; exact public CRT declaration and canonical provider, no callback/nonlocal-return premise",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/MBSTRING.H",
+          "line": 137,
+          "sha256": "6633bde8407252be8a3a71463342b43e06a5126076e90f5e9d4cd3f365deb179",
+          "declaration": "_CRTIMP unsigned char * __cdecl _mbschr(const unsigned char *, unsigned int);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "bytes": 277776,
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
     }
   ],
   "functions": [

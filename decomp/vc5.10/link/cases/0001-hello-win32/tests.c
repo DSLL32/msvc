@@ -293,6 +293,31 @@ static int first_directive_token(void)
     return recon_native_at_entry(next_directive_token,check_first_directive_token,
         invoke_hello,NULL)==1;
 }
+extern char *__stdcall format_contribution_module(Contribution *,char *);
+extern char *directive_cursor;
+static void __stdcall check_collected_directives(Contribution *contribution,char *name)
+{
+    static const char *const expected[]={"defaultlib:user32.lib","defaultlib:gdi32.lib",
+        "defaultlib:LIBC","defaultlib:OLDNAMES"};
+    InputArgument *argument=option_arguments.first;
+    unsigned i;
+    if (!contribution || contribution!=(Contribution *)current_input_library->module_head->contributions ||
+        !name || option_arguments.count!=4 || directive_cursor)
+        recon_native_entry_finish(0);
+    for (i=0;i<4;++i) {
+        if (!argument || strcmp(argument->name,expected[i]) ||
+            argument->original_name!=argument->name || argument->switch_info)
+            recon_native_entry_finish(0);
+        if (i==3 && option_arguments.last!=argument) recon_native_entry_finish(0);
+        argument=argument->next;
+    }
+    recon_native_entry_finish(argument==NULL);
+}
+static int collected_directives(void)
+{
+    return recon_native_at_entry(format_contribution_module,check_collected_directives,
+        invoke_hello,NULL)==1;
+}
 const ReconTest hello_tests[]={
     {"section-header-allocation",1,section_headers},
     {"loader-section-header-call",1,section_header_call},
@@ -307,5 +332,6 @@ const ReconTest hello_tests[]={
     {"directive-reader-call",1,directive_reader_call},
     {"directive-buffer",1,directive_buffer},
     {"directive-collection",1,directive_collection},
-    {"first-directive-token",1,first_directive_token}
+    {"first-directive-token",1,first_directive_token},
+    {"collected-directives",1,collected_directives}
 };

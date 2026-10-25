@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <string.h>
 #include <stdio.h>
+#include <mbstring.h>
 #include "input.h"
 #include "memory.h"
 #include "sections.h"
@@ -27,7 +28,7 @@ void *__stdcall add_comdat_reference(StringNode *,Contribution *,Contribution *)
 void __stdcall read_section_relocations(LinkContext *,Contribution *,IMAGE_SYMBOL *,OutputModule *);
 DWORD __stdcall mac_contribution_padding(DWORD);
 
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp,strlen)
 void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD index,
     IMAGE_SECTION_HEADER *header,IMAGE_SYMBOL *symbols,InputArguments *pending)
 {
@@ -182,7 +183,33 @@ void __stdcall collect_module_directives(LinkContext *context,Contribution *cont
         token=next_directive_token(NULL,NULL);
     }
 }
-char *__stdcall next_directive_token(char *text,BYTE *quoted) { __asm { int 3 } return NULL; }
+char *directive_cursor;
+char *__stdcall next_directive_token(char *text,BYTE *quoted)
+{
+    char *start,*end;
+    if (quoted) *quoted=0;
+    if (text) directive_cursor=text;
+    while (*directive_cursor && _ismbcspace((unsigned char)*directive_cursor)) ++directive_cursor;
+    if (!*directive_cursor) {
+        directive_cursor=NULL;
+        return NULL;
+    }
+    start=directive_cursor;
+    while (*directive_cursor && !_ismbcspace((unsigned char)*directive_cursor)) {
+        if (*directive_cursor=='"') {
+            memmove(directive_cursor,directive_cursor+1,strlen(directive_cursor+1)+1);
+            end=(char *)_mbschr((unsigned char *)directive_cursor,'"');
+            if (end) {
+                memmove(end,end+1,strlen(end+1)+1);
+                directive_cursor=end;
+                if (quoted) *quoted=1;
+            }
+        } else ++directive_cursor;
+    }
+    if (*directive_cursor) *directive_cursor++=0;
+    if (!*start) return next_directive_token(NULL,quoted);
+    return start;
+}
 void __stdcall remember_module_directive(const char *text,StringTable *strings,OutputModule *module) { __asm { int 3 } }
 char *__stdcall format_contribution_module(Contribution *,char *);
 void __stdcall process_module_directives(LinkContext *context,Contribution *contribution,
