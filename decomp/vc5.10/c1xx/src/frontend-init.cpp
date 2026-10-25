@@ -36,6 +36,8 @@ void __cdecl initialize_global_scope(void);
 void __cdecl initialize_builtin_symbols(void);
 CompilerType *__cdecl make_function_type(unsigned, CompilerType *);
 CompilerType *__cdecl make_tagged_type(unsigned);
+WORD __cdecl normalize_shape_attributes(unsigned, WORD);
+CompilerTypeShape *__cdecl create_declarator_shape(unsigned, WORD, const void *);
 void __cdecl initialize_intermediate_output(void);
 void __cdecl initialize_translation_state(void);
 void __cdecl define_command_line_macros(CompilerVector *);
@@ -497,7 +499,27 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
     declaration.Resolve();
     return declaration.type;
 }
-extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl make_tagged_type(unsigned flags)
+{
+    CompilerArena *arena;
+    CompilerType *description;
+    if (flags & 0x80) arena = &frontend_bss.arenas[5];
+    else {
+        if (frontend_data.tagged_type_arena_index >= 9) { __asm { int 3 } }
+        arena = &frontend_bss.arenas[frontend_data.tagged_type_arena_index];
+    }
+    description = (CompilerType *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    description->flags = (WORD)flags;
+    if (flags & 0x80) {
+        description->attributes = 0;
+        description->auxiliary = 0;
+        description->shape = intern_type_shape(create_declarator_shape(1,
+            normalize_shape_attributes(1, 0), NULL));
+    }
+    return intern_type(description);
+}
 extern "C" void __cdecl initialize_intermediate_output(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_translation_state(void) { __asm { int 3 } }
 extern "C" void __cdecl define_command_line_macros(CompilerVector *definitions) { __asm { int 3 } }
@@ -1231,3 +1253,6 @@ WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeSha
     return frontend_data.options.pascal_calls ? 0x20 : 0x10;
 }
 WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes) { __asm { int 3 } return 0; }
+
+extern "C" WORD __cdecl normalize_shape_attributes(unsigned flags, WORD attributes) { __asm { int 3 } return 0; }
+extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WORD attributes, const void *value) { __asm { int 3 } return NULL; }

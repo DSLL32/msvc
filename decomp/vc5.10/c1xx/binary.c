@@ -1173,9 +1173,21 @@ static const ReconFunction functions[] = {
         .native_symbol = "make_function_type",
     },
     {
-        .name = "_make_tagged_type", .entry_rva = 0x3b077,
-        .code = (const ReconExtent[]){{0x3b077, 0x3b078}},
+        .name = "_normalize_shape_attributes", .entry_rva = 0x1d81d,
+        .code = (const ReconExtent[]){{0x1d81d, 0x1d81e}},
         .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "normalize_shape_attributes",
+    },
+    {
+        .name = "_create_declarator_shape", .entry_rva = 0x11f9,
+        .code = (const ReconExtent[]){{0x11f9, 0x11fa}},
+        .code_count = 1, .definition = RECON_APP,
+        .native_symbol = "create_declarator_shape",
+    },
+    {
+        .name = "_make_tagged_type", .entry_rva = 0x3b077,
+        .code = (const ReconExtent[]){{0x3b077, 0x3b10c}, {0x72ea7, 0x72ec0}},
+        .code_count = 2, .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "make_tagged_type",
     },
     {

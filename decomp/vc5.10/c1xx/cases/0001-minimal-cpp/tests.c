@@ -73,6 +73,7 @@ int c1xx_test_exception_counters(void)
     frontend_bss.expression_seek_result = 151;
     frontend_bss.output_buffers[3].filename[259] = 113;
     frontend_data.constant_arena_index = 7;
+    frontend_data.tagged_type_arena_index = 3;
     frontend_data.force_type_serialization = 157;
     frontend_data.type_debug_mode = 163;
     frontend_data.reference_context = 167;
@@ -129,7 +130,7 @@ int c1xx_test_exception_counters(void)
         frontend_data.canonical_token_records[137] == NULL && frontend_data.keyword_table == NULL && frontend_data.current_identifier == NULL && frontend_data.frontend_pointer_table == NULL && frontend_data.empty_pointer_array == NULL && frontend_data.pch_expression_file == 0 &&
         frontend_bss.expression_seek_result == 0 &&
         frontend_bss.output_buffers[3].filename[259] == 0 &&
-        frontend_data.constant_arena_index == 5 &&
+        frontend_data.constant_arena_index == 5 && frontend_data.tagged_type_arena_index == 5 &&
         frontend_data.force_type_serialization == 0 && frontend_data.type_debug_mode == 1 &&
         frontend_data.reference_context == 1 && frontend_bss.ir_record_count == 0 &&
         frontend_data.last_ir_line_delta == 0 && frontend_bss.ir_line_delta == 0 &&

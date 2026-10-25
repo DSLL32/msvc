@@ -71,6 +71,7 @@ typedef struct FrontendData {
     int declaration_context_index; /* cd538, initialized-1; sign selects arena */
     int declaration_mode_index; /* cd580, initialized-1 */
     struct CompilerParameterTypes *empty_parameters; /* cc69c, initializedNULL */
+    unsigned tagged_type_arena_index; /* cd890, initialized5 */
 } FrontendData;
 
 /* A linked context stack saves the first two values in each stack frame. */
