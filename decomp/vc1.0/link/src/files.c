@@ -370,6 +370,27 @@ void close_all_files(void)
     }
 }
 
+/* Original [0003d670,0003d6e7). Abort cleanup retains the real global
+ * slot reloads across API calls and terminates through Win32 ExitProcess. */
+extern void remove_temporary_inputs(void);
+void link_cleanup(void)
+{
+    int index;
+    for (index=0;index<16;++index) {
+        if (!mapped_outputs[index]) continue;
+        mapping_unmap(mapped_outputs[index]->contents.view);
+        if (mapped_outputs[index]->flags&2) {
+            SetFilePointer(mapped_outputs[index]->source.handle,0,NULL,FILE_BEGIN);
+            SetEndOfFile(mapped_outputs[index]->source.handle);
+        }
+        CloseHandle(mapped_outputs[index]->storage.mapping);
+        CloseHandle(mapped_outputs[index]->source.handle);
+        DeleteFileA(mapped_outputs[index]->name);
+    }
+    remove_temporary_inputs();
+    ExitProcess(1);
+}
+
 int open_buffered_file(FileSlot *file,int mode,int permission,unsigned char fresh)
 {
     struct _stat info;

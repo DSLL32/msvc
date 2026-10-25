@@ -4260,11 +4260,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_link_cleanup",
         .entry_rva = 0x2d670,
-        .code = (const ReconExtent[]){{0x2d670, 0x2d671}},
+        .code = (const ReconExtent[]){{0x2d670, 0x2d6e7}},
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "link_cleanup",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mapped_output_pointer",

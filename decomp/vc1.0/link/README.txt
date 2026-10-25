@@ -5,7 +5,7 @@ Build the native i386 shared library and run the cached cases from this folder:
     make -j4 native
     make -j4 check unit
 
-The shared recon-tool harness discovers the 94 numbered case directories. Native
+The shared recon-tool harness discovers the 95 numbered case directories. Native
 fixtures use only captured original inputs/results. They never run Wine or
 refresh references. The original compiler and graph/ABI audit are separate:
 
@@ -21,17 +21,17 @@ crt/anchors.c selects the original static CRT termination-table objects and is
 link scaffolding, not an application function or new CRT implementation.
 
 binary.c is the canonical original-RVA function registry. Its implemented App
-set now has 811 application functions (759 public-reached, 52 direct-support),
-with accepted App extent union 230438/281634 (81.8217971%). The sorted-external
-diagnostic wrapper adds one whole function/85 bytes after the resource-support
-checkpoint. Support-inclusive historical accepted extent is 261377/281634
-(92.8073315%). The 1010 historical frontier count includes shipped CRT/import
+set now has 812 application functions (759 public-reached, 53 direct-support),
+with accepted App extent union 230557/281634 (81.8640505%). The mapped-output
+cleanup lifecycle adds one whole function/119 bytes after the sorted-external
+checkpoint. Support-inclusive historical accepted extent is 261496/281634
+(92.8495849%). The 1011 historical frontier count includes shipped CRT/import
 support; 16 old handwritten crt/runtime.c overrides remain separate, without new
 application credit. A complete non-CRT denominator remains unavailable. The old
-partial body/data/alignment inventory leaves 11111 unaccepted bytes unclassified
+partial body/data/alignment inventory leaves 11108 unaccepted bytes unclassified
 within that historical inventory; this is not a current-registry classification
 count. It includes already classified, unreached CRT such as __cwild and helpers.
-The current registry leaves 9287 bytes outside known App/CRT/import extents,
+The current registry leaves 9169 bytes outside known App/CRT/import extents,
 including the explicit Unknown rows. This gap includes code/data/alignment and
 incomplete placeholder extents, not a reliable application denominator; no gap
 has been relabeled as CRT merely because of its location or appearance.
@@ -97,7 +97,7 @@ The initial custom-helper CRT link failure, occupied historical cwd, one-byte
 placeholder extent omission and diagnostic GDB-stop termination are retained.
 They are not reported as target semantic failures or successful completed runs.
 
-Current shared validation checks 848 graphs for calls, RET cleanup, live function
+Current shared validation checks 849 graphs for calls, RET cleanup, live function
 references, indirect topology, ownership and instruction boundaries. The 41 ECX
 member declarations and existing layout assertions are retained. Historical
 validation of 514 contextual initializers is preserved in Git; it is not a
@@ -223,5 +223,56 @@ implementation, App credit or new historical frontier/accepted extent. Its
 object's neighboring parser/find code differs and remains separately unclassified.
 The larger float-conversion and multibyte gaps remain provenance leads, not App
 reconstruction candidates. Classification source hashes and proof remain in:
+
+    /root/.ai-tmp/msvc2/vc1.0/link/cleanup-lifecycle/
+
+Case 0094 covers synchronous direct link_cleanup over real file-subsystem owners,
+not the held public console-handler/thread transport. Real initialization and
+three mapped writes followed by a normal middle close create two live outputs
+and an actual vector hole. Real argument constructors register one temporary
+original and a same-name retained control. The 512-byte precleanup report checks
+all sixteen vector positions, defined FileSlot fields (40 bytes), live written bytes,
+zero tails, pointer/argument ownership and actual CW027f/SW0/LastError1224.
+No private vector, flags, error state or callback pointer is seeded.
+
+The original and reconstruction unmap each live output, retain the original
+zero-truncate-before-mapping-close ordering, close both handles, delete the file,
+remove temporary originals and genuinely ExitProcess(1). The closed retained
+output remains exactly 2097152 bytes, SHA256
+44a068d376a9b3943df73bcda71c708d4e9ee141bd0371573be54b412d05dd69.
+Precleanup report SHA256 is
+5507a7fdb6221bae7e678f50a59a8eb8f78eb7ed0520f1d0485704269a0d2de0.
+The two live outputs and temporary input are absent; all retained inputs and
+complete final inventory are strict, with empty streams and no byte masks.
+The nonwritable registered-slot branch remains unexercised because ordinary
+writable mapping constructors do not produce that state.
+
+Shared --direct-noreturn capture records the actual typed callback entry and
+expected/actual DWORD 1, without reading helper globals after process exit or
+fabricating completion. Both fresh pairs use explicit --capture and
+--original-report bindings. Native GDB records 26 pre-exit observations covering
+real global owners, both ordered cleanup API sequences, SDK stack cleanup and
+nonvolatiles, FP state and final ExitProcess argument. Native SetEndOfFile returns
+FALSE/1224 while mapping handles remain open. Individual original API returns
+after cleanup entry were not sampled and are not claimed byte-equal.
+
+Untouched-original baseline took 1.145s; masked frontier 1.325s and final completion
+1.149s. The corresponding native frontier took 63.447ms (setup 11.130/execution 2.215/
+checks 50.102); completed fresh pair took 30.072ms (8.298/2.918/18.855). The larger
+checks component hashes the complete mapped/retained 2MB artifacts. Native GDB
+completed in 235.603ms. Initial original compiler verification took 19.291s; the
+final 849-function audit target passed in 22.296s including its shared-header
+original rebuild (combined, unsplit). Final native/case build took 3.143s and all
+95 cached cases plus seven focused tests passed in 2.139s parallel wall time with
+identical published shared C/H before/after. Probe-DLL build time was unmeasured
+and is excluded from capture timings.
+
+The first native link exposed missing DeleteFileA support, now supplied by the
+reviewed shared shim ecb2b3422. Its success contract is exercised by this real
+owned-file lifecycle; no target-local deletion workaround or extra original API
+campaign was added. Failed DSO-load and already-reserved artifact-directory
+attempts were rejected before original execution and remain raw technical
+failures. The empty old stubs.c translation unit is retired. Raw original files,
+receipts, GDB observations, source hashes and timing/accounting are retained in:
 
     /root/.ai-tmp/msvc2/vc1.0/link/cleanup-lifecycle/

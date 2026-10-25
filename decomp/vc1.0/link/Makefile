@@ -29,7 +29,6 @@ BINARY_SOURCES = src/link.c \
     src/map-file.c \
     src/definition-file.c \
     src/definition-stubs.c \
-    src/stubs.c \
     src/driver.c \
     src/files.c \
     src/linker.c \
