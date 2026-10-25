@@ -705,6 +705,44 @@
             ]
           ]
         }
+      },
+      "@prune_input_tree@8": {
+        "original": {
+          "text_data": [
+            [
+              4351104,
+              4351124
+            ],
+            [
+              4351124,
+              4351134
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@prune_input_tree@8",
+                "offset": 1061
+              },
+              {
+                "rebuilt_symbol": "@prune_input_tree@8",
+                "offset": 1081
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@prune_input_tree@8",
+                "offset": 1081
+              },
+              {
+                "rebuilt_symbol": "@prune_input_tree@8",
+                "offset": 1091
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": [],

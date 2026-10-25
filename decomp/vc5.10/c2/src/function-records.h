@@ -16,7 +16,8 @@ struct C2FunctionRegister {
     struct C2Expression *value;
     unsigned pending18;
     unsigned number;
-    unsigned value_bytes, pending24;
+    unsigned value_bytes;
+    C2FunctionRegister *base;
     C2FunctionRegister *next_free;
     unsigned pending2c, properties;
     unsigned char pending34[28];

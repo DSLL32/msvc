@@ -1159,3 +1159,90 @@ C2Record *__fastcall append_input_trees(C2InputStack *stack, C2Record *prior)
     }
     return prior;
 }
+
+C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value)
+{
+    C2Expression *prior, *operand, *result, *next, *temporary;
+    unsigned short type, bytes;
+    int effects;
+    if (tree == NULL) return NULL;
+    if (INPUT_IS_OPERAND(tree)) {
+        effects = input_has_side_effects(tree);
+        prior = tree->previous;
+        if (!effects) {
+            unlink_input_record((C2Record *)tree);
+            operand = tree;
+            if (tree->kind == 6 &&
+                (!tree->aggregate_value ||
+                 (INPUT_IS_REGISTER(tree->aggregate_value) &&
+                  tree->aggregate_value->value.reg->value)) &&
+                (!tree->aggregate_second ||
+                 (INPUT_IS_REGISTER(tree->aggregate_second) &&
+                  tree->aggregate_second->value.reg->value)) && tree->aggregate_value)
+                operand = tree->aggregate_value;
+            if (INPUT_IS_REGISTER(operand) && operand->value.reg->value) {
+                if (operand->value.reg->value == prior)
+                    prior = prune_cached_input(operand);
+                else
+                    prune_cached_input(operand);
+            }
+            if (tree->kind == 30 || (tree->location.expression.properties & 0x10))
+                c2_report_internal("E:\\utc\\src\\\\P2\\sdsu.c", 328);
+            release_small_node(tree);
+            return prior;
+        }
+        unlink_input_record((C2Record *)tree);
+        type = tree->type;
+        if ((type & 0xf000) == 0x5000) {
+            bytes = type & 0xfff;
+            if (bytes == 0 || bytes >= 3) bytes = 4;
+            type = bytes | 0x1000;
+            tree->type = type;
+            if (tree->kind == 2)
+                tree->value.reg = new_address_register(tree->value.reg, type,
+                                                       bytes, tree->value.reg->base);
+        }
+        temporary = new_input_temporary(tree->type);
+        return new_binary_expression(0x131, tree->type, temporary, tree,
+                                     link_code_nodes, (C2Record *)prior);
+    }
+    if (!(tree->flags & 1)) return tree;
+    for (result = tree->tail.right; result; result = next) {
+        next = result->next;
+        if (INPUT_IS_REGISTER(result) && result->value.reg->value) {
+            if (result->kind == 1)
+                rewrite_input_reference(tree, result);
+            else if (tree->opcode == 0x13e || tree->opcode == 0x13f)
+                remove_input_result(tree, result);
+        }
+    }
+    for (result = tree->tail.right; result; result = result->next) {
+        if (result->kind != 1 || ((C2Symbol *)result->left)->kind != 1)
+            return tree;
+    }
+    if (!retain_value && input_has_side_effects(tree)) {
+        switch (tree->kind) {
+        case 11:
+            if (!tree->tail.right) {
+                result = new_input_temporary(tree->type);
+                tree->tail.right = result;
+                result->location.expression.properties |= 0x10;
+            }
+            break;
+        case 13: case 14: case 16: case 17: case 19: case 20:
+            break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\sdsu.c", 419);
+            break;
+        }
+        return tree;
+    }
+    for (operand = tree->left; operand; operand = operand->next) {
+        if (INPUT_IS_REGISTER(operand) && operand->value.reg->value)
+            prune_cached_input(operand);
+    }
+    prior = tree->previous;
+    unlink_input_record((C2Record *)tree);
+    release_small_node(tree);
+    return prior;
+}

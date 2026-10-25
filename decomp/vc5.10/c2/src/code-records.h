@@ -29,7 +29,7 @@ struct C2Expression {
     union { C2Expression *left; unsigned immediate; };
     union { C2Expression *right; C2ExpressionReference *indirect; } tail;
     union { void *data; struct C2InputClause *clauses; } detail;
-    C2Expression *aggregate_value;
+    C2Expression *aggregate_value, *aggregate_second;
 };
 struct C2Record {
     C2Record *next;

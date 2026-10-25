@@ -440,11 +440,6 @@ char *__fastcall lookup_input_filename(unsigned serial)
     return 0;
 }
 
-C2Expression *__fastcall prune_input_tree(C2Expression *tree, int retain_value)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 void __fastcall discard_input_tree(C2Expression *tree)
 {
@@ -455,4 +450,27 @@ C2Expression *__fastcall last_input_tree(C2Expression *tree)
 {
     __asm { int 3 }
     return 0;
+}
+
+int __fastcall input_has_side_effects(C2Expression *tree)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Expression *__fastcall prune_cached_input(C2Expression *tree)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+int __fastcall rewrite_input_reference(C2Expression *tree, C2Expression *result)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall remove_input_result(C2Expression *tree, C2Expression *result)
+{
+    __asm { int 3 }
 }
