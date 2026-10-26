@@ -65,7 +65,7 @@ static void numeric(void)
 #endif
 int main(void)
 {
-    unsigned char *memory;unsigned n,mode;pid_t child;int status;
+    unsigned char *memory;unsigned n,mode;pid_t child;int status,expected;
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
     assert(signed_number==recon_itoa);numeric();
 #endif
@@ -75,14 +75,14 @@ int main(void)
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
-            case 0:compare(NULL,NULL,0);break;
+            case 0:assert(!compare(NULL,NULL,0));_exit(0);
             case 1:compare((void *)1,(void *)1,(size_t)-1);break;
-            case 2:compare(memory,memory+64,4);break;
-            case 3:compare("ABC","abc",3);break;
+            case 2:assert(!compare(memory,memory+64,4));_exit(0);
+            case 3:assert(!compare("ABC","abc",3));_exit(0);
             case 4:command(NULL);break;
             case 5:command((char *)1);break;
             case 6:command((char *)memory);break;
-            case 7:compare(memory,memory,0);break;
+            case 7:assert(!compare(memory,memory,0));_exit(0);
             case 8:assert(SetStdHandle(STD_INPUT_HANDLE,(HANDLE)2));character();break;
             case 9:number(0,NULL,10);break;
             case 10:number(~0U,(char *)memory,8);break;
@@ -95,7 +95,11 @@ int main(void)
             }
             _exit(42);
         }
-        assert(waitpid(child,&status,0)==child && WIFEXITED(status) && WEXITSTATUS(status)==125);
+        expected=125;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+        if(mode==0 || mode==2 || mode==3 || mode==7)expected=0;
+#endif
+        assert(waitpid(child,&status,0)==child && WIFEXITED(status) && WEXITSTATUS(status)==expected);
         for(n=0;n<4096;++n)assert(memory[n]==0xa5);
     }
     assert(!munmap(memory,4096));return 0;

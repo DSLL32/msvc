@@ -277,8 +277,24 @@ int __cdecl recon_watcom_setmode(int fd,int mode)
 }
 int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    const unsigned char *a=left,*b=right;
+    unsigned first,second;
+    if(!count)return 0;
+    if((uintptr_t)left<4096 || (uintptr_t)right<4096 ||
+       (uintptr_t)left>UINTPTR_MAX-count || (uintptr_t)right>UINTPTR_MAX-count)
+        recon_unsupported("Watcom memicmp caller spans");
+    while(count--) {
+        first=*a++;second=*b++;
+        if(first>='A' && first<='Z')first+='a'-'A';
+        if(second>='A' && second<='Z')second+='a'-'A';
+        if(first!=second)return (int)first-(int)second;
+    }
+    return 0;
+#else
     (void)left;(void)right;(void)count;
     recon_unsupported("unreviewed Watcom memicmp");return 0;
+#endif
 }
 struct ReconWatcomDirent *__cdecl recon_watcom_opendir(const char *path)
 {

@@ -632,7 +632,12 @@ conversion is supported by this annotation.
 
 Watcom-only bare memicmp/getcmd spellings have typed cdecl link boundaries:
 int(const void *,const void *,size_t) and char *(char *), matching shipped
-STRING.H83/PROCESS.H63. memicmp always denies125, including count0/NULL.
+STRING.H83/PROCESS.H63. memicmp now implements the reached old unsigned-byte
+comparison: fold only ASCII A..Z, return the full folded-byte difference at the
+first mismatch or0 at count exhaustion. Count0 reads neither pointer, including
+NULL. Nonzero count requires valid caller-owned nonwrapping spans; no locale
+semantics or string-NUL stop is introduced. Other profiles and invalid spans
+remain125. Native errors/full FP are retained; original per-call state unmeasured.
 The native host may bind the exact original CreateProcessA input with
 recon_bind_command_line(text,bytes), including the final NUL (ASCII, at most32767
 bytes). The mutable buffer is borrowed for process lifetime, never reconstructed
