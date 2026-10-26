@@ -3572,6 +3572,18 @@
       "behavior": "Native-only INT3 at first output consumption: pass1 after genuine tag-type reference before pointer_type entryESP-12; other passes before pointer_offset entryESP-4. Win32 retains ignored return/unwritten outputs",
       "public_reachability": "UNKNOWN",
       "authorization": "Established exact ignored-return/uninitialized-control policy; no output initialization or broader base restriction"
+    },
+    {
+      "function": "_builtin_unary_expression@8",
+      "original": [
+        389648,
+        392520
+      ],
+      "condition": "operation == 0x5a through global-qualified unary operator fallback",
+      "behavior": "original and native retain the uninitialized folded-value local/read; observed native SIGSEGV is not treated as equivalence",
+      "win32": "original workingESP+0x1c (entryESP-0x10) read at0x5f4ec overwrites operand.value at0x5f4f6 without initialization on the reached prefix",
+      "authorization": "Root approved explicitly versioned defined successor; preserve genuine source defect in both builds, no guard/init/mask/allocator tuning",
+      "coverage_note": "Frozen scalar_adapter_sdk v2 original exit0/native SIGSEGV and GDB diagnosis retained in scratch. Defined v3 removes only the explicit unary bridge; unary classifier qualified separately by minimal native unit, not CLI completion."
     }
   ],
   "function_properties": {

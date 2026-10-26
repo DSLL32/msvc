@@ -412,7 +412,10 @@ IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *op
     }
     /* As in the original, other internal operation codes reach the local
        folded-value slot without assigning it. Valid arithmetic cases above
-       assign that slot before reusing the operand node. */
+       assign that slot before reusing the operand node. The frozen scalar-adapter
+       v2 global-qualified unary OP_ADD reaches this defect: original stack
+       bytes and native bytes differ, so that invocation is unsupported natively.
+       Keep the genuine local/read in both builds, without initializing it. */
     operand->type = result->type;
     operand->value.integer = value;
     return operand;

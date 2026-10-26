@@ -1,6 +1,34 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Scalar adapter SDK v3 is COMPLETE: case0052 compiles global-qualified binary
+scalar/pointer bridges with a callback/typedef client. Three App bodies add455 B:
+operator_operand_expression(269 B), binary-token classifier(85 B) and unary-token
+classifier(101 B). Both classifiers were discovered as real callees, with actual
+stdcall4/AL contracts. The binary helper owns exactly its124 B jump table;
+source expresses its cases normally. Wrapper/binary qualification uses fresh
+original/native CLI matching; unary qualification is explicitly a minimal native
+unit, not successful CLI reach. Twenty support bodies are now unit-qualified.
+
+The frozen v2 explicit unary bridge is UNSUPPORTED natively: the original helper
+validates a mapped unary token but dispatches the input OP_ADD0x5a. Original
+builtin_unary_expression then reads unwritten entryESP-0x10 and overwrites the
+operand value. Its original exit0/warnings, native SIGSEGV, raw inputs and GDB
+finding remain in scratch. The genuine local/read stays unchanged in both builds,
+with source comment and policy limitation; no initialization/guard/mask/allocator
+change. Approved v3 replaces only that explicit unary bridge with ordinary
+negation and freezes a fresh original. Native unit checks the classifier itself.
+
+Total is1,876 App /407,814 B (85.60% of whole original code),22 named pending
+App,1,963 historical frontiers and seven unchanged historical CRT source bodies.
+All53 native cases and47 unit groups pass, with original compilation and the
+1,884-function six-check graph/ABI audit. Closing gate3.548 s; last incremental
+build3.205 s (other builds unmeasured). Final v3 original477.495 ms/native30.459 ms
+(setup17.284 ms, execution6.949 ms, checks6.226 ms). Unary unit25.884 ms
+(execution2.474 ms). No shared shim change or output normalization.
+
+Earlier descriptor support qualification:
+
 Legacy descriptor support is COMPLETE (native-unit-only): three whole App
 helpers add478 B: declared-symbol reference(22 B), initializer address width
 (168 B) and segment/offset expression(288 B). The scaffold's generic unary/void*

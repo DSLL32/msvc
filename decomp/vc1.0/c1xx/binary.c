@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1961 historical frontiers/1873 App bodies;
- * latest nineteen support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1963 historical frontiers/1876 App bodies;
+ * twenty support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -14925,12 +14925,33 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_classify_unary_operator_token@4",
+        .entry_rva = 0x67600,
+        .code = (const ReconExtent[]) { { 0x67600, 0x67665 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "classify_unary_operator_token",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_classify_binary_operator_token@4",
+        .entry_rva = 0x67670,
+        .code = (const ReconExtent[]) { { 0x67670, 0x676c5 } },
+        .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x676c8, 0x67744 } },
+        .text_data_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "classify_binary_operator_token",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_operator_operand_expression@8",
         .entry_rva = 0x67750,
-        .code = (const ReconExtent[]) { { 0x67750, 0x67751 } },
+        .code = (const ReconExtent[]) { { 0x67750, 0x6785d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "operator_operand_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_intern_operator_name@4",

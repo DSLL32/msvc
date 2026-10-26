@@ -706,3 +706,79 @@ OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *se
     diagnose_overload_failure(0, search, 0);
     return 0;
 }
+
+unsigned char __stdcall classify_unary_operator_token(unsigned char operation);
+unsigned char __stdcall classify_binary_operator_token(unsigned char operation);
+
+/* Original0x77750..0x7785d, stdcall8. Global-qualified operator
+   fallback extracts the first and final argument before counting the list.
+   The original tests the unary classifier's mapped result, but dispatches
+   with the original token; retain that quirk rather than substitute the map. */
+IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments)
+{
+    IrToken *first, *last;
+    int count;
+    if (!arguments) {
+        report_syntax_error(809, token_spellings[operation]);
+        return 0;
+    }
+    first = arguments->linkage.list_head->value.pointer;
+    last = arguments->value.pointer;
+    count = (int)count_call_arguments(arguments);
+    if (count == 1) {
+        if (classify_unary_operator_token(operation) == 1) {
+            report_syntax_error(827, token_spellings[operation]);
+            return 0;
+        }
+        return builtin_unary_expression(operation, first);
+    }
+    if (count == 2) {
+        if (classify_binary_operator_token(operation) == 1) {
+            report_syntax_error(828, token_spellings[operation]);
+            return 0;
+        }
+        return builtin_binary_expression(operation, first, last);
+    }
+    if (count < 1) report_syntax_error(809, token_spellings[operation]);
+    else report_syntax_error(806, token_spellings[operation]);
+    return 0;
+}
+
+/* Original0x77670..0x776c5, stdcall4/AL result; encountered31-row
+   jump table0x776c8..0x77744. Valid binary forms retain the input token. */
+unsigned char __stdcall classify_binary_operator_token(unsigned char operation)
+{
+    switch (operation) {
+    case OP_BIT_AND: case OP_LOGICAL_AND: case OP_AND_ASSIGN:
+    case 0x40: /* comma */
+    case OP_POST_DECREMENT: case OP_DIVIDE: case OP_DIVIDE_ASSIGN:
+    case OP_EQUAL: case OP_GREATER: case OP_GREATER_EQUAL:
+    case OP_POST_INCREMENT: case OP_SHIFT_LEFT_ASSIGN: case OP_SHIFT_LEFT:
+    case OP_LESS: case OP_LESS_EQUAL: case OP_SUBTRACT: case OP_SUBTRACT_ASSIGN:
+    case OP_REMAINDER: case OP_REMAINDER_ASSIGN: case OP_MULTIPLY:
+    case OP_MULTIPLY_ASSIGN: case OP_NOT_EQUAL: case OP_BIT_OR: case OP_OR_ASSIGN:
+    case OP_LOGICAL_OR: case OP_ADD: case OP_ADD_ASSIGN:
+    case OP_BIT_XOR: case OP_XOR_ASSIGN: case OP_SHIFT_RIGHT_ASSIGN: case OP_SHIFT_RIGHT:
+    case 0x9d: case OP_MEMBER_POINTER:
+        return operation;
+    default:
+        return 1;
+    }
+}
+
+/* Original0x77600..0x77665, stdcall4/AL result. Unary parser tokens
+   map to expression tokens, with1 denoting an unsupported arity. */
+unsigned char __stdcall classify_unary_operator_token(unsigned char operation)
+{
+    switch (operation) {
+    case OP_BIT_AND: return OP_BIT_AND;
+    case OP_POST_DECREMENT: return OP_PRE_DECREMENT;
+    case OP_NOT: return OP_NOT;
+    case OP_POST_INCREMENT: return OP_PRE_INCREMENT;
+    case OP_SUBTRACT: return OP_NEGATE;
+    case OP_MULTIPLY: return OP_DEREFERENCE;
+    case OP_ADD: return OP_UNARY_PLUS;
+    case OP_COMPLEMENT: return OP_COMPLEMENT;
+    default: return 1;
+    }
+}

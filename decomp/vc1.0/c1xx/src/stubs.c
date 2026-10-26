@@ -94,7 +94,6 @@ void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 
 
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
