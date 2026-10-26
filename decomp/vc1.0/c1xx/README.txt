@@ -1,6 +1,35 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Embedded database service support is COMPLETE (native-unit-only): twelve whole
+App bodies add1,176 B. They cover record-pool reservation, out-of-line database
+open/header/close methods, member/public record lookup and bounded copies, plus
+magic, first/next type and payload-byte queries. The actual typesrvr.cpp records,
+shared typed owners and caller relationships establish App provenance; no fresh
+original CLI reach is claimed. The116 B thiscall owner preserves ECX and actual
+stack cleanup. Copies retain required-length reporting and untouched tails;
+allocation and byte loops remain inline where required by the original graph.
+One typed unit checks real header/file/pool owners, record versus hash-prefix
+identity, short/full copies, block refill and fd retirement. The out-of-line
+open retains its original mode-specific unwritten flags without borrowing the
+separate factory's qualified native initialization.
+
+Total is1,911 App /411,052 B (86.28% of whole original code),no named pending
+registry entries,1,968 historical frontiers,50 explicitly unit-qualified support
+bodies and seven unchanged historical CRT source bodies. Unregistered code gaps
+remain under positive classification; this is not whole App completion.
+All55 native cases and59 unit groups pass, with original compilation and the
+1,919-function six-check graph/ABI audit. Focused unit26.569 ms (setup14.637 ms,
+execution4.326 ms, checks7.605 ms). Initial source build3.310 s failed on a method
+name colliding with the CRT close remap; naming the unknown method close_file
+corrected it (retry elapsed unmeasured). Closing gate1.846 s completed native
+checks but held the audit on a false final-RET CRT identity at17140..17150.
+Independent entry/pointer/export and whole193 B owner review justified only two
+raw aliases and one canonical removal. Corrected audit2.909 s passes; native
+checks were retained. No original invocation, oracle or shared shim change.
+
+Earlier parser/callback qualification:
+
 Parser/callback support is COMPLETE (native-unit-only): six whole App bodies
 add659 B: signal interruption(19 B), fatal I/O wrapper(67 B), recursive lookahead
 frame(238 B), ASM expected-token diagnostic(81 B), ASM recovery value(61 B) and

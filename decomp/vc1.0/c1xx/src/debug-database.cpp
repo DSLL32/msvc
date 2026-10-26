@@ -42,6 +42,11 @@ struct DebugDatabase {
     DatabasePool records, lookup_nodes;
     DatabaseBlock *scan_block;
     int file, writable, want_lookup, want_offsets;
+    int RECON_THISCALL open(char *filename, char *mode, unsigned signature);
+    int RECON_THISCALL read_header(void);
+    int RECON_THISCALL close_file(void);
+    unsigned char * RECON_THISCALL record(unsigned short type);
+    unsigned RECON_THISCALL copy_record(unsigned short type, unsigned char *output, unsigned *bytes);
     int RECON_THISCALL create(char *filename, unsigned signature);
     int RECON_THISCALL load(void);
     int RECON_THISCALL commit(void);
@@ -54,6 +59,12 @@ typedef char DatabasePoolMustBe12[(sizeof(DatabasePool) == 12) ? 1 : -1];
 typedef char DatabaseMustBe116[(sizeof(DebugDatabase) == 116) ? 1 : -1];
 typedef char DatabaseFileMustBe100[(offsetof(DebugDatabase, file) == 100) ? 1 : -1];
 typedef char DatabaseOffsetsFlagMustBe112[(offsetof(DebugDatabase, want_offsets) == 112) ? 1 : -1];
+
+static const DatabaseHeader initial_database_header = {
+    "Microsoft C/C++ program database 1.00\r\n\032JG", 0xe0d5c, 0, 0,
+    0x1000, 0x1000, 0
+};
+
 
 /* Original0x17b70..0x17dc3, cdecl3. Allocate the type-server owners,
    select the requested mode, then load an existing or newly created database. */
@@ -153,13 +164,9 @@ void RECON_THISCALL DatabasePool::release(void)
    stack, RET8. The fixed64B file header is a typed template, not arena data. */
 int RECON_THISCALL DebugDatabase::create(char *filename, unsigned signature)
 {
-    static const DatabaseHeader initial = {
-        "Microsoft C/C++ program database 1.00\r\n\032JG", 0xe0d5c, 0, 0,
-        0x1000, 0x1000, 0
-    };
     file = _open(filename, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
     if (file < 0) return 0;
-    header = initial;
+    header = initial_database_header;
     header.timestamp = signature;
     if (_write(file, &header, sizeof(header)) != sizeof(header)) {
         if (file >= 0) {
@@ -420,3 +427,155 @@ extern "C" int __cdecl debug_database_close(DebugDatabase *database)
     }
     return closed;
 }
+
+/* Original0x17080..0x17141, cdecl3. The original inlines its record
+   pool allocator, including the typesrvr.cpp failure boundary. */
+extern "C" unsigned char *__cdecl reserve_database_record(unsigned extra,
+    DebugDatabase *database, unsigned char *record)
+{
+    unsigned bytes = extra + (unsigned short)(*(unsigned short *)record + 2);
+    DatabasePool *pool = &database->records;
+    DatabaseBlock *block = pool->current;
+    unsigned char *memory;
+    unsigned capacity;
+    if (block->remaining >= bytes) {
+        block->remaining -= bytes; memory = block->cursor; block->cursor += bytes;
+    } else memory = 0;
+    if (!memory) {
+        capacity = (bytes + 0x1fff) & ~0xfffU;
+        block = (DatabaseBlock *)malloc(capacity + sizeof(DatabaseBlock));
+        if (block) {
+            block->remaining = capacity; block->cursor = (unsigned char *)(block+1);
+            block->next = 0; pool->current->next = block;
+        } else pool->current->next = 0;
+        pool->current = block = pool->current->next;
+        if (block->remaining >= bytes) {
+            block->remaining -= bytes; memory = block->cursor; block->cursor += bytes;
+        } else memory = 0;
+        if (!memory) fatal_error(1, "typesrvr.cpp", 58);
+    }
+    pool->used += bytes;
+    return memory;
+}
+
+/* Original0x17150..0x172b1: ECX=this, filename/mode/signature, RET12.
+   Mode-specific unwritten flags retain their original lifetime; unlike the
+   separately qualified factory mode, this dormant entry has no observed
+   stale-field value and introduces no native initialization. */
+int RECON_THISCALL DebugDatabase::open(char *filename, char *mode, unsigned signature)
+{
+    int valid, closed;
+    writable = mode[0] == 'w';
+    switch (mode[1]) {
+    case 'c': want_offsets = 1; break;
+    case 'i': want_lookup = 1; break;
+    default: want_offsets = want_lookup = 1; break;
+    }
+    file = _open(filename, _O_BINARY | (writable ? _O_RDWR : 0));
+    if (file >= 0) {
+        valid = _read(file, this, sizeof(DatabaseHeader)) == sizeof(DatabaseHeader) &&
+            header.magic == 0xe0d5c && load();
+        if (!valid) return 0;
+        if (!writable) {
+            if (file >= 0) { closed = _close(file) >= 0; file = -1; }
+            else closed = 1;
+            if (!closed) return 0;
+        }
+        return 1;
+    }
+    if (!writable) return 0;
+    file = _open(filename, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
+    if (file < 0) valid = 0;
+    else {
+        header = initial_database_header;
+        header.timestamp = signature;
+        if (_write(file, this, sizeof(DatabaseHeader)) == sizeof(DatabaseHeader)) valid = load();
+        else {
+            if (file >= 0) { _close(file); file = -1; }
+            valid = 0;
+        }
+    }
+    return valid != 0;
+}
+
+/* Original0x172c0..0x172f4: ECX=this/RET0, current descriptor cursor. */
+int RECON_THISCALL DebugDatabase::read_header(void)
+{
+    return _read(file, this, sizeof(DatabaseHeader)) == sizeof(DatabaseHeader) &&
+        header.magic == 0xe0d5c && load();
+}
+
+/* Original0x17970..0x179c1: ECX=this/type WORD in stack DWORD/RET4.
+   The native and original method both expose the stored hash-prefix owner. */
+unsigned char * RECON_THISCALL DebugDatabase::record(unsigned short type)
+{
+    if (!want_offsets || header.first_type > type || header.next_type <= type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    return type_offsets[type-0x1000];
+}
+
+/* Original0x179d0..0x17a70: ECX=this, three stack words/RET12.
+   Required length remains in EAX and the output word even for a short buffer. */
+unsigned RECON_THISCALL DebugDatabase::copy_record(unsigned short type,
+    unsigned char *output, unsigned *bytes)
+{
+    unsigned char *stored;
+    unsigned length, copied, i;
+    if (!want_offsets || header.first_type > type || header.next_type <= type)
+        fatal_error(1, "typesrvr.cpp", 349);
+    stored = type_offsets[type-0x1000];
+    length = (unsigned short)(*(unsigned short *)(stored+2) + 2);
+    copied = length <= *bytes ? length : *bytes;
+    for (i = 0; i < copied; ++i) output[i] = stored[i+2];
+    *bytes = length;
+    return length;
+}
+
+/* Original0x17b40..0x17b6d: ECX=this/RET0. Closing an already
+   retired descriptor succeeds; failure still retires the stored descriptor. */
+int RECON_THISCALL DebugDatabase::close_file(void)
+{
+    int closed;
+    if (file < 0) return 1;
+    closed = _close(file) >= 0;
+    file = -1;
+    return closed;
+}
+
+/* Original0x17de0..0x17e34, cdecl2. The public view skips the stored
+   two-byte hash prefix; the original method's range check was inlined. */
+extern "C" unsigned char *__cdecl debug_database_record(DebugDatabase *database,
+    unsigned short type)
+{
+    if (!database->want_offsets || database->header.first_type > type ||
+        database->header.next_type <= type) fatal_error(1, "typesrvr.cpp", 349);
+    return database->type_offsets[type-0x1000] + 2;
+}
+
+/* Original0x17e40..0x17ee0, cdecl4. Keep the original inlined range
+   and copy operations rather than adding an out-of-line member call. */
+extern "C" unsigned __cdecl debug_database_copy_record(DebugDatabase *database,
+    unsigned short type, unsigned char *output, unsigned *bytes)
+{
+    unsigned char *stored;
+    unsigned length, copied, i;
+    if (!database->want_offsets || database->header.first_type > type ||
+        database->header.next_type <= type) fatal_error(1, "typesrvr.cpp", 349);
+    stored = database->type_offsets[type-0x1000];
+    length = (unsigned short)(*(unsigned short *)(stored+2) + 2);
+    copied = length <= *bytes ? length : *bytes;
+    for (i = 0; i < copied; ++i) output[i] = stored[i+2];
+    *bytes = length;
+    return length;
+}
+
+/* Original0x17fb0..0x17fb6, cdecl0: same magic as the actual file header. */
+extern "C" unsigned __cdecl debug_database_magic(void) { return 0xe0d5c; }
+/* Original0x17fe0..0x17fe9 and0x17ff0..0x17ff9, cdecl1/AX. */
+extern "C" unsigned short __cdecl debug_database_first_type(DebugDatabase *database)
+{ return database->header.first_type; }
+extern "C" unsigned short __cdecl debug_database_next_type(DebugDatabase *database)
+{ return database->header.next_type; }
+/* Original0x18000..0x18018, cdecl1/EAX. Hash WORDs are excluded. */
+extern "C" unsigned __cdecl debug_database_record_bytes(DebugDatabase *database)
+{ return database->records.used + (database->header.first_type-database->header.next_type)*2; }

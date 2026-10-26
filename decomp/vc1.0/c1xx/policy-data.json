@@ -4326,6 +4326,25 @@
           ]
         ],
         "reason": "Whole193B frontend hdrstop owner ends POPEDI/POPESI/RET; candidate is that finalRET plus15B LEA padding. Independent direct-transfer/address-operand/initialized-pointer/export/symbol review found no separate suffix entry; real calls22d8f/2326f target233e0. Preserve all six other same-name raw rows and whole owner extent/status; no extra function/byte credit."
+      },
+      {
+        "original": [
+          94528,
+          94544
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_reserve_database_record",
+        "owner_ranges": [
+          [
+            94336,
+            94529
+          ]
+        ],
+        "reason": "Whole193B embedded typesrvr.cpp record-pool owner with threecdeclargs ends POPEDI/POPESI/POPEBX/RET; candidate is finalRET plus15B LEA padding. Independent direct-transfer/address-operand/initialized-pointer/export/symbol review found no suffix entry. Preserve four other same-name raw rows and whole owner/status; no extra function/byte credit."
       }
     ]
   }

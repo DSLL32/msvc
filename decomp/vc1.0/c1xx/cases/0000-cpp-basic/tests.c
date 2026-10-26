@@ -603,6 +603,107 @@ static int check_pch_pragma_name_owner(void)
     synchronize_pch_pragma();
     return options.option_Fp == first;
 }
+/* The same nonvirtual116B type-server object as the genuine C++ methods.
+   These C test views expose no application wrapper or extra graph vertex. */
+typedef struct TestDatabaseHeader {
+    char signature[44];
+    unsigned magic, timestamp, age;
+    unsigned short first_type, next_type;
+    unsigned type_bytes;
+} TestDatabaseHeader;
+typedef struct TestDebugDatabase {
+    TestDatabaseHeader header;
+    unsigned char **type_offsets;
+    void *type_lookup;
+    TestDatabasePool records, lookup_nodes;
+    TestDatabaseBlock *scan_block;
+    int file, writable, want_lookup, want_offsets;
+} TestDebugDatabase;
+typedef char TestDebugDatabaseSize[(sizeof(TestDebugDatabase) == 116) ? 1 : -1];
+extern int __attribute__((thiscall)) test_database_open(TestDebugDatabase *, char *, char *, unsigned)
+    __asm__("_ZN13DebugDatabase4openEPcS0_j");
+extern int __attribute__((thiscall)) test_database_read_header(TestDebugDatabase *)
+    __asm__("_ZN13DebugDatabase11read_headerEv");
+extern unsigned char *__attribute__((thiscall)) test_database_record(TestDebugDatabase *, unsigned short)
+    __asm__("_ZN13DebugDatabase6recordEt");
+extern unsigned __attribute__((thiscall)) test_database_copy_record(TestDebugDatabase *, unsigned short, unsigned char *, unsigned *)
+    __asm__("_ZN13DebugDatabase11copy_recordEtPhPj");
+extern int __attribute__((thiscall)) test_database_close_file(TestDebugDatabase *)
+    __asm__("_ZN13DebugDatabase10close_fileEv");
+extern int __cdecl debug_database_close(DebugDatabase *);
+extern unsigned char *__cdecl reserve_database_record(unsigned, DebugDatabase *, unsigned char *);
+extern unsigned char *__cdecl debug_database_record(DebugDatabase *, unsigned short);
+extern unsigned __cdecl debug_database_copy_record(DebugDatabase *, unsigned short, unsigned char *, unsigned *);
+extern unsigned __cdecl debug_database_magic(void);
+extern unsigned short __cdecl debug_database_first_type(DebugDatabase *);
+extern unsigned short __cdecl debug_database_next_type(DebugDatabase *);
+extern unsigned __cdecl debug_database_record_bytes(DebugDatabase *);
+static TestDebugDatabase *new_test_database(void)
+{
+    TestDebugDatabase *database = malloc(sizeof(*database));
+    TestDatabaseBlock *block;
+    if (!database) return 0;
+    memset(database, 0, sizeof(*database));
+    block = malloc(sizeof(*block) + 128);
+    if (!block) { free(database); return 0; }
+    block->remaining = 128; block->cursor = (unsigned char *)(block+1); block->next = 0;
+    database->records.first = database->records.current = block;
+    block = malloc(sizeof(*block));
+    if (!block) { free(database->records.first); free(database); return 0; }
+    block->remaining = 0; block->cursor = (unsigned char *)(block+1); block->next = 0;
+    database->lookup_nodes.first = database->lookup_nodes.current = block;
+    database->file = -1;
+    return database;
+}
+static int check_database_service_owners(void)
+{
+    TestDatabaseHeader header = {{0}};
+    unsigned char leaf[6] = {0x23,1,2,0,0x10,0}, output[8], *stored, *reserved;
+    TestDebugDatabase *database;
+    unsigned bytes;
+    int file;
+    memcpy(header.signature, "Microsoft C/C++ program database 1.00\r\n\032JG",
+        sizeof("Microsoft C/C++ program database 1.00\r\n\032JG"));
+    header.magic = 0xe0d5c; header.timestamp = 0x1234; header.age = 7;
+    header.first_type = 0x1000; header.next_type = 0x1001; header.type_bytes = 6;
+    file = _open("database-unit.pdb", _O_CREAT|_O_TRUNC|_O_RDWR|_O_BINARY, 0600);
+    if (file < 0 || _write(file, &header, sizeof(header)) != sizeof(header) ||
+        _write(file, leaf, sizeof(leaf)) != sizeof(leaf) || _close(file)) return 0;
+    database = new_test_database();
+    if (!database || !test_database_open(database, "database-unit.pdb", "rc", 0) ||
+        database->file != -1 || !database->want_offsets || database->want_lookup) return 0;
+    if (!debug_database_close((DebugDatabase *)database)) return 0;
+    database = new_test_database();
+    if (!database) return 0;
+    database->want_offsets = 1;
+    database->file = _open("database-unit.pdb", _O_RDONLY|_O_BINARY);
+    if (database->file < 0 || !test_database_read_header(database)) return 0;
+    stored = database->type_offsets[0];
+    if (test_database_record(database, 0x1000) != stored ||
+        debug_database_record((DebugDatabase *)database, 0x1000) != stored+2 ||
+        debug_database_first_type((DebugDatabase *)database) != 0x1000 ||
+        debug_database_next_type((DebugDatabase *)database) != 0x1001 ||
+        debug_database_magic() != 0xe0d5c ||
+        debug_database_record_bytes((DebugDatabase *)database) != 4) return 0;
+    memset(output, 0x5a, sizeof(output)); bytes = 3;
+    if (test_database_copy_record(database, 0x1000, output, &bytes) != 4 ||
+        bytes != 4 || memcmp(output, leaf+2, 3) || output[3] != 0x5a) return 0;
+    memset(output, 0x5a, sizeof(output)); bytes = sizeof(output);
+    if (debug_database_copy_record((DebugDatabase *)database, 0x1000, output, &bytes) != 4 ||
+        bytes != 4 || memcmp(output, leaf+2, 4) || output[4] != 0x5a) return 0;
+    reserved = reserve_database_record(2, (DebugDatabase *)database, leaf+2);
+    if (!reserved || database->records.used != 12 ||
+        database->records.current == database->records.first ||
+        database->records.current->remaining != 8192-6 ||
+        database->records.current->cursor != reserved+6) return 0;
+    if (reserve_database_record(0, (DebugDatabase *)database, leaf+2) != reserved+6 ||
+        database->records.used != 16 ||
+        debug_database_record_bytes((DebugDatabase *)database) != 14) return 0;
+    if (!test_database_close_file(database) || database->file != -1 ||
+        !test_database_close_file(database)) return 0;
+    if (!debug_database_close((DebugDatabase *)database)) return 0;
+    return _unlink("database-unit.pdb") == 0;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -639,5 +740,6 @@ const ReconTest c1xx_tests[] = {
     {"fatal callbacks (unit-only)",1,check_fatal_callbacks},
     {"ASM recovery defined words (unit-only)",1,check_asm_recovery_defined_words},
     {"recursive lookahead frame (unit-only)",1,check_recursive_lookahead_frame},
-    {"PCH pragma name owner (unit-only)",1,check_pch_pragma_name_owner}
+    {"PCH pragma name owner (unit-only)",1,check_pch_pragma_name_owner},
+    {"database service owners (unit-only)",1,check_database_service_owners}
 };
