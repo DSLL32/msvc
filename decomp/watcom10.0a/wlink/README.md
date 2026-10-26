@@ -1,5 +1,5 @@
-WLINK 10.0a has thirteen completed native regression cases. The acceptance ledger
-contains **1,002 application functions / 118,427 unique original code bytes**.
+WLINK 10.0a has fourteen completed native regression cases. The acceptance ledger
+contains **1,017 application functions / 119,650 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -31,6 +31,8 @@ load, access, sharing, conformance and IOPL flags.
 The thirteenth links a DOS COM program through a reusable SYSTEM block, nested
 response files, environment-expanded object and library paths, explicit LIBFILE
 inclusion, case-sensitive symbols, module/symbol tracing and separate debug data.
+The fourteenth upgrades an OS/2 LX DLL, preserving old export ordinals while
+adding a new export and module metadata, with code/data/BSS page policies.
 
 | Case | Result |
 | --- | --- |
@@ -47,6 +49,7 @@ inclusion, case-sensitive symbols, module/symbol tracing and separate debug data
 | `0010-pharlap-flat` | Exit 0; exact 258-byte stdout, empty stderr, 28,347-byte executable and 3,373-byte map |
 | `0011-os2-ne` | Exit 0; exact 256-byte stdout, empty stderr, 943-byte NE DLL and 3,507-byte map |
 | `0012-dos-com` | Exit 0; exact 249-byte stdout, empty stderr, 47-byte COM, 316-byte debug file and 1,958-byte map |
+| `0013-os2-upgrade` | Exit 0; exact 267-byte stdout, empty stderr, 5,113-byte LX DLL and 4,268-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -192,14 +195,29 @@ against the old oracle with its unchanged exclusions before adoption. Their old
 source/capture files and existing raw histories remain in scratch. Help was
 unaffected. The eleven necessary correction captures totaled **21.206 s**.
 
-The final parallel build/regression/unit/audit batch took **1.218 s**. All thirteen
-cases and 1,005 source-ready graph/ABI identities pass. The 26 native regression
-runs took **18.073–50.865 ms**. The genuine COM capture command took
-**1,970.354 ms** (owned target **1,953.568 ms**); its exact native pair took
-**27.259 ms**, split **16.424 / 3.885 / 6.950 ms** for setup/execution/checks.
-The map-clock-derived comparison reused that capture and took **27.891 ms**.
-The main, worker and helper producers took **615.978 / 666.575 / 516.139 ms**;
-the archive took **515.783 ms**, and the successful baseline **315.047 ms**.
-Every COM and separate debug byte stays strict. Raw artifacts, producer inputs,
-earlier failures and diagnostics remain under
+The LX upgrade case matches 552 first entries and every DLL byte. It reads the
+actual old 248-byte union header and resident/nonresident name tables, matches
+exports through the selected comparator and reinserts them by ordinal. Existing
+API_ENTRY/API_ALIAS/API_WAIT ordinals 3/7/11 remain; new API_NEW receives ordinal 1.
+The old input DLL is a captured ordinary input. The original keeps the new
+unassigned exports' resident flags when assigning old ordinals, so previously
+nonresident names become resident here; that defined behavior is preserved.
+The separate PE export-table reader remains a named trap and is not exercised.
+Only six map clock fields are excluded.
+
+ProcModName's successful prefix falls into the already known ProcLE true entry;
+its failed parse branches to the same final C3. The disjoint prefix, displaced
+one-byte shared terminal chunk, actual source edge and both identities are
+retained. That instruction contributes unique bytes once. No trace seeding or
+historical recapture is needed for this newly reached caller.
+
+The final parallel build/regression/unit/audit batch took **1.238 s**. All fourteen
+cases and 1,020 source-ready graph/ABI identities pass. The 28 native regression
+runs took **17.850–50.969 ms**. The genuine upgrade capture command took
+**1,115.731 ms** (owned target **1,101.048 ms**); its exact native pair took
+**27.641 ms**, split **16.288 / 4.311 / 7.042 ms** for setup/execution/checks.
+The map-clock-derived comparison reused that capture and took **29.778 ms**.
+The successful baseline took **615.574 ms**, reusing genuine OS/2 OMF objects,
+archive and the prior DLL. Every upgrade DLL byte stays strict. Raw artifacts,
+producer inputs, earlier failures and diagnostics remain under
 `~/.ai-tmp/msvc2/watcom-shared-integration/`.

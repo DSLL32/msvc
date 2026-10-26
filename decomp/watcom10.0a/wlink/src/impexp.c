@@ -33,6 +33,10 @@
 #include <ctype.h>
 #include "cmdline.h"
 #include "peimports.h"
+#include "exedos.h"
+#include "exene.h"
+#include "exeflat.h"
+#include "peheader.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
@@ -322,4 +326,138 @@ unsigned long ModRefTable( void )
         ++count;
     }
     return count;
+}
+
+void ReadOldLib( void )
+{
+    union {
+        dos_exe_header dos;
+        os2_exe_header os2;
+        os2_flat_header flat;
+        pe_header pe;
+    } head;
+    int file;
+    long offset;
+    char *name;
+    pe_object *objects, *object;
+
+    name = FmtData.u.os2.old_lib_name;
+    file = QOpenR( name );
+    QRead( file, &head, sizeof(dos_exe_header), name );
+    if( head.dos.signature != 0x5a4d || head.dos.reloc_offset != 0x40 ) {
+        LnkMsg( 0x3232, 0 );
+    } else {
+        QSeek( file, 0x3c, name );
+        QRead( file, &offset, sizeof(offset), name );
+        QSeek( file, offset, name );
+        QRead( file, &head, sizeof(head), name );
+        if( head.os2.signature == 0x454e ) {
+            QSeek( file, offset + head.os2.resident_off, name );
+            ReadNameTable( file );
+            QSeek( file, head.os2.nonres_off, name );
+            ReadNameTable( file );
+        } else if( head.flat.signature == 0x454c || head.flat.signature == 0x584c ) {
+            if( head.flat.resname_off != 0 ) {
+                QSeek( file, offset + head.flat.resname_off, name );
+                ReadNameTable( file );
+            }
+            if( head.flat.nonres_off != 0 ) {
+                QSeek( file, head.flat.nonres_off, name );
+                ReadNameTable( file );
+            }
+        } else if( head.pe.signature == 0x4550 ) {
+            objects = ChkLAlloc( head.pe.num_objects * sizeof(pe_object) );
+            object = objects;
+            QRead( file, objects, head.pe.num_objects * sizeof(pe_object), name );
+            while( head.pe.num_objects > 0 ) {
+                if( object->rva == head.pe.table[PE_TBL_EXPORT].rva ) {
+                    QSeek( file, object->physical_offset, name );
+                    head.pe.table[PE_TBL_EXPORT].rva -= object->physical_offset;
+                    ReadPEExportTable( file, &head.pe.table[PE_TBL_EXPORT] );
+                    break;
+                }
+                --head.pe.num_objects;
+                ++object;
+            }
+            _LnkFree( objects );
+            if( head.pe.num_objects == 0 ) LnkMsg( 0x3232, 0 );
+        } else LnkMsg( 0x3232, 0 );
+    }
+    QClose( file, name );
+    _LnkFree( name );
+    FmtData.u.os2.old_lib_name = 0;
+}
+
+void ReadNameTable( int file )
+{
+    unsigned char length;
+    unsigned short ordinal;
+    int (*compare)( const char *, const char * );
+    char *name;
+
+    name = FmtData.u.os2.old_lib_name;
+    if( LinkFlags & 0x2000 ) compare = strcmp;
+    else compare = stricmp;
+    for( ;; ) {
+        QRead( file, &length, sizeof(length), name );
+        if( length == 0 ) break;
+        QRead( file, TokBuff, length, name );
+        QRead( file, &ordinal, sizeof(ordinal), name );
+        if( ordinal == 0 ) continue;
+        TokBuff[length] = 0;
+        CheckExport( TokBuff, ordinal, compare );
+    }
+}
+
+void CheckExport( char *name, unsigned short ordinal,
+                  int (*compare)( const char *, const char * ) )
+{
+    entry_export *place, *prev;
+
+    prev = 0;
+    place = FmtData.u.os2.exports;
+    while( compare( place->name, name ) != 0 ) {
+        prev = place;
+        place = place->next;
+        if( place == 0 ) break;
+    }
+    if( place != 0 && place->ordinal == 0 ) {
+        place->ordinal = ordinal;
+        place = FindPlace( place );
+        if( place != 0 ) {
+            if( prev == 0 ) FmtData.u.os2.exports = place;
+            else prev->next = place;
+        }
+    }
+}
+
+entry_export *FindPlace( entry_export *entry )
+{
+    entry_export *place, *prev, *ret;
+
+    place = entry->next;
+    ret = 0;
+    if( place != 0 && place->ordinal <= entry->ordinal ) {
+        for( ;; ) {
+            if( place->ordinal == entry->ordinal ) {
+                LnkMsg( 0x322b, 0 );
+                entry->ordinal = 0;
+                break;
+            } else if( place->ordinal > entry->ordinal ) {
+                ret = entry->next;
+                entry->next = place;
+                prev->next = entry;
+                break;
+            }
+            if( place->next == 0 ) {
+                ret = entry->next;
+                place->next = entry;
+                entry->next = 0;
+                break;
+            }
+            prev = place;
+            place = place->next;
+        }
+    }
+    return ret;
 }

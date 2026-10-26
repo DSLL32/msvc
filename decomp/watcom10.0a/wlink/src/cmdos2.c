@@ -678,3 +678,63 @@ unsigned char ProcNonConforming( void )
     flags->specified |= 0x200;
     return 1;
 }
+
+unsigned char ProcTermInstance( void )
+{
+    FmtData.u.os2.flags |= 0x8000;
+    return 1;
+}
+
+unsigned char ProcPM( void )
+{
+    FmtData.u.os2.flags |= 0x20;
+    return 1;
+}
+
+unsigned char ProcOldLibrary( void )
+{
+    if( !HaveEquals( TOK_INCLUDE_DOT | TOK_IS_FILENAME ) ) return 0;
+    FmtData.u.os2.old_lib_name = FileName( Token.this, Token.len, 6, 0 );
+    return 1;
+}
+
+unsigned char ProcModName( void )
+{
+    if( !HaveEquals( TOK_INCLUDE_DOT ) ) return 0;
+    FmtData.u.os2.res_module_name = totext();
+    return ProcLE();
+}
+
+unsigned char ProcPermanent( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 4 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 4;
+    flags->specified |= 4;
+    return 1;
+}
+
+unsigned char ProcNonPermanent( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 4 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~4;
+    flags->specified |= 4;
+    return 1;
+}
+
+unsigned char ProcContiguous( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.flags |= 6;
+    return 1;
+}
+
+unsigned char ProcInvalid( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.flags |= 0x8000;
+    return 1;
+}

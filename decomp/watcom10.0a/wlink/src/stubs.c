@@ -44,7 +44,7 @@ void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
 
 void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
 void PhoneyStack( void ) { TRAP(); }
-void ReadOldLib( void ) { TRAP(); }
+
 
 
 
@@ -199,7 +199,7 @@ unsigned char ProcMemory( void ) { TRAP(); return 0; }
 
 unsigned char ProcOldPE( void ) { TRAP(); return 0; }
 
-unsigned char ProcPM( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcPhysDevice( void ) { TRAP(); return 0; }
 unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
@@ -245,20 +245,20 @@ unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
 unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
-unsigned char ProcModName( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcNameLen( void ) { TRAP(); return 0; }
 
 unsigned char ProcNoCache( void ) { TRAP(); return 0; }
 unsigned char ProcNoCaseExact( void ) { TRAP(); return 0; }
-unsigned char ProcNoDefLibs( void ) { TRAP(); return 0; }
+
 unsigned char ProcNoIndirect( void ) { TRAP(); return 0; }
 unsigned char ProcNoRedefs( void ) { TRAP(); return 0; }
 unsigned char ProcNoRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcNone( void ) { TRAP(); return 0; }
-unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
-unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
+
+
 
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
@@ -483,7 +483,7 @@ void RestoreLinkerComdat( symbol *sym ) { TRAP(); }
 
 
 
-unsigned char ProcTermInstance( void ) { TRAP(); return 0; }
+
 
 
 
@@ -559,10 +559,10 @@ unsigned char ProcReadOnly( void ) { TRAP(); return 0; }
 unsigned char ProcFixed( void ) { TRAP(); return 0; }
 unsigned char ProcNonPageable( void ) { TRAP(); return 0; }
 unsigned char ProcPageable( void ) { TRAP(); return 0; }
-unsigned char ProcInvalid( void ) { TRAP(); return 0; }
-unsigned char ProcPermanent( void ) { TRAP(); return 0; }
-unsigned char ProcNonPermanent( void ) { TRAP(); return 0; }
-unsigned char ProcContiguous( void ) { TRAP(); return 0; }
+
+
+
+
 
 
 
@@ -692,3 +692,9 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
+
+
+
+
+
+void ReadPEExportTable( int file, struct pe_hdr_table_entry *base ) { TRAP(); }

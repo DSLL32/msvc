@@ -551,3 +551,17 @@ unsigned char AddLibFile( void )
     _LnkFree( name );
     return 1;
 }
+
+unsigned char ProcOSName( void )
+{
+    if( !GetToken( SEP_EQUALS, TOK_INCLUDE_DOT ) ) return 0;
+    if( FmtData.osname != 0 ) _LnkFree( FmtData.osname );
+    FmtData.osname = tostring();
+    return 1;
+}
+
+unsigned char ProcNoDefLibs( void )
+{
+    CmdFlags |= 4;
+    return 1;
+}

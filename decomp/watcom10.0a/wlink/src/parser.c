@@ -944,3 +944,10 @@ void ExpandEnvVariable( void )
         NewCommandSource( name, buff, ENVIRONMENT );
     }
 }
+
+char *totext( void )
+{
+    Token.thumb = REJECT;
+    if( !GetToken( SEP_NO, 0 ) ) GetToken( SEP_NO, TOK_INCLUDE_DOT );
+    return tostring();
+}

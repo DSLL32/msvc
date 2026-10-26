@@ -54,7 +54,7 @@ enum {
 
 #define OLD_PE_TBL_NUMBER 9
 
-typedef struct {
+typedef struct pe_hdr_table_entry {
         pe_va           rva;
         unsigned long     size;
 } pe_hdr_table_entry;

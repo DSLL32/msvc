@@ -31,6 +31,7 @@
 #ifndef WLINK_CMDLINE_H
 #define WLINK_CMDLINE_H
 #include "link.h"
+struct pe_hdr_table_entry;
 
 /* The old SYSTEM block owns a next/name header and inline command text. */
 typedef struct sysblock {
@@ -288,6 +289,11 @@ extern void SetSymCase( void );
 extern unsigned char AddModTrace( void );
 extern unsigned char AddSymTrace( void );
 extern unsigned char AddLibFile( void );
+extern char *totext( void );
+extern void ReadNameTable( int file );
+extern void ReadPEExportTable( int file, struct pe_hdr_table_entry *base );
+extern void CheckExport( char *name, unsigned short ordinal, int (*compare)(const char *, const char *) );
+extern entry_export *FindPlace( entry_export *entry );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

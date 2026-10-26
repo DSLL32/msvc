@@ -5021,6 +5021,81 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcTermInstance": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPM": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOldLibrary": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcModName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOSName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoDefLibs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "totext": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPermanent": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNonPermanent": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcContiguous": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcInvalid": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadOldLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadNameTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindPlace": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -5290,6 +5365,16 @@
       ],
       "original": {
         "start": 4287701,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ProcModName",
+        "ProcLE"
+      ],
+      "original": {
+        "start": 4350738,
         "bytes_hex": "c3"
       }
     }
