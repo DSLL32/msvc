@@ -2760,3 +2760,96 @@ unsigned GetGrpIdx(asm_sym *sym)
     }
     return index;
 }
+
+/* Initial direct.c Startup, CF1150c..116cb. These source templates are
+ * retained in1994 although the CLI dispatcher unconditionally rejects both
+ * directives. The later cmdline bit/reset is absent from the actual owner. */
+static char *StartupDosNear[] = {
+        " mov     dx,DGROUP",
+        " mov     ds,dx",
+        " mov     bx,ss",
+        " sub     bx,dx",
+        " shl     bx,1",
+        " shl     bx,1",
+        " shl     bx,1",
+        " shl     bx,1",
+        " cli     ",
+        " mov     ss,dx",
+        " add     sp,bx",
+        " sti     ",
+        NULL
+};
+static char *StartupDosFar[] = {
+        " mov     dx,DGROUP",
+        " mov     ds,dx",
+        NULL
+};
+static char *ExitOS2[] = { /* mov al, retval  followed by: */
+        " xor ah, ah",
+        " push 01h",
+        " push ax",
+        " call far DOSEXIT",
+        NULL
+};
+static char *ExitDos[] = { /* mov al, retval  followed by: */
+        " mov     ah,4ch",
+        " int     21h",
+        NULL
+};
+
+int Startup( int i )
+/******************/
+{
+    /* handles .STARTUP directive */
+
+    int         count;
+    char        buffer[ 256 ];
+
+    if( !ModuleInfo.init ) {
+        AsmError( 1071 );
+        return( ERROR );
+    }
+
+    switch( AsmBuffer[i]->value ) {
+    case T_STARTUP:
+        count = 0;
+        strcpy( buffer, StartAddr );
+        strcat( buffer, ":" );
+        InputQueueLine( buffer );
+        if( ModuleInfo.ostype == 0 ) {
+            if( ModuleInfo.distance == 1 ) {
+                while( StartupDosNear[count] != NULL ) {
+                    InputQueueLine( StartupDosNear[count++] );
+                }
+            } else {
+                while( StartupDosFar[count] != NULL ) {
+                    InputQueueLine( StartupDosFar[count++] );
+                }
+            }
+        }
+        StartupDirectiveFound = TRUE;
+        break;
+    case T_EXIT:
+        i++;
+        if( AsmBuffer[i]->string_ptr != NULL &&
+             *(AsmBuffer[i]->string_ptr) != '\0' ) {
+            strcpy( buffer, " mov    al, " );
+            strcat( buffer, AsmBuffer[i]->string_ptr );
+            InputQueueLine( buffer );
+        }
+        count = 0;
+        if( ModuleInfo.ostype == 0 ) {
+            while( ExitDos[count] != NULL ) {
+                InputQueueLine( ExitDos[count++] );
+            }
+        } else {
+            while( ExitOS2[count] != NULL ) {
+                InputQueueLine( ExitOS2[count++] );
+            }
+        }
+        break;
+    default:
+        break;
+    }
+    return( NOT_ERROR );
+}

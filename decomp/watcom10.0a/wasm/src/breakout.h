@@ -59,6 +59,7 @@ int ExtDef(int index);
 int CommDef(int index);
 int GlobalDef(int index);
 int Model(int index);
+int Startup(int index);
 int Include(int index);
 int IncludeLib(int index);
 int SetAssume(int index);

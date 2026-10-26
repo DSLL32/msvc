@@ -2026,6 +2026,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "Startup": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

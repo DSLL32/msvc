@@ -57,7 +57,7 @@ $(WASM_AUDIT_DIR)/rebuilt-runtime.json:
 	@mkdir -p $(@D)
 	@printf '[]\n' > $@
 
-#362 ordinary returning contracts stay strict;103 exact cold-error/tail/exit
+#363 ordinary returning contracts stay strict;103 exact cold-error/tail/exit
 # owners use the finite residual without inheriting a fictitious cold RET.
 .PHONY: audit-error-tails
 audit: audit-error-tails
