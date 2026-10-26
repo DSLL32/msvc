@@ -13,7 +13,7 @@ char *program_name;
 const char *selected_tool_name;
 int selected_tool_kind;
 unsigned char let_exceptions_escape, logo_pending;
-char current_phase[36];
+char current_phase[41];
 const char *default_phase = "SetupPhase";
 
 typedef struct ToolMode {

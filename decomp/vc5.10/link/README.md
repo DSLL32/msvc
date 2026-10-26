@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-401 application functions / 139,908 original code bytes are reconstructed
-(33.73% of the 414,810-byte whole `.text` extent, which includes CRT and text
+403 application functions / 140,165 original code bytes are reconstructed
+(33.79% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 48 pending bodies with known extents totaling 7,143 bytes and
-185 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 47 pending bodies with known extents totaling 6,966 bytes and
+184 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all eight cached native cases and their narrow checks;
+`make -j4 check unit` runs all nine cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-414-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 399 ordinary application bodies and six CRT bodies. Seven import
+416-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 401 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The two genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -62,7 +62,7 @@ settings, with one physical cleanup owner and actual Win32 EH actions.
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
 Optional Mac, VXD, PDB, callback, debug and librarian edit/extract domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
-owner supports the observed 36-byte prefix, with guards before copies and
+owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
 transports remain distinct from proven low-byte consumers and genuinely
 unwritten bytes. The shared tokenizer supports only its qualified default-C,
@@ -101,3 +101,17 @@ STRINGTABLE route. Native completion took 16.5 ms (10.0 ms setup, 3.4 ms executi
 3.1 ms checks); case-end regression/unit checks took 0.45 s and the full audit
 1.69 s. Explicit `/remove`, listing, extraction and conversion remain separate
 unqualified domains.
+
+The archive-backed executable case selects a real three-member reference chain
+from `updated.lib`, excludes default libraries, removes an unused COMDAT and
+folds two identical function bodies. The retained output disassembly confirms
+both calls target the same folded body. It exits 0 with 269 first entries and
+a matching 2,560-byte executable, normalizing only its identified COFF
+TimeDateStamp DWORD. This is chiefly integration coverage; it adds the
+177-byte default-library exclusion and 80-byte miscellaneous output-symbol
+bodies. The diagnostic owner now supports exactly the reached 41-byte prefix,
+including NUL, with its original total capacity unknown and guards retained
+before longer writes. The affected boundary unit checks both this supported
+archive/member name and rejection beyond the prefix. Native completion took
+13.4 ms (8.2 ms setup, 2.9 ms execution, 2.3 ms checks). The final nine-case
+regression/unit batch took 0.51 s; the full graph/RET/EH audit took 1.69 s.

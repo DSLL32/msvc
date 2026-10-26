@@ -20,7 +20,7 @@ extern BYTE module_section_pools_ready,incremental_enabled;
 extern MemoryArena *output_library_arena;
 extern const char *output_file_name,*entry_point_name,*definition_file;
 extern char *repro_directory;
-extern char current_phase[36];
+extern char current_phase[41];
 extern StringNode *entry_symbol;
 extern DWORD undefined_symbols;
 extern WORD warning_level;

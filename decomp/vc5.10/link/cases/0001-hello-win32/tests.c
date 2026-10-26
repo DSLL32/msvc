@@ -2647,14 +2647,18 @@ extern void RECON_THISCALL native_load_input_argument(LinkContext *,InputArgumen
 extern int native_host_close(int) __asm__("close");
 static int diagnostic_prefix_bounds(void)
 {
-    char longer[37],other[128];
+    char longer[sizeof(current_phase)+1],other[128];
     OutputModule module;
     OutputLibrary library;
     unsigned which;
-    memset(longer,'x',36);longer[36]=0;
+    memset(longer,'x',sizeof(current_phase));longer[sizeof(current_phase)]=0;
     memset(&module,0,sizeof(module));memset(&library,0,sizeof(library));
     module.name=longer;module.library=&library;library.flags=16;
-    if(sizeof(current_phase)!=36 || format_module_name(&module,other)!=other || strcmp(other,longer))return 0;
+    if(sizeof(current_phase)!=41 || format_module_name(&module,other)!=other || strcmp(other,longer))return 0;
+    library.flags=0;library.name="updated.lib";module.name="replacement-long-object.obj";
+    if(format_module_name(&module,current_phase)!=current_phase ||
+       strcmp(current_phase,"updated.lib(replacement-long-object.obj)"))return 0;
+    module.name=longer;library.flags=16;
     for(which=0;which<2;++which) {
         int status;
         pid_t child=fork();

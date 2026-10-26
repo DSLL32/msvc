@@ -93,3 +93,31 @@ void __stdcall disallow_library(const char *name,LinkPointerList *list,void *own
     (*position)->owner=owner;
     if (verbose_libraries) link_message(9025,name);
 }
+
+void __stdcall exclude_default_library(const char *name,LinkPointerList *list)
+{
+    DefaultLibrary **position;
+    BYTE found=0;
+    if(list->suppress_default_libraries)return;
+    if(!name) {
+        if(verbose_libraries)link_message(9015);
+        list->suppress_default_libraries=1;
+        return;
+    }
+    position=&list->default_libraries;
+    while(*position) {
+        if(library_name_matches(name,*position)) {
+            (*position)->flags|=4;
+            found=1;
+        }
+        position=&(*position)->next;
+    }
+    if(!found) {
+        *position=(DefaultLibrary *)allocate_incremental(sizeof(DefaultLibrary));
+        (*position)->next=NULL;
+        (*position)->name=duplicate_link_string(name);
+        (*position)->flags=4;
+        (*position)->owner=NULL;
+    }
+    if(verbose_libraries)link_message(9016,name);
+}

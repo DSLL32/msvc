@@ -234,7 +234,14 @@ void __stdcall process_section_output_symbol(LinkContext *context,IMAGE_SYMBOL *
     symbol->SectionNumber=section->index;
 }
 
-void __stdcall process_other_output_symbol(LinkContext *context,IMAGE_SYMBOL *symbol) { __asm { int 3 } }
+void __stdcall process_other_output_symbol(LinkContext *context,IMAGE_SYMBOL *symbol)
+{
+    if(!symbol->N.Name.Short && emit_symbol_class(symbol->StorageClass,&context->options) &&
+       symbol->N.Name.Long) {
+        const char *name=get_symbol_name((StringNode *)symbol,current_module_strings,NULL,NULL);
+        symbol->N.Name.Long=intern_symbol_string(context->symbols,name);
+    }
+}
 /* Only their physical output offsets are installed here; the function-aux
  * updater retains its own pending identity and will recover their uses. */
 DWORD previous_function_aux_offset,previous_function_symbol_index;

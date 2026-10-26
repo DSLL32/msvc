@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 85728
+              "offset": 85824
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 85739
+              "offset": 85835
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 103392
+              "offset": 103488
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 103403
+              "offset": 103499
             }
           ]
         },
@@ -8711,6 +8711,16 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_exclude_default_library@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_process_other_output_symbol@8": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },
@@ -8720,21 +8730,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 85728
+            "offset": 85824
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 85739
+            "offset": 85835
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 85739
+            "offset": 85835
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 85749
+            "offset": 85845
           }
         ]
       ]
@@ -8744,21 +8754,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 103392
+            "offset": 103488
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 103403
+            "offset": 103499
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 103403
+            "offset": 103499
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 103413
+            "offset": 103509
           }
         ]
       ]

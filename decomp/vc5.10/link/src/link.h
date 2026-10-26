@@ -8,10 +8,10 @@ extern "C" {
 #endif
 
 
-/* Encountered diagnostic prefix: actual4670c4 copy uses36 bytes including NUL.
+/* Encountered diagnostic prefix: actual 4670c4 formatter now uses 41 bytes including NUL.
  * Next known original scalar is at4672cc; this does not assert that the whole
  * intervening520 bytes belong to this buffer. Longer native writes stay held. */
-extern char current_phase[36];
+extern char current_phase[41];
 extern FILE *diagnostic_output;
 extern char *program_name;
 extern const char *selected_tool_name;

@@ -19,7 +19,7 @@ extern BYTE pdb_enabled, incremental_enabled, incremental_reuse;
 extern BYTE reproducible_build, mapped_debug, verbose_link;
 extern const char *output_file_name, *pdb_file_name, *map_file_name;
 extern const char *default_phase;
-extern char current_phase[36];
+extern char current_phase[41];
 extern FILE *map_output;
 extern ByteBuffer image_comments;
 extern InputArguments section_merges, section_attributes, weak_mac_imports, weak_mac_libraries;
