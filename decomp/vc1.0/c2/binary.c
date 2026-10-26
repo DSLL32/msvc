@@ -2778,11 +2778,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_multiplication_overflows",
         .entry_rva = 0x619b8,
-        .code = (const ReconExtent[]) { { 0x619b8, 0x619b9 } },
+        .code = (const ReconExtent[]) { { 0x619b8, 0x619fe } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "multiplication_overflows",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@add_alignment_prefix@4",
@@ -3903,11 +3903,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_fill_previous_pentium_gap",
         .entry_rva = 0x37030,
-        .code = (const ReconExtent[]) { { 0x37030, 0x37031 } },
+        .code = (const ReconExtent[]) { { 0x37030, 0x37062 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fill_previous_pentium_gap",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@diamond_register_constraint@16",
@@ -5658,11 +5658,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@retarget_comparison_branch@16",
         .entry_rva = 0x24360,
-        .code = (const ReconExtent[]) { { 0x24360, 0x24361 } },
+        .code = (const ReconExtent[]) { { 0x24360, 0x2443b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "retarget_comparison_branch",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@label_machine_instruction@4",
@@ -8475,11 +8475,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@push_unary_below_conversion@4",
         .entry_rva = 0x45150,
-        .code = (const ReconExtent[]) { { 0x45150, 0x45151 } },
+        .code = (const ReconExtent[]) { { 0x45150, 0x45171 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "push_unary_below_conversion",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@narrow_binary_conversion@8",
@@ -8943,11 +8943,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@write_listing_line@4",
         .entry_rva = 0x18340,
-        .code = (const ReconExtent[]) { { 0x18340, 0x18341 } },
+        .code = (const ReconExtent[]) { { 0x18340, 0x1836c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_listing_line",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@write_listing_comment@4",
@@ -9681,11 +9681,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@integer_sign_bit@4",
         .entry_rva = 0x11fc0,
-        .code = (const ReconExtent[]) { { 0x11fc0, 0x11fc1 } },
+        .code = (const ReconExtent[]) { { 0x11fc0, 0x11fc8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "integer_sign_bit",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@eliminate_redundant_compare@8",

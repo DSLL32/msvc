@@ -172,3 +172,30 @@ int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned
     if (is_unsigned) return 0;
     return ((left ^ right) & (left ^ difference) & sign) != 0;
 }
+
+/* Original719b8..719fe, cdecl four arguments/RET0. This compiler safety
+   predicate tests MUL/IMUL overflow only for byte and word representations.
+   The original dword path returns0 without multiplying; retain that limit. */
+int __cdecl multiplication_overflows(unsigned left, unsigned right,
+    int is_unsigned, unsigned bytes)
+{
+    unsigned product;
+    long signed_product;
+    if (bytes == 2) {
+        if (is_unsigned) {
+            product = (left & 0xffffU) * (right & 0xffffU);
+            return product > 0xffffU;
+        }
+        signed_product = (long)(short)left * (short)right;
+        return signed_product < -32768L || signed_product > 32767L;
+    }
+    if ((int)bytes < 2) {
+        if (is_unsigned) {
+            product = (left & 0xffU) * (right & 0xffU);
+            return product > 0xffU;
+        }
+        signed_product = (long)(signed char)left * (signed char)right;
+        return signed_product < -128L || signed_product > 127L;
+    }
+    return 0;
+}

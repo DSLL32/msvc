@@ -1363,6 +1363,15 @@ unsigned __fastcall integer_width_mask(unsigned bytes)
     return integer_width_masks[bytes];
 }
 
+/* Original80370..80384: sign bits indexed by integer byte width, with
+   the original zero slots for widths0 and3. All callers use integer widths. */
+static const unsigned integer_sign_bits[5] = {0, 0x80, 0x8000, 0, 0x80000000U};
+/* Original21fc0..21fc8, ECX byte width/RET0. */
+unsigned __fastcall integer_sign_bit(unsigned bytes)
+{
+    return integer_sign_bits[bytes];
+}
+
 /* Original [00022a40,00022ade). A rematerializable register retains its
    source only when that source survives the intervening instruction stream. */
 int __fastcall register_source_changed_between(MachineInstruction *first,

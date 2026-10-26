@@ -630,6 +630,36 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@integer_sign_bit@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@write_listing_line@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@push_unary_below_conversion@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_fill_previous_pentium_gap": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@retarget_comparison_branch@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "_multiplication_overflows": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

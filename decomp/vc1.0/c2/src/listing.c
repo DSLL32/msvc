@@ -152,6 +152,15 @@ void __fastcall write_listing_symbol(SymbolHeader *symbol)
     else
         listing_column += printf("%s", symbol_display_name(symbol));
 }
+/* Original28340..2836c, ECX source line/RET0. The ordinary listing
+   emits only its line annotation and returns the unchanged line number. */
+unsigned __fastcall write_listing_line(unsigned line)
+{
+    printf("; Line %ld", (long)line);
+    listing_column = 0;
+    printf("\n");
+    return line;
+}
 /* Original28440..28507. Long physical source lines are emitted as repeated
    chunks, with the numbered prefix only on the first chunk. */
 void __fastcall write_listing_source(unsigned line)

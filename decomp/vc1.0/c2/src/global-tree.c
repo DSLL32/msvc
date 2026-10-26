@@ -1001,6 +1001,15 @@ Node *__fastcall copy_factor_exponent(Node *node)
     return exponent;
 }
 
+/* Original55150..55171, ECX unary wrapper/RET0. Swap the two unary
+   owners using recipe835b8..835be, canonicalizing each retained node. */
+Node *__fastcall push_unary_below_conversion(Node *node)
+{
+    Node *operand = node->left.node;
+    tree_changed = 1;
+    return build_tree("PLYLY", operand->left.node, node, operand);
+}
+
 /* Original [00055210,00055235). Distribute a unary wrapper into its
    right-hand operand using the original tree-builder linkage recipe. */
 Node *__fastcall push_unary_into_right(Node *node)

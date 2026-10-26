@@ -3,6 +3,7 @@
 #include "machine-layout.h"
 #include "instruction-rewrite.h"
 #include "register-use.h"
+#include "jump-threading.h"
 #include <recon.h>
 extern int optimization_jumps, cpu_model;
 
@@ -146,4 +147,40 @@ int __fastcall swap_comparison_for_match(MachineInstruction *comparison,
         branch->operands[1].flags = (branch->operands[1].flags & ~15U) |
             exchanged_condition[branch->operands[1].flags & 15];
     return 1;
+}
+
+/* Original34360..3443b, ECX comparison/EDX branch plus load and mode,
+   RET8. Reuse a compatible destination branch or introduce one real label,
+   preserving its reference ownership and the current machine-label chain. */
+void __fastcall retarget_comparison_branch(MachineInstruction *target,
+    MachineInstruction *branch, MachineInstruction *load, int mode)
+{
+    MachineInstruction *scan = target->next, *label;
+    LabelSymbol *symbol;
+    unsigned kind;
+    for (;;) {
+        kind = scan->opcode & 15;
+        if (kind != 4 && kind != 7) break;
+        scan = scan->next;
+    }
+    if (!(scan->opcode & 15) && ((scan->opcode >> 8) & 255) == MC_JCC &&
+        !((scan->operands[0].flags ^ branch->operands[0].flags) & 15) &&
+        scan->operands[0].value.symbol != branch->operands[0].value.symbol &&
+        !((scan->operands[1].flags ^ branch->operands[1].flags) & 15) &&
+        (!load || (mode && (load->opcode & 0x400000UL)))) {
+        symbol = (LabelSymbol *)scan->operands[0].value.symbol;
+        adjust_machine_symbol_references(branch, -1);
+        branch->operands[0].value.symbol = &symbol->symbol;
+        adjust_machine_symbol_references(branch, 1);
+        return;
+    }
+    label = new_machine_record(1, new_internal_label());
+    if (((scan->opcode >> 8) & 255) == MC_JCC &&
+        !((scan->operands[1].flags ^ branch->operands[1].flags ^ 1) & 15))
+        insert_machine_after(scan, label);
+    else insert_machine_after(target, label);
+    register_machine_label(label);
+    adjust_machine_symbol_references(branch, -1);
+    branch->operands[0].value.symbol = label->record.symbol;
+    ((LabelSymbol *)label->record.symbol)->references = 1;
 }

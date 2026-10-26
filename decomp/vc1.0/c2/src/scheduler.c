@@ -1961,6 +1961,17 @@ void __fastcall insert_pentium_stall(int reason)
     if (scan && !SCHEDULER_BARRIER(scan))
         move_instruction_into_pentium_gap(scan->previous, scan, 0, 0);
 }
+/* Original47030..47062, no arguments/RET0. Fill after the older
+   saved pair, ending at its second instruction when that slot is occupied. */
+void fill_previous_pentium_gap(void)
+{
+    MachineInstruction *last = scheduler_pairs.previous[1].second ?
+        scheduler_pairs.previous[1].second : scheduler_pairs.previous[1].first;
+    if (scheduler_pairs.previous[1].first)
+        move_instruction_into_pentium_gap(scheduler_pairs.previous[1].first->previous,
+            last, 1, 0);
+}
+
 /* Original [00046b90,0004702c). Search at most six earlier operations
    for a dependency-safe gap filler. Paired instructions move together with
    separate undo chains and an optional cycle limit. */

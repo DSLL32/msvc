@@ -1,21 +1,69 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1432 completes the internal region-query case. There are1317
-reconstructed App functions and five unchanged historical handwritten CRT bodies.
-App code occupies350048/399693 original code-section bytes(87.5792%); adding916
-owned text-data bytes gives350964/399693(87.8084%). These clipped extent unions
-use section VirtualSize(raw size only if zero), not branch coverage. The five
-CRT overrides contribute1776 bytes separately and receive zero App credit.
-Available App/classified CRT/import extents cover377338/399693(94.4070%). A
-reliable non-CRT denominator remains unavailable;61 pending App rows and22355
-bytes outside available extents need investigation. No only-CRT claim is made.
+Checkpoint1438 completes the public fixed-stride verifier/checksummer case.
+There are1323 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies350472/399693 original code-section bytes(87.6853%);
+adding916 owned text-data bytes gives351388/399693(87.9145%). These clipped
+extent unions use section VirtualSize(raw size only if zero), not branch
+coverage. Five historical CRT overrides contribute1776B separately, zero App
+credit. Available App/classified CRT/import extents cover377762/399693(94.5130%).
+A reliable non-CRT denominator remains unavailable;55 pending App rows and21931B
+outside available extents need investigation. No only-CRT claim is made.
 
-`binary.c` is the sole registry. All27 cached IO cases and one INTERNAL DIRECT
-case complete;220 narrow units pass. Fixtures preserve actual frontend IR,
-single MSC_CMD_FLAGS transport, stable S cwd and explicit first-entry seeds.
+`binary.c` is the sole registry. All28 cached IO cases plus one INTERNAL DIRECT
+case and225 narrow units pass. Native fixtures never run Wine. Inputs preserve
+actual frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds.
 Only established COFF timestamp bytes4..8 are normalized; listings/OMF are exact.
-Native fixtures never run Wine.
 
+Untouched CL `/O2 /Ob0 /G5 /FAc /Z7 /W3 verify.c` compiles a3756B fixed-stride
+sample-table verifier with callback-dependent values, bounded signed narrowing,
+shift/mask fields, affine indices and disjoint-storage contracts. Actual001232
+ex/sy/in/gl/db inputs are4024/1512/24/423/403B. Read-only CL observation stops
+before C2, parent exit unobserved. Untouched CL completion and standalone C2
+produce matching7154B object and17593B listing, empty streams/status0. No source
+revision or private state was needed. Normalized object SHA256:
+`ac56554dcdba83c456ba81667c4c5b99694df996013be5085dbd493daa1a5923`. Listing SHA256:
+`31874b8444ca8ea227ad42cbd4eadf2c96274c53502e7ff0a74045b8dd22ffc2`.
+
+Six whole App functions add424B: sign-bit lookup8, ordinary line listing44,
+conversion-owner exchange33, Pentium gap fill50, comparison-branch retarget219
+and multiplication-overflow safety70. All have fresh original/native matching,
+canonical compilation and focused graph/RET checks. The actual conversion
+34/type102 around E/type104 becomes E/type102, retaining both owners. The
+branch case has loadNULL/mode0 and reversed conditions4/5: a real label is
+inserted after the destination branch, with its owner chain and reference count
+preserved. A separate cold unit checks compatible-label reuse without insertion.
+
+The overflow predicate receives actual arguments16,4,unsigned1,width4. Original
+719b8..719fe tests byte/word MUL/IMUL overflow but returns0 for dword operands;
+this limitation is deliberately retained. Cold controls cover signed/unsigned
+byte/word boundaries and the dword limit. Shared exact shipped-library matching
+finds no overlapping runtime body; the current App classification also rests on
+its compiler-specific representation contract and induction-analysis caller,
+not its provisional name. No new CRT override or shared shim was introduced.
+
+Full `make -j4 audit check unit` passes in2.043s(phases unsplit), including1328
+paired graphs/accepted extents and132 scoped RET contracts. Global RET remains
+unresolved at finish_debugging's indirect tail. A changed listing hash rejects.
+The final concurrent IO takes37.071ms: setup12.362/execution19.819/checks4.889;
+five units take33.793ms: setup8.610/execution21.378/checks3.805. All measured
+attempts: combined builds21.381s, registry/runtime/case3.668s, W3 six-source
+compile8.119s, untouched CL2.336s, CL transport1.822s(including two prelaunch cwd
+conflicts), baseline0.475s(including one prelaunch authoring failure), fresh
+masked originals7.629s, original input/return observations2.077s, focused graph/
+RET0.340s, runtime identity0.321s, native pairs0.418s, GDB0.440s, units/build0.660s
+(including a missing test prototype), rejection0.047s. GDB retained successful
+state observations before deliberately stopping at the next trap; its teardown
+SIGKILL is diagnostic completion, not fixture success. Two small descriptor-only
+builds, analysis/editing/authoring and scratch observer compilation are unmeasured.
+Combined phases are unsplit and overlapping intervals are not additive elapsed.
+Raw references and completion/time/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/stride-verifier/`.
+
+Use `make -j4 native win32`. During a case use current-case replay, necessary
+builds and targeted checks; full gates, README and commit follow completion.
+
+The preceding region-query case adds3App/249B with internal-DIRECT reach only.
 The new DIRECT case borrows genuine compiler region owners at the decoder's
 first eviction lookup(RVA3b210), without private-state changes or fabricated
 graphs. Untouched CL `/O2 /Ob0 /Oa /Oi /G5 /Z7 /W3 decode.c` supplies actual

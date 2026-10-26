@@ -100,7 +100,6 @@ SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3
 #include "register-use.h"
 
 #include "instruction-rewrite.h"
-unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 
 #include "value-selection.h"
@@ -119,7 +118,6 @@ int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 
 
@@ -131,7 +129,6 @@ void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 
 
 
-Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 
 
 
@@ -210,7 +207,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 
 
-void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
@@ -223,12 +219,10 @@ void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __a
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
-void fill_previous_pentium_gap(void) { __asm int 3 }
 
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
 
-int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
 Node *__fastcall new_scope_unwind(long target) { __asm int 3 }
