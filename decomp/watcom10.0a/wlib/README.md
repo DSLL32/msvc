@@ -14,9 +14,9 @@ and application entry order. The last five cases observe 166, 200, 172, 209 and 
 Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
-The CLI-qualified checkpoint remains242 application functions and28,712 unique
-original bytes. Four native-only helper cases add53 functions/4,738
-unique bytes, for295 reconstructed App functions/33,450 bytes in total. The first ten
+The CLI-qualified checkpoint remains 242 application functions and 28,712 unique
+original bytes. Four native-only helper cases add 53 functions/4,738
+unique bytes, for 295 reconstructed App functions/33,450 bytes in total. The first ten
 source/disassembly-grounded tests cover the signal callback body (not OS signal
 delivery), listing-byte output, suppression, counted-name handling and comparison,
 named WRES v2 language directories, valid Win16 MRes numeric/named resources,
@@ -25,13 +25,13 @@ newly registered during that work; they are App support, not CRT exemptions.
 The units have no claimed original-runtime or CLI qualification.
 
 Shared chunks count once. The empty CommitDictionaryBlock entry shares another
-function's RET and is explicitly excluded from entry order. There is no verified
-complete non-CRT denominator yet. All295 bodies retain function-graph, ownership
-and extent checks;287 have strict RET checks. Six normal-return owners with cold
-nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
+function's RET and is explicitly excluded from entry order. All 295 bodies retain
+function-graph, ownership and extent checks; 287 have strict RET checks. Six
+normal-return owners with cold nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
 separate direct-exit residual and explicit terminating-call graph declaration.
 AbortCommand preserves its explicit Env/value1 nonlocal transfer. The formerly
-named traps are reconstructed; unregistered code is still subject to assessment.
+named traps are reconstructed; the remaining original regions have been classified
+separately from application reconstruction.
 
 The shared Make targets build the native i386 DSO,
 runs cached fixtures and checks the source with the original Watcom compiler.
@@ -102,5 +102,13 @@ The standard strncmp leaf is classified CRT with zero App credit; its older
 layout is not a claim of shipped-library byte identity. All eight cached CLI
 fixtures and four unit cases pass, with no original execution for these units.
 Final incremental native/period build175.702ms, full audit447.386ms; replay/unit commands439.188ms wall.
-The remaining original gaps include CRT/data candidates requiring classification;
-clearing all named stubs alone is not a complete non-CRT ownership proof.
+
+The final reviewed passive inventory accounts for every nonzero byte in the
+original BEGTEXT section, using the current registry and finite source/library
+correlations. There are no unexplained nonzero gaps: remaining regions are
+CRT/library support, import thunks, data or padding. This completes the identified
+non-CRT reconstruction scope. Legacy variants are correlated by source, public
+names and actual operations; this does not assert blanket shipped-library byte
+identity or grant permission to restore or execute additional providers. The
+classification diagnostics remain in scratch and are not build/audit dependencies.
+The CLI-versus-unit qualification and compatibility limits above remain in force.
