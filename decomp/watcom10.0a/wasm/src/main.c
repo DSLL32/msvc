@@ -33,6 +33,7 @@
  * cb28..cb5d determines the six edges, quiet+2 and unsigned error_count+8.
  * main was qualified by the first ordinary original/native pair. */
 #include <stdlib.h>
+#include <malloc.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
@@ -41,7 +42,7 @@
 
 #ifdef __WATCOMC__
 /* add_constant uses the shipped compiler's inline strchr form. */
-#pragma intrinsic(strchr,strlen,strcpy)
+#pragma intrinsic(strchr,strlen,strcpy,strcat)
 #endif
 
 global_options Options = {
@@ -422,4 +423,167 @@ int trademark(void)
         while (FingerMsg[count] != NULL) printf("%s\n", FingerMsg[count++]);
     }
     return count;
+}
+
+/* CFccb0..d0e7; original local buffers264/264/260/80. */
+void get_fname( char *token, int type )
+/********************************************/
+/*
+ * figure out the source file name & store it in AsmFiles
+ * fill in default object file name if it is null
+ */
+{
+    char        *def_drive, *def_dir, *def_fname, *def_ext;
+    char        *drive, *dir, *fname, *ext;
+    char        buffer[ 264 ];
+    char        buffer2[ 264 ];
+    char        name [ 260  ];
+    char        msgbuf[80];
+
+    /* get filename for source file */
+
+    if( type == ASM ) {
+        if( token == NULL ) {
+            MsgGet( 1087, msgbuf );
+            Fatal( 1, msgbuf );
+        }
+        if( AsmFiles.fname[ASM] != NULL ) {
+            Fatal( 5 );
+        }
+
+        _splitpath2( token, buffer, &drive, &dir, &fname, &ext );
+        if( *ext == '\0' ) {
+            ext = "asm";
+        }
+        _makepath( name, drive, dir, fname, ext );
+        AsmFiles.fname[ASM] = AsmAlloc( strlen( name ) + 1 );
+        strcpy( AsmFiles.fname[ASM], name );
+
+        _makepath( name, drive, dir, NULL, NULL );
+        /* add the source path to the include path */
+        AddStringToIncludePath( name );
+
+        if( AsmFiles.fname[OBJ] == NULL ) {
+            /* set up default object and error filename */
+            ext = "obj";
+            _makepath( name, NULL, NULL, fname, ext );
+        } else {
+            _splitpath2( AsmFiles.fname[OBJ], buffer2, &def_drive,
+                         &def_dir, &def_fname, &def_ext );
+            if( *def_fname == '\0' ) def_fname = fname;
+            if( *def_ext == '\0' ) def_ext = "obj";
+
+            _makepath( name, def_drive, def_dir, def_fname, def_ext );
+            AsmFree( AsmFiles.fname[OBJ] );
+        }
+        AsmFiles.fname[OBJ] = AsmAlloc( strlen( name ) + 1 );
+        strcpy( AsmFiles.fname[OBJ], name );
+
+        if( AsmFiles.fname[ERR] == NULL ) {
+            ext = "err";
+            _makepath( name, NULL, NULL, fname, ext );
+        } else {
+            _splitpath2( AsmFiles.fname[ERR], buffer2, &def_drive,
+                         &def_dir, &def_fname, &def_ext );
+            if( *def_fname == '\0' ) def_fname = fname;
+            if( *def_ext == '\0' ) def_ext = "err";
+            _makepath( name, def_drive, def_dir, def_fname, def_ext );
+            AsmFree( AsmFiles.fname[ERR] );
+        }
+        AsmFiles.fname[ERR] = AsmAlloc( strlen( name ) + 1 );
+        strcpy( AsmFiles.fname[ERR], name );
+
+    } else {
+        /* get filename for object file */
+        _splitpath2( token, buffer, &drive, &dir, &fname, &ext );
+        if( AsmFiles.fname[ASM] != NULL ) {
+            _splitpath2( AsmFiles.fname[ASM], buffer2, &def_drive,
+                         &def_dir, &def_fname, &def_ext );
+            if( *fname == '\0' ) {
+                fname = def_fname;
+            }
+        }
+        if( *ext == '\0' ) {
+            ext = type == ERR ? "err" : "obj";
+        }
+        _makepath( name, drive, dir, fname, ext );
+        AsmFiles.fname[type] = AsmAlloc( strlen( name ) + 1 );
+        strcpy( AsmFiles.fname[type], name );
+    }
+}
+
+
+/* CFd45c..d614. The CF CRT records the loader OS byte before main.
+ * The normal NT build uses the released source's ordinary Win32 fallback. */
+int set_build_target(void)
+{
+    char *tmp;
+    if (Options.build_target == NULL) {
+        Options.build_target = AsmAlloc(8);
+#if defined(__NT__) && !defined(__OSI__)
+        strcpy(Options.build_target, "NT");
+#else
+        if (__OS == 0) strcpy(Options.build_target, "DOS");
+        else if (__OS == 1) strcpy(Options.build_target, "OS2");
+        else if (__OS == 2) strcpy(Options.build_target, "NT");
+        else if (__OS == 3) strcpy(Options.build_target, "WINDOWS");
+        else strcpy(Options.build_target, "XXX");
+#endif
+    }
+    strupr(Options.build_target);
+    tmp = alloca(strlen(Options.build_target) + 5);
+    strcpy(tmp, "__");
+    strcat(tmp, Options.build_target);
+    strcat(tmp, "__");
+    add_constant(tmp);
+    if (stricmp(Options.build_target, "DOS") == 0) {
+        add_constant("__MSDOS__");
+    } else if (stricmp(Options.build_target, "NETWARE") == 0) {
+        if ((Code->info.cpu & 0x70) >= 0x30)
+            add_constant("__NETWARE_386__");
+    } else if (stricmp(Options.build_target, "WINDOWS") == 0) {
+        if ((Code->info.cpu & 0x70) >= 0x30)
+            add_constant("__WINDOWS_386__");
+    }
+    return 1;
+}
+
+/* CFc9e8..ca94; only the loader-selected target's include variable. */
+void get_os_include(void)
+{
+    char *env, *tmp;
+    tmp = alloca(strlen(Options.build_target) + 10);
+    strcpy(tmp, Options.build_target);
+    strcat(tmp, "_INCLUDE");
+    env = getenv(tmp);
+    if (env != NULL) AddStringToIncludePath(env);
+}
+
+/* CFcc50..ccae; fopen returns the CRT-owned source stream. */
+void open_files(void)
+{
+    AsmFiles.file[ASM] = fopen(AsmFiles.fname[ASM], "r");
+    if (AsmFiles.file[ASM] == NULL) Fatal(1, AsmFiles.fname[ASM]);
+    pobjState.file_out = ObjWriteOpen(AsmFiles.fname[OBJ]);
+    if (pobjState.file_out == NULL) Fatal(1, AsmFiles.fname[OBJ]);
+    pobjState.pass = 2;
+    DelErrFile();
+}
+
+/* CFcc40..cc4f, initial-source finalization sequence. */
+void main_fini(void)
+{
+    free_names();
+    GenMSOmfFini();
+    AsmShutDown();
+}
+
+/* CFcbac..cc0c, free each command-line option's original owned string. */
+void free_names(void)
+{
+    if (Options.build_target != NULL) AsmFree(Options.build_target);
+    if (Options.code_class != NULL) AsmFree(Options.code_class);
+    if (Options.data_seg != NULL) AsmFree(Options.data_seg);
+    if (Options.module_name != NULL) AsmFree(Options.module_name);
+    if (Options.text_seg != NULL) AsmFree(Options.text_seg);
 }

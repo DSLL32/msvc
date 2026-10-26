@@ -168,3 +168,10 @@ int GetString(WResLangInfo *res, HANDLE_INFO *instance, unsigned id,
     buffer[ix2] = 0;
     return 0;
 }
+
+/* CF1e740..1e756; original has no separate CloseResFile2 body. */
+int CloseResFile(HANDLE_INFO *instance)
+{
+    WResFreeDir(MainDir);
+    return ResCloseFile(instance->handle);
+}

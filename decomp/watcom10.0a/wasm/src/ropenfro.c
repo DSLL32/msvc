@@ -38,8 +38,8 @@
 #include "wasm.h"
 #include <recon.h>
 
-/* Encountered seven-field prefix, in the original slot order. */
-struct WResRoutines WResRtns = { open, close, write, read, res_seek, tell, malloc };
+/* Encountered allocation/free callbacks in the original slot order. */
+struct WResRoutines WResRtns = { open, close, write, read, res_seek, tell, malloc, free };
 
 int ResOpenFileRO(const char *filename)
 {
@@ -49,4 +49,12 @@ int ResOpenFileRO(const char *filename)
         WresRecordError(5); /* WRS_OPEN_FAILED */
     }
     return ret;
+}
+
+/* bld/sdk/rc/wres/c/rclosef.c, CF20d10..20d2c. */
+int ResCloseFile(int handle)
+{
+    int result = (*WResRtns.close)(handle);
+    if (result == -1) WresRecordError(6);
+    return result;
 }

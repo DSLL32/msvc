@@ -87,3 +87,11 @@ unsigned int hashpjw(char *name)
     }
     return h % 211;
 }
+
+/* CFb9f8..ba15: the name table stores the instruction-row position. */
+int get_instruction_position(char *string)
+{
+    struct AsmCodeName **inst = find(string);
+    if (*inst != NULL) return (*inst)->position;
+    return -2;
+}

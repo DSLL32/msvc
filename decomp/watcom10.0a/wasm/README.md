@@ -1,23 +1,30 @@
 # Watcom 10.0a WASM
 
-The initial `/?` case is complete: 68 application functions, 10,309 original code
-bytes, matching entry order, output and exit status 1. Reconstruction is paused;
-no second case is authorized. Original CRT bodies execute unchanged and receive
-no application credit.
+Two cases are complete: `/?` (exit 1) and `/q /fo=transform.obj transform.asm`
+(exit 0). The assembly workload combines includes, macros, conditionals, typed
+records, integer/x87 instructions, branches and external relocations; its
+485-byte OMF object matches exactly. Inputs and references are frozen in the
+numbered case captures, with no Wine during fixtures.
 
-Use `make -j4 native cases win32` for the native i386 DSO and original Watcom
-compilability check, `make -j4 check` for the cached native fixture, and
-`make -j4 audit` for graph, references, ownership and extent checks. The audit
-checks 65 ordinary RET contracts plus the finite assertion/help-exit residual
-in `scripts/check-error-tails.py`; pending error handlers remain masked.
-Generated audit reports and reconstruction diagnostics stay under
-`~/.ai-tmp/msvc2/watcom10.0a/wasm/`.
+The reconstruction covers 329 application functions and 80,523 unique original
+code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
+RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
+from the assembly case's entry order, without a runtime observation claim.
+Original CRT bodies execute unchanged and receive no application credit.
+Unsupported instruction fields and pending functions still trap. The original
+empty-line read-before-buffer defect remains in the period build; the native
+branch uses the documented, twice-observed no-join outcome.
 
-The final native fixture measured 10.33 ms: setup 5.57 ms, execution 2.71 ms,
-checks 2.05 ms. A warm Make run took 65.47 ms; native rebuild plus fixture took
-1.06 s. The explicit original capture took 1.34 s; period rebuild plus final
-audit took 2.78 s. Fixtures never
-invoke Wine; original builds and explicit captures use the shared repo prefix.
+Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
+All 329 graph/reference/ownership/extent checks pass, with 258 ordinary RET
+contracts and 71 finite cold-error, tail-wrapper or exit checks. Pending error
+handlers stay masked. Reports and raw artifacts remain in scratch.
+
+Final native fixtures: help 15.02 ms and assembly 16.24 ms (assembly setup
+8.54 ms, execution 4.29 ms, checks 3.41 ms). Parallel Make check took 70.82 ms;
+incremental native/case/period build setup took 136.84 ms; the full audit took
+675.70 ms. The final explicit original capture took 1.59 s. These are measured
+closeout runs, not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its

@@ -34,6 +34,9 @@
 #include <string.h>
 #include "asminit.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen,strcpy)
+#endif
 
 char *CurrString;
 
@@ -173,4 +176,249 @@ done_scan:
 #undef VALID_BINARY
 #undef VALID_OCTAL
 #undef VALID_DECIMAL
+}
+
+/* CF753c..7737, actual old lexical classes and comment tail copy. */
+int get_id( unsigned int *buf_index, char **input, char **output )
+/***********************************************************************/
+/* get_id could change buf_index, if a COMMENT directive is found */
+{
+    struct asm_tok  *buf;
+    char            cur_char;
+    int             count;
+
+    buf = AsmBuffer[ *buf_index ];
+
+    buf->string_ptr = *output;
+    if( **input != '\\' ) {
+        buf->token = T_ID;
+    } else {
+        buf->token = T_PATH;
+    }
+    buf->value = 0;
+
+    *(*output)++ = *(*input)++;
+    for( ; ; ) {
+        cur_char = **input;
+        /* if character is part of a valid name, add it */
+        if( isalpha( cur_char )
+            || isdigit( cur_char )
+            || cur_char == '_'
+            || cur_char == '$'
+            || cur_char == '@'
+            || cur_char == '?'  ) {
+            *(*output)++ = *(*input)++;
+        } else if( cur_char == '\\' ) {
+            *(*output)++ = *(*input)++;
+            buf->token = T_PATH;
+        } else  {
+            break;
+        }
+    }
+    *(*output)++ = '\0';
+
+    /* now decide what to do with it */
+
+    if( buf->token == T_PATH ) return( 1 );
+    count = get_instruction_position( buf->string_ptr );
+    if( count == -2 ) {
+        buf->token = T_ID;
+        if( buf->string_ptr[1] == '\0' && buf->string_ptr[0] == '?' ) {
+            buf->token = T_QUESTION_MARK;
+        }
+    } else {
+        buf->value = AsmOpTable[count].token;
+        // count = AsmOpcode[count].position;
+
+        if( AsmOpTable[count].opnd_type[0] == OP_SPECIAL ) {
+            if( AsmOpTable[count].rm_byte & OP_REGISTER ) {
+                buf->token = T_REG;
+            } else if( AsmOpTable[count].rm_byte & OP_RES_ID ) {
+                buf->token = T_RES_ID;
+            } else if( AsmOpTable[count].rm_byte & OP_UNARY_OPERATOR ) {
+                buf->token = T_UNARY_OPERATOR;
+            } else if( AsmOpTable[count].rm_byte & OP_DIRECTIVE ) {
+                buf->token = T_DIRECTIVE;
+
+
+                switch( AsmOpTable[count].token ) {
+                case T_COMMENT:
+                    /* save the whole line .. we need to check
+                     * if the delim. char shows up 2 times */
+                    (*output)++;
+                    *(*output) = '\0';
+                    (*output)++;
+                    (*buf_index)++;
+                    buf = AsmBuffer[ *buf_index ];
+                    buf->string_ptr = *output;
+                    strcpy( buf->string_ptr, *input );
+                    (*output) += strlen( *input );
+                    *(*output) = '\0';
+                    (*output)++;
+                    (*input) += strlen( *input );
+                    buf->token = T_STRING;
+                    buf->value = 0;
+                    break;
+                } /* default do nothing */
+
+            } else if( AsmOpTable[count].rm_byte & OP_DIRECT_EXPR ) {
+                buf->token = T_DIRECT_EXPR;
+            } else {
+                buf->token = T_INS;
+            }
+        } else {
+            buf->token = T_INS;
+        }
+    }
+    return( 1 );
+}
+
+
+/* Initial bld/wasm/c/asmscan.c; CF70a0..70fb.  The spelling is
+ * copied from the shared mnemonic pool; a leading directive dot is omitted. */
+void GetInsString(unsigned short token, char *string, int length)
+{
+    int index;
+    if (length > AsmOpcode[token].len) {
+        length = AsmOpcode[token].len;
+        index = AsmOpcode[token].index;
+        if (AsmChars[index] == '.') {
+            ++index;
+            --length;
+        }
+        strncpy(string, &AsmChars[index], length);
+        string[length] = '\0';
+    } else {
+        *string = '\0';
+    }
+}
+
+/* Initial asmscan.c get_special_symbol; CF784c..78f4. */
+int get_special_symbol(struct asm_tok *buf, char **input, char **output)
+{
+    char symbol;
+    buf->string_ptr = *output;
+    symbol = **input;
+    switch (symbol) {
+    case '.': case ',': case '+': case '-': case '*': case '/':
+    case '[': case ']': case '(': case ')': case ':': case '%':
+        buf->token = symbol;
+        *(*output)++ = *(*input)++;
+        *(*output)++ = '\0';
+        break;
+    case '=':
+        buf->token = T_DIRECTIVE;
+        buf->value = T_EQU2;
+        *(*output)++ = *(*input)++;
+        *(*output)++ = '\0';
+        break;
+    default:
+        return get_string(buf,input,output);
+    }
+    return 1;
+}
+
+/* Initial asmscan.c get_string; CF7738..7849. MAX_TOK_LEN is80
+ * in this version; reaching that limit retains its original no-NUL tail. */
+int get_string(struct asm_tok *buf, char **input, char **output)
+{
+    char symbol;
+    int count;
+    buf->string_ptr = *output;
+    symbol = **input;
+    buf->token = T_STRING;
+    switch (symbol) {
+    case '"': case '\'': break;
+    case '<': symbol = '>'; break;
+    case '{': symbol = '}'; break;
+    default:
+        for (count = 0; **input != '\0' && !isspace((unsigned char)**input)
+                         && **input != ','; ++count) {
+            *(*output)++ = *(*input)++;
+        }
+        *(*output)++ = '\0';
+        buf->value = count;
+        return 1;
+    }
+    ++*input;
+    count = 0;
+    while (count < 80) {
+        if (**input == symbol) {
+            if ((*input)[1] == symbol) {
+                ++*input;
+                *(*output)++ = *(*input)++;
+                ++count;
+            } else {
+                *(*output)++ = '\0';
+                ++*input;
+                buf->value = count;
+                break;
+            }
+        } else if (**input == '\0' || **input == '\n') {
+            AsmError(51);
+            return -1;
+        } else {
+            *(*output)++ = *(*input)++;
+            ++count;
+        }
+    }
+    return 1;
+}
+
+/* Initial asmscan.c get_inc_path; CF78f4..79a6. The surrounding
+ * AsmScan writes the final terminator for an undelimited path. */
+int get_inc_path(unsigned int *buf_index, char **input, char **output)
+{
+    char symbol;
+    AsmBuffer[*buf_index]->token = T_PATH;
+    AsmBuffer[*buf_index]->value = 0;
+    AsmBuffer[*buf_index]->string_ptr = *output;
+    while (isspace((unsigned char)**input)) ++*input;
+    symbol = **input;
+    switch (symbol) {
+    case '\'': case '"': case '<': case '{':
+        if (get_special_symbol(AsmBuffer[*buf_index],input,output) == -1) return -1;
+        return 1;
+    default:
+        while (**input && !isspace((unsigned char)**input))
+            *(*output)++ = *(*input)++;
+        return 1;
+    }
+}
+
+/* CF70fc..71c0: decimal token recognition, not numeric conversion. */
+int get_float(struct asm_tok *buf, char **input, char **output)
+{
+    char got_e = 0;
+    char *ptr = *input;
+    for (; *ptr != '\0'; ptr++) {
+        if (isdigit((unsigned char)*ptr)) continue;
+        if (isspace((unsigned char)*ptr)) break;
+        switch (tolower((unsigned char)*ptr)) {
+        case '.': continue;
+        case 'r':
+            *ptr = ' ';
+            goto done_scanning_float;
+        case 'e':
+            if (!got_e) {
+                got_e = 1;
+                switch (ptr[1]) {
+                case '+':
+                case '-': ptr++;
+                default: continue;
+                }
+            }
+        default: return get_string(buf, input, output);
+        }
+    }
+done_scanning_float:
+    buf->token = T_FLOAT;
+    strncpy(*output, *input, ptr - *input);
+    buf->string_ptr = *output;
+    *output += ptr - *input;
+    **output = '\0';
+    (*output)++;
+    *input = ptr;
+    buf->value = 0;
+    return 1;
 }

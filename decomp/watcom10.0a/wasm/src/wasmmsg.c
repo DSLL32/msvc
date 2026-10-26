@@ -113,3 +113,21 @@ void Wait_for_return(void)
         getch();
     }
 }
+
+/* bld/wasm/c/asmmsg.c DelErrFile; actualCF163f8..16402. */
+void DelErrFile(void)
+{
+    remove(AsmFiles.fname[ERR]);
+}
+
+/* CF16844..1687a: older MsgFini tests initialization status, returns0/255,
+ * and marks MsgShift255 after closing. Later sources test the handle. */
+int MsgFini(void)
+{
+    unsigned status = 0;
+    if (MsgShift == 0) {
+        if (CloseResFile(&hInstance) != -1) MsgShift = 255;
+        else status = 255;
+    }
+    return status;
+}

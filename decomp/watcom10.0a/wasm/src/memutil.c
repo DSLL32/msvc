@@ -43,3 +43,9 @@ void *MemAlloc(size_t size)
     }
     return ptr;
 }
+
+/* CF16900..16905, original tail call through the assembler allocator. */
+void MemFree(void *memory)
+{
+    AsmFree(memory);
+}

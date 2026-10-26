@@ -1,16 +1,17 @@
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
 RECON := ../../../lib/recon
 RECON_CF_PROFILE := harness/cf-profile.json
-BINARY_SOURCES := src/main.c src/objrec.c src/carve.c src/memutil.c src/asmalloc.c src/genmsomf.c src/util.c src/wasmmsg.c src/loadstr.c src/ropenfro.c src/wrinitdi.c src/wrreaddi.c src/wriswrf.c src/resread.c src/wrrhr.c src/wresid.c src/reslist.c src/asmins.c src/mnemonics.c src/insthash.c src/expand.c src/asmline.c src/asmscan.c src/asmsym.c src/direct.c src/asmeval.c src/wrfindrs.c src/stubs.c
+BINARY_SOURCES := src/main.c src/fatal.c src/write.c src/objrec.c src/objio.c src/carve.c src/fixup.c src/memutil.c src/asmalloc.c src/genmsomf.c src/util.c src/wasmmsg.c src/loadstr.c src/ropenfro.c src/wrinitdi.c src/wrreaddi.c src/wriswrf.c src/resread.c src/wrrhr.c src/wresid.c src/reslist.c src/asmins.c src/asmparse.c src/asmmatch.c src/breakout.c src/asmstruc.c src/mnemonics.c src/insthash.c src/expand.c src/asmline.c src/condasm.c src/macro.c src/mangle.c src/asmscan.c src/asmsym.c src/asmlabel.c src/asmjump.c src/direct.c src/asmeval.c src/asmdata.c src/asmfixup.c src/posndir.c src/wrfindrs.c src/stubs.c
 BINARY_SUPPORT_SOURCES := $(wildcard $(RECON)/src/*.c)
-NATIVE_CPPFLAGS := -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS := -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_SPLITPATH_WATCOM_DOS -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89
 
 ORIGINAL_TOOLCHAIN := watcom10.0a
 ORIGINAL_SOURCES := $(BINARY_SOURCES)
 ORIGINAL_OUTPUT := build/WASM.EXE
 ORIGINAL_MAP := build/wasm.map
-ORIGINAL_CFLAGS := -bt=nt -3r -od -s -d2
+# Actual original double values use EAX/EDX and soft-float library calls.
+ORIGINAL_CFLAGS := -bt=nt -3r -fpc -od -s -d2
 ORIGINAL_CPPFLAGS := -i=src '-i=..\..\..\lib\recon\include' '-i=..\..\..\toolchains\watcom10.0a\h'
 ORIGINAL_INCLUDE_DIRS := src ../../../lib/recon/include ../../../toolchains/watcom10.0a/h
 ORIGINAL_CC = $(RECON_TOOL) original tool $(ORIGINAL_TOOLCHAIN) WCC386 --
@@ -39,6 +40,7 @@ RECON_AUDIT_PROFILE := cl
 RECON_IMAGE_BASE := 0
 RECON_POLICY := harness/audit-policy.json
 RECON_AUDIT_REGISTRY_METADATA := 1
+RECON_METADATA_REBUILT_MAP := $(ORIGINAL_MAP)
 RECON_AUDIT_REGISTRY_RET_CHECKS := 1
 RECON_AUDIT_REGISTRY_RUNTIME := 1
 RECON_REGISTRY := $(WASM_AUDIT_DIR)/functions.json
@@ -55,8 +57,8 @@ $(WASM_AUDIT_DIR)/rebuilt-runtime.json:
 	@mkdir -p $(@D)
 	@printf '[]\n' > $@
 
-#65 ordinary returning contracts stay strict; two cold-error owners and pure
-# help exit have this finite residual instead of a fictitious RET inheritance.
+#258 ordinary returning contracts stay strict;71 exact cold-error/tail/exit
+# owners use the finite residual without inheriting a fictitious cold RET.
 .PHONY: audit-error-tails
 audit: audit-error-tails
 audit-error-tails: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/check-error-tails.py $(RECON_CF_PROFILE)

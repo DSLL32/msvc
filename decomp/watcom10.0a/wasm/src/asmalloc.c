@@ -43,3 +43,9 @@ void *AsmAlloc(size_t amount)
     }
     return ptr;
 }
+
+/* CF16208..16211 shares AsmAlloc's RET at16204 for NULL. */
+void AsmFree(void *ptr)
+{
+    if (ptr != NULL) free(ptr);
+}

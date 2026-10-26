@@ -36,7 +36,11 @@
  * the original two hashpjw bodies must remain distinct graph vertices. */
 #define hashpjw asmsym_hashpjw
 #include "asminit.h"
+#include "asmparse.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen,strcpy)
+#endif
 
 asm_sym *AsmGetSymbol(char *name)
 {
@@ -95,4 +99,91 @@ asm_sym *AsmAdd(asm_sym *sym)
         sym->mem_type = 0;
     }
     return sym;
+}
+
+/* CF8874..89e8; the encountered allocation is a full52-byte dir_node.
+ * The '$' location symbol retains its special state and current address. */
+asm_sym *AsmLookup(char *name)
+{
+    asm_sym **location;
+    asm_sym *sym;
+    char is_current_loc = 0;
+    if (strlen(name) > 247) { AsmError(136); return NULL; }
+    location = AsmFind(name);
+    if (strcmp(name, "$") == 0) {
+        is_current_loc = 1;
+        if (*location != NULL) GetSymInfo(*location);
+    }
+    if (*location != NULL) return *location;
+    sym = AsmAlloc(sizeof(dir_node));
+    if (sym != NULL) {
+        sym->grpidx = sym->segidx = 0;
+        sym->public = 0;
+        if (is_current_loc) {
+            GetSymInfo(sym);
+            sym->state = 1; /* SYM_INTERNAL */
+        } else sym->offset = 0;
+        sym->first_size = sym->first_length = 0;
+        sym->total_size = sym->total_length = 0;
+        sym->mangler = NULL;
+        sym->fixup = NULL;
+        sym->next = *location;
+        *location = sym;
+        sym->name = AsmAlloc(strlen(name) + 1);
+        strcpy(sym->name, name);
+        if (!is_current_loc) {
+            sym->state = AsmQueryExternal(name);
+            if (sym->state != SYM_UNDEFINED)
+                sym->mem_type = CvtTable[AsmQueryType(name)];
+            else sym->mem_type = 0;
+        }
+    } else AsmError(37);
+    return sym;
+}
+
+/* CF89e8..8a61, remove old hash-chain identity before allocating its new name. */
+int AsmChangeName(char *old_name, char *new_name)
+{
+    asm_sym **sym_ptr;
+    asm_sym *sym;
+    sym_ptr = AsmFind(old_name);
+    if (*sym_ptr != NULL) {
+        sym = *sym_ptr;
+        *sym_ptr = sym->next;
+        AsmFree(sym->name);
+        sym->name = AsmAlloc(strlen(new_name) + 1);
+        strcpy(sym->name,new_name);
+        sym_ptr = AsmFind(new_name);
+        if (*sym_ptr != NULL) return ERROR;
+        sym->next = *sym_ptr;
+        *sym_ptr = sym;
+    }
+    return NOT_ERROR;
+}
+
+/* CF8b0c..8b65; FreeASym is inlined in the original rather than a
+ * separate graph vertex. Preserve its name/fixup/symbol ownership order. */
+void AsmSymFini(void)
+{
+    unsigned i;
+    asm_sym *sym, *next;
+    struct asmfixup *fix;
+    FreePubQueue();
+    FreeAliasQueue();
+    FreeLnameQueue();
+    for (i = 0; i < 211; ++i) {
+        next = sym_table[i];
+        while (next != NULL) {
+            sym = next;
+            next = sym->next;
+            FreeInfo((dir_node *)sym);
+            AsmFree(sym->name);
+            while (sym->fixup != NULL) {
+                fix = sym->fixup;
+                sym->fixup = fix->next;
+                AsmFree(fix);
+            }
+            AsmFree(sym);
+        }
+    }
 }

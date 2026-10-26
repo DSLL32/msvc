@@ -56,3 +56,48 @@ void newBlk(cv_t *cv)
     cv->blk_list = newblk;
     cv->top_elm = newblk->data + cv->blk_top;
 }
+
+/* Initial womp/c/carve.c CarveAlloc; CF1ab1c..1ab83. The source
+ * assertion filename/line values are the shipped1994 diagnostic inputs. */
+void *CarveAlloc(carve_t caller_cv)
+{
+    cv_t *cv;
+    void **new;
+    if (caller_cv == NULL) InternalError("g:\\bld\\womp\\c\\carve.c",83);
+    cv = (cv_t *)caller_cv;
+    if (cv->free_list != NULL) {
+        new = cv->free_list;
+        cv->free_list = *new;
+        return new;
+    }
+    if (cv->top_elm == NULL) InternalError("g:\\bld\\womp\\c\\carve.c",90);
+    if (cv->top_elm == cv->blk_list->data) newBlk(cv);
+    cv->top_elm -= cv->elm_size;
+    return cv->top_elm;
+}
+
+/* CF1ab84..1aba8; return the object to this carve owner's free list. */
+void CarveFree(carve_t caller_cv, void *element)
+{
+    cv_t *cv;
+    if (caller_cv == NULL) InternalError("g:\\bld\\womp\\c\\carve.c", 102);
+    cv = (cv_t *)caller_cv;
+    *(void **)element = cv->free_list;
+    cv->free_list = (void **)element;
+}
+
+/* CF1aae0..1ab19; release all actual blocks before their carve owner. */
+void CarveDestroy(carve_t caller_cv)
+{
+    cv_t *cv;
+    carve_block *cur, *next;
+    if (caller_cv == NULL) InternalError("g:\\bld\\womp\\c\\carve.c",67);
+    cv = caller_cv;
+    cur = cv->blk_list;
+    while (cur != NULL) {
+        next = cur->next;
+        MemFree(cur);
+        cur = next;
+    }
+    MemFree(cv);
+}

@@ -52,3 +52,53 @@ void ResAddLLItemAtEnd(void **head, void **tail, void *newnode)
         *tailptr = itemptr;
     }
 }
+
+/* bld/sdk/rc/wres/c/wrfreedi.c, CF20cec..20d02. */
+void WResFreeDir(WResDir dir)
+{
+    if (dir != NULL) {
+        __FreeTypeList(dir);
+        (*WResRtns.free)(dir);
+    }
+}
+
+/* CF20cb4..20ce9, linked type owners with released wrfreedi.c ordering. */
+void __FreeTypeList(WResDir dir)
+{
+    WResTypeNode *old, *node = dir->Head;
+    while (node != NULL) {
+        old = node;
+        node = node->Next;
+        __FreeResList(old);
+        (*WResRtns.free)(old);
+    }
+    dir->Head = NULL;
+    dir->Tail = NULL;
+}
+
+/* CF20c7c..20cb1, free resources after their language lists. */
+void __FreeResList(WResTypeNode *type)
+{
+    WResResNode *old, *node = type->Head;
+    while (node != NULL) {
+        old = node;
+        node = node->Next;
+        __FreeLangList(old);
+        (*WResRtns.free)(old);
+    }
+    type->Head = NULL;
+    type->Tail = NULL;
+}
+
+/* CF20c50..20c7a, free language records before clearing both links. */
+void __FreeLangList(WResResNode *resource)
+{
+    WResLangNode *old, *node = resource->Head;
+    while (node != NULL) {
+        old = node;
+        node = node->Next;
+        (*WResRtns.free)(old);
+    }
+    resource->Head = NULL;
+    resource->Tail = NULL;
+}

@@ -32,14 +32,27 @@
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9; CF19a1c..19a41.
  * createconstant's fifth bool argument is the original callee-cleaned stack
  * argument after EAX/EDX/EBX/ECX. Native uses the authorized GCC ABI. */
+#include <stdlib.h>
 #include <string.h>
+#include <malloc.h>
 #include "asminit.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
 /* Shipped bodies expand these string operations in place. */
-#pragma intrinsic(strlen,strcpy)
+#pragma intrinsic(strlen,strcpy,strcat)
 #endif
+
+/* CF199e0..19a1c. A named constant definition must begin at token0. */
+int DefineConstant(int index, unsigned char redefine, unsigned char expand_early)
+{
+    if (index != 0) {
+        AsmError(51);
+        return -1;
+    }
+    return createconstant(AsmBuffer[index]->string_ptr, 0, index + 2,
+                          redefine, expand_early);
+}
 
 int StoreConstant(char *name, char *value, signed char redefine)
 {
@@ -141,7 +154,8 @@ int ExpandTheWorld(int start_pos, unsigned char early_only)
     return 1;
 }
 
-/* CF19e70..19ee0. No later Globals.expand_count field exists in this body. */
+/* CF19e70..19ee0. Unlike the later source, this body does not reset
+ * Globals.expand_count on entry; input_get owns that per-line reset. */
 int ExpandAllConsts(int start_pos, unsigned char early_only)
 {
     int i;
@@ -161,4 +175,182 @@ int ExpandAllConsts(int start_pos, unsigned char early_only)
         }
     }
     return 1;
+}
+
+/* Initial bld/wasm/c/expand.c, MakeConstant; actual CF19a44..19ae4.
+ * The20-byte local and18-byte mnemonic capacity are original. */
+void MakeConstant(long token)
+{
+    char buffer[20];
+    buffer[0] = '\0';
+    strcat(buffer, "__");
+    GetInsString((unsigned short)token, buffer + 2, 18);
+    strcat(buffer, "__");
+    strupr(buffer);
+    createconstant(buffer, 1, 0, 1, 0);
+}
+
+
+/* Initial expand.c ExpandSymbol, actual CF19450..19531. */
+int ExpandSymbol(int index, int early_only)
+{
+    asm_sym *sym;
+    dir_node *dir;
+    int j;
+    sym = AsmGetSymbol(AsmBuffer[index]->string_ptr);
+    if (sym == NULL) return 1;
+    if (sym->state == SYM_CONST) {
+        dir = (dir_node *)sym;
+        if (!dir->e.constinfo->expand_early && early_only) return 1;
+        AddTokens(AsmBuffer,index,dir->e.constinfo->count - 1);
+        for (j = 0; j < dir->e.constinfo->count; ++j) {
+            AsmBuffer[index + j]->token = dir->e.constinfo->data[j].token;
+            AsmBuffer[index + j]->value = dir->e.constinfo->data[j].value;
+            AsmBuffer[index + j]->string_ptr = dir->e.constinfo->data[j].string_ptr;
+        }
+        ++Globals.expand_count;
+        if (Globals.expand_count >= 20) {
+            AsmError(1081);
+            return -1;
+        }
+        return 2;
+    }
+    return 1;
+}
+
+/* ExpandProcString CF19534..199de; temporary token copies are stack
+ * allocations in1994, before the later AsmTmpAlloc cache. */
+int ExpandProcString( int index )
+/*******************************/
+{
+    signed char               i;
+    signed char               cnt;
+    signed char               count = 0; /* number of words in the name string */
+    char                *string;
+    char                *word;
+    char                *replace = NULL;
+    char                buffer[256];
+    label_list          *label;
+
+    string = alloca( strlen( AsmBuffer[index]->string_ptr ) + 1 );
+    strcpy( string, AsmBuffer[index]->string_ptr );
+    wipe_space( string );
+    word = strtok( string, " \t" );
+    while( word != NULL ) {
+        count++;
+
+        if (CurrProc == NULL) InternalError("..\\c\\expand.c", 125);
+        label = label_cmp( word, CurrProc->e.procinfo->paralist );
+        if( label == NULL ) {
+            label = label_cmp( word, CurrProc->e.procinfo->locallist );
+        }
+        if( label != NULL ) {
+            if( label->replace != NULL ) {
+                replace = label->replace;
+            }
+        }
+
+        if( replace != NULL ) {
+            if( *replace == '\0' ) {
+                AsmErr( 1128, replace+1 );
+                return( -1 );
+            }
+            if( index > 0 && AsmBuffer[index-1]->token == T_DIRECTIVE ) {
+                switch( AsmBuffer[index-1]->value ) {
+                case T_IFDEF:
+                case T_IFNDEF:
+                    /* do NOT expand strings in IFDEF and IFNDEF ins.
+                     * we want to know if they are defined, NOT their value
+                     */
+                    return( 1 );
+                }
+            }
+            if( AsmBuffer[index+1]->token == T_DIRECTIVE ) {
+                /* this will never happen with multiple words in a string */
+                switch( AsmBuffer[index+1]->value ) {
+                case T_EQU:
+                case T_EQU2:
+                case T_TEXTEQU:
+                    return( 1 );
+                }
+            }
+            break;
+        }
+        word = strtok( NULL, " \t" );
+    }
+    if( replace == NULL ) return( 1 );
+
+
+
+    /* now we need to build the new line string to pass through the scanner */
+    buffer[0] = '\0';
+    /* NOTE: if we have a T_DIRECTIVE, token_count is always set to 1 !??! */
+    for( i=0; i < Token_Count; i++ ) {
+        if( i != index ) {
+            // if( expand_directive_string( buffer, i ) == -1 ) return( -1 );
+            if( AsmBuffer[i]->token == T_STRING &&
+                *AsmBuffer[i]->string_ptr == '\0' ) {
+                strcat( buffer, "<>" );
+            } else {
+                strcat( buffer, AsmBuffer[i]->string_ptr );
+            }
+        } else {
+            if( AsmBuffer[i]->token == T_PERCENT ) {
+                /* don't save the % */
+                i++;
+            }
+            // if( expand_directive_string( buffer, i ) == -1 ) return( -1 );
+
+            /* copy the string in ... 1 word at a time */
+            string = alloca( strlen( AsmBuffer[index]->string_ptr ) + 1 );
+            strcpy( string, AsmBuffer[index]->string_ptr );
+            wipe_space( string );
+            word = strtok( string, " \t" );
+            for( cnt = 1; cnt < count; cnt++ ) {
+                strcat( buffer, word );
+                strcat( buffer, " " );
+                word = strtok( NULL, " \t" );
+            }
+            strcat( buffer, replace );
+            word = strtok( NULL, " \t" );
+            while( word != NULL ) {
+                strcat( buffer, " " );
+                strcat( buffer, word );
+                word = strtok( NULL, " \t" );
+            }
+        }
+        strcat( buffer, " " );
+    }
+    /* make sure this line goes at the front of the queue */
+    PushLineQueue();
+    InputQueueLine( buffer );
+    AsmBuffer[0]->token = 0;
+    AsmBuffer[0]->string_ptr = NULL;
+    AsmBuffer[0]->value = 0;
+    return( 2 );
+}
+
+
+/* CF193c0..193e8: case-insensitive procedure parameter/local lookup. */
+label_list *label_cmp(char *word, label_list *head)
+{
+    label_list *label;
+    for (label = head; label != NULL; label = label->next) {
+        if (stricmp(label->label, word) == 0) return label;
+    }
+    return NULL;
+}
+
+/* CF193e8..1944e, shift token contents while retaining buffer-slot owners. */
+void AddTokens(struct asm_tok **buffer, int start, int count)
+{
+    int i;
+    if (count != 0) {
+        for (i = Token_Count; i >= start; --i) {
+            buffer[i + count]->token = buffer[i]->token;
+            buffer[i + count]->value = buffer[i]->value;
+            buffer[i + count]->string_ptr = buffer[i]->string_ptr;
+        }
+        Token_Count += count;
+    }
 }

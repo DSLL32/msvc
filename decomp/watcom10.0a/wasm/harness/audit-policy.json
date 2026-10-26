@@ -1,223 +1,106 @@
 {
   "graph_metadata": {
     "schema": 1,
-    "functions": {},
+    "functions": {
+      "directive": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "directive_",
+                "offset": 1416
+              },
+              {
+                "rebuilt_symbol": "directive_",
+                "offset": 1470
+              }
+            ]
+          ]
+        }
+      },
+      "module_prologue": {
+        "original": {
+          "switches": {
+            "73356": [
+              73364,
+              73371,
+              73371,
+              73381,
+              73371,
+              73371,
+              73371
+            ],
+            "73409": [
+              73417,
+              73439,
+              73439,
+              73504,
+              73439,
+              73439,
+              73439
+            ]
+          },
+          "text_data": [
+            [
+              73076,
+              73104
+            ],
+            [
+              73104,
+              73132
+            ]
+          ]
+        }
+      },
+      "dir_insert": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "dir_insert_",
+                "offset": 188
+              },
+              {
+                "rebuilt_symbol": "dir_insert_",
+                "offset": 240
+              }
+            ]
+          ]
+        }
+      },
+      "check_assume": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "check_assume_",
+                "offset": 211
+              },
+              {
+                "rebuilt_symbol": "check_assume_",
+                "offset": 235
+              }
+            ]
+          ]
+        }
+      }
+    },
     "callback_tables": []
   },
   "ret_checks": {
     "schema": 1,
     "functions": {
-      "main": {
+      "AddFieldToStruct": {
         "expected_cleanup": [
           0
         ]
       },
-      "main_init": {
+      "AddStringToIncludePath": {
         "expected_cleanup": [
           0
         ]
       },
-      "ObjRecInit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "CarveCreate": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "MemAlloc": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "AsmAlloc": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "newBlk": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "GenMSOmfInit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "PObjRegList": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "do_init_stuff": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "MsgInit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "OpenResFile": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "ResOpenFileRO": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "FindResources": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "res_seek": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "InitResources": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResInitDir": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResReadDir": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResIsWResFile": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "ResReadUint32": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "readWResDir": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResReadHeaderRecord": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResReadExtHeader": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "readTypeList": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResReadFixedTypeRecord": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResIDExtraBytes": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "ResAddLLItemAtEnd": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "readResList": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "WResReadFixedResRecord1": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "AsmInit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "make_inst_hash_table": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "add": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "find": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "hashpjw": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "add_constant": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "isvalidident": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "StoreConstant": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "AsmScan": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "get_number": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "createconstant": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "AsmGetSymbol": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "AsmFind": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "asmsym.hashpjw": {
+      "AddTokens": {
         "expected_cleanup": [
           0
         ]
@@ -227,17 +110,132 @@
           0
         ]
       },
+      "AsmAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmByte": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmChangeName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmCodeByte": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmDataByte": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmFind": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmFree": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmGetSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmLookup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmMangler": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmParse": {
+        "expected_cleanup": [
+          0
+        ]
+      },
       "AsmQueryExternal": {
         "expected_cleanup": [
           0
         ]
       },
-      "ExpandTheWorld": {
+      "AsmScan": {
         "expected_cleanup": [
           0
         ]
       },
-      "ExpandAllConsts": {
+      "AsmShutDown": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmSymFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AssumeInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BackPatch": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CarveCreate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChangeCurrentLocation": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Check4Mangler": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CloseResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Comment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineConstant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DelErrFile": {
         "expected_cleanup": [
           0
         ]
@@ -247,37 +245,202 @@
           0
         ]
       },
-      "fix_parant": {
+      "ExpandAllConsts": {
         "expected_cleanup": [
           0
         ]
       },
-      "do_envvar_cmdline": {
+      "ExpandMacro": {
         "expected_cleanup": [
           0
         ]
       },
-      "parse_token": {
+      "ExpandSymbol": {
         "expected_cleanup": [
           0
         ]
       },
-      "parse_cmdline": {
+      "ExpandTheWorld": {
         "expected_cleanup": [
           0
         ]
       },
-      "PrintfUsage": {
+      "ExtDef": {
         "expected_cleanup": [
           0
         ]
       },
-      "Wait_for_return": {
+      "FindClassLnameIdx": {
         "expected_cleanup": [
           0
         ]
       },
-      "MsgGet": {
+      "FindResources": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FixInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FixKill": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FlushCurrSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeAliasQueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeIncludePath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeLnameQueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreePubQueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenMSOmfFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenMSOmfInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetAssume": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCurrAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCurrGrp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCurrSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetInsString": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetLnameIdx": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetMangler": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetString": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "GetStructSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetSymInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IdxInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InRange": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Include": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitResources": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitializeStructure": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InputQueueFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InputQueueLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InsertClassLname": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LifixDelta": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LifixDestroy": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LifixInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LnameInsert": {
         "expected_cleanup": [
           0
         ]
@@ -287,7 +450,242 @@
           4
         ]
       },
-      "WResInitIDFromNum": {
+      "MakeCPUConstant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeConst": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeConstant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeExtern": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeLabel": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Mangle": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MemAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MemFree": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Model": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ModuleEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ModuleInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgGet": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NameGet": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjNewRec": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjRecInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjWriteIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjWriteOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OpenResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OperandSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PObjRegList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PObjUnRegList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PopLineQueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrepAnonLabels": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrepareTextLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrintfUsage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PubDef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PushLineQueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PushMacro": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QDequeue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadPreparedLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadTextLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Reg386": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResAddLLItemAtEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResCloseFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResOpenFileRO": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResReadUint32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Ret": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ScanLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetAssume": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetMangler": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StoreConstant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StripLineComment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StructDef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TokenAssign": {
         "expected_cleanup": [
           0
         ]
@@ -297,22 +695,72 @@
           0
         ]
       },
+      "WResFreeDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
       "WResGetLangInfo": {
         "expected_cleanup": [
           12
         ]
       },
-      "GetString": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "__FindType": {
+      "WResIDCmp": {
         "expected_cleanup": [
           0
         ]
       },
-      "__FindRes": {
+      "WResIDExtraBytes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResInitDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResInitIDFromNum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResIsWResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadExtHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadFixedResRecord1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadFixedTypeRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResReadHeaderRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Wait_for_return": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteObjModule": {
         "expected_cleanup": [
           0
         ]
@@ -322,7 +770,532 @@
           0
         ]
       },
-      "WResIDCmp": {
+      "__FindRes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeLangList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeResList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeTypeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "add": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "add_constant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "add_frame": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "array_element": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "asmline_insert": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "asmmatch.output": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "asmsym.hashpjw": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "calculate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "checkSum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_both": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_defd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_need_32bit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_override": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_same": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_size": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "checkword": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "cmp_token": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "comp_opt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "cpu_directive": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "create_expr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "createconstant": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "data_init": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "directive": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "do_envvar_cmdline": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "do_init_stuff": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "dup_array": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "enqueue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "fill_in_parms": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find_bit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find_frame": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find_use32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "fix_parant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "free_names": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "free_parmlist": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_curr_filename": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_float": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_fname": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_grp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_id": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_inc_path": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_instruction_position": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_number": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_operand": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_os_include": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_special_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_string": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "hashpjw": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "idata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "index_connect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "input_get": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "is_expr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "is_optr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "is_unary": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "isvalidident": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "join_multiline_cmds": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "label_cmp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "lineis": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "little_endian": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "macro_exam": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "main": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "main_fini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "main_init": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "make_inst_hash_table": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "mark_fixupp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "match_phase_1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "match_phase_2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "match_phase_3": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "mem2code": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "module_prologue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "newBlk": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "open_files": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "operator": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "optr_dequeue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "output_data": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "output_float": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "parse_cmdline": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "parse_token": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "pop": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "pop_proc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "pop_register": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "prep_line_for_conditional_assembly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "proc_check": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "push": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "push_flist": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "push_seg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "putIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "put_parm_placeholders_in_line": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "put_public_procs_in_public_table": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readResList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readTypeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "readWResDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "reg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "res_seek": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "reset_seg_len": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "safeWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "search_assume": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "set_build_target": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "set_text_seg_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "store_fixup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "token_cmp": {
         "expected_cleanup": [
           0
         ]
@@ -331,7 +1304,145 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "wipe_space": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "writeBase": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_alias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_end_of_pass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_export": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_ext": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_global": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_header": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_init": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_ledata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_lib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_modend": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_pub": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_seg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "writepass1stuff": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
-  }
+  },
+  "shared_terminal_epilogues": [
+    {
+      "owners": [
+        "AsmAlloc",
+        "AsmFree"
+      ],
+      "original": {
+        "start": 90628,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "reset_seg_len",
+        "writepass1stuff"
+      ],
+      "original": {
+        "start": 61929,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "LnameInsert",
+        "FreePubQueue"
+      ],
+      "original": {
+        "start": 65722,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "LnameInsert",
+        "FreeAliasQueue"
+      ],
+      "original": {
+        "start": 65722,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "FreePubQueue",
+        "FreeAliasQueue"
+      ],
+      "original": {
+        "start": 65722,
+        "bytes_hex": "c3"
+      }
+    }
+  ],
+  "function_properties": {
+    "AsmError": {
+      "pending_extent": false
+    }
+  },
+  "shared_return_entries": [
+    {
+      "owner": "PObjRegList",
+      "entry": "PObjUnRegList"
+    }
+  ]
 }

@@ -32,6 +32,7 @@
 #define ASMINIT_H
 #include <stddef.h>
 #include "wasm.h"
+#include "asmopnds.h"
 #include <recon.h>
 
 enum asm_token {
@@ -617,22 +618,28 @@ struct asm_tok {
     unsigned char token;
     char *string_ptr;
 };
-/* Only initialized-state layout used by AsmInit is materialized. Encoding
- * fields have named storage from the released structure; no instruction
- * encoding table values are populated or claimed by this projection. */
-struct asm_ins_state {
+/* Original packed17B instruction layout. CF9730 reads prefix bits0..1,
+ * byte1 bits3..4 and rm bits5..6; bit2 and bits7..31 are padding.
+ * Consumers guard domains whose semantic fields are unrecovered. */
+struct asm_ins {
     unsigned short token;
     unsigned char cpu;
-    unsigned long encoding_flags;
+    unsigned allowed_prefix : 2;
+    unsigned : 1;
+    unsigned byte1_info : 2;
+    unsigned rm_info : 2;
+    unsigned : 25;
     unsigned long opnd_type[2];
     unsigned char opcode, rm_byte;
 };
 struct asm_code {
     short prefix, mem_type;
     long data[2];
-    struct asm_ins_state info;
+    struct asm_ins info;
     signed char seg_prefix, extended_ins, adrsiz, opsiz;
     unsigned char sib, use32;
+    short distance;
+    unsigned mem_type_fixed : 1, : 31;
 };
 #pragma pack()
 typedef char options_c_octals_offset_check[offsetof(global_options, allow_c_octals) == 37 ? 1 : -1];
@@ -642,16 +649,33 @@ typedef char asm_cpu_offset_check[offsetof(struct asm_code, info.cpu) == 14 ? 1 
 typedef char asm_use32_offset_check[offsetof(struct asm_code, use32) == 34 ? 1 : -1];
 extern char AsmChars[];
 extern struct AsmCodeName AsmOpcode[T_NULL + 1];
-extern const unsigned short AsmOpTokens[939];
+extern const struct asm_ins AsmOpTable[939];
+typedef char asm_ins_size_check[sizeof(struct asm_ins) == 17 ? 1 : -1];
+typedef char asm_ins_operand_check[offsetof(struct asm_ins,opnd_type) == 7 ? 1 : -1];
 extern struct asm_tok *AsmBuffer[100];
 extern struct asm_code *Code;
+/* ModuleInfo through its256B basename buffer, CF274c4..275d0. */
+#pragma pack(1)
+typedef struct module_info {
+    unsigned char distance, model, langtype, ostype;
+    /* Original signed1-bit loads become0/-1 (CF10c73..10c7e). */
+    int use32 : 1, init : 1;
+    unsigned : 30;
+    unsigned flat_idx;
+    char name[256];
+} module_info;
+#pragma pack()
+typedef char module_prefix_size_check[sizeof(module_info) == 268 ? 1 : -1];
+extern module_info ModuleInfo;
 unsigned int hashpjw(char *name);
 struct AsmCodeName **find(char *name);
 enum state {
     T_FINAL, T_INS, T_RES_ID, T_ID, T_REG, T_STRING, T_DIRECTIVE,
     T_DIRECT_EXPR, T_DEC_NUM, T_OCT_NUM, T_HEX_NUM_0, T_HEX_NUM,
     T_NUM, T_FLOAT, T_NOOP, T_POSITIVE, T_NEGATIVE, T_ID_IN_BACKQUOTES,
-    T_BIN_NUM, T_PATH, T_UNARY_OPERATOR, T_BAD_NUM
+    T_BIN_NUM, T_PATH, T_UNARY_OPERATOR, T_BAD_NUM, T_COMMA = 44, T_QUESTION_MARK = 63,
+    T_COLON = 58, T_DOT = 46, T_OP_SQ_BRACKET = 91,
+    T_CL_SQ_BRACKET = 93, T_PERCENT = 37
 };
 #pragma pack(1)
 typedef struct asm_sym {
@@ -680,6 +704,19 @@ typedef struct seg_info {
     unsigned lname_idx;
     unsigned long current_loc;
 } seg_info;
+typedef struct seg_list { struct seg_list *next; struct dir_node *seg; } seg_list;
+typedef struct regs_list { struct regs_list *next; char *reg; } regs_list;
+typedef struct label_list {
+    struct label_list *next; char *label, *replace;
+    int size, factor;
+    int is_vararg:1;
+    unsigned :31;
+    /* Actual allocator reserves28B; this reached prefix consumes24B.
+     * The final4B remain uninterpreted until a reached consumer uses them. */
+} label_list;
+typedef struct field_list {
+    struct field_list *next; char *initializer, *value;
+} field_list;
 typedef struct grp_info {
     unsigned idx;
     struct seg_list *seglist;
@@ -695,6 +732,16 @@ typedef struct proc_info {
     int is_vararg:1;
     unsigned int :31;
 } proc_info;
+typedef struct parm_list {
+    struct parm_list *next;
+    char *label, *replace;
+    char required;
+    char *def;
+} parm_list;
+typedef struct asmlines {
+    struct asmlines *next; char *line; unsigned char parmcount;
+} asmlines;
+typedef char asmlines_size_check[sizeof(asmlines) == 9 ? 1 : -1];
 typedef struct macro_info {
     struct parm_list *parmlist;
     struct asmlines *data;
@@ -724,39 +771,100 @@ typedef struct dir_node {
     struct dir_node *next, *prev;
 } dir_node;
 #pragma pack()
-enum { SYM_UNDEFINED = 0, SYM_CONST = 8, SYM_LNAME = 11,
-       SYM_CLASS_LNAME = 12, SYM_STRUCT = 14, PASS_1 = 0 };
+enum { SYM_UNDEFINED = 0, SYM_INTERNAL = 1, SYM_EXTERNAL = 2, SYM_STACK = 3, SYM_SEG = 4, SYM_GRP = 5,
+       SYM_PROC = 6, SYM_MACRO = 7, SYM_CONST = 8, SYM_LNAME = 11,
+       SYM_CLASS_LNAME = 12, SYM_STRUCT_FIELD = 13, SYM_STRUCT = 14, PASS_1 = 0 };
 enum { TAB_SEG, TAB_GRP, TAB_PUB, TAB_LIB, TAB_EXT, TAB_CONST, TAB_PROC,
        TAB_MACRO, TAB_LNAME, TAB_CLASS_LNAME, TAB_STRUCT, TAB_GLOBAL,
        TAB_COMM, TAB_LAST };
+typedef struct symbol_queue { dir_node *head, *tail; } symbol_queue;
+extern symbol_queue Tables[TAB_LAST];
 typedef char seg_info_size_check[sizeof(seg_info) == 21 ? 1 : -1];
 typedef char proc_info_size_check[sizeof(proc_info) == 30 ? 1 : -1];
 typedef char macro_info_size_check[sizeof(macro_info) == 17 ? 1 : -1];
+extern dir_node *CurrProc;
+extern unsigned LnamesIdx, segdefidx, extdefidx;
 extern unsigned LineNumber;
 asm_sym *AsmAdd(asm_sym *sym);
 unsigned char AsmQueryExternal(char *name);
 /* Both released interfaces share the single shipped CFdd50 body. */
 #define AsmQueryType AsmQueryExternal
-int InternalError(const char *file, unsigned line);
-#ifdef __WATCOMC__
-/* The original assertion helper terminates through exit(255). */
-#pragma aux InternalError aborts;
-#endif
+enum { ASSUME_DS, ASSUME_ES, ASSUME_SS, ASSUME_FS, ASSUME_GS, ASSUME_CS,
+       ASSUME_LAST, ASSUME_ERROR, ASSUME_NOTHING };
+#pragma pack(1)
+typedef struct assume_info {
+    asm_sym *symbol;
+    unsigned error : 1, flat : 1;
+    unsigned : 30;
+} assume_info;
+#pragma pack()
+typedef char assume_info_size_check[sizeof(assume_info) == 8 ? 1 : -1];
+extern assume_info AssumeTable[ASSUME_LAST];
 typedef char asm_sym_size_check[sizeof(asm_sym) == 38 ? 1 : -1];
 typedef char const_info_size_check[sizeof(const_info) == 12 ? 1 : -1];
 typedef char dir_node_size_check[sizeof(dir_node) == 52 ? 1 : -1];
 typedef char sym_state_offset_check[offsetof(asm_sym, state) == 33 ? 1 : -1];
 extern char Parse_Pass;
+typedef char *(*mangle_func)(asm_sym *symbol, char *buffer);
+mangle_func GetMangler(char *type);
+char *CMangler(asm_sym *symbol, char *buffer);
+char *AsmMangler(asm_sym *symbol, char *buffer);
+void AsmErr(int message, ...);
 asm_sym *AsmGetSymbol(char *name);
 asm_sym **AsmFind(char *name);
 dir_node *dir_insert(char *name, int table);
 void FreeInfo(dir_node *dir);
+void FreePubQueue(void);
+void FreeAliasQueue(void);
+void FreeLnameQueue(void);
+void InputQueueLine(char *line);
+void PushMacro(char *name, unsigned char hidden);
+int macro_exam(int index);
+asmlines *asmline_insert(asmlines **head, void *data);
+void put_parm_placeholders_in_line(asmlines *line, parm_list *parameters);
+char *replace_parm(parm_list *parameters, char *start, unsigned char length, asmlines *line);
+char *get_curr_filename(void);
+char *fill_in_parms(asmlines *line, parm_list *parameters);
+int my_sprintf(char *buffer, char *format, int max, char **parameters);
+signed char lineis(char *line, char *prefix);
+int macro_local(void);
+void free_parmlist(parm_list *head);
 int ExpandTheWorld(int start, unsigned char early_only);
 int ExpandAllConsts(int start, unsigned char early_only);
-int ExpandSymbol(int index, unsigned char early_only);
+int ExpandSymbol(int index, int early_only);
+void AddTokens(struct asm_tok **buffer, int start, int count);
 int EvalExpr(int count, int start, int end);
 extern int TokCnt;
-struct expr_list;
+enum { EXPR_ADDR, EXPR_CONST, EXPR_REG };
+/* Actual1994 expression owner is38 bytes, packed; the flags occupy
+ * four bytes at29, expr_type33 and scale37 (released asmeval.h). */
+#pragma pack(1)
+typedef struct expr_list {
+    signed char type;
+    long value;
+    char *string;
+    int base_reg, idx_reg, label, override, instr;
+    unsigned indirect:1, explicit:1, :30;
+    int expr_type;
+    unsigned char scale;
+} expr_list;
+#pragma pack()
+typedef char expression_size_check[sizeof(expr_list) == 38 ? 1 : -1];
+typedef char expression_type_offset_check[offsetof(expr_list,expr_type) == 33 ? 1 : -1];
+expr_list *create_expr(void);
+expr_list *get_operand(int index);
+void optr_enqueue(int index, signed char queue[]);
+void optr_dequeue(signed char queue[]);
+signed char is_optr(int index);
+signed char check_same(expr_list *first, expr_list *second, signed char type);
+signed char check_both(expr_list *first, expr_list *second, signed char type1, signed char type2);
+void index_connect(expr_list *first, expr_list *second);
+void MakeConst(expr_list *token);
+void TokenAssign(expr_list *first, expr_list *second);
+signed char is_unary(int index, char sign);
+signed char cmp_token(int index, long token);
+int get_precedence(int index);
+signed char calculate(expr_list *first, expr_list *second, unsigned char index);
 int fix_parant(void);
 int is_expr(int index);
 struct expr_list *evaluate(int *index, int end);
@@ -768,10 +876,13 @@ int get_id(unsigned int *index, char **input, char **output);
 int get_inc_path(unsigned int *index, char **input, char **output);
 int get_number(struct asm_tok *buf, char **input, char **output);
 int get_float(struct asm_tok *buf, char **input, char **output);
+label_list *label_cmp(char *word, label_list *label);
+int ExpandProcString(int index);
 int get_string(struct asm_tok *buf, char **input, char **output);
 int get_id_in_backquotes(struct asm_tok *buf, char **input, char **output);
 int get_special_symbol(struct asm_tok *buf, char **input, char **output);
 struct AsmCodeName *add(struct AsmCodeName *inst);
 void make_inst_hash_table(void);
 void AsmError(int message);
+void GetInsString(unsigned short token, char *buffer, int length);
 #endif

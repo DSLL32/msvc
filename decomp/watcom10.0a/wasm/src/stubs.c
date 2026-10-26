@@ -1,26 +1,24 @@
 /* Named pending App callees. No bodies or runtime effects are accepted.
  * The original file-local main helpers are externally named here so their
  * existing names remain visible in the MAP and native function registry. */
-#include "asminit.h"
+#include "breakout.h"
+#include "direct.h"
 #include <recon.h>
 
 void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
-int writeTheadr(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeComent(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeModend(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeMisc(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeSegdef(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeLedata(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writeFixup(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
-int writePubdef(obj_rec *objr, pobj_state *state)
-{ (void)objr; (void)state; WASM_PENDING(); return 0; }
+size_t FixGenRef(union logphys *ref, int logical, char *buffer, int type)
+{ (void)ref; (void)logical; (void)buffer; (void)type; WASM_PENDING(); return 0; }
+void DiskError(void) { WASM_PENDING(); }
+size_t FixGenPRef(physref *ref, char *buffer, int type) { WASM_PENDING(); return 0; }
+void WompPrtMsg(unsigned message, ...) { WASM_PENDING(); }
+
+
+
+
+char *put16(char *p, unsigned short value)
+{ (void)p; (void)value; WASM_PENDING(); return NULL; }
+char *put32(char *p, unsigned long value)
+{ (void)p; (void)value; WASM_PENDING(); return NULL; }
 int writeLinnum(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 int writeLidata(obj_rec *objr, pobj_state *state)
@@ -33,7 +31,8 @@ int writeLinsym(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 
 void WresRecordError(int status) { (void)status; WASM_PENDING(); }
-void __FreeTypeList(WResDir dir) { (void)dir; WASM_PENDING(); }
+
+
 int WResReadExtraWResID(WResID *id, int handle)
 { (void)id; (void)handle; WASM_PENDING(); return 0; }
 int WResReadFixedResRecord(WResResInfo *info, int handle)
@@ -44,55 +43,136 @@ int readMResDir(int handle, WResDir dir, int *duplicate_discarded)
 { (void)handle; (void)dir; (void)duplicate_discarded; WASM_PENDING(); return 0; }
 
 void AsmError(int message) { (void)message; WASM_PENDING(); }
-int get_id(unsigned int *index, char **input, char **output)
-{ (void)index; (void)input; (void)output; WASM_PENDING(); return -1; }
-int get_inc_path(unsigned int *index, char **input, char **output)
-{ (void)index; (void)input; (void)output; WASM_PENDING(); return -1; }
-int get_float(struct asm_tok *buf, char **input, char **output)
-{ (void)buf; (void)input; (void)output; WASM_PENDING(); return -1; }
-int get_string(struct asm_tok *buf, char **input, char **output)
-{ (void)buf; (void)input; (void)output; WASM_PENDING(); return -1; }
+
+
+
 
 int get_id_in_backquotes(struct asm_tok *buf, char **input, char **output)
 { (void)buf; (void)input; (void)output; WASM_PENDING(); return -1; }
-int get_special_symbol(struct asm_tok *buf, char **input, char **output)
-{ (void)buf; (void)input; (void)output; WASM_PENDING(); return -1; }
+
 
 int InternalError(const char *file, unsigned line)
 { (void)file; (void)line; WASM_PENDING(); return 0; }
-void FreeInfo(dir_node *dir) { (void)dir; WASM_PENDING(); }
-int ExpandSymbol(int index, unsigned char early_only)
-{ (void)index; (void)early_only; WASM_PENDING(); return -1; }
-int is_expr(int index) { (void)index; WASM_PENDING(); return 0; }
-struct expr_list *evaluate(int *index, int end)
-{ (void)index; (void)end; WASM_PENDING(); return NULL; }
-int fix(struct expr_list *result, int start, int end)
-{ (void)result; (void)start; (void)end; WASM_PENDING(); return 0; }
 char *set_processor_type(char *input)
 { (void)input; WASM_PENDING(); return NULL; }
 void set_mem_type(int type) { (void)type; WASM_PENDING(); }
 void set_some_kinda_name(int token, char *name)
 { (void)token; (void)name; WASM_PENDING(); }
-void get_fname(char *token, int type)
-{ (void)token; (void)type; WASM_PENDING(); }
-void InputQueueFile(char *filename) { (void)filename; WASM_PENDING(); }
-void AsmFree(void *memory) { (void)memory; WASM_PENDING(); }
+FILE *open_file_in_include_path(char *name, char *fullpath)
+{ (void)name; (void)fullpath; WASM_PENDING(); return NULL; }
 void MsgPrintf1(int resourceid, const char *arg)
 { (void)resourceid; (void)arg; WASM_PENDING(); }
 void output(const unsigned char *text) { (void)text; WASM_PENDING(); }
 int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 { (void)first; (void)second; WASM_PENDING(); return 0; }
-int set_build_target(void)
-{  WASM_PENDING(); return 0; }
-void get_os_include(void)
-{  WASM_PENDING();  }
-void AddStringToIncludePath(char *path)
-{ (void)path; WASM_PENDING();  }
-void open_files(void)
-{  WASM_PENDING();  }
-void PushLineQueue(void)
-{  WASM_PENDING();  }
-void WriteObjModule(void) { WASM_PENDING(); }
 void PrintStats(void) { WASM_PENDING(); }
-void MsgFini(void) { WASM_PENDING(); }
-void main_fini(void) { WASM_PENDING(); }
+
+
+
+
+
+
+
+
+int macro_local(void) { WASM_PENDING(); return 0; }
+
+void write_dosseg(void) { WASM_PENDING(); }
+void write_flat_grp(void) { WASM_PENDING(); }
+
+int opsize(unsigned mem_type) { WASM_PENDING(); return 0; }
+int get_number_of_bytes_for_size_in_commdef(unsigned long value) { WASM_PENDING(); return 0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void size_override(char *buffer, int size) { (void)buffer; (void)size; WASM_PENDING(); }
+int get_watcom_argument_string(char *buffer, unsigned char size, unsigned char *count)
+{ (void)buffer; (void)size; (void)count; WASM_PENDING(); return -1; }
+
+int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING(); return -1; }
+unsigned GetPrefixAssume(asm_sym *sym, unsigned def)
+{ (void)sym; (void)def; WASM_PENDING(); return 0; }
+
+void jumpExtend(void) { WASM_PENDING(); }
+unsigned char get_sr_rm_byte(unsigned char prefix)
+{ (void)prefix; WASM_PENDING(); return 0; }
+void AddLinnumData(void) { WASM_PENDING(); }
+int AddFloatingPointEmulationFixup(const struct asm_ins *ins, unsigned char second)
+{ (void)ins; (void)second; WASM_PENDING(); return -1; }
+
+
+
+int conditional_error_directive(int index) { WASM_PENDING(); (void)index; return 0; }
+
+void AsmTakeOut(char *name) { WASM_PENDING(); (void)name; }
+
+
+
+
+
+
+
+
+
+void push_proc(dir_node *procedure) { (void)procedure; WASM_PENDING(); }
+int find_size(int type) { (void)type; WASM_PENDING(); return -1; }
+int SimSeg(int index) { WASM_PENDING(); (void)index; return 0; }
+void AsmWarn(int level, int message, ...) { WASM_PENDING(); (void)level; (void)message; }
+int AddAlias(int index) { WASM_PENDING(); (void)index; return 0; }
+int CommDef(int index) { WASM_PENDING(); (void)index; return 0; }
+int GlobalDef(int index) { WASM_PENDING(); (void)index; return 0; }
+
+
+
+
+
+
+int IncludeLib(int index) { WASM_PENDING(); (void)index; return 0; }
+
+void close_lastseg(void) { WASM_PENDING(); }
+int LocalDef(int index) { WASM_PENDING(); (void)index; return 0; }
+int NameDirective(int index) { WASM_PENDING(); (void)index; return 0; }
+int LabelDirective(int index) { WASM_PENDING(); (void)index; return 0; }
+int OrgDirective(int index) { WASM_PENDING(); (void)index; return 0; }
+int AlignDirective(unsigned short token, int index) { WASM_PENDING(); (void)token; (void)index; return 0; }
+int ForDirective(int index, unsigned char character) { WASM_PENDING(); (void)index; (void)character; return 0; }
+
+
+
+
+
+
+void write_linnum(void) { WASM_PENDING(); }
+
+void double2tbyte(double value, char *bytes)
+{ (void)value; (void)bytes; WASM_PENDING(); }
+void OutSelect(unsigned char starts) { (void)starts; WASM_PENDING(); }
+
+
+unsigned GetGrpIdx(asm_sym *sym) { (void)sym; WASM_PENDING(); return 0; }
+
+int FixOverride(int index) { (void)index; WASM_PENDING(); return -1; }
+
+
+
+
+
+
+void AsmErr(int message, ...) { (void)message; WASM_PENDING(); }
+
+char *CMangler(asm_sym *symbol, char *buffer)
+{ (void)symbol; (void)buffer; WASM_PENDING(); return NULL; }

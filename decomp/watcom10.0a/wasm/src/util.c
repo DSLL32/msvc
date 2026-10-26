@@ -30,7 +30,7 @@
 
 /* Adapted from bld/wasm/c/util.c, initial commit
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. CFf6c0..f6f5. */
-#include "wasm.h"
+#include "asminit.h"
 #include <recon.h>
 
 #define CMD_POBJ_MIN_CMD 0x6c
@@ -43,4 +43,47 @@ void PObjRegList(const pobj_list *list, size_t len)
     for (i = 0; i < len; ++i) {
         jumpTable[list[i].command - CMD_POBJ_MIN_CMD] = list[i].func;
     }
+}
+
+/* CF27268: current object writer pass and owned output stream. */
+pobj_state pobjState;
+
+/* bld/womp/c/queue.c QInit, actualCF1c180..1c18e. */
+void QInit(qdesc *queue)
+{
+    queue->head = NULL;
+    queue->tail = NULL;
+}
+
+/* bld/womp/c/queue.c QEnqueue, actualCF1c190..1c1ca. */
+void QEnqueue(qdesc *queue, void *item)
+{
+    if (queue->head == NULL) {
+        queue->head = queue->tail = item;
+    } else {
+        if (queue->tail == NULL) InternalError("g:\\bld\\womp\\c\\queue.c", 32);
+        *(void **)queue->tail = item;
+        queue->tail = item;
+    }
+    *(void **)item = NULL;
+}
+
+/* CF1c210..1c22d, released queue.c head removal. */
+void *QDequeue(qdesc *queue)
+{
+    void *item;
+    if (queue->head == NULL) return NULL;
+    item = queue->head;
+    queue->head = *(void **)item;
+    if (queue->head == NULL) queue->tail = NULL;
+    return item;
+}
+
+/* CFf6f4 is both PObjRegList's terminal RET and this independent empty
+ * interface entry. Statically qualified against releasedutil.c66..72 and
+ * the sole C3; seeded out of entry tracing, with zero new physical bytes. */
+void PObjUnRegList(const pobj_list *list, size_t len)
+{
+    (void)list;
+    (void)len;
 }
