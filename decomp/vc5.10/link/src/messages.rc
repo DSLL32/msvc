@@ -23,4 +23,5 @@ BEGIN
     9030 "        ""%s"" from %s"
     9013 "Start Pass2"
     9014 "End Pass2"
+    4045 " creating LINK_REPRO test case in dir ""%s"""
 END

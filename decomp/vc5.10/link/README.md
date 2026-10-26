@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-502 application functions / 174,132 original code bytes are reconstructed
-(41.98% of the 414,810-byte whole `.text` extent, which includes CRT and text
+504 application functions / 174,673 original code bytes are reconstructed
+(42.11% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 42 pending bodies with known extents totaling 6,239 bytes and
-150 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 41 pending bodies with known extents totaling 5,714 bytes and
+149 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all eighteen cached native cases and their narrow checks;
+`make -j4 check unit` runs all nineteen cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-515-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 497 ordinary application bodies and six CRT bodies. Seven import
+517-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 499 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -320,6 +320,43 @@ bytes, all padding, symbol records, names and final inventory remain strict.
 Fresh native completion took 40.3 ms (14.8 ms setup, 22.3 ms execution, 3.2 ms
 checks); the supervised original took 1,805.8 ms. The single case-end parallel
 cached regression/unit/original-build/full-audit batch passed in 2.76 s, including
-all eighteen fixtures, the 515-vertex graph, 503 return contracts and five
+all eighteen fixtures, the 517-vertex graph, 503 return contracts and five
 separate C++ EH-owner checks. That combined wall time is not a separate audit
 benchmark or clean-build measurement.
+
+
+The LINK_REPRO package case links the existing original-compiled entry object
+against its original-produced archive, using separate base/address and order
+files. It creates a real reproducibility directory containing all four consumed
+inputs and a 233-byte response file with rewritten relative paths. An existing
+entry.obj destination remains unchanged; the actual exclusive-create collision
+loop chooses entry.2.obj and writes that name into the response. Both sides exit
+0 with 293 application entries and matching 2,560-byte EXE, 1,281-byte map,
+copied inputs and complete directory inventory. This establishes package
+serialization; it does not claim that the package was subsequently relinked.
+
+Two bodies / 541 original code bytes add the copier and response closer.
+CopyFileA uses the reviewed shared explicit-5.10 regular-file domain after the
+caller reserves and closes an empty destination. Original error-path LastError,
+security streams, non-normal attributes and wider file domains are unclaimed.
+Only the new EXE's COFF TimeDateStamp and its map hex/ctime presentation are
+normalized. Copied object/archive timestamps, response bytes, directory names,
+existing destination bytes and every other artifact byte remain strict.
+
+This case also repaired two previously limited state models without extra
+credit. The actual logo BYTE starts at 1, allowing an early LINK_REPRO warning
+before /nologo parsing. The actual 47eeb8 stream has one source owner, initialized
+to stdout by main, replaced by the map open and closed by the linker caller.
+Earlier source had split that owner and closed the wrong stream; natural exits
+had hidden the pending map flush. The failed prefix/regression and original
+writer/reader evidence remain in scratch. No NULL-fclose shim or extra reference
+run was used for the repair.
+
+The supervised reference took 1,563.0 ms. Final corrected native replay took
+15.2 ms (9.1 ms setup, 2.9 ms execution, 3.2 ms checks). The initial 2.56 s
+case-end batch retained its passing unit/cached checks but caught the stream
+identity mistake in hello. Only hello and the current case were replayed after
+the repair; the remaining cached checks and current full original-build/audit
+passed in 2.67 s. All nineteen cached cases and unit checks are covered, with a
+517-vertex graph, 505 return contracts and the five existing EH-owner checks.
+These batch times combine work and are not isolated audit benchmarks.

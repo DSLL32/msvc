@@ -15,7 +15,6 @@ BYTE __stdcall has_delay_library(const char *name) { __asm { int 3 } return 0; }
 void __cdecl enable_warning_errors(void) { __asm { int 3 } }
 void __stdcall disable_warning(unsigned number) { __asm { int 3 } }
 void __stdcall record_incremental_include(void *owner,StringNode *symbol) { __asm { int 3 } }
-void __stdcall copy_repro_file(const char *name,BYTE copy_object) { __asm { int 3 } }
 void __stdcall add_mac_data(const unsigned char *name,int enabled,DWORD id) { __asm { int 3 } }
 void __stdcall set_mac_initializer(LinkContext *context,const char *name) { __asm { int 3 } }
 void __stdcall set_mac_terminator(LinkContext *context,const char *name) { __asm { int 3 } }

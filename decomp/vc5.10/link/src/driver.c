@@ -8,11 +8,14 @@
 #include "../crt/crt-imports.h"
 #include <recon.h>
 
-FILE *diagnostic_output;
+/* Original47eeb8 is one stream owner: stdout initially, a map if opened. */
+extern FILE *map_output;
 char *program_name;
 const char *selected_tool_name;
 int selected_tool_kind;
-unsigned char let_exceptions_escape, logo_pending;
+unsigned char let_exceptions_escape;
+/* Original4672d0 starts true: early diagnostics precede /nologo parsing. */
+unsigned char logo_pending=1;
 char current_phase[41];
 const char *default_phase = "SetupPhase";
 
@@ -43,7 +46,7 @@ int __cdecl main(int argc, char **argv, char **environment)
     EXCEPTION_RECORD exception_record;
     CONTEXT context;
 
-    diagnostic_output = stdout;
+    map_output = stdout;
     __try {
         SetConsoleCtrlHandler(console_control, TRUE);
         debug_options = NULL;

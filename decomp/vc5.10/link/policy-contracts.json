@@ -5315,5 +5315,24 @@
       ],
       "scope": "Only cached fprintf normal-return preservation; existing public fprintf/free cdecl contracts retained. No nonlocal-return claim."
     }
+  ],
+  "repro_case_ordinary_abi": [
+    {
+      "owner": "_copy_repro_file@8",
+      "cached_import": "kernel32.dll!CreateFileA IAT401044 loaded into EBP at444caa",
+      "site": "0x444d81",
+      "crossing": "sprintf444da9 on the real destination-collision retry edge back to444cc0",
+      "callee": "msvcrt.dll!sprintf",
+      "preserves": [
+        "ebp"
+      ],
+      "basis": "Existing identified public x86 cdecl sprintf signature preserves nonvolatile EBP on ordinary normal return. Only this cached WINAPI call identity is qualified; no success/error/provider-body claim.",
+      "cached_self_preservation": {
+        "identity": "kernel32.dll!CreateFileA",
+        "abi": "public WINAPI / x86 stdcall7 / RET28; EBP nonvolatile on ordinary return",
+        "site": "0x444d81",
+        "role": "failure retry retains cached CreateFileA in EBP before sprintf and next iteration"
+      }
+    }
   ]
 }

@@ -165,7 +165,8 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
     if (context->options.write_map) write_image_map(context, output_file_name);
     if (maximum_image_size && context->optional_header.SizeOfImage > maximum_image_size)
         link_warning(NULL, 4013, context->optional_header.SizeOfImage, maximum_image_size);
-    fclose(diagnostic_output);
+    /* Original449296 closes47eeb8, the map stream, before repro cleanup. */
+    fclose(map_output);
     if (repro_directory) close_repro();
     return result;
 }
@@ -414,5 +415,6 @@ int __stdcall incremental_link(LinkContext **context) { __asm { int 3 } return 0
 int __stdcall abort_incremental(int failed) { __asm { int 3 } return 0; }
 void __stdcall save_incremental_state(LinkContext *context) { __asm { int 3 }  }
 int __cdecl run_cvpack(void) { __asm { int 3 } return 0; }
-void __cdecl close_repro(void) { __asm { int 3 }  }
+extern FILE *repro_response;
+void __cdecl close_repro(void) { fclose(repro_response); }
 }
