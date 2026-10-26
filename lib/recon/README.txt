@@ -1680,3 +1680,10 @@ Ordinary WLINK MemorySize and FreeAMod continuations compare PE/map output after
 the real conversion. The current FreeAMod source/DSO binding is retained; it is
 not retroactively attributed to the overwritten MemorySize DSO. Original
 per-call private error/FP effects remain unmeasured.
+
+Watcom _expand/_nexpand have the SDK void* cdecl(void*,size_t) surface and
+profile-only aliases to one shared cold boundary. It unconditionally denies125
+without pointer, size or allocator access. This qualifies typing/linkage only:
+no resize success/failure result, ownership or pointer-lifetime semantics have
+yet been enabled. The ordinary WLINK LnkExpand caller retains its real
+allocator outcome as a separate pending assessment.

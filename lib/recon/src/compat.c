@@ -498,6 +498,13 @@ static void watcom_target_heap_activity(void)
     recon_unsupported("Watcom target allocation requires explicit profile");
 #endif
 }
+/* Typed allocator spelling only. No pointer, extent or allocator state is
+ * inspected until an actual in-place resize role is qualified. */
+void *__cdecl recon_watcom_expand(void *pointer,size_t size)
+{
+    (void)pointer;(void)size;
+    recon_unsupported("unreviewed Watcom in-place expansion");return NULL;
+}
 void *recon_watcom_malloc(size_t size)
 { watcom_target_heap_activity();return malloc(size); }
 void *recon_watcom_calloc(size_t count,size_t size)
