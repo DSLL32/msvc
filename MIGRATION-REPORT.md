@@ -977,10 +977,25 @@ or historical filename equality is needed. Shared `e495bd9f8` explicitly selects
 meaningful partial file assertions at identified frontiers while retaining all
 raw artifacts; normal completion still uses full final inventory. Its actual
 89-entry adoption takes 742.802 / 12.759 ms without a publication-only rerun.
-All four case folders contain only `case.c` and `capture.bin` outside `.build`.
-The next authorized coherent workload targets remaining executable-format
-import conversion and operator/type demangling through their actual callers;
-valid inputs, supported switches and new reach remain to be established.
+The NE/NLM/operator case is complete in `7a5452e28`: 239 qualified App functions /
+28,420 unique original bytes, adding 12 functions and 1,269 bytes. Genuine
+NE resident/nonresident tables and a distinct NLM counted-export layout reach
+their separate converters; no LE/LX coverage is claimed. Period C++ input
+exercises assignment, relational and allocation operators, base32 integer
+templates, recursive local names, based encoding and anonymous enums. The
+209-entry final pair matches exact streams/artifacts and exit 0 in
+1,384.099 ms original / 16.848 ms native (8.323 setup, 5.401 execution,
+3.124 checks). All five cached cases and units pass in 96.343 ms wall;
+parallel period/native builds take 2.628 s and full audit 399.460 ms for
+239 owners, 233 strict RET contracts and six existing residuals. No new shared
+support was needed.
+
+All five case folders contain only `case.c` and `capture.bin` outside `.build`.
+Twelve named App stubs remain, including member/syntax diagnostics, signal and
+low-stack paths, suppression with no demonstrated CLI caller, and alternate
+resource/error helpers. They remain App code without completion credit. The
+next coherent member-resolution workload precedes a separate syntax/nonlocal
+case: an early parser error cannot honestly also reach later member processing.
 
 WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
 authoritative.
