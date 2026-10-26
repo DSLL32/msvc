@@ -1430,6 +1430,31 @@ static const char *code_page(UINT page)
 int WINAPI recon_MultiByteToWideChar(UINT page,DWORD flags,LPCSTR input,int count,LPWSTR output,int capacity)
 {
     const char *encoding=code_page(page); int bytes;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(page==10000 && flags==1 && count==-1 && capacity>0) {
+        size_t length,n,output_bytes;uintptr_t source=(uintptr_t)input,destination=(uintptr_t)output;
+        if(capacity>4177 || source<4096 || destination<4096 || (destination&1) ||
+           recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+            recon_unsupported("MacRoman reverse ASCII/default-state/output domain");
+        for(n=0;n<6;++n)if(recon_lc_handle[n])
+            recon_unsupported("MacRoman reverse locale handles");
+        output_bytes=(size_t)capacity*sizeof(WCHAR);
+        if(source>UINTPTR_MAX-(size_t)capacity || destination>UINTPTR_MAX-output_bytes)
+            recon_unsupported("MacRoman reverse input/output wrap");
+        for(length=0;length<(size_t)capacity && input[length];++length)
+            if((unsigned char)input[length]>=128)
+                recon_unsupported("MacRoman reverse nonASCII input");
+        if(length==(size_t)capacity)
+            recon_unsupported("MacRoman reverse missing NUL/insufficient capacity");
+        ++length;
+        if(destination<source+length && source<destination+output_bytes)
+            recon_unsupported("MacRoman reverse input/output overlap");
+        /* The terminated ASCII arm needs no codepage table or normalization.
+         * Validate its entire domain before copying the included terminator. */
+        for(n=0;n<length;++n)output[n]=(WCHAR)(unsigned char)input[n];
+        return (int)length;
+    }
+#endif
     if (!encoding || count==0 || count< -1 || capacity<0 || (flags&~9U)) { last_error=ERROR_NOT_SUPPORTED; return 0; }
     bytes=count<0?(int)strlen(input)+1:count;
     return convert("UTF-16LE",encoding,input,bytes,capacity?output:NULL,(size_t)capacity*2)/2;

@@ -1430,8 +1430,8 @@ WideCharToMultiByte10000 admits flags0, positive explicit counted ASCII WCHARs,
 NULL replacement/used pointers, and either NULL output/capacity0 query or a
 disjoint caller-owned output with capacity==count. All units/spans are checked
 before writes; output is exactly count identity bytes without an added NUL.
-Other MacRoman tuples/nonASCII and other profiles deny125. Other codepages and
-MultiByteToWideChar remain unchanged. Native errors/full FP are retained;
+Other forward MacRoman tuples/nonASCII and other profiles deny125. Other
+codepages remain unchanged. Native errors/full FP are retained;
 original per-call bytes/errors/FP were unmeasured. RCDLL's actual control flow
 proves validity and its next expander count; ASCII identity is the public
 encoding contract, not a captured original buffer claim.
@@ -1441,6 +1441,16 @@ the reached count0/capacity0 with nonNULL aligned input: it returns0 with
 ERROR_INVALID_PARAMETER87, without reading input or writing output (including
 nonnull output at capacity0). This is invalid-count failure, not empty success.
 Independent errno/DOS/FP stay unchanged; original per-call LastError unmeasured.
+
+The explicit510 reverse page10000 arm admits flags1/count-1 and positive
+caller-owned aligned WCHAR output capacity up to4177 units, matching the reached
+line-buffer domain. It validates default-C/MB1 state, complete terminated ASCII
+input within capacity and disjoint nonwrapping spans before copying through NUL.
+The return includes that terminator. Queries, other flags/counts, nonpositive
+capacities and other profiles retain their previous path; invalid selected domains
+deny125. No MacRoman table or normalization is added. Native errors and semantic
+FP state remain current; original per-call state is unmeasured. The ordinary
+saved-reference adoption restores the exact complete1584-byte prepared RC input.
 
 The cold Microsoft _purecall spelling maps directly to the existing void cdecl
 noreturn __cxa_pure_virtual denial symbol. No new body/wrapper or successful
