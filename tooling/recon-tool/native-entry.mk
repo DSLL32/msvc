@@ -41,11 +41,11 @@ $(abspath $(NATIVE_ENTRY_BUILD)/assets/$(1).o): $(abspath $(2)) $(RECON_ENTRY_HE
 endef
 $(foreach f,$(NATIVE_BIN_FILES),$(eval $(call recon-native-asset,exe_$(call entry-file-key,$(f)),$(call entry-file-path,$(f)))))
 
-# Toolchain coordinator: include this file with DEFAULT_GOAL=native-bins.
+# Toolchain coordinator: optional third argument is the final native output path.
 define recon-native-program
 .PHONY: native-bin-$(1)
 native-bin-$(1):
-	+$$(MAKE) -C '$(abspath $(2))' native-bin
+	+$$(MAKE) -C '$(abspath $(2))' native-bin $(if $(strip $(3)),NATIVE_BINARY='$(abspath $(3))')
 native-bins: native-bin-$(1)
 endef
 .PHONY: native-bins

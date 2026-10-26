@@ -194,11 +194,25 @@ $(eval $(call recon-native-program,compiler,compiler))
 $(eval $(call recon-native-program,linker,linker))
 ```
 
+An optional third argument supplies the executable output path, passed as an
+absolute `NATIVE_BINARY` to that project's `native-bin`. The VC1 coordinator
+builds its eight executables under `decomp/vc1.0/build/native/bin`, using their
+original Windows basenames (`CL.EXE`, `C13232.EXE`, `C1XX3232.EXE`, `C23232.EXE`,
+`LINK.EXE`, `CVPACK.EXE`, `RC.EXE`, `RCPP.EXE`). The VC5 coordinator currently
+selects only `RC.EXE` with static RCDLL. Invoke `make -j4 native-bins` from the
+toolchain directory, or select `native-bin-<project>`. Individual binary output
+defaults and the VC5 coordinator's existing targets are unchanged. These files
+contain Linux ELF code; startup owns their corresponding Windows-visible module
+and sibling identities.
+
 `native-bins` and module recipes use recursive Make with its jobserver. The
 native-only authored suite is `python3 tooling/recon-tool/tests/entry.py`; it
 covers typed C/C++ modules, state reset, shared runtime, assets, constructors,
 object reuse and incremental `-j4`. This build support does not migrate any
 binary or produce an ELF that can also be loaded with `dlopen`.
+`python3 tooling/recon-tool/tests/coordinators.py` separately verifies toolchain
+selection, exact output paths and inherited jobserver descriptors with authored
+child Makefiles, without building reconstruction projects.
 
 Ordinary fixture builds remain nonrecursive. Each
 case library has an order-only dependency on the common library, so an app

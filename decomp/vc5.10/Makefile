@@ -21,3 +21,11 @@ fixtures-$(1):
 	$$(MAKE) -C $(1) $(if $(filter cvppack,$(1)),check,fixtures)
 endef
 $(foreach binary,$(BINARY_DIRS),$(eval $(call BINARY_TARGETS,$(binary))))
+
+# Canonical executable adoption currently includes RC with static RCDLL only.
+RECON_TOOL_DIR := $(abspath ../../tooling/recon-tool)
+RECON_NATIVE_BIN_DIR ?= $(abspath build/native/bin)
+include $(RECON_TOOL_DIR)/native-entry.mk
+$(eval $(call recon-native-program,rc,rc,$(RECON_NATIVE_BIN_DIR)/RC.EXE))
+.PHONY: native-bin
+native-bin: native-bins

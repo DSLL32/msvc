@@ -92,7 +92,7 @@ RECON_ENTRY_SOURCES := {sources}
 write('Makefile', f'''RECON_TOOL_DIR := {TOOL}
 .DEFAULT_GOAL := native-bins
 include $(RECON_TOOL_DIR)/native-entry.mk
-$(eval $(call recon-native-program,app,app))
+$(eval $(call recon-native-program,app,app,build/native/bin/AUTHORED.EXE))
 ''')
 try:
     for project in ('app','a','b'):
@@ -101,7 +101,8 @@ try:
     run(['make','-j4'])
     after = mtimes()
     assert all(after[path] == stamp for path, stamp in before.items()), 'fixture object was rebuilt'
-    binary = ROOT/'app/build/app'
+    binary = ROOT/'build/native/bin/AUTHORED.EXE'
+    assert binary.is_file() and not (ROOT/'app/build/app').exists()
     p = run([binary,'one','two'], ROOT/'app')
     assert p.stdout == b'entry modules assets reset PASS\n' and not p.stderr
     assert (ROOT/'app/exit.log').read_bytes()==b'Xab'
