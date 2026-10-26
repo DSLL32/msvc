@@ -1,20 +1,57 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1470 completes the INTERNAL allocation/query case.
-There are 1355 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 354103/399693 original code-section bytes (88.5937%);
-adding 940 owned text-data bytes gives 355043/399693 (88.8289%). These clipped
+Checkpoint 1471 completes the public mixed integer/floating stream limiter.
+There are 1356 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 354230/399693 original code-section bytes (88.6255%);
+adding 940 owned text-data bytes gives 355170/399693 (88.8607%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 381417/399693
-(95.4275%). A reliable non-CRT denominator remains unavailable; 34 pending App
-rows and 18276B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 381544/399693
+(95.4593%). A reliable non-CRT denominator remains unavailable; 33 pending App
+rows and 18149B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 34 cached IO cases, three INTERNAL DIRECT
-cases and 243 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 35 cached IO cases, three INTERNAL DIRECT
+cases and 244 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+The limiter uses untouched CL /O2 /Ob0 /Oa /G3 /Oy- /Z7 /W3. The actual C1
+source/001108 initial and000916 revised IR transport is retained separately;
+only the revised source/IR is the committed case. The first valid draft reached
+no new App entry: its return targets started with output stores, failing the
+actual epilogue predicate. One coherent revision publishes progress before
+both early exits and reaches split_float_motion_branch. No further source/flag
+variation was made. Parent CL exit is unobserved by the pre-C2 transport snapshot;
+standalone original C2 provides the complete3652B object, empty streams/status0.
+The exact normalized object SHA is
+164dab2311847a614ec1a0ba7f02b102710f264e65b26b109ccdbda6ca7068c8.
+
+The whole127B App owner clones an unconditional jump to the old target, creates
+a private label, redirects only the original edge and emits resident exit stores.
+Fresh masked original/native prefixes1470..1471 and the complete object match.
+A real-entry unit checks the actual conditional branch, target reference count2,
+context depth0/max3, five width8 resident owners, new label refs1 and all five
+FSTP stores. Original target, resident identity/slots/flags and links are retained.
+The missing-target internal-error branch remains cold and named trapping.
+Integer coefficient arithmetic is already resident before the proposed FI mapper,
+the lane mask folds earlier to AND/SHR, and the asm predecessor did not need an
+edge split; those three hypotheses remain unvisited and receive no credit.
+A changed expected object byte rejects despite actual exit0. Exploratory raw
+object comparison/GDB teardown runs remain diagnostics, never fixture passes.
+No CRT reconstruction, new shim or new normalization was introduced.
+
+Final `make -j4 audit check unit` passes2.075s (phases unsplit):1361 paired
+graphs/accepted extents and165 scoped RET contracts. Original /W3 compile passes
+2.300s. Measured CL feasibility1.778s, actual transport captures3.192s, untouched
+C2 baselines1.445s and fresh masked references2.131s include both source drafts.
+Combined canonical/native build3.826s, metadata0.639s, case/descriptor builds1.651s,
+native pairs0.117s and diagnostic GDB0.474s. Completion IO is31.963ms:
+setup16.098/execution11.615/checks4.250. Analysis/editing/packing are unmeasured;
+combined phases are unsplit and these totals are not task elapsed. All attempts,
+source/binary bindings and completion/coverage/timing records remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/stream-limiter/`.
+
+The preceding INTERNAL allocation/query case used the following workflow.
 The allocation/query case reuses case0027's genuine decoder input and the first
 find_evictable_machine_region anchor, outside all four query callee graphs.
 Actual _decode_residual_lanes state has102 initialized variable owners,602

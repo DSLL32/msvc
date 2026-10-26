@@ -2036,6 +2036,29 @@ void __fastcall finish_float_motion_branch(MachineInstruction *instruction,
     emit_float_exit_stores(target->next, context);
 }
 
+/* Original [0003bc20,0003bc9f), ECX branch/EDX live context, RET0.
+   Give the exiting edge a private label and store sequence. A cloned
+   unconditional jump still reaches the original target, preserving its
+   reference count; only the original edge is redirected to the new label. */
+void __fastcall split_float_motion_branch(MachineInstruction *instruction,
+    MemoryMotionContext *context)
+{
+    MachineInstruction *target, *jump, *label;
+    LabelSymbol *symbol;
+    target = label_machine_instruction((LabelSymbol *)instruction->operands[0].value.symbol);
+    if (!target) compiler_internal_error("@(#)fltreg.c:1.31", 0x950);
+    jump = clone_machine_record(instruction);
+    jump->opcode = (jump->opcode & ~0xff00U) | (MC_JMP << 8);
+    insert_machine_after(target->previous, jump);
+    symbol = new_internal_label();
+    label = new_machine_instruction(1);
+    symbol->references = 1;
+    label->record.symbol = &symbol->symbol;
+    insert_machine_after(target->previous, label);
+    instruction->operands[0].value.symbol = &symbol->symbol;
+    emit_float_exit_stores(target, context);
+}
+
 /* Original3bca0..3bf33, ECX first target record/EDX context, RET0.
    The preceding block owns register-use bookkeeping. Ordinary exits drain
    the resident hash chain. With one expression result, the original instead

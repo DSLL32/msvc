@@ -2923,11 +2923,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@split_float_motion_branch@8",
         .entry_rva = 0x2bc20,
-        .code = (const ReconExtent[]) { { 0x2bc20, 0x2bc21 } },
+        .code = (const ReconExtent[]) { { 0x2bc20, 0x2bc9f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "split_float_motion_branch",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@float_register_arithmetic_opcode@4",
