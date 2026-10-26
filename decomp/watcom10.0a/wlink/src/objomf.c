@@ -755,3 +755,19 @@ void P2ModEnd( void )
     if( target.import != 0 ) LnkMsg( 0x3316, 0 );
     StartInfo = target.addr;
 }
+
+void DoLazyExtdef( unsigned char isweak )
+{
+    extnode *ext;
+    symbol *sym;
+    unsigned short index;
+
+    while( ObjBuff < EOObjRec ) {
+        ext = FindNode( ExtNodes, GetIdx() );
+        sym = ext->entry;
+        ext->flags |= 0x1000;
+        index = GetIdx();
+        ext = FindNode( ExtNodes, index );
+        DefineLazyExtdef( sym, ext->entry, isweak );
+    }
+}

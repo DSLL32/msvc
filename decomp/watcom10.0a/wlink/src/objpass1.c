@@ -565,3 +565,26 @@ list_of_names *GetSegmentName( char *name )
 {
     return AddName( name, strlen( name ) );
 }
+
+/* The old symbol type occupies the low nibble of the packed info word. */
+void DefineLazyExtdef( symbol *sym, symbol *def, unsigned char isweak )
+{
+    symbol *defaultsym;
+    unsigned short type;
+
+    type = sym->info & 0x0f;
+    if( !(sym->info & 0x1000) && type != 6 && type > 3 ) {
+        if( type >= 7 && type != 9 ) {
+            if( type >= 10 ) {
+                defaultsym = *(symbol **)sym->e.def;
+            } else {
+                defaultsym = sym->e.def;
+            }
+            if( def != defaultsym ) LnkMsg( 0xf27c, "S", sym );
+        } else if( !(sym->info & 0x20) || type == 9 ) {
+            sym->info = (sym->info & 0xfff0) | (isweak ? 8 : 7);
+            sym->e.def = def;
+            if( LinkFlags & 0x10000UL ) DataRef( def );
+        }
+    }
+}

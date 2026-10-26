@@ -294,6 +294,8 @@ extern void ReadNameTable( int file );
 extern void ReadPEExportTable( int file, struct pe_hdr_table_entry *base );
 extern void CheckExport( char *name, unsigned short ordinal, int (*compare)(const char *, const char *) );
 extern entry_export *FindPlace( entry_export *entry );
+extern void DefineLazyExtdef( symbol *sym, symbol *def, unsigned char isweak );
+extern void ReadExports( unsigned long namestart, unsigned long nameend, unsigned long ordstart, unsigned numords, unsigned ord_base, int file, char *fname );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

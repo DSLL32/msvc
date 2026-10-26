@@ -1,5 +1,5 @@
-WLINK 10.0a has fourteen completed native regression cases. The acceptance ledger
-contains **1,017 application functions / 119,650 unique original code bytes**.
+WLINK 10.0a has fifteen completed native regression cases. The acceptance ledger
+contains **1,033 application functions / 121,331 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -33,6 +33,8 @@ response files, environment-expanded object and library paths, explicit LIBFILE
 inclusion, case-sensitive symbols, module/symbol tracing and separate debug data.
 The fourteenth upgrades an OS/2 LX DLL, preserving old export ordinals while
 adding a new export and module metadata, with code/data/BSS page policies.
+The fifteenth performs a self-contained PE DLL ordinal upgrade from genuine
+USE32 OMF code/data, using old PE header mode and the native subsystem.
 
 | Case | Result |
 | --- | --- |
@@ -50,6 +52,7 @@ adding a new export and module metadata, with code/data/BSS page policies.
 | `0011-os2-ne` | Exit 0; exact 256-byte stdout, empty stderr, 943-byte NE DLL and 3,507-byte map |
 | `0012-dos-com` | Exit 0; exact 249-byte stdout, empty stderr, 47-byte COM, 316-byte debug file and 1,958-byte map |
 | `0013-os2-upgrade` | Exit 0; exact 267-byte stdout, empty stderr, 5,113-byte LX DLL and 4,268-byte map |
+| `0015-pe-ordinal-upgrade` | Exit 0; exact 232-byte stdout, empty stderr, 11,776-byte PE DLL and 3,038-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -77,7 +80,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 959 source-ready identities, their actual graph,
+The complete audit passes for 1,036 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -202,8 +205,9 @@ API_ENTRY/API_ALIAS/API_WAIT ordinals 3/7/11 remain; new API_NEW receives ordina
 The old input DLL is a captured ordinary input. The original keeps the new
 unassigned exports' resident flags when assigning old ordinals, so previously
 nonresident names become resident here; that defined behavior is preserved.
-The separate PE export-table reader remains a named trap and is not exercised.
-Only six map clock fields are excluded.
+That LX input does not exercise the separate PE export-table reader; the PE
+ordinal-upgrade case below now qualifies it. Only six map clock fields are
+excluded in the LX case.
 
 ProcModName's successful prefix falls into the already known ProcLE true entry;
 its failed parse branches to the same final C3. The disjoint prefix, displaced
@@ -221,3 +225,34 @@ The successful baseline took **615.574 ms**, reusing genuine OS/2 OMF objects,
 archive and the prior DLL. Every upgrade DLL byte stays strict. Raw artifacts,
 producer inputs, earlier failures and diagnostics remain under
 `~/.ai-tmp/msvc2/watcom-shared-integration/`.
+
+
+The self-contained PE ordinal upgrade matches 488 first entries and preserves
+alpha/zebra/omega ordinals 2/7/11, assigning the new API ordinal 1. It reads the
+prior ordinary PE DLL's export/name/ordinal arrays through genuine ReadExports
+(RET 12), then writes the actual old 192-byte PE header with subsystem 1. Only
+the four-byte COFF timestamp and six map clock digit fields are excluded;
+every other DLL/map byte, status and stream remains strict. ProcOldPE's actual
+eight-byte prefix falls into the separate ProcPE entry, with no overlap or seed.
+
+An earlier large C++ PE-upgrade invocation remains unsupported, not a completed
+fixture. Its matched prefixes qualified lazy-symbol resolution, symbol welding
+and destructor/operator demangling, but complete replay exposed an allocator
+boundary difference: the original avoids LnkReAlloc while native's honest
+capacity-shortfall _expand failure takes that fallback. Complete DLL/map bytes
+matched after the same clock exclusions. The host backend has no supported
+nonmoving growth for that block, so no allocator imitation or trace weakening
+was introduced. This input, failed comparisons, raw outputs and frozen DSO/source
+remain in scratch under wlink-pe-upgrade. Its uncommitted case working state was
+retired there; the distinct successful workload is numbered 0015. The tried
+NOCACHE spelling is merely a true-return no-op in this 1994 binary, unlike the
+later source implementation; no streaming-policy claim is made.
+
+The final parallel build/regression/unit/audit batch took **1.287 s**. All fifteen
+cases and 1,036 source-ready graph/ABI identities pass. The 30 native regression
+runs took **17.639–48.075 ms**. The genuine ordinal-upgrade capture command took
+**1,876.341 ms** (owned target **1,859.121 ms**); the clock-derived native pair
+reused that capture and took **30.295 ms**, split **16.806 / 6.004 / 7.486 ms**
+for setup/execution/checks. The clean baseline took **707.998 ms**, and genuine
+main/worker assembly took **706.224 / 485.530 ms**. Authoring files, raw artifacts
+and diagnostics remain in scratch; case folders contain only source/capture data.

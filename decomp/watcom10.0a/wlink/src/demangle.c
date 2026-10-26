@@ -1104,3 +1104,102 @@ int pointer( output_desc *data, state_desc *state )
     }
     return( 0 );
 }
+
+int dtor_or_delete( output_desc *data, state_desc *state )
+{
+    char c;
+
+    c = nextChar( data );
+    switch( c ) {
+    case 'T':
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_DESTRUCTOR_CHAR );
+        _output1( DM_DESTRUCTOR );
+        data->pending_loc = data->count - data->index;
+        data->ctdt_pending = 1;
+        return 1;
+    case 'L':
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_DELETE );
+        return 1;
+    case 'A':
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_DELETE_ARRAY );
+        return 1;
+    }
+    return 0;
+}
+
+int assignment_function( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    c = nextChar( data ) - LOWER_TABLE_LIMIT;
+    if( c < sizeof(assignmentFunction) / sizeof(assignmentFunction[0]) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output2( DM_ASSIGNMENT_FUNCTION, (int)c );
+        return 1;
+    }
+    return 0;
+}
+
+int relational_function( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    c = nextChar( data ) - LOWER_TABLE_LIMIT;
+    if( c < sizeof(relationalFunction) / sizeof(relationalFunction[0]) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output2( DM_RELATIONAL_FUNCTION, (int)c );
+        return 1;
+    }
+    return 0;
+}
+
+int operator_function( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    c = nextChar( data ) - LOWER_TABLE_LIMIT;
+    if( c < sizeof(operatorFunction) / sizeof(operatorFunction[0]) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output2( DM_OPERATOR_FUNCTION, (int)c );
+        return 1;
+    }
+    return 0;
+}
+
+void unforceSuppression( output_desc *data )
+{
+    if( data->suppress_output > 2 ) data->suppress_output -= 3;
+}
+
+int op_new( output_desc *data, state_desc *state )
+{
+    if( nextChar( data ) == 'W' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_NEW );
+        return 1;
+    }
+    if( nextChar( data ) == 'A' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_NEW_ARRAY );
+        return 1;
+    }
+    return 0;
+}

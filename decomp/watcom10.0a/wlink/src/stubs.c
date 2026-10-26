@@ -33,7 +33,7 @@ unsigned char CheckVFList( symbol *sym ) { TRAP(); return 0; }
 
 
 
-void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
+
 
 
 
@@ -197,7 +197,7 @@ unsigned char ProcFullScreen( void ) { TRAP(); return 0; }
 
 unsigned char ProcMemory( void ) { TRAP(); return 0; }
 
-unsigned char ProcOldPE( void ) { TRAP(); return 0; }
+
 
 
 
@@ -212,8 +212,8 @@ unsigned char ProcTNT( void ) { TRAP(); return 0; }
 
 unsigned char CheckFence( void ) { TRAP(); return 0; }
 
-unsigned char ProcRunNative( void ) { TRAP(); return 0; }
-unsigned char ProcRunWindows( void ) { TRAP(); return 0; }
+
+
 
 unsigned char ProcRunPosix( void ) { TRAP(); return 0; }
 unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
@@ -360,7 +360,7 @@ void MSExportKeyword( void ) { TRAP(); }
 void ProcExportKeyword( void ) { TRAP(); }
 void ProcImportKeyword( void ) { TRAP(); }
 
-void DoLazyExtdef( unsigned char isweak ) { TRAP(); }
+
 void DBIComment( void ) { TRAP(); }
 
 void ProcVFTableRecord( unsigned char ispure ) { TRAP(); }
@@ -400,7 +400,7 @@ void WriteSymArray( symbol **syms, unsigned num ) { TRAP(); }
 
 
 void forceSuppression( output_desc *data ) { TRAP(); }
-void unforceSuppression( output_desc *data ) { TRAP(); }
+
 
 
 
@@ -529,11 +529,11 @@ void DwarfAddModLines( unsigned count ) { TRAP(); }
 int based_encoding( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int array( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 char prevChar( output_desc *data ) { TRAP(); return 0; }
-int dtor_or_delete( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int op_new( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int assignment_function( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int relational_function( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int operator_function( output_desc *data, state_desc *state ) { TRAP(); return 0; }
+
+
+
+
+
 int special_type_names( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int watcom_object( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int check_recurse( void ) { TRAP(); return 0; }
@@ -557,8 +557,8 @@ unsigned char ProcReadOnly( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcFixed( void ) { TRAP(); return 0; }
-unsigned char ProcNonPageable( void ) { TRAP(); return 0; }
-unsigned char ProcPageable( void ) { TRAP(); return 0; }
+
+
 
 
 
@@ -692,9 +692,3 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
-
-
-
-
-
-void ReadPEExportTable( int file, struct pe_hdr_table_entry *base ) { TRAP(); }

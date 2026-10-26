@@ -5096,6 +5096,86 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcRunWindows": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNonPageable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPageable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoLazyExtdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineLazyExtdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WeldSyms": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "dtor_or_delete": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "assignment_function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "relational_function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "operator_function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "unforceSuppression": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "op_new": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadPEExportTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadExports": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "ProcOldPE": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRunNative": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

@@ -670,3 +670,67 @@ void WriteDebugTable( pe_header *header, pe_object *object )
     header->table[PE_TBL_DEBUG].rva = object->rva;
     header->image_size += (sizeof(dir) + header->object_align - 1) & ~(header->object_align - 1);
 }
+
+void ReadPEExportTable( int file, pe_hdr_table_entry *base )
+{
+    pe_export_directory table;
+    char *fname;
+    unsigned long *nameptrs, *curr;
+    unsigned nameptrsize, numentries;
+    unsigned long entrystart, namestart;
+
+    fname = FmtData.u.os2.old_lib_name;
+    QRead( file, &table, sizeof(pe_export_directory), fname );
+    nameptrsize = table.num_name_ptrs * sizeof(unsigned long);
+    if( nameptrsize == 0 ) return;
+    nameptrs = ChkLAlloc( nameptrsize + sizeof(unsigned long) );
+    QSeek( file, table.name_ptr_table_rva - base->rva, fname );
+    QRead( file, nameptrs, nameptrsize, fname );
+    numentries = 1;
+    entrystart = table.ordinal_table_rva - base->rva;
+    curr = nameptrs;
+    *curr -= base->rva;
+    namestart = *curr++;
+    nameptrsize -= sizeof(unsigned long);
+    while( nameptrsize > 0 ) {
+        *curr -= base->rva;
+        if( *curr - namestart > TokSize ) {
+            ReadExports( namestart, *(curr - 1), entrystart, numentries,
+                         table.ordinal_base, file, fname );
+            entrystart += numentries * sizeof(unsigned short);
+            numentries = 1;
+            namestart = *(curr - 1);
+        }
+        ++numentries;
+        ++curr;
+        nameptrsize -= sizeof(unsigned long);
+    }
+    /* The old reader assumes the names occupy the end of the directory. */
+    ReadExports( namestart, base->size + *nameptrs, entrystart, numentries,
+                 table.ordinal_base, file, fname );
+    _LnkFree( nameptrs );
+}
+
+void ReadExports( unsigned long namestart, unsigned long nameend,
+                  unsigned long ordstart, unsigned numords,
+                  unsigned ord_base, int file, char *fname )
+{
+    unsigned short *ordbuf, *ordptr;
+    char *nameptr;
+
+    ordbuf = ChkLAlloc( numords * sizeof(unsigned short) );
+    QSeek( file, ordstart, fname );
+    QRead( file, ordbuf, numords * sizeof(unsigned short), fname );
+    QSeek( file, namestart, fname );
+    QRead( file, TokBuff, nameend - namestart, fname );
+    nameptr = TokBuff;
+    ordptr = ordbuf;
+    while( numords > 0 ) {
+        CheckExport( nameptr, *ordptr + ord_base, &strcmp );
+        while( *nameptr != '\0' ) ++nameptr;
+        ++nameptr;
+        ++ordptr;
+        --numords;
+    }
+    _LnkFree( ordbuf );
+}

@@ -738,3 +738,43 @@ unsigned char ProcInvalid( void )
     ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.flags |= 0x8000;
     return 1;
 }
+
+unsigned char ProcRunWindows( void )
+{
+    FmtData.u.pe.subsystem = 2;
+    return 1;
+}
+
+unsigned char ProcNonPageable( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 8 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 8;
+    flags->specified |= 8;
+    return 1;
+}
+
+unsigned char ProcPageable( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 8 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~8;
+    flags->specified |= 8;
+    return 1;
+}
+
+unsigned char ProcOldPE( void )
+{
+    LinkFlags |= 0x800000UL;
+    return ProcPE();
+}
+
+unsigned char ProcRunNative( void )
+{
+    FmtData.u.pe.subsystem = 1;
+    return 1;
+}

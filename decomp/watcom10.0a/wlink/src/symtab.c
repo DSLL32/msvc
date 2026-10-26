@@ -676,3 +676,8 @@ void TraceSymList( symbol *sym )
 {
     for( ; sym != 0; sym = sym->publink ) sym->info |= 0x0400;
 }
+
+void WeldSyms( symbol *sym, symbol *defsym )
+{
+    if( defsym != NULL ) SetSymAlias( sym, defsym->name, strlen( defsym->name ) );
+}
