@@ -22,7 +22,6 @@ void RECON_THISCALL LinkContext::PrepareMacDebugSections(void) { __asm { int 3 }
 void RECON_THISCALL LinkContext::PrepareMacRuntimeSections(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareNativeRelocations(void) { __asm { int 3 } }
 extern "C" DWORD __stdcall section_data_size(OutputSection *section) { __asm { int 3 } return 0; }
-extern "C" unsigned __stdcall count_debug_modules(void *libraries) { __asm { int 3 } return 0; }
 extern "C" DWORD __stdcall mips_code_padding(Contribution *contribution) { __asm { int 3 } return 0; }
 extern "C" void __stdcall add_alpha_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }

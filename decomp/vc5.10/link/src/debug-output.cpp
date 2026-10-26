@@ -6,6 +6,9 @@
 #include "memory.h"
 #include "sections.h"
 #include "debug-output.h"
+#include "pass-one.h"
+#include "comdat.h"
+extern "C" __declspec(dllimport) void __cdecl TruncStFromSz(char *,const char *,size_t);
 #include <recon.h>
 
 extern "C" {
@@ -146,7 +149,8 @@ void RECON_THISCALL LinkContext::EmitDebugDirectories(DWORD start,DWORD original
         codeview_offset=cursor;
         if(!pdb_enabled) {
             default_phase="EmitCodeView";
-            DEBUG_SEEK(debug_section->raw_size);
+            /* Original +8 is the current absolute end, distinct from raw_size. */
+            DEBUG_SEEK(debug_section->reserved08);
             emit_codeview(this);
         } else {
             DEBUG_SEEK(codeview_debug->file_offset);
@@ -238,6 +242,357 @@ void RECON_THISCALL LinkContext::EmitDebugDirectories(DWORD start,DWORD original
         DEBUG_WRITE(&offset,4);
     }
 }
+/* CodeView's module, segment and directory records are distinct serialized
+ * owners; none is an IMAGE_DEBUG_DIRECTORY. */
+typedef struct CodeViewContributionSpan {
+    ContributionGroup *group;
+    Contribution *first,*last;
+    struct CodeViewContributionSpan *next;
+} CodeViewContributionSpan;
+typedef struct CodeViewModuleHeader { WORD overlay,library,segments,style; } CodeViewModuleHeader;
+typedef struct CodeViewContribution { WORD section,reserved;DWORD offset,bytes; } CodeViewContribution;
+typedef struct CodeViewSegment {
+    WORD flags,overlay,group,frame,name,class_name;
+    DWORD offset,bytes;
+} CodeViewSegment;
+typedef struct CodeViewDirectoryHeader {
+    WORD header_bytes,entry_bytes;
+    DWORD entries,next,flags;
+} CodeViewDirectoryHeader;
+typedef struct CodeViewDirectoryEntry { WORD kind,module;DWORD offset,bytes; } CodeViewDirectoryEntry;
+typedef char CodeViewRecordSizes[(sizeof(CodeViewContributionSpan)==16 &&
+    sizeof(CodeViewModuleHeader)==8 && sizeof(CodeViewContribution)==12 &&
+    sizeof(CodeViewSegment)==20 && sizeof(CodeViewDirectoryHeader)==16 &&
+    sizeof(CodeViewDirectoryEntry)==12)?1:-1];
+extern "C" {
+extern void *module_debug_table;
+extern DWORD module_debug_index;
+BYTE __stdcall is_discardable_comdat(Contribution *);
+CodeViewContributionSpan *__stdcall collect_codeview_contributions(OutputModule *module,WORD *count,LinkContext *context)
+{
+    CodeViewContributionSpan *head=NULL;
+    ModuleContributionEnumerator contributions;
+    *count=0;
+    initialize_module_contribution_enumerator(&contributions,module);
+    while(next_module_contribution(&contributions)) {
+        Contribution *item=contributions.current;
+        if((item->characteristics&0x800) || !item->raw_size ||
+           (item->characteristics&0x4000) || item->group->section==debug_section)continue;
+        if(context->options.effective_reference_opt && is_discardable_comdat(item))continue;
+        CodeViewContributionSpan *current=head,*previous=NULL;
+        while(current && current->first->rva<=item->rva) {
+            previous=current;
+            current=current->next;
+        }
+        if((item->group->section->characteristics&0x1e0)==0x20) {
+            if(previous && previous->last->next==item) {
+                previous->last=item;
+                continue;
+            }
+            if(current && current->first==item->next) {
+                current->first=item;
+                continue;
+            }
+        }
+        CodeViewContributionSpan *span=(CodeViewContributionSpan *)allocate_memory(sizeof(CodeViewContributionSpan));
+        span->group=item->group;
+        span->first=span->last=item;
+        span->next=current;
+        if(previous)previous->next=span;
+        else head=span;
+        ++*count;
+    }
+    return head;
+}
+extern OutputModule *output_module;
+void __stdcall remember_common_symbol(CommonSymbol **,StringNode *);
+void __stdcall collect_codeview_publics(LinkContext *context)
+{
+    StringNode **symbols=context->symbols->GetSortedSymbols();
+    DWORD count=count_hash_symbols(context->symbols->hash.state);
+    for(DWORD i=0;i<count;++i) {
+        StringNode *symbol=symbols[i];
+        if(!(symbol->flag_byte&1))continue;
+        Contribution *contribution=symbol->contribution;
+        if(!contribution || (contribution->characteristics&0x4800))continue;
+        if(context->options.effective_reference_opt && is_discardable_comdat(contribution))continue;
+        OutputModule *module=contribution->module;
+        if(!module)continue;
+        if(module==output_module) {
+            if(!module_debug_index)continue;
+            module=((DebugModuleRecord *)module_debug_table)[0].module;
+        }
+        remember_common_symbol(&module->codeview_publics,symbol);
+    }
+}
+extern char short_symbol_name[9];
+#pragma intrinsic(strlen,strcpy)
+void __stdcall write_codeview_public(LinkContext *context,StringNode *symbol,DWORD absolute_segment)
+{
+    struct PublicRecord {
+        WORD length,kind;
+        DWORD type_index,offset;
+        WORD section;
+    } record;
+    typedef char PublicRecordFields[(offsetof(PublicRecord,offset)==8 &&
+        offsetof(PublicRecord,section)==12)?1:-1];
+    char name[260];
+    WORD kind;
+    Contribution *contribution=symbol->contribution;
+    if(!contribution) {
+        record.offset=symbol->final_value;
+        /* The physical third formal remains DWORD; only its low WORD is
+         * consumed at original410d12. */
+        record.section=(WORD)absolute_segment;
+    } else {
+        if(context->options.fold_identical_comdats && (contribution->characteristics&0x4000))return;
+        if(context->options.effective_reference_opt && is_discardable_comdat(contribution))return;
+        record.offset=symbol->final_value-contribution->group->section->rva;
+        record.section=contribution->group->section->index;
+    }
+    const char *text=get_symbol_name(symbol,context->symbols->hash.string_storage,&kind,NULL);
+    if(kind==1)text=strncpy(short_symbol_name,text,8);
+    DWORD length=strlen(text);
+    if(length>255)TruncStFromSz(name,text,length);
+    else {
+        name[0]=(char)length;
+        strcpy(name+1,text);
+    }
+    BYTE bytes=(BYTE)name[0];
+    record.kind=0x1009;
+    record.type_index=0;
+    record.length=(WORD)(bytes+13);
+    /* The serialized prefix ends at WORD section, excluding C tail padding. */
+    DEBUG_WRITE(&record,14);
+    DEBUG_WRITE(name,(DWORD)bytes+1);
+}
+void __stdcall write_codeview_module_publics(LinkContext *context,DebugModuleRecord *record)
+{
+    WORD absolute_segment=(WORD)(context->file_header.NumberOfSections+1);
+    CommonSymbol *entry=record->module->codeview_publics;
+    while(entry) {
+        write_codeview_public(context,entry->symbol,absolute_segment);
+        CommonSymbol *next=entry->next;
+        release_memory(entry);
+        entry=next;
+    }
+    /* The first list head is left dangling by the original. Only the common
+     * list below is advanced in its module owner after each release. */
+    entry=record->module->common_symbols;
+    while(entry) {
+        if((entry->symbol->flag_byte&3)==3)
+            write_codeview_public(context,entry->symbol,absolute_segment);
+        record->module->common_symbols=entry->next;
+        release_memory(entry);
+        entry=record->module->common_symbols;
+    }
+}
+}
+#pragma intrinsic(strcmp,strlen)
+extern "C" void __stdcall emit_codeview(LinkContext *context)
+{
+    DWORD symbol_streams=0,type_streams=0,other_streams=0;
+    DWORD public_streams=0,line_streams=0,i,j,position;
+    DWORD library_start,library_end,segment_start,line_start;
+    LibraryEnumerator libraries;
+    SectionEnumerator sections;
+    CodeViewModuleHeader header;
+    CodeViewContribution contribution;
+    CodeViewSegment segment;
+    CodeViewDirectoryHeader directory;
+    CodeViewDirectoryEntry entry;
+    DebugModuleRecord *records=(DebugModuleRecord *)module_debug_table;
+    for(i=0;i<module_debug_index;++i) {
+        if(records[i].symbol_file_offset)++symbol_streams;
+        if(records[i].type_file_offset)++type_streams;
+        if(records[i].reserved2c)++other_streams;
+    }
+    header.overlay=0;
+    header.style=0x5643;
+    for(i=0;i<module_debug_index;++i) {
+        CodeViewContributionSpan *span=collect_codeview_contributions(
+            ((DebugModuleRecord *)module_debug_table)[i].module,&header.segments,context);
+        records=(DebugModuleRecord *)module_debug_table;
+        const char *name=records[i].name;
+        BYTE length=(BYTE)strlen(name);
+        DWORD library_index=0;
+        if(!(records[i].module->library->flags&16)) {
+            initialize_library_enumerator(&libraries,(OutputLibrary *)context->pointer_list.first);
+            while(next_library(&libraries)) {
+                if(libraries.current->name) {
+                    ++library_index;
+                    if(libraries.current==((DebugModuleRecord *)module_debug_table)[i].module->library)break;
+                }
+            }
+            end_section_enumerator((SectionEnumerator *)&libraries);
+        }
+        header.library=(WORD)library_index;
+        DEBUG_TELL(position);
+        ((DebugModuleRecord *)module_debug_table)[i].module_file_offset=position;
+        DEBUG_WRITE(&header,sizeof(header));
+        for(WORD n=0;n<header.segments;++n) {
+            contribution.section=span->first->group->section->index;
+            contribution.reserved=0;
+            contribution.offset=span->first->rva-span->first->group->section->rva;
+            contribution.bytes=span->last->rva+span->last->raw_size-span->first->rva;
+            DEBUG_WRITE(&contribution,sizeof(contribution));
+            CodeViewContributionSpan *next=span->next;
+            release_memory(span);
+            span=next;
+        }
+        DEBUG_WRITE(&length,1);
+        DEBUG_WRITE(name,length);
+        DEBUG_TELL(position);
+        records=(DebugModuleRecord *)module_debug_table;
+        records[i].module_bytes=position-records[i].module_file_offset;
+    }
+    collect_codeview_publics(context);
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        if(records[i].public_file_offset==0xffffffff) {
+            records[i].public_file_offset=0;
+            continue;
+        }
+        ++public_streams;
+        DEBUG_TELL(position);
+        ((DebugModuleRecord *)module_debug_table)[i].public_file_offset=position;
+        DWORD signature=2;
+        DEBUG_WRITE(&signature,4);
+        write_codeview_module_publics(context,(DebugModuleRecord *)module_debug_table+i);
+        records=(DebugModuleRecord *)module_debug_table;
+        if(!(records[i].module->library->flags&16)) {
+            for(j=i+1;j<module_debug_index;++j) {
+                records=(DebugModuleRecord *)module_debug_table;
+                if(records[i].module->library==records[j].module->library &&
+                   !strcmp(records[i].name,records[j].name)) {
+                    write_codeview_module_publics(context,records+j);
+                    ((DebugModuleRecord *)module_debug_table)[j].public_file_offset=0xffffffff;
+                }
+            }
+        }
+        DEBUG_TELL(position);
+        records=(DebugModuleRecord *)module_debug_table;
+        records[i].public_bytes=position-records[i].public_file_offset;
+    }
+    DEBUG_TELL(library_start);
+    BYTE length=0;
+    DEBUG_WRITE(&length,1);
+    initialize_library_enumerator(&libraries,(OutputLibrary *)context->pointer_list.first);
+    while(next_library(&libraries)) {
+        if(libraries.current->name) {
+            length=(BYTE)strlen(libraries.current->name);
+            DEBUG_WRITE(&length,1);
+            DEBUG_WRITE(libraries.current->name,length);
+        }
+    }
+    DEBUG_TELL(library_end);
+    DEBUG_TELL(segment_start);
+    WORD segment_count=(WORD)(context->file_header.NumberOfSections+1);
+    DEBUG_WRITE(&segment_count,2);
+    DEBUG_WRITE(&segment_count,2);
+    segment.overlay=segment.group=0;
+    for(i=1;(WORD)i<=context->file_header.NumberOfSections;++i) {
+        OutputSection *section=(OutputSection *)&context->sections;
+        initialize_section_enumerator(&sections,&context->sections);
+        while(next_output_section(&sections)) {
+            section=sections.current;
+            if((int)(SHORT)section->index==(int)(WORD)i)break;
+        }
+        end_section_enumerator(&sections);
+        segment.flags=(section->characteristics&0x40000000)?0x109:0x108;
+        if(section->characteristics&0x80000000)segment.flags|=2;
+        if(section->characteristics&0x20000000)segment.flags|=4;
+        segment.frame=(WORD)i;
+        segment.name=segment.class_name=0xffff;
+        segment.offset=0;
+        segment.bytes=section->virtual_size;
+        DEBUG_WRITE(&segment,sizeof(segment));
+    }
+    segment.flags=0x208;
+    segment.frame=0;
+    segment.name=segment.class_name=0xffff;
+    segment.bytes=0xffffffff;
+    DEBUG_WRITE(&segment,sizeof(segment));
+    DEBUG_TELL(line_start);
+    for(i=0;i<module_debug_index;++i) {
+        OutputModule *module=((DebugModuleRecord *)module_debug_table)[i].module;
+        /* The released stream pointer is tested only for its defined non-NULL
+         * value. Its freed pointee is never read here. */
+        if(!module->debug_stream)module->debug_line_file_offset=0;
+        else {
+            DEBUG_TELL(position);
+            ((DebugModuleRecord *)module_debug_table)[i].module->debug_line_file_offset=position;
+            module=((DebugModuleRecord *)module_debug_table)[i].module;
+            DEBUG_WRITE(module->serialized_debug,module->serialized_debug_size);
+            ++line_streams;
+        }
+    }
+    DEBUG_TELL(codeview_directory_offset);
+    directory.header_bytes=16;
+    directory.entry_bytes=12;
+    directory.entries=line_streams+public_streams+other_streams+type_streams+
+        symbol_streams+module_debug_index+2;
+    directory.next=directory.flags=0;
+    DEBUG_WRITE(&directory,sizeof(directory));
+    entry.kind=0x120;
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        entry.module=(WORD)(i+1);
+        entry.offset=records[i].module_file_offset-codeview_offset;
+        entry.bytes=records[i].module_bytes;
+        DEBUG_WRITE(&entry,sizeof(entry));
+    }
+    entry.kind=0x123;
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        if(records[i].public_file_offset) {
+            entry.module=(WORD)(i+1);
+            entry.offset=records[i].public_file_offset-codeview_offset;
+            entry.bytes=records[i].public_bytes;
+            DEBUG_WRITE(&entry,sizeof(entry));
+        }
+    }
+    entry.kind=0x124;
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        if(records[i].symbol_file_offset) {
+            entry.module=(WORD)(i+1);
+            entry.offset=records[i].symbol_file_offset-codeview_offset;
+            entry.bytes=records[i].symbol_bytes;
+            DEBUG_WRITE(&entry,sizeof(entry));
+        }
+    }
+    entry.kind=0x127;
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        if(records[i].module->debug_line_file_offset) {
+            entry.module=(WORD)(i+1);
+            entry.offset=records[i].module->debug_line_file_offset-codeview_offset;
+            entry.bytes=records[i].module->serialized_debug_size;
+            DEBUG_WRITE(&entry,sizeof(entry));
+        }
+    }
+    for(i=0;i<module_debug_index;++i) {
+        records=(DebugModuleRecord *)module_debug_table;
+        if(records[i].type_file_offset) {
+            entry.kind=records[i].precompiled_types?0x12f:0x121;
+            entry.module=(WORD)(i+1);
+            entry.offset=records[i].type_file_offset-codeview_offset;
+            entry.bytes=records[i].type_bytes;
+            DEBUG_WRITE(&entry,sizeof(entry));
+        }
+    }
+    entry.kind=0x128;
+    entry.module=0xffff;
+    entry.offset=library_start-codeview_offset;
+    entry.bytes=library_end-library_start;
+    DEBUG_WRITE(&entry,sizeof(entry));
+    entry.kind=0x12d;
+    entry.module=0xffff;
+    entry.offset=segment_start-codeview_offset;
+    entry.bytes=line_start-segment_start;
+    DEBUG_WRITE(&entry,sizeof(entry));
+}
 #undef DEBUG_ENTRY
 #undef ROUND_DEBUG
 #undef DEBUG_SEEK
@@ -263,7 +618,7 @@ void __stdcall write_symbol_strings(int fd,StringTable *table)
     else buffered_write(file,data,bytes);
     default_phase=saved;
 }
-void __stdcall emit_codeview(LinkContext *) { __asm { int 3 } }
+
 void __stdcall pdb_emit_fpo(DWORD *,DWORD) { __asm { int 3 } }
 int __cdecl compare_debug_fixups(const void *left,const void *right)
 {

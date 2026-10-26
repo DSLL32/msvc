@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-470 application functions / 162,489 original code bytes are reconstructed
-(39.17% of the 414,810-byte whole `.text` extent, which includes CRT and text
+496 application functions / 169,444 original code bytes are reconstructed
+(40.85% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 43 pending bodies with known extents totaling 6,291 bytes and
-161 entries whose body extents remain unknown; this is not a complete non-CRT
+154 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fifteen cached native cases and their narrow checks;
+`make -j4 check unit` runs all sixteen cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-483-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 465 ordinary application bodies and six CRT bodies. Seven import
+509-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 491 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -60,7 +60,7 @@ justified lifetime/operation TUs use special optimization and instrumentation
 settings, with one physical cleanup owner and actual Win32 EH actions.
 
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
-Unreached Mac, PDB, callback, CodeView and further librarian edit/extract domains retain
+Unreached Mac, PDB, callback, packed CodeView and further librarian edit/extract domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
 owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
@@ -259,3 +259,35 @@ original-build/graph/RET/EH gate took 2.45 s. The interrupted closeout attempts
 and expected-fixture clock encoding correction remain in scratch; successful
 prior cases were not recaptured. Full regression and audit ran only at case
 closeout, after the current-case pair completed.
+
+
+The raw CodeView case links two original-compiled `/Od /Gy /Z7` C modules with
+structures, unions, enums, arrays, locals and cross-module function/data references.
+`/debugtype:both /pdb:none /nopack` retains uncompressed CodeView alongside COFF
+debug and the source-line map; it invokes no CVPACK dependency. Both runs exit 0
+with 291 application first entries and matching 7,168-byte EXE and 1,695-byte map.
+Twenty-six bodies / 6,955 original code bytes cover per-module debug tracking,
+pooled file/section/line records, size calculation and serialization, contribution
+spans, public symbols, segment maps and the CodeView subsection directory.
+
+The existing 68-byte debug-module table has one shared definition, and the
+module's existing line-buffer and file-offset fields retain their physical owners.
+The serializer preserves actual WORD/BYTE count and length conversions, list
+order, padding stores and release behavior. No debug payload, names, padding,
+allocation state or file inventory is normalized. Long public names still reach
+the authentic MSPDB50 `TruncStFromSz` boundary, whose shared native surface is
+currently typed denial only; this case does not call it or qualify truncation.
+PDB-backed module output remains a separate pending path. The raw EXE difference
+was confined to the identified COFF TimeDateStamp and its three debug-directory
+copies; the map normalizes only its corresponding eight hexadecimal digits and
+24-character `ctime` text. The original raw artifacts and comparison derivation
+remain in scratch.
+
+This case exposed a previously unvisited caller read: `EmitDebugDirectories`
+seeks to the debug section's stored absolute end at offset +8 before CodeView,
+not its raw size at +12. The correction adds no code credit; the failed raw pair
+and the corrected native comparison against the unchanged reference are retained.
+Fresh native completion took 13.8 ms (8.2 ms setup, 3.0 ms execution, 2.6 ms checks),
+and the original took 1,255.5 ms. The sixteen-case cached regression/unit batch
+passed in 1.21 s; the full 509-vertex / 497-return-contract / five-EH-owner gate
+passed in 2.50 s. Full checks ran only at case completion.

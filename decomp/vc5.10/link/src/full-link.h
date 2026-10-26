@@ -9,6 +9,7 @@
 struct LinkContext;
 typedef struct OutputModule OutputModule;
 typedef struct OutputLibrary OutputLibrary;
+typedef struct DebugLineModule DebugLineModule;
 typedef struct OutputSection OutputSection;
 typedef struct ContributionGroup ContributionGroup;
 typedef struct Contribution Contribution;
@@ -120,17 +121,18 @@ struct OutputModule {
     BYTE *section_flags;
     DWORD auxiliary;
     CommonSymbol *common_symbols;
-    BYTE reserved58[8];
+    CommonSymbol *codeview_publics;
+    DWORD reserved5c;
     ContributionInfo *contribution_info;
     OutputLibrary *library;
     /* Original allocation uses 64 bytes per section; the public Contribution
        prefix does not yet describe that complete record. */
     void *contributions;
     OutputModule *next;
-    void *debug_stream;
+    DebugLineModule *debug_stream;
     BYTE *serialized_debug;
     DWORD serialized_debug_size;
-    DWORD reserved7c;
+    DWORD debug_line_file_offset;
     MapLineFile *map_line_files;
     WORD *incremental_state;
     StringNode *defined_symbols;
@@ -189,7 +191,9 @@ struct Contribution {
     void RECON_THISCALL ReadConvertedData(void *buffer,DWORD bytes);
 #endif
 };
-typedef char ModuleCommonSymbolsAt54[(offsetof(OutputModule,common_symbols)==0x54)?1:-1];
+typedef char ModuleCommonSymbolsAt54[(offsetof(OutputModule,common_symbols)==0x54 &&
+    offsetof(OutputModule,codeview_publics)==0x58 &&
+    offsetof(OutputModule,debug_line_file_offset)==0x7c)?1:-1];
 typedef char ModuleCompilerIdAt30[(offsetof(OutputModule,compiler_id)==0x30)?1:-1];
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
 typedef char ContributionAssociationAndPadding[(offsetof(Contribution,associated_contribution)==0x10 && offsetof(Contribution,padding)==0x14)?1:-1];

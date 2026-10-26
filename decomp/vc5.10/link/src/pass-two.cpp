@@ -238,17 +238,6 @@ void RECON_THISCALL OutputModule::WriteOutput(LinkContext *context,DWORD pdb_lib
     /* The original ANDs WORD98h withfff0h; its upper byte stays unchanged. */
     if(incremental_reuse)flags &= 0xf0;
 }
-/* Only the two encountered fields of each 68-byte debug-table record are
- * interpreted here. The original allocation remains owned by FullLink. */
-typedef struct DebugModuleRecord {
-    OutputModule *module;
-    const char *name;
-    BYTE reserved08[12];
-    DWORD symbol_file_offset,symbol_bytes,reserved1c;
-    DWORD type_file_offset,type_bytes,precompiled_types;
-    BYTE reserved2c[24];
-} DebugModuleRecord;
-typedef char DebugModuleRecordSize[(sizeof(DebugModuleRecord)==68)?1:-1];
 typedef char ModuleOutputFields[(offsetof(OutputModule,debug_symbol_index)==0x20 &&
     offsetof(OutputModule,input_symbols)==0x24 &&
     offsetof(OutputModule,debug_stream)==0x70 &&
@@ -270,9 +259,9 @@ BYTE __stdcall is_discardable_comdat(Contribution *);
 void __stdcall process_output_symbol(LinkContext *,OutputModule *,IMAGE_SYMBOL *,
     IMAGE_SYMBOL **,DWORD *,DWORD *,DWORD);
 void __stdcall write_output_line_numbers(LinkContext *,Contribution *);
-DWORD __stdcall debug_stream_size(void *);
-void __stdcall copy_debug_stream(void *,void *,DWORD);
-void __stdcall release_debug_stream(void *);
+DWORD __stdcall debug_stream_size(DebugLineModule *);
+void __stdcall copy_debug_stream(DebugLineModule *,void *,DWORD);
+void __stdcall release_debug_stream(DebugLineModule *);
 }
 
 void RECON_THISCALL OutputModule::ProcessOutput(LinkContext *context,DWORD output_state)
@@ -641,9 +630,6 @@ invalid_lines:
     release_memory(lines);
 }
 void __cdecl link_contribution_warning(Contribution *,unsigned,...) { __asm { int 3 } }
-DWORD __stdcall debug_stream_size(void *) { __asm { int 3 } return 0; }
-void __stdcall copy_debug_stream(void *,void *,DWORD) { __asm { int 3 } }
-void __stdcall release_debug_stream(void *) { __asm { int 3 } }
 }
 void RECON_THISCALL OutputModule::ReopenOutput(int) { __asm { int 3 } }
 void RECON_THISCALL OutputModule::WriteCommonSymbols(BYTE reference_optimization)

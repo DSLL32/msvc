@@ -1,3 +1,4 @@
 LIBRARY MSPDB50
 EXPORTS
     SigForPbCb
+    TruncStFromSz

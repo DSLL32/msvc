@@ -4,14 +4,47 @@
 #include <string.h>
 #include "link-driver.h"
 #include "full-link-functions.h"
+#include "pass-one.h"
 #include <recon.h>
 /* This line-tracking owner is unrelated to the scoped 12-byte byte buffer.
  * The factory leaves its first DWORD untouched; its eventual writer owns it. */
-/* Five encountered scalar stores initialize this independent 16-byte owner.
- * Its field roles will be named when the actual producers/consumers use them. */
+struct DebugLinePool {
+    DebugLinePool *next;
+    BYTE *data;
+    DWORD used;
+    BYTE storage[1012];
+};
+typedef char DebugLinePoolSize[(sizeof(DebugLinePool)==1024 &&
+    offsetof(DebugLinePool,storage)==12)?1:-1];
+struct DebugLineEntry {
+    DebugLineEntry *next;
+    DWORD offset;
+    WORD line,reserved;
+};
+typedef char DebugLineEntrySize[(sizeof(DebugLineEntry)==12 &&
+    offsetof(DebugLineEntry,line)==8)?1:-1];
+struct DebugLineSection {
+    DebugLineSection *next;
+    WORD section,line_count;
+    DebugLineEntry *lines;
+    DWORD serialized_size,start,end;
+};
+typedef char DebugLineSectionSize[(sizeof(DebugLineSection)==24 &&
+    offsetof(DebugLineSection,start)==16)?1:-1];
+struct DebugLineFile {
+    DebugLineFile *next;
+    WORD section_count,name_length;
+    DWORD serialized_size;
+    char *name;
+    DebugLineSection *sections;
+};
+typedef char DebugLineFileSize[(sizeof(DebugLineFile)==20 &&
+    offsetof(DebugLineFile,name)==12 && offsetof(DebugLineFile,sections)==16)?1:-1];
 struct DebugLineStore {
-    WORD reserved00,reserved02;
-    DWORD reserved04,reserved08,reserved0c;
+    WORD file_count,segment_count;
+    DebugLineFile *files;
+    DebugLinePool *pool;
+    struct DebugLineSegment *segments;
 };
 typedef char DebugLineStoreSize[(sizeof(DebugLineStore)==16)?1:-1];
 struct DebugLineModule {
@@ -22,14 +55,28 @@ typedef char DebugLineModuleSize[(sizeof(DebugLineModule)==12 &&
     offsetof(DebugLineModule,lines)==8)?1:-1];
 extern "C" {
 extern BYTE pdb_enabled;
+extern BYTE incremental_reuse;
+unsigned __stdcall count_debug_modules(void *first_library)
+{
+    LibraryEnumerator libraries;
+    ModuleEnumerator modules;
+    unsigned count=0;
+    initialize_library_enumerator(&libraries,(OutputLibrary *)first_library);
+    while(next_library(&libraries)) {
+        initialize_module_enumerator(&modules,libraries.current);
+        while(next_module(&modules))
+            if(!incremental_reuse || (modules.current->flags&1))++count;
+    }
+    return count;
+}
 DebugLineStore *__cdecl create_line_store(void)
 {
     DebugLineStore *store=(DebugLineStore *)allocate_memory(sizeof(DebugLineStore));
-    store->reserved00=0;
-    store->reserved02=0;
-    store->reserved04=0;
-    store->reserved08=0;
-    store->reserved0c=0;
+    store->file_count=0;
+    store->segment_count=0;
+    store->files=NULL;
+    store->pool=NULL;
+    store->segments=NULL;
     return store;
 }
 DebugLineModule *__cdecl create_line_module(void)
@@ -39,7 +86,7 @@ DebugLineModule *__cdecl create_line_module(void)
     module->lines=create_line_store();
     return module;
 }
-#pragma intrinsic(strcmp)
+#pragma intrinsic(strcmp,strlen,strcpy)
 MapLineFile *__stdcall find_map_line_file(OutputModule *module,const char *name)
 {
     MapLineFile *file=module->map_line_files;
@@ -90,9 +137,307 @@ void __stdcall record_map_lines(Contribution *contribution,const char *name,
 void __stdcall write_pdb_debug_lines(const char *,DWORD,DWORD,DWORD,DWORD,DWORD,
                                    IMAGE_LINENUMBER *,DWORD)
 { __asm { int 3 } }
-void __stdcall write_local_debug_lines(const char *,DWORD,DWORD,DWORD,
-                                      IMAGE_LINENUMBER *,DWORD,Contribution *)
-{ __asm { int 3 } }
+DebugLinePool *current_debug_line_pool;
+DebugLinePool *__cdecl create_debug_line_pool(void)
+{
+    DebugLinePool *pool=(DebugLinePool *)allocate_memory(sizeof(DebugLinePool));
+    pool->next=NULL;
+    pool->data=pool->storage;
+    pool->used=0;
+    return pool;
+}
+void __stdcall select_debug_line_pool(DebugLineStore *store)
+{
+    DebugLinePool *pool=store->pool;
+    if(!pool)store->pool=pool=create_debug_line_pool();
+    current_debug_line_pool=pool;
+    while(pool->next) {
+        pool=pool->next;
+        current_debug_line_pool=pool;
+    }
+}
+void *__stdcall allocate_debug_line_record(unsigned bytes)
+{
+    DWORD rounded=(bytes+3)&~3U;
+    DebugLinePool *pool=current_debug_line_pool;
+    BYTE *result;
+    if(pool->used+rounded>sizeof(pool->storage)) {
+        pool=create_debug_line_pool();
+        current_debug_line_pool->next=pool;
+        current_debug_line_pool=pool;
+    }
+    result=pool->data+pool->used;
+    pool->used+=rounded;
+    return result;
+}
+char *__stdcall copy_debug_line_name(const char *name,DWORD length)
+{
+    char *copy=(char *)allocate_debug_line_record(length+2);
+    strcpy(copy,name);
+    return copy;
+}
+DebugLineFile *__stdcall find_debug_line_file(DebugLineStore *store,const char *name)
+{
+    DebugLineFile **link=&store->files,*file;
+    DWORD length;
+    while(*link) {
+        if(!strcmp(name,(*link)->name))return *link;
+        link=&(*link)->next;
+    }
+    *link=file=(DebugLineFile *)allocate_debug_line_record(sizeof(DebugLineFile));
+    ++store->file_count;
+    file->section_count=0;
+    length=strlen(name);
+    file->name_length=(WORD)length;
+    file->name=copy_debug_line_name(name,length);
+    file->sections=NULL;
+    file->next=NULL;
+    return file;
+}
+DebugLineSection *__stdcall find_debug_line_section(DebugLineFile *file,WORD section,
+    DWORD start,DWORD end)
+{
+    DebugLineSection **link=&file->sections,*group;
+    while(*link) {
+        group=*link;
+        if(group->section==section && group->end<start && group->end+4>=start) {
+            group->end=end;
+            return group;
+        }
+        link=&group->next;
+    }
+    *link=group=(DebugLineSection *)allocate_debug_line_record(sizeof(DebugLineSection));
+    ++file->section_count;
+    group->start=start;
+    group->section=section;
+    group->lines=NULL;
+    group->line_count=0;
+    group->end=end;
+    group->next=NULL;
+    return group;
+}
+void __stdcall append_debug_line(DebugLineSection *section,DWORD base_line,
+    DWORD line,DWORD offset)
+{
+    DebugLineEntry *entry=(DebugLineEntry *)allocate_debug_line_record(sizeof(DebugLineEntry));
+    entry->offset=offset;
+    entry->next=section->lines;
+    /* Both physical DWORD inputs are consumed only through their low WORDs. */
+    entry->line=(WORD)((WORD)line==0x7fff?(WORD)base_line:
+        (WORD)base_line+(WORD)line);
+    ++section->line_count;
+    section->lines=entry;
+}
+void __stdcall write_local_debug_lines(const char *name,DWORD start,DWORD end,
+    DWORD base_line,IMAGE_LINENUMBER *lines,DWORD bytes,Contribution *contribution)
+{
+    DebugLineStore *store=((DebugLineModule *)contribution->module->debug_stream)->lines;
+    WORD section=contribution->group->section->index;
+    DWORD count=bytes/sizeof(*lines),index,delta,first;
+    DebugLineFile *file;
+    DebugLineSection *group;
+    OutputModule *module;
+    select_debug_line_pool(store);
+    file=find_debug_line_file(store,name);
+    module=contribution->module;
+    delta=contribution->rva-module->section_map[
+        contribution-(Contribution *)module->contributions].virtual_address-
+        contribution->group->section->rva;
+    first=lines[0].Linenumber?lines[0].Type.VirtualAddress+delta:start;
+    group=find_debug_line_section(file,section,first,end);
+    append_debug_line(group,base_line,lines[0].Linenumber,first);
+    for(index=1;index<count;++index)
+        append_debug_line(group,base_line,lines[index].Linenumber,
+            lines[index].Type.VirtualAddress+delta);
+}
+struct DebugLineSegment {
+    DebugLineSegment *next;
+    WORD section,reserved06;
+    DWORD reserved08,reserved0c,start,end;
+};
+typedef char DebugLineSegmentSize[(sizeof(DebugLineSegment)==24 &&
+    offsetof(DebugLineSegment,start)==16)?1:-1];
+DebugLineSegment *__cdecl create_debug_line_segment(void)
+{
+    DebugLineSegment *segment=(DebugLineSegment *)allocate_debug_line_record(sizeof(DebugLineSegment));
+    segment->section=0xffff;
+    segment->next=NULL;
+    segment->start=0xffffffff;
+    segment->end=0;
+    segment->reserved0c=0;
+    return segment;
+}
+void __stdcall build_debug_line_segments(DebugLineStore *store)
+{
+    DebugLineFile *file;
+    DebugLineSection *group;
+    select_debug_line_pool(store);
+    if(store->segments)return;
+    store->segments=create_debug_line_segment();
+    store->segment_count=0;
+    for(file=store->files;file;file=file->next) {
+        for(group=file->sections;group;group=group->next) {
+            DebugLineSegment *segment=store->segments,*previous=NULL;
+            BYTE merged=0;
+            while(segment) {
+                if(segment->section==group->section) {
+                    if(group->start<segment->start && group->start+4>=segment->start) {
+                        segment->start=group->start;
+                        merged=1;
+                        break;
+                    }
+                    if(group->end>segment->end && group->end-4<=segment->end) {
+                        segment->end=group->end;
+                        merged=1;
+                        break;
+                    }
+                }
+                previous=segment;
+                segment=segment->next;
+            }
+            if(!merged) {
+                ++store->segment_count;
+                if(previous->section==0xffff)segment=previous;
+                else previous->next=segment=create_debug_line_segment();
+                segment->start=group->start;
+                segment->section=group->section;
+                segment->end=group->end;
+            }
+        }
+    }
+}
+DWORD __stdcall debug_line_file_size(DebugLineFile *file)
+{
+    DebugLineSection *section;
+    DWORD bytes=file->name_length+file->section_count*12+5;
+    bytes+=(-(DWORD)(file->name_length+1))&3;
+    for(section=file->sections;section;section=section->next) {
+        DWORD size=section->line_count*6+4;
+        if(section->line_count&1)size+=2;
+        section->serialized_size=size;
+        bytes+=size;
+    }
+    file->serialized_size=bytes;
+    return bytes;
+}
+DWORD __stdcall debug_stream_size(DebugLineModule *module)
+{
+    DebugLineStore *store;
+    DebugLineFile *file;
+    DWORD bytes;
+    if(!module)return 0;
+    store=module->lines;
+    if(!store->files)return 0;
+    build_debug_line_segments(store);
+    bytes=4+store->file_count*4+store->segment_count*10;
+    if(store->segment_count&1)bytes+=2;
+    for(file=store->files;file;file=file->next)bytes+=debug_line_file_size(file);
+    return bytes;
+}
+void __stdcall serialize_debug_line_section(DebugLineSection *section,BYTE *buffer)
+{
+    DebugLineEntry *entry;
+    BYTE *offsets=buffer+4+section->line_count*4;
+    BYTE *lines=offsets+section->line_count*2;
+    *(WORD *)buffer=section->section;
+    *(WORD *)(buffer+2)=section->line_count;
+    for(entry=section->lines;entry;entry=entry->next) {
+        offsets-=4;
+        *(DWORD *)offsets=entry->offset;
+    }
+    for(entry=section->lines;entry;entry=entry->next) {
+        lines-=2;
+        *(WORD *)lines=entry->line;
+    }
+    if(section->line_count&1)*(WORD *)(buffer+4+section->line_count*6)=0;
+}
+#pragma intrinsic(memcpy,memset)
+void __stdcall serialize_debug_line_file(DebugLineFile *file,BYTE *buffer,DWORD base_offset)
+{
+    BYTE *cursor=buffer+4;
+    DebugLineSection *section;
+    DWORD padding=(-(DWORD)(file->name_length+1))&3;
+    DWORD offset=base_offset+5+file->section_count*12+file->name_length+padding;
+    *(WORD *)buffer=file->section_count;
+    *(WORD *)(buffer+2)=0;
+    for(section=file->sections;section;section=section->next) {
+        *(DWORD *)cursor=offset;
+        cursor+=4;
+        offset+=section->serialized_size;
+    }
+    for(section=file->sections;section;section=section->next) {
+        *(DWORD *)cursor=section->start;
+        *(DWORD *)(cursor+4)=section->end;
+        cursor+=8;
+    }
+    /* The stored length is one byte, but the copy consumes the full WORD. */
+    *cursor++=(BYTE)file->name_length;
+    memcpy(cursor,file->name,file->name_length);
+    cursor+=file->name_length;
+    memset(cursor,0,padding);
+    cursor+=padding;
+    for(section=file->sections;section;section=section->next) {
+        serialize_debug_line_section(section,cursor);
+        cursor+=section->serialized_size;
+    }
+}
+void __stdcall copy_debug_stream(DebugLineModule *module,void *buffer,DWORD bytes)
+{
+    DebugLineStore *store=module->lines;
+    BYTE *base=(BYTE *)buffer,*cursor=base+4;
+    DebugLineFile *file;
+    DebugLineSegment *segment;
+    DWORD offset=4+store->file_count*4+store->segment_count*10;
+    *(WORD *)base=store->file_count;
+    *(WORD *)(base+2)=store->segment_count;
+    if(store->segment_count&1)offset+=2;
+    for(file=store->files;file;file=file->next) {
+        *(DWORD *)cursor=offset;
+        cursor+=4;
+        offset+=debug_line_file_size(file);
+    }
+    for(segment=store->segments;segment;segment=segment->next) {
+        *(DWORD *)cursor=segment->start;
+        *(DWORD *)(cursor+4)=segment->end;
+        cursor+=8;
+    }
+    for(segment=store->segments;segment;segment=segment->next) {
+        *(WORD *)cursor=segment->section;
+        cursor+=2;
+    }
+    /* The original advances over this alignment slot without writing it. */
+    if(store->segment_count&1)cursor+=2;
+    for(file=store->files;file;file=file->next) {
+        serialize_debug_line_file(file,cursor,cursor-base);
+        cursor+=file->serialized_size;
+    }
+}
+void __stdcall release_debug_line_pools(DebugLineStore *store)
+{
+    DebugLinePool *pool=store->pool;
+    while(pool) {
+        DebugLinePool *next=pool->next;
+        release_memory(pool);
+        pool=next;
+    }
+}
+void __stdcall destroy_debug_line_store(DebugLineStore *store)
+{
+    release_debug_line_pools(store);
+    store->files=NULL;
+    release_memory(store);
+}
+void __stdcall destroy_debug_line_module(DebugLineModule *module)
+{
+    if(module) {
+        destroy_debug_line_store(module->lines);
+        release_memory(module);
+    }
+}
+void __stdcall release_debug_stream(DebugLineModule *module)
+{
+    destroy_debug_line_module(module);
+}
 void __cdecl link_contribution_warning(Contribution *,unsigned,...);
 }
 #pragma intrinsic(memcpy)

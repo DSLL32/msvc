@@ -27,6 +27,20 @@ typedef struct MapStaticSymbol {
 typedef char MapStaticSymbolSize[(sizeof(MapStaticSymbol)==20)?1:-1];
 /* Original4944a4 is the first pending static-symbol record. */
 MapStaticSymbol *map_static_symbols;
+/* Original467398 starts at4944a4 and then addresses each last node's +0 link. */
+MapStaticSymbol **map_static_symbol_tail=&map_static_symbols;
+char *__stdcall duplicate_argument(const char *);
+void __stdcall record_map_symbol(const char *name,Contribution *contribution,
+    DWORD value,BYTE function)
+{
+    *map_static_symbol_tail=(MapStaticSymbol *)allocate_memory(sizeof(MapStaticSymbol));
+    (*map_static_symbol_tail)->name=duplicate_argument(name);
+    (*map_static_symbol_tail)->contribution=contribution;
+    (*map_static_symbol_tail)->value=value;
+    (*map_static_symbol_tail)->function=function;
+    (*map_static_symbol_tail)->next=NULL;
+    map_static_symbol_tail=&(*map_static_symbol_tail)->next;
+}
 /* Original4944a0, initially NULL. Its eventual producer owns the opaque nodes. */
 void *map_thunk_symbols;
 BYTE __stdcall is_discardable_comdat(Contribution *);

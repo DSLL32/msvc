@@ -3,6 +3,7 @@
 #include "input.h"
 #include "full-link-functions.h"
 #include "sections.h"
+#include "debug-output.h"
 #include <recon.h>
 
 extern "C" {
@@ -108,10 +109,6 @@ typedef struct BufferedPosition {
     BYTE reserved00[12];
     LONG position;
 } BufferedPosition;
-typedef struct DebugModuleOwner {
-    OutputModule *module;
-    BYTE reserved[64];
-} DebugModuleOwner;
 void __stdcall process_file_output_symbol(LinkContext *context,IMAGE_SYMBOL *symbol,
     DWORD index,DWORD *value)
 {
@@ -145,7 +142,7 @@ void __stdcall process_file_output_symbol(LinkContext *context,IMAGE_SYMBOL *sym
         symbol->Value=first_file_symbol_index;
     }
     if(module_debug_table) {
-        OutputModule *module=((DebugModuleOwner *)module_debug_table)[module_debug_index].module;
+        OutputModule *module=((DebugModuleRecord *)module_debug_table)[module_debug_index].module;
         if(module->debug_symbol_index==0xffffffff)module->debug_symbol_index=index;
     }
 }
@@ -179,7 +176,6 @@ void __stdcall process_local_output_symbol(LinkContext *context,IMAGE_SYMBOL *sy
         symbol->Value+=contribution->rva;
     } else symbol->Value=0;
 }
-void __stdcall record_map_symbol(const char *name,Contribution *contribution,DWORD value,BYTE local) { __asm { int 3 } }
 StringNode *__stdcall process_external_output_symbol(LinkContext *context,IMAGE_SYMBOL *symbol)
 {
     WORD kind;

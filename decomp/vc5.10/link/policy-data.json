@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 111232
+              "offset": 122160
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 111243
+              "offset": 122171
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 130736
+              "offset": 141664
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 130747
+              "offset": 141675
             }
           ]
         },
@@ -5094,11 +5094,11 @@
           "roots": [
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 66608
+              "offset": 69888
             },
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 66619
+              "offset": 69899
             }
           ]
         }
@@ -9423,6 +9423,136 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_allocate_debug_line_record@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_write_codeview_module_publics@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_select_debug_line_pool@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_collect_codeview_publics@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_append_debug_line@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_create_debug_line_segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_copy_debug_line_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_find_debug_line_file@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_destroy_debug_line_module@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_collect_codeview_contributions@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_debug_stream_size@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_emit_codeview@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_build_debug_line_segments@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_copy_debug_stream@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_write_codeview_public@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_serialize_debug_line_file@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_release_debug_stream@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_find_debug_line_section@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_debug_line_file_size@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_create_debug_line_pool": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_destroy_debug_line_store@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_debug_line_pools@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_record_map_symbol@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_serialize_debug_line_section@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_write_local_debug_lines@28": {
+        "expected_cleanup": [
+          28
+        ]
+      },
+      "_count_debug_modules@4": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
@@ -9432,21 +9562,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 111232
+            "offset": 122160
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 111243
+            "offset": 122171
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 111243
+            "offset": 122171
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 111253
+            "offset": 122181
           }
         ]
       ]
@@ -9456,21 +9586,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 130736
+            "offset": 141664
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 130747
+            "offset": 141675
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 130747
+            "offset": 141675
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 130757
+            "offset": 141685
           }
         ]
       ]
@@ -9528,21 +9658,21 @@
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 66608
+            "offset": 69888
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 66619
+            "offset": 69899
           }
         ],
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 66619
+            "offset": 69899
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 66629
+            "offset": 69909
           }
         ]
       ]
