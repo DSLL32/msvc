@@ -914,3 +914,21 @@ IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *exp
         ((CppSymbol *)expression->value.pointer)->name);
     return expression;
 }
+
+/* Original0x3b1d0..0x3b247, stdcall8. Missing declarations retain
+   either their actual type or the three defined storage-specification bytes. */
+void __stdcall report_missing_declarator(unsigned code, DeclarationType *type)
+{
+    StorageSpec storage;
+    char *text;
+    if (!(type->storage[0] & 0x10)) {
+        report_type_error(code, type->type);
+        return;
+    }
+    begin_type_diagnostic();
+    storage.flags = *(unsigned short *)type->storage;
+    storage.extended = type->storage[2];
+    text = type_diagnostic_text(format_storage_spec(0, storage));
+    report_syntax_error(code, *text ? text : token_spellings[35]);
+    end_type_diagnostic();
+}

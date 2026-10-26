@@ -64,7 +64,6 @@
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
@@ -93,7 +92,6 @@ void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
 

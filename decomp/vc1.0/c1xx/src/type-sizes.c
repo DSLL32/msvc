@@ -194,3 +194,19 @@ unsigned __stdcall parameter_type_size(CType *type, int promote_float)
     if (promote_float && !shape && type->flags == 0x104) return 8;
     return type_size(type);
 }
+
+/* Original0x4eee0..0x4ef2e, stdcall4. An incomplete tag is reported
+   once and marked; prototype mode retains that mark while suppressing text. */
+void __stdcall require_complete_type(CType *type)
+{
+    CppSymbol *tag = cpp_context_stack->items[type->field08];
+    if (tag) {
+        if (tag->declaration_flags & 2) return;
+        if (!(tag->flags & 4)) {
+            if (!options.prototypes_only) report_syntax_error(27, tag->name);
+            tag->declaration_flags |= 2;
+            return;
+        }
+    }
+    report_type_error(36, type);
+}

@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1966 historical frontiers/1886 App bodies;
+ * Current completed-case boundary:1968 historical frontiers/1888 App bodies;
  * Twenty-seven support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
@@ -6601,10 +6601,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_missing_declarator@8",
         .entry_rva = 0x2b1d0,
-        .code = (const ReconExtent[]) { { 0x2b1d0, 0x2b1d1 } },
+        .code = (const ReconExtent[]) { { 0x2b1d0, 0x2b247 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_missing_declarator",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_has_cv_qualifiers@4",
@@ -10210,6 +10211,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "require_complete_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_complete_type_size@4",

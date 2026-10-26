@@ -1,6 +1,25 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Descriptor schema validation is COMPLETE: case0054 combines opaque packet
+strides/differences, callback-versus-array-row contracts, missing generated
+members and legacy distance declarations in one negative SDK compilation.
+Two freshly matched CLI App bodies add197 B: require_complete_type(78 B) and
+report_missing_declarator(119 B). Incomplete tags retain the original report-once
+mark/prototype-mode rule. Missing declarations format either the actual type or
+only their three defined storage bytes, with the existing token-name fallback.
+The final original/native pair matches exit9, complete diagnostics, all six
+artifacts and the two observed first entries. No guard/policy/normalization change.
+
+Total is1,888 App /408,733 B (85.79% of whole original code),11 named pending
+App,1,968 historical frontiers,27 explicitly unit-qualified support bodies and
+seven unchanged historical CRT source bodies. All55 native cases and50 unit
+groups pass, with original compilation and the1,896-function six-check graph/ABI
+audit. Build2.781 s; final original1,182.672 ms/native31.014 ms (setup18.868 ms,
+execution5.514 ms, checks6.632 ms); closing gate3.569 s. No shared shim change.
+
+Earlier resource fallback qualification:
+
 Resource fallback support is COMPLETE (native-unit-only): four whole App
 helpers add176 B: release_input_handle(81 B), retry_malloc(47 B), browser symbol
 rollover(38 B) and macro-end marker(10 B). Positive frontend callers establish
