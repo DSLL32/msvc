@@ -1344,3 +1344,24 @@ void check_assume( int default_reg )
         }
     }
 }
+
+/* CF3edc..3f31, source asmdefs.h16-bit r/m encodings. */
+int comp_mem(int first, int second)
+{
+    switch (first) {
+    case T_BX:
+        switch (second) {
+        case T_SI: return 0; /* MEM_BX_SI */
+        case T_DI: return 1; /* MEM_BX_DI */
+        }
+        break;
+    case T_BP:
+        switch (second) {
+        case T_SI: return 2; /* MEM_BP_SI */
+        case T_DI: return 3; /* MEM_BP_DI */
+        }
+        break;
+    }
+    AsmError(6);
+    return ERROR;
+}

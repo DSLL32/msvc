@@ -1742,6 +1742,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "push_proc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "comp_mem": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmError": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1817,11 +1832,7 @@
       }
     }
   ],
-  "function_properties": {
-    "AsmError": {
-      "pending_extent": false
-    }
-  },
+  "function_properties": {},
   "shared_return_entries": [
     {
       "owner": "PObjRegList",

@@ -35,7 +35,6 @@ int readLangInfoList(int handle, WResResNode *resource)
 int readMResDir(int handle, WResDir dir, int *duplicate_discarded)
 { (void)handle; (void)dir; (void)duplicate_discarded; WASM_PENDING(); return 0; }
 
-void AsmError(int message) { (void)message; WASM_PENDING(); }
 
 
 
@@ -78,7 +77,6 @@ int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 
 
 
-int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING(); return -1; }
 
 
 
@@ -94,7 +92,6 @@ int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING();
 
 
 
-void push_proc(dir_node *procedure) { (void)procedure; WASM_PENDING(); }
 
 
 

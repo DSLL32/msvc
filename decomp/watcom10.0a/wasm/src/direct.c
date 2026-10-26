@@ -1799,8 +1799,14 @@ int ProcEnd(int i)
     return NOT_ERROR;
 }
 
-/* CF2663c, shared with the still-pending nested-procedure push_proc. */
+/* CF2663c, shared nested-procedure stack owner. */
 static void *ProcStack;
+
+/* CFf9cc..f9db. */
+void push_proc(dir_node *procedure)
+{
+    push(&ProcStack, procedure);
+}
 /* CFf9dc..f9f0 falls into the existing pop entry in the original. */
 dir_node *pop_proc(void)
 {

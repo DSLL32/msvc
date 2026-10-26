@@ -34,6 +34,7 @@
  * The1994 limit byte is zero-extended and compared with integer-1. */
 #include <unistd.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <stdarg.h>
 #include "asminit.h"
 #include <recon.h>
@@ -58,7 +59,8 @@ void AsmErr(int message, ...)
     }
 }
 
-void AsmSuicide(void) { WASM_PENDING(); }
+/* CF164a4..164ae: terminal error-limit path, no App return. */
+void AsmSuicide(void) { exit(1); }
 /* CF16380..163f6: the two independent va_list arguments are array
  * pointers in the original Watcom ABI. */
 static FILE *ErrFile;
@@ -134,4 +136,10 @@ void AsmWarn(int level, int message, ...)
         va_end(first);
         va_end(second);
     }
+}
+
+/* CF16250..1625a: fixed-message entry used by the instruction library. */
+void AsmError(int message)
+{
+    AsmErr(message);
 }

@@ -218,11 +218,28 @@ for name, start, end, digest, returns, tails in owners:
         'original_error_tails': tails, 'rebuilt_extent': [begin, limit], 'rebuilt_ret0': rebuilt_returns,
         'rebuilt_error_tails': jumps, 'rebuilt_sha256': hashlib.sha256(pe_bytes(begin, limit - begin)).hexdigest()})
 
+# Exact error-limit terminator; same standard exit(1) closure as usage_msg.
+if not selected_owner or selected_owner == 'AsmSuicide':
+    assert raw[payload+0x164a4:payload+0x164ae] == bytes.fromhex('b801000000e983660000')
+    original_code = instructions(original,0x164a4,0x164ae,payload)
+    assert not any(m.startswith('ret') for _,m,_ in original_code)
+    assert external_jumps(original_code,0x164a4,0x164ae,payload) == [(0x164a9,'jmp',0x1cb31)]
+    begin = symbols['AsmSuicide_']
+    limit = min(a for a in symbols.values() if a > begin)
+    code = instructions(rebuilt,begin,limit)
+    calls = [(a,int(operand,16)) for a,m,operand in code if m == 'call']
+    assert [target for _,target in calls] == [symbols['exit_']]
+    assert pe_bytes(calls[0][0]-5,5) == bytes.fromhex('b801000000')
+    assert not external_jumps(code,begin,limit)
+    report.append({'name':'AsmSuicide','original_exit':[0x164a9,0x1cb31,1],
+        'rebuilt_exit_call':calls[0][0],'status':1,
+        'rebuilt_sha256':hashlib.sha256(pe_bytes(begin,limit-begin)).hexdigest()})
+
 if selected_owner:
     assert len(report) == 1, "unknown finite RET owner"
     if len(sys.argv) == 2:
         Path(sys.argv[1]).write_text(json.dumps(report, indent=2) + '\n')
-    print('PASS finite normal RET0/cold InternalError: ' + selected_owner)
+    print('PASS finite target RET/termination contract: ' + selected_owner)
     sys.exit(0)
 
 # FixNew delegates directly to the same CarveAlloc whose normal RET0 and

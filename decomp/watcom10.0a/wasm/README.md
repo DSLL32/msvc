@@ -1,7 +1,7 @@
 # Watcom 10.0a WASM
 
-Seven cases are complete: `/?` (exit 1), five successful assembly workloads,
-and a source-configuration diagnostic workload (exit 7).
+Eight cases are complete: `/?` (exit 1), five successful assembly workloads,
+and configuration/error-limit diagnostic workloads (exit 7 and exit 1).
 The buffer transform combines includes, macros, conditionals, typed records,
 integer/x87 instructions, branches and external relocations (485-byte OMF).
 The DOS record formatter adds small-model segments, IRP, macro-local labels,
@@ -18,10 +18,14 @@ Its seven errors and one warning match exactly; redirected stdout suppresses
 The DOS screen library adds long286 conditional-branch expansion, group
 relocations and unrolled segment-override stores (445-byte OMF); both
 jump-extension warnings and the object match.
+The record-contract case adds nested procedures, paired16-bit address registers
+and the error-limit exit. Its exact diagnostics include the original embedded
+NUL in the final prefix; immediate termination leaves the captured zero-byte
+object rather than performing normal deletion.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 392 application functions and 93,993 unique original
+The reconstruction covers 396 application functions and 94,113 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
@@ -37,18 +41,16 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 392 graph/reference/ownership/extent checks pass, with 310 ordinary RET
-contracts and 82 finite cold-error, tail-wrapper or exit checks. Pending error
+All 396 graph/reference/ownership/extent checks pass, with 313 ordinary RET
+contracts and 83 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-Final cached native fixtures: help 13.30 ms, buffer transform 15.47 ms,
-DOS records 13.44 ms, flat32 library 15.98 ms, segmented x87 library 13.42 ms,
-diagnostics 13.45 ms and DOS screen library 15.23 ms (setup 6.64 ms,
-execution 5.67 ms, checks 2.92 ms). Parallel Make check took 91.52 ms; the
-final full graph and finite RET audit took 784.60 ms. The last explicit
-original capture took 1.81 s. Native and period builds passed; their final
-incremental build time was not measured. These are measured closeout runs,
-not clean-build timings.
+The eight final cached native fixtures pass; record-contract takes 13.32 ms
+(setup 7.06 ms, execution 3.27 ms, checks 2.99 ms). Parallel Make check took
+93.28 ms, and the full graph and finite RET audit took 779.26 ms. The last
+explicit original capture took 1.22 s. Native and period builds passed; their
+final incremental build time was not measured. These are measured closeout
+runs, not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its
