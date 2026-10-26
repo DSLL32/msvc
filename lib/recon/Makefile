@@ -1040,3 +1040,9 @@ build/format2151-probe: tests/format2151-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 format2151-check: build/format2151-probe
 	$(PYTHON) tests/check-format2151.py $<
+
+.PHONY: watcom-strrev-check
+build/watcom-strrev-probe: tests/watcom-strrev-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-strrev-check: build/watcom-strrev-probe
+	$<

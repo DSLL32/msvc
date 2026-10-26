@@ -110,6 +110,24 @@ volatile int *__cdecl recon_watcom_errno(void)
     recon_unsupported("Watcom errno requires explicit profile");return NULL;
 #endif
 }
+char *__cdecl recon_watcom_strrev(char *text)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    size_t length,left,right;char byte;
+    if((uintptr_t)text<4096 || (uintptr_t)text>UINTPTR_MAX-256)
+        recon_unsupported("Watcom strrev input span");
+    /* The reached byte-sized initializer domain supplies mutable storage
+     * through its NUL. This guard does not establish general memory ownership. */
+    length=strnlen(text,256);
+    if(length==256)recon_unsupported("Watcom strrev length/terminator");
+    if(length>1)for(left=0,right=length-1;left<right;++left,--right) {
+        byte=text[left];text[left]=text[right];text[right]=byte;
+    }
+    return text;
+#else
+    (void)text;recon_unsupported("strrev requires explicit Watcom profile");return NULL;
+#endif
+}
 void __cdecl recon_watcom_splitpath_dos(const char *path,char *drive,char *directory,
                                       char *name,char *extension)
 {

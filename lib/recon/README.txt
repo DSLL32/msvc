@@ -1616,3 +1616,13 @@ equivalent. Default-C/MB1, exact registration and complete prewrite span/capacit
 disjointness checks are required. The ordinary complete case matches its186-byte
 diagnostic, exit1 and empty final inventory. Other grammars remain unsupported;
 original per-call output/error/FP state was not observed separately.
+
+Watcom's bare strrev maps to a typed shared byte-reversal boundary for the
+identified53-byte provider. Caller-owned mutable NUL-terminated strings of at
+most255 bytes are supported, matching the byte-sized little_endian domain.
+The complete bounded terminator check precedes swaps; the same pointer, NUL and
+tails are retained without locale, allocation or I/O effects. These checks do
+not establish general memory ownership. NULL/wrap/long/unterminated inputs and
+direct other-profile use deny125; other profiles have no new bare alias. WASM's
+ordinary first little_endian pair qualifies typing and its width1 bypass only;
+strrev execution remains unobserved there. Original per-call state is unmeasured.

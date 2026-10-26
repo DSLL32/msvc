@@ -293,6 +293,7 @@ struct ReconWatcomDirent *__cdecl recon_watcom_readdir(struct ReconWatcomDirent 
 int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *);
 char *__cdecl recon_watcom_getcmd(char *);
 void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
+char *__cdecl recon_watcom_strrev(char *);
 void __cdecl recon_watcom_splitpath_dos(const char *,char *,char *,char *,char *);
 void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **,char **);
 volatile int *__cdecl recon_watcom_errno(void);
@@ -566,6 +567,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define mktemp recon_mktemp
 #define strupr recon_strupr
 #define strlwr recon_strlwr
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+#define strrev recon_watcom_strrev
+#endif
 #define stricmp strcasecmp
 #define strnicmp strncasecmp
 #define fclose recon_fclose
