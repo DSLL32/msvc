@@ -1493,3 +1493,10 @@ and output checks precede varargs/output effects. The existing signed32 digit
 logic produces at most31 WCHARs plus NUL, returning the count excluding NUL.
 Native errors/full FP stay unchanged. Existing #line formats stay supported;
 other new grammars/profiles remain denied. Original per-call state unmeasured.
+
+The explicit MSVCRT510 _mbstok spelling has its SDK unsigned-char pair/cdecl
+signature and only an unconditional125 boundary. It reads neither pointer and
+creates no tokenization state; NULL/invalid/owned spans all deny without writes.
+The whole DEF-reader source may compile, while actual tokenization remains
+unsupported pending a reached caller domain. Other profiles keep no _mbstok
+alias. No strtok substitution or provider execution is qualified here.

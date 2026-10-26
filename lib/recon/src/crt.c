@@ -2444,6 +2444,11 @@ WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size
     }
     return 0;
 }
+WEAK unsigned char *__cdecl recon_mbstok(unsigned char *text,const unsigned char *delimiters)
+{
+    (void)text;(void)delimiters;
+    recon_unsupported("unreviewed MSVCRT _mbstok");return NULL;
+}
 WEAK unsigned char *recon_mbsinc(const unsigned char *text)
 {
     ascii_encountered_locale_scope();

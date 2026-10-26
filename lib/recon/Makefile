@@ -944,3 +944,9 @@ build/pragma-format-probe: tests/pragma-format-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 pragma-format-check: build/pragma-format-probe
 	$(PYTHON) tests/check-pragma-format.py $< 510
+
+.PHONY: mbstok-cold-check
+build/mbstok-cold-probe: tests/mbstok-cold-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+mbstok-cold-check: build/mbstok-cold-probe
+	$<
