@@ -257,3 +257,74 @@ unsigned short __stdcall validate_based_address_cast(unsigned short flags, char 
     based_symbol = symbol;
     return mode;
 }
+
+/* Original 0x2a7e0..0x2a807, stdcall4/WORD result. Grammar rule161
+   is __based((TYPE_NAME)__self), not an ordinary C++ bit field. A segment
+   type selects self-relative mode8; invalid casts diagnose and use mode2. */
+unsigned short __stdcall validate_based_self_cast(unsigned short flags)
+{
+    if (flags & 0x800) return 8;
+    report_syntax_error(209);
+    return 2;
+}
+
+/* Original 0x2a960..0x2aa03, stdcall4. Strip transparent wrappers to
+   reject constants, then inspect the actual storage or pointer shape. The
+   original requires a non-NULL, nonempty expression chain and dereferences
+   an exhausted chain; retain that defect rather than inventing a guard. */
+void __stdcall validate_based_self_source(IrToken *expression)
+{
+    IrToken *source = expression;
+    TypeShape *shape;
+    unsigned storage;
+    while (source && (source->kind == 0x80 || source->kind == 0x6e || source->kind == 0x67))
+        source = source->value.pointer;
+    if ((source->flags & 7) == 3) {
+        report_syntax_error(101, token_spellings[137]);
+        return;
+    }
+    source = modifiable_lvalue(expression, 0);
+    if (source && (source->flags & 7) == 4) {
+        storage = ((CppSymbol *)source->value.pointer)->storage[0] & 7;
+        if (storage >= 5 && storage <= 6)
+            report_syntax_error(103, token_spellings[137]);
+    } else {
+        shape = expression->type->related;
+        if (!shape || !(shape->flags & 3))
+            report_syntax_error(102, token_spellings[137]);
+    }
+}
+
+/* Original 0x2ab40..0x2acc5, stdcall8. Compare only the segment/base
+   expression forms constructed by based_type_expression. This is deliberately
+   not a general recursive AST or type-equality operation. */
+int __stdcall equal_based_expressions(IrToken *first, IrToken *second)
+{
+    if (first == second) return 1;
+    if (!first || !second) return 0;
+    if (first->flags != second->flags || first->kind != second->kind) return 0;
+    switch (first->kind) {
+    case 0x89:
+        return 1;
+    case 0x1b:
+        return first->value.pointer == second->value.pointer;
+    case 0x1a:
+        first = first->value.pointer;
+        second = second->value.pointer;
+        if (!first || !second || first->kind != second->kind) return 0;
+        if (first->kind == 2)
+            return first->value.pointer == second->value.pointer;
+        if (first->kind != 0x46) return 0;
+        first = first->value.pointer;
+        second = second->value.pointer;
+        if (!first || !second || first->kind != second->kind || first->kind != 2) return 0;
+        return first->value.pointer == second->value.pointer;
+    case 0x46:
+        first = first->value.pointer;
+        second = second->value.pointer;
+        if (!first || !second || (first->flags & 7) != 4 || first->kind != 2 ||
+            (second->flags & 7) != 4 || second->kind != 2) return 0;
+        return first->value.pointer == second->value.pointer;
+    }
+    return 0;
+}

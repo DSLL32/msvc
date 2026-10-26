@@ -126,7 +126,7 @@ CppSymbol *__stdcall lookup_based_symbol(char *name);
 IrToken *validate_based_self(void);
 unsigned short __stdcall validate_based_pointer_cast(unsigned short flags, char *name);
 unsigned short __stdcall validate_based_address_cast(unsigned short flags, char *name);
-unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags);
+unsigned short __stdcall validate_based_self_cast(unsigned short flags);
 void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound);
 
 void begin_compound_statement(void);

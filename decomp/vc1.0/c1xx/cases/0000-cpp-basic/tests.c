@@ -140,6 +140,86 @@ static int check_auxiliary_real_encodings(void)
     if (remove("unit-auxiliary-real.bin")) ok = 0;
     return ok;
 }
+/* The grammar's legacy segment/self family is unit-qualified: NT mode does
+   not provide the historical source spelling used by this internal path. */
+void __stdcall validate_based_self_source(IrToken *expression);
+int __stdcall equal_based_expressions(IrToken *first, IrToken *second);
+static int check_based_self_cast(void)
+{
+    return validate_based_self_cast(0x0802) == 8;
+}
+static int check_based_self_pointer_source(void)
+{
+    CType pointer_type = {0};
+    TypeShape pointer_shape = {0};
+    IrToken storage = {0}, cast = {0};
+    CppSymbol object = {0};
+    int before = error_count;
+    pointer_shape.flags = 1;
+    pointer_shape.attributes = 1;
+    pointer_type.related = &pointer_shape;
+    storage.kind = 2; storage.flags = 4; storage.type = &pointer_type;
+    storage.value.pointer = &object;
+    cast.kind = 0x6e; cast.flags = 1; cast.type = &pointer_type;
+    cast.value.pointer = &storage;
+    validate_based_self_source(&cast);
+    return error_count == before && cast.value.pointer == &storage &&
+        cast.type == &pointer_type;
+}
+static int check_based_expression_identity(void)
+{
+    CppSymbol one = {0}, two = {0};
+    IrToken left = {0}, right = {0}, first = {0}, second = {0};
+    if (!equal_based_expressions(0, 0) || equal_based_expressions(&left, 0)) return 0;
+    left.kind = right.kind = 0x1b;
+    left.value.pointer = right.value.pointer = &one;
+    if (!equal_based_expressions(&left, &right)) return 0;
+    right.value.pointer = &two;
+    if (equal_based_expressions(&left, &right)) return 0;
+    left.kind = right.kind = 0x89;
+    if (!equal_based_expressions(&left, &right)) return 0;
+    first.kind = second.kind = 2; first.flags = second.flags = 4;
+    first.value.pointer = second.value.pointer = &one;
+    left.kind = right.kind = 0x1a;
+    left.value.pointer = &first; right.value.pointer = &second;
+    if (!equal_based_expressions(&left, &right)) return 0;
+    second.value.pointer = &two;
+    if (equal_based_expressions(&left, &right)) return 0;
+    second.value.pointer = &one;
+    left.kind = right.kind = 0x46;
+    if (!equal_based_expressions(&left, &right)) return 0;
+    right.flags = 1;
+    if (equal_based_expressions(&left, &right)) return 0;
+    right.flags = 0;
+    left.kind = right.kind = 0x6e;
+    return !equal_based_expressions(&left, &right);
+}
+static int check_legacy_prefix_owners(void)
+{
+    CppSymbol symbol = {0}, base = {0}, other = {0};
+    CType type = {0};
+    TypeShape source = {0}, following = {0}, function = {0};
+    TypeShape head = {0}, tail = {0}, *copy = 0;
+    base.kind = 13; base.auxiliary.segment_kind = 8;
+    source.attributes = 5; source.related = &following;
+    source.data.based_symbol = &base;
+    copy_shape_prefix(&symbol, &source, &copy, 0);
+    if (!copy || copy == &source || copy->related || copy->flags != source.flags ||
+        copy->attributes != 5 || copy->data.based_symbol != &base ||
+        source.related != &following) return 0;
+    function.flags = 4; type.related = &function; symbol.type = &type;
+    symbol.attributes = 0x80;
+    check_declarator_prefix(&symbol, copy);
+    if (symbol.attributes != 0x82 || base.auxiliary.segment_kind != 0) return 0;
+    if (merge_type_shape_prefix(&head, copy) != &head ||
+        head.attributes != 5 || head.data.based_symbol != &base) return 0;
+    tail.attributes = 5; tail.data.based_symbol = &other;
+    if (merge_type_shape_prefix(&head, &tail) != &head ||
+        head.attributes != 5 || head.data.based_symbol != &base) return 0;
+    copy->data.based_symbol = 0;
+    check_declarator_prefix(&symbol, copy);
+    return symbol.attributes == 0x80;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -156,5 +236,9 @@ const ReconTest c1xx_tests[] = {
     {"browser filename suffixes",1,check_browser_filename},
     {"single-function list controls",1,check_single_function},
     {"dormant memory-intrinsic lookup (unit-only)",1,check_memory_intrinsic_lookup},
-    {"auxiliary real encodings (unit-only)",1,check_auxiliary_real_encodings}
+    {"auxiliary real encodings (unit-only)",1,check_auxiliary_real_encodings},
+    {"legacy based-self cast (unit-only)",1,check_based_self_cast},
+    {"legacy based-self pointer source (unit-only)",1,check_based_self_pointer_source},
+    {"based-expression identity (unit-only)",1,check_based_expression_identity},
+    {"legacy declarator prefix owners (unit-only)",1,check_legacy_prefix_owners}
 };

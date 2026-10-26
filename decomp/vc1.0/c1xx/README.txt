@@ -1,6 +1,35 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Legacy based/qualified-declarator support is COMPLETE (native-unit-only): six
+application helpers add911 B. Whole-body/ABI/static graph qualification covers
+self-relative cast/source validation, canonical based-expression identity,
+prefix copying/checking and attribute/payload merging. The former misleading
+validate_integer_bit_field_type stub is now validate_based_self_cast: readable
+grammar rule161 is __based((TYPE_NAME)__self), and the original tests the
+segment-type flag0x800 before selecting mode8 or diagnostic/default mode2.
+No ordinary bit-field reach or new original/native CLI pair is claimed.
+
+Four small typed unit groups exercise the valid segment/self route and pointer
+source, base identities/mismatches, and one real temporary prefix lifecycle:
+copy preserves its source/payload but ends the copied chain, function-prefix
+checking normalizes the segment kind, and merging inherits a named base only
+once. The original unguarded exhausted-expression read is preserved/commented;
+units use a valid nonempty chain. No new guard or initialized control value was
+introduced. Historical first-entry count remains1,954.
+
+Totals are1,856 App /406,177 B (85.26% of whole original code),39 named pending
+App and seven historical CRT source bodies. These six bodies join the three
+previously documented unit-only helpers; qualification does not become a fresh
+CLI frontier merely because the implementation is in the registry. All47 cached
+native cases and39 unit groups pass, with original-toolchain compilation and
+the1,864-function six-check graph/ABI audit. Closing gate3.536 s; original/native
+header rebuild29.331 s and incremental prefix build3.894 s are separate. Focused
+units19.689/19.670/19.720/24.711 ms (execution2.750/2.417/2.439/4.809 ms).
+No saved oracle changes, original captures or shared shim changes were needed.
+
+Earlier dormant intrinsic/stream support qualification:
+
 Dormant support qualification is COMPLETE (native-unit-only): three positively
 identified application helpers add146 B: find_memory_intrinsic(98 B),
 write_ir_float(24 B) and write_ir_double(24 B). Whole original bodies, real

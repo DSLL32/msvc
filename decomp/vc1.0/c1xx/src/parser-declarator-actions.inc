@@ -356,7 +356,7 @@
             POP_DECLARATION();
             break;
         case 161:
-            parser_value.modifier = validate_integer_bit_field_type(right[-2].declaration.type->flags);
+            parser_value.modifier = validate_based_self_cast(right[-2].declaration.type->flags);
             POP_DECLARATION();
             break;
         case 162:

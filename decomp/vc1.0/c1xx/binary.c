@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1954 historical frontiers/1850 App bodies;
- * latest three support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1954 historical frontiers/1856 App bodies;
+ * latest nine support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -860,6 +860,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "validate_based_self_source",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_equal_based_expressions@8",
@@ -868,6 +869,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_based_expressions",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_allocate_inline_storage",
@@ -3466,12 +3468,13 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
-        .name = "_validate_integer_bit_field_type@4",
+        .name = "_validate_based_self_cast@4",
         .entry_rva = 0x1a7e0,
-        .code = (const ReconExtent[]) { { 0x1a7e0, 0x1a7e1 } },
+        .code = (const ReconExtent[]) { { 0x1a7e0, 0x1a807 } },
         .code_count = 1,
         .definition = RECON_APP,
-        .native_symbol = "validate_integer_bit_field_type",
+        .native_symbol = "validate_based_self_cast",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_based_type_expression@4",
@@ -8834,6 +8837,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_shape_prefix",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_check_declarator_prefix@8",
@@ -8842,6 +8846,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "check_declarator_prefix",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_extract_declarator_prefix@16",
@@ -12162,6 +12167,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "merge_type_shape_prefix",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_merge_type_attributes@8",

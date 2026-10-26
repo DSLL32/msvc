@@ -71,9 +71,6 @@ int release_input_handle(void) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
-TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
-void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 
 
 
@@ -106,7 +103,6 @@ IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken 
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
-unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }
 
 /* C++ token classification and deferred lookahead. */
 
@@ -209,9 +205,7 @@ void discard_function_definition(void) { __asm { int 3 } }
 
 
 
-int __stdcall equal_based_expressions(IrToken *first, IrToken *second) { __asm { int 3 } return 0; }
 
-void __stdcall validate_based_self_source(IrToken *expression) { __asm { int 3 } }
 
 
 

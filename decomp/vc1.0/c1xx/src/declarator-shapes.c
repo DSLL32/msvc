@@ -605,3 +605,59 @@ void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound)
     }
     attach_type_shape(declaration, new_type_shape(flags, 0, &value));
 }
+
+/* Original 0x48e60..0x48f05, stdcall16. Detach one actual qualifier
+   record into the parser's temporary arena; preserve the source and its
+   payload owner while ending the copy's related-shape chain. */
+void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape,
+    TypeShape **prefix, int is_typedef)
+{
+    ArenaPool *pool;
+    if (!shape || !symbol) return;
+    if (!is_typedef && (shape->flags & 0x77) == 4 &&
+        ((shape->attributes & 7) != 5 ||
+         (((CppSymbol *)shape->data.based_symbol)->kind & 31) != 13)) {
+        report_syntax_error(225, format_symbol_name(symbol));
+        return;
+    }
+    pool = &compiler_arena.pools[2];
+    if (pool->remaining < (int)sizeof(TypeShape)) refill_arena(&compiler_arena, pool);
+    *prefix = (TypeShape *)pool->next;
+    pool->remaining -= sizeof(TypeShape);
+    pool->next += sizeof(TypeShape);
+    **prefix = *shape;
+    (*prefix)->related = 0;
+}
+
+/* Original 0x48f10..0x48f77, stdcall8. A named based prefix marks
+   its declarator, and function prefixes normalize the referenced segment's
+   unset kind before diagnosing an incompatible data segment. */
+void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix)
+{
+    TypeShape *shape;
+    CppSymbol *base;
+    unsigned char kind;
+    if (!symbol || !prefix) return;
+    if (!prefix->data.based_symbol) {
+        symbol->attributes &= ~2U;
+        return;
+    }
+    symbol->attributes |= 2;
+    shape = symbol->type->related;
+    if (!shape || (shape->flags & 0x77) != 4) return;
+    base = prefix->data.based_symbol;
+    kind = base->auxiliary.segment_kind;
+    if (kind == 8) base->auxiliary.segment_kind = 0;
+    else if (kind && kind != 2) report_syntax_error(195, base->name);
+}
+
+/* Original 0x61ea0..0x61ed4, stdcall8/pointer result. Inherit the
+   based payload only when that attribute is newly introduced, then merge
+   the ordinary modifier bits with their existing original helper. */
+TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail)
+{
+    if (!(head->attributes & 4) && (tail->attributes & 4))
+        head->data = tail->data;
+    head->attributes = merge_type_attributes(head->attributes, tail->attributes);
+    return head;
+}
