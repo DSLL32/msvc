@@ -3786,11 +3786,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@register_has_region_uses@8",
         .entry_rva = 0x3aea0,
-        .code = (const ReconExtent[]) { { 0x3aea0, 0x3aea1 } },
+        .code = (const ReconExtent[]) { { 0x3aea0, 0x3af09 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "register_has_region_uses",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@register_block_interval_contains@8",
@@ -3939,20 +3939,20 @@ static const ReconFunction functions[] = {
     {
         .name = "@find_register_preservation_region@8",
         .entry_rva = 0x3b280,
-        .code = (const ReconExtent[]) { { 0x3b280, 0x3b281 } },
+        .code = (const ReconExtent[]) { { 0x3b280, 0x3b2ea } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_register_preservation_region",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@machine_region_is_ancestor@8",
         .entry_rva = 0x3b1e0,
-        .code = (const ReconExtent[]) { { 0x3b1e0, 0x3b1e1 } },
+        .code = (const ReconExtent[]) { { 0x3b1e0, 0x3b206 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "machine_region_is_ancestor",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@find_evictable_machine_region@8",

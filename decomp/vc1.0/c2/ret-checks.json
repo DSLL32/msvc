@@ -615,6 +615,21 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@register_has_region_uses@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@machine_region_is_ancestor@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@find_register_preservation_region@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

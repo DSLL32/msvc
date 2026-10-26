@@ -1,21 +1,65 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1429 completes the bounded floating metric/reducer case. There are
-1314 reconstructed App functions and five unchanged historical handwritten CRT
-bodies. App code occupies349799/399693 original code-section bytes(87.5169%);
-adding916 distinct owned text-data bytes gives350715/399693(87.7461%). These
-are clipped extent unions using section VirtualSize(raw size only if zero),
-not branch coverage. The five CRT overrides contribute1776 bytes separately
-and receive zero App credit. Available App/classified CRT/import extents cover
-377089/399693(94.3447%). A reliable non-CRT denominator remains unavailable;
-64 pending App rows and22604 bytes outside available extents need investigation.
-No only-CRT remainder claim is made.
+Checkpoint1432 completes the internal region-query case. There are1317
+reconstructed App functions and five unchanged historical handwritten CRT bodies.
+App code occupies350048/399693 original code-section bytes(87.5792%); adding916
+owned text-data bytes gives350964/399693(87.8084%). These clipped extent unions
+use section VirtualSize(raw size only if zero), not branch coverage. The five
+CRT overrides contribute1776 bytes separately and receive zero App credit.
+Available App/classified CRT/import extents cover377338/399693(94.4070%). A
+reliable non-CRT denominator remains unavailable;61 pending App rows and22355
+bytes outside available extents need investigation. No only-CRT claim is made.
 
-`binary.c` is the sole registry. All27 cached IO cases complete and220 narrow
-units pass. Fixtures preserve actual frontend IR, single MSC_CMD_FLAGS child
-transport, stable S cwd, explicit first-entry seeds and complete output oracles.
+`binary.c` is the sole registry. All27 cached IO cases and one INTERNAL DIRECT
+case complete;220 narrow units pass. Fixtures preserve actual frontend IR,
+single MSC_CMD_FLAGS transport, stable S cwd and explicit first-entry seeds.
 Only established COFF timestamp bytes4..8 are normalized; listings/OMF are exact.
 Native fixtures never run Wine.
+
+The new DIRECT case borrows genuine compiler region owners at the decoder's
+first eviction lookup(RVA3b210), without private-state changes or fabricated
+graphs. Untouched CL `/O2 /Ob0 /Oa /Oi /G5 /Z7 /W3 decode.c` supplies actual
+6894B source and000844 ex/sy/in/gl/db inputs(9634/2046/9/221/457B). Read-only
+CL observation stops before C2; parent exit is unobserved. Separate CLI probes
+complete but reach only the pending50B Pentium gap helper, so they remain
+exploration rather than a frozen tiny CLI case. This fixture makes no claim
+that ordinary compilation reaches the three query entries.
+
+Three whole App functions add249B: register_has_region_uses105B,
+machine_region_is_ancestor38B and find_register_preservation_region106B.
+Fresh masked original/native frontiers qualify each; original-toolchain/W3
+compilation and focused graph/RET0 checks pass. At the real anchor CX=402f,
+region flags50, three live owners supply236B of scalar/relationship results.
+Checks include null lists, strict ancestry/self exclusion and16 actual existing
+summary IDs, including a positive preservation owner for4024. Returned owners
+are compared by actual-chain indices; before/after snapshots check defined
+fields and aliases within each process, skipping padding/uninitialized fields.
+
+The original typed probe terminates abruptly with an empty decode.obj and no
+streams. Native completion explicitly publishes its status then uses `_exit`,
+matching that boundary. An initial native attempt returned normally and App
+cleanup deleted the incomplete object; its failed receipt remains intact.
+The corrected run reuses the unchanged original. Altering one expected ancestor
+result rejects with125. The fixture retains the actual empty artifact assertion
+and strict unexpected-output check; it does not claim a completed compilation.
+
+Final `make -j4 audit check unit` passes in2.063s(phases unsplit), including1322
+paired graph/accepted extent checks and126 scoped RET contracts. Global RET
+remains unresolved at finish_debugging's indirect tail. The current DIRECT run
+takes47.330ms: setup15.507/execution27.294/checks4.530. All measured query attempts,
+including the failed cleanup run: combined builds17.341s, registry/runtime2.022s,
+original helpers12.357s(including unused initial variant), original references/
+frontiers6.510s, focused graph/RET0.172s, native replays0.385s, original W3
+compile2.448s, intentional rejection0.054s. Earlier decoder exploration costs
+4.452s untouched CL plus11.912s original transport/reference/observations.
+Command phases overlap and are not additive task elapsed; analysis/editing/
+authoring/observer compilation are unmeasured. Raw evidence and completion/time/
+coverage summaries remain under `~/.ai-tmp/msvc2/vc1.0/c2/adaptive-packets/`.
+Use `make -j4 native win32`; the typed original probe additionally builds with
+`make cases/0027-internal-region-queries/.build/original-direct.dll
+ORIGINAL_DIRECT_FLAGS="--include ../../../lib/recon/include"` on one shell line.
+During cases use current-case replay/builds/targeted checks; full gates, README
+and commit follow completion.
 
 The metric reducer uses untouched CL `/O2 /Ob2 /Oi /G5 /Oy- /Z7 /W3`. It combines
 2x2 projection, iterative bounded state, callback-preserved noncommutative values,

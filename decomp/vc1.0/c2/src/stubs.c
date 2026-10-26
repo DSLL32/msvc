@@ -221,12 +221,9 @@ short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
-MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
-int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
 
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }

@@ -1041,3 +1041,46 @@ MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short numbe
     outer = find_evictable_machine_region(number, region->parent);
     return outer ? outer : region;
 }
+
+/* Original4aea0..4af09, CX number/EDX sibling list, RET0. An own
+   summary supersedes nested summaries; its zero use count still requires
+   checking later siblings. No lookup here is allowed to create a record. */
+int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions)
+{
+    MachineRegionRegister *record;
+    if (!regions) return 0;
+    record = find_machine_region_register(regions, number, 0);
+    if (record)
+        return record->uses != 0 || register_has_region_uses(number, regions->next);
+    return register_has_region_uses(number, regions->children) ||
+        register_has_region_uses(number, regions->next);
+}
+
+/* Original4b1e0..4b206, ECX prospective ancestor/EDX live region,
+   RET0. The relation is strict: a region is not its own ancestor. The
+   second argument is an existing nonnull owner from the caller's chain. */
+int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor,
+    MachineFlowRegion *region)
+{
+    if (ancestor == region) return 0;
+    for (region = region->parent; region; region = region->parent)
+        if (region == ancestor) return 1;
+    return 0;
+}
+
+/* Original4b280..4b2ea, CX number/EDX live region, RET0. Preserve
+   through the outermost eligible owner. An own invariant summary supersedes
+   child summaries; otherwise all child regions must be invariant. */
+MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number,
+    MachineFlowRegion *region)
+{
+    MachineRegionRegister *record;
+    MachineFlowRegion *outer;
+    if (!region || (region->flags & 1)) return 0;
+    record = find_machine_region_register(region, number, 0);
+    if (record) {
+        if (!(record->flags & 1)) return 0;
+    } else if (!register_is_invariant_in_regions(number, region->children)) return 0;
+    outer = find_register_preservation_region(number, region->parent);
+    return outer ? outer : region;
+}
