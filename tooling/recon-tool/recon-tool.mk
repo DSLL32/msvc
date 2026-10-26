@@ -10,6 +10,17 @@ include $(RECON_TOOL_DIR)/aliases.mk
 include $(RECON_TOOL_DIR)/binary.mk
 include $(RECON_TOOL_DIR)/original-build.mk
 
+# Optional executable link; reuse the library's objects and native link setup.
+NATIVE_BINARY ?= build/$(notdir $(CURDIR))
+NATIVE_BIN_ENTRY ?= main
+.PHONY: native-bin
+native-bin: $(NATIVE_BINARY)
+$(NATIVE_BINARY): $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS) $(RECON_ALIAS_NATIVE_RSP) $(RECON_TOOL_DIR)/recon-tool.mk
+	@mkdir -p $(@D)
+	$(BINARY_LINKER) -m32 -no-pie -Wl,-z,defs $(NATIVE_LDFLAGS) \
+		$(if $(filter-out main,$(NATIVE_BIN_ENTRY)),-Xlinker --defsym -Xlinker main=$(NATIVE_BIN_ENTRY)) \
+		-o $@ $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS) $(NATIVE_LDLIBS) -ldl
+
 # Discover descriptors directly; cases do not carry their own build files.
 CASES_ROOT ?= cases
 CASE_DESCRIPTORS := $(wildcard $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/case.c $(CASES_ROOT)/[0-9][0-9][0-9][0-9]-*/case.cpp)
@@ -32,7 +43,7 @@ cases: $(CASE_TARGETS)
 check replay fixtures: $(CASE_CHECK_TARGETS)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
 clean:
-	rm -rf -- $(BINARY_BUILD) $(ORIGINAL_BUILD) $(addsuffix /.build,$(CASE_DIRS))
+	rm -rf -- $(BINARY_BUILD) $(ORIGINAL_BUILD) $(NATIVE_BINARY) $(addsuffix /.build,$(CASE_DIRS))
 unit test-all-cases: $(CASE_UNIT_TARGETS)
 	@test -n "$(CASE_DIRS)" || { echo 'No numbered case directories found' >&2; exit 1; }
 

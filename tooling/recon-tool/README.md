@@ -119,6 +119,13 @@ object and `case.so` targets directly. Cases have no individual Makefiles.
 `unit`/`test-all-cases` depend on corresponding `/unit` targets. Each starts one
 runner invocation, so `make -j4 check` runs up to four cases concurrently. Select
 one with `make cases/0000-example/check` or its `/unit` target.
+
+`make -j4 native-bin` links an i386 executable at `build/<binary-folder>` from
+the same application/support objects, without rebuilding them or the cases.
+Override `NATIVE_BINARY` to choose its path. For an executable whose native
+`main` was renamed, set `NATIVE_BIN_ENTRY` to its existing CLI entry symbol
+(default `main`). This target does not supply DLL hosts or case setup/inputs.
+
 These builds never recurse. Each
 case library has an order-only dependency on the common library, so an app
 change does not relink unchanged cases. Build one case from the binary root with

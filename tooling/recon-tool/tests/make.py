@@ -57,10 +57,11 @@ if mode=='tool' and args[0] in ('run','test'):
     write('graph/Cargo.toml', '')
     write('graph/Cargo.lock', '')
     write('graph/build-quiet.sh', '#!/bin/sh\nexit 1\n').chmod(0o755)
+    write('shared/watcom_map.rs', '')
     write('graph/target/release/graph-audit', f'#!/bin/sh\nexec python3 {wrapper} graph "$@"\n').chmod(0o755)
     write('src/nested.h', '#define VALUE 1\n')
     write('src/local.h', '#include "nested.h"\n')
-    write('src/one.c', '#include "local.h"\n#include <recon.h>\nint one(void) { return VALUE; }\n')
+    write('src/one.c', '#include "local.h"\n#include <recon.h>\nint one(void) { return VALUE; }\nint main(void) { return one() != 1; }\nint alternate_main(void) { return 23; }\n')
     write('other/one.c', 'int another(void) { return 2; }\n')
     write('template.c', 'int generated(void) { return 3; }\n')
     write('src/runtime.c', 'int original_runtime(void) { return 0; }\n')
@@ -139,6 +140,21 @@ local-audit:
     mtimes = [path.stat().st_mtime_ns for path in cases]
     make('cases')
     assert commands() == initial, 'unchanged build ran compilers'
+    # Executable links reuse all PIC/support objects, including C++ support.
+    output = make('native-bin')
+    binary = root/'build'/root.name
+    linked = commands()[len(initial):]
+    assert len(linked) == 1 and linked[0][0] == 'native-cxx', linked
+    assert '-shared' not in linked[0] and '-c' not in linked[0], linked
+    assert subprocess.run([str(binary)]).returncode == 0
+    before = len(commands())
+    make('native-bin')
+    assert len(commands()) == before, 'unchanged executable relinked'
+    make('native-bin', 'NATIVE_BINARY=build/alternate',
+         'NATIVE_BIN_ENTRY=alternate_main')
+    assert len(commands()) == before + 1, 'alternate entry recompiled objects'
+    assert subprocess.run([str(root/'build/alternate')]).returncode == 23
+    initial = commands()
     # A single transitive header rebuilds only its source and the shared DSO;
     # cases retain their link output because their dependency is order-only.
     time.sleep(.02)
@@ -267,6 +283,7 @@ local-audit:
     assert 'original tool 1.0-nt CL.EXE --' in dry and 'original tool 1.0-nt LINK.EXE --' in dry
     make('clean')
     assert not (root/'.build').exists() and not (root/'original').exists()
+    assert not binary.exists(), 'clean retained the native executable'
     assert all(not path.parent.exists() for path in cases)
     # Default reconstruction discovery includes CRT code, while harness sources
     # remain explicitly selected (some are original-only hosts or unit helpers).

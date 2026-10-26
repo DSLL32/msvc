@@ -67,6 +67,8 @@ Build the native reconstruction once as `.build/libbinary.so`, including
 against that library. Do not relink all reconstruction objects into every case.
 A separate descriptor-only shared library remains an option if independent
 metadata loading proves useful; it is not required for sharing the application.
+Executable reconstructions may also use `make native-bin` to link
+`build/<binary-folder>` from those same objects; this adds no DLL host or case setup.
 
 Use PIC, debug symbols and the existing O0 policy. Default Rust target:
 `i686-unknown-linux-gnu`, matching the current native libc and allowing the tool
