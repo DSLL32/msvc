@@ -1,6 +1,36 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Opaque command broker is COMPLETE: case0033. The8,708-byte source defines
+an opaque GeneralPort member-selector dispatcher before the class definition,
+then combines real compact, virtual and general callback/field adapters in one
+command workload. The original accepts this source directly; no internal state
+or expected conversion result was forced. This is frontend compile/IR validation,
+not qualification of generated-program runtime behavior.
+
+Eight whole App bodies /1,209 code bytes were accepted: incomplete-owner object
+adjustment and seven compact/general/virtual method or data conversions, including
+the displacement wrapper. The original target-model test in compact-to-general
+method conversion and unwritten local return outside the selected compact domain
+are preserved, without a new guard or source repair. A candidate initially called
+the unary builder instead of the original modifiable_lvalue helper and crashed;
+the corrected call matches its actual two-formal ABI and outgoing graph. Failed
+raw/native observations remain in scratch and were not credited as acceptance.
+
+Fresh original/native observations match all eight entries, exit0, streams and
+six complete IR/browser artifacts. Those artifacts also match the untouched
+supported baseline byte for byte. No output exception, shared change or new CRT
+body was introduced. Totals:1,805 App bodies /1,912 historical frontiers, plus
+seven unchanged CRT source bodies. App-only code union401,893 /476,418 B is84.36%
+of whole original code extent, not a non-CRT denominator;84 named App stubs remain.
+All34 cached native cases,32 existing unit groups and the1,813-function six-check
+graph/ABI audit pass, as do original-toolchain builds. Final original1,137.701 ms;
+native39.348 ms (setup19.168 ms, execution13.580 ms, checks6.599 ms). Build and
+closing-gate wall times were not separately measured. Raw artifacts and paired
+reports remain outside cases and Git.
+
+Earlier completed multi-service router:
+
 Multi-service router is COMPLETE: case0032. The7,863-byte source adds a
 shared ServiceIdentity, a virtual Session interface and compact Clock callbacks
 to the command router. A sibling Clock alone retains compatible inherited

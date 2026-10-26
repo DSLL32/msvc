@@ -2293,3 +2293,181 @@ void __stdcall write_member_conversion_table(CppSymbol *symbol, unsigned *values
     }
     flush_initializer_records();
 }
+
+/* Original0x4ab10..0x4ab8f, stdcall24. An incomplete general owner
+   carries its vbptr and table offsets in the runtime member-pointer value.
+   The shared six-word ABI retains unused address/type formals. */
+IrToken *__stdcall adjust_general_member_pointer_object(IrToken *object,
+    IrToken *address, IrToken *adjustment, IrToken *pointer_offset,
+    IrToken *virtual_offset, CType *type)
+{
+    CType *integer_type = builtin_integer_type();
+    CType *array_type = make_qualified_type(integer_type, 2, 0, 0);
+    unsigned short attributes = normalize_type_attributes(1, 0);
+    CType *pointer_type = make_qualified_type(array_type, 1, attributes, 0);
+    IrToken *offset = clone_expression(pointer_offset, 0);
+    IrToken *base = new_ir_expression(0x5a, object, offset, pointer_type);
+    IrToken *table = indirect_storage_expression(clone_expression(base, 0));
+    IrToken *result;
+    table = new_right_typed_expression(0x5a, table, virtual_offset);
+    table = indirect_storage_expression(table);
+    result = new_left_typed_expression(0x5a, base, table);
+    return new_left_typed_expression(0x5a, result, adjustment);
+}
+
+/* Original0x4c8d0..0x4c996, stdcall24. As in its virtual sibling,
+   this function tests the target model for2; retain that historical check. */
+IrToken *__stdcall convert_compact_to_general_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    unsigned pointer_offset = 0, table_index = 0;
+    CppSymbol *base, *owner;
+    IrToken *saved, *storage, *function, *adjustment, *table_offset;
+    if (virtual_base) {
+        base = cpp_context_stack->items[virtual_base->context_index];
+        owner = member_pointer_owner_class(type);
+        query_virtual_base_pointer(base, owner, &pointer_offset, &table_index, 0);
+    }
+    if (member_pointer_inheritance_model(type) == 2) {
+        storage = member_pointer_component(expression, 0, &saved);
+        function = member_pointer_function_value(storage, expression);
+        storage = member_pointer_component(expression, 1, &saved);
+        adjustment = member_pointer_adjustment_value(storage, expression);
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+    } else {
+        function = expression;
+        adjustment = make_integer_constant(displacement);
+    }
+    table_offset = make_integer_constant(table_index);
+    return make_general_method_pointer(type, function, adjustment, pointer_offset, table_offset);
+}
+
+/* Original0x4c750..0x4c83b, stdcall24. The general representation
+   starts with explicit zero vbptr/selector words before any optional lookup. */
+IrToken *__stdcall convert_compact_to_general_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    unsigned pointer_offset = 0, table_index = 0;
+    CppSymbol *base, *owner;
+    IrToken *value, *address, *offset, *table_offset, *converted;
+    CType *integer_type;
+    if (virtual_base) {
+        base = cpp_context_stack->items[virtual_base->context_index];
+        owner = member_pointer_owner_class(type);
+        query_virtual_base_pointer(base, owner, &pointer_offset, &table_index, 0);
+    }
+    if (data_member_conversion_needs_null_check(expression)) {
+        prepare_data_member_object(expression, &value, &address);
+        integer_type = builtin_integer_type();
+        offset = make_member_at_offset(address, displacement, integer_type);
+        table_offset = make_integer_constant(table_index);
+        converted = make_general_data_member_pointer(type, offset, pointer_offset, table_offset);
+        return preserve_null_data_member_conversion(converted, value, expression->type);
+    }
+    integer_type = builtin_integer_type();
+    offset = make_member_at_offset(expression, displacement, integer_type);
+    table_offset = make_integer_constant(table_index);
+    return make_general_data_member_pointer(type, offset, pointer_offset, table_offset);
+}
+
+/* Original0x4c840..0x4c8c4, stdcall24. Retain the source evaluation
+   and computed adjustment even when the compact target subsequently drops it. */
+IrToken *__stdcall convert_general_to_compact_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    IrToken *saved, *prefix = 0, *storage, *function, *adjustment, *result;
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    function = member_pointer_function_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = general_method_adjustment_value(storage, expression);
+    adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+    result = make_compact_method_pointer(type, function, adjustment);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4d2f0..0x4d317, stdcall8. Reuse the incoming expression
+   for a zero displacement; otherwise retain ordinary typed addition. */
+IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int displacement)
+{
+    IrToken *offset;
+    if (!displacement) return adjustment;
+    offset = make_integer_constant(displacement);
+    return new_left_typed_expression(0x5a, adjustment, offset);
+}
+
+/* Original0x4c6c0..0x4c746, stdcall24. Narrow the stored data offset,
+   retaining a separate read of the general representation's null selector. */
+IrToken *__stdcall convert_general_to_compact_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    IrToken *saved, *prefix = 0, *storage, *table_offset, *offset, *result;
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    table_offset = general_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    offset = general_data_member_offset(storage, expression);
+    offset = adjust_member_pointer_displacement(offset, displacement);
+    offset->type = type;
+    result = preserve_general_data_null(offset, table_offset);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4c4c0..0x4c58f, stdcall24. Single inheritance keeps
+   only the function address; multiple inheritance subtracts the source layout. */
+IrToken *__stdcall convert_virtual_to_compact_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    unsigned model = member_pointer_inheritance_model(type);
+    IrToken *saved, *storage, *function, *adjustment, *offset, *result;
+    CppSymbol *owner;
+    int owner_adjustment;
+    if (model == 1) {
+        storage = modifiable_lvalue(expression, 0);
+        function = member_pointer_function_value(storage, expression);
+        return make_compact_method_pointer(type, function, 0);
+    }
+    if (model == 2) {
+        owner = member_pointer_owner_class(expression->type);
+        compute_member_pointer_adjustment(owner, 0, displacement, virtual_base,
+            &owner_adjustment, 0);
+        storage = member_pointer_component(expression, 0, &saved);
+        function = member_pointer_function_value(storage, expression);
+        storage = member_pointer_component(expression, 1, &saved);
+        adjustment = member_pointer_adjustment_value(storage, expression);
+        if (owner_adjustment) {
+            offset = make_integer_constant(owner_adjustment);
+            adjustment = new_left_typed_expression(0x4f, adjustment, offset);
+        }
+        return make_compact_method_pointer(type, function, adjustment);
+    }
+    /* Original defect: other models return the unwritten entryESP-4 local.
+       The conversion table selects this helper for compact targets only. */
+    return result;
+}
+
+/* Original0x4c390..0x4c419, stdcall24. Subtract the source virtual
+   layout adjustment before assigning the compact data-member type. */
+IrToken *__stdcall convert_virtual_to_compact_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *owner = member_pointer_owner_class(expression->type);
+    IrToken *saved, *storage, *offset, *table_offset, *position;
+    int owner_adjustment;
+    compute_member_pointer_adjustment(owner, 0, displacement, virtual_base,
+        &owner_adjustment, 0);
+    storage = member_pointer_component(expression, 0, &saved);
+    offset = virtual_data_member_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = virtual_data_table_offset(storage, expression);
+    if (owner_adjustment) {
+        position = make_integer_constant(owner_adjustment);
+        offset = new_left_typed_expression(0x4f, offset, position);
+    }
+    offset->type = type;
+    return preserve_virtual_data_null(offset, table_offset);
+}
