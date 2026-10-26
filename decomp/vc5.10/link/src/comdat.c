@@ -1,4 +1,6 @@
 #include <windows.h>
+#include <stdio.h>
+#include "../crt/crt-imports.h"
 #include <string.h>
 #include <mbstring.h>
 #include "memory.h"
@@ -341,4 +343,45 @@ void __cdecl release_comdat_tables(void)
     release_memory_pool(&comdat_names);
     release_memory_arena(comdat_overflow_arena);
     release_memory_arena(comdat_reference_arena);
+}
+
+extern OutputSection *debug_section;
+extern void __cdecl link_message(unsigned,...);
+char *__stdcall display_symbol_name(const char *,DWORD);
+char *__stdcall format_contribution_module(Contribution *,char *);
+void __stdcall print_discarded_comdat(Contribution *contribution,ContributionInfo *info)
+{
+    const char *name;
+    char *display;
+    unsigned message;
+    char module_name[520];
+    if(!info)info=get_contribution_info(contribution);
+    name=info->name;
+    if(name) {
+        message=9018;
+        display=display_symbol_name(name,1);
+    } else if(contribution->group->section!=debug_section) {
+        name=contribution->group->name;
+        display=(char *)name;
+        message=9020;
+    } else display=NULL;
+    if(display) {
+        fputs("    ",stdout);
+        if(contribution->module!=output_module)
+            link_message(message,display,format_contribution_module(contribution,module_name));
+        else link_message(9019,name);
+        if(display!=name)release_memory(display);
+    }
+}
+void __cdecl print_removed_comdats(void)
+{
+    ComdatEnumerator comdats;
+    Contribution *contribution;
+    ContributionInfo *info;
+    initialize_comdat_enumerator(&comdats,last_comdat);
+    while(next_comdat(&comdats)) {
+        contribution=comdats.next_contribution;
+        info=comdats.current;
+        if(is_discardable_comdat(contribution))print_discarded_comdat(contribution,info);
+    }
 }

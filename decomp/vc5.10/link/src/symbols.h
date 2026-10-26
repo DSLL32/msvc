@@ -56,6 +56,7 @@ typedef struct StringTable {
     void RECON_THISCALL SortSymbols(void);
     StringNode **RECON_THISCALL GetSortedSymbols(void);
     StringNode **RECON_THISCALL GetSymbols(void);
+    StringNode **RECON_THISCALL GetSymbolsByValue(void);
     StringNode *RECON_THISCALL NextSymbol(void);
     void RECON_THISCALL ReleaseLookupIndex(void);
     StringNode * RECON_THISCALL LookupSymbol(WORD kind,const char *name,BYTE *created);

@@ -96,7 +96,14 @@ DWORD last_file_symbol_offset,first_file_symbol_index;
 extern void *module_debug_table;
 extern DWORD module_debug_index;
 extern BYTE file_access_statistics;
-void __stdcall read_file_symbol(int,IMAGE_SYMBOL *);
+void __stdcall read_file_symbol(int file,IMAGE_SYMBOL *symbol)
+{
+    FileRecord *record;
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags&8)mapped_read(record,symbol,sizeof(*symbol));
+    else buffered_read(record,symbol,sizeof(*symbol));
+}
 typedef struct BufferedPosition {
     BYTE reserved00[12];
     LONG position;
@@ -247,7 +254,7 @@ void __stdcall process_other_output_symbol(LinkContext *context,IMAGE_SYMBOL *sy
 DWORD previous_function_aux_offset,previous_function_symbol_index;
 IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
 void __stdcall update_function_aux_symbols(IMAGE_SYMBOL *,DWORD *,DWORD *,BYTE);
-void __stdcall write_coff_aux_symbol(int,IMAGE_SYMBOL *);
+void __stdcall write_coff_aux_symbol(int,const IMAGE_AUX_SYMBOL *);
 void __stdcall process_aux_output_symbols(IMAGE_SYMBOL *symbol,IMAGE_SYMBOL **cursor,
     BYTE emit,DWORD *index)
 {
@@ -259,14 +266,21 @@ void __stdcall process_aux_output_symbols(IMAGE_SYMBOL *symbol,IMAGE_SYMBOL **cu
             if(symbol->StorageClass==IMAGE_SYM_CLASS_FUNCTION)
                 update_function_aux_symbols(symbol,&previous_function_aux_offset,
                     &previous_function_symbol_index,(BYTE)count);
-            write_coff_aux_symbol(output_file,auxiliary);
+            write_coff_aux_symbol(output_file,(const IMAGE_AUX_SYMBOL *)auxiliary);
             ++emitted_symbol_count;
         }
         --count;
     }
 }
 void __stdcall update_function_aux_symbols(IMAGE_SYMBOL *symbol,DWORD *offset,DWORD *index,BYTE count) { __asm { int 3 } }
-void __stdcall write_coff_aux_symbol(int file,IMAGE_SYMBOL *symbol) { __asm { int 3 } }
+void __stdcall write_coff_aux_symbol(int file,const IMAGE_AUX_SYMBOL *symbol)
+{
+    FileRecord *record;
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags&8)mapped_write(record,symbol,18);
+    else buffered_write(record,symbol,18);
+}
 void __stdcall pdb_record_output_symbol(LinkContext *context,const char *name,WORD section,StringNode *symbol) { __asm { int 3 } }
 /* Original494578 is the existing Mac-target BYTE, written by the existing /machine option. */
 extern BYTE mac_target;
@@ -283,6 +297,58 @@ void __stdcall write_coff_symbol(int file,IMAGE_SYMBOL *symbol)
     if(record->flags & 8)mapped_write(record,symbol,18);
     else buffered_write(record,symbol,18);
     if(cleared)symbol->Type|=0x8000;
+}
+extern DWORD local_symbol_count;
+extern const char *default_phase;
+void __stdcall write_coff_symbols(LinkContext *context,DWORD image_rva)
+{
+    StringNode **symbols;
+    DWORD count,index;
+    IMAGE_SYMBOL raw;
+    default_phase="EmitExternals";
+    if(!mac_target) {
+        IMAGE_SYMBOL header={0};
+        strncpy((char *)header.N.ShortName,"header",8);
+        header.Value=0;
+        header.SectionNumber=IMAGE_SYM_DEBUG;
+        header.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+        write_coff_symbol(output_file,&header);
+        ++local_symbol_count;
+        ++emitted_symbol_count;
+    }
+    symbols=context->symbols->GetSymbolsByValue();
+    count=count_hash_symbols(context->symbols->hash.state);
+    for(index=0;index<count;++index) {
+        StringNode *symbol=symbols[index];
+        Contribution *contribution;
+        if((symbol->flags&0x08000100) || !(symbol->flags&1) ||
+           (symbol->flags&0x200))continue;
+        contribution=symbol->contribution;
+        while(contribution && (contribution->characteristics&0x4000))
+            contribution=contribution->associated_contribution;
+        if(contribution) {
+            if(contribution->characteristics&0x800)continue;
+            if(context->options.effective_reference_opt &&
+               is_discardable_comdat(contribution))continue;
+        }
+        if(!emit_symbol_class(symbol->symbol.StorageClass,&context->options))continue;
+        raw=symbol->symbol;
+        if(contribution)raw.SectionNumber=contribution->group->section->index;
+        raw.Value=symbol->final_value;
+        write_coff_symbol(output_file,&raw);
+        ++emitted_symbol_count;
+        symbol->flags|=0x08000000;
+    }
+    if(!mac_target) {
+        IMAGE_SYMBOL end={0};
+        strncpy((char *)end.N.ShortName,"end",8);
+        end.Value=image_rva;
+        end.SectionNumber=IMAGE_SYM_DEBUG;
+        end.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+        write_coff_symbol(output_file,&end);
+        ++local_symbol_count;
+        ++emitted_symbol_count;
+    }
 }
 
 }

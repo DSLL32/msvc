@@ -146,3 +146,17 @@ extern "C" void __stdcall write_archive_member_offsets(int output,StringTable *s
     }
     default_phase=saved_phase;
 }
+
+extern "C" int __cdecl compare_symbol_values(const void *,const void *);
+StringNode **RECON_THISCALL StringTable::GetSymbolsByValue(void)
+{
+    if(!hash.lookup_buffers[1])
+        hash.lookup_buffers[1]=build_symbol_order(this,compare_symbol_values);
+    return (StringNode **)hash.lookup_buffers[1];
+}
+extern "C" int __cdecl compare_symbol_values(const void *left,const void *right)
+{
+    const StringNode *a=*(StringNode *const *)left;
+    const StringNode *b=*(StringNode *const *)right;
+    return (int)(a->final_value-b->final_value);
+}

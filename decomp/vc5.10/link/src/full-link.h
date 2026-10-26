@@ -18,6 +18,21 @@ typedef struct ModuleListNode {
     struct ModuleListNode *next;
 } ModuleListNode;
 typedef char ModuleListNodeSize[(sizeof(ModuleListNode)==8)?1:-1];
+typedef struct MapLineRecord {
+    WORD line;
+    WORD reserved;
+    OutputSection *section;
+    DWORD offset;
+} MapLineRecord;
+typedef char MapLineRecordLayout[(sizeof(MapLineRecord)==12 &&
+    offsetof(MapLineRecord,section)==4 && offsetof(MapLineRecord,offset)==8)?1:-1];
+typedef struct MapLineFile {
+    const char *name;
+    ByteBuffer lines;
+    struct MapLineFile *next;
+} MapLineFile;
+typedef char MapLineFileLayout[(sizeof(MapLineFile)==20 &&
+    offsetof(MapLineFile,lines)==4 && offsetof(MapLineFile,next)==16)?1:-1];
 typedef struct CommonSymbol {
     StringNode *symbol;
     struct CommonSymbol *next;
@@ -115,7 +130,8 @@ struct OutputModule {
     void *debug_stream;
     BYTE *serialized_debug;
     DWORD serialized_debug_size;
-    BYTE reserved7c[8];
+    DWORD reserved7c;
+    MapLineFile *map_line_files;
     WORD *incremental_state;
     StringNode *defined_symbols;
     DWORD *symbol_bits[2], *symbol_indices;
@@ -148,7 +164,7 @@ typedef char OutputSectionSize[(sizeof(OutputSection)==72)?1:-1];
 struct ContributionGroup {
     char *name;
     DWORD contribution_count, rva, reserved0c, file_offset, size;
-    BYTE alignment, reserved19[3];
+    BYTE alignment, has_ordered_contributions, reserved1a[2];
     Contribution *first, *last;
     ContributionGroup *next;
     OutputSection *section;
@@ -238,6 +254,7 @@ typedef char ModuleConstructorFields[(offsetof(OutputModule,module_index)==8 &&
     offsetof(OutputModule,symbol_indices)==148 && offsetof(OutputModule,flags)==152)?1:-1];
 typedef char LibraryModuleHeadAt38[(offsetof(OutputLibrary,module_head)==56)?1:-1];
 typedef char OutputModuleSectionMapAt2c[(offsetof(OutputModule,section_map)==0x2c)?1:-1];
+typedef char ModuleMapLinesAt80[(offsetof(OutputModule,map_line_files)==0x80)?1:-1];
 typedef char ContributionInfoAt60[(offsetof(OutputModule,contribution_info)==0x60)?1:-1];
 typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];
 typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];

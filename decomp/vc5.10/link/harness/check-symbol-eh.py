@@ -32,6 +32,9 @@ def verify(report, images):
                      0x79c if side == 'original' else 0x7ac,
                      -0x7a0 if side == 'original' else -0x7b0, 1)
 
+        verify_owner(facts, side, image, 'LinkContext::PrintFoldedComdats',
+                     'ScopedBuffer::~ScopedBuffer', 0,
+                     0x238 if side == 'original' else 0x23c, -0x220, 0)
         verify_import_conversion(facts, side, image)
         verify_converted_member(facts, side, image)
 
@@ -63,13 +66,13 @@ def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
     # and the local frame, then consumes the physical DWORD arguments.
     normal_returns = [(at, data) for at,data in instructions.items()
                       if start <= at < end and data[:1] in (b'\xc2', b'\xc3')]
-    assert len(normal_returns) == 1 and normal_returns[0][1] == b'\xc2'+struct.pack('<H', argument_bytes)
+    ret_bytes = b'\xc3' if argument_bytes == 0 else b'\xc2'+struct.pack('<H',argument_bytes)
+    assert len(normal_returns) == 1 and normal_returns[0][1] == ret_bytes
     epilogue = (bytes.fromhex('8b8c24')+struct.pack('<I',frame_bytes+16)+
                 bytes.fromhex('5f5e5d64890d000000005b81c4')+
-                struct.pack('<I',frame_bytes+12)+b'\xc2'+
-                struct.pack('<H',argument_bytes))
+                struct.pack('<I',frame_bytes+12)+ret_bytes)
     ret = normal_returns[0][0]
-    assert code(ret+3-len(epilogue), len(epilogue)) == epilogue
+    assert code(ret+len(ret_bytes)-len(epilogue), len(epilogue)) == epilogue
     prologue = code(start, 27)
     assert prologue[:3] == bytes.fromhex('6aff68')
     assert struct.unpack_from('<I', prologue, 3)[0] == handler
@@ -83,6 +86,17 @@ def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
                      if start <= at < end and data[:1] == b'\xe8'
                      and at+5+struct.unpack_from('<i',data,1)[0] == destructor['record']['start']]
     assert len(cleanup_calls) == normal_cleanup_calls
+    if argument_bytes == 0:
+        # This owner's normal cleanup inlines the same conditional scalar delete;
+        # only its exceptional action enters the canonical 12-byte destructor.
+        delete_calls=[]
+        for at,data in instructions.items():
+            if start <= at < end and data[:1] == b'\xe8':
+                target=at+5+struct.unpack_from('<i',data,1)[0]
+                if contextual_bytes(image,target,2)==b'\xff\x25':
+                    if qualified_import(image,identity,target)==[('msvcrt.dll','??3@YAXPAX@Z')]:
+                        delete_calls.append(at)
+        assert len(delete_calls)==1
     if argument_bytes == 8:
         # Exactly five DWORD stores construct the actual 20-byte local before
         # Grow and EH lifetime registration. This is the same stack owner
@@ -243,4 +257,4 @@ if __name__ == '__main__':
     options = parser.parse_args()
     verify(json.loads(options.report.read_text()),
            {'original':options.original,'rebuilt':options.rebuilt})
-    print('PASS symbol/definition RET24/8, import conversion RET28 and converted member RET32, distinct cleanup roles and qualified C++ handlers')
+    print('PASS five C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32 and COMDAT report RET0; distinct cleanup roles and qualified handlers')

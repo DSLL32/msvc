@@ -5,6 +5,7 @@
 #include "comdat.h"
 #include "sections.h"
 #include "full-link-functions.h"
+#include "debug-output.h"
 __declspec(dllimport) DWORD __cdecl SigForPbCb(const void *,long,DWORD);
 #include <recon.h>
 
@@ -240,5 +241,18 @@ OutputSection *__stdcall find_section_by_index(SHORT index,SectionList *sections
 }
 void __stdcall report_incremental_addend(IMAGE_SYMBOL *symbol,LinkContext *context,Contribution *contribution) { __asm { int 3 } }
 void __stdcall record_debug_fixup(WORD type,WORD flags,DWORD site,DWORD value) { __asm { int 3 } }
-void __stdcall record_relative_fixup(DWORD site) { __asm { int 3 } }
+/* Original47efc0 and47f0e0 hold the newest 32-site block and its used count. */
+RelativeFixupBlock *relative_fixup_blocks;
+DWORD relative_fixup_count;
+void __stdcall record_relative_fixup(DWORD site)
+{
+    RelativeFixupBlock *block=relative_fixup_blocks;
+    if(!block || relative_fixup_count>=32) {
+        block=(RelativeFixupBlock *)allocate_memory(sizeof(*block));
+        block->next=relative_fixup_blocks;
+        relative_fixup_blocks=block;
+        relative_fixup_count=0;
+    }
+    block->sites[relative_fixup_count++]=site;
+}
 const char *__stdcall output_symbol_name(LinkContext *context,IMAGE_SYMBOL *symbol) { __asm { int 3 } return NULL; }

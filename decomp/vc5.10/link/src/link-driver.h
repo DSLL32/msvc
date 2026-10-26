@@ -183,6 +183,7 @@ struct LinkContext {
     void RECON_THISCALL PrepareMacSymbols(void);
     void RECON_THISCALL PrepareAuxiliarySections(void);
     void RECON_THISCALL ApplyOrderFile(void);
+    void RECON_THISCALL PrintOrderFile(void);
     void RECON_THISCALL UpdateChecksum(void);
     void RECON_THISCALL WriteVxdModuleTable(int file);
     void RECON_THISCALL WriteVxdNames(int file);

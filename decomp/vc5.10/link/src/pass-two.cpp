@@ -640,7 +640,6 @@ invalid_lines:
     link_contribution_warning(contribution,4200);
     release_memory(lines);
 }
-void __stdcall adjust_debug_lines(IMAGE_LINENUMBER *,DWORD,Contribution *,IMAGE_SYMBOL *,DWORD,DWORD,BYTE,BYTE) { __asm { int 3 } }
 void __cdecl link_contribution_warning(Contribution *,unsigned,...) { __asm { int 3 } }
 DWORD __stdcall debug_stream_size(void *) { __asm { int 3 } return 0; }
 void __stdcall copy_debug_stream(void *,void *,DWORD) { __asm { int 3 } }

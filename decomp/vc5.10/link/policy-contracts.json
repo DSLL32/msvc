@@ -5146,5 +5146,113 @@
       ],
       "scope": "Normal return only; no provider body or wider character-domain credit."
     }
+  ],
+  "coff_map_case_ordinary_abi": [
+    {
+      "owner": "_write_image_map@8",
+      "cached_import": "msvcrt.dll!fprintf",
+      "original_iat": "0x401178",
+      "cached_sites": [
+        "0x44f042",
+        "0x44f0bf",
+        "0x44f0d3",
+        "0x44f2e4",
+        "0x44f332"
+      ],
+      "preserves": "ebp",
+      "normal_return_contracts": {
+        "imports": [
+          "msvcrt.dll!ctime",
+          "msvcrt.dll!fprintf",
+          "msvcrt.dll!fputs"
+        ],
+        "functions": [
+          "StringTable::ReleaseLookupIndex",
+          "_resolve_entry_symbol@4",
+          "_write_map_static_symbols@4",
+          "_write_map_thunks@4",
+          "_write_map_lines@4",
+          "_write_map_fixups",
+          "StringTable::GetSymbolsByValue",
+          "_count_hash_symbols@4",
+          "_write_map_sections@4"
+        ]
+      },
+      "basis": "Identified x86 cdecl CRT signatures and actual ordinary thiscall/stdcall/cdecl App call ABIs preserve EBP on normal return. The loop reuses EBP as contribution and reloads fprintf at44f289; this is not a whole-body register-constant claim. The zero-symbol path bypasses that reload and retains the earlier fprintf value through section/header enumeration.",
+      "scope": "Finite cached fprintf sites only, no body credit for pending map callees and no nonlocal-return claim."
+    },
+    {
+      "owner": "_write_map_sections@4",
+      "cached_import": "msvcrt.dll!fprintf",
+      "original_iat": "0x401178",
+      "cached_load": "0x44e6f0",
+      "cached_sites": [
+        "0x44e7bd"
+      ],
+      "preserves": "edi",
+      "normal_return_contracts": {
+        "functions": [
+          "_initialize_group_enumerator@8",
+          "_next_contribution_group@4",
+          "_next_output_section@4"
+        ]
+      },
+      "basis": "Actual ordinary x86 stdcall enumerator ABIs preserve EDI on normal return, including the inner and outer loop joins.",
+      "scope": "Finite cached import only, no extra body or exceptional-return credit."
+    },
+    {
+      "owner": "_write_map_symbol@32",
+      "cached_import": "msvcrt.dll!fprintf",
+      "original_iat": "0x401178",
+      "cached_load": "0x44e864",
+      "cached_sites": [
+        "0x44e877",
+        "0x44e8fa",
+        "0x44e932"
+      ],
+      "preserves": "esi",
+      "normal_return_contracts": {
+        "imports": [
+          "msvcrt.dll!fprintf"
+        ]
+      },
+      "basis": "Identified public x86 cdecl fprintf preserves ESI on ordinary return. Existing _splitpath ESI/EDI and fprintf EDI contracts retain the separate cached splitpath calls.",
+      "scope": "Normal-return import resolution only, no provider-body credit."
+    },
+    {
+      "owner": "LinkContext::PrintOrderFile",
+      "cached_imports": [
+        "msvcrt.dll!fputc",
+        "msvcrt.dll!printf"
+      ],
+      "original_iats": [
+        "0x401180",
+        "0x401238"
+      ],
+      "cached_sites": [
+        "0x458222",
+        "0x458276",
+        "0x458298",
+        "0x4582a8",
+        "0x4582d6"
+      ],
+      "additional_normal_return_contracts": {
+        "_link_message": [
+          "ebx"
+        ],
+        "msvcrt.dll!fputc": [
+          "ebx"
+        ],
+        "_format_contribution_module@8": [
+          "ebx",
+          "esi"
+        ],
+        "StringTable::NextSymbol": [
+          "ebx"
+        ]
+      },
+      "basis": "Actual ordinary cdecl/stdcall/thiscall signatures preserve the stated x86 nonvolatile registers. EBX holds fputc through the loop; ESI holds printf only across the module-name formatter.",
+      "scope": "Finite cached imports; no source topology changes or provider-body credit."
+    }
   ]
 }

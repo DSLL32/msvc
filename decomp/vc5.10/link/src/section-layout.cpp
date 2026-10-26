@@ -483,3 +483,50 @@ void RECON_THISCALL LinkAuxiliaryData::FinishOutput(LinkContext *context)
 }
 extern "C" int __cdecl compare_procedure_contributions(const void *,const void *)
 { __asm { int 3 } return 0; }
+
+extern "C" void __stdcall pad_debug_contribution(Contribution *contribution)
+{
+    ContributionGroup *owner=contribution->group,*group;
+    GroupEnumerator groups;
+    GroupContributionEnumerator contributions;
+    DWORD aligned_end=(contribution->file_offset+contribution->raw_size+3)&~3U;
+    /* The original reuses its incoming pointer slot for the Boolean and loads
+     * its cleared-low-byte DWORD as the initial delta. It is defined carried
+     * state, replaced when the first following debug group is visited. */
+    DWORD delta=(DWORD)contribution&~255U;
+    BYTE following=0,first=0;
+#ifdef __linux__
+    BYTE have_delta=0;
+#endif
+    owner->size=contribution->raw_size;
+    initialize_group_enumerator(&groups,debug_section);
+    while(next_contribution_group(&groups)) {
+        group=groups.current;
+        if(following) {
+            if(first) {
+                delta=aligned_end-group->file_offset;
+                first=0;
+#ifdef __linux__
+                have_delta=1;
+#endif
+            }
+            group->rva+=delta;
+            group->file_offset+=delta;
+            initialize_group_contributions(&contributions,group);
+            while(next_group_contribution(&contributions)) {
+                contributions.current->file_offset+=delta;
+                contributions.current->rva+=delta;
+            }
+        } else if(group==owner) {
+            following=1;
+            first=1;
+        }
+    }
+#ifdef __linux__
+    /* No cross-image equality is claimed for observable pointer-derived data. */
+    if(!have_delta)exit(125);
+#endif
+    debug_section->reserved08+=delta;
+    debug_section->raw_size=debug_section->reserved08-debug_section->file_offset;
+    debug_section->virtual_size=debug_section->reserved08-debug_section->file_offset;
+}

@@ -10,6 +10,7 @@ public:
     void *data;
     unsigned used,capacity;
     RECON_FORCEINLINE ScopedBuffer() { data=0; used=capacity=0; }
+    RECON_FORCEINLINE ScopedBuffer(unsigned elements);
     RECON_THISCALL ~ScopedBuffer();
 };
 typedef char ScopedBufferSize[(sizeof(ScopedBuffer)==12)?1:-1];

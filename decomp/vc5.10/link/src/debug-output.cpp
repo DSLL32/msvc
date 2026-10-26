@@ -25,7 +25,7 @@ typedef struct DebugFixupBlock {
 DebugFixupBlock *first_debug_fixup_block,*last_debug_fixup_block;
 DWORD debug_fixup_full_blocks,debug_fixup_tail_count;
 void __stdcall write_symbol_strings(int,StringTable *);
-void __stdcall set_output_file_length(int,DWORD);
+int __stdcall set_output_file_length(int,LONG);
 void __stdcall emit_codeview(LinkContext *);
 void __stdcall pdb_emit_fpo(DWORD *,DWORD);
 int __cdecl compare_debug_fixups(const void *,const void *);
@@ -263,10 +263,12 @@ void __stdcall write_symbol_strings(int fd,StringTable *table)
     else buffered_write(file,data,bytes);
     default_phase=saved;
 }
-void __stdcall set_output_file_length(int,DWORD) { __asm { int 3 } }
 void __stdcall emit_codeview(LinkContext *) { __asm { int 3 } }
 void __stdcall pdb_emit_fpo(DWORD *,DWORD) { __asm { int 3 } }
-int __cdecl compare_debug_fixups(const void *,const void *) { __asm { int 3 } return 0; }
+int __cdecl compare_debug_fixups(const void *left,const void *right)
+{
+    return (int)(*(const DWORD *)left-*(const DWORD *)right);
+}
 }
 
 extern "C" {

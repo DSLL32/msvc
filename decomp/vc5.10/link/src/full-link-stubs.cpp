@@ -13,7 +13,6 @@ extern "C" void __cdecl commit_pdb(void) { __asm { int 3 } }
 extern "C" void __stdcall initialize_pdb_image(const char *image) { __asm { int 3 } }
 extern "C" char * __stdcall derive_pdb_name(const char *image,const char *specified) { __asm { int 3 } return 0; }
 extern "C" void __cdecl link_contribution_fatal(Contribution *contribution,unsigned message,...) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PrintFoldedComdats(void) { __asm { int 3 } }
 extern "C" void __stdcall allocate_pdb_module_table(DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall adjust_incremental_symbols(LinkContext *context) { __asm { int 3 } }
 Contribution * RECON_THISCALL LinkContext::CreateIncrementalContribution(void) { __asm { int 3 } return 0; }
@@ -31,10 +30,8 @@ extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,
 
 extern "C" void __cdecl update_gp_bounds(void) { __asm { int 3 } }
 extern "C" void __stdcall adjust_rom_section_header(OutputSection *section,IMAGE_SECTION_HEADER *header,LinkContext *context) { __asm { int 3 } }
-extern "C" void __stdcall pad_debug_contribution(Contribution *contribution) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second) { __asm { int 3 } }
-extern "C" void __stdcall write_coff_symbols(LinkContext *context,DWORD image_rva) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacJumpTables(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::ResolveMacImports(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::ResolveMacExports(void) { __asm { int 3 } }
@@ -49,9 +46,7 @@ void RECON_THISCALL LinkContext::PrepareMacSymbols(void) { __asm { int 3 } }
 extern "C" void __stdcall finish_mac_headers(LinkContext *context) { __asm { int 3 } }
 extern "C" void __cdecl set_mac_symbol_addresses(void) { __asm { int 3 } }
 extern "C" void __stdcall prepare_mac_debug_information(LinkContext *context) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::ApplyOrderFile(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_ppc_branches(void) { __asm { int 3 } }
 extern "C" void __stdcall apply_section_merge(OutputSection *section) { __asm { int 3 } }
 extern "C" char * __stdcall replace_extension(const char *file,const char *extension) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::UpdateChecksum(void) { __asm { int 3 } }
-extern "C" void __cdecl print_removed_comdats(void) { __asm { int 3 } }

@@ -35,7 +35,7 @@ void __stdcall load_incremental_state(LinkContext **);
 void __cdecl initialize_incremental_inputs(void);
 int __stdcall incremental_link(LinkContext **);
 int __stdcall abort_incremental(int);
-void __stdcall write_image_map(LinkContext *,FILE *);
+void __stdcall write_image_map(LinkContext *,const char *);
 void __stdcall save_incremental_state(LinkContext *);
 void __cdecl close_files(void);
 void __cdecl cleanup_pdb(void);
@@ -150,7 +150,7 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
     if (!incremental_enabled || !incremental_reuse || result) {
         result = context->FullLink(&pack_requested);
         if (incremental_enabled) {
-            if (context->options.write_map) write_image_map(context, map_output);
+            if (context->options.write_map) write_image_map(context, output_file_name);
             if (incremental_enabled) save_incremental_state(context);
         }
     }
@@ -162,7 +162,7 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
         result = run_cvpack();
         if (result) link_warning(NULL, 4027);
     }
-    if (context->options.write_map) write_image_map(context, map_output);
+    if (context->options.write_map) write_image_map(context, output_file_name);
     if (maximum_image_size && context->optional_header.SizeOfImage > maximum_image_size)
         link_warning(NULL, 4013, context->optional_header.SizeOfImage, maximum_image_size);
     fclose(diagnostic_output);
@@ -412,7 +412,6 @@ void __stdcall load_incremental_state(LinkContext **context) { __asm { int 3 }  
 void __cdecl initialize_incremental_inputs(void) { __asm { int 3 }  }
 int __stdcall incremental_link(LinkContext **context) { __asm { int 3 } return 0; }
 int __stdcall abort_incremental(int failed) { __asm { int 3 } return 0; }
-void __stdcall write_image_map(LinkContext *context,FILE *output) { __asm { int 3 }  }
 void __stdcall save_incremental_state(LinkContext *context) { __asm { int 3 }  }
 int __cdecl run_cvpack(void) { __asm { int 3 } return 0; }
 void __cdecl close_repro(void) { __asm { int 3 }  }

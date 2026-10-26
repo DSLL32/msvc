@@ -74,6 +74,33 @@ BYTE __stdcall resize_file_mapping(FileRecord *record,LONG minimum,DWORD *error)
     __asm { int 3 }
     return 0;
 }
+int __stdcall set_mapped_file_length(FileRecord *record,LONG length)
+{
+    DWORD error=0;
+    if(length>record->mapping_size) {
+        if(!resize_file_mapping(record,length,&error)) {
+            link_fatal(record->name,1106,(DWORD)length);
+            record->size=length;
+            return 0;
+        }
+    } else if(record->file_size>length)record->file_size=length;
+    record->size=length;
+    return 0;
+}
+int __stdcall set_buffered_file_length(FileRecord *record,LONG length)
+{
+    __asm { int 3 }
+    return 0;
+}
+int __stdcall set_output_file_length(int file,LONG length)
+{
+    FileRecord *record;
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(length==record->size)return 0;
+    if(record->flags&8)return set_mapped_file_length(record,length);
+    return set_buffered_file_length(record,length);
+}
 
 void __stdcall initialize_file_cache(unsigned mapped_slots, unsigned mapped_limit,
                                     unsigned ordinary_slots, unsigned ordinary_limit)

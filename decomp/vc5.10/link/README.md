@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-438 application functions / 152,336 original code bytes are reconstructed
-(36.72% of the 414,810-byte whole `.text` extent, which includes CRT and text
+470 application functions / 162,489 original code bytes are reconstructed
+(39.17% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 45 pending bodies with known extents totaling 6,628 bytes and
-167 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 43 pending bodies with known extents totaling 6,291 bytes and
+161 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all fourteen cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifteen cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,9 +45,9 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-451-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 434 ordinary application bodies and six CRT bodies. Seven import
-thunks remain in the graph without body-return claims. The four genuine C++
+483-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 465 ordinary application bodies and six CRT bodies. Seven import
+thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
 contracts; they do not grant provider or pending-helper body credit.
@@ -60,7 +60,7 @@ justified lifetime/operation TUs use special optimization and instrumentation
 settings, with one physical cleanup owner and actual Win32 EH actions.
 
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
-Unreached Mac, PDB, callback, debug and further librarian edit/extract domains retain
+Unreached Mac, PDB, callback, CodeView and further librarian edit/extract domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
 owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
@@ -218,3 +218,44 @@ the successful full 451-vertex / 440-return-contract / four-EH-owner gate took
 2.13 s. The audit's initial missing cached toupper identity was closed with its
 ordinary documented cdecl EBP-preservation contract and exact site inventory.
 No regression or reference capture was repeated for that metadata correction.
+
+
+The COFF debug/map/order case links two original-compiled `/O2 /Gy /Z7`
+objects with cross-module calls, identical packaged functions, initialized
+pointer relocations and a merged data section. The order file places StepRight,
+StepLeft and the stdcall DebugEntry; unused code is discarded and the identical
+functions share an output address. Both runs exit 0 with 315 application first
+entries and matching 4,096-byte EXE and 1,595-byte map. The map includes public
+symbols, source lines, relative-fixup deltas and the 16-byte ICF saving. The
+original warns that `/pdb:none` disables `/debugtype:fixup`; this case does not
+qualify that disabled debug format.
+
+Thirty-two bodies / 10,153 original code bytes add order-file reading and
+placement, discarded/folded COMDAT reports, value-sorted symbols, COFF symbol
+emission and line processing, map records/presentation and mapped-file length
+adjustment. The folded report reuses the qualified 12-byte scoped buffer;
+its normal path inlines scalar deletion while its genuine exceptional action
+enters the single canonical destructor. Its fifth bounded EH check retains
+normal RET0, action/handler and FuncInfo roles independently. Private line
+records retain their WORD line, section pointer and DWORD offset; alignment
+bytes are not semantic fields or output comparison exceptions. The module's
+line-file list is the actual +0x80 owner, and the debug-line factories remain
+separate owners from the scoped buffer. PDB and CodeView children remain named
+traps, with no wider debug-state claim.
+
+The saved final raw artifacts bind the comparison-only clock derivation. Only
+the EXE COFF TimeDateStamp, three IMAGE_DEBUG_DIRECTORY TimeDateStamp copies,
+and the map's corresponding eight hexadecimal digits and 24-character `ctime`
+text are normalized. All remaining bytes, lengths and file inventory are strict.
+Failed raw captures preserve the missing `.debug$C`/`.debug$E` literal ownership
+and omitted line-format terminator; these were repaired in the mask, without
+output relaxation or application code credit. The map caller's earlier stub
+had mislabeled its second argument as a stream; the recovered caller/body use
+the real output filename and retain the separate global map stream.
+
+Fresh native completion took 17.1 ms (10.0 ms setup, 3.7 ms execution, 3.4 ms
+checks). The final fifteen-case regression/unit batch took 0.53 s and the full
+original-build/graph/RET/EH gate took 2.45 s. The interrupted closeout attempts
+and expected-fixture clock encoding correction remain in scratch; successful
+prior cases were not recaptured. Full regression and audit ran only at case
+closeout, after the current-case pair completed.

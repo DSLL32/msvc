@@ -84,8 +84,55 @@ void __stdcall initialize_symbol_reference_enumerator(SymbolReferenceEnumerator 
 { __asm { int 3 } }
 BYTE __stdcall next_symbol_reference(SymbolReferenceEnumerator *e)
 { __asm { int 3 } return 0; }
+char *__cdecl __unDName(char *,const char *,int,
+    void *(__cdecl *)(size_t),void (__cdecl *)(void *),unsigned short);
+#pragma intrinsic(strlen,strcpy,strcat)
 char *__stdcall display_symbol_name(const char *name,DWORD flags)
-{ __asm { int 3 } return NULL; }
+{
+    const char *symbol=name;
+    char *decoded,*display;
+    BYTE imported,glue=0,native_entry,function_header=0,call_table=0;
+    unsigned extra=0,bytes;
+    imported=!strncmp(name,"__imp_",6);
+    if(imported)symbol=name+6;
+    else {
+        glue=!strncmp(name,"__glue_",6);
+        if(glue)symbol=name+7;
+    }
+    native_entry=!strncmp(symbol,"__nep",5);
+    if(native_entry)symbol+=5;
+    else {
+        function_header=!strncmp(symbol,"__fh",4);
+        if(function_header)symbol+=4;
+        else {
+            call_table=!strncmp(symbol,"__pcd_tbl",9);
+            if(call_table)symbol+=9;
+        }
+    }
+    if(*symbol!='?')return (char *)name;
+    decoded=__unDName(NULL,symbol,0,malloc,free,0x800);
+    if(!decoded)return (char *)name;
+    if(imported)extra=22;
+    else if(glue)extra=17;
+    if(native_entry)extra+=15;
+    else if(function_header)extra+=18;
+    else if(call_table)extra+=19;
+    /* The physical flags slot is DWORD; only AL selects this display form. */
+    bytes=strlen(name)+strlen(decoded)+extra+((BYTE)flags?6:4);
+    display=(char *)allocate_memory(bytes);
+    if((BYTE)flags)strcpy(display,"\"");
+    else { strcpy(display,name); strcat(display," ("); }
+    if(imported)strcat(display,"__declspec(dllimport) ");
+    else if(glue)strcat(display,"[Cross TOC Glue] ");
+    if(native_entry)strcat(display,"[Native Entry] ");
+    else if(function_header)strcat(display,"[Function Header] ");
+    else if(call_table)strcat(display,"[PCode Call Table] ");
+    strcat(display,decoded);
+    if((BYTE)flags) { strcat(display,"\" ("); strcat(display,name); }
+    strcat(display,")");
+    /* The original retains the CRT undecoration allocation here. */
+    return display;
+}
 /* 4808b0 is the separate /NODELAYLOAD exclusion list. */
 InputArguments delay_load_exclusions;
 BYTE __stdcall is_delay_load_excluded(const char *name)
@@ -457,4 +504,18 @@ void RECON_THISCALL StringTable::SortSymbols(void)
     }
     end_section_enumerator((SectionEnumerator *)&enumerator);
     ReleaseLookupIndex();
+}
+
+extern "C" StringNode *__stdcall find_contribution_symbol(LinkContext *context,Contribution *contribution)
+{
+    StringTable *symbols=context->symbols;
+    StringNode **order=symbols->GetSymbolsByValue(),*symbol=NULL;
+    DWORD count=count_hash_symbols(symbols->hash.state),index;
+    BYTE found=0;
+    for(index=0;index<count && !found;++index) {
+        symbol=order[index];
+        found=symbol->contribution==contribution;
+    }
+    symbols->ReleaseLookupIndex();
+    return found?symbol:NULL;
 }
