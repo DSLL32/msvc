@@ -519,6 +519,66 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
 }
 
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+/* These fixed message layouts are exercised by typed native App units. The
+ * registered template authenticates content; it is not a generic insert parser. */
+static DWORD format_unit_diagnostic(DWORD id,const char *text,LPSTR output,
+                                    DWORD capacity,va_list *arguments)
+{
+    const char *pattern,*middle="",*tail="",*filename=NULL,*name=NULL,*parts[7];
+    const WCHAR *wide=NULL;char number[12],ascii[257],*destination;
+    size_t n,length=0,file_length=0,name_length=0,sizes[7],count=0;
+    uintptr_t out=(uintptr_t)output,source=(uintptr_t)text,file=0,third=0;
+    int line;va_list copied;
+    switch(id) {
+    case 2104:pattern="%1 (%2!d!): error RC2104 : undefined keyword or key name: %3!ws!\r\n";
+        middle="): error RC2104 : undefined keyword or key name: ";tail="\r\n";break;
+    case 2175:pattern="%1 (%2!d!): error RC2175 : resource file %3!ws! is not in 3.00 format\r\n";
+        middle="): error RC2175 : resource file ";tail=" is not in 3.00 format\r\n";break;
+    case 2135:pattern="%1 (%2!d!): error RC2135 : file not found: %3\r\n";
+        middle="): error RC2135 : file not found: ";tail="\r\n";break;
+    case 1003:pattern="error count exceeds %1!d!; stopping compilation\r\n";break;
+    case 20101:pattern="RC terminated by user\r\n";break;
+    default:recon_unsupported("unit diagnostic ID");return 0;
+    }
+    if(strcmp(text,pattern) || recon_mb_codepage || recon_mb_codepage_gate ||
+       recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("unit diagnostic exact template/default-C");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])recon_unsupported("unit diagnostic locale handles");
+    if(id==20101){parts[0]=pattern;count=1;}
+    else if(id==1003) {
+        va_copy(copied,*arguments);line=va_arg(copied,int);va_end(copied);
+        recon_itoa(line,number,10);parts[0]="error count exceeds ";parts[1]=number;
+        parts[2]="; stopping compilation\r\n";count=3;
+    }
+    else {
+        va_copy(copied,*arguments);filename=va_arg(copied,const char *);line=va_arg(copied,int);
+        if(id==2135)name=va_arg(copied,const char *);else wide=va_arg(copied,const WCHAR *);
+        va_end(copied);file=(uintptr_t)filename;third=wide?(uintptr_t)wide:(uintptr_t)name;
+        if(file<4096 || file>UINTPTR_MAX-MAX_PATH || third<4096 ||
+           third>UINTPTR_MAX-(wide?514:257) || (wide && (third&1)))
+            recon_unsupported("unit diagnostic insert extents");
+        for(file_length=0;file_length<MAX_PATH && filename[file_length];++file_length)
+            if((unsigned char)filename[file_length]>=128)recon_unsupported("unit diagnostic ASCII filename");
+        if(file_length==MAX_PATH)recon_unsupported("unit diagnostic filename length");
+        for(name_length=0;name_length<257;++name_length) {
+            unsigned character=wide?wide[name_length]:(unsigned char)name[name_length];
+            if(character>=128)recon_unsupported("unit diagnostic ASCII third insert");
+            ascii[name_length]=(char)character;if(!character)break;
+        }
+        if(name_length==257)recon_unsupported("unit diagnostic third insert length");
+        recon_itoa(line,number,10);parts[0]=filename;parts[1]=" (";parts[2]=number;
+        parts[3]=middle;parts[4]=ascii;parts[5]=tail;count=6;
+    }
+    for(n=0;n<count;++n){sizes[n]=strlen(parts[n]);length+=sizes[n];}
+    if(out<4096 || capacity<=length || out>UINTPTR_MAX-length-1 ||
+       source>UINTPTR_MAX-strlen(text)-1 ||
+       (out<source+strlen(text)+1 && source<out+length+1) ||
+       (filename && out<file+file_length+1 && file<out+length+1) ||
+       (third && out<third+(name_length+1)*(wide?2:1) && third<out+length+1))
+        recon_unsupported("unit diagnostic output capacity/span/overlap");
+    destination=output;for(n=0;n<count;++n){memcpy(destination,parts[n],sizes[n]);destination+=sizes[n];}
+    *destination=0;return (DWORD)length;
+}
 static DWORD format_duplicate_string_error(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
 {
     const char *filename,*parts[16];const WCHAR *names[2];
@@ -690,6 +750,8 @@ static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
             if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
     if (!entry) recon_unsupported("unregistered FormatMessageA template");
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if((entry->id==2104 || entry->id==2175 || entry->id==2135 || entry->id==20101 || entry->id==1003) && entry->language==0x409)
+        return format_unit_diagnostic(entry->id,text,output,capacity,arguments);
     if(entry->id==2151 && entry->language==0x409) return format_duplicate_string_error(text,output,capacity,arguments);
     if(entry->id==4067 && entry->language==0x409) return format_directive_warning(text,output,capacity,arguments);
     if(entry->id==4506 && entry->language==0x409) return format_mac_cursor_warning(text,output,capacity,arguments);
@@ -727,6 +789,18 @@ DWORD WINAPI recon_FormatMessageA(DWORD flags,LPCVOID source,DWORD id,DWORD lang
     if (flags==0x400) return format_registered_inserts(source,id,language,output,capacity,arguments);
     if (flags!=0xa00 || (language && language!=0x409) || arguments)
         recon_unsupported("unreviewed FormatMessageA mode");
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(id==10056 && !language && source && output && capacity==4096 &&
+       (uintptr_t)output>=4096 && (uintptr_t)output<=UINTPTR_MAX-4096) {
+        NativeModule *module=recon_registered_module((HMODULE)source);
+        if(module && !strcmp(module->sha256,"bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0")) {
+            /* Full pristine message-table absence is separately established.
+             * Native output is left untouched; original failure-buffer contents
+             * are unmeasured and rc_message consumes only the zero return. */
+            last_error=317;return 0; /* ERROR_MR_MID_NOT_FOUND, WINERROR.H */
+        }
+    }
+#endif
     entry=resource_entry((HMODULE)source,2,id,0x409);
     if (!output || capacity<=entry->length) recon_unsupported("unreviewed FormatMessageA capacity");
     memcpy(output,entry->text,entry->length); output[entry->length]=0;

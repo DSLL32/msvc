@@ -1640,3 +1640,15 @@ result uses the ordinary native typed-double ABI; no Watcom return-register or
 private x87-state equivalence is claimed. Focused exact arithmetic/bit-pattern,
 error/control-state and denial checks pass. Actual WASM conversion adoption is
 pending its ordinary original CRT closure, separately from this source release.
+
+Typed native diagnostic units additionally qualify five explicit510 fixed
+registered layouts:2104/2175 use ANSI filename,signed line,ASCII WCHAR name;
+2135 uses an ANSI third insert;1003 consumes one signed integer;20101 consumes
+no inserts. Exact templates/default-C, bounded spans, capacity and disjointness
+precede writes; count/NUL/tails and independent error/semantic FP state are
+checked. No general message grammar or original per-call state is claimed.
+The canonical RCDLL module's actual full219-entry table has no10056 message.
+For its exact flags0xa00/lang0/NULL-arguments/4096-byte-output tuple, failure
+returns0 with LastError317. Native output is untouched; original failure-buffer
+contents remain unmeasured. rc_message consumes only0 and selects literal empty
+text, which then initializes diagnostic storage. Unknown IDs/owners stay125.

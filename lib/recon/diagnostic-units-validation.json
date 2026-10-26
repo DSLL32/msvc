@@ -1,0 +1,13 @@
+{
+  "scope": "Five exact registered templates2104/2175 ASCII WCHAR third,2135 ANSI third,1003 signed int,20101 zero inserts. Explicit510/default-C; authenticated canonical missing10056 exact flags0xa00/lang0/NULL arguments/4096 output returns0/LastError317.",
+  "qualification": "Native typed App units only; no new original/controller. Native failed-output retention is not an original guarantee; rc_message immediately returns empty literal on0, ignores failed buffer, then strcpy initializes diagnostic text. Original per-call bytes/error/FP unmeasured. Natural threshold longjmp102 remains a separate denied boundary.",
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/diagnostic-units/receipt.json",
+  "receipt_sha256": "dae92de52489d593e47afe71a417369798b40fcdee3a69e4730eaf6487baa97b",
+  "source_sha256": {
+    "src/win32.c": "f6c238e56b5735b2982820612298a9eeac7bf3d833eec1efcf52f74da6bbeb86",
+    "tests/diagnostic-units-probe.c": "10333fb7b7c25db26177b37565983cd15500220d32c43698f6f5a2a647e9177b",
+    "tests/check-diagnostic-units.py": "634138e1676a10dbb40fd8f1c8cf6d9ada589d2613f3445087abd979a4b3f761"
+  },
+  "groups": 6,
+  "wall_s": 3.2238033581525087
+}
