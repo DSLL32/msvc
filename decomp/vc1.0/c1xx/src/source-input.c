@@ -14,6 +14,9 @@
 #include <recon.h>
 #undef _fileno
 
+char *source_display_path(void);
+void write_ide_progress(char *format, ...);
+
 SourceFile *active_input, *root_input, *free_inputs; /* 0x9d7e8/ec/f0 */
 int source_handle = -1; /* original 0x9d7f8 */
 /* Two guards precede each 4097-byte window. A large read can occupy later
@@ -458,4 +461,50 @@ void restart_source_input(void)
     fill_source_buffer();
     --source_text_cursor;
     *source_text_cursor = '\n';
+}
+
+/* Original0x1f310..0x1f324, cdecl0. IDE source messages use the
+   compiler's arena-owned display path and its own diagnostic formatter. */
+void report_ide_source(void)
+{
+    char *path = source_display_path();
+    write_ide_progress("@I4%s\n", path);
+}
+
+/* Original0x69b00..0x69b5b, cdecl0. Even reproducible spelling
+   owns a fresh256-byte arena slot; fullpath failure retains its NULL result. */
+char *source_display_path(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    char *path;
+    if (pool->remaining < 256) refill_arena(&compiler_arena, pool);
+    path = (char *)pool->next;
+    pool->remaining -= 256;
+    pool->next += 256;
+    if (!options.configuration.option_Brepro)
+        return _fullpath(path, source_filename, 256);
+    path[0] = '.';
+    path[1] = 0;
+    return path;
+}
+
+static int ide_line_group = -1; /* original0x9db30: signed line/16 group */
+
+/* Original0x1f330..0x1f35f, cdecl0. Throttle progress by signed
+   groups of sixteen lines, retaining one group across included source files. */
+void report_ide_line(void)
+{
+    int line = (int)source_line_number;
+    int group = line / 16;
+    if (ide_line_group != group) {
+        ide_line_group = group;
+        write_ide_progress("@I5%ld\n", (long)line);
+    }
+}
+
+/* Original0x1f360..0x1f374, cdecl0. Close each source-file progress
+   report with its actual final logical line number. */
+void report_ide_source_end(void)
+{
+    write_ide_progress("@I6%d\n", (int)source_line_number);
 }

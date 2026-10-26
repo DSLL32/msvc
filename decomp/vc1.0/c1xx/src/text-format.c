@@ -1,4 +1,5 @@
 /* The frontend's own text formatter, separate from the linked CRT. */
+#include <io.h>
 #include "text-format.h"
 #include "mangling.h"
 #include <recon.h>
@@ -90,4 +91,18 @@ int format_integer(unsigned value, char *cursor, unsigned radix)
         if (character) ++length;
     } while (character);
     return length;
+}
+
+/* Original0x73680..0x736cc, cdecl variadic. The frontend's own
+   formatter feeds descriptor2 directly rather than the CRT FILE buffers. */
+void write_ide_progress(char *format, ...)
+{
+    char buffer[512];
+    unsigned length;
+    va_list arguments;
+    va_start(arguments, format);
+    vformat_text(buffer, format, arguments);
+    va_end(arguments);
+    for (length = 0; buffer[length]; ++length) {}
+    _write(2, buffer, length);
 }

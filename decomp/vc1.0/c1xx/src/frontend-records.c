@@ -1585,3 +1585,13 @@ void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols)
     record.symbol = symbols->symbol;
     append_frontend_record(&record.header, sizeof(record));
 }
+
+/* Original0x40de0..0x40e2b, stdcall4. Constant switch conditions
+   preserve the full32-bit value in a zeroed twenty-byte work record. */
+void __stdcall record_boolean_constant(unsigned value)
+{
+    ConstantFrontendRecord record = {0};
+    record.header.kind = 0x3d;
+    record.value = value;
+    append_frontend_record(&record.header, sizeof(record));
+}

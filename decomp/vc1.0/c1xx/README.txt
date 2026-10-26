@@ -1,6 +1,36 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Protocol service is COMPLETE: case0038. The4,739-byte source/header
+workflow uses the supported -ide/-qc frontend mode, a fixed wire-schema switch,
+dynamic command dispatch, included packed records and observer callbacks. The
+untouched original accepts the source and exits0; no synthetic state or GUI
+interaction is involved. This is frontend compile/IR qualification, not proof
+of downstream quick-compile object compatibility or generated-program behavior.
+
+Six whole App bodies /329 code bytes were accepted: three IDE progress reporters,
+constant-condition work-record emission, and two genuinely discovered helpers
+previously absent from the registry. source_display_path owns a256-byte arena
+buffer and preserves the reproducible-name/fullpath branches. write_ide_progress
+uses the frontend formatter and descriptor2 directly. Both received named traps
+and genuine matching observations before reconstruction. The line reporter keeps
+its actual initial-1 signed group across included files; record emission retains
+all32 input bits and the zeroed twenty-byte structure. No shared change, new CRT
+body, guard or output exception was added.
+
+Fresh original/native observations match all six entries, exit0, IDE streams
+and six complete IR/browser artifacts, also exact against the untouched baseline.
+Totals:1,829 App bodies /1,936 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union404,012 /476,418 B is84.80% of whole original code
+extent, not a non-CRT denominator;62 named App stubs remain. All39 cached native
+cases,32 existing unit groups and the1,837-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original951.034 ms; native36.170 ms
+(setup19.933 ms, execution9.016 ms, checks7.221 ms). Complete closing gate3.327 s;
+incremental build walls were not separately measured. Raw artifacts and paired
+reports remain in scratch, outside cases and Git.
+
+Earlier completed component graph porting:
+
 Component graph porting is COMPLETE: case0037. The4,083-byte workload
 combines nested protocol interfaces, a shared virtual identity, side-effecting
 factory access and callback views. Independent obsolete reverse casts, mismatched

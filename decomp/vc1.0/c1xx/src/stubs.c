@@ -70,7 +70,6 @@ void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-void report_ide_source(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
@@ -87,7 +86,6 @@ void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape 
 
 
 
-void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 
 
 
@@ -121,11 +119,9 @@ unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) {
 
 
 
-void report_ide_source_end(void) { __asm { int 3 } }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
-void report_ide_line(void) { __asm { int 3 } }
 
 
 

@@ -7,6 +7,24 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_source_display_path",
+        .entry_rva = 0x59b00,
+        .code = (const ReconExtent[]) { { 0x59b00, 0x59b5b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "source_display_path",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_write_ide_progress",
+        .entry_rva = 0x63680,
+        .code = (const ReconExtent[]) { { 0x63680, 0x636cc } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "write_ide_progress",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_effective_warning_level",
         .entry_rva = 0x63340,
         .code = (const ReconExtent[]) { { 0x63340, 0x6336b } },
@@ -2495,22 +2513,25 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_ide_source",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_ide_line",
         .entry_rva = 0xf330,
-        .code = (const ReconExtent[]) { { 0xf330, 0xf331 } },
+        .code = (const ReconExtent[]) { { 0xf330, 0xf35f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_ide_line",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_ide_source_end",
         .entry_rva = 0xf360,
-        .code = (const ReconExtent[]) { { 0xf360, 0xf361 } },
+        .code = (const ReconExtent[]) { { 0xf360, 0xf374 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_ide_source_end",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_keyword_table",
@@ -7626,10 +7647,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_record_boolean_constant@4",
         .entry_rva = 0x30de0,
-        .code = (const ReconExtent[]) { { 0x30de0, 0x30de1 } },
+        .code = (const ReconExtent[]) { { 0x30de0, 0x30e2b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_boolean_constant",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_remove_matching_frontend_record@4",
