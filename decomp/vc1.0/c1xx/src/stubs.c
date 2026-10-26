@@ -265,7 +265,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 
 
 
-void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 
 
 void browser_end_macro_expansion(void) { __asm { int 3 } }

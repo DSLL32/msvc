@@ -20,6 +20,7 @@ unsigned debug_type_count; /* original 0xa25c0 */
 unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
+static DebugTypeFixup *last_debug_type_fixup; /* original0xa25b4 */
 
 /* Original 0x6e020..0x6e077. Keep a small reusable queue after
    flushing, shrinking larger allocations to the initial capacity. */
@@ -1199,9 +1200,66 @@ unsigned short line_record_pointer_type(CType *type, unsigned short base)
     }
     return intern_line_record((unsigned short)(extra + 6));
 }
+/* Original0x55330..0x55397, stdcall4. The500-byte local contains
+   only the encountered segment prefix and the actual interned source name. */
+char *__stdcall make_segment_debug_name(CppSymbol *symbol)
+{
+    char name[500], *destination = name;
+    const char *source = "__seg__";
+    do { *destination = *source++; } while (*destination++);
+    --destination;
+    source = symbol->name;
+    do { *destination = *source++; } while (*destination++);
+    return intern_identifier(name);
+}
+
+/* Original0x55270..0x55330, stdcall4. Permanent allocation supplies
+   the original zeroed symbol owner before these individual flag updates. */
 void __stdcall ensure_debug_constant_symbol(CppSymbol *symbol)
 {
-    __asm { int 3 }
+    CppSymbol *debug_symbol;
+    if (!options.configuration.debug_info || symbol->field28) return;
+    debug_symbol = allocate_permanent(sizeof(CppSymbol));
+    symbol->field28 = (unsigned)debug_symbol;
+    debug_symbol->kind = 9;
+    if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    debug_symbol->index = next_symbol_index++;
+    debug_symbol->name = make_segment_debug_name(symbol);
+    debug_symbol->type = symbol->type;
+    debug_symbol->declaration_flags = (debug_symbol->declaration_flags & ~0x100) | 0x200;
+    debug_symbol->storage[0] = (debug_symbol->storage[0] & ~5) | 2;
+    debug_symbol->storage[1] |= 0x80;
+    debug_symbol->storage[0] |= 0x40;
+    debug_symbol->flags |= 0x80;
+    debug_symbol->flags |= 4;
+    debug_symbol->attributes |= 0x8004;
+    ++debug_symbol->references;
+    insert_scope_symbol(global_scope, debug_symbol);
+}
+
+/* Original0x70420..0x70495, stdcall12. A16-byte work-arena owner
+   records each symbol substitution in order, relative to the current leaf. */
+void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes)
+{
+    ArenaPool *pool = &compiler_arena.pools[1];
+    DebugTypeFixup *fixup;
+    if (pool->remaining < (int)sizeof(DebugTypeFixup)) refill_arena(&compiler_arena, pool);
+    fixup = (DebugTypeFixup *)pool->next;
+    pool->remaining -= sizeof(DebugTypeFixup);
+    pool->next += sizeof(DebugTypeFixup);
+    if (!debug_type_fixups) {
+        last_debug_type_fixup = fixup;
+        debug_type_fixups = fixup;
+    } else {
+        last_debug_type_fixup->next = fixup;
+        last_debug_type_fixup = fixup;
+    }
+    fixup->next = 0;
+    fixup->symbol = symbol;
+    fixup->offset = (unsigned)location - (unsigned)debug_record_buffer;
+    fixup->bytes = bytes;
 }
 /* Original0x72c40..0x72ccb, cdecl2 with defined AX result. Based
    pointer leaves embed an actual stack/global symbol record and counted name. */

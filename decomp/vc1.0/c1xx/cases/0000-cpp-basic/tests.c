@@ -349,6 +349,39 @@ static int check_initializer_address_widths(void)
     symbol.kind = 13; type.flags = 0x802; type.related = 0;
     return initializer_address_size(&symbol) == 2;
 }
+/* Explicit unit-only legacy segment-debug ownership qualification. */
+static int check_segment_debug_owners(void)
+{
+    CType segment_type = {0};
+    CppSymbol segment = {0}, *debug_symbol;
+    unsigned char leaf[32] = {0};
+    DebugTypeFixup *first;
+    initialize_preprocessor(); initialize_type_table(); initialize_global_scope();
+    segment.kind = 13; segment.name = intern_identifier("DEVICE_SEG");
+    segment_type.flags = 0x802; segment.type = &segment_type;
+    options.configuration.debug_info = 0;
+    ensure_debug_constant_symbol(&segment);
+    if (segment.field28) return 0;
+    options.configuration.debug_info = 1;
+    next_symbol_index = 41; browser_symbol_limit = 0x7fffffffU;
+    ensure_debug_constant_symbol(&segment);
+    debug_symbol = (CppSymbol *)segment.field28;
+    if (!debug_symbol || debug_symbol->kind != 9 || debug_symbol->type != &segment_type ||
+        strcmp(debug_symbol->name, "__seg__DEVICE_SEG") || debug_symbol->index != 41 ||
+        debug_symbol->references != 1 || debug_symbol->flags != 0x84 ||
+        debug_symbol->declaration_flags != 0x200 || debug_symbol->storage[0] != 0x42 ||
+        debug_symbol->storage[1] != 0x80 || debug_symbol->attributes != 0x8004 ||
+        find_scope_symbol(global_scope, debug_symbol->name, 0) != debug_symbol) return 0;
+    ensure_debug_constant_symbol(&segment);
+    if ((CppSymbol *)segment.field28 != debug_symbol || next_symbol_index != 42) return 0;
+    debug_record_buffer = leaf;
+    queue_debug_type_fixup(&segment, leaf+6, 4);
+    first = debug_type_fixups;
+    queue_debug_type_fixup(&segment, leaf+14, 2);
+    return first && first->symbol == &segment && first->offset == 6 && first->bytes == 4 &&
+        first->next && first->next->symbol == &segment && first->next->offset == 14 &&
+        first->next->bytes == 2 && !first->next->next;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -374,5 +407,6 @@ const ReconTest c1xx_tests[] = {
     {"thunk-key relocation slot (unit-only)",1,check_thunk_key_relocation},
     {"database pool release (unit-only)",1,check_database_pool_release},
     {"segmented descriptor expression (unit-only)",1,check_segment_descriptor_expression},
-    {"initializer address widths (unit-only)",1,check_initializer_address_widths}
+    {"initializer address widths (unit-only)",1,check_initializer_address_widths},
+    {"segment debug owners (unit-only)",1,check_segment_debug_owners}
 };

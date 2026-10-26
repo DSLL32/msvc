@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1963 historical frontiers/1876 App bodies;
- * twenty support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1963 historical frontiers/1879 App bodies;
+ * Twenty-three support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -470,12 +470,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_make_segment_debug_name@4",
+        .entry_rva = 0x45330,
+        .code = (const ReconExtent[]) { { 0x45330, 0x45397 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "make_segment_debug_name",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_ensure_debug_constant_symbol@4",
         .entry_rva = 0x45270,
         .code = (const ReconExtent[]) { { 0x45270, 0x45330 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "ensure_debug_constant_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_encode_line_record_based_symbol",
@@ -13973,10 +13983,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_queue_debug_type_fixup@12",
         .entry_rva = 0x60420,
-        .code = (const ReconExtent[]) { { 0x60420, 0x60421 } },
+        .code = (const ReconExtent[]) { { 0x60420, 0x60495 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "queue_debug_type_fixup",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_debug_record",

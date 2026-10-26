@@ -1,6 +1,26 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Segment debug support is COMPLETE (native-unit-only): three whole App helpers
+add412 B: ensure_debug_constant_symbol(192 B), make_segment_debug_name(103 B)
+and queue_debug_type_fixup(117 B). Actual frontend callers establish their App
+role; no NT CLI segmented spelling or original-pair reach is claimed. The typed
+unit checks disabled-debug behavior, the permanent symbol/name/scope owner and
+index/cache identity, plus ordered work-arena fixups relative to the real leaf.
+Fresh permanent pages supply the original zero prestate; no extra initialization
+or guard was introduced. The encountered prefix remains an ordinary literal.
+
+Total is1,879 App /408,226 B (85.69% of whole original code),20 named pending
+App,1,963 historical frontiers,23 explicitly unit-qualified support bodies and
+seven unchanged historical CRT source bodies. All53 native cases and48 unit
+groups pass, with original compilation and the1,887-function six-check graph/ABI
+audit. Incremental build2.722 s; focused unit21.589 ms (setup11.864 ms,
+execution3.901 ms, checks5.824 ms). Closing gate34.458 s includes a further
+original-toolchain rebuild; individual compiler/audit components were unmeasured.
+No new original invocation/oracle or shared shim change was needed.
+
+Earlier scalar adapter qualification:
+
 Scalar adapter SDK v3 is COMPLETE: case0052 compiles global-qualified binary
 scalar/pointer bridges with a callback/typedef client. Three App bodies add455 B:
 operator_operand_expression(269 B), binary-token classifier(85 B) and unary-token
