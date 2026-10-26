@@ -252,3 +252,25 @@ void FreeDictionaryBlocks( void )
         DictionaryBlocks = NULL;
     }
 }
+
+/* Original0x420368: trial divisors for the sixteen-bit dictionary block
+   count. The named const object also gives the period MAP its data boundary. */
+const unsigned DictionaryPrimes[] = {
+    2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53,
+    59, 61, 67, 71, 73, 79, 83, 89, 97, 101, 103, 107, 109, 113,
+    127, 131, 137, 139, 149, 151, 157, 163, 167, 173, 179, 181,
+    191, 193, 197, 199, 211, 223, 227, 229, 233, 239, 241, 251, 0
+};
+
+/* Original0x413103..0x41313e. Stop once a divisor exceeds the square
+   root, or the finite table of possible sixteen-bit divisors is exhausted. */
+int isPrime( unsigned candidate )
+{
+    const unsigned *divisor;
+
+    for( divisor = DictionaryPrimes; *divisor != 0; ++divisor ) {
+        if( *divisor * *divisor > candidate ) break;
+        if( candidate % *divisor == 0 ) return( 0 );
+    }
+    return( 1 );
+}

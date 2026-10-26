@@ -231,3 +231,17 @@ int CompareNames( const unsigned char *first, const unsigned char *second )
         ++second;
     }
 }
+
+/* Original0x413333..0x41334f. Counted case-sensitive byte equality. */
+int NamesEqualCaseSensitive( const unsigned char *first, const unsigned char *second,
+                             unsigned first_length, unsigned second_length )
+{
+    if( first_length != second_length ) return( 0 );
+    while( first_length != 0 ) {
+        if( *first != *second ) return( 0 );
+        ++first;
+        ++second;
+        --first_length;
+    }
+    return( 1 );
+}

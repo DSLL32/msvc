@@ -1,6 +1,151 @@
 {
   "schema": 1,
   "functions": {
+    "base_10_num": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "dimension": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "char_to_digit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "base_36_2digit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "setSuppression": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "resetSuppression": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "prevChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "function": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "tq_function": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "array": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "pointer": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "basic_type": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "typeChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "modifier_list": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "unmodified_type": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "template_arg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "is_identifier": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "template_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ctor_or_convert": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "dtor_or_delete": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "operator_function": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "watcom_object": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "op_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "sym_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "scope": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "scoped_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "type_encoding": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "mangled_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "PrintModuleHeading": {
       "expected_cleanup": [
         0
@@ -86,6 +231,11 @@
         0
       ]
     },
+    "isPrime": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "NextPrime": {
       "expected_cleanup": [
         0
@@ -116,7 +266,32 @@
         0
       ]
     },
+    "setEmitIndex": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "resetEmitIndex": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "zapSpace": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "emitChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "emitStr": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "unforceSuppression": {
       "expected_cleanup": [
         0
       ]
@@ -139,6 +314,11 @@
     "init_descriptor": {
       "expected_cleanup": [
         12
+      ]
+    },
+    "full_mangled_name": {
+      "expected_cleanup": [
+        0
       ]
     },
     "do_copy": {
@@ -197,6 +377,11 @@
       ]
     },
     "GetComent": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "getcomdat": {
       "expected_cleanup": [
         0
       ]
@@ -341,6 +526,16 @@
         0
       ]
     },
+    "CreateTemporaryLibrary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CopyOutputFileName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "ValidateInputLibrary": {
       "expected_cleanup": [
         0
@@ -451,6 +646,11 @@
         0
       ]
     },
+    "NamesEqualCaseSensitive": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "NextNonwhite": {
       "expected_cleanup": [
         0
@@ -487,6 +687,16 @@
       ]
     },
     "ParseIndirect": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SkipComment": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseModuleName": {
       "expected_cleanup": [
         0
       ]

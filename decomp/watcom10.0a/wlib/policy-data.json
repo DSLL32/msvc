@@ -14,12 +14,6 @@
     },
     {
       "name": "strerror_"
-    },
-    {
-      "name": "unlink_"
-    },
-    {
-      "name": "rename_"
     }
   ],
   "shared_terminal_epilogues": [
@@ -352,6 +346,646 @@
         "start": 4269605,
         "bytes_hex": "5f5e5a595bc3"
       }
+    },
+    {
+      "owners": [
+        "ParseModuleName",
+        "ParseOptions"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseModuleName",
+        "SetPageOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseModuleName",
+        "SetListingOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseModuleName",
+        "SetOutputOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "full_mangled_name",
+        "mangled_name"
+      ],
+      "original": {
+        "start": 4286454,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "emitChar",
+        "emitStr"
+      ],
+      "original": {
+        "start": 4280366,
+        "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "scope",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "name",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "name",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "template_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "template_arg"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "template_arg"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "template_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "basic_type"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "template_arg"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "template_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "basic_type"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "function"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "template_arg"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "template_name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "basic_type"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "tq_function"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "operator_function"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "pointer"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "watcom_object"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "array"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
     }
   ],
   "shared_call_return_tails": [
@@ -422,6 +1056,770 @@
     {
       "owner": "GetDictionaryBlock",
       "entry": "CommitDictionaryBlock"
+    }
+  ],
+  "shared_terminal_regions": [
+    {
+      "owners": [
+        "dimension",
+        "tq_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4281999,
+            "bytes_hex": "31db31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "pointer"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4281999,
+            "bytes_hex": "31db31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "basic_type"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "template_arg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "pointer"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4281994,
+            "bytes_hex": "ba0500000031db31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "basic_type"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "template_arg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "basic_type"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "template_arg"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "scope"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "scoped_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
     }
   ]
 }

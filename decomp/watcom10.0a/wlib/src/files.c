@@ -236,3 +236,34 @@ void WriteFileBlock( OpenFile *file, const void *data, unsigned size )
         AbortCommand();
     }
 }
+
+/* Original0x412249..0x4122b9. Create an exclusive scratch file,
+   advancing only the last two basename digits on name collisions. */
+int CreateTemporaryLibrary( FileName *name )
+{
+    int handle, length;
+
+    for( ;; ) {
+        BuildFileName( name );
+        handle = open( FileErrorName, O_WRONLY | O_CREAT | O_BINARY | O_EXCL, 0666 );
+        if( handle != -1 ) {
+            close( handle );
+            return( 1 );
+        }
+        length = (signed char)name->NameLength;
+        ++name->Name[length - 1];
+        if( name->Name[length - 1] <= '9' ) continue;
+        name->Name[length - 1] = '0';
+        ++name->Name[length - 2];
+        if( name->Name[length - 2] > '9' ) return( 0 );
+    }
+}
+
+/* Original0x4127ea..0x412836. Preserve the input name while giving the
+   output its own path record for subsequent extension changes. */
+void CopyOutputFileName( void )
+{
+    *OutputLibraryName = *LibraryName;
+    OutputLibraryName->Path = AllocPoolItem( &PathPool, sizeof(PathName) );
+    *OutputLibraryName->Path = *LibraryName->Path;
+}

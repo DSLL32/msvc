@@ -51,10 +51,6 @@ void CloseFileCache( int handle )
     WLIB_FRONTIER();
 }
 
-void CopyOutputFileName( void )
-{
-    WLIB_FRONTIER();
-}
 
 
 int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
@@ -64,17 +60,7 @@ int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
 }
 
 
-unsigned char SkipComment( void )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
-unsigned char ParseModuleName( unsigned char ch )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 unsigned char SetImportOption( void )
 {
@@ -87,19 +73,9 @@ void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
     WLIB_FRONTIER();
 }
 
-int NamesEqualCaseSensitive( const unsigned char *first, const unsigned char *second,
-                             unsigned first_length, unsigned second_length )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 
-int CreateTemporaryLibrary( FileName *name )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
+
 
 
 int LoadExecutableCache( OpenFile *file )
@@ -114,24 +90,21 @@ void getcomdef( void )
     WLIB_FRONTIER();
 }
 
-void getcomdat( void )
-{
-    WLIB_FRONTIER();
-}
 
 
-void do_demangle( output_desc *data ) { WLIB_FRONTIER(); }
+int op_new( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
+int assignment_function( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
+int relational_function( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
+int special_type_names( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
+int check_recurse( void ) { WLIB_FRONTIER(); return( 0 ); }
+int recursive_mangled_name( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
+int base_32_num( output_desc *data, int *value ) { WLIB_FRONTIER(); return( 0 ); }
+int based_encoding( output_desc *data, state_desc *state ) { WLIB_FRONTIER(); return( 0 ); }
 
 
-void setEmitIndex( output_desc *data, unsigned index ) { WLIB_FRONTIER(); }
-void resetEmitIndex( output_desc *data, unsigned offset ) { WLIB_FRONTIER(); }
-void zapSpace( output_desc *data ) { WLIB_FRONTIER(); }
-void emitStr( output_desc *data, const char *text ) { WLIB_FRONTIER(); }
 void forceSuppression( output_desc *data ) { WLIB_FRONTIER(); }
-void unforceSuppression( output_desc *data ) { WLIB_FRONTIER(); }
 
 
-int isPrime( unsigned candidate ) { WLIB_FRONTIER(); return( 0 ); }
 
 
 char *CopyCountedName( int length, const char *name )

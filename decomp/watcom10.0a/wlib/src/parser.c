@@ -579,3 +579,30 @@ char *DuplicateText( const char *text )
     copy[length] = 0;
     return( copy );
 }
+
+/* Original0x41021f..0x410238. A newline resumes tokenization through
+   the ordinary whitespace reader; EOF remains the zero return value. */
+unsigned char SkipComment( void )
+{
+    unsigned char ch;
+
+    do {
+        ch = (*CommandReader)();
+    } while( ch != '\n' && ch != 0 );
+    if( ch != 0 ) return( NextNonwhite() );
+    return( ch );
+}
+
+/* Original0x4107f3..0x410841: a bare object name means replace/add,
+   borrowing its counted member name for the paired deletion request. */
+unsigned char ParseModuleName( unsigned char ch )
+{
+    char token[260];
+    FileName *name;
+
+    ch = ReadToken( ch, token );
+    if( token[0] == 0 ) ReportSyntaxError( 68, 87, &ch );
+    name = AddModule( token );
+    AddRemoveCommand( name, 0 );
+    return( ch );
+}

@@ -3,5 +3,10 @@
     "name": "lseek_",
     "start": 4291265,
     "end": 4291324
+  },
+  {
+    "name": "toupper_",
+    "start": 4288569,
+    "end": 4288583
   }
 ]

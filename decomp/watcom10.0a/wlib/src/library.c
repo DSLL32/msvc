@@ -674,3 +674,35 @@ void FinishOutput( void )
     lseek( file->Handle, 0, 0 );
     write( file->Handle, &header, sizeof(header) );
 }
+
+/* Original0x411b77..0x411c12. Public COMDAT names are taken from
+   LNAMES; continuation and local records contribute no new public symbol. */
+void getcomdat( void )
+{
+    unsigned allocation, index, i;
+    struct OmfName *name;
+    SymbolRecord *symbol;
+
+    if( *OmfRecordCursor & 5 ) return;
+    ++OmfRecordCursor;
+    allocation = *OmfRecordCursor++ & 15;
+    ++OmfRecordCursor;
+    GetOffset();
+    GetIndex();
+    if( allocation == 0 ) GetIdx();
+    index = GetIndex() - 1;
+    name = LName_Head;
+    while( index != 0 ) {
+        name = name->Next;
+        --index;
+    }
+    if( name->Local ) return;
+    symbol = AllocMemory( name->Length + 11 );
+    symbol->Flags &= 0x80;
+    symbol->Flags |= 1;
+    symbol->NameLength = name->Length;
+    for( i = 0; i < name->Length; ++i ) symbol->Name[i] = name->Name[i];
+    symbol->Name[name->Length] = 0;
+    symbol->Value.Owner = CurrentModuleSymbol;
+    InsertSymbol( symbol, 0 );
+}
