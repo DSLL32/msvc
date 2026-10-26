@@ -599,3 +599,19 @@ void convert_old_leaf_a7(TypeRecord *entry)
     entry->flags |= 8;
     entry->data = record;
 }
+
+void convert_old_barray(TypeRecord *entry)
+{
+    unsigned char *old = entry->data, *record;
+    unsigned short type = *(unsigned short *)(old+5);
+    /* Original defect: the storage choice reads an unwritten stack WORD
+       (entry ESP-14). Preserve this uninitialized local and both branches;
+       incidental stack contents are not a length read from the input. */
+    unsigned short old_length;
+    entry->flags |= 0x400;
+    if ((unsigned long)old_length+1 >= 4) record = old;
+    else record = resize_old_type(entry, 6);
+    *(unsigned short *)record = 4;
+    *(unsigned short *)(record+2) = 0x0d;
+    *(unsigned short *)(record+4) = type;
+}

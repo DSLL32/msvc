@@ -1,24 +1,25 @@
-CVPACK 4.25 (VC1.0 / 1.0-nt) is unfinished at **281 accepted application
-functions, 78,693 original code bytes, and 1 named trapping stub**.
+CVPACK 4.25 (VC1.0 / 1.0-nt) has **282 accepted application functions,
+78,826 original code bytes, and no named trapping stubs**. All currently
+identified application functions and all 22 active cases are complete.
 `binary.c` is the canonical function registry. Reconstruction has resumed after
 harness migration; CRT identities grant no application reconstruction credit.
 The legacy workload exposed the omitted old-directory comparator and corrected
 `read_old_directory`'s previously wrong newer-callback reference. The legacy case now completes with 141 matching first entries, exit 0 and matching
-streams and defined artifact bytes. The last accepted function is `convert_old_based_data32` (sequence 281,
-121 original code bytes), after `convert_old_based_bprel32` (sequence 280,
-121 bytes), both in `src/oldsymbols.c`. The two empty callbacks accepted at
+streams and defined artifact bytes. The last accepted function is `convert_old_barray` (sequence 282,
+133 original code bytes, `src/oldtypes.c`), preserving its genuine uninitialized
+control read under the user's explicit direction. The two empty callbacks accepted at
 sequences 269/270 each retain one byte of credit; their alignment remains excluded.
 Encountered converter dispatch and calls identified additional App helpers;
-the remaining BARRAY routine retains a named trapping stub and no accepted credit.
+all discovered application helpers now have reconstructed bodies.
 The reached line path also corrected `read_lines` to publish `line_directory`
 (original VA `0x17f30`), rather than the old source-module directory.
-The resumed workload has accepted 94 application functions.
+The resumed workload has accepted 95 application functions.
 Each has matching original/native progress and strict compiler/graph/data
 checks. The previous nineteen-case/nineteen-unit aggregate passed in 0.661s.
 The new callback case/check/unit, original compiler and strict 270-function
 graph/ABI/data gate passed in 1.846s without another aggregate replay.
-Twenty-two cases are active; twenty-one complete, with only 0013 retaining its
-BARRAY frontier. The previous baseline ended at `type_server_close` (sequence 187,
+Twenty-two cases are active and complete, including the original mixed BARRAY
+case (0013). The previous baseline ended at `type_server_close` (sequence 187,
 commit `a00fd6a90`). There were no candidate bodies or
 uncommitted source changes at migration start.
 
@@ -106,16 +107,13 @@ report-bound native replay took 8.936 ms (5.267 ms setup, 1.863 ms execution,
 1.805 ms checks). Native candidate rebuild was 0.470s, original typed helper
 compilation 2.409s. All receipts remain in owned `0021-noop-callbacks/` scratch.
 
-One application stub remains: `convert_old_barray` depends on the genuinely
-uninitialized stack WORD observed as both 0 and 0x7e, so the user's allowance for
-a consistent observed constant does not apply. The other four former limitations
-are resolved by the explicitly authorized format-authored NB08/NB02 CLI cases
-0022/0023 below. Well-formed authored old-format inputs are legitimate original
-oracle workloads; no historical producer provenance is claimed for them. More
-inputs do not by themselves resolve the BARRAY undefined-state problem, and no
-control value is guessed. Reconstruction pauses at that honest residual limit.
+The four former input-reach limitations were resolved by the authorized
+format-authored NB08/NB02 CLI cases 0022/0023 below. Well-formed authored
+old-format inputs are legitimate original oracle workloads; no historical
+producer provenance is claimed for them. The final BARRAY hold was resolved by
+preserving the defect rather than substituting a constant, as described below.
 
-There is no candidate body at this checkpoint. `0013-mixed-c6-wide` is a
+`0013-mixed-c6-wide` is a
 format-authored NB02 workload with two modules, twelve C6 types per module,
 valid 16/32-bit local symbols, multiple files and contributions. Its exact
 1,127-byte input SHA256 is
@@ -124,16 +122,19 @@ valid 16/32-bit local symbols, multiple files and contributions. Its exact
 This is explicitly authored data, not historical producer output. The original
 accepted it without warnings (exit 0, 142 first entries); its raw 1,796-byte
 output SHA256 is `c7ae04c29ec0b09bc33c246d62edbf3cca5b0c98977d58e559698bddec36fb1e`.
-That case remains partial at `convert_old_barray` (`0x122e0`): the original
-reads an uninitialized stack word to choose storage. This is an unresolved
-application control defect, not output padding. A candidate preserving the
-Win32 read and explicitly trapping native execution is saved in owned scratch;
-no body is accepted and no control variable is normalized. One bounded natural
-original observation measured `0x0000` in module1 (resize) and `0x007e` in
-module2 (reuse), unchanged between entry and the actual test. The original
-then exited0. The value is not consistent, so no hardcoded substitute is
-justified; original raw captures and the two-visit diagnostic remain in scratch. The mistakenly
-zeroed candidate was withdrawn in `37f62be32`; its raw history remains intact.
+The original `convert_old_barray` (`0x122e0`) reads an unwritten local WORD at
+function-entry ESP-14 to choose between reusing the old record and calling
+`resize_old_type(entry,6)`. The word is not an input field or an ABI parameter.
+One bounded natural original observation measured `0x0000` in module1 (resize)
+and `0x007e` in module2 (reuse), unchanged between entry and the test; the process
+then exited0. The values differ, so no hardcoded substitute is justified.
+The mistakenly zeroed candidate was withdrawn in `37f62be32`; its raw history,
+the later native-trapping candidate and the two-visit diagnostic remain in
+owned scratch. The user subsequently explicitly authorized preserving the
+uninitialized read itself. The accepted body uses a plain unwritten
+`unsigned short old_length`, comments the defect and retains both branches in
+Win32 and native builds. Neither stack values nor heap addresses are forced or
+compared. This case now completes against a fresh masked original receipt.
 `0014-mixed-c6-no-barray` is a separate authored variant excluding that type,
 with eleven types per module and adjusted references. Reproduce it with
 `scripts/make-mixed-c6-input.py OUTPUT_DIRECTORY --without-barray`.
@@ -207,7 +208,7 @@ and the actual control test, and both processes exited0. This is evidence for
 those two runs, not a universal allocator property. Under the user's explicit
 allowance, `type_server_open_file` now initializes that exact mode to the
 observed zero, with a source defect comment in both builds. The varying BARRAY
-word remains pending; it was never constant. The genuine PDB case now completes
+word is preserved uninitialized in its accepted body; it was never constant. The genuine PDB case now completes
 with138 matching entries, exit0, exact streams and the 2,506,972-byte output
 SHA256 `6ef7547e30dd814adac91915596c76e95584f9928d0659271564580f444853b9`.
 Its3,180 proven reference padding words are masked and required to be zero;
@@ -228,16 +229,16 @@ implementation. Shared CRT compatibility remains in `lib/recon/`.
 
 Run `make -j4 native cases`, `make -j4 check unit`, and `make -j4 win32 audit`
 from this directory. Shared `recon-tool.mk` builds `.build/libbinary.so` once,
-automatically discovers the twenty numbered `case.c` descriptors, and runs their
+automatically discovers the twenty-two numbered `case.c` descriptors, and runs their
 cached trace/status/stream/artifact checks in independent native workspaces.
 Fixtures never invoke Wine or recapture. `win32` explicitly uses the original
 compiler through the shared Wine prefix. `audit` compares full original/compiler
 application CFGs, RET cleanup, extent ownership and instruction overlap;
 `check-context.py` additionally checks 217 initial data objects, diagnostic
-strings, typed callback identities and source/stub inventory. Target-specific
+strings, typed callback identities and application source inventory. Target-specific
 switch/SEH/compiler annotations live in `policy-data.json`.
 
-Nineteen dispatched cases complete; 0013 retains its matching BARRAY frontier.
+All twenty-two dispatched cases complete, including 0013.
 0015 is retired from the active tree. All active cases retain explicit unseeded
 first-entry order. The PDB cases materialize owned PDB bytes under
 private native Z: namespaces while preserving the original embedded Windows
@@ -379,5 +380,29 @@ The raw oracle and comparison-only derivation remain in owned
 `resume-20261025/0023-wide-storage/` scratch. The final `make -j4 check unit win32
 audit` passed all 22 cached cases, all 22 unit invocations, the original compiler,
 281 strict graphs/ABIs/ownership/extents and 217 contextual objects in 2.667 s.
-No original is run by that regression batch. The varying BARRAY control defect,
-0013 partial oracle and parked historical 0015 work remain unchanged.
+No original is run by that regression batch. Historical BARRAY partial oracles
+and parked 0015 work remain preserved; the later BARRAY completion is below.
+
+
+The final `0013-mixed-c6-wide` completion preserves the BARRAY control defect
+without repairing it. Both the native compiler and original VC1 compiler retain
+an actual read of an unwritten WORD, increment/compare and conditional
+resize/reuse branches; ordinary locals suffice, so no volatile, inline assembly,
+fixed constant or input-length substitution was added. The two branches emit
+the defined six-byte LF_BARRAY record (length 4, leaf 0x0d, referent 0x21).
+The fresh masked original/native pair agrees on all 142 first entries, exit 0,
+streams and the entire 1,796-byte raw output with the historical SHA256 above.
+There was no allocation-only first-entry discrepancy. The final fixture masks
+only the two previously proven pointer-output attribute bytes containing
+reserved bit 0x0800; a case-owned assertion requires all eight native bits zero,
+independently preserving the seven defined bits. No BARRAY control state or
+record content is normalized. Raw captures and compiler listings remain in
+`resume-20261026/barray-faithful/`, including the untouched original receipt and
+its explicit comparison-only derivation. Original capture took 1,317.559 ms;
+the final report-bound native replay took 13.131 ms (setup 5.638, execution 3.444,
+checks 4.049). Initial native/original builds took 5.890 s; the case-end
+`make -j4 check unit win32 audit` passed all 22 cached cases, 22 unit invocations,
+282 strict application graphs/ABIs/ownership/extents and 217 contextual data
+objects in 0.929 s. There is no pending application body; the separate documented
+mapping-handle sharing gap and unexercised guarded paths remain qualifications
+on supported native behavior, not new reconstruction credit.

@@ -1265,8 +1265,10 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_old_barray",
         .entry_rva = 0x122e0,
+        .code = (const ReconExtent[]){{0x122e0, 0x12365}},
+        .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "convert_old_barray",
     },
     {

@@ -2059,7 +2059,7 @@
       },
       "_convert_old_barray": {
         "abi": "void convert_old_barray(TypeRecord *)",
-        "source": "src/stubs.c",
+        "source": "src/oldtypes.c",
         "stack_cleanup": 0,
         "roots": []
       },

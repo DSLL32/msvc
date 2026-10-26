@@ -1,5 +1,8 @@
-/* Format-authored mixed C6 case; original/native frontier qualification. */
+/* Format-authored mixed C6 case; complete original/native CLI comparison. */
 #include <recon-tool.h>
+#include <recon-output.h>
+#include <stdio.h>
+#include <string.h>
 extern int main(int, char **, char **);
 static int invoke(int argc, char **argv) { return main(argc, argv, (char **)0); }
 static const uint32_t order[] = {
@@ -84,11 +87,96 @@ static const uint32_t order[] = {
     0xf0a0,
     0xf0d0,
     0x122e0,
-
+    0x11e80,
+    0x17100,
+    0x12e00,
+    0x12e90,
+    0x11dc0,
+    0x12370,
+    0x14670,
+    0x147f0,
+    0x140f0,
+    0x13f20,
+    0x14500,
+    0x14970,
+    0x13af0,
+    0x17ea0,
+    0x145b0,
+    0x144e0,
+    0xbd60,
+    0x8430,
+    0x8a60,
+    0x9140,
+    0x9100,
+    0x13400,
+    0x13340,
+    0x133c0,
+    0x13220,
+    0x131c0,
+    0x143b0,
+    0x14730,
+    0x148b0,
+    0x141a0,
+    0x14000,
+    0x94f0,
+    0xbf10,
+    0xd440,
+    0xd390,
+    0xd350,
+    0xd3f0,
+    0x100a0,
+    0x11320,
+    0x18090,
+    0x10cb0,
+    0xb6d0,
+    0xdde0,
+    0x9530,
+    0xcb90,
+    0xd070,
+    0xba10,
+    0xdac0,
+    0x10ec0,
+    0xb240,
+    0x130e0,
+    0x130f0,
+    0x181f0,
+    0x1a670,
+    0x1a450,
+    0x19ba0,
+    0x19c50,
+    0x19ed0,
+    0x19f50,
+    0x1a850,
+    0x1a120,
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase),
  "mixed-c6-wide", "Authored 16/32-bit C6 symbols, types and multifile line ranges.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x122e0,
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_EXIT, 0,
  NULL, invoke, NULL, NULL, 0
+};
+
+/* Original pointer conversion leaves attribute bit 0x0800 unwritten. Mask
+   its containing byte, while independently requiring all eight native bits
+   zero: the seven defined bits remain exact, as does the native zero policy. */
+static int check_outputs(const ReconOutputContext *context)
+{
+    unsigned char bytes[1796];
+    char path[4096];
+    FILE *file;
+    int okay;
+    if (!context || context->struct_size != sizeof(*context) ||
+        context->terminal_kind != RECON_OUTPUT_EXIT || context->terminal_value ||
+        !context->workspace_cwd) return 0;
+    if (snprintf(path, sizeof(path), "%s/mixed-c6.dbg", context->workspace_cwd)
+        >= (int)sizeof(path)) return 0;
+    file = fopen(path, "rb");
+    if (!file) return 0;
+    okay = fread(bytes, 1, sizeof(bytes), file) == sizeof(bytes) &&
+           fgetc(file) == EOF && !ferror(file);
+    if (fclose(file)) okay = 0;
+    return okay && !memcmp(bytes, "NB09", 4) && !bytes[1521] && !bytes[1545];
+}
+RECON_EXPORT const ReconOutputPolicy case_output_policy = {
+ RECON_OUTPUT_POLICY_VERSION, sizeof(ReconOutputPolicy), check_outputs
 };
