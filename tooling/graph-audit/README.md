@@ -843,7 +843,7 @@ for two implemented canonical App owners, including disconnected chunks:
 }}]}
 ```
 
-The sorted exact-byte regions (1–32 bytes total) must equal the complete pairwise
+The sorted exact-byte regions (1–64 bytes total) must equal the complete pairwise
 code intersection and end both owning chunks. Both existing owner CFGs must
 discover identical complete instruction coverage and successors. Every branch is
 explicitly inventoried; all normal successors stay within the union and form an

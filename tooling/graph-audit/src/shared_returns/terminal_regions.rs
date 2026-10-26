@@ -116,8 +116,8 @@ fn validate(
     for part in &region.regions {
         let hex = &part.bytes_hex;
         ensure!(
-            hex.is_ascii() && !hex.is_empty() && hex.len().is_multiple_of(2) && hex.len() <= 64,
-            "shared terminal regions require 1..32 exact bytes"
+            hex.is_ascii() && !hex.is_empty() && hex.len().is_multiple_of(2) && hex.len() <= 128,
+            "shared terminal regions require 1..64 exact bytes"
         );
         let raw: Vec<u8> = (0..hex.len() / 2)
             .map(|i| u8::from_str_radix(&hex[i * 2..i * 2 + 2], 16))
@@ -140,8 +140,8 @@ fn validate(
         ranges.push((part.start, end));
     }
     ensure!(
-        !bytes.is_empty() && bytes.len() <= 32,
-        "shared terminal regions require 1..32 total bytes"
+        !bytes.is_empty() && bytes.len() <= 64,
+        "shared terminal regions require 1..64 total bytes"
     );
     let mut overlap = Vec::new();
     for (lo, hi) in a.code_ranges() {
@@ -384,6 +384,63 @@ mod tests {
         cfg: &Value,
     ) -> Result<super::super::SharedReturns> {
         super::super::SharedReturns::parse(cfg, &json!({}), image, records, records, Path::new("."))
+    }
+    #[test]
+    fn terminal_region_size_limit_is_64_bytes_across_all_parts() -> Result<()> {
+        fn sized(parts: &[usize]) -> (crate::pe::Pe, Vec<Record>, Value) {
+            let mut code = vec![0x90; 0x100];
+            code[..5].copy_from_slice(&[0x55, 0x89, 0xe5, 0xeb, 0x3b]);
+            code[0x10..0x15].copy_from_slice(&[0x55, 0x89, 0xe5, 0xeb, 0x2b]);
+            let mut chunks = Vec::new();
+            let mut regions = Vec::new();
+            let mut branches = Vec::new();
+            let mut start = 0x40;
+            for (index, &size) in parts.iter().enumerate() {
+                let end = start + size;
+                if index + 1 == parts.len() {
+                    code[end - 1] = 0xc3;
+                } else {
+                    code[end - 2..end].copy_from_slice(&[0xeb, 0x10]);
+                    branches
+                        .push(json!({"site":0x401000 + end - 2,"target":0x401000 + end + 0x10}));
+                }
+                chunks.push((0x401000 + start as u32, 0x401000 + end as u32));
+                regions.push(json!({"start":0x401000 + start,"bytes_hex":code[start..end].iter().map(|v|format!("{v:02x}")).collect::<String>()}));
+                start = end + 0x10;
+            }
+            let records: Vec<_> = [("a", 0x401000), ("b", 0x401010)]
+                .into_iter()
+                .map(|(name, start)| Record {
+                    name: name.into(),
+                    start,
+                    end: start + 5,
+                    code_chunks: chunks.clone(),
+                    shared: vec![],
+                    evidence: Value::Null,
+                    pending_extent: false,
+                })
+                .collect();
+            let registry: Vec<_> = records.iter().map(|r|json!({"name":r.name,"rva":r.start-0x400000,
+                "definition":4,"implementation":1,"code":r.code_ranges().map(|(a,b)|[a-0x400000,b-0x400000]).collect::<Vec<_>>()})).collect();
+            let cfg = json!({"target":{"base":0x400000},"function_registry":registry,
+                "shared_terminal_regions":[{"owners":["a","b"],"original":{"regions":regions,"branches":branches}}]});
+            (crate::tests::image(&code), records, cfg)
+        }
+        for parts in [vec![33], vec![64], vec![32, 32]] {
+            let (image, records, cfg) = sized(&parts);
+            assert!(parse_fixture(&image, &records, &cfg)?.permits(&records[0], &records[1]));
+        }
+        for (parts, expected) in [(vec![65], "exact bytes"), (vec![32, 33], "total bytes")] {
+            let (image, records, cfg) = sized(&parts);
+            assert!(
+                parse_fixture(&image, &records, &cfg)
+                    .err()
+                    .unwrap()
+                    .to_string()
+                    .contains(expected)
+            );
+        }
+        Ok(())
     }
     #[test]
     fn disconnected_terminal_region_retains_both_real_owner_paths() -> Result<()> {

@@ -1,0 +1,36 @@
+{
+  "scope": "Raise only exact shared_terminal_regions per-region and aggregate bound from32 to64bytes; all structural/ABI/permission checks unchanged.",
+  "validation_sha256": "5a0a2ea10ff0bdda72005eca707225e0e83122375b9a677d0bf64622c980e3a7",
+  "release_sha256": "7708b45ec1faa0aecf8ce50bfc38140d15e4dd404239382d57644e675deef54c",
+  "sources": {
+    "src/shared_returns/terminal_regions.rs": "e5383571fd968490d22477e82de38b4e4d9c366e431a235baa5cd18def4a29f9",
+    "README.md": "1639f4a6f56f6fe49a94f72a5fbb26273f43952fa390c4703de7eb217556e9c3"
+  },
+  "actual_scoped_owners": 9,
+  "actual_region_bytes": 36,
+  "actual_seconds": 0.030781605280935764,
+  "denials": 6,
+  "unit_tests": 5,
+  "new_unit_tests": 1,
+  "boundary_pass": [
+    33,
+    64,
+    "32+32"
+  ],
+  "boundary_reject": [
+    65,
+    "32+33"
+  ],
+  "parity": [
+    "prior opaqueCALL report byte-identical",
+    "absent-regions default report byte-identical"
+  ],
+  "limits": [
+    "No target execution or new original capture. No speedup claim.",
+    "Analysis scope keeps original accepted9; three real callee driver identities restored from frozen fullconfig for existing target validation.",
+    "Clippy all-targets passes allowing only baseline shared MAP parser needless_borrow lint; that unrelated file is unchanged."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/terminal-region-64",
+  "canonical_build_seconds": 68.27318749669939,
+  "canonical_bit_identical": true
+}
