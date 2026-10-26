@@ -29,6 +29,12 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   It emits the genuine RC4509 warning that types 10 and 240 both map to `HEXA`,
   with empty stderr and exit zero. All 174 original first-entry encounters match.
 
+- `0003-editor-resources`: an editor UI combining nested MENUEX menus, toolbar,
+  DIALOGEX class/help/creation data, stringification of `1.25`, character and
+  integer-kind conditionals, and `#pragma code_page(1252)`. It produces the exact
+  RES SHA-256 `78c839c66d51f02cf24789894a69ea787b6a0af945fbe8d4950419a4fab3de72`,
+  empty streams and exit zero, with all 200 original first-entry encounters.
+
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
 controls are set separately. Its fresh final masked-original capture uses the
@@ -38,8 +44,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **241 functions and 58,287 unique
-original code bytes**, **78.12% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **261 functions and 61,760 unique
+original code bytes**, **82.78% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -52,12 +58,13 @@ boundaries and reported 51,823 bytes; the corrected record-bounded count is
 51,779, with no code or credit added by that accounting correction.
 
 The Mac case adds 21 application bodies and 6,508 code bytes to the completed
-rich-case baseline of 220 / 51,779. The current registry has 46 pending App records
-with 6,435 known code bytes, plus 12 unknown records spanning 1,620 bytes whose
-classification is unresolved. Remaining areas include classic menus/toolbars,
-APSTUDIO recording, pragma/codepage handling, literals and diagnostics, plus
-unvisited Macintosh resizing and byte mapping. These records are a classified
-subset, not a complete non-CRT denominator.
+rich-case baseline of 220 / 51,779. The editor case adds 20 application bodies and 3,473 code bytes, including eight
+newly identified MENUEX/toolbar helpers. The current registry has 34 pending App
+records with 4,085 known code bytes, plus four unknown records spanning 497 bytes
+whose classification is unresolved. Remaining areas include APSTUDIO recording,
+codepage changes, escape/error handling and unvisited Macintosh resizing and
+byte mapping. These records are a classified subset, not a complete non-CRT
+denominator.
 
 The two historical startup CRT bodies (555 bytes), import thunks (12 bytes)
 and provided 47-byte __chkstk helper receive no application credit. __chkstk
@@ -130,3 +137,40 @@ report was inadvertently overwritten during adoption; its separate genuine GDB
 denial report/log and failed ELF remain preserved, and the derivation records
 that limitation. Earlier WIP and failure evidence retains its original scope.
 Further substantial cases will target the remaining application owners.
+
+
+The editor case retains valid RC input and initialized asset extents. Its final
+masked capture is byte-for-byte identical to the untouched valid-input capture.
+Earlier invalid source drafts, native service denials and the packed-argument
+guard failure remain separate scratch evidence. Character class 6 constants and
+MENUEX caption concatenation beyond the caller's 257-WCHAR object trap in both
+builds. The three contextual MENUEX grammars include only their finite field and
+end-token sets; the header's original zero end-count WORD has no surrounding
+storage or mutable-alias claim. Typed 532-byte menu items preserve the actual
+fields, caption offset 18 and low-WORD output offsets. Toolbar dimensions are
+WORD outputs and its count deliberately shares the existing dialog count owner.
+
+The numeric guard now admits the current frame's selected packed argument only
+after checking its record chain, initialized payload/NUL/A trailer, first-character
+alias, alignment and upper-workspace capacity. It does not admit arbitrary lower
+workspace addresses or replace the existing live-owner premise. The actual
+fraction spelling is `1.25`; exponent/suffix checks are native units, not extra
+original API observations. Shared additions are limited to explicit VC5.10 validity
+of codepage 1252 and the exact default-C pragma `swprintf` format. Original per-call
+API state remains unmeasured.
+
+The editor final original took 1,365.445 ms; final native comparison took 14.823 ms
+(setup 7.179, execution 6.115, checks 1.530 ms). All four cached cases, 106 unit groups
+and both builds passed in 0.437 s; strict graph/ABI and SEH-role checks passed in
+0.945 s. A final descriptor compile error was corrected before the passing batch.
+The scratch updater had also left earlier WIP cached descriptors with empty
+orders and their initial DLL path; every fresh pair explicitly selected the
+actual original report and compared its full trace/frontier. Final cached data
+now includes all 200 encounters and actual DLL identity. Historical WIP reports
+are unchanged and are not presented as cached-descriptor validation.
+
+Editor evidence, exact compiled sources, failed drafts, matching captures,
+accounting and end gates are retained under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/editor-resources/0025-control-patch/`, with earlier
+frontiers alongside it. Further coherent workloads will target the remaining
+application routines without changing these accepted limitations.

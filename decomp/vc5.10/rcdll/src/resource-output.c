@@ -260,6 +260,41 @@ void __stdcall rc_mark_last_menu_item(WORD offset)
     rc_resource_buffer[position]|=0x80;
 }
 
+WORD __stdcall rc_write_extended_menu_item(RcExtendedMenuItem *item)
+{
+    DWORD value;
+    WORD flags,offset;
+    extern int rc_mac;
+    value=rc_mac?rc_mac_long(item->type):item->type;
+    *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    value=rc_mac?rc_mac_long(item->state):item->state;
+    *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    value=rc_mac?rc_mac_long(item->id):item->id;
+    *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    offset=(WORD)rc_resource_buffer_used;
+    flags=rc_mac?(WORD)rc_mac_word(item->flags):item->flags;
+    *(WORD *)rc_reserve_resource_bytes(2)=flags;
+    rc_write_resource_string(item->caption,1);
+    rc_pad_resource_buffer();
+    if(item->flags&1){
+        value=rc_mac?rc_mac_long(item->help):item->help;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }
+    return offset;
+}
+
+void __stdcall rc_patch_control_data_size(WORD size,int enabled)
+{
+    if(enabled){
+#ifdef RECON_NATIVE_TEST
+        if(!rc_resource_buffer||rc_resource_buffer_used<2||
+           rc_resource_buffer_used>rc_resource_buffer_size||
+           rc_control_data_offset>(unsigned)rc_resource_buffer_used-2){ __asm int 3 }
+#endif
+        *(WORD *)(rc_resource_buffer+rc_control_data_offset)=size;
+    }
+}
+
 /* RVA 25584 is a separate DWORD in the original loader-zeroed data tail.
  * Each accelerator records its own offset before any bytes are appended. */
 DWORD rc_accelerator_offset;

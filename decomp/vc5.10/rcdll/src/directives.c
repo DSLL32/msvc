@@ -1,5 +1,6 @@
 #include <string.h>
 #include <wchar.h>
+#include <wctype.h>
 #include "command.h"
 #include "preprocess.h"
 #include "directives.h"
@@ -637,4 +638,55 @@ classify:
         }else if(token>6&&token<=8)rc_skip_inactive_quoted(character);
         character=rc_read_nonspace();
     }
+}
+
+
+UINT __cdecl rc_parse_pragma(void)
+{
+    UINT page=0;
+    WCHAR character;
+    unsigned char token;
+    unsigned message;
+    int saved;
+
+    character=rc_read_nonspace();
+    if(character==L'\n')goto discard;
+    rc_read_identifier(character);
+    _wcsupr(rc_macro_name);
+    if(wcscmp(rc_macro_name,L"CODE_PAGE"))goto discard;
+    character=rc_read_nonspace();
+    if(character!=L'('){
+        --rc_source_cursor;message=4210;goto error;
+    }
+    character=rc_read_nonspace();
+    if(iswctype(character,4)){
+        saved=rc_cpp_active;rc_cpp_active=0;
+        token=rc_read_number(character);
+        rc_cpp_active=saved;
+        if((token>=7&&token<=10)||(token>32&&token<=34)||
+           (token>35&&token<=37))
+            page=((RcIntegerToken *)rc_token_value)->value;
+    }
+    if(!page){
+        rc_read_identifier(character);
+        _wcsupr(rc_macro_name);
+        if(!wcscmp(rc_macro_name,L"DEFAULT"))page=rc_saved_codepage;
+        else{
+            wsprintfA(rc_error_text,"%s%ws",rc_message(4212),rc_macro_name);
+            rc_input_error(4212);
+        }
+    }
+    if(rc_read_nonspace()!=L')'){
+        --rc_source_cursor;message=4211;
+error:
+        strcpy(rc_error_text,rc_message(message));
+        rc_input_error(message);
+    }
+    swprintf(rc_macro_name,L"#pragma code_page %d\r\n",page);
+    rc_write_preprocessed(rc_macro_name,wcslen(rc_macro_name)*2,1,
+                          rc_cpp_output_file);
+discard:
+    while(rc_get_logical_character()!=L'\n');
+    --rc_source_cursor;
+    return page;
 }

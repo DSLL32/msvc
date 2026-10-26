@@ -43,6 +43,21 @@ unsigned __cdecl rc_next_resource_character(void)
  * token copier. Unidentified field roles and untouched string tails stay
  * unknown; a local backup is deliberately not initialized. */
 RcResourceToken rc_resource_token;
+
+void __stdcall rc_copy_resource_token(RcResourceToken *to,const RcResourceToken *from)
+{
+    to->unknown0=from->unknown0;
+    to->line=from->line;
+    to->file_index=from->file_index;
+    to->unknown12=from->unknown12;
+    to->value=from->value;
+    to->kind=from->kind;
+    to->unknown19=from->unknown19;
+    wcscpy(to->text,from->text);
+    wcscpy(to->filename,from->filename);
+    to->unknown1036=from->unknown1036;
+    to->unknown1038=from->unknown1038;
+}
 int rc_resource_line_start=1;
 DWORD rc_resource_total_lines,rc_resource_recording;
 char rc_resource_filename[MAX_PATH];

@@ -36,6 +36,15 @@ typedef struct RcMenuItem {
 typedef char RcMenuItemLayout[
     sizeof(RcMenuItem)==520 && offsetof(RcMenuItem,caption)==2 &&
     offsetof(RcMenuItem,flags)==516 && offsetof(RcMenuItem,unknown518)==518 ? 1 : -1];
+typedef struct RcExtendedMenuItem {
+    DWORD id,type,state,help;
+    WORD flags;
+    WCHAR caption[257];
+} RcExtendedMenuItem;
+typedef char RcExtendedMenuItemLayout[
+    sizeof(RcExtendedMenuItem)==532&&offsetof(RcExtendedMenuItem,flags)==16&&
+    offsetof(RcExtendedMenuItem,caption)==18?1:-1];
+WORD __stdcall rc_write_extended_menu_item(RcExtendedMenuItem *);
 /* Exact 0x826-byte allocation and actual packed field accesses. The WORD at
  * 18 has no established role. Strings occupy the copier's bounded 257 units. */
 #pragma pack(push,2)
@@ -124,7 +133,12 @@ extern BYTE *rc_resource_buffer;
 extern FILE *rc_resource_data_file;
 void __stdcall rc_resource_data_fatal(unsigned);
 int __cdecl rc_read_resource_name(void);
-void __stdcall rc_parse_menu(int extended,RcResource *resource);
+int __stdcall rc_parse_menu(int nested,RcResource *resource);
+void __cdecl rc_parse_extended_menu_fields(unsigned grammar,...);
+WORD __stdcall rc_parse_extended_menu_item(int popup);
+int __stdcall rc_menu_token_in_set(const WORD *tokens);
+WORD __stdcall rc_read_extended_menu_number(const WORD *,int,void *);
+WORD __stdcall rc_read_extended_menu_caption(const WORD *,WCHAR *);
 void __stdcall rc_resource_error(unsigned code);
 void __stdcall rc_resource_error_name(unsigned code,const void *name);
 long __cdecl rc_read_resource_file(void);
@@ -236,7 +250,9 @@ void __cdecl rc_write_mac_resource_file(void);
 int __stdcall rc_is_mac_icon_type(const RcResourceType *);
 unsigned __stdcall rc_assign_mac_resource_id(RcResourceType *,RcResource *);
 DWORD __stdcall rc_mac_resource_type(const WCHAR *,WORD);
-void __stdcall rc_parse_toolbar_resource(RcResource *resource);
+int __stdcall rc_parse_toolbar_resource(RcResource *resource);
+WORD __cdecl rc_read_toolbar_number(void);
+void __stdcall rc_read_toolbar_dimensions(WORD *,WORD *);
 int __stdcall rc_parse_dialog(RcResource *,RcDialog *,int);
 WORD __cdecl rc_read_dialog_coordinate(void);
 void __stdcall rc_read_dialog_rectangle(WORD *,WORD *,WORD *,WORD *);

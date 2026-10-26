@@ -54,3 +54,52 @@ WCHAR *__stdcall rc_copy_wide_end(WCHAR *destination,const WCHAR *source)
     }
     return destination;
 }
+
+unsigned char __cdecl rc_read_character_constant(void)
+{
+    extern int rc_cpp_J;
+    unsigned char token=rc_cpp_J?9:7;
+    WCHAR character,closing;
+    unsigned value[2];
+    for(;;){
+        character=*rc_source_cursor++;
+        switch(rc_character_token(character)){
+        case 3:
+            if(rc_resume_input()!=16)continue;
+            value[0]=rc_escape_character(rc_get_logical_character());
+            if(token==9)value[0]&=255;
+            goto close_quote;
+        case 5:
+            strcpy(rc_error_text,rc_message(2001));
+            rc_input_error(2001);
+            --rc_source_cursor;
+            break;
+        case 6:
+            /* Original leaves the local value uninitialized for this synthetic
+             * token. It is outside the supported character-constant input. */
+            __asm int 3
+            goto close_quote;
+        case 7:
+            strcpy(rc_error_text,rc_message(2137));
+            rc_input_error(2137);
+            value[0]=0;
+            --rc_source_cursor;
+            goto close_quote;
+        }
+        value[0]=character;
+        break;
+    }
+close_quote:
+    closing=rc_get_logical_character();
+    if(closing!=L'\''){
+        strcpy(rc_error_text,rc_message(2015));
+        rc_input_error(2015);
+        while(closing!=L'\''&&closing!=L'\n')closing=rc_get_logical_character();
+        if(closing==L'\n'){
+            strcpy(rc_error_text,rc_message(2016));
+            rc_input_error(2016);
+        }
+    }
+    rc_token_value=rc_store_integer(token,value);
+    return token;
+}

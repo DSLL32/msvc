@@ -110,6 +110,19 @@ void __stdcall rc_pack_macro_argument(const WCHAR *begin,const WCHAR *end)
     rc_macro_output_cursor=cursor;
 }
 
+void __stdcall rc_append_macro_text(const WCHAR *text)
+{
+    if(!text)return;
+    while(*text){
+#ifdef RECON_NATIVE_TEST
+        if(((DWORD)rc_number_buffer&1)||
+           (DWORD)rc_number_buffer<(DWORD)&rc_string_buffer[1024]){ __asm int 3 }
+#endif
+        if(rc_number_buffer>=&rc_string_buffer[2043])rc_macro_buffer_fatal(10056);
+        *rc_number_buffer++=*text++;
+    }
+}
+
 void __cdecl rc_advance_macro_text(void)
 {
     RcMacroFrame *frame;

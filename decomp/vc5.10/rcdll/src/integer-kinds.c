@@ -19,3 +19,20 @@ unsigned char __stdcall rc_based_integer_kind(int value)
     /* The original comparison is signed, even for nondecimal spelling. */
     return value<=largest_signed?7:9;
 }
+
+
+unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
+{
+    unsigned magnitude,largest=0xfffffffeU;
+    /* The signed test and unsigned negation retain the original wrap. */
+    magnitude=(int)value<=0?0U-value:value;
+    return magnitude>largest?10:9;
+}
+
+
+unsigned char __stdcall rc_long_integer_kind(int value)
+{
+    int largest_signed=0x7fffffff;
+    /* Preserve the target's signed comparison, as for based integers. */
+    return value<=largest_signed?8:10;
+}

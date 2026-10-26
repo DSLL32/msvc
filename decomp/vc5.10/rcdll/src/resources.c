@@ -3,6 +3,7 @@
 #include <string.h>
 #include <wchar.h>
 #include <wctype.h>
+#include <stdarg.h>
 #include "command.h"
 #include "resources.h"
 #include <recon.h>
@@ -1097,6 +1098,230 @@ int __stdcall rc_parse_menu_template(int nested,RcResource *resource)
     if(nested)rc_scan_resource_token(1);
     rc_mark_last_menu_item((WORD)last);
     return 1;
+}
+
+int __stdcall rc_parse_menu(int nested,RcResource *resource)
+{
+    DWORD help=0,value;
+    WORD last=0;
+    int any=0;
+    if(!nested){
+        rc_parse_extended_menu_fields(2,&help);
+        value=rc_mac?rc_mac_long(help):help;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        rc_read_resource_preamble(resource,2121);
+    }else{
+        if(rc_resource_token.kind!=13)rc_resource_error(2121);
+        rc_scan_resource_token(1);
+    }
+    while(rc_resource_token.kind!=14){
+        switch(rc_resource_token.kind){
+        case 78:
+            any=1;
+            last=rc_parse_extended_menu_item(1);
+            rc_parse_menu(1,resource);
+            break;
+        case 71:
+            any=1;
+            last=rc_parse_extended_menu_item(0);
+            break;
+        default:rc_resource_error_name(2245,rc_resource_name);break;
+        }
+    }
+    if(!any)rc_resource_error_name(2246,rc_resource_name);
+    if(nested)rc_scan_resource_token(0x8000);
+    rc_mark_last_menu_item(last);
+    return 1;
+}
+
+/* MENUEX's three finite field grammars. A high bit marks an optional field;
+ * low bits select a WORD, DWORD or caption. The header accepts any end token.
+ * Original header end-count is the encountered loader-zero WORD at RVA27f98;
+ * no surrounding storage or mutable alias is modeled here. */
+static const struct {
+    WORD ends[4];
+    BYTE count,fields[5];
+} rc_extended_menu_grammar[]={
+    {{1,13,0,0},5,{2,0x81,0x81,0x81,0x81}},
+    {{3,78,71,14},4,{2,0x81,0x81,0x81,0}},
+    {{0,0,0,0},1,{0x81,0,0,0,0}}
+};
+
+void __cdecl rc_parse_extended_menu_fields(unsigned grammar,...)
+{
+    const WORD *ends;
+    const BYTE *fields;
+    unsigned count,index;
+    WORD status;
+    void *value;
+    va_list arguments;
+    if(grammar>=3){ __asm int 3 }
+    ends=rc_extended_menu_grammar[grammar].ends;
+    fields=rc_extended_menu_grammar[grammar].fields;
+    count=rc_extended_menu_grammar[grammar].count;
+    va_start(arguments,grammar);
+    for(index=0;index<count;++index){
+        value=va_arg(arguments,void *);
+        switch(fields[index]&0x7f){
+        case 0:status=rc_read_extended_menu_number(ends,0,value);break;
+        case 1:status=rc_read_extended_menu_number(ends,1,value);break;
+        case 2:status=rc_read_extended_menu_caption(ends,value);break;
+        }
+        if(!(status&1)&&!(fields[index]&0x80))
+            rc_resource_error_name(2236,rc_resource_name);
+        if(status&2){
+            while(++index<count)
+                if(!(fields[index]&0x80))rc_resource_error_name(2236,rc_resource_name);
+            va_end(arguments);
+            return;
+        }
+        rc_scan_resource_token(0x8000);
+        rc_write_apstudio_name(rc_resource_token.text);
+    }
+    va_end(arguments);
+    if(!rc_menu_token_in_set(ends))rc_resource_error_name(2235,rc_resource_name);
+}
+
+WORD __stdcall rc_read_extended_menu_number(const WORD *ends,int wide,void *value)
+{
+    DWORD number=0;
+    WORD status=rc_parse_resource_style_expression(&number,0)!=0;
+    if(rc_menu_token_in_set(ends))status|=2;
+    else if(rc_resource_token.kind!=15)rc_resource_error_name(2242,rc_resource_name);
+    if(wide)*(DWORD *)value=number;
+    else *(WORD *)value=(WORD)number;
+    return status;
+}
+
+int __stdcall rc_menu_token_in_set(const WORD *tokens)
+{
+    WORD count=*tokens;
+    if(!count)return 1;
+    do{
+        if(tokens[count]==rc_resource_token.kind)return 1;
+    }while(--count);
+    return 0;
+}
+
+WORD __stdcall rc_parse_extended_menu_item(int popup)
+{
+    RcExtendedMenuItem item;
+    item.type=0;item.state=0;item.id=0;item.help=0;
+    item.flags=popup!=0;item.caption[0]=0;
+    rc_scan_resource_token(0x8000);
+    if(rc_resource_token.kind==20&&rc_resource_token.value==0x800){
+        if(popup)rc_resource_error_name(2244,rc_resource_name);
+        item.type=0x800;item.state=0;item.id=0;
+        rc_scan_resource_token(0x8000);
+        if(!rc_menu_token_in_set(rc_extended_menu_grammar[1].ends))
+            rc_resource_error_name(2235,rc_resource_name);
+    }else if(popup)
+        rc_parse_extended_menu_fields(0,item.caption,&item.id,&item.type,
+            &item.state,&item.help);
+    else rc_parse_extended_menu_fields(1,item.caption,&item.id,&item.type,&item.state);
+    return rc_write_extended_menu_item(&item);
+}
+
+WORD __stdcall rc_read_extended_menu_caption(const WORD *ends,WCHAR *text)
+{
+    WCHAR *begin=text;
+    WORD have=0;
+    int plus=0,ended=rc_menu_token_in_set(ends);
+    while(!ended&&rc_resource_token.kind!=15){
+        /* The caller owns 257 WCHARs. Concatenation beyond that encountered
+         * object remains unsupported in both builds, before the copier writes. */
+        if((rc_resource_token.kind==21||rc_resource_token.kind==23)&&
+           (unsigned)(text-begin)+(rc_resource_token.value>256?255:
+               rc_resource_token.value)>256){ __asm int 3 }
+        if(rc_copy_menu_caption(text)){
+            text+=wcslen(text);
+            if(plus)plus=0;
+            else if(have)rc_resource_error_name(2243,rc_resource_name);
+            have=1;
+        }else if(rc_resource_token.kind==101&&!plus&&have)plus=1;
+        else rc_resource_error_name(2243,rc_resource_name);
+        rc_scan_resource_token(0x8000);
+        ended=rc_menu_token_in_set(ends);
+    }
+    if(plus)rc_resource_error_name(2238,rc_resource_name);
+    if(ended)have|=2;
+    return have;
+}
+
+int __stdcall rc_parse_toolbar_resource(RcResource *resource)
+{
+    WORD width,height,value;
+    int any=0;
+    value=rc_mac?(WORD)rc_mac_word(1):1;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+    rc_read_toolbar_dimensions(&width,&height);
+    value=rc_mac?(WORD)rc_mac_word(width):width;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+    value=rc_mac?(WORD)rc_mac_word(height):height;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+    /* Toolbar and dialog counts share the original DWORD at RVA28fdc. */
+    rc_dialog_count_offset=rc_resource_buffer_used;
+    value=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+    rc_read_resource_preamble(resource,2251);
+    while(rc_resource_token.kind!=14){
+        switch(rc_resource_token.kind){
+        case 127:
+            rc_resource_error(2252);
+            rc_fatal("");
+            break;
+        case 95:
+            any=1;
+            rc_scan_resource_token(1);
+            if(rc_resource_token.kind!=20)rc_resource_error(2250);
+            rc_write_apstudio_name(rc_resource_token.text);
+            value=rc_read_toolbar_number();
+            if(rc_mac)value=(WORD)rc_mac_word(value);
+            *(WORD *)rc_reserve_resource_bytes(2)=value;
+            break;
+        case 72:
+            any=1;
+            rc_scan_resource_token(0x8000);
+            value=rc_mac?(WORD)rc_mac_word(0):0;
+            *(WORD *)rc_reserve_resource_bytes(2)=value;
+            break;
+        default:
+            rc_resource_error(2253);
+            rc_scan_resource_token(0x8000);
+            continue;
+        }
+        rc_increment_dialog_count();
+    }
+    if(!any)rc_resource_error(2254);
+    if(rc_mac)rc_convert_dialog_count();
+    return 1;
+}
+
+void __stdcall rc_read_toolbar_dimensions(WORD *width,WORD *height)
+{
+    *width=rc_read_toolbar_number();
+    if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+    *height=rc_read_toolbar_number();
+}
+
+WORD __cdecl rc_read_toolbar_number(void)
+{
+    WORD value;
+    if(!rc_parse_resource_style(&value,3))rc_resource_error(2250);
+    return value;
+}
+
+void __stdcall rc_parse_dialog_class(RcDialog *dialog)
+{
+    rc_scan_resource_token(1);
+    if(!rc_copy_menu_caption(dialog->class_name)){
+        if(rc_resource_token.kind==20){
+            rc_format_wide_resource_number(rc_resource_token.value,
+                dialog->class_name,10);
+            dialog->class_is_ordinal=1;
+        }else rc_resource_error(2120);
+    }
+    rc_scan_resource_token(1);
 }
 
 void __stdcall rc_read_resource_preamble(RcResource *resource,unsigned message)

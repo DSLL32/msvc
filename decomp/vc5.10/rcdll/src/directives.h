@@ -3,6 +3,8 @@
 #include "preprocess.h"
 #include <recon.h>
 
+extern int rc_cpp_xc,rc_cpp_R;
+
 enum RcDirective {
     PP_IF,PP_ELIF,PP_ELSE,PP_ENDIF,PP_IFDEF,PP_IFNDEF,PP_DEFINE,
     PP_INCLUDE,PP_PRAGMA,PP_UNDEF,PP_LINE,PP_UNKNOWN,PP_ERROR,PP_IDENT

@@ -252,3 +252,15 @@ int __stdcall rc_copy_file(FILE *input,FILE *output)
     rc_release(buffer);
     return 1;
 }
+
+
+WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
+{
+    WCHAR *word;
+    while(*text&&iswctype(*text,8))++text;
+    if(!terminate)return text;
+    word=text;
+    while(*text&&!iswctype(*text,8))++text;
+    *text=0;
+    return word;
+}
