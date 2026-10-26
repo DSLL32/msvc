@@ -10,6 +10,9 @@
 #include "types.h"
 #include "cpragma.h"
 #include "pending.h"
+#include "symbol.h"
+#include "ptree.h"
+#include "fnbody.h"
 #include <recon.h>
 
 int myatoi(char *text) { (void)text; STUB_TRAP(); return 0; }
@@ -20,7 +23,7 @@ unsigned Length(char *text) { (void)text; STUB_TRAP(); return 0; }
 void ExitPointReleaseRtn(EXIT_POINT *point) { (void)point; STUB_TRAP(); }
 void *alloc_from_cleanup(unsigned size) { (void)size; STUB_TRAP(); return 0; }
 void cmemFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void CErr1(unsigned code) { (void)code; STUB_TRAP(); }
+unsigned CErr1(unsigned code) { (void)code; STUB_TRAP(); return 0; }
 void CSuicide(void) { STUB_TRAP(); }
 void cppNamesFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void hfileFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
@@ -35,65 +38,42 @@ void rtnGenFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void srcFileFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void typesFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void typeCompareFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void preprocInit0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+
 void preprocFini0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void preprocInit1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void preprocFini1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void preprocInit2(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+
+void pragmaFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+
 void InitFiniStub(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisInit0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisFini0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisInit1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisFini1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisInit2(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void analysisFini2(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini0(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini1(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit2(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini2(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit3(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini3(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit4(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini4(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit5(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini5(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit6(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini6(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit7(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini7(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit8(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini8(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit9(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini9(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit10(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini10(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit11(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini11(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit12(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit13(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini13(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit14(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini14(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit15(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini15(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit16(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini16(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectInit17(INITFINI *entry) { (void)entry; STUB_TRAP(); }
-void objectFini17(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void cgfrontFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void labelFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void overloadOperatorFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void gstackFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void conPoolsFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void cdoptFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void extrefFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void typeSigFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void ptreeFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void parseFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void hashFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void formatTypeFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void functionFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void linkageFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void scopeFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void rewriteFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void templateFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void fnovFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void dataInitFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
+void nodePromoFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void statsPrint(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 void macroFini(INITFINI *entry) { (void)entry; STUB_TRAP(); }
 int makeExitStatus(int fatal) { (void)fatal; STUB_TRAP(); return 0; }
-void PTypeCheckInit(void) { STUB_TRAP(); }
-void ErrFileOpen(void) { STUB_TRAP(); }
+
+
 void PpOpen(void) { STUB_TRAP(); }
-void OpenPgmFile(void) { STUB_TRAP(); }
+
 void PrtChar(int ch) { (void)ch; STUB_TRAP(); }
-int OpenSrcFile(char *filename, int is_lib) { (void)filename; (void)is_lib; STUB_TRAP(); return 0; }
+
 void PpParse(void) { STUB_TRAP(); }
-void CgFrontModInitInit(void) { STUB_TRAP(); }
-void ParseDecls(void) { STUB_TRAP(); }
 void RtnGenerate(void) { STUB_TRAP(); }
 void ModuleInitFini(void) { STUB_TRAP(); }
 void ScopeEndFileScope(void) { STUB_TRAP(); }
@@ -110,13 +90,23 @@ void cleanupOpenFiles(void) { STUB_TRAP(); }
 
 
 
-void typeFree(TYPE type) { (void)type; STUB_TRAP(); }
-void *RingPromote(void **head, void *item, void *previous) { (void)head; (void)item; (void)previous; STUB_TRAP(); return 0; }
 
 
 
 unsigned lookupMagicKeyword(char *name) { (void)name; STUB_TRAP(); return 0; }
 
 
-void GenCOptions(char **argv) { (void)argv; STUB_TRAP(); }
-void MakePgmName(char *filename) { (void)filename; STUB_TRAP(); }
+
+
+void parserSuicideHandler(void) { STUB_TRAP(); }
+
+
+
+unsigned PragRegName(char *name) { (void)name; STUB_TRAP(); return 0; }
+void CFatal(const char *message) { (void)message; STUB_TRAP(); }
+
+
+/* Named pending callees of the reached old default-argument helper body. */
+PTREE IcEmitExpr(PTREE expr);
+CGFILE *CgioLocateFile(SYMBOL sym)
+{ (void)sym; STUB_TRAP(); return NULL; }

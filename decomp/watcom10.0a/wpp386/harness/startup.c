@@ -5,6 +5,7 @@
  * XI chooses the last entry at equal priority: stack, files, then EFG. */
 #include "startup.h"
 #include "memory.h"
+#include "../crt/osi-globals.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,11 @@
 #include <recon.h>
 extern char **environ;
 WppStartup wpp_startup;
+/* Private FILE26 owners remain separate from registered shared ShimFILEs. */
+static struct stream_binding {
+    FILE *public_stream;
+    WppStreamLink *private_owner;
+} stream_bindings[20];
 extern void free_segment_wrapper(void *);
 static void init_stack(void)
 {
@@ -59,30 +65,105 @@ static void init_files(void)
 /* Normal shutdown ownership from shipped ioexit/allocfp: standard handles
  * stay open; __freefp unlinks a FILE node and prepends it to closed_streams.
  * These private FILE26 records never overlay public native ShimFILE objects. */
-static void close_owned_stream(unsigned index)
+static void close_owned_private(WppFile *stream)
 {
-    WppStreamLink **owner, *link;
-    owner = &wpp_startup.open_streams;
-    while (*owner && (*owner)->stream != &wpp_startup.files[index])
-        owner = &(*owner)->next;
+    WppStreamLink **owner,*link;
+    owner=&wpp_startup.open_streams;
+    while (*owner && (*owner)->stream!=stream) owner=&(*owner)->next;
     if (!*owner) recon_unsupported("WPP repeated/unowned standard stream close");
-    link = *owner;
-    *owner = link->next;
-    link->stream->flag |= 3;
-    link->next = wpp_startup.closed_streams;
-    wpp_startup.closed_streams = link;
+    link=*owner;
+    *owner=link->next;
+    link->stream->flag|=3;
+    link->next=wpp_startup.closed_streams;
+    wpp_startup.closed_streams=link;
 }
-
-/* Bound only in SrcFileFClose's native translation unit. */
+static WppStreamLink *checkout_stream(void)
+{
+    WppStreamLink *link;
+    WppFile *stream;
+    unsigned flags,index;
+    link=wpp_startup.closed_streams;
+    if (link) {
+        wpp_startup.closed_streams=link->next;
+        stream=link->stream;
+        flags=(stream->flag & 0x4003u)|3u;
+    } else {
+        for (index=0;index<20;++index)
+            if (!(wpp_startup.files[index].flag & 3u)) break;
+        if (index==20) recon_unsupported("WPP dynamic FILE beyond static20 roles");
+        stream=&wpp_startup.files[index];
+        link=(WppStreamLink *)allocate_node(8);
+        if (!link) recon_unsupported("WPP FILE-node allocation failure");
+        flags=3;
+    }
+    memset(stream,0,sizeof(*stream));
+    stream->flag=flags;
+    link->stream=stream;
+    link->next=wpp_startup.open_streams;
+    wpp_startup.open_streams=link;
+    return link;
+}
+FILE *wpp_fopen(const char *name,const char *mode)
+{
+    WppStreamLink *link;
+    FILE *public_stream;
+    unsigned index;
+    if (strcmp(mode,"rb")) recon_unsupported("WPP unqualified fopen mode");
+    if (!wpp_startup.file_open_calls) {
+        /* FrontEnd closes aux then prn: the first source-open must genuinely
+         * reuse node4, followed by3, rather than call the App allocator. */
+        link=wpp_startup.closed_streams;
+        if (!link || link->stream!=&wpp_startup.files[4] ||
+            !link->next || link->next->stream!=&wpp_startup.files[3] ||
+            link->next->next || !wpp_startup.open_streams ||
+            wpp_startup.open_streams->stream!=&wpp_startup.files[2] ||
+            !wpp_startup.open_streams->next ||
+            wpp_startup.open_streams->next->stream!=&wpp_startup.files[1] ||
+            !wpp_startup.open_streams->next->next ||
+            wpp_startup.open_streams->next->next->stream!=&wpp_startup.files[0] ||
+            wpp_startup.open_streams->next->next->next ||
+            wpp_startup.allocation_calls!=5)
+            recon_unsupported("WPP initial source-open private owners");
+    }
+    ++wpp_startup.file_open_calls;
+    link=checkout_stream();
+    if (wpp_startup.file_open_calls==1)
+        wpp_startup.first_open_owner=(unsigned)(link->stream-wpp_startup.files);
+    /* __allocfp happens before the actual host open, including failures. */
+    public_stream=recon_fopen(name,mode);
+    if (!public_stream) {
+        close_owned_private(link->stream);
+        return NULL;
+    }
+    for (index=0;index<20;++index) if (!stream_bindings[index].public_stream) break;
+    if (index==20) recon_unsupported("WPP public/private stream binding capacity");
+    link->stream->flag=(link->stream->flag & ~3u)|0x41u; /* rb, _READ|_BINARY */
+    link->stream->handle=recon_fileno(public_stream);
+    stream_bindings[index].public_stream=public_stream;
+    stream_bindings[index].private_owner=link;
+    return public_stream;
+}
 int wpp_fclose(FILE *stream)
 {
+    WppFile *private_stream;
     unsigned index;
     int result;
-    for (index = 0; index < 5; ++index)
-        if (stream == &recon_iob[index]) break;
-    if (index == 5) recon_unsupported("WPP unqualified file-close ownership");
-    result = recon_fclose(stream);
-    close_owned_stream(index);
+    if (!stream) recon_unsupported("WPP NULL stream-close ownership");
+    /* Public fopen can reuse iob3/4; a bound file takes precedence over the
+     * original standard aux/prn roles with those public addresses. */
+    for (index=0;index<20;++index) if (stream_bindings[index].public_stream==stream) break;
+    if (index<20) {
+        private_stream=stream_bindings[index].private_owner->stream;
+        result=recon_fclose(stream);
+        stream_bindings[index].public_stream=NULL;
+        stream_bindings[index].private_owner=NULL;
+        close_owned_private(private_stream);
+        return result;
+    }
+    for (index=0;index<5;++index) if (stream==&recon_iob[index]) break;
+    if (index==5) recon_unsupported("WPP unqualified file-close ownership");
+    result=recon_fclose(stream);
+    close_owned_private(&wpp_startup.files[index]);
     return result;
 }
 
@@ -97,7 +178,7 @@ static void finish_files(void)
         link = wpp_startup.open_streams;
         index = (unsigned)(link->stream - wpp_startup.files);
         if (index >= 3) recon_unsupported("WPP unclosed auxiliary stream");
-        close_owned_stream(index);
+        close_owned_private(&wpp_startup.files[index]);
     }
     freed = 0;
     while ((link = wpp_startup.closed_streams) != NULL) {
@@ -106,7 +187,7 @@ static void finish_files(void)
         wpp_startup.closed_streams = next;
         ++freed;
     }
-    if (freed != 5 || wpp_startup.allocation_calls != 5)
+    if (freed != wpp_startup.allocation_calls)
         recon_unsupported("WPP normal stream-node lifetime");
 }
 
@@ -139,13 +220,14 @@ int wpp_native_startup(int argc, char **argv)
 {
     unsigned i, count;
     char **environment;
-    if (argc != 2 || strcmp(argv[1],"?")) abort();
+    if (argc < 1 || !argv || !argv[0]) abort();
     /* Zero only declared runtime state; no copied original data section.
      * Original cstart zeroes its BSS before invoking the initializer table. */
     memset(&wpp_startup,0,sizeof(wpp_startup));
     wpp_startup.program=argv[0];
-    wpp_startup.command=argv[1];
+    wpp_startup.command=argc>1 ? argv[1] : "";
     wpp_startup.os_id=2;
+    *_BreakFlagPtr=0; /* Actual loader BSS byte passed through PGMPARMS+12. */
     __asm__ __volatile__("mov %%ds,%0" : "=r"(wpp_startup.saved_ds));
     for (count=0; environ[count]; ++count) if (count>=4096) abort();
     /* Original builds environ as stack-resident pointers into loader input. */

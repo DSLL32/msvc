@@ -28,10 +28,11 @@ typedef struct WppStartup {
     char **environment;
     unsigned char os_id;
     unsigned short saved_ds, saved_ss;
-    WppFile files[6];
+    WppFile files[20];
     WppInitRecord initializers[3];
     WppStreamLink *open_streams, *closed_streams;
     unsigned allocation_calls, first_size;
+    unsigned file_open_calls, first_open_owner;
     unsigned first_frontier_checked;
     unsigned argc;
     char **argv;

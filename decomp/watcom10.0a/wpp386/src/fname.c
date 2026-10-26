@@ -42,3 +42,11 @@ void fnameInit(INITFINI *entry)
     (void)entry;
     RingNameInit(&fnameList);
 }
+
+char *FNameAdd(const char *name)
+{
+    RINGNAME *entry;
+    entry=RingNameLookup(&fnameList,name);
+    if (entry==0) entry=RingNameAllocStr(&fnameList,name);
+    return entry->name;
+}

@@ -39,12 +39,13 @@
 char __Time[9];
 char __Date[12];
 
+const char * const Months[] = {
+    "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+};
+
 void TimeInit(void)
 {
-    static const char * const Months[] = {
-        "Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-    };
     time_t now;
     struct tm *tod;
 

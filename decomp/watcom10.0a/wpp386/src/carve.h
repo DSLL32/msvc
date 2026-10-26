@@ -16,5 +16,7 @@ typedef struct carve_control {
 typedef char CarveControlSize[(sizeof(struct carve_control)==32)?1:-1];
 carve_t CarveCreate(unsigned size, unsigned count);
 void *CarveAlloc(carve_t cv);
+void CarveFree(carve_t cv, void *element);
+void CarveDestroy(carve_t cv);
 void *newBlk(carve_t cv);
 #endif

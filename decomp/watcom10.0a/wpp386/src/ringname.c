@@ -31,10 +31,84 @@
 
 /* bld/plusplus/c/ringname.c at initial commit
  *6b9cb4438959d845a2b4dd4bf19f7908ecd608e9; actual body7B. */
+#include <string.h>
 #include "compiler.h"
+#include "utility.h"
 #include <recon.h>
 
 void RingNameInit(RINGNAMECTL *control)
 {
     control->ring = 0;
+}
+
+/* The1994 allocator returns the node, unlike the later source's char*. */
+RINGNAME *RingNameAllocVct(RINGNAMECTL *control, const char *vector, unsigned length)
+{
+    RINGNAME *entry;
+    entry=(RINGNAME *)RingAlloc((void **)&control->ring,5+length);
+    stvcpy(entry->name,vector,length);
+    if (!control->case_sensitive) strlwr(entry->name);
+    return entry;
+}
+
+RINGNAME *RingNameAllocStr(RINGNAMECTL *control, const char *name)
+{
+    return RingNameAllocVct(control,name,strlen(name));
+}
+
+RINGNAME *RingNameLookup(RINGNAMECTL *control, const char *name)
+{
+    RINGNAME *entry, *last;
+    if (control->case_sensitive) {
+        last=control->ring;
+        if (last) {
+            entry=last;
+            do {
+                entry=entry->next;
+                if (strcmp(entry->name,name)==0) return entry;
+            } while (entry!=last);
+        }
+    } else {
+        last=control->ring;
+        if (last) {
+            entry=last;
+            do {
+                entry=entry->next;
+                if (stricmp(entry->name,name)==0) return entry;
+            } while (entry!=last);
+        }
+    }
+    return 0;
+}
+
+void RingNameFree(RINGNAMECTL *control)
+{
+    RingFree((void **)&control->ring);
+}
+
+unsigned RingNameLookupPosition(RINGNAMECTL *control, const char *name)
+{
+    RINGNAME *entry, *last;
+    unsigned position=1;
+    last=control->ring;
+    if (control->case_sensitive) {
+        if (last) {
+            entry=last;
+            do {
+                entry=entry->next;
+                if (strcmp(entry->name,name)==0) return position;
+                ++position;
+            } while (entry!=last);
+        }
+    } else {
+        if (last) {
+            entry=last;
+            do {
+                entry=entry->next;
+                if (stricmp(entry->name,name)==0) return position;
+                ++position;
+            } while (entry!=last);
+        }
+    }
+    return 0;
 }

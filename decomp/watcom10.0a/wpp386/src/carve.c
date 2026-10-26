@@ -34,6 +34,7 @@
  * uses a one-link free node. The shipped free nodes require8bytes. */
 #include "compiler.h"
 #include "carve.h"
+#include "pending.h"
 #include <recon.h>
 
 carve_t CarveCreate(unsigned size, unsigned count)
@@ -90,4 +91,38 @@ void *newBlk(carve_t cv)
     ++cv->blk_count;
     cv->cursor = end;
     return end;
+}
+
+void CarveFree(carve_t cv, void *element)
+{
+    CARVE_FREE *node, *last, *first;
+    node=(CARVE_FREE *)element;
+    if (node) {
+        last=cv->free_ring;
+        if (last) {
+            first=last->next;
+            node->next=first;
+            node->previous=last;
+            first->previous=node;
+            last->next=node;
+        } else {
+            node->next=node;
+            node->previous=node;
+            cv->free_ring=node;
+        }
+    }
+}
+
+void CarveDestroy(carve_t cv)
+{
+    CARVE_BLOCK *block,*next;
+    if(cv) {
+        block=cv->blk_list;
+        while(block) {
+            next=block->next;
+            CMemFree(block);
+            block=next;
+        }
+        CMemFree(cv);
+    }
 }

@@ -30,7 +30,7 @@
 ****************************************************************************/
 
 /* bld/plusplus/c/stats.c initial commit6b9cb443. Actual1994 clears
- * four counters and compiler-flag byte1 bits2/7, with no extra calls. */
+ * four counters and compiler-flag byte0 bits2/7, with no extra calls. */
 #include "compiler.h"
 #include "frontend.h"
 #include "initstate.h"

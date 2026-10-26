@@ -183,3 +183,30 @@ unsigned macroHash(const char *name)
     macroHashBucket = hash;
     return hash;
 }
+
+static unsigned undefCount;
+void MacroStateGet(MACRO_STATE *state)
+{
+    state->curr_offset=MacroOffset;
+    state->undef_count=undefCount;
+}
+
+int MacroStateMatchesCurrent(MACRO_STATE *state)
+{
+    if (state->curr_offset!=MacroOffset) return 0;
+    if (state->undef_count!=undefCount) return 0;
+    return 1;
+}
+
+int MacroExists(char *name)
+{
+    MEPTR entry=MacroLookup(name);
+    if (!entry) return 0;
+    entry->macro_flags |= 8;
+    return 1;
+}
+
+MEPTR MacroSearch(void)
+{
+    return MacroLookup(Buffer);
+}

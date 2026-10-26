@@ -34,6 +34,7 @@
  * clears switch/function pointers and stores the one-byte context only;
  * debug-only line/location stores are absent in this shipped build. */
 #include "compiler.h"
+#include "context.h"
 #include <recon.h>
 
 static unsigned char context;
@@ -46,3 +47,16 @@ void CtxSetContext(unsigned char curr)
     func = 0;
     context = curr;
 }
+
+void CtxSwitchAddr(const char *position)
+{
+    switch_addr = position;
+}
+
+static NESTED_POST_CONTEXT *post_context;
+void CtxRegisterPostContext(NESTED_POST_CONTEXT *block)
+{
+    RingAppend((void **)&post_context,block);
+}
+
+void CtxFunction(struct symbol *symbol) { func=symbol; }

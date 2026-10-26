@@ -31,7 +31,9 @@
 
 /* Adapted from bld/fe_misc/c/vbuf.c at initial commit
  *6b9cb4438959d845a2b4dd4bf19f7908ecd608e9; actual body21B. */
+#include <string.h>
 #include "compiler.h"
+#include "utility.h"
 #include <recon.h>
 
 void VbufInit(VBUF *buffer)
@@ -39,4 +41,70 @@ void VbufInit(VBUF *buffer)
     buffer->buf = 0;
     buffer->len = 0;
     buffer->used = 0;
+}
+
+/* Same initial-source ownership/growth contract as fe_misc/c/vbuf.c.
+ * The 1994 buffer has three 32-bit fields and grows in 32-byte units. */
+void VbufReqd(VBUF *buffer,unsigned required)
+{
+    char *old;
+    if (required>buffer->len) {
+        required=(required+31)&~31U;
+        old=buffer->buf;
+        buffer->buf=(char *)CMemAlloc(required);
+        buffer->len=required;
+        if (old) {
+            memcpy(buffer->buf,old,buffer->used);
+            CMemFree(old);
+        }
+    }
+}
+void VStrNull(VBUF *buffer)
+{
+    VbufReqd(buffer,1);
+    buffer->buf[0]='\0';
+    buffer->used=1;
+}
+void VStrConcStr(VBUF *buffer,const char *text)
+{
+    unsigned count=strlen(text);
+    unsigned required=buffer->used+count;
+    VbufReqd(buffer,required);
+    stvcpy(buffer->buf+buffer->used-1,text,count);
+    buffer->used=required;
+}
+
+/* 1994 uses the original two-byte temporary, unlike the later fast path. */
+void VStrConcChr(VBUF *buffer,char chr)
+{
+    char text[2];
+    text[0]=chr;
+    text[1]='\0';
+    VStrConcStr(buffer,text);
+}
+
+void VbufFree(VBUF *buffer)
+{
+    CMemFree(buffer->buf);
+    VbufInit(buffer);
+}
+void VStrPrepStr(VBUF *buffer,const char *text)
+{
+    unsigned count=strlen(text);
+    unsigned required=count+buffer->used;
+    VBUF temp;
+    VbufInit(&temp);
+    VbufReqd(&temp,required);
+    stvcpy(temp.buf,text,count);
+    stvcpy(temp.buf+count,buffer->buf,buffer->used-1);
+    temp.used=required;
+    VbufFree(buffer);
+    *buffer=temp;
+}
+void VStrPrepChr(VBUF *buffer,char chr)
+{
+    char text[2];
+    text[0]=chr;
+    text[1]='\0';
+    VStrPrepStr(buffer,text);
 }

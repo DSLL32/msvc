@@ -33,6 +33,8 @@
  * initializer: it does not clear the two pending-work heads here. */
 #include "compiler.h"
 #include "carve.h"
+#include "symbol.h"
+#include "pending.h"
 #include <recon.h>
 
 typedef struct routine_gen {
@@ -46,4 +48,29 @@ void rtnGenInit(INITFINI *defn)
 {
     (void)defn;
     carveRTN_GEN = CarveCreate(sizeof(RTN_GEN), 16);
+}
+
+static RTN_GEN *useSYMBOL,*useTYPE;
+RTN_GEN *findGenRoutine(RTN_GEN **head,unsigned index,void *parm)
+{
+    RTN_GEN *entry;
+    for (entry=*head;entry;entry=entry->next)
+        if (entry->index==index && entry->parm==parm) return entry;
+    return 0;
+}
+void addGenRoutine(RTN_GEN **head,unsigned index,void *parm)
+{
+    RTN_GEN *entry=CarveAlloc(carveRTN_GEN);
+    entry->index=index;
+    entry->parm=parm;
+    entry->next=*head;
+    *head=entry;
+}
+void RtnGenAddSymbol(unsigned char index,SYMBOL parm)
+{
+    if (!findGenRoutine(&useSYMBOL,index,parm)) addGenRoutine(&useSYMBOL,index,parm);
+}
+void RtnGenAddType(unsigned char index,TYPE parm)
+{
+    if (!findGenRoutine(&useTYPE,index,parm)) addGenRoutine(&useTYPE,index,parm);
 }

@@ -35,11 +35,14 @@
  * later international-message loading and additional state writes are absent. */
 #include <stdio.h>
 #include "compiler.h"
+#include "frontend.h"
+#include "pending.h"
+#include "cgio.h"
 #include <recon.h>
 
 static FILE *err_file;
 static void *err_locn_source;
-static void *suicideCallbacks;
+static SUICIDE_CALLBACK *suicideCallbacks;
 static unsigned reserveSize;
 static void *reserveMem;
 
@@ -53,3 +56,41 @@ void errFileInit(INITFINI *entry)
     reserveMem = CMemAlloc(2048);
     CMemRegisterCleanup(reserveRelease);
 }
+
+char *IoSuppOutFileName(unsigned kind)
+{ (void)kind; STUB_TRAP(); return 0; }
+void errFileErase(const char *name)
+{ (void)name; STUB_TRAP(); }
+FILE *SrcFileFOpen(char *name, unsigned kind);
+void IoSuppSetBuffering(FILE *file, unsigned size)
+{ (void)file; (void)size; STUB_TRAP(); }
+
+/* Actual old implementation retries by source-name availability and the
+ * no_conmsg flag; it has no later errfile_opened/NULL-name test. */
+void ErrFileOpen(void)
+{
+    char *name;
+    if (!CompFlags.no_conmsg && SrcFName!=0) {
+        name=IoSuppOutFileName(2);
+        errFileErase(name);
+        err_file=SrcFileFOpen(name,3);
+        if (err_file!=0) IoSuppSetBuffering(err_file,128);
+    }
+}
+
+/* Actual1994 CF417db..417ea; same registration in the released message.c. */
+void RegisterSuicideCallback(SUICIDE_CALLBACK *ctl)
+{
+    RingAppend((void **)&suicideCallbacks, ctl);
+}
+
+void CErrCheckpoint(unsigned *state)
+{
+    *state=ErrCount;
+}
+
+void SetErrLoc(CGIO_LOCATION *location)
+{ (void)location; STUB_TRAP(); }
+
+int CErrOccurred(unsigned *state)
+{ return *state!=ErrCount; }

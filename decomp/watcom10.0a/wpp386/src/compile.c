@@ -39,10 +39,12 @@
 #include "compiler.h"
 #include "frontend.h"
 #include "initstate.h"
+#include "cmdline.h"
+#include "pending.h"
 #include <recon.h>
 
 unsigned WngCount, ErrCount;
-char *ForceInclude, *WholeFName;
+char *ForceInclude, *WholeFName, *SrcFName;
 void *Environment;
 
 int doCCompile(char **argv)
@@ -136,4 +138,54 @@ void parseCmdLine(char **argv)
     GenCOptions(args);
     if (WholeFName) MakePgmName(WholeFName);
     CMemFree(args[0]);
+}
+
+/* Initial plusplus.c MakePgmName;1994 ModuleName shares the interned name
+ * instead of the later source's separate strsave allocation. */
+void MakePgmName(char *filename)
+{
+    char buffer[260+3];
+    char *drive, *directory, *name, *extension;
+    _splitpath2(filename,buffer,&drive,&directory,&name,&extension);
+    SrcFName=FNameAdd(name);
+    if (ModuleName==NULL) ModuleName=SrcFName;
+}
+
+void OpenPgmFile(void)
+{
+    if (IoSuppOpenSrc(WholeFName,0)) {
+        PpStartFile();
+    } else {
+        CErr2p(59,WholeFName);
+        CSuicide();
+    }
+}
+
+/* Actual first preprocessing initializer43aec is a standalone RET. Its
+ * original source name remains unknown; the registration supplies its role. */
+void preprocInit0(INITFINI *entry)
+{
+    (void)entry;
+}
+
+void PrtString(char *text) { (void)text; STUB_TRAP(); }
+int OpenSrcFile(char *filename, int is_lib)
+{
+    int saved;
+    if (IoSuppOpenSrc(filename,is_lib ? 2 : 1)) {
+        PpStartFile();
+        return 1;
+    }
+    saved=CompFlags.cpp_output;
+    if (CompFlags.cpp_output) {
+        PrtChar(PreProcChar);
+        PrtString("include ");
+        PrtChar(is_lib ? '<' : '"');
+        PrtString(filename);
+        PrtChar(is_lib ? '>' : '"');
+        CompFlags.cpp_output=0;
+    }
+    CErr2p(59,filename);
+    CompFlags.cpp_output=saved;
+    return 0;
 }

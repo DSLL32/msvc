@@ -1,7 +1,150 @@
 {
   "graph_metadata": {
     "schema": 1,
-    "functions": {},
+    "functions": {
+      "processSwitch": {
+        "original": {
+          "switches": {
+            "187173": [
+              187181,
+              187212,
+              187219,
+              187226,
+              187264,
+              187352,
+              187590,
+              187782,
+              187807,
+              188099,
+              188167,
+              188177,
+              188194,
+              188204,
+              188214,
+              188224,
+              188234,
+              188272,
+              188336,
+              188346,
+              188358,
+              188457,
+              188756,
+              189627
+            ],
+            "187384": [
+              187392,
+              187441,
+              187448,
+              189637
+            ]
+          }
+        }
+      },
+      "setFinalTargetSystem": {
+        "original": {
+          "switches": {
+            "183959": [
+              183967,
+              184026,
+              184033,
+              183967
+            ]
+          }
+        }
+      },
+      "defineM_IX86Macro": {
+        "original": {
+          "switches": {
+            "183811": [
+              183819,
+              183823,
+              183830,
+              183849,
+              183837,
+              183844
+            ]
+          }
+        }
+      },
+      "macroDefs": {
+        "original": {
+          "switches": {
+            "185292": [
+              185300,
+              185331,
+              185317,
+              185324,
+              185338
+            ],
+            "185362": [
+              185370,
+              185377,
+              185384,
+              185391,
+              185398
+            ]
+          }
+        }
+      },
+      "findTypeId": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "findTypeId_",
+                "offset": 24
+              },
+              {
+                "rebuilt_symbol": "findTypeId_",
+                "offset": 184
+              }
+            ]
+          ]
+        }
+      },
+      "endOfStmt": {
+        "original": {
+          "switches": {
+            "228221": [
+              228229,
+              228449,
+              228505,
+              228558,
+              228617,
+              228792,
+              228918,
+              228950
+            ],
+            "228250": [
+              228258,
+              228311,
+              228413,
+              228390
+            ]
+          }
+        }
+      },
+      "convertReferenceTypes": {
+        "original": {
+          "switches": {
+            "90701": [
+              90739,
+              91052,
+              90709,
+              90719,
+              90729
+            ],
+            "90767": [
+              90775,
+              90798,
+              90709,
+              90719,
+              90729
+            ]
+          }
+        }
+      }
+    },
     "compatibility_calls": [
       {
         "owner": "MemFromSys",
@@ -39,6 +182,1336 @@
         "start": 266254,
         "bytes_hex": "5a5bc3"
       }
+    },
+    {
+      "owners": [
+        "setFinalTargetSystem",
+        "macroDefs"
+      ],
+      "original": {
+        "start": 184439,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ScopeOpen",
+        "findFunctionScope"
+      ],
+      "original": {
+        "start": 292321,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "saveNextChar",
+        "ScanOptionalComment"
+      ],
+      "original": {
+        "start": 50049,
+        "bytes_hex": "89d05ac3"
+      }
+    },
+    {
+      "owners": [
+        "findMacroParm",
+        "CSkip"
+      ],
+      "original": {
+        "start": 36729,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "findMacroParm",
+        "flush2EOL"
+      ],
+      "original": {
+        "start": 36729,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CSkip",
+        "flush2EOL"
+      ],
+      "original": {
+        "start": 36729,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CConditional",
+        "COr"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CConditional",
+        "CXOr"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CConditional",
+        "CAnd"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CConditional",
+        "CAdditive"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CConditional",
+        "CMultiplicative"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "COr",
+        "CXOr"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "COr",
+        "CAnd"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "COr",
+        "CAdditive"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "COr",
+        "CMultiplicative"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CXOr",
+        "CAnd"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CXOr",
+        "CAdditive"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CXOr",
+        "CMultiplicative"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CAnd",
+        "CAdditive"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CAnd",
+        "CMultiplicative"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CAdditive",
+        "CMultiplicative"
+      ],
+      "original": {
+        "start": 278765,
+        "bytes_hex": "c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "CLogicalOr",
+        "CLogicalAnd"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "CLogicalOr",
+        "CEquality"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "CLogicalOr",
+        "CRelational"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "CLogicalAnd",
+        "CEquality"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "CLogicalAnd",
+        "CRelational"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "CEquality",
+        "CRelational"
+      ],
+      "original": {
+        "start": 278831,
+        "bytes_hex": "c95ac3"
+      }
+    },
+    {
+      "owners": [
+        "Expecting",
+        "MustRecog"
+      ],
+      "original": {
+        "start": 281275,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "macroExpansion",
+        "collectParms"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "macroExpansion",
+        "glueTokens"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectParms",
+        "glueTokens"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "expandNestedMacros",
+        "buildMTokenList"
+      ],
+      "original": {
+        "start": 35162,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "macroExpansion",
+        "GetMacroToken"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectParms",
+        "GetMacroToken"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "glueTokens",
+        "GetMacroToken"
+      ],
+      "original": {
+        "start": 32366,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "CElse",
+        "ChkEOL"
+      ],
+      "original": {
+        "start": 38571,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "wantEOL",
+        "IncLevel"
+      ],
+      "original": {
+        "start": 38455,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "SrcFileGuardPpElse",
+        "SrcFileGuardPpEndif"
+      ],
+      "original": {
+        "start": 315651,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "parseInit",
+        "syncLocation"
+      ],
+      "original": {
+        "start": 402585,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "PTypeDone"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TypedefRemove",
+        "figureOutDSpec"
+      ],
+      "original": {
+        "start": 345869,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "searchScope",
+        "lexicalLookup"
+      ],
+      "original": {
+        "start": 300197,
+        "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectGenericTypes",
+        "newTemplateInfo"
+      ],
+      "original": {
+        "start": 330667,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "FinishDeclarator"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "FinishDeclarator"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TypedefModifierRemove",
+        "TypeAbstract"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "InsertDeclInfo"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "InsertDeclInfo"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "InsertDeclInfo"
+      ],
+      "original": {
+        "start": 347738,
+        "bytes_hex": "89c8c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "verifySpecialFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "verifySpecialFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "verifySpecialFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "InsertDeclInfo",
+        "verifySpecialFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "InsertDeclInfo",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifySpecialFunction",
+        "markAllUnused"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "InsertDeclInfo",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifySpecialFunction",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "markAllUnused",
+        "declareDefaultArgs"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ScopeCarefulInsert",
+        "walkDirectBases"
+      ],
+      "original": {
+        "start": 293965,
+        "bytes_hex": "c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "ClassMember",
+        "ClassName"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsError",
+        "SymIsTypedef"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsError",
+        "SymIsStatic"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsTypedef",
+        "SymIsStatic"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "TypedefModifierRemove",
+        "AlignmentType"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "TypeAbstract",
+        "AlignmentType"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "TypedefModifierRemove",
+        "TypeDefined"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "TypeAbstract",
+        "TypeDefined"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "AlignmentType",
+        "TypeDefined"
+      ],
+      "original": {
+        "start": 345950,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "makeExceptionList",
+        "MakeConstructorId"
+      ],
+      "original": {
+        "start": 344866,
+        "bytes_hex": "89c85a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "RewritePackageMemInit",
+        "RewritePackageFunction"
+      ],
+      "original": {
+        "start": 287164,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FinishDeclarator",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "InsertDeclInfo",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTypeDone",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "declareDefaultArgs",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "markAllUnused",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "typeDuplicated",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifySpecialFunction",
+        "dupFunction"
+      ],
+      "original": {
+        "start": 347740,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassName",
+        "verifyCtor"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassMember",
+        "verifyCtor"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "CheckScopedId",
+        "PTreeRef"
+      ],
+      "original": {
+        "start": 283981,
+        "bytes_hex": "89d05a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTreeEffFlags",
+        "PTreeOp"
+      ],
+      "original": {
+        "start": 284140,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "FunctionDeclarationType",
+        "EnumType"
+      ],
+      "original": {
+        "start": 353040,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "labelFindBlk",
+        "LabelBlockClose"
+      ],
+      "original": {
+        "start": 255993,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsError",
+        "SymIsFunctionTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsStatic",
+        "SymIsFunctionTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsTypedef",
+        "SymIsFunctionTemplateModel"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "addListEntry",
+        "resolveOverload"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "buildOverloadListFromSym",
+        "getRank"
+      ],
+      "original": {
+        "start": 237706,
+        "bytes_hex": "89f8c95f5ec3"
+      }
+    },
+    {
+      "owners": [
+        "addListEntry",
+        "doComputeArgRank"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "resolveOverload",
+        "doComputeArgRank"
+      ],
+      "original": {
+        "start": 242168,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "fnovNumCandidatesSet",
+        "fnovNumCandidatesRestore"
+      ],
+      "original": {
+        "start": 236985,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "applyFnClassMods",
+        "checkDestructor"
+      ],
+      "original": {
+        "start": 349512,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ClassEnd",
+        "ClassAddDefaultCopy"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "injectGlobalOpNew",
+        "setAccess"
+      ],
+      "original": {
+        "start": 297965,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "memberSearch",
+        "setProtectedAccess"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "data_ptr_size",
+        "code_ptr_size"
+      ],
+      "original": {
+        "start": 169910,
+        "bytes_hex": "0fb6c08b048550250b00c3"
+      }
+    },
+    {
+      "owners": [
+        "RewritePackageFunction",
+        "RewriteToken"
+      ],
+      "original": {
+        "start": 287164,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "RewritePackageMemInit",
+        "RewriteToken"
+      ],
+      "original": {
+        "start": 287164,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassEnd",
+        "verifyMemInit"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassAddDefaultCopy",
+        "verifyMemInit"
+      ],
+      "original": {
+        "start": 172068,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassMember",
+        "verifyAllConstRefsInit"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "verifyCtor",
+        "verifyAllConstRefsInit"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ClassName",
+        "verifyAllConstRefsInit"
+      ],
+      "original": {
+        "start": 172934,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "EmitAnalysedStmt",
+        "IcEmitExpr"
+      ],
+      "original": {
+        "start": 252141,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "findOrDefineDtor",
+        "ctorPrologueInit"
+      ],
+      "original": {
+        "start": 80640,
+        "bytes_hex": "c95f5ec20400"
+      }
+    },
+    {
+      "owners": [
+        "SymIsError",
+        "SymIsEnumeration"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsFunctionTemplateModel",
+        "SymIsEnumeration"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsTypedef",
+        "SymIsEnumeration"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "SymIsStatic",
+        "SymIsEnumeration"
+      ],
+      "original": {
+        "start": 319331,
+        "bytes_hex": "0f94c00fb6c0c3"
+      }
+    },
+    {
+      "owners": [
+        "nodeSimplifyComma",
+        "NodeStripPoints"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "nodeSimplifyComma",
+        "nodeRvalueArray"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NodeStripPoints",
+        "nodeRvalueArray"
+      ],
+      "original": {
+        "start": 104660,
+        "bytes_hex": "89d85e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ctorPrologueComponents",
+        "genCtorDispInit"
+      ],
+      "original": {
+        "start": 78419,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "setProtectedAccess",
+        "collectVFTable"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "memberSearch",
+        "collectVFTable"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "scanForVFNs",
+        "doubleCheckEntries"
+      ],
+      "original": {
+        "start": 302534,
+        "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "setProtectedAccess",
+        "analyseVFN"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "memberSearch",
+        "analyseVFN"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "collectVFTable",
+        "analyseVFN"
+      ],
+      "original": {
+        "start": 303937,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "replicateSearch",
+        "appendScopeMangling"
+      ],
+      "original": {
+        "start": 231732,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PTreeIntConstant",
+        "PTreeUIntConstant"
+      ],
+      "original": {
+        "start": 282025,
+        "bytes_hex": "89d8894b14595bc3"
+      }
+    },
+    {
+      "owners": [
+        "TypeModFlags",
+        "TypeModFlagsEC"
+      ],
+      "original": {
+        "start": 354314,
+        "bytes_hex": "89d866890a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymDefaultBase",
+        "SymIsAutomatic"
+      ],
+      "original": {
+        "start": 319744,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ArrayBaseType",
+        "ArrayType"
+      ],
+      "original": {
+        "start": 353376,
+        "bytes_hex": "5a59c3"
+      }
+    },
+    {
+      "owners": [
+        "FunctionBody",
+        "endOfStmt"
+      ],
+      "original": {
+        "start": 225399,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "checkReferenceResult",
+        "convertReferenceTypes"
+      ],
+      "original": {
+        "start": 86781,
+        "bytes_hex": "89c8c95f5e59c3"
+      }
+    },
+    {
+      "owners": [
+        "NodeAssign",
+        "nodePossibleTemp"
+      ],
+      "original": {
+        "start": 107319,
+        "bytes_hex": "89d85e595bc3"
+      }
     }
   ],
   "shared_call_return_tails": [
@@ -54,6 +1527,596 @@
       "call": {
         "offset": 0,
         "target": "MakeTypeOf"
+      }
+    },
+    {
+      "owners": [
+        "initDefaultCodeSeg",
+        "initDefaultDataSeg"
+      ],
+      "original": {
+        "start": 311005,
+        "bytes_hex": "e858f9ffff5a595bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "initDefSeg"
+      }
+    },
+    {
+      "owners": [
+        "MakePointerTo",
+        "MakeReferenceTo"
+      ],
+      "original": {
+        "start": 342418,
+        "bytes_hex": "e8f3feffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "MakeTypeOf"
+      }
+    },
+    {
+      "owners": [
+        "MakeConstTypeOf",
+        "MakeReferenceTo"
+      ],
+      "original": {
+        "start": 342418,
+        "bytes_hex": "e8f3feffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "MakeTypeOf"
+      }
+    },
+    {
+      "owners": [
+        "CgFrontCodeInt",
+        "CgFrontCodePtr"
+      ],
+      "original": {
+        "start": 159250,
+        "bytes_hex": "89d8e8de0200005bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "CgFrontCode"
+      }
+    },
+    {
+      "owners": [
+        "FreeSymbol",
+        "deletePath"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "FreeSymbol",
+        "deleteExclude"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "deletePath",
+        "deleteExclude"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "MakeFlagModifier",
+        "dupModifier"
+      ],
+      "original": {
+        "start": 342386,
+        "bytes_hex": "e8d6ffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "makeFullModifier"
+      }
+    },
+    {
+      "owners": [
+        "deletePath",
+        "deleteResult"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "deleteExclude",
+        "deleteResult"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "FreeSymbol",
+        "deleteResult"
+      ],
+      "original": {
+        "start": 292168,
+        "bytes_hex": "e81978fdff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "activateBuffer",
+        "deactivateBuffer"
+      ],
+      "original": {
+        "start": 167580,
+        "bytes_hex": "89dae885dc01005a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "RingAppend"
+      }
+    },
+    {
+      "owners": [
+        "MakePlusPlusFunction",
+        "functionReturnsPtrVoid"
+      ],
+      "original": {
+        "start": 348776,
+        "bytes_hex": "e8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "ScopeFindLexicalClassType",
+        "ScopeContainsMember"
+      ],
+      "original": {
+        "start": 304860,
+        "bytes_hex": "8d45cce843efffffc95bc3"
+      },
+      "call": {
+        "offset": 3,
+        "target": "makeResult"
+      }
+    },
+    {
+      "owners": [
+        "data_ptr_type",
+        "code_ptr_type"
+      ],
+      "original": {
+        "start": 169424,
+        "bytes_hex": "0fb6d00fb7c3e8afffffff5a5bc3"
+      },
+      "call": {
+        "offset": 6,
+        "target": "ptr_type"
+      }
+    },
+    {
+      "owners": [
+        "MakeInlineFunction",
+        "MakePlusPlusFunction"
+      ],
+      "original": {
+        "start": 348774,
+        "bytes_hex": "31dbe8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 2,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "MakeInlineFunction",
+        "functionReturnsPtrVoid"
+      ],
+      "original": {
+        "start": 348776,
+        "bytes_hex": "e8caffffff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "adjustFunctionType"
+      }
+    },
+    {
+      "owners": [
+        "CDoptDtorBuild",
+        "CDoptDefCtorBuild"
+      ],
+      "original": {
+        "start": 129828,
+        "bytes_hex": "e8eefeffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "cdoptBuildOrig"
+      }
+    },
+    {
+      "owners": [
+        "defDtorSchAccChk",
+        "defCtorSchAccChk"
+      ],
+      "original": {
+        "start": 128452,
+        "bytes_hex": "e89f7a02005ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "RtnGenAddType"
+      }
+    },
+    {
+      "owners": [
+        "TypeReallyDtorable",
+        "TypeExactDtorable"
+      ],
+      "original": {
+        "start": 130025,
+        "bytes_hex": "e890ffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "typeDtorable"
+      }
+    },
+    {
+      "owners": [
+        "setPrefix",
+        "appendReplName"
+      ],
+      "original": {
+        "start": 232382,
+        "bytes_hex": "e8bffdffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "appendStr"
+      }
+    },
+    {
+      "owners": [
+        "CgMemorySize",
+        "CgTypeSize"
+      ],
+      "original": {
+        "start": 170241,
+        "bytes_hex": "e8bbfeffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "cgSize"
+      }
+    },
+    {
+      "owners": [
+        "ClassTypeForType",
+        "EnumTypeForType"
+      ],
+      "original": {
+        "start": 111958,
+        "bytes_hex": "e8dbffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "typeTested"
+      }
+    },
+    {
+      "owners": [
+        "FreeSymbolName",
+        "ScopeBurn"
+      ],
+      "original": {
+        "start": 292207,
+        "bytes_hex": "e8f277fdff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "FreeSymbolName",
+        "deleteCap"
+      ],
+      "original": {
+        "start": 292207,
+        "bytes_hex": "e8f277fdff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    },
+    {
+      "owners": [
+        "ScopeBurn",
+        "deleteCap"
+      ],
+      "original": {
+        "start": 292207,
+        "bytes_hex": "e8f277fdff5a5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CarveFree"
+      }
+    }
+  ],
+  "shared_terminal_regions": [
+    {
+      "owners": [
+        "MacroTokenBufferAddChar",
+        "MacroTokenBufferAddString"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 341243,
+            "bytes_hex": "40a348de0b005ac3"
+          }
+        ],
+        "branches": []
+      }
+    },
+    {
+      "owners": [
+        "toPtrRank",
+        "toMbrPtrRank"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 240139,
+            "bytes_hex": "0f8475000000ba01000000c646060b89d0c95f5e59c3"
+          },
+          {
+            "start": 240262,
+            "bytes_hex": "31d2eb90"
+          }
+        ],
+        "branches": [
+          {
+            "site": 240139,
+            "target": 240262
+          },
+          {
+            "site": 240264,
+            "target": 240154
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "appendInt",
+        "appendDelta"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 232057,
+            "bytes_hex": "e8c3f602008d45f0e8fcfeffffc95a5bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 232057,
+            "target": "ultoa"
+          },
+          {
+            "site": 232065,
+            "target": "appendStr"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "MakeVFTableFieldType",
+        "MakeVBTableFieldType"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 359928,
+            "bytes_hex": "e88dbbffffe8d4ffffff5ac3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 359928,
+            "target": "MakeConstTypeOf"
+          },
+          {
+            "site": 359933,
+            "target": "makeVTableType"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "MakeMemberPointerTo",
+        "changeToPointer"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 343158,
+            "bytes_hex": "89dae80dfcffff5bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 343160,
+            "target": "MakeTypeOf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "cgEmitIns",
+        "cgEmitData"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 158456,
+            "bytes_hex": "89cae8abffffff5a595bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 158458,
+            "target": "cgWriteIC"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "MakeNodeSymbol",
+        "NodeMakeCallee"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 107361,
+            "bytes_hex": "31dbe80da80200e8a0f7ffff5a5bc3"
+          }
+        ],
+        "branches": [],
+        "calls": [
+          {
+            "site": 107363,
+            "target": "PTreeAlloc"
+          },
+          {
+            "site": 107368,
+            "target": "NodeSymbolNoRef"
+          }
+        ]
+      }
+    }
+  ],
+  "function_properties": {
+    "CFatal": {
+      "pending_extent": false
+    },
+    "PrtChar": {
+      "pending_extent": false
+    },
+    "nextMToken": {
+      "pending_extent": false
+    },
+    "saveParm": {
+      "pending_extent": false
+    },
+    "diagnoseTypedef": {
+      "pending_extent": false
+    },
+    "CErr1": {
+      "pending_extent": false
+    }
+  },
+  "shared_jump_tails": [
+    {
+      "owners": [
+        "CIfNDef",
+        "CIf"
+      ],
+      "original": {
+        "start": 38088,
+        "bytes_hex": "31c0e923010000"
+      },
+      "jump": {
+        "offset": 2,
+        "target": "IncLevel"
+      }
+    },
+    {
+      "owners": [
+        "syncLocation",
+        "parserNextToken"
+      ],
+      "original": {
+        "start": 402630,
+        "bytes_hex": "b840e60b00e948abfeff"
+      },
+      "jump": {
+        "offset": 5,
+        "target": "SrcFileGetTokenLocn"
+      }
+    },
+    {
+      "owners": [
+        "generate_type_instr",
+        "generate_expr_instr"
+      ],
+      "original": {
+        "start": 249492,
+        "bytes_hex": "0fb6c3e97f9ffeff"
+      },
+      "jump": {
+        "offset": 3,
+        "target": "CgFrontCodeInt"
       }
     }
   ]

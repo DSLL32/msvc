@@ -10,6 +10,18 @@ typedef struct macro_entry {
 } MEDEFN, *MEPTR;
 #pragma pack()
 void DirectiveInit(void);
+MEPTR defineStringMacro(char *definition);
+void MacroCanBeRedefined(MEPTR entry);
+MEPTR MacroScan(int mode);
+extern void *macro_expansion_state;
+extern MEPTR fmentry;
+extern char *MacroOffset;
+extern unsigned NestLevel, SkipLevel;
+int SpecialMacro(MEPTR entry);
+void DoMacroExpansion(void);
+void GetMacroToken(int expanding);
+typedef struct macro_state { char *curr_offset; unsigned undef_count; } MACRO_STATE;
+void MacroStateGet(MACRO_STATE *state);
 void MacroStorageInit(void);
 void macroAllocSegment(unsigned minimum);
 void *macroAllocateInSeg(unsigned size);

@@ -58,6 +58,7 @@ typedef struct aux_entry {
 } AUX_ENTRY;
 #pragma pack()
 extern AUX_INFO *CurrInfo;
+extern AUX_INFO DefaultInfo;
 int setAuxInfo(unsigned index, int create_new);
 unsigned lookupMagicKeyword(char *name);
 AUX_ENTRY *AuxLookup(char *name);

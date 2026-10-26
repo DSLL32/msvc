@@ -183,7 +183,7 @@ void output(const char *text)
 }
 void Wait_for_return(void)
 {
-    if (isatty(fileno(stdin))) {
+    if (isatty(fileno(stdout))) {
         output("\n    (Press return to continue)");
         fflush(stdout);
         getch();

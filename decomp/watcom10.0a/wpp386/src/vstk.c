@@ -31,7 +31,10 @@
 
 /* bld/fe_misc/c/vstk.c, initial commit6b9cb443. The observed16-byte
  * control and all five initialization stores match the shipped body. */
+#include <stddef.h>
 #include "vstk.h"
+#include "pending.h"
+#include "compiler.h"
 #include <recon.h>
 
 void VstkOpen(VSTK_CTL *stack, unsigned size, unsigned count)
@@ -41,4 +44,99 @@ void VstkOpen(VSTK_CTL *stack, unsigned size, unsigned count)
     stack->freed = 0;
     stack->per_block = count;
     stack->size = size;
+}
+
+void *VstkTop(VSTK_CTL *stack)
+{
+    return stack->current;
+}
+unsigned vstkDataSize(const VSTK_CTL *stack);
+int vstkInBlk(const VSTK_BLK *block, void *entry, unsigned size)
+{
+    if (!entry || (char *)entry<block->data ||
+        (char *)entry>=block->data+size) return 0;
+    return 1;
+}
+void *VstkNext(VSTK_CTL *stack, void *entry)
+{
+    VSTK_BLK *block;
+    unsigned size=vstkDataSize(stack);
+    for (block=stack->top;;block=block->last) {
+        if (!block) {
+            block=stack->top;
+            entry=block ? block->data : NULL;
+            break;
+        }
+        if (vstkInBlk(block,entry,size)) {
+            entry=(char *)entry+stack->size;
+            if ((char *)entry>=block->data+size) {
+                block=block->last;
+                entry=block ? block->data : NULL;
+            }
+            break;
+        }
+    }
+    return entry;
+}
+
+unsigned vstkDataSize(const VSTK_CTL *stack)
+{
+    return stack->per_block*stack->size;
+}
+void *vstkPushBlk(VSTK_CTL *stack)
+{
+    VSTK_BLK *block=stack->freed;
+    unsigned size=vstkDataSize(stack);
+    if (!block) block=(VSTK_BLK *)CMemAlloc(size+sizeof(block->last));
+    else stack->freed=block->last;
+    block->last=stack->top;
+    stack->top=block;
+    return block->data+size;
+}
+void *VstkPush(VSTK_CTL *stack)
+{
+    char *current;
+    if (!stack->top || !stack->current || stack->current==stack->top->data)
+        current=(char *)vstkPushBlk(stack);
+    else current=(char *)stack->current;
+    current-=stack->size;
+    stack->current=current;
+    return current;
+}
+
+VSTK_BLK *vstkPopBlk(VSTK_CTL *stack)
+{
+    VSTK_BLK *block=stack->top;
+    VSTK_BLK *next=block->last;
+    block->last=stack->freed;
+    stack->freed=block;
+    stack->top=next;
+    return next;
+}
+void *VstkPop(VSTK_CTL *stack)
+{
+    void *old=stack->current;
+    VSTK_BLK *block;
+    if (old) {
+        if ((char *)old==stack->top->data+vstkDataSize(stack)-stack->size) {
+            block=vstkPopBlk(stack);
+            stack->current=block ? block->data : NULL;
+        } else stack->current=(char *)old+stack->size;
+    }
+    return old;
+}
+
+void freeVstkBlocks(VSTK_BLK *block)
+{
+    VSTK_BLK *next;
+    while (block) {
+        next=block->last;
+        CMemFree(block);
+        block=next;
+    }
+}
+void VstkClose(VSTK_CTL *stack)
+{
+    freeVstkBlocks(stack->top);
+    freeVstkBlocks(stack->freed);
 }

@@ -32,6 +32,7 @@
 /* bld/plusplus/c/hfile.c, initial commit
  *6b9cb4438959d845a2b4dd4bf19f7908ecd608e9; actual hfileInit11B. */
 #include "compiler.h"
+#include "pending.h"
 #include <recon.h>
 
 static char *hfile_list;
@@ -41,3 +42,6 @@ void hfileInit(INITFINI *entry)
     (void)entry;
     hfile_list = 0;
 }
+
+void HFileListStart(void) { STUB_TRAP(); }
+void HFileListNext(char *prefix) { (void)prefix; STUB_TRAP(); }
