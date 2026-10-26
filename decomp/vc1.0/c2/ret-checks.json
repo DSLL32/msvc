@@ -945,6 +945,21 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@lift_left_sequence@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@discard_sequence_tail@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lift_right_sequence@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

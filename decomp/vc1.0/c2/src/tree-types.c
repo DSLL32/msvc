@@ -445,3 +445,15 @@ unsigned short __fastcall value_node_type(short kind, unsigned bytes)
         return (unsigned short)(bytes | 0x8000);
     return (unsigned short)encode_node_type((signed char)kind, bytes);
 }
+
+/* Original527b0..527d7. A narrowing caller has established that only the
+   offset survives. Release the selector subtree, convert the offset to the
+   target's four-byte near address, then retire the pair owner itself. */
+Node *__fastcall discard_sequence_tail(Node *node)
+{
+    Node *offset;
+    release_tree(node->second.node);
+    offset = convert_node_type(node->left.node, 0x404);
+    release_node(node);
+    return offset;
+}

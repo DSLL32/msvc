@@ -234,3 +234,23 @@ Node *__fastcall canonicalize_after_children(Node *node, Node *parent)
     }
     return node;
 }
+
+/* Original51380..5139f. Lift the left offset/selector pair around its
+   binary operation, reusing both owners. The caller types the new offset;
+   this recipe deliberately has no Y/type-finishing step of its own. */
+Node *__fastcall lift_left_sequence(Node *node)
+{
+    Node *left = node->left.node;
+    return build_tree("PPLPL", left->left.node, node->second.node, node,
+                      left->second.node, left);
+}
+
+/* Original513a0..513bf. Preserve the right pair's selector while moving
+   its offset into the existing binary owner. Type finishing belongs to the
+   caller, just as for the separate left-pair operation. */
+Node *__fastcall lift_right_sequence(Node *node)
+{
+    Node *right = node->second.node;
+    return build_tree("PPLPL", node->left.node, right->left.node, node,
+                      right->second.node, right);
+}

@@ -1,22 +1,62 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1495 completes the polymorphic OMF case. There are1380 reconstructed
-App functions and five unchanged historical CRT bodies. App code occupies
-361526/399693 original code-section bytes(90.4509%); adding940 owned text-data
-bytes gives362466/399693(90.6861%). These clipped extent unions use section
-VirtualSize(raw size only if zero), not branch coverage. Five historical CRT
-overrides contribute1776B separately, zero App credit. Available App/classified
-CRT/import extents cover388840/399693(97.2847%). A reliable non-CRT denominator
-is unavailable;29 pending App rows and10853B outside the available union still
-need investigation. The latter includes unclassified/support/padding and is not
-a known remaining-App byte count. No only-CRT claim.
+Checkpoint1498 completes the INTERNAL paired-address case. There are1383
+reconstructed App functions and five unchanged historical CRT bodies. App code
+occupies361627/399693 original code-section bytes(90.4762%); adding940 owned
+text-data bytes gives362567/399693(90.7114%). These clipped extent unions use
+section VirtualSize(raw size only if zero), not branch coverage. Five historical
+CRT overrides contribute1776B separately, zero App credit. Available App/
+classified CRT/import extents cover388941/399693(97.3099%). A reliable non-CRT
+denominator is unavailable;26 pending App rows and10752B outside the available
+union still need investigation. The latter includes unclassified/support/padding
+and is not a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All36 cached IO cases, seven INTERNAL DIRECT
+`binary.c` is the sole registry. All36 cached IO cases, eight INTERNAL DIRECT
 cases and250 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The paired-address case reuses owned copies of case0034's genuine source/IR and
+optimizer entry at transform_function_trees. The live _rotate_profile function
+owns an initialized arena/scope and11 expression roots. Through existing target
+constructors,18 arithmetic/narrowing combinations use opcode68 offset/selector
+pairs, ordinary binary addition/subtraction and an opaque16-bit selector literal.
+No represented address is dereferenced. Source/IR and pointer-width globals are unchanged; no private flags are
+forced by the harness. These are internal API contracts, not a claim that
+the public NT frontend emits these pairs or supports a rejected far syntax.
+
+Three whole owners add101B: left-pair lift31, selector discard/near conversion39
+and right-pair lift31. Original ABI is ECX Node*/EAX Node*/RET0 for each. The
+PPLPL tree recipe reuses the actual operation/pair owners and retains selector
+identity; caller-side type finishing is separate. Independent modulo32 arithmetic
+and defined type/shape assertions accompany the exact808B original/native report.
+All11 borrowed roots, active function/current expression and ordering remain
+intact. Fresh masked original/native prefixes1495..1498 match. Abrupt completion
+leaves an exact empty profile.cod and strict absence of object output; it does
+not claim a complete transformed compilation. Changing an expected offset bit
+rejects exit125. There is no new normalization, CRT body or shared shim.
+
+One initial native-only setup attempted unsupported intern_leaf opcode69.
+Original static inspection confirms the same rejection; the supported typed
+integral selector constructor replaces it before any original run. Missing header
+and unused address literals are also corrected before original launch. The GDB
+stop/quit is a diagnostic SIGKILL, not a pass. Actual original setup then completes
+all18 contracts on its first run. Normal named-stub discovery in an exploratory
+exit-only descriptor is retained as a failed run, not a qualified fixture.
+
+Final make-j4 audit/check/unit passes2.252s(phases unsplit):1388 paired graphs/
+accepted extents,192 scoped RET contracts,44 cases and250 units. Original/W3
+compilation passes2.821s with existing trapping-stub warnings only. All measured
+attempts: canonical/native builds10.437s, metadata2.027s, case builds1.282s,
+original helper build2.465s, untouched DIRECT baseline0.517s, masked originals
+3.626s, focused graph/RET0.175s, native case/setup0.267s and GDB diagnostic0.201s.
+Intentional negative0.030s. Analysis/editing/disassembly/packing and manual
+scratch compilation are unmeasured; sums are not task elapsed. Raw references,
+completion/timing/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/paired-address/`.
+
+The preceding polymorphic OMF case completed checkpoint1495.
 The polymorphic checksum accumulator uses ordinary virtual destructors, scalar
 and array deletion, observable callbacks and bounded unsigned arithmetic.
 Untouched CL/O2/Ob0/G3/Z7/W3 succeeds. Its9805B COFF object matches the exact

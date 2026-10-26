@@ -11045,11 +11045,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@discard_sequence_tail@4",
         .entry_rva = 0x427b0,
-        .code = (const ReconExtent[]) { { 0x427b0, 0x427b1 } },
+        .code = (const ReconExtent[]) { { 0x427b0, 0x427d7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "discard_sequence_tail",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@common_node_type@8",
@@ -11126,20 +11126,20 @@ static const ReconFunction functions[] = {
     {
         .name = "@lift_right_sequence@4",
         .entry_rva = 0x413a0,
-        .code = (const ReconExtent[]) { { 0x413a0, 0x413a1 } },
+        .code = (const ReconExtent[]) { { 0x413a0, 0x413bf } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lift_right_sequence",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@lift_left_sequence@4",
         .entry_rva = 0x41380,
-        .code = (const ReconExtent[]) { { 0x41380, 0x41381 } },
+        .code = (const ReconExtent[]) { { 0x41380, 0x4139f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lift_left_sequence",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@simplify_short_circuit@8",

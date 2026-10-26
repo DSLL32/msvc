@@ -41,9 +41,6 @@
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
-Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
-Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
 unsigned __fastcall second_return_value_register(FunctionSymbol *symbol) { __asm int 3 }
