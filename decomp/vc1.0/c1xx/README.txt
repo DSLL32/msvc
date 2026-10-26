@@ -1,6 +1,38 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Font catalog is COMPLETE: case0025. The unchanged supported source combines
+thread-local aggregate/array/float/double zero storage, signed font-metric enums,
+name decoding and callbacks, global catalog lifetime in a custom CRT startup
+section, and title/subtitle/page/skip/size listing pragmas under -Fs. Its original
+baseline succeeds without source repairs. Eight exact artifacts include the
+ordinary IR/debug/browser streams plus diagnostic-trace and listing files.
+
+Four whole App bodies /578 code bytes were accepted: listing directives,
+thread-local zero initialization, signed CodeView numeric leaves and segment
+suffix classification. Listing dispatch owns48 encountered text-data bytes;
+source uses a readable switch. Whole-body ABI analysis corrects the earlier
+listing placeholder's byte formal to its actual full-word mode/RET4 contract.
+The low byte is emitted, while the whole word selects the remaining fields.
+The suffix test preserves the original strict-shorter requirement, including
+equal-name failure. All three signed numeric widths are exercised by the enums.
+
+Fresh original/native observations match all four first encounters, exit0,
+diagnostics and all eight outputs, exactly matching the untouched baseline.
+No output normalization, new guard, handwritten CRT body or shared change was
+needed. Totals:1,750 App bodies /1,857 historical frontiers, plus seven unchanged
+CRT source bodies. App-only code union393,559 /476,418 B is82.61% of whole
+original code extent, not a non-CRT denominator. All26 cached native cases,
+31 unit groups and the1,758-function six-check graph/ABI audit pass; original-
+toolchain builds pass. Case-end full gate9.404 s includes a full native/case
+rebuild, not just fixture execution; graph-only time was not separately measured.
+Final fresh original1.035 s; native33.944 ms (setup19.482 ms, execution6.829 ms,
+checks7.633 ms). Preceding incremental native/Win32 build2.689 s; first header/
+ABI build3.860 s. Final cached font replay27.983 ms. No extra broad timing runs
+or intermediate function commits were used.
+
+Earlier completed calibration archive:
+
 Calibration archive is COMPLETE: case0024. The coherent channel-record API
 combines signed/unsigned numeric profile tables, packed flags, deferred typed
 and qualified defaults, later declarations extending defaults, and proxy-to-

@@ -97,3 +97,16 @@ void __stdcall assign_symbol_segment(CppSymbol *symbol, SegmentSymbol *segment)
     attributes = (symbol->kind & 31) == 7 ? symbol->type->attributes : 5;
     symbol->type = make_qualified_type(symbol->type,0x400,attributes,&base);
 }
+
+/* Original0x55070..0x550db, stdcall8. A suffix must be strictly
+   shorter than the segment name; equal complete names deliberately fail. */
+int __stdcall segment_name_has_suffix(char *name, char *suffix)
+{
+    unsigned length, suffix_length;
+    for (length = 0; name[length]; ++length) ;
+    for (suffix_length = 0; suffix[suffix_length]; ++suffix_length) ;
+    if (suffix_length >= length) return 0;
+    name += length - suffix_length;
+    while (*name && *name == *suffix) { ++name; ++suffix; }
+    return *name == *suffix;
+}

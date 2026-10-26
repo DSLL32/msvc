@@ -76,7 +76,6 @@ void report_ide_source(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
-void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
@@ -331,7 +330,6 @@ int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
-unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { __asm { int 3 } return 0; }
 
 
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
@@ -364,7 +362,6 @@ IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int d
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
 void synchronize_pch_pragma(void) { __asm { int 3 } }
-void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 
@@ -424,7 +421,6 @@ CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 }
 int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding *binding, unsigned char *protection) { __asm { int 3 } return 0; }
 
 
-int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
 
 
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }

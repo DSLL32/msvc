@@ -731,3 +731,38 @@ void emit_runtime_zero_initializer(void)
     } else emit_runtime_initializer_call(0xad, destination, zero, bytes);
     initializer_offset += integer_constant_scratch;
 }
+
+/* Original0x519d0..0x51ab3, stdcall4. Thread-local definitions need
+   explicit zero initializers, including recursively initialized aggregates. */
+void __stdcall initialize_zero_object(CppSymbol *symbol)
+{
+    unsigned short category;
+    TypeShape *shape;
+    CppSymbol *tag;
+    int aggregate = 0;
+    if (!symbol->index) {
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        symbol->index = next_symbol_index++;
+    }
+    symbol->attributes |= 4;
+    begin_object_initializer(symbol);
+    if (symbol->type->flags & 0x400) {
+        category = classify_incomplete_type(symbol->type);
+        if (category == 0x80 || category == 2) {
+            tag = cpp_context_stack->items[symbol->type->field08];
+            if (tag->detail.class_info->flags2 & 1) aggregate = 1;
+        }
+    }
+    if (!aggregate) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape && (shape->flags & 0x77) == 2) aggregate = 1;
+    }
+    if (aggregate) {
+        begin_braced_initializer(symbol);
+        initialize_element(make_integer_constant(0), 0);
+        end_braced_initializer(symbol);
+    } else initialize_object(symbol, make_integer_constant(0));
+}

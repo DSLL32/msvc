@@ -2096,3 +2096,22 @@ unsigned short __cdecl prepare_line_record_tag(CppSymbol *tag)
     if (tag->name == name_unnamed) tag->type->debug_index = info->debug_index;
     return info->debug_index;
 }
+
+/* Original0x702c0..0x7031b, stdcall8. CodeView numeric leaves retain
+   a signed byte, short or long after the corresponding numeric type tag. */
+unsigned __stdcall encode_debug_signed(unsigned char *destination, int value)
+{
+    if (value >= -128 && value <= 127) {
+        *(unsigned short *)destination = 0x8000;
+        destination[2] = (unsigned char)value;
+        return 3;
+    }
+    if (value >= -32768 && value <= 32767) {
+        *(unsigned short *)destination = 0x8001;
+        *(short *)(destination + 2) = (short)value;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8003;
+    *(int *)(destination + 2) = value;
+    return 6;
+}

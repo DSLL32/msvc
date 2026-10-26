@@ -33,7 +33,7 @@ void process_pack_pragma(void);
 int __stdcall validate_packing(int alignment);
 void __stdcall push_pragma_packing(int alignment, char *label);
 void __stdcall pop_pragma_packing(int alignment, char *label);
-void __stdcall emit_listing_directive(unsigned char mode);
+void __stdcall emit_listing_directive(unsigned mode);
 void __stdcall pragma_message(char *text);
 void unpack_option_flags(unsigned flags);
 void __stdcall set_warning_level(int number, int level);

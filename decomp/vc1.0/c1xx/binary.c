@@ -1693,6 +1693,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "segment_name_has_suffix",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_segment_symbol@16",
@@ -10493,6 +10494,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initialize_zero_object",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_declare_qualified_member@12",
@@ -13783,10 +13785,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_encode_debug_signed@8",
         .entry_rva = 0x602c0,
-        .code = (const ReconExtent[]) { { 0x602c0, 0x602c1 } },
+        .code = (const ReconExtent[]) { { 0x602c0, 0x6031b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "encode_debug_signed",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_encode_debug_unsigned@8",
@@ -18782,10 +18785,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_listing_directive@4",
         .entry_rva = 0x13530,
-        .code = (const ReconExtent[]) { { 0x13530, 0x13531 } },
+        .code = (const ReconExtent[]) { { 0x13530, 0x135c9 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_listing_directive",
+        .text_data = (const ReconExtent[]) { { 0x135cc, 0x135fc } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_warn_expected_identifier",

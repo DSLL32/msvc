@@ -883,3 +883,24 @@ void __stdcall assign_allocated_text(char *name)
     }
     assign_symbol_segment(symbol, (SegmentSymbol *)record_context_symbol);
 }
+
+/* Original0x23530..0x235c9, stdcall4, dispatch235cc..235fc. The
+   original tests the complete mode word, writing only its low byte. */
+void __stdcall emit_listing_directive(unsigned mode)
+{
+    if (!options.option_Fs) return;
+    auxiliary_ir_stream = listing_file;
+    putc(mode, auxiliary_ir_stream);
+    write_ir_short((short *)&source_line_number);
+    switch (mode) {
+    case 1: case 3: case 7: case 12:
+        write_ir_short(&listing_number);
+        break;
+    case 8:
+        write_ir_string(listing_subtitle);
+        break;
+    case 9:
+        write_ir_string(listing_title);
+        break;
+    }
+}
