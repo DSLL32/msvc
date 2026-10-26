@@ -1495,11 +1495,15 @@ Native errors/full FP stay unchanged. Existing #line formats stay supported;
 other new grammars/profiles remain denied. Original per-call state unmeasured.
 
 The explicit MSVCRT510 _mbstok spelling has its SDK unsigned-char pair/cdecl
-signature and only an unconditional125 boundary. It reads neither pointer and
-creates no tokenization state; NULL/invalid/owned spans all deny without writes.
-The whole DEF-reader source may compile, while actual tokenization remains
-unsupported pending a reached caller domain. Other profiles keep no _mbstok
-alias. No strtok substitution or provider execution is qualified here.
+signature. Its reached success domain is fresh nonNULL writable owned ASCII
+text shorter4096B, exact space/tab delimiters, default-C/CP0/MB1/gate0/allLC0.
+The whole bounded line and delimiter disjointness are checked before the single
+ending-delimiter NUL write; leading spaces/tabs are skipped and return aliases
+the first token or NULL. NULL continuation/private PTD state and other domains
+remain125. Other profiles keep no alias. Caller storage ownership is a public
+precondition; no arbitrary memory-ownership framework is introduced. Native
+errors/full FP are preserved; original per-call locale/bytes/errors/FP were
+unmeasured. LINK's unchanged320 oracle qualifies the ordinary first-token use.
 
 Watcom _rotl maps to a shared unsigned32 helper implementing count modulo32,
 with count0 returned unchanged to avoid shift-by32 C undefined behavior. The

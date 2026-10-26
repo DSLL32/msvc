@@ -956,3 +956,9 @@ build/watcom-rotl-probe: tests/watcom-rotl-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-rotl-check: build/watcom-rotl-probe
 	$<
+
+.PHONY: mbstok-first-check
+build/mbstok-first-probe: tests/mbstok-first-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+mbstok-first-check: build/mbstok-first-probe
+	$(PYTHON) tests/check-mbstok-first.py $< 510

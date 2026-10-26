@@ -2446,8 +2446,35 @@ WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size
 }
 WEAK unsigned char *__cdecl recon_mbstok(unsigned char *text,const unsigned char *delimiters)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    size_t length,start,end,n;
+    uintptr_t input=(uintptr_t)text,separator=(uintptr_t)delimiters;
+    if(!text || !delimiters || input<4096 || separator<4096 ||
+       input>UINTPTR_MAX-4096 || separator>UINTPTR_MAX-3 ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 ||
+       recon_lc_codepage || locale_profile_applied || ctype_selection.bound)
+        recon_unsupported("_mbstok fresh ASCII input/default-C scope");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("_mbstok default-C locale handles");
+    if(delimiters[0]!=' ' || delimiters[1]!='\t' || delimiters[2])
+        recon_unsupported("_mbstok exact space/tab delimiter scope");
+    /* The caller owns a writable NUL-terminated line shorter than4096B.
+     * Validate the whole consumed span before the sole delimiter mutation. */
+    for(length=0;length<4096 && text[length];++length)
+        if(text[length]>=128)recon_unsupported("_mbstok nonASCII line");
+    if(length==4096 || (input<separator+3 && separator<input+length+1))
+        recon_unsupported("_mbstok line bound/delimiter overlap");
+    start=0;while(start<length && (text[start]==' ' || text[start]=='\t'))++start;
+    if(start==length)return NULL;
+    end=start;while(end<length && text[end]!=' ' && text[end]!='\t')++end;
+    if(end<length)text[end]=0;
+    /* NULL continuation remains denied: no private PTD/continuation-state
+     * contract is inferred from this fresh-input first-token role. */
+    return text+start;
+#else
     (void)text;(void)delimiters;
     recon_unsupported("unreviewed MSVCRT _mbstok");return NULL;
+#endif
 }
 WEAK unsigned char *recon_mbsinc(const unsigned char *text)
 {
