@@ -900,6 +900,76 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
     if (attributes&FILE_FLAG_DELETE_ON_CLOSE) unlink(path);
     last_error=0; errno=saved_errno; return (HANDLE)(uintptr_t)(fd+1);
 }
+/* The caller owns a closed CREATE_NEW reservation for the empty destination.
+ * No security, alternate streams, or readonly-attribute copying is modeled. */
+BOOL WINAPI recon_CopyFileA(LPCSTR source,LPCSTR destination,BOOL fail_if_exists)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    char source_path[PATH_MAX],destination_path[PATH_MAX],buffer[16384];
+    struct stat input,output;struct timespec times[2];off_t remaining;
+    const char *names[2];unsigned i;size_t n;ssize_t got,written,offset;
+    int from=-1,to=-1,failure=0,saved_errno=errno;DWORD saved_error=last_error;
+    unsigned long saved_dos=recon_doserrno;
+    names[0]=source;names[1]=destination;
+    if(fail_if_exists)recon_unsupported("CopyFileA unqualified existence flag");
+    for(i=0;i<2;++i) {
+        if((uintptr_t)names[i]<4096 || (uintptr_t)names[i]>UINTPTR_MAX-MAX_PATH)
+            recon_unsupported("CopyFileA path extent");
+        n=strnlen(names[i],MAX_PATH);
+        if(!n || n==MAX_PATH)recon_unsupported("CopyFileA path length");
+        for(n=0;names[i][n];++n)
+            if((unsigned char)names[i][n]<32 || (unsigned char)names[i][n]>=127 ||
+               names[i][n]=='*' || names[i][n]=='?')
+                recon_unsupported("CopyFileA ASCII file path");
+    }
+    if(recon_host_path(source,source_path,sizeof(source_path)) ||
+       recon_host_path(destination,destination_path,sizeof(destination_path))) {
+        failure=errno;goto finished;
+    }
+    recon_fsopen_check_path(source_path);recon_fsopen_check_path(destination_path);
+    if(lstat(source_path,&input)) {failure=errno;goto finished;}
+    if(!S_ISREG(input.st_mode))recon_unsupported("CopyFileA source path kind");
+    from=open(source_path,O_RDONLY|O_NONBLOCK|O_CLOEXEC);
+    if(from<0) {failure=errno;goto finished;}
+    if(fstat(from,&input)) {failure=errno;goto finished;}
+    if(!S_ISREG(input.st_mode) || input.st_size<0 || input.st_size>INT32_MAX ||
+       !(input.st_mode&0444) || !(input.st_mode&0222))
+        recon_unsupported("CopyFileA normal regular source");
+    /* No O_TRUNC: validate the opened destination before any content change. */
+    if(lstat(destination_path,&output)) {failure=errno;goto finished;}
+    if(!S_ISREG(output.st_mode))recon_unsupported("CopyFileA destination path kind");
+    to=open(destination_path,O_WRONLY|O_NONBLOCK|O_CLOEXEC);
+    if(to<0) {failure=errno;goto finished;}
+    if(fstat(to,&output)) {failure=errno;goto finished;}
+    if(!S_ISREG(output.st_mode) || output.st_size || !(output.st_mode&0222) ||
+       (input.st_dev==output.st_dev && input.st_ino==output.st_ino))
+        recon_unsupported("CopyFileA distinct empty writable reservation");
+    remaining=input.st_size;
+    while(remaining) {
+        size_t count=remaining>(off_t)sizeof(buffer)?sizeof(buffer):(size_t)remaining;
+        do {got=read(from,buffer,count);} while(got<0 && errno==EINTR);
+        if(got<=0) {failure=got<0?errno:EIO;goto finished;}
+        offset=0;
+        while(offset<got) {
+            do {written=write(to,buffer+offset,got-offset);} while(written<0 && errno==EINTR);
+            if(written<=0) {failure=written<0?errno:EIO;goto finished;}
+            offset+=written;
+        }
+        remaining-=got;
+    }
+    times[0]=input.st_atim;times[1]=input.st_mtim;
+    if(futimens(to,times))failure=errno;
+finished:
+    if(to>=0 && close(to) && !failure)failure=errno;
+    if(from>=0 && close(from) && !failure)failure=errno;
+    errno=saved_errno;recon_doserrno=saved_dos;
+    last_error=failure?error_code(failure):saved_error;
+    return failure?FALSE:TRUE;
+#else
+    (void)source;(void)destination;(void)fail_if_exists;
+    recon_unsupported("unreviewed CopyFileA");return FALSE;
+#endif
+}
 /* The reached deletion occurs only after this file's views and handles close.
  * A different file may still have a live view during the cleanup loop. */
 static void delete_file_closed(const struct stat *wanted)

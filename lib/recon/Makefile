@@ -1046,3 +1046,9 @@ build/watcom-strrev-probe: tests/watcom-strrev-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-strrev-check: build/watcom-strrev-probe
 	$<
+
+.PHONY: copyfile-check
+build/copyfile-probe: tests/copyfile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -Wl,--wrap=read,--wrap=write,--wrap=close,--wrap=futimens -o $@
+copyfile-check: build/copyfile-probe
+	$(PYTHON) tests/check-copyfile.py $<

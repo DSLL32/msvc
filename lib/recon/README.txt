@@ -1732,3 +1732,22 @@ old-heap equivalence. WLINK's actual16392-byte allocation has16396 usable bytes;
 its16408-byte request follows the original NULL fallback then real realloc
 shrink. The ordinary joint pair matches325 entries and retains contemporaneous
 source/DSO binding. Original per-call private error/FP effects remain unmeasured.
+
+CopyFileA has the SDK BOOL WINAPI(LPCSTR,LPCSTR,BOOL) type. Explicit MSVCRT510
+admits FALSE with bounded ASCII mapped paths, a stable normal readable/writable
+regular source <=INT32_MAX bytes, and a distinct existing empty writable regular
+destination. The caller owns that closed CREATE_NEW reservation and guarantees
+stable path/content lifetimes; the API does not discover exclusive ownership.
+Path kinds and opened file identities/kinds/size/permission bits are checked
+before content changes, including same-inode aliases. Nonempty/readonly,
+symlink/device/FIFO, other flags/profiles and unknown domains remain125.
+The real16KiB copy loop handles EINTR and short writes, copies basic source
+atime/mtime and checks both closes; no extracted/temporary companion is created.
+Failures use the existing host-error-to-Win32 mapping. Native CRT errno/DOSerrno
+are retained independently, and native success retains prior LastError; original
+per-call success/error/buffer state is unmeasured. Security descriptors, alternate
+streams, creation times and readonly attribute copying are not implemented.
+The actual LINK_REPRO caller reserves/closes the destination and consumes the
+copy result and real bytes; ordinary caller adoption remains pending separately.
+make copyfile-check runs the isolated focused probe, including injected IO/time/
+close failures, prewrite denials and semantic x87 control/status retention.
