@@ -393,6 +393,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_argument_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_qualified_argument_name@4",
@@ -401,6 +402,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_qualified_argument_name",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_line_record_unqualified_type",
@@ -6322,10 +6324,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_inherit_function_defaults@20",
         .entry_rva = 0x2a3e0,
-        .code = (const ReconExtent[]) { { 0x2a3e0, 0x2a3e1 } },
+        .code = (const ReconExtent[]) { { 0x2a3e0, 0x2a541 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "inherit_function_defaults",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_validate_function_default_arguments@4",
@@ -12672,10 +12675,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_can_bind_conversion_reference@8",
         .entry_rva = 0x55c50,
-        .code = (const ReconExtent[]) { { 0x55c50, 0x55c51 } },
+        .code = (const ReconExtent[]) { { 0x55c50, 0x55c9f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "can_bind_conversion_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_classify_initializer_conversion@8",
@@ -14259,10 +14263,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_subtraction_overflows@16",
         .entry_rva = 0x64a10,
-        .code = (const ReconExtent[]) { { 0x64a10, 0x64a11 } },
+        .code = (const ReconExtent[]) { { 0x64a10, 0x64a5b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "subtraction_overflows",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_integer_constant_overflows@16",
@@ -14375,18 +14380,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_integer_to_extended",
         .entry_rva = 0x64eac,
-        .code = (const ReconExtent[]) { { 0x64eac, 0x64ead } },
+        .code = (const ReconExtent[]) { { 0x64eac, 0x64ece } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "integer_to_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_unsigned_to_extended",
         .entry_rva = 0x64ece,
-        .code = (const ReconExtent[]) { { 0x64ece, 0x64ecf } },
+        .code = (const ReconExtent[]) { { 0x64ece, 0x64f03 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "unsigned_to_extended",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_extended_to_integer",

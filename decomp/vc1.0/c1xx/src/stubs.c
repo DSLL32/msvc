@@ -217,8 +217,6 @@ int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden
 void discard_function_definition(void) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall inherit_function_defaults(CppSymbol *declaration, DefaultArgument *defaults,
-    FunctionParameters *previous, FunctionParameters *current, DefaultArgument *following) { __asm { int 3 } }
 
 
 
@@ -248,7 +246,6 @@ IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymb
 
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
-int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
@@ -283,8 +280,6 @@ void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol 
 
 int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
 
-int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
-int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
 
 
 
@@ -297,7 +292,6 @@ int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
-int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }

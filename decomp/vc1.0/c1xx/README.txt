@@ -1,6 +1,44 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Calibration archive is COMPLETE: case0024. The coherent channel-record API
+combines signed/unsigned numeric profile tables, packed flags, deferred typed
+and qualified defaults, later declarations extending defaults, and proxy-to-
+record conversion followed by const-reference binding. Two nested default-cast
+drafts rejected by the original are retained in scratch; the supported revision
+has its own untouched exit0 baseline and six complete IR/browser artifacts.
+
+Seven whole App bodies /795 code bytes were accepted: subtraction bounds,
+deferred type/name spelling, inherited defaults, signed/unsigned integer-to-
+extended conversion and class-reference binding. The two numeric bridges use
+only the FILD/private ESI-ST0 transfers required by the original ten-byte ABI;
+ordinary C retains representation selection and unsigned widening. Fresh
+original/native observations match all seven first encounters, exit0, streams
+and all artifacts, exactly matching the supported untouched original. No output
+normalization, new application guard, data dump or CRT source body was added.
+
+The actual deferred-default reader reached _gcvt(7.0,16,owned_output). Its
+existing shared boundary denied125. Exact shipped160B GCVT.OBJ evidence proves
+that integral7 is spelled "7.", including the trailing decimal point. Shared
+maintainer commit217b9adf0 adds only the reviewed default-C signed32-integral/
+16-digit arm; fractions, other precisions/profiles and other domains remain
+unsupported. Its focused error/full-FP tests found and removed an unused Clang
+x87 formal load through a native target attribute. The corrected shared bytes
+were qualified by a native-only replay of the retained successful original;
+no API-only original probe or bookkeeping original recapture was needed.
+
+Totals:1,746 App bodies /1,853 historical frontiers, plus seven unchanged CRT
+source bodies. App-only code union392,981 /476,418 B is82.49% of whole original
+code extent, not a non-CRT denominator. All25 cached native cases,31 unit groups
+and the1,754-function six-check graph/ABI audit pass; original-toolchain builds
+pass. Case-end full gate2.964 s including setup/runtime discovery (graph-only
+time not measured separately). Final fresh original0.732 s; corrected native
+30.195 ms (setup18.337 ms, execution5.921 ms, checks5.937 ms). Last incremental
+native/Win32 build3.118 s; final cached replay30.329 ms. Full regressions/audit
+ran only after the case completed, with no intermediate function commits.
+
+Earlier completed plugin service:
+
 Plugin service is COMPLETE: case0023. The accepted module combines global
 registration constructors/destructors, callback dispatch, explicitly allocated
 code/data/constant sections and an exported stdcall entry. The first source

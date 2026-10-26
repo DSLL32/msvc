@@ -395,3 +395,39 @@ void truncate_extended(void)
         fldcw word ptr extended_workspace + 6
     }
 }
+
+/* Original0x74eac..0x74ece, cdecl2. FILD and the existing private
+   ESI/ST(0) store bridge express the ten-byte ABI unavailable in period C. */
+int integer_to_extended(const long *value, Extended *result)
+{
+    __asm {
+        mov eax, value
+        fild dword ptr [eax]
+    }
+    result->format = 4;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+    return 0;
+}
+
+/* Original0x74ece..0x74f03, cdecl2. Zero-extend the target unsigned
+   word into a signed64 load operand; only FILD and the private ten-byte
+   ESI/ST(0) output ABI require assembly. */
+int unsigned_to_extended(const unsigned long *value, Extended *result)
+{
+    unsigned long wide[2];
+    wide[0] = *value;
+    wide[1] = 0;
+    __asm {
+        lea eax, wide
+        fild qword ptr [eax]
+    }
+    result->format = 4;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+    return 0;
+}

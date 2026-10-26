@@ -2,6 +2,7 @@
 #include "parameters.h"
 #include "class-members.h"
 #include "frontend-records.h"
+#include "expression-preparation.h"
 #include <recon.h>
 
 DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
@@ -432,4 +433,54 @@ unsigned __stdcall declaration_parameter_bytes(FunctionParameters *parameters)
     while (count--)
         bytes += (parameter_type_size(*types++,0) + 3) & ~3U;
     return bytes;
+}
+
+/* Original0x3a3e0..0x3a541, stdcall20. Rebuild the declaration's
+   function shape around a permanent parameter-info copy, attaching older
+   defaults before the newly supplied trailing argument list. */
+void __stdcall inherit_function_defaults(CppSymbol *declaration,
+    DefaultArgument *defaults, FunctionParameters *previous,
+    FunctionParameters *current, DefaultArgument *following)
+{
+    TypeDescription *description = &type_description_stack[++type_description_depth];
+    FunctionParameters *parameters = allocate_permanent(sizeof(FunctionParameters));
+    ArenaPool *pool = &compiler_arena.pools[2];
+    TypeShape *shape, *source;
+    DefaultArgument *head, *tail;
+    unsigned flags, kind;
+    int prefix = 0;
+    if (pool->remaining < (int)sizeof(TypeShape)) refill_arena(&compiler_arena, pool);
+    shape = (TypeShape *)pool->next;
+    pool->remaining -= sizeof(TypeShape);
+    pool->next += sizeof(TypeShape);
+    *description = *(TypeDescription *)declaration->type;
+    source = description->related;
+    flags = source->flags;
+    kind = flags & 0x77;
+    if (!kind || kind == 3 || (flags & 0x44) == 0x44 || (flags & 0x20)) {
+        prefix = 1;
+        source = source->related;
+    }
+    *shape = *source;
+    *parameters = *shape->data.parameters;
+    if (previous->default_count) {
+        token_allocation_flags |= 0x20;
+        head = (DefaultArgument *)clone_expression((IrToken *)previous->defaults, 0);
+        parameters->defaults = head;
+        tail = head;
+        while (tail->next) tail = tail->next;
+        tail->next = defaults;
+        defaults->following = tail;
+        head->following = following;
+        token_allocation_flags &= ~0x20U;
+    } else parameters->defaults = current->defaults;
+    parameters->default_count = current->default_count;
+    shape->data.parameters = parameters;
+    if (prefix) {
+        description->related->related = intern_type_shape(shape);
+        shape = description->related;
+    }
+    description->related = intern_type_shape(shape);
+    declaration->type = intern_type(description);
+    --type_description_depth;
 }

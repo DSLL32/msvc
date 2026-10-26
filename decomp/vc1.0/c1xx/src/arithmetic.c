@@ -63,3 +63,15 @@ int __stdcall addition_overflows(int left, unsigned right, short unsigned_arithm
     threshold = (int)((unsigned)addition_signed_min[bytes] - (unsigned)left);
     return (int)right < threshold;
 }
+
+/* Original0x74a10..0x74a5b, stdcall16. Unsigned subtraction is not
+   diagnosed here. Opposite signed operands delegate to the addition test,
+   retaining the target's wrapped negation even for the minimum integer. */
+int __stdcall subtraction_overflows(int left, int right,
+    short unsigned_arithmetic, unsigned short bytes)
+{
+    if (unsigned_arithmetic) return 0;
+    if ((right >= 0) != (left >= 0))
+        return addition_overflows(left, 0U - (unsigned)right, 0, bytes);
+    return 0;
+}

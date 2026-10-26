@@ -405,12 +405,40 @@ unsigned char *__stdcall copy_argument_spelling(unsigned char *destination, char
     while ((*destination = (unsigned char)*text++) != 0) ++destination;
     return destination;
 }
+/* Original0x19580..0x195c3, stdcall8. Diagnostic spelling is borrowed
+   only until its nesting level closes; copy the bytes before releasing it. */
 unsigned char *__stdcall copy_argument_type(unsigned char *destination, CType *type)
 {
-    __asm { int 3 }
-    return 0;
+    char *text;
+    unsigned length;
+    unsigned char *end;
+    begin_type_diagnostic();
+    text = type_diagnostic_text(format_declarator(0, type));
+    for (length = 0; text[length]; ++length) ;
+    end = copy_bytes_forward(destination, (unsigned char *)text, length);
+    end_type_diagnostic();
+    return end;
 }
+/* Original0x19bc0..0x19c46, stdcall4. The binding links run from
+   leaf to outer qualifier; rescan to spell class owners outermost first. */
 void __stdcall copy_qualified_argument_name(QualifiedDeclarator *qualified)
 {
-    __asm { int 3 }
+    QualifierBinding *head = qualified->resolution->binding, *cursor;
+    ClassReference *previous = 0, *owner, *target;
+    for (;;) {
+        owner = 0;
+        for (cursor = head; cursor; cursor = cursor->next) {
+            target = cursor->target;
+            if ((target->kind & 31) == 4) {
+                if (target == previous) break;
+                owner = target;
+            }
+        }
+        if (!owner) break;
+        text_work_cursor = copy_argument_spelling(text_work_cursor, owner->name);
+        text_work_cursor = copy_bytes_forward(text_work_cursor, (unsigned char *)"::", 2);
+        previous = owner;
+    }
+    text_work_cursor = copy_argument_spelling(text_work_cursor, head->target->name);
+    *text_work_cursor++ = ' ';
 }

@@ -404,3 +404,16 @@ IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression)
 {
     return new_typed_unary_expression(0x6e, type, expression);
 }
+
+/* Original0x65c50..0x65c9f, stdcall8. The conversion result must have
+   the same class/shape, and reference binding may add cv-qualification but
+   cannot discard either qualification already present on that result. */
+int __stdcall can_bind_conversion_reference(CType *reference, CType *value)
+{
+    TypeShape *shape = reference->related;
+    if (value->related != shape->related || value->flags != reference->flags ||
+        value->field08 != reference->field08) return 0;
+    if (!(shape->attributes & 0x1000) && (value->attributes & 0x1000)) return 0;
+    if (!(shape->attributes & 0x2000) && (value->attributes & 0x2000)) return 0;
+    return 1;
+}
