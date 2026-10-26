@@ -1,0 +1,26 @@
+{
+  "scope": "shared_terminal_regions direct CALL endpoint identity only: unique canonical App4 impl0|1 or CRT3 impl0; shared JMP and implemented owner checks unchanged",
+  "validation_sha256": "3224e4907c28bd7334782aef44ad7f8ee9ec1266edda6472eafd71b818f98eff",
+  "release_sha256": "532af1be3aff6c7c9d414e9605f0fbc95809b6a1c82804c2b74b1f4c410fbd57",
+  "source_sha256": {
+    "src/shared_returns.rs": "bb792f859fc4f91626ab3fbbaa96f17187944c326ca738ce9af6063a09ddcaa6",
+    "src/shared_returns/terminal_regions.rs": "0c0465263a37219610c6faf02a83458350251bcabd11b977ea6b9c1bc578de5f",
+    "README.md": "9781298d902b28e4663f9773e82a7082e6ac28042e4729cb16172f7a08badfd8"
+  },
+  "actual_scope": "appendInt/appendDelta only; frozen actual WPP original and rebuilt inputs; full canonical registry retained",
+  "actual_static_ms": 983.5927011445165,
+  "denials": 7,
+  "shared_return_units": 16,
+  "parity": [
+    "prior pending App endpoint (analysis-only stale unselected extent omitted)",
+    "prior CALL/JMP",
+    "absent-regions default"
+  ],
+  "limits": [
+    "Static frozen two-owner qualification only; no target/original execution, callee body availability, ABI or runtime permission granted.",
+    "Historical pending-App parity uses analysis-only config removing unselected Wait_for_return rebuilt_extent whose object hash references a subsequently rebuilt live object; canonical input untouched."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/shared-region-crt-callee",
+  "canonical_build_seconds": 68.04578923806548,
+  "canonical_bit_identical": true
+}

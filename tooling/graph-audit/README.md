@@ -860,13 +860,15 @@ roots or function identities are created.
 
 Optional `original.calls` inventories exact existing near CALL sites. Each row
 has `site` and either `target` (a unique canonical App endpoint, implemented or
-pending, checked against its actual initialized executable entry) or
+pending, or a classified CRT endpoint with implementation0; checked against its
+actual initialized executable entry) or
 `indirect_operand` (the exact existing decoder operand, e.g.
 `"dword ptr [esi]"`). Both owners must retain the actual raw direct or opaque
 indirect call fact and the normal post-CALL successor inside the union. Every
 CALL must be consumed once; absent inventory admits none. A direct callee's
 identity does not require or grant body availability, acceptance or runtime
-permission; the two shared owners must still be implemented. Indirect/external
+permission; the two shared owners must still be implemented App bodies. Unknown
+and import classifications reject; shared-JMP roles remain App-only. Indirect/external
 jumps, interrupts, cycles and other transfers reject. Raw callee edges and all
 ordinary paired graph/ABI/RET checks remain unchanged. This is physical ownership
 metadata, with zero unique-byte credit; it supplies no callback target, register

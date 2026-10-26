@@ -145,7 +145,12 @@ fn canonical(cfg: &Value, r: &Record) -> Result<()> {
     );
     Ok(())
 }
-fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> {
+fn transfer_endpoint(
+    cfg: &Value,
+    image: &impl ImageView,
+    name: &str,
+    allow_crt: bool,
+) -> Result<u32> {
     let rows: Vec<_> = cfg["function_registry"]
         .as_array()
         .context("shared transfer requires canonical registry")?
@@ -154,9 +159,10 @@ fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> 
         .collect();
     ensure!(
         rows.len() == 1
-            && rows[0]["definition"] == 4
-            && matches!(rows[0]["implementation"].as_u64(), Some(0 | 1)),
-        "shared transfer requires a unique canonical App endpoint"
+            && ((rows[0]["definition"] == 4
+                && matches!(rows[0]["implementation"].as_u64(), Some(0 | 1)))
+                || (allow_crt && rows[0]["definition"] == 3 && rows[0]["implementation"] == 0)),
+        "shared transfer requires a unique canonical endpoint of the permitted class"
     );
     let address = num(&cfg["target"]["base"])?
         .checked_add(num(&rows[0]["rva"])?)
@@ -164,7 +170,7 @@ fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> 
     image
         .read(address, 1)
         .context("shared transfer endpoint is not initialized")?;
-    if image.pe_sections().is_some() {
+    if image.pe_sections().is_some() || allow_crt {
         ensure!(
             image.file_backed_code(
                 address,
@@ -177,6 +183,13 @@ fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> 
     }
     Ok(address)
 }
+fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> {
+    transfer_endpoint(cfg, image, name, false)
+}
+fn call_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> {
+    transfer_endpoint(cfg, image, name, true)
+}
+
 fn jump_target(
     cfg: &Value,
     image: &impl ImageView,

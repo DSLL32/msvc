@@ -1,5 +1,5 @@
 //! Exact shared terminal subgraphs, validated only from existing owner CFG facts.
-use super::{Pair, TerminalLocation, app_endpoint, canonical, unique};
+use super::{Pair, TerminalLocation, call_endpoint, canonical, unique};
 use crate::{decode::Decoder, image::ImageView, index::Record};
 use anyhow::{Context, Result, ensure};
 use serde::Deserialize;
@@ -176,7 +176,7 @@ fn validate(
     for call in &region.calls {
         let target = match (&call.target, &call.indirect_operand) {
             (Some(name), None) if !name.is_empty() => {
-                Target::Direct(name.clone(), app_endpoint(cfg, image, name)?)
+                Target::Direct(name.clone(), call_endpoint(cfg, image, name)?)
             }
             (None, Some(operand)) if !operand.is_empty() => Target::Indirect(operand.clone()),
             _ => anyhow::bail!(
@@ -519,8 +519,23 @@ mod tests {
             .regions_report()
             .unwrap();
         assert_eq!(pending_report, report);
+        let mut crt = bad.clone();
+        crt["function_registry"][2]["definition"] = json!(3);
+        assert_eq!(
+            parse_fixture(&image, endpoints_only, &crt)?
+                .regions_report()
+                .unwrap(),
+            report
+        );
+        // Shared JMP roles retain their narrower App-only identity contract.
+        assert!(crate::shared_returns::app_endpoint(&crt, &image, "callee").is_err());
+        let mut noncode = image.clone();
+        noncode.sections[0].flags = 0xc0000040;
+        assert!(call_endpoint(&crt, &noncode, "callee").is_err());
         for invalid in [
-            json!({"name":"callee","rva":0x1060,"definition":3,"implementation":0}),
+            json!({"name":"callee","rva":0x1060,"definition":3,"implementation":1}),
+            json!({"name":"callee","rva":0x1060,"definition":1,"implementation":0}),
+            json!({"name":"callee","rva":0x1060,"definition":2,"implementation":0}),
             json!({"name":"callee","rva":0x1060,"definition":0,"implementation":0}),
             json!({"name":"callee","rva":0x1060,"definition":4,"implementation":2}),
             json!({"name":"callee","rva":0x1061,"definition":4,"implementation":0}),
