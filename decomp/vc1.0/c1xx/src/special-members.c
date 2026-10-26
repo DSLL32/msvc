@@ -690,3 +690,10 @@ int __stdcall has_destructor_member_model(CType *type)
 {
     return has_special_member_model(type, 3);
 }
+
+/* Original0x37b40..0x37b4f, stdcall4. Assignment availability
+   keeps its own wrapper and selects special-member category2. */
+int __stdcall has_assignment_member_model(CType *type)
+{
+    return has_special_member_model(type, 2);
+}

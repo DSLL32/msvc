@@ -7,6 +7,14 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_following_declaration@4",
+        .entry_rva = 0x446d0,
+        .code = (const ReconExtent[]) { { 0x446d0, 0x446da } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "following_declaration",
+    },
+    {
         .name = "_source_display_path",
         .entry_rva = 0x59b00,
         .code = (const ReconExtent[]) { { 0x59b00, 0x59b5b } },
@@ -5780,10 +5788,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_has_assignment_member_model@4",
         .entry_rva = 0x27b40,
-        .code = (const ReconExtent[]) { { 0x27b40, 0x27b41 } },
+        .code = (const ReconExtent[]) { { 0x27b40, 0x27b4f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "has_assignment_member_model",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_has_destructor_member_model@4",
@@ -10819,6 +10828,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "last_overload_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_hash_resolved_declaration",
@@ -10832,10 +10842,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_equal_resolved_declarations",
         .entry_rva = 0x44650,
-        .code = (const ReconExtent[]) { { 0x44650, 0x44651 } },
+        .code = (const ReconExtent[]) { { 0x44650, 0x44678 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_resolved_declarations",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_record_typedef_alias@8",
@@ -10849,10 +10860,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_find_tag_declaration@4",
         .entry_rva = 0x446e0,
-        .code = (const ReconExtent[]) { { 0x446e0, 0x446e1 } },
+        .code = (const ReconExtent[]) { { 0x446e0, 0x4470d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_tag_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_reconcile_typedef@8",

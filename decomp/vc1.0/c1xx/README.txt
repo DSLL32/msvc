@@ -1,6 +1,37 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Numeric-view calibration is COMPLETE: case0039. The frozen6,385-byte
+workload combines integer/real/pointer conversions, builtin arithmetic, mutable
+reference proxies, RAII defaults/conditional temporaries and old calibration
+header contracts. Initial broad views reached only assignment availability;
+adding related hidden record names/overloaded decoders exposed declaration
+identity paths. The retained frozen original diagnoses unsupported pointer-proxy
+updates, incompatible storage pointers, unavailable assignment and an incomplete
+record, then exits6. Earlier planning revisions/raw outputs remain in scratch.
+
+Four whole App bodies /127 code bytes were accepted: assignment-model selection,
+last-overload resolution, tag-alias lookup and resolved-declaration equality.
+Equality resolves the left index before the right because lazy numbering mutates
+compiler state. One discovered ten-byte following_declaration helper received
+an honest named stub/extent but was not reached, so remains unimplemented with
+zero credit. The originally targeted special scalar ranker/temporary-cleanup
+helpers also gain no acceptance merely from this source's feature inventory.
+
+Fresh original/native observations match all four entries, exit6, streams and
+six complete artifacts, also exact against the untouched frozen-revision baseline.
+No output exception, initialization repair, shared change or CRT body was added.
+Totals:1,833 App bodies /1,940 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union404,139 /476,418 B is84.83% of whole original code
+extent, not a non-CRT denominator;59 named App stubs remain. All40 cached native
+cases,32 existing unit groups and the1,841-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original1,271.318 ms; native38.795 ms
+(setup18.867 ms, execution12.777 ms, checks7.151 ms). Complete closing gate3.597 s;
+incremental build walls were not separately measured. This is frontend compile/
+IR qualification, not a generated-program runtime claim. Raw data stay in scratch.
+
+Earlier completed protocol service:
+
 Protocol service is COMPLETE: case0038. The4,739-byte source/header
 workflow uses the supported -ide/-qc frontend mode, a fixed wire-schema switch,
 dynamic command dispatch, included packed records and observer callbacks. The

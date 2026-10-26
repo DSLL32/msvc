@@ -128,7 +128,6 @@ long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
 
 
-CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 
 
@@ -254,16 +253,13 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 
 
-int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
 
 
 
 
 
 
-CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads) { __asm { int 3 } return 0; }
 
-int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 
@@ -373,3 +369,5 @@ void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __as
 void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
 void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
+
+CppSymbol *__stdcall following_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }

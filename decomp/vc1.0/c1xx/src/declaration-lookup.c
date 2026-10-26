@@ -9,6 +9,7 @@
 #include "parameter-scopes.h"
 #include <recon.h>
 
+CppSymbol *__stdcall following_declaration(CppSymbol *symbol);
 int __stdcall has_class_initialization(CType *type);
 CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration);
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration);
@@ -1375,4 +1376,31 @@ void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol)
         report_syntax_error(code, format_symbol_name(symbol));
         symbol->declaration_flags |= 2;
     }
+}
+
+/* Original0x54620..0x5463b, stdcall4. Overload sets own a nonempty
+   declaration list; resolve its last real declaration before assigning an index. */
+CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads)
+{
+    CppSymbol *declaration = overloads->functions;
+    while (declaration->next) declaration = declaration->next;
+    return declaration;
+}
+
+/* Original0x546e0..0x5470d, stdcall4. Direct tag-shadow links take
+   precedence over aliases resolved through the shared typedef table. */
+CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol)
+{
+    if (symbol->kind & 0x80) return following_declaration(symbol);
+    if (symbol->kind & 0x40) return find_hash_value(typedef_aliases, symbol);
+    return 0;
+}
+
+/* Original0x54650..0x54678, cdecl2. Resolve the left declaration
+   first: assigning a lazy compiler index is an observable ordering effect. */
+int __cdecl equal_resolved_declarations(void *left, void *right)
+{
+    unsigned left_index = resolved_declaration_index((CppSymbol *)left);
+    unsigned right_index = resolved_declaration_index((CppSymbol *)right);
+    return left_index == right_index;
 }
