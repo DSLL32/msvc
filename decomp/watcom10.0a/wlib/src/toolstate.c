@@ -5,6 +5,7 @@
 #include "toolstate.h"
 #include <recon.h>
 
+char FileErrorName[80];            /* Original0x43014c. */
 MemoryPoolBlock *NamePool;          /* 0x4301a0 */
 MemoryPoolBlock *PathPool;          /* 0x43019c */
 unsigned long AllocationCount;     /* 0x4302a8 */
@@ -14,25 +15,25 @@ char *CommandCurrent;              /* 0x430004 */
 unsigned char ParseStage;          /* 0x430008 */
 char **CommandArguments;           /* 0x4302e8 */
 FileName *LibraryName;             /* 0x4302d4 */
-FileName *OutputName;              /* 0x4302dc */
-FileName *BackupName;              /* 0x4302d0 */
+FileName *ListingName;              /* 0x4302dc */
+FileName *OutputLibraryName;              /* 0x4302d0 */
 FileName *TemporaryName;           /* 0x4302e0 */
 FileName *CurrentName;             /* 0x4302cc */
-void *CurrentMember;               /* 0x4302d8 */
+FileName *CurrentExtractName;               /* 0x4302d8 */
 int ListingHandle;                 /* 0x4301b8 */
-unsigned short InputPageSize;      /* 0x43030a */
-unsigned short OutputPageSize;     /* 0x43030e */
+unsigned short RequestedPageSize;      /* 0x43030a */
+unsigned short LibraryPageSize;     /* 0x43030e */
 struct WorkItem *CommandWork;       /* 0x4302f0 */
 struct WorkItem *MemberWork;        /* 0x4302f4 */
 struct WorkItem *ExtractWork;       /* 0x4302f8 */
-unsigned long MemberCount;         /* 0x4302b0 */
+unsigned long SymbolCount;         /* 0x4302b0 */
 unsigned long DictionarySize;      /* 0x430300 */
 unsigned char UpperCaseMap[256];   /* 0x43004c */
 int (*NamesEqual)( const unsigned char *, const unsigned char *,
                   unsigned, unsigned ); /* 0x4301c4 */
 unsigned char FirstCommand;        /* 0x43031b */
 unsigned char InCommand;           /* 0x43031a */
-WorkItem *IndexBlocks;              /* 0x4301a4 */
+CommonBlock *CurrCommonBlk;              /* 0x4301a4 */
 
 void InitToolState( int argc, char **argv )
 {
@@ -46,20 +47,20 @@ void InitToolState( int argc, char **argv )
     NamePool = NULL;
     PathPool = NULL;
     LibraryName = AllocPoolItem( &NamePool, sizeof(FileName) );
-    OutputName = AllocPoolItem( &NamePool, sizeof(FileName) );
-    OutputName->File = NULL;
-    BackupName = AllocPoolItem( &NamePool, sizeof(FileName) );
-    BackupName->File = NULL;
+    ListingName = AllocPoolItem( &NamePool, sizeof(FileName) );
+    ListingName->File = NULL;
+    OutputLibraryName = AllocPoolItem( &NamePool, sizeof(FileName) );
+    OutputLibraryName->File = NULL;
     TemporaryName = AllocPoolItem( &NamePool, sizeof(FileName) );
     CurrentName = LibraryName;
-    CurrentMember = NULL;
+    CurrentExtractName = NULL;
     ListingHandle = 1;              /* Initial descriptor at original0x4206be. */
-    OutputPageSize = 0;
-    InputPageSize = 0;
+    LibraryPageSize = 0;
+    RequestedPageSize = 0;
     CommandWork = NULL;
     MemberWork = NULL;
     ExtractWork = NULL;
-    MemberCount = 0;
+    SymbolCount = 0;
     DictionarySize = 0;
     for( ch = 0; ch < 256; ++ch ) {
         UpperCaseMap[ch] = ch > '`' && ch < '{' ? ch & 0xdf : ch;
@@ -67,12 +68,12 @@ void InitToolState( int argc, char **argv )
     NamesEqual = NamesEqualIgnoreCase;
     FirstCommand = 1;
     InCommand = 0;
-    IndexBlocks = NULL;
+    CurrCommonBlk = NULL;
 }
 
 WorkItem *NameHash[27];            /* Original0x430234 */
 WorkItem *SymbolHash[27];          /* Original0x4301c8 */
-WorkItem *LargeBlocks;             /* Original0x4302a0 */
+WorkItem *ModuleIndexHead;             /* Original0x4302a0 */
 
 /* Original0x413278..0x4132b4. Release each allocator/list family in
    its original order; the final call is the original tail transfer. */
@@ -84,7 +85,7 @@ void FiniToolState( void )
     FreeHashTable( NameHash );
     FreeHashTable( SymbolHash );
     FreeLargeBlocks();
-    FreeIndexList();
+    FreeCommonBlk();
 }
 
 /* Original0x4132b4..0x4132c6; preserve the next pointer before freeing. */
@@ -117,13 +118,13 @@ void FreeHashTable( WorkItem **buckets )
     } while( buckets != end );
 }
 
-/* Original0x4132ea..0x413301. LargeBlocks remains a stale finalization
+/* Original0x4132ea..0x413301. ModuleIndexHead remains a stale finalization
    head in the original; this function walks a local pointer. */
 void FreeLargeBlocks( void )
 {
     WorkItem *head, *next;
 
-    head = LargeBlocks;
+    head = ModuleIndexHead;
     while( head != NULL ) {
         next = head->Next;
         FreeMemory( head );
@@ -133,13 +134,13 @@ void FreeLargeBlocks( void )
 
 /* Original entry0x4119f4 shares the preceding function's POPEDX/RET
    epilogue at0x4119f2. Its full encountered code union is32B ending411a12. */
-void FreeIndexList( void )
+void FreeCommonBlk( void )
 {
-    WorkItem *next;
+    CommonBlock *next;
 
-    while( IndexBlocks != NULL ) {
-        next = IndexBlocks->Next;
-        FreeMemory( IndexBlocks );
-        IndexBlocks = next;
+    while( CurrCommonBlk != NULL ) {
+        next = CurrCommonBlk->Next;
+        FreeMemory( CurrCommonBlk );
+        CurrCommonBlk = next;
     }
 }

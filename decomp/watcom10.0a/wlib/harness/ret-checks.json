@@ -1,6 +1,496 @@
 {
   "schema": 1,
   "functions": {
+    "PrintModuleHeading": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintModuleSymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteListingText": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FillListing": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ListingNewline": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CompareNames": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CompareSymbols": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CompareModuleSymbols": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintPublicListing": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrintModuleListing": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitDictionaryBlock": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetDictionaryBlock": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "HashDictionaryName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FindDictionarySpace": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CommitDictionaryBlock": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InsertDictionarySymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitBlockTable": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "NextPrime": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitDictionaryBlocks": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InsertModuleDictionary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InsertPublicDictionary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteDictionaryBlocks": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeDictionaryBlocks": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "emitChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "nextChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "advanceChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "init_globals": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "init_descriptor": {
+      "expected_cleanup": [
+        12
+      ]
+    },
+    "do_copy": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "terminateOutput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "demangleEmit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__demangle_l": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FormatSymbolName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FormatMessage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetIdx": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetOffset": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetIndex": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "procsegdef": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "getpubdef": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetComent": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "getlname": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CopyOmfRecord": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FreeLNames": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadRecordName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__is_mangled": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "NormalizeModuleName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MatchRemoveCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MatchExtractCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ProcessOmfModule": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadBufferedByte": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadOmfRecord": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ProcessOneModule": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "HashSymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "IsCommonRef": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReportDuplicateSymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddModuleIndex": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddMemberSymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BuildImportMember": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "NextLibraryPage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ProcessModuleRecords": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BufferedPosition": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteBuffered": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadLibraryHeader": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SeekBuffered": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteBufferedByte": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PadLibraryPage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ProcessAddedModules": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CopyLibraryMembers": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ValidateInputLibrary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "OpenListing": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "OpenOutput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadNamePart": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "DuplicateText": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseImportCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddModule": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddExtract": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddRemoveCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadBuffered": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BuildFileName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadStringCharacter": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadFileCommandCharacter": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetFileName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "OpenLibraryFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BeginIndirect": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ScanToken": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadToken": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetListingOption": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetPageOption": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetOutputOption": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetExtractionDirectory": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "NextNonwhite": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadArgumentCharacter": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseOptions": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseLibraryName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseAddCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseMinusCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseExtractCommand": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseIndirect": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "__FreeLangList": {
       "expected_cleanup": [
         0
@@ -161,6 +651,16 @@
         0
       ]
     },
+    "NamesEqualIgnoreCase": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReportError": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "ParseCommandLine": {
       "expected_cleanup": [
         0
@@ -171,12 +671,62 @@
         0
       ]
     },
+    "ValidateCommands": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrepareLibrary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PrepareOutput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BuildDictionary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FinishOutput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReportUnprocessedMembers": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ListLibrary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CloseLibraryFile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CompleteLibrary": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "FreeMemory": {
       "expected_cleanup": [
         0
       ]
     },
     "PrintUsage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseArguments": {
       "expected_cleanup": [
         0
       ]
@@ -246,6 +796,11 @@
         0
       ]
     },
+    "PrintMessage": {
+      "expected_cleanup": [
+        0
+      ]
+    },
     "FreeWorkList": {
       "expected_cleanup": [
         0
@@ -266,7 +821,7 @@
         0
       ]
     },
-    "FreeIndexList": {
+    "FreeCommonBlk": {
       "expected_cleanup": [
         0
       ]

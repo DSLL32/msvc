@@ -3,6 +3,7 @@
 #ifndef WLIB_RECONSTRUCTION_H
 #define WLIB_RECONSTRUCTION_H
 #include <stddef.h>
+#include <stdarg.h>
 #include <malloc.h>
 #include <signal.h>
 #include <setjmp.h>
@@ -190,4 +191,7 @@ void reconstruction_trap( void );
 #else
 #define WLIB_FRONTIER() __asm__ volatile ("int3")
 #endif
+void FormatMessage( unsigned message, va_list *arguments );
+const char *FormatSymbolName( const char *name );
+unsigned __demangle_l( const char *input, unsigned length, char *output, unsigned size );
 #endif

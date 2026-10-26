@@ -1,16 +1,427 @@
 {
   "identity_only_entries": [
     {
-      "name": "getenv_"
-    },
-    {
-      "name": "getcmd_"
-    },
-    {
       "name": "fputc_"
     },
     {
       "name": "getch_"
+    },
+    {
+      "name": "itoa_"
+    },
+    {
+      "name": "__get_errno_ptr_"
+    },
+    {
+      "name": "strerror_"
+    },
+    {
+      "name": "unlink_"
+    },
+    {
+      "name": "rename_"
+    }
+  ],
+  "shared_terminal_epilogues": [
+    {
+      "owners": [
+        "ParseOptions",
+        "SetPageOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseOptions",
+        "SetListingOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseOptions",
+        "SetOutputOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "SetPageOption",
+        "SetListingOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "SetPageOption",
+        "SetOutputOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "SetListingOption",
+        "SetOutputOption"
+      ],
+      "original": {
+        "start": 4261946,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParseAddCommand",
+        "ParseExtractCommand"
+      ],
+      "original": {
+        "start": 4262617,
+        "bytes_hex": "8a45fcc95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "SetFileName",
+        "ParseArguments"
+      ],
+      "original": {
+        "start": 4263505,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ReadArgumentCharacter",
+        "ReadStringCharacter"
+      ],
+      "original": {
+        "start": 4259908,
+        "bytes_hex": "40a30400430088d05ac3"
+      }
+    },
+    {
+      "owners": [
+        "AddModule",
+        "AddExtract"
+      ],
+      "original": {
+        "start": 4263072,
+        "bytes_hex": "89c85a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "HashSymbol",
+        "CheckLibrarySize"
+      ],
+      "original": {
+        "start": 4275907,
+        "bytes_hex": "5a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "PadLibraryPage",
+        "ReadOmfRecord"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "PadLibraryPage",
+        "ReadRecordName"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ReadOmfRecord",
+        "ReadRecordName"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BuildImportMember",
+        "NormalizeModuleName"
+      ],
+      "original": {
+        "start": 4274484,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ProcessOmfModule",
+        "PadLibraryPage"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ProcessOmfModule",
+        "ReadOmfRecord"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ProcessOmfModule",
+        "ReadRecordName"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "getlname",
+        "PadLibraryPage"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "getlname",
+        "ReadOmfRecord"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "getlname",
+        "ReadRecordName"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "getlname",
+        "ProcessOmfModule"
+      ],
+      "original": {
+        "start": 4265791,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "getpubdef",
+        "FreeCommonBlk"
+      ],
+      "original": {
+        "start": 4266482,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "GetComent",
+        "FreeLNames"
+      ],
+      "original": {
+        "start": 4266728,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "NextLibraryPage",
+        "PadLibraryPage"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NextLibraryPage",
+        "ReadOmfRecord"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NextLibraryPage",
+        "ReadRecordName"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NextLibraryPage",
+        "ProcessOmfModule"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "NextLibraryPage",
+        "getlname"
+      ],
+      "original": {
+        "start": 4265792,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "IsCommonRef",
+        "getpubdef"
+      ],
+      "original": {
+        "start": 4266482,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "IsCommonRef",
+        "FreeCommonBlk"
+      ],
+      "original": {
+        "start": 4266482,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "ListLibrary",
+        "PrintModuleSymbol"
+      ],
+      "original": {
+        "start": 4264936,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BuildFileName",
+        "CompleteLibrary"
+      ],
+      "original": {
+        "start": 4269605,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    }
+  ],
+  "shared_call_return_tails": [
+    {
+      "owners": [
+        "ReadToken",
+        "ReadNamePart"
+      ],
+      "original": {
+        "start": 4260259,
+        "bytes_hex": "e802ffffff5bc3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "ScanToken"
+      }
+    },
+    {
+      "owners": [
+        "PrintMessage",
+        "ReportError"
+      ],
+      "original": {
+        "start": 4279452,
+        "bytes_hex": "8d55fce847000000c745fc00000000c95ac3"
+      },
+      "call": {
+        "offset": 3,
+        "target": "FormatMessage"
+      }
+    }
+  ],
+  "shared_jump_tails": [
+    {
+      "owners": [
+        "InsertSymbol",
+        "CheckLibrarySize"
+      ],
+      "original": {
+        "start": 4275818,
+        "bytes_hex": "800db802430040e900efffff"
+      },
+      "jump": {
+        "offset": 7,
+        "target": "AbortCommand"
+      }
+    },
+    {
+      "owners": [
+        "WriteFileBlock",
+        "ReadBufferedByteStrict"
+      ],
+      "original": {
+        "start": 4269169,
+        "bytes_hex": "6a02e84129000083c40c800db802430040e9ef080000"
+      },
+      "call": {
+        "offset": 2,
+        "target": "ReportError"
+      },
+      "jump": {
+        "offset": 17,
+        "target": "AbortCommand"
+      }
+    }
+  ],
+  "shared_return_entries": [
+    {
+      "owner": "GetDictionaryBlock",
+      "entry": "CommitDictionaryBlock"
     }
   ]
 }

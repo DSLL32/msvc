@@ -61,21 +61,50 @@ assert abort_external_jumps == [(0x412e01, 'jmp', 0x418621)]
 symbols = {}
 for offset, name in re.findall(r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wlib.map').read_text(), re.M):
     symbols[name] = 0x410000 + int(offset, 16)
-for name, original_start, original_end, original_ret, original_tail in [
-    ('AllocMemory', 0x411fe0, 0x412021, 0x412020, 0x412007),
-    ('CheckBreak', 0x412a43, 0x412a5c, 0x412a5b, 0x412a56),
-]:
-    original_code = instructions(original, original_start, original_end)
+# These actual compiler-shared chunks retain their normal return and cold
+# nonlocal branch. The independent full graph/ownership audit covers all edges.
+OWNERS = [
+    ('AllocMemory', [(0x411fe0, 0x412021)], 0x412020, 0x412007),
+    ('CheckBreak', [(0x412a43, 0x412a5c)], 0x412a5b, 0x412a56),
+    ('InsertSymbol', [(0x413d52, 0x413e76), (0x413e76, 0x413e96)], 0x413e95, 0x413e71),
+    ('CheckLibrarySize', [(0x413ef7, 0x413f37), (0x413ec3, 0x413ec6), (0x413e6a, 0x413e76)], 0x413ec5, 0x413e71),
+    ('ReadBufferedByteStrict', [(0x41231e, 0x41233e), (0x412308, 0x41231e), (0x412471, 0x412487)], 0x41233d, 0x412482),
+    ('WriteFileBlock', [(0x412446, 0x412487), (0x412487, 0x4124a1)], 0x4124a0, 0x412482),
+]
+CHUNK_HASHES = {
+    (0x411fe0, 0x412021): 'bc22fd67e4b715bf0cf6193c550a5bb1fd09ced78035b64cb7c4cea01997c03d',
+    (0x412a43, 0x412a5c): '008e627cd4cb4bae91a40222564a548cff8ab37512e00a40b4215d56c61e0f02',
+    (0x413d52, 0x413e76): '7623657d708ae44f86f264c877e7c14764a326c9952704205d0cdf062ff5efda',
+    (0x413e76, 0x413e96): '9b06049bb3b269df415140379ce4c69ee4e3172c66792f5978367762946c38de',
+    (0x413ef7, 0x413f37): 'b25683f9332e09982040db15c1b3e1c1c937446cbd29f93f83300072f2148809',
+    (0x413ec3, 0x413ec6): 'b39b98e5fec26b89a4d95ff11dcc8e9a60b6efbea74809eded6f2e897705d575',
+    (0x413e6a, 0x413e76): 'b9d9bf1de941ac8924e56dd95b3acaf7b18db0427b5dd10d25d854d91adf9252',
+    (0x41231e, 0x41233e): '80512e2e54e3f67ba0929473bde44b5f4956b8b711363fc4a2a21c88171aa9c1',
+    (0x412308, 0x41231e): 'a82db1778a1863e7822f37a548ba6acbfa76bd47e6cadd36d32a9c54da926803',
+    (0x412471, 0x412487): '5bd5c193648f29ecbcc9ef7264b1964436f628c7282e3fa25abf5dc96b536ccc',
+    (0x412446, 0x412487): '41640223ffd6ecdb49b36ea90ba2e02705b82b5dd14fd35b83de368ec66cec7d',
+    (0x412487, 0x4124a1): '8cd74521e4a451c8f5c5a093d4e160c9d9398813886be0747a35831692e59f3c',
+}
+for name, chunks, original_ret, original_tail in OWNERS:
+    original_code = []
+    for begin, end in chunks:
+        assert hashlib.sha256(read_va(original, begin, end - begin)).hexdigest() == CHUNK_HASHES[(begin, end)]
+        original_code.extend(instructions(original, begin, end))
+    original_code = sorted(set(original_code))
     assert [(a, operands) for a, m, operands in original_code if m.startswith('ret')] == [(original_ret, '')]
     original_tails = [(a, m, int(operands.split()[0], 16)) for a, m, operands in original_code
-                      if m.startswith('j') and not (original_start <= int(operands.split()[0], 16) < original_end)]
+                      if m.startswith('j') and not any(begin <= int(operands.split()[0], 16) < end for begin, end in chunks)]
     assert original_tails == [(original_tail, 'jmp', 0x412d76)]
     start = symbols[name + '_']
     end = min(a for a in symbols.values() if a > start)
     code = instructions(rebuilt, start, end)
     returns = [(a, operands) for a, m, operands in code if m.startswith('ret')]
-    assert len(returns) == 1 and returns[0][1] == ''
+    assert len(returns) == 1 and returns[0][1] == '', (name, returns)
     tails = [(a, operands) for a, m, operands in code if m == 'jmp' and not (start <= int(operands.split()[0], 16) < end)]
-    assert len(tails) == 1 and int(tails[0][1].split()[0], 16) == symbols['AbortCommand_']
+    # The period compiler duplicates WriteFileBlock's two error exits rather
+    # than sharing the original single terminal sequence; both remain real
+    # AbortCommand edges, and the full graph audit compares that identity.
+    assert len(tails) == (2 if name == 'WriteFileBlock' else 1), (name, tails)
+    assert all(int(operand.split()[0], 16) == symbols['AbortCommand_'] for _, operand in tails), (name, tails)
 assert '#pragma aux AbortCommand aborts;' in (project / 'src/toolstate.h').read_text()
-print('PASS AllocMemory/CheckBreak normal RET0 and exact exceptional AbortCommand→longjmp nonlocal tails (pending code remains masked)')
+print('PASS six normal RET0 owners and exact exceptional AbortCommand→longjmp nonlocal tails (pending code remains masked)')

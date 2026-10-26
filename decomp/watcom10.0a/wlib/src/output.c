@@ -1,6 +1,7 @@
 /* Direct descriptor output in the older librarian. Text-mode translation
    belongs to write, not these ordinary point-of-use string literals. */
 #include <string.h>
+#include <ctype.h>
 #include <io.h>
 #include <stdio.h>
 #include <conio.h>
@@ -91,4 +92,78 @@ void PauseOnConsole( void )
         getch();
         fputc( '\n', stdout );
     }
+}
+
+/* Original0x414db9..0x414dd7 and the shared formatting tail414c9c.
+   A diagnostic consists of a severity resource followed by its body. */
+void __cdecl ReportError( unsigned destination, unsigned message, ... )
+{
+    va_list arguments;
+
+    va_start( arguments, message );
+    PrintMessage( destination );
+    FormatMessage( message, &arguments );
+    va_end( arguments );
+}
+
+/* Original0x414c8e..0x414cae. The shared tail consumes this call's
+   own va_list; it is not a separate function or a forwarded public ABI. */
+void __cdecl PrintMessage( unsigned message, ... )
+{
+    va_list arguments;
+
+    va_start( arguments, message );
+    FormatMessage( message, &arguments );
+    va_end( arguments );
+}
+
+/* Original0x414ceb..0x414db9. Resource templates support numbered
+   string arguments; uppercase S requests the librarian's symbol spelling. */
+void FormatMessage( unsigned message, va_list *arguments )
+{
+    char buffer[128];
+    char *values[9];
+    char *scan, *start;
+    unsigned current, index;
+
+    MsgGet( message, buffer );
+    current = 1;
+    start = scan = buffer;
+    while( *scan != '\0' ) {
+        if( *scan == '%' ) {
+            if( scan > start ) {
+                *scan = '\0';
+                PrintTextLine( start );
+            }
+            ++scan;
+            if( isdigit( (unsigned char)*scan ) ) index = *scan++ - '0';
+            else index = current;
+            while( current <= index ) {
+                values[current - 1] = va_arg( *arguments, char * );
+                ++current;
+            }
+            start = scan + 1;
+            if( *scan == 'S' ) PrintTextLine( FormatSymbolName( values[index - 1] ) );
+            else if( *scan == 's' ) PrintTextLine( values[index - 1] );
+            else --start;
+        }
+        ++scan;
+    }
+    PrintTextLine( start );
+}
+
+/* Original0x414cae..0x414ceb. Its shared mutable result buffer is
+   consumed immediately by the resource formatter. */
+const char *FormatSymbolName( const char *name )
+{
+    static char spelling[128];       /* Original0x430350. */
+    unsigned i;
+
+    if( ToolFlags & 0x8000 ) {
+        i = 0;
+        do { spelling[i] = name[i]; } while( name[i++] != '\0' );
+    } else {
+        __demangle_l( name, 0, spelling, sizeof(spelling) );
+    }
+    return( spelling );
 }

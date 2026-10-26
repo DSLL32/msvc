@@ -32,8 +32,8 @@ build/wlib.lnk: Makefile $(ORIGINAL_OBJECTS)
 	@printf '%s\n' 'format windows nt' 'runtime console' 'debug all' 'option map=build\wlib.map' 'name build\WLIB.EXE' $(foreach o,$(ORIGINAL_OBJECTS),'file $(call winpath,$(o))') 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' 'libpath $(call winpath,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/NT)' 'library clib3r' 'library nt' > $@
 
 # The shared checker cannot inherit RET through a pending nonreturn endpoint.
-# Keep all App graph/ownership/extents checks and 54 strict return contracts;
-# this residual checks both returning owners of the exact nonlocal failure tail.
+# Keep all App graph/ownership/extents checks and165 strict return contracts;
+# this residual checks six normal returns with genuine nonlocal error exits.
 .PHONY: audit-nonlocal-tails
 audit: audit-nonlocal-tails
 audit-nonlocal-tails: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/check-nonlocal-tails.py
