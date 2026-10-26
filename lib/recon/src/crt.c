@@ -40,12 +40,21 @@ WEAK int __cdecl recon_strcmp(const char *left,const char *right)
 }
 /* The Win32 CRT writes a 16-bit wchar_t. The C locale maps all unsigned
  * bytes directly; source==NULL or n==0 is a no-op, not a host EILSEQ. */
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static void mbtowc_1252_scope(WCHAR *,const char *,size_t,unsigned char);
+#endif
 WEAK int recon_mbtowc(WCHAR *destination,const char *source,size_t count)
 {
     unsigned char value;
     if (!source || !count) return 0;
     value=(unsigned char)*source;
-    if (value && recon_lc_handle[2]) recon_unsupported("mbtowc nondefault LC_CTYPE");
+    if (value && recon_lc_handle[2]) {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+        mbtowc_1252_scope(destination,source,count,value);
+#else
+        recon_unsupported("mbtowc nondefault LC_CTYPE");
+#endif
+    }
     if (destination) *destination=value;
     return value?1:0;
 }
@@ -2751,6 +2760,22 @@ static void ascii_encountered_locale_scope(void)
 #endif
     recon_unsupported("ASCII API unreviewed codepage/locale/profile");
 }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+/* Reached isolated CP1252/SBCS ASCII conversion. Caller owns the one readable
+ * source byte and any two writable output bytes; span checks do not prove that. */
+static void mbtowc_1252_scope(WCHAR *destination,const char *source,size_t count,unsigned char value)
+{
+    uintptr_t out=(uintptr_t)destination,in=(uintptr_t)source;
+    if(count!=1 || value>=128 || ctype_selection.bound!=1 || ctype_selection.calls!=1 ||
+       ctype_selection.mb_calls!=1 || recon_mb_codepage_gate ||
+       !ctype_selection.result || strcmp(ctype_selection.result,"English_United States.1252"))
+        recon_unsupported("mbtowc isolated1252 ASCII selection/domain");
+    ascii_encountered_locale_scope();
+    if(in>UINTPTR_MAX-1 || (destination && ((out&1) || out>UINTPTR_MAX-2 ||
+       (out<in+1 && in<out+2))))
+        recon_unsupported("mbtowc isolated1252 disjoint WCHAR16 output span");
+}
+#endif
 /* Internal native process-provider gate, not a target CRT API. */
 void recon_crt_validate_spawn_profile(void)
 {

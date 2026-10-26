@@ -119,8 +119,13 @@ POSIX inode-change time is not a Windows creation time. Integer scanning wraps a
 the old CRT does. qsort preserves the VC1 pivot/shortsort tie ordering because
 equal-key ordering affects LINK's serialized import tables.
 `mbtowc` writes 16-bit wide characters and preserves the original C-locale byte
-mapping and zero-length/no-source behavior. Nondefault LC_CTYPE conversion
-explicitly fails pending codepage-specific support.
+mapping and zero-length/no-source behavior. Explicit510 additionally admits
+count1 ASCII1..127 after the existing isolated LC_CTYPE1252/SBCS selection and
+full table/handle checks. It returns1 with optional aligned, disjoint caller-owned
+WCHAR16 output, writing only two bytes. NonASCII/other selection/count/profile
+remain denied on that nondefault path. NULL-source/count0/NUL retain prior
+behavior. Focused controls cover every ASCII byte, tails, state/errors/semantic
+FP, prewrite denials and unchanged CP0 byte mapping; C1 caller adoption pending.
 The VC1 `_find` filename boundary retains its persistent result pointer and one
 active search, including replacement/exhaustion errors and unchanged CRT errno.
 ASCII wildcard matching is case-insensitive and preserves the captured Wine

@@ -1082,3 +1082,11 @@ build/watcom-alloca-unselected: tests/watcom-alloca-unselected.c $(SOURCES) $(HE
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-alloca-check: build/watcom-alloca-probe build/watcom-alloca-generic build/watcom-alloca-unselected
 	$(PYTHON) tests/check-watcom-alloca.py $^
+
+.PHONY: mbtowc-1252-check
+build/mbtowc-1252-probe: tests/mbtowc-1252-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/mbtowc-1252-generic: tests/mbtowc-1252-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mbtowc-1252-check: build/mbtowc-1252-probe build/mbtowc-1252-generic
+	$(PYTHON) tests/check-mbtowc-1252.py $^
