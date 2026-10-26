@@ -280,3 +280,28 @@ char *CopyCountedName( int length, const char *name )
     copy[length] = '\0';
     return( copy );
 }
+
+/* Original0x412d76..0x412e06. Aborted construction discards its open
+   output without flushing buffered data, then resumes main's saved context. */
+void AbortCommand( void )
+{
+    PrintMessage( 6 );
+    if( ListingName->File != NULL ) {
+        CloseLibraryFile( ListingName );
+        BuildFileName( ListingName );
+        unlink( FileErrorName );
+    }
+    if( !(ToolFlags & 2) ) {
+        if( OutputLibraryName->File != NULL &&
+            OutputLibraryName->File->Handle != 0 ) {
+            close( OutputLibraryName->File->Handle );
+            OutputLibraryName->File->Handle = 0;
+        }
+        if( OutputLibraryName->File != NULL ) {
+            BuildFileName( OutputLibraryName );
+            unlink( FileErrorName );
+        }
+    }
+    FreeDictionaryBlocks();
+    longjmp( Env, 1 );
+}

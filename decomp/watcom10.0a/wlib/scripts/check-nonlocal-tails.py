@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Finite exceptional-tail residual: normal RET0 plus a nonlocal error tail.
 The shared graph/ownership/extent audit still checks every accepted App body.
-No AbortCommand/longjmp code is restored or accepted by this check.
+The separate classified CRT catalog owns longjmp; these checks grant no CRT
+reconstruction credit or general unwind equivalence.
 """
 from pathlib import Path
 import hashlib
@@ -107,7 +108,7 @@ for name, chunks, original_ret, original_tail in OWNERS:
     assert len(tails) == (2 if name == 'WriteFileBlock' else 1), (name, tails)
     assert all(int(operand.split()[0], 16) == symbols['AbortCommand_'] for _, operand in tails), (name, tails)
 assert '#pragma aux AbortCommand aborts;' in (project / 'src/toolstate.h').read_text()
-print('PASS six normal RET0 owners and exact exceptional AbortCommand→longjmp nonlocal tails (pending code remains masked)')
+print('PASS six normal RET0 owners and exact exceptional AbortCommand→longjmp nonlocal tails')
 
 # ReportSyntaxError is a separate genuine direct-exit owner, not a normal
 # RET0 function or a longjmp path. The period -od build uses a terminal CALL
@@ -131,3 +132,24 @@ assert read_va(rebuilt, syntax[-1][0] - 5, 5) == bytes.fromhex('b801000000')
 assert all(start <= int(op.split()[0], 16) < end for _, m, op in syntax if m.startswith('j'))
 assert '#pragma aux ReportSyntaxError aborts;' in (project / 'src/toolstate.h').read_text()
 print('PASS ReportSyntaxError exact direct exit(1) terminal role; no invented normal RET')
+
+# AbortCommand's physical terminal transfer resumes the saved main context;
+# its absence of a caller return is distinct from the six normal RET0 owners.
+start = symbols['AbortCommand_']
+end = min(a for a in symbols.values() if a > start)
+abort_rebuilt = instructions(rebuilt, start, end)
+assert not any(m.startswith('ret') for _, m, _ in abort_rebuilt)
+external = [(a, m, int(op.split()[0], 16)) for a, m, op in abort_rebuilt
+            if m.startswith('j') and not (start <= int(op.split()[0], 16) < end)]
+assert external == [(end - 5, 'jmp', symbols['longjmp_'])]
+jump(rebuilt, end - 5, symbols['longjmp_'])
+# The physical Watcom arguments are EAX=&Env and EDX=1 on both sides.
+assert read_va(original, 0x412df7, 10) == bytes.fromhex('b814004300ba01000000')
+assert read_va(rebuilt, end - 15, 5) == bytes.fromhex('ba01000000')
+env_matches = re.findall(r'^0002:([0-9a-fA-F]{8})[ *+]\s+_Env\s*$',
+                         (project / 'build/wlib.map').read_text(), re.M)
+assert len(env_matches) == 1
+env_address = 0x420000 + int(env_matches[0], 16)
+assert read_va(rebuilt, end - 10, 5) == b'\xb8' + struct.pack('<I', env_address)
+assert read_va(original, 0x418647, 6) == bytes.fromhex('8b601cff7018')
+print('PASS AbortCommand exact Env/value1 nonlocal JMP; no normal caller RET claim')

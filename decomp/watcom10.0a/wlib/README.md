@@ -1,26 +1,28 @@
 # Watcom 10.0a WLIB
 
-Seven cases are complete: basic help, archive update, in-place C++ update,
+Eight cases are complete: basic help, archive update, in-place C++ update,
 PE DLL/COMMON import, NE/NLM export conversion with C++ listing, and unmatched
-member diagnostics, plus nested-response syntax termination. They cover replacement/deletion/addition/extraction,
+member diagnostics, nested-response syntax termination and archive-capacity
+cleanup. They cover replacement/deletion/addition/extraction,
 explicit and executable-derived imports, dictionary construction, alphabetical
 and module listings, COMDAT/local-public records, C++ demangling and backup
 preservation. The NE input exercises resident names and nonresident ordinals;
 the NLM input has a genuine count-based public table. Their combined C++ object
 adds operator new/assignment/relational names, integer templates, recursive local
-names, a based pointer and an anonymous enum. Six exit 0 and the syntax-error case exits 1; all match streams, final files
+names, a based pointer and an anonymous enum. Six exit 0; the syntax and capacity-error cases exit 1; all match streams, final files
 and application entry order. The last five cases observe 166, 200, 172, 209 and 198 first entries respectively.
 Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
-The reconstruction has 241 qualified application functions covering 28,568 unique
+The reconstruction has 242 qualified application functions covering 28,712 unique
 original code bytes. Shared chunks count once. The empty CommitDictionaryBlock
 entry shares another function's RET and is explicitly excluded from entry order.
-There is no verified complete non-CRT denominator yet. All 241 bodies retain
+There is no verified complete non-CRT denominator yet. All 242 bodies retain
 function-graph/ownership/extent checks; 234 have strict RET checks and six
 normal-return owners with cold nonlocal exits retain the finite residual in
 scripts/. ReportSyntaxError has a separate exact direct-exit residual; its final
-period-compiler CALL exit has an explicit terminating-call graph declaration. AbortCommand and other pending functions remain named traps.
+period-compiler CALL exit has an explicit terminating-call graph declaration. AbortCommand preserves its explicit Env/value1 nonlocal transfer; remaining
+callbacks and conditional support paths stay named traps.
 
 `make -j4 native cases check unit audit win32` builds the native i386 DSO,
 runs cached fixtures and checks the source with the original Watcom compiler.
@@ -46,11 +48,14 @@ Executable conversion uses an independently unique internal native temporary;
 progress checks select meaningful outputs and normal exit checks full inventory,
 including removal of the temporary. No PID or filename normalization is used.
 
-The syntax-error pair took 1304.167/12.659 ms original/native, with native setup
-7.900 ms, execution 2.099 ms and checks 2.660 ms. Its final canonical cached check
-took 10.667 ms. All seven cached cases and unit checks passed in 105.359 ms wall.
-The default parallel native/period rebuild took 2436.989 ms. Canonical final
-full audit, including its incremental native build, took 1273.550 ms; the frozen
-full static qualification took 482.930 ms. Diagnostics and input producers stay
-in scratch; each case contains case.c and capture.bin only. Console/nonlocal
-errors, alternate resource formats and a few demangler/listing paths remain.
+The capacity case repages the unmodified shipped RAFXCWD.LIB from128-byte to
+16-byte pages. It reaches the real16-bit page-index limit, removes the partial
+output and resumes main through longjmp(Env,1). Its final original/native pair
+took 594.385/39.754 ms, split into native setup 9.475 ms, execution 26.293 ms and
+checks 3.986 ms. The final cached replay took 36.084 ms. All eight completed
+cached cases and unit checks passed in 118.870 ms wall; final parallel
+native/period build took 2209.011 ms and full audit 394.257 ms. Diagnostics and
+input producers stay in scratch; completed cases contain case.c/capture.bin only.
+Preserved0007 truncation work is unaccepted and has no frozen fixture. Console
+signal delivery, alternate resource formats and two conditional helper paths
+remain to be reconstructed.

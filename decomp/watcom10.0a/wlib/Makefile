@@ -34,7 +34,7 @@ build/wlib.lnk: Makefile $(ORIGINAL_OBJECTS)
 # The shared checker cannot inherit RET through a pending nonreturn endpoint.
 # Keep all App graph/ownership/extents checks and234 strict return contracts;
 # this residual checks six normal returns with genuine nonlocal error exits
-# and the genuine nonreturning ReportSyntaxError direct exit(1) path.
+# plus ReportSyntaxError direct exit(1) and AbortCommand saved-context paths.
 .PHONY: audit-nonlocal-tails
 audit: audit-nonlocal-tails
 audit-nonlocal-tails: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/check-nonlocal-tails.py

@@ -40,11 +40,6 @@ int readLangInfoList( int handle, WResResNode *node )
     return( 0 );
 }
 
-void AbortCommand( void )
-{
-    WLIB_FRONTIER();
-}
-
 int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
 {
     WLIB_FRONTIER();

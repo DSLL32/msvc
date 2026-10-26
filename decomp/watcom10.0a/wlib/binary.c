@@ -4,6 +4,15 @@
    initial OpenWatcom source; old variants are not byte-identity claims. */
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
+    /* CLIB3R stjmp386 public/source, older111B nonlocal restore variant.
+       Physical RET resumes saved Env; it is not an App caller return. */
+    { .name = "longjmp_", .entry_rva = 0x18621,
+      .code = (const ReconExtent[]) { {0x18621, 0x18690} }, .code_count = 1,
+      .definition = RECON_CRT, .original_symbol = "longjmp_" },
+    { .name = "RtlUnwind", .entry_rva = 0x1c46c,
+      .code = (const ReconExtent[]) { {0x1c46c, 0x1c472} }, .code_count = 1,
+      .definition = RECON_IMPORT_NAME, .import_dll = "KERNEL32.dll",
+      .import_name = "RtlUnwind" },
     { .name = "base_10_num", .entry_rva = 0x154d9,
       .code = (const ReconExtent[]) { {0x154d9, 0x15501}, {0x154cf, 0x154d9} }, .code_count = 2,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
@@ -2293,8 +2302,9 @@ static const ReconFunction functions[] = {
     {
         .name = "AbortCommand",
         .entry_rva = 0x12d76,
+        .code = (const ReconExtent[]) { {0x12d76, 0x12e06} }, .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "AbortCommand",
         .original_symbol = "AbortCommand_",
     },
