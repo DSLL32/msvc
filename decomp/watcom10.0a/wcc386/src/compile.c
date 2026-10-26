@@ -33,13 +33,14 @@
 #include <stdlib.h>
 #include <setjmp.h>
 #include "compiler.h"
+#include "scanner.h"
 #include <recon.h>
 
 char *WholeFName,*ForceInclude;
 void *Environment;
 int PrintWhiteSpace;
 
-/* This earlier driver performs EmitInit/forced-include setup before Parse,
+/* This earlier driver performs PragmaInit/forced-include setup before Parse,
  * and leaves error recovery without the later MyExit/FreeRDir additions. */
 void DoCCompile(char **cmdline)
 {
@@ -68,7 +69,7 @@ void DoCCompile(char **cmdline)
     OpenErrFile();
     MergeInclude();
     CPragmaInit();
-    EmitInit();
+    PragmaInit();
     if (ForceInclude) {
         if (CompFlags.cpp_output) PrtChar('\n');
         OpenSrcFile(ForceInclude,0);
@@ -91,4 +92,37 @@ void ParseInit(void)
     QuadInit();
     ExprInit();
     SegInit();
+}
+
+/* This version still runs code generation within Parse; the later outer
+ * driver took over that stage. Its preprocessor-only branch is separate. */
+void Parse(void)
+{
+    if (CompFlags.cpp_output) {
+        CPP_Parse();
+        SymFini();
+        return;
+    }
+    EmitInit();
+    CompFlags.ok_to_use_precompiled_hdr=1;
+    NextToken();
+    CompFlags.ok_to_use_precompiled_hdr=0;
+    ParsePgm();
+    if (DefFile!=NULL) {
+        fclose(DefFile);
+        DefFile=NULL;
+    }
+    ChkCallParms();
+    ChkPragmas();
+    EndBlock();
+    MacroFini();
+    if (!CompFlags.quiet_mode) PrintStats();
+    if (CompFlags.warnings_cause_bad_exit) ErrCount+=WngCount;
+    if (ErrCount==0 && !CompFlags.check_syntax) {
+        if (CompFlags.emit_browser_info) DwarfBrowseEmit();
+        DoCompile();
+    } else {
+        EmitAbort();
+    }
+    SymFini();
 }

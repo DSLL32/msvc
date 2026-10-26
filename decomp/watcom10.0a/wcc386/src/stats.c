@@ -31,6 +31,8 @@
 
 
 #include "compiler.h"
+#include "files.h"
+#include "scanner.h"
 #include <recon.h>
 
 int SrcLineCount,IncLineCount,WngCount;
@@ -64,4 +66,25 @@ void InitStats(void)
     AllocCount=0;
     FreeCount=0;
     FuncCount=0;
+}
+
+void PrintStats(void)
+{
+    FCB *file;
+    if (CompFlags.stats_printed) return;
+    ConPrintf("%s: ",WholeFName==NULL ? "":WholeFName);
+    if (SrcLineCount==0 && SrcFile!=NULL) {
+        file=SrcFile;
+        while (file->prev_file!=NULL) {
+            IncLineCount+=file->src_line;
+            file=file->prev_file;
+        }
+        SrcLineCount=file->src_line;
+    }
+    ConPrintf("%u lines, ",SrcLineCount);
+    if (IncLineCount!=0) ConPrintf("included %u, ",IncLineCount);
+    ConPrintf("%u warnings, ",WngCount);
+    ConPrintf("%u errors\n",ErrCount);
+    fflush(stdout);
+    CompFlags.stats_printed=1;
 }

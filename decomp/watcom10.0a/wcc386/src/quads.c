@@ -33,11 +33,17 @@
 #include <string.h>
 #include "compiler.h"
 #include "quads.h"
+#include "compiler.h"
+#include "scanner.h"
+#include "expression.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(memcpy)
+#endif
 
 unsigned LeafFreeList;
 /* Provisional descriptive names for the older quad-chain state. */
-unsigned FirstQuad,LastStatementQuad,LastQuad,DefaultLeaf;
+unsigned FirstQuad,FirstCallQuad,LastCallQuad,DefaultLeaf;
 struct seg_info QuadSegs[49],LeafSegs[98];
 void QuadInit(void)
 {
@@ -45,8 +51,8 @@ void QuadInit(void)
     LEAF leaf;
     QuadIndex=0;
     FirstQuad=0;
-    LastStatementQuad=0;
-    LastQuad=0;
+    FirstCallQuad=0;
+    LastCallQuad=0;
     LeafIndex=0;
     LeafFreeList=0;
     InitIntermediateFiles();
@@ -61,7 +67,7 @@ void QuadInit(void)
     leaf.leaf_class=19;
     leaf.leaf_type=GetType(TYPE_INT);
     DefaultLeaf=GenLeaf(&leaf);
-    CompFlags.quad_init_flag=0;
+    CompFlags.far_strings=0;
 }
 
 struct int_file_info QuadFileInfo,LeafFileInfo;
@@ -106,7 +112,7 @@ unsigned NewLeaf(void)
         index=LeafFreeList;
         LeafGet(&leaf,index);
         ++ReclaimCount;
-        LeafFreeList=leaf.payload[1];
+        LeafFreeList=leaf.u.words[1];
     } else {
         if (LeafIndex>=0xfffb) {
             CErr1(0x479);
@@ -153,4 +159,127 @@ void *AccessFileInfo(unsigned index,struct int_file_info *info)
         info->curr_seg_num=seg_num;
     }
     return info->buffer+(index%info->items_per_buf)*info->size_of_item;
+}
+
+unsigned GenQuad(unsigned op1,int opr,unsigned op2,unsigned result)
+{
+    QUAD quad;
+    unsigned index;
+    if (!FoldQuad(op1,opr,op2,result) && SizeOfCount==0) {
+        quad.quad_class=opr;
+        quad.quad_flags=0;
+        quad.src_line=SrcLineNum;
+        quad.src_file=SrcFno;
+        quad.operand1=op1;
+        quad.operand2=op2;
+        quad.result=result;
+        switch (opr) {
+        case T_FUNC_DEFN:
+            CurFunc->u.func.start_of_func=QuadIndex;
+            /* fall through */
+        case 0x0a: case 0x0b: /* braces */
+        case T_SWITCH: case T_FUNC_END: case T_CALL_NO_PARM:
+            quad.operand2=GetQuadOperand(quad.operand2);
+            break;
+        case T_CASE: case T_FOR: case T_EXCEPT: case T_FINALLY:
+            quad.operand1=GetQuadOperand(quad.operand1);
+            break;
+        case T_CALL: case T_END_FOR: case T_TRY: case T_UNROLL: case T_UNWIND:
+            break;
+        default:
+            quad.operand1=GetQuadOperand(quad.operand1);
+            quad.operand2=GetQuadOperand(quad.operand2);
+        }
+        if (SrcFile!=NULL && SrcFile->prev_file!=NULL) quad.quad_flags|=0x80;
+        if (DeadCode!=0 && opr!=0x0a && opr!=0x0b) {
+            quad.quad_flags=0x40;
+            if (DeadCode==1) {
+                CWarn1(0x11,0xc9);
+                DeadCode=2;
+            }
+        } else if (opr!=T_CASE && opr!=T_LABEL_DEFN && CurFunc!=NULL) {
+            ++CurFunc->u.func.number_of_quads;
+        }
+        index=NewQuad();
+        QuadReplace(&quad,index);
+    }
+    return result;
+}
+
+/* Canonicalize the old leaf stream's small constants and symbol references. */
+unsigned GetQuadOperand(unsigned index)
+{
+    LEAF leaf,previous;
+    SYM_ENTRY sym;
+    unsigned result;
+    result=index;
+    if (index!=0) {
+        LeafGet(&leaf,index);
+        if (leaf.leaf_class==0x0a && leaf.leaf_type->decl_type==TYPE_INT) {
+            switch (leaf.u.constant.value.integer) {
+            case 0: result=0xffff; break;
+            case 1: result=0xfffe; break;
+            case 2: result=0xfffd; break;
+            case 4: result=0xfffc; break;
+            }
+        } else if (leaf.leaf_class==0x0c && leaf.leaf_type->decl_type==TYPE_LONG) {
+            if (leaf.u.constant.value.integer==0) result=0xfffb;
+        } else if (leaf.leaf_class==0) {
+            SymGet(&sym,leaf.u.symbol.handle);
+            if (index!=sym.sym_leaf && sym.sym_leaf!=0) {
+                LeafGet(&previous,sym.sym_leaf);
+                if (previous.leaf_class==0 &&
+                    (previous.leaf_flags&~0x20U)==(leaf.leaf_flags&~0x20U) &&
+                    previous.leaf_type==leaf.leaf_type &&
+                    previous.u.symbol.handle==leaf.u.symbol.handle &&
+                    previous.u.symbol.offset==leaf.u.symbol.offset) result=sym.sym_leaf;
+            }
+        }
+        if (result!=index && !(leaf.leaf_flags&2)) FreeLeaf(index);
+    }
+    return result;
+}
+
+unsigned NewQuad(void)
+{
+    if (QuadIndex>=0xffff) {
+        CErr1(0x479);
+        CSuicide();
+    }
+    return QuadIndex++;
+}
+
+void QuadReplace(QUAD *quad,unsigned index)
+{
+    QUAD *dst;
+    dst=AccessFileInfo(index,&QuadFileInfo);
+    memcpy(dst,quad,sizeof(QUAD));
+    QuadFileInfo.curr_buf_dirty=1;
+}
+
+/* One-based quad links reserve zero for the empty function chain. */
+unsigned LastFunctionQuad;
+void LinkFunctionQuads(unsigned index)
+{
+    QUAD quad;
+    ++index;
+    if (FirstQuad==0) FirstQuad=index;
+    else {
+        QuadGet(&quad,LastFunctionQuad-1);
+        quad.operand1=index;
+        QuadReplace(&quad,LastFunctionQuad-1);
+    }
+    LastFunctionQuad=index;
+}
+
+void QuadGet(QUAD *quad,unsigned index)
+{
+    QUAD *source;
+    source=AccessFileInfo(index,&QuadFileInfo);
+    memcpy(quad,source,sizeof(QUAD));
+}
+
+unsigned GenQuadNoResult(unsigned first,int op,unsigned second)
+{
+    return GenQuad(first,op,second,0);
 }

@@ -15,4 +15,8 @@ void *wcc_calloc(unsigned count,unsigned element_size);
 #undef malloc
 #define malloc malloc_segment_wrapper
 #endif
+#ifdef WCC_CALLBACK_FREE
+#undef free
+#define free free_segment_wrapper
+#endif
 #endif

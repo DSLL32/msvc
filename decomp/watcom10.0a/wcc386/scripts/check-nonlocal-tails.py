@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exact NewSym/NewLeaf normal-RET/nonlocal-error residual, not a CFG engine.
+"""Exact NewSym/NewLeaf/NewQuad normal-RET/nonlocal-error residual, not a CFG engine.
 Shared graph/ownership/extent checks retain every App edge. CSuicide and its
 failure bodies stay pending/masked; this proves no native longjmp behavior.
 """
@@ -22,6 +22,7 @@ assert hashlib.sha256(original).hexdigest()==profile['initialized_sha256']
 # These exact finite role bytes were source-correlated and reviewed. They
 # never imply ownership/admission or returning ABI for a nonlocal endpoint.
 EXPECTED={
+    (0x2b6c0,0x2b6ec):'f743974d7d9041e701a81435621c70089610f7e60c7ae62da1c5ee18941f7695', # NewQuad
     (0x2b76f,0x2b7cb):'651dff1c94478e4e0127974592764f38935bd6782b6c9aed5a4fe3c805b57259', # NewLeaf
     (0x643a,0x645d):'4da60e36d1c71900051ba432c497831f26b6d74434bb2b7faff737bfd8df1ac3', # CSuicide
     (0x2c195,0x2c1f2):'2beb2c5796888d6f4318ed514289634bf019835cc8c63c02ba9a4fa305f6809b', # longjmp
@@ -36,6 +37,11 @@ for (start,end),digest in EXPECTED.items():
 def jump(code,at,target):
     assert code[at]==0xe9 and at+5+struct.unpack_from('<i',code,at+1)[0]==target
 
+# NewQuad's limit branch has the same CErr1/CSuicide nonlocal endpoint.
+assert original[0x2b6ea:0x2b6ec]==bytes.fromhex('5ac3')
+assert original[0x2b6cd:0x2b6d2]==bytes.fromhex('b879040000')
+for site,target in [(0x2b6d2,0x60c0),(0x2b6d7,0x643a)]:
+    assert original[site]==0xe8 and site+5+struct.unpack_from('<i',original,site+1)[0]==target
 # NewLeaf's limit branch calls the same nonlocal endpoint after CErr1.
 assert original[0x2b7c7:0x2b7cb]==bytes.fromhex('c95a5bc3')
 assert original[0x2b7aa:0x2b7af]==bytes.fromhex('b879040000')
@@ -79,6 +85,7 @@ symbols={name:code_base+int(offset,16) for offset,name in
 for name,frame,epilogue in [
     ('NewSym',0,'5d5f5e5a595bc3'),
     ('NewLeaf',32,'c95f5e5a595bc3'),
+    ('NewQuad',4,'c95f5e5a595bc3'),
 ]:
     start=symbols[name+'_'];end=min(a for a in symbols.values() if a>start)
     text=subprocess.check_output(['objdump','-D','-Mintel','--no-show-raw-insn',
@@ -104,7 +111,10 @@ for name,target in [('CCusage','MyExit_')]:
 # CALLexit wrapper. Its syntactic RET0 is unreachable because real exit
 # takes the exact nonlocal closure above: original localRET[] vs rebuilt[0].
 start=symbols['MyExit_'];end=min(a for a in symbols.values() if a>start)
-assert end-start==10
+# Subsequent TU-local constant tables need not introduce a MAP public.
+# Check the exact wrapper bytes, not the distance to the next function public;
+# this grants no ownership to any trailing table/alignment bytes.
+assert end-start>=10
 assert read_va(start,3)==bytes.fromhex('5589e5')
 assert read_va(start+3,1)==b'\xe8'
 assert start+8+struct.unpack('<i',read_va(start+4,4))[0]==symbols['exit_']
@@ -115,4 +125,4 @@ assert '#pragma aux MyExit aborts;' in (project/'src/command.h').read_text()
 assert '#define WCC_CSUICIDE_ABORTS' in (project/'src/symbols.c').read_text()
 assert '#define WCC_CSUICIDE_ABORTS' in (project/'src/quads.c').read_text()
 assert '#pragma aux CSuicide aborts;'  in (project/'src/compiler.h').read_text()
-print('PASS NewSym/NewLeaf RET0; CCusage noreturn; MyExit localRET[]/[0], sole exit call; nonlocal closure retained')
+print('PASS NewSym/NewLeaf/NewQuad RET0; CCusage noreturn; MyExit localRET[]/[0], sole exit call; nonlocal closure retained')

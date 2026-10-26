@@ -31,6 +31,13 @@ RECON_AUDIT_PREREQUISITES = $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) build/rebuilt-run
 RECON_AUDIT_FLAGS = -q --discovery cfg --check-ownership --check-extents --ret-checks harness/ret-checks.json --export-instructions --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --map-format watcom10 --rebuilt-runtime build/rebuilt-runtime.json
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
+# Keep both canonical CRT public extents; avoid decoding their common body
+# twice in the separate optional support catalog used by App graph audits.
+RECON_AUDIT_FLAGS := $(filter-out --runtime $(RECON_AUDIT_ORIGINAL_RUNTIME),$(RECON_AUDIT_FLAGS)) --runtime build/runtime-original-audit.json
+recon-graph-audit: build/runtime-original-audit.json
+build/runtime-original-audit.json: .build/runtime-original.json scripts/audit-runtime.py
+	python3 scripts/audit-runtime.py $< $@
+
 build/wcc386.lnk: Makefile $(ORIGINAL_SOURCES)
 	@mkdir -p $(@D)
 	printf '%s\n' 'format windows nt' 'runtime console' 'debug all' 'option map=build\wcc386.map' 'name build\WCC386.EXE' $(foreach object,$(ORIGINAL_OBJECTS),'file $(subst /,\,$(object))') 'libpath $(subst /,\,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386)' 'libpath $(subst /,\,$(ORIGINAL_TOOLCHAIN_ROOT)/lib386/nt)' 'library clib3r' 'library nt' > $@
@@ -56,9 +63,14 @@ audit-nonlocal-tails: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/check-nonlocal-
 build/obj/src/exit.c.obj: ORIGINAL_CFLAGS += -ox
 
 # Update native bootstrap ownership only at the App stdio boundary.
-.build/pic/src/frontend.c.o: NATIVE_CPPFLAGS += -include harness/stream-boundary.h
+.build/pic/src/frontend.c.o .build/pic/src/command.c.o .build/pic/src/error.c.o .build/pic/src/getch.c.o: NATIVE_CPPFLAGS += -include harness/stream-boundary.h
 
 # Materialize only the finite object-proven alignment descriptor. This is
 # semantic projection input; diagnostic reports remain in owned scratch.
-build/audit-policy.json: harness/policy.json scripts/audit-policy.py build/obj/src/usage.c.obj $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+build/audit-policy.json: harness/policy.json scripts/audit-policy.py build/obj/src/usage.c.obj build/obj/src/utils.c.obj $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
 	python3 scripts/audit-policy.py --output $@
+
+# This original TU uses software floating conversion (__FDI4), not x87 __CHP.
+build/obj/src/expression.c.obj build/obj/src/data.c.obj build/obj/src/statement.c.obj build/obj/src/cgendata.c.obj build/obj/src/ftoa.c.obj build/obj/src/cfutil.c.obj build/obj/src/cftof.c.obj: ORIGINAL_CFLAGS += -fpc
+build/obj/src/expression.c.obj build/obj/src/data.c.obj build/obj/src/statement.c.obj: Makefile
+build/obj/src/preproc.c.obj: Makefile

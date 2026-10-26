@@ -1,7 +1,269 @@
 {
   "graph_metadata": {
     "schema": 1,
-    "functions": {},
+    "functions": {
+      "ProcessOption": {
+        "original": {
+          "switches": {
+            "170743": [
+              170751,
+              170801,
+              170820,
+              171010,
+              171208,
+              171251,
+              171310,
+              171322,
+              171334,
+              171346,
+              171508,
+              171539,
+              171579,
+              171709,
+              171721,
+              171733,
+              171750,
+              171762,
+              171774,
+              171896,
+              171934,
+              172722
+            ],
+            "170848": [
+              170856,
+              170892,
+              170899,
+              172737
+            ]
+          }
+        }
+      },
+      "SetTargSystem": {
+        "original": {
+          "switches": {
+            "166261": [
+              166269,
+              166318,
+              166325
+            ],
+            "166554": [
+              166562,
+              166577,
+              166602,
+              166635,
+              166653,
+              166663,
+              166723
+            ]
+          }
+        }
+      },
+      "SetGenSwitches": {
+        "original": {
+          "switches": {
+            "166962": [
+              166970,
+              167029,
+              167007
+            ],
+            "167095": [
+              167103,
+              167157,
+              167182,
+              167206,
+              167215
+            ]
+          }
+        }
+      },
+      "MacroDefs": {
+        "original": {
+          "switches": {
+            "167369": [
+              167412,
+              167377,
+              167384,
+              167391,
+              167398,
+              167405
+            ],
+            "168109": [
+              168117,
+              168124,
+              168131,
+              168138,
+              168145,
+              168152
+            ]
+          }
+        }
+      },
+      "GetExpr": {
+        "original": {
+          "switches": {
+            "27283": [
+              27039,
+              26937,
+              26984,
+              26294,
+              27670,
+              26414,
+              26322,
+              26429,
+              27670,
+              26369,
+              27670,
+              26511,
+              26584,
+              26624,
+              26624,
+              26624,
+              26657,
+              26657,
+              26678,
+              26699,
+              26720,
+              27670,
+              26741,
+              26786,
+              26803,
+              26820,
+              26832,
+              26844,
+              26856,
+              26886,
+              26903,
+              26970
+            ]
+          }
+        }
+      },
+      "Statement": {
+        "original": {
+          "switches": {
+            "92408": [
+              92501,
+              92481,
+              92423,
+              92430,
+              92437,
+              92152,
+              91907,
+              92012,
+              92246,
+              92416,
+              92207,
+              92104,
+              92197,
+              92177,
+              92232,
+              92137,
+              92491,
+              92239
+            ]
+          }
+        }
+      },
+      "FEAuxInfo": {
+        "original": {
+          "switches": {
+            "36009": [
+              36938,
+              36165,
+              36155,
+              36926,
+              36092,
+              36102,
+              36027,
+              36141,
+              36247,
+              36437,
+              36377,
+              36677,
+              36049,
+              36039,
+              36128,
+              36017,
+              36906,
+              36894,
+              36863,
+              36148,
+              36175,
+              36074,
+              36059,
+              36229,
+              36084
+            ],
+            "36449": [
+              36457,
+              36496,
+              36518,
+              36560,
+              36602,
+              36621,
+              36640,
+              36659
+            ],
+            "36690": [
+              36698,
+              36746,
+              36148,
+              36756,
+              36766,
+              36804,
+              36833,
+              36843,
+              36853
+            ]
+          }
+        }
+      },
+      "GenerateQuads": {
+        "original": {
+          "switches": {
+            "45693": [
+              45701,
+              45731,
+              45756,
+              45890,
+              45947,
+              45960,
+              46049,
+              46109,
+              46208,
+              46232,
+              46236,
+              46255,
+              46286,
+              46336,
+              46384,
+              46446,
+              46518,
+              46559,
+              46611,
+              46663,
+              46691,
+              46741,
+              46782,
+              46801,
+              46814,
+              46833,
+              46843,
+              46856,
+              46878,
+              46888,
+              46913,
+              46935,
+              46965,
+              47010,
+              47030,
+              47043,
+              47378
+            ]
+          }
+        }
+      }
+    },
     "compatibility_calls": [
       {
         "owner": "MemFromSys",
@@ -33,6 +295,22 @@
     {
       "owner": "CTypeInit",
       "entry": "CPragmaInit"
+    },
+    {
+      "owner": "ChkControl",
+      "entry": "CSkip"
+    },
+    {
+      "owner": "CPragma",
+      "entry": "ChkPragmas"
+    },
+    {
+      "owner": "MemFree",
+      "entry": "MemCoalesce"
+    },
+    {
+      "owner": "EmitCS_Strings",
+      "entry": "EmitAbort"
     }
   ],
   "shared_terminal_epilogues": [
@@ -44,6 +322,1529 @@
       "original": {
         "start": 98708,
         "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ProcOptions",
+        "SetTargName"
+      ],
+      "original": {
+        "start": 166164,
+        "bytes_hex": "c95e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ProcessOption",
+        "ProcessFileOption"
+      ],
+      "original": {
+        "start": 168866,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SetGenSwitches",
+        "MacroDefs"
+      ],
+      "original": {
+        "start": 167287,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "MakePgmName",
+        "AddFlist"
+      ],
+      "original": {
+        "start": 5715,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "CFastAlloc",
+        "Ccoalesce"
+      ],
+      "original": {
+        "start": 73665,
+        "bytes_hex": "5a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ChkControl",
+        "Flush2EOL"
+      ],
+      "original": {
+        "start": 64310,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CSkip",
+        "Flush2EOL"
+      ],
+      "original": {
+        "start": 64310,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CollectParms",
+        "MacroExpansion"
+      ],
+      "original": {
+        "start": 61571,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "MacroExpansion",
+        "GlueTokens"
+      ],
+      "original": {
+        "start": 61572,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "CollectParms",
+        "GlueTokens"
+      ],
+      "original": {
+        "start": 61572,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BuildMTokenList",
+        "ExpandNestedMacros"
+      ],
+      "original": {
+        "start": 62598,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "DeleteNestedMacro",
+        "GetMacroToken"
+      ],
+      "original": {
+        "start": 59406,
+        "bytes_hex": "5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BoolExpr",
+        "AndAnd"
+      ],
+      "original": {
+        "start": 31626,
+        "bytes_hex": "89d8c95a5bc3"
+      }
+    },
+    {
+      "owners": [
+        "ChkEOL",
+        "CElse"
+      ],
+      "original": {
+        "start": 66460,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ChkEOL",
+        "CEndif"
+      ],
+      "original": {
+        "start": 66460,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CPragma",
+        "EndOfPragma"
+      ],
+      "original": {
+        "start": 81777,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "EndOfPragma",
+        "ChkPragmas"
+      ],
+      "original": {
+        "start": 81777,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ScanWhiteSpace",
+        "SkipWhiteSpace"
+      ],
+      "original": {
+        "start": 89304,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "Pointer",
+        "FieldDecl"
+      ],
+      "original": {
+        "start": 16667,
+        "bytes_hex": "89c8c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "StructDecl",
+        "NewField"
+      ],
+      "original": {
+        "start": 104008,
+        "bytes_hex": "89d8c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetFields",
+        "CheckBitfieldType"
+      ],
+      "original": {
+        "start": 104940,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DeclList",
+        "ArrayDecl"
+      ],
+      "original": {
+        "start": 13565,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "DeclPart2",
+        "DeclPart3"
+      ],
+      "original": {
+        "start": 17907,
+        "bytes_hex": "5bc3"
+      }
+    },
+    {
+      "owners": [
+        "DeclList",
+        "FuncProtoType"
+      ],
+      "original": {
+        "start": 13566,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ArrayDecl",
+        "FuncProtoType"
+      ],
+      "original": {
+        "start": 13566,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "Pointer",
+        "GetProtoType"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FieldDecl",
+        "GetProtoType"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "Pointer",
+        "FuncDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FieldDecl",
+        "FuncDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetProtoType",
+        "FuncDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "Pointer",
+        "VarDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FieldDecl",
+        "VarDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetProtoType",
+        "VarDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FuncDecl",
+        "VarDecl"
+      ],
+      "original": {
+        "start": 16669,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "StringLeaf",
+        "GetLiteral"
+      ],
+      "original": {
+        "start": 96464,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "StringLeaf",
+        "RemoveEscapes"
+      ],
+      "original": {
+        "start": 96464,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetLiteral",
+        "RemoveEscapes"
+      ],
+      "original": {
+        "start": 96464,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ParsePgm",
+        "ParmDeclList"
+      ],
+      "original": {
+        "start": 11098,
+        "bytes_hex": "c95e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "FuncDefn",
+        "ChkParms"
+      ],
+      "original": {
+        "start": 11327,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "SymAccess",
+        "FreeSym"
+      ],
+      "original": {
+        "start": 101129,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetSymList",
+        "SymAccess"
+      ],
+      "original": {
+        "start": 101129,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetSymList",
+        "FreeSym"
+      ],
+      "original": {
+        "start": 101128,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "AddParms",
+        "FuncDefn"
+      ],
+      "original": {
+        "start": 11326,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "AddParms",
+        "ChkParms"
+      ],
+      "original": {
+        "start": 11327,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "GetExpr",
+        "GenFuncCall"
+      ],
+      "original": {
+        "start": 27673,
+        "bytes_hex": "5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "DropContinueLabel",
+        "DropBreakLabel"
+      ],
+      "original": {
+        "start": 93445,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "AddCaseLabel",
+        "Statement"
+      ],
+      "original": {
+        "start": 92757,
+        "bytes_hex": "c95f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "BreakStmt",
+        "DropContinueLabel"
+      ],
+      "original": {
+        "start": 93445,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "BreakStmt",
+        "DropBreakLabel"
+      ],
+      "original": {
+        "start": 93445,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ContinueStmt",
+        "DropContinueLabel"
+      ],
+      "original": {
+        "start": 93445,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "ContinueStmt",
+        "DropBreakLabel"
+      ],
+      "original": {
+        "start": 93445,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "BENewBack",
+        "BEFiniBack"
+      ],
+      "original": {
+        "start": 191839,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DoConvert",
+        "CFCnvLongToF"
+      ],
+      "original": {
+        "start": 290181,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "CFGetDec32",
+        "CFGetDec16"
+      ],
+      "original": {
+        "start": 289724,
+        "bytes_hex": "89d05a5bc3"
+      }
+    }
+  ],
+  "function_properties": {
+    "SymFini": {
+      "pending_extent": false
+    },
+    "IncLevel": {
+      "pending_extent": false
+    },
+    "ExpectMessage": {
+      "pending_extent": false
+    },
+    "ChkEOL": {
+      "pending_extent": false
+    },
+    "KwLookup": {
+      "pending_extent": false
+    },
+    "GetExpr": {
+      "pending_extent": false
+    },
+    "CWarn1": {
+      "pending_extent": false
+    },
+    "CErr1": {
+      "pending_extent": false
+    },
+    "Expecting": {
+      "pending_extent": false
+    },
+    "CalcMemLimit": {
+      "pending_extent": false
+    },
+    "InitFrl": {
+      "pending_extent": false
+    },
+    "DefSegment": {
+      "pending_extent": false
+    },
+    "InitCG": {
+      "pending_extent": false
+    },
+    "InitSegment": {
+      "pending_extent": false
+    },
+    "CGFreeSize": {
+      "pending_extent": false
+    },
+    "WVSrcCueLoc": {
+      "pending_extent": false
+    },
+    "TypeDefn": {
+      "pending_extent": false
+    },
+    "DGAlign": {
+      "pending_extent": false
+    },
+    "FatalError": {
+      "pending_extent": false
+    },
+    "CodePtrType": {
+      "pending_extent": false
+    },
+    "TellNoSymbol": {
+      "pending_extent": false
+    },
+    "FlowOff": {
+      "pending_extent": false
+    },
+    "AddrFree": {
+      "pending_extent": false
+    },
+    "BGGlobalTemp": {
+      "pending_extent": false
+    },
+    "AskForNewLabel": {
+      "pending_extent": false
+    },
+    "TGControl": {
+      "pending_extent": false
+    },
+    "MakeConst": {
+      "pending_extent": false
+    },
+    "AddrName": {
+      "pending_extent": false
+    },
+    "IntToCF": {
+      "pending_extent": false
+    },
+    "CFCopy": {
+      "pending_extent": false
+    },
+    "CGVolatile": {
+      "pending_extent": false
+    },
+    "TGVolatile": {
+      "pending_extent": false
+    },
+    "BGCompare": {
+      "pending_extent": false
+    }
+  },
+  "shared_terminal_regions": [
+    {
+      "owners": [
+        "FCB_Alloc",
+        "OpenSrcFile"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 6932,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          },
+          {
+            "start": 7363,
+            "bytes_hex": "31c0e94ffeffff"
+          }
+        ],
+        "branches": [
+          {
+            "site": 7365,
+            "target": 6937
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ConstLeaf",
+        "IntLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77035,
+            "bytes_hex": "e8c76700008945ec8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77035,
+            "target": "GetType"
+          },
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CElse",
+        "CEndif"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 66449,
+            "bytes_hex": "e8425b0000e85affffff5ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 66449,
+            "target": "PPNextToken"
+          },
+          {
+            "site": 66454,
+            "target": "WantEOL"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "RelOp",
+        "BinOp"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 70989,
+            "bytes_hex": "89f1e8d2130000c95f5e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 70991,
+            "target": "GenQuad"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CallResultLeaf",
+        "IntLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77043,
+            "bytes_hex": "8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CallResultLeaf",
+        "TypeLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CallResultLeaf",
+        "ConstLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77043,
+            "bytes_hex": "8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NextCaseLabel",
+        "TypeLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NextCaseLabel",
+        "IntLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NextCaseLabel",
+        "ConstLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NextCaseLabel",
+        "CallResultLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "IntOp",
+        "FlowOp"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 69109,
+            "bytes_hex": "89c689c889f1e8261b0000c95e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 69115,
+            "target": "GenQuad"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ShiftOp",
+        "BinOp"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 70987,
+            "bytes_hex": "89c889f1e8d2130000c95f5e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 70991,
+            "target": "GenQuad"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ShiftOp",
+        "RelOp"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 70989,
+            "bytes_hex": "89f1e8d2130000c95f5e59c3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 70991,
+            "target": "GenQuad"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ContinueStmt",
+        "BreakStmt"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 93429,
+            "bytes_hex": "e8c6f3feffb805000000e8dc3400005ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 93429,
+            "target": "CErr1"
+          },
+          {
+            "site": 93439,
+            "target": "MustRecog"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "StartTernary",
+        "AndAnd"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 31620,
+            "bytes_hex": "ff0524e0070089d8c95a5bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "StartTernary",
+        "BoolExpr"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 31626,
+            "bytes_hex": "89d8c95a5bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ColonOp",
+        "GetExpr"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 27673,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ColonOp",
+        "GenFuncCall"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 27673,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "VoidRValue",
+        "RValue"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 68094,
+            "bytes_hex": "e8070000005ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 68094,
+            "target": "TakeRValue"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "UIntLeaf",
+        "IntLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77032,
+            "bytes_hex": "8955f4e8c76700008945ec8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77035,
+            "target": "GetType"
+          },
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "UIntLeaf",
+        "ConstLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77035,
+            "bytes_hex": "e8c76700008945ec8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77035,
+            "target": "GetType"
+          },
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "UIntLeaf",
+        "CallResultLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77043,
+            "bytes_hex": "8d45e8e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "UIntLeaf",
+        "TypeLeaf"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "UIntLeaf",
+        "NextCaseLabel"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 77046,
+            "bytes_hex": "e8e7fdffffc95ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 77046,
+            "target": "GenLeaf"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "FindInfo",
+        "FEAuxInfo"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 35276,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ObjInit",
+        "DoSegGrpNames"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 220814,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NeedMore",
+        "DoASegDef"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "AskSegIndex",
+        "FlushNames"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219550,
+            "bytes_hex": "5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "KillArray",
+        "KillStatic"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 231911,
+            "bytes_hex": "e8b5b0ffff5ac3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 231911,
+            "target": "CGFreeSize"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "EmitSegLabels",
+        "FEBack"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 57989,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "NeedMore",
+        "CheckLEDataSize"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DoASegDef",
+        "CheckLEDataSize"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 223356,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ObjInit",
+        "OutLabel"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 220814,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DoSegGrpNames",
+        "OutLabel"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 220814,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "InitFPPatches",
+        "InitPatch"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 226633,
+            "bytes_hex": "c3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "ObjFileName",
+        "FListSrcQue"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 6044,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "GenerateCode",
+        "EmitDQuad"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 43007,
+            "bytes_hex": "c95e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CGenType",
+        "EmitBytes"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48979,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DefSegment",
+        "DoFix"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 219832,
+            "bytes_hex": "c95f5ec20400"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CGenType",
+        "DoFuncDefn"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48979,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "EmitBytes",
+        "DoFuncDefn"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48978,
+            "bytes_hex": "c95f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CGenType",
+        "DefineLabels"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48979,
+            "bytes_hex": "5f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "EmitBytes",
+        "DefineLabels"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48978,
+            "bytes_hex": "c95f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "DoFuncDefn",
+        "DefineLabels"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 48978,
+            "bytes_hex": "c95f5e5a595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "CFCnvF16",
+        "CFCnvF32"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 290975,
+            "bytes_hex": "0fbe430c83f8ff7502f7da89d05e5a595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 290982,
+            "target": 290986
+          }
+        ]
+      }
+    }
+  ],
+  "shared_jump_tails": [
+    {
+      "owners": [
+        "CIfNDef",
+        "CIf"
+      ],
+      "original": {
+        "start": 65803,
+        "bytes_hex": "31c0e989010000"
+      },
+      "jump": {
+        "offset": 2,
+        "target": "IncLevel"
+      }
+    }
+  ],
+  "shared_call_return_tails": [
+    {
+      "owners": [
+        "ConstLeaf",
+        "TypeLeaf"
+      ],
+      "original": {
+        "start": 77046,
+        "bytes_hex": "e8e7fdffffc95ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "GenLeaf"
+      }
+    },
+    {
+      "owners": [
+        "IntLeaf",
+        "TypeLeaf"
+      ],
+      "original": {
+        "start": 77046,
+        "bytes_hex": "e8e7fdffffc95ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "GenLeaf"
+      }
+    },
+    {
+      "owners": [
+        "CFCnvI32F",
+        "CFCnvU32F"
+      ],
+      "original": {
+        "start": 290576,
+        "bytes_hex": "e845ffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CFCnvLongToF"
+      }
+    },
+    {
+      "owners": [
+        "CFIsI16",
+        "CFIsU32"
+      ],
+      "original": {
+        "start": 290676,
+        "bytes_hex": "e8a3ffffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "CFIsType"
       }
     }
   ]

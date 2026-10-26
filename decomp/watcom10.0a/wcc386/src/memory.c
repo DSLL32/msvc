@@ -253,3 +253,15 @@ void UnHook(FreeList *unhook,FreeList *neighbours)
         ++unhook_link;
     }
 }
+
+/* The OSI allocator's MemCoalesce is genuinely empty. Its original C3 is
+ * shared with MemFree, so the case explicitly excludes this logical entry. */
+void MemCoalesce(void)
+{
+}
+
+unsigned MemSize(void)
+{
+    if (!Initialized) MemInit();
+    return MemorySize;
+}

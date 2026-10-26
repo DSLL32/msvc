@@ -32,6 +32,8 @@
 #include <stdio.h>
 #include <time.h>
 #include "macros.h"
+#include "files.h"
+#include "pragma.h"
 #include <recon.h>
 
 char __Time[10],__Date[12];
@@ -49,4 +51,18 @@ void TimeInit(void)
     tod=localtime(&time_of_day);
     sprintf(__Time,"%.2d:%.2d:%.2d",tod->tm_hour,tod->tm_min,tod->tm_sec);
     sprintf(__Date,"%3s %.2d %d",Months[tod->tm_mon],tod->tm_mday,tod->tm_year+1900);
+}
+
+unsigned long *GetTimeStamp(struct fname_list *file)
+{
+    struct tm *local;
+    unsigned short date,clock;
+    static unsigned long dos_stamp;
+    local=localtime((time_t *)&file->mtime);
+    date=((unsigned)(local->tm_year-80)<<9) |
+         ((unsigned)(local->tm_mon+1)<<5) | (unsigned)local->tm_mday;
+    clock=((unsigned)local->tm_hour<<11) | ((unsigned)local->tm_min<<5) |
+          (unsigned)(local->tm_sec/2);
+    dos_stamp=(unsigned long)clock|((unsigned long)date<<16);
+    return &dos_stamp;
 }

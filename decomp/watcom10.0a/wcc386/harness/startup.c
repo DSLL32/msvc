@@ -10,10 +10,17 @@
 #include <stdlib.h>
 #include <string.h>
 #include <alloca.h>
+#include "osi-globals.h"
 #include <recon.h>
 extern char **environ;
 extern int main(void);
 WccStartup wcc_startup;
+/* Public ShimFILEs retain shared descriptor/buffer ownership. These test-only
+ * bindings preserve the older CRT's independent FILE26 list-node lifetime. */
+static struct stream_binding {
+    FILE *public_stream;
+    WccStreamLink *private_owner;
+} stream_bindings[20];
 static void init_stack(void)
 {
     /* Host selector observation belongs to test transport, not App code. */
@@ -68,11 +75,11 @@ static void pending_cnvs2d()
 }
 /* The original shutdown_stream calls freefp even when doclose fails.
  * Private FILE26 ownership remains distinct from public native ShimFILE. */
-static void close_owned_stream(unsigned index)
+static void close_owned_private(WccFile *stream)
 {
     WccStreamLink **owner,*link;
     owner=&wcc_startup.open_streams;
-    while (*owner && (*owner)->stream!=&wcc_startup.files[index]) owner=&(*owner)->next;
+    while (*owner && (*owner)->stream!=stream) owner=&(*owner)->next;
     if (!*owner) recon_unsupported("WCC repeated/unowned standard stream close");
     link=*owner;
     *owner=link->next;
@@ -80,14 +87,93 @@ static void close_owned_stream(unsigned index)
     link->next=wcc_startup.closed_streams;
     wcc_startup.closed_streams=link;
 }
+static WccStreamLink *checkout_stream(void)
+{
+    WccStreamLink *link;
+    WccFile *stream;
+    unsigned flags,index;
+    link=wcc_startup.closed_streams;
+    if (link) {
+        wcc_startup.closed_streams=link->next;
+        stream=link->stream;
+        flags=(stream->flag & 0x4003u)|3u;
+    } else {
+        for (index=0;index<20;++index)
+            if (!(wcc_startup.files[index].flag & 3u)) break;
+        if (index==20) recon_unsupported("WCC dynamic FILE beyond static20 roles");
+        stream=&wcc_startup.files[index];
+        link=(WccStreamLink *)allocate_node(8);
+        if (!link) recon_unsupported("WCC FILE-node allocation failure");
+        flags=3;
+    }
+    memset(stream,0,sizeof(*stream));
+    stream->flag=flags;
+    link->stream=stream;
+    link->next=wcc_startup.open_streams;
+    wcc_startup.open_streams=link;
+    return link;
+}
+FILE *wcc_fopen(const char *name,const char *mode)
+{
+    WccStreamLink *link;
+    FILE *public_stream;
+    unsigned index;
+    if (strcmp(mode,"rb")) recon_unsupported("WCC unqualified fopen mode");
+    if (!wcc_startup.file_open_calls) {
+        /* FrontEnd closes aux then prn: the first source-open must genuinely
+         * reuse node4, followed by3, rather than call the App allocator. */
+        link=wcc_startup.closed_streams;
+        if (!link || link->stream!=&wcc_startup.files[4] ||
+            !link->next || link->next->stream!=&wcc_startup.files[3] ||
+            link->next->next || !wcc_startup.open_streams ||
+            wcc_startup.open_streams->stream!=&wcc_startup.files[2] ||
+            !wcc_startup.open_streams->next ||
+            wcc_startup.open_streams->next->stream!=&wcc_startup.files[1] ||
+            !wcc_startup.open_streams->next->next ||
+            wcc_startup.open_streams->next->next->stream!=&wcc_startup.files[0] ||
+            wcc_startup.open_streams->next->next->next ||
+            wcc_startup.allocation_calls!=5)
+            recon_unsupported("WCC initial source-open private owners");
+    }
+    ++wcc_startup.file_open_calls;
+    link=checkout_stream();
+    if (wcc_startup.file_open_calls==1)
+        wcc_startup.first_open_owner=(unsigned)(link->stream-wcc_startup.files);
+    /* __allocfp happens before the actual host open, including failures. */
+    public_stream=recon_fopen(name,mode);
+    if (!public_stream) {
+        close_owned_private(link->stream);
+        return NULL;
+    }
+    for (index=0;index<20;++index) if (!stream_bindings[index].public_stream) break;
+    if (index==20) recon_unsupported("WCC public/private stream binding capacity");
+    link->stream->flag=(link->stream->flag & ~3u)|0x41u; /* rb, _READ|_BINARY */
+    link->stream->handle=recon_fileno(public_stream);
+    stream_bindings[index].public_stream=public_stream;
+    stream_bindings[index].private_owner=link;
+    return public_stream;
+}
 int wcc_fclose(FILE *stream)
 {
+    WccFile *private_stream;
     unsigned index;
     int result;
+    if (!stream) recon_unsupported("WCC null file-close ownership");
+    /* Public fopen can reuse iob3/4; a bound file takes precedence over the
+     * original standard aux/prn roles with those public addresses. */
+    for (index=0;index<20;++index) if (stream_bindings[index].public_stream==stream) break;
+    if (index<20) {
+        private_stream=stream_bindings[index].private_owner->stream;
+        result=recon_fclose(stream);
+        stream_bindings[index].public_stream=NULL;
+        stream_bindings[index].private_owner=NULL;
+        close_owned_private(private_stream);
+        return result;
+    }
     for (index=0;index<5;++index) if (stream==&recon_iob[index]) break;
     if (index==5) recon_unsupported("WCC unqualified file-close ownership");
     result=recon_fclose(stream);
-    close_owned_stream(index);
+    close_owned_private(&wcc_startup.files[index]);
     return result;
 }
 static void finish_files(void)
@@ -101,7 +187,7 @@ static void finish_files(void)
         link=wcc_startup.open_streams;
         index=(unsigned)(link->stream-wcc_startup.files);
         if (index>=3) recon_unsupported("WCC unclosed auxiliary stream");
-        close_owned_stream(index);
+        close_owned_private(&wcc_startup.files[index]);
     }
     while ((link=wcc_startup.closed_streams)!=NULL) {
         next=link->next;
@@ -109,7 +195,7 @@ static void finish_files(void)
         wcc_startup.closed_streams=next;
         ++freed;
     }
-    if (freed!=5 || wcc_startup.allocation_calls!=5)
+    if (freed!=wcc_startup.allocation_calls)
         recon_unsupported("WCC stream-node lifetime");
 }
 
@@ -145,10 +231,12 @@ int wcc_native_startup(int argc, char **argv)
     char **environment;
     char *empty_argv[1];
     char *command_tail;
-    if (argc != 2 || strcmp(argv[1],"?")) abort();
+    if (argc < 1 || argv == NULL || argv[0] == NULL) abort();
     /* Zero only declared runtime state; no copied original data section.
      * Original cstart zeroes its BSS before invoking the initializer table. */
     memset(&wcc_startup,0,sizeof(wcc_startup));
+    memset(stream_bindings,0,sizeof(stream_bindings));
+    *_BreakFlagPtr=0; /* Same initial owned byte as the loader BSS. */
     wcc_startup.program=argv[0];
     /* Borrow the exact retained CreateProcess text. The qualified Win32
      * loader skips its literal first token and leading whitespace; the

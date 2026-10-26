@@ -34,6 +34,7 @@
  * the later cmemmgr.c mem_blk list and lazy InitPermArea/AllocPermArea split. */
 #define WCC_CALLBACK_CALLOC
 #define WCC_CALLBACK_MALLOC
+#define WCC_CALLBACK_FREE
 #include <stdlib.h>
 #include <string.h>
 #include "compiler.h"
@@ -147,6 +148,11 @@ void *CFastAlloc(unsigned size)
     return (char *)block+sizeof(int);
 }
 
+void FEfree(void *memory)
+{
+    if (memory!=NULL) free(memory);
+}
+
 char *PCH_Start,*PCH_End;
 
 void CMemFree(void *memory)
@@ -184,5 +190,17 @@ void CMemFree(void *memory)
         block->prev=prev;
         block->next=next;
         Ccoalesce(block);
+    }
+}
+
+void Ccoalesce(MCB *block)
+{
+    MCB *next;
+    for (;;) {
+        next=(MCB *)((char *)block+block->len);
+        if (next->len & 1) break;
+        block->len+=next->len;
+        next->prev->next=next->next;
+        next->next->prev=next->prev;
     }
 }

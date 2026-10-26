@@ -75,7 +75,7 @@ int _dos_switch_char(void)
 /* Persistent work-name spelling is mutable: temporary-file retries advance
  * its digit, and ClearGlobals restores it for another compilation. */
 static char WorkFile[]="__wrk0__";
-static char IsStdIn;
+char IsStdIn;
 struct fname_list *FNames;
 FCB *SrcFile;
 FILE *ErrFile,*DefFile,*CppFile,*PageFile;

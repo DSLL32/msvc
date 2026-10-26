@@ -32,20 +32,23 @@
 #include <stddef.h>
 #include <string.h>
 #include "compiler.h"
+#include "memory.h"
 #include "macros.h"
+#include "scanner.h"
 #include "symbols.h"
+#include "statement.h"
 #include <recon.h>
 
 char *MacroSegment,*MacroOffset,*MacroLimit;
 struct macro_seg_list *MacSegList;
 MEPTR *MacHash;
-char Buffer[BUF_SIZE+16];
-int MTokenLen,NestLevel,SkipLevel,MacHashValue;
+char Buffer[BUF_SIZE+16],TokenBuf[BUF_SIZE];
+int MTokenLen,NestLevel,SkipLevel,MacHashValue,MacroDepth;
 char *MacroPtr;
 struct cpp_info *CppStack;
 struct nested_macros *NestedMacros;
 struct macro_token *TokenList;
-MEPTR UndefMacroList;
+MEPTR UndefMacroList,NextMacro;
 unsigned char InitialMacroFlag;
 extern int MacroCount;
 
@@ -169,4 +172,88 @@ SYM_HASHPTR SymHashAlloc(unsigned amount)
     memory=MacroOffset;
     MacroOffset+=amount;
     return (SYM_HASHPTR)memory;
+}
+
+MEPTR MacroLookup(void)
+{
+    return MacroLkUp(Buffer,MacHashValue);
+}
+
+void DoMacroExpansion(void)
+{
+    MacroDepth=0;
+    TokenList=NestedMacroExpansion();
+    if (TokenList==NULL) MacroPtr=NULL;
+    else MacroPtr="";
+}
+
+struct macro_token *NestedMacroExpansion(void)
+{
+    return ExpandNestedMacros(MacroExpansion(0),1);
+}
+
+struct macro_token *MacroExpansion(int rescanning)
+{
+    MEPTR mentry;
+    struct macro_arg *macro_parms;
+    struct macro_token *head,*mtok;
+    struct nested_macros *nested;
+    char *tokens;
+    int len;
+    mentry=NextMacro;
+    nested=(struct nested_macros *)CMemAlloc(sizeof(struct nested_macros));
+    nested->mentry=mentry;
+    nested->rescanning=rescanning;
+    nested->substituting_parms=0;
+    nested->macro_parms=NULL;
+    if (mentry->macro_defn==0) {
+        CurToken=SpecialMacro(mentry);
+        head=BuildAToken(Buffer);
+        head->token=CurToken;
+        nested->next=NestedMacros;
+        NestedMacros=nested;
+    } else {
+        macro_parms=CollectParms();
+        nested->next=NestedMacros;
+        NestedMacros=nested;
+        nested->macro_parms=macro_parms;
+        tokens=(char *)mentry+mentry->macro_defn;
+        head=BuildMTokenList(tokens,macro_parms);
+        for (mtok=head;mtok!=NULL;mtok=mtok->next) {
+            if (mtok->token==0x33) {
+                len=strlen(mtok->data)+1;
+                for (nested=NestedMacros;nested!=NULL;nested=nested->next) {
+                    if (far_strcmp(nested->mentry->macro_name,mtok->data,len)==0 &&
+                        nested->substituting_parms==0) {
+                        mtok->token=0x8a; /* T_UNEXPANDABLE_ID */
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    head=AppendToken(head,0,"Z-<end of macro>");
+    return head;
+}
+
+/* Before separate CppStackFini/MacroPurge entry points were introduced. */
+void MacroFini(void)
+{
+    struct cpp_info *cpp;
+    while ((cpp=CppStack)!=NULL) {
+        SetErrLoc(cpp->file_name,cpp->line_num);
+        CErr1(0x43f);
+        CppStack=cpp->prev_cpp;
+        CMemFree(cpp);
+    }
+}
+
+void FreeMacroSegments(void)
+{
+    struct macro_seg_list *segment;
+    while ((segment=MacSegList)!=NULL) {
+        FEfree(segment->segment);
+        MacSegList=segment->next;
+        CMemFree(segment);
+    }
 }

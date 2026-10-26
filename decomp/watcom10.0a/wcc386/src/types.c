@@ -32,7 +32,9 @@
 #include <string.h>
 #include "compiler.h"
 #include "types.h"
+#include "symbols.h"
 #include "memory.h"
+#include "options.h"
 #include <recon.h>
 
 TYPEPTR TypeHead,FuncTypeHead[6],BaseTypes[22];
@@ -40,10 +42,11 @@ TYPEPTR StringType,StringArrayType,VoidParmList[2],ConstCharType;
 int CTypeCounts[21];
 
 /* Original CTypeSizes is mutable module DATA, not a CODE literal pool. */
-static char CTypeSizes[21]={
+static char CTypeSizes[22]={
     sizeof(signed char),sizeof(unsigned char),sizeof(short),sizeof(unsigned short),
     sizeof(int),sizeof(unsigned),sizeof(long),sizeof(unsigned long),
-    sizeof(float),sizeof(double)
+    sizeof(float),sizeof(double),
+    0,0,0,0,0,0,0,0,0,0,0,sizeof(char)
 };
 
 void CTypeInit(void)
@@ -81,9 +84,25 @@ TYPEPTR TypeNode(DATA_TYPE base_type,TYPEPTR object)
     ++CTypeCounts[base_type];
     return typ;
 }
+TYPEPTR ArrayNode(TYPEPTR object)
+{
+    TYPEPTR typ;
+
+    typ=TypeNode(TYPE_ARRAY,object);
+    typ->u.array=(struct array_info *)CPermAlloc(sizeof(struct array_info));
+    return typ;
+}
+
 TYPEPTR PtrNode(TYPEPTR object,unsigned flags,int segment)
 {
     return MkPtrNode(object,flags,segment,0);
+}
+
+/* The original has a distinct three-byte entry narrowing CX before it
+ * falls through to MkPtrNode. Calls that already own a ushort use the core. */
+TYPEPTR BasedPtrNode(TYPEPTR object,unsigned flags,int segment,unsigned based_sym)
+{
+    return MkPtrNode(object,flags,segment,(unsigned short)based_sym);
 }
 
 TYPEPTR MkPtrNode(TYPEPTR object,unsigned flags,int segment,unsigned short based_sym)
@@ -136,4 +155,91 @@ TYPEPTR DupType(TYPEPTR typ,unsigned short flags,int force_duplicate)
     newtype->next_type=next;
     newtype->decl_flags=flags;
     return newtype;
+}
+
+/* Earlier cinfo helper: recursively constant aggregate fields may reside
+ * in CONST even when their outer tag itself lacks a const qualifier. */
+int IsConstType(TYPEPTR typ)
+{
+    struct field_entry *field;
+    for (;;) {
+        while (typ->decl_type==TYPE_TYPEDEF) typ=typ->object;
+        if (typ->decl_type!=TYPE_POINTER && typ->decl_type!=TYPE_ARRAY) break;
+        if ((typ->decl_flags&3)!=1) return 0;
+        typ=typ->object;
+    }
+    if (typ->decl_type==TYPE_STRUCT || typ->decl_type==TYPE_UNION) {
+        if ((typ->decl_flags&3)==1) return 1;
+        field=typ->u.tag->u.field_list;
+        if (field==NULL || ErrCount!=0) return 0;
+        for (;field;field=field->next_field)
+            if (!IsConstType(field->field_type)) return 0;
+        return 1;
+    }
+    return (typ->decl_flags&3)==1;
+}
+
+unsigned long TypeSize(TYPEPTR typ)
+{
+    unsigned long size;
+    if (typ==NULL) return 0;
+    while (typ->decl_type==TYPE_TYPEDEF) typ=typ->object;
+    switch (typ->decl_type) {
+    case TYPE_CHAR:
+    case TYPE_UCHAR:
+    case TYPE_SHORT:
+    case TYPE_USHORT:
+    case TYPE_INT:
+    case TYPE_UINT:
+    case TYPE_LONG:
+    case TYPE_ULONG:
+    case TYPE_FLOAT:
+    case TYPE_DOUBLE:
+    case TYPE_FUNCTION:
+    case TYPE_VOID:
+    case TYPE_DOT_DOT_DOT:
+    case TYPE_PLAIN_CHAR:
+        size=(unsigned char)CTypeSizes[typ->decl_type];
+        break;
+    case TYPE_POINTER:
+        if (typ->decl_flags&0x18) size=6;
+        else if (typ->decl_flags&4) size=4;
+        else {
+            do { typ=typ->object; } while (typ->decl_type==TYPE_TYPEDEF);
+            if (typ->decl_type==TYPE_FUNCTION) size=CodePtrSize;
+            else size=DataPtrSize;
+        }
+        break;
+    case TYPE_ARRAY:
+        size=typ->u.array->dimension;
+        break;
+    case TYPE_STRUCT:
+        size=typ->u.tag->size;
+        if (typ->object!=NULL) size+=SizeOfArg(typ->object);
+        break;
+    case TYPE_UNION:
+    case TYPE_ENUM:
+        size=typ->u.tag->size;
+        break;
+    case TYPE_FIELD:
+    case TYPE_UFIELD:
+        size=(unsigned char)CTypeSizes[typ->u.f.field_type];
+        break;
+    default:
+        size=0;
+    }
+    return size;
+}
+
+unsigned long SizeOfArg(TYPEPTR typ)
+{
+    unsigned long size;
+    while (typ->decl_type==TYPE_TYPEDEF) typ=typ->object;
+    size=TypeSize(typ);
+    while (typ->decl_type==TYPE_ARRAY) {
+        typ=typ->object;
+        while (typ->decl_type==TYPE_TYPEDEF) typ=typ->object;
+        size*=TypeSize(typ);
+    }
+    return size;
 }

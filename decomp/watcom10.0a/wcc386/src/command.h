@@ -15,5 +15,8 @@ void CCusage(void);
 void GenCOptions(char **cmdline);
 void MakePgmName(char *name);
 int OpenPgmFile(void);
+void CantOpenFile(char *name);
 extern FCB *MainSrcFile;
+extern char IsStdIn;
+extern char *SrcFName;
 #endif

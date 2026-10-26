@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Materialize only the object-proven Wait_for_return alignment contract.
+"""Materialize the finite object-proven usage/Length alignment contracts.
 
 This reads finite OMF contribution metadata, never discovers a CFG or identifies
 CRT functions. Shared registry-export and graph-audit validate the descriptor.
@@ -21,7 +21,7 @@ def index(data, at):
     return value, at
 
 
-def usage_contribution(raw):
+def code_contribution(raw, owner):
     names, segments, publics, initialized = [''], [], [], []
     at = 0
     while at < len(raw):
@@ -73,21 +73,30 @@ def usage_contribution(raw):
             break
     code = [(i + 1, size) for i, (name, cls, size) in enumerate(segments)
             if name == '_TEXT' and cls == 'CODE']
-    assert code == [(1, 173)]
-    assert [(name, off) for name, seg, off in publics if seg == 1] == [
-        ('CCusage_', 0), ('Wait_for_return_', 113)]
-    image, covered = bytearray(173), bytearray(173)
+    if owner == 'Wait_for_return':
+        total, start = 173, 113
+        expected = [('CCusage_', 0), ('Wait_for_return_', 113)]
+    else:
+        assert owner == 'Length'
+        total, start = 184, 141
+        expected = [('Copy_', 0), ('CopyStr_', 62), ('Length_', 141)]
+    assert code == [(1, total)]
+    assert [(name, off) for name, seg, off in publics if seg == 1] == expected
+    image, covered = bytearray(total), bytearray(total)
     for segment, offset, data in initialized:
         if segment != 1:
             continue
-        assert 0 <= offset <= offset + len(data) <= 173
+        assert 0 <= offset <= offset + len(data) <= total
         assert not any(covered[offset:offset + len(data)])
         image[offset:offset + len(data)] = data
         covered[offset:offset + len(data)] = b'\1' * len(data)
     assert all(covered)
-    assert image[113:127] == bytes.fromhex('53515256575589e581ec00000000')
-    assert image[-7:] == bytes.fromhex('5d5f5e5a595bc3')
-    return 173 - 113
+    if owner == 'Wait_for_return':
+        assert image[start:start + 14] == bytes.fromhex('53515256575589e581ec00000000')
+        assert image[-7:] == bytes.fromhex('5d5f5e5a595bc3')
+    else:
+        assert image[-1] == 0xc3
+    return total - start
 
 
 def main():
@@ -95,42 +104,43 @@ def main():
     parser.add_argument('--output', required=True, type=Path)
     args = parser.parse_args()
     project = Path(__file__).resolve().parents[1]
-    obj = project / 'build/obj/src/usage.c.obj'
     image_path, map_path = project / 'build/WCC386.EXE', project / 'build/wcc386.map'
-    length = usage_contribution(obj.read_bytes())
-    assert length == 60
     publics = [(int(a, 16), name) for a, name in re.findall(
         r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', map_path.read_text(), re.M)]
-    starts = [a for a, name in publics if name == 'Wait_for_return_']
-    assert len(starts) == 1
-    end = starts[0] + length
-    envelope = min(a for a, name in publics if a > starts[0])
-    gap = envelope - end
-    assert 0 <= gap <= 15
     policy = json.loads((project / 'harness/policy.json').read_text())
-    if gap:
-        # MAP segment0001 is the first PE CODE section in this target build.
-        image = image_path.read_bytes()
-        pe = struct.unpack_from('<I', image, 0x3c)[0]
-        assert image[:2] == b'MZ' and image[pe:pe + 4] == b'PE\0\0'
-        count, optional = struct.unpack_from('<H', image, pe + 6)[0], struct.unpack_from('<H', image, pe + 20)[0]
-        sections = pe + 24 + optional
-        code = []
-        for k in range(count):
-            at = sections + 40 * k
-            if struct.unpack_from('<I', image, at + 36)[0] & 0x20:
-                code.append(struct.unpack_from('<III', image, at + 12))
-        rva, size, offset = code[0]
-        assert rva == 0x10000 and envelope <= size
+    image = image_path.read_bytes()
+    pe = struct.unpack_from('<I', image, 0x3c)[0]
+    assert image[:2] == b'MZ' and image[pe:pe + 4] == b'PE\0\0'
+    count, optional = struct.unpack_from('<H', image, pe + 6)[0], struct.unpack_from('<H', image, pe + 20)[0]
+    sections = pe + 24 + optional
+    code = []
+    for k in range(count):
+        at = sections + 40 * k
+        if struct.unpack_from('<I', image, at + 36)[0] & 0x20:
+            code.append(struct.unpack_from('<III', image, at + 12))
+    rva, size, offset = code[0]
+    assert rva == 0x10000
+    digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
+    for owner, source, expected_length in [('Wait_for_return', 'usage', 60), ('Length', 'utils', 43)]:
+        relative = 'build/obj/src/' + source + '.c.obj'
+        obj = project / relative
+        length = code_contribution(obj.read_bytes(), owner)
+        assert length == expected_length
+        starts = [a for a, name in publics if name == owner + '_']
+        assert len(starts) == 1
+        end = starts[0] + length
+        envelope = min(a for a, name in publics if a > starts[0])
+        gap = envelope - end
+        assert 0 <= gap <= 15 and envelope <= size
         assert image[offset + end:offset + envelope] == bytes(gap)
-        digest = lambda path: hashlib.sha256(path.read_bytes()).hexdigest()
-        policy.setdefault('function_properties', {})['Wait_for_return'] = {
-            'rebuilt_extent': {
-                'end': {'rebuilt_symbol': 'Wait_for_return_', 'offset': length},
-                'padding_hex': '00' * gap,
-                'image_sha256': digest(image_path), 'map_sha256': digest(map_path),
-                'object': {'path': 'build/obj/src/usage.c.obj', 'sha256': digest(obj)},
-            }}
+        if gap:
+            policy.setdefault('function_properties', {})[owner] = {
+                'rebuilt_extent': {
+                    'end': {'rebuilt_symbol': owner + '_', 'offset': length},
+                    'padding_hex': '00' * gap,
+                    'image_sha256': digest(image_path), 'map_sha256': digest(map_path),
+                    'object': {'path': relative, 'sha256': digest(obj)},
+                }}
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(policy, indent=2) + '\n')
 

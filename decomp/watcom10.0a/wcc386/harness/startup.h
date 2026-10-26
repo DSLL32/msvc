@@ -29,11 +29,12 @@ typedef struct WccStartup {
     char **environment;
     unsigned char os_id;
     unsigned short saved_ds, saved_ss;
-    WccFile files[6];
+    WccFile files[20];
     WccInitRecord initializers[3];
     WccStreamLink *open_streams, *closed_streams;
     unsigned allocation_calls, first_size;
     unsigned first_frontier_checked;
+    unsigned file_open_calls,first_open_owner;
     /* Original ftos.h uses these unspecified-argument C89 pointer types.
      * No formatter body is claimed before a consumer actually reaches it. */
     char *(*efg_printf)();
