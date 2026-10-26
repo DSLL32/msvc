@@ -292,6 +292,11 @@ int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *directory)
 {
     (void)directory;recon_unsupported("unreviewed Watcom closedir");return -1;
 }
+char *__cdecl recon_watcom_ultoa(unsigned long value,char *output,int radix)
+{
+    (void)value;(void)output;(void)radix;
+    recon_unsupported("unreviewed Watcom ultoa");return NULL;
+}
 char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

@@ -10,6 +10,7 @@ static int (__cdecl *compare)(const void *,const void *,size_t)=memicmp;
 static char *(__cdecl *command)(char *)=getcmd;
 static int (__cdecl *character)(void)=getch;
 static char *(__cdecl *number)(unsigned int,char *,int)=utoa;
+static char *(__cdecl *long_number)(unsigned long,char *,int)=ultoa;
 static char *(__cdecl *signed_number)(int,char *,int)=itoa;
 #else
 #ifdef memicmp
@@ -24,6 +25,9 @@ static char *(__cdecl *signed_number)(int,char *,int)=itoa;
 #ifdef utoa
 #error Watcom utoa alias leaked
 #endif
+#ifdef ultoa
+#error Watcom ultoa alias leaked
+#endif
 #ifdef itoa
 #error Watcom itoa alias leaked
 #endif
@@ -31,6 +35,7 @@ static int (__cdecl *compare)(const void *,const void *,size_t)=recon_watcom_mem
 static char *(__cdecl *command)(char *)=recon_watcom_getcmd;
 static int (__cdecl *character)(void)=recon_watcom_getch;
 static char *(__cdecl *number)(unsigned int,char *,int)=recon_watcom_utoa;
+static char *(__cdecl *long_number)(unsigned long,char *,int)=recon_watcom_ultoa;
 #endif
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
 static void snapshot(unsigned char bytes[108])
@@ -66,7 +71,7 @@ int main(void)
 #endif
     memory=mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
     assert(memory!=MAP_FAILED);memset(memory,0xa5,4096);
-    for(mode=0;mode<14;++mode) {
+    for(mode=0;mode<17;++mode) {
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
@@ -84,6 +89,9 @@ int main(void)
             case 11:number(1,(char *)1,1);break;
             case 12:number(1,NULL,16);break;
             case 13:number(1,(char *)0xfffffff8U,16);break;
+            case 14:long_number(0,NULL,10);break;
+            case 15:long_number(~0UL,(char *)1,16);break;
+            case 16:long_number(500,(char *)memory,10);break;
             }
             _exit(42);
         }
