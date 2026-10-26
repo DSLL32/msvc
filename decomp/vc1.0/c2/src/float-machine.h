@@ -104,6 +104,7 @@ int initialize_float_stream_context(void);
 void finish_float_stream_uses(void);
 void __fastcall process_float_stream_label(MachineInstruction *instruction);
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction);
+MachineInstruction *__fastcall next_float_context_after_protected_block(MachineInstruction *instruction);
 void __fastcall process_float_stream_call(MachineInstruction *instruction);
 MachineInstruction *__fastcall next_float_context_after_call(MachineInstruction *instruction);
 void __fastcall process_float_stream_branch(MachineInstruction *instruction);
@@ -142,6 +143,8 @@ void exclude_float_motion_uses(void);
 void select_float_motion_uses(void);
 int count_profitable_float_uses(void);
 int inherit_float_motion_uses(void);
+int __fastcall can_inherit_float_motion_use(FloatStreamUse *use);
+int __fastcall float_operand_changed_between(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned width);
 void __fastcall sort_float_motion_uses(int count);
 typedef struct FloatMotionBranch {
     LabelSymbol *label;

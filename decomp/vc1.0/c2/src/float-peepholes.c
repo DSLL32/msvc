@@ -869,3 +869,70 @@ MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instru
     }
     return scan ? scan->previous : instruction;
 }
+
+/* Original38ae0..38e16, ECX FST instruction, same stream position in
+   EAX/RET0. Gather compatible memory arithmetic before converting the store
+   to a pop and reloading its value into a grouped arithmetic chain. */
+MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction)
+{
+    MachineOperand *destination = &instruction->operands[0];
+    MachineInstruction *scan, *first, *last, *replacement, *companion, *end, *cursor;
+    unsigned operation, saved_opcode;
+    int count = 0, multiplicative;
+    if (!FP_MEMORY(destination)) return instruction;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        if (FP_BARRIER(scan)) break;
+        if (!FP_ELIGIBLE(scan)) continue;
+        operation = FP_OPERATION(scan);
+        if (!FP_X87_CODE(scan) || operation < MC_FADD || operation > MC_FDIVR ||
+            !FP_MEMORY(&scan->operands[1])) break;
+        if (!count) {
+            first = last = scan;
+            count = 1;
+            multiplicative = operation != MC_FADD && operation != MC_FSUB && operation != MC_FSUBR;
+            continue;
+        }
+        if (operation == MC_FSUBR || operation == MC_FDIVR ||
+            ((operation == MC_FADD || operation == MC_FSUB) && multiplicative) ||
+            ((operation == MC_FMUL || operation == MC_FDIV) && multiplicative != 1)) break;
+        ++count;
+        last = scan;
+    }
+    if (count > 1) {
+        FP_SET_OPERATION(instruction, MC_FSTP);
+        replacement = new_machine_instruction(0);
+        operation = FP_OPERATION(first);
+        if (operation == MC_FSUB || operation == MC_FDIV) {
+            end = last->next;
+            companion = 0;
+            for (cursor = first->next; cursor != end; cursor = cursor->next) {
+                if (FP_ELIGIBLE(cursor) &&
+                    ((multiplicative == 1 && FP_OPERATION(cursor) == MC_FMUL) ||
+                     (!multiplicative && FP_OPERATION(cursor) == MC_FADD))) {
+                    companion = cursor;
+                    break;
+                }
+            }
+            /* The original has already changed FST and allocated replacement
+               on this exit. Valid producer streams retain a following barrier;
+               do not invent rollback or a new terminal-list special case. */
+            if (!companion) return scan->previous;
+            first->previous->next = companion;
+            companion->next->previous = companion->previous;
+            companion->previous->next = companion->next;
+            companion->next = first;
+            companion->previous = first->previous;
+            first->previous = companion;
+            first = companion;
+            /* last retains its original identity even if it was moved first. */
+        }
+        saved_opcode = first->opcode;
+        FP_SET_OPERATION(replacement, FP_FORMS(first).reversed);
+        FP_SET_WIDTH(replacement, FP_WIDTH(instruction));
+        replacement->operands[0] = operand_st0;
+        assign_machine_operand(&replacement->operands[1], destination);
+        insert_machine_after(last, replacement);
+        first->opcode = (saved_opcode & ~0xff00U) | ((unsigned)MC_FLD << 8);
+    }
+    return scan ? scan->previous : instruction;
+}

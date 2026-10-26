@@ -285,6 +285,41 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@rewrite_pentium_float_store@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_inherit_float_motion_uses": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@can_inherit_float_motion_use@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@float_operand_changed_between@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@diamond_register_constraint@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@process_float_stream_protected_block@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@next_float_context_after_protected_block@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

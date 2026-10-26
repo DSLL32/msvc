@@ -1,85 +1,91 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1364 completes the C++ ledger/checksum case. There are 1249
-reconstructed application functions and five historical handwritten CRT overrides.
-Application code occupies 339421/399693 original code-section bytes (84.9204%);
-including 916 distinct owned text-data bytes, its accepted extent union is
-340337/399693 (85.1496%). These are byte extents, not branch coverage. The five
-CRT overrides contribute 1776 bytes separately and receive zero application credit.
-The union of available App, classified CRT and import boundaries is 366711 bytes
-(91.7482%). A reliable non-CRT denominator remains unavailable; 109 pending App
-rows and 32982 bytes outside that available union still need investigation.
+Checkpoint 1371 completes the protected streaming floating-filter case. There
+are 1256 reconstructed App functions and five unchanged historical handwritten
+CRT overrides. App code occupies 341445/399693 original code-section bytes
+(85.4268%); adding 916 distinct owned text-data bytes gives an accepted App
+extent union of 342361/399693 (85.6560%). These are clipped byte-extent unions,
+not branch coverage. The five CRT overrides contribute 1776 bytes separately
+and receive zero App credit. The available App, classified CRT and import union is
+368735/399693 (92.2546%). A reliable non-CRT denominator remains unavailable;
+105 pending App rows and 30958 bytes outside that available union still need
+investigation. No only-CRT remainder claim is made.
 
-`binary.c` is the sole function registry. All 19 cached IO cases complete, with
-113 narrow unit tests. Native fixtures retain actual frontend IR, the sole
-MSC_CMD_FLAGS transport, stable S cwd, explicit first-entry seeds and complete
-object/listing/PDB oracles. Only established COFF timestamp bytes 4..8 are
-normalized; OMF bytes are exact. Fixtures do not run Wine.
+`binary.c` is the sole registry. All 20 cached IO cases complete and 126 narrow
+units pass. Fixtures retain actual frontend IR, the single MSC_CMD_FLAGS child
+transport, stable S cwd, explicit first-entry seeds and complete object/listing/
+PDB oracles. Only established COFF timestamp bytes 4..8 are normalized; OMF bytes
+are exact. Native fixtures do not run Wine.
 
-The ledger source uses untouched CL `/O2 /Ob2 /G5 /Oi /Z7 /FAcs`. It combines
-nested class methods, constructor/destructor/operator names, repeated small POD
-returns and inline calls, enum constants, external callbacks and volatile sinks.
-The original listing proves inline bodies and real qualified names; the source
-has no header dependencies. A shared read-only observation retained actual
-C1XX-produced files and C2 transport at CreateProcessA. Parent CL exit was not
-observed in that support capture; an ordinary untouched CL baseline and separate
-standalone C2 run both succeeded. The fixture preserves the actual intermediate
-prefix and all five channels. The standalone 7810-byte object matches the full
-CL object except its timestamp; the 18463-byte listing is byte-identical.
-Normalized object SHA256:
-`3c02087e75ae8397a11d08b915cf317882785da308b674960b0fe08e09c7aedb`.
-Exact listing SHA256:
-`e348e1aaf59431150d15c752eead650e96f02cf5975ec6a3d549ac5ea7237f52`.
+The guarded-filter source uses untouched CL `/O2 /Ob0 /G5 /Oi /Z7`. It combines
+call-free nested floating loops, noncommutative branches, live stored values,
+volatile protected accesses and nested SEH cleanup. Read-only shared DIRECT
+observation retained the actual five C1 channels and C2 invocation before CL
+started the backend. That support capture does not claim parent CL completion;
+an ordinary untouched CL baseline and independent standalone C2 both succeed.
+Source 4169B has no headers; actual ex/sy/in/gl/db inputs are 4369/996/6/179/285B.
+The fixture keeps the observed 001284 prefix and exact child environment/cwd.
+The complete 5273B standalone object matches CL and native reconstruction with
+only the established timestamp normalization. Normalized SHA256:
+`3dd1a0a38ed67f9d259c662d0aa739450c533583c1f97eb80870fe5309bc49d2`.
+Streams are empty, status 0 and the object is the sole generated output.
 
-Eight whole App functions add 1433 code bytes: demangled listing output, token
-parsing, parameter-register assignment, counted constant payload input, typed
-temporary interning, high-DWORD operands, CodeView constant records and numeric
-leaves. The numeric encoder was discovered through the real writer's call.
-Live owner/cursor inputs and cache/scope/reference identity are checked alongside
-cold byte, width, wrap and CodeView boundary controls. The original kind8
-constant descriptor is exactly 50 bytes. Unsupported diagnostic paths still
-reach named traps; their success is not claimed. The predicted secondary-return
-register helper was not reached and remains unimplemented.
+Seven whole App functions add 2024 code bytes: Pentium floating-store grouping
+(822), successor-use transfer (207), inheritance eligibility (241), operand-range
+checking (258), diamond register lifetime (334), protected floating context (108)
+and protected-region skipping (54). Three child functions were discovered from
+real call edges. Fresh masked-original/native evidence reaches all seven in
+order and then completes. Existing callees retain individual ABIs; all new
+scoped RET contracts pass. No shared shim, CRT body or assembly bridge was added.
 
-The earlier text-record case retains its complete 3102-byte object and original
-memcmp/strcat selection behavior. Its string-literal name uses early failed
-undecoration; ledger now exercises the formerly trapped token parser with real
-qualified names. The tail-label lookup remains pending. The earlier SEH case
-retains its complete 3723-byte object and scope/owner/frame-range checks.
-Original eight-byte name POD returns still use per-object `-freg-struct-return`
-for their App owner and narrow native test access in `harness/`; case objects
-inherit common flags. No new assembly bridge or shared shim was needed.
+The first real store-grouping entry takes its unchanged exit; separate cold
+controls cover six opcode relationships, reorder identities and the original
+partial-mutation exit. Actual successor-use, operand, range, diamond and protected
+block fields/owner aliases are checked by typed native entry hooks against
+bounded original observations. Cold controls check inclusive capacity, both use
+chains, constant/register exclusion, alias ranges, LEA omission, register
+read/overwrite decisions and protected marker/cursor behavior. No branch-merge
+or scope-unwind reach is inferred just from the source's feature list. Existing
+diagnostic child traps and unsupported OMF cases remain explicit.
 
 Use `make -j4 native win32` for native and original-toolchain builds. During a
-case, run its replay and relevant narrow controls; full regression/audit and
-commits follow case completion. The completed-case `make -j4 audit check unit`
-passes 1254 paired graphs, 1254 source/runtime extents per side and 57 scoped RET
-contracts. Global RET comparison remains unresolved for finish_debugging's
-indirect tail; its uncertainty does not waive scoped contracts or other checks.
-Both independently corrupted object/listing expectations reject on their actual
-file bytes. No additional output normalization was introduced.
+case use current-case replay, necessary builds and focused checks; complete
+regression/audit and commits follow case completion. The completed-case
+`make -j4 audit check unit` passes 1261 paired graphs, 1261 accepted source/runtime
+extents on each side and 64 scoped RET contracts. Global RET comparison remains
+unresolved for finish_debugging's indirect tail; other checks are not waived.
+The independently changed byte 100 object expectation rejects on its artifact
+hash. No output comparison was relaxed.
 
-The completion batch took 2.014 seconds including case relinks, audit and native
-fixtures; its phases were not individually timed. Cached ledger IO took37.072ms:
-setup15.055, execution17.738, checks4.280. Its14-unit command took42.164ms:
-setup7.786, execution30.443, checks3.935. Fresh original completion took0.770s;
-paired native command0.063s (setup14.029/execution18.174/checks4.378ms internally).
-Across all measured attempts, combined native/canonical builds took128.369s,
-descriptor/registry/runtime preparation23.145s, original compiler/W3 commands
-12.760s, untouched CL baseline1.802s, original captures14.462s, eight focused
-graph/RET checks0.497s, native case replays0.518s, unit commands0.408s, GDB0.404s
-and two intentionally rejecting oracle controls0.091s. These totals include
-failed/repeated attempts and may overlap; they are not additive task elapsed time.
-Shared header changes triggered several full canonical/native rebuilds. Analysis,
-editing, initial unwrapped native build and small observer compiles were not
-separately measured. Full output/timing records remain in
-`~/.ai-tmp/msvc2/vc1.0/c2/ledger/`; older case work remains in its own scratch paths.
+The case-end build/audit/full-fixture command took 5.440s, with phases unsplit.
+Cached filter IO took 36.163ms: setup 12.973, execution 19.133, checks 4.057.
+Its 13-unit command took 71.528ms: setup 9.482, execution 58.264, checks 3.783.
+Fresh original completion took 0.552s; its paired native command 0.072s
+(setup 14.782/execution20.150/checks5.121ms internally). Across all measured
+attempts, native/canonical/case build commands took60.054s, registry/runtime
+preparation 9.861s, original W3 commands 10.244s, untouched CL baseline 1.689s,
+original reference/transport captures 16.274s, seven focused graph/RET audits
+0.398s, native replay 0.498s, units 0.487s, GDB diagnostic 0.191s and oracle-negative
+or failed authoring commands0.052s. Totals include failed/repeated attempts and
+can overlap; they are not additive task elapsed time. Analysis/editing, observer
+compilation and fixture authoring/static checks were not separately measured.
+Full raw output, timing and completion summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/guarded-filter/`.
 
-`src/` contains App reconstruction; `crt/runtime.c` contains only the five older
-justified CRT overrides, unchanged by this case. Shared shims and generic
-execution/capture/audit machinery remain outside the binary. The observed OMF
-alignment-8 missing-return boundary uses the same native symbol with recovered
-EAX/ECX regcall inputs; other nonstandard alignments still trap. OMF public kinds
-outside 1/3/4 also remain unsupported. Migration's historical paused SEH snapshot
-and invocation remain under `~/.ai-tmp/msvc2/vc1.0/c2/standardization/before/` and
-`paused-wip.patch`. Superseded proof trees remain in Git history, not fixtures.
+Failed test/build/authoring attempts are retained there: an undefined register
+constant spelling; a cold LEA ID and missing symbol owner; an incorrect test
+maximum-depth assertion; and assumptions that captured outputs had inline bytes
+or that successful runner workspaces persisted. The target build and actual
+fresh pairs were not made to reproduce these test-glue assumptions.
+
+Earlier completed cases include the C++ ledger's 7810B object/18463B listing,
+the text-record assembler's 3102B object and the SEH packet's 3723B object.
+Original eight-byte name POD returns use per-object `-freg-struct-return` for
+the App owner and narrow harness access; case objects inherit binary flags.
+`src/` contains App reconstruction, `crt/runtime.c` the five older justified CRT
+overrides and `harness/` test/native glue. Generic tooling and shared shims remain
+outside this binary. The OMF alignment 8 missing-return boundary retains recovered
+EAX/ECX inputs on its native symbol; other nonstandard alignments and OMF public
+kinds outside 1/3/4 still trap. Migration's historical unaccepted SEH snapshot and
+invocation remain under `~/.ai-tmp/msvc2/vc1.0/c2/standardization/before/` and
+`paused-wip.patch`; superseded proof trees remain in Git history.

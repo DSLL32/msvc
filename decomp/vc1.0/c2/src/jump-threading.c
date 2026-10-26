@@ -473,3 +473,33 @@ int __fastcall merge_jump_diamond(MachineInstruction *branch, MachineInstruction
     return 1;
 }
 #undef SIMPLE_DIAMOND_OPERATION
+
+/* Original33e00..33f4e, CX register, EDX first boundary, stack last
+   boundary/width, RET8. This is a lifetime decision, not a general all-path
+   liveness query: an explicit or implicit overwrite terminates with zero. */
+int __fastcall diamond_register_constraint(unsigned short number,
+    MachineInstruction *first, MachineInstruction *last, unsigned bytes)
+{
+    MachineInstruction *instruction, *end = last->next;
+    unsigned operation, bit;
+    for (instruction = first->next; instruction != end; instruction = instruction->next) {
+        if (instruction->opcode & 15) continue;
+        if (((instruction->opcode >> 4) & 15) != bytes) return 1;
+        operation = (instruction->opcode >> 8) & 255;
+        if (machine_operand_counts[operation] > 1 &&
+            operand_mentions_register(&instruction->operands[1], number) &&
+            !overwrites_second_register(instruction, 0)) return 1;
+        if (machine_operand_counts[operation] > 0 &&
+            operand_mentions_register(&instruction->operands[0], number)) {
+            if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER ||
+                !overwrites_first_register(instruction, 0)) return 1;
+        }
+        bit = 1U << (number & 31);
+        if (implicit_register_mask(instruction, 1) & bit) return 1;
+        operation = (instruction->opcode >> 8) & 255;
+        if (machine_operand_counts[operation] > 0 &&
+            operand_mentions_register(&instruction->operands[0], number)) return 0;
+        if (implicit_register_mask(instruction, 2) & bit) return 0;
+    }
+    return 1;
+}

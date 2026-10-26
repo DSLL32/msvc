@@ -939,6 +939,24 @@ MemoryMotionContext *__fastcall find_float_stream_label_context(LabelSymbol *lab
     return float_stream_context;
 }
 
+/* Original39360..393cc, ECX protected-block record, RET0. Finish
+   the preceding unbranched range before skipping the protected region. */
+void __fastcall process_float_stream_protected_block(MachineInstruction *instruction)
+{
+    MemoryMotionContext *context = float_stream_context;
+    MachineInstruction *boundary;
+    if (context->boundary != instruction && !context->branches) {
+        if (!context->next) {
+            context->last = instruction->previous;
+            memory_motion_context = context;
+            analyze_float_motion_range(context->boundary, context->last, 1);
+        }
+    }
+    close_float_stream_context();
+    boundary = next_float_context_after_protected_block(instruction);
+    start_float_stream_context(boundary, 0);
+}
+
 /* Original [000393d0,000394e7). Referenced labels delimit contexts; a
    single-reference label may continue a range until its matching back edge.
    Multiple incoming references close the preceding unbranched range first. */
@@ -1664,6 +1682,90 @@ void select_float_motion_uses(void)
     }
 }
 
+/* Original3b7c0..3b88f, cdecl/RET0. Transfer reusable successor uses
+   without changing their identity or the two selection-order chains. The
+   inclusive capacity test is the original policy, not a tightened bound. */
+int inherit_float_motion_uses(void)
+{
+    MemoryMotionContext *context = memory_motion_context;
+    FloatStreamUse *use = context->next->uses, *previous = use, *next;
+    int inherited = 0;
+    while (context->available_registers >= inherited && use) {
+        next = use->hash_next;
+        if (can_inherit_float_motion_use(use)) {
+            if (context->next->uses == use) context->next->uses = next;
+            else previous->hash_next = use->hash_next;
+            use->hash_next = 0;
+            if (context->next->reverse_uses == use)
+                context->next->reverse_uses = use->previous_selected;
+            else next->previous_selected = use->previous_selected;
+            use->previous_selected = 0;
+            if (context->last_use) context->last_use->hash_next = use;
+            else context->uses = use;
+            context->last_use = use;
+            ++inherited;
+            use->previous_selected = context->reverse_uses;
+            context->reverse_uses = use;
+        } else previous = use;
+        use = next;
+    }
+    return inherited;
+}
+
+/* Original3b910..3ba01, ECX use/EAX boolean/RET0. Constant
+   absolute operands are reusable; address registers and intervening
+   writes otherwise determine whether a successor value can be retained. */
+int __fastcall can_inherit_float_motion_use(FloatStreamUse *use)
+{
+    MachineOperand *operand = use->operand;
+    unsigned kind = operand->flags & 15;
+    MachineAddress *address;
+    unsigned short base;
+    SymbolHeader *symbol;
+    if (kind == OPERAND_ABSOLUTE) {
+        symbol = operand->value.address->symbol;
+        if (symbol && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x40) return 1;
+    }
+    if (kind == OPERAND_BASED) {
+        base = operand->value.address->base.value;
+        if (float_stream_register_uses[base & 0x3fff]) return 0;
+    } else if (kind == OPERAND_INDEXED) {
+        address = operand->value.address;
+        if (float_stream_register_uses[address->index.value & 0x3fff]) return 0;
+        base = address->base.value;
+        if (base != 27 /* original absent-base encoding */ && float_stream_register_uses[base & 0x3fff]) return 0;
+    }
+    if (float_operand_changed_between(memory_motion_context->boundary,
+            memory_motion_context->next->boundary, operand, use->width)) return 0;
+    return float_operand_changed_between(memory_motion_context->next->last,
+        memory_motion_context->last, operand, use->width) == 0;
+}
+
+/* Original3ba10..3bb12, ECX/EDX bounds plus operand/width on the
+   stack, RET8. The endpoints are excluded. LEA only forms an address;
+   other explicit operands use the original byte-count table and alias test. */
+int __fastcall float_operand_changed_between(MachineInstruction *first,
+    MachineInstruction *last, MachineOperand *operand, unsigned width)
+{
+    MachineInstruction *instruction;
+    unsigned kind = operand->flags & 15, operation;
+    int relation;
+    if (kind != OPERAND_REGISTER && kind != OPERAND_ABSOLUTE &&
+        kind != OPERAND_BASED && kind != OPERAND_INDEXED) return 0;
+    for (instruction = first->next; instruction != last; instruction = instruction->next) {
+        if (!FM_ELIGIBLE(instruction)) continue;
+        operation = FM_OPERATION(instruction);
+        if (operation == MC_LEA) continue;
+        if (machine_operand_counts[operation] != 0 &&
+            compare_scheduled_memory(&instruction->operands[0],
+                (instruction->opcode >> 4) & 15, operand, width, 1, 0, &relation, 0, 0)) return 1;
+        if (machine_operand_counts[operation] == 2 &&
+            compare_scheduled_memory(&instruction->operands[1],
+                (instruction->opcode >> 4) & 15, operand, width, 1, 0, &relation, 0, 0)) return 1;
+    }
+    return 0;
+}
+
 /* Original82f30..82f48: context startup cost indexed by CPU generation.
    Options constrain normal models to3,4,5; retain the three zero rows too. */
 static const int float_context_startup_cost[6] = { 0, 0, 0, 18, 4, 1 };
@@ -2036,6 +2138,20 @@ MachineInstruction *__fastcall next_float_context_after_call(MachineInstruction 
         }
     } else scan = scan->next;
     return scan ? scan->previous : 0;
+}
+
+/* Original3a060..3a096, ECX protected marker, EAX next boundary,
+   RET0. Nested/protected block markers retain flag1; the first ordinary
+   block marker ends this skip and becomes the outer stream scan cursor. */
+MachineInstruction *__fastcall next_float_context_after_protected_block(MachineInstruction *instruction)
+{
+    MachineInstruction *scan = instruction->next;
+    while (scan) {
+        if (FM_KIND(scan) == 7 && !(((MachineBlockHeader *)scan)->flags & 1)) break;
+        scan = scan->next;
+    }
+    float_stream_next = scan;
+    return scan;
 }
 
 /* Original [00038fe0,00038ff5). Release the indexed register map and

@@ -257,7 +257,6 @@ int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFl
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
-int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
 int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
@@ -267,8 +266,6 @@ int __cdecl maximum_extended(const Extended *left, const Extended *right, Extend
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
 
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
-MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 void __fastcall finish_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
@@ -276,7 +273,6 @@ unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm
 void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm int 3 }
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
-int inherit_float_motion_uses(void) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 
