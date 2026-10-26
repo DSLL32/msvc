@@ -1368,3 +1368,15 @@ span/overflow guards. Other profiles and Watcom users without this opt-in keep
 the existing recon_qsort. WLIB alone has qualified this variant by actual code
 identity and the original/native listing; later shipped hybrid source differs.
 No host qsort interposition, App sorting implementation or general sort framework.
+
+The qualified Watcom tmpnam role supplies a genuine absent native relative
+RCXXXXXX name in a valid caller-owned13B buffer, returning the caller alias and
+retaining untouched tails, independent errors and FP. Host mktemp creates no
+file; existing access verifies a real missing leaf before return. The name is
+unreserved in the owned, nonconcurrently mutated namespace; the caller performs
+its normal create/reopen/unlink lifecycle. Exact0261/0666 maps to MS8301 only for
+an absent relative leaf. NULL/static-result, wrapping spans and unknown modes or
+filesystem results remain denied. This equivalence applies only to the proved
+internal/deleted, non-name-sensitive identity: no historical AAA/A..P sequence,
+captured PID, or host-control PID behavior is supplied. Other CRT profiles retain
+tmpnam denial, and final exit file inventory remains strict.

@@ -1918,9 +1918,31 @@ char *recon_tempnam(const char *dir,const char *prefix)
 }
 char *__cdecl recon_tmpnam(char *buffer)
 {
-    (void)buffer;
-    recon_unsupported("unreviewed tmpnam");
-    return NULL;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    char candidate[]="RCXXXXXX";unsigned n;
+    int saved_errno=errno,target_errno=*recon_watcom_errno();
+    unsigned long saved_dos=recon_doserrno;DWORD saved_error=recon_GetLastError();
+    if(!buffer || (uintptr_t)buffer>UINTPTR_MAX-13)
+        recon_unsupported("Watcom tmpnam caller13B storage");
+    /* This qualified name is internal, never name-sensitive, and deleted by
+     * the caller. Native unique identity is sufficient; no historical PID or
+     * AAA/A..P naming sequence is reproduced. mktemp creates no file. */
+    if(mktemp(candidate)!=candidate || !candidate[0])
+        recon_unsupported("Watcom tmpnam native unique-name failure");
+    for(n=2;n<8;++n)
+        if(!((candidate[n]>='A' && candidate[n]<='Z') ||
+             (candidate[n]>='a' && candidate[n]<='z') ||
+             (candidate[n]>='0' && candidate[n]<='9')))
+            recon_unsupported("Watcom tmpnam native leaf spelling");
+    if(recon_access(candidate,0)!=-1 || errno!=ENOENT ||
+       recon_doserrno!=2 || recon_GetLastError()!=ERROR_FILE_NOT_FOUND)
+        recon_unsupported("Watcom tmpnam requires genuine absent leaf");
+    memcpy(buffer,candidate,sizeof(candidate));
+    *recon_watcom_errno()=target_errno;errno=saved_errno;
+    recon_doserrno=saved_dos;recon_SetLastError(saved_error);return buffer;
+#else
+    (void)buffer;recon_unsupported("tmpnam requires qualified Watcom profile");return NULL;
+#endif
 }
 char *recon_getpath(const char *path,char *out,int capacity)
 {

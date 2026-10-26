@@ -878,3 +878,9 @@ build/watcom-qsort-probe: tests/watcom-qsort-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_QSORT_WATCOM_1994 $< $(SOURCES) -o $@
 watcom-qsort-check: build/watcom-qsort-probe
 	$(PYTHON) tests/check-watcom-qsort.py $< variant
+
+.PHONY: watcom-tmpnam-check
+build/watcom-tmpnam-probe: tests/watcom-tmpnam-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-tmpnam-check: build/watcom-tmpnam-probe
+	$(PYTHON) tests/check-watcom-tmpnam.py $< watcom
