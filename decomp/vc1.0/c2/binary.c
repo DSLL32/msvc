@@ -2454,11 +2454,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@inline_argument_has_global_load@4",
         .entry_rva = 0x553c0,
-        .code = (const ReconExtent[]) { { 0x553c0, 0x553c1 } },
+        .code = (const ReconExtent[]) { { 0x553c0, 0x55425 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "inline_argument_has_global_load",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@second_return_value_register@4",
@@ -2472,11 +2472,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@substitute_inline_assembly_symbol@8",
         .entry_rva = 0x550c0,
-        .code = (const ReconExtent[]) { { 0x550c0, 0x550c1 } },
+        .code = (const ReconExtent[]) { { 0x550c0, 0x550e9 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "substitute_inline_assembly_symbol",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@find_matching_parent@8",
@@ -2517,11 +2517,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@mark_inline_assembly_parameter@8",
         .entry_rva = 0x55270,
-        .code = (const ReconExtent[]) { { 0x55270, 0x55271 } },
+        .code = (const ReconExtent[]) { { 0x55270, 0x55293 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_inline_assembly_parameter",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@scan_inline_argument_uses@8",
@@ -6738,11 +6738,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@find_transfer_call_boundary@4",
         .entry_rva = 0x13dc0,
-        .code = (const ReconExtent[]) { { 0x13dc0, 0x13dc1 } },
+        .code = (const ReconExtent[]) { { 0x13dc0, 0x13e2a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_transfer_call_boundary",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@new_register_variable@4",
@@ -13030,13 +13030,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "@clone_descriptor@8",
+        .entry_rva = 0x3e2b0,
+        .code = (const ReconExtent[]) { { 0x3e2b0, 0x3e2e1 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "clone_descriptor",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "@clone_alias_symbol@4",
         .entry_rva = 0x3dd30,
-        .code = (const ReconExtent[]) { { 0x3dd30, 0x3dd31 } },
+        .code = (const ReconExtent[]) { { 0x3dd30, 0x3dd83 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "clone_alias_symbol",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@lookup_global_symbol@4",

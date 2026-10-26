@@ -109,3 +109,24 @@ MachineInstruction *__fastcall find_transfer_use_boundary(MachineInstruction *tr
             candidate->operands[0].value.reg.words.number == number && writes_first_operand(candidate)) return candidate;
     }
 }
+
+/* Original [00023dc0,00023e2a). Stores search forward, loads backward.
+   Skip direct calls in the compiler's100 symbol class. A kind14 call-setup
+   marker with constant register4 follows the call before placing a load. */
+MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer)
+{
+    unsigned kind = transfer->opcode & 15;
+    MachineInstruction *call = transfer, *before;
+    do {
+        call = kind == 9 ? call->next : call->previous;
+    } while ((call->opcode & 15) != 0 || ((call->opcode >> 8) & 255) != MC_CALL ||
+        ((call->operands[0].flags & 15) == 8 &&
+         (((BackendSymbol *)call->operands[0].value.symbol)->attributes & 0x700) == 0x100));
+    if (kind == 8) {
+        before = call->next;
+        if ((before->opcode & 15) == 14 && ((before->opcode >> 8) & 255) == 0x2d &&
+            (before->operands[0].flags & 15) == 1 &&
+            before->operands[0].value.reg.words.number == 4) call = before;
+    }
+    return call;
+}

@@ -140,3 +140,38 @@ char *__fastcall lookup_filename(unsigned identifier)
     while (entry->identifier != identifier) entry = entry->next;
     return entry->name;
 }
+
+/* Original [0004dd30,0004dd83). Imported names begin with __imp_; the
+   ordinary target shares the suffix in the same arena-owned string. */
+ImportedSymbolAlias *imported_symbol_aliases;
+void __fastcall clone_alias_symbol(SymbolHeader *source)
+{
+    FunctionSymbol *target;
+    ImportedSymbolAlias *alias;
+    unsigned next_symbol_identifier(void);
+    target = (FunctionSymbol *)clone_descriptor(source, 0);
+    target->symbol.identifier = next_symbol_identifier();
+    put_symbol(&global_scope, &target->symbol);
+    target->field24 &= ~0x1000U;
+    target->symbol.name = source->name + 6;
+    alias = arena_alloc(0, sizeof(ImportedSymbolAlias));
+    alias->imported = source;
+    alias->target = &target->symbol;
+    alias->next = imported_symbol_aliases;
+    imported_symbol_aliases = alias;
+}
+
+/* Original [0004e2b0,0004e2e1). Copy exactly the kind's descriptor extent,
+   retaining pointers and padding as the original REP MOVSD/MOVSB does. */
+SymbolHeader *__fastcall clone_descriptor(SymbolHeader *source, unsigned arena)
+{
+    SymbolHeader *result;
+    unsigned bytes;
+    unsigned char *from, *to;
+    result = allocate_descriptor(source->kind, arena);
+    bytes = descriptor_size(source->kind);
+    from = (unsigned char *)source;
+    to = (unsigned char *)result;
+    while (bytes--) *to++ = *from++;
+    return result;
+}

@@ -1,4 +1,5 @@
 #include "inline-calls.h"
+#include "tree-input.h"
 #include "records.h"
 #include "tree-rewrite.h"
 #include "function-input.h"
@@ -691,4 +692,42 @@ void __fastcall recycle_inline_site(InlineSite *site)
 {
     site->next = free_inline_sites;
     free_inline_sites = site;
+}
+
+/* Original [00065270,00065293). Machine operand visitation pins an
+   automatic parameter's binding instead of substituting its argument tree. */
+unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context)
+{
+    InlineBinding *binding;
+    if (symbol->kind == 1 && (((FunctionSymbol *)symbol)->field24 & 0x70) == 0x30) {
+        binding = find_inline_binding(context, symbol);
+        binding->flags &= ~1U;
+    }
+    return 0;
+}
+
+/* Original [000650c0,000650e9). Assembly operands substitute the
+   materialized parameter symbol's identifier, never its argument tree. */
+unsigned __fastcall substitute_inline_assembly_symbol(SymbolHeader *symbol, void *context)
+{
+    InlineBinding *binding;
+    if (symbol->kind == 1 && (((FunctionSymbol *)symbol)->field24 & 0x70) == 0x30) {
+        binding = find_inline_binding(context, symbol);
+        return binding->storage->right.symbol->identifier;
+    }
+    return 0;
+}
+
+/* Original [000653c0,00065425). A repeatable inline argument may still
+   load globally affected storage. Recurse over original opcode arity and
+   second-child property before testing this node's memory reference. */
+int __fastcall inline_argument_has_global_load(Node *node)
+{
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        if (inline_argument_has_global_load(node->left.node)) return 1;
+        if ((node_shapes[node->opcode] & NODE_HAS_SECOND) &&
+            inline_argument_has_global_load(node->second.node)) return 1;
+    }
+    if (node->opcode == 0x30 && is_global_work_value(node, 1)) return 1;
+    return 0;
 }

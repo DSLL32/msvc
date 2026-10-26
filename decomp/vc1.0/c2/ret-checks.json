@@ -515,6 +515,36 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@clone_alias_symbol@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@clone_descriptor@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@mark_inline_assembly_parameter@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@substitute_inline_assembly_symbol@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@inline_argument_has_global_load@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@find_transfer_call_boundary@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

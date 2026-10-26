@@ -1,86 +1,78 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1410 completes the mixed-precision coefficient-bank/waveform case.
-There are1295 reconstructed App functions and five unchanged historical
-handwritten CRT overrides. App code occupies346871/399693 original code-section
-bytes (86.7844%); adding916 distinct owned text-data bytes gives an accepted App
-extent union of347787/399693 (87.0135%). These are unions clipped to original
-code-section VirtualSize (raw size only if zero), not branch coverage. The five
-CRT overrides contribute1776 bytes separately and receive zero App credit.
-The available App, classified CRT and import union is374161/399693 (93.6121%).
-A reliable non-CRT denominator remains unavailable;79 pending App rows and25532
-bytes outside that available union still need investigation. No only-CRT
-remainder claim is made.
+Checkpoint1416 completes the generated DLL telemetry-adapter case. There are
+1301 reconstructed App functions and five unchanged historical handwritten CRT
+bodies. App code occupies347286/399693 original code-section bytes(86.8882%);
+adding916 distinct owned text-data bytes gives348202/399693(87.1174%). These
+are clipped extent unions using section VirtualSize(raw size only if zero),
+not branch coverage. The five CRT overrides contribute1776 bytes separately
+and receive zero App credit. Available App/classified CRT/import extents cover
+374576/399693(93.7159%). A reliable non-CRT denominator remains unavailable;
+74 pending App rows and25117 bytes outside available extents need investigation.
+No only-CRT remainder claim is made.
 
-`binary.c` is the sole registry. All24 cached IO cases complete and188 narrow
-units pass. Fixtures retain actual frontend IR, single MSC_CMD_FLAGS child
-transport, stable S cwd, explicit first-entry seeds and complete object/listing/
-PDB oracles. Only established COFF timestamp bytes4..8 are normalized; OMF bytes
-are exact. Native fixtures do not run Wine.
+`binary.c` is the sole registry. All25 cached IO cases complete and197 narrow
+units pass. Fixtures preserve actual frontend IR, single MSC_CMD_FLAGS child
+transport, stable S cwd, explicit first-entry seeds and complete output oracles.
+Only established COFF timestamp bytes4..8 are normalized; listings/OMF are exact.
+Native fixtures never run Wine.
 
-The waveform module uses untouched CL `/O2 /Ob2 /Oi /Op /G5 /Z7`. It combines
-single-precision coefficient storage, double polynomial/predictor state, small
-inlined coefficient helpers, constant unsigned conversion and fabs/minimum
-folding, runtime-dependent samples, bounded output and unsigned control/checksum
-lanes. Read-only shared DIRECT observation retained the actual five C1 channels
-and C2 invocation before CL started the backend. That support capture does not
-claim parent CL completion; an ordinary untouched CL baseline and independent
-standalone C2 both succeed. Source4240B has no headers; actual ex/sy/in/gl/db
-inputs are3793/1334/91/541/365B, prefix001344. Complete3303B object normalized
-SHA256:`6082173f6f7412633973528d64742a508fcfa0dbf010302f076d2e15c24983b8`.
-Native and original streams are empty, status0 and the object is the sole output.
-A changed byte100 object expectation rejects; no new normalization was added.
+The adapter uses untouched CL `/O2 /Ob2 /Oa /G5 /Z7 /FAcs /W3`. Its explicit
+contract makes input records, output and DLL storage disjoint. Real imported
+data/functions, small inlined encoders with typed assembly parameters/local
+labels, callback-surviving values and an unsigned packet checksum form one
+workload. The available generated-telemetry.c is an actual listing dependency,
+not an include or a missing-source fallback. Source4485B and sidecar3454B are
+pinned alongside actual ex/sy/in/gl/db3386/1190/18/493/405B, prefix000368.
+Read-only CL observation captures the genuine pre-C2 invocation/IR; its parent
+exit is unobserved. Ordinary untouched CL and independent standalone C2 both
+succeed. Only telemetry_encode is emitted as a function: the helpers really
+inline. Imports and expanded assembly labels remain visible in the object/listing.
+Complete3378B object normalizedSHA256:
+`8e45943204da52ae5d762f0c2c63efd3e75f005f35c5ec8eeebcce1cefa77767`.
+The16887B listing is exactSHA256:
+`113525ab9d5f32df7f973830396b210b367eb0494435999ea27910b724e4bb2c`.
+Streams are empty/status0, with no other outputs. Changed object byte100 rejects.
 
-Nine whole App functions add624 code bytes: raw float input(34),80-bit multiply
-(79), divide(79), absolute value(76), unsigned conversion(51), minimum(102),
-conversion to single(35), conversion from single(32) and machine narrowing
-predicate(136). Actual arguments, defined output bytes, pointer aliases and
-returns were observed in the original and checked with native typed entry
-hooks. The first machine predicate takes the register-number4000 shortcut;
-its full use-chain body has separate width/operand/dead-result controls, not
-an execution-coverage claim for that first call. Register-number classes stay
-distinct from numerically equal operand-property bits.
+Six whole App routines add415 code bytes: imported-symbol alias construction83,
+its newly discovered descriptor clone49, assembly parameter pin35, assembly
+symbol substitution41, inline-argument global-load predicate101 and transfer
+call-boundary search106. The alias owns a12B contextual link; target names retain
+source-string suffix identity at+6. Exact first44B kind1 clone and both genuine
+fastcall arguments are observed. Assembly callbacks consume actual parameterid
+A6 and its binding; substitution returns materialized storageidF3. The first pin
+already has flag0 cleared, so state-changing flag controls are separately cold.
+The first global-argument predicate returns1 for the real opcode55 tree; cold
+controls cover arity, short circuit and non-global storage. The first transfer
+search walks nine preceding records to an indirect call. Cold controls separately
+cover forward stores, direct100-class call skips and the kind14/2D/register4
+marker. No claim is made that the actual first search executes all those paths.
 
-The existing intrinsic interpreter's explicit unknown-data trap caught newly
-encountered fabs ID17. Only its contextual16-byte descriptor was added:
-double result1008, unary recipe u, empty runtime name, flags20. Original node/
-result alias observation and native unary-owner checks pass. No new function
-or text-data credit is assigned for this descriptor.
+Fresh masked-original/native pairs, original-toolchain/W3 builds and focused
+whole-function graph/RET checks pass. Case-end full audit retains1306 paired
+graphs and1306 accepted source/runtime extents on each side, plus109 scoped RET
+contracts. Global RET remains unresolved at finish_debugging's indirect tail;
+other graph/extent obligations stay strict. No new CRT/shim or assembly ABI
+exception was needed. Initially unindexed clone_descriptor remained a named
+trap until its own fresh frontier. Earlier failed compiler probes retained static
+imported-pointer initializer rejection, reserved assembler formal spelling, and
+fatal missing logical listing source. A successful smaller source reached only
+three helpers; the coherent public/Oa expansion supplied two more families.
+Descriptor-field/stale-frontier authoring failures were corrected before tests.
+All raw failed and successful evidence remains in owned scratch.
 
-Original-toolchain/W3 builds and fresh masked-original/native pairs pass.
-Seven new arithmetic/conversion bodies use the established narrow exception
-for80-bit x87 primitives and the private ESI/ST0 store/normalizer ABI, which
-this compiler's C floating types cannot express. Tag selection and minimum
-control remain C; no assembly algorithm or new wrapper vertex was introduced.
-Focused controls cover operand order, signs, signed zero, mixed tags, unsigned
-boundaries and encountered rounding. Raw-input NaN payload control tests byte
-transport only; no floating-arithmetic NaN or universal environment equivalence
-is claimed. The bounded overflow/conversion controls are separate from the real
-finite coefficient inputs. Maximum and other unvisited helpers remain traps.
-
-The final audit retains1300 paired graphs,1300 accepted source/runtime extents
-on each side and103 scoped RET contracts. Global RET comparison remains
-unresolved for finish_debugging's indirect tail; other checks are not waived.
-No new CRT body or shared shim was needed. The first transport attempt retained
-an obsolete TMP/TEMP parent path and correctly failed; only the intended parent
-overlay was corrected before obtaining actual child transport. A cold test's
-host tmpfile FILE ABI mismatch was replaced with supported binary fopen glue;
-the real-input reader control already passed. Both failures and the intentional
-intrinsic data trap/debugger stop remain in scratch evidence.
-
-Use `make -j4 native win32` for native and original-toolchain builds. During a
-case use current-case replay, necessary builds and focused checks; complete
-regression/audit, README updates and commits follow case completion. The case-end
-`make -j4 audit check unit` took2.037s, phases unsplit. Cached waveform IO took
-35.448ms: setup17.354/execution13.342/checks4.752; its19-unit run took51.352ms:
-setup9.027/execution37.838/checks4.487. Across all measured attempts, native/
-canonical/case builds took35.520s, registry/runtime preparation11.673s, W3
-commands13.422s, untouched CL0.937s, original captures/transport14.092s, focused
-graph/RET0.569s, native replays0.567s, current-case units0.426s, native debugging
-0.188s and expected rejection0.034s. Totals include failures/repeats and overlap;
-they are not additive task elapsed. Analysis/editing, observer compilation and
-capture authoring were not separately measured. Raw evidence, timing and
-completion summaries remain under `~/.ai-tmp/msvc2/vc1.0/c2/mixed-wave/`.
+Use `make -j4 native win32` for native/original builds. During a case use only
+current-case replay, necessary builds and focused checks; full gates/README/
+commit follow completion. The final `make -j4 audit check unit` took2.019s,
+phases unsplit. Cached adapter IO took41.080ms: setup14.094/execution22.187/
+checks4.799; its nine-unit run took38.002ms: setup9.207/execution24.959/checks3.835.
+Across all measured attempts including failures/repeats: native/canonical/case
+builds30.023s, registry/runtime preparation3.642s, W3 commands6.025s, untouched
+CL7.958s, original transport/reference/frontier captures14.027s, focused graph/
+RET0.329s, native current-case replays0.382s, units0.131s and expected rejection
+0.051s. Phases can overlap and are not additive task elapsed. Analysis/editing,
+observer compilation and capture authoring are unmeasured. Raw evidence and
+completion/timing summaries: `~/.ai-tmp/msvc2/vc1.0/c2/dll-adapter/`.
 
 Earlier cases include calibration(3960B object/five exact warnings,12App/1448B),
 sparse numeric interpretation(6083B object,6App/1121B), tiled initialization/

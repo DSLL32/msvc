@@ -27,6 +27,13 @@ void __fastcall copy_symbol_type(SymbolHeader *symbol);
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena);
 char *__fastcall intern_symbol_name(SymbolHeader *symbol, char *name, int arena);
 SymbolHeader *__fastcall lookup_global_symbol(unsigned identifier);
+typedef struct ImportedSymbolAlias {
+    SymbolHeader *imported, *target;
+    struct ImportedSymbolAlias *next;
+} ImportedSymbolAlias;
+typedef char ImportedSymbolAliasSize[sizeof(ImportedSymbolAlias) == 12 ? 1 : -1];
+extern ImportedSymbolAlias *imported_symbol_aliases; /* original0007e6b4 */
+SymbolHeader *__fastcall clone_descriptor(SymbolHeader *source, unsigned arena);
 void __fastcall clone_alias_symbol(SymbolHeader *symbol);
 char *__fastcall arena_strdup(char *string, unsigned arena);
 void __fastcall read_module_directive(int kind);

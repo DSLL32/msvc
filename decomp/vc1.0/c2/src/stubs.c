@@ -52,9 +52,6 @@ Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
-int __fastcall inline_argument_has_global_load(Node *node) { __asm int 3 }
-unsigned __fastcall mark_inline_assembly_parameter(SymbolHeader *symbol, void *context) { __asm int 3 }
-unsigned __fastcall substitute_inline_assembly_symbol(SymbolHeader *symbol, void *context) { __asm int 3 }
 unsigned __fastcall second_return_value_register(FunctionSymbol *symbol) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 #include "algebra.h"
@@ -63,7 +60,6 @@ Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 #include "instruction-selection.h"
-void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
@@ -204,7 +200,6 @@ int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 
 
 int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
 
-MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer) { __asm int 3 }
 
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
