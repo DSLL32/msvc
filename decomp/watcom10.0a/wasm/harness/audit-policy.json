@@ -94,7 +94,7 @@
               },
               {
                 "rebuilt_symbol": "asmmatch_output_",
-                "offset": 214
+                "offset": 238
               }
             ]
           ]
@@ -111,6 +111,22 @@
               {
                 "rebuilt_symbol": "CreateFixupRec_",
                 "offset": 150
+              }
+            ]
+          ]
+        }
+      },
+      "SimSeg": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "SimSeg_",
+                "offset": 199
+              },
+              {
+                "rebuilt_symbol": "SimSeg_",
+                "offset": 227
               }
             ]
           ]
@@ -1528,6 +1544,76 @@
         ]
       },
       "PrintStats": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "set_processor_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "set_mem_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "set_some_kinda_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "open_file_in_include_path": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_blank": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_dif": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "double2tbyte": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "little_to_big_endian": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "swap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "copy_mantissa": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_watcom_argument_string": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_id_in_backquotes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OutSelect": {
         "expected_cleanup": [
           0
         ]

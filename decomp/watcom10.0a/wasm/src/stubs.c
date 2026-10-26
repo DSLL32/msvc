@@ -41,19 +41,10 @@ void AsmError(int message) { (void)message; WASM_PENDING(); }
 
 
 
-int get_id_in_backquotes(struct asm_tok *buf, char **input, char **output)
-{ (void)buf; (void)input; (void)output; WASM_PENDING(); return -1; }
 
 
 int InternalError(const char *file, unsigned line)
 { (void)file; (void)line; WASM_PENDING(); return 0; }
-char *set_processor_type(char *input)
-{ (void)input; WASM_PENDING(); return NULL; }
-void set_mem_type(int type) { (void)type; WASM_PENDING(); }
-void set_some_kinda_name(int token, char *name)
-{ (void)token; (void)name; WASM_PENDING(); }
-FILE *open_file_in_include_path(char *name, char *fullpath)
-{ (void)name; (void)fullpath; WASM_PENDING(); return NULL; }
 void MsgPrintf1(int resourceid, const char *arg)
 { (void)resourceid; (void)arg; WASM_PENDING(); }
 void output(const unsigned char *text) { (void)text; WASM_PENDING(); }
@@ -68,7 +59,6 @@ int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 
 
 
-void write_flat_grp(void) { WASM_PENDING(); }
 
 
 
@@ -88,8 +78,6 @@ void write_flat_grp(void) { WASM_PENDING(); }
 
 
 
-int get_watcom_argument_string(char *buffer, unsigned char size, unsigned char *count)
-{ (void)buffer; (void)size; (void)count; WASM_PENDING(); return -1; }
 
 int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING(); return -1; }
 unsigned GetPrefixAssume(asm_sym *sym, unsigned def)
@@ -114,7 +102,6 @@ int conditional_error_directive(int index) { WASM_PENDING(); (void)index; return
 
 void push_proc(dir_node *procedure) { (void)procedure; WASM_PENDING(); }
 void AsmWarn(int level, int message, ...) { WASM_PENDING(); (void)level; (void)message; }
-int AddAlias(int index) { WASM_PENDING(); (void)index; return 0; }
 
 
 
@@ -134,9 +121,6 @@ void fill_in_objfile_space(unsigned size) { (void)size; WASM_PENDING(); }
 
 
 
-void double2tbyte(double value, char *bytes)
-{ (void)value; (void)bytes; WASM_PENDING(); }
-void OutSelect(unsigned char starts) { (void)starts; WASM_PENDING(); }
 
 
 unsigned GetGrpIdx(asm_sym *sym) { (void)sym; WASM_PENDING(); return 0; }

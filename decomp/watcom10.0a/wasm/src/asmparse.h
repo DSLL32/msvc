@@ -75,6 +75,9 @@ enum { PREFIX_ES=0x26, PREFIX_CS=0x2e, PREFIX_SS=0x36,
 #define EXTENDED_OPCODE 0x0f
 #define NOT_BIT_67 0x3f
 #define NOT_BIT_345 0xc7
+#define P_86 0x00
+#define P_186 0x10
+#define P_286 0x20
 #define P_386 0x30
 #define P_PM 8
 #define P_286p 0x28

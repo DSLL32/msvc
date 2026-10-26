@@ -169,3 +169,12 @@ void ObjRecFini(void)
 {
     CarveDestroy(myCarver);
 }
+
+/* CF1bfdc..1c010, word write into existing record-owned storage. */
+void ObjPut16(obj_rec *objr, unsigned short value)
+{
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c", 199);
+    *(unsigned short *)(objr->data + objr->curoff) = value;
+    objr->curoff += 2;
+}

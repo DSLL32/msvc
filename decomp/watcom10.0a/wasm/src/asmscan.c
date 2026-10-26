@@ -422,3 +422,25 @@ done_scanning_float:
     buf->value = 0;
     return 1;
 }
+
+/* CF74dc..753c, quoted identifiers preserve literal punctuation. */
+int get_id_in_backquotes( struct asm_tok *buf, char **input, char **output )
+/*********************************************************************************/
+{
+    buf->string_ptr = *output;
+    buf->token = T_ID;
+    buf->value = 0;
+
+    /* copy char from input to output & inc both */
+    (*input)++;             // strip off the backquotes
+    for( ; **input != '`'; ) {
+        *(*output)++ = *(*input)++;
+        if( **input == '\0' || **input == ';' ) {
+            AsmError( 51 );
+            return( -1 );
+        }
+    }
+    (*input)++;         /* don't output the last '`' */
+    *(*output)++ = '\0';
+    return( 1 );
+}

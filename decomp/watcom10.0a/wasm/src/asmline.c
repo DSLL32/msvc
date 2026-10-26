@@ -34,6 +34,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <malloc.h>
 #include "asminit.h"
 #include "asmparse.h"
 #include "direct.h"
@@ -424,4 +425,29 @@ void PushMacro(char *name, unsigned char hidden)
 void FreeIncludePath(void)
 {
     AsmFree(IncludePath);
+}
+
+/* CF7e60..800c. The1994 search copy is stack-owned, not the later
+ * AsmTmpAlloc pool. Its Windows separator is retained for shared path I/O. */
+FILE *open_file_in_include_path(char *name, char *fullpath)
+{
+    char *inc_path_list;
+    char *next_path;
+    char buffer[256];
+    FILE *file = NULL;
+
+    while (isspace(*name)) name++;
+    inc_path_list = alloca(strlen(IncludePath) + 1);
+    strcpy(inc_path_list, IncludePath);
+    next_path = strtok(inc_path_list, ";");
+    while (file == NULL && next_path != NULL) {
+        strcpy(buffer, next_path);
+        if (buffer[strlen(buffer) - 1] != '\\') strcat(buffer, "\\");
+        strcat(buffer, name);
+        file = fopen(buffer, "r");
+        if (file) break;
+        next_path = strtok(NULL, ";");
+    }
+    strcpy(fullpath, buffer);
+    return file;
 }

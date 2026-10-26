@@ -650,8 +650,6 @@ struct AsmCodeName AsmOpcode[] = {
 #define I(tok) { tok }
 #define ins(tok,op1,byte1,op2,rm,opcode,rmbyte,cpu,prefix) \
     { tok,cpu,prefix,byte1,rm,{op1,op2},opcode,rmbyte }
-#define P_86 0
-#define P_186 0x10
 #define NO_PREFIX 0
 /* Encountered PUSH forms from symbolic asmins.h, checked against1994 rows. */
 #define M(tok,cpu,op1,byte1,rm,opcode,rmbyte) \
@@ -682,9 +680,9 @@ const struct asm_ins AsmOpTable[] = {
     ins (T_ADC,     OP_M,           0,              OP_I,   0,              0x80,   0x10,   P_86,   LOCK), ins (T_ADD,     OP_R1632,       0,      OP_I8,  no_WDS, 0x83,   0x00,   P_86,   NO_PREFIX), ins (T_ADD,     OP_A,           0,              OP_I,   no_RM,  0x04,   0x00,   P_86,   NO_PREFIX), ins (T_ADD,     OP_R,           0,              OP_R,   0,              0x00,   0x00,   P_86,   NO_PREFIX),
     ins (T_ADD,     OP_R,           0,              OP_M,   0,              0x02,   0x00,   P_86,   NO_PREFIX), ins (T_ADD,     OP_R,           0,              OP_I,   0,              0x80,   0x00,   P_86,   NO_PREFIX), ins (T_ADD,     OP_M_W,         0,      OP_I8,  no_WDS, 0x83,   0x00,   P_86,   LOCK), ins (T_ADD,     OP_M_DW,        0,      OP_I8,  no_WDS, 0x83,   0x00,   P_386,  LOCK),
     ins (T_ADD,     OP_M,           0,              OP_R,   0,              0x00,   0x00,   P_86,   LOCK), ins (T_ADD,     OP_M,           0,              OP_I,   0,              0x80,   0x00,   P_86,   LOCK), S(T_ADDR,OP_DIRECTIVE), G(T_AH,OP_R8_GEN,0x4),
-    G(T_AL,OP_AL,0x0), S(T_ALIAS,OP_DIRECTIVE), S(T_ALIGN,OP_DIRECTIVE), I(T_AND),
-    I(T_AND), I(T_AND), I(T_AND), I(T_AND),
-    I(T_AND), I(T_AND), I(T_AND), I(T_AND),
+    G(T_AL,OP_AL,0x0), S(T_ALIAS,OP_DIRECTIVE), S(T_ALIGN,OP_DIRECTIVE), ins (T_AND,     OP_R1632,       0,      OP_I8,  no_WDS, 0x83,   0x20,   P_86,   NO_PREFIX),
+    ins (T_AND,     OP_A,           0,              OP_I,   no_RM,  0x24,   0x00,   P_86,   NO_PREFIX), ins (T_AND,     OP_R,           0,              OP_R,   0,              0x20,   0x00,   P_86,   NO_PREFIX), ins (T_AND,     OP_R,           0,              OP_M,   0,              0x22,   0x00,   P_86,   NO_PREFIX), ins (T_AND,     OP_R,           0,              OP_I,   0,              0x80,   0x20,   P_86,   NO_PREFIX),
+    ins (T_AND,     OP_M_W,         0,      OP_I8,  no_WDS, 0x83,   0x20,   P_86,   LOCK), ins (T_AND,     OP_M_DW,        0,      OP_I8,  no_WDS, 0x83,   0x20,   P_386,  LOCK), ins (T_AND,     OP_M,           0,              OP_R,   0,              0x20,   0x00,   P_86,   LOCK), ins (T_AND,     OP_M,           0,              OP_I,   0,              0x80,   0x20,   P_86,   LOCK),
     I(T_ARPL), I(T_ARPL), S(T_ASSUME,OP_DIRECTIVE), S(T_AT,OP_RES_ID),
     G(T_AX,OP_AX,0x0), S(T_BASIC,OP_RES_ID), G(T_BH,OP_R8_GEN,0x7), G(T_BL,OP_R8_GEN,0x3),
     I(T_BOUND), G(T_BP,OP_R16_GEN,0x5), I(T_BSF), I(T_BSF),
@@ -780,11 +778,11 @@ const struct asm_ins AsmOpTable[] = {
     I(T_JA), I(T_JAE), I(T_JAE), I(T_JB),
     I(T_JB), I(T_JBE), I(T_JBE), I(T_JC),
     I(T_JC), I(T_JCXZ), I(T_JE), I(T_JE),
-    I(T_JECXZ), I(T_JG), I(T_JG), ins (T_JGE,     OP_I8,  0,              OP_NONE,        no_RM,  0x7D,   0x00,   P_86,   NO_PREFIX),
+    ins (T_JECXZ, OP_I8, 0, OP_NONE, no_RM, 0xE3, 0x00, P_386, NO_PREFIX), I(T_JG), I(T_JG), ins (T_JGE,     OP_I8,  0,              OP_NONE,        no_RM,  0x7D,   0x00,   P_86,   NO_PREFIX),
     ins (T_JGE,     OP_I,   F_0F,   OP_NONE,        no_RM,  0x8D,   0x00,   P_386,  NO_PREFIX), I(T_JL), I(T_JL), I(T_JLE),
-    I(T_JLE), I(T_JMP), I(T_JMP), I(T_JMP),
-    I(T_JMP), I(T_JMP), I(T_JMP), I(T_JMP),
-    I(T_JMP), I(T_JMPF), I(T_JMPF), I(T_JMPF),
+    I(T_JLE), ins (T_JMP,     OP_I8,  0,              OP_NONE,        no_RM,  0xEB,   0x00,   P_86,   NO_PREFIX), ins (T_JMP,     OP_I16, 0,      OP_NONE,        no_RM,  0xE9,   0x00,   P_86,   NO_PREFIX), ins (T_JMP,     OP_I32, 0,      OP_NONE,        no_RM,  0xE9,   0x00,   P_386,  NO_PREFIX),
+    ins (T_JMP,     OP_J32, 0,      OP_NONE,        no_RM,  0xEA,   0x00,   P_86,   NO_PREFIX), ins (T_JMP,     OP_J48, 0,      OP_NONE,        no_RM,  0xEA,   0x00,   P_386,  NO_PREFIX), ins (T_JMP,     OP_R,   0,              OP_NONE,        no_WDS, 0xFF,   0x20,   P_86,   NO_PREFIX), ins (T_JMP,     OP_M_DW,        0,      OP_NONE,        no_WDS, 0xFF,   0x20,   P_86,   NO_PREFIX),
+    ins (T_JMP,     OP_M,   0,              OP_NONE,        no_WDS, 0xFF,   0x20,   P_86,   NO_PREFIX), I(T_JMPF), I(T_JMPF), I(T_JMPF),
     I(T_JMPF), I(T_JMPF), I(T_JNA), I(T_JNA),
     I(T_JNAE), I(T_JNAE), I(T_JNB), I(T_JNB),
     I(T_JNBE), I(T_JNBE), I(T_JNC), I(T_JNC),
@@ -839,8 +837,8 @@ const struct asm_ins AsmOpTable[] = {
     I(T_RCR), I(T_RCR), I(T_RCR), I(T_RCR),
     I(T_RCR), I(T_RCR), I(T_RDMSR), I(T_RDTSC),
     S(T_READONLY,OP_RES_ID), S(T_RECORD,OP_DIRECTIVE), I(T_REP), I(T_REPE),
-    I(T_REPNE), I(T_REPNZ), I(T_REPZ), I(T_RET),
-    I(T_RET), I(T_RETF), I(T_RETF), ins (T_RETN,    OP_NONE,        0,      OP_NONE,        no_RM,  0xC3,   0x00,   P_86,   NO_PREFIX),
+    I(T_REPNE), I(T_REPNZ), I(T_REPZ), ins (T_RET,     OP_NONE,        0,      OP_NONE,        no_RM,  0xC3,   0x00,   P_86,   NO_PREFIX),
+    ins (T_RET,     OP_I16,         0,      OP_NONE,        no_RM,  0xC2,   0x00,   P_86,   NO_PREFIX), I(T_RETF), I(T_RETF), ins (T_RETN,    OP_NONE,        0,      OP_NONE,        no_RM,  0xC3,   0x00,   P_86,   NO_PREFIX),
     ins (T_RETN,    OP_I16,         0,      OP_NONE,        no_RM,  0xC2,   0x00,   P_86,   NO_PREFIX), ins (T_ROL,     OP_R,           0,      OP_I_1,         0,      0xD0,   0x00,   P_86,   NO_PREFIX), ins (T_ROL,     OP_R,           0,      OP_I8_U,        0,      0xC0,   0x00,   P_186,  NO_PREFIX), ins (T_ROL,     OP_R,           0,      OP_CL,          0,      0xD2,   0x00,   P_86,   NO_PREFIX),
     ins (T_ROL,     OP_M_B,         0,      OP_I_1,         0,      0xD0,   0x00,   P_86,   NO_PREFIX), ins (T_ROL,     OP_M_B,         0,      OP_I8_U,        0,      0xC0,   0x00,   P_186,  NO_PREFIX), ins (T_ROL,     OP_M_B,         0,      OP_CL,          0,      0xD2,   0x00,   P_86,   NO_PREFIX), ins (T_ROL,     OP_M_W,         0,      OP_I_1,         0,      0xD1,   0x00,   P_86,   NO_PREFIX),
     ins (T_ROL,     OP_M_W,         0,      OP_I8_U,        0,      0xC1,   0x00,   P_186,  NO_PREFIX), ins (T_ROL,     OP_M_W,         0,      OP_CL,          0,      0xD3,   0x00,   P_86,   NO_PREFIX), ins (T_ROL,     OP_M_DW,        0,      OP_I_1, 0,      0xD1,   0x00,   P_386,  NO_PREFIX), ins (T_ROL,     OP_M_DW,        0,      OP_I8_U,        0,      0xC1,   0x00,   P_386,  NO_PREFIX),

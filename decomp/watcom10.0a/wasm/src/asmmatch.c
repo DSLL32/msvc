@@ -49,12 +49,12 @@ int asmmatch_output(int i)
 
     /* Only encoding families consumed on the reconstructed instruction path. */
     switch (ins->token) {
-    case T_PUSH: case T_MOV: case T_XOR: case T_ROL: case T_ADD: case T_SUB: case T_CMP:
+    case T_PUSH: case T_MOV: case T_AND: case T_XOR: case T_ROL: case T_ADD: case T_SUB: case T_CMP:
     case T_MOVZX: case T_SHLD: case T_BT: case T_ADC: case T_XCHG:
     case T_INC: case T_DEC: case T_NEG: case T_JNZ: case T_JGE:
     case T_FLDZ: case T_FILD: case T_FMUL: case T_FADDP: case T_LOOP:
     case T_FSTP: case T_IMUL: case T_IDIV: case T_TEST: case T_JZ:
-    case T_CALL: case T_POP: case T_RETN: case T_INT:
+    case T_JMP: case T_CALL: case T_POP: case T_RETN: case T_RET: case T_INT: case T_JECXZ:
         break;
     default: WASM_PENDING();
     }
@@ -174,7 +174,7 @@ int match_phase_1( void )
     /* Unrecovered instruction matching rows must deny both builds. */
     if (AsmOpTable[i].opnd_type[0] == OP_NONE &&
         Code->info.token != T_FLDZ && Code->info.token != T_FMUL &&
-        Code->info.token != T_RETN)
+        Code->info.token != T_RETN && Code->info.token != T_RET)
         WASM_PENDING();
 
     // make sure the user want 80x87 ins

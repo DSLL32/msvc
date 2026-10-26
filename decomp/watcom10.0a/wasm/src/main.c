@@ -38,6 +38,8 @@
 #include <ctype.h>
 #include <string.h>
 #include "asminit.h"
+#include "asmparse.h"
+#include "breakout.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
@@ -586,4 +588,181 @@ void free_names(void)
     if (Options.data_seg != NULL) AsmFree(Options.data_seg);
     if (Options.module_name != NULL) AsmFree(Options.module_name);
     if (Options.text_seg != NULL) AsmFree(Options.text_seg);
+}
+
+/* CFd208..d45b. The1994 CPU selection has no later686 cases. */
+char *set_processor_type(char *input)
+/*******************************************/
+{
+    enum asm_token      token;
+    char                protect = 0;
+    char                *tmp = input+1;
+
+    for( tmp=input+1; *tmp != '\0' && !isspace( *tmp ); tmp++ ) {
+        if( *input == 'f' ) {
+            tmp = input + strcspn( input, "/-" );
+            break;
+        } else if( *tmp == '/' || *tmp == '-' ) {
+            break;
+        } else if( *tmp == 'r' ) {
+            Options.naming_convention = ADD_USCORES;
+            add_constant( "__REGISTER__" );
+        } else if( *tmp == 's' ) {
+            add_constant( "__STACK__" );
+            Options.naming_convention = DO_NOTHING;
+        } else if( *tmp == '_' ) {
+            if( Options.naming_convention == DO_NOTHING ) {
+                Options.naming_convention = REMOVE_USCORES;
+            } else {
+                Options.naming_convention = DO_NOTHING;
+            }
+        } else if( *tmp == 'p' ) {
+            protect = 1;
+        } else if( *tmp == '"' ) {
+            char *dest;
+            tmp++;
+            Options.default_name_mangler = AsmAlloc( strlen( tmp ) + 1 );
+            dest = Options.default_name_mangler;
+            for( ; *tmp != '"'; dest++, tmp++ ) {
+                *dest = *tmp;
+            }
+            *dest = '\0';
+        } else {
+            MsgPrintf1( 1102, input );
+            exit( 1 );
+        }
+    }
+
+    switch( *input ) {
+    case '0':
+        token = T_8086;
+        break;
+    case '1':
+        token = T_186;
+        break;
+    case '2':
+        token =  protect ? T_286P : T_286;
+        break;
+    case '3':
+        token =  protect ? T_386P : T_386;
+        break;
+    case '4':
+        token =  protect ? T_486P : T_486;
+        break;
+    case '5':
+        token =  protect ? T_586P : T_586;
+        break;
+    case '7':
+        switch( Code->info.cpu & P_CPU_MASK ) {
+        case P_286:
+            token =  T_287;
+            break;
+        case P_386:
+        case P_486:
+        case P_586:
+            token =  T_387;
+            break;
+        case P_86:
+        case P_186:
+        default:
+            token =  T_8087;
+            break;
+        }
+        break;
+    case 'f':       // fp#
+        switch( *(input+2) ) {
+        case 'c':
+            token = T_NO87;
+            break;
+        case '0':
+            token = T_8087;
+            break;
+        case '2':
+            token = T_287;
+            break;
+        case '3':
+        case '5':
+            token = T_387;
+            break;
+        }
+        break;
+    /* no other cases are possible */
+    }
+    cpu_directive( token );
+
+    return( tmp );
+}
+
+/* CFd614..d70e, command-line memory model selection. */
+void set_mem_type( char mem_type )
+/***************************************/
+{
+    char buffer[20];
+    char *model;
+
+    switch( mem_type ) {
+    case 'c':
+        model = "COMPACT";
+        break;
+    case 'f':
+        model = "FLAT";
+        break;
+    case 'h':
+        model = "HUGE";
+        break;
+    case 'l':
+        model = "LARGE";
+        break;
+    case 'm':
+        model = "MEDIUM";
+        break;
+    case 's':
+        model = "SMALL";
+        break;
+    case 't':
+        model = "TINY";
+        break;
+    default:
+        strcpy( buffer, "/m" );
+        strcat( buffer, &mem_type );
+        MsgPrintf1( 1102, buffer );
+        exit( 1 );
+    }
+
+    strcpy( buffer, ".MODEL " );
+    strcat( buffer, model );
+    InputQueueLine( buffer );
+
+    return;
+}
+
+
+/* CFd710..d78a, four separately owned option strings. */
+void set_some_kinda_name( char token, char *name )
+/*******************************************************/
+/* set:  code class / data seg. / module name / text seg */
+{
+    int len;
+    char **tmp;
+
+    len = strlen( name ) + 1;
+    switch( token ) {
+    case 'c':
+        tmp = &Options.code_class;
+        break;
+    case 'd':
+        tmp = &Options.data_seg;
+        break;
+    case 'm':
+        tmp = &Options.module_name;
+        break;
+    case 't':
+        tmp = &Options.text_seg;
+        break;
+    default:
+        return;
+    }
+    *tmp = AsmAlloc( len );
+    strcpy( *tmp, name );
+    return;
 }

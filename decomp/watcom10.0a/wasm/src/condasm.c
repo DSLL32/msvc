@@ -88,9 +88,17 @@ char check_defd(char *string)
     *end = '\0';
     return FALSE;
 }
-char check_blank(char *text) { WASM_PENDING(); return 0; }
+/* CF17c18..17c33, string operand is already stripped by the scanner. */
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen)
+#endif
+char check_blank(char *text) { return strlen(text) == 0 ? TRUE : FALSE; }
+/* CF17c34..17c52, case-sensitive and case-insensitive text comparisons. */
 char check_dif(unsigned char sensitive, char *first, char *second)
-{ WASM_PENDING(); return 0; }
+{
+    if (sensitive) return strcmp(first, second) != 0;
+    return stricmp(first, second) != 0;
+}
 static signed char    NestLevel = 0;
 
 int conditional_assembly_directive( int i )

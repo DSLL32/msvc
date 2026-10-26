@@ -27,6 +27,7 @@ typedef struct global_options {
 #pragma pack()
 
 enum { ASM, ERR, OBJ, FILE_TYPES };
+enum { DO_NOTHING, ADD_USCORES, REMOVE_USCORES };
 typedef struct File_Info {
     FILE *file[FILE_TYPES];
     char *fname[FILE_TYPES];
@@ -142,6 +143,7 @@ void ObjPutName(obj_rec *record, const unsigned char *name, unsigned char length
 void ObjPutIndex(obj_rec *record, unsigned short value);
 void write_flat_grp(void);
 void ObjPut8(obj_rec *record, unsigned char value);
+void ObjPut16(obj_rec *record, unsigned short value);
 void ObjPut(obj_rec *record, const unsigned char *data, unsigned short length);
 unsigned char *ObjGet(obj_rec *record, unsigned short length);
 void write_record(obj_rec *record, unsigned char kill);
@@ -402,8 +404,8 @@ int createconstant(char *name, int value, int start, signed char redefine, unsig
 void do_envvar_cmdline(char *envvar, int level);
 void parse_token(char *token, int nesting_level);
 char *set_processor_type(char *input);
-void set_mem_type(int type);
-void set_some_kinda_name(int token, char *name);
+void set_mem_type(char type);
+void set_some_kinda_name(char token, char *name);
 void get_fname(char *token, int type);
 int InputQueueFile(char *filename);
 struct file_list;
@@ -460,14 +462,14 @@ extern struct fixup *FixupListHead, *FixupListTail;
 extern obj_rec *ModendRec;
 extern signed char PhaseError;
 extern unsigned long PassTotal[2];
-/* Older packed layout: sel_start precedes the16-bit index. The expand
+/* Older packed layout: the32-bit index precedes16-bit sel_start. The expand
  * count at+14 is consumed by input_get;2002 reordered/widened these fields. */
 #pragma pack(1)
 typedef struct global_vars {
     unsigned code_seg;
     unsigned data_in_code : 1, dosseg : 1, : 30;
-    unsigned long sel_start;
-    unsigned short sel_idx;
+    unsigned sel_idx;
+    unsigned short sel_start;
     unsigned expand_count;
     unsigned for_counter;
 } global_vars;

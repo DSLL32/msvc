@@ -1,15 +1,17 @@
 # Watcom 10.0a WASM
 
-Three cases are complete: `/?` (exit 1), `/q /fo=transform.obj transform.asm`
-(exit 0), and `/d1 /fo=records.obj records.asm` (exit 0). The first assembly
-workload combines includes, macros, conditionals, typed records, integer/x87
-instructions, branches and external relocations; its 485-byte OMF matches exactly.
-The DOS workload adds small-model segments, IRP, macro-local labels, stack
-arguments/locals, COMMON and debug lines. Its 561-byte OMF matches exactly, with
-54 lines, zero warnings and zero errors. Inputs and references are frozen in the
-numbered captures; fixtures never invoke Wine.
+Four cases are complete: `/?` (exit 1) and three successful assembly workloads.
+The buffer transform combines includes, macros, conditionals, typed records,
+integer/x87 instructions, branches and external relocations (485-byte OMF).
+The DOS record formatter adds small-model segments, IRP, macro-local labels,
+stack arguments/locals, COMMON and debug lines (561-byte OMF, 54 lines without
+diagnostics). The flat32 vector library adds CPU/model and name options,
+include-path lookup, aliases, string conditionals, register arguments, quoted
+identifiers, TBYTE data and embedded-code data records (362-byte OMF). Each
+object matches exactly. Inputs and references are frozen in numbered captures;
+fixtures never invoke Wine.
 
-The reconstruction covers 359 application functions and 87,477 unique original
+The reconstruction covers 375 application functions and 90,487 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
@@ -22,14 +24,15 @@ owner rather than depending on host global placement; other unknown selectors
 remain unsupported.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 359 graph/reference/ownership/extent checks pass, with 282 ordinary RET
-contracts and 77 finite cold-error, tail-wrapper or exit checks. Pending error
+All 375 graph/reference/ownership/extent checks pass, with 296 ordinary RET
+contracts and 79 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-Final native fixtures: help 13.34 ms, buffer transform 15.45 ms, DOS records 13.46 ms
-(DOS setup 7.26 ms, execution 3.07 ms, checks 3.13 ms). Parallel Make check took 68.42 ms;
-incremental native/case/period build setup took 138.73 ms; the full audit took
-709.63 ms. The final explicit original capture took 1.29 s. These are measured
+Final cached native fixtures: help 13.54 ms, buffer transform 15.65 ms,
+DOS records 15.39 ms and flat32 library 15.40 ms (setup 7.27 ms, execution
+5.16 ms, checks 2.97 ms). Parallel Make check took 70.72 ms; final incremental
+native/case/period build setup took 4.65 s. Full graph and finite RET audits pass.
+The final explicit flat32 original capture took 1.78 s. These are measured
 closeout runs, not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical

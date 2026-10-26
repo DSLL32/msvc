@@ -784,3 +784,51 @@ long QCount( qdesc *queue )
     }
     return count;
 }
+
+/* CFdf38..e029. The1994 scan-table comment always uses16-bit offsets,
+ * allocates seven bytes and writes its index directly, without later32-bit
+ * record selection or PhaseError suppression. */
+void OutSelect(unsigned char starts)
+{
+    obj_rec *objr;
+    if (starts) {
+        Globals.sel_start = GetCurrAddr();
+        Globals.data_in_code = 1;
+    } else {
+        Globals.sel_idx = CurrSeg->seg->sym.segidx;
+        Globals.data_in_code = 0;
+        FlushCurrSeg();
+        if (Parse_Pass > PASS_1) {
+            objr = ObjNewRec(CMD_COMENT);
+            objr->d.coment.attr = 0x80;
+            objr->d.coment.class = 0xfd;
+            ObjAllocData(objr, 7);
+            ObjPut8(objr, 0x73);
+            if (Globals.sel_idx >= 128)
+                ObjPut16(objr, Globals.sel_idx);
+            else
+                ObjPut8(objr, Globals.sel_idx);
+            ObjPut16(objr, Globals.sel_start);
+            ObjPut16(objr, GetCurrAddr());
+            objr->length = objr->curoff;
+            write_record(objr, 1);
+        }
+        Globals.sel_idx = 0;
+        Globals.sel_start = 0;
+    }
+}
+
+/* CFe188..e1f4. The1994 writer emits a separate empty FLAT group. */
+void write_flat_grp(void)
+{
+    obj_rec *objr;
+    objr = ObjNewRec(CMD_GRPDEF);
+    if (objr == NULL) InternalError("..\\c\\write.c", 261);
+    objr->d.grpdef.idx = ModuleInfo.flat_idx;
+    ObjAllocData(objr, 1);
+    ObjPut8(objr, GetLnameIdx("FLAT"));
+    if (write_to_file) {
+        objr->length = objr->curoff;
+        write_record(objr, 1);
+    }
+}

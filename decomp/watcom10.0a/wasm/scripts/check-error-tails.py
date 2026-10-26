@@ -7,6 +7,7 @@ ordinary returning contracts. Pending InternalError remains masked and is never 
 from pathlib import Path
 import hashlib
 import json
+import os
 import re
 import struct
 import subprocess
@@ -54,6 +55,8 @@ def pe_bytes(address, size):
 symbols = {name: 0x410000 + int(offset, 16) for offset, name in re.findall(
     r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wasm.map').read_text(), re.M)}
 owners = [
+    ('ObjPut16',0x1bfdc,0x1c010,'b508785272d5472ce71da69c6daf858a72ad5da10b629e22c4f6045da1a803b3',[0x1c00f],[0x1bff6]),
+    ('write_flat_grp',0xe188,0xe1f4,'824c49c6361866147b56fe3664a7d11ceea2b0400e5530d40a0a50d0b588a627',[0xe1f3],[0xe1a4]),
     ('FixGenRef', 115924, 116032, 'a0f6a48aaf04e9c5548369bd69ecaad9717ce618146819777f8cbe9402ab4501', [116018, 116031], [115949, 115968, 115997]),
     ('writeLinnumData', 112940, 113133, '190e156b55f2f3389d97622a4439f2a66234026143a5accda891c4013b4ba072', [113042, 113132], [112961, 112980, 113104]),
     ('writeLinnum', 113136, 113302, 'cc6e4e566baa12a19dc2b31d0671c7b17aeb630074e0aa41d98e481a0e482b45', [113301], [113156, 113177, 113196, 113216]),
@@ -146,7 +149,10 @@ owners = [
      [0x15f54], [0x15e67, 0x15eec]),
 ]
 report = []
+selected_owner = os.environ.get("WASM_RET_OWNER")
 for name, start, end, digest, returns, tails in owners:
+    if selected_owner and name != selected_owner:
+        continue
     assert hashlib.sha256(raw[payload + start:payload + end]).hexdigest() == digest
     code = instructions(original, start, end, payload)
     assert [(a, operand) for a, m, operand in code if m.startswith('ret')] == [(a, '') for a in returns]
@@ -197,7 +203,7 @@ for name, start, end, digest, returns, tails in owners:
             cursor = high
         code += instructions(rebuilt, cursor, limit)
     rebuilt_returns = [(a, operand) for a, m, operand in code if m.startswith('ret')]
-    assert rebuilt_returns and all(not operand for _, operand in rebuilt_returns)
+    assert rebuilt_returns and all(not operand for _, operand in rebuilt_returns), (name, rebuilt_returns)
     jumps = external_jumps(code, begin, limit)
     # The period -Od build merges get_precedence's three original default
     # assertion tails into one shared default block. SimSeg's two original
@@ -208,6 +214,13 @@ for name, start, end, digest, returns, tails in owners:
     report.append({'name': name, 'original_sha256': digest, 'original_ret0': returns,
         'original_error_tails': tails, 'rebuilt_extent': [begin, limit], 'rebuilt_ret0': rebuilt_returns,
         'rebuilt_error_tails': jumps, 'rebuilt_sha256': hashlib.sha256(pe_bytes(begin, limit - begin)).hexdigest()})
+
+if selected_owner:
+    assert len(report) == 1, "unknown finite RET owner"
+    if len(sys.argv) == 2:
+        Path(sys.argv[1]).write_text(json.dumps(report, indent=2) + '\n')
+    print('PASS finite normal RET0/cold InternalError: ' + selected_owner)
+    sys.exit(0)
 
 # FixNew delegates directly to the same CarveAlloc whose normal RET0 and
 # cold assertion tails are checked above. No cleanup is invented for the tail.

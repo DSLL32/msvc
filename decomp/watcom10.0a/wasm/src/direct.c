@@ -2505,3 +2505,148 @@ void size_override( char *buffer, int size )
     case 10: strcpy( buffer, " tbyte ptr " ); break;
     }
 }
+
+/* CF13b10..13c3b, NUL-separated alias/substitute queue ownership. */
+int AddAlias( int i )
+/*******************/
+{
+    /* takes directive of form: <alias_name> alias <substitute_name> */
+    queuenode    *qnode;
+    char *tmp;
+
+    if( i < 0 ) {
+        AsmError( 51 );
+        return( ERROR );
+    }
+    if( AsmBuffer[i]->token != T_ID ||
+        AsmBuffer[i+2]->token != T_ID ) {
+        AsmError( 1120 );
+        return( ERROR );
+    }
+
+    /* add this alias to the alias queue */
+
+    /* aliases are stored as:  <len><alias_name><len><substitute_name> */
+
+    qnode = AsmAlloc( sizeof( queuenode ) );
+    tmp = AsmAlloc( strlen( AsmBuffer[i]->string_ptr ) +
+                    strlen( AsmBuffer[i+2]->string_ptr ) + 2 );
+    strcpy( tmp, AsmBuffer[i]->string_ptr );
+    qnode->data = (void *)tmp;
+    tmp += strlen( tmp ) + 1 ;
+    strcpy( tmp, AsmBuffer[i+2]->string_ptr );
+    if( AliasQueue == NULL ) {
+        AliasQueue = AsmAlloc( sizeof( qdesc ) );
+        QInit( AliasQueue );
+    }
+    QEnqueue( AliasQueue, qnode );
+    return( NOT_ERROR );
+}
+
+
+/* CF26700, encountered register-parameter spellings; four columns A,D,B,C. */
+char *parm_reg[3][4]= {
+    { " AL ", " DL ", " BL ", " CL " },
+    { " AX ", " DX ", " BX ", " CX " },
+    { " EAX ", " EDX ", " EBX ", " ECX " },
+};
+
+enum regsize {
+    A_BYTE = 0,
+    A_WORD,
+    A_DWORD,
+};
+
+
+
+/* CFf788..f92c, tablef760..f788. */
+int get_watcom_argument_string( char *buffer, unsigned char size, unsigned char *parm_number )
+/******************************************************************************/
+/* get the register for parms 0 to 3,
+ * using the watcom register parm passing conventions ( A D B C ) */
+{
+    int parm = *parm_number;
+
+    if( parm > 3 ) return( FALSE );
+    switch( size ) {
+    case 1:
+        sprintf( buffer, parm_reg[A_BYTE][parm] );
+        break;
+    case 2:
+        sprintf( buffer, parm_reg[A_WORD][parm] );
+        break;
+    case 4:
+        if( Use32 ) {
+            sprintf( buffer, parm_reg[A_DWORD][parm] );
+            break;
+        } else {
+            switch( parm ) {
+            case 0:
+                sprintf( buffer, " [DX AX]" );
+                buffer[0] = 0;
+                *parm_number = 1; // take up 0 and 1
+                break;
+            case 1:
+            case 2:
+                sprintf( buffer, " [CX BX]" );
+                buffer[0] = 0;
+                *parm_number = 3; // take up 2 and 3
+                break;
+            default:
+                // passed on stack ... it's ok
+                return( FALSE );
+            }
+            return( TRUE );
+        }
+    case 10:
+        AsmErr( 1129 );
+        return( ERROR );
+    case 6:
+        if( Use32 ) {
+            switch( parm ) {
+            case 0:
+                sprintf( buffer, " [DX EAX]" );
+                buffer[0]=0;
+                *parm_number = 1; // take up 0 and 1
+                break;
+            case 1:
+            case 2:
+                sprintf( buffer, " [CX EBX]" );
+                buffer[0]=0;
+                *parm_number = 3; // take up 2 and 3
+                break;
+            default:
+                // passed on stack ... it's ok
+                return( FALSE );
+            }
+            return( TRUE );
+        }
+        // fall through for 16 bit to default
+    case 8:
+        if( Use32 ) {
+            switch( parm ) {
+            case 0:
+                sprintf( buffer, " [EDX EAX]" );
+                buffer[0]=0;
+                *parm_number = 1; // take up 0 and 1
+                break;
+            case 1:
+            case 2:
+                sprintf( buffer, " [ECX EBX]" );
+                buffer[0]=0;
+                *parm_number = 3; // take up 2 and 3
+                break;
+            default:
+                // passed on stack ... it's ok
+                return( FALSE );
+            }
+            return( TRUE );
+        }
+        // fall through for 16 bit to default
+    default:
+        // something wierd
+        AsmError( 1130 );
+        return( ERROR );
+    }
+    return( TRUE );
+}
