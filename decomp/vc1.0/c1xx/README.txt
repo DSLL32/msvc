@@ -1,6 +1,28 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Plugin SDK validation is COMPLETE: cases0050/0051 compile the same inline
+singleton/registration SDK with a valid layout and a deliberately private
+anonymous-union field. The normal frontend invocation reaches the40 B generated
+local-static destructor name helper; the invalid layout also reaches the51 B
+localized member-access keyword helper. Both complete original/native pairs
+match their observed order, all six artifacts, diagnostics and exit0/exit1.
+The destructor retains the shared conventional name and clears only its two
+original declaration bits before interning the decorated object-scope spelling.
+No global-lifetime policy change was needed.
+
+Total is1,870 App /406,881 B (85.40% of whole original code),26 named pending
+App and seven unchanged historical CRT source bodies. Historical first-entry
+count is1,961; the sixteen prior unit-only bodies remain separately qualified.
+All52 native cases and44 unit groups pass, with original compilation and the
+1,878-function six-check graph/ABI audit. Closing gate3.551 s; incremental
+original/native build3.260 s. Final valid pair original1,107.292 ms/native30.670 ms
+(setup17.673 ms, execution6.663 ms, checks6.334 ms); invalid pair
+original1,225.624 ms/native32.861 ms (setup18.507 ms, execution7.978 ms,
+checks6.376 ms). No normalization or shared shim changes were required.
+
+Earlier ownership support qualification:
+
 Internal ownership support is COMPLETE (native-unit-only): five positively
 identified App helpers add106 B: following_declaration(10 B),
 temporary_cleanup_is_suppressed(22 B), remove_matching_frontend_record(31 B),

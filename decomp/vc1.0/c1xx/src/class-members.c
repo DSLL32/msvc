@@ -1689,3 +1689,12 @@ int __stdcall uniform_overload_protection(CppSymbol *overloads,
     binding->target = saved;
     return same;
 }
+
+/* Original0x2e1d0..0x2e203, stdcall4. Only the two restricted
+   access levels have a localized diagnostic keyword. */
+char *__stdcall member_access_keyword(unsigned access)
+{
+    if (access == 1) return message_text(336);
+    if (access == 2) return message_text(337);
+    return 0;
+}

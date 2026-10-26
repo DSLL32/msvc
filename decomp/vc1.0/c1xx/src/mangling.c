@@ -732,6 +732,15 @@ char *__stdcall intern_generated_symbol_name(CppSymbol *symbol, CppSymbol *owner
     return intern_identifier(write_decorated_name(0, symbol, owner, 0));
 }
 
+/* Original0x56210..0x56238, stdcall8. The generated destructor
+   receives its conventional interned name and the object's owning scope. */
+char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function)
+{
+    function->name = name_static_destructor;
+    function->declaration_flags &= ~0x300;
+    return intern_identifier(write_decorated_name(0, function, object, 0));
+}
+
 Vector *__stdcall virtual_table_owners(VirtualTable *table);
 
 /* Original 0x44220..0x44279. Shared table paths append every owner scope

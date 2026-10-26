@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1959 historical frontiers/1868 App bodies;
+ * Current completed-case boundary:1961 historical frontiers/1870 App bodies;
  * latest sixteen support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
@@ -4131,10 +4131,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_member_access_keyword@4",
         .entry_rva = 0x1e1d0,
-        .code = (const ReconExtent[]) { { 0x1e1d0, 0x1e1d1 } },
+        .code = (const ReconExtent[]) { { 0x1e1d0, 0x1e203 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "member_access_keyword",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_anonymous_aggregate_object@4",
@@ -11304,10 +11305,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_local_static_destructor_name@8",
         .entry_rva = 0x46210,
-        .code = (const ReconExtent[]) { { 0x46210, 0x46211 } },
+        .code = (const ReconExtent[]) { { 0x46210, 0x46238 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_local_static_destructor_name",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_format_symbol_name@4",

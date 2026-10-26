@@ -276,7 +276,6 @@ void browser_end_macro_expansion(void) { __asm { int 3 } }
 
 
 
-char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function) { __asm { int 3 } return 0; }
 
 
 
@@ -287,7 +286,6 @@ void synchronize_pch_pragma(void) { __asm { int 3 } }
 
 
 
-char *__stdcall member_access_keyword(unsigned access) { __asm { int 3 } return 0; }
 
 
 
