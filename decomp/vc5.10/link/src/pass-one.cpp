@@ -139,7 +139,7 @@ void RECON_THISCALL LinkContext::PassOne(void)
     }
 }
 
-extern "C" void __cdecl link_message(unsigned message,...) { __asm { int 3 } }
+
 extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *path,LinkPointerList *libraries)
 {
     OutputLibrary *library=(OutputLibrary *)find_library((const unsigned char *)name,libraries->first,0);

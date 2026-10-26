@@ -15,12 +15,13 @@ typedef struct StringTreeNode {
 } StringTreeNode;
 typedef char StringTreeNodeSize[(sizeof(StringTreeNode)==12)?1:-1];
 typedef const char *(__stdcall *KeyNameFunction)(const void *,const void *);
+typedef struct HashEnumerator HashEnumerator;
 typedef struct HashState {
     DWORD split_bucket, base_buckets, bucket_count, entries, reserved10;
     unsigned directory_capacity, initial_buckets;
     WORD flags, reserved1e;
     KeyNameFunction key_name;
-    DWORD reserved24;
+    HashEnumerator *enumerator;
     void ***directory;
     MemoryArena *directory_arena, *bucket_arena;
     BYTE incremental_mode, reserved35[3];
@@ -37,6 +38,13 @@ typedef struct HashEntry {
     struct HashEntry *next;
 } HashEntry;
 typedef char HashEntrySize[(sizeof(HashEntry)==8)?1:-1];
+struct HashEnumerator {
+    DWORD bucket,index;
+    HashEntry *next;
+    HashEnumerator *previous;
+};
+typedef char HashEnumeratorSize[(sizeof(HashEnumerator)==16 &&
+    offsetof(HashState,enumerator)==0x24)?1:-1];
 HashEntry *__stdcall lookup_hash(const char *,HashState *,BYTE,const void *,BYTE *);
 typedef struct StringNode StringNode;
 typedef struct StringTable {
@@ -46,6 +54,9 @@ typedef struct StringTable {
 #ifdef __cplusplus
     StringNode *RECON_THISCALL Lookup(const unsigned char *,BYTE *);
     void RECON_THISCALL SortSymbols(void);
+    StringNode **RECON_THISCALL GetSortedSymbols(void);
+    StringNode **RECON_THISCALL GetSymbols(void);
+    StringNode *RECON_THISCALL NextSymbol(void);
     void RECON_THISCALL ReleaseLookupIndex(void);
     StringNode * RECON_THISCALL LookupSymbol(WORD kind,const char *name,BYTE *created);
     StringNode * RECON_THISCALL FindSymbol(const char *name);

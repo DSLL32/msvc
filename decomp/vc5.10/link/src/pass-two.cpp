@@ -705,10 +705,10 @@ extern "C" DWORD __stdcall local_import_relocation_type(LinkContext *) { __asm {
 extern "C" {
 extern const char *default_phase;
 extern BYTE *base_relocations;
+extern OutputSection *relocation_section;
 int __cdecl compare_base_relocations(const void *,const void *);
 int __cdecl compare_extended_base_relocations(const void *,const void *);
 DWORD __stdcall reuse_incremental_relocations(void *);
-void __cdecl write_base_relocations(void);
 }
 void RECON_THISCALL LinkContext::FinishNativeSections(void)
 {
@@ -731,12 +731,125 @@ void RECON_THISCALL LinkContext::FinishNativeSections(void)
             link_warning(NULL,4092,section->name);
     }
     end_section_enumerator(&enumerator);
-    write_base_relocations();
+    WriteBaseRelocations();
 }
 void RECON_THISCALL LinkContext::WriteVxdRelocations(void) { __asm { int 3 } }
 extern "C" {
-int __cdecl compare_base_relocations(const void *,const void *) { __asm { int 3 } return 0; }
+int __cdecl compare_base_relocations(const void *left,const void *right)
+{
+    const LinkBaseRelocation *a=(const LinkBaseRelocation *)left;
+    const LinkBaseRelocation *b=(const LinkBaseRelocation *)right;
+    return (LONG)(a->address-b->address);
+}
 int __cdecl compare_extended_base_relocations(const void *,const void *) { __asm { int 3 } return 0; }
 DWORD __stdcall reuse_incremental_relocations(void *) { __asm { int 3 } return 0; }
-void __cdecl write_base_relocations(void) { __asm { int 3 } }
 }
+
+/* The incremental relocation map is the existing context storage at +264.
+ * Only the two fields consumed by this writer have recovered roles. */
+struct IncrementalRelocationMap {
+    DWORD *block_offsets;
+    DWORD reserved04;
+    DWORD base_rva;
+};
+typedef char RelocationMapBaseAt08[
+    (offsetof(IncrementalRelocationMap,base_rva)==8)?1:-1];
+struct RelocationBufferedPosition {
+    BYTE reserved00[12];
+    DWORD position;
+};
+
+/* Keep the individual descriptor reloads and mapped/buffered write choices.
+ * These are inline file operations in the original writer. */
+#define WRITE_BASE_BYTES(source,bytes) do { \
+    int number=output_file; \
+    if(file_access_statistics)record_file_access(); \
+    FileRecord *file=file_slots[number]; \
+    if(file->flags & 8)mapped_write(file,(source),(bytes)); \
+    else buffered_write(file,(source),(bytes)); \
+} while(0)
+#define BASE_FILE_POSITION(result) do { \
+    int number=output_file; \
+    if(file_access_statistics)record_file_access(); \
+    FileRecord *file=file_slots[number]; \
+    (result)=(file->flags & 8)?file->file_size: \
+        ((RelocationBufferedPosition *)file->base)->position; \
+} while(0)
+
+void RECON_THISCALL LinkContext::WriteBaseRelocations(void)
+{
+    LinkBaseRelocation *record=(LinkBaseRelocation *)base_relocations;
+    LinkBaseRelocation *limit=(LinkBaseRelocation *)next_base_relocation;
+    ContributionGroup *group;
+    IMAGE_BASE_RELOCATION block;
+    IncrementalRelocationMap *map=(IncrementalRelocationMap *)reserved264;
+    DWORD block_offset=relocation_section->file_offset;
+    DWORD end=block_offset+relocation_section->raw_size;
+    DWORD cursor,size,error=0,zero=0,entry;
+    SHORT section=0;
+    block.VirtualAddress=(record==limit)?0:record->address & 0xfffff000;
+    for(group=relocation_section->groups;group;group=group->next)
+        if(end>=group->file_offset)end=group->file_offset;
+    seek_file(output_file,block_offset+8,FILE_BEGIN,&error);
+    while(record!=limit) {
+        DWORD page=record->address & 0xfffff000;
+        if(page!=block.VirtualAddress) {
+            BASE_FILE_POSITION(cursor);
+            size=cursor-block_offset;
+            if(size & 2) {
+                size+=2;
+                WRITE_BASE_BYTES(&zero,2);
+                cursor+=2;
+            }
+            block.SizeOfBlock=size;
+            error=0;
+            seek_file(output_file,block_offset,FILE_BEGIN,&error);
+            WRITE_BASE_BYTES(&block,8);
+            if(incremental_enabled && size!=8)
+                map->block_offsets[(block.VirtualAddress-map->base_rva)>>12]=block_offset;
+            block_offset=cursor;
+            block.VirtualAddress=page;
+            section=0;
+            error=0;
+            seek_file(output_file,cursor+8,FILE_BEGIN,&error);
+        }
+        if(section!=record->section && options.new_relocations) {
+            section=record->section;
+            entry=((DWORD)section & 0xfff)|0x6000;
+            WRITE_BASE_BYTES(&entry,2);
+        }
+        entry=(WORD)(record->type<<12)|(record->address & 0xfff);
+        WRITE_BASE_BYTES(&entry,2);
+        if(record->type==4)WRITE_BASE_BYTES(&record->value,2);
+        ++record;
+    }
+    BASE_FILE_POSITION(cursor);
+    size=cursor-block_offset;
+    if(size & 2) {
+        size+=2;
+        WRITE_BASE_BYTES(&zero,2);
+        cursor+=2;
+    }
+    block.SizeOfBlock=size;
+    error=0;
+    seek_file(output_file,block_offset,FILE_BEGIN,&error);
+    WRITE_BASE_BYTES(&block,8);
+    if(incremental_enabled && size!=8)
+        map->block_offsets[(block.VirtualAddress-map->base_rva)>>12]=block_offset;
+    optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size=
+        cursor-relocation_section->file_offset;
+    if(end<cursor)link_fatal(output_file_name,1130,cursor-end);
+    /* This original section field retains the completed relocation cursor. */
+    relocation_section->reserved08=cursor;
+    size=end-cursor;
+    if(size) {
+        void *padding=zero_allocate(size);
+        error=0;
+        seek_file(output_file,cursor,FILE_BEGIN,&error);
+        WRITE_BASE_BYTES(padding,size);
+        release_memory(padding);
+    }
+    release_memory(base_relocations);
+}
+#undef BASE_FILE_POSITION
+#undef WRITE_BASE_BYTES

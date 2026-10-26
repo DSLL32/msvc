@@ -1,0 +1,5 @@
+LANGUAGE 9, 1
+STRINGTABLE
+BEGIN
+    9001 "   Creating library %s and object %s"
+END

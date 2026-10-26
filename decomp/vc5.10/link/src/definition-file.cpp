@@ -28,12 +28,9 @@ extern char short_symbol_name[9];
 DWORD mac_current_import_version;
 LONG mac_old_code_version=-1,mac_old_api_version=-1;
 DWORD definition_export_state;
-void __stdcall collect_incremental_exports(LinkContext *,const char *,IncrementalDefinition *)
-{ __asm { int 3 } }
-void __stdcall warn_existing_export_section(const char *)
-{ __asm { int 3 } }
-unsigned __stdcall write_argument_file(int,const void *,unsigned)
-{ __asm { int 3 } return 0; }
+void __stdcall collect_incremental_exports(LinkContext *,const char *,IncrementalDefinition *);
+void __stdcall warn_existing_export_section(const char *);
+unsigned __stdcall write_argument_file(int,const void *,unsigned);
 }
 
 #pragma intrinsic(strlen,memcpy)

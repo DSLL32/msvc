@@ -4688,5 +4688,396 @@
       "allowed_projection": "Only standalone globals, the six already named methods, an unambiguous initial NULL, and zero native this adjustment; all other values fail closed."
     },
     "closure_basis": "Zero-initialized global has only two evidenced constructor assignments, selecting actual PE or VXD method. The complete target has exactly five encoded absolute references: those two writes and three exact receiver/stack/indirect-call sequences. Its address is not passed to another function. Current rebuilt COFF code has exactly two immediate constructor stores and one FullLink CALL[slot], with no address-taking/other reference. Constructor caller run_linker derives is_vxd as boolean has_switch(vxd), selecting exactly one known assignment before FullLink. This is a finite original/rebuilt slot contract, not general pointer analysis."
-  }
+  },
+  "dll_case_ordinary_abi": [
+    {
+      "function": "_write_section_header@12",
+      "original_entry": "0x461340",
+      "abi": "Original three-DWORD stdcall / RET12; ESI is nonvolatile on ordinary normal return.",
+      "required_cached_sites": [
+        "0x41a7fe"
+      ],
+      "callee_crossing": "0x41a7ed",
+      "cached_identity": "MSVCRT.dll!strncpy loaded from actual IAT401278 at41a7b2; first invocation41a7c2, second41a7fe.",
+      "scope": "Normal return only; no custom or nonlocal-return preservation claim."
+    },
+    {
+      "function": "_record_file_access",
+      "original_entry": "0x40ce80",
+      "abi": "ordinary cdecl0; EDI nonvolatile on ordinary normal return.",
+      "required_cached_owner": "LibrarianContext::EmitImportDescriptor",
+      "cached_identity": "MSVCRT.dll!strncpy in EDI at419ddd/419e6d/419ef9/419f58; live across actual stats and mapped/buffered write calls between sites.",
+      "scope": "Normal return only; no custom or nonlocal-return preservation claim."
+    },
+    {
+      "function": "_mapped_write@12",
+      "original_entry": "0x40cb40",
+      "abi": "ordinary stdcall3 / RET12; EDI nonvolatile on ordinary normal return.",
+      "required_cached_owner": "LibrarianContext::EmitImportDescriptor",
+      "cached_identity": "MSVCRT.dll!strncpy in EDI at419ddd/419e6d/419ef9/419f58; live across actual stats and mapped/buffered write calls between sites.",
+      "scope": "Normal return only; no custom or nonlocal-return preservation claim."
+    },
+    {
+      "function": "_buffered_write@12",
+      "original_entry": "0x40c1d0",
+      "abi": "ordinary stdcall3 / RET12; EDI nonvolatile on ordinary normal return.",
+      "required_cached_owner": "LibrarianContext::EmitImportDescriptor",
+      "cached_identity": "MSVCRT.dll!strncpy in EDI at419ddd/419e6d/419ef9/419f58; live across actual stats and mapped/buffered write calls between sites.",
+      "scope": "Normal return only; no custom or nonlocal-return preservation claim."
+    },
+    {
+      "import": "msvcrt.dll!strncpy",
+      "abi": "Existing identified public cdecl signature guarantees EBP preservation on ordinary normal return.",
+      "cached_owner": "_compare_symbol_members",
+      "load": "0x4624b9 from actual IAT401278",
+      "calls": [
+        "0x4624d7",
+        "0x4624fc"
+      ],
+      "scope": "Only additional EBP fact; existing provider/declaration identity facts remain unchanged."
+    },
+    {
+      "functions": [
+        "_record_file_access",
+        "_mapped_write@12",
+        "_buffered_write@12"
+      ],
+      "additional_preserves": [
+        "ebx"
+      ],
+      "abi": "Same identified ordinary cdecl/stdcall normal-return boundaries; EBX nonvolatile.",
+      "cached_owner": "LibrarianContext::WriteExportObject",
+      "cached_load": "41bb3a IAT401278 / strncpy",
+      "cached_sites": [
+        "0x41bb6d",
+        "0x41bc00",
+        "0x41bc8c",
+        "0x41bd1e",
+        "0x41bdb0",
+        "0x41be3f"
+      ],
+      "scope": "Only normal return; unimplemented buffered/statistics entries remain trapped and uncredited."
+    },
+    {
+      "owner": "_print_link_diagnostic@16",
+      "actual_cached_loads": {
+        "0x430044": "MSVCRT.dll!fflush in EBP",
+        "0x430062": "MSVCRT.dll!printf in EDI"
+      },
+      "actual_cached_sites": [
+        "0x43004c",
+        "0x430073",
+        "0x430092",
+        "0x4300aa",
+        "0x4300e6"
+      ],
+      "ordinary_callees": [
+        {
+          "function": "_get_message_string@4",
+          "original_entry": "0x42ff30",
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "abi": "identified stdcall1/RET4"
+        },
+        {
+          "import": "msvcrt.dll!printf",
+          "preserves": [
+            "ebp"
+          ],
+          "abi": "identified public cdecl, existing SDK declaration"
+        },
+        {
+          "import": "msvcrt.dll!vprintf",
+          "preserves": [
+            "ebp"
+          ],
+          "abi": "public cdecl va_list formatter at actual IAT401104, STDIO.H declaration"
+        },
+        {
+          "import": "msvcrt.dll!fputc",
+          "preserves": [
+            "ebp"
+          ],
+          "abi": "identified public cdecl, existing SDK declaration"
+        },
+        {
+          "import": "msvcrt.dll!fflush",
+          "preserves": [
+            "ebp"
+          ],
+          "abi": "identified public cdecl; the43004c fflush itself preserves its cached EBP pointer for4300e6"
+        }
+      ],
+      "scope": "Ordinary normal-return nonvolatile ABI only; LoadString dynamically resolved callback topology remains actual and unmodified."
+    },
+    {
+      "owner": "_check_export_name@12",
+      "cached_load": "4304b4 loads EBX from actual IAT4011a8, canonical MSVCRT.dll!_mbscmp",
+      "cached_site": "0x4304c5",
+      "loop_crossings": [
+        "MSVCRT.dll!_mbscmp at4304c5",
+        "_link_warning at4304d5"
+      ],
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "Documented ordinary x86 cdecl normal return preserves EBX. The public _mbscmp import is distinct from _mbsnbcmp at4011ac; _link_warning is the existing varargs cdecl boundary.",
+      "scope": "Both loop paths preserve only the required cached register; warning native entry remains pending/trapped."
+    },
+    {
+      "function": "_check_export_name@12",
+      "original_entry": "0x430430",
+      "abi": "Identified ordinary stdcall3 / RET12 preserves EDI on normal return.",
+      "cached_owner": "_define_librarian_export@40",
+      "load": "43093b IAT401248 / strchr in EDI",
+      "sites": [
+        "0x430948",
+        "0x430990"
+      ],
+      "callee_crossing": "0x430980"
+    },
+    {
+      "owner": "_read_definition_export_entry@12",
+      "cached_loads": {
+        "0x4184bd": "IAT401148 / MSVCRT.dll!_mbstok in EDI",
+        "0x418523": "IAT40113c / MSVCRT.dll!_stricmp in EBP"
+      },
+      "required_callees": [
+        {
+          "import": "msvcrt.dll!_mbstok",
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "abi": "SDK unsigned-char pointer pair, ordinary cdecl; actual provider IAT identity"
+        },
+        {
+          "function": "_record_librarian_ordinal@4",
+          "original_entry": "0x418420",
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "abi": "identified stdcall1 / RET4"
+        }
+      ],
+      "crossing": "Cached tokens and compare pointer cross actual mbstok calls and record4185ae before compare4185d0; subsequent same ordinary calls preserve both registers.",
+      "scope": "Normal-return ABI only; tokenizer success domain remains shared live-line/default-C qualification."
+    },
+    {
+      "import": "msvcrt.dll!_ismbcspace",
+      "additional_preserves": [
+        "edi"
+      ],
+      "abi": "Existing identified public cdecl normal-return ABI preserves EDI.",
+      "owner": "_read_definition_line",
+      "load": "416ee4 IAT40127c into EDI",
+      "sites": [
+        "0x416ef0",
+        "0x416eff"
+      ],
+      "scope": "Only ordinary nonvolatile preservation, no broader character/locale semantics."
+    },
+    {
+      "owner": "_next_definition_token",
+      "cached_identity": "MSVCRT.dll!_mbstok in EDI; load416fa0 and call416fb7",
+      "functions": [
+        {
+          "name": "_find_definition_keyword@4",
+          "entry": "0x416f10",
+          "abi": "stdcall1/RET4"
+        },
+        {
+          "name": "_read_definition_line",
+          "entry": "0x416e70",
+          "abi": "cdecl0"
+        }
+      ],
+      "preserves": [
+        "edi"
+      ],
+      "crossings": [
+        "0x416fc3",
+        "0x416fe2"
+      ],
+      "scope": "Ordinary nonvolatile normal-return ABI only; loop warning already has the same EDI contract."
+    },
+    {
+      "owner": "_read_definition_name@8",
+      "cached_identity": "MSVCRT.dll!_stricmp in EBP, load417374 from actual IAT40113c, site4173a7",
+      "ordinary_callees": [
+        {
+          "import": "msvcrt.dll!_strnicmp",
+          "site": "0x417382",
+          "iat": "0x401230",
+          "abi": "public cdecl3"
+        },
+        {
+          "import": "msvcrt.dll!_ultoa",
+          "site": "0x417464",
+          "iat": "0x401284",
+          "abi": "public cdecl3"
+        },
+        {
+          "function": "_read_librarian_directive@4",
+          "sites": [
+            "0x4174a2",
+            "0x4174cb",
+            "0x4174f0",
+            "0x41753f"
+          ],
+          "abi": "stdcall1/RET4"
+        },
+        {
+          "function": "_next_directive_token@8",
+          "site": "0x41758c",
+          "abi": "stdcall2/RET8"
+        }
+      ],
+      "preserves": [
+        "ebp"
+      ],
+      "scope": "Only documented ordinary normal-return nonvolatile fact, including loop backedge; no alternate parsing semantics."
+    },
+    {
+      "owner": "_read_librarian_definition@8",
+      "cached_identity": "MSVCRT.dll!_ultoa in EBX from IAT401284 at41890c/418b0d/418c22",
+      "cached_sites": [
+        "0x418aac",
+        "0x418b20",
+        "0x418bc1",
+        "0x418c35",
+        "0x418d89",
+        "0x418df7"
+      ],
+      "functions": [
+        "_next_definition_token",
+        "_read_definition_name@8",
+        "_read_librarian_directive@4",
+        "_read_definition_description@4",
+        "_read_definition_size@12",
+        "_read_definition_sections@8",
+        "_read_definition_exports@8",
+        "_read_definition_stub@4"
+      ],
+      "imports": [
+        "_ultoa",
+        "_mbstok",
+        "sscanf"
+      ],
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "Each named function has the authentic ordinary cdecl or stdcall declaration/caller cleanup; each public import has the identified SDK cdecl signature. EBX is nonvolatile on ordinary normal return. These actual switch paths merge at the original keyword loop before the next formatter call.",
+      "scope": "ABI-only across the real switch/loop; pending App callees retain native INT3 and implementation0, no parser domain/body credit."
+    },
+    {
+      "owner": "_configure_librarian_options@4",
+      "cached_identity": "MSVCRT.dll!_strnicmp in EBX, actual IAT401230 loaded43a60d/43aa96/43ac0c",
+      "cached_sites": "Actual EBX calls43a6c5 through43b128 in the bounded owner43a5d0..43b14a",
+      "functions": [
+        "_librarian_usage",
+        "_copy_repro_file@8",
+        "_append_argument_record@12",
+        "_disable_warning@4",
+        "_parse_switch@8",
+        "_switch_number@12",
+        "_set_mac_import_versions@16",
+        "StringTable::Lookup",
+        "_set_mac_initializer@8",
+        "_set_mac_terminator@8",
+        "_parse_machine@8",
+        "_exclude_default_library@8"
+      ],
+      "imports": [
+        "_strnicmp",
+        "sprintf",
+        "strtok"
+      ],
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "Authentic typed caller/source signatures use ordinary x86 cdecl, stdcall or thiscall. Each preserves EBX on normal return, including real option-loop joins. Public CRT imports use their shipped SDK cdecl signatures.",
+      "scope": "Only cached-pointer ABI fact; optional option/Mac/repro App bodies remain trapped/uncredited. No behavior or nonlocal return claim."
+    },
+    {
+      "owner": "_configure_librarian_options@4",
+      "import": "msvcrt.dll!_strnicmp",
+      "additional_preserves": [
+        "esi"
+      ],
+      "abi": "Identified public ordinary cdecl preserves ESI on normal return.",
+      "actual_witness": "EBX call43ac6f to _strnicmp is followed by ESI call43ac85 to cached _stricmp, with no ESI reload; losing ESI would falsely poison the loop join and its EBX cache.",
+      "scope": "Actual paired cached import identities, no value seeding or nonreturn override."
+    },
+    {
+      "import": "msvcrt.dll!_itoa",
+      "additional_preserves": [
+        "ebx"
+      ],
+      "abi": "Existing public cdecl normal-return ABI preserves EBX.",
+      "owner": "ExportLibrarianContext::Prepare",
+      "load": "43d63a from actual IAT4010cc",
+      "sites": [
+        "0x43d652",
+        "0x43d6c4"
+      ],
+      "scope": "Finite cached pointer only; unvisited Mac conversion behavior is not qualified."
+    },
+    {
+      "owner": "_run_librarian@8",
+      "cached_loads": {
+        "0x43d3eb": "ESI IAT401138 / _fullpath",
+        "0x43d42d": "EDI IAT4010e4 / _mbsicmp"
+      },
+      "sites": [
+        "0x43d3f4",
+        "0x43d447",
+        "0x43d455"
+      ],
+      "ordinary_callees": [
+        {
+          "function": "_out_of_memory",
+          "preserves": [
+            "esi"
+          ],
+          "abi": "cdecl0 normal-return fact only; actual allocation failure remains pending"
+        },
+        {
+          "function": "_initialize_library_enumerator@8",
+          "preserves": [
+            "esi"
+          ],
+          "abi": "stdcall2/RET8"
+        },
+        {
+          "function": "_next_library@4",
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "abi": "stdcall1/RET4"
+        },
+        {
+          "import": "msvcrt.dll!_mbsicmp",
+          "preserves": [
+            "esi"
+          ],
+          "abi": "identified public cdecl2"
+        }
+      ],
+      "scope": "Finite fullpath/comparison cached loop only; no successful ordinary archive rewrite or allocation-failure semantics."
+    },
+    {
+      "function": "_split_export_field@16",
+      "original_entry": "0x4303d0",
+      "abi": "Identified stdcall4/RET16 normal-return ABI preserves EBX.",
+      "owner": "_add_librarian_export@16",
+      "load": "430a70 actual IAT401230 / _strnicmp in EBX",
+      "crossing": "430a94 split_export_field before cached calls430adc/430b25/430b7a",
+      "scope": "Only normal return; no new export parsing domain."
+    }
+  ]
 }

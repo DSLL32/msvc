@@ -32,7 +32,7 @@ void __stdcall initialize_hash_table(HashTable *hash,unsigned buckets,unsigned c
     state->base_buckets=buckets;
     state->split_bucket=0;
     state->reserved10=0;
-    state->reserved24=0;
+    state->enumerator=NULL;
     state->initial_buckets=buckets;
     state->directory_capacity=capacity;
     state->key_name=key_name;
@@ -234,4 +234,56 @@ void __cdecl finish_symbol_tables(void)
         entry=next;
     }
     weak_defaults=NULL;
+}
+
+unsigned __stdcall count_hash_symbols(HashState *table)
+{
+    return table->entries;
+}
+
+extern void *__stdcall zero_allocate(unsigned);
+void __stdcall initialize_hash_enumerator(HashState *state)
+{
+    HashEnumerator *previous=state->enumerator;
+    state->enumerator=(HashEnumerator *)zero_allocate(sizeof(HashEnumerator));
+    state->enumerator->previous=previous;
+    state->enumerator->bucket=0;
+    state->enumerator->index=0;
+    state->enumerator->next=NULL;
+}
+
+HashEntry *__stdcall next_hash_entry(HashState *state)
+{
+    HashEnumerator *enumerator=state->enumerator;
+    HashEntry *entry;
+    DWORD bucket;
+    HashEntry **entries;
+    if(enumerator->index>=state->entries)return NULL;
+    entry=enumerator->next;
+    if(entry) {
+        enumerator->next=entry->next;
+        ++state->enumerator->index;
+        return entry;
+    }
+    while(enumerator->bucket<state->bucket_count) {
+        bucket=enumerator->bucket;
+        entries=(HashEntry **)state->directory[bucket/state->initial_buckets][0];
+        entry=entries[bucket%state->initial_buckets];
+        enumerator->bucket=bucket+1;
+        if(entry) {
+            ++state->enumerator->index;
+            state->enumerator->next=entry->next;
+            return entry;
+        }
+        enumerator=state->enumerator;
+    }
+    return NULL;
+}
+
+extern void __stdcall release_memory(void *);
+void __stdcall end_hash_enumerator(HashState *state)
+{
+    HashEnumerator *enumerator=state->enumerator;
+    state->enumerator=enumerator->previous;
+    release_memory(enumerator);
 }

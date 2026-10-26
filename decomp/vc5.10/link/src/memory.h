@@ -20,6 +20,7 @@ void __stdcall release_memory_pool(MemoryPool **);
 void __stdcall release_memory_arena(MemoryArena *);
 void *__stdcall allocate_link_memory(unsigned,unsigned);
 void *__stdcall allocate_memory(unsigned);
+void *__stdcall reallocate_memory(void *,unsigned);
 void *__stdcall allocate_virtual_memory(void *,unsigned,DWORD,DWORD);
 void *__stdcall allocate_incremental(unsigned);
 void *__stdcall reserve_memory(MemoryArena **,unsigned);

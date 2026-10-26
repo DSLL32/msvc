@@ -3,6 +3,7 @@
 #include <recon.h>
 
 int recon_link_setup(void);
+int recon_link_setup_resources(const char *);
 int recon_link_invoke(int argc,char **argv);
 
 #endif

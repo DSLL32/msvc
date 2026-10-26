@@ -10,6 +10,7 @@
 #include "link.h"
 #include "../crt/crt-imports.h"
 #include "options.h"
+#include "librarian.h"
 #include <recon.h>
 
 extern "C" {
@@ -31,7 +32,7 @@ DWORD edit_pad_size, icf_iterations = 2;
 ByteBuffer image_comments;
 InputArguments export_arguments, weak_mac_imports, weak_mac_libraries;
 InputArguments mac_resources, mac_import_arguments, section_attributes, section_merges;
-struct LibrarianContext { DWORD reserved[2]; void *library; } *librarian_context;
+struct LibrarianContext *librarian_context;
 }
 
 /* These macros expand inside this one original function. They add no helper
@@ -249,7 +250,7 @@ extern "C" void __stdcall configure_link_options(LinkContext *context,
         } else if (OPTION("export")) {
             if (!info->value_count) goto missing_value;
             if (selected_tool_kind==2)
-                add_librarian_export(argument->name+7,librarian_context->library,1,file);
+                add_librarian_export(argument->name+7,librarian_context->image,1,file);
             else if (selected_tool_kind==1) {
                 if (module && context->is_vxd!=1) export_directive_changed=1;
                 else append_argument_record(&export_arguments,argument->name+7,NULL);

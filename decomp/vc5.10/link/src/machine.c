@@ -70,7 +70,40 @@ void __stdcall validate_delay_load_options(LinkContext *context)
         link_warning(NULL,4075,"DELAYLOAD",incompatible);
     }
 }
-const char *__stdcall get_machine_name(LinkContext *context,unsigned machine) { __asm { int 3 } return NULL; }
+const char *__stdcall get_machine_name(LinkContext *context,unsigned machine)
+{
+    switch (machine) {
+    case 0x14c: return "IX86";
+    case 0x162: case 0x166:
+        return context->options.mips_r41xx ? "MIPSR41XX" : "MIPS";
+    case 0x168: return "MIPSR10";
+    case 0x184: return "ALPHA";
+    case 0x1a2: return "SH3";
+    case 0x1a6: return "SH4";
+    case 0x1c0: return "ARM";
+    case 0x1f0: return "PPC";
+    case 0x601: return "MPPC";
+    default: return "UNKNOWN";
+    }
+}
+WORD __stdcall parse_machine(LinkContext *context,const char *name)
+{
+    if(!_stricmp(name,"I386") || !_stricmp(name,"IX86") || !_stricmp(name,"X86"))
+        return 0x14c;
+    if(!_stricmp(name,"MIPS"))return 0x166;
+    if(!_stricmp(name,"MIPSR41XX")) {
+        if(context)context->options.mips_r41xx=1;
+        return 0x166;
+    }
+    if(!_stricmp(name,"MIPSR10"))return 0x168;
+    if(!_stricmp(name,"ALPHA") || !_stricmp(name,"ALPHA_AXP"))return 0x184;
+    if(!_stricmp(name,"PPC"))return 0x1f0;
+    if(!_stricmp(name,"SH3"))return 0x1a2;
+    if(!_stricmp(name,"SH4"))return 0x1a6;
+    if(!_stricmp(name,"MPPC"))return 0x601;
+    if(!_stricmp(name,"ARM"))return 0x1c0;
+    return 0;
+}
 void __stdcall initialize_x86_backend(LinkContext *context,BYTE *incremental_supported)
 {
     if (!(context->specified_switches & 1) && context->is_vxd!=1)

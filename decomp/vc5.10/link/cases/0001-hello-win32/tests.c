@@ -476,7 +476,7 @@ static HashEntry *__stdcall check_comdat_hash_lookup(const char *name,HashState 
     if (!pass) recon_native_entry_finish(0);
     pass=words[0]==0 && words[1]==1024 && words[2]==1024 && words[3]==0 &&
         words[4]==0 && words[5]==128 && words[6]==1024 && words[7]==0 &&
-        state->key_name==string_key_name && state->reserved24==0 &&
+        state->key_name==string_key_name && state->enumerator==NULL &&
         !state->incremental_mode && state->directory && state->directory[0] &&
         state->directory[0][0];
     if (!pass) recon_native_entry_finish(0);

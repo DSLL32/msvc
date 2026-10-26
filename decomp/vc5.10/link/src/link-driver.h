@@ -15,7 +15,7 @@ typedef struct LinkOptions {
     BYTE checksum_enabled, debug_import_library, bind_delay_imports, unload_delay_imports;
     BYTE retain_relocations, edit_and_continue, fixed_image, mppc32_types;
     BYTE fold_identical_comdats, legacy_import_library, mac_bundle, write_map;
-    BYTE map_lines, map_fixups, map_exports, reserved13b;
+    BYTE map_lines, map_fixups, map_exports, mips_r41xx;
     BYTE misc_rdata, new_glue, new_relocations, no_default_libraries;
     BYTE no_entry, no_pack, option142, order_file;
     BYTE default144, profile, rom, order;
@@ -23,9 +23,9 @@ typedef struct LinkOptions {
     BYTE windowsce_emulation, windowsce_noconvert;
     DWORD gp_size, debug_level, debug_formats, force;
     const char *mac_creator, *mac_type;
-    DWORD reserved164;
+    const char *library_basename;
     const char *default_extension;
-    BYTE reserved16c,librarian_skip_directive_symbols,reserved16e[18];
+    BYTE librarian_list,librarian_skip_directive_symbols,librarian_convert,reserved16f[17];
     BYTE default180, reserved181[15];
 } LinkOptions;
 
@@ -162,6 +162,7 @@ struct LinkContext {
     void RECON_THISCALL CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second);
     void RECON_THISCALL FinalizeOrder(void);
     void RECON_THISCALL FinishNativeSections(void);
+    void RECON_THISCALL WriteBaseRelocations(void);
     void RECON_THISCALL WriteVxdRelocations(void);
     void RECON_THISCALL WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second);
     void RECON_THISCALL WriteLocalImports(Contribution *contribution,IncludeSymbol **aliases);

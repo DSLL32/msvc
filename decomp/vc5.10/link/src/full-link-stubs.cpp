@@ -13,7 +13,6 @@ extern "C" void __cdecl commit_pdb(void) { __asm { int 3 } }
 extern "C" void __stdcall initialize_pdb_image(const char *image) { __asm { int 3 } }
 extern "C" char * __stdcall derive_pdb_name(const char *image,const char *specified) { __asm { int 3 } return 0; }
 extern "C" void __cdecl link_contribution_fatal(Contribution *contribution,unsigned message,...) { __asm { int 3 } }
-extern "C" unsigned __stdcall count_hash_symbols(HashState *table) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::PrintFoldedComdats(void) { __asm { int 3 } }
 extern "C" void __stdcall allocate_pdb_module_table(DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall adjust_incremental_symbols(LinkContext *context) { __asm { int 3 } }

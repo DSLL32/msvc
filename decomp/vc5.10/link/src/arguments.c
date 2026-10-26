@@ -3,11 +3,13 @@
 #include <mbstring.h>
 #include <string.h>
 #include <io.h>
+#include <stdio.h>
 #include "link.h"
 #include "files.h"
 #include "arguments.h"
 #include "memory.h"
 #include "options.h"
+#include "../crt/crt-imports.h"
 #include <recon.h>
 
 BYTE input_prepass;
@@ -107,12 +109,57 @@ char *__stdcall duplicate_argument(const char *text)
     if (!copy) out_of_memory();
     return copy;
 }
-void __stdcall tokenize_arguments(char *text) { __asm { int 3 } }
+/* Original494888 records the expanded command line, independently of the
+ * comment payload and the option/file linked lists. */
+ByteBuffer parsed_command_line;
+char *__stdcall next_directive_token(char *,BYTE *);
+#pragma intrinsic(strlen)
+void __stdcall tokenize_arguments(char *text)
+{
+    BYTE quoted;
+    char *token=next_directive_token(text,&quoted);
+    if(!token)return;
+    do {
+        if(!input_prepass) {
+            if(quoted)append_bytes(&parsed_command_line,"\"",1);
+            append_bytes(&parsed_command_line,token,strlen(token));
+            if(quoted)append_bytes(&parsed_command_line,"\"",1);
+            append_bytes(&parsed_command_line," ",1);
+        }
+        parse_argument(token,1);
+        token=next_directive_token(NULL,&quoted);
+    } while(token);
+    if(!input_prepass)append_bytes(&parsed_command_line,"\n",1);
+}
 void __stdcall release_memory(void *memory)
 {
     free(memory);
 }
-void __stdcall read_response_file(const char *name) { __asm { int 3 } }
+void __stdcall read_response_file(const char *name)
+{
+    FILE *file=fopen(name,"rt");
+    unsigned capacity=0x4000,length;
+    long position=0;
+    char *buffer;
+    if(!file)link_fatal(NULL,1104,name);
+    buffer=(char *)allocate_memory(capacity);
+    while(fgets(buffer,capacity,file)) {
+        length=strlen(buffer);
+        if(length>=capacity-1 && buffer[length-1]!='\n') {
+            if(capacity>=0x20000)link_fatal(name,1170,capacity-1);
+            if(fseek(file,position,SEEK_SET))link_fatal(name,1170,capacity-1);
+            capacity+=capacity;
+            buffer=(char *)reallocate_memory(buffer,capacity);
+        } else {
+            if(buffer[length-1]=='\n')buffer[length-1]=0;
+            tokenize_arguments(buffer);
+            position=ftell(file);
+        }
+    }
+    release_memory(buffer);
+    fflush(stdout);
+    fclose(file);
+}
 InputArguments library_files, ordinary_files, link_files, option_arguments;
 int argument_file;
 int __stdcall is_libpath(const char *);

@@ -8,7 +8,6 @@ void __stdcall remove_delay_library(const char *name) { __asm { int 3 } }
 BYTE __stdcall has_delay_library(const char *name) { __asm { int 3 } return 0; }
 void __cdecl enable_warning_errors(void) { __asm { int 3 } }
 void __stdcall disable_warning(unsigned number) { __asm { int 3 } }
-void __stdcall add_librarian_export(const char *name,void *library,BYTE from_switch,const char *file) { __asm { int 3 } }
 void __stdcall record_incremental_include(void *owner,StringNode *symbol) { __asm { int 3 } }
 void __stdcall copy_repro_file(const char *name,BYTE copy_object) { __asm { int 3 } }
 void __stdcall add_mac_data(const unsigned char *name,int enabled,DWORD id) { __asm { int 3 } }
@@ -18,4 +17,3 @@ BYTE __stdcall add_mac_import(const unsigned char *name,const unsigned char *lib
 void __stdcall set_mac_import_versions(const char *library,const char *current,const char *old_code,const char *old_api) { __asm { int 3 } }
 void __cdecl enable_order_file(void) { __asm { int 3 } }
 BYTE __stdcall find_argument(const char *name,InputArguments *list) { __asm { int 3 } return 0; }
-WORD __stdcall parse_machine(LinkContext *context,const char *name) { __asm { int 3 } return 0; }

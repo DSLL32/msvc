@@ -371,7 +371,7 @@ void __cdecl link_unresolved_error(const char *file,unsigned message,...)
 extern "C" WORD __stdcall get_hash_flags(HashState *state)
 { return state->flags; }
 extern "C" void __stdcall set_hash_flags(HashState *state,WORD flags)
-{ __asm { int 3 } }
+{ state->flags=flags; }
 void RECON_THISCALL StringTable::ReleaseLookupIndex(void)
 {
     WORD flags=get_hash_flags(hash.state);

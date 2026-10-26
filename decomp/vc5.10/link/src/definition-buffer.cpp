@@ -1,6 +1,6 @@
 #include <new.h>
 #include <string.h>
-#include "definition-buffer.h"
+#include "definition-buffer-set.h"
 #include <recon.h>
 
 #pragma intrinsic(memcpy,memset)
@@ -20,21 +20,6 @@ template<class T> int RECON_THISCALL DefinitionStorage<T>::Grow(int bytes)
     Set(replacement,(T *)((BYTE *)replacement+used));
     return 1;
 }
-template<class T> int RECON_THISCALL DefinitionStorage<T>::Set(T *base,T *limit)
-{
-    T *old;
-    if (!base) return 0;
-    old=data;
-    data=base;
-    end=limit;
-    if (old!=base && relocate)
-        relocate(relocation_context,old,base);
-    return 1;
-}
-template<class T> int RECON_THISCALL DefinitionStorage<T>::Reserve(int bytes,T **output)
-{ __asm { int 3 } return 0; }
-template<class T> int RECON_THISCALL DefinitionStorage<T>::Advance(int bytes,T **output)
-{ __asm { int 3 } return 0; }
 template<class T> int RECON_THISCALL DefinitionStorage<T>::Copy(const T *source,int bytes,T **output)
 { __asm { int 3 } return 0; }
 /* Set is visible here: the original /Ob2 compiler removes Set(NULL,NULL)

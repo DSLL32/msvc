@@ -245,7 +245,24 @@ void RECON_THISCALL LinkContext::EmitDebugDirectories(DWORD start,DWORD original
 #undef DEBUG_READ
 #undef DEBUG_WRITE
 extern "C" {
-void __stdcall write_symbol_strings(int,StringTable *) { __asm { int 3 } }
+void __stdcall write_symbol_strings(int fd,StringTable *table)
+{
+    const char *saved=default_phase;
+    DWORD size=0;
+    void *data=&size;
+    default_phase="WriteStringTable";
+    if(table->hash.strings.data) {
+        size=table->hash.strings.used;
+        *(DWORD *)table->hash.strings.data=size;
+        data=table->hash.strings.data;
+    }
+    DWORD bytes=table->hash.strings.data ? size : 4;
+    if(file_access_statistics)record_file_access();
+    FileRecord *file=file_slots[fd];
+    if(file->flags&8)mapped_write(file,data,bytes);
+    else buffered_write(file,data,bytes);
+    default_phase=saved;
+}
 void __stdcall set_output_file_length(int,DWORD) { __asm { int 3 } }
 void __stdcall emit_codeview(LinkContext *) { __asm { int 3 } }
 void __stdcall pdb_emit_fpo(DWORD *,DWORD) { __asm { int 3 } }

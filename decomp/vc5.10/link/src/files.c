@@ -421,6 +421,14 @@ int __stdcall open_module_file(OutputModule *module,int flags,int access)
 }
 
 extern unsigned __stdcall buffered_write(FileRecord *,const void *,unsigned);
+unsigned __stdcall write_argument_file(int file,const void *data,unsigned bytes)
+{
+    FileRecord *record;
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags & 8)return mapped_write(record,data,bytes);
+    return buffered_write(record,data,bytes);
+}
 void __stdcall write_section_header(int file,const IMAGE_SECTION_HEADER *header,IMAGE_SECTION_HEADER *destination)
 {
     FileRecord *record;
@@ -477,4 +485,14 @@ void __cdecl close_files(void)
         else close_buffered_file(record);
         record=next;
     }
+}
+
+void __stdcall write_relocations(int output,const IMAGE_RELOCATION *relocations,DWORD count)
+{
+    FileRecord *file;
+    DWORD bytes=count*10;
+    if (file_access_statistics) record_file_access();
+    file=file_slots[output];
+    if (file->flags & 8) mapped_write(file,relocations,bytes);
+    else buffered_write(file,relocations,bytes);
 }

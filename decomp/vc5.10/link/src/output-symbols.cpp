@@ -261,6 +261,21 @@ void __stdcall process_aux_output_symbols(IMAGE_SYMBOL *symbol,IMAGE_SYMBOL **cu
 void __stdcall update_function_aux_symbols(IMAGE_SYMBOL *symbol,DWORD *offset,DWORD *index,BYTE count) { __asm { int 3 } }
 void __stdcall write_coff_aux_symbol(int file,IMAGE_SYMBOL *symbol) { __asm { int 3 } }
 void __stdcall pdb_record_output_symbol(LinkContext *context,const char *name,WORD section,StringNode *symbol) { __asm { int 3 } }
-void __stdcall write_coff_symbol(int file,IMAGE_SYMBOL *symbol) { __asm { int 3 } }
+/* Original494578 is the existing Mac-target BYTE, written by the existing /machine option. */
+extern BYTE mac_target;
+void __stdcall write_coff_symbol(int file,IMAGE_SYMBOL *symbol)
+{
+    FileRecord *record;
+    BYTE cleared=0;
+    if(mac_target && (symbol->Type & 0x8000)) {
+        symbol->Type&=0x7fff;
+        cleared=1;
+    }
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags & 8)mapped_write(record,symbol,18);
+    else buffered_write(record,symbol,18);
+    if(cleared)symbol->Type|=0x8000;
+}
 
 }
