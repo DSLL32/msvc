@@ -216,6 +216,15 @@ TypeDescription *__stdcall copy_type_description(CType *type)
     return description;
 }
 
+/* Original0x61fd0..0x61fe2, stdcall4. Preserve the temporary
+   description-stack owner while marking its flags as an unfinished type. */
+CType *__stdcall copy_unfinished_type(CType *type)
+{
+    TypeDescription *description = copy_type_description(type);
+    description->flags |= 0x1000;
+    return (CType *)description;
+}
+
 /* Original [0x50e70,0x50e95). Intern an unqualified description and
    release exactly the temporary description-stack entry used for the copy. */
 CType *__stdcall remove_type_qualifiers(CType *type, unsigned short qualifiers)

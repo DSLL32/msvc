@@ -3,6 +3,8 @@
 #include "parser.h"
 #include "inline-capture.h"
 #include "type-diagnostics-internal.h"
+#include "lexer.h"
+#include "source-input.h"
 #include <recon.h>
 
 void discard_trailing_expression_records(void);
@@ -161,5 +163,36 @@ unsigned char synchronize_tokens(unsigned first, ...)
             break;
         }
         parser_lookahead = scan_token();
+    }
+}
+
+/* Original0x26510..0x2657d, cdecl0. Skip the rejected definition,
+   preserving nested braces and putting the unmatched closing brace back. */
+void skip_balanced_brace_body(void)
+{
+    int braces = 0;
+    for (;;) {
+        scan_token();
+        switch (current_token_code) {
+        case 0: return;
+        case 0x77:
+            fatal_error(4);
+            return;
+        case 0x7f:
+            ++braces;
+            break;
+        case 0x85:
+            if (!braces) {
+                --source_text_cursor;
+                return;
+            }
+            --braces;
+            break;
+        case 0x8a:
+            release_arena(2);
+            text_work_cursor = expression_storage;
+            break;
+        }
+        text_work_cursor = expression_storage;
     }
 }

@@ -872,3 +872,25 @@ void __stdcall report_call_argument_error(unsigned code, CppSymbol *function,
     text = _itoa((int)index, number, 10);
     report_syntax_error(code, format_symbol_name(function), text);
 }
+
+/* Original0x33940..0x3396d, stdcall8. The formatted declaration
+   remains live through the diagnostic and is released by the matching end. */
+void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol)
+{
+    char *text;
+    begin_type_diagnostic();
+    text = type_diagnostic_text(format_declarator(symbol, 0));
+    report_syntax_error(code, text);
+    end_type_diagnostic();
+}
+
+/* Original0x5cd60..0x5cd92, stdcall12. Type-only warning text
+   shares the same bounded diagnostic-string lifetime as declarations. */
+void __stdcall type_warning(unsigned level, unsigned code, CType *type)
+{
+    char *text;
+    begin_type_diagnostic();
+    text = type_diagnostic_text(format_declarator(0, type));
+    compiler_warning(level, code, text);
+    end_type_diagnostic();
+}

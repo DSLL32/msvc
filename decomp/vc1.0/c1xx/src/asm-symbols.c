@@ -4,6 +4,7 @@
 #include "unary-expressions.h"
 #include "ir.h"
 #include "characters.h"
+#include "scopes.h"
 #include <recon.h>
 
 extern CppSymbol *translation_sentinel, *translation_placeholder;
@@ -227,6 +228,49 @@ CppSymbol *__stdcall find_asm_member(CppSymbol *members, char *name)
         members = members->next;
     }
     return members;
+}
+
+/* Original0x7db0b..0x7dc13, stdcall4. Search the actual class tags
+   in each visible scope for an assembler field; ambiguous names keep the
+   last match after reporting the original diagnostic. */
+CppSymbol *__stdcall find_asm_scope_member(char *name)
+{
+    unsigned char level = scope_directory_index;
+    CppSymbol *result = 0, *tag, *member;
+    SymbolScope *scope;
+    unsigned bucket;
+    int class_scope;
+    char *context;
+    for (;;) {
+        scope = scope_directory[level];
+        for (bucket = 0; bucket <= scope->bucket_mask; ++bucket) {
+            class_scope = (scope->flags & 0xff) >= 250;
+            tag = 0;
+            if (class_scope && (scope->buckets[0]->type->flags & 0x200)) {
+                tag = 0;
+            } else if (scope->buckets) {
+                if (class_scope)
+                    tag = scope->buckets[0]->auxiliary.scope_members;
+                else tag = scope->buckets[bucket & scope->bucket_mask];
+            }
+            while (tag) {
+                if ((tag->kind & 31) == 4 && !(tag->type->flags & 0x200)) {
+                    member = find_asm_member(tag->auxiliary.scope_members, name);
+                    if (member) {
+                        if (result) {
+                            context = asm_error_context();
+                            report_syntax_error(410, name, context);
+                        }
+                        symbol_scope_mode = level;
+                        result = member;
+                    }
+                }
+                tag = tag->next;
+            }
+            scope = scope_directory[level];
+        }
+        if (level-- == 0) return result;
+    }
 }
 
 /* Original0x800ea..0x8014c, stdcall4. SEG requires an addressable

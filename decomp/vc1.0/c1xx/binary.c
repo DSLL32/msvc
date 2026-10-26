@@ -3286,10 +3286,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_skip_balanced_brace_body",
         .entry_rva = 0x16510,
-        .code = (const ReconExtent[]) { { 0x16510, 0x16511 } },
+        .code = (const ReconExtent[]) { { 0x16510, 0x1657d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "skip_balanced_brace_body",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_synchronize_tokens",
@@ -5122,10 +5123,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_declaration_error@8",
         .entry_rva = 0x23940,
-        .code = (const ReconExtent[]) { { 0x23940, 0x23941 } },
+        .code = (const ReconExtent[]) { { 0x23940, 0x2396d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_declaration_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_discard_function_definition",
@@ -11572,10 +11574,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_type_warning@12",
         .entry_rva = 0x4cd60,
-        .code = (const ReconExtent[]) { { 0x4cd60, 0x4cd61 } },
+        .code = (const ReconExtent[]) { { 0x4cd60, 0x4cd92 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "type_warning",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_named_type_difference@20",
@@ -12091,10 +12094,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_copy_unfinished_type@4",
         .entry_rva = 0x51fd0,
-        .code = (const ReconExtent[]) { { 0x51fd0, 0x51fd1 } },
+        .code = (const ReconExtent[]) { { 0x51fd0, 0x51fe2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_unfinished_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_type@4",
@@ -16384,6 +16388,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_asm_scope_member",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_member_offset@4",

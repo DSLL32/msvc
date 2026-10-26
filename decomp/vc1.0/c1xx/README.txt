@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Register-map SDK validation is COMPLETE: case0034. One3,181-byte source
+keeps packet/register layouts, inline assembler and stale out-of-line driver
+contracts together. The original reports illegal legacy assembler operands,
+missing/mismatched/redefined methods, invalid register expressions and bit-field
+bounds, then exits13. These diagnostics are the intended failed-compilation
+oracle, not a successful SDK build or generated-program runtime claim.
+
+Five whole App bodies /486 code bytes were accepted: unfinished-type copying,
+assembler lookup of fields across visible class scopes, balanced body recovery,
+and declaration/type diagnostic wrappers. Lookup retains ambiguity diagnostics
+and the original last-match result; recovery preserves nested braces, arena
+release and the unmatched closing-brace cursor. No source initialization,
+unsupported-path guard, output exception, shared change or CRT body was added.
+
+Fresh original/native observations match all five entries, exit13, streams and
+six complete IR/browser artifacts, also byte-identical to the untouched baseline.
+Totals:1,810 App bodies /1,917 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union402,379 /476,418 B is84.46% of whole original code
+extent, not a non-CRT denominator;79 named App stubs remain. All35 cached native
+cases,32 existing unit groups and the1,818-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original1,045.738 ms; native35.501 ms
+(setup20.029 ms, execution8.886 ms, checks6.585 ms). The complete closing gate
+was3.171 s; incremental build walls were not separately measured. Raw artifacts
+and paired reports remain in scratch, outside cases and Git.
+
+Earlier completed opaque command broker:
+
 Opaque command broker is COMPLETE: case0033. The8,708-byte source defines
 an opaque GeneralPort member-selector dispatcher before the class definition,
 then combines real compact, virtual and general callback/field adapters in one
