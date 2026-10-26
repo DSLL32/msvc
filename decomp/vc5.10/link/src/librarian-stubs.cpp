@@ -5,7 +5,7 @@ DWORD RECON_THISCALL LibrarianContext::AddSymbol(DWORD,DWORD,DWORD,DWORD,DWORD,D
 { __asm { int 3 } return 0; }
 void RECON_THISCALL LibrarianContext::Prepare(DWORD) { __asm { int 3 } }
 
-DWORD RECON_THISCALL ExportLibrarianContext::Emit(DWORD,DWORD) { __asm { int 3 } return 0; }
+DWORD RECON_THISCALL ExportLibrarianContext::Emit(CoffImportHeader *,const char *) { __asm { int 3 } return 0; }
 
 void RECON_THISCALL ExportLibrarianContext::Finish(void)
 {
@@ -25,9 +25,6 @@ void RECON_THISCALL LibrarianContext::EmitImportDebugRelocations(LibrarianImport
 
 void RECON_THISCALL LibrarianContext::EmitMacImportMember(StringNode *)
 { __asm { int 3 } }
-DWORD RECON_THISCALL CoffLibrarianContext::Emit(DWORD,DWORD) { __asm { int 3 } return 0; }
-void RECON_THISCALL CoffLibrarianContext::Prepare(DWORD) { __asm { int 3 } }
-void RECON_THISCALL CoffLibrarianContext::Finish(void) { __asm { int 3 } }
 extern "C" {
 void __cdecl librarian_usage(void) { __asm { int 3 } }
 void __stdcall list_librarian_members(OutputLibrary *) { __asm { int 3 } }

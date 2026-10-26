@@ -18,6 +18,7 @@ DWORD __stdcall archive_big_endian_count(const DWORD *value)
 }
 void __stdcall write_archive_symbol_names(int,StringTable *,DWORD);
 void __stdcall write_archive_member_offsets(int,StringTable *,DWORD);
+void __stdcall set_librarian_output_alignment(int,DWORD);
 void __stdcall write_archive_header(int,const char *,DWORD,DWORD,DWORD,DWORD,IMAGE_ARCHIVE_MEMBER_HEADER *);
 }
 
@@ -184,4 +185,80 @@ void RECON_THISCALL LibrarianContext::CompleteLinkerMembers(void)
     }
     SEEK_ARCHIVE(4,FILE_CURRENT);
     write_archive_member_offsets(output_file,symbols,1);
+}
+
+void RECON_THISCALL CoffLibrarianContext::Finish(void)
+{
+    StringTable *symbols=image->symbols;
+    StringNode **order=symbols->GetSortedSymbols();
+    DWORD count=count_hash_symbols(symbols->hash.state),index;
+    for(index=0;index<count;++index) {
+        StringNode *symbol=order[index];
+        if((symbol->flags&1) && !(symbol->flags&0x100800)) {
+            EmitShortImport(symbol);
+            if(!index)file_header.SizeOfOptionalHeader=0;
+        }
+    }
+}
+
+/* Original4672f0: one encountered short-import template, field-defined. */
+static const CoffImportHeader short_import_template={0,0xffff,0,0,0,0,0,0,0,0};
+
+void RECON_THISCALL CoffLibrarianContext::EmitShortImport(StringNode *symbol)
+{
+    CoffImportHeader header=short_import_template;
+    const char *name;
+    WORD kind;
+    DWORD position;
+    FileRecord *file;
+    default_phase="EmitMember";
+    name=get_symbol_name(symbol,image->symbols->hash.strings.data,&kind,NULL);
+    if(kind==1)name=strncpy(short_symbol_name,name,8);
+    header.machine=machine;
+    header.timestamp=state2c;
+    header.kind=(symbol->flags&8)?2:(symbol->flags>>13)&1;
+    if(symbol->symbol.Value&0x80000000) {
+        header.name_type=0;
+        header.ordinal_hint=(WORD)symbol->symbol.Value;
+    } else {
+        if(librarian_undecorated_exports && *name=='_')header.name_type=2;
+        else if(symbol->flags&0x10) {
+            if(*name=='?' || *name=='@' || strchr(name,'@'))header.name_type=3;
+            else header.name_type=(*name=='_')?2:1;
+        } else header.name_type=1;
+        header.ordinal_hint=ordinal_name_indices[symbol->symbol.Value-librarian_next_ordinal];
+    }
+    if(file_access_statistics)record_file_access();
+    file=file_slots[output_file];
+    position=(file->flags&8)?file->file_size:((ArchiveOutputPosition *)file->base)->position;
+    librarian_ordinal_symbols[symbol->input_flags]=position;
+    /* The sole recovered caller ignores the provisional DWORD return. */
+    Emit(&header,name);
+}
+
+DWORD RECON_THISCALL CoffLibrarianContext::Emit(CoffImportHeader *header,const char *name)
+{
+    FileRecord *file;
+    DWORD position,length;
+    header->data_size=strlen(name)+strlen(owned44)+strlen(owned3c)+2;
+    write_archive_header(output_file,member_name,flag20,state2c,0,
+        header->data_size+sizeof(*header),NULL);
+    set_librarian_output_alignment(output_file,2);
+    WRITE_ARCHIVE(header,sizeof(*header));
+    set_librarian_output_alignment(output_file,2);
+    length=strlen(name)+1;
+    WRITE_ARCHIVE(name,length);
+    WRITE_ARCHIVE(owned3c,state40);
+    length=strlen(owned44)+1;
+    WRITE_ARCHIVE(owned44,length);
+    TELL_ARCHIVE(position);
+    /* The current caller ignores EAX. Preserve its actual two return paths:
+     * the even cursor, or the final write result after an odd cursor. */
+    if(position&1) {
+        if(file_access_statistics)record_file_access();
+        file=file_slots[output_file];
+        if(file->flags&8)return mapped_write(file,"\n",1);
+        return buffered_write(file,"\n",1);
+    }
+    return position;
 }

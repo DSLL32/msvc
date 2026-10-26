@@ -5,8 +5,9 @@
 #include "link-driver.h"
 #include <recon.h>
 
-/* One genuine five-slot interface. The opaque transport types of still-pending
- * slots retain their physical widths; only Prepare is consumed by Process. */
+/* One genuine five-slot interface. Emit takes the encountered header/name
+ * pointers; its unconsumed DWORD result remains provisional. Still-pending
+ * AddSymbol transports retain their physical widths. */
 struct ImportThunkRelocation { BYTE offset,symbol; WORD type; };
 struct ImportThunkDescription {
     const void *code;
@@ -51,8 +52,19 @@ typedef char LibrarianImportInfoLayout[(sizeof(LibrarianImportInfo)==60 &&
     offsetof(LibrarianImportInfo,name_type)==26 &&
     offsetof(LibrarianImportInfo,symbol_indices)==30)?1:-1];
 
+/* Encountered 20-byte short-import record, separate from a COFF file header.
+ * The last WORD carries the two-bit import kind and three-bit name encoding. */
+struct CoffImportHeader {
+    WORD signature1,signature2,version,machine;
+    DWORD timestamp,data_size;
+    WORD ordinal_hint;
+    WORD kind:2,name_type:3,reserved:11;
+};
+typedef char CoffImportHeaderLayout[(sizeof(CoffImportHeader)==20 &&
+    offsetof(CoffImportHeader,data_size)==12 && offsetof(CoffImportHeader,ordinal_hint)==16)?1:-1];
+
 struct LibrarianContext {
-    virtual DWORD RECON_THISCALL Emit(DWORD,DWORD)=0;
+    virtual DWORD RECON_THISCALL Emit(CoffImportHeader *,const char *)=0;
     virtual DWORD RECON_THISCALL AddSymbol(DWORD,DWORD,DWORD,DWORD,DWORD,DWORD,DWORD,DWORD);
     virtual void RECON_THISCALL Prepare(DWORD);
     virtual void RECON_THISCALL Build(DWORD);
@@ -116,16 +128,17 @@ struct LibrarianContext {
 };
 struct ExportLibrarianContext : LibrarianContext {
     RECON_FORCEINLINE RECON_THISCALL ExportLibrarianContext(LinkContext *);
-    virtual DWORD RECON_THISCALL Emit(DWORD,DWORD);
+    virtual DWORD RECON_THISCALL Emit(CoffImportHeader *,const char *);
     virtual void RECON_THISCALL Prepare(DWORD);
     virtual void RECON_THISCALL Build(DWORD);
     virtual void RECON_THISCALL Finish(void);
 };
 struct CoffLibrarianContext : LibrarianContext {
     RECON_FORCEINLINE RECON_THISCALL CoffLibrarianContext(LinkContext *);
-    virtual DWORD RECON_THISCALL Emit(DWORD,DWORD);
+    virtual DWORD RECON_THISCALL Emit(CoffImportHeader *,const char *);
     virtual void RECON_THISCALL Prepare(DWORD);
     virtual void RECON_THISCALL Finish(void);
+    void RECON_THISCALL EmitShortImport(StringNode *);
 };
 typedef char LibrarianContextLayout[(sizeof(struct LibrarianContext)==104 &&
     offsetof(struct LibrarianContext,image)==8 &&

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-403 application functions / 140,165 original code bytes are reconstructed
-(33.79% of the 414,810-byte whole `.text` extent, which includes CRT and text
+407 application functions / 141,421 original code bytes are reconstructed
+(34.09% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 47 pending bodies with known extents totaling 6,966 bytes and
-184 entries whose body extents remain unknown; this is not a complete non-CRT
+181 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all nine cached native cases and their narrow checks;
+`make -j4 check unit` runs all ten cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-416-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 401 ordinary application bodies and six CRT bodies. Seven import
+420-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 405 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The two genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -115,3 +115,19 @@ before longer writes. The affected boundary unit checks both this supported
 archive/member name and rejection beyond the prefix. Native completion took
 13.4 ms (8.2 ms setup, 2.9 ms execution, 2.3 ms checks). The final nine-case
 regression/unit batch took 0.51 s; the full graph/RET/EH audit took 1.69 s.
+
+The new-format COFF import-library case uses the original-compiled DLL object
+and DEF aliases, stdcall names, explicit ordinals, NONAME and data exports with
+`/lib /newimplib`. It exits 0 with 235 application first entries, producing the
+matching 1,032-byte EXP and 2,522-byte LIB. Five genuine short-import records
+carry the reached name/ordinal/type encodings; both symbol indexes, strings,
+member padding and complete output inventory compare strictly. Only identified
+archive Date fields and COFF/export/short-import timestamp DWORDs are normalized.
+Raw outputs and the exact clock-field derivation remain in scratch. The newly
+recovered Prepare, Finish, short-import helper and virtual Emit bodies total
+1,256 original code bytes. The sole recovered Emit caller ignores its provisional
+DWORD return; the source preserves the actual even-cursor/final-write paths
+without a wider return-value claim. Other pending interface methods remain
+named traps. Native completion took 33.7 ms (18.1 ms setup, 4.8 ms execution,
+10.8 ms checks). The ten-case regression/unit batch took 0.98 s; the full
+original-build/graph/RET/EH gate took 1.71 s.
