@@ -73,10 +73,10 @@ path_entry *ObjInfoList;         /* original450138; role provisional */
 path_entry *AuxObjInfoList;      /* original450134; role provisional */
 address CurrLoc;                /* original450170 */
 lobject_data *CurrRec;             /* original450148 */
-void *OverlayList;              /* original4500f8; role provisional */
+list_of_names *OvlClasses;              /* original4500f8; role provisional */
 mod_entry *CurrMod;              /* original45012c; current input module */
-void *OverlayWork;              /* original450114; role provisional */
-unsigned OvlNum;                /* original450108 */
+vecnode *OvlVectors;              /* original450114; role provisional */
+unsigned VecNum;                /* original450108 */
 unsigned SectionNum;            /* original45010c */
 char *OvlFName;                 /* original450104 */
 section *Root;                     /* original4500f0 */
@@ -105,9 +105,9 @@ void LnkInit( void )
     CurrRec = 0;
     CurrLoc.seg = 0xffff;
     InitNodes();
-    OverlayList = 0;
-    OverlayWork = 0;
-    OvlNum = 0;
+    OvlClasses = 0;
+    OvlVectors = 0;
+    VecNum = 0;
     SectionNum = 0;
     OvlFName = 0;
     InitTokBuff();

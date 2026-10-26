@@ -631,3 +631,17 @@ void ReleaseIteratedRecord( void )
     _LnkFree( CurrIterated );
     CurrIterated = 0;
 }
+
+void MakeBase( fixup_record *fix )
+{
+    unsigned size;
+
+    switch( fix->type ) {
+    case 3: size = 2; break;
+    case 6: size = 4; break;
+    default: return;
+    }
+    fix->type = 2;
+    fix->loc += size;
+    fix->addr.off += size;
+}

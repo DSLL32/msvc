@@ -326,7 +326,7 @@ extern void FinishMapSort( void );
 extern void ProcOvlPubs( void );
 extern void WriteCommunals( void );
 extern void WriteModSegHead( void );
-extern void WriteOvlHead( void );
+extern void WriteMapBox12B( void );
 extern void FindFloatSyms( void );
 
 void DefinePublics( void )
@@ -348,7 +348,7 @@ void DefinePublics( void )
     if( FmtData.type & 0x0080 ) ProcOvlPubs();
     if( MapFlags & 1 ) {
         WriteCommunals();
-        if( LinkFlags & 8 ) WriteOvlHead();
+        if( LinkFlags & 8 ) WriteMapBox12B();
         else if( MapFlags & 0x40 ) WriteModSegHead();
         StopMapBuffering();
     }
@@ -560,4 +560,42 @@ void FillClassFlags( char *name, unsigned short flags )
         }
     }
     LnkMsg( 0x322f, "s", name );
+}
+
+void CalcGrpAddr( group_entry *group )
+{
+    unsigned short index;
+    unsigned char real, first;
+    unsigned long start, low, high;
+    seg_leader *seg;
+
+    real = (FmtData.type & 0x00e0) != 0;
+    for( ; group != 0; group = group->next_group ) {
+        first = 1;
+        index = group->num;
+        while( index != 0 ) {
+            seg = group->leaders[--index];
+            start = seg->seg_addr.off;
+            if( real ) start += (unsigned long)seg->seg_addr.seg << 4;
+            if( first ) {
+                group->grp_addr.off = seg->seg_addr.off;
+                group->grp_addr.seg = seg->seg_addr.seg;
+                first = 0;
+                low = start;
+                high = start + seg->saved_size;
+            } else {
+                if( start < low ) {
+                    group->grp_addr.off = seg->seg_addr.off;
+                    group->grp_addr.seg = seg->seg_addr.seg;
+                    low = start;
+                }
+                if( start + seg->saved_size > high ) high = start + seg->saved_size;
+            }
+        }
+        if( real && high - low > 0x10000UL ) {
+            LnkMsg( 0x3314, "sl", group->name, high - low - 0x10000UL );
+            low = high - 0x10001UL;
+        }
+        group->totalsize = high - low;
+    }
 }

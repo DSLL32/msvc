@@ -46,7 +46,7 @@ void reconstruction_trap( void );
 #endif
 
 /* The 1994 table has 10-byte rows and no later flags member. */
-static parse_entry Directives[] = {
+parse_entry Directives[] = {
     { "File", ProcFiles, 0xffff },
     { "Library", ProcLibrary, 0xffff },
     { "Name", ProcName, 0xffff },

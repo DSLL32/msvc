@@ -22,32 +22,32 @@ void QDelete( char *name ) { name = name; TRAP(); }
 void TrapBreak( int value ) { value = value; TRAP(); }
 void ExecSystem( char *name ) { TRAP(); }
 void AddLibPaths( char *name, unsigned len, unsigned char front ) { TRAP(); }
-void InitModTable( void ) { TRAP(); }
+
 unsigned char CheckVFList( symbol *sym ) { TRAP(); return 0; }
 
 unsigned short OMFCompName( char *name, char *buff, unsigned short index ) { TRAP(); return 0; }
-void AddModTable( mod_entry *mod, unsigned ref ) { TRAP(); }
-void FinishArcs( mod_entry *mod ) { TRAP(); }
+
+
 unsigned char ModNameCompare( char *name, char *member ) { TRAP(); return 0; }
-void FillOutPtr( section *sect ) { TRAP(); }
+
 void CmdQNXFini( void ) { TRAP(); }
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
 void FillTypeFlags( unsigned short flags, unsigned type ) { TRAP(); }
 seg_leader *FindASeg( class_entry *class, char *name ) { TRAP(); return 0; }
 void FindExportedSyms( void ) { TRAP(); }
-unsigned char SortGroupAreas( ovl_area *area ) { TRAP(); return 0; }
-unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
-void NormalizeAddr( void ) { TRAP(); }
 
-void CalcOvl( void ) { TRAP(); }
-void CalcGrpAddr( group_entry *group ) { TRAP(); }
+unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
+
+
+
+
 
 void NovDBIAddrStart( void ) { TRAP(); }
 void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
 void PhoneyStack( void ) { TRAP(); }
 void ReadOldLib( void ) { TRAP(); }
 void SetQNXSegFlags( void ) { TRAP(); }
-void FiniDOSLoadFile( void ) { TRAP(); }
+
 
 
 
@@ -109,7 +109,7 @@ unsigned char CleanCachedHandles( void ) { TRAP(); return 0; }
 
 void CmdNovFini( void ) { TRAP(); }
 
-void CmdOvlFini( void ) { TRAP(); }
+
 
 
 
@@ -118,7 +118,7 @@ void CheckFileTrace( section *sect ) { sect=sect; TRAP(); }
 
 
 
-void NumASect( section *sect ) { sect=sect; TRAP(); }
+
 
 
 
@@ -144,7 +144,7 @@ void FreeNovFmt( void ) { TRAP(); }
 
 
 
-void WalkAreas( ovl_area *areas, void (*fn)(section *) ) { areas=areas; fn=fn; TRAP(); }
+
 
 
 
@@ -177,8 +177,6 @@ unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcNovExport( void ) { TRAP(); return 0; }
-unsigned char ProcOverlay( void ) { TRAP(); return 0; }
-unsigned char ProcBegin( void ) { TRAP(); return 0; }
 unsigned char ProcFixedLib( void ) { TRAP(); return 0; }
 unsigned char ProcNoVector( void ) { TRAP(); return 0; }
 unsigned char ProcVector( void ) { TRAP(); return 0; }
@@ -207,7 +205,7 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 
 
-unsigned char ProcDos( void ) { TRAP(); return 0; }
+unsigned char ProcCom( void ) { TRAP(); return 0; }
 unsigned char ProcELF( void ) { TRAP(); return 0; }
 unsigned char ProcNovell( void ) { TRAP(); return 0; }
 
@@ -278,8 +276,6 @@ unsigned char ProcCheck( void ) { TRAP(); return 0; }
 unsigned char ProcCopyright( void ) { TRAP(); return 0; }
 unsigned char ProcCustom( void ) { TRAP(); return 0; }
 
-unsigned char ProcDistribute( void ) { TRAP(); return 0; }
-unsigned char ProcDosSeg( void ) { TRAP(); return 0; }
 unsigned char ProcDynamic( void ) { TRAP(); return 0; }
 
 unsigned char ProcExit( void ) { TRAP(); return 0; }
@@ -310,7 +306,6 @@ unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
 unsigned char ProcOffset( void ) { TRAP(); return 0; }
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
-unsigned char ProcPadSections( void ) { TRAP(); return 0; }
 unsigned char ProcPrivilege( void ) { TRAP(); return 0; }
 unsigned char ProcProtMode( void ) { TRAP(); return 0; }
 unsigned char ProcPseudoPreemption( void ) { TRAP(); return 0; }
@@ -326,7 +321,6 @@ unsigned char ProcShowDead( void ) { TRAP(); return 0; }
 unsigned char ProcSingle( void ) { TRAP(); return 0; }
 unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
-unsigned char ProcStandard( void ) { TRAP(); return 0; }
 unsigned char ProcStart( void ) { TRAP(); return 0; }
 unsigned char ProcStatics( void ) { TRAP(); return 0; }
 unsigned char ProcStub( void ) { TRAP(); return 0; }
@@ -347,7 +341,6 @@ unsigned char ProcXDCData( void ) { TRAP(); return 0; }
 
 
 
-void MakeNewSection( void ) { TRAP(); }
 
 
 
@@ -358,7 +351,8 @@ void MakeNewSection( void ) { TRAP(); }
 
 
 
-void OvlPass1( void ) { TRAP(); }
+
+
 
 
 
@@ -402,9 +396,9 @@ void ReportMultiple( symbol *sym, char *name, int len ) { TRAP(); }
 
 
 void NovDBIAddGlobal( unsigned len ) { TRAP(); }
-void OvlDefVector( symbol *sym ) { TRAP(); }
-void DefDistribSym( symbol *sym ) { TRAP(); }
-void TryRefVector( symbol *sym ) { TRAP(); }
+
+
+
 void UndefinedSym( symbol *sym ) { TRAP(); }
 
 
@@ -416,7 +410,7 @@ unsigned DWLineGen( long line, long address, char *buffer ) { TRAP(); return 0; 
 
 
 
-void VectorReference( unsigned index ) { TRAP(); }
+
 
 
 void OMFProcAlias( void ) { TRAP(); }
@@ -438,7 +432,7 @@ void ProcVFReference( void ) { TRAP(); }
 
 
 
-unsigned char CheckOvlClass( char *name, unsigned char *isovl ) { TRAP(); return 0; }
+
 
 
 
@@ -454,9 +448,9 @@ unsigned char CheckOvlClass( char *name, unsigned char *isovl ) { TRAP(); return
 
 
 void WriteAbsSegs( class_entry *class ) { TRAP(); }
-void ProcOvlSectPubs( section *sect ) { TRAP(); }
-void ProcOvlPubs( void ) { TRAP(); }
-void WriteOvlHead( void ) { TRAP(); }
+
+
+
 
 
 
@@ -468,10 +462,10 @@ void WriteSymArray( symbol **syms, unsigned num ) { TRAP(); }
 void forceSuppression( output_desc *data ) { TRAP(); }
 void unforceSuppression( output_desc *data ) { TRAP(); }
 
-void EmitOvlVectors( void ) { TRAP(); }
-void PSection( section *sect ) { TRAP(); }
-void ProcDistMods( void ) { TRAP(); }
-void SetOvlStartAddr( void ) { TRAP(); }
+
+
+
+
 
 
 
@@ -507,19 +501,19 @@ void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 
 
-void OvlUseVector( symbol *sym, extnode *node ) { TRAP(); }
 
 
 
-void QueueFixupThread( fixup_ref **list, fixup_ref *ref ) { TRAP(); }
-
-fixup_ref *FindFixupThread( fixup_ref *list, unsigned char index ) { TRAP(); return 0; }
 
 
 
-void GetVecAddr2( unsigned index, fixup_ref *ref ) { TRAP(); }
 
-void GetVecAddr( unsigned index, address *addr ) { TRAP(); }
+
+
+
+
+
+
 
 
 unsigned short FindGroupIdx( unsigned short seg ) { TRAP(); return 0; }
@@ -529,7 +523,7 @@ void AddNovImpReloc( symbol *sym, unsigned long off, unsigned char relative, uns
 
 unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dll ) { TRAP(); return 0; }
 void RemoveReloc( pending_reloc *rel ) { TRAP(); }
-void MakeBase( fixup_record *fix ) { TRAP(); }
+
 unsigned long GetElfImport( symbol *sym ) { TRAP(); return 0; }
 
 
@@ -599,7 +593,7 @@ unsigned char CacheRelease( void ) { TRAP(); return 0; }
 unsigned char SwapOutVirt( void ) { TRAP(); return 0; }
 unsigned char SwapOutRelocs( void ) { TRAP(); return 0; }
 void RestoreComdat( symbol *sym, segdata *seg ) { TRAP(); }
-void ODBIAddModLines( unsigned count ) { TRAP(); }
+
 void DwarfAddModLines( unsigned count ) { TRAP(); }
 int based_encoding( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int array( output_desc *data, state_desc *state ) { TRAP(); return 0; }
@@ -643,4 +637,96 @@ unsigned char ProcContiguous( void ) { TRAP(); return 0; }
 
 
 
-section *CheckOvlSect( char *name ) { TRAP(); return 0; }
+
+
+
+
+unsigned char ProcAutoSection( void ) { TRAP(); return 0; }
+
+
+
+
+
+
+
+unsigned char ProcInto( void ) { TRAP(); return 0; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+void ShortVectors( symbol *sym ) { TRAP(); }
+
+
+
+
+
+
+
+void WriteCOMFile( void ) { TRAP(); }
+
+
+
+
+
+
+
+
+
+
+
+
+
+void OpenOvlFile( outfilelist *file ) { TRAP(); }
+
+
+
+
+
+
+
+
+
+void WriteMapBox12B( void ) { TRAP(); }

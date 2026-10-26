@@ -3746,6 +3746,416 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcDos": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcStandard": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDistribute": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPadSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDosSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOverlay": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcBegin": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBISectInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewArea": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeNewSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CmdOvlFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetOvlClasses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeNonArea": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WalkSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WalkAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NumASect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckOvlClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TryRefVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlRefVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlDefVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "VectorReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IndirectCall": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LowestAncestor": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Vectorize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefISymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitModTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddModTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefDistribSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FinishArcs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ScanArcs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RefDistribSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddArc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NotAnArc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DistIndCall": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoRefGraph": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewRefVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DeleteArc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FillOutPtr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddModLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckOvlSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SortGroupAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SortGroupSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NormalizeAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcOvl": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcGrpAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOvlSectPubs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOvlPubs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteVectors": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteOvlHead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetVecAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoSecPubs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlUseVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsAncestor": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeBase": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetVecAddr2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EmitOvlVectors": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LongVectors": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PutOvlInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDistMods": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QueueFixupThread": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindFixupThread": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetOvlStartAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniDOSLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDOSData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OrderGroups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CompareDosSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDOSRootRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AssignFileLocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EmitOvlTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EmitOvlAreaEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EmitOvlEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDOSGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDOSSectRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PadOvlFiles": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -3997,6 +4407,16 @@
         "start": 4328122,
         "bytes_hex": "c3"
       }
+    },
+    {
+      "owners": [
+        "OvlRefVector",
+        "TryRefVector"
+      ],
+      "original": {
+        "start": 4330348,
+        "bytes_hex": "c3"
+      }
     }
   ],
   "function_properties": {
@@ -4040,6 +4460,9 @@
       "pending_extent": false
     },
     "CheckOvlSect": {
+      "pending_extent": false
+    },
+    "RefDistribSym": {
       "pending_extent": false
     }
   }

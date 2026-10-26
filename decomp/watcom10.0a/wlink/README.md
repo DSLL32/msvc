@@ -1,5 +1,5 @@
-WLINK 10.0a has five completed native regression cases. The acceptance ledger
-contains **747 application functions / 93,578 unique original code bytes**.
+WLINK 10.0a has six completed native regression cases. The acceptance ledger
+contains **829 application functions / 102,068 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -10,6 +10,9 @@ with structured data, an archive, ordinal imports, resident/nonresident exports
 and an appended ELF32 DWARF image. The fifth links a 16-bit Windows NE DLL
 from USE16 assembly, communal storage, a static archive, far calls, ordinal
 imports/exports, movable/discardable code and Watcom line information.
+The sixth produces a DOS MZ executable with two parallel overlays, cross-section
+far calls, distributed archive code, communal storage, the shipped WOVL manager,
+paragraph/sector padding, relocations and Watcom debug information.
 
 | Case | Result |
 | --- | --- |
@@ -18,6 +21,7 @@ imports/exports, movable/discardable code and Watcom line information.
 | `0002-nt-dll` | Exit 0; exact 253-byte stdout, empty stderr, 34,475-byte DLL and 44,357-byte map |
 | `0003-os2-lx` | Exit 0; exact 272-byte stdout, empty stderr, 5,132-byte LX DLL and 4,274-byte map |
 | `0004-win16-ne` | Exit 0; exact 258-byte stdout, empty stderr, 905-byte NE DLL and 3,508-byte map |
+| `0005-dos-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ overlay executable and 9,395-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 551 first entries match.
@@ -45,7 +49,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 750 source-ready identities, their actual graph,
+The complete audit passes for 832 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -79,12 +83,20 @@ retain the old 13-byte layout; communal allocation and the aggregate-argument
 entry-ordinal routine retain the original register/stack ABI, including RET 12.
 Undefined COMDEF leaf tags remain explicitly trapped in both builds.
 
-Final full audit/regression/unit batch: **0.847 s**. All five cases and 750
-source-ready graph/ABI identities pass. Native regression runs took
-**17.819–47.808 ms**. The genuine NE original took **1,129.180 ms**; the explicitly
-clock-normalized native comparison reused that capture and took **28.725 ms**,
-split **18.074 / 3.792 / 6.859 ms** for setup/execution/checks. The last function's
-necessary build and selected check took **1.333 / 0.168 s**. No NE, LX or DWARF
-executable bytes are normalized.
+The DOS case matches 583 first entries and every executable byte, including the
+28-byte MZ header, real overlay-manager code, vectors, overlay table and section
+relocations. Only the six identified map clock fields are excluded. Reconstruction
+uses the actual 1994 overlay implementation; the later reference source's disabled
+overlay entry is inapplicable. Genuine shared terminal code retains both function
+identities and contributes bytes once. The case also corrects previously cold
+overlay-state offsets and distinguishes the real vector-map heading from a
+separate, still-trapped box-12B helper.
+
+The final parallel build/regression/unit/audit batch took **5.779 s**, including
+necessary native and period rebuilds. All six cases and 832 source-ready graph/ABI
+identities pass. The 12 native regression runs took **17.746–50.831 ms**. The genuine
+DOS original took **1,904.050 ms**; its explicitly clock-derived native comparison
+reused that capture and took **29.851 ms**, split **15.818 / 6.934 / 7.098 ms** for
+setup/execution/checks. No DOS, NE, LX or DWARF executable bytes are normalized.
 Raw artifacts, producer inputs, intermediate failures and diagnostics remain
 under `~/.ai-tmp/msvc2/watcom-shared-integration/`.

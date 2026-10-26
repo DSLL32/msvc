@@ -655,3 +655,13 @@ void SetSymAlias( symbol *sym, char *target, int targetlen )
     sym->u.aliaslen = targetlen;
     sym->info = (sym->info & 0xfff0) | 0x1005;
 }
+
+symbol *DefISymbol( char *name )
+{
+    symbol *sym;
+
+    sym = RefISymbol( name );
+    if( sym->info & 0x1000 ) LnkMsg( 0x331a, "s", name );
+    sym->info |= 0x1000;
+    return sym;
+}

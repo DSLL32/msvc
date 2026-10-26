@@ -275,3 +275,19 @@ void FindSplitGroups( void )
         }
     }
 }
+
+unsigned char SortGroupAreas( ovl_area *area )
+{
+    while( area != 0 ) {
+        if( SortGroupSections( area->sections ) ) return 1;
+        area = area->next;
+    }
+    return 0;
+}
+unsigned char SortGroupSections( section *sect )
+{
+    for( ; sect != 0; sect = sect->next_sect ) {
+        if( SortGroupSect( sect ) || SortGroupAreas( sect->areas ) ) return 1;
+    }
+    return 0;
+}

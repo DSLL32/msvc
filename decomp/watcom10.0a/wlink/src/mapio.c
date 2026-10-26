@@ -508,3 +508,8 @@ void WriteCommunalHead( void )
     Msg_Write_Map( 0x125 );
     WriteMapNL( 1 );
 }
+
+void WriteOvlHead( void )
+{
+    WriteBox( 0x122 );
+}

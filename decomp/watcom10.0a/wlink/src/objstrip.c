@@ -204,3 +204,11 @@ void RefGroup( group_entry *group )
 {
     group = group;
 }
+
+void VectorReference( unsigned index )
+{
+    extnode *ext;
+
+    ext = FindNode( ExtNodes, (unsigned short)index );
+    IndirectCall( ext->entry );
+}

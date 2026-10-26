@@ -877,3 +877,8 @@ void WriteDBISecs( section *sect )
         DBIWriteInfo( (void *)dptr->addr.init, dptr->addr.size );
     }
 }
+
+void ODBIAddModLines( unsigned count )
+{
+    if( CurrSect->dbg_info != 0 ) CurrSect->dbg_info->line.curr += count;
+}

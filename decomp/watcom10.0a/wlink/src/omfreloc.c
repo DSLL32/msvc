@@ -403,3 +403,25 @@ void ExecBakPats( void )
     }
     BakPats = 0;
 }
+
+void QueueFixupThread( fixup_ref **list, fixup_ref *ref )
+{
+    fixup_ref *old;
+
+    while( (old = *list) != 0 ) {
+        if( (unsigned char)(old->flags >> 16) == (unsigned char)(ref->flags >> 16) ) break;
+        list = &old->next;
+    }
+    if( old != 0 ) {
+        ref->next = old->next;
+        *list = ref;
+        _LnkFree( old );
+    } else ref->next = 0;
+    *list = ref;
+}
+
+fixup_ref *FindFixupThread( fixup_ref *list, unsigned char index )
+{
+    while( list != 0 && (unsigned char)(list->flags >> 16) != index ) list = list->next;
+    return list;
+}

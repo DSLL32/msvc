@@ -8,7 +8,7 @@ typedef struct outfilelist {
     char *fname;
     int handle;
     unsigned long file_loc;
-    unsigned short unknown16;
+    unsigned short ovlfnoff;
 } outfilelist;
 #pragma pack()
 typedef char old_outfile_is_18[(sizeof(outfilelist) == 18) ? 1 : -1];
@@ -101,6 +101,12 @@ extern symbol *DoSymOp( unsigned char, char *, int );
 extern unsigned HashFn( char *, int );
 extern symbol *SearchSym( char *, unsigned, unsigned, unsigned );
 extern symbol *AddSym( char *, unsigned );
+typedef struct vecnode {
+    struct vecnode *next;
+    symbol *entry;
+} vecnode;
+extern vecnode *OvlVectors;
+extern unsigned VecNum;
 extern symbol *HeadSym;
 extern symbol *LastSym;
 extern symbol *RefISymbol( char * );

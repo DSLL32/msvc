@@ -180,3 +180,20 @@ void AddSize( unsigned long size )
     CurrSect->size += size;
     CurrLoc.off = BumpUp( CurrLoc.off, size );
 }
+
+void NormalizeAddr( void )
+{
+    unsigned long seg;
+
+    if( FmtData.type & 0xff1f ) return;
+    if( CurrSect != NonSect && (LinkFlags & 0x1000) ) return;
+    seg = CurrLoc.seg + (CurrLoc.off >> 4);
+    if( seg > 0xffff ) LnkMsg( 0x3378, 0 );
+    CurrLoc.seg = seg;
+    CurrLoc.off &= 15;
+}
+
+void MAlign( unsigned char align )
+{
+    CurrLoc.off = CAlign( CurrLoc.off, align );
+}

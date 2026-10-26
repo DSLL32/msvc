@@ -348,3 +348,8 @@ void DBIAddModLines( unsigned count )
     else if( LinkFlags & 1 ) DwarfAddModLines( count );
     else if( LinkFlags & 0x20 ) CVAddModLines( count );
 }
+
+void DBISectInit( section *sect )
+{
+    if( LinkFlags & 0x4000 ) ODBIInit( sect );
+}

@@ -261,3 +261,71 @@ char *RemovePath( char *name, int *len )
     *len = dot != 0 ? dot - base : p - base;
     return base;
 }
+
+void OrderGroups( unsigned char (*cmp)(address *,address *) )
+{
+    group_entry *group, *lowest, *first, **last;
+    address *low_addr, *addr;
+
+    first = Groups;
+    last = &Groups;
+    while( first != 0 ) {
+        low_addr = (address *)&first->grp_addr;
+        lowest = 0;
+        for( group = first; group->next_group != 0; group = group->next_group ) {
+            addr = (address *)&group->next_group->grp_addr;
+            if( cmp( addr, low_addr ) ) {
+                low_addr = addr;
+                lowest = group;
+            }
+        }
+        if( lowest == 0 ) {
+            *last = first;
+            last = &first->next_group;
+            first = *last;
+        } else {
+            *last = lowest->next_group;
+            last = &lowest->next_group->next_group;
+            lowest->next_group = *last;
+        }
+    }
+}
+
+unsigned char CompareDosSegments( address *left, address *right )
+{
+    unsigned long diff;
+
+    diff = left->off - right->off + ((unsigned long)(left->seg - right->seg) << 4);
+    return (long)diff < 0;
+}
+
+extern unsigned long OvlTabOffset;
+extern void PadLoad( unsigned long );
+unsigned char WriteDOSGroup( group_entry *group )
+{
+    unsigned long loc;
+    long diff;
+    section *sect;
+    outfilelist *file;
+    unsigned char repos;
+
+    repos = 0;
+    if( group->size != 0 ) {
+        sect = group->section;
+        file = sect->outfile;
+        loc = group->grp_addr.off - sect->sect_addr.off
+            + ((unsigned long)(group->grp_addr.seg - sect->sect_addr.seg) << 4)
+            + sect->u.file_loc;
+        diff = (long)(loc - file->file_loc);
+        if( diff > 0 ) PadLoad( diff );
+        else if( diff != 0 ) {
+            QSeek( file->handle, loc, file->fname );
+            repos = 1;
+        }
+        if( group == OvlGroup ) OvlTabOffset = loc;
+        QWrite( CurrSect->outfile->handle, (void *)group->data, group->size, CurrSect->outfile->fname );
+        loc += group->size;
+        if( loc > file->file_loc ) file->file_loc = loc;
+    }
+    return repos;
+}
