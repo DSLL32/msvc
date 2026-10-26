@@ -1,11 +1,11 @@
 CVPACK 5.10 reconstruction
 ========================
 
-`make -j4 check unit` runs the cached cases and twenty-three narrow native tests.
+`make -j4 check unit` runs the cached cases and twenty-four narrow native tests.
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-168 accepted application functions total 48,556 original code bytes: 77.49% of the
+209 accepted application functions total 55,562 original code bytes: 88.67% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -90,6 +90,21 @@ Completed cases:
   explicitly authored, with structural validation in the binary-specific
   generator; no historical producer claim or old output oracle is reused.
 
+- 0013-c6-symbols: format-authored PE32/NB05 with genuine C6 marker/length/leaf
+  types and balanced 16/32-bit local-symbol scopes. Seven referenced type leaves,
+  procedures, blocks, registers, BPREL/data/labels, counted constants, UDT and
+  control records complete through the ordinary CLI. VC5's actual wide BPREL,
+  DATA and UDT index layouts are encoded independently of the VC1 layouts.
+  Status 0, exact 223-byte verbose output and packed DLL SHA256
+  `7e14054c0a5c88f35ba77b1f6baf75a3a995b8a7cf135fddef0bc671b64478c8`.
+  Forty-one application functions were reconstructed. Opaque COBOL, structure,
+  pointer/BARRAY and unvisited register-relative conversions remain traps.
+  The existing coalesced one-byte RET identity stays CRT-classified, with a
+  native denial at its unvisited callback slot and no new application credit.
+  Input validation checks actual consumed type domains, name/record endpoints
+  and scope balance. Earlier width-assumption variants remain scratch history;
+  the final input has a fresh original master and matching completion pair.
+
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
 packed CodeView is 238,240 bytes. Its source inputs remain capture assets. Numeric sizing, derived-base tracking,
@@ -124,13 +139,17 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest field-list verification: final genuine original CLI capture
-1359.216ms; matching native replay12.900ms (setup5.453/execution6.185/checks1.261).
-Case-end `make -j4 check unit win32 audit` passed all thirteen cached cases,
-twenty-three units, original-compiler compatibility and full 168-body graph,
-import/data/extent checks, with strict RET checks on 167 bodies and the existing
-Release residual in 0.670s. Its cached field-list replay took 9.939ms. During each case only current pairs and selected changed-function
-audits run; completed cases receive one commit.
+Latest C6 verification: final genuine original CLI capture 949.635ms; matching
+native replay 12.825ms (setup6.159/execution5.376/checks1.289). All fourteen cached
+cases, twenty-four units and original-compiler compatibility passed. The full
+209-body graph/import/data/extent/callback checks and strict RET on 208 bodies
+passed with the existing Release residual. An omitted rebuilt 44-byte switch table
+was identified by the first extent audit, then bound to its exact symbol-relative
+interval and independently checked against COFF relocations/classmap; only the
+static audit was repeated. The first native batch took 0.968s including that rejected first audit; its C6 replay took 9.894ms.
+The final affected build/static audit took 9.320s after EOF-only cleanup, without
+new original execution. During each case only current pairs and selected changed-function audits run;
+completed cases receive one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

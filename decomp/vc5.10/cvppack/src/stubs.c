@@ -1,4 +1,6 @@
 /* Unreconstructed application boundaries retain their original call slots. */
+#include "legacy-types.h"
+#include "legacy-symbols.h"
 #include "files.h"
 #include "types.h"
 #include "image.h"
@@ -13,8 +15,6 @@
 
 
 
-void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
-void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void rewrite_register16_symbol(void) { __asm { int 3 } }
 void rewrite_data16_symbol(void) { __asm { int 3 } }
 void rewrite_global_data16_symbol(void) { __asm { int 3 } }
@@ -27,9 +27,21 @@ const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }
 
 
 
-void convert_legacy_record(unsigned index) { __asm { int 3 } }
 
 
 
 
-void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
+
+void size_legacy_register_relative16(void) { __asm { int 3 } }
+
+
+void convert_legacy_register_relative16(void) { __asm { int 3 } }
+
+void convert_legacy_pointer(TypeRecord *record) { __asm { int 3 } }
+void convert_legacy_based_pointer(TypeRecord *record) { __asm { int 3 } }
+void convert_legacy_structure(TypeRecord *record) { __asm { int 3 } }
+void convert_legacy_based_array(TypeRecord *record) { __asm { int 3 } }
+void convert_legacy_cobol0(TypeRecord *record) { __asm { int 3 } }
+void convert_legacy_cobol1(TypeRecord *record) { __asm { int 3 } }
+
+void convert_legacy_argument_list(unsigned index, unsigned short count) { __asm { int 3 } }

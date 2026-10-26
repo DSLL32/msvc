@@ -3,7 +3,9 @@ RECON := ../../../lib/recon
 NATIVE_CC := clang
 NATIVE_CXX := clang++
 BINARY_LINKER := clang
-APP_SOURCES := src/derived-types.c \
+APP_SOURCES := src/legacy-convert.c \
+  src/legacy-symbols.c \
+  src/derived-types.c \
   src/diagnostics.c \
   src/files.c \
   src/global-symbols.c \
@@ -50,6 +52,7 @@ BINARY_SOURCES := $(APP_SOURCES) harness/native-widen-factory.cpp
 BINARY_SUPPORT_SOURCES := harness/native-driver.c harness/native-widen.c harness/native-pdb.c \
  $(wildcard $(RECON)/src/*.c)
 NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_NATIVE_STARTUP_CONTROLFP_53 \
+ -D_setargv=cvpack_unreached_legacy_register_relative32 \
  -I$(RECON)/include -I$(RECON)/native -Isrc -Icrt
 NATIVE_CFLAGS := -std=gnu89 -fms-extensions -fasm-blocks
 NATIVE_CXXFLAGS := -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti

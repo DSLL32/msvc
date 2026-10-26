@@ -20,3 +20,7 @@ int cvpack_native_setup_resources(int debug_dll, const char *module_path, const 
 /* Existing fixtures retain their recorded legacy resource namespace. */
 int cvpack_native_setup(int debug_dll, const char *module_path)
 { return cvpack_native_setup_resources(debug_dll,module_path,"resources.rmr"); }
+
+/* Unvisited coalesced8c50 callback: no native no-op contract or App credit. */
+void cvpack_unreached_legacy_register_relative32(void)
+{ fputs("unobserved legacy register-relative32 sizer\n",stderr); exit(125); }

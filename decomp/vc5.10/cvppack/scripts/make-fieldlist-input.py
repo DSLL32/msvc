@@ -155,8 +155,9 @@ def validate_codeview(data):
         assert cursor == len(symbols)
 
 
-def image():
-    cv = codeview()
+def image(cv=None):
+    if cv is None:
+        cv = codeview()
     debug_size = (28 + len(cv) + 511) & ~511
     data = bytearray(0x400 + debug_size)
     data[:2] = b'MZ'

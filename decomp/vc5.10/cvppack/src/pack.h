@@ -7,7 +7,14 @@ extern unsigned public_scope_depth;
 extern int minimum_pack;
 extern unsigned module_type_low, module_symbol_flags, current_module_flags;
 extern unsigned line_entry_index, symbol_entry_index, type_entry_index;
-extern unsigned current_type_count, has_precompiled, pending_module_bytes;
+typedef struct LegacyTypeSymbol {
+    struct LegacyTypeSymbol *next;
+    unsigned short length, kind;
+    unsigned index;
+    unsigned char name[1];
+} LegacyTypeSymbol;
+extern LegacyTypeSymbol *pending_legacy_symbols;
+extern unsigned current_type_count, has_precompiled;
 extern unsigned total_symbol_bytes, total_line_bytes;
 extern unsigned short module_symbol_count, module_reference_count, module_procedure_count;
 extern unsigned short current_type_index;

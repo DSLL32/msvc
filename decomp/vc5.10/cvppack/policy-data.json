@@ -837,6 +837,211 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_read_legacy_module_types": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_decode_legacy_lines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_procedure16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_register": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_offset16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_offset32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_block16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_end": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_constant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_skip": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_legacy_lines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_symbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_change_segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_procedure16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_record": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_procedure": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_read_legacy_numeric": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_register": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_nil": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_untranslated": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_label": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_bitfield": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_scalar_array": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_unsigned_numeric": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_resize_legacy_type_payload": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_array": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_bprel16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_data16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_label16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_block16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_end": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_constant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_numeric_leaf": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_data32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_skip": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_size_legacy_procedure32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_procedure32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_bprel32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_label32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_block32": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1197,6 +1402,28 @@
       "_register_type_server": {
         "register_imports": {
           "require_all_register_calls_resolved": true
+        }
+      },
+      "_rewrite_legacy_lines": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_convert_legacy_constant": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_convert_legacy_numeric_leaf",
+                "offset": -44
+              },
+              {
+                "rebuilt_symbol": "_convert_legacy_numeric_leaf",
+                "offset": 0
+              }
+            ]
+          ]
         }
       }
     },
@@ -1653,6 +1880,145 @@
           "@compact_legacy_index@4",
           "@compact_type_index@4",
           "@compact_type_index@4"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_type_converters",
+        "original": [
+          4268352,
+          4268456
+        ],
+        "rebuilt_begin": "_legacy_type_converters",
+        "count": 13,
+        "stride": 8,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_convert_legacy_pointer",
+          "_convert_legacy_based_pointer",
+          "_convert_legacy_structure",
+          "_convert_legacy_array",
+          "_convert_legacy_procedure",
+          "_convert_legacy_nil",
+          "_convert_legacy_bitfield",
+          "_convert_legacy_label",
+          "_convert_legacy_scalar_array",
+          "_convert_legacy_untranslated",
+          "_convert_legacy_based_array",
+          "_convert_legacy_cobol0",
+          "_convert_legacy_cobol1"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_symbol_sizers:narrow",
+        "original": [
+          4268728,
+          4268896
+        ],
+        "rebuilt_begin": "_legacy_symbol_sizers",
+        "count": 14,
+        "stride": 12,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_size_legacy_block16",
+          "_size_legacy_procedure16",
+          "_size_legacy_end",
+          "_size_legacy_offset16",
+          "_size_legacy_offset16",
+          "_size_legacy_offset32",
+          "_size_legacy_block16",
+          "_size_legacy_register",
+          "_size_legacy_constant",
+          "_size_legacy_procedure16",
+          "_size_legacy_skip",
+          "_size_legacy_segment",
+          "_size_legacy_register_relative16",
+          "_size_legacy_offset16"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_symbol_sizers:wide",
+        "original": [
+          4268728,
+          4268896
+        ],
+        "rebuilt_begin": "_legacy_symbol_sizers",
+        "count": 14,
+        "stride": 12,
+        "pointer_offset": 8,
+        "expected_functions": [
+          "_size_legacy_procedure16",
+          "_size_legacy_procedure32",
+          "_size_legacy_end",
+          "_size_legacy_offset32",
+          "_size_legacy_offset32",
+          "_size_legacy_offset32",
+          "_size_legacy_procedure16",
+          "_size_legacy_register",
+          "_size_legacy_constant",
+          "_size_legacy_procedure32",
+          "_size_legacy_skip",
+          "_size_legacy_segment",
+          "__setargv",
+          "_size_legacy_offset16"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_symbol_converters:narrow",
+        "original": [
+          4268456,
+          4268680
+        ],
+        "rebuilt_begin": "_legacy_symbol_converters",
+        "count": 14,
+        "stride": 16,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_convert_legacy_block16",
+          "_convert_legacy_procedure16",
+          "_convert_legacy_end",
+          "_convert_legacy_bprel16",
+          "_convert_legacy_data16",
+          "_convert_legacy_label16",
+          "_convert_legacy_block16",
+          "_convert_legacy_register",
+          "_convert_legacy_constant",
+          "_convert_legacy_procedure16",
+          "_convert_legacy_register_relative16",
+          "_convert_legacy_data32",
+          "_convert_legacy_skip",
+          "_convert_legacy_change_segment"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_symbol_converters:wide",
+        "original": [
+          4268456,
+          4268680
+        ],
+        "rebuilt_begin": "_legacy_symbol_converters",
+        "count": 14,
+        "stride": 16,
+        "pointer_offset": 12,
+        "expected_functions": [
+          "_convert_legacy_block32",
+          "_convert_legacy_procedure32",
+          "_convert_legacy_end",
+          "_convert_legacy_bprel32",
+          "_convert_legacy_data32",
+          "_convert_legacy_label32",
+          "_convert_legacy_block32",
+          "_convert_legacy_register",
+          "_convert_legacy_constant",
+          "_convert_legacy_procedure32",
+          "__setargv",
+          "_convert_legacy_data32",
+          "_convert_legacy_skip",
+          "_convert_legacy_change_segment"
         ],
         "require_accepted": false
       }

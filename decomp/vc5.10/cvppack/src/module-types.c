@@ -280,3 +280,22 @@ ModuleInfo *find_precompiled_module(const unsigned char *name)
     fatal_error(1017, (char *)object, NULL);
     return info;
 }
+
+/* C6 has a marker byte, WORD length and byte leaf rather than a signature.
+ * The existing module_procedure_count WORD4154f2 reserves legacy structure
+ * symbol growth; it is reset by pack_module along with the other size counters.
+ * [0040c6a0,0040c716). */
+void read_legacy_module_types(void *types, unsigned size)
+{
+    unsigned char *cursor = types, *end = cursor + size;
+    unsigned skip;
+    initialize_module_type_storage();
+    while (cursor < end) {
+        skip = cursor[3] == 0x90 ? *(unsigned *)(cursor + 4) - type_record_count - 0x200 : 0;
+        append_module_type(cursor, 0, 0, 0, skip);
+        if (cursor[3] == 0x79)
+            module_procedure_count += (unsigned short)(*(unsigned short *)(cursor + 1) + 12);
+        cursor += *(unsigned short *)(cursor + 1) + 3;
+    }
+    source_type_input_bytes += size;
+}
