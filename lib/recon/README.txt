@@ -1303,3 +1303,8 @@ Binary positions and fresh unbuffered text saves are supported; unknown stream,
 buffered-text save, negative-position and backend-failure domains deny125.
 The original fgetpos error path stores-1/returns1, but its unqualified errno
 domain is not modeled. No glibc FILE object or private FILE26 overlay is used.
+
+The Watcom-only public utoa(unsigned int,char *,int) spelling links to a typed
+boundary that always denies125 without reading or writing caller storage. WLIB's
+normal CheckLibrarySize branch does not invoke its cold decimal conversion;
+no conversion success is claimed.

@@ -9,6 +9,7 @@
 static int (__cdecl *compare)(const void *,const void *,size_t)=memicmp;
 static char *(__cdecl *command)(char *)=getcmd;
 static int (__cdecl *character)(void)=getch;
+static char *(__cdecl *number)(unsigned int,char *,int)=utoa;
 #else
 #ifdef memicmp
 #error Watcom memicmp alias leaked
@@ -19,16 +20,20 @@ static int (__cdecl *character)(void)=getch;
 #ifdef getch
 #error Watcom getch alias leaked
 #endif
+#ifdef utoa
+#error Watcom utoa alias leaked
+#endif
 static int (__cdecl *compare)(const void *,const void *,size_t)=recon_watcom_memicmp;
 static char *(__cdecl *command)(char *)=recon_watcom_getcmd;
 static int (__cdecl *character)(void)=recon_watcom_getch;
+static char *(__cdecl *number)(unsigned int,char *,int)=recon_watcom_utoa;
 #endif
 int main(void)
 {
     unsigned char *memory;unsigned n,mode;pid_t child;int status;
     memory=mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
     assert(memory!=MAP_FAILED);memset(memory,0xa5,4096);
-    for(mode=0;mode<9;++mode) {
+    for(mode=0;mode<12;++mode) {
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
@@ -41,6 +46,9 @@ int main(void)
             case 6:command((char *)memory);break;
             case 7:compare(memory,memory,0);break;
             case 8:assert(SetStdHandle(STD_INPUT_HANDLE,(HANDLE)2));character();break;
+            case 9:number(0,NULL,10);break;
+            case 10:number(~0U,(char *)memory,10);break;
+            case 11:number(1,(char *)1,1);break;
             }
             _exit(42);
         }

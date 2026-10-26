@@ -288,6 +288,7 @@ void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **
 volatile int *__cdecl recon_watcom_errno(void);
 extern char recon_watcom_os;
 int __cdecl recon_watcom_getch(void);
+char *__cdecl recon_watcom_utoa(unsigned int,char *,int);
 int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
@@ -489,6 +490,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __STOSD recon_watcom_fill_dwords
 #define _splitpath2 recon_watcom_splitpath2
 #define getch recon_watcom_getch
+#define utoa recon_watcom_utoa
 #define isatty recon_isatty
 #define stdaux (&recon_iob[3])
 #define stdprn (&recon_iob[4])

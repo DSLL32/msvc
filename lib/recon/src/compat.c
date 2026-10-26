@@ -260,6 +260,11 @@ int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count
     (void)left;(void)right;(void)count;
     recon_unsupported("unreviewed Watcom memicmp");return 0;
 }
+char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
+{
+    (void)value;(void)output;(void)radix;
+    recon_unsupported("unreviewed Watcom utoa");return NULL;
+}
 int __cdecl recon_watcom_getch(void)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
