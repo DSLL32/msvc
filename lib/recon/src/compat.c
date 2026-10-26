@@ -6,6 +6,7 @@
 #include <sys/time.h>
 #include <limits.h>
 #include <malloc.h>
+#include <pthread.h>
 #include <recon.h>
 
 /* Compiler-generated abstract vtables may reference this boundary during
@@ -660,6 +661,43 @@ void *__cdecl recon_watcom_expand(void *pointer,size_t size)
 #else
     (void)pointer;(void)size;
     recon_unsupported("Watcom expansion requires explicit profile");return NULL;
+#endif
+}
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+static __thread uintptr_t watcom_stack_low,watcom_stack_high;
+static void watcom_stack_bounds(void)
+{
+    pthread_attr_t attributes;void *base=NULL;size_t length=0,guard=0;
+    int status,saved_errno=errno;
+    status=pthread_getattr_np(pthread_self(),&attributes);
+    if(status) {errno=saved_errno;recon_unsupported("Watcom native stack metadata");}
+    status=pthread_attr_getstack(&attributes,&base,&length);
+    if(!status) status=pthread_attr_getguardsize(&attributes,&guard);
+    if(pthread_attr_destroy(&attributes) && !status) status=1;
+    errno=saved_errno;
+    if(status || !base || !length || guard>=length ||
+       (uintptr_t)base>UINTPTR_MAX-length)
+        recon_unsupported("Watcom native stack bounds/guard");
+    /* Conservatively exclude the reported guard even on hosts whose returned
+     * usable span already omits it. Thread-stack/guard changes are unsupported. */
+    watcom_stack_low=(uintptr_t)base+guard;
+    watcom_stack_high=(uintptr_t)base+length;
+}
+#endif
+int __cdecl recon_watcom_alloca_available(size_t size)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    unsigned char marker[32];uintptr_t current=(uintptr_t)marker;
+    if(size!=400) recon_unsupported("Watcom unqualified alloca size");
+    /* Query once with adequate ordinary call stack. Later low-space checks
+     * avoid entering the deeper pthread metadata implementation. The local
+     * probe lies below the caller and covers native alloca alignment padding. */
+    if(!watcom_stack_high) watcom_stack_bounds();
+    if(current<watcom_stack_low || current>=watcom_stack_high)
+        recon_unsupported("Watcom current address outside native stack");
+    return current-watcom_stack_low>size;
+#else
+    (void)size;recon_unsupported("Watcom alloca requires explicit profile");return 0;
 #endif
 }
 void *recon_watcom_malloc(size_t size)

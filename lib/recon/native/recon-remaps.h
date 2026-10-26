@@ -346,6 +346,7 @@ int __cdecl recon_watcom_getch(void);
 char *__cdecl recon_watcom_utoa(unsigned int,char *,int);
 char *__cdecl recon_watcom_ultoa(unsigned long,char *,int);
 void *__cdecl recon_watcom_expand(void *,size_t);
+int __cdecl recon_watcom_alloca_available(size_t);
 unsigned int __cdecl recon_watcom_rotl(unsigned int,unsigned int);
 int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
@@ -563,6 +564,14 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define ultoa recon_watcom_ultoa
 #define _expand recon_watcom_expand
 #define _nexpand recon_watcom_expand
+#ifdef RECON_WATCOM_ALLOCA_400
+#undef alloca
+/* The builtin must remain in the actual caller; its storage lives until that
+ * caller returns. Evaluate the size once, as an ordinary native expression. */
+#define alloca(bytes) __extension__ ({ size_t recon_alloca_bytes=(bytes); \
+    recon_watcom_alloca_available(recon_alloca_bytes) ? \
+    __builtin_alloca(recon_alloca_bytes) : (void *)0; })
+#endif
 #define strtod recon_watcom_strtod
 #define __ZBuf2F recon_watcom_zbuf2f
 #define _Scale10V recon_watcom_scale10v

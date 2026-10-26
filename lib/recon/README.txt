@@ -1940,3 +1940,19 @@ arguments, minimal environment, occupied/unrelated198, invalid seals, close-befo
 App, repeated parent descriptor ownership and unmarked/native basic compatibility.
 Actual RC/RCPP consumes the same slice with strict rich resource output and cleanup;
 its old source argument/runtime rules are retained, without an original API probe.
+
+Watcom alloca has a TU-selected caller-frame400-byte native surface under
+RECON_WATCOM_ALLOCA_400. Unselected host alloca remains unchanged. The macro
+evaluates its size once and calls __builtin_alloca in the actual App caller
+only when a shared helper finds sufficient real downward-growing stack space.
+Validated pthread stack/guard bounds are cached per thread; first query requires
+adequate ordinary call stack, and later stack-limit/guard mutation is unsupported.
+Each permission check uses a current in-stack local probe, conservatively below
+the caller with native alignment padding. Insufficient space returns NULL;
+unknown bounds, other sizes and direct other-profile helper calls deny125.
+Returned storage lives only until its caller returns. The actual check_recurse
+consumer uses only zero/nonzero, not the pointer's address or bytes; ordinary
+WLINK adoption is pending. This does not claim original private stack layout,
+hard overflow protection or original low-stack behavior. Focused authored main
+and pthread controls verify400 writable bytes, canaries, one size evaluation,
+independent errors/semantic FP and a genuinely low-stack NULL path.

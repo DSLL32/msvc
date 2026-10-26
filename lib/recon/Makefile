@@ -1072,3 +1072,13 @@ build/preferred-view-generic: tests/preferred-view-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 preferred-view-check: build/preferred-view-probe build/preferred-view-generic
 	$(PYTHON) tests/check-preferred-view.py $^
+
+.PHONY: watcom-alloca-check
+build/watcom-alloca-probe: tests/watcom-alloca-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_WATCOM_ALLOCA_400 $< $(SOURCES) -pthread -o $@
+build/watcom-alloca-generic: tests/watcom-alloca-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DTEST_OTHER_PROFILE $< $(SOURCES) -pthread -o $@
+build/watcom-alloca-unselected: tests/watcom-alloca-unselected.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-alloca-check: build/watcom-alloca-probe build/watcom-alloca-generic build/watcom-alloca-unselected
+	$(PYTHON) tests/check-watcom-alloca.py $^
