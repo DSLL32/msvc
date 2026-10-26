@@ -1,6 +1,7 @@
 /* Direct descriptor output in the older librarian. Text-mode translation
    belongs to write, not these ordinary point-of-use string literals. */
 #include <string.h>
+#include <stdlib.h>
 #include <ctype.h>
 #include <io.h>
 #include <stdio.h>
@@ -166,4 +167,27 @@ const char *FormatSymbolName( const char *name )
         __demangle_l( name, 0, spelling, sizeof(spelling) );
     }
     return( spelling );
+}
+
+/* Original0x414dd7..0x414e4a. Syntax errors bypass main's ordinary
+   return path after releasing application and resource state. */
+void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
+{
+    char explanation[128];
+    char option[128];
+    char found[128];
+
+    MsgGet( message, explanation );
+    MsgGet( context, option );
+    if( *ch == '\0' ) {
+        MsgGet( 65, found );
+    } else {
+        found[0] = *ch;
+        found[1] = '\0';
+    }
+    ReportError( 2, 40, explanation, option, found );
+    FiniToolState();
+    FiniMsg();
+    CheckMemoryHook();
+    exit( 1 );
 }

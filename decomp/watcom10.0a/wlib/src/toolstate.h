@@ -168,6 +168,9 @@ unsigned char ScanToken( unsigned char ch, char *buffer, unsigned char stop );
 unsigned char SetOutputOption( void );
 unsigned char SetExtractionDirectory( void );
 void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch );
+#if defined(__WATCOMC__)
+#pragma aux ReportSyntaxError aborts;
+#endif
 int NamesEqualCaseSensitive( const unsigned char *, const unsigned char *, unsigned, unsigned );
 extern FileName *ExplodeName;
 extern PathName ExtractionPath, LibraryPath, ListingPath;

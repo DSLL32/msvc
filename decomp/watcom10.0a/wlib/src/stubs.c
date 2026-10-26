@@ -51,11 +51,6 @@ int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
     return( 0 );
 }
 
-void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
-{
-    WLIB_FRONTIER();
-}
-
 void forceSuppression( output_desc *data ) { WLIB_FRONTIER(); }
 
 void WriteListingCharacter( unsigned char ch, int handle ) { WLIB_FRONTIER(); }

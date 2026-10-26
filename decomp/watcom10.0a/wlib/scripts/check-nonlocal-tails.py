@@ -108,3 +108,26 @@ for name, chunks, original_ret, original_tail in OWNERS:
     assert all(int(operand.split()[0], 16) == symbols['AbortCommand_'] for _, operand in tails), (name, tails)
 assert '#pragma aux AbortCommand aborts;' in (project / 'src/toolstate.h').read_text()
 print('PASS six normal RET0 owners and exact exceptional AbortCommand→longjmp nonlocal tails (pending code remains masked)')
+
+# ReportSyntaxError is a separate genuine direct-exit owner, not a normal
+# RET0 function or a longjmp path. The period -od build uses a terminal CALL
+# instead of the original terminal JMP; neither has a returning successor.
+syntax_start, syntax_end = 0x414dd7, 0x414e4a
+assert hashlib.sha256(read_va(original, syntax_start, syntax_end - syntax_start)).hexdigest() == 'ca9e9bb15a36d5ba529033fcef5256c05d404af3d656461e16202abe575cdfe4'
+syntax = instructions(original, syntax_start, syntax_end)
+assert not any(m.startswith('ret') for _, m, _ in syntax)
+external = [(a, m, int(op.split()[0], 16)) for a, m, op in syntax
+            if m.startswith('j') and not (syntax_start <= int(op.split()[0], 16) < syntax_end)]
+assert external == [(0x414e45, 'jmp', 0x418c0f)]
+assert read_va(original, 0x414e40, 5) == bytes.fromhex('b801000000')
+jump(original, 0x414e45, 0x418c0f)
+start = symbols['ReportSyntaxError_']
+end = min(a for a in symbols.values() if a > start)
+syntax = instructions(rebuilt, start, end)
+assert not any(m.startswith('ret') for _, m, _ in syntax)
+assert syntax[-1][1] == 'call' and int(syntax[-1][2].split()[0], 16) == symbols['exit_']
+assert syntax[-1][0] + 5 == end
+assert read_va(rebuilt, syntax[-1][0] - 5, 5) == bytes.fromhex('b801000000')
+assert all(start <= int(op.split()[0], 16) < end for _, m, op in syntax if m.startswith('j'))
+assert '#pragma aux ReportSyntaxError aborts;' in (project / 'src/toolstate.h').read_text()
+print('PASS ReportSyntaxError exact direct exit(1) terminal role; no invented normal RET')

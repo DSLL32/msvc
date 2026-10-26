@@ -2998,5 +2998,14 @@
         ]
       }
     }
+  ],
+  "terminating_calls": [
+    {
+      "owner": "ReportSyntaxError",
+      "side": "rebuilt",
+      "site_offset": 143,
+      "target": "exit_",
+      "role": "process_exit"
+    }
   ]
 }

@@ -1,25 +1,26 @@
 # Watcom 10.0a WLIB
 
-Six cases are complete: basic help, archive update, in-place C++ update,
+Seven cases are complete: basic help, archive update, in-place C++ update,
 PE DLL/COMMON import, NE/NLM export conversion with C++ listing, and unmatched
-member diagnostics. They cover replacement/deletion/addition/extraction,
+member diagnostics, plus nested-response syntax termination. They cover replacement/deletion/addition/extraction,
 explicit and executable-derived imports, dictionary construction, alphabetical
 and module listings, COMDAT/local-public records, C++ demangling and backup
 preservation. The NE input exercises resident names and nonresident ordinals;
 the NLM input has a genuine count-based public table. Their combined C++ object
 adds operator new/assignment/relational names, integer templates, recursive local
-names, a based pointer and an anonymous enum. All exit 0 with identical streams, final files and application entry
-order. The last five cases observe 166, 200, 172, 209 and 198 first entries respectively.
+names, a based pointer and an anonymous enum. Six exit 0 and the syntax-error case exits 1; all match streams, final files
+and application entry order. The last five cases observe 166, 200, 172, 209 and 198 first entries respectively.
 Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
-The reconstruction has 240 qualified application functions covering 28,453 unique
+The reconstruction has 241 qualified application functions covering 28,568 unique
 original code bytes. Shared chunks count once. The empty CommitDictionaryBlock
 entry shares another function's RET and is explicitly excluded from entry order.
-There is no verified complete non-CRT denominator yet. All 240 bodies retain
+There is no verified complete non-CRT denominator yet. All 241 bodies retain
 function-graph/ownership/extent checks; 234 have strict RET checks and six
 normal-return owners with cold nonlocal exits retain the finite residual in
-scripts/. AbortCommand and other pending functions remain named traps.
+scripts/. ReportSyntaxError has a separate exact direct-exit residual; its final
+period-compiler CALL exit has an explicit terminating-call graph declaration. AbortCommand and other pending functions remain named traps.
 
 `make -j4 native cases check unit audit win32` builds the native i386 DSO,
 runs cached fixtures and checks the source with the original Watcom compiler.
@@ -45,10 +46,11 @@ Executable conversion uses an independently unique internal native temporary;
 progress checks select meaningful outputs and normal exit checks full inventory,
 including removal of the temporary. No PID or filename normalization is used.
 
-The final unmatched-member pair took 1525.013/16.391 ms original/native, with
-native setup 9.305 ms, execution 4.113 ms and checks 2.974 ms. Its final cached
-replay took 15.709 ms. The final parallel native/period build took 2349.850 ms;
-all six cached cases and unit checks took 98.762 ms wall. The final full audit
-took 391.485 ms. Diagnostics and input producers stay in scratch; each case
-contains case.c and capture.bin only. Console/nonlocal errors, alternate resource
-formats and a few further demangler/listing paths remain to be reconstructed.
+The syntax-error pair took 1304.167/12.659 ms original/native, with native setup
+7.900 ms, execution 2.099 ms and checks 2.660 ms. Its final canonical cached check
+took 10.667 ms. All seven cached cases and unit checks passed in 105.359 ms wall.
+The default parallel native/period rebuild took 2436.989 ms. Canonical final
+full audit, including its incremental native build, took 1273.550 ms; the frozen
+full static qualification took 482.930 ms. Diagnostics and input producers stay
+in scratch; each case contains case.c and capture.bin only. Console/nonlocal
+errors, alternate resource formats and a few demangler/listing paths remain.

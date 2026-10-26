@@ -1230,8 +1230,9 @@ static const ReconFunction functions[] = {
     {
         .name = "ReportSyntaxError",
         .entry_rva = 0x14dd7,
+        .code = (const ReconExtent[]) { {0x14dd7, 0x14e4a} }, .code_count = 1,
         .definition = RECON_APP,
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
         .native_symbol = "ReportSyntaxError",
         .original_symbol = "ReportSyntaxError_",
     },
@@ -1374,11 +1375,12 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
-        .name = "exit_ / _exit_ legacy fallthrough",
+        .name = "exit_", /* Older body falls through its internal _exit path. */
         .entry_rva = 0x18c0f,
         .code = (const ReconExtent[]) { {0x18c0f, 0x18c43} },
         .code_count = 1,
         .definition = RECON_CRT,
+        .original_symbol = "exit_",
     },
     {
         .name = "__DoneExceptionHandler_",
