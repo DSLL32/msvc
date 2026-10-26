@@ -78,6 +78,9 @@ Regressions compare native entry traces, status, streams and artifacts against
 cached original references. Never silently recapture or run originals on each
 regression. Filter CRT/import/shim entries on both sides, seed accepted prefixes,
 and share seen-state across synchronous children. Retain ABI/function-graph audits.
+When capturing references, retain raw artifact files in scratch with
+`--artifacts-dir` so hash mismatches can be inspected without recapturing.
+Keep those diagnostic copies outside case folders and Git.
 
 Use `tooling/graph-audit/` for function graph discovery and comparison, with the
 applicable check flags. Retain separate target-specific checks where needed;
