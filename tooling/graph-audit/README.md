@@ -821,3 +821,13 @@ vtable cells or IAT. Actual readable vtable cells must equal the
 separately qualified target entries. Only an existing EDI must-value is retained;
 no target/import/value is seeded and the virtual call remains opaque. Existing
 absolute `FF15` callback contracts and flag-off report behavior are unchanged.
+
+`shared_jump_tails` may additionally declare one `call: {offset, target}` role before
+its terminal jump. The exact direct CALL must be discovered at that offset in
+both owners, target a unique implemented canonical App body, and retain both raw
+caller edges. All intervening instructions must have contiguous normal
+successors; no other control transfer is admitted. Both roles must be consumed,
+and the complete exact shared range must still end both owning chunks. The
+terminal endpoint can remain pending; neither role supplies cleanup, nonreturn
+proof, body availability, or runtime permission. Without `call`, the existing
+branchless shared-JMP rule and report are unchanged.

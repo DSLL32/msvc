@@ -55,6 +55,8 @@ struct JumpTailDeclaration {
     owners: [String; 2],
     original: TerminalLocation,
     jump: TransferRole,
+    #[serde(default, deserialize_with = "optional_call")]
+    call: Option<TransferRole>,
     #[serde(
         default,
         deserialize_with = "crate::register_imports::documentary_evidence"
@@ -67,6 +69,11 @@ struct TransferRole {
     offset: u32,
     target: String,
 }
+fn optional_call<'de, D: serde::Deserializer<'de>>(
+    deserializer: D,
+) -> std::result::Result<Option<TransferRole>, D::Error> {
+    TransferRole::deserialize(deserializer).map(Some)
+}
 struct ResolvedTransfer {
     offset: u32,
     target: String,
@@ -76,6 +83,7 @@ struct ResolvedTransfer {
 enum TerminalTransfer<'a> {
     Call(&'a ResolvedTransfer),
     Jump(&'a ResolvedTransfer),
+    CallJump(&'a ResolvedTransfer, &'a ResolvedTransfer),
 }
 struct Pair {
     jump: Option<ResolvedTransfer>,
@@ -279,7 +287,8 @@ fn validate_terminal_role(
             },
         )?;
         let mut address = start;
-        let mut consumed_transfer = false;
+        let mut consumed_call = false;
+        let mut consumed_jump = false;
         while address < end {
             let i = g.instructions.get(&address).with_context(|| format!(
                 "shared terminal epilogue is not a discovered instruction sequence in {} at {address:x}", r.name
@@ -290,7 +299,9 @@ fn validate_terminal_role(
                 "shared terminal epilogue truncates/differs from decoded instruction"
             );
             if i.next() == end {
-                if let Some(TerminalTransfer::Jump(jump)) = transfer {
+                if let Some(TerminalTransfer::Jump(jump) | TerminalTransfer::CallJump(_, jump)) =
+                    transfer
+                {
                     ensure!(
                         start.checked_add(jump.offset) == Some(address)
                             && i.bytes.len() == 5
@@ -303,7 +314,7 @@ fn validate_terminal_role(
                             && !g.successors.contains_key(&address),
                         "shared JMP tail requires its exact terminal direct JMP and both raw tail/callee facts"
                     );
-                    consumed_transfer = true;
+                    consumed_jump = true;
                 } else {
                     ensure!(
                         i.ret && (i.bytes == [0xc3] || (i.bytes.len() == 3 && i.bytes[0] == 0xc2)),
@@ -311,14 +322,13 @@ fn validate_terminal_role(
                     );
                 }
             } else {
-                let declared_call = match transfer {
-                    Some(TerminalTransfer::Call(call))
-                        if start.checked_add(call.offset) == Some(address) =>
-                    {
-                        Some(call)
-                    }
-                    _ => None,
-                };
+                let declared_call =
+                    match transfer {
+                        Some(
+                            TerminalTransfer::Call(call) | TerminalTransfer::CallJump(call, _),
+                        ) if start.checked_add(call.offset) == Some(address) => Some(call),
+                        _ => None,
+                    };
                 if let Some(call) = declared_call {
                     ensure!(
                         i.bytes.len() == 5
@@ -328,7 +338,7 @@ fn validate_terminal_role(
                             && g.calls.contains(&call.address),
                         "shared return tail requires its exact decoded direct CALL and raw callee edge"
                     );
-                    consumed_transfer = true;
+                    consumed_call = true;
                 } else {
                     ensure!(
                         !i.control_transfer,
@@ -342,8 +352,14 @@ fn validate_terminal_role(
             }
             address = i.next();
         }
+        let consumed = match transfer {
+            None => true,
+            Some(TerminalTransfer::Call(_)) => consumed_call,
+            Some(TerminalTransfer::Jump(_)) => consumed_jump,
+            Some(TerminalTransfer::CallJump(_, _)) => consumed_call && consumed_jump,
+        };
         ensure!(
-            transfer.is_none() || consumed_transfer,
+            consumed,
             "shared tail transfer declaration was not consumed"
         );
     }
@@ -477,6 +493,22 @@ impl SharedReturns {
                 canonical(cfg, a)?;
                 canonical(cfg, b)?;
                 let jump = jump_target(cfg, image, row.jump)?;
+                let call = row
+                    .call
+                    .map(|role| {
+                        let target = unique(drivers, &role.target)?;
+                        canonical(cfg, target)?;
+                        Ok::<_, anyhow::Error>(ResolvedTransfer {
+                            offset: role.offset,
+                            target: role.target,
+                            address: target.start,
+                        })
+                    })
+                    .transpose()?;
+                let transfer = match &call {
+                    Some(call) => TerminalTransfer::CallJump(call, &jump),
+                    None => TerminalTransfer::Jump(&jump),
+                };
                 validate_terminal_role(
                     image,
                     a,
@@ -484,14 +516,14 @@ impl SharedReturns {
                     &row.original,
                     index,
                     metadata,
-                    Some(TerminalTransfer::Jump(&jump)),
+                    Some(transfer),
                 )?;
                 let evidence =
                     crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
                 out.0.push(Pair {
                     terminal: Some((row.original.start, row.original.bytes_hex)),
                     jump: Some(jump),
-                    call: None,
+                    call,
                     owner: a.clone(),
                     entry: b.clone(),
                     evidence,
@@ -515,7 +547,7 @@ impl SharedReturns {
         self.0.iter().any(|p|p.terminal.is_some() && p.call.is_none() && p.jump.is_none()).then(||json!(self.0.iter().filter(|p|p.call.is_none() && p.jump.is_none()).filter_map(|p|p.terminal.as_ref().map(|(start,bytes)|json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],"bytes_hex":bytes,"evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"only this decoded terminal epilogue is physically shared; function identities, control edges and ABI checks remain distinct; no runtime permission"}))).collect::<Vec<_>>()))
     }
     pub fn call_return_report(&self) -> Option<Value> {
-        self.0.iter().any(|p|p.call.is_some()).then(||json!(self.0.iter().filter_map(|p|p.call.as_ref().map(|call| {
+        self.0.iter().any(|p|p.call.is_some() && p.jump.is_none()).then(||json!(self.0.iter().filter(|p|p.jump.is_none()).filter_map(|p|p.call.as_ref().map(|call| {
             let (start,bytes) = p.terminal.as_ref().expect("validated shared CALL terminal");
             json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],
                 "bytes_hex":bytes,"call":{"offset":call.offset,"target":call.target},
@@ -528,12 +560,19 @@ impl SharedReturns {
     pub fn jump_report(&self) -> Option<Value> {
         self.0.iter().any(|p|p.jump.is_some()).then(||json!(self.0.iter().filter_map(|p|p.jump.as_ref().map(|jump| {
             let (start,bytes)=p.terminal.as_ref().expect("validated shared JMP terminal");
-            json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],
+            let mut report = json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],
                 "bytes_hex":bytes,"jump":{"offset":jump.offset,"target":jump.target},
                 "raw_tail_edges":[{"owner":p.owner.name,"site":start+jump.offset,"target":jump.address},
                     {"owner":p.entry.name,"site":start+jump.offset,"target":jump.address}],
                 "evidence":p.evidence,"additional_unique_code_bytes":0,
-                "meaning":"only this exact decoded terminal JMP tail is physically shared; both raw edges remain; no cleanup/noreturn inference, endpoint availability or runtime permission"})
+                "meaning":"only this exact decoded terminal JMP tail is physically shared; both raw edges remain; no cleanup/noreturn inference, endpoint availability or runtime permission"});
+            if let Some(call) = &p.call {
+                report["call"] = json!({"offset":call.offset,"target":call.target});
+                report["raw_call_edges"] = json!([
+                    {"owner":p.owner.name,"site":start+call.offset,"target":call.address},
+                    {"owner":p.entry.name,"site":start+call.offset,"target":call.address}]);
+            }
+            report
         })).collect::<Vec<_>>()))
     }
     pub fn report(&self) -> Option<Value> {
@@ -866,6 +905,83 @@ mod tests {
             SharedReturns::parse(&bad, &json!({}), &image, &records, &records, Path::new("."))
                 .is_err()
         );
+    }
+    fn call_jump_tail_fixture() -> (crate::pe::Pe, Vec<Record>, Value) {
+        let (_, mut records, mut cfg) = jump_tail_fixture();
+        let mut bytes = vec![0x90; 0x82];
+        bytes[..12].copy_from_slice(&[0x53, 0xe8, 0x7b, 0, 0, 0, 0x90, 0xe9, 0x74, 0, 0, 0]);
+        bytes[0x20..0x26].copy_from_slice(&[0x53, 0xe9, 0xdb, 0xff, 0xff, 0xff]);
+        bytes[0x80] = 0xcc;
+        bytes[0x81] = 0xc3;
+        records[0].end = 0x40100c;
+        records[1].code_chunks = vec![(0x401001, 0x40100c)];
+        cfg["function_registry"][0]["code"] = json!([[0x1000, 0x100c]]);
+        cfg["function_registry"][1]["code"] = json!([[0x1020, 0x1026], [0x1001, 0x100c]]);
+        cfg["shared_jump_tails"][0]["original"]["bytes_hex"] = json!("e87b00000090e974000000");
+        cfg["shared_jump_tails"][0]["jump"]["offset"] = json!(6);
+        cfg["shared_jump_tails"][0]["call"] = json!({"offset":0,"target":"other"});
+        (crate::tests::image(&bytes), records, cfg)
+    }
+    #[test]
+    fn shared_jump_tail_optional_call_keeps_both_raw_roles_and_pending_target() -> Result<()> {
+        let (image, records, cfg) = call_jump_tail_fixture();
+        let policy =
+            SharedReturns::parse(&cfg, &json!({}), &image, &records, &records, Path::new("."))?;
+        assert!(policy.permits(&records[0], &records[1]));
+        assert!(policy.call_return_report().is_none());
+        let report = policy.jump_report().unwrap();
+        assert_eq!(report[0]["raw_call_edges"].as_array().unwrap().len(), 2);
+        assert_eq!(report[0]["raw_tail_edges"].as_array().unwrap().len(), 2);
+        assert_eq!(cfg["function_registry"][2]["implementation"], 0);
+        assert_eq!(cfg["function_registry"][2]["code"], json!([]));
+        let d = Decoder::new()?;
+        for r in &records[..2] {
+            let g = crate::audit::structural_record(
+                &d,
+                &image,
+                r,
+                &json!({}),
+                "original",
+                &records,
+                true,
+            )?;
+            assert_eq!(g.tails, BTreeSet::from([0x401080]));
+            assert_eq!(g.calls, BTreeSet::from([0x401080, 0x401081]));
+            assert!(g.returns.is_empty());
+        }
+        Ok(())
+    }
+    #[test]
+    fn shared_jump_call_requires_both_explicit_consumed_and_qualified_roles() {
+        let (image, records, cfg) = call_jump_tail_fixture();
+        let check = |bad: &Value| {
+            SharedReturns::parse(bad, &json!({}), &image, &records, &records, Path::new("."))
+                .is_err()
+        };
+        for value in [
+            Value::Null,
+            json!({}),
+            json!({"offset":1,"target":"other"}),
+            json!({"offset":6,"target":"other"}),
+            json!({"offset":0,"target":"callee"}),
+            json!({"offset":0,"target":"missing"}),
+        ] {
+            let mut bad = cfg.clone();
+            bad["shared_jump_tails"][0]["call"] = value;
+            assert!(check(&bad));
+        }
+        let mut bad = cfg.clone();
+        bad["shared_jump_tails"][0]
+            .as_object_mut()
+            .unwrap()
+            .remove("call");
+        assert!(check(&bad));
+        let mut bad = cfg.clone();
+        bad["shared_jump_tails"][0]["jump"]["offset"] = json!(0);
+        assert!(check(&bad));
+        let mut bad = cfg.clone();
+        bad["function_registry"][3]["implementation"] = json!(0);
+        assert!(check(&bad));
     }
     #[test]
     fn rejects_nonret_interior_and_operand_entries() {

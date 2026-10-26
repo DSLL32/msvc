@@ -1,0 +1,27 @@
+{
+  "scope": "One optional explicit CALL role on existing exact shared_jump_tails; selected two-owner actual WLIB structural check only. No App/permission/noreturn/cleanup inference.",
+  "source_sha256": {
+    "src/shared_returns.rs": "fa7b224d7615ea50c2f44a405996dc7f0d4d2c2a1cfd1fb0ed220c074c93a1da",
+    "README.md": "1953b3fc0d95c6dc5614c9ede0b39609a747f877f2e02b1c1ddb768e07a195ae"
+  },
+  "release_sha256": "c33c7b9b3b05e14ad9208e1fbeff6a75a306459db9d6baeb8f403eb05ace3261",
+  "validation_sha256": "50e47aad662f8d42d05903e7cb56c5ae21b01c17644cac384686f54e4782d156",
+  "checks": {
+    "focused_unit_tests": 11,
+    "new_unit_tests": 2,
+    "clippy": "all-targets -D warnings PASS",
+    "actual_WLIB_targeted_seconds": 0.016574605368077755,
+    "negative_controls": 11,
+    "both_raw_call_and_tail_edges_retained": true,
+    "old_jump_and_call_return_report_byte_parity": true,
+    "global_RET_still_rejects_pending_endpoint": true
+  },
+  "review": "Watcom consuming parent reviewed both source deltas and reran scoped positive17.680ms, wrong-call-target denial9.193ms, pending-target strictRET denial11.703ms.",
+  "limits": [
+    "Analysis-only selected driver subset isolates this actual shared tail; no whole-case or acceptance claim. RET cleanup for two nonlocal owners remains null; binary-specific nonlocal residual independent. ReportError body is retained only for canonical direct-call qualification; AbortCommand remains pending/bodyless. Actual period/native tuple is unchanged, no execution requested.",
+    "One explicit actual CALL plus terminal JMP only; no implicit noreturn/cleanup/provider/runtime permission. Existing branchless-JMP default unchanged.",
+    "No original/native target execution, App acceptance/unique-byte credit, whole-case or speedup claim."
+  ],
+  "canonical_release_build_seconds": 61.08958259783685,
+  "canonical_release_byte_identity": true
+}
