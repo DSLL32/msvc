@@ -478,3 +478,16 @@ CppSymbol *__stdcall class_tag_for_result_type(CType *type)
     if (!tag) return 0;
     return tag;
 }
+
+/* Original0x33970..0x339b5, cdecl. Discard the failed declarator's
+   function/parameter context, then preserve the parser's recovery-state bits. */
+void discard_function_definition(void)
+{
+    parsed_parameter_symbols = 0;
+    active_parameter_symbols = 0;
+    function_declaration_kind = 0;
+    active_function_declaration_kind = 0;
+    token_allocation_flags |= 0x01000000UL;
+    token_allocation_flags &= ~0x00080000UL;
+    function_symbol = 0;
+}

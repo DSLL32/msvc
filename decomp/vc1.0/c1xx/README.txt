@@ -1,6 +1,28 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+SDK contract recovery is COMPLETE: case0053 compiles one generated device SDK
+negative-conformance workload with incomplete payloads, overloaded callbacks,
+mismatched function/member pointer contracts and an invalid function definition.
+Three freshly matched CLI App bodies add134 B: report_expression_error(53 B),
+make_error_expression(12 B) and discard_function_definition(69 B). The overload
+reporter preserves its actual unwrapped owner/result; recovery retains the zero
+constant's flag and clears only the original function/parameter context fields.
+The final pair matches all six artifacts, diagnostics (nine errors/one warning),
+exit9 and all three first entries. No new recovery guard or native policy change.
+
+Total is1,882 App /408,360 B (85.71% of whole original code),17 named pending
+App,1,966 historical frontiers,23 explicitly unit-qualified support bodies and
+seven unchanged historical CRT source bodies. All54 native cases and48 unit
+groups pass, original compilation and the1,890-function six-check graph/ABI
+audit included. Final pair original838.663 ms/native34.963 ms (setup20.304 ms,
+execution7.456 ms, checks7.203 ms); last incremental build2.451 s and closing
+gate5.021 s. An initial native build found a missing existing-helper prototype;
+that declaration was corrected before any subsequent capture. Earlier builds
+were unmeasured; no shared shim change or normalization was required.
+
+Earlier segment debug qualification:
+
 Segment debug support is COMPLETE (native-unit-only): three whole App helpers
 add412 B: ensure_debug_constant_symbol(192 B), make_segment_debug_name(103 B)
 and queue_debug_type_fixup(117 B). Actual frontend callers establish their App

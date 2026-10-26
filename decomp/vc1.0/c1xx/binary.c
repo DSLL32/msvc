@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1963 historical frontiers/1879 App bodies;
+ * Current completed-case boundary:1966 historical frontiers/1882 App bodies;
  * Twenty-three support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
@@ -5221,10 +5221,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_discard_function_definition",
         .entry_rva = 0x23970,
-        .code = (const ReconExtent[]) { { 0x23970, 0x23971 } },
+        .code = (const ReconExtent[]) { { 0x23970, 0x239b5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "discard_function_definition",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_function_definition@8",
@@ -6588,10 +6589,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_expression_error@8",
         .entry_rva = 0x2b190,
-        .code = (const ReconExtent[]) { { 0x2b190, 0x2b191 } },
+        .code = (const ReconExtent[]) { { 0x2b190, 0x2b1c5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_expression_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_missing_declarator@8",
@@ -11714,10 +11716,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_error_expression",
         .entry_rva = 0x4cfd0,
-        .code = (const ReconExtent[]) { { 0x4cfd0, 0x4cfd1 } },
+        .code = (const ReconExtent[]) { { 0x4cfd0, 0x4cfdc } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_error_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_clone_expression@8",

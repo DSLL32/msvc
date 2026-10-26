@@ -420,7 +420,14 @@ IrToken *__stdcall new_left_typed_expression(unsigned char operation, IrToken *l
     return new_ir_expression(operation, left, right, left->type);
 }
 
-IrToken *make_error_expression(void);
+/* Original0x5cfd0..0x5cfdc, cdecl. Retain the ordinary zero constant
+   owner and mark its original recovery bit. */
+IrToken *make_error_expression(void)
+{
+    IrToken *expression = make_integer_constant(0);
+    expression->flags |= 8;
+    return expression;
+}
 
 /* Original 0x3c470..0x3c5a8. Implicit class qualification selects a member
    through this when a nonstatic member function provides an object. Preserve

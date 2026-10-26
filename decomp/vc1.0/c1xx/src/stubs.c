@@ -96,7 +96,6 @@ void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
@@ -182,7 +181,6 @@ int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
 
-void discard_function_definition(void) { __asm { int 3 } }
 
 
 
@@ -227,7 +225,6 @@ void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *t
 
 
 
-IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 
 

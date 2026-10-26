@@ -902,3 +902,15 @@ void __stdcall report_invalid_operand(unsigned char operation, int position)
     char *side = message_text(position == 1 ? 301 : 302);
     report_syntax_error(121, token_spellings[operation], side);
 }
+
+IrToken *__stdcall strip_function_designator(IrToken *expression);
+
+/* Original0x3b190..0x3b1c5, stdcall8. Diagnose the actual unwrapped
+   overload owner and return that same designator for parser recovery. */
+IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression)
+{
+    expression = strip_function_designator(expression);
+    report_syntax_error(568, token_spellings[operation],
+        ((CppSymbol *)expression->value.pointer)->name);
+    return expression;
+}
