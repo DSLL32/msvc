@@ -30,6 +30,8 @@
 
 /* Adapted from bld/wasm/c/util.c, initial commit
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. CFf6c0..f6f5. */
+#include <stdio.h>
+#include <stdlib.h>
 #include "asminit.h"
 #include <recon.h>
 
@@ -86,4 +88,24 @@ void PObjUnRegList(const pobj_list *list, size_t len)
 {
     (void)list;
     (void)len;
+}
+
+/* Released util.c ObjWriteError, physical CFf72c..f740 DiskError identity. */
+void DiskError(void)
+{
+    MsgPrintf(1105);
+    exit(255);
+}
+
+/* bld/wasm/c/util.c InternalError, actual CFf6f8..f724.
+ * The English1104 format is24 bytes plus NUL, within the original80-byte
+ * owner despite MsgGet's general128-byte capacity. Preserve resource lookup,
+ * unsigned line formatting and the actual1994 exit255, not later EXIT_FAILURE.
+ */
+int InternalError(const char *file, unsigned line)
+{
+    char buffer[80];
+    MsgGet(1104,buffer);
+    printf(buffer,file,line);
+    exit(255);
 }

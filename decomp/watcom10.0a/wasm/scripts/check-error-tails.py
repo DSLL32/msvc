@@ -2,7 +2,8 @@
 """Finite RET residual for the cold InternalError and pure usage-exit paths.
 
 The shared audit still checks all App graphs/extents/references and the
-ordinary returning contracts. Pending InternalError remains masked and is never reconstructed.
+ordinary returning contracts. Exact terminal helpers retain their real exit topology;
+physical epilogues after a known process exit do not supply reachable RETs.
 """
 from pathlib import Path
 import hashlib
@@ -233,7 +234,7 @@ for name, start, end, digest, returns, tails in owners:
     # The period -Od build merges get_precedence's three original default
     # assertion tails into one shared default block. SimSeg's two original
     # switch-default copies similarly merge to its one source default. Both end
-    # only at pending InternalError; ordinary decoded RET0 checks stay above.
+    # only at InternalError; ordinary decoded RET0 checks stay above.
     expected_rebuilt_tails = 1 if name in ('get_precedence','SimSeg') else len(tails)
     assert len(jumps) == expected_rebuilt_tails and all(m == 'jmp' and target == symbols['InternalError_'] for _, m, target in jumps)
     report.append({'name': name, 'original_sha256': digest, 'original_ret0': returns,
@@ -378,8 +379,8 @@ report.append({'name':'ObjRecFini','original_tail':[0x1bcad,0x1aae0],
     'qualified_target':'CarveDestroy normalRET0/cold InternalError residual above',
     'rebuilt_ret0':returns,'rebuilt_sha256':hashlib.sha256(pe_bytes(begin,limit-begin)).hexdigest()})
 
-# safeSeek has a conditional cold tail to a distinct pending nonreturning App.
-# Neither that body nor its unobserved failure behavior receives acceptance.
+# safeSeek has a conditional cold tail to a distinct nonreturning App.
+# Its IO failure path remains unobserved; terminal helpers have separate units.
 seek = raw[payload + 0x1a5b0:payload + 0x1a5bf]
 assert hashlib.sha256(seek).hexdigest() == '9ebfdc08d18232faec66547925662f781e56ef025ce5a71a8584195ad495149d'
 code = instructions(original,0x1a5b0,0x1a5bf,payload)
@@ -401,7 +402,7 @@ assert not external_jumps(code,begin,limit)
 assert [int(o,16) for _,m,o in code if m == 'call'] == [symbols['lseek_'],symbols['DiskError_']]
 report.append({'name':'safeSeek','original_sha256':'9ebfdc08d18232faec66547925662f781e56ef025ce5a71a8584195ad495149d',
     'original_ret0':[0x1a5be],'original_error_tail':[0x1a5b8,'je',0xf72c],
-    'pending_DiskError_sha256':'3239512190deb71f1c1eb3d861718d8bb9cfc8e9365732923ba423cf6b747ae2','pending_DiskError_exit':[0xf73b,0x1cb31,255],
+    'DiskError_sha256':'3239512190deb71f1c1eb3d861718d8bb9cfc8e9365732923ba423cf6b747ae2','DiskError_exit':[0xf73b,0x1cb31,255],
     'rebuilt_ret0':returns,'rebuilt_sha256':hashlib.sha256(pe_bytes(begin,limit-begin)).hexdigest()})
 
 # Actual assertion helper has no RET and terminates through standard exit(255).
@@ -412,8 +413,30 @@ assert not any(m.startswith('ret') for _, m, _ in code)
 assert external_jumps(code, 0xf6f8, 0xf724, payload) == [(0xf71f, 'jmp', 0x1cb31)]
 assert raw[payload + 0xf71a:payload + 0xf71f] == bytes.fromhex('b8ff000000')
 assert '#pragma aux InternalError aborts;' in (project / 'src/wasm.h').read_text()
-registry = (project / 'binary.c').read_text().split('.name = "InternalError"', 1)[1].split('},', 1)[0]
-assert 'RECON_UNIMPLEMENTED' in registry and '.code =' not in registry
+# Both terminal helpers are separately native-unit qualified. Original graph
+# and provider identities stay canonical; exact rebuilt exit255 is explicit.
+for name,start,end,callees in [
+    ('InternalError',0xf6f8,0xf724,['MsgGet_','printf_','exit_']),
+    ('DiskError',0xf72c,0xf740,['MsgPrintf_','exit_'])
+]:
+    begin = symbols[name + '_']
+    limit = min(a for a in symbols.values() if a > begin)
+    code = instructions(rebuilt,begin,limit)
+    calls = [(a,int(o,16)) for a,m,o in code if m == 'call']
+    assert [target for _,target in calls] == [symbols[n] for n in callees]
+    assert pe_bytes(calls[-1][0]-5,5) == bytes.fromhex('b8ff000000')
+    if name == 'InternalError':
+        assert calls[-1][0]+5 == limit and not any(m.startswith('ret') for _,m,_ in code)
+        # Only the final E8 false continuation is suppressed by the independently
+        # checked terminating_calls assertion. No return or cleanup is invented.
+        policy = json.loads((project / 'harness/audit-policy.json').read_text())
+        assert policy['terminating_calls'] == [{'owner':'InternalError','side':'rebuilt',
+            'site_offset':calls[-1][0]-begin,'target':'exit','role':'process_exit'}]
+    report.append({'name':name,'original_extent':[start,end],
+        'original_sha256':hashlib.sha256(raw[payload+start:payload+end]).hexdigest(),
+        'rebuilt_exit_call':calls[-1][0],'status':255,
+        'rebuilt_sha256':hashlib.sha256(pe_bytes(begin,limit-begin)).hexdigest(),
+        'qualification':'authored native terminal unit; no original-runtime or CLI claim'})
 
 # Pure help termination owns no ordinary RET contract. The rebuilt CALL exit(1)
 # cannot return, even if this compiler emits an unreachable fallback epilogue.
@@ -434,4 +457,4 @@ if len(sys.argv) == 2:
     output = Path(sys.argv[1])
     output.parent.mkdir(parents=True, exist_ok=True)
     output.write_text(json.dumps(report, indent=2) + '\n')
-print('PASS finite RET0/cold InternalError→exit(255) residuals; usage_msg→exit(1), pending code stays masked')
+print('PASS finite RET0/cold InternalError→exit(255), terminal-helper exit255 and usage_msg→exit(1) residuals')

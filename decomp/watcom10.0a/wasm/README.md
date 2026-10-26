@@ -32,8 +32,8 @@ syntax names an environment variable, not a response file.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 466 application functions and 101,535 unique original
-code bytes. Of these, 398 have original/native execution-pair evidence, 67 have
+The reconstruction covers 468 application functions and 101,599 unique original
+code bytes. Of these, 398 have original/native execution-pair evidence, 69 have
 source/disassembly, period-compiler, graph/ABI and authored native-unit
 qualification, and one is statically empty. Units carry no original-runtime
 claim. The output/group-index units check exact ASCII/high-byte/read-ahead
@@ -74,6 +74,12 @@ token owners, checking exact DOS near/far and DOS/OS2 exit source templates
 through real queue allocation, consumption and teardown. It preserves the
 shared startup-label/flag state and omits later-source fields absent in1994.
 This is explicit helper qualification, not CLI availability.
+Two terminal units initialize the real hash-bound message resources, then check
+`InternalError("contract.c",37)` and `DiskError` for exact diagnostics, exit255
+and an empty file inventory. Suppressing the banner is an explicit unit
+precondition, not an observed CLI state. The selected internal-error format
+fits its original80-byte buffer. The final rebuilt InternalError E8 is checked
+as a process-exit call at its real owner end; no return is invented.
 The empty `PObjUnRegList` is statically qualified at the RET shared with
 `PObjRegList`: zero additional bytes and explicitly excluded from the assembly
 cases' entry orders, without a runtime observation claim.
@@ -89,17 +95,17 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 466 graph/reference/ownership/extent checks pass, with 363 ordinary RET
-contracts and 103 finite cold-error, tail-wrapper or exit checks. Pending error
-handlers stay masked. Reports and raw artifacts remain in scratch.
+All 468 graph/reference/ownership/extent checks pass, with 363 ordinary RET
+contracts and 105 finite cold-error, tail-wrapper or exit checks. Reports and
+raw artifacts remain in scratch.
 
-The ten cached CLI fixtures and seven authored native unit cases pass. The
-startup smoke takes 10.61 ms (setup 6.43 ms, execution 2.41 ms, checks 1.77 ms);
-its four forked assertion groups take 10.59 ms (3.84/5.06/1.69 ms).
-Parallel `make -j4 check unit` took 218.93 ms; the full graph and finite RET
-audit took 992.12 ms. Native and period builds passed; incremental build time
-was not measured. Unit cases perform no original capture and retain the ten
-unchanged CLI references.
+The ten cached CLI fixtures and nine authored native unit cases pass. The
+internal-error unit takes14.62ms (setup9.68ms, execution1.45ms, checks3.49ms);
+the disk-error unit takes18.00ms (12.56/2.27/3.18ms).
+Parallel `make -j4 check unit` took2.61s, including required fixture rebuilds;
+the full graph/finite audit took4.40s, including build prerequisites. Separate
+build time was not measured. Native and period builds passed. Unit cases perform
+no original capture and retain the ten unchanged CLI references.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its

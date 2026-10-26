@@ -2122,5 +2122,14 @@
       "owner": "PObjRegList",
       "entry": "PObjUnRegList"
     }
+  ],
+  "terminating_calls": [
+    {
+      "owner": "InternalError",
+      "side": "rebuilt",
+      "site_offset": 53,
+      "target": "exit",
+      "role": "process_exit"
+    }
   ]
 }
