@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-496 application functions / 169,444 original code bytes are reconstructed
-(40.85% of the 414,810-byte whole `.text` extent, which includes CRT and text
+502 application functions / 174,132 original code bytes are reconstructed
+(41.98% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 43 pending bodies with known extents totaling 6,291 bytes and
-154 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 42 pending bodies with known extents totaling 6,239 bytes and
+150 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all sixteen cached native cases and their narrow checks;
+`make -j4 check unit` runs all eighteen cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-509-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 491 ordinary application bodies and six CRT bodies. Seven import
+515-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 497 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -291,3 +291,35 @@ Fresh native completion took 13.8 ms (8.2 ms setup, 3.0 ms execution, 2.6 ms che
 and the original took 1,255.5 ms. The sixteen-case cached regression/unit batch
 passed in 1.21 s; the full 509-vertex / 497-return-contract / five-EH-owner gate
 passed in 2.50 s. Full checks ran only at case completion.
+
+
+The definition-settings DLL case combines original-compiled stdcall code, shared
+initialized data and BSS with DEF heap/stack sizes, a version, section attributes,
+named/ordinal-only/data exports, an existing original-produced MZ stub input and
+an export map. The genuine librarian child and parent both exit 0, with 366
+shared application first entries. The final 6,656-byte DLL, 989-byte EXP,
+3,412-byte LIB and 1,155-byte map match. Its separately observed librarian
+invocation also exits 0, with 236 entries, and remains an independent oracle.
+This qualifies file serialization, not execution of the DLL or DOS stub.
+
+Six bodies / 4,688 original code bytes cover DEF size/section parsing, the
+attribute lookup, numeric switch parsing, section-characteristic application and
+relocation-based map export names/ordinals. The section attribute owner remains
+distinct from section merging despite its provisional function label. The map
+writer preserves actual COFF relocation and ordinal-table roles, borrowed names,
+forwarded-export formatting and original buffer/file cleanup; this workload
+reaches named, ordinal-only and data exports, not a forwarded-export runtime.
+Cached tokenizer and map imports use finite ordinary nonvolatile ABI contracts.
+PDB, incremental and Mac dependencies remain pending or explicitly guarded.
+
+Raw original artifacts and failed authored-alias/clock-reference comparisons
+remain in scratch. Only generated DLL COFF/export timestamps, EXP timestamps,
+LIB Date/generated COFF timestamps and the map's corresponding eight hexadecimal
+digits and 24-character ctime text are normalized. The existing MZ stub's own
+bytes, all padding, symbol records, names and final inventory remain strict.
+Fresh native completion took 40.3 ms (14.8 ms setup, 22.3 ms execution, 3.2 ms
+checks); the supervised original took 1,805.8 ms. The single case-end parallel
+cached regression/unit/original-build/full-audit batch passed in 2.76 s, including
+all eighteen fixtures, the 515-vertex graph, 503 return contracts and five
+separate C++ EH-owner checks. That combined wall time is not a separate audit
+benchmark or clean-build measurement.

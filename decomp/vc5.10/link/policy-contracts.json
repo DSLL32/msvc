@@ -5254,5 +5254,66 @@
       "basis": "Actual ordinary cdecl/stdcall/thiscall signatures preserve the stated x86 nonvolatile registers. EBX holds fputc through the loop; ESI holds printf only across the module-name formatter.",
       "scope": "Finite cached imports; no source topology changes or provider-body credit."
     }
+  ],
+  "settings_case_ordinary_abi": [
+    {
+      "owner": "_read_definition_sections@8",
+      "cached_identity": "MSVCRT.dll!_mbstok, IAT401148 loaded into EDI at4177b2 and restored at41821e",
+      "sites": [
+        "0x4177e5",
+        "0x41785f",
+        "0x417899",
+        "0x4178b1",
+        "0x4178be",
+        "0x4179f4"
+      ],
+      "ordinary_callees": [
+        {
+          "function": "_valid_section_name@4",
+          "original_entry": "0x40f610",
+          "abi": "identified stdcall1 / RET4",
+          "crossing": "0x417825"
+        },
+        {
+          "function": "_find_section_attribute@4",
+          "original_entry": "0x417710",
+          "abi": "actual caller one stack slot; complete callee RET4 exits41775c/417765/41776f restore EDI saved at41771b",
+          "crossing": "0x4178ce",
+          "native_scope": "ordinary stdcall1 source; earlier sections498 packet bound the genuine trap counterpart, now replaced by the same ABI lookup body"
+        }
+      ],
+      "preserves": [
+        "edi"
+      ],
+      "scope": "Only ordinary normal-return nonvolatile preservation. Existing public strchr/_stricmp/_mbstok and keyword/line contracts remain unchanged."
+    },
+    {
+      "owner": "_write_map_exports@4",
+      "cached_identity": "MSVCRT.dll!fprintf IAT401178 loaded EBX at44eed7",
+      "sites": [
+        "0x44ef00",
+        "0x44ef19",
+        "0x44ef37",
+        "0x44ef8f"
+      ],
+      "ordinary_callees": [
+        {
+          "function": "_display_symbol_name@8",
+          "original_entry": "0x410790",
+          "abi": "identified stdcall2 / RET8; ordinary normal-return EBX preservation",
+          "crossing": "0x44ef23"
+        },
+        {
+          "import": "msvcrt.dll!free",
+          "iat": "0x401144",
+          "abi": "public cdecl; ordinary normal-return EBX preservation",
+          "crossing": "0x44ef41"
+        }
+      ],
+      "preserves": [
+        "ebx"
+      ],
+      "scope": "Only cached fprintf normal-return preservation; existing public fprintf/free cdecl contracts retained. No nonlocal-return claim."
+    }
   ]
 }

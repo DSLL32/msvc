@@ -1,7 +1,14 @@
-/* Unreached original option helpers, with their individual stack conventions. */
+/* Numeric option conversion and pending helpers retain their own ABIs. */
+#include <stdio.h>
 #include "options.h"
 #include <recon.h>
-BYTE __stdcall switch_number(SwitchInfo *info,WORD index,DWORD *value) { __asm { int 3 } return 0; }
+BYTE __stdcall switch_number(SwitchInfo *info,WORD index,DWORD *value)
+{
+    char trailing;
+    /* The physical index slot is DWORD; the original zero-extends its WORD
+     * before indexing. A second successful assignment rejects trailing text. */
+    return sscanf(info->values[index].text,"%li%c",(LONG *)value,&trailing)==1;
+}
 void __stdcall add_delay_library(const char *name) { __asm { int 3 } }
 void __stdcall remove_delay_library(const char *name) { __asm { int 3 } }
 BYTE __stdcall has_delay_library(const char *name) { __asm { int 3 } return 0; }

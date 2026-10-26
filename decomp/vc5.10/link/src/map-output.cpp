@@ -180,7 +180,128 @@ void __cdecl write_map_fixups(void)
         relative_fixup_blocks=next;
     }
 }
-void __stdcall write_map_exports(LinkContext *) { __asm { int 3 } }
+/* Relocations still describe the original export object here. The map writer
+ * resolves their table offsets and borrows names until its final file close. */
+#pragma intrinsic(strcmp)
+extern int current_input_file;
+extern char *current_module_strings;
+extern BYTE file_access_statistics;
+char *__stdcall read_module_string_table(const char *,DWORD,DWORD *);
+IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD,DWORD,BYTE);
+void __stdcall release_relocations(IMAGE_RELOCATION *);
+char *__stdcall display_symbol_name(const char *,DWORD);
+typedef struct MapExportRecord {
+    BYTE forwarded;
+    const char *internal_name,*external_name;
+} MapExportRecord;
+typedef char MapExportRecordSize[(sizeof(MapExportRecord)==12 &&
+    offsetof(MapExportRecord,internal_name)==4 &&
+    offsetof(MapExportRecord,external_name)==8)?1:-1];
+void __stdcall write_map_exports(LinkContext *)
+{
+    ContributionGroup *group=find_contribution_group(export_section,".edata");
+    Contribution *contribution=group->first;
+    OutputModule *module;
+    IMAGE_SYMBOL *symbols;
+    IMAGE_RELOCATION *relocations;
+    IMAGE_EXPORT_DIRECTORY *directory;
+    MapExportRecord *entries;
+    BYTE *data;
+    DWORD base,string_bytes,error=0,bytes,relocation_count,index;
+    DWORD functions,names,ordinals,functions_end,names_end,function_count;
+    int fd;
+    FileRecord *file;
+    if(!contribution)return;
+    module=contribution->module;
+    current_input_file=open_module_file(module,0x8000,0);
+    base=(module->library->flags&16)?0:
+        ((module->flags&0x40)?*(DWORD *)((BYTE *)module->optional_data+12):
+         (DWORD)module->identity);
+    current_module_strings=read_module_string_table(
+        (module->library->flags&16)?(const char *)module->identity:module->library->name,
+        base+module->symbol_count*18+module->symbol_offset,&string_bytes);
+    if(module->symbol_count) {
+        base=(module->library->flags&16)?0:
+            ((module->flags&0x40)?*(DWORD *)((BYTE *)module->optional_data+12):
+             (DWORD)module->identity);
+        symbols=read_module_symbols(base+module->symbol_offset,module->symbol_count,1);
+    } else symbols=NULL;
+    data=(BYTE *)allocate_memory(contribution->raw_size);
+    module=contribution->module;
+    base=(module->library->flags&16)?0:
+        ((module->flags&0x40)?*(DWORD *)((BYTE *)module->optional_data+12):
+         (DWORD)module->identity);
+    seek_file(current_input_file,contribution->input_raw_offset+base,FILE_BEGIN,&error);
+    bytes=contribution->raw_size-contribution->padding;
+    fd=current_input_file;
+    if(file_access_statistics)record_file_access();
+    file=file_slots[fd];
+    if(file->flags&8)mapped_read(file,data,bytes);
+    else buffered_read(file,data,bytes);
+    relocations=contribution->ReadRelocations(&relocation_count);
+    directory=(IMAGE_EXPORT_DIRECTORY *)data;
+    function_count=directory->NumberOfFunctions;
+    entries=(MapExportRecord *)zero_allocate(function_count*sizeof(*entries));
+    functions=(DWORD)directory->AddressOfFunctions;
+    names=(DWORD)directory->AddressOfNames;
+    ordinals=(DWORD)directory->AddressOfNameOrdinals;
+    for(index=0;index<relocation_count;++index) {
+        IMAGE_RELOCATION *relocation=&relocations[index];
+        if(relocation->VirtualAddress==0x1c)
+            functions+=symbols[relocation->SymbolTableIndex].Value;
+        else if(relocation->VirtualAddress==0x20)
+            names+=symbols[relocation->SymbolTableIndex].Value;
+        else if(relocation->VirtualAddress==0x24)
+            ordinals+=symbols[relocation->SymbolTableIndex].Value;
+    }
+    functions_end=functions+function_count*4;
+    names_end=names+directory->NumberOfNames*4;
+    for(index=0;index<relocation_count;++index) {
+        IMAGE_RELOCATION *relocation=&relocations[index];
+        DWORD address=relocation->VirtualAddress;
+        IMAGE_SYMBOL *symbol=&symbols[relocation->SymbolTableIndex];
+        if(address>=functions && address<functions_end) {
+            MapExportRecord *entry=&entries[(address-functions)>>2];
+            if(symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL)
+                entry->internal_name=get_symbol_name((StringNode *)symbol,
+                    current_module_strings,NULL,NULL);
+            else {
+                entry->forwarded=1;
+                entry->internal_name=(char *)data+*(DWORD *)(data+address)+symbol->Value;
+            }
+        } else if(address>=names && address<names_end) {
+            const char *name=(char *)data+*(DWORD *)(data+address)+symbol->Value;
+            WORD ordinal=*(WORD *)(data+ordinals+((address-names)>>2)*2);
+            entries[ordinal].external_name=name;
+        }
+    }
+    fputs("\n Exports\n\n  ordinal    name\n\n",map_output);
+    /* The original tests the ordinal-table offset, then enters this loop once
+     * before testing the function count; it does not validate malformed tables. */
+    if(ordinals) {
+        index=0;
+        do {
+            MapExportRecord *entry=&entries[index];
+            const char *name=entry->internal_name;
+            if(name) {
+                fprintf(map_output,"    %5u    ",directory->Base+index);
+                if(entry->forwarded)
+                    fprintf(map_output,"Forwarded to %s\n",name);
+                else {
+                    char *display=display_symbol_name(name,0);
+                    fprintf(map_output,"%s\n",display);
+                    if(display!=name)free(display);
+                }
+                if(entry->external_name && strcmp(entry->external_name,name))
+                    fprintf(map_output,"               exported name: %s\n",entry->external_name);
+            }
+        } while(++index<function_count);
+    }
+    release_relocations(relocations);
+    release_memory(data);
+    release_memory(entries);
+    close_argument_file(current_input_file,0);
+}
 }
 
 #pragma intrinsic(strlen,strcpy)

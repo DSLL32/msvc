@@ -152,3 +152,192 @@ extern "C" void __stdcall read_librarian_directive(const char *text)
     append_bytes(&definition_directives," ",strlen(" "));
     append_bytes(&definition_directives,text,strlen(text));
 }
+
+/* HEAPSIZE/STACKSIZE share the existing line cursor and caller-owned DWORDs.
+ * A leading comma assigns only commit; omitted outputs keep their incoming
+ * values, as in the actual parser's zero-initialized call sites. */
+extern "C" WORD __stdcall read_definition_size(const char *kind,DWORD *reserve,DWORD *commit)
+{
+    default_phase="ParseSizes";
+    if(definition_cursor && *definition_cursor) {
+        int expected,result;
+        if(strchr(definition_cursor,',')) {
+            if(*definition_cursor==',') {
+                ++definition_cursor;
+                expected=1;
+                result=sscanf(definition_cursor,"%li",(LONG *)commit);
+            } else {
+                expected=2;
+                result=sscanf(definition_cursor,"%li,%li",(LONG *)reserve,(LONG *)commit);
+            }
+        } else {
+            expected=1;
+            result=sscanf(definition_cursor,"%li",(LONG *)reserve);
+        }
+        if(result!=expected)link_fatal(definition_file,1118,kind);
+        if(*commit>*reserve) {
+            link_warning(definition_file,4015,kind,*reserve);
+            *commit=*reserve;
+        }
+    }
+    return next_definition_token();
+}
+static const char *const definition_section_attributes[]={
+    "EXECUTEONLY",
+    "EXECUTEREAD",
+    "READONLY",
+    "READWRITE",
+    "SHARED",
+    "NONSHARED",
+    "CONFORMING",
+    "NONCONFORMING",
+    "DISCARDABLE",
+    "NONDISCARDABLE",
+    "NONE",
+    "SINGLE",
+    "MULTIPLE",
+    "IOPL",
+    "NOIOPL",
+    "PRELOAD",
+    "LOADONCALL",
+    "MOVEABLE",
+    "MOVABLE",
+    "FIXED",
+    "EXECUTE",
+    "READ",
+    "WRITE",
+    "PURE",
+    "IMPURE",
+    "RESIDENT",
+    NULL
+};
+extern "C" WORD __stdcall find_section_attribute(const char *name)
+{
+    WORD index;
+    for(index=0;definition_section_attributes[index];++index)
+        if(!_stricmp(name,definition_section_attributes[index]))return index;
+    return (WORD)-1;
+}
+#pragma intrinsic(strcpy,strcat,strcmp)
+extern "C" WORD __stdcall read_definition_sections(const char *kind,char *text)
+{
+    char directive[128],qualified[128];
+    char *section_name;
+    const char *class_name;
+    char *attribute,*closing;
+    WORD token;
+    DWORD flags;
+    BYTE has_class,non_discardable,iopl,conforming;
+    LinkContext *image=librarian_context->image;
+    default_phase="ParseDefSections";
+    if(text)while(*text==' ' || *text=='\t')++text;
+    else text=read_definition_line();
+    definition_cursor=text;
+    while(definition_cursor) {
+        if((unsigned char)*definition_cursor==0x7f)return (WORD)-1;
+        if(*definition_cursor) {
+            section_name=(char *)_mbstok((unsigned char *)definition_cursor,
+                (const unsigned char *)" \t");
+            token=find_definition_keyword(section_name);
+            if(token!=(WORD)-1)return token;
+            if(*section_name=='\'' || *section_name=='"') {
+                char quote=*section_name++;
+                closing=strchr(section_name,quote);
+                if(closing)*closing=0;
+            }
+            if(!valid_section_name((const unsigned char *)section_name))
+                link_fatal(definition_file,1185,section_name);
+            flags=0;
+            has_class=non_discardable=iopl=conforming=0;
+            attribute=(char *)_mbstok(NULL,(const unsigned char *)" \t");
+            if(attribute && !_stricmp(attribute,"CLASS")) {
+                if(image->is_vxd==1) {
+                    class_name=(char *)_mbstok(NULL,(const unsigned char *)"' \t");
+                    has_class=1;
+                } else _mbstok(NULL,(const unsigned char *)" \t");
+                attribute=(char *)_mbstok(NULL,(const unsigned char *)" \t");
+            }
+            while(attribute) {
+                switch(find_section_attribute(attribute)) {
+                case 0:case 20:flags|=0x20000000;break;
+                case 1:flags|=0x60000000;break;
+                case 2:case 21:flags|=0x40000000;break;
+                case 3:flags|=0xc0000000;break;
+                case 4:flags|=0x10000000;break;
+                case 5:case 10:case 11:case 12:break;
+                case 6:
+                    if(image->is_vxd==1)conforming=1;
+                    else link_warning(definition_file,4017,attribute);
+                    break;
+                case 8:flags|=0x02000000;break;
+                case 9:if(image->is_vxd==1)non_discardable=1;break;
+                case 13:
+                    if(image->is_vxd==1)iopl=1;
+                    else link_warning(definition_file,4017,attribute);
+                    break;
+                case 15:if(image->is_vxd==1)flags|=0x80000;break;
+                case 22:flags|=0x80000000;break;
+                case 25:if(image->is_vxd==1)flags|=0x40000;break;
+                case 7:case 14:case 16:case 17:case 18:case 19:case 23:case 24:
+                    link_warning(definition_file,4017,attribute);
+                    break;
+                default:link_fatal(definition_file,1118,kind);break;
+                }
+                attribute=(char *)_mbstok(NULL,(const unsigned char *)" \t");
+            }
+            if(flags || has_class || non_discardable) {
+                strcpy(directive,"/SECTION:");
+                if(image->is_vxd==1) {
+                    if(has_class) { strcpy(qualified,class_name);strcat(qualified,"_vxd"); }
+                    else strcpy(qualified,"vxd");
+                    if(flags&0x80000)strcat(qualified,"p");
+                    if(flags&0x20000000)strcat(qualified,"e");
+                    if(flags&0x40000000)strcat(qualified,"r");
+                    if(flags&0x80000000)strcat(qualified,"w");
+                    if(flags&0x10000000)strcat(qualified,"s");
+                    if(flags&0x02000000)strcat(qualified,"d");
+                    if(non_discardable)strcat(qualified,"n");
+                    if(iopl)strcat(qualified,"i");
+                    if(conforming)strcat(qualified,"c");
+                    if(flags&0x40000)strcat(qualified,"x");
+                    strcat(directive,qualified);
+                } else strcat(directive,section_name);
+                strcat(directive,",");
+                if(flags&0x02000000)strcat(directive,"D");
+                if(flags&0x20000000)strcat(directive,"E");
+                if(flags&0x40000000)strcat(directive,"R");
+                if(flags&0x10000000)strcat(directive,"S");
+                if(flags&0x80000000)strcat(directive,"W");
+                if(image->is_vxd==1) {
+                    if(flags&0x80000)strcat(directive,"L");
+                    if(flags&0x40000)strcat(directive,"X");
+                    if(iopl)strcat(directive,"I");
+                    if(conforming)strcat(directive,"C");
+                    if(non_discardable)strcat(directive,"!D");
+                }
+                read_librarian_directive(directive);
+                if(image->is_vxd==1) {
+                    strcpy(directive,"/MERGE:");
+                    strcat(directive,section_name);
+                    strcat(directive,"=");
+                    strcat(directive,qualified);
+                    read_librarian_directive(directive);
+                    const char *alias=NULL;
+                    if(!strcmp(section_name,"_TEXT"))alias=".text";
+                    else if(!strcmp(section_name,"_DATA"))alias=".data";
+                    else if(!strcmp(section_name,"_BSS"))alias=".bss";
+                    else if(!strcmp(section_name,"CONST"))alias=".rdata";
+                    if(alias) {
+                        strcpy(directive,"/MERGE:");
+                        strcat(directive,alias);
+                        strcat(directive,"=");
+                        strcat(directive,qualified);
+                        read_librarian_directive(directive);
+                    }
+                }
+            }
+        }
+        definition_cursor=read_definition_line();
+    }
+    return (WORD)-1;
+}

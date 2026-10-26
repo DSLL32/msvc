@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <string.h>
 #include <stdlib.h>
+#include <ctype.h>
 #include "link-driver.h"
 #include "sections.h"
 #include "files.h"
@@ -529,4 +530,51 @@ extern "C" void __stdcall pad_debug_contribution(Contribution *contribution)
     debug_section->reserved08+=delta;
     debug_section->raw_size=debug_section->reserved08-debug_section->file_offset;
     debug_section->virtual_size=debug_section->reserved08-debug_section->file_offset;
+}
+
+/* This provisional entry name belongs to /SECTION attribute application,
+ * not the separate group/section merge operation. Each matching argument is
+ * marked in its existing flags and can update the same physical section. */
+extern "C" void __stdcall apply_section_merge(OutputSection *section)
+{
+    extern InputArguments section_attributes;
+    InputArgument *argument=section_attributes.first;
+    const char *name=section->name;
+    WORD index;
+    for(index=0;index<section_attributes.count;++index,argument=argument->next) {
+        char *attributes=strchr(argument->name,',');
+        if(!attributes)continue;
+        DWORD length=attributes-argument->name;
+        ++attributes;
+        if(strncmp(argument->name,name,length) || name[length])continue;
+        argument->flags|=0x100;
+        if(*attributes==',')continue;
+        DWORD affected=0,bits=0;
+        BYTE enabled=1;
+        while(attributes && *attributes && *attributes!=',') {
+            DWORD bit=0;
+            BYTE inverse=0;
+            switch(toupper((signed char)*attributes)) {
+            case '!':case 'N':enabled=(BYTE)!enabled;break;
+            case 'D':bit=0x02000000;break;
+            case 'E':if(enabled)affected|=0xc0000000;bit=0x20000000;break;
+            case 'K':inverse=1;bit=0x04000000;break;
+            case 'P':inverse=1;bit=0x08000000;break;
+            case 'R':if(enabled)affected|=0xa0000000;bit=0x40000000;break;
+            case 'S':bit=0x10000000;break;
+            case 'W':if(enabled)affected|=0x60000000;bit=0x80000000;break;
+            case 'L':section->vxd_flag40=enabled;break;
+            case 'X':bit=0x40000;break;
+            case 'I':section->vxd_flag8000=enabled;break;
+            case 'C':section->vxd_flag4000=enabled;break;
+            default:link_fatal(NULL,1137,argument->name);break;
+            }
+            affected|=bit;
+            if(inverse^enabled)bits|=bit;
+            else bits&=~bit;
+            ++attributes;
+        }
+        section->characteristics=(section->characteristics&~affected)|bits;
+        section->vxd_flag10=(BYTE)((section->characteristics>>25)&1);
+    }
 }
