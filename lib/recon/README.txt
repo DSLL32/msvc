@@ -1657,6 +1657,18 @@ frontiers. The subsequent ordinary step131 retains genuine pre-run source/object
 DSO identities. This pass0 path does not yet compare emitted floating bytes;
 original per-call error/FP state remains unmeasured.
 
+Watcom __ZBuf2F and _Scale10V reuse that exact-decimal backend. The former
+admits1..17 unsigned ASCII digits and stores an exact coefficient into caller-
+owned aligned4B/disjoint double storage. The latter accepts a nonnegative
+integral binary64 coefficient with at most17 decimal digits and exponent
+-17..0; only exact dyadic results are admitted. Complete input/default-C/span
+checks precede the store. Unknown domains/profiles deny125. The native typed
+ABI and caller ownership are explicit; no general old-runtime rounding or
+private-register equivalence is claimed. Six focused profile/compiler groups
+cover exact generic vectors, prewrite denials and independent errors/semantic
+FP state. Ordinary WCC caller/output adoption is pending its separate formatter
+exponent-width correction.
+
 Typed native diagnostic units additionally qualify five explicit510 fixed
 registered layouts:2104/2175 use ANSI filename,signed line,ASCII WCHAR name;
 2135 uses an ANSI third insert;1003 consumes one signed integer;20101 consumes

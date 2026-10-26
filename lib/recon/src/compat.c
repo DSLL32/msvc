@@ -155,6 +155,81 @@ double __cdecl recon_watcom_strtod(const char *text,char **end)
     recon_unsupported("strtod requires explicit Watcom profile");return 0;
 #endif
 }
+/* The selected software-runtime path forms an exact integer coefficient,
+ * then divides by an exact power of ten for exponents -17..0. These native
+ * typed boundaries reuse the exact-decimal domain; they do not reproduce the
+ * old register ABI or its general rounding/overflow implementation. */
+void __cdecl recon_watcom_zbuf2f(char *digits,double *output)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    unsigned length,i;double result;
+    uintptr_t input=(uintptr_t)digits,destination=(uintptr_t)output;
+    if(input<4096 || input>UINTPTR_MAX-19 || destination<4096 ||
+       destination>UINTPTR_MAX-sizeof(*output) ||
+       (destination&3))
+        recon_unsupported("Watcom ZBuf2F input/output span");
+    for(length=0;length<18 && digits[length];++length)
+        if(digits[length]<'0' || digits[length]>'9')
+            recon_unsupported("Watcom ZBuf2F unsigned digits");
+    if(!length || length>17)
+        recon_unsupported("Watcom ZBuf2F digit count");
+    if(destination<input+length+1 && input<destination+sizeof(*output))
+        recon_unsupported("Watcom ZBuf2F overlapping output");
+    /* The existing conversion validates default-C and exact representability
+     * before the only output write. Caller owns both complete live spans. */
+    result=recon_watcom_strtod(digits,NULL);
+    for(i=0;i<sizeof(result);++i)
+        ((unsigned char *)output)[i]=((const unsigned char *)&result)[i];
+#else
+    (void)digits;(void)output;
+    recon_unsupported("ZBuf2F requires explicit Watcom profile");
+#endif
+}
+double __cdecl recon_watcom_scale10v(double value,int exponent)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    uint64_t bits,coefficient,significand;unsigned encoded,n=0,i,fraction,used=0;
+    int power,shift;char digits[18],text[19];
+    if(exponent>0 || exponent< -17)
+        recon_unsupported("Watcom Scale10V decimal exponent");
+    memcpy(&bits,&value,sizeof(bits));
+    encoded=(unsigned)((bits>>52)&0x7ff);
+    if(bits>>63)recon_unsupported("Watcom Scale10V negative input");
+    coefficient=0;
+    if(bits) {
+        power=(int)encoded-1023;
+        if(!encoded || power<0 || power>56)
+            recon_unsupported("Watcom Scale10V integral coefficient");
+        significand=(bits&UINT64_C(0xfffffffffffff))|UINT64_C(0x10000000000000);
+        shift=power-52;
+        if(shift>=0)coefficient=significand<<shift;
+        else {
+            if(significand&((UINT64_C(1)<<(-shift))-1))
+                recon_unsupported("Watcom Scale10V fractional coefficient");
+            coefficient=significand>>(-shift);
+        }
+        if(coefficient>UINT64_C(99999999999999999))
+            recon_unsupported("Watcom Scale10V coefficient digit count");
+    }
+    do {digits[n++]=(char)('0'+coefficient%10);coefficient/=10;}while(coefficient);
+    fraction=(unsigned)-exponent;
+    if(fraction>=n && fraction) {
+        text[used++]='.';
+        for(i=0;i<fraction-n;++i)text[used++]='0';
+        for(i=0;i<n;++i)text[used++]=digits[n-1-i];
+    } else {
+        for(i=0;i<n;++i) {
+            if(fraction && i==n-fraction)text[used++]='.';
+            text[used++]=digits[n-1-i];
+        }
+    }
+    text[used]=0;
+    return recon_watcom_strtod(text,NULL);
+#else
+    (void)value;(void)exponent;
+    recon_unsupported("Scale10V requires explicit Watcom profile");return 0;
+#endif
+}
 char *__cdecl recon_watcom_strrev(char *text)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
