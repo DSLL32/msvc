@@ -376,8 +376,6 @@ int recon_watcom_raise(int number)
 { (void)number; recon_unsupported("unreviewed Watcom raise"); return 0; }
 int recon_watcom_setjmp(unsigned int *environment)
 { (void)environment; recon_unsupported("unreviewed Watcom _setjmp"); return 0; }
-void recon_watcom_longjmp(unsigned int *environment,int value)
-{ (void)environment; (void)value; recon_unsupported("unreviewed Watcom longjmp"); abort(); }
 
 /* These contexts are external to the 32-byte legacy object, whose address is
  * also stored as an int pointer by the C++ frontend. Addresses may be reused:
@@ -392,6 +390,29 @@ struct JumpContext {
     struct JumpContext *next;
 };
 static struct JumpContext *jump_contexts;
+
+void recon_watcom_longjmp(unsigned int *environment,int value)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    struct JumpContext *context;
+    if(!environment || value!=1)
+        recon_unsupported("Watcom longjmp environment/value");
+    for(context=jump_contexts;context;context=context->next)
+        if(context->legacy==environment) {
+            if(!context->watcom_normal_only || context->opaque_setjmp3)
+                recon_unsupported("Watcom longjmp requires saved52-byte context");
+            /* The reached Spawn frame is still live on this thread, on the
+             * same unwind chain. Its opaque target owner is never serialized;
+             * libc restores the existing caller-frame context, not x87 state. */
+            longjmp(context->host,1);
+        }
+    recon_unsupported("Watcom longjmp without matching live save");
+#else
+    (void)environment;(void)value;
+    recon_unsupported("Watcom longjmp requires explicit profile");
+#endif
+    abort();
+}
 
 recon_host_jmp_buf *recon_jmp_context(void *legacy)
 {
@@ -420,7 +441,7 @@ recon_host_jmp_buf *recon_setjmp3_context(void *legacy,unsigned size,int count)
 
 /* The Windows48B context and native out-of-line libc context are private,
  * differing CRT representations. Never serialize captured register/FS bytes
- * into the target's52B owner. Only normal return has been established here. */
+ * into the target's52B owner. The reached same-chain live Spawn may resume1. */
 recon_host_jmp_buf *recon_watcom_setjmp_context(void *legacy,unsigned size)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

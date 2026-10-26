@@ -1186,17 +1186,17 @@ The original actual allocation/provenance and FILE lifetime are retained in the
 LINK case, and native controls check next-byte/flush/close/errors/FP/tails.
 
 Watcom ordinary setjmp/_setjmp calls with an actual52-byte array owner now
-support normalreturn0 only. The macro invokes real libc _setjmp directly in
+support normalreturn0 and the bounded live-context resume1 described below.
+The macro invokes real libc _setjmp directly in
 the live application frame; the existing registry keeps an opaque host context
-out of line and marks it normal-only. Windows'48-byte serialized register/FS
+out of line and tags its Watcom ownership. Windows'48-byte serialized register/FS
 context and native host context are private differing CRT representations.
 No captured Windows context is copied into native storage: all52 target bytes,
 including finalDWORD/adjacent guards, remain their own native bytes. The actual
 reached application uses only the owner address and result, not context fields.
-Indirect/bare typed calls, pointer-sized/truncated/NULL owners, every Watcom
-longjmp and generic recon_longjmp under this profile remain unsupported. This
-adds no SEH/unwind or resumed-return semantics. Watcom application reconstruction
-is paused after this bounded plumbing proof for user review and assigned cases.
+Indirect/bare typed saves, pointer-sized/truncated/NULL owners and generic
+recon_longjmp under this profile remain unsupported. The separate Watcom
+longjmp route below adds no Windows SEH/unwind semantics.
 
 Successful default/510 openfile preserves a reused FILE slot's _charbuf and
 _bufsiz. The VC1 getstream/freebuf/openfile field writes independently confirm
@@ -1316,3 +1316,12 @@ native errno/LastError/FP and other heap owners. NULL, unknown/dead owners and
 other profiles deny125. No general stale-handle generation guarantee after a
 later mapping-address reuse is implied. RCDLL cleanup uses this real lifetime
 boundary; original private survivor inventory/per-call errors are unmeasured.
+
+Watcom longjmp admits value1 only for the exact context tagged by the existing
+52B setjmp adapter. The caller must supply a still-live frame on the same thread
+and unwind chain, as in WLINK Spawn/Suicide. It resumes the existing caller-frame
+libc context without reading/writing the opaque52B owner or restoring x87 state;
+current errors/FP remain current. Generic, unknown and _setjmp3 contexts deny125.
+The registry does not prove liveness. Expired frames, Windows SEH/RtlUnwind,
+private register serialization and other values remain outside this contract.
+Native tracing emits first entries only, so no abandoned trace frames need cleanup.

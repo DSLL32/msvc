@@ -860,3 +860,9 @@ build/heap-destroy-probe: tests/heap-destroy-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 heap-destroy-check: build/heap-destroy-probe
 	$(PYTHON) tests/check-heap-destroy.py $<
+
+.PHONY: watcom-longjmp-check
+build/watcom-longjmp-probe: tests/watcom-longjmp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-longjmp-check: build/watcom-longjmp-probe
+	$(PYTHON) tests/check-watcom-longjmp.py $<
