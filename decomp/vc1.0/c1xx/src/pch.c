@@ -692,8 +692,81 @@ int resume_pch_source_input(void)
     return 1;
 }
 
-/* Discovered callees, not reconstructed or accepted yet. */
-void restart_source_input(void)
+
+/* Original 0x6b360..0x6b3ae, cdecl0. Reopen the captured directive
+   as a genuine work-stack input, preserving the enclosing source name. */
+void resume_captured_directive(void)
 {
-    __asm { int 3 }
+    char *filename, *copy;
+    reset_work_stack(pch_source_stack);
+    compiler_stack = pch_source_stack;
+    filename = source_filename;
+    copy = source_buffer_cursor;
+    do { *source_buffer_cursor++ = *filename++; }
+    while (source_buffer_cursor[-1]);
+    open_source_file(copy, 2);
+    ++source_text_cursor;
+    token_allocation_flags |= 0x10000;
+}
+int __stdcall match_work_stack(WorkingStack *stack, void *text, unsigned bytes);
+
+/* Original 0x6b3b0..0x6b4fa, cdecl0. A capture records the actual
+   normalized directive; playback consumes that same text before returning to
+   the ordinary source reader. Only the hdrstop sentinel ends capture here. */
+int process_pch_directive(void)
+{
+    char prefix[8];
+    unsigned i, saved_directive;
+    if (pch_mode == 1) {
+        finish_work_stack(pch_source_stack);
+        prefix[7] = 0;
+        reset_work_stack(pch_source_stack);
+        read_work_stack(pch_source_stack, prefix, sizeof(prefix));
+        if (prefix[7] == ' ' || prefix[7] == '\n') {
+            prefix[7] = 0;
+            for (i = 0; i < sizeof(prefix) && prefix[i] == "hdrstop"[i]; ++i) ;
+            if (i == sizeof(prefix)) {
+                saved_directive = token_allocation_flags & 0x10000;
+                token_allocation_flags &= ~0x10000UL;
+                finish_pch_capture();
+                resume_captured_directive();
+                if (saved_directive) token_allocation_flags |= 0x10000;
+                return 0;
+            }
+        }
+        record_pch_event_header(3, 0, write_pch_events(pch_source_stack, 0, 0));
+        write_pch_events(pch_source_stack, 0, pch_event_stack);
+        resume_captured_directive();
+        return 0;
+    }
+    finish_work_stack(pch_source_stack);
+    reset_work_stack(pch_source_stack);
+    if (pch_input_record->kind == 3 &&
+        match_work_stack(pch_source_stack, pch_input_record->text, pch_input_record->bytes)) {
+        pch_input_record = (PchInputRecord *)((char *)pch_input_record +
+            pch_input_record->bytes + 12);
+        return 1;
+    }
+    if (resume_pch_source_input()) return 1;
+    resume_captured_directive();
+    return 0;
+}
+
+/* Original 0x6b300..0x6b35d, stdcall4. Close a temporary captured
+   directive input before recording or replaying its complete condition word. */
+int __stdcall record_pch_condition(int condition)
+{
+    int value;
+    if (include_depth) close_source_file();
+    if (pch_mode == 1) {
+        record_pch_event_header(6, condition, 0);
+        return condition;
+    }
+    if (pch_mode == 2) {
+        value = pch_input_record->value;
+        pch_input_record = (PchInputRecord *)((char *)pch_input_record +
+            pch_input_record->bytes + 12);
+        return value;
+    }
+    return condition;
 }

@@ -2,6 +2,7 @@
 #include "directives-internal.h"
 #include "characters.h"
 #include "control-ir.h"
+#include "initialization.h"
 #include <ctype.h>
 #include <string.h>
 #include <recon.h>
@@ -590,4 +591,52 @@ void __stdcall skip_directive_literal(unsigned char delimiter)
 void warn_ident_requires_string(void)
 {
     compiler_warning(1, 79, token_spellings[current_token_code]);
+}
+
+/* Original 0x236e0..0x237be, cdecl0; nine-way switch237c0..237e4.
+   Save normalized directive text while retaining literal quote state and the
+   source newline for the directive's ordinary reader. */
+void capture_directive_text(void)
+{
+    unsigned char character;
+    int quote = 0;
+    character = next_directive_character();
+    reset_work_stack(pch_source_stack);
+    for (;;) {
+        switch (character_class[character]) {
+        case CC_SPACE:
+        case CC_CARRIAGE_RETURN:
+            if (!quote) {
+                character = next_directive_character();
+                if (character_class[character] != CC_NEWLINE)
+                    write_work_character(' ', pch_source_stack);
+                continue;
+            }
+            break;
+        case CC_SLASH:
+            if (skip_source_comment() && !quote) {
+                character = next_directive_character();
+                if (character_class[character] != CC_NEWLINE)
+                    write_work_character(' ', pch_source_stack);
+                continue;
+            }
+            break;
+        case CC_ESCAPE_OR_END:
+            write_work_character((signed char)character, pch_source_stack);
+            character = (unsigned char)*source_text_cursor++;
+            break;
+        case CC_NEWLINE:
+            write_work_character((signed char)character, pch_source_stack);
+            --source_text_cursor;
+            return;
+        case CC_APOSTROPHE:
+            quote = quote == 2 ? 0 : 2;
+            break;
+        case CC_QUOTE:
+            quote = quote == 1 ? 0 : 1;
+            break;
+        }
+        write_work_character((signed char)character, pch_source_stack);
+        character = (unsigned char)*source_text_cursor++;
+    }
 }

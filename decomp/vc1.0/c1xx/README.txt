@@ -1,6 +1,54 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Device SDK automatic PCH workflow is COMPLETE: cases0028 creation,0029 reuse
+and0030 timestamp-triggered refresh. These were prepared sequentially for one
+current workflow, not abandoned cases. A virtual-device SDK combines conditional
+directive capture, access re-exports, default arguments, virtual bases and RAII
+transactions. The original rejects protected-to-public re-export; the supported
+header retains private inheritance and a public member re-export. Raw failed
+drafts and all reference outputs remain in scratch, outside cases and Git.
+
+Ten whole App bodies /1,267 code bytes were accepted: directive capture and
+playback, captured-input reopening, conditional events, overload access checking,
+inherited-access failure recording, three-word access keys and relocation,
+work-stack comparison, and invalid-cache source restart. The directive switch
+owns36 separate text-data bytes, excluded from code coverage. Stack matching
+preserves the original repeated expected pointer between pages and acceptance
+of trailing expected bytes; the observed directive fits one page. NULL overloads
+retain the original uninitialized local/read in both builds, with a defect
+comment and no incidental stack-value equivalence claim.
+
+Creation and refresh each compare their own81,554-byte PCH:573 finite initialized
+pointer fields retain exact within-group offsets, nonnull/alias relationships
+and distinct native block membership;32 proven original-unwritten reserved bytes
+must be zero natively; all remaining79,230 bytes are exact. Original temporary
+group anchors are artifact-derived, not observed original ArenaBlock headers.
+The timestamp and other defined creation/refresh differences remain exact against
+each phase's own oracle. Shared fixture comparison performs no output rewrite;
+focused wrong-offset/null/alias/reserved/header controls pass. There is no new
+stale-WORD exception. Reuse consumes the retained original PCH and compares all
+eight artifacts exactly; native-produced PCH interchangeability is not claimed.
+
+Fresh original/native order, exit0, streams and eight artifacts match for all
+three phases. DeviceRoot's actual vfptr and eight overload groups establish a
+nine-WORD debug scratch prefix; no historical full-capacity claim is made. The
+first closing gate caught the old six-WORD unit expectation; updating that same
+boundary control to nine words resolved it. No CRT body or shared shim change.
+
+Totals:1,768 App bodies /1,875 historical frontiers, plus seven unchanged CRT
+source bodies. App-only code union395,422 /476,418 B is83.00% of whole original
+code extent, not a non-CRT denominator. All31 cached native cases,32 unit groups
+and the1,776-function six-check graph/ABI audit pass; original-toolchain builds
+pass. Creation original1,140.060 ms/native46.833 ms (setup22.030 ms,
+execution13.125 ms, checks11.678 ms); reuse493.514 ms/35.291 ms (20.667 ms,
+7.862 ms,6.762 ms); refresh1,089.583 ms/46.951 ms (23.353 ms,12.071 ms,
+11.527 ms). The successful complete closing gate took2.725 s; its earlier stale
+unit failure took1.468 s. Build/setup costs are separate from native execution;
+the final header-triggered Win32 rebuild was not separately wall-timed.
+
+Earlier completed paged index:
+
 Paged index is COMPLETE: case0027. The coherent relocatable record pool uses
 named-base links and strings, two rebased pools, packed fields, floating record
 values and a forward-declared member-callback interface with explicit general

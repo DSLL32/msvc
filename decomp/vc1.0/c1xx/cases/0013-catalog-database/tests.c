@@ -53,7 +53,8 @@ static int check_class_fallback(void)
     return WIFEXITED(status) && WEXITSTATUS(status) == 73;
 }
 
-extern unsigned short line_record_scratch[6];
+/* DeviceRoot subsequently establishes the encountered nine-WORD prefix. */
+extern unsigned short line_record_scratch[9];
 extern unsigned char *line_record_cursor;
 unsigned char *line_record_cursor_position(void);
 void line_record_restore_cursor(unsigned char *position);
@@ -72,9 +73,9 @@ static int check_scratch_prefix(void)
 {
     unsigned char *mark = line_record_cursor_position();
     int child, status, i;
-    for (i = 0; i < 6; ++i) line_record_push_type((unsigned short)(0x1200 + i));
+    for (i = 0; i < 9; ++i) line_record_push_type((unsigned short)(0x1200 + i));
     line_record_restore_cursor(mark);
-    for (i = 0; i < 6; ++i)
+    for (i = 0; i < 9; ++i)
         if (line_record_read_type() != 0x1200 + i) return 0;
     child = fork();
     if (child < 0) return 0;

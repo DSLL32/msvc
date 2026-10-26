@@ -396,3 +396,23 @@ unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file,
     }
     return total;
 }
+
+/* Original 0x32ad0..0x32b49, stdcall12. Match the stack's page
+   payloads, preserving two historical details: the expected pointer is not
+   advanced between pages, and extra expected bytes do not prevent success. */
+int __stdcall match_work_stack(WorkingStack *stack, void *text, unsigned bytes)
+{
+    unsigned char *page, *expected = text;
+    unsigned declared, count, i;
+    reset_work_stack(stack);
+    for (page = stack->read; page; page = *(unsigned char **)(page + 2040)) {
+        declared = *(unsigned *)(page + 2044);
+        if (!declared) declared = 2040;
+        count = (unsigned short)declared;
+        if (count > bytes) return 0;
+        for (i = 0; i < count; ++i)
+            if (page[i] != expected[i]) return 0;
+        bytes -= count;
+    }
+    return 1;
+}

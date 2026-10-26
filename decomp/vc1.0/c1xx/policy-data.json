@@ -3538,9 +3538,9 @@
     {
       "function": "_line_record_push_type",
       "original": 470256,
-      "condition": "Actual WORD write outside the encountered six-WORD scratch prefix starting991b8",
+      "condition": "Actual WORD write outside the encountered nine-WORD scratch prefix starting991b8",
       "native": "INT3 immediately before that unmodeled indexed write; Win32 cursor/write logic remains unchanged",
-      "classification": "Unsupported data-domain extent, not proven original UB. Actual71083 caller at current first push has total2/remaining2 and original savedmark991b8; later actual Root vfptr/five retained method queues with ctor pair/parameters<=1 prove six WORD prefix. Full historical workspace capacity and future larger/nested domain remain unclaimed."
+      "classification": "Unsupported data-domain extent, not proven original UB. Actual71083 caller at current first push has total2/remaining2 and original savedmark991b8; earlier Root vfptr/five retained method queues prove six WORDs; Device SDK actual DeviceRoot vfptr/eight retained groups (ctor pair and parameters<=2) extend the prefix to nine WORDs. Full historical workspace capacity and future larger/nested domain remain unclaimed."
     },
     {
       "function": "prepare_line_record_tag",
@@ -3561,7 +3561,7 @@
     {
       "function": "line_record_read_type",
       "original_entry": 470288,
-      "condition": "WORD read outside encountered six-WORD scratch prefix991b8",
+      "condition": "WORD read outside encountered nine-WORD scratch prefix991b8",
       "behavior": "Native-only INT3 immediately before unmodeled read, after genuine cursor increment; Win32 read remains unchanged",
       "classification": "Unsupported data-domain extent, not proven original UB; historical full workspace capacity remains unknown"
     },

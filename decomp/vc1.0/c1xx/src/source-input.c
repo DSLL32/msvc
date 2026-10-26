@@ -442,3 +442,20 @@ int __stdcall search_source_include(char *filename)
     } while (input);
     return 0;
 }
+
+/* Original 0x1e420..0x1e480, cdecl0. An invalid automatic cache
+   restarts the actual source descriptor and restores its enclosing conditional
+   depth. The synthetic initial newline is consumed by the normal lexer. */
+void restart_source_input(void)
+{
+    _lseek(active_input->handle, 0, 0);
+    source_line_number = 0;
+    active_input->saved_line = 0;
+    conditional_depth = active_input->saved_conditional_depth;
+    source_text_cursor = source_storage + 2;
+    active_input->available = 0;
+    active_input->offset = 0;
+    fill_source_buffer();
+    --source_text_cursor;
+    *source_text_cursor = '\n';
+}

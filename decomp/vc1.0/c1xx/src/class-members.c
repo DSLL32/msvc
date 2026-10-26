@@ -1643,3 +1643,40 @@ void __stdcall bind_anonymous_aggregate_member(CppSymbol *object, CppSymbol *mem
 void __stdcall finish_anonymous_aggregate_object(CppSymbol *object)
 {
 }
+
+/* Original 0x310f0..0x311bf, stdcall12. Temporarily select each
+   overload on the real qualifier path, restoring the original target. */
+int __stdcall uniform_overload_protection(CppSymbol *overloads,
+    QualifierBinding *binding, unsigned char *protection)
+{
+    CppSymbol *current, *function;
+    ClassReference *saved = binding->target;
+    int same = 1;
+    unsigned kind;
+    /* Original defect: a NULL overloads argument leaves current unwritten.
+       Preserve that local/read; no incidental stack-value equality is claimed. */
+    if (overloads) {
+        current = overloads;
+        kind = current->kind & 31;
+        if (kind == 16 || kind == 17)
+            current = ((OverloadSet *)current)->functions;
+    }
+    function = current;
+    if (function && ((function->kind & 31) == 6 || (function->kind & 31) == 7))
+        current = function->next;
+    binding->target = (ClassReference *)function;
+    *protection = qualified_member_protection(binding);
+    for (;;) {
+        function = current;
+        if (!function || ((function->kind & 31) != 6 && (function->kind & 31) != 7))
+            break;
+        current = function->next;
+        binding->target = (ClassReference *)function;
+        if (qualified_member_protection(binding) != *protection) {
+            same = 0;
+            break;
+        }
+    }
+    binding->target = saved;
+    return same;
+}

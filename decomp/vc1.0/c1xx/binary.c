@@ -24,6 +24,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restart_source_input",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compare_line_record_enum_indices",
@@ -892,6 +893,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_access_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_deferred_type_key@4",
@@ -1774,6 +1776,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "uniform_overload_protection",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {
@@ -2882,10 +2885,13 @@ static const ReconFunction functions[] = {
     {
         .name = "_capture_directive_text",
         .entry_rva = 0x136e0,
-        .code = (const ReconExtent[]) { { 0x136e0, 0x136e1 } },
+        .code = (const ReconExtent[]) { { 0x136e0, 0x137be } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x137c0, 0x137e4 } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "capture_directive_text",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_include_name",
@@ -4443,10 +4449,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_equal_word_triplets",
         .entry_rva = 0x21260,
-        .code = (const ReconExtent[]) { { 0x21260, 0x21261 } },
+        .code = (const ReconExtent[]) { { 0x21260, 0x21287 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_word_triplets",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_has_member_access_declaration@12",
@@ -4575,10 +4582,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_inherited_member_access_failure@20",
         .entry_rva = 0x21840,
-        .code = (const ReconExtent[]) { { 0x21840, 0x21841 } },
+        .code = (const ReconExtent[]) { { 0x21840, 0x21870 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_inherited_member_access_failure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_set_initial_member_access_failure@12",
@@ -13412,18 +13420,38 @@ static const ReconFunction functions[] = {
     {
         .name = "_record_pch_condition@4",
         .entry_rva = 0x5b300,
-        .code = (const ReconExtent[]) { { 0x5b300, 0x5b301 } },
+        .code = (const ReconExtent[]) { { 0x5b300, 0x5b35d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_pch_condition",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_resume_captured_directive",
+        .entry_rva = 0x5b360,
+        .code = (const ReconExtent[]) { { 0x5b360, 0x5b3ae } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "resume_captured_directive",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_match_work_stack@12",
+        .entry_rva = 0x22ad0,
+        .code = (const ReconExtent[]) { { 0x22ad0, 0x22b49 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "match_work_stack",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_process_pch_directive",
         .entry_rva = 0x5b3b0,
-        .code = (const ReconExtent[]) { { 0x5b3b0, 0x5b3b1 } },
+        .code = (const ReconExtent[]) { { 0x5b3b0, 0x5b4fa } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "process_pch_directive",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_source_file_timestamp@4",

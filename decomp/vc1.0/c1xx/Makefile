@@ -139,7 +139,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/class-type-sets.c \
     src/special-members.c
 CRT_SOURCES = crt/runtime.c
-BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) harness/entry.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) harness/entry.c harness/device-sdk-pch.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) $(CRT_SOURCES)

@@ -266,3 +266,12 @@ unsigned __stdcall hash_table_count(HashTable *table)
 {
     return table->count;
 }
+
+/* Original 0x31260..0x31287, cdecl8. Access-declaration keys retain
+   exact owner/base/member pointer identity in all three words. */
+int __cdecl equal_word_triplets(void *left, void *right)
+{
+    unsigned *first = left, *second = right;
+    return first[0] == second[0] && first[1] == second[1] &&
+        first[2] == second[2];
+}

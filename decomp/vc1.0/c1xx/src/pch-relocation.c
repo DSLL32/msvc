@@ -1035,3 +1035,12 @@ void __stdcall mark_pch_expression_references(ExpressionReference *reference)
         reference = reference->next;
     }
 }
+
+/* Original 0x31350..0x31371, stdcall4. Access keys own exactly
+   the owner/base/member pointers compared by the declaration table. */
+void __stdcall mark_pch_access_key(AccessDeclaration *access)
+{
+    mark_pch_pointer((void **)&access->owner);
+    mark_pch_pointer((void **)&access->base);
+    mark_pch_pointer((void **)&access->member);
+}

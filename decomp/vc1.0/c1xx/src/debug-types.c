@@ -1243,13 +1243,11 @@ unsigned short line_record_array_type(CType *type, unsigned short base)
    argument-list ownership and count helpers, pending genuine entry. */
 unsigned line_record_argument_count(FunctionParameters *parameters);
 
-/* Original cursor a2718 starts at the BSS workspace991b8. This is
-   only the encountered six-WORD prefix, not a historical full-size claim;
-   subsequent indexed users must establish their actual owned span. */
-/* Root's actual vfptr and five retained overload groups bound this prefix:
-   the ctor's temporary pair and each at-most-one parameter stay within6WORDs.
-   This is a reached-owner bound, not an inferred historical allocation size. */
-unsigned short line_record_scratch[6];
+/* Original cursor a2718 starts at BSS workspace991b8. DeviceRoot's
+   real vfptr and eight retained overload groups require this nine-WORD
+   encountered prefix. The ctor's two methods and at-most-two parameters use
+   temporary slots within that bound; full historical capacity is unclaimed. */
+unsigned short line_record_scratch[9];
 unsigned char *line_record_cursor = (unsigned char *)line_record_scratch;
 
 /* Original0x72cd0..0x72cd6, cdecl0. */

@@ -282,6 +282,18 @@ HashTable *access_declaration_table(void)
 
 CppSymbol *access_failure_base; /* original 0x97bd8 */
 unsigned char access_failure_base_protection; /* original 0x97bdc */
+/* Original 0x31840..0x31870, stdcall20. Keep the inherited-base
+   failure separately from the member's own access level. */
+void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
+    unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base)
+{
+    access_failure_owner = base;
+    access_failure_member = member;
+    access_failure_base = previous_base;
+    access_failure_base_protection = previous_access;
+    access_failure_protection = member_access;
+}
+
 char *__stdcall member_protection_keyword(unsigned char protection);
 char *__stdcall member_declaration_keyword(CppSymbol *symbol);
 

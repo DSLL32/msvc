@@ -269,8 +269,6 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 
 
-void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
-    unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
 
 
 int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
@@ -284,7 +282,6 @@ CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads) { __asm {
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
-int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
@@ -292,9 +289,6 @@ ExpressionReference *__stdcall clone_expression_references(ExpressionReference *
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 
-void capture_directive_text(void) { __asm { int 3 } }
-int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
-int process_pch_directive(void) { __asm { int 3 } return 0; }
 
 void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 
@@ -410,7 +404,6 @@ void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { in
 
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
 
-int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding *binding, unsigned char *protection) { __asm { int 3 } return 0; }
 
 
 
@@ -423,4 +416,3 @@ void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __as
 void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
 void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
-void __stdcall mark_pch_access_key(AccessDeclaration *access) { __asm { int 3 } }
