@@ -896,3 +896,9 @@ build/temp-api-probe: tests/temp-api-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 temp-api-check: build/temp-api-probe
 	$(PYTHON) tests/check-temp-api.py $< 510
+
+.PHONY: watcom-directory-surface-check
+build/watcom-directory-surface-probe: tests/watcom-directory-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-directory-surface-check: build/watcom-directory-surface-probe
+	$(PYTHON) tests/check-watcom-directory-surface.py $<

@@ -280,6 +280,18 @@ int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count
     (void)left;(void)right;(void)count;
     recon_unsupported("unreviewed Watcom memicmp");return 0;
 }
+struct ReconWatcomDirent *__cdecl recon_watcom_opendir(const char *path)
+{
+    (void)path;recon_unsupported("unreviewed Watcom opendir");return NULL;
+}
+struct ReconWatcomDirent *__cdecl recon_watcom_readdir(struct ReconWatcomDirent *directory)
+{
+    (void)directory;recon_unsupported("unreviewed Watcom readdir");return NULL;
+}
+int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *directory)
+{
+    (void)directory;recon_unsupported("unreviewed Watcom closedir");return -1;
+}
 char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

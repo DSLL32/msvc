@@ -22,6 +22,7 @@
 #include <float.h>
 #include <sys/timeb.h>
 #include <win32.h>
+#include <direct.h>
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -283,6 +284,10 @@ long __cdecl recon_watcom_tell(int);
 int __cdecl recon_watcom_setmode(int,int);
 extern unsigned recon_watcom_amblksiz;
 int __cdecl recon_watcom_memicmp(const void *,const void *,size_t);
+struct ReconWatcomDirent;
+struct ReconWatcomDirent *__cdecl recon_watcom_opendir(const char *);
+struct ReconWatcomDirent *__cdecl recon_watcom_readdir(struct ReconWatcomDirent *);
+int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *);
 char *__cdecl recon_watcom_getcmd(char *);
 void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
 void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **,char **);
@@ -488,6 +493,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define tell recon_watcom_tell
 #define setmode recon_watcom_setmode
 #define memicmp recon_watcom_memicmp
+#define opendir recon_watcom_opendir
+#define readdir recon_watcom_readdir
+#define closedir recon_watcom_closedir
 #define getcmd recon_watcom_getcmd
 #define __STOSD recon_watcom_fill_dwords
 #define _splitpath2 recon_watcom_splitpath2

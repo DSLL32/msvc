@@ -1399,3 +1399,12 @@ response consumption and later DeleteFileA. Each side retains its own actual
 name; no original filename/PID or observed success-LastError equivalence is
 claimed. Native success preserves independent errors/FP. Other profiles,
 environments/directories/prefixes/unique values and output domains deny125.
+
+Watcom native direct.h provides the SDK NT packed289B directory/entry shape:
+d_attr at21, d_name[256] at30 and d_first at288. Target DIR/dirent and attribute
+spellings are profile-only; shared implementation TUs keep host DIR/dirent.
+Public opendir/readdir/closedir map to typed no-access denial125 boundaries.
+This permits complete WLINK WildCard source to compile while its reached
+callback path avoids enumeration. No allocation, filesystem query, returned
+entry or close semantics are qualified. Target-local reached CRT adapters must
+include shared headers before applying their scoped public-name overrides.
