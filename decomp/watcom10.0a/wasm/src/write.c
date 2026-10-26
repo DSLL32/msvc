@@ -77,6 +77,15 @@ void write_init(void)
     AssumeInit();
 }
 
+/* Source-correlated static write_fini from initial write.c136; actual
+ * CFdee0..dee5 tail to FixFini, between write_init and write_record.
+ * Externally named for the test/MAP adapter; no recovered-public-name claim.
+ */
+void write_fini(void)
+{
+    FixFini();
+}
+
 
 void WriteObjModule(void)
 {
@@ -130,7 +139,7 @@ void WriteObjModule(void)
     }
     AsmSymFini();
     FreeIncludePath();
-    /* The tiny later write_fini wrapper is folded into this direct edge. */
+    /* The retained write_fini body is inlined into this original direct edge. */
     FixFini();
 }
 

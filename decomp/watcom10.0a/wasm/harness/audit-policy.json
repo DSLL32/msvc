@@ -2036,6 +2036,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "write_fini": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
