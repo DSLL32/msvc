@@ -1537,3 +1537,12 @@ ASCII WCHAR and2048-WCHAR caller contract, strings+digits+6 count, and native
 error/FP preservation. Its six typed varargs are read without consuming the
 first layout's extra flag fields. The original nine-argument layout remains
 unchanged; no other pattern is interpreted. Original per-call state unmeasured.
+
+RECON_SPLITPATH_WATCOM_DOS with the explicit Watcom profile opts in only the
+identified208B DOS _splitpath variant. Relative ASCII leaves shorter260B use
+last-dot splitting, basename8/extension4 truncation including the dot, and empty
+drive/directory. Requested outputs require caller-owned1/1/9/5-byte spans;
+wrap/input/output overlaps are checked before any writes. Unknown path forms
+deny125. Other binaries keep their prior mapping and maxima; no automatic NT
+variant change is implied. WASM's ordinary get_module_name path plus a separate
+actual-state diagnostic establish ModuleInfo.name="transfor" for transform.asm.

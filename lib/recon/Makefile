@@ -986,3 +986,9 @@ build/apstudio-reference-probe: tests/apstudio-reference-probe.c $(SOURCES) $(HE
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 apstudio-reference-check: build/apstudio-reference-probe
 	$(PYTHON) tests/check-apstudio-reference.py $< 510
+
+.PHONY: watcom-splitpath-dos-check
+build/watcom-splitpath-dos-probe: tests/watcom-splitpath-dos-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_SPLITPATH_WATCOM_DOS $< $(SOURCES) -o $@
+watcom-splitpath-dos-check: build/watcom-splitpath-dos-probe
+	$(PYTHON) tests/check-watcom-splitpath-dos.py $< dos

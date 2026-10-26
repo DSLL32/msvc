@@ -110,6 +110,46 @@ volatile int *__cdecl recon_watcom_errno(void)
     recon_unsupported("Watcom errno requires explicit profile");return NULL;
 #endif
 }
+void __cdecl recon_watcom_splitpath_dos(const char *path,char *drive,char *directory,
+                                      char *name,char *extension)
+{
+#if defined(RECON_CRT_PROFILE_WATCOM_100A) && defined(RECON_SPLITPATH_WATCOM_DOS)
+    char *outputs[4]={drive,directory,name,extension};
+    const size_t spans[4]={1,1,9,5};
+    const char *parts[4];size_t lengths[4],length,dot,n,prior;
+    uintptr_t output;
+    if((uintptr_t)path<4096 || (uintptr_t)path>UINTPTR_MAX-260)
+        recon_unsupported("Watcom DOS splitpath input span");
+    for(length=0;length<260 && path[length];++length)
+        if((unsigned char)path[length]>=128 || path[length]==':' ||
+           path[length]=='/' || path[length]=='\\')
+            recon_unsupported("Watcom DOS splitpath relative ASCII leaf");
+    if(length==260)recon_unsupported("Watcom DOS splitpath long leaf");
+    dot=length;for(n=0;n<length;++n)if(path[n]=='.')dot=n;
+    parts[0]=parts[1]=parts[2]=path;parts[3]=path+dot;
+    lengths[0]=lengths[1]=0;lengths[2]=dot>8?8:dot;
+    lengths[3]=length-dot>4?4:length-dot;
+    for(n=0;n<4;++n)if(outputs[n]) {
+        output=(uintptr_t)outputs[n];
+        if(output<4096 || output>UINTPTR_MAX-spans[n] ||
+           (output<(uintptr_t)path+length+1 && (uintptr_t)path<output+spans[n]))
+            recon_unsupported("Watcom DOS splitpath output/input span");
+        for(prior=0;prior<n;++prior)if(outputs[prior] &&
+           output<(uintptr_t)outputs[prior]+spans[prior] &&
+           (uintptr_t)outputs[prior]<output+spans[n])
+            recon_unsupported("Watcom DOS splitpath overlapping outputs");
+    }
+    /* DOS provider bounds include the terminator: filename9/extension5.
+     * Empty requested drive/directory and every guard precede any output. */
+    for(n=0;n<4;++n)if(outputs[n]) {
+        if(lengths[n])memcpy(outputs[n],parts[n],lengths[n]);
+        outputs[n][lengths[n]]=0;
+    }
+#else
+    (void)path;(void)drive;(void)directory;(void)name;(void)extension;
+    recon_unsupported("Watcom DOS splitpath requires qualified variant");
+#endif
+}
 void __cdecl recon_watcom_splitpath2(const char *path,char *buffer,char **drive,
                                    char **directory,char **name,char **extension)
 {
