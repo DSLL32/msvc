@@ -9,7 +9,11 @@
 #include "../../src/instruction-rewrite.h"
 #include "../../src/bitsets.h"
 #include "../../src/symbols.h"
+#include "../../src/float-machine.h"
 #include <recon-tool.h>
+#include <unistd.h>
+#include <signal.h>
+#include <sys/wait.h>
 #include <recon.h>
 unsigned short __fastcall new_value_register(unsigned short type);
 static MachineFlowRegion *loop(unsigned short *number, MachineInstruction **update)
@@ -109,7 +113,41 @@ static int normalized_addresses(void)
     return source_marker->record.source_location==0x20003&&
         update->operands[1].value.constant==4&&active_machine_region==region;
 }
+/* Six explicit original switch rows. FICOM/FICOMP/FILD are the three
+   intervening bare-return slots and are deliberately NOT treated as valid. */
+static int resident_arithmetic_forms(void)
+{
+    static const unsigned memory[]={MC_FIADD,MC_FIDIV,MC_FIDIVR,MC_FIMUL,MC_FISUB,MC_FISUBR};
+    static const unsigned resident[]={MC_FADD,MC_FDIV,MC_FDIVR,MC_FMUL,MC_FSUB,MC_FSUBR};
+    unsigned i;
+    int status,pid;
+    for(i=0;i<6;++i)if(float_register_arithmetic_opcode(memory[i])!=resident[i])return 0;
+    pid=fork();if(pid<0)return 0;
+    if(!pid){signal(SIGTRAP,SIG_DFL);float_register_arithmetic_opcode(MC_FICOM);_exit(17);}
+    return waitpid(pid,&status,0)==pid&&WIFSIGNALED(status)&&WTERMSIG(status)==SIGTRAP;
+}
+static int scalar_bit_widths(void)
+{
+    return integer_width_bits(0)==0&&integer_width_bits(1)==8&&
+        integer_width_bits(2)==16&&integer_width_bits(3)==0&&integer_width_bits(4)==32;
+}
+static int aggregate_secondary_result(void)
+{
+    static const unsigned sizes[]={1,2,4,8};
+    FunctionSymbol *symbol=allocate_descriptor(14,1);
+    unsigned i;
+    symbol->field24=6;
+    for(i=0;i<4;++i){
+        symbol->symbol.value=sizes[i];
+        if(return_value_register(symbol)!=REG_EAX||second_return_value_register(symbol)!=REG_EDX||
+            symbol->field24!=6||symbol->symbol.value!=sizes[i])return 0;
+    }
+    return 1;
+}
 const ReconTest scaled_induction_tests[]={
     {"unit-qualified induction summary uses original x86 shift count",1,increment_summary},
-    {"unit-qualified indexed normalization preserves owned address annotations",1,normalized_addresses}
+    {"unit-qualified indexed normalization preserves owned address annotations",1,normalized_addresses},
+    {"unit-qualified integer memory arithmetic maps to resident ST forms",1,resident_arithmetic_forms},
+    {"unit-qualified scalar operand widths retain actual bit counts",1,scalar_bit_widths},
+    {"unit-qualified plain aggregate secondary result uses EDX",1,aggregate_secondary_result}
 };

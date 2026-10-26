@@ -1,23 +1,52 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1503 adds two explicitly unit-qualified dormant scaling helpers to the
-completed INTERNAL region-consistency case. There are1388
+Checkpoint1506 adds three unit-qualified dormant selection queries to the
+completed INTERNAL region-consistency case. There are1391
 reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies362318/399693 original code-section bytes(90.6491%); adding940 owned
-text-data bytes gives363258/399693(90.8843%). These clipped extent unions use
+occupies362458/399693 original code-section bytes(90.6841%); adding976 owned
+text-data bytes gives363434/399693(90.9283%). These clipped extent unions use
 section VirtualSize(raw size only if zero), not branch coverage. Five historical
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover389632/399693(97.4828%). A reliable non-CRT
-denominator is unavailable;21 pending App rows and10061B outside the available
+classified CRT/import extents cover389808/399693(97.5269%). A reliable non-CRT
+denominator is unavailable;18 pending App rows and9885B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
 `binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
-cases and252 narrow units pass. Fixtures are native-only. Inputs preserve actual
+cases and255 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The latest three owners are UNIT-qualified, with no new original-pair or CLI
+reach claim: secondary aggregate register72B, integer bit width8B and resident
+floating arithmetic mapping60B plus36B owned switch data. Together with the two
+scaling helpers below, five current App owners use this explicitly distinct
+qualification. No new original capture, input/private flag change or CRT body.
+
+Typed native controls cover all five encountered bit-width table entries, plain
+aggregate sizes1/2/4/8 with primary EAX/secondary EDX and unchanged descriptor
+fields, and all six integer-memory to resident-ST arithmetic opcode mappings.
+Independent raw-original shape/value controls bind the20B width table, all nine
+switch slots/six MOV-immediate returns and the secondary EDX/RET0 tail. The sole
+SAR consumer assumes valid x86 scalar widths1/2/4; adjacent width-table globals
+are not an extended argument contract. Other floating opcodes retain the original
+Win32 missing-return source bug; the native guard traps instead of pretending
+host EAX matches. A real native FICOM call verifies that SIGTRAP limitation.
+Invalid aggregate kinds/frontends/sizes retain the existing unaccepted internal
+error child; no provider/error path is fabricated or credited.
+
+Final make-j4 audit/check/unit passes4.024s(phases unsplit):1396 graphs/accepted
+extents,200 scoped RET,46 original-backed cases and255 units. Original/W3 passes
+3.434s with the documented missing-return warning and existing trapping stubs.
+Necessary canonical/native rebuild16.716s includes common signature-header
+invalidation; phases unsplit. Final harness-only guard/reserved-width additions
+build0.398s and the five units pass0.033s; the preceding unit attempt also passes
+0.031s. No body/registry change follows the full audit. Analysis/editing/static
+script elapsed unmeasured. Raw static controls/timing/coverage/qualification are
+under `~/.ai-tmp/msvc2/vc1.0/c2/selection-query-units/`.
+
+Checkpoint1503 added the two scaling owners below.
 The two new owners are explicitly UNIT-qualified: normalize scaled indices309B
 and scale the induction summary49B. Their exact full bodies, call graph and RET0
 contracts match original disassembly and compile with the original toolchain.

@@ -985,6 +985,21 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@second_return_value_register@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@integer_width_bits@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@float_register_arithmetic_opcode@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

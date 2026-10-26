@@ -399,7 +399,6 @@ Expression *__fastcall substitute_inline_body(Function *function, InlineBinding 
     Node *__fastcall substitute_inline_node(InlineBinding *bindings, Node *node, int *changed);
     Node *__fastcall find_matching_parent(Node *tree, Node *target);
     unsigned __fastcall substitute_inline_assembly_symbol(SymbolHeader *symbol, void *context);
-    unsigned __fastcall second_return_value_register(FunctionSymbol *symbol);
     int __fastcall is_tail_call_position(Expression *expressions, Expression *position);
     extern int floating_frontend, data_pointer_bytes;
     Expression *expression = function->expressions, *previous = 0, *next, *inserted, *discard;

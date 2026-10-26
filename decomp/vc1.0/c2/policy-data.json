@@ -49,6 +49,23 @@
         418923,
         418940
       ]
+    },
+    {
+      "function": "@float_register_arithmetic_opcode@4",
+      "defined_inputs": [
+        81,
+        84,
+        85,
+        87,
+        88,
+        89
+      ],
+      "unsupported_native": "Other opcodes trap natively: original3bf7b bare RET leaves incidental EAX, Win32 missing-return source preserved. Only six integer arithmetic forms occur at the real caller.",
+      "original_missing_return_tail": [
+        245627,
+        245628
+      ],
+      "qualification": "typed native units and original source/disassembly/graph; no actual original-pair or CLI reach"
     }
   ],
   "function_properties": {

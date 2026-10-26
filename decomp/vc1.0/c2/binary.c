@@ -2472,11 +2472,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@second_return_value_register@4",
         .entry_rva = 0x16d00,
-        .code = (const ReconExtent[]) { { 0x16d00, 0x16d01 } },
+        .code = (const ReconExtent[]) { { 0x16d00, 0x16d48 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "second_return_value_register",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@substitute_inline_assembly_symbol@8",
@@ -2941,11 +2941,13 @@ static const ReconFunction functions[] = {
     {
         .name = "@float_register_arithmetic_opcode@4",
         .entry_rva = 0x2bf40,
-        .code = (const ReconExtent[]) { { 0x2bf40, 0x2bf41 } },
+        .code = (const ReconExtent[]) { { 0x2bf40, 0x2bf7c } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x2bf7c, 0x2bfa0 } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "float_register_arithmetic_opcode",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@find_resident_float_use@4",
@@ -9682,11 +9684,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@integer_width_bits@4",
         .entry_rva = 0x12020,
-        .code = (const ReconExtent[]) { { 0x12020, 0x12021 } },
+        .code = (const ReconExtent[]) { { 0x12020, 0x12028 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "integer_width_bits",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@operand_mentions_register@8",

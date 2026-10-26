@@ -1770,3 +1770,14 @@ int __fastcall narrow_result_safe(MachineInstruction *instruction)
     }
     return 0;
 }
+
+/* Original22020..22028 (8 bytes), ECX byte width, RET0. The sole SAR
+   caller consumes valid x86 scalar widths1/2/4. Original80358..8036c are
+   these five DWORDs, including reserved zero/three entries; adjacent globals
+   are not part of the width table or an extended input contract.
+   Dormant App body qualified by native units, not original CLI reach. */
+static const unsigned integer_operand_bit_width[5] = {0,8,16,0,32};
+unsigned __fastcall integer_width_bits(unsigned bytes)
+{
+    return integer_operand_bit_width[bytes];
+}

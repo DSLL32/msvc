@@ -53,6 +53,7 @@ void emit_float_return(void);
 void __fastcall emit_label(SymbolHeader *symbol);
 unsigned short __fastcall select_assembly_record(Node *node);
 unsigned __fastcall return_value_register(FunctionSymbol *symbol);
+unsigned __fastcall second_return_value_register(FunctionSymbol *symbol);
 LabelSymbol *new_internal_label(void);
 MachineInstruction *__fastcall next_machine_block(MachineInstruction *instruction);
 void __fastcall analyze_selected_block(MachineBlockHeader *block);

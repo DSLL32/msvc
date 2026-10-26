@@ -2526,3 +2526,24 @@ int __fastcall can_reuse_float_branch_target(MachineInstruction *target)
     }
     return instruction ? 1 : 0;
 }
+
+/* Original3bf40..3bf7c (60 bytes), with nine switch targets3bf7c..3bfa0.
+   Convert the six integer-memory arithmetic forms to their resident ST forms.
+   Original default3bf7b is a bare RET with incidental EAX; preserve the missing
+   return in Win32. The native unsupported-input guard avoids pretending that
+   host EAX reproduces that undefined C return ABI. No provider or CRT body.
+   Dormant App body qualified by typed native units, not original CLI reach. */
+unsigned __fastcall float_register_arithmetic_opcode(unsigned operation)
+{
+    switch (operation) {
+    case MC_FIADD: return MC_FADD;
+    case MC_FIDIV: return MC_FDIV;
+    case MC_FIDIVR: return MC_FDIVR;
+    case MC_FIMUL: return MC_FMUL;
+    case MC_FISUB: return MC_FSUB;
+    case MC_FISUBR: return MC_FSUBR;
+    }
+#ifdef __linux__
+    __asm int 3
+#endif
+}

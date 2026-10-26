@@ -43,7 +43,6 @@ void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
-unsigned __fastcall second_return_value_register(FunctionSymbol *symbol) { __asm int 3 }
 #include "algebra.h"
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
@@ -84,7 +83,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 #include "register-use.h"
 
 #include "instruction-rewrite.h"
-unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 
 #include "value-selection.h"
 #include "bitsets.h"
@@ -188,6 +186,5 @@ short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
-unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
 
 int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }

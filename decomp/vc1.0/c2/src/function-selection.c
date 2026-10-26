@@ -1,4 +1,5 @@
 #include "instruction-selection.h"
+#include "function-input.h"
 #include <recon.h>
 extern int codeview_debug;
 /* Original [000193a0,000194c0), including its 31-entry control table.
@@ -93,4 +94,19 @@ void finish_function_selection(void)
         selection_global_header->previous = (MachineInstruction *)block;
         block->next = (MachineInstruction *)selection_global_header;
     }
+}
+
+/* Original26d00..26d48 (72 bytes), ECX function symbol, RET0.
+   The secondary word of a small aggregate return uses EDX. The original
+   caller has already selected the plain register-return aggregate contract;
+   other kinds/frontends/sizes retain their separate internal diagnostics.
+   Dormant App body qualified by typed native units, not original CLI reach. */
+unsigned __fastcall second_return_value_register(FunctionSymbol *symbol)
+{
+    extern int floating_frontend;
+    if ((symbol->field24 & 15) != 6)
+        compiler_internal_error("@(#)MDmisc.c:1.87", 0x22e);
+    if (floating_frontend || !is_register_return_size(symbol->symbol.value))
+        compiler_internal_error("@(#)MDmisc.c:1.87", 0x22f);
+    return REG_EDX;
 }
