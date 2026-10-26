@@ -135,12 +135,15 @@ struct OutputSection {
     DWORD line_number_offset, characteristics, original_characteristics, line_number_count, reserved2c;
     WORD index, reserved32;
     WORD reserved34;
-    BYTE has_base_relocations,reserved37;
-    DWORD reserved38;
+    BYTE has_base_relocations,vxd_flag10;
+    BYTE vxd_flag40,vxd_flag8000,vxd_flag4000,reserved3b;
     OutputSection *merge_target;
     ContributionGroup *groups;
     OutputSection *next;
 };
+typedef char OutputSectionVxdFlags[(offsetof(OutputSection,vxd_flag10)==0x37 &&
+    offsetof(OutputSection,vxd_flag40)==0x38 && offsetof(OutputSection,vxd_flag8000)==0x39 &&
+    offsetof(OutputSection,vxd_flag4000)==0x3a)?1:-1];
 typedef char OutputSectionSize[(sizeof(OutputSection)==72)?1:-1];
 struct ContributionGroup {
     char *name;

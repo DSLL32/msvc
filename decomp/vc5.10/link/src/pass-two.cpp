@@ -749,7 +749,6 @@ void RECON_THISCALL LinkContext::FinishNativeSections(void)
     end_section_enumerator(&enumerator);
     WriteBaseRelocations();
 }
-void RECON_THISCALL LinkContext::WriteVxdRelocations(void) { __asm { int 3 } }
 extern "C" {
 int __cdecl compare_base_relocations(const void *left,const void *right)
 {

@@ -55,5 +55,3 @@ extern "C" void __stdcall apply_section_merge(OutputSection *section) { __asm { 
 extern "C" char * __stdcall replace_extension(const char *file,const char *extension) { __asm { int 3 } return 0; }
 void RECON_THISCALL LinkContext::UpdateChecksum(void) { __asm { int 3 } }
 extern "C" void __cdecl print_removed_comdats(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::WriteVxdModuleTable(int file) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::WriteVxdNames(int file) { __asm { int 3 } }

@@ -221,7 +221,23 @@ void __stdcall process_x86_relocations(Contribution *contribution,
     }
 }
 #undef APPEND_BASE_RELOCATION
-OutputSection *__stdcall find_section_by_index(SHORT index,SectionList *sections) { __asm { int 3 } return NULL; }
+/* Original 467588 caches the last section found, independent of the current
+ * list argument; the original tests only the cached section index. */
+OutputSection *last_indexed_section;
+OutputSection *__stdcall find_section_by_index(SHORT index,SectionList *sections)
+{
+    SectionEnumerator enumerator;
+    if(index<=0)return NULL;
+    if(last_indexed_section && last_indexed_section->index==(WORD)index)
+        return last_indexed_section;
+    initialize_section_enumerator(&enumerator,sections);
+    while(next_output_section(&enumerator)) {
+        if(enumerator.current->index==(WORD)index)break;
+    }
+    end_section_enumerator(&enumerator);
+    last_indexed_section=enumerator.current;
+    return last_indexed_section;
+}
 void __stdcall report_incremental_addend(IMAGE_SYMBOL *symbol,LinkContext *context,Contribution *contribution) { __asm { int 3 } }
 void __stdcall record_debug_fixup(WORD type,WORD flags,DWORD site,DWORD value) { __asm { int 3 } }
 void __stdcall record_relative_fixup(DWORD site) { __asm { int 3 } }

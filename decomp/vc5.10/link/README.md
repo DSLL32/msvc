@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-425 application functions / 146,107 original code bytes are reconstructed
-(35.22% of the 414,810-byte whole `.text` extent, which includes CRT and text
+438 application functions / 152,336 original code bytes are reconstructed
+(36.72% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 46 pending bodies with known extents totaling 6,788 bytes and
-176 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 45 pending bodies with known extents totaling 6,628 bytes and
+167 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twelve cached native cases and their narrow checks;
+`make -j4 check unit` runs all fourteen cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-438-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 421 ordinary application bodies and six CRT bodies. Seven import
+451-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 434 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The four genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -60,7 +60,7 @@ justified lifetime/operation TUs use special optimization and instrumentation
 settings, with one physical cleanup owner and actual Win32 EH actions.
 
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
-Optional Mac, VXD, PDB, callback, debug and librarian edit/extract domains retain
+Unreached Mac, PDB, callback, debug and further librarian edit/extract domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
 owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
@@ -185,3 +185,36 @@ non-triggering observations remain limited. No repair credit or output mask was
 added. Native completion took 14.3 ms (8.7 ms setup, 2.6 ms execution, 3.0 ms
 checks). The twelve-case regression/unit batch took 1.13 s and the full
 original-build/graph/RET/EH gate took 2.06 s, both only at case completion.
+
+
+The LE/VxD serialization case links an original-compiled x86 object with code,
+initialized data, BSS, internal fixups, a dynamic VXD definition, description and
+ordinal exports. Its genuine synchronous librarian child and parent both exit 0,
+with 324 shared application first entries. The final 4,769-byte VxD, 298-byte EXP
+and 1,454-byte LIB match. The separately observed librarian invocation also
+completes, with 206 entries; it remains an independent oracle. Actual temporary
+names pass through response-file creation, SELF and deletion without seeding or
+pathname masks. The ordinal-1 export is a function: the writer consumes its
+actual 80-byte payload prefix for device/version fields. This qualifies the
+original-accepted serialization route, not an operational DDB or loaded driver.
+
+Thirteen bodies / 6,229 original code bytes cover VxD initialization, definition
+text/export parsing, buffer Copy, warning dispatch, LE header sizing, object and
+page tables, module names, entry bundles, section-index lookup, grouped fixups
+and final headers. The LE header is one typed 196-byte owner with its actual
+scalar defaults, including DDK version 0x400. Buffer/cache and section fields
+retain their existing physical owners. Header growth/relaunch and terminating
+warning-as-error helpers remain named traps; large page-count and unsupported
+conversion domains remain guarded. No driver execution or wider PDB claim is
+made.
+
+Raw reference artifacts and failed partial comparisons remain in scratch. The
+VxD output is byte-exact without normalization. EXP/LIB comparisons normalize
+only the identified COFF TimeDateStamp DWORDs and five archive-member ten-digit
+Date fields; every other byte and the complete file inventory remain strict.
+The final fresh native completion took 40.4 ms (14.6 ms setup, 22.5 ms execution,
+3.3 ms checks). The fourteen-case cached regression/unit batch passed in 1.07 s;
+the successful full 451-vertex / 440-return-contract / four-EH-owner gate took
+2.13 s. The audit's initial missing cached toupper identity was closed with its
+ordinary documented cdecl EBP-preservation contract and exact site inventory.
+No regression or reference capture was repeated for that metadata correction.

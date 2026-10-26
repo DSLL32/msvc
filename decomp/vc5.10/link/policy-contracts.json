@@ -5124,5 +5124,27 @@
       ],
       "scope": "Normal return only; exact 16-byte archive special-name comparison."
     }
+  ],
+  "vxd_case_ordinary_abi": [
+    {
+      "import": "msvcrt.dll!toupper",
+      "original_iat": "0x401168",
+      "declaration": {
+        "path": "toolchains/5.10/include/CTYPE.H",
+        "line": 177,
+        "sha256": "91b8db05b72f8cd29cdb5991bf16f2973b555100bb812f5acc0015e7f7c859ff",
+        "text": "_CRTIMP int __cdecl toupper(int);"
+      },
+      "additional_preserves": [
+        "ebp"
+      ],
+      "abi": "Identified ordinary x86 cdecl normal return preserves EBP.",
+      "owner": "LinkContext::WriteVxdModuleTable",
+      "cached_load": "0x463fa5",
+      "cached_sites": [
+        "0x463fbc"
+      ],
+      "scope": "Normal return only; no provider body or wider character-domain credit."
+    }
   ]
 }

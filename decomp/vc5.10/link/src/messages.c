@@ -64,3 +64,24 @@ void __cdecl link_message(unsigned message, ...)
     print_link_diagnostic(NULL, 4, message, arguments);
     va_end(arguments);
 }
+
+/* Original 4809ec: the zero-initialized BYTE selected by /WX. */
+BYTE warning_errors_enabled;
+
+/* The five-argument terminating diagnostic remains a genuine pending body. */
+void __stdcall exit_link_diagnostic(const char *file,unsigned kind,unsigned status,
+                                    unsigned message,va_list arguments)
+{
+    __asm { int 3 }
+}
+
+void __cdecl link_warning(const char *file,unsigned message,...)
+{
+    va_list arguments;
+    va_start(arguments,message);
+    if(warning_errors_enabled) {
+        if(!is_message_suppressed(message))
+            exit_link_diagnostic(file,2,1,message,arguments);
+    } else print_link_diagnostic(file,2,message,arguments);
+    va_end(arguments);
+}

@@ -20,8 +20,6 @@ template<class T> int RECON_THISCALL DefinitionStorage<T>::Grow(int bytes)
     Set(replacement,(T *)((BYTE *)replacement+used));
     return 1;
 }
-template<class T> int RECON_THISCALL DefinitionStorage<T>::Copy(const T *source,int bytes,T **output)
-{ __asm { int 3 } return 0; }
 /* Set is visible here: the original /Ob2 compiler removes Set(NULL,NULL)
  * from the canonical cleanup outline. Callers share the same inline body. */
 #include "definition-buffer-cleanup.h"

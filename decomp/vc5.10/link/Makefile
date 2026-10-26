@@ -12,6 +12,7 @@ BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-imag
 BINARY_SOURCES += src/section-layout.cpp src/pass-two.cpp src/output-symbols.cpp src/debug-output.cpp
 BINARY_SOURCES += src/definition-file-stubs.c
 BINARY_SOURCES += src/librarian.cpp src/librarian-stubs.cpp
+BINARY_SOURCES += src/vxd.cpp
 BINARY_SOURCES += src/import-conversion.cpp src/archive-convert.cpp
 BINARY_SOURCES += src/librarian-options.cpp
 BINARY_SOURCES += src/librarian-input.cpp src/librarian-process.cpp src/librarian-prepare.cpp src/librarian-machine.cpp src/definition-parser.cpp src/definition-parser-stubs.cpp src/definition-lexer.cpp src/definition-name.cpp src/definition-export.cpp src/librarian-export.cpp src/librarian-output.cpp src/librarian-thunks.cpp src/librarian-descriptor.cpp src/librarian-exp.cpp src/archive-output.cpp src/archive-build.cpp src/messages.c

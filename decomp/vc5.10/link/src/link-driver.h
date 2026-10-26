@@ -111,7 +111,10 @@ struct LinkContext {
     DWORD dos_image_size, pe_header_offset;
     int is_vxd;
     DWORD reserved1e8;
-    BYTE dynamic_vxd, reserved1ed[39];
+    BYTE dynamic_vxd, reserved1ed[3];
+    DWORD vxd_header_bytes, reserved1f4, vxd_page_map_cursor;
+    DWORD vxd_page_count, vxd_fixup_pages, vxd_fixup_records, vxd_first_data;
+    DWORD vxd_resident_names,vxd_entry_table;
     IncrementalDefinition definition;
     DWORD pdb_signature,pdb_age,pdb_fpo_count;
     DWORD pdb_module_count, reserved244;
@@ -216,6 +219,10 @@ typedef char LinkContextDefinitionAt214[(offsetof(LinkContext,definition)==0x214
 typedef char LinkContextEntryAt198[(offsetof(LinkContext,entry_name)==0x198)?1:-1];
 typedef char LinkContextIncludesAt1a4[(offsetof(LinkContext,includes)==0x1a4)?1:-1];
 typedef char LinkContextDynamicAt1ec[(offsetof(LinkContext,dynamic_vxd)==0x1ec)?1:-1];
+typedef char LinkContextVxdPageOwners[(offsetof(LinkContext,vxd_page_count)==0x1fc &&
+    offsetof(LinkContext,vxd_first_data)==0x208)?1:-1];
+typedef char LinkContextVxdHeaderAt1f0[(offsetof(LinkContext,vxd_header_bytes)==0x1f0)?1:-1];
+typedef char LinkContextVxdLimitAt1f8[(offsetof(LinkContext,vxd_page_map_cursor)==0x1f8)?1:-1];
 typedef char LinkContextSize[(sizeof(LinkContext)==664)?1:-1];
 typedef char LinkContextOptionalAt44[(offsetof(LinkContext,optional_header)==0x44)?1:-1];
 typedef char LinkContextOptionsAt124[(offsetof(LinkContext,options)==0x124)?1:-1];

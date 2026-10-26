@@ -381,12 +381,6 @@ int __stdcall close_argument_file(int file,int flags)
     if (record->flags & 8) return close_mapped_file(record);
     return close_buffered_file(record);
 }
-/* Only this flag field of the buffered block is encountered here. */
-typedef struct FileBufferHeader {
-    BYTE reserved00[20];
-    DWORD flags;
-} FileBufferHeader;
-typedef char FileBufferFlagsAt14[(offsetof(FileBufferHeader,flags)==0x14)?1:-1];
 void __stdcall cache_file_record(FileRecord *record)
 {
     FileRecord *oldest;

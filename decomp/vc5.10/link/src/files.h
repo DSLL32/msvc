@@ -25,6 +25,14 @@ typedef char FileRecordLayoutCheck[(sizeof(FileRecord)==40 &&
     offsetof(FileRecord,view)==20 && offsetof(FileRecord,mapping_size)==24 &&
     offsetof(FileRecord,file_size)==28 && offsetof(FileRecord,base)==32 &&
     offsetof(FileRecord,previous)==36)?1:-1];
+/* Encountered buffered-file prefix: the cursor and flags retain one owner. */
+typedef struct FileBufferHeader {
+    BYTE reserved00[12];
+    LONG cursor;
+    DWORD reserved10,flags;
+} FileBufferHeader;
+typedef char FileBufferCursorAt0c[(offsetof(FileBufferHeader,cursor)==12)?1:-1];
+typedef char FileBufferFlagsAt14[(offsetof(FileBufferHeader,flags)==20)?1:-1];
 struct OutputModule;
 int __stdcall open_file_view(const char *,int,int,void **,DWORD *,DWORD *);
 int __stdcall open_module_file(struct OutputModule *,int,int);

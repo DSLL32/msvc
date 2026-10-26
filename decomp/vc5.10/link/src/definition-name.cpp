@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <mbstring.h>
+#include <ctype.h>
 #include "librarian.h"
 #include "definition-parser.h"
 #include "options.h"
@@ -98,4 +100,64 @@ extern "C" WORD __stdcall read_definition_name(LinkContext *image,BYTE library)
         flag=next_directive_token(NULL,&quoted);
     }
     return next_definition_token();
+}
+
+extern "C" WORD __stdcall read_definition_description(char *text)
+{
+    char *value,*last;
+    default_phase="ParseDefDescription";
+    if(text && *text) {
+        value=text;
+        while(*value==' ' || *value=='\t')++value;
+        if(*value=='\'' && *++value) {
+            last=(char *)_mbsrchr((const unsigned char *)text,'\'');
+            if(last)*last=0;
+        }
+        definition_text=duplicate_argument(value);
+    }
+    return next_definition_token();
+}
+
+#undef isdigit
+extern "C" WORD __stdcall read_vxd_definition_export(char *text)
+{
+    char directive[128],separator=*text,*cursor=text;
+    WORD token;
+    unsigned length;
+    default_phase="ParseVxdDefExport";
+    if(!*text)return 0;
+    while(*cursor) {
+        if(*cursor==' ' || *cursor=='\t' || *cursor=='=') {
+            separator=*cursor;
+            *cursor=0;
+        } else ++cursor;
+    }
+#ifdef __linux__
+    /* The original reads the byte after this token's NUL. At the physical
+     * line owner's last byte that would consume the following pointer owner. */
+    if((DWORD)cursor<(DWORD)definition_line ||
+       (DWORD)cursor+1>=(DWORD)definition_line+sizeof(definition_line)) { __asm { int 3 } }
+#endif
+    ++cursor;
+    if(*cursor) {
+        while(*cursor==' ' || *cursor=='\t')++cursor;
+        if(separator==' ' || separator=='\t') {
+            separator=*cursor;
+            if(separator=='=' || separator=='@')++cursor;
+        }
+    }
+    if(separator) {
+        token=find_definition_keyword(text);
+        if(token!=(WORD)-1)return token;
+    }
+    strcpy(directive,"/EXPORT:");
+    strcat(directive,text);
+    if(separator=='@') {
+        strcat(directive,",@");
+        length=strlen(directive);
+        while(isdigit((signed char)*cursor))directive[length++]=*cursor++;
+        directive[length]=0;
+    }
+    read_librarian_directive(directive);
+    return 0;
 }

@@ -1,6 +1,8 @@
 LANGUAGE 9, 1
 STRINGTABLE
 BEGIN
+    2 " warning"
+    4070 " /OUT:%s directive in .EXP differs from output filename ""%s""; ignoring directive"
     9001 "   Creating library %s and object %s"
     9021 "Replacing %s"
 END

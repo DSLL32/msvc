@@ -247,7 +247,11 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
      * The only discovered caller ignores that return value. */
     return auxiliary;
 }
-void RECON_THISCALL LinkContext::InitializeVxd(void) { __asm { int 3 } }
+void RECON_THISCALL LinkContext::InitializeVxd(void)
+{
+    optional_header.SectionAlignment=512;
+    optional_header.FileAlignment=512;
+}
 extern "C" {
 extern ByteBuffer image_comments;
 extern BYTE mapped_debug;
@@ -260,14 +264,20 @@ DWORD RECON_THISCALL LinkContext::PeHeaderSize(DWORD *offset)
     return start+file_header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER)+
         image_comments.used+(mapped_debug ? sizeof(IMAGE_SECTION_HEADER) : 0);
 }
-DWORD RECON_THISCALL LinkContext::VxdHeaderSize(DWORD *offset) { __asm { int 3 } return 0; }
+DWORD RECON_THISCALL LinkContext::VxdHeaderSize(DWORD *offset)
+{
+    DWORD start=pe_header_offset+196; /* Fixed linear-executable header. */
+    DWORD bytes=start+(DWORD)file_header.NumberOfSections*24;
+    *offset=start;
+    vxd_header_bytes=bytes;
+    vxd_page_map_cursor=bytes;
+    return bytes>4096 ? bytes : 4096;
+}
 extern "C" void __stdcall write_section_header(int file,const IMAGE_SECTION_HEADER *header,IMAGE_SECTION_HEADER *destination);
 void RECON_THISCALL LinkContext::PeWriteSection(int file,void *section,void *header)
 {
     write_section_header(file,(IMAGE_SECTION_HEADER *)header,NULL);
 }
-void RECON_THISCALL LinkContext::VxdWriteSection(int file,void *section,void *header) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::VxdWriteHeaders(int file) { __asm { int 3 } }
 
 /* Named original callees remain trapping until reached. */
 extern "C" {
@@ -328,7 +338,6 @@ void __cdecl linker_usage(void)
     );
     exit(1100);
 }
-void __cdecl link_warning(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_error(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __stdcall validate_debug_options(LinkContext *context)
