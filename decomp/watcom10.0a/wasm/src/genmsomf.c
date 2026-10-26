@@ -401,3 +401,186 @@ void writeLinnumData( obj_rec *objr, OBJ_WFILE *out )
         }
     }
 }
+
+/* Initial genmsomf.c remaining typed serialization owners; actual1994
+ * CF1ad14/1b284/1b33c/1b64c/1ba98. Macros keep inline record-cursor effects. */
+void id32Block( obj_rec *objr, OBJ_WFILE *out, short *delta,
+    unsigned short first_block_offset ) {
+/*
+    Since LIDATAs are different under PharLap and MicroSoft 386 formats,
+    we have to do some magic.
+*/
+    unsigned short rpt_count;
+    unsigned short blk_count;
+    unsigned char  data_count;
+    unsigned char  *ptr;
+
+    rpt_count = ObjGet16(objr);
+    ObjWrite32( out, rpt_count );
+    *delta += 2;    /* ok, everything from here on will be at +2 offset */
+    LifixAdd( &lifList, objr->curoff - first_block_offset, *delta );
+    blk_count = ObjGet16(objr);
+    ObjWrite16( out, blk_count );
+    if( blk_count == 0 ) {
+        data_count = ObjGet8(objr);
+        ObjWrite8( out, data_count );
+        ptr = ObjGet( objr, data_count );
+        ObjWrite( out, ptr, data_count );
+    } else {
+        for( ; blk_count != 0; --blk_count ) {
+            id32Block( objr, out, delta, first_block_offset );
+        }
+    }
+}
+
+int writeMisc32( obj_rec *objr, pobj_state *state ) {
+/*
+    For 32-bit records which are the same under Intel, PharLap, and MS OMFs
+*/
+    unsigned char  *ptr;
+    unsigned short len;
+    unsigned char  cmd;
+    unsigned short save;
+
+if (!(objr != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",75);
+if (!(objr->data != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",76);
+if (!(state != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",77);
+if (!(state->pass == POBJ_WRITE_PASS)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",78);
+    save = objr->curoff;
+    (objr->curoff = 0);
+    len = (objr->length - objr->curoff);
+    ptr = ObjGet( objr, len );
+    cmd = objr->command;
+    if( objr->is_32 || objr->is_phar ) {
+        cmd |= 0x01;
+    }
+    ObjWriteRec( state->file_out, cmd, len, ptr );
+    (objr->curoff = save);
+    return( 0 );
+}
+
+int writeLidata( obj_rec *objr, pobj_state *state ) {
+
+    OBJ_WFILE   *out;
+    unsigned short     save;
+    unsigned char      *ptr;
+    unsigned short     len;
+    int         is32;
+
+if (!(objr != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",337);
+if (!(objr->command == CMD_LIDATA)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",338);
+if (!(state != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",339);
+if (!(state->pass == POBJ_WRITE_PASS)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",340);
+    LifixDestroy( &lifList );
+    LifixInit( &lifList );
+    out = state->file_out;
+    save = objr->curoff;
+    is32 = objr->is_32 || objr->is_phar;
+    ObjWBegRec( out, is32 ? 0xa3 : CMD_LIDATA );
+    ObjWriteIndex( out, objr->d.lidata.idx );
+    if( is32 ) {
+        ObjWrite32( out, objr->d.lidata.offset );
+    } else {
+        ObjWrite16( out, objr->d.lidata.offset );
+    }
+    if( objr->is_phar == 0 ) {
+        /* ok, already in our format */
+        len = (objr->length - objr->curoff);
+        ptr = ObjGet( objr, len );
+        ObjWrite( out, ptr, len );
+    } else {
+        short delta;
+        unsigned short first_block_offset;
+
+        delta = 0;  /* id32Block needs to play with this */
+        first_block_offset = objr->curoff;
+        while( objr->curoff < objr->length ) {
+            id32Block( objr, out, &delta, first_block_offset );
+        }
+    }
+    ObjWEndRec( out );
+    (objr->curoff = save);
+    return( 0 );
+}
+
+int writeComdat( obj_rec *objr, pobj_state *state ) {
+
+    OBJ_WFILE   *out;
+    unsigned char      *ptr;
+    unsigned short     len;
+    unsigned short     save;
+    int         is_32;
+
+if (!(objr != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",465);
+if (!(objr->command == CMD_COMDAT)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",466);
+if (!(state != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",467);
+if (!(state->pass == POBJ_WRITE_PASS)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",468);
+    save = objr->curoff;
+    is_32 = objr->is_32 || objr->is_phar;
+    out = state->file_out;
+    ObjWBegRec( out, objr->command | ( is_32 ? 1 : 0 ) );
+    ObjWrite8( out, objr->d.comdat.flags );
+    ObjWrite8( out, objr->d.comdat.attributes );
+    ObjWrite8( out, objr->d.comdat.align );
+    if( is_32 ) {
+        ObjWrite32( out, objr->d.comdat.offset );
+    } else {
+        ObjWrite16( out, objr->d.comdat.offset );
+    }
+    ObjWriteIndex( out, objr->d.comdat.type_idx );
+    if( ( objr->d.comdat.attributes & 0x0f ) == 0 ) {
+        writeBase( objr, out );
+    }
+    ObjWriteIndex( out, objr->d.comdat.public_name_idx );
+    if( ( objr->d.comdat.flags & 0x02 ) == 0 || objr->is_phar == 0 ){
+        /* record is already in ms omf format */
+        len = (objr->length - objr->curoff);
+        ptr = ObjGet( objr, len );
+if (!(len <= 1024)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",490);
+        ObjWrite( out, ptr, len );
+    } else {
+        short delta;
+        unsigned short first_block_offset;
+
+        delta = 0;  /* id32Block needs to play with this */
+        first_block_offset = objr->curoff;
+        while( objr->curoff < objr->length ) {
+            id32Block( objr, out, &delta, first_block_offset );
+        }
+    }
+    ObjWEndRec( out );
+    (objr->curoff = save);
+    return( 0 );
+}
+
+int writeLinsym( obj_rec *objr, pobj_state *state ) {
+
+    int         is32;
+    OBJ_WFILE   *out;
+
+if (!(objr != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",614);
+if (!(objr->command == CMD_LINSYM)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",615);
+if (!(state != NULL)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",616);
+if (!(state->pass == POBJ_WRITE_PASS)) InternalError("g:\\bld\\womp\\c\\genmsomf.c",617);
+    out = state->file_out;
+    is32 = objr->is_32 || objr->is_phar;
+    ObjWBegRec( out, is32 ? 0xc5 : CMD_LINSYM );
+    ObjWrite8( out, objr->d.linsym.d.linsym.flags );
+    ObjWriteIndex( out, objr->d.linsym.d.linsym.public_name_idx );
+    writeLinnumData( objr, out );
+    ObjWEndRec( out );
+    return( 0 );
+}
+
+/* Initial lifix.c, CF1c78c..1c7c8: increasing bounds form a stack. */
+void LifixAdd(lifix_list *list, unsigned short lower_bound, short delta)
+{
+    lifix *item;
+    if (list->head != NULL && list->head->lower_bound >= lower_bound)
+        InternalError("g:\\bld\\womp\\c\\lifix.c",97);
+    item = MemAlloc(sizeof(*item));
+    item->lower_bound = lower_bound;
+    item->delta = delta;
+    item->next = list->head;
+    list->head = item;
+}

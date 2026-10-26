@@ -145,6 +145,8 @@ void write_flat_grp(void);
 void ObjPut8(obj_rec *record, unsigned char value);
 void ObjPut16(obj_rec *record, unsigned short value);
 void ObjPut(obj_rec *record, const unsigned char *data, unsigned short length);
+unsigned char ObjGet8(obj_rec *objr);
+unsigned short ObjGet16(obj_rec *objr);
 unsigned char *ObjGet(obj_rec *record, unsigned short length);
 void write_record(obj_rec *record, unsigned char kill);
 void check_need_32bit(obj_rec *record);
@@ -177,7 +179,13 @@ struct obj_rec {
             unsigned short seg_name_idx, class_name_idx, ovl_name_idx;
         } segdef;
         struct { obj_rec *data_rec; fixup *fixup; } fixup;
-        struct { unsigned short idx; unsigned long offset; } ledata;
+        struct {
+            struct { unsigned short grp_idx, seg_idx, frame; } base;
+            unsigned char flags, attributes, align;
+            unsigned long offset;
+            unsigned short type_idx, public_name_idx;
+        } comdat;
+        struct { unsigned short idx; unsigned long offset; } ledata, lidata;
         struct {
             union {
                 struct { unsigned short grp_idx, seg_idx, frame; } base;
@@ -185,7 +193,7 @@ struct obj_rec {
             } d;
             unsigned short num_lines;
             struct linnum_data *lines;
-        } linnum;
+        } linnum, linsym;
         struct {
             struct { unsigned short grp_idx, seg_idx, frame; } base;
             unsigned short num_pubs;
@@ -276,6 +284,8 @@ typedef char lifix_size_check[sizeof(lifix) == 8 ? 1 : -1];
 typedef struct lifix_list { lifix *head; } lifix_list;
 short LifixDelta(lifix_list *list, unsigned short old_offset);
 void LifixInit(lifix_list *list);
+void LifixAdd(lifix_list *list, unsigned short lower_bound, short delta);
+void id32Block(obj_rec *objr, OBJ_WFILE *out, short *delta, unsigned short first_block_offset);
 void LifixDestroy(lifix_list *list);
 typedef struct HANDLE_INFO {
     int handle;

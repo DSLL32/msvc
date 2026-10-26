@@ -190,3 +190,24 @@ char *put16( char *p, unsigned short value )
     *(unsigned short *)p = value;
     return p + 2;
 }
+
+/* CF1c2d4..1c2dc, initial fixup.c WriteU32 buffer operation. */
+char *put32(char *p, unsigned long value)
+{
+    *(unsigned long *)p = value;
+    return p + 4;
+}
+
+/* CF1c45c..1c4d2, initial fixup.c physical frame/offset encoding. */
+size_t FixGenPRef(physref *ref, char *buffer, int type)
+{
+    char *p;
+    if (ref == NULL) InternalError("g:\\bld\\womp\\c\\fixup.c",326);
+    if (buffer == NULL) InternalError("g:\\bld\\womp\\c\\fixup.c",327);
+    if (type != FIX_GEN_INTEL && type != FIX_GEN_PHARLAP && type != FIX_GEN_MS386)
+        InternalError("g:\\bld\\womp\\c\\fixup.c",329);
+    p = put16(buffer,ref->frame);
+    if (type == FIX_GEN_PHARLAP) p = put32(p,ref->offset);
+    else p = put16(p,(unsigned short)ref->offset);
+    return p - buffer;
+}

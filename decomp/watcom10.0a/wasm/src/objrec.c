@@ -178,3 +178,20 @@ void ObjPut16(obj_rec *objr, unsigned short value)
     *(unsigned short *)(objr->data + objr->curoff) = value;
     objr->curoff += 2;
 }
+
+/* CF1be38..1be6c, initial objrec.c single-byte reader advances without
+ * the later general ObjGet bounds assertion. Caller owns a valid record. */
+unsigned char ObjGet8(obj_rec *objr)
+{
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c",129);
+    return objr->data[objr->curoff++];
+}
+
+/* CF1be6c..1be9b, initial objrec.c typed16-bit reader. */
+unsigned short ObjGet16(obj_rec *objr)
+{
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c",137);
+    return *(unsigned short *)ObjGet(objr,2);
+}
