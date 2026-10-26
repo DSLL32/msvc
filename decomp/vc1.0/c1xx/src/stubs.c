@@ -64,10 +64,7 @@
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-int release_input_handle(void) { __asm { int 3 } return 0; }
-void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
@@ -264,7 +261,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 
 
 
-void browser_end_macro_expansion(void) { __asm { int 3 } }
 
 
 

@@ -519,3 +519,21 @@ void close_all_source_handles(void)
         active_input = active_input->next;
     }
 }
+
+/* Original0x1e3c0..0x1e411, cdecl. Retire the oldest still-open include
+   handle above the protected two outer levels; traversal depth is local. */
+int release_input_handle(void)
+{
+    SourceFile *input;
+    short depth = include_depth;
+    unsigned result;
+    if (depth <= 2) return 0;
+    input = active_input;
+    while (depth > 2 && input->next->handle != -1) {
+        input = input->next;
+        --depth;
+    }
+    result = _close(input->handle);
+    input->handle = -1;
+    return result < 1;
+}

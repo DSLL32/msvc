@@ -585,3 +585,13 @@ void __stdcall report_macro_error(char *directive)
 {
     compiler_warning(1, 117, interned_name, directive);
 }
+
+/* Original0x72e60..0x72e8f, stdcall4. Preserve the second real allocation
+   attempt before the original fatal diagnostic; no invented reserve release. */
+void *__stdcall retry_malloc(unsigned bytes)
+{
+    void *memory = malloc(bytes);
+    if (!memory) memory = malloc(bytes);
+    if (!memory) { fatal_error(60); return 0; }
+    return memory;
+}

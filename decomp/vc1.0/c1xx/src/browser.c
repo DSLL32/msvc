@@ -840,3 +840,20 @@ void discard_browser_output(void)
     if (fclose(browser_file) || _unlink(filename))
         report_fatal(83, message_text(340), options.option_Fr);
 }
+
+/* Original0x2c380..0x2c3a6, cdecl. Exhausted browse identifiers end
+   the active sequence and disable both full-reference and filename gates.
+   The initialization path at0x6923f binds0x8f010 to options.option_FR. */
+void browser_symbol_rollover(void)
+{
+    compiler_warning(1, 41);
+    browser_compilation_error();
+    options.option_FR = 0;
+    browser_filename = 0;
+}
+
+/* Original0x2c480..0x2c48a, cdecl. The macro-end marker is payload-free. */
+void browser_end_macro_expansion(void)
+{
+    queue_browser_record(7, 0);
+}

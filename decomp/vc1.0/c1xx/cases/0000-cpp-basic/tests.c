@@ -2,6 +2,9 @@
  * not equivalence or public reachability. Historical proof: tagged 17c78f8c6. */
 #include <sys/wait.h>
 #include <unistd.h>
+#include <io.h>
+#include <fcntl.h>
+#include "macro-expansion.h"
 #include <recon-tool.h>
 #include "debug-types.h"
 #include "debug-info.h"
@@ -382,6 +385,44 @@ static int check_segment_debug_owners(void)
         first->next && first->next->symbol == &segment && first->next->offset == 14 &&
         first->next->bytes == 2 && !first->next->next;
 }
+/* Explicit unit-only resource fallback owners; no resource exhaustion or
+   forced public control flow is claimed. */
+static int check_input_handle_retirement(void)
+{
+    SourceFile input[3] = {{0}};
+    int first, second, result;
+    include_depth = 2; active_input = 0;
+    if (release_input_handle() != 0) return 0;
+    first = _open("handle-unit.tmp", _O_CREAT|_O_TRUNC|_O_RDWR|_O_BINARY, 0600);
+    second = _open("handle-unit.tmp", _O_RDWR|_O_BINARY);
+    if (first < 0 || second < 0) return 0;
+    input[0].handle = first; input[0].next = &input[1];
+    input[1].handle = second; input[1].next = &input[2];
+    input[2].handle = -1;
+    active_input = input; include_depth = 4;
+    result = release_input_handle();
+    if (result != 1 || input[0].handle != first || input[1].handle != -1 ||
+        include_depth != 4) return 0;
+    if (release_input_handle() != 1 || input[0].handle != -1) return 0;
+    result = release_input_handle();
+    _unlink("handle-unit.tmp");
+    return result == 0;
+}
+static int check_browser_fallback_state(void)
+{
+    void *memory = retry_malloc(32);
+    if (!memory) return 0;
+    memset(memory, 0x5a, 32); free(memory);
+    browser_record_head = browser_record_count = browser_records_suppressed = 0;
+    source_line_number = 47;
+    browser_end_macro_expansion();
+    if (browser_record_count != 1 || first_browser_record()->kind != 7) return 0;
+    options.option_FR = "unit.sbr"; browser_filename = options.option_FR;
+    options.option_W = 0;
+    browser_symbol_rollover();
+    return !options.option_FR && !browser_filename && browser_record_count == 2 &&
+        first_browser_record()->kind == 7 && second_browser_record()->kind == 14;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -408,5 +449,7 @@ const ReconTest c1xx_tests[] = {
     {"database pool release (unit-only)",1,check_database_pool_release},
     {"segmented descriptor expression (unit-only)",1,check_segment_descriptor_expression},
     {"initializer address widths (unit-only)",1,check_initializer_address_widths},
-    {"segment debug owners (unit-only)",1,check_segment_debug_owners}
+    {"segment debug owners (unit-only)",1,check_segment_debug_owners},
+    {"input handle retirement (unit-only)",1,check_input_handle_retirement},
+    {"browser fallback state (unit-only)",1,check_browser_fallback_state}
 };

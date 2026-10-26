@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1966 historical frontiers/1882 App bodies;
- * Twenty-three support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1966 historical frontiers/1886 App bodies;
+ * Twenty-seven support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -2481,6 +2481,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "release_input_handle",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_open_source_file@8",
@@ -3821,6 +3822,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_symbol_rollover",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_include_end",
@@ -3906,10 +3908,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_end_macro_expansion",
         .entry_rva = 0x1c480,
-        .code = (const ReconExtent[]) { { 0x1c480, 0x1c481 } },
+        .code = (const ReconExtent[]) { { 0x1c480, 0x1c48a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_end_macro_expansion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_enter_tag@4",
@@ -14114,10 +14117,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_retry_malloc@4",
         .entry_rva = 0x62e60,
-        .code = (const ReconExtent[]) { { 0x62e60, 0x62e61 } },
+        .code = (const ReconExtent[]) { { 0x62e60, 0x62e8f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "retry_malloc",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_syntax_error",

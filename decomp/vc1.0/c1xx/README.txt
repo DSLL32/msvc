@@ -1,6 +1,25 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Resource fallback support is COMPLETE (native-unit-only): four whole App
+helpers add176 B: release_input_handle(81 B), retry_malloc(47 B), browser symbol
+rollover(38 B) and macro-end marker(10 B). Positive frontend callers establish
+ownership; no CLI resource exhaustion or symbol-counter overflow is claimed.
+Two typed units verify protected include depth, actual owned handle retirement
+and invalid-handle result, ordinary allocation success, browser ring ordering
+and both original browse gates clearing. The second allocation/fatal arm remains
+faithfully present without an invented reserve-release step or forced failure.
+
+Total is1,886 App /408,536 B (85.75% of whole original code),13 named pending
+App,1,966 historical frontiers,27 explicitly unit-qualified support bodies and
+seven unchanged historical CRT source bodies. All54 native cases and50 unit
+groups pass, original compilation and the1,894-function six-check graph/ABI
+audit included. Build3.928 s; focused units21.763/22.586 ms (execution2.867/
+3.054 ms); closing gate3.541 s. No original invocation, oracle, source policy or
+shared shim change was needed.
+
+Earlier SDK recovery qualification:
+
 SDK contract recovery is COMPLETE: case0053 compiles one generated device SDK
 negative-conformance workload with incomplete payloads, overloaded callbacks,
 mismatched function/member pointer contracts and an invalid function definition.
