@@ -894,3 +894,11 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type)
     compiler_warning(level, code, text);
     end_type_diagnostic();
 }
+
+/* Original0x61500..0x61534, stdcall8. Localize left/right before
+   reading the operator spelling, retaining the three diagnostic arguments. */
+void __stdcall report_invalid_operand(unsigned char operation, int position)
+{
+    char *side = message_text(position == 1 ? 301 : 302);
+    report_syntax_error(121, token_spellings[operation], side);
+}

@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1958 historical frontiers/1862 App bodies;
+ * Current completed-case boundary:1959 historical frontiers/1863 App bodies;
  * latest eleven support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
@@ -12040,10 +12040,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_invalid_operand@8",
         .entry_rva = 0x51500,
-        .code = (const ReconExtent[]) { { 0x51500, 0x51501 } },
+        .code = (const ReconExtent[]) { { 0x51500, 0x51534 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_invalid_operand",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_operator_has_builtin_fallback@12",

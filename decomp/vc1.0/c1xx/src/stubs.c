@@ -215,7 +215,6 @@ void discard_function_definition(void) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
-void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
 
 
 

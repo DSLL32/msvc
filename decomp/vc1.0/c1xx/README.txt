@@ -1,6 +1,26 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Callback contract validation is COMPLETE: case0049 compiles a generated
+callback SDK's negative conformance clients alongside valid explicit-operator
+and overloaded callback controls. The original emits five errors and one
+warning for member-pointer arithmetic/access, static inherited state, incomplete
+payload use and the invalid aggregate selector. Exact diagnostics, six complete
+IR/browser artifacts and exit5 match natively. Only the52 B operand-diagnostic
+wrapper is newly reached; no recovery-path or broader branch coverage claim.
+It preserves localization before token lookup and all three diagnostic arguments.
+
+Total is1,863 App /406,684 B (85.36% of whole original code),33 named pending
+App,1,959 historical frontiers and seven unchanged historical CRT source bodies.
+The eleven prior unit-qualified helpers remain separately qualified. All50
+native cases and41 unit groups pass, with original compilation and the
+1,871-function six-check graph/ABI audit. Closing gate3.684 s, incremental
+original/native build3.275 s. Final pair original1,142.224 ms/native34.639 ms
+(setup20.736 ms, execution6.724 ms, checks7.178 ms). No source-policy exception,
+normalization or shared compatibility change was required.
+
+Earlier packed SDK qualification:
+
 Archive format SDK is COMPLETE: case0048 compiles packed archival records,
 three virtual record-source branches and stable input-file __TIMESTAMP__ values.
 Four newly reached App functions add181 B: current_source_timestamp(27 B),
