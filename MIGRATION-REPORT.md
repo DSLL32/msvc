@@ -917,11 +917,22 @@ The final combined validation batch takes 2.585 s: cached help/archive replays
 9.088 / 8.998 ms, period build, full 171-owner graph/ownership/extent checks,
 165 strict RET contracts and six finite nonlocal-role residuals all pass.
 Const demangler tables use the same genuine named data-public boundary solution
-as WPP, without padding or a new tool feature. The next authorized substantial
+as WPP, without padding or a new tool feature. The current authorized substantial
 workload combines in-place/backup replacement, C++ template/virtual/operator
-symbols, COMMON/COMDAT records, dictionary prime sizing above 36 publics,
-response comments and member-name extraction; period objects/seed are being
-prepared, with no new acceptance claimed yet.
+symbols, COMDAT records, dictionary prime sizing above 36 publics, response
+comments and member-name extraction. Genuine COMMON coverage is deferred;
+record B7 is LPUBDEF, not LCOMDEF or COMDEF.
+
+The current C++ listing prefix reaches `dimension` at RVA 0x156a0 with 179 first
+entries: original 1,232.485 ms / native 15.942 ms. The worker reports 209
+runtime-matched App bodies / 24,432 unique original bytes, with no built but
+unrun candidate at this boundary. Seven matched owners still need shared-region
+ownership qualification; these numbers therefore do not replace the completed,
+fully qualified 171 / 19,558 checkpoint. The graph owner is implementing one
+exact terminal-region contract for both disconnected return fragments and
+inventoried existing CALL facts. It preserves raw callee edges and ordinary
+per-owner graph/ABI checks, without changing runtime masking or inferring a
+callback contract. Full-case gates remain deferred until this case completes.
 
 WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
 authoritative.
