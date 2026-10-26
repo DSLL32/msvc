@@ -442,3 +442,14 @@ void __stdcall copy_qualified_argument_name(QualifiedDeclarator *qualified)
     text_work_cursor = copy_argument_spelling(text_work_cursor, head->target->name);
     *text_work_cursor++ = ' ';
 }
+
+/* Original0x19160..0x1918c, stdcall4. Any declaration marker from
+   the saved depth down through the active declarator excludes expression mode. */
+int __stdcall deferred_scope_allows_expression(int depth)
+{
+    while (depth >= declarator_nesting) {
+        if (declaration_spec_flags[depth] & 1) return 0;
+        --depth;
+    }
+    return 1;
+}

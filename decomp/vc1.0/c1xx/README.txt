@@ -1,6 +1,34 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Transaction snapshots are COMPLETE: case0035. One4,192-byte C++ queue owns
+nontrivial copied values and policies while its callers use temporary default
+arguments, constructor-initializer temporaries, copy/assignment and callback
+consumption. The original accepts the source directly. The constant-condition
+loop is ordinary queue dispatch; its boolean-record candidate was not reached
+and remains unimplemented. No reach was inferred merely from source shape.
+
+Five whole App bodies /575 code bytes were accepted: deferred-default and
+constructor-initializer symbol wrappers, recursive expression-reference list
+copying, declaration-record restoration and deferred-scope expression eligibility.
+Allocation keeps the original permanent/temporary arena choices and wrapper tags;
+restoration emits the actual24-byte record including its zero extra payload.
+Fresh original/native observations match all five entries, exit0, streams and
+six complete IR/browser artifacts, also exact against the untouched baseline.
+This is frontend compilation/IR validation, not generated-program runtime proof.
+No output exception, shared change, initialization repair or CRT body was added.
+
+Totals:1,815 App bodies /1,922 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union402,954 /476,418 B is84.58% of whole original code
+extent, not a non-CRT denominator;74 named App stubs remain. All36 cached native
+cases,32 existing unit groups and the1,823-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original632.977 ms; native34.880 ms
+(setup19.010 ms, execution9.460 ms, checks6.410 ms). Complete closing gate3.455 s;
+incremental build walls were not separately measured. Raw artifacts and paired
+reports remain in scratch, outside cases and Git.
+
+Earlier completed register-map validation:
+
 Register-map SDK validation is COMPLETE: case0034. One3,181-byte source
 keeps packet/register layouts, inline assembler and stale out-of-line driver
 contracts together. The original reports illegal legacy assembler operands,

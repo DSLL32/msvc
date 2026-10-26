@@ -152,7 +152,6 @@ CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } r
 
 
 
-int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } return 0; }
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
@@ -227,7 +226,6 @@ int __stdcall equal_based_expressions(IrToken *first, IrToken *second) { __asm {
 
 void __stdcall validate_based_self_source(IrToken *expression) { __asm { int 3 } }
 
-IrToken *__stdcall attach_expression_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
 
 
@@ -243,7 +241,6 @@ void __stdcall report_invalid_operand(unsigned char operation, int position) { _
 
 
 
-void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 
@@ -277,7 +274,6 @@ CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads) { __asm {
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
-ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 
@@ -307,7 +303,6 @@ int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) {
 
 
 
-IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 

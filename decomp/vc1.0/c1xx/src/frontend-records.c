@@ -1572,3 +1572,16 @@ void discard_trailing_expression_records(void)
         remove_last_frontend_record();
     }
 }
+
+/* Original0x3e2a0..0x3e316, stdcall4. Restore the detached list
+   tail first; each declaration record retains its zero second payload word. */
+void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols)
+{
+    DeclarationFrontendRecord record = {0};
+    if (ir_records_suppressed || !symbols) return;
+    record.header.kind = 13;
+    restore_expression_symbols(symbols->next);
+    record.header.kind &= ~0xc0;
+    record.symbol = symbols->symbol;
+    append_frontend_record(&record.header, sizeof(record));
+}

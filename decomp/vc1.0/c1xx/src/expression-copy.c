@@ -174,3 +174,39 @@ unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
     while (bytes--) *destination++ = *source++;
     return destination;
 }
+
+/* Original0x5d260..0x5d32f, stdcall8. Copy the whole eight-byte
+   reference node, then recursively replace its list and expression owners. */
+ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references,
+    int arena)
+{
+    ExpressionReference *copy;
+    ArenaPool *pool;
+    int selected_arena;
+    if (arena == 6) {
+        if (token_allocation_flags & 0x20000020UL)
+            copy = allocate_permanent(sizeof(ExpressionReference));
+        else {
+            pool = &compiler_arena.pools[1];
+            if (pool->remaining < (int)sizeof(ExpressionReference))
+                refill_arena(&compiler_arena, pool);
+            copy = (ExpressionReference *)pool->next;
+            pool->remaining -= sizeof(ExpressionReference);
+            pool->next += sizeof(ExpressionReference);
+        }
+    } else if (!arena) copy = allocate_permanent(sizeof(ExpressionReference));
+    else {
+        selected_arena = arena == -1 ? 0 : arena;
+        pool = &compiler_arena.pools[selected_arena];
+        if (pool->remaining < (int)sizeof(ExpressionReference))
+            refill_arena(&compiler_arena, pool);
+        copy = (ExpressionReference *)pool->next;
+        pool->remaining -= sizeof(ExpressionReference);
+        pool->next += sizeof(ExpressionReference);
+    }
+    *copy = *references;
+    if (references->next)
+        copy->next = clone_expression_references(references->next, arena);
+    copy->expression = clone_expression(references->expression, arena);
+    return copy;
+}

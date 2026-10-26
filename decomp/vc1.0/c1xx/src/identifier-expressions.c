@@ -587,3 +587,51 @@ CppSymbol *__stdcall recover_undeclared_identifier(char *name)
         browser_declaration(symbol);
     return symbol;
 }
+
+/* Original0x61160..0x611c7, stdcall8. Deferred default arguments
+   retain their detached symbol list without inventing a declared result type. */
+IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression,
+    ExpressionSymbolList *symbols)
+{
+    IrToken *result;
+    ArenaPool *pool;
+    if (token_allocation_flags & 0x20000020UL)
+        result = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        result = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    result->flags = 7;
+    result->kind = 0xc9;
+    result->value.pointer = expression;
+    result->tail.right = (IrToken *)symbols;
+    result->type = 0;
+    return result;
+}
+
+/* Original0x610f0..0x61157, stdcall8. Constructor initializer
+   expressions retain the same symbol-list owner under their distinct tag. */
+IrToken *__stdcall attach_expression_symbols(IrToken *expression,
+    ExpressionSymbolList *symbols)
+{
+    IrToken *result;
+    ArenaPool *pool;
+    if (token_allocation_flags & 0x20000020UL)
+        result = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        result = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    result->flags = 7;
+    result->kind = 0xc8;
+    result->value.pointer = expression;
+    result->tail.right = (IrToken *)symbols;
+    result->type = 0;
+    return result;
+}

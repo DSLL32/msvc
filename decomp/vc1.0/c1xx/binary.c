@@ -2131,10 +2131,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_deferred_scope_allows_expression@4",
         .entry_rva = 0x9160,
-        .code = (const ReconExtent[]) { { 0x9160, 0x9161 } },
+        .code = (const ReconExtent[]) { { 0x9160, 0x918c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "deferred_scope_allows_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_resolve_parenthesis_candidate@4",
@@ -7150,10 +7151,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_restore_expression_symbols@4",
         .entry_rva = 0x2e2a0,
-        .code = (const ReconExtent[]) { { 0x2e2a0, 0x2e2a1 } },
+        .code = (const ReconExtent[]) { { 0x2e2a0, 0x2e316 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_expression_symbols",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_return_expression",
@@ -11627,10 +11629,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_clone_expression_references@8",
         .entry_rva = 0x4d260,
-        .code = (const ReconExtent[]) { { 0x4d260, 0x4d261 } },
+        .code = (const ReconExtent[]) { { 0x4d260, 0x4d32f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "clone_expression_references",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_convert_pointer_operands@12",
@@ -11873,18 +11876,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_attach_expression_symbols@8",
         .entry_rva = 0x510f0,
-        .code = (const ReconExtent[]) { { 0x510f0, 0x510f1 } },
+        .code = (const ReconExtent[]) { { 0x510f0, 0x51157 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "attach_expression_symbols",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_wrap_default_argument_symbols@8",
         .entry_rva = 0x51160,
-        .code = (const ReconExtent[]) { { 0x51160, 0x51161 } },
+        .code = (const ReconExtent[]) { { 0x51160, 0x511c7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "wrap_default_argument_symbols",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_wrap_default_argument_members@8",
