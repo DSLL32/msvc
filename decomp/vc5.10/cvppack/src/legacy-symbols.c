@@ -613,3 +613,28 @@ void convert_legacy_block32(void)
     while (padding--) *name++ = 0;
     legacy_symbol_output = name;
 }
+
+/* [00408c40,00408c49). */
+void size_legacy_register_relative16(void)
+{ module_symbol_count += 9; }
+
+/* [0040a280,0040a37f). The original copies the counted one-character name
+ * as a WORD and preserves the WORD type, rather than remapping it here. */
+void convert_legacy_register_relative16(void)
+{
+    unsigned char *record = legacy_symbol_output;
+    unsigned short length = legacy_symbol_input[0] + 6;
+    unsigned padding = 3 - ((length - 1) & 3);
+    *(unsigned short *)record = ((length + 3) & 0xfffc) - 2;
+    legacy_symbol_input += 2;
+    *(unsigned short *)(record + 4) = *(unsigned short *)legacy_symbol_input;
+    legacy_symbol_input += 2;
+    *(unsigned short *)(record + 6) = legacy_symbol_segment;
+    *(unsigned short *)(record + 8) = *legacy_symbol_input++;
+    *(unsigned short *)(record + 10) = *(unsigned short *)legacy_symbol_input;
+    legacy_symbol_input += 2;
+    *(unsigned short *)(record + 12) = *(unsigned short *)legacy_symbol_input;
+    legacy_symbol_input += 2;
+    legacy_symbol_output += 14;
+    while (padding--) *legacy_symbol_output++ = 0;
+}

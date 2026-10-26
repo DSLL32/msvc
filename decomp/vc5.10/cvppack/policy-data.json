@@ -1042,6 +1042,36 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_size_legacy_register_relative16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_register_relative16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_data16_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_global_data16_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_procedure16_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_rewrite_register16_symbol": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

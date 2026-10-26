@@ -102,3 +102,49 @@ void rewrite_symbol_type4(void)
     if (!discard_symbol_depth)
         *(unsigned *)(symbol_input + 4) = map_type_index(*(unsigned *)(symbol_input + 4));
 }
+
+/* Remap the WORD type in a 16-bit data record [0040ad70,0040ada9). */
+void rewrite_data16_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth)
+        *(unsigned short *)(symbol_input + 8) =
+            (unsigned short)map_type_index(*(unsigned short *)(symbol_input + 8));
+}
+
+/* Remap and intern a 16-bit global-data record [0040adb0,0040adf9). */
+void rewrite_global_data16_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth) {
+        *(unsigned short *)(symbol_input + 8) =
+            (unsigned short)map_type_index(*(unsigned short *)(symbol_input + 8));
+        insert_global_symbol(symbol_input, symbol_record_key);
+    }
+}
+
+/* Keep a 16-bit procedure within its module contribution, then map its WORD
+ * type [0040ae50,0040aeb2). */
+void rewrite_procedure16_symbol(void)
+{
+    ++public_scope_depth;
+    if (!module_contains_address(current_module_info,
+                                 *(unsigned short *)(symbol_input + 24),
+                                 *(unsigned short *)(symbol_input + 22))) {
+        ++discard_symbol_depth;
+        *(unsigned short *)(symbol_input + 2) = 8;
+        return;
+    }
+    *(unsigned short *)(symbol_input + 26) =
+        (unsigned short)map_type_index(*(unsigned short *)(symbol_input + 26));
+}
+
+/* Historical logical name: this is S_BPREL16's WORD type at offset6,
+ * not the register-number record [0040abf0,0040ac29). */
+void rewrite_register16_symbol(void)
+{
+    if (discard_symbol_depth) *(unsigned short *)(symbol_input + 2) = 8;
+    if (!discard_symbol_depth)
+        *(unsigned short *)(symbol_input + 6) =
+            (unsigned short)map_type_index(*(unsigned short *)(symbol_input + 6));
+}
