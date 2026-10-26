@@ -74,14 +74,19 @@ UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LP
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     static UINT next_number;
-    char path[MAX_PATH],candidate[MAX_PATH];size_t n,prefix_length;UINT attempt,number;
+    char path[MAX_PATH],candidate[MAX_PATH];size_t n,prefix_length,prefix_bytes;UINT attempt,number;
     HANDLE file;int saved_errno=errno;DWORD saved_error=last_error;
-    if(!directory || !prefix || unique || (uintptr_t)prefix>UINTPTR_MAX-6)
+    if(!directory || !prefix || unique || (uintptr_t)prefix>UINTPTR_MAX-MAX_PATH)
         recon_unsupported("GetTempFileNameA directory/prefix/unique");
-    prefix_length=strnlen(prefix,6);
-    if(!((prefix_length==3 && !memcmp(prefix,"lah",3)) ||
-         (prefix_length==5 && !memcmp(prefix,"hello",5))))
-        recon_unsupported("GetTempFileNameA selected ASCII prefix");
+    prefix_length=strnlen(prefix,MAX_PATH);
+    if(prefix_length==MAX_PATH)recon_unsupported("GetTempFileNameA prefix length");
+    prefix_bytes=prefix_length<3?prefix_length:3;
+    for(n=0;n<prefix_length;++n) {
+        unsigned char byte=(unsigned char)prefix[n];
+        if(byte>=128 || (n<prefix_bytes &&
+           (byte<32 || byte==127 || strchr("<>:\"/\\|?*",byte))))
+            recon_unsupported("GetTempFileNameA ASCII/leaf prefix");
+    }
     temp_current_directory(path);n=strlen(path);
     if(strnlen(directory,MAX_PATH)!=n || memcmp(directory,path,n+1))
         recon_unsupported("GetTempFileNameA outside canonical current directory");
@@ -90,7 +95,7 @@ UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LP
     for(attempt=0;attempt<65535U;++attempt) {
         number=next_number;next_number=number==65535U?1:number+1;
         memcpy(candidate,path,n);
-        snprintf(candidate+n,MAX_PATH-n,"%.3s%04x.tmp",prefix,number);
+        snprintf(candidate+n,MAX_PATH-n,"%.*s%04x.tmp",(int)prefix_bytes,prefix,number);
         file=recon_CreateFileA(candidate,GENERIC_READ|GENERIC_WRITE,0,NULL,
                               CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
         if(file==INVALID_HANDLE_VALUE) {
@@ -98,7 +103,7 @@ UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LP
             recon_unsupported("GetTempFileNameA exclusive creation failure");
         }
         if(!recon_CloseHandle(file)) recon_unsupported("GetTempFileNameA close failure");
-        memcpy(output,candidate,n+12);errno=saved_errno;last_error=saved_error;
+        memcpy(output,candidate,n+prefix_bytes+9);errno=saved_errno;last_error=saved_error;
         return number;
     }
     recon_unsupported("GetTempFileNameA exhausted namespace");return 0;
