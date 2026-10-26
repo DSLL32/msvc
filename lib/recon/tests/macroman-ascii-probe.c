@@ -49,7 +49,15 @@ int main(int argc,char **argv)
             }
             __asm__ __volatile__("fstp %%st(0)":::"st");assert(!munmap(blocked,4096));return 0;
         }
-        if(!strcmp(mode,"other-page")){IsValidCodePage(1252);return 42;}
+        if(!strcmp(mode,"valid1252")){
+            unsigned char before[108],after[108];int row;
+            __asm__ __volatile__("fld1":::"st");
+            for(row=0;row<3;++row){errno=111*row;recon_doserrno=222*row;SetLastError(333*row);fp(before);
+                assert(IsValidCodePage(1252));fp(after);
+                assert(errno==111*row && recon_doserrno==222U*row && GetLastError()==333U*row && !memcmp(before,after,108));}
+            __asm__ __volatile__("fstp %%st(0)":::"st");return 0;
+        }
+        if(!strcmp(mode,"other-page")){IsValidCodePage(1251);return 42;}
         if(!strcmp(mode,"null"))WideCharToMultiByte(10000,0,NULL,1,NULL,0,NULL,NULL);
         else if(!strcmp(mode,"negative"))WideCharToMultiByte(10000,0,actual,-1,NULL,0,NULL,NULL);
         else if(!strcmp(mode,"flags"))WideCharToMultiByte(10000,1,actual,5,NULL,0,NULL,NULL);

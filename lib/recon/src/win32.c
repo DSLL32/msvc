@@ -1471,7 +1471,7 @@ LONG WINAPI recon_RtlUnicodeStringToAnsiString(struct AnsiString *out,struct Uni
 BOOL WINAPI recon_IsValidCodePage(UINT page)
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
-    if(page==10000) return TRUE;
+    if(page==10000 || page==1252) return TRUE;
 #endif
     (void)page;recon_unsupported("unreviewed IsValidCodePage");return FALSE;
 }
