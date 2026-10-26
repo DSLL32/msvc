@@ -216,3 +216,31 @@ no_inputs:
     }
     return 0;
 }
+
+/* Remove matching members from existing libraries before adding an object.
+ * The library created for this invocation is marked 0x10 and is skipped. */
+extern "C" BYTE __stdcall remove_librarian_member(LinkContext *context,const char *name)
+{
+    const char *saved_phase=default_phase;
+    LibraryEnumerator libraries;
+    ModuleEnumerator modules;
+    OutputModule **link;
+    BYTE removed=0;
+    default_phase="FRemoveModule";
+    initialize_library_enumerator(&libraries,(OutputLibrary *)context->pointer_list.first);
+    while(next_library(&libraries)) {
+        OutputLibrary *library=libraries.current;
+        if(library->flags&0x10)continue;
+        initialize_module_enumerator(&modules,library);
+        link=&library->module_head;
+        while(next_module(&modules)) {
+            OutputModule *module=modules.current;
+            if(!_mbsicmp((const unsigned char *)name,(const unsigned char *)module->name)) {
+                *link=module->next;
+                removed=1;
+            } else link=&module->next;
+        }
+    }
+    default_phase=saved_phase;
+    return removed;
+}

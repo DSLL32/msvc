@@ -5079,5 +5079,36 @@
       "crossing": "430a94 split_export_field before cached calls430adc/430b25/430b7a",
       "scope": "Only normal return; no new export parsing domain."
     }
+  ],
+  "archive_case_ordinary_abi": [
+    {
+      "functions": [
+        "_initialize_module_enumerator@8",
+        "_next_module@4",
+        "_next_library@4"
+      ],
+      "additional_preserves": [
+        "ebp"
+      ],
+      "abi": "Previously identified ordinary stdcall/RET8 or RET4 normal-return boundaries preserve EBP.",
+      "owner": "_remove_librarian_member@8",
+      "cached_identity": "Actual IAT4010e4 MSVCRT.dll!_mbsicmp loaded into EBP at43b853, called at43b88c; the real enumerator calls cross that live range.",
+      "scope": "Ordinary normal return only; no provider/body credit."
+    },
+    {
+      "import": "msvcrt.dll!sscanf",
+      "additional_preserves": [
+        "esi"
+      ],
+      "abi": "Identified public cdecl variadic signature; ESI is nonvolatile on ordinary normal return.",
+      "owner": "_write_librarian_output@8",
+      "cached_load": "0x43c9f0 from actual IAT401244",
+      "cached_sites": [
+        "0x43ca08",
+        "0x43ca2c",
+        "0x43ca4c"
+      ],
+      "scope": "Normal return only; parse results still checked separately."
+    }
   ]
 }

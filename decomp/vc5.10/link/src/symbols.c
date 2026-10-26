@@ -287,3 +287,40 @@ void __stdcall end_hash_enumerator(HashState *state)
     state->enumerator=enumerator->previous;
     release_memory(enumerator);
 }
+
+void __stdcall destroy_hash_table(HashTable *);
+void __stdcall clear_buffer(ByteBuffer *);
+void __stdcall destroy_string_table(StringTable **table)
+{
+    destroy_hash_table(&(*table)->hash);
+    clear_buffer(&(*table)->hash.strings);
+    free(*table);
+    *table=NULL;
+}
+
+void __stdcall destroy_hash_table(HashTable *table)
+{
+    HashState *state=table->state;
+    unsigned bucket,block,freed_block=0;
+    HashEntry *entry;
+    if(!state->incremental_mode) {
+        release_memory_arena(state->directory_arena);
+        release_memory_arena(state->bucket_arena);
+    } else {
+        for(bucket=0;bucket<state->bucket_count;++bucket) {
+            block=bucket/state->initial_buckets;
+            entry=((HashEntry **)state->directory[block][0])[bucket%state->initial_buckets];
+            while(entry)entry=entry->next;
+            if(block>freed_block) {
+                free(state->directory[freed_block][0]);
+                free(state->directory[freed_block]);
+                ++freed_block;
+            }
+        }
+        free(state->directory[freed_block][0]);
+        free(state->directory[freed_block]);
+        free(state->directory);
+    }
+    free(state);
+    table->state=NULL;
+}

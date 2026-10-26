@@ -1,15 +1,15 @@
 # VC5.10 LINK
 
-395 application functions / 135,693 original code bytes are reconstructed
-(32.71% of the 414,810-byte whole `.text` extent, which includes CRT and text
+400 application functions / 139,194 original code bytes are reconstructed
+(33.56% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 48 pending bodies with known extents totaling 7,143 bytes and
-187 entries whose body extents remain unknown; this is not a complete non-CRT
+186 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
-The `/help`, Win32 hello, DLL/DEF and standalone import-library cases are
-complete. Hello produces the matching 24,064-byte executable. The DLL workload
+The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
+COFF archive cases are complete. Hello produces the matching 24,064-byte executable. The DLL workload
 links an original-compiled stdcall entry point and functions, a shared data
 export, DEF aliases, explicit ordinals and a NONAME export. It produces the
 matching DLL, EXP and LIB files. Its actual synchronous `/lib @response` child
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all six cached native cases and their narrow checks;
+`make -j4 check unit` runs all seven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-408-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 393 ordinary application bodies and six CRT bodies. Seven import
+413-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 398 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The two genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -73,3 +73,18 @@ harness/startup.c owns native setup/invocation. crt/crt-imports.h is a shipped
 CRT interface declaration, with no implementation or application credit. Root
 policy files contain live finite audit contracts. Historical raw captures,
 failed candidates and earlier scope limitations remain in scratch/Git history.
+
+The ordinary archive case creates `widgets.lib` from two original-compiled
+COFF objects with cross-object function/data references and debug sections.
+It exits 0 with 149 application first entries and a matching 2,758-byte archive.
+The recovered route includes member removal traversal, object loading, both
+archive symbol indexes, member copying and string/hash-table cleanup. It uses
+neither the pending CoffLibrarianContext virtual bodies nor dependency replay.
+Only the two index-member ten-digit Date fields are normalized; member dates
+come from the fixture's fixed object mtimes, and all remaining bytes and the
+complete file inventory compare strictly. Raw reference artifacts remain in
+scratch. The genuine completion native replay took 15.9 ms (9.7 ms setup,
+3.6 ms execution, 2.6 ms checks). Case-end regression/unit checks took 0.93 s;
+the successful full graph/RET/EH audit took 1.71 s. These are incremental
+measurements. Archive modification/extraction and converted-member paths have
+not been qualified by this case.
