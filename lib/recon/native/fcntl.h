@@ -5,8 +5,12 @@
 #include_next <fcntl.h>
 /* Reached Watcom flags remain separate from host and Microsoft encodings. */
 #if defined(RECON_CRT_PROFILE_WATCOM_100A) && !defined(RECON_SHIM_IMPL)
+#undef O_WRONLY
+#define O_WRONLY 0x0001
 #undef O_RDWR
 #define O_RDWR 0x0002
+#undef O_EXCL
+#define O_EXCL 0x0400
 #undef O_CREAT
 #define O_CREAT 0x0020
 #undef O_TRUNC

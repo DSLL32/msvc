@@ -176,7 +176,8 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
     char path[PATH_MAX];struct stat information;int saved_errno=errno,fd,error;
-    int writing=flags==0x0162 || flags==0x0262,permission=0,mode=0x8000;
+    int exclusive=flags==0x0621;
+    int writing=flags==0x0162 || flags==0x0262 || exclusive,permission=0,mode=0x8000;
     va_list arguments;
     const unsigned char *cursor=(const unsigned char *)name;
     if((flags!=0x0200 && !writing) || !name || !*name || strpbrk(name,"*?"))
@@ -185,7 +186,8 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
     if(writing) {
         size_t length=strlen(name),component_size;
         const char *component=name;char prefix[MAX_PATH];
-        if(length>=MAX_PATH || strpbrk(name,":") || name[0]=='/' || name[0]=='\\')
+        if(length>=MAX_PATH || strpbrk(name,":") || name[0]=='/' || name[0]=='\\' ||
+           (exclusive && strpbrk(name,"/\\")))
             recon_unsupported("Watcom writable open outside relative path");
         for(cursor=(const unsigned char *)name;;++cursor) {
             if(*cursor && *cursor!='/' && *cursor!='\\')continue;
@@ -207,9 +209,10 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
          * The readonly two-argument boundary must never fetch one. */
         va_start(arguments,flags);permission=va_arg(arguments,int);va_end(arguments);
         if((flags==0x0162 && permission!=0666) ||
-           (flags==0x0262 && permission!=0600 && permission!=0666))
+           (flags==0x0262 && permission!=0600 && permission!=0666) ||
+           (exclusive && permission!=0666))
             recon_unsupported("Watcom writable open permission tuple");
-        mode=flags==0x0162?0x4302:0x8302;
+        mode=exclusive?0x8501:flags==0x0162?0x4302:0x8302;
     }
     if(recon_host_path(name,path,sizeof(path)))
         recon_unsupported("Watcom open translated path");
@@ -220,7 +223,7 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
         }
         if(!writing || error!=ENOENT)
             recon_unsupported("Watcom open unknown filesystem error");
-    } else if(!S_ISREG(information.st_mode))
+    } else if(exclusive || !S_ISREG(information.st_mode))
         recon_unsupported("Watcom open regular existing path");
     /* Preflight is host-only. Existing descriptor ownership handles the real
      * readonly or create/truncate open, including text/binary lowio state. */

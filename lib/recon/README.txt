@@ -1340,3 +1340,11 @@ remain unchanged. This qualifies WLIB out\keep.obj through its fixture-owned out
 The Watcom-only bare itoa spelling aliases the existing signed32 recon_itoa,
 matching the SDK int/pointer/radix prototype. WASM uses the decimal path; no
 additional numeric conversion implementation or provider state is introduced.
+
+Watcom open also admits exact0621/0666 for an absent ASCII relative leaf:
+O_WRONLY1|O_CREAT20|O_BINARY200|O_EXCL400 maps to the existing MS8501 atomic
+CREATE_NEW backend. The returned binary write descriptor has position0 and
+normal shared ownership/close; the existing0262 tuple can reopen it afterward.
+Existing paths/collisions, directory components for this new tuple, other modes
+and failures deny125. Native target O_EXCL400 is isolated from host/shim flags;
+read-only and prior writable tuples retain their established domains.

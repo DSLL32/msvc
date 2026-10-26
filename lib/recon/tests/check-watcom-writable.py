@@ -10,7 +10,7 @@ def case(mode,age='new',live=False):
         inventory=lambda:{str(path.relative_to(root)):('link',str(path.readlink())) if path.is_symlink() else ('file',path.read_bytes()) for path in root.rglob('*') if path.is_symlink() or path.is_file()}
         before=inventory()
         p=subprocess.run([binary,mode,str(root/'unqualified.dat') if mode=='absolute' else age]+(['live'] if live else []),cwd=root,capture_output=True)
-        success=mode in ('text','binary600','binary666') and not generic
+        success=(mode in ('text','binary600','binary666') or mode=='exclusive' and age=='new') and not generic
         assert p.returncode==(0 if success else 125) and not p.stdout,(mode,age,p.returncode,p.stderr)
         if success:
             expected=b'A\r\nB' if mode=='text' else b'A\nB\0Z'
@@ -25,5 +25,7 @@ def case(mode,age='new',live=False):
 for mode in ('text','binary600','binary666'):
     for age in ('new','old','directory-new','directory-old','backslash-new','backslash-old','nested-new','nested-old'):
         for live in (False,True):case(mode,age,live)
-for mode in ('linux','text600','permission','directory','symlink','path','trailing','null','parent-symlink','parent-file','traversal','dot','double','absolute','drive','unc','trailing-parent','trailing-slash'):case(mode)
-print('exact target flags/permissions/new+existing truncation/textCRLF/binary/seek/read/close/privateerrno/full108FP;18 denials PASS %.6fs'%(time.monotonic()-start))
+for age in ('new','old','directory-new','directory-old','backslash-new','backslash-old','nested-new','nested-old'):
+    for live in (False,True):case('exclusive',age,live)
+for mode in ('exclusive600','exclusiveflags','linux','text600','permission','directory','symlink','path','trailing','null','parent-symlink','parent-file','traversal','dot','double','absolute','drive','unc','trailing-parent','trailing-slash'):case(mode)
+print('exact target flags/permissions/new+existing truncation/textCRLF/binary/seek/read/close/privateerrno/full108FP;exclusive create-close-reopen/collision+scope denials PASS %.6fs'%(time.monotonic()-start))
