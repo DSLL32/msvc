@@ -92,6 +92,10 @@ static int os_environment_bound;
 static const WCHAR *pending_os_environment;
 static size_t pending_os_environment_units;
 static const WCHAR *initial_os_environment;
+static WCHAR *link_os_environment;
+static size_t initial_os_environment_units,link_os_environment_units,link_os_insertion;
+static const char link_os_assignment[]="LINK_REPRO_NAME=\\deflib.rsp";
+static int link_spawn_environment_valid(void);
 static char **initial_crt_environment,**owned_crt_environment;
 static char environment_update_name[256];
 #endif
@@ -2411,7 +2415,7 @@ void recon_crt_validate_spawn_cp0_profile(void)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     unsigned char mb[257];unsigned n;
     if (!recon_crt_arguments_bound || !os_environment_bound ||
-        recon_crt_os_environment!=initial_os_environment ||
+        !link_spawn_environment_valid() ||
         recon_crt_environment_updates || locale_profile_applied ||
         recon_mb_codepage || recon_lc_codepage || recon_mb_cur_max!=1 ||
         recon_pctype!=character_flags+1)
@@ -2970,6 +2974,75 @@ static int target_environment_has_name(const char *name,size_t length)
     return 0;
 }
 #endif
+/* Only the derived LINK OS namespace may supplement the original CP0 block.
+ * Private metadata is checked again before the ordinary spawn consumes it. */
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static int link_spawn_environment_valid(void)
+{
+    size_t n,length=sizeof(link_os_assignment);
+    if(!link_os_environment)return recon_crt_os_environment==initial_os_environment;
+    if(recon_crt_os_environment!=link_os_environment ||
+       recon_crt_os_environment_units!=link_os_environment_units ||
+       link_os_environment_units!=initial_os_environment_units+length ||
+       link_os_insertion>initial_os_environment_units-1)
+        return 0;
+    validate_os_environment(initial_os_environment,initial_os_environment_units);
+    validate_os_environment(link_os_environment,link_os_environment_units);
+    if(memcmp(link_os_environment,initial_os_environment,link_os_insertion*sizeof(WCHAR)))return 0;
+    for(n=0;n<length;++n)if(link_os_environment[link_os_insertion+n]!=(unsigned char)link_os_assignment[n])return 0;
+    return !memcmp(link_os_environment+link_os_insertion+length,initial_os_environment+link_os_insertion,
+        (initial_os_environment_units-link_os_insertion)*sizeof(WCHAR));
+}
+#endif
+/* Internal Win32 boundary. It deliberately changes neither the CRT snapshot
+ * nor Linux host environ; the synchronous child inherits the actual OS block. */
+BOOL recon_crt_set_link_repro_environment(LPCSTR name,LPCSTR value)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    size_t offset=0,insertion,n,length=sizeof(link_os_assignment),units;
+    WCHAR *derived;int saved=errno;unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();
+    if(!name || !value || strcmp(name,"LINK_REPRO_NAME") || strcmp(value,"\\deflib.rsp") ||
+       !os_environment_bound || link_os_environment || recon_crt_environment_updates ||
+       recon_crt_environment!=initial_crt_environment || recon_crt_os_environment!=initial_os_environment)
+        recon_unsupported("SetEnvironmentVariableA outside absent LINK OS insertion");
+    recon_crt_validate_spawn_cp0_profile();
+    target_environment_count(recon_crt_environment);
+    validate_os_environment(initial_os_environment,initial_os_environment_units);
+    if(target_environment_has_name(name,strlen(name)))
+        recon_unsupported("SetEnvironmentVariableA existing target name");
+    units=initial_os_environment_units+length;
+    if(units>32767)recon_unsupported("SetEnvironmentVariableA derived block size");
+    insertion=initial_os_environment_units-1;
+    /* Preserve every existing entry and its relative order. Place the new
+     * assignment before the first greater ASCII case-insensitive name. */
+    while(initial_os_environment[offset]) {
+        for(n=0;initial_os_environment[offset+n] && initial_os_environment[offset+n]!='=' && name[n];++n) {
+            unsigned a=initial_os_environment[offset+n],b=(unsigned char)name[n];
+            if(a>='a' && a<='z')a-='a'-'A';if(b>='a' && b<='z')b-='a'-'A';
+            if(a!=b)break;
+        }
+        {
+            unsigned a=initial_os_environment[offset+n],b=(unsigned char)name[n];
+            if(a=='=')a=0;if(a>='a' && a<='z')a-='a'-'A';if(b>='a' && b<='z')b-='a'-'A';
+            if(a>b){insertion=offset;break;}
+        }
+        while(initial_os_environment[offset])++offset;++offset;
+    }
+    derived=malloc(units*sizeof(*derived));
+    if(!derived)recon_unsupported("SetEnvironmentVariableA owned block allocation");
+    memcpy(derived,initial_os_environment,insertion*sizeof(*derived));
+    for(n=0;n<length;++n)derived[insertion+n]=(unsigned char)link_os_assignment[n];
+    memcpy(derived+insertion+length,initial_os_environment+insertion,
+        (initial_os_environment_units-insertion)*sizeof(*derived));
+    link_os_environment=derived;link_os_environment_units=units;link_os_insertion=insertion;
+    recon_crt_os_environment=derived;recon_crt_os_environment_units=units;
+    if(!link_spawn_environment_valid())recon_unsupported("SetEnvironmentVariableA derived block validation");
+    errno=saved;recon_doserrno=dos;recon_SetLastError(error);return TRUE;
+#else
+    (void)name;(void)value;recon_unsupported("SetEnvironmentVariableA requires explicit510 profile");return FALSE;
+#endif
+}
+
 void recon_bind_process_os_environment(const WCHAR *block,size_t units,const char *provider_sha256)
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
@@ -2999,7 +3072,7 @@ void recon_crt_bind_os_environment(const WCHAR *block,size_t units,const char *p
         recon_unsupported("target OS environment provider/binding state");
     validate_os_environment(block,units);count=target_environment_count(recon_crt_environment);
     recon_crt_os_environment=initial_os_environment=block;
-    recon_crt_os_environment_units=units;
+    recon_crt_os_environment_units=units;initial_os_environment_units=units;
     initial_crt_environment=recon_crt_environment;
     recon_crt_environment_vectors[0].vector=initial_crt_environment;
     recon_crt_environment_vectors[0].count=count;

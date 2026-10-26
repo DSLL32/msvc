@@ -1474,3 +1474,14 @@ bind consumes it through the unchanged strict OS binder. Its provider string
 need not outlive staging. No input leaves prior behavior unchanged; host control
 and target CRT namespaces stay distinct. Native SELF stages its accepted child
 OS vector, independently of the root launch block. No mutation is granted here.
+
+Explicit MSVCRT510 SetEnvironmentVariableA now admits only absent
+LINK_REPRO_NAME="\deflib.rsp" after genuine initial OS/CRT binding in the
+qualified default-C spawn state. One process-owned UTF16 OS block inserts that
+assignment before the first greater case-insensitive ASCII name, preserving all
+existing entries/order. The borrowed initial block, CRT _environ/__initenv and
+getenv snapshot, and Linux host controls remain unchanged. Existing-name,
+replacement/removal/repeat/other mutation domains stay125. CP0 spawning accepts
+only the original block or this exact validated prefix/assignment/suffix-derived
+block. Native errors/full FP remain unchanged; original post-call errors and
+block order were unmeasured. Child startup uses its actual accepted OS vector.

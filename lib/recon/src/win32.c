@@ -105,8 +105,13 @@ UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LP
 }
 BOOL WINAPI recon_SetEnvironmentVariableA(LPCSTR name,LPCSTR value)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    extern BOOL recon_crt_set_link_repro_environment(LPCSTR,LPCSTR);
+    return recon_crt_set_link_repro_environment(name,value);
+#else
     (void)name;(void)value;
     recon_unsupported("unreviewed SetEnvironmentVariableA");return FALSE;
+#endif
 }
 char *__cdecl recon_watcom_getcmd(char *buffer)
 {
