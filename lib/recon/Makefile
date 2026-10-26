@@ -938,3 +938,9 @@ build/link-os-insertion-probe: tests/link-os-insertion-probe.c $(SOURCES) $(HEAD
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 link-os-insertion-check: build/link-os-insertion-probe
 	$(PYTHON) tests/check-link-os-insertion.py $< 510
+
+.PHONY: pragma-format-check
+build/pragma-format-probe: tests/pragma-format-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+pragma-format-check: build/pragma-format-probe
+	$(PYTHON) tests/check-pragma-format.py $< 510

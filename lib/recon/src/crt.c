@@ -2711,20 +2711,40 @@ WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
     static const WCHAR line_prefix[]={'#','l','i','n','e',' ','%','d'};
     const WCHAR *suffix;
     WCHAR digits[10],*end=out;
+    unsigned prefix_length=6;
     unsigned value,n=0,i;
     int number;
     va_list args;
     if (!out || !format || recon_lc_handle[2] || recon_lc_codepage)
         recon_unsupported("legacy UTF16 swprintf outside default-C scope");
-    for (i=0;i<sizeof(line_prefix)/sizeof(line_prefix[0]);++i)
-        if (format[i]!=line_prefix[i])
-            recon_unsupported("unreviewed legacy UTF16 swprintf format");
-    if (!((format[8]==' ' && !format[9]) ||
-          (format[8]=='\r' && format[9]=='\n' && !format[10])))
-        recon_unsupported("unreviewed legacy UTF16 swprintf suffix");
-    suffix=format+8;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(((uintptr_t)format&1) || (uintptr_t)format>UINTPTR_MAX-4)
+        recon_unsupported("legacy swprintf format selection span");
+    if(format[0]=='#' && format[1]=='p') {
+        static const WCHAR pragma_format[]={'#','p','r','a','g','m','a',' ','c','o','d','e','_','p','a','g','e',' ','%','d','\r','\n',0};
+        uintptr_t source=(uintptr_t)format,destination=(uintptr_t)out;
+        /* Caller owns at least32 WCHARs; the actual RC scratch is1024B.
+         * The old #line path retains its previously qualified contract. */
+        if((source&1) || (destination&1) || source>UINTPTR_MAX-sizeof(pragma_format) ||
+           destination>UINTPTR_MAX-64 || (destination<source+sizeof(pragma_format) && source<destination+64) ||
+           recon_mb_codepage || recon_mb_cur_max!=1)
+            recon_unsupported("pragma swprintf span/default-C scope");
+        for(i=0;i<sizeof(pragma_format)/sizeof(pragma_format[0]);++i)
+            if(format[i]!=pragma_format[i])recon_unsupported("pragma swprintf exact format");
+        prefix_length=18;suffix=format+20;
+    } else
+#endif
+    {
+        for (i=0;i<sizeof(line_prefix)/sizeof(line_prefix[0]);++i)
+            if (format[i]!=line_prefix[i])
+                recon_unsupported("unreviewed legacy UTF16 swprintf format");
+        if (!((format[8]==' ' && !format[9]) ||
+              (format[8]=='\r' && format[9]=='\n' && !format[10])))
+            recon_unsupported("unreviewed legacy UTF16 swprintf suffix");
+        suffix=format+8;
+    }
     va_start(args,format);number=va_arg(args,int);va_end(args);
-    for (i=0;i<6;++i) *end++=format[i];
+    for (i=0;i<prefix_length;++i) *end++=format[i];
     value=(unsigned)number;
     if (number<0) { *end++='-';value=0u-value; }
     do { digits[n++]=(WCHAR)('0'+value%10);value/=10; } while (value);

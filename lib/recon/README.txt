@@ -1485,3 +1485,11 @@ replacement/removal/repeat/other mutation domains stay125. CP0 spawning accepts
 only the original block or this exact validated prefix/assignment/suffix-derived
 block. Native errors/full FP remain unchanged; original post-call errors and
 block order were unmeasured. Child startup uses its actual accepted OS vector.
+
+Explicit MSVCRT510 legacy swprintf additionally accepts only the exact UTF16
+"#pragma code_page %d\r\n" format in default-C/MB1 state. The caller owns at
+least64 disjoint writable bytes (RC supplies1024); aligned/nonwrapping format
+and output checks precede varargs/output effects. The existing signed32 digit
+logic produces at most31 WCHARs plus NUL, returning the count excluding NUL.
+Native errors/full FP stay unchanged. Existing #line formats stay supported;
+other new grammars/profiles remain denied. Original per-call state unmeasured.
