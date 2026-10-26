@@ -70,3 +70,17 @@ void write_ir_string(char *text)
         putc((signed char)*text, auxiliary_ir_stream);
     } while (*text++);
 }
+
+/* Original 0x74110..0x74128 and0x74130..0x74148, cdecl4. Preserve
+   raw target representations, not host text formatting. These auxiliary
+   initializer paths are qualified by static ABI/graph proof and native units;
+   no current CLI first-entry observation is claimed. */
+void write_ir_float(float *value)
+{
+    fwrite(value, 4, 1, auxiliary_ir_stream);
+}
+
+void write_ir_double(double *value)
+{
+    fwrite(value, 8, 1, auxiliary_ir_stream);
+}

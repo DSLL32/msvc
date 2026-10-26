@@ -96,6 +96,50 @@ static int check_single_function(void)
     second.kind=3;
     return has_single_function(&first)==1;
 }
+/* Unit-only qualification of dormant frontend support. This deliberately
+   calls the identified helpers, without opening the original CLI predicate. */
+CppSymbol *__stdcall find_memory_intrinsic(unsigned operation);
+static int check_memory_intrinsic_lookup(void)
+{
+    CppSymbol *compare, *copy, *fill;
+    TypeDescription integer = {0};
+    initialize_preprocessor();
+    initialize_type_table();
+    initialize_global_scope();
+    integer.flags = 0x64;
+    type_0064 = intern_type(&integer);
+    /* The helper consumes the named declaration identity only; it neither
+       checks nor calls the declaration's function type. */
+    compare = new_symbol(intern_identifier("memcmp"), 0);
+    copy = new_symbol(intern_identifier("memcpy"), 0);
+    fill = new_symbol(intern_identifier("memset"), 0);
+    return find_memory_intrinsic(0xaa) == compare &&
+        find_memory_intrinsic(0xac) == copy &&
+        find_memory_intrinsic(0xad) == fill && find_memory_intrinsic(0) == 0;
+}
+static int check_auxiliary_real_encodings(void)
+{
+    static const unsigned char expected[12] = {
+        0, 0, 0xa0, 0x3f, 0, 0, 0, 0, 0, 0, 0x0c, 0xc0
+    };
+    unsigned char actual[13];
+    float single = 1.25f;
+    double real = -3.5;
+    FILE *saved = auxiliary_ir_stream;
+    FILE *file = fopen("unit-auxiliary-real.bin", "w+b");
+    int ok;
+    if (!file) return 0;
+    auxiliary_ir_stream = file;
+    write_ir_float(&single);
+    write_ir_double(&real);
+    auxiliary_ir_stream = saved;
+    ok = fseek(file, 0, SEEK_SET) == 0 &&
+        fread(actual, 1, sizeof(actual), file) == sizeof(expected) &&
+        !memcmp(actual, expected, sizeof(expected));
+    if (fclose(file)) ok = 0;
+    if (remove("unit-auxiliary-real.bin")) ok = 0;
+    return ok;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -110,5 +154,7 @@ const ReconTest c1xx_tests[] = {
     {"ten original-backed multiply returns",1,check_multiply_returns},
     {"primitive CodeView types",1,check_primitive_types},
     {"browser filename suffixes",1,check_browser_filename},
-    {"single-function list controls",1,check_single_function}
+    {"single-function list controls",1,check_single_function},
+    {"dormant memory-intrinsic lookup (unit-only)",1,check_memory_intrinsic_lookup},
+    {"auxiliary real encodings (unit-only)",1,check_auxiliary_real_encodings}
 };

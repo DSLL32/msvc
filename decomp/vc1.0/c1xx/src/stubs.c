@@ -270,8 +270,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 
 unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
-void write_ir_float(float *value) { __asm { int 3 } }
-void write_ir_double(double *value) { __asm { int 3 } }
 
 
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
@@ -348,7 +346,6 @@ RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { Parser
 
 
 
-CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
 
 
 

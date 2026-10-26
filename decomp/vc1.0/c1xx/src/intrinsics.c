@@ -1,6 +1,7 @@
 /* Builtin declaration-name lookup, grouped by the first identifier byte. */
 #include "declarations.h"
 #include "initialization.h"
+#include "keywords.h"
 #include <recon.h>
 
 /* The omitted first byte is supplied by the group. For example the initial
@@ -210,4 +211,25 @@ void __stdcall make_intrinsic_external(CppSymbol *symbol)
     symbol->storage[0] = (declaration_storage[0] & ~7) | 0x21;
     symbol->storage[1] = declaration_storage[1];
     symbol->storage[2] = declaration_storage[2];
+}
+
+/* Original 0x3d630..0x3d692, stdcall4. The string intrinsic's dormant
+   declaration fallback looks up the real memory operation by its C name.
+   Its current caller is behind the original constant-false specialization
+   predicate; this body is qualified by whole-body/ABI analysis and native
+   units, not claimed as a reached CLI frontier. */
+CppSymbol *__stdcall find_memory_intrinsic(unsigned operation)
+{
+    char *name;
+    CppSymbol *symbol;
+    switch (operation) {
+    case 0xaa: name = "memcmp"; break;
+    case 0xac: name = "memcpy"; break;
+    case 0xad: name = "memset"; break;
+    default: return 0;
+    }
+    intern_identifier(name);
+    symbol = find_outer_name(interned_name);
+    if (!symbol) report_syntax_error(567, interned_name);
+    return symbol;
 }

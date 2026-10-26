@@ -1,6 +1,6 @@
 #include <recon-tool.h>
 #include "entry.h"
-extern const ReconTest c1xx_tests[14];
+extern const ReconTest c1xx_tests[16];
 
 static const uint32_t order[] = {
     0x59630, /* main */
@@ -563,5 +563,5 @@ RECON_EXPORT const ReconCase case_descriptor = {
     "Completed original-backed frontend case; trace compares unseeded encounters with explicit per-case seed",
     order, RECON_COUNT(order), NULL, 0,
     RECON_IO, RECON_EXIT, 0,
-    NULL, c1xx_case_invoke, NULL, c1xx_tests, 14
+    NULL, c1xx_case_invoke, NULL, c1xx_tests, 16
 };

@@ -1,6 +1,31 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Dormant support qualification is COMPLETE (native-unit-only): three positively
+identified application helpers add146 B: find_memory_intrinsic(98 B),
+write_ir_float(24 B) and write_ir_double(24 B). Whole original bodies, real
+application callers, argument/RET conventions and function graphs were recovered.
+The memory lookup's actual CLI caller remains behind the unchanged original
+predicate returning false on both routes; no new original-pair reach is claimed.
+The auxiliary real writers also have no claimed CLI observation.
+
+Minimal typed units check all three real memory-name lookup identities plus
+the unsupported-operation NULL return, and the exact12-byte little-endian float/
+double stream with no trailing bytes. Namespace setup uses the reconstructed
+frontend helpers; no caller gate is forced open. The unit step adds no historical
+first-entry frontier: that count remains1,954. Total reconstructed App is1,850 /
+405,266 B (85.07% of whole original code), with45 named pending App and the same
+seven historical CRT source bodies. These three unit-qualified functions are
+explicitly distinct from new original/native case acceptances.
+
+Original-compiler builds, all47 cached native cases,35 unit groups and the
+1,858-function six-check graph/ABI audit pass. Closing gate3.663 s; focused
+lookup/real units21.434/21.424 ms respectively (execution3.371/3.597 ms).
+Original compatibility rebuild wall time was not separately measured. No new
+original invocation, shared shim change or saved oracle change was needed.
+
+Earlier completed accelerator validation:
+
 Accelerator SDK validation is COMPLETE: case0046 freezes3,309 bytes of
 packet-engine source/header, with x86 address operators and intentionally invalid
 generated register, bit-field, incomplete-payload and callback contracts. The

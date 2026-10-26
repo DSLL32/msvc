@@ -1,5 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1954 historical frontiers/1847 App bodies.
+ * Current completed-case boundary:1954 historical frontiers/1850 App bodies;
+ * latest three support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -1928,6 +1929,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_memory_intrinsic",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {
@@ -14245,18 +14247,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_write_ir_float",
         .entry_rva = 0x64110,
-        .code = (const ReconExtent[]) { { 0x64110, 0x64111 } },
+        .code = (const ReconExtent[]) { { 0x64110, 0x64128 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_ir_float",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_ir_double",
         .entry_rva = 0x64130,
-        .code = (const ReconExtent[]) { { 0x64130, 0x64131 } },
+        .code = (const ReconExtent[]) { { 0x64130, 0x64148 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_ir_double",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_ir_filename",
