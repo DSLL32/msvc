@@ -1,20 +1,50 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1451 completes the generated-record diagnostic/cleanup case. There
-are 1336 reconstructed App functions and five unchanged historical CRT bodies.
-App code occupies 352325/399693 original code-section bytes (88.1489%); adding
-916 owned text-data bytes gives 353241/399693 (88.3781%). These clipped extent
-unions use section VirtualSize (raw size only if zero), not branch coverage.
-Five historical CRT overrides contribute 1776B separately, zero App credit.
-Available App/classified CRT/import extents cover 379615/399693 (94.9766%). A
-reliable non-CRT denominator remains unavailable; 48 pending App rows and 20078B
-outside available extents need investigation. No only-CRT claim is made.
+Checkpoint 1452 completes the supported C++ coefficient-pair classifier case.
+There are 1337 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 352464/399693 original code-section bytes (88.1837%);
+adding 940 owned text-data bytes gives 353404/399693 (88.4189%). These clipped
+extent unions use section VirtualSize (raw size only if zero), not branch
+coverage. Five historical CRT overrides contribute 1776B separately, zero App
+credit. Available App/classified CRT/import extents cover 379778/399693
+(95.0174%). A reliable non-CRT denominator remains unavailable; 47 pending App
+rows and 19915B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 31 cached IO cases, one INTERNAL DIRECT
-case and 234 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 32 cached IO cases, one INTERNAL DIRECT
+case and 236 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+Untouched CL `/O2 /Ob2 /G5 /Z7 /W3 classify.cpp` genuinely invokes C1XX3232.EXE.
+Its supported 1531B finite coefficient classifier and standalone original C2
+agree on the complete 1808B object, empty streams/status 0. Normalized SHA256:
+`e399fa6749be9ea129e878376f2e1d434c4a69055a9e90b01cca11c9caf7b0e8`.
+Actual 001528 ex/sy/in/gl/db inputs are 2020/576/15/361/303B. Read-only CL
+observation stops before C2; parent exit is unobserved. One original feasibility
+attempt rejected implicit eight-byte-POD ASM return (C2561) and obsolete Pascal
+(C4226); both were removed, without an alternate spelling or ABI claim. The
+right-unary XOR hypothesis also remained unobserved. Only one family is claimed.
+
+The whole floating-comparison folder adds 139B plus its exact 24B dispatch table.
+Readable C maps six comparison opcodes to named equality/greater/less bits, calls
+the existing extended primitive, interns the integral truth and releases the
+old tree. The original caller guards the six valid operations and constant
+floating children; invalid-operation uninitialized-mask behavior has no invented
+fallback. The primitive consumes only the low 16 mask bits. Two units verify
+the genuine quarter/half input and result, then cold six-opcode mappings in both
+orders using copied live owners. Signed-zero comparison remains in the complete
+object oracle. No new assembly, CRT override or shared shim was needed.
+
+Final `make -j4 audit check unit` passes in 2.065s (phases unsplit), including
+1342 paired graphs/accepted extents and 146 scoped RET contracts. Global RET
+remains unresolved at finish_debugging's indirect tail. Completion IO takes
+24.919ms: setup 14.173/execution 5.715/checks 5.022. All measured attempts,
+including the rejected source, are retained with completion/coverage/timing
+summaries under `~/.ai-tmp/msvc2/vc1.0/c2/coefficient-pairs/`. Analysis/editing,
+authoring and scratch observer compilation/packing are unmeasured; combined
+command phases are unsplit and not additive task elapsed.
+
+The preceding generated-source diagnostic case adds four App routines/238B.
 Untouched CL `/O2 /Ob0 /G3 /Z7 /FAcs /W4 /WX validate.c` and standalone original
 C2 produce exact warning C4705, promoted error C2220 and fatal C1083 for the
 absent generated listing source. Both exit 2 and delete incomplete validate.obj

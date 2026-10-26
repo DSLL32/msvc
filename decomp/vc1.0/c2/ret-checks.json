@@ -725,6 +725,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@fold_floating_comparison@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -10664,11 +10664,13 @@ static const ReconFunction functions[] = {
     {
         .name = "@fold_floating_comparison@4",
         .entry_rva = 0x47a50,
-        .code = (const ReconExtent[]) { { 0x47a50, 0x47a51 } },
+        .code = (const ReconExtent[]) { { 0x47a50, 0x47adb } },
         .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x47adc, 0x47af4 } },
+        .text_data_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fold_floating_comparison",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@fold_integer_comparison@4",

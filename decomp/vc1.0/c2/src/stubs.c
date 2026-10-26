@@ -50,7 +50,6 @@ Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
 unsigned __fastcall second_return_value_register(FunctionSymbol *symbol) { __asm int 3 }
-Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 #include "algebra.h"
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }

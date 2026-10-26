@@ -3,6 +3,7 @@
 #include "expression-fields.h"
 #include "algebra.h"
 #include "records.h"
+#include "extended.h"
 #include <recon.h>
 int tree_changed; /* 00083154 */
 extern int default_integer_bytes;
@@ -99,6 +100,32 @@ Node *__fastcall fold_special_node(Node *node)
         }
     }
     return node;
+}
+
+/* Original57a50..57adb, fastcall ECX comparison/RET0; six dispatch
+   DWORDs57adc..57af4 select equality/greater/less masks for compare_extended.
+   The only original caller guards opcode1f..24 and constant floating children.
+   Outside that contract the original mask is uninitialized; no fallback is
+   invented. The comparison primitive consumes only the low16 mask bits. */
+Node *__fastcall fold_floating_comparison(Node *node)
+{
+    enum { RELATION_EQUAL = 1, RELATION_GREATER = 2, RELATION_LESS = 4 };
+    unsigned short relation_mask;
+    int truth;
+    Node *result;
+    switch (node->opcode) {
+    case 0x1f: relation_mask = RELATION_EQUAL; break;
+    case 0x20: relation_mask = RELATION_LESS | RELATION_GREATER; break;
+    case 0x21: relation_mask = RELATION_LESS | RELATION_EQUAL; break;
+    case 0x22: relation_mask = RELATION_LESS; break;
+    case 0x23: relation_mask = RELATION_GREATER | RELATION_EQUAL; break;
+    case 0x24: relation_mask = RELATION_GREATER; break;
+    }
+    truth = compare_extended(relation_mask, node->left.node->left.pointer,
+        node->second.node->left.pointer);
+    result = intern_leaf(0x33, 0, default_integer_bytes | 0x100, truth);
+    release_tree(node);
+    return result;
 }
 
 /* Original [00057c20,00057cf0). Process the right operand first, retaining
