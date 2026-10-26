@@ -267,3 +267,16 @@ void CompleteLibrary( void )
         FreeMemory( original );
     }
 }
+
+/* Original0x412d55..0x412d76. Member commands retain counted names;
+   diagnostics take an independently allocated terminated copy. */
+char *CopyCountedName( int length, const char *name )
+{
+    char *copy;
+    unsigned index;
+
+    copy = AllocMemory( length + 1 );
+    for( index = 0; index < (unsigned)length; ++index ) copy[index] = name[index];
+    copy[length] = '\0';
+    return( copy );
+}

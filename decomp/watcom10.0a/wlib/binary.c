@@ -262,7 +262,8 @@ static const ReconFunction functions[] = {
 
     {
         .name = "CopyCountedName", .entry_rva = 0x12d55,
-        .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
+        .code = (const ReconExtent[]) { {0x12d55, 0x12d76} }, .code_count = 1,
+        .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
         .native_symbol = "CopyCountedName", .original_symbol = "CopyCountedName_",
     },
     {

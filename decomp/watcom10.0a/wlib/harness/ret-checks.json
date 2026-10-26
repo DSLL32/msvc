@@ -1165,6 +1165,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "CopyCountedName": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

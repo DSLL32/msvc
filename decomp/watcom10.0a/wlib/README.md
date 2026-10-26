@@ -1,20 +1,23 @@
 # Watcom 10.0a WLIB
 
-Five cases are complete: basic help, archive update, in-place C++ update,
-PE DLL/COMMON import and NE/NLM export conversion with C++ listing. They cover replacement/deletion/addition/extraction,
+Six cases are complete: basic help, archive update, in-place C++ update,
+PE DLL/COMMON import, NE/NLM export conversion with C++ listing, and unmatched
+member diagnostics. They cover replacement/deletion/addition/extraction,
 explicit and executable-derived imports, dictionary construction, alphabetical
 and module listings, COMDAT/local-public records, C++ demangling and backup
 preservation. The NE input exercises resident names and nonresident ordinals;
 the NLM input has a genuine count-based public table. Their combined C++ object
 adds operator new/assignment/relational names, integer templates, recursive local
 names, a based pointer and an anonymous enum. All exit 0 with identical streams, final files and application entry
-order. The last four cases observe 166, 200, 172 and 209 first entries respectively.
+order. The last five cases observe 166, 200, 172, 209 and 198 first entries respectively.
+Case-sensitive missing deletion/extraction diagnostics retain counted names and
+produce the original warnings while successful extraction still completes.
 
-The reconstruction has 239 qualified application functions covering 28,420 unique
+The reconstruction has 240 qualified application functions covering 28,453 unique
 original code bytes. Shared chunks count once. The empty CommitDictionaryBlock
 entry shares another function's RET and is explicitly excluded from entry order.
-There is no verified complete non-CRT denominator yet. All 239 bodies retain
-function-graph/ownership/extent checks; 233 have strict RET checks and six
+There is no verified complete non-CRT denominator yet. All 240 bodies retain
+function-graph/ownership/extent checks; 234 have strict RET checks and six
 normal-return owners with cold nonlocal exits retain the finite residual in
 scripts/. AbortCommand and other pending functions remain named traps.
 
@@ -42,10 +45,10 @@ Executable conversion uses an independently unique internal native temporary;
 progress checks select meaningful outputs and normal exit checks full inventory,
 including removal of the temporary. No PID or filename normalization is used.
 
-The final NE/NLM/C++ pair took 1384.099/16.848 ms original/native, with native
-setup 8.323 ms, execution 5.401 ms and checks 3.124 ms. Its cached replay took
-15.846 ms. The final parallel native/period build took 2627.611 ms; all five
-cached cases and unit checks took 96.343 ms wall. The final full audit took
-399.460 ms. Diagnostics and input producers stay in scratch; each case contains
-case.c and capture.bin only. Console/nonlocal errors, alternate resource formats
-and a few further demangler/listing paths remain to be reconstructed.
+The final unmatched-member pair took 1525.013/16.391 ms original/native, with
+native setup 9.305 ms, execution 4.113 ms and checks 2.974 ms. Its final cached
+replay took 15.709 ms. The final parallel native/period build took 2349.850 ms;
+all six cached cases and unit checks took 98.762 ms wall. The final full audit
+took 391.485 ms. Diagnostics and input producers stay in scratch; each case
+contains case.c and capture.bin only. Console/nonlocal errors, alternate resource
+formats and a few further demangler/listing paths remain to be reconstructed.

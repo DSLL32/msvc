@@ -40,15 +40,10 @@ int readLangInfoList( int handle, WResResNode *node )
     return( 0 );
 }
 
-
 void AbortCommand( void )
 {
     WLIB_FRONTIER();
 }
-
-
-
-
 
 int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
 {
@@ -56,35 +51,11 @@ int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
     return( 0 );
 }
 
-
-
-
-
 void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
 {
     WLIB_FRONTIER();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 void forceSuppression( output_desc *data ) { WLIB_FRONTIER(); }
 
-
-
-
-char *CopyCountedName( int length, const char *name )
-{ WLIB_FRONTIER(); return( NULL ); }
-
-
 void WriteListingCharacter( unsigned char ch, int handle ) { WLIB_FRONTIER(); }
-
