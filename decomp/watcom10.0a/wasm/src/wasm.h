@@ -57,6 +57,7 @@ void *AsmRealloc(void *ptr,size_t size);
 void *AsmAlloc(size_t size);
 void Fatal(unsigned message, ...);
 int InternalError(const char *file, unsigned line);
+int BeQuiet(void);
 #ifdef __WATCOMC__
 /* The original assertion helper terminates through exit(255). */
 #pragma aux InternalError aborts;

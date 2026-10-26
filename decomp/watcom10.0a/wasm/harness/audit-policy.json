@@ -2031,6 +2031,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "BeQuiet": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

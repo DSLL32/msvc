@@ -90,6 +90,12 @@ void PObjUnRegList(const pobj_list *list, size_t len)
     (void)len;
 }
 
+/* Released util.c BeQuiet, distinct actual CFf724..f72a return1 body. */
+int BeQuiet(void)
+{
+    return 1;
+}
+
 /* Released util.c ObjWriteError, physical CFf72c..f740 DiskError identity. */
 void DiskError(void)
 {
