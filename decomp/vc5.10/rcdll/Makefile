@@ -72,6 +72,10 @@ RECON_AUDIT_REGISTRY_RUNTIME = 1
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
+# Canonical consumers select only target App/CRT objects, with their current ABI
+# flags; the DLL fixture host and duplicate shared runtime stay out of bundles.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES =
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 $(BINARY_LIBRARY): | .build/help-resources.bin

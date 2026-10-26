@@ -6,6 +6,7 @@ Historical handwritten CRT support remains separately classified (350 reached
 bytes); the unreached 3-byte math helper is still an INT3 stub. Import extents
 and all CRT classifications award no application reconstruction credit.
 
+make -j4 native-bin       ordinary native RC with statically bundled RCDLL
 make -j4 check unit       native-only replay of three existing public invocations
 make -j4 original audit   original5.10 compiler plus common Rust graph/ABI audit
 
@@ -51,3 +52,20 @@ reconstruction. Native dependency replay and its narrow static imported-data
 predicate live in harness/. scripts/ contains only the import-library generator
 and its DEF input. Function bodies, identities, original RVAs and captures are
 unchanged by this separation.
+
+The toolchain coordinator's make -j4 native-bin-rc target builds
+build/native/bin/RC.EXE under decomp/vc5.10. It is an ordinary i386 Linux ELF.
+Root entry.c uses the shared native bootstrap for actual writable arguments,
+environment, command line and Z: identities. It initializes the one MSVCRT510
+file-mode state to zero, registers the real RCDLL exports and embedded encountered
+message resources, attaches its actual DLL CRT, then invokes RC's retained CRT
+startup. Normal target exit detaches the DLL. Fixture hosts/providers stay out
+of this link; original Win32 sources and builds are unchanged.
+
+Ordinary /help matches the cached 589-byte output even with an empty environment.
+The existing rich invocation, with the SDK INCLUDE directory supplied normally,
+executes the real RCDLL and produces the exact 3672-byte resource output. No
+physical RCDLL or extracted message companion is needed. This does not expand
+RCDLL's reconstructed domain: the extra missing-file probe traps on its still
+unencountered message 1110. The three numbered RC fixtures continue to verify
+their original strict dependency-response contracts independently.
