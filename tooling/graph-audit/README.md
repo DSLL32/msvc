@@ -780,3 +780,14 @@ records must own the entire declared overlap, terminating at both code-chunk
 ends, and both existing CFGs must discover every complete suffix instruction and each fallthrough edge.
 This preserves two function identities and their original control paths; it
 creates no suffix function, added edge, code permission or ABI inference.
+
+`shared_call_return_tails` is a separate exact two-owner rule for a shared terminal
+sequence containing one explicit direct call. Each row uses
+`{owners: [name1,name2], original: {start,bytes_hex}, call: {offset,target}}`, with
+optional documentary evidence. The target is a unique implemented canonical App
+entry. Both original CFGs must discover the complete overlap through the exact
+unprefixed `E8` call at the declared offset, retain its raw callee edge, and
+fall through to the terminal near RET. Every other control transfer rejects.
+All existing chunk-end, ownership, graph and ABI checks remain; no call is
+normalized, removed, or granted runtime permission. The branchless
+`shared_terminal_epilogues` contract is unchanged.

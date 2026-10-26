@@ -1,0 +1,46 @@
+{
+  "scope": "Exact original shared CALL/return tail for two canonical implemented App owners; one explicitly declared unprefixed E8 target; both raw caller edges retained; no ABI/body/permission inference. Branchless shared-terminal contract unchanged.",
+  "source_sha256": {
+    "src/shared_returns.rs": "7f68548c2cbb7916fe6593f7e1aa3a47be7502ee60358370b38d653131f44d34",
+    "src/index.rs": "c4a2532ea51e4d3fc16c10fa3e3e2f0b0a04c869903ff5feebf18e8f57f34d38",
+    "src/audit.rs": "406bf9bda70be254a87a1cd16255b388b14e51c7ddf339d27bc2d5a07d8ea185",
+    "README.md": "2b45fce7004654682249cd201bb479a238049f0d2e8860944f6134c502a36e42"
+  },
+  "release_sha256": "4f1771232deae1d54b84fc9ac96c69bfc4573f58ed56bc8118f0704a26b97f2b",
+  "schema_example": {
+    "shared_call_return_tails": [
+      {
+        "owners": [
+          "ReadToken",
+          "ReadNamePart"
+        ],
+        "original": {
+          "start": 4260259,
+          "bytes_hex": "e802ffffff5bc3"
+        },
+        "call": {
+          "offset": 0,
+          "target": "ScanToken"
+        }
+      }
+    ]
+  },
+  "checks": {
+    "focused_unit_tests": 7,
+    "clippy": "all targets -D warnings PASS",
+    "actual_targeted_seconds": {
+      "wlib-call-tail": 0.014280439354479313,
+      "wpp386-call-tail": 0.0395384319126606
+    },
+    "negative_controls": 13,
+    "both_raw_callee_edges_and_instruction_rows_retained": true,
+    "prior_three_byte_single_RET_seven_byte_and_default_report_byte_parity": true
+  },
+  "review": "Watcom parent independently reviewed exact sources/release and reran both positives plus wrong-target denial.",
+  "limits": [
+    "Analysis-only driver subsets include exact two owners and named target; full canonical endpoint registry retained. No full-case ownership/graph pass is claimed.",
+    "No original/native target execution; no runtime/controller/exporter change or App credit; no speedup claim."
+  ],
+  "canonical_release_build_seconds": 55.25538614951074,
+  "canonical_release_byte_identity": true
+}

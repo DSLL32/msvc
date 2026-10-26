@@ -473,6 +473,7 @@ impl Inputs {
         r.bind_code(&ri)?;
         let shared_metadata = if cfg.get("shared_return_entries").is_some()
             || cfg.get("shared_terminal_epilogues").is_some()
+            || cfg.get("shared_call_return_tails").is_some()
         {
             ensure!(
                 a.discovery != crate::Discovery::Legacy,

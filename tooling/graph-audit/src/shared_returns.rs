@@ -37,7 +37,31 @@ struct TerminalLocation {
     start: u32,
     bytes_hex: String,
 }
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct CallReturnDeclaration {
+    owners: [String; 2],
+    original: TerminalLocation,
+    call: CallRole,
+    #[serde(
+        default,
+        deserialize_with = "crate::register_imports::documentary_evidence"
+    )]
+    evidence: Option<Value>,
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct CallRole {
+    offset: u32,
+    target: String,
+}
+struct ResolvedCall {
+    offset: u32,
+    target: String,
+    address: u32,
+}
 struct Pair {
+    call: Option<ResolvedCall>,
     terminal: Option<(u32, String)>,
     owner: Record,
     entry: Record,
@@ -132,6 +156,17 @@ fn validate_terminal(
     index: &[Record],
     metadata: &Value,
 ) -> Result<()> {
+    validate_terminal_with_call(image, a, b, location, index, metadata, None)
+}
+fn validate_terminal_with_call(
+    image: &impl ImageView,
+    a: &Record,
+    b: &Record,
+    location: &TerminalLocation,
+    index: &[Record],
+    metadata: &Value,
+    call: Option<&ResolvedCall>,
+) -> Result<()> {
     let hex = &location.bytes_hex;
     ensure!(
         hex.is_ascii() && !hex.is_empty() && hex.len() <= 64 && hex.len().is_multiple_of(2),
@@ -186,6 +221,7 @@ fn validate_terminal(
             },
         )?;
         let mut address = start;
+        let mut consumed_call = false;
         while address < end {
             let i = g.instructions.get(&address).with_context(|| format!(
                 "shared terminal epilogue is not a discovered instruction sequence in {} at {address:x}", r.name
@@ -201,14 +237,35 @@ fn validate_terminal(
                     "shared terminal epilogue must end in unprefixed near RET"
                 );
             } else {
+                let declared_call =
+                    call.filter(|call| start.checked_add(call.offset) == Some(address));
+                if let Some(call) = declared_call {
+                    ensure!(
+                        i.bytes.len() == 5
+                            && i.bytes[0] == 0xe8
+                            && i.m == "call"
+                            && i.imm() == Some(call.address)
+                            && g.calls.contains(&call.address),
+                        "shared return tail requires its exact decoded direct CALL and raw callee edge"
+                    );
+                    consumed_call = true;
+                } else {
+                    ensure!(
+                        !i.control_transfer,
+                        "shared terminal epilogue must fall through without control transfers"
+                    );
+                }
                 ensure!(
-                    !i.control_transfer
-                        && g.successors.get(&address) == Some(&BTreeSet::from([i.next()])),
-                    "shared terminal epilogue must fall through without control transfers"
+                    g.successors.get(&address) == Some(&BTreeSet::from([i.next()])),
+                    "shared terminal tail requires contiguous decoded fallthrough"
                 );
             }
             address = i.next();
         }
+        ensure!(
+            call.is_none() || consumed_call,
+            "shared return tail CALL declaration was not consumed"
+        );
     }
     Ok(())
 }
@@ -245,6 +302,7 @@ impl SharedReturns {
             let evidence =
                 crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
             out.0.push(Pair {
+                call: None,
                 terminal: None,
                 owner: owner.clone(),
                 entry: entry.clone(),
@@ -271,7 +329,51 @@ impl SharedReturns {
                 let evidence =
                     crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
                 out.0.push(Pair {
+                    call: None,
                     terminal: Some((row.original.start, row.original.bytes_hex)),
+                    owner: a.clone(),
+                    entry: b.clone(),
+                    evidence,
+                });
+            }
+        }
+        if let Some(value) = cfg.get("shared_call_return_tails") {
+            let rows: Vec<CallReturnDeclaration> =
+                serde_json::from_value(value.clone()).context("shared_call_return_tails schema")?;
+            ensure!(!rows.is_empty(), "empty shared_call_return_tails");
+            let mut seen = BTreeSet::new();
+            for row in rows {
+                let mut names = row.owners.clone();
+                names.sort();
+                ensure!(
+                    seen.insert(names),
+                    "duplicate shared CALL/return-tail owners"
+                );
+                let a = unique(drivers, &row.owners[0])?;
+                let b = unique(drivers, &row.owners[1])?;
+                canonical(cfg, a)?;
+                canonical(cfg, b)?;
+                let target = unique(drivers, &row.call.target)?;
+                canonical(cfg, target)?;
+                let call = ResolvedCall {
+                    offset: row.call.offset,
+                    target: row.call.target,
+                    address: target.start,
+                };
+                validate_terminal_with_call(
+                    image,
+                    a,
+                    b,
+                    &row.original,
+                    index,
+                    metadata,
+                    Some(&call),
+                )?;
+                let evidence =
+                    crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
+                out.0.push(Pair {
+                    terminal: Some((row.original.start, row.original.bytes_hex)),
+                    call: Some(call),
                     owner: a.clone(),
                     entry: b.clone(),
                     evidence,
@@ -292,7 +394,18 @@ impl SharedReturns {
         })
     }
     pub fn terminal_report(&self) -> Option<Value> {
-        self.0.iter().any(|p|p.terminal.is_some()).then(||json!(self.0.iter().filter_map(|p|p.terminal.as_ref().map(|(start,bytes)|json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],"bytes_hex":bytes,"evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"only this decoded terminal epilogue is physically shared; function identities, control edges and ABI checks remain distinct; no runtime permission"}))).collect::<Vec<_>>()))
+        self.0.iter().any(|p|p.terminal.is_some() && p.call.is_none()).then(||json!(self.0.iter().filter(|p|p.call.is_none()).filter_map(|p|p.terminal.as_ref().map(|(start,bytes)|json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],"bytes_hex":bytes,"evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"only this decoded terminal epilogue is physically shared; function identities, control edges and ABI checks remain distinct; no runtime permission"}))).collect::<Vec<_>>()))
+    }
+    pub fn call_return_report(&self) -> Option<Value> {
+        self.0.iter().any(|p|p.call.is_some()).then(||json!(self.0.iter().filter_map(|p|p.call.as_ref().map(|call| {
+            let (start,bytes) = p.terminal.as_ref().expect("validated shared CALL terminal");
+            json!({"owners":[p.owner.name,p.entry.name],"original_range":[start,start+(bytes.len()/2) as u32],
+                "bytes_hex":bytes,"call":{"offset":call.offset,"target":call.target},
+                "raw_call_edges":[{"owner":p.owner.name,"site":start+call.offset,"target":call.address},
+                    {"owner":p.entry.name,"site":start+call.offset,"target":call.address}],
+                "evidence":p.evidence,"additional_unique_code_bytes":0,
+                "meaning":"only this exact decoded call/return tail is physically shared; both raw caller edges and all ABI checks remain distinct; no runtime permission"})
+        })).collect::<Vec<_>>()))
     }
     pub fn report(&self) -> Option<Value> {
         self.0.iter().any(|p|p.terminal.is_none()).then(||json!(self.0.iter().filter(|p|p.terminal.is_none()).map(|p|json!({"owner":p.owner.name,"entry":p.entry.name,"original_range":[p.entry.start,p.entry.end],"bytes_hex":"c3","evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"two distinct function identities share only this terminal RET; no added call edge, runtime admission or frontier observation"})).collect::<Vec<_>>()))
@@ -321,6 +434,7 @@ mod tests {
         validate_pair(&p, &a, &b, &index, &json!({}))?;
         assert!(crate::index::validate_chunk_ownership(&p, &index).is_err());
         let policy = SharedReturns(vec![Pair {
+            call: None,
             terminal: None,
             owner: a.clone(),
             entry: b.clone(),
@@ -423,6 +537,115 @@ mod tests {
         ] {
             assert!(suffix_case(&bytes).is_err(), "accepted {bytes:02x?}");
         }
+    }
+    fn call_tail_fixture() -> (crate::pe::Pe, Vec<Record>, Value) {
+        let mut bytes = vec![0x90; 0x82];
+        bytes[..8].copy_from_slice(&[0x53, 0xe8, 0x7a, 0, 0, 0, 0x5b, 0xc3]);
+        bytes[0x20..0x26].copy_from_slice(&[0x53, 0xe9, 0xdb, 0xff, 0xff, 0xff]);
+        bytes[0x80] = 0xc3;
+        bytes[0x81] = 0xc3;
+        let image = crate::tests::image(&bytes);
+        let a = record("a", 0x401000, 0x401008);
+        let mut b = record("b", 0x401020, 0x401026);
+        b.code_chunks.push((0x401001, 0x401008));
+        let target = record("callee", 0x401080, 0x401081);
+        let other = record("other", 0x401081, 0x401082);
+        let records = vec![a, b, target, other];
+        let registry: Vec<_> = records
+            .iter()
+            .map(|r| {
+                json!({"name":r.name,"rva":r.start-0x400000,
+            "definition":4,"implementation":1,
+            "code":r.code_ranges().map(|(a,b)|[a-0x400000,b-0x400000]).collect::<Vec<_>>() })
+            })
+            .collect();
+        let cfg = json!({"target":{"base":0x400000},"function_registry":registry,
+            "shared_call_return_tails":[{"owners":["a","b"],
+                "original":{"start":0x401001,"bytes_hex":"e87a0000005bc3"},
+                "call":{"offset":0,"target":"callee"}}]});
+        (image, records, cfg)
+    }
+    #[test]
+    fn exact_shared_call_tail_preserves_both_raw_caller_edges() -> Result<()> {
+        let (image, records, cfg) = call_tail_fixture();
+        let policy =
+            SharedReturns::parse(&cfg, &json!({}), &image, &records, &records, Path::new("."))?;
+        assert!(policy.permits(&records[0], &records[1]));
+        assert!(policy.terminal_report().is_none());
+        let report = policy.call_return_report().unwrap();
+        assert_eq!(report[0]["raw_call_edges"].as_array().unwrap().len(), 2);
+        let d = Decoder::new()?;
+        for r in &records[..2] {
+            let g = crate::audit::structural_record(
+                &d,
+                &image,
+                r,
+                &json!({}),
+                "original",
+                &records,
+                true,
+            )?;
+            assert_eq!(g.calls, BTreeSet::from([0x401080]));
+        }
+        let location = TerminalLocation {
+            start: 0x401001,
+            bytes_hex: "e87a0000005bc3".into(),
+        };
+        assert!(
+            validate_terminal(
+                &image,
+                &records[0],
+                &records[1],
+                &location,
+                &records,
+                &json!({})
+            )
+            .is_err()
+        );
+        Ok(())
+    }
+    #[test]
+    fn shared_call_tail_rejects_wrong_unconsumed_or_unqualified_targets() {
+        let (image, records, cfg) = call_tail_fixture();
+        for (field, value) in [
+            ("target", json!("other")),
+            ("target", json!("missing")),
+            ("offset", json!(1)),
+            ("offset", json!(6)),
+            ("offset", Value::Null),
+        ] {
+            let mut bad = cfg.clone();
+            bad["shared_call_return_tails"][0]["call"][field] = value;
+            assert!(
+                SharedReturns::parse(&bad, &json!({}), &image, &records, &records, Path::new("."))
+                    .is_err()
+            );
+        }
+        let mut bad = cfg.clone();
+        bad["function_registry"][2]["implementation"] = json!(0);
+        assert!(
+            SharedReturns::parse(&bad, &json!({}), &image, &records, &records, Path::new("."))
+                .is_err()
+        );
+        let mut bad = cfg.clone();
+        bad["function_registry"][2]["rva"] = json!(0x1081);
+        assert!(
+            SharedReturns::parse(&bad, &json!({}), &image, &records, &records, Path::new("."))
+                .is_err()
+        );
+        let mut duplicate = records.clone();
+        duplicate.push(records[2].clone());
+        assert!(
+            SharedReturns::parse(
+                &cfg,
+                &json!({}),
+                &image,
+                &duplicate,
+                &duplicate,
+                Path::new(".")
+            )
+            .is_err()
+        );
     }
     #[test]
     fn rejects_nonret_interior_and_operand_entries() {
