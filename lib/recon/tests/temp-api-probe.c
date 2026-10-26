@@ -1,5 +1,6 @@
 #include <assert.h>
 #include <recon.h>
+static int live_values;
 static void fp(unsigned char state[108])
 { __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(*(unsigned char (*)[108])state)); }
 static char *arguments[]={"LINK.EXE",NULL};
@@ -9,7 +10,8 @@ static void check_errors(unsigned char before[108])
 {
     unsigned char after[108];fp(after);
     assert(errno==111 && recon_doserrno==222 && GetLastError()==333);
-    assert(!memcmp(before,after,108));
+    assert(!memcmp(before,after,2) && !memcmp(before+4,after+4,2) && !memcmp(before+8,after+8,2));
+    if(live_values)assert(!memcmp(before+28,after+28,20));
 }
 static void errors(unsigned char before[108])
 { errno=111;recon_doserrno=222;SetLastError(333);fp(before); }
@@ -17,11 +19,14 @@ int main(int argc,char **argv)
 {
     struct {unsigned char left[4];char bytes[260];unsigned char right[4];} path,first,second;
     char collision[260],bytes[8];unsigned char before[108];DWORD count,length;UINT one,two,next;
-    HANDLE file;int live=argc>1 && !strcmp(argv[1],"live");
+    const char *prefix=argc>1 && !strncmp(argv[1],"hello",5)?"hello":"lah";
+    HANDLE file;int live=argc>1 && (!strcmp(argv[1],"live") || !strcmp(argv[1],"hello-live"));
+    int selected=argc>1 && (!strcmp(argv[1],"hello") || !strcmp(argv[1],"hello-live"));
+    live_values=live;
     if(argc<2 || strcmp(argv[1],"unbound"))
         recon_crt_bind_arguments(1,arguments,argc>1 && !strcmp(argv[1],"environment")?other_environment:environment);
     memset(&path,0xa5,sizeof(path));memset(&first,0xa5,sizeof(first));memset(&second,0xa5,sizeof(second));
-    if(argc>1 && !live) {
+    if(argc>1 && !live && !selected) {
         if(!strcmp(argv[1],"capacity")){GetTempPathA(259,path.bytes);return 42;}
         if(!strcmp(argv[1],"null")){GetTempPathA(260,NULL);return 42;}
         if(!strcmp(argv[1],"wrap")){GetTempPathA(260,(char *)0xfffffff0U);return 42;}
@@ -29,6 +34,10 @@ int main(int argc,char **argv)
         GetTempPathA(260,path.bytes);
         if(!strcmp(argv[1],"unique"))GetTempFileNameA(path.bytes,"lah",1,first.bytes);
         else if(!strcmp(argv[1],"prefix"))GetTempFileNameA(path.bytes,"bad",0,first.bytes);
+        else if(!strcmp(argv[1],"short-prefix"))GetTempFileNameA(path.bytes,"hel",0,first.bytes);
+        else if(!strcmp(argv[1],"long-prefix"))GetTempFileNameA(path.bytes,"hellox",0,first.bytes);
+        else if(!strcmp(argv[1],"prefix-wrap"))GetTempFileNameA(path.bytes,(const char *)0xfffffffeU,0,first.bytes);
+        else if(!strcmp(argv[1],"hello-overlap")){strcpy(first.bytes,"hello");GetTempFileNameA(path.bytes,first.bytes,0,first.bytes+4);}
         else if(!strcmp(argv[1],"directory"))GetTempFileNameA(".","lah",0,first.bytes);
         else if(!strcmp(argv[1],"overlap"))GetTempFileNameA(path.bytes,"lah",0,path.bytes);
         else if(!strcmp(argv[1],"file-null"))GetTempFileNameA(path.bytes,"lah",0,NULL);
@@ -41,17 +50,17 @@ int main(int argc,char **argv)
     assert(length==8 && !strcmp(path.bytes,"S:\\case\\"));
     assert(!memcmp(path.left,"\245\245\245\245",4) && !memcmp(path.right,"\245\245\245\245",4));
     assert((unsigned char)path.bytes[length+1]==0xa5);
-    errors(before);one=GetTempFileNameA(path.bytes,"lah",0,first.bytes);check_errors(before);
+    errors(before);one=GetTempFileNameA(path.bytes,prefix,0,first.bytes);check_errors(before);
     assert(one && one<=65535 && strlen(first.bytes)==length+11);
-    snprintf(collision,sizeof(collision),"%slah%04x.tmp",path.bytes,one);assert(!strcmp(first.bytes,collision));
+    snprintf(collision,sizeof(collision),"%s%.3s%04x.tmp",path.bytes,prefix,one);assert(!strcmp(first.bytes,collision));
     assert((unsigned char)first.bytes[length+12]==0xa5);
     file=CreateFileA(first.bytes,GENERIC_READ,0,NULL,OPEN_EXISTING,0,NULL);assert(file!=INVALID_HANDLE_VALUE);
     assert(ReadFile(file,bytes,sizeof(bytes),&count,NULL) && !count && CloseHandle(file));
     next=one==65535?1:one+1;
-    snprintf(collision,sizeof(collision),"%slah%04x.tmp",path.bytes,next);
+    snprintf(collision,sizeof(collision),"%s%.3s%04x.tmp",path.bytes,prefix,next);
     file=CreateFileA(collision,GENERIC_WRITE,0,NULL,CREATE_NEW,0,NULL);assert(file!=INVALID_HANDLE_VALUE);
     assert(WriteFile(file,"keep",4,&count,NULL) && count==4 && CloseHandle(file));
-    errors(before);two=GetTempFileNameA(path.bytes,"lah",0,second.bytes);check_errors(before);
+    errors(before);two=GetTempFileNameA(path.bytes,prefix,0,second.bytes);check_errors(before);
     assert(two==(next==65535?1:next+1) && strcmp(first.bytes,second.bytes));
     file=CreateFileA(collision,GENERIC_READ,0,NULL,OPEN_EXISTING,0,NULL);assert(file!=INVALID_HANDLE_VALUE);
     assert(ReadFile(file,bytes,sizeof(bytes),&count,NULL) && count==4 && !memcmp(bytes,"keep",4) && CloseHandle(file));

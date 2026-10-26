@@ -1414,15 +1414,20 @@ Original live per-call state and identical provider read schedules are unclaimed
 
 Explicit MSVCRT510 GetTempPathA admits bound target TMP="." and a verified
 canonical Windows cwd, returning its full path with a trailing backslash into
-caller-owned260B output. GetTempFileNameA admits that directory, prefix"lah"
-and unique0 with disjoint caller-owned260B output. A native time-seeded16-bit
-number names lah%04x.tmp; existing CreateFileA CREATE_NEW and checked close
+caller-owned260B output. GetTempFileNameA admits that directory, exact prefixes
+"lah" or "hello", and unique0 with disjoint caller-owned260B output. The full
+prefix including NUL is checked before effects; only its first three bytes name
+the file. A native time-seeded16-bit number follows as %04x.tmp. Existing
+CreateFileA CREATE_NEW and checked close
 create a genuine empty file, retrying collisions without replacing them.
 Returned number/path agree; the same file is available for real write/SELF
 response consumption and later DeleteFileA. Each side retains its own actual
 name; no original filename/PID or observed success-LastError equivalence is
-claimed. Native success preserves independent errors/FP. Other profiles,
-environments/directories/prefixes/unique values and output domains deny125.
+claimed. Native success preserves independent errors and semantic FP state;
+incidental instruction/data-pointer bookkeeping and empty registers are excluded.
+The hello prefix passes focused creation/collision/lifecycle/span controls; its
+next ordinary LINK caller adoption is pending. Other profiles, environments,
+directories/prefixes/unique values and output domains deny125.
 
 Watcom native direct.h provides the SDK NT packed289B directory/entry shape:
 d_attr at21, d_name[256] at30 and d_first at288. Target DIR/dirent and attribute

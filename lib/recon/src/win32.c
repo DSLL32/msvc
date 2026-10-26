@@ -74,19 +74,23 @@ UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LP
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     static UINT next_number;
-    char path[MAX_PATH],candidate[MAX_PATH];size_t n;UINT attempt,number;
+    char path[MAX_PATH],candidate[MAX_PATH];size_t n,prefix_length;UINT attempt,number;
     HANDLE file;int saved_errno=errno;DWORD saved_error=last_error;
-    if(!directory || !prefix || unique || strnlen(prefix,4)!=3 || memcmp(prefix,"lah",3))
+    if(!directory || !prefix || unique || (uintptr_t)prefix>UINTPTR_MAX-6)
         recon_unsupported("GetTempFileNameA directory/prefix/unique");
+    prefix_length=strnlen(prefix,6);
+    if(!((prefix_length==3 && !memcmp(prefix,"lah",3)) ||
+         (prefix_length==5 && !memcmp(prefix,"hello",5))))
+        recon_unsupported("GetTempFileNameA selected ASCII prefix");
     temp_current_directory(path);n=strlen(path);
     if(strnlen(directory,MAX_PATH)!=n || memcmp(directory,path,n+1))
         recon_unsupported("GetTempFileNameA outside canonical current directory");
-    temp_output_span(output,directory,n+1);temp_output_span(output,prefix,4);
+    temp_output_span(output,directory,n+1);temp_output_span(output,prefix,prefix_length+1);
     if(!next_number) {next_number=recon_GetTickCount()&0xffffU;if(!next_number)next_number=1;}
     for(attempt=0;attempt<65535U;++attempt) {
         number=next_number;next_number=number==65535U?1:number+1;
         memcpy(candidate,path,n);
-        snprintf(candidate+n,MAX_PATH-n,"lah%04x.tmp",number);
+        snprintf(candidate+n,MAX_PATH-n,"%.3s%04x.tmp",prefix,number);
         file=recon_CreateFileA(candidate,GENERIC_READ|GENERIC_WRITE,0,NULL,
                               CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
         if(file==INVALID_HANDLE_VALUE) {

@@ -1,0 +1,14 @@
+{
+  "scope": "Explicit510 bound TMP current directory, canonical cwd, capacity260; exact prefixeslah+hello(first3)/unique0 real exclusive file create-close. Names independent, no original per-call state/LastError or filename/PID equivalence. Other domains deny.",
+  "actual_adoption": "Pending next ordinary LINK get_import_conversion reconstruction pair. Static tuple GetTempFileNameA(canonical directory,\"hello\",0,owned260B output), boundTMP=./cwdT:\\vc5.10\\link\\0010-short-import-client; no original per-call observation claimed.",
+  "fp_qualification": "Native semantic CW/status/tag/live values checked; incidental instruction/data-pointer bookkeeping and empty registers deliberately excluded, no full108B equality claim.",
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/temp-api-hello/receipt.json",
+  "receipt_sha256": "689fcb0dfb63a7406e2d5df55445e1968e3790c4c965156399a0c81eddadd793",
+  "source_sha256": {
+    "src/win32.c": "e78de6d7859c1b668cec90756a514e09d4e9d0719aea2ad8c210838ca061e5fe",
+    "tests/temp-api-probe.c": "b1cba4f6b0816109596b3a09050fd320e411ac777597dcec00b7aceb01dd10fc",
+    "tests/check-temp-api.py": "fe3433d4a2d629db5fde8e6d186231df552c2fef6389d0fff1a140d09fba34de"
+  },
+  "groups": 6,
+  "wall_s": 3.3180660335347056
+}
