@@ -7,6 +7,7 @@
 #include "constructor-initializers.h"
 #include "parameters.h"
 #include "member-pointers.h"
+#include "class-lookup.h"
 #include "member-expressions.h"
 #include "expression-preparation.h"
 #include "type-sizes.h"
@@ -1543,4 +1544,496 @@ IrToken *__stdcall make_null_general_data_pointer(CType *type)
     IrToken *virtual_offset = make_integer_constant(-1);
     IrToken *offset = make_integer_constant(0);
     return make_general_data_member_pointer(type, offset, 0, virtual_offset);
+}
+
+/* Original0x4d390..0x4d4b6, stdcall24. Preserve the source evaluation
+   while adapting the stored this/vbtable displacements to the target owner. */
+void __stdcall compute_member_pointer_adjustment(CppSymbol *target, CppSymbol *source,
+    int displacement, BaseClassLink *virtual_base, int *adjustment, int *table_offset);
+IrToken *__stdcall adjust_virtual_member_displacement(IrToken *table_offset,
+    IrToken *adjustment, int displacement);
+IrToken *__stdcall member_conversion_table_reference(QualifierBinding *path, int forward);
+IrToken *__stdcall convert_virtual_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    IrToken *saved, *prefix = 0, *storage, *function, *table_offset, *adjustment;
+    IrToken *table, *result;
+    CppSymbol *source_owner, *target_owner;
+    int owner_adjustment;
+    if (!virtual_base && !displacement) {
+        expression->type = type;
+        return expression;
+    }
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    function = member_pointer_function_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = member_pointer_virtual_offset_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, expression);
+    source_owner = member_pointer_owner_class(expression->type);
+    target_owner = member_pointer_owner_class(type);
+    compute_member_pointer_adjustment(target_owner, source_owner, displacement,
+        virtual_base, &owner_adjustment, 0);
+    adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+        adjustment, owner_adjustment);
+    table = member_conversion_table_reference(path, forward);
+    if (table)
+        table_offset = indirect_storage_expression(
+            new_left_typed_expression(0x5a, table, table_offset));
+    result = build_virtual_method_pointer(type, function, adjustment, table_offset);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4c240..0x4c29f, stdcall24. The caller owns both optional
+   output words; the adjustment is always written before querying a vbtable. */
+void __stdcall compute_member_pointer_adjustment(CppSymbol *target, CppSymbol *source,
+    int displacement, BaseClassLink *virtual_base, int *adjustment, int *table_offset)
+{
+    *adjustment = displacement;
+    if (source)
+        *adjustment = (int)((unsigned)*adjustment + class_virtual_base_pointer_offset(source));
+    if (!virtual_base)
+        *adjustment = (int)((unsigned)*adjustment - class_virtual_base_pointer_offset(target));
+    if (table_offset && virtual_base)
+        query_virtual_base_pointer(cpp_context_stack->items[virtual_base->context_index],
+            target, 0, (unsigned *)table_offset, 0);
+}
+
+/* Original0x4d320..0x4d388, stdcall12. A zero vbtable selector
+   contributes no owner adjustment; retain the original conditional IR shape. */
+IrToken *__stdcall adjust_virtual_member_displacement(IrToken *table_offset,
+    IrToken *adjustment, int displacement)
+{
+    IrToken *condition, *alternatives, *choice, *zero, *offset;
+    CType *integer_type;
+    if (!displacement) return adjustment;
+    condition = new_ir_expression(0x44, table_offset, make_integer_constant(0), type_0064);
+    zero = make_integer_constant(0);
+    offset = make_integer_constant(displacement);
+    alternatives = new_left_typed_expression(0x3f, offset, zero);
+    choice = new_right_typed_expression(0x5f, condition, alternatives);
+    integer_type = builtin_integer_type();
+    return new_ir_expression(0x5a, adjustment, choice, integer_type);
+}
+
+QualifierBinding *__stdcall first_virtual_conversion_path(QualifierBinding *path);
+QualifierBinding *__stdcall last_virtual_conversion_path(QualifierBinding *path);
+MemberConversionKey *__stdcall new_member_conversion_key(CppSymbol *target,
+    CppSymbol *source, int forward, short arena);
+MemberConversionKey *__stdcall copy_member_conversion_key(MemberConversionKey *key, short arena);
+CppSymbol *__stdcall new_member_conversion_table(MemberConversionKey *key);
+
+/* Original0x4d4c0..0x4d56e, stdcall8. Retain generated conversion tables
+   by their actual class-pair/direction key, materializing them at finish_types. */
+IrToken *__stdcall member_conversion_table_reference(QualifierBinding *path, int forward)
+{
+    QualifierBinding *first, *last;
+    CppSymbol *target, *source, *symbol;
+    BaseClassLink *base;
+    MemberConversionKey *key;
+    first = first_virtual_conversion_path(path);
+    if (!first) return 0;
+    last = last_virtual_conversion_path(path);
+    base = (BaseClassLink *)first->target;
+    target = cpp_context_stack->items[base->context_index];
+    source = (CppSymbol *)last->target;
+    if ((source->kind & 31) == 15)
+        source = cpp_context_stack->items[((BaseClassLink *)source)->context_index];
+    key = new_member_conversion_key(target, source, forward, 2);
+    if (!deferred_type_tables) deferred_type_tables = new_hash_table(32, 0, 9, 8);
+    symbol = find_hash_value(deferred_type_tables, key);
+    if (!symbol) {
+        symbol = new_member_conversion_table(key);
+        set_hash_value(deferred_type_tables, copy_member_conversion_key(key, 0), symbol);
+    }
+    return symbol_reference(symbol);
+}
+
+int __stdcall member_conversion_preserves_virtual_layout(QualifierBinding *path);
+
+/* Original0x4da50..0x4daa0, stdcall4. Find the first base edge
+   needing a virtual-layout conversion, stopping at the owning declaration. */
+QualifierBinding *__stdcall first_virtual_conversion_path(QualifierBinding *path)
+{
+    BaseClassLink *base;
+    for (; path; path = path->next) {
+        base = (BaseClassLink *)path->target;
+        if ((base->kind & 31) != 15) return 0;
+        if (base->state & 1) return path;
+        if (base->displacement && !member_conversion_preserves_virtual_layout(path))
+            return path;
+    }
+    return 0;
+}
+
+int __stdcall same_virtual_base_layout(CppSymbol *first, CppSymbol *second);
+
+/* Original0x4daf0..0x4db2d, stdcall4. Compare the actual two class
+   owners joined by this base edge, unwrapping the next base-list record. */
+int __stdcall member_conversion_preserves_virtual_layout(QualifierBinding *path)
+{
+    BaseClassLink *base = (BaseClassLink *)path->target;
+    CppSymbol *first = cpp_context_stack->items[base->context_index];
+    CppSymbol *second = (CppSymbol *)path->next->target;
+    if ((second->kind & 31) != 4)
+        second = cpp_context_stack->items[((BaseClassLink *)second)->context_index];
+    return same_virtual_base_layout(first, second);
+}
+
+/* Original0x4db30..0x4dbad, stdcall8. Compare each first owner's
+   virtual-base table position with the second owner's corresponding entry. */
+int __stdcall same_virtual_base_layout(CppSymbol *first, CppSymbol *second)
+{
+    VirtualBaseSearch search;
+    unsigned first_pointer, second_pointer, first_table, second_table;
+    CType *pointer_type;
+    begin_virtual_base_search(&search, first);
+    while (next_virtual_base_search(&search)) {
+        /* Original ignores both query returns. A failed query leaves the
+           corresponding output local unwritten; preserve that defect/read. */
+        query_virtual_base_pointer(search.tag, first, &first_pointer, &first_table, &pointer_type);
+        query_virtual_base_pointer(search.tag, second, &second_pointer, &second_table, &pointer_type);
+        if (first_table != second_table) return 0;
+    }
+    return 1;
+}
+
+IrToken *__stdcall preserve_virtual_data_null(IrToken *converted, IrToken *original_table);
+
+/* Original0x4c590..0x4c6bc, stdcall24. Convert the data offset and
+   virtual selector together while retaining the source's null selector. */
+IrToken *__stdcall convert_virtual_data_member_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    IrToken *saved, *prefix = 0, *storage, *original_table, *table_offset, *adjustment;
+    IrToken *table, *result;
+    CppSymbol *source_owner, *target_owner;
+    int owner_adjustment;
+    if (!virtual_base && !displacement) {
+        expression->type = type;
+        return expression;
+    }
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    original_table = virtual_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = virtual_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = virtual_data_member_offset(storage, expression);
+    source_owner = member_pointer_owner_class(expression->type);
+    target_owner = member_pointer_owner_class(type);
+    compute_member_pointer_adjustment(target_owner, source_owner, displacement,
+        virtual_base, &owner_adjustment, 0);
+    adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+        adjustment, owner_adjustment);
+    table = member_conversion_table_reference(path, forward);
+    if (table)
+        table_offset = indirect_storage_expression(
+            new_left_typed_expression(0x5a, table, table_offset));
+    result = make_virtual_data_member_pointer(type, adjustment, table_offset);
+    result = preserve_virtual_data_null(result, original_table);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4c320..0x4c362, stdcall8. The aggregate data-member
+   null value is selected by the source's reserved vbtable index minus one. */
+IrToken *__stdcall preserve_virtual_data_null(IrToken *converted, IrToken *original_table)
+{
+    IrToken *null_index, *condition, *null_value, *alternatives;
+    null_index = make_integer_constant(-1);
+    condition = new_ir_expression(0x44, original_table, null_index, type_0064);
+    null_value = make_null_member_pointer(converted->type);
+    alternatives = new_left_typed_expression(0x3f, null_value, converted);
+    return new_right_typed_expression(0x5f, condition, alternatives);
+}
+
+IrToken *__stdcall general_method_adjustment_value(IrToken *storage, IrToken *expression);
+
+/* Original0x4d0f0..0x4d2e5, stdcall24. Adapt the general method
+   record according to the two owners' actual virtual-base layouts. */
+IrToken *__stdcall convert_general_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    IrToken *saved, *prefix = 0, *storage, *function, *adjustment, *table_offset;
+    IrToken *table, *result;
+    unsigned pointer_offset, table_index;
+    int source_virtual, target_virtual;
+    if (!virtual_base && !displacement) {
+        expression->type = type;
+        return expression;
+    }
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    function = member_pointer_function_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = general_method_adjustment_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    member_pointer_vbptr_offset_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = member_pointer_general_virtual_offset_value(storage, expression);
+    source_virtual = source->detail.class_info->flags & 0x10;
+    target_virtual = target->detail.class_info->flags & 0x10;
+    if (!source_virtual && !target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else if (!source_virtual && target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        /* Original ignores failure and then consumes its two output locals;
+           preserve those unwritten locals rather than inventing a fallback. */
+        query_virtual_base_pointer(cpp_context_stack->items[virtual_base->context_index],
+            target, &pointer_offset, &table_index, 0);
+        table_offset = make_integer_constant(table_index);
+    } else if (source_virtual && !target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else {
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        if (forward) source = target;
+        class_virtual_base_pointer_layout(source, &pointer_offset, 0);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = make_general_method_pointer(type, function, adjustment, pointer_offset, table_offset);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4bd90..0x4bda4, stdcall8. General representation always
+   stores the this adjustment in integer field zero, without a model switch. */
+IrToken *__stdcall general_method_adjustment_value(IrToken *storage, IrToken *expression)
+{
+    return member_pointer_integer_field(storage, expression, 0);
+}
+
+IrToken *__stdcall preserve_general_data_null(IrToken *converted, IrToken *original_table);
+
+/* Original0x4cee0..0x4d0e8, stdcall24. General data-member records
+   retain their own reserved-null selector across the owner-layout adaptation. */
+IrToken *__stdcall convert_general_data_member_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    IrToken *saved, *prefix = 0, *storage, *original_table, *table_offset, *adjustment;
+    IrToken *table, *result;
+    unsigned pointer_offset, table_index;
+    int source_virtual, target_virtual;
+    if (!virtual_base && !displacement) {
+        expression->type = type;
+        return expression;
+    }
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    original_table = general_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = general_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    general_data_vbptr_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = general_data_member_offset(storage, expression);
+    source_virtual = source->detail.class_info->flags & 0x10;
+    target_virtual = target->detail.class_info->flags & 0x10;
+    if (!source_virtual && !target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else if (!source_virtual && target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        /* Original ignores failure and then reads these output locals. */
+        query_virtual_base_pointer(cpp_context_stack->items[virtual_base->context_index],
+            target, &pointer_offset, &table_index, 0);
+        table_offset = make_integer_constant(table_index);
+    } else if (source_virtual && !target_virtual) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else {
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        if (forward) source = target;
+        class_virtual_base_pointer_layout(source, &pointer_offset, 0);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = make_general_data_member_pointer(type, adjustment, pointer_offset, table_offset);
+    result = preserve_general_data_null(result, original_table);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4c370..0x4c382, stdcall8. Keep the distinct general-data
+   wrapper and its call edge even though it shares the virtual null selector. */
+IrToken *__stdcall preserve_general_data_null(IrToken *converted, IrToken *original_table)
+{
+    return preserve_virtual_data_null(converted, original_table);
+}
+
+/* Original0x4cda0..0x4ceda, stdcall24. Widen a virtual method
+   record into the general layout using the source vbptr's signed direction. */
+IrToken *__stdcall convert_virtual_to_general_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    unsigned source_pointer = class_virtual_base_pointer_offset(source);
+    IrToken *saved, *prefix = 0, *storage, *function, *adjustment, *table_offset;
+    IrToken *table, *result;
+    unsigned pointer_offset;
+    displacement = (int)((unsigned)displacement + (forward ? source_pointer : 0U - source_pointer));
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    function = member_pointer_function_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = member_pointer_virtual_offset_value(storage, expression);
+    if (!(target->detail.class_info->flags & 0x10)) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else {
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        class_virtual_base_pointer_layout(target, &pointer_offset, 0);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = make_general_method_pointer(type, function, adjustment, pointer_offset, table_offset);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4cb00..0x4cc42, stdcall24. Widen data-member storage
+   while checking the original selector separately for the reserved null value. */
+IrToken *__stdcall convert_virtual_to_general_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    unsigned source_pointer = class_virtual_base_pointer_offset(source);
+    IrToken *saved, *prefix = 0, *storage, *original_table, *adjustment, *table_offset;
+    IrToken *table, *result;
+    unsigned pointer_offset;
+    displacement = (int)((unsigned)displacement + (forward ? source_pointer : 0U - source_pointer));
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    original_table = virtual_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = virtual_data_member_offset(storage, expression);
+    if (!(target->detail.class_info->flags & 0x10)) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        table_offset = make_integer_constant(0);
+        pointer_offset = 0;
+    } else {
+        storage = member_pointer_component(expression, 1, &saved);
+        table_offset = virtual_data_table_offset(storage, expression);
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        class_virtual_base_pointer_layout(target, &pointer_offset, 0);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = make_general_data_member_pointer(type, adjustment, pointer_offset, table_offset);
+    result = preserve_general_data_null(result, original_table);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4cc50..0x4cd9e, stdcall24. Narrow the general method
+   record after removing the target owner's direction-dependent vbptr offset. */
+IrToken *__stdcall convert_general_to_virtual_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    unsigned target_pointer = class_virtual_base_pointer_offset(target), table_index;
+    IrToken *saved, *prefix = 0, *storage, *function, *adjustment, *table_offset;
+    IrToken *table, *result;
+    displacement = (int)((unsigned)displacement - (forward ? target_pointer : 0U - target_pointer));
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    function = member_pointer_function_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = member_pointer_adjustment_value(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    table_offset = member_pointer_general_virtual_offset_value(storage, expression);
+    if (!(source->detail.class_info->flags & 0x10)) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        /* The ignored failed-query output remains an original unwritten local. */
+        query_virtual_base_pointer(cpp_context_stack->items[virtual_base->context_index],
+            target, 0, &table_index, 0);
+        table_offset = make_integer_constant(table_index);
+    } else {
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = build_virtual_method_pointer(type, function, adjustment, table_offset);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
+}
+
+/* Original0x4c9a0..0x4cafa, stdcall24. Narrow general data storage,
+   preserving the original selector independently of any converted table load. */
+IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *source = member_pointer_owner_class(expression->type);
+    CppSymbol *target = member_pointer_owner_class(type);
+    unsigned target_pointer = class_virtual_base_pointer_offset(target), table_index;
+    IrToken *saved, *prefix = 0, *storage, *original_table, *adjustment, *table_offset;
+    IrToken *table, *result;
+    displacement = (int)((unsigned)displacement - (forward ? target_pointer : 0U - target_pointer));
+    if (!can_reuse_member_pointer_storage(expression))
+        prefix = member_pointer_component(expression, 0, &saved);
+    storage = member_pointer_component(expression, prefix != 0, &saved);
+    original_table = general_data_table_offset(storage, expression);
+    storage = member_pointer_component(expression, 1, &saved);
+    adjustment = general_data_member_offset(storage, expression);
+    if (!(source->detail.class_info->flags & 0x10)) {
+        adjustment = adjust_member_pointer_displacement(adjustment, displacement);
+        /* Original failure leaves this output local unwritten before use. */
+        query_virtual_base_pointer(cpp_context_stack->items[virtual_base->context_index],
+            target, 0, &table_index, 0);
+        table_offset = make_integer_constant(table_index);
+    } else {
+        storage = member_pointer_component(expression, 1, &saved);
+        table_offset = general_data_table_offset(storage, expression);
+        adjustment = adjust_virtual_member_displacement(clone_expression(table_offset, 0),
+            adjustment, displacement);
+        table = member_conversion_table_reference(path, forward);
+        if (table)
+            table_offset = indirect_storage_expression(
+                new_left_typed_expression(0x5a, table, table_offset));
+    }
+    result = make_virtual_data_member_pointer(type, adjustment, table_offset);
+    result = preserve_virtual_data_null(result, original_table);
+    if (prefix) result = new_right_typed_expression(0x40, prefix, result);
+    return result;
 }

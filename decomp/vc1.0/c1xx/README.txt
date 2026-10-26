@@ -1,6 +1,38 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Command adapter is COMPLETE: case0031. A6,199-byte C++ workload routes typed
+member callbacks and field selectors through single/multiple, virtual and
+full-generality command interfaces. It combines inherited same-model conversion,
+virtual/general widening and narrowing, explicit reverse casts, null/copy/
+assignment and real member application. An initial draft repeated a direct base
+already inherited through GeneralPort; a distinct AdapterStamp makes the supported
+source valid. That draft's original diagnostic and artifacts remain in scratch.
+
+Seventeen whole App bodies /3,674 code bytes were accepted: eight virtual/general
+method/data converters and nine genuinely discovered displacement, null-selector
+and virtual-layout helpers. The source preserves owner-relative adjustment,
+source evaluation, the original conditional IR construction, and distinct wrapper
+call edges. Three-field deferred-table keys have a typed12B definition; their
+unreached constructor/copy/generator siblings remain named trapping stubs with
+zero credit. Original ignored query failures retain unwritten locals/read comments,
+without a new guard, invented fallback or incidental-stack equivalence claim.
+
+Fresh original/native observations match all17 entries, exit0, streams and six
+complete IR/browser artifacts; all six also match the untouched supported baseline.
+This is a frontend compile/IR case, not generated-program runtime qualification.
+No output normalization, shared change or CRT body was added. Totals:1,785 App
+bodies /1,892 historical frontiers, plus seven unchanged CRT source bodies.
+App-only code union399,096 /476,418 B is83.77% of the whole original code extent,
+not a non-CRT denominator;101 named App stubs remain. All32 cached native cases,
+32 unit groups and the1,793-function six-check graph/ABI audit pass, as does the
+original-toolchain build. Final original1,305.913 ms; native40.730 ms (setup19.563 ms,
+execution13.628 ms, checks7.539 ms). Complete closing gate3.294 s includes build/
+setup/runtime identification and audit; incremental build walls were not separately
+measured. Reference raw artifacts and ordinary paired reports remain in scratch.
+
+Earlier completed Device SDK workflow:
+
 Device SDK automatic PCH workflow is COMPLETE: cases0028 creation,0029 reuse
 and0030 timestamp-triggered refresh. These were prepared sequentially for one
 current workflow, not abandoned cases. A virtual-device SDK combines conditional

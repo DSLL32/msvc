@@ -10,6 +10,14 @@ typedef struct MemberPointerThunkKey {
     unsigned kind;
     int displacement;
 } MemberPointerThunkKey;
+/* Deferred vbtable-conversion identity: both owner classes and direction.
+   Original constructor4d710 initializes exactly these three DWORDs. */
+typedef struct MemberConversionKey {
+    CppSymbol *target, *source;
+    int forward;
+} MemberConversionKey;
+typedef char MemberConversionKeySizeMustBe12[
+    (sizeof(MemberConversionKey) == 12) ? 1 : -1];
 typedef char MemberPointerThunkKeySizeMustBe12[
     (sizeof(MemberPointerThunkKey) == 12) ? 1 : -1];
 /* Comparison lowering callbacks receive one expression and three operator
