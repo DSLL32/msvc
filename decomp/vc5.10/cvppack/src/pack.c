@@ -5,9 +5,9 @@
 #include <recon.h>
 
 ModuleInfo *current_module_info;
-unsigned module_type_low, module_symbol_flags, current_module_flags;
+unsigned module_type_low, current_module_flags;
 unsigned line_entry_index, symbol_entry_index, type_entry_index;
-LegacyTypeSymbol *pending_legacy_symbols;
+LegacyTypeSymbol *pending_legacy_symbols, *last_legacy_symbol;
 unsigned current_type_count, has_precompiled;
 unsigned total_symbol_bytes, total_line_bytes;
 unsigned short module_symbol_count, module_reference_count, module_procedure_count;
@@ -22,7 +22,7 @@ int pack_module(unsigned short module)
     ModuleIndex *selected = &module_index[module];
     module_type_low = 0x0fffffff;
     module_symbol_count = module_reference_count = module_procedure_count = 0;
-    module_symbol_flags = 0;
+    retain_structure_names = 0;
     current_type_index = 0;
     current_module_flags = line_entry_index = symbol_entry_index = 0;
     type_entry_index = current_type_count = has_precompiled = 0;

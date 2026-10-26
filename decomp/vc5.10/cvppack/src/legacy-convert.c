@@ -2,6 +2,8 @@
 #include "legacy-types.h"
 #include "pack.h"
 #include <recon.h>
+
+#pragma intrinsic(memcpy)
 LegacyTypeConverter legacy_type_converters[13] = {
     { 0x7a, convert_legacy_pointer },
     { 0x91, convert_legacy_based_pointer },
@@ -271,4 +273,175 @@ void convert_legacy_array(TypeRecord *record)
     for (i = 0; i < size; ++i) data[12 + i] = numeric[i];
     data += 12 + size;
     for (i = 0; i < (unsigned)name[0] + 1; ++i) data[i] = name[i];
+}
+
+/* Preserve the original list owner while replacing marker83/WORD entries
+ * with LF_ARGLIST's DWORD entries [004081f0,00408358). */
+void convert_legacy_argument_list(unsigned index, unsigned short count)
+{
+    TypeRecord *record;
+    unsigned slot = index - 0x200, from_global, bytes, i;
+    unsigned short length;
+    unsigned char *cursor, *data;
+    int reuse;
+    if (!module_type_low && slot == 0xffff - module_type_base)
+        record = empty_type_record;
+    else {
+        record = &type_records[slot];
+        if (record->status & 0x1000)
+            record = lookup_global_type(record->global_index - 0x1000, &from_global);
+    }
+    if (record->status & 0x400) return;
+    record->status |= 0x400;
+    cursor = record->data;
+    length = count * 4 + 6;
+    bytes = (unsigned)length + 2;
+    reuse = bytes <= (unsigned)*(unsigned short *)(cursor + 1) + 3;
+    data = reuse ? allocate_type_buffer(bytes) : allocate_bytes(bytes);
+    *(unsigned short *)data = length;
+    *(unsigned short *)(data + 2) = 0x1201;
+    *(unsigned *)(data + 4) = count;
+    cursor += 4;
+    for (i = 0; i < count; ++i) {
+        if (*cursor++ == 0x83) {
+            *(unsigned *)(data + 8 + i * 4) = (short)*(unsigned short *)cursor;
+            cursor += 2;
+        } else *(unsigned *)(data + 8 + i * 4) = -1;
+    }
+    if (reuse) {
+        for (i = 0; i < bytes; ++i) record->data[i] = data[i];
+    } else {
+        if (record->status & 0x38) release_type_payload(record);
+        record->status |= 8;
+        record->data = data;
+    }
+}
+
+/* A C6 aggregate references separate member-type and member-name lists.
+ * [00407980,00407b7d). The actual WORD413268 also controls later UDT aliases. */
+void convert_legacy_structure(TypeRecord *record)
+{
+    unsigned char *old = record->data, *cursor = old + 4, *end, *data;
+    unsigned char numeric[20], name[257];
+    unsigned short old_length, numeric_size, count, fields, properties, length;
+    int types, names;
+    unsigned value;
+    record->status |= 0x400;
+    old_length = *(unsigned short *)(old + 1);
+    end = old + old_length + 3;
+    retain_structure_names = 1;
+    value = read_legacy_numeric(&cursor, NULL);
+    if (value) value = ((value - 1) >> 3) + 1;
+    numeric_size = write_unsigned_numeric(numeric, value);
+    value = read_legacy_numeric(&cursor, NULL);
+    count = value > 0xffff ? 0xffff : (unsigned short)value;
+    if (*cursor++ == 0x83) {
+        types = *(short *)cursor;
+        cursor += 2;
+    } else types = -1;
+    if (*cursor++ == 0x83) {
+        names = *(short *)cursor;
+        cursor += 2;
+    } else names = -1;
+    fields = convert_legacy_field_list(types, names, count);
+    name[0] = 0;
+    if (cursor < end) {
+        if (*cursor == 0x82) {
+            ++cursor;
+            memcpy(name, cursor, (unsigned)cursor[0] + 1);
+            cursor += (unsigned)cursor[0] + 1;
+            properties = cursor < end && *cursor == 0x68;
+        } else properties = *cursor == 0x68;
+    } else properties = 0;
+    length = name[0] + numeric_size + 19;
+    if (length <= (unsigned)old_length + 1) data = old;
+    else data = resize_legacy_type_payload(record, length + 2);
+    *(unsigned short *)data = length;
+    *(unsigned short *)(data + 2) = 0x1005;
+    *(unsigned short *)(data + 4) = count;
+    *(unsigned short *)(data + 6) = properties;
+    *(unsigned *)(data + 8) = fields;
+    *(unsigned *)(data + 12) = 0;
+    *(unsigned *)(data + 16) = 0;
+    memcpy(data + 20, numeric, numeric_size);
+    memcpy(data + 20 + numeric_size, name, (unsigned)name[0] + 1);
+}
+
+/* Join the C6 parallel type/name lists into the original aligned member
+ * encoding [00407fb0,004081e6). Keep the original type/attribute field order. */
+unsigned short convert_legacy_field_list(unsigned short types, unsigned short names,
+    unsigned short count)
+{
+    TypeRecord *record, *name_record;
+    unsigned slot, from_global, bytes, i, padding;
+    unsigned short allocation, remaining;
+    unsigned char *type_cursor, *name_cursor, *after_name, *cursor, *start, *data;
+    slot = (unsigned)types - 0x200;
+    if (!module_type_low && slot == 0xffff - module_type_base)
+        record = empty_type_record;
+    else {
+        record = &type_records[slot];
+        if (record->status & 0x1000)
+            record = lookup_global_type(record->global_index - 0x1000, &from_global);
+    }
+    slot = (unsigned)names - 0x200;
+    if (!module_type_low && slot == 0xffff - module_type_base)
+        name_record = empty_type_record;
+    else {
+        name_record = &type_records[slot];
+        if (name_record->status & 0x1000)
+            name_record = lookup_global_type(name_record->global_index - 0x1000, &from_global);
+    }
+    type_cursor = record->data + 4;
+    name_cursor = name_record->data;
+    allocation = *(unsigned short *)(name_cursor + 1) + count * 12 + 6;
+    name_cursor += 4;
+    cursor = allocate_type_buffer(allocation);
+    while ((unsigned)cursor & 3) ++cursor;
+    start = cursor;
+    cursor += 2;
+    *(unsigned short *)cursor = 0x1203;
+    cursor += 2;
+    remaining = count;
+    while (remaining) {
+        ++name_cursor;
+        *(unsigned short *)cursor = 0x1405;
+        cursor += 2;
+        if (*type_cursor++ == 0x83) {
+            *(unsigned short *)cursor = *(short *)type_cursor;
+            type_cursor += 2;
+        } else *(unsigned short *)cursor = 0xffff;
+        cursor += 2;
+        *(unsigned short *)cursor = 3;
+        cursor += 2;
+        after_name = name_cursor + *name_cursor + 1;
+        convert_legacy_numeric_leaf(&after_name, &cursor);
+        for (i = 0; i < (unsigned)*name_cursor + 1; ++i) *cursor++ = name_cursor[i];
+        name_cursor = after_name;
+        padding = (unsigned)cursor & 3;
+        if (padding) {
+            *cursor++ = (unsigned char)(0xf4 - padding);
+            while ((unsigned)cursor & 3) *cursor++ = 0;
+        }
+        --remaining;
+    }
+    bytes = cursor - start;
+    *(unsigned short *)start = bytes - 2;
+    data = resize_legacy_type_payload(record, bytes);
+    record->status |= 0x400;
+    for (i = 0; i < (unsigned short)bytes; ++i) data[i] = start[i];
+    return types;
+}
+
+/* The based-array referent becomes a DWORD LF_BARRAY index
+ * [00407b80,00407bc4). */
+void convert_legacy_based_array(TypeRecord *record)
+{
+    unsigned referent = *(unsigned short *)(record->data + 5);
+    unsigned char *data;
+    record->status |= 0x400;
+    data = resize_legacy_type_payload(record, 8);
+    *(unsigned short *)data = 6;
+    *(unsigned short *)(data + 2) = 0x100b;
+    *(unsigned *)(data + 4) = referent;
 }

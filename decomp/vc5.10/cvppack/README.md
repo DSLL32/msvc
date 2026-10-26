@@ -5,7 +5,7 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-215 accepted application functions total 56,111 original code bytes: 89.55% of the
+219 accepted application functions total 57,614 original code bytes: 91.94% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -108,11 +108,21 @@ Completed cases:
 - 0014-symbol16-parity: format-authored NB05 with one C6 register-relative
   local and signature2 C7 16-bit-address data, frame and procedure records.
   Two disjoint module contributions, WORD type/offset fields and balanced
-  procedure scopes are validated by the generator. Status0, exact223-byte
+  procedure scopes are validated by the generator. Status 0, exact 223-byte
   verbose output and complete packed DLL SHA256
   `3125f1cbf3a219e307a151955c42f8ec19965c1a27716858dee6556b29926753`.
   Six functions were reconstructed. The unvisited wide register-relative and
   MIPS callbacks retain their previous classification and denial.
+
+- 0015-c6-compound: format-authored C6 callable with two arguments, named
+  six-byte aggregates with two member types and name/offset lists, and based
+  arrays. All references, list counts, member bounds and procedure scopes are
+  checked before execution. Status 0, exact 223-byte verbose output and packed
+  DLL SHA256 `455f924a10c209fe57465aaba7f185d921bb73125c58c02db5f2ebe0025bb92c`.
+  Four argument/aggregate/field-list/based-array functions were reconstructed.
+  The actual WORD name-retention flag and UDT-list head are now single storage
+  owners; earlier cases only exercised the duplicate source names at zero.
+  Plain/based pointer attributes and opaque COBOL payloads remain unqualified.
 
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
@@ -148,13 +158,17 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest symbol16 verification: genuine completion capture1119.758ms; matching
-native10.229ms (setup4.928/execution4.132/checks1.169). All fifteen cached cases,
-twenty-four units and original-compiler compatibility passed. Full215-body
-graph/import/reference/ownership/extent/callback checks and strictRET214 passed
-with the existing Release residual. The case-end batch took0.969s; cached
-symbol16 replay10.334ms. During reconstruction only current-case pairs and
-selected changed-function audits ran; the completed case receives one commit.
+Latest compound verification: genuine completion capture 918.638 ms; matching
+native replay 10.154 ms (setup 5.092 / execution 3.937 / checks 1.125). All sixteen
+cached cases, twenty-four units and original-compiler compatibility passed.
+Full 219-body graph/import/reference/ownership/extent/callback checks and strict
+RET on 218 bodies pass with the existing Release residual. The case-end batch
+was 0.477 s, with an inherited rebuilt switch offset rejected after the corrected
+WORD store shortened its owner by one byte. Exact COFF relocations/classmap
+confirmed the new table interval; the static audit then passed in 0.419 s without
+another original run. Cached compound replay took 10.075 ms. During reconstruction
+only current-case pairs and selected changed-function audits ran; the completed
+case receives one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

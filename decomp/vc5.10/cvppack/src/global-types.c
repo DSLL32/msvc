@@ -7,7 +7,6 @@
 
 unsigned short retain_structure_names;
 unsigned char **global_type_blocks[2048];
-StructureAlias *structure_aliases, *last_structure_alias;
 
 void __fastcall allocate_global_type(TypeRecord *record)
 {
@@ -15,7 +14,7 @@ void __fastcall allocate_global_type(TypeRecord *record)
     unsigned index, hash, length, padding;
     unsigned short bytes, kind;
     CachedTypeName *cached, **buckets;
-    StructureAlias *alias;
+    LegacyTypeSymbol *alias;
     char limit[12];
     if (discard_types) {
         record->mapped_index = 0;
@@ -31,14 +30,14 @@ void __fastcall allocate_global_type(TypeRecord *record)
             padding = 3 - ((length - 1) & 3);
             bytes = (unsigned short)(padding + length - 2);
             alias = allocate_bytes(bytes + 6);
-            if (!structure_aliases) structure_aliases = alias;
-            else last_structure_alias->next = alias;
+            if (!pending_legacy_symbols) pending_legacy_symbols = alias;
+            else last_legacy_symbol->next = alias;
             alias->length = bytes;
             alias->kind = 0x1003;
             alias->index = symbol_rewriters.state.next_global_type;
             memcpy(alias->name, name, *name + 1);
             for (length = 0; length < padding; ++length) alias->name[*name + 1 + length] = 0;
-            last_structure_alias = alias;
+            last_legacy_symbol = alias;
             alias->next = NULL;
         }
     }

@@ -14,6 +14,7 @@ unsigned short write_unsigned_numeric(unsigned char *output, unsigned value);
 void convert_legacy_pointer(TypeRecord *record);
 void convert_legacy_based_pointer(TypeRecord *record);
 void convert_legacy_structure(TypeRecord *record);
+unsigned short convert_legacy_field_list(unsigned short types, unsigned short names, unsigned short count);
 void convert_legacy_array(TypeRecord *record);
 void convert_legacy_procedure(TypeRecord *record);
 void convert_legacy_nil(TypeRecord *record);
