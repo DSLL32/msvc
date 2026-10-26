@@ -825,6 +825,16 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@split_machine_region_exit@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@retarget_machine_region_entry@16": {
+      "expected_cleanup": [
+        8
+      ]
     }
   }
 }

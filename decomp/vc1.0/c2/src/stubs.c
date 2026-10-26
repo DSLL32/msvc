@@ -182,7 +182,6 @@ int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, Symb
 
 
 
-int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
 
 
@@ -198,7 +197,6 @@ void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
-MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }

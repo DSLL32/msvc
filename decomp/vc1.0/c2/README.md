@@ -1,20 +1,52 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1471 completes the public mixed integer/floating stream limiter.
-There are 1356 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 354230/399693 original code-section bytes (88.6255%);
-adding 940 owned text-data bytes gives 355170/399693 (88.8607%). These clipped
+Checkpoint 1473 completes the INTERNAL region-exit split case.
+There are 1358 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 354688/399693 original code-section bytes (88.7401%);
+adding 940 owned text-data bytes gives 355628/399693 (88.9753%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 381544/399693
-(95.4593%). A reliable non-CRT denominator remains unavailable; 33 pending App
-rows and 18149B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 382002/399693
+(95.5739%). A reliable non-CRT denominator remains unavailable; 31 pending App
+rows and 17691B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 35 cached IO cases, three INTERNAL DIRECT
-cases and 244 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 35 cached IO cases, four INTERNAL DIRECT
+cases and 246 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+The region-exit case reuses case0027's genuine decoder source/IR/environment and
+first eviction-query anchor. Actual regionflags50 has223 records, one real exit
+edge and one attached owner alias. Target constructors/insertion/registration
+and retarget APIs create one private exit label; no private globals/analysis
+flags are forced. The48B report compares bounded identity indices, new label
+position367, all540 original machine nodes in order and the actual reference
+transfer old1->0/new1 with cleanup0->1. All other defined borrowed region,
+register-summary, instruction/present-operand and label fields remain intact.
+Inactive fields/padding and cross-process raw pointers are excluded.
+
+Two whole App owners add458B: region-exit splitter204 and retarget helper254,
+with RET0 and RET8 respectively. Fresh masked original/native prefixes1471..1473
+and the complete report match. Cold controls additionally cover address-backed
+branches, ignored nonbranch labels, attached exit aliases, half-open scan bounds,
+idempotence and consecutive DATA-table destinations. They do not claim the
+actual decoder used those table/address shapes. A changed expected transfer
+word rejects with actual exit125. Abrupt DIRECT completion preserves actual
+empty decode.obj/streams and status0, not compiler completion. No new CRT
+implementation, shared shim, normalization or controller was needed.
+
+Final `make -j4 audit check unit` passes2.766s (phases unsplit):1363 paired
+graphs/accepted extents and167 scoped RET contracts. Original /W3 compile passes
+2.300s. Measured original references4.909s, helper build5.941s, combined target
+builds7.105s, metadata1.471s and native pairs0.227s. Case builds6.954s include
+a common support/header dependency rebuild and link in the first5.848s build.
+Native anchor inspection0.317s is diagnostic, not a fixture pass. Completion
+DIRECT is42.536ms: setup14.327/execution24.217/checks3.991. Analysis/editing/
+packing are unmeasured; combined phases are unsplit and totals are not task
+elapsed. All attempts, helper/source/binary bindings and completion/coverage/
+timing records remain under `~/.ai-tmp/msvc2/vc1.0/c2/region-exit/`.
+
+The preceding public limiter case used the following workflow.
 The limiter uses untouched CL /O2 /Ob0 /Oa /G3 /Oy- /Z7 /W3. The actual C1
 source/001108 initial and000916 revised IR transport is retained separately;
 only the revised source/IR is the committed case. The first valid draft reached

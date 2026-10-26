@@ -3940,11 +3940,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@split_machine_region_exit@4",
         .entry_rva = 0x38ee0,
-        .code = (const ReconExtent[]) { { 0x38ee0, 0x38ee1 } },
+        .code = (const ReconExtent[]) { { 0x38ee0, 0x38fac } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "split_machine_region_exit",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@find_register_preservation_region@8",
@@ -6532,11 +6532,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@retarget_machine_region_entry@16",
         .entry_rva = 0x38a20,
-        .code = (const ReconExtent[]) { { 0x38a20, 0x38a21 } },
+        .code = (const ReconExtent[]) { { 0x38a20, 0x38b1e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "retarget_machine_region_entry",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@promote_region_immediates@4",

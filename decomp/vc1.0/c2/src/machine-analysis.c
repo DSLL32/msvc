@@ -691,3 +691,81 @@ int __fastcall resolve_machine_region_suffix(MachineFlowRegion *parent, MachineF
         region = children;
     }
 }
+
+/* Original [00048ee0,00048fac), ECX region/RET0. Insert a private
+   exit label, retaining consecutive header/source-record placement. Retarget
+   all references owned by this region, including its live exit-label alias,
+   then transfer exactly that many references from the old symbol. */
+MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region)
+{
+    MachineInstruction *old_exit = region->exit_label, *position, *previous, *created;
+    LabelSymbol *old_symbol, *new_symbol;
+    int transferred;
+    position = old_exit->previous;
+    while ((position->opcode & 15) == 4) position = position->previous;
+    if ((position->opcode & 15) == 7) {
+        previous = position->previous;
+        while ((previous->opcode & 15) == 4) previous = previous->previous;
+        if ((previous->opcode & 15) == 7) position = previous;
+    }
+    created = new_machine_record(1, new_internal_label());
+    created->labels.attachment = 0;
+    insert_machine_after(position, created);
+    register_machine_label(created);
+    old_symbol = (LabelSymbol *)old_exit->record.symbol;
+    new_symbol = (LabelSymbol *)created->record.symbol;
+    transferred = retarget_machine_region_entry(old_symbol, new_symbol,
+        region->first, region->last->next);
+    if (region->exit_label != created)
+        compiler_internal_error("@(#)range.c:1.0", 0x2ef);
+    created->labels.flags |= 2;
+    old_symbol->references -= transferred;
+    if (!old_symbol->references) machine_analysis_needs_label_cleanup = 1;
+    new_symbol->references = transferred;
+    return created;
+}
+
+/* Original [00048a20,00048b1e), ECX old/EDX replacement plus first/last
+   on the stack, RET8. Only this half-open run owns the rewritten references.
+   Branches may name a label directly or an address containing one; a table
+   label instead owns consecutive DATA references. Attached child exit aliases
+   change identity without counting as another incoming machine edge. */
+int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement,
+    MachineInstruction *first, MachineInstruction *last)
+{
+    MachineInstruction *instruction, *table, *replacement_record;
+    MachineFlowRegion *attached;
+    SymbolHeader *symbol;
+    unsigned operation;
+    int transferred = 0;
+    replacement_record = label_machine_instruction(replacement);
+    for (instruction = first; instruction != last; instruction = instruction->next) {
+        if ((instruction->opcode & 15) == 0) {
+            symbol = machine_operand_label(instruction);
+            if (!symbol) continue;
+            operation = (instruction->opcode >> 8) & 255;
+            if (operation != MC_JCC && operation != MC_JMP) continue;
+            if (symbol == &label->symbol) {
+                ++transferred;
+                if ((instruction->operands[0].flags & 15) == 8)
+                    instruction->operands[0].value.symbol = &replacement->symbol;
+                else instruction->operands[0].value.address->symbol = &replacement->symbol;
+            } else if (symbol->field0d == 1) {
+                table = label_machine_instruction((LabelSymbol *)symbol)->next;
+                while (!(table->opcode & 15) && ((table->opcode >> 8) & 255) == MC_DATA) {
+                    if (machine_operand_label(table) == &label->symbol) {
+                        ++transferred;
+                        table->operands[0].value.address->symbol = &replacement->symbol;
+                    }
+                    table = table->next;
+                }
+            }
+        } else if ((instruction->opcode & 15) == 1) {
+            attached = instruction->labels.attachment;
+            if (attached && (attached->flags & 0x10) && attached->exit_label &&
+                attached->exit_label->record.symbol == &label->symbol)
+                attached->exit_label = replacement_record;
+        }
+    }
+    return transferred;
+}
