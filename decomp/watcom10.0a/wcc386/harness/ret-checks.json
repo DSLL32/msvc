@@ -1,0 +1,355 @@
+{
+  "schema": 1,
+  "functions": {
+    "MemAlloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MemInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SizeToClass": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetFromFrl": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MemFromSys": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetEnvVar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AddBlock": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MemFree": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "main": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CMemInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FrontEnd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitGlobalVars": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CPermAlloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitMsg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_dos_switch_char": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ClearGlobals": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "DoCCompile": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CMemAlloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitStats": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CPragmaInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ScanInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CTypeInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacroInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SymInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SpcSymInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "TypeNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "PtrNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MkPtrNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AllocMacroSegment": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacroAdd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "TimeInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FEmalloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CFastAlloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacroOverflow": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacroCopy": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacLkAdd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CMemFree": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CalcHash": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MacroLkUp": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "hashpjw": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SymHashAlloc": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "TypeDefault": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AllocSegment": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "EnumInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GetType": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "DupType": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SymReplace": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SymAccess": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SegSymbol": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MakeFunction": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SymGet": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "StringInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "QuadInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitIntermediateFiles": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitFileInfo": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitDataQuads": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "InitLeaf": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "GenLeaf": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "LeafReplace": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "AccessFileInfo": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ExprInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SegInit": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ParseCmdLine": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CBanner": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "BannerMsg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ConsMsg": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "Wait_for_return": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CloseFiles": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "UnHook": {
+      "expected_cleanup": [
+        0
+      ]
+    }
+  }
+}

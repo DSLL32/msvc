@@ -34,6 +34,10 @@ typedef struct WccStartup {
     WccStreamLink *open_streams, *closed_streams;
     unsigned allocation_calls, first_size;
     unsigned first_frontier_checked;
+    /* Original ftos.h uses these unspecified-argument C89 pointer types.
+     * No formatter body is claimed before a consumer actually reaches it. */
+    char *(*efg_printf)();
+    void (*efg_scanf)();
     unsigned argc;
     char **argv;
 } WccStartup;

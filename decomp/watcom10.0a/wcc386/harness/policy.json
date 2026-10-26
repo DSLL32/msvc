@@ -1,0 +1,50 @@
+{
+  "graph_metadata": {
+    "schema": 1,
+    "functions": {},
+    "compatibility_calls": [
+      {
+        "owner": "MemFromSys",
+        "name": "allocate-block",
+        "original": {
+          "site": 294500,
+          "target": 196307
+        },
+        "rebuilt": {
+          "site_offset": 37,
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "LocalAlloc"
+          }
+        }
+      }
+    ]
+  },
+  "rebuilt": {
+    "path": "build/WCC386.EXE",
+    "map": "build/wcc386.map"
+  },
+  "identity_only_entries": [
+    {
+      "name": "write"
+    }
+  ],
+  "shared_return_entries": [
+    {
+      "owner": "CTypeInit",
+      "entry": "CPragmaInit"
+    }
+  ],
+  "shared_terminal_epilogues": [
+    {
+      "owners": [
+        "MakeFunction",
+        "NewSym"
+      ],
+      "original": {
+        "start": 98708,
+        "bytes_hex": "c3"
+      }
+    }
+  ]
+}

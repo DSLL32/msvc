@@ -6,11 +6,13 @@
  * FILE list node; it never calls MemAlloc just to manufacture a trace entry. */
 #include "startup.h"
 #include "memory.h"
+#include "allocator.h"
 #include <stdlib.h>
 #include <string.h>
 #include <alloca.h>
 #include <recon.h>
 extern char **environ;
+extern int main(void);
 WccStartup wcc_startup;
 static void init_stack(void)
 {
@@ -36,7 +38,7 @@ static void *allocate_node(unsigned amount)
     }
     ++wcc_startup.allocation_calls;
     /* Corresponds to actual14B ES=DS wrapper; native addresses are alreadyflat. */
-    return MemAlloc(amount);
+    return malloc_segment_wrapper(amount);
 }
 static void init_files(void)
 {
@@ -55,10 +57,68 @@ static void init_files(void)
     }
     wcc_startup.closed_streams=0;
 }
+static char *pending_efg_format()
+{
+    recon_unsupported("WCC floating formatter consumer not reached");
+    return 0;
+}
+static void pending_cnvs2d()
+{
+    recon_unsupported("WCC floating scanner consumer not reached");
+}
+/* The original shutdown_stream calls freefp even when doclose fails.
+ * Private FILE26 ownership remains distinct from public native ShimFILE. */
+static void close_owned_stream(unsigned index)
+{
+    WccStreamLink **owner,*link;
+    owner=&wcc_startup.open_streams;
+    while (*owner && (*owner)->stream!=&wcc_startup.files[index]) owner=&(*owner)->next;
+    if (!*owner) recon_unsupported("WCC repeated/unowned standard stream close");
+    link=*owner;
+    *owner=link->next;
+    link->stream->flag|=3;
+    link->next=wcc_startup.closed_streams;
+    wcc_startup.closed_streams=link;
+}
+int wcc_fclose(FILE *stream)
+{
+    unsigned index;
+    int result;
+    for (index=0;index<5;++index) if (stream==&recon_iob[index]) break;
+    if (index==5) recon_unsupported("WCC unqualified file-close ownership");
+    result=recon_fclose(stream);
+    close_owned_stream(index);
+    return result;
+}
+static void finish_files(void)
+{
+    WccStreamLink *link,*next;
+    unsigned index,freed=0;
+    /* docloseall(0) leaves host standard handles open and flushes output.
+     * Unlink each real node, preserving the original purge order0,1,2,4,3. */
+    if (fflush(stdout)) recon_unsupported("WCC stdout shutdown flush");
+    while (wcc_startup.open_streams) {
+        link=wcc_startup.open_streams;
+        index=(unsigned)(link->stream-wcc_startup.files);
+        if (index>=3) recon_unsupported("WCC unclosed auxiliary stream");
+        close_owned_stream(index);
+    }
+    while ((link=wcc_startup.closed_streams)!=NULL) {
+        next=link->next;
+        free_segment_wrapper(link);
+        wcc_startup.closed_streams=next;
+        ++freed;
+    }
+    if (freed!=5 || wcc_startup.allocation_calls!=5)
+        recon_unsupported("WCC stream-node lifetime");
+}
+
 static void init_efg(void)
 {
-    /* Unreached after current pending allocator; no formatter substitute. */
-    abort();
+    /* Actual setefg writes two distinct typed callback identities. Their
+     * bodies remain unsupported: this bootstrap only models initialization. */
+    wcc_startup.efg_printf=pending_efg_format;
+    wcc_startup.efg_scanf=pending_cnvs2d;
 }
 static void run_initializers(void)
 {
@@ -84,14 +144,19 @@ int wcc_native_startup(int argc, char **argv)
     unsigned i, count;
     char **environment;
     char *empty_argv[1];
-    char command_tail[4]="\"?\"";
+    char *command_tail;
     if (argc != 2 || strcmp(argv[1],"?")) abort();
     /* Zero only declared runtime state; no copied original data section.
      * Original cstart zeroes its BSS before invoking the initializer table. */
     memset(&wcc_startup,0,sizeof(wcc_startup));
     wcc_startup.program=argv[0];
-    /* Qualified original launch_inputs.command_tail_hex=223f2200: the
-     * shared invocation quotes this argument. Keep the raw tail, not argv[1]. */
+    /* Borrow the exact retained CreateProcess text. The qualified Win32
+     * loader skips its literal first token and leading whitespace; the
+     * shared getcmd boundary consumes this same tail, including quotes. */
+    command_tail=GetCommandLineA();
+    while (*command_tail && *command_tail!=' ' &&
+           !(*command_tail>=9 && *command_tail<=13)) ++command_tail;
+    while (*command_tail==' ' || (*command_tail>=9 && *command_tail<=13)) ++command_tail;
     wcc_startup.command=command_tail;
     wcc_startup.os_id=2;
     __asm__ __volatile__("mov %%ds,%0" : "=r"(wcc_startup.saved_ds));
@@ -119,6 +184,14 @@ int wcc_native_startup(int argc, char **argv)
     wcc_startup.initializers[1].callback=init_files;
     wcc_startup.initializers[2].callback=init_stack;
     run_initializers();
-    /* Native main is deliberately not reached before App allocation frontier. */
-    abort();
+    /* Five live FILE nodes and the completed XI callbacks are genuine CRT
+     * effects before __CMain calls the application's argument-free main. */
+    if (wcc_startup.allocation_calls!=5 || !wcc_startup.efg_printf ||
+        !wcc_startup.efg_scanf) abort();
+    /* App atexit callbacks are registered later and therefore run first. */
+    if (atexit(finish_files)) abort();
+    main();
+    /* Main/CRT exit and finalizer behavior is still an unreached boundary. */
+    recon_unsupported("WCC main return/finalization not reached");
+    return 0;
 }
