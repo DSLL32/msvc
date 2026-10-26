@@ -57,7 +57,6 @@ unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeade
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 
 
-__declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 
 
 
@@ -81,7 +80,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 #include "coff-segments.h"
 #include "listing.h"
 #include "machine.h"
-SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
 #include "frame.h"
 
@@ -103,9 +101,7 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 #include "float-peepholes.h"
 #include "float-machine.h"
 #include <recon.h>
-unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
-    unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
-    unsigned char search) { __asm int 3 }
+
 
 
 

@@ -835,6 +835,21 @@
       "expected_cleanup": [
         8
       ]
+    },
+    "@lookup_alias_target@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@coff_define_weak_symbol@28": {
+      "expected_cleanup": [
+        20
+      ]
+    },
+    "_coff_output_value": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -681,3 +681,20 @@ void __fastcall coff_write_comment(char *text)
     for (end = text; *end; ++end) ;
     coff_write_scope_data(text, (unsigned)(end - text) + 1);
 }
+
+/* Original6eb20..6eb5a. The auxiliary record's first two DWORDs are the
+   fallback symbol-table index and weak-external search rule. Its remaining
+   ten bytes retain the zero initialization supplied by arena-seven allocation. */
+unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
+    unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
+    unsigned char search)
+{
+    struct WeakReference { unsigned fallback, search; } *reference;
+    void *auxiliary;
+    unsigned handle;
+    handle = coff_define_aux_symbol(name, section, storage, offset, type, &auxiliary);
+    reference = auxiliary;
+    reference->fallback = fallback;
+    reference->search = search;
+    return handle;
+}

@@ -302,3 +302,11 @@ void __fastcall coff_output_address(unsigned offset, SymbolHeader *symbol)
     unsigned position = coff_section_position(coff_selected_section);
     coff_add_relocation(symbol->identifier, offset + position, symbol->field14, 7);
 }
+
+/* Original6d600..6d626. The segment part of a six-byte address carries
+   old i386 SEG12 relocation9 at the contribution-relative output offset. */
+void __fastcall coff_output_value(unsigned offset, SymbolHeader *symbol)
+{
+    unsigned position = coff_section_position(coff_selected_section);
+    coff_add_relocation(symbol->identifier, offset + position, symbol->field14, 9);
+}

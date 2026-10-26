@@ -62,7 +62,7 @@ void __fastcall coff_write_data(void *data, unsigned bytes);
 void __fastcall coff_select_segment(Segment *segment);
 void __fastcall coff_output_debug_pair(char *filename);
 void __fastcall coff_output_debug_record(unsigned line, unsigned offset);
-void coff_output_value(void);
+void __fastcall coff_output_value(unsigned offset, SymbolHeader *symbol);
 void __fastcall coff_output_bytes(unsigned offset, SymbolHeader *symbol);
 void __fastcall coff_output_address(unsigned offset, SymbolHeader *symbol);
 void __fastcall coff_output_offset(unsigned offset, SymbolHeader *symbol);

@@ -1,21 +1,56 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1473 completes the INTERNAL region-exit split case.
-There are 1358 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 354688/399693 original code-section bytes (88.7401%);
-adding 940 owned text-data bytes gives 355628/399693 (88.9753%). These clipped
+Checkpoint 1476 completes the INTERNAL COFF-finishing case.
+There are 1361 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 354804/399693 original code-section bytes (88.7691%);
+adding 940 owned text-data bytes gives 355744/399693 (89.0043%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 382002/399693
-(95.5739%). A reliable non-CRT denominator remains unavailable; 31 pending App
-rows and 17691B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 382118/399693
+(95.6029%). A reliable non-CRT denominator remains unavailable; 28 pending App
+rows and 17575B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 35 cached IO cases, four INTERNAL DIRECT
+`binary.c` is the sole registry. All 35 cached IO cases, five INTERNAL DIRECT
 cases and 246 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
-The region-exit case reuses case0027's genuine decoder source/IR/environment and
+The COFF-finishing case borrows the actual DLL adapter's finish_debugging entry:
+five genuine imported/target aliases and a live initialized writer. It queries
+all aliases without descriptor/list mutation, defines a weak import-cell name
+using the existing fallback handle16/search2, and creates a six-byte far-pointer
+section through established writer APIs. Its relocations are(0,16,9) and
+(2,16,6); symbol30 owns the weak auxiliary. Arena-seven allocation zeroes the
+reserved ten auxiliary bytes, so no uninitialized-byte policy is added. Normal
+debug records and the COFF module are finished, then public fflush(NULL) flushes
+the listing before abrupt DIRECT completion. The3540B object is complete; the
+16870B listing intentionally precedes outer compiler completion. Full object,
+listing, empty streams/status0 and96B scalar/relationship report match. This
+is explicit internal writer reach, not a claim that C1 emitted weak/far IR.
+
+Three whole owners add116B: alias lookup20, weak-symbol writer58 and segment
+relocation adapter38. Their original RET cleanups are0/20/0. The latter's
+provisional untyped stub is now the recovered two-argument fastcall while its
+logical identity stays fixed. Fresh masked original/native prefixes1473..1476
+match. A changed expected fallback word rejects with actual exit125. OMF APIs,
+error callbacks and disabled callbacks require other contracts and stay pending;
+no artificial writer-mode combination, new shim or CRT implementation is used.
+
+Final `make -j4 audit check unit` passes2.934s (phases unsplit):1366 paired graphs/
+accepted extents,170 scoped RET contracts,40 cases and246 narrow units. Original
+/W3 compilation passes5.415s; only existing trapping-stub warnings remain. All
+measured attempts: combined native/canonical builds12.604s, metadata2.089s,
+case builds7.016s, helper builds9.592s, original references5.293s and native
+pairs0.295s. Initial helper linkage pulled its own stdout CRT startup; using
+the genuine target public fflush(NULL) avoids that unrelated helper dependency.
+An initial native case include omission was corrected. Native anchor inspection
+0.266s is diagnostic; completion44.411ms splits setup15.463/execution23.860/
+checks5.087. Analysis/editing/packing remain unmeasured; combined phases are
+unsplit, and totals are not task elapsed. Raw original/native receipts, object
+inspection and timing/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/coff-finish/`.
+
+The preceding region-exit case reuses case0027's genuine decoder source/IR/environment and
 first eviction-query anchor. Actual regionflags50 has223 records, one real exit
 edge and one attached owner alias. Target constructors/insertion/registration
 and retarget APIs create one private exit label; no private globals/analysis

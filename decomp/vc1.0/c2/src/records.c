@@ -175,3 +175,12 @@ SymbolHeader *__fastcall clone_descriptor(SymbolHeader *source, unsigned arena)
     while (bytes--) *to++ = *from++;
     return result;
 }
+
+/* Original4e2f0..4e304. Every caller supplies an imported descriptor already
+   registered by clone_alias_symbol; the original has no missing-key guard. */
+SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol)
+{
+    ImportedSymbolAlias *alias = imported_symbol_aliases;
+    while (alias->imported != symbol) alias = alias->next;
+    return alias->target;
+}

@@ -9061,11 +9061,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@coff_define_weak_symbol@28",
         .entry_rva = 0x5eb20,
-        .code = (const ReconExtent[]) { { 0x5eb20, 0x5eb21 } },
+        .code = (const ReconExtent[]) { { 0x5eb20, 0x5eb5a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "coff_define_weak_symbol",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@coff_define_symbol@20",
@@ -11934,11 +11934,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lookup_alias_target@4",
         .entry_rva = 0x3e2f0,
-        .code = (const ReconExtent[]) { { 0x3e2f0, 0x3e2f1 } },
+        .code = (const ReconExtent[]) { { 0x3e2f0, 0x3e304 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lookup_alias_target",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_collect_global_symbols",
@@ -12469,11 +12469,12 @@ static const ReconFunction functions[] = {
     {
         .name = "_coff_output_value",
         .entry_rva = 0x5d600,
-        .code = (const ReconExtent[]) { { 0x5d600, 0x5d601 } },
+        .code = (const ReconExtent[]) { { 0x5d600, 0x5d626 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "coff_output_value",
-        .implementation = RECON_UNIMPLEMENTED,
+        .original_symbol = "@coff_output_value@8",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@coff_output_debug_record@8",
