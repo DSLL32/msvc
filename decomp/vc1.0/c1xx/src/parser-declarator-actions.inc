@@ -346,12 +346,12 @@
             parser_value.modifier = 0;
             break;
         case 159:
-            parser_value.modifier = validate_bit_field_bound(right[-2].declaration.type->flags,
+            parser_value.modifier = validate_based_pointer_cast(right[-2].declaration.type->flags,
                 right[0].name);
             POP_DECLARATION();
             break;
         case 160:
-            parser_value.modifier = validate_extended_bound(right[-3].declaration.type->flags,
+            parser_value.modifier = validate_based_address_cast(right[-3].declaration.type->flags,
                 right[0].name);
             POP_DECLARATION();
             break;

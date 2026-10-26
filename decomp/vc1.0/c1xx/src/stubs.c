@@ -62,7 +62,6 @@
 #include "symbol-bindings.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
-void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
@@ -113,8 +112,6 @@ IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken 
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
-unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
-unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }
 
 /* C++ token classification and deferred lookahead. */
@@ -278,7 +275,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 
 
-void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 
 
 

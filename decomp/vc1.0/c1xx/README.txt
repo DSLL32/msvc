@@ -1,6 +1,39 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Legacy device SDK porting is COMPLETE: case0036. The frozen4,411-byte
+workload combines counted Pascal command names, encoded protocol labels,
+callback typedefs, named-base views and isolated obsolete typed-base declarations.
+Its first draft used segmented keywords and Japanese identifiers rejected by
+this NT mode; that cascading diagnostic capture remains in scratch. The frozen
+revision uses native pointer distances/ASCII identifiers while retaining encoded
+labels. Its five actual conversion/base diagnostics and exit5 are the oracle,
+not a successful legacy SDK port or generated-program runtime claim.
+
+Four whole App bodies /444 code bytes were accepted: lead-byte dispatch
+initialization, counted-string finalization and two typed __based validators.
+The actual -Jd switch changes lead-byte classes to INVALID, disabling multibyte
+identifier dispatch. Counted strings retain low8 length bits and the original
+oversize warning. The validators' previous guessed bit-field names were replaced
+with validate_based_pointer_cast/validate_based_address_cast after following the
+real grammar/callers. Whole bodies preserve symbol/shape/reference handling;
+this case directly reaches their rejected non-segment-type arms and does not
+qualify a working16-bit segment-base configuration.
+
+Fresh original/native observations match all four entries, exit5, streams and
+six complete artifacts; all six also match the untouched frozen-revision baseline.
+No output exception, shared change, native guard or CRT body was introduced.
+Totals:1,819 App bodies /1,926 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union403,398 /476,418 B is84.67% of whole original code
+extent, not a non-CRT denominator;70 named App stubs remain. All37 cached native
+cases,32 existing unit groups and the1,827-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original789.773 ms; native32.493 ms
+(setup18.819 ms, execution7.616 ms, checks6.058 ms). The one shared-header rebuild
+was28.808 s, separate from complete closing gate3.279 s. Other incremental build
+walls were not separately measured. Raw outputs/reports remain in scratch.
+
+Earlier completed transaction snapshots:
+
 Transaction snapshots are COMPLETE: case0035. One4,192-byte C++ queue owns
 nontrivial copied values and policies while its callers use temporary default
 arguments, constructor-initializer temporaries, copy/assignment and callback

@@ -192,3 +192,68 @@ void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base)
     symbol->type = make_expression_qualified_type(symbol->type, 0,
         (unsigned short)attributes, &base);
 }
+
+/* Original0x2a660..0x2a73c, stdcall8. A typed __based value must
+   cast to a segment and name a scalar base or an ordinary pointer base. */
+unsigned short __stdcall validate_based_pointer_cast(unsigned short flags, char *name)
+{
+    CppSymbol *symbol;
+    TypeShape *shape;
+    unsigned kind;
+    if (!(flags & 0x800)) {
+        report_syntax_error(209);
+        return 2;
+    }
+    symbol = find_outer_name(name);
+    if (!symbol) {
+        report_syntax_error(65, name);
+        return 2;
+    }
+    kind = symbol->kind & 31;
+    if (kind != 16 && kind != 17) {
+        shape = symbol->type->related;
+        if (symbol->attributes & 2) shape = shape->related;
+        if (!shape) {
+            symbol->references += (unsigned short)options.configuration.debug_info;
+            based_symbol = symbol;
+            return 5;
+        }
+        if ((shape->flags & 0x77) == 1 && !(shape->attributes & 4)) {
+            symbol->references += (unsigned short)options.configuration.debug_info;
+            based_symbol = symbol;
+            return 7;
+        }
+    }
+    report_syntax_error(210, format_symbol_name(symbol));
+    return 2;
+}
+
+/* Original0x2a740..0x2a7d6, stdcall8. Address-form casts retain
+   an existing based symbol when present, otherwise the named object's address. */
+unsigned short __stdcall validate_based_address_cast(unsigned short flags, char *name)
+{
+    CppSymbol *symbol;
+    unsigned kind;
+    unsigned short mode;
+    if (!(flags & 0x800)) {
+        report_syntax_error(209);
+        return 2;
+    }
+    symbol = find_outer_name(name);
+    if (!symbol) {
+        report_syntax_error(65, name);
+        return 2;
+    }
+    kind = symbol->kind & 31;
+    if (kind == 6 || kind == 7) {
+        report_syntax_error(211, name);
+        return 2;
+    }
+    if (symbol->attributes & 2) {
+        symbol = symbol->type->related->data.based_symbol;
+        mode = 5;
+    } else mode = 6;
+    symbol->references += (unsigned short)options.configuration.debug_info;
+    based_symbol = symbol;
+    return mode;
+}

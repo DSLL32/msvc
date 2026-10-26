@@ -108,3 +108,13 @@ int __stdcall compare_names_ignore_case(const char *first, const char *second)
         } else if (!left) return 0;
     }
 }
+
+/* Original0x3cf80..0x3cf9b, cdecl0. The -Jd switch disables
+   multibyte lead-byte dispatch; it does not enable Japanese identifiers. */
+void initialize_japanese_characters(void)
+{
+    unsigned index;
+    for (index = 0; index < 256; ++index)
+        if (character_class[index] == CC_LEAD_BYTE)
+            character_class[index] = CC_INVALID;
+}

@@ -488,3 +488,12 @@ void __stdcall copy_quoted_literal(unsigned char delimiter)
     }
 }
 #undef COPY_LITERAL_CHARACTER
+
+/* Original0x248b0..0x248df, stdcall4. The counted-string prefix
+   excludes its own byte and the trailing NUL; oversized counts retain low8 bits. */
+void __stdcall finish_pascal_literal(ParserValue *literal)
+{
+    unsigned short length = (unsigned short)(literal->string.length - 2);
+    if ((length & 255) != length) compiler_warning(1, 59);
+    literal->string.text[0] = (char)length;
+}

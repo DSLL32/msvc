@@ -124,8 +124,8 @@ void increment_expression_record_depth(void);
 void mark_evaluation_boundary(void);
 CppSymbol *__stdcall lookup_based_symbol(char *name);
 IrToken *validate_based_self(void);
-unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name);
-unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name);
+unsigned short __stdcall validate_based_pointer_cast(unsigned short flags, char *name);
+unsigned short __stdcall validate_based_address_cast(unsigned short flags, char *name);
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags);
 void __stdcall add_array_declarator(CppSymbol *declaration, IrToken *bound);
 
