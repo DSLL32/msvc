@@ -12,6 +12,7 @@ struct CompilerTokenRecord {
 };
 typedef char Token_kind_offset[offsetof(CompilerTokenRecord, kind) == 0 ? 1 : -1];
 typedef char Token_tag_offset[offsetof(CompilerTokenRecord, tag) == 8 ? 1 : -1];
+typedef char Token_value_offset[offsetof(SentinelToken, value) == 8 ? 1 : -1];
 
 /* Token-code membership in the canonical record table (original d6718).
  * Entries are booleans, not a copy of a containing data section. */

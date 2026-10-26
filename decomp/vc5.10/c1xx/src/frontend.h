@@ -10,6 +10,13 @@
 #include <recon.h>
 
 enum { FRONTEND_STATE_BYTES = 8520, FRONTEND_INITIALIZERS = 43 };
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern char compiler_token_text[2048];
+#ifdef __cplusplus
+}
+#endif
 
 /* Only encountered fields are modeled. Unmodeled original snapshot bytes
  * have no native representation and must not reach a semantic consumer. */
@@ -17,6 +24,10 @@ typedef struct TypeRankMapping {
     int code;
     unsigned char rank;
 } TypeRankMapping;
+
+/* The actual nesting check bounds sixty two-byte declaration-control rows
+ * at BF700. Both BYTE roles are distinct from the semantic-value rows. */
+typedef struct ParserDeclarationControl { BYTE flags, secondary_flags; } ParserDeclarationControl;
 
 typedef struct FrontendData {
     int first_invocation;
@@ -30,7 +41,7 @@ typedef struct FrontendData {
     int option_bm;
     int option_zm_percent;
     CompilerOptionData options;
-    int language_context_depth;
+    union { int language_context_depth, declaration_mode_index; }; /* one CD580 cell, initialized-1 */
     CompilerScannerTables scanner;
     /* Original datafe RVA cd514: signed nesting counter, default zero. */
     int recursion_depth;
@@ -69,7 +80,6 @@ typedef struct FrontendData {
     struct CompilerHashTable *symbol_groups; /* cc5c8, initializedNULL */
     unsigned compiler_mode_flags; /* ccf78, initialized0; separate from ccf7c */
     int declaration_context_index; /* cd538, initialized-1; sign selects arena */
-    int declaration_mode_index; /* cd580, initialized-1 */
     struct CompilerParameterTypes *empty_parameters; /* cc69c, initializedNULL */
     unsigned tagged_type_arena_index; /* cd890, initialized5 */
     struct CompilerTranslationSymbol *unnamed_translation_symbol; /* cc414, NULL */
@@ -78,15 +88,82 @@ typedef struct FrontendData {
     int source_include_depth; /* cc22c, -1; actual input push/pop increment/decrement */
     unsigned macro_reset_value; /* cc424, zero; only encountered reset meaning */
     char predefined_time_text[26]; /* cc3a0, mutable default including two NULs */
+    unsigned next_symbol_record_id; /* ccb58, initialized16 */
+    int emit_global_locations; /* cd4f0, initialized0 */
+    struct CompilerSourceFrame *source_frames, *root_source_frame, *free_source_frames; /* cc220/224/228, NULL */
+    int source_descriptor; /* cc230, initialized-1 */
+    int conditional_depth; /* cd52c, initialized-1 */
+    unsigned source_mode_flags; /* ccf7c, initialized0; source/parser flags */
+    CompilerNameEntry *arrow_identifier, *call_identifier; /* cc458/cc454, NULL */
+    CompilerPredefinedOperator predefined_operators[51]; /* cdc70 +20B rows, including sentinel */
+    struct CompilerExpression *zero_constant; /* cc6ac, NULL */
+    struct CompilerParameterSet *free_parameter_sets; /* cdc20, NULL */
+    struct CompilerSymbol *parameter_sentinel; /* ccb34, NULL */
+    struct CompilerSymbol *purecall_symbol; /* cc524, initializedNULL; getter4fe4d */
+    WORD declaration_scope_number; /* cd560, initialized0; scoped WORD sequence */
+    unsigned debug_module_kind; /* cc408, initialized2; module query output */
+    int browser_alternate_position; /* cc3c4, initialized0; selects source_position */
+    struct CompilerParser *active_parser; /* cc3c0, initializedNULL; borrowed active owner */
+    int initial_source_setup_done; /* cc3f0, initialized0; first-line wrapper sets1 */
+    unsigned diagnostic_depth; /* cd594, initialized0; begin/end session increments/decrements */
+    struct CompilerDiagnosticRecord *diagnostic_records; /* cd7a0, initializedNULL */
+    int diagnostic_record_count; /* cd7a4, initialized0; grows by64 */
+    unsigned next_diagnostic_context; /* cd7a8, initialized100 */
+    char *token_text_cursor; /* cd564, initially compiler_token_text; contents remain unmodeled */
+    int class_completion_checks; /* cd144, initialized0, pragma writer45bd0 */
+    struct ParserClassDefinitionLink **class_definition_head; /* cc5b0, initializedNULL, source-mode8 owner */
+    struct CompilerSymbol *class_layout_reference; /* ce114, initializedNULL; reset27d10/writer4bd95 */
+    struct CompilerSymbol *declaration_lookup_owner; /* cd520, initializedNULL; borrowed scope symbol */
+    /* Three actual DWORD cells reset at external-declaration completion.
+     * Their wider interpretation remains unsupported until encountered. */
+    DWORD declaration_cleanup_state[3]; /* cd4f4/cd4f8/cd4fc, initialized zero */
+    CompilerVector *secondary_translation_symbols; /* cc43c, initializedNULL */
+    int deferred_input_depth; /* cc21c, initialized0; nested input increments */
+    void *pending_declarations; /* cc410, initializedNULL; borrowed iterator owner */
+    struct ParserInputEndState *parser_input_end_state; /* cc600, initializedNULL */
+    struct CompilerExpressionWork *expression_work_current; /* ce06c, initializedNULL */
+    struct CompilerExpressionWorkNode *expression_work_head; /* ce074, initializedNULL */
+    unsigned declaration_classification_depth; /* cc210, initialized0; classifier nesting */
+    int parser_classification_state; /* cd584, initialized0; saved/restored parser mode */
+    struct CompilerDeclarationParser *active_declaration_parser; /* ce0d8, initializedNULL */
+    BYTE allocation_operator; /* cd58c, initialized1; expression-parser selector */
+    int source_exhausted; /* cc218, initialized0; outer input reached EOF */
+    CompilerType *function_result_type; /* cc49c, initializedNULL; definition result */
+    struct CompilerSymbol *default_code_segment; /* cc6d4, initializedNULL; pragma alias */
+    int disable_inline_records; /* cd554, initialized0; function/global writer alias */
+    int auto_inline; /* cd548, initialized1; shared pragma/function setting */
+    unsigned function_reference_counter; /* ccb5c, initialized/reset3fffff */
+    DWORD function_location_cache[2]; /* cd6f4/f8, initialized/resetffffffff */
+    unsigned control_option_kind; /* cc234, initialized0; pragma comment kind */
+    const char *control_option_text; /* cc238, initializedNULL; borrowed pragma text */
+    struct CompilerGlobalOption *global_options; /* cc5ac, initializedNULL; option list */
+    WORD inline_depth, inline_recursion; /* cd540/cd544, initialized8/0 */
+    int line_range_warning_enabled; /* cd6fc, initialized1; one range warning */
 } FrontendData;
 
-/* A linked context stack saves the first two values in each stack frame. */
+/* Push allocates and writes this complete24-byte linked frame. The source
+ * object remains borrowed; its current caller supplies a CompilerLexer. */
+typedef void (__cdecl *FrontendContextPopCallback)(void);
+struct CompilerSymbolArenaFrame {
+    unsigned kind;
+    struct CompilerSymbolArenaFrame *previous;
+};
+typedef struct FrontendContextFrame {
+    void *object;
+    struct FrontendContextFrame *previous;
+    void *saved_origin;
+    unsigned saved_position;
+    int first;
+    FrontendContextPopCallback callback; /* optional cdecl no-argument pop action */
+} FrontendContextFrame;
+
 typedef struct FrontendContextStack {
     void *origin;
     unsigned position;
-    void *top;
+    FrontendContextFrame *top;
 #ifdef __cplusplus
-    void RECON_THISCALL Push(void *, unsigned, int, int, FrontendContextStack *);
+    void RECON_THISCALL Push(void *, unsigned, int, FrontendContextPopCallback, FrontendContextStack *);
+    const char *RECON_THISCALL FileName(void);
 #endif
 } FrontendContextStack;
 
@@ -95,25 +172,71 @@ typedef struct FrontendSourcePosition {
     unsigned position;
 } FrontendSourcePosition;
 
-/* The original declaration context is28 bytes. Resolve reads these two
- * actual BYTEs; its other26 bytes have no native placeholder or copy claim. */
+struct CompilerSymbol;
+struct CompilerDeclarationAttachment;
+struct CompilerDeclarationMetadata;
+struct CompilerFunctionContext;
+/* The merge/finalizer consumers and setters ground the complete28-byte
+ * context. Pointer fields have opaque pointees; no declaration tail is
+ * included in this owner. The global c4d10 instance is BSS-zero. */
 typedef struct CompilerDeclarationContext {
     BYTE class_flags;   /* original c4d10 / declarator+1c, low3 classification */
     BYTE context_flags; /* original c4d11 / declarator+1d, bit2 boolean */
+    BYTE member_flags, reference_flags;
+    struct CompilerSymbol *reference;
+    struct CompilerDeclarationAttachment *attachment;
+    struct CompilerDeclarationMetadata *metadata;
+    union { int function_context_active, implementation_key_active; };
+    union { struct CompilerFunctionContext *function_context; unsigned implementation_key; };
+    int class_context;
 } CompilerDeclarationContext;
+typedef char CompilerDeclarationContext_size[sizeof(CompilerDeclarationContext) == 28 ? 1 : -1];
 
 /* Frame contents remain unknown until a semantic consumer is reached. */
 typedef struct DeferredWorkFrame DeferredWorkFrame;
 
-/* Encountered semantic variants only; the original 32-byte tail is unmodeled. */
+/* Numeric tokens carry a type pointer at original+0 and QWORD at+8.
+ * Native uses the typed fields only; the intervening DWORD is unmodeled. */
+typedef struct CompilerNumericLiteral {
+    CompilerType *type;
+    BYTE opaque_04_07[4];
+    __int64 value;
+} CompilerNumericLiteral;
+/* Encountered semantic variants only; other original semantic bytes are unmodeled. */
 typedef union TokenValue {
+    unsigned declaration_flags; /* firstDWORD used by the declaration-classifier reductions */
+    struct CompilerQuotedValue quoted;
+    CompilerNumericLiteral literal;
     __int64 integer;
     void *pointer;
+    /* Real40-byte storage. Copying opaque bytes does not interpret them or
+     * establish a value/default/equality contract for the other arms. */
+    BYTE original_representation[40];
 } TokenValue;
 
+/* One saved-value owner at original BA8C8. Literal transfers remain40B.
+ * Native's real member pointer requires44B capacity for the declaration arm;
+ * C only owns/reset this storage, while C++ uses its actual typed view. */
+typedef union CompilerSavedTokenValue {
+    TokenValue known;
+    CompilerNumericLiteral literal;
+    __int64 integer;
+    void *pointer;
+    BYTE original_representation[40];
+#ifdef __linux__
+    BYTE native_declaration_capacity[44];
+#endif
+} CompilerSavedTokenValue;
+#ifdef __linux__
+typedef char CompilerSavedTokenValue_capacity[sizeof(CompilerSavedTokenValue) == 44 ? 1 : -1];
+#else
+typedef char CompilerSavedTokenValue_capacity[sizeof(CompilerSavedTokenValue) == 40 ? 1 : -1];
+#endif
+
 typedef struct SentinelToken {
-    unsigned char kind;
-    TokenValue value;
+    unsigned char kind; /* original+0 */
+    BYTE unmodeled_01_07[7]; /* opaque header storage, retained by recorded-token copies */
+    TokenValue value; /* original+8, only encountered payload arms */
 } SentinelToken;
 
 struct CompilerArena;
@@ -130,6 +253,7 @@ typedef struct CompilerPool {
 #ifdef __cplusplus
     CompilerPool *RECON_THISCALL Initialize(unsigned minimum_pages);
     void RECON_THISCALL BindArena(unsigned arena_index);
+    BYTE *RECON_THISCALL Allocate(unsigned bytes);
     unsigned char *RECON_THISCALL Refill(unsigned request_bytes);
 #endif
 } CompilerPool;
@@ -168,6 +292,9 @@ typedef struct ArenaDescriptor {
 } ArenaDescriptor;
 
 typedef struct CompilerArena {
+#ifdef __cplusplus
+    void RECON_THISCALL ResetStorage(void); /*db4c*/
+#endif
     BYTE *cursor;
     BYTE *committed_limit;
     BYTE *base;
@@ -199,6 +326,7 @@ typedef struct PendingGroupList {
     struct PendingGroup *head;
 #ifdef __cplusplus
     struct CompilerSymbol *RECON_THISCALL Add(struct CompilerSymbol *);
+    struct ParserTokenView *RECON_THISCALL ReadNextToken(void); /*35b21*/
 #endif
 } PendingGroupList;
 
@@ -212,6 +340,8 @@ typedef struct FrontendBss {
     FrontendSourcePosition source_position;
     OutputBuffer output_buffers[FRONTEND_OUTPUT_BUFFERS];
     DeferredWorkFrame *deferred_work;
+    struct ParserTokenView *parser_lookahead; /* bec70, BSSNULL */
+    int parser_production; /* bec74, BSS0 */
     TokenValue token_value;
     SentinelToken sentinel_token;
     unsigned long source_signature;
@@ -228,30 +358,34 @@ typedef struct FrontendBss {
     char generated_comment[74];
     unsigned comment_value_offset;
     unsigned generated_comment_length;
-    struct DeferredAction *deferred_action_head;
-    struct DeferredAction *deferred_action_tail;
-    int deferred_action_depth;
+    struct DeferredAction *deferred_action_head; /* original c6d28 */
+    struct DeferredAction *deferred_action_tail; /* original c6d2c */
+    int deferred_action_depth; /* original c6d30 */
     int break_into_debugger;
     int command_argc;
     char **command_argv;
     CompilerWorkBuffer work_buffers[2];
     CompilerArena arenas[9];
     CompilerOptionBss options;
-    int language_contexts[10];
+    int language_contexts[10]; /* c13d0, actual ten scalar linkage slots */
     CompilerChecksumTables checksum_tables;
     /* Filename canonicalization: FFFF preserves a multibyte lead byte. */
     WORD filename_case_map[256];
     /* Borrowed option text retained for diagnostics while matching. */
     char *current_argument;
-    /* Original bssfe RVA c0abc: diagnostics count. */
-    int error_count;
+    int suppress_parser_codegen; /* c06d8, BSS0; skips pragma/parser code generation */
+    int error_count; /* original c0abc, diagnostics count */
     unsigned initial_option_flags; /* bssfe c5490 */
     int pch_input_ready; /* c0a14 */
     char *pch_input_file; /* c0a20 */
+    int tag_declaration_changed; /* bf200, BSS0; allocator writes1 */
     int global_expression_scope_active; /* bf204 */
     CompilerPchSettings saved_options; /* known c4f68..c5384 settings */
     unsigned forced_source_index; /* c5384 */
     struct CompilerDebugModule *debug_module; /* c0b48 */
+    unsigned pdb_signature; /* c0834, BSS; passed to debug module */
+    WORD browser_context_position; /* befd0, BSS; lowWORD current context position */
+    char incremental_database_path[256]; /* c4de0, BSS; cached path / bounded compare256 */
     struct CompilerInput *input; /* c0a0c */
     FILE *preprocessed_stream; /* c0ab4 */
     struct CompilerTextInput *text_input; /* c6498 */
@@ -264,6 +398,18 @@ typedef struct FrontendBss {
     unsigned ir_line_delta; /* c4c68, zero; current source line minus file origin */
     struct CompilerSymbol *current_ir_symbol; /* c06e0, NULL */
     struct CompilerSymbol *current_function; /* c0824, NULL */
+    CompilerType *function_return_class; /* bf1f4, BSSNULL; qualified return owner */
+    DWORD function_reset_state[3]; /* c0bb8/bbc/bc0, three actual reset DWORDs */
+    DWORD function_body_state; /* c0828, BSS0; preparation resets0 */
+    int stack_check_warning_emitted; /* bf1f8, BSS0; function-stack warning once */
+    struct CompilerExpression *function_entry_label; /* c0a1c, BSSNULL; label node */
+    unsigned function_parameter_count; /* c0a24, BSS0; writer consumes its lowWORD */
+    unsigned saved_reference_count, local_reference_count; /* c0b7c/c0984, BSS0; ftell positions */
+    int alternate_output_flush; /* c0964, BSS0; output4 flush selector */
+    BYTE control_text_count; /* c0a28, BSS0; payload remains unmodeled */
+    BYTE control_byte; /* c0b70, BSS0; opcode23 scalar */
+    short control_short; /* c0580, BSS0; opcode24 scalar */
+    union { unsigned function_source_position, nonil_type_index; }; /* c06d0, one BSS cell */
     int expression_seek_result; /* c5388, zero */
     unsigned symbol_arena_kind; /* ba910, BSS0; global initialization selects4 */
     struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* ba914, NULL */
@@ -271,17 +417,49 @@ typedef struct FrontendBss {
     CompilerDeclarationContext declaration_context; /* c4d10, BSS-zero owner */
     int declaration_depth; /* c0808, signed scope-entry/exit counter, BSS0 */
     unsigned parser_context_depth; /* bf6f4, currently observed0 */
-    /* Only the actually reached first slot is modeled. This is not the
+    ParserDeclarationControl declaration_controls[60]; /* bf700..bf778, BSS0 */
+    /* Only rows0..2 are encountered. This is not the original stack capacity.
+     * Action117 writes the actual BF7A0/BF7C8 declaration rows. */
+    CompilerSavedTokenValue declaration_specs[3]; /* bf778/bf7a0/bf7c8, original40/native44 stride */
+    /* Only the actually reached first two slots are modeled. This is not the
      * original table's capacity; any other index stops before its read. */
-    struct CompilerParameterContext *parameter_contexts[1]; /* bf4b4, BSS0 */
-    int default_declaration_mode; /* c13cc, BSS0: c13d0[-1] only */
+    struct CompilerParameterContext *parameter_contexts[2]; /* bf4b4/bf4b8, BSS0 */
+    union {
+        int declaration_mode; /* encountered c13d0[-1] interpretation */
+        struct CompilerSourceTextBuffer *buffer; /* same c13cc cell */
+    } source_control; /* BSS0; one physical owner, no adjacent-table claim */
     BYTE global_output_active; /* c06cc, BSS0; global-header rewind clears it */
     char *current_macro_text; /* b902c, borrowed text for recorded macro definition */
     unsigned char *macro_token_cursor, *macro_text_cursor, *saved_macro_text_cursor; /* b9040/b9044/b9038 */
     char macro_date_time[26]; /* c0b50, formatter's25B text plus retained NUL */
     char *macro_date, *macro_time; /* c0a10/c0804, BSSNULL */
+    BYTE *source_cursor; /* c0980, BSSNULL */
+    BYTE declaration_scope_mode; /* c0adc, BSS0; scope-dependent arena choice */
+    BYTE external_declaration_mode; /* c06c8, BSS0; root/current publication selector */
+    struct CompilerParameterSet *current_parameters; /* c0af0, BSSNULL, borrowed description head */
+    unsigned current_parameter_kind; /* bf208, BSS0, description kind or forced5 */
+    struct CompilerSymbol *parser_qualification_scopes[60]; /* c06f8..c07e8, BSSNULL; same depth<60 bound */
     WORD forced_include_index; /* c07fc, BSS0 */
     CompilerVector *pending_forced_includes; /* c07f8, BSSNULL */
+    const char *default_source_name; /* c0800, BSSNULL; forced-source/pragma alias */
+    char numeric_literal_text[128]; /* c0988..c0a08 bounded scratch owner; only written text is meaningful */
+    struct CompilerExpression *current_parser_expression; /* c0a08, BSSNULL; initializer reduction */
+    CompilerSavedTokenValue saved_token_value; /* single BA8C8 saved-value owner */
+    unsigned tag_novtordisp; /* c6d44, BSS0; tag parser resets0/__novtordisp sets1 */
+    int type_scratch_index; /* c0a18, BSS0; same producer/normalizer counter */
+    CompilerType first_type_scratch_frame; /* c04c8..c04d8, derived row1 only */
+    DeclarationClassScope class_scope_rows[16]; /* BEFD8, loader-zero known fields */
+    int declaration_nesting; /* c0bb0, loader-zero; Run nesting increments/decrements */
+    struct CompilerMemberQueueState *pending_member_queue; /* c0578, loader-zero pointer */
+    unsigned pending_member_error_count; /* c0830, loader-zero; class-error paths increment */
+    struct CompilerParameterSet *active_parameters; /* bf5a8, BSSNULL; writer19c05 */
+    unsigned active_parameter_kind; /* c0ad8, BSS0; writer19bfb */
+    int processing_pending_parser_input; /* c0974, loader-zero; scoped dispatcher flag */
+    unsigned pending_parser_work; /* c33e8, loader-zero; only pending/nonpending meaning */
+    unsigned qualified_lookup_recursion; /* ce10c, loader-zero; guards fallback name lookup */
+    TokenValue declaration_token_value; /* c6d00..c6d28, separate opaque40-byte semantic storage */
+    int quoted_skip_mode; /* c0978, loader-zero; changes quoted conversion mode only */
+    int lexical_skip_mode; /* c07f0, loader-zero; skipped source input */
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -289,6 +467,12 @@ extern "C" {
 #endif
 extern FrontendData frontend_data;
 extern FrontendBss frontend_bss;
+/* Callers check the shared index in[-1,9] before evaluating this actual
+ * indexed owner. The -1 slot is the existing C13CC union, never C indexing
+ * across two independent reconstructed arrays. */
+#define FRONTEND_LINKAGE_CONTEXT() (frontend_data.declaration_mode_index == -1 ? \
+    frontend_bss.source_control.declaration_mode : \
+    frontend_bss.language_contexts[frontend_data.declaration_mode_index])
 extern const ArenaDescriptor arena_descriptors[9];
 extern int restore_mode;
 extern Initializer frontend_initializers[FRONTEND_INITIALIZERS];

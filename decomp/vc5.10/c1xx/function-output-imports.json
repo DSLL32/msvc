@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "kind": "finite ESI preservation for cached ftell; identified x86 cdecl/thiscall ABI only",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "caller": {
+    "name": "_initialize_function_code",
+    "extents": [
+      [
+        17431,
+        17699
+      ],
+      [
+        337927,
+        338050
+      ]
+    ],
+    "iat_rva": 823324,
+    "load_rva": 17478,
+    "call_rvas": [
+      17485,
+      17511
+    ]
+  },
+  "contracts": [
+    {
+      "import": "MSVCRT.dll!ftell",
+      "signature": "long __cdecl ftell(FILE *);",
+      "sdk_path": "toolchains/5.10/include/STDIO.H",
+      "sdk_sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+      "sdk_line": 351,
+      "preserves": [
+        "esi"
+      ],
+      "basis": "Identified Microsoft x86 cdecl ABI: ESI is callee-saved."
+    },
+    {
+      "function": "OutputBuffer::Flush",
+      "signature": "void __thiscall OutputBuffer::Flush(void);",
+      "original_extents": [
+        [
+          14722,
+          14830
+        ],
+        [
+          336534,
+          336558
+        ]
+      ],
+      "preserves": [
+        "esi"
+      ],
+      "basis": "Identified Microsoft x86 thiscall ABI: ESI is callee-saved. The member has already qualified complete source/RET ownership."
+    }
+  ],
+  "scope": "Only the cached ESI target across these two actual call sites; no provider-body inventory, runtime credit or general call-resolution waiver."
+}

@@ -1,0 +1,2777 @@
+#include "declaration-grammar.h"
+#include <recon.h>
+
+const ParserTransition declaration_shifts[] = {
+    /* State 0. */
+    { PARSER_CLASS_36, 2 },
+    /* State 2. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 15 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    { PARSER_ERROR, 5 },
+    /* State 3. */
+    { PARSER_CLASS_55, 29 },
+    /* State 4. */
+    { PARSER_CLASS_65, 30 },
+    /* State 9. */
+    { PARSER_CLASS_52, 32 },
+    { PARSER_CLASS_65, 34 },
+    { PARSER_CLASS_118, 35 },
+    /* State 10. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 40 },
+    { PARSER_CLASS_74, 39 },
+    { PARSER_CLASS_118, 41 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    /* State 12. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 15 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    /* State 13. */
+    { PARSER_CLASS_118, 41 },
+    /* State 15. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_106, 48 },
+    { PARSER_CLASS_118, 15 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_126, 46 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    /* State 18. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 19. */
+    { PARSER_CLASS_159, 63 },
+    /* State 20. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 21. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 25. */
+    { PARSER_CLASS_143, 28 },
+    /* State 27. */
+    { PARSER_CLASS_118, 67 },
+    /* State 28. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_120, 26 },
+    /* State 29. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_106, 74 },
+    { PARSER_CLASS_118, 78 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    { PARSER_CLASS_171, 62 },
+    /* State 30. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 32. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_117, 118 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 34. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 35. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_106, 48 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_126, 46 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 39. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 40. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 41. */
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_106, 48 },
+    { PARSER_CLASS_126, 46 },
+    /* State 42. */
+    { PARSER_CLASS_65, 34 },
+    { PARSER_CLASS_118, 41 },
+    /* State 43. */
+    { PARSER_CLASS_65, 30 },
+    /* State 45. */
+    { PARSER_CLASS_65, 34 },
+    { PARSER_CLASS_118, 41 },
+    { PARSER_CLASS_126, 124 },
+    /* State 47. */
+    { PARSER_CLASS_55, 126 },
+    { PARSER_CLASS_106, 127 },
+    /* State 48. */
+    { PARSER_CLASS_126, 128 },
+    /* State 49. */
+    { PARSER_CLASS_126, 129 },
+    /* State 51. */
+    { PARSER_CLASS_65, 30 },
+    /* State 52. */
+    { PARSER_CLASS_52, 130 },
+    /* State 55. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 15 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    /* State 56. */
+    { PARSER_CLASS_178, 134 },
+    /* State 57. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 63. */
+    { PARSER_CLASS_36, 60 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_171, 62 },
+    /* State 67. */
+    { PARSER_CLASS_6, 139 },
+    { PARSER_CLASS_36, 140 },
+    { PARSER_CLASS_118, 141 },
+    /* State 69. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_120, 26 },
+    /* State 70. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 40 },
+    { PARSER_CLASS_74, 39 },
+    { PARSER_CLASS_120, 26 },
+    /* State 72. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_40, 61 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 78 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    { PARSER_CLASS_171, 62 },
+    /* State 76. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 40 },
+    { PARSER_CLASS_74, 39 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    /* State 77. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 78 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    /* State 78. */
+    { PARSER_CLASS_6, 22 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 78 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_142, 23 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 25 },
+    { PARSER_CLASS_155, 16 },
+    /* State 79. */
+    { PARSER_CLASS_122, 146 },
+    /* State 80. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 83. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 84. */
+    { PARSER_CLASS_65, 166 },
+    { PARSER_CLASS_115, 169 },
+    { PARSER_CLASS_118, 170 },
+    { PARSER_CLASS_131, 168 },
+    /* State 85. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 172 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 86. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 87. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 88. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 89. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 90. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 92. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 95. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_36, 183 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 97. */
+    { PARSER_CLASS_118, 170 },
+    /* State 98. */
+    { PARSER_CLASS_118, 170 },
+    /* State 99. */
+    { PARSER_CLASS_97, 188 },
+    { PARSER_CLASS_124, 187 },
+    { PARSER_CLASS_128, 189 },
+    { PARSER_CLASS_197, 190 },
+    /* State 100. */
+    { PARSER_CLASS_118, 191 },
+    /* State 101. */
+    { PARSER_CLASS_118, 192 },
+    /* State 103. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_65, 194 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 105. */
+    { PARSER_CLASS_7, 195 },
+    /* State 108. */
+    { PARSER_CLASS_36, 199 },
+    { PARSER_CLASS_118, 200 },
+    /* State 109. */
+    { PARSER_CLASS_140, 202 },
+    { PARSER_CLASS_141, 203 },
+    /* State 115. */
+    { PARSER_CLASS_143, 28 },
+    /* State 117. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 119. */
+    { PARSER_CLASS_122, 205 },
+    /* State 120. */
+    { PARSER_CLASS_55, 207 },
+    { PARSER_CLASS_126, 206 },
+    /* State 121. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 125. */
+    { PARSER_CLASS_126, 208 },
+    /* State 126. */
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_106, 210 },
+    /* State 130. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 131. */
+    { PARSER_CLASS_65, 34 },
+    { PARSER_CLASS_118, 41 },
+    /* State 132. */
+    { PARSER_CLASS_65, 30 },
+    /* State 134. */
+    { PARSER_CLASS_118, 213 },
+    /* State 137. */
+    { PARSER_CLASS_126, 214 },
+    /* State 141. */
+    { PARSER_CLASS_36, 215 },
+    /* State 145. */
+    { PARSER_CLASS_36, 55 },
+    /* State 147. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 148. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 149. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 150. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 151. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 152. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 153. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 154. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 155. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 156. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 157. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 158. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 159. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 160. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 161. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 162. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 163. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 164. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 166. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 168. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_150, 115 },
+    /* State 170. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_126, 237 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 172. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 178. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 180. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 181. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_126, 240 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 182. */
+    { PARSER_CLASS_126, 241 },
+    /* State 183. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 244 },
+    { PARSER_CLASS_120, 26 },
+    /* State 191. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_36, 183 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 192. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_36, 183 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 194. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 196. */
+    { PARSER_CLASS_118, 253 },
+    /* State 197. */
+    { PARSER_CLASS_118, 253 },
+    /* State 198. */
+    { PARSER_CLASS_36, 199 },
+    { PARSER_CLASS_118, 257 },
+    /* State 199. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_120, 26 },
+    /* State 200. */
+    { PARSER_NO_TOKEN, 1 },
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_36, 261 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 207. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 211. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 213. */
+    { PARSER_CLASS_36, 183 },
+    { PARSER_CLASS_126, 263 },
+    /* State 215. */
+    { PARSER_CLASS_126, 266 },
+    /* State 216. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 217. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 218. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 219. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_54, 267 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 220. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 221. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 222. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 223. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 224. */
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 225. */
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 226. */
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 227. */
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_148, 164 },
+    /* State 228. */
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_148, 164 },
+    /* State 229. */
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_148, 164 },
+    /* State 230. */
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_148, 164 },
+    /* State 231. */
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_148, 164 },
+    /* State 234. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_122, 268 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 236. */
+    { PARSER_CLASS_55, 270 },
+    { PARSER_CLASS_126, 269 },
+    /* State 238. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 242. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 40 },
+    { PARSER_CLASS_74, 39 },
+    { PARSER_CLASS_118, 41 },
+    { PARSER_CLASS_120, 26 },
+    /* State 243. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 244 },
+    { PARSER_CLASS_120, 26 },
+    /* State 244. */
+    { PARSER_CLASS_36, 55 },
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_106, 48 },
+    { PARSER_CLASS_118, 244 },
+    { PARSER_CLASS_120, 26 },
+    { PARSER_CLASS_126, 46 },
+    /* State 245. */
+    { PARSER_CLASS_36, 183 },
+    /* State 246. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_126, 272 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 247. */
+    { PARSER_CLASS_126, 273 },
+    /* State 248. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_126, 274 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 249. */
+    { PARSER_CLASS_126, 275 },
+    /* State 250. */
+    { PARSER_CLASS_122, 276 },
+    /* State 253. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_126, 277 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 255. */
+    { PARSER_CLASS_118, 253 },
+    /* State 256. */
+    { PARSER_CLASS_118, 253 },
+    /* State 257. */
+    { PARSER_CLASS_36, 261 },
+    /* State 258. */
+    { PARSER_CLASS_65, 280 },
+    /* State 259. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 40 },
+    { PARSER_CLASS_74, 39 },
+    { PARSER_CLASS_120, 26 },
+    /* State 260. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_120, 26 },
+    /* State 261. */
+    { PARSER_CLASS_44, 27 },
+    { PARSER_CLASS_49, 21 },
+    { PARSER_CLASS_74, 20 },
+    { PARSER_CLASS_118, 244 },
+    { PARSER_CLASS_120, 26 },
+    /* State 262. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 264. */
+    { PARSER_CLASS_55, 283 },
+    { PARSER_CLASS_126, 284 },
+    /* State 266. */
+    { PARSER_CLASS_6, 285 },
+    { PARSER_CLASS_49, 286 },
+    /* State 267. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 270. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 271. */
+    { PARSER_CLASS_97, 188 },
+    { PARSER_CLASS_124, 187 },
+    { PARSER_CLASS_128, 189 },
+    { PARSER_CLASS_197, 190 },
+    /* State 276. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 280. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 281. */
+    { PARSER_CLASS_65, 280 },
+    /* State 282. */
+    { PARSER_CLASS_65, 30 },
+    { PARSER_CLASS_126, 292 },
+    /* State 283. */
+    { PARSER_CLASS_36, 183 },
+    /* State 286. */
+    { PARSER_CLASS_6, 294 },
+    /* State 287. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 288. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+    /* State 291. */
+    { PARSER_CLASS_122, 296 },
+    /* State 295. */
+    { PARSER_CLASS_118, 298 },
+    /* State 298. */
+    { PARSER_CLASS_6, 112 },
+    { PARSER_CLASS_7, 111 },
+    { PARSER_CLASS_49, 87 },
+    { PARSER_CLASS_60, 90 },
+    { PARSER_CLASS_70, 89 },
+    { PARSER_CLASS_74, 86 },
+    { PARSER_CLASS_81, 88 },
+    { PARSER_CLASS_89, 91 },
+    { PARSER_CLASS_100, 99 },
+    { PARSER_CLASS_101, 104 },
+    { PARSER_CLASS_115, 85 },
+    { PARSER_CLASS_118, 95 },
+    { PARSER_CLASS_121, 100 },
+    { PARSER_CLASS_129, 92 },
+    { PARSER_CLASS_140, 116 },
+    { PARSER_CLASS_141, 110 },
+    { PARSER_CLASS_142, 113 },
+    { PARSER_CLASS_143, 28 },
+    { PARSER_CLASS_144, 106 },
+    { PARSER_CLASS_149, 109 },
+    { PARSER_CLASS_150, 115 },
+    { PARSER_CLASS_151, 98 },
+    { PARSER_CLASS_152, 97 },
+    { PARSER_CLASS_239, 101 },
+    /* State 299. */
+    { PARSER_CLASS_49, 155 },
+    { PARSER_CLASS_50, 152 },
+    { PARSER_CLASS_52, 148 },
+    { PARSER_CLASS_55, 147 },
+    { PARSER_CLASS_70, 160 },
+    { PARSER_CLASS_74, 161 },
+    { PARSER_CLASS_77, 153 },
+    { PARSER_CLASS_79, 151 },
+    { PARSER_CLASS_81, 159 },
+    { PARSER_CLASS_86, 150 },
+    { PARSER_CLASS_91, 154 },
+    { PARSER_CLASS_94, 163 },
+    { PARSER_CLASS_97, 149 },
+    { PARSER_CLASS_104, 162 },
+    { PARSER_CLASS_110, 156 },
+    { PARSER_CLASS_124, 157 },
+    { PARSER_CLASS_126, 300 },
+    { PARSER_CLASS_128, 158 },
+    { PARSER_CLASS_148, 164 },
+};
+
+const ParserTransition declaration_exceptions[] = {
+    { PARSER_CLASS_0, -1 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 49 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 49 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 49 },
+    { PARSER_CLASS_159, 48 },
+    { PARSER_CLASS_159, 48 },
+};
+
+const ParserState declaration_states[DECLARATION_STATE_COUNT] = {
+    { 0, 1, 0, 1, 0, 0 }, /* state 0 */
+    { 0, 0, 1, 0, 0, 1 }, /* state 1 */
+    { 71, 1, 1, 11, 1, 1 }, /* state 2 */
+    { 1, 1, 12, 1, 2, 0 }, /* state 3 */
+    { 2, 1, 13, 1, 2, 0 }, /* state 4 */
+    { 3, 0, 14, 0, 2, 0 }, /* state 5 */
+    { 4, 0, 14, 0, 2, 0 }, /* state 6 */
+    { 69, 0, 14, 0, 2, 0 }, /* state 7 */
+    { 70, 0, 14, 0, 2, 0 }, /* state 8 */
+    { 9, 1, 14, 3, 2, 0 }, /* state 9 */
+    { 72, 1, 17, 9, 2, 1 }, /* state 10 */
+    { 73, 0, 26, 0, 3, 0 }, /* state 11 */
+    { 71, 1, 26, 10, 3, 1 }, /* state 12 */
+    { 78, 1, 36, 1, 4, 0 }, /* state 13 */
+    { 17, 0, 37, 0, 4, 0 }, /* state 14 */
+    { 71, 1, 37, 13, 4, 1 }, /* state 15 */
+    { 22, 0, 50, 0, 5, 0 }, /* state 16 */
+    { 50, 0, 50, 0, 5, 0 }, /* state 17 */
+    { 54, 1, 50, 3, 5, 0 }, /* state 18 */
+    { 0, 1, 53, 1, 5, 0 }, /* state 19 */
+    { 54, 1, 54, 3, 5, 0 }, /* state 20 */
+    { 54, 1, 57, 3, 5, 0 }, /* state 21 */
+    { 23, 0, 60, 0, 5, 0 }, /* state 22 */
+    { 24, 0, 60, 0, 5, 0 }, /* state 23 */
+    { 25, 0, 60, 0, 5, 0 }, /* state 24 */
+    { 26, 1, 60, 1, 5, 0 }, /* state 25 */
+    { 52, 0, 61, 0, 5, 0 }, /* state 26 */
+    { 0, 1, 61, 1, 5, 0 }, /* state 27 */
+    { 28, 1, 62, 4, 5, 1 }, /* state 28 */
+    { 48, 1, 66, 14, 6, 0 }, /* state 29 */
+    { 90, 1, 80, 24, 6, 0 }, /* state 30 */
+    { 10, 0, 104, 0, 6, 0 }, /* state 31 */
+    { 0, 1, 104, 25, 6, 0 }, /* state 32 */
+    { 18, 0, 129, 0, 6, 0 }, /* state 33 */
+    { 90, 1, 129, 24, 6, 0 }, /* state 34 */
+    { 0, 1, 153, 27, 6, 0 }, /* state 35 */
+    { 16, 0, 180, 0, 6, 0 }, /* state 36 */
+    { 51, 0, 180, 0, 6, 0 }, /* state 37 */
+    { 74, 0, 180, 0, 6, 0 }, /* state 38 */
+    { 54, 1, 180, 3, 6, 0 }, /* state 39 */
+    { 54, 1, 183, 3, 6, 0 }, /* state 40 */
+    { 0, 1, 186, 3, 6, 0 }, /* state 41 */
+    { 19, 1, 189, 2, 6, 0 }, /* state 42 */
+    { 75, 1, 191, 1, 6, 0 }, /* state 43 */
+    { 77, 0, 192, 0, 6, 0 }, /* state 44 */
+    { 0, 1, 192, 3, 6, 0 }, /* state 45 */
+    { 33, 0, 195, 0, 6, 0 }, /* state 46 */
+    { 87, 1, 195, 2, 6, 0 }, /* state 47 */
+    { 0, 1, 197, 1, 6, 0 }, /* state 48 */
+    { 70, 1, 198, 1, 6, 0 }, /* state 49 */
+    { 36, 0, 199, 0, 6, 0 }, /* state 50 */
+    { 0, 1, 199, 1, 6, 0 }, /* state 51 */
+    { 38, 1, 200, 1, 6, 0 }, /* state 52 */
+    { 40, 0, 201, 0, 6, 0 }, /* state 53 */
+    { 41, 0, 201, 0, 6, 0 }, /* state 54 */
+    { 71, 1, 201, 10, 6, 1 }, /* state 55 */
+    { 31, 1, 211, 1, 7, 0 }, /* state 56 */
+    { 55, 1, 212, 3, 7, 0 }, /* state 57 */
+    { 56, 0, 215, 0, 7, 0 }, /* state 58 */
+    { 60, 0, 215, 0, 7, 0 }, /* state 59 */
+    { 61, 0, 215, 0, 7, 0 }, /* state 60 */
+    { 58, 0, 215, 0, 7, 0 }, /* state 61 */
+    { 59, 0, 215, 0, 7, 0 }, /* state 62 */
+    { 54, 1, 215, 3, 7, 0 }, /* state 63 */
+    { 85, 0, 218, 0, 7, 0 }, /* state 64 */
+    { 86, 0, 218, 0, 7, 0 }, /* state 65 */
+    { 27, 0, 218, 0, 7, 0 }, /* state 66 */
+    { 0, 1, 218, 3, 7, 0 }, /* state 67 */
+    { 29, 0, 221, 0, 7, 0 }, /* state 68 */
+    { 80, 1, 221, 4, 7, 1 }, /* state 69 */
+    { 49, 1, 225, 4, 8, 0 }, /* state 70 */
+    { 5, 0, 229, 0, 8, 0 }, /* state 71 */
+    { 48, 1, 229, 12, 8, 0 }, /* state 72 */
+    { 7, 0, 241, 0, 8, 0 }, /* state 73 */
+    { 8, 0, 241, 0, 8, 0 }, /* state 74 */
+    { 62, 0, 241, 0, 8, 0 }, /* state 75 */
+    { 49, 1, 241, 8, 8, 0 }, /* state 76 */
+    { 48, 1, 249, 10, 8, 0 }, /* state 77 */
+    { 48, 1, 259, 10, 8, 0 }, /* state 78 */
+    { 0, 1, 269, 1, 8, 0 }, /* state 79 */
+    { 91, 1, 270, 18, 8, 0 }, /* state 80 */
+    { 111, 0, 288, 0, 8, 0 }, /* state 81 */
+    { 112, 0, 288, 0, 8, 0 }, /* state 82 */
+    { 0, 1, 288, 24, 8, 0 }, /* state 83 */
+    { 114, 1, 312, 4, 8, 0 }, /* state 84 */
+    { 0, 1, 316, 24, 8, 0 }, /* state 85 */
+    { 0, 1, 340, 24, 8, 0 }, /* state 86 */
+    { 0, 1, 364, 24, 8, 0 }, /* state 87 */
+    { 0, 1, 388, 24, 8, 0 }, /* state 88 */
+    { 0, 1, 412, 24, 8, 0 }, /* state 89 */
+    { 0, 1, 436, 24, 8, 0 }, /* state 90 */
+    { 121, 0, 460, 0, 8, 0 }, /* state 91 */
+    { 0, 1, 460, 24, 8, 0 }, /* state 92 */
+    { 125, 0, 484, 0, 8, 0 }, /* state 93 */
+    { 126, 0, 484, 0, 8, 0 }, /* state 94 */
+    { 0, 1, 484, 25, 8, 0 }, /* state 95 */
+    { 127, 0, 509, 0, 8, 0 }, /* state 96 */
+    { 0, 1, 509, 1, 8, 0 }, /* state 97 */
+    { 0, 1, 510, 1, 8, 0 }, /* state 98 */
+    { 0, 1, 511, 4, 8, 0 }, /* state 99 */
+    { 0, 1, 515, 1, 8, 0 }, /* state 100 */
+    { 0, 1, 516, 1, 8, 0 }, /* state 101 */
+    { 162, 0, 517, 0, 8, 0 }, /* state 102 */
+    { 0, 1, 517, 25, 8, 0 }, /* state 103 */
+    { 145, 0, 542, 0, 8, 0 }, /* state 104 */
+    { 146, 1, 542, 1, 8, 0 }, /* state 105 */
+    { 147, 0, 543, 0, 8, 0 }, /* state 106 */
+    { 149, 0, 543, 0, 8, 0 }, /* state 107 */
+    { 0, 1, 543, 2, 8, 0 }, /* state 108 */
+    { 0, 1, 545, 2, 8, 0 }, /* state 109 */
+    { 182, 0, 547, 0, 8, 0 }, /* state 110 */
+    { 160, 0, 547, 0, 8, 0 }, /* state 111 */
+    { 150, 0, 547, 0, 8, 0 }, /* state 112 */
+    { 151, 0, 547, 0, 8, 0 }, /* state 113 */
+    { 152, 0, 547, 0, 8, 0 }, /* state 114 */
+    { 153, 1, 547, 1, 8, 0 }, /* state 115 */
+    { 169, 0, 548, 0, 8, 0 }, /* state 116 */
+    { 11, 1, 548, 17, 8, 0 }, /* state 117 */
+    { 12, 0, 565, 0, 8, 0 }, /* state 118 */
+    { 0, 1, 565, 1, 8, 0 }, /* state 119 */
+    { 0, 1, 566, 2, 8, 0 }, /* state 120 */
+    { 14, 1, 568, 17, 8, 0 }, /* state 121 */
+    { 82, 0, 585, 0, 8, 0 }, /* state 122 */
+    { 83, 0, 585, 0, 8, 0 }, /* state 123 */
+    { 21, 0, 585, 0, 8, 0 }, /* state 124 */
+    { 0, 1, 585, 1, 8, 0 }, /* state 125 */
+    { 0, 1, 586, 2, 8, 0 }, /* state 126 */
+    { 89, 0, 588, 0, 8, 0 }, /* state 127 */
+    { 35, 0, 588, 0, 8, 0 }, /* state 128 */
+    { 79, 0, 588, 0, 8, 0 }, /* state 129 */
+    { 0, 1, 588, 24, 8, 0 }, /* state 130 */
+    { 42, 1, 612, 2, 8, 0 }, /* state 131 */
+    { 43, 1, 614, 1, 8, 0 }, /* state 132 */
+    { 30, 0, 615, 0, 8, 0 }, /* state 133 */
+    { 0, 1, 615, 1, 8, 0 }, /* state 134 */
+    { 57, 0, 616, 0, 8, 0 }, /* state 135 */
+    { 84, 0, 616, 0, 8, 0 }, /* state 136 */
+    { 0, 1, 616, 1, 8, 0 }, /* state 137 */
+    { 64, 0, 617, 0, 8, 0 }, /* state 138 */
+    { 65, 0, 617, 0, 8, 0 }, /* state 139 */
+    { 66, 0, 617, 0, 8, 0 }, /* state 140 */
+    { 0, 1, 617, 1, 8, 0 }, /* state 141 */
+    { 81, 0, 618, 0, 8, 0 }, /* state 142 */
+    { 6, 0, 618, 0, 8, 0 }, /* state 143 */
+    { 63, 0, 618, 0, 8, 0 }, /* state 144 */
+    { 0, 1, 618, 1, 8, 0 }, /* state 145 */
+    { 76, 0, 619, 0, 8, 0 }, /* state 146 */
+    { 0, 1, 619, 24, 8, 0 }, /* state 147 */
+    { 0, 1, 643, 24, 8, 0 }, /* state 148 */
+    { 0, 1, 667, 24, 8, 0 }, /* state 149 */
+    { 0, 1, 691, 24, 8, 0 }, /* state 150 */
+    { 0, 1, 715, 24, 8, 0 }, /* state 151 */
+    { 0, 1, 739, 24, 8, 0 }, /* state 152 */
+    { 0, 1, 763, 24, 8, 0 }, /* state 153 */
+    { 0, 1, 787, 24, 8, 0 }, /* state 154 */
+    { 0, 1, 811, 24, 8, 0 }, /* state 155 */
+    { 0, 1, 835, 24, 8, 0 }, /* state 156 */
+    { 0, 1, 859, 24, 8, 0 }, /* state 157 */
+    { 0, 1, 883, 24, 8, 0 }, /* state 158 */
+    { 0, 1, 907, 24, 8, 0 }, /* state 159 */
+    { 0, 1, 931, 24, 8, 0 }, /* state 160 */
+    { 0, 1, 955, 24, 8, 0 }, /* state 161 */
+    { 0, 1, 979, 24, 8, 0 }, /* state 162 */
+    { 0, 1, 1003, 24, 8, 0 }, /* state 163 */
+    { 0, 1, 1027, 24, 8, 0 }, /* state 164 */
+    { 113, 0, 1051, 0, 8, 0 }, /* state 165 */
+    { 0, 1, 1051, 24, 8, 0 }, /* state 166 */
+    { 129, 0, 1075, 0, 8, 0 }, /* state 167 */
+    { 0, 1, 1075, 4, 8, 0 }, /* state 168 */
+    { 131, 0, 1079, 0, 8, 0 }, /* state 169 */
+    { 0, 1, 1079, 25, 8, 0 }, /* state 170 */
+    { 115, 0, 1104, 0, 8, 0 }, /* state 171 */
+    { 0, 1, 1104, 24, 8, 0 }, /* state 172 */
+    { 116, 0, 1128, 0, 8, 0 }, /* state 173 */
+    { 117, 0, 1128, 0, 8, 0 }, /* state 174 */
+    { 118, 0, 1128, 0, 8, 0 }, /* state 175 */
+    { 119, 0, 1128, 0, 8, 0 }, /* state 176 */
+    { 120, 0, 1128, 0, 8, 0 }, /* state 177 */
+    { 0, 1, 1128, 24, 8, 0 }, /* state 178 */
+    { 123, 0, 1152, 0, 8, 0 }, /* state 179 */
+    { 124, 1, 1152, 20, 8, 0 }, /* state 180 */
+    { 0, 1, 1172, 19, 8, 0 }, /* state 181 */
+    { 0, 1, 1191, 1, 8, 0 }, /* state 182 */
+    { 71, 1, 1192, 5, 8, 1 }, /* state 183 */
+    { 132, 0, 1197, 0, 9, 0 }, /* state 184 */
+    { 133, 0, 1197, 0, 9, 0 }, /* state 185 */
+    { 134, 0, 1197, 0, 9, 0 }, /* state 186 */
+    { 141, 0, 1197, 0, 9, 0 }, /* state 187 */
+    { 142, 0, 1197, 0, 9, 0 }, /* state 188 */
+    { 143, 0, 1197, 0, 9, 0 }, /* state 189 */
+    { 144, 0, 1197, 0, 9, 0 }, /* state 190 */
+    { 0, 1, 1197, 25, 9, 0 }, /* state 191 */
+    { 0, 1, 1222, 25, 9, 0 }, /* state 192 */
+    { 179, 0, 1247, 0, 9, 0 }, /* state 193 */
+    { 90, 1, 1247, 24, 9, 0 }, /* state 194 */
+    { 161, 0, 1271, 0, 9, 0 }, /* state 195 */
+    { 176, 1, 1271, 1, 9, 0 }, /* state 196 */
+    { 176, 1, 1272, 1, 9, 0 }, /* state 197 */
+    { 0, 1, 1273, 2, 9, 0 }, /* state 198 */
+    { 172, 1, 1275, 4, 9, 1 }, /* state 199 */
+    { 0, 1, 1279, 26, 10, 0 }, /* state 200 */
+    { 167, 0, 1305, 0, 10, 0 }, /* state 201 */
+    { 168, 0, 1305, 0, 10, 0 }, /* state 202 */
+    { 181, 0, 1305, 0, 10, 0 }, /* state 203 */
+    { 154, 0, 1305, 0, 10, 0 }, /* state 204 */
+    { 20, 0, 1305, 0, 10, 0 }, /* state 205 */
+    { 13, 0, 1305, 0, 10, 0 }, /* state 206 */
+    { 0, 1, 1305, 24, 10, 0 }, /* state 207 */
+    { 34, 0, 1329, 0, 10, 0 }, /* state 208 */
+    { 37, 0, 1329, 0, 10, 0 }, /* state 209 */
+    { 88, 0, 1329, 0, 10, 0 }, /* state 210 */
+    { 39, 1, 1329, 17, 10, 0 }, /* state 211 */
+    { 32, 0, 1346, 0, 10, 0 }, /* state 212 */
+    { 0, 1, 1346, 2, 10, 0 }, /* state 213 */
+    { 53, 0, 1348, 0, 10, 0 }, /* state 214 */
+    { 0, 1, 1348, 1, 10, 0 }, /* state 215 */
+    { 93, 1, 1349, 17, 10, 0 }, /* state 216 */
+    { 94, 1, 1366, 17, 10, 0 }, /* state 217 */
+    { 95, 1, 1383, 17, 10, 0 }, /* state 218 */
+    { 0, 1, 1400, 19, 10, 0 }, /* state 219 */
+    { 97, 1, 1419, 13, 10, 0 }, /* state 220 */
+    { 98, 1, 1432, 12, 10, 0 }, /* state 221 */
+    { 99, 1, 1444, 11, 10, 0 }, /* state 222 */
+    { 100, 1, 1455, 10, 10, 0 }, /* state 223 */
+    { 101, 1, 1465, 9, 10, 0 }, /* state 224 */
+    { 102, 1, 1474, 8, 10, 0 }, /* state 225 */
+    { 103, 1, 1482, 7, 10, 0 }, /* state 226 */
+    { 104, 1, 1489, 6, 10, 0 }, /* state 227 */
+    { 105, 1, 1495, 4, 10, 0 }, /* state 228 */
+    { 106, 1, 1499, 4, 10, 0 }, /* state 229 */
+    { 107, 1, 1503, 2, 10, 0 }, /* state 230 */
+    { 108, 1, 1505, 2, 10, 0 }, /* state 231 */
+    { 109, 0, 1507, 0, 10, 0 }, /* state 232 */
+    { 110, 0, 1507, 0, 10, 0 }, /* state 233 */
+    { 0, 1, 1507, 19, 10, 0 }, /* state 234 */
+    { 130, 0, 1526, 0, 10, 0 }, /* state 235 */
+    { 0, 1, 1526, 2, 10, 0 }, /* state 236 */
+    { 157, 0, 1528, 0, 10, 0 }, /* state 237 */
+    { 158, 1, 1528, 17, 10, 0 }, /* state 238 */
+    { 122, 0, 1545, 0, 10, 0 }, /* state 239 */
+    { 148, 0, 1545, 0, 10, 0 }, /* state 240 */
+    { 155, 0, 1545, 0, 10, 0 }, /* state 241 */
+    { 72, 1, 1545, 5, 10, 1 }, /* state 242 */
+    { 71, 1, 1550, 5, 11, 1 }, /* state 243 */
+    { 71, 1, 1555, 8, 12, 1 }, /* state 244 */
+    { 0, 1, 1563, 1, 13, 0 }, /* state 245 */
+    { 0, 1, 1564, 19, 13, 0 }, /* state 246 */
+    { 0, 1, 1583, 1, 13, 0 }, /* state 247 */
+    { 0, 1, 1584, 19, 13, 0 }, /* state 248 */
+    { 0, 1, 1603, 1, 13, 0 }, /* state 249 */
+    { 0, 1, 1604, 1, 13, 0 }, /* state 250 */
+    { 163, 0, 1605, 0, 13, 0 }, /* state 251 */
+    { 177, 0, 1605, 0, 13, 0 }, /* state 252 */
+    { 0, 1, 1605, 25, 13, 0 }, /* state 253 */
+    { 164, 0, 1630, 0, 13, 0 }, /* state 254 */
+    { 176, 1, 1630, 1, 13, 0 }, /* state 255 */
+    { 176, 1, 1631, 1, 13, 0 }, /* state 256 */
+    { 0, 1, 1632, 1, 13, 0 }, /* state 257 */
+    { 170, 1, 1633, 1, 13, 0 }, /* state 258 */
+    { 173, 1, 1634, 4, 13, 1 }, /* state 259 */
+    { 172, 1, 1638, 4, 14, 1 }, /* state 260 */
+    { 71, 1, 1642, 5, 15, 1 }, /* state 261 */
+    { 15, 1, 1647, 17, 16, 0 }, /* state 262 */
+    { 46, 0, 1664, 0, 16, 0 }, /* state 263 */
+    { 0, 1, 1664, 2, 16, 0 }, /* state 264 */
+    { 44, 0, 1666, 0, 16, 0 }, /* state 265 */
+    { 0, 1, 1666, 2, 16, 0 }, /* state 266 */
+    { 0, 1, 1668, 24, 16, 0 }, /* state 267 */
+    { 128, 0, 1692, 0, 16, 0 }, /* state 268 */
+    { 156, 0, 1692, 0, 16, 0 }, /* state 269 */
+    { 0, 1, 1692, 24, 16, 0 }, /* state 270 */
+    { 0, 1, 1716, 4, 16, 0 }, /* state 271 */
+    { 137, 0, 1720, 0, 16, 0 }, /* state 272 */
+    { 138, 0, 1720, 0, 16, 0 }, /* state 273 */
+    { 139, 0, 1720, 0, 16, 0 }, /* state 274 */
+    { 140, 0, 1720, 0, 16, 0 }, /* state 275 */
+    { 0, 1, 1720, 24, 16, 0 }, /* state 276 */
+    { 178, 0, 1744, 0, 16, 0 }, /* state 277 */
+    { 165, 0, 1744, 0, 16, 0 }, /* state 278 */
+    { 166, 0, 1744, 0, 16, 0 }, /* state 279 */
+    { 90, 1, 1744, 24, 16, 0 }, /* state 280 */
+    { 174, 1, 1768, 1, 16, 0 }, /* state 281 */
+    { 0, 1, 1769, 2, 16, 0 }, /* state 282 */
+    { 0, 1, 1771, 1, 16, 0 }, /* state 283 */
+    { 47, 0, 1772, 0, 16, 0 }, /* state 284 */
+    { 67, 0, 1772, 0, 16, 0 }, /* state 285 */
+    { 0, 1, 1772, 1, 16, 0 }, /* state 286 */
+    { 96, 1, 1773, 15, 16, 0 }, /* state 287 */
+    { 159, 1, 1788, 17, 16, 0 }, /* state 288 */
+    { 135, 0, 1805, 0, 16, 0 }, /* state 289 */
+    { 180, 0, 1805, 0, 16, 0 }, /* state 290 */
+    { 0, 1, 1805, 1, 16, 0 }, /* state 291 */
+    { 171, 0, 1806, 0, 16, 0 }, /* state 292 */
+    { 45, 0, 1806, 0, 16, 0 }, /* state 293 */
+    { 68, 0, 1806, 0, 16, 0 }, /* state 294 */
+    { 0, 1, 1806, 1, 16, 0 }, /* state 295 */
+    { 175, 0, 1807, 0, 16, 0 }, /* state 296 */
+    { 136, 0, 1807, 0, 16, 0 }, /* state 297 */
+    { 0, 1, 1807, 24, 16, 0 }, /* state 298 */
+    { 0, 1, 1831, 19, 16, 0 }, /* state 299 */
+    { 92, 0, 1850, 0, 16, 0 }, /* state 300 */
+};
+
+const ParserGoto declaration_gotos[DECLARATION_NONTERMINAL_COUNT] = {
+    { 80, 0, 0 }, /* nonterminal 0 */
+    { 1, 0, 0 }, /* nonterminal 1 */
+    { 18, 0, 0 }, /* nonterminal 2 */
+    { 11, 0, 7 }, /* nonterminal 3 */
+    { 43, 7, 6 }, /* nonterminal 4 */
+    { 7, 13, 0 }, /* nonterminal 5 */
+    { 3, 13, 0 }, /* nonterminal 6 */
+    { 6, 13, 2 }, /* nonterminal 7 */
+    { 9, 15, 5 }, /* nonterminal 8 */
+    { 72, 20, 0 }, /* nonterminal 9 */
+    { 47, 20, 1 }, /* nonterminal 10 */
+    { 252, 21, 2 }, /* nonterminal 11 */
+    { 80, 23, 32 }, /* nonterminal 12 */
+    { 120, 55, 0 }, /* nonterminal 13 */
+    { 10, 55, 12 }, /* nonterminal 14 */
+    { 14, 67, 2 }, /* nonterminal 15 */
+    { 12, 69, 12 }, /* nonterminal 16 */
+    { 79, 81, 3 }, /* nonterminal 17 */
+    { 114, 84, 12 }, /* nonterminal 18 */
+    { 68, 96, 1 }, /* nonterminal 19 */
+    { 56, 97, 5 }, /* nonterminal 20 */
+    { 133, 102, 0 }, /* nonterminal 21 */
+    { 212, 102, 0 }, /* nonterminal 22 */
+    { 125, 102, 0 }, /* nonterminal 23 */
+    { 50, 102, 2 }, /* nonterminal 24 */
+    { 52, 104, 0 }, /* nonterminal 25 */
+    { 53, 104, 0 }, /* nonterminal 26 */
+    { 54, 104, 6 }, /* nonterminal 27 */
+    { 264, 110, 0 }, /* nonterminal 28 */
+    { 19, 110, 0 }, /* nonterminal 29 */
+    { 17, 110, 5 }, /* nonterminal 30 */
+    { 137, 115, 0 }, /* nonterminal 31 */
+    { 57, 115, 0 }, /* nonterminal 32 */
+    { 58, 115, 1 }, /* nonterminal 33 */
+    { 59, 116, 2 }, /* nonterminal 34 */
+    { 138, 118, 0 }, /* nonterminal 35 */
+    { 8, 118, 2 }, /* nonterminal 36 */
+    { 13, 120, 0 }, /* nonterminal 37 */
+    { 297, 120, 0 }, /* nonterminal 38 */
+    { 81, 120, 12 }, /* nonterminal 39 */
+    { 82, 132, 1 }, /* nonterminal 40 */
+    { 83, 133, 1 }, /* nonterminal 41 */
+    { 84, 134, 0 }, /* nonterminal 42 */
+    { 178, 134, 0 }, /* nonterminal 43 */
+    { 93, 134, 0 }, /* nonterminal 44 */
+    { 94, 134, 0 }, /* nonterminal 45 */
+    { 96, 134, 0 }, /* nonterminal 46 */
+    { 167, 134, 2 }, /* nonterminal 47 */
+    { 107, 136, 1 }, /* nonterminal 48 */
+    { 186, 137, 1 }, /* nonterminal 49 */
+    { 245, 138, 0 }, /* nonterminal 50 */
+    { 295, 138, 0 }, /* nonterminal 51 */
+    { 105, 138, 0 }, /* nonterminal 52 */
+    { 236, 138, 0 }, /* nonterminal 53 */
+    { 102, 138, 0 }, /* nonterminal 54 */
+    { 108, 138, 0 }, /* nonterminal 55 */
+    { 196, 138, 1 }, /* nonterminal 56 */
+    { 251, 139, 3 }, /* nonterminal 57 */
+    { 197, 142, 1 }, /* nonterminal 58 */
+    { 198, 143, 0 }, /* nonterminal 59 */
+    { 258, 143, 1 }, /* nonterminal 60 */
+    { 103, 144, 0 }, /* nonterminal 61 */
+};
+
+const ParserTransition declaration_goto_transitions[] = {
+    /* Nonterminal 3: source state, destination. */
+    { 9, 33 },
+    { 10, 38 },
+    { 13, 44 },
+    { 42, 33 },
+    { 45, 33 },
+    { 131, 33 },
+    { 242, 38 },
+    /* Nonterminal 4: source state, destination. */
+    { 2, 4 },
+    { 15, 51 },
+    { 55, 132 },
+    { 183, 132 },
+    { 244, 51 },
+    { 261, 282 },
+    /* Nonterminal 7: source state, destination. */
+    { 29, 71 },
+    { 72, 143 },
+    /* Nonterminal 8: source state, destination. */
+    { 12, 42 },
+    { 15, 45 },
+    { 55, 131 },
+    { 77, 42 },
+    { 78, 45 },
+    /* Nonterminal 10: source state, destination. */
+    { 29, 73 },
+    /* Nonterminal 11: source state, destination. */
+    { 9, 31 },
+    { 108, 201 },
+    /* Nonterminal 12: source state, destination. */
+    { 32, 117 },
+    { 35, 121 },
+    { 95, 181 },
+    { 130, 211 },
+    { 147, 216 },
+    { 148, 217 },
+    { 149, 218 },
+    { 150, 219 },
+    { 151, 220 },
+    { 152, 221 },
+    { 153, 222 },
+    { 154, 223 },
+    { 155, 224 },
+    { 156, 225 },
+    { 157, 226 },
+    { 158, 227 },
+    { 159, 228 },
+    { 160, 229 },
+    { 161, 230 },
+    { 162, 231 },
+    { 163, 232 },
+    { 166, 234 },
+    { 170, 238 },
+    { 172, 181 },
+    { 191, 246 },
+    { 192, 248 },
+    { 200, 121 },
+    { 207, 262 },
+    { 253, 121 },
+    { 267, 287 },
+    { 270, 288 },
+    { 298, 299 },
+    /* Nonterminal 14: source state, destination. */
+    { 28, 70 },
+    { 29, 76 },
+    { 69, 70 },
+    { 72, 76 },
+    { 77, 76 },
+    { 78, 76 },
+    { 183, 242 },
+    { 199, 259 },
+    { 243, 242 },
+    { 244, 242 },
+    { 260, 259 },
+    { 261, 242 },
+    /* Nonterminal 15: source state, destination. */
+    { 10, 36 },
+    { 76, 36 },
+    /* Nonterminal 16: source state, destination. */
+    { 28, 69 },
+    { 29, 77 },
+    { 69, 69 },
+    { 72, 77 },
+    { 77, 77 },
+    { 78, 77 },
+    { 183, 243 },
+    { 199, 260 },
+    { 243, 243 },
+    { 244, 243 },
+    { 260, 260 },
+    { 261, 243 },
+    /* Nonterminal 17: source state, destination. */
+    { 34, 119 },
+    { 194, 250 },
+    { 280, 291 },
+    /* Nonterminal 18: source state, destination. */
+    { 2, 24 },
+    { 10, 24 },
+    { 12, 24 },
+    { 15, 24 },
+    { 25, 66 },
+    { 29, 24 },
+    { 55, 24 },
+    { 72, 24 },
+    { 76, 24 },
+    { 77, 24 },
+    { 78, 24 },
+    { 115, 204 },
+    /* Nonterminal 19: source state, destination. */
+    { 69, 142 },
+    /* Nonterminal 20: source state, destination. */
+    { 20, 64 },
+    { 21, 65 },
+    { 39, 122 },
+    { 40, 123 },
+    { 63, 136 },
+    /* Nonterminal 24: source state, destination. */
+    { 126, 209 },
+    { 145, 209 },
+    /* Nonterminal 27: source state, destination. */
+    { 95, 182 },
+    { 191, 247 },
+    { 192, 249 },
+    { 213, 265 },
+    { 245, 271 },
+    { 283, 293 },
+    /* Nonterminal 30: source state, destination. */
+    { 10, 37 },
+    { 70, 37 },
+    { 76, 37 },
+    { 242, 37 },
+    { 259, 37 },
+    /* Nonterminal 33: source state, destination. */
+    { 57, 135 },
+    /* Nonterminal 34: source state, destination. */
+    { 29, 75 },
+    { 72, 144 },
+    /* Nonterminal 36: source state, destination. */
+    { 15, 49 },
+    { 244, 49 },
+    /* Nonterminal 39: source state, destination. */
+    { 83, 165 },
+    { 86, 173 },
+    { 87, 174 },
+    { 88, 175 },
+    { 89, 176 },
+    { 90, 177 },
+    { 92, 179 },
+    { 103, 193 },
+    { 164, 233 },
+    { 178, 239 },
+    { 180, 165 },
+    { 276, 290 },
+    /* Nonterminal 40: source state, destination. */
+    { 85, 171 },
+    /* Nonterminal 41: source state, destination. */
+    { 92, 180 },
+    /* Nonterminal 47: source state, destination. */
+    { 97, 184 },
+    { 98, 185 },
+    /* Nonterminal 48: source state, destination. */
+    { 168, 235 },
+    /* Nonterminal 49: source state, destination. */
+    { 271, 289 },
+    /* Nonterminal 56: source state, destination. */
+    { 198, 255 },
+    /* Nonterminal 57: source state, destination. */
+    { 197, 254 },
+    { 255, 278 },
+    { 256, 279 },
+    /* Nonterminal 58: source state, destination. */
+    { 198, 256 },
+    /* Nonterminal 60: source state, destination. */
+    { 260, 281 },
+};
+
+const ParserProduction declaration_productions[DECLARATION_PRODUCTION_COUNT + 1] = {
+    { 0, 0 }, /* production 0 */
+    { 1, 2 }, /* production 1 */
+    { 1, 2 }, /* production 2 */
+    { 1, 2 }, /* production 3 */
+    { 6, 1 }, /* production 4 */
+    { 6, 3 }, /* production 5 */
+    { 6, 4 }, /* production 6 */
+    { 6, 3 }, /* production 7 */
+    { 6, 3 }, /* production 8 */
+    { 7, 1 }, /* production 9 */
+    { 7, 2 }, /* production 10 */
+    { 7, 3 }, /* production 11 */
+    { 7, 3 }, /* production 12 */
+    { 11, 3 }, /* production 13 */
+    { 13, 1 }, /* production 14 */
+    { 13, 3 }, /* production 15 */
+    { 8, 2 }, /* production 16 */
+    { 8, 1 }, /* production 17 */
+    { 8, 2 }, /* production 18 */
+    { 8, 2 }, /* production 19 */
+    { 8, 4 }, /* production 20 */
+    { 8, 3 }, /* production 21 */
+    { 8, 1 }, /* production 22 */
+    { 15, 1 }, /* production 23 */
+    { 15, 1 }, /* production 24 */
+    { 15, 1 }, /* production 25 */
+    { 15, 1 }, /* production 26 */
+    { 15, 2 }, /* production 27 */
+    { 18, 1 }, /* production 28 */
+    { 18, 2 }, /* production 29 */
+    { 3, 3 }, /* production 30 */
+    { 21, 0 }, /* production 31 */
+    { 21, 2 }, /* production 32 */
+    { 2, 2 }, /* production 33 */
+    { 2, 4 }, /* production 34 */
+    { 2, 3 }, /* production 35 */
+    { 10, 1 }, /* production 36 */
+    { 10, 3 }, /* production 37 */
+    { 24, 1 }, /* production 38 */
+    { 24, 3 }, /* production 39 */
+    { 25, 1 }, /* production 40 */
+    { 25, 1 }, /* production 41 */
+    { 26, 2 }, /* production 42 */
+    { 27, 2 }, /* production 43 */
+    { 28, 1 }, /* production 44 */
+    { 28, 3 }, /* production 45 */
+    { 22, 2 }, /* production 46 */
+    { 22, 3 }, /* production 47 */
+    { 29, 0 }, /* production 48 */
+    { 29, 1 }, /* production 49 */
+    { 14, 1 }, /* production 50 */
+    { 14, 2 }, /* production 51 */
+    { 30, 1 }, /* production 52 */
+    { 30, 4 }, /* production 53 */
+    { 20, 0 }, /* production 54 */
+    { 20, 1 }, /* production 55 */
+    { 32, 1 }, /* production 56 */
+    { 32, 2 }, /* production 57 */
+    { 34, 1 }, /* production 58 */
+    { 34, 1 }, /* production 59 */
+    { 33, 1 }, /* production 60 */
+    { 33, 1 }, /* production 61 */
+    { 9, 1 }, /* production 62 */
+    { 9, 2 }, /* production 63 */
+    { 31, 1 }, /* production 64 */
+    { 31, 1 }, /* production 65 */
+    { 31, 1 }, /* production 66 */
+    { 35, 4 }, /* production 67 */
+    { 35, 5 }, /* production 68 */
+    { 4, 1 }, /* production 69 */
+    { 4, 1 }, /* production 70 */
+    { 5, 0 }, /* production 71 */
+    { 5, 1 }, /* production 72 */
+    { 5, 1 }, /* production 73 */
+    { 5, 2 }, /* production 74 */
+    { 36, 2 }, /* production 75 */
+    { 36, 4 }, /* production 76 */
+    { 36, 2 }, /* production 77 */
+    { 36, 1 }, /* production 78 */
+    { 37, 3 }, /* production 79 */
+    { 19, 1 }, /* production 80 */
+    { 19, 2 }, /* production 81 */
+    { 16, 3 }, /* production 82 */
+    { 16, 3 }, /* production 83 */
+    { 16, 3 }, /* production 84 */
+    { 16, 2 }, /* production 85 */
+    { 16, 2 }, /* production 86 */
+    { 23, 0 }, /* production 87 */
+    { 23, 2 }, /* production 88 */
+    { 23, 1 }, /* production 89 */
+    { 17, 0 }, /* production 90 */
+    { 17, 1 }, /* production 91 */
+    { 38, 3 }, /* production 92 */
+    { 12, 3 }, /* production 93 */
+    { 12, 3 }, /* production 94 */
+    { 12, 3 }, /* production 95 */
+    { 12, 5 }, /* production 96 */
+    { 12, 3 }, /* production 97 */
+    { 12, 3 }, /* production 98 */
+    { 12, 3 }, /* production 99 */
+    { 12, 3 }, /* production 100 */
+    { 12, 3 }, /* production 101 */
+    { 12, 3 }, /* production 102 */
+    { 12, 3 }, /* production 103 */
+    { 12, 3 }, /* production 104 */
+    { 12, 3 }, /* production 105 */
+    { 12, 3 }, /* production 106 */
+    { 12, 3 }, /* production 107 */
+    { 12, 3 }, /* production 108 */
+    { 12, 3 }, /* production 109 */
+    { 12, 3 }, /* production 110 */
+    { 12, 1 }, /* production 111 */
+    { 39, 1 }, /* production 112 */
+    { 39, 2 }, /* production 113 */
+    { 40, 1 }, /* production 114 */
+    { 40, 2 }, /* production 115 */
+    { 40, 2 }, /* production 116 */
+    { 40, 2 }, /* production 117 */
+    { 40, 2 }, /* production 118 */
+    { 40, 2 }, /* production 119 */
+    { 40, 2 }, /* production 120 */
+    { 43, 0 }, /* production 121 */
+    { 40, 3 }, /* production 122 */
+    { 40, 2 }, /* production 123 */
+    { 40, 2 }, /* production 124 */
+    { 40, 1 }, /* production 125 */
+    { 40, 1 }, /* production 126 */
+    { 42, 1 }, /* production 127 */
+    { 42, 4 }, /* production 128 */
+    { 42, 2 }, /* production 129 */
+    { 42, 3 }, /* production 130 */
+    { 42, 2 }, /* production 131 */
+    { 42, 2 }, /* production 132 */
+    { 42, 2 }, /* production 133 */
+    { 50, 0 }, /* production 134 */
+    { 51, 0 }, /* production 135 */
+    { 42, 7 }, /* production 136 */
+    { 42, 4 }, /* production 137 */
+    { 42, 4 }, /* production 138 */
+    { 42, 4 }, /* production 139 */
+    { 42, 4 }, /* production 140 */
+    { 49, 1 }, /* production 141 */
+    { 49, 1 }, /* production 142 */
+    { 49, 1 }, /* production 143 */
+    { 49, 1 }, /* production 144 */
+    { 46, 1 }, /* production 145 */
+    { 46, 1 }, /* production 146 */
+    { 46, 1 }, /* production 147 */
+    { 46, 3 }, /* production 148 */
+    { 46, 1 }, /* production 149 */
+    { 48, 1 }, /* production 150 */
+    { 48, 1 }, /* production 151 */
+    { 48, 1 }, /* production 152 */
+    { 48, 1 }, /* production 153 */
+    { 48, 2 }, /* production 154 */
+    { 41, 3 }, /* production 155 */
+    { 47, 3 }, /* production 156 */
+    { 47, 2 }, /* production 157 */
+    { 53, 1 }, /* production 158 */
+    { 53, 3 }, /* production 159 */
+    { 52, 1 }, /* production 160 */
+    { 52, 2 }, /* production 161 */
+    { 44, 1 }, /* production 162 */
+    { 54, 3 }, /* production 163 */
+    { 54, 3 }, /* production 164 */
+    { 54, 4 }, /* production 165 */
+    { 54, 4 }, /* production 166 */
+    { 59, 1 }, /* production 167 */
+    { 55, 2 }, /* production 168 */
+    { 55, 1 }, /* production 169 */
+    { 56, 2 }, /* production 170 */
+    { 58, 4 }, /* production 171 */
+    { 60, 0 }, /* production 172 */
+    { 60, 1 }, /* production 173 */
+    { 60, 2 }, /* production 174 */
+    { 60, 4 }, /* production 175 */
+    { 57, 0 }, /* production 176 */
+    { 57, 1 }, /* production 177 */
+    { 57, 2 }, /* production 178 */
+    { 45, 2 }, /* production 179 */
+    { 45, 5 }, /* production 180 */
+    { 61, 2 }, /* production 181 */
+    { 61, 1 }, /* production 182 */
+};

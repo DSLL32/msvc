@@ -326,7 +326,7 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
             case 0x26:
                 symbol = node->value.symbol;
                 if (needs_external_symbol(((CompilerIrSymbol *)symbol)->emission_state >> 3))
-                    frontend_bss.debug_module->UnrecoveredSlot32();
+                    frontend_bss.debug_module->Slot80();
                 break;
             case 0x27:
             case 0x28:
@@ -372,12 +372,12 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
                         symbol = get_template_symbol(symbol);
                     else
                         symbol = NULL;
-                    symbol->EmitDeclaration();
+                    symbol->MarkReferenced();
                 } else if (symbol->kind == 7 || symbol->kind == 8) {
-                    if (((CompilerIrSymbol *)symbol)->queue_flags & 0x80)
+                    if (((CompilerRuntimeFunction *)symbol)->queue_flags & 0x80)
                         frontend_bss.pending_groups.Add(symbol);
-                    if (((CompilerIrSymbol *)symbol)->linkage_flags & 2)
-                        get_import_symbol(symbol)->EmitDeclaration();
+                    if (((CompilerRuntimeFunction *)symbol)->linkage_flags & 2)
+                        get_import_symbol(symbol)->MarkReferenced();
                 }
                 if (((CompilerIrSymbol *)symbol)->reference_flags & 1) {
                     resolved = resolve_symbol_reference(symbol);
@@ -482,7 +482,15 @@ extern "C" CompilerSymbol *__cdecl resolve_symbol_reference(CompilerSymbol *symb
 extern "C" CompilerType *__cdecl create_default_type(void) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl write_integer_payload(unsigned low, unsigned high, int bytes) { __asm { int 3 } }
 extern "C" unsigned __cdecl external_symbol_index(CompilerSymbol *symbol) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerSymbol::EmitDeclaration(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerSymbol::MarkReferenced(void)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)this;
+    unsigned references = symbol->emission_state & 3;
+    if (references < 3)
+        symbol->emission_state = (symbol->emission_state & ~3U) | (references + 1);
+    symbol->emission_state = (symbol->emission_state & ~4U) |
+        ((frontend_data.reference_context & 1U) << 2);
+}
 void RECON_THISCALL CompilerString::GetData(unsigned *length, const void **data, unsigned *tag) { __asm { int 3 } }
 CompilerSymbol *RECON_THISCALL PendingGroupList::Add(CompilerSymbol *symbol) { __asm { int 3 } return NULL; }
 int RECON_THISCALL OutputBuffer::Ensure(int bytes)
@@ -492,8 +500,25 @@ int RECON_THISCALL OutputBuffer::Ensure(int bytes)
     return Grow(bytes) != 0;
 }
 int RECON_THISCALL OutputBuffer::Prepare(int bytes) { __asm { int 3 } return 0; }
-void RECON_THISCALL OutputBuffer::WriteIndex(unsigned value) { __asm { int 3 } }
-int RECON_THISCALL OutputBuffer::WriteCompact(unsigned value) { __asm { int 3 } return 0; }
+void RECON_THISCALL OutputBuffer::WriteIndex(unsigned value)
+{
+    int good = cursor + 5 <= data + capacity || Grow(5) != 0;
+    ok &= good;
+    if (!ok) return;
+    if ((int)value > 0x7fff) {
+        *(DWORD *)cursor = (((value & 0xffffc000U) | 0x4000) << 1) | (value & 0x7fff);
+        cursor += 4;
+    } else {
+        *(WORD *)cursor = (WORD)value;
+        cursor += 2;
+    }
+}
+int RECON_THISCALL OutputBuffer::WriteCompact(unsigned value)
+{
+    if (value & ~0x7fU) return 0;
+    *cursor++ = (BYTE)value;
+    return 1;
+}
 int RECON_THISCALL OutputBuffer::WriteBytes(const void *data, unsigned bytes) { __asm { int 3 } return 0; }
 void RECON_THISCALL OutputBuffer::WriteUShort(unsigned value) { __asm { int 3 } }
 void RECON_THISCALL OutputBuffer::WriteStringData(const void *data) { __asm { int 3 } }

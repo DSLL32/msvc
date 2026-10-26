@@ -316,9 +316,15 @@ void push_declaration_context(int context)
 {
     if (++frontend_data.language_context_depth == 10)
         report_compiler_error(45);
+    if ((unsigned)frontend_data.language_context_depth >= 10) { __asm { int 3 } }
     frontend_bss.language_contexts[frontend_data.language_context_depth] = context;
 }
 
+
+void pop_declaration_context(void)
+{
+    --frontend_data.language_context_depth;
+}
 
 /* The command environment uses spaces only as separators. Quoted runs and
  * backslash pairs are compacted in place; a scanner lead byte copies its
@@ -393,3 +399,21 @@ char *next_argument(void)
 void disable_multibyte_identifiers(void) { __asm { int 3 } }
 int compare_pch_paths(const char *left, const char *right) { __asm { int 3 } return 0; }
 void free_argument_allocation(void *allocation) { __asm { int 3 } }
+
+void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+void __cdecl set_warning_state(unsigned warning, unsigned state)
+{
+    unsigned index = warning;
+    if (index > 4000) index -= 4000;
+    if (index < 1 || index > 999) {
+        report_language_diagnostic(1, 0x268, warning, 4001, 4999);
+        return;
+    }
+    frontend_data.options.warning_levels[index] = (BYTE)state;
+    if (index >= 700 && index < 1000) {
+        if (frontend_data.options.lowest_warning >= index)
+            frontend_data.options.lowest_warning = index;
+        if (frontend_data.options.highest_warning <= index)
+            frontend_data.options.highest_warning = index;
+    }
+}

@@ -1,0 +1,383 @@
+{
+  "schema": 1,
+  "scope": "C1XX Lexer::Read cached fputc EDI and process_source_newline cached fputc ESI normal-return ABI only; no preprocessing/provider success or nonlocal-return claim.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "basis": "The identified ordinary Microsoft i386 cdecl and thiscall declarations preserve EDI on normal return. Actual source formals and caller cleanup remain intact. No provider instruction-byte audit is necessary for this ABI fact. Only calls that can precede a cached fputc use before an EDI definition are listed. The same documented normal-return rule preserves ESI in the line processor across the narrowly listed ordinary cdecl calls.",
+  "sdk": {
+    "path": "toolchains/5.10/include/STDIO.H",
+    "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "declarations": [
+      "int __cdecl fputc(int, FILE *);",
+      "size_t __cdecl fwrite(const void *, size_t, size_t, FILE *);"
+    ]
+  },
+  "caller": {
+    "name": "CompilerLexer::Read",
+    "entry_rva": 35214,
+    "cached_import_load_rva": 35237,
+    "IAT_rva": 823672,
+    "calls": [
+      "0x54a42",
+      "0x54a8e",
+      "0x54ad2",
+      "0x54b8e",
+      "0x55230"
+    ]
+  },
+  "ordinary_functions": [
+    {
+      "name": "_scan_identifier",
+      "original_rva": 58169,
+      "caller_sites": [
+        "0x8e62"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_process_special_character",
+      "original_rva": 61329,
+      "caller_sites": [
+        "0x54b15",
+        "0x8aa6"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_compiler_warning",
+      "original_rva": 596192,
+      "caller_sites": [
+        "0x549ec",
+        "0x54a2c",
+        "0x54a18",
+        "0x54b79"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_read_source_chunk",
+      "original_rva": 120312,
+      "caller_sites": [
+        "0x8ae9"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_expand_macro",
+      "original_rva": 59659,
+      "caller_sites": [
+        "0x8ee1"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_copy_quoted_literal",
+      "original_rva": 532551,
+      "caller_sites": [
+        "0x54b5f",
+        "0x54b45"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_process_trigraph",
+      "original_rva": 181317,
+      "caller_sites": [
+        "0x8acf"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_splice_input_line",
+      "original_rva": 266581,
+      "caller_sites": [
+        "0x8abd"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_process_source_newline",
+      "original_rva": 58659,
+      "caller_sites": [
+        "0x8d3e"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_finish_forced_include",
+      "original_rva": 593371,
+      "caller_sites": [
+        "0x54ab2"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_discard_input_character",
+      "original_rva": 148952,
+      "caller_sites": [
+        "0x54a20"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_restore_source_input",
+      "original_rva": 132559,
+      "caller_sites": [
+        "0x8b10",
+        "0x54a98"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_resolve_special_character",
+      "original_rva": 297538,
+      "caller_sites": [
+        "0x54a71"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_skip_block_comment",
+      "original_rva": 266979,
+      "caller_sites": [
+        "0x8a75"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_read_unspliced_character",
+      "original_rva": 144385,
+      "caller_sites": [
+        "0x8a5d",
+        "0x89e2"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_skip_line_comment",
+      "original_rva": 57993,
+      "caller_sites": [
+        "0x89fa"
+      ],
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    }
+  ],
+  "imports": [
+    {
+      "dll": "msvcrt.dll",
+      "name": "fputc",
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fwrite",
+      "convention": "cdecl",
+      "preserves": [
+        "edi"
+      ]
+    }
+  ],
+  "virtual_mark": {
+    "caller_site": 36136,
+    "slot": 12,
+    "receiver_global_rva": 789004,
+    "receiver": "Existing frontend_bss.input; actual two implementations supplied by create_input",
+    "endpoints": [
+      {
+        "name": "CompilerPlainInput::Mark",
+        "original_rva": 120631,
+        "original_vtable": 824216,
+        "convention": "thiscall",
+        "stack_argument_bytes": 0,
+        "preserves": [
+          "edi"
+        ]
+      },
+      {
+        "name": "CompilerRecordedInput::Mark",
+        "original_rva": 607375,
+        "original_vtable": 825032,
+        "convention": "thiscall",
+        "stack_argument_bytes": 0,
+        "preserves": [
+          "edi"
+        ]
+      }
+    ]
+  },
+  "newline_caller": {
+    "name": "_process_source_newline",
+    "entry_rva": 58659,
+    "cached_import_load_rva": 58661,
+    "IAT_rva": 823672,
+    "calls": [
+      "0x58c8c",
+      "0x58cca",
+      "0x58d0a"
+    ],
+    "functions": [
+      {
+        "name": "_begin_first_line_forced_include",
+        "original_rva": 299738,
+        "caller_sites": [
+          "0x58ce8",
+          "0xe57d"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_at_source_buffer_start",
+        "original_rva": 299713,
+        "caller_sites": [
+          "0xe570",
+          "0x58cd4"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_begin_line_output",
+        "original_rva": 526268,
+        "caller_sites": [
+          "0x58cbc"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_splice_input_line",
+        "original_rva": 266581,
+        "caller_sites": [
+          "0x58d35"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_skip_newline_comment",
+        "original_rva": 59449,
+        "caller_sites": [
+          "0xe5ae"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_process_special_character",
+        "original_rva": 61329,
+        "caller_sites": [
+          "0x58d47"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_read_source_chunk",
+        "original_rva": 120312,
+        "caller_sites": [
+          "0xe6c5"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_process_trigraph",
+        "original_rva": 181317,
+        "caller_sites": [
+          "0x58d20"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      },
+      {
+        "name": "_read_directive_token",
+        "original_rva": 128351,
+        "caller_sites": [
+          "0xe58e"
+        ],
+        "convention": "cdecl",
+        "preserves": [
+          "esi"
+        ]
+      }
+    ],
+    "import": {
+      "dll": "msvcrt.dll",
+      "name": "fputc",
+      "convention": "cdecl",
+      "preserves": [
+        "esi"
+      ]
+    }
+  }
+}

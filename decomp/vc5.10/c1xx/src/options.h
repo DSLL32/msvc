@@ -141,5 +141,11 @@ typedef struct CompilerZRule {
 } CompilerZRule;
 
 /* The same original empty-string object supplies -il and LC_CTYPE. */
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern const char compiler_empty_string[];
+#ifdef __cplusplus
+}
+#endif
 #endif

@@ -23,14 +23,19 @@ typedef struct OutputBuffer {
     int RECON_THISCALL Open(const char *, const char *, const char *);
     int RECON_THISCALL Grow(int bytes);
     void RECON_THISCALL Flush(void);
+    void RECON_THISCALL FlushAlternate(void); /*93b58*/
     int RECON_THISCALL Ensure(int bytes);
     int RECON_THISCALL Prepare(int bytes);
     void RECON_THISCALL WriteIndex(unsigned value);
     int RECON_THISCALL WriteCompact(unsigned value);
     int RECON_THISCALL WriteBytes(const void *data, unsigned bytes);
     void RECON_THISCALL WriteUShort(unsigned value);
+    void RECON_THISCALL WriteEncodedShort(unsigned value); /*6e61*/
     void RECON_THISCALL WriteStringData(const void *data);
     void RECON_THISCALL WriteStringTag(unsigned value);
+    void RECON_THISCALL WriteCString(const char *text);
+    void RECON_THISCALL MarkLocation(unsigned index, unsigned kind);
+    void RECON_THISCALL MarkGlobal(unsigned index);
 #endif
 } OutputBuffer;
 

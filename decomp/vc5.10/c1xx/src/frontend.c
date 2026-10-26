@@ -93,7 +93,7 @@ FrontendData frontend_data = {
         0, /* move_pch */
         0 /* option_bcmpconv */
     },
-    -1, /* language_context_depth */
+    { -1 }, /* shared language_context_depth/declaration_mode_index, cd580 */
     C1XX_SCANNER_DEFAULTS,
     0, /* recursion_depth */
     NULL, NULL, 0, 0, NULL, 0, /* encountered driver data */
@@ -112,11 +112,98 @@ FrontendData frontend_data = {
     { 0,9,9,9,10,5,9,9,9,9,9,9,9,9,9,2,7,7,4,9,9,3,9,6,1,8 },
     { NULL },
     NULL, /* symbol-group hash table, cc5c8 */
-    0, -1, -1, NULL, 5, /* compiler flags, declaration indices, empty parameters, type arena */
+    0, -1, NULL, 5, /* compiler flags, declaration context, empty parameters, type arena */
     NULL, NULL, NULL, /* translation symbols and vector */
     -1, /* source include depth, cc22c */
     0, /* macro reset value, cc424 */
-    "......Unknown date......" /* cc3a0, includes both trailing NULs */
+    "......Unknown date......", /* cc3a0, includes both trailing NULs */
+    16, 0, /* next symbol index and optional global-location mode */
+    NULL, NULL, NULL, -1, -1, 0, /* source frame heads, descriptor, conditional depth, flags */
+    NULL, NULL, /* arrow and call operator names */
+    {
+        { 49, { { 19 }, { 19 } }, NULL },
+        { 52, { { 21 }, { 25 } }, NULL },
+        { 52, { { 23 }, { 25 } }, NULL },
+        { 59, { { 21 }, { 21 } }, NULL },
+        { 59, { { 23 }, { 25 } }, NULL },
+        { 76, { { 21 }, { 21 } }, NULL },
+        { 76, { { 23 }, { 25 } }, NULL },
+        { 62, { { 21 }, { 21 } }, NULL },
+        { 63, { { 21 }, { 21 } }, NULL },
+        { 68, { { 21 }, { 21 } }, NULL },
+        { 69, { { 21 }, { 21 } }, NULL },
+        { 50, { { 96 }, { 96 } }, NULL },
+        { 51, { { 19 }, { 19 } }, NULL },
+        { 77, { { 19 }, { 19 } }, NULL },
+        { 78, { { 19 }, { 19 } }, NULL },
+        { 79, { { 96 }, { 96 } }, NULL },
+        { 89, { { 19 }, { 0 } }, NULL },
+        { 91, { { 19 }, { 19 } }, NULL },
+        { 92, { { 19 }, { 19 } }, NULL },
+        { 56, { { 19 }, { 19 } }, NULL },
+        { 84, { { 19 }, { 0 } }, NULL },
+        { 64, { { 19 }, { 19 } }, NULL },
+        { 85, { { 19 }, { 0 } }, NULL },
+        { 57, { { 21 }, { 21 } }, NULL },
+        { 58, { { 21 }, { 21 } }, NULL },
+        { 60, { { 96 }, { 0 } }, NULL },
+        { 90, { { 21 }, { 0 } }, NULL },
+        { 70, { { 21 }, { 21 } }, NULL },
+        { 70, { { 22 }, { 19 } }, NULL },
+        { 70, { { 22 }, { 25 } }, NULL },
+        { 71, { { 21 }, { 21 } }, NULL },
+        { 71, { { 22 }, { 19 } }, NULL },
+        { 134, { { 21 }, { 0 } }, NULL },
+        { 81, { { 21 }, { 21 } }, NULL },
+        { 81, { { 22 }, { 19 } }, NULL },
+        { 81, { { 19 }, { 22 } }, NULL },
+        { 82, { { 21 }, { 21 } }, NULL },
+        { 82, { { 22 }, { 19 } }, NULL },
+        { 72, { { 21 }, { 21 } }, NULL },
+        { 73, { { 21 }, { 21 } }, NULL },
+        { 74, { { 21 }, { 21 } }, NULL },
+        { 61, { { 22 }, { 0 } }, NULL },
+        { 75, { { 21 }, { 21 } }, NULL },
+        { 67, { { 19 }, { 19 } }, NULL },
+        { 88, { { 19 }, { 19 } }, NULL },
+        { 66, { { 19 }, { 19 } }, NULL },
+        { 87, { { 19 }, { 19 } }, NULL },
+        { 147, { { 26 }, { 27 } }, NULL },
+        { 65, { { 22 }, { 19 } }, NULL },
+        { 65, { { 19 }, { 22 } }, NULL },
+        { 0, { { 0 }, { 0 } }, NULL },
+    },
+    NULL, /* zero integer constant */
+    NULL, NULL, /* free parameter sets / formal-parameter sentinel */
+    NULL, /* purecall symbol */
+    0, /* declaration scope number */
+    2, /* debug module kind */
+    0, /* browser alternate position */
+    NULL, /* active parser */
+    0, /* initial source setup */
+    0, /* diagnostic depth */
+    NULL, 0, 100, /* diagnostic records/count/next sequence */
+    compiler_token_text, /* token-text cursor pointer only */
+    0, /* check_completed_class_option, actual cd144 */
+    NULL, /* class_definition_head, actual cc5b0 */
+    NULL, /* class_layout_reference, actual ce114 */
+    NULL, /* declaration_lookup_owner, actual cd520 */
+    { 0, 0, 0 }, /* declaration cleanup DWORDs, cd4f4/cd4f8/cd4fc */
+    NULL, 0, /* secondary translation symbols and deferred-input depth */
+    NULL, /* pending declaration list, cc410 */
+    NULL, /* parser input-end state, cc600 */
+    NULL, NULL, /* borrowed expression-work current/head, ce06c/ce074 */
+    0, 0, /* declaration classification depth/state, cc210/cd584 */
+    NULL, /* active declaration parser, ce0d8 */
+    1, /* allocation operator, cd58c */
+    0, /* source exhausted, cc218 */
+    NULL, NULL, /* function result type / default code segment */
+    0, /* disable inline records */
+    1, /* auto inline, cd548 */
+    0x3fffff, /* function reference counter, ccb5c */
+    { 0xffffffff, 0xffffffff }, /* function location cache, cd6f4/f8 */
+    0, NULL, NULL, 8, 0, /* control option kind/text/list, inline depth/recursion */
+    1 /* line range warning, cd6fc */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -137,13 +224,41 @@ int initialize_compiler_pass(void)
         frontend_bss.saved_state = NULL;
         frontend_bss.cleanup_count = 0;
         frontend_bss.error_count = 0;
+        frontend_bss.suppress_parser_codegen = 0;
+        frontend_bss.declaration_nesting = 0;
+        frontend_bss.pending_member_queue = NULL;
+        frontend_bss.pending_member_error_count = 0;
+        frontend_bss.active_parameters = NULL;
+        frontend_bss.active_parameter_kind = 0;
+        frontend_bss.processing_pending_parser_input = 0;
+        frontend_bss.pending_parser_work = 0;
+        frontend_bss.qualified_lookup_recursion = 0;
+        frontend_bss.quoted_skip_mode = 0;
+        frontend_bss.lexical_skip_mode = 0;
+        memset(&frontend_bss.declaration_token_value, 0, sizeof(frontend_bss.declaration_token_value));
+        frontend_bss.tag_novtordisp = 0;
+        frontend_bss.type_scratch_index = 0;
+        for (i = 0; i < 16; ++i) {
+            DeclarationClassScope *row = &frontend_bss.class_scope_rows[i];
+            row->symbol = NULL; row->reset_04 = NULL; row->type = NULL;
+            row->reset_10 = row->reset_14 = 0;
+            row->reset_18 = row->state = 0;
+            row->reset_1c = row->access_flags = 0;
+        }
+        memset(&frontend_bss.first_type_scratch_frame, 0, sizeof(frontend_bss.first_type_scratch_frame));
+        memset(frontend_bss.numeric_literal_text, 0, sizeof(frontend_bss.numeric_literal_text));
+        memset(&frontend_bss.saved_token_value, 0, sizeof(frontend_bss.saved_token_value));
         frontend_bss.initial_option_flags = 0;
         frontend_bss.pch_input_ready = 0;
         frontend_bss.pch_input_file = NULL;
+        frontend_bss.tag_declaration_changed = 0;
         frontend_bss.global_expression_scope_active = 0;
         memset(&frontend_bss.saved_options, 0, sizeof(frontend_bss.saved_options));
         frontend_bss.forced_source_index = 0;
         frontend_bss.debug_module = NULL;
+        frontend_bss.pdb_signature = 0;
+        frontend_bss.browser_context_position = 0;
+        memset(frontend_bss.incremental_database_path, 0, sizeof(frontend_bss.incremental_database_path));
         frontend_bss.input = NULL;
         frontend_bss.preprocessed_stream = NULL;
         frontend_bss.text_input = NULL;
@@ -154,20 +269,30 @@ int initialize_compiler_pass(void)
         frontend_bss.preprocessor_output = NULL;
         frontend_bss.lexer_backend = NULL;
         frontend_bss.processor_instruction_mask = 0;
-        frontend_bss.declaration_context.class_flags = 0;
-        frontend_bss.declaration_context.context_flags = 0;
+        memset(&frontend_bss.declaration_context, 0, sizeof(frontend_bss.declaration_context));
         frontend_bss.declaration_depth = 0;
         frontend_bss.parser_context_depth = 0;
-        frontend_bss.default_declaration_mode = 0;
+        memset(frontend_bss.declaration_controls, 0, sizeof(frontend_bss.declaration_controls));
+        memset(frontend_bss.declaration_specs, 0, sizeof(frontend_bss.declaration_specs));
+        frontend_bss.parser_lookahead = NULL;
+        frontend_bss.parser_production = 0;
+        frontend_bss.source_control.declaration_mode = 0;
         memset(frontend_bss.macro_date_time, 0, sizeof(frontend_bss.macro_date_time));
         frontend_bss.macro_date = frontend_bss.macro_time = NULL;
         frontend_bss.global_output_active = 0;
+        frontend_bss.source_cursor = NULL;
+        frontend_bss.declaration_scope_mode = 0;
+        frontend_bss.external_declaration_mode = 0;
+        frontend_bss.current_parameters = NULL;
+        frontend_bss.current_parameter_kind = 0;
+        memset(frontend_bss.parser_qualification_scopes, 0, sizeof(frontend_bss.parser_qualification_scopes));
         frontend_bss.current_macro_text = NULL;
         frontend_bss.macro_token_cursor = frontend_bss.macro_text_cursor = NULL;
         frontend_bss.saved_macro_text_cursor = NULL;
         frontend_bss.forced_include_index = 0;
         frontend_bss.pending_forced_includes = NULL;
-        frontend_bss.parameter_contexts[0] = NULL;
+        frontend_bss.default_source_name = NULL;
+        memset(frontend_bss.parameter_contexts, 0, sizeof(frontend_bss.parameter_contexts));
         frontend_bss.expression_seek_result = 0;
         frontend_bss.symbol_arena_kind = 0;
         frontend_bss.saved_symbol_arenas = NULL;
@@ -175,6 +300,19 @@ int initialize_compiler_pass(void)
         frontend_bss.ir_line_delta = 0;
         frontend_bss.current_ir_symbol = NULL;
         frontend_bss.current_function = NULL;
+        frontend_bss.function_return_class = NULL;
+        frontend_bss.current_parser_expression = NULL;
+        memset(frontend_bss.function_reset_state, 0, sizeof(frontend_bss.function_reset_state));
+        frontend_bss.function_body_state = 0;
+        frontend_bss.stack_check_warning_emitted = 0;
+        frontend_bss.function_entry_label = NULL;
+        frontend_bss.function_parameter_count = 0;
+        frontend_bss.saved_reference_count = frontend_bss.local_reference_count = 0;
+        frontend_bss.alternate_output_flush = 0;
+        frontend_bss.control_text_count = 0;
+        frontend_bss.control_byte = 0;
+        frontend_bss.control_short = 0;
+        frontend_bss.function_source_position = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
         frontend_bss.context_stack.origin = NULL;
@@ -203,9 +341,11 @@ int initialize_compiler_pass(void)
                     sizeof(frontend_bss.output_buffers[i].filename));
         }
         frontend_bss.deferred_work = NULL;
-        frontend_bss.token_value.integer = 0;
+        frontend_bss.token_value.literal.type = NULL;
+        frontend_bss.token_value.literal.value = 0;
         frontend_bss.sentinel_token.kind = 0;
-        frontend_bss.sentinel_token.value.integer = 0;
+        frontend_bss.sentinel_token.value.literal.type = NULL;
+        frontend_bss.sentinel_token.value.literal.value = 0;
         frontend_bss.source_signature = 0;
         for (i = 0; i < sizeof(frontend_bss.pools) / sizeof(frontend_bss.pools[0]); ++i) {
             frontend_bss.pools[i].cursor = NULL;

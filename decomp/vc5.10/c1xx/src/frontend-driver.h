@@ -71,6 +71,7 @@ typedef struct CompilerPchSettings {
     unsigned pch_option_flags; /* RVA cd130 */
     int normalized_stack_checks, normalized_oq;
     int normalized_pool_strings, normalized_readonly_strings;
+    int check_completed_class_option; /* RVA cd144 -> c501c in PCH copy */
     int browser_enabled, browser_full;
 } CompilerPchSettings;
 #endif

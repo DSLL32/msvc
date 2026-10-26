@@ -1,5 +1,7 @@
+#include <string.h>
 #include "frontend.h"
 #include <recon.h>
+#pragma intrinsic(memset)
 
 BYTE *RECON_THISCALL CompilerArena::Allocate(unsigned bytes)
 {
@@ -135,4 +137,12 @@ extern "C" void initialize_include_aliases(void)
     if (arena->cursor > arena->committed_limit)
         arena->CommitExtent();
     frontend_data.options.include_aliases = (CompilerIncludeAliases *)root;
+}
+
+void RECON_THISCALL CompilerArena::ResetStorage(void)
+{
+    if (!frontend_data.recursion_depth) {
+        memset(base, 0, cursor - base);
+        cursor = base;
+    }
 }

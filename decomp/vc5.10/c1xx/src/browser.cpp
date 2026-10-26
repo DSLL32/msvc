@@ -16,7 +16,7 @@ struct CompilerNullBrowser : CompilerBackend {
     void RECON_THISCALL Slot14(unsigned);
     void RECON_THISCALL Slot18(void);
     void RECON_THISCALL Slot1c(unsigned);
-    void RECON_THISCALL Slot20(unsigned);
+    void RECON_THISCALL Slot20(CompilerSymbol *);
     void RECON_THISCALL Slot24(unsigned);
     void RECON_THISCALL Slot28(CompilerMacro *);
     void RECON_THISCALL Slot2c(void);
@@ -30,7 +30,12 @@ struct CompilerNullBrowser : CompilerBackend {
     void RECON_THISCALL Slot4c(unsigned);
     void RECON_THISCALL Slot50(unsigned);
     int RECON_THISCALL Slot54(unsigned, unsigned);
-    void RECON_THISCALL Slot5c(void);
+    int RECON_THISCALL Slot5c(void);
+    void RECON_THISCALL Slot60(void);
+    unsigned RECON_THISCALL Slot64(CompilerSymbol *);
+    void RECON_THISCALL Slot68(void *, unsigned);
+    void RECON_THISCALL Slot6c(void);
+    void RECON_THISCALL Slot70(void);
     RECON_FORCEINLINE CompilerNullBrowser() {}
 };
 
@@ -46,7 +51,7 @@ struct CompilerNamedBrowser : CompilerBackend {
     void RECON_THISCALL Slot14(unsigned);
     void RECON_THISCALL Slot18(void);
     void RECON_THISCALL Slot1c(unsigned);
-    void RECON_THISCALL Slot20(unsigned);
+    void RECON_THISCALL Slot20(CompilerSymbol *);
     void RECON_THISCALL Slot24(unsigned);
     void RECON_THISCALL Slot28(CompilerMacro *);
     void RECON_THISCALL Slot2c(void);
@@ -60,7 +65,12 @@ struct CompilerNamedBrowser : CompilerBackend {
     void RECON_THISCALL Slot4c(unsigned);
     void RECON_THISCALL Slot50(unsigned);
     int RECON_THISCALL Slot54(unsigned, unsigned);
-    void RECON_THISCALL Slot5c(void);
+    int RECON_THISCALL Slot5c(void);
+    void RECON_THISCALL Slot60(void);
+    unsigned RECON_THISCALL Slot64(CompilerSymbol *);
+    void RECON_THISCALL Slot68(void *, unsigned);
+    void RECON_THISCALL Slot6c(void);
+    void RECON_THISCALL Slot70(void);
     char *filename;
     /* Original allocation is 12 bytes; its unwritten final DWORD is unmodeled. */
     RECON_FORCEINLINE CompilerNamedBrowser(const char *name) : filename(_strdup(name)) {}
@@ -88,15 +98,19 @@ extern "C" CompilerBackend *__cdecl acquire_initial_backend(void)
     return frontend_data.initial_backend;
 }
 
-void RECON_THISCALL CompilerNullBrowser::Slot20(unsigned value0) { __asm { int 3 } }
+void RECON_THISCALL CompilerNullBrowser::Slot20(CompilerSymbol *value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNullBrowser::Slot28(CompilerMacro *macro)
 {
     if (frontend_data.browser_mode == 3)
         macro->identifier->flags |= 0x200000;
 }
-int RECON_THISCALL CompilerNullBrowser::Slot54(unsigned value0, unsigned value1) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullBrowser::Slot54(unsigned, unsigned) { return 1; }
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerNullBrowser::Slot5c(void) { __asm { int 3 } }
+int RECON_THISCALL CompilerNullBrowser::Slot5c(void)
+{
+    frontend_data.browser_mode = 0;
+    return 1;
+}
 void RECON_THISCALL CompilerNamedBrowser::Finish(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot04(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot08(void) { __asm { int 3 } }
@@ -105,7 +119,7 @@ void RECON_THISCALL CompilerNamedBrowser::Slot10(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot14(unsigned value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot18(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot1c(unsigned value0) { __asm { int 3 } }
-void RECON_THISCALL CompilerNamedBrowser::Slot20(unsigned value0) { __asm { int 3 } }
+void RECON_THISCALL CompilerNamedBrowser::Slot20(CompilerSymbol *value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot24(unsigned value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot28(CompilerMacro *value0) { __asm { int 3 } }
 void RECON_THISCALL CompilerNamedBrowser::Slot2c(void) { __asm { int 3 } }
@@ -120,4 +134,22 @@ void RECON_THISCALL CompilerNamedBrowser::Slot4c(unsigned value0) { __asm { int 
 void RECON_THISCALL CompilerNamedBrowser::Slot50(unsigned value0) { __asm { int 3 } }
 int RECON_THISCALL CompilerNamedBrowser::Slot54(unsigned value0, unsigned value1) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerNamedBrowser::ResetMode(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerNamedBrowser::Slot5c(void) { __asm { int 3 } }
+int RECON_THISCALL CompilerNamedBrowser::Slot5c(void) { __asm { int 3 } return 0; }
+
+void RECON_THISCALL CompilerNullBrowser::Slot60(void) { __asm { int 3 } }
+
+unsigned RECON_THISCALL CompilerNullBrowser::Slot64(CompilerSymbol *) { __asm { int 3 } return 0; }
+
+void RECON_THISCALL CompilerNullBrowser::Slot68(void *, unsigned) { __asm { int 3 } }
+
+void RECON_THISCALL CompilerNullBrowser::Slot70(void) {}
+
+void RECON_THISCALL CompilerNamedBrowser::Slot60(void) { __asm { int 3 } }
+
+unsigned RECON_THISCALL CompilerNamedBrowser::Slot64(CompilerSymbol *) { __asm { int 3 } return 0; }
+
+void RECON_THISCALL CompilerNamedBrowser::Slot68(void *, unsigned) { __asm { int 3 } }
+
+void RECON_THISCALL CompilerNamedBrowser::Slot6c(void) { __asm { int 3 } }
+
+void RECON_THISCALL CompilerNamedBrowser::Slot70(void) { __asm { int 3 } }

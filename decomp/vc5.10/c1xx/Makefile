@@ -10,9 +10,11 @@ BINARY_CRT_SOURCES = crt/startup.c
 BINARY_APP_SOURCES = src/dllmain.c src/exports.c src/frontend.c \
  src/initializers.c src/output.c src/pdb-context.c src/types.c src/options.c \
  src/option-matcher.c src/checksum.c src/scanner.c \
- src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp src/path.c src/packing.cpp src/driver.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/token-init.cpp src/keywords.cpp src/pointer-array.cpp src/expression-output.cpp src/output-file.cpp src/integer-node.cpp src/ir-writer.cpp src/output-grow.cpp src/preprocessor.cpp src/global-output.cpp
+ src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp src/path.c src/packing.cpp src/driver.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/token-init.cpp src/keywords.cpp src/pointer-array.cpp src/expression-output.cpp src/output-file.cpp src/integer-node.cpp src/ir-writer.cpp src/output-grow.cpp src/preprocessor.cpp src/global-output.cpp src/token-names.cpp
+BINARY_APP_SOURCES += src/declaration.cpp src/debug-init.cpp src/parser-grammar.cpp src/parser.cpp src/parser-pending.cpp src/parser-token.cpp src/lexer.cpp src/lexer-pending.cpp src/builtin-source.cpp src/diagnostics.cpp src/numeric-token.cpp src/pragma.cpp
+BINARY_APP_SOURCES += src/function-resolution.cpp src/declaration-grammar.cpp src/string-literals.cpp src/context-record.cpp
 BINARY_SOURCES = $(BINARY_CRT_SOURCES) $(BINARY_APP_SOURCES)
-BINARY_HARNESS_SOURCES = harness/lifecycle.c harness/minimal.c harness/input-checks.cpp harness/output-checks.cpp
+BINARY_HARNESS_SOURCES = harness/lifecycle.c harness/minimal.c harness/input-checks.cpp harness/output-checks.cpp harness/global-output-checks.cpp
 BINARY_SUPPORT_SOURCES = $(BINARY_HARNESS_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
 ORIGINAL_TOOLCHAIN = 5.10
@@ -59,4 +61,12 @@ build/host/c1xx-host.exe: build/host/original-host.obj
 	$(ORIGINAL_LINK) /nologo /subsystem:console /out:$@ $< $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB
 
 # Only helpers proven inlined into the original initializer may inline.
-build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj: ORIGINAL_CFLAGS += /Ob1
+build/obj/src/parser-token.cpp.obj build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj build/obj/src/debug-init.cpp.obj build/obj/src/parser.cpp.obj build/obj/src/lexer.cpp.obj build/obj/src/function-resolution.cpp.obj: ORIGINAL_CFLAGS += /Ob1
+
+# This target-specific generator expands the authenticated C++ parser's yacc
+# compression into logical shift/goto/reduction/recovery relations.
+src/parser-grammar.cpp src/parser-grammar.h &: scripts/parser-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL
+	python3 scripts/parser-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL --header src/parser-grammar.h --source src/parser-grammar.cpp
+
+src/declaration-grammar.cpp src/declaration-grammar.h &: scripts/declaration-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL
+	python3 scripts/declaration-grammar.py ../../../toolchains/5.10/bin/C1XX.DLL --header src/declaration-grammar.h --source src/declaration-grammar.cpp

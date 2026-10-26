@@ -17,6 +17,7 @@ typedef struct CompilerPdbContext {
     PdbStreamState *stream_state;
     int read_mode;
 #ifdef __cplusplus
+    int RECON_THISCALL Open(const char *, unsigned *, unsigned *, unsigned, const char *);
     void RECON_THISCALL Finish(void);
 #endif
 } CompilerPdbContext;

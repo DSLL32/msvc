@@ -3,190 +3,597 @@
 #include <recon.h>
 
 static const uint32_t order[] = {
-    0x2e52a, /* DllMain */
-    0x384d4, /* InvokeCompilerPass */
-    0x38550, /* initialize_compiler_pass */
-    0x233ba, /* checked_malloc */
-    0x38610, /* initialize_frontend_01 */
-    0x38622, /* initialize_frontend_02 */
-    0x38634, /* initialize_frontend_03 */
-    0x3864f, /* initialize_frontend_04 */
-    0x38650, /* initialize_frontend_05 */
-    0x38651, /* initialize_frontend_06 */
-    0x38652, /* initialize_frontend_07 */
-    0x3865f, /* initialize_frontend_08 */
-    0x38666, /* initialize_output_buffer_01 */
-    0x386ae, /* register_cleanup */
-    0x386d4, /* initialize_frontend_09 */
-    0x386db, /* initialize_output_buffer_02 */
-    0x38723, /* initialize_frontend_10 */
-    0x3872a, /* initialize_output_buffer_03 */
-    0x38772, /* initialize_frontend_11 */
-    0x38779, /* initialize_output_buffer_04 */
-    0x387c1, /* initialize_frontend_12 */
-    0x387c8, /* initialize_output_buffer_05 */
-    0x38810, /* initialize_frontend_13 */
-    0x38817, /* initialize_output_buffer_06 */
-    0x3885f, /* initialize_frontend_14 */
-    0x38866, /* initialize_output_buffer_07 */
-    0x388ae, /* initialize_frontend_15 */
-    0x388b5, /* initialize_output_buffer_08 */
-    0x388fd, /* initialize_frontend_16 */
-    0x38904, /* initialize_deferred_work */
-    0x3891d, /* initialize_frontend_17 */
-    0x3891e, /* initialize_frontend_18 */
-    0x3893b, /* initialize_frontend_19 */
-    0x3893c, /* initialize_frontend_20 */
-    0x3893d, /* initialize_frontend_21 */
-    0x38948, /* initialize_frontend_22 */
-    0x3894f, /* initialize_pdb_context_01 */
-    0x38988, /* initialize_frontend_23 */
-    0x3898f, /* initialize_pdb_context_02 */
-    0x389c8, /* initialize_frontend_24 */
-    0x389d5, /* _ZN12CompilerPool10InitializeEj */
-    0x389eb, /* initialize_frontend_25 */
-    0x389f8, /* initialize_frontend_26 */
-    0x38a05, /* initialize_frontend_27 */
-    0x38a12, /* initialize_frontend_28 */
-    0x38a1f, /* initialize_frontend_29 */
-    0x38a2c, /* initialize_frontend_30 */
-    0x38a39, /* initialize_frontend_31 */
-    0x38a46, /* initialize_frontend_32 */
-    0x38a53, /* initialize_frontend_33 */
-    0x38a60, /* initialize_frontend_34 */
-    0x38a6b, /* initialize_type_ranks */
-    0x38ab6, /* initialize_frontend_35 */
-    0x38ab7, /* initialize_frontend_36 */
-    0x38ad8, /* initialize_frontend_37 */
-    0x3bd41, /* _ZN10PchContext10InitializeEv */
-    0x38ae2, /* initialize_frontend_38 */
-    0x38aef, /* initialize_frontend_39 */
-    0x38af9, /* initialize_generated_comment */
-    0x38be9, /* initialize_frontend_40 */
-    0x38bea, /* initialize_frontend_41 */
-    0x38bfc, /* initialize_frontend_42 */
-    0x38bfd, /* c1xx_main */
-    0x38c86, /* initialize_work_buffers */
-    0x38cc9, /* reserve_work_buffer */
-    0x38d07, /* initialize_intermediate_files */
-    0x38d56, /* process_early_option */
-    0x38df0, /* initialize_frontend_hook */
-    0x38df1, /* initialize_compiler_environment */
-    0x38e33, /* initialize_default_arena */
-    0x38e70, /* _ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh */
-    0x38ed2, /* calculate_arena_reservation */
-    0x38f0a, /* _ZN13CompilerArena5ResetEv */
-    0x38f1b, /* initialize_pool_arenas */
-    0x38f94, /* _ZN12CompilerPool9BindArenaEj */
-    0x1ee29, /* _ZN12CompilerPool6RefillEj */
-    0x1ee58, /* _ZN13CompilerArena13AllocatePagesEjPj */
-    0x1d738, /* _ZN13CompilerArena12CommitExtentEv */
-    0x38fad, /* process_compiler_options */
-    0x2b834, /* push_declaration_context */
-    0x39282, /* initialize_include_aliases */
-    0x392a8, /* initialize_checksums */
-    0x39394, /* initialize_multibyte_categories */
-    0x393ca, /* initialize_lowercase_table */
-    0x39413, /* read_env_arguments */
-    0x682f, /* new_option_vector */
-    0x39428, /* next_argument */
-    0x3944a, /* match_option */
-    0x39632, /* apply_option_action */
-    0x39779, /* parse_option_integer */
-    0x39757, /* match_option_suffix */
-    0x100ea, /* append_option_vector */
-    0x397db, /* resolve_option_path */
-    0x398cd, /* normalize_path */
-    0x3990d, /* initialize_packing */
-    0x39949, /* allocate_packing_storage */
-    0x2b85a, /* CompilerPacking::AcquireFrame */
-    0x2b89d, /* push_packing */
-    0x39974, /* compile_translation_unit */
-    0x399cb, /* run_compiler */
-    0x39d42, /* initialize_frontend */
-    0x3a434, /* create_input */
-    0x3a483, /* normalize_frontend_options */
-    0x3a4a7, /* begin_browser_output */
-    0x7ca9, /* acquire_initial_backend */
-    0x3a4d3, /* initialize_preprocessor */
-    0x3a54b, /* initialize_keyword_table */
-    0x3a57c, /* initialize_language_keywords */
-    0x3aa9a, /* intern_identifier */
-    0x3abf1, /* unreserve_keyword */
-    0x3ac0b, /* set_keyword_category3 */
-    0x3ac37, /* set_keyword_category1 */
-    0x3ac63, /* set_keyword_category5 */
-    0x3ac8f, /* set_keyword_category4 */
-    0x3acbb, /* initialize_line_tables */
-    0x3acbc, /* initialize_frontend_tables */
-    0x14954, /* new_pointer_array */
-    0x149ba, /* pointer_array_size */
-    0x3acef, /* open_expression_output */
-    0x3bd53, /* OutputBuffer::Open */
-    0x3fc2, /* make_integer_constant */
-    0x3fdc, /* allocate_integer_constant */
-    0x3296, /* write_ir_record */
-    0x11b1, /* write_current_source_line */
-    0x11c3, /* OutputBuffer::Ensure */
-    0x2e323, /* OutputBuffer::Grow */
-    0x3982, /* OutputBuffer::Flush */
-    0x3ae14, /* initialize_type_table */
-    0x1000, /* intern_type */
-    0x3aea7, /* initialize_global_scope */
-    0x3aebc, /* initialize_builtin_symbols */
-    0x6608, /* find_or_create_identifier */
-    0x3aee6, /* CompilerTranslationUnit::Initialize */
-    0x6897, /* recycle_symbol */
-    0x690d, /* CompilerArena::Allocate */
-    0x7cb7, /* CompilerSymbol::Initialize */
-    0x3b05d, /* initialize_symbol_groups */
-    0x1d287, /* create_hash_table */
-    0x3840e, /* make_function_type */
-    0x3849a, /* CompilerDeclarator::Initialize */
-    0x692c, /* make_abstract_declarator */
-    0x7d17, /* CompilerDeclarator::AddFunction */
-    0x7e1a, /* CompilerParameterDescription::Normalize */
-    0x7e51, /* create_type_shape */
-    0x7e8d, /* CompilerDeclarator::AppendShape */
-    0x23667, /* CompilerDeclarator::ApplyQualifiers */
-    0x7f68, /* CompilerDeclarator::Resolve */
-    0x81cc, /* CompilerDeclarator::NormalizeBase */
-    0x8334, /* find_declarator_type */
-    0x83d3, /* link_parameter_symbols */
-    0x8408, /* CompilerTypeShape::SetParameters */
-    0x842e, /* create_function_parameters */
-    0x1db84, /* empty_parameter_types */
-    0x84f9, /* intern_function_type */
-    0x85c5, /* CompilerDeclarator::ValidateShapes */
-    0x8730, /* CompilerDeclarator::DefaultCallingConvention */
-    0x87b2, /* CompilerDeclarator::ValidateContext */
-    0x87c3, /* CompilerTypeShape::InternChain */
-    0x10cc, /* intern_type_shape */
-    0x87ed, /* CompilerDeclarator::BuildType */
-    0x3b077, /* make_tagged_type */
-    0x1d81d, /* normalize_shape_attributes */
-    0x11f9, /* create_declarator_shape */
-    0x3b10c, /* initialize_intermediate_output */
-    0x3b10d, /* initialize_translation_state */
-    0x23688, /* allocate_symbol_storage */
-    0x3b253, /* define_command_line_macros */
-    0x3b444, /* get_compilation_time */
-    0x3b453, /* format_predefined_time */
-    0x3b4b6, /* initialize_macro_buffers */
-    0x236c5, /* define_preprocessor_macro */
-    0x23837, /* CompilerNullBrowser::Slot28 */
-    0x3b4da, /* define_command_line_macro */
-    0x2e54d, /* write_global_header */
-    0x16d4, /* write_global_ir_record */
+    0x2e52a,
+    0x384d4,
+    0x38550,
+    0x233ba,
+    0x38610,
+    0x38622,
+    0x38634,
+    0x3864f,
+    0x38650,
+    0x38651,
+    0x38652,
+    0x3865f,
+    0x38666,
+    0x386ae,
+    0x386d4,
+    0x386db,
+    0x38723,
+    0x3872a,
+    0x38772,
+    0x38779,
+    0x387c1,
+    0x387c8,
+    0x38810,
+    0x38817,
+    0x3885f,
+    0x38866,
+    0x388ae,
+    0x388b5,
+    0x388fd,
+    0x38904,
+    0x3891d,
+    0x3891e,
+    0x3893b,
+    0x3893c,
+    0x3893d,
+    0x38948,
+    0x3894f,
+    0x38988,
+    0x3898f,
+    0x389c8,
+    0x389d5,
+    0x389eb,
+    0x389f8,
+    0x38a05,
+    0x38a12,
+    0x38a1f,
+    0x38a2c,
+    0x38a39,
+    0x38a46,
+    0x38a53,
+    0x38a60,
+    0x38a6b,
+    0x38ab6,
+    0x38ab7,
+    0x38ad8,
+    0x3bd41,
+    0x38ae2,
+    0x38aef,
+    0x38af9,
+    0x38be9,
+    0x38bea,
+    0x38bfc,
+    0x38bfd,
+    0x38c86,
+    0x38cc9,
+    0x38d07,
+    0x38d56,
+    0x38df0,
+    0x38df1,
+    0x38e33,
+    0x38e70,
+    0x38ed2,
+    0x38f0a,
+    0x38f1b,
+    0x38f94,
+    0x1ee29,
+    0x1ee58,
+    0x1d738,
+    0x38fad,
+    0x2b834,
+    0x39282,
+    0x392a8,
+    0x39394,
+    0x393ca,
+    0x39413,
+    0x682f,
+    0x39428,
+    0x3944a,
+    0x39632,
+    0x39779,
+    0x39757,
+    0x100ea,
+    0x397db,
+    0x398cd,
+    0x3990d,
+    0x39949,
+    0x2b85a,
+    0x2b89d,
+    0x39974,
+    0x399cb,
+    0x39d42,
+    0x3a434,
+    0x3a483,
+    0x3a4a7,
+    0x7ca9,
+    0x3a4d3,
+    0x3a54b,
+    0x3a57c,
+    0x3aa9a,
+    0x3abf1,
+    0x3ac0b,
+    0x3ac37,
+    0x3ac63,
+    0x3ac8f,
+    0x3acbb,
+    0x3acbc,
+    0x14954,
+    0x149ba,
+    0x3acef,
+    0x3bd53,
+    0x3fc2,
+    0x3fdc,
+    0x3296,
+    0x11b1,
+    0x11c3,
+    0x2e323,
+    0x3982,
+    0x3ae14,
+    0x1000,
+    0x3aea7,
+    0x3aebc,
+    0x6608,
+    0x3aee6,
+    0x6897,
+    0x690d,
+    0x7cb7,
+    0x3b05d,
+    0x1d287,
+    0x3840e,
+    0x3849a,
+    0x692c,
+    0x7d17,
+    0x7e1a,
+    0x7e51,
+    0x7e8d,
+    0x23667,
+    0x7f68,
+    0x81cc,
+    0x8334,
+    0x83d3,
+    0x8408,
+    0x842e,
+    0x1db84,
+    0x84f9,
+    0x85c5,
+    0x8730,
+    0x87b2,
+    0x87c3,
+    0x10cc,
+    0x87ed,
+    0x3b077,
+    0x1d81d,
+    0x11f9,
+    0x3b10c,
+    0x3b10d,
+    0x23688,
+    0x3b253,
+    0x3b444,
+    0x3b453,
+    0x3b4b6,
+    0x236c5,
+    0x23837,
+    0x3b4da,
+    0x2e54d,
+    0x16d4,
+    0x23a95,
+    0x23b53,
+    0xe132,
+    0x23c28,
+    0x23c7a,
+    0x23c9f,
+    0x23f79,
+    0x1d5f8,
+    0x1d736,
+    0x1d737,
+    0x3b5e4,
+    0x3b6da,
+    0x48f3e,
+    0x48faf,
+    0x48fcd,
+    0x968d,
+    0x48cc7,
+    0x28de4,
+    0x2b8c2,
+    0x219a2,
+    0x97ce,
+    0xa130,
+    0xa14e,
+    0xa16c,
+    0x24704,
+    0x4917e,
+    0x48d1b,
+    0xfaa5,
+    0xfb1c,
+    0x24541,
+    0xa183,
+    0xa1bc,
+    0xa1f5,
+    0xa4eb,
+    0xabad,
+    0xabf7,
+    0xac10,
+    0xad39,
+    0xad4a,
+    0xad89,
+    0xae28,
+    0xae64,
+    0xaf1a,
+    0xaf46,
+    0xb0d6,
+    0xb1f6,
+    0x2424a,
+    0x241de,
+    0x24203,
+    0xb2b6,
+    0xb2e6,
+    0x4924e,
+    0x4925e,
+    0x4507e,
+    0xb871,
+    0x1dc55,
+    0x1dca3,
+    0x3b7a0,
+    0x3ba7a,
+    0x3bbda,
+    0x3bc12,
+    0x1c7f0,
+    0x3be24,
+    0x3c7b7,
+    0x19d20,
+    0x1d140,
+    0x401f,
+    0x3b718,
+    0x2e5f1,
+    0x2e672,
+    0x2e67e,
+    0x2e689,
+    0xb95c,
+    0x8848,
+    0x898e,
+    0xe523,
+    0x492c1,
+    0x492da,
+    0x4933e,
+    0x48ea9,
+    0x4b019,
+    0x49393,
+    0x33f6d,
+    0x34178,
+    0x3417e,
+    0x34265,
+    0x420f5,
+    0x493e7,
+    0x4b02d,
+    0x49490,
+    0x1300,
+    0x288c5,
+    0x1f55f,
+    0xe339,
+    0x1f4cb,
+    0x23847,
+    0xe824,
+    0x1fe48,
+    0x23a02,
+    0x1dbdb,
+    0x1dd20,
+    0xf4bd,
+    0xf953,
+    0xf9b7,
+    0xfa2d,
+    0xfa4f,
+    0x1fe6d,
+    0x1deba,
+    0x1fed1,
+    0x11ab,
+    0x1dd9e,
+    0x288cd,
+    0x40f01,
+    0x1ddd9,
+    0x410e8,
+    0x205b4,
+    0xbf6e,
+    0xe8f4,
+    0xcd8f,
+    0xd00d,
+    0x1f148,
+    0x1ef4e,
+    0x2489c,
+    0x2499a,
+    0x24d82,
+    0x24e7b,
+    0x250e9,
+    0x25107,
+    0x25224,
+    0x1e66d,
+    0x25258,
+    0x254d5,
+    0x25571,
+    0x25699,
+    0x24dcd,
+    0x255cc,
+    0x24ded,
+    0x24e65,
+    0xd3b0,
+    0xf4b5,
+    0xd5b4,
+    0xd416,
+    0xbf5d,
+    0x244c0,
+    0x256c1,
+    0x71f0,
+    0x1defd,
+    0x1ded1,
+    0x71d9,
+    0x1df55,
+    0xd858,
+    0xd86e,
+    0x259dd,
+    0x25a4b,
+    0x1d968,
+    0x25b6b,
+    0x2360c,
+    0x7363,
+    0xdb4c,
+    0xd555,
+    0xd2cf,
+    0x25b87,
+    0xd6a2,
+    0xbf88,
+    0xc2ad,
+    0xd677,
+    0xd70f,
+    0xfdb1,
+    0xfbed,
+    0xd7ce,
+    0x25ba1,
+    0x2643a,
+    0x2ab5,
+    0x2add,
+    0x2aee,
+    0x7118,
+    0x2648e,
+    0x137b,
+    0x1454,
+    0x2678f,
+    0x263e8,
+    0x26405,
+    0x23478,
+    0x26806,
+    0x263a6,
+    0xdfcb,
+    0xdfc6,
+    0xd8c2,
+    0x26828,
+    0x269a6,
+    0x269bf,
+    0x26a17,
+    0x7add,
+    0x1da40,
+    0x1da7f,
+    0x1d9ac,
+    0x26c14,
+    0x26c6f,
+    0x26e22,
+    0x2719e,
+    0x7321,
+    0x27523,
+    0x27553,
+    0x27797,
+    0x277df,
+    0x27964,
+    0x27bc8,
+    0x247d3,
+    0x1e271,
+    0x1e2c4,
+    0x26811,
+    0x1d8f4,
+    0x1e3be,
+    0x26ede,
+    0x2728e,
+    0x27349,
+    0x27757,
+    0x2b263,
+    0x79a0,
+    0x2b3df,
+    0x28b78,
+    0x28b91,
+    0x713c,
+    0x1d179,
+    0x7375,
+    0x73a5,
+    0x143d,
+    0x1e43a,
+    0x7af2,
+    0x7769,
+    0x1e4d5,
+    0x7b7b,
+    0x2b4ab,
+    0x2b4ef,
+    0x2b6bb,
+    0x2b72e,
+    0x2b760,
+    0x2b428,
+    0x1d166,
+    0x27c62,
+    0x27c7b,
+    0x27d10,
+    0x27d1b,
+    0x27db1,
+    0x27e02,
+    0x27e46,
+    0x27f3f,
+    0x27ce0,
+    0x2807d,
+    0x2815c,
+    0x282d0,
+    0x2831f,
+    0x2838b,
+    0x28416,
+    0x284f8,
+    0x28738,
+    0x7bff,
+    0x7c99,
+    0x2879f,
+    0x28835,
+    0x27c50,
+    0x28852,
+    0x28895,
+    0x2b78a,
+    0x1d81a,
+    0x2b7ac,
+    0x2b7db,
+    0x2b7f8,
+    0x2b830,
+    0x1d78f,
+    0xd2a9,
+    0x37b4d,
+    0x1d3c8,
+    0x72be,
+    0xd9d1,
+    0xdb42,
+    0xdb78,
+    0xdba7,
+    0xdec1,
+    0xdefb,
+    0xf139,
+    0xd539,
+    0xd541,
+    0xd590,
+    0xd739,
+    0xd7f3,
+    0xd8b7,
+    0x37497,
+    0x374b7,
+    0x37508,
+    0x374c1,
+    0xfc20,
+    0xfc66,
+    0xfdb4,
+    0xe008,
+    0xfdd6,
+    0xfdda,
+    0xe00c,
+    0xe01e,
+    0xfdf6,
+    0xe028,
+    0xe049,
+    0x424ef,
+    0x1437,
+    0x1eea1,
+    0x1eeef,
+    0x1522,
+    0x2088a,
+    0x14d0,
+    0x244d0,
+    0x2457d,
+    0x1e083,
+    0x45ea4,
+    0xcc67,
+    0x1e12d,
+    0x6e9b,
+    0x705a,
+    0xced9,
+    0xd233,
+    0xd38f,
+    0x2791b,
+    0x29495,
+    0x29511,
+    0x29786,
+    0x299fd,
+    0x29c0c,
+    0x29c9c,
+    0x29cc5,
+    0x29d46,
+    0x29d52,
+    0x29d70,
+    0x2a384,
+    0x24526,
+    0x46520,
+    0x465c9,
+    0x2a385,
+    0xfe4c,
+    0x10064,
+    0x10074,
+    0x1008f,
+    0x41ec5,
+    0xfbf6,
+    0xe088,
+    0xfe0f,
+    0x41f2a,
+    0x42072,
+    0x42489,
+    0x424c9,
+    0x37187,
+    0x373e3,
+    0x37411,
+    0x3d241,
+    0x31da6,
+    0x40bf7,
+    0x78e0,
+    0x79f0,
+    0x7bb6,
+    0x23433,
+    0x7a5d,
+    0x28d18,
+    0x205cc,
+    0x205cf,
+    0x207eb,
+    0x4952b,
+    0x19920,
+    0x404c,
+    0x4128,
+    0x67ed,
+    0x4133,
+    0x4141,
+    0x19d7c,
+    0x42e2,
+    0x4417,
+    0x6a19,
+    0x6dbb,
+    0x4523,
+    0x241c8,
+    0x24015,
+    0x1301,
+    0x6e1f,
+    0x6e61,
+    0x4547,
+    0x46f3,
 };
+extern int c1xx_test_qualifier_clear(void);
+extern int c1xx_test_parameter_description(void);
+extern int c1xx_test_arena_storage_reset(void);
 extern int c1xx_test_exception_counters(void);
+extern int c1xx_test_global_header(void);
 extern int c1xx_test_input_alias(void);
 extern int c1xx_test_browser_aliases(void);
 extern int c1xx_test_output_growth(void);
 extern int c1xx_test_scope_table(void);
 extern int c1xx_test_recycled_symbol(void);
+extern int c1xx_test_debug_table(void);
+extern int c1xx_test_recorded_lexer_table(void);
+extern int c1xx_test_literal_storage(void);
+extern int c1xx_test_expression_storage(void);
+extern int c1xx_test_declaration_callback_owner(void);
+extern int c1xx_test_parser_semantic_slots(void);
+extern int c1xx_test_saved_lookup_state(void);
+extern int c1xx_test_class_scope_tables(void);
 static const ReconTest tests[] = {
+    { "parameter-description-fields", 1, c1xx_test_parameter_description },
+    { "declarator-qualifier-clear", 1, c1xx_test_qualifier_clear },
+    { "arena-storage-reset", 1, c1xx_test_arena_storage_reset },
+    { "class-scope-tables", 1, c1xx_test_class_scope_tables },
+    { "saved-lookup-state", 1, c1xx_test_saved_lookup_state },
+    { "parser-semantic-slots", 1, c1xx_test_parser_semantic_slots },
+    { "declaration-callback-owner", 1, c1xx_test_declaration_callback_owner },
+    { "literal-storage-copy", 1, c1xx_test_literal_storage },
+    { "expression-storage-layout", 1, c1xx_test_expression_storage },
+    { "recorded-lexer-vtable", 1, c1xx_test_recorded_lexer_table },
+    { "debug-virtual-table", 1, c1xx_test_debug_table },
     { "frontend-state-restore", 1, c1xx_test_exception_counters },
+    { "global-header-record", 1, c1xx_test_global_header },
     { "input-reset-alias", 1, c1xx_test_input_alias },
     { "browser-method-aliases", 1, c1xx_test_browser_aliases },
     { "output-buffer-growth", 1, c1xx_test_output_growth },
@@ -195,7 +602,7 @@ static const ReconTest tests[] = {
 };
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "minimal-cpp",
-    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; accepted partial compilation ends at the genuine write_global_ir_record INT3. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
+    "Actual CL-derived Invoke26/BOOL1 on minimal.cpp; Current partial compilation ends at the pending internal-label constructor. Typed loader host forwards the actual 26 arguments; MSC_CMD_FLAGS is absent, with no claim about unconsumed Windows environment names.",
     order, RECON_COUNT(order), NULL, 0,
-    RECON_IO, RECON_FRONTIER, 0x16d4, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
+    RECON_IO, RECON_FRONTIER, 0x46f3, c1xx_case_minimal_setup, c1xx_case_minimal, NULL, tests, RECON_COUNT(tests)
 };

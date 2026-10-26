@@ -1,9 +1,11 @@
 #include <stdio.h>
+#include <new.h>
 #include <string.h>
 #include "frontend.h"
 #include "pdb-context.h"
 #include "frontend-init.h"
-#pragma intrinsic(memcpy)
+#include "parser.h"
+#pragma intrinsic(memcpy, strlen)
 #include <recon.h>
 
 /* C1XX imports MSVCRT's FILE array directly. The supplied /MD SDK instead
@@ -26,7 +28,7 @@ void __cdecl initialize_parser(void);
 void __cdecl initialize_compilation_output(void);
 void __cdecl initialize_parser_tables(void);
 void __cdecl initialize_semantic_context(void);
-void __cdecl parse_translation_unit(void);
+int __cdecl parse_translation_unit(void);
 void __cdecl write_ir_record(int, const void *);
 void __cdecl write_global_header(void);
 void *__cdecl make_integer_constant(int);
@@ -82,6 +84,7 @@ int __cdecl report_response_error(int, ...);
     frontend_bss.saved_options.exception_handling = frontend_data.options.exception_handling; \
     frontend_bss.saved_options.runtime_type_info = frontend_data.options.runtime_type_info; \
     frontend_bss.saved_options.no_bool = frontend_data.options.no_bool; \
+    frontend_bss.saved_options.check_completed_class_option = frontend_data.class_completion_checks; \
     frontend_bss.saved_options.dependency_output = frontend_data.options.dependency_output; \
     frontend_bss.saved_options.incremental_rebuild = frontend_data.options.incremental_rebuild; \
     frontend_bss.saved_options.optimize_speed = frontend_data.options.optimize_speed; \
@@ -237,16 +240,105 @@ finish_streams:
     return frontend_bss.error_count + (frontend_bss.options.warnings_are_errors > 1);
 }
 
-extern "C" unsigned __cdecl pack_option_flags(void) { __asm { int 3 } return 0; }
-extern "C" void __cdecl prepare_translation_unit(void) { __asm { int 3 } }
+extern "C" unsigned __cdecl pack_option_flags(void)
+{
+    /* The21 logical bit positions and their nine live option aliases come
+     * from the encountered C1XX option map at CDB78. NULL slots stay clear. */
+    static const int *const options[21] = {
+        &frontend_data.normalized_stack_checks,
+        NULL, NULL, NULL, NULL, NULL,
+        &frontend_data.options.assume_no_alias,
+        &frontend_data.options.assume_no_global_alias,
+        &frontend_data.options.optimize_speed,
+        NULL,
+        &frontend_data.options.global_optimize,
+        NULL, NULL,
+        &frontend_data.options.precise_float,
+        NULL, NULL, NULL,
+        &frontend_data.normalized_oq,
+        &frontend_data.options.option_ov,
+        NULL,
+        &frontend_data.options.omit_frame_pointer
+    };
+    unsigned packed = 0, bit = 0x80000000U, i;
+    for (i = 0; i < 21; ++i, bit >>= 1)
+        if (options[i] && *options[i]) packed |= bit;
+    return packed;
+}
+/* The actual byte appender at89672 bounds the shared token buffer by its
+ * C0BC8..C13C8 interval. This later lexer owner is source-only here: no native
+ * default/snapshot claim precedes the first supported writer. */
+char compiler_token_text[2048];
+struct CompilerVersionRecord {
+    BYTE kind, storage_kind;
+    BYTE unmodeled_02[14];
+    char *text;
+    WORD length;
+};
+extern "C" void __cdecl process_version_literal(CompilerVersionRecord *);
+extern "C" void __cdecl record_version_literal(CompilerVersionRecord *);
+extern "C" void __cdecl prepare_translation_unit(void)
+{
+    if (frontend_bss.options.version_string) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("version literal: unmodeled record and shared text state");
+#endif
+        CompilerArena *arena = &frontend_bss.arenas[frontend_data.constant_arena_index];
+        CompilerVersionRecord *record = (CompilerVersionRecord *)arena->cursor;
+        arena->cursor += 24;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        record->storage_kind = 5;
+        record->kind = 7;
+        record->length = (WORD)(strlen(frontend_bss.options.version_string) + 1);
+        record->text = compiler_token_text;
+        memcpy(record->text, frontend_bss.options.version_string, record->length);
+        process_version_literal(record);
+        record_version_literal(record);
+        frontend_bss.global_expression_scope_active = 1;
+    }
+}
+extern "C" void __cdecl process_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
+extern "C" void __cdecl record_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
 extern "C" void __cdecl load_precompiled_header(const char *path, int required) { __asm { int 3 } }
 extern "C" void __cdecl begin_automatic_pch(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_debug_info(int mode) { __asm { int 3 } }
 extern "C" void __cdecl initialize_parser(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_semantic_context(void) { __asm { int 3 } }
-extern "C" void __cdecl parse_translation_unit(void) { __asm { int 3 } }
-extern "C" CompilerBackend *__cdecl acquire_backend(void) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl parse_translation_unit(void)
+{
+    CompilerParser *previous = frontend_data.active_parser;
+    TokenValue saved_value;
+    /* Save/restore the real40-byte storage, retaining opaque bytes without
+     * interpreting other semantic arms or asserting their defaults. */
+    memcpy(&saved_value, &frontend_bss.token_value, sizeof(saved_value));
+    void *memory = ::operator new(sizeof(CompilerParser));
+    frontend_data.active_parser = memory ? ((CompilerParser *)memory)->Initialize() : NULL;
+    int result = frontend_data.active_parser->Run();
+    if (frontend_data.active_parser) {
+        frontend_data.active_parser->Finish();
+        ::operator delete(frontend_data.active_parser);
+    }
+    frontend_data.active_parser = previous;
+    memcpy(&frontend_bss.token_value, &saved_value, sizeof(saved_value));
+    return result;
+}
+CompilerParser *RECON_THISCALL CompilerParser::Initialize(void)
+{
+    Reset();
+    return this;
+}
+void RECON_THISCALL CompilerParser::Reset(void)
+{
+    reset_value = 0;
+    recovery_shifts = 0;
+    syntax_errors = 0;
+}
+void RECON_THISCALL CompilerParser::Finish(void) { __asm { int 3 } }
+extern "C" CompilerBackend *__cdecl acquire_backend(void)
+{
+    return frontend_data.named_browser ? frontend_data.named_browser : frontend_data.initial_backend;
+}
 extern "C" void __cdecl finish_symbols(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_browser_output(void) { __asm { int 3 } }
 extern "C" int __cdecl close_preprocessed_stream(FILE *stream) { __asm { int 3 } return 0; }

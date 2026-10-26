@@ -5,7 +5,7 @@
 #include "frontend-init.h"
 #include "pointer-array.h"
 #include "packing.h"
-#pragma intrinsic(memset, memcmp)
+#pragma intrinsic(memset, memcmp, memcpy)
 #include <recon.h>
 
 /* Preserve the observed direct FILE-array import, not SDK __p__iob. */
@@ -48,9 +48,9 @@ void __cdecl begin_source_input(void);
 void __cdecl initialize_first_token(void);
 void __cdecl initialize_symbol_groups(void);
 void __cdecl initialize_language_symbols(void);
-void __cdecl initialize_scope_symbols(void);
-CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *, CompilerDeclarator *);
-void __cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *);
+void __cdecl initialize_purecall_symbol(void);
+CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *);
+CompilerSymbol *__cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *, CompilerDeclarator *);
 int __cdecl report_response_error(int, ...);
 void __cdecl compiler_warning(int, ...);
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
@@ -287,16 +287,17 @@ extern "C" void __cdecl initialize_frontend(void)
         initialize_first_token();
         if (!frontend_data.options.pch_use) {
             initialize_language_symbols();
-            initialize_scope_symbols();
+            initialize_purecall_symbol();
             if (frontend_data.options.language_extensions && !frontend_data.options.no_bool) {
-                /* Only these fields of the zeroed 40-byte original record
-                 * are modeled. Pending consumers must recover any others. */
-                declaration.flags = 7;
+                /* Original3a3d5 clears40 bytes. The grounded28-byte context
+                 * is inside that span; the declaration tail stays unmodeled. */
+                memset(&declaration.context, 0, sizeof(declaration.context));
+                declaration.context.class_flags = 7;
                 declaration.type = types->type_0060;
                 lookup.Initialize(types->type_0060, &frontend_bss.declaration_context);
                 lookup.Resolve();
                 declare_builtin(&declaration,
-                    lookup_builtin(frontend_data.bool_identifier, &lookup));
+                    lookup_builtin(frontend_data.bool_identifier), &lookup);
             }
         }
     }
@@ -582,7 +583,7 @@ extern "C" void __cdecl initialize_translation_state(void)
     frontend_data.translation_symbols = new_option_vector(1, 0);
 }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
-extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
+/* Debug/backend initialization is defined in debug-init.cpp. */
 CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)
 {
     CompilerPool *pool = &frontend_bss.pools[8]; /* original c0b00 */
@@ -595,7 +596,7 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     saved_lookup = NULL; retired_scopes = NULL; deferred_symbols = NULL;
     type_aliases = NULL; lookup_context = 1;
     suppress_lookup_errors = 0; lookup_override = 0;
-    deferred_scopes = NULL; pending_symbols = NULL; records = NULL;
+    deferred_scopes = NULL; pending_symbols = NULL; source_files = NULL;
     if (pool->remaining < 32) pool->Refill(32);
     memory = pool->cursor; pool->cursor += 32; pool->remaining -= 32;
     root = memory ? new(memory) CompilerScope : NULL;
@@ -619,6 +620,51 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     symbol->data->scope = root;
     symbol->definition_flags |= 4;
     return this;
+}
+
+extern "C" CompilerSymbol *__cdecl allocate_parser_symbol(unsigned kind, CompilerNameEntry *name, unsigned arena_index)
+{
+    unsigned index = kind & 0xff;
+    CompilerNamedSymbol *symbol = NULL;
+    CompilerSymbolLink *link;
+    CompilerArena *arena;
+    unsigned size_class;
+    if (index >= 26 || arena_index >= 9) { __asm { int 3 } }
+    if (!arena_index) {
+        size_class = frontend_data.symbol_size_class[index];
+        if (size_class >= 11) { __asm { int 3 } }
+        link = frontend_data.recycled_symbols[size_class];
+        if (link) {
+            frontend_data.recycled_symbols[size_class] = link->next;
+            link->name = NULL;
+            link->next = NULL;
+            symbol = (CompilerNamedSymbol *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+            memset(symbol, 0, frontend_data.symbol_record_bytes[index]);
+            link->name = name;
+            symbol->kind = (BYTE)kind;
+        }
+    }
+    if (symbol) return symbol;
+    arena = &frontend_bss.arenas[arena_index];
+    symbol = (CompilerNamedSymbol *)arena->cursor;
+    arena->cursor += (frontend_data.symbol_record_bytes[index] + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (!symbol) return NULL;
+    symbol->kind = (BYTE)kind;
+    link = &symbol->link;
+    if (link) {
+        link->name = name;
+        link->next = NULL;
+        if ((BYTE)kind == 4) link->SetClassContext(NULL);
+        else if ((BYTE)kind >= 16 && (BYTE)kind <= 17)
+            ((CompilerSmallSymbol *)symbol)->initial_payload = 0;
+    }
+    return symbol;
+}
+
+void RECON_THISCALL CompilerSymbol::MarkParameter(void)
+{
+    definition_flags |= 8;
 }
 
 extern "C" CompilerSymbol *__cdecl recycle_symbol(unsigned kind, CompilerNameEntry *name, unsigned context)
@@ -658,25 +704,512 @@ CompilerSymbol *RECON_THISCALL CompilerSymbol::Initialize(unsigned kind, Compile
     }
     return this;
 }
-int RECON_THISCALL CompilerScope::HasBuckets(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerScope::HasBuckets(void)
+{
+    return buckets || secondary ? 1 : 0;
+}
 int RECON_THISCALL CompilerScope::HasSecondary(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerScope::Insert(CompilerSymbol *symbol) { __asm { int 3 } }
-CompilerScopeLookup *RECON_THISCALL CompilerScope::Find(CompilerNameEntry *name, unsigned context) { __asm { int 3 } return NULL; }
-CompilerSymbol *RECON_THISCALL CompilerScope::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
-CompilerSymbol *RECON_THISCALL CompilerScope::Lookup(CompilerNameEntry *name, unsigned flags, unsigned *found) { __asm { int 3 } return NULL; }
+CompilerSymbol *RECON_THISCALL CompilerParameterSet::Find(CompilerNameEntry *name)
+{
+    CompilerSymbolLink *link = head;
+    while (link) {
+        if (link->name == name) {
+            CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)link - 8);
+            if (symbol->kind != 24 || frontend_data.translation_unit->lookup_override)
+                return symbol;
+            CompilerSymbol *target = ((CompilerAliasSymbol *)symbol)->target->symbol;
+            unsigned kind = target->kind;
+            if (kind == 16 || kind == 7 || kind == 6 || kind == 17 || kind == 8 || kind == 25)
+                return symbol;
+            if (kind == 24) {
+                target = ((CompilerAliasSymbol *)target)->target->symbol;
+                kind = target->kind;
+                if (kind == 16 || kind == 7 || kind == 6 || kind == 17 || kind == 8 || kind == 25)
+                    return symbol;
+            }
+            while (symbol->kind == 24)
+                symbol = ((CompilerAliasSymbol *)symbol)->target->symbol;
+            return symbol;
+        }
+        link = link->next;
+    }
+    return NULL;
+}
+
+CompilerScopeLookup *RECON_THISCALL CompilerAuxiliaryScope::Find(CompilerNameEntry *name, unsigned)
+{
+    if (!parameters) return NULL;
+    CompilerSymbol *symbol = parameters->Find(name);
+    if (!symbol) return NULL;
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    CompilerScopeLookup *lookup = (CompilerScopeLookup *)arena->cursor;
+    arena->cursor += 8;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (!lookup) return NULL;
+    CompilerScopeMatch *match = (CompilerScopeMatch *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (match) {
+        match->symbol = symbol;
+        match->scope = this;
+        match->next = NULL;
+    }
+    lookup->head = lookup->tail = match;
+    return lookup;
+}
+
+CompilerScopeMatch *RECON_THISCALL CompilerScope::FindOrdinary(CompilerNameEntry *name)
+{
+    CompilerSymbolLink *link;
+    CompilerNamedSymbol *symbol = NULL;
+    CompilerScopeMatch *match;
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    if (buckets) {
+        link = buckets[(bucket_mask & name->flags) & 0xffff];
+        while (link) {
+            if (link->name == name) {
+                CompilerNamedSymbol *candidate = (CompilerNamedSymbol *)
+                    ((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+                if (candidate->kind == 4 || candidate->kind == 0x17) {
+                    symbol = candidate;
+                    break;
+                }
+            }
+            link = link->next;
+        }
+    }
+    if (!symbol) {
+        if (level == 2) return next->FindOrdinary(name);
+        return NULL;
+    }
+    match = (CompilerScopeMatch *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (!match) return NULL;
+    match->symbol = symbol;
+    match->scope = this;
+    match->next = NULL;
+    return match;
+}
+
 int RECON_THISCALL CompilerScope::FindNested(CompilerNameEntry *name, CompilerSymbol **found) { __asm { int 3 } return 0; }
 CompilerSymbolLink **RECON_THISCALL CompilerScope::FindLink(CompilerSymbolLink *symbol) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerScope::Serialize(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerScope::Check(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerScope::Link(CompilerSymbol *symbol) { __asm { int 3 } }
+void RECON_THISCALL CompilerScope::Link(CompilerSymbol *symbol)
+{
+    CompilerSymbolLink *link = &((CompilerNamedSymbol *)symbol)->link;
+    unsigned index = (bucket_mask & link->name->flags) & 0xffff;
+    link->next = buckets[index];
+    buckets[index] = link;
+}
 
-extern "C" void __cdecl initialize_first_token(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_language_symbols(void) { __asm { int 3 } }
-extern "C" void __cdecl initialize_scope_symbols(void) { __asm { int 3 } }
-extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name, CompilerDeclarator *lookup) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl declare_builtin(CompilerDeclaration *declaration, CompilerSymbol *symbol) { __asm { int 3 } }
-CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned arena_kind) { __asm { int 3 } return this; }
-void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena, int first, int second, FrontendContextStack *owner) { __asm { int 3 } }
+extern "C" CompilerNameEntry *__cdecl operator_identifier(unsigned);
+extern "C" void *__cdecl make_integer_constant(int);
+extern "C" void __cdecl initialize_first_token(void)
+{
+    CompilerPredefinedOperator *op;
+    unsigned i;
+    frontend_data.arrow_identifier = operator_identifier(83);
+    frontend_data.call_identifier = operator_identifier(118);
+    for (op = frontend_data.predefined_operators; op->token; ++op) {
+        op->identifier = operator_identifier(op->token);
+        for (i = 0; i < 2; ++i)
+            if (op->operands[i].code)
+                op->operands[i].type = make_tagged_type(op->operands[i].code);
+    }
+    frontend_data.source_mode_flags |= 0x10;
+    frontend_data.tagged_type_arena_index = 0;
+    frontend_data.constant_arena_index = 0;
+    frontend_data.zero_constant = (CompilerExpression *)make_integer_constant(0);
+    frontend_data.source_mode_flags &= ~0x10U;
+    unsigned flags = frontend_data.compiler_mode_flags;
+    unsigned mode = frontend_data.source_mode_flags;
+    unsigned compiler_flags = frontend_data.compiler_flags;
+    if ((flags & 0x32000000) ||
+        ((flags & 0x40000000) && !(mode & 8) && !(compiler_flags & 0x200)) ||
+        (mode & 0x10) || ((flags & 0x4000000) && !(compiler_flags & 0x8000))) {
+        frontend_data.tagged_type_arena_index = 0;
+        frontend_data.constant_arena_index = 0;
+    } else {
+        frontend_data.tagged_type_arena_index = 5;
+        frontend_data.constant_arena_index = 5;
+        if (mode & 1) {
+            frontend_data.tagged_type_arena_index = 4;
+            frontend_data.constant_arena_index = 4;
+        }
+    }
+}
+extern "C" void __cdecl declare_vector_helper(CompilerNameEntry *, unsigned, int);
+extern "C" void __cdecl initialize_language_symbols(void)
+{
+    declare_vector_helper(frontend_data.builtin_names.vector_constructor, 11, 1);
+    declare_vector_helper(frontend_data.builtin_names.vector_vbase_constructor, 12, 1);
+    declare_vector_helper(frontend_data.builtin_names.vector_destructor, 13, 1);
+    declare_vector_helper(frontend_data.builtin_names.eh_vector_constructor, 14, 0);
+    declare_vector_helper(frontend_data.builtin_names.eh_vector_vbase_constructor, 15, 0);
+    declare_vector_helper(frontend_data.builtin_names.eh_vector_destructor, 16, 0);
+}
+extern "C" void __cdecl declare_runtime_helper(CompilerNameEntry *, unsigned, unsigned, unsigned, unsigned, int);
+extern "C" void __cdecl declare_vector_helper(CompilerNameEntry *name, unsigned operation, int enabled)
+{
+    declare_runtime_helper(name, 0, 0x70, 0x60, operation, enabled);
+}
+extern "C" CompilerType *__cdecl runtime_helper_return_type(unsigned);
+extern "C" CompilerType *__cdecl runtime_helper_parameter_type(unsigned, unsigned);
+extern "C" void __cdecl declare_runtime_helper(CompilerNameEntry *name, unsigned return_mode,
+    unsigned parameter_mode, unsigned unused_qualifiers, unsigned operation, int enabled)
+{
+    CompilerRuntimeFunction *symbol = (CompilerRuntimeFunction *)lookup_builtin(name);
+    CompilerArena *arena = &frontend_bss.arenas[5]; /* own c65a0 */
+    CompilerParameterDescription *parameters;
+    CompilerDeclarator lookup;
+    CompilerDeclaratorQualifiers qualifiers;
+    CompilerDeclaration declaration;
+    symbol->scope_flags |= 1;
+    parameters = (CompilerParameterDescription *)arena->cursor;
+    arena->cursor += 28;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (parameters) {
+        parameters->kind = 4;
+        parameters->scope_open = 0;
+        parameters->parameters = NULL;
+    }
+    parameters->Append(0, runtime_helper_return_type(return_mode));
+    parameters->Append(0, frontend_data.builtin_types.type_4063_second); /* actual cc510 */
+    parameters->Append(0, frontend_data.builtin_types.type_0063); /* actual cc4c0 */
+    parameters->Append(0, runtime_helper_parameter_type(return_mode, parameter_mode));
+    if (operation == 14 || operation == 15)
+        parameters->Append(0, runtime_helper_parameter_type(return_mode, parameter_mode));
+    lookup.InitializeSymbol(symbol);
+    qualifiers.flags = 0x60;
+    qualifiers.value = 0;
+    lookup.ApplyQualifiers(&qualifiers);
+    lookup.AddFunction(parameters);
+    /* Original490df clears exactly the28-byte context, then stores type. */
+    memset(&declaration.context, 0, sizeof(declaration.context));
+    declaration.context.class_flags = 1;
+    declaration.context.context_flags = 0;
+    if (enabled) declaration.context.class_flags |= 0x40;
+    declaration.type = frontend_data.builtin_types.type_0080; /* actual cc518 */
+    lookup.ApplyDeclaration(&declaration);
+    lookup.Resolve();
+    symbol->builtin_operation = (BYTE)operation;
+    if (operation && (operation <= 13 || operation > 16)) symbol->builtin_flags |= 8;
+    else symbol->builtin_flags &= ~8;
+    declare_builtin(&declaration, symbol, &lookup);
+}
+extern "C" CompilerType *__cdecl runtime_helper_return_type(unsigned attributes)
+{
+    CompilerDeclarator declaration;
+    CompilerDeclaratorQualifiers first, second;
+    declaration.Initialize(frontend_data.builtin_types.type_0080, &frontend_bss.declaration_context); /* cc518 */
+    first.flags = (WORD)attributes;
+    first.value = 0;
+    second.flags = 0;
+    second.value = 0;
+    declaration.AddPointer(&first, &second);
+    declaration.Resolve();
+    return declaration.type;
+}
+extern "C" CompilerType *__cdecl runtime_helper_parameter_type(unsigned return_mode, unsigned parameter_mode)
+{
+    CompilerArena *arena = &frontend_bss.arenas[5]; /* actual c65a0 */
+    CompilerParameterDescription *parameters = (CompilerParameterDescription *)arena->cursor;
+    CompilerDeclarator declaration;
+    CompilerDeclaratorQualifiers first, second;
+    arena->cursor += 28;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (parameters) {
+        parameters->kind = 4;
+        parameters->scope_open = 0;
+        parameters->parameters = NULL;
+    }
+    parameters->Append(NULL, runtime_helper_return_type(return_mode));
+    declaration.Initialize(frontend_data.builtin_types.type_0080, &frontend_bss.declaration_context);
+    first.flags = (WORD)parameter_mode;
+    first.value = 0;
+    second.flags = 0;
+    second.value = 0;
+    declaration.AddPointer(&first, &second);
+    declaration.AddFunction(parameters);
+    declaration.Resolve();
+    return declaration.type;
+}
+extern "C" CompilerSymbol *__cdecl make_parameter_symbol(CompilerNameEntry *, CompilerType *);
+void RECON_THISCALL CompilerParameterDescription::Append(CompilerNameEntry *name, CompilerType *type)
+{
+    CompilerSymbol *symbol = make_parameter_symbol(name, type);
+    AppendSymbol(symbol);
+}
+extern "C" void __cdecl finalize_symbol_declaration(CompilerDeclarator *, CompilerSymbol *);
+extern "C" CompilerSymbol *__cdecl make_parameter_symbol(CompilerNameEntry *name, CompilerType *type)
+{
+    CompilerParameterSymbol *symbol = (CompilerParameterSymbol *)recycle_symbol(11, name, 4);
+    if (!symbol) {
+        BYTE *memory = frontend_bss.arenas[4].Allocate(
+            (frontend_data.symbol_record_bytes[11] + 3) & ~3U);
+        symbol = memory ? (CompilerParameterSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(11, name, 4) : NULL;
+    }
+    BYTE *state = (BYTE *)&symbol->declaration_state;
+    BYTE classification = (*state & ~7) ^ 5;
+    *state = classification;
+    symbol->declaration_state = 0;
+    *state = (*state & ~7) | (classification & 7);
+    symbol->type = type;
+    symbol->scope_flags |= 1;
+    if (frontend_data.next_symbol_record_id >= 0x7fffffff)
+        report_compiler_error(55);
+    unsigned index = frontend_data.next_symbol_record_id++;
+    symbol->encoded_index = (symbol->encoded_index & 0xff000000) | (index & 0xffffff);
+    symbol->scope_flags |= 8;
+    finalize_symbol_declaration(NULL, symbol);
+    return symbol;
+}
+extern "C" CompilerSymbol *__cdecl make_parameter_sentinel(void);
+void RECON_THISCALL CompilerParameterDescription::AppendSymbol(CompilerSymbol *symbol)
+{
+    CompilerParameterSet *set;
+    CompilerSymbolLink *link;
+    CompilerArena *arena;
+    CompilerPool *pool;
+    BYTE *memory;
+    unsigned arena_index;
+    if (!parameters) {
+        arena_index = (frontend_data.declaration_context_index < 0) + 3;
+        if (!arena_index && frontend_data.free_parameter_sets) {
+            set = frontend_data.free_parameter_sets;
+            frontend_data.free_parameter_sets = set->next_free;
+            set->arena_index = 0;
+            set->head = set->tail = NULL;
+        } else {
+            if (arena_index) {
+                arena = &frontend_bss.arenas[arena_index];
+                memory = arena->cursor;
+                arena->cursor += 12;
+                if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+            } else {
+                pool = &frontend_bss.pools[8]; /* actual c0b00 */
+                if (pool->remaining < 12) pool->Refill(12);
+                memory = pool->cursor;
+                pool->cursor += 12;
+                pool->remaining -= 12;
+            }
+            set = (CompilerParameterSet *)memory;
+            if (set) {
+                set->arena_index = arena_index;
+                set->head = set->tail = NULL;
+            }
+        }
+        parameters = set;
+    }
+    set = parameters;
+    link = &((CompilerNamedSymbol *)symbol)->link;
+    if (link) {
+        link->name = link->name;
+        link->next = NULL;
+        ((CompilerParameterSymbol *)symbol)->previous_parameter = set->tail;
+    }
+    if (!set->tail) set->head = set->tail = link;
+    else {
+        if (!frontend_data.parameter_sentinel)
+            frontend_data.parameter_sentinel = make_parameter_sentinel();
+        if ((CompilerSymbol *)((BYTE *)set->tail - offsetof(CompilerNamedSymbol, link)) ==
+            frontend_data.parameter_sentinel) set->head = set->tail = link;
+        else { set->tail->next = link; set->tail = link; }
+    }
+}
+extern "C" CompilerSymbol *__cdecl make_parameter_sentinel(void)
+{
+    CompilerNameEntry *name = frontend_data.builtin_names.formal_parameter;
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)recycle_symbol(12, name, 0);
+    if (!symbol) {
+        BYTE *memory = frontend_bss.arenas[0].Allocate(
+            (frontend_data.symbol_record_bytes[12] + 3) & ~3U);
+        symbol = memory ? (CompilerIrSymbol *)
+            ((CompilerSymbol *)memory)->Initialize(12, name, 0) : NULL;
+    }
+    BYTE *classification = (BYTE *)&symbol->declaration_state;
+    BYTE kind = (*classification & ~7) ^ 4;
+    *classification = kind;
+    symbol->declaration_state = 0;
+    *classification = (*classification & ~7) | (kind & 7);
+    if (frontend_data.next_symbol_record_id >= 0x7fffffff)
+        report_compiler_error(55);
+    unsigned index = frontend_data.next_symbol_record_id++;
+    symbol->encoded_index = (symbol->encoded_index & 0xff000000) | (index & 0xffffff);
+    if ((symbol->emission_state & 3) < 3)
+        symbol->emission_state = (symbol->emission_state & ~3U) | ((symbol->emission_state + 1) & 3);
+    symbol->emission_state = (symbol->emission_state & ~4U) | ((frontend_data.reference_context & 1) << 2);
+    symbol->type = frontend_data.builtin_types.type_0080;
+    return symbol;
+}
+CompilerDeclarator *RECON_THISCALL CompilerDeclarator::InitializeSymbol(CompilerSymbol *value)
+{
+    /* The original clears72 bytes. Clear every modeled declarator field
+     * and copy the grounded28-byte context; the remaining object bytes
+     * still have no native storage or equality claim. */
+    memset(this, 0, sizeof(*this));
+    if (!value) value = make_abstract_declarator();
+    symbol = value;
+    context = frontend_bss.declaration_context;
+    return this;
+}
+void RECON_THISCALL CompilerDeclarator::ApplyDeclaration(CompilerDeclaration *declaration)
+{
+    if (!base_type) base_type = declaration->type;
+    else if (!(declaration->context.class_flags & 0x10)) {
+        if (flags & 0x20) compiler_warning(549);
+        flags |= 1;
+    }
+    /* Copy the single grounded28-byte context owner. The declaration
+     * tail is separate and remains unmodeled. */
+    context = declaration->context;
+}
+
+extern "C" CompilerSymbol *__cdecl create_runtime_symbol(unsigned);
+extern "C" void __cdecl initialize_purecall_symbol(void)
+{
+    frontend_data.purecall_symbol = create_runtime_symbol(0);
+}
+extern "C" CompilerSymbol *__cdecl declare_external_symbol(CompilerNameEntry *, unsigned);
+/* Encountered descriptor d9180: name at0 and convention WORD at4.
+ * Its remaining original row bytes and all later indices are unmodeled. */
+struct RuntimeSymbolDescription { const char *name; WORD convention; };
+static const RuntimeSymbolDescription runtime_symbols[] = { { "_purecall", 0x10 } };
+extern "C" CompilerSymbol *__cdecl create_runtime_symbol(unsigned index)
+{
+#ifdef RECON_NATIVE_TEST
+    if (index != 0) recon_unsupported("runtime symbol: unmodeled descriptor index");
+#endif
+    const RuntimeSymbolDescription *description = &runtime_symbols[index];
+    CompilerRuntimeFunction *symbol = (CompilerRuntimeFunction *)declare_external_symbol(
+        find_or_create_identifier(description->name), 0);
+    symbol->kind = 7;
+    symbol->type = make_function_type(description->convention, frontend_data.builtin_types.type_0063);
+    symbol->type_flags = (symbol->type_flags & ~1) | 2;
+    symbol->function_class = 1;
+    return symbol;
+}
+extern "C" CompilerSymbol *__cdecl declare_external_symbol(CompilerNameEntry *name, unsigned mode)
+{
+    BYTE local = (BYTE)mode;
+    unsigned arena_index = local ? 4 : 0;
+    CompilerIrSymbol *symbol;
+#ifdef RECON_NATIVE_TEST
+    if (local) recon_unsupported("external declaration: unvisited local publication mode");
+#endif
+    symbol = (CompilerIrSymbol *)recycle_symbol(10, name, arena_index);
+    if (!symbol) {
+        BYTE *memory = frontend_bss.arenas[arena_index].Allocate(
+            (frontend_data.symbol_record_bytes[10] + 3) & ~3U);
+        symbol = memory ? (CompilerIrSymbol *)((CompilerSymbol *)memory)->Initialize(10, name, arena_index) : NULL;
+    }
+    BYTE *classification = (BYTE *)&symbol->declaration_state;
+    BYTE storage = (*classification & ~7) ^ (local ? 4 : 1);
+    *classification = storage;
+    if (local == 1) local = 0;
+    symbol->declaration_state = 0;
+    *classification = (*classification & ~7) | (storage & 7);
+    if (frontend_data.next_symbol_record_id >= 0x7fffffff) report_compiler_error(55);
+    unsigned index = frontend_data.next_symbol_record_id++;
+    symbol->encoded_index = (symbol->encoded_index & 0xff000000) | (index & 0xffffff);
+    symbol->emission_state &= ~7;
+    symbol->type = frontend_data.builtin_types.type_0063;
+    frontend_bss.external_declaration_mode = local;
+    (local ? frontend_data.translation_unit->current : frontend_data.translation_unit->root)->Insert(symbol);
+    return symbol;
+}
+extern "C" CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *name)
+{
+    unsigned arena_kind = 0, size_class;
+    CompilerRuntimeFunction *symbol = NULL;
+    CompilerSymbolLink *link;
+    CompilerArena *arena;
+    BYTE *memory;
+    unsigned bytes;
+    if (frontend_bss.declaration_scope_mode && frontend_data.declaration_context_index < 0 &&
+        !(frontend_data.compiler_mode_flags & 0x10000000)) {
+        if (!(frontend_data.compiler_mode_flags & 0x40000000) ||
+            (frontend_data.source_mode_flags & 8) || (frontend_data.compiler_flags & 0x200)) {
+            if (!(frontend_data.source_mode_flags & 0x50)) arena_kind = 4;
+        }
+    }
+    if (!arena_kind) {
+        size_class = frontend_data.symbol_size_class[1];
+        link = frontend_data.recycled_symbols[size_class];
+        if (link) {
+            frontend_data.recycled_symbols[size_class] = link->next;
+            link->name = NULL;
+            link->next = NULL;
+            symbol = (CompilerRuntimeFunction *)((BYTE *)link - offsetof(CompilerNamedSymbol, link));
+            /* The original clears its real per-kind owned allocation. Its
+             * unmodeled tail remains uninterpreted; this is not a layout claim. */
+            memset(symbol, 0, frontend_data.symbol_record_bytes[1]);
+            symbol->link.name = name;
+            symbol->kind = 1;
+        }
+    }
+    if (!symbol) {
+        arena = &frontend_bss.arenas[arena_kind];
+        memory = arena->cursor;
+        bytes = (frontend_data.symbol_record_bytes[1] + 3) & ~3U;
+        arena->cursor += bytes;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        symbol = memory ? (CompilerRuntimeFunction *)
+            ((CompilerSymbol *)memory)->Initialize(1, name, arena_kind) : NULL;
+    }
+    arena = &frontend_bss.arenas[frontend_data.tagged_type_arena_index];
+    memory = arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    symbol->payload = (CompilerSymbolPayload *)memory;
+    symbol->function_class = 1;
+    return symbol;
+}
+CompilerContextBuffer *RECON_THISCALL CompilerContextBuffer::Initialize(unsigned kind)
+{
+#ifdef RECON_NATIVE_TEST
+    if (kind >= 9) recon_unsupported("context buffer: unsupported arena index");
+#endif
+    CompilerArena *arena = &frontend_bss.arenas[kind];
+    position = 4;
+    DWORD *memory = (DWORD *)arena->cursor;
+    arena->cursor += 128;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (memory) memory[0] = 0;
+    block = memory;
+    arena_kind = kind;
+    return this;
+}
+typedef char FrontendContextFrame_layout[(sizeof(FrontendContextFrame) == 24 &&
+    offsetof(FrontendContextFrame, callback) == 20) ? 1 : -1];
+void RECON_THISCALL FrontendContextStack::Push(void *object, unsigned arena_kind,
+    int first, FrontendContextPopCallback callback, FrontendContextStack *owner)
+{
+    /* The reached caller supplies the lexer whose header owns these fields. */
+    CompilerLexer *lexer = (CompilerLexer *)object;
+    if (arena_kind == 9) arena_kind = lexer->arena_kind;
+#ifdef RECON_NATIVE_TEST
+    if (arena_kind >= 9) recon_unsupported("context stack: unsupported arena index");
+#endif
+    CompilerArena *arena = &frontend_bss.arenas[arena_kind];
+    FrontendContextFrame *frame = (FrontendContextFrame *)arena->cursor;
+    arena->cursor += 24;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (frame) {
+        frame->object = object;
+        frame->previous = top;
+        frame->saved_origin = owner->origin;
+        frame->saved_position = owner->position;
+        frame->first = first;
+        frame->callback = callback;
+    }
+    top = frame;
+    frontend_bss.saved_context_stack.origin = lexer->initial_object;
+    frontend_bss.saved_context_stack.position = lexer->initial_value;
+}
 CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *type, const void *position)
 {
     /* Clear only the native typed projection. This makes no claim about the
@@ -749,16 +1282,17 @@ void RECON_THISCALL CompilerDeclarator::Resolve(void)
                         goto set_function_attribute;
                     }
                 }
-                /* Model only c13d0[-1], not an inferred table capacity. */
-                if (frontend_data.declaration_mode_index != -1) { __asm { int 3 } }
-                mode = frontend_bss.default_declaration_mode;
+                if (frontend_data.declaration_mode_index < -1 ||
+                    frontend_data.declaration_mode_index >= 10) { __asm { int 3 } }
+                mode = FRONTEND_LINKAGE_CONTEXT();
                 if (mode == 2 &&
                     (!function_attribute || (context.class_flags & 7) == 3))
                     report_language_diagnostic(1, 190, symbol, member);
                 function_attribute = 0x200;
             } else {
-                if (frontend_data.declaration_mode_index != -1) { __asm { int 3 } }
-                mode = frontend_bss.default_declaration_mode;
+                if (frontend_data.declaration_mode_index < -1 ||
+                    frontend_data.declaration_mode_index >= 10) { __asm { int 3 } }
+                mode = FRONTEND_LINKAGE_CONTEXT();
                 function_attribute = mode == 2 ? 0x100 : 0x200;
             }
 set_function_attribute:
@@ -780,12 +1314,19 @@ set_function_attribute:
         type = frontend_data.builtin_types.type_0063;
     }
 }
-unsigned RECON_THISCALL CompilerLexer::Read(void) { __asm { int 3 } return 0; }
-unsigned RECON_THISCALL CompilerLexer::Peek(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerLexer::Unread(unsigned token) { __asm { int 3 } }
+void RECON_THISCALL CompilerLexer::Unread(unsigned token)
+{
+#ifdef RECON_NATIVE_TEST
+    if (unread_count != 0) recon_unsupported("lexer: wider unread stack pending");
+#endif
+    unread_tokens[unread_count] = token;
+    ++unread_count;
+}
 void RECON_THISCALL CompilerLexer::Trace(unsigned token) { __asm { int 3 } }
-int RECON_THISCALL CompilerLexer::Valid(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerLexer::Reset(void) { __asm { int 3 } }
+int RECON_THISCALL CompilerLexer::Valid(void) { return 1; }
+/* Original1300 is a single RET0, shared with inert virtual methods and the
+ * approved cdecl1 cleanup alias. Never interpret this or any formal here. */
+void RECON_THISCALL CompilerLexer::Reset(void) {}
 void *RECON_THISCALL CompilerLexer::Destroy(unsigned flags) { __asm { int 3 } return this; }
 
 extern "C" void __cdecl initialize_symbol_groups(void)
@@ -860,11 +1401,17 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
 void RECON_THISCALL CompilerParameterDescription::Normalize(void)
 {
     if (scope_open) frontend_data.translation_unit->EndParameterScope();
-    if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+    if (frontend_bss.parser_context_depth >= 2) { __asm { int 3 } }
     context = frontend_bss.parameter_contexts[frontend_bss.parser_context_depth];
     frontend_bss.parameter_contexts[frontend_bss.parser_context_depth] = NULL;
 }
-CompilerSymbolLink **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void) { __asm { int 3 } return NULL; }
+CompilerParameterSet *RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void)
+{
+    if (current->level != 1) return NULL;
+    CompilerParameterSet *parameters = ((CompilerAuxiliaryScope *)current)->parameters;
+    PopCurrentScope();
+    return parameters;
+}
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
 {
     shape_flags |= 1;
@@ -922,7 +1469,62 @@ extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned flags, unsigned
     shape->payload.value = *value;
     return shape;
 }
-extern "C" CompilerType *__cdecl qualify_type(CompilerSymbol *type, unsigned flags, WORD attributes) { __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl qualify_type(CompilerSymbol *symbol, unsigned flags, WORD attributes)
+{
+    CompilerType value, *type;
+    CompilerTypeShape *shape;
+    if (symbol) {
+        type = ((CompilerIrSymbol *)symbol)->type;
+    } else {
+        int index = frontend_data.declaration_context_index;
+        if (index < 0 || index >= 16) { __asm { int 3 } }
+        type = frontend_bss.class_scope_rows[index].type->StripQualifiers();
+    }
+    memcpy(&value, type, 16);
+    shape = create_declarator_shape(1, normalize_shape_attributes(0x2001, (WORD)flags), NULL);
+    shape = intern_type_shape(shape);
+    value.attributes |= attributes;
+    value.shape = shape;
+    return intern_type(&value);
+}
+CompilerType *RECON_THISCALL CompilerType::StripQualifiers(void)
+{
+    if (shape) {
+        if (!(shape->attributes & 0x1f00)) return this;
+        CompilerTypeShape value;
+        memcpy(&value, shape, 12);
+        value.attributes &= 0xf0ff;
+        return WithShape(intern_type_shape(&value));
+    }
+    if (!(attributes & 0x1f00)) return this;
+    CompilerType value;
+    memcpy(&value, this, 16);
+    value.attributes &= 0xf0ff;
+    return intern_type(&value);
+}
+CompilerType *RECON_THISCALL CompilerType::ApplyTypeQualifiers(WORD qualifiers)
+{
+    CompilerTypeShape *node;
+    if (shape) {
+        node = shape->Find(&CompilerTypeShape::IsNotArray);
+        if (node) {
+            if ((node->flags & 0x40) || (node->flags & 0x77) == 4)
+                return this;
+            CompilerTypeShape value;
+            memcpy(&value, node, 12);
+            value.attributes |= qualifiers;
+            return WithShape(shape->Replace(node, &value));
+        }
+    }
+    CompilerType value;
+    memcpy(&value, this, 16);
+    value.attributes |= qualifiers;
+    return intern_type(&value);
+}
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::Find(int (RECON_THISCALL CompilerTypeShape::*)(void)) { __asm { int 3 } return NULL; }
+int RECON_THISCALL CompilerTypeShape::IsNotArray(void) { __asm { int 3 } return 0; }
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::Replace(CompilerTypeShape *, CompilerTypeShape *) { __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerType::WithShape(CompilerTypeShape *) { __asm { int 3 } return NULL; }
 extern "C" CompilerParameterLink *__cdecl link_parameter_symbols(CompilerParameterContext *context)
 {
     CompilerParameterEntry *entry;
@@ -948,7 +1550,7 @@ void RECON_THISCALL CompilerDeclarator::ApplyQualifiers(CompilerDeclaratorQualif
         compiler_warning(493);
         flags |= 1;
     }
-    qualifiers = *value;
+    memcpy(&qualifiers, value, 8); /* both actual DWORDs, including the uninterpreted WORD gap */
 }
 
 extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
@@ -993,7 +1595,18 @@ extern "C" CompilerSymbol *__cdecl make_abstract_declarator(void)
     return symbol;
 }
 
-void RECON_THISCALL CompilerDeclarator::AddPointer(CompilerDeclaratorQualifiers *first, CompilerDeclaratorQualifiers *second) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AddPointer(CompilerDeclaratorQualifiers *first, CompilerDeclaratorQualifiers *second)
+{
+    if (first->flags & 0x70) shape_flags |= 1;
+    CompilerTypeShape *next = create_type_shape(1, first->flags | second->flags, &first->value);
+    if (last_shape) {
+        last_shape->base = next;
+        last_shape = next;
+    } else {
+        last_shape = next;
+        shape = next;
+    }
+}
 void RECON_THISCALL CompilerTypeShape::SetType(CompilerType *type) { __asm { int 3 } }
 
 void RECON_THISCALL CompilerDeclarator::ValidateSpecialFunction(void) { __asm { int 3 } }
@@ -1013,7 +1626,7 @@ void RECON_THISCALL CompilerDeclarator::NormalizeBase(void)
             AppendShape(copy);
             break;
         case 0x40: case 0x44:
-            AddMemberPointerShape(copy);
+            ValidateReferenceShape(copy);
             break;
         default:
             return;
@@ -1181,10 +1794,30 @@ extern "C" int __cdecl check_member_declaration(CompilerSymbol *symbol) { __asm 
 extern "C" void __cdecl diagnose_member_declaration(CompilerSymbol *symbol) { __asm { int 3 } }
 
 extern "C" CompilerTypeShape *__cdecl copy_type_shape(CompilerTypeShape *shape) { __asm { int 3 } return NULL; }
-void RECON_THISCALL CompilerDeclarator::AddArrayShape(CompilerTypeShape *shape) { __asm { int 3 } }
-void RECON_THISCALL CompilerDeclarator::AddMemberPointerShape(CompilerTypeShape *shape) { __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::ValidateReferenceShape(CompilerTypeShape *next)
+{
+    unsigned diagnostic = 0;
+    if (!shape) return;
+    switch (last_shape->flags & 0x77) {
+    case 1: diagnostic = 0x210; break;
+    case 2: diagnostic = 0xea; break;
+    case 0x10: diagnostic = 0x27c; break;
+    case 0x40: diagnostic = 0x211; break;
+    }
+    if (diagnostic) {
+        compiler_warning(diagnostic, symbol);
+        next->flags = 1;
+        flags |= 1;
+    }
+}
 
-extern "C" CompilerSymbol *__cdecl current_declarator_context(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl current_declarator_context(void)
+{
+    int index = frontend_data.declaration_context_index;
+    if (index < 0) return NULL;
+    if (index >= 16) { __asm { int 3 } }
+    return (CompilerSymbol *)frontend_bss.class_scope_rows[index].symbol;
+}
 
 extern "C" CompilerFunctionType *__cdecl create_function_parameters(CompilerParameterSet *parameters,
     WORD *flags, CompilerParameterLink *symbols, CompilerType *type)
@@ -1253,7 +1886,58 @@ extern "C" CompilerParameterTypes *__cdecl empty_parameter_types(void)
     }
     return frontend_data.empty_parameters;
 }
-extern "C" CompilerParameterTypes *__cdecl collect_parameter_types(unsigned count, CompilerParameterSet *parameters) { __asm { int 3 } return NULL; }
+extern "C" CompilerParameterTypes *__cdecl intern_parameter_types(CompilerParameterTypes *, unsigned);
+extern "C" CompilerParameterTypes *__cdecl collect_parameter_types(unsigned count, CompilerParameterSet *parameters)
+{
+    CompilerArena *arena = &frontend_bss.arenas[5]; /* actual c65a0 */
+    CompilerParameterTypes *types = (CompilerParameterTypes *)arena->cursor;
+    CompilerSymbolLink *entry;
+    CompilerType **destination;
+    unsigned hash = 0;
+    arena->cursor += (count * 4 + 11) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    types->count = count;
+    destination = types->types;
+    for (entry = parameters ? parameters->head : NULL; entry; entry = entry->next) {
+        CompilerIrSymbol *symbol = (CompilerIrSymbol *)((BYTE *)entry - offsetof(CompilerNamedSymbol, link));
+        *destination++ = symbol->type;
+        hash += ((WORD)(unsigned)symbol->type >> 2) & 0xfff;
+    }
+    return intern_parameter_types(types, hash);
+}
+extern "C" CompilerParameterTypes *__cdecl intern_parameter_types(CompilerParameterTypes *parameters, unsigned hash)
+{
+    CompilerTypeSequence **bucket = &frontend_data.type_tables.sequences->buckets[hash & 0x1ff];
+    CompilerTypeSequence *entry = *bucket, *previous = NULL, *created;
+    CompilerPool *pool = &frontend_bss.pools[2]; /* actual c0498 */
+    unsigned bytes = parameters->count * 4 + 12;
+    int count = (int)parameters->count;
+    while (entry) {
+        int other_count = (int)entry->parameters.count;
+        if (other_count > count) break;
+        if (other_count == count && !memcmp(entry->parameters.types, parameters->types, count * 4))
+            return &entry->parameters;
+        previous = entry;
+        entry = entry->next;
+    }
+    if (pool->remaining < bytes) pool->Refill(bytes);
+    created = (CompilerTypeSequence *)pool->cursor;
+    pool->cursor += bytes;
+    pool->remaining -= bytes;
+#ifdef RECON_NATIVE_TEST
+    /* The source+4 word is copied internally by the original but not read
+     * by these reached consumers. Only count/pointers join this projection;
+     * the omitted word has no zero or byte-equality claim. */
+    created->parameters.count = parameters->count;
+    memcpy(created->parameters.types, parameters->types, count * 4);
+#else
+    memcpy(&created->parameters, parameters, parameters->count * 4 + 8);
+#endif
+    created->next = entry;
+    if (previous) previous->next = created;
+    else *bucket = created;
+    return &created->parameters;
+}
 extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionType *function)
 {
     unsigned hash = (((WORD)(unsigned)function->type >> 2) +
@@ -1267,10 +1951,15 @@ extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionTy
         if (other_count > count) break;
         if (other_count == count) {
 #if defined(RECON_NATIVE_TEST)
-            /* The original compares all16 bytes. The three bytes adjacent
-             * to symbol_count are unresolved: stop before interpreting them,
-             * rather than replacing the comparison with typed equality. */
-            __asm { int 3 }
+            /* Current records come from the fresh16-byte arena5 producer;
+             * committed-page zeroes survive its field stores and this exact
+             * whole-record copy. Other origins/reuse remain unsupported.
+             * These are representation bytes, not invented semantic fields. */
+            const BYTE *current_bytes = (const BYTE *)function;
+            const BYTE *entry_bytes = (const BYTE *)&entry->function;
+            if (current_bytes[5] | current_bytes[6] | current_bytes[7] |
+                entry_bytes[5] | entry_bytes[6] | entry_bytes[7])
+                recon_unsupported("function interner: unsupported representation origin");
 #endif
             if (!memcmp(&entry->function, function, 16)) return &entry->function;
         }
@@ -1281,7 +1970,7 @@ extern "C" CompilerFunctionType *__cdecl intern_function_type(CompilerFunctionTy
     created = (CompilerCompositeType *)pool->cursor;
     pool->cursor += 20;
     pool->remaining -= 20;
-    created->function = *function;
+    memcpy(&created->function, function, 16); /* original copies every representation byte */
     created->next = entry;
     if (previous) previous->next = created;
     else *bucket = created;
@@ -1310,7 +1999,19 @@ WORD RECON_THISCALL CompilerDeclarator::DefaultCallingConvention(CompilerTypeSha
     if (frontend_data.options.stdcall_calls) return 0x60;
     return frontend_data.options.pascal_calls ? 0x20 : 0x10;
 }
-WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes) { __asm { int 3 } return 0; }
+WORD RECON_THISCALL CompilerDeclarator::PropagateQualifiers(CompilerTypeShape *shape, WORD attributes)
+{
+    if (shape->flags & 0x8000) {
+        switch (attributes & 0x70) {
+        case 0x40: case 0x60: return 0x10;
+        case 0x10: case 0x50: break;
+        default:
+            compiler_warning(217, 37, 106);
+            return 0x10;
+        }
+    }
+    return attributes;
+}
 
 extern "C" WORD __cdecl normalize_shape_attributes(unsigned flags, WORD attributes)
 {
@@ -1377,10 +2078,10 @@ extern "C" CompilerTypeShape *__cdecl create_declarator_shape(unsigned flags, WO
             /* The original uses its discarded by-value attributes slot for
              * this temporary flags word. No caller-visible slot is modeled. */
             WORD function_flags = (WORD)flags;
-            if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+            if (frontend_bss.parser_context_depth >= 2) { __asm { int 3 } }
             shape->payload.function = create_function_parameters(parameters, &function_flags,
                 link_parameter_symbols(frontend_bss.parameter_contexts[frontend_bss.parser_context_depth]), NULL);
-            if (frontend_bss.parser_context_depth >= 1) { __asm { int 3 } }
+            if (frontend_bss.parser_context_depth >= 2) { __asm { int 3 } }
             frontend_bss.parameter_contexts[frontend_bss.parser_context_depth] = NULL;
             shape->flags |= function_flags;
         }
@@ -1404,4 +2105,36 @@ extern "C" void *__cdecl allocate_symbol_storage(unsigned bytes, unsigned kind, 
     arena->cursor += (frontend_data.symbol_record_bytes[index] + 3) & ~3U;
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
     return memory;
+}
+
+/* The original ignores its caller-supplied size and always reserves72 bytes
+ * in arena5. No declarator contents are initialized by this allocator. */
+extern "C" BYTE *__cdecl allocate_declarator(unsigned)
+{
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    BYTE *storage = arena->cursor;
+    arena->cursor += 72;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    return storage;
+}
+
+void RECON_THISCALL CompilerDeclarator::AddArrayBound(__int64 *value)
+{
+    unsigned count;
+    /* Only the low signed DWORD is consumed. The original reuses its
+     * incoming pointer slot for count, then discards that slot with RET4. */
+    memcpy(&count, value, 4);
+    if ((LONG)count < 0) {
+        compiler_warning(0x76);
+        count = 1;
+    }
+    CompilerTypeShape *next = create_type_shape(2, 0, &count);
+    AddArrayShape(next);
+    if (!last_shape) {
+        last_shape = next;
+        shape = next;
+    } else {
+        last_shape->base = next;
+        last_shape = next;
+    }
 }

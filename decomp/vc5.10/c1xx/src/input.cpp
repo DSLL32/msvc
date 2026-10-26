@@ -20,12 +20,12 @@ extern "C" int __cdecl create_input(int record, CompilerInput **input,
     return 1;
 }
 
-int RECON_THISCALL CompilerPlainInput::Begin(const void *context) { __asm { int 3 } return 0; }
-int RECON_THISCALL CompilerPlainInput::End(const void *context) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerPlainInput::Flush(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerPlainInput::Mark(void) { __asm { int 3 } }
+int RECON_THISCALL CompilerPlainInput::Begin(const void *context) { return 1; }
+int RECON_THISCALL CompilerPlainInput::End(const void *context) { return 1; }
+void RECON_THISCALL CompilerPlainInput::Flush(void) {}
+void RECON_THISCALL CompilerPlainInput::Mark(void) {}
 void RECON_THISCALL CompilerPlainInput::Close(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerPlainInput::Location(unsigned first, unsigned second) { __asm { int 3 } }
+void RECON_THISCALL CompilerPlainInput::Location(unsigned first, unsigned second) {}
 int RECON_THISCALL CompilerPlainText::TakeText(BYTE **bytes, unsigned *length) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerPlainText::MapLocation(unsigned first, unsigned second, unsigned third) { __asm { int 3 } return 0; }
 /* PlainText::Reset aliases the single pending CompilerLexer::Reset body. */
@@ -38,4 +38,3 @@ void RECON_THISCALL CompilerRecordedInput::Location(unsigned first, unsigned sec
 int RECON_THISCALL CompilerRecordedText::TakeText(BYTE **bytes, unsigned *length) { __asm { int 3 } return 0; }
 int RECON_THISCALL CompilerRecordedText::MapLocation(unsigned first, unsigned second, unsigned third) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerRecordedText::Reset(void) { __asm { int 3 } }
-

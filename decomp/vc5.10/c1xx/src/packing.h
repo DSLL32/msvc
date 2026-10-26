@@ -15,6 +15,7 @@ typedef struct CompilerPacking {
     PackingFrame *available;
 #ifdef __cplusplus
     PackingFrame *RECON_THISCALL AcquireFrame(void);
+    void RECON_THISCALL PopFrame(void);
 #endif
 } CompilerPacking;
 
