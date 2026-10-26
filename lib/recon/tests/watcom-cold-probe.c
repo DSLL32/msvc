@@ -32,15 +32,38 @@ static char *(__cdecl *command)(char *)=recon_watcom_getcmd;
 static int (__cdecl *character)(void)=recon_watcom_getch;
 static char *(__cdecl *number)(unsigned int,char *,int)=recon_watcom_utoa;
 #endif
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+static void snapshot(unsigned char bytes[108])
+{ __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(*(unsigned char (*)[108])bytes)); }
+static void hexadecimal(void)
+{
+    static const unsigned values[]={0,1,64,0xabcdef,0x80000000U,0xffffffffU};
+    static const char *expected[]={"0","1","40","abcdef","80000000","ffffffff"};
+    unsigned index,row,n;char buffer[20],*output=buffer+4;
+    unsigned char before[108],after[108];
+    __asm__ __volatile__("fld1\n\tfldpi":::"st");
+    for(index=0;index<6;++index)for(row=0;row<3;++row) {
+        memset(buffer,0x5a,sizeof(buffer));errno=111+row;*recon_errno()=211+row;
+        recon_doserrno=311+row;SetLastError(411+row);
+        snapshot(before);assert(number(values[index],output,16)==output);snapshot(after);
+        assert(!strcmp(output,expected[index]) && !memcmp(before,after,108));
+        assert(errno==111+(int)row && *recon_errno()==211+(int)row &&
+               recon_doserrno==311+row && GetLastError()==411+row);
+        for(n=0;n<4;++n)assert(buffer[n]==0x5a);
+        for(n=4+strlen(expected[index])+1;n<sizeof(buffer);++n)assert(buffer[n]==0x5a);
+    }
+    __asm__ __volatile__("fstp %%st(0)\n\tfstp %%st(0)":::"st");
+}
+#endif
 int main(void)
 {
     unsigned char *memory;unsigned n,mode;pid_t child;int status;
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    assert(signed_number==recon_itoa);
+    assert(signed_number==recon_itoa);hexadecimal();
 #endif
     memory=mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
     assert(memory!=MAP_FAILED);memset(memory,0xa5,4096);
-    for(mode=0;mode<12;++mode) {
+    for(mode=0;mode<14;++mode) {
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
@@ -56,6 +79,8 @@ int main(void)
             case 9:number(0,NULL,10);break;
             case 10:number(~0U,(char *)memory,10);break;
             case 11:number(1,(char *)1,1);break;
+            case 12:number(1,NULL,16);break;
+            case 13:number(1,(char *)0xfffffff8U,16);break;
             }
             _exit(42);
         }

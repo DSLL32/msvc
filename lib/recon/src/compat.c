@@ -279,8 +279,16 @@ int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count
 }
 char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(radix!=16 || !output || (uintptr_t)output>UINTPTR_MAX-12)
+        recon_unsupported("Watcom utoa hexadecimal output domain");
+    /* The public API has no capacity formal. The reached caller owns12B;
+     * unsigned32 hexadecimal needs at most eight lowercase digits plus NUL. */
+    return recon_ultoa(value,output,16);
+#else
     (void)value;(void)output;(void)radix;
-    recon_unsupported("unreviewed Watcom utoa");return NULL;
+    recon_unsupported("Watcom utoa requires explicit profile");return NULL;
+#endif
 }
 int __cdecl recon_watcom_getch(void)
 {

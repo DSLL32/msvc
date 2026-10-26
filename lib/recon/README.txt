@@ -1305,10 +1305,12 @@ buffered-text save, negative-position and backend-failure domains deny125.
 The original fgetpos error path stores-1/returns1, but its unqualified errno
 domain is not modeled. No glibc FILE object or private FILE26 overlay is used.
 
-The Watcom-only public utoa(unsigned int,char *,int) spelling links to a typed
-boundary that always denies125 without reading or writing caller storage. WLIB's
-normal CheckLibrarySize branch does not invoke its cold decimal conversion;
-no conversion success is claimed.
+The Watcom-only public utoa(unsigned int,char *,int) boundary admits radix16
+through the existing unsigned32 conversion with lowercase digits. Its caller
+must own a valid12B destination; NULL/wrapping spans, other radices and profiles
+deny125. It returns the supplied start pointer, preserves error/FP state and
+writes only up to eight digits plus NUL. WLIB PrintModuleHeading uses this path;
+the separate cold decimal CheckLibrarySize branch remains unsupported.
 
 Explicit MSVCRT510 HeapDestroy retires only an exact registered live private
 heap from HeapCreate(1,0,0), releasing all outstanding tracked block mappings and
