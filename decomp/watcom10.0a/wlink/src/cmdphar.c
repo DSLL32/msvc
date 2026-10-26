@@ -90,3 +90,136 @@ void FreePharFmt( void )
     _LnkFree( FmtData.u.phar.params );
     _LnkFree( FmtData.u.phar.stub );
 }
+
+unsigned char ProcPharFlat( void )
+{
+    return 1;
+}
+
+unsigned char ProcMinReal( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 4;
+        if( value > 0xffff ) LnkMsg( 0x7a3b, "s", "minreal" );
+        else FmtData.u.phar.params->minreal = value;
+    }
+    return ret;
+}
+
+unsigned char ProcMaxReal( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 4;
+        if( value > 0xffff ) LnkMsg( 0x7a3b, "s", "maxreal" );
+        else FmtData.u.phar.params->maxreal = value;
+    }
+    return ret;
+}
+
+unsigned char ProcRealBreak( void )
+{
+    unsigned long value;
+    unsigned char ok;
+    if( !HaveEquals( 1 ) ) return 0;
+    ok = getatol( &value );
+    if( FmtData.u.phar.breaksym != 0 ) {
+        LnkMsg( 0x7a3d, 0 );
+        _LnkFree( FmtData.u.phar.breaksym );
+        FmtData.u.phar.breaksym = 0;
+    }
+    if( ok != 0 ) FmtData.u.phar.breaksym = tostring();
+    else FmtData.u.phar.params->realbreak = value;
+    CmdFlags |= 0x0800;
+    return 1;
+}
+
+unsigned char ProcCallBufs( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 10;
+        if( value > 64 ) LnkMsg( 0x7a3b, "s", "callbufs" );
+        else FmtData.u.phar.params->callbufs = value;
+    }
+    return ret;
+}
+
+unsigned char ProcMiniBuf( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 10;
+        if( value > 64 || value < 1 ) LnkMsg( 0x7a3c, "s", "minibuf" );
+        else FmtData.u.phar.params->minibuf = value;
+    }
+    return ret;
+}
+
+unsigned char ProcMaxiBuf( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 10;
+        if( value > 64 || value < 1 ) LnkMsg( 0x7a3c, "s", "maxibuf" );
+        else FmtData.u.phar.params->maxibuf = value;
+    }
+    return ret;
+}
+
+unsigned char ProcNIStack( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        if( value > 65535 || value < 4 ) LnkMsg( 0x7a3c, "s", "nistack" );
+        else FmtData.u.phar.params->nistack = value;
+    }
+    return ret;
+}
+
+unsigned char ProcIStkSize( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    if( ret ) {
+        value >>= 10;
+        if( value > 64 || value < 1 ) LnkMsg( 0x7a3c, "s", "istksize" );
+        else FmtData.u.phar.params->istksize = value;
+    }
+    return ret;
+}
+
+/* The old store prefix falls through the separate constant-return entry. */
+unsigned char ProcUnpriv( void )
+{
+    FmtData.u.phar.params->unpriv = 1;
+    return ProcPriv();
+}
+
+unsigned char ProcPriv( void )
+{
+    return 1;
+}
+
+unsigned char ProcFlags( void )
+{
+    unsigned long value;
+    unsigned char ret;
+    ret = GetLong( &value );
+    FmtData.u.phar.params->extender_flags = value;
+    return ret;
+}

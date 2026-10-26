@@ -53,6 +53,7 @@ void FiniPharLapLoadFile( void )
 }
 
 extern address StartInfo;
+extern symbol *FindISymbol( char * );
 extern unsigned long MemorySize( void );
 extern void WriteLoad( void *, unsigned short );
 extern void WriteDBI( void );
@@ -278,4 +279,27 @@ void WriteDescriptor( unsigned long base, unsigned long limit, unsigned flags )
     desc.limitlow = limit;
     desc.bits2 |= (limit >> 16) & 15;
     WriteLoad( &desc, sizeof(desc) );
+}
+
+extern unsigned char CompareOffsets( address *, address * );
+extern unsigned char WriteDOSGroup( group_entry * );
+
+unsigned long WritePharData( unsigned long file_pos )
+{
+    group_entry *group;
+    outfilelist *file;
+    unsigned char repos;
+
+    OrderGroups( CompareOffsets );
+    CurrSect = Root;
+    file = Root->outfile;
+    file->file_loc = file_pos;
+    Root->u.file_loc = file_pos;
+    Root->sect_addr.off = Groups->grp_addr.off;
+    Root->sect_addr.seg = Groups->grp_addr.seg;
+    for( group = Groups; group != 0; group = group->next_group ) {
+        repos = WriteDOSGroup( group );
+        if( repos ) QSeek( file->handle, file->file_loc, file->fname );
+    }
+    return file->file_loc - file_pos;
 }

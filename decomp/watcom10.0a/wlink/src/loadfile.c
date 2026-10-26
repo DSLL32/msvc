@@ -358,3 +358,8 @@ unsigned long PadToAlign( unsigned long offset, unsigned long alignment )
     if( pad != 0 ) PadLoad( pad );
     return offset + pad;
 }
+
+unsigned char CompareOffsets( address *left, address *right )
+{
+    return left->off < right->off;
+}

@@ -212,17 +212,6 @@ unsigned char ProcTNT( void ) { TRAP(); return 0; }
 
 unsigned char CheckFence( void ) { TRAP(); return 0; }
 
-unsigned char ProcMinReal( void ) { TRAP(); return 0; }
-unsigned char ProcMaxReal( void ) { TRAP(); return 0; }
-unsigned char ProcRealBreak( void ) { TRAP(); return 0; }
-unsigned char ProcCallBufs( void ) { TRAP(); return 0; }
-unsigned char ProcMiniBuf( void ) { TRAP(); return 0; }
-unsigned char ProcMaxiBuf( void ) { TRAP(); return 0; }
-unsigned char ProcNIStack( void ) { TRAP(); return 0; }
-unsigned char ProcIStkSize( void ) { TRAP(); return 0; }
-unsigned char ProcUnpriv( void ) { TRAP(); return 0; }
-unsigned char ProcPriv( void ) { TRAP(); return 0; }
-unsigned char ProcFlags( void ) { TRAP(); return 0; }
 unsigned char ProcRunNative( void ) { TRAP(); return 0; }
 unsigned char ProcRunWindows( void ) { TRAP(); return 0; }
 
@@ -269,7 +258,6 @@ unsigned char ProcNoRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcNone( void ) { TRAP(); return 0; }
 unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
-unsigned char ProcOffset( void ) { TRAP(); return 0; }
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
 unsigned char ProcProtMode( void ) { TRAP(); return 0; }
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
@@ -689,7 +677,6 @@ unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }
 
 unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
 
-unsigned char ProcPharFlat( void ) { TRAP(); return 0; }
 
 unsigned char ProcRex( void ) { TRAP(); return 0; }
 
@@ -701,7 +688,6 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 
 
 
-unsigned long WritePharData( unsigned long file_pos ) { TRAP(); return 0; }
 
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 

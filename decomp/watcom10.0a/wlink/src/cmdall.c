@@ -462,3 +462,11 @@ unsigned char ProcAlignment( void )
     if( HintFormat( 0x8000 ) ) return ProcELFAlignment();
     return 1;
 }
+
+unsigned char ProcOffset( void )
+{
+    if( !GetLong( &FmtData.base ) ) return 0;
+    if( !(FmtData.type & 0x7c00) ) ChkBase();
+    else if( !(FmtData.type & 0x0016) ) ChkBase4K();
+    return 1;
+}

@@ -4716,6 +4716,81 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcPharFlat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOffset": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMinReal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMaxReal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRealBreak": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCallBufs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMiniBuf": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMaxiBuf": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNIStack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcIStkSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcUnpriv": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPriv": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePharData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CompareOffsets": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

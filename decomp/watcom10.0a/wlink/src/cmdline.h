@@ -272,6 +272,7 @@ struct stringtable;
 extern unsigned long WriteELFSymbols( symbol **indices, struct stringtable *strings );
 extern unsigned ELFPrimeBuckets( unsigned count );
 extern unsigned long ELFHash( char *name );
+extern unsigned char CompareOffsets( address *left, address *right );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );
