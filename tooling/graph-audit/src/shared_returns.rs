@@ -145,40 +145,44 @@ fn canonical(cfg: &Value, r: &Record) -> Result<()> {
     );
     Ok(())
 }
-fn jump_target(
-    cfg: &Value,
-    image: &impl ImageView,
-    role: TransferRole,
-) -> Result<ResolvedTransfer> {
+fn app_endpoint(cfg: &Value, image: &impl ImageView, name: &str) -> Result<u32> {
     let rows: Vec<_> = cfg["function_registry"]
         .as_array()
-        .context("shared JMP tail requires canonical registry")?
+        .context("shared transfer requires canonical registry")?
         .iter()
-        .filter(|row| row["name"].as_str() == Some(&role.target))
+        .filter(|row| row["name"].as_str() == Some(name))
         .collect();
     ensure!(
         rows.len() == 1
             && rows[0]["definition"] == 4
             && matches!(rows[0]["implementation"].as_u64(), Some(0 | 1)),
-        "shared JMP tail requires a unique canonical App endpoint"
+        "shared transfer requires a unique canonical App endpoint"
     );
     let address = num(&cfg["target"]["base"])?
         .checked_add(num(&rows[0]["rva"])?)
-        .context("shared JMP tail endpoint overflow")?;
+        .context("shared transfer endpoint overflow")?;
     image
         .read(address, 1)
-        .context("shared JMP tail endpoint is not initialized")?;
+        .context("shared transfer endpoint is not initialized")?;
     if image.pe_sections().is_some() {
         ensure!(
             image.file_backed_code(
                 address,
                 address
                     .checked_add(1)
-                    .context("shared JMP endpoint overflow")?
+                    .context("shared transfer endpoint overflow")?
             ),
-            "shared JMP tail endpoint is not executable file-backed code"
+            "shared transfer endpoint is not executable file-backed code"
         );
     }
+    Ok(address)
+}
+fn jump_target(
+    cfg: &Value,
+    image: &impl ImageView,
+    role: TransferRole,
+) -> Result<ResolvedTransfer> {
+    let address = app_endpoint(cfg, image, &role.target)?;
     Ok(ResolvedTransfer {
         offset: role.offset,
         target: role.target,

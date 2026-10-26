@@ -1,5 +1,5 @@
 //! Exact shared terminal subgraphs, validated only from existing owner CFG facts.
-use super::{Pair, TerminalLocation, canonical, unique};
+use super::{Pair, TerminalLocation, app_endpoint, canonical, unique};
 use crate::{decode::Decoder, image::ImageView, index::Record};
 use anyhow::{Context, Result, ensure};
 use serde::Deserialize;
@@ -79,7 +79,7 @@ pub(super) fn parse(
         let b = unique(drivers, &row.owners[1])?;
         canonical(cfg, a)?;
         canonical(cfg, b)?;
-        let report = validate(image, a, b, &row.original, cfg, drivers, index, metadata)?;
+        let report = validate(image, a, b, &row.original, cfg, index, metadata)?;
         let evidence =
             crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
         let mut report = report;
@@ -103,7 +103,6 @@ fn validate(
     b: &Record,
     region: &Region,
     cfg: &Value,
-    drivers: &[Record],
     index: &[Record],
     metadata: &Value,
 ) -> Result<Value> {
@@ -177,9 +176,7 @@ fn validate(
     for call in &region.calls {
         let target = match (&call.target, &call.indirect_operand) {
             (Some(name), None) if !name.is_empty() => {
-                let target = unique(drivers, name)?;
-                canonical(cfg, target)?;
-                Target::Direct(name.clone(), target.start)
+                Target::Direct(name.clone(), app_endpoint(cfg, image, name)?)
             }
             (None, Some(operand)) if !operand.is_empty() => Target::Indirect(operand.clone()),
             _ => anyhow::bail!(
@@ -516,7 +513,30 @@ mod tests {
         assert_eq!(report[0]["raw_calls"][0]["raw_target"], 0x401060);
         let mut bad = cfg.clone();
         bad["function_registry"][2]["implementation"] = json!(0);
-        assert!(parse_fixture(&image, &records, &bad).is_err());
+        bad["function_registry"][2]["code"] = json!([]);
+        let endpoints_only = &records[..2];
+        let pending_report = parse_fixture(&image, endpoints_only, &bad)?
+            .regions_report()
+            .unwrap();
+        assert_eq!(pending_report, report);
+        for invalid in [
+            json!({"name":"callee","rva":0x1060,"definition":3,"implementation":0}),
+            json!({"name":"callee","rva":0x1060,"definition":0,"implementation":0}),
+            json!({"name":"callee","rva":0x1060,"definition":4,"implementation":2}),
+            json!({"name":"callee","rva":0x1061,"definition":4,"implementation":0}),
+            json!({"name":"callee","rva":0x1800,"definition":4,"implementation":0}),
+        ] {
+            let mut invalid_cfg = bad.clone();
+            invalid_cfg["function_registry"][2] = invalid;
+            assert!(parse_fixture(&image, endpoints_only, &invalid_cfg).is_err());
+        }
+        let mut duplicate = bad.clone();
+        let same = duplicate["function_registry"][2].clone();
+        duplicate["function_registry"]
+            .as_array_mut()
+            .unwrap()
+            .push(same);
+        assert!(parse_fixture(&image, endpoints_only, &duplicate).is_err());
         let mut bad = cfg.clone();
         bad["shared_terminal_regions"][0]["original"]["calls"][0]["target"] = json!("a");
         assert!(parse_fixture(&image, &records, &bad).is_err());

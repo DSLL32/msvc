@@ -1,0 +1,27 @@
+{
+  "scope": "Separate direct CALL endpoint identity from implemented ownership only in shared_terminal_regions. Reuse existing canonical App impl0|1 endpoint resolver; owners remain impl1/nonpending/exactbounds. No callee body/ABI/RET/permission/acceptance inference.",
+  "validation_sha256": "5d016f77413b8b97aa65a5a2b327cbaa9a3774c7cf3856a3251acb576053314a",
+  "release_sha256": "ec80bcc37e2e57f9a63292efa2d6665f67729f7a37c5fdf1def8fda169ee82a8",
+  "source_sha256": {
+    "src/shared_returns.rs": "426b82bfd7ee0ae55378791132811b3ddb59f66dba68994f4e845d7da8c34ea7",
+    "src/shared_returns/terminal_regions.rs": "3f70a302ce62bf39d786fdac30a1f8a5425d7f75e006104c98cc6936857eb9d8",
+    "README.md": "14cfdf82229df7381d19c830c7295f53b47a88376fa713449bc52b6d73dcc6dc"
+  },
+  "actual_scope": "ContinueStmt only; full real identity/driver catalogs retained",
+  "actual_static_ms": 187.48562317341566,
+  "denials": 7,
+  "shared_return_units": 16,
+  "parity": [
+    "prior opaqueCALL",
+    "absent-regions default",
+    "prior CALL/JMP"
+  ],
+  "limits": [
+    "Single actual ContinueStmt selected; full original driver and registry retained, including all existing sharing declarations. Not a full-case audit.",
+    "CErr1 stays definitionApp/implementation0, unaccepted, nativeINT3 and originalmasked. No body/content inferred.",
+    "No target/native execution, original capture or speedup claim."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/shared-region-pending-callee",
+  "canonical_build_seconds": 68.23640467785299,
+  "canonical_bit_identical": true
+}
