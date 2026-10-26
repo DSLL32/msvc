@@ -1840,3 +1840,37 @@ void __stdcall rc_search_resource_path(const char *filename,const char *variable
         if(file){fclose(file);break;}
     }while(*path&&*paths);
 }
+
+/* Validate the RIFF/ACON chunk walk, then leave the entire file at its start
+ * for the ordinary resource-payload copier. No chunk data is rewritten. */
+long __stdcall rc_copy_riff_resource(long size)
+{
+    struct { DWORD tag,size; } chunk;
+    long remaining;
+    unsigned received=rc_read_bytes(rc_resource_data_file,&chunk,8);
+    if(received!=8){ __asm int 3 }
+    remaining=size-received;
+    if(chunk.tag!=0x46464952)
+        rc_resource_file_fatal(2173,rc_resource_name);
+    received=rc_read_bytes(rc_resource_data_file,&chunk,4);
+    if(received!=4){ __asm int 3 }
+    remaining-=received;
+    if(chunk.tag!=0x4e4f4341)
+        rc_resource_file_fatal(2173,rc_resource_name);
+    while((received=rc_read_bytes(rc_resource_data_file,&chunk,8))!=0){
+        if(received!=8){ __asm int 3 }
+        remaining-=8+chunk.size;
+        rc_seek(rc_resource_data_file,chunk.size,SEEK_CUR);
+    }
+    if(remaining)rc_resource_file_fatal(2173,rc_resource_name);
+    rc_seek(rc_resource_data_file,0,SEEK_SET);
+    return size;
+}
+
+void __stdcall rc_resource_notice_strings(unsigned code,const void *first,
+                                         const void *second,DWORD extra)
+{
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_token.line,first,second,extra);
+    rc_emit_notice(rc_error_text);
+}

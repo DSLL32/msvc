@@ -21,3 +21,13 @@ void __stdcall rc_emit(char *message)
         rc_last_line=rc_line;
     }
 }
+
+
+/* Notices notify the same clients as errors but do not advance the repeated
+ * diagnostic counters used by rc_emit. */
+void __stdcall rc_emit_notice(char *message)
+{
+    if(rc_diagnostic)rc_diagnostic(0,0,message);
+    if(rc_window&&SendMessageA(rc_window,0x419,0,(LPARAM)message))
+        rc_fatal("\n");
+}

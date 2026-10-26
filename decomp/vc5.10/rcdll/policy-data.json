@@ -304,6 +304,84 @@
             }
           ]
         }
+      },
+      "rc_mac_resource_type": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_mac_resource_type@8",
+                "offset": 340
+              },
+              {
+                "rebuilt_symbol": "_rc_mac_resource_type@8",
+                "offset": 642
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_mac_resource_type@8",
+                "offset": 37
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 44
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 141
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 151
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 161
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 171
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 181
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 191
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 201
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 222
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 208
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 215
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 229
+                },
+                {
+                  "rebuilt_symbol": "_rc_mac_resource_type@8",
+                  "offset": 236
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": []

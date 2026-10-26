@@ -195,10 +195,6 @@ void __stdcall rc_resource_error(unsigned code)
 
 
 
-void __cdecl rc_flush_font_directory(void)
-{
-    __asm int 3
-}
 
 
 
@@ -220,47 +216,17 @@ long __stdcall rc_convert_icon_file(long size)
 
 
 
-int __stdcall rc_parse_font_resource(RcResource *resource)
-{
-    __asm int 3
-    return 0;
-}
 
 
 
 
-long __stdcall rc_copy_riff_resource(long size)
-{
-    __asm int 3
-    return 0;
-}
 
-DWORD __stdcall rc_mac_long(DWORD value)
-{
-    __asm int 3
-    return 0;
-}
 
-unsigned __stdcall rc_mac_word(WORD value)
-{
-    __asm int 3
-    return 0;
-}
 
-void __stdcall rc_mac_group_icon(RcResourceType *type,RcResource *resource)
-{
-    __asm int 3
-}
 
-void __stdcall rc_mac_group_cursor(RcResourceType *type,RcResource *resource)
-{
-    __asm int 3
-}
 
-void __cdecl rc_write_mac_resource_file(void)
-{
-    __asm int 3
-}
+
+
 
 void __stdcall rc_parse_toolbar_resource(RcResource *resource)
 {
@@ -268,10 +234,7 @@ void __stdcall rc_parse_toolbar_resource(RcResource *resource)
 }
 
 
-void __stdcall rc_resource_notice_strings(unsigned code,const WCHAR *first,const WCHAR *second,DWORD extra)
-{
-    __asm int 3
-}
+
 
 
 void __stdcall rc_parse_dialog_class(RcDialog *dialog)
@@ -288,15 +251,7 @@ void __stdcall rc_patch_control_data_size(WORD size,int enabled)
 {
     __asm int 3
 }
-void __cdecl rc_convert_dialog_count(void)
-{
-    __asm int 3
-}
 
-void __stdcall rc_write_mac_string(const WCHAR *text,int flags,int counted)
-{
-    __asm int 3
-}
 
 void __stdcall rc_concatenate_resource_string(const WCHAR *text,int flags)
 {
@@ -360,3 +315,22 @@ void __stdcall rc_resource_input_fatal_name(unsigned code,const WCHAR *name)
 {
     __asm int 3
 }
+
+void __stdcall rc_resource_file_warning(unsigned code,const WCHAR *name)
+{
+    __asm int 3
+}
+
+DWORD __stdcall rc_mac_color_brightness(const WORD *rgb)
+{ __asm int 3
+  return 0;
+}
+
+
+void __stdcall rc_reduce_cursor_width(BYTE *out,const BYTE *in,int stride,int height)
+{ __asm int 3 }
+void __stdcall rc_reduce_cursor_height(BYTE *out,const BYTE *in,int stride,int height,int scale)
+{ __asm int 3 }
+
+void __stdcall rc_map_mac_bytes(char *text,int bytes)
+{ __asm int 3 }

@@ -1,4 +1,4 @@
-; Only the two messages encountered by RC /help. ANSI, language 0x0409.
+; Encountered help and resource diagnostic messages. ANSI, language0x0409.
 LanguageNames=(English=0x409:MSG00409)
 
 MessageId=10001
@@ -23,4 +23,9 @@ Switches:
    /w	 Warn on Invalid codepage in .rc (default is an error)
 Flags may be either upper or lower case
 
+.
+
+MessageId=4509
+Language=English
+%1 (%2!d!): warning RC4509 : Resource types '%3' and '%4' were both mapped to '%5'
 .

@@ -18,14 +18,14 @@ while index<len(lines):
     while index<len(lines) and lines[index].strip()!='.':body.append(lines[index]);index+=1
     assert index<len(lines) and identity not in messages;index+=1
     messages[identity]=''.join(body).replace('\n','\r\n').encode('ascii')
-assert set(messages)=={10001,20001}
+assert set(messages)=={4509,10001,20001}
 for identity,text in sorted(messages.items()):
     entries.append(dict(kind='message',id=identity,language=1033,text=text))
 spec=importlib.util.spec_from_file_location('resources',ROOT/'lib/recon/resources.py')
 resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
 resources.write_resources(HERE/'.build/help-resources.bin','bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0',entries)
 
-# Standard MESSAGE_RESOURCE_DATA: two one-ID blocks, ANSI aligned entries.
+# Standard MESSAGE_RESOURCE_DATA: encountered one-ID blocks, ANSI aligned entries.
 records=[];blocks=[];offset=4+12*len(entries)
 for entry in entries:
     payload=entry['text']+b'\0'

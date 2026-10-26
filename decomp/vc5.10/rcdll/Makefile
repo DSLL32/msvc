@@ -16,6 +16,7 @@ BINARY_SOURCES = src/characters.c \
     src/directives.c \
     src/dll-main.c \
     src/encoding.c \
+    src/fonts.c \
     src/include-names.c \
     src/input.c \
     src/integer-conversion.c \
@@ -23,6 +24,7 @@ BINARY_SOURCES = src/characters.c \
     src/integer-storage.c \
     src/lexer.c \
     src/logical-characters.c \
+    src/mac-resources.c \
     src/macro-define.c \
     src/macro-expansion.c \
     src/macro-input.c \

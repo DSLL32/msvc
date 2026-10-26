@@ -104,6 +104,16 @@ extern RcResource *rc_last_string_resource;
 void *__stdcall rc_allocate_copy(unsigned,const void *);
 void __stdcall rc_report_resource_error(unsigned);
 
+/* Variable-sized directory node: actual allocation is8+size bytes. */
+typedef struct RcFontDirectoryEntry {
+    WORD id,size;
+    struct RcFontDirectoryEntry *next;
+    BYTE data[1];
+} RcFontDirectoryEntry;
+typedef char RcFontDirectoryLayout[
+    offsetof(RcFontDirectoryEntry,next)==4 &&
+    offsetof(RcFontDirectoryEntry,data)==8 ? 1 : -1];
+extern RcFontDirectoryEntry *rc_font_directory_head,*rc_font_directory_tail;
 extern WORD rc_font_resource_count,rc_resource_count;
 extern DWORD rc_resource_version,rc_resource_characteristics;
 extern int rc_explicit_font_directory;
@@ -206,13 +216,31 @@ long __stdcall rc_copy_riff_resource(long size);
 DWORD __stdcall rc_mac_long(DWORD value);
 unsigned __stdcall rc_mac_word(WORD value);
 void __stdcall rc_mac_group_icon(RcResourceType *type,RcResource *resource);
+typedef struct RcMacColor { WORD value,red,green,blue; } RcMacColor;
+typedef struct RcMacRgbQuad { BYTE blue,green,red,index; } RcMacRgbQuad;
+typedef char RcMacColorLayout[sizeof(RcMacColor)==8 &&
+    offsetof(RcMacColor,red)==2 && sizeof(RcMacRgbQuad)==4 ? 1 : -1];
+extern const RcMacColor rc_mac_colors_mono[2],rc_mac_colors4[16],rc_mac_colors8[34];
+DWORD __stdcall rc_mac_color_brightness(const WORD *);
+void __stdcall rc_map_mac_color(const RcMacColor *,int,RcMacRgbQuad *);
+unsigned __stdcall rc_load_mac_icon_image(long,RcImageFileEntry *,RcBitmapInfo *,
+                                      int *,BYTE **,RcMacRgbQuad **,int);
+void __stdcall rc_repack_mac_icon_bits(BYTE *,int,int,int,int,int);
+void __stdcall rc_write_mac_icon_resource(const BYTE *,int,RcResource *,DWORD);
+void __stdcall rc_build_mac_icon(RcResource *,int,long,long,long);
+void __stdcall rc_resource_file_warning(unsigned,const WCHAR *);
 void __stdcall rc_mac_group_cursor(RcResourceType *type,RcResource *resource);
+void __stdcall rc_reduce_cursor_width(BYTE *,const BYTE *,int,int);
+void __stdcall rc_reduce_cursor_height(BYTE *,const BYTE *,int,int,int);
 void __cdecl rc_write_mac_resource_file(void);
+int __stdcall rc_is_mac_icon_type(const RcResourceType *);
+unsigned __stdcall rc_assign_mac_resource_id(RcResourceType *,RcResource *);
+DWORD __stdcall rc_mac_resource_type(const WCHAR *,WORD);
 void __stdcall rc_parse_toolbar_resource(RcResource *resource);
 int __stdcall rc_parse_dialog(RcResource *,RcDialog *,int);
 WORD __cdecl rc_read_dialog_coordinate(void);
 void __stdcall rc_read_dialog_rectangle(WORD *,WORD *,WORD *,WORD *);
-void __stdcall rc_resource_notice_strings(unsigned,const WCHAR *,const WCHAR *,DWORD);
+void __stdcall rc_resource_notice_strings(unsigned,const void *,const void *,DWORD);
 void __stdcall rc_parse_dialog_font(RcDialog *,int);
 void __stdcall rc_parse_dialog_menu(RcDialog *);
 void __stdcall rc_parse_dialog_caption(RcDialog *);
@@ -233,6 +261,8 @@ int __stdcall rc_parse_menu_attribute(unsigned,RcMenuItem *);
 WORD __stdcall rc_write_menu_item(RcMenuItem *);
 void __stdcall rc_write_resource_string(const WCHAR *,int);
 void __stdcall rc_write_mac_string(const WCHAR *,int,int);
+void __stdcall rc_map_mac_bytes(char *,int);
+int __stdcall rc_expand_mac_bytes(const char *,int,BYTE *);
 void __stdcall rc_write_apstudio_name(const WCHAR *);
 void __stdcall rc_mark_last_menu_item(WORD);
 int __cdecl rc_parse_version_resource(void);

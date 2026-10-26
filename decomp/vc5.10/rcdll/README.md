@@ -1,6 +1,6 @@
 # RCDLL (Visual C++ 5.10)
 
-Both current cases complete using the native i386 shared library. Run `make -j4
+All three current cases complete using the native i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -21,6 +21,13 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   The corpus covers menus, dialogs, string tables, accelerators, icon/cursor
   groups, bitmap conversion, raw data, DLGINCLUDE and VERSIONINFO. Final cleanup
   closes streams, removes temporary files and destroys its tracked private heap.
+- `0002-mac-resources`: `/r /m /fomac-resources.rsc mac-resources.rc`,
+  combining two raster fonts, RIFF/ACON animations, monochrome icons/cursor,
+  bitmap, menu/dialog, strings, accelerators and raw resources. The complete
+  Macintosh resource fork has SHA-256
+  `f0a4323f141ec15431e746e12bfa75777f8185108a63347eaf7937aa899238d2`.
+  It emits the genuine RC4509 warning that types 10 and 240 both map to `HEXA`,
+  with empty stderr and exit zero. All 174 original first-entry encounters match.
 
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
@@ -31,8 +38,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **220 functions and 51,779 unique
-original code bytes**, **69.40% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **241 functions and 58,287 unique
+original code bytes**, **78.12% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -44,12 +51,13 @@ status totals. A superseded final scratch parser crossed NULL-symbol record
 boundaries and reported 51,823 bytes; the corrected record-bounded count is
 51,779, with no code or credit added by that accounting correction.
 
-The existing registry has 52 pending App records with 9,861 bytes of known code
-extents, plus 27 unknown records spanning 4,702 bytes whose classification is
-unresolved. Substantial remaining areas include font/RIFF resources, Macintosh
-output, APSTUDIO recording, pragma/codepage handling and diagnostics. An extended
-resource corpus and a preprocessor/diagnostic workload are possible future
-cases; neither has been started.
+The Mac case adds 21 application bodies and 6,508 code bytes to the completed
+rich-case baseline of 220 / 51,779. The current registry has 46 pending App records
+with 6,435 known code bytes, plus 12 unknown records spanning 1,620 bytes whose
+classification is unresolved. Remaining areas include classic menus/toolbars,
+APSTUDIO recording, pragma/codepage handling, literals and diagnostics, plus
+unvisited Macintosh resizing and byte mapping. These records are a classified
+subset, not a complete non-CRT denominator.
 
 The two historical startup CRT bodies (555 bytes), import thunks (12 bytes)
 and provided 47-byte __chkstk helper receive no application credit. __chkstk
@@ -77,7 +85,7 @@ string-list head and last-resource pointer also remain separate owners. Packed
 resource layouts retain original allocation requests and consumed offsets;
 unknown fields and untouched tails are not treated as initialized values.
 
-The final original capture took 839.197 ms. Native adoption took 203.741 ms
+The preceding rich-case final original capture took 839.197 ms. Native adoption took 203.741 ms
 (setup 76.448, execution 57.043, checks 70.249 ms). Case-end parallel builds,
 both cached case checks and 92 unit groups passed in 0.553 s; strict graph/ABI
 and SEH-role audit passed in 0.838 s. The first final audit exposed an undeclared
@@ -85,8 +93,40 @@ compiler-emitted VERSIONINFO switch table; exact COFF labels, five pointer
 relocations and its 102-byte remap now describe only that data. No target source
 or capture changed for this metadata correction.
 
-Current final raw/reference, failed native HeapDestroy denial, native-only
-adoption, exact source snapshots, accounting and gate logs are retained in
-`~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0222/`. Earlier WIP and failure evidence
-remain in their scratch namespaces and Git history. Reconstruction is paused
-after this completed case; no next case has been started.
+The Mac font inputs retain valid packed FNTv3 fields and even bitmap row width.
+The target reads 148 bytes directly and interprets file offsets 136/140 as name
+pointers; those are reserved packed-header bytes and remain zero. Its resulting
+empty FONTDIR names match the original. A named-device branch and an OS font
+renderer were not tested. Macintosh image paths retain the actual bounded
+palette tables; unavailable eight-bit lookup rows trap in both builds. The
+original white-first cursor inversion begins outside its initialized bitmap;
+that branch also traps before the invalid read. Current assets use black-first
+monochrome palettes. These limits do not rely on allocator slack.
+
+Shared support for this case is limited to the reached ASCII MacRoman conversion,
+its count-zero invalid-parameter result, exact numeric `wsprintfA("%d")`, and the
+registered five-insert RC4509 message. Other formatter grammars and codepage
+conversions remain unsupported. Original per-call API bytes/error/FP state were
+not directly measured; ordinary static ABI facts and final actual output remain
+distinct from such measurements.
+
+The Mac final masked-original capture took 1,364.983 ms. After the compiler
+intrinsic correction, native comparison against that unchanged original took
+12.758 ms (setup 5.646, execution 5.610, checks 1.502 ms). The completed-case parallel
+batch passed all three cached cases, 99 unit groups and both builds in 0.418 s;
+strict graph/ABI plus SEH-role checks passed in 0.912 s. The first final audit
+exposed an imported `memcpy` where the original used compiler intrinsics. The
+VC5 intrinsic annotation preserves the algorithm and original function graph;
+its fresh native refresh reused the unchanged original. No new original was
+captured solely for that correction. The untouched corrected-font final oracle
+independently agrees on inputs, status, streams and complete artifact hashes.
+
+Mac source snapshots, matching raw/reference, formatter denials/adoptions,
+accounting and final gates are retained under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/mac-resources/0025-notice-complete/`, with earlier
+steps alongside it. Rich-case evidence remains under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0222/`. The initial ordinary 0023 native
+report was inadvertently overwritten during adoption; its separate genuine GDB
+denial report/log and failed ELF remain preserved, and the derivation records
+that limitation. Earlier WIP and failure evidence retains its original scope.
+Further substantial cases will target the remaining application owners.

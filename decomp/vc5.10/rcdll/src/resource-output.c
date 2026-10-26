@@ -591,3 +591,14 @@ void __cdecl rc_increment_dialog_count(void)
 #endif
     ++*(WORD *)(rc_resource_buffer+rc_dialog_count_offset);
 }
+
+void __cdecl rc_convert_dialog_count(void)
+{
+    WORD *count;
+    if(!rc_resource_buffer||rc_resource_buffer_used<2||
+       rc_resource_buffer_used>rc_resource_buffer_size||
+       (rc_dialog_count_offset&1)||
+       rc_dialog_count_offset>(DWORD)(rc_resource_buffer_used-2)){ __asm int 3 }
+    count=(WORD *)(rc_resource_buffer+rc_dialog_count_offset);
+    *count=(WORD)rc_mac_word(*count);
+}
