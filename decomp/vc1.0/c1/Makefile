@@ -104,6 +104,11 @@ RECON_AUDIT_FLAGS = -q --discovery cfg --check-ret --check-references --check-ow
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c1.map
+# Canonical host reuses the same application and historical CRT objects.
+# The shared entry hook, descriptor and case adapters remain fixture-only.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = $(BINARY_SUPPORT_SOURCES)
+NATIVE_BIN_FILES = c1_errors=../../../toolchains/1.0-nt/bin/C1.ERR
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 src/asm-grammar.c: src/asm-grammar.y scripts/grammar.py scripts/generate-asm-grammar.py

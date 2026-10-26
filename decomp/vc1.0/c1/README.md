@@ -31,8 +31,8 @@ Only grammar and fixture-source generators remain under `scripts/`.
 
 Application reconstruction is under `src/`; existing CRT exceptions are under
 `crt/`. Case-specific adapters/tests stay beside their numbered descriptors;
-there is currently no separate native host or shared case C helper to place in
-`harness/`. Shared compatibility stays in `lib/recon/`.
+root `entry.c` is the canonical native executable host, while there is no shared
+case C helper requiring `harness/`. Shared compatibility stays in `lib/recon/`.
 
 `crt/runtime.c` retains ten historical variants: `setvbuf`, `_freebuf`, `_filbuf`,
 `ftell`, `fseek` and `fclose` preserve this executable's older stream flags and
@@ -248,3 +248,40 @@ The original compiler build and graph/ABI checks pass. The final incremental
 build/audit took1.525s; all175 cached cases pass in1.493s and unit executors
 in1.170s, using the shared fresh-before-load errno correction e0116ffcb.
 No existing oracle was recaptured for that runner update.
+
+## Canonical native executable
+
+`make -j4 native-bin` links `build/c1` using the existing application, historical
+CRT and shared shim objects. Root `entry.c` is native host glue only: the shared
+partial link privately renames App `main`, leaving fixture objects and the Win32
+build unchanged. Descriptor, entry-hook and fixture-provider objects are excluded.
+The VC1.0 coordinator installs this ELF under its ordinary `C13232.EXE` sibling
+name for CL's real child invocation.
+
+Shared startup owns mutable actual arguments/environment and the Windows command
+line, module path, cwd and CRT environment. It works with only the child-supplied
+`MSC_CMD_FLAGS`, without `PATH` or `RECON_*` settings. Existing support retains
+verified 53-bit FP precision and binary default file mode. The application owns
+its normal initialization and exit cleanup; no guessed CRT startup is invoked.
+
+The shipped 57919-byte `C1.ERR` is embedded in read-only sections, with SHA256
+`8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775`.
+Startup registers only default relative `c1.err` and the actual executable's
+installed `C1.ERR` path, deduplicating them when cwd is the install directory.
+An alternate `-ef` path uses the ordinary filesystem. No catalogs are extracted;
+no captured dependency response or original executable is needed for startup.
+
+Canonical verification: minimal-environment compilation succeeds with all five
+IR files; default embedded and real external `-ef` diagnostics both match the
+selected catalog (3.0–3.9ms per invocation). The installed sibling also passes
+real CL→C1→C2 compilation with an empty top-level environment, producing a286B
+COFF object in8.159ms. Initial host-module registration used a fixed name that
+rejected local `build/c1`; it now derives the actual executable basename, so
+both local and installed identities agree with their paths.
+
+Native build took5.711s, then the metadata-only host relink0.584s. The175-case
+cached gate passes in11.489s including case-library rebuilds; parallel summed
+setup/execution/checks are1.900/1.132/0.700s. All175 unit executors pass in1.180s.
+The linked catalog bytes match the source exactly, and fixture descriptors/hooks
+are absent from the canonical executable. No application/CRT bodies, cached
+references, Win32 inputs or reconstruction credit changed; no Wine ran.
