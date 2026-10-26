@@ -453,7 +453,7 @@ unsigned short __stdcall expression_type_alignment(CType *type)
 void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int sense)
 {
     IrToken *local_label;
-    unsigned selection[4];
+    SourceConversionSearch selection;
     for (;;) {
         if (!condition->type) {
             condition = resolve_assignment_operand(0, condition);
@@ -489,9 +489,9 @@ void __stdcall emit_condition_to_label(IrToken *condition, IrToken *label, int s
         return;
     }
     if (condition && (short)is_unqualified_class_type(condition->type)) {
-        condition = convert_class_condition(condition, 0, selection);
+        condition = convert_class_condition(condition, 0, &selection);
         if (condition && (short)is_unqualified_class_type(condition->type) &&
-            selection[0] < 0x400) return;
+            selection.rank < 0x400) return;
     }
     emit_expression_tree(condition);
     write_ir_record(sense ? 0x39 : 0x38, label);

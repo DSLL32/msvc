@@ -15,7 +15,7 @@ int __stdcall reject_member_pointer_arithmetic(IrToken *expression);
 IrToken *__stdcall convert_binary_operands(IrToken *expression);
 void __stdcall warn_pointer_conversion(unsigned char operation, IrToken *left, IrToken *right);
 void __stdcall report_invalid_operand(unsigned char operation, int position);
-IrToken *__stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection);
+IrToken *__stdcall convert_class_condition(IrToken *expression, int mode, SourceConversionSearch *selection);
 IrToken *__stdcall convert_numeric_constant(unsigned char operation, CType *type, IrToken *expression);
 extern unsigned integer_constant_scratch;
 extern long maximum_signed_int_constant;

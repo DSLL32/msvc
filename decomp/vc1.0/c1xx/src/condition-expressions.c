@@ -14,7 +14,7 @@
 IrToken *__stdcall boolean_expression(IrToken *expression, int mode)
 {
     unsigned char category;
-    unsigned selection;
+    SourceConversionSearch selection;
     unsigned short flags;
     int truth;
     Extended number;
@@ -32,7 +32,7 @@ IrToken *__stdcall boolean_expression(IrToken *expression, int mode)
             expression = convert_class_condition(expression, mode, &selection);
         if (expression && is_unqualified_class_type(expression->type)) {
             prepare_expression(0, 2);
-            if (selection & 0x2000)
+            if (selection.rank & 0x2000)
                 report_syntax_error(mode ? 450 : 451,
                     ((CppSymbol *)cpp_context_stack->items[expression->type->field08])->name);
             return new_right_typed_expression(0x40, expression, make_integer_constant(0));

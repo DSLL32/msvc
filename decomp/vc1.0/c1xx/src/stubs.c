@@ -82,7 +82,6 @@ TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) {
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 
 
-void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol, unsigned parameter) { __asm { int 3 } }
 
 
 /* Complete yacc semantic callees, still unaccepted. */
@@ -93,7 +92,6 @@ void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDecl
 
 void __stdcall record_boolean_constant(unsigned value) { __asm { int 3 } }
 IrToken *__stdcall adjust_general_member_pointer_object(IrToken *object, IrToken *address, IrToken *adjustment, IrToken *pointer_offset, IrToken *virtual_offset, CType *type) { __asm { int 3 } return 0; }
-void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, unsigned index) { __asm { int 3 } }
 
 
 
@@ -211,7 +209,6 @@ int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
 
-int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden) { __asm { int 3 } return 0; }
 
 void discard_function_definition(void) { __asm { int 3 } }
 void __stdcall report_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
@@ -248,7 +245,6 @@ IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 void __stdcall report_invalid_operand(unsigned char operation, int position) { __asm { int 3 } }
-IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsigned *selection) { __asm { int 3 } return 0; }
 
 
 
@@ -295,7 +291,6 @@ IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, 
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
-OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
 
 void capture_directive_text(void) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
@@ -317,7 +312,6 @@ void write_ir_double(double *value) { __asm { int 3 } }
 
 
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
-int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 3 } return 0; }
 
 
 

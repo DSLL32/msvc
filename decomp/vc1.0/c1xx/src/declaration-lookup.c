@@ -978,6 +978,21 @@ void __stdcall prune_hidden_class_paths(QualifierResolution *paths, HashTable *h
     }
 }
 
+/* Original 0x783a0..0x783fb, stdcall8. Only virtual-base links
+   can be hidden by the search's already-visited class set. */
+int __stdcall qualifier_path_is_hidden(QualifierBinding *path, HashTable *hidden)
+{
+    BaseClassLink *base;
+    for (path = path->next; path; path = path->next) {
+        base = (BaseClassLink *)path->target;
+        if ((base->kind & 31) == 15 && (base->state & 1) &&
+            find_hash_value(hidden, cpp_context_stack->items[base->context_index]) ==
+                (void *)1)
+            return 1;
+    }
+    return 0;
+}
+
 /* Original 0x53f40..0x5407b. Repeated declarations are checked against
    their canonical type, storage, language and definition status. Return
    nonzero on conflict, marking both declarations before reporting it. */

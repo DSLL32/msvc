@@ -6303,6 +6303,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_parameter_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_check_missing_defaults@20",
@@ -6397,10 +6398,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_call_argument_error@12",
         .entry_rva = 0x2ada0,
-        .code = (const ReconExtent[]) { { 0x2ada0, 0x2ada1 } },
+        .code = (const ReconExtent[]) { { 0x2ada0, 0x2add3 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_call_argument_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_count_call_arguments@4",
@@ -12382,10 +12384,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_equivalent_operand_types@8",
         .entry_rva = 0x536e0,
-        .code = (const ReconExtent[]) { { 0x536e0, 0x536e1 } },
+        .code = (const ReconExtent[]) { { 0x536e0, 0x53745 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equivalent_operand_types",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_operator_resolution_failure@20",
@@ -12437,10 +12440,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_class_condition@12",
         .entry_rva = 0x53b60,
-        .code = (const ReconExtent[]) { { 0x53b60, 0x53b61 } },
+        .code = (const ReconExtent[]) { { 0x53b60, 0x53c1a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "convert_class_condition",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_convert_delete_operand_to_pointer@4",
@@ -14824,10 +14828,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_operator_overload_failure@4",
         .entry_rva = 0x67d30,
-        .code = (const ReconExtent[]) { { 0x67d30, 0x67d31 } },
+        .code = (const ReconExtent[]) { { 0x67d30, 0x67d50 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_operator_overload_failure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_operators",
@@ -14913,10 +14918,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_qualifier_path_is_hidden@8",
         .entry_rva = 0x683a0,
-        .code = (const ReconExtent[]) { { 0x683a0, 0x683a1 } },
+        .code = (const ReconExtent[]) { { 0x683a0, 0x683fb } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "qualifier_path_is_hidden",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_lookup_class_name_paths@12",

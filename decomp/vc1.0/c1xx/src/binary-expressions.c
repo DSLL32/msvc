@@ -26,7 +26,7 @@ IrToken *__stdcall builtin_binary_expression(unsigned char operation, IrToken *l
     CType *type;
     TypeShape *shape;
     unsigned left_shape, right_shape, stride, shift, shape_parameter;
-    unsigned selection[4];
+    SourceConversionSearch selection;
     unsigned short shape_flags, attributes;
     unsigned char category;
     int swapped;
@@ -316,7 +316,7 @@ IrToken *__stdcall builtin_binary_expression(unsigned char operation, IrToken *l
         case 0x5f:
             if (lhs) {
                 if ((short)is_unqualified_class_type(lhs->type)) {
-                    lhs = convert_class_condition(lhs, 0, selection);
+                    lhs = convert_class_condition(lhs, 0, &selection);
                     expression->value.pointer = lhs;
                 }
                 if (lhs && (short)is_unqualified_class_type(lhs->type)) {
@@ -995,7 +995,8 @@ convert_right:
    saved condition value before constructing the final conditional expression. */
 IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, IrToken *if_false)
 {
-    unsigned to_false = 0, to_true = 0, selection[4], index;
+    unsigned to_false = 0, to_true = 0, index;
+    SourceConversionSearch selection;
     CType *condition_type;
     IrToken *true_cleanup, *false_cleanup, *temporary, *cleanup, *pair, *result;
     IrToken *true_value, *false_value, *zero;
@@ -1028,9 +1029,9 @@ IrToken *__stdcall conditional_expression(IrToken *condition, IrToken *if_true, 
     true_cleanup = prepare_expression(0, 2);
     if (condition) {
         if (is_unqualified_class_type(condition->type))
-            condition = convert_class_condition(condition, 0, selection);
+            condition = convert_class_condition(condition, 0, &selection);
         if (condition && is_unqualified_class_type(condition->type)) {
-            if (selection[0] & 0x2000)
+            if (selection.rank & 0x2000)
                 report_syntax_error(0x1c3,
                     ((CppSymbol *)cpp_context_stack->items[condition->type->field08])->name);
             zero = make_integer_constant(0);

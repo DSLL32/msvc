@@ -1,6 +1,37 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+RPC contract diagnostics is COMPLETE: case0026. A generated RPC interface and
+its client deliberately contain incomplete records, invalid field widths,
+conflicting/defaulted parameters, inaccessible inherited members, conversion
+ambiguities and overload failures, followed by a valid recovery sentinel. The
+unchanged source has an untouched original exit23 baseline and eight complete
+IR/debug/browser/listing artifacts; semantic errors are the expected result.
+
+Six whole App bodies /484 code bytes were accepted: parameter and call-argument
+diagnostics, hidden virtual-base path filtering, class-condition conversion,
+builtin operand-type comparison and failed-operator reporting. Whole-body review
+established that class-condition conversion writes a16-byte search result. The
+previous boolean-expression caller incorrectly reserved one unsigned; all
+callers now use the existing typed SourceConversionSearch, with unchanged ABI
+and selection logic. No new guard, output mask, shared change or CRT body.
+
+Fresh original/native observations match all six first encounters, exit23,
+streams and all eight outputs, also equal to the untouched baseline. Totals:
+1,756 App bodies /1,863 historical frontiers, plus seven unchanged CRT source
+bodies. App-only code union394,043 /476,418 B is82.71% of whole original code
+extent, not a non-CRT denominator. All27 cached native cases,31 unit groups and
+the1,764-function six-check graph/ABI audit pass; original-toolchain builds pass.
+Final original1.246 s; native36.064 ms (setup19.969 ms, execution8.971 ms,
+checks7.124 ms). Last incremental native/Win32 build3.411 s; typed-header rebuild
+10.097 s. Successful case-end gate2.515 s includes setup/runtime identification
+and audit; graph-only time was not separately measured. Its first attempt
+caught the input-only draft still installed as capture.bin; installing the
+retained completed capture corrected the fixture, without another original run.
+All raw reference artifacts remain in scratch, outside cases and Git.
+
+Earlier completed font catalog:
+
 Font catalog is COMPLETE: case0025. The unchanged supported source combines
 thread-local aggregate/array/float/double zero storage, signed font-metric enums,
 name decoding and callbacks, global catalog lifetime in a custom CRT startup

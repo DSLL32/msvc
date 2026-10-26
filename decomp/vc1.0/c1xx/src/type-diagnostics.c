@@ -861,3 +861,14 @@ void __stdcall report_type_error(unsigned code, CType *type)
     report_syntax_error(code, type_diagnostic_text(text));
     end_type_diagnostic();
 }
+
+/* Original 0x3ada0..0x3add3, stdcall12. Format the index before
+   the symbol name, preserving the diagnostic's two scratch lifetimes. */
+void __stdcall report_call_argument_error(unsigned code, CppSymbol *function,
+    unsigned index)
+{
+    char number[16];
+    char *text;
+    text = _itoa((int)index, number, 10);
+    report_syntax_error(code, format_symbol_name(function), text);
+}

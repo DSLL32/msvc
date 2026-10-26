@@ -608,6 +608,23 @@ IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate,
     return make_resolved_call(candidate->function, object, arguments, count, 0);
 }
 
+/* Original 0x636e0..0x63745, stdcall8. Ignore top-level cv
+   qualifiers only for shaped operands; all base and shape identities match. */
+int __stdcall equivalent_operand_types(CType *left, CType *right)
+{
+    unsigned short left_attributes, right_attributes;
+    if (left == right) return 1;
+    if (left->flags != right->flags || left->field08 != right->field08 ||
+        left->related != right->related) return 0;
+    left_attributes = left->attributes & 0xf08f;
+    right_attributes = right->attributes & 0xf08f;
+    if (left->related) {
+        left_attributes &= 0xfff8;
+        right_attributes &= 0xfff8;
+    }
+    return left_attributes == right_attributes;
+}
+
 /* Original 0x771f0..0x772f5, stdcall 20. Avoid duplicate builtin
    operand pairs, then reserve the same candidate/rank storage used by function
    overloads. Unassigned candidate fields retain their allocator initialization. */
@@ -679,4 +696,13 @@ IrToken *convert_selected_operator_operand(OverloadCandidate *candidate,
     if (rank->conversion)
         return invoke_user_conversion(rank->conversion, operand, rank->parameter_type);
     return operand;
+}
+
+/* Original 0x77d30..0x77d50, stdcall4. Failed operator lookup uses
+   phase seven's shared diagnostic and deliberately returns no candidate. */
+OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search)
+{
+    set_overload_phase(search, 7);
+    diagnose_overload_failure(0, search, 0);
+    return 0;
 }

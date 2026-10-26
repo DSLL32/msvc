@@ -1915,3 +1915,24 @@ CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *
     }
     return 0;
 }
+
+/* Original 0x63b60..0x63c1a, stdcall12. The caller owns the full
+   16-byte conversion search result, including rank and ambiguity state. */
+IrToken *__stdcall convert_class_condition(IrToken *expression, int mode,
+    SourceConversionSearch *selection)
+{
+    CppSymbol *tag = cpp_context_stack->items[expression->type->field08];
+    selection->rank = 0x2000;
+    selection->count = 0;
+    selection->type = 0;
+    selection->ambiguous = 0;
+    if (!mode)
+        rank_source_conversion_functions(tag, make_tagged_type(0x140), selection);
+    rank_source_conversion_functions(tag, make_tagged_type(mode ? 0x40 : 0x84),
+        selection);
+    if (selection->rank & 0x2000) return expression;
+    if (selection->count == 1 && !selection->ambiguous)
+        return convert_initializer(1, selection->type, expression);
+    report_syntax_error(mode ? 590 : 591, tag->name);
+    return expression;
+}

@@ -3,6 +3,7 @@
 #include "class-members.h"
 #include "frontend-records.h"
 #include "expression-preparation.h"
+#include "call-expressions.h"
 #include <recon.h>
 
 DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
@@ -483,4 +484,12 @@ void __stdcall inherit_function_defaults(CppSymbol *declaration,
     description->related = intern_type_shape(shape);
     declaration->type = intern_type(description);
     --type_description_depth;
+}
+
+/* Original0x3a330..0x3a347, stdcall12. Keep the parameter-specific
+   entry as a real forwarding function, with the original argument order. */
+void __stdcall report_parameter_error(unsigned code, CppSymbol *symbol,
+    unsigned parameter)
+{
+    report_call_argument_error(code, symbol, parameter);
 }
