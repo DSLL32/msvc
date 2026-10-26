@@ -141,6 +141,11 @@ BINARY_SOURCES = src/c1xx.c \
 CRT_SOURCES = crt/runtime.c
 BINARY_SUPPORT_SOURCES = $(CRT_SOURCES) harness/entry.c harness/device-sdk-pch.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 
+# Canonical host reuses App/CRT objects, excluding fixture adapters/comparators.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = $(CRT_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+NATIVE_BIN_FILES = errors=../../../toolchains/1.0-nt/bin/C1.ERR
+
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) $(CRT_SOURCES)
 ORIGINAL_BUILD = build

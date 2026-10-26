@@ -34,13 +34,34 @@ general native equivalence for newly reached runtime states. Independent review
 removed only the leaf scanner's final-RET two false CRT aliases/canonical row,
 and two raw aliases for the already accepted compiler initialization hook.
 
-All55 native cases and69 unit groups pass, with original compilation and the
+All55 native cases and 69 unit groups pass, with original compilation and the
 1,953-function six-check graph/ABI audit. Five focused units21.678/21.584/21.514/
 25.231/23.108 ms; execution2.360/3.980/4.133/3.789/3.657 ms. Combined original/
 native builds31.906 s and19.934 s; final vector-return ABI refinement2.655 s.
 The first closing gate3.923 s passed; the subsequent ABI correction required
 fresh affected validation and the final closing gate3.653 s. No original
 invocation, oracle, shared shim or comparison-policy change in this batch.
+
+Canonical native entry
+----------------------
+Root entry.c is used only by native-bin. It reuses the reconstructed application
+objects and seven historical CRT variants, retaining PC53 and binary fmode8000;
+fixture adapters and PCH comparison glue are excluded. Shared bootstrap owns
+mutable arguments/environment, Windows command line, actual executable/cwd
+identity and normal cleanup. Exact C1.ERR bytes are embedded at default c1.err
+and the installed program-directory alias; explicit -ef remains external.
+
+make -j4 native-bin builds build/c1xx; the VC1 coordinator installs it as
+build/native/bin/C1XX3232.EXE. Canonical build 7.646 s; standalone MSC_CMD_FLAGS-only
+environment 3.654 ms reproduces all four cached basic-C++ IR artifacts exactly.
+Empty-environment direct argv 2.594 ms, embedded diagnostic catalog 3.202 ms and
+external -ef catalog 3.084 ms pass without extracted companion files. Real
+CL.EXE /nologo /c test.cpp with empty environment invokes this frontend and C2,
+exits 0 and writes a 286 B COFF object in 7.644 ms. Existing 55 cached native cases
+and 69 unit groups pass in 3.343 s (including incremental setup/build). Per-command
+timing sum 3.083 s: setup 1.713 s, execution 0.673 s, checks 0.696 s; parallel totals
+are not wall time. No App/CRT implementation, cached reference or original build
+changed; no Wine was used. Existing reconstruction/domain limitations remain.
 
 Earlier declaration/text qualification:
 
