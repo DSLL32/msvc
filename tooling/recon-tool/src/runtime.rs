@@ -801,10 +801,54 @@ pub(crate) fn validate_code_ranges(image: &Path, ranges: &[(u32, u32)]) -> Resul
     Ok(())
 }
 
-/// Resolve public MAP addresses only after checking its identity against the PE.
+// The exporter shares graph-audit's Watcom coordinates and checks. Runtime
+// body identification/override qualification below remains MSVC/COFF-only.
+#[path = "../../shared/watcom_map.rs"]
+#[allow(dead_code)] // Export consumes addresses; graph-audit also consumes provenance.
+mod watcom_map;
+fn watcom_addresses(text: &str, pe: &Pe) -> Result<HashMap<String, Vec<u32>>> {
+    let sections = pe
+        .sections
+        .iter()
+        .map(|s| {
+            Ok(watcom_map::Section {
+                name: &s.name,
+                start: pe
+                    .base
+                    .checked_add(s.rva)
+                    .context("Watcom PE section address overflow")?,
+                size: u32::try_from(s.raw_size)?,
+                virtual_size: u32::try_from(if s.virtual_size == 0 {
+                    s.raw_size
+                } else {
+                    s.virtual_size
+                })?,
+                off: s.offset,
+                flags: s.flags,
+            })
+        })
+        .collect::<Result<Vec<_>>>()?;
+    let image = watcom_map::Image {
+        data: &pe.data,
+        sections,
+    };
+    Ok(watcom_map::parse_text(text, &image)?
+        .addresses
+        .into_iter()
+        .map(|(name, address)| (name, vec![address]))
+        .collect())
+}
+/// Resolve MAP publics against the PE using the detected MSVC or Watcom format.
 pub fn map_addresses(image: &Path, map: &Path) -> Result<HashMap<String, Vec<u32>>> {
     let pe = Pe::parse(fs::read(image)?)?;
-    let map = LinkMap::parse(&fs::read_to_string(map)?, &pe)?;
+    let text = fs::read_to_string(map)?;
+    public_addresses(&text, &pe)
+}
+fn public_addresses(text: &str, pe: &Pe) -> Result<HashMap<String, Vec<u32>>> {
+    if text.starts_with("WATCOM Linker Version ") {
+        return watcom_addresses(text, pe);
+    }
+    let map = LinkMap::parse(text, pe)?;
     Ok(map
         .symbols
         .into_iter()
@@ -1518,6 +1562,62 @@ mod tests {
         bad[6] = 0;
         assert!(short_import(&bad).is_err());
         assert!(!short_import(&[0x4c, 1, 0, 0]).unwrap());
+    }
+    #[test]
+    fn exporter_watcom_coordinates_share_audit_validation() {
+        let mut pe = Pe {
+            data: vec![0; 512],
+            base: 0x400000,
+            optional: 16,
+            sections: vec![PeSection {
+                name: "BEGTEXT".into(),
+                rva: 0x1000,
+                raw_size: 128,
+                offset: 128,
+                virtual_size: 128,
+                flags: 0x60000020,
+            }],
+        };
+        let mut map = String::from(
+            "WATCOM Linker Version 10.0\ncreating a PE executable\n|   Segments   |\nSegment                Class          Group          Address         Size\n",
+        );
+        map.push_str(&format!(
+            "{:<23}{:<15}{:<15}{:<16}{}\n",
+            "BEGTEXT", "CODE", "", "0001:00000000", "00000080"
+        ));
+        map.push_str("|   Memory Map   |\n0001:00000010+ directive_\n0001:00000010* Alias_\n0000:00001234 __DOSseg__\n");
+        let addresses = public_addresses(&map, &pe).unwrap();
+        assert_eq!(addresses["directive_"], [0x401010]);
+        assert_eq!(addresses["Alias_"], [0x401010]);
+        assert!(!addresses.contains_key("__DOSseg__"));
+        for invalid in [
+            map.clone() + "0001:00000011 directive_\n",
+            map.replace("0001:00000010+", "0002:00000010+"),
+            map.replace("0001:00000010+", "0001:00000080+"),
+            map.replace("Version 10.0", "Version 11.0"),
+        ] {
+            assert!(public_addresses(&invalid, &pe).is_err());
+        }
+        pe.sections[0].name = "wrong-anchor".into();
+        assert!(public_addresses(&map, &pe).is_err());
+        pe.sections[0].name = "BEGTEXT".into();
+        pe.sections[0].flags = 0xc0000040;
+        assert!(public_addresses(&map, &pe).is_err());
+        pe.sections[0].flags = 0x60000020;
+        pe.base = u32::MAX;
+        assert!(public_addresses(&map, &pe).is_err());
+        // MSVC timestamp/base qualification is unchanged by format detection.
+        pe.base = 0x400000;
+        let msvc = "Timestamp is 00000000\nPreferred load address is 00400000\nAddress Publics by Value Rva+Base Lib:Object\n0001:00000010 _x 00401010 f x.obj\n";
+        assert_eq!(public_addresses(msvc, &pe).unwrap()["_x"], [0x401010]);
+        assert!(public_addresses(&msvc.replace("00400000", "00500000"), &pe).is_err());
+        assert!(
+            public_addresses(
+                &msvc.replace("Timestamp is 00000000", "Timestamp is 00000001"),
+                &pe
+            )
+            .is_err()
+        );
     }
     #[test]
     fn malformed_and_ambiguous_map_owners_are_rejected() {

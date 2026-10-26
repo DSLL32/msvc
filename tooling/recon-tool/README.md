@@ -914,3 +914,9 @@ restored separately before loading the DSO: the R mapping, T workspace, selected
 logical-drive mapping/cwd and live process-broker FD. The existing path/trace
 bindings remain in use; no parent host-environment snapshot or resource keys
 are added to the staged target OS block.
+
+Symbol-relative rebuilt metadata also accepts Watcom 10 PE MAP files. Export and
+graph-audit share the same segment/group anchoring and public bounds checks;
+absolute MAP symbols are excluded. MSVC MAP base/timestamp checks and runtime
+body identification remain unchanged. Both Make integrations track the shared
+parser source as a build dependency.

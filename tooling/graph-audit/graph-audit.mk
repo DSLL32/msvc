@@ -11,6 +11,7 @@ export GRAPH_AUDIT_BIN
 GRAPH_AUDIT_BUILD_SCRIPT := $(GRAPH_AUDIT_DIR)/build-quiet.sh
 GRAPH_AUDIT_BUILD_DEPS := $(GRAPH_AUDIT_DIR)/Cargo.toml $(GRAPH_AUDIT_DIR)/Cargo.lock \
   $(wildcard $(GRAPH_AUDIT_DIR)/src/*.rs $(GRAPH_AUDIT_DIR)/profiles/*.json) \
+  $(GRAPH_AUDIT_DIR)/../shared/watcom_map.rs \
   $(GRAPH_AUDIT_BUILD_SCRIPT) $(GRAPH_AUDIT_DIR)/graph-audit.mk
 
 .PHONY: graph-audit-tool
