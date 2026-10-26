@@ -2893,13 +2893,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "@emit_float_exit_stores@8",
+        .entry_rva = 0x2bca0,
+        .code = (const ReconExtent[]) { { 0x2bca0, 0x2bf33 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "emit_float_exit_stores",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "@finish_float_motion_branch@8",
         .entry_rva = 0x2bbf0,
-        .code = (const ReconExtent[]) { { 0x2bbf0, 0x2bbf1 } },
+        .code = (const ReconExtent[]) { { 0x2bbf0, 0x2bc1e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_float_motion_branch",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@split_float_motion_branch@8",
@@ -3390,11 +3399,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@save_float_machine_register@16",
         .entry_rva = 0x2e300,
-        .code = (const ReconExtent[]) { { 0x2e300, 0x2e301 } },
+        .code = (const ReconExtent[]) { { 0x2e300, 0x2e453 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "save_float_machine_register",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@find_float_register_reload@12",

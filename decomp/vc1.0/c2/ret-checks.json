@@ -600,6 +600,21 @@
       "expected_cleanup": [
         16
       ]
+    },
+    "@save_float_machine_register@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@finish_float_motion_branch@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@emit_float_exit_stores@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

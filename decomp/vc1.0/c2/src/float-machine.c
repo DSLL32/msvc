@@ -497,6 +497,43 @@ void __fastcall initialize_float_register_home(MachineOperand *home, unsigned sh
     compiler_internal_error("@(#)fltreg.c:1.31", 0x14d2);
 }
 
+/* Original3e300..3e453, ECX instruction/EDX virtual register, stack
+   number/reload and RET8. Reuse a stable matching-width store when possible;
+   otherwise save ST0 to its real declaration's backing operand. An80-bit
+   spill must pop and reload because x87 has no nonpopping m80 store. */
+void __fastcall save_float_machine_register(MachineInstruction *instruction,
+    FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload)
+{
+    MachineInstruction *store, *load;
+    unsigned width = (instruction->opcode >> 4) & 15;
+    if (FM_OPERATION(instruction) == MC_FSTP && FM_OPERATION(reload) == MC_FLD &&
+        (reload->operands[1].flags & 0x400) &&
+        !operand_changed_between(instruction, reload, &instruction->operands[0], width) &&
+        width == (unsigned)reg->width) {
+        assign_machine_operand(&reload->operands[1], &instruction->operands[0]);
+        return;
+    }
+    if (!reg->home) {
+        reg->home = arena_alloc(3, sizeof(*reg->home));
+        initialize_float_register_home(reg->home, number);
+    }
+    store = new_machine_instruction(0);
+    FM_SET_OPERATION(store, reg->width == 10 ? MC_FSTP : MC_FST);
+    store->opcode = (store->opcode & ~0xf0U) | ((reg->width << 4) & 0xf0);
+    assign_machine_operand(&store->operands[0], reg->home);
+    store->operands[1] = operand_st0;
+    insert_machine_after(instruction->previous, store);
+    if (reg->width == 10) {
+        load = new_machine_instruction(0);
+        FM_SET_OPERATION(load, MC_FLD);
+        load->opcode = (load->opcode & ~0xf0U) | ((reg->width << 4) & 0xf0);
+        assign_machine_operand(&load->operands[1], reg->home);
+        load->operands[0] = operand_st0;
+        insert_machine_after(instruction->previous, load);
+    }
+    reg->flags |= 2;
+}
+
 /* Original [0003e610,0003e65d). Pop the physical stack and decrement
    resident virtual positions; position0 becomes the absent sentinel. */
 void pop_float_machine_stack(void)
@@ -1986,6 +2023,72 @@ void __fastcall process_float_motion_branch(MachineInstruction *instruction, Mem
     if (!branch) return;
     if (branch->flags & 1) split_float_motion_branch(instruction, context);
     else if (branch->flags & 2) finish_float_motion_branch(instruction, context);
+}
+
+/* Original3bbf0..3bc1e, ECX branch/EDX live stream context, RET0.
+   A qualified direct exit already owns its target; emit resident stores
+   there rather than creating another branch or changing reference counts. */
+void __fastcall finish_float_motion_branch(MachineInstruction *instruction,
+    MemoryMotionContext *context)
+{
+    MachineInstruction *target = label_machine_instruction((LabelSymbol *)instruction->operands[0].value.symbol);
+    if (!target) compiler_internal_error("@(#)fltreg.c:1.31", 0x96b);
+    emit_float_exit_stores(target->next, context);
+}
+
+/* Original3bca0..3bf33, ECX first target record/EDX context, RET0.
+   The preceding block owns register-use bookkeeping. Ordinary exits drain
+   the resident hash chain. With one expression result, the original instead
+   exchanges and stores only the oldest selected resident; do not replace
+   this exit-specific rule by finish_float_context_motion's full drain. */
+void __fastcall emit_float_exit_stores(MachineInstruction *first,
+    MemoryMotionContext *context)
+{
+    MachineInstruction *scan = first, *instruction;
+    MachineBlockHeader *block;
+    FloatStreamUse *use = float_stream_uses, *last, *stop = 0;
+    MachineOperand *destination;
+    MachineAddress *address;
+    unsigned kind;
+    while (FM_KIND(scan) != 7) scan = scan->previous;
+    block = (MachineBlockHeader *)scan;
+    if (context->stack_depth == 1) {
+        for (last = use; last; last = last->previous_selected) use = last;
+        stop = use;
+        instruction = new_machine_instruction(0);
+        FM_SET_OPERATION(instruction, MC_FXCH);
+        instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+        FM_SET_STACK_OPERAND(instruction->operands[0], use->stack_slot + context->stack_depth);
+        insert_machine_after(first->previous, instruction);
+    }
+    while (use) {
+        instruction = new_machine_instruction(0);
+        FM_SET_OPERATION(instruction, MC_FSTP);
+        instruction->opcode = (instruction->opcode & ~0xf0U) | ((use->width << 4) & 0xf0);
+        instruction->operands[1] = operand_st0;
+        destination = &instruction->operands[0];
+        if ((use->flags & 0x20) && !(use->flags & 1)) {
+            assign_machine_operand(destination, use->operand);
+            kind = destination->flags & 15;
+            if (kind == OPERAND_INDEXED) {
+                address = destination->value.address;
+                if (address->index.words.number & 0x4000) {
+                    bitset_include(block->uses, address->index.words.number & 0x3fff);
+                    include_register_block_use(address->index.words.number, block->number);
+                }
+            }
+            if (kind == OPERAND_BASED || (kind == OPERAND_INDEXED && destination->value.address->base.words.number != 27)) {
+                address = destination->value.address;
+                if (address->base.words.number & 0x4000) {
+                    bitset_include(block->uses, address->base.words.number & 0x3fff);
+                    include_register_block_use(address->base.words.number, block->number);
+                }
+            }
+        } else *destination = operand_st0;
+        insert_machine_after(first->previous, instruction);
+        if (use == stop) break;
+        use = use->hash_next;
+    }
 }
 
 /* Original [0003b530,0003b563). A nested context owns a referenced

@@ -123,6 +123,7 @@ void __fastcall finish_float_context_motion(MemoryMotionContext *context);
 void __fastcall process_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
 void __fastcall finish_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context);
+void __fastcall emit_float_exit_stores(MachineInstruction *first, MemoryMotionContext *context);
 void __fastcall rewrite_float_motion_operation(MachineInstruction *instruction);
 int __fastcall label_in_float_context_chain(MemoryMotionContext *context, MachineInstruction *instruction);
 extern LabelSymbol *float_motion_split_label;
