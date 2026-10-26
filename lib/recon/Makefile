@@ -920,3 +920,9 @@ build/format4509-target: tests/format-inserts-target.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 format4509-check: build/format4509-target
 	$(PYTHON) tests/check-format4509.py $< 510
+
+.PHONY: virtual-prefix-check
+build/virtual-prefix-probe: tests/virtual-prefix-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+virtual-prefix-check: build/virtual-prefix-probe
+	$(PYTHON) tests/check-virtual-prefix.py $< 510

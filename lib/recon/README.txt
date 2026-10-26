@@ -1456,3 +1456,13 @@ uses at most10 digits plus NUL. WPP's real CPU macro requests500 with120B left.
 Exact decimal output500/max and retained lowercase hex are checked; other
 radices/profiles and NULL/wrapping output remain denied. Original per-call
 error/FP state is unmeasured.
+
+Explicit MSVCRT510 separately reserved RW arenas track only a page-aligned
+contiguous committed prefix. Overlapping/adjacent commits may extend it; holes,
+other protection and recommit after decommit remain denied. Exact-base decommit
+accepts the nonempty prefix or entire reservation, discards storage and retains
+PROT_NONE ownership until zero-size MEM_RELEASE. Empty/partial-prefix/interior,
+repeat and foreign requests remain unsupported. Combined whole allocations and
+other profiles retain their previous contracts. C1's saved Arena::Release and
+ordinary work-buffer cleanup observe these two reservation lifecycles; no broad
+VirtualAlloc model or original per-call error/FP values are claimed.

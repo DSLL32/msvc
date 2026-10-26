@@ -156,7 +156,7 @@ typedef struct Mapping {
 typedef struct View {
     struct View *next; void *address; size_t length;
     dev_t file_device; ino_t file_inode;
-    int decommit_eligible,decommitted;
+    int decommit_eligible,decommitted;size_t committed_prefix;
 } View;
 static Mapping *mappings;
 static View *views,*allocations;
@@ -1049,7 +1049,7 @@ LPVOID WINAPI recon_MapViewOfFile(HANDLE handle,DWORD access,DWORD high,DWORD lo
     if (address==MAP_FAILED) { last_error=error_code(errno); return NULL; }
     v=malloc(sizeof(*v)); if (!v) { munmap(address,length); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     v->address=address; v->length=length;v->file_device=identity.st_dev;v->file_inode=identity.st_ino;
-    v->decommit_eligible=0;v->decommitted=0;
+    v->decommit_eligible=0;v->decommitted=0;v->committed_prefix=0;
     v->next=views; views=v; last_error=0; return address;
 }
 static DWORD checksum_u32(const unsigned char *bytes)
@@ -1230,7 +1230,10 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
             recon_unsupported("VirtualAlloc top-down reservation trim");
         v=malloc(sizeof(*v));
         if (!v) recon_unsupported("VirtualAlloc top-down ownership record");
-        v->address=(void *)aligned;v->length=bytes;v->decommit_eligible=0;v->decommitted=0;
+        v->address=(void *)aligned;v->length=bytes;v->decommit_eligible=0;v->decommitted=0;v->committed_prefix=0;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+        v->decommit_eligible=2; /* separately reserved, contiguous RW commits */
+#endif
         v->next=allocations;allocations=v;
         errno=saved_errno;last_error=saved_error;
         return v->address;
@@ -1238,9 +1241,25 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
     if (!bytes || (kind&~(MEM_COMMIT|MEM_RESERVE)) || !(kind&(MEM_COMMIT|MEM_RESERVE)) || (protection!=PAGE_READWRITE && protection!=PAGE_READONLY)) { last_error=ERROR_NOT_SUPPORTED; return NULL; }
     prot=(kind&MEM_COMMIT)?PROT_READ|(protection==PAGE_READWRITE?PROT_WRITE:0):PROT_NONE;
     if (address && kind==MEM_COMMIT) {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+        if((uintptr_t)address>UINTPTR_MAX-bytes)
+            recon_unsupported("VirtualAlloc commit wrapped span");
+#endif
         for (v=allocations;v;v=v->next) if ((char *)address>=(char *)v->address && (char *)address+bytes<=(char *)v->address+v->length) {
+            size_t end=0;
             if(v->decommitted)recon_unsupported("VirtualAlloc recommit after decommit");
-            if (mprotect(address,bytes,prot)<0) { last_error=error_code(errno); return NULL; } return address;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+            if(v->decommit_eligible==2) {
+                size_t offset=(uintptr_t)address-(uintptr_t)v->address;
+                if(protection!=PAGE_READWRITE || ((uintptr_t)address&4095) ||
+                   (bytes&4095) || offset>v->committed_prefix)
+                    recon_unsupported("VirtualAlloc outside contiguous readwrite prefix");
+                end=offset+bytes;
+            }
+#endif
+            if (mprotect(address,bytes,prot)<0) { last_error=error_code(errno); return NULL; }
+            if(end>v->committed_prefix)v->committed_prefix=end;
+            return address;
         }
         last_error=ERROR_INVALID_PARAMETER; return NULL;
     }
@@ -1250,7 +1269,12 @@ LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD pro
     v=malloc(sizeof(*v)); if (!v) { munmap(result,bytes); last_error=ERROR_NOT_ENOUGH_MEMORY; return NULL; }
     v->address=result; v->length=bytes;
     v->decommit_eligible=!address && kind==(MEM_COMMIT|MEM_RESERVE) && protection==PAGE_READWRITE;
-    v->decommitted=0;v->next=allocations;allocations=v;return result;
+    v->decommitted=0;v->committed_prefix=0;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(!address && kind==MEM_RESERVE && protection==PAGE_READWRITE && !(bytes&4095))
+        v->decommit_eligible=2;
+#endif
+    v->next=allocations;allocations=v;return result;
 }
 BOOL WINAPI recon_VirtualFree(LPVOID address,DWORD bytes,DWORD kind)
 {
@@ -1259,13 +1283,16 @@ BOOL WINAPI recon_VirtualFree(LPVOID address,DWORD bytes,DWORD kind)
     if(kind==MEM_DECOMMIT) {
         int saved_errno=errno;
         for(v=allocations;v && v->address!=address;v=v->next){}
-        if(!v || !bytes || bytes!=v->length || !v->decommit_eligible || v->decommitted)
-            recon_unsupported("VirtualFree whole owned readwrite decommit scope");
+        if(!v || !bytes || v->decommitted ||
+           !((v->decommit_eligible==1 && bytes==v->length) ||
+             (v->decommit_eligible==2 && v->committed_prefix &&
+              (bytes==v->committed_prefix || bytes==v->length))))
+            recon_unsupported("VirtualFree whole owned allocation/prefix decommit scope");
         /* Decommit discards storage while retaining the inaccessible reserved
          * address range and its ownership until the later MEM_RELEASE. */
         if(mprotect(address,v->length,PROT_NONE) || madvise(address,v->length,MADV_DONTNEED))
             recon_unsupported("VirtualFree decommit host protection/discard failure");
-        v->decommitted=1;errno=saved_errno;return TRUE;
+        v->decommitted=1;v->committed_prefix=0;errno=saved_errno;return TRUE;
     }
 #endif
     if (bytes || kind!=MEM_RELEASE) { last_error=ERROR_NOT_SUPPORTED; return FALSE; }
