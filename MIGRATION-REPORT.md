@@ -468,7 +468,7 @@ current-case WIP remains excluded until the encompassing case is complete.
 | C1XX | 174 / 27,227 | 3.62% | Minimal C++: large writer and subsequent frontend work remain current-case WIP; `9cf5cc28d` |
 | C2 | 209 / 51,805 | 9.04% | Numeric case: new_optimizer_context; `6ae5a84a2` |
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
-| CVPACK | 161 / 47,975 | 76.56% | Eleven cases complete, including internal stream-cache and mapped/stream growth workloads; `02e73c3d6`, `8a3e36831` |
+| CVPACK | 168 / 48,556 | 77.49% | Thirteen cases complete, including the `/Zi` static-library archive and authored field-list continuations; `2a01eab26`, `0cf8cb702` |
 | LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
 | RCDLL | 146 / 36,846 | 49.39% | Rich corpus: rc_read_resource_preamble after menu control flow; `da06c240b` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
@@ -552,6 +552,26 @@ checks 31.460 ms). All eleven cases, 23 units, the original build and full
 0.505 s incremental batch. No new shim,
 provider or observer framework is needed. Full suites and commits occur at
 case completion, rather than after each reconstructed function.
+
+Case `0011` completes a genuine VC5 `/Zi` static-library archive
+(`2a01eab26`), adding the 48-byte module-name function. The ordinary CLI pair
+exits zero with identical packed DLL bytes and an unchanged compiler PDB:
+original 698.662 ms, native 10.812 ms (setup 5.431, execution 3.743, checks
+1.637 ms). Its dependency transcript is explicitly derived from immutable
+case `0008`: only the App input binding changes; the actual dependency requests,
+PDB bytes, provider premises, response bytes and lifetimes remain checked.
+This does not claim another original dependency observation. Twelve cases,
+23 units, the original build and full graph/RET gates pass in 2.060 s.
+
+Case `0012` uses a valid format-authored PE32/NB05 input with wide C7 records,
+two modules and acyclic field-list continuations (`0cf8cb702`). It is identified
+as authored input, rather than historical compiler output; no stream is
+signature-relabeled. Six real App bodies add 533 bytes. The untouched original
+accepts the input, and the final ordinary CLI pair exits zero with 91 identical
+entries and the same 4,096-byte packed DLL: original 1,359.216 ms, native
+12.900 ms (setup 5.453, execution 6.185, checks 1.261 ms). All thirteen cached
+cases, 23 units, the original compiler build and full 168-graph/167-RET gates
+pass in 0.670 s. This case needs no Widen/PDB response or shared tool change.
 
 C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
 and native builds, full code/data graph and ABI gates, 36 units and a fresh
