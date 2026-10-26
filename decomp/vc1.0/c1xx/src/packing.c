@@ -23,6 +23,15 @@ PackingStack *new_packing_stack(void)
     return stack;
 }
 
+/* Original0x21880..0x21899, cdecl. Recycled records have three
+   independently cleared fields before push_packing relinks the active list. */
+void clear_packing(PackingEntry *entry)
+{
+    entry->next = 0;
+    entry->alignment = 0;
+    entry->label = 0;
+}
+
 /* Original 0x214f0..0x2152a. */
 PackingEntry *push_packing(PackingStack *stack)
 {

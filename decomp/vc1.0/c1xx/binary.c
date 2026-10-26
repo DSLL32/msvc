@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1954 historical frontiers/1858 App bodies;
+ * Current completed-case boundary:1958 historical frontiers/1862 App bodies;
  * latest eleven support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
@@ -2455,10 +2455,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_current_source_timestamp",
         .entry_rva = 0xe3a0,
-        .code = (const ReconExtent[]) { { 0xe3a0, 0xe3a1 } },
+        .code = (const ReconExtent[]) { { 0xe3a0, 0xe3bb } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "current_source_timestamp",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_release_input_handle",
@@ -2893,6 +2894,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "clear_packing",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_process_pragma",
@@ -10057,10 +10059,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_vector_contains@8",
         .entry_rva = 0x3eb00,
-        .code = (const ReconExtent[]) { { 0x3eb00, 0x3eb01 } },
+        .code = (const ReconExtent[]) { { 0x3eb00, 0x3eb49 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "vector_contains",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_first_vector_item@4",
@@ -14367,6 +14370,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "frontend_time",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_get_file_timestamp@8",
+        .entry_rva = 0x645c0,
+        .code = (const ReconExtent[]) { { 0x645c0, 0x645f8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "get_file_timestamp",
         .implementation = RECON_IMPLEMENTED,
     },
     {

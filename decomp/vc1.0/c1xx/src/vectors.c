@@ -416,3 +416,13 @@ int __stdcall match_work_stack(WorkingStack *stack, void *text, unsigned bytes)
     }
     return 1;
 }
+
+/* Original0x4eb00..0x4eb49, stdcall8. Compare identities in the
+   vector's signed-short logical range, without dereferencing its elements. */
+int __stdcall vector_contains(Vector *vector, void *item)
+{
+    short index;
+    for (index = 0; index < vector->count; ++index)
+        if (vector->items[index] == item) return 1;
+    return 0;
+}

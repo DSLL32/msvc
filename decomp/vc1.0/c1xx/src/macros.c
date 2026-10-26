@@ -1,4 +1,5 @@
 /* Predefined macros and interned identifiers with observable name identity. */
+#include <sys/stat.h>
 #include "macros.h"
 #include "keywords.h"
 #include "characters.h"
@@ -130,6 +131,16 @@ void __stdcall define_command_line_macros(Vector *definitions)
         current_forced_source = forced_source_inputs->items[forced_source_index++];
         open_forced_include(current_forced_source, 0);
     }
+}
+
+/* Original0x745c0..0x745f8, stdcall8. A failed descriptor query leaves
+   the caller's timestamp untouched; the 36-byte CRT structure owns st_mtime. */
+int __stdcall get_file_timestamp(int handle, long *timestamp)
+{
+    struct _stat information;
+    if (_fstat(handle, &information)) return 0;
+    *timestamp = information.st_mtime;
+    return 1;
 }
 
 /* Original 0x745b0..0x745c0. */

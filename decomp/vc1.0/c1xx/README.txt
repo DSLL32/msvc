@@ -1,6 +1,30 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Archive format SDK is COMPLETE: case0048 compiles packed archival records,
+three virtual record-source branches and stable input-file __TIMESTAMP__ values.
+Four newly reached App functions add181 B: current_source_timestamp(27 B),
+get_file_timestamp(56 B), clear_packing(25 B) and vector_contains(73 B).
+The newly discovered timestamp adapter queries the shipped CRT's descriptor
+metadata and writes only on success. Its caller's ignored failure/unwritten
+local is preserved/commented in both builds. Normal fixed source metadata
+matches exactly; no clock normalization or output exception was introduced.
+Recycled packing clears its three fields; the virtual conflict set searches
+pointer identities using its signed-short logical count.
+
+Fresh original/native checkpoints match through all four entries and final
+exit0, exact diagnostics and six full IR/browser outputs. Total is1,862 App /
+406,632 B (85.35% of whole original code),34 named pending App,1,958 historical
+frontiers and seven unchanged historical CRT source bodies. The eleven prior
+unit-qualified support bodies remain distinct from these four CLI acceptances.
+All49 native cases and41 unit groups pass, original-toolchain compilation and
+the1,870-function six-check graph/ABI audit pass. Closing gate3.468 s; final
+original863.422 ms/native36.884 ms (setup20.581 ms, execution8.958 ms,
+checks7.345 ms). Incremental build wall times were not separately measured.
+No shared shim change or oracle normalization was needed.
+
+Earlier implicit conversion qualification:
+
 Implicit operator SDK is COMPLETE: case0047 freezes a coherent acquisition
 client with scalar/pointer view classes, arithmetic/bitwise/logical operators,
 virtual sensor callbacks and browser/debug output. The original and native

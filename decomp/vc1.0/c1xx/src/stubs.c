@@ -62,7 +62,6 @@
 #include "symbol-bindings.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
-void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
@@ -112,7 +111,6 @@ IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) 
 
 
 
-long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
 
 
@@ -248,7 +246,6 @@ IrToken *make_error_expression(void) { __asm { int 3 } return 0; }
 
 
 
-int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 
 

@@ -7,6 +7,17 @@
 #include "keywords.h"
 #include <recon.h>
 
+int __stdcall get_file_timestamp(int handle, long *timestamp);
+
+/* Original0x1e3a0..0x1e3bb, cdecl. The original ignores query failure
+   and returns the then-unwritten local; retain that defect in both builds. */
+long current_source_timestamp(void)
+{
+    long timestamp;
+    get_file_timestamp(source_handle, &timestamp);
+    return timestamp;
+}
+
 MacroExpansionFrame macro_expansion_frames[256]; /* original0x9578c */
 char *macro_argument_start; /* original0x9576c */
 int macro_argument_state; /* original0x95770 */
