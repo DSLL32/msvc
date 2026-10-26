@@ -915,7 +915,8 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
       .native_symbol = "AsmFree", .original_symbol = "AsmFree_" },
     { .name = "MsgPrintf1", .entry_rva = 0x16774,
-      .definition = RECON_APP, .implementation = RECON_UNIMPLEMENTED,
+      .code = (const ReconExtent[]){{0x16774,0x167b5}}, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
       .native_symbol = "MsgPrintf1", .original_symbol = "MsgPrintf1_" },
     /* Reached exact DOS CLIB3R atoi87B, two __IsTable fixups240cc. */
     { .name = "atoi", .entry_rva = 0x1db11,
@@ -935,7 +936,7 @@ static const ReconFunction functions[] = {
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
       .native_symbol = "PrintfUsage", .original_symbol = "PrintfUsage_" },
     { .name = "Wait_for_return", .entry_rva = 0x167b8,
-      .code = (const ReconExtent[]){{0x167b4,0x167b5},{0x167b8,0x167df}}, .code_count = 2,
+      .code = (const ReconExtent[]){{0x167b8,0x167df},{0x167b4,0x167b5}}, .code_count = 2,
       .text_data = (const ReconExtent[]){{0x16570,0x1658f}}, .text_data_count = 1,
       .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
       .native_symbol = "Wait_for_return", .original_symbol = "Wait_for_return_" },

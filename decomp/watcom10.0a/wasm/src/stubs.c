@@ -42,8 +42,6 @@ int readMResDir(int handle, WResDir dir, int *duplicate_discarded)
 
 int InternalError(const char *file, unsigned line)
 { (void)file; (void)line; WASM_PENDING(); return 0; }
-void MsgPrintf1(int resourceid, const char *arg)
-{ (void)resourceid; (void)arg; WASM_PENDING(); }
 void output(const unsigned char *text) { (void)text; WASM_PENDING(); }
 int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 { (void)first; (void)second; WASM_PENDING(); return 0; }

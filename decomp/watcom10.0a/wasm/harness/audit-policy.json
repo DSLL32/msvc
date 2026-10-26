@@ -1786,6 +1786,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "MsgPrintf1": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1858,6 +1863,16 @@
       "original": {
         "start": 32267,
         "bytes_hex": "5d5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "MsgPrintf1",
+        "Wait_for_return"
+      ],
+      "original": {
+        "start": 92084,
+        "bytes_hex": "c3"
       }
     }
   ],

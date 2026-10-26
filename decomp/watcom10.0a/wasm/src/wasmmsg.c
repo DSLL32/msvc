@@ -153,3 +153,15 @@ void MsgPrintf(int resourceid)
     MsgGet(resourceid, buffer);
     printf(buffer);
 }
+
+/* CF16774..167b5; its RET is also used by Wait_for_return. */
+void MsgPrintf1(int resourceid, const char *arg)
+{
+    char buffer[128];
+    if (!Options.banner_printed) {
+        Options.banner_printed = 1;
+        trademark();
+    }
+    MsgGet(resourceid, buffer);
+    printf(buffer, arg);
+}
