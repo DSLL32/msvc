@@ -191,7 +191,3 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
 
 int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }
-
-
-void __fastcall normalize_region_scaled_indices(unsigned short number, unsigned short related) { __asm int 3 }
-void __fastcall scale_region_register_increment(unsigned short number, unsigned scale) { __asm int 3 }

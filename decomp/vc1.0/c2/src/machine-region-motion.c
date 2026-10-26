@@ -782,3 +782,60 @@ int __fastcall region_operand_replacement_safe(MachineInstruction *first,
     }
     return 1;
 }
+
+/* Original4acf0..4ae25 (309 bytes), CX/DX register identities, RET0.
+   This dormant target transform is unit-qualified, not reached by the CLI
+   cases. Remove indexed scaling after the induction value itself is scaled;
+   a no-base LEA becomes MOV only when both displacement and symbol are zero.
+   Deferred definitions keep the original clone/replace/release call edges. */
+void __fastcall normalize_region_scaled_indices(unsigned short number,
+    unsigned short related)
+{
+    MachineInstruction *instruction, *copy;
+    MachineOperand *operand;
+    MachineAddress *address;
+    unsigned kind, generation;
+    int remaining;
+    for (instruction = active_machine_region->first;
+         instruction != active_machine_region->last->next; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        if (kind && kind != 8 && kind != 9 && kind != 10) continue;
+        remaining = machine_operand_counts[(instruction->opcode >> 8) & 255];
+        while (remaining) {
+            operand = &instruction->operands[remaining == 1 ? 0 : 1];
+            if ((operand->flags & 15) == OPERAND_INDEXED &&
+                ((address = operand->value.address)->index.words.number == number ||
+                 address->index.words.number == related)) {
+                generation = instruction->opcode >> 24;
+                if (generation) copy = clone_machine_record(instruction);
+                operand->flags &= ~0x300U;
+                if (address->base.words.number == 27) {
+                    if (!address->symbol && !address->first.displacement &&
+                        ((instruction->opcode >> 8) & 255) == MC_LEA) {
+                        instruction->opcode = (instruction->opcode & ~0xfe00U) | (MC_MOV << 8);
+                        operand->flags = (operand->flags & ~14U) | OPERAND_REGISTER;
+                        operand->value.reg.value = address->index.value;
+                    } else {
+                        address->base.value = address->index.value;
+                        operand->flags = (operand->flags & ~11U) | OPERAND_BASED;
+                    }
+                }
+                if (instruction->opcode >> 24) {
+                    replace_machine_definition(instruction->opcode >> 24, copy, instruction);
+                    release_machine_instruction(copy);
+                }
+            }
+            --remaining;
+        }
+    }
+}
+
+/* Original4acb0..4ace1 (49 bytes), CX identity/EDX shift, RET0.
+   The original x86 shift consumes the low five count bits. This helper changes
+   the established induction summary; its caller scales the actual ADD/CMP. */
+void __fastcall scale_region_register_increment(unsigned short number, unsigned scale)
+{
+    MachineRegionRegister *record = find_machine_region_register(active_machine_region, number, 0);
+    if (!record) compiler_internal_error("@(#)range.c:1.0", 0x690);
+    record->increment <<= (scale & 31);
+}

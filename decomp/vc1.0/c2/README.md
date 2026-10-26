@@ -1,22 +1,52 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1501 completes the INTERNAL region-consistency case. There are1386
+Checkpoint1503 adds two explicitly unit-qualified dormant scaling helpers to the
+completed INTERNAL region-consistency case. There are1388
 reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies361960/399693 original code-section bytes(90.5595%); adding940 owned
-text-data bytes gives362900/399693(90.7947%). These clipped extent unions use
+occupies362318/399693 original code-section bytes(90.6491%); adding940 owned
+text-data bytes gives363258/399693(90.8843%). These clipped extent unions use
 section VirtualSize(raw size only if zero), not branch coverage. Five historical
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover389274/399693(97.3932%). A reliable non-CRT
-denominator is unavailable;23 pending App rows and10419B outside the available
+classified CRT/import extents cover389632/399693(97.4828%). A reliable non-CRT
+denominator is unavailable;21 pending App rows and10061B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
 `binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
-cases and250 narrow units pass. Fixtures are native-only. Inputs preserve actual
+cases and252 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The two new owners are explicitly UNIT-qualified: normalize scaled indices309B
+and scale the induction summary49B. Their exact full bodies, call graph and RET0
+contracts match original disassembly and compile with the original toolchain.
+They have no new masked-original match or CLI reach claim. The ordinary producer
+uses analysis flag0, and the real G4 bank case has no qualifying scaled-index
+uses. No new original capture or altered input/private flags were introduced.
+
+Two native units construct fresh typed machine/region owners through existing
+allocation/append/splice APIs. The real summary pass derives one constant ADD
+induction from the entry liveness set; prepare_region_insertion publishes its
+owner. Shift controls0/1/2/3/31/32/33 preserve original x86 count masking and all
+other summary fields. Six address forms cover no-base LEA-to-MOV, displacement/
+symbol retention, physical base, unrelated index and the related-register arm,
+preserving all defined annotation bits and exact symbol/address identities.
+The generation-zero units do not exercise deferred-definition cloning; that
+whole body and clone/replace/release call graph remain reconstructed/static
+checked. Missing-summary internal error remains the existing named trap.
+
+An initial unit violated the splice API's successor requirement and failed125;
+GDB identified it, and ordinary append-created end storage fixes the setup.
+No target body or expected semantics were changed to accommodate that failure.
+Final make-j4 audit/check/unit passes3.471s(phases unsplit):1393 graphs/accepted
+extents,197 scoped RET,46 original-backed cases and252 units. Original/W3 passes
+2.505s. Measured build attempts3.364s, unit attempts0.053s, GDB diagnostic0.188s;
+analysis/editing unmeasured. The new units are distinct from those46 cached
+original-backed executions. Scratch source/timing/coverage/qualification record:
+`~/.ai-tmp/msvc2/vc1.0/c2/scaled-induction-units/`.
+
+The preceding checkpoint1501 completed the original-backed query below.
 The region-consistency scenario uses a bounded unsigned global-bank checksum.
 Untouched CL/O2/Ob0/G4/Z7/W3 succeeds and its actual child transport retains636B
 source plus five real IR files. Parent CL exit is unobserved in that snapshot.

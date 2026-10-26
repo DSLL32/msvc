@@ -975,6 +975,16 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@normalize_region_scaled_indices@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@scale_region_register_increment@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

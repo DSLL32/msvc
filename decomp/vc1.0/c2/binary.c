@@ -14176,20 +14176,20 @@ static const ReconFunction functions[] = {
     {
         .name = "@normalize_region_scaled_indices@8",
         .entry_rva = 0x3acf0,
-        .code = (const ReconExtent[]) { { 0x3acf0, 0x3acf1 } },
+        .code = (const ReconExtent[]) { { 0x3acf0, 0x3ae25 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "normalize_region_scaled_indices",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@scale_region_register_increment@8",
         .entry_rva = 0x3acb0,
-        .code = (const ReconExtent[]) { { 0x3acb0, 0x3acb1 } },
+        .code = (const ReconExtent[]) { { 0x3acb0, 0x3ace1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scale_region_register_increment",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
 };
 RECON_EXPORT const ReconBinary binary_descriptor = {
