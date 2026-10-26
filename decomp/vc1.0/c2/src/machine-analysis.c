@@ -769,3 +769,18 @@ int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *re
     }
     return transferred;
 }
+
+/* Original4b2f0..4b343 (83 bytes), ECX region/DX physical color,
+   old identity, apply and preserved block on stack, RET12. Descendants retain
+   the same color but do not repeat the caller's range bookkeeping request.
+   Dormant App helper qualified by typed native units, not CLI reach. */
+void __fastcall mark_machine_region_split(MachineFlowRegion *region,
+    unsigned short color, unsigned short number, int apply, MachineBlockHeader *block)
+{
+    MachineFlowRegion *child;
+    region->flags |= 0x20;
+    region->split_color = color;
+    for (child = region->children; child; child = child->next)
+        mark_machine_region_split(child, color, number, 0, 0);
+    if (apply) record_region_register(region, number, 0, block);
+}

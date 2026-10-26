@@ -1000,6 +1000,26 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@next_numbered_work@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@forget_exception_label@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@mark_machine_region_split@20": {
+      "expected_cleanup": [
+        12
+      ]
+    },
+    "@redirect_assembly_label@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

@@ -1,23 +1,44 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1506 adds three unit-qualified dormant selection queries to the
-completed INTERNAL region-consistency case. There are1391
-reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies362458/399693 original code-section bytes(90.6841%); adding976 owned
-text-data bytes gives363434/399693(90.9283%). These clipped extent unions use
-section VirtualSize(raw size only if zero), not branch coverage. Five historical
+Checkpoint1510 adds four unit-qualified dormant flow-maintenance helpers. There
+are1395 reconstructed App functions and five unchanged historical CRT bodies.
+App code occupies362781/399693 original code-section bytes(90.7649%); adding976
+owned text-data bytes gives363757/399693(91.0091%). These clipped extent unions
+use section VirtualSize(raw size only if zero), not branch coverage. Five old
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover389808/399693(97.5269%). A reliable non-CRT
-denominator is unavailable;18 pending App rows and9885B outside the available
+classified CRT/import extents cover390131/399693(97.6077%). A reliable non-CRT
+denominator is unavailable;14 pending App rows and9562B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
 `binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
-cases and255 narrow units pass. Fixtures are native-only. Inputs preserve actual
+cases and259 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
-listings/OMF remain exact.
+listings/OMF remain exact. Nine current App owners are explicitly UNIT-qualified
+(dormant source/disassembly+original-compiler+graph/RET+typed native units),
+distinct from original-pair qualification; no CLI reach is claimed for them.
 
+The latest four owners add323B: numbered-work successor31B, forget protected
+label50B, recursive region split marking83B and inline-assembly label redirect159B.
+Their original complete intervals/signatures are preserved. Four units attached
+to the protected-checksum case use initialized typed owners: negative/zero/
+positive work chains; every matching SEH handler/filter/alternate role while
+retaining distinct labels; recursive physical-color marking without changing
+old saved-register/owner fields; and supported MOV/LEA/branch symbol identities,
+including unchanged indirect JMP success and unrelated ADD rejection. No borrowed
+production state or private global is forced. The apply1 range-update arm stays
+full-body/graph checked, cold and explicitly unclaimed; no synthetic work graph
+is made merely to run it. Original case inputs/oracles remain unchanged.
+
+Final make-j4 audit/check/unit passes3.449s(phases unsplit):1400 graphs/accepted
+extents,204 scoped RET,46 original-backed cases and259 units. Original/W3 passes
+6.077s; necessary canonical/native/case build5.375s and current six-unit run0.040s.
+Analysis/editing/disassembly elapsed is unmeasured. No new original reference
+capture or shared shim. Scratch qualification/timing/coverage/source hashes:
+`~/.ai-tmp/msvc2/vc1.0/c2/flow-maintenance-units/`.
+
+Checkpoint1506 added the three selection queries below.
 The latest three owners are UNIT-qualified, with no new original-pair or CLI
 reach claim: secondary aggregate register72B, integer bit width8B and resident
 floating arithmetic mapping60B plus36B owned switch data. Together with the two

@@ -323,3 +323,13 @@ void __fastcall refresh_region_entries(WorkItem *work)
             work->region->last = work;
     }
 }
+
+/* Original5ba10..5ba2f (31 bytes), ECX work chain/AX result/RET0.
+   Skip newly inserted, negatively numbered work owners. A zero numbered
+   owner is a valid result distinct from running off the chain only by identity.
+   Dormant App helper: typed native unit qualification, no CLI reach claim. */
+short __fastcall next_numbered_work(WorkItem *work)
+{
+    while (work && work->number < 0) work = work->next;
+    return work ? work->number : 0;
+}

@@ -3942,11 +3942,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@mark_machine_region_split@20",
         .entry_rva = 0x3b2f0,
-        .code = (const ReconExtent[]) { { 0x3b2f0, 0x3b2f1 } },
+        .code = (const ReconExtent[]) { { 0x3b2f0, 0x3b343 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_machine_region_split",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@split_machine_region_exit@4",
@@ -4050,11 +4050,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@redirect_assembly_label@12",
         .entry_rva = 0x17c00,
-        .code = (const ReconExtent[]) { { 0x17c00, 0x17c01 } },
+        .code = (const ReconExtent[]) { { 0x17c00, 0x17c9f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "redirect_assembly_label",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@remove_parent_counter_records@4",
@@ -4824,11 +4824,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@next_numbered_work@4",
         .entry_rva = 0x4ba10,
-        .code = (const ReconExtent[]) { { 0x4ba10, 0x4ba11 } },
+        .code = (const ReconExtent[]) { { 0x4ba10, 0x4ba2f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "next_numbered_work",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@region_is_outside@8",
@@ -7983,11 +7983,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@forget_exception_label@8",
         .entry_rva = 0x56090,
-        .code = (const ReconExtent[]) { { 0x56090, 0x56091 } },
+        .code = (const ReconExtent[]) { { 0x56090, 0x560c2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "forget_exception_label",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@mark_reachable_work@4",

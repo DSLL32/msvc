@@ -334,3 +334,17 @@ void __fastcall add_protected_flow_edge(WorkItem *work, WorkItem *successor)
         (*link)->flags |= 1;
     }
 }
+
+/* Original66090..660c2 (50 bytes), ECX function/EDX label, RET0.
+   A removed protected label may occupy more than one role in one scope.
+   Clear every matching role without unlinking or rewriting scope ownership.
+   Dormant App helper qualified by typed native units, not CLI reach. */
+void __fastcall forget_exception_label(Function *function, SymbolHeader *label)
+{
+    ExceptionScope *scope;
+    for (scope = function->exception_scopes; scope; scope = scope->next) {
+        if (scope->filter_label == label) scope->filter_label = 0;
+        if (scope->handler_label == label) scope->handler_label = 0;
+        if (scope->alternate_label == label) scope->alternate_label = 0;
+    }
+}

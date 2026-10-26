@@ -134,7 +134,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 
 
 
-void __fastcall forget_exception_label(Function *function, SymbolHeader *label) { __asm int 3 }
 
 
 
@@ -166,7 +165,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
 
 
 
@@ -182,9 +180,7 @@ void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, Machi
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
-short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
 
 int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }

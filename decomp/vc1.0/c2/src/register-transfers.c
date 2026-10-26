@@ -6,6 +6,7 @@
 #include "expression-fields.h"
 #include "function-input.h"
 #include "flow-edges.h"
+#include "instruction-selection.h"
 #include <recon.h>
 
 AllocationBinding *allocation_register_bindings; /* 0007b9bc */
@@ -455,4 +456,38 @@ void __fastcall split_register_transfer_edge(AllocationRange *range, Node *value
     number = range->number;
     emit_global_register_transfer(0x24, number, value, transfer, 0);
     transfer->pass.selection.definitions = bitset_include(transfer->pass.selection.definitions, number & 0x3fff);
+}
+
+/* Original27c00..27c9f (159 bytes), ECX inline-asm node/EDX old label,
+   replacement on stack, RET4. Absolute MOV/LEA sources own their address's
+   symbol; branch operands own the symbol directly. An indirect JMP is already
+   independent of the old label and returns success without changing it.
+   Dormant App helper qualified by typed native units, not CLI reach. */
+int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label,
+    SymbolHeader *new_label)
+{
+    MachineInstruction *instruction = node->left.pointer;
+    MachineOperand *operand;
+    unsigned operation;
+    if (instruction->opcode & 15) return 0;
+    operation = (instruction->opcode >> 8) & 255;
+    switch (operation) {
+    case MC_MOV: case MC_LEA:
+        operand = &instruction->operands[1];
+        if ((operand->flags & 15) == OPERAND_ABSOLUTE &&
+            operand->value.address->symbol == old_label) {
+            operand->value.address->symbol = new_label;
+            return 1;
+        }
+        break;
+    case MC_JCC: case MC_JMP:
+        operand = &instruction->operands[0];
+        if ((operand->flags & 15) == OPERAND_SYMBOL && operand->value.symbol == old_label) {
+            operand->value.symbol = new_label;
+            return 1;
+        }
+        if (operation == MC_JMP && (operand->flags & 15) != OPERAND_SYMBOL) return 1;
+        break;
+    }
+    return 0;
 }
