@@ -15,8 +15,8 @@ Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
 The CLI-qualified checkpoint remains242 application functions and28,712 unique
-original bytes. Two native-only resource-unit cases add43 functions/3,798
-unique bytes, for285 reconstructed App functions/32,510 bytes in total. The first ten
+original bytes. Three native-only helper cases add45 functions/3,819
+unique bytes, for287 reconstructed App functions/32,531 bytes in total. The first ten
 source/disassembly-grounded tests cover the signal callback body (not OS signal
 delivery), listing-byte output, suppression, counted-name handling and comparison,
 named WRES v2 language directories, valid Win16 MRes numeric/named resources,
@@ -26,8 +26,8 @@ The units have no claimed original-runtime or CLI qualification.
 
 Shared chunks count once. The empty CommitDictionaryBlock entry shares another
 function's RET and is explicitly excluded from entry order. There is no verified
-complete non-CRT denominator yet. All285 bodies retain function-graph, ownership
-and extent checks;277 have strict RET checks. Six normal-return owners with cold
+complete non-CRT denominator yet. All287 bodies retain function-graph, ownership
+and extent checks;279 have strict RET checks. Six normal-return owners with cold
 nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
 separate direct-exit residual and explicit terminating-call graph declaration.
 AbortCommand preserves its explicit Env/value1 nonlocal transfer. The formerly
@@ -84,3 +84,11 @@ These are source/disassembly-qualified helpers, not additional CLI observations.
 All eight CLI fixtures and both resource-unit cases pass; the final incremental
 build/audit took174.079/413.141ms. The four writer units took10.354ms;
 all final replay/unit commands took360.997ms wall. No original was executed.
+
+A final storage-helper unit case recovers two previously unregistered App entries:
+a nullable allocation/counter wrapper (16bytes) and a distinct dictionary-finalizer
+tail wrapper (5bytes). Their names are descriptive. Owned64-byte allocation and
+normal dictionary initialization/lazy allocation/finalization tests pass, including
+empty and repeated finalization. No CLI reach or original-runtime comparison is
+claimed for these helpers. All eight CLI fixtures and three unit cases pass;
+final incremental build/audit took179.412/440.614ms and replay/unit commands398.425ms wall.

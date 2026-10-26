@@ -68,3 +68,13 @@ void FreeMemory( void *memory )
     free( memory );
     ++FreeCount;
 }
+
+/* Original0x412021..0x412031. Name descriptive: unlike AllocMemory,
+   this nullable allocation hook neither zeroes storage nor aborts on failure. */
+void *TryAllocMemory( unsigned size )
+{
+    void *memory;
+    memory = malloc( size );
+    if( memory != NULL ) ++AllocationCount;
+    return( memory );
+}

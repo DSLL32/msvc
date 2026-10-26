@@ -4,6 +4,16 @@
    initial OpenWatcom source; old variants are not byte-identity claims. */
 #include <recon-tool.h>
 static const ReconFunction functions[] = {
+    /* Two previously unregistered App hooks; descriptive recovered names. */
+    { .name = "TryAllocMemory", .entry_rva = 0x12021,
+      .code = (const ReconExtent[]) { {0x12021, 0x12031} }, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+      .native_symbol = "TryAllocMemory", .original_symbol = "TryAllocMemory_" },
+    { .name = "FiniDictionary", .entry_rva = 0x12f4d,
+      .code = (const ReconExtent[]) { {0x12f4d, 0x12f52} }, .code_count = 1,
+      .definition = RECON_APP, .implementation = RECON_IMPLEMENTED,
+      .native_symbol = "FiniDictionary", .original_symbol = "FiniDictionary_" },
+
     /* Resource writer/Unicode name units; not CLI-observed. */
     { .name = "DefaultConversion", .entry_rva = 0x1b5c0,
       .code = (const ReconExtent[]) { {0x1b5c0, 0x1b5ec} }, .code_count = 1,

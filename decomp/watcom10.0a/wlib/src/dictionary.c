@@ -274,3 +274,10 @@ int isPrime( unsigned candidate )
     }
     return( 1 );
 }
+
+/* Original0x412f4d..0x412f52 is a distinct terminal-JMP wrapper.
+   Name descriptive; preserve its identity rather than merging its call edge. */
+void FiniDictionary( void )
+{
+    FreeDictionaryBlocks();
+}

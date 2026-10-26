@@ -115,6 +115,8 @@ void FreeLargeBlocks( void );
 void FreeCommonBlk( void );
 void *AllocPoolItem( MemoryPoolBlock **pool, unsigned item_size );
 void *AllocMemory( unsigned size );
+void *TryAllocMemory( unsigned size );
+void FiniDictionary( void );
 void __cdecl ReportError( unsigned destination, unsigned message, ... );
 void AbortCommand( void );
 #if defined(__WATCOMC__)

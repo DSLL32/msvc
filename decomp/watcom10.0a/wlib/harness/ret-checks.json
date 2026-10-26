@@ -1385,6 +1385,16 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "TryAllocMemory": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "FiniDictionary": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }
