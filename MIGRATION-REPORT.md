@@ -904,12 +904,25 @@ options, replacement/deletion/extraction/addition, dictionary handling and an
 explicit import. WASM's next coherent assembly case combines includes, macros,
 conditionals, typed data, symbols/relocations and integer/x87 instructions.
 
-**Current-case checkpoint, 26 October.** WLIB's archive case has reached 125
-matched App functions / 14,982 unique original bytes before the later combined
-extraction prefix passed through `out\\keep.obj` (971.691 ms original / 10.777 ms
-native; shared adapter `d429066b3`). Its later matched prefix has reached 141 /
-16,810 bytes, with additional candidates tracked separately. WASM's assembly
-case has reached 99 / 16,906 bytes at `AsmParse`; step042 is authoritative.
+**Subsequent cases, 26 October.** WLIB's substantial archive-update case is
+committed as `250a712d5`: 171 verified App functions / 19,558 unique original
+code bytes across the two completed cases. Its final archive invocation exits 0
+with exact streams/artifacts and 166 observed first entries; the empty shared
+`CommitDictionaryBlock` identity is seeded/excluded, adding no unique bytes.
+The final pair takes 1,306.544 ms original / 13.635 ms native (7.903 setup,
+3.183 execution, 2.550 checks), with incremental period/native build 1.094 s.
+The final combined validation batch takes 2.585 s: cached help/archive replays
+9.088 / 8.998 ms, period build, full 171-owner graph/ownership/extent checks,
+165 strict RET contracts and six finite nonlocal-role residuals all pass.
+Const demangler tables use the same genuine named data-public boundary solution
+as WPP, without padding or a new tool feature. The next authorized substantial
+workload combines in-place/backup replacement, C++ template/virtual/operator
+symbols, COMMON/COMDAT records, dictionary prime sizing above 36 publics,
+response comments and member-name extraction; period objects/seed are being
+prepared, with no new acceptance claimed yet.
+
+WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
+authoritative.
 That worker is temporarily held after a platform interruption, with WIP/raw
 history preserved and no process running. The last completed command was a
 successful read-only inspection; no action-specific cause is established.
