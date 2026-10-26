@@ -508,6 +508,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define itoa recon_itoa
 /* Source-level successful mtime use; no raw Watcom stat layout promise. */
 #define stat recon_stat
+#define fstat recon_fstat
 #define isatty recon_isatty
 #define stdaux (&recon_iob[3])
 #define stdprn (&recon_iob[4])
