@@ -1300,8 +1300,6 @@ LPSTR WINAPI recon_CharNextA(LPCSTR text)
 
 int __cdecl recon_wsprintfA(LPSTR output,LPCSTR format,...)
 { (void)output; (void)format; recon_unsupported("unreviewed wsprintfA"); return 0; }
-BOOL WINAPI recon_HeapDestroy(HANDLE heap)
-{ (void)heap; recon_unsupported("unreviewed HeapDestroy"); return FALSE; }
 
 /* Private heap support preserves the observed RC owner/flags/success path. These
  * host-only lists expose ownership to GDB without borrowing target addresses. */
@@ -1319,6 +1317,27 @@ struct NativeHeap {
     NativeHeapBlock *blocks;
 };
 static NativeHeap *native_heaps;
+
+BOOL WINAPI recon_HeapDestroy(HANDLE handle)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    NativeHeap **slot,*heap;NativeHeapBlock *block,*next;int saved_errno=errno;
+    for(slot=&native_heaps;(heap=*slot)!=NULL;slot=&heap->next)
+        if((HANDLE)heap==handle)break;
+    if(!heap)recon_unsupported("HeapDestroy unowned/dead private heap");
+    /* Outstanding allocations are owned by this heap, including allocations
+     * intentionally retained by RC cleanup. Other heaps remain independent. */
+    for(block=heap->blocks;block;block=next) {
+        next=block->next;
+        if(munmap(block,block->mapping_size))recon_unsupported("HeapDestroy block release failure");
+    }
+    *slot=heap->next;
+    if(munmap(heap,sizeof(*heap)))recon_unsupported("HeapDestroy owner release failure");
+    errno=saved_errno;return TRUE;
+#else
+    (void)handle;recon_unsupported("HeapDestroy requires explicit510 profile");return FALSE;
+#endif
+}
 
 HANDLE WINAPI recon_HeapCreate(DWORD options,DWORD initial,DWORD maximum)
 {

@@ -854,3 +854,9 @@ build/watcom-getch-probe: tests/watcom-getch-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-getch-check: build/watcom-getch-probe
 	$(PYTHON) tests/check-watcom-getch.py $<
+
+.PHONY: heap-destroy-check
+build/heap-destroy-probe: tests/heap-destroy-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+heap-destroy-check: build/heap-destroy-probe
+	$(PYTHON) tests/check-heap-destroy.py $<

@@ -381,8 +381,8 @@ content matches a registered encountered ANSI message: exactly one `%1` string
 and one `%2!d!` signed32 insert, passed through the actual va_list-pointer ABI.
 It formats the supplied arguments, preserving NUL, return count, untouched tail,
 errno and LastError. Other templates/grammars/capacity modes fail explicitly.
-The separate wsprintfA/HeapDestroy imports currently retain SDK ABIs with
-unsupported bodies for unvisited source branches.
+The separate wsprintfA import retains its SDK ABI and an unsupported body for
+unvisited source branches.
 
 Unvisited CL multibyte parser imports `_mbsncmp`, `_mbsinc`, `_mbccpy` and
 `_ismbcspace` retain SDK declarations/remaps and fail explicitly on execution.
@@ -1308,3 +1308,11 @@ The Watcom-only public utoa(unsigned int,char *,int) spelling links to a typed
 boundary that always denies125 without reading or writing caller storage. WLIB's
 normal CheckLibrarySize branch does not invoke its cold decimal conversion;
 no conversion success is claimed.
+
+Explicit MSVCRT510 HeapDestroy retires only an exact registered live private
+heap from HeapCreate(1,0,0), releasing all outstanding tracked block mappings and
+then its owner mapping. It returns TRUE only after successful release, retaining
+native errno/LastError/FP and other heap owners. NULL, unknown/dead owners and
+other profiles deny125. No general stale-handle generation guarantee after a
+later mapping-address reuse is implied. RCDLL cleanup uses this real lifetime
+boundary; original private survivor inventory/per-call errors are unmeasured.
