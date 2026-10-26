@@ -28,6 +28,7 @@ ExceptionScope *__fastcall lookup_exception_scope(ExceptionScope *scopes, long i
 unsigned __fastcall normalize_assembly_flow_symbol(SymbolHeader *symbol, void *context);
 void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target);
 void __fastcall remove_flow_reference(FlowLink **links, WorkItem *work);
+void __fastcall remove_optional_flow_reference(FlowLink **links, WorkItem *work);
 Expression *__fastcall last_flow_expression(Expression *expressions);
 void __fastcall remove_flow_work(WorkItem *work);
 void __fastcall destroy_flow_work(WorkItem *work);

@@ -32,6 +32,7 @@ struct MachineFlowRegion {
 };
 typedef char MachineFlowRegionSizeCheck[sizeof(MachineFlowRegion) == 96 ? 1 : -1];
 extern MachineFlowRegion *machine_region_root;
+extern MachineBlockHeader *region_insertion_block;
 extern int machine_analysis_needs_label_cleanup;
 void __fastcall build_machine_regions(MachineInstruction *instructions);
 void __fastcall analyze_machine_regions(MachineFlowRegion *region, unsigned flags);
@@ -47,10 +48,11 @@ MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFl
 int __fastcall promote_region_immediates(MachineFlowRegion *region);
 extern MachineFlowRegion *active_machine_region;
 void __fastcall prepare_machine_region_transform(MachineFlowRegion *region);
+int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement, MachineInstruction *first, MachineInstruction *last);
 void __fastcall prepare_region_insertion(MachineFlowRegion *region);
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement);
 void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last);
-void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use);
+void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int add, MachineBlockHeader *preserved_definition);
 void __fastcall transfer_machine_region_references(MachineFlowRegion *region, MachineFlowRegion *parent);
 MachineInstruction *__fastcall next_machine_region_record(unsigned kind, MachineFlowRegion *region,
     MachineInstruction *previous, MachineFlowRegion **children);

@@ -150,7 +150,6 @@ void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { _
 
 Node *__fastcall push_unary_below_conversion(Node *node) { __asm int 3 }
 
-int __fastcall extract_complement(Node **node) { __asm int 3 }
 
 
 Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label) { __asm int 3 }
@@ -222,11 +221,7 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
-void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
-void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 3 }
-void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
-void __fastcall record_machine_definition_range(unsigned short number, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number, int definition, int use) { __asm int 3 }
+int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 
@@ -246,11 +241,7 @@ void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *rel
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
-void remove_region_blocks(void) { __asm int 3 }
-void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
-    unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }

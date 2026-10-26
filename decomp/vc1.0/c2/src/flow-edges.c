@@ -197,6 +197,20 @@ void __fastcall remove_flow_reference(FlowLink **links, WorkItem *work)
     *links = next;
 }
 
+/* Original5b1a0..5b1c9, ECX link owner/EDX work, RET0. This
+   separate optional-removal entry leaves an absent edge unchanged. */
+void __fastcall remove_optional_flow_reference(FlowLink **links, WorkItem *work)
+{
+    FlowLink *removed, *next;
+    while (*links && (*links)->work != work) links = &(*links)->next;
+    removed = *links;
+    if (removed) {
+        next = removed->next;
+        release_flow_link(removed);
+        *links = next;
+    }
+}
+
 /* Original [0005b450,0005b470). Protected edges do not contribute to
    the predecessor count used when ordering physical fall-through. */
 int __fastcall count_ordinary_flow_links(FlowLink *links)

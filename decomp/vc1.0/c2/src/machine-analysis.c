@@ -6,8 +6,11 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "bitsets.h"
+#include "jump-threading.h"
+#include "transformation-cursor.h"
 #include <recon.h>
 MachineFlowRegion *active_machine_region; /* 000830c8 */
+MachineBlockHeader *region_insertion_block; /*000830d4: enclosing insertion block*/
 MachineFlowRegion *machine_region_root; /* 000830c4 */
 int machine_analysis_needs_label_cleanup; /* 0007c29c */
 
@@ -525,4 +528,106 @@ MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFl
         instruction = instruction->next;
     }
     return region;
+}
+
+/* Original48e20..48ed7, ECX region/RET0. Extra incoming references
+   receive a separate entry label before the preheader; the region's original
+   reference count remains with the old label. */
+void __fastcall prepare_machine_region_transform(MachineFlowRegion *region)
+{
+    MachineInstruction *label = region->label, *before, *created;
+    LabelSymbol *symbol = (LabelSymbol *)label->record.symbol;
+    int transferred;
+    if (symbol->references == region->initial_references) return;
+    before = region->first->previous;
+    while ((before->opcode & 15) == 4) before = before->previous;
+    created = new_machine_record(1, new_internal_label());
+    created->labels.attachment = 0;
+    insert_machine_after(before, created);
+    register_machine_label(created);
+    transferred = retarget_machine_region_entry(symbol, (LabelSymbol *)created->record.symbol,
+        region->parent->first, before);
+    created->labels.flags = (created->labels.flags & ~2U) | (label->labels.flags & 2);
+    created->labels.flags &= ~2U;
+    if (region->initial_references + transferred != symbol->references)
+        compiler_internal_error("@(#)range.c:1.0", 0x2d0);
+    ((LabelSymbol *)region->label->record.symbol)->references -= transferred;
+    ((LabelSymbol *)created->record.symbol)->references = transferred;
+}
+
+/* Original49230..4927a, ECX region/RET0. Keep both the instruction
+   insertion cursor and its preceding block owner. The final forward walk is
+   present in the original even though its terminal value is not published. */
+void __fastcall prepare_region_insertion(MachineFlowRegion *region)
+{
+    MachineInstruction *position, *scan;
+    active_machine_region = region;
+    position = region->first->previous;
+    region_insertion_block = (MachineBlockHeader *)position;
+    while ((region_insertion_block->opcode & 15) != 7)
+        region_insertion_block = (MachineBlockHeader *)region_insertion_block->previous;
+    transformation_cursor.instruction = position;
+    for (scan = position->next; scan != region->label; scan = scan->next) ;
+}
+
+/* Original4ab40..4aca6, ECX region/EDX register, add and preserved block
+   on stack, RET8. Keep both the WorkItem sets and their machine-header aliases
+   synchronized. Removal deliberately leaves the preserved block definition. */
+void __fastcall record_region_register(MachineFlowRegion *region, unsigned short number,
+    int add, MachineBlockHeader *preserved_definition)
+{
+    MachineBlockHeader *before, *last, *block;
+    WorkItem *work;
+    unsigned member = number & 0x3fff;
+    before = (MachineBlockHeader *)region->first->previous;
+    while ((before->opcode & 15) != 7) before = (MachineBlockHeader *)before->previous;
+    last = (MachineBlockHeader *)region->last;
+    while ((last->opcode & 15) != 7) last = (MachineBlockHeader *)last->previous;
+    for (work = current_work; work->body.block != before; work = work->next) ;
+    if ((MachineInstruction *)work->next->body.block != region->first)
+        compiler_internal_error("@(#)range.c:1.0", 0x8c1);
+    if (add) {
+        work->pass.selection.definitions = bitset_include(work->pass.selection.definitions, member);
+        before->definitions = bitset_include(before->definitions, member);
+    } else {
+        bitset_remove(work->pass.selection.definitions, member);
+        bitset_remove(before->definitions, member);
+    }
+    do {
+        work = work->next;
+        block = work->body.block;
+        if (add) {
+            work->pass.selection.uses = bitset_include(work->pass.selection.uses, member);
+            block->uses = bitset_include(block->uses, member);
+            work->pass.selection.definitions = bitset_include(work->pass.selection.definitions, member);
+            block->definitions = bitset_include(block->definitions, member);
+        } else {
+            bitset_remove(work->pass.selection.uses, member);
+            bitset_remove(block->uses, member);
+            if (block != preserved_definition) {
+                bitset_remove(work->pass.selection.definitions, member);
+                bitset_remove(block->definitions, member);
+            }
+        }
+    } while (block != last);
+}
+
+/* Original4a010..4a071, generation ECX/old record EDX/new record stack,
+   RET4. Replace matching records in the deferred generation's instruction
+   run. Save each next link before the arena record is released. */
+void __fastcall replace_machine_definition(unsigned identifier,
+    MachineInstruction *previous, MachineInstruction *replacement)
+{
+    MachineInstruction *instruction, *next, *copy;
+    for (instruction = deferred_instructions; instruction->opcode >> 24 != identifier;
+         instruction = instruction->next) ;
+    while (!(instruction->opcode & 15)) {
+        next = instruction->next;
+        if (machine_records_equal(previous, instruction)) {
+            copy = clone_machine_record(replacement);
+            insert_machine_after(instruction, copy);
+            remove_machine_instruction(instruction);
+        }
+        instruction = next;
+    }
 }

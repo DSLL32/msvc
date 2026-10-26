@@ -35,6 +35,7 @@ struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *st
 int __fastcall induction_is_dead_on_exit(Node *assignment);
 void remove_region_blocks(void);
 void __fastcall remove_region_block(WorkItem *work);
+void __fastcall unlink_region_work(WorkItem *work);
 BasicInduction *__fastcall find_basic_induction_load(Node *node);
 Node *__fastcall find_induction_initial_value(Node *assignment);
 int __fastcall basic_induction_increment(BasicInduction *induction);
@@ -93,6 +94,7 @@ BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *ass
     unsigned bytes, unsigned *reverse);
 void __fastcall exclude_region_memory_operations(Node *node);
 void create_region_induction_counter(void);
+Node *__fastcall copy_region_memory_tree(Node *node);
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment);
 void __fastcall rewrite_region_induction_tree(Node *node);

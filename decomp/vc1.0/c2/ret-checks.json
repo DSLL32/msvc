@@ -320,6 +320,66 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@insert_region_memory_operation@28": {
+      "expected_cleanup": [
+        20
+      ]
+    },
+    "@copy_region_memory_tree@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_remove_region_blocks": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@remove_region_block@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@unlink_region_work@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@remove_optional_flow_reference@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@prepare_machine_region_transform@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@prepare_region_insertion@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@record_machine_definition_range@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@record_region_register@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@replace_machine_definition@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@extract_complement@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

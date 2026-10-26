@@ -6,6 +6,8 @@
 #include "work-prepare.h"
 #include "algebra.h"
 #include "work-expressions.h"
+#include "extended.h"
+#include "flow-edges.h"
 #include <recon.h>
 FlowRegion *hoist_current_region; /* 0007bea8 */
 WorkItem *hoist_entry_work;  /* 0007bea0 */
@@ -255,6 +257,73 @@ static Node *region_induction_counter;/*7be80*/
 static Node *multiple_exit_trip_count;/*7be84*/
 static Node *region_trip_count;       /*7be88*/
 int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes);
+
+/* Original612f0..6136d, ECX block/RET0. Successor links are released;
+   predecessor links survive, redirect their numbered targets to the following
+   block and splice into its existing predecessor list without reallocating. */
+void __fastcall unlink_region_work(WorkItem *work)
+{
+    FlowLink *link, *next, *predecessors, *tail, *outgoing;
+    for (link = work->successors; link; link = next) {
+        next = link->next;
+        remove_optional_flow_reference(&link->work->predecessors, work);
+        release_flow_link(link);
+    }
+    predecessors = work->predecessors;
+    if (predecessors) {
+        for (link = predecessors; link; link = link->next) {
+            tail = link;
+            for (outgoing = link->work->successors; outgoing; outgoing = outgoing->next)
+                if (outgoing->work->number == work->number) outgoing->work = work->next;
+        }
+        tail->next = work->next->predecessors;
+        work->next->predecessors = predecessors;
+    }
+}
+
+/* Original5f600..5f677, ECX block/RET0. Expression records return to
+   their arena-backed pool; the original then clears the old head's next
+   link. Keep that write and the surviving work-body pointer unchanged. */
+void __fastcall remove_region_block(WorkItem *work)
+{
+    Expression *head, *expression, *next;
+    unsigned i;
+    unlink_region_work(work);
+    head = work->body.expressions;
+    for (expression = head; expression; expression = next) {
+        next = expression->next;
+        release_tree(expression->tree);
+        release_expression(expression);
+    }
+    if (head) head->next = 0;
+    for (i = 0; i < 6; ++i) {
+        release_bitset(work->flow_sets[i]);
+        work->flow_sets[i] = 0;
+    }
+    release_bitset(work->analysis.dominators);
+    work->previous->next = work->next;
+    work->next->previous = work->previous;
+    free_work(work);
+}
+
+/* Original5f680..5f6ea, cdecl/RET0. An empty insertion tail retires
+   the saved entry test; remove every loop block before releasing its motion
+   records, retaining each next link before the block returns to its pool. */
+void remove_region_blocks(void)
+{
+    WorkItem *work, *next;
+    if (region_entry_test && !transformation_cursor.expression->next) {
+        release_tree(region_entry_test->tree);
+        region_entry_test->tree = new_node(1);
+    }
+    region_entry_test = 0;
+    region_exit_branch = 0;
+    for (work = hoist_first_work; work != hoist_after_work; work = next) {
+        next = work->next;
+        remove_region_block(work);
+    }
+    release_region_motion();
+}
 
 /* Original [0005eab0,0005f064). Identify a supported terminal comparison,
    its basic induction and invariant bound, then build a canonical trip count.
@@ -767,6 +836,75 @@ void reduce_region_induction_strength(void)
         release_node_children(node);
         node->opcode = 1;
     }
+}
+
+/* Original6f5d0..6f5d5 is a separate fastcall/RET0 tail entry. Keep
+   its logical vertex rather than redirecting callers straight to copy_tree. */
+Node *__fastcall copy_region_memory_tree(Node *node)
+{
+    return copy_tree(node);
+}
+
+/* Original27530..27844, ECX anchor/EDX value and five stack arguments,
+   RET20. Build the intrinsic argument chain from owned copies; wide fills
+   first store one element and copy it, retaining reverse traversal metadata. */
+void __fastcall insert_region_memory_operation(Expression *anchor, Node *value,
+    Node *address, unsigned opcode, Node *counter, unsigned bytes, Node *assignment)
+{
+    Node *source = copy_region_memory_tree(value);
+    Node *destination = copy_region_memory_tree(address);
+    Node *count = copy_tree(counter), *node;
+    unsigned short unit_type = (assignment->attributes.words.type & 0xff00) | bytes;
+    unsigned units, offset;
+    union { float number; unsigned bits; } literal;
+    if (opcode == 0x97 && (source->attributes.words.type & 0x1000) &&
+        source->opcode == 0x33 && (bytes == 4 || bytes == 8)) {
+        if (bytes == 4) {
+            extended_to_float((const Extended *)source->left.pointer, &literal.number);
+            unit_type = 0x104;
+        } else {
+            if (!compare_extended(1, (const Extended *)source->left.pointer, &extended_zero)) goto keep_value;
+            literal.bits = 0;
+            count = build_tree("PPNT", count, integer_node(2, 0x104), 4, count);
+            unit_type = 0x104;
+            bytes = 4;
+        }
+        source = intern_leaf(0x33, 0, 0x104, literal.bits);
+    }
+keep_value:
+    if (bytes > 4 || (opcode == 0x97 && (unit_type & 0x3000))) {
+        if (opcode == 0x97) {
+            node = build_tree("DPNST", destination, source, 0x32, assignment);
+            node->detail.value = assignment->detail.value;
+            insert_tree_expression(anchor, 0, node);
+            source = destination;
+            destination = build_tree("DPNT", destination, typed_integer_node(counter, bytes),
+                (assignment->attributes.words.flags & 0x80) ? 3 : 2, destination);
+            opcode = 0x96;
+            count = build_tree("PPNT", count, typed_integer_node(count, 1), 3, count);
+        }
+        if (!(bytes & 3)) { unit_type = 0x104; units = bytes >> 2; }
+        else if (!(bytes & 1)) { unit_type = 0x102; units = bytes >> 1; }
+        else { unit_type = 0x101; units = bytes; }
+        if (assignment->attributes.words.flags & 0x80) {
+            offset = bytes - (unit_type & 255);
+            destination = build_tree("PPNT", destination, integer_node(offset, 0x104), 2, destination);
+            if (opcode == 0x96)
+                source = build_tree("PPNT", source, integer_node(offset, 0x104), 2, source);
+        }
+        count = build_tree("PPNT", count, integer_node(units, 0x104), 4, count);
+    }
+    node = build_tree("NPPPPNY", 0x4c, count, source, destination, integer_node(opcode, 0x102), 0x40);
+    node->second.node->right.value = assignment->right.value;
+    node->second.node->detail.value = assignment->detail.value;
+    if (assignment->second.node->opcode == 0x30) {
+        node->second.node->second.node->right.value = assignment->second.node->right.value;
+        node->second.node->second.node->detail.value = assignment->second.node->detail.value;
+    }
+    node->attributes.words.type = 0x404;
+    node->detail.control.code = (short)unit_type;
+    if (assignment->attributes.words.flags & 0x80) node->attributes.words.flags |= 0x80;
+    insert_tree_expression(anchor, 0, optimize_tree_global(node));
 }
 
 /* Original [0005e350,0005e42d). Rewrite induction uses, eliminate singly

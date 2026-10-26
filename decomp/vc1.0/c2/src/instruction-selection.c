@@ -5,6 +5,7 @@
 #include "instruction-rewrite.h"
 #include "register-variables.h"
 #include "bitsets.h"
+#include "machine-analysis.h"
 #include <recon.h>
 extern int optimize_global;
 MachineBlockHeader *selection_global_header; /* 0007c2a4 */
@@ -74,7 +75,8 @@ void __fastcall generate_work(WorkItem *work)
     }
 }
 /* Original7c2a8: a process-wide generation for cloned rematerialization
-   sequences. Zero is reserved in the high byte of a machine record. */
+   sequences. try_select_assignment skips a zero high byte; the later
+   record_machine_definition_range increment intentionally does not. */
 static unsigned rematerialization_generation;
 /* Original [00019930,00019b6e). Select an assigned virtual register once,
    cloning its generated sequence into a deferred block when cheap to repeat. */
@@ -147,4 +149,36 @@ int __fastcall try_select_assignment(Node *node)
     machine_tail = saved_tail;
     machine_instructions = saved_head;
     return 1;
+}
+
+/* Original4a8f0..4a9ba, ECX register/EDX first/one stack last, RET4.
+   Keep a separate definition block in the deferred stream, and mark both
+   the original inclusive sequence and its clones with the shared generation. */
+void __fastcall record_machine_definition_range(unsigned short number,
+    MachineInstruction *first, MachineInstruction *last)
+{
+    MachineBlockHeader *block;
+    MachineInstruction *scan, *copy;
+    block = (MachineBlockHeader *)new_machine_record(7, (BitSet *)0,
+        bitset_include(0, number & 0x3fff), 0, 0);
+    if (deferred_instructions)
+        insert_machine_after(selection_global_header->previous, (MachineInstruction *)block);
+    else {
+        selection_global_header->previous = (MachineInstruction *)block;
+        deferred_instructions = (MachineInstruction *)block;
+        block->next = (MachineInstruction *)selection_global_header;
+        block->previous = 0;
+    }
+    set_register_rematerialization(number,
+        (MachineBlockHeader *)selection_global_header->previous);
+    ++rematerialization_generation;
+    scan = first->previous;
+    do {
+        scan = scan->next;
+        scan->opcode = (scan->opcode & 0x00ffffffU) | (rematerialization_generation << 24);
+        copy = clone_machine_record(scan);
+        copy->opcode = (copy->opcode & 0x00ffffffU) | (rematerialization_generation << 24);
+        insert_machine_after(selection_global_header->previous, copy);
+    } while (scan != last);
+    deferred_tail = copy;
 }

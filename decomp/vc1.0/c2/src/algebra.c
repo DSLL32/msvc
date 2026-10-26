@@ -978,3 +978,27 @@ int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value)
         return can_combine_constants(factor, first, count);
     }
 }
+
+/* Original56da0..56e27, ECX address of node/RET0. A complement may
+   be removed from either XOR arm; constants acquire a folded complement.
+   Search the left arm first and preserve the caller's node slot on failure. */
+int __fastcall extract_complement(Node **slot)
+{
+    Node *node = *slot;
+    switch (node->opcode) {
+    case 0xd:
+        if (extract_complement(&node->left.node)) return 1;
+        if (extract_complement(&node->second.node)) return 1;
+        return 0;
+    case 0xe:
+        *slot = take_left_operand(node);
+        tree_changed = 1;
+        return 1;
+    case 0x33:
+        *slot = build_tree("PNYF", node, 0xe);
+        tree_changed = 1;
+        return 1;
+    default:
+        return 0;
+    }
+}
