@@ -7521,11 +7521,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@equal_chain_value_ids@8",
         .entry_rva = 0x4dd90,
-        .code = (const ReconExtent[]) { { 0x4dd90, 0x4dd91 } },
+        .code = (const ReconExtent[]) { { 0x4dd90, 0x4ddd8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_chain_value_ids",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@add_expression_use@8",
@@ -8394,11 +8394,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@find_tail_label@8",
         .entry_rva = 0x48770,
-        .code = (const ReconExtent[]) { { 0x48770, 0x48771 } },
+        .code = (const ReconExtent[]) { { 0x48770, 0x4879a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "find_tail_label",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@is_tail_call_position@8",

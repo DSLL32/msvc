@@ -131,7 +131,6 @@ void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 
 
 
-Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label) { __asm int 3 }
 
 
 
@@ -170,7 +169,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 

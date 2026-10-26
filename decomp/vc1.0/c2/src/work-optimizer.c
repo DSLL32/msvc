@@ -23,6 +23,23 @@ BitSet *work_indirect_values; /* 0007bc3c: nodes without direct-symbol flag */
 unsigned next_work_value;    /* 0007bc30: value identifiers begin at one */
 int work_has_indirect_values; /* 0007ba7c */
 
+/* Original5dd90..5ddd8, fastcall two call owners, RET0. Match argument
+   value identifiers, not node identity or the remaining attribute word.
+   Empty/unequal-length chains retain their original asymmetric early exits. */
+int __fastcall equal_chain_value_ids(Node *left, Node *right)
+{
+    left = left->second.node;
+    right = right->second.node;
+    while (left->opcode != 0x4c) {
+        if (right->opcode == 0x4c) return 0;
+        if (left->left.node->info.words.identifier !=
+            right->left.node->info.words.identifier) return 0;
+        left = left->second.node;
+        right = right->second.node;
+    }
+    return right->opcode == 0x4c;
+}
+
 /* Original [0005ba70,0005bb20). Initialize value references, perform the
    first rewrite pass, process region values, then rebuild references for
    expression cleanup and the final rewrite pass. */

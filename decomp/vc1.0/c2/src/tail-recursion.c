@@ -7,7 +7,18 @@
 SymbolHeader *__fastcall tail_argument_address(Node *node);
 int __fastcall is_tail_call_position(Expression *expressions, Expression *call);
 
-Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label);
+/* Original58770..5879a, ECX expression chain/EDX label, RET0.
+   Search only label nodes and compare the actual symbol owner. Failure keeps
+   the original internal-error call and missing-result tail; it is not reached
+   by this case and the diagnostic remains an explicit trapping child. */
+Expression *__fastcall find_tail_label(Expression *expressions, SymbolHeader *label)
+{
+    Expression *expression;
+    for (expression = expressions; expression; expression = expression->next)
+        if (expression->tree->opcode == 0x29 &&
+            expression->tree->right.symbol == label) return expression;
+    compiler_internal_error("@(#)misc.c:1.100", 0x1ee);
+}
 
 /* Original587a0..58805, fastcall ECX tree/RET0. Ignore addresses only
    consumed by a load, call or assignment destination; reject the first symbol

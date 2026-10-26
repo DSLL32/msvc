@@ -4,11 +4,11 @@
 #include "work-prepare.h"
 #include <recon.h>
 extern int floating_frontend;
-enum { INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
+enum { INTRINSIC_ABSOLUTE_INTEGER = 15, INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_SIN_FLOAT = 106, INTRINSIC_SIN_DOUBLE = 107,
     INTRINSIC_COS_FLOAT = 110, INTRINSIC_COS_DOUBLE = 111,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
-    INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
+    INTRINSIC_ROTATE_LEFT = 159, INTRINSIC_ROTATE_RIGHT = 160, INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
     INTRINSIC_STRING_CONCATENATE = 166, INTRINSIC_MEMORY_COMPARE = 170,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
@@ -18,6 +18,10 @@ Node *current_intrinsic; /* original0007b9b4 */
 /* Original83ae8..83af8, actual mixed-wave fabs ID17. The two-byte
    recipe84e10 "u" builds an absolute-value tree; runtime name839d0 is empty.
    This descriptor is independent: no preceding float descriptor is selected. */
+/* Original83ac8..83ad8, reached integer abs ID15: same unary-absolute
+   recipe84e10, signed-int result104 and call-class flag20, empty
+   runtime name839d0. */
+const IntrinsicDescription absolute_integer_intrinsic = { 0x104, 0, "u", "", 0x20 };
 const IntrinsicDescription absolute_double_intrinsic = { 0x1008, 0, "u", "", 0x20 };
 /* Original83f98..83fb8: square root reached after binary power lowering. */
 const IntrinsicDescription root_float_intrinsic = { 0x1004, 0, "C", "sqrt", 0x120 };
@@ -40,6 +44,14 @@ const IntrinsicDescription power_double_intrinsic = { 0x1008, 0, "vb", "fexp\377
 
 
 
+
+/* Original843c8..843d8, reached _rotl ID159. Recipe839cc "vb"
+   reverses the two arguments then constructs the rotate tree. Result override
+   and flags are zero; runtime name839d0 is empty. */
+const IntrinsicDescription rotate_left_intrinsic = { 0, 0, "vb", "", 0 };
+/* Original843d8..843e8, independently reached _rotr ID160. The same
+   recipe constructs its distinct opcode through intrinsic_operator. */
+const IntrinsicDescription rotate_right_intrinsic = { 0, 0, "vb", "", 0 };
 
 /* ID173 is encountered in WinMain's aggregate-zero initialization. Original
    descriptor844a8..844b8: no scalar result-type override, recipe84c08 "vyE0",
@@ -87,6 +99,7 @@ const IntrinsicDescription scope_state_intrinsic = { 0, 0, "", "", 0 };
    this dispatch inline introduces no nonoriginal function/call edge. */
 #define SELECT_INTRINSIC_DESCRIPTION(id, description) do { \
     switch (id) { \
+    case INTRINSIC_ABSOLUTE_INTEGER: (description) = &absolute_integer_intrinsic; break; \
     case INTRINSIC_ABSOLUTE_DOUBLE: (description) = &absolute_double_intrinsic; break; \
     case INTRINSIC_SQRT_FLOAT: (description) = &root_float_intrinsic; break; \
     case INTRINSIC_SQRT_DOUBLE: (description) = &root_double_intrinsic; break; \
@@ -96,6 +109,8 @@ const IntrinsicDescription scope_state_intrinsic = { 0, 0, "", "", 0 };
     case INTRINSIC_COS_DOUBLE: (description) = &cosine_double_intrinsic; break; \
     case INTRINSIC_ATAN2_FLOAT: (description) = &arctangent2_float_intrinsic; break; \
     case INTRINSIC_ATAN2_DOUBLE: (description) = &arctangent2_double_intrinsic; break; \
+    case INTRINSIC_ROTATE_RIGHT: (description) = &rotate_right_intrinsic; break; \
+    case INTRINSIC_ROTATE_LEFT: (description) = &rotate_left_intrinsic; break; \
     case INTRINSIC_STRING_COMPARE: (description) = &string_compare_intrinsic; break; \
     case INTRINSIC_STRING_COPY: (description) = &string_copy_intrinsic; break; \
     case INTRINSIC_STRING_CONCATENATE: (description) = &string_concatenate_intrinsic; break; \

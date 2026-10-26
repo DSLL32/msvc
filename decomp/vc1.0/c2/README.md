@@ -1,20 +1,51 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1445 completes the protected streaming checksum case. There are1330
-reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies351973/399693 original code-section bytes(88.0608%); adding916 owned
-text-data bytes gives352889/399693(88.2900%). These clipped extent unions use
-section VirtualSize(raw size only if zero), not branch coverage. Five historical
-CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover379263/399693(94.8886%). A reliable non-CRT
-denominator remains unavailable;53 pending App rows and20430B outside available
-extents need investigation. No only-CRT claim is made.
+Checkpoint 1447 completes the immutable dictionary confidence checksum case.
+There are 1332 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 352087/399693 original code-section bytes (88.0894%);
+adding 916 owned text-data bytes gives 353003/399693 (88.3185%). These clipped
+extent unions use section VirtualSize (raw size only if zero), not branch
+coverage. Five historical CRT overrides contribute 1776B separately, zero App
+credit. Available App/classified CRT/import extents cover 379377/399693
+(94.9171%). A reliable non-CRT denominator remains unavailable; 51 pending App
+rows and 20316B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All29 cached IO cases plus one INTERNAL DIRECT
-case and227 narrow units pass. Native fixtures never run Wine. Inputs preserve
-actual frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds.
-Only established COFF timestamp bytes4..8 are normalized; listings/OMF are exact.
+`binary.c` is the sole registry. All 30 cached IO cases, one INTERNAL DIRECT
+case and 231 narrow units pass. Fixtures are native-only. Inputs preserve actual
+frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
+established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+Untouched CL `/O2 /Ob2 /Oi /G5 /Z7 /W3 dictionary.c` and standalone original C2
+agree on the complete 2588B object, empty streams and status 0. Normalized SHA256:
+`d153f48ad15b7eb79dfaf642d5655b6efb30cebecd60fdd924f91f8aa360fe91`.
+Actual 3296B source and 001068 ex/sy/in/gl/db inputs (3007/1052/18/391/483B)
+are owned by the fixture. Read-only CL observation stops before C2; parent exit
+is unobserved. An initial strlen/strcmp draft reached only tail-label lookup;
+one justified finite-sqrt confidence revision also reaches pure-call argument
+value comparison. Larger POD/Pentium hypotheses remain unobserved.
+
+Two whole App functions add 114B: find_tail_label (42) and equal_chain_value_ids
+(72). Three encountered 16B rotate/integer-absolute descriptors are contextual
+non-code data, zero App/text credit. Four units check genuine tail owner identity
+and unchanged chain, genuine sqrt argument IDs, cold ID/length edges and exact
+descriptor fields. Missing-label internal-error behavior remains unexercised,
+with its named child trapping. No shared shim or CRT change was needed.
+
+Final `make -j4 audit check unit` passes in 2.063s (phases unsplit): 1337 paired
+graphs/accepted extents and 141 scoped RET contracts. Global RET remains unresolved
+at finish_debugging's indirect tail. A nonclock object-byte mutation rejects.
+Fresh completion IO takes 32.355ms: setup 14.444/execution 13.657/checks 4.254;
+four focused units 23.968ms: setup 9.774/execution 9.731/checks 4.462.
+All measured attempts, including failures/repeats: untouched CL 3.680s, transport
+3.344s, standalone originals 2.411s, masked originals 3.540s, combined builds
+15.668s, native-only data builds 1.924s, registry/runtime 2.970s, W3 3.116s,
+native replays 0.299s, GDB diagnostics 0.969s, units 0.031s and expected rejection
+0.041s. Combined phases are unsplit, not additive task elapsed. Analysis/editing,
+authoring and scratch observer builds/packing are unmeasured. Raw failed
+preparation/data-frontier attempts and completion/time/coverage summaries remain
+under `~/.ai-tmp/msvc2/vc1.0/c2/dictionary/`.
+
+The preceding protected streaming checksum case adds seven App functions/1501B.
 Untouched CL `/Od /G3 /Z7 /FAc /W3 checksum.c` compiles a4410B protected streaming
 checksum with a balanced64-term unsigned expression, real reader callback and
 except-only early returns. Actual001460 ex/sy/in/gl/db inputs are4757/594/9/219/
