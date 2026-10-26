@@ -890,3 +890,9 @@ build/mbscmp-probe: tests/mbscmp-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 mbscmp-check: build/mbscmp-probe
 	$(PYTHON) tests/check-mbscmp.py $< 510
+
+.PHONY: temp-api-check
+build/temp-api-probe: tests/temp-api-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+temp-api-check: build/temp-api-probe
+	$(PYTHON) tests/check-temp-api.py $< 510

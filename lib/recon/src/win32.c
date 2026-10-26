@@ -34,15 +34,74 @@ LPSTR WINAPI recon_GetCommandLineA(void)
     if(!command_line) recon_unsupported("unbound process command line");
     return command_line;
 }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static void temp_current_directory(char path[MAX_PATH])
+{
+    const char *temporary;size_t n;
+    if(!recon_crt_arguments_bound || !getenv("RECON_CANONICAL_CWD"))
+        recon_unsupported("temporary path unbound target environment/cwd");
+    temporary=recon_getenv("TMP");
+    if(!temporary || strcmp(temporary,"."))
+        recon_unsupported("temporary path outside current-directory TMP");
+    if(!recon_fullpath(path,".",MAX_PATH))
+        recon_unsupported("temporary path canonical cwd");
+    n=strlen(path);
+    if(n>MAX_PATH-15) recon_unsupported("temporary path length");
+    if(n && path[n-1]!='\\') {path[n++]='\\';path[n]=0;}
+}
+static void temp_output_span(char *output,const void *input,size_t bytes)
+{
+    uintptr_t out=(uintptr_t)output,in=(uintptr_t)input;
+    if(!output || out>UINTPTR_MAX-MAX_PATH || in>UINTPTR_MAX-bytes ||
+       (out<in+bytes && in<out+MAX_PATH))
+        recon_unsupported("temporary path output extent/overlap");
+}
+#endif
 DWORD WINAPI recon_GetTempPathA(DWORD capacity,LPSTR output)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    char path[MAX_PATH];const char *temporary;size_t n;int saved_errno=errno;
+    if(capacity!=MAX_PATH) recon_unsupported("GetTempPathA capacity");
+    temp_current_directory(path);temporary=recon_getenv("TMP");
+    temp_output_span(output,temporary,2);
+    n=strlen(path);memcpy(output,path,n+1);errno=saved_errno;return n;
+#else
     (void)capacity;(void)output;
     recon_unsupported("unreviewed GetTempPathA");return 0;
+#endif
 }
 UINT WINAPI recon_GetTempFileNameA(LPCSTR directory,LPCSTR prefix,UINT unique,LPSTR output)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    static UINT next_number;
+    char path[MAX_PATH],candidate[MAX_PATH];size_t n;UINT attempt,number;
+    HANDLE file;int saved_errno=errno;DWORD saved_error=last_error;
+    if(!directory || !prefix || unique || strnlen(prefix,4)!=3 || memcmp(prefix,"lah",3))
+        recon_unsupported("GetTempFileNameA directory/prefix/unique");
+    temp_current_directory(path);n=strlen(path);
+    if(strnlen(directory,MAX_PATH)!=n || memcmp(directory,path,n+1))
+        recon_unsupported("GetTempFileNameA outside canonical current directory");
+    temp_output_span(output,directory,n+1);temp_output_span(output,prefix,4);
+    if(!next_number) {next_number=recon_GetTickCount()&0xffffU;if(!next_number)next_number=1;}
+    for(attempt=0;attempt<65535U;++attempt) {
+        number=next_number;next_number=number==65535U?1:number+1;
+        memcpy(candidate,path,n);
+        snprintf(candidate+n,MAX_PATH-n,"lah%04x.tmp",number);
+        file=recon_CreateFileA(candidate,GENERIC_READ|GENERIC_WRITE,0,NULL,
+                              CREATE_NEW,FILE_ATTRIBUTE_NORMAL,NULL);
+        if(file==INVALID_HANDLE_VALUE) {
+            if(last_error==ERROR_ALREADY_EXISTS) continue;
+            recon_unsupported("GetTempFileNameA exclusive creation failure");
+        }
+        if(!recon_CloseHandle(file)) recon_unsupported("GetTempFileNameA close failure");
+        memcpy(output,candidate,n+12);errno=saved_errno;last_error=saved_error;
+        return number;
+    }
+    recon_unsupported("GetTempFileNameA exhausted namespace");return 0;
+#else
     (void)directory;(void)prefix;(void)unique;(void)output;
     recon_unsupported("unreviewed GetTempFileNameA");return 0;
+#endif
 }
 BOOL WINAPI recon_SetEnvironmentVariableA(LPCSTR name,LPCSTR value)
 {

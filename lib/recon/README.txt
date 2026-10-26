@@ -1387,3 +1387,15 @@ NUL, returning normalized unsigned -1/0/1 without case folding. Valid readable
 string prefixes are caller preconditions; other profiles, NULL, unknown state
 and nonASCII compared units deny125. LINK consumes equality for module names.
 Original live per-call state and identical provider read schedules are unclaimed.
+
+Explicit MSVCRT510 GetTempPathA admits bound target TMP="." and a verified
+canonical Windows cwd, returning its full path with a trailing backslash into
+caller-owned260B output. GetTempFileNameA admits that directory, prefix"lah"
+and unique0 with disjoint caller-owned260B output. A native time-seeded16-bit
+number names lah%04x.tmp; existing CreateFileA CREATE_NEW and checked close
+create a genuine empty file, retrying collisions without replacing them.
+Returned number/path agree; the same file is available for real write/SELF
+response consumption and later DeleteFileA. Each side retains its own actual
+name; no original filename/PID or observed success-LastError equivalence is
+claimed. Native success preserves independent errors/FP. Other profiles,
+environments/directories/prefixes/unique values and output domains deny125.
