@@ -12,9 +12,12 @@
 #include <sys/ioctl.h>
 #include <link.h>
 #include <dirent.h>
+#include <pthread.h>
+#include "native-files.h"
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
-static DWORD last_error;
+static __thread DWORD last_error;
+static DWORD error_code(int);
 static char *command_line;
 static size_t command_line_bytes;
 void recon_bind_command_line(char *text,size_t bytes)
@@ -158,10 +161,15 @@ typedef struct NativeModule {
     BOOL thread_calls_disabled;
     NativeResource *resources;
     NativeExport exports[16]; unsigned export_count,provider_state;
+    unsigned configured,state,references,pinned; uint64_t attach_order;
+    ReconDllEntry entry;
+    HMODULE dependencies[16]; unsigned dependency_count;
+    void *writable_address; size_t writable_bytes; unsigned char *initial_bytes;
     void (__cdecl *lifecycle)(HMODULE,unsigned,void *); void *provider_context;
 } NativeModule;
 static NativeModule native_modules[32],*primary_module;
 static unsigned module_count;
+static unsigned static_modules_configured,fixture_module_providers;
 static int imagehlp_loaded;
 static HANDLE standard_handles[3]={(HANDLE)1,(HANDLE)2,(HANDLE)3};
 typedef struct Mapping {
@@ -335,7 +343,8 @@ void recon_register_module_exports(HMODULE handle,const ReconModuleExportsSpec *
     int saved=errno; DWORD error=last_error;
     if (!module || !spec || !spec->sha256 || strcmp(spec->sha256,module->sha256) ||
         !spec->exports || !spec->count || spec->count>16 || !spec->lifecycle ||
-        module->provider_state || (module->identity.flags&RECON_MODULE_PRIMARY))
+        module->provider_state || module->configured || static_modules_configured ||
+        (module->identity.flags&RECON_MODULE_PRIMARY))
         recon_unsupported("module export registration identity/state");
     require_native_callback((uintptr_t)spec->lifecycle);
     for (i=0;i<spec->count;++i) {
@@ -357,7 +366,7 @@ void recon_register_module_exports(HMODULE handle,const ReconModuleExportsSpec *
     }
     module->export_count=spec->count; module->lifecycle=spec->lifecycle;
     module->provider_context=spec->context;
-    module->provider_state=RECON_MODULE_PROVIDER_REGISTERED;
+    module->provider_state=RECON_MODULE_PROVIDER_REGISTERED;fixture_module_providers=1;
     errno=saved; last_error=error;
 }
 unsigned recon_module_provider_state(HMODULE handle)
@@ -373,6 +382,279 @@ static void module_lifecycle(NativeModule *module,unsigned event)
     if (errno!=saved || recon_doserrno!=dos || last_error!=error)
         recon_unsupported("module lifecycle changed unreviewed error state");
 }
+/* Canonical startup registration is deliberately separate from fixture leases. */
+typedef struct EmbeddedFile {
+    struct EmbeddedFile *next; char path[PATH_MAX]; int backing;
+} EmbeddedFile;
+static EmbeddedFile *embedded_files;
+static pthread_mutex_t native_loader_lock=PTHREAD_RECURSIVE_MUTEX_INITIALIZER_NP;
+static uint64_t native_attach_order;
+static unsigned native_terminating;
+
+/* Lexical Windows keys do not require a host drive mount or a real file.
+ * Relative names use the supplied canonical cwd, or the actual host cwd on Z:.
+ * UNC and drive-relative paths are outside this initial registration surface. */
+static int native_path_key(const char *name,char key[PATH_MAX])
+{
+    char text[PATH_MAX*2],cwd[PATH_MAX];const char *base,*scan,*end;
+    size_t used=3,length,start,marks[PATH_MAX/2],depth=0,i;
+    if(!name || !*name || strlen(name)>=PATH_MAX) {errno=EINVAL;return -1;}
+    if(name[0]=='\\' && name[1]=='\\') {errno=ENOTSUP;return -1;}
+    if(isalpha((unsigned char)name[0]) && name[1]==':') {
+        if(name[2]!='/' && name[2]!='\\') {errno=ENOTSUP;return -1;}
+        strcpy(text,name);
+    } else if(name[0]=='/') {
+        snprintf(text,sizeof(text),"Z:%s",name);
+    } else {
+        base=getenv("RECON_CANONICAL_CWD");
+        if(!base) {
+            if(!getcwd(cwd,sizeof(cwd)))return -1;
+            if(name[0]=='\\')snprintf(text,sizeof(text),"Z:%s",name);
+            else snprintf(text,sizeof(text),"Z:%s/%s",cwd,name);
+        } else {
+            if(strlen(base)>=PATH_MAX || !isalpha((unsigned char)base[0]) || base[1]!=':' ||
+               (base[2]!='/' && base[2]!='\\')) {errno=EINVAL;return -1;}
+            if(name[0]=='\\')snprintf(text,sizeof(text),"%c:%s",base[0],name);
+            else snprintf(text,sizeof(text),"%s/%s",base,name);
+        }
+    }
+    key[0]=(char)tolower((unsigned char)text[0]);key[1]=':';key[2]='/';scan=text+2;
+    while(*scan) {
+        while(*scan=='/' || *scan=='\\')++scan;
+        if(!*scan)break;
+        end=scan;while(*end && *end!='/' && *end!='\\')++end;
+        length=(size_t)(end-scan);
+        if(length==1 && scan[0]=='.') {scan=end;continue;}
+        if(length==2 && scan[0]=='.' && scan[1]=='.') {
+            if(depth)used=marks[--depth];
+            scan=end;continue;
+        }
+        start=used;
+        if(used>3)++used;
+        if(used+length>=PATH_MAX) {errno=ENAMETOOLONG;return -1;}
+        if(used>3)key[used-1]='/';
+        for(i=0;i<length;++i) {
+            unsigned char c=(unsigned char)scan[i];
+            if(c>=128 || c<32 || c==':' || c=='*' || c=='?') {errno=EINVAL;return -1;}
+            key[used++]=(char)tolower(c);
+        }
+        marks[depth++]=start;scan=end;
+    }
+    key[used]=0;return 0;
+}
+static EmbeddedFile *native_embedded_file(const char *name)
+{
+    EmbeddedFile *file;char key[PATH_MAX];int saved=errno;
+    if(!embedded_files)return NULL;
+    if(native_path_key(name,key)) {errno=saved;return NULL;}
+    for(file=embedded_files;file;file=file->next)
+        if(!strcmp(file->path,key)) {errno=saved;return file;}
+    errno=saved;return NULL;
+}
+BOOL recon_register_embedded_file(const char *path,const void *data,size_t bytes)
+{
+    EmbeddedFile *file;char key[PATH_MAX];int fd,saved=errno;size_t written=0;
+    if((bytes && !data) || bytes>INT32_MAX ||
+       (uintptr_t)data>UINTPTR_MAX-bytes || native_path_key(path,key)) {
+        last_error=ERROR_INVALID_PARAMETER;return FALSE;
+    }
+    for(file=embedded_files;file;file=file->next)if(!strcmp(file->path,key)) {
+        last_error=ERROR_ALREADY_EXISTS;errno=saved;return FALSE;
+    }
+    fd=memfd_create("recon-embedded",MFD_CLOEXEC|MFD_ALLOW_SEALING);
+    if(fd<0) {last_error=error_code(errno);errno=saved;return FALSE;}
+    while(written<bytes) {
+        ssize_t amount=write(fd,(const char *)data+written,bytes-written);
+        if(amount<0 && errno==EINTR)continue;
+        if(amount<=0)goto failed;
+        written+=(size_t)amount;
+    }
+    if(fchmod(fd,0444) || fcntl(fd,F_ADD_SEALS,F_SEAL_WRITE|F_SEAL_GROW|F_SEAL_SHRINK|F_SEAL_SEAL))goto failed;
+    file=malloc(sizeof(*file));if(!file) {errno=ENOMEM;goto failed;}
+    strcpy(file->path,key);file->backing=fd;file->next=embedded_files;embedded_files=file;
+    errno=saved;return TRUE;
+failed:
+    last_error=error_code(errno);close(fd);errno=saved;return FALSE;
+}
+int recon_native_file_open(const char *name,int *matched)
+{
+    EmbeddedFile *file=native_embedded_file(name);char path[64];
+    *matched=file!=NULL;if(!file)return -1;
+    /* Reopen, rather than dup: each open gets an independent file offset.
+     * /proc exposes only the anonymous descriptor, never an extracted file. */
+    snprintf(path,sizeof(path),"/proc/self/fd/%d",file->backing);
+    return open(path,O_RDONLY|O_CLOEXEC);
+}
+static int static_module_path(NativeModule *module,const char *name)
+{
+    char a[PATH_MAX],b[PATH_MAX];int saved=errno,result;
+    result=!native_path_key(name,a) && !native_path_key(module->path,b) && !strcmp(a,b);
+    errno=saved;return result;
+}
+int recon_native_path_probe(const char *name,struct stat64 *info)
+{
+    EmbeddedFile *file=native_embedded_file(name);unsigned n;
+    if(!file && !static_modules_configured)return 0;
+    if(file)return fstat64(file->backing,info)?-1:1;
+    for(n=0;n<module_count;++n)if(native_modules[n].configured && static_module_path(native_modules+n,name)) {
+        /* A static bundle has identity/presence, not an invented PE image.
+         * Opening image bytes requires an explicitly embedded container. */
+        memset(info,0,sizeof(*info));info->st_mode=S_IFREG|0444;info->st_nlink=1;return 1;
+    }
+    return 0;
+}
+static NativeModule *static_module_named(const char *name)
+{
+    unsigned n;char added[MAX_PATH];const char *candidate=name,*leaf,*slash;
+    if(!static_modules_configured || !name || !*name)return NULL;
+    leaf=strrchr(name,'/');slash=strrchr(name,'\\');
+    if(slash && (!leaf || slash>leaf))leaf=slash;
+    leaf=leaf?leaf+1:name;
+    if(!strchr(leaf,'.') && strlen(name)+4<sizeof(added)) {
+        snprintf(added,sizeof(added),"%s.dll",name);candidate=added;
+    }
+    for(n=0;n<module_count;++n)if(native_modules[n].configured) {
+        NativeModule *module=native_modules+n;
+        if((!strpbrk(candidate,"/\\:") && !strcasecmp(module->name,candidate)) ||
+           static_module_path(module,candidate))return module;
+    }
+    return NULL;
+}
+BOOL recon_configure_static_module(HMODULE handle,const ReconStaticModuleSpec *spec)
+{
+    NativeModule *module=recon_registered_module(handle);unsigned i,j;
+    void *address=NULL;size_t bytes=0;unsigned char *initial=NULL;int saved_errno;
+    if(!module || !spec || module->configured || module->provider_state || fixture_module_providers ||
+       (module->identity.flags&RECON_MODULE_PRIMARY) || spec->count>16 ||
+       spec->dependency_count>16 || (spec->count && !spec->exports) ||
+       (spec->dependency_count && !spec->dependencies)) {
+        last_error=ERROR_INVALID_PARAMETER;return FALSE;
+    }
+    if(spec->entry)require_native_callback((uintptr_t)spec->entry);
+    for(i=0;i<spec->count;++i) {
+        const ReconModuleExport *item=spec->exports+i;
+        if(!item->ordinal || !item->address || (item->name && (!*item->name || strlen(item->name)>=128))) {
+            last_error=ERROR_INVALID_PARAMETER;return FALSE;
+        }
+        require_native_callback((uintptr_t)item->address);
+        for(j=0;j<i;++j)if(spec->exports[j].ordinal==item->ordinal ||
+           (item->name && spec->exports[j].name && !strcmp(item->name,spec->exports[j].name))) {
+            last_error=ERROR_INVALID_PARAMETER;return FALSE;
+        }
+    }
+    for(i=0;i<spec->dependency_count;++i) {
+        if(!recon_registered_module(spec->dependencies[i]) || spec->dependencies[i]==handle) {
+            last_error=ERROR_INVALID_PARAMETER;return FALSE;
+        }
+        for(j=0;j<i;++j)if(spec->dependencies[i]==spec->dependencies[j]) {
+            last_error=ERROR_INVALID_PARAMETER;return FALSE;
+        }
+    }
+    if(spec->writable_region) {
+        uintptr_t start=(uintptr_t)spec->writable_region->address;
+        bytes=spec->writable_region->bytes;address=spec->writable_region->address;
+        if(start<4096 || !bytes || bytes>INT32_MAX || start>UINTPTR_MAX-bytes) {
+            last_error=ERROR_INVALID_PARAMETER;return FALSE;
+        }
+        for(i=0;i<module_count;++i) {
+            NativeModule *other=native_modules+i;
+            uintptr_t other_start=(uintptr_t)other->writable_address;
+            if(other->writable_bytes && start<other_start+other->writable_bytes &&
+               other_start<start+bytes) {
+                last_error=ERROR_INVALID_PARAMETER;return FALSE;
+            }
+        }
+        /* Ownership/readability are caller premises, not discoverable capacity.
+         * Retain relocated native bytes once; never resnapshot dirty App state. */
+        saved_errno=errno;initial=malloc(bytes);errno=saved_errno;
+        if(!initial) {last_error=ERROR_NOT_ENOUGH_MEMORY;return FALSE;}
+        memcpy(initial,address,bytes);
+    }
+    for(i=0;i<spec->count;++i) {
+        const ReconModuleExport *item=spec->exports+i;
+        if(item->name)strcpy(module->exports[i].name,item->name);
+        module->exports[i].ordinal=item->ordinal;module->exports[i].address=item->address;
+    }
+    for(i=0;i<spec->dependency_count;++i)module->dependencies[i]=spec->dependencies[i];
+    module->export_count=spec->count;module->entry=spec->entry;
+    module->dependency_count=spec->dependency_count;
+    module->writable_address=address;module->writable_bytes=bytes;module->initial_bytes=initial;
+    module->configured=1;
+    static_modules_configured=1;return TRUE;
+}
+static void static_module_release(NativeModule *module)
+{
+    unsigned n;
+    if(!module->references || --module->references)return;
+    module->state=3;
+    if(module->entry)module->entry((HMODULE)module,DLL_PROCESS_DETACH,NULL);
+    module->state=0;module->attach_order=0;
+    for(n=module->dependency_count;n;--n)
+        static_module_release(recon_registered_module(module->dependencies[n-1]));
+}
+static BOOL static_module_acquire(NativeModule *module,LPVOID reserved)
+{
+    unsigned n;DWORD failure;
+    if(!module || !module->configured) {last_error=ERROR_MOD_NOT_FOUND;return FALSE;}
+    if(native_terminating || module->state==1 || module->state==3) {
+        last_error=ERROR_DLL_INIT_FAILED;return FALSE; /* recursive/cyclic initialization */
+    }
+    if(module->state==2) {
+        if(module->references==UINT_MAX) {last_error=ERROR_NOT_ENOUGH_MEMORY;return FALSE;}
+        ++module->references;return TRUE;
+    }
+    if(native_attach_order==UINT64_MAX) {last_error=ERROR_NOT_ENOUGH_MEMORY;return FALSE;}
+    module->state=1;
+    /* Fresh mapped-image semantics before dependencies and entry initialization.
+     * Repeated live references and detach deliberately do not restore bytes. */
+    if(module->initial_bytes)memcpy(module->writable_address,module->initial_bytes,module->writable_bytes);
+    for(n=0;n<module->dependency_count;++n)
+        if(!static_module_acquire(recon_registered_module(module->dependencies[n]),reserved))goto failed;
+    if(module->entry && !module->entry((HMODULE)module,DLL_PROCESS_ATTACH,reserved)) {
+        module->entry((HMODULE)module,DLL_PROCESS_DETACH,NULL);
+        last_error=ERROR_DLL_INIT_FAILED;goto failed;
+    }
+    module->state=2;module->references=1;module->attach_order=++native_attach_order;return TRUE;
+failed:
+    failure=last_error;
+    while(n)static_module_release(recon_registered_module(module->dependencies[--n]));
+    module->state=0;last_error=failure;return FALSE;
+}
+BOOL recon_attach_static_module(HMODULE handle)
+{
+    NativeModule *module=recon_registered_module(handle);BOOL result=FALSE;
+    pthread_mutex_lock(&native_loader_lock);
+    if(!module || !module->configured)last_error=ERROR_INVALID_HANDLE;
+    else if(module->pinned)result=TRUE;
+    else if(static_module_acquire(module,(LPVOID)1)) {module->pinned=1;result=TRUE;}
+    pthread_mutex_unlock(&native_loader_lock);return result;
+}
+void recon_detach_process_modules(void)
+{
+    unsigned n;NativeModule *next;
+    pthread_mutex_lock(&native_loader_lock);
+    if(native_terminating) {pthread_mutex_unlock(&native_loader_lock);return;}
+    native_terminating=1;
+    for(;;) {
+        next=NULL;
+        for(n=0;n<module_count;++n)if(native_modules[n].configured && native_modules[n].state==2 &&
+           (!next || native_modules[n].attach_order>next->attach_order))next=native_modules+n;
+        if(!next)break;
+        next->state=3;
+        if(next->entry)next->entry((HMODULE)next,DLL_PROCESS_DETACH,(LPVOID)1);
+        next->state=0;next->references=next->pinned=next->attach_order=0;
+    }
+    pthread_mutex_unlock(&native_loader_lock);
+}
+static void finish_native_modules(void)
+{
+    if(static_modules_configured) {recon_detach_process_modules();recon_endstdio();}
+}
+/* Register before CRT/App atexit callbacks: they run before DLL termination.
+ * A final flush covers diagnostics emitted during DLL detach. */
+static void __attribute__((constructor(101))) initialize_native_module_termination(void)
+{if(atexit(finish_native_modules))recon_unsupported("native module termination registration");}
+
 void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *proof,void *address,size_t bytes)
 {
     NativeModule *module=recon_registered_module(handle); NativeImageSpan span;
@@ -401,18 +683,14 @@ void recon_register_module_memory(HMODULE handle,const ReconModuleMemorySpec *pr
 }
 
 /* Entries are supplied by a verified host adapter, never read from a PE here. */
-void recon_load_module_resources(HMODULE handle,const char *filename)
+void recon_load_module_resources_span(HMODULE handle,const void *data,size_t size)
 {
     NativeModule *module=recon_registered_module(handle);
-    unsigned char *bytes; size_t size,offset; struct stat st;
-    DWORD count,n; int fd,saved_errno=errno; DWORD saved_error=last_error;
-    if (!module || !filename) recon_unsupported("resource provider module");
-    fd=open(filename,O_RDONLY|O_CLOEXEC);
-    if (fd<0 || fstat(fd,&st)<0 || st.st_size<72 || st.st_size>1048576)
-        recon_unsupported("resource provider file");
-    size=(size_t)st.st_size;
-    bytes=mmap(NULL,size,PROT_READ,MAP_PRIVATE,fd,0); close(fd);
-    if (bytes==MAP_FAILED) recon_unsupported("resource provider mapping");
+    const unsigned char *bytes=data; size_t offset; DWORD count,n;
+    int saved_errno=errno; DWORD saved_error=last_error;
+    if(!module || !bytes || size<72 || size>1048576 ||
+       (uintptr_t)bytes>UINTPTR_MAX-size)
+        recon_unsupported("resource provider span");
     if (memcmp(bytes,"RMR1",4) || memcmp(bytes+8,module->sha256,64))
         recon_unsupported("resource provider identity");
     memcpy(&count,bytes+4,4); offset=72;
@@ -437,6 +715,21 @@ void recon_load_module_resources(HMODULE handle,const char *filename)
     }
     if (offset!=size) recon_unsupported("resource provider trailing bytes");
     errno=saved_errno; last_error=saved_error;
+}
+void recon_load_module_resources(HMODULE handle,const char *filename)
+{
+    unsigned char *bytes; size_t size; struct stat st;
+    int fd,matched,saved_errno=errno; DWORD saved_error=last_error;
+    if(!recon_registered_module(handle) || !filename)
+        recon_unsupported("resource provider module");
+    fd=recon_native_file_open(filename,&matched);
+    if(!matched)fd=open(filename,O_RDONLY|O_CLOEXEC);
+    if(fd<0 || fstat(fd,&st)<0 || st.st_size<72 || st.st_size>1048576)
+        recon_unsupported("resource provider file");
+    size=(size_t)st.st_size; bytes=mmap(NULL,size,PROT_READ,MAP_PRIVATE,fd,0);close(fd);
+    if(bytes==MAP_FAILED)recon_unsupported("resource provider mapping");
+    recon_load_module_resources_span(handle,bytes,size);
+    errno=saved_errno;last_error=saved_error;
 }
 
 /* A case-bound captured environment, not a guess from Linux hardware. */
@@ -871,6 +1164,20 @@ HANDLE WINAPI recon_CreateFileA(LPCSTR name,DWORD access,DWORD share,LPSECURITY_
         return INVALID_HANDLE_VALUE;
     }
 #endif
+    {
+        int matched;fd=recon_native_file_open(name,&matched);
+        if(matched) {
+            if(fd<0) {last_error=error_code(errno);errno=saved_errno;return INVALID_HANDLE_VALUE;}
+            if(disposition==CREATE_NEW) {close(fd);last_error=ERROR_FILE_EXISTS;errno=saved_errno;return INVALID_HANDLE_VALUE;}
+            if((access&~GENERIC_READ) || (attributes&FILE_FLAG_DELETE_ON_CLOSE) ||
+               (disposition!=OPEN_EXISTING && disposition!=OPEN_ALWAYS)) {
+                close(fd);last_error=ERROR_ACCESS_DENIED;errno=saved_errno;return INVALID_HANDLE_VALUE;
+            }
+            if(security && security->bInheritHandle)fcntl(fd,F_SETFD,0);
+            last_error=disposition==OPEN_ALWAYS?ERROR_ALREADY_EXISTS:0;
+            errno=saved_errno;return (HANDLE)(uintptr_t)(fd+1);
+        }
+    }
     if (recon_host_path(name,path,sizeof(path))<0) { last_error=error_code(errno); errno=saved_errno; return INVALID_HANDLE_VALUE; }
     recon_fsopen_check_path(path);
     flags=(access&GENERIC_WRITE)?(access&GENERIC_READ)?O_RDWR:O_WRONLY:O_RDONLY;
@@ -1001,6 +1308,9 @@ BOOL WINAPI recon_DeleteFileA(LPCSTR name)
 {
     char path[PATH_MAX],parent[PATH_MAX],*separator;struct stat information;
     int saved_errno=errno,failure;DWORD saved_error=last_error,code;
+    {struct stat64 info;if(recon_native_path_probe(name,&info)>0) {
+        errno=saved_errno;last_error=ERROR_ACCESS_DENIED;return FALSE;
+    }}
     if(!name || !*name || strpbrk(name,"*?") || recon_host_path(name,path,sizeof(path)))
         recon_unsupported("DeleteFileA path domain");
     if(!lstat(path,&information)) {
@@ -1194,6 +1504,19 @@ BOOL WINAPI recon_GetConsoleScreenBufferInfo(HANDLE handle,CONSOLE_SCREEN_BUFFER
     info->dwMaximumWindowSize=info->dwSize;
     last_error=0; return TRUE;
 }
+DWORD WINAPI recon_GetFileAttributesA(LPCSTR name)
+{
+    struct stat64 info;char path[PATH_MAX];int matched,saved=errno;
+    matched=recon_native_path_probe(name,&info);
+    if(matched<0 || (!matched && (recon_host_path(name,path,sizeof(path)) || stat64(path,&info)))) {
+        last_error=error_code(errno);errno=saved;return (DWORD)-1;
+    }
+    errno=saved;
+    {DWORD attributes=S_ISDIR(info.st_mode)?FILE_ATTRIBUTE_DIRECTORY:0;
+     if(!(info.st_mode&0222))attributes|=FILE_ATTRIBUTE_READONLY;
+     return attributes?attributes:FILE_ATTRIBUTE_NORMAL;}
+
+}
 HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
 {
     unsigned n;
@@ -1201,6 +1524,13 @@ HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
     if (!strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
     if (!strcasecmp(name,"user32.dll")) return (HMODULE)2;
     if (!strcasecmp(name,"ntdll") || !strcasecmp(name,"ntdll.dll")) return (HMODULE)3;
+    {
+        NativeModule *module;HMODULE result=NULL;
+        pthread_mutex_lock(&native_loader_lock);module=static_module_named(name);
+        if(module && module->state)result=(HMODULE)module;
+        pthread_mutex_unlock(&native_loader_lock);
+        if(module) {if(!result)last_error=ERROR_MOD_NOT_FOUND;return result;}
+    }
     for (n=0;n<module_count;++n)
         if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path)) {
             if (native_modules[n].provider_state && native_modules[n].provider_state!=RECON_MODULE_PROVIDER_LOADED)
@@ -1216,6 +1546,13 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
     if (name && !strcasecmp(name,"user32.dll")) return (HMODULE)2;
     if (name && (!strcasecmp(name,"imagehlp") || !strcasecmp(name,"imagehlp.dll"))) {
         imagehlp_loaded=1;return (HMODULE)4;
+    }
+    {
+        NativeModule *module;HMODULE result=NULL;
+        pthread_mutex_lock(&native_loader_lock);module=static_module_named(name);
+        if(module && static_module_acquire(module,NULL))result=(HMODULE)module;
+        pthread_mutex_unlock(&native_loader_lock);
+        if(module)return result;
     }
     for (n=0;n<module_count;++n) {
         NativeModule *module=native_modules+n;
@@ -1237,6 +1574,13 @@ HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
 BOOL WINAPI recon_FreeLibrary(HMODULE handle)
 {
     NativeModule *module=recon_registered_module(handle); unsigned n;
+    if(module && module->configured) {
+        BOOL result=FALSE;pthread_mutex_lock(&native_loader_lock);
+        if(module->state!=2 || module->references<=module->pinned)last_error=ERROR_INVALID_HANDLE;
+        else {static_module_release(module);result=TRUE;}
+        pthread_mutex_unlock(&native_loader_lock);return result;
+    }
+    if(static_modules_configured && !module) {last_error=ERROR_INVALID_HANDLE;return FALSE;}
     if (!module || module->provider_state!=RECON_MODULE_PROVIDER_LOADED)
         recon_unsupported("FreeLibrary outside observed provider lease");
     for (n=0;n<module->export_count;++n)
@@ -1250,6 +1594,25 @@ BOOL WINAPI recon_FreeLibrary(HMODULE handle)
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
     NativeModule *provider=recon_registered_module(module); unsigned n;
+    if(provider && provider->configured) {
+        FARPROC result=NULL;pthread_mutex_lock(&native_loader_lock);
+        if(!provider->state)last_error=ERROR_INVALID_HANDLE;
+        else {
+            for(n=0;n<provider->export_count;++n) {
+                NativeExport *entry=provider->exports+n;
+                if(((uintptr_t)name<65536 && name && (uintptr_t)name==entry->ordinal) ||
+                   ((uintptr_t)name>=65536 && entry->name[0] && !strcmp(name,entry->name))) {
+                    result=entry->address;break;
+                }
+            }
+            if(!result)last_error=ERROR_PROC_NOT_FOUND;
+        }
+        pthread_mutex_unlock(&native_loader_lock);return result;
+    }
+    if(static_modules_configured && module!=(HMODULE)1 && module!=(HMODULE)2 &&
+       module!=(HMODULE)3 && module!=(HMODULE)4 && !provider) {
+        last_error=ERROR_INVALID_HANDLE;return NULL;
+    }
     if (provider && provider->provider_state) {
         if (provider->provider_state!=RECON_MODULE_PROVIDER_LOADED)
             recon_unsupported("export lookup outside loaded provider lease");
@@ -1477,7 +1840,12 @@ void WINAPI recon_GetLocalTime(SYSTEMTIME *out)
     out->wYear=tm.tm_year+1900; out->wMonth=tm.tm_mon+1; out->wDay=tm.tm_mday; out->wDayOfWeek=tm.tm_wday;
     out->wHour=tm.tm_hour; out->wMinute=tm.tm_min; out->wSecond=tm.tm_sec;
 }
-void WINAPI recon_ExitProcess(UINT code) { recon_record_terminal_status(code); _exit(code); }
+void WINAPI recon_ExitProcess(UINT code)
+{
+    recon_record_terminal_status(code);
+    if(static_modules_configured) {recon_detach_process_modules();recon_endstdio();}
+    _exit(code);
+}
 LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD protection)
 {
     View *v; void *result; int flags=MAP_PRIVATE|MAP_ANONYMOUS,prot;

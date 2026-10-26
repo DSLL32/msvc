@@ -120,13 +120,87 @@ object and `case.so` targets directly. Cases have no individual Makefiles.
 runner invocation, so `make -j4 check` runs up to four cases concurrently. Select
 one with `make cases/0000-example/check` or its `/unit` target.
 
-`make -j4 native-bin` links an i386 executable at `build/<binary-folder>` from
-the same application/support objects, without rebuilding them or the cases.
-Override `NATIVE_BINARY` to choose its path. For an executable whose native
-`main` was renamed, set `NATIVE_BIN_ENTRY` to its existing CLI entry symbol
-(default `main`). This target does not supply DLL hosts or case setup/inputs.
+`make -j4 native-bin` builds an ordinary i386 executable at
+`build/<binary-folder>`; `NATIVE_BINARY` overrides its path. Without root
+`entry.c`, the existing link-only behavior remains: `NATIVE_BIN_ENTRY` selects
+an existing CLI symbol (default `main`).
 
-These builds never recurse. Each
+With root `entry.c`, that native-only host defines `main` and explicitly prepares
+startup, arguments/environment, identities, static modules and embedded files.
+It calls the appropriate reconstructed startup or App entry. Select its inputs
+before including `recon-tool.mk`:
+
+```make
+RECON_ENTRY_SOURCES := src/application.c crt/startup.c
+RECON_ENTRY_SUPPORT_SOURCES := $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+NATIVE_BIN_FILES := errors=assets/ERRORS.MSG
+NATIVE_BIN_IMPORTS := ImportedRun=frontend_Run ImportedState=frontend_state
+include $(RECON_TOOL_DIR)/recon-tool.mk
+$(eval $(call recon-native-module,frontend,../frontend,Run state DllEntry,errors=assets/FRONTEND.MSG))
+```
+
+The explicit lists select existing native application/support objects and flags.
+They must exclude fixture hosts, providers, registry/test glue and generated shim
+`main`, while retaining required startup support. Module projects supply their
+own explicit lists; they import the single shared runtime instead of bundling
+`lib/recon` again. Select `NATIVE_ENTRY_LINKER=$(NATIVE_CXX)` and the appropriate
+`NATIVE_LDLIBS` when linked modules need C++ or additional libraries.
+
+The App is partially linked to a private object, where `main` and its internal
+references become `recon_entry_app_main` (`NATIVE_APP_MAIN` overrides). If the
+existing fixture flags renamed it already, set `NATIVE_APP_MAIN_SYMBOL` to that
+symbol. Root `entry.c` is compiled separately without the fixture's `main`
+preprocessor mapping or instrumentation. This avoids startup-to-main recursion;
+fixture objects and the original build remain unchanged. Link-time aliases must
+not redefine the wrapper's `main`.
+
+A module's required function/data symbols become `<module-id>_<symbol>`; other
+defined globals, including COMDAT signatures, receive private names and become
+local. Undefined runtime imports stay external. Direct imports are explicit
+`old=new` bindings; `RECON_MODULE_<id>_IMPORTS` handles module-to-module imports.
+The module project's existing `RECON_ALIAS_MAP` / `RECON_ALIAS_NATIVE_RSP`
+identities are resolved during its partial link, before namespacing/localization.
+The alias response is a build prerequisite, so map changes repack that module
+without recompiling its application objects.
+No source function name or typed calling convention changes. Each module emits
+`recon_module_<id>_state_start/end`: adjacent aligned initialized-data and NOBITS
+BSS sections form one contiguous writable region, excluding shared support.
+Root startup passes that span to `ReconStaticModuleSpec.writable_region` before
+DLL initialization. The runtime snapshots relocated bytes once and restores them
+before fresh attachment; repeated loaded references do not reset state.
+
+Nonempty ELF constructor/finalizer arrays are rejected by default. An explicit
+`RECON_MODULE_<id>_CONSTRUCTORS := premain` accepts ordinary process-startup
+execution only with `RECON_MODULE_<id>_RESET := none`, and startup must then pass
+NULL as the writable region. Such modules retain state across unload/reload;
+there is no constructor replay or fresh-image equivalence claim. TLS bundles are
+unsupported. Localization does not delay ELF initialization.
+
+Assets use `ID=path` lists (fourth module argument, or `NATIVE_BIN_FILES`). Objcopy
+creates read-only i386 sections and stable
+`recon_asset_exe_<id>_start/end` or `recon_asset_<module>_<id>_start/end` symbols.
+`entry.c` registers their byte spans with `recon_register_embedded_file` under
+explicit runtime paths; no byte-array C or extracted disk files are generated.
+Module/asset IDs are unique C identifiers; Make lists/paths cannot contain spaces.
+Asset changes relink without recompiling application code.
+
+A toolchain coordinator can include `native-entry.mk` directly and declare:
+
+```make
+RECON_TOOL_DIR := ../../tooling/recon-tool
+.DEFAULT_GOAL := native-bins
+include $(RECON_TOOL_DIR)/native-entry.mk
+$(eval $(call recon-native-program,compiler,compiler))
+$(eval $(call recon-native-program,linker,linker))
+```
+
+`native-bins` and module recipes use recursive Make with its jobserver. The
+native-only authored suite is `python3 tooling/recon-tool/tests/entry.py`; it
+covers typed C/C++ modules, state reset, shared runtime, assets, constructors,
+object reuse and incremental `-j4`. This build support does not migrate any
+binary or produce an ELF that can also be loaded with `dlopen`.
+
+Ordinary fixture builds remain nonrecursive. Each
 case library has an order-only dependency on the common library, so an app
 change does not relink unchanged cases. Build one case from the binary root with
 `make cases/0000-example/.build/case.so`.

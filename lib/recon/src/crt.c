@@ -9,6 +9,7 @@
 #include <dirent.h>
 #include <sys/mman.h>
 #include <malloc.h>
+#include "native-files.h"
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
 #define WEAK __attribute__((weak))
@@ -948,6 +949,13 @@ int recon_access(const char *name,int mode)
     struct stat information;
     int saved=errno,failure;
     unsigned long code;
+    {struct stat64 info;int matched=recon_native_path_probe(name,&info);
+     if(matched) {
+        if(matched<0)return -1;
+        if(mode&~6) {errno=EINVAL;return -1;}
+        if(mode&2) {recon_dosmaperr(ERROR_ACCESS_DENIED);recon_SetLastError(ERROR_ACCESS_DENIED);return -1;}
+        errno=saved;return 0;
+     }}
     /* Other modes retain the legacy, uncharacterized host path. The proved
      * existence/read checks use GetFileAttributes semantics, not Unix access
      * permissions, and keep CRT errno independent from path-translation IO. */
@@ -990,11 +998,15 @@ int recon_stat(const char *name,struct recon_stat *out)
     if (strpbrk(name,"*?") || (name[0] && name[1]==':' && !name[2])) {
         errno=ENOENT; recon_doserrno=2; return -1;
     }
-    if (recon_host_path(name,path,sizeof(path))<0) return -1;
-    if (stat64(path,&st)<0) {
-        if (errno==ENOENT || errno==ENOTDIR) { errno=ENOENT; recon_doserrno=2; }
-        return -1;
-    }
+    {int matched=recon_native_path_probe(name,&st);
+     if(matched<0)return -1;
+     if(!matched) {
+        if(recon_host_path(name,path,sizeof(path))<0)return -1;
+        if(stat64(path,&st)<0) {
+            if(errno==ENOENT || errno==ENOTDIR) {errno=ENOENT;recon_doserrno=2;}
+            return -1;
+        }
+     }}
     canonical=getenv("RECON_CANONICAL_CWD");
     if (!(drive[0] && drive[1]==':') && canonical) drive=canonical;
     if (drive[0] && drive[1]==':' && isalpha((unsigned char)drive[0]))
@@ -1051,11 +1063,16 @@ WEAK int recon_fstat(int descriptor,struct recon_stat *out)
 }
 int recon_remove(const char *name)
 {
-    char path[PATH_MAX]; return recon_host_path(name,path,sizeof(path))<0?-1:remove(path);
+    char path[PATH_MAX];struct stat64 info;
+    if(recon_native_path_probe(name,&info)>0) {recon_dosmaperr(ERROR_ACCESS_DENIED);return -1;}
+    return recon_host_path(name,path,sizeof(path))<0?-1:remove(path);
 }
 int recon_rename(const char *from,const char *to)
 {
-    char a[PATH_MAX],b[PATH_MAX];
+    char a[PATH_MAX],b[PATH_MAX];struct stat64 info;
+    if(recon_native_path_probe(from,&info)>0 || recon_native_path_probe(to,&info)>0) {
+        recon_dosmaperr(ERROR_ACCESS_DENIED);return -1;
+    }
     if (recon_host_path(from,a,sizeof(a))<0 || recon_host_path(to,b,sizeof(b))<0) return -1;
     return rename(a,b);
 }

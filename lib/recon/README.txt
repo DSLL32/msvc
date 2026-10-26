@@ -1752,3 +1752,104 @@ copy result and real bytes. Its ordinary progression validates four actual copie
 and the caller-owned collision retry; full repro-close remains later App logic.
 make copyfile-check runs the isolated focused probe, including injected IO/time/
 close failures, prewrite denials and semantic x87 control/status retention.
+
+Canonical native entry foundation
+--------------------------------
+recon_register_module retains identity-only registration. Ordinary static
+bundles then call recon_configure_static_module with native export pointers,
+an actual BOOL WINAPI(HINSTANCE,DWORD,LPVOID) entry, and registered dependency
+handles. NULL export names permit ordinal-only entries. GetProcAddress returns
+the unmodified pointer; callers must restore the real function signature/ABI.
+The initial bound remains32 modules,16 exports and16 dependencies per module.
+Configuration is startup-only, before concurrent library operations.
+
+LoadLibrary accepts configured names (optional .dll) or exact normalized paths,
+uses reference counts, attaches dependencies first, and supports repeat lookup,
+load/free and reattachment. Unknown modules/exports return126/127; failed attach
+returns1114, sends failed-module detach, and releases newly acquired dependency
+references. Entry callbacks run under a recursive process loader mutex; cycles
+or reentrant initialization return1114. It is not a PE/TLS loader or a general
+Windows loader-lock emulator. Native pthread creation does not synthesize DLL
+thread notifications. Existing RECON_MODULE_NO_TLS remains required.
+
+recon_attach_static_module acquires one process-lifetime startup reference
+(idempotently) with nonNULL attach-reserved; ordinary loads use NULL. Final
+FreeLibrary uses NULL detach-reserved. Process termination detaches in reverse
+attachment order with nonNULL reserved, including App exit and wrapper return.
+ExitProcess detaches explicitly before its immediate exit. Early host atexit
+registration lets App callbacks run first; a final shared-CRT flush covers late
+DLL diagnostics. _exit, abort and fatal signals do not run ordinary cleanup.
+Static bundles remain physically resident. An optional writable_region in
+ReconStaticModuleSpec selects one ReconModuleWritableRegion {address,bytes}.
+Configuration copies that descriptor and snapshots the initial relocated native
+bytes once into a process-lifetime buffer. Each fresh unloaded-to-attaching
+transition restores the span with memcpy before acquiring dependencies and
+calling entry. This includes the first attachment and retry after failed attach.
+Repeated loads while references remain do not restore it. Final detach/failed
+attach cleanup sees mutated state; bytes remain dirty until the next attachment.
+NULL preserves the existing resident-state behavior. Dependency counts, loader
+metadata, shared CRT/Win32 state and fixture observers remain outside the span.
+
+The caller/linker must select the entire DLL-owned writable data/BSS interval,
+including alignment padding, excluding shared runtime and other module storage.
+The API checks positive <=INT32_MAX length, nonwrapping nonlow address, and no
+overlap with previously configured module regions; it cannot discover ownership,
+readability/writability or missing globals. Invalid regions fail87; snapshot
+allocation failure returns8. The initial snapshot is native post-relocation
+state, not original PE data, a disk reload, COW, or App-specific reset logic.
+Native ELF constructor ordering is an explicit adoption prerequisite: registration
+must run after relocations and before any DLL initialization (including automatic
+constructors). This API does not intercept constructors already run by ELF startup.
+The build must arrange that ordering or qualify a module with no such constructors.
+No-region bundles must establish their own native state on reattachment.
+
+Fixture observer/lease providers retain all strict inventory/error assertions
+and cannot be mixed with ordinary static-module providers in one process.
+This makes the policy choice explicit without weakening cached fixture leases.
+Win32 LastError is thread-local. Module/handle/resource/mapping state is common
+process state. Compile/bind one coherent Win32 shim into the process, exclude
+bundle shim duplicates, and preserve each App object's flags. This API neither
+chooses CRT ownership nor merges incompatible CRT profiles. Shared CRT imports
+must use one compatible runtime; separately linked CRT code/data must retain
+its separate owner and bindings. In particular, canonical VC5 RC must select a
+compatible common profile with RCDLL; wchar/jmp object flags are independent.
+The first canonical VC5 pairings select MSVCRT510 and startup-owned fmode0;
+no DLL requires a separate fallback4000 copy. This foundation leaves existing
+profile defaults untouched and tests the canonical510 configuration explicitly.
+
+recon_register_embedded_file(path,data,size) snapshots a readable byte span into
+a chmod0444 sealed Linux memfd, without extracted or temporary filesystem files.
+Each open reopens the backing descriptor read-only through /proc/self/fd for an
+independent offset; dup would share offsets. Required Linux memfd/sealing and
+procfs facilities must exist: there is no disk extraction fallback. Size is
+bounded by INT32_MAX. Registration is startup-only and process-lifetime; duplicate
+normalized paths fail183. Keys are ASCII Windows drive-absolute paths (or native
+absolute Z: paths), with case-insensitive slash/dot-component normalization.
+Relative keys use RECON_CANONICAL_CWD when supplied, otherwise actual host cwd
+on Z:. No drive mounts are needed just to resolve registered virtual paths.
+UNC, drive-relative and nonASCII registrations are not supported. No basename
+redirection, reserved-name or trailing-dot/space alias engine is introduced.
+
+CreateFile/open/fopen reuse existing HANDLE/CRT descriptor/FILE handling, with
+normal binary/text reads, seeks, EOF and size queries. access/stat/fstat and
+GetFileAttributes include registered assets. Writes/truncation/delete/rename
+are rejected; unregistered paths keep existing filesystem behavior and existing
+unsupported tuple boundaries. Configured module paths also provide read-only
+identity/existence probes (zero-size virtual metadata); no DLL image bytes are
+invented. Opening module image contents requires an explicit embedded container.
+
+recon_load_module_resources_span(module,data,size) borrows an immutable span
+for the module's process lifetime. It reuses the existing RMR1 identity-bound
+parser and its ASCII/language409/kind/count/size scope. It does not copy PE or
+resource sections or accept a broader resource grammar. The existing filename
+loader also recognizes registered embedded containers before its POSIX open.
+The native entry owns resource lifetime and explicit logical-path registrations.
+
+Focused native-only checks: tests/entry-foundation/check.py builds authored
+consumers using GCC default/MSVCRT510 and Clang Watcom configurations, exercises
+two independently compiled module users, dependency/reference/attach-failure/
+termination behavior, TLS LastError, immutable embedded descriptors and existing
+resource parsing. Authored linker-selected data/BSS checks cover relocated
+pointers/padding, repeated references, final-detach visibility, dependency writes,
+failed-attach retry, pinned modules and region-validation rejection. The existing strict fixture module-provider checker is run
+separately. These checks do not launch Wine or inspect/rewrite original captures.

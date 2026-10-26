@@ -13,13 +13,17 @@ include $(RECON_TOOL_DIR)/original-build.mk
 # Optional executable link; reuse the library's objects and native link setup.
 NATIVE_BINARY ?= build/$(notdir $(CURDIR))
 NATIVE_BIN_ENTRY ?= main
+include $(RECON_TOOL_DIR)/native-entry.mk
 .PHONY: native-bin
 native-bin: $(NATIVE_BINARY)
+ifeq ($(RECON_NATIVE_ROOT_ENTRY),)
 $(NATIVE_BINARY): $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS) $(RECON_ALIAS_NATIVE_RSP) $(RECON_TOOL_DIR)/recon-tool.mk
 	@mkdir -p $(@D)
 	$(BINARY_LINKER) -m32 -no-pie -Wl,-z,defs $(NATIVE_LDFLAGS) \
 		$(if $(filter-out main,$(NATIVE_BIN_ENTRY)),-Xlinker --defsym -Xlinker main=$(NATIVE_BIN_ENTRY)) \
 		-o $@ $(BINARY_OBJECTS) $(BINARY_SUPPORT_OBJECTS) $(NATIVE_LDLIBS) -ldl
+
+endif
 
 # Discover descriptors directly; cases do not carry their own build files.
 CASES_ROOT ?= cases

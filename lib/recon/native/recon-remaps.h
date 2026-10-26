@@ -75,6 +75,29 @@ typedef struct ReconModuleExportsSpec {
 void recon_register_module_exports(HMODULE,const ReconModuleExportsSpec *);
 unsigned recon_module_provider_state(HMODULE);
 
+/* Ordinary static bundles are separate from fixture observer/lease providers.
+ * Exports retain their actual native ABI; cast FARPROC at the typed call site.
+ * Registration is startup-only. Loader operations are serialized thereafter. */
+typedef BOOL (WINAPI *ReconDllEntry)(HINSTANCE,DWORD,LPVOID);
+/* One native DLL-owned contiguous writable span, selected by the linker.
+ * Configure after relocation and before any DLL initialization/constructors.
+ * Caller guarantees readable/writable lifetime and excludes shared runtime state. */
+typedef struct ReconModuleWritableRegion {
+ void *address; size_t bytes;
+} ReconModuleWritableRegion;
+typedef struct ReconStaticModuleSpec {
+ const ReconModuleExport *exports; unsigned count;
+ ReconDllEntry entry;
+ const HMODULE *dependencies; unsigned dependency_count;
+ const ReconModuleWritableRegion *writable_region; /* NULL retains resident state */
+} ReconStaticModuleSpec;
+BOOL recon_configure_static_module(HMODULE,const ReconStaticModuleSpec *);
+BOOL recon_attach_static_module(HMODULE);
+void recon_detach_process_modules(void);
+/* Bytes must be live immutable native spans; no PE image is loaded. */
+BOOL recon_register_embedded_file(const char *,const void *,size_t);
+void recon_load_module_resources_span(HMODULE,const void *,size_t);
+
 typedef struct ShimFILE {
  char *_ptr; int _cnt; char *_base; int _flag,_file,_charbuf,_bufsiz; char *_tmpfname;
 } ShimFILE;
@@ -418,6 +441,7 @@ void recon_load_system_info_profile(const char *,const char *);
  X(int,LoadStringA,(HINSTANCE,UINT,LPSTR,int)) \
  X(DWORD,FormatMessageA,(DWORD,LPCVOID,DWORD,DWORD,LPSTR,DWORD,va_list *)) \
  X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) X(BOOL,FreeLibrary,(HMODULE)) \
+ X(DWORD,GetFileAttributesA,(LPCSTR)) \
  X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) X(BOOL,DisableThreadLibraryCalls,(HMODULE)) \
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
  X(LPVOID,MapViewOfFile,(HANDLE,DWORD,DWORD,DWORD,DWORD)) X(LPVOID,MapViewOfFileEx,(HANDLE,DWORD,DWORD,DWORD,DWORD,LPVOID)) X(BOOL,UnmapViewOfFile,(LPCVOID)) \
@@ -791,6 +815,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define GetModuleHandleA recon_GetModuleHandleA
 #define LoadLibraryA recon_LoadLibraryA
 #define FreeLibrary recon_FreeLibrary
+#define GetFileAttributesA recon_GetFileAttributesA
 #define GetProcAddress recon_GetProcAddress
 #define DisableThreadLibraryCalls recon_DisableThreadLibraryCalls
 #define CreateFileMappingA recon_CreateFileMappingA
