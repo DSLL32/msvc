@@ -1459,6 +1459,59 @@ int recon_printf(const char *format,...)
 {
     va_list args; int n; va_start(args,format); n=recon_vfprintf(&recon_iob[1],format,args); va_end(args); return n;
 }
+WEAK int __cdecl recon_sprintf(char *output,const char *format,...)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    const char *cursor,*start;size_t format_length,name_length,length,n;
+    const WCHAR *filename;char number[12],*destination;int line,result;va_list arguments;
+    uintptr_t out=(uintptr_t)output,source=(uintptr_t)format,wide;
+    if(source<4096 || source>UINTPTR_MAX-4096 || out<4096)
+        recon_unsupported("MSVCRT510 sprintf format/output extent");
+    format_length=strnlen(format,4096);
+    if(format_length==4096)recon_unsupported("MSVCRT510 sprintf format length");
+    if(!strcmp(format,"%ws(%d) : ")) {
+        if(out>UINTPTR_MAX-273 || recon_mb_codepage || recon_mb_codepage_gate ||
+           recon_mb_cur_max!=1 || recon_lc_codepage)
+            recon_unsupported("MSVCRT510 diagnostic sprintf default-C/output span");
+        for(n=0;n<6;++n)if(recon_lc_handle[n])
+            recon_unsupported("MSVCRT510 diagnostic sprintf locale handles");
+        va_start(arguments,format);filename=va_arg(arguments,const WCHAR *);
+        line=va_arg(arguments,int);va_end(arguments);wide=(uintptr_t)filename;
+        if(wide<4096 || (wide&1) || wide>UINTPTR_MAX-257*sizeof(WCHAR))
+            recon_unsupported("MSVCRT510 diagnostic sprintf filename span");
+        for(name_length=0;name_length<257 && filename[name_length];++name_length)
+            if(filename[name_length]>=128)recon_unsupported("MSVCRT510 diagnostic sprintf ASCII WCHAR filename");
+        if(name_length==257)recon_unsupported("MSVCRT510 diagnostic sprintf filename length");
+        recon_itoa(line,number,10);length=name_length+strlen(number)+5;
+        if((out<source+format_length+1 && source<out+length+1) ||
+           (out<wide+(name_length+1)*sizeof(WCHAR) && wide<out+length+1))
+            recon_unsupported("MSVCRT510 diagnostic sprintf output/input overlap");
+        destination=output;
+        for(n=0;n<name_length;++n)*destination++=(char)filename[n];
+        *destination++='(';memcpy(destination,number,strlen(number));destination+=strlen(number);
+        memcpy(destination,") : ",5);return (int)length;
+    }
+    /* Ordinary narrow conversions already used the host sprintf backend.
+     * Keep that behavior, but never pass Windows WCHAR16 forms to it. */
+    for(cursor=format;*cursor;) {
+        if(*cursor++!='%')continue;
+        if(*cursor=='%'){++cursor;continue;}
+        start=cursor;
+        while(*cursor && *cursor!='%' && !strchr("diouxXfFeEgGaAcCsSpn",*cursor))++cursor;
+        if(!*cursor)break;
+        if(*cursor=='%')continue;
+        if(*cursor=='S' || *cursor=='C' ||
+           ((*cursor=='s' || *cursor=='c') &&
+            (memchr(start,'w',(size_t)(cursor-start)) || memchr(start,'l',(size_t)(cursor-start)))))
+            recon_unsupported("unreviewed Windows wide sprintf conversion");
+        ++cursor;
+    }
+    va_start(arguments,format);result=vsprintf(output,format,arguments);va_end(arguments);return result;
+#else
+    (void)output;(void)format;
+    recon_unsupported("sprintf typed boundary requires explicit510 profile");return 0;
+#endif
+}
 /* VC1 _snprintf permits an exact fit without a NUL; overflow returns -1.
  * Host formatting is safe for the encountered ordinary conversions. A %n
  * after a failed write must not execute, unlike host snprintf, so reject that

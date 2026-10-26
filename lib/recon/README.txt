@@ -1574,3 +1574,14 @@ are checked before any write. Output preserves the exact warning/CRLF, count and
 NUL; no other wide insert or template grammar is admitted. The ordinary complete
 cursor case compares the RSC, both4506/4509 warnings and strict final inventory.
 Original per-call output/error/FP state was not observed separately.
+
+Explicit510 sprintf now has a typed cdecl native boundary. Its exact diagnostic
+prefix "%ws(%d) : " accepts an aligned ASCII WCHAR filename of at most256 units,
+signed32 line and caller-owned at least273-byte output under default-C/MB1 state.
+All format/input/output bounds and disjointness checks precede writes. It reuses
+the integer backend, returns the character count and appends NUL; the RCDLL caller
+uses its own contextual512-byte diagnostic owner. Ordinary narrow formats keep
+their previous host forwarding behavior. Other Windows wide string/character
+forms, including alternate spellings/modifiers, deny instead of reaching host
+WCHAR32 formatting. Other profiles keep their prior unmapped sprintf spelling;
+direct use of the new boundary there denies. Original per-call state is unmeasured.

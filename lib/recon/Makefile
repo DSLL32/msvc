@@ -1010,3 +1010,9 @@ build/format4506-probe: tests/format4506-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 format4506-check: build/format4506-probe
 	$(PYTHON) tests/check-format4506.py $<
+
+.PHONY: sprintf510-diagnostic-check
+build/sprintf510-diagnostic-probe: tests/sprintf510-diagnostic-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+sprintf510-diagnostic-check: build/sprintf510-diagnostic-probe
+	$<
