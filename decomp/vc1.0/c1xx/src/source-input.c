@@ -508,3 +508,14 @@ void report_ide_source_end(void)
 {
     write_ide_progress("@I6%d\n", (int)source_line_number);
 }
+
+/* Original 0x1e950..0x1e988, cdecl. Fatal cleanup walks the live input
+   chain without freeing its records or resetting their saved handles. */
+void close_all_source_handles(void)
+{
+    while (active_input) {
+        if (active_input->handle != -1)
+            _close(active_input->handle);
+        active_input = active_input->next;
+    }
+}

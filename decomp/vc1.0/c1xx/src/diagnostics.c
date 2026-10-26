@@ -1,6 +1,8 @@
 /* Diagnostic vocabulary used by message_text, original table 0xa3a48. */
 #include <stdlib.h>
 #include <ctype.h>
+#include <string.h>
+#include <io.h>
 #include "diagnostics.h"
 #include "initialization.h"
 #include "pragma.h"
@@ -315,4 +317,47 @@ void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, .
         report_syntax_error_list(error_code, arguments);
         va_end(arguments);
     }
+}
+
+/* Original0x73240..0x73279, cdecl3. Supply the current CRT error
+   string and actual empty defaults before forwarding the fatal diagnostic. */
+void report_fatal(unsigned code, char *kind, char *filename)
+{
+    char *error;
+    if (!filename) filename = "";
+    if (!kind) kind = "";
+    error = _strerror(0);
+    fatal_error(code, kind, filename, error);
+}
+
+void close_all_source_handles(void);
+void cleanup_fatal_outputs(void);
+static unsigned fatal_error_depth; /* original0x9a158, initially zero */
+
+/* Original0x73280..0x7333a, cdecl variadic/int result. First entry
+   closes input/temporary outputs before printing; recursion uses the original
+   fixed C1063 suffix, including its NUL byte in the descriptor1 write count. */
+int fatal_error(unsigned code, ...)
+{
+    va_list arguments;
+    char *format, *suffix;
+    unsigned length, index;
+    if (++fatal_error_depth == 1) {
+        close_all_source_handles();
+        cleanup_fatal_outputs();
+        format = diagnostic_format(code + 1000);
+        va_start(arguments, code);
+        emit_diagnostic(1000, code, format, arguments);
+        va_end(arguments);
+    } else {
+        for (length = 0; fatal_error_label[length]; ++length)
+            diagnostic_message_buffer[length] = fatal_error_label[length];
+        suffix = " C1063:\r\n";
+        for (index = 0; index < 10; ++index)
+            diagnostic_message_buffer[length + index] = suffix[index];
+        _write(1, diagnostic_message_buffer, length + 10);
+    }
+    ++error_count;
+    exit(error_count);
+    return error_count;
 }

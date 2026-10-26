@@ -567,3 +567,10 @@ void undefine_source_macro(void)
     else macro_buckets[bucket] = definition->next;
     if (browser_filename) reference_browser_macro(definition);
 }
+
+/* Original0x3c930..0x3c94a, stdcall4. Protected macro names keep
+   their actual interned spelling and the rejected directive in warning117. */
+void __stdcall report_macro_error(char *directive)
+{
+    compiler_warning(1, 117, interned_name, directive);
+}

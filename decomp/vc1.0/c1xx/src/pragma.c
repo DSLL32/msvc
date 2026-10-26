@@ -904,3 +904,10 @@ void __stdcall emit_listing_directive(unsigned mode)
         break;
     }
 }
+
+/* Original0x3c910..0x3c92c, cdecl0. Report the actual pragma
+   token spelling when a segment identifier was required. */
+void warn_expected_identifier(void)
+{
+    compiler_warning(1, 80, token_spellings[current_token_code]);
+}

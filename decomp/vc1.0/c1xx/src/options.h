@@ -145,6 +145,6 @@ void initialize_japanese_characters(void);
 void finalize_options(void);
 extern int option_Au, option_Aw;
 void report_syntax_error(unsigned code, ...);
-void fatal_error(unsigned code, ...);
+int fatal_error(unsigned code, ...);
 void compiler_warning(int level, unsigned code, ...);
 #endif

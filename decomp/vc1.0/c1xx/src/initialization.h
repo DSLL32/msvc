@@ -71,7 +71,7 @@ void __stdcall prepare_pch_output(char *filename);
 extern int pch_expression_output, intermediate_status;
 extern char *pch_diagnostic_name;
 void initialize_inline_queries(void);
-void report_fatal(unsigned code, ...);
+void report_fatal(unsigned code, char *kind, char *filename);
 void initialize_type_table(void);
 void initialize_global_scope(void);
 CType *__stdcall intern_type(TypeDescription *description);

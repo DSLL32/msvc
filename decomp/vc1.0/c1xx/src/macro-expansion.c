@@ -660,3 +660,11 @@ void __stdcall emit_macro_text(char *text)
         *macro_work_midpoint++ = *text++;
     }
 }
+
+/* Original 0x21170..0x2118a, stdcall4. Diagnose a failed expansion at
+   its invocation line, rather than the source cursor's later position. */
+void __stdcall macro_expansion_error(unsigned code)
+{
+    source_line_number = macro_expansion_line;
+    fatal_error(code);
+}

@@ -1,11 +1,38 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1904 historical frontiers/1797 App bodies.
+ * Current completed-case boundary:1948 historical frontiers/1841 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
 #include <recon-tool.h>
 
 static const ReconFunction functions[] = {
+    {
+        .name = "_close_all_source_handles",
+        .entry_rva = 0xe950,
+        .code = (const ReconExtent[]) { { 0xe950, 0xe988 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "close_all_source_handles",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_cleanup_fatal_outputs",
+        .entry_rva = 0x59c60,
+        .code = (const ReconExtent[]) { { 0x59c60, 0x59c74 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "cleanup_fatal_outputs",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_discard_browser_output",
+        .entry_rva = 0x1c2d0,
+        .code = (const ReconExtent[]) { { 0x1c2d0, 0x1c328 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "discard_browser_output",
+        .implementation = RECON_IMPLEMENTED,
+    },
     {
         .name = "_following_declaration@4",
         .entry_rva = 0x446d0,
@@ -2777,6 +2804,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "macro_expansion_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_refill_source_or_error",
@@ -6866,10 +6894,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_macro_error@4",
         .entry_rva = 0x2c930,
-        .code = (const ReconExtent[]) { { 0x2c930, 0x2c931 } },
+        .code = (const ReconExtent[]) { { 0x2c930, 0x2c94a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_macro_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_add_array_declarator@8",
@@ -14077,18 +14106,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_fatal",
         .entry_rva = 0x63240,
-        .code = (const ReconExtent[]) { { 0x63240, 0x63241 } },
+        .code = (const ReconExtent[]) { { 0x63240, 0x63279 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_fatal",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fatal_error",
         .entry_rva = 0x63280,
-        .code = (const ReconExtent[]) { { 0x63280, 0x63281 } },
+        .code = (const ReconExtent[]) { { 0x63280, 0x6333a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fatal_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_compiler_warning",
@@ -18904,10 +18935,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_warn_expected_identifier",
         .entry_rva = 0x2c910,
-        .code = (const ReconExtent[]) { { 0x2c910, 0x2c911 } },
+        .code = (const ReconExtent[]) { { 0x2c910, 0x2c92c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "warn_expected_identifier",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_enable_intrinsic_function@4",

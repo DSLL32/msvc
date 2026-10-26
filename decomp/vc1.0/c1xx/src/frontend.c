@@ -124,3 +124,14 @@ void preprocess_translation_unit(void)
         fwrite(text, length, 1, stdout);
     }
 }
+
+void discard_browser_output(void);
+
+/* Original 0x69c60..0x69c74, cdecl. Failed compilation removes the
+   PCH work files and discards the still-temporary browse stream. */
+void cleanup_fatal_outputs(void)
+{
+    cleanup_precompiled_files();
+    if (browser_filename)
+        discard_browser_output();
+}

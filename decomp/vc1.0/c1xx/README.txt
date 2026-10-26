@@ -1,6 +1,35 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Generated SDK failure/cleanup workflow is COMPLETE: cases0042/0043 compile
+the same generated SDK configuration and include-path setup, with respectively
+a missing vendor backend and a truncated configuration-macro invocation. Both
+produce the original four warnings, fatal diagnostic and exit1. Native streams,
+five IR files and complete output inventories exactly match their frozen
+untouched baselines; temporary browser output is absent after fatal cleanup.
+No output normalization or shared shim change was needed.
+
+Eight application functions (487 B) are now reconstructed: protected-macro and
+pragma warnings, macro-expansion failure, fatal diagnostic formatting/dispatch,
+source-handle closure and PCH/browser failure cleanup. The fatal dispatcher
+retains its recursive fallback, including its original NUL in the write count.
+All fresh original/native frontier orders match; final runs each observe seven
+new entries. Totals are1,841 App /404,626 B (84.93% of whole original code),
+54 named pending App and seven unchanged historical CRT source bodies.
+Three newly discovered cleanup helpers account for the pending-count change.
+
+Original-compiler builds pass. All44 cached native cases and32 existing unit
+groups pass, with the1,849-function six-check graph/ABI audit. Closing gate
+3.459 s; the necessary diagnostic-signature header rebuild took35.107 s.
+Missing-backend original1,010.070 ms/native30.140 ms (setup16.828 ms,
+execution5.352 ms, checks7.960 ms); truncated-macro original1,119.664 ms/
+native34.992 ms (setup19.783 ms, execution7.678 ms, checks7.530 ms).
+Raw captures and artifacts remain in scratch. An initial registry-field spelling
+error failed compilation before any new capture and was corrected; it earned
+no acceptance credit. Earlier no-include-path drafts remain separate diagnostics.
+
+Earlier completed declaration/export workflow:
+
 SDK declaration/export workflow is COMPLETE: prototype case0040 and ordinary
 compile case0041 use the same3,423-byte SDK source/header. Callable typedef
 modifiers, callback-return signatures, array-reference parameters, C linkage and

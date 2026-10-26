@@ -4,6 +4,7 @@
 #include "cpp-context.h"
 #include "frontend.h"
 #include <direct.h>
+#include <io.h>
 #include <recon.h>
 
 /* Original 0x2bfe0..0x2c04f. Use the browser's separate temporary
@@ -828,4 +829,14 @@ void __stdcall restore_pch_browser_name(char *filename)
 void browser_compilation_error(void)
 {
     queue_browser_record(14, 0);
+}
+
+/* Original 0x2c2d0..0x2c328, cdecl. A failed translation discards the
+   temporary browse file; short-circuiting preserves close/unlink failures. */
+void discard_browser_output(void)
+{
+    char filename[256];
+    format_browser_temporary_name(filename);
+    if (fclose(browser_file) || _unlink(filename))
+        report_fatal(83, message_text(340), options.option_Fr);
 }
