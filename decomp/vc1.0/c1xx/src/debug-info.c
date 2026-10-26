@@ -6,6 +6,7 @@
 #include "global-ir.h"
 #include "control-ir.h"
 #include "parser.h"
+#include "segments.h"
 #include <recon.h>
 
 unsigned char *debug_record_buffer; /* original 0x8ccb4 */
@@ -222,4 +223,49 @@ void restore_pch_separate_debug(void)
 {
     if (options.configuration.line_records) begin_line_record_debug_info();
     else debug_record_buffer = checked_malloc(4096);
+}
+
+extern SegmentSymbol *default_data_segment;
+
+/* Original 0x70190..0x702c0, stdcall4. A client forces the PCH debug
+   owner into the link through a real .drectve string object, then restores
+   the ordinary data segment. The literal's auxiliary WORD is unwritten in
+   the original; retain that defect rather than inventing its width flags. */
+void __stdcall reference_pch_debug_library(char *name)
+{
+    char *prefix = "__@@_PchDebugInfoLibrary_";
+    char *directive = "-INCLUDE:_";
+    unsigned prefix_bytes, directive_bytes, name_bytes;
+    unsigned char *cursor;
+    SegmentSymbol *saved_segment = default_data_segment;
+    CppSymbol *symbol;
+    IrToken *literal;
+    ArenaPool *pool;
+    for (prefix_bytes = 0; prefix[prefix_bytes]; ++prefix_bytes) ;
+    for (directive_bytes = 0; directive[directive_bytes]; ++directive_bytes) ;
+    cursor = copy_bytes_forward(text_work_cursor, (unsigned char *)directive, directive_bytes);
+    cursor = copy_bytes_forward(cursor, (unsigned char *)prefix, prefix_bytes + 1);
+    for (name_bytes = 0; name[name_bytes]; ++name_bytes) ;
+    cursor = copy_bytes_forward(cursor - 1, (unsigned char *)name, name_bytes + 1);
+    if (token_allocation_flags & 0x20000020UL)
+        literal = allocate_permanent(sizeof(IrToken));
+    else {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+        literal = (IrToken *)pool->next;
+        pool->remaining -= sizeof(IrToken);
+        pool->next += sizeof(IrToken);
+    }
+    literal->kind = 3;
+    literal->flags = 5;
+    literal->value.text = (char *)text_work_cursor;
+    literal->tail.string.length = (unsigned short)(cursor - text_work_cursor);
+    record_string_literal(literal);
+    symbol = find_outer_name(intern_identifier((char *)text_work_cursor + directive_bytes));
+    if (symbol) symbol->flags |= 8;
+    default_data_segment = lookup_segment_symbol(intern_identifier(".drectve"),
+        name_unnamed, 1, 2);
+    materialize_string_literal(literal);
+    global_expression_scope_active = 1;
+    default_data_segment = saved_segment;
 }

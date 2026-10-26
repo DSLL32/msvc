@@ -742,13 +742,18 @@ VirtualTable *__stdcall primary_virtual_table(CppSymbol *tag)
     return first_vector_item(tag->detail.class_info->virtual_tables);
 }
 
-/* Original 0x78c60..0x78c90. Initialize the selected function and direct
-   this displacement, preserving the high flag nibble and unused bytes. */
+/* Original 0x78c60..0x78c90. The original clears only the low flag
+   nibble, leaving the high nibble and three following bytes unwritten before
+   copying the entry into PCH output. Consumers use only bits0..3. Zero this
+   original output defect while retaining the meaningful flag initialization. */
 void __stdcall initialize_virtual_entry(VirtualEntry *entry, CppSymbol *member)
 {
     entry->dispatch.function = member;
     initialize_virtual_adjustment(&entry->dispatch.this_adjustment, 0);
-    entry->dispatch.flags &= ~15;
+    entry->dispatch.flags = 0;
+    entry->dispatch.reserved_flags[0] = 0;
+    entry->dispatch.reserved_flags[1] = 0;
+    entry->dispatch.reserved_flags[2] = 0;
 }
 
 /* Original 0x78810..0x78822. A zero class index denotes a direct this

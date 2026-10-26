@@ -893,18 +893,18 @@ void mark_pch_declaration_thunks(void)
         (PchVisit)mark_pch_declaration_thunk_key, (PchVisit)mark_pch_symbol_chain);
 }
 
-void __stdcall mark_pch_deferred_type_key(void *description);
+void __stdcall mark_pch_deferred_type_key(MemberConversionKey *key);
 
 /* Original0x4dbb0..0x4dbc6. Deferred type descriptions and their generated
    symbol values retain independent key/value traversal callbacks. */
 void mark_pch_deferred_types(void)
 {
     mark_pch_hash_table(deferred_type_tables,
-        mark_pch_deferred_type_key, (PchVisit)mark_pch_symbol_chain);
+        (PchVisit)mark_pch_deferred_type_key, (PchVisit)mark_pch_symbol_chain);
 }
 
 
-void __stdcall mark_pch_symbol_binding(void *binding);
+void __stdcall mark_pch_symbol_binding(SymbolBinding *binding);
 void __stdcall mark_pch_access_key(AccessDeclaration *access);
 
 /* Original0x54580..0x54590 and0x546c0..0x546d0. */
@@ -932,7 +932,7 @@ void mark_pch_static_member_names(void)
 /* Original0x56100..0x56113. Only binding values have an extra traversal. */
 void mark_pch_global_bindings(void)
 {
-    mark_pch_hash_table(global_symbol_bindings, 0, mark_pch_symbol_binding);
+    mark_pch_hash_table(global_symbol_bindings, 0, (PchVisit)mark_pch_symbol_binding);
 }
 
 /* Original0x56170..0x56180 and0x37170..0x37180. */
@@ -1044,4 +1044,28 @@ void __stdcall mark_pch_access_key(AccessDeclaration *access)
     mark_pch_pointer((void **)&access->owner);
     mark_pch_pointer((void **)&access->base);
     mark_pch_pointer((void **)&access->member);
+}
+
+/* Original 0x4dc80..0x4dc8d, stdcall4. Only the function word in
+   the permanent three-word virtual-member key needs pointer relocation. */
+void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key)
+{
+    mark_pch_pointer((void **)&key->function);
+}
+
+/* Original 0x4dbd0..0x4dbe8, stdcall4. The deferred conversion key's
+   class pair relocates; its third word is the scalar conversion direction. */
+void __stdcall mark_pch_deferred_type_key(MemberConversionKey *key)
+{
+    mark_pch_pointer((void **)&key->target);
+    mark_pch_pointer((void **)&key->source);
+}
+
+/* Original 0x56120..0x56138, stdcall4. Both words in a global
+   anonymous-member binding are live pointers; preserve member-before-object
+   visitation order from the original relocation callback. */
+void __stdcall mark_pch_symbol_binding(SymbolBinding *binding)
+{
+    mark_pch_pointer((void **)&binding->member);
+    mark_pch_pointer((void **)&binding->object);
 }

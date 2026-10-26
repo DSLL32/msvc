@@ -1,6 +1,43 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Explicit callback-engine debug-PCH workflow is COMPLETE: cases0044/0045 cache
+an8,236-byte callback-routing SDK and reuse its original PCH/PDB with a distinct
+client. Both untouched original phases exit0. Three relocation callbacks now
+preserve virtual-member keys, deferred class-pair keys and anonymous-member
+bindings; explicit reuse emits the original debug-library .drectve reference.
+These four functions add365 B, bringing totals to1,845 App /404,991 B (85.01%
+of whole original code),50 named pending App and seven historical CRT bodies.
+
+The producer's109,643-byte PCH has a finite allocation-bound comparison:2,107
+identified pointer fields retain exact relative targets/aliases/non-NULL values
+and distinct bounds across two permanent pages and two temporary groups. Native
+page/refill owners were observed; original temporary anchors are artifact-derived,
+not observed ArenaBlocks. Exactly260 comparison bytes cover original-unwritten
+entry padding, with native-zero assertions and exact meaningful low flag bits.
+All other100,955 bytes are exact; all other artifacts/streams are exact too.
+The source comments and zeros the dispatch initializer's unwritten high flag
+nibble/three following bytes. Existing adjustment/base padding zeroing remains.
+The old literal auxiliary-WORD defect in the new debug-library helper is retained;
+this actual reuse matches. No native-produced PCH interchangeability is claimed.
+
+Reuse compares its complete outputs against its untouched baseline, with the
+original-produced PCH/PDB captured explicitly as inputs. Producer and client use
+the same logical project cwd, because the saved /Fd name is absolute; the initial
+different-cwd C2855 rejection remains separate scratch evidence. Shared offline
+derivation binds the approved comparison to its unchanged raw original receipt.
+No original was rerun for comparison metadata or native padding correction.
+
+All46 cached native cases and33 unit groups pass, including finite-comparison
+wrong-offset/NULL/padding/defined-flag/exact-byte/length controls. Original builds
+and the1,853-function six-check graph/ABI audit pass. Closing gate3.385 s.
+Producer original1,260.449 ms/native54.552 ms (setup23.896 ms, execution17.836 ms,
+checks12.820 ms); reuse original1,236.199 ms/native31.636 ms (setup17.601 ms,
+execution6.814 ms, checks7.221 ms). Observational GDB runs are separate from
+those fixture timings; the typed owner inspection took2.733 s.
+
+Earlier completed SDK failure workflow:
+
 Generated SDK failure/cleanup workflow is COMPLETE: cases0042/0043 compile
 the same generated SDK configuration and include-path setup, with respectively
 a missing vendor backend and a truncated configuration-macro invocation. Both

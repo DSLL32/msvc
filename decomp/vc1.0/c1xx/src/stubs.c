@@ -356,13 +356,9 @@ CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 }
 
 
 
-void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 
 struct VirtualThunkKey;
 void __stdcall mark_pch_virtual_thunk_key(struct VirtualThunkKey *key) { __asm { int 3 } }
-void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __asm { int 3 } }
-void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
-void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
 
 CppSymbol *__stdcall following_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }

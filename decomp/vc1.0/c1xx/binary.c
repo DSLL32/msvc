@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1948 historical frontiers/1841 App bodies.
+ * Current completed-case boundary:1952 historical frontiers/1845 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -920,6 +920,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "reference_pch_debug_library",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_restore_pch_separate_debug",
@@ -938,6 +939,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_symbol_binding",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_access_key@4",
@@ -955,6 +957,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_deferred_type_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_declaration_thunk_key@4",
@@ -963,6 +966,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_declaration_thunk_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_virtual_thunk_key@4",
