@@ -262,7 +262,28 @@ int __cdecl recon_watcom_memicmp(const void *left,const void *right,size_t count
 }
 int __cdecl recon_watcom_getch(void)
 {
-    recon_unsupported("unreviewed Watcom getch");return 0;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    struct stat input,null_device;int saved_errno=errno;
+    unsigned char character=0;DWORD count=0;
+    if(!recon_nhandle || (recon_osfile[0]!=0xc1 && recon_osfile[0]!=0x41) ||
+       recon_get_osfhandle(0)!=1 || recon_GetStdHandle(STD_INPUT_HANDLE)!=(HANDLE)1)
+        recon_unsupported("Watcom getch unchanged stdin ownership");
+    if(fstat(0,&input) || stat("/dev/null",&null_device) ||
+       !S_ISCHR(input.st_mode) || !S_ISCHR(null_device.st_mode) ||
+       input.st_rdev!=null_device.st_rdev) {
+        errno=saved_errno;
+        recon_unsupported("Watcom getch requires null-device stdin");
+    }
+    errno=saved_errno;
+    /* The old CRT initializes this byte before its direct Win32 read. Its
+     * ignored console-mode failures do not supply an input character. Use
+     * ReadFile rather than lowio read, which would add a CRT EOF flag. */
+    if(!recon_ReadFile((HANDLE)1,&character,1,&count,NULL) || count || character)
+        recon_unsupported("Watcom getch unsupported read result");
+    return character;
+#else
+    recon_unsupported("Watcom getch requires explicit profile");return 0;
+#endif
 }
 void recon_bind_watcom_wlib_first_main_heap(const char *reference)
 {

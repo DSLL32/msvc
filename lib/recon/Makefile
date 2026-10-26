@@ -848,3 +848,9 @@ build/watcom-buffering-probe: tests/watcom-buffering-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-buffering-check: build/watcom-buffering-probe
 	$(PYTHON) tests/check-watcom-buffering.py $<
+
+.PHONY: watcom-getch-check
+build/watcom-getch-probe: tests/watcom-getch-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-getch-check: build/watcom-getch-probe
+	$(PYTHON) tests/check-watcom-getch.py $<

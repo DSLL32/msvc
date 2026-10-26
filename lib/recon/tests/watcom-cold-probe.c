@@ -40,7 +40,7 @@ int main(void)
             case 5:command((char *)1);break;
             case 6:command((char *)memory);break;
             case 7:compare(memory,memory,0);break;
-            case 8:character();break;
+            case 8:assert(SetStdHandle(STD_INPUT_HANDLE,(HANDLE)2));character();break;
             }
             _exit(42);
         }

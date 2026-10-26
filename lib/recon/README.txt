@@ -679,9 +679,15 @@ Blank auxiliary/printer slots still use benign generic fclose (EOF ignored,
 no underlying handle close/free); no initialization/private FILE26 or general
 auxiliary/printer runtime model is added. Original per-call errors are unmeasured.
 
-The native conio.h surface and Watcom-only int getch(void) spelling are typed
-link support only: invocation always denies125, with no console read. WLIB's
-regular-stdout help returns from PauseOnConsole before this cold call.
+The native conio.h surface and Watcom-only int getch(void) spelling admit only
+unchanged registered stdin backed by the real /dev/null device, in its initial
+text mode or after the qualified binary setmode transition. A direct
+ReadFile into an initialized zero byte must succeed with count zero; getch then
+returns zero without adding lowio EOF state. Host errno is restored after device
+preflight; target errno and FP are untouched. Pipes, regular files, consoles and
+other input/result domains deny125. This does not model private pushback or the
+old ignored console-mode failures, nor claim original per-call LastError values.
+WLIB's regular-stdout help never invokes its cold getch call.
 
 The public IMAGEHLP staging route recognizes LoadLibraryA("imagehlp" or
 "imagehlp.dll") as a built-in native module, alongside the existing system
