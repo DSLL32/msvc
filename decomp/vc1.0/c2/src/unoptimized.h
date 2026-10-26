@@ -17,4 +17,10 @@ void __fastcall mark_lowering_register_dead(unsigned reg);
 void __fastcall mark_lowering_register_live(unsigned reg);
 void __fastcall record_lowering_conflicts(unsigned reg);
 void __fastcall record_byte_register_constraints(MachineInstruction *instruction, unsigned short reg);
+unsigned __fastcall spill_lowering_register(MachineInstruction *instruction, unsigned reg);
+unsigned __fastcall lowering_spill_candidates(unsigned reg);
+unsigned __fastcall choose_lowering_spill(MachineInstruction *instruction, unsigned candidates);
+unsigned __fastcall require_lowering_register(unsigned reg);
+unsigned __fastcall lowering_register_is_candidate(unsigned reg, unsigned candidates);
+unsigned __fastcall lookup_lowering_register(unsigned reg);
 #endif

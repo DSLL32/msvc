@@ -106,7 +106,6 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 #include "bitsets.h"
 
 #include "unoptimized.h"
-unsigned __fastcall spill_lowering_register(MachineInstruction *instruction, unsigned reg) { __asm int 3 }
 
 #include "machine-layout.h"
 
@@ -223,6 +222,3 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
-
-
-Node *__fastcall new_scope_unwind(long target) { __asm int 3 }

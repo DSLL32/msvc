@@ -1,20 +1,66 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1438 completes the public fixed-stride verifier/checksummer case.
-There are1323 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies350472/399693 original code-section bytes(87.6853%);
-adding916 owned text-data bytes gives351388/399693(87.9145%). These clipped
-extent unions use section VirtualSize(raw size only if zero), not branch
-coverage. Five historical CRT overrides contribute1776B separately, zero App
-credit. Available App/classified CRT/import extents cover377762/399693(94.5130%).
-A reliable non-CRT denominator remains unavailable;55 pending App rows and21931B
-outside available extents need investigation. No only-CRT claim is made.
+Checkpoint1445 completes the protected streaming checksum case. There are1330
+reconstructed App functions and five unchanged historical CRT bodies. App code
+occupies351973/399693 original code-section bytes(88.0608%); adding916 owned
+text-data bytes gives352889/399693(88.2900%). These clipped extent unions use
+section VirtualSize(raw size only if zero), not branch coverage. Five historical
+CRT overrides contribute1776B separately, zero App credit. Available App/
+classified CRT/import extents cover379263/399693(94.8886%). A reliable non-CRT
+denominator remains unavailable;53 pending App rows and20430B outside available
+extents need investigation. No only-CRT claim is made.
 
-`binary.c` is the sole registry. All28 cached IO cases plus one INTERNAL DIRECT
-case and225 narrow units pass. Native fixtures never run Wine. Inputs preserve
+`binary.c` is the sole registry. All29 cached IO cases plus one INTERNAL DIRECT
+case and227 narrow units pass. Native fixtures never run Wine. Inputs preserve
 actual frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds.
 Only established COFF timestamp bytes4..8 are normalized; listings/OMF are exact.
 
+Untouched CL `/Od /G3 /Z7 /FAc /W3 checksum.c` compiles a4410B protected streaming
+checksum with a balanced64-term unsigned expression, real reader callback and
+except-only early returns. Actual001460 ex/sy/in/gl/db inputs are4757/594/9/219/
+287B. Read-only CL observation stops before C2(parent exit unobserved); separate
+untouched CL completion and standalone C2 agree on4912B object plus29125B listing,
+empty streams/status0. Normalized object SHA256:
+`273ecdae653fc4cc2201a988223d30993107fb613a25f340bc7e536c610da52a`.
+Listing SHA256:
+`ba1674d35708def749e29f3398e44f944a869ad57bdbe0ef94332ad60177e9b7`.
+No workload revision or private state was needed.
+
+Seven whole App functions add1501B: legacy spill930, candidate mask76, spill
+selection286, candidate membership52, mapping lookup57, required mapping33 and
+except-only unwind67. Five children were genuinely unindexed: they became named
+traps before separate fresh qualification. Thus the pending row count falls by2,
+not7. All have original-toolchain compilation and focused graph/RET checks.
+The contextual16B scope-state intrinsic descriptorf4 adds no code/text-data credit.
+
+Actual original spill state has requested virtual8188, six occupied mappings,
+candidate maskCF, victim8022 and physicalEAX0. The native live-state unit verifies
+these values, exactly two new MOV records, a shared four-byte stack temporary,
+separate copied address owners and the unchanged old mapping before caller
+publication. It also checks genuine positive/negative mapping queries. A second
+unit checks target-1 becomes the one-argument f4 scope-state call. Optional
+unreachable-label cleanup and tail paths remain unclaimed. No new CRT override
+or shared shim was needed.
+
+Final `make -j4 audit check unit` passes in2.058s(phases unsplit), including1335
+paired graphs/accepted extents and139 scoped RET contracts. Global RET remains
+unresolved at finish_debugging's indirect tail. An expected object changed at
+nonclock byte100 rejects. Concurrent case IO takes27.997ms: setup13.370/execution
+10.301/checks4.326; two units23.602ms: setup9.666/execution9.854/checks4.082.
+All measured attempts: combined builds26.293s(including one macro-format-only
+rebuild), registry/runtime4.922s, W3 three-source compilation4.323s, untouched
+CL2.021s, actual transport1.925s, standalone reference1.242s, original live-state
+observation0.852s, fresh masked originals8.790s, native pairs0.450s, focused graph/
+RET0.399s, focused unit build/run0.380s, intentional rejection0.041s. Analysis/
+editing/authoring and scratch observer build/packing are unmeasured; combined
+phases are unsplit and overlapping intervals are not additive task elapsed.
+Raw references and completion/time/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/protected-checksum/`.
+
+Use `make -j4 native win32`. During a case use current-case replay, necessary
+builds and targeted checks; full gates, README and commit follow completion.
+
+The preceding stride-verifier case adds6App/424B.
 Untouched CL `/O2 /Ob0 /G5 /FAc /Z7 /W3 verify.c` compiles a3756B fixed-stride
 sample-table verifier with callback-dependent values, bounded signed narrowing,
 shift/mask fields, affine indices and disjoint-storage contracts. Actual001232

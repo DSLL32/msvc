@@ -352,6 +352,17 @@ Node *__fastcall new_scope_finally_unwind(long target)
     return build_tree("PPPNYt", end, argument, callee, 0x40, 0x104);
 }
 
+/* Original66400..66443, ECX target scope/RET0. An except-only exit
+   emits the plain scope-state intrinsic, without a finally-unwind call. */
+Node *__fastcall new_scope_unwind(long target)
+{
+    Node *callee, *argument, *end;
+    callee = integer_node(0xf4, 0x104);
+    argument = integer_node((unsigned)target, 0x104);
+    end = intern_leaf(0x4c, 0);
+    return build_tree("PPPNYt", end, argument, callee, 0x40, 0x104);
+}
+
 /* Original [00066270,000662b8). The private helper receives a depth and
    its runtime intrinsic takes a byte displacement (four bytes per level). */
 Node *__fastcall new_finally_unwind(unsigned depth)

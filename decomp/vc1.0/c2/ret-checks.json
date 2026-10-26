@@ -660,6 +660,41 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@spill_lowering_register@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lowering_spill_candidates@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@choose_lowering_spill@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lowering_register_is_candidate@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lookup_lowering_register@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@require_lowering_register@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@new_scope_unwind@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

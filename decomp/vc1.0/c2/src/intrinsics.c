@@ -12,7 +12,7 @@ enum { INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT
     INTRINSIC_STRING_CONCATENATE = 166, INTRINSIC_MEMORY_COMPARE = 170,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179,
-    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242 };
+    INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242, INTRINSIC_SCOPE_STATE = 244 };
 
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83ae8..83af8, actual mixed-wave fabs ID17. The two-byte
@@ -78,6 +78,10 @@ const IntrinsicDescription seh_status_intrinsic = { 0, 0, "", "", 0x10 };
 const IntrinsicDescription seh_d9_intrinsic = { 0x202, 0, "", "", 0x20 };
 const IntrinsicDescription scope_finally_intrinsic = { 0, 0, "", "", 0 };
 const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
+/* Original84918..84928: the encountered except-only scope-state IDf4
+   retains the generated one-argument call, with no scalar override/flags.
+   Both original text pointers identify the empty string839d0. */
+const IntrinsicDescription scope_state_intrinsic = { 0, 0, "", "", 0 };
 /* An explicit data frontier, not a substitute implementation for another
    intrinsic. Inline INT3 is the intentional unreconstructed-data trap; keeping
    this dispatch inline introduces no nonoriginal function/call edge. */
@@ -104,6 +108,7 @@ const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
     case INTRINSIC_SEH_D9: (description) = &seh_d9_intrinsic; break; \
     case INTRINSIC_SEH_STATUS: (description) = &seh_status_intrinsic; break; \
     case INTRINSIC_SCOPE_FINALLY: (description) = &scope_finally_intrinsic; break; \
+    case INTRINSIC_SCOPE_STATE: (description) = &scope_state_intrinsic; break; \
     case INTRINSIC_FINALLY_DEPTH: (description) = &finally_depth_intrinsic; break; \
     default: __asm { int 3 } \
         (description) = 0; break; \
