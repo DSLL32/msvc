@@ -302,3 +302,18 @@ int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size)
 {
     return !(operand->flags & 1) || operand->size == size;
 }
+
+/* Original0x7f17f..0x7f1ba, stdcall8. Explicit operand types and raw
+   addresses are allowed; named scalar operands must have the requested class. */
+int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags)
+{
+    CppSymbol *symbol;
+    CType *type;
+    if (operand->flags & 1) return 1;
+    symbol = operand->address->symbol;
+    if (!symbol) return 1;
+    type = symbol->type;
+    if (type->related) return 0;
+    if (!(type->flags & flags)) return 0;
+    return (type->flags & 15) > 1;
+}

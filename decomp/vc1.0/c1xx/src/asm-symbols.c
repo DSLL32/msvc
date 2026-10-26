@@ -228,3 +228,20 @@ CppSymbol *__stdcall find_asm_member(CppSymbol *members, char *name)
     }
     return members;
 }
+
+/* Original0x800ea..0x8014c, stdcall4. SEG requires an addressable
+   nonstack symbol and changes the existing operand's relocation class. */
+AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value)
+{
+    AsmAddress *address = asm_operand->address;
+    unsigned storage;
+    if (!(address->address_flags & 1) || !address->symbol ||
+        ((storage = address->symbol->storage[0] & 7) >= 4 && storage <= 6)) {
+        report_syntax_error(415);
+        asm_operand->address->symbol = translation_sentinel;
+    }
+    asm_operand->address->address_flags &= 0xe0;
+    asm_operand->address->address_flags |= 0x0b;
+    asm_operand->size = 1;
+    return value;
+}

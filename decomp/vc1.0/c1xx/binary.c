@@ -1627,6 +1627,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "asm_scale_encoding",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_truncate_extended",
@@ -4237,10 +4238,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_has_qualified_this_type@4",
         .entry_rva = 0x1fe90,
-        .code = (const ReconExtent[]) { { 0x1fe90, 0x1fe91 } },
+        .code = (const ReconExtent[]) { { 0x1fe90, 0x1fee2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "has_qualified_this_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_configure_member_function@12",
@@ -16082,10 +16084,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_asm_directive@8",
         .entry_rva = 0x6df75,
-        .code = (const ReconExtent[]) { { 0x6df75, 0x6df76 } },
+        .code = (const ReconExtent[]) { { 0x6df75, 0x6e024 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_asm_directive",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_select_asm_opcode@4",
@@ -16171,10 +16174,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_evaluate_asm_unary@8",
         .entry_rva = 0x6fd91,
-        .code = (const ReconExtent[]) { { 0x6fd91, 0x6fd92 } },
+        .code = (const ReconExtent[]) { { 0x6fd91, 0x6fe39 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "evaluate_asm_unary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_apply_asm_segment@8",
@@ -16250,10 +16254,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_asm_segment_value@4",
         .entry_rva = 0x700ea,
-        .code = (const ReconExtent[]) { { 0x700ea, 0x700eb } },
+        .code = (const ReconExtent[]) { { 0x700ea, 0x7014c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_asm_segment_value",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_asm_offset@4",
@@ -16410,10 +16415,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_swap_asm_pointer_slots@8",
         .entry_rva = 0x6e4ad,
-        .code = (const ReconExtent[]) { { 0x6e4ad, 0x6e4ae } },
+        .code = (const ReconExtent[]) { { 0x6e4ad, 0x6e4c2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "swap_asm_pointer_slots",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_normalize_asm_addresses",
@@ -16447,10 +16453,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_asm_operand_has_type_flags@8",
         .entry_rva = 0x6f17f,
-        .code = (const ReconExtent[]) { { 0x6f17f, 0x6f180 } },
+        .code = (const ReconExtent[]) { { 0x6f17f, 0x6f1ba } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "asm_operand_has_type_flags",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_operand_accepts_size@8",

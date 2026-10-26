@@ -2,6 +2,7 @@
 #include "asm.h"
 #include "ir.h"
 #include "source-input.h"
+#include "control-ir.h"
 #include <recon.h>
 
 int asm_skip_initial_newlines; /* original 0x8c144 */
@@ -105,4 +106,26 @@ void __stdcall add_asm_displacement(unsigned value)
 {
     asm_operand->address->displacement += value;
     asm_operand->address->address_flags |= 2;
+}
+
+/* Original0x7df75..0x7e024, stdcall8. ALIGN and EVEN emit the same
+   control-word record, retaining their distinct argument diagnostics. */
+void __stdcall set_asm_directive(short directive, unsigned value)
+{
+    switch (directive) {
+    case 328:
+        if (asm_member_mode) compiler_warning(3, 404);
+        if ((int)value > 1 && (int)value <= 16 && !(value & (value - 1)))
+            control_word = (unsigned short)value;
+        else report_syntax_error(413, interned_name);
+        record_line_information(24);
+        break;
+    case 329:
+        if (asm_member_mode) compiler_warning(3, 404);
+        if (asm_operand_count) compiler_warning(1, 406);
+        control_word = 2;
+        record_line_information(24);
+        break;
+    }
+    asm_member_mode = 0;
 }

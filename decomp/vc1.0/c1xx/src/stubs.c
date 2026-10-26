@@ -174,7 +174,6 @@ int __stdcall deferred_scope_allows_expression(int depth) { __asm { int 3 } retu
 int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
-int __stdcall has_qualified_this_type(CType *type) { __asm { int 3 } return 0; }
 
 
 
@@ -411,7 +410,6 @@ void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 
 
 
-void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 3 } }
 
 
 
@@ -424,7 +422,6 @@ void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 char *asm_error_context(void) { __asm { int 3 } return 0; }
 
 
-AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value) { __asm { int 3 } return 0; }
 
 
 
@@ -433,7 +430,6 @@ AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *valu
 CppSymbol *__stdcall find_asm_scope_member(char *name) { __asm { int 3 } return 0; }
 
 
-AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }
 
 
 
@@ -445,9 +441,7 @@ AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value) { __asm { 
 
 
 
-void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
 
-int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }
 
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
 
@@ -458,7 +452,6 @@ int __stdcall uniform_overload_protection(CppSymbol *overloads, QualifierBinding
 
 int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
 
-unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
 
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
 

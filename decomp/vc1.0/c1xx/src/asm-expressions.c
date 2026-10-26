@@ -141,3 +141,43 @@ AsmExpression *__stdcall evaluate_asm_binary(unsigned short operation,
     }
     return result;
 }
+
+/* Original0x7fb4a..0x7fb80, stdcall4. Diagnose invalid scale factors
+   but preserve the recovery encoding, including original zero handling. */
+unsigned __stdcall asm_scale_encoding(unsigned scale)
+{
+    unsigned encoding = 0;
+    if (scale > 8 || (scale & (scale - 1))) report_syntax_error(423, scale);
+    scale >>= 1;
+    while (scale) {
+        ++encoding;
+        scale >>= 1;
+    }
+    return encoding;
+}
+
+/* Original0x7fd91..0x7fe39, stdcall8. Unary MASM operations allocate a
+   fresh constant node; its unused fields retain their allocator state. */
+AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    AsmExpression *result;
+    char *context;
+    if (value->kind != 0) {
+        context = asm_error_context();
+        report_syntax_error(425, asm_token_names[operation], context);
+    }
+    if (pool->remaining < (int)sizeof(AsmExpression)) refill_arena(&compiler_arena, pool);
+    result = (AsmExpression *)pool->next;
+    pool->remaining -= sizeof(AsmExpression);
+    pool->next += sizeof(AsmExpression);
+    result->kind = 0;
+    switch (operation) {
+    case 9: result->value.integer = ~value->value.integer; break;
+    case 14: result->value.integer = (value->value.integer >> 8) & 255; break;
+    case 16: result->value.integer = value->value.integer & 255; break;
+    case 22: result->value.integer = value->value.integer; break;
+    case 23: result->value.integer = 0U - value->value.integer; break;
+    }
+    return result;
+}

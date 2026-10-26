@@ -609,6 +609,17 @@ CppSymbol *__stdcall declare_constructor(DeclarationType *type, CppSymbol *class
     return member;
 }
 
+/* Original0x2fe90..0x2fee2, stdcall4. Static members cannot carry
+   top-level cv qualifiers or a nondefault implicit-class pointer distance. */
+int __stdcall has_qualified_this_type(CType *type)
+{
+    CType *ordinary;
+    if (!type) return 0;
+    if (type->attributes & 0x3000) return 1;
+    ordinary = make_class_pointer_type(cpp_context_stack->items[type->field08], 0);
+    return ((ordinary->related->attributes ^ type->related->attributes) & 7) != 0;
+}
+
 /* Original 0x2fef0..0x3022c. Configure access and implicit-this status,
    classify special members, then apply virtual/default-argument/inline work.
    All original diagnostics retain their variadic names and qualifier strings. */

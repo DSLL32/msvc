@@ -571,3 +571,12 @@ unsigned normalize_asm_x87_operands(void)
     }
     return 0;
 }
+
+/* Original0x7e4ad..0x7e4c2, stdcall8. Operand reversal exchanges
+   pointer slots without copying the descriptors they own. */
+void __stdcall swap_asm_pointer_slots(void **first, void **second)
+{
+    void *saved = *first;
+    *first = *second;
+    *second = saved;
+}

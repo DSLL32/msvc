@@ -1,6 +1,31 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Relocation-codec is COMPLETE: case0019. The valid packed-record codec combines
+C++ static members, scaled indexed fields, ALIGN/EVEN, HIGH/LOW/NOT and signed
+constants, SEG/OFFSET relocations, repeated record copying and x87 checksum
+conversion. The untouched original accepts this workload without diagnostics.
+Fresh masked-original/native observations match all seven first encounters,
+exit0 and six complete IR/browser artifacts; the final original also matches
+the untouched baseline exactly. This is a frontend oracle, not a claim about
+executing the generated record codec on a host platform.
+
+Seven whole App bodies/657 code bytes were accepted, with no new data, CRT body,
+guard or shared change. Totals:1,710 App bodies/1,817 historical frontiers and
+seven unchanged historical CRT source bodies. App-only code extent union is
+387,080/476,418 B (81.25% of whole original code extent, not a non-CRT denominator).
+The remaining assembler recovery helpers stay unimplemented; valid-input success
+does not establish their error paths.
+
+Original-toolchain builds pass. Final gate:all20 cached native cases,31 unit
+groups and the1,718-function six-check graph/ABI audit pass in2.986 s. Final fresh
+original capture1.271 s; native32.036 ms (setup20.070 ms, execution4.966 ms,
+checks6.999 ms); incremental native/Win32 build2.342 s. No unchanged original
+oracle was repeated solely for timing or metadata, and broad gates ran only
+once the case completed.
+
+Earlier completed telemetry-frame case:
+
 Telemetry-frame is COMPLETE: case0018. One valid legacy telemetry compiler
 workload combines packed bit fields, anonymous aggregate bindings, DLL storage
 inheritance, conditional temporaries/lvalues, reference casts, explicit destructor
