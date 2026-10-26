@@ -325,8 +325,7 @@ extern "C" int __cdecl close_old_source_descriptor(void) { __asm { int 3 } retur
 extern "C" CompilerBackend *__cdecl acquire_initial_backend(void);
 extern "C" int __cdecl read_source_chunk(void);
 extern "C" void __cdecl begin_line_output(void);
-/* Later optional line-output mode has not been encountered. */
-static int unmodeled_source_line_output; /* BSS RVA54dbc */
+/* The optional line-output stream shares the existing RVA54dbc owner. */
 extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, int descriptor, int flags)
 {
     CompilerArena *arena = &c1_bss.arenas[1];
@@ -392,15 +391,147 @@ extern "C" void __cdecl push_source_context(CompilerSourceFile *file, int kind, 
 #ifdef RECON_NATIVE_TEST
         recon_unsupported("push_source_context: unmodeled line-output flag");
 #endif
-        if (unmodeled_source_line_output) begin_line_output();
+        if (c1_bss.preprocessor_output) begin_line_output();
     }
     --c1_bss.source_cursor;
     *c1_bss.source_cursor = '\n';
 }
-extern "C" int __cdecl read_source_chunk(void) { __asm { int 3 } return 0; }
+extern "C" int __cdecl read_pch_input(void *, BYTE *, unsigned);
+extern "C" int __cdecl read_source_chunk(void)
+{
+    CompilerSourceFrame *frame = c1_data.source_frames;
+    BYTE *buffer = frame->buffer;
+    int count;
+    unsigned i;
+    if (c1_bss.source_cursor - buffer < frame->available_bytes) {
+        if (c1_bss.source_cursor[-1] == 0x1a) {
+            --c1_bss.source_cursor;
+            return 1;
+        }
+        return 0;
+    }
+    --c1_bss.source_cursor;
+    c1_bss.input->Flush();
+    for (i = 1; i <= 2; ++i)
+        buffer[-(int)i] = c1_bss.source_cursor[-(int)i];
+    c1_bss.source_cursor = buffer;
+    c1_bss.input->Mark();
+    if (c1_data.source_frames->flags & 2) {
+        *buffer = 0;
+        c1_data.source_frames->available_bytes = 0;
+        if (!(c1_data.source_frames->flags & 8)) {
+            c1_bss.input->Location((unsigned)buffer, 1);
+            c1_data.source_frames->flags |= 8;
+        }
+        return 1;
+    }
+    if (c1_data.source_frames->flags & 1) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("read_source_chunk: unmodeled PCH input cursor");
+#endif
+        count = read_pch_input(unmodeled_pch_input_cursor, buffer, 0x7000);
+    } else count = _read(c1_data.source_descriptor, buffer, 0x7000);
+    frame = c1_data.source_frames;
+    frame->consumed_bytes += frame->available_bytes;
+    frame->available_bytes = count;
+    if (count <= 0) {
+        if (count < 0)
+            report_response_error(84, c1_data.source_include_depth ? 343 : 341,
+                frame->file->name->name);
+        c1_data.source_frames->flags |= 2;
+        if (c1_data.options.language_extensions) *buffer++ = '\n';
+        *buffer = 0;
+        return 0;
+    }
+    if ((unsigned)count < 0x7000) {
+        frame->flags |= 2;
+        if (c1_data.options.language_extensions && !(frame->flags & 1) && buffer[count - 1] != '\n') {
+            buffer[count++] = '\n';
+            c1_data.source_frames->available_bytes = count;
+        }
+    }
+    buffer[count] = 0;
+    return 0;
+}
+extern "C" int __cdecl read_pch_input(void *cursor, BYTE *buffer, unsigned count)
+{ __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerDependency::RecordSource(const char *name, int descriptor, int ordinary)
 { __asm { int 3 } }
 int RECON_THISCALL CompilerDependency::QuerySource(void **result) { __asm { int 3 } return 0; }
 extern "C" void __cdecl report_include_file(int depth, const char *name) { __asm { int 3 } }
 extern "C" void __cdecl report_source_file_error(const char *name, int file)
 { __asm { int 3 } }
+
+extern "C" int __cdecl restore_forced_source_input(void)
+{
+    CompilerSourceFrame *frame = c1_data.source_frames;
+    CompilerSourceFrame *previous;
+    void *saved_object;
+    unsigned saved_value;
+    const char *name;
+    int status = 0;
+    if (c1_data.source_include_depth == -1) return 0;
+#ifdef RECON_NATIVE_TEST
+    if (c1_data.source_include_depth != 0 || !frame || (frame->flags & 1) ||
+        !(frame->flags & 4) || c1_data.dependency_local || c1_data.options.dependency_output)
+        recon_unsupported("nested, PCH or dependency source restoration is not yet modeled");
+#endif
+    if (c1_data.source_include_depth > 0) {
+        if (!c1_bss.debug_module->Slot34(c1_bss.current_context.value))
+            compiler_error(73, ".\\p0io.c", 947);
+    } else if (!c1_bss.debug_module->Slot10()) {
+        compiler_error(73, ".\\p0io.c", 951);
+    }
+    c1_bss.input->End(c1_bss.text_input);
+    frame = c1_data.source_frames;
+    if (!(frame->flags & 4)) {
+        status = 1000;
+        c1_data.backend = c1_bss.lexer_backend->backend;
+        c1_bss.lexer_backend->enabled = 1;
+    }
+    if (!(frame->flags & 1)) {
+        _close(c1_data.source_descriptor);
+        frame = c1_data.source_frames;
+    }
+    if (frame->conditional_depth != c1_data.conditional_depth) {
+        compiler_error(70, c1_bss.current_context.FileName());
+        frame = c1_data.source_frames;
+    }
+    if (status != 1000 && c1_data.source_include_depth > 0 &&
+        frame->packing_alignment != c1_data.options.packing_stack->active->alignment)
+        status = 1;
+    if ((c1_data.dependency_local || c1_data.options.dependency_output) &&
+        c1_data.dependency->callbacks->source_ready) {
+        c1_data.dependency->NotifySource();
+        frame = c1_data.source_frames;
+    }
+    c1_bss.source_cursor = frame->saved_cursor;
+    saved_object = c1_bss.current_context.object;
+    saved_value = c1_bss.current_context.value;
+    c1_bss.current_context.object = frame->saved_context;
+    c1_bss.current_context.value = frame->saved_context_value;
+    previous = frame->next;
+    c1_data.source_frames = previous;
+    frame->next = c1_data.free_source_frames;
+    c1_data.free_source_frames = frame;
+    if (--c1_data.source_include_depth < 0) {
+        c1_bss.current_context.object = saved_object;
+        c1_bss.current_context.value = saved_value;
+        return 0;
+    }
+    c1_data.source_descriptor = previous->descriptor;
+    if (c1_data.source_descriptor == -1) {
+        name = previous->file->name->name;
+        int position = previous->consumed_bytes;
+        previous->descriptor = open_source_descriptor(name);
+        c1_data.source_descriptor = previous->descriptor;
+        if (c1_data.source_descriptor == -1)
+            report_response_error(83, c1_data.source_include_depth ? 343 : 341, name);
+        if (_lseek(previous->descriptor, position, SEEK_SET) == -1)
+            report_response_error(84, c1_data.source_include_depth ? 343 : 341, name);
+    }
+    if (!c1_data.options.preprocess_no_lines) begin_line_output();
+    if (status == 1000) return status;
+    return (status ? -1 : 1) * (c1_data.source_include_depth + 1);
+}
+void RECON_THISCALL CompilerDependency::NotifySource(void) { __asm { int 3 } }

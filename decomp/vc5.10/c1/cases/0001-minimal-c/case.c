@@ -169,10 +169,189 @@ static const uint32_t order[] = {
  0xad84, /* push_source_context */
  0xafa5, /* CompilerPlainInput::Begin */
  0x29f9, /* read_source_chunk */
+ 0x2b3a, /* CompilerPlainInput::Flush */
+ 0x2b3b, /* CompilerPlainInput::Mark */
+ 0x4cae, /* CompilerContextBuffer::Initialize */
+ 0x4cfc, /* CompilerContextState::Push */
+ 0x1547b, /* begin_source_input */
+ 0x157bd, /* make_incremental_database_path */
+ 0x15986, /* create_debug_module */
+ 0x159bf, /* CompilerNullDebugModule::Slot54 */
+ 0x101c5, /* acquire_backend */
+ 0x11f7a, /* CompilerNullDebugModule::Slot08 */
+ 0x24d95, /* CompilerNullBrowser::Disable */
+ 0x105cf, /* CompilerBackend::SetDebugMode */
+ 0x10641, /* CompilerNullBrowser::Slot5c */
+ 0x10642, /* pack_option_flags */
+ 0x159d1, /* prepare_translation_unit */
+ 0x159df, /* parse_translation_unit */
+ 0x15a60, /* CompilerParser::Initialize */
+ 0x15a6c, /* CompilerParser::Reset */
+ 0x15a87, /* CompilerParser::Run */
+ 0x2b76, /* get_next_token */
+ 0x2e2d, /* CompilerContextState::ReadToken */
+ 0x2eef, /* CompilerLexer::Read */
+ 0x3b5d, /* process_source_newline */
+ 0x17564, /* at_source_buffer_start */
+ 0x1757d, /* begin_first_line_forced_include */
+ 0x175bf, /* read_forced_include */
+ 0x3dec, /* scan_identifier */
+ 0x5ae5, /* classify_identifier_token */
+ 0x5b2b, /* CompilerDeclarationScanner::Scan */
+ 0x7b04, /* CompilerDeclarationScanner::ScanTypeSpecifier */
+ 0x7448, /* CompilerDeclarationScanner::ScanIdentifier */
+ 0x59bb, /* CompilerLexer::Unread */
+ 0x7b3f, /* CompilerDeclarationScanner::Normalize */
+ 0x7c0f, /* finish_type_description */
+ 0x5d03, /* CompilerDeclarationScanner::BuildToken */
+ 0x5da7, /* resolve_identifier_type */
+ 0x74b5, /* make_declarator_symbol */
+ 0x5ea0, /* CompilerDeclarator::InitializeSymbol */
+ 0x90a7, /* CompilerTranslationUnit::EnterParameterScope */
+ 0x8ccc, /* CompilerTranslationUnit::RegisterScope */
+ 0x8ce2, /* CompilerTranslationUnit::PushScope */
+ 0x8d2d, /* CompilerSymbolTable::HasBuckets (shared parameter slot) */
+ 0x9219, /* CompilerTranslationUnit::EndParameterScope */
+ 0x8d38, /* CompilerTranslationUnit::UnregisterScope */
+ 0x8d4b, /* CompilerTranslationUnit::PopScope */
+ 0x5ed6, /* CompilerDeclarator::ApplyDeclaration */
+ 0x10e70, /* prepare_function_definition */
+ 0x76c1, /* declare_declarator */
+ 0x92f0, /* prepare_function_declarator */
+ 0x7946, /* CompilerIrSymbol::SetDeclarationContext */
+ 0x5f15, /* declare_symbol */
+ 0x66dd, /* CompilerDeclarationContext::SetContext */
+ 0x6732, /* validate_declaration_type */
+ 0x252a3, /* CompilerType::WithShapeFlags */
+ 0x795d, /* CompilerScopeTable::MergeDeclaration */
+ 0x79bc, /* CompilerSymbolTable::Find */
+ 0x7a21, /* find_named_symbol */
+ 0x10f0e, /* initialize_function_definition */
+ 0x10f9f, /* reset_local_symbol_limit */
+ 0x10faa, /* CompilerType::FunctionResult */
+ 0x10fec, /* reset_function_label_state */
+ 0x57b3, /* global_type_size */
+ 0x58f0, /* primitive_type_size */
+ 0x10ffa, /* begin_function_body */
+ 0x1130e, /* CompilerNullDebugModule::Slot14 */
+ 0x1132a, /* initialize_function_parameters */
+ 0x1143f, /* prepare_function_record */
+ 0x3fc2, /* emit_control_record */
+ 0x42fb, /* write_expression_marker */
+ 0x1061d, /* CompilerOutputBuffer::WriteSmall */
+ 0xb577, /* CompilerSourceFile::OutputIndex */
+ 0xa3aa, /* CompilerContextState::FileName */
+ 0x22b1, /* CompilerOutputBuffer::WriteIndex */
+ 0x4351, /* has_control_location */
+ 0x2b3c, /* CompilerOutputBuffer::WriteShort */
+ 0x11515, /* write_warning_controls */
+ 0x1066f, /* make_internal_label */
+ 0x1070a, /* record_label_reference */
+ 0x10519, /* make_label_expression */
+ 0x10772, /* make_ir_operation */
+ 0xda20, /* make_typed_binary_expression */
+ 0x1078e, /* emit_ir_node */
+ 0x10ac6, /* has_debug_symbol_index */
+ 0x10adf, /* get_symbol_output_index */
+ 0xf75f, /* replace_function_parameters */
+ 0x10af9, /* begin_compound_statement */
+ 0x104e, /* canonical no-op method */
+ 0x10b5c, /* CompilerTranslationUnit::EnterBlockScope */
+ 0x69e3, /* scan_numeric_token */
+ 0x6e4f, /* read_numeric_character */
+ 0x6eba, /* parse_integer_digits */
+ 0x6f30, /* numeric_digit_value */
+ 0x72a2, /* select_based_literal_type */
+ 0x72d8, /* make_typed_constant */
+ 0x7380, /* copy_type_description */
+ 0x1d5f2, /* emit_return_statement */
+ 0x1c840, /* convert_expression_to_type */
+ 0x1c8e2, /* check_assignment_types */
+ 0x1d719, /* check_constant_conversion */
+ 0x1d6bf, /* returns_local_address */
+ 0x1ce76, /* strip_value_wrappers */
+ 0x1cec9, /* write_ir_operand */
+ 0x1d160, /* write_ir_integer_words */
+ 0x1d337, /* write_symbol_record */
+ 0x69d9, /* current_recovery_shifts */
+ 0x5ef2, /* CompilerArena::ClearUsed */
+ 0x10bb3, /* finish_compound_statement */
+ 0x10c7f, /* finish_scope_symbols */
+ 0x10ce3, /* CompilerTranslationUnit::FinishScope */
+ 0x1153d, /* finish_function_body */
+ 0x10d39, /* canonical null-debug query */
+ 0x11638, /* CompilerNullDebugModule::Slot18 */
+ 0x11654, /* finish_function_definition */
+ 0x10d3c, /* emit_ir_label */
+ 0x117a9, /* CompilerTranslationUnit::FinishFunction */
+ 0x117f3, /* check_function_labels */
+ 0x11865, /* CompilerParameterScope::Check */
+ 0x103df, /* CompilerSymbolTable::Check */
+ 0x10da1, /* make_initializer_value */
+ 0x10dc7, /* create_initializer_value */
+ 0x118a9, /* check_finished_function */
+ 0x11bf3, /* CompilerOutputBuffer::WriteFunctionIndex */
+ 0x11c51, /* finish_function_label_context */
+ 0x11c5c, /* reset_function_scope */
+ 0x6928, /* finish_external_declaration */
+ 0x1048, /* canonical constant-one Valid */
+ 0x4dac, /* CompilerPlainInput::Location */
+ 0x5561, /* restore_forced_source_input */
+ 0x5719, /* CompilerPlainInput::End */
+ 0x4d74, /* CompilerRecordedLexer::Trace */
+ 0x5721, /* make_arena_token */
+ 0x4dda, /* process_special_token */
+ 0x4e3e, /* CompilerRecordedLexer::Reset */
+ 0x4e55, /* dispatch_recorded_pragma */
+ 0x4daf, /* CompilerRecordedLexer::Read */
+ 0x577c, /* CompilerRecordedLexer::Unread */
+ 0x5524, /* finish_recorded_source_tokens */
+ 0x553c, /* expect_directive_token */
+ 0x232a2, /* finish_token_input */
+ 0x232ea, /* CompilerParser::Finish */
+ 0x232eb, /* CompilerTranslationUnit::Finish */
+ 0x2336c, /* finalize_function_directory */
+ 0x23947, /* select_function_debug_handle */
+ 0x101d4, /* write_global_binding_record */
+ 0x596c, /* get_function_return_type */
+ 0x10201, /* global_symbol_name */
+ 0xf886, /* CompilerOutputBuffer::Reserve */
+ 0xfecc, /* CompilerOutputBuffer::WriteBytes */
+ 0x102e5, /* write_global_type_flags */
+ 0x2324b, /* defer_global_symbol */
+ 0xfeff, /* write_global_reference */
+ 0x235d5, /* finish_symbols */
+ 0x23602, /* CompilerNullDebugModule::Close */
+ 0x1fc85, /* CompilerOutputBuffer::Close */
+ 0x1fc99, /* CompilerOutputBuffer::CloseStream */
+ 0x23611, /* CompilerPdbContext::Finish */
+ 0x236ca, /* CompilerPlainInput::Close */
+ 0x236d4, /* cleanup_precompiled_files */
+ 0x23729, /* finish_compiler */
+ 0x23746, /* cleanup_saved_contexts */
+ 0x1fc76, /* free_argument_allocation */
+ 0x2378c, /* cleanup_arenas */
+ 0x237b0, /* CompilerPchState::Release */
+ 0x237c6, /* CompilerArena::Release */
+ 0x2382d, /* cleanup_work_buffers */
+ 0x2387a, /* cleanup_compiler_pass */
+ 0x238da, /* empty work-buffer callback */
+ 0x238db, /* empty output-PDB callback */
+ 0x238dc, /* empty PDB callback */
+ 0x238dd,
+ 0x238e2,
+ 0x23916,
+ 0x2391d,
+ 0x23924,
+ 0x2392b,
+ 0x23932,
+ 0x23939,
+ 0x23940,
+
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION, sizeof(ReconCase), "minimal-c",
  "Typed host forwards actual Invoke11/BOOL1 with test.c; only MSC_CMD_FLAGS absence is an environment input.",
- order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_FRONTIER, 0x29f9,
+ order, RECON_COUNT(order), NULL, 0, RECON_IO, RECON_EXIT, 0,
  c1_minimal_setup, c1_minimal_invoke, NULL, minimal_tests, RECON_COUNT(minimal_tests)
 };

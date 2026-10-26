@@ -29,6 +29,9 @@ static int packing_alignment(void)
 }
 
 extern int c1_test_input_factory(void);
+extern int c1_test_null_debug_factory(void);
+extern int c1_test_parser_reset_extent(void);
+extern int c1_test_parameter_scope_layout(void);
 
 extern void __cdecl normalize_frontend_options(void);
 static int processor_instruction_mask(void)
@@ -107,8 +110,13 @@ static int output_filename_constructor(void)
     unsigned i;
     for (i = 0; i < MAX_PATH; ++i) buffer->filename[i] = 'x';
     buffer->file_descriptor = 123;
+    buffer->owned_debug_name = (char *)buffer;
+    memset(buffer->unmodeled_124, 0xa5, sizeof(buffer->unmodeled_124));
     initialize_output_buffer_124c1();
     if (buffer->filename[0] || buffer->file_descriptor != -1) return 0;
+    if (buffer->owned_debug_name != (char *)buffer) return 0;
+    for (i = 0; i < sizeof(buffer->unmodeled_124); ++i)
+        if (buffer->unmodeled_124[i] != 0xa5) return 0;
     for (i = 1; i < MAX_PATH; ++i)
         if (buffer->filename[i] != 'x') return 0;
     return 1;
@@ -128,7 +136,9 @@ static int integer_nodes(void)
     c1_bss.arenas[3].committed_limit = (BYTE *)storage + sizeof(storage);
     node = create_integer_constant(-17);
     if ((BYTE *)node != (BYTE *)storage + 4 || node->kind != 101 ||
-        node->flags != 3 || node->type != &type || node->integer != -17) return 0;
+        node->flags != 3 || node->type != &type || node->integer != -17 ||
+        storage[3] != 0xa5a5a5a5 || storage[4] != 0xa5a5a5a5 ||
+        ((BYTE *)node)[2] != 0xa5 || ((BYTE *)node)[3] != 0xa5) return 0;
     node = make_integer_constant(0);
     if ((BYTE *)node != (BYTE *)storage + 28 || node->flags != 0x83 ||
         node->kind != 101 || node->integer || node->type != &type) return 0;
@@ -163,6 +173,12 @@ static int pending_line_record(void)
         bytes[5] == 0x80 && bytes[6] == 0xfe && bytes[7] == 0xff &&
         c1_data.last_line_delta == -2 && c1_bss.ir_record_count == 67;
 }
+extern int c1_test_binary_node_extent(void);
+extern int c1_test_block_scope_extent(void);
+extern int c1_test_based_literal_boundaries(void);
+extern int c1_test_output_short(void);
+extern int c1_test_output_index(void);
+extern int c1_test_output_small(void);
 extern int c1_test_output_ensure(void);
 extern int c1_test_output_grow(void);
 extern int c1_test_output_flush_suppression(void);
@@ -298,15 +314,67 @@ static int interned_type_shapes(void)
         c1_bss.pools[1].cursor == (BYTE *)(storage + 9) &&
         storage[0] == 0xa5a5a5a5 && storage[9] == 0xa5a5a5a5;
 }
+extern unsigned __cdecl pack_option_flags(void);
+static int packed_option_bits(void)
+{
+    c1_data.normalized_stack_checks = 0;
+    c1_data.options.assume_no_alias = 0;
+    c1_data.options.assume_no_global_alias = 0;
+    c1_data.options.optimize_size = 0;
+    c1_data.options.global_optimize = 0;
+    c1_data.options.precise_float = 0;
+    c1_data.normalized_oq = 0;
+    c1_data.options.option_ov = 0;
+    c1_data.options.omit_frame_pointer = 0;
+    if (pack_option_flags()) return 0;
+    c1_data.normalized_stack_checks = -7;
+    c1_data.options.optimize_size = 2;
+    c1_data.options.omit_frame_pointer = -1;
+    return pack_option_flags() == 0x80800800U;
+}
+extern void __cdecl make_incremental_database_path(char *);
+static int incremental_path_extent(void)
+{
+    unsigned char owned[32];
+    unsigned i;
+    memset(owned, 0xa5, sizeof(owned));
+    memcpy(c1_data.options.database_path, "alpha.beta.gamma", 17);
+    make_incremental_database_path((char *)owned + 1);
+    if (memcmp(owned + 1, "alpha.beta.idb", 14)) return 0;
+    for (i = 0; i < sizeof(owned); ++i)
+        if ((i == 0 || i >= 15) && owned[i] != 0xa5) return 0;
+    memset(owned, 0x96, sizeof(owned));
+    memcpy(c1_data.options.database_path, "plain", 6);
+    make_incremental_database_path((char *)owned + 1);
+    if (memcmp(owned + 1, "plain\0.idb", 10)) return 0;
+    for (i = 0; i < sizeof(owned); ++i)
+        if ((i == 0 || i >= 11) && owned[i] != 0x96) return 0;
+    return 1;
+}
+extern unsigned __cdecl primitive_type_size(WORD, unsigned);
+static int primitive_width_relation(void)
+{
+    static const unsigned expected[16] = {0,1,2,4,4,2,4,8,8,1,2,4,8,16,0,0};
+    unsigned i;
+    for (i = 0; i < 16; ++i)
+        if (primitive_type_size((WORD)i, 0) != expected[i] ||
+            primitive_type_size((WORD)(0x40 | i), 0) != expected[i] ||
+            primitive_type_size((WORD)(0x200 | i), 0) != 4 ||
+            primitive_type_size((WORD)(0x1000 | i), 0) != i)
+            return 0;
+    return 1;
+}
 static int type_arena_snapshot(void)
 {
     CompilerInitializedState *saved;
     CompilerIrSymbol owned_symbols[2];
     CompilerSourceFrame owned_frames[3];
     unsigned i;
-    if (c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
+    if (c1_data.function_directory_head || c1_data.function_directory_current || c1_data.function_directory_index != 19 || c1_data.function_debug_handle || c1_data.function_cleanup_flags || c1_data.debug_symbol_index || c1_data.function_scope_cache || c1_data.source_exhausted || c1_data.final_input_token_emitted || c1_data.omit_external_names || c1_data.pch_type_record_value || c1_data.pch_record_name || c1_data.global_options || c1_data.pch_expression_stream_open || c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open || c1_data.pch_cleanup_done || c1_data.saved_context_records || c1_data.saved_context_count || c1_bss.function_cleanup_context || c1_bss.token_input_finished || c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_data.label_symbols || c1_bss.function_entry_label || c1_data.line_range_warning_enabled != 1 || c1_data.function_record_flags || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_data.function_label_state_first != -1 || c1_data.function_label_state_second != -1 || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_data.parser_flags || c1_data.function_return_type || c1_data.function_label_depth || c1_data.local_symbol_limit != 0x3fffff || c1_data.function_reference_epoch != 1 || c1_data.disable_inline_records || c1_data.function_context || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags || c1_bss.type_description_depth || c1_data.lexer_flags || c1_data.active_parser || c1_bss.parser_value.declaration_flags || c1_bss.browser_context_value || c1_data.debug_module_kind != 2 || c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
+        c1_data.declaration_symbol_cache_index != 9 ||
+        c1_data.record_sizes.known.declaration_symbol_bytes != 52 ||
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
@@ -317,16 +385,24 @@ static int type_arena_snapshot(void)
         c1_data.anonymous_global_symbol || c1_data.local_size_symbol ||
         c1_data.intrinsic_symbol_cache_index != 9 || c1_data.next_symbol_record_id != 16)
         return 0;
+    for (i = 0; i < 256; ++i)
+        if (c1_bss.incremental_database_path[i]) return 0;
+    c1_data.abstract_symbol_free = &owned_symbols[0].binding;
     memset(c1_data.predefined_time_text, 0x37, 26);
     c1_data.source_include_depth = 13;
     c1_data.macro_reset_value = 83;
     c1_data.emit_global_locations = 37;
+    c1_data.debug_module_kind = 37;
+    c1_data.lexer_flags = 0xa537U;
+    c1_data.active_parser = (struct CompilerParser *)&owned_symbols[0];
     c1_data.source_frames = &owned_frames[0];
     c1_data.root_source_frame = &owned_frames[1];
     c1_data.free_source_frames = &owned_frames[2];
     c1_data.source_descriptor = 41;
     c1_data.conditional_depth = 13;
     c1_data.type_arena_kind = 2;
+    c1_data.declaration_symbol_cache_index = 13;
+    c1_data.record_sizes.known.declaration_symbol_bytes = 47;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
@@ -335,23 +411,65 @@ static int type_arena_snapshot(void)
     c1_data.local_size_symbol = &owned_symbols[1];
     c1_data.intrinsic_symbol_cache_index = 7;
     c1_data.next_symbol_record_id = 83;
+    c1_data.label_symbols = &owned_symbols[0];
+    c1_data.line_range_warning_enabled = 37;
+    c1_data.function_record_flags = 0x12345678;
+    c1_data.function_label_state_first = 37;
+    c1_data.function_label_state_second = 43;
+    c1_data.parser_flags = 0x1234;
+    c1_data.function_return_type = (CompilerType *)&owned_symbols[0];
+    c1_data.function_label_depth = 17;
+    c1_data.local_symbol_limit = 0x12345;
+    c1_data.function_reference_epoch = 37;
+    c1_data.disable_inline_records = 43;
+    c1_data.function_context = &owned_symbols[0];
+    c1_data.function_directory_head = (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0];
+    c1_data.function_directory_current = (struct CompilerFunctionDirectoryBlock *)&owned_symbols[1];
+    c1_data.function_directory_index = 7;
+    c1_data.function_debug_handle = 37;
+    c1_data.function_cleanup_flags = 71;
+    c1_data.debug_symbol_index = 79;
+    c1_data.source_exhausted = 17;
+    c1_data.final_input_token_emitted = 29;
+    c1_data.omit_external_names = 37;
+    c1_data.pch_type_record_value = 0x1234;
+    c1_data.pch_record_name = (const char *)&owned_symbols[0];
+    c1_data.global_options = (struct CompilerGlobalOption *)&owned_symbols[1];
+    c1_data.pch_expression_stream_open = 17;
+    c1_data.pch_primary_stream_open = 19;
+    c1_data.pch_secondary_stream_open = 23;
+    c1_data.pch_cleanup_done = 29;
+    c1_data.saved_context_records = (struct CompilerSavedContextRecord *)&owned_symbols[0];
+    c1_data.saved_context_count = 17;
+    c1_data.function_scope_cache = &owned_symbols[1];
     if (initialize_compiler_pass()) return 0;
     saved = c1_bss.saved_data;
-    if (saved->source_frames != &owned_frames[0] ||
+    if (saved->function_directory_head != (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0] ||
+        saved->function_directory_current != (struct CompilerFunctionDirectoryBlock *)&owned_symbols[1] ||
+        saved->function_directory_index != 7 || saved->function_debug_handle != 37 || saved->function_cleanup_flags != 71 || saved->debug_symbol_index != 79 || saved->function_scope_cache != &owned_symbols[1] || saved->source_exhausted != 17 || saved->final_input_token_emitted != 29 || saved->omit_external_names != 37 || saved->pch_type_record_value != 0x1234 || saved->pch_record_name != (const char *)&owned_symbols[0] || saved->global_options != (struct CompilerGlobalOption *)&owned_symbols[1] || saved->pch_expression_stream_open != 17 || saved->pch_primary_stream_open != 19 || saved->pch_secondary_stream_open != 23 || saved->pch_cleanup_done != 29 || saved->saved_context_records != (struct CompilerSavedContextRecord *)&owned_symbols[0] || saved->saved_context_count != 17) return 0;
+    if (saved->label_symbols != &owned_symbols[0] || saved->line_range_warning_enabled != 37 || saved->function_record_flags != 0x12345678 || saved->function_label_state_first != 37 || saved->function_label_state_second != 43 || saved->parser_flags != 0x1234 || saved->function_return_type != (CompilerType *)&owned_symbols[0] || saved->function_label_depth != 17 || saved->local_symbol_limit != 0x12345 || saved->function_reference_epoch != 37 || saved->disable_inline_records != 43 || saved->function_context != &owned_symbols[0] || saved->lexer_flags != 0xa537U || saved->active_parser != (struct CompilerParser *)&owned_symbols[0] || saved->debug_module_kind != 37 || saved->source_frames != &owned_frames[0] ||
         saved->root_source_frame != &owned_frames[1] ||
         saved->free_source_frames != &owned_frames[2] ||
         saved->source_descriptor != 41 || saved->conditional_depth != 13 ||
         saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
+        saved->declaration_symbol_cache_index != 13 ||
+        saved->record_sizes.known.declaration_symbol_bytes != 47 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
         saved->global_symbol_cache_index != 17 ||
         saved->anonymous_global_symbol != &owned_symbols[0] ||
         saved->local_size_symbol != &owned_symbols[1]) return 0;
+    if (saved->abstract_symbol_free != &owned_symbols[0].binding) return 0;
+    /* The open-ended cache prefix remains unmodeled. Distinct owned storage
+     * sentinels detect copying it along with its separately known head9. */
+    memset(saved->symbol_cache.known.unmodeled_00, 0xa5, 36);
+    memset(c1_data.symbol_cache.known.unmodeled_00, 0x5a, 36);
+    c1_data.abstract_symbol_free = &owned_symbols[1].binding;
     /* Owned representation sentinels are not original table defaults.
-     * Restore must not transfer any of these23 unknown slots. */
+     * Restore must not transfer any of these22 unknown slots. */
     for (i = 0; i < 26; ++i) {
-        if (i == 6 || i == 9 || i == 13) continue;
+        if (i == 1 || i == 6 || i == 9 || i == 13) continue;
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
     }
@@ -359,13 +477,87 @@ static int type_arena_snapshot(void)
     c1_data.source_include_depth = 29;
     c1_data.macro_reset_value = 97;
     c1_data.emit_global_locations = 61;
+    c1_data.debug_module_kind = 61;
+    c1_data.lexer_flags = 0x5a43U;
+    c1_data.active_parser = (struct CompilerParser *)&owned_symbols[1];
+    c1_data.label_symbols = &owned_symbols[1];
+    c1_bss.function_entry_label = (struct CompilerParserNode *)&owned_symbols[0];
+    c1_data.line_range_warning_enabled = 0;
+    c1_data.function_record_flags = 0xa596a596;
+    c1_bss.function_expression_offset = 37;
+    c1_bss.function_symbol_offset = 43;
+    c1_data.function_label_state_first = 61;
+    c1_data.function_label_state_second = 67;
+    c1_bss.function_output_mode = 43;
+    c1_bss.parameter_symbol_count = 67;
+    c1_bss.lexical_skip_mode = 37;
+    c1_bss.case_label = (struct CompilerParserNode *)&c1_bss.literal;
+    c1_bss.function_stack_check_reported = 53;
+    c1_bss.parser_early_result = 27;
+    c1_bss.parameter_scope_value = 0x123;
+    c1_bss.function_storage_class = 0x456;
+    c1_data.parser_flags = 0xa596;
+    c1_data.function_return_type = (CompilerType *)&owned_symbols[1];
+    c1_data.function_label_depth = 23;
+    c1_bss.function_reset_value = 0xabcdef;
+    c1_bss.nonil_type_index = 0x456789;
+    c1_data.local_symbol_limit = 0x56789;
+    c1_data.function_reference_epoch = 61;
+    c1_data.disable_inline_records = 67;
+    c1_data.function_context = &owned_symbols[1];
+    c1_bss.parser_value.declaration_flags = 0x5a96a587;
     c1_data.source_frames = &owned_frames[2];
     c1_data.root_source_frame = &owned_frames[0];
     c1_data.free_source_frames = &owned_frames[1];
     c1_data.source_descriptor = 67;
     c1_data.conditional_depth = 29;
     c1_bss.source_cursor = (BYTE *)owned_frames;
+    memset(c1_bss.incremental_database_path, 0xa5, 256);
+    c1_bss.browser_context_value = 0xa596;
+    c1_bss.unevaluated_expression_depth = 43;
+    c1_bss.parameter_storage_class = 37;
+    c1_bss.parameter_scope_initial_value = 0x12345678;
+    c1_bss.parameter_nesting = 37;
+    c1_bss.declaration_control[1].flags = 0x5a;
+    c1_bss.declaration_depth = 41;
+    c1_bss.declaration_control[0].flags = 0xa5;
+    /* Native24B declaration representation maps the five original20B fields;
+     * its extra member-pointer word is representation, not original padding. */
+    memset(c1_bss.declaration_specs[0], 0xa5, sizeof(c1_bss.declaration_specs[0]));
+    c1_bss.pending_scope_symbols = (struct CompilerPendingScopeSymbol *)&owned_symbols[0];
+    c1_data.function_directory_head = NULL;
+    c1_data.function_directory_current = NULL;
+    c1_data.function_directory_index = 13;
+    c1_data.function_debug_handle = 43;
+    c1_data.function_cleanup_flags = 97;
+    c1_data.debug_symbol_index = 83;
+    c1_data.source_exhausted = 23;
+    c1_data.final_input_token_emitted = 31;
+    c1_data.omit_external_names = 41;
+    c1_data.pch_type_record_value = 0x5678;
+    c1_data.pch_expression_stream_open = 31;
+    c1_data.pch_primary_stream_open = 37;
+    c1_data.pch_secondary_stream_open = 41;
+    c1_data.pch_cleanup_done = 43;
+    c1_data.saved_context_records = NULL;
+    c1_data.saved_context_count = 23;
+    c1_data.pch_record_name = NULL;
+    c1_data.global_options = NULL;
+    c1_bss.token_input_finished = 19;
+    c1_data.function_scope_cache = &owned_symbols[0];
+    c1_bss.function_cleanup_context = &owned_symbols[1];
+    c1_data.try_depth = 17;
+    c1_data.finally_depth = 23;
+    c1_data.exception_filter_depth = 31;
+    c1_bss.type_description_depth = 37;
+    c1_bss.type_descriptions[1].flags = 0xa5a5;
+    c1_bss.type_descriptions[1].attributes = 0x5a5a;
+    c1_bss.type_descriptions[1].shape = (struct CompilerTypeShape *)&owned_symbols[0];
+    c1_bss.type_descriptions[1].auxiliary = 83;
+    c1_bss.type_descriptions[1].debug_index = 97;
     saved->first_call = 0;
+    c1_data.declaration_symbol_cache_index = 17;
+    c1_data.record_sizes.known.declaration_symbol_bytes = 73;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
     c1_data.record_sizes.known.abstract_symbol_bytes = 71;
@@ -378,15 +570,50 @@ static int type_arena_snapshot(void)
     c1_bss.declaration_scope_active = 1;
     c1_pass_mode = 1;
     if (initialize_compiler_pass()) return 0;
+    if (c1_data.abstract_symbol_free != &owned_symbols[0].binding ||
+        saved->abstract_symbol_free != &owned_symbols[0].binding) return 0;
+    for (i = 0; i < 36; ++i)
+        if (saved->symbol_cache.known.unmodeled_00[i] != 0xa5 ||
+            c1_data.symbol_cache.known.unmodeled_00[i] != 0x5a) return 0;
     for (i = 0; i < 26; ++i) {
-        if (i == 6 || i == 9 || i == 13) continue;
+        if (i == 1 || i == 6 || i == 9 || i == 13) continue;
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
     }
+    for (i = 0; i < 256; ++i)
+        if (c1_bss.incremental_database_path[i]) return 0;
     for (i = 0; i < 26; ++i)
         if (c1_data.predefined_time_text[i] != 0x37 ||
             saved->predefined_time_text[i] != 0x37) return 0;
-    return c1_data.source_frames == &owned_frames[0] &&
+    for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
+        if (c1_bss.declaration_specs[0][i]) return 0;
+    if (c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
+        c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
+        c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||
+        c1_bss.type_description_depth || c1_bss.type_descriptions[1].flags ||
+        c1_bss.type_descriptions[1].attributes || c1_bss.type_descriptions[1].shape ||
+        c1_bss.type_descriptions[1].auxiliary || c1_bss.type_descriptions[1].debug_index)
+        return 0;
+    return c1_data.function_directory_head == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[0] &&
+        c1_data.function_directory_current == (struct CompilerFunctionDirectoryBlock *)&owned_symbols[1] &&
+        c1_data.function_directory_index == 7 && c1_data.function_debug_handle == 37 && c1_data.function_cleanup_flags == 71 && c1_data.debug_symbol_index == 79 && c1_data.function_scope_cache == &owned_symbols[1] && c1_data.source_exhausted == 17 && c1_data.final_input_token_emitted == 29 && c1_data.omit_external_names == 37 && c1_data.pch_type_record_value == 0x1234 && c1_data.pch_record_name == (const char *)&owned_symbols[0] && c1_data.global_options == (struct CompilerGlobalOption *)&owned_symbols[1] && c1_data.pch_expression_stream_open == 17 && c1_data.pch_primary_stream_open == 19 && c1_data.pch_secondary_stream_open == 23 && c1_data.pch_cleanup_done == 29 && c1_data.saved_context_records == (struct CompilerSavedContextRecord *)&owned_symbols[0] && c1_data.saved_context_count == 17 &&
+        c1_data.label_symbols == &owned_symbols[0] && saved->label_symbols == &owned_symbols[0] &&
+        c1_data.line_range_warning_enabled == 37 && saved->line_range_warning_enabled == 37 &&
+        c1_data.function_record_flags == 0x12345678 && saved->function_record_flags == 0x12345678 &&
+        c1_data.function_label_state_first == 37 && saved->function_label_state_first == 37 &&
+        c1_data.function_label_state_second == 43 && saved->function_label_state_second == 43 &&
+        c1_data.parser_flags == 0x1234 && saved->parser_flags == 0x1234 &&
+        c1_data.function_return_type == (CompilerType *)&owned_symbols[0] &&
+        saved->function_return_type == (CompilerType *)&owned_symbols[0] &&
+        c1_data.function_label_depth == 17 && saved->function_label_depth == 17 &&
+        c1_data.local_symbol_limit == 0x12345 && saved->local_symbol_limit == 0x12345 &&
+        c1_data.function_reference_epoch == 37 && saved->function_reference_epoch == 37 &&
+        c1_data.disable_inline_records == 43 && saved->disable_inline_records == 43 &&
+        c1_data.function_context == &owned_symbols[0] && saved->function_context == &owned_symbols[0] && c1_data.lexer_flags == 0xa537U && saved->lexer_flags == 0xa537U &&
+        c1_data.active_parser == (struct CompilerParser *)&owned_symbols[0] &&
+        saved->active_parser == (struct CompilerParser *)&owned_symbols[0] &&
+        !c1_bss.parser_value.declaration_flags && c1_bss.browser_context_value == 0 && c1_data.debug_module_kind == 37 && saved->debug_module_kind == 37 &&
+        c1_data.source_frames == &owned_frames[0] &&
         c1_data.root_source_frame == &owned_frames[1] &&
         c1_data.free_source_frames == &owned_frames[2] &&
         c1_data.source_descriptor == 41 && c1_data.conditional_depth == 13 &&
@@ -394,6 +621,9 @@ static int type_arena_snapshot(void)
         c1_data.source_include_depth == 13 && saved->source_include_depth == 13 &&
         c1_data.macro_reset_value == 83 && saved->macro_reset_value == 83 &&
         c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
+        c1_data.declaration_symbol_cache_index == 13 && saved->declaration_symbol_cache_index == 13 &&
+        c1_data.record_sizes.known.declaration_symbol_bytes == 47 &&
+        saved->record_sizes.known.declaration_symbol_bytes == 47 &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&
         c1_data.record_sizes.known.abstract_symbol_bytes == 43 &&
@@ -546,11 +776,142 @@ static int global_header_record(void)
         c1_data.emit_global_locations != 37) return 0;
     for (i = 0; i < sizeof(bytes); ++i)
         if ((i < 4 || i >= 16) && bytes[i] != 0xa5) return 0;
+    /* The final NULL record has a scalar chain value and two absent lists. */
+    c1_data.pch_type_record_value = 0x1234;
+    c1_data.pch_record_name = NULL;
+    c1_data.global_options = NULL;
+    buffer->cursor = bytes + 4;
+    memset(bytes, 0xa5, sizeof(bytes));
+    write_global_record(10, NULL);
+    if (buffer->cursor != bytes + 12 || bytes[4] != 10 || bytes[5] != 0x80 ||
+        *(DWORD *)(bytes + 6) != 0x1234 || bytes[10] || bytes[11] ||
+        c1_data.pch_type_record_value != 0x1234) return 0;
+    for (i = 0; i < sizeof(bytes); ++i)
+        if ((i < 4 || i >= 12) && bytes[i] != 0xa5) return 0;
     return 1;
 }
 extern int c1_test_name_span_interner(void);
 extern int c1_test_source_file_write_extent(void);
-const ReconTest minimal_tests[38] = {
+extern int c1_test_context_buffer_initialize(void);
+extern int c1_test_context_push_alias(void);
+extern CompilerType *__cdecl copy_type_description(const CompilerType *);
+extern CompilerType *__cdecl get_function_return_type(CompilerType *);
+static int type_description_storage_copy(void)
+{
+    CompilerType source, before;
+    unsigned char neighbors[sizeof(CompilerType)];
+    memset(&source, 0x96, sizeof(source));
+    source.flags = 0x63;
+    source.attributes = 0x100;
+    source.shape = NULL;
+    source.auxiliary = 17;
+    /* The last DWORD is opaque for this copy: preserve its byte pattern. */
+    before = source;
+    memset(&c1_bss.type_descriptions[0], 0xa5,
+           sizeof(c1_bss.type_descriptions));
+    memcpy(neighbors, &c1_bss.type_descriptions[0], sizeof(neighbors));
+    c1_bss.type_description_depth = 0;
+    if (copy_type_description(&source) != &c1_bss.type_descriptions[1] ||
+        c1_bss.type_description_depth != 1 || memcmp(&source, &before, sizeof(source)) ||
+        memcmp(&c1_bss.type_descriptions[1], &source, sizeof(source)) ||
+        memcmp(&c1_bss.type_descriptions[0], neighbors, sizeof(neighbors))) return 0;
+    {
+        struct CompilerTypeShape function, remainder;
+        DWORD storage[6];
+        CompilerType expected;
+        memset(storage, 0xa5, sizeof(storage));
+        memset(&function, 0x37, sizeof(function));
+        function.base = &remainder;
+        source.shape = &function;
+        before = source;
+        expected = source;
+        expected.shape = &remainder;
+        c1_data.type_arena_kind = 2;
+        c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+        c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 5);
+        if (get_function_return_type(&source) != (CompilerType *)(storage + 1) ||
+            c1_bss.arenas[2].cursor != (BYTE *)(storage + 5) ||
+            memcmp(storage + 1, &expected, 16) || memcmp(&source, &before, 16) ||
+            storage[0] != 0xa5a5a5a5 || storage[5] != 0xa5a5a5a5) return 0;
+    }
+    return 1;
+}
+extern void __cdecl write_ir_operand(int, const CompilerIntegerConstant *, int);
+extern void __cdecl write_ir_integer_words(unsigned, unsigned, int);
+static int scalar_ir_encodings(void)
+{
+    static const BYTE expected[] = {
+        0xa0, 0x41, 0x7f, 0x81,
+        0x80, 0x80, 0xff, 0xff, 0xff,
+        0x80, 0x80, 0, 0, 0,
+        0x80, 0, 0, 0, 0, 1, 0, 0, 0
+    };
+    BYTE bytes[64];
+    CompilerType type;
+    CompilerIntegerConstant node;
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    unsigned i;
+    memset(bytes, 0xa5, sizeof(bytes));
+    memset(&type, 0x96, sizeof(type));
+    memset(&node, 0x87, sizeof(node));
+    type.flags = 0x63; type.attributes = 0x100; type.shape = NULL;
+    node.type = &type;
+    memset(buffer, 0, sizeof(*buffer));
+    buffer->data = buffer->cursor = bytes + 4;
+    buffer->capacity = 56; buffer->good = 7;
+    c1_bss.parser_early_result = 0;
+    write_ir_operand(51, &node, 1);
+    write_ir_integer_words(127, 0, 4);
+    write_ir_integer_words(0xffffff81, 0xffffffff, 4);
+    write_ir_integer_words(0xffffff80, 0xffffffff, 4);
+    write_ir_integer_words(128, 0, 4);
+    write_ir_integer_words(0, 1, 8);
+    if (buffer->cursor != bytes + 4 + sizeof(expected) || buffer->good != 1 ||
+        memcmp(bytes + 4, expected, sizeof(expected))) return 0;
+    for (i = 0; i < sizeof(bytes); ++i)
+        if ((i < 4 || i >= 4 + sizeof(expected)) && bytes[i] != 0xa5) return 0;
+    return 1;
+}
+extern int c1_test_arena_clear_used(void);
+extern int c1_test_function_directory(void);
+extern int c1_test_recorded_trace(void);
+extern int c1_test_location_token(void);
+static int pdb_context_initializers(void)
+{
+    CompilerPdbContext *context;
+    unsigned i, j;
+    c1_reuse_state = 0;
+    memset(&c1_pdb_context, 0xa5, sizeof(c1_pdb_context));
+    memset(&c1_output_pdb_context, 0x5a, sizeof(c1_output_pdb_context));
+    if (initialize_pdb_context_12676() || initialize_pdb_context_126b6()) return 0;
+    for (i = 0; i < 2; ++i) {
+        context = i ? &c1_output_pdb_context : &c1_pdb_context;
+        if (context->database || context->names || context->types ||
+            context->retain_database || context->rebuild_state || context->read_mode) return 0;
+        for (j = 0; j < 4; ++j)
+            if (context->unmodeled_10[j] != (i ? 0x5a : 0xa5)) return 0;
+    }
+    c1_reuse_state = 1;
+    c1_pdb_context.read_mode = 17;
+    c1_output_pdb_context.retain_database = 23;
+    return !initialize_pdb_context_12676() && !initialize_pdb_context_126b6() &&
+        c1_pdb_context.read_mode == 17 && c1_output_pdb_context.retain_database == 23;
+}
+extern int c1_test_output_destroy(void);
+const ReconTest minimal_tests[60] = {
+    { "output destruction closes owned resources and retains unmodeled storage", 1, c1_test_output_destroy },
+    { "PDB contexts clear six known fields and retain the unmodeled DWORD", 1, pdb_context_initializers },
+    { "recorded token blocks retain gaps and chain at twenty seven tokens", 1, c1_test_recorded_trace },
+    { "location token retains opaque storage and writes only context and kind", 1, c1_test_location_token },
+    { "function directory records retain flags and encode function indexes", 1, c1_test_function_directory },
+    { "IR scalar type and signed integer encodings retain boundaries and owned tails", 1, scalar_ir_encodings },
+    { "arena clear zeros exactly the used span and retains committed storage and neighbors", 1, c1_test_arena_clear_used },
+    { "type description copies sixteen storage bytes including opaque cache and retains neighbor", 1, type_description_storage_copy },
+    { "based literal type selection retains signed, unsigned and configured-width boundaries", 1, c1_test_based_literal_boundaries },
+    { "block scope owns24 bytes and preserves bucket pointer and padding", 1, c1_test_block_scope_extent },
+    { "parameter and hash scope layouts and shared slot", 1, c1_test_parameter_scope_layout },
+    { "context push captures aliased source before publishing lexer state", 1, c1_test_context_push_alias },
+    { "context buffer owns128 bytes and initializes only its first link", 1, c1_test_context_buffer_initialize },
     { "source-file allocation preserves unwritten ID, gaps and owned neighbors", 1, c1_test_source_file_write_extent },
     { "name span interning honors supplied length, collision order and creation result", 1, c1_test_name_span_interner },
     { "global header emits twelve defined bytes and retains owned neighbors", 1, global_header_record },
@@ -558,6 +919,11 @@ const ReconTest minimal_tests[38] = {
     { "macro reset preserves work-buffer identities and all owned bytes", 1, macro_buffer_reset },
     { "symbol allocator uses only known indexed sizes, byte kind and aligned stride", 1, symbol_size_indexing },
     { "shape interning keeps collision keys, canonical identity and16-byte ownership", 1, interned_type_shapes },
+    { "parser constructor writes only known header fields in owned8864 bytes", 1, c1_test_parser_reset_extent },
+    { "option bits preserve sparse positions and boolean consumption", 1, packed_option_bits },
+    { "null debug module preserves all 58 physical method identities", 1, c1_test_null_debug_factory },
+    { "incremental path suffix writes exactly four bytes and retains tails", 1, incremental_path_extent },
+    { "primitive width encodings and literal-width alternative", 1, primitive_width_relation },
     { "type allocation arena default and nonzero snapshot restore", 1, type_arena_snapshot },
     { "pointer shape writes only declared fields within its12-byte allocation", 1, type_shape_write_extent },
     { "intrinsic selection retains mandatory names and respects extension and floating policy", 1, intrinsic_selection_policy },
@@ -576,6 +942,10 @@ const ReconTest minimal_tests[38] = {
     { "output constructor clears only first filename byte", 1, output_filename_constructor },
     { "integer node signed payload, type identity, zero flag and24-byte stride", 1, integer_nodes },
     { "line delta encoding, duplicate suppression and zero retention", 1, pending_line_record },
+    { "binary node construction writes only known fields in its24-byte owner", 1, c1_test_binary_node_extent },
+    { "signed short encoding preserves negative and wide boundaries within owned bytes", 1, c1_test_output_short },
+    { "index encoding retains signed boundary, exact bytes and failed-buffer state", 1, c1_test_output_index },
+    { "small operand encoding rejects wide values without writes and retains neighbors", 1, c1_test_output_small },
     { "output reservation bounds and no state mutation", 1, c1_test_output_ensure },
     { "buffer growth preserves used bytes, zeros tail and publishes relocation", 1, c1_test_output_grow },
     { "flush suppression resets cursor and retains bytes without stream access", 1, c1_test_output_flush_suppression },

@@ -124,3 +124,25 @@ BYTE *RECON_THISCALL CompilerArena::AllocateBytes(unsigned bytes)
         CommitExtent();
     return memory;
 }
+
+extern "C" const char *__cdecl get_compiler_message(unsigned);
+extern "C" int __cdecl format_buffer(char *, const char *, unsigned, ...);
+extern "C" void __cdecl print_pragma_message(const char *);
+void RECON_THISCALL CompilerArena::Release(void)
+{
+    char message[256];
+    int released;
+    if (!base) return;
+    if ((int)committed_bytes > 0 && !VirtualFree(base, committed_bytes, MEM_DECOMMIT)) {
+        format_buffer(message, get_compiler_message(910), 256, GetLastError());
+        print_pragma_message(message);
+    }
+    if (mapped_view) released = UnmapViewOfFile(base);
+    else released = VirtualFree(base, 0, MEM_RELEASE);
+    if (!released) {
+        format_buffer(message, get_compiler_message(910), 256, GetLastError());
+        print_pragma_message(message);
+    }
+    base = NULL;
+}
+extern "C" const char *__cdecl get_compiler_message(unsigned) { __asm { int 3 } return NULL; }

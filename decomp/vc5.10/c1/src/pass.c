@@ -13,18 +13,22 @@ int __cdecl initialize_compiler_pass(void)
     if (c1_data.first_call) {
         c1_bss.saved_data = (CompilerInitializedState *)allocate_compiler_memory(6548);
         saved = c1_bss.saved_data;
-        /* Typed projection only: unknown size slots are never transferred. */
+        /* Typed projection only: unknown size slots/cache heads are never transferred. */
         memcpy(saved, &c1_data, offsetof(CompilerInitializedState, record_sizes));
+        saved->record_sizes.known.declaration_symbol_bytes = c1_data.record_sizes.known.declaration_symbol_bytes;
         saved->record_sizes.known.intrinsic_symbol_bytes = c1_data.record_sizes.known.intrinsic_symbol_bytes;
         saved->record_sizes.known.global_symbol_bytes = c1_data.record_sizes.known.global_symbol_bytes;
         saved->record_sizes.known.abstract_symbol_bytes = c1_data.record_sizes.known.abstract_symbol_bytes;
+        saved->abstract_symbol_free = c1_data.abstract_symbol_free;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
         memcpy(&c1_data, saved, offsetof(CompilerInitializedState, record_sizes));
+        c1_data.record_sizes.known.declaration_symbol_bytes = saved->record_sizes.known.declaration_symbol_bytes;
         c1_data.record_sizes.known.intrinsic_symbol_bytes = saved->record_sizes.known.intrinsic_symbol_bytes;
         c1_data.record_sizes.known.global_symbol_bytes = saved->record_sizes.known.global_symbol_bytes;
         c1_data.record_sizes.known.abstract_symbol_bytes = saved->record_sizes.known.abstract_symbol_bytes;
+        c1_data.abstract_symbol_free = saved->abstract_symbol_free;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;
@@ -53,8 +57,15 @@ void *__cdecl allocate_compiler_memory(unsigned size)
 
 int __cdecl cleanup_compiler_pass(void)
 {
-    __asm { int 3 }
-    return 1;
+    int result = 0;
+    while (c1_bss.cleanup_count > 0) {
+        __try {
+            (*c1_bss.cleanup_callbacks[--c1_bss.cleanup_count])();
+        } __except (EXCEPTION_EXECUTE_HANDLER) {
+            result = 1;
+        }
+    }
+    return result;
 }
 
 int __cdecl register_compiler_cleanup(C1Initializer callback)

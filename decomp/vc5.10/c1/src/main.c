@@ -26,7 +26,6 @@ int __cdecl main(int argc, char **argv)
 
 void __cdecl release_work_buffers_238da(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_state_12998(void)

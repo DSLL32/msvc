@@ -1,80 +1,66 @@
 # VC5.10 C1.DLL
 
-`binary.c` is the function/export registry for original
+`binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The current prefix contains 136 accepted application functions / 20,953 code bytes.
-Historical linked startup support remains separately classified: two CRT
-functions / 451 bytes; four import thunks / 24 bytes. Owned text data is 414
-bytes. The original text extent is 322,288 bytes; its non-CRT denominator has
-not been classified. Initialized state retains 2,920 unmodeled bytes, and the
-literal object's separate 16-byte tail remains unmodeled.
+The reconstruction contains 342 application functions / 92,202 code bytes and
+3,574 bytes of owned text data. Application code is 28.61% of the original
+322,288-byte text extent; that denominator includes runtime code and text data,
+and is not a classified application-only denominator. Five original CRT/support
+owners / 571 bytes remain separate, without application credit. MSVCRT.LIB is
+an import archive here; shared identification reports zero static CRT matches.
 
-`make -j4 check unit` builds one native i386 `.build/libbinary.so` and discovers
-all numbered cases. `make -j4 win32 audit` verifies original VC5 compilability
-and shared graph/import/RET/ownership/extent checks. Runtime identification and
-compiler launching use shared `recon-tool`; live finite graph contracts are in
-`policy-data.json`, with finite original/provider/SDK premises in
-`import-contracts.json`. Original compiler artifacts live under `build/`.
-Application source stays in `src/`; the two historical startup functions and
-headers are isolated in `crt/`, with a per-file rationale and no App credit.
-Native DLL adapters/profile setup live in `harness/dll-cases.c`; numbered cases
-hold invocation descriptors, captured inputs/results and narrow tests.
-MSVCRT.LIB is an import library here: shared identification honestly reports
-zero static matches, while the historical CRT rows retain strict graph checks.
+Both cached cases complete natively: DLL attach/export lookup/detach, and the
+minimal C compilation `int main () { return 0; }`. The latter forwards the actual
+11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
+BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
+bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
+compiler finalization, arena release and registered cleanup callbacks.
+No clock normalization is required by these outputs.
 
-The lifecycle case attaches, resolves both exports without invoking them, and
-detaches. Minimal invokes the actual supported direct 11-argument
-`_InvokeCompilerPass@12` contract with BOOL 1. It remains partial at
-`make_tagged_type()`, RVA `0x14c23`. Its fresh reference uses logical cwd
-`T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native scratch namespace.
-Final IR from other invocations is not merged into this oracle. Both cases run
-entirely natively against cached original observations.
+`make -j4 check unit` builds one native i386 `.build/libbinary.so`, discovers all
+numbered cases and checks their cached original invocations. The minimal case
+also has 60 focused tests. `make -j4 win32 audit` verifies original VC5
+compilability and shared graph/import/RET/ownership/extent checks. Runtime
+identification and original compiler launching use shared `recon-tool`.
+Live finite graph contracts are in `policy-data.json`; small root-level witness
+files describe only the qualified original/provider/SDK ABI facts they consume.
+Logs, disassembly and intermediate observations stay outside the checkout.
 
-`make -j4 original-host` builds the original-only `harness/win32-host.c`.
-Shared `recon-tool original capture --host build/c1-host.exe --progress
---native-msvcrt` owns transport, staging and masking. The host forwards actual
-argc/argv to the three-argument stdcall export and uses the real loader lifecycle.
-Native execution binds that same vector; its finite environment models only the
-observed absent `MSC_CMD_FLAGS` query. New queries require input evidence.
-No private historical HOST vectors or error seeds are used. SYSTEM_INFO and
-qualified locale bytes remain explicit fixture/profile inputs, rather than
-claims about a complete Windows environment.
+Application source is in `src/`. The historical linked startup implementation
+is isolated in `crt/`, with its per-file rationale and no App credit. Native DLL
+adapters and focused test glue are in `harness/`. Numbered cases contain only
+invocation descriptors, captured inputs/results and tests. The target-specific
+parser generator emits readable token, shift/goto and production relations;
+it does not embed addresses or copied binary sections.
 
-The former unaccepted 39-byte `_push_packing` trial and owned research remain
-saved in `~/.ai-tmp/msvc2/vc5.10/c1/standardization-migration-20261025/`.
-It is now accepted after a fresh shared masked-original/native pair and focused
-alignment inheritance/override test. Historical proof remains in Git history;
-new progress reports/logs are under scratch `resume-minimal-20261025/`.
-No new functions or cases were accepted during migration.
+`make -j4 original-host` builds `harness/win32-host.c`. Shared
+`recon-tool original capture --host build/c1-host.exe --progress
+--native-msvcrt` owns staging, masking and capture. The typed host forwards its
+real argc/argv and uses the actual loader lifecycle. The minimal reference uses
+logical cwd `T:\vc5.10\c1\0001-minimal-c`, preserved in an isolated native
+workspace. Its finite consumed environment models only absent `MSC_CMD_FLAGS`;
+new environment consumers require their actual input evidence. No historical
+private HOST vectors or error seeds are used. SYSTEM_INFO and qualified locale
+bytes remain explicit profile inputs, not a complete Windows-state claim.
 
-`symbol-aliases.json` records only observed linker identities. Shared alias
-support emits no code and preserves one canonical body per original address.
-The named browser allocation is 12 bytes; only its vptr/filename prefix is
-modeled, leaving the final four bytes unmodeled until a real consumer is reached.
+`symbol-aliases.json` records observed code-free linker identities. Each physical
+method body has one canonical registry owner. Output-buffer destruction likewise
+has one outlined ECX receiver method and eight real callback prefixes, preserving
+the original tail/fallthrough graph. Its explicit `Destroy` spelling keeps the
+containing BSS a trivial C storage owner.
 
-The 32-byte predefined token records currently model only kind/tag bytes at
-offsets 0/8; all other record bytes remain unmodeled and untouched.
+The completed case exercises a bounded domain. Larger readable parser, lexer,
+IR writer, PCH, debug and recorded-input bodies include unexercised branches;
+completion does not establish every option, grammar reduction or operand shape.
+Unrecovered initialized fields, partial token/symbol payloads and object gaps
+remain unmodeled. Unsupported semantic reads trap in both builds; native-only
+guards cover genuine host ABI/layout differences. Opaque bytes may be retained
+or copied within established owners without assigning meanings or defaults.
+The authentic 16-byte type transfer includes its separate cache bytes.
 
-The IL writer preserves its full operand-format graph and contextual tables.
-The current case passes the empty line-record path and reaches buffer reservation
-for opcode0x5b with an integer operand; later operand branches have not been exercised. Storage-width
-classes without an established original width fail closed natively before use,
-while the Win32 source retains the original carried argument-slot value.
-
-The 540-byte translation-unit object has a 128-slot scope-pointer array, proven
-by its indexed push/pop consumers and explicit depth bound. Its initializer writes
-only slot0; the other127 values remain unmodeled and unwritten. Its 24-byte root
-scope uses the actual ten-slot virtual interface, with operations still pending.
-
-The declarator receiver retains its actual48-byte extent. Offsets8/20/24 now hold
-the shape tail, shape-state flags and parameter description. The function-type caller zeros an original unwritten upper
-attribute WORD; the copied upper WORD has no original writer; later consumers remain bounded by their actual reads.
-
-Abstract-symbol reuse models only encountered free-list head9, original size52
-and cache-index9 defaults. Other indexes remain valid original states but hold
-natively before unknown head access; no whole free-head array is represented.
-
-Nonempty parameter interning is source/graph coverage only. Its opaque list-header
-DWORD is excluded from hashing/key comparison and transferred internally; no
-semantic equivalence is claimed for that word or its later consumers.
+The earlier unaccepted packing WIP and migration research are preserved under
+`~/.ai-tmp/msvc2/vc5.10/c1/standardization-migration-20261025/`; packing was then
+qualified in this case. Intermediate current-case originals, failures, native
+matches and measured logs are under scratch `resume-minimal-20261025/`.
+The committed `capture.bin` contains the completed invocation/IO oracle only.

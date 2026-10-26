@@ -8,23 +8,16 @@
 /* Source-only contextual cells for currently unsupported domains. They are
  * UNMODELED native representation, excluded from defaults/snapshot/equality.
  * The entry guard precedes every native read or effect involving them. */
+/* Shared physical source owners also written by function initialization.
+ * Native defaults/transfer are still unmodeled until those writes are reached. */
+#define c1_disable_inline_records c1_data.disable_inline_records /* RVA5f378 */
+#define c1_nonil_type_index c1_bss.nonil_type_index /* RVA54c80 */
+int c1_include_pch_reference_counts; /* RVA5f33c; shared directory/control owner */
+int c1_inline_record_flag; /* RVA54d98; directory sets before the global writer reads */
 static struct {
-    const char *global_option_string;       /* RVA5f320 */
-    int include_pch_reference_counts;       /* RVA5f33c */
-    int disable_inline_records;            /* RVA5f378 */
-    int omit_external_names;               /* RVA5f4d0 */
-    CompilerGlobalOption *global_options;   /* RVA5e578 */
     unsigned pch_reference_count;           /* RVA5e9d8 */
-    unsigned global_name_count;             /* RVA5e9e0 */
 } writer_unmodeled_data;
-static struct {
-    const char *global_string_record;       /* RVA54018 */
-    unsigned nonil_type_index;              /* RVA54c80 */
-    int inline_record_flag;                 /* RVA54d98 */
-    unsigned local_reference_count;         /* RVA54f34 */
-    short global_record_option_word;        /* RVA54fd0, low WORD only */
-    unsigned saved_reference_count;         /* RVA550fc */
-} writer_unmodeled_bss;
+const char *c1_global_string_record; /* RVA54018, shared NameMap result */
 
 /* The operand-format column of the 24 encountered global records. The
  * separate original table column is not consumed by this writer. */
@@ -107,12 +100,36 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
     CompilerGlobalLocation saved_location;
     CompilerType *return_type = NULL;
     const char *text;
-#ifdef RECON_NATIVE_TEST
-    /* The current input establishes only the NULL global-header record.
-     * Symbol owners and non-IL state require their own reached evidence. */
-    if (symbol || opcode != 17 || !c1_data.c9_il)
+    /* Only grounded scalar/header and function-shaped alternatives are
+     * supported; incomplete semantic domains stop in both builds. */
+    if (!c1_data.c9_il || (!symbol && opcode != 6 && opcode != 13 &&
+        opcode != 17 && opcode != 18 && opcode != 10)) {
+#ifdef __linux__
         recon_unsupported("global record: unmodeled symbol or non-IL domain");
+#else
+        __asm { int 3 }
 #endif
+    }
+    if (symbol && !((opcode == 3 && symbol->kind == 9 && !symbol->binding.name &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) != 7 &&
+        !(symbol->function_flags & 1) && symbol->value_type == c1_data.builtin_types.type_0063) ||
+        (opcode == 14 && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
+        (symbol->storage_class & 7) != 7 && !(symbol->function_flags & 1) &&
+        symbol->value_type->shape && (symbol->value_type->shape->flags & 7) == 4 &&
+        !c1_data.options.debug_info))) {
+#ifdef __linux__
+        recon_unsupported("global record: symbol alternative is not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if (opcode == 10 && (c1_data.pch_record_name || c1_data.global_options)) {
+#ifdef __linux__
+        recon_unsupported("global record: PCH name or option-list contents are not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
     if (c1_data.report_statistics)
         print_compiler_statistics();
     if (symbol) {
@@ -174,7 +191,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         saved_inline_flags = saved_location.third;
     }
     if ((opcode == 14 || opcode == 1 || opcode == 2) &&
-        buffer == &c1_bss.output_buffers[2] && !writer_unmodeled_data.omit_external_names &&
+        buffer == &c1_bss.output_buffers[2] && !c1_data.omit_external_names &&
         symbol && symbol->binding.name && symbol->binding.name->name) {
         int valid = c1_data.c9_il || c1_bss.debug_module->Slot74(symbol->binding.name->name);
         if (!valid) compiler_fatal(55);
@@ -262,7 +279,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             GLOBAL_INDEX(index);
             break;
         case 7:
-            GLOBAL_BYTE(opcode == 3 ? symbol->parameter_kind : c1_bss.declaration_scope_active);
+            GLOBAL_BYTE(opcode == 3 ? symbol->label_nesting : c1_bss.declaration_scope_active);
             break;
         case 8:
             if (symbol->kind == 9) index = symbol->symbol_value & 0xff;
@@ -432,9 +449,9 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             break;
         case 24:
             if (c1_data.c9_il) {
-                GLOBAL_INDEX(writer_unmodeled_bss.saved_reference_count);
-                index = writer_unmodeled_bss.local_reference_count +
-                    (writer_unmodeled_data.include_pch_reference_counts ? writer_unmodeled_data.pch_reference_count : 0);
+                GLOBAL_INDEX(c1_bss.function_expression_offset);
+                index = c1_bss.function_symbol_offset +
+                    (c1_include_pch_reference_counts ? writer_unmodeled_data.pch_reference_count : 0);
                 GLOBAL_INDEX(index);
             }
             break;
@@ -453,17 +470,17 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             if (has_location) index = saved_inline_flags;
             else {
                 index = ((symbol->qualifier_flags >> 5) & 4) |
-                    (writer_unmodeled_bss.inline_record_flag ? 0x20 : 0) |
+                    (c1_inline_record_flag ? 0x20 : 0) |
                     (c1_data.ir_symbol_state_changed ? 8 : 0) |
-                    (writer_unmodeled_data.include_pch_reference_counts ? 1 : 0) |
+                    (c1_include_pch_reference_counts ? 1 : 0) |
                     ((symbol->symbol_qualifiers & 1) << 7);
                 if ((type->shape->flags & 0x800) && !(type->shape->flags & 0x4000))
-                    writer_unmodeled_data.disable_inline_records = 1;
+                    c1_disable_inline_records = 1;
                 int choose_inline = c1_data.options.inline_level == 1;
                 if (c1_data.options.inline_level == 2) {
                     if (!c1_data.ir_symbol_state_ready) choose_inline = 1;
                     else {
-                        if (!writer_unmodeled_data.disable_inline_records &&
+                        if (!c1_disable_inline_records &&
                             (((symbol->storage_class & 7) == 3 && (symbol->reference_flags & 3) == 1) ||
                              c1_bss.ir_record_count < (unsigned)c1_data.options.option_bu))
                             index |= 0x40;
@@ -471,7 +488,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
                     }
                 }
                 if (choose_inline) {
-                    if (writer_unmodeled_data.disable_inline_records || (type->shape->flags & 0x8000)) {
+                    if (c1_disable_inline_records || (type->shape->flags & 0x8000)) {
                         index = (unsigned)(int)(short)index & ~0x40U;
                         if (symbol->symbol_qualifiers & 1)
                             report_language_diagnostic(4, 710, symbol);
@@ -491,8 +508,8 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             GLOBAL_DWORD(c1_data.c9_il ? c1_data.next_symbol_record_id : 0x400000, 5);
             break;
         case 33: {
-            GLOBAL_INDEX(writer_unmodeled_data.global_name_count);
-            text = writer_unmodeled_data.global_option_string;
+            GLOBAL_INDEX(c1_data.pch_type_record_value);
+            text = c1_data.pch_record_name;
             if (text) {
                 index = strlen(text) + 1;
                 if (GLOBAL_RESERVE(index + 1)) {
@@ -500,19 +517,19 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
                     buffer->cursor += index;
                 }
             } else GLOBAL_ZERO();
-            CompilerGlobalOption *item = writer_unmodeled_data.global_options;
+            CompilerGlobalOption *item = c1_data.global_options;
             if (!item) { GLOBAL_INDEX(0); break; }
             unsigned count = 0;
-            writer_unmodeled_data.global_options = NULL;
+            c1_data.global_options = NULL;
             while (item) {
                 CompilerGlobalOption *next = item->next;
-                item->next = writer_unmodeled_data.global_options;
-                writer_unmodeled_data.global_options = item;
+                item->next = c1_data.global_options;
+                c1_data.global_options = item;
                 item = next;
                 ++count;
             }
             GLOBAL_INDEX(count);
-            for (item = writer_unmodeled_data.global_options; item; item = item->next) {
+            for (item = c1_data.global_options; item; item = item->next) {
                 GLOBAL_BYTE(item->kind);
                 if (item->kind == 7) {
                     const BYTE *bytes = item->value;
@@ -553,7 +570,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             break;
         }
         case 35: {
-            short value = writer_unmodeled_bss.global_record_option_word;
+            short value = (short)c1_bss.parameter_symbol_count;
             available = 1;
             if (buffer->cursor + 4 > buffer->data + buffer->capacity)
                 available = buffer->Grow(4);
@@ -568,7 +585,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             break;
         }
         case 38:
-            text = writer_unmodeled_bss.global_string_record;
+            text = c1_global_string_record;
             index = strlen(text) + 1;
             available = 0;
             if ((int)(index + 1) >= 0) {
@@ -583,7 +600,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             }
             break;
         case 40:
-            if (!c1_data.c9_il) GLOBAL_INDEX(writer_unmodeled_bss.nonil_type_index);
+            if (!c1_data.c9_il) GLOBAL_INDEX(c1_nonil_type_index);
             break;
         case 41:
             if (!c1_data.c9_il) {
@@ -623,16 +640,258 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
 }
 
 /* Genuine next boundaries; none of these bodies is credited by this writer. */
-extern "C" unsigned __cdecl global_type_size(CompilerType *type) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl primitive_type_size(WORD, unsigned);
+extern "C" unsigned __cdecl pointer_storage_size(WORD);
+extern "C" unsigned __cdecl type_shape_element_size(WORD, unsigned, CompilerTypeShape *);
+extern "C" unsigned __cdecl global_type_size(CompilerType *type)
+{
+    CompilerTypeShape *shape = type->shape;
+    if (!shape) return primitive_type_size(type->flags, type->auxiliary);
+    if ((shape->flags & 7) != 2) return pointer_storage_size(shape->attributes);
+    unsigned element = type_shape_element_size(type->flags, type->auxiliary, shape);
+    unsigned bytes = element * shape->value;
+    if ((int)bytes < (int)element && shape->value) {
+        compiler_warning(148);
+        shape->value = 1;
+    }
+    return bytes;
+}
+/* Original low-four-bit primitive width encodings, RVA64970. Several
+ * encodings have no recovered language name; their numeric identities stay
+ * explicit rather than assigning a speculative scalar type. */
+extern "C" const signed char c1_primitive_widths[16] = {
+    0, 1, 2, 4, 4, 2, 4, 8, 8, 1, 2, 4, 8, 16, 0, 0
+};
+struct AggregateSizeOwnerView {
+    BYTE unmodeled_00[8];
+    CompilerIrSymbol *owner;
+};
+extern "C" unsigned __cdecl primitive_type_size(WORD flags, unsigned auxiliary)
+{
+    if (flags & 0x400) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("tagged aggregate size owner is not yet modeled");
+#endif
+        CompilerIrSymbol *symbol = (CompilerIrSymbol *)auxiliary;
+        if (symbol->kind != 4)
+            symbol = ((AggregateSizeOwnerView *)symbol->abstract_type)->owner;
+        return symbol->integer_value;
+    }
+    if (flags & 0x200) return c1_primitive_widths[3];
+    if ((flags & 0x340) || !(flags & 0xfff0))
+        return c1_primitive_widths[flags & 15];
+    return flags & 15;
+}
+extern "C" unsigned __cdecl pointer_storage_size(WORD) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl type_shape_element_size(WORD, unsigned, CompilerTypeShape *) { __asm { int 3 } return 0; }
 extern "C" void __cdecl report_incomplete_global_type(CompilerType *type) { __asm { int 3 } }
-extern "C" CompilerType *__cdecl get_function_return_type(CompilerType *type) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl write_global_type_flags(CompilerOutputBuffer *buffer, CompilerIrSymbol *symbol, unsigned flags) { __asm { int 3 } }
-extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *binding) { __asm { int 3 } }
+extern "C" CompilerType *__cdecl get_function_return_type(CompilerType *type)
+{
+    if (c1_data.type_arena_kind >= 6) {
+#ifdef __linux__
+        recon_unsupported("function return type: unsupported allocation arena");
+#else
+        __asm { int 3 }
+#endif
+    }
+    CompilerArena *arena = &c1_bss.arenas[c1_data.type_arena_kind];
+    CompilerType *result = (CompilerType *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    /* Preserve all16 original storage bytes, including the opaque cache. */
+    memcpy(result, type, 16);
+    result->shape = type->shape->base;
+    return result;
+}
+extern "C" void __cdecl write_global_type_flags(CompilerOutputBuffer *buffer,
+    CompilerIrSymbol *symbol, unsigned flags)
+{
+    CompilerIrSymbol *target;
+    unsigned index;
+    int available;
+    if (!(symbol->function_flags & 1)) {
+        buffer->WriteIndex(flags);
+        return;
+    }
+    target = lookup_ir_symbol(symbol);
+    flags |= 0x200;
+    GLOBAL_SHORT(flags);
+    if (c1_data.c9_il) index = target->record_id & 0xffffff;
+    else if (target->reference_flags & ~7U) index = target->reference_flags >> 3;
+    else index = assign_symbol_output_index(target);
+    if (c1_data.c9_il) buffer->WriteIndex(index);
+    else GLOBAL_COMPACT(index);
+}
+extern "C" {
+unsigned __cdecl finish_debug_type(CompilerIrSymbol *);
+void __cdecl prepare_debug_type(CompilerType *);
+void __cdecl remember_symbol_reference(CompilerSymbolBinding *);
+void __cdecl attach_declaration_context(CompilerIrSymbol *, void *);
+void __cdecl write_global_binding_record(unsigned, CompilerSymbolBinding *, int);
+}
+extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *binding)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+    CompilerIrSymbol *target;
+    CompilerType *type;
+    int suppress = 0, defer = 0, omit_name = 0;
+    unsigned opcode;
+    if (c1_bss.parser_early_result > 0 || (symbol->flags & 2)) return;
+    if (symbol->kind == 14) {
+        write_global_record(9, symbol);
+        symbol->flags |= 2;
+        return;
+    }
+    /* PCH/debug providers and replay semantics are beyond this case. */
+    if (c1_data.pch_separate_debug || c1_data.options.debug_info ||
+        (symbol->flags & 0x80)) {
+#ifdef __linux__
+        recon_unsupported("global reference: PCH or debug symbol domain is not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if (c1_data.pch_separate_debug && !c1_bss.declaration_scope_active &&
+        (!symbol->IsNamed() || !(symbol->declaration_flags & 8))) defer = 1;
+    if ((symbol->flags & 0x80) && !c1_data.options.pch_no_preprocess &&
+        c1_data.options.pch_use && !c1_data.options.pch_create) suppress = 1;
+    if (symbol->kind == 4) {
+        if (c1_data.options.debug_info && !(symbol->flags & 0x40))
+            symbol->value_type->debug_index = finish_debug_type(symbol);
+        if (defer && (symbol->flags & 1)) { symbol->flags |= 0x80; return; }
+        if (!binding->name || binding->name == c1_data.builtin_names.unnamed) return;
+        if (c1_data.options.debug_info && (symbol->flags & 1) &&
+            !(symbol->flags & 0x40) && !suppress) {
+            opcode = 11;
+            goto emit;
+        }
+        goto marked;
+    }
+    if (symbol->kind == 5) {
+        if (!c1_data.options.debug_info) goto marked;
+        type = symbol->value_type;
+        if (!c1_bss.function_output_mode) {
+            prepare_debug_type(type);
+            if (type->symbol_owner && type->symbol_owner->kind == 4 &&
+                !type->symbol_owner->alternate_size) finish_debug_type(type->symbol_owner);
+        }
+        if (defer) { symbol->flags |= 0x80; return; }
+        if (suppress) goto marked;
+        opcode = 8;
+        goto emit;
+    }
+    if (defer) {
+        remember_symbol_reference(binding);
+        if (symbol->kind == 10 && (symbol->storage_class & 7) == 7)
+            symbol->flags |= 0x80;
+        return;
+    }
+    if (symbol->kind == 10 && (symbol->storage_class & 7) == 7 &&
+        (symbol->flags & 0x80)) {
+        if (!suppress) write_global_record(11, symbol);
+        goto marked;
+    }
+    if (symbol->kind != 10 && (symbol->declaration_flags & 0x40)) {
+        target = resolve_symbol_alias(symbol);
+        target->declaration_flags = (target->declaration_flags & ~4) |
+            (symbol->declaration_flags & 4);
+        ((BYTE *)&target->qualifier_flags)[0] = (BYTE)(symbol->qualifier_flags ^
+            ((symbol->qualifier_flags ^ target->qualifier_flags) & 0x7f));
+        target->symbol_value = symbol->symbol_value;
+        if (symbol->function_flags & 1) {
+            CompilerIrSymbol *context = lookup_ir_symbol(symbol);
+            if (context) attach_declaration_context(target, context);
+            else target->function_flags &= ~1;
+        }
+        target->value_type = symbol->value_type;
+        if (!c1_data.options.debug_info) return;
+        if ((target->reference_flags & 3) < 3)
+            target->reference_flags = (target->reference_flags & ~3U) |
+                ((target->reference_flags + 1) & 3);
+        target->reference_flags = (target->reference_flags & ~4U) |
+            ((c1_data.ir_reference_epoch & 1) << 2);
+        type = symbol->value_type;
+        if (!c1_bss.function_output_mode) {
+            prepare_debug_type(type);
+            if (type->symbol_owner && type->symbol_owner->kind == 4 &&
+                !type->symbol_owner->alternate_size) finish_debug_type(type->symbol_owner);
+        }
+        if (symbol->flags & 0x40) return;
+        opcode = 7;
+        goto emit;
+    }
+    omit_name = (symbol->kind != 6 && symbol->kind != 7 && symbol->kind != 8 &&
+        !(symbol->kind == 10 && (symbol->storage_class & 7) == 7) &&
+        (symbol->storage_class & 7) != 1);
+    if (!(symbol->reference_flags & 3)) {
+        if (!omit_name) return;
+        if (symbol->kind == 11) report_language_diagnostic(4, 100, symbol);
+        else if (c1_bss.declaration_scope_active) report_language_diagnostic(3, 101, symbol);
+    }
+    opcode = (symbol->kind == 6 || symbol->kind == 7 || symbol->kind == 8) ? 4 : 1;
+    if (c1_data.options.debug_info) remember_symbol_reference(binding);
+emit:
+    write_global_binding_record(opcode, binding, omit_name);
+marked:
+    symbol->flags |= 2;
+}
+extern "C" void __cdecl remember_symbol_reference(CompilerSymbolBinding *) { __asm { int 3 } }
+int RECON_THISCALL CompilerIrSymbol::IsNamed(void) { __asm { int 3 } return 0; }
+
 extern "C" void __cdecl global_debug_location(unsigned index, int kind, CompilerGlobalLocation **location) { __asm { int 3 } }
 extern "C" unsigned __cdecl global_array_element_size(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
-extern "C" const char *__cdecl global_symbol_name(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
+/* This scratch owner is source-only until decorated naming is encountered.
+ * No default, snapshot or buffer-content equality is claimed. */
+static char decorated_symbol_name[0x1800]; /* original RVA55d58 */
+extern "C" int __cdecl format_buffer(char *, const char *, unsigned, ...);
+extern "C" void __cdecl compute_parameter_bytes(CompilerIrSymbol *);
+extern "C" const char *__cdecl global_symbol_name(CompilerIrSymbol *symbol)
+{
+    unsigned convention;
+    int length;
+    if (symbol->kind != 6 && symbol->kind != 7 && symbol->kind != 8)
+        return symbol->binding.name->name;
+    convention = symbol->value_type->attributes & 0x70;
+    if (convention != 0x60 && convention != 0x40)
+        return symbol->binding.name->name;
+    /* The genuine pending formatter bounds this as-yet unexecuted branch
+     * before it can write the scratch buffer. */
+    length = format_buffer(decorated_symbol_name, "%s", 0x1800,
+        symbol->binding.name->name);
+    if (!(symbol->qualifier_flags & 0x40)) compute_parameter_bytes(symbol);
+    length += format_buffer(decorated_symbol_name + length, "@%d", 0x1800 - length,
+        symbol->symbol_value);
+    if (length >= 0x800) {
+        report_language_diagnostic(1, 503, 83, symbol);
+        length = 0x7ff;
+    }
+    decorated_symbol_name[length] = 0;
+    return decorated_symbol_name;
+}
+extern "C" void __cdecl compute_parameter_bytes(CompilerIrSymbol *symbol) { __asm { int 3 } }
+
 unsigned RECON_THISCALL CompilerType::GetCallingConvention(void) { __asm { int 3 } return 0; }
-unsigned RECON_THISCALL CompilerSourceFile::OutputIndex(void) { __asm { int 3 } return 0; }
-const char *RECON_THISCALL CompilerContextState::FileName(void) { __asm { int 3 } return NULL; }
+unsigned RECON_THISCALL CompilerSourceFile::OutputIndex(void)
+{
+    if (c1_data.c9_il) return record_id & 0xffffff;
+#ifdef RECON_NATIVE_TEST
+    recon_unsupported("source-file non-IL reference field is not yet modeled");
+#endif
+    if (!(reference_flags & ~7U)) return AssignOutputIndex();
+    return reference_flags >> 3;
+}
+unsigned RECON_THISCALL CompilerSourceFile::AssignOutputIndex(void)
+{ __asm { int 3 } return 0; }
+const char *RECON_THISCALL CompilerContextState::FileName(void)
+{
+    /* Native execution supports the genuine NULL or owned source-record
+     * domain; Windows retains the original defensive SEH fallback. */
+    __try {
+        if (!object) return "";
+        return ((CompilerSourceFile *)object)->name->name;
+    } __except (EXCEPTION_EXECUTE_HANDLER) {
+        return "";
+    }
+}
 void RECON_THISCALL CompilerOutputBuffer::MarkLocation(unsigned index, unsigned kind) { __asm { int 3 } }
 void RECON_THISCALL CompilerOutputBuffer::MarkGlobal(unsigned index) { __asm { int 3 } }

@@ -1,3 +1,4 @@
 LIBRARY mspdb50.dll
 EXPORTS
     SigForPbCb
+    ?open@NameMap@@SAHPAUPDB@@HPAPAU1@@Z

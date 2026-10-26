@@ -1,4 +1,5 @@
 #include <new.h>
+#include <stdlib.h>
 #include <string.h>
 #include "frontend.h"
 #include "keywords.h"
@@ -63,6 +64,7 @@ struct CompilerNamedBrowser : CompilerBackend {
     /* Original allocation is 12 bytes; its unwritten last four bytes remain
      * UNMODELED outside this known prefix. */
     RECON_FORCEINLINE CompilerNamedBrowser(const char *name) : filename(_strdup(name)) {}
+    RECON_FORCEINLINE ~CompilerNamedBrowser() { free(filename); }
 };
 
 typedef char NullBrowser_size[sizeof(CompilerNullBrowser) == 4 ? 1 : -1];
@@ -97,11 +99,15 @@ void RECON_THISCALL CompilerNullBrowser::Slot28(void *value)
         ((CompilerMacro *)value)->identifier->flags |= 0x200000;
 }
 void RECON_THISCALL CompilerNullBrowser::ResetMode(void) { __asm { int 3 }  }
-int RECON_THISCALL CompilerNullBrowser::Disable(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullBrowser::Disable(void)
+{
+    c1_data.browser_mode = 0;
+    return 1;
+}
 void RECON_THISCALL CompilerNullBrowser::CheckLocation(void) { __asm { int 3 }  }
 unsigned RECON_THISCALL CompilerNullBrowser::SymbolId(const void *value) { __asm { int 3 } return 0; }
 void RECON_THISCALL CompilerNullBrowser::SetSymbolId(void *object, unsigned value) { __asm { int 3 }  }
-void RECON_THISCALL CompilerNullBrowser::Slot5c(void) { __asm { int 3 }  }
+void RECON_THISCALL CompilerNullBrowser::Slot5c(void) {}
 void RECON_THISCALL CompilerNamedBrowser::Finish(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot04(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot08(void) { __asm { int 3 }  }
@@ -126,3 +132,19 @@ unsigned RECON_THISCALL CompilerNamedBrowser::SymbolId(const void *value) { __as
 void RECON_THISCALL CompilerNamedBrowser::SetSymbolId(void *object, unsigned value) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot58(void) { __asm { int 3 }  }
 void RECON_THISCALL CompilerNamedBrowser::Slot5c(void) { __asm { int 3 }  }
+
+/* The original destroys the named backend inline, then releases the separate
+ * four-byte null backend. Neither operation calls a virtual destructor. */
+extern "C" void __cdecl finish_symbols(void)
+{
+    if (c1_data.named_browser) {
+        CompilerNamedBrowser *browser = (CompilerNamedBrowser *)c1_data.named_browser;
+        browser->~CompilerNamedBrowser();
+        ::operator delete(browser);
+        c1_data.named_browser = NULL;
+    }
+    if (c1_data.initial_backend) {
+        ::operator delete(c1_data.initial_backend);
+        c1_data.initial_backend = NULL;
+    }
+}

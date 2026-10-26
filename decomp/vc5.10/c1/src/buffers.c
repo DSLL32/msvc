@@ -15,10 +15,7 @@ int __cdecl initialize_output_buffer_123ae(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_23940(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_12423(void)
 {
@@ -35,10 +32,7 @@ int __cdecl initialize_output_buffer_12423(void)
 }
 
 
-void __cdecl destroy_output_buffer_23939(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_12472(void)
 {
@@ -54,10 +48,7 @@ int __cdecl initialize_output_buffer_12472(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_23932(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_124c1(void)
 {
@@ -73,10 +64,7 @@ int __cdecl initialize_output_buffer_124c1(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_2392b(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_12510(void)
 {
@@ -92,10 +80,7 @@ int __cdecl initialize_output_buffer_12510(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_23924(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_1255f(void)
 {
@@ -111,10 +96,7 @@ int __cdecl initialize_output_buffer_1255f(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_2391d(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_125ae(void)
 {
@@ -130,10 +112,7 @@ int __cdecl initialize_output_buffer_125ae(void)
     return 0;
 }
 
-void __cdecl destroy_output_buffer_23916(void)
-{
-    __asm { int 3 }
-}
+
 
 int __cdecl initialize_output_buffer_125fd(void)
 {
@@ -147,9 +126,4 @@ int __cdecl initialize_output_buffer_125fd(void)
     c1_bss.output_buffers[7].file_descriptor = -1;
     c1_bss.output_buffers[7].filename[0] = 0;
     return 0;
-}
-
-void __cdecl destroy_output_buffer_238dd(void)
-{
-    __asm { int 3 }
 }

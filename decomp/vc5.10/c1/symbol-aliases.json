@@ -102,6 +102,300 @@
       "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
       "native_alias": "_ZN17CompilerPlainText5ResetEv",
       "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Finish@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6FinishEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot0c@CompilerNullDebugModule@@UAEHPAI@Z",
+      "win32_target": "?Slot08@CompilerNullDebugModule@@UAEHPAI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot0cEPj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot08EPj"
+    },
+    {
+      "win32_alias": "?Slot10@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot10Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot1c@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot1cEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot24@CompilerNullDebugModule@@UAEHI@Z",
+      "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot24Ej",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
+    },
+    {
+      "win32_alias": "?Slot28@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot28Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot2c@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot2cEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot34@CompilerNullDebugModule@@UAEHI@Z",
+      "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot34Ej",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
+    },
+    {
+      "win32_alias": "?Slot38@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot38Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slot40@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot40Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot44@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot44Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot48@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot48Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot4c@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot4cEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot50@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot50Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot58@CompilerNullDebugModule@@UAEHPAI@Z",
+      "win32_target": "?Slot08@CompilerNullDebugModule@@UAEHPAI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot58EPj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot08EPj"
+    },
+    {
+      "win32_alias": "?Slot5c@CompilerNullDebugModule@@UAEHPAI@Z",
+      "win32_target": "?Slot08@CompilerNullDebugModule@@UAEHPAI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot5cEPj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot08EPj"
+    },
+    {
+      "win32_alias": "?Slot60@CompilerNullDebugModule@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot60Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot64@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot64Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot68@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot68Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot6c@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot6cEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot70@CompilerNullDebugModule@@UAEXXZ",
+      "win32_target": "?Reset@CompilerLexer@@UAEXXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot70Ev",
+      "native_target": "_ZN13CompilerLexer5ResetEv"
+    },
+    {
+      "win32_alias": "?Slot74@CompilerNullDebugModule@@UAEHPBD@Z",
+      "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot74EPKc",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
+    },
+    {
+      "win32_alias": "?Slot78@CompilerNullDebugModule@@UAEHI@Z",
+      "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot78Ej",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
+    },
+    {
+      "win32_alias": "?Slot80@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot80Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot84@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Slot7c@CompilerNullDebugModule@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot84Ev",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot7cEv"
+    },
+    {
+      "win32_alias": "?Slot88@CompilerNullDebugModule@@UAEHPAX@Z",
+      "win32_target": "?Slot20@CompilerNullDebugModule@@UAEHI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot88EPv",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot20Ej"
+    },
+    {
+      "win32_alias": "?Slot8c@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot8cEjj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slot90@CompilerNullDebugModule@@UAEHIIPAI@Z",
+      "win32_target": "?Slot3c@CompilerNullDebugModule@@UAEHIIPAI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot90EjjPj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot3cEjjPj"
+    },
+    {
+      "win32_alias": "?Slot94@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot94Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slot98@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot98Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slot9c@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slot9cEjj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slota0@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slota0Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slota4@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slota4Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slota8@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slota8Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slotac@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6SlotacEjj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slotb0@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotb0Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotb4@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotb4Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotb8@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotb8Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotbc@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6SlotbcEv",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotc4@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotc4Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?Slotc8@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Slot7c@CompilerNullDebugModule@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotc8Ev",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot7cEv"
+    },
+    {
+      "win32_alias": "?Slotd0@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotd0Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotd4@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotd4Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Slotd8@CompilerNullDebugModule@@UAEXI@Z",
+      "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6Slotd8Ej",
+      "native_target": "_ZN13CompilerLexer5TraceEj"
+    },
+    {
+      "win32_alias": "?Slotdc@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Slot7c@CompilerNullDebugModule@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6SlotdcEv",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot7cEv"
+    },
+    {
+      "win32_alias": "?SlotE0@CompilerNullDebugModule@@UAEHII@Z",
+      "win32_target": "?Slot30@CompilerNullDebugModule@@UAEHPBDH@Z",
+      "native_alias": "_ZN23CompilerNullDebugModule6SlotE0Ejj",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot30EPKci"
+    },
+    {
+      "win32_alias": "?SlotE4@CompilerNullDebugModule@@UAEHXZ",
+      "win32_target": "?Valid@CompilerLexer@@UAEHXZ",
+      "native_alias": "_ZN23CompilerNullDebugModule6SlotE4Ev",
+      "native_target": "_ZN13CompilerLexer5ValidEv"
+    },
+    {
+      "win32_alias": "?Valid@CompilerRecordedLexer@@UAEHXZ",
+      "win32_target": "?Slot7c@CompilerNullDebugModule@@UAEHXZ",
+      "native_alias": "_ZN21CompilerRecordedLexer5ValidEv",
+      "native_target": "_ZN23CompilerNullDebugModule6Slot7cEv"
+    },
+    {
+      "win32_alias": "?HasBuckets@CompilerParameterScope@@UAEHXZ",
+      "win32_target": "?HasBuckets@CompilerSymbolTable@@UAEHXZ",
+      "native_alias": "_ZN22CompilerParameterScope10HasBucketsEv",
+      "native_target": "_ZN19CompilerSymbolTable10HasBucketsEv"
     }
   ]
 }

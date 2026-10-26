@@ -132,3 +132,57 @@ extern "C" void __cdecl write_global_header(void)
     c1_bss.declaration_scope_active = 0;
     write_global_record(17, NULL);
 }
+
+void RECON_THISCALL CompilerOutputBuffer::FlushSource(void)
+{ __asm { int 3 } }
+
+extern "C" void __cdecl free_argument_allocation(void *);
+void RECON_THISCALL CompilerOutputBuffer::Destroy(void)
+{
+    if (stream) fclose(stream);
+    if (owned_debug_name) free_argument_allocation(owned_debug_name);
+    if (data) {
+        ::operator delete(data);
+        capacity = 0;
+    }
+}
+
+extern "C" void __cdecl destroy_output_buffer_23940(void)
+{
+    c1_bss.output_buffers[0].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_23939(void)
+{
+    c1_bss.output_buffers[1].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_23932(void)
+{
+    c1_bss.output_buffers[2].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_2392b(void)
+{
+    c1_bss.output_buffers[3].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_23924(void)
+{
+    c1_bss.output_buffers[4].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_2391d(void)
+{
+    c1_bss.output_buffers[5].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_23916(void)
+{
+    c1_bss.output_buffers[6].Destroy();
+}
+
+extern "C" void __cdecl destroy_output_buffer_238dd(void)
+{
+    c1_bss.output_buffers[7].Destroy();
+}

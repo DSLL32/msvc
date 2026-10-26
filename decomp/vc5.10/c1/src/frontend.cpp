@@ -1,7 +1,10 @@
+#include <new.h>
 #include <stdio.h>
+#include <io.h>
 #include <string.h>
 #include "frontend.h"
-#pragma intrinsic(memcpy)
+#include "pragma.h"
+#pragma intrinsic(memcpy, strlen)
 #include <recon.h>
 
 extern "C" {
@@ -14,7 +17,7 @@ void __cdecl begin_debug_info(int);
 void __cdecl initialize_parser(void);
 void __cdecl initialize_parser_tables(void);
 void __cdecl initialize_semantic_context(void);
-void __cdecl parse_translation_unit(void);
+int __cdecl parse_translation_unit(void);
 void __cdecl write_ir_record(int, const void *);
 void __cdecl write_global_header(void);
 CompilerIntegerConstant *__cdecl make_integer_constant(int);
@@ -197,27 +200,268 @@ finish_streams:
     return c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1);
 }
 
-extern "C" unsigned __cdecl pack_option_flags(void) { __asm { int 3 } return 0; }
-extern "C" void __cdecl prepare_translation_unit(void) { __asm { int 3 } }
+extern "C" unsigned __cdecl pack_option_flags(void)
+{
+    /* Sparse positions are the established IL option-bit contract, not fields
+     * synthesized for the unused entries of the original pointer table. */
+    static const int *values[21] = {
+        &c1_data.normalized_stack_checks, NULL, NULL, NULL, NULL, NULL,
+        &c1_data.options.assume_no_alias, &c1_data.options.assume_no_global_alias,
+        &c1_data.options.optimize_size, NULL, &c1_data.options.global_optimize,
+        NULL, NULL, &c1_data.options.precise_float, NULL, NULL, NULL,
+        &c1_data.normalized_oq, &c1_data.options.option_ov, NULL,
+        &c1_data.options.omit_frame_pointer
+    };
+    unsigned result = 0, bit = 0x80000000U, index;
+    for (index = 0; index < 21; ++index, bit >>= 1)
+        if (values[index] && *values[index])
+            result |= bit;
+    return result;
+}
+/* Shared lexer scratch: the original append bound at40f61 is base55120
+ * through55920. Current native -V use is held, so this source-only owner has
+ * no modeled byte defaults, reset or equality claim yet. */
+char c1_lexer_token_text[2048];
+struct CompilerVersionRecord {
+    BYTE kind, flags;
+    BYTE unmodeled_02[14];
+    const char *text;
+    WORD length;
+    BYTE unmodeled_16[2];
+};
+typedef char CompilerVersionRecord_size[sizeof(CompilerVersionRecord) == 24 ? 1 : -1];
+extern "C" void __cdecl process_version_literal(CompilerVersionRecord *);
+extern "C" void __cdecl record_version_literal(CompilerVersionRecord *);
+extern "C" void __cdecl prepare_translation_unit(void)
+{
+    if (c1_bss.options.version_string) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("version record: lexer scratch and later record owners are unmodeled");
+#endif
+        CompilerArena *arena = &c1_bss.arenas[c1_data.expression_arena_kind];
+        CompilerVersionRecord *record = (CompilerVersionRecord *)arena->cursor;
+        arena->cursor += 24;
+        if (arena->cursor > arena->committed_limit)
+            arena->CommitExtent();
+        record->kind = 7;
+        record->flags = 5;
+        record->length = (WORD)(strlen(c1_bss.options.version_string) + 1);
+        record->text = c1_lexer_token_text;
+        memcpy(c1_lexer_token_text, c1_bss.options.version_string, record->length);
+        process_version_literal(record);
+        record_version_literal(record);
+        c1_bss.global_expression_scope_active = 1;
+    }
+}
+extern "C" void __cdecl process_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
+extern "C" void __cdecl record_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
 extern "C" void __cdecl load_precompiled_header(const char *path, int required) { __asm { int 3 } }
 extern "C" void __cdecl begin_automatic_pch(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_debug_info(int mode) { __asm { int 3 } }
 extern "C" void __cdecl initialize_parser(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_semantic_context(void) { __asm { int 3 } }
-extern "C" void __cdecl parse_translation_unit(void) { __asm { int 3 } }
-extern "C" CompilerBackend *__cdecl acquire_backend(void) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl finish_symbols(void) { __asm { int 3 } }
+extern "C" int __cdecl parse_translation_unit(void)
+{
+    CompilerParser *previous = c1_data.active_parser;
+    /* Original saves/restores all24 bytes. Only the encountered firstDWORD
+     * is transferred by this typed projection;20 bytes remain UNMODELED. */
+    CompilerParserValue saved_value;
+#ifdef RECON_NATIVE_TEST
+    saved_value.declaration_flags = c1_bss.parser_value.declaration_flags;
+#else
+    saved_value = c1_bss.parser_value;
+#endif
+    void *memory = ::operator new(8864);
+    c1_data.active_parser = memory ? ((CompilerParser *)memory)->Initialize() : NULL;
+    int result = c1_data.active_parser->Run();
+    if (c1_data.active_parser) {
+        c1_data.active_parser->Finish();
+        ::operator delete(c1_data.active_parser);
+    }
+    c1_data.active_parser = previous;
+#ifdef RECON_NATIVE_TEST
+    c1_bss.parser_value.declaration_flags = saved_value.declaration_flags;
+#else
+    c1_bss.parser_value = saved_value;
+#endif
+    return result;
+}
+CompilerParser *RECON_THISCALL CompilerParser::Initialize(void)
+{
+    Reset();
+    return this;
+}
+void RECON_THISCALL CompilerParser::Reset(void)
+{
+    value_top = (CompilerParserStackValue *)this;
+    lookahead = NULL;
+    state = 0;
+    recovery_shifts = 0;
+    syntax_errors = 0;
+    /* First Run increment reaches states[0]; the saved position lies within
+     * the owning allocation, two bytes before that array. */
+    state_top = (short *)((BYTE *)this + offsetof(CompilerParser, states) - 2);
+}
+void RECON_THISCALL CompilerParser::Finish(void) {}
+extern "C" CompilerBackend *__cdecl acquire_backend(void)
+{
+    return c1_data.named_browser ? c1_data.named_browser : c1_data.initial_backend;
+}
 extern "C" void __cdecl finish_browser_output(void) { __asm { int 3 } }
 extern "C" int __cdecl close_preprocessed_stream(FILE *stream) { __asm { int 3 } return 0; }
-extern "C" void __cdecl cleanup_precompiled_files(void) { __asm { int 3 } }
-extern "C" void __cdecl finish_compiler(void) { __asm { int 3 } }
+/* These two streams belong to PCH domains not executed by this case. Their
+ * storage and initial contents remain unmodeled; the guard precedes reads. */
+static FILE *pch_primary_stream; /* RVA550a0 */
+static FILE *pch_secondary_stream; /* RVA57a28 */
+extern "C" void __cdecl cleanup_precompiled_files(void)
+{
+    int status;
+    if (c1_data.pch_cleanup_done) return;
+    if (c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open ||
+        c1_data.pch_expression_stream_open) {
+#ifdef __linux__
+        recon_unsupported("PCH cleanup: open-stream ownership is not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if ((!c1_data.saved_pch_mode ||
+        c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1) == 0) &&
+        !c1_data.pch_primary_stream_open && !c1_data.pch_secondary_stream_open &&
+        !c1_data.pch_expression_stream_open) return;
+    c1_data.pch_cleanup_done = 1;
+    if (c1_data.pch_primary_stream_open) {
+        status = fclose(pch_primary_stream);
+        c1_bss.expression_seek_status = status;
+        if (status == -1) report_response_error(82, 344, c1_pch_stop_owner);
+        pch_primary_stream = NULL;
+    } else if (c1_data.pch_secondary_stream_open) {
+        status = fclose(pch_secondary_stream);
+        c1_bss.expression_seek_status = status;
+        if (status == -1) report_response_error(82, 344, c1_pch_stop_owner);
+        pch_secondary_stream = NULL;
+    } else if (c1_data.pch_expression_stream_open) {
+        status = c1_bss.output_buffers[3].CloseStream();
+        c1_bss.expression_seek_status = status;
+        if (status == -1) report_response_error(82, 344, c1_pch_stop_owner);
+    } else return;
+    if (_unlink((const char *)c1_pch_stop_owner))
+        report_response_error(83, 340, c1_pch_stop_owner);
+    c1_data.pch_expression_stream_open = 0;
+    c1_data.pch_secondary_stream_open = 0;
+    c1_data.pch_primary_stream_open = 0;
+}
+extern "C" void __cdecl cleanup_saved_contexts(void);
+extern "C" void __cdecl cleanup_arenas(void);
+extern "C" void __cdecl cleanup_work_buffers(void);
+extern "C" void __cdecl finish_compiler(void)
+{
+    ::operator delete(c1_bss.lexer_backend);
+    cleanup_saved_contexts();
+    cleanup_arenas();
+    cleanup_work_buffers();
+}
+extern "C" void __cdecl free_argument_allocation(void *);
+extern "C" void __cdecl cleanup_saved_contexts(void)
+{
+    int index;
+    if (c1_data.saved_context_count > 0) {
+#ifdef __linux__
+        recon_unsupported("saved-context cleanup: nonempty table owners are not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    for (index = 0; index < c1_data.saved_context_count; ++index)
+        if (c1_data.saved_context_records[index].allocation)
+            free_argument_allocation(c1_data.saved_context_records[index].allocation);
+    free_argument_allocation(c1_data.saved_context_records);
+}
+extern "C" void __cdecl cleanup_arenas(void)
+{
+    unsigned index;
+    c1_bss.pch_state.Release();
+    for (index = 0; index < 6; ++index) c1_bss.arenas[index].Release();
+}
+void RECON_THISCALL CompilerPchState::Release(void)
+{
+    static const BYTE close_order[6] = { 0, 1, 3, 5, 2, 4 };
+    int index;
+    if (!images) return;
+    if (image_count > 0) {
+#ifdef __linux__
+        recon_unsupported("PCH release: nonempty image table is not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    for (index = 0; index < image_count; ++index)
+        if (images[index] && images[index]->kind == 6) images[index]->Release();
+    for (index = 0; index < 6; ++index) {
+        unsigned slot = close_order[index];
+        if (mapping_handles[slot]) {
+            CloseHandle(mapping_handles[slot]);
+            mapping_handles[slot] = NULL;
+        }
+    }
+    if (file) { CloseHandle(file); file = NULL; }
+}
+
 extern "C" void __cdecl print_compiler_statistics(void) { __asm { int 3 } }
 extern "C" void __cdecl preprocess_translation_unit(void) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser(int result) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser_tables(void) { __asm { int 3 } }
 extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }
-void RECON_THISCALL CompilerTranslationUnit::Finish(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } }
-int RECON_THISCALL CompilerOutputBuffer::Close(void) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerPdbContext::Finish(void) { __asm { int 3 } }
+int RECON_THISCALL CompilerOutputBuffer::Close(void)
+{
+    int result = CloseStream();
+    c1_bss.expression_seek_status = result;
+    if (result == -1) report_response_error(82, 339, NULL);
+    return result;
+}
+int RECON_THISCALL CompilerOutputBuffer::CloseStream(void)
+{
+    int result;
+    if (!stream)
+        return c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1) ? 0 : -1;
+    Flush();
+    result = fclose(stream);
+    stream = NULL;
+    return result;
+}
+void RECON_THISCALL CompilerPdbContext::Finish(void)
+{
+    char error_text[260];
+    int rebuild_ok = 1, database_ok;
+    if (!database) return;
+    if (!c1_pass_mode) {
+        if (names->Slot18()) {
+            if (rebuild_state) {
+                rebuild_ok = rebuild_state->Finish() & 1;
+                rebuild_state = NULL;
+            }
+            database_ok = c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1) ||
+                read_mode || database->Commit();
+            if (database_ok & rebuild_ok) return;
+        }
+        compiler_warning(471, database->QueryLastError(error_text));
+        return;
+    }
+    if (!names->Slot00())
+        compiler_warning(471, database->QueryLastError(error_text));
+    names = NULL;
+    if (retain_database || types) return;
+    database->QueryLastError(error_text);
+    if (rebuild_state) {
+        rebuild_ok = rebuild_state->Finish() & 1;
+        rebuild_state = NULL;
+    }
+    database_ok = c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1) ||
+        read_mode || database->Commit();
+    if (!database->Close()) database_ok = 0;
+    database = NULL;
+    if (!(database_ok & rebuild_ok)) compiler_warning(471, error_text);
+}
+int RECON_THISCALL CompilerMreState::Finish(void) { __asm { int 3 } return 0; }

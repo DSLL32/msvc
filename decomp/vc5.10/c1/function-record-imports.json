@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "scope": "Exact cached ESI ftell sites in prepare_function_record; normal-return preservation only.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "caller": {
+    "function": "_prepare_function_record",
+    "register": "esi",
+    "iat_rva": 380960,
+    "call_sites": [
+      70773,
+      70799
+    ]
+  },
+  "contracts": [
+    {
+      "function": "CompilerOutputBuffer::Flush",
+      "signature": "void __thiscall CompilerOutputBuffer::Flush(void);",
+      "basis": "Identified ordinary Microsoft i386 thiscall normal-return ABI preserves ESI; exact caller and method identities, no exceptional-return premise."
+    },
+    {
+      "import": {
+        "dll": "msvcrt.dll",
+        "name": "ftell"
+      },
+      "signature": "long __cdecl ftell(FILE *);",
+      "sdk": {
+        "path": "toolchains/5.10/include/STDIO.H",
+        "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+        "line": 351
+      },
+      "basis": "Identified ordinary Microsoft i386 cdecl normal-return ABI preserves ESI."
+    }
+  ]
+}

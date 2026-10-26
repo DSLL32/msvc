@@ -132,8 +132,14 @@ typedef struct CompilerZRule {
     int *target;
 } CompilerZRule;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern char c1_default_database[];
 extern char c1_default_path_separators[];
 extern char c1_empty_string[];
+#ifdef __cplusplus
+}
+#endif
 
 #endif

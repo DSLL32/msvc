@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "scope": "CompilerArena::Release cached VirtualFree/GetLastError and cleanup_work_buffers cached VirtualFree calls. Ordinary Microsoft i386 normal-return ABI; no provider body credit.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "abi": "Identified WINAPI/stdcall imports and ordinary cdecl functions preserve EBX, ESI and EDI on normal return. No custom ABI or nonlocal return claim.",
+  "sdk": {
+    "path": "toolchains/5.10/include/WINBASE.H",
+    "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+    "declarations": [
+      "BOOL WINAPI VirtualFree(LPVOID,DWORD,DWORD);",
+      "DWORD WINAPI GetLastError(VOID);",
+      "BOOL WINAPI UnmapViewOfFile(LPCVOID);"
+    ]
+  },
+  "functions": {
+    "_get_compiler_message": "const char *__cdecl(unsigned); caller3ae1c/3ae63 pops4",
+    "_format_buffer": "int __cdecl(char *,const char *,unsigned,...); caller3ae2a/3ae71 pops16",
+    "_print_pragma_message": "void __cdecl(const char *); caller3ae37/3ae7e pops4"
+  },
+  "imports": [
+    "kernel32.dll!VirtualFree",
+    "kernel32.dll!GetLastError",
+    "kernel32.dll!UnmapViewOfFile"
+  ]
+}

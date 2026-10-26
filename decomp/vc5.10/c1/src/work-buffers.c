@@ -20,3 +20,11 @@ void *__cdecl reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
         compiler_fatal(60);
     return memory;
 }
+
+void __cdecl cleanup_work_buffers(void)
+{
+    VirtualFree(c1_bss.work_buffers[0].data, 0x500000, MEM_DECOMMIT);
+    VirtualFree(c1_bss.work_buffers[0].data, 0, MEM_RELEASE);
+    VirtualFree(c1_bss.work_buffers[1].data, 0x500000, MEM_DECOMMIT);
+    VirtualFree(c1_bss.work_buffers[1].data, 0, MEM_RELEASE);
+}

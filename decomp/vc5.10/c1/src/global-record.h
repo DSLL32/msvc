@@ -18,10 +18,12 @@ struct CompilerGlobalOption {
 struct CompilerSourceFile {
     struct CompilerNameEntry *name;
     BYTE kind;
-    BYTE unmodeled_05[7];
+    BYTE unmodeled_05[3];
+    unsigned reference_flags; /* Original+8, source-only non-IL view; no default claim */
     unsigned record_id;
     CompilerSourceFile *next;
     unsigned RECON_THISCALL OutputIndex(void);
+    unsigned RECON_THISCALL AssignOutputIndex(void);
 };
 typedef char CompilerSourceFile_size[sizeof(CompilerSourceFile) == 20 ? 1 : -1];
 #endif

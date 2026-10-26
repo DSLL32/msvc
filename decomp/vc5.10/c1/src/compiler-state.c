@@ -85,8 +85,13 @@ CompilerInitializedState c1_data = {
     },
     C1_SCANNER_DEFAULTS,
     NULL, NULL, 0, 0, 0, NULL, 0,
-    { 0 }, 0, 0, 0, 0, 1, 0, 0, NULL, NULL, 0, { 0 }, NULL, NULL, 3, 1, 1, 0, 0, NULL, NULL, NULL, { 0 }, 9, NULL, NULL, 3, 9, 16, 9, NULL, NULL, "......Unknown date......", 0, -1, 0, NULL, NULL, NULL, -1, -1,
-    { { { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 } } }
+    { 0 }, 0, 0, 0, 0, 1, 0, 0, NULL, NULL, 0, { 0 }, NULL, NULL, 3, 1, 1, 0, 0, NULL, NULL, NULL, { 0 }, 9, NULL, 3, 9, 16, 9, NULL, NULL, "......Unknown date......", 0, -1, 0, NULL, NULL, NULL, -1, -1, NULL, 2, 0, 9, NULL, 0x3fffff, 1, 0, 0, NULL, 0, -1, -1, 0, 1, NULL, 0, 0, 0,
+    NULL, NULL, 19, 0, 0, 0, NULL, 0, 0, 0, /* Function directory and function/debug/source state. */
+    0, NULL, NULL, /* PCH type value, record name and serialized options. */
+    0, 0, 0, 0, /* PCH stream-open flags and cleanup marker. */
+    NULL, 0, /* Empty saved-context table. */
+    { { { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 } } },
+    { { { 0 }, NULL } } /* Unknown prefix is representation only; head9 is known. */
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

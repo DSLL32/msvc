@@ -182,6 +182,516 @@
             "path": "source-file-imports.json",
             "sha256": "c99b763cdd63fa65ec68bd29de15d65bba31116e0bbe852f2f085bc2553feec3"
           }
+        },
+        {
+          "target": {
+            "function": "_read_unspliced_character"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_skip_line_comment"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_skip_block_comment"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_skip_language_comment"
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_process_special_character"
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_process_trigraph"
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_discard_input_character"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_splice_input_line"
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_resolve_special_character"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_process_source_newline"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_copy_quoted_literal"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_scan_identifier"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_expand_macro"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_finish_forced_include"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_restore_forced_source_input"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_source_chunk"
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_compiler_warning"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fputc"
+            }
+          },
+          "preserves": [
+            "edi",
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "fwrite"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "CompilerPlainInput::Mark"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "CompilerRecordedInput::Mark"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_at_source_buffer_start"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_begin_first_line_forced_include"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_read_directive_token"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_skip_newline_comment"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "_begin_line_output"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
+        },
+        {
+          "target": {
+            "function": "CompilerOutputBuffer::Flush"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "function-record-imports.json",
+            "sha256": "3fe4b768eb0e770805b9cae2d8b4c7a942f9994870473e8a3c1a6931a19d4105"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "ftell"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "function-record-imports.json",
+            "sha256": "3fe4b768eb0e770805b9cae2d8b4c7a942f9994870473e8a3c1a6931a19d4105"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "VirtualFree"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "GetLastError"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "UnmapViewOfFile"
+            }
+          },
+          "preserves": [
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        },
+        {
+          "target": {
+            "function": "_get_compiler_message"
+          },
+          "preserves": [
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        },
+        {
+          "target": {
+            "function": "_format_buffer"
+          },
+          "preserves": [
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        },
+        {
+          "target": {
+            "function": "_print_pragma_message"
+          },
+          "preserves": [
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "cleanup-imports.json",
+            "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
+          }
+        }
+      ],
+      "virtual_preservation_contracts": [
+        {
+          "owner": "CompilerLexer::Read",
+          "original": {
+            "site": 274739827,
+            "slot": 12,
+            "receiver_global": 275075000,
+            "receiver_load_site": 274739799,
+            "this_load_site": 274739799,
+            "vptr_load_site": 274739825,
+            "vtables": [
+              {
+                "address": 275100024,
+                "target": "CompilerPlainInput::Mark"
+              },
+              {
+                "address": 275100064,
+                "target": "CompilerRecordedInput::Mark"
+              }
+            ]
+          },
+          "rebuilt": {
+            "site": {
+              "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+              "offset": 1207
+            },
+            "slot": 12,
+            "receiver_global": {
+              "rebuilt_symbol": "_c1_bss",
+              "offset": 5280
+            },
+            "receiver_load_site": {
+              "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+              "offset": 1194
+            },
+            "this_load_site": {
+              "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+              "offset": 1201
+            },
+            "vptr_load_site": {
+              "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+              "offset": 1199
+            },
+            "vtables": [
+              {
+                "address": {
+                  "rebuilt_symbol": "??_7CompilerPlainInput@@6B@",
+                  "offset": 0
+                },
+                "target": "CompilerPlainInput::Mark"
+              },
+              {
+                "address": {
+                  "rebuilt_symbol": "??_7CompilerRecordedInput@@6B@",
+                  "offset": 0
+                },
+                "target": "CompilerRecordedInput::Mark"
+              }
+            ]
+          },
+          "abi": "thiscall",
+          "stack_argument_bytes": 0,
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "lexer-imports.json",
+            "sha256": "6a8b7381a4d5a6cc0fccb68e3062961edc488fd76a2e05c45890bf40ec3c1768"
+          }
         }
       ]
     },
@@ -730,11 +1240,11 @@
             [
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 12027
+                "offset": 12305
               },
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 12296
+                "offset": 12574
               }
             ]
           ],
@@ -742,228 +1252,228 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 548
+                "offset": 825
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 555
+                  "offset": 832
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 616
+                  "offset": 893
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 662
+                  "offset": 939
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 616
+                  "offset": 893
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 671
+                  "offset": 948
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 1066
+                "offset": 1343
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1073
+                  "offset": 1350
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1405
+                  "offset": 1682
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2132
+                  "offset": 2409
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2212
+                  "offset": 2489
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2402
+                  "offset": 2679
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2763
+                  "offset": 3040
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3253
+                  "offset": 3530
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3368
+                  "offset": 3645
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3562
+                  "offset": 3839
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3730
+                  "offset": 4007
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3825
+                  "offset": 4102
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3909
+                  "offset": 4186
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4306
+                  "offset": 4583
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5256
+                  "offset": 5533
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5379
+                  "offset": 5656
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5598
+                  "offset": 5875
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5978
+                  "offset": 6255
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11749
+                  "offset": 12026
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6428
+                  "offset": 6705
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6586
+                  "offset": 6863
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7130
+                  "offset": 7407
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7130
+                  "offset": 7407
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7677
+                  "offset": 7954
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7804
+                  "offset": 8081
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8157
+                  "offset": 8434
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8344
+                  "offset": 8621
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11749
+                  "offset": 12026
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8878
+                  "offset": 9155
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8878
+                  "offset": 9155
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8966
+                  "offset": 9243
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11749
+                  "offset": 12026
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3825
+                  "offset": 4102
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9187
+                  "offset": 9464
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10402
+                  "offset": 10679
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11129
+                  "offset": 11406
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11749
+                  "offset": 12026
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9065
+                  "offset": 9342
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11315
+                  "offset": 11592
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11749
+                  "offset": 12026
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11478
+                  "offset": 11755
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11648
+                  "offset": 11925
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 1779
+                "offset": 2056
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1786
+                  "offset": 2063
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1796
+                  "offset": 2073
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1807
+                  "offset": 2084
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1857
+                  "offset": 2134
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1866
+                  "offset": 2143
                 }
               ]
             }
@@ -974,7 +1484,2147 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "CompilerParser::Run": {
+        "original": {
+          "text_data": [
+            [
+              274821456,
+              274822500
+            ],
+            [
+              274933264,
+              274933280
+            ]
+          ],
+          "switches": {
+            "274816117": [
+              274816265,
+              274816237,
+              274815829,
+              274815829,
+              274816283,
+              274930925,
+              274816300,
+              274930935,
+              274816310,
+              274816346,
+              274816376,
+              274816412,
+              274816430,
+              274930962,
+              274930999,
+              274815829,
+              274931029,
+              274816463,
+              274815829,
+              274816652,
+              274817335,
+              274815829,
+              274815829,
+              274815829,
+              274815829,
+              274815829,
+              274931377,
+              274816669,
+              274816745,
+              274815829,
+              274816848,
+              274816895,
+              274816931,
+              274817080,
+              274817095,
+              274817110,
+              274815829,
+              274815829,
+              274815829,
+              274817150,
+              274815829,
+              274815829,
+              274817178,
+              274817240,
+              274815829,
+              274815829,
+              274817307,
+              274817353,
+              274815829,
+              274817386,
+              274817462,
+              274931539,
+              274931630,
+              274931693,
+              274817538,
+              274817551,
+              274817596,
+              274815829,
+              274815829,
+              274815829,
+              274931771,
+              274817671,
+              274817747,
+              274817823,
+              274817855,
+              274817872,
+              274931791,
+              274815829,
+              274815829,
+              274817974,
+              274818018,
+              274818041,
+              274818064,
+              274818142,
+              274818230,
+              274818278,
+              274819236,
+              274818314,
+              274815829,
+              274818334,
+              274818607,
+              274818356,
+              274818442,
+              274818515,
+              274815829,
+              274818590,
+              274815829,
+              274818780,
+              274932006,
+              274818607,
+              274818663,
+              274931913,
+              274818726,
+              274815829,
+              274815829,
+              274818780,
+              274932006,
+              274818805,
+              274818900,
+              274815829,
+              274932080,
+              274932134,
+              274819012,
+              274819276,
+              274819056,
+              274815829,
+              274819073,
+              274932161,
+              274932194,
+              274932234,
+              274932258,
+              274815829,
+              274815829,
+              274819088,
+              274932305,
+              274932405,
+              274932493,
+              274819154,
+              274819201,
+              274819236,
+              274819256,
+              274815829,
+              274819276,
+              274820567,
+              274932595,
+              274819299,
+              274819430,
+              274819469,
+              274815829,
+              274815829,
+              274817335,
+              274815829,
+              274932951,
+              274933046,
+              274815829,
+              274815829,
+              274815829,
+              274819508,
+              274815829,
+              274819554,
+              274819571,
+              274819588,
+              274819609,
+              274819625,
+              274818410,
+              274819650,
+              274819666,
+              274819676,
+              274819848,
+              274819865,
+              274932968,
+              274819987,
+              274820019,
+              274820051,
+              274820068,
+              274820087,
+              274820151,
+              274820161,
+              274933008,
+              274933018,
+              274815829,
+              274933028,
+              274933046,
+              274820171,
+              274820181,
+              274820191,
+              274820201,
+              274820223,
+              274815829,
+              274820238,
+              274820255,
+              274820293,
+              274820385,
+              274820428,
+              274820481,
+              274820498,
+              274820539,
+              274820567,
+              274815829,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820582,
+              274820604,
+              274815829,
+              274820643,
+              274933121,
+              274820708,
+              274820727,
+              274820746,
+              274820765,
+              274820847,
+              274820890,
+              274820909,
+              274820928,
+              274820947,
+              274815829,
+              274815829,
+              274820983,
+              274821003,
+              274821037,
+              274821056,
+              274821090,
+              274821110,
+              274933189,
+              274821155,
+              274821172,
+              274821200,
+              274821217,
+              274821280,
+              274821301,
+              274821312,
+              274821320,
+              274821392,
+              274821409,
+              274821426,
+              274821436
+            ],
+            "274816580": [
+              274931142,
+              274816587,
+              274816587,
+              274816614,
+              274931351
+            ],
+            "274930568": [
+              274930638,
+              274930795,
+              274930795,
+              274930575
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                "offset": 10149
+              },
+              {
+                "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                "offset": 11153
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                "offset": 666
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 673
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 935
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 935
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1153
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                "offset": 1546
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1553
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1577
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1640
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1663
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1673
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1683
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1693
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1724
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1756
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1792
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1818
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1854
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1898
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 1966
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2058
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2855
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2872
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2905
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2954
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3032
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3163
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3307
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3349
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3603
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3618
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3633
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3688
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3721
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3798
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3862
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3923
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 3954
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4053
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4160
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4173
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4223
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4344
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4364
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4440
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4513
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4543
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4563
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4675
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4719
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4785
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4804
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4823
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4974
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5036
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5088
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5111
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5133
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5185
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5246
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5416
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5557
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5581
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5615
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5185
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5246
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5416
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5581
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5615
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5653
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5831
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6029
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6083
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6128
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5133
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6103
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6128
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6265
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6307
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6331
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6379
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 4974
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5036
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5088
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5111
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 5133
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8695
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6574
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6882
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 6970
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2872
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7023
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7043
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7059
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7108
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7128
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7174
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7196
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7229
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7174
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7284
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7294
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7536
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7608
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7734
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7744
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7790
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7836
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7853
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7904
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8017
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8027
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8037
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8047
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8057
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 7043
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8075
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8085
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8095
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8105
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8182
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8197
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8217
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8267
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8394
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8499
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8589
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8614
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8665
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8695
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8710
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8748
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8809
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8881
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8910
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8936
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8962
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8988
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9084
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9134
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9160
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9186
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9245
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9287
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9320
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9389
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9438
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9509
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9530
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9583
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9614
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9638
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9676
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9695
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9844
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9871
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9891
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 9931
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10035
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10057
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10079
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10104
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10132
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                "offset": 2256
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2437
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2263
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2263
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2393
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 2762
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_get_next_token": {
+        "original": {
+          "text_data": [
+            [
+              274738448,
+              274738733
+            ]
+          ],
+          "switches": {
+            "274738092": [
+              274738401,
+              274738132,
+              274738215,
+              274738215,
+              274886699,
+              274738215,
+              274738361,
+              274738361,
+              274738361,
+              274738361,
+              274738361,
+              274738361,
+              274738361,
+              274738361,
+              274738401,
+              274738361,
+              274738228,
+              274738361,
+              274738302,
+              274738099,
+              274738355,
+              274738215,
+              274738126
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_get_next_token",
+                "offset": 860
+              },
+              {
+                "rebuilt_symbol": "_get_next_token",
+                "offset": 1145
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_get_next_token",
+                "offset": 69
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 813
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 159
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 283
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 283
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 300
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 283
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 813
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 585
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 535
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 702
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 76
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 751
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 283
+                },
+                {
+                  "rebuilt_symbol": "_get_next_token",
+                  "offset": 851
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "CompilerContextState::ReadToken": {
+        "original": {
+          "text_data": [
+            [
+              274887228,
+              274887252
+            ]
+          ],
+          "switches": {
+            "274886919": [
+              274886926,
+              274886946,
+              274886966,
+              274886986,
+              274887006,
+              274887026
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 828
+              },
+              {
+                "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 852
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 397
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 404
+                },
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 428
+                },
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 452
+                },
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 476
+                },
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 500
+                },
+                {
+                  "rebuilt_symbol": "?ReadToken@CompilerContextState@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 524
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "CompilerLexer::Read": {
+        "original": {
+          "text_data": [
+            [
+              274741900,
+              274742109
+            ]
+          ],
+          "switches": {
+            "274739004": [
+              274739190,
+              274739870,
+              274887701,
+              274739011,
+              274740938,
+              274739835,
+              274740140,
+              274740076,
+              274740494,
+              274740292,
+              274741753,
+              274887275,
+              274741566,
+              274741638,
+              274741494,
+              274741335,
+              274741245,
+              274741155,
+              274741050,
+              274740575,
+              274740724,
+              274740019,
+              274739917,
+              274740964,
+              274740886,
+              274740912,
+              274741431,
+              274740925,
+              274740951,
+              274740990,
+              274740873,
+              274740899,
+              274740977,
+              274887701,
+              274887701,
+              274887701,
+              274887701,
+              274887701,
+              274887701,
+              274887701,
+              274887701,
+              274887602
+            ],
+            "274741085": [
+              274888484,
+              274741105,
+              274741118,
+              274741092,
+              274741131
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                "offset": 5982
+              },
+              {
+                "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                "offset": 6150
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                "offset": 214
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 800
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 287
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 403
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5812
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 221
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 2238
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 2067
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 3574
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 2904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5662
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 718
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5362
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5513
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5212
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 4896
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 4730
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 4565
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 4375
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 3755
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 4065
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 2821
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 2593
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5877
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5842
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5856
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5063
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5863
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5822
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 3499
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5832
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5849
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5870
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5904
+                },
+                {
+                  "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
+                  "offset": 5884
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_process_source_newline": {
+        "original": {
+          "text_data": [
+            [
+              274742728,
+              274742764
+            ]
+          ],
+          "switches": {
+            "274742401": [
+              274742441,
+              274742320,
+              274742247,
+              274742274,
+              274742206,
+              274742576
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_process_source_newline",
+                "offset": 1222
+              },
+              {
+                "rebuilt_symbol": "_process_source_newline",
+                "offset": 1258
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_process_source_newline",
+                "offset": 268
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 605
+                },
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 275
+                },
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 552
+                },
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 389
+                },
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 491
+                },
+                {
+                  "rebuilt_symbol": "_process_source_newline",
+                  "offset": 902
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "CompilerDeclarationScanner::Scan": {
+        "original": {
+          "text_data": [
+            [
+              274750496,
+              274750723
+            ]
+          ],
+          "switches": {
+            "274750408": [
+              274750340,
+              274750274,
+              274750415,
+              274750331,
+              274750296,
+              274750305,
+              274750265,
+              274750285,
+              274750314,
+              274750424
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 328
+              },
+              {
+                "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 555
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                "offset": 69
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 76
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 89
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 102
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 122
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 132
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 142
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 152
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 165
+                },
+                {
+                  "rebuilt_symbol": "?Scan@CompilerDeclarationScanner@@QAEPAUCompilerParserToken@@XZ",
+                  "offset": 192
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_declare_symbol": {
+        "original": {
+          "text_data": [
+            [
+              274752124,
+              274752156
+            ]
+          ],
+          "switches": {
+            "274751925": [
+              274752107,
+              274751538,
+              274752107,
+              274752078,
+              274898562,
+              274898562,
+              274898562,
+              274752063
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_declare_symbol",
+                "offset": 1605
+              },
+              {
+                "rebuilt_symbol": "_declare_symbol",
+                "offset": 1637
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_declare_symbol",
+                "offset": 806
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 829
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 954
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 829
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 841
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 813
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 813
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 813
+                },
+                {
+                  "rebuilt_symbol": "_declare_symbol",
+                  "offset": 913
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_emit_control_record": {
+        "original": {
+          "switches": {
+            "274743300": [
+              274743336,
+              274743466,
+              274889756,
+              274743307,
+              274743353
+            ],
+            "274743459": [
+              274743484,
+              274890030,
+              274743569,
+              274743651,
+              274890461,
+              274890527,
+              274743748,
+              274743869,
+              274743920,
+              274743552
+            ]
+          }
+        }
+      },
+      "_emit_ir_node": {
+        "original": {
+          "switches": {
+            "274794485": [
+              274794559,
+              274921368,
+              274794492,
+              274794892,
+              274794610,
+              274794593,
+              274794699,
+              274794419
+            ]
+          }
+        }
+      },
+      "_scan_numeric_token": {
+        "original": {
+          "switches": {
+            "274754908": [
+              274900464,
+              274900499,
+              274900534,
+              274754915,
+              274754386,
+              274900563,
+              274754386
+            ],
+            "274754977": [
+              274900598,
+              274900620,
+              274900642,
+              274755004,
+              274754386,
+              274900658,
+              274754984,
+              274754386
+            ],
+            "274900316": [
+              274900358,
+              274900332,
+              274900345,
+              274900371,
+              274900371,
+              274754210
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_scan_numeric_token",
+                "offset": 1745
+              },
+              {
+                "rebuilt_symbol": "_scan_numeric_token",
+                "offset": 1859
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_scan_numeric_token",
+                "offset": 668
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 675
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 684
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 693
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 702
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 702
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 709
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_scan_numeric_token",
+                "offset": 1158
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1287
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1324
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1361
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1398
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_scan_numeric_token",
+                "offset": 1231
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1450
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1469
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1482
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1499
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1515
+                },
+                {
+                  "rebuilt_symbol": "_scan_numeric_token",
+                  "offset": 1530
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_check_assignment_types": {
+        "original": {
+          "switches": {
+            "274844144": [
+              274844175,
+              274844248,
+              274950123,
+              274950123,
+              274844248,
+              274844175,
+              274844175,
+              274844175,
+              274844030
+            ]
+          }
+        }
+      },
+      "_check_constant_conversion": {
+        "original": {
+          "switches": {
+            "274847581": [
+              274847588,
+              274847588,
+              274847588,
+              274847588,
+              274847588,
+              274847588,
+              274847588,
+              274847588,
+              274847852
+            ]
+          }
+        }
+      },
+      "_create_initializer_value": {
+        "original": {
+          "switches": {
+            "274796035": [
+              274796042,
+              274796042,
+              274796072,
+              274921647,
+              274921659
+            ]
+          }
+        }
+      },
+      "_dispatch_recorded_pragma": {
+        "original": {
+          "switches": {
+            "274747047": [
+              274893809,
+              274893307,
+              274747369,
+              274747405,
+              274747472,
+              274893508,
+              274893765,
+              274893307,
+              274747539,
+              274894238,
+              274895258,
+              274747878,
+              274747646,
+              274893307,
+              274895155,
+              274896330,
+              274896224,
+              274895809,
+              274748227,
+              274896442,
+              274895903,
+              274895903,
+              274894041,
+              274895903,
+              274893333,
+              274747054,
+              274892918,
+              274747087,
+              274747179,
+              274896499,
+              274894179,
+              274894993,
+              274895074,
+              274896897
+            ],
+            "274748328": [
+              274895938,
+              274895948,
+              274895958,
+              274748335
+            ],
+            "274893882": [
+              274893929,
+              274893909,
+              274893889,
+              274893965,
+              274894034
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dispatch_recorded_pragma",
+                "offset": 5301
+              },
+              {
+                "rebuilt_symbol": "_dispatch_recorded_pragma",
+                "offset": 5569
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dispatch_recorded_pragma",
+                "offset": 115
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1597
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1026
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 154
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1157
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1255
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1558
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1026
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2006
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2134
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 3252
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 3642
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2654
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1026
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2654
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4726
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4604
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4011
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4102
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4551
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 122
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1876
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 122
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1055
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 213
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 249
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 544
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 659
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4853
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2594
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2654
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 5155
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_dispatch_recorded_pragma",
+                "offset": 1699
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1736
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1721
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1706
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1774
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1847
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "CompilerArena::Release": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_cleanup_work_buffers": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
       }
     }
-  }
+  },
+  "function_properties": {}
 }

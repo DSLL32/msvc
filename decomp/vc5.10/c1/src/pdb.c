@@ -11,14 +11,13 @@ int __cdecl initialize_pdb_context_12676(void)
         c1_pdb_context.types = NULL;
         c1_pdb_context.rebuild_state = NULL;
         c1_pdb_context.read_mode = 0;
-        c1_pdb_context.minimal_rebuild = NULL;
+        c1_pdb_context.retain_database = 0;
     }
     return 0;
 }
 
 void __cdecl destroy_pdb_context_238dc(void)
 {
-    __asm { int 3 }
 }
 
 CompilerPdbContext c1_output_pdb_context;
@@ -31,12 +30,11 @@ int __cdecl initialize_pdb_context_126b6(void)
         c1_output_pdb_context.types = NULL;
         c1_output_pdb_context.rebuild_state = NULL;
         c1_output_pdb_context.read_mode = 0;
-        c1_output_pdb_context.minimal_rebuild = NULL;
+        c1_output_pdb_context.retain_database = 0;
     }
     return 0;
 }
 
 void __cdecl destroy_pdb_context_238db(void)
 {
-    __asm { int 3 }
 }

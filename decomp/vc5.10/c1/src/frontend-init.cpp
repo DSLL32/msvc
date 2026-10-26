@@ -9,7 +9,7 @@
 extern "C" {
 int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
 void __cdecl normalize_frontend_options(void);
-void __cdecl format_processor_switch(char *, const char *, unsigned, int);
+int __cdecl format_buffer(char *, const char *, unsigned, ...);
 void __cdecl begin_browser_output(const char *);
 CompilerBackend *__cdecl acquire_initial_backend(void);
 int __cdecl prepare_pch_input(const char *);
@@ -65,7 +65,7 @@ extern "C" void __cdecl initialize_frontend(void)
     c1_data.normalized_pool_strings = c1_data.options.pool_strings;
     c1_data.normalized_readonly_strings = c1_data.options.readonly_strings;
     if ((unsigned)c1_data.options.processor > 6) {
-        format_processor_switch(processor_switch, "-G%d", 20, c1_data.options.processor);
+        format_buffer(processor_switch, "-G%d", 20, c1_data.options.processor);
         compiler_error(7, processor_switch, "c1");
     } else if ((unsigned)c1_data.options.processor > 4) {
         c1_data.options.processor = 4;
@@ -263,7 +263,7 @@ extern "C" void __cdecl normalize_frontend_options(void)
     if (c1_data.options.minimal_rebuild)
         c1_bss.processor_instruction_mask |= 0x40;
 }
-extern "C" void __cdecl format_processor_switch(char *buffer, const char *format, unsigned size, int processor) { __asm { int 3 } }
+extern "C" int __cdecl format_buffer(char *buffer, const char *format, unsigned size, ...) { __asm { int 3 } return 0; }
 extern "C" int __cdecl prepare_pch_input(const char *filename) { __asm { int 3 } return 0; }
 extern "C" void __cdecl read_initial_input(void) { __asm { int 3 } }
 extern "C" void __cdecl initialize_line_tables(void) { }
@@ -360,7 +360,7 @@ extern "C" CompilerType *__cdecl make_function_type(unsigned attributes, Compile
         arena->CommitExtent();
     if (parameters) {
         parameters->kind = 1;
-        parameters->scope = NULL;
+        parameters->scope_active = 0;
         parameters->value = 0;
     }
     declarator.AddFunction(parameters);
@@ -538,7 +538,7 @@ extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigne
     unsigned bytes;
     kind &= 0xff;
 #ifdef RECON_NATIVE_TEST
-    if (kind != 6 && kind != 9 && kind != 13)
+    if (kind != 1 && kind != 6 && kind != 9 && kind != 13)
         recon_unsupported("symbol allocation: unmodeled record-size index");
     if (arena >= 6)
         recon_unsupported("symbol allocation: unmodeled arena index");
@@ -554,7 +554,6 @@ extern "C" void *__cdecl allocate_symbol_record(unsigned requested_size, unsigne
     return memory;
 }
 extern "C" void __cdecl begin_line_output(void) { __asm { int 3 } }
-extern "C" void __cdecl begin_source_input(void) { __asm { int 3 } }
 
 CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void)
 {
@@ -584,14 +583,74 @@ CompilerTranslationUnit *RECON_THISCALL CompilerTranslationUnit::Initialize(void
     scopes[0] = root;
     return this;
 }
-int RECON_THISCALL CompilerSymbolTable::HasBuckets(void) { __asm { int 3 } return 0; }
-void *RECON_THISCALL CompilerSymbolTable::Find(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+int RECON_THISCALL CompilerSymbolTable::HasBuckets(void)
+{
+    /* Shared with the20-byte parameter scope: only the common DWORD+16
+     * predicate is consumed, with no hash-table tail access. */
+    return buckets != NULL;
+}
 void *RECON_THISCALL CompilerSymbolTable::Lookup(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
 void *RECON_THISCALL CompilerSymbolTable::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerSymbolTable::FindNested(CompilerNameEntry *name, void **result) { __asm { int 3 } }
 CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
-void RECON_THISCALL CompilerSymbolTable::Check(void) { __asm { int 3 } }
+extern "C" void __cdecl write_global_record(unsigned, CompilerIrSymbol *);
+extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *);
+extern "C" int __cdecl defer_global_symbol(CompilerIrSymbol *);
+void RECON_THISCALL CompilerSymbolTable::Check(void)
+{
+    CompilerSymbolBinding *deferred = NULL, *binding, *next, *previous;
+    unsigned i, count;
+    int progress;
+    if (c1_bss.parser_early_result) return;
+    c1_bss.declaration_scope_active = level;
+    if (this != c1_data.translation_unit->root)
+        write_global_record(13, NULL);
+    if (buckets) {
+        count = bucket_mask + 1;
+        for (i = 0; i < count; ++i) {
+            binding = buckets[i];
+            while (binding) {
+                if (!c1_bss.declaration_scope_active && !c1_data.pch_separate_debug &&
+                    defer_global_symbol((CompilerIrSymbol *)((BYTE *)binding - 8))) {
+                    next = binding->next;
+                    binding->next = deferred;
+                    deferred = binding;
+                    binding = next;
+                } else {
+                    write_global_reference(binding);
+                    binding = binding->next;
+                }
+            }
+        }
+    }
+    progress = 1;
+    while (deferred && progress) {
+        progress = 0;
+        previous = NULL;
+        binding = deferred;
+        while (binding) {
+            if (!defer_global_symbol((CompilerIrSymbol *)((BYTE *)binding - 8))) {
+                write_global_reference(binding);
+                progress = 1;
+                if (previous) previous->next = binding->next;
+                else deferred = binding->next;
+            } else previous = binding;
+            binding = binding->next;
+        }
+    }
+}
+extern "C" int __cdecl defer_global_symbol(CompilerIrSymbol *symbol)
+{
+    if (symbol->kind == 4 || symbol->kind == 5)
+        return (symbol->flags & 2) && !(symbol->flags & 0x80);
+    if (symbol->kind == 10 && (symbol->storage_class & 7) == 7) {
+        CompilerIrSymbol *owner = symbol->value_type->symbol_owner;
+        if (owner && !(symbol->flags & 0x80) && defer_global_symbol(owner))
+            return 1;
+    }
+    return 0;
+}
 extern "C" CompilerIrSymbol *__cdecl make_abstract_declarator(void);
 CompilerDeclarator *RECON_THISCALL CompilerDeclarator::Initialize(CompilerType *base,
     const CompilerSourcePosition *position)
@@ -688,13 +747,18 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
 extern "C" unsigned __cdecl classify_parameter_list(const void *);
 void RECON_THISCALL CompilerParameterDescription::Normalize(void)
 {
-    if (scope)
+    if (scope_active)
         c1_data.translation_unit->EndParameterScope();
     if (kind == 6)
         kind = classify_parameter_list((const void *)value);
 }
 CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void)
-{ __asm { int 3 } return NULL; }
+{
+    if (current->level != 1) return NULL;
+    CompilerIrSymbol **value = (CompilerIrSymbol **)current->parameter_value;
+    UnregisterScope();
+    return value;
+}
 extern "C" unsigned __cdecl classify_parameter_list(const void *value)
 { __asm { int 3 } return 0; }
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned attributes,

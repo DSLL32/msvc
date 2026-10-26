@@ -13,10 +13,12 @@
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
-/* Original RVA5f400 has26 DWORD slots. Only kinds6/9/13 are known.
+/* Original RVA5f400 has26 DWORD slots. Only kinds1/6/9/13 are known.
  * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
 typedef struct CompilerRecordSizeFields {
-        unsigned unmodeled_00[6];
+        unsigned unmodeled_00[1];
+        unsigned declaration_symbol_bytes; /* slot1, RVA5f404, default52 */
+        unsigned unmodeled_02[4];
         unsigned intrinsic_symbol_bytes; /* slot6, RVA5f418, default52 */
         unsigned unmodeled_07[2];
         unsigned global_symbol_bytes; /* slot9, RVA5f424, default52 */
@@ -29,9 +31,23 @@ typedef union CompilerRecordSizes {
     unsigned indexed[26];
 } CompilerRecordSizes;
 typedef char CompilerRecordSizes_extent[sizeof(CompilerRecordSizes) == 104 ? 1 : -1];
+typedef char CompilerRecordSizes_kind1[offsetof(CompilerRecordSizeFields, declaration_symbol_bytes) == 4 ? 1 : -1];
 typedef char CompilerRecordSizes_kind6[offsetof(CompilerRecordSizeFields, intrinsic_symbol_bytes) == 24 ? 1 : -1];
 typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global_symbol_bytes) == 36 ? 1 : -1];
 typedef char CompilerRecordSizes_kind13[offsetof(CompilerRecordSizeFields, abstract_symbol_bytes) == 52 ? 1 : -1];
+/* Only head9 of the source's indexed cache is known. The open-ended array
+ * spelling retains the original generic access, not an inferred table bound.
+ * The preceding36 bytes supply storage identity only; they are never included
+ * in defaults/snapshot transfer and native indexed reads are guarded. */
+typedef struct CompilerSymbolCachePrefix {
+    BYTE unmodeled_00[36];
+    CompilerSymbolBinding *head9;
+} CompilerSymbolCachePrefix;
+typedef union CompilerSymbolCacheHeads {
+    CompilerSymbolCachePrefix known;
+    CompilerSymbolBinding *indexed[1];
+} CompilerSymbolCacheHeads;
+typedef char CompilerSymbolCacheHeads_head9[offsetof(CompilerSymbolCachePrefix, head9) == 36 ? 1 : -1];
 typedef struct CompilerInitializedState {
     int first_call;
     int compiler_phase;
@@ -74,7 +90,6 @@ typedef struct CompilerInitializedState {
     struct CompilerTypeListEntry **type_list_buckets; /* RVA5e404, defaultNULL; 1024 */
     CompilerBuiltinNames builtin_names; /* Encountered builtin identifier slots; defaultNULL */
     unsigned abstract_symbol_cache_index; /* RVA5f49c, default9 */
-    CompilerSymbolBinding *abstract_symbol_free; /* Only head9 at RVA5e51c, defaultNULL */
     CompilerTypeList *empty_type_list; /* RVA5e580, defaultNULL */
     unsigned type_arena_kind; /* RVA5f5e0, canonical default3 */
     unsigned intrinsic_symbol_cache_index; /* RVA5f480, default9 */
@@ -93,9 +108,45 @@ typedef struct CompilerInitializedState {
     CompilerSourceFrame *free_source_frames; /* RVA5e220, defaultNULL */
     int source_descriptor; /* RVA5e228, default-1 */
     int conditional_depth; /* RVA5f350, default-1 */
-    /* Last: snapshot transfer excludes all unknown size slots. */
+    struct CompilerParser *active_parser; /* RVA5e3b4, defaultNULL */
+    unsigned debug_module_kind; /* RVA5e3e0, canonical default2; module query overwrites */
+    unsigned lexer_flags; /* RVA5eddc, canonical DWORD default0; scanner mode bits. */
+    unsigned declaration_symbol_cache_index; /* RVA5f46c, canonical default9 */
+    void *function_context; /* RVA5e598, initializedNULL; optional definition context */
+    unsigned local_symbol_limit; /* RVA5e9c4, default0x3fffff */
+    unsigned function_reference_epoch; /* RVA5f36c, default1; distinct from5f96c */
+    int disable_inline_records; /* RVA5f378, default0 */
+    unsigned parser_flags; /* RVA5ede0, canonical DWORD0 */
+    CompilerType *function_return_type; /* RVA5e46c, defaultNULL */
+    WORD function_label_depth; /* RVA5f388, default0 */
+    int function_label_state_first, function_label_state_second; /* RVA5f4dc/5f4e0, default-1; reset together */
+    unsigned function_record_flags; /* RVA5ede4, DWORD default0 */
+    int line_range_warning_enabled; /* RVA5f4e4, default1; one diagnostic per long-line interval */
+    CompilerIrSymbol *label_symbols; /* RVA5f3dc, defaultNULL; list uses embedded binding links */
+    int try_depth, finally_depth, exception_filter_depth; /* RVA5f39c/a0/a4, DWORD0 */
+    struct CompilerFunctionDirectoryBlock *function_directory_head; /* RVA5e3f4, NULL */
+    struct CompilerFunctionDirectoryBlock *function_directory_current; /* RVA5e3f8, NULL */
+    unsigned function_directory_index; /* RVA5e9b8, default19 */
+    unsigned function_debug_handle; /* RVA5f954, default0; debug-provider handle */
+    unsigned function_cleanup_flags; /* RVA5f348, DWORD0; reset on function exit */
+    unsigned debug_symbol_index; /* RVA5f984, DWORD0; function exit resets it */
+    void *function_scope_cache; /* RVA5f3fc, NULL; lazy table is cleared on function exit */
+    int source_exhausted; /* RVA5e214, DWORD0; lexer EOF latch */
+    int final_input_token_emitted; /* RVA5e210, DWORD0; class0 EOF handoff occurs once */
+    int omit_external_names; /* RVA5f4d0, DWORD0; scoped by global binding writer */
+    unsigned pch_type_record_value; /* RVA5e9e0, DWORD0; PCH type-record chain value */
+    const char *pch_record_name; /* RVA5f320, NULL; set by PCH stop processing */
+    struct CompilerGlobalOption *global_options; /* RVA5e578, NULL; serialized option list */
+    int pch_expression_stream_open; /* RVA5f330, DWORD0 */
+    int pch_primary_stream_open, pch_secondary_stream_open; /* RVA5f5c8/5f5cc, DWORD0 */
+    int pch_cleanup_done; /* RVA5f5d0, DWORD0; once-only cleanup marker */
+    struct CompilerSavedContextRecord *saved_context_records; /* RVA5f4f4, NULL */
+    int saved_context_count; /* RVA5f4f8, DWORD0 */
+    /* From here, snapshot transfer selects only the known cells. */
     CompilerRecordSizes record_sizes;
+    CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only head9/5e51c defaultNULL */
 } CompilerInitializedState;
+#define abstract_symbol_free symbol_cache.known.head9
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
 struct CompilerContextFrame;
@@ -105,6 +156,7 @@ typedef struct CompilerContextState {
     struct CompilerContextFrame *saved_frame;
 #ifdef __cplusplus
     const char *RECON_THISCALL FileName(void);
+    struct CompilerParserToken *RECON_THISCALL ReadToken(void);
     void RECON_THISCALL Push(struct CompilerLexer *, unsigned, unsigned,
                             unsigned, const struct CompilerContextState *);
 #endif
@@ -122,26 +174,53 @@ typedef struct CompilerOutputBuffer {
      * Constructor writes only filename[0]; BSS reset supplies static zeros. */
     char filename[MAX_PATH];
     int file_descriptor;
+    BYTE unmodeled_124[8]; /* Later debug-interface state is not interpreted here. */
+    char *owned_debug_name; /* Original+0x12c, BSSNULL; debug path joins two names. */
 #ifdef __cplusplus
+    /* Explicit method spelling keeps the containing BSS a trivial C owner. */
+    void RECON_THISCALL Destroy(void);
     int RECON_THISCALL Close(void);
+    int RECON_THISCALL CloseStream(void);
     int RECON_THISCALL Grow(int);
     void RECON_THISCALL Flush(void);
+    void RECON_THISCALL FlushSource(void);
     int RECON_THISCALL Ensure(int);
     int RECON_THISCALL Reserve(int);
-    int RECON_THISCALL WriteIndex(unsigned);
-    void RECON_THISCALL WriteBytes(const void *, unsigned);
+    void RECON_THISCALL WriteShort(short);
+    void RECON_THISCALL WriteIndex(unsigned);
+    int RECON_THISCALL WriteBytes(const void *, unsigned);
     void RECON_THISCALL MarkLocation(unsigned, unsigned);
     void RECON_THISCALL MarkGlobal(unsigned);
     int RECON_THISCALL WriteSmall(unsigned);
+    void RECON_THISCALL WriteFunctionIndex(unsigned);
+    void RECON_THISCALL AppendTo(struct CompilerOutputBuffer *);
     int RECON_THISCALL Open(const char *, const char *, const char *);
 #endif
 } CompilerOutputBuffer;
 typedef char CompilerOutputBuffer_filename_offset[offsetof(CompilerOutputBuffer, filename) == 28 ? 1 : -1];
 typedef char CompilerOutputBuffer_descriptor_offset[offsetof(CompilerOutputBuffer, file_descriptor) == 288 ? 1 : -1];
-/* Recovered numeric alternative only. Other original value-record members
- * remain UNMODELED and must be recovered before any semantic consumer. */
-typedef struct CompilerValue {
+typedef char CompilerOutputBuffer_owned_name_offset[offsetof(CompilerOutputBuffer, owned_debug_name) == 300 ? 1 : -1];
+typedef char CompilerOutputBuffer_owned_extent[sizeof(CompilerOutputBuffer) == 304 ? 1 : -1];
+/* Numeric and declaration-prefix alternatives share the authentic value
+ * owner. Declaration consumers currently use only flags/value/type; the final
+ * twelve bytes retain no native semantic/default/equality claim. */
+typedef union CompilerValue {
     __int64 integer;
+    struct { CompilerType *type; unsigned unmodeled_04; __int64 value; } typed_constant;
+    struct {
+        unsigned flags, value;
+        CompilerType *type;
+        void *unmodeled_0c;
+        DWORD unmodeled_10;
+    } declaration;
+    struct CompilerNameEntry *identifier;
+    struct CompilerIrSymbol *symbol; /* Resolved declaration-name token. */
+    struct CompilerTokenStream *recorded_stream;
+    struct { const void *text; unsigned length; } string; /* Source-only literal view. */
+    struct { void *object; unsigned value; } context; /* Source-only location alternative. */
+    /* Authentic24-byte owner. Only the numeric8-byte alternative currently
+     * has a native state contract; Run's declaration overlay is guarded. */
+    BYTE unmodeled_00[24];
 } CompilerValue;
 /* Six encountered reservation descriptors. Alignment is also used by the
  * PCH serializer; flags select early initialization and reservation policy. */
@@ -167,6 +246,8 @@ typedef struct CompilerArena {
     void RECON_THISCALL Reset(void);
     unsigned char *RECON_THISCALL AllocatePages(unsigned, unsigned *);
     void RECON_THISCALL CommitExtent(void);
+    void RECON_THISCALL ClearUsed(void);
+    void RECON_THISCALL Release(void);
     BYTE *RECON_THISCALL AllocateBytes(unsigned);
 #endif
 } CompilerArena;
@@ -181,6 +262,7 @@ typedef struct CompilerPool {
     CompilerPool *RECON_THISCALL Initialize(unsigned);
     void RECON_THISCALL SetArena(unsigned);
     unsigned char *RECON_THISCALL Refill(unsigned);
+    unsigned char *RECON_THISCALL AllocateBytes(unsigned);
 #endif
 } CompilerPool;
 /* Pointer-relocation/file context: fields are established by its own load,
@@ -200,6 +282,7 @@ typedef struct CompilerPchState {
     struct CompilerPchImage **mapped_pages;
 #ifdef __cplusplus
     CompilerPchState *RECON_THISCALL Initialize(void);
+    void RECON_THISCALL Release(void);
 #endif
 } CompilerPchState;
 
@@ -214,6 +297,9 @@ typedef struct CompilerChecksumTables {
     BYTE low[256];
 } CompilerChecksumTables;
 
+typedef struct CompilerDeclarationControl {
+    BYTE flags, unmodeled_01;
+} CompilerDeclarationControl;
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -263,7 +349,7 @@ typedef struct CompilerBss {
     FILE *preprocessor_output;                      /* RVA54dbc */
     /* Six output-token prefixes used by the non-IL path. */
     BYTE output_kinds[6];
-    int expression_seek_status; /* RVA57e38, actual fseek result; BSS */
+    int expression_seek_status; /* RVA57e38, actual fseek/Close result; BSS */
     unsigned ir_record_count; /* RVA55058 */
     unsigned symbol_arena_kind; /* RVA518d8; symbols allocate from this arena. */
     struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* RVA518dc; linked saved indices */
@@ -283,20 +369,89 @@ typedef struct CompilerBss {
     BYTE *saved_macro_text_cursor; /* RVA50034 */
     const char *current_macro_text; /* RVA50028; encoded command-line/directive text */
     BYTE *source_cursor; /* RVA54f30, BSS; current byte input position */
+    char incremental_database_path[256]; /* RVA578a8, BSS; cached .idb path */
+    CompilerParserValue parser_value; /* RVA53bb8; only firstDWORD modeled at runtime */
+    WORD browser_context_value; /* RVA53be4 low WORD, BSS; upper WORD remains unmodeled */
+    struct CompilerParserNode *case_label; /* RVA53ff8, BSS; reset on statement entry */
+    struct CompilerPendingScopeSymbol *pending_scope_symbols; /* RVA54b30, BSSNULL */
+    int function_stack_check_reported; /* RVA53d68, BSS; one-time diagnostic */
+    int parser_early_result; /* RVA55068, BSS; parser early exit */
+    struct CompilerParserNode *function_entry_label; /* RVA54fc8, BSS; label builder result */
+    long function_expression_offset; /* RVA550fc, BSS; ftell of expression stream */
+    long function_symbol_offset; /* RVA54f34, BSS; ftell of symbol stream */
+    unsigned function_output_mode; /* RVA54c88, BSS; current consumers test only truth */
+    unsigned parameter_symbol_count; /* RVA54fd0, BSS; writer consumes signed low WORD */
+    unsigned lexical_skip_mode; /* RVA54da0, BSS; debugger function input */
+    unsigned parameter_scope_value; /* RVA5401c, BSS; current parameter scope value */
+    unsigned function_storage_class; /* RVA55088, BSS; captured parameter kind */
+    unsigned function_reset_value; /* RVA54dd8, BSS; reset on function entry */
+    unsigned nonil_type_index; /* RVA54c80, BSS; current context value at function entry */
+    void *function_cleanup_context; /* RVA550c4, BSSNULL; function exit clears it */
+    int token_input_finished; /* RVA54f24, BSS0; final token consumer writes1 */
+    unsigned parameter_storage_class; /* RVA53d78, BSS0; function declarator copies parameter kind */
+    unsigned parameter_scope_initial_value; /* RVA5509c, BSS0; function declarator copies parameter value */
+    int type_description_depth; /* RVA54fc4, BSS initial0; nested scratch index */
+    /* Prefix of original54a70. Only slot1 is encountered and initialized by
+     * Normalize. Slot0 and the wider original stack remain unmodeled; native
+     * code guards the index before access. Two is not the original capacity. */
+    CompilerType type_descriptions[2];
+    /* Actual declaration-entry writer clears context[1] on this path. Other
+     * slots remain unsupported before reads, despite native reset storage. */
+    void *declaration_contexts[60]; /* RVA54ca8, source indexed bound60 */
+    int unevaluated_expression_depth; /* RVA53bd4, BSS0; parser context nesting */
+    BYTE parameter_nesting; /* RVA5508c, BSS0; selects parameter allocation arena2 */
+    int declaration_depth; /* RVA5416c, BSS initial0 */
+    /* Only record0/1.flags are encountered. The real source has60 records;
+     * native code must guard before any other record or unknown byte read. */
+    CompilerDeclarationControl declaration_control[60];
+    /* Original541f0+20*depth, checked depth<60; ends546a0 inside the
+     * .bssfe reset owner. Only record0 is interpreted at this frontier.
+     * C sees storage solely for the shared BSS reset; C++ uses real member
+     * pointers (4B VC5,8B native i386), so its native record is24B. */
+#ifdef __cplusplus
+    CompilerParserDeclaration declaration_specs[60];
+#elif defined(RECON_NATIVE_TEST)
+    BYTE declaration_specs[60][24];
+#else
+    BYTE declaration_specs[60][20];
+#endif
 } CompilerBss;
+#ifdef RECON_NATIVE_TEST
+#define C1_DECLARATION_STORAGE_STRIDE 24
+#else
+#define C1_DECLARATION_STORAGE_STRIDE 20
+#endif
+typedef char CompilerBss_declaration_stride[
+    sizeof(((CompilerBss *)0)->declaration_specs[0]) == C1_DECLARATION_STORAGE_STRIDE ? 1 : -1];
+typedef char CompilerBss_declaration_boundary[
+    offsetof(CompilerBss, declaration_specs) ==
+    (offsetof(CompilerBss, declaration_control) + sizeof(((CompilerBss *)0)->declaration_control) + 3) / 4 * 4 ? 1 : -1];
+/* VC5 rounds the enclosing __int64-bearing BSS owner to8-byte alignment.
+ * Its possible final4-byte padding has no semantic claim. */
+typedef char CompilerBss_reset_extent[
+    sizeof(CompilerBss) >= offsetof(CompilerBss, declaration_specs) +
+        sizeof(((CompilerBss *)0)->declaration_specs) &&
+    sizeof(CompilerBss) - offsetof(CompilerBss, declaration_specs) -
+        sizeof(((CompilerBss *)0)->declaration_specs) <= 4 ? 1 : -1];
+#undef C1_DECLARATION_STORAGE_STRIDE
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
 typedef struct CompilerPdbContext {
     struct PDB *database;
     struct NameMap *names;
     struct TPI *types;
-    struct MREngine *minimal_rebuild;
-    struct CompilerMreState *rebuild_state;
-    int read_mode;
+    unsigned retain_database; /* Original+12, initialized0; predicate-only owner */
+    BYTE unmodeled_10[4]; /* No initializer or consumer is claimed here. */
+    struct CompilerMreState *rebuild_state; /* Original+20, initializedNULL */
+    int read_mode; /* Original+24, initialized0; suppresses commit when nonzero */
 #ifdef __cplusplus
     void RECON_THISCALL Finish(void);
+    int RECON_THISCALL Open(const char *, unsigned *, unsigned *, unsigned, const char *);
 #endif
 } CompilerPdbContext;
+typedef char CompilerPdbContext_extent[sizeof(CompilerPdbContext) == 28 ? 1 : -1];
+typedef char CompilerPdbContext_rebuild[offsetof(CompilerPdbContext, rebuild_state) == 20 ? 1 : -1];
+typedef char CompilerPdbContext_mode[offsetof(CompilerPdbContext, read_mode) == 24 ? 1 : -1];
 
 #ifdef __cplusplus
 extern "C" {

@@ -431,21 +431,191 @@ extern "C" void __cdecl emit_pending_line_record(void)
         }
     }
 }
-extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant *node, int mode) { __asm { int 3 } }
-extern "C" void __cdecl write_symbol_record(CompilerIrSymbol *symbol) { __asm { int 3 } }
-extern "C" int __cdecl has_debug_symbol_index(unsigned index) { __asm { int 3 } return 0; }
-extern "C" unsigned __cdecl get_symbol_output_index(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
+/* This owner expands the reserve test inline and calls Grow directly. */
+#define OPERAND_RESERVE(n) \
+    (available = (buffer->cursor + (n) <= buffer->data + buffer->capacity || \
+                  buffer->Grow(n)), buffer->good &= available)
+extern "C" unsigned __cdecl pointer_storage_size(WORD);
+extern "C" unsigned __cdecl require_complete_type_size(CompilerType *);
+extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant *node, int mode)
+{
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    CompilerType *type;
+    unsigned category, width = 0;
+    WORD attributes, flags, header;
+    int available;
+    if (c1_bss.parser_early_result) return;
+    type = node->type;
+#ifdef RECON_NATIVE_TEST
+    if (type->shape || !(type->flags & 0x40) || (mode != 1 && mode != 2))
+        recon_unsupported("noninteger IR operand type is not yet modeled");
+#endif
+    if (type->shape) {
+        attributes = type->shape->attributes;
+        category = 3;
+        width = pointer_storage_size(attributes);
+    } else {
+        flags = type->flags;
+        attributes = type->attributes;
+        if (flags & 0x40) {
+            category = (flags & 0x4000) ? 2 : 1;
+            if (!(flags & 0x4000) && !c1_data.options.language_extensions &&
+                c1_data.options.unsigned_char && (flags & 0x2fcf) == 0x41 &&
+                !(flags & 0x8000)) category = 2;
+            width = (flags & 0x340) || !(flags & 0xfff0) ?
+                integer_widths[flags & 15] : flags & 15;
+        } else if (flags & 0x100) {
+            if (mode == 1) {
+                category = width = 10;
+            } else {
+                category = 5;
+                width = (flags & 0x340) || !(flags & 0xfff0) ?
+                    integer_widths[flags & 15] : flags & 15;
+            }
+        } else if (flags & 0x400) {
+            category = 6;
+            if (kind != 39) width = require_complete_type_size(type);
+        } else if (flags & 0x80) {
+            category = 7;
+        } else if (flags & 0x800) {
+            category = width = 2;
+        } else category = 0;
+    }
+    unsigned inline_width = category == 6 && width >= 32 ? 0 : width;
+    header = (WORD)(category | (inline_width << 4) |
+        ((attributes & 0x200) << 3) | ((attributes & 0x100) << 5));
+    if (header > 0x7f && OPERAND_RESERVE(2))
+        *buffer->cursor++ = (BYTE)((header >> 8) | 0x80);
+    if (OPERAND_RESERVE(2)) *buffer->cursor++ = (BYTE)header;
+    if (category == 6 && !inline_width && OPERAND_RESERVE(6)) {
+        if (width & ~0x7fU) {
+            *buffer->cursor++ = 0x80;
+            *(DWORD *)buffer->cursor = width;
+            buffer->cursor += 4;
+        } else *buffer->cursor++ = (BYTE)width;
+    }
+}
+#undef OPERAND_RESERVE
+extern "C" unsigned __cdecl require_complete_type_size(CompilerType *)
+{ __asm { int 3 } return 0; }
+extern "C" void __cdecl compiler_warning(int, ...);
+extern "C" void __cdecl write_symbol_record(CompilerIrSymbol *symbol)
+{
+    if (!(symbol->flags & 1)) {
+        int depth = c1_data.try_depth + c1_data.finally_depth + c1_data.exception_filter_depth;
+#ifdef RECON_NATIVE_TEST
+        if (symbol->kind != 9)
+            recon_unsupported("nonlabel symbol exception depth is not yet modeled");
+#endif
+        if (!(symbol->reference_flags & 3) || symbol->label_exception_depth > depth)
+            symbol->label_exception_depth = (BYTE)depth;
+    } else if (symbol->qualifier_flags & 2) {
+#ifdef RECON_NATIVE_TEST
+        recon_unsupported("label exception-region diagnostic is not yet modeled");
+#endif
+        BYTE category = symbol->symbol_value == 19 ? 99 :
+                        symbol->symbol_value == 20 ? 103 : 6;
+        if (!(c1_data.parser_flags & 0x10000)) {
+            if (category == 6) compiler_warning(705, 83, symbol);
+            else compiler_warning(705, 76, category);
+        }
+    }
+    if (symbol->flags & 1) symbol->qualifier_flags |= 4;
+}
+/* RVA5f984 is shared with the function-exit reset. Nonzero queries remain
+ * outside the encountered native domain. */
+extern "C" int __cdecl has_debug_symbol_index(unsigned index)
+{
+    if (!index) return 0;
+#ifdef RECON_NATIVE_TEST
+    recon_unsupported("nonzero debug-symbol index is not yet modeled");
+#endif
+    return index == c1_data.debug_symbol_index;
+}
+extern "C" unsigned __cdecl get_symbol_output_index(CompilerIrSymbol *symbol)
+{
+    if (c1_data.c9_il) return symbol->record_id & 0xffffff;
+    unsigned index = symbol->reference_flags;
+    if (index & ~7U) return index >> 3;
+    return assign_symbol_output_index(symbol);
+}
 extern "C" CompilerIrSymbol *__cdecl resolve_symbol_alias(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 extern "C" unsigned __cdecl assign_symbol_output_index(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
-extern "C" void __cdecl write_ir_integer_words(unsigned low, unsigned high, int width) { __asm { int 3 } }
+extern "C" void __cdecl write_ir_integer_words(unsigned low, unsigned high, int width)
+{
+    CompilerOutputBuffer *buffer = &c1_bss.output_buffers[3];
+    int available, remaining;
+    const unsigned *word;
+#ifdef RECON_NATIVE_TEST
+    if (width != 1 && width != 2 && width != 4 && width != 8)
+        recon_unsupported("IR integer incoming words above64 bits are not yet modeled");
+#endif
+#define WORD_RESERVE(n) \
+    (available = (buffer->cursor + (n) <= buffer->data + buffer->capacity || \
+                  buffer->Grow(n)), buffer->good &= available)
+    if ((!high && low <= 0x7f) || (high == 0xffffffff && low >= 0xffffff81)) {
+        if (WORD_RESERVE(2)) *buffer->cursor++ = (BYTE)low;
+        return;
+    }
+    if (WORD_RESERVE(2)) *buffer->cursor++ = 0x80;
+    if (WORD_RESERVE(5)) {
+        *(DWORD *)buffer->cursor = low;
+        buffer->cursor += 4;
+    }
+    /* The Win32 body walks the subsequent incoming DWORD slots. The wider
+     * than64-bit domain is held natively before any extra slot is read. */
+    word = &high;
+    for (remaining = width / 4 - 1; remaining > 0; --remaining, ++word) {
+        if (WORD_RESERVE(5)) {
+            *(DWORD *)buffer->cursor = *word;
+            buffer->cursor += 4;
+        }
+    }
+#undef WORD_RESERVE
+}
 int RECON_THISCALL CompilerOutputBuffer::Ensure(int bytes)
 {
     if (bytes < 0) return 0;
     if (cursor + bytes > data + capacity && !Grow(bytes)) return 0;
     return 1;
 }
-int RECON_THISCALL CompilerOutputBuffer::Reserve(int bytes) { __asm { int 3 } return 0; }
-int RECON_THISCALL CompilerOutputBuffer::WriteIndex(unsigned index) { __asm { int 3 } return 0; }
-void RECON_THISCALL CompilerOutputBuffer::WriteBytes(const void *bytes, unsigned count) { __asm { int 3 } }
-int RECON_THISCALL CompilerOutputBuffer::WriteSmall(unsigned value) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerOutputBuffer::Reserve(int bytes)
+{
+    int needed = (int)((unsigned)bytes + 1);
+    int ready = 0;
+    if (needed >= 0) {
+        ready = 1;
+        if (cursor + needed > data + capacity) ready = Grow(needed);
+    }
+    good &= ready;
+    return good;
+}
+void RECON_THISCALL CompilerOutputBuffer::WriteIndex(unsigned index)
+{
+    /* Reached callers discard EAX; its incidental cursor value is not a
+     * declared result. The original comparison interprets index as signed. */
+    int ready = 1;
+    if (cursor + 5 > data + capacity) ready = Grow(5);
+    good &= ready;
+    if (!good) return;
+    if ((int)index <= 0x7fff) {
+        *(WORD *)cursor = (WORD)index;
+        cursor += 2;
+    } else {
+        *(unsigned *)cursor = (((index & 0xffffc000U) | 0x4000) << 1) | (index & 0x7fff);
+        cursor += 4;
+    }
+}
+int RECON_THISCALL CompilerOutputBuffer::WriteBytes(const void *bytes, unsigned count)
+{
+    memcpy(cursor, bytes, count);
+    cursor += count;
+    return 1;
+}
+int RECON_THISCALL CompilerOutputBuffer::WriteSmall(unsigned value)
+{
+    if (value & ~0x7fU) return 0;
+    *cursor++ = (BYTE)value;
+    return 1;
+}

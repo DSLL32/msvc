@@ -402,4 +402,4 @@ char *__cdecl normalize_path(char *path)
 }
 void __cdecl disable_multibyte_identifiers(void) { __asm { int 3 } }
 int __cdecl compare_pch_paths(const char *left, const char *right) { __asm { int 3 } return 0; }
-void __cdecl free_argument_allocation(void *allocation) { __asm { int 3 } }
+void __cdecl free_argument_allocation(void *allocation) { free(allocation); }

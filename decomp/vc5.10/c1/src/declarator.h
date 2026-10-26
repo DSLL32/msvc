@@ -7,10 +7,10 @@
  * encodings have not yet been interpreted by a reconstructed consumer. */
 struct CompilerParameterDescription {
     unsigned value, kind;
-    struct CompilerSymbolTable *scope;
+    unsigned scope_active; /* Run stores literal1; Normalize tests only truth. */
     void RECON_THISCALL Normalize(void);
+    void RECON_THISCALL AppendParameter(CompilerIrSymbol *);
 };
-struct CompilerDeclarationAttributes { unsigned flags, extra; };
 struct CompilerDeclarator {
     CompilerType *base_type;
     CompilerTypeShape *shape;
@@ -23,6 +23,9 @@ struct CompilerDeclarator {
     CompilerType *resolved_type;
     unsigned flags;
     CompilerDeclarator *RECON_THISCALL Initialize(CompilerType *, const CompilerSourcePosition *);
+    CompilerDeclarator *RECON_THISCALL InitializeSymbol(CompilerIrSymbol *);
+    void RECON_THISCALL ApplyDeclaration(const CompilerParserDeclaration *);
+    void RECON_THISCALL AppendArrayBound(const unsigned *);
     void RECON_THISCALL AddFunction(CompilerParameterDescription *);
     void RECON_THISCALL AppendShape(CompilerTypeShape *);
     void RECON_THISCALL MergeQualifiers(const CompilerDeclarationAttributes *,

@@ -1,0 +1,108 @@
+{
+  "schema": 1,
+  "scope": "Lexer::Read cached EDI import, normal-return ABI only; no provider-body or runtime coverage claim.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "abi": "Identified ordinary Microsoft i386 cdecl functions and thiscall methods preserve EDI on normal return. No custom ABI or nonlocal-return premise. Actual caller signatures and argument cleanup are retained in src/parser.cpp and existing method declarations.",
+  "sdk": {
+    "path": "toolchains/5.10/include/STDIO.H",
+    "sha256": "913961bbfab88b647fd21f7e80e833c46d168fea000acc657a6b6085b2b9e78a",
+    "declarations": [
+      "int __cdecl fputc(int, FILE *);",
+      "size_t __cdecl fwrite(const void *, size_t, size_t, FILE *);"
+    ]
+  },
+  "functions": [
+    "_read_unspliced_character",
+    "_skip_line_comment",
+    "_skip_block_comment",
+    "_skip_language_comment",
+    "_process_special_character",
+    "_process_trigraph",
+    "_discard_input_character",
+    "_splice_input_line",
+    "_resolve_special_character",
+    "_process_source_newline",
+    "_scan_quoted_literal",
+    "_copy_quoted_literal",
+    "_make_character_constant",
+    "_scan_identifier",
+    "_expand_macro",
+    "_scan_numeric_token",
+    "_collect_floating_token",
+    "_scan_floating_token",
+    "_finish_forced_include",
+    "_make_arena_token",
+    "_restore_forced_source_input",
+    "_read_source_chunk",
+    "_compiler_warning",
+    "_report_language_diagnostic",
+    "CompilerArena::AllocateBytes",
+    "?CommitExtent@CompilerArena@@QAEXXZ",
+    "?Refill@CompilerPool@@QAEPAEI@Z",
+    "CompilerContextBuffer::Initialize",
+    "CompilerContextState::Push",
+    "CompilerPlainInput::Mark",
+    "CompilerRecordedInput::Mark"
+  ],
+  "imports": [
+    {
+      "dll": "msvcrt.dll",
+      "name": "fputc"
+    },
+    {
+      "dll": "msvcrt.dll",
+      "name": "fwrite"
+    }
+  ],
+  "preserves": [
+    "edi"
+  ],
+  "mark_endpoints": [
+    {
+      "function": "CompilerPlainInput::Mark",
+      "original_rva": 11067,
+      "declaration": "void __thiscall CompilerPlainInput::Mark(void)",
+      "normal_return_cleanup": 0,
+      "preserves": [
+        "edi"
+      ],
+      "basis": "Identified ordinary Microsoft i386 thiscall ABI. Existing accepted physical RET0 body; no additional credit."
+    },
+    {
+      "function": "CompilerRecordedInput::Mark",
+      "original_rva": 294295,
+      "declaration": "void __thiscall CompilerRecordedInput::Mark(void)",
+      "normal_return_cleanup": 0,
+      "preserves": [
+        "edi"
+      ],
+      "basis": "Identified ordinary Microsoft i386 thiscall ABI. Pending App body remains unavailable and uncredited; qualification is normal return only."
+    }
+  ],
+  "newline_caller": {
+    "owner": "_process_source_newline",
+    "cached_register": "esi",
+    "functions": [
+      "_at_source_buffer_start",
+      "_begin_first_line_forced_include",
+      "_read_directive_token",
+      "_skip_newline_comment",
+      "_skip_language_comment",
+      "_process_trigraph",
+      "_splice_input_line",
+      "_process_special_character",
+      "_read_source_chunk",
+      "_begin_line_output"
+    ],
+    "imports": [
+      {
+        "dll": "msvcrt.dll",
+        "name": "fputc"
+      }
+    ],
+    "basis": "The identified ordinary Microsoft i386 cdecl/thiscall declarations preserve ESI on normal return. Only calls followed by a possible cached fputc use need this premise; no target/value or runtime availability is inferred."
+  }
+}

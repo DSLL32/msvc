@@ -6,7 +6,7 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -Isrc -Icrt
 NATIVE_CFLAGS = -fms-extensions -fasm-blocks -Wno-ignored-attributes
 NATIVE_CXXFLAGS = -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti
 BINARY_LINKER = $(NATIVE_CC)
-BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/preprocessor.cpp src/keywords.cpp src/ir-output.cpp src/ir-writer.cpp src/intrinsics.cpp src/scopes.cpp src/global-record.cpp
+BINARY_SOURCES = src/dllmain.c src/exports.c crt/startup.c src/pass.c src/compiler-state.c src/initializers.c src/buffers.c src/pdb.c src/pools.cpp src/pch-state.cpp src/main.c src/work-buffers.c src/options.c src/arenas.cpp src/command-line.c src/checksums.c src/scanner.c src/option-matcher.c src/packing.cpp src/frontend.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/preprocessor.cpp src/keywords.cpp src/ir-output.cpp src/ir-writer.cpp src/intrinsics.cpp src/scopes.cpp src/global-record.cpp src/debug-init.cpp src/parser-grammar.cpp src/parser.cpp src/declarations.cpp src/control-record.cpp src/numeric-token.cpp src/pragma.cpp src/frontend-finish.cpp
 BINARY_SUPPORT_SOURCES = harness/dll-cases.c harness/input-tests.cpp $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 ORIGINAL_TOOLCHAIN = 5.10
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
@@ -40,7 +40,12 @@ $(filter .build/pic/src/%,$(BINARY_OBJECTS)): NATIVE_CPPFLAGS += -Dmain=c1_main
 
 # Only explicit inline construction helpers expand here; actual target methods
 # remain out of class and outlined. The strict graph audit checks this boundary.
-build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj: ORIGINAL_CFLAGS += /Ob1
+build/obj/src/frontend-init.cpp.obj build/obj/src/input.cpp.obj build/obj/src/browser.cpp.obj build/obj/src/debug-init.cpp.obj build/obj/src/parser.cpp.obj build/obj/src/scopes.cpp.obj: ORIGINAL_CFLAGS += /Ob1
+
+# Only this encountered parser's logical relations are generated. Scratch
+# lookup provenance is optional and never becomes reconstruction source.
+src/parser-grammar.cpp src/parser-grammar.h &: scripts/parser-grammar.py ../../../toolchains/5.10/bin/C1.DLL
+	python3 scripts/parser-grammar.py ../../../toolchains/5.10/bin/C1.DLL --header src/parser-grammar.h --source src/parser-grammar.cpp
 
 build/mspdb50.lib: src/mspdb50.def | $(RECON_TOOL)
 	@mkdir -p $(@D)

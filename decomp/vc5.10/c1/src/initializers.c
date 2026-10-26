@@ -92,7 +92,11 @@ void __cdecl initialize_state_12645(void)
 void __cdecl initialize_state_12646(void)
 {
     c1_bss.saved_literal_available = 1;
+#ifdef RECON_NATIVE_TEST
+    c1_bss.saved_literal.integer = c1_bss.literal.integer;
+#else
     c1_bss.saved_literal = c1_bss.literal;
+#endif
 }
 
 void __cdecl initialize_state_12663(void)

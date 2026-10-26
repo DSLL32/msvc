@@ -1,0 +1,489 @@
+/* C1 pragma directives and compiler-generated source-control records.
+ * The wider directive state is source-only. Its entry guard traps in both
+ * builds before unmodeled values are consumed; only marker45 is supported. */
+#include <locale.h>
+#include <string.h>
+#include "frontend.h"
+#include "keywords.h"
+#include "global-record.h"
+#include "pragma.h"
+#pragma intrinsic(strcmp)
+#include <recon.h>
+
+/* Contextual cells on currently unsupported branches. No initialized value,
+ * snapshot bytes or equality claim is assigned to these source-only owners. */
+struct PragmaSourceState {
+    CompilerIrSymbol *allocated_text_segment; /* RVA5e470 */
+    unsigned pch_stop_seen;                  /* RVA5f324 */
+    WORD pch_header_status;                  /* RVA5f5a8 */
+    const char *optimization_text;           /* RVA54c84 */
+    int optimization_enabled;               /* RVA53ff0 */
+    unsigned optimization_restore_mask;     /* RVA5f8b8 */
+    unsigned optimization_disable_mask;     /* RVA5f8c0 */
+};
+static PragmaSourceState pragma_state;
+void *c1_pch_stop_owner; /* Shared source-only PCH stop/file owner, RVA5f31c */
+static struct {
+    CompilerIrSymbol *fallback;     /* RVA5e588, BSS segment */
+    CompilerIrSymbol *type_context; /* RVA5e58c, CONST segment */
+    CompilerIrSymbol *definition;   /* RVA5e590, DATA segment */
+} declaration_reference_defaults;
+extern "C" int function_pch_replayed; /* Same owner as check_finished_function */
+extern const char *current_forced_include; /* Same owner as forced-source input */
+#define PRAGMA_CONTEXT c1_bss.current_context
+#define PRAGMA_STREAM c1_bss.current_context.saved_frame->stream
+#define PRAGMA_ASSERT(test,line) do { if (!(test)) \
+    compiler_error(73, ".\\p0pragma.c", line); } while (0)
+#define PRAGMA_UNREAD(t) PRAGMA_STREAM->Unread((unsigned)(t))
+#define PRAGMA_SCOPE_WARNING() do { if (c1_bss.parameter_nesting) compiler_warning(156); } while (0)
+#ifdef __linux__
+#define PRAGMA_UNSUPPORTED(reason) recon_unsupported(reason)
+#else
+#define PRAGMA_UNSUPPORTED(reason) __asm { int 3 }
+#endif
+
+extern "C" {
+CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+CompilerParserToken *__cdecl expect_directive_token(BYTE);
+void __cdecl skip_to_directive_newline(CompilerParserToken *);
+void __cdecl set_warning_state(unsigned, unsigned);
+CompilerParserToken *__cdecl read_optional_pragma_value(unsigned);
+CompilerParserToken *__cdecl read_required_pragma_value(unsigned);
+CompilerParserToken *__cdecl read_pragma_string(void);
+CompilerParserToken *__cdecl read_pragma_switch(void);
+CompilerIrSymbol *__cdecl find_or_create_segment(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned);
+void __cdecl enable_minimal_rebuild_component(void);
+void __cdecl enable_minimum_type_info_component(void);
+void __cdecl enable_browser_component(void);
+void __cdecl mark_precompiled_header_stop(void **);
+unsigned __cdecl pack_option_flags(void);
+void __cdecl apply_option_flags(unsigned);
+void __cdecl print_pragma_message(const char *);
+void __cdecl read_pragma_identifier_list(void (__cdecl *)(CompilerNameEntry *));
+void __cdecl mark_function_nonintrinsic(CompilerNameEntry *);
+void __cdecl mark_function_intrinsic(CompilerNameEntry *);
+void __cdecl assign_allocated_text_segment(CompilerNameEntry *);
+void __cdecl process_pack_pragma(void);
+void __cdecl prepare_pch_expression_input(const char *);
+void __cdecl disable_multibyte_identifiers(void);
+void __cdecl emit_control_record(int);
+void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+void __cdecl compiler_warning(int, ...);
+}
+
+/* The nine real option rows at RVA60fb8, expressed by letter, selected value
+ * and existing destination. The terminator is not an optimization option. */
+struct PragmaOptimizationOption { char letter; int enabled; int *destination; };
+static const PragmaOptimizationOption optimization_options[] = {
+    {'a',1,&c1_data.options.assume_no_alias},
+    {'g',1,&c1_data.options.global_optimize},
+    {'p',1,&c1_data.options.precise_float},
+    {'s',0,&c1_data.options.optimize_size},
+    {'t',1,&c1_data.options.optimize_size},
+    {'w',1,&c1_data.options.assume_no_global_alias},
+    {'q',1,&c1_data.normalized_oq},
+    {'v',1,&c1_data.options.option_ov},
+    {'y',1,&c1_data.options.omit_frame_pointer},
+    {0,0,NULL}
+};
+
+extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
+{
+    CompilerParserToken *token, *value;
+    CompilerNameEntry *name, *class_name;
+    CompilerIrSymbol **segment;
+    const char *text;
+    unsigned code, segment_kind, number, state;
+    int signed_position, position;
+    PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
+    token = PRAGMA_CONTEXT.ReadToken();
+    code = token->kind;
+    if (code != 45) {
+#ifdef __linux__
+        recon_unsupported("pragma dispatcher: only encountered source-return marker");
+#else
+        __asm { int 3 }
+#endif
+    }
+    switch (code) {
+    case PRAGMA_INIT_SEG: case PRAGMA_VTORDISP: case PRAGMA_POINTERS_TO_MEMBERS:
+        report_language_diagnostic(1, 157); skip_to_directive_newline(token); break;
+    case PRAGMA_PACK:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(PRAGMA_PACK), 0x4fa);
+        process_pack_pragma();
+        break;
+    case PRAGMA_ONCE: {
+        CompilerSourceFile *file = (CompilerSourceFile *)c1_bss.current_context.object;
+        file->record_id = (file->record_id & 0x00ffffff) | 0x01000000;
+        break;
+    }
+    case 43: /* Recorded source-line/file marker. */
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot24(43), 0x433);
+        token = PRAGMA_CONTEXT.ReadToken();
+        c1_bss.current_context.value = (unsigned)token->value.typed_constant.value;
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 7) {
+            PRAGMA_ASSERT(c1_bss.debug_module->Slot20(43), 0x440);
+            c1_bss.current_context.object = c1_data.translation_unit->FindSourceFile(
+                (const char *)token->value.pointer, 0);
+            if (c1_bss.parameter_nesting) emit_control_record(2);
+            if (c1_bss.browser_filename) {
+                c1_data.backend->Slot10();
+                c1_data.backend->Slot18();
+                emit_control_record(1);
+                break;
+            }
+        } else PRAGMA_UNREAD(token);
+        emit_control_record(1);
+        break;
+    case 44: /* Recorded source owner, followed by the initial line. */
+        text = (const char *)token->value.pointer;
+        c1_bss.current_context.object = text ? (void *)text :
+            c1_data.translation_unit->FindSourceFile(current_forced_include, 0);
+        c1_bss.current_context.value = 1;
+        emit_control_record(2);
+        emit_control_record(1);
+        if (c1_bss.browser_filename) c1_data.backend->Slot18();
+        break;
+    case 45:
+        signed_position = (int)token->value.pointer;
+        position = signed_position < 0 ? -signed_position : signed_position;
+        if (signed_position < 0)
+            report_language_diagnostic(1, 0x67, c1_bss.current_context.FileName());
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 0xf0) {
+            c1_bss.current_context.value = token->value.context.value;
+            c1_bss.current_context.object = token->value.context.object;
+            if ((c1_data.lexer_flags & 0x20000) && !(c1_data.lexer_flags & 0x20))
+                emit_control_record(0x24);
+            token = PRAGMA_CONTEXT.ReadToken();
+        }
+        PRAGMA_UNREAD(token);
+        emit_control_record(2); emit_control_record(1);
+        if (position > 0 && c1_bss.browser_filename) c1_data.backend->Slot14(position);
+        if (position == 1) PRAGMA_UNSUPPORTED("pragma: PCH source-return state");
+        if (!c1_data.source_include_depth && c1_bss.forced_source_index == 1)
+            PRAGMA_UNSUPPORTED("pragma: PCH header-status state");
+        if (position == 1 && pragma_state.pch_stop_seen && !function_pch_replayed) {
+            prepare_pch_expression_input(c1_data.options.pch_create_file);
+            return (CompilerParserToken *)c1_data.predefined_tokens[3];
+        }
+        if (!c1_data.source_include_depth && c1_bss.forced_source_index == 1 &&
+            !pragma_state.pch_header_status)
+            return (CompilerParserToken *)c1_data.predefined_tokens[3];
+        break;
+    case PRAGMA_LOOP_OPT: case PRAGMA_CHECK_POINTER: case PRAGMA_SWITCH_CHECK:
+    case PRAGMA_PLMN: case PRAGMA_PLMF: case PRAGMA_PAGE: case PRAGMA_SKIP:
+    case PRAGMA_SUBTITLE: case PRAGMA_TITLE: case PRAGMA_PAGESIZE:
+    case PRAGMA_LINESIZE: case PRAGMA_NATIVE_CALLER:
+        report_language_diagnostic(4, 0x44);
+        skip_to_directive_newline(token);
+        break;
+    case PRAGMA_STRING_POOLING:
+        if (c1_bss.parameter_nesting) { compiler_warning(156); break; }
+        value = read_optional_pragma_value(1);
+        c1_data.normalized_pool_strings = value ? (int)value->value.pointer : c1_data.options.pool_strings;
+        /* Actual nonNULL selection clears this cell; NULL preserves its input. */
+        c1_data.normalized_readonly_strings = value ? 0 : c1_data.options.readonly_strings;
+        break;
+    case PRAGMA_INTRINSIC: case PRAGMA_FUNCTION:
+        PRAGMA_SCOPE_WARNING();
+        if (!expect_directive_token(118)) break;
+        read_pragma_identifier_list(code == PRAGMA_INTRINSIC ? mark_function_intrinsic : mark_function_nonintrinsic);
+        expect_directive_token(126);
+        break;
+    case PRAGMA_ALLOC_TEXT:
+        PRAGMA_SCOPE_WARNING();
+        if (!expect_directive_token(118)) break;
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 7) {
+            PRAGMA_UNREAD(token); value = read_pragma_string(); token = value;
+            if (!*(const char *)value->value.pointer) goto empty_segment_name;
+            name = find_or_create_identifier((const char *)value->value.pointer);
+        } else if (token->kind == 6) name = (CompilerNameEntry *)token->value.pointer;
+        else {
+            report_language_diagnostic(1, 0x50, token->kind);
+            skip_to_directive_newline(token); break;
+        }
+        pragma_state.allocated_text_segment = find_or_create_segment(name, c1_data.builtin_names.unnamed, 0, 2);
+        if (!expect_directive_token(55)) break;
+        c1_data.lexer_flags |= 0x10000;
+        read_pragma_identifier_list(assign_allocated_text_segment);
+        expect_directive_token(126);
+        break;
+    case PRAGMA_SAME_SEG:
+        report_language_diagnostic(1, 0x8f);
+        skip_to_directive_newline(PRAGMA_CONTEXT.ReadToken());
+        break;
+    case PRAGMA_CHECK_STACK:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(0),0x567);
+        token = PRAGMA_CONTEXT.ReadToken();
+        switch (token->kind) {
+        case 0x51: c1_data.normalized_stack_checks = 1; break;
+        case 0x46: c1_data.normalized_stack_checks = 0; break;
+        case 45:
+            PRAGMA_UNREAD(token);
+            c1_data.normalized_stack_checks = c1_data.options.stack_checks;
+            break;
+        case 118:
+            PRAGMA_UNREAD(token); value = read_optional_pragma_value(1);
+            c1_data.normalized_stack_checks = value ? (int)value->value.pointer : c1_data.options.stack_checks;
+            break;
+        default: report_language_diagnostic(1, 0x4d); skip_to_directive_newline(token); break;
+        }
+        break;
+    case PRAGMA_SETLOCALE:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(32),0x585);
+        value = read_required_pragma_value(7);
+        if (!value) break;
+        if (!setlocale(LC_ALL, (const char *)value->value.pointer)) compiler_warning(175, value->value.pointer);
+        disable_multibyte_identifiers(); initialize_multibyte_scanner();
+        break;
+    case PRAGMA_MESSAGE:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot24(18),0x595);
+        if (!expect_directive_token(118)) break;
+        value = read_pragma_string();
+        if (value && expect_directive_token(126)) {
+            print_pragma_message((const char *)value->value.pointer);
+            print_pragma_message("\n");
+        }
+        break;
+    case PRAGMA_COMMENT:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot24(19),0x5b4);
+        if (!expect_directive_token(118)) break;
+        token = expect_directive_token(6);
+        if (!token) break;
+        text = ((CompilerNameEntry *)token->value.pointer)->name;
+        control_option_value = NULL;
+        if (!strcmp(text,"compiler")) {
+            control_option_kind = 1;
+            control_option_value = (const BYTE *)"";
+        } else if (!strcmp(text,"lib")) control_option_kind = 4;
+        else if (!strcmp(text,"exestr")) control_option_kind = 3;
+        else if (!strcmp(text,"user")) control_option_kind = 6;
+        else if (!strcmp(text,"nolib")) control_option_kind = 9;
+        else if (!strcmp(text,"linker")) control_option_kind = 10;
+        else goto unknown_pragma_name;
+        value = PRAGMA_CONTEXT.ReadToken();
+        if (!control_option_value && value->kind == 55) {
+            value = read_pragma_string();
+            if (!value) break;
+            control_option_value = (const BYTE *)value->value.pointer;
+            value = PRAGMA_CONTEXT.ReadToken();
+        }
+        PRAGMA_UNREAD(value);
+        if (expect_directive_token(126) && control_option_value)
+            emit_control_record(11);
+        break;
+    case 47: /* Prepared linker-library comment, without a keyword prefix. */
+        control_option_kind = 3;
+        value = read_pragma_string();
+        if (value) {
+            control_option_value = (const BYTE *)value->value.pointer;
+            if (control_option_value) emit_control_record(11);
+        }
+        break;
+    case PRAGMA_DATA_SEG: case PRAGMA_BSS_SEG: case PRAGMA_CONST_SEG: case PRAGMA_CODE_SEG:
+        if (code == PRAGMA_CODE_SEG) { segment = &(*(CompilerIrSymbol **)&c1_data.function_context); segment_kind = 0; }
+        else {
+            if (c1_bss.parameter_nesting) {
+                const char *directive = code == PRAGMA_DATA_SEG ? "data_seg" :
+                    code == PRAGMA_BSS_SEG ? "bss_seg" : "const_seg";
+                if (c1_data.options.incremental_compile) compiler_warning(307,directive);
+                else report_language_diagnostic(1,177,directive);
+            }
+            if (code == PRAGMA_DATA_SEG) { segment = &declaration_reference_defaults.definition; segment_kind = 1; }
+            else if (code == PRAGMA_BSS_SEG) { segment = &declaration_reference_defaults.fallback; segment_kind = 3; }
+            else { segment = &declaration_reference_defaults.type_context; segment_kind = 4; }
+        }
+        c1_bss.debug_module->Slot20(code);
+        if (!expect_directive_token(118)) break;
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 126) { *segment = NULL; break; }
+        if (token->kind != 7) {
+            PRAGMA_UNREAD(token); read_pragma_string(); break;
+        }
+        PRAGMA_UNREAD(token); token = read_pragma_string();
+        if (!*(const char *)token->value.pointer) goto empty_segment_name;
+        name = find_or_create_identifier((const char *)token->value.pointer);
+        value = PRAGMA_CONTEXT.ReadToken();
+        if (value->kind == 55) {
+            token = read_pragma_string();
+            if (!token) break;
+            if (!*(const char *)token->value.pointer) goto empty_segment_name;
+            class_name = find_or_create_identifier((const char *)token->value.pointer);
+        } else if (value->kind == 126) {
+            class_name = c1_data.builtin_names.unnamed;
+            PRAGMA_UNREAD(value);
+        } else {
+            PRAGMA_UNREAD(value); expect_directive_token(55); break;
+        }
+        *segment = find_or_create_segment(name,class_name,segment_kind,2);
+        expect_directive_token(126);
+        break;
+    case PRAGMA_SEGMENT:
+        c1_bss.debug_module->Slot20(20);
+        if (!expect_directive_token(118)) break;
+        token = expect_directive_token(6);
+        if (!token) break;
+        name = (CompilerNameEntry *)token->value.pointer;
+        if (!strcmp(name->name,"_TEXT")) { segment=&(*(CompilerIrSymbol **)&c1_data.function_context); segment_kind=0; }
+        else if (!strcmp(name->name,"_DATA")) { segment=&declaration_reference_defaults.definition; segment_kind=1; }
+        else if (!strcmp(name->name,"_BSS")) { segment=&declaration_reference_defaults.fallback; segment_kind=3; }
+        else if (!strcmp(name->name,"CONST")) { segment=&declaration_reference_defaults.type_context; segment_kind=4; }
+        else goto unknown_pragma_name;
+        value = PRAGMA_CONTEXT.ReadToken();
+        if (value->kind == 126) { *segment=NULL; break; }
+        if (value->kind != 55) { PRAGMA_UNREAD(value); expect_directive_token(55); break; }
+        value = expect_directive_token(6);
+        if (!value) break;
+        *segment = find_or_create_segment((CompilerNameEntry *)value->value.pointer,
+            c1_data.builtin_names.unnamed,segment_kind,2);
+        expect_directive_token(126);
+        break;
+    case PRAGMA_OPTIMIZE:
+        if (c1_bss.parameter_nesting) { compiler_warning(156); break; }
+        if (!expect_directive_token(118)) break;
+        value = read_pragma_string();
+        if (!value) break;
+        pragma_state.optimization_text = (const char *)value->value.pointer;
+        if (!expect_directive_token(55)) break;
+        value = read_pragma_switch();
+        if (!value) break;
+        pragma_state.optimization_enabled = (int)value->value.pointer;
+        if (!expect_directive_token(126)) break;
+        if (*pragma_state.optimization_text) {
+            while (*pragma_state.optimization_text) {
+                const PragmaOptimizationOption *option;
+                for (option=optimization_options;option->letter;++option) {
+                    if (*pragma_state.optimization_text == option->letter)
+                        *option->destination = pragma_state.optimization_enabled ? option->enabled : !option->enabled;
+                }
+                ++pragma_state.optimization_text;
+            }
+        } else {
+            unsigned flags = pack_option_flags();
+            if (pragma_state.optimization_enabled)
+                flags = (flags & ~pragma_state.optimization_restore_mask) |
+                    (c1_bss.initial_option_flags & pragma_state.optimization_restore_mask);
+            else flags &= ~pragma_state.optimization_disable_mask;
+            apply_option_flags(flags);
+        }
+        break;
+    case PRAGMA_AUTO_INLINE:
+        if (c1_bss.parameter_nesting) { compiler_warning(156); break; }
+        value = read_optional_pragma_value(1);
+        c1_data.ir_symbol_state_ready = c1_data.function_reference_epoch = value ? (int)value->value.pointer : 1;
+        break;
+    case PRAGMA_WARNING:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(28),0x7bd);
+        if (!expect_directive_token(118)) break;
+next_warning_option:
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 6) {
+            text = ((CompilerNameEntry *)token->value.pointer)->name;
+            if (!strcmp(text,"disable")) state=13;
+            else if (!strcmp(text,"error")) state=14;
+            else if (!strcmp(text,"once")) state=5;
+            else goto invalid_warning_option;
+        } else if (token->kind == 101) {
+            state=(unsigned)token->value.typed_constant.value;
+            if (state<1 || state>4) {
+                report_language_diagnostic(1,0x268,state,1,4);
+                skip_to_directive_newline(token); break;
+            }
+        } else if (token->kind == 103) state=0;
+        else goto invalid_warning_option;
+        if (!expect_directive_token(54)) break;
+        value=PRAGMA_CONTEXT.ReadToken();
+        while (value->kind == 101) {
+            number=(unsigned)value->value.typed_constant.value;
+            set_warning_state(number,state);
+            value=PRAGMA_CONTEXT.ReadToken();
+        }
+        if (value->kind == 127) goto next_warning_option;
+        if (value->kind != 126) { PRAGMA_UNREAD(value); expect_directive_token(126); }
+        break;
+    case PRAGMA_HDRSTOP:
+        c1_data.lexer_flags |= 0x8000;
+        mark_precompiled_header_stop(&c1_pch_stop_owner);
+        c1_data.lexer_flags &= ~0x8000U;
+        return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    case PRAGMA_INLINE_RECURSION:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(26),0x81f);
+        value=read_optional_pragma_value(1);
+        control_state_second=value ? (WORD)(unsigned)value->value.pointer : 0;
+        if ((unsigned)c1_data.options.inline_level>0) emit_control_record(32);
+        break;
+    case PRAGMA_INLINE_DEPTH:
+        PRAGMA_ASSERT(c1_bss.debug_module->Slot20(25),0x82c);
+        value=read_optional_pragma_value(101);
+        control_state_first=value ? (WORD)value->value.typed_constant.value : 8;
+        if ((unsigned)c1_data.options.inline_level>0) emit_control_record(32);
+        break;
+    case PRAGMA_COMPONENT:
+        token=PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 45) { PRAGMA_UNREAD(token); break; }
+        if (token->kind != 118) { PRAGMA_UNREAD(token); expect_directive_token(118); break; }
+        token=PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 6) {
+            text=((CompilerNameEntry *)token->value.pointer)->name;
+            if (!strcmp(text,"browser")) enable_browser_component();
+            else if (!strcmp(text,"minrebuild")) enable_minimal_rebuild_component();
+            else if (!strcmp(text,"mintypeinfo")) enable_minimum_type_info_component();
+            else {
+                report_language_diagnostic(1,174,text);
+                skip_to_directive_newline(token);
+            }
+        } else if (token->kind != 126) { PRAGMA_UNREAD(token); expect_directive_token(6); }
+        break;
+    default:
+        report_language_diagnostic(1,68);
+        skip_to_directive_newline(token);
+        break;
+
+    }
+    return NULL;
+unknown_pragma_name:
+    report_language_diagnostic(1,109,token->value.pointer);
+    skip_to_directive_newline(token);
+    return NULL;
+invalid_warning_option:
+    report_language_diagnostic(1,0x267);
+    skip_to_directive_newline(token);
+    return NULL;
+empty_segment_name:
+    report_language_diagnostic(1, 0x26a);
+    skip_to_directive_newline(token);
+    return NULL;
+}
+
+/* Genuine pending directive children, one body per original identity. */
+extern "C" CompilerParserToken *__cdecl expect_directive_token(BYTE kind)
+{
+    CompilerParserToken *token = c1_bss.current_context.ReadToken();
+    if (token->kind == kind) return token;
+    if (token->kind == 6)
+        report_language_diagnostic(1, 83, kind, token->value.name);
+    else report_language_diagnostic(1, 81, kind, token->kind);
+    skip_to_directive_newline(token);
+    return NULL;
+}
+extern "C" void __cdecl skip_to_directive_newline(CompilerParserToken *) { __asm { int 3 } }
+extern "C" void __cdecl set_warning_state(unsigned, unsigned) { __asm { int 3 } }
+extern "C" CompilerParserToken * __cdecl read_optional_pragma_value(unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerParserToken * __cdecl read_required_pragma_value(unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerParserToken * __cdecl read_pragma_string(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerParserToken * __cdecl read_pragma_switch(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerIrSymbol * __cdecl find_or_create_segment(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl enable_minimal_rebuild_component(void) { __asm { int 3 } }
+extern "C" void __cdecl enable_minimum_type_info_component(void) { __asm { int 3 } }
+extern "C" void __cdecl enable_browser_component(void) { __asm { int 3 } }
+extern "C" void __cdecl mark_precompiled_header_stop(void **) { __asm { int 3 } }
+extern "C" void __cdecl apply_option_flags(unsigned) { __asm { int 3 } }
+extern "C" void __cdecl print_pragma_message(const char *) { __asm { int 3 } }
+extern "C" void __cdecl read_pragma_identifier_list(void (__cdecl *)(CompilerNameEntry *)) { __asm { int 3 } }
+extern "C" void __cdecl mark_function_nonintrinsic(CompilerNameEntry *) { __asm { int 3 } }
+extern "C" void __cdecl mark_function_intrinsic(CompilerNameEntry *) { __asm { int 3 } }
+extern "C" void __cdecl assign_allocated_text_segment(CompilerNameEntry *) { __asm { int 3 } }
+extern "C" void __cdecl process_pack_pragma(void) { __asm { int 3 } }
