@@ -45,16 +45,22 @@ static void numeric(void)
     static const unsigned values[]={0,1,64,0xabcdef,0x80000000U,0xffffffffU,500};
     static const char *hexadecimal[]={"0","1","40","abcdef","80000000","ffffffff","1f4"};
     static const char *decimal[]={"0","1","64","11259375","2147483648","4294967295","500"};
-    const char **expected;unsigned radix,pass;
+    const char **expected;unsigned radix,pass,kind;
     unsigned index,row,n;char buffer[20],*output=buffer+4;
     unsigned char before[108],after[108];
     __asm__ __volatile__("fld1\n\tfldpi":::"st");
-    for(pass=0;pass<2;++pass)for(index=0;index<7;++index)for(row=0;row<3;++row) {
+    for(kind=0;kind<2;++kind)for(pass=0;pass<2;++pass)for(index=0;index<7;++index)for(row=0;row<3;++row) {
+        if(kind && !pass)continue;
         radix=pass?10:16;expected=pass?decimal:hexadecimal;
         memset(buffer,0x5a,sizeof(buffer));errno=111+row;*recon_errno()=211+row;
         recon_doserrno=311+row;SetLastError(411+row);
-        snapshot(before);assert(number(values[index],output,radix)==output);snapshot(after);
-        assert(!strcmp(output,expected[index]) && !memcmp(before,after,108));
+        snapshot(before);
+        if(kind)assert(long_number(values[index],output,radix)==output);
+        else assert(number(values[index],output,radix)==output);
+        snapshot(after);
+        assert(!strcmp(output,expected[index]) && !memcmp(before,after,2) &&
+               !memcmp(before+4,after+4,2) && !memcmp(before+8,after+8,2) &&
+               !memcmp(before+28,after+28,20));
         assert(errno==111+(int)row && *recon_errno()==211+(int)row &&
                recon_doserrno==311+row && GetLastError()==411+row);
         for(n=0;n<4;++n)assert(buffer[n]==0x5a);
@@ -71,7 +77,7 @@ int main(void)
 #endif
     memory=mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
     assert(memory!=MAP_FAILED);memset(memory,0xa5,4096);
-    for(mode=0;mode<17;++mode) {
+    for(mode=0;mode<19;++mode) {
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
@@ -91,7 +97,9 @@ int main(void)
             case 13:number(1,(char *)0xfffffff8U,16);break;
             case 14:long_number(0,NULL,10);break;
             case 15:long_number(~0UL,(char *)1,16);break;
-            case 16:long_number(500,(char *)memory,10);break;
+            case 16:long_number(500,(char *)memory,8);break;
+            case 17:long_number(1,(char *)0xfffffff8U,10);break;
+            case 18:long_number(1,(char *)memory,16);break;
             }
             _exit(42);
         }

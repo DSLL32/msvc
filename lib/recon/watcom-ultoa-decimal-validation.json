@@ -1,0 +1,16 @@
+{
+  "scope": "ExplicitWatcom ultoa unsigned32 radix10 only, valid caller-owned12B precondition; nonNULL/nonwrapping12B guard delegates existing recon_ultoa. Prior utoa decimal/hex unchanged. Other ultoa radices/profiles/NULL/wrap125. Reused numeric/cold probe verifies output/alias/NUL/tails, independent host+target errno/DOS/LastError and semantic FP; no original per-call state claim.",
+  "provider": "Actual older71B ultoa unsigned divide/reverse-copy/lowercase37B alphabet; shipped variant73B has same source/public role but not byte-identical; signed ltoa stays unqualified.",
+  "actual_adoption": "Genuine WLINK MemorySize\u2192cleanup pair original1689.129ms/native30.117ms (setup14.195/exec8.417/checks7.504); PE/map match through frontier1c290. No original per-call state measured. Worker reports exact compiled candidate8f39a4ab/remaps48e9b4a1; no retroactive consumed-DSO hash claim.",
+  "continued_adoption": "Next ordinary FreeAMod pair also re-executes ultoa formatting: original1669.385/native31.829ms to265f4. Current source/DSO/case binding retained after this pair; not retrospective attribution to overwritten MemorySize DSO.",
+  "fp_qualification": "Numeric probe compares x87 control/status/tag and two live values. Instruction/data pointer bookkeeping and empty registers intentionally excluded, including differing helper callsites; no full108-byte equality or original-private-state claim.",
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/watcom-ultoa-decimal/receipt.json",
+  "receipt_sha256": "9e909f56481cb5d87149d50e602990ef3cda35419efc7754f2e0d848ad52309f",
+  "source_sha256": {
+    "src/compat.c": "8f39a4abe65da5718a45a9f9e90150791f4dcc02e66dc0898f599c0222b1ce48",
+    "native/recon-remaps.h": "48e9b4a193ffb7ac2f604a2b725a58464eaee801fe7bc06a8e97a9b4efa3a980",
+    "tests/watcom-cold-probe.c": "9576aa7ea30b2ae90163b3dee54168918b0ec38ce11f2078c75b370c83eb4105"
+  },
+  "groups": 6,
+  "wall_s": 3.1022283658385277
+}

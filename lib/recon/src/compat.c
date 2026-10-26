@@ -422,8 +422,16 @@ unsigned int __cdecl recon_watcom_rotl(unsigned int value,unsigned int count)
 }
 char *__cdecl recon_watcom_ultoa(unsigned long value,char *output,int radix)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(radix!=10 || !output || (uintptr_t)output>UINTPTR_MAX-12)
+        recon_unsupported("Watcom ultoa decimal output domain");
+    /* Caller owns at least12B; unsigned long is32-bit in the native build.
+     * At most ten decimal digits plus NUL are written, with no allocation. */
+    return recon_ultoa(value,output,radix);
+#else
     (void)value;(void)output;(void)radix;
-    recon_unsupported("unreviewed Watcom ultoa");return NULL;
+    recon_unsupported("Watcom ultoa requires explicit profile");return NULL;
+#endif
 }
 char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
 {

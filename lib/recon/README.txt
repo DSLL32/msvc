@@ -1659,3 +1659,15 @@ For its exact flags0xa00/lang0/NULL-arguments/4096-byte-output tuple, failure
 returns0 with LastError317. Native output is untouched; original failure-buffer
 contents remain unmeasured. rc_message consumes only0 and selects literal empty
 text, which then initializes diagnostic storage. Unknown IDs/owners stay125.
+
+Watcom ultoa now admits the reached unsigned32 decimal/radix10 role through the
+existing recon_ultoa backend. The caller owns at least12 writable bytes; NULL
+and wrapping spans, other radices and direct other-profile uses deny125. The
+start pointer is returned, with at most ten digits and NUL. Prior utoa decimal/
+hexadecimal domains remain unchanged. Focused vectors/tails/error slots and
+semantic x87 control/status/tag/live values pass; incidental instruction/data
+pointers and empty registers are deliberately excluded, not equated bytewise.
+Ordinary WLINK MemorySize and FreeAMod continuations compare PE/map output after
+the real conversion. The current FreeAMod source/DSO binding is retained; it is
+not retroactively attributed to the overwritten MemorySize DSO. Original
+per-call private error/FP effects remain unmeasured.
