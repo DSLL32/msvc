@@ -491,6 +491,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _splitpath2 recon_watcom_splitpath2
 #define getch recon_watcom_getch
 #define utoa recon_watcom_utoa
+#define itoa recon_itoa
 #define isatty recon_isatty
 #define stdaux (&recon_iob[3])
 #define stdprn (&recon_iob[4])

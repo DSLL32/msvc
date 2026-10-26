@@ -1334,3 +1334,7 @@ and nonsymlink. Empty/dot/parent components, absolute/drive/UNC paths and traili
 dot/space components deny before open. No directories are created. Exact
 0162/0262 flag and permission tuples, descriptor ownership and failure limits
 remain unchanged. This qualifies WLIB out\keep.obj through its fixture-owned out.
+
+The Watcom-only bare itoa spelling aliases the existing signed32 recon_itoa,
+matching the SDK int/pointer/radix prototype. WASM uses the decimal path; no
+additional numeric conversion implementation or provider state is introduced.
