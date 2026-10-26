@@ -980,3 +980,9 @@ build/mbstok-continuation-probe: tests/mbstok-continuation-probe.c $(SOURCES) $(
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 mbstok-continuation-check: build/mbstok-continuation-probe
 	$(PYTHON) tests/check-mbstok-continuation.py $< 510
+
+.PHONY: apstudio-reference-check
+build/apstudio-reference-probe: tests/apstudio-reference-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+apstudio-reference-check: build/apstudio-reference-probe
+	$(PYTHON) tests/check-apstudio-reference.py $< 510

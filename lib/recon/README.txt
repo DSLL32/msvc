@@ -1526,6 +1526,14 @@ signed32 line and genuine promoted flagFFFFFF80/81 converted to WCHARFF80/81.
 Default-C/MB1/gate0 and all locale handles are required. The caller owns2048
 WCHARs; format/string/output spans, disjointness and computed length are checked
 before writes. Return excludes the NUL, tails are untouched, native errors/full
-FP preserved. Other layouts/marker/flag/string domains stay125. No general
+FP preserved. Other unqualified layouts/marker/flag/string domains stay125. No general
 formatter or original per-call state equivalence is claimed; the ordinary
 APSTUDIO continuation matches its exact partial output hashes.
+
+The companion APSTUDIO reference swprintf layout is exactly
+" %c\"%s%c%s%c%d\"": E001, WCHAR name, E002, WCHAR filename, E002, signed32
+line, with literal leading space and quotes. It uses the same bounded/disjoint
+ASCII WCHAR and2048-WCHAR caller contract, strings+digits+6 count, and native
+error/FP preservation. Its six typed varargs are read without consuming the
+first layout's extra flag fields. The original nine-argument layout remains
+unchanged; no other pattern is interpreted. Original per-call state unmeasured.
