@@ -137,4 +137,7 @@ extern void emitChar( output_desc *, char );
 extern void emitStr( output_desc *, const char * );
 extern void forceSuppression( output_desc * );
 extern void unforceSuppression( output_desc * );
+extern int base_36_2digit( output_desc *data, unsigned *value );
+extern int dimension( output_desc *data, state_desc *state );
+extern int base_10_num( output_desc *data, int *value );
 #endif

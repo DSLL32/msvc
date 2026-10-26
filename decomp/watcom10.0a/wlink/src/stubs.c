@@ -152,7 +152,7 @@ void Syntax( void ) { TRAP(); }
 
 
 unsigned char ProcDisable( void ) { TRAP(); return 0; }
-unsigned char ProcSort( void ) { TRAP(); return 0; }
+
 unsigned char ProcLanguage( void ) { TRAP(); return 0; }
 
 unsigned char ProcAnonExport( void ) { TRAP(); return 0; }
@@ -227,15 +227,15 @@ unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcLine( void ) { TRAP(); return 0; }
-unsigned char ProcType( void ) { TRAP(); return 0; }
-unsigned char ProcLocal( void ) { TRAP(); return 0; }
-unsigned char ProcDBIStatic( void ) { TRAP(); return 0; }
+
+
+
+
 
 
 
 unsigned char ProcArea( void ) { TRAP(); return 0; }
-unsigned char ProcArtificial( void ) { TRAP(); return 0; }
+
 
 
 unsigned char ProcDynamic( void ) { TRAP(); return 0; }
@@ -265,7 +265,7 @@ unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
 unsigned char ProcSelfRelative( void ) { TRAP(); return 0; }
 unsigned char ProcSharelib( void ) { TRAP(); return 0; }
-unsigned char ProcShowDead( void ) { TRAP(); return 0; }
+
 unsigned char ProcSingle( void ) { TRAP(); return 0; }
 unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
@@ -273,7 +273,7 @@ unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
 unsigned char ProcToggleRelocsFlag( void ) { TRAP(); return 0; }
 unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
-unsigned char ProcVFRemoval( void ) { TRAP(); return 0; }
+
 
 
 
@@ -396,7 +396,7 @@ void WriteAbsSegs( class_entry *class ) { TRAP(); }
 
 
 
-void WriteSymArray( symbol **syms, unsigned num ) { TRAP(); }
+
 
 
 void forceSuppression( output_desc *data ) { TRAP(); }
@@ -523,22 +523,22 @@ seg_leader *AddToLinkerComdat( symbol *sym ) { sym=sym;TRAP();return 0; }
 unsigned char CacheRelease( void ) { TRAP(); return 0; }
 unsigned char SwapOutVirt( void ) { TRAP(); return 0; }
 unsigned char SwapOutRelocs( void ) { TRAP(); return 0; }
-void RestoreComdat( symbol *sym, segdata *seg ) { TRAP(); }
+
 
 void DwarfAddModLines( unsigned count ) { TRAP(); }
-int based_encoding( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int array( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-char prevChar( output_desc *data ) { TRAP(); return 0; }
 
 
 
 
 
-int special_type_names( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int watcom_object( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int check_recurse( void ) { TRAP(); return 0; }
-int recursive_mangled_name( output_desc *data, state_desc *state ) { TRAP(); return 0; }
-int base_32_num( output_desc *data, int *value ) { TRAP(); return 0; }
+
+
+
+
+
+
+
+
 
 
 
@@ -692,3 +692,7 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
+
+
+
+int SymAddrCompare( const void *a, const void *b ) { TRAP(); return 0; }

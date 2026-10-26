@@ -565,3 +565,47 @@ unsigned char ProcNoDefLibs( void )
     CmdFlags |= 4;
     return 1;
 }
+
+unsigned char ProcVFRemoval( void )
+{
+    LinkFlags |= 0x10000000UL;
+    return 1;
+}
+
+unsigned char ProcShowDead( void )
+{
+    LinkFlags |= 0x2000000UL;
+    return 1;
+}
+
+unsigned char ProcArtificial( void )
+{
+    MapFlags |= 0x4;
+    return 1;
+}
+
+unsigned char ProcAlphabetical( void )
+{
+    MapFlags |= 0x10;
+    return 1;
+}
+
+unsigned char ProcGlobal( void )
+{
+    MapFlags |= 0x20;
+    return 1;
+}
+
+static parse_entry SortOptions[] = {
+    { "ALPhabetical", ProcAlphabetical, 0xffff },
+    { "GLobal", ProcGlobal, 0xffff },
+    { 0, 0, 0 }
+};
+
+unsigned char ProcSort( void )
+{
+    MapFlags |= 8;
+    if( !ProcOne( SortOptions, SEP_NO, 0 ) ) return 1;
+    ProcOne( SortOptions, SEP_NO, 0 );
+    return 1;
+}

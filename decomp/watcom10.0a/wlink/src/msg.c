@@ -386,3 +386,31 @@ unsigned char SkipSymbol( symbol *sym )
     art = __is_mangled_internal( sym->name, 0 );
     return !(MapFlags & 4) && art == 2;
 }
+
+int SymAlphaCompare( const void *a, const void *b )
+{
+    symbol *left, *right;
+    const char *leftname, *rightname;
+    unsigned leftsize, rightsize;
+    int result;
+
+    left = *(symbol **)a;
+    right = *(symbol **)b;
+    if( !(LinkFlags & 0x80000UL) ) {
+        __unmangled_name( left->name, 0, &leftname, &leftsize );
+        __unmangled_name( right->name, 0, &rightname, &rightsize );
+    } else {
+        leftname = left->name;
+        rightname = right->name;
+        leftsize = strlen( leftname );
+        rightsize = strlen( rightname );
+    }
+    if( leftsize < rightsize ) {
+        result = memicmp( leftname, rightname, leftsize );
+        if( result == 0 ) result = -1;
+    } else {
+        result = memicmp( leftname, rightname, rightsize );
+        if( result == 0 && leftsize > rightsize ) result = 1;
+    }
+    return result;
+}

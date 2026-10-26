@@ -30,6 +30,7 @@
 ****************************************************************************/
 
 #include <string.h>
+#include <stdlib.h>
 #include "cmdline.h"
 /* Preserve the original compiler's dword-fill runtime edge and register ABI. */
 void *__STOSD( void *, unsigned, unsigned );
@@ -625,4 +626,18 @@ seg_leader *FindASeg( class_entry *class, char *name )
         }
     }
     return 0;
+}
+
+void WriteSymArray( symbol **syms, unsigned num )
+{
+    if( MapFlags & 0x10 ) {
+        qsort( syms, num, sizeof(symbol *), SymAlphaCompare );
+    } else {
+        qsort( syms, num, sizeof(symbol *), SymAddrCompare );
+    }
+    do {
+        XReportSymAddr( *syms );
+        ++syms;
+        --num;
+    } while( num > 0 );
 }

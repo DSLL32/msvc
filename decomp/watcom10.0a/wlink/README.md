@@ -1,5 +1,5 @@
-WLINK 10.0a has fifteen completed native regression cases. The acceptance ledger
-contains **1,033 application functions / 121,331 unique original code bytes**.
+WLINK 10.0a has sixteen completed native regression cases. The acceptance ledger
+contains **1,059 application functions / 123,570 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -35,6 +35,8 @@ The fourteenth upgrades an OS/2 LX DLL, preserving old export ordinals while
 adding a new export and module metadata, with code/data/BSS page policies.
 The fifteenth performs a self-contained PE DLL ordinal upgrade from genuine
 USE32 OMF code/data, using old PE header mode and the native subsystem.
+The sixteenth combines C++ virtual dispatch, templates, array types, COMDAT
+dead-code removal, selected Watcom debug records and an alphabetically sorted map.
 
 | Case | Result |
 | --- | --- |
@@ -53,6 +55,7 @@ USE32 OMF code/data, using old PE header mode and the native subsystem.
 | `0012-dos-com` | Exit 0; exact 249-byte stdout, empty stderr, 47-byte COM, 316-byte debug file and 1,958-byte map |
 | `0013-os2-upgrade` | Exit 0; exact 267-byte stdout, empty stderr, 5,113-byte LX DLL and 4,268-byte map |
 | `0015-pe-ordinal-upgrade` | Exit 0; exact 232-byte stdout, empty stderr, 11,776-byte PE DLL and 3,038-byte map |
+| `0016-cpp-vf` | Exit 0; exact 253-byte stdout, empty stderr, 46,257-byte PE DLL and 60,582-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -80,12 +83,14 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,036 source-ready identities, their actual graph,
+The complete audit passes for 1,063 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
-main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
+main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
 statically qualified empty shared entries excluded from the acceptance count;
-no observed separate invocation is claimed. The original first-node AddAddrInfo
+no observed separate invocation is claimed. The source-ready base_32_num sibling
+shares a genuine terminal suffix with base_10_num, but its own primary body has
+not executed and is also excluded from acceptance. The original first-node AddAddrInfo
 sentinel read is preserved on Win32; its documented native-only deterministic
 zero choice is limited to the observed invalid sentinel control read.
 
@@ -256,3 +261,31 @@ reused that capture and took **30.295 ms**, split **16.806 / 6.004 / 7.486 ms**
 for setup/execution/checks. The clean baseline took **707.998 ms**, and genuine
 main/worker assembly took **706.224 / 485.530 ms**. Authoring files, raw artifacts
 and diagnostics remain in scratch; case folders contain only source/capture data.
+
+
+The C++ virtual-dispatch workload matches 656 first entries and complete DLL/map
+outputs, excluding only the established four-byte COFF timestamp and six map
+clock digit fields. Genuine period C++ objects and an archive exercise restored
+COMDATs, selected lines/types/locals/static debug information, global alphabetical
+sorting and demangling of internal names, nested templates, arrays and based
+encodings. The 1994 anonymous-enum decoder requires its suffix immediately,
+unlike the later released source loop. RestoreComdat now checks the actual
+LinkState second-pass bit; checking command flags instead overwrote six resolved
+COMDAT addresses with relative offsets. The retained original capture exposed
+this error, and the corrected native replay matches without extra exclusions.
+
+Although the producer used its real -zv option, these objects contain no P/V/R
+virtual-function extension records. ProcVFRemoval is qualified as an option
+handler, but VFTable/Reference processing is not. Copy constructors and the pure
+Node::value are removed; unused virtual overrides remain. No virtual-override
+removal or synthetic-record coverage is claimed.
+
+The final parallel build/regression/unit/audit batch took **1.351 s**. All sixteen
+cases and 1,063 source-ready graph/ABI identities pass. The 32 native regression
+runs took **18.103–56.627 ms**. The final genuine C++ capture command took
+**2,057.686 ms** (owned target **2,017.035 ms**); corrected native replay against
+that retained oracle took **60.181 ms**, split **18.355 / 32.908 / 8.917 ms** for
+setup/execution/checks. The successful baseline took **519.543 ms**; main/worker/
+helper compilation and archive production took **497.620 / 537.919 / 656.351 /
+542.296 ms**. All raw outputs, producer inputs and failed comparisons remain in
+scratch under wlink-cpp-vf; the case contains only source and capture data.

@@ -296,6 +296,13 @@ extern void CheckExport( char *name, unsigned short ordinal, int (*compare)(cons
 extern entry_export *FindPlace( entry_export *entry );
 extern void DefineLazyExtdef( symbol *sym, symbol *def, unsigned char isweak );
 extern void ReadExports( unsigned long namestart, unsigned long nameend, unsigned long ordstart, unsigned numords, unsigned ord_base, int file, char *fname );
+extern unsigned char ProcAlphabetical( void );
+extern unsigned char ProcGlobal( void );
+extern int SymAlphaCompare( const void *a, const void *b );
+extern int SymAddrCompare( const void *a, const void *b );
+extern int __unmangled_name( const char *name, unsigned len, const char **base, unsigned *size );
+extern unsigned char_to_digit( char c );
+extern unsigned demangle_recursive( const char *input, char *output, unsigned size );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

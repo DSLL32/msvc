@@ -5176,6 +5176,141 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDBIStatic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVFRemoval": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcShowDead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcArtificial": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAlphabetical": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSort": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RestoreComdat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSymArray": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymAlphaCompare": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__unmangled_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "watcom_object": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "char_to_digit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "base_36_2digit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "check_recurse": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "recursive_mangled_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "demangle_recursive": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "array": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "dimension": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "base_32_num": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "base_10_num": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "prevChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "based_encoding": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "special_type_names": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -5456,6 +5591,16 @@
       "original": {
         "start": 4350738,
         "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "base_32_num",
+        "base_10_num"
+      ],
+      "original": {
+        "start": 4382232,
+        "bytes_hex": "b8010000008911595bc3"
       }
     }
   ],

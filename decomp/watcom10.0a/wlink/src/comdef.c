@@ -415,3 +415,25 @@ void BSSPass2( symbol *sym )
     sym->addr.off += seg->seg_addr.off;
     ConvertToFrame( (address *)&sym->addr, seg->group->grp_addr.seg );
 }
+
+void RestoreComdat( symbol *sym, segdata *seg )
+{
+    segdata *saved;
+    segnode node;
+    unsigned long offset;
+
+    /* This version saves the defining segdata itself, not a comdat ring. */
+    saved = (segdata *)seg->u.leader;
+    seg->cl.name = saved->cl.name;
+    seg->acbp = saved->acbp;
+    seg->u.name = saved->u.name;
+    seg->cl.entry = FindClass( Root, seg->cl.name->name, seg->acbp & 1 );
+    seg->u.leader = AddSegment( seg, &node, CurrSect, &offset );
+    if( !(LinkState & 0x1000) ) {
+        DBIAddModLines( seg->line_size );
+        sym->addr.off = offset;
+        sym->u.value = offset | 0x40000000UL;
+        sym->addr.seg = seg->u.leader->seg_addr.seg;
+        sym->p.leader = seg->u.leader;
+    }
+}

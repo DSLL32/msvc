@@ -951,3 +951,27 @@ char *totext( void )
     if( !GetToken( SEP_NO, 0 ) ) GetToken( SEP_NO, TOK_INCLUDE_DOT );
     return tostring();
 }
+
+unsigned char ProcLine( void )
+{
+    DBIFlag |= 0x1;
+    return 1;
+}
+
+unsigned char ProcType( void )
+{
+    DBIFlag |= 0x2;
+    return 1;
+}
+
+unsigned char ProcLocal( void )
+{
+    DBIFlag |= 0x4;
+    return 1;
+}
+
+unsigned char ProcDBIStatic( void )
+{
+    DBIFlag |= 0x10;
+    return 1;
+}

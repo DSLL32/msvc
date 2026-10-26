@@ -31,10 +31,19 @@
 
 #include <ctype.h>
 #include <stdlib.h>
+/* Native stack bounds differ from the Win32 CRT owner used by alloca. */
+#if defined(__linux__)
+#define RECON_WATCOM_ALLOCA_400 1
+#endif
+#include <malloc.h>
 #include <string.h>
 #include "diagnostic.h"
 #include "demangle.h"
 #include <recon.h>
+
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen)
+#endif
 
 #define _output1(k) data->outfun( &data->cookie, (k), 0, 0 )
 #define _output2(k,v) data->outfun( &data->cookie, (k), (v), 0 )
@@ -1200,6 +1209,290 @@ int op_new( output_desc *data, state_desc *state )
         _output1( DM_OPERATOR_PREFIX );
         _output1( DM_OPERATOR_NEW_ARRAY );
         return 1;
+    }
+    return 0;
+}
+
+int __unmangled_name( const char *name, unsigned len,
+                       const char **base, unsigned *size )
+{
+    const char *end;
+    int mangled;
+
+    *size = 0;
+    *base = name;
+    if( len == 0 ) len = strlen( name );
+    end = name + len;
+    mangled = __is_mangled( name, len );
+    if( mangled ) {
+        name += mangled;
+        *base = name;
+        if( *name == '$' ) {
+            *size += 3;
+            ++name;
+            if( tolower((unsigned char)*name) == 'w' ) ++*size;
+        } else {
+            for( ; name != end; ++name ) {
+                if( *name == '$' ) break;
+                ++*size;
+            }
+        }
+        return 1;
+    }
+    *size = len;
+    return 0;
+}
+
+int watcom_object( output_desc *data, state_desc *state )
+{
+    key_desc srch;
+    int i;
+    unsigned len;
+    char c;
+
+    c = nextChar( data );
+    if( c == 'A' ) {
+        advanceChar( data );
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output2( DM_WATCOM_OBJECT, 0 );
+    } else {
+        srch.str[0] = c;
+        advanceChar( data );
+        c = nextChar( data );
+        srch.str[1] = c;
+        advanceChar( data );
+        for( i = 1; i < num_elements(watcomObject); ++i ) {
+            if( srch.val == watcomObject[i].u.val ) {
+                _output2( DM_SET_INDEX, state->prefix );
+                _output2( DM_WATCOM_OBJECT, i );
+                break;
+            }
+        }
+        if( i == num_elements(watcomObject) ) {
+            _output2( DM_SET_INDEX, state->prefix );
+            _output2( DM_WATCOM_OBJECT, 0 );
+        }
+    }
+    if( base_36_2digit( data, &len ) ) {
+        while( len-- ) advanceChar( data );
+        c = nextChar( data );
+        if( c == '$' ) {
+            advanceChar( data );
+            return 1;
+        }
+    }
+    return 0;
+}
+
+unsigned char_to_digit( char c )
+{
+    if( c >= '0' && c <= '9' ) return c - '0';
+    if( c >= 'A' && c <= 'Z' ) return c - 'A' + 10;
+    if( c >= 'a' && c <= 'z' ) return c - 'a' + 10;
+    return (unsigned)-1;
+}
+
+int base_36_2digit( output_desc *data, unsigned *value )
+{
+    unsigned first, second;
+
+    first = char_to_digit( nextChar( data ) );
+    if( first < 36 ) {
+        advanceChar( data );
+        second = char_to_digit( nextChar( data ) );
+        if( second < 36 ) {
+            advanceChar( data );
+            *value = first * 36 + second;
+            return 1;
+        }
+    }
+    return 0;
+}
+
+int check_recurse( void )
+{
+    return (int)alloca( 400 );
+}
+
+int recursive_mangled_name( output_desc *data, state_desc *state )
+{
+    char buff[80];
+
+    _output1( DM_RECURSE_BEGIN );
+    data->input += demangle_recursive( data->input, buff, sizeof(buff) );
+    _output1( DM_RECURSE_END );
+    _output2( DM_SET_INDEX, state->prefix );
+    _output3( DM_COPY_STRING, 0, buff );
+    return 1;
+}
+
+unsigned demangle_recursive( const char *input, char *output, unsigned size )
+{
+    realloc_fn_t save_reallocator;
+    output_desc data;
+
+    save_reallocator = user_realloc;
+    user_realloc = NULL;
+    init_descriptor( &data, demangleEmit, &data, input, 0, output, size );
+    mangled_name( &data );
+    terminateOutput( &data );
+    user_realloc = save_reallocator;
+    return data.input - input;
+}
+
+int array( output_desc *data, state_desc *state )
+{
+    char c;
+
+    _output1( DM_ARRAY );
+    _output2( DM_RESET_INDEX, state->suffix );
+    _output1( DM_ZAP_SPACE );
+    if( state->right ) {
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPEN_PAREN );
+        _output2( DM_RESET_INDEX, state->suffix );
+        _output1( DM_CLOSE_PAREN );
+        state->right = 0;
+    }
+    c = nextChar( data );
+    while( c == '[' ) {
+        advanceChar( data );
+        if( !dimension( data, state ) ) return 0;
+        c = nextChar( data );
+    }
+    return type_encoding( data, state );
+}
+
+int base_32_num( output_desc *data, int *value )
+{
+    unsigned dig;
+    int v;
+
+    v = 0;
+    for( ;; ) {
+        dig = char_to_digit( nextChar( data ) );
+        if( dig >= 32 ) break;
+        v = v * 32 + dig;
+        advanceChar( data );
+    }
+    *value = v;
+    return 1;
+}
+
+int base_10_num( output_desc *data, int *value )
+{
+    unsigned dig;
+    int v;
+
+    v = 0;
+    for( ;; ) {
+        dig = char_to_digit( nextChar( data ) );
+        if( dig >= 10 ) break;
+        v = v * 10 + dig;
+        advanceChar( data );
+    }
+    *value = v;
+    return 1;
+}
+
+int dimension( output_desc *data, state_desc *state )
+{
+    int value;
+    char c;
+
+    _output2( DM_RESET_INDEX, state->suffix );
+    _output1( DM_ARRAY_PREFIX );
+    if( base_10_num( data, &value ) ) {
+        _output2( DM_ARRAY_SIZE, value );
+        c = nextChar( data );
+        if( c == ']' ) {
+            advanceChar( data );
+            _output1( DM_ARRAY_SUFFIX );
+            return 1;
+        }
+    }
+    return 0;
+}
+
+char prevChar( output_desc *data )
+{
+    char c;
+
+    c = *(data->input - 1);
+    return toupper( (unsigned char)c );
+}
+
+int based_encoding( output_desc *data, state_desc *state )
+{
+    char   c;
+    unsigned len;
+
+    _output1( DM_BASED_ENCODING );
+    c = nextChar( data );
+    switch( c ) {
+    case 'S':
+        advanceChar( data );
+        _output1( DM_BASED_SELF );
+        _output1( DM_BASED_SUFFIX );
+        return( 1 );
+        break;
+    case 'V':
+        advanceChar( data );
+        _output1( DM_BASED_VOID );
+        _output1( DM_BASED_SUFFIX );
+        return( 1 );
+        break;
+    case 'L':
+        advanceChar( data );
+        if( base_36_2digit( data, &len ) ) {
+            _output1( DM_BASED_STRING_PREFIX );
+            _output3( DM_IDENTIFIER, len, data->input );
+            while( len-- ) {
+                advanceChar( data );
+            }
+            _output1( DM_BASED_STRING_SUFFIX );
+            _output1( DM_BASED_SUFFIX );
+            return( 1 );
+        }
+        break;
+    case 'A':
+    case 'F':
+        advanceChar( data );
+        c = nextChar( data );
+        if( c == '$' ) {
+            auto state_desc new_state;
+            advanceChar( data );
+            new_state = *state;
+            new_state.prefix = data->index;
+            new_state.suffix = data->count - data->index;
+            if( scoped_name( data, &new_state ) ) {
+                _output2( DM_RESET_INDEX, new_state.suffix );
+                _output1( DM_ZAP_SPACE );
+                _output1( DM_BASED_SUFFIX );
+                return( 1 );
+            }
+        }
+        break;
+    }
+    return( 0 );
+}
+
+
+int special_type_names( output_desc *data, state_desc *state )
+{
+    char c;
+
+    c = nextChar( data );
+    if( c == 'E' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_ANONYMOUS_ENUM );
+        /* The 1994 encoding requires the suffix immediately here. */
+        if( nextChar( data ) == '$' ) {
+            advanceChar( data );
+            return 1;
+        }
     }
     return 0;
 }
