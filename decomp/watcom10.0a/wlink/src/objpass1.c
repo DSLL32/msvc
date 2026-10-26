@@ -531,3 +531,37 @@ void FindRedefs( void )
         }
     }
 }
+
+extern section *GetOvlSect( char * );
+extern list_of_names *GetSegmentName( char * );
+seg_leader *GetSegment( char *name, char *class_name, char *group_name,
+                        unsigned short info, unsigned char use16 )
+{
+    section *sect;
+    class_entry *class;
+    seg_leader *leader;
+    group_entry *group;
+
+    sect = GetOvlSect( class_name );
+    class = FindClass( sect, class_name, !use16 );
+    if( !use16 ) info |= 0x0400;
+    leader = FindALeader( class, GetSegmentName( name ), info );
+    leader->section = sect;
+    if( group_name != NULL ) {
+        group = FindGroup( GetSegmentName( group_name ) );
+        if( group->leaders == NULL ) {
+            group->num = 1;
+            group->free_slots = 0;
+            group->leaders = ChkLAlloc( sizeof(seg_leader *) );
+            group->leaders[0] = leader;
+        } else {
+            AddToGroup( group, leader, 0 );
+        }
+    }
+    return leader;
+}
+
+list_of_names *GetSegmentName( char *name )
+{
+    return AddName( name, strlen( name ) );
+}

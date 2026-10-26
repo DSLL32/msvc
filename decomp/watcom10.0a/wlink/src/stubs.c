@@ -4,6 +4,7 @@
 #include "fixup.h"
 #include "peheader.h"
 #include "exeflat.h"
+#include "exene.h"
 #include "dbgdwarf.h"
 #include "strtab.h"
 #include <recon.h>
@@ -31,10 +32,7 @@ unsigned char ModNameCompare( char *name, char *member ) { TRAP(); return 0; }
 void FillOutPtr( section *sect ) { TRAP(); }
 void CmdQNXFini( void ) { TRAP(); }
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
-void BSSPass1( symbol *sym ) { TRAP(); }
-void BSSPass2( symbol *sym ) { TRAP(); }
 void FillTypeFlags( unsigned short flags, unsigned type ) { TRAP(); }
-void FillClassFlags( char *name, unsigned short flags ) { TRAP(); }
 seg_leader *FindASeg( class_entry *class, char *name ) { TRAP(); return 0; }
 void FindExportedSyms( void ) { TRAP(); }
 unsigned char SortGroupAreas( ovl_area *area ) { TRAP(); return 0; }
@@ -57,7 +55,6 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 
-void FiniOS2LoadFile( void ) { TRAP(); }
 void FiniPharLapLoadFile( void ) { TRAP(); }
 void FiniNovellLoadFile( void ) { TRAP(); }
 void FiniQNXLoadFile( void ) { TRAP(); }
@@ -180,7 +177,6 @@ unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcNovExport( void ) { TRAP(); return 0; }
-unsigned char ProcSegment( void ) { TRAP(); return 0; }
 unsigned char ProcOverlay( void ) { TRAP(); return 0; }
 unsigned char ProcBegin( void ) { TRAP(); return 0; }
 unsigned char ProcFixedLib( void ) { TRAP(); return 0; }
@@ -314,8 +310,6 @@ unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
 unsigned char ProcOffset( void ) { TRAP(); return 0; }
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
-unsigned char ProcPackcode( void ) { TRAP(); return 0; }
-unsigned char ProcPackdata( void ) { TRAP(); return 0; }
 unsigned char ProcPadSections( void ) { TRAP(); return 0; }
 unsigned char ProcPrivilege( void ) { TRAP(); return 0; }
 unsigned char ProcProtMode( void ) { TRAP(); return 0; }
@@ -418,7 +412,6 @@ void UndefinedSym( symbol *sym ) { TRAP(); }
 unsigned DWLineGen( long line, long address, char *buffer ) { TRAP(); return 0; }
 
 
-void ProcComdef( unsigned char pass, unsigned char isstatic ) { TRAP(); }
 
 
 
@@ -463,7 +456,6 @@ unsigned char CheckOvlClass( char *name, unsigned char *isovl ) { TRAP(); return
 void WriteAbsSegs( class_entry *class ) { TRAP(); }
 void ProcOvlSectPubs( section *sect ) { TRAP(); }
 void ProcOvlPubs( void ) { TRAP(); }
-void WriteUndefHead( void ) { TRAP(); }
 void WriteOvlHead( void ) { TRAP(); }
 
 
@@ -535,7 +527,6 @@ void AddNovImpReloc( symbol *sym, unsigned long off, unsigned char relative, uns
 
 
 
-unsigned short __cdecl FindEntryOrdinal( address addr, group_entry *group ) { TRAP(); return 0; }
 unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dll ) { TRAP(); return 0; }
 void RemoveReloc( pending_reloc *rel ) { TRAP(); }
 void MakeBase( fixup_record *fix ) { TRAP(); }
@@ -623,3 +614,33 @@ int watcom_object( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int check_recurse( void ) { TRAP(); return 0; }
 int recursive_mangled_name( output_desc *data, state_desc *state ) { TRAP(); return 0; }
 int base_32_num( output_desc *data, int *value ) { TRAP(); return 0; }
+
+
+unsigned char ProcQNXSegment( void ) { TRAP(); return 0; }
+
+unsigned char ProcSegType( void ) { TRAP(); return 0; }
+unsigned char ProcSegCode( void ) { TRAP(); return 0; }
+unsigned char ProcSegData( void ) { TRAP(); return 0; }
+unsigned char ProcLoadoncall( void ) { TRAP(); return 0; }
+unsigned char ProcIopl( void ) { TRAP(); return 0; }
+unsigned char ProcNoIopl( void ) { TRAP(); return 0; }
+unsigned char ProcExecuteonly( void ) { TRAP(); return 0; }
+unsigned char ProcExecuteread( void ) { TRAP(); return 0; }
+unsigned char ProcReadOnly( void ) { TRAP(); return 0; }
+unsigned char ProcReadWrite( void ) { TRAP(); return 0; }
+unsigned char ProcShared( void ) { TRAP(); return 0; }
+unsigned char ProcNonShared( void ) { TRAP(); return 0; }
+unsigned char ProcConforming( void ) { TRAP(); return 0; }
+unsigned char ProcNonConforming( void ) { TRAP(); return 0; }
+unsigned char ProcFixed( void ) { TRAP(); return 0; }
+unsigned char ProcNonPageable( void ) { TRAP(); return 0; }
+unsigned char ProcPageable( void ) { TRAP(); return 0; }
+unsigned char ProcInvalid( void ) { TRAP(); return 0; }
+unsigned char ProcPermanent( void ) { TRAP(); return 0; }
+unsigned char ProcNonPermanent( void ) { TRAP(); return 0; }
+unsigned char ProcContiguous( void ) { TRAP(); return 0; }
+
+
+
+
+section *CheckOvlSect( char *name ) { TRAP(); return 0; }

@@ -550,9 +550,9 @@ void WriteSym( symbol *sym, char star )
 }
 
 extern unsigned char SkipSymbol( symbol * );
-extern void WriteUndefHead( void );
+extern void WriteCommunalHead( void );
 
-void WriteUndefinedMap( void )
+void WriteCommunals( void )
 {
     symbol *sym;
     unsigned char first;
@@ -561,7 +561,7 @@ void WriteUndefinedMap( void )
     for( sym = HeadSym; sym != 0; sym = sym->link ) {
         if( (sym->info & 15) <= 1 && !(sym->info & 0x0100) && !SkipSymbol( sym ) ) {
             if( first ) {
-                WriteUndefHead();
+                WriteCommunalHead();
                 first = 0;
             }
             WriteSym( sym, ' ' );

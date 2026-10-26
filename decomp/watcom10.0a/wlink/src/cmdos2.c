@@ -375,3 +375,146 @@ unsigned char ProcExpResident( void )
     FmtData.u.os2.exports->flags |= 1;
     return 1;
 }
+
+extern unsigned char getsegflags( void );
+unsigned char ProcOS2Segment( void )
+{
+    return ProcArgList( getsegflags, TOK_INCLUDE_DOT );
+}
+
+extern unsigned char ProcOS2Class( void );
+extern unsigned char ProcSegType( void );
+extern unsigned char ProcSegCode( void );
+extern unsigned char ProcSegData( void );
+extern unsigned char ProcPreload( void );
+extern unsigned char ProcLoadoncall( void );
+extern unsigned char ProcIopl( void );
+extern unsigned char ProcNoIopl( void );
+extern unsigned char ProcExecuteonly( void );
+extern unsigned char ProcExecuteread( void );
+extern unsigned char ProcReadOnly( void );
+extern unsigned char ProcReadWrite( void );
+extern unsigned char ProcShared( void );
+extern unsigned char ProcNonShared( void );
+extern unsigned char ProcConforming( void );
+extern unsigned char ProcNonConforming( void );
+extern unsigned char ProcMovable( void );
+extern unsigned char ProcFixed( void );
+extern unsigned char ProcNonPageable( void );
+extern unsigned char ProcPageable( void );
+extern unsigned char ProcDiscardable( void );
+extern unsigned char ProcOS2Dynamic( void );
+extern unsigned char ProcInvalid( void );
+extern unsigned char ProcPermanent( void );
+extern unsigned char ProcNonPermanent( void );
+extern unsigned char ProcContiguous( void );
+
+#pragma pack(1)
+typedef struct os2_seg_flags {
+    seg_flags entry;
+    unsigned short specified;
+} os2_seg_flags;
+#pragma pack()
+typedef char old_os2_seg_flags_13[(sizeof(os2_seg_flags) == 13) ? 1 : -1];
+
+static parse_entry SegDesc[] = {
+    { "Class", ProcOS2Class, 0x000f },
+    { "TYpe", ProcSegType, 0x000f },
+    { 0, 0, 0 }
+};
+static parse_entry SegTypeDesc[] = {
+    { "CODE", ProcSegCode, 0x000f },
+    { "DATA", ProcSegData, 0x000f },
+    { 0, 0, 0 }
+};
+static parse_entry SegModel[] = {
+    { "PReload", ProcPreload, 0x000f },
+    { "LOadoncall", ProcLoadoncall, 0x000f },
+    { "Iopl", ProcIopl, 0x0007 },
+    { "NOIopl", ProcNoIopl, 0x0007 },
+    { "EXECUTEOnly", ProcExecuteonly, 0x000f },
+    { "EXECUTERead", ProcExecuteread, 0x000f },
+    { "SHared", ProcShared, 0x001f },
+    { "NONShared", ProcNonShared, 0x001f },
+    { "READOnly", ProcReadOnly, 0x000f },
+    { "READWrite", ProcReadWrite, 0x000f },
+    { "CONforming", ProcConforming, 0x0007 },
+    { "NONCONforming", ProcNonConforming, 0x0007 },
+    { "MOVeable", ProcMovable, 0x0008 },
+    { "FIXed", ProcFixed, 0x0008 },
+    { "DIScardable", ProcDiscardable, 0x0008 },
+    { "INValid", ProcInvalid, 0x0006 },
+    /* The original table shares this handler with export RESident. */
+    { "RESident", ProcExpResident, 0x0006 },
+    { "CONTiguous", ProcContiguous, 0x0006 },
+    { "DYNamic", ProcOS2Dynamic, 0x0006 },
+    { "NONPERManent", ProcNonPermanent, 0x0006 },
+    { "PERManent", ProcPermanent, 0x0006 },
+    { "PAGEable", ProcPageable, 0x0010 },
+    { "NONPageable", ProcNonPageable, 0x0010 },
+    { 0, 0, 0 }
+};
+unsigned char getsegflags( void )
+{
+    os2_seg_flags *flags;
+
+    Token.thumb = REJECT;
+    flags = ChkLAlloc( sizeof(*flags) );
+    flags->specified = 0;
+    flags->entry.name = 0;
+    flags->entry.flags = FmtData.def_seg_flags;
+    flags->entry.type = 0;
+    flags->entry.next = FmtData.u.os2.os2_seg_flags;
+    FmtData.u.os2.os2_seg_flags = flags;
+    ProcOne( SegDesc, SEP_NO, 0 );
+    if( flags->entry.type != 2 && flags->entry.type != 3 ) {
+        if( !GetToken( SEP_NO, TOK_INCLUDE_DOT ) ) {
+            FmtData.u.os2.os2_seg_flags = flags->entry.next;
+            _LnkFree( flags );
+            return 0;
+        }
+        flags->entry.name = tostring();
+    }
+    while( ProcOne( SegModel, SEP_NO, 0 ) ) {}
+    return 1;
+}
+
+unsigned char ProcOS2Class( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.type = 1;
+    return 1;
+}
+
+unsigned char ProcPreload( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x40 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x40;
+    flags->specified |= 0x40;
+    return 1;
+}
+
+unsigned char ProcMovable( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x10 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x10;
+    flags->specified |= 0x10;
+    return 1;
+}
+
+unsigned char ProcDiscardable( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.flags |= 0x1000;
+    /* The old code falls through to the separately named common true tail. */
+    return ProcOS2Dynamic();
+}
+
+unsigned char ProcOS2Dynamic( void )
+{
+    return 1;
+}

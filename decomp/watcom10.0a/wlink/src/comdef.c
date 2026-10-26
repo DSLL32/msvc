@@ -299,3 +299,119 @@ void SaveComdatData( symbol *sym, segdata *seg, unsigned long off,
     node->info = leader->info & 0x763f;
     LoadObj( node, off, iterated );
 }
+
+extern unsigned long GetLeaf( void );
+void ProcComdef( unsigned char pass, unsigned char isstatic )
+{
+    char *name;
+    unsigned char len, kind, flags;
+    unsigned long size;
+    symbol *sym;
+    extnode *ext;
+
+    flags = isstatic ? 0x13 : 0x12;
+    while( ObjBuff < EOObjRec ) {
+        len = *ObjBuff++;
+        name = (char *)ObjBuff;
+        ObjBuff += len;
+        SkipIdx();
+        kind = *ObjBuff++;
+        size = GetLeaf();
+        if( kind == 0x61 ) size *= GetLeaf();
+        sym = SymXOp( flags, name, len );
+        ext = AllocNode( ExtNodes );
+        ext->entry = sym;
+        ext->flags &= 0xf000;
+        if( pass == 1 && !(sym->info & 0x1000) ) {
+            if( isstatic ) {
+                sym->publink = CurrMod->publist;
+                CurrMod->publist = sym;
+            }
+            if( (sym->info & 15) > 1 ) {
+                ClearSymUnion( sym );
+                sym->u.value = 0;
+                if( ObjFormat & 4 ) sym->info = (sym->info & ~15) | 1;
+                else sym->info &= ~15;
+            }
+            if( size > sym->u.value ) sym->u.value = size;
+            if( kind == 0x62 ) sym->u.value |= 0x80000000UL;
+        }
+    }
+}
+
+#ifdef __WATCOMC__
+void reconstruction_trap( void );
+#pragma aux reconstruction_trap = 0xcc;
+#endif
+unsigned long GetLeaf( void )
+{
+    unsigned char leaf;
+    unsigned long value;
+
+    leaf = *ObjBuff++;
+    if( leaf < 0x80 ) value = leaf;
+    else if( leaf == 0x81 ) {
+        value = *(unsigned short *)ObjBuff;
+        ObjBuff += 2;
+    } else if( leaf == 0x84 ) {
+        value = *(unsigned short *)ObjBuff;
+        ObjBuff += 2;
+        value += (unsigned long)*ObjBuff++ << 16;
+    } else if( leaf == 0x88 ) {
+        value = *(unsigned long *)ObjBuff;
+        ObjBuff += 4;
+    } else {
+        /* Other tags leave the original return register undefined.
+         * No malformed-leaf behavior has been qualified. */
+#ifdef __WATCOMC__
+        reconstruction_trap();
+#else
+        __asm__ __volatile__( "int3" );
+#endif
+        value = 0;
+    }
+    return value;
+}
+
+extern seg_leader *GetSegment( char *, char *, char *, unsigned short, unsigned char );
+void BSSPass1( symbol *sym )
+{
+    unsigned long size;
+    seg_leader *seg, *first;
+    unsigned char use16;
+
+    size = sym->u.value & 0x7fffffffUL;
+    use16 = (sym->info & 15) != 1;
+    if( sym->u.value & 0x80000000UL ) {
+        first = GetSegment( "c_common", "BSS", "DGROUP", 0x12, use16 );
+        sym->addr.off = first->saved_size;
+        first->saved_size += size;
+    } else {
+        first = NULL;
+        for( ;; ) {
+            seg = GetSegment( sym->name, "FAR_DATA", NULL, 8, use16 );
+            if( first == NULL ) first = seg;
+            if( size < 65536UL ) {
+                seg->saved_size = size;
+                break;
+            }
+            size -= 65536UL;
+            seg->saved_size = 65536UL;
+        }
+        sym->addr.off = 0;
+    }
+    sym->p.leader = first;
+    sym->info |= 0x1000;
+    ReleaseNames();
+}
+
+extern void ConvertToFrame( address *, unsigned short );
+void BSSPass2( symbol *sym )
+{
+    seg_leader *seg;
+
+    seg = sym->p.leader;
+    sym->addr.seg = seg->seg_addr.seg;
+    sym->addr.off += seg->seg_addr.off;
+    ConvertToFrame( (address *)&sym->addr, seg->group->grp_addr.seg );
+}

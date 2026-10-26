@@ -135,3 +135,10 @@ void WriteOvlSecs( void )
 }
 
 unsigned short AreaSize = 0xffff; /* original44128c; overlay paragraph count */
+
+extern section *CheckOvlSect( char * );
+section *GetOvlSect( char *name )
+{
+    if( FmtData.type & 0x80 ) return CheckOvlSect( name );
+    return Root;
+}

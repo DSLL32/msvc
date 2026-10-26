@@ -324,7 +324,7 @@ extern void ProcPubs( mod_entry *, section * );
 extern void ProcOvlSectPubs( section * );
 extern void FinishMapSort( void );
 extern void ProcOvlPubs( void );
-extern void WriteUndefinedMap( void );
+extern void WriteCommunals( void );
 extern void WriteModSegHead( void );
 extern void WriteOvlHead( void );
 extern void FindFloatSyms( void );
@@ -347,7 +347,7 @@ void DefinePublics( void )
     FinishMapSort();
     if( FmtData.type & 0x0080 ) ProcOvlPubs();
     if( MapFlags & 1 ) {
-        WriteUndefinedMap();
+        WriteCommunals();
         if( LinkFlags & 8 ) WriteOvlHead();
         else if( MapFlags & 0x40 ) WriteModSegHead();
         StopMapBuffering();
@@ -544,4 +544,20 @@ void AllocGroupBuffers( void )
         Groups = OvlGroup;
         OvlRefs->group = OvlGroup;
     }
+}
+
+void FillClassFlags( char *name, unsigned short flags )
+{
+    class_entry *class;
+    seg_leader *seg;
+
+    for( class = Root->classlist; class != NULL; class = class->next_class ) {
+        if( stricmp( class->name, name ) == 0 ) {
+            for( seg = class->segs; seg != NULL; seg = seg->next_seg ) {
+                seg->u.p1.segflags = flags;
+            }
+            return;
+        }
+    }
+    LnkMsg( 0x322f, "s", name );
 }

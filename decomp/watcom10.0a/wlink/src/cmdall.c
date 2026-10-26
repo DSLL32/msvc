@@ -390,3 +390,44 @@ unsigned char AddReference( void )
     sym->info |= 0x4000;
     return 1;
 }
+
+extern unsigned char GetPackValue( unsigned long *, char * );
+unsigned char ProcPackcode( void )
+{
+    unsigned long value;
+
+    if( !GetPackValue( &value, "packcode" ) ) return 0;
+    PackCodeLimit = value;
+    LinkFlags |= 0x0200;
+    return 1;
+}
+
+unsigned char GetPackValue( unsigned long *value, char *name )
+{
+    if( !HaveEquals( 0 ) ) return 0;
+    if( getatol( value ) != 0 ) {
+        LnkMsg( 0x7a3c, "s", name );
+        return 1;
+    }
+    if( *value == 0 ) *value = 1;
+    return 1;
+}
+
+unsigned char ProcPackdata( void )
+{
+    unsigned long value;
+
+    if( !GetPackValue( &value, "packdata" ) ) return 0;
+    PackDataLimit = value;
+    LinkFlags |= 0x04000000UL;
+    return 1;
+}
+
+extern unsigned char ProcOS2Segment( void );
+extern unsigned char ProcQNXSegment( void );
+unsigned char ProcSegment( void )
+{
+    if( HintFormat( 0x001f ) ) return ProcOS2Segment();
+    if( HintFormat( 0x4200 ) ) return ProcQNXSegment();
+    return 1;
+}

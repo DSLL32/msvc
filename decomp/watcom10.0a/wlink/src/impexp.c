@@ -302,3 +302,24 @@ unsigned long ImportProcTable( unsigned long *count )
 {
     return WriteTabList( ImportNames, count, !(LinkFlags & 0x2000) );
 }
+
+unsigned long ModRefTable( void )
+{
+    snamelist *node;
+    unsigned long count, off;
+
+    off = 0;
+    if( FmtData.type & 9 ) {
+        off = 1;
+        for( node = ImportNames; node != NULL; node = node->next ) {
+            off += node->len + 1;
+        }
+    }
+    count = 0;
+    for( node = ModuleNames; node != NULL; node = node->next ) {
+        WriteLoad( &off, 2 );
+        off += node->len + 1;
+        ++count;
+    }
+    return count;
+}

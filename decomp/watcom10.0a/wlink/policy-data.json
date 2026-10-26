@@ -2207,7 +2207,7 @@
           0
         ]
       },
-      "WriteUndefinedMap": {
+      "WriteCommunals": {
         "expected_cleanup": [
           0
         ]
@@ -3611,6 +3611,141 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcPackcode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetPackValue": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPackdata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Segment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "getsegflags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Class": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPreload": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMovable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDiscardable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Dynamic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcComdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetLeaf": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BSSPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetSegment": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "GetOvlSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetSegmentName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FillClassFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BSSPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteCommunalHead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindEntryOrdinal": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "FiniOS2LoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ModRefTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ImportNameTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpEntryTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteOS2Data": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteOS2Relocs": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -3852,6 +3987,16 @@
         "start": 4380724,
         "bytes_hex": "595bc3"
       }
+    },
+    {
+      "owners": [
+        "GetOvlSect",
+        "OvlPass2"
+      ],
+      "original": {
+        "start": 4328122,
+        "bytes_hex": "c3"
+      }
     }
   ],
   "function_properties": {
@@ -3889,6 +4034,12 @@
       "pending_extent": false
     },
     "ProcNovImport": {
+      "pending_extent": false
+    },
+    "ProcQNXSegment": {
+      "pending_extent": false
+    },
+    "CheckOvlSect": {
       "pending_extent": false
     }
   }

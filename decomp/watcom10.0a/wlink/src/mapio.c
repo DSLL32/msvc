@@ -500,3 +500,11 @@ unsigned long MemorySize( void )
 void EndTime( void )
 {
 }
+
+void WriteCommunalHead( void )
+{
+    WriteBox( 0x123 );
+    Msg_Write_Map( 0x124 );
+    Msg_Write_Map( 0x125 );
+    WriteMapNL( 1 );
+}
