@@ -613,8 +613,15 @@ Microsoft _ltoa(long,char*,int) supports the reached signed32 decimal domain
 by reusing recon_itoa; successful output is returned by exact alias with its
 NUL and preserved errors/FP. Other radices/NULL and Watcom remain unsupported.
 C1XX's caller supplies owned text-workspace storage; the cold octal path stays
-denied. _gcvt(double,int,char*) has only a typed cdecl link boundary that always
-denies125, with no floating conversion, output access or formatter framework.
+denied. The default VC1 _gcvt(double,int,char*) admits default-C digits16 and
+exact signed32 integral binary64 values with caller-owned13-byte output. It
+decodes the argument using integer operations and reuses the decimal backend,
+retaining the old provider's decimal point (7.0 becomes "7.") and alias return.
+Negative zero, fractions, out-of-range/nonfinite values, other precision/state
+and explicit510/Watcom profiles deny125. Native Clang disables x87 for this
+function to avoid an otherwise unused floating load of its double formal.
+Focused full108-byte FP checks isolate callee effects from argument setup;
+native errors are preserved, original per-call state remains unmeasured.
 
 The private MSPDB NameMap::open(PDB*,int,NameMap**) static cdecl import has a
 native declaration-only asmname binding to recon_mspdb_NameMap_open. Its opaque

@@ -1775,10 +1775,45 @@ char *__cdecl recon_ltoa(long value,char *output,int radix)
     return recon_itoa((int)value,output,10);
 #endif
 }
+#ifdef __clang__
+/* At O0 Clang otherwise emits an unused x87 load for this double formal.
+ * Its native target attribute keeps the bit-only arm free of FP effects. */
+__attribute__((target("no-x87")))
+#endif
 char *__cdecl recon_gcvt(double value,int digits,char *output)
 {
+#if !defined(RECON_CRT_PROFILE_MSVCRT_510) && !defined(RECON_CRT_PROFILE_WATCOM_100A)
+    uint64_t bits,significand;unsigned exponent,negative,n,magnitude;int integer;
+    size_t length;
+    if(digits!=16 || (uintptr_t)output<4096 || (uintptr_t)output>UINTPTR_MAX-13 ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("VC1 gcvt integral output/default-C domain");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("VC1 gcvt default-C handles");
+    /* Decode the binary64 argument without changing host FP state. This
+     * finite arm needs no decimal rounding: every admitted integer is exact. */
+    memcpy(&bits,&value,sizeof(bits));negative=(unsigned)(bits>>63);
+    exponent=(unsigned)((bits>>52)&0x7ff);significand=bits&UINT64_C(0xfffffffffffff);
+    if(!exponent && !significand && !negative)magnitude=0;
+    else {
+        if(exponent<1023 || exponent>1054)
+            recon_unsupported("VC1 gcvt nonintegral/nonfinite/range");
+        exponent-=1023;significand|=UINT64_C(0x10000000000000);
+        if(significand&((UINT64_C(1)<<(52-exponent))-1))
+            recon_unsupported("VC1 gcvt fractional argument");
+        magnitude=(unsigned)(significand>>(52-exponent));
+        if(magnitude>(negative?0x80000000U:0x7fffffffU))
+            recon_unsupported("VC1 gcvt signed32 range");
+    }
+    integer=negative?(magnitude==0x80000000U?INT_MIN:-(int)magnitude):(int)magnitude;
+    recon_itoa(integer,output,10);length=strlen(output);
+    /* The identified old GCVT trims zeroes after the decimal point but
+     * retains the point itself, so integral 7.0 is spelled "7.". */
+    output[length]='.';output[length+1]=0;return output;
+#else
     (void)value;(void)digits;(void)output;
-    recon_unsupported("unreviewed _gcvt");return NULL;
+    recon_unsupported("unreviewed profile _gcvt");return NULL;
+#endif
 }
 ReconMktempObservation recon_mktemp_observation;
 static unsigned mktemp_process_owner;

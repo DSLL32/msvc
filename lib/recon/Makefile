@@ -998,3 +998,9 @@ build/tempnam510-apstudio-probe: tests/tempnam510-apstudio-probe.c $(SOURCES) $(
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 tempnam510-apstudio-check: build/tempnam510-apstudio-probe
 	$(PYTHON) tests/check-tempnam510-apstudio.py $< 510
+
+.PHONY: gcvt-integral-check
+build/gcvt-integral-probe: tests/gcvt-integral-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+gcvt-integral-check: build/gcvt-integral-probe
+	$<
