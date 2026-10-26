@@ -479,11 +479,11 @@ current-case scope. CL has now completed all identified application code and
 joined RC and CVTRES in the finished, idle group. The table records reported
 committed checkpoints, rather than intermediate function progress. Matching
 current-case WIP remains excluded until the encompassing case is complete.
-RCDLL has now completed its released rich-resource case and paused; C1, C1XX,
-C2 and LINK continue their current cases. CVPACK's subsequent C6 case is
-unfinished after an agent-platform rejection; its source, scoped patch,
-compiled artifacts and last valid pair are preserved in owned scratch, with
-no retry through another worker and no additional completion credit.
+RCDLL has now completed its released rich-resource case and LINK its hello EXE
+case; both are paused. C1, C1XX and C2 continue their current cases. CVPACK's
+subsequent C6 case is unfinished after an agent-platform rejection; its source,
+scoped patch, compiled artifacts and last valid pair are preserved in owned
+scratch, with no retry through another worker and no additional completion credit.
 
 | Binary | Committed App functions / bytes | Whole-text coverage | Reported committed checkpoint |
 | --- | --- | ---: | --- |
@@ -492,7 +492,7 @@ no retry through another worker and no additional completion credit.
 | C2 | 209 / 51,805 | 9.04% | Numeric case: new_optimizer_context; `6ae5a84a2` |
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
 | CVPACK | 168 / 48,556 | 77.49% | Thirteen cases complete, including the `/Zi` static-library archive and authored field-list continuations; `2a01eab26`, `0cf8cb702` |
-| LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
+| LINK | 304 / 96,662 | 23.30% | Hello EXE and bounded definition-buffer DIRECT prerequisite complete and paused; `89702eb2f` |
 | RCDLL | 220 / 51,779 | 69.40% | Rich-resource case complete and paused; `f6cbd9acd` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
@@ -612,6 +612,27 @@ universally observed. The worker is paused, with 52 known pending App records
 (9,861 bytes) and 27 unclassified records (4,702 bytes), so a complete non-CRT
 denominator is still unknown. Future font/RIFF/Mac resource or preprocessor
 diagnostic workloads are proposals only; none has started.
+
+LINK's hello EXE case completes at `89702eb2f`, with 304 App functions and
+96,662 code bytes, or 23.30% of the 414,810-byte whole text extent. The ordinary
+x86, nonincremental, no-debug case exits zero with matching entry order, streams
+and a 24,064-byte executable. Final native replay takes 26.505 ms: setup 11.828,
+execution 8.118 and checks 6.560 ms. Parallel native/original compiler builds
+take 10.507 s; all four cached cases and 115 hello unit checks pass in 0.395 s.
+The full 317-vertex graph/import/reference/ownership/extent audit, 308 ordinary
+RET checks and both real C++ EH-role residuals pass in 1.406 s. The bounded
+20-byte definition-buffer DIRECT prerequisite is included; optional domains
+retain native guards or genuine pending traps. A reached diagnostic copy
+corrected the modeled buffer prefix from 32 to 36 bytes with guards before
+copies and concatenation; the original buffer's total capacity remains unknown.
+Only the identified COFF timestamp DWORD is normalized, with its derived value
+bound by the saved original's full output hash. Failed source/guard observations
+remain preserved; these repairs add no function credit. The worker is paused.
+There are 229 known pending App entries: 54 measured bodies total 8,216 bytes,
+while 175 entry markers have unknown full extents. The registry is not a complete
+binary inventory, so no full non-CRT denominator is claimed. A DLL case with
+stdcall and DEF named/ordinal exports plus import-library output is the proposed
+next substantial workload; it has not started.
 
 C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
 and native builds, full code/data graph and ABI gates, 36 units and a fresh
