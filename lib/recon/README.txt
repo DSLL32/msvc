@@ -1853,3 +1853,39 @@ resource parsing. Authored linker-selected data/BSS checks cover relocated
 pointers/padding, repeated references, final-detach visibility, dependency writes,
 failed-attach retry, pinned modules and region-validation rejection. The existing strict fixture module-provider checker is run
 separately. These checks do not launch Wine or inspect/rewrite original captures.
+
+
+Ordinary canonical process bootstrap
+-----------------------------------
+ReconNativeEntry *recon_native_entry_initialize(argc,argv,envp) prepares actual
+native process inputs for a thin root entry.c. It lives in existing crt.c, not
+the optional generated-main object. It returns argc, writable owned argv and
+environment, plus process-lifetime program_path/current_directory/command_line.
+The actual /proc/self/exe and initial getcwd paths become Z: identities. _pgmptr
+and _aenvptr are refreshed after constructors; GetCommandLineA owns a lossless
+Windows spelling of the supplied direct POSIX arguments. Direct argv is not
+retokenized. Current paths/arguments are bounded ASCII; non-ASCII arguments are
+rejected, not claimed supported by selecting ACP1252. Environment bytes retain
+their exact narrow values with reversible ACP1252 UTF16 OS representation.
+
+This is one fresh ordinary process binding, not a configurable startup or CRT
+context framework. It preserves binary-selected fmode/FP and strong CRT roles,
+does not call App startup or register primary-module identity, and must not run
+at DLL attachment. The caller registers its actual primary path/original resource
+identity and embedded assets as appropriate, then invokes its real App entry.
+Success initializes fresh target errno/DOSerrno/LastError to zero after host-only
+setup. Writable CRT environment and immutable initial OS namespace are independent;
+ordinary NULL-env spawning inherits the OS block for LIBC100 and MSVCRT510 alike,
+including empty environments and children carrying only MSC_CMD_FLAGS. Fixture
+provider-qualified binders and broker controls retain their separate old policy.
+Canonical paths use actual Z: mapping; fixture RECON_DRIVE/CANONICAL_CWD settings
+are not needed. GetACP has the explicitly selected ordinary native1252 profile.
+
+Owned process inputs stay live until OS process reclamation, including App exit
+and final static-DLL detach; no main-registered atexit free precedes DLL cleanup.
+Existing CRT/module atexit handling supplies normal cleanup. Real Windows-spawn
+raw-line transport and ordinary full-DWORD/signal child-status equivalence remain
+separate boundaries; basic startup alone does not claim either. The native-only
+native-bootstrap-check target covers default/510/Watcom profiles, real minimal/
+empty/host environments, direct quoting, independent OS inheritance, actual Z:
+identities and final detach input lifetime. No originals or fixture controllers.

@@ -406,7 +406,7 @@ static int native_path_key(const char *name,char key[PATH_MAX])
     } else if(name[0]=='/') {
         snprintf(text,sizeof(text),"Z:%s",name);
     } else {
-        base=getenv("RECON_CANONICAL_CWD");
+        base=recon_native_entry_active()?NULL:getenv("RECON_CANONICAL_CWD");
         if(!base) {
             if(!getcwd(cwd,sizeof(cwd)))return -1;
             if(name[0]=='\\')snprintf(text,sizeof(text),"Z:%s",name);
@@ -2140,7 +2140,9 @@ BOOL WINAPI recon_IsValidCodePage(UINT page)
 }
 UINT WINAPI recon_GetACP(void)
 {
-    const char *profile=getenv("RECON_ACP");
+    const char *profile;
+    if(recon_native_entry_active())return 1252;
+    profile=getenv("RECON_ACP");
     if (!profile || strcmp(profile,"1252")) recon_unsupported("GetACP without captured1252 profile");
     return 1252;
 }

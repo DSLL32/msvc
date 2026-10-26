@@ -169,6 +169,13 @@ extern int recon_crt_arguments_bound; /* Read-only host observation. */
 extern char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
 extern int (__cdecl *recon_crt_matherr)(struct _exception *);
 void recon_crt_bind_arguments(int,char **,char **);
+/* Ordinary native process startup; owned bytes remain live through final DLL
+ * detach. Does not run App startup, choose fmode/FP, or register module identity. */
+typedef struct ReconNativeEntry {
+ int argc; char **argv,**environment;
+ const char *program_path,*current_directory,*command_line;
+} ReconNativeEntry;
+ReconNativeEntry *recon_native_entry_initialize(int,char **,char **);
 /* Captured WCHAR16 process namespace; no Linux host controls are inherited. */
 extern const WCHAR *recon_crt_os_environment;
 extern size_t recon_crt_os_environment_units;
@@ -180,6 +187,8 @@ extern ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
 void recon_crt_bind_os_environment(const WCHAR *,size_t,const char *);
 void recon_bind_process_os_environment(const WCHAR *,size_t,const char *);
 #ifdef RECON_SHIM_IMPL
+int recon_native_entry_active(void);
+char **recon_native_entry_spawn_environment(void);
 void recon_crt_validate_spawn_profile(void);
 void recon_crt_validate_spawn_cp0_profile(void);
 /* Read-only inventory of the existing configured native clock sequence. */

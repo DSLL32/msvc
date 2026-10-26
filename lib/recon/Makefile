@@ -1056,3 +1056,7 @@ copyfile-check: build/copyfile-probe
 .PHONY: native-entry-foundation-check
 native-entry-foundation-check:
 	$(PYTHON) tests/entry-foundation/check.py
+
+.PHONY: native-bootstrap-check
+native-bootstrap-check:
+	$(PYTHON) tests/native-bootstrap/check.py

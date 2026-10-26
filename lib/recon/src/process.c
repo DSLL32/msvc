@@ -31,6 +31,7 @@ static const char *const *spawn_environment(const char *const *explicit_env,char
     const WCHAR *wide;char **vector,*bytes;size_t n,count=0,units;
     *owned=NULL;
     if(explicit_env){*source=1;return explicit_env;}
+    if(recon_native_entry_active()){*source=2;*owned=recon_native_entry_spawn_environment();return (const char *const *)*owned;}
     if(!recon_crt_arguments_bound){*source=0;return (const char *const *)environ;}
     wide=recon_crt_os_environment;units=recon_crt_os_environment_units;
     if(!wide || units<3 || units>65536 || !wide[0] || wide[units-1] || wide[units-2])
@@ -107,6 +108,7 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     char *end,*cwd; long descriptor; size_t size; unsigned n;
     uint32_t header[2],fields[4],response[3],lengths[2],failure_errno=0;
     if(native_allowed)*native_allowed=0;
+    if(recon_native_entry_active()){if(native_allowed)*native_allowed=1;return 0;}
     if(state_profile){
         int cp0=!strcmp(profile,"msvcrt510-cp0-wait-success-v1");
         if(!allow_state_profile || (!cp0 && strcmp(profile,"msvcrt510-wait-success-v1")) ||
@@ -239,9 +241,9 @@ static int spawnve_body(int mode,const char *file,const char *const *argv,const 
 {
     char path[PATH_MAX],logical[PATH_MAX]; pid_t pid; int status,result,native_allowed;
     char **routed=NULL;size_t routed_size=0;
-    const char *self=getenv("RECON_SELF_SPAWN");
-    const char *require_exists=getenv("RECON_SPAWN_REQUIRE_EXISTS");
-    if (mode!=_P_WAIT) { if(getenv("RECON_SPAWN_STATE_PROFILE"))process_error("spawn state profile requires wait mode");errno=ENOTSUP; return -1; }
+    const char *self=recon_native_entry_active()?NULL:getenv("RECON_SELF_SPAWN");
+    const char *require_exists=recon_native_entry_active()?NULL:getenv("RECON_SPAWN_REQUIRE_EXISTS");
+    if (mode!=_P_WAIT) { if(!recon_native_entry_active() && getenv("RECON_SPAWN_STATE_PROFILE"))process_error("spawn state profile requires wait mode");errno=ENOTSUP; return -1; }
     if (require_exists) {
         struct stat st;
         if (strcmp(require_exists,"1"))
@@ -290,7 +292,7 @@ int recon_spawnve(int mode,const char *file,const char *const *argv,const char *
     SpawnState entry=spawn_state();char **owned;unsigned source;int result;
     const char *const *env=spawn_environment(explicit_env,&owned,&source);
     result=spawnve_body(mode,file,argv,env,source,entry);release_spawn_environment(owned);
-    if(getenv("RECON_SPAWN_STATE_PROFILE") && result!=0)process_error("unreviewed spawn profile result");
+    if(!recon_native_entry_active() && getenv("RECON_SPAWN_STATE_PROFILE") && result!=0)process_error("unreviewed spawn profile result");
     return result;
 }
 __attribute__((weak)) int recon_spawnvpe(int mode,const char *file,const char *const *argv,const char *const *explicit_env)
@@ -304,6 +306,6 @@ __attribute__((weak)) int recon_spawnvpe(int mode,const char *file,const char *c
         result=spawnve_body(mode,program,argv,env,source,entry);if(result!=-1 || errno!=ENOENT)break;
     }
     release_spawn_environment(owned);
-    if(getenv("RECON_SPAWN_STATE_PROFILE") && result!=0)process_error("unreviewed spawn profile result");
+    if(!recon_native_entry_active() && getenv("RECON_SPAWN_STATE_PROFILE") && result!=0)process_error("unreviewed spawn profile result");
     return result;
 }

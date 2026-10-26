@@ -314,6 +314,142 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
 #endif
 }
 
+/* Ordinary process inputs have no fixture-provider identity. Keep the initial
+ * OS block separate from the writable CRT vector, even with an empty envp. */
+static ReconNativeEntry *native_entry_context;
+int recon_native_entry_active(void) { return native_entry_context!=NULL; }
+static const WCHAR native_cp1252_high[32]={
+ 0x20ac,0x81,0x201a,0x192,0x201e,0x2026,0x2020,0x2021,
+ 0x2c6,0x2030,0x160,0x2039,0x152,0x8d,0x17d,0x8f,
+ 0x90,0x2018,0x2019,0x201c,0x201d,0x2022,0x2013,0x2014,
+ 0x2dc,0x2122,0x161,0x203a,0x153,0x9d,0x17e,0x178
+};
+static unsigned native_environment_byte(WCHAR unit)
+{
+    unsigned n;
+    if(unit<128 || (unit>=160 && unit<=255))return unit;
+    for(n=0;n<32;++n)if(native_cp1252_high[n]==unit)return n+128;
+    recon_unsupported("ordinary OS environment outside native ACP1252");return 0;
+}
+static char **native_copy_vector(char **input,unsigned limit,unsigned *count,size_t *bytes)
+{
+    size_t total=0,length;unsigned n;char **result,*cursor;
+    if(!input)recon_unsupported("ordinary startup NULL vector");
+    for(n=0;input[n];++n) {
+        if(n==limit || (length=strnlen(input[n],32767))==32767 || total>32767-length-1)
+            recon_unsupported("ordinary startup vector extent");
+        total+=length+1;
+    }
+    result=malloc((n+1)*sizeof(*result)+total);
+    if(!result)recon_unsupported("ordinary startup vector allocation");
+    cursor=(char *)(result+n+1);
+    for(n=0;input[n];++n) {result[n]=cursor;length=strlen(input[n])+1;memcpy(cursor,input[n],length);cursor+=length;}
+    result[n]=NULL;*count=n;*bytes=total;return result;
+}
+static char *native_windows_path(const char *host)
+{
+    size_t n,length=strlen(host);char *result;
+    if(!length || host[0]!='/' || length>32764)recon_unsupported("ordinary startup absolute path");
+    result=malloc(length+3);if(!result)recon_unsupported("ordinary startup path allocation");
+    result[0]='Z';result[1]=':';
+    for(n=0;n<=length;++n) {
+        unsigned char byte=(unsigned char)host[n];
+        if(byte>=128 || (byte && byte<32))recon_unsupported("ordinary startup nonASCII path");
+        result[n+2]=byte=='/'?'\\':byte;
+    }
+    return result;
+}
+/* Serialize direct POSIX argv losslessly; only a real Windows spawn supplies
+ * a raw joined line to be tokenized (added by the separate process transport). */
+static char *native_quote_arguments(int argc,char **argv)
+{
+    char *result=malloc(32767),*out=result;int i,quote;const char *p;size_t slashes,n;
+    if(!result)recon_unsupported("ordinary command line allocation");
+#define NATIVE_COMMAND_BYTE(ch) do {if(out-result>=32766)recon_unsupported("ordinary command line length");*out++=(ch);} while(0)
+    for(i=0;i<argc;++i) {
+        if(i)NATIVE_COMMAND_BYTE(' ');
+        for(p=argv[i];*p;++p)if((unsigned char)*p>=128 || (!i && *p=='"'))
+            recon_unsupported("ordinary command line ASCII/program quote");
+        quote=!*argv[i] || strpbrk(argv[i]," \t\"")!=NULL;
+        if(quote)NATIVE_COMMAND_BYTE('"');
+        for(p=argv[i];*p;) {
+            slashes=0;while(*p=='\\'){++slashes;++p;}
+            n=slashes;
+            if(*p=='"' || (!*p && quote))n*=2;
+            while(n--)NATIVE_COMMAND_BYTE('\\');
+            if(*p=='"')NATIVE_COMMAND_BYTE('\\');
+            if(*p)NATIVE_COMMAND_BYTE(*p++);
+        }
+        if(quote)NATIVE_COMMAND_BYTE('"');
+    }
+    *out=0;
+#undef NATIVE_COMMAND_BYTE
+    return result;
+}
+char **recon_native_entry_spawn_environment(void)
+{
+    const WCHAR *block=recon_crt_os_environment;size_t units=recon_crt_os_environment_units,n,count=0;
+    char **result,*bytes;
+    if(!native_entry_context || !block || units<2 || units>32767 || block[units-1] || block[units-2])
+        recon_unsupported("ordinary spawn OS environment extent");
+    if(!block[0]) {
+        if(units!=2)recon_unsupported("ordinary empty OS environment extent");
+    } else for(n=0;n<units-1;++n) {
+        if(!block[n]) {
+            ++count;
+            if(!block[n+1] && n!=units-2)recon_unsupported("ordinary OS environment early terminator");
+        } else (void)native_environment_byte(block[n]);
+    }
+    result=malloc((count+1)*sizeof(*result)+units);
+    if(!result)recon_unsupported("ordinary spawn environment allocation");
+    bytes=(char *)(result+count+1);count=0;
+    if(block[0])result[count++]=bytes;
+    for(n=0;n<units;++n) {
+        bytes[n]=(char)native_environment_byte(block[n]);
+        if(!block[n] && n<units-2)result[count++]=bytes+n+1;
+    }
+    result[count]=NULL;return result;
+}
+ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **environment)
+{
+    ReconNativeEntry *entry;char program[PATH_MAX],*cwd,*raw_environment,*cursor;
+    char **arguments,**variables;WCHAR *os_block;ssize_t length;
+    unsigned count,n;size_t argument_bytes,environment_bytes,units,k;
+    if(native_entry_context || recon_crt_arguments_bound || recon_crt_os_environment ||
+       argc<1 || argc>4096 || !argv || argv[argc] || recon_crt_environment_updates)
+        recon_unsupported("ordinary startup state/arguments");
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(pending_os_environment || os_environment_bound)
+        recon_unsupported("ordinary startup mixed with fixture OS binding");
+#endif
+    arguments=native_copy_vector(argv,4096,&count,&argument_bytes);
+    if(count!=(unsigned)argc)recon_unsupported("ordinary startup argument count");
+    variables=native_copy_vector(environment?environment:environ,16384,&count,&environment_bytes);
+    units=environment_bytes+1;if(!count)units=2;
+    if(units>32767)recon_unsupported("ordinary startup environment length");
+    os_block=calloc(units,sizeof(*os_block));raw_environment=calloc(units,1);
+    entry=calloc(1,sizeof(*entry));
+    if(!os_block || !raw_environment || !entry)recon_unsupported("ordinary startup allocation");
+    cursor=raw_environment;
+    for(n=0;n<count;++n) {size_t bytes=strlen(variables[n])+1;memcpy(cursor,variables[n],bytes);cursor+=bytes;}
+    for(k=0;k<units;++k) {unsigned char byte=raw_environment[k];os_block[k]=byte>=128 && byte<160?native_cp1252_high[byte-128]:byte;}
+    length=readlink("/proc/self/exe",program,sizeof(program)-1);
+    if(length<=0 || length==(ssize_t)sizeof(program)-1 || !(cwd=getcwd(NULL,0)))
+        recon_unsupported("ordinary startup actual executable/cwd");
+    program[length]=0;entry->program_path=native_windows_path(program);
+    entry->current_directory=native_windows_path(cwd);free(cwd);
+    entry->command_line=native_quote_arguments(argc,arguments);
+    entry->argc=argc;entry->argv=arguments;entry->environment=variables;
+    native_entry_context=entry;
+    recon_crt_bind_arguments(argc,arguments,variables);recon_crt_initenv=variables;
+    recon_crt_os_environment=os_block;recon_crt_os_environment_units=units;
+    recon_pgmptr=(char *)entry->program_path;recon_aenvptr=raw_environment;
+    recon_bind_command_line((char *)entry->command_line,strlen(entry->command_line)+1);
+    /* Target fresh-process errors are independent of Linux setup syscalls. */
+    errno=0;recon_doserrno=0;recon_SetLastError(0);
+    return entry;
+}
+
 /* Host controls and application environment are separate namespaces. The
  * canonical getenv returns a borrowed pointer into its mutable environment. */
 static void ascii_encountered_locale_scope(void);
@@ -554,7 +690,8 @@ int recon_host_path(const char *name,char *output,size_t capacity)
         unsigned char drive=(unsigned char)toupper((unsigned char)name[0]);
         if (drive<'A' || drive>'Z') { errno=EINVAL; return -1; }
         variable[12]=(char)drive;
-        root=getenv(variable);
+        root=recon_native_entry_active()?NULL:getenv(variable);
+        if (recon_native_entry_active() && drive!='Z') {errno=ENOTSUP;return -1;}
         if (!root && drive=='Z') root="/";
         if (!root) { errno=ENOENT; return -1; }
         rest=name+2;
@@ -1756,7 +1893,7 @@ void recon_makepath(char *out,const char *drive,const char *dir,const char *name
 }
 char *recon_fullpath(char *out,const char *name,size_t capacity)
 {
-    const char *canonical=getenv("RECON_CANONICAL_CWD"),*input=name&&*name?name:".";
+    const char *canonical=recon_native_entry_active()?NULL:getenv("RECON_CANONICAL_CWD"),*input=name&&*name?name:".";
     char host[PATH_MAX],absolute[PATH_MAX],normalized[PATH_MAX],check[PATH_MAX],cwd[PATH_MAX];
     char *part,*save,*result=out,drive='Z'; size_t len=0;
     int saved_errno=errno;
@@ -3350,7 +3487,7 @@ void recon_crt_bind_os_environment(const WCHAR *block,size_t units,const char *p
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     size_t count;
-    if (!provider_sha256 || strcmp(provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
+    if (recon_native_entry_active() || !provider_sha256 || strcmp(provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
         !recon_crt_arguments_bound || os_environment_bound || recon_crt_environment_updates)
         recon_unsupported("target OS environment provider/binding state");
     validate_os_environment(block,units);count=target_environment_count(recon_crt_environment);
