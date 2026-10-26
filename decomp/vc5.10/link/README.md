@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-423 application functions / 144,772 original code bytes are reconstructed
-(34.90% of the 414,810-byte whole `.text` extent, which includes CRT and text
+425 application functions / 146,107 original code bytes are reconstructed
+(35.22% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 46 pending bodies with known extents totaling 6,788 bytes and
-177 entries whose body extents remain unknown; this is not a complete non-CRT
+176 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all eleven cached native cases and their narrow checks;
+`make -j4 check unit` runs all twelve cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,9 +45,9 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-436-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 420 ordinary application bodies and six CRT bodies. Seven import
-thunks remain in the graph without body-return claims. The three genuine C++
+438-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 421 ordinary application bodies and six CRT bodies. Seven import
+thunks remain in the graph without body-return claims. The four genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
 contracts; they do not grant provider or pending-helper body credit.
@@ -163,3 +163,25 @@ The final fresh native completion took 18.2 ms (11.2 ms setup, 4.3 ms execution,
 original-build/graph/RET/EH gate took 1.85 s. These are incremental measurements;
 the complete suites ran only at case completion. The source and case are native
 fixtures, with original builds and captures using the shared toolchain launcher.
+
+The mixed archive conversion case uses the unchanged original-produced short-import
+library and ordinary archive containing a retained member, replacement object and
+long-named object. `/lib /convert` emits a matching 9,380-byte archive with 182
+application first entries and exit 0. The five short-import members become ordinary
+COFF members; ordinary object payloads, member metadata, both symbol indexes,
+long-name table, padding and complete inventory compare strictly. Only the two
+index-member Date fields and long-name-table Date field are normalized over their
+ten decimal digits. Raw mapping and final artifact copies remain in scratch.
+
+The converted-member writer and its one-argument buffer Reserve overload add two
+bodies / 1,335 original code bytes. The writer retains its actual section-header
+updates, shared section-kind dispatch tables, symbol/string reads, final header
+rewrite and 20-byte scoped owner. Its normal path inlines scalar deletion; the
+exceptional action enters the same qualified canonical buffer destructor. The
+bounded EH residual checks these distinct roles, RET32, the actual Set call and
+qualified handler. The recovered debug-section flags are 0x42100040 and
+0x42101040; this case exposed an earlier alignment-bit error whose previous
+non-triggering observations remain limited. No repair credit or output mask was
+added. Native completion took 14.3 ms (8.7 ms setup, 2.6 ms execution, 3.0 ms
+checks). The twelve-case regression/unit batch took 1.13 s and the full
+original-build/graph/RET/EH gate took 2.06 s, both only at case completion.

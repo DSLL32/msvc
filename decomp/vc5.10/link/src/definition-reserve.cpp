@@ -21,3 +21,12 @@ template<class T> int RECON_THISCALL DefinitionStorage<T>::Advance(int bytes,T *
 }
 template int RECON_THISCALL DefinitionStorage<BYTE>::Reserve(int,BYTE **);
 template int RECON_THISCALL DefinitionStorage<BYTE>::Advance(int,BYTE **);
+
+template<class T> int RECON_THISCALL DefinitionStorage<T>::Reserve(int bytes)
+{
+    if(bytes<0)return 0;
+    if((DWORD)end+(DWORD)bytes>(DWORD)data+(DWORD)capacity && !Grow(bytes))
+        return 0;
+    return 1;
+}
+template int RECON_THISCALL DefinitionStorage<BYTE>::Reserve(int);

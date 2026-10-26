@@ -127,11 +127,9 @@ IMAGE_RELOCATION *RECON_THISCALL Contribution::ReadRelocations(DWORD *count)
     else buffered_read(file,relocations,n);
     return relocations;
 }
-typedef void (RECON_THISCALL LibrarianContext::*ConvertedSectionEmitter)(
-    LibrarianImportInfo *,void *,void *);
 /* Encountered short-import section kinds 0..8. The remaining format-specific
  * table entries are not recovered yet; they stop before dispatch. */
-static ConvertedSectionEmitter converted_relocation_emitters[9]={
+ConvertedSectionEmitter converted_relocation_emitters[9]={
     NULL,NULL,&LibrarianContext::EmitImportCodeRelocations,
     &LibrarianContext::EmitImportFunctionRelocations,NULL,NULL,
     &LibrarianContext::EmitImportNameRelocation,

@@ -119,6 +119,11 @@ struct LibrarianContext {
     void RECON_THISCALL CompleteLinkerMembers(void);
     void RECON_THISCALL WriteOutputs(DWORD,DWORD,DWORD,DWORD);
 };
+/* Shared encountered dispatch-table prefix for converted short-import sections. */
+typedef void (RECON_THISCALL LibrarianContext::*ConvertedSectionEmitter)(
+    LibrarianImportInfo *,void *,void *);
+extern ConvertedSectionEmitter converted_data_emitters[9];
+extern ConvertedSectionEmitter converted_relocation_emitters[9];
 struct ExportLibrarianContext : LibrarianContext {
     RECON_FORCEINLINE RECON_THISCALL ExportLibrarianContext(LinkContext *);
     virtual DWORD RECON_THISCALL Emit(CoffImportHeader *,const char *);

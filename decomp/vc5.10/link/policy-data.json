@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 90176
+              "offset": 91408
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 90187
+              "offset": 91419
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 108208
+              "offset": 109440
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 108219
+              "offset": 109451
             }
           ]
         },
@@ -4963,11 +4963,31 @@
           "roots": [
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 56992
+              "offset": 58240
             },
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 57006
+              "offset": 58254
+            }
+          ]
+        }
+      },
+      "_write_converted_archive_member@32": {
+        "original": {
+          "roots": [
+            4609424,
+            4609432
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_write_converted_archive_member@32",
+              "offset": 56832
+            },
+            {
+              "rebuilt_symbol": "_write_converted_archive_member@32",
+              "offset": 56840
             }
           ]
         }
@@ -8836,6 +8856,11 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "DefinitionBuffer::ReserveConverted": {
+        "expected_cleanup": [
+          4
+        ]
       }
     }
   },
@@ -8845,21 +8870,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 90176
+            "offset": 91408
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 90187
+            "offset": 91419
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 90187
+            "offset": 91419
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 90197
+            "offset": 91429
           }
         ]
       ]
@@ -8869,21 +8894,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 108208
+            "offset": 109440
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 108219
+            "offset": 109451
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 108219
+            "offset": 109451
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 108229
+            "offset": 109461
           }
         ]
       ]
@@ -8896,21 +8921,45 @@
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 56992
+            "offset": 58240
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 57006
+            "offset": 58254
           }
         ],
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 57006
+            "offset": 58254
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 57016
+            "offset": 58264
+          }
+        ]
+      ]
+    },
+    "_write_converted_archive_member@32": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_write_converted_archive_member@32",
+            "offset": 56832
+          },
+          {
+            "rebuilt_symbol": "_write_converted_archive_member@32",
+            "offset": 56840
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_write_converted_archive_member@32",
+            "offset": 56840
+          },
+          {
+            "rebuilt_symbol": "_write_converted_archive_member@32",
+            "offset": 56850
           }
         ]
       ]

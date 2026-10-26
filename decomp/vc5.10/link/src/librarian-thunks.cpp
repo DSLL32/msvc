@@ -178,7 +178,7 @@ void RECON_THISCALL LibrarianContext::EmitImportSymbol(const char *name,DWORD un
     position=header_bytes;
     if(debug) {
         kinds[0]=0;
-        THUNK_SECTION(0,".debug$S",cached_name_length+47,0,0x42300040);
+        THUNK_SECTION(0,".debug$S",cached_name_length+47,0,0x42100040);
     }
     if(code) {
         kinds[1]=2;
@@ -188,7 +188,7 @@ void RECON_THISCALL LibrarianContext::EmitImportSymbol(const char *name,DWORD un
         if(debug) {
             debug_name=import_debug_name(name,&debug_length);
             kinds[2]=3;
-            THUNK_SECTION(2,".debug$S",debug_length+30,2,0x42301040);
+            THUNK_SECTION(2,".debug$S",debug_length+30,2,0x42101040);
         }
     }
     kinds[3]=(BYTE)((BYTE)by_ordinal?5:7);

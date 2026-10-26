@@ -12,7 +12,7 @@ BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-imag
 BINARY_SOURCES += src/section-layout.cpp src/pass-two.cpp src/output-symbols.cpp src/debug-output.cpp
 BINARY_SOURCES += src/definition-file-stubs.c
 BINARY_SOURCES += src/librarian.cpp src/librarian-stubs.cpp
-BINARY_SOURCES += src/import-conversion.cpp
+BINARY_SOURCES += src/import-conversion.cpp src/archive-convert.cpp
 BINARY_SOURCES += src/librarian-options.cpp
 BINARY_SOURCES += src/librarian-input.cpp src/librarian-process.cpp src/librarian-prepare.cpp src/librarian-machine.cpp src/definition-parser.cpp src/definition-parser-stubs.cpp src/definition-lexer.cpp src/definition-name.cpp src/definition-export.cpp src/librarian-export.cpp src/librarian-output.cpp src/librarian-thunks.cpp src/librarian-descriptor.cpp src/librarian-exp.cpp src/archive-output.cpp src/archive-build.cpp src/messages.c
 BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
@@ -96,3 +96,7 @@ build/messages.res: src/messages.rc | $(RECON_TOOL)
 # Lazy import payload and constructor-failure cleanup retain their real roles.
 .build/pic/src/import-conversion.cpp.o: NATIVE_CXXFLAGS := $(filter-out -O0 -fno-inline -finstrument-functions,$(NATIVE_CXXFLAGS)) -O2 -finstrument-functions-after-inlining
 build/obj/src/import-conversion.cpp.obj: ORIGINAL_CFLAGS += /O2 /Ob2 /GX
+
+# Converted-member serialization owns the same genuine 20-byte scoped buffer.
+.build/pic/src/archive-convert.cpp.o: NATIVE_CXXFLAGS := $(filter-out -O0 -fno-inline -finstrument-functions,$(NATIVE_CXXFLAGS)) -O2 -finstrument-functions-after-inlining
+build/obj/src/archive-convert.cpp.obj: ORIGINAL_CFLAGS += /O2 /GX

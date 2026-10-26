@@ -16,6 +16,7 @@ public:
     int RECON_THISCALL Grow(int bytes);
     int RECON_THISCALL Set(T *base,T *end);
     int RECON_THISCALL Reserve(int bytes,T **output);
+    int RECON_THISCALL Reserve(int bytes);
     int RECON_THISCALL Advance(int bytes,T **output);
     int RECON_THISCALL Copy(const T *source,int bytes,T **output);
     void Write(const void *source,int bytes);

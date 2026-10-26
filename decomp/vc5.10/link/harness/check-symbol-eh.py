@@ -33,6 +33,7 @@ def verify(report, images):
                      -0x7a0 if side == 'original' else -0x7b0, 1)
 
         verify_import_conversion(facts, side, image)
+        verify_converted_member(facts, side, image)
 
 
 def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
@@ -175,6 +176,65 @@ def verify_import_conversion(facts, side, image):
     assert qualified_import(image,identity,thunk)==[('msvcrt.dll','__CxxFrameHandler')]
 
 
+def verify_converted_member(facts, side, image):
+    identity=facts['inputs']['images'][side]
+    assert identity['original_file_sha256']==hashlib.sha256(image.read_bytes()).hexdigest()
+    owner=facts['functions']['_write_converted_archive_member@32'][side]
+    destructor=facts['functions']['DefinitionBuffer::~DefinitionBuffer'][side]
+    setter=facts['functions']['DefinitionBuffer::Set'][side]
+    start,end=owner['record']['start'],owner['record']['end']
+    (action,action_end),(handler,handler_end)=owner['record']['code_chunks']
+    assert action_end==handler and handler-action==8 and handler_end-handler==10
+    assert set(owner['effective_roots'])=={start,action,handler}
+    assert owner['checked_ret_cleanup_set'] is None
+    assert owner['local_ret_cleanup_set']==[32]
+    assert destructor['checked_ret_cleanup_set']==[0]
+    assert setter['checked_ret_cleanup_set']==[8]
+    ins={row['address']:bytes.fromhex(row['bytes_hex']) for row in owner['instructions']}
+    memory={at+i:byte for at,data in ins.items() for i,byte in enumerate(data)}
+    def code(at,count):
+        return bytes(memory[at+i] for i in range(count))
+    rets=[at for at,data in ins.items() if start<=at<end and data[:1] in (b'\xc2',b'\xc3')]
+    assert len(rets)==1 and ins[rets[0]]==bytes.fromhex('c22000')
+    if side=='original':
+        prologue=bytes.fromhex('6aff68')+struct.pack('<I',handler)+bytes.fromhex('64a100000000506489250000000083ec38')
+        epilogue=bytes.fromhex('8b4c24485f5e5d64890d000000005b83c444c22000')
+        stores=b''.join(bytes.fromhex('897c24')+bytes([x]) for x in (0x20,0x24,0x28,0x2c,0x30))
+        local=0xcc
+        delete_site=rets[0]-26
+    else:
+        prologue=bytes.fromhex('558bec6aff68')+struct.pack('<I',handler)+bytes.fromhex('64a100000000506489250000000083ec40')
+        epilogue=bytes.fromhex('8b4df45f5e64890d000000005b8be55dc22000')
+        stores=b''.join(bytes.fromhex('8945')+bytes([x]) for x in (0xc8,0xcc,0xd0,0xd4,0xd8))
+        local=0xc8
+        delete_site=rets[0]-24
+    assert code(start,len(prologue))==prologue
+    assert code(rets[0]+3-len(epilogue),len(epilogue))==epilogue
+    body=code(start,end-start) if side=='original' else contextual_bytes(image,start,end-start)
+    assert body.count(stores)==1
+    a=code(action,8)
+    assert a[:4]==bytes.fromhex('8d4d')+bytes([local])+b'\xe9'
+    assert action+8+struct.unpack_from('<i',a,4)[0]==destructor['record']['start']
+    calls=[at+5+struct.unpack_from('<i',data,1)[0] for at,data in ins.items()
+           if start<=at<end and data[:1]==b'\xe8']
+    assert destructor['record']['start'] not in calls
+    assert calls.count(setter['record']['start'])==1
+    # The normal path inlines this same owner's destruction to scalar delete;
+    # the exceptional path alone enters the canonical destructor outline.
+    delete=code(delete_site,5)
+    assert delete[0]==0xe8 and code(delete_site-1,1)==b'\x50'
+    assert qualified_import(image,identity,delete_site+5+struct.unpack_from('<i',delete,1)[0])==[('msvcrt.dll','??3@YAXPAX@Z')]
+    h=code(handler,10)
+    assert h[0]==0xb8 and h[5]==0xe9
+    info=struct.unpack_from('<I',h,1)[0]
+    words=struct.unpack('<8I',contextual_bytes(image,info,32))
+    assert words[:2]==(0x19930520,1) and words[3:]==(0,0,0,0,0)
+    assert struct.unpack('<2I',contextual_bytes(image,words[2],8))==(0xffffffff,action)
+    if side=='original':assert [info,words[2]+8] in owner['record']['shared']
+    thunk=handler+10+struct.unpack_from('<i',h,6)[0]
+    assert qualified_import(image,identity,thunk)==[('msvcrt.dll','__CxxFrameHandler')]
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--report',type=Path,required=True)
@@ -183,4 +243,4 @@ if __name__ == '__main__':
     options = parser.parse_args()
     verify(json.loads(options.report.read_text()),
            {'original':options.original,'rebuilt':options.rebuilt})
-    print('PASS symbol/definition RET24/8 and import conversion RET28, distinct object/failure cleanup roles, qualified C++ handlers')
+    print('PASS symbol/definition RET24/8, import conversion RET28 and converted member RET32, distinct cleanup roles and qualified C++ handlers')

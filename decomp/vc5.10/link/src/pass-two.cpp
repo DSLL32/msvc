@@ -511,10 +511,8 @@ void RECON_THISCALL Contribution::ProcessOutput(LinkContext *context,IMAGE_SYMBO
     if(file->flags & 8)mapped_write(file,data,count);
     else buffered_write(file,data,count);
 }
-typedef void (RECON_THISCALL LibrarianContext::*ConvertedDataEmitter)(
-    LibrarianImportInfo *,void *,void *);
 /* The encountered short-import format supplies only section kinds 0..8. */
-static ConvertedDataEmitter converted_data_emitters[9]={
+ConvertedSectionEmitter converted_data_emitters[9]={
     &LibrarianContext::EmitImportDebug,&LibrarianContext::EmitImportDebugRelocations,
     &LibrarianContext::EmitImportCode,&LibrarianContext::EmitImportFunctionDebug,
     &LibrarianContext::EmitImportOrdinalThunk,&LibrarianContext::EmitImportOrdinalThunk,

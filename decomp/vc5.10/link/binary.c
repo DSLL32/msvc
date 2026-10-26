@@ -3,6 +3,7 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    {"DefinitionBuffer::ReserveConverted",0x3c570,(const ReconExtent[]){{0x3c570,0x3c5a6}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN17DefinitionStorageIhE7ReserveEi",NULL,NULL,0,"?Reserve@?$DefinitionStorage@E@@QAEHH@Z"},
     {"_record_incremental_entry@16",0x51390,(const ReconExtent[]){{0x51390,0x51391}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_incremental_entry",NULL,NULL,0,NULL},
     {"LibrarianContext::EmitExportSymbols",0x1b080,(const ReconExtent[]){{0x1b080,0x1b226}},1,(const ReconExtent[]){{0x2d78,0x2d8c}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN16LibrarianContext17EmitExportSymbolsEi",NULL,NULL,0,"?EmitExportSymbols@LibrarianContext@@QAEXH@Z"},
     {"LibrarianContext::EmitExportRelocations",0x1af70,(const ReconExtent[]){{0x1af70,0x1b072}},1,(const ReconExtent[]){{0x2d60,0x2d75}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN16LibrarianContext21EmitExportRelocationsEimmm",NULL,NULL,0,"?EmitExportRelocations@LibrarianContext@@QAEXHKKK@Z"},
@@ -73,7 +74,7 @@ static const ReconFunction functions[] = {
     {"_free_librarian_inputs@4",0xee70,(const ReconExtent[]){{0xee70,0xee71}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"free_librarian_inputs",NULL,NULL,0,NULL},
     {"_write_librarian_output@8",0x3c5b0,(const ReconExtent[]){{0x3c5b0,0x3ce17}},1,(const ReconExtent[]){{0x77c0,0x77d9},{0x77dc,0x77f4},{0x77f4,0x780f},{0x7810,0x781d},{0x66c0,0x66c4}},5,RECON_APP,RECON_IMPLEMENTED,"write_librarian_output",NULL,NULL,0,NULL},
     {"_build_archive_linker_members@12",0x3bd10,(const ReconExtent[]){{0x3bd10,0x3c072}},1,(const ReconExtent[]){{0x7794,0x77a6}},1,RECON_APP,RECON_IMPLEMENTED,"build_archive_linker_members",NULL,NULL,0,NULL},
-    {"_write_converted_archive_member@32",0x3c080,(const ReconExtent[]){{0x3c080,0x3c081}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"write_converted_archive_member",NULL,NULL,0,NULL},
+    {"_write_converted_archive_member@32",0x3c080,(const ReconExtent[]){{0x3c080,0x3c56f},{0x65590,0x65598},{0x65598,0x655a2}},3,(const ReconExtent[]){{0x77a8,0x77bd},{0x65760,0x65788}},2,RECON_APP,RECON_IMPLEMENTED,"write_converted_archive_member",NULL,NULL,0,NULL},
     {"_destroy_hash_table@4",0x30d30,(const ReconExtent[]){{0x30d30,0x30e1c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"destroy_hash_table",NULL,NULL,0,NULL},
     {"_destroy_string_table@4",0x62290,(const ReconExtent[]){{0x62290,0x622be}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"destroy_string_table",NULL,NULL,0,NULL},
     {"LibrarianContext::AddSymbol",0x1ebd0,(const ReconExtent[]){{0x1ebd0,0x1ec8c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN16LibrarianContext9AddSymbolEP16CoffImportHeaderPKcmP27IMAGE_ARCHIVE_MEMBER_HEADERP17IMAGE_FILE_HEADERP20IMAGE_SECTION_HEADERPhP19LibrarianImportInfo",NULL,NULL,0,"?AddSymbol@LibrarianContext@@UAEXPAUCoffImportHeader@@PBDKPAU_IMAGE_ARCHIVE_MEMBER_HEADER@@PAU_IMAGE_FILE_HEADER@@PAU_IMAGE_SECTION_HEADER@@PAEPAULibrarianImportInfo@@@Z"},
