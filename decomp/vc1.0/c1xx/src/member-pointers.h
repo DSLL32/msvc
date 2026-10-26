@@ -39,4 +39,7 @@ IrToken *__stdcall compare_general_method_pointer(IrToken *expression,
 MemberPointerThunkKey *__stdcall new_member_pointer_thunk_key(CppSymbol *member, short arena);
 MemberPointerThunkKey *__stdcall copy_member_pointer_thunk_key(MemberPointerThunkKey *key, short arena);
 CppSymbol *__stdcall emit_member_pointer_virtual_thunk(MemberPointerThunkKey *key);
+int __stdcall virtual_member_uses_far_table(CppSymbol *member);
+int __stdcall member_uses_far_this(CppSymbol *member);
+int __stdcall member_uses_far_code(CppSymbol *member);
 #endif

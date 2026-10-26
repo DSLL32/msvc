@@ -224,4 +224,5 @@ IrToken *__stdcall delete_expression(unsigned char operation, IrToken *expressio
 
 typedef char IrExpressionSizeMustBe20[(sizeof(IrExpression) == 20) ? 1 : -1];
 typedef char ClassContextSizeMustBe32[(sizeof(ClassContext) == 32) ? 1 : -1];
+unsigned char *copy_parser_spelling(unsigned char *destination, char *text);
 #endif

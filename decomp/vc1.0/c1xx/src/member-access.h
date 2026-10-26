@@ -28,4 +28,5 @@ HashTable *access_declaration_table(void);
 extern CppSymbol *access_failure_owner, *access_failure_member;
 extern unsigned char access_failure_protection;
 extern int access_through_virtual_base;
+unsigned __stdcall base_qualifier_displacement(QualifierBinding *path);
 #endif

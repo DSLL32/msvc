@@ -167,3 +167,11 @@ read_action:
         }
     }
 }
+
+/* Original0x268d0..0x268ec, cdecl. The parser's distinct text copier
+   preserves the same end-pointer result as the lookahead specialization. */
+unsigned char *copy_parser_spelling(unsigned char *destination, char *text)
+{
+    while ((*destination = (unsigned char)*text++) != 0) ++destination;
+    return destination;
+}

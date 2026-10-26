@@ -394,4 +394,8 @@ typedef char TagSymbolSizeMustBe40[(sizeof(TagSymbol) == 40) ? 1 : -1];
 typedef char ClassInfoSizeMustBe60[(sizeof(ClassInfo) == 60) ? 1 : -1];
 typedef char ClassInfoVirtualDispatchPointerOffsetMustBe20[
     (offsetof(ClassInfo, virtual_dispatch_pointer) == 20) ? 1 : -1];
+int __stdcall is_current_class_tag(CppSymbol *symbol);
+int __stdcall member_pointer_has_zero_base_offsets(CType *type);
+OverloadSet *__stdcall new_named_overload_set(char *name);
+char *__stdcall append_symbol_suffix(char *prefix, char *suffix);
 #endif

@@ -481,3 +481,11 @@ int recursive_lookahead_parse(void)
     lookahead_value_top = saved_value_top;
     return result;
 }
+
+/* Original0x19560..0x1957e, stdcall8. Separate spelling-copy entry,
+   returning the terminating NUL rather than the destination's beginning. */
+unsigned char *__stdcall copy_lookahead_spelling(unsigned char *destination, char *text)
+{
+    while ((*destination = (unsigned char)*text++) != 0) ++destination;
+    return destination;
+}

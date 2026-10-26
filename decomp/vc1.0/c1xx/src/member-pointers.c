@@ -21,6 +21,7 @@
 #include "function-finalization.h"
 #include "global-ir.h"
 #include "virtual-table-output.h"
+#include "class-finalization.h"
 #include <recon.h>
 
 int __stdcall equal_data_member_null_representation(CType *target, CType *source);
@@ -2480,4 +2481,30 @@ CppSymbol *__stdcall enclosing_qualifier_class(QualifierBinding *binding)
         if ((binding->target->kind & 31) == 4)
             return (CppSymbol *)binding->target;
     return 0;
+}
+
+/* Original0x4de40..0x4de6b, stdcall4. Virtual members retain the
+   signed table-class index, distinct from their declaring-class index. */
+int __stdcall virtual_member_uses_far_table(CppSymbol *member)
+{
+    CppSymbol *tag = cpp_context_stack->items[member->auxiliary.virtual_function.table_class];
+    return (primary_vtable_pointer_attributes(tag) & 7) == 2;
+}
+
+/* Original0x4de70..0x4dea5, stdcall4. Skip the optional leading
+   based shape before reading the associated this pointer's distance. */
+int __stdcall member_uses_far_this(CppSymbol *member)
+{
+    TypeShape *shape = member->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return (shape->data.parameters->associated_type->related->attributes & 7) == 2;
+}
+
+/* Original0x4deb0..0x4dedd, stdcall4. The effective function shape
+   supplies code distance independently from the associated this pointer. */
+int __stdcall member_uses_far_code(CppSymbol *member)
+{
+    TypeShape *shape = member->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return (shape->attributes & 7) == 2;
 }

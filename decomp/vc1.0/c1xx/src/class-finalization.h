@@ -42,4 +42,5 @@ int __stdcall class_has_pure_virtual(CppSymbol *tag);
 void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag);
 unsigned __stdcall nonvirtual_base_end(CppSymbol *tag);
 void __stdcall shift_class_member_offsets(CppSymbol *tag, unsigned bytes, unsigned offset);
+unsigned short __stdcall primary_vtable_pointer_attributes(CppSymbol *tag);
 #endif

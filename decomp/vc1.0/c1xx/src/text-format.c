@@ -2,6 +2,7 @@
 #include <io.h>
 #include "text-format.h"
 #include "mangling.h"
+#include "initialization.h"
 #include <recon.h>
 
 /* Original 0x736d0..0x736e7. Retain the variadic wrapper and its
@@ -105,4 +106,20 @@ void write_ide_progress(char *format, ...)
     va_end(arguments);
     for (length = 0; buffer[length]; ++length) {}
     _write(2, buffer, length);
+}
+
+/* Original0x354f0..0x35565, cdecl variadic. Formatting uses the
+   frontend formatter, then one fwrite item of the complete generated text.
+   The length check follows formatting, preserving the original overflow bug. */
+unsigned write_formatted_text(FILE *stream, char *format, ...)
+{
+    char buffer[1024];
+    unsigned length;
+    va_list arguments;
+    va_start(arguments, format);
+    vformat_text(buffer, format, arguments);
+    va_end(arguments);
+    for (length = 0; buffer[length]; ++length) ;
+    if (length >= sizeof(buffer)) fatal_error(1, pch_diagnostic_name, 2527);
+    return fwrite(buffer, length, 1, stream);
 }

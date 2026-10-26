@@ -34,4 +34,5 @@ void initialize_lookahead_parser(void);
 void __stdcall report_lookahead_error(char *unused_text);
 int lookahead_parse(void);
 int recursive_lookahead_parse(void);
+unsigned char *__stdcall copy_lookahead_spelling(unsigned char *destination, char *text);
 #endif

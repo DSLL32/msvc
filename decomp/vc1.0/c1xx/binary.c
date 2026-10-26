@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1968 historical frontiers/1920 App bodies;
- * Fifty-nine support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1968 historical frontiers/1932 App bodies;
+ * Seventy-one support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -19480,6 +19480,56 @@ static const ReconFunction functions[] = {
     { .name = "_dos_date_weekday", .entry_rva = 0x64600,
       .code = (const ReconExtent[]) { { 0x64600, 0x64682 } }, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "dos_date_weekday",
+      .implementation = RECON_IMPLEMENTED },
+
+/* Whole declaration/text support qualified by typed units and ABI audit. */
+    { .name = "_base_qualifier_displacement@4", .entry_rva = 0x21760,
+      .code = (const ReconExtent[]) { { 0x21760, 0x21785 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "base_qualifier_displacement",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_is_current_class_tag@4", .entry_rva = 0x23100,
+      .code = (const ReconExtent[]) { { 0x23100, 0x23132 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "is_current_class_tag",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_member_pointer_has_zero_base_offsets@4", .entry_rva = 0x3e000,
+      .code = (const ReconExtent[]) { { 0x3e000, 0x3e01d } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "member_pointer_has_zero_base_offsets",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_primary_vtable_pointer_attributes@4", .entry_rva = 0x6c100,
+      .code = (const ReconExtent[]) { { 0x6c100, 0x6c11a } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "primary_vtable_pointer_attributes",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_virtual_member_uses_far_table@4", .entry_rva = 0x3de40,
+      .code = (const ReconExtent[]) { { 0x3de40, 0x3de6b } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "virtual_member_uses_far_table",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_member_uses_far_this@4", .entry_rva = 0x3de70,
+      .code = (const ReconExtent[]) { { 0x3de70, 0x3dea5 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "member_uses_far_this",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_member_uses_far_code@4", .entry_rva = 0x3deb0,
+      .code = (const ReconExtent[]) { { 0x3deb0, 0x3dedd } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "member_uses_far_code",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_copy_lookahead_spelling@8", .entry_rva = 0x9560,
+      .code = (const ReconExtent[]) { { 0x9560, 0x957e } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "copy_lookahead_spelling",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_copy_parser_spelling", .entry_rva = 0x168d0,
+      .code = (const ReconExtent[]) { { 0x168d0, 0x168ec } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "copy_parser_spelling",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_new_named_overload_set@4", .entry_rva = 0x44920,
+      .code = (const ReconExtent[]) { { 0x44920, 0x4493f } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "new_named_overload_set",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_append_symbol_suffix@8", .entry_rva = 0x44f50,
+      .code = (const ReconExtent[]) { { 0x44f50, 0x44fce } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "append_symbol_suffix",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_write_formatted_text", .entry_rva = 0x254f0,
+      .code = (const ReconExtent[]) { { 0x254f0, 0x25565 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "write_formatted_text",
       .implementation = RECON_IMPLEMENTED },
 
 };

@@ -658,3 +658,20 @@ CppSymbol *__stdcall find_tag_in_chain(char *name, CppSymbol *first)
     } while (first);
     return 0;
 }
+
+/* Original0x33100..0x33132, stdcall4. This separate entry retains
+   the same interned-name identity test as is_current_class. */
+int __stdcall is_current_class_tag(CppSymbol *symbol)
+{
+    return current_class_context >= 0 &&
+        class_contexts[current_class_context].symbol->name == symbol->name;
+}
+
+/* Original0x4e000..0x4e01d, stdcall4. Only the member-function
+   pointer shape supplies a class for the separate hierarchy predicate. */
+int __stdcall member_pointer_has_zero_base_offsets(CType *type)
+{
+    TypeShape *shape = type->related;
+    if (!(shape->flags & 0x20)) return 0;
+    return class_has_zero_base_offsets(shape->data.tag_symbol);
+}

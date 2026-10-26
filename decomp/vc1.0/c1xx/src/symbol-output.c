@@ -290,3 +290,34 @@ char *__stdcall format_symbol_name(CppSymbol *symbol)
     }
     return text;
 }
+
+/* Original0x54920..0x5493f, stdcall4. The common16 B overload
+   prefix owns its name and function-chain slots; other flag bits survive. */
+OverloadSet *__stdcall new_named_overload_set(char *name)
+{
+    OverloadSet *set = allocate_permanent(16);
+    set->kind = 17;
+    set->name = name;
+    set->functions = 0;
+    set->declaration_flags &= ~0x300U;
+    return set;
+}
+
+/* Original0x54f50..0x54fce, stdcall8. Preserve the suffix while
+   limiting the prefix to a combined246 characters. Original oversized
+   suffixes retain their negative-prefix-count defect; no new guard is added. */
+char *__stdcall append_symbol_suffix(char *prefix, char *suffix)
+{
+    int prefix_length = 0, suffix_length = 0;
+    unsigned index;
+    char *result;
+    while (prefix[prefix_length]) ++prefix_length;
+    while (suffix[suffix_length]) ++suffix_length;
+    if (prefix_length + suffix_length > 246) prefix_length = 246 - suffix_length;
+    result = allocate_permanent((prefix_length + suffix_length + 4) & ~3U);
+    for (index = 0; index < (unsigned)prefix_length; ++index) result[index] = prefix[index];
+    for (index = 0; index < (unsigned)suffix_length; ++index)
+        result[prefix_length + index] = suffix[index];
+    result[prefix_length + suffix_length] = 0;
+    return result;
+}

@@ -1712,3 +1712,11 @@ void __stdcall collapse_virtual_conflicts(VirtualEntry *entry)
     entry->dispatch.function = first_vector_item((Vector *)entry->dispatch.function);
     entry->dispatch.flags &= ~4U;
 }
+
+/* Original0x7c100..0x7c11a, stdcall4; AX is the defined result.
+   Follow the real primary table's pointer declaration and its outer shape. */
+unsigned short __stdcall primary_vtable_pointer_attributes(CppSymbol *tag)
+{
+    VirtualTable *table = primary_virtual_table(tag);
+    return table->pointer->type->related->attributes;
+}

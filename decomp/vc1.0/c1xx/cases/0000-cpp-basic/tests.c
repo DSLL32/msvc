@@ -26,6 +26,9 @@
 #include "types.h"
 #include "class-type-sets.h"
 #include "source-input.h"
+#include "member-pointers.h"
+#include "text-format.h"
+#include "parser.h"
 #include <recon.h>
 
 static int traps(void (*invoke)(void))
@@ -772,6 +775,89 @@ static int check_dos_calendar(void)
         dos_date_weekday((120U<<25)|(3U<<21)|(1U<<16)) == 2 &&
         dos_date_weekday((127U<<25)|(12U<<21)|(31U<<16)) == 0;
 }
+static int check_declaration_support_owners(void)
+{
+    CppSymbol tag = {0}, member = {0}, pointer = {0}, same_name = {0};
+    ClassInfo info = {0};
+    VirtualTable table = {0};
+    Vector tables;
+    void *table_items[1];
+    struct { short count, capacity; void *items[1]; } contexts;
+    TypeShape pointer_shape = {0}, function_shape = {0}, leading_shape = {0};
+    TypeShape this_shape = {0}, member_shape = {0};
+    CType pointer_type = {0}, member_type = {0}, this_type = {0}, class_type = {0};
+    FunctionParameters parameters = {0};
+    BaseClassLink first = {0}, second = {0}, terminator = {0};
+    QualifierBinding path[3];
+    char name[] = "Owner", other_name[] = "Owner";
+    tag.name = name; same_name.name = name; tag.detail.class_info = &info;
+    table_items[0] = &table; tables.count = tables.capacity = 1;
+    tables.items = table_items; tables.arena = 0; info.virtual_tables = &tables;
+    table.pointer = &pointer; pointer.type = &pointer_type;
+    pointer_type.related = &pointer_shape; pointer_shape.attributes = 2;
+    contexts.count = contexts.capacity = 1; contexts.items[0] = &tag;
+    cpp_context_stack = (InlineVector *)&contexts;
+    member.auxiliary.virtual_function.table_class = 0;
+    if (primary_vtable_pointer_attributes(&tag) != 2 ||
+        !virtual_member_uses_far_table(&member)) return 0;
+    pointer_shape.attributes = 1;
+    if (virtual_member_uses_far_table(&member)) return 0;
+    member.type = &member_type; member_type.related = &function_shape;
+    function_shape.flags = 4; function_shape.attributes = 2;
+    function_shape.data.parameters = &parameters;
+    parameters.associated_type = &this_type; this_type.related = &this_shape;
+    this_shape.attributes = 2;
+    if (!member_uses_far_code(&member) || !member_uses_far_this(&member)) return 0;
+    leading_shape.related = &function_shape; member_type.related = &leading_shape;
+    function_shape.attributes = 1; this_shape.attributes = 1;
+    if (member_uses_far_code(&member) || member_uses_far_this(&member)) return 0;
+    current_class_context = -1;
+    if (is_current_class_tag(&same_name)) return 0;
+    current_class_context = 0; class_contexts[0].symbol = &tag;
+    if (!is_current_class_tag(&same_name)) return 0;
+    same_name.name = other_name;
+    if (is_current_class_tag(&same_name)) return 0;
+    first.kind = second.kind = 15; terminator.kind = 4;
+    first.displacement = 2; second.displacement = 6; terminator.displacement = 100;
+    path[0].target = (ClassReference *)&first; path[0].next = &path[1];
+    path[1].target = (ClassReference *)&second; path[1].next = &path[2];
+    path[2].target = (ClassReference *)&terminator; path[2].next = 0;
+    if (base_qualifier_displacement(path) != 8 || base_qualifier_displacement(0)) return 0;
+    class_type.related = &member_shape; member_shape.data.tag_symbol = &tag;
+    if (member_pointer_has_zero_base_offsets(&class_type)) return 0;
+    member_shape.flags = 0x20;
+    if (!member_pointer_has_zero_base_offsets(&class_type)) return 0;
+    info.flags = 0x10;
+    return !member_pointer_has_zero_base_offsets(&class_type);
+}
+static int check_text_support_owners(void)
+{
+    unsigned char buffer[32];
+    char prefix[261], readback[32], *name;
+    OverloadSet *set;
+    FILE *stream;
+    unsigned i;
+    memset(buffer, 0x5a, sizeof(buffer));
+    if (copy_lookahead_spelling(buffer, "alpha") != buffer+5 ||
+        memcmp(buffer,"alpha",6) || buffer[6] != 0x5a ||
+        copy_parser_spelling(buffer+5, " beta") != buffer+10 ||
+        memcmp(buffer,"alpha beta",11) || buffer[11] != 0x5a) return 0;
+    name = append_symbol_suffix("Owner", "_member");
+    if (strcmp(name,"Owner_member")) return 0;
+    for (i = 0; i < 260; ++i) prefix[i] = 'p';
+    prefix[260] = 0; name = append_symbol_suffix(prefix,".tail");
+    if (strlen(name) != 246 || memcmp(name,prefix,241) || strcmp(name+241,".tail")) return 0;
+    set = new_named_overload_set(name);
+    if (set->kind != 17 || set->name != name || set->functions ||
+        (set->declaration_flags & 0x300)) return 0;
+    stream = fopen("formatter-unit.txt", "w+b");
+    if (!stream || write_formatted_text(stream,"%s:%d:%x:%c", "node",7,0x2a,'!') != 1 ||
+        fflush(stream) || fseek(stream,0,SEEK_SET)) return 0;
+    memset(readback,0x5a,sizeof(readback));
+    if (fread(readback,1,11,stream) != 11 || memcmp(readback,"node:7:2a:!",11) ||
+        readback[11] != 0x5a || fclose(stream)) return 0;
+    return _unlink("formatter-unit.txt") == 0;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -812,5 +898,7 @@ const ReconTest c1xx_tests[] = {
     {"database service owners (unit-only)",1,check_database_service_owners},
     {"container owners (unit-only)",1,check_container_owners},
     {"bitset ownership (unit-only)",1,check_bitset_owners},
-    {"DOS calendar (unit-only)",1,check_dos_calendar}
+    {"DOS calendar (unit-only)",1,check_dos_calendar},
+    {"declaration support owners (unit-only)",1,check_declaration_support_owners},
+    {"text support owners (unit-only)",1,check_text_support_owners}
 };

@@ -1,6 +1,32 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Declaration/text support is COMPLETE (native-unit-only): twelve whole App
+bodies add615 B. They cover leading base-qualifier displacement, interned current
+class identity, member-pointer hierarchy eligibility, primary virtual-table
+pointer attributes and three far-distance queries, distinct lookahead/parser
+spelling copiers, named overload allocation, bounded symbol suffix construction,
+and formatted FILE output. Existing typed class/virtual/qualifier owners and
+frontend allocator/formatter calls establish App roles; no fresh CLI reach is
+claimed. Two units check real class/table/function/this-pointer paths and gates,
+pointer-name identity, terminated qualifier sums, end-pointer/tail behavior,
+246-character prefix truncation, overload fields and complete formatted bytes.
+Original unsupported long-suffix and post-format overflow behavior remains
+unchanged; these units exercise defined bounded inputs.
+
+Total is1,932 App /412,270 B (86.54% of whole original code),no named pending
+registry entries,1,968 historical frontiers,71 explicitly unit-qualified support
+bodies and seven unchanged historical CRT source bodies. Unregistered code gaps
+remain under positive classification. All55 native cases and64 unit groups pass,
+with original compilation and the1,940-function six-check graph/ABI audit.
+Focused units21.801/21.554 ms (setup12.103/12.082 ms, execution3.661/3.665 ms,
+checks6.037/5.807 ms); closing gate3.902 s. First build3.244 s held on a mistaken
+header include; the existing initialization.h declaration corrected it, and the
+original/native header rebuild29.734 s passed. No original invocation, oracle,
+shared shim or comparison-policy change.
+
+Earlier container/portability qualification:
+
 Container/portability support is COMPLETE (native-unit-only): nine whole App
 bodies add603 B. They cover inline-vector/header validation, type-set cursor
 bounds/replacement/validation, bitset copy/subtraction/release, and the packed

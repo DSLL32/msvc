@@ -378,3 +378,15 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
     }
     return access;
 }
+
+/* Original0x31760..0x31785, stdcall4. Only the leading kind15 base
+   qualifiers contribute; the first ordinary qualifier terminates the sum. */
+unsigned __stdcall base_qualifier_displacement(QualifierBinding *path)
+{
+    unsigned displacement = 0;
+    while (path && (path->target->kind & 31) == 15) {
+        displacement += ((BaseClassLink *)path->target)->displacement;
+        path = path->next;
+    }
+    return displacement;
+}
