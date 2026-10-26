@@ -7,9 +7,23 @@ source; five historical CRT bodies remain separately accounted. App code occupie
 bytes gives364346/399693(91.1565%). These clipped extent unions use section
 VirtualSize(raw size only if zero), not branch coverage. Five old CRT overrides
 contribute1776B separately, zero App credit. Available App/classified CRT/import
-extents cover390720/399693(97.7550%). A reliable non-CRT denominator is unavailable.
-No registered App row remains pending, but8973B outside the available union still
-needs classification; support/padding/unclassified bytes are not known all-CRT.
+extents cover392580/399693(98.2204%). A reliable non-CRT denominator is unavailable.
+No registered App row remains pending. The7113B outside this union comprises
+6138B alignment candidates,943B caller-free/unattributed Extended math(including
+one internal NOP) and a32B caller-free library-shaped floating-status variant.
+These remain unmasked and receive no App credit; no only-CRT claim.
+
+The bounded post-case review identifies1824B ___strgtold12 as a CRT dependency:
+three exact shipped intrncvt.obj callers(__atodbl/__atoldbl/__atoflt) name it at
+their actual REL32 relocations. Its original parser bytes differ from the
+bundled strgtold.obj, so this is linked-caller origin proof, not an exact-body
+claim. The32B __open matches lowio OPEN.OBJ and its actual __sopen target. The4B
+XC00 prefix belongs to EXSUP.OBJ before __except_handler2. All1860B are runtime
+classification only, with zero reconstruction/App credit. No original run or
+App body changed. Registry/native projection0.729s and static audit2.717s pass;
+unchanged source regressions above were not needlessly repeated. Specific member
+hashes/relocations/raw gap disassembly are retained in scratch
+`~/.ai-tmp/msvc2/vc1.0/c2/residual-classification/`.
 
 `binary.c` is the sole registry. All37 cached IO cases, eleven INTERNAL DIRECT
 cases and273 narrow units pass. Fixtures are native-only. Inputs preserve actual

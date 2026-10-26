@@ -407,6 +407,25 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_CRT,
     },
+    /* Exact shipped intrncvt.obj __atodbl/__atoldbl/__atoflt callers name
+       ___strgtold12 at their actual REL32 relocations to this entry.
+       This linked parser is a variant, not byte-identical to the bundled
+       strgtold.obj. Runtime classification only; no source/App credit. */
+    {
+        .name = "___strgtold12",
+        .entry_rva = 0x677a0,
+        .code = (const ReconExtent[]) { { 0x677a0, 0x67ec0 } },
+        .code_count = 1,
+        .definition = RECON_CRT,
+    },
+    /* Exact lowio\obj\i386\OPEN.OBJ body/relocation to original __sopen. */
+    {
+        .name = "__open",
+        .entry_rva = 0x65fd0,
+        .code = (const ReconExtent[]) { { 0x65fd0, 0x65ff0 } },
+        .code_count = 1,
+        .definition = RECON_CRT,
+    },
     {
         .name = "___STRINGTOLD",
         .entry_rva = 0x67ec0,
@@ -1406,6 +1425,9 @@ static const ReconFunction functions[] = {
         .entry_rva = 0x622c4,
         .code = (const ReconExtent[]) { { 0x622c4, 0x6238f } },
         .code_count = 1,
+        /* EXSUP.OBJ's literal XC00 signature precedes its handler entry. */
+        .text_data = (const ReconExtent[]) { { 0x622c0, 0x622c4 } },
+        .text_data_count = 1,
         .definition = RECON_CRT,
     },
     {
