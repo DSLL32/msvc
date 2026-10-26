@@ -5109,6 +5109,20 @@
         "0x43ca4c"
       ],
       "scope": "Normal return only; parse results still checked separately."
+    },
+    {
+      "import": "msvcrt.dll!strncmp",
+      "additional_preserves": [
+        "esi"
+      ],
+      "abi": "Identified public three-argument cdecl signature; ESI nonvolatile on ordinary normal return.",
+      "owner": "_load_librarian_library@8",
+      "cached_load": "0x43b679 from actual IAT4010f4",
+      "cached_sites": [
+        "0x43b68b",
+        "0x43b6a4"
+      ],
+      "scope": "Normal return only; exact 16-byte archive special-name comparison."
     }
   ]
 }

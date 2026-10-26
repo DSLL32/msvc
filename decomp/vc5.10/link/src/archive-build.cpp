@@ -228,3 +228,68 @@ extern "C" DWORD __stdcall build_archive_linker_members(LinkContext *context,DWO
     default_phase=saved_phase;
     return second_member;
 }
+
+extern "C" void __stdcall convert_library_member(LinkContext *,OutputLibrary *,IMAGE_FILE_HEADER *,
+    void *,int,DWORD,DWORD,const char *,const char *,IMAGE_SECTION_HEADER *,BYTE *,
+    void *,void **,DWORD,DWORD);
+
+#pragma intrinsic(strcpy)
+extern "C" void __stdcall load_librarian_library(LinkContext *context,const char *name)
+{
+    const char *saved_phase=default_phase;
+    OutputLibrary *library;
+    IMAGE_ARCHIVE_MEMBER_HEADER member_header;
+    IMAGE_FILE_HEADER header;
+    IMAGE_SECTION_HEADER sections[30];
+    BYTE section_flags[32],import_header[20],section_data[60],is_import,converted;
+    DWORD position=8,length,member_size,error,format;
+    char *member_name;
+    void *conversion;
+    int saved_input;
+    BYTE copy_sections,restore_input;
+    FileRecord *file;
+
+    default_phase="AddArchiveArg";
+    library=create_library(name,NULL,&context->pointer_list);
+#ifdef __linux__
+    if(strlen(library->name)>=sizeof(current_phase)) { __asm { int 3 } }
+#endif
+    strcpy(current_phase,library->name);
+    current_input_file=open_argument_file(library->name,0x8000,0);
+    library->ReadIndex(context);
+    length=get_file_length(current_input_file);
+    while(position<length) {
+        error=0;seek_file(current_input_file,position,FILE_BEGIN,&error);
+        ARCHIVE_READ(&member_header,60);
+        position+=60;
+        if(sscanf((const char *)member_header.Size,"%ld",&member_size)!=1)
+            link_fatal(library->name,1127);
+        if(strncmp((const char *)member_header.Name,"/               ",16) &&
+           strncmp((const char *)member_header.Name,"//              ",16)) {
+            const char *resolved=library->MemberName(&member_header);
+            if(!resolved)link_fatal(name,1127);
+            member_name=duplicate_argument(resolved);
+            conversion=NULL;
+            copy_sections=restore_input=0;
+            format=20;
+            is_import=0;
+            saved_input=0;
+            read_coff_header(current_input_file,&header,import_header,&is_import);
+            if(is_import) {
+                convert_library_member(context,library,&header,import_header,current_input_file,
+                    0,1,NULL,NULL,sections,section_flags,section_data,&conversion,0,0);
+                saved_input=current_input_file;
+                restore_input=copy_sections=1;
+                format=0;
+                current_input_file=*(int *)((BYTE *)conversion+0x5c);
+            }
+            create_input_module(NULL,member_name,(const void *)position,&header,library,
+                NULL,copy_sections,format,sections,section_flags,section_data,(DWORD)conversion);
+            if(restore_input)current_input_file=saved_input;
+        }
+        position+=member_size;
+        if(position&1)++position;
+    }
+    close_argument_file(current_input_file,0);
+    default_phase=saved_phase;
+}

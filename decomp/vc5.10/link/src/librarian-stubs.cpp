@@ -30,7 +30,6 @@ void RECON_THISCALL CoffLibrarianContext::Prepare(DWORD) { __asm { int 3 } }
 void RECON_THISCALL CoffLibrarianContext::Finish(void) { __asm { int 3 } }
 extern "C" {
 void __cdecl librarian_usage(void) { __asm { int 3 } }
-void __stdcall load_librarian_library(LinkContext *,const char *) { __asm { int 3 } }
 void __stdcall list_librarian_members(OutputLibrary *) { __asm { int 3 } }
 void __stdcall extract_librarian_member(LinkContext *) { __asm { int 3 } }
 void __stdcall free_librarian_inputs(LinkPointerList *) { __asm { int 3 } }
