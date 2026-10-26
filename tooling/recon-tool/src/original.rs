@@ -621,6 +621,168 @@ mod command_line_tests {
         }
     }
 }
+// Preserve the context already returned for a debugger exception. It is
+// diagnostic failure evidence only, never a fixture oracle or extra memory read.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct ExceptionSnapshot {
+    code: u32,
+    image_base: u32,
+    registers: BTreeMap<String, u32>,
+    raw_context: Bytes,
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    process_id: Option<u32>,
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    thread_id: Option<u32>,
+}
+#[derive(Clone, Debug, Serialize, Deserialize)]
+struct CaptureFailure {
+    error: String,
+    #[serde(skip_serializing_if = "Option::is_none", default)]
+    exception: Option<ExceptionSnapshot>,
+}
+impl std::fmt::Display for CaptureFailure {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.write_str(&self.error)
+    }
+}
+impl std::error::Error for CaptureFailure {}
+impl CaptureFailure {
+    fn from_error(error: &anyhow::Error) -> Self {
+        Self {
+            error: format!("{error:#}"),
+            exception: error
+                .downcast_ref::<Self>()
+                .and_then(|v| v.exception.clone()),
+        }
+    }
+    fn read(text: String) -> Self {
+        serde_json::from_str(&text).unwrap_or(Self {
+            error: text,
+            exception: None,
+        })
+    }
+    fn save(&self, path: &Path) -> Result<()> {
+        fs::write(path, serde_json::to_vec(self)?)?;
+        Ok(())
+    }
+}
+fn register_values(data: &[u8]) -> Result<BTreeMap<String, u32>> {
+    anyhow::ensure!(
+        data.len() == size_of::<Registers>(),
+        "invalid original register snapshot"
+    );
+    let names = [
+        "eax", "ebx", "ecx", "edx", "esi", "edi", "ebp", "esp", "eip", "eflags",
+    ];
+    Ok(names
+        .iter()
+        .zip(data[..40].chunks_exact(4))
+        .map(|(name, bytes)| {
+            (
+                (*name).into(),
+                u32::from_le_bytes(bytes.try_into().unwrap()),
+            )
+        })
+        .collect())
+}
+fn exception_failure(
+    label: &str,
+    code: u32,
+    base: u32,
+    data: &[u8],
+    owner: Option<&crate::pe_self::Owner>,
+) -> Result<CaptureFailure> {
+    let registers = register_values(data)?;
+    Ok(CaptureFailure {
+        error: format!(
+            "{label} {code:08x} (EIP {:08x}, target base {base:08x})",
+            registers["eip"]
+        ),
+        exception: Some(ExceptionSnapshot {
+            code,
+            image_base: base,
+            registers,
+            raw_context: Bytes(data.to_vec()),
+            process_id: owner.map(|v| v.pid),
+            thread_id: owner.map(|v| v.tid),
+        }),
+    })
+}
+#[cfg(test)]
+mod exception_report_tests {
+    use super::*;
+    #[test]
+    fn context_survives_executor_serialization_and_supervisor_error() -> Result<()> {
+        let mut data = vec![0xa5; size_of::<Registers>()];
+        data[28..32].copy_from_slice(&0x0012ff00u32.to_le_bytes());
+        data[32..36].copy_from_slice(&0x00404567u32.to_le_bytes());
+        let owner = crate::pe_self::Owner {
+            pid: 20,
+            tid: 24,
+            base: 0x400000,
+            child: true,
+            entry: true,
+        };
+        let original = exception_failure(
+            "original exception",
+            0xc0000005,
+            0x400000,
+            &data,
+            Some(&owner),
+        )?;
+        let first: anyhow::Error = original.into();
+        let encoded = serde_json::to_string(&CaptureFailure::from_error(&first))?;
+        let from_executor = CaptureFailure::read(encoded);
+        let supervisor: anyhow::Error = from_executor.into();
+        let report = serde_json::to_value(CaptureFailure::from_error(
+            &supervisor.context("capture executor"),
+        ))?;
+        assert!(report["error"].as_str().unwrap().contains("EIP 00404567"));
+        assert_eq!(report["exception"]["code"], 0xc0000005u32);
+        assert_eq!(report["exception"]["image_base"], 0x400000);
+        assert_eq!(report["exception"]["registers"]["esp"], 0x0012ff00);
+        assert_eq!(report["exception"]["registers"]["eip"], 0x00404567);
+        assert_eq!(report["exception"]["process_id"], 20);
+        assert_eq!(report["exception"]["thread_id"], 24);
+        let decoded: CaptureFailure = serde_json::from_value(report)?;
+        assert_eq!(decoded.exception.unwrap().raw_context.0, data);
+        Ok(())
+    }
+    #[test]
+    fn generic_failures_and_legacy_error_text_keep_their_shape() -> Result<()> {
+        let failure = CaptureFailure::from_error(&anyhow::anyhow!("unchanged failure"));
+        assert_eq!(
+            serde_json::to_value(&failure)?,
+            serde_json::json!({"error":"unchanged failure"})
+        );
+        assert_eq!(
+            serde_json::to_value(CaptureFailure::read("legacy failure".into()))?,
+            serde_json::json!({"error":"legacy failure"})
+        );
+        let data = vec![0; size_of::<Registers>()];
+        let typed = exception_failure("typed original exception", 5, 0x400000, &data, None)?;
+        let report = serde_json::to_value(typed)?;
+        assert!(
+            report["error"]
+                .as_str()
+                .unwrap()
+                .starts_with("typed original exception")
+        );
+        assert!(report["exception"].get("process_id").is_none());
+        Ok(())
+    }
+    #[test]
+    fn context_extent_is_exact() {
+        for size in [
+            0,
+            40,
+            size_of::<Registers>() - 1,
+            size_of::<Registers>() + 1,
+        ] {
+            assert!(exception_failure("original exception", 5, 0, &vec![0; size], None).is_err());
+        }
+    }
+}
 #[derive(Serialize, Deserialize)]
 struct FrontierSnapshot {
     image_base: u32,
@@ -640,23 +802,7 @@ fn frontier_snapshot(
     rva: u32,
     data: &[u8],
 ) -> Result<FrontierSnapshot> {
-    anyhow::ensure!(
-        data.len() == size_of::<Registers>(),
-        "invalid frontier register snapshot"
-    );
-    let names = [
-        "eax", "ebx", "ecx", "edx", "esi", "edi", "ebp", "esp", "eip", "eflags",
-    ];
-    let registers: BTreeMap<String, u32> = names
-        .iter()
-        .zip(data[..40].chunks_exact(4))
-        .map(|(name, bytes)| {
-            (
-                (*name).into(),
-                u32::from_le_bytes(bytes.try_into().unwrap()),
-            )
-        })
-        .collect();
+    let registers = register_values(data)?;
     let esp = registers["esp"];
     // Bounded diagnostic prefix, including return PC and current stack formals.
     let (stack, stack_error) = match broker.rpc(1, esp, FRONTIER_STACK_BYTES, 0, &[]) {
@@ -1700,7 +1846,16 @@ fn capture_executor_inner(
                     terminal = format!("frontier:{:x}", r.b);
                     break;
                 }
-                3 => bail!("typed original exception {:08x}", r.b),
+                3 => {
+                    return Err(exception_failure(
+                        "typed original exception",
+                        r.b,
+                        base,
+                        &r.data,
+                        broker.pe_self.as_ref().and_then(|v| v.current.as_ref()),
+                    )?
+                    .into());
+                }
                 4 => {
                     anyhow::ensure!(
                         !options.direct_noreturn && invoked && r.b == 1,
@@ -1771,7 +1926,16 @@ fn capture_executor_inner(
                     terminal = format!("frontier:{:x}", r.b);
                     break;
                 }
-                3 => bail!("original exception {:08x}", r.b),
+                3 => {
+                    return Err(exception_failure(
+                        "original exception",
+                        r.b,
+                        base,
+                        &r.data,
+                        broker.pe_self.as_ref().and_then(|v| v.current.as_ref()),
+                    )?
+                    .into());
+                }
                 _ => bail!("invalid original execution response"),
             }
         }
@@ -2085,13 +2249,14 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
                     match write {
                         Ok(()) => 0,
                         Err(e) => {
-                            let _ = fs::write(root.join("capture-error"), format!("{e:#}"));
+                            let _ =
+                                CaptureFailure::from_error(&e).save(&root.join("capture-error"));
                             1
                         }
                     }
                 }
                 Err(e) => {
-                    let _ = fs::write(root.join("capture-error"), format!("{e:#}"));
+                    let _ = CaptureFailure::from_error(&e).save(&root.join("capture-error"));
                     1
                 }
             };
@@ -2129,13 +2294,14 @@ fn supervise_capture(options: &Capture, f: &Fixture) -> Result<CaptureReport> {
         anyhow::ensure!(!interrupted, "original capture interrupted or timed out");
         let status = exit.context("original capture executor not reaped")?;
         if !libc::WIFEXITED(status) || libc::WEXITSTATUS(status) != 0 {
-            let error = fs::read_to_string(root.join("capture-error"))
-                .unwrap_or_else(|_| format!("capture process failed status {status}"));
-            let diagnostics = fs::read_to_string(root.join("wine-diagnostics")).unwrap_or_default();
-            bail!(
-                "{error}\n{}",
-                diagnostics.chars().take(8192).collect::<String>()
+            let mut failure = CaptureFailure::read(
+                fs::read_to_string(root.join("capture-error"))
+                    .unwrap_or_else(|_| format!("capture process failed status {status}")),
             );
+            let diagnostics = fs::read_to_string(root.join("wine-diagnostics")).unwrap_or_default();
+            failure.error.push('\n');
+            failure.error.extend(diagnostics.chars().take(8192));
+            return Err(failure.into());
         }
         Ok(serde_json::from_slice(&fs::read(
             root.join("capture-report"),
@@ -2219,7 +2385,7 @@ pub fn capture(mut options: Capture) -> Result<()> {
         let result = supervise_capture(&options, &fixture);
         let value = match result {
             Ok(report) => serde_json::to_value(report)?,
-            Err(e) => serde_json::json!({"error":format!("{e:#}")}),
+            Err(e) => serde_json::to_value(CaptureFailure::from_error(&e))?,
         };
         let _ = writer.write_all(&serde_json::to_vec(&value)?);
         unsafe { libc::_exit(0) }

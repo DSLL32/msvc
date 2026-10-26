@@ -920,3 +920,10 @@ graph-audit share the same segment/group anchoring and public bounds checks;
 absolute MAP symbols are excluded. MSVC MAP base/timestamp checks and runtime
 body identification remain unchanged. Both Make integrations track the shared
 parser source as a build dependency.
+
+PE debugger exception failures retain the already-returned register block in
+`--report`: exception code, target image base, named registers and exact raw
+context bytes, plus process/thread identity when same-EXE child supervision
+is active. The error remains a failed capture without a fixture oracle. No
+additional memory inspection is performed, and old failures cannot recover
+context discarded before this reporting change.
