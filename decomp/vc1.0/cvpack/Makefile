@@ -7,6 +7,14 @@ NATIVE_CFLAGS = -std=gnu89 -fms-extensions -fasm-blocks
 BINARY_SOURCES = $(wildcard src/*.c)
 BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)
 
+# Canonical CLI: reuse App objects and one shared runtime, excluding the
+# registry, case hosts and recon-tool's fixture/entry-hook providers.
+RECON_ENTRY_SOURCES = src/diagnostics.c src/files.c src/image.c src/lines.c \
+	src/main.c src/modules.c src/oldsymbols.c src/oldtypes.c src/options.c \
+	src/output.c src/pdb-close.c src/pdb.c src/strip.c src/types.c
+RECON_ENTRY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,\
+	compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
 ORIGINAL_BUILD = .build/original

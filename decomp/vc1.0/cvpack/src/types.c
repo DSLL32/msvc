@@ -31,12 +31,16 @@ void initialize_type_tables(void)
     initialize_buffer(&type_record_storage, 0x1000);
     initialize_buffer(&type_symbol_storage, 0x7f00);
     empty_type = checked_zero(sizeof(*empty_type));
-    empty_type->data = checked_alloc(6);
+    /* Original defect: six bytes were allocated for an eight-byte serialized
+       empty LF_ARGLIST. Allocate its advertised size and zero the unwritten
+       spare WORD instead of emitting two bytes beyond the allocation. */
+    empty_type->data = checked_alloc(8);
     empty_type->flags |= 0x400;
     record = (unsigned short *)empty_type->data;
     record[0] = 6;
     record[1] = 0x201;
     record[2] = 0;
+    record[3] = 0;
 }
 
 void *checked_zero(unsigned long size)

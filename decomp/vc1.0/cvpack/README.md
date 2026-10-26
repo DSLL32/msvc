@@ -406,3 +406,43 @@ checks 4.049). Initial native/original builds took 5.890 s; the case-end
 objects in 0.929 s. There is no pending application body; the separate documented
 mapping-handle sharing gap and unexercised guarded paths remain qualifications
 on supported native behavior, not new reconstruction credit.
+
+
+Canonical native execution is available through `make -j4 native-bin`, producing
+`build/cvpack`, or `make -j4 -C .. native-bin-cvpack`, producing the sibling
+`../build/native/bin/CVPACK.EXE`. These are ordinary i386 Linux executables.
+Root `entry.c` is native-only host glue: the shared bootstrap supplies mutable
+actual arguments/environment, an owned Windows command line, executable identity
+and cwd derived from the real host paths. The wrapper selects verified VC1
+53-bit x87 precision and invokes the original three-argument App main; normal
+App exit/cleanup is preserved. Explicit object lists reuse the existing App
+objects and one shared runtime, excluding registry/fixture hosts, entry hooks
+and provider adapters. No catalog, resource container or original executable is
+embedded. User PDB files and LIB lookup use the ordinary filesystem; qh.exe/mpc
+requests use ordinary spawning, with no captured responses or Wine fallback.
+The current bootstrap admits ASCII argument/path text; successful external QH/MPC
+execution and raw Windows child-command/full-DWORD transport are separate
+unqualified domains. The missing-MPC path preserves the original unsigned-short
+exit conversion (observed POSIX status 255).
+
+Adoption exposed one pre-existing original output defect in the large legacy
+case: the built-in empty LF_ARGLIST allocated six bytes but advertised eight,
+so its last WORD came from beyond the allocation. `initialize_type_tables` now
+allocates the advertised eight bytes and explicitly zeroes that spare WORD,
+with an original-defect source comment. Only this case's synthesized TI 0x1003
+at file offset 54460 receives the additional comparison mask [54466,54468);
+its complete eight-byte header/tail is independently asserted, including native
+zeroes. All other bytes and the existing 98 filename masks remain unchanged.
+The original raw file and prior capture are preserved; no oracle was recaptured,
+no allocator state was tuned, and no reconstruction credit changed.
+
+Final ordinary checks with only LC_ALL=C in the supplied environment passed:
+missing-QH help in 1.620 ms, exact cached 6,864-byte DOS packing in 3.357 ms,
+and missing MPC in 3.321 ms. The coordinator reused all fourteen App objects.
+The actual LINK-to-selfchild-to-CVPACK chain also passed with real frozen debug
+inputs: 71,800-byte packed DLL, 29,828-byte NB09 CodeView, 17,119-byte COFF and
+896-byte FPO; execution 32.342 ms and checks 24.647 ms. The final cached 22-case,
+22-unit, original-compiler and 282-function graph/ABI plus 217-object gate passed
+in 5.066 s after the bounded spare-WORD fix. Full command logs and raw diagnosis
+remain in owned `native-entry-20261026/` scratch; LINK retains its separate final
+chain receipt under `link/canonical-entry/final-cvpack/`.

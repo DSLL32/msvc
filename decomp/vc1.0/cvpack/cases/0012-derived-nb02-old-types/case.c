@@ -1,6 +1,7 @@
 /* Derived NB02 directory-width conversion; qualified original/native reconstruction frontier. */
 #include <limits.h>
 #include <stdio.h>
+#include <string.h>
 #include <recon-output.h>
 #include <recon-tool.h>
 extern int main(int, char **, char **);
@@ -175,6 +176,10 @@ static const uint16_t module_padding[] = {
 };
 static int check_module_padding(const ReconOutputContext *context)
 {
+    /* Only this synthesized TI 0x1003 record has the proven two-byte overread.
+       Its header and all other file bytes remain exact comparison inputs. */
+    static const unsigned char empty_arguments[8] = { 6, 0, 1, 2, 0, 0, 0, 0 };
+    unsigned char record[8];
     char path[PATH_MAX];
     FILE *file;
     size_t i;
@@ -190,6 +195,9 @@ static int check_module_padding(const ReconOutputContext *context)
     for (i = 0; okay && i < RECON_COUNT(module_padding); ++i)
         if (fseek(file, module_padding[i], SEEK_SET) || fgetc(file) != 0)
             okay = 0;
+    if (okay && (fseek(file, 54460, SEEK_SET) ||
+        fread(record, 1, sizeof(record), file) != sizeof(record) ||
+        memcmp(record, empty_arguments, sizeof(record)))) okay = 0;
     if (fclose(file)) okay = 0;
     return okay;
 }
