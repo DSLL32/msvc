@@ -1917,6 +1917,39 @@ static char *tempnam_libc100(const char *dir,const char *prefix)
      * creates the candidate nor restores errno like the separate mktemp API. */
     return path;
 }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static char *tempnam510_apstudio(const char *dir,const char *prefix)
+{
+    const char *base;char candidate[]="RCX1XXXXXX",*path;
+    struct stat information;unsigned n;
+    int saved=errno;unsigned long dos=recon_doserrno;DWORD error=recon_GetLastError();
+    if(!recon_crt_arguments_bound || !recon_crt_environment || dir ||
+       (uintptr_t)prefix<4096 || (uintptr_t)prefix>UINTPTR_MAX-5 ||
+       prefix[0]!='R' || prefix[1]!='C' || prefix[2]!='X' ||
+       prefix[3]<'1' || prefix[3]>'4' || prefix[4] ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("MSVCRT510 tempnam APSTUDIO arguments/namespace");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("MSVCRT510 tempnam default-C handles");
+    base=recon_getenv("TMP");
+    if(!base || strcmp(base,".") || lstat(".",&information) || !S_ISDIR(information.st_mode))
+        recon_unsupported("MSVCRT510 tempnam target TMP current directory");
+    candidate[3]=prefix[3];
+    /* Names are internal open/remove identities. Native uniqueness is real;
+     * no original spelling/counter is injected, and no file is reserved here. */
+    if(mktemp(candidate)!=candidate || !candidate[0])
+        recon_unsupported("MSVCRT510 tempnam native unique-name failure");
+    for(n=4;n<10;++n)if(!((candidate[n]>='A' && candidate[n]<='Z') ||
+        (candidate[n]>='a' && candidate[n]<='z') || (candidate[n]>='0' && candidate[n]<='9')))
+        recon_unsupported("MSVCRT510 tempnam native leaf spelling");
+    path=malloc(13);if(!path)recon_unsupported("MSVCRT510 tempnam result allocation");
+    path[0]='.';path[1]='\\';memcpy(path+2,candidate,sizeof(candidate));
+    if(recon_access(path,0)!=-1 || errno!=ENOENT || recon_doserrno!=2 ||
+       recon_GetLastError()!=ERROR_FILE_NOT_FOUND)
+        recon_unsupported("MSVCRT510 tempnam genuine absent leaf");
+    errno=saved;recon_doserrno=dos;recon_SetLastError(error);return path;
+}
+#endif
 char *recon_tempnam(const char *dir,const char *prefix)
 {
     const char *profile=getenv("RECON_TEMPNAM_PROFILE");
@@ -1924,10 +1957,14 @@ char *recon_tempnam(const char *dir,const char *prefix)
         if (strcmp(profile,"libc100")) recon_unsupported("unknown tempnam CRT profile");
         return tempnam_libc100(dir,prefix);
     }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    return tempnam510_apstudio(dir,prefix);
+#else
     char *path; const char *base=dir?dir:getenv("TMP");
     if (!base) base=".";
     if (asprintf(&path,"%s\\%sXXXXXX",base,prefix?prefix:"")<0) return NULL;
     if (!recon_mktemp(path)) { free(path); return NULL; } return path;
+#endif
 }
 char *__cdecl recon_tmpnam(char *buffer)
 {

@@ -1546,3 +1546,15 @@ wrap/input/output overlaps are checked before any writes. Unknown path forms
 deny125. Other binaries keep their prior mapping and maxima; no automatic NT
 variant change is implied. WASM's ordinary get_module_name path plus a separate
 actual-state diagnostic establish ModuleInfo.name="transfor" for transform.asm.
+
+The explicit MSVCRT510 _tempnam branch admits the APSTUDIO internal-file role:
+bound target CRT TMP=".", NULL directory, RCX1 through RCX4 prefixes, and default
+C locale. It returns an allocated current-directory name using a local mutable
+native template and a genuine missing-leaf check, without creating or reserving
+a file. Host TMP and RECON_MKTEMP controls do not supply this target namespace.
+The caller owns the result and performs real open/close/remove operations;
+generated spelling and original success error state are unmeasured. Other
+profiles and the existing libc100 variant retain their behavior. Focused native
+four-stream lifecycle controls complete cleanup; the ordinary APSTUDIO native
+adoption currently stops at the header writer, so full native case cleanup is
+not yet claimed. The changed-input Windows oracle completes with strict inventory.
