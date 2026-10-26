@@ -1348,3 +1348,12 @@ normal shared ownership/close; the existing0262 tuple can reopen it afterward.
 Existing paths/collisions, directory components for this new tuple, other modes
 and failures deny125. Native target O_EXCL400 is isolated from host/shim flags;
 read-only and prior writable tuples retain their established domains.
+
+Explicit MSVCRT510 VirtualFree admits MEM_DECOMMIT only at the exact base and
+full requested length of a tracked VirtualAlloc(NULL,n,COMMIT|RESERVE,READWRITE).
+Checked mprotect(PROT_NONE) and madvise(DONTNEED) retain the reservation while
+discarding storage; the owner remains tracked until ordinary zero-size
+MEM_RELEASE. Native errors/FP are retained on successful decommit. Partial,
+foreign, repeated or ineligible decommit and subsequent recommit remain denied.
+Other profiles keep the prior unsupported result; existing release is unchanged.
+No general VM/recommit model or original per-call error equivalence is claimed.

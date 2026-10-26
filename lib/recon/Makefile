@@ -866,3 +866,9 @@ build/watcom-longjmp-probe: tests/watcom-longjmp-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-longjmp-check: build/watcom-longjmp-probe
 	$(PYTHON) tests/check-watcom-longjmp.py $<
+
+.PHONY: virtual-decommit-check
+build/virtual-decommit-probe: tests/virtual-decommit-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+virtual-decommit-check: build/virtual-decommit-probe
+	$(PYTHON) tests/check-virtual-decommit.py $< 510

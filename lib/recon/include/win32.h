@@ -128,6 +128,7 @@ struct UnicodeString;
 #define MEM_COMMIT 0x1000
 #define MEM_RESERVE 0x2000
 #define MEM_TOP_DOWN 0x100000
+#define MEM_DECOMMIT 0x4000
 #define MEM_RELEASE 0x8000
 #define STD_INPUT_HANDLE ((DWORD)-10)
 #define STD_OUTPUT_HANDLE ((DWORD)-11)
