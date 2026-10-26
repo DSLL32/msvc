@@ -308,10 +308,14 @@ struct Configuration {
     preservation_contracts: Vec<Contract>,
     #[serde(default)]
     callback_preservation_contracts: Vec<CallbackContract>,
+    #[serde(default)]
+    virtual_preservation_contracts: Vec<crate::virtual_preservation::Contract>,
 }
 #[derive(Default)]
 pub struct Contracts {
     functions: BTreeMap<u32, [bool; 4]>,
+    function_names: BTreeMap<String, u32>,
+    virtuals: BTreeMap<String, Vec<crate::virtual_preservation::Contract>>,
     imports: BTreeMap<Identity, [bool; 4]>,
     callbacks: BTreeMap<String, Vec<CallbackContract>>,
 }
@@ -362,6 +366,7 @@ impl Contracts {
                     "ambiguous preservation function: {name}"
                 );
                 let address = *addresses.first().unwrap();
+                out.function_names.insert(name, address);
                 // Distinct logical aliases must all agree; never union claims.
                 out.functions
                     .entry(address)
@@ -395,10 +400,23 @@ impl Contracts {
             );
             out.callbacks.entry(c.owner.clone()).or_default().push(c);
         }
+        for c in records.virtual_preservation_contracts {
+            c.verify(project)?;
+            ensure!(
+                index.iter().filter(|r| r.name == c.owner).count() == 1,
+                "virtual preservation owner missing/ambiguous: {}",
+                c.owner
+            );
+            ensure!(
+                original_sites.insert(c.original.site) && rebuilt_sites.insert(c.rebuilt.site),
+                "duplicate virtual/callback preservation site"
+            );
+            out.virtuals.entry(c.owner.clone()).or_default().push(c);
+        }
         Ok(out)
     }
     pub fn validate_callback_owners(&self, selected: &BTreeSet<String>) -> Result<()> {
-        for owner in self.callbacks.keys() {
+        for owner in self.callbacks.keys().chain(self.virtuals.keys()) {
             ensure!(
                 selected.contains(owner),
                 "callback preservation owner is not audited: {owner}"
@@ -481,7 +499,7 @@ impl Contracts {
         i: &Inst,
         g: &Graph,
         before: &State,
-        callbacks: &BTreeMap<u32, CallbackReport>,
+        callbacks: &BTreeMap<u32, [bool; 4]>,
     ) -> [bool; 4] {
         if let Some(id) = g.import_calls.get(&i.a) {
             self.imports.get(id).copied().unwrap_or_default()
@@ -496,7 +514,7 @@ impl Contracts {
         } else if let Some(c) = callbacks.get(&i.a) {
             // Validated above: only retain existing must-values. This call remains
             // opaque and contributes no callee/import identity or value seed.
-            preservation_mask(&c.preserves).expect("validated callback mask")
+            *c
         } else {
             [false; 4]
         }
@@ -511,6 +529,8 @@ pub struct Report {
     pub roots: BTreeSet<u32>,
     #[serde(skip_serializing_if = "BTreeMap::is_empty")]
     pub callback_preservation: BTreeMap<u32, CallbackReport>,
+    #[serde(skip_serializing_if = "BTreeMap::is_empty")]
+    pub virtual_preservation: BTreeMap<u32, crate::virtual_preservation::Report>,
 }
 fn is_call(i: &Inst) -> bool {
     i.m.split_whitespace()
@@ -523,7 +543,7 @@ fn transfer(
     g: &Graph,
     catalog: &Catalog,
     contracts: &Contracts,
-    callbacks: &BTreeMap<u32, CallbackReport>,
+    callbacks: &BTreeMap<u32, [bool; 4]>,
 ) -> State {
     let mut out = before.clone();
     for r in &i.writes {
@@ -572,6 +592,41 @@ pub fn resolve(
     side: Side,
 ) -> Result<Report> {
     let callbacks = contracts.callback_reports(owner, g, catalog, pe, side)?;
+    let mut virtuals = BTreeMap::new();
+    for contract in contracts.virtuals.get(&owner.name).into_iter().flatten() {
+        let site = match side {
+            Side::Original => contract.original.site,
+            Side::Rebuilt => contract.rebuilt.site,
+        };
+        virtuals.insert(
+            site,
+            contract.report(
+                owner,
+                g,
+                pe,
+                side,
+                &crate::virtual_preservation::Qualified {
+                    names: &contracts.function_names,
+                    masks: &contracts.functions,
+                },
+                catalog,
+            )?,
+        );
+    }
+    let mut opaque_masks: BTreeMap<_, _> = callbacks
+        .iter()
+        .map(|(&site, c)| {
+            (
+                site,
+                preservation_mask(&c.preserves).expect("validated callback mask"),
+            )
+        })
+        .collect();
+    opaque_masks.extend(
+        virtuals
+            .keys()
+            .map(|&site| (site, [false, false, true, false])),
+    );
     let mut incoming = BTreeMap::<u32, State>::new();
     let mut pending = VecDeque::new();
     for &root in &g.roots {
@@ -583,7 +638,7 @@ pub fn resolve(
             .instructions
             .get(&a)
             .context("dataflow root/edge absent from discovered instructions")?;
-        let state = transfer(i, &incoming[&a], g, catalog, contracts, &callbacks);
+        let state = transfer(i, &incoming[&a], g, catalog, contracts, &opaque_masks);
         for &to in g.successors.get(&a).into_iter().flatten() {
             ensure!(
                 g.instructions.contains_key(&to),
@@ -618,6 +673,7 @@ pub fn resolve(
         direct_import_calls: g.import_calls.clone(),
         roots: g.roots.clone(),
         callback_preservation: callbacks,
+        virtual_preservation: virtuals,
     };
     for &a in &g.indirect_calls {
         let i = &g.instructions[&a];
@@ -745,6 +801,7 @@ mod site_inventory_tests {
             direct_import_calls: BTreeMap::new(),
             roots: BTreeSet::new(),
             callback_preservation: BTreeMap::new(),
+            virtual_preservation: BTreeMap::new(),
         }
     }
     #[test]
@@ -771,5 +828,177 @@ mod site_inventory_tests {
             )
             .is_err()
         );
+    }
+}
+
+#[cfg(test)]
+mod virtual_contract_tests {
+    use super::*;
+    use serde_json::json;
+    type Fixture = (Pe, Record, Graph, Catalog, Contracts, Value);
+    fn fixture_with_load(load: bool) -> Result<Fixture> {
+        let mut bytes = vec![0x90; 0x104];
+        bytes[..20].copy_from_slice(&[
+            0x8b, 0x3d, 0x90, 0x10, 0x40, 0, 0x8b, 0x0d, 0x80, 0x10, 0x40, 0, 0x8b, 0x11, 0xff,
+            0x52, 0x0c, 0xff, 0xd7, 0xc3,
+        ]);
+        if !load {
+            bytes[..6].fill(0x90);
+        }
+        bytes[0xac..0xb0].copy_from_slice(&0x401100u32.to_le_bytes());
+        bytes[0xbc..0xc0].copy_from_slice(&0x401101u32.to_le_bytes());
+        bytes[0x100] = 0xc3;
+        bytes[0x101] = 0xcc;
+        let pe = crate::tests::image(&bytes);
+        let owner = Record {
+            name: "owner".into(),
+            start: 0x401000,
+            end: 0x401014,
+            shared: vec![],
+            code_chunks: vec![],
+            evidence: Value::Null,
+            pending_extent: false,
+        };
+        let d = crate::decode::Decoder::new()?;
+        let g = crate::flow::walk(
+            &d,
+            &pe,
+            owner.start,
+            owner.end,
+            &crate::flow::Options {
+                record_dataflow: true,
+                ..Default::default()
+            },
+        )?;
+        let id: Identity = serde_json::from_value(json!({"dll":"msvcrt.dll","name":"fputc"}))?;
+        let catalog = Catalog {
+            slots: BTreeMap::from([(0x401090, id)]),
+            thunks: BTreeMap::new(),
+        };
+        let loc = json!({"site":0x40100e,"slot":12,"receiver_global":0x401080,
+            "receiver_load_site":0x401006,"this_load_site":0x401006,"vptr_load_site":0x40100c,
+            "vtables":[{"address":0x4010a0,"target":"plain"},{"address":0x4010b0,"target":"recorded"}]});
+        let contract = json!({"owner":"owner","original":loc,"rebuilt":loc,"abi":"thiscall",
+            "stack_argument_bytes":0,"preserves":["edi"],"evidence":{"path":"abi.json","sha256":"0".repeat(64)}});
+        let contracts = Contracts {
+            function_names: BTreeMap::from([
+                ("plain".into(), 0x401100),
+                ("recorded".into(), 0x401101),
+            ]),
+            functions: BTreeMap::from([
+                (0x401100, [false, false, true, false]),
+                (0x401101, [false, false, true, false]),
+            ]),
+            ..Default::default()
+        };
+        Ok((pe, owner, g, catalog, contracts, contract))
+    }
+    #[test]
+    fn virtual_edi_retains_must_value_without_discovering_callees() -> Result<()> {
+        let (pe, owner, g, catalog, mut contracts, value) = fixture_with_load(true)?;
+        let d = crate::decode::Decoder::new()?;
+        let mut before = crate::flow::walk(
+            &d,
+            &pe,
+            owner.start,
+            owner.end,
+            &crate::flow::Options {
+                record_dataflow: true,
+                ..Default::default()
+            },
+        )?;
+        let report = resolve(
+            &mut before,
+            &catalog,
+            &contracts,
+            false,
+            &owner,
+            &pe,
+            Side::Original,
+        )?;
+        assert!(report.unresolved_register_calls.contains(&0x401011));
+        contracts
+            .virtuals
+            .insert(owner.name.clone(), vec![serde_json::from_value(value)?]);
+        let mut after = g;
+        let report = resolve(
+            &mut after,
+            &catalog,
+            &contracts,
+            false,
+            &owner,
+            &pe,
+            Side::Original,
+        )?;
+        assert_eq!(
+            report.resolved_register_calls[&0x401011],
+            catalog.slots[&0x401090]
+        );
+        assert_eq!(report.other_unresolved_calls, BTreeSet::from([0x40100e]));
+        assert!(
+            after.calls.is_empty() && after.indirect && after.indirect_calls.contains(&0x40100e)
+        );
+        assert_eq!(report.virtual_preservation.len(), 1);
+        let (unseeded_pe, unseeded_owner, mut unseeded, unseeded_catalog, _, _) =
+            fixture_with_load(false)?;
+        let unseeded_report = resolve(
+            &mut unseeded,
+            &unseeded_catalog,
+            &contracts,
+            false,
+            &unseeded_owner,
+            &unseeded_pe,
+            Side::Original,
+        )?;
+        assert!(unseeded_report.resolved_register_calls.is_empty());
+        assert!(
+            unseeded_report
+                .unresolved_register_calls
+                .contains(&0x401011)
+        );
+        Ok(())
+    }
+    #[test]
+    fn virtual_edi_rejects_wrong_receiver_slot_target_and_bypass() -> Result<()> {
+        for bad in [
+            "receiver_global",
+            "vptr_load_site",
+            "slot",
+            "target",
+            "mask",
+            "bypass",
+        ] {
+            let (pe, owner, mut g, catalog, mut contracts, mut value) = fixture_with_load(true)?;
+            match bad {
+                "receiver_global" => value["original"]["receiver_global"] = json!(0x401084),
+                "vptr_load_site" => value["original"]["vptr_load_site"] = json!(0x401006),
+                "slot" => value["original"]["slot"] = json!(8),
+                "target" => value["original"]["vtables"][0]["target"] = json!("recorded"),
+                "mask" => {
+                    contracts.functions.insert(0x401100, [false; 4]);
+                }
+                "bypass" => {
+                    g.successors.insert(0x401013, BTreeSet::from([0x40100e]));
+                }
+                _ => unreachable!(),
+            }
+            contracts
+                .virtuals
+                .insert(owner.name.clone(), vec![serde_json::from_value(value)?]);
+            assert!(
+                resolve(
+                    &mut g,
+                    &catalog,
+                    &contracts,
+                    false,
+                    &owner,
+                    &pe,
+                    Side::Original
+                )
+                .is_err(),
+                "accepted {bad}"
+            );
+        }
+        Ok(())
     }
 }

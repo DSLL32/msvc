@@ -801,3 +801,23 @@ pending and bodyless: this declaration neither discovers its body nor asserts
 cleanup, nonreturn, acceptance or execution permission. Existing per-owner RET
 checks and any separately reviewed binary-specific nonlocal-tail checks remain
 necessary. Published returning-tail declarations retain their previous meaning.
+
+`register_imports.virtual_preservation_contracts` can qualify one explicitly
+selected owner's typed no-stack-argument `thiscall` virtual call for EDI
+preservation on normal return. Each contract supplies `owner`, `abi:"thiscall"`,
+`stack_argument_bytes:0`, `preserves:["edi"]`, a hash-bound ABI `evidence` file,
+and `original`/`rebuilt` locations. A location contains `site`, byte `slot`,
+`receiver_global`, `receiver_load_site`, `this_load_site`, `vptr_load_site` and
+finite `vtables:[{address,target}]` (logical function names). Both sides must
+name the same finite target set. Each target also needs an existing named
+normal-return preservation contract that qualifies EDI; pending targets gain no
+body availability or acceptance.
+
+The actual CFG must contain the receiver-global and ECX loads, the vptr load
+and exact indirect memory call. The bounded receiver chain must fall through
+without a bypass or unqualified clobber; other intervening stores may only
+write disjoint writable absolute globals, without touching the receiver, declared
+vtable cells or IAT. Actual readable vtable cells must equal the
+separately qualified target entries. Only an existing EDI must-value is retained;
+no target/import/value is seeded and the virtual call remains opaque. Existing
+absolute `FF15` callback contracts and flag-off report behavior are unchanged.

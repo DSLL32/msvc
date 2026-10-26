@@ -1,0 +1,30 @@
+{
+  "scope": "Finite owner/site typed thiscall/no-stack-argument virtual EDI normal-return preservation only. Actual receiver/vptr/this chain + finite table cells + separately qualified target masks verified; opaque topology retained; no target/import/value seed or pending-body availability.",
+  "source_sha256": {
+    "src/main.rs": "65bdfb1a5748dbf907a6724205bcd825a3cf037018c276069742078899ece9d8",
+    "src/register_imports.rs": "22f478490830f083d51182c864e3ee7159ab69133109be8ecf63da85de70c95f",
+    "src/virtual_preservation.rs": "76f3566f1e9a8cbafe6bd936bc75b52918ae47439d9e36c99baf815baa3a2d62",
+    "README.md": "e9d30a91188f51a12a6396b8e63d680e0daa78bd7f49e226ddcb2a06c2a03d70"
+  },
+  "release_sha256": "35667db4189307e8a236d3cf6ccf8d547f27b2401dfbf51535f266ebbc380caa",
+  "checks": {
+    "new_focused_unit_tests": 2,
+    "existing_register_units": 6,
+    "clippy": "all targets -D warnings PASS",
+    "actual_C1_owner_seconds": 0.0824222881346941,
+    "negative_controls": 17,
+    "no_target_value_seed_and_pending_endpoint_uncredited": true,
+    "existing_FF15_positive_wrong_site_and_byte_parity": true,
+    "prior_no_virtual_report_byte_parity": true
+  },
+  "canonical_release_build_seconds": 59.75462567806244,
+  "canonical_release_byte_identity": true,
+  "review": "VC5 parent read exact source/probe/denials and approved release within root-approved finite typed-interface scope.",
+  "premise": "Explicit reviewed finite typed interface and its global writer scope remain ABI evidence/policy premises; this tool does not discover receiver classes, infer provider bodies or admit their execution.",
+  "limits": [
+    "One actual paired owner selected; no full-case/whole-provider campaign, native replay or original execution.",
+    "Recorded Mark remains pending and uncredited; each method endpoint needs an existing named EDI preservation contract; shared alias masks remain intersections.",
+    "Only EDI is retained; all other tracked call values are killed. Supplied ABI evidence stays mandatory/verified.",
+    "No speedup claim."
+  ]
+}
