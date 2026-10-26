@@ -951,9 +951,36 @@ destination domain; existing-destination rename behavior remains unqualified.
 Producer-only case sources were hash-preserved in scratch and removed by
 `10fca91d0` / `894d3817d`; all three case directories now contain only `case.c`
 and `capture.bin` outside generated `.build` output. No replay was needed for
-that layout correction. The next authorized coherent case targets real PE
-named/ordinal import conversion and valid authored near/far COMMON OMF inputs;
-syntax, baseline and actual App reach remain to be established.
+that layout correction.
+
+The PE-import/COMMON case is complete in `6520fbc82`: 227 qualified App
+functions / 27,151 unique original bytes, adding 14 functions and 2,484 bytes.
+The genuine period DLL has named/data exports at ordinals 1/7/11; this does not
+claim ordinal-only export coverage. Valid authored near/far COMMON inputs expose
+the 1994 decoder's short cursor advance for extended sizes. The complete caller
+contract and actual next-name bytes confirm that behavior; reconstructed source
+preserves it with a defect comment rather than changing input or masking output.
+Standalone extended forms after the first desynchronization are not all claimed
+as dynamically reached.
+
+The fresh final pair matches 172 first entries, streams, artifacts and strict
+final inventory in 1,412.100 ms original / 10.981 ms native (5.893 setup,
+2.645 execution, 2.442 checks). Both internal cache files are removed normally.
+An equivalent final in-function scan correction replays in 14.090 ms. All four
+cached cases and units pass; full graph/reference/ownership/extent checks,
+221 strict RET contracts and six existing residuals pass. Final parallel
+native/period builds take 1.414 s and the full audit 310.588 ms.
+
+Shared `ad369374a` supplies an actual native unique name and the reached
+0261/0666 file-open tuple for the proved internal cache role. No captured PID
+or historical filename equality is needed. Shared `e495bd9f8` explicitly selects
+meaningful partial file assertions at identified frontiers while retaining all
+raw artifacts; normal completion still uses full final inventory. Its actual
+89-entry adoption takes 742.802 / 12.759 ms without a publication-only rerun.
+All four case folders contain only `case.c` and `capture.bin` outside `.build`.
+The next authorized coherent workload targets remaining executable-format
+import conversion and operator/type demangling through their actual callers;
+valid inputs, supported switches and new reach remain to be established.
 
 WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
 authoritative.
