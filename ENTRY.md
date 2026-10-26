@@ -1,8 +1,7 @@
 # Canonical native entry points
 
-This is the agreed design; the existing `native-bin` link rule does not yet
-implement all of it.
-Implement ordinary native executables first. A dual-use executable that can
+This is the agreed design. Shared build and runtime support is implemented;
+binary adoption is in progress. Implement ordinary native executables first. A dual-use executable that can
 also be loaded with `dlopen` has been discussed and is deferred.
 
 ## Executables
@@ -31,8 +30,11 @@ profiles. Unsupported application paths retain their normal reconstruction
 traps.
 Preserve required FP precision, file mode, per-object ABI flags, writable
 argument/environment text and exit cleanup. Define startup ownership explicitly
-so arguments and environment are not bound twice. Disable any generated shim
-`main` when supplying root `entry.c`; configuring environment variables after
+so arguments and environment are not bound twice. A small common native helper
+owns writable argv/environment, the Windows command line and actual executable/
+cwd paths. It does not run reconstructed CRT startup, set FP/file mode, or
+register binary resources and DLLs; those remain explicit in each `entry.c`.
+Disable any generated shim `main` when supplying root `entry.c`; configuring environment variables after
 constructors run is not sufficient to initialize constructor-owned state.
 
 ## Statically linked DLLs
