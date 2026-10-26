@@ -279,3 +279,66 @@ HashTable *access_declaration_table(void)
         member_access_declarations = new_hash_table(32,0,8,7);
     return member_access_declarations;
 }
+
+CppSymbol *access_failure_base; /* original 0x97bd8 */
+unsigned char access_failure_base_protection; /* original 0x97bdc */
+char *__stdcall member_protection_keyword(unsigned char protection);
+char *__stdcall member_declaration_keyword(CppSymbol *symbol);
+
+/* Original 0x318d0..0x319cd. The original retains separate first-owner
+   and inherited-base access failures. Extension mode demotes these to W3. */
+void report_denied_member_access(void)
+{
+    char *member_name = format_symbol_name(access_failure_member);
+    char *kind = member_declaration_keyword(access_failure_member);
+    char *protection, *owner_name, *base_protection, *base_name;
+    unsigned code;
+    if (!access_failure_owner) {
+        if (cpp_parser_flags & 2)
+            compiler_warning(3, 241, member_name);
+        else
+            report_syntax_error(241, member_name);
+        return;
+    }
+    protection = member_protection_keyword(access_failure_protection);
+    owner_name = format_symbol_name(access_failure_owner);
+    if (!access_failure_base) {
+        code = access_through_virtual_base ? 249 : 248;
+        if (cpp_parser_flags & 2)
+            compiler_warning(3, code, member_name, protection, kind, owner_name);
+        else
+            report_syntax_error(code, member_name, protection, kind, owner_name);
+        return;
+    }
+    base_protection = member_protection_keyword(access_failure_base_protection);
+    base_name = format_symbol_name(access_failure_base);
+    if (cpp_parser_flags & 2)
+        compiler_warning(3, 247, member_name, owner_name, base_protection, base_name);
+    else
+        report_syntax_error(247, member_name, owner_name, base_protection, base_name);
+}
+
+/* Original 0x319d0..0x31a18. A tag takes its actual type-kind spelling;
+   enumerators and typedef aliases have distinct diagnostic nouns. */
+char *__stdcall member_declaration_keyword(CppSymbol *symbol)
+{
+    if ((symbol->kind & 31) == 4)
+        return type_kind_name(symbol->type->flags);
+    if ((symbol->kind & 31) == 5)
+        return "enumerator";
+    if (symbol->kind & 0x20)
+        return "typedef";
+    return "member";
+}
+
+/* Original 0x31890..0x318c8. The fourth spelling is the ordinary
+   diagnostic for an unavailable or otherwise nonstandard access value. */
+char *__stdcall member_protection_keyword(unsigned char protection)
+{
+    switch (protection) {
+    case 1: return "private";
+    case 2: return "protected";
+    case 3: return "public";
+    default: return "inaccessible";
+    }
+}

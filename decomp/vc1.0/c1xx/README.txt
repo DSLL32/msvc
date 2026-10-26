@@ -1,6 +1,34 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Rejected-plugin diagnostics is COMPLETE: case0017. One deliberately rejected
+legacy SDK plugin combines a packed request header with macro redefinition,
+invalid bit fields/arrays, inaccessible and ambiguous members, incompatible
+callback/reference initialization, failed overload/operators and undeclared-name
+recovery. The original continues through a final valid recovery sentinel and
+returns its actual error count26. Fresh masked-original/native runs match all19
+first encounters, complete diagnostics, exit26 and six IR/browser artifacts.
+Final observations also match the untouched full original baseline exactly;
+there is no output normalization or successful-program/runtime claim.
+
+This case accepted19 whole App bodies/2,270 code bytes and44 owned switch bytes.
+The shared registry now reports1,679 App bodies/1,786 historical frontiers, plus
+unchanged seven historical CRT source bodies. App-only code extent union is
+383,121/476,418 B (80.42% of whole original code extent, not a non-CRT denominator),
+excluding CRT/imports and owned data. Newly identified qualified-path formatting
+remains a named unimplemented helper; its nonverbose path and the allocation-
+operator ambiguity branch have no public-reach claim from this case. No new CRT
+body, native limitation or shared shim/harness change was needed.
+
+Original-toolchain builds passed throughout. The completed-case gate passes all
+18 cached native cases,31 unit groups and the1,687-function six-check graph/ABI
+audit in2.921 s. Fresh final original capture1.361 s; native33.647 ms (setup17.793 ms,
+execution8.853 ms, checks7.001 ms); final incremental native/Win32 build2.248 s.
+Cached diagnostics replay32.170 ms. Full gates ran only after completion; all
+intermediate checks used this case, necessary builds and narrow source/ABI review.
+
+Earlier automatic catalog PCH creation/reuse:
+
 Automatic catalog PCH creation/reuse is COMPLETE: cases 0015/0016. The coherent
 /YXcatalog-cache.h /Zi /Brepro /FR workload combines the catalog hierarchy and
 queries with packed enum policy, nested includes/macros, default arguments,

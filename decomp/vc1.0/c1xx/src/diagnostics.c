@@ -50,6 +50,28 @@ char *message_text(unsigned code)
     return entry->text;
 }
 
+void browser_note_error(void);
+
+/* Original 0x731a0..0x731e8. Syntax errors notify browser output and
+   count toward the compiler's existing 100-error termination boundary. */
+void report_syntax_error_list(unsigned code, va_list arguments)
+{
+    char *format = diagnostic_format(code + 2000);
+    emit_diagnostic(2000, code, format, arguments);
+    browser_note_error();
+    if (++error_count > 100)
+        fatal_error(3, 100);
+}
+
+/* Original 0x73180..0x73193. Keep the real variadic forwarding boundary. */
+void report_syntax_error(unsigned code, ...)
+{
+    va_list arguments;
+    va_start(arguments, code);
+    report_syntax_error_list(code, arguments);
+    va_end(arguments);
+}
+
 /* Original 0x733b0..0x7349d. Per-message settings can override a
    warning's supplied level, promote it, or disable it after one use. */
 void compiler_warning(int level, unsigned code, ...)

@@ -42,6 +42,27 @@ void __stdcall format_browser_temporary_name(char *filename)
     *last = suffix;
 }
 
+/* Original 0x2bcb0..0x2bcf2. Preserve the template's identity while
+   ending the current browser sequence, then suppress subsequent records. */
+void suppress_browser_records(void)
+{
+    BrowserRecord record = browser_record_template;
+    if (!browser_records_suppressed) {
+        browser_include_begin();
+        record.header.kind = 14;
+        emit_browser_record(&record.header);
+        browser_records_suppressed = 1;
+    }
+}
+
+/* Original 0x2c3b0..0x2c3c6. Error markers belong only to an active
+   browser stream and use the ordinary queue/line-number ownership. */
+void browser_note_error(void)
+{
+    if (browser_filename)
+        queue_browser_record(0xff, 0);
+}
+
 /* Original 0x2c3f0..0x2c3f9. Begin a browser stream through its
    ordinary queued-record interface. */
 void begin_browser_records(void)
@@ -590,6 +611,22 @@ void __stdcall fill_browser_declaration(BrowserRecord *record, CppSymbol *symbol
     }
 }
 
+/* Original 0x2bb50..0x2bbac. Synthesized declarations take an ordinary
+   compiler symbol index, preserving an already assigned record identity. */
+void __stdcall fill_browser_generated_symbol(BrowserRecord *record)
+{
+    record->header.kind = 3;
+    record->category = 18;
+    record->attributes = 0;
+    if (!record->symbol_index) {
+        if (next_symbol_index >= 0x7fffffffUL)
+            fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        record->symbol_index = next_symbol_index++;
+    }
+}
+
 /* Original 0x2b7d0..0x2b7f5. Existing record names retain their ownership
    flag and identity; an absent name takes the symbol's interned spelling. */
 void __stdcall fill_browser_symbol(BrowserRecord *record, CppSymbol *symbol)
@@ -784,4 +821,11 @@ void __stdcall restore_pch_browser_name(char *filename)
     record.header.flags |= 2;
     record.name = duplicate_browser_text(filename);
     emit_browser_record(&record.header);
+}
+
+/* Original 0x2c370..0x2c37a. End a rejected compilation through the
+   browser's ordinary queued error-record interface. */
+void browser_compilation_error(void)
+{
+    queue_browser_record(14, 0);
 }

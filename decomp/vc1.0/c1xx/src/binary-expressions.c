@@ -1168,3 +1168,19 @@ IrToken *__stdcall make_assignment_lvalue(IrToken *expression)
     value = new_typed_unary_expression(OP_DEREFERENCE, left->type, copy);
     return new_ir_expression(0x40, assignment, value, left->type);
 }
+
+/* Original 0x63780..0x637e8. A builtin fallback may still accept an
+   overload-search failure; already diagnosed ranks retain their marker. */
+int __stdcall report_operator_resolution_failure(unsigned char operation,
+    unsigned char arity, unsigned failure, CType *left, CType *right)
+{
+    if (failure < 0x400)
+        return 0;
+    if (failure & 0x4000)
+        return 1;
+    if (operator_has_builtin_fallback(operation, arity,
+            is_unqualified_class_type(left)))
+        return 0;
+    report_conversion_rank_failure(operation, failure, left, right);
+    return 1;
+}

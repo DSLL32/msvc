@@ -10,5 +10,6 @@ extern char diagnostic_message_buffer[256];
 long __stdcall diagnostic_message_offset(unsigned code);
 char *__stdcall read_diagnostic_message(unsigned code, char *buffer, unsigned bytes);
 char *__stdcall diagnostic_format(unsigned code);
+void report_syntax_error_list(unsigned code, va_list arguments);
 void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arguments);
 #endif

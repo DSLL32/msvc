@@ -1742,6 +1742,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "member_protection_keyword",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_record_member_access_declaration@12",
@@ -2586,10 +2587,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_macro_replacement_diff@12",
         .entry_rva = 0xfad0,
-        .code = (const ReconExtent[]) { { 0xfad0, 0xfad1 } },
+        .code = (const ReconExtent[]) { { 0xfad0, 0xfb23 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "macro_replacement_diff",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_read_macro_replacement",
@@ -3525,6 +3527,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "fill_browser_generated_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_fill_browser_record@8",
@@ -3544,6 +3547,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "suppress_browser_records",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_append_browser_record@12",
@@ -3667,10 +3671,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_browser_compilation_error",
         .entry_rva = 0x1c370,
-        .code = (const ReconExtent[]) { { 0x1c370, 0x1c371 } },
+        .code = (const ReconExtent[]) { { 0x1c370, 0x1c37a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_compilation_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_browser_end_tag",
@@ -3688,6 +3693,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "browser_begin_tag",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_browser_note_error",
+        .entry_rva = 0x1c3b0,
+        .code = (const ReconExtent[]) { { 0x1c3b0, 0x1c3c6 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "browser_note_error",
         .implementation = RECON_IMPLEMENTED,
     },
     {
@@ -4530,10 +4544,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_denied_member_access",
         .entry_rva = 0x218d0,
-        .code = (const ReconExtent[]) { { 0x218d0, 0x218d1 } },
+        .code = (const ReconExtent[]) { { 0x218d0, 0x219cd } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_denied_member_access",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_skip_base_qualifier_path@4",
@@ -4659,6 +4674,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "check_conversion_access",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_member_declaration_keyword@4",
+        .entry_rva = 0x219d0,
+        .code = (const ReconExtent[]) { { 0x219d0, 0x21a18 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "member_declaration_keyword",
         .implementation = RECON_IMPLEMENTED,
     },
     {
@@ -6285,10 +6309,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_call_overload_failure@4",
         .entry_rva = 0x2a9b0,
-        .code = (const ReconExtent[]) { { 0x2a9b0, 0x2a9b1 } },
+        .code = (const ReconExtent[]) { { 0x2a9b0, 0x2aa53 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_call_overload_failure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_resolve_function_overload@20",
@@ -6650,10 +6675,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_recover_undeclared_identifier@4",
         .entry_rva = 0x2c2b0,
-        .code = (const ReconExtent[]) { { 0x2c2b0, 0x2c2b1 } },
+        .code = (const ReconExtent[]) { { 0x2c2b0, 0x2c32a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "recover_undeclared_identifier",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_identifier_expression@4",
@@ -11353,26 +11379,29 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_named_type_difference@20",
         .entry_rva = 0x4cda0,
-        .code = (const ReconExtent[]) { { 0x4cda0, 0x4cda1 } },
+        .code = (const ReconExtent[]) { { 0x4cda0, 0x4ce31 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_named_type_difference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_argument_conversion@28",
         .entry_rva = 0x4ce40,
-        .code = (const ReconExtent[]) { { 0x4ce40, 0x4ce41 } },
+        .code = (const ReconExtent[]) { { 0x4ce40, 0x4cf25 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_argument_conversion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_type_conversion@20",
         .entry_rva = 0x4cf30,
-        .code = (const ReconExtent[]) { { 0x4cf30, 0x4cf31 } },
+        .code = (const ReconExtent[]) { { 0x4cf30, 0x4cfc4 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_type_conversion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_error_expression",
@@ -12188,18 +12217,22 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_operator_resolution_failure@20",
         .entry_rva = 0x53780,
-        .code = (const ReconExtent[]) { { 0x53780, 0x53781 } },
+        .code = (const ReconExtent[]) { { 0x53780, 0x537e8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_operator_resolution_failure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_conversion_rank_failure@16",
         .entry_rva = 0x537f0,
-        .code = (const ReconExtent[]) { { 0x537f0, 0x537f1 } },
+        .code = (const ReconExtent[]) { { 0x537f0, 0x53962 } },
         .code_count = 1,
         .definition = RECON_APP,
+        .text_data = (const ReconExtent[]) { { 0x53964, 0x53990 } },
+        .text_data_count = 1,
         .native_symbol = "report_conversion_rank_failure",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_find_source_conversion_function@8",
@@ -13741,6 +13774,16 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_syntax_error",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_report_syntax_error_list",
+        .entry_rva = 0x631a0,
+        .code = (const ReconExtent[]) { { 0x631a0, 0x631e8 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "report_syntax_error_list",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_error",
@@ -14375,10 +14418,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_resolve_overload_tie@4",
         .entry_rva = 0x66690,
-        .code = (const ReconExtent[]) { { 0x66690, 0x66691 } },
+        .code = (const ReconExtent[]) { { 0x66690, 0x666f7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "resolve_overload_tie",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_select_overload_candidate@12",
@@ -14740,12 +14784,21 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_format_qualified_path@4",
+        .entry_rva = 0x68680,
+        .code = (const ReconExtent[]) { { 0x68680, 0x68703 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "format_qualified_path",
+    },
+    {
         .name = "_format_qualified_name@8",
         .entry_rva = 0x68710,
         .code = (const ReconExtent[]) { { 0x68710, 0x6879d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "format_qualified_name",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_attach_qualifier_parent@8",

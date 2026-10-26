@@ -233,6 +233,19 @@ void define_source_macro(void)
     define_macro(replacement, bytes, macro_formal_count);
 }
 
+/* Original 0x1fad0..0x1fb23. Missing replacement text is equal only to
+   another missing replacement; otherwise compare the requested byte span. */
+int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes)
+{
+    unsigned i;
+    if (!left || !right)
+        return left != right;
+    for (i = 0; i < bytes; ++i)
+        if (left[i] != right[i])
+            return 1;
+    return 0;
+}
+
 /* Original 0x1f910..0x1fa8b. The current interned name identifies the macro;
    parameter counts below -2 denote predefined expansions. */
 void __stdcall define_macro(char *replacement, unsigned bytes, int parameter_count)

@@ -730,3 +730,123 @@ short __stdcall format_based_declaration(unsigned short attributes, void *base)
     append_type_diagnostic(text, ") ");
     return text;
 }
+
+/* Original 0x5cf30..0x5cfc4. Both type spellings share one diagnostic
+   lifetime; a missing type uses the existing overloaded-function vocabulary. */
+void __stdcall report_type_conversion(unsigned code, int mode,
+    unsigned char operation, CType *source, CType *destination)
+{
+    char *source_text, *destination_text;
+    begin_type_diagnostic();
+    if (source)
+        source_text = type_diagnostic_text(format_declarator(0, source));
+    else
+        source_text = message_text(345);
+    if (destination)
+        destination_text = type_diagnostic_text(format_declarator(0, destination));
+    else
+        destination_text = message_text(345);
+    if (mode)
+        compiler_warning(mode, code, token_spellings[operation], source_text,
+            destination_text);
+    else
+        report_syntax_error(code, token_spellings[operation], source_text,
+            destination_text);
+    end_type_diagnostic();
+}
+
+/* Original 0x5ce40..0x5cf25. Prefer the real function declaration,
+   then a function type, then the caller's spelling for an overload error. */
+void __stdcall report_argument_conversion(unsigned code, CppSymbol *function,
+    CType *function_type, char *name, unsigned argument, CType *source, CType *target)
+{
+    short source_handle, target_handle, function_handle;
+    char *source_text, *target_text;
+    begin_type_diagnostic();
+    source_handle = format_declarator(0, source);
+    target_handle = format_declarator(0, target);
+    if (function) {
+        function_handle = format_declarator(function, 0);
+        target_text = type_diagnostic_text(target_handle);
+        source_text = type_diagnostic_text(source_handle);
+        name = type_diagnostic_text(function_handle);
+    } else if (function_type) {
+        function_handle = format_declarator(0, function_type);
+        target_text = type_diagnostic_text(target_handle);
+        source_text = type_diagnostic_text(source_handle);
+        name = type_diagnostic_text(function_handle);
+    } else {
+        target_text = type_diagnostic_text(target_handle);
+        source_text = type_diagnostic_text(source_handle);
+    }
+    report_syntax_error(code, name, argument, source_text, target_text);
+    end_type_diagnostic();
+}
+
+/* Original 0x5cda0..0x5ce31. The context declaration supplies its full
+   spelling when present; otherwise retain the caller-owned name. */
+void __stdcall report_named_type_difference(unsigned code, CppSymbol *context,
+    char *name, CType *source, CType *destination)
+{
+    short source_handle, destination_handle, context_handle;
+    char *source_text, *destination_text;
+    begin_type_diagnostic();
+    source_handle = format_declarator(0, source);
+    destination_handle = format_declarator(0, destination);
+    if (context) {
+        context_handle = format_declarator(context, 0);
+        destination_text = type_diagnostic_text(destination_handle);
+        source_text = type_diagnostic_text(source_handle);
+        name = type_diagnostic_text(context_handle);
+    } else {
+        destination_text = type_diagnostic_text(destination_handle);
+        source_text = type_diagnostic_text(source_handle);
+    }
+    report_syntax_error(code, name, source_text, destination_text);
+    end_type_diagnostic();
+}
+
+/* Original 0x637f0..0x63962; eleven-way switch data0x63964..0x63990.
+   Rank9 describes the unavailable class operator directly; other ranks use
+   the ordinary source-to-target conversion diagnostic. */
+void __stdcall report_conversion_rank_failure(unsigned char operation,
+    unsigned rank, CType *target, CType *source)
+{
+    unsigned code;
+    CType *type;
+    char *text;
+    if (rank & 0x4000)
+        return;
+    switch (rank & 0x1fff) {
+    case 1: code = 750; break;
+    case 2: code = 751; break;
+    case 3: code = 752; break;
+    case 4: code = 753; break;
+    case 5: code = 754; break;
+    case 6: code = 755; break;
+    case 7: code = 756; break;
+    case 8: code = 757; break;
+    case 9:
+        type = target;
+        if (!source) {
+            if (operation == 0x3b)
+                return;
+            code = 675;
+        } else if (is_class_name_type(target)) {
+            code = 676;
+        } else if (is_class_name_type(source)) {
+            code = 677;
+            type = source;
+        } else
+            return;
+        begin_type_diagnostic();
+        text = type_diagnostic_text(format_declarator(0, type));
+        report_syntax_error(code, token_spellings[operation], text);
+        end_type_diagnostic();
+        return;
+    case 10: code = 674; break;
+    case 0x1000: code = 594; break;
+    default: code = 446; break;
+    }
+    report_type_conversion(code, 0, operation, source, target);
+}

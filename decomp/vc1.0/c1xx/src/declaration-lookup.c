@@ -1258,3 +1258,31 @@ CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions)
     }
     return 0;
 }
+
+char *__stdcall format_qualified_path(QualifierBinding *binding);
+
+/* Original 0x78710..0x7879d. Verbose ambiguity notes omit the leaf,
+   then describe each enclosing base/class in the shared literal workspace.
+   An empty chain retains the workspace contents, as in the original. */
+char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose)
+{
+    char *cursor = (char *)expression_storage;
+    char *end = (char *)expression_storage + 2047;
+    char *text;
+    if (!verbose)
+        return format_qualified_path(binding);
+    binding = binding->next;
+    while (binding && cursor != end) {
+        text = binding->target->name;
+        while (*text && cursor != end)
+            *cursor++ = *text++;
+        binding = binding->next;
+        if (binding) {
+            text = binding->next ? "' of base '" : "' of class '";
+            while (*text && cursor != end)
+                *cursor++ = *text++;
+        }
+        *cursor = 0;
+    }
+    return (char *)expression_storage;
+}

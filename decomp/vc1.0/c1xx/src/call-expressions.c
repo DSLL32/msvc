@@ -1446,3 +1446,48 @@ void __stdcall diagnose_overload_failure(OverloadCandidate *candidate,
     case 7: report_syntax_error(593, name); break;
     }
 }
+
+/* Original 0x76690..0x766f7. Remove previously deferred candidates,
+   then let the final comparison phase choose a unique active overload. */
+OverloadCandidate *__stdcall resolve_overload_tie(OverloadSearch *search)
+{
+    OverloadCandidate *candidate;
+    for (candidate = search->candidates; candidate; candidate = candidate->next)
+        if ((candidate->flags & 1) && reject_overload_candidate(candidate, search, 0))
+            return 0;
+    if (!prune_overload_candidates(search, 5, 0))
+        return 0;
+    if (search->viable_count != 1)
+        return 0;
+    return first_active_overload(search->candidates);
+}
+
+/* Original 0x3a9b0..0x3aa53. An unresolved operator-new set remains a
+   vector-valued overload symbol for allocation-model selection. Other calls
+   report the existing phase-six ambiguity and return no candidate. */
+OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search)
+{
+    ArenaPool *pool;
+    OverloadSet *overloads;
+    OverloadCandidate *candidate;
+    Vector *functions;
+    if (search->functions->name == name_new) {
+        pool = &compiler_arena.pools[2];
+        if (pool->remaining < (int)sizeof(OverloadSet))
+            refill_arena(&compiler_arena, pool);
+        overloads = (OverloadSet *)pool->next;
+        pool->remaining -= sizeof(OverloadSet);
+        pool->next += sizeof(OverloadSet);
+        functions = new_vector((short)search->viable_count, 2);
+        overloads->kind = 16;
+        overloads->name = search->functions->name;
+        for (candidate = search->candidates; candidate; candidate = candidate->next)
+            append_vector(functions, candidate->function);
+        overloads->functions = (CppSymbol *)functions;
+        search->storage->function = (CppSymbol *)overloads;
+        return search->storage;
+    }
+    set_overload_phase(search, 6);
+    diagnose_overload_failure(0, search, 0);
+    return 0;
+}

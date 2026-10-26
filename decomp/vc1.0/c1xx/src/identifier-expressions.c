@@ -568,3 +568,22 @@ IrToken *__stdcall resolve_qualified_assignment_operand(CType *type,
     binding->target = (ClassReference *)symbol;
     return member_pointer_expression(reference);
 }
+
+/* Original 0x3c2b0..0x3c32a. A prior class-lookup diagnostic suppresses
+   one duplicate; otherwise insert the ordinary recovery symbol in its real
+   extension-dependent scope and report its browser declaration. */
+CppSymbol *__stdcall recover_undeclared_identifier(char *name)
+{
+    CppSymbol *symbol;
+    if (token_allocation_flags & 0x80)
+        return 0;
+    if (class_lookup_error) {
+        class_lookup_error = 0;
+        return 0;
+    }
+    report_syntax_error(65, name);
+    symbol = new_symbol(name, options.configuration.extensions_enabled ? 0 : declaration_mode);
+    if (browser_filename && (!symbol_scope_mode || options.option_FR))
+        browser_declaration(symbol);
+    return symbol;
+}
