@@ -1449,3 +1449,10 @@ capacity/extents and disjointness are validated before writes; return excludes
 NUL and literal CRLF is retained. Other grammars/wide inserts stay denied;
 existing two-insert help formatting is unchanged. Original per-call output and
 error/FP state were unmeasured; the ordinary warning continuation qualifies use.
+
+Watcom utoa now admits radix10 as well as16, forwarding the validated radix to
+existing recon_ultoa. Both need at most12 caller-owned bytes; decimal unsigned32
+uses at most10 digits plus NUL. WPP's real CPU macro requests500 with120B left.
+Exact decimal output500/max and retained lowercase hex are checked; other
+radices/profiles and NULL/wrapping output remain denied. Original per-call
+error/FP state is unmeasured.

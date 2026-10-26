@@ -295,11 +295,11 @@ int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *directory)
 char *__cdecl recon_watcom_utoa(unsigned int value,char *output,int radix)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    if(radix!=16 || !output || (uintptr_t)output>UINTPTR_MAX-12)
-        recon_unsupported("Watcom utoa hexadecimal output domain");
+    if((radix!=10 && radix!=16) || !output || (uintptr_t)output>UINTPTR_MAX-12)
+        recon_unsupported("Watcom utoa decimal/hexadecimal output domain");
     /* The public API has no capacity formal. The reached caller owns12B;
-     * unsigned32 hexadecimal needs at most eight lowercase digits plus NUL. */
-    return recon_ultoa(value,output,16);
+     * unsigned32 needs at most ten decimal or eight hexadecimal digits plus NUL. */
+    return recon_ultoa(value,output,radix);
 #else
     (void)value;(void)output;(void)radix;
     recon_unsupported("Watcom utoa requires explicit profile");return NULL;
