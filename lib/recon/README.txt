@@ -125,7 +125,9 @@ full table/handle checks. It returns1 with optional aligned, disjoint caller-own
 WCHAR16 output, writing only two bytes. NonASCII/other selection/count/profile
 remain denied on that nondefault path. NULL-source/count0/NUL retain prior
 behavior. Focused controls cover every ASCII byte, tails, state/errors/semantic
-FP, prewrite denials and unchanged CP0 byte mapping; C1 caller adoption pending.
+FP, prewrite denials and unchanged CP0 byte mapping. The saved-original C1
+420-entry wide-literal continuation matches through scan_floating_token
+(native18.787ms); original per-call API state remains unmeasured.
 The VC1 `_find` filename boundary retains its persistent result pointer and one
 active search, including replacement/exhaustion errors and unchanged CRT errno.
 ASCII wildcard matching is case-insensitive and preserves the captured Wine
