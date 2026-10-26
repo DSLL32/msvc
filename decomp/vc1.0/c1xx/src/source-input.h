@@ -26,6 +26,7 @@ extern int macro_expansion_active;
 #define macro_saved_input_cursor (macro_expansion_frames[1].source_cursor)
 extern unsigned browser_file_cookie;
 extern FILE *browser_file;
+int __cdecl dos_date_weekday(unsigned timestamp);
 char *normalize_input_name(char *filename);
 int release_input_handle(void);
 int __stdcall process_pch_include(char *filename);

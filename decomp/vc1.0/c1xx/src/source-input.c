@@ -537,3 +537,28 @@ int release_input_handle(void)
     input->handle = -1;
     return result < 1;
 }
+
+/* Original0x74600..0x74682, cdecl one packed DOS timestamp. This
+   frontend portability helper retains the original four-year calendar,
+   including its leap-day treatment in2100. */
+int __cdecl dos_date_weekday(unsigned timestamp)
+{
+    int day = (timestamp >> 16) & 31;
+    int month = (timestamp >> 21) & 15;
+    int year = timestamp >> 25;
+    int preceding_month;
+    if (month > 2) {
+        --day;
+        if (year % 4) --day;
+    }
+    day += (2 * month - 2) * 15;
+    preceding_month = month - 1;
+    if (preceding_month) {
+        do {
+            --preceding_month;
+            if ((1U << preceding_month) & 0xad5U) ++day;
+        } while (preceding_month);
+    }
+    year += 11;
+    return (day + year + year / 4 + 2) % 7;
+}

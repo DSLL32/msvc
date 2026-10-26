@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1968 historical frontiers/1911 App bodies;
- * Fifty support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1968 historical frontiers/1920 App bodies;
+ * Fifty-nine support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -19443,6 +19443,44 @@ static const ReconFunction functions[] = {
         .native_symbol = "debug_database_record_bytes",
         .implementation = RECON_IMPLEMENTED,
     },
+
+/* Whole container/portability support qualified by native units and ABI audit. */
+    { .name = "_validate_inline_vector", .entry_rva = 0x3e270,
+      .code = (const ReconExtent[]) { { 0x3e270, 0x3e35b } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "validate_inline_vector",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_valid_inline_vector_header@4", .entry_rva = 0x3e7d0,
+      .code = (const ReconExtent[]) { { 0x3e7d0, 0x3e7fb } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "valid_inline_vector_header",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_type_set_cursor_in_range", .entry_rva = 0x3e6e0,
+      .code = (const ReconExtent[]) { { 0x3e6e0, 0x3e6f6 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "type_set_cursor_in_range",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_replace_type_set_item@8", .entry_rva = 0x3ebb0,
+      .code = (const ReconExtent[]) { { 0x3ebb0, 0x3ebc7 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "replace_type_set_item",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_valid_type_set_iterator@4", .entry_rva = 0x3ebd0,
+      .code = (const ReconExtent[]) { { 0x3ebd0, 0x3ebfb } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "valid_type_set_iterator",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_release_bitset@4", .entry_rva = 0x3e750,
+      .code = (const ReconExtent[]) { { 0x3e750, 0x3e760 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "release_bitset",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_copy_bitset@4", .entry_rva = 0x3e760,
+      .code = (const ReconExtent[]) { { 0x3e760, 0x3e792 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "copy_bitset",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_subtract_bitset@8", .entry_rva = 0x3e7a0,
+      .code = (const ReconExtent[]) { { 0x3e7a0, 0x3e7c9 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "subtract_bitset",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_dos_date_weekday", .entry_rva = 0x64600,
+      .code = (const ReconExtent[]) { { 0x64600, 0x64682 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "dos_date_weekday",
+      .implementation = RECON_IMPLEMENTED },
 
 };
 

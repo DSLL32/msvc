@@ -90,6 +90,9 @@ typedef struct BitSet {
     unsigned char bits[1];
 } BitSet;
 BitSet *__stdcall new_bitset(unsigned bit_count);
+void __stdcall release_bitset(BitSet *set);
+BitSet *__stdcall copy_bitset(BitSet *source);
+void __stdcall subtract_bitset(BitSet *set, BitSet *other);
 PackingStack *new_packing_stack(void);
 PackingEntry *push_packing(PackingStack *stack);
 void clear_packing(PackingEntry *entry);

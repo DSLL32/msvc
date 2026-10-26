@@ -142,3 +142,25 @@ int type_set_contains(TypeSet *set, CType *type)
 {
     return locate_inline_pointer(set, type, 0);
 }
+
+/* Original0x4e6e0..0x4e6f6, cdecl. This is the original one-sided
+   signed bound; it does not reject a negative cursor or validate the owner. */
+int type_set_cursor_in_range(TypeSetIterator *iterator)
+{
+    return iterator->index <= iterator->set->count;
+}
+
+/* Original0x4ebb0..0x4ebc7, stdcall8. Replacement leaves the cursor
+   and cached selected type untouched. */
+void __stdcall replace_type_set_item(TypeSetIterator *iterator, CType *type)
+{
+    iterator->set->items[iterator->index] = type;
+}
+
+/* Original0x4ebd0..0x4ebfb, stdcall4. Keep the real header predicate
+   call; the cursor's lower bound is deliberately not checked. */
+int __stdcall valid_type_set_iterator(TypeSetIterator *iterator)
+{
+    return valid_inline_vector_header(iterator->set) &&
+        iterator->index <= iterator->set->count;
+}

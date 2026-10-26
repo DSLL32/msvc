@@ -448,3 +448,30 @@ void read_pch_pages(void)
     tail = permanent_pages[last].start + 0xeffc - permanent_available;
     for (i = 0; i < permanent_available; ++i) tail[i] = 0;
 }
+
+/* Original0x4e750..0x4e760, stdcall4. */
+void __stdcall release_bitset(BitSet *set)
+{
+    free(set);
+}
+
+/* Original0x4e760..0x4e792, stdcall4. Copy the initialized bit bytes
+   and sentinel, retaining the allocator's own capacity and final guard byte. */
+BitSet *__stdcall copy_bitset(BitSet *source)
+{
+    BitSet *copy = new_bitset(source->bit_count);
+    unsigned index, bytes = (source->bit_count >> 3) + 2;
+    copy->bit_count = source->bit_count;
+    for (index = 0; index < bytes; ++index) copy->bits[index] = source->bits[index];
+    return copy;
+}
+
+/* Original0x4e7a0..0x4e7c9, stdcall8. The inclusive final data byte
+   is updated, but the following sentinel is not part of this operation. */
+void __stdcall subtract_bitset(BitSet *set, BitSet *other)
+{
+    unsigned index;
+    int last = set->bit_count >> 3;
+    for (index = 0; (int)index <= last; ++index)
+        set->bits[index] &= ~other->bits[index];
+}

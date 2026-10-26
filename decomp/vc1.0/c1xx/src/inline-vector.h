@@ -14,5 +14,7 @@ unsigned inline_vector_bytes(short capacity);
 short inline_vector_count(InlineVector *vector);
 int equal_inline_vectors(InlineVector *left, InlineVector *right);
 void release_inline_vector(InlineVector *vector);
+int validate_inline_vector(InlineVector *vector);
+int __stdcall valid_inline_vector_header(InlineVector *vector);
 extern InlineVector *empty_inline_vector;
 #endif

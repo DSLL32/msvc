@@ -113,3 +113,44 @@ InlineVector *grow_inline_vector(InlineVector *vector)
     old_bytes = inline_vector_bytes(old_capacity);
     return resize_permanent(vector, old_bytes, new_bytes);
 }
+
+/* Original0x4e270..0x4e35b, cdecl. Check the short header, low-address
+   ordering and duplicate identities. The original duplicate loop overwrites
+   its group index with the selected pointer; a group with three distinct
+   equal-key pointers can consequently index through that stale value.
+   Preserve that defect rather than silently repairing this dormant checker. */
+int validate_inline_vector(InlineVector *vector)
+{
+    int index, end, next, probe, count;
+    if (!vector || vector->count < 0 || vector->capacity < 0 ||
+        vector->capacity < vector->count) return 0;
+    count = vector->count;
+    if (count < 2) return 1;
+    for (index = 1; index < count; ++index)
+        if (((unsigned)vector->items[index] & 0xfff) <
+            ((unsigned)vector->items[index-1] & 0xfff)) return 0;
+    index = 0;
+    while (index < count) {
+        end = index + 1;
+        while (end < count && !(((unsigned)vector->items[index] ^
+                (unsigned)vector->items[end]) & 0xfff)) ++end;
+        while (index < end-1) {
+            next = index + 1;
+            for (probe = next; probe < end; ++probe) {
+                index = (int)vector->items[index];
+                if (vector->items[probe] == (void *)index) return 0;
+            }
+            index = next;
+        }
+        index = end;
+    }
+    return 1;
+}
+
+/* Original0x4e7d0..0x4e7fb, stdcall4. This header-only predicate is
+   separate from the inline, sorted-pointer validator above. */
+int __stdcall valid_inline_vector_header(InlineVector *vector)
+{
+    return vector && vector->count >= 0 && vector->capacity >= 0 &&
+        vector->capacity >= vector->count;
+}

@@ -1,6 +1,31 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Container/portability support is COMPLETE (native-unit-only): nine whole App
+bodies add603 B. They cover inline-vector/header validation, type-set cursor
+bounds/replacement/validation, bitset copy/subtraction/release, and the packed
+DOS calendar helper. Existing permanent-container/PCH users and the shared
+frontend portability family establish ownership; no fresh CLI reach is claimed.
+Three typed units check actual sorted pointer owners, equal-key duplicates,
+short header/cursor boundaries, unchanged cached iterator state, separately owned
+bitmaps and sentinel preservation, and six dates including the original2100
+four-year-calendar behavior. The dormant vector validator retains its original
+index-overwrite defect on larger equal-key groups; those reads are not repaired
+or claimed supported by the defined unit inputs.
+
+Total is1,920 App /411,655 B (86.41% of whole original code),no named pending
+registry entries,1,968 historical frontiers,59 explicitly unit-qualified support
+bodies and seven unchanged historical CRT source bodies. Unregistered code gaps
+remain under positive classification. All55 native cases and62 unit groups pass,
+with original compilation and the1,928-function six-check graph/ABI audit.
+Focused units22.688/21.979/22.364 ms (execution3.430/3.127/2.577 ms);
+closing gate3.744 s. Header rebuild33.231 s completed original compilation but
+held the test build on an undeclared test-only type constant; using a genuine
+local replacement owner corrected the unit, retry1.524 s. No original invocation,
+oracle, shim or comparison-policy change.
+
+Earlier database-service qualification:
+
 Embedded database service support is COMPLETE (native-unit-only): twelve whole
 App bodies add1,176 B. They cover record-pool reservation, out-of-line database
 open/header/close methods, member/public record lookup and bounded copies, plus

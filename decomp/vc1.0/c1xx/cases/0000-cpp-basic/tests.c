@@ -24,6 +24,8 @@
 #include "virtual-table-output.h"
 #include "initializer-records.h"
 #include "types.h"
+#include "class-type-sets.h"
+#include "source-input.h"
 #include <recon.h>
 
 static int traps(void (*invoke)(void))
@@ -704,6 +706,72 @@ static int check_database_service_owners(void)
     if (!debug_database_close((DebugDatabase *)database)) return 0;
     return _unlink("database-unit.pdb") == 0;
 }
+/* Whole-body/static qualification only: no original CLI encounter is claimed. */
+static int check_container_owners(void)
+{
+    static unsigned char owner[12288];
+    struct { short count, capacity; void *items[4]; } vector;
+    InlineVector *set = (InlineVector *)&vector;
+    TypeSetIterator iterator;
+    CType replacement;
+    unsigned char *base = (unsigned char *)(((unsigned)owner + 4095) & ~4095U);
+    vector.count = 3; vector.capacity = 4;
+    vector.items[0] = base+8; vector.items[1] = base+4096+8;
+    vector.items[2] = base+16;
+    if (!valid_inline_vector_header(set) || !validate_inline_vector(set)) return 0;
+    vector.items[1] = vector.items[0];
+    if (validate_inline_vector(set)) return 0;
+    vector.items[1] = base+4;
+    if (validate_inline_vector(set)) return 0;
+    vector.count = -1;
+    if (valid_inline_vector_header(set) || validate_inline_vector(set)) return 0;
+    vector.count = 3; vector.capacity = 2;
+    if (valid_inline_vector_header(set) || validate_inline_vector(set)) return 0;
+    vector.capacity = 4; vector.items[1] = base+12;
+    begin_type_set(&iterator, set); iterator.type = type_0000;
+    iterator.reserved = 0x4321;
+    if (!type_set_cursor_in_range(&iterator) || !valid_type_set_iterator(&iterator)) return 0;
+    iterator.index = 1;
+    replace_type_set_item(&iterator, &replacement);
+    if (vector.items[1] != &replacement || iterator.index != 1 ||
+        iterator.type != type_0000 || iterator.reserved != 0x4321) return 0;
+    iterator.index = 3;
+    if (!type_set_cursor_in_range(&iterator) || !valid_type_set_iterator(&iterator)) return 0;
+    iterator.index = 4;
+    if (type_set_cursor_in_range(&iterator) || valid_type_set_iterator(&iterator)) return 0;
+    iterator.index = -1;
+    if (!type_set_cursor_in_range(&iterator) || !valid_type_set_iterator(&iterator)) return 0;
+    iterator.set = 0;
+    return !valid_type_set_iterator(&iterator) && !validate_inline_vector(0);
+}
+static int check_bitset_owners(void)
+{
+    BitSet *set = new_bitset(17), *other = new_bitset(17), *copy;
+    if (!set || !other) return 0;
+    set->bits[0] = 0xf3; set->bits[1] = 0xaa; set->bits[2] = 0xf0;
+    other->bits[0] = 0x30; other->bits[1] = 0x0f; other->bits[2] = 0xc0;
+    copy = copy_bitset(set);
+    if (!copy || copy == set || copy->bit_count != 17 ||
+        memcmp(copy->bits, set->bits, 4)) return 0;
+    subtract_bitset(copy, other);
+    if (copy->bits[0] != 0xc3 || copy->bits[1] != 0xa0 ||
+        copy->bits[2] != 0x30 || copy->bits[3] != 0xff ||
+        set->bits[0] != 0xf3) return 0;
+    release_bitset(copy); release_bitset(other); release_bitset(set);
+    release_bitset(0);
+    return 1;
+}
+static int check_dos_calendar(void)
+{
+    /* Sunday=0. The2100 result follows the original four-year cycle,
+       rather than the Gregorian century correction. */
+    return dos_date_weekday((1U<<21)|(1U<<16)) == 2 &&
+        dos_date_weekday((20U<<25)|(2U<<21)|(29U<<16)) == 2 &&
+        dos_date_weekday((44U<<25)|(2U<<21)|(29U<<16)) == 4 &&
+        dos_date_weekday((43U<<25)|(3U<<21)|(1U<<16)) == 3 &&
+        dos_date_weekday((120U<<25)|(3U<<21)|(1U<<16)) == 2 &&
+        dos_date_weekday((127U<<25)|(12U<<21)|(31U<<16)) == 0;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -741,5 +809,8 @@ const ReconTest c1xx_tests[] = {
     {"ASM recovery defined words (unit-only)",1,check_asm_recovery_defined_words},
     {"recursive lookahead frame (unit-only)",1,check_recursive_lookahead_frame},
     {"PCH pragma name owner (unit-only)",1,check_pch_pragma_name_owner},
-    {"database service owners (unit-only)",1,check_database_service_owners}
+    {"database service owners (unit-only)",1,check_database_service_owners},
+    {"container owners (unit-only)",1,check_container_owners},
+    {"bitset ownership (unit-only)",1,check_bitset_owners},
+    {"DOS calendar (unit-only)",1,check_dos_calendar}
 };
