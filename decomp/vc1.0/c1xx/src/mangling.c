@@ -992,3 +992,11 @@ char *__stdcall mangle_array_type(char *cursor, CType *type)
     }
     return mangle_parameter_type(cursor, type);
 }
+
+/* Original 0x44210..0x4421b, stdcall8. This target always uses the
+   int-sized enum representation; the type formal is not read or forwarded. */
+char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type)
+{
+    *cursor++ = '4';
+    return cursor;
+}

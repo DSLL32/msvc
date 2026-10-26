@@ -11,6 +11,7 @@
 #include "class-lookup.h"
 #include "member-expressions.h"
 #include "member-access.h"
+#include "enumerators.h"
 #include <recon.h>
 
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
@@ -1037,10 +1038,26 @@ unsigned short line_record_base_type(CType *type)
     if (flags == 0x802) return 2;
     return line_record_primitive_type(flags);
 }
+unsigned short prepare_line_record_enum(CppSymbol *tag);
+
+/* Original 0x71250..0x7130f, cdecl4/defined AX. Named enums get
+   a forward leaf before their enumerator field list is completed. */
 unsigned short line_record_enum_type(CppSymbol *tag)
 {
-    __asm { int 3 }
-    return 0;
+    unsigned short *words = (unsigned short *)line_record_leaf;
+    if (tag->type->debug_index) return tag->type->debug_index;
+    if (tag->name == name_unnamed) {
+        tag->type->debug_index = prepare_line_record_enum(tag);
+        return tag->type->debug_index;
+    }
+    tag->flags &= ~8;
+    words[0] = 7;
+    words[1] = words[2] = words[3] = 0;
+    words[4] = line_record_properties | 0x80;
+    words[4] = (words[4] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+    tag->type->debug_index = intern_line_record((unsigned short)
+        (copy_line_record_name(line_record_leaf + 10, tag->name) + 10));
+    return tag->type->debug_index;
 }
 /* Original0x70c00..0x70c85, cdecl1/RET0. This separate module has
    identical encountered scalar rows at a26a0/a26b8/a26d0/a26e8/a2700;
@@ -1372,12 +1389,85 @@ void check_line_record_size(unsigned length)
     if (length >= 0xfafe) fatal_error(67);
 }
 
+unsigned short build_line_record_enum_fields(CppSymbol *tag);
+
+/* Original0x71310..0x71425, cdecl1/defined AX. Complete the enum
+   field list before emitting the definition, retaining an earlier forward leaf. */
 unsigned short prepare_line_record_enum(CppSymbol *tag)
 {
-    __asm { int 3 }
-    return 0;
+    unsigned char *leaf = line_record_leaf;
+    unsigned short *words = (unsigned short *)leaf;
+    unsigned short properties = line_record_properties;
+    unsigned short primitive = (tag->type->flags & ~0x200) | 0x64;
+    unsigned short fields, length;
+    if (tag->detail.class_info->debug_index)
+        return tag->detail.class_info->debug_index;
+    if (!tag->type->debug_index && tag->name != name_unnamed)
+        line_record_enum_type(tag);
+    if (!(tag->flags & 4)) return 0;
+    tag->flags &= ~8;
+    fields = build_line_record_enum_fields(tag);
+    primitive = line_record_primitive_type(primitive);
+    words[0] = 7;
+    words[1] = (unsigned short)hash_table_count(tag->auxiliary.enumerators);
+    words[2] = primitive;
+    words[3] = fields;
+    words[4] = properties;
+    words[4] = (words[4] & ~8) | ((tag->detail.class_info->flags & 2) << 2);
+    length = copy_line_record_name(leaf + 10, tag->name) + 10;
+    tag->detail.class_info->debug_index = intern_line_record(length);
+    if (tag->name == name_unnamed)
+        tag->type->debug_index = tag->detail.class_info->debug_index;
+    return tag->detail.class_info->debug_index;
 }
+
+int compare_line_record_enum_indices(const void *left, const void *right);
 unsigned short encode_line_record_number(unsigned char *destination, int value);
+
+/* Original0x71430..0x71593, cdecl1/defined AX. Emit enum members
+   in symbol-index order, retaining numeric widths and per-field alignment. */
+unsigned short build_line_record_enum_fields(CppSymbol *tag)
+{
+    unsigned count = hash_table_count(tag->auxiliary.enumerators), i;
+    CppSymbol **members = malloc(count * sizeof(CppSymbol *)), *member;
+    HashIterator iterator;
+    unsigned char *leaf, *field;
+    unsigned short length = 0, numeric;
+    if (!members) fatal_error(60);
+    begin_hash_iteration(&iterator, tag->auxiliary.enumerators);
+    for (i = 0; i < count; ++i) {
+        next_hash_entry(&iterator);
+        members[i] = iterator.value;
+    }
+    qsort(members, count, sizeof(CppSymbol *), compare_line_record_enum_indices);
+    leaf = line_record_leaf;
+    *(unsigned short *)leaf = 0x204;
+    for (i = 0; i < count; ++i) {
+        member = members[i];
+        field = leaf + (unsigned)length + 2;
+        member->flags &= ~8;
+        *(unsigned short *)field = 0x403;
+        *(unsigned short *)(field + 2) = line_record_properties | 3;
+        numeric = encode_line_record_number(field + 4, (int)((EnumeratorSymbol *)member)->value);
+        length += (unsigned short)(numeric +
+            copy_line_record_name(field + numeric + 4, member->name) + 4);
+        length += pad_line_record(leaf + (unsigned)length + 2, length);
+        check_line_record_size((unsigned)length + 2);
+    }
+    free(members);
+    return intern_line_record((unsigned short)(length + 2));
+}
+
+/* Original 0x715a0..0x715b3, cdecl2. This distinct qsort callback
+   subtracts target-width symbol indices, like the separate CodeView one. */
+int compare_line_record_enum_indices(const void *left, const void *right)
+{
+    const CppSymbol *first = *(CppSymbol * const *)left;
+    const CppSymbol *second = *(CppSymbol * const *)right;
+    return (int)(first->index - second->index);
+}
+
+
 
 /* Original0x72020..0x72050, cdecl1. Replace only the access bits
    in the shared class-field properties with this direct base's access. */
@@ -1748,10 +1838,23 @@ unsigned short line_record_read_type(void)
 #endif
     return *(unsigned short *)position;
 }
+/* Original0x72b80..0x72bd3, cdecl2/defined AX. Signed numeric
+   leaves carry the smallest signed byte/WORD representation that fits. */
 unsigned short encode_line_record_signed(unsigned char *destination, int value)
 {
-    __asm { int 3 }
-    return 0;
+    if (value >= -128 && value <= 127) {
+        *(unsigned short *)destination = 0x8000;
+        destination[2] = (unsigned char)value;
+        return 3;
+    }
+    if (value >= -32768 && value <= 32767) {
+        *(unsigned short *)destination = 0x8001;
+        *(short *)(destination + 2) = (short)value;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8003;
+    *(int *)(destination + 2) = value;
+    return 6;
 }
 
 /* Original0x72b60..0x72b80, cdecl2. Nonnegative values use the

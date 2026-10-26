@@ -1,6 +1,68 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Automatic catalog PCH creation/reuse is COMPLETE: cases 0015/0016. The coherent
+/YXcatalog-cache.h /Zi /Brepro /FR workload combines the catalog hierarchy and
+queries with packed enum policy, nested includes/macros, default arguments,
+virtual tables and separate debug/browser state. Producer exit 0/order 20 and
+consumer exit 0/order 3 match fresh masked-original/native evidence. Producer's
+seven IR/PDB/SBR artifacts match the untouched full baseline exactly; its PCH
+uses the finite comparison below. Consumer's eight artifacts, including its
+unchanged input PCH, match its untouched baseline byte for byte, without masks.
+Consumer inputs are the frozen original-produced 91,257 B PCH and 4,376 B PDB,
+with the exact sources/options/timestamps/logical cwd; native regression never
+runs Wine. Native-produced PCH interchangeability is not claimed by this pair.
+
+The pair accepted 23 whole App bodies/3,322 code bytes and 60 owned switch bytes.
+Totals:1,660 App bodies/1,767 historical frontiers, plus the unchanged seven
+historical CRT source bodies. Shared registry projection gives an App-only code
+extent union 380,851/476,418 B (79.94% of whole original code extent, not a non-CRT
+denominator); CRT/imports and owned data are excluded from that numerator.
+
+The user approved this frozen producer's finite policy:286 typed allocation
+owners select 595 pointer DWORDs. All 506 permanent-page targets preserve exact
+page-relative offsets across two pages. The 86 discarded temporary references
+preserve exact offsets/nonnull/alias relationships within two distinct groups
+(56/30 references,11/14 unique offsets); original anchors are artifact-derived,
+not claimed observations of original ArenaBlock headers. Native refill lifetimes
+positively bind the corresponding allocation data/capacity. Three discarded
+pointers retain exact literal_workspace+4/+9/+16 identities. The full 3,197
+nonnull root/operator/relocation references establish discarded/backlink roles;
+seven live table symbols retain the flag bypassing their inactive naming pointer.
+No generic unmarked-pointer rule, output rewrite or allocator tuning is used.
+
+Three exact discarded c3-placeholder WORDs are wholly ignored: their producer
+writes only text/length, retaining defined stale semantic-union bits. A fourth,
+live string auxiliary WORD ignores only its upper 14 bits; meaningful low 2 bits
+remain checked. These are separately approved defined stale fields, not labelled
+uninitialized. Six virtual-base entries expose 48 B of original unwritten generic
+workspace; source zeros those unused words and comments the original defect,
+and the callback requires native zeros. The whole-file assertion keeps all other
+88,821 PCH bytes exact; the callback independently checks the qualified fields.
+Raw original/native artifacts remain unchanged. Shared derive-reference binds
+the approved comparison fixture to its untouched original report/capture.
+Wrong-pointer/temporary-alias/reserved-byte/meaningful-bit controls pass.
+
+Final gate:all 17 cached native cases,31 unit groups and the 1,668-function
+six-check graph/ABI audit pass;4.336 s including incremental build. Fresh consumer
+37.068 ms (setup 18.140 ms, execution 11.023 ms, checks 7.905 ms); its original 0.518 s
+and corrected incremental build 3.891 s. Fresh producer 49.434 ms (setup 21.763 ms,
+execution 15.901 ms, checks 11.769 ms); original 1.256 s and build 3.774 s. Final cached
+producer/consumer took 46.310/37.570 ms. Long analysis/policy-wait time is separate
+from these measured fixtures; no originals or regressions ran during that wait.
+
+Replay exposed two transcription errors in newly added code: start_pch_capture
+must use the derived pch_write_enabled flag, and automatic replay must read its
+separate 56 B header at 0x99180 rather than overwrite live pch_header at 0xa2310.
+Both were corrected with raw evidence retained. The case-end graph audit also
+caught a wrong callee in restore_pch_separate_debug; it calls database startup,
+not the buffer initializer. Corrected native replay and the repeated final gate
+pass; the failed audit is retained in scratch. None of these corrections adds
+function/byte credit. Fallback source restart remains a named unimplemented
+callee; the successful reuse case does not claim its incompatible-input path.
+
+Earlier completed protocol-export case:
+
 Protocol-export case0014 is COMPLETE. The /E /C /Fi workload exports a public
 SDK with forced configuration, nested conditional/X-macro headers, pasted names,
 stringified fields, quoted/spliced literals, retained comments and assembly text.

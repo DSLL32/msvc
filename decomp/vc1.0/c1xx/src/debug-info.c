@@ -5,6 +5,7 @@
 #include "debug-types.h"
 #include "global-ir.h"
 #include "control-ir.h"
+#include "parser.h"
 #include <recon.h>
 
 unsigned char *debug_record_buffer; /* original 0x8ccb4 */
@@ -187,4 +188,38 @@ void finish_line_record_debug_info(void)
             report_syntax_error(471, options.configuration.database_path);
         debug_database = 0;
     }
+}
+
+unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
+    const unsigned char *source, unsigned bytes);
+
+/* Original 0x700f0..0x70189, cdecl. The PCH object contributes a
+   real external data symbol identifying the object that owns its debug types. */
+void declare_pch_debug_library(void)
+{
+    char *prefix = "__@@_PchDebugInfoLibrary_";
+    unsigned char *cursor;
+    unsigned length;
+    unsigned char storage;
+    CppSymbol *symbol;
+    for (length = 0; prefix[length]; ++length) ;
+    cursor = copy_bytes_forward(text_work_cursor, (unsigned char *)prefix, length + 1) - 1;
+    for (length = 0; options.configuration.pch_object_name[length]; ++length) ;
+    copy_bytes_forward(cursor, (unsigned char *)options.configuration.pch_object_name, length + 1);
+    symbol = new_symbol(intern_identifier((char *)text_work_cursor), 0);
+    storage = symbol->storage[0] & 7;
+    symbol->storage[0] = (declaration_storage[0] & ~7) | storage;
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    symbol->storage[0] = (symbol->storage[0] & ~5) | 2;
+    ++symbol->references;
+    symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
+}
+
+/* Original0x6d640..0x6d660, cdecl0. Separate-debug replay selects
+   database startup (which reuses an open database) or a fresh CodeView buffer. */
+void restore_pch_separate_debug(void)
+{
+    if (options.configuration.line_records) begin_line_record_debug_info();
+    else debug_record_buffer = checked_malloc(4096);
 }

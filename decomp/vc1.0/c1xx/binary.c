@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current fresh-paired boundary:1744 historical frontiers/1637 App bodies.
+ * Current fresh-paired boundary:1767 historical frontiers/1660 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -7,12 +7,59 @@
 
 static const ReconFunction functions[] = {
     {
+        .name = "_effective_warning_level",
+        .entry_rva = 0x63340,
+        .code = (const ReconExtent[]) { { 0x63340, 0x6336b } },
+        .code_count = 1,
+        .text_data = (const ReconExtent[]) { { 0x6336c, 0x633a8 } },
+        .text_data_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "effective_warning_level",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_restart_source_input",
+        .entry_rva = 0xe420,
+        .code = (const ReconExtent[]) { { 0xe420, 0xe480 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "restart_source_input",
+    },
+    {
+        .name = "_compare_line_record_enum_indices",
+        .entry_rva = 0x615a0,
+        .code = (const ReconExtent[]) { { 0x615a0, 0x615b3 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "compare_line_record_enum_indices",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_build_line_record_enum_fields",
+        .entry_rva = 0x61430,
+        .code = (const ReconExtent[]) { { 0x61430, 0x61593 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "build_line_record_enum_fields",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "_start_pch_capture",
+        .entry_rva = 0x5b670,
+        .code = (const ReconExtent[]) { { 0x5b670, 0x5b78e } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "start_pch_capture",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_record_pch_event_header",
         .entry_rva = 0x5aff0,
         .code = (const ReconExtent[]) { { 0x5aff0, 0x5b023 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_pch_event_header",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_line_comment",
@@ -85,6 +132,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "encode_line_record_signed",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_line_record_method_type",
@@ -255,6 +303,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "prepare_line_record_enum",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_line_record_class_fields",
@@ -335,6 +384,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_argument_spelling",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_argument_type@8",
@@ -496,6 +546,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "line_record_enum_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_line_record_primitive_type",
@@ -820,6 +871,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "restore_pch_separate_debug",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {
@@ -905,6 +957,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_expression_references",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_reference_groups@4",
@@ -913,6 +966,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_reference_groups",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_pointer_array@16",
@@ -1022,6 +1076,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_virtual_base",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_vector@8",
@@ -1066,6 +1121,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_virtual_group",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_member_index@4",
@@ -1463,6 +1519,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "write_pch_events",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_relocate_pch_state",
@@ -1507,6 +1564,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "declare_pch_debug_library",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_restore_pch_frontend",
@@ -7905,10 +7963,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_mangle_enum_representation@8",
         .entry_rva = 0x34210,
-        .code = (const ReconExtent[]) { { 0x34210, 0x34211 } },
+        .code = (const ReconExtent[]) { { 0x34210, 0x3421b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mangle_enum_representation",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mangle_table_scope_path@8",
@@ -13125,6 +13184,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_pch_string_event",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_pch_record_macro@12",
@@ -13154,10 +13214,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_source_file_timestamp@4",
         .entry_rva = 0x5b500,
-        .code = (const ReconExtent[]) { { 0x5b500, 0x5b501 } },
+        .code = (const ReconExtent[]) { { 0x5b500, 0x5b52b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "source_file_timestamp",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_process_pch_include@4",
@@ -13171,34 +13232,38 @@ static const ReconFunction functions[] = {
     {
         .name = "_record_pch_open_include@4",
         .entry_rva = 0x5b650,
-        .code = (const ReconExtent[]) { { 0x5b650, 0x5b651 } },
+        .code = (const ReconExtent[]) { { 0x5b650, 0x5b669 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "record_pch_open_include",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_resume_pch_source_input",
         .entry_rva = 0x5b790,
-        .code = (const ReconExtent[]) { { 0x5b790, 0x5b791 } },
+        .code = (const ReconExtent[]) { { 0x5b790, 0x5b9a6 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "resume_pch_source_input",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_pch_capture",
         .entry_rva = 0x5b9b0,
-        .code = (const ReconExtent[]) { { 0x5b9b0, 0x5b9b1 } },
+        .code = (const ReconExtent[]) { { 0x5b9b0, 0x5ba26 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "finish_pch_capture",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_automatic_pch",
         .entry_rva = 0x5ba30,
-        .code = (const ReconExtent[]) { { 0x5ba30, 0x5ba31 } },
+        .code = (const ReconExtent[]) { { 0x5ba30, 0x5bce4 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "begin_automatic_pch",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_open_expression_intermediate",

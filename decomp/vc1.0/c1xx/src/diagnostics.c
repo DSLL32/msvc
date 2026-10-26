@@ -266,3 +266,17 @@ void emit_diagnostic(unsigned category, unsigned code, char *format, va_list arg
         fflush(diagnostic_trace_file);
     }
 }
+
+/* Original0x73340..0x7336b, cdecl2;15-target switch7336c..733a8.
+   Message overrides select an explicit/default level, disable the diagnostic,
+   or treat a promoted error as level1 for the caller's visibility decision. */
+int effective_warning_level(int level, unsigned code)
+{
+    int setting = warning_setting(code);
+    switch (setting) {
+    case 0: case 5: return level;
+    case 1: case 2: case 3: case 4: return setting;
+    case 14: return 1;
+    default: return 0;
+    }
+}

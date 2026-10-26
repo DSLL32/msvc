@@ -978,13 +978,15 @@ VirtualTable *__stdcall build_virtual_base_table(CppSymbol *tag, CppSymbol *poin
     return table;
 }
 
-/* Original 0x78d70..0x78d89. This vbtable variant initializes only its
-   two-word prefix; the remaining generic-entry workspace is untouched. */
+/* Original 0x78d70..0x78d89. The original initializes only this
+   two-word prefix, then copies the unwritten generic-entry words into PCH
+   output. They have no vbtable consumer; zero that original output defect. */
 void __stdcall initialize_virtual_base_entry(VirtualEntry *entry, CppSymbol *owner,
     CppSymbol *base)
 {
     entry->base.base = base;
     entry->base.pointer_offset = owner->detail.class_info->virtual_base_pointer_offset;
+    entry->base.reserved[0] = entry->base.reserved[1] = 0;
 }
 
 /* Original 0x78c50..0x78c5b. The final full-word mask zero-extends the

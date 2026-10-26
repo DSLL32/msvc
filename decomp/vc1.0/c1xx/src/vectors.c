@@ -376,3 +376,23 @@ long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin)
     stack->next = page + remaining;
     return offset;
 }
+
+/* Original 0x32a40..0x32ac3, stdcall12/defined AX. Copy each
+   published work-page payload to a FILE or another stack. A zero page length
+   denotes a full 2040-byte page; the accumulated result wraps as a WORD. */
+unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file,
+    WorkingStack *destination)
+{
+    unsigned short total = 0;
+    unsigned bytes;
+    unsigned char *page;
+    reset_work_stack(stack);
+    for (page = stack->read; page; page = *(unsigned char **)(page + 2040)) {
+        bytes = *(unsigned *)(page + 2044);
+        if (!bytes) bytes = 2040;
+        if (file) fwrite(page, 1, (unsigned short)bytes, file);
+        else if (destination) write_work_bytes(page, 1, (unsigned short)bytes, destination);
+        total += (unsigned short)bytes;
+    }
+    return total;
+}

@@ -2,6 +2,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 #include "initialization.h"
 #include "global-ir.h"
 #include "pragma.h"
@@ -13,6 +14,7 @@
 #include "debug-info.h"
 #include "operators.h"
 #include "directives-internal.h"
+#include "text-format.h"
 #include <recon.h>
 
 /* Original 0x23310..0x233dd. The default name retains the source drive and
@@ -197,7 +199,7 @@ void finish_pch_debug_symbols(void);
 void stage_pch_intermediates(void);
 void begin_browser_pch_record(void);
 void relocate_pch_state(void);
-unsigned short __stdcall write_pch_events(WorkingStack *, FILE *, int);
+unsigned short __stdcall write_pch_events(WorkingStack *, FILE *, WorkingStack *);
 void write_pch_pages(void);
 void restore_pch_pointers(void);
 
@@ -483,4 +485,215 @@ int __stdcall match_pch_string_event(unsigned kind, unsigned value, char *text)
         return 0;
     }
     return 1;
+}
+
+/* Original0x99180..0x991b8 is the independent automatic-replay header.
+   Reading it must not overwrite the live arena page count in pch_header.
+   Its last word later retains the initial fallback page count. */
+PchHeader automatic_pch_header;
+int pch_note_suppressed; /* original0x8cfe0; encountered note-suppression read */
+WorkingStack *pch_source_stack; /* original 0xa2358 */
+unsigned char *pch_event_buffer; /* original 0x8ccc4 */
+char *pch_failure_text; /* original 0xa236c */
+void start_pch_capture(void);
+char *browser_working_directory(void);
+
+/* Original 0x6ba30..0x6bce4, cdecl. Automatic PCH replay first checks
+   the complete configuration and recorded command-line/cwd/include events.
+   An absent or incompatible file falls back to a new real capture. */
+void begin_automatic_pch(void)
+{
+    char failure[256];
+    Vector *vector;
+    short index;
+    unsigned i, length;
+    unsigned *current, *saved;
+    initialize_work_stack(&pch_source_stack);
+    pch_mode = 2;
+    prepare_pch_output("msvc.pch");
+    pch_file = fopen(options.option_Fp, "r");
+    if (pch_file) {
+        fread(&automatic_pch_header, 1, sizeof(automatic_pch_header), pch_file);
+        if (pch_file->_flag & 0x20)
+            report_fatal(84, message_text(344), options.option_Fp);
+        for (i = 0; i < 8 && automatic_pch_header.signature[i] == "DTJPCH0"[i]; ++i) ;
+        if (i == 8 && automatic_pch_header.format == 0x80117312) {
+            fread(&saved_configuration, 1, sizeof(saved_configuration), pch_file);
+            current = (unsigned *)&options.configuration;
+            saved = (unsigned *)&saved_configuration;
+            for (i = 0; i < sizeof(saved_configuration) / 4 && current[i] == saved[i]; ++i) ;
+            if (i == sizeof(saved_configuration) / 4) {
+                pch_event_buffer = malloc(automatic_pch_header.event_bytes);
+                intermediate_status = fseek(pch_file, automatic_pch_header.event_offset, 0);
+                if (intermediate_status)
+                    report_error(86, message_text(344), options.option_Fp,
+                        pch_diagnostic_name, 679);
+                fread(pch_event_buffer, 1, automatic_pch_header.event_bytes, pch_file);
+                pch_input_record = (PchInputRecord *)pch_event_buffer;
+                vector = options.defines;
+                for (index = 0; index < vector->count; ) {
+                    pch_record_macro("", vector->items[index++], 0);
+                    if (pch_mode == 1) goto new_capture;
+                }
+                match_pch_string_event(4, 0, browser_working_directory());
+                if (pch_mode == 1) goto new_capture;
+                vector = options.include_directories;
+                for (index = 0; index < vector->count; ) {
+                    match_pch_string_event(4, 0, vector->items[index++]);
+                    if (pch_mode == 1) goto new_capture;
+                }
+                pch_include_count = 0;
+                return;
+            }
+        }
+    }
+new_capture:
+    if (pch_file)
+        format_text(failure, "Incompatible options; %s %s: ",
+            message_text(352), options.option_Fp);
+    else
+        format_text(failure, "%s %s", message_text(351), options.option_Fp);
+    for (length = 0; failure[length]; ++length) ;
+    pch_failure_text = checked_malloc(length + 1);
+    for (i = 0; i <= length; ++i) pch_failure_text[i] = failure[i];
+    start_pch_capture();
+}
+
+/* Original 0x6b670..0x6b78e, cdecl. The replay fallback changes to
+   capture once, closes the old file and records the environment prefix before
+   source directives begin contributing their own events. */
+void start_pch_capture(void)
+{
+    Vector *vector;
+    short index;
+    if (pch_write_enabled) return;
+    pch_mode = 1;
+    if (pch_file) {
+        intermediate_status = fclose(pch_file);
+        if (intermediate_status == -1)
+            report_error(82, message_text(344), options.option_Fp,
+                pch_diagnostic_name, 531);
+    }
+    pch_write_enabled = 1;
+    initialize_work_stack(&pch_event_stack);
+    if (!options.option_E && !options.prototypes_only && options.configuration.debug_info)
+        begin_debug_info();
+    vector = options.defines;
+    for (index = 0; index < vector->count; )
+        pch_record_macro("", vector->items[index++], 0);
+    match_pch_string_event(4, 0, browser_working_directory());
+    vector = options.include_directories;
+    for (index = 0; index < vector->count; )
+        match_pch_string_event(4, 0, vector->items[index++]);
+}
+
+/* Original 0x6aff0..0x6b023, cdecl12. Only the three initialized
+   header DWORDs precede the variable payload; no structure tail is copied. */
+void record_pch_event_header(unsigned kind, unsigned value, unsigned bytes)
+{
+    PchInputRecord record;
+    record.kind = kind;
+    record.value = value;
+    record.bytes = bytes;
+    write_work_bytes(&record, 12, 1, pch_event_stack);
+}
+
+/* Original 0x6b030..0x6b070, cdecl12. The stored string size is a
+   truncated WORD including NUL; the event's value remains a full DWORD. */
+void record_pch_string_event(unsigned kind, unsigned value, char *text)
+{
+    unsigned length;
+    unsigned short bytes;
+    for (length = 0; text[length]; ++length) ;
+    bytes = (unsigned short)(length + 1);
+    record_pch_event_header(kind, value, bytes);
+    write_work_bytes(text, bytes, 1, pch_event_stack);
+}
+
+/* Original 0x6b650..0x6b669, stdcall4. The timestamp and actual
+   include filename form a separate replay event after the include boundary. */
+void __stdcall record_pch_open_include(char *filename)
+{
+    record_pch_string_event(5, source_file_timestamp(filename), filename);
+}
+
+/* Original 0x6b500..0x6b52b, stdcall4. The legacy 36-byte stat
+   structure supplies its modification time at offset28; a failed query is0. */
+unsigned __stdcall source_file_timestamp(char *filename)
+{
+    struct _stat information;
+    if (_stat(filename, &information)) return 0;
+    return information.st_mtime;
+}
+
+/* Original 0x6b9b0..0x6ba26, cdecl. Commit the captured source/event
+   stacks and write the PCH before publishing the delayed creation diagnostic. */
+void finish_pch_capture(void)
+{
+    finish_work_stack(pch_source_stack);
+    if (pch_mode != 1) {
+        resume_pch_source_input();
+        return;
+    }
+    record_pch_event_header(9, 0, 0);
+    finish_work_stack(pch_event_stack);
+    finish_pch_output();
+    pch_mode = 0;
+    if (pch_failure_text) {
+        compiler_warning(4, 699, pch_failure_text);
+        free(pch_failure_text);
+        pch_failure_text = 0;
+    }
+}
+
+int effective_warning_level(int level, unsigned code);
+void restart_source_input(void);
+void __stdcall pragma_message(char *text);
+
+/* Original0x6b790..0x6b9a6, cdecl0. A completed event replay loads
+   the saved header/frontend; incompatible input restarts a genuine capture.
+   Page thresholds retain the original signed32 shift/divide arithmetic. */
+int resume_pch_source_input(void)
+{
+    char text[256], *filename;
+    unsigned length, i;
+    if (!pch_input_changed && pch_input_record->kind == 9) {
+        pch_header = automatic_pch_header;
+        filename = options.option_Fp;
+        restore_pch_frontend();
+        if (options.configuration.debug_info) restore_pch_separate_debug();
+        pch_mode = 0;
+        if (effective_warning_level(4, 699) <= options.option_W) {
+            format_text(text, "%s %s", message_text(350), filename);
+            compiler_warning(4, 699, text);
+        } else if (!pch_note_suppressed) {
+            format_text(text, "%s\n", message_text(350));
+            pragma_message(text);
+        }
+        return 0;
+    }
+    if (!automatic_pch_header.reserved)
+        automatic_pch_header.reserved = automatic_pch_header.page_count;
+    if (!pch_saved_page_count || pch_abort_on_file_change ||
+        (int)((unsigned)automatic_pch_header.page_count << 7) /
+            (unsigned short)pch_saved_page_count < 100 ||
+        (int)(automatic_pch_header.reserved << 7) /
+            (unsigned short)pch_saved_page_count < 80)
+        pch_include_count = -1;
+    if (pch_include_count > 0)
+        format_text(text, "%s %s with %d include file%s", message_text(352),
+            options.option_Fp, (int)pch_include_count, pch_include_count > 1 ? "s" : " ");
+    else format_text(text, "%s %s", message_text(352), options.option_Fp);
+    for (length = 0; text[length]; ++length) ;
+    pch_failure_text = checked_malloc(length + 1);
+    for (i = 0; i <= length; ++i) pch_failure_text[i] = text[i];
+    restart_source_input();
+    start_pch_capture();
+    return 1;
+}
+
+/* Discovered callees, not reconstructed or accepted yet. */
+void restart_source_input(void)
+{
+    __asm { int 3 }
 }

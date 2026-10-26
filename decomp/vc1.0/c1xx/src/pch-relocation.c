@@ -992,3 +992,46 @@ void initialize_pch_relocations(void)
         pch_relocation_chains[page].page = (unsigned short)page;
     }
 }
+
+/* Original 0x7c310..0x7c320, stdcall4. Virtual-base slots carry
+   one relocatable class pointer after their scalar displacement. */
+void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry)
+{
+    mark_pch_pointer((void **)&entry->base);
+}
+
+/* Original 0x7c320..0x7c368, stdcall4. Both dispatch/base table
+   vectors share the ordinary table visitor; scalar group offsets stay intact. */
+void __stdcall mark_pch_virtual_group(VirtualTableGroup *group)
+{
+    mark_pch_pointer((void **)&group->tag);
+    mark_pch_pointer((void **)&group->tables);
+    mark_pch_pointer((void **)&group->base_tables);
+    mark_pch_pointer((void **)&group->virtual_base_pointer);
+    mark_pch_vector(group->tables, (PchVisit)mark_pch_virtual_table);
+    mark_pch_vector(group->base_tables, (PchVisit)mark_pch_virtual_table);
+}
+
+/* Original 0x6a2a0..0x6a2ce, stdcall4. Only references in actual
+   permanent-page slots are visited recursively; each group link is also marked. */
+void __stdcall mark_pch_reference_groups(MemberReferenceGroup *group)
+{
+    while (group) {
+        mark_pch_pointer((void **)&group->next);
+        if (mark_pch_pointer((void **)&group->references))
+            mark_pch_expression_references(group->references);
+        group = group->next;
+    }
+}
+
+/* Original 0x6a270..0x6a29e, stdcall4. Mark each expression slot
+   before following its existing IR owner, preserving the outer reference list. */
+void __stdcall mark_pch_expression_references(ExpressionReference *reference)
+{
+    while (reference) {
+        mark_pch_pointer((void **)&reference->next);
+        if (mark_pch_pointer((void **)&reference->expression))
+            mark_pch_ir_node(reference->expression);
+        reference = reference->next;
+    }
+}

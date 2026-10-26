@@ -398,10 +398,12 @@ finished:
     token_allocation_flags |= 0x20;
     return token;
 }
+/* Original 0x19540..0x1955e, stdcall8. Append the spelling while
+   returning the address of its NUL, ready for the next text fragment. */
 unsigned char *__stdcall copy_argument_spelling(unsigned char *destination, char *text)
 {
-    __asm { int 3 }
-    return 0;
+    while ((*destination = (unsigned char)*text++) != 0) ++destination;
+    return destination;
 }
 unsigned char *__stdcall copy_argument_type(unsigned char *destination, CType *type)
 {

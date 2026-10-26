@@ -64,19 +64,13 @@ void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
-void begin_automatic_pch(void) { __asm { int 3 } }
 
-void record_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
-int resume_pch_source_input(void) { __asm { int 3 } return 0; }
-unsigned __stdcall source_file_timestamp(char *filename) { __asm { int 3 } return 0; }
-void __stdcall record_pch_open_include(char *filename) { __asm { int 3 } }
 void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
-void record_pch_event_header(unsigned kind, unsigned value, unsigned bytes) { __asm { int 3 } }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
@@ -164,7 +158,6 @@ void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
 void report_ide_line(void) { __asm { int 3 } }
-void finish_pch_capture(void) { __asm { int 3 } }
 
 
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
@@ -334,7 +327,6 @@ int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm {
 
 
 
-char *__stdcall mangle_enum_representation(char *cursor, CType *unused_type) { __asm { int 3 } return 0; }
 
 
 unsigned __cdecl hash_resolved_declaration(void *key) { __asm { int 3 } return 0; }
@@ -500,14 +492,7 @@ int __stdcall segment_name_has_suffix(char *name, char *suffix) { __asm { int 3 
 unsigned __stdcall asm_scale_encoding(unsigned scale) { __asm { int 3 } return 0; }
 
 void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
-void restore_pch_separate_debug(void) { __asm { int 3 } }
-void declare_pch_debug_library(void) { __asm { int 3 } }
-unsigned short __stdcall write_pch_events(WorkingStack *stack, FILE *file, int mode) { __asm { int 3 } return 0; }
 
-void __stdcall mark_pch_virtual_base(VirtualBaseEntry *entry) { __asm { int 3 } }
-void __stdcall mark_pch_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
-void __stdcall mark_pch_expression_references(ExpressionReference *reference) { __asm { int 3 } }
-void __stdcall mark_pch_reference_groups(MemberReferenceGroup *group) { __asm { int 3 } }
 struct VirtualThunkKey;
 void __stdcall mark_pch_virtual_thunk_key(struct VirtualThunkKey *key) { __asm { int 3 } }
 void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __asm { int 3 } }
