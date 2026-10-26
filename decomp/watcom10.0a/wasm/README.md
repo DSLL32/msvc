@@ -1,7 +1,8 @@
 # Watcom 10.0a WASM
 
-Eight cases are complete: `/?` (exit 1), five successful assembly workloads,
-and configuration/error-limit diagnostic workloads (exit 7 and exit 1).
+Nine cases are complete: `/?` (exit 1), five successful assembly workloads,
+configuration/error-limit diagnostics (exit 7 and exit 1), and a missing-source
+fatal error (exit 1).
 The buffer transform combines includes, macros, conditionals, typed records,
 integer/x87 instructions, branches and external relocations (485-byte OMF).
 The DOS record formatter adds small-model segments, IRP, macro-local labels,
@@ -22,10 +23,13 @@ The record-contract case adds nested procedures, paired16-bit address registers
 and the error-limit exit. Its exact diagnostics include the original embedded
 NUL in the final prefix; immediate termination leaves the captured zero-byte
 object rather than performing normal deletion.
+The missing-source case matches its fatal message and empty file inventory.
+The fatal callback records are checked against the original CF fixups and
+rebuilt symbols; the selected NULL-action record makes no shutdown-call claim.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 396 application functions and 94,113 unique original
+The reconstruction covers 398 application functions and 94,309 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
@@ -41,14 +45,14 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 396 graph/reference/ownership/extent checks pass, with 313 ordinary RET
-contracts and 83 finite cold-error, tail-wrapper or exit checks. Pending error
+All 398 graph/reference/ownership/extent checks pass, with 314 ordinary RET
+contracts and 84 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-The eight final cached native fixtures pass; record-contract takes 13.32 ms
-(setup 7.06 ms, execution 3.27 ms, checks 2.99 ms). Parallel Make check took
-93.28 ms, and the full graph and finite RET audit took 779.26 ms. The last
-explicit original capture took 1.22 s. Native and period builds passed; their
+The nine final cached native fixtures pass; missing-source takes 13.64 ms
+(setup 7.80 ms, execution 2.69 ms, checks 3.15 ms). Parallel Make check took
+107.47 ms, and the full graph and finite RET audit took 776.50 ms. The last
+explicit original capture took 1.83 s. Native and period builds passed; their
 final incremental build time was not measured. These are measured closeout
 runs, not clean-build timings.
 

@@ -188,7 +188,31 @@
         }
       }
     },
-    "callback_tables": []
+    "callback_tables": [
+      {
+        "label": "Fatal_Msg",
+        "original": [
+          62784,
+          62880
+        ],
+        "rebuilt_begin": "_Fatal_Msg",
+        "count": 6,
+        "stride": 16,
+        "pointer_offset": 8,
+        "expected_functions": [
+          "AsmShutDown",
+          null,
+          null,
+          "AsmShutDown",
+          "AsmShutDown",
+          null
+        ],
+        "require_accepted": false,
+        "when_accepted": [
+          "Fatal"
+        ]
+      }
+    ]
   },
   "ret_checks": {
     "schema": 1,
@@ -1754,6 +1778,11 @@
         ]
       },
       "AsmError": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MsgPrintf": {
         "expected_cleanup": [
           0
         ]

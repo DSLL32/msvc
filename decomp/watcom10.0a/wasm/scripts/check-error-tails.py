@@ -235,6 +235,66 @@ if not selected_owner or selected_owner == 'AsmSuicide':
         'rebuilt_exit_call':calls[0][0],'status':1,
         'rebuilt_sha256':hashlib.sha256(pe_bytes(begin,limit-begin)).hexdigest()})
 
+# The CF callback-table flag cannot interpret relocated pointers. Reuse the
+# shared CF identity reader here for this finite six-record fatal contract.
+if not selected_owner or selected_owner == 'Fatal':
+    sys.path.insert(0, str(repo / 'tooling/recon-tool/watcom'))
+    from cf_identity import Image
+    target = profile['target']
+    header = target['header']
+    image = Image.parse(raw,target['sha256'],[0x4643,
+        header['image_file_offset'],header['initialized_size'],
+        header['relocation_offset'],header['allocation_size'],header['entry_offset']])
+    assert hashlib.sha256(image.initialized).hexdigest() == target['initialized_sha256']
+    assert hashlib.sha256(image.initialized[image.relocation_offset:]).hexdigest() == target['relocation_sha256']
+    assert len(image.fixups) == target['relocation_count'] and image.groups == target['relocation_groups']
+    table = next(row for row in json.loads((project / 'harness/audit-policy.json').read_text())[
+        'graph_metadata']['callback_tables'] if row['label'] == 'Fatal_Msg')
+    assert table['original'] == [0xf540,0xf5a0]
+    assert (table['count'],table['stride'],table['pointer_offset']) == (6,16,8)
+    assert table['expected_functions'] == ['AsmShutDown',None,None,'AsmShutDown','AsmShutDown',None]
+    table_begin = symbols[table['rebuilt_begin']]
+    table_fixups = [offset for offset in image.fixups if 0xf540 <= offset < 0xf5a0]
+    assert table_fixups == [0xf548,0xf578,0xf588]
+    for index,name in enumerate(table['expected_functions']):
+        left = struct.unpack_from('<4I',image.initialized,0xf540+16*index)
+        right = struct.unpack('<4I',pe_bytes(table_begin+16*index,16))
+        assert left[:2]+left[3:] == right[:2]+right[3:]
+        if name:
+            assert left[2] == 0xf5a0 and right[2] == symbols[name+'_']
+            assert 0xf548+16*index in image.fixups
+        else:
+            assert left[2] == right[2] == 0
+            assert not any(0xf548+16*index-3 <= x <= 0xf548+16*index+3 for x in image.fixups)
+    # A NULL action skips the indirect call; the exit argument comes from
+    # the same row's final DWORD. Both facts are about actual instructions.
+    assert raw[payload+0xf67d:payload+0xf68c] == bytes.fromhex('83ba48f50000007406ff9248f50000')
+    assert raw[payload+0xf693:payload+0xf699] == bytes.fromhex('8b804cf50000')
+    code = instructions(original,0xf614,0xf69e,payload)
+    assert not any(m.startswith('ret') for _,m,_ in code)
+    assert external_jumps(code,0xf614,0xf69e,payload) == [(0xf699,'jmp',0x1cb31)]
+    begin = symbols['Fatal_']
+    limit = min(a for a in symbols.values() if a > begin)
+    body = pe_bytes(begin,limit-begin)
+    callback = bytes.fromhex('ff90')+struct.pack('<I',table_begin+8)
+    assert body.count(callback) == 1
+    callback_at = begin+body.index(callback)
+    guarded = bytes.fromhex('83b8')+struct.pack('<I',table_begin+8)+bytes.fromhex('0074')
+    assert body.count(guarded) == 1
+    guard_at = begin+body.index(guarded)
+    assert guard_at+9+struct.unpack('<b',pe_bytes(guard_at+8,1))[0] == callback_at+6
+    load = bytes.fromhex('8b80')+struct.pack('<I',table_begin+12)
+    assert body.count(load) == 1
+    exit_call = begin+body.index(load)+len(load)
+    code = instructions(rebuilt,begin,limit)
+    assert (exit_call,'call',hex(symbols['exit_'])) in code
+    assert not external_jumps(code,begin,limit)
+    report.append({'name':'Fatal','original_table':[0xf540,0xf5a0],
+        'callback_fixups':table_fixups,'rebuilt_table':table_begin,
+        'original_exit_tail':[0xf699,0x1cb31],'rebuilt_exit_call':exit_call,
+        'selected_missing_source_row':1,'selected_callback':None,'selected_exit':1,
+        'rebuilt_sha256':hashlib.sha256(body).hexdigest()})
+
 if selected_owner:
     assert len(report) == 1, "unknown finite RET owner"
     if len(sys.argv) == 2:

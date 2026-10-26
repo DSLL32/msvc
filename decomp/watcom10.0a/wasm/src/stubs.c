@@ -5,7 +5,6 @@
 #include "direct.h"
 #include <recon.h>
 
-void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
 void DiskError(void) { WASM_PENDING(); }
 size_t FixGenPRef(physref *ref, char *buffer, int type) { WASM_PENDING(); return 0; }
 

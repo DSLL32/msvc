@@ -141,3 +141,15 @@ void PrintStats( void )
     printf( "%u errors\n", (unsigned)Options.error_count );
     fflush( stdout );
 }
+
+/* CF16738..16772: resource text is the original printf format. */
+void MsgPrintf(int resourceid)
+{
+    char buffer[128];
+    if (!Options.banner_printed) {
+        Options.banner_printed = 1;
+        trademark();
+    }
+    MsgGet(resourceid, buffer);
+    printf(buffer);
+}
