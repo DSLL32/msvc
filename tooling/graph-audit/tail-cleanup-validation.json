@@ -1,0 +1,60 @@
+{
+  "scope": "Returning tail dependencies: same existing decoded flow/metadata/terminating validation, finite union of actual localRETsets; no synthetic cleanup, new CFG or termination/permission inference.",
+  "validation_sha256": "1919a8320bcc0cbe71c185f04ebd1389e42c7eeaa2513fce2b79f184871563ad",
+  "release_sha256": "9daa526ebbe74d2dd7a7cb1e3baaa30b9d358ad5f21a252678684804997229d6",
+  "source_sha256": {
+    "src/audit.rs": "6c05b1c6e1f851120f12e633cf77e4e75769bd31bfe4955c24119da30253ab69",
+    "README.md": "e1d67525b3a9c510162df28eeb1f7b59b3abe73fcae66f02da6f0dca58c26e71"
+  },
+  "actual_static_ms": 425.8293891325593,
+  "actual_selected_owners": 4,
+  "actual_summary": {
+    "selected_owners": 4,
+    "PTreeOp": {
+      "original_local": [
+        0
+      ],
+      "original_checked": [
+        0
+      ],
+      "rebuilt_checked": [
+        0
+      ]
+    },
+    "PTreeOpLeft": {
+      "original_local": [],
+      "original_checked": [
+        0
+      ],
+      "rebuilt_checked": [
+        0
+      ]
+    }
+  },
+  "focused_tests": 3,
+  "unit_cases": [
+    "mutual actualRET0",
+    "mutual actualRET4",
+    "mixed0/4 retainsboth",
+    "missing body fails",
+    "pending body fails",
+    "unresolved tail fails",
+    "ambiguous bounds fail",
+    "exitless cycle fails",
+    "explicit terminatingowner permits emptyreturns locally",
+    "unannotated wrapper never propagates no-return flag"
+  ],
+  "prior_reports_byte_identical": [
+    "opaque CALL strict",
+    "absent-regions default",
+    "CALL/JMP prior"
+  ],
+  "limits": [
+    "No full-case/acceptance claim; same frozen four selected WIP owners and full driver/identity registry.",
+    "No target/native execution or original capture. No speedup claim; former tool rejected actual cycle.",
+    "Unknown, pending, unresolved and ambiguous bodies still fail. Exitless dependency stillfails unless exact explicit qualified no-return owner; flag never propagates. Raw graph/tails, expected original/rebuiltRETsets and masks unchanged."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/tail-cleanup-fixedpoint",
+  "canonical_build_seconds": 66.67887937743217,
+  "canonical_bit_identical": true
+}

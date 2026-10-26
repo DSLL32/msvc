@@ -1142,7 +1142,6 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &metadata,
                 "original",
                 &x.terminating_calls,
-                &mut HashSet::new(),
             )?
             .returns;
             let right = cfg_cleanup(
@@ -1153,7 +1152,6 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &metadata,
                 "rebuilt",
                 &x.terminating_calls,
-                &mut HashSet::new(),
             )?
             .returns;
             ensure!(left == right, "{} RET cleanup differs", f.name);
@@ -1545,7 +1543,10 @@ struct CleanupSummary {
     returns: BTreeSet<u32>,
     validated_no_return: bool,
 }
-#[allow(clippy::too_many_arguments)]
+struct TailCleanup {
+    summary: CleanupSummary,
+    tails: BTreeSet<u32>,
+}
 fn cfg_cleanup(
     d: &Decoder,
     pe: &impl ImageView,
@@ -1554,59 +1555,100 @@ fn cfg_cleanup(
     metadata: &Value,
     side: &str,
     terminating: &crate::terminating_calls::Contracts,
-    visiting: &mut HashSet<u32>,
 ) -> Result<CleanupSummary> {
-    ensure!(visiting.insert(r.start), "tail-call cycle {}", r.name);
-    let mut options = crate::flow::Options {
-        terminating_calls: terminating.sites(&r.name, side),
-        record_dataflow: !terminating.sites(&r.name, side).is_empty(),
-        infer_switches: true,
-        infer_seh: !pe.explicit_flat_ownership(),
-        require_explicit_seh_roots: pe.explicit_flat_ownership(),
-        code_chunks: r.code_chunks.clone(),
-        fallthrough_entries: r
-            .code_ranges()
-            .map(|(_, b)| b)
-            .filter(|b| index.iter().any(|v| v.start == *b))
-            .collect(),
-        fallthrough_entry: index.iter().any(|v| v.start == r.end).then_some(r.end),
-        ..Default::default()
-    };
-    apply_metadata(&mut options, &metadata["functions"][&r.name][side])?;
-    validate_text_data(pe, r, &options.data, index)?;
-    let graph = crate::flow::walk(d, pe, r.start, r.end, &options)?;
-    terminating.validate_graph(&r.name, side, &graph)?;
-    validate_inferred_data(pe, r, &graph, index)?;
-    ensure!(
-        !graph.unresolved_tail,
-        "unresolved indirect tail ABI in {}",
-        r.name
-    );
-    let validated_no_return = terminating.validated_no_return(&r.name, side, &graph);
-    let mut returns = graph.returns.clone();
-    for &target in &graph.tails {
-        let target = index
-            .iter()
-            .rev()
-            .find(|v| v.start == target && !v.pending_extent)
-            .with_context(|| {
+    let mut nodes = BTreeMap::<u32, TailCleanup>::new();
+    let mut pending = vec![r];
+    while let Some(r) = pending.pop() {
+        if nodes.contains_key(&r.start) {
+            continue;
+        }
+        let mut options = crate::flow::Options {
+            terminating_calls: terminating.sites(&r.name, side),
+            record_dataflow: !terminating.sites(&r.name, side).is_empty(),
+            infer_switches: true,
+            infer_seh: !pe.explicit_flat_ownership(),
+            require_explicit_seh_roots: pe.explicit_flat_ownership(),
+            code_chunks: r.code_chunks.clone(),
+            fallthrough_entries: r
+                .code_ranges()
+                .map(|(_, b)| b)
+                .filter(|b| index.iter().any(|v| v.start == *b))
+                .collect(),
+            fallthrough_entry: index.iter().any(|v| v.start == r.end).then_some(r.end),
+            ..Default::default()
+        };
+        apply_metadata(&mut options, &metadata["functions"][&r.name][side])?;
+        validate_text_data(pe, r, &options.data, index)?;
+        let graph = crate::flow::walk(d, pe, r.start, r.end, &options)?;
+        terminating.validate_graph(&r.name, side, &graph)?;
+        validate_inferred_data(pe, r, &graph, index)?;
+        ensure!(
+            !graph.unresolved_tail,
+            "unresolved indirect tail ABI in {}",
+            r.name
+        );
+        for &target in &graph.tails {
+            let bodies: Vec<_> = index
+                .iter()
+                .filter(|v| v.start == target && !v.pending_extent)
+                .collect();
+            let body = bodies.last().with_context(|| {
                 format!(
                     "{side} {} source [{:x}..{:x}] unidentified tail-call ABI at target {target:x}",
                     r.name, r.start, r.end
                 )
             })?;
-        let inherited = cfg_cleanup(d, pe, target, index, metadata, side, terminating, visiting)?;
-        ensure!(
-            !inherited.returns.is_empty() || inherited.validated_no_return,
-            "tail callee has no determined RET convention"
+            ensure!(
+                bodies
+                    .iter()
+                    .all(|v| v.end == body.end && v.code_chunks == body.code_chunks),
+                "ambiguous tail-call ABI at target {target:x}"
+            );
+            pending.push(*body);
+        }
+        nodes.insert(
+            r.start,
+            TailCleanup {
+                summary: CleanupSummary {
+                    returns: graph.returns.clone(),
+                    validated_no_return: terminating.validated_no_return(&r.name, side, &graph),
+                },
+                tails: graph.tails,
+            },
         );
-        returns.extend(inherited.returns);
     }
-    visiting.remove(&r.start);
-    Ok(CleanupSummary {
-        returns,
-        validated_no_return,
-    })
+    // A tail cycle supplies no cleanup value. Only actual decoded RET values
+    // flow through its known dependencies; a returning cycle may still diverge.
+    loop {
+        let mut changed = false;
+        for start in nodes.keys().copied().collect::<Vec<_>>() {
+            let inherited: BTreeSet<_> = nodes[&start]
+                .tails
+                .iter()
+                .flat_map(|target| nodes[target].summary.returns.iter().copied())
+                .collect();
+            let node = nodes.get_mut(&start).expect("known cleanup node");
+            let before = node.summary.returns.len();
+            node.summary.returns.extend(inherited);
+            changed |= node.summary.returns.len() != before;
+        }
+        if !changed {
+            break;
+        }
+    }
+    for node in nodes.values() {
+        for target in &node.tails {
+            ensure!(
+                !nodes[target].summary.returns.is_empty()
+                    || nodes[target].summary.validated_no_return,
+                "tail callee has no determined RET convention"
+            );
+        }
+    }
+    let node = nodes.remove(&r.start).expect("root cleanup node");
+    // The no-return flag remains local to an explicitly validated owner;
+    // it never propagates through unannotated wrappers or cycles.
+    Ok(node.summary)
 }
 fn callback_values(
     pe: &impl ImageView,
@@ -2104,5 +2146,187 @@ mod alias_tests {
                 assert_eq!(returns, &BTreeSet::from([0]));
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod cleanup_tests {
+    use super::*;
+    fn record(name: &str, start: u32, end: u32) -> Record {
+        Record {
+            name: name.into(),
+            start,
+            end,
+            code_chunks: vec![],
+            shared: vec![],
+            evidence: Value::Null,
+            pending_extent: false,
+        }
+    }
+    fn cycle(cleanup: u16) -> (crate::pe::Pe, Vec<Record>) {
+        let mut code = vec![0x90; 0x30];
+        code[..9].copy_from_slice(&[0x85, 0xc0, 0x74, 5, 0xe9, 0x17, 0, 0, 0]);
+        let end = if cleanup == 0 {
+            code[9] = 0xc3;
+            0x40100a
+        } else {
+            code[9..12].copy_from_slice(&[0xc2, cleanup as u8, (cleanup >> 8) as u8]);
+            0x40100c
+        };
+        code[0x20..0x25].copy_from_slice(&[0xe9, 0xdb, 0xff, 0xff, 0xff]);
+        (
+            crate::tests::image(&code),
+            vec![record("a", 0x401000, end), record("b", 0x401020, 0x401025)],
+        )
+    }
+    fn cleanup(image: &crate::pe::Pe, root: &Record, index: &[Record]) -> Result<CleanupSummary> {
+        cfg_cleanup(
+            &Decoder::new()?,
+            image,
+            root,
+            index,
+            &json!({}),
+            "original",
+            &Default::default(),
+        )
+    }
+    #[test]
+    fn real_ret_values_propagate_through_mutual_tail_cycle() -> Result<()> {
+        for value in [0, 4] {
+            let (image, index) = cycle(value);
+            for root in &index {
+                let summary = cleanup(&image, root, &index)?;
+                assert_eq!(summary.returns, BTreeSet::from([u32::from(value)]));
+                assert!(!summary.validated_no_return);
+            }
+        }
+        // Different real return exits are retained, never collapsed to RET0.
+        let (mut image, mut index) = cycle(0);
+        image.data[0x220..0x22c].copy_from_slice(&[
+            0x85, 0xd2, 0x74, 5, 0xe9, 0xd7, 0xff, 0xff, 0xff, 0xc2, 4, 0,
+        ]);
+        index[1].end = 0x40102c;
+        for root in &index {
+            assert_eq!(
+                cleanup(&image, root, &index)?.returns,
+                BTreeSet::from([0, 4])
+            );
+        }
+        Ok(())
+    }
+    #[test]
+    fn exitless_unknown_pending_unresolved_and_ambiguous_cycles_fail() {
+        let (image, index) = cycle(0);
+        assert!(
+            cleanup(&image, &index[0], &index[..1])
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("unidentified tail-call ABI")
+        );
+        let mut pending = index.clone();
+        pending[1].pending_extent = true;
+        assert!(
+            cleanup(&image, &pending[0], &pending)
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("unidentified tail-call ABI")
+        );
+        let mut ambiguous = index.clone();
+        let mut other = index[1].clone();
+        other.end += 1;
+        ambiguous.push(other);
+        assert!(
+            cleanup(&image, &ambiguous[0], &ambiguous)
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("ambiguous tail-call ABI")
+        );
+        let mut unresolved = image.clone();
+        unresolved.data[0x220..0x222].copy_from_slice(&[0xff, 0xe0]);
+        let mut unknown = index.clone();
+        unknown[1].end = 0x401022;
+        assert!(
+            cleanup(&unresolved, &unknown[0], &unknown)
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("unresolved indirect tail ABI")
+        );
+        let mut exitless = image;
+        exitless.data[0x200..0x205].copy_from_slice(&[0xe9, 0x1b, 0, 0, 0]);
+        let mut closed = index;
+        closed[0].end = 0x401005;
+        assert!(
+            cleanup(&exitless, &closed[0], &closed)
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("no determined RET convention")
+        );
+    }
+    #[test]
+    fn explicit_no_return_owner_remains_local_across_tail_dependencies() -> Result<()> {
+        let mut code = vec![0x90; 0x101];
+        code[..10].copy_from_slice(&[0x85, 0xc0, 0x74, 5, 0xe9, 0x37, 0, 0, 0, 0xc3]);
+        code[0x20..0x25].copy_from_slice(&[0xe9, 0x1b, 0, 0, 0]);
+        code[0x40..0x4a].copy_from_slice(&[0xb8, 1, 0, 0, 0, 0xe8, 0xb6, 0, 0, 0]);
+        code[0x100] = 0xcc;
+        let mut image = crate::tests::image(&code);
+        let index = vec![
+            record("caller", 0x401000, 0x40100a),
+            record("wrapper", 0x401020, 0x401025),
+            record("sink", 0x401040, 0x40104a),
+        ];
+        let entries = BTreeMap::from([
+            (0x401040, BTreeSet::from(["sink".into()])),
+            (0x401100, BTreeSet::from(["known_exit".into()])),
+        ]);
+        let cfg = json!({"target":{"base":0x400000},"function_registry":[
+            {"name":"sink","rva":0x1040,"definition":4,"implementation":1,"code":[[0x1040,0x104a]]},
+            {"name":"known_exit","rva":0x1100,"definition":3,"implementation":0}],
+            "terminating_calls":[{"owner":"sink","side":"original","site_offset":5,"target":"known_exit","role":"process_exit"}]});
+        let contracts = crate::terminating_calls::Contracts::parse(
+            &cfg,
+            &image,
+            &image,
+            &index,
+            &index,
+            &index,
+            &entries,
+            &entries,
+            &BTreeSet::from(["sink".into()]),
+        )?;
+        let decoder = Decoder::new()?;
+        let summary = |image: &crate::pe::Pe, root: &Record| {
+            cfg_cleanup(
+                &decoder,
+                image,
+                root,
+                &index,
+                &json!({}),
+                "original",
+                &contracts,
+            )
+        };
+        let sink = summary(&image, &index[2])?;
+        assert!(sink.returns.is_empty() && sink.validated_no_return);
+        let caller = summary(&image, &index[0])?;
+        assert_eq!(caller.returns, BTreeSet::from([0]));
+        assert!(!caller.validated_no_return);
+        let wrapper = summary(&image, &index[1])?;
+        assert!(wrapper.returns.is_empty() && !wrapper.validated_no_return);
+        // A caller of the unannotated empty-return wrapper still fails.
+        image.data[0x205] = 0x17;
+        assert!(
+            summary(&image, &index[0])
+                .err()
+                .unwrap()
+                .to_string()
+                .contains("no determined RET convention")
+        );
+        Ok(())
     }
 }

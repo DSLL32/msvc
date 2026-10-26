@@ -114,6 +114,14 @@ the expected set; unknown tails still fail. This option never disables global
 `ret_cleanup_checks` with policy SHA-256 and each original/rebuilt/expected set,
 and marks `selected_ret_cleanup`. Without this option reports stay unchanged.
 
+Tail cleanup analysis decodes each reachable known body with the same CFG,
+metadata and terminating-call checks, then propagates only actual local RET
+cleanup values to a fixed point. Mutually tail-linked bodies can share their
+real return exits; the cycle itself supplies no RET value or termination proof.
+Missing, pending, unresolved or ambiguous tail bodies still fail, as do exitless
+tail cycles. The existing explicit no-return qualification remains local to its
+validated owner and never propagates through an unannotated wrapper.
+
 `checked_accepted_extents` reports raw accepted index-record counts, and
 `checked_unique_accepted_extents` reports distinct `(name,start,end)` checks.
 Identical duplicate records share one decode; no distinct extent is omitted.
