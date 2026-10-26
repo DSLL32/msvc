@@ -465,6 +465,11 @@ current-case scope. CL has now completed all identified application code and
 joined RC and CVTRES in the finished, idle group. The table records reported
 committed checkpoints, rather than intermediate function progress. Matching
 current-case WIP remains excluded until the encompassing case is complete.
+RCDLL has now completed its released rich-resource case and paused; C1, C1XX,
+C2 and LINK continue their current cases. CVPACK's subsequent C6 case is
+unfinished after an agent-platform rejection; its source, scoped patch,
+compiled artifacts and last valid pair are preserved in owned scratch, with
+no retry through another worker and no additional completion credit.
 
 | Binary | Committed App functions / bytes | Whole-text coverage | Reported committed checkpoint |
 | --- | --- | ---: | --- |
@@ -474,7 +479,7 @@ current-case WIP remains excluded until the encompassing case is complete.
 | CL | 112 / 18,545 | 97.29% | Complete and paused: all identified App code; `f7613ff9c` |
 | CVPACK | 168 / 48,556 | 77.49% | Thirteen cases complete, including the `/Zi` static-library archive and authored field-list continuations; `2a01eab26`, `0cf8cb702` |
 | LINK | 174 / 53,120 | 12.81% | Hello EXE: OutputLibrary::ReadIndex on the real kernel32 archive; `3f7bf7dc7` |
-| RCDLL | 146 / 36,846 | 49.39% | Rich corpus: rc_read_resource_preamble after menu control flow; `da06c240b` |
+| RCDLL | 220 / 51,779 | 69.40% | Rich-resource case complete and paused; `f6cbd9acd` |
 | RC | 2 / 277 | 19.26% | Complete: all identified App code |
 | CVTRES | 22 / 7,445 | 76.80% | Complete: all identified App code |
 
@@ -576,6 +581,23 @@ entries and the same 4,096-byte packed DLL: original 1,359.216 ms, native
 12.900 ms (setup 5.453, execution 6.185, checks 1.261 ms). All thirteen cached
 cases, 23 units, the original compiler build and full 168-graph/167-RET gates
 pass in 0.670 s. This case needs no Widen/PDB response or shared tool change.
+
+RCDLL's rich-resource case completes at `f6cbd9acd`, including dialogs,
+accelerators, icon/cursor/bitmap and raw resources, strings and nested version
+information. The final ordinary original/native pair exits zero, has empty
+streams and 217 identical first entries, and produces the same 3,672-byte RES:
+original 839.197 ms, native 203.741 ms (setup 76.448, execution 57.043, checks
+70.249 ms). Shared `7089c9add` closes the reached tracked-owner HeapDestroy
+boundary using that saved original, without another original run. Both cached
+cases, 92 unit groups and original/native builds pass in 0.553 s; strict
+graph/ABI and SEH-role checks pass in 0.838 s. The 220-function/51,779-byte total
+is the structured App registry's exact code union, excluding CRT startup
+bodies; superseded intermediate tallies do not represent source or credit
+changes. Original per-call private state remains qualified, rather than
+universally observed. The worker is paused, with 52 known pending App records
+(9,861 bytes) and 27 unclassified records (4,702 bytes), so a complete non-CRT
+denominator is still unknown. Future font/RIFF/Mac resource or preprocessor
+diagnostic workloads are proposals only; none has started.
 
 C1's 7,458-byte global-record writer commits as `68ec306fc` only after original
 and native builds, full code/data graph and ABI gates, 36 units and a fresh
