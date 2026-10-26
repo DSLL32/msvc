@@ -15,8 +15,8 @@ Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
 The CLI-qualified checkpoint remains242 application functions and28,712 unique
-original bytes. Three native-only helper cases add45 functions/3,819
-unique bytes, for287 reconstructed App functions/32,531 bytes in total. The first ten
+original bytes. Four native-only helper cases add53 functions/4,738
+unique bytes, for295 reconstructed App functions/33,450 bytes in total. The first ten
 source/disassembly-grounded tests cover the signal callback body (not OS signal
 delivery), listing-byte output, suppression, counted-name handling and comparison,
 named WRES v2 language directories, valid Win16 MRes numeric/named resources,
@@ -26,8 +26,8 @@ The units have no claimed original-runtime or CLI qualification.
 
 Shared chunks count once. The empty CommitDictionaryBlock entry shares another
 function's RET and is explicitly excluded from entry order. There is no verified
-complete non-CRT denominator yet. All287 bodies retain function-graph, ownership
-and extent checks;279 have strict RET checks. Six normal-return owners with cold
+complete non-CRT denominator yet. All295 bodies retain function-graph, ownership
+and extent checks;287 have strict RET checks. Six normal-return owners with cold
 nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
 separate direct-exit residual and explicit terminating-call graph declaration.
 AbortCommand preserves its explicit Env/value1 nonlocal transfer. The formerly
@@ -92,3 +92,15 @@ normal dictionary initialization/lazy allocation/finalization tests pass, includ
 empty and repeated finalization. No CLI reach or original-runtime comparison is
 claimed for these helpers. All eight CLI fixtures and three unit cases pass;
 final incremental build/audit took179.412/440.614ms and replay/unit commands398.425ms wall.
+
+The demangler API unit case adds eight App entries/919 unique bytes: reallocating
+output, scope/unmangled-name slices, basename output, internal-name classification,
+operator encoding and typed parser callbacks. The scope API shares the genuine
+RET4 epilogue; basename shares the full36-byte conditional/call/return region
+with __demangle_l. Both original identities, all raw edges and strict ABIs remain.
+The standard strncmp leaf is classified CRT with zero App credit; its older
+layout is not a claim of shipped-library byte identity. All eight cached CLI
+fixtures and four unit cases pass, with no original execution for these units.
+Final incremental native/period build175.702ms, full audit447.386ms; replay/unit commands439.188ms wall.
+The remaining original gaps include CRT/data candidates requiring classification;
+clearing all named stubs alone is not a complete non-CRT ownership proof.

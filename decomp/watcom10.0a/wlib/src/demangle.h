@@ -115,6 +115,14 @@ typedef struct output_desc {
     unsigned base_name : 1;
 } output_desc;
 typedef char WlibDemangleDescriptorSize[(sizeof(output_desc) == 56) ? 1 : -1];
+unsigned __demangle_r( const char *, unsigned, char **, unsigned, realloc_fn_t );
+int __scope_name( const char *, unsigned, unsigned, const char **, unsigned * );
+int checkInternal( const char * );
+int __is_mangled_internal( const char *, unsigned );
+int __unmangled_name( const char *, unsigned, const char **, unsigned * );
+unsigned __demangled_basename( const char *, unsigned, char *, unsigned );
+void __parse_mangled_name( const char *, unsigned, void *, outfunPtr );
+unsigned __mangle_operator( const char *, unsigned, char * );
 void init_globals( realloc_fn_t reallocator );
 void init_descriptor( output_desc *, outfunPtr, void *, const char *, unsigned, char *, unsigned );
 #pragma pack(1)

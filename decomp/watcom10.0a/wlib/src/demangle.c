@@ -38,6 +38,11 @@
 #include "demangle.h"
 #include <recon.h>
 
+#if defined(__WATCOMC__)
+/* Original public helper bodies inline both string-length scans. */
+#pragma intrinsic(strlen)
+#endif
+
 /* Callback notation retained from the released demangler source. */
 #define _output1(p)       (*data->outfun)( &data->cookie, p, 0, NULL )
 #define _output2(p,v)     (*data->outfun)( &data->cookie, p, v, NULL )
@@ -1401,4 +1406,127 @@ int special_type_names( output_desc *data, state_desc *state )
 void forceSuppression( output_desc *data )
 {
     if( data->suppress_output <= 2 ) data->suppress_output += 3;
+}
+
+/* Public demangler APIs from initial demangle.c, matched to actual1994
+   entries. This version has no do_demangle wrapper/import-prefix support. */
+unsigned __demangle_r( const char *input, unsigned length, char **output,
+                       unsigned size, realloc_fn_t reallocator )
+{
+    output_desc data;
+    char *buffer;
+    unsigned result;
+    int mangled;
+    init_globals( reallocator );
+    mangled = __is_mangled( input, length );
+    buffer = output == NULL ? NULL : *output;
+    init_descriptor( &data, demangleEmit, &data, input, length, buffer, size );
+    data.suppress_output = 0;
+    if( mangled ) full_mangled_name( &data ); else do_copy( &data );
+    result = terminateOutput( &data );
+    if( output != NULL ) *output = data.output;
+    return( result );
+}
+int __scope_name( const char *input, unsigned length, unsigned index,
+                   const char **scope_name, unsigned *size )
+{
+    output_desc data;
+    init_globals( NULL );
+    *scope_name = NULL; *size = 0;
+    if( !__is_mangled( input, length ) ) return( 0 );
+    init_descriptor( &data, demangleEmit, &data, input, length, NULL, 0 );
+    data.scope_name = 1; data.scope_index = index;
+    full_mangled_name( &data );
+    if( data.scope_len != 0 ) {
+        *scope_name = data.scope_ptr; *size = data.scope_len;
+        return( 1 );
+    }
+    return( 0 );
+}
+int checkInternal( const char *name )
+{
+    if( name[0] == '.' || ( name[0] == '$' && tolower( name[1] ) == 'w' ) ) return( 2 );
+    if( name[0] == '$' && tolower( name[1] ) == 'c' && tolower( name[2] ) == 't' ) return( 3 );
+    if( name[0] == '$' && tolower( name[1] ) == 'd' && tolower( name[2] ) == 't' ) return( 4 );
+    return( 1 );
+}
+int __is_mangled_internal( const char *name, unsigned length )
+{
+    unsigned offset;
+    length = length;
+    offset = 2;
+    switch( name[0] ) {
+    case 'T': offset += 4;
+    case 'W': if( name[1] == '?' ) return( checkInternal( name + offset ) );
+    }
+    return( 0 );
+}
+int __unmangled_name( const char *name, unsigned length, const char **base,
+                       unsigned *size )
+{
+    const char *end;
+    int mangled;
+    *size = 0; *base = name;
+    if( length == 0 ) length = strlen( name );
+    end = name + length;
+    mangled = __is_mangled( name, length );
+    if( mangled ) {
+        name += mangled; *base = name;
+        if( *name == '$' ) {
+            *size += 3; ++name;
+            if( tolower( *name ) == 'w' ) ++*size;
+        } else {
+            for( ; name != end; ++name ) {
+                if( *name == '$' ) break;
+                ++*size;
+            }
+        }
+        return( 1 );
+    }
+    *size = length;
+    return( 0 );
+}
+unsigned __demangled_basename( const char *input, unsigned length,
+                                char *output, unsigned size )
+{
+    output_desc data;
+    int mangled;
+    init_globals( NULL );
+    mangled = __is_mangled( input, length );
+    init_descriptor( &data, demangleEmit, &data, input, length, output, size );
+    data.suppress_output = 0; data.base_name = 1;
+    if( mangled ) full_mangled_name( &data ); else do_copy( &data );
+    return( terminateOutput( &data ) );
+}
+void __parse_mangled_name( const char *input, unsigned length, void *cookie,
+                            outfunPtr output )
+{
+    output_desc data;
+    int mangled;
+    init_globals( NULL );
+    mangled = __is_mangled( input, length );
+    init_descriptor( &data, output, cookie, input, length, NULL, 0 );
+    data.suppress_output = 0;
+    if( mangled ) full_mangled_name( &data ); else do_copy( &data );
+}
+unsigned __mangle_operator( const char *name, unsigned length, char *result )
+{
+    unsigned i;
+    if( length == 0 ) length = strlen( name );
+    for( i = 0; i < sizeof(operatorFunction)/sizeof(operatorFunction[0]); ++i ) {
+        if( strncmp( name, operatorFunction[i], length ) == 0 && operatorFunction[i][length] == '\0' ) {
+            result[0] = '$'; result[1] = 'o'; result[2] = i + 'a'; return( 3 );
+        }
+    }
+    for( i = 0; i < sizeof(relationalFunction)/sizeof(relationalFunction[0]); ++i ) {
+        if( strncmp( name, relationalFunction[i], length ) == 0 && relationalFunction[i][length] == '\0' ) {
+            result[0] = '$'; result[1] = 'r'; result[2] = i + 'a'; return( 3 );
+        }
+    }
+    for( i = 0; i < sizeof(assignmentFunction)/sizeof(assignmentFunction[0]); ++i ) {
+        if( strncmp( name, assignmentFunction[i], length ) == 0 && assignmentFunction[i][length] == '\0' ) {
+            result[0] = '$'; result[1] = 'a'; result[2] = i + 'a'; return( 3 );
+        }
+    }
+    return( 0 );
 }

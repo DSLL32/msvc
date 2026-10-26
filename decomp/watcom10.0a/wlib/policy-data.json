@@ -1223,6 +1223,16 @@
         "start": 4282010,
         "bytes_hex": "c95f5e595bc3"
       }
+    },
+    {
+      "owners": [
+        "__demangle_r",
+        "__scope_name"
+      ],
+      "original": {
+        "start": 4287131,
+        "bytes_hex": "c95f5ec20400"
+      }
     }
   ],
   "shared_call_return_tails": [
@@ -2994,6 +3004,44 @@
           {
             "site": 4281983,
             "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "__demangle_l",
+        "__demangled_basename"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4286981,
+            "bytes_hex": "837dfc0074148d45c4e8e9fdffff8d45c4e8effeffffc95f5ec38d45c4e83dfeffffebea"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4286985,
+            "target": 4287007
+          },
+          {
+            "site": 4287015,
+            "target": 4286995
+          }
+        ],
+        "calls": [
+          {
+            "site": 4286990,
+            "target": "full_mangled_name"
+          },
+          {
+            "site": 4286998,
+            "target": "terminateOutput"
+          },
+          {
+            "site": 4287010,
+            "target": "do_copy"
           }
         ]
       }

@@ -1395,6 +1395,46 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "__demangle_r": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "__scope_name": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "checkInternal": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__is_mangled_internal": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__unmangled_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__demangled_basename": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__parse_mangled_name": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "__mangle_operator": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }
