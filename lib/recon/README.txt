@@ -1666,8 +1666,21 @@ checks precede the store. Unknown domains/profiles deny125. The native typed
 ABI and caller ownership are explicit; no general old-runtime rounding or
 private-register equivalence is claimed. Six focused profile/compiler groups
 cover exact generic vectors, prewrite denials and independent errors/semantic
-FP state. Ordinary WCC caller/output adoption is pending its separate formatter
-exponent-width correction.
+FP state. The ordinary WCC conversion pair now matches through CFFree after
+the separate formatter exponent-width correction; its source/DSO binding is
+contemporaneous post-run, with no invented pre-run hash claim.
+
+The opt-in RECON_WATCOM_SPRINTF_17E maps sprintf only in selected Watcom source
+files. Exact %.17e/default-C accepts finite dyadics whose exact decimal
+coefficient fits18 digits, with binary exponent reduction bounded below by
+-17; negative zero and other domains deny125. Private host formatting therefore
+needs no rounding, and the result receives Watcom's minimum3-digit exponent.
+Caller-owned output>=26B is an explicit precondition (actual WCC Buffer528B),
+with full format/output span and overlap checks before writing. Other formats,
+TUs and profiles retain their mappings. Focused output/count/NUL/tails, generic
+positive/negative dyadic vectors, denials and independent error/semantic FP
+checks pass; the ordinary WCC conversion pair consumes this formatter. No
+general old-runtime rounding or original per-call FP/error equivalence is claimed.
 
 Typed native diagnostic units additionally qualify five explicit510 fixed
 registered layouts:2104/2175 use ANSI filename,signed line,ASCII WCHAR name;

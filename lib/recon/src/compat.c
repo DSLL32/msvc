@@ -230,6 +230,65 @@ double __cdecl recon_watcom_scale10v(double value,int exponent)
     recon_unsupported("Scale10V requires explicit Watcom profile");return 0;
 #endif
 }
+/* Opted-in %.17e uses host formatting only when the exact decimal needs
+ * no rounding at eighteen significant digits, then supplies Watcom's minimum
+ * three exponent digits. Caller owns at least26 writable output bytes. */
+int __cdecl recon_watcom_sprintf_17e(char *output,const char *format,...)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    va_list arguments;double value;uint64_t bits,magnitude,coefficient;
+    unsigned encoded,i,negative;int power,count,saved_errno;char text[32];
+    uintptr_t destination=(uintptr_t)output,input=(uintptr_t)format;
+    if(destination<4096 || destination>UINTPTR_MAX-26 ||
+       input<4096 || input>UINTPTR_MAX-6 || memcmp(format,"%.17e",6))
+        recon_unsupported("Watcom sprintf17e format/output span");
+    if(destination<input+6 && input<destination+26)
+        recon_unsupported("Watcom sprintf17e format/output overlap");
+    if(recon_mb_codepage || recon_mb_codepage_gate || recon_lc_codepage || recon_mb_cur_max!=1)
+        recon_unsupported("Watcom sprintf17e default locale");
+    for(i=0;i<6;++i)if(recon_lc_handle[i])
+        recon_unsupported("Watcom sprintf17e locale handles");
+    va_start(arguments,format);value=va_arg(arguments,double);va_end(arguments);
+    memcpy(&bits,&value,sizeof(bits));negative=(unsigned)(bits>>63);
+    magnitude=bits&UINT64_C(0x7fffffffffffffff);
+    coefficient=0;
+    if(!magnitude && negative)recon_unsupported("Watcom sprintf17e negative zero");
+    if(magnitude) {
+        encoded=(unsigned)(magnitude>>52);
+        if(!encoded || encoded==0x7ff)
+            recon_unsupported("Watcom sprintf17e nonnormal value");
+        coefficient=(magnitude&UINT64_C(0xfffffffffffff))|UINT64_C(0x10000000000000);
+        power=(int)encoded-1023-52;
+        while(!(coefficient&1)){coefficient>>=1;++power;}
+        if(power>=0) {
+            if(power>59 || coefficient>(UINT64_C(999999999999999999)>>power))
+                recon_unsupported("Watcom sprintf17e decimal precision");
+            coefficient<<=power;
+        } else {
+            if(power< -17)recon_unsupported("Watcom sprintf17e fractional precision");
+            while(power++<0) {
+                if(coefficient>UINT64_C(999999999999999999)/5)
+                    recon_unsupported("Watcom sprintf17e decimal precision");
+                coefficient*=5;
+            }
+        }
+    }
+    saved_errno=errno;count=snprintf(text,sizeof(text),"%.17e",value);errno=saved_errno;
+    /* Admitted values have a two-digit host exponent. Check that result
+     * before inserting its leading zero; output is still untouched. */
+    if(count!=23+(int)negative || text[count-4]!='e' ||
+       (text[count-3]!='+' && text[count-3]!='-') ||
+       text[count-2]<'0' || text[count-2]>'9' ||
+       text[count-1]<'0' || text[count-1]>'9')
+        recon_unsupported("Watcom sprintf17e host spelling");
+    text[count+1]=0;text[count]=text[count-1];text[count-1]=text[count-2];
+    text[count-2]='0';++count;
+    memcpy(output,text,(size_t)count+1);return count;
+#else
+    (void)output;(void)format;
+    recon_unsupported("sprintf17e requires explicit Watcom profile");return 0;
+#endif
+}
 char *__cdecl recon_watcom_strrev(char *text)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

@@ -296,6 +296,7 @@ void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
 double __cdecl recon_watcom_strtod(const char *,char **);
 void __cdecl recon_watcom_zbuf2f(char *,double *);
 double __cdecl recon_watcom_scale10v(double,int);
+int __cdecl recon_watcom_sprintf_17e(char *,const char *,...);
 char *__cdecl recon_watcom_strrev(char *);
 void __cdecl recon_watcom_splitpath_dos(const char *,char *,char *,char *,char *);
 void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **,char **);
@@ -520,6 +521,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define strtod recon_watcom_strtod
 #define __ZBuf2F recon_watcom_zbuf2f
 #define _Scale10V recon_watcom_scale10v
+#ifdef RECON_WATCOM_SPRINTF_17E
+#define sprintf recon_watcom_sprintf_17e
+#endif
 #define itoa recon_itoa
 /* Source-level successful mtime use; no raw Watcom stat layout promise. */
 #define stat recon_stat
