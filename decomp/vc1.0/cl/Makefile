@@ -5,6 +5,14 @@ NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions
 BINARY_SOURCES = src/cl.c src/stubs.c src/data.c src/driver.c src/remaining.c
 BINARY_SUPPORT_SOURCES = crt/runtime.c harness/child-contract.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+# Canonical execution uses real sibling processes; the captured child policy
+# belongs only to case libraries.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = crt/runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+NATIVE_BIN_FILES = cl_errors=../../../toolchains/1.0-nt/bin/CL.ERR \
+    cl_help=../../../toolchains/1.0-nt/bin/CL32.MSG \
+    c1_errors=../../../toolchains/1.0-nt/bin/C1.ERR \
+    c2_errors=../../../toolchains/1.0-nt/bin/C23.ERR
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) crt/runtime.c
 ORIGINAL_BUILD = build
