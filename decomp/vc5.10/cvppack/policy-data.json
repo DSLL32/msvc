@@ -1147,6 +1147,11 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_rewrite_mips_procedure_symbol": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

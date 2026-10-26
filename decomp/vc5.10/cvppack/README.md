@@ -5,8 +5,8 @@ CVPACK 5.10 reconstruction
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-230 implemented application functions total 59,104 original code bytes: 94.32% of
-the 62,662-byte whole-text extent. Of these, 228 functions / 58,836 bytes are
+231 implemented application functions total 59,195 original code bytes: 94.47% of
+the 62,662-byte whole-text extent. Of these, 229 functions / 58,927 bytes are
 qualified by matching original/native pairs; the two COBOL converters / 268 bytes
 have the explicit native-unit qualification below. That denominator includes
 CRT/support, unknown code and padding; a complete non-CRT denominator is not established. CRT/import
@@ -140,6 +140,15 @@ Completed cases:
   Source now allocates ten and zeros the two unwritten bytes, preserving the
   original header and strict output comparison. No allocator tuning or masks.
 
+- 0017-mips-scopes: authored MIPS-R4000 PE32/NB05 with signature2 wide C7
+  types and four local/global MIPS procedure scopes in two real contributions.
+  DWORD type/address, WORD section and parent/end/next links match PROCSYMMIPS;
+  actual JR-RA/NOP pairs occupy every described procedure. Ordinary CLI status 0,
+  exact 223-byte verbose output and complete 2048-byte DLL SHA256
+  `fe026ae528d26921331c29b1a4797e5b9bb776e98f5a38cd7a2877b5a41107f0`.
+  The 91-byte MIPS procedure callback now has a fresh matching original/native
+  completion pair. No C6 payload, provider transcript or prior output is reused.
+
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
 packed CodeView is 238,240 bytes. Its source inputs remain capture assets. Numeric sizing, derived-base tracking,
@@ -208,3 +217,13 @@ residual is unchanged. The two selected units took 5.845 and 5.759 ms; their
 scoped two-body audit took 13.268 ms including process startup. The final
 incremental native/original build, cached regression/unit and full-audit batch
 took 2.623 s. No original target was rerun for this qualification.
+
+MIPS case verification: original completion 1386.575 ms; native 10.323 ms
+(setup 5.530 / execution 3.513 / checks 1.280). Its scoped graph/ABI audit passed
+in 13.816 ms including process startup. All eighteen cached cases, twenty-seven
+units, original-compiler build and full 231-body graph/import/reference/
+ownership/extent/callback checks pass, with strict RET on 230 bodies and the
+existing Release residual. Case-end incremental batch: 0.593 s. The original-pair
+qualification is 229 functions / 58,927 B; the two COBOL functions / 268 B retain only
+the explicit native-unit qualification above. The module-name helper is the
+only remaining declared application trap.

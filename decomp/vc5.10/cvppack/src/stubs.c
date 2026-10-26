@@ -15,6 +15,4 @@
 
 
 
-void rewrite_mips_procedure_symbol(void) { __asm { int 3 } }
-
 const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }

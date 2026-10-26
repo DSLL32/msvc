@@ -30,6 +30,22 @@ void rewrite_procedure32_symbol(void)
     *(unsigned *)(symbol_input + 28) = map_type_index(*(unsigned *)(symbol_input + 28));
 }
 
+/* MIPS procedures have register-save fields before the DWORD type/address.
+ * Keep their actual section contribution and remap the wide type index.
+ * [0040af20,0040af7b), cdecl callback with no arguments. */
+void rewrite_mips_procedure_symbol(void)
+{
+    ++public_scope_depth;
+    if (!module_contains_address(current_module_info,
+                                 *(unsigned short *)(symbol_input + 52),
+                                 *(unsigned *)(symbol_input + 48))) {
+        ++discard_symbol_depth;
+        *(unsigned short *)(symbol_input + 2) = 8;
+        return;
+    }
+    *(unsigned *)(symbol_input + 44) = map_type_index(*(unsigned *)(symbol_input + 44));
+}
+
 /* Module contribution ranges [0040af80,0040afe9). */
 int module_contains_address(ModuleInfo *info, unsigned short segment, unsigned offset)
 {
