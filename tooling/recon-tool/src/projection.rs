@@ -34,6 +34,16 @@ pub struct Options {
     pub output: Option<PathBuf>,
 }
 
+fn has_symbol_addresses(value: &Value) -> bool {
+    match value {
+        Value::Object(object) => {
+            object.contains_key("rebuilt_symbol") || object.values().any(has_symbol_addresses)
+        }
+        Value::Array(array) => array.iter().any(has_symbol_addresses),
+        _ => false,
+    }
+}
+
 fn resolve(value: &mut Value, publics: &HashMap<String, Vec<u32>>) -> Result<()> {
     match value {
         Value::Object(object) if object.contains_key("rebuilt_symbol") => {
@@ -582,17 +592,22 @@ pub fn export(options: Options) -> Result<()> {
     let has_chunks = policy["function_properties"]
         .as_object()
         .is_some_and(|p| p.values().any(|v| v.get("rebuilt_code_chunks").is_some()));
-    let publics = if options.metadata_output.is_some() || has_chunks {
-        match (
-            options.rebuilt_image.as_deref(),
-            options.rebuilt_map.as_deref(),
-        ) {
-            (Some(image), Some(map)) => runtime::map_addresses(image, map)?,
-            (None, None) => HashMap::new(),
-            _ => bail!("rebuilt image and MAP must be supplied together"),
-        }
-    } else {
-        HashMap::new()
+    let mut projected_metadata = options
+        .metadata_output
+        .as_ref()
+        .map(|_| metadata(&policy, &info))
+        .transpose()?;
+    let needs_publics = has_chunks
+        || projected_metadata
+            .as_ref()
+            .is_some_and(has_symbol_addresses);
+    let publics = match (
+        options.rebuilt_image.as_deref(),
+        options.rebuilt_map.as_deref(),
+    ) {
+        (Some(image), Some(map)) if needs_publics => runtime::map_addresses(image, map)?,
+        (Some(_), Some(_)) | (None, None) => HashMap::new(),
+        _ => bail!("rebuilt image and MAP must be supplied together"),
     };
     rebuilt_chunks(
         &mut config,
@@ -607,9 +622,9 @@ pub fn export(options: Options) -> Result<()> {
         options.rebuilt_map.as_deref(),
     )?;
     if let Some(path) = options.metadata_output {
-        let mut metadata = metadata(&policy, &info)?;
-        resolve(&mut metadata, &publics)?;
-        fs::write(path, serde_json::to_string_pretty(&metadata)? + "\n")?;
+        let metadata = projected_metadata.as_mut().unwrap();
+        resolve(metadata, &publics)?;
+        fs::write(path, serde_json::to_string_pretty(metadata)? + "\n")?;
     }
     if let Some(path) = options.runtime_output {
         fs::write(
@@ -935,6 +950,27 @@ mod tests {
         assert!(registry(&i, 0x400000, json!({})).is_err());
         assert!(registry(&info(), 0, json!({"driver":[]})).is_err());
     }
+    #[test]
+    fn only_metadata_address_leaves_require_map_publics() {
+        let mut numeric = metadata(
+            &json!({"graph_metadata":{"schema":1,
+            "functions":{"method":{"original":{"roots":[17]},"rebuilt":{"roots":[4194304]}}}}}),
+            &info(),
+        )
+        .unwrap();
+        assert!(!has_symbol_addresses(&numeric));
+        let before = numeric.clone();
+        resolve(&mut numeric, &HashMap::new()).unwrap();
+        assert_eq!(numeric, before);
+        for leaf in [
+            json!({"rebuilt_symbol":"?method@@","offset":4}),
+            json!({"rebuilt_symbol":null}),
+        ] {
+            let nested = json!({"functions":{"method":{"rebuilt":{"roots":[leaf]}}}});
+            assert!(has_symbol_addresses(&nested));
+        }
+    }
+
     #[test]
     fn finite_metadata_and_explicit_relative_addresses() {
         let p = json!({"graph_metadata":{"schema":1,"functions":{"method":{"original":{"roots":[17]},"rebuilt":{"roots":[{"rebuilt_symbol":"?method@@","offset":-2}]} }},"register_imports":{"strict":true},"callback_tables":[]}});
