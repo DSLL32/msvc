@@ -196,6 +196,14 @@ The existing spawn shim exposes only the exit code's low eight bits to the paren
 This route exercises the reconstruction itself; external dependency tools use
 captured responses.
 
+For one synchronous PE child using the same staged EXE, original capture can
+explicitly use `--progress --pe-self-child`. It shares logical first-entry state
+while retaining separate process bases, entry bytes, actual DWORD exit status
+and cleanup receipts. Other images, additional children and threads reject;
+default capture remains parent-only. A child pending frontier is recorded, but
+native child INT3 still fails the fixture: qualify that code through its genuine
+standalone case before comparing successful combined execution.
+
 Optional `case_output_policy` checks artifacts after the target and descendants
 exit, from a pristine post-setup fork. It may produce comparison streams while
 raw streams remain intact; ordinary output assertions still run. These callbacks

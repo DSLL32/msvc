@@ -1068,6 +1068,20 @@ fn supervise(
         } else if !libc::WIFEXITED(status) || libc::WEXITSTATUS(status) != 0 {
             errors.push(format!("unit tests terminated with {}", code(status)))
         }
+        let process_requests: Option<process::ProcessReport> =
+            fs::read(root.join("process-report"))
+                .ok()
+                .map(|bytes| serde_json::from_slice(&bytes))
+                .transpose()?;
+        if let Some(proof) = reference.and_then(|v| v.summary.pe_self_child.as_ref()) {
+            if let Err(error) = proof.check_children(
+                process_requests
+                    .as_ref()
+                    .map_or(&[][..], |v| v.self_children.as_slice()),
+            ) {
+                errors.push(format!("{error:#}"));
+            }
+        }
         Ok(Report {
             case: info.case,
             workspace: root.display().to_string(),
@@ -1076,10 +1090,7 @@ fn supervise(
             logical_exit_code,
             first_entry_order: order,
             tests,
-            process_requests: fs::read(root.join("process-report"))
-                .ok()
-                .map(|bytes| serde_json::from_slice(&bytes))
-                .transpose()?,
+            process_requests,
             trap_rva,
             trap_site,
             elapsed_ms: start.elapsed().as_secs_f64() * 1000.,

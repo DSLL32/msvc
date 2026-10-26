@@ -49,6 +49,8 @@ pub struct Summary {
     pub source_binding_available: bool,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub direct_noreturn: Option<DirectExit>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub pe_self_child: Option<crate::pe_self::Capture>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub comparison_derivation: Option<Derivation>,
 }
@@ -87,6 +89,8 @@ pub struct Derivation {
 }
 #[derive(Deserialize)]
 struct Receipt {
+    #[serde(default)]
+    pe_self_child: Option<crate::pe_self::Capture>,
     #[serde(default)]
     direct_noreturn: Option<DirectExit>,
     case: String,
@@ -376,6 +380,23 @@ impl Expected {
                     && receipt.capture_sha256.is_some()),
             "nonreturn DIRECT proof requires a bound DIRECT exit receipt"
         );
+        if let Some(proof) = &receipt.pe_self_child {
+            proof.validate()?;
+            ensure!(
+                info.execution == 0
+                    && receipt.identity.is_some()
+                    && receipt.capture_sha256.is_some(),
+                "PE SELF requires bound IO receipt"
+            );
+            ensure!(
+                proof.frontier_pid.is_some() == receipt.terminal.starts_with("frontier:"),
+                "PE SELF frontier/terminal mismatch"
+            );
+            ensure!(
+                proof.frontier_pid.is_none_or(|pid| pid == proof.root_pid),
+                "PE SELF child frontier requires standalone child qualification before a combined pair"
+            );
+        }
         let terminal = if let Some(text) = receipt.terminal.strip_prefix("frontier:") {
             let rva = u32::from_str_radix(text, 16).context("invalid original frontier")?;
             ensure!(
@@ -412,6 +433,12 @@ impl Expected {
             );
             Terminal::Direct
         };
+        if let (Some(proof), Terminal::Exit(status)) = (&receipt.pe_self_child, &terminal) {
+            ensure!(
+                proof.processes[0].exit_status == *status,
+                "PE SELF root exit differs from terminal"
+            );
+        }
         ensure!(
             receipt.first_entry_order.len() <= info.functions.len(),
             "original entry order exceeds registry"
@@ -438,6 +465,7 @@ impl Expected {
                 capture_sha256,
                 source_binding_available: receipt.capture_sha256.is_some(),
                 direct_noreturn: receipt.direct_noreturn.clone(),
+                pe_self_child: receipt.pe_self_child.clone(),
                 comparison_derivation: None,
             },
         })

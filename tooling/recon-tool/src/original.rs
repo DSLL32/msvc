@@ -236,6 +236,9 @@ pub struct Capture {
     /// At a genuine progress frontier compare only explicitly declared Partial output paths.
     #[arg(long, requires = "progress")]
     pub partial_output_files_only: bool,
+    /// Debug one synchronous child loading the exact same staged PE EXE.
+    #[arg(long, requires = "progress", conflicts_with_all = ["cf_profile", "direct_helper", "watcom_main_argv"])]
+    pub pe_self_child: bool,
     #[arg(long)]
     pub replace: bool,
 }
@@ -281,13 +284,14 @@ struct Reply {
 }
 struct Broker {
     child: Child,
-    input: ChildStdin,
+    input: Option<ChildStdin>,
     output: ChildStdout,
     order: Vec<u32>,
     seen: BTreeSet<u32>,
     app: Vec<u32>,
     emitted: Vec<InputFile>,
     error: Option<String>,
+    pe_self: Option<crate::pe_self::Tracker>,
 }
 impl Broker {
     fn reply(&mut self) -> Result<Reply> {
@@ -324,12 +328,33 @@ impl Broker {
             "Wine debugger request too large"
         );
         for v in [op, a, b, c, data.len() as u32] {
-            self.input.write_all(&v.to_le_bytes())?;
+            self.input
+                .as_mut()
+                .context("closed Wine debugger input")?
+                .write_all(&v.to_le_bytes())?;
         }
-        self.input.write_all(data)?;
-        self.input.flush()?;
+        let input = self.input.as_mut().context("closed Wine debugger input")?;
+        input.write_all(data)?;
+        input.flush()?;
         self.reply()
             .with_context(|| format!("Wine debugger operation {op}"))
+    }
+    fn event(&mut self, mut reply: Reply, registers: bool) -> Result<Reply> {
+        if let Some(track) = self.pe_self.as_mut() {
+            let (owner, data) = crate::pe_self::Owner::decode(
+                &reply.data,
+                if registers { size_of::<Registers>() } else { 0 },
+            )?;
+            track.observe(owner, reply.a, reply.b)?;
+            reply.data = data;
+        }
+        Ok(reply)
+    }
+    fn event_base(&self, root: u32) -> u32 {
+        self.pe_self
+            .as_ref()
+            .and_then(|v| v.current.as_ref())
+            .map_or(root, |v| v.base)
     }
     fn record(&mut self, rva: u32) {
         if !self.seen.contains(&rva) && self.app.contains(&rva) {
@@ -352,6 +377,15 @@ impl Broker {
         let status = self.child.wait()?;
         anyhow::ensure!(status.success(), "Wine debugger exited with {status}");
         Ok(())
+    }
+}
+impl Drop for Broker {
+    fn drop(&mut self) {
+        if self.pe_self.is_some() {
+            // EOF requests the existing bounded owned-family teardown even on errors.
+            self.input.take();
+            let _ = self.child.wait();
+        }
     }
 }
 unsafe fn broker<'a>(ctx: *mut ContextOriginal) -> &'a mut Broker {
@@ -917,6 +951,8 @@ struct CaptureReport {
     direct_noreturn: Option<crate::original_reference::DirectExit>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     watcom_main_argv: Option<WatcomMainArgv>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pe_self_child: Option<crate::pe_self::Capture>,
 }
 fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result<Vec<OutputFile>> {
     let mut paths = BTreeSet::new();
@@ -1115,6 +1151,27 @@ fn capture_executor(
     cwd: &Path,
     artifacts_dir: Option<&Path>,
 ) -> Result<(Option<Fixture>, CaptureReport)> {
+    let result = capture_executor_inner(options, f, root, cwd, artifacts_dir);
+    if options.pe_self_child {
+        result.with_context(|| {
+            let log = fs::read(root.join("wine-diagnostics")).unwrap_or_default();
+            format!(
+                "PE SELF owned-process diagnostics: {}",
+                String::from_utf8_lossy(&log[..log.len().min(65536)])
+            )
+        })
+    } else {
+        result
+    }
+}
+
+fn capture_executor_inner(
+    options: &Capture,
+    f: &Fixture,
+    root: &Path,
+    cwd: &Path,
+    artifacts_dir: Option<&Path>,
+) -> Result<(Option<Fixture>, CaptureReport)> {
     let start = Instant::now();
     for key in [
         "RECON_TRACE_FD",
@@ -1131,6 +1188,10 @@ fn capture_executor(
             Loaded::open(&options.case)
         }
     }?;
+    anyhow::ensure!(
+        !options.pe_self_child || loaded.info.execution == 0,
+        "PE SELF capture requires ordinary IO execution"
+    );
     let program = options
         .program
         .clone()
@@ -1249,6 +1310,7 @@ fn capture_executor(
             backend: Some(backend),
             direct_noreturn: None,
             watcom_main_argv: None,
+            pe_self_child: None,
         };
         return Ok((captured, report));
     }
@@ -1402,6 +1464,11 @@ fn capture_executor(
         options.native_msvcrt,
     )?;
     let host = staged.host;
+    let self_image_sha = if options.pe_self_child {
+        Some(fixture::hex(&Sha256::digest(fs::read(&host)?)))
+    } else {
+        None
+    };
     let stdin = root.join("original-stdin");
     fs::write(&stdin, f.stdin.as_ref().map_or(&[][..], |b| b.0.as_slice()))?;
     let stdout = root.join("original-stdout");
@@ -1501,12 +1568,19 @@ fn capture_executor(
     if let Some(provider) = &staged.provider {
         command.arg(windows(provider, &options.repo)?);
     }
+    anyhow::ensure!(
+        !options.pe_self_child || !image.dll,
+        "PE SELF capture requires an EXE"
+    );
+    if options.pe_self_child {
+        command.arg("pe-self-child=1");
+    }
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
     let input = child.stdin.take().unwrap();
     let output = child.stdout.take().unwrap();
     let mut broker = Broker {
         child,
-        input,
+        input: Some(input),
         output,
         order: vec![],
         seen: loaded.info.first_entry_seen.iter().copied().collect(),
@@ -1519,8 +1593,25 @@ fn capture_executor(
             .collect(),
         emitted: vec![],
         error: None,
+        pe_self: options.pe_self_child.then(crate::pe_self::Tracker::default),
     };
     let hello = broker.reply()?;
+    // Startup's a/b are base/entry, not kind/status; the owner is still validated.
+    let hello = if options.pe_self_child {
+        let (owner, data) = crate::pe_self::Owner::decode(&hello.data, size_of::<Registers>())?;
+        anyhow::ensure!(
+            owner.base == hello.a && !owner.child && owner.entry,
+            "PE SELF initial entry owner differs"
+        );
+        broker.pe_self.as_mut().unwrap().observe(owner, 1, 0)?;
+        Reply {
+            a: hello.a,
+            b: hello.b,
+            data,
+        }
+    } else {
+        hello
+    };
     let base = hello.a;
     anyhow::ensure!(hello.b == image.entry, "Wine debugger entry mismatch");
     let terminal;
@@ -1600,6 +1691,12 @@ fn capture_executor(
         }
         loop {
             let r = broker.rpc(7, 0, 0, 0, &[])?;
+            let registers = matches!(r.a, 1 | 2 | 3);
+            let r = broker.event(r, registers)?;
+            let base = broker.event_base(base);
+            if r.a == 5 {
+                continue;
+            }
             if matches!(r.a, 1 | 2) && watcom_main == Some(r.b) && watcom_main_argv.is_none() {
                 watcom_main_argv = Some(read_watcom_main_argv(
                     r.b,
@@ -1668,6 +1765,16 @@ fn capture_executor(
         terminal = "direct:pass".to_owned();
     }
     broker.close()?;
+    let pe_self_child = if let Some(track) = &broker.pe_self {
+        let diagnostics = fs::read_to_string(root.join("wine-diagnostics"))?;
+        anyhow::ensure!(
+            self_image_sha.as_ref() == Some(&fixture::hex(&Sha256::digest(fs::read(&host)?))),
+            "PE SELF staged program identity changed"
+        );
+        Some(track.finish(&diagnostics, terminal.starts_with("frontier:"))?)
+    } else {
+        None
+    };
     let mut fixture = f.clone();
     fixture.raw_command_line = Some(commandline);
     fixture.args = if options.watcom_main_argv {
@@ -1745,7 +1852,7 @@ fn capture_executor(
                 .parse::<u32>()? as i32
         });
     }
-    for file in broker.emitted {
+    for file in std::mem::take(&mut broker.emitted) {
         anyhow::ensure!(
             !fixture.input_files.iter().any(|f| f.path == file.path),
             "emitted fixture collides with input {}",
@@ -1761,9 +1868,10 @@ fn capture_executor(
         backend: None,
         direct_noreturn,
         watcom_main_argv,
+        pe_self_child,
         case: loaded.info.case,
         terminal,
-        first_entry_order: broker.order,
+        first_entry_order: std::mem::take(&mut broker.order),
         elapsed_ms: start.elapsed().as_secs_f64() * 1000.,
         workspace: root.display().to_string(),
         staged_files: staged.files,
@@ -2377,5 +2485,35 @@ mod raw_artifact_tests {
         })();
         fs::remove_dir_all(root)?;
         result
+    }
+}
+
+#[cfg(test)]
+mod pe_self_option_tests {
+    use clap::Parser;
+    #[test]
+    fn self_child_requires_progress_and_rejects_incompatible_transport() {
+        let base = [
+            "recon-tool",
+            "original",
+            "capture",
+            "case",
+            "--output",
+            "capture.bin",
+        ];
+        let mut args = base.to_vec();
+        args.push("--pe-self-child");
+        assert!(crate::Cli::try_parse_from(&args).is_err());
+        args.push("--progress");
+        assert!(crate::Cli::try_parse_from(&args).is_ok());
+        for extra in [
+            vec!["--cf-profile", "profile.json"],
+            vec!["--watcom-main-argv"],
+            vec!["--direct-helper", "probe.dll", "--marker-rva", "4096"],
+        ] {
+            let mut bad = args.clone();
+            bad.extend(extra);
+            assert!(crate::Cli::try_parse_from(&bad).is_err());
+        }
     }
 }

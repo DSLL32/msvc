@@ -867,3 +867,23 @@ temporary files. The capture/report hash binds the selected comparison policy;
 this is a fresh capture choice, not a rewrite of earlier raw references. Default
 capture behavior is unchanged. If the original exits normally, all final files
 are captured and the final extra-file policy applies even with this flag.
+
+For one synchronous PE child that executes the exact same staged EXE, explicitly
+use `original capture --progress --pe-self-child`. This opt-in selects DEBUG_PROCESS;
+ordinary capture still debugs only its parent. The mode permits one child, checks
+its debug image file identity, keeps process bases/handles/entry bytes separate,
+and shares the existing logical first-entry order. A child pending App INT3 is a
+real owner-tagged frontier; original instructions remain masked until implemented.
+The receipt records each process's entry, full DWORD exit or teardown termination,
+and signaled cleanup. Unrelated images, additional/nested children and new threads
+fail; CF, DLL hosts, DIRECT and Watcom-main observation are outside this mode.
+
+Use the existing native SELF process policy to validate the actual invocation and
+all consumed inputs before running the reconstruction with fresh child globals.
+Explicit original reports compare natural child counts/statuses as well as the
+shared trace, root terminal and outputs. Native child INT3 remains a fixture failure;
+qualify pending librarian code through its genuine standalone IO case before a
+combined successful-child pair. This mode does not compose separately captured
+traces or replay a fabricated same-tool response. Run `tests/pe-self-child.py`
+explicitly for the single authored parent/child control and its negative modes;
+`RECON_PE_SELF_PREPARE_ONLY=1` builds that control without launching originals.

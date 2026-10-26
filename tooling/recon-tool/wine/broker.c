@@ -36,6 +36,49 @@ static BY_HANDLE_FILE_INFORMATION target_info, provider_info;
 static int provider_required, provider_seen;
 static Point *points;
 static DWORD point_count;
+/* Explicit PE SELF mode owns the root, one same-image child, and at most one
+ * rejected create held only for teardown. Default transport keeps its state. */
+typedef struct ProcessState
+{
+    HANDLE process, thread;
+    DWORD pid, tid, base, image_size, exit_status;
+    int loader_break, exited, provider_seen, entry_seen, qualified, forced;
+    Point *points;
+    DWORD point_count;
+} ProcessState;
+static ProcessState family[3];
+static unsigned family_count, owner_index;
+static DWORD root_pid, *trace_rvas, self_trace_count;
+static int self_mode, entry_seen, trace_configured;
+static void save_owner(void)
+{
+    ProcessState *p;
+    if (!self_mode || !family_count) return;
+    p = &family[owner_index];
+    p->process = process; p->thread = thread;
+    p->pid = pid; p->tid = tid; p->base = base; p->image_size = image_size;
+    p->exit_status = exit_status; p->loader_break = loader_break;
+    p->exited = exited; p->provider_seen = provider_seen; p->entry_seen = entry_seen;
+    p->points = points; p->point_count = point_count;
+}
+static int select_owner(DWORD wanted)
+{
+    unsigned i;
+    save_owner();
+    for (i = 0; i < family_count; ++i) if (family[i].pid == wanted)
+    {
+        ProcessState *p = &family[i];
+        owner_index = i;
+        process = p->process; thread = p->thread;
+        pid = p->pid; tid = p->tid; base = p->base; image_size = p->image_size;
+        exit_status = p->exit_status; loader_break = p->loader_break;
+        exited = p->exited; provider_seen = p->provider_seen; entry_seen = p->entry_seen;
+        points = p->points; point_count = p->point_count;
+        return 1;
+    }
+    return 0;
+}
+
 static AllocateRemote allocate_remote;
 static FreeRemote free_remote;
 static HandleFlags handle_flags;
@@ -124,6 +167,7 @@ static int arm(DWORD address)
 }
 /* Returns 0 exit, 1 owned breakpoint, 2 unowned INT3, 3 other exception,
  * -1 transport failure. A reported breakpoint is restored before replying. */
+static int arm_trace(void);
 static int image(DWORD address)
 {
     DWORD pe;
@@ -131,7 +175,8 @@ static int image(DWORD address)
         !read_memory(address + pe + 24 + 56, &image_size, 4))
         return 0;
     base = address;
-    return arm(base + entry_rva);
+    if (!arm(base + entry_rva)) return 0;
+    return !self_mode || pid == root_pid || arm_trace();
 }
 static int file_matches(HANDLE file, const BY_HANDLE_FILE_INFORMATION *wanted)
 {
@@ -141,6 +186,59 @@ static int file_matches(HANDLE file, const BY_HANDLE_FILE_INFORMATION *wanted)
            actual.nFileIndexHigh == wanted->nFileIndexHigh &&
            actual.nFileIndexLow == wanted->nFileIndexLow;
 }
+static int arm_trace(void)
+{
+    DWORD i;
+    BYTE byte;
+    if (!trace_configured) return 0;
+    for (i = 0; i < self_trace_count; ++i)
+    {
+        if (trace_rvas[i] >= image_size || base > 0xffffffffUL - trace_rvas[i]) return 0;
+        if (!arm(base + trace_rvas[i]) &&
+            (!read_memory(base + trace_rvas[i], &byte, 1) || byte != 0xcc)) return 0;
+    }
+    return 1;
+}
+static int staged_file_matches(HANDLE file)
+{
+    BY_HANDLE_FILE_INFORMATION info;
+    return file_matches(file, &target_info) && GetFileInformationByHandle(file, &info) &&
+           info.nFileSizeHigh == target_info.nFileSizeHigh && info.nFileSizeLow == target_info.nFileSizeLow &&
+           info.ftLastWriteTime.dwHighDateTime == target_info.ftLastWriteTime.dwHighDateTime &&
+           info.ftLastWriteTime.dwLowDateTime == target_info.ftLastWriteTime.dwLowDateTime;
+}
+static int process_created(void)
+{
+    CREATE_PROCESS_DEBUG_INFO *info = &event.u.CreateProcessInfo;
+    int known = select_owner(event.dwProcessId);
+    if (!known)
+    {
+        ProcessState *p;
+        save_owner();
+        if (family_count == 3) return 0;
+        p = &family[family_count++];
+        memset(p, 0, sizeof(*p));
+        p->process = info->hProcess; p->thread = info->hThread;
+        p->pid = event.dwProcessId; p->tid = event.dwThreadId;
+        p->qualified = family_count == 2 && trace_configured && info->hFile &&
+                       staged_file_matches(info->hFile);
+        if (!select_owner(p->pid)) return 0;
+    }
+    else
+    {
+        if (info->hProcess != process) CloseHandle(info->hProcess);
+        if (info->hThread != thread) CloseHandle(info->hThread);
+    }
+    if (!info->hFile || !staged_file_matches(info->hFile) ||
+        !family[owner_index].qualified || event.dwThreadId != tid)
+    {
+        if (info->hFile) { CloseHandle(info->hFile); info->hFile = NULL; }
+        fprintf(stderr, "pe-self rejected process pid=%lu count=%u\n", pid, family_count);
+        return 0;
+    }
+    return 1;
+}
+
 /* Wine's initial process breakpoint follows static DLL attachment. Match its
  * qualified ntdll process_breakpoint SEH wrapper, rather than any external INT3. */
 static int breakpoint_module(DWORD address, DWORD *allocation, DWORD *size,
@@ -213,6 +311,8 @@ static int next(DWORD *where, Registers *r)
         if (!WaitForDebugEvent(&event, 20))
             continue;
         pending = 1;
+        if (self_mode && (event.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT
+                ? !process_created() : !select_owner(event.dwProcessId))) return -1;
         if (event.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT)
         {
             if (event.dwProcessId != pid)
@@ -263,7 +363,8 @@ static int next(DWORD *where, Registers *r)
                 CloseHandle(event.u.LoadDll.hFile);
         }
         else if (event.dwDebugEventCode == CREATE_THREAD_DEBUG_EVENT)
-        { /* New threads cannot be controlled by this single-thread direct-call API. */
+        { /* Each permitted process retains its one original primary thread. */
+            if (self_mode) CloseHandle(event.u.CreateThread.hThread);
             return -1;
         }
         else if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT)
@@ -271,10 +372,20 @@ static int next(DWORD *where, Registers *r)
             exited = 1;
             exit_status = event.u.ExitProcess.dwExitCode;
             *where = exit_status;
+            if (self_mode)
+            {
+                save_owner();
+                if (pid != root_pid) return entry_seen ? 5 : -1;
+                for (i = 0; i < family_count; ++i)
+                    if (!family[i].exited) return -1;
+            }
             return 0;
         }
         else if (event.dwDebugEventCode == EXCEPTION_DEBUG_EVENT)
         {
+            if (self_mode && pid == root_pid)
+                for (i = 1; i < family_count; ++i)
+                    if (!family[i].exited) return -1; /* Only synchronous SELF is supported. */
             if (event.dwThreadId != tid || !context(&c))
                 return -1;
             *where = (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
@@ -302,6 +413,11 @@ static int next(DWORD *where, Registers *r)
                         if (!patch(*where, points[i].saved))
                             return -1;
                         points[i].active = 0;
+                        if (self_mode && *where == base + entry_rva)
+                        {
+                            if (provider_required && !provider_seen) return -1;
+                            entry_seen = 1;
+                        }
                         c.Eip = *where;
                         if (!SetThreadContext(thread, &c))
                             return -1;
@@ -343,6 +459,18 @@ static int response(DWORD ok, DWORD a, DWORD b, const void *bytes, DWORD size)
     return transfer(rpc_output, h, sizeof(h), 1) &&
            transfer(rpc_output, (void *)bytes, size, 1);
 }
+static int event_response(DWORD ok, DWORD a, DWORD b, Registers *r, DWORD size)
+{
+    DWORD header[6];
+    BYTE bytes[24 + sizeof(Registers)];
+    if (!self_mode) return response(ok, a, b, r, size);
+    header[0] = 1; header[1] = pid; header[2] = tid; header[3] = base;
+    header[4] = pid == root_pid ? 0 : 1; header[5] = entry_seen;
+    memcpy(bytes, header, sizeof(header));
+    if (size) memcpy(bytes + sizeof(header), r, size);
+    return response(ok, a, b, bytes, sizeof(header) + size);
+}
+
 static int run_until(DWORD rva, Registers *r)
 {
     DWORD where;
@@ -387,6 +515,66 @@ static int typed_completed(void)
              response(1, 4, probe.passed, bytes, probe.result_size + 4);
     free(bytes);
     return result;
+}
+
+static int stop_family(void)
+{
+    DWORD started = GetTickCount(), code;
+    unsigned i, live;
+    int clean = 1;
+    save_owner();
+    for (i = 0; i < family_count; ++i) if (!family[i].exited)
+    {
+        family[i].forced = 1;
+        if (!TerminateProcess(family[i].process, 125)) clean = 0;
+    }
+    if (pending)
+    {
+        if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE)) clean = 0;
+        pending = 0;
+    }
+    do
+    {
+        live = 0;
+        for (i = 0; i < family_count; ++i) if (!family[i].exited) ++live;
+        if (!live || GetTickCount() - started >= 3000) break;
+        if (!WaitForDebugEvent(&event, 20)) continue;
+        if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT)
+            for (i = 0; i < family_count; ++i) if (family[i].pid == event.dwProcessId)
+            {
+                family[i].exited = 1;
+                family[i].exit_status = event.u.ExitProcess.dwExitCode;
+            }
+        if (event.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT && event.u.LoadDll.hFile)
+            CloseHandle(event.u.LoadDll.hFile);
+        if (event.dwDebugEventCode == CREATE_THREAD_DEBUG_EVENT)
+            CloseHandle(event.u.CreateThread.hThread);
+        if (event.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT)
+        {
+            TerminateProcess(event.u.CreateProcessInfo.hProcess, 125);
+            if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+            CloseHandle(event.u.CreateProcessInfo.hThread);
+            CloseHandle(event.u.CreateProcessInfo.hProcess);
+            clean = 0; /* No unaccounted create can produce a successful receipt. */
+        }
+        if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, DBG_CONTINUE)) clean = 0;
+    } while (live);
+    for (i = 0; i < family_count; ++i)
+    {
+        DWORD elapsed = GetTickCount() - started;
+        int signaled = WaitForSingleObject(family[i].process, elapsed < 3000 ? 3000 - elapsed : 0) == WAIT_OBJECT_0;
+        code = 0;
+        if (!family[i].exited || !signaled || !GetExitCodeProcess(family[i].process, &code) ||
+            code != family[i].exit_status) clean = 0;
+        fprintf(stderr, "pe-self-process %lu %lu %lu %u %d %d %lu %d %d\n",
+                family[i].pid, family[i].tid, family[i].base, i == 0 ? 0 : 1,
+                family[i].entry_seen, family[i].exited, family[i].exit_status,
+                family[i].forced, signaled);
+        CloseHandle(family[i].thread); CloseHandle(family[i].process);
+        free(family[i].points);
+    }
+    process = thread = NULL; points = NULL; point_count = 0;
+    return clean;
 }
 
 static void stop(void)
@@ -450,9 +638,12 @@ int main(int argc, char **argv)
     CONTEXT before, c;
     int kind, ok = 0;
     char *command,*environment=NULL;
-    int callback_argument=argc>=15 && !strncmp(argv[14],"callback=",9);
-    int environment_argument=callback_argument?(argc==16 || argc==17):
-        (argc==11 || argc==12 || argc==15 || argc==16);
+    int callback_argument, environment_argument;
+    self_mode = argc > 1 && !strcmp(argv[argc - 1], "pe-self-child=1");
+    if (self_mode) --argc;
+    callback_argument = argc >= 15 && !strncmp(argv[14], "callback=", 9);
+    environment_argument = callback_argument ? (argc == 16 || argc == 17) :
+        (argc == 11 || argc == 12 || argc == 15 || argc == 16);
     provider_required=callback_argument?argc==17:(argc==12 || argc==16);
     if (argc != 10 && argc != 11 && argc != 12 && argc != 14 && argc != 15 && argc != 16 && !(argc == 17 && callback_argument)) {
         fprintf(stderr,"original broker argument count: %d\n",argc);
@@ -476,10 +667,11 @@ int main(int argc, char **argv)
         return 3;
     }
     target_dll = strcmp(argv[9], "-") != 0;
-    if (target_dll)
+    if (self_mode && (target_dll || typed_helper)) return 2;
+    if (target_dll || self_mode)
     {
         HANDLE module =
-            CreateFileA(argv[9], GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
+            CreateFileA(argv[self_mode ? 7 : 9], GENERIC_READ, FILE_SHARE_READ | FILE_SHARE_WRITE, NULL,
                         OPEN_EXISTING, 0, NULL);
         if (module == INVALID_HANDLE_VALUE)
             return 3;
@@ -555,8 +747,8 @@ int main(int argc, char **argv)
     command = malloc(strlen(argv[1]) + 1);
     if (!command) { fputs("original command allocation failed\n",stderr); return 5; }
     strcpy(command, argv[1]);
-    if (!CreateProcessA(argv[7], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
-                        environment, argv[3], &startup, &launch)) {
+    if (!CreateProcessA(argv[7], command, NULL, NULL, TRUE,
+                        self_mode ? DEBUG_PROCESS : DEBUG_ONLY_THIS_PROCESS, environment, argv[3], &startup, &launch)) {
         fprintf(stderr,"original CreateProcess %s: %lu\n",argv[7],GetLastError());
         free(environment);
         return 6;
@@ -566,10 +758,16 @@ int main(int argc, char **argv)
     thread = launch.hThread;
     pid = launch.dwProcessId;
     tid = launch.dwThreadId;
+    if (self_mode)
+    {
+        root_pid = pid; family_count = 1; owner_index = 0;
+        family[0].qualified = 1;
+        save_owner();
+    }
     where = 0;
     kind = next(&where, &r);
     if (kind != 1 || (provider_required && !provider_seen) || (typed_helper && !helper_base) || where != base + entry_rva ||
-        !response(1, base, entry_rva, &r, sizeof(r))) {
+        !event_response(1, base, entry_rva, &r, sizeof(r))) {
         fprintf(stderr,"original startup before target entry: kind=%d status=%08lx base=%08lx expected=%08lx provider_seen=%d\n",kind,where,base,entry_rva,provider_seen);
         goto done;
     }
@@ -579,6 +777,7 @@ int main(int argc, char **argv)
         data = NULL;
         if (h[4] > 16777216UL)
             break;
+        if (self_mode && h[0] != 1 && h[0] != 6 && h[0] != 7 && h[0] != 9) break;
         if (h[4])
         {
             data = malloc(h[4]);
@@ -625,6 +824,14 @@ int main(int argc, char **argv)
         {
             if (h[4] % 4)
                 break;
+            if (self_mode)
+            {
+                if (trace_configured || h[4] > 400000 || pid != root_pid) break;
+                trace_rvas = malloc(h[4] ? h[4] : 1);
+                if (!trace_rvas) break;
+                if (h[4]) memcpy(trace_rvas, data, h[4]);
+                self_trace_count = h[4] / 4; trace_configured = 1;
+            }
             ok = 1;
             for (i = 0; i < h[4] / 4; ++i)
                 if (!arm(base + ((DWORD *)data)[i]))
@@ -655,9 +862,9 @@ int main(int argc, char **argv)
                 if (!response(ok,0,where,proof,sizeof(proof))) break;
                 continue;
             }
-            if (!response(ok, (DWORD)kind,
-                          kind == 0 || kind == 3 ? where : where - base, &r,
-                          kind > 0 ? sizeof(r) : 0))
+            if (!event_response(ok, (DWORD)kind,
+                          kind == 0 || kind == 3 || kind == 5 ? where : where - base, &r,
+                          kind > 0 && kind != 5 ? sizeof(r) : 0))
                 break;
             continue;
         }
@@ -738,8 +945,10 @@ int main(int argc, char **argv)
             break;
     }
 done:
-    stop();
+    if (self_mode) { if (!stop_family()) ok = 0; }
+    else stop();
     free(data);
     free(points);
+    free(trace_rvas);
     return ok ? 0 : 7;
 }

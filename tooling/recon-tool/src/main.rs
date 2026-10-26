@@ -15,6 +15,7 @@ mod original_reference;
 mod original_stage;
 mod output;
 mod pe_import;
+mod pe_self;
 mod process;
 mod program_image;
 mod projection;
