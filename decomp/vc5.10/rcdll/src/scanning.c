@@ -74,6 +74,44 @@ void __stdcall rc_read_identifier(WCHAR character)
     rc_macro_hash=(unsigned char)hash;
 }
 
+int __stdcall rc_read_macro_identifier(WCHAR first)
+{
+    WCHAR *cursor=rc_macro_name+1;
+    unsigned marker=0,hash=first&0x5f;
+    *rc_macro_name=first;
+    for(;;){
+        /* The original checks length after the scan. Hold an oversized name
+         * before writing beyond this encountered 512-WCHAR object. */
+        if(cursor>=rc_macro_name+512){ __asm int 3 }
+        *cursor=*rc_source_cursor++;
+        if(rc_character_class(*cursor)&0x10){
+            hash+=*cursor++&0x5f;
+            continue;
+        }
+        if(rc_character_token(*cursor)==39){
+            marker=*rc_source_cursor++;
+            continue;
+        }
+        --rc_source_cursor;
+        break;
+    }
+    if(cursor>=rc_macro_name+512){
+        strcpy(rc_error_text,rc_message(1067));
+        rc_input_fatal(1067);
+    }
+    if(cursor-rc_macro_name>31&&!rc_cpp_active){
+        rc_macro_name[31]=0;
+        cursor=rc_macro_name+31;
+        hash=rc_hash_macro_name(rc_macro_name);
+        rc_error_template=rc_message(4011);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
+        rc_input_warning(4011);
+    }else *cursor=0;
+    rc_macro_hash=(unsigned char)hash;
+    rc_macro_name_length=cursor-rc_macro_name+1;
+    return marker!=(unsigned)(cursor-rc_macro_name);
+}
+
 int __cdecl rc_splice_line(void)
 {
     WCHAR character;

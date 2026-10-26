@@ -60,5 +60,7 @@ WORD __stdcall rc_scan_resource_value(WORD flags);
 void __stdcall rc_resource_input_fatal_name(unsigned,const WCHAR *);
 void __stdcall rc_resource_input_fatal(unsigned);
 void __stdcall rc_read_apstudio_directive(int,DWORD);
+WCHAR __cdecl rc_next_apstudio_character(void);
+int __stdcall rc_is_resource_marker_space(WCHAR);
 void *__stdcall rc_reserve_resource_bytes(WORD);
 #endif

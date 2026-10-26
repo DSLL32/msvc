@@ -5,6 +5,7 @@
 #endif
 #include "command.h"
 #include "preprocess.h"
+#include "macro-expansion.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -41,6 +42,14 @@ WCHAR *__stdcall rc_copy_macro_text(const WCHAR *value,unsigned length)
 
 int rc_macro_listing_readonly,rc_macro_listing_hidden;
 WCHAR rc_macro_listing_buffer[2048];
+
+void __stdcall rc_emit_macro_reference(RcMacro *macro)
+{
+    if(!rc_apstudio||rc_macro_listing_hidden)return;
+    swprintf(rc_macro_listing_buffer,L" %c\"%s%c%s%c%d\"",0xe001,macro->name,
+        0xe002,rc_filename,0xe002,rc_preparing_line);
+    rc_append_macro_text(rc_macro_listing_buffer);
+}
 
 void __stdcall rc_list_macro(RcMacro *macro)
 {

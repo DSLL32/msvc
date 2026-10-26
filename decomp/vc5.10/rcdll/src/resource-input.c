@@ -4,6 +4,7 @@
 #include "command.h"
 #include "resource-input.h"
 #include "resources.h"
+#include "resource-output.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -62,6 +63,103 @@ int rc_resource_line_start=1;
 DWORD rc_resource_total_lines,rc_resource_recording;
 char rc_resource_filename[MAX_PATH];
 
+WCHAR __cdecl rc_next_apstudio_character(void)
+{
+    return (WCHAR)rc_read_resource_character();
+}
+
+int __stdcall rc_is_resource_marker_space(WCHAR character)
+{
+    int value=character;
+    return value==-1||(value>8&&value<=10)||value==13||value==32?-1:0;
+}
+
+void __stdcall rc_read_resource_marker(int unused_mode,DWORD character)
+{
+    WCHAR line_text[16],*cursor,value;
+    rc_resource_token.text[0]=0;
+    rc_resource_token.filename[0]=0;
+    rc_resource_token.unknown1036=0;
+    if(!rc_apstudio)return;
+    while(rc_is_resource_marker_space((WCHAR)character))
+        character=rc_next_apstudio_character();
+    if((WCHAR)character!=0xe001)return;
+    if(rc_next_apstudio_character()!=L'"')goto malformed;
+    cursor=rc_resource_token.text;
+    do{
+        value=rc_next_apstudio_character();
+        if(cursor>=rc_resource_token.text+248){ __asm int 3 }
+        *cursor++=value;
+    }while(value!=0xe002);
+    *--cursor=0;
+    if((cursor-rc_resource_token.text)*2>494){
+        rc_resource_error(2247);
+        return;
+    }
+    cursor=rc_resource_token.filename;
+    do{
+        value=rc_next_apstudio_character();
+        if(cursor>=rc_resource_token.filename+260){ __asm int 3 }
+        *cursor++=value;
+    }while(value!=0xe002);
+    cursor[-1]=0;
+    cursor=line_text;
+    do{
+        value=rc_next_apstudio_character();
+        if(cursor>=line_text+16){ __asm int 3 }
+        *cursor++=value;
+    }while(value!=L'"');
+    cursor[-1]=0;
+    rc_resource_token.unknown1036=(WORD)rc_decimal_resource_id(line_text);
+    if(value!=L'"')goto malformed;
+    do value=rc_next_apstudio_character();
+    while(rc_is_resource_marker_space(value));
+    return;
+malformed:
+    rc_resource_error(2249);
+}
+
+void __stdcall rc_read_apstudio_directive(int unused_mode,DWORD unused_character)
+{
+    struct { WCHAR name[248],filename[260]; } source;
+    WCHAR text[260],line_text[16],*cursor,character;
+    WORD line;
+    BYTE kind;
+    if(!rc_apstudio)return;
+    cursor=source.name;
+    do{
+        character=rc_next_apstudio_character();
+        if(cursor>=source.name+248){ __asm int 3 }
+        *cursor++=character;
+    }while(character!=0xe002);
+    *--cursor=0;
+    if((cursor-source.name)*2>494){
+        rc_resource_error(2247);
+        return;
+    }
+    cursor=text;
+    do{
+        character=rc_next_apstudio_character();
+        if(cursor>=text+260){ __asm int 3 }
+        *cursor++=character;
+    }while(character!=0xe002);
+    cursor[-1]=0;
+    character=rc_next_apstudio_character();
+    source.filename[0]=0;
+    cursor=line_text;
+    for(;;){
+        if(cursor>=line_text+16){ __asm int 3 }
+        *cursor++=character;
+        if(character==0xe002)break;
+        character=rc_next_apstudio_character();
+    }
+    cursor[-1]=0;
+    line=rc_decimal_resource_id(line_text);
+    kind=(BYTE)(rc_next_apstudio_character()&0x7f);
+    if(rc_next_apstudio_character()!=0xe002)rc_resource_error(2248);
+    rc_write_apstudio_symbol(source.name,text,source.filename,line,kind);
+}
+
 unsigned __cdecl rc_read_resource_character(void)
 {
     WCHAR filename[MAX_PATH],*cursor,lower;
@@ -89,10 +187,6 @@ read_again:
     }
     if(rc_resource_character==0xfeff)goto read_again;
     if(rc_resource_character==0xe000){
-#ifdef RECON_NATIVE_TEST
-        /* APSTUDIO directive records are not yet an encountered input. */
-        __asm int 3
-#endif
         saved_start=rc_resource_line_start;
         rc_read_apstudio_directive(1,rc_resource_character);
         rc_resource_line_start=saved_start;

@@ -10,6 +10,57 @@
 /* Byte offsets0..4086 may receive WCHARs, then the terminator at4088. */
 WCHAR rc_string_buffer[2045];
 
+unsigned __stdcall rc_escape_character(unsigned character)
+{
+    unsigned value,count;
+    extern int rc_mac;
+again:
+    if(rc_character_class(character)&2){
+        count=1;
+        value=rc_digit_value(character);
+        character=rc_get_logical_character();
+        while(rc_character_class(character)&2){
+            value=value*8+rc_digit_value(character);
+            ++count;
+            character=rc_get_logical_character();
+            if(count>=3)break;
+        }
+        if(!rc_cpp_active&&(int)value>255){
+            rc_error_template=rc_message(2022);
+            rc_format(rc_error_text,2048,rc_error_template,value);
+            rc_input_error(2022);
+        }
+    }else switch(character){
+    case L'a':return 7;
+    case L'b':return 8;
+    case L'f':return 12;
+    case L'n':return rc_mac?13:10;
+    case L'r':return rc_mac?10:13;
+    case L't':return 9;
+    case L'v':return 11;
+    case L'\\':
+        if(!rc_splice_line())return L'\\';
+        character=rc_get_logical_character();
+        goto again;
+    case L'x':
+        count=0;value=0;
+        character=rc_get_logical_character();
+        while(rc_character_class(character)&8){
+            value=(value<<4)+rc_digit_value(character);
+            character=rc_get_logical_character();
+            if(++count>=3)break;
+        }
+        if(!count){
+            strcpy(rc_error_text,rc_message(2153));
+            rc_input_error(2153);
+        }
+        break;
+    default:return character;
+    }
+    --rc_source_cursor;
+    return (signed char)value;
+}
+
 void __cdecl rc_read_string(void)
 {
     WCHAR *cursor=rc_string_buffer;

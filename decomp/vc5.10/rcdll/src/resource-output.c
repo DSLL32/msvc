@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <wchar.h>
 #include "command.h"
 #include "resource-output.h"
@@ -12,7 +13,7 @@
 
 /* Encountered APSTUDIO scratch streams. These exact locations lie in the
  * original loader-zeroed .data tail; filename storage uses SDK MAX_PATH.
- * Only the false APSTUDIO branch has been executed by the current case. */
+ * APSTUDIO names are internal open/remove identities, not output data. */
 char rc_apstudio_path1[MAX_PATH],rc_apstudio_path2[MAX_PATH];
 char rc_apstudio_path3[MAX_PATH],rc_apstudio_path4[MAX_PATH];
 FILE *rc_apstudio_stream1,*rc_apstudio_stream2;
@@ -20,14 +21,60 @@ FILE *rc_apstudio_stream3,*rc_apstudio_stream4;
 DWORD rc_apstudio_size1,rc_apstudio_size2,rc_apstudio_size3,rc_apstudio_size4;
 DWORD rc_apstudio_header_size;
 
+char *__stdcall rc_format_resource_ordinal(WORD id,char *text,int radix)
+{
+    return _itoa(id==0xffff?-1:(int)id,text,radix);
+}
+
+unsigned __stdcall rc_write_apstudio_string(FILE *file,const WCHAR *text)
+{
+    char buffer[MAX_PATH];
+    unsigned bytes;
+    bytes=WideCharToMultiByte(rc_codepage,0,text,wcslen(text)+1,
+                              buffer,MAX_PATH,NULL,NULL);
+    return rc_write_bytes(file,buffer,bytes);
+}
+
+void __stdcall rc_write_apstudio_symbol(const WCHAR *name,const WCHAR *text,
+                                        const void *unused,WORD line,BYTE kind)
+{
+    RcResource resource;
+    RcResourceType type;
+    if(!rc_apstudio)return;
+    if(*name==L'$'&&*text){
+        /* Only these three fields are consumed by the source-record writer. */
+        resource.language=(WORD)rc_default_language;
+        resource.id=0xffff;type.id=0xffff;
+        rc_write_resource_source(&resource,&type,text);
+    }else{
+        rc_apstudio_size1+=rc_write_apstudio_string(rc_apstudio_stream1,name);
+        rc_apstudio_size1+=rc_write_apstudio_string(rc_apstudio_stream1,text);
+        rc_apstudio_size1+=rc_write_bytes(rc_apstudio_stream1,&line,2);
+        rc_apstudio_size1+=rc_write_bytes(rc_apstudio_stream1,&kind,1);
+    }
+}
+
+void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
+{
+    DWORD value;
+    WORD ordinal=0xffff,flags=0x30;
+    rc_write_bytes(file,&size,4);
+    rc_write_bytes(file,&rc_apstudio_header_size,4);
+    rc_write_bytes(file,L"HWB",8);
+    rc_write_bytes(file,&ordinal,2);
+    rc_write_bytes(file,&id,2);
+    rc_align_output(file);
+    value=0;rc_write_bytes(file,&value,4);
+    rc_write_bytes(file,&flags,2);
+    rc_write_bytes(file,&rc_default_language,2);
+    value=2;rc_write_bytes(file,&value,4);
+    rc_write_bytes(file,&rc_resource_characteristics,4);
+}
+
 int __stdcall rc_initialize_resource(void)
 {
     char *temporary;
     if(rc_apstudio){
-#ifdef RECON_NATIVE_TEST
-        /* Temp-file services and APSTUDIO header contents are not observed. */
-        __asm int 3
-#endif
         temporary=_tempnam(NULL,"RCX1");
         if(!temporary)temporary=tmpnam(NULL);
         strcpy(rc_apstudio_path1,temporary);
@@ -63,10 +110,6 @@ int __stdcall rc_flush_resources(FILE *file)
     RcResourceType *type;
     DWORD position;
     if(!rc_apstudio)return 1;
-#ifdef RECON_NATIVE_TEST
-    /* APSTUDIO side-file contents and their final assembly remain unvisited. */
-    __asm int 3
-#endif
     if(file){
         rc_write_apstudio_symbol(L"",L"",L"",0,0);
         rc_seek(rc_apstudio_stream1,0,SEEK_SET);
@@ -121,10 +164,6 @@ void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *typ
 {
     WORD ordinal=0xffff,type_id;
     if(!rc_apstudio)return;
-#ifdef RECON_NATIVE_TEST
-    /* The APSTUDIO source stream has not been opened by this case. */
-    __asm int 3
-#endif
     type_id=type->id;
     if(!type_id)
         rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,type->name,
@@ -147,17 +186,13 @@ void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *typ
                                     (wcslen(filename)+1)*2);
 }
 
-/* APSTUDIO metadata has separate binary and textual side streams. The rich
- * case uses the early return; the native unobserved service path stays held. */
+/* APSTUDIO metadata has separate binary and textual side streams. */
 void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase)
 {
     WORD ordinal=0xffff,type_id;
     DWORD reserved=0;
     char text[36];
     if(!rc_apstudio)return;
-#ifdef RECON_NATIVE_TEST
-    __asm int 3
-#endif
     if(!resource){
         rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,L"$",2);
         rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,&ordinal,2);
@@ -233,10 +268,6 @@ void __stdcall rc_write_apstudio_name(const WCHAR *text)
 {
     WORD ordinal=0xffff;
     if(!rc_apstudio)return;
-#ifdef RECON_NATIVE_TEST
-    /* APSTUDIO streams and the input's trailing metadata are unvisited. */
-    __asm int 3
-#endif
     if(!text){
         rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,L"$",2);
         rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,&ordinal,2);

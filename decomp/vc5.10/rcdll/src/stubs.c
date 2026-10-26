@@ -18,16 +18,7 @@ void __stdcall rc_fatal(char *message)
 {
     __asm int 3
 }
-void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
-{
-    __asm int 3
-}
-
 void __stdcall rc_resource_input_fatal(unsigned message)
-{
-    __asm int 3
-}
-void __stdcall rc_read_apstudio_directive(int unused_mode,DWORD unused_character)
 {
     __asm int 3
 }
@@ -35,12 +26,6 @@ void __stdcall rc_resource_data_fatal(unsigned message)
 {
     __asm int 3
 }
-void __stdcall rc_write_apstudio_symbol(const WCHAR *first,const WCHAR *second,
-                                        const void *unused,WORD value,BYTE kind)
-{
-    __asm int 3
-}
-
 void __stdcall rc_input_error(unsigned code)
 {
     __asm int 3
@@ -77,27 +62,16 @@ void __cdecl rc_line_comment(void)
     __asm int 3
 }
 
-unsigned __stdcall rc_escape_character(unsigned character)
-{
-    __asm int 3
-    return 0;
-}
 
-int __stdcall rc_read_macro_identifier(WCHAR first)
-{
-    __asm int 3
-    return 0;
-}
+
+
 
 void __stdcall rc_macro_buffer_fatal(unsigned message)
 {
     __asm int 3
 }
 
-void __stdcall rc_emit_macro_reference(RcMacro *macro)
-{
-    __asm int 3
-}
+
 
 void __stdcall rc_resource_error(unsigned code)
 {
@@ -116,22 +90,6 @@ long __stdcall rc_convert_icon_file(long size)
 }
 
 void __stdcall rc_concatenate_resource_string(const WCHAR *text,int flags)
-{
-    __asm int 3
-}
-
-char *__stdcall rc_format_resource_ordinal(WORD id,char *text,int radix)
-{
-    __asm int 3
-    return NULL;
-}
-unsigned __stdcall rc_write_apstudio_string(FILE *file,const WCHAR *text)
-{
-    __asm int 3
-    return 0;
-}
-
-void __stdcall rc_read_resource_marker(int mode,DWORD character)
 {
     __asm int 3
 }

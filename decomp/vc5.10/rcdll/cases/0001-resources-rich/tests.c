@@ -420,12 +420,6 @@ static int expanded_quoted_contract(void)
         rc_string_buffer[1034]==0xc9c9 &&
         !memcmp(rc_string_buffer+1,spelling,sizeof(spelling));
 }
-static void apstudio_unobserved(void)
-{
-    rc_apstudio=1;
-    rc_initialize_resource();
-}
-static int apstudio_hold(void){return trapped(apstudio_unobserved);}
 static void resource_input_invoke(void *unused)
 {
     rc_heap=(HANDLE)0x55555550;
@@ -733,11 +727,6 @@ static int resource_attribute_contract(void)
 }
 
 extern DWORD rc_apstudio_size3,rc_apstudio_size4;
-static void metadata_unobserved(void)
-{
-    rc_apstudio=1;
-    rc_write_resource_metadata(NULL,NULL,0);
-}
 static int resource_metadata_contract(void)
 {
     RcResource resource,saved;
@@ -750,7 +739,7 @@ static int resource_metadata_contract(void)
     rc_write_resource_metadata(NULL,NULL,0);
     return rc_apstudio_size3==17&&rc_apstudio_size4==19&&
         !memcmp(&resource,&saved,sizeof(resource))&&
-        !memcmp(&type,&saved_type,sizeof(type))&&trapped(metadata_unobserved);
+        !memcmp(&type,&saved_type,sizeof(type));
 }
 
 static int resource_buffer_reset_contract(void)
@@ -982,10 +971,6 @@ static int resource_decimal_contract(void)
     return 1;
 }
 
-static void apstudio_name_unobserved(void)
-{
-    rc_apstudio=1;rc_write_apstudio_name(NULL);
-}
 static int apstudio_name_contract(void)
 {
     RcResourceToken saved;
@@ -994,8 +979,7 @@ static int apstudio_name_contract(void)
     rc_write_apstudio_name(NULL);
     rc_write_apstudio_name(rc_resource_token.text);
     return rc_apstudio_size3==37&&
-        !memcmp(&saved,&rc_resource_token,sizeof(saved))&&
-        trapped(apstudio_name_unobserved);
+        !memcmp(&saved,&rc_resource_token,sizeof(saved));
 }
 
 static DWORD style_storage,style_initial;
@@ -1642,10 +1626,6 @@ static int version_block_contract(void)
         !memcmp(output,expected,sizeof(output))&&value==0x12345678;
 }
 
-static void resource_flush_unobserved(void)
-{
-    rc_apstudio=1;rc_flush_resources(NULL);
-}
 static int resource_flush_contract(void)
 {
     extern DWORD rc_apstudio_size1,rc_apstudio_size2,rc_apstudio_size3,rc_apstudio_size4;
@@ -1657,8 +1637,7 @@ static int resource_flush_contract(void)
     return rc_flush_resources((FILE *)0x87654321)==1&&rc_flush_resources(NULL)==1&&
         rc_apstudio_size1==11&&rc_apstudio_size2==13&&rc_apstudio_size3==17&&rc_apstudio_size4==19&&
         rc_apstudio_stream1==(FILE *)0x1234&&rc_apstudio_stream2==(FILE *)0x2345&&
-        rc_apstudio_stream3==(FILE *)0x3456&&rc_apstudio_stream4==(FILE *)0x4567&&
-        trapped(resource_flush_unobserved);
+        rc_apstudio_stream3==(FILE *)0x3456&&rc_apstudio_stream4==(FILE *)0x4567;
 }
 
 static void __stdcall resource_buffer_release_boundary(void *memory)
@@ -2014,10 +1993,6 @@ static int resource_search_contract(void)
     return !strcmp(output,".\\resources.rc")&&trapped(resource_search_empty_component);
 }
 
-static void resource_source_unobserved(void)
-{
-    rc_apstudio=1;rc_write_resource_source(NULL,NULL,NULL);
-}
 static int resource_source_contract(void)
 {
     RcResource resource,saved;
@@ -2033,7 +2008,7 @@ static int resource_source_contract(void)
     return rc_apstudio_size2==0x87654321&&
         !memcmp(&resource,&saved,sizeof(resource))&&
         !memcmp(&type,&saved_type,sizeof(type))&&
-        !memcmp(name,saved_name,sizeof(name))&&trapped(resource_source_unobserved);
+        !memcmp(name,saved_name,sizeof(name));
 }
 
 static void accelerator_outside_prefix(void)
@@ -2085,7 +2060,6 @@ const ReconTest rich_tests[]={
     {"quoted-output-chunk-contract",1,quoted_output_contract},
     {"raw-macro-argument-contract",1,raw_macro_argument_contract},
     {"expanded-quoted-escape-contract",1,expanded_quoted_contract},
-    {"apstudio-service-hold",1,apstudio_hold},
     {"resource-input-initialization",1,resource_input_contract},
     {"command-resource-reset-owners",1,command_reset_contract},
     {"resource-type-lookup-contract",1,resource_type_lookup_contract},

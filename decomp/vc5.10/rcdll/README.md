@@ -1,6 +1,6 @@
 # RCDLL (Visual C++ 5.10)
 
-All three current cases complete using the native i386 shared library. Run `make -j4
+All five current cases complete using the native i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -35,6 +35,14 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   RES SHA-256 `78c839c66d51f02cf24789894a69ea787b6a0af945fbe8d4950419a4fab3de72`,
   empty streams and exit zero, with all 200 original first-entry encounters.
 
+- `0004-apstudio-resources`: `/r /s`, combining editor symbol/source recording,
+  classic menus, toolbar, DIALOGEX, strings, bitmap, TEXTINCLUDE, DLGINCLUDE,
+  escaped constants and raw data. It binds the genuine target input `TMP=.` and
+  produces RES SHA-256
+  `a220acae2562c6a505a4fd567bf0ceac2423f56d47b35c7f0313e738c15a5af8`,
+  empty streams and exit zero. All 190 original first-entry encounters match;
+  the final strict file inventory confirms temporary-file cleanup.
+
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
 controls are set separately. Its fresh final masked-original capture uses the
@@ -44,8 +52,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **261 functions and 61,760 unique
-original code bytes**, **82.78% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **272 functions and 63,642 unique
+original code bytes**, **85.30% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -174,3 +182,37 @@ accounting and end gates are retained under
 `~/.ai-tmp/msvc2/vc5.10/rcdll/editor-resources/0025-control-patch/`, with earlier
 frontiers alongside it. Further coherent workloads will target the remaining
 application routines without changing these accepted limitations.
+
+The APSTUDIO case adds 11 application bodies and 1,882 code bytes, including two
+newly identified character/whitespace helpers. The contextual token fields retain
+their exact existing storage and widths. Directive and marker readers hold
+oversized names, filenames and decimal strings before an unsupported write in
+both builds. The macro identifier consumes the actual low WORD of its physical
+four-byte argument; the captured upper half is not normalized or claimed equal.
+The header writer retains its fixed version 2, shared language WORD and distinct
+characteristics DWORD. Unknown token roles and untouched tails remain unclaimed.
+
+Temporary names are internal open/remove identities. The native shim uses the
+bound target CRT `TMP=.` namespace and generates independent absent names without
+reserving files or seeding original counters. Old no-TMP inputs and captures stay
+unchanged. Partial progress compares the declared RES prefix and streams, without
+claiming equality of internal temporary filenames. Final normal-exit comparison
+uses the complete strict output inventory. The untouched new-input oracle and
+final masked capture agree on invocation, inputs, status, streams and artifacts.
+Original per-call API state and pointed bytes were not universally measured.
+
+The final APSTUDIO original took 695.604 ms. After correcting two unvisited error
+edges to the actual resource-error routine, native adoption against that unchanged
+original took 14.766 ms (setup 5.697, execution 7.606, checks 1.462 ms). All five
+cached cases, 109 unit groups and both builds passed in 0.428 s; strict graph/ABI
+and SEH-role checks passed in 0.978 s. The audit exposed those wrong error edges;
+failed artifacts remain preserved. Historical APSTUDIO entry-hold assertions were
+retired when the genuine path completed; their false-branch state checks remain.
+One obsolete hold group was removed, and four current-case groups were added.
+
+APSTUDIO source snapshots, old input variants, guard failures, formatter denials,
+matching references/adoptions and final gates remain under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/apstudio-resources/`, with closeout in
+`0017-complete/`. There are 25 known pending application routines (2,252 bytes)
+and two unclassified routines (448 bytes); this is not a complete non-CRT
+coverage denominator. Further coherent workloads target those remaining owners.
