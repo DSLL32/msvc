@@ -349,3 +349,20 @@ struct fixup *CreateFixupRec( int index )
     }
     return( NULL );
 }
+
+/* CF9680..96cb; preserve the ambient operand/frame around the extra
+ * third instruction-fixup slot used by the x87 emulation patch. */
+int MakeFpFixup(asm_sym *sym)
+{
+    int old_count;
+    signed char old_frame;
+    old_count = Opnd_Count;
+    old_frame = Frame;
+    Opnd_Count = 2;
+    Frame = F_LOC;
+    AddFixup(sym, FIX_OFF16);
+    Frame = old_frame;
+    Opnd_Count = old_count;
+    if (store_fixup(2) == ERROR) return ERROR;
+    return NOT_ERROR;
+}

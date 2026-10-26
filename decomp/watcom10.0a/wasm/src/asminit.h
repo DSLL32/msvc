@@ -793,7 +793,10 @@ enum { ASSUME_DS, ASSUME_ES, ASSUME_SS, ASSUME_FS, ASSUME_GS, ASSUME_CS,
 #pragma pack(1)
 typedef struct assume_info {
     asm_sym *symbol;
-    unsigned error : 1, flat : 1;
+    unsigned error : 1;
+    /* CF12619..12628 sign-extends this one-bit field before comparing
+     * with TRUE; the later released header made it unsigned. */
+    signed flat : 1;
     unsigned : 30;
 } assume_info;
 #pragma pack()

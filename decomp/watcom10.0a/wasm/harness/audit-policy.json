@@ -84,22 +84,6 @@
           ]
         }
       },
-      "asmmatch.output": {
-        "rebuilt": {
-          "text_data": [
-            [
-              {
-                "rebuilt_symbol": "asmmatch_output_",
-                "offset": 24
-              },
-              {
-                "rebuilt_symbol": "asmmatch_output_",
-                "offset": 238
-              }
-            ]
-          ]
-        }
-      },
       "CreateFixupRec": {
         "rebuilt": {
           "text_data": [
@@ -122,11 +106,11 @@
             [
               {
                 "rebuilt_symbol": "SimSeg_",
-                "offset": 199
+                "offset": 196
               },
               {
                 "rebuilt_symbol": "SimSeg_",
-                "offset": 227
+                "offset": 224
               }
             ]
           ]
@@ -1614,6 +1598,21 @@
         ]
       },
       "OutSelect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeFpFixup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetPrefixAssume": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CMangler": {
         "expected_cleanup": [
           0
         ]

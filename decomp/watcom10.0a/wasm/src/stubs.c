@@ -80,12 +80,9 @@ int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 
 
 int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING(); return -1; }
-unsigned GetPrefixAssume(asm_sym *sym, unsigned def)
-{ (void)sym; (void)def; WASM_PENDING(); return 0; }
 
 void jumpExtend(void) { WASM_PENDING(); }
-int AddFloatingPointEmulationFixup(const struct asm_ins *ins, unsigned char second)
-{ (void)ins; (void)second; WASM_PENDING(); return -1; }
+
 
 
 
@@ -125,7 +122,6 @@ void fill_in_objfile_space(unsigned size) { (void)size; WASM_PENDING(); }
 
 unsigned GetGrpIdx(asm_sym *sym) { (void)sym; WASM_PENDING(); return 0; }
 
-int FixOverride(int index) { (void)index; WASM_PENDING(); return -1; }
 
 
 
@@ -133,6 +129,3 @@ int FixOverride(int index) { (void)index; WASM_PENDING(); return -1; }
 
 
 void AsmErr(int message, ...) { (void)message; WASM_PENDING(); }
-
-char *CMangler(asm_sym *symbol, char *buffer)
-{ (void)symbol; (void)buffer; WASM_PENDING(); return NULL; }

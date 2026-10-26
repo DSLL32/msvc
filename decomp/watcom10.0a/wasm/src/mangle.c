@@ -33,9 +33,10 @@
 /* CF1a22c..1a260; symbol-specific mangler selection and conflict check. */
 #include <string.h>
 #include "direct.h"
+#include "asmparse.h"
 #include <recon.h>
 #ifdef __WATCOMC__
-#pragma intrinsic(strlen,strcpy)
+#pragma intrinsic(strlen,strcpy,strcat)
 #endif
 
 void SetMangler(asm_sym *sym, char *type)
@@ -48,7 +49,7 @@ void SetMangler(asm_sym *sym, char *type)
 }
 
 /* CF1a1a8..1a1f3; explicit C/native naming policies retain their function
- * pointer identities. Both callback bodies remain pending until invoked. */
+ * pointer identities. */
 mangle_func GetMangler(char *type)
 {
     mangle_func mangle = NULL;
@@ -83,4 +84,97 @@ char *AsmMangler(asm_sym *sym, char *buffer)
     }
     strcpy(buffer,sym->name);
     return buffer;
+}
+
+/* CF1a000..1a1a5; prepend/append/remove naming decorations. */
+enum { NORMAL=0, USCORE_FRONT=1, USCORE_BACK=2, REM_USCORE_FRONT=4,
+       REM_USCORE_BACK=8, UPPERCASE=16 };
+char *CMangler( struct asm_sym *sym, char *buffer )
+/*************************************************/
+{
+    char                *name;
+    char                *ptr = sym->name;
+    unsigned            changes = NORMAL;
+    proc_info           *info;
+    unsigned            additional_size = 1; // for null
+
+    switch( Options.naming_convention ) {
+    case DO_NOTHING:
+        return( AsmMangler( sym, buffer ));
+    case ADD_USCORES:
+        if( sym->state == SYM_PROC ) {
+            changes |= USCORE_BACK;
+        } else {
+            switch( sym->mem_type ) {
+            case T_NEAR:
+            case T_FAR:
+            case EMPTY:
+                changes |= USCORE_BACK;
+                break;
+            default:
+                changes |= USCORE_FRONT;
+            }
+        }
+        break;
+    case REMOVE_USCORES:
+        if( sym->state == SYM_PROC ) {
+            changes |= REM_USCORE_BACK;
+        } else {
+            switch( sym->mem_type ) {
+            case T_NEAR:
+            case T_FAR:
+            case EMPTY:
+                changes |= REM_USCORE_BACK;
+                break;
+            default:
+                changes |= REM_USCORE_FRONT;
+            }
+        }
+    }
+    if( sym->state == SYM_PROC ) {
+        info = ((dir_node*)sym)->e.procinfo;
+        if( info->langtype == 4 || info->langtype == 6 ) {
+            changes |= USCORE_BACK;
+        } else if( info->langtype >= 1 && info->langtype <= 3 ) {
+            changes |= UPPERCASE;
+        }
+    }
+    #define USCORE "_"
+
+    if( changes & USCORE_FRONT ) {
+        additional_size++;
+    }
+    if( changes & USCORE_BACK ) {
+        additional_size++;
+    }
+    if( changes & REM_USCORE_FRONT ) {
+        if( *ptr == '_' ) {
+            ptr++;
+        }
+    }
+
+    if( buffer == NULL ) {
+        name = AsmAlloc( strlen( ptr ) + additional_size );
+    } else {
+        name = buffer;
+    }
+
+    if( changes & USCORE_FRONT ) {
+        strcpy( name, USCORE );
+    } else {
+        strcpy( name, "" );
+    }
+    strcat( name, ptr );
+    if( changes & UPPERCASE ) {
+        strupr( name );
+    }
+    if( changes & USCORE_BACK ) {
+        strcat( name, USCORE );
+    } else if( changes & REM_USCORE_BACK ) {
+        ptr = name + strlen( name ) - 1;
+        if( *ptr == '_' ) {
+            *ptr = '\0';
+        }
+    }
+    return( name );
 }

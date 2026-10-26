@@ -55,6 +55,8 @@ def pe_bytes(address, size):
 symbols = {name: 0x410000 + int(offset, 16) for offset, name in re.findall(
     r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wasm.map').read_text(), re.M)}
 owners = [
+    ('FixOverride',0x124cc,0x12599,'5d4c76290c60a4069427a2dfccad96a1922d6f4ea279f62ad2d8952c3bac5402',[0x12540,0x12585,0x12598],[0x124f0,0x12523,0x12568]),
+    ('AddFloatingPointEmulationFixup',0x192c0,0x19381,'6a9ca32fd35ad0d2faec80efa8a91ee5cb98a786f255243c65e478fdd974539a',[0x19380],[0x1933a]),
     ('ObjPut16',0x1bfdc,0x1c010,'b508785272d5472ce71da69c6daf858a72ad5da10b629e22c4f6045da1a803b3',[0x1c00f],[0x1bff6]),
     ('write_flat_grp',0xe188,0xe1f4,'824c49c6361866147b56fe3664a7d11ceea2b0400e5530d40a0a50d0b588a627',[0xe1f3],[0xe1a4]),
     ('FixGenRef', 115924, 116032, 'a0f6a48aaf04e9c5548369bd69ecaad9717ce618146819777f8cbe9402ab4501', [116018, 116031], [115949, 115968, 115997]),

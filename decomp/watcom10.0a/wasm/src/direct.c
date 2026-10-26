@@ -2650,3 +2650,95 @@ int get_watcom_argument_string( char *buffer, unsigned char size, unsigned char 
     }
     return( TRUE );
 }
+
+/* CF125f4..126d9. The1994 flat test is conditional on a NULL assume
+ * pointer and compares the bit field with TRUE; preserve that ordering. */
+unsigned GetPrefixAssume( struct asm_sym* sym, unsigned prefix )
+/******************************************************/
+{
+    int         type;
+    dir_node    *dir;
+    struct asm_sym      *assume;
+
+    if( Parse_Pass == PASS_1 ) return( prefix );
+
+    assume = AssumeTable[prefix].symbol;
+    if( assume == NULL && AssumeTable[prefix].flat == TRUE ) {
+        Frame = F_GRP;
+        Frame_Datum = ModuleInfo.flat_idx;
+        return( prefix );
+    }
+    if( assume == NULL ) {
+        if( sym->state == SYM_EXTERNAL ) {
+
+            return( prefix );
+        } else {
+            return( ASSUME_NOTHING );
+        }
+    }
+
+    dir = (dir_node *)assume;
+    if( assume->state == SYM_SEG ) {
+        type = TAB_SEG;
+    } else if( assume->state == SYM_GRP ) {
+        type = TAB_GRP;
+    }
+
+    if( get_grp( sym ) == dir ||    // dir is the group for this symbol
+        GetSeg( sym ) == dir ||    // dir is the seg. for this symbol
+        sym->state == SYM_EXTERNAL ) {
+
+        if( type == TAB_GRP ) {
+            Frame = F_GRP;
+            if( sym->state == SYM_EXTERNAL ) {
+                Frame_Datum = dir->e.grpinfo->idx;
+            } else {
+                Frame_Datum = sym->grpidx;
+            }
+        } else {
+            Frame = F_SEG;
+            if( sym->state == SYM_EXTERNAL ) {
+                Frame_Datum = dir->e.seginfo->segrec->d.segdef.idx;
+            } else {
+                Frame_Datum = sym->segidx;
+            }
+        }
+        return( prefix );
+    } else {
+        return( ASSUME_NOTHING );
+    }
+}
+
+
+/* CF124cc..12599, explicit segment/group frame override. */
+int FixOverride( int index )
+/**************************/
+/* Fix segment or group override */
+{
+    struct asm_sym      *sym1;
+    struct asm_sym      *sym2;
+    dir_node            *tmp;
+
+    sym1 = AsmLookup( AsmBuffer[index-2]->string_ptr );
+    if (sym1 == NULL) InternalError("..\\c\\direct.c", 2245);
+
+    tmp = GetSeg( sym1 );
+    if( tmp != NULL ) {
+        sym2 = AsmLookup( AsmBuffer[index]->string_ptr );
+        if (sym2 == NULL) InternalError("..\\c\\direct.c", 2250);
+        Frame = F_SEG;
+        Frame_Datum = sym1->segidx;
+        return( NOT_ERROR );
+    }
+
+    tmp = get_grp( sym1 );
+    if( tmp != NULL ) {
+        sym2 = AsmLookup( AsmBuffer[index]->string_ptr );
+        if (sym2 == NULL) InternalError("..\\c\\direct.c", 2259);
+        Frame = F_GRP;
+        Frame_Datum = sym1->grpidx;
+        return( NOT_ERROR );
+    }
+    AsmError( 51 );
+    return( ERROR );
+}
