@@ -1288,6 +1288,34 @@ int WINAPI recon_MultiByteToWideChar(UINT page,DWORD flags,LPCSTR input,int coun
 int WINAPI recon_WideCharToMultiByte(UINT page,DWORD flags,LPCWSTR input,int count,LPSTR output,int capacity,LPCSTR replacement,BOOL *used)
 {
     const char *encoding=code_page(page); int n=count;
+    if(page==10000) {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+        size_t bytes;uintptr_t source=(uintptr_t)input,destination=(uintptr_t)output;int i;
+        /* RCDLL also queries and repeats a zero count for a menu separator.
+         * This is invalid-count failure, without pointed input/output access. */
+        if(!flags && !count && !capacity && !replacement && !used && input && !(source&1)) {
+            last_error=ERROR_INVALID_PARAMETER;return 0;
+        }
+        if(flags || count<=0 || replacement || used || !input || (source&1) ||
+           (size_t)count>UINTPTR_MAX/sizeof(WCHAR))
+            recon_unsupported("MacRoman conversion input/flags/count");
+        bytes=(size_t)count*sizeof(WCHAR);
+        if(source>UINTPTR_MAX-bytes ||
+           (capacity==0?output!=NULL:capacity!=count || !output))
+            recon_unsupported("MacRoman conversion span/query/capacity");
+        if(output && (destination>UINTPTR_MAX-(size_t)count ||
+           (destination<source+bytes && source<destination+(size_t)count)))
+            recon_unsupported("MacRoman conversion output wrap/overlap");
+        /* Counted ASCII is identical in MacRoman. Validate the complete input
+         * before writing; no terminating byte is added to an explicit count. */
+        for(i=0;i<count;++i) if(input[i]>=128)
+            recon_unsupported("MacRoman conversion nonASCII input");
+        if(output) for(i=0;i<count;++i) output[i]=(char)input[i];
+        return count;
+#else
+        recon_unsupported("MacRoman conversion requires explicit510 profile");return 0;
+#endif
+    }
     (void)replacement;
     if (used) *used=FALSE;
     if (!encoding || !count || count< -1 || capacity<0 || (flags&~0x610U)) { last_error=ERROR_NOT_SUPPORTED; return 0; }
@@ -1360,9 +1388,13 @@ LONG WINAPI recon_RtlUnicodeStringToAnsiString(struct AnsiString *out,struct Uni
     out->text[length]=0; out->length=length; return 0;
 }
 
-/* Reached only in unvisited RC conversion branches; retain SDK call ABIs. */
 BOOL WINAPI recon_IsValidCodePage(UINT page)
-{ (void)page; recon_unsupported("unreviewed IsValidCodePage"); return FALSE; }
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(page==10000) return TRUE;
+#endif
+    (void)page;recon_unsupported("unreviewed IsValidCodePage");return FALSE;
+}
 UINT WINAPI recon_GetACP(void)
 {
     const char *profile=getenv("RECON_ACP");

@@ -902,3 +902,9 @@ build/watcom-directory-surface-probe: tests/watcom-directory-surface-probe.c $(S
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-directory-surface-check: build/watcom-directory-surface-probe
 	$(PYTHON) tests/check-watcom-directory-surface.py $<
+
+.PHONY: macroman-ascii-check
+build/macroman-ascii-probe: tests/macroman-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+macroman-ascii-check: build/macroman-ascii-probe
+	$(PYTHON) tests/check-macroman-ascii.py $< 510

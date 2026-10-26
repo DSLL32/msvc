@@ -1408,3 +1408,20 @@ This permits complete WLINK WildCard source to compile while its reached
 callback path avoids enumeration. No allocation, filesystem query, returned
 entry or close semantics are qualified. Target-local reached CRT adapters must
 include shared headers before applying their scoped public-name overrides.
+
+Explicit MSVCRT510 IsValidCodePage accepts the reached MacRoman page10000.
+WideCharToMultiByte10000 admits flags0, positive explicit counted ASCII WCHARs,
+NULL replacement/used pointers, and either NULL output/capacity0 query or a
+disjoint caller-owned output with capacity==count. All units/spans are checked
+before writes; output is exactly count identity bytes without an added NUL.
+Other MacRoman tuples/nonASCII and other profiles deny125. Other codepages and
+MultiByteToWideChar remain unchanged. Native errors/full FP are retained;
+original per-call bytes/errors/FP were unmeasured. RCDLL's actual control flow
+proves validity and its next expander count; ASCII identity is the public
+encoding contract, not a captured original buffer claim.
+
+The same explicit510 page10000 flags0/NULL replacement+used domain also admits
+the reached count0/capacity0 with nonNULL aligned input: it returns0 with
+ERROR_INVALID_PARAMETER87, without reading input or writing output (including
+nonnull output at capacity0). This is invalid-count failure, not empty success.
+Independent errno/DOS/FP stay unchanged; original per-call LastError unmeasured.
