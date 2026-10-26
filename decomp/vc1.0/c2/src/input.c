@@ -135,3 +135,13 @@ short __fastcall input_counted_string(char *buffer, unsigned limit)
     while (remaining-- > 0) *buffer++ = (char)getc(input_file);
     return length;
 }
+
+/* Original6ff60..6ff82, cdecl/no arguments, EAX holds the raw32 bits.
+   The original consumes one complete four-byte initializer; it does not
+   convert through a floating scalar or add a short-read diagnostic. */
+unsigned input_float_bits(void)
+{
+    unsigned value;
+    fread(&value, sizeof(value), 1, input_file);
+    return value;
+}

@@ -273,3 +273,155 @@ void truncate_extended(void)
         fldcw word ptr extended_scratch+6
     }
 }
+
+/* Original71233..71282. As for add_extended, ordinary C cannot load or
+   multiply the80-bit payload or call the ESI/ST0 normalizer. Only those
+   primitives/ABI transfers use assembly; tag selection remains C. */
+int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fmulp st(1), st(0)
+    }
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original71282..712d1. Required80-bit arithmetic/private ESI-ST0
+   bridge as above. Divide left by right; do not reverse the x87 operands. */
+int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fdivp st(1), st(0)
+    }
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original71560..715ac. FABS on the80-bit payload and the private
+   normalizer call cannot be expressed by this compiler's double type.
+   Preserve their x87 behavior; format selection is ordinary C. */
+int __cdecl absolute_extended(const Extended *number, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, number
+        fld tbyte ptr [esi]
+        fabs
+    }
+    format = number->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original713b1..713e4. Zero-extend the unsigned DWORD into the actual
+   signed-qword FILD operand. Only that load and the ESI/ST0 store ABI need
+   assembly; the original compiler has no80-bit C scalar representation. */
+void unsigned_integer_to_extended(const unsigned *integer, Extended *number)
+{
+    struct { unsigned low, high; } widened;
+    widened.low = *integer;
+    widened.high = 0;
+    number->format = 4;
+    __asm {
+        lea edi, widened
+        fild qword ptr [edi]
+        mov esi, number
+        call store_extended
+    }
+}
+
+/* Original71494..714fa. The private80-bit comparison leaves the carry
+   condition in the shared status word. Keep value selection/tag policy in C;
+   only raw x87 loads, exchange/discard and the ESI/ST0 bridge require asm.
+   Equality retains left; unordered follows the original carry-bit branch. */
+int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fcom st(1)
+        fwait
+        fnstsw word ptr extended_scratch+4
+        fwait
+    }
+    if (extended_scratch.range.status & 0x100) {
+        __asm fxch st(1)
+    }
+    __asm fstp st(0)
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original712d1..712f4. Same documented m80/raw-ST0 range-check bridge
+   as extended_to_double, followed by the actual32-bit floating store. */
+int extended_to_float(const Extended *number, float *result)
+{
+    int range_error;
+    __asm {
+        mov esi, number
+        fld tbyte ptr [esi]
+        fld tbyte ptr single_conversion_limit
+        call check_extended_range
+        mov esi, result
+        fstp dword ptr [esi]
+        fwait
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original71331..71351. Load the actual32-bit scalar before writing
+   its output tag, then reuse the raw ESI/ST0 store entry. An80-bit result
+   cannot be represented by this compiler's C floating types. */
+void float_to_extended(const float *number, Extended *result)
+{
+    __asm {
+        mov edi, number
+        fld dword ptr [edi]
+    }
+    result->format = 4;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+}

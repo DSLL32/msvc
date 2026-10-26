@@ -1736,3 +1736,28 @@ void __fastcall advance_operand_byte(MachineOperand *operand)
         break;
     }
 }
+
+/* Original21860..218e8. The4000/8000 bits here classify the register
+   NUMBER; they are not the unrelated upper-word facts in operand.flags.
+   Follow the definition's selected operand in each next use. A wider or
+   nonregister consumer rejects before considering dead-result termination. */
+int __fastcall narrow_result_safe(MachineInstruction *instruction)
+{
+    unsigned short number = OPERAND_REG(&instruction->operands[0]);
+    MachineInstruction *previous, *user;
+    if (number & 0x4000) return 1;
+    if (!(number & 0xc000)) return 0;
+    previous = instruction;
+    user = instruction->record.next_use;
+    while (user) {
+        unsigned flags = previous->opcode;
+        MachineOperand *operand = &user->operands[(flags & USER_SECOND) != 0];
+        if (OPERAND_KIND(operand) != OPERAND_REGISTER ||
+            MACHINE_BYTES(user) > MACHINE_BYTES(instruction)) return 0;
+        if (flags & DEAD_RESULT) return 1;
+        if (flags & USER_SECOND) return 0;
+        previous = user;
+        user = user->record.next_use;
+    }
+    return 0;
+}

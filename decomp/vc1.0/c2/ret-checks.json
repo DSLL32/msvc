@@ -470,6 +470,51 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_input_float_bits": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_multiply_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_divide_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_absolute_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_unsigned_integer_to_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_minimum_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_extended_to_float": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_float_to_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@narrow_result_safe@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

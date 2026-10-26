@@ -4,7 +4,7 @@
 #include "work-prepare.h"
 #include <recon.h>
 extern int floating_frontend;
-enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
+enum { INTRINSIC_ABSOLUTE_DOUBLE = 17, INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_SIN_FLOAT = 106, INTRINSIC_SIN_DOUBLE = 107,
     INTRINSIC_COS_FLOAT = 110, INTRINSIC_COS_DOUBLE = 111,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
@@ -15,6 +15,10 @@ enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_SEH_STATUS = 215, INTRINSIC_SEH_D9 = 217, INTRINSIC_SCOPE_FINALLY = 241, INTRINSIC_FINALLY_DEPTH = 242 };
 
 Node *current_intrinsic; /* original0007b9b4 */
+/* Original83ae8..83af8, actual mixed-wave fabs ID17. The two-byte
+   recipe84e10 "u" builds an absolute-value tree; runtime name839d0 is empty.
+   This descriptor is independent: no preceding float descriptor is selected. */
+const IntrinsicDescription absolute_double_intrinsic = { 0x1008, 0, "u", "", 0x20 };
 /* Original83f98..83fb8: square root reached after binary power lowering. */
 const IntrinsicDescription root_float_intrinsic = { 0x1004, 0, "C", "sqrt", 0x120 };
 const IntrinsicDescription root_double_intrinsic = { 0x1008, 0, "d", "", 0x120 };
@@ -79,6 +83,7 @@ const IntrinsicDescription finally_depth_intrinsic = { 0, 0, "", "", 0 };
    this dispatch inline introduces no nonoriginal function/call edge. */
 #define SELECT_INTRINSIC_DESCRIPTION(id, description) do { \
     switch (id) { \
+    case INTRINSIC_ABSOLUTE_DOUBLE: (description) = &absolute_double_intrinsic; break; \
     case INTRINSIC_SQRT_FLOAT: (description) = &root_float_intrinsic; break; \
     case INTRINSIC_SQRT_DOUBLE: (description) = &root_double_intrinsic; break; \
     case INTRINSIC_SIN_FLOAT: (description) = &sine_float_intrinsic; break; \

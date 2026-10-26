@@ -44,8 +44,6 @@ void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
-int extended_to_float(const Extended *number, float *result) { __asm int 3 }
-void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
@@ -108,7 +106,6 @@ SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3
 #include "register-use.h"
 
 #include "instruction-rewrite.h"
-int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 
@@ -130,10 +127,8 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char search) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
-unsigned input_float_bits(void) { __asm int 3 }
 
 
-void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { __asm int 3 }
 
 
 
@@ -241,11 +236,7 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
-int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
-int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
-int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
-int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
 
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
