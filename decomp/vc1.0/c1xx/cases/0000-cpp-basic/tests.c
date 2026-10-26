@@ -11,6 +11,7 @@
 #include "parser.h"
 #include "lexer.h"
 #include "browser.h"
+#include "virtual-table-output.h"
 #include <recon.h>
 
 static int traps(void (*invoke)(void))
@@ -220,6 +221,79 @@ static int check_legacy_prefix_owners(void)
     check_declarator_prefix(&symbol, copy);
     return symbol.attributes == 0x80;
 }
+/* Explicit unit-only qualification of application ownership helpers. No
+   internal state here is presented as a captured public invocation. */
+CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol);
+int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index);
+void __stdcall mark_pch_virtual_thunk_key(VirtualThunkKey *key);
+extern unsigned pch_encoded_pointer;
+extern unsigned char *pch_reference_base;
+extern unsigned short pch_reference_page;
+static int check_frontend_owner_helpers(void)
+{
+    CppSymbol alias = {0}, declaration = {0};
+    FrontendRecord record = {0}, *head, *opening, *tail;
+    int saved = allow_incomplete_class;
+    alias.kind = 0x80; alias.next = &declaration;
+    if (find_tag_declaration(&alias) != &declaration) return 0;
+    allow_incomplete_class = 0;
+    if (temporary_cleanup_is_suppressed(0, 17)) return 0;
+    allow_incomplete_class = 1;
+    if (!temporary_cleanup_is_suppressed(0, 18)) return 0;
+    allow_incomplete_class = saved;
+    reset_frontend_records();
+    record.kind = 12; append_frontend_record(&record, sizeof(record)); head = ir_record_tail;
+    record.kind = 17; append_frontend_record(&record, sizeof(record)); opening = ir_record_tail;
+    record.kind = 12; append_frontend_record(&record, sizeof(record)); tail = ir_record_tail;
+    remove_matching_frontend_record(17);
+    if (ir_record_head != head || ir_record_tail != tail || head->next != tail ||
+        tail->previous != head || opening->next != 0) return 0;
+    remove_matching_frontend_record(17);
+    return ir_record_head == head && ir_record_tail == tail && head->next == tail;
+}
+static int check_thunk_key_relocation(void)
+{
+    VirtualThunkKey *key = allocate_permanent(sizeof(VirtualThunkKey));
+    CppSymbol *function = allocate_permanent(sizeof(CppSymbol));
+    unsigned expected;
+    key->kind = 3; key->function = function;
+    key->displacement = 8; key->virtual_displacement = 12;
+    mark_pch_virtual_thunk_key(key);
+    expected = ((unsigned)&key->function - (unsigned)pch_reference_base) |
+        ((unsigned)pch_reference_page << 16);
+    return pch_encoded_pointer == expected && key->function == function &&
+        key->kind == 3 && key->displacement == 8 && key->virtual_displacement == 12;
+}
+/* Native C view of the nonvirtual12-byte class owners. The alias calls the
+   genuine C++ method using its ECX/no-stack ABI; no application wrapper added. */
+typedef struct TestDatabaseBlock {
+    unsigned remaining;
+    unsigned char *cursor;
+    struct TestDatabaseBlock *next;
+} TestDatabaseBlock;
+typedef struct TestDatabasePool {
+    TestDatabaseBlock *first, *current;
+    unsigned used;
+} TestDatabasePool;
+typedef char TestDatabaseBlockSize[(sizeof(TestDatabaseBlock) == 12) ? 1 : -1];
+typedef char TestDatabasePoolSize[(sizeof(TestDatabasePool) == 12) ? 1 : -1];
+extern void __attribute__((thiscall)) test_release_database_pool(TestDatabasePool *pool)
+    __asm__("_ZN12DatabasePool7releaseEv");
+static int check_database_pool_release(void)
+{
+    TestDatabasePool pool = {0};
+    TestDatabaseBlock *first, *second;
+    test_release_database_pool(&pool);
+    first = malloc(sizeof(*first)); second = malloc(sizeof(*second));
+    if (!first || !second) { free(first); free(second); return 0; }
+    first->remaining = second->remaining = 0;
+    first->cursor = (unsigned char *)(first + 1); second->cursor = (unsigned char *)(second + 1);
+    first->next = second; second->next = 0;
+    pool.first = first; pool.current = second; pool.used = 27;
+    test_release_database_pool(&pool);
+    /* Compare retained field values only; never dereference released blocks. */
+    return pool.first == first && pool.current == second && pool.used == 27;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -240,5 +314,8 @@ const ReconTest c1xx_tests[] = {
     {"legacy based-self cast (unit-only)",1,check_based_self_cast},
     {"legacy based-self pointer source (unit-only)",1,check_based_self_pointer_source},
     {"based-expression identity (unit-only)",1,check_based_expression_identity},
-    {"legacy declarator prefix owners (unit-only)",1,check_legacy_prefix_owners}
+    {"legacy declarator prefix owners (unit-only)",1,check_legacy_prefix_owners},
+    {"frontend owner helpers (unit-only)",1,check_frontend_owner_helpers},
+    {"thunk-key relocation slot (unit-only)",1,check_thunk_key_relocation},
+    {"database pool release (unit-only)",1,check_database_pool_release}
 };

@@ -138,9 +138,16 @@ DatabaseBlock * RECON_THISCALL DatabaseBlock::initialize(unsigned capacity)
     next = 0;
     return this;
 }
+/* Original0x18120..0x1813b: ECX=this, no stack arguments/RET0.
+   Pool fields retain their old values after all owned blocks are freed. */
 void RECON_THISCALL DatabasePool::release(void)
 {
-    __asm { int 3 }
+    DatabaseBlock *block = first, *following;
+    while (block) {
+        following = block->next;
+        free(block);
+        block = following;
+    }
 }
 /* Original0x17300..0x17385: ECX=this, filename/signature on the
    stack, RET8. The fixed64B file header is a typed template, not arena data. */

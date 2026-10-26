@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Internal ownership support is COMPLETE (native-unit-only): five positively
+identified App helpers add106 B: following_declaration(10 B),
+temporary_cleanup_is_suppressed(22 B), remove_matching_frontend_record(31 B),
+mark_pch_virtual_thunk_key(16 B) and DatabasePool::release(27 B).
+Whole bodies, real application callers, layouts and ABI/graph edges are retained.
+This step does not claim fresh original/native CLI reach; original gates and
+callers are unchanged. The temporary predicate's two real formals remain unused;
+its result consults only the current incomplete-class parsing state.
+
+Three small typed unit groups check the alias's actual following identity,
+interior record removal/absent-match control, the thunk key's exact permanent
+pointer slot encoding, and empty/two-block pool release through the genuine
+ECX/no-stack C++ ABI. Pool fields deliberately retain their values after release;
+tests never dereference freed owners. No source wrapper or shared shim added.
+The case's test count now derives from its bounded array, avoiding a stale
+literal; the initial unknown-test failures are not passing validation.
+
+Total is1,868 App /406,790 B (85.39% of whole original code),28 named pending
+App and seven unchanged historical CRT source bodies. Sixteen support bodies
+are explicitly unit-qualified; historical first-entry count stays1,959. All50
+native cases and44 unit groups pass, with original-toolchain compilation and
+the1,876-function six-check graph/ABI audit. Closing gate3.437 s, necessary
+build4.590 s. Focused owner/key/pool units21.576/23.054/19.298 ms respectively
+(execution4.312/4.408/2.586 ms). No original capture or oracle change was needed.
+
+Earlier SDK diagnostic qualification:
+
 Callback contract validation is COMPLETE: case0049 compiles a generated
 callback SDK's negative conformance clients alongside valid explicit-operator
 and overloaded callback controls. The original emits five errors and one

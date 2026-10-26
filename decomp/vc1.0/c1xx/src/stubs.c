@@ -84,7 +84,6 @@ void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 
 
 
@@ -260,7 +259,6 @@ unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 }
 
 
 
-int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
 
 
 
@@ -341,7 +339,3 @@ RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { Parser
 
 
 struct VirtualThunkKey;
-void __stdcall mark_pch_virtual_thunk_key(struct VirtualThunkKey *key) { __asm { int 3 } }
-
-
-CppSymbol *__stdcall following_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }

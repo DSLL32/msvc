@@ -738,7 +738,12 @@ void mark_evaluation_boundary(void)
 }
 
 int __stdcall temporary_reference_matches(IrToken *object, unsigned index);
-int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index);
+/* Original0x3df00..0x3df16, stdcall8. The two real formals are
+   unused: only the current incomplete-class parsing state is consulted. */
+int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index)
+{
+    return allow_incomplete_class != 0;
+}
 /* Original 0x3de50..0x3debb, stdcall 4. Search only the current
    expression's temporary-cleanup suffix and remove its matching index. */
 void __stdcall cancel_temporary_cleanup(unsigned index)
@@ -1594,4 +1599,12 @@ void __stdcall record_boolean_constant(unsigned value)
     record.header.kind = 0x3d;
     record.value = value;
     append_frontend_record(&record.header, sizeof(record));
+}
+
+/* Original0x40e30..0x40e4f, stdcall4. Missing delimiters do not
+   trigger parser recovery; remove only the matching owned record. */
+void __stdcall remove_matching_frontend_record(unsigned char kind)
+{
+    FrontendRecord *record = find_frontend_record(ir_record_tail, kind, 0);
+    if (record) remove_frontend_record(record);
 }

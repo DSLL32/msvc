@@ -873,7 +873,12 @@ void __stdcall mark_pch_friend_records(FriendRecord *record)
     }
 }
 
-void __stdcall mark_pch_virtual_thunk_key(VirtualThunkKey *key);
+/* Original0x7bbd0..0x7bbe0, stdcall4. Only the declaration identity
+   in the16-byte thunk key is a relocatable pointer. */
+void __stdcall mark_pch_virtual_thunk_key(VirtualThunkKey *key)
+{
+    mark_pch_pointer((void **)&key->function);
+}
 
 /* Original0x7bbb0..0x7bbc6. Virtual-adjustment cache keys and their
    declaration values have distinct pointer traversals. */

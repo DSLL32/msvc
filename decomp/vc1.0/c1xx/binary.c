@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1959 historical frontiers/1863 App bodies;
- * latest eleven support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1959 historical frontiers/1868 App bodies;
+ * latest sixteen support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -41,6 +41,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "following_declaration",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_source_display_path",
@@ -714,6 +715,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "_ZN12DatabasePool7releaseEv",
+        .implementation = RECON_IMPLEMENTED,
         .original_symbol = "?release@DatabasePool@@QAEXXZ",
     },
     {
@@ -978,6 +980,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "mark_pch_virtual_thunk_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_mark_pch_friend_records@4",
@@ -7184,10 +7187,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_temporary_cleanup_is_suppressed@8",
         .entry_rva = 0x2df00,
-        .code = (const ReconExtent[]) { { 0x2df00, 0x2df01 } },
+        .code = (const ReconExtent[]) { { 0x2df00, 0x2df16 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "temporary_cleanup_is_suppressed",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_collect_member_references@8",
@@ -7705,10 +7709,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_remove_matching_frontend_record@4",
         .entry_rva = 0x30e30,
-        .code = (const ReconExtent[]) { { 0x30e30, 0x30e31 } },
+        .code = (const ReconExtent[]) { { 0x30e30, 0x30e4f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "remove_matching_frontend_record",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_remove_frontend_record@4",

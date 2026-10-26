@@ -9,7 +9,12 @@
 #include "parameter-scopes.h"
 #include <recon.h>
 
-CppSymbol *__stdcall following_declaration(CppSymbol *symbol);
+/* Original0x546d0..0x546da, stdcall4. The marked alias owns a
+   following declaration identity rather than a separately looked-up tag. */
+CppSymbol *__stdcall following_declaration(CppSymbol *symbol)
+{
+    return symbol->next;
+}
 int __stdcall has_class_initialization(CType *type);
 CppSymbol *__stdcall bind_function_overload(CppSymbol *overloads, CppSymbol *declaration);
 CppSymbol *__stdcall reconcile_typedef(CppSymbol *existing, CppSymbol *declaration);
