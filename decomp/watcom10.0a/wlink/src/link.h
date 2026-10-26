@@ -35,6 +35,17 @@ typedef struct dbi_addr_range dbi_addr_range;
 typedef struct dbi_section {
     unsigned long init, curr, size, start;
 } dbi_section;
+#pragma pack(1)
+/* The old section debug workspace is154bytes; fields are identified as used. */
+struct debug_info {
+    dbi_section locallinks, local, typelinks, type, linelinks, line;
+    dbi_section mod, global, addr;
+    unsigned long DBIWrite;
+    unsigned long line_link_start;
+    short modnum;
+};
+#pragma pack()
+typedef char old_debug_info_is_154[(sizeof(debug_info) == 154) ? 1 : -1];
 extern void DoAddLocal( dbi_section *, unsigned long );
 struct group_entry;
 typedef struct segdata segdata;

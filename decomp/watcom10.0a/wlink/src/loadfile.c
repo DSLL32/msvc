@@ -329,3 +329,23 @@ unsigned char WriteDOSGroup( group_entry *group )
     }
     return repos;
 }
+
+unsigned char CompareProtSegments( address *left, address *right )
+{
+    if( left->seg == right->seg ) return left->off < right->off;
+    return left->seg < right->seg;
+}
+
+unsigned long CopyToLoad( int handle, char *name )
+{
+    unsigned long amount, wrote;
+    wrote = 0;
+    for( ;; ) {
+        amount = QRead( handle, TokBuff, TokSize, name );
+        if( amount == 0 ) break;
+        WriteLoad( TokBuff, amount );
+        wrote += amount;
+    }
+    QClose( handle, name );
+    return wrote;
+}

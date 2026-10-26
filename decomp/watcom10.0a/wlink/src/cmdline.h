@@ -45,10 +45,21 @@ typedef struct fmt_os2_data {
     unsigned short segment_shift;
     unsigned short flags;
 } fmt_os2_data;
+/* Old Novell union: explicit start name, byte module type and flags. */
+typedef struct fmt_nov_data {
+    snamelist *exports, *modules;
+    char *screenname, *description, *checkfn, *startfn, *exitfn;
+    char *customdata, *threadname, *copyright, *messages, *help;
+    char *rpcdata, *sharednlm;
+    unsigned char moduletype, flags;
+} fmt_nov_data;
+typedef char old_nov_format_is_58[(sizeof(fmt_nov_data) == 58) ? 1 : -1];
+
 typedef struct fmt_data {
     union {
         unsigned char platform_data[58];
         fmt_os2_data os2;
+        fmt_nov_data nov;
         struct {
             fmt_os2_data os2;
             unsigned long objalign;
@@ -185,6 +196,19 @@ extern void WriteDOSSectRelocs( section *sect, unsigned char repos );
 extern unsigned EmitOvlAreaEntry( unsigned off, ovl_area *area );
 extern unsigned EmitOvlEntry( unsigned off, section *sect );
 extern void WriteMapBox12B( void );
+extern unsigned char ProcNLM( void );
+extern unsigned char ProcLAN( void );
+extern unsigned char ProcDSK( void );
+extern unsigned char ProcNAM( void );
+extern unsigned char ProcNovDBIExports( void );
+extern unsigned char ProcNovDBIReferenced( void );
+extern unsigned char GetNovImport( void );
+extern void SetNovImportSymbol( symbol *sym );
+extern unsigned char GetNovExport( void );
+extern unsigned char GetNovModule( void );
+extern unsigned char CompareProtSegments( address *left, address *right );
+extern int QOpenR( char *name );
+extern unsigned long CopyToLoad( int handle, char *name );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

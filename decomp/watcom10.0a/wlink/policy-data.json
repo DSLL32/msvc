@@ -4156,6 +4156,251 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "SetNovFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovell": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNLM": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNovImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetNovImportSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNovExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCheck": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcScreenName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcThreadName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCopyright": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMultiLoad": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcReentrant": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSynch": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPseudoPreemption": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNovModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCustom": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMessages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcXDCData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CmdNovFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NovDBIAddGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindExportedSyms": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NovDBIAddrStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NovDBIGenGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RemoveReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddNovImpReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniNovellLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CompareProtSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovImage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovImports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovExports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovModules": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AppendToLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QOpenR": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CopyToLoad": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteMessages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSharedNLM": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNovDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetProcOffsets": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NovNameWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeNovFmt": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

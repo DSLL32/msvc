@@ -39,16 +39,7 @@
 #pragma intrinsic(memcpy,strlen)
 #endif
 
-#pragma pack(1)
-/* The old section debug workspace is154bytes; fields are identified as used. */
-struct debug_info {
-    dbi_section locallinks, local, typelinks, type, linelinks, line;
-    dbi_section mod, global, addr;
-    unsigned long DBIWrite;
-    unsigned long line_link_start;
-    short modnum;
-};
-#pragma pack()
+
 
 /* Pass-one sizing shares the24-byte workspace with pass-two demand state. */
 #pragma pack(1)

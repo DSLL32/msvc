@@ -263,3 +263,12 @@ int ExeCreate( char *name )
     LnkMsg( 0x3408, "12", name, strerror( errno ) );
     return -1;
 }
+
+int QOpenR( char *name )
+{
+    int handle;
+    handle = DoOpen( name, O_RDONLY, 0 );
+    if( handle != -1 ) return handle;
+    LnkMsg( 0x3408, "12", name, strerror(errno) );
+    return -1;
+}

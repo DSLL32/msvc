@@ -7,6 +7,7 @@
 #include "exene.h"
 #include "dbgdwarf.h"
 #include "strtab.h"
+#include "exenov.h"
 #include <recon.h>
 
 #if defined(__WATCOMC__)
@@ -34,7 +35,6 @@ void CmdQNXFini( void ) { TRAP(); }
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
 void FillTypeFlags( unsigned short flags, unsigned type ) { TRAP(); }
 seg_leader *FindASeg( class_entry *class, char *name ) { TRAP(); return 0; }
-void FindExportedSyms( void ) { TRAP(); }
 
 unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
 
@@ -42,7 +42,6 @@ unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
 
 
 
-void NovDBIAddrStart( void ) { TRAP(); }
 void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
 void PhoneyStack( void ) { TRAP(); }
 void ReadOldLib( void ) { TRAP(); }
@@ -56,7 +55,6 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 void FiniPharLapLoadFile( void ) { TRAP(); }
-void FiniNovellLoadFile( void ) { TRAP(); }
 void FiniQNXLoadFile( void ) { TRAP(); }
 void FiniELFLoadFile( void ) { TRAP(); }
 
@@ -107,7 +105,6 @@ unsigned char CleanCachedHandles( void ) { TRAP(); return 0; }
 
 
 
-void CmdNovFini( void ) { TRAP(); }
 
 
 
@@ -136,8 +133,6 @@ void FreeELFFmt( void ) { TRAP(); }
 
 void SetPharFmt( void ) { TRAP(); }
 void FreePharFmt( void ) { TRAP(); }
-void SetNovFmt( void ) { TRAP(); }
-void FreeNovFmt( void ) { TRAP(); }
 
 
 
@@ -176,13 +171,11 @@ unsigned char ProcAnonExport( void ) { TRAP(); return 0; }
 unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcNovExport( void ) { TRAP(); return 0; }
 unsigned char ProcFixedLib( void ) { TRAP(); return 0; }
 unsigned char ProcNoVector( void ) { TRAP(); return 0; }
 unsigned char ProcVector( void ) { TRAP(); return 0; }
 unsigned char ProcForceVector( void ) { TRAP(); return 0; }
 
-unsigned char ProcModule( void ) { TRAP(); return 0; }
 unsigned char ProcNewSegment( void ) { TRAP(); return 0; }
 
 
@@ -207,7 +200,6 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 unsigned char ProcCom( void ) { TRAP(); return 0; }
 unsigned char ProcELF( void ) { TRAP(); return 0; }
-unsigned char ProcNovell( void ) { TRAP(); return 0; }
 
 unsigned char ProcPharlap( void ) { TRAP(); return 0; }
 unsigned char ProcQNX( void ) { TRAP(); return 0; }
@@ -256,7 +248,6 @@ unsigned char ProcRunDosstyle( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcNovDBI( void ) { TRAP(); return 0; }
 unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
@@ -272,15 +263,10 @@ unsigned char ProcAlignment( void ) { TRAP(); return 0; }
 unsigned char ProcArea( void ) { TRAP(); return 0; }
 unsigned char ProcArtificial( void ) { TRAP(); return 0; }
 unsigned char ProcCase( void ) { TRAP(); return 0; }
-unsigned char ProcCheck( void ) { TRAP(); return 0; }
-unsigned char ProcCopyright( void ) { TRAP(); return 0; }
-unsigned char ProcCustom( void ) { TRAP(); return 0; }
 
 unsigned char ProcDynamic( void ) { TRAP(); return 0; }
 
-unsigned char ProcExit( void ) { TRAP(); return 0; }
 
-unsigned char ProcHelp( void ) { TRAP(); return 0; }
 unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcLinearRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcLonglived( void ) { TRAP(); return 0; }
@@ -288,10 +274,8 @@ unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
 unsigned char ProcMaxData( void ) { TRAP(); return 0; }
 unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
-unsigned char ProcMessages( void ) { TRAP(); return 0; }
 unsigned char ProcMinData( void ) { TRAP(); return 0; }
 unsigned char ProcModName( void ) { TRAP(); return 0; }
-unsigned char ProcMultiLoad( void ) { TRAP(); return 0; }
 unsigned char ProcMultiple( void ) { TRAP(); return 0; }
 unsigned char ProcNameLen( void ) { TRAP(); return 0; }
 unsigned char ProcNewFiles( void ) { TRAP(); return 0; }
@@ -308,31 +292,24 @@ unsigned char ProcOffset( void ) { TRAP(); return 0; }
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
 unsigned char ProcPrivilege( void ) { TRAP(); return 0; }
 unsigned char ProcProtMode( void ) { TRAP(); return 0; }
-unsigned char ProcPseudoPreemption( void ) { TRAP(); return 0; }
 unsigned char ProcQNXResource( void ) { TRAP(); return 0; }
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
-unsigned char ProcReentrant( void ) { TRAP(); return 0; }
-unsigned char ProcScreenName( void ) { TRAP(); return 0; }
 unsigned char ProcSelfRelative( void ) { TRAP(); return 0; }
 unsigned char ProcSharelib( void ) { TRAP(); return 0; }
 unsigned char ProcShowDead( void ) { TRAP(); return 0; }
 unsigned char ProcSingle( void ) { TRAP(); return 0; }
 unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
-unsigned char ProcStart( void ) { TRAP(); return 0; }
 unsigned char ProcStatics( void ) { TRAP(); return 0; }
 unsigned char ProcStub( void ) { TRAP(); return 0; }
 unsigned char ProcSymFile( void ) { TRAP(); return 0; }
-unsigned char ProcSynch( void ) { TRAP(); return 0; }
-unsigned char ProcThreadName( void ) { TRAP(); return 0; }
 unsigned char ProcToggleRelocsFlag( void ) { TRAP(); return 0; }
 unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
 unsigned char ProcVFRemoval( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcXDCData( void ) { TRAP(); return 0; }
 
 
 
@@ -395,7 +372,6 @@ void ReportMultiple( symbol *sym, char *name, int len ) { TRAP(); }
 
 
 
-void NovDBIAddGlobal( unsigned len ) { TRAP(); }
 
 
 
@@ -455,7 +431,6 @@ void WriteAbsSegs( class_entry *class ) { TRAP(); }
 
 
 
-void NovDBIGenGlobal( symbol *sym ) { TRAP(); }
 void WriteSymArray( symbol **syms, unsigned num ) { TRAP(); }
 
 
@@ -517,12 +492,10 @@ void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 
 unsigned short FindGroupIdx( unsigned short seg ) { TRAP(); return 0; }
-void AddNovImpReloc( symbol *sym, unsigned long off, unsigned char relative, unsigned char isdata ) { TRAP(); }
 
 
 
 unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dll ) { TRAP(); return 0; }
-void RemoveReloc( pending_reloc *rel ) { TRAP(); }
 
 unsigned long GetElfImport( symbol *sym ) { TRAP(); return 0; }
 
@@ -570,7 +543,6 @@ unsigned char ProcQNXHeapSize( void ) { TRAP(); return 0; }
 
 unsigned char ProcELFImport( void ) { TRAP(); return 0; }
 
-unsigned char ProcNovImport( void ) { TRAP(); return 0; }
 
 
 
@@ -730,3 +702,14 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 void WriteMapBox12B( void ) { TRAP(); }
+
+
+unsigned char ProcLAN( void ) { TRAP(); return 0; }
+
+unsigned char ProcDSK( void ) { TRAP(); return 0; }
+
+unsigned char ProcNAM( void ) { TRAP(); return 0; }
+
+unsigned char ProcNovDBIExports( void ) { TRAP(); return 0; }
+
+unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }

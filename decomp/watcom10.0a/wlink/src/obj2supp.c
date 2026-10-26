@@ -645,3 +645,9 @@ void MakeBase( fixup_record *fix )
     fix->loc += size;
     fix->addr.off += size;
 }
+
+void RemoveReloc( pending_reloc *rel )
+{
+    CurrRec->fixups = (path_entry *)rel->next;
+    _LnkFree( rel );
+}
