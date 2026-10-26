@@ -800,6 +800,26 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@count_shared_register_conflicts@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@register_spill_homes_compatible@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@pentium_flags_live_after@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@include_register_block_use@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

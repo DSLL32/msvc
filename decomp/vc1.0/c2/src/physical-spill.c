@@ -515,3 +515,21 @@ void __fastcall record_rematerialized_registers(WorkItem *work, MachineInstructi
         }
     }
 }
+
+/* Original [0002d000,0002d036). A tree register with an observable or
+   parameter memory home cannot share that home. The4000 bit belongs to
+   the register number; the100/200 restrictions belong to its flags. */
+int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right)
+{
+    if ((left->number & 0x4000) && (left->flags & 0x300)) return 0;
+    if ((right->number & 0x4000) && (right->flags & 0x300)) return 0;
+    return 1;
+}
+
+/* Original [0002d040,0002d059). Required lookup preserves variable
+   identity; the existing interval helper owns extension and empty ranges. */
+void __fastcall include_register_block_use(unsigned short number, int block)
+{
+    RegisterVariable *variable = lookup_register_variable(number, 1);
+    widen_register_block_interval(&variable->blocks, block);
+}

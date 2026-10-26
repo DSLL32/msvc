@@ -1,20 +1,56 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1466 completes the derived IDE progress/object case.
-There are 1351 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 353779/399693 original code-section bytes (88.5127%);
-adding 940 owned text-data bytes gives 354719/399693 (88.7479%). These clipped
+Checkpoint 1470 completes the INTERNAL allocation/query case.
+There are 1355 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 354103/399693 original code-section bytes (88.5937%);
+adding 940 owned text-data bytes gives 355043/399693 (88.8289%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 381093/399693
-(95.3464%). A reliable non-CRT denominator remains unavailable; 38 pending App
-rows and 18600B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 381417/399693
+(95.4275%). A reliable non-CRT denominator remains unavailable; 34 pending App
+rows and 18276B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 34 cached IO cases, two INTERNAL DIRECT
-cases and 240 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 34 cached IO cases, three INTERNAL DIRECT
+cases and 243 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+The allocation/query case reuses case0027's genuine decoder input and the first
+find_evictable_machine_region anchor, outside all four query callee graphs.
+Actual _decode_residual_lanes state has102 initialized variable owners,602
+conflict edges and six protected spill homes across39 blocks/498 instructions.
+A distinct real pair has24 shared conflicts; self-counts and degree-zero queries
+supply supplemental positive/negative relationships. Spill-home restrictions
+are checked in both operand positions. All498 actual instruction queries yield
+20 positive/478 negative results, with136 immediate reader/writer witnesses.
+The one interval adapter receives real register4024's block2 use inside[2,33];
+all defined graph/list/interval fields remain unchanged. No private state is
+forced. The exact5684B result uses bounded owner indices, no cross-process
+addresses, padding or phase-undefined record payloads.
+
+Four whole App owners add324B: conflict intersection47, spill-home compatibility54,
+flag-use query198 and interval adapter25. Fresh masked original/native prefixes
+1466..1470 match. The original flag helper reuses its cursor in nested loops:
+a destination suffix must reach a flag operation/jump before NULL; its original
+NULL-dereference assumption is preserved, with no invented guard/result. Cold
+controls cover read-before-write priority, branch destinations, conflict endpoint
+exclusion and number/flag domains; they do not claim public compiler reach.
+A flipped expected count byte rejects with actual exit125. The first trivial
+coalescer anchor was rejected native-only before original capture. Abrupt DIRECT
+completion preserves actual empty decode.obj/streams and status0, not a claim
+that the decoder finishes. No new CRT implementation or shared shim was needed.
+
+Final `make -j4 audit check unit` passes2.098s (phases unsplit), including1360
+paired graphs/accepted extents and164 scoped RET contracts. Original /W3 compile
+passes4.387s. All measured original references total7.904s; original helper
+build5.353s, combined canonical/native builds12.906s, metadata/case builds3.580s,
+native pairs0.389s and native inspection1.230s. Completion DIRECT is43.126ms:
+setup15.015/execution23.893/checks4.217 (49.506ms including tool startup). Analysis/editing/packing are unmeasured; combined phases are
+unsplit and these totals are not task elapsed. Raw references, rejected anchor,
+negative and completion/coverage/timing records remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/allocation-queries/`.
+
+The preceding IDE case used the following workflow.
 The new IDE case uses the exact captured CL/C1 profile inputs and environment,
 restores the original -Foprofile.obj removed only by the preceding listing-only
 case, and appends the explicitly parsed -ide switch. It is honestly standalone

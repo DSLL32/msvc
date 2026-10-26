@@ -2887,11 +2887,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@include_register_block_use@8",
         .entry_rva = 0x1d040,
-        .code = (const ReconExtent[]) { { 0x1d040, 0x1d041 } },
+        .code = (const ReconExtent[]) { { 0x1d040, 0x1d059 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "include_register_block_use",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@remove_resident_float_use@4",
@@ -4183,11 +4183,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@pentium_flags_live_after@4",
         .entry_rva = 0x37f70,
-        .code = (const ReconExtent[]) { { 0x37f70, 0x37f71 } },
+        .code = (const ReconExtent[]) { { 0x37f70, 0x38036 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "pentium_flags_live_after",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@scheduled_instruction_changes_register@8",
@@ -6037,11 +6037,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@count_shared_register_conflicts@8",
         .entry_rva = 0x1e450,
-        .code = (const ReconExtent[]) { { 0x1e450, 0x1e451 } },
+        .code = (const ReconExtent[]) { { 0x1e450, 0x1e47f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "count_shared_register_conflicts",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@insert_register_affinity@8",
@@ -6136,11 +6136,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@register_spill_homes_compatible@8",
         .entry_rva = 0x1d000,
-        .code = (const ReconExtent[]) { { 0x1d000, 0x1d001 } },
+        .code = (const ReconExtent[]) { { 0x1d000, 0x1d036 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "register_spill_homes_compatible",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@operand_for_spill@12",

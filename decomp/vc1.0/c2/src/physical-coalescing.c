@@ -260,3 +260,15 @@ void __fastcall release_register_affinity(RegisterAffinity *affinity)
     affinity->next = free_register_affinities;
     free_register_affinities = affinity;
 }
+
+/* Original [0002e450,0002e47f). Count neighbors of left which also
+   conflict with right. The right owner itself is excluded by identity;
+   registers_conflict retains the original numbered-register search. */
+int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right)
+{
+    RegisterConflict *edge;
+    int count = 0;
+    for (edge = left->conflicts; edge; edge = edge->next)
+        if (edge->variable != right && registers_conflict(edge->variable, right)) ++count;
+    return count;
+}

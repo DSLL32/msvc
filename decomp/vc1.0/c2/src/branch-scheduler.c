@@ -277,3 +277,37 @@ int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineIn
     jump->operands[0].value.symbol = &new_symbol->symbol;
     return changed;
 }
+
+/* Original [00047f70,00048036). Search for the next use/definition of
+   condition flags, following one explicit branch destination. READ wins
+   when an operation both reads and writes. An unresolved jump or a second
+   jump after the destination conservatively retains the flags.
+   The original reuses scan for both loops: if a valid label's suffix has
+   no flag operation or jump before NULL, the outer increment dereferences
+   NULL. Preserve that original list-shape assumption rather than adding
+   a new result/guard for an unsupported compiler state. */
+int __fastcall pentium_flags_live_after(MachineInstruction *instruction)
+{
+    MachineInstruction *scan, *label;
+    unsigned operation, properties;
+    for (scan = instruction->next; scan; scan = scan->next) {
+        if ((scan->opcode & 15) != 0) continue;
+        operation = (scan->opcode >> 8) & 255;
+        properties = machine_selection_properties[operation];
+        if (properties & MC_READS_FLAGS) return 1;
+        if (properties & MC_WRITES_FLAGS) return 0;
+        if (operation != MC_JMP) continue;
+        if ((scan->operands[0].flags & 15) != 8) return 1;
+        label = ((LabelSymbol *)scan->operands[0].value.symbol)->instruction;
+        if (!label || (label->opcode & 15) != 1) return 1;
+        for (scan = label->next; scan; scan = scan->next) {
+            if ((scan->opcode & 15) != 0) continue;
+            operation = (scan->opcode >> 8) & 255;
+            properties = machine_selection_properties[operation];
+            if (properties & MC_READS_FLAGS) return 1;
+            if (properties & MC_WRITES_FLAGS) return 0;
+            if (operation == MC_JMP) return 1;
+        }
+    }
+    return 0;
+}

@@ -183,8 +183,6 @@ int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, Symb
 
 
 int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
-int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 
 
 
@@ -200,11 +198,9 @@ void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
-int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
-void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
 
