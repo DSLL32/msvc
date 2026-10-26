@@ -1,15 +1,17 @@
 CVPACK 5.10 reconstruction
 ========================
 
-`make -j4 check unit` runs the cached cases and twenty-seven narrow native tests.
+`make -j4 check unit` runs the cached cases and twenty-nine narrow native tests.
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-231 implemented application functions total 59,195 original code bytes: 94.47% of
+232 implemented application functions total 59,281 original code bytes: 94.60% of
 the 62,662-byte whole-text extent. Of these, 229 functions / 58,927 bytes are
-qualified by matching original/native pairs; the two COBOL converters / 268 bytes
-have the explicit native-unit qualification below. That denominator includes
-CRT/support, unknown code and padding; a complete non-CRT denominator is not established. CRT/import
+qualified by matching original/native pairs; the two COBOL converters and the
+module-name helper / 354 bytes have explicit native-unit qualification below.
+The final bounded text inventory accounts for all application code, classified
+CRT/imports, owned text data and alignment; the identified application-code
+extent denominator is 59,281 bytes. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
 
 Completed cases:
@@ -47,7 +49,7 @@ Completed cases:
   5,216-byte packed image, SHA256
   `5583fdbb41f8f2645ed6d96816181c06cda40ad8098c6f37408d3f1041abcf2e`.
   The genuine Record wrapper was reconstructed. This is C7 widening, not the
-  older C6 conversion path; that reader remains a trap.
+  older C6 conversion path, which is exercised by later cases below.
 
 - 0008-type-server-archive: genuine VC5 `/Zi` two-TU archive with a shared
   53,248-byte compiler PDB and real LF_TYPESERVER records. Status 0, exact
@@ -100,7 +102,8 @@ Completed cases:
   Status 0, exact 223-byte verbose output and packed DLL SHA256
   `7e14054c0a5c88f35ba77b1f6baf75a3a995b8a7cf135fddef0bc671b64478c8`.
   Forty-one application functions were reconstructed. Opaque COBOL, structure,
-  pointer/BARRAY and unvisited register-relative conversions remain traps.
+  pointer/BARRAY paths were exercised in later cases; the coalesced unvisited
+  register-relative slot remains separately CRT-classified.
   The existing coalesced one-byte RET identity stays CRT-classified, with a
   native denial at its unvisited callback slot and no new application credit.
   Input validation checks actual consumed type domains, name/record endpoints
@@ -113,8 +116,8 @@ Completed cases:
   procedure scopes are validated by the generator. Status 0, exact 223-byte
   verbose output and complete packed DLL SHA256
   `3125f1cbf3a219e307a151955c42f8ec19965c1a27716858dee6556b29926753`.
-  Six functions were reconstructed. The unvisited wide register-relative and
-  MIPS callbacks retain their previous classification and denial.
+  Six functions were reconstructed. The wide register-relative slot retains its
+  prior CRT classification/denial; MIPS procedures are exercised below.
 
 - 0015-c6-compound: format-authored C6 callable with two arguments, named
   six-byte aggregates with two member types and name/offset lists, and based
@@ -124,7 +127,8 @@ Completed cases:
   Four argument/aggregate/field-list/based-array functions were reconstructed.
   The actual WORD name-retention flag and UDT-list head are now single storage
   owners; earlier cases only exercised the duplicate source names at zero.
-  Plain/based pointer attributes and opaque COBOL payloads remain unqualified.
+  Plain/based pointers were qualified afterward; the COBOL unit qualification
+  is recorded separately below.
 
 - 0016-c6-pointers: authored near/far/huge and segment/self/type/value-based
   pointers, with genuine register, frame and data base records in both address
@@ -197,7 +201,8 @@ During reconstruction only current-case pairs and selected changed-function
 checks ran; the completed case receives one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
-state/proof campaigns are not rerun. Unvisited application stubs remain traps.
+state/proof campaigns are not rerun. Unsupported dependency requests and the
+coalesced unvisited CRT callback remain fail-closed.
 
 The two opaque C6 COBOL converters are separately qualified by user-authorized
 native units grounded in the complete target disassembly and public CodeView
@@ -225,5 +230,26 @@ units, original-compiler build and full 231-body graph/import/reference/
 ownership/extent/callback checks pass, with strict RET on 230 bodies and the
 existing Release residual. Case-end incremental batch: 0.593 s. The original-pair
 qualification is 229 functions / 58,927 B; the two COBOL functions / 268 B retain only
-the explicit native-unit qualification above. The module-name helper is the
-only remaining declared application trap.
+the explicit native-unit qualification above. The module-name helper was subsequently qualified as recorded below.
+
+The final module-name helper is separately qualified by user-authorized native
+units and original-compiler/static graph checks, without a forced diagnostic or
+original execution solely for reach. Its complete 86-byte body finds the counted
+name after a WORD-sized array of twelve-byte contributions, copies its unsigned
+BYTE length and appends one NUL to the original shared buffer. Two tests cover
+0/1/3/256 contributions, lengths 0..255, unchanged input/ModuleInfo bytes and
+stable buffer identity with an untouched previous tail. They took 8.060 and
+8.532 ms; the scoped graph/import/ABI audit took 11.872 ms including startup.
+The final incremental native/original build and all eighteen cached cases,
+twenty-nine units, full 232-body graph/import/reference/ownership/extent/callback
+checks and strict RET on 231 bodies passed in 1.094 s. No original target was
+rerun for this qualification. The existing Release residual is unchanged.
+
+No declared application stubs remain. A bounded inventory of the entire original
+text accounts for 59,281 application-code bytes, 430 classified CRT/import bytes,
+1,151 owned text-data bytes and 1,800 alignment bytes. All 236 intervening gaps
+consist solely of NOP/INT3 padding, MOV EDI,EDI or LEA ECX,[ECX] alignment; no
+additional executable body was found. Reconstruction stops at this only-CRT
+boundary. The three native-unit-qualified functions retain that qualification,
+the faulting authored COBOL CLI case remains unaccepted, and case-bound external
+dependency adapters do not imply general MSPDB support.

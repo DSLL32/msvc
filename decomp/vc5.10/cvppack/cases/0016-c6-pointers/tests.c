@@ -84,8 +84,70 @@ static int cobol_root_payload(void)
     return cobol_payload(convert_legacy_cobol1, 0xa7, 0x0c,
                          payload, sizeof(payload));
 }
-const ReconTest cvpack_pointer_tests[3] = {
+
+/* Native-only qualification from target5630: WORD contribution count, 12-byte
+ * stride, unsigned counted length, exact copy and one appended terminator. */
+static int module_name_layout(void)
+{
+    static const unsigned short counts[4] = {0, 1, 3, 256};
+    static const unsigned lengths[4] = {0, 9, 37, 255};
+    ModuleInfo info, saved;
+    unsigned char *data, *before, *name;
+    const char *result;
+    unsigned i, j, size;
+    if (offsetof(ModuleInfo, data) != 12 || sizeof(ModuleCodeSegment) != 12) return 0;
+    for (i = 0; i < 4; ++i) {
+        size = 8 + counts[i] * 12 + 1 + lengths[i];
+        data = malloc(size);
+        before = malloc(size);
+        if (!data || !before) return 0;
+        memset(data, 0xa5, size);
+        *(unsigned short *)(data + 4) = counts[i];
+        name = data + 8 + counts[i] * 12;
+        name[0] = (unsigned char)lengths[i];
+        for (j = 0; j < lengths[i]; ++j) name[j + 1] = (unsigned char)('a' + j % 26);
+        memcpy(before, data, size);
+        memset(&info, 0x5a, sizeof(info));
+        info.data = data;
+        info.size = size;
+        saved = info;
+        result = module_name(&info);
+        if (!result || memcmp(result, name + 1, lengths[i]) || result[lengths[i]] ||
+            memcmp(data, before, size) || memcmp(&info, &saved, sizeof(info))) return 0;
+        free(before);
+        free(data);
+    }
+    return 1;
+}
+static int module_name_shared_buffer(void)
+{
+    unsigned char first[8 + 1 + 255], second[8 + 12 + 1 + 3], expected[256];
+    ModuleInfo info;
+    const char *before, *after;
+    unsigned i;
+    memset(first, 0, sizeof(first));
+    first[8] = 255;
+    for (i = 0; i < 255; ++i) first[9 + i] = (unsigned char)('A' + i % 26);
+    memset(&info, 0, sizeof(info));
+    info.data = first;
+    before = module_name(&info);
+    memcpy(expected, first + 9, 255);
+    expected[255] = 0;
+    if (memcmp(before, expected, sizeof(expected))) return 0;
+    memset(second, 0, sizeof(second));
+    *(unsigned short *)(second + 4) = 1;
+    second[20] = 3;
+    memcpy(second + 21, "end", 3);
+    info.data = second;
+    after = module_name(&info);
+    memcpy(expected, "end", 3);
+    expected[3] = 0;
+    return before == after && !memcmp(after, expected, sizeof(expected));
+}
+const ReconTest cvpack_pointer_tests[5] = {
     { "base-symbol-layout", 0, base_symbol_layout },
     { "cobol-parent-payload-native-only", 1, cobol_parent_payload },
-    { "cobol-root-payload-native-only", 1, cobol_root_payload }
+    { "cobol-root-payload-native-only", 1, cobol_root_payload },
+    { "module-name-layout-native-only", 1, module_name_layout },
+    { "module-name-shared-buffer-native-only", 1, module_name_shared_buffer }
 };

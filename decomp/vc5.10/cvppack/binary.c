@@ -110,7 +110,8 @@ static const ReconFunction functions[] = {
     { .name="_rewrite_module_symbols", .entry_rva=0xa790, .code=(const ReconExtent[]){{0xa790,0xaa00}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="rewrite_module_symbols" },
     { .name="_rewrite_module_global_types", .entry_rva=0x5470, .code=(const ReconExtent[]){{0x5470,0x54c6}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="rewrite_module_global_types" },
     { .name="_widen_subsection", .entry_rva=0x5250, .code=(const ReconExtent[]){{0x5250,0x53ba}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="widen_subsection" },
-    { .name="_module_name", .entry_rva=0x5630, .definition=RECON_APP, .implementation=RECON_UNIMPLEMENTED, .native_symbol="module_name" },
+    /* User-authorized native-unit qualification; no original CLI reach claim. */
+    { .name="_module_name", .entry_rva=0x5630, .code=(const ReconExtent[]){{0x5630,0x5686}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="module_name" },
     { .name="_create_widen", .entry_rva=0x10290, .code=(const ReconExtent[]){{0x10290,0x102a6}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="create_widen" },
     { .name="_release_widen", .entry_rva=0x102b0, .code=(const ReconExtent[]){{0x102b0,0x102b8}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="release_widen" },
     { .name="_query_widen", .entry_rva=0x102e0, .code=(const ReconExtent[]){{0x102e0,0x102fb}}, .code_count=1, .definition=RECON_APP, .implementation=RECON_IMPLEMENTED, .native_symbol="query_widen" },

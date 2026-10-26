@@ -235,6 +235,23 @@ void read_module_local_symbols(unsigned index, CodeViewDirectoryEntry *entry)
     line_entry_index = index;
 }
 
+/* Counted object name follows the twelve-byte contribution array.
+ * The original returns one reusable buffer at004153c0; callers must copy
+ * a name before requesting another. [00405630,00405686), cdecl pointer arg. */
+#pragma intrinsic(memcpy)
+const char *module_name(ModuleInfo *info)
+{
+    static char name_buffer[MAX_PATH];
+    unsigned char *data = info->data, *name;
+    unsigned length;
+    if (!data) fatal_error(1001, NULL, NULL);
+    name = data + 8 + *(unsigned short *)(data + 4) * 12;
+    length = *name;
+    memcpy(name_buffer, name + 1, length);
+    name_buffer[length] = 0;
+    return name_buffer;
+}
+
 /* Read source-module line information [004053c0,0040544e). */
 void read_module_source_lines(unsigned index, CodeViewDirectoryEntry *entry)
 {

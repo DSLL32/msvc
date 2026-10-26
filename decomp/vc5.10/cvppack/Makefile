@@ -22,7 +22,6 @@ APP_SOURCES := src/legacy-convert.c \
   src/primitive-types.c \
   src/publics.c \
   src/source-index.c \
-  src/stubs.c \
   src/stream-files.c \
   src/symbol-handlers.c \
   src/symbol-reference.c \
