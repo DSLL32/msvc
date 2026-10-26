@@ -776,7 +776,11 @@ void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineIns
         created->operands[0] = *reg;
         created->operands[1] = *source;
         FP_LINK_BEFORE(first, created);
-        FP_SET_OPERATION(comparison, MC_FCOM);
+        /* Original37b2d..37b40 assigns opcode5d (FCOMP). The integer
+           replacement removes the following floating store, so the compare
+           must take over its pop. The distinct store/load combiner's FCOM
+           assignment at38213 remains nonpopping. */
+        FP_SET_OPERATION(comparison, MC_FCOMP);
     }
     reg = operand_for_register(low_number);
     reg->flags |= 0x400;

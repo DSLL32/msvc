@@ -545,6 +545,61 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_input_double_bits": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_maximum_extended": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@is_nonnegative_tree@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@push_unary_into_left@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@mark_float_branch_targets@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@float_target_is_epilogue@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@can_reuse_float_branch_target@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@close_machine_region@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@resolve_machine_region_suffix@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@can_merge_float_branch@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@split_float_memory_transfer@24": {
+      "expected_cleanup": [
+        16
+      ]
     }
   }
 }

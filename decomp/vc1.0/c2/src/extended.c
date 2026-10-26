@@ -425,3 +425,34 @@ void float_to_extended(const float *number, Extended *result)
         call store_extended
     }
 }
+
+/* Original714fa..71560. Same documented raw80-bit load/compare/store
+   and ESI/ST0 normalization bridge as minimum_extended. C retains the
+   inverse C0 selection and format-tag policy, including equal operands. */
+int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fcom st(1)
+        fwait
+        fnstsw word ptr extended_scratch+4
+        fwait
+    }
+    if (!(extended_scratch.range.status & 0x100)) {
+        __asm fxch st(1)
+    }
+    __asm fstp st(0)
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}

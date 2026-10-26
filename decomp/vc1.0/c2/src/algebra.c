@@ -1002,3 +1002,28 @@ int __fastcall extract_complement(Node **slot)
         return 0;
     }
 }
+
+/* Original56ab0..56b77. This structural proof preserves the original
+   unsigned-shift, AND and integer-conversion tests; unknown loads return0. */
+int __fastcall is_nonnegative_tree(Node *node)
+{
+    Node *left = node->left.node, *right = node->second.node;
+    unsigned short source, target;
+    switch (node->opcode) {
+    case 0xa:
+        if ((node->attributes.words.type & 0x200) && right->opcode == 0x33) return 1;
+        return is_nonnegative_tree(left) ? 1 : 0;
+    case 0xb:
+        if (is_nonnegative_tree(left)) return 1;
+        return is_nonnegative_tree(right) ? 1 : 0;
+    case 0x33:
+        return (integer_type_limit(node, 0x80000000U) & node->left.value) == 0;
+    case 0x34:
+        source = left->attributes.words.type;
+        target = node->attributes.words.type;
+        if (!(source & 0x300) || (source & 255) > (target & 255)) return 0;
+        if ((target & 0x200) && (source & 255) < (target & 255)) return 1;
+        return is_nonnegative_tree(left) ? 1 : 0;
+    }
+    return 0;
+}

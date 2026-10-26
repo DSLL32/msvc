@@ -1009,3 +1009,12 @@ Node *__fastcall push_unary_into_right(Node *node)
     tree_changed = 1;
     return build_tree("PPLYLY", operand->left.node, operand->second.node, node, operand);
 }
+
+/* Original55180..551a5. Contextual recipe835c0..835c7 distributes
+   the wrapper into the left operand, canonicalizing each retained owner. */
+Node *__fastcall push_unary_into_left(Node *node)
+{
+    Node *operand = node->left.node;
+    tree_changed = 1;
+    return build_tree("PLYPLY", operand->left.node, node, operand->second.node, operand);
+}

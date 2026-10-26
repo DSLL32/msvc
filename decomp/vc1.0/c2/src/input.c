@@ -145,3 +145,12 @@ unsigned input_float_bits(void)
     fread(&value, sizeof(value), 1, input_file);
     return value;
 }
+
+/* Original6ff90..6ffb6. The eight raw bytes return in EAX:EDX under
+   the original small-POD ABI, with no conversion or short-read diagnostic. */
+DoubleBits input_double_bits(void)
+{
+    DoubleBits value;
+    fread(&value, sizeof(value), 1, input_file);
+    return value;
+}

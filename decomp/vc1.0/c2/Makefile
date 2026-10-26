@@ -134,7 +134,7 @@ BINARY_SOURCES = src/c2.c \
     src/machine-state.c \
     src/frame.c \
     src/frame-output.c
-BINARY_SUPPORT_SOURCES = harness/decorated-name-tests.c crt/runtime.c $(wildcard $(RECON)/src/*.c)
+BINARY_SUPPORT_SOURCES = harness/input-tests.c harness/decorated-name-tests.c crt/runtime.c $(wildcard $(RECON)/src/*.c)
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) crt/runtime.c
 ORIGINAL_BUILD = build
@@ -157,3 +157,8 @@ include $(RECON_TOOL_DIR)/recon-tool.mk
 # Original VC1 small PODs return EAX:EDX; this object owns every App caller.
 $(BINARY_BUILD)/pic/src/decorated-names.c.o: NATIVE_CFLAGS += -freg-struct-return
 $(call support-object,harness/decorated-name-tests.c): NATIVE_CFLAGS += -freg-struct-return
+
+# input_double_bits is the original8B EAX:EDX POD; all two App callers
+# share that ABI. Extended is12B and retains its ordinary hidden result pointer.
+$(BINARY_BUILD)/pic/src/input.c.o $(BINARY_BUILD)/pic/src/expression-fields.c.o $(BINARY_BUILD)/pic/src/initializers.c.o: NATIVE_CFLAGS += -freg-struct-return
+$(call support-object,harness/input-tests.c): NATIVE_CFLAGS += -freg-struct-return

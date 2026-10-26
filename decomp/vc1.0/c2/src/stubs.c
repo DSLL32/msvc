@@ -43,7 +43,6 @@ void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int
 void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
 void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-DoubleBits input_double_bits(void) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
@@ -55,7 +54,6 @@ Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 unsigned __fastcall second_return_value_register(FunctionSymbol *symbol) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 #include "algebra.h"
-int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
@@ -202,7 +200,6 @@ int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, Symb
 
 
 
-int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 int __fastcall retarget_machine_region_entry(LabelSymbol *label, LabelSymbol *replacement, MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 int __fastcall register_spill_homes_compatible(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
 int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterVariable *right) { __asm int 3 }
@@ -220,7 +217,6 @@ void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *rel
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
-Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
@@ -231,16 +227,12 @@ MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *regi
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
-int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 void __fastcall finish_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
-void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm int 3 }
-int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
-int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 
 int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 

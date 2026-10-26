@@ -2287,3 +2287,116 @@ int __fastcall previous_float_is_load(MachineInstruction *instruction)
     }
     return 0;
 }
+
+/* Original3c660..3c69b. Coalesce equal label/depth requirements in
+   encounter order, counting each duplicate once without freeing arena nodes. */
+void __fastcall mark_float_branch_targets(FloatStreamBranch *branches)
+{
+    FloatStreamBranch *branch, *other, *previous;
+    for (branch = branches; branch; branch = branch->next) {
+        previous = branch;
+        other = branch->next;
+        while (other) {
+            if (other->label == branch->label && other->stack_depth == branch->stack_depth) {
+                ++branch->references;
+                previous->next = other->next;
+            } else previous = other;
+            other = other->next;
+        }
+    }
+}
+
+int __fastcall float_target_is_epilogue(MachineInstruction *instruction);
+/* Original3c790..3c905. A destination can share a stream exit when it
+   already starts an epilogue, or its private unconditional edge leads to one.
+   Preserve reference-count and incoming-predecessor requirements before
+   setting the two independent rewrite bits in the original branch owner. */
+int __fastcall can_merge_float_branch(FloatStreamBranch *branch,
+    MachineInstruction *previous, MachineInstruction *target)
+{
+    MachineInstruction *first, *jump, *destination;
+    unsigned kind, operation;
+    first = target->next;
+    for (;;) {
+        kind = FM_KIND(first);
+        if (kind == 10 || kind == 8 || kind == 9 || kind == 0 || kind == 1) break;
+        first = first->next;
+    }
+    if (FM_KIND(first) == 1) return 0;
+    if (float_target_is_epilogue(first)) {
+        branch->flags |= 1;
+        return 1;
+    }
+    if (branch->label->references != (long)branch->references) return 0;
+    if (!(branch->flags & 1) &&
+        (!previous || FM_KIND(previous) != 0 || FM_OPERATION(previous) != MC_JMP)) return 0;
+    for (jump = first; jump; jump = jump->next) {
+        kind = FM_KIND(jump);
+        if (kind == 1) break;
+        if (kind == 10 || kind == 8 || kind == 9 || kind == 0) {
+            operation = FM_OPERATION(jump);
+            if (operation == MC_JCC || operation == MC_JMP) break;
+        }
+    }
+    if (!jump || FM_OPERATION(jump) != MC_JMP) return 0;
+    destination = label_machine_instruction((LabelSymbol *)jump->operands[0].value.symbol);
+    if (!destination) return 0;
+    first = destination->next;
+    for (;;) {
+        kind = FM_KIND(first);
+        if (kind == 10 || kind == 8 || kind == 9 || kind == 0 || kind == 1) break;
+        first = first->next;
+    }
+    if (FM_KIND(first) == 1) return 0;
+    if (float_target_is_epilogue(first)) {
+        branch->flags |= 2;
+        return 1;
+    }
+    return 0;
+}
+
+/* Original3c6a0..3c789. Return-value MOV/FLD and synthetic EPOP records
+   may precede LEAVE. Labels terminate the recognized epilogue. The EPOP
+   chain has the original non-null terminal-instruction precondition. */
+int __fastcall float_target_is_epilogue(MachineInstruction *instruction)
+{
+    unsigned operation = FM_OPERATION(instruction), kind;
+    if ((operation == MC_MOV && (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+         !(instruction->operands[0].value.reg.words.number & 0x3fff)) ||
+        (operation == MC_FLD && ((instruction->operands[1].flags & 15) == 4 ||
+         (instruction->operands[1].flags & 15) == 5 || (instruction->operands[1].flags & 15) == 3))) {
+        instruction = instruction->next;
+        while (instruction) {
+            kind = FM_KIND(instruction);
+            if (kind == 10 || kind == 8 || kind == 9 || kind == 0) break;
+            if (kind == 1) return 0;
+            instruction = instruction->next;
+        }
+        if (!instruction) return 0;
+    }
+    operation = FM_OPERATION(instruction);
+    if (operation == MC_LEAVE) return 1;
+    if (operation != MC_EPOP) return 0;
+    while (FM_ELIGIBLE(instruction) && FM_OPERATION(instruction) == MC_EPOP)
+        instruction = instruction->next;
+    return FM_ELIGIBLE(instruction) && FM_OPERATION(instruction) == MC_LEAVE ? 1 : 0;
+}
+
+/* Original3c910..3c97e. The active stream's last record precedes a
+   guaranteed ordinary instruction. Reuse requires reaching this target
+   without crossing an intervening conditional/unconditional branch or label. */
+int __fastcall can_reuse_float_branch_target(MachineInstruction *target)
+{
+    MachineInstruction *instruction = float_stream_context->last->next;
+    unsigned kind, operation;
+    while (FM_KIND(instruction) != 0) instruction = instruction->next;
+    while (instruction && instruction != target) {
+        kind = FM_KIND(instruction);
+        if (!kind) {
+            operation = FM_OPERATION(instruction);
+            if (operation == MC_JCC || operation == MC_JMP) return 0;
+        } else if (kind == 1) return 0;
+        instruction = instruction->next;
+    }
+    return instruction ? 1 : 0;
+}

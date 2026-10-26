@@ -631,3 +631,63 @@ void __fastcall replace_machine_definition(unsigned identifier,
         instruction = next;
     }
 }
+
+int __fastcall resolve_machine_region_suffix(MachineFlowRegion *parent, MachineFlowRegion *region);
+/* Original48630..48690. Detach the closed label owner, merge its
+   outgoing references, and replace it with its nested region suffix. The
+   final nested sibling can require another reference-resolution step. */
+int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region)
+{
+    MachineFlowRegion *last;
+    region->label->labels.attachment = 0;
+    if (region->flags & 1) parent->flags |= 1;
+    transfer_machine_region_references(region, parent);
+    replace_machine_region_suffix(parent, region, region->children);
+    last = region->children;
+    if (last) {
+        while (last->next) last = last->next;
+        if (last->pending_references) return resolve_machine_region_suffix(parent, last);
+    }
+    return 1;
+}
+
+/* Original48800..488de. Consume parent references, keep unresolved nested
+   entries outside the closing prefix, and continue resolving the first
+   remaining pending sibling. Each region retains its real arena owner. */
+int __fastcall resolve_machine_region_suffix(MachineFlowRegion *parent, MachineFlowRegion *region)
+{
+    MachineFlowRegion *children, *attached;
+    MachineInstruction *instruction, *next;
+    int consumed;
+    for (;;) {
+        consumed = count_region_label_references(parent, region->label->record.symbol);
+        region->initial_references -= consumed;
+        region->pending_references -= consumed;
+        if (region->pending_references) return 0;
+        if (!region->last) return close_machine_region(parent, region);
+        children = region->children;
+        instruction = region->label->next;
+        while (children && instruction != region->last) {
+            next = instruction->next;
+            if ((instruction->opcode & 15) == 1) {
+                attached = instruction->labels.attachment;
+                if (attached) {
+                    if (attached->pending_references) return close_machine_region(parent, region);
+                    if (children == attached) {
+                        next = children->last->next;
+                        children = children->next;
+                    }
+                }
+            }
+            instruction = next;
+        }
+        if (children) {
+            replace_machine_region_suffix(parent, 0, children);
+            replace_machine_region_suffix(region, children, 0);
+        }
+        finish_closed_machine_region(region, parent);
+        while (children && !children->pending_references) children = children->next;
+        if (!children) return 1;
+        region = children;
+    }
+}
