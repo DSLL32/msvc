@@ -40,14 +40,14 @@ int main( int argc, char **argv )
     BurnSystemList();
     FreeList( LibPath );
     CloseSpillFile();
-    CleanTraces();
     FreePaths();
     FreeUndefs();
-    CleanLoadFile();
     CleanLinkStruct();
     FreeFormatStuff();
     FreeObjInfo();
+    FiniLinkStruct();
     FreeVirtMem();
+    FiniSym();
     FiniMsg();
     LnkMemFini();
     exit( (LinkState & 8) != 0 );

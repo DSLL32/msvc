@@ -1,0 +1,345 @@
+/****************************************************************************
+*
+*                            Open Watcom Project
+*
+*    Portions Copyright (c) 1983-2002 Sybase, Inc. All Rights Reserved.
+*
+*  ========================================================================
+*
+*    This file contains Original Code and/or Modifications of Original
+*    Code as defined in and that are subject to the Sybase Open Watcom
+*    Public License version 1.0 (the 'License'). You may not use this file
+*    except in compliance with the License. BY USING THIS FILE YOU AGREE TO
+*    ALL TERMS AND CONDITIONS OF THE LICENSE. A copy of the License is
+*    provided with the Original Code and Modifications, and is also
+*    available at www.sybase.com/developer/opensource.
+*
+*    The Original Code and all software distributed under the License are
+*    distributed on an 'AS IS' basis, WITHOUT WARRANTY OF ANY KIND, EITHER
+*    EXPRESS OR IMPLIED, AND SYBASE AND ALL CONTRIBUTORS HEREBY DISCLAIM
+*    ALL SUCH WARRANTIES, INCLUDING WITHOUT LIMITATION, ANY WARRANTIES OF
+*    MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, QUIET ENJOYMENT OR
+*    NON-INFRINGEMENT. Please see the License for the specific language
+*    governing rights and limitations under the License.
+*
+*  ========================================================================
+*
+* Description:  WHEN YOU FIGURE OUT WHAT THIS FILE DOES, PLEASE
+*               DESCRIBE IT HERE!
+*
+****************************************************************************/
+
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include "cmdline.h"
+#include <recon.h>
+
+/* The old parser table has no later command-flags member. */
+static parse_entry FormatHelp[] = {
+    { "Dos", &ProcDosHelp, 0xffff },
+    { "OS2", &ProcOS2Help, 0xffff },
+    { "WINdows", &ProcWindowsHelp, 0xffff },
+    { "NT", &ProcNTHelp, 0xffff },
+    { "PHARlap", &ProcPharHelp, 0xffff },
+    { "NOVell", &ProcNovellHelp, 0xffff },
+    { "QNX", &ProcQNXHelp, 0xffff },
+    { "ELF", &ProcELFHelp, 0xffff },
+    { 0, 0, 0 }
+};
+#if defined(__WATCOMC__)
+#pragma intrinsic(strlen,memcpy)
+#endif
+
+fmt_data FmtData;                 /* original450068,80B */
+tok Token;                       /* original450040,20B */
+char *Name;                      /* original450058 */
+unsigned short CmdFlags;         /* original45005c */
+unsigned char Extension;         /* original45005e */
+unsigned char DBIFlag;           /* original450188 */
+unsigned char MapFlags;           /* original450189 */
+char *SymFileName;               /* original44127c */
+section *CurrSect;               /* original4500d4 */
+void **CurrFList;                 /* original450054 */
+path_entry *Path;                /* original4500ec */
+
+void ResetCmdFile( void )
+{
+    Extension = 4;                 /* E_LOAD */
+    Name = 0;
+    Path = 0;
+    CmdFlags = 0x10;               /* CF_UNNAMED */
+    memset( &FmtData, 0, sizeof(FmtData) );
+    FmtData.base = 0xffffffffUL;
+    FmtData.type = 0xffff;
+    FmtData.def_seg_flags = 0x0c00;
+    CurrSect = Root;
+    CurrFList = &Root->files;
+    DBIFlag = 0;
+}
+
+void Help( void )
+{
+    EatWhite();
+    if( *Token.next == '?' ) {
+        Crash( 0 );
+    } else if( *Token.next == '\0' || !ProcOne( FormatHelp, 0, 0 ) ) {
+        Crash( 1 );
+    } else {
+        Ignite();
+        Suicide();
+    }
+}
+
+void Crash( unsigned char check_file )
+{
+    char buff[80];
+    unsigned len;
+    int file;
+
+    if( check_file ) {
+        file = SearchPath( "wlink.hlp" );
+        if( file != -1 ) {
+            WLPrtBanner();
+            for( ;; ) {
+                len = QRead( file, buff, sizeof(buff), "wlink.hlp" );
+                if( len == 0 ) break;
+                QWrite( fileno(stdout), buff, len, 0 );
+            }
+            QClose( file, "wlink.hlp" );
+            Ignite();
+            Suicide();
+        }
+    }
+    DisplayOptions();
+    Ignite();
+    Suicide();
+}
+
+void DisplayOptions( void )
+{
+    unsigned char isout;
+
+    isout = (CmdFlags & 1) != 0;
+    WriteGenHelp();
+    WriteHelp( 0x174, 0x183, isout ); /* DOS */
+    WriteHelp( 0x184, 0x1a3, isout ); /* OS/2 */
+    WriteHelp( 0x1a4, 0x1c3, isout ); /* Windows */
+    WriteHelp( 0x1c4, 0x1e3, isout ); /* NT */
+    WriteHelp( 0x1e4, 0x1f3, isout ); /* Phar Lap */
+    WriteHelp( 0x1f4, 0x213, isout ); /* NetWare */
+    WriteHelp( 0x224, 0x233, isout ); /* QNX */
+    WriteHelp( 0x234, 0x243, isout ); /* ELF */
+}
+
+void WriteGenHelp( void )
+{
+    WLPrtBanner();
+    WriteHelp( 0x154, 0x173, 0 );
+}
+
+void WriteHelp( unsigned first, unsigned last, unsigned char prompt )
+{
+    char msg_buffer[128];
+    int previous_null;
+
+    previous_null = 0;
+    if( prompt ) PressKey();
+    for( ; first <= last; ++first ) {
+        Msg_Get( first, msg_buffer );
+        if( previous_null ) {
+            if( msg_buffer[0] != '\0' ) {
+                PressKey();
+                WriteMsg( msg_buffer );
+                previous_null = 0;
+            } else break;
+        } else if( msg_buffer[0] == '\0' ) {
+            previous_null = 1;
+        } else {
+            WriteMsg( msg_buffer );
+        }
+    }
+}
+
+void WriteMsg( char *text )
+{
+    QWrite( fileno(stdout), text, strlen(text), 0 );
+    QWriteNL( fileno(stdout), 0 );
+}
+
+void PressKey( void )
+{
+    char msg_buffer[128];
+    unsigned char result;
+
+    Msg_Get( 0xfa, msg_buffer );
+    QWrite( fileno(stdout), msg_buffer, strlen(msg_buffer), 0 );
+    result = WaitForKey();
+    QWriteNL( fileno(stdout), 0 );
+    if( tolower(result) == 'q' ) {
+        Ignite();
+        Suicide();
+    }
+}
+
+void DoCmdFile( char *fname )
+{
+    unsigned short possible;
+    int file;
+    unsigned namelen;
+
+    ResetCmdFile();
+    if( fname == 0 ) {
+        fname = ChkLAlloc( 10 * 1024 );
+        GetCmdLine( fname );
+    }
+    NewCommandSource( 0, fname, 1 ); /* COMMANDLINE in this1994 build */
+    if( QIsADevice( fileno( stdout ) ) ) CmdFlags |= 1;
+    while( *fname == ' ' ) ++fname;
+    if( QSysHelp( &Token.next ) ) Help();
+    if( *fname == '?' ) {
+        Token.next = fname + 1;
+        Help();
+    } else if( (*fname == '-' || *fname == '/') && fname[1] == '?' ) {
+        Token.next = fname + 2;
+        Help();
+    }
+    if( *fname == 0 ) {
+        Token.how = 2;            /* INTERACTIVE */
+        Token.where = 1;          /* ENDOFLINE */
+        LnkMsg( 0x1055, 0 );
+    }
+    file = SearchPath( "wlink.lnk" );
+    if( file != -1 ) {
+        fname = ChkLAlloc( sizeof("wlink.lnk") );
+        memcpy( fname, "wlink.lnk", sizeof("wlink.lnk") );
+        SetCommandFile( file, fname );
+    }
+    if( Spawn( DoCmdParse ) ) {
+        Ignite();
+        Suicide();
+    }
+    if( !(LinkState & 0x40) ) {
+        HintFormat( 0x18 );
+    } else {
+        for( possible = 1; possible != 0; possible <<= 1 ) {
+            if( FmtData.type & possible ) {
+                FmtData.type = possible;
+                break;
+            }
+        }
+    }
+    if( FmtData.type & 0x100 ) {
+        CmdNovFini();
+    } else if( FmtData.type & 0x80 ) {
+        CmdOvlFini();
+        AddObjLib( "wovl.lib", 0 );
+    }
+    if( Name == 0 || !(CmdFlags & 0x400) ) {
+        Ignite();
+        LnkMsg( 0x347a, 0 );
+    }
+    namelen = strlen( Name );
+    if( MapFlags & 1 ) {
+        if( MapFName == 0 ) MapFName = FileName( Name, namelen, 1, 1 );
+    } else {
+        MapFlags = 0;
+    }
+    if( SymFileName == 0 && ((CmdFlags & 0x80) ||
+                      ((LinkFlags & 0x4000) && (FmtData.type & 0x40))) ) {
+        SymFileName = FileName( Name, namelen, 15, 1 );
+    }
+    CheckTraces();
+    BurnUtils();
+    PruneSystemList();
+    NumberSections();
+    DBIInit();
+}
+
+/* In 10.0a the local cleanup remains in Ignite; the later source splits
+ * it into a separate Burn function for workframe options. */
+void Ignite( void )
+{
+    outfilelist *fnode;
+
+    BurnSystemList();
+    FreePaths();
+    if( MapFName != 0 ) {
+        _LnkFree( MapFName );
+        MapFName = 0;
+    }
+    fnode = OutFiles;
+    while( fnode != 0 ) {
+        _LnkFree( fnode->fname );
+        OutFiles = fnode->next;
+        _LnkFree( fnode );
+        fnode = OutFiles;
+    }
+    BurnUtils();
+}
+
+/* Only the common next/name prefix is used by this version's cleanup. */
+typedef struct sysblock {
+    struct sysblock *next;
+    char *name;
+} sysblock;
+static sysblock *SysBlocks;       /* original441288 */
+
+void BurnSystemList( void )
+{
+    sysblock *next;
+
+    while( SysBlocks != 0 ) {
+        next = SysBlocks->next;
+        _LnkFree( SysBlocks->name );
+        _LnkFree( SysBlocks );
+        SysBlocks = next;
+    }
+}
+
+void FreePaths( void )
+{
+    FreeList( Path );
+    Path = 0;
+    if( Name != 0 ) {
+        _LnkFree( Name );
+        Name = 0;
+    }
+}
+
+#pragma pack(1)
+static struct select_format {
+    unsigned short bits;
+    char *lib_var_name;
+    void (*set_func)( void );
+    void (*free_func)( void );
+} PossibleFmt[] = {
+    { 0x00e0, "LIBDOS", 0, 0 },
+    { 0x4200, "LIBQNX", SetQNXFmt, FreeQNXFmt },
+    { 0x8000, "LIBELF", SetELFFmt, FreeELFFmt },
+    { 0x0008, "LIBWIN", SetOS2Fmt, FreeOS2Fmt },
+    { 0x0001, "LIBOS2", SetOS2Fmt, FreeOS2Fmt },
+    { 0x0002, "LIBOS2FLAT", SetOS2Fmt, FreeOS2Fmt },
+    { 0x0004, "LIBOS2FLAT", SetOS2Fmt, FreeOS2Fmt },
+    { 0x0010, "LIBPE", SetOS2Fmt, FreeOS2Fmt },
+    { 0x3c00, "LIBPHAR", SetPharFmt, FreePharFmt },
+    { 0x0100, "LIBNOV", SetNovFmt, FreeNovFmt },
+    { 0, 0, 0, 0 }
+};
+#pragma pack()
+
+void FreeFormatStuff( void )
+{
+    struct select_format *check;
+    unsigned short possible;
+
+    if( !(LinkState & 0x40) ) return;
+    check = PossibleFmt;
+    for( ;; ) {
+        possible = check->bits;
+        if( possible == 0 ) return;
+        if( (~possible & FmtData.type) == 0 ) break;
+        ++check;
+    }
+    if( check->free_func != 0 ) check->free_func();
+}

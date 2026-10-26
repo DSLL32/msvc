@@ -1,8 +1,0 @@
-{
-  "elapsed_seconds": 1.541671090759337,
-  "status": 0,
-  "shared_frozen_sources": {
-    "lib/recon/include/recon.h": "a9ae9711c12273e562f4f41fb2cf6a12cda63c2e6a680100cd4b8d1c9fcdb942",
-    "lib/recon/src/compat.c": "c7038851e08b19bd279c130a92d835ca85525bc3c704ffff2ed627abed55ac7f"
-  }
-}

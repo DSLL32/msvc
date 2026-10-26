@@ -35,3 +35,27 @@ nodearray *MakeArray( unsigned size )
     /* The original leaves array slots alone until they are allocated. */
     return nodes;
 }
+
+void FreeNodes( nodearray *nodes )
+{
+    nodes->num = 0;
+}
+
+void BurnNodes( void )
+{
+    BurnNodeArray( GrpNodes );
+    BurnNodeArray( SegNodes );
+    BurnNodeArray( ExtNodes );
+    BurnNodeArray( NameNodes );
+}
+
+void BurnNodeArray( nodearray *list )
+{
+    int index;
+
+    /* This older arraymax is a count, not the later final-array index. */
+    for( index = 0; index < list->arraymax; ++index ) {
+        _LnkFree( list->array[index] );
+    }
+    _LnkFree( list );
+}

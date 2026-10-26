@@ -6,9 +6,6 @@ import hashlib,json,re,struct,subprocess,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[4]
 BINARY=Path(__file__).resolve().parents[1]
-OUT=BINARY/'build'
-
-def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
 def pe(path):
  data=path.read_bytes();header=struct.unpack_from('<I',data,0x3c)[0];opt=header+24
@@ -53,7 +50,8 @@ def main_endpoint(path,start,end,exit_address):
  return dict(start=start,end_exclusive=end,body_sha256=hashlib.sha256(read(start,end-start)).hexdigest(),ret_instructions_anywhere=0,sole_external_tail=tails[0],instruction_count=len(instructions))
 
 def main():
- graph=BINARY/'build/graph-audit.json'
+ assert len(sys.argv)==2, "expected current canonical graph report path"
+ graph=Path(sys.argv[1])
  original=ROOT/'toolchains/watcom10.0a/.patched/WLINK.EXE';rebuilt=BINARY/'build/WLINK.EXE'
  symbols={m[2]:int(m[1],16)+0x410000 for line in (BINARY/'build/wlink.map').read_text().splitlines() if (m:=re.match(r'0001:([0-9a-fA-F]+)\s*[+*]?\s*(\S+)',line))}
  o,oi=pe(original);b,bi=pe(rebuilt)
@@ -71,6 +69,7 @@ def main():
  thunk=nt+31+struct.unpack('<i',b(nt+27,4))[0]
  assert b(thunk,2)==bytes.fromhex('ff25')
  iat=struct.unpack('<I',b(thunk+2,4))[0];assert bi[iat]==('KERNEL32.DLL','ExitProcess')
- proof={'scope':'Root-approved main-only positive noreturn endpoint; no global RET relaxation or CRT acceptance','canonical_graph_sha256':sha(graph),'original':main_endpoint(original,0x4242e0,0x4243c8,0x433f96),'rebuilt':main_endpoint(rebuilt,symbols['main_'],json.loads(graph.read_text())['owned_code_chunks']['rebuilt']['functions']['main'][0][1],ex),'exit_closure':{'original_exit_tail':0x433fc5,'original_NTFini':0x43594b,'original_status_push_and_call':0x43595d,'original_thunk':0x439728,'original_iat':0x4600b0,'rebuilt_exit':ex,'rebuilt__exit':low,'rebuilt_NTFini':nt,'rebuilt_thunk':thunk,'rebuilt_iat':iat,'import':'KERNEL32.DLL!ExitProcess','no_return_model':'Exact static exit chain reaches nonreturning Win32 ExitProcess. No fabricated RET/cleanup; whole-case actual exit remains to be verified.','original_closure_bytes_sha256':hashlib.sha256(o(0x433f96,52)+o(0x43594b,24)+o(0x439728,6)).hexdigest()},'bindings':{str(p.relative_to(ROOT)):sha(p) for p in [original,ROOT/'toolchains/watcom10.0a/.patched/WLINK.EXE',rebuilt,BINARY/'build/wlink.map',BINARY/'src/link.h']},'application_acceptance':False,'remaining':'Fresh masked original/native frontier required. Strict RET checks remain required for genuinely returning application bodies.'}
- OUT.mkdir(exist_ok=True);(OUT/'main-exit-proof.json').write_text(json.dumps(proof,indent=2)+'\n');print('PASS main: original/rebuilt no RET, sole exit tail and actual CRT ExitProcess chain')
+ main_endpoint(original,0x4242e0,0x4243c8,0x433f96)
+ main_endpoint(rebuilt,symbols['main_'],json.loads(graph.read_text())['owned_code_chunks']['rebuilt']['functions']['main'][0][1],ex)
+ print('PASS main: original/rebuilt no RET, sole exit tail and actual CRT ExitProcess chain')
 if __name__=='__main__':main()

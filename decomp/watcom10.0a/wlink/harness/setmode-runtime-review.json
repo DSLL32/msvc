@@ -1,7 +1,0 @@
-{
-  "passed": true,
-  "classification_sha256": "2ee9615ee686de76fafd946214e1ed9f5a1c87997104204f711b4880ebbdd25b",
-  "original_library_body_source_and_OMF_records_verified": true,
-  "pins": 3,
-  "review": "Actual213B setmode correctly source/library-correlated CRT oldvariant, not byte-identical212B. Target disassembly explicitly0200binary/0100text, lowio040 and genuine FILE26 flags updated internally. Native public adapter reuses shared descriptor; original return ignored by actual App caller; no FILE26 transport or App credit."
-}

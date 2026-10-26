@@ -156,7 +156,465 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "InitSpillFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetBreak": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitSymStorage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "VirtMemInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StartTime": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoCmdFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetCmdFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCmdLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewCommandSource": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QIsADevice": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QSysHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Help": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EatWhite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Crash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SearchPath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QObjOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NSOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QMakeFileName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DisplayOptions": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteGenHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WLPrtBanner": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteStdOut": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QWriteNL": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Msg_Get": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResLoadString": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "WResInitIDFromNum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResFindResource": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResIDCmp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindRes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FindLang": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResGetLangInfo": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "GetString": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "WriteMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PressKey": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WaitForKey": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Ignite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BurnSystemList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreePaths": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BurnUtils": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_LnkFree": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Suicide": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CloseSpillFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeUndefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CleanLinkStruct": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BurnLibs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeFiles": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeMods": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeFormatStuff": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeObjInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeSavedSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WalkSavedSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeNodes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniLinkStruct": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeRelocInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeRelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeRelocSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeGroups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBISectCleanup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBICleanup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeOvlStruct": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeDistStuff": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReleasePass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BurnNodes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BurnNodeArray": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeTokBuffs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeVirtMem": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RelSymBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CloseResFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResFreeDir": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeTypeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeResList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__FreeLangList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResCloseFile": {
+        "expected_cleanup": [
+          0
+        ]
       }
+    }
+  },
+  "shared_return_entries": [
+    {
+      "owner": "CheckBreak",
+      "entry": "SetBreak"
+    }
+  ],
+  "shared_terminal_epilogues": [
+    {
+      "owners": [
+        "ChkLAlloc",
+        "_LnkFree"
+      ],
+      "original": {
+        "start": 4404033,
+        "bytes_hex": "c3"
+      }
+    }
+  ],
+  "function_properties": {
+    "LnkInit": {
+      "rebuilt_extent": {
+        "end": {
+          "rebuilt_symbol": "LnkInit_",
+          "offset": 296
+        },
+        "padding_hex": "00000000",
+        "image_sha256": "8e34d40d5717c3597444fb88651c59fa586082ddf3d62db6dc9c53e0e751f9f5",
+        "map_sha256": "c2148ed08784dd60dc009e80b03fe6b1aa095350c433dea2598031834f3927de",
+        "object": {
+          "path": "build/obj/src/wlink.c.obj",
+          "sha256": "cfafc8a7d13e79167de53ef4bbb8831464434f0ba5a31f294900ed76de5f713e"
+        }
+      }
+    },
+    "ODBISectCleanup": {
+      "pending_extent": false
     }
   }
 }

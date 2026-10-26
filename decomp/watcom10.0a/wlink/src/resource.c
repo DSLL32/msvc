@@ -33,6 +33,7 @@
 /* SDK WRes handle adapters. Actual1994graph omits the later setmode edge. */
 #include <fcntl.h>
 #include <io.h>
+#include <malloc.h>
 #include <stdio.h>
 #include <string.h>
 #include "link.h"
@@ -330,14 +331,15 @@ int WResReadExtHeader( WResExtHeader *header, int file )
 
 /* Version0..2 has one-byte Pascal lengths, unlike the released version3. */
 #pragma pack(1)
+struct WResIDName {
+    unsigned char NumChars;
+    char Name[1];
+};
 struct WResID {
     unsigned char IsName;
     union {
         unsigned short Num;
-        struct {
-            unsigned char NumChars;
-            char Name[1];
-        } Name;
+        WResIDName Name;
     } ID;
 };
 struct WResTypeInfo {
@@ -441,18 +443,11 @@ struct WResResNode {
     struct WResLangNode *Head, *Tail;
     WResResInfo Info;
 };
-typedef struct WResLangNode {
+struct WResLangNode {
     struct WResLangNode *Next, *Prev;
     void *data;
-    struct {
-        struct {
-            unsigned short lang;
-            unsigned char sublang;
-        } lang;
-        unsigned short MemoryFlags;
-        unsigned long Offset, Length;
-    } Info;
-} WResLangNode;
+    WResLangInfo Info;
+};
 #pragma pack()
 typedef char WResResInfo_is_5[(sizeof(WResResInfo)==5)?1:-1];
 typedef char WResResInfo1_is_13[(sizeof(WResResInfo1)==13)?1:-1];
@@ -533,4 +528,238 @@ int WResReadFixedResRecord1( WResResInfo1 *info, int file )
         return 1;
     }
     return 0;
+}
+
+/* The original uses Watcom's register ABI with a six-byte far buffer;
+ * the final capacity remains on the stack and is callee-popped. */
+extern int GetString( WResLangInfo *, HANDLE_INFO *, unsigned, char __far *, int );
+
+int WResLoadString( HANDLE_INFO *instance, unsigned id, char __far *buffer, int capacity )
+{
+    WResID string_type;
+    WResID block_id;
+    WResDirWindow window;
+    WResLangType language;
+    WResLangInfo *resource;
+
+    language.lang = 0;
+    language.sublang = 0;
+    WResInitIDFromNum( (id >> 4) + 1, &block_id );
+    WResInitIDFromNum( 6, &string_type );
+    window = WResFindResource( &string_type, &block_id, MainDir, &language );
+    if( window.CurrType == 0 || window.CurrRes == 0 || window.CurrLang == 0 ) {
+        return -1;
+    }
+    resource = WResGetLangInfo( window );
+    return GetString( resource, instance, id, buffer, capacity );
+}
+
+void WResInitIDFromNum( long number, WResID *id )
+{
+    id->IsName = 0;
+    id->ID.Num = number;
+}
+
+WResDirWindow WResFindResource( const WResID *type, const WResID *name,
+                             WResDir dir, WResLangType *language )
+{
+    WResDirWindow window;
+
+    window.CurrType = __FindType( type, dir );
+    if( window.CurrType != 0 ) {
+        window.CurrRes = __FindRes( name, window.CurrType );
+        if( window.CurrRes != 0 ) {
+            if( language == 0 ) window.CurrLang = window.CurrRes->Head;
+            else window.CurrLang = __FindLang( language, window.CurrRes );
+        } else {
+            window.CurrLang = 0;
+            window.CurrType = 0;
+        }
+    } else {
+        window.CurrRes = 0;
+        window.CurrLang = 0;
+    }
+    return window;
+}
+
+WResTypeNode *__FindType( const WResID *type, WResDir dir )
+{
+    WResTypeNode *node;
+
+    for( node = dir->Head; node != 0; node = node->Next ) {
+        if( WResIDCmp( type, &node->Info.TypeName ) ) break;
+    }
+    return node;
+}
+
+int WResIDCmp( const WResID *first, const WResID *second )
+{
+    if( first->IsName && second->IsName ) {
+        return WResIDNameCmp( &first->ID.Name, &second->ID.Name ) == 0;
+    } else if( !first->IsName && !second->IsName ) {
+        return first->ID.Num == second->ID.Num;
+    }
+    return 0;
+}
+
+WResResNode *__FindRes( const WResID *name, WResTypeNode *type )
+{
+    WResResNode *node;
+
+    for( node = type->Head; node != 0; node = node->Next ) {
+        if( WResIDCmp( name, &node->Info.ResName ) ) break;
+    }
+    return node;
+}
+
+WResLangNode *__FindLang( WResLangType *language, WResResNode *resource )
+{
+    WResLangType neutral;
+    WResLangNode *node;
+
+    if( language == 0 ) {
+        neutral.lang = 0;
+        neutral.sublang = 0;
+        language = &neutral;
+    }
+    node = resource->Head;
+    while( node != 0 ) {
+        if( node->Info.lang.lang == language->lang &&
+            node->Info.lang.sublang == language->sublang ) break;
+        node = node->Next;
+    }
+    return node;
+}
+
+WResLangInfo *WResGetLangInfo( WResDirWindow window )
+{
+    if( window.CurrLang == 0 ) return 0;
+    return &window.CurrLang->Info;
+}
+
+/* The current WriteHelp->Msg_Get path owns a128B stack buffer. Msg_Get
+ * supplies DS and capacity128; WResLoadString forwards the same far pointer.
+ * The qualified original GS patch only changes selector transport/stores.
+ * Keep the genuine six-byte far ABI in the period build (RET12); the native
+ * ABI uses the corresponding flat pointer. Other owners remain unqualified. */
+int GetString( WResLangInfo *resource, HANDLE_INFO *instance, unsigned resourceid,
+               char __far *buffer, int capacity )
+{
+    long                prevpos;
+    int                 length;
+    int                 stringbufflen;
+    char *              stringbuff;
+    int                 stringnum;
+    int                 stringlen;
+    int                 numread;
+    int                 ix1, ix2;
+
+    prevpos = (*WResRtns.seek)( instance->handle, resource->Offset, SEEK_SET );
+    if ( prevpos == -1L ) return( -1 );
+    length = resource->Length;
+    stringbufflen = (length > 128) ? 128 : length;
+    stringbuff = (char *) alloca( stringbufflen );
+    if ( stringbuff == NULL ) return( -1 );
+    stringnum = resourceid & 0x0f;
+
+    numread = 0;
+    stringlen = 0;
+    ix2 = 0;
+    ix1 = 0;
+    do {
+        if ( numread == 0 ) {
+            if ( length > stringbufflen ) {
+                length -= stringbufflen;
+            } else {
+                stringbufflen = length;
+                length = 0;
+            }
+            numread = (*WResRtns.read)( instance->handle, stringbuff, stringbufflen );
+            if( numread == 0 ) return( -1 );    // 15-sep-93 AFS
+            if( numread == -1 ) return( -1 );
+            ix1 = 0;
+        }
+        if ( ix1 < numread ) {
+            if ( stringlen == 0 ) {
+                stringlen = ((unsigned char *)stringbuff)[ ix1++ ];
+                stringnum--;
+            }
+            for( ; stringlen > 0; --stringlen ) {
+                if ( ix1 >= numread ) break;
+                if ( stringnum < 0 ) {
+                    if( ix2 < capacity - 1 ) {
+                        buffer[ ix2++ ] = stringbuff[ ix1 ];
+                    }
+                }
+                ix1++;
+            }
+        } else {
+            numread = 0;
+        }
+    } while( !( (stringlen == 0) && (stringnum < 0) ) );
+    buffer[ ix2 ] = '\0';
+
+
+    return( 0 );
+}
+
+int CloseResFile( HANDLE_INFO *instance )
+{
+    WResFreeDir( MainDir );
+    return ResCloseFile( instance->handle );
+}
+
+void WResFreeDir( WResDir dir )
+{
+    if( dir != 0 ) {
+        __FreeTypeList( dir );
+        (*WResRtns.free)( dir );
+    }
+}
+
+void __FreeTypeList( WResDir dir )
+{
+    WResTypeNode *node, *next;
+
+    for( node = dir->Head; node != 0; node = next ) {
+        next = node->Next;
+        __FreeResList( node );
+        (*WResRtns.free)( node );
+    }
+    dir->Head = 0;
+    dir->Tail = 0;
+}
+
+void __FreeResList( WResTypeNode *type )
+{
+    WResResNode *node, *next;
+
+    for( node = type->Head; node != 0; node = next ) {
+        next = node->Next;
+        __FreeLangList( node );
+        (*WResRtns.free)( node );
+    }
+    type->Head = 0;
+    type->Tail = 0;
+}
+
+void __FreeLangList( WResResNode *resource )
+{
+    WResLangNode *node, *next;
+
+    for( node = resource->Head; node != 0; node = next ) {
+        next = node->Next;
+        (*WResRtns.free)( node );
+    }
+    resource->Head = 0;
+    resource->Tail = 0;
+}
+
+int ResCloseFile( int file )
+{
+    int result;
+
+    result = (*WResRtns.close)( file );
+    if( result == -1 ) WresRecordError( 6 );
+    return result;
 }

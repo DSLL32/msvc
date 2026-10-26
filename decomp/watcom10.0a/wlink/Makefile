@@ -37,18 +37,19 @@ RECON_POLICY := policy-data.json
 RECON_AUDIT_REGISTRY_RET_CHECKS := 1
 RECON_METADATA_REBUILT_MAP := $(ORIGINAL_MAP)
 RECON_AUDIT_PROFILE := cl
+RECON_AUDIT_REPORT := $(HOME)/.ai-tmp/msvc2/watcom10.0a/wlink/audit/graph-audit.json
 RECON_IMAGE_BASE := 4194304
 RECON_AUDIT_REGISTRY_RUNTIME := 1
-RECON_AUDIT_PREREQUISITES := harness/rebuilt-runtime.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
-RECON_AUDIT_FLAGS := --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLINK.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --rebuilt-runtime harness/rebuilt-runtime.json --check-references --check-ownership --check-extents
+RECON_AUDIT_PREREQUISITES := .build/runtime-rebuilt.json $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP)
+RECON_AUDIT_FLAGS := --discovery cfg --map-format watcom10 --original ../../../toolchains/watcom10.0a/.patched/WLINK.EXE --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) --rebuilt-runtime .build/runtime-rebuilt.json --check-references --check-ownership --check-extents
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Genuine main ends in exit; returning application functions retain strict RET audits.
 .PHONY: audit-main-endpoint
 audit: audit-main-endpoint
 audit-main-endpoint: recon-graph-audit
-	python3 scripts/check-main-endpoint.py
+	python3 scripts/check-main-endpoint.py $(RECON_AUDIT_REPORT)
 
-# Rebind only the reviewed module end after an actual period build.
-$(RECON_POLICY) harness/lnkinit-extent.json &: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/update-lnkinit-extent.py
+# Rebind the finite module end and shipped longjmp catalog after a build.
+$(RECON_POLICY) .build/runtime-rebuilt.json &: $(ORIGINAL_OUTPUT) $(ORIGINAL_MAP) scripts/update-lnkinit-extent.py
 	python3 scripts/update-lnkinit-extent.py

@@ -11,7 +11,6 @@ import struct
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-WITNESS = ROOT / 'harness/lnkinit-extent.json'
 POLICY = ROOT / 'policy-data.json'
 
 
@@ -20,7 +19,15 @@ def digest(path):
 
 
 def main():
-    witness = json.loads(WITNESS.read_text())
+    # These are the two already reviewed, checksummed records of the actual
+    # original-compiler contribution. A changed module requires review.
+    witness = {
+        'object': {'path': 'build/obj/src/wlink.c.obj'},
+        'SEGDEF': {'record_hex': '99090029b602000007020173', 'length': 694},
+        'PUBDEF': {'record_hex': '912d00020116446f4c696e6b46726f6d436f6d6d616e644c696e655f0000000000084c6e6b496e69745f8e01000000ff'},
+        'rebuilt_PE': {'path': 'build/WLINK.EXE'},
+        'rebuilt_MAP': {'path': 'build/wlink.map'},
+    }
     obj = ROOT / witness['object']['path']
     raw = obj.read_bytes()
     # Debug type metadata may move these unchanged records. Check physical
@@ -57,7 +64,21 @@ def main():
         ((name, address) for name, address in symbols.items() if address >= end),
         key=lambda item: (item[1], item[0]))
     gap = neighbor_entry - end
-    assert gap in (0, 1), 'new alignment width requires review'
+    # The reviewed set386 contribution requests paragraph alignment. Its
+    # PUBLIC memset_ starts at offset0, so the exact next boundary is known.
+    if gap not in (0, 1):
+        assert neighbor == 'memset_' and 1 < gap <= 15
+        assert neighbor_entry == ((end + 15) & ~15)
+        library = ROOT.parents[2] / 'toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB'
+        assert digest(library) == 'efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d'
+        library_bytes = library.read_bytes()
+        records = [(133949, '9909006918000000030201d7'),
+                   (133993, '900e000001076d656d7365745f00000070')]
+        for at, expected_hex in records:
+            expected = bytes.fromhex(expected_hex)
+            assert library_bytes[at:at+len(expected)] == expected
+            assert sum(expected) & 255 == 0
+
     data = image.read_bytes()
     pe = struct.unpack_from('<I', data, 0x3c)[0]
     assert data[pe:pe+4] == b'PE\0\0'
@@ -68,28 +89,20 @@ def main():
     matches = []
     for index in range(count):
         _, rva, size, offset = struct.unpack_from('<IIII', data, sections+index*40+8)
-        if rva <= end-0x400000-1 and end-0x400000+1 <= rva+size:
+        if rva <= end-0x400000-1 and end-0x400000+max(gap, 1) <= rva+size:
             matches.append(offset + end-0x400000-rva)
     assert len(matches) == 1
     assert data[matches[0]-1] == 0xc3
     if gap:
-        assert data[matches[0]] == 0
-    padding = '00' if gap else ''
-    for key, path in [('rebuilt_PE', image), ('rebuilt_MAP', map_path), ('object', obj)]:
-        witness[key]['sha256'] = digest(path)
-    witness['arithmetic'].update(module_start=module, LnkInit_entry=entry,
-        contribution_end=end, last_RET=end-1, next_module_symbol=neighbor, next_module_entry=end+gap, padding_hex=padding)
-    witness['scope'] = ('Exact original-compiler module contribution; ' +
-        ('one-byte terminal linker alignment' if gap else 'no terminal linker alignment') +
-        '. No text_data or additional body permission.')
-    WITNESS.write_text(json.dumps(witness, indent=2) + '\n')
+        assert data[matches[0]:matches[0]+gap] == bytes(gap)
+    padding = '00' * gap
     policy = json.loads(POLICY.read_text())
     properties = policy.setdefault('function_properties', {}).setdefault('LnkInit', {})
     properties['rebuilt_extent'] = {
         'end': {'rebuilt_symbol': 'LnkInit_', 'offset': 296},
-        'padding_hex': '00', 'image_sha256': digest(image),
-        'map_sha256': digest(map_path), 'object': witness['object'],
-        'evidence': {'path': 'harness/lnkinit-extent.json', 'sha256': digest(WITNESS)}
+        'padding_hex': padding, 'image_sha256': digest(image),
+        'map_sha256': digest(map_path),
+        'object': {'path': witness['object']['path'], 'sha256': digest(obj)}
     }
     if not gap:
         del properties['rebuilt_extent']
@@ -97,6 +110,54 @@ def main():
             del policy['function_properties']['LnkInit']
         if not policy['function_properties']:
             del policy['function_properties']
+    # One already identified shipped CRT contribution, not an OMF matcher.
+    # Its public longjmp_ starts63 bytes into the187-byte stjmp386 segment.
+    # This runtime-only record lets strict tail traversal inspect the real RET;
+    # nonlocal-jump behavior remains a separate public-ABI qualification.
+    library = ROOT.parents[2] / 'toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB'
+    assert digest(library) == 'efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d'
+    library_bytes = library.read_bytes()
+    at = 94631
+    size = int.from_bytes(library_bytes[at+1:at+3], 'little') + 3
+    record = library_bytes[at:at+size]
+    assert record[0] == 0xa0 and sum(record) & 255 == 0
+    assert record[3:6] == bytes.fromhex('010000') and len(record[6:-1]) == 187
+    expected = record[6:-1][63:]
+    start = symbols['longjmp_']
+    assert symbols['__null_int23_exit_'] == start + len(expected)
+
+    def image_offset(address, size):
+        found = []
+        for index in range(count):
+            _, rva, raw_size, offset = struct.unpack_from('<IIII', data, sections+index*40+8)
+            if rva <= address-0x400000 and address-0x400000+size <= rva+raw_size:
+                found.append(offset + address-0x400000-rva)
+        assert len(found) == 1
+        return found[0]
+
+    body_offset = image_offset(start, len(expected))
+    body = data[body_offset:body_offset+len(expected)]
+    fixups = {18, 19, 20, 21, 26, 27, 28, 29, 42, 43, 44, 45}
+    assert all(a == b for i, (a, b) in enumerate(zip(body, expected)) if i not in fixups)
+    assert struct.unpack_from('<I', body, 18)[0] == start + 30
+    unwind = start + 30 + struct.unpack_from('<i', body, 26)[0]
+    assert data[image_offset(unwind, 6):image_offset(unwind, 6)+2] == bytes.fromhex('ff25')
+    handler_slot = struct.unpack_from('<I', body, 42)[0]
+    handler = struct.unpack_from('<I', data, image_offset(handler_slot, 4))[0]
+    assert data[image_offset(handler, 1)] == 0xc3
+    handler_public = re.search(r'0002:([0-9a-fA-F]+)\s+___longjmp_handler', map_path.read_text())
+    assert handler_public and handler_slot == 0x420000 + int(handler_public[1], 16)
+    runtime = [{
+        'name': 'longjmp', 'start': start, 'end': start + len(expected),
+        'shared': [], 'code_chunks': [],
+        'evidence': {'image_sha256': digest(image), 'map_sha256': digest(map_path),
+                     'library_sha256': digest(library), 'member': 'stjmp386',
+                     'member_public_offset': 63, 'member_segment_length': 187,
+                     'body_sha256': hashlib.sha256(body).hexdigest()}
+    }]
+    runtime_path = ROOT / '.build/runtime-rebuilt.json'
+    runtime_path.parent.mkdir(exist_ok=True)
+    runtime_path.write_text(json.dumps(runtime, indent=2) + '\n')
     POLICY.write_text(json.dumps(policy, indent=2) + '\n')
     print('LnkInit: refreshed exact object/MAP/image end; alignment bytes=' + str(gap))
 

@@ -3,7 +3,7 @@
  * entry; no independent entry into its interior has been established.
  * Later released wlink.c correlates phase names; target order is authoritative. */
 #include <signal.h>
-#include "link.h"
+#include "cmdline.h"
 #include <recon.h>
 
 /* Only fields read by this function are defined here. */
@@ -11,16 +11,9 @@ typedef struct address {
     unsigned long off;
     unsigned short seg;
 } address;
-typedef struct start_symbol {
-    void *link;
-    char *name;
-    address addr;
-} start_symbol;
 
-unsigned short FormatType;       /* original4500a2 */
-unsigned char FormatDll;         /* original4500b3, lowbit */
-void *ObjLibFiles;               /* original4500bc */
-start_symbol *StartSym;          /* original450120 */
+void *InputFileList;               /* original4500bc; role remains provisional */
+group_entry *Groups;           /* original450120 */
 address StartInfo;               /* original450178 */
 
 void DoLinkFromCommandLine( void )
@@ -56,13 +49,13 @@ void DoLinkFromCommandLine( void )
     CalcAddresses();
     GetBSSSize();
     GetStkAddr();
-    if( ObjLibFiles == 0 && !(FormatType & 0x100) && !(FormatDll & 1) ) {
-        if( StartSym == 0 ) {
+    if( InputFileList == 0 && !(FmtData.type & 0x100) && !(FmtData.flags & 1) ) {
+        if( Groups == 0 ) {
             StartInfo.off = 0;
             StartInfo.seg = 0;
         } else {
-            StartInfo.off = StartSym->addr.off;
-            StartInfo.seg = StartSym->addr.seg;
+            StartInfo.off = Groups->grp_addr.off;
+            StartInfo.seg = Groups->grp_addr.seg;
         }
         LnkMsg( 0x3217, "a", StartInfo );
     }
@@ -78,20 +71,20 @@ void DoLinkFromCommandLine( void )
 }
 
 unsigned long LinkFlags;         /* original450154 */
-void *LibModules;                /* original450140 */
-void *Groups;                    /* original45013c */
-void *AbsGroups;                 /* original450150 */
+file_list *ObjLibFiles;           /* original450140 */
+mod_entry *LibModules;            /* original45013c */
+void *FreeClassBlocks;           /* original450150; role provisional */
 void *OvlClasses;                /* original450144 */
-void *OvlVectors;                /* original450138 */
-unsigned VecNum;                /* original450134 */
+path_entry *ObjInfoList;         /* original450138; role provisional */
+path_entry *AuxObjInfoList;      /* original450134; role provisional */
 address CurrLoc;                /* original450170 */
-void *CurrentModule;            /* original450148 */
+mod_entry *FakeModule;            /* original450148 */
 void *CurrMod;                  /* original4500f8 */
 void *OverlayWork;              /* original450114; role provisional */
 unsigned OvlNum;                /* original450108 */
 unsigned SectionNum;            /* original45010c */
 char *OvlFName;                 /* original450104 */
-void *Root;                     /* original4500f0 */
+section *Root;                     /* original4500f0 */
 unsigned long StackSize;        /* original4500e0 */
 
 void LnkInit( void )
@@ -103,18 +96,18 @@ void LnkInit( void )
     InitMsg( Argv[0] );
     LnkFilesInit();
     MapFile = -1;
-    ObjLibFiles = 0;
+    InputFileList = 0;
     MapFName = 0;
     OutFiles = 0;
+    ObjLibFiles = 0;
     LibModules = 0;
+    FreeClassBlocks = 0;
     Groups = 0;
-    AbsGroups = 0;
-    StartSym = 0;
     OvlClasses = 0;
-    OvlVectors = 0;
-    VecNum = 0;
+    ObjInfoList = 0;
+    AuxObjInfoList = 0;
     CurrLoc.off = 0;
-    CurrentModule = 0;
+    FakeModule = 0;
     CurrLoc.seg = 0xffff;
     InitNodes();
     CurrMod = 0;
@@ -126,6 +119,6 @@ void LnkInit( void )
     InitSpillFile();
     InitSym();
     Root = NewSection();
-    InitObjIO();
+    VirtMemInit();
     StackSize = 0x200;
 }

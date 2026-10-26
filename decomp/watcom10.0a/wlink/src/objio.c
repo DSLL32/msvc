@@ -10,3 +10,12 @@ void InitTokBuff( void )
     TokSize = 4096;
     TokBuff = ChkLAlloc( 4096 );
 }
+
+
+void FreeTokBuffs( void )
+{
+    if( TokBuff != 0 ) {
+        _LnkFree( TokBuff );
+        TokBuff = 0;
+    }
+}

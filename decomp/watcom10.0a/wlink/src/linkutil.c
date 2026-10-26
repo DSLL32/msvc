@@ -32,8 +32,27 @@
  * The released source supplies the original names and C structure.
  * Original Watcom _setjmp ABI comes from shipped SETJMP.H. */
 #include <setjmp.h>
-#include "link.h"
+#include <stdlib.h>
+#include "cmdline.h"
 #include <recon.h>
+
+int SearchPath( char *name )
+{
+    char buffer[80];
+    char *path;
+    int file;
+
+    file = QObjOpen( name );
+    if( file != -1 ) return file;
+    path = getenv( "PATH" );
+    if( path != 0 ) {
+        while( QMakeFileName( &path, name, buffer ) ) {
+            file = QObjOpen( buffer );
+            if( file != -1 ) return file;
+        }
+    }
+    return -1;
+}
 
 static void *SpawnStack;
 
@@ -51,4 +70,22 @@ int Spawn( void (*fn)(void) )
     }
     SpawnStack = save_env;
     return status;
+}
+
+void FreeList( path_entry *curr )
+{
+    path_entry *next;
+
+    while( curr != 0 ) {
+        next = curr->next;
+        _LnkFree( curr );
+        curr = next;
+    }
+}
+
+void Suicide( void )
+{
+    if( SpawnStack != 0 ) {
+        longjmp( SpawnStack, 1 );
+    }
 }

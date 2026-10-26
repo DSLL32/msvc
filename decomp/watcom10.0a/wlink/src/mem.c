@@ -33,3 +33,8 @@ void *LAlloc( unsigned size )
     } while( FreeUpMemory() );
     return ptr;
 }
+
+void _LnkFree( void *ptr )
+{
+    if( ptr != 0 ) free( ptr );
+}
