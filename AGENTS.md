@@ -57,6 +57,9 @@ inspection. Source remains Win32 C: preserve the original APIs, libraries, codin
 style and function ABIs.
 It must still compile with the original toolchain; verify that build as work
 progresses even when all testing is native.
+Use `__linux__` for native-only guards, not `__LINUX`. Incomplete semantic
+reconstruction or data must trap in both builds; reserve native-only guards for
+actual host ABI/layout differences.
 
 `lib/recon/` supplies native Win32/CRT shims and tracing. Its dedicated maintainer
 (`/root/recon_lib_maintenance`) owns shared changes; binary workers should contact
