@@ -1433,3 +1433,11 @@ int return type; the native installed-only denial uses the existing void type.
 RPCPROXY.H also has a void dummy definition, not a CRT success specification.
 Invocation remains unsupported125; the original import identity and installed
 vtable compile without qualifying a purecall execution or returned value.
+
+Explicit MSVCRT510 wsprintfA accepts only the reached exact "%d" format,
+consuming one signed32 int through the SDK cdecl varargs ABI. The caller owns
+at least12 writable bytes (RCDLL supplies128); NULL/wrapping/format-overlapping
+output is denied before effects. Existing recon_itoa supplies decimal output
+and NUL; return excludes NUL, errors/full FP remain unchanged. Other formats
+(including unvisited "%ws") and profiles remain125. No general formatting or
+original per-call bytes/errors/FP claim is introduced.

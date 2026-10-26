@@ -908,3 +908,9 @@ build/macroman-ascii-probe: tests/macroman-ascii-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 macroman-ascii-check: build/macroman-ascii-probe
 	$(PYTHON) tests/check-macroman-ascii.py $< 510
+
+.PHONY: wsprintf-decimal-check
+build/wsprintf-decimal-probe: tests/wsprintf-decimal-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+wsprintf-decimal-check: build/wsprintf-decimal-probe
+	$(PYTHON) tests/check-wsprintf-decimal.py $< 510

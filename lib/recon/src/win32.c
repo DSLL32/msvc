@@ -1409,7 +1409,20 @@ LPSTR WINAPI recon_CharNextA(LPCSTR text)
 }
 
 int __cdecl recon_wsprintfA(LPSTR output,LPCSTR format,...)
-{ (void)output; (void)format; recon_unsupported("unreviewed wsprintfA"); return 0; }
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    va_list arguments;int value;uintptr_t destination=(uintptr_t)output,source=(uintptr_t)format;
+    /* The caller owns at least12 writable bytes (RCDLL supplies128). */
+    if(!output || !format || destination>UINTPTR_MAX-12 || source>UINTPTR_MAX-3 ||
+       format[0]!='%' || format[1]!='d' || format[2] ||
+       (destination<source+3 && source<destination+12))
+        recon_unsupported("wsprintfA outside signed decimal output domain");
+    va_start(arguments,format);value=va_arg(arguments,int);va_end(arguments);
+    recon_itoa(value,output,10);return (int)strlen(output);
+#else
+    (void)output;(void)format;recon_unsupported("unreviewed wsprintfA");return 0;
+#endif
+}
 
 /* Private heap support preserves the observed RC owner/flags/success path. These
  * host-only lists expose ownership to GDB without borrowing target addresses. */
