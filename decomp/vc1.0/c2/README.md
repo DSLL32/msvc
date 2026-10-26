@@ -1,5 +1,43 @@
 # VC1.0 C2 reconstruction
 
+Canonical native execution is available with `make -j4 native-bin`, producing
+`build/c2`; the toolchain coordinator installs the same host as
+`decomp/vc1.0/build/native/bin/C23232.EXE`. Root `entry.c` is native-only, reuses
+existing App objects and all five historical CRT variants, and excludes registry,
+fixture hosts/hooks and tests. The shared basic startup owns writable argv/env,
+OS environment, command line and actual `/proc/self/exe`/cwd identities on Z:.
+No PATH, Wine, captured child responses or RECON environment setup is required.
+The wrapper owns the proved direct-App binary mode8000 and x87 PC53 startup;
+App main owns its actual cleanup/console registration. Existing per-object8B
+POD return flags and12B Extended hidden-result ABI are unchanged.
+
+Exact6019B C23.ERR bytes are linked in a read-only asset section and registered
+at default cwd/c23.err and actual installed-module-directory/C23.ERR. Opens use
+independent in-memory descriptors, with no extracted companion files. Explicit
+other `-ef` paths retain filesystem behavior. Standalone MSC_CMD_FLAGS-only runs
+match complete minimal286B and floating979B object references after only the
+existing four-byte timestamp rule, with empty streams/status0. Installed/default
+catalog reads and an actual alternate disk catalog also pass. A first default
+probe failed before the frontend header assigns the default filename; corrected
+valid-IR/output-open-failure setup verifies that path without an App change.
+
+Native-bin build plus48 cached cases/273 units passes10.447s(concurrent phases
+unsplit). First standalone batch0.087s includes the two positive object runs,
+installed catalog and the failed later assertion; successful runs were not
+repeated just for timing. Corrected default/external probes take0.062s overall
+(default setup0.945ms/execution2.053ms, external execution1.399ms). Real empty-env
+CL→C1→C2 C and CL→C1XX→C2 C++ chains pass8.159/7.644ms with actual one-entry
+MSC_CMD_FLAGS children and286B objects; coordinator install0.530s. The complete
+CL→C1→C2→LINK native chain then passes14.281ms, including the original-matching
+object/PE outputs under existing clock rules. No originals, new captures or
+unchanged original-audit campaign were run. Exact execution/
+source identities, all failures and split timing records remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/canonical-entry/`; child receipts are referenced there.
+Ordinary native child waits still expose POSIXlowbyte status unless the shared
+DWORD receipt is supplied; raw CreateProcess command transport is separate
+common work. The existing callback fixture retains its proven DWORD32768 check.
+No reconstruction credit or case oracle changed in this adoption.
+
 Checkpoint1524 completes the internal console-control case and six related
 unit-qualified residual owners. All1409 registered App functions have complete
 source; five historical CRT bodies remain separately accounted. App code occupies

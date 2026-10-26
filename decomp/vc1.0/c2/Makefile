@@ -155,6 +155,11 @@ RECON_AUDIT_PREREQUISITES = ret-checks.json
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
+# Canonical host reuses App/CRT objects and excludes all fixture entry hooks,
+# tests and registry glue. Its own entry.c owns direct-main FP initialization.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = crt/runtime.c $(filter-out $(RECON)/src/entry.c,$(wildcard $(RECON)/src/*.c))
+NATIVE_BIN_FILES = c23=../../../toolchains/1.0-nt/bin/C23.ERR
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Original VC1 small PODs return EAX:EDX; this object owns every App caller.
