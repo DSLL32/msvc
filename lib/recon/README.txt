@@ -1512,3 +1512,13 @@ is copied. Other profiles keep no alias and deny direct helper use. WCC's
 ordinary hash path retains its real period CALL and qualifies value/count4;
 focused wrap-count/signed-bit vectors preserve native errors/full FP. Original
 per-call errors/FP were unmeasured.
+
+Explicit MSVCRT510 swprintf also admits the encountered APSTUDIO format
+"%c%s%c%s%c%d%c%c%c": E000 start, E002 separators, two ASCII WCHAR strings,
+signed32 line and genuine promoted flagFFFFFF80/81 converted to WCHARFF80/81.
+Default-C/MB1/gate0 and all locale handles are required. The caller owns2048
+WCHARs; format/string/output spans, disjointness and computed length are checked
+before writes. Return excludes the NUL, tails are untouched, native errors/full
+FP preserved. Other layouts/marker/flag/string domains stay125. No general
+formatter or original per-call state equivalence is claimed; the ordinary
+APSTUDIO continuation matches its exact partial output hashes.

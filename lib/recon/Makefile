@@ -962,3 +962,9 @@ build/mbstok-first-probe: tests/mbstok-first-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 mbstok-first-check: build/mbstok-first-probe
 	$(PYTHON) tests/check-mbstok-first.py $< 510
+
+.PHONY: apstudio-format-check
+build/apstudio-format-probe: tests/apstudio-format-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+apstudio-format-check: build/apstudio-format-probe
+	$(PYTHON) tests/check-apstudio-format.py $< 510

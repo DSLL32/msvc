@@ -2738,6 +2738,59 @@ WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
     while ((*end++=*text++)!=0) {}
     return out;
 }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static int format_apstudio_macro(WCHAR *out,const WCHAR *format,va_list args)
+{
+    static const WCHAR expected[]={'%','c','%','s','%','c','%','s','%','c','%','d','%','c','%','c','%','c',0};
+    const WCHAR *name,*text;WCHAR *cursor=out;
+    int first,second,third,line,fourth,flag,last;
+    size_t name_length,text_length,number_length,total,n;
+    uintptr_t destination=(uintptr_t)out,pattern=(uintptr_t)format;
+    char number[12];
+    if(destination<4096 || pattern<4096 || (destination&1) || (pattern&1) ||
+       destination>UINTPTR_MAX-4096 || pattern>UINTPTR_MAX-sizeof(expected) ||
+       (destination<pattern+sizeof(expected) && pattern<destination+4096) ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 ||
+       locale_profile_applied || ctype_selection.bound)
+        recon_unsupported("APSTUDIO swprintf output/format/default-C scope");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("APSTUDIO swprintf locale handles");
+    for(n=0;n<sizeof(expected)/sizeof(expected[0]);++n)
+        if(format[n]!=expected[n])recon_unsupported("APSTUDIO swprintf exact format");
+    first=va_arg(args,int);name=va_arg(args,const WCHAR *);
+    second=va_arg(args,int);text=va_arg(args,const WCHAR *);
+    third=va_arg(args,int);line=va_arg(args,int);fourth=va_arg(args,int);
+    flag=va_arg(args,int);last=va_arg(args,int);
+    if(first!=0xe000 || second!=0xe002 || third!=0xe002 || fourth!=0xe002 || last!=0xe002 ||
+       ((unsigned)flag!=0xffffff80U && (unsigned)flag!=0xffffff81U))
+        recon_unsupported("APSTUDIO swprintf marker/flag domain");
+    if((uintptr_t)name<4096 || (uintptr_t)text<4096 ||
+       ((uintptr_t)name&1) || ((uintptr_t)text&1) ||
+       (uintptr_t)name>UINTPTR_MAX-4096 || (uintptr_t)text>UINTPTR_MAX-4096)
+        recon_unsupported("APSTUDIO swprintf string spans");
+    for(name_length=0;name_length<2048 && name[name_length];++name_length)
+        if(name[name_length]>=128)recon_unsupported("APSTUDIO swprintf ASCII name");
+    for(text_length=0;text_length<2048 && text[text_length];++text_length)
+        if(text[text_length]>=128)recon_unsupported("APSTUDIO swprintf ASCII text");
+    if(name_length==2048 || text_length==2048 ||
+       (destination<(uintptr_t)name+(name_length+1)*2 && (uintptr_t)name<destination+4096) ||
+       (destination<(uintptr_t)text+(text_length+1)*2 && (uintptr_t)text<destination+4096))
+        recon_unsupported("APSTUDIO swprintf string bound/output overlap");
+    recon_itoa(line,number,10);number_length=strlen(number);
+    total=name_length+text_length+number_length+6;
+    if(total>=2048)recon_unsupported("APSTUDIO swprintf caller capacity");
+    /* The exact caller owns2048 WCHARs. Every source/extent is validated before
+     * output; %c keeps the low16 WCHAR of the genuine promoted int argument. */
+    *cursor++=(WCHAR)first;
+    for(n=0;n<name_length;++n)*cursor++=name[n];
+    *cursor++=(WCHAR)second;
+    for(n=0;n<text_length;++n)*cursor++=text[n];
+    *cursor++=(WCHAR)third;
+    for(n=0;n<number_length;++n)*cursor++=(unsigned char)number[n];
+    *cursor++=(WCHAR)fourth;*cursor++=(WCHAR)flag;*cursor++=(WCHAR)last;*cursor=0;
+    return (int)total;
+}
+#endif
 WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 {
     static const WCHAR line_prefix[]={'#','l','i','n','e',' ','%','d'};
@@ -2752,6 +2805,10 @@ WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
     if(((uintptr_t)format&1) || (uintptr_t)format>UINTPTR_MAX-4)
         recon_unsupported("legacy swprintf format selection span");
+    if(format[0]=='%') {
+        va_start(args,format);number=format_apstudio_macro(out,format,args);va_end(args);
+        return number;
+    }
     if(format[0]=='#' && format[1]=='p') {
         static const WCHAR pragma_format[]={'#','p','r','a','g','m','a',' ','c','o','d','e','_','p','a','g','e',' ','%','d','\r','\n',0};
         uintptr_t source=(uintptr_t)format,destination=(uintptr_t)out;
