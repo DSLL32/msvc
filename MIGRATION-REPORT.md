@@ -790,15 +790,27 @@ followed that earlier pause.
 Shared integration is published. The simpler ordinary CF debugger is READY in
 `cea53023405fcce7f9900f4626986008d8ded4db`, superseding the active instruction
 controller from `04ee1337ad2f627d691b784f186d1d46b348da27`.
-All three CF binaries use the ordinary debugger. Three initial help cases are
-complete: WLIB (`23c416971`, 56 App functions / 4,768 unique original bytes,
-exit 0), WASM (`f2710e44e`, 68 / 10,309 bytes, exit 1), and WPP
-(`7bcf96442`, 98 / 6,827 bytes, exit 1). All three match actual
-streams and entry order, pass period builds and full final graph/ABI checks,
-and keep only `case.c`/`capture.bin` plus ignored build output under cases.
-The user authorized WLIB and WASM to continue autonomously with substantial
-cases. WPP is paused for user review. WCC and WLINK must complete their initial
-help case, commit, pause, and request user review before autonomous continuation.
+All five initial help cases are complete: WASM uses `/?`, and the other four
+use bare `?`. All three CF binaries use the ordinary debugger; WLIB and WLINK
+use the shared PE backend.
+
+| Binary | Initial-case commit | App functions / unique original bytes | Exit |
+| --- | --- | --- | --- |
+| WCC386 | `8b50a144e` | 74 / 7,443 | 1 |
+| WPP386 | `7bcf96442` | 98 / 6,827 | 1 |
+| WASM | `f2710e44e` | 68 / 10,309 | 1 |
+| WLIB | `23c416971` | 56 / 4,768 | 0 |
+| WLINK | `5e182f985` | 116 / 8,962 | 0 |
+
+All five match actual streams and entry order, pass period builds and full final
+graph/ABI checks, and keep only `case.c`/`capture.bin` plus ignored build output
+under cases. WCC's 74 logical identities include one seeded empty `CPragmaInit`
+entry; WLINK's 116 include seeded `SetBreak`. Their actual observed entry counts
+are 73 and 115; the shared empty entries add no unique instruction bytes and
+their first-entry order is explicitly excluded. WCC, WPP and WLINK are paused
+for user review. WLIB has autonomous substantial-case authorization. WASM also
+has that authorization, but its current work is held after the platform
+interruption described below.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
@@ -854,8 +866,29 @@ finite residual cover two cold nonlocal tails without accepting pending recovery
 code. WASM's final original/native pair was 1.342 s / 10.331 ms (5.572 setup,
 2.712 execution, 2.047 checks); period rebuild plus audit took 2.783 s. Its full
 68-App graph/reference/ownership/extent checks, 65 ordinary return contracts and
-reviewed exceptional/help-exit residual pass. No publication-only original was
-needed for either completed case.
+reviewed exceptional/help-exit residual pass.
+
+WPP's final original/native pair takes 2,175.476 / 8.444 ms; cached replay is
+8.195 ms (3.708 setup, 3.201 execution, 1.286 checks). Parallel native/period
+builds take 1.572 s; its full audit target takes 153.08 ms for 98 App owners and
+two justified CRT callback wrappers. A genuine file-scope const `Usage` data
+public resolves the help table's rebuilt CODE boundary without a tool change.
+WCC's final pair takes 1,573.763 / 7.772 ms; clean native/period/case-policy
+builds take 3.320 s, full audit 161 ms for 77 paired owners (74 App plus three
+justified CRT glue owners), and cached replay 7.874 ms (4.625 setup, 2.212
+execution, 1.036 checks). Seventy ordinary App RET contracts and four finite
+nonlocal-role residuals retain the actual exit/error boundaries. The canonical
+7,443-byte union corrects an earlier eight-byte scratch-counter error; actual
+registry extents were unchanged. Shared exporter `097fb522b` avoids parsing
+MAP publics when numeric metadata needs no symbol resolution; real symbolic
+requests, chunk checks and object-bound extent validation remain strict.
+WLINK's final pair takes 1,414.433 / 19.600 ms (native 10.159 setup, 4.836
+execution, 4.605 checks); the original launcher wall time is separately
+3,399.974 ms. Exact stdout is 8,475 bytes, stderr/artifacts empty, exit 0.
+Its final parallel period/native/fixture/unit/audit batch takes 1.265 s;
+cached fixture/unit take 14.441 / 19.170 ms. All 116 App graphs, 115 RET
+contracts and the explicit main-to-ExitProcess nonreturn residual pass.
+No publication-only original was needed for these completed cases.
 
 **Reached command-line input fix.** Shared release `61b2f237a` retains exact
 `CreateProcessA` text independently of argv, binds mutable process-lifetime
@@ -879,23 +912,10 @@ case has reached 99 / 16,906 bytes at `AsmParse`; step042 is authoritative.
 That worker is temporarily held after a platform interruption, with WIP/raw
 history preserved and no process running. The last completed command was a
 successful read-only inspection; no action-specific cause is established.
-The remaining initial help cases have reached WCC 74 logical functions / 7,451
-bytes (73 observed entries plus the explicitly seeded empty `CPragmaInit`
-identity), and WLINK 100 / 8,293 bytes (including the seeded shared-return identity
-`SetBreak`, which adds no instruction bytes). WCC's three banner lines match
-at `CCusage`: original 1,652.075 ms / native 8.451 ms. Its later complete
-99-line help run exits 1 with matching streams and cleanup (1,573.763 ms
-original / 7.772 ms native), with final case gates/commit still pending.
-WPP's committed help run exits 1 with matching streams, artifacts and five-node
-shutdown: 2,175.476 ms original / 8.444 ms native (4.607 setup, 2.573 execution,
-1.263 checks). Final cached replay takes 8.195 ms, parallel native/period builds
-1.572 s, and the full 100-function audit target 153.08 ms (98 App plus two
-justified CRT callback wrappers). Its const help-pointer table now has a genuine
-file-scope data public, resolving the CODE boundary without a tooling change.
-WLINK's full 8,475-byte help output matches; the bounded live-Spawn `longjmp`
-adapter (`ce8c8d4df`) is adopted through `Suicide` to `CloseSpillFile` in
-1,139.107 ms original / 19.893 ms native, and cleanup continues.
-No initial-case completion commit or full-audit claim is made for WCC or WLINK.
+WLINK's bounded live-Spawn `longjmp` adapter (`ce8c8d4df`) was adopted through
+`Suicide` to `CloseSpillFile` in 1,139.107 ms original / 19.893 ms native before
+the completed cleanup above. Windows SEH/expired-owner behavior remains outside
+that finite native contract.
 
 Shared CF raw-command input (`af8e6922e`) now records the actual loader
 `CreateProcessA` buffer and independently observed payload tail. WPP's actual

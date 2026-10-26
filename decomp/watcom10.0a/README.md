@@ -4,11 +4,12 @@ Reconstruct `binb/WCC386.EXE`, `binb/WPP386.EXE`, `binb/WASM.EXE`,
 `binnt/WLIB.EXE`, and `binnt/WLINK.EXE` in the corresponding binary folders.
 `toolchain-import.json` records the copied originals and selected hashes.
 
-All five binaries use the standardized shared harness. WLIB and WASM have
-completed their initial help cases and have user authorization to continue
-autonomously with substantial cases. WCC386, WPP386 and WLINK must finish their
-initial help case, run its final checks, commit and pause for user review before
-starting another case. Keep verified functions separate from pending source.
+All five binaries use the standardized shared harness and have completed their
+initial help cases. See [MIGRATION-REPORT.md](../../MIGRATION-REPORT.md) and the
+binary READMEs for committed coverage and measured checks. Further cases follow
+the user's current authorization; without autonomous authorization, finish the
+case, run its final checks, commit and pause for review. Keep verified functions
+separate from pending source.
 
 The initial Open Watcom source release is available read-only at
 `/root/.ai-tmp/watcom10/open-watcom-initial-6b9cb443`, commit
