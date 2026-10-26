@@ -1,7 +1,7 @@
 RECON_TOOL_DIR = $(abspath ../../../tooling/recon-tool)
 RECON = ../../../lib/recon
 NATIVE_CC = clang
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native -Isrc
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_MSVCRT_510 -I$(RECON)/include -I$(RECON)/native -Isrc
 NATIVE_CFLAGS = -std=gnu89 -fms-extensions -Wno-ignored-attributes
 BINARY_SOURCES = src/rc.c crt/startup.c
 BINARY_SUPPORT_SOURCES = harness/provider.c $(wildcard $(RECON)/src/*.c)
