@@ -34,6 +34,13 @@ BINARY_SOURCES = src/main.c \
     src/diagnostics.c \
     crt/legacy-ctype.c
 BINARY_SUPPORT_SOURCES = crt/file-runtime.c $(wildcard $(RECON)/src/*.c)
+# Ordinary execution reuses App/CRT objects but excludes the generated fixture
+# main and recon-tool's registry, entry hook and fixture support.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = $(filter-out $(RECON)/src/entry.c,$(BINARY_SUPPORT_SOURCES))
+# This ordinary child accepts the shared sealed Windows-command transport.
+# The opt-in belongs to the host entry object, never App or fixture objects.
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1
 
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = crt/startup.c \

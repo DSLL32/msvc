@@ -5,6 +5,7 @@ Run from this directory:
 
 ```
 make -j4 check unit
+make -j4 native-bin
 make -j4 win32
 make audit
 ```
@@ -19,6 +20,19 @@ owned text extents are unchanged by migration. CRT/import entries get no App
 implementation credit. Seven unavailable CRT bodies retain their known identities
 without invented code extents. Historical accepted extent union remains
 35,590 / 40,448 bytes (87.99%); that includes CRT/imports and is not branch coverage.
+
+`build/rcpp` is the ordinary native executable. Root `entry.c` prepares mutable
+arguments/environment, Windows command line, actual executable/cwd identity and
+CRT state through shared startup, then invokes `rc_main` directly under the
+approved CRT-boundary qualification. Native child startup consumes the original
+CRT's transported Windows command text; direct shell invocations retain their
+supplied argument boundaries. Only the root host object opts into the shared
+sealed child-command protocol; fixture/App compile flags are unchanged. The
+link reuses App objects and the existing FILE
+and ctype variants, excluding the generated shim main and fixture support.
+No DLL bundle or external diagnostic catalog is needed: RCPP's messages are
+already embedded in `src/messages.c`. The toolchain coordinator installs its ELF
+as `../build/native/bin/RCPP.EXE` for real sibling child invocations.
 
 The direct helper retains ten examples and stack/nonvolatile ABI checks. Its two
 forked unit tests retain 40,048 classifier calls and 131,080 message lookups,
@@ -69,3 +83,17 @@ Layout verification: native/case build 2.129 s; parallel replay/unit targets
 0.328 s; original compiler build 8.742 s; shared runtime identification,
 registry export and 161-graph/358-extent audit together 0.400 s. These checks used
 the existing captures. Diagnostic receipts remain in scratch.
+
+Canonical adoption verification: ordinary direct startup with no PATH/RECON
+settings matched the cached plain-comments output/status/streams. The actual
+coordinated RC.EXE child run matched the frozen 3,684-byte rich-resource output,
+status 0 and empty streams, with all inputs unchanged and no temporary leftovers.
+The child used the actual native RCPP.EXE, without a broker or Wine. All 20 cached
+RCPP replays and both nonempty unit groups then passed unchanged.
+
+Measured adoption checks: initial direct native build 2.509 s; coordinated RC/RCPP
+build 3.791 s; actual rich pipeline setup 0.005780 s, execution 0.098821 s and
+checks 0.001930 s; cached case build 0.793 s and parallel replay/unit targets
+0.345 s. Per-case setup/execution/check timings and diagnostic receipts are in
+the canonical-entry scratch directory. No original execution, capture refresh,
+reconstruction or graph/coverage credit was added.
