@@ -1,0 +1,27 @@
+{
+  "scope": "Exact original shared terminal-JMP tail for two canonical implemented App owners. Pending canonical App endpoint remains bodyless/unchanged. Both raw tail/callee facts retained; no cleanup, noreturn or permission inference.",
+  "source_sha256": {
+    "src/shared_returns.rs": "a7abe1ba215e437bbab9f153920c4e9e0cc060e9e5824c0f65a21bf49d1ade8f",
+    "src/index.rs": "7f4426b2f1a1fe8f0a789ba8df73091579a959c8e1cadd103cbf68ceee09dbc7",
+    "src/audit.rs": "62fe83c079b5ca7e602ab7944e79e581afa6d04299ea750f1a5640a74a7a747a",
+    "README.md": "8c9255b377f1b8033d0a22068cc8068ea37b2d68f99dc065d313deb17b82e323"
+  },
+  "release_sha256": "f2350c763a5051488d6144750bc3d291d3ca6f8ca877d7ce2c38dbb509167a7c",
+  "checks": {
+    "focused_unit_tests": 9,
+    "clippy": "all targets -D warnings PASS",
+    "actual_WLIB_targeted_seconds": 0.01791545283049345,
+    "negative_controls": 9,
+    "both_raw_tail_and_callee_facts_retained": true,
+    "prior_call_branchless_default_reports_byte_parity": true,
+    "global_RET_still_rejects_pending_endpoint": true
+  },
+  "canonical_release_build_seconds": 54.702299133874476,
+  "canonical_release_byte_identity": true,
+  "review": "Watcom consuming parent independently reviewed exact sources/release and reran actual scoped positive, wrong-target and pending-body RET negatives.",
+  "limits": [
+    "Targeted selected/driver scope3 owners with full canonical identity registry retained. Actual refreshed native registry/period PE+MAP copied; candidate acceptance/native pairing remains worker responsibility.",
+    "HashSymbol RET0 strict; both nonlocal owners checked cleanup null. Global RET still rejects pending AbortCommand, proving no implicit availability or noreturn waiver. Existing binary-local residual remains independent.",
+    "No original/native target execution, runtime/controller/exporter change or App credit; no whole-case or speedup claim."
+  ]
+}

@@ -791,3 +791,13 @@ fall through to the terminal near RET. Every other control transfer rejects.
 All existing chunk-end, ownership, graph and ABI checks remain; no call is
 normalized, removed, or granted runtime permission. The branchless
 `shared_terminal_epilogues` contract is unchanged.
+
+`shared_jump_tails` uses the same exact two-owner range and chunk-end checks with
+`{owners:[name1,name2],original:{start,bytes_hex},jump:{offset,target}}` and optional
+documentary evidence. Both existing CFGs must discover contiguous branchless
+instructions through the one final unprefixed direct `E9`, preserving both raw
+tail/callee edges to the unique canonical App endpoint. The endpoint may remain
+pending and bodyless: this declaration neither discovers its body nor asserts
+cleanup, nonreturn, acceptance or execution permission. Existing per-owner RET
+checks and any separately reviewed binary-specific nonlocal-tail checks remain
+necessary. Published returning-tail declarations retain their previous meaning.
