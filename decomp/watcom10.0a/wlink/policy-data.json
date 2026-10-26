@@ -4541,6 +4541,76 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "SetPharFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPharlap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPharSegmented": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMinData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMaxData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcStub": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniPharLapLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePharExtended": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSIT": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePharRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteRTPBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePharSegData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDescriptor": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreePharFmt": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -4848,6 +4918,12 @@
       "pending_extent": false
     },
     "RefDistribSym": {
+      "pending_extent": false
+    },
+    "WritePharSimple": {
+      "pending_extent": false
+    },
+    "WritePharExtended": {
       "pending_extent": false
     }
   }

@@ -431,3 +431,27 @@ unsigned char ProcSegment( void )
     if( HintFormat( 0x4200 ) ) return ProcQNXSegment();
     return 1;
 }
+
+unsigned char ProcStub( void )
+{
+    char *name;
+    char **nameptr;
+
+    if( HintFormat( 0x001f ) ) {
+        nameptr = &FmtData.u.os2.stub_file_name;
+    } else {
+        nameptr = &FmtData.u.phar.stub;
+        Extension = 4;
+    }
+    if( !HaveEquals( 3 ) ) return 0;
+    name = FileName( Token.this, Token.len, 4, 0 );
+    if( *nameptr == 0 ) {
+        *nameptr = name;
+    } else if( IsSystemBlock() ) {
+        _LnkFree( name );
+    } else {
+        _LnkFree( *nameptr );
+        *nameptr = name;
+    }
+    return 1;
+}

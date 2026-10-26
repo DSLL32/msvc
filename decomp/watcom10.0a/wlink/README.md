@@ -1,5 +1,5 @@
-WLINK 10.0a has eight completed native regression cases. The acceptance ledger
-contains **906 application functions / 110,194 unique original code bytes**.
+WLINK 10.0a has nine completed native regression cases. The acceptance ledger
+contains **920 application functions / 111,946 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -19,6 +19,8 @@ screen/thread/version/copyright settings and custom/message/help/RPC payloads.
 The eighth creates a QNX386 flat executable with code/data/selector relocations,
 an archive, protected segment classes, privilege/heap/stack options, an embedded
 resource file, linear fixups and Watcom debug information.
+The ninth links a Phar Lap segmented executable with a real USE32 stack, an
+archive, selector/offset fixups, the shipped DOS stub and Watcom debug data.
 
 | Case | Result |
 | --- | --- |
@@ -30,6 +32,7 @@ resource file, linear fixups and Watcom debug information.
 | `0005-dos-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ overlay executable and 9,395-byte map |
 | `0006-netware-nlm` | Exit 0; exact 255-byte stdout, empty stderr, 1,701-byte NLM and 3,064-byte map |
 | `0007-qnx-flat` | Exit 0; exact 248-byte stdout, empty stderr, 820-byte QNX executable and 2,990-byte map |
+| `0008-pharlap-segmented` | Exit 0; exact 259-byte stdout, empty stderr, 28,536-byte executable and 3,166-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 551 first entries match.
@@ -57,7 +60,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 909 source-ready identities, their actual graph,
+The complete audit passes for 923 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -119,14 +122,21 @@ excluded. The case also corrects cold QNX relocation flags to their real format
 union field and trailing-zero trimming to the group protection flags. Earlier
 failed pairs remain in scratch; their genuine originals were reused for fixes.
 
-The final parallel build/regression/unit/audit batch took **1.826 s**, including
-necessary native and period rebuilds. All eight cases and 909 source-ready graph/ABI
-identities pass. The 16 native regression runs took **17.535–47.769 ms**. The genuine
-QNX original took **1,917.443 ms**; its exact native pair took **24.297 ms**, split
-**14.526 / 3.614 / 6.156 ms** for setup/execution/checks. The map-clock-derived
-native comparison reused that capture and took **31.852 ms**. QNX producers took
-**513.268 ms** for the main OMF object and **625.103 ms** for the archive; its
-ordinary original baseline took **484.936 ms**. Worker/helper objects were reused
-from the NLM producer. No QNX, DOS, NE, LX or DWARF executable bytes are normalized.
-Raw artifacts, producer inputs, intermediate failures and diagnostics remain under
+The Phar Lap case matches 495 first entries and every executable byte, including
+the captured DOS stub, 128-byte P3 extended header, 12-byte segment-information
+records, relocations, runtime-parameter block, 104-byte task state, 8-byte protected
+mode descriptors and complete segment/debug images. Only the six map clock
+fields are excluded. The segmented path remains distinct from the pending simple,
+REX and extended-flat image writers; unused format callbacks stay trapped.
+
+The final parallel build/regression/unit/audit batch took **1.849 s**, including
+necessary native and period rebuilds. All nine cases and 923 source-ready graph/ABI
+identities pass. The 18 native regression runs took **17.668–53.848 ms**. The genuine
+Phar Lap original took **1,466.775 ms**; its exact native pair took **28.558 ms**,
+split **14.528 / 7.544 / 6.486 ms** for setup/execution/checks. The map-clock-derived
+native comparison reused that capture and took **29.357 ms**. Its new main OMF
+object took **470.886 ms** to assemble; the ordinary original baseline took
+**293.235 ms**. Other OMF objects/archive were reused from the previous workload.
+No Phar Lap, QNX, DOS, NE, LX or DWARF executable bytes are normalized. Raw
+artifacts, producer inputs, intermediate failures and diagnostics remain under
 `~/.ai-tmp/msvc2/watcom-shared-integration/`.

@@ -52,7 +52,6 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 
-void FiniPharLapLoadFile( void ) { TRAP(); }
 void FiniELFLoadFile( void ) { TRAP(); }
 
 
@@ -125,8 +124,6 @@ void SetELFFmt( void ) { TRAP(); }
 void FreeELFFmt( void ) { TRAP(); }
 
 
-void SetPharFmt( void ) { TRAP(); }
-void FreePharFmt( void ) { TRAP(); }
 
 
 
@@ -195,7 +192,6 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 unsigned char ProcCom( void ) { TRAP(); return 0; }
 unsigned char ProcELF( void ) { TRAP(); return 0; }
 
-unsigned char ProcPharlap( void ) { TRAP(); return 0; }
 
 
 
@@ -263,9 +259,7 @@ unsigned char ProcDynamic( void ) { TRAP(); return 0; }
 unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
 unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
-unsigned char ProcMaxData( void ) { TRAP(); return 0; }
 unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
-unsigned char ProcMinData( void ) { TRAP(); return 0; }
 unsigned char ProcModName( void ) { TRAP(); return 0; }
 unsigned char ProcMultiple( void ) { TRAP(); return 0; }
 unsigned char ProcNameLen( void ) { TRAP(); return 0; }
@@ -292,7 +286,6 @@ unsigned char ProcSingle( void ) { TRAP(); return 0; }
 unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
 unsigned char ProcStatics( void ) { TRAP(); return 0; }
-unsigned char ProcStub( void ) { TRAP(); return 0; }
 unsigned char ProcSymFile( void ) { TRAP(); return 0; }
 unsigned char ProcToggleRelocsFlag( void ) { TRAP(); return 0; }
 unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
@@ -703,3 +696,17 @@ unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
+
+unsigned char ProcPharFlat( void ) { TRAP(); return 0; }
+
+unsigned char ProcRex( void ) { TRAP(); return 0; }
+
+
+void WritePharSimple( unsigned long start ) { TRAP(); }
+
+
+
+
+
+
+unsigned long WritePharData( unsigned long file_pos ) { TRAP(); return 0; }

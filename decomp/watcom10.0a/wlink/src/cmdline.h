@@ -55,6 +55,20 @@ typedef struct fmt_nov_data {
 } fmt_nov_data;
 typedef char old_nov_format_is_58[(sizeof(fmt_nov_data) == 58) ? 1 : -1];
 
+typedef struct rtpblock {
+    unsigned short signature, minreal, maxreal, minibuf, maxibuf;
+    unsigned short nistack, istksize;
+    unsigned long realbreak;
+    unsigned short callbufs, extender_flags, unpriv;
+} rtpblock;
+typedef char old_rtp_is_24[(sizeof(rtpblock) == 24) ? 1 : -1];
+typedef struct fmt_phar_data {
+    unsigned long mindata, maxdata;
+    char *breaksym;
+    rtpblock *params;
+    char *stub;
+} fmt_phar_data;
+
 typedef struct fmt_qnx_data {
     seg_flags *seg_flags;
     unsigned long heapsize;
@@ -69,6 +83,7 @@ typedef struct fmt_data {
         fmt_os2_data os2;
         fmt_nov_data nov;
         fmt_qnx_data qnx;
+        fmt_phar_data phar;
         struct {
             fmt_os2_data os2;
             unsigned long objalign;
@@ -227,6 +242,17 @@ extern unsigned char ProcQNXReadOnly( void );
 extern unsigned char ProcQNXReadWrite( void );
 extern void SetQNXGroupFlags( void );
 extern void WriteQNXGroup( group_entry *group, unsigned long *segments );
+extern unsigned char ProcPharFlat( void );
+extern unsigned char ProcRex( void );
+extern unsigned char ProcPharSegmented( void );
+extern void WritePharSimple( unsigned long start );
+extern void WritePharExtended( unsigned long start );
+extern unsigned long WriteSIT( void );
+extern unsigned long WritePharRelocs( void );
+extern unsigned long WriteRTPBlock( void );
+extern unsigned long WritePharSegData( void );
+extern unsigned long WritePharData( unsigned long file_pos );
+extern void WriteDescriptor( unsigned long base, unsigned long limit, unsigned flags );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );
