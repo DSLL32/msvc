@@ -9,8 +9,8 @@ extern MachineBlockHeader *region_motion_block;
 extern int region_motion_changed;
 int __fastcall scale_region_increment(unsigned short number, MachineInstruction *increment, int apply, unsigned *changed);
 MachineInstruction * __fastcall find_active_region_increment(unsigned short number);
-void __fastcall replace_region_operand_uses(MachineOperand *operand, unsigned short number, MachineInstruction *limit);
-unsigned short __fastcall hoist_region_definition(MachineInstruction *instruction, int retain);
+void __fastcall replace_region_operand_uses(MachineOperand *operand, unsigned short number, MachineInstruction *first);
+unsigned short __fastcall hoist_region_definition(MachineInstruction *instruction, unsigned short register_flags);
 int __fastcall region_register_is_constant(unsigned short number);
 void __fastcall adjust_region_register_uses(MachineFlowRegion *region, unsigned short number, int delta);
 void __fastcall remove_region_instruction(MachineFlowRegion *region, MachineInstruction *instruction);
@@ -21,4 +21,7 @@ unsigned short __fastcall reserve_region_result_register(MachineInstruction *ins
 int __fastcall region_operand_displacement(MachineOperand *operand, MachineOperand *base);
 void __fastcall replace_region_operand_value(MachineOperand *source, MachineOperand *destination);
 void __fastcall adjust_region_operand_uses(MachineFlowRegion *region, MachineOperand *operand, int delta);
+MachineInstruction *__fastcall find_region_increment(unsigned short number, MachineFlowRegion *region);
+void __fastcall normalize_region_scaled_indices(unsigned short number, unsigned short related);
+void __fastcall scale_region_register_increment(unsigned short number, unsigned scale);
 #endif

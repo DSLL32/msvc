@@ -910,6 +910,31 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@find_active_region_increment@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@find_region_increment@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@scale_region_increment@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@hoist_region_definition@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@replace_region_operand_uses@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

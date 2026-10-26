@@ -611,3 +611,146 @@ void __fastcall remove_region_instruction(MachineFlowRegion *region, MachineInst
     }
     remove_machine_instruction(instruction);
 }
+
+/* Original49e60..49e6b. Preserve the separate active-owner wrapper and
+   its tail edge; the register-number formal consumes CX, not its upper bits. */
+MachineInstruction *__fastcall find_active_region_increment(unsigned short number)
+{
+    return find_region_increment(number, active_machine_region);
+}
+
+/* Original4af10..4b004. Follow invariant preheader copies/LEAs to the
+   region's actual single constant update. Cyclic/invalid producer graphs are
+   not given an invented result or traversal limit. */
+MachineInstruction *__fastcall find_region_increment(unsigned short number, MachineFlowRegion *region)
+{
+    MachineRegionRegister *record;
+    MachineInstruction *definition;
+    unsigned flags, operation;
+    unsigned short base;
+    for (;;) {
+        record = find_machine_region_register(region, number, 0);
+        if (!record || !(definition = record->definition)) return 0;
+        flags = record->flags;
+        if (flags & 4) return definition;
+        operation = (definition->opcode >> 8) & 255;
+        if (operation == MC_MOV && (definition->operands[1].flags & 15) == OPERAND_REGISTER &&
+            (definition->operands[1].value.reg.words.number & 0xc000) &&
+            instruction_precedes_region_entry(definition) && (flags & 2) && (flags & 8) &&
+            record->definitions == 1) {
+            number = definition->operands[1].value.reg.words.number;
+            continue;
+        }
+        if (operation != MC_LEA || (definition->operands[1].flags & 15) != OPERAND_BASED ||
+            !(definition->operands[1].value.address->base.words.number & 0xc000) ||
+            !instruction_precedes_region_entry(definition) || !(flags & 2) || !(flags & 8) ||
+            record->definitions != 1) return 0;
+        base = definition->operands[1].value.address->base.words.number;
+        if (base == definition->operands[0].value.reg.words.number)
+            compiler_internal_error("@(#)range.c:1.0", 0x6f0);
+        number = base;
+    }
+}
+
+/* Original49bb0..49e53. All non-update uses must agree on an indexed
+   scale. Applying the transform additionally permits one immediate compare
+   and follows supported register copies. Validation may decline without
+   touching the stream; preserve the original shared output across recursion. */
+int __fastcall scale_region_increment(unsigned short number, MachineInstruction *increment,
+    int apply, unsigned *changed)
+{
+    MachineInstruction *instruction, *comparison = 0;
+    MachineOperand *operand, *other;
+    MachineAddress *address;
+    unsigned kind, operation;
+    unsigned short related = 26;
+    int remaining, scale = -1, candidate;
+    *changed = 0;
+    for (instruction = active_machine_region->first;
+         instruction != active_machine_region->last->next; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        if ((kind && kind != 8 && kind != 9 && kind != 10) || instruction == increment) continue;
+        operation = (instruction->opcode >> 8) & 255;
+        remaining = machine_operand_counts[operation];
+        while (remaining) {
+            operand = &instruction->operands[remaining == 1 ? 0 : 1];
+            other = &instruction->operands[remaining == 1 ? 1 : 0];
+            if (operand_mentions_register(operand, number)) {
+                kind = operand->flags & 15;
+                if (kind == OPERAND_REGISTER) {
+                    if (!apply) return 0;
+                    if (operation == MC_CMP && (other->flags & 15) == OPERAND_IMMEDIATE && !comparison) {
+                        comparison = instruction;
+                    } else if (operation == MC_MOV && (other->flags & 15) == OPERAND_REGISTER) {
+                        related = other->value.reg.words.number;
+                        if (!find_active_region_increment(related)) return 0;
+                        candidate = scale_region_increment(related, instruction, 0, changed);
+                        if (scale != -1 && candidate != scale) return 0;
+                        scale = candidate;
+                    } else return 0;
+                } else if (kind == OPERAND_INDEXED) {
+                    address = operand->value.address;
+                    if (address->index.words.number != number || address->base.words.number == number) return 0;
+                    candidate = (operand->flags >> 8) & 3;
+                    if (scale != -1 && candidate != scale) return 0;
+                    scale = candidate;
+                    if (address->base.words.number == 27) *changed = 1;
+                } else return 0;
+            }
+            --remaining;
+        }
+    }
+    if (!apply) return scale;
+    if (scale > 0 && *changed) {
+        normalize_region_scaled_indices(number, related);
+        scale_region_register_increment(number, scale);
+        increment->operands[1].value.constant <<= scale;
+        if (comparison) {
+            if ((comparison->operands[0].flags & 15) == OPERAND_REGISTER)
+                comparison->operands[1].value.constant <<= scale;
+            else comparison->operands[0].value.constant <<= scale;
+        }
+        new_region_address_register(increment, 0, 27, increment->operands[0].value.reg.value,
+            scale, 0, 0);
+    }
+    return 1;
+}
+
+/* Original49ee0..49f72. Clone one definition into the insertion block,
+   transport its actual register home and deferred ownership, then withdraw
+   the original instruction and its region uses. Register flags consume DX. */
+unsigned short __fastcall hoist_region_definition(MachineInstruction *instruction, unsigned short register_flags)
+{
+    MachineInstruction *created;
+    unsigned short number;
+    if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER)
+        compiler_internal_error("@(#)range.c:1.0", 0x508);
+    number = reserve_region_result_register(instruction, register_flags);
+    created = clone_machine_record(instruction);
+    created->operands[0].value.reg.words.number = number;
+    transformation_cursor.instruction = insert_machine_after(transformation_cursor.instruction, created);
+    region_motion_changed = 1;
+    if ((instruction->opcode >> 24) && instruction->operands[0].value.reg.words.number != number)
+        replace_machine_definition(instruction->opcode >> 24, instruction, created);
+    else record_machine_definition_range(number, created, created);
+    remove_region_instruction(active_machine_region, instruction);
+    return number;
+}
+
+/* Original49e70..49edd. Replace an address expression with the new
+   register-based home. Only kind/width are assigned in the original local
+   flag word: scale/reserved bits remain partial. Keep those internal writes;
+   the independently defined use annotations are retained by the copy helper. */
+void __fastcall replace_region_operand_uses(MachineOperand *operand, unsigned short number,
+    MachineInstruction *first)
+{
+    MachineOperand replacement;
+    replacement.value.address = new_machine_address();
+    replacement.flags = (replacement.flags & ~15U) | OPERAND_BASED;
+    replacement.value.address->base.words.number = number;
+    replacement.value.address->base.words.flags = 1;
+    replacement.value.address->symbol = 0;
+    replacement.value.address->first.displacement = 0;
+    replacement.flags &= ~0xf0U;
+    replace_region_operand(active_machine_region, first, operand, &replacement);
+}

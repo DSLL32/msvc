@@ -192,13 +192,13 @@ void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, Machi
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-int __fastcall scale_region_increment(unsigned short number, MachineInstruction *increment, int apply, unsigned *changed) { __asm int 3 }
-MachineInstruction * __fastcall find_active_region_increment(unsigned short number) { __asm int 3 }
-void __fastcall replace_region_operand_uses(MachineOperand *operand, unsigned short number, MachineInstruction *limit) { __asm int 3 }
-unsigned short __fastcall hoist_region_definition(MachineInstruction *instruction, int retain) { __asm int 3 }
 int __fastcall region_operand_replacement_safe(MachineInstruction *first, unsigned short number, MachineOperand *operand) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
 
 int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }
+
+
+void __fastcall normalize_region_scaled_indices(unsigned short number, unsigned short related) { __asm int 3 }
+void __fastcall scale_region_register_increment(unsigned short number, unsigned scale) { __asm int 3 }

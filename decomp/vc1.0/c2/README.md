@@ -1,22 +1,82 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1488 completes the INTERNAL region-motion case. There are1373
+Checkpoint1493 completes the INTERNAL induction-motion case. There are1378
 reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies360077/399693 original code-section bytes(90.0884%); adding940 owned
-text-data bytes gives361017/399693(90.3236%). These clipped extent unions use
-section VirtualSize(raw size only if zero), not branch coverage. The five
-historical CRT overrides contribute1776B separately, zero App credit. Available
-App/classified CRT/import extents cover387391/399693(96.9221%). A reliable
-non-CRT denominator is unavailable;32 pending App rows and12302B outside the
-available union still require investigation. Newly encountered child entries
-increase the pending-row inventory; those bytes are not all proved App or CRT.
+occupies361262/399693 original code-section bytes(90.3849%); adding940 owned
+text-data bytes gives362202/399693(90.6201%). These clipped extent unions use
+section VirtualSize(raw size only if zero), not branch coverage. Five historical
+CRT overrides contribute1776B separately, zero App credit. Available App/
+classified CRT/import extents cover388576/399693(97.2186%). A reliable non-CRT
+denominator is unavailable;30 pending App rows and11117B outside the available
+union still need investigation. The latter includes unclassified/support/padding
+and is not a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All35 cached IO cases, six INTERNAL DIRECT
+`binary.c` is the sole registry. All35 cached IO cases, seven INTERNAL DIRECT
 cases and248 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The induction-motion source computes bounded tiled checksums using unsigned
+arithmetic and callback-visible local coefficients. Untouched CL/O2/Ob0/G4/Z7/W3
+and exact captured standalone C2 both complete:2854B object for the initial
+source and2947B for the single gate-led revision, identical apart from the known
+COFF timestamp. Actual C2 environment is one MSC_CMD_FLAGS entry; the frozen
+revision has1910B source and real001096 ex/sy/in/gl/db inputs2533/742/6/162/263B.
+Parent CL completion is not observed in the read-only transport snapshot;
+standalone C2 supplies the complete public baseline. The initial source reaches
+scale validation but its zero-offset local address becomes MOV. The revision
+uses fixed eight-word tiles and a legitimate nonzero-offset coefficient slice;
+there is no further source/flag variation or private-state forcing.
+
+INTERNAL DIRECT borrows the genuine first function's innermost region at
+combine_machine_instructions: flags48, blocks17..19, actual initialized induction
+summaries, constant frame addresses, real preheader and matching label references.
+Five whole App owners add1185B: active increment wrapper11, invariant-copy lookup
+244, scale validator675, definition hoist146 and use rewriter109. Fresh masked
+original/native prefixes1488..1493 match, including the complete pre-mutation
+state. The wrapper's tail RET0 closure is checked once its real callee is accepted;
+no permanent cleanup waiver is introduced. Native raw ABI observation binds
+number16419/apply1 and the ADD-immediate4 definition at actual ordinal144 to the
+original captured summary/context. Pre-prologue GDB DWARF argument text is invalid.
+
+The scale validator declines encountered candidates. Its complete mutation body
+is reconstructed/static checked, but normalization/scaling children remain named
+traps with zero credit. The actual invariant-address transformation completes:
+11732B stream/owner/register/label report,94 shifted positions and two surviving
+new node addresses. The old byte-address operands now use the real preheader home.
+Empty partial tiled.obj, empty streams and status0 match abrupt DIRECT completion;
+this does not claim a complete transformed compilation or ordinary CLI reach.
+
+The use-rewriter originally assigns only kind/width in its internal local flag
+word. Keep those partial writes in both targets. The diagnostic identifies the
+surviving fresh home through its real preheader LEA and absence from the original
+register domain. Only its six actual rewritten based operands project undefined
+scale/topbits; mask0xfcff retains every independently defined annotation including
+0x8000. All before-state words, other flags and remaining mutation/identity fields
+stay strict. Raw unprojected original observations remain in scratch. This is not
+a proof about every later consumer. Flipping just one expected0x8000 bit rejects
+with exit125, demonstrating that the projection preserves that defined field.
+No new CRT implementation, shared shim or public-output normalization is used.
+
+Final `make -j4 audit check unit` passes6.530s(phases unsplit):1383 paired graphs/
+accepted extents,187 scoped RET contracts,42 cases and248 units. Original/W3
+compilation passes1.983s with existing stub warnings only. All measured attempts:
+combined canonical/native builds69.346s, metadata3.644s, case builds8.894s,
+helpers10.227s, original CL4.233s, CL transport1.797s, standalone baselines1.049s,
+DIRECT baselines2.174s, masked frontiers5.416s, native pairs/setup0.499s and
+focused graph/RET0.351s. The initial declaration/header rebuild alone56.119s is
+build time, not audit time. GDB/entry inspection0.693s includes a prelaunch
+rejection of an obsolete implemented frontier; reuse of the current reference
+fixes it. An omitted native-test define and a copied prefix memcmp length bug
+are retained setup failures; originals are not repeated solely for those fixes.
+Final concurrent DIRECT26.048ms splits setup14.154/execution7.523/checks4.371.
+Analysis/editing/disassembly/packing and manual scratch observer compilation are
+unmeasured; combined phases are unsplit and sums are not task elapsed. Raw
+references and completion/timing/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/tiled-motion/`.
+
+The preceding region-motion case completed checkpoint1488.
 The region-motion case borrows case0002's genuine first nested_loops machine
 state at combine_machine_instructions, before immediate promotion and physical
 allocation. Source/IR/options remain unchanged; the standalone cwd is explicitly
