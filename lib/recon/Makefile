@@ -1004,3 +1004,9 @@ build/gcvt-integral-probe: tests/gcvt-integral-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 gcvt-integral-check: build/gcvt-integral-probe
 	$<
+
+.PHONY: format4506-check
+build/format4506-probe: tests/format4506-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+format4506-check: build/format4506-probe
+	$(PYTHON) tests/check-format4506.py $<

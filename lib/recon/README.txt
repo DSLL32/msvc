@@ -1562,6 +1562,15 @@ a file. Host TMP and RECON_MKTEMP controls do not supply this target namespace.
 The caller owns the result and performs real open/close/remove operations;
 generated spelling and original success error state are unmeasured. Other
 profiles and the existing libc100 variant retain their behavior. Focused native
-four-stream lifecycle controls complete cleanup; the ordinary APSTUDIO native
-adoption currently stops at the header writer, so full native case cleanup is
-not yet claimed. The changed-input Windows oracle completes with strict inventory.
+four-stream lifecycle controls complete cleanup. Subsequent ordinary APSTUDIO
+completion also matches the full RES and strict inventory with no temporary-file
+leaks. Generated names and original per-call state remain unmeasured.
+
+Registered message4506/lang409 has a separate explicit510 fixed-template branch
+for the Mac cursor warning. Its inserts are an ANSI filename, signed32 line and
+ASCII WCHAR resource name, under default-C/MB1 state. The complete spans (at most
+259 ANSI filename bytes and256 WCHAR name units), output capacity and disjointness
+are checked before any write. Output preserves the exact warning/CRLF, count and
+NUL; no other wide insert or template grammar is admitted. The ordinary complete
+cursor case compares the RSC, both4506/4509 warnings and strict final inventory.
+Original per-call output/error/FP state was not observed separately.

@@ -519,6 +519,43 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
 }
 
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+static DWORD format_mac_cursor_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
+{
+    const char *filename,*middle="): warning RC4506 : scaling cursor ",*tail=" down to 16 by 16\r\n";
+    const WCHAR *name;char number[12],*destination;int line;
+    size_t file_length,name_length,number_length,length,n;va_list copied;
+    uintptr_t out=(uintptr_t)output,file,wide,source=(uintptr_t)text;
+    if(strcmp(text,"%1 (%2!d!): warning RC4506 : scaling cursor %3!ws! down to 16 by 16\r\n") ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("message4506 exact template/default-C domain");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])recon_unsupported("message4506 locale handles");
+    va_copy(copied,*arguments);filename=va_arg(copied,const char *);
+    line=va_arg(copied,int);name=va_arg(copied,const WCHAR *);va_end(copied);
+    file=(uintptr_t)filename;wide=(uintptr_t)name;
+    if(file<4096 || file>UINTPTR_MAX-MAX_PATH || wide<4096 || (wide&1) ||
+       wide>UINTPTR_MAX-257*sizeof(WCHAR))
+        recon_unsupported("message4506 insert extents");
+    for(file_length=0;file_length<MAX_PATH && filename[file_length];++file_length)
+        if((unsigned char)filename[file_length]>=128)recon_unsupported("message4506 ANSI filename");
+    for(name_length=0;name_length<257 && name[name_length];++name_length)
+        if(name[name_length]>=128)recon_unsupported("message4506 ASCII WCHAR name");
+    if(file_length==MAX_PATH || name_length==257)recon_unsupported("message4506 insert lengths");
+    recon_itoa(line,number,10);number_length=strlen(number);
+    length=file_length+2+number_length+strlen(middle)+name_length+strlen(tail);
+    if(out<4096 || capacity<=length || out>UINTPTR_MAX-length-1 ||
+       source>UINTPTR_MAX-strlen(text)-1 ||
+       (out<source+strlen(text)+1 && source<out+length+1) ||
+       (out<file+file_length+1 && file<out+length+1) ||
+       (out<wide+(name_length+1)*sizeof(WCHAR) && wide<out+length+1))
+        recon_unsupported("message4506 output capacity/extents/overlap");
+    destination=output;memcpy(destination,filename,file_length);destination+=file_length;
+    memcpy(destination," (",2);destination+=2;
+    memcpy(destination,number,number_length);destination+=number_length;
+    memcpy(destination,middle,strlen(middle));destination+=strlen(middle);
+    for(n=0;n<name_length;++n)*destination++=(char)name[n];
+    memcpy(destination,tail,strlen(tail));destination+=strlen(tail);*destination=0;
+    return (DWORD)length;
+}
 static DWORD format_mac_type_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
 {
     const char *cursor,*inserts[6];size_t sizes[6],length=0,n,source_length=strlen(text);
@@ -581,6 +618,7 @@ static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
             if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
     if (!entry) recon_unsupported("unregistered FormatMessageA template");
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(entry->id==4506 && entry->language==0x409) return format_mac_cursor_warning(text,output,capacity,arguments);
     if(entry->id==4509 && entry->language==0x409) return format_mac_type_warning(text,output,capacity,arguments);
 #endif
     for (cursor=text;*cursor;++cursor) if (*cursor=='%') {
