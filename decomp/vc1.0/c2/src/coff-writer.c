@@ -655,3 +655,17 @@ void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
         coff_previous_function_auxiliary = function;
     }
 }
+
+/* Original6ee50..6ee8c, ECX NUL-terminated comment/RET0. Comments share
+   the contextual trailer scope851c0; publish it as the active data owner and
+   retain the terminating NUL in the record. */
+void __fastcall coff_write_comment(char *text)
+{
+    CoffScope *scope = coff_trailer_scope;
+    char *end;
+    if (!scope) scope = coff_new_scope(1, 0);
+    coff_trailer_scope = scope;
+    coff_active_scope = scope;
+    for (end = text; *end; ++end) ;
+    coff_write_scope_data(text, (unsigned)(end - text) + 1);
+}

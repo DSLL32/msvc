@@ -410,6 +410,66 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@coff_write_comment@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@set_warning_override@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@change_warning_override@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@diagnostic_format@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@diagnostic_cached_offset@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@read_diagnostic_message@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@parse_diagnostic_number@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@remember_diagnostic_offset@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@unquote_diagnostic_message@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_emit_diagnostic": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_format_diagnostic_text": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_format_diagnostic_arguments": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

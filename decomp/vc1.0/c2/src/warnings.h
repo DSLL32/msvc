@@ -11,5 +11,6 @@ typedef struct SavedWarning {
 #pragma pack()
 extern int warning_override_count;
 void __fastcall apply_warning_state(const SavedWarning *state);
+int __fastcall warning_override_level(int number);
 void __fastcall set_warning_override(short number, signed char level);
 #endif

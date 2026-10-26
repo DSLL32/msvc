@@ -47,7 +47,6 @@ DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
-void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
@@ -67,9 +66,6 @@ int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 #include "instruction-selection.h"
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall change_warning_override(short number, signed char level) { __asm int 3 }
-char *__fastcall diagnostic_format(unsigned number) { __asm int 3 }
-void __cdecl emit_diagnostic(unsigned category, unsigned number, char *format, va_list arguments) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 #include "output.h"
 __declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
@@ -100,7 +96,6 @@ void __fastcall omf_emit_weak_external(FunctionSymbol *symbol) { __asm int 3 }
 #include "coff-output.h"
 void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"
-void __fastcall coff_write_comment(char *text) { __asm int 3 }
 #include "coff-segments.h"
 #include "listing.h"
 #include "machine.h"

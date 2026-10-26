@@ -9,6 +9,7 @@ BINARY_SOURCES = src/c2.c \
     src/arguments.c \
     src/options.c \
     src/warnings.c \
+    src/diagnostics.c \
     src/initialize.c \
     src/input.c \
     src/memory.c \

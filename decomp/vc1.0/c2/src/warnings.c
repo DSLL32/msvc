@@ -3,7 +3,7 @@
 #include "options.h"
 #include <stdarg.h>
 #include <recon.h>
-int warning_override_count;
+int warning_override_count; /* original79018 */
 /* Original [000592f0,00059350). A null pointer leaves prior state intact. */
 void __fastcall apply_warning_state(const SavedWarning *state)
 {
@@ -25,9 +25,9 @@ typedef struct WarningOverride {
     unsigned char reserved;
 } WarningOverride;
 typedef char WarningOverrideSizeCheck[sizeof(WarningOverride) == 4 ? 1 : -1];
-static WarningOverride warning_overrides[50];
+enum { WARNING_OVERRIDE_CAPACITY = 50 };
+static WarningOverride warning_overrides[WARNING_OVERRIDE_CAPACITY];
 
-int __fastcall warning_override_level(int number);
 void __fastcall change_warning_override(short number, signed char level);
 char *__fastcall diagnostic_format(unsigned number);
 void __cdecl emit_diagnostic(unsigned category, unsigned number, char *format, va_list arguments);
@@ -82,4 +82,29 @@ int __fastcall warning_override_level(int number)
         if (warning_overrides[index].number == number)
             return warning_overrides[index].level;
     return 0;
+}
+
+/* Original70620..7066f, signed short CX/signed byte DL, RET0. Append
+   without coalescing existing numbers; the lookup retains first-match order.
+   Small saved-state numbers use the native700-based backend namespace. */
+void __fastcall set_warning_override(short number, signed char level)
+{
+    WarningOverride *entry;
+    if (number < 700) number = (short)(number + 700);
+    if (warning_override_count >= WARNING_OVERRIDE_CAPACITY)
+        compiler_internal_error("@(#)error.c:1.63", 0x7f);
+    entry = &warning_overrides[warning_override_count];
+    entry->number = number;
+    entry->level = level;
+    ++warning_override_count;
+}
+
+/* Original705b0..705d3, signed short CX/byte DL, RET0. The caller has
+   already installed the override. Preserve the unbounded first-match search
+   rather than inventing an absent-entry append or fallback. */
+void __fastcall change_warning_override(short number, signed char level)
+{
+    unsigned index = 0;
+    while (warning_overrides[index].number != number) ++index;
+    warning_overrides[index].level = level;
 }
