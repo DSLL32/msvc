@@ -568,10 +568,11 @@ unsigned int __cdecl recon_watcom_rotl(unsigned int value,unsigned int count)
 char *__cdecl recon_watcom_ultoa(unsigned long value,char *output,int radix)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    if((radix!=10 && radix!=36) || !output || (uintptr_t)output>UINTPTR_MAX-12)
-        recon_unsupported("Watcom ultoa decimal/base36 output domain");
-    /* Caller owns at least12B; unsigned long is32-bit in the native build.
-     * At most ten decimal or seven base36 digits plus NUL are written. */
+    if((radix!=10 && radix!=31 && radix!=36) || !output || (uintptr_t)output>UINTPTR_MAX-12)
+        recon_unsupported("Watcom ultoa decimal/base31/base36 output domain");
+    /* Caller owns11B for decimal or8B for base31/base36; unsigned long is32-bit.
+     * The conservative12B nonwrap check above does not detect capacity.
+     * At most ten decimal or seven base31/base36 digits plus NUL are written. */
     return recon_ultoa(value,output,radix);
 #else
     (void)value;(void)output;(void)radix;

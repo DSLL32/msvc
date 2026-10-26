@@ -69,16 +69,50 @@ static void numeric(void)
     }
     __asm__ __volatile__("fstp %%st(0)\n\tfstp %%st(0)":::"st");
 }
+static void numeric31(void)
+{
+    static const unsigned values[]={0U,1U,4U,30U,31U,32U,960U,961U,962U,29790U,29791U,29792U,2147483648U,4294967295U};
+    static const char *expected[]={"0","1","4","u","10","11","uu","100","101","uuu","1000","1001","2d09uc2","4q0jto3"};
+    unsigned i,n,row;char buffer[20],*output=buffer+4;
+    unsigned char before[108],after[108];
+    __asm__ __volatile__("fld1\n\tfldpi":::"st");
+    for(i=0;i<sizeof(values)/sizeof(*values);++i)for(row=0;row<3;++row) {
+        memset(buffer,0x5a,sizeof(buffer));errno=111+row;*recon_errno()=211+row;
+        recon_doserrno=311+row;SetLastError(411+row);snapshot(before);
+        assert(long_number(values[i],output,31)==output);snapshot(after);
+        assert(!strcmp(output,expected[i]) && !memcmp(before,after,2) &&
+               !memcmp(before+4,after+4,2) && !memcmp(before+8,after+8,2) &&
+               !memcmp(before+28,after+28,20));
+        assert(errno==111+(int)row && *recon_errno()==211+(int)row &&
+               recon_doserrno==311+row && GetLastError()==411+row);
+        for(n=0;n<4;++n)assert(buffer[n]==0x5a);
+        for(n=4+strlen(expected[i])+1;n<sizeof(buffer);++n)assert(buffer[n]==0x5a);
+    }
+    __asm__ __volatile__("fstp %%st(0)\n\tfstp %%st(0)":::"st");
+    {
+        unsigned char *memory=mmap(NULL,8192,PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+        assert(memory!=MAP_FAILED && !mprotect(memory+4096,4096,PROT_NONE));
+        memset(memory,0xa5,4096);
+        assert(long_number(~0UL,(char *)memory+4088,31)==(char *)memory+4088);
+        assert(!strcmp((char *)memory+4088,"4q0jto3"));
+        assert(memory[4087]==0xa5);
+        assert(long_number(~0UL,(char *)memory+4088,36)==(char *)memory+4088);
+        assert(!strcmp((char *)memory+4088,"1z141z3"));
+        assert(long_number(~0UL,(char *)memory+4085,10)==(char *)memory+4085);
+        assert(!strcmp((char *)memory+4085,"4294967295") && memory[4084]==0xa5);
+        assert(!munmap(memory,8192));
+    }
+}
 #endif
 int main(void)
 {
     unsigned char *memory;unsigned n,mode;pid_t child;int status,expected;
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
-    assert(signed_number==recon_itoa);numeric();
+    assert(signed_number==recon_itoa);numeric();numeric31();
 #endif
     memory=mmap(NULL,4096,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_ANONYMOUS,-1,0);
     assert(memory!=MAP_FAILED);memset(memory,0xa5,4096);
-    for(mode=0;mode<22;++mode) {
+    for(mode=0;mode<25;++mode) {
         child=fork();assert(child>=0);
         if(!child) {
             switch(mode) {
@@ -104,6 +138,9 @@ int main(void)
             case 19:long_number(1,NULL,36);break;
             case 20:long_number(1,(char *)0xfffffff8U,36);break;
             case 21:long_number(1,(char *)memory,37);break;
+            case 22:long_number(1,(char *)memory,32);break;
+            case 23:long_number(1,NULL,31);break;
+            case 24:long_number(1,(char *)0xfffffff8U,31);break;
             }
             _exit(42);
         }

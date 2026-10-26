@@ -1700,12 +1700,16 @@ returns0 with LastError317. Native output is untouched; original failure-buffer
 contents remain unmeasured. rc_message consumes only0 and selects literal empty
 text, which then initializes diagnostic storage. Unknown IDs/owners stay125.
 
-Watcom ultoa admits unsigned32 decimal/radix10 and lowercase radix36 through the
-existing recon_ultoa backend. The caller owns at least12 writable bytes; NULL
-and wrapping spans, other radices and direct other-profile uses deny125. The
-start pointer is returned, with at most ten decimal or seven base36 digits plus
-NUL. WPP prependLen supplies16B; its actual length9 caller prefix matches a
+Watcom ultoa admits unsigned32 decimal/radix10 and lowercase radix31/36 through
+existing recon_ultoa. The caller owns at least11 writable bytes for decimal or8
+for31/36; the unchanged conservative12B arithmetic nonwrap check neither detects
+capacity nor accesses12 bytes. NULL/wrap/other radices/direct other-profile use
+deny125. The original pointer is returned, with at most ten decimal or seven
+base31/base36 digits plus NUL. Focused protected-page controls prove the written
+maxima. WPP prependLen supplies16B; its actual length9 caller prefix matches a
 saved original, while focused letter/carry/max vectors qualify base36 outputs.
+WPP appendDelta supplies15B at radix31; same-provider alphabet/divide/reverse
+semantics and focused4/u/carry/max vectors are bound, ordinary adoption pending.
 Prior utoa decimal/
 hexadecimal domains remain unchanged. Focused vectors/tails/error slots and
 semantic x87 control/status/tag/live values pass; incidental instruction/data
