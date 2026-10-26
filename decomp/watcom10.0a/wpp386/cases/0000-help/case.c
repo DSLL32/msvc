@@ -1,17 +1,16 @@
-/* One initial public help case. No fabricated oracle or trace is supplied.
- * The first real App entry is the allocator used by CRT stream initialization.
- */
+/* Complete public help invocation; startup retains the real compiler heap
+ * callbacks used by CRT stream initialization and normal shutdown. */
 #include <recon-tool.h>
 #include "startup.h"
 #include <recon.h>
 
-/* Candidate's next expected frontier; no fresh acceptance claimed yet. */
-static const uint32_t first_entry_order[] = { 0x81ba3, 0x81e41, 0xa1599, 0x81ab5, 0x81add, 0x81d7e, 0x81d57 };
+/* First application entry order from the actual original capture. */
+static const uint32_t first_entry_order[] = { 0x81ba3, 0x81e41, 0xa1599, 0x81ab5, 0x81add, 0x81d7e, 0x81d57, 0x81c66, 0x43fef, 0x2ee62, 0x3da64, 0x4110c, 0x41122, 0x41031, 0x46c22, 0x39af7, 0x4245c, 0x423d9, 0x42416, 0x41099, 0x4107a, 0x5abdf, 0x3c7f3, 0x36793, 0x46e3d, 0x3e59a, 0x3e5b3, 0x3e57a, 0x81c00, 0x41c02, 0x40fdf, 0x40fc6, 0x46cab, 0x46b28, 0x43f6e, 0x3de14, 0x3ddee, 0x4d3bf, 0xe1d1, 0xd902, 0x447d2, 0x44764, 0x43d7d, 0x28480, 0x29033, 0x1eca6, 0x3da26, 0x4d797, 0x46b70, 0x7c9e, 0x99c1, 0x5b130, 0xd9f0, 0xd9af, 0xd994, 0xe05a, 0xdf4f, 0xdf41, 0xdfc1, 0xdee8, 0xe0cd, 0xdeff, 0x41011, 0xd52b, 0x4710b, 0x4c531, 0x5901d, 0x537ec, 0x1ed17, 0x1ec7c, 0x5388d, 0x57e18, 0x5659a, 0x5388a, 0x53e8b, 0x5398a, 0x5397a, 0x5397f, 0x5394d, 0x54472, 0x54420, 0x54292, 0x54277, 0x57e13, 0x53d70, 0x29b97, 0xbe74, 0xbb2a, 0x5a311, 0xd37e, 0x43cd0, 0xd921, 0xd78b, 0xd806, 0xd7de, 0x43b7d, 0x43b82, 0x3de1c };
 
 RECON_EXPORT const ReconCase case_descriptor = {
     .abi_version=RECON_ABI_VERSION, .struct_size=sizeof(ReconCase),
-    .name="help", .description="Public WPP386 ?; private allocator initialization frontier",
+    .name="help", .description="Public WPP386 ? with regular empty stdin and complete help/shutdown",
     .first_entry_order=first_entry_order, .first_entry_count=RECON_COUNT(first_entry_order),
-    .execution=RECON_IO, .terminal=RECON_FRONTIER, .frontier_rva=0x81d57,
+    .execution=RECON_IO, .terminal=RECON_EXIT,
     .io=wpp_native_startup
 };

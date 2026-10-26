@@ -119,6 +119,94 @@ void *MemFromSys(unsigned amount)
     return 0;
 }
 
+/* Remove one free chunk from every indexed list, first repairing the saved
+ * insertion neighbours. Actual body ends at81c5b; MemBlkSize follows it. */
+void UnHook(frl *unhook, frl *neighbours)
+{
+    int i;
+    next_prev *neighbour_link, *unhook_link;
+
+    unhook_link = unhook->link;
+    neighbour_link = neighbours->link;
+    for (i = 0; i <= unhook->class; ++i) {
+        if (neighbour_link->next == unhook)
+            neighbour_link->next = unhook_link->next;
+        if (neighbour_link->prev == unhook)
+            neighbour_link->prev = unhook_link->prev;
+        ++neighbour_link;
+        ++unhook_link;
+    }
+    unhook_link = unhook->link;
+    for (i = 0; i <= unhook->class; ++i) {
+        unhook_link->next->link[i].prev = unhook_link->prev;
+        unhook_link->prev->link[i].next = unhook_link->next;
+        ++unhook_link;
+    }
+}
+
+void MemFree(char *block)
+{
+    int i;
+    frl *free, *prev, *next, *search;
+    frl neighbours;
+    next_prev *neighbour_link, *free_link;
+
+    free = (frl *)(block - 4);
+    free->length &= ~1u;
+    AllocSize -= free->length;
+    search = &_FreeList;
+    neighbour_link = &neighbours.link[7];
+    for (i = 7; i >= 0; --i) {
+        for (;;) {
+            prev = search;
+            search = search->link[i].next;
+            if ((unsigned)search > (unsigned)free) break;
+            if (search->length == 1) break;
+        }
+        search = prev;
+        neighbour_link->prev = prev;
+        neighbour_link->next = prev->link[i].next;
+        --neighbour_link;
+    }
+    next = prev->link[0].next;
+    if ((frl *)((char *)prev + prev->length) == free) {
+        UnHook(prev, &neighbours);
+        prev->length += free->length;
+        free = prev;
+    }
+    if ((frl *)((char *)free + free->length) == next) {
+        UnHook(next, &neighbours);
+        free->length += next->length;
+    }
+    free->class = SizeToClass(free->length);
+    neighbour_link = neighbours.link;
+    free_link = free->link;
+    for (i = 0; i <= free->class; ++i) {
+        neighbour_link->prev->link[i].next = free;
+        neighbour_link->next->link[i].prev = free;
+        free_link->next = neighbour_link->next;
+        free_link->prev = neighbour_link->prev;
+        ++free_link;
+        ++neighbour_link;
+    }
+}
+
+/* OSI blocks end in an allocated tag. The usable part joins the private heap. */
+unsigned AddBlock(char *block, unsigned paragraphs)
+{
+    unsigned length;
+    frl *free;
+
+    if (!paragraphs) return 0;
+    length = paragraphs * 16 - 4;
+    ((frl *)(block + length))->length = 1;
+    free = (frl *)block;
+    free->length = length;
+    AllocSize += length;
+    MemFree(block + 4);
+    return length;
+}
+
 void *MemAlloc(unsigned amount)
 {
     char *chunk;

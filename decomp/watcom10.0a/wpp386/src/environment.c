@@ -33,7 +33,7 @@
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. Actual 1994 CF0xa1599..0xa15ad
  * calls CRT getenv directly, rather than the later FEGetEnv wrapper.
  * The length parameter is unused in the original; CopyStr has no bound.
- * This 20-byte body remains a candidate until a fresh frontier pair passes. */
+ */
 #include <stdlib.h>
 #include "memory.h"
 #include <recon.h>

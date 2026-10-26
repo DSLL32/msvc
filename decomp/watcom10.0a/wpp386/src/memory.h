@@ -14,6 +14,8 @@ extern frl _FreeList;
 /* Original CF 0x81ba3: unsigned32 size in EAX, pointer result in EAX.
  * Native tests use GCC's ordinary ABI; original Watcom builds use -3r. */
 void *MemAlloc(unsigned size);
+void *malloc_segment_wrapper(unsigned size);
+void free_segment_wrapper(void *ptr);
 extern int Initialized;
 extern unsigned AllocSize, MemorySize;
 void MemInit(void);
@@ -27,4 +29,6 @@ int SizeToClass(unsigned size);
 void *GetFromFrl(unsigned size, int cls);
 void *MemFromSys(unsigned size);
 unsigned AddBlock(char *block, unsigned paragraphs);
+void MemFree(char *block);
+void UnHook(frl *unhook, frl *neighbours);
 #endif

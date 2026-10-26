@@ -1,16 +1,18 @@
-/* Native test bootstrap, not App or handwritten CRT reconstruction.
- * Static qualification: WPP finite first-frontier witness under harness/; original capture pending. Source/header26-byte FILE is Watcom10 STDIO.H. Original XI
- * chooses the last entry at equal priority, running stack then files then EFG.
- * This performs initialization and consumes the allocation result as a real
- * FILE list node; it never calls MemAlloc just to manufacture a trace entry. */
+/* Native test bootstrap for the original pre-main initialization sequence.
+ * The original capture executes its actual CRT; native startup keeps local
+ * FILE26 records and consumes five real private-heap allocations as owned
+ * stream-list nodes. It neither overlays host FILE nor manufactures entries.
+ * XI chooses the last entry at equal priority: stack, files, then EFG. */
 #include "startup.h"
 #include "memory.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <alloca.h>
 #include <recon.h>
 extern char **environ;
 WppStartup wpp_startup;
+extern void free_segment_wrapper(void *);
 static void init_stack(void)
 {
     /* Host selector observation belongs to test transport, not App code. */
@@ -54,10 +56,65 @@ static void init_files(void)
     }
     wpp_startup.closed_streams=0;
 }
+/* Normal shutdown ownership from shipped ioexit/allocfp: standard handles
+ * stay open; __freefp unlinks a FILE node and prepends it to closed_streams.
+ * These private FILE26 records never overlay public native ShimFILE objects. */
+static void close_owned_stream(unsigned index)
+{
+    WppStreamLink **owner, *link;
+    owner = &wpp_startup.open_streams;
+    while (*owner && (*owner)->stream != &wpp_startup.files[index])
+        owner = &(*owner)->next;
+    if (!*owner) recon_unsupported("WPP repeated/unowned standard stream close");
+    link = *owner;
+    *owner = link->next;
+    link->stream->flag |= 3;
+    link->next = wpp_startup.closed_streams;
+    wpp_startup.closed_streams = link;
+}
+
+/* Bound only in SrcFileFClose's native translation unit. */
+int wpp_fclose(FILE *stream)
+{
+    unsigned index;
+    int result;
+    for (index = 0; index < 5; ++index)
+        if (stream == &recon_iob[index]) break;
+    if (index == 5) recon_unsupported("WPP unqualified file-close ownership");
+    result = recon_fclose(stream);
+    close_owned_stream(index);
+    return result;
+}
+
+static void finish_files(void)
+{
+    WppStreamLink *link, *next;
+    unsigned index, freed;
+    /* docloseall(0) flushes the output before purging nodes. The actual
+     * standard-handle branch uses close_handle=0, so do not close host FDs. */
+    if (fflush(stdout)) recon_unsupported("WPP normal stdout shutdown flush");
+    while (wpp_startup.open_streams) {
+        link = wpp_startup.open_streams;
+        index = (unsigned)(link->stream - wpp_startup.files);
+        if (index >= 3) recon_unsupported("WPP unclosed auxiliary stream");
+        close_owned_stream(index);
+    }
+    freed = 0;
+    while ((link = wpp_startup.closed_streams) != NULL) {
+        next = link->next;
+        free_segment_wrapper(link);
+        wpp_startup.closed_streams = next;
+        ++freed;
+    }
+    if (freed != 5 || wpp_startup.allocation_calls != 5)
+        recon_unsupported("WPP normal stream-node lifetime");
+}
+
 static void init_efg(void)
 {
-    /* Unreached after current pending allocator; no formatter substitute. */
-    abort();
+    /* The original installs CRT-private formatting/scanning pointers only.
+     * App code uses public CRT functions, supplied by lib/recon natively;
+     * there is no native copy of these unconsumed private pointer cells. */
 }
 static void run_initializers(void)
 {
@@ -108,6 +165,8 @@ int wpp_native_startup(int argc, char **argv)
     wpp_startup.initializers[1].callback=init_files;
     wpp_startup.initializers[2].callback=init_stack;
     run_initializers();
-    /* Native main is deliberately not reached before App allocation frontier. */
-    abort();
+    /* Registered before main; the later App resetHandlers runs first. */
+    if (atexit(finish_files)) abort();
+    /* Actual OSI __CMain reads these zero/null BSS cells, not the raw tail. */
+    return main(wpp_startup.argc, wpp_startup.argv);
 }

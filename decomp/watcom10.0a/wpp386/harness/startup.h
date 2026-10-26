@@ -2,7 +2,7 @@
 #define WPP_NATIVE_STARTUP_H
 #include <stddef.h>
 #include <recon.h>
-/* Test-only native model of the five proposed original startup owners.
+/* Native test model of the reached original startup sequence.
  * None of these helpers is a reconstructed application function. */
 #pragma pack(push,1)
 typedef struct WppFile {
@@ -38,4 +38,5 @@ typedef struct WppStartup {
 } WppStartup;
 extern WppStartup wpp_startup;
 int wpp_native_startup(int argc, char **argv);
+int main(int argc, char **argv);
 #endif

@@ -33,10 +33,6 @@
         699680
       ]
     ],
-    "text_data": [],
-    "evidence": {
-      "path": "decomp/watcom10.0a/wpp386/harness/cf-layout.json",
-      "sha256": "445c57da20dfb734235e8707193fdbb448b4a6d6b301739aee19418b156ce760"
-    }
+    "text_data": []
   }
 }

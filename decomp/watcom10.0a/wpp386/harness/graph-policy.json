@@ -1,41 +1,24 @@
 {
-  "runtime_evidence": {
-    "_cstart_": {
-      "path": "harness/startup-witness.json",
-      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
-    },
-    "__InitRtns": {
-      "path": "harness/startup-witness.json",
-      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
-    },
-    "_init_stk": {
-      "path": "harness/startup-witness.json",
-      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
-    },
-    "__InitFiles_": {
-      "path": "harness/startup-witness.json",
-      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
-    },
-    "malloc_segment_wrapper": {
-      "path": "harness/startup-witness.json",
-      "sha256": "6db1d86d73de2bb9e0d24c75d51c8bc0ace6a82e5f789456af7321ae450ecbc4"
-    },
-    "getenv": {
-      "path": "cases/0000-help/environment-crt-evidence.json",
-      "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
-    },
-    "strnicmp": {
-      "path": "cases/0000-help/environment-crt-evidence.json",
-      "sha256": "d18c10ed4885983b8b777791f058cd6254793cd475e3e3acfd1b5362e56fe228"
-    },
-    "__Int21": {
-      "path": "cases/0000-help/int21-boundary-evidence.json",
-      "sha256": "5a4a658e238cc8357fd941626b7a1a776a13468e4fa93a1f2301ee44fe3661d8"
-    }
-  },
   "graph_metadata": {
     "schema": 1,
-    "functions": {}
+    "functions": {},
+    "compatibility_calls": [
+      {
+        "owner": "MemFromSys",
+        "name": "allocate-block",
+        "original": {
+          "site": 531856,
+          "target": 419271
+        },
+        "rebuilt": {
+          "site_offset": 37,
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "LocalAlloc"
+          }
+        }
+      }
+    ]
   },
   "rebuilt": {
     "path": "build/WPP386.EXE",
@@ -43,10 +26,34 @@
   },
   "identity_only_entries": [
     {
-      "name": "write",
-      "evidence": {
-        "path": "cases/0000-help/write-identity-evidence.json",
-        "sha256": "81ac3280a057d74d56b803f42973242a35daa70206fd3be65db4a5f66b60bf40"
+      "name": "write"
+    }
+  ],
+  "shared_terminal_epilogues": [
+    {
+      "owners": [
+        "CMemAlloc",
+        "addPerm"
+      ],
+      "original": {
+        "start": 266254,
+        "bytes_hex": "5a5bc3"
+      }
+    }
+  ],
+  "shared_call_return_tails": [
+    {
+      "owners": [
+        "MakePointerTo",
+        "MakeConstTypeOf"
+      ],
+      "original": {
+        "start": 342418,
+        "bytes_hex": "e8f3feffff5ac3"
+      },
+      "call": {
+        "offset": 0,
+        "target": "MakeTypeOf"
       }
     }
   ]
