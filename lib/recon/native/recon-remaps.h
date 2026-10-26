@@ -127,6 +127,7 @@ const ReconCrtCtypeSelection *recon_crt_ctype_selection_state(void);
 char *recon_setlocale(int,const char *);
 int __cdecl recon_setmbcp(int);
 unsigned long __cdecl recon_mspdb_SigForPbCb(const void *,long,unsigned long);
+void __cdecl recon_mspdb_TruncStFromSz(char *,const char *,size_t);
 struct PDB;struct NameMap;
 int __cdecl recon_mspdb_NameMap_open(struct PDB *,int,struct NameMap **);
 extern char *recon_pgmptr,*recon_aenvptr;
@@ -463,6 +464,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __except(filter) else if (0)
 #define FILE ShimFILE
 #define SigForPbCb recon_mspdb_SigForPbCb
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#define TruncStFromSz recon_mspdb_TruncStFromSz
+#endif
 #define setlocale recon_setlocale
 #define _setmbcp recon_setmbcp
 #define _mbctype recon_mbctype

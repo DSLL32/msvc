@@ -40,6 +40,14 @@ __attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
     return signature;
 }
 
+/* Cold MSPDB public: caller/import and published header establish typing;
+ * no truncation, destination access or successful provider behavior is granted. */
+void __cdecl recon_mspdb_TruncStFromSz(char *destination,const char *source,size_t count)
+{
+    (void)destination;(void)source;(void)count;
+    recon_unsupported("unreviewed MSPDB TruncStFromSz");
+}
+
 int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct NameMap **result)
 {
     (void)database;(void)writable;(void)result;

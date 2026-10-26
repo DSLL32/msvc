@@ -642,6 +642,12 @@ new App vertex; canonical Win32 keeps the original decorated import. The native
 boundary always denies125 without reading database/output storage or changing
 it. C1's current branch is unvisited; no database/name-map success is modeled.
 
+MSPDB TruncStFromSz has an explicit510-only void cdecl(char*,const char*,size_t)
+spelling backed by unconditional125 without argument access. The original LINK
+IAT/caller and Microsoft public pdb.h bind typing; no local shipped SDK
+declaration or successful truncation behavior is claimed. Current short-symbol
+caller paths do not invoke it.
+
 The Watcom profile exposes unsigned32 _amblksiz storage initialized to the
 actual WCC DWORD16; main's assignment remains real source-visible state. This
 does not tune host malloc or claim original CRT heap metadata. Native-only
