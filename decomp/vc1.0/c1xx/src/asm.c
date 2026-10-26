@@ -178,3 +178,27 @@ char *__stdcall copy_asm_context_text(char *destination, char *source)
     } while (*result);
     return result;
 }
+
+/* Original 0x7d99b..0x7d9f0, stdcall4. Code-type keywords52..54
+   share the encountered WORD..FAR encoding owner, with the parser's explicit
+   PTR state selecting the original warning without changing the operator. */
+void __stdcall set_asm_address_operator(short operation)
+{
+    asm_operand->size = asm_operand_size_codes[operation - 46];
+    asm_operand->flags |= 1;
+    if ((operation == 0x34) == asm_explicit_size)
+        compiler_warning(1, asm_explicit_size ? 402 : 403);
+}
+
+/* Original 0x7e646..0x7e672, stdcall8. The localized context helper
+   uses the current zero-based operand slot; restore the parser's count after
+   emitting this particular operand diagnostic. */
+void __stdcall report_asm_operand_error(unsigned code, int operand)
+{
+    int saved = asm_operand_count;
+    char *context;
+    asm_operand_count = operand;
+    context = asm_error_context();
+    report_syntax_error(code, context);
+    asm_operand_count = saved;
+}

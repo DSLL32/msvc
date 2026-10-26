@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1952 historical frontiers/1845 App bodies.
+ * Current completed-case boundary:1954 historical frontiers/1847 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -16377,10 +16377,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_asm_address_operator@4",
         .entry_rva = 0x6d99b,
-        .code = (const ReconExtent[]) { { 0x6d99b, 0x6d99c } },
+        .code = (const ReconExtent[]) { { 0x6d99b, 0x6d9f0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_asm_address_operator",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_asm_context_text@8",
@@ -16719,10 +16720,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_asm_operand_error@8",
         .entry_rva = 0x6e646,
-        .code = (const ReconExtent[]) { { 0x6e646, 0x6e647 } },
+        .code = (const ReconExtent[]) { { 0x6e646, 0x6e672 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_asm_operand_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "import:GetCPInfo",

@@ -324,7 +324,6 @@ RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { Parser
 
 
 
-void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 
 
 
@@ -348,7 +347,6 @@ void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 
 
 
-void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
 
 CppSymbol *__stdcall find_memory_intrinsic(unsigned operation) { __asm { int 3 } return 0; }
 

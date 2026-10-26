@@ -1,6 +1,25 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Accelerator SDK validation is COMPLETE: case0046 freezes3,309 bytes of
+packet-engine source/header, with x86 address operators and intentionally invalid
+generated register, bit-field, incomplete-payload and callback contracts. The
+original diagnoses obsolete NEAR syntax as well as the requested SDK defects;
+its exact diagnostics, six artifacts and exit15 are preserved. Only two pending
+functions are actually reached: set_asm_address_operator(85 B) and the operand
+diagnostic-context wrapper(44 B). The former reuses the existing nine-byte
+WORD..FAR table; no new data or normalization is introduced.
+
+Two fresh matching frontier pairs and the full final pair pass. Totals are
+1,847 App /405,120 B (85.03% of whole original code),48 named pending App and
+seven unchanged historical CRT bodies. All47 cached native cases and33 unit
+groups pass, together with original-toolchain builds and the1,855-function
+six-check graph/ABI audit. Closing gate3.448 s. Final original868.467 ms/native
+34.763 ms (setup19.264 ms, execution9.205 ms, checks6.293 ms). Broader validation
+errors used existing code; this is function/extent credit, not branch coverage.
+
+Earlier completed callback-engine PCH workflow:
+
 Explicit callback-engine debug-PCH workflow is COMPLETE: cases0044/0045 cache
 an8,236-byte callback-routing SDK and reuse its original PCH/PDB with a distinct
 client. Both untouched original phases exit0. Three relocation callbacks now
