@@ -926,3 +926,9 @@ build/virtual-prefix-probe: tests/virtual-prefix-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 virtual-prefix-check: build/virtual-prefix-probe
 	$(PYTHON) tests/check-virtual-prefix.py $< 510
+
+.PHONY: os-environment-stage-check
+build/os-environment-stage-probe: tests/os-environment-stage-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+os-environment-stage-check: build/os-environment-stage-probe
+	$(PYTHON) tests/check-os-environment-stage.py $< 510

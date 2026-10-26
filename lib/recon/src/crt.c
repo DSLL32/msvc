@@ -89,6 +89,8 @@ unsigned recon_crt_environment_updates;
 ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 static int os_environment_bound;
+static const WCHAR *pending_os_environment;
+static size_t pending_os_environment_units;
 static const WCHAR *initial_os_environment;
 static char **initial_crt_environment,**owned_crt_environment;
 static char environment_update_name[256];
@@ -298,6 +300,13 @@ void recon_crt_bind_arguments(int argc,char **argv,char **environment)
         recon_unsupported("CRT arguments rebound");
     recon_crt_argc=argc; recon_crt_argv=argv; recon_crt_environment=environment;
     recon_crt_arguments_bound=1;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(pending_os_environment) {
+        recon_crt_bind_os_environment(pending_os_environment,pending_os_environment_units,
+            "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210");
+        pending_os_environment=NULL;pending_os_environment_units=0;
+    }
+#endif
 }
 
 /* Host controls and application environment are separate namespaces. The
@@ -2961,6 +2970,26 @@ static int target_environment_has_name(const char *name,size_t length)
     return 0;
 }
 #endif
+void recon_bind_process_os_environment(const WCHAR *block,size_t units,const char *provider_sha256)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(recon_crt_arguments_bound || os_environment_bound || pending_os_environment ||
+       recon_crt_environment_updates || !provider_sha256 ||
+       strcmp(provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"))
+        recon_unsupported("process OS environment binding state/provider");
+    if(!block || ((uintptr_t)block&1) || units>32767 ||
+       (uintptr_t)block>UINTPTR_MAX-units*sizeof(*block))
+        recon_unsupported("process OS environment binding extent");
+    validate_os_environment(block,units);
+    /* Only the actual launch block is borrowed for process lifetime. The
+     * provider string is consumed now; the strict binder uses its known literal. */
+    pending_os_environment=block;pending_os_environment_units=units;
+#else
+    (void)block;(void)units;(void)provider_sha256;
+    recon_unsupported("process OS environment requires explicit510 profile");
+#endif
+}
+
 void recon_crt_bind_os_environment(const WCHAR *block,size_t units,const char *provider_sha256)
 {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510

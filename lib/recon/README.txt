@@ -1466,3 +1466,11 @@ repeat and foreign requests remain unsupported. Combined whole allocations and
 other profiles retain their previous contracts. C1's saved Arena::Release and
 ordinary work-buffer cleanup observe these two reservation lifecycles; no broad
 VirtualAlloc model or original per-call error/FP values are claimed.
+
+The optional explicit510 process OS-environment input sink validates the
+provider immediately and borrows only the genuine launch UTF16 block for
+process lifetime. Staging precedes setup/CRT arguments; the first real argument
+bind consumes it through the unchanged strict OS binder. Its provider string
+need not outlive staging. No input leaves prior behavior unchanged; host control
+and target CRT namespaces stay distinct. Native SELF stages its accepted child
+OS vector, independently of the root launch block. No mutation is granted here.
