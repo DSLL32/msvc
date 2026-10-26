@@ -2,6 +2,7 @@
 #define DIAGNOSTICS_H
 #include "c2.h"
 #include <recon.h>
+void close_diagnostic_descriptors(void);
 extern FILE *diagnostic_file;
 extern char diagnostic_text[384];
 typedef struct DiagnosticOffset {

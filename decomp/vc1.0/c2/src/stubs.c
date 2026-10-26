@@ -40,8 +40,6 @@
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
-void __cdecl compiler_report(unsigned code, ...) { __asm int 3 }
-void __fastcall report_context_error(unsigned code, char *source, char *filename) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
@@ -117,7 +115,6 @@ int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }
-void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 
 
 

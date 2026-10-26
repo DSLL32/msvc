@@ -705,6 +705,26 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_compiler_error": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@report_context_error@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "_compiler_report": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_close_diagnostic_descriptors": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

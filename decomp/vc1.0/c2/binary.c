@@ -8907,11 +8907,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compiler_error",
         .entry_rva = 0x60210,
-        .code = (const ReconExtent[]) { { 0x60210, 0x60211 } },
+        .code = (const ReconExtent[]) { { 0x60210, 0x60254 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compiler_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@write_local_listing@4",
@@ -13680,11 +13680,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@report_context_error@12",
         .entry_rva = 0x60840,
-        .code = (const ReconExtent[]) { { 0x60840, 0x60870 } },
+        .code = (const ReconExtent[]) { { 0x60840, 0x60865 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_context_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@consume_string@4",
@@ -13696,13 +13696,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_close_diagnostic_descriptors",
+        .entry_rva = 0x60440,
+        .code = (const ReconExtent[]) { { 0x60440, 0x60484 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "close_diagnostic_descriptors",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_compiler_report",
         .entry_rva = 0x60260,
-        .code = (const ReconExtent[]) { { 0x60260, 0x602b0 } },
+        .code = (const ReconExtent[]) { { 0x60260, 0x602a1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compiler_report",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@match_option@16",

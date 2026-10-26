@@ -1,20 +1,50 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1447 completes the immutable dictionary confidence checksum case.
-There are 1332 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 352087/399693 original code-section bytes (88.0894%);
-adding 916 owned text-data bytes gives 353003/399693 (88.3185%). These clipped
-extent unions use section VirtualSize (raw size only if zero), not branch
-coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 379377/399693
-(94.9171%). A reliable non-CRT denominator remains unavailable; 51 pending App
-rows and 20316B outside available extents need investigation. No only-CRT claim.
+Checkpoint 1451 completes the generated-record diagnostic/cleanup case. There
+are 1336 reconstructed App functions and five unchanged historical CRT bodies.
+App code occupies 352325/399693 original code-section bytes (88.1489%); adding
+916 owned text-data bytes gives 353241/399693 (88.3781%). These clipped extent
+unions use section VirtualSize (raw size only if zero), not branch coverage.
+Five historical CRT overrides contribute 1776B separately, zero App credit.
+Available App/classified CRT/import extents cover 379615/399693 (94.9766%). A
+reliable non-CRT denominator remains unavailable; 48 pending App rows and 20078B
+outside available extents need investigation. No only-CRT claim is made.
 
-`binary.c` is the sole registry. All 30 cached IO cases, one INTERNAL DIRECT
-case and 231 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 31 cached IO cases, one INTERNAL DIRECT
+case and 234 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+Untouched CL `/O2 /Ob0 /G3 /Z7 /FAcs /W4 /WX validate.c` and standalone original
+C2 produce exact warning C4705, promoted error C2220 and fatal C1083 for the
+absent generated listing source. Both exit 2 and delete incomplete validate.obj
+and validate.cod. The fixture pins all 267 stderr bytes, empty stdout, missing
+outputs and strict inventory with no normalization. Actual 1167B source and
+001812 ex/sy/in/gl/db inputs (1496/356/6/223/195B) are retained. The actual consumed
+C23.ERR identity is pinned. Read-only CL observation stops before C2; parent exit
+is unobserved. No workload revision or fabricated/private input was needed.
+
+Four whole App routines add 238B: compiler_error (68), report_context_error
+(37), compiler_report (65), and the genuinely reached, previously unindexed
+descriptor closer (68). Its fresh trace entry is explicit. The original closer
+scans descriptors 5..19, preserves the diagnostic FILE, and stops on the first
+failed close; it does not free FILE buffers. Three live-input tests verify the
+WX count, actual fastcall failure arguments/ENOENT and retained diagnostic FILE.
+The >100 error threshold is reconstructed but unexecuted by this case. Existing
+shipped _strerror identity and its observed null-prefix/ENOENT shared boundary
+supply the message; no new CRT override or shim was needed.
+
+Final `make -j4 audit check unit` passes in 2.063s (phases unsplit), including
+1341 paired graphs/accepted extents and 145 scoped RET contracts. Global RET
+remains unresolved at finish_debugging's indirect tail. Altering one fatal-code
+byte rejects even with the expected exit 2. Completion IO takes 23.964ms:
+setup 14.969/execution 4.762/checks 4.233. All measured attempts, including the
+corrected missing-prototype build, are retained under
+`~/.ai-tmp/msvc2/vc1.0/c2/generated-diagnostics/` with raw captures, completion,
+coverage and split timing summaries. Analysis/editing/authoring, scratch
+observer compilation/packing, and phases inside combined commands are unmeasured.
+
+The preceding dictionary checksum case adds two App routines/114B.
 Untouched CL `/O2 /Ob2 /Oi /G5 /Z7 /W3 dictionary.c` and standalone original C2
 agree on the complete 2588B object, empty streams and status 0. Normalized SHA256:
 `d153f48ad15b7eb79dfaf642d5655b6efb30cebecd60fdd924f91f8aa360fe91`.

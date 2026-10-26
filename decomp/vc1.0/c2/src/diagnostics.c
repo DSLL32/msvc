@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdarg.h>
 #include <ctype.h>
+#include <io.h>
 #include <recon.h>
 /* Original emitter inlines these library operations. Keep that graph in
    the canonical /Od build as well. */
@@ -136,6 +137,57 @@ char *__fastcall unquote_diagnostic_message(char *text)
 void __cdecl format_diagnostic_text(char *buffer, char *format, ...);
 void __cdecl format_diagnostic_arguments(char *buffer, char *format, va_list arguments);
 extern int floating_frontend;
+void __cdecl emit_diagnostic(unsigned category, unsigned number, char *format, va_list arguments);
+
+/* Original70440..70484, cdecl(void), RET0. Preserve the diagnostic
+   FILE's low-level descriptor; stop on the first close failure, rather than
+   sweeping holes. Parenthesized _fileno retains the original CRT call instead
+   of VC1 STDIO.H's function-like field macro. No FILE buffers are freed here. */
+void close_diagnostic_descriptors(void)
+{
+    int descriptor;
+    for (descriptor = 5; descriptor < 20; ++descriptor) {
+        if (diagnostic_file && diagnostic_file != (FILE *)-1 &&
+            (_fileno)(diagnostic_file) == descriptor) continue;
+        if (_close(descriptor) == -1) break;
+    }
+}
+
+/* Original70260..702a1, cdecl(code,...), RET0. Close the original
+   auxiliary descriptor range before looking up the1000-series fatal message;
+   increment the existing error count and exit with its full value. */
+void __cdecl compiler_report(unsigned code, ...)
+{
+    char *format;
+    va_list arguments;
+    close_diagnostic_descriptors();
+    format = diagnostic_format(code + 1000);
+    va_start(arguments, code);
+    emit_diagnostic(1000, code, format, arguments);
+    va_end(arguments);
+    exit(++compiler_errors);
+}
+
+/* Original70840..70865, ECX code/EDX source/stack filename, RET4.
+   The CRT builds the observed errno message before the fatal diagnostic.
+   This is the original fixed three-argument fastcall, not fastcall varargs. */
+void __fastcall report_context_error(unsigned code, char *source, char *filename)
+{
+    compiler_report(code, source, filename, _strerror(NULL));
+}
+
+/* Original70210..70254, cdecl(code,...), RET0. Error text uses the
+   2000 namespace; count every emitted error and report fatally above100.
+   va_list retains the original four-byte x86 variadic argument slots. */
+void __cdecl compiler_error(unsigned code, ...)
+{
+    char *format = diagnostic_format(code + 2000);
+    va_list arguments;
+    va_start(arguments, code);
+    emit_diagnostic(2000, code, format, arguments);
+    va_end(arguments);
+    if (++compiler_errors > 100) compiler_report(3, 100);
+}
 
 /* Original702b0..7043a, including the three out-of-line category arms.
    Reuse8318c/current_source_location,83190/function_source_location and
