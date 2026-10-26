@@ -326,7 +326,6 @@ IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, Expression
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 
 
-void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
 CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 
@@ -357,7 +356,6 @@ IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int d
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
-void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
 
 
 

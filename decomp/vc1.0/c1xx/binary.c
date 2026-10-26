@@ -8833,10 +8833,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_default_inheritance_model@4",
         .entry_rva = 0x39c70,
-        .code = (const ReconExtent[]) { { 0x39c70, 0x39c71 } },
+        .code = (const ReconExtent[]) { { 0x39c70, 0x39ca8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_default_inheritance_model",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_query_inheritance_model@4",
@@ -18828,10 +18829,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_set_default_inheritance_policy@4",
         .entry_rva = 0x39c30,
-        .code = (const ReconExtent[]) { { 0x39c30, 0x39c31 } },
+        .code = (const ReconExtent[]) { { 0x39c30, 0x39c68 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "set_default_inheritance_policy",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_assign_allocated_text@4",

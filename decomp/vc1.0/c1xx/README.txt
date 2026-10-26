@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Paged index is COMPLETE: case0027. The coherent relocatable record pool uses
+named-base links and strings, two rebased pools, packed fields, floating record
+values and a forward-declared member-callback interface with explicit general
+representation policy. The supported source defines its two-argument member-
+pointer comparison out of class; the original rejects the inline definition.
+Earlier drafts also repeated the known NT __self/void-based restrictions; their
+raw failures are retained in scratch. No unsupported compiler mode was forced.
+
+Two whole App bodies /112 code bytes were accepted: first-use member-pointer
+policy and model selection. Both preserve later conflicting-policy diagnostics;
+virtual_inheritance selects model4. The substantial source reached no additional
+unimplemented based/member-conversion adapters, so none gained credit. Fresh
+original/native observations match the two entries, exit0, streams and eight
+complete artifacts, exactly matching the untouched supported baseline. No new
+mask, guard, shared change or CRT source was introduced.
+
+Totals:1,758 App bodies /1,865 historical frontiers, plus seven unchanged CRT
+source bodies. App-only code union394,155 /476,418 B is82.73% of whole original
+code extent, not a non-CRT denominator. All28 cached native cases,31 unit groups
+and the1,766-function six-check graph/ABI audit pass; original-toolchain builds
+pass. Final original561.478 ms; native30.786 ms (setup17.166 ms, execution7.233 ms,
+checks6.387 ms). Last incremental native/Win32 build2.676 s; full case-end gate
+3.021 s includes setup/runtime identification and audit, not graph-only time.
+All new reference captures retain raw artifacts in scratch, outside Git/cases.
+
+Earlier completed RPC contract diagnostics:
+
 RPC contract diagnostics is COMPLETE: case0026. A generated RPC interface and
 its client deliberately contain incomplete records, invalid field widths,
 conflicting/defaulted parameters, inaccessible inherited members, conversion

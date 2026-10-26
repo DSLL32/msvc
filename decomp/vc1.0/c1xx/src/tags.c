@@ -22,6 +22,26 @@ int member_pointer_full_generality; /* original 0x9f434, initially zero */
 int member_pointer_generality_fixed; /* original 0x9f438, initially zero */
 int member_pointer_requested_model; /* original 0x9f43c, initially zero */
 
+/* Original 0x49c30..0x49c68, stdcall4. The first representation
+   policy fixes this translation unit; conflicting later pragmas diagnose. */
+void __stdcall set_default_inheritance_policy(int general)
+{
+    if (!member_pointer_generality_fixed) {
+        member_pointer_full_generality = general;
+        member_pointer_generality_fixed = 1;
+    } else if (member_pointer_full_generality != general)
+        report_syntax_error(285);
+}
+
+/* Original 0x49c70..0x49ca8, stdcall4. The pragma's virtual model
+   selects full generality (four), retaining the first requested model. */
+void __stdcall set_default_inheritance_model(int model)
+{
+    if (model == 3) model = 4;
+    if (!member_pointer_requested_model) member_pointer_requested_model = model;
+    else if (member_pointer_requested_model != model) report_syntax_error(285);
+}
+
 int __stdcall class_has_zero_base_offsets(CppSymbol *tag);
 
 /* Original 0x4e020..0x4e0bd. The compact representation requires
