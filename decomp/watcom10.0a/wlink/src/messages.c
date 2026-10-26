@@ -2,12 +2,13 @@
  * identifies the resource operations; this target accepts the self filename
  * directly and also initializes its150-byte diagnostic-enable bitset. */
 #include <stdio.h>
+#include <ctype.h>
 #include <string.h>
-#include "cmdline.h"
+#include "diagnostic.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen,strcpy,strchr)
 #endif
 
 unsigned char BannerPrinted;        /* original441ee4 */
@@ -76,4 +77,73 @@ unsigned char FiniMsg( void )
         Res_Flag = 255;
     }
     return 0;
+}
+
+void Msg_Put_Args( char *rc_buff, MSG_ARG_LIST *arg_info,
+                   const char *types, va_list *args )
+{
+    int argnum, j;
+    int order[3];
+    char *findpct;
+    char types_buff[4] = { 0 };
+    char ch;
+
+    /* The original leaves types_buff uninitialized for NULL types.
+     * Zero those undefined bytes; plain messages never consume them. */
+    argnum = 0;
+    if( types != 0 ) strcpy( types_buff, types );
+    findpct = strchr( rc_buff, '%' );
+    while( findpct != 0 ) {
+        ch = findpct[1];
+        for( j = 0; types_buff[j] != '\0'; ++j ) {
+            if( types_buff[j] == ch ) {
+                order[j] = argnum++;
+                if( isdigit( types_buff[j] ) ) {
+                    findpct[1] = 's';
+                    types_buff[j] = 's';
+                }
+                break;
+            }
+        }
+        findpct = strchr( findpct + 2, '%' );
+    }
+    for( j = 0; j < argnum; ++j ) {
+        Msg_Add_Args( &arg_info->arg[order[j]], types_buff[j], args );
+        arg_info->index = 0;
+    }
+}
+
+void Msg_Add_Args( MSG_ARG *arg, char type, va_list *args )
+{
+    switch( type ) {
+    case 's':
+        arg->string = va_arg( *args, char * );
+        break;
+    case 'x':
+    case 'd':
+        /* The word occupies a promoted four-byte vararg slot. */
+        arg->int_16 = va_arg( *args, unsigned );
+        break;
+    case 'l':
+        arg->int_32 = va_arg( *args, unsigned long );
+        break;
+    case 'a':
+        /* Old messages pass the packed six-byte address by value. */
+        arg->address = va_arg( *args, msg_address );
+        break;
+    case 'S':
+        arg->symb = va_arg( *args, symbol * );
+        break;
+    }
+}
+
+void Msg_Write_Map( int resourceid, ... )
+{
+    char msg_buff[128];
+    va_list args;
+
+    Msg_Get( resourceid, msg_buff );
+    va_start( args, resourceid );
+    DoWriteMap( msg_buff, &args );
+    va_end( args );
 }

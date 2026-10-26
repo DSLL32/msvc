@@ -576,6 +576,2266 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "DoCmdParse": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetToken": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeToken": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MapDoubleByteChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StartNewFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FileName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetCommandFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QFileSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QPos": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QRead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNewLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOne": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "HintFormat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFormat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetOS2Fmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChkBase": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPE": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RestoreParser": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRuntime": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcArgList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WildCard": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddRuntime": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRunConsole": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDebug": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAllDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcWatcomDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAll": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOptions": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddOption": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVerbose": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcStack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetLong": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "HaveEquals": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "getatol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "tostring": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFiles": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetFileName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddObjFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocNewFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PermAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNewBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ShrinkBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocFileEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLibrary": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddObjLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocUniqueFileEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Export": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "getexport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "getatoi": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymXOp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymOp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoSymOp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "HashFn": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SearchSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RestoreCmdLine": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QClose": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddToExportList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckTraces": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PruneSystemList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CleanSystemList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NumberSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAllOvl": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LangAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckErr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MapInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QOpenRW": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StartMapBuffering": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BufWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteMapNL": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PutDec": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LnkMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TestBit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LocateFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Msg_Put_Args": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Msg_Add_Args": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FmtStr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoFmtStr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "UseArgInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IncremIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StopMapBuffering": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcObjFiles": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LoadObjFiles": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CacheOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoObjOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QHavePath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NumCacheBlocks": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CacheRead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QSeek": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EndOfLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IdentifyObject": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsOMF": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewModEntry": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymModStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIInitModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIInitModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "P1Start": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcObj": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Pass1Cmd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcTHEADR": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Comment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIP1Source": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIP1Source": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindMatch": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddNames": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocNode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindNode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegDef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocSegData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Pass1Alloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetIdx": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocateSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsCodeClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGetSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIColClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsStackClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIColSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Set32BitMode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindALeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitLeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckForLast": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddToSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBISkip": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResizeSegment": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "CAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BumpUp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeSegData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeNewLeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoAddLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SkipIdx": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddToGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "UseSymbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPubdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ClearSymUnion": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TryDefVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLxdata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLinnum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddCommentLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckLibTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcModuleEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResolveComdats": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CollapseLazyExtdefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IterateNodelist": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IterateNodeArray": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CollapseLazy": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SymModEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIP1ModuleScanned": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIP1ModuleScanned": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetSegAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGenModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIGenModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReleaseNames": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReleaseNamelist": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CacheEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CacheClose": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeCacheBlocks": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoDefaultSystem": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindLibPaths": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddFmtLibPaths": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddEnvPaths": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResolveUndefined": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResolveVFExtdefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LibFind": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LibProcFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SearchLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckLibraryType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFSearchExtLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "HashSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetDict": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocDict": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFCompIName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindLibTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MSImportKeyword": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReadImpName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddImpName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddNameTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "XDefSymAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TrySearchingLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeDictCache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrintBadTraces": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DecideFormat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetFormat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewOutFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FillOutFilePtrs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeExeName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "binary_log": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetRelocSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ConvertLazyRefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckSymbolPass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefBSSSyms": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefABSSSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RefISymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReportUndefined": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PreAddrCalcFormatSpec": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChkPEData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChkOS2Data": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSegFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckClassOrder": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReOrderClasses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckClassUninitialized": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReOrderAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetStkSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StackSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindStack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AutoGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AutoGroupSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PackClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSegType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CanPack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PackSegs": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "GetAutoGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SortGroupList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SortGroupSect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindSplitGroups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcAddresses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StartMemMap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocFileSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindUninitDataStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocClasses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Align": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIDefClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIDefClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetPEHeaderSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindNumObjects": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetStubSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoExeName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReallocFileSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddrStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddrSectStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddrSectStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocStg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocDBIClasses": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocDBISegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddrOvlStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefinePublics": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteGroups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteBox": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteMap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoWriteMap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MapPrint": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Msg_Write_Map": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteFormat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePubHead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StartMapSort": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPubs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoPubs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIAddModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGenGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIGenGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SkipSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__is_mangled_internal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePubModHead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "XReportSymAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__demangle_l": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "init_globals": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__is_mangled": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "init_descriptor": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "do_copy": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "nextChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "advanceChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "demangleEmit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "emitChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "terminateOutput": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FinishMapSort": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteModSegHead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindFloatSyms": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindISymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetBSSSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LocateBSSClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefBSSStartSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ConvertToFrame": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefBSSEndSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetStkAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PostAddrCalcFormatSpec": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocPETransferTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChkOS2Exports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetGroupFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AssignOrdinals": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RegisterImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocGroupBuffers": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteUndefinedMap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ObjPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIOvlFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetSegDataList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIP2Start": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIP2Start": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BuildAddrInfoList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FixAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenAddrHeaders": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenAddrEntries": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIOvlPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PModList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetPubCurr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Pass2Cmd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIP2Source": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIP2Source": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FlushObjectData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FlushObjectRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ApplyObjectFixups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGenAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIGenAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGenLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIP2Module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIGenLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenLocalBlocks": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TryUseVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LoadObj": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetObjAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocObjectData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoPass2Relocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ParseFixupRefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ParseFrame": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ParseTarget": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResolveExtRef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetSymAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetGroupRefFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CanUseOvlVector": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlForceVect": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Relocate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckSpecials": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PatchData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBINoReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindRealAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetGroupBySeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PatchOffset": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FarCallOpt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FmtReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NewReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteObjectData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PERelocInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OS2PagedRelocInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoWriteReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocRelocInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIGenLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIGenLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindSegdata": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindSegdataArray": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TrimTrailingZeros": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "P2ModEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExecBakPats": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FinishSavedSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteModSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNumNodes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetClassName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSeg": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "TraceModRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIP2Module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBISectCleanup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeObjCache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OvlPass2": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteUndefined": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePETransferTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ODBIFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExeCreate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniPELoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Write_Stub_File": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDefStub": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteLoad": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PadLoad": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteNulls": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenPETransferTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcImpOff": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDataPages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NullAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteImportInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteExportInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RemovePath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteFixupInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteRelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RelocSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpRelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpMaxRelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OWriteDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIWriteLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIWriteInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSegValues": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDBISecs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteOvlSecs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MapSizes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteImports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "XWriteImports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ImpModuleName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IndexSName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteLibsUsed": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Write32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MemorySize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EndTime": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeAMod": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeOS2Fmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeImpNameTab": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeExportList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeAnExport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeSegFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TraverseOS2RelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TraverseRelocBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeAGroup": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -583,6 +2843,14 @@
     {
       "owner": "CheckBreak",
       "entry": "SetBreak"
+    },
+    {
+      "owner": "ODBIP2Module",
+      "entry": "ODBISectCleanup"
+    },
+    {
+      "owner": "MapSizes",
+      "entry": "EndTime"
     }
   ],
   "shared_terminal_epilogues": [
@@ -595,25 +2863,250 @@
         "start": 4404033,
         "bytes_hex": "c3"
       }
+    },
+    {
+      "owners": [
+        "Crash",
+        "DoCmdParse"
+      ],
+      "original": {
+        "start": 4273254,
+        "bytes_hex": "5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "RestoreCmdLine",
+        "BurnUtils"
+      ],
+      "original": {
+        "start": 4280590,
+        "bytes_hex": "5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "StackSegment",
+        "FindStack"
+      ],
+      "original": {
+        "start": 4289714,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAlloc",
+        "DBIAddrSectStart"
+      ],
+      "original": {
+        "start": 4390932,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "MapPrint",
+        "DoWriteMap"
+      ],
+      "original": {
+        "start": 4293905,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIGenGlobal",
+        "DBIAddLines"
+      ],
+      "original": {
+        "start": 4390642,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "PreAddrCalcFormatSpec",
+        "PostAddrCalcFormatSpec"
+      ],
+      "original": {
+        "start": 4343164,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "TryDefVector",
+        "DBIOvlFini"
+      ],
+      "original": {
+        "start": 4328033,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAddAddrInfo",
+        "DBIGenAddrInfo"
+      ],
+      "original": {
+        "start": 4390882,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAddLocal",
+        "DBIDefClass"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAddLocal",
+        "DBIP2Module"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAddLocal",
+        "DBIGenLocal"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIDefClass",
+        "DBIP2Module"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIDefClass",
+        "DBIGenLocal"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIP2Module",
+        "DBIGenLocal"
+      ],
+      "original": {
+        "start": 4390376,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIP2Start",
+        "DBIFini"
+      ],
+      "original": {
+        "start": 4391013,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DBIWriteInfo",
+        "DBIWriteLocal"
+      ],
+      "original": {
+        "start": 4403167,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "WritePubModHead",
+        "WriteImports"
+      ],
+      "original": {
+        "start": 4292432,
+        "bytes_hex": "c3"
+      }
     }
   ],
   "function_properties": {
-    "LnkInit": {
-      "rebuilt_extent": {
-        "end": {
-          "rebuilt_symbol": "LnkInit_",
-          "offset": 296
-        },
-        "padding_hex": "00000000",
-        "image_sha256": "8e34d40d5717c3597444fb88651c59fa586082ddf3d62db6dc9c53e0e751f9f5",
-        "map_sha256": "c2148ed08784dd60dc009e80b03fe6b1aa095350c433dea2598031834f3927de",
-        "object": {
-          "path": "build/obj/src/wlink.c.obj",
-          "sha256": "cfafc8a7d13e79167de53ef4bbb8831464434f0ba5a31f294900ed76de5f713e"
-        }
-      }
-    },
     "ODBISectCleanup": {
+      "pending_extent": false
+    },
+    "ProcNovExport": {
+      "pending_extent": false
+    },
+    "CVInit": {
+      "pending_extent": false
+    },
+    "OvlPass1": {
+      "pending_extent": false
+    },
+    "CVAddLocal": {
+      "pending_extent": false
+    },
+    "OvlDefVector": {
+      "pending_extent": false
+    },
+    "DefDistribSym": {
+      "pending_extent": false
+    },
+    "DwarfAddLines": {
+      "pending_extent": false
+    },
+    "CVAddLines": {
+      "pending_extent": false
+    },
+    "DwarfDefClass": {
+      "pending_extent": false
+    },
+    "DwarfAddrSectStart": {
+      "pending_extent": false
+    },
+    "SetQNXSegFlags": {
+      "pending_extent": false
+    },
+    "DwarfGenAddrInfo": {
+      "pending_extent": false
+    },
+    "CVGenAddrInfo": {
+      "pending_extent": false
+    },
+    "CVGenLocal": {
+      "pending_extent": false
+    },
+    "OvlUseVector": {
+      "pending_extent": false
+    },
+    "DwarfGenLines": {
+      "pending_extent": false
+    },
+    "CVGenLines": {
+      "pending_extent": false
+    },
+    "ODBIFini": {
+      "pending_extent": false
+    },
+    "CVFini": {
+      "pending_extent": false
+    },
+    "XWriteImports": {
       "pending_extent": false
     }
   }

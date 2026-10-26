@@ -199,3 +199,67 @@ unsigned char WaitForKey( void )
 {
     return getch();
 }
+
+unsigned long QFileSize( int file )
+{
+    unsigned long current, size;
+    current = QPos( file );
+    size = lseek( file, 0, SEEK_END );
+    lseek( file, current, SEEK_SET );
+    return size;
+}
+
+long QPos( int file )
+{
+    CheckBreak();
+    return lseek( file, 0, SEEK_CUR );
+}
+
+unsigned QRead( int file, void *buffer, unsigned length, char *name )
+{
+    int result;
+    CheckBreak();
+    result = read( file, buffer, length );
+    if( result == -1 ) LnkMsg( 0x330a, "12", name, strerror( errno ) );
+    return result;
+}
+
+void QClose( int file, char *name )
+{
+    int result;
+
+    CheckBreak();
+    result = close( file );
+    --OpenFiles;
+    if( result == -1 ) LnkMsg( 0x330a, "12", name, strerror(errno) );
+}
+
+int QOpenRW( char *name )
+{
+    int handle;
+
+    handle = DoOpen( name, O_RDWR | O_CREAT | O_TRUNC, 0 );
+    if( handle != -1 ) return handle;
+    LnkMsg( 0x3408, "12", name, strerror(errno) );
+    return -1;
+}
+
+unsigned char QHavePath( char *name )
+{
+    return name[0] == '\\' || name[0] == '/' || name[1] == ':';
+}
+
+long QSeek( int file, long position, char *name )
+{
+    return QLSeek( file, position, SEEK_SET, name );
+}
+
+int ExeCreate( char *name )
+{
+    int handle;
+
+    handle = DoOpen( name, O_RDWR | O_CREAT | O_TRUNC, 1 );
+    if( handle != -1 ) return handle;
+    LnkMsg( 0x3408, "12", name, strerror( errno ) );
+    return -1;
+}

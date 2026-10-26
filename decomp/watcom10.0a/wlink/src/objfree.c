@@ -32,22 +32,12 @@
 #include "cmdline.h"
 #include <recon.h>
 
-#pragma pack(1)
-/* Only fields reached by the old cleanup have been identified. */
-struct mod_entry {
-    unsigned char prefix[14];
-    path_entry *publist;
-    unsigned short modinfo;
-    struct mod_entry *next_mod;
-};
-#pragma pack()
-
 void CleanLinkStruct( void )
 {
     if( Root == 0 ) return;
-    if( FakeModule != 0 ) {
-        FreeList( FakeModule->publist );
-        _LnkFree( FakeModule );
+    if( CurrRec != 0 ) {
+        FreeList( CurrRec->fixups );
+        _LnkFree( CurrRec );
     }
     BurnLibs();
     FreeFiles( ObjLibFiles );
@@ -66,8 +56,8 @@ void FreeFiles( file_list *list )
     while( list != 0 ) {
         next = list->next_file;
         CacheClose( list, 3 );
-        if( (list->status & 0x80000000UL) && list->u.member != 0 ) {
-            FreeList( list->u.member );
+        if( (list->status & 0x8000) && list->u.member != 0 ) {
+            FreeList( (path_entry *)list->u.member );
         }
         list = next;
     }
@@ -130,8 +120,8 @@ void FiniLinkStruct( void )
     FreeGroups( AbsGroups );
     Groups = 0;
     AbsGroups = 0;
-    FreeList( FreeClassBlocks );
-    FreeClassBlocks = 0;
+    FreeList( SavedNames );
+    SavedNames = 0;
     FreeSections( Root );
     DBICleanup();
     Root = 0;
@@ -166,10 +156,6 @@ void FreeSections( section *sec )
     }
 }
 
-struct ovl_area {
-    struct ovl_area *next;
-    section *sections;
-};
 
 void FreeAreas( ovl_area *area )
 {
@@ -180,4 +166,45 @@ void FreeAreas( ovl_area *area )
         FreeSections( area->sections );
         area = next;
     }
+}
+
+void ResolveComdats( void )
+{
+    WalkSavedSegs( FinishComdat );
+}
+
+extern void FinishSavedSeg( saved_seg * );
+
+void FinishSavedSegs( void )
+{
+    WalkSavedSegs( FinishSavedSeg );
+}
+
+extern void WriteSavedSeg( saved_seg * );
+
+void TraceModRelocs( void )
+{
+    WalkSavedSegs( WriteSavedSeg );
+}
+
+void FreeAMod( mod_entry *mod )
+{
+    FreeObjCache( mod->f.source );
+}
+
+void FreeSegFlags( seg_flags *list )
+{
+    seg_flags *next;
+
+    while( list != 0 ) {
+        next = list->next;
+        _LnkFree( list->name );
+        _LnkFree( list );
+        list = next;
+    }
+}
+
+void FreeAGroup( group_entry *group )
+{
+    _LnkFree( group->leaders );
 }

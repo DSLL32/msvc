@@ -6,13 +6,7 @@
 #include "cmdline.h"
 #include <recon.h>
 
-/* Only fields read by this function are defined here. */
-typedef struct address {
-    unsigned long off;
-    unsigned short seg;
-} address;
-
-void *InputFileList;               /* original4500bc; role remains provisional */
+mod_entry *StartMod;              /* original4500bc */
 group_entry *Groups;           /* original450120 */
 address StartInfo;               /* original450178 */
 
@@ -37,7 +31,7 @@ void DoLinkFromCommandLine( void )
     DecideFormat();
     SetFormat();
     ConvertLazyRefs();
-    PrepareSegments();
+    SetSegments();
     CheckErr();
     CheckSymbolPass( 1 );
     DefBSSSyms();
@@ -49,7 +43,7 @@ void DoLinkFromCommandLine( void )
     CalcAddresses();
     GetBSSSize();
     GetStkAddr();
-    if( InputFileList == 0 && !(FmtData.type & 0x100) && !(FmtData.flags & 1) ) {
+    if( StartMod == 0 && !(FmtData.type & 0x100) && !(FmtData.flags & 1) ) {
         if( Groups == 0 ) {
             StartInfo.off = 0;
             StartInfo.seg = 0;
@@ -60,7 +54,7 @@ void DoLinkFromCommandLine( void )
         LnkMsg( 0x3217, "a", StartInfo );
     }
     PostAddrCalcFormatSpec();
-    ReportLinkMap();
+    AllocGroupBuffers();
     CheckErr();
     InitLoadFile();
     ObjPass2();
@@ -73,13 +67,14 @@ void DoLinkFromCommandLine( void )
 unsigned long LinkFlags;         /* original450154 */
 file_list *ObjLibFiles;           /* original450140 */
 mod_entry *LibModules;            /* original45013c */
-void *FreeClassBlocks;           /* original450150; role provisional */
-void *OvlClasses;                /* original450144 */
+list_of_names *SavedNames;           /* original450150; retained object-name records */
+lobject_data *CurrIterated;       /* original450144 */
 path_entry *ObjInfoList;         /* original450138; role provisional */
 path_entry *AuxObjInfoList;      /* original450134; role provisional */
 address CurrLoc;                /* original450170 */
-mod_entry *FakeModule;            /* original450148 */
-void *CurrMod;                  /* original4500f8 */
+lobject_data *CurrRec;             /* original450148 */
+void *OverlayList;              /* original4500f8; role provisional */
+mod_entry *CurrMod;              /* original45012c; current input module */
 void *OverlayWork;              /* original450114; role provisional */
 unsigned OvlNum;                /* original450108 */
 unsigned SectionNum;            /* original45010c */
@@ -96,21 +91,21 @@ void LnkInit( void )
     InitMsg( Argv[0] );
     LnkFilesInit();
     MapFile = -1;
-    InputFileList = 0;
+    StartMod = 0;
     MapFName = 0;
     OutFiles = 0;
     ObjLibFiles = 0;
     LibModules = 0;
-    FreeClassBlocks = 0;
+    SavedNames = 0;
     Groups = 0;
-    OvlClasses = 0;
+    CurrIterated = 0;
     ObjInfoList = 0;
     AuxObjInfoList = 0;
     CurrLoc.off = 0;
-    FakeModule = 0;
+    CurrRec = 0;
     CurrLoc.seg = 0xffff;
     InitNodes();
-    CurrMod = 0;
+    OverlayList = 0;
     OverlayWork = 0;
     OvlNum = 0;
     SectionNum = 0;
@@ -121,4 +116,17 @@ void LnkInit( void )
     Root = NewSection();
     VirtMemInit();
     StackSize = 0x200;
+}
+
+void DoDefaultSystem( void )
+{
+    if( !(LinkState & 0x40) ) {
+        if( LinkState & 0x80 ) HintFormat( 0xff16 );
+        else HintFormat( 0x42e9 );
+        if( !(LinkState & 0x40) ) {
+            if( LinkState & 0x20 ) LnkMsg( 0x3493, 0 );
+            if( LinkState & 0x80 ) ExecSystem( "386" );
+            else ExecSystem( "286" );
+        }
+    }
 }

@@ -127,3 +127,44 @@ void BurnUtils( void )
         _LnkFree( temp );
     }
 }
+
+void RestoreCmdLine( void )
+{
+    cmdfilelist *temp;
+
+    if( CmdFile->prev == 0 ) {
+        Token.where = ENDOFCMD;
+        return;
+    }
+    if( Token.how != SYSTEM ) {
+        _LnkFree( Token.buff );
+        if( (unsigned)CmdFile->file > (unsigned)fileno( stdin ) )
+            QClose( CmdFile->file, CmdFile->name );
+    }
+    _LnkFree( CmdFile->name );
+    temp = CmdFile->prev;
+    temp->next = CmdFile->next;
+    if( temp->next != 0 ) temp->next->prev = temp;
+    _LnkFree( CmdFile );
+    CmdFile = temp;
+    memcpy( &Token, &CmdFile->token, sizeof(tok) );
+}
+
+outfilelist *NewOutFile( char *filename )
+{
+    outfilelist *fnode;
+
+    for( fnode = OutFiles; fnode != 0; fnode = fnode->next ) {
+        if( stricmp( filename, fnode->fname ) == 0 ) {
+            _LnkFree( filename );
+            return fnode;
+        }
+    }
+    fnode = ChkLAlloc( sizeof( outfilelist ) );
+    fnode->handle = -1;
+    fnode->file_loc = 0;
+    fnode->fname = filename;
+    fnode->next = OutFiles;
+    OutFiles = fnode;
+    return fnode;
+}

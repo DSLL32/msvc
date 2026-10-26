@@ -48,7 +48,7 @@ static parse_entry FormatHelp[] = {
     { 0, 0, 0 }
 };
 #if defined(__WATCOMC__)
-#pragma intrinsic(strlen,memcpy)
+#pragma intrinsic(strlen,memcpy,memcmp)
 #endif
 
 fmt_data FmtData;                 /* original450068,80B */
@@ -60,7 +60,7 @@ unsigned char DBIFlag;           /* original450188 */
 unsigned char MapFlags;           /* original450189 */
 char *SymFileName;               /* original44127c */
 section *CurrSect;               /* original4500d4 */
-void **CurrFList;                 /* original450054 */
+file_list **CurrFList;                 /* original450054 */
 path_entry *Path;                /* original4500ec */
 
 void ResetCmdFile( void )
@@ -285,16 +285,33 @@ typedef struct sysblock {
 } sysblock;
 static sysblock *SysBlocks;       /* original441288 */
 
+void CleanSystemList( unsigned char check )
+{
+    sysblock **sys;
+    sysblock *next;
+    char *name;
+
+    sys = &SysBlocks;
+    while( *sys != 0 ) {
+        name = (*sys)->name;
+        if( !check || (memcmp( "286", name, 4 ) != 0 &&
+                       memcmp( "386", name, 4 ) != 0) ) {
+            next = (*sys)->next;
+            _LnkFree( name );
+            _LnkFree( *sys );
+            *sys = next;
+        } else sys = &(*sys)->next;
+    }
+}
+
 void BurnSystemList( void )
 {
-    sysblock *next;
+    CleanSystemList( 0 );
+}
 
-    while( SysBlocks != 0 ) {
-        next = SysBlocks->next;
-        _LnkFree( SysBlocks->name );
-        _LnkFree( SysBlocks );
-        SysBlocks = next;
-    }
+void PruneSystemList( void )
+{
+    CleanSystemList( 1 );
 }
 
 void FreePaths( void )
@@ -342,4 +359,103 @@ void FreeFormatStuff( void )
         ++check;
     }
     if( check->free_func != 0 ) check->free_func();
+}
+
+unsigned char HintFormat( unsigned short hint )
+{
+    struct select_format *check;
+    unsigned short possible;
+
+    if( !(hint & FmtData.type) ) return 0;
+    FmtData.type &= hint;
+    if( LinkState & 0x40 ) return 1;
+    check = PossibleFmt;
+    for( ;; ) {
+        possible = check->bits;
+        if( possible == 0 ) {
+            if( (~0x1fU & FmtData.type) == 0 ) InitFmt( SetOS2Fmt );
+            return 1;
+        }
+        if( (~possible & FmtData.type) == 0 ) break;
+        ++check;
+    }
+    InitFmt( check->set_func );
+    LinkState |= 0x40;
+    if( LinkState & 2 ) AddFmtLibPaths();
+    return 1;
+}
+
+void InitFmt( void (*set)(void) )
+{
+    if( !(LinkState & 0x400) ) {
+        if( set != 0 ) set();
+        LinkState |= 0x400;
+    }
+}
+
+unsigned char ProcExport( void )
+{
+    if( HintFormat( 0x001f ) ) return ProcOS2Export();
+    return ProcNovExport();
+}
+
+void AddCommentLib( char *name, unsigned len, unsigned char priority )
+{
+    file_list *list;
+    char *ptr;
+
+    if( CmdFlags & 4 ) return;
+    ptr = FileName( name, len, 2, 0 );
+    list = AddObjLib( ptr, priority );
+    CheckLibTrace( list );
+    _LnkFree( ptr );
+}
+
+void AddFmtLibPaths( void )
+{
+    struct select_format *check;
+    unsigned short possible;
+
+    if( !(LinkState & 0x40) ) return;
+    check = PossibleFmt;
+    for( ;; ) {
+        possible = check->bits;
+        if( possible == 0 ) return;
+        if( (~possible & FmtData.type) == 0 ) break;
+        ++check;
+    }
+    AddEnvPaths( check->lib_var_name );
+}
+
+void DecideFormat( void )
+{
+    unsigned short possible;
+    char rc_buff[128];
+
+    if( !(LinkState & 0x40) ) {
+        possible = FmtData.type;
+        if( possible & 0x10 ) possible = 0x10;
+        HintFormat( possible );
+        if( !(LinkState & 0x40) ) {
+            Msg_Get( 0xf0, rc_buff );
+            LnkMsg( 0x3402, "s", rc_buff );
+        }
+    }
+}
+
+void SetFormat( void )
+{
+    char *fname;
+
+    fname = FileName( Name, strlen( Name ), Extension, CmdFlags & 0x10 );
+    Root->outfile = NewOutFile( fname );
+    _LnkFree( Name );
+    Name = 0;
+    FillOutFilePtrs();
+    if( MapFlags & 1 ) {
+        LnkMsg( 0x2023, "s", Root->outfile->fname );
+        LnkMsg( 0x2006, 0 );
+    }
+    if( FmtData.type & 0x4200 ) CmdQNXFini();
+    SetRelocSize();
 }

@@ -29,18 +29,39 @@
 *
 ****************************************************************************/
 
-#include "link.h"
+#include "cmdline.h"
+#include "fixup.h"
 #include <recon.h>
 
 /* These preexisting globals still have provisional role names. */
-extern void *CurrMod;              /* original4500f8 */
+extern void *OverlayList;              /* original4500f8 */
 extern void *OverlayWork;          /* original450114 */
-static path_entry *OvlRefs;        /* original450158 */
+seg_leader *OvlRefs;        /* original450158 */
 
 void FreeOvlStruct( void )
 {
-    CurrMod = 0;
+    OverlayList = 0;
     OverlayWork = 0;
-    FreeList( OvlRefs );
+    FreeList( (path_entry *)OvlRefs );
     FreeDistStuff();
+}
+
+group_entry *OvlGroup;            /* original450128 */
+address OvltabAddr;                /* original450168 */
+unsigned OvltabSize;               /* original4500dc */
+
+extern void GetVecAddr( unsigned, address * );
+
+void OvlForceVect( fixup_ref *target, unsigned char indirect )
+{
+    symbol *sym;
+    unsigned short state;
+
+    if( !(FmtData.type & 0x0080) || !(target->flags & 0x10) ) return;
+    sym = target->u.sym;
+    if( (sym->info & 15) <= 3 ) return;
+    state = (unsigned short)sym->u.value;
+    if( ((state >> 12) & 3) != 2 ) return;
+    if( !indirect && !(state & 0x4000) ) return;
+    GetVecAddr( state & 0x0fff, &target->addr );
 }

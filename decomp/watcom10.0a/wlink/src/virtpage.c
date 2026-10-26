@@ -32,7 +32,12 @@
 #include "link.h"
 #include <recon.h>
 
-static void *VMemBlocks;          /* original4502c8 */
+typedef struct vmemblock {
+    struct vmemblock *next;
+    unsigned char mem[1];
+} vmemblock;
+
+static vmemblock *VMemBlocks;          /* original4502c8 */
 
 void VirtMemInit( void )
 {
@@ -43,4 +48,14 @@ void FreeVirtMem( void )
 {
     FreeList( VMemBlocks );
     VMemBlocks = 0;
+}
+
+unsigned long AllocStg( unsigned long size )
+{
+    vmemblock *ptr;
+
+    ptr = ChkLAlloc( size + sizeof( vmemblock * ) );
+    ptr->next = VMemBlocks;
+    VMemBlocks = ptr;
+    return (unsigned long)ptr->mem;
 }

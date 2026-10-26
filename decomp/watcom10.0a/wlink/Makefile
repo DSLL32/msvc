@@ -1,7 +1,7 @@
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
 RECON := ../../../lib/recon
 NATIVE_CC := gcc
-NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS := -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_QSORT_WATCOM_1994 -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89 -fms-extensions
 BINARY_SOURCES := $(wildcard src/*.c)
 BINARY_SUPPORT_SOURCES := $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)

@@ -33,8 +33,13 @@
  * Original Watcom _setjmp ABI comes from shipped SETJMP.H. */
 #include <setjmp.h>
 #include <stdlib.h>
+#include <string.h>
 #include "cmdline.h"
 #include <recon.h>
+
+#if defined(__WATCOMC__)
+#pragma intrinsic(memcpy,memcmp)
+#endif
 
 int SearchPath( char *name )
 {
@@ -88,4 +93,67 @@ void Suicide( void )
     if( SpawnStack != 0 ) {
         longjmp( SpawnStack, 1 );
     }
+}
+
+void LinkList( void *in_head, void *newnode )
+{
+    path_entry **owner;
+
+    owner = in_head;
+    ((path_entry *)newnode)->next = 0;
+    while( *owner != 0 ) owner = &(*owner)->next;
+    *owner = newnode;
+}
+
+void CheckErr( void )
+{
+    if( LinkState & 8 ) {
+        WriteLibsUsed();
+        Suicide();
+    }
+}
+
+unsigned char TestBit( void *bits, unsigned bit )
+{
+    return ((unsigned char *)bits)[bit >> 3] & (1U << (bit & 7));
+}
+
+unsigned short AddNameTable( char *name, unsigned len, unsigned char is_mod,
+    snamelist **owner )
+{
+    snamelist *imp;
+    unsigned short off, index;
+
+    off = 1;
+    index = 1;
+    for( ;; ) {
+        imp = *owner;
+        if( imp == 0 ) {
+            imp = ChkLAlloc( len + (is_mod ? 6 : 5) );
+            imp->next = 0;
+            imp->len = len;
+            *owner = imp;
+            memcpy( imp->name, name, len );
+            if( is_mod ) imp->name[len] = 0;
+            break;
+        }
+        if( len == imp->len && memcmp( imp->name, name, len ) == 0 ) break;
+        off += imp->len + 1;
+        owner = &imp->next;
+        ++index;
+    }
+    return is_mod ? index : off;
+}
+
+unsigned short binary_log( unsigned short value )
+{
+    unsigned short log;
+
+    if( value == 0 ) return 0;
+    log = 15;
+    while( !(value & 0x8000) ) {
+        value <<= 1;
+        --log;
+    }
+    return log;
 }

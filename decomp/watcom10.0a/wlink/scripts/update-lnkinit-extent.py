@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Refresh the reviewed, finite Watcom module-end witness after a build.
 
-This recognizes exactly the two retained object records. Changed contribution
-sizes/public offsets require a fresh review; it does not discover OMF functions.
+This recognizes the finite reviewed object records and public boundaries.
+Changed LnkInit offsets require review; it does not discover OMF functions.
 """
 import hashlib
 import json
@@ -40,6 +40,17 @@ def main():
         assert size >= 4 and cursor + size <= len(raw)
         assert sum(raw[cursor:cursor+size]) & 255 == 0
         cursor += size
+    # The authentic DoDefaultSystem body now follows LnkInit in this source
+    # module. Its genuine PUBLIC starts exactly at the former contribution
+    # end, so LnkInit needs no linker-padding descriptor in this variant.
+    next_public = bytes.fromhex(
+        '914300020116446f4c696e6b46726f6d436f6d6d616e644c696e655f0000000000'
+        '084c6e6b496e69745f8e0100000010446f44656661756c7453797374656d5fb602000000c5')
+    if raw.find(next_public) in boundaries:
+        witness['SEGDEF'] = {
+            'record_hex': '9909002964030000070201c4', 'length': 868}
+        witness['PUBDEF']['record_hex'] = next_public.hex()
+        witness['next_public'] = 'DoDefaultSystem_'
     for key in ('SEGDEF', 'PUBDEF'):
         row = witness[key]
         expected = bytes.fromhex(row['record_hex'])
@@ -56,7 +67,11 @@ def main():
             symbols[match[2]] = 0x410000 + int(match[1], 16)
     module = symbols['DoLinkFromCommandLine_']
     entry = symbols['LnkInit_']
-    end = module + witness['SEGDEF']['length']
+    if 'next_public' in witness:
+        end = symbols[witness['next_public']]
+        assert end - module == 694
+    else:
+        end = module + witness['SEGDEF']['length']
     assert entry - module == 398 and end - entry == 296
     # Adding a genuine CRT reference can change library extraction order.
     # Bind the actual next MAP public rather than assuming _setjmp is first.
@@ -124,7 +139,10 @@ def main():
     assert record[3:6] == bytes.fromhex('010000') and len(record[6:-1]) == 187
     expected = record[6:-1][63:]
     start = symbols['longjmp_']
-    assert symbols['__null_int23_exit_'] == start + len(expected)
+    # Actual library extraction order can place time_ before the exit member.
+    # Keep the exact shipped187B contribution/body and next genuine public.
+    next_body = min(address for address in symbols.values() if address > start)
+    assert next_body == start + len(expected)
 
     def image_offset(address, size):
         found = []
@@ -146,7 +164,18 @@ def main():
     handler = struct.unpack_from('<I', data, image_offset(handler_slot, 4))[0]
     assert data[image_offset(handler, 1)] == 0xc3
     handler_public = re.search(r'0002:([0-9a-fA-F]+)\s+___longjmp_handler', map_path.read_text())
-    assert handler_public and handler_slot == 0x420000 + int(handler_public[1], 16)
+    # CODE may grow beyond one64KiB section as reconstruction advances.
+    # Resolve the actual DGROUP section instead of assuming its old420000 VA.
+    assert re.search(r'^DGROUP\s+0002:00000000\s+', map_path.read_text(), re.M)
+    dgroup = []
+    for index in range(count):
+        header = sections + index * 40
+        if data[header:header+8].rstrip(b'\0') == b'DGROUP':
+            flags = struct.unpack_from('<I', data, header+36)[0]
+            assert flags & 0x40 and not flags & 0x20
+            dgroup.append(0x400000 + struct.unpack_from('<I', data, header+12)[0])
+    assert len(dgroup) == 1
+    assert handler_public and handler_slot == dgroup[0] + int(handler_public[1], 16)
     runtime = [{
         'name': 'longjmp', 'start': start, 'end': start + len(expected),
         'shared': [], 'code_chunks': [],
