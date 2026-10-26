@@ -728,6 +728,12 @@ build/watcom-writable-probe: tests/watcom-writable-probe.c $(SOURCES) $(HEADERS)
 watcom-writable-check: build/watcom-writable-probe
 	$(PYTHON) tests/check-watcom-writable.py $<
 
+.PHONY: watcom-fpos-check
+build/watcom-fpos-probe: tests/watcom-fpos-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+watcom-fpos-check: build/watcom-fpos-probe
+	$(PYTHON) tests/check-watcom-fpos.py $<
+
 .PHONY: watcom-signal-check
 build/watcom-signal-probe: tests/watcom-signal-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@

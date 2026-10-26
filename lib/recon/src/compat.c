@@ -53,6 +53,55 @@ unsigned recon_watcom_amblksiz=16;
 /* Qualified loader AH2 is stored into this startup-owned byte before App. */
 char recon_watcom_os=2;
 static volatile int watcom_errno;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+static void watcom_position_scope(ShimFILE *stream,const ReconWatcomFilePosition *position)
+{
+    unsigned index;uintptr_t address=(uintptr_t)position,base;
+    for(index=0;index<20 && stream!=&recon_iob[index];++index){}
+    if(index==20 || !position || address%4 || address>UINTPTR_MAX-4 ||
+       (address<(uintptr_t)stream+sizeof(*stream) && (uintptr_t)stream<address+4))
+        recon_unsupported("Watcom file position stream/storage");
+    if(!(stream->_flag&0x83) || (stream->_flag&0x40) ||
+       (unsigned)stream->_file>=recon_nhandle || !(recon_osfile[stream->_file]&1))
+        recon_unsupported("Watcom file position inactive stream");
+    if(stream->_base && stream->_bufsiz>0) {
+        base=(uintptr_t)stream->_base;
+        if(base>UINTPTR_MAX-(unsigned)stream->_bufsiz ||
+           (address<base+(unsigned)stream->_bufsiz && base<address+4))
+            recon_unsupported("Watcom file position aliases stream buffer");
+    }
+}
+#endif
+int __cdecl recon_watcom_fgetpos(ShimFILE *stream,ReconWatcomFilePosition *position)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    long result;
+    watcom_position_scope(stream,position);
+    if((recon_osfile[stream->_file]&0x80) && (stream->_base || stream->_ptr || stream->_cnt))
+        recon_unsupported("Watcom file position unqualified text buffering");
+    result=recon_ftell(stream);
+    /* The original stores-1/returns1 on ftell error; that errno/failure domain
+     * remains unsupported. Qualified normal calls store the exact DWORD. */
+    if(result<0) recon_unsupported("Watcom fgetpos backend failure");
+    *position=result;return 0;
+#else
+    (void)stream;(void)position;
+    recon_unsupported("Watcom fgetpos requires explicit profile");return 1;
+#endif
+}
+int __cdecl recon_watcom_fsetpos(ShimFILE *stream,const ReconWatcomFilePosition *position)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    watcom_position_scope(stream,position);
+    if(*position<0) recon_unsupported("Watcom fsetpos negative position");
+    if(recon_fseek(stream,*position,SEEK_SET))
+        recon_unsupported("Watcom fsetpos backend failure");
+    return 0;
+#else
+    (void)stream;(void)position;
+    recon_unsupported("Watcom fsetpos requires explicit profile");return -1;
+#endif
+}
 volatile int *__cdecl recon_watcom_errno(void)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

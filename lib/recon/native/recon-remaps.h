@@ -206,6 +206,10 @@ size_t recon_fread(void *,size_t,size_t,ShimFILE *);
 size_t recon_fwrite(const void *,size_t,size_t,ShimFILE *);
 int recon_fseek(ShimFILE *,long,int);
 long recon_ftell(ShimFILE *);
+typedef long ReconWatcomFilePosition;
+typedef char ReconWatcomPositionIs4[(sizeof(ReconWatcomFilePosition)==4)?1:-1];
+int __cdecl recon_watcom_fgetpos(ShimFILE *,ReconWatcomFilePosition *);
+int __cdecl recon_watcom_fsetpos(ShimFILE *,const ReconWatcomFilePosition *);
 int recon_setvbuf(ShimFILE *,char *,int,size_t);
 int recon_fgetc(ShimFILE *),recon_fputc(int,ShimFILE *);
 char *recon_fgets(char *,int,ShimFILE *);
@@ -466,6 +470,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #endif
 #define _amblksiz recon_watcom_amblksiz
 #define __OS recon_watcom_os
+#define fpos_t ReconWatcomFilePosition
+#define fgetpos recon_watcom_fgetpos
+#define fsetpos recon_watcom_fsetpos
 #define __get_errno_ptr recon_watcom_errno
 #undef errno
 #define errno (*recon_watcom_errno())

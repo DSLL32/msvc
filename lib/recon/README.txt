@@ -1289,3 +1289,11 @@ tuples translate to existing Microsoft4302/8302 descriptor operations, providing
 real create/truncate, initial position0 and text CRLF/binary writes. The caller's
 private errno is preserved on success; unknown flags/permissions/paths/failures
 deny125. Readonly0200 never fetches an absent variadic permission argument.
+
+Watcom fpos_t is a typed4-byte long at native source declarations. Its fgetpos
+and fsetpos use registered native ShimFILE streams and disjoint aligned4B
+position storage, saving an existing ftell value or seeking with SEEK_SET.
+Binary positions and fresh unbuffered text saves are supported; unknown stream,
+buffered-text save, negative-position and backend-failure domains deny125.
+The original fgetpos error path stores-1/returns1, but its unqualified errno
+domain is not modeled. No glibc FILE object or private FILE26 overlay is used.
