@@ -816,12 +816,14 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef _IOFBF
 #undef _IOLBF
 #undef _IONBF
-#define _IOFBF 0
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#define _IOFBF 0x0100
 #define _IOLBF 0x0200
+#define _IONBF 0x0400
 #else
+#define _IOFBF 0
 #define _IOLBF 0x40
-#endif
 #define _IONBF 4
+#endif
 #endif /* !RECON_SHIM_IMPL */
 #endif /* RECON_NATIVE_REMAPS_H */
