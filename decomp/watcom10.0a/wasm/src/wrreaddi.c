@@ -200,3 +200,30 @@ int readResList(int handle, WResTypeNode *type, unsigned short version)
     }
     return error;
 }
+
+/* CF20650..20706, older wrreaddi.c has25B nodes and no fileinfo. */
+int readLangInfoList(int handle, WResResNode *resource)
+{
+    WResLangNode *node;
+    unsigned index;
+    int error, count;
+    error = 0;
+    for (index = 0; index < resource->Info.NumResources; ++index) {
+        node = (*WResRtns.alloc)(sizeof(*node));
+        if (node == NULL) {
+            error = 1;
+            WresRecordError(13);
+        }
+        if (error) break;
+        count = (*WResRtns.read)(handle, &node->Info, sizeof(node->Info));
+        if (count != sizeof(node->Info)) {
+            error = 1;
+            WresRecordError(count == -1 ? 8 : 14);
+            (*WResRtns.free)(node);
+            break;
+        }
+        node->data = NULL;
+        ResAddLLItemAtEnd((void **)&resource->Head, (void **)&resource->Tail, node);
+    }
+    return error;
+}

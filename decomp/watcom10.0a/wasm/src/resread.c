@@ -71,3 +71,39 @@ int WResReadFixedResRecord1(WResResInfo1 *info, int handle)
     }
     return 0;
 }
+
+/* CF215b0..215b1, initial wrerror.c: deliberately empty error hook. */
+void WresRecordError(int status) { (void)status; }
+
+/* CF215f0..2162d, initial wrrfrr.c: version2 five-byte fixed record. */
+int WResReadFixedResRecord(WResResInfo *info, int handle)
+{
+    int count;
+    count = (*WResRtns.read)(handle, info, sizeof(*info));
+    if (count != sizeof(*info)) {
+        WresRecordError(count == -1 ? 8 : 14);
+        return 1;
+    }
+    return 0;
+}
+
+/* CF21690..216e2, initial wrrewrid.c. First name byte is in the fixed ID. */
+int WResReadExtraWResID(WResID *id, int handle)
+{
+    int length, count;
+    if (id->IsName) {
+        length = (int)id->ID.Name.NumChars - 1;
+        if (length > 0) {
+            count = (*WResRtns.read)(handle, id->ID.Name.Name + 1, length);
+            if (count == -1) {
+                WresRecordError(8);
+                return 1;
+            }
+            if (count != length) {
+                WresRecordError(14);
+                return 1;
+            }
+        }
+    }
+    return 0;
+}

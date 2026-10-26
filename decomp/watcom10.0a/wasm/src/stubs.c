@@ -22,17 +22,8 @@ int writeComdat(obj_rec *objr, pobj_state *state)
 int writeLinsym(obj_rec *objr, pobj_state *state)
 { (void)objr; (void)state; WASM_PENDING(); return 0; }
 
-void WresRecordError(int status) { (void)status; WASM_PENDING(); }
 
 
-int WResReadExtraWResID(WResID *id, int handle)
-{ (void)id; (void)handle; WASM_PENDING(); return 0; }
-int WResReadFixedResRecord(WResResInfo *info, int handle)
-{ (void)info; (void)handle; WASM_PENDING(); return 0; }
-int readLangInfoList(int handle, WResResNode *resource)
-{ (void)handle; (void)resource; WASM_PENDING(); return 0; }
-int readMResDir(int handle, WResDir dir, int *duplicate_discarded)
-{ (void)handle; (void)dir; (void)duplicate_discarded; WASM_PENDING(); return 0; }
 
 
 
@@ -42,5 +33,3 @@ int readMResDir(int handle, WResDir dir, int *duplicate_discarded)
 
 int InternalError(const char *file, unsigned line)
 { (void)file; (void)line; WASM_PENDING(); return 0; }
-int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
-{ (void)first; (void)second; WASM_PENDING(); return 0; }

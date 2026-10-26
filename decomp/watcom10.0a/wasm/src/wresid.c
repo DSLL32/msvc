@@ -30,6 +30,7 @@
 
 /* Adapted from bld/sdk/rc/wres/c/wridexby.c, commit
  * 6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. CF21670..21682. */
+#include <string.h>
 #include "wasm.h"
 #include <recon.h>
 
@@ -55,4 +56,19 @@ int WResIDCmp(const WResID *first, const WResID *second)
         return WResIDNameCmp(&first->ID.Name, &second->ID.Name) == 0;
     if (!first->IsName && !second->IsName) return first->ID.Num == second->ID.Num;
     return 0;
+}
+
+/* CF22410..2245a, initial wridnacm.c algorithm. The1994 body calls
+ * the older CRT memicmp directly, without the later WresMemicmp owner. */
+int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
+{
+    unsigned length;
+    int result;
+    length = first->NumChars < second->NumChars ? first->NumChars : second->NumChars;
+    result = memicmp(first->Name, second->Name, length);
+    if (result == 0) {
+        if (first->NumChars == second->NumChars) return 0;
+        return first->NumChars > second->NumChars ? 1 : -1;
+    }
+    return result;
 }

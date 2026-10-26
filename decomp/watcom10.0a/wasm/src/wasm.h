@@ -302,6 +302,20 @@ int CloseResFile(HANDLE_INFO *instance);
 int FindResources(HANDLE_INFO *instance);
 typedef struct WResResNode WResResNode;
 #pragma pack(1)
+typedef union ResNameOrOrdinal {
+    struct { unsigned char fFlag; unsigned short wOrdinalID; } ord;
+    char name[1];
+} ResNameOrOrdinal;
+typedef struct MResResourceHeader {
+    ResNameOrOrdinal *Type, *Name;
+    unsigned short MemoryFlags;
+    unsigned long Size;
+} MResResourceHeader;
+typedef struct VarString {
+    char partString[64];
+    int lastLoc;
+    struct VarString *next;
+} VarString;
 typedef struct WResIDName {
     unsigned char NumChars;
     char Name[1];
@@ -390,6 +404,26 @@ int WResReadFixedResRecord1(WResResInfo1 *info, int handle);
 int WResReadFixedResRecord(WResResInfo *info, int handle);
 int readLangInfoList(int handle, WResResNode *resource);
 int readWResDir(int handle, WResDir dir);
+MResResourceHeader *MResReadResourceHeader(int handle);
+void MResFreeResourceHeader(MResResourceHeader *header);
+WResID *WResIDFromNameOrOrd(const ResNameOrOrdinal *name);
+WResID *WResIDFromNum(long number);
+WResID *WResIDFromStr(const char *name);
+WResTypeNode *newTypeNode(const WResID *type);
+WResResNode *newResNode(const WResID *name);
+WResLangNode *newLangNode(unsigned short flags, unsigned long offset,
+                         unsigned long length, WResLangType *lang);
+int WResAddResource(const WResID *type, const WResID *name, unsigned short flags,
+                    unsigned long offset, unsigned long length, WResDir dir,
+                    WResLangType *lang, int *duplicate);
+int ResReadUint8(unsigned char *value, int handle);
+int ResReadUint16(unsigned short *value, int handle);
+ResNameOrOrdinal *ResReadNameOrOrdinal(int handle);
+char *ResReadString(int handle, int *length);
+VarString *VarStringStart(void);
+void VarStringAddChar(VarString *list, int ch);
+int ComputeVarStringLen(VarString *list);
+char *VarStringEnd(VarString *list, int *retlength);
 int readMResDir(int handle, WResDir dir, int *duplicate_discarded);
 int InitResources(HANDLE_INFO *instance);
 int MsgInit(const char *program);
