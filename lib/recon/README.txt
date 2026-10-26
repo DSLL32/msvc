@@ -1357,3 +1357,14 @@ MEM_RELEASE. Native errors/FP are retained on successful decommit. Partial,
 foreign, repeated or ineligible decommit and subsequent recommit remain denied.
 Other profiles keep the prior unsupported result; existing release is unchanged.
 No general VM/recommit model or original per-call error equivalence is claimed.
+
+RECON_QSORT_WATCOM_1994 is a separate opt-in requiring the Watcom CRT profile.
+It maps ordinary qsort to the positively identified older midpoint/forward
+partition algorithm, including count2 handling and its equal-tail skip. Equal
+keys retain that algorithm's observable order rather than a new tie breaker.
+The existing byte swap handles unaligned records; pure C bookkeeping leaves
+real callback calls/effects intact. Arrays/comparator/width must be valid, with
+span/overflow guards. Other profiles and Watcom users without this opt-in keep
+the existing recon_qsort. WLIB alone has qualified this variant by actual code
+identity and the original/native listing; later shipped hybrid source differs.
+No host qsort interposition, App sorting implementation or general sort framework.

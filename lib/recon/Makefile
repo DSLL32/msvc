@@ -872,3 +872,9 @@ build/virtual-decommit-probe: tests/virtual-decommit-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 virtual-decommit-check: build/virtual-decommit-probe
 	$(PYTHON) tests/check-virtual-decommit.py $< 510
+
+.PHONY: watcom-qsort-check
+build/watcom-qsort-probe: tests/watcom-qsort-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_QSORT_WATCOM_1994 $< $(SOURCES) -o $@
+watcom-qsort-check: build/watcom-qsort-probe
+	$(PYTHON) tests/check-watcom-qsort.py $< variant

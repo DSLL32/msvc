@@ -221,6 +221,7 @@ int recon_snprintf(char *,size_t,const char *,...);
 int recon_mbtowc(WCHAR *,const char *,size_t);
 int recon_sscanf(const char *,const char *,...);
 void recon_qsort(void *,size_t,size_t,int (*)(const void *,const void *));
+void recon_watcom_qsort_1994(void *,size_t,size_t,int (*)(const void *,const void *));
 int recon_ungetc(int,ShimFILE *),recon_ferror(ShimFILE *),recon_feof(ShimFILE *);
 void recon_clearerr(ShimFILE *),recon_rewind(ShimFILE *);
 int recon_fileno(ShimFILE *);
@@ -569,7 +570,14 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _snprintf recon_snprintf
 #define mbtowc recon_mbtowc
 #define sscanf recon_sscanf
+#if defined(RECON_QSORT_WATCOM_1994)
+#ifndef RECON_CRT_PROFILE_WATCOM_100A
+#error Watcom1994 qsort requires the explicit Watcom CRT profile
+#endif
+#define qsort recon_watcom_qsort_1994
+#else
 #define qsort recon_qsort
+#endif
 #define ungetc recon_ungetc
 #define ferror recon_ferror
 #define feof recon_feof

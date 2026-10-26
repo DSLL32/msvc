@@ -2116,6 +2116,60 @@ static void sort_swap(unsigned char *a,unsigned char *b,size_t width)
 {
     if (a!=b) while (width--) { unsigned char c=*a; *a++=*b; *b++=c; }
 }
+/* The identified 1994 Watcom variant predates the later hybrid qsort.
+ * Its forward partition and equal-tail skip give visible equal-key ordering.
+ * Opt-in is separate from the general Watcom CRT profile. */
+void recon_watcom_qsort_1994(void *array,size_t count,size_t width,
+                           int (*compare)(const void *,const void *))
+{
+#if defined(RECON_CRT_PROFILE_WATCOM_100A) && defined(RECON_QSORT_WATCOM_1994)
+    unsigned char *base=array,*pending_base[32];size_t pending_count[32];
+    unsigned pending=0;
+    if(count<2)return;
+    if(!array || !compare || !width || count>SIZE_MAX/width ||
+       (uintptr_t)array>UINTPTR_MAX-count*width)
+        recon_unsupported("Watcom1994 qsort array/span/width/comparator");
+    for(;;) {
+        while(count>1) {
+            size_t scan,partition=0,last_different=0,left_count,right_count;
+            unsigned char *right;
+            if(count==2) {
+                if(compare(base,base+width)>0)sort_swap(base,base+width,width);
+                break;
+            }
+            sort_swap(base,base+(count/2)*width,width);
+            for(scan=1;scan<count;++scan) {
+                int order=compare(base+scan*width,base);
+                if(order<=0) {
+                    ++partition;
+                    if(scan!=partition)sort_swap(base+scan*width,base+partition*width,width);
+                }
+                if(order)last_different=partition;
+            }
+            if(partition==count-1 && !last_different)break;
+            if(partition)sort_swap(base,base+partition*width,width);
+            right_count=count-partition-1;
+            left_count=partition==last_different?partition:last_different+1;
+            right=base+(partition+1)*width;
+            if(pending==32)recon_unsupported("Watcom1994 qsort pending ranges");
+            /* Save the larger range and sort the smaller in this frame. */
+            if(left_count<right_count) {
+                pending_base[pending]=right;pending_count[pending++]=right_count;
+                count=left_count;
+            } else {
+                pending_base[pending]=base;pending_count[pending++]=left_count;
+                base=right;count=right_count;
+            }
+        }
+        if(!pending)break;
+        --pending;base=pending_base[pending];count=pending_count[pending];
+    }
+#else
+    (void)array;(void)count;(void)width;(void)compare;
+    recon_unsupported("Watcom1994 qsort requires explicit variant/profile");
+#endif
+}
+
 /* VC1 QSORT.OBJ: midpoint pivot, <=8-element maximum-selection shortsort.
  * This tie ordering is observable in LINK's serialized import tables.
  * Verified against LINK.EXE [0x519d0,0x51b40) and shortsort [0x51b40,0x51ba0).
