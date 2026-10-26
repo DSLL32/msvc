@@ -1748,6 +1748,7 @@ are retained independently, and native success retains prior LastError; original
 per-call success/error/buffer state is unmeasured. Security descriptors, alternate
 streams, creation times and readonly attribute copying are not implemented.
 The actual LINK_REPRO caller reserves/closes the destination and consumes the
-copy result and real bytes; ordinary caller adoption remains pending separately.
+copy result and real bytes. Its ordinary progression validates four actual copies
+and the caller-owned collision retry; full repro-close remains later App logic.
 make copyfile-check runs the isolated focused probe, including injected IO/time/
 close failures, prewrite denials and semantic x87 control/status retention.
