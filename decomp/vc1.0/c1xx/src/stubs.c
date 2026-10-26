@@ -84,7 +84,6 @@ void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape 
 
 /* Complete yacc semantic callees, still unaccepted. */
 
-void __stdcall add_qualified_base(unsigned access, int is_virtual, QualifiedDeclarator *name) { __asm { int 3 } }
 
 
 
@@ -270,9 +269,7 @@ CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads) { __asm {
 
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
-int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 
 
 
@@ -303,7 +300,6 @@ int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) {
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 
 
-CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __asm { int 3 } return 0; }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 
 

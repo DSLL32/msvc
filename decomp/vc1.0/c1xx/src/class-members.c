@@ -922,6 +922,15 @@ void __stdcall add_named_base(unsigned access, int is_virtual, char *name)
     add_base_class(access, is_virtual, tag);
 }
 
+/* Original0x30670..0x30693, stdcall12. Qualified lookup already
+   resolved the actual tag; a failed lookup adds no base-class record. */
+void __stdcall add_qualified_base(unsigned access, int is_virtual,
+    QualifiedDeclarator *name)
+{
+    if (name)
+        add_base_class(access, is_virtual, (CppSymbol *)name->resolution->binding->target);
+}
+
 int __stdcall can_add_base_class(int is_virtual, CppSymbol *base, CppSymbol *derived);
 void __stdcall browser_base_class(BaseClassLink *base);
 

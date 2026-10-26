@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Component graph porting is COMPLETE: case0037. The4,083-byte workload
+combines nested protocol interfaces, a shared virtual identity, side-effecting
+factory access and callback views. Independent obsolete reverse casts, mismatched
+callback/table pointers and a forbidden reference-member selector produce the
+original seven diagnostics/exit7. This is frontend compile/IR qualification,
+not generated-program runtime validation.
+
+Four whole App bodies /285 code bytes were accepted: qualified base insertion,
+single-evaluation virtual-base pointer construction, virtual-edge detection and
+enclosing qualifier lookup. The effectful-object path creates one temporary,
+retains the assignment prefix and forwards all seven adjustment formals. Base
+and class path components keep their separate24-byte/typed identities. No new
+guard, source repair, shared change, output exception or CRT body was added.
+
+Fresh original/native observations match all four entries, exit7, streams and
+six complete IR/browser artifacts, also exact against the untouched baseline.
+Totals:1,823 App bodies /1,930 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union403,683 /476,418 B is84.73% of whole original code
+extent, not a non-CRT denominator;66 named App stubs remain. All38 cached native
+cases,32 existing unit groups and the1,831-function six-check graph/ABI audit pass,
+as do original-toolchain builds. Final original1,206.124 ms; native38.812 ms
+(setup19.843 ms, execution11.314 ms, checks7.655 ms). Complete closing gate3.239 s;
+incremental build walls were not separately measured. Raw artifacts and ordinary
+paired reports remain in scratch, outside cases and Git.
+
+Earlier completed legacy device SDK porting:
+
 Legacy device SDK porting is COMPLETE: case0036. The frozen4,411-byte
 workload combines counted Pascal command names, encoded protocol labels,
 callback typedefs, named-base views and isolated obsolete typed-base declarations.

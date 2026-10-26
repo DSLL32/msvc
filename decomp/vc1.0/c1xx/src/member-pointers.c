@@ -2471,3 +2471,13 @@ IrToken *__stdcall convert_virtual_to_compact_data_pointer(IrToken *expression, 
     offset->type = type;
     return preserve_virtual_data_null(offset, table_offset);
 }
+
+/* Original0x787e0..0x78808, stdcall4. Skip the selected member
+   and base-link components to find its actual enclosing class qualifier. */
+CppSymbol *__stdcall enclosing_qualifier_class(QualifierBinding *binding)
+{
+    for (binding = binding->next; binding; binding = binding->next)
+        if ((binding->target->kind & 31) == 4)
+            return (CppSymbol *)binding->target;
+    return 0;
+}

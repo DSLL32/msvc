@@ -6,6 +6,8 @@
 #include "unary-expressions.h"
 #include "return-statements.h"
 #include "numeric-conversion.h"
+#include "expression-preparation.h"
+#include "binary-expressions.h"
 #include <recon.h>
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
@@ -399,4 +401,33 @@ IrToken *__stdcall member_destructor_expression(unsigned char operation,
     class_lookup_operator = 1;
     class_lookup_context = 0;
     return object;
+}
+
+/* Original0x31670..0x31708, stdcall28. Materialize the effectful
+   object once, then perform the ordinary virtual-base adjustment on its value. */
+IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type,
+    unsigned pointer_offset, unsigned table_offset, unsigned member_offset,
+    CType *pointer_type, int check_null)
+{
+    IrToken *temporary, *prefix, *value, *result;
+    if (next_symbol_index >= 0x7fffffffUL) fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    temporary = new_temporary_reference(next_symbol_index++, type);
+    prefix = new_left_typed_expression(0x3d, temporary, object);
+    value = indirect_storage_expression(clone_expression(temporary, 0));
+    result = make_virtual_base_pointer(value, type, pointer_offset, table_offset,
+        member_offset, pointer_type, check_null);
+    return builtin_binary_expression(0x40, prefix, result);
+}
+
+/* Original0x31380..0x313ba, stdcall4. Only base-link components
+   carry the virtual-edge state; enclosing class components remain distinct. */
+int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path)
+{
+    QualifierBinding *binding;
+    for (binding = path->resolution->binding; binding; binding = binding->next)
+        if ((binding->target->kind & 31) == 15 &&
+            (((BaseClassLink *)binding->target)->state & 1)) return 1;
+    return 0;
 }

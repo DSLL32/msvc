@@ -4329,10 +4329,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_add_qualified_base@12",
         .entry_rva = 0x20670,
-        .code = (const ReconExtent[]) { { 0x20670, 0x20671 } },
+        .code = (const ReconExtent[]) { { 0x20670, 0x20693 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "add_qualified_base",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_add_base_class@12",
@@ -4472,10 +4473,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_qualified_path_has_virtual_base@4",
         .entry_rva = 0x21380,
-        .code = (const ReconExtent[]) { { 0x21380, 0x21381 } },
+        .code = (const ReconExtent[]) { { 0x21380, 0x213ba } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "qualified_path_has_virtual_base",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_adjust_qualified_member_object@20",
@@ -4525,10 +4527,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_once_virtual_base_pointer@28",
         .entry_rva = 0x21670,
-        .code = (const ReconExtent[]) { { 0x21670, 0x21671 } },
+        .code = (const ReconExtent[]) { { 0x21670, 0x21708 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_once_virtual_base_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_member_at_offset@12",
@@ -15062,10 +15065,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_enclosing_qualifier_class@4",
         .entry_rva = 0x687e0,
-        .code = (const ReconExtent[]) { { 0x687e0, 0x687e1 } },
+        .code = (const ReconExtent[]) { { 0x687e0, 0x68808 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "enclosing_qualifier_class",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_virtual_adjustment@8",
