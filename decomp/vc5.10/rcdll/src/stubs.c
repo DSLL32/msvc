@@ -115,20 +115,7 @@ void __stdcall rc_resource_input_fatal_name(unsigned code,const WCHAR *name)
     __asm int 3
 }
 
-void __stdcall rc_resource_file_warning(unsigned code,const WCHAR *name)
-{
-    __asm int 3
-}
 
-DWORD __stdcall rc_mac_color_brightness(const WORD *rgb)
-{ __asm int 3
-  return 0;
-}
-
-void __stdcall rc_reduce_cursor_width(BYTE *out,const BYTE *in,int stride,int height)
-{ __asm int 3 }
-void __stdcall rc_reduce_cursor_height(BYTE *out,const BYTE *in,int stride,int height,int scale)
-{ __asm int 3 }
 
 void __stdcall rc_map_mac_bytes(char *text,int bytes)
 { __asm int 3 }

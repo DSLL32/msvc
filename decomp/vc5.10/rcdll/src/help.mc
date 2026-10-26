@@ -25,6 +25,11 @@ Flags may be either upper or lower case
 
 .
 
+MessageId=4506
+Language=English
+%1 (%2!d!): warning RC4506 : scaling cursor %3!ws! down to 16 by 16
+.
+
 MessageId=4509
 Language=English
 %1 (%2!d!): warning RC4509 : Resource types '%3' and '%4' were both mapped to '%5'

@@ -1,6 +1,6 @@
 # RCDLL (Visual C++ 5.10)
 
-All five current cases complete using the native i386 shared library. Run `make -j4
+All six current cases complete using the native i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -43,6 +43,13 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   empty streams and exit zero. All 190 original first-entry encounters match;
   the final strict file inventory confirms temporary-file cleanup.
 
+- `0005-mac-cursor-compat`: Macintosh 4-bit color-icon synthesis and a
+  monochrome 32-pixel cursor reduced to 16 pixels in both dimensions. It emits
+  the exact RSC SHA-256
+  `e8892c7e6d16ec5502b7bfe557c85217160977a94e388d7796a290626d7ce462`,
+  the genuine RC4506 scaling warning and RC4509 type warning, empty stderr and
+  exit zero. All 133 first-entry encounters and strict cleanup match.
+
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
 controls are set separately. Its fresh final masked-original capture uses the
@@ -52,8 +59,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **272 functions and 63,642 unique
-original code bytes**, **85.30% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **276 functions and 63,980 unique
+original code bytes**, **85.75% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -216,3 +223,34 @@ matching references/adoptions and final gates remain under
 `0017-complete/`. There are 25 known pending application routines (2,252 bytes)
 and two unclassified routines (448 bytes); this is not a complete non-CRT
 coverage denominator. Further coherent workloads target those remaining owners.
+
+The cursor compatibility case adds four application bodies and 338 code bytes:
+weighted palette brightness, the file-warning wrapper and both cursor reducers.
+The original reducer operands establish source first and destination second;
+the old unaccepted prototype labels were reversed. Fresh actual calls alias
+both pointers, while focused native tests also use distinct buffers and verify
+untouched tails. The mono loader reads exactly 256 initialized plane bytes;
+width reduction writes 128 bytes and height reduction then reads those 128 bytes
+and writes 64. No allocator slack is consumed. Invalid/unproved dimensions stay
+held in both builds. The color path uses the previously bounded 16-row table;
+the unavailable eight-bit lookup and white-first inversion defect remain held.
+Adjacent source strings complete without reaching the separate concatenator.
+
+Shared formatting support is limited to the authenticated RC4506 template and
+its actual ANSI filename, signed line number and ASCII WCHAR filename inserts.
+The line comes from the resource token DWORD at 25064, distinct from reader
+line 27f7c. The exact resource template is contextual source data; no surrounding
+resource image is copied. Original per-call API state remains unmeasured. The
+untouched and final masked captures agree on complete inputs and outputs.
+
+The cursor final original took 1,237.936 ms; native matching took 10.414 ms
+(setup 5.356, execution 3.692, checks 1.365 ms). All six cached cases, 111 unit
+groups and both builds passed in 0.448 s. Strict graph/ABI and SEH checks passed
+in 0.972 s. An initial adapter suffix mismatch and scratch output-inventory
+selection errors were corrected against the same originals; their failures are
+not acceptance evidence. Raw source, assets, formatter denial/adoption, corrected
+ABI roles, bounds and final receipts remain under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/mac-cursor-compat/`, with closeout in `0007-complete/`.
+There are now 21 known pending application routines (1,914 bytes), plus the same
+two unclassified routines (448 bytes); the whole-text percentage remains the
+only qualified global coverage figure.

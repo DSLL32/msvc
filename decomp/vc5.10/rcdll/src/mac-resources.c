@@ -15,6 +15,63 @@ DWORD __stdcall rc_mac_long(DWORD value)
            ((value&0x00ff0000)>>8)|((value&0xff000000)>>24);
 }
 
+DWORD __stdcall rc_mac_color_brightness(const WORD *rgb)
+{
+    return 30*(rgb[0]>>8)+59*(rgb[1]>>8)+11*(rgb[2]>>8);
+}
+
+void __stdcall rc_reduce_cursor_width(const BYTE *input,BYTE *output,
+                                      int stride,int height)
+{
+    unsigned groups,group,pair,value;
+    BYTE packed=0;
+    if(stride<2||height<=0||(unsigned)(stride/2)>65535){ __asm int 3 }
+    groups=stride/2;
+    do{
+        for(group=0;group<groups;++group){
+            value=((unsigned)input[0]<<8)|input[1];
+            input+=2;
+            for(pair=0;pair<8;++pair){
+                packed>>=1;
+                if((value&3)==3)packed+=0x80;
+                value>>=2;
+            }
+            *output++=packed;
+        }
+        output+=groups&1;
+    }while(--height>0);
+}
+
+void __stdcall rc_reduce_cursor_height(const BYTE *input,BYTE *output,
+                                       int stride,int height,int scale)
+{
+    int rows,words,row;
+    WORD value;
+    const BYTE *next;
+    if(stride<2||height<=0||scale<=0){ __asm int 3 }
+    if(scale<=1){
+        memcpy(output,input,height*stride);
+        return;
+    }
+    rows=height/scale;
+    if(!rows){ __asm int 3 }
+    do{
+        words=(unsigned)stride>>1;
+        do{
+            value=*(const WORD *)input;
+            next=input;
+            row=scale-1;
+            do{
+                next+=stride;
+                value&=*(const WORD *)next;
+            }while(--row>0);
+            *(WORD *)output=value;
+            output+=2;input+=2;
+        }while(--words>0);
+        input+=stride*(scale-1);
+    }while(--rows>0);
+}
+
 void __stdcall rc_mac_group_icon(RcResourceType *unused_type,RcResource *resource)
 {
     RcImageDirectory directory;
@@ -631,4 +688,3 @@ DWORD __stdcall rc_mac_resource_type(const WCHAR *name,WORD id)
            ((DWORD)(BYTE)"0123456789ABCDEF"[(id>>4)&15]<<8)|
            (BYTE)"0123456789ABCDEF"[id&15];
 }
-

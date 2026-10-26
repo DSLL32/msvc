@@ -1,11 +1,19 @@
 #include <string.h>
 #include "command.h"
+#include "resources.h"
 #include <recon.h>
 #ifdef _MSC_VER
 #pragma intrinsic(strcmp)
 #endif
 
 int rc_line,rc_last_line,rc_message_count;
+
+void __stdcall rc_resource_file_warning(unsigned code,const WCHAR *name)
+{
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_token.line,name);
+    rc_emit_notice(rc_error_text);
+}
 
 void __stdcall rc_emit(char *message)
 {
