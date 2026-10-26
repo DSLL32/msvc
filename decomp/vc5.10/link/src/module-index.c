@@ -3,14 +3,8 @@
 #include "initializers.h"
 #include <recon.h>
 
-typedef struct ModuleIndexRecord {
-    DWORD value[2];
-} ModuleIndexRecord;
-typedef char ModuleIndexRecordSize[(sizeof(ModuleIndexRecord)==8)?1:-1];
-
 static BYTE reset_module_indices=1;
-/* These two values are copied into each assigned record. No writer or more
-   specific meaning has been found in the original image. */
+/* New slots copy the original empty symbol/string cache template. */
 static ModuleIndexRecord module_index_value;
 
 DWORD __cdecl allocate_module_index(void)
@@ -30,8 +24,8 @@ DWORD __cdecl allocate_module_index(void)
         if (buffer8.base) {
             previous=(ModuleIndexRecord *)buffer8.base;
             for (index=0;index<buffer8.remaining;++index) {
-                records[index].value[0]=previous[index].value[0];
-                records[index].value[1]=previous[index].value[1];
+                records[index].symbols=previous[index].symbols;
+                records[index].strings=previous[index].strings;
             }
             crt_operator_delete(buffer8.base);
         }
@@ -40,7 +34,7 @@ DWORD __cdecl allocate_module_index(void)
     }
     buffer8.remaining=requested;
     records=(ModuleIndexRecord *)buffer8.base;
-    records[requested-1].value[0]=module_index_value.value[0];
-    records[requested-1].value[1]=module_index_value.value[1];
+    records[requested-1].symbols=module_index_value.symbols;
+    records[requested-1].strings=module_index_value.strings;
     return buffer8.remaining-1;
 }

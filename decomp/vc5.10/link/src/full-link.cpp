@@ -6,6 +6,7 @@
 #include <string.h>
 #include <time.h>
 #include <io.h>
+#include <sys/stat.h>
 #include "link.h"
 #include "initializers.h"
 #include "../crt/crt-imports.h"
@@ -18,10 +19,10 @@ extern BYTE pdb_enabled, incremental_enabled, incremental_reuse;
 extern BYTE reproducible_build, mapped_debug, verbose_link;
 extern const char *output_file_name, *pdb_file_name, *map_file_name;
 extern const char *default_phase;
-extern char current_phase[32];
+extern char current_phase[36];
 extern FILE *map_output;
 extern ByteBuffer image_comments;
-extern InputArguments section_merges, weak_mac_imports, weak_mac_libraries;
+extern InputArguments section_merges, section_attributes, weak_mac_imports, weak_mac_libraries;
 
 /* Defined as each phase first consumes them, rather than copying an image's
  * unclassified data. Other passes will populate these named objects. */
@@ -43,7 +44,7 @@ BYTE file_access_statistics;
 int output_file;
 void *module_debug_table;
 char *old_image_name;
-char short_entry_name[8];
+extern char short_symbol_name[9];
 }
 
 /* These were inline file-cache operations in this driver. Keep their expansion
@@ -112,7 +113,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
     MacResource *resource;
     FileRecord *file_record;
     LinkContext old_image;
-    BYTE old_information[36];
+    struct _stat old_information;
 
     initialize_output_modules(&output_module);
     initialize_contribution_pools();
@@ -140,7 +141,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
     if (!incremental_enabled) {
         old_image_name=derive_old_image_name(this);
         if (old_image_name) {
-            if (read_old_image(old_image_name,0,&old_image,old_information))
+            if (read_old_image(old_image_name,0,&old_image,&old_information))
                 _unlink(old_image_name);
             release_memory(old_image_name);
         }
@@ -193,7 +194,7 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
             file_header.Machine==0x14c) {
             name=get_symbol_name(entry_symbol,symbols->hash.string_storage,
                                  &name_kind,NULL);
-            if (name_kind==1) name=strncpy(short_entry_name,name,8);
+            if (name_kind==1) name=strncpy(short_symbol_name,name,8);
             if (*name!='?' && !(*name=='_' && strlen(name)>4 &&
                                !strcmp(name+strlen(name)-3,"@12")))
                 link_warning(output_file_name,4086,name);
@@ -218,15 +219,15 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
     }
     if (duplicate_symbols || undefined_symbols) link_warning(output_file_name,4088);
     ApplyMerges();
-    if (section_merges.count) {
+    if (section_attributes.count) {
         initialize_section_enumerator(&section_enumerator,&sections);
         while (next_output_section(&section_enumerator))
             apply_section_merge(section_enumerator.current);
         end_section_enumerator(&section_enumerator);
     }
-    merge=section_merges.first;
-    for (index=0;(WORD)index<section_merges.count;++index,merge=merge->next) {
-        if (!(merge->reserved10 & 0x100)) {
+    merge=section_attributes.first;
+    for (index=0;(WORD)index<section_attributes.count;++index,merge=merge->next) {
+        if (!(merge->flags & 0x100)) {
             comma=strchr(merge->name,',');
             if (comma) *comma=0;
             link_warning(NULL,4039,merge->name);

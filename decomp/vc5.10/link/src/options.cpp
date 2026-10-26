@@ -773,3 +773,9 @@ next_option:
 #undef FIRST
 #undef REQUIRE_VALUE
 #undef REQUIRE_UNNAMED
+
+extern "C" BYTE __stdcall valid_section_name(const unsigned char *name)
+{
+    if (_mbschr(name,'$') || _mbschr(name,' ')) return 0;
+    return 1;
+}

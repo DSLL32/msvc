@@ -31,9 +31,17 @@ typedef struct LinkOptions {
 
 typedef struct LinkContext LinkContext;
 typedef struct LinkAuxiliaryData {
-    DWORD reserved[11];
+    DWORD procedure_count,emitted_procedure_count;
+    BYTE *procedure_data;
+    DWORD procedure_capacity,procedure_contribution_count;
+    void *contribution_records;
+    DWORD auxiliary_capacity,reserved1c;
+    void *auxiliary_records;
+    DWORD procedure_padding,procedure_record_size;
 #ifdef __cplusplus
-    void RECON_THISCALL PrepareOutput(void);
+    void RECON_THISCALL SetProcedureSize(WORD machine,DWORD bytes);
+    BYTE RECON_THISCALL PrepareOutput(void);
+    BYTE RECON_THISCALL WriteProcedures(WORD,void *,Contribution *);
     void RECON_THISCALL FinishOutput(LinkContext *context);
 #endif
 } LinkAuxiliaryData;
@@ -53,6 +61,17 @@ typedef struct LinkPointerList {
 typedef char DefaultLibraryListFields[(sizeof(LinkPointerList)==16 &&
     offsetof(LinkPointerList,suppress_default_libraries)==8 &&
     offsetof(LinkPointerList,default_libraries)==12)?1:-1];
+/* Incremental definition/export state; fields are named only where the
+ * definition-file producer or its incremental collector consumes them. */
+typedef struct IncrementalDefinition {
+    char *definition_name;
+    DWORD reserved04;
+    char *import_library_name;
+    DWORD import_library_time;
+    OutputModule *export_module;
+    InputArguments exports;
+} IncrementalDefinition;
+typedef char IncrementalDefinitionSize[(sizeof(IncrementalDefinition)==32)?1:-1];
 /* A contextual output-file payload, never executed by the reconstruction. */
 typedef struct DefaultDosImage {
     IMAGE_DOS_HEADER header;
@@ -92,10 +111,12 @@ struct LinkContext {
     DWORD dos_image_size, pe_header_offset;
     int is_vxd;
     DWORD reserved1e8;
-    BYTE dynamic_vxd, reserved1ed[83];
+    BYTE dynamic_vxd, reserved1ed[39];
+    IncrementalDefinition definition;
+    DWORD pdb_signature,pdb_age,pdb_fpo_count;
     DWORD pdb_module_count, reserved244;
     void *pdb_modules;
-    DWORD reserved24c[2], mac_module_count, reserved258;
+    DWORD fpo_directory_offset,mac_procedure_count, mac_module_count, reserved258;
     void *mac_modules;
     LinkAuxiliaryData *auxiliary;
     BYTE reserved264[24];
@@ -123,11 +144,13 @@ struct LinkContext {
     void RECON_THISCALL InitializeSections(void);
     DWORD RECON_THISCALL BuildDosExtension(void **buffer);
     void RECON_THISCALL ApplyMerges(void);
+    BYTE RECON_THISCALL MergeNamedSections(const char *source,const char *destination);
     void RECON_THISCALL PrepareMacDebugSections(void);
     void RECON_THISCALL PrepareMacRuntimeSections(void);
     void RECON_THISCALL PrepareNativeRelocations(void);
     BYTE RECON_THISCALL CanMergeReadOnlyData(void);
     void RECON_THISCALL MergeExceptionSections(void);
+    BYTE RECON_THISCALL CanMergeImportSections(void);
     void RECON_THISCALL ResolveEntryPoint(void);
     WORD RECON_THISCALL CountOutputSections(void);
     void RECON_THISCALL PrepareSectionLayout(void);
@@ -139,6 +162,7 @@ struct LinkContext {
     void RECON_THISCALL CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second);
     void RECON_THISCALL FinalizeOrder(void);
     void RECON_THISCALL FinishNativeSections(void);
+    void RECON_THISCALL WriteVxdRelocations(void);
     void RECON_THISCALL WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second);
     void RECON_THISCALL WriteLocalImports(Contribution *contribution,IncludeSymbol **aliases);
     void RECON_THISCALL EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset);
@@ -154,6 +178,7 @@ struct LinkContext {
     void RECON_THISCALL PrepareMacSections(void);
     void RECON_THISCALL PrepareMacSymbols(void);
     void RECON_THISCALL PrepareAuxiliarySections(void);
+    void RECON_THISCALL ApplyOrderFile(void);
     void RECON_THISCALL UpdateChecksum(void);
     void RECON_THISCALL WriteVxdModuleTable(int file);
     void RECON_THISCALL WriteVxdNames(int file);
@@ -169,6 +194,12 @@ extern HeaderWriter image_write_headers;
 #endif
 typedef char DefaultDosImageSize[(sizeof(DefaultDosImage)==128)?1:-1];
 typedef char LinkAuxiliaryDataSize[(sizeof(LinkAuxiliaryData)==44)?1:-1];
+typedef char LinkAuxiliaryOutputFields[(offsetof(LinkAuxiliaryData,procedure_data)==8 &&
+    offsetof(LinkAuxiliaryData,procedure_capacity)==12 &&
+    offsetof(LinkAuxiliaryData,contribution_records)==20 &&
+    offsetof(LinkAuxiliaryData,auxiliary_capacity)==24 &&
+    offsetof(LinkAuxiliaryData,auxiliary_records)==32 &&
+    offsetof(LinkAuxiliaryData,procedure_record_size)==40)?1:-1];
 typedef char LinkContextSymbolsAt1d0[(offsetof(LinkContext,symbols)==0x1d0)?1:-1];
 typedef char LinkContextPdbModulesAt248[(offsetof(LinkContext,pdb_modules)==0x248)?1:-1];
 typedef char LinkContextMacModulesAt25c[(offsetof(LinkContext,mac_modules)==0x25c)?1:-1];
@@ -180,6 +211,7 @@ typedef char LinkContextResourcesAt294[(offsetof(LinkContext,resources)==0x294)?
 typedef char LinkOptionsExtensionAt44[(offsetof(LinkOptions,default_extension)==0x44)?1:-1];
 typedef char LinkOptionsSize[(sizeof(LinkOptions)==108)?1:-1];
 typedef char LinkOptionsForceAt34[(offsetof(LinkOptions,force)==0x34)?1:-1];
+typedef char LinkContextDefinitionAt214[(offsetof(LinkContext,definition)==0x214)?1:-1];
 typedef char LinkContextEntryAt198[(offsetof(LinkContext,entry_name)==0x198)?1:-1];
 typedef char LinkContextIncludesAt1a4[(offsetof(LinkContext,includes)==0x1a4)?1:-1];
 typedef char LinkContextDynamicAt1ec[(offsetof(LinkContext,dynamic_vxd)==0x1ec)?1:-1];

@@ -1,7 +1,9 @@
 #include <windows.h>
 #include <string.h>
+#include <mbstring.h>
 #include "memory.h"
 #include "comdat.h"
+#include "sections.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
@@ -30,15 +32,32 @@ void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE li
     if (name) info->name=duplicate_comdat_name(name);
     if (linker_defined) contribution->characteristics |= 0x2000;
     info->fold_candidate=contribution;
-    info->reserved24=0;
-    info->reserved1c=0;
+    info->comparison_depth=0;
+    info->fold_relocations=NULL;
     info->fold_signature=0;
-    info->reserved18=0;
+    info->content_signature=0;
     if (last_comdat) info->previous_contribution=last_comdat;
     last_comdat=contribution;
 }
 void *__stdcall allocate_pool_memory(MemoryPool **,unsigned);
-#pragma intrinsic(strlen,memcpy)
+void __stdcall add_comdat_root(const char *name,StringNode *symbol,
+    Contribution *owner,ComdatRoot **roots)
+{
+    ComdatRoot *root=(ComdatRoot *)allocate_pool_memory(&comdat_names,12);
+    if (name) {
+        root->name=name;
+        root->kind=3;
+    } else if (symbol) {
+        root->symbol=symbol;
+        root->kind=2;
+    } else if (owner) {
+        root->owner=owner;
+        root->kind=1;
+    }
+    if (*roots) root->next=*roots;
+    *roots=root;
+}
+#pragma intrinsic(strlen,memcpy,strcmp)
 char *__stdcall duplicate_comdat_name(const char *name)
 {
     char *copy=(char *)allocate_pool_memory(&comdat_names,strlen(name)+1);
@@ -134,4 +153,192 @@ BYTE __stdcall next_comdat_reference(ComdatReferenceEnumerator *enumerator)
         ++enumerator->index;
     }
     return enumerator->current!=NULL;
+}
+
+/* Import address/name entries are marked before final RVAs are assigned. */
+void __stdcall prepare_module_imports(OutputModule *module)
+{
+    ModuleContributionEnumerator enumerator;
+    Contribution *contribution;
+    const char *name;
+    initialize_module_contribution_enumerator(&enumerator,module);
+    while (next_module_contribution(&enumerator)) {
+        contribution=enumerator.current;
+        name=contribution->group->name;
+        if (!strcmp(name,".idata$4") || !strcmp(name,".idata$5"))
+            contribution->rva=1;
+    }
+    end_section_enumerator((SectionEnumerator *)&enumerator);
+}
+
+/* This boundary resolves reference symbols; its inherited name predates the
+ * recovered traversal. The list is the same one populated by attach_comdat. */
+typedef struct ComdatEnumerator {
+    BYTE (__stdcall *next)(struct ComdatEnumerator *);
+    void (__stdcall *end)(void *);
+    Contribution *next_contribution;
+    ContributionInfo *current;
+} ComdatEnumerator;
+typedef char ComdatEnumeratorSize[(sizeof(ComdatEnumerator)==16)?1:-1];
+void __stdcall initialize_comdat_enumerator(ComdatEnumerator *,Contribution *);
+BYTE __stdcall next_comdat(ComdatEnumerator *);
+void __stdcall initialize_comdat_enumerator(ComdatEnumerator *enumerator,Contribution *first)
+{
+    enumerator->next=next_comdat;
+    enumerator->end=(void (__stdcall *)(void *))end_section_enumerator;
+    enumerator->next_contribution=first;
+    enumerator->current=NULL;
+}
+BYTE __stdcall next_comdat(ComdatEnumerator *enumerator)
+{
+    if(enumerator->current)
+        enumerator->next_contribution=enumerator->current->previous_contribution;
+    if(!enumerator->next_contribution)return 0;
+    enumerator->current=get_contribution_info(enumerator->next_contribution);
+    return 1;
+}
+StringNode *__stdcall find_import_symbol(StringNode *,StringTable *,BYTE);
+StringNode *__stdcall find_weak_default(StringNode *);
+StringNode *__stdcall find_import_symbol(StringNode *symbol,StringTable *table,BYTE prefix)
+{ __asm { int 3 } return NULL; }
+StringNode *__stdcall find_weak_default(StringNode *symbol)
+{ __asm { int 3 } return NULL; }
+void __stdcall redirect_comdat_reference(ComdatReference *,Contribution *);
+extern BYTE mac_target;
+void __stdcall add_special_comdat_roots(StringTable *symbols)
+{
+    ComdatEnumerator comdats;
+    ComdatReferenceEnumerator references;
+    ComdatReference *reference;
+    StringNode *symbol,*import_symbol;
+    initialize_comdat_enumerator(&comdats,last_comdat);
+    while(next_comdat(&comdats)) {
+        initialize_comdat_reference_enumerator(&references,comdats.current);
+        while(next_comdat_reference(&references)) {
+            reference=references.current;
+            if(!reference->contribution) {
+                symbol=reference->symbol;
+                if(!(symbol->flags & 1))reference->contribution=NULL;
+                else {
+                    reference->contribution=symbol->contribution;
+                    if(mac_target && reference->flag_byte) {
+                        if(symbol->symbol.Type & 0x8000) {
+                            import_symbol=find_import_symbol(symbol,symbols,0);
+                            if(!import_symbol)import_symbol=find_import_symbol(
+                                find_weak_default(symbol),symbols,0);
+                            redirect_comdat_reference(reference,import_symbol->contribution);
+                        } else reference->flag_byte=0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+void __stdcall initialize_comdat_root_enumerator(ComdatRootEnumerator *,ComdatRoot *);
+BYTE __stdcall next_comdat_root(ComdatRootEnumerator *);
+void __stdcall initialize_comdat_root_enumerator(ComdatRootEnumerator *enumerator,ComdatRoot *first)
+{
+    enumerator->next=next_comdat_root;
+    enumerator->end=(void (__stdcall *)(void *))end_section_enumerator;
+    enumerator->first=first;
+    enumerator->current=NULL;
+}
+BYTE __stdcall next_comdat_root(ComdatRootEnumerator *enumerator)
+{
+    if(enumerator->current)enumerator->current=enumerator->current->next;
+    else enumerator->current=enumerator->first;
+    return enumerator->current!=NULL;
+}
+void __stdcall mark_live_comdat(StringTable *symbols,Contribution *contribution)
+{
+    ComdatReferenceEnumerator references;
+    ComdatReference *reference;
+    if(contribution->characteristics & 0x2000)return;
+    contribution->characteristics |= 0x2000;
+    initialize_comdat_reference_enumerator(&references,get_contribution_info(contribution));
+    while(next_comdat_reference(&references)) {
+        reference=references.current;
+        if(reference->contribution)mark_live_comdat(symbols,reference->contribution);
+        if(mac_target && reference->redirected)mark_live_comdat(symbols,reference->redirected);
+    }
+}
+
+/* Retained between import-library groups, as in the original local static. */
+static BYTE import_modules_initialized;
+static OutputLibrary **import_libraries;
+static int import_library_capacity=5;
+BYTE __stdcall is_discardable_comdat(Contribution *contribution)
+{
+    return !(contribution->characteristics & 0x2000);
+}
+void *__stdcall reallocate_memory(void *,unsigned);
+void __stdcall append_import_module(OutputLibrary *library,OutputLibrary ***libraries,int *capacity,int *count)
+{
+    int current;
+    for(current=0;current<*count;++current)
+        if((*libraries)[current]==library)return;
+    if(*count>*capacity-1) {
+        *capacity*=2;
+        *libraries=(OutputLibrary **)reallocate_memory(*libraries,*capacity*4);
+    }
+    (*libraries)[*count]=library;
+    ++*count;
+}
+void __stdcall reset_import_modules(OutputLibrary **libraries,int *count)
+{
+    int index;
+    for(index=0;index<*count;++index)libraries[index]=NULL;
+    *count=0;
+}
+void __stdcall discard_module_imports(OutputLibrary *library,OutputSection *section,const char *name)
+{ __asm { int 3 } }
+void __cdecl finish_comdat_elimination(void)
+{
+    ContributionGroup *group;
+    Contribution *current,*previous;
+    OutputLibrary *library;
+    int count,live,index;
+    if(!import_section)return;
+    group=find_contribution_group(import_section,".idata$4");
+    if(!group)return;
+    if(!(import_modules_initialized & 1)) {
+        import_modules_initialized |= 1;
+        import_libraries=(OutputLibrary **)allocate_memory(import_library_capacity*4);
+    }
+    count=0;
+    previous=current=group->first;
+    /* The original dereferences the first module before its empty-list test. */
+    library=current->module->library;
+    if(!current)return;
+    while(current->next) {
+        live=0;
+        while(current && !_mbscmp((const unsigned char *)current->module->name,
+                                (const unsigned char *)previous->module->name)) {
+            if(!is_discardable_comdat(current))++live;
+            append_import_module(library,&import_libraries,
+                &import_library_capacity,&count);
+            previous=current;
+            current=current->next;
+            library=current ? current->module->library : NULL;
+        }
+        if(live==1) {
+            link_warning(NULL,4089,previous->module->name);
+            previous->characteristics |= 0x800;
+            for(index=0;index<count;++index) {
+                discard_module_imports(import_libraries[index],import_descriptor_section,".idata$2");
+                discard_module_imports(import_libraries[index],import_thunk_section,".idata$5");
+            }
+        }
+        reset_import_modules(import_libraries,&count);
+        previous=current;
+        if(!current)break;
+    }
+}
+
+void __cdecl release_comdat_tables(void)
+{
+    release_memory_pool(&comdat_names);
+    release_memory_arena(comdat_overflow_arena);
+    release_memory_arena(comdat_reference_arena);
 }

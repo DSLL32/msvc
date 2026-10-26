@@ -229,3 +229,36 @@ unsigned char __stdcall has_switch(const char *name)
     }
     return 0;
 }
+
+void __stdcall clear_argument_list(InputArguments *arguments)
+{
+    if(arguments->count) {
+        InputArgument *argument=arguments->first;
+        while(argument) {
+            InputArgument *next=argument->next;
+            release_memory(argument);
+            argument=next;
+        }
+        arguments->count=0;
+        arguments->last=arguments->first=NULL;
+    }
+}
+
+#pragma intrinsic(strcmp)
+void __stdcall remove_converted_arguments(InputArguments *arguments)
+{
+    InputArgument *argument=arguments->first;
+    unsigned index;
+    for(index=0;(WORD)index<arguments->count;++index) {
+        if(strcmp(argument->name,argument->original_name) && remove(argument->original_name)==-1)
+            link_fatal(NULL,1109,argument->original_name);
+        argument=argument->next;
+    }
+}
+/* The provisional cleanup_pdb name predates this body recovery. Its real role
+ * is removal of converted files in the existing link/ordinary argument lists. */
+void __cdecl cleanup_pdb(void)
+{
+    remove_converted_arguments(&link_files);
+    remove_converted_arguments(&ordinary_files);
+}

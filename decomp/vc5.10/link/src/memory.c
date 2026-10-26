@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include "files.h"
 #include "memory.h"
+#include "arguments.h"
 #include "link.h"
 #include <recon.h>
 
@@ -116,4 +117,27 @@ void *__stdcall allocate_pool_memory(MemoryPool **pool,unsigned bytes)
     (*pool)->used+=bytes;
     (*pool)->remaining-=bytes;
     return memory;
+}
+
+void __stdcall release_memory_pool(MemoryPool **pool)
+{
+    MemoryPool *block;
+    while(*pool) {
+        block=*pool;
+        *pool=block->previous;
+        release_memory(block);
+    }
+}
+
+void __stdcall release_memory_arena(MemoryArena *arena)
+{
+    MemoryArena *block;
+    while(arena) {
+        if(!VirtualFree(arena->base,arena->used+arena->remaining,MEM_DECOMMIT))
+            link_fatal(NULL,1000);
+        if(!VirtualFree(arena->base,0,MEM_RELEASE))link_fatal(NULL,1000);
+        block=arena;
+        arena=arena->previous;
+        release_memory(block);
+    }
 }

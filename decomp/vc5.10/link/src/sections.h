@@ -11,11 +11,24 @@ typedef struct GroupEnumerator {
     ContributionGroup *current;
 } GroupEnumerator;
 typedef char GroupEnumeratorSize[(sizeof(GroupEnumerator)==16)?1:-1];
-void __stdcall initialize_group_enumerator(GroupEnumerator *,OutputSection *);
-BYTE __stdcall next_contribution_group(GroupEnumerator *);
+typedef struct GroupContributionEnumerator {
+    BYTE (__stdcall *next)(struct GroupContributionEnumerator *);
+    void (__stdcall *end)(struct GroupContributionEnumerator *);
+    ContributionGroup *group;
+    Contribution *current;
+} GroupContributionEnumerator;
+typedef char GroupContributionEnumeratorSize[(sizeof(GroupContributionEnumerator)==16)?1:-1];
+
 #ifdef __cplusplus
 extern "C" {
 #endif
+void __stdcall initialize_group_enumerator(GroupEnumerator *,OutputSection *);
+BYTE __stdcall next_contribution_group(GroupEnumerator *);
+
+void __stdcall initialize_group_contributions(GroupContributionEnumerator *,ContributionGroup *);
+BYTE __stdcall next_group_contribution(GroupContributionEnumerator *);
+void __stdcall move_section_to_end(OutputSection *,SectionList *);
+void __stdcall partition_sections(SectionList *,DWORD,DWORD);
 extern OutputSection *bss_section,*small_data_section,*read_only_section,*data_section;
 extern OutputSection *procedure_section,*exception_section,*export_section,*debug_section;
 extern OutputSection *import_section,*import_thunk_section,*import_descriptor_section;

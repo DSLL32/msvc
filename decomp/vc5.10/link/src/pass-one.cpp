@@ -11,6 +11,7 @@
 #include "pass-one.h"
 #include "memory.h"
 #include "input.h"
+#include "sections.h"
 #include <recon.h>
 
 extern "C" {
@@ -19,7 +20,7 @@ extern BYTE module_section_pools_ready,incremental_enabled;
 extern MemoryArena *output_library_arena;
 extern const char *output_file_name,*entry_point_name,*definition_file;
 extern char *repro_directory;
-extern char current_phase[32];
+extern char current_phase[36];
 extern StringNode *entry_symbol;
 extern DWORD undefined_symbols;
 extern WORD warning_level;
@@ -176,6 +177,10 @@ extern "C" void __stdcall check_output_input_collision(const char *output,InputA
 void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,OutputLibrary *library)
 {
     OutputModule *module;
+#ifdef __linux__
+    if(strlen(argument->name)>=sizeof(current_phase))
+        recon_unsupported("current_phase input exceeds observed prefix");
+#endif
     strcpy(current_phase,argument->name);
     current_input_file=open_argument_file(argument->original_name,0x8000,0);
     module=read_input_argument(argument,library,this);
@@ -187,8 +192,7 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
     close_argument_file(current_input_file,0);
 }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
-extern "C" OutputLibrary *__stdcall load_next_default_library(LinkPointerList *list)
-{ __asm { int 3 } return NULL; }
+extern "C" OutputLibrary *__stdcall load_next_default_library(LinkPointerList *list);
 extern "C" void __stdcall ensure_library_loaded(LinkContext *context,OutputLibrary *library)
 {
     if (library->name && !library->index_data[3]) {
@@ -199,9 +203,6 @@ extern "C" void __stdcall ensure_library_loaded(LinkContext *context,OutputLibra
         current_input_file=saved_file;
     }
 }
-void RECON_THISCALL OutputLibrary::SearchSymbols(LinkContext *context,
-    BYTE *changed,BYTE *keep_searching)
-{ __asm { int 3 } }
 extern "C" void __stdcall search_libraries(LinkContext *context)
 {
     OutputLibrary *last_changed=NULL,*library;
@@ -383,16 +384,86 @@ extern "C" BYTE __stdcall infer_entry_point(LinkContext *context)
     entry_point_name=duplicate_argument(startup);
     return resolve_initial_entry(context);
 }
-extern "C" BYTE __stdcall process_definition_file(LinkContext *context,const char *name) { __asm { int 3 } return 0; }
 extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context) { __asm { int 3 } }
-extern "C" void __stdcall set_subsystem_version(LinkContext *context) { __asm { int 3 } }
+extern "C" void __stdcall set_subsystem_version(LinkContext *context)
+{
+    WORD major,minor;
+    switch(context->optional_header.Subsystem) {
+    case IMAGE_SUBSYSTEM_NATIVE:
+    case IMAGE_SUBSYSTEM_WINDOWS_GUI:
+    case IMAGE_SUBSYSTEM_WINDOWS_CUI:
+        major=4; minor=0; break;
+    case IMAGE_SUBSYSTEM_POSIX_CUI:
+        major=19; minor=90; break;
+    case 9:
+        major=2; minor=0; break;
+    default:
+        major=minor=0; break;
+    }
+    context->optional_header.MajorSubsystemVersion=major;
+    context->optional_header.MinorSubsystemVersion=minor;
+}
 extern "C" void __stdcall warn_unused_libraries(OutputLibrary *library) { __asm { int 3 } }
-extern "C" void __stdcall warn_missing_default_libraries(LinkPointerList *libraries) { __asm { int 3 } }
-extern "C" void __stdcall warn_unused_delay_libraries(void) { __asm { int 3 } }
+extern "C" OutputLibrary *__stdcall find_loaded_default_library(const char *,LinkPointerList *);
+extern "C" void __stdcall warn_missing_default_libraries(LinkPointerList *libraries)
+{
+    DefaultLibrary *item;
+    OutputLibrary *loaded;
+    char module_name[MAX_PATH*2];
+    if(libraries->suppress_default_libraries)return;
+    for(item=libraries->default_libraries;item;item=item->next) {
+        if(item->flags & 4)continue;
+        loaded=find_loaded_default_library(item->name,libraries);
+        if(loaded && !(loaded->flags & 8))continue;
+        if((item->flags & 8) && (item->flags & 0x40)) {
+            if(item->owner) {
+                format_module_name((OutputModule *)item->owner,module_name);
+                link_warning(module_name,4098,item->name);
+            } else link_warning(NULL,4098,item->name);
+        }
+    }
+}
+extern "C" void __stdcall warn_unused_delay_libraries(void)
+{
+    InputArgument *argument=delay_libraries.first;
+    unsigned index=0;
+    while(argument && index<delay_libraries.count) {
+        if(!((WORD)argument->flags & 0x200))
+            link_warning(NULL,4199,argument->name,argument->name);
+        argument=argument->next;
+        ++index;
+    }
+}
 
 extern "C" void __stdcall read_library_index(OutputLibrary *library,LinkContext *context)
 {
     DWORD error=0;
     seek_file(current_input_file,8,0,&error);
     library->ReadIndex(context);
+}
+
+extern "C" char * __stdcall derive_old_image_name(LinkContext *context)
+{
+    InputArgument *argument;
+    unsigned index;
+    int file;
+    BYTE archive;
+    char drive[4],directory[256],name[256],path[260];
+    if(!output_file_name) {
+        argument=link_files.first;
+        for(index=0;index<link_files.count;++index) {
+            file=open_argument_file(argument->name,0x8000,0);
+            archive=is_archive(argument->name,file);
+            close_argument_file(file,0);
+            if(!archive) {
+                infer_output_file_name(context,argument);
+                break;
+            }
+            argument=argument->next;
+        }
+    }
+    if(!output_file_name)return NULL;
+    _splitpath(output_file_name,drive,directory,name,NULL);
+    _makepath(path,drive,directory,name,".ilk");
+    return duplicate_argument(path);
 }

@@ -19,12 +19,8 @@ int __stdcall update_incremental_symbol(const char *name,IMAGE_SYMBOL *raw,
 void __stdcall process_mac_common(LinkContext *context,StringNode *symbol,
     IMAGE_SYMBOL *raw,const char *name,BYTE created,OutputModule *module)
 { __asm { int 3 } }
-void __stdcall remember_common_symbol(void *list,StringNode *symbol)
-{ __asm { int 3 } }
 void __stdcall clear_incremental_undefined(StringNode *symbol,LinkContext *context)
 { __asm { int 3 } }
 void __stdcall process_mac_undefined(LinkContext *context,StringNode *symbol,
     IMAGE_SYMBOL *raw,const char *name,BYTE created,OutputModule *module)
-{ __asm { int 3 } }
-void __stdcall prepare_module_imports(OutputModule *module)
 { __asm { int 3 } }

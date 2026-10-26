@@ -10,6 +10,13 @@ typedef struct LibraryEnumerator {
     OutputLibrary *first,*current;
 } LibraryEnumerator;
 typedef char LibraryEnumeratorSize[(sizeof(LibraryEnumerator)==16)?1:-1];
+typedef struct ModuleEnumerator {
+    BYTE (__stdcall *next)(struct ModuleEnumerator *);
+    void (__stdcall *end)(struct ModuleEnumerator *);
+    OutputLibrary *library;
+    OutputModule *current;
+} ModuleEnumerator;
+typedef char ModuleEnumeratorSize[(sizeof(ModuleEnumerator)==16)?1:-1];
 
 #ifdef __cplusplus
 extern "C" {
@@ -30,6 +37,8 @@ void __stdcall warn_unused_libraries(OutputLibrary *);
 void __stdcall warn_missing_default_libraries(LinkPointerList *);
 void __stdcall initialize_library_enumerator(LibraryEnumerator *,OutputLibrary *);
 BYTE __stdcall next_library(LibraryEnumerator *);
+void __stdcall initialize_module_enumerator(ModuleEnumerator *,OutputLibrary *);
+BYTE __stdcall next_module(ModuleEnumerator *);
 void __stdcall warn_unused_delay_libraries(void);
 #ifdef __cplusplus
 }

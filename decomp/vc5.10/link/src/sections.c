@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "sections.h"
+#include "link.h"
 #include "memory.h"
 #include "full-link-functions.h"
 #include <recon.h>
@@ -130,6 +131,17 @@ void __stdcall adjust_output_section_flags(DWORD *flags,const char *name,IMAGE_O
     *flags=value;
 }
 
+/* Only the reached diagnostic owner has a modeled prefix. Other caller
+ * destinations retain the original formatter contract. Check before appending. */
+#ifdef __linux__
+#define APPEND_MODULE_NAME(text) do { \
+    if(name==current_phase && strlen(name)+strlen(text)>=sizeof(current_phase)) \
+        recon_unsupported("current_phase module name exceeds observed prefix"); \
+    strcat(name,(text)); \
+} while(0)
+#else
+#define APPEND_MODULE_NAME(text) strcat(name,(text))
+#endif
 char *__stdcall format_module_name(OutputModule *module,char *name)
 {
     char basename[256],extension[256];
@@ -137,16 +149,17 @@ char *__stdcall format_module_name(OutputModule *module,char *name)
     if (!module) return name;
     if (!(module->library->flags & 16)) {
         _splitpath(module->library->name,NULL,NULL,basename,extension);
-        strcat(name,basename);
-        strcat(name,extension);
-        strcat(name,"(");
+        APPEND_MODULE_NAME(basename);
+        APPEND_MODULE_NAME(extension);
+        APPEND_MODULE_NAME("(");
     }
     _splitpath(module->name,NULL,NULL,basename,extension);
-    strcat(name,basename);
-    strcat(name,extension);
-    if (!(module->library->flags & 16)) strcat(name,")");
+    APPEND_MODULE_NAME(basename);
+    APPEND_MODULE_NAME(extension);
+    if (!(module->library->flags & 16)) APPEND_MODULE_NAME(")");
     return name;
 }
+#undef APPEND_MODULE_NAME
 OutputSection *__stdcall resolve_output_section(OutputSection *section)
 {
     OutputSection *resolved=section;
@@ -240,4 +253,143 @@ ContributionInfo *__stdcall get_contribution_info(Contribution *contribution)
         return (ContributionInfo *)((BYTE *)contribution+64);
     index=(WORD)((LONG)(address-base)>>6);
     return module->contribution_info+index;
+}
+
+OutputSection *__stdcall find_output_section(const char *name,SectionList *sections)
+{
+    SectionEnumerator enumerator;
+    initialize_section_enumerator(&enumerator,sections);
+    while(next_output_section(&enumerator)) {
+        if(!strcmp(enumerator.current->name,name))break;
+    }
+    end_section_enumerator(&enumerator);
+    return resolve_output_section(enumerator.current);
+}
+
+void __stdcall merge_section_groups(OutputSection *source,OutputSection *destination)
+{
+    ContributionGroup *left,*right,**last;
+    if(resolve_output_section(source)==destination)return;
+    destination=resolve_output_section(destination);
+    left=source->groups;
+    right=destination->groups;
+    last=&destination->groups;
+    while(left || right) {
+        if(left && (!right || strcmp(left->name,right->name)<0)) {
+            left->section=destination;
+            *last=left;
+            left=left->next;
+        } else {
+            *last=right;
+            right=right->next;
+        }
+        last=&(*last)->next;
+    }
+    *last=NULL;
+    source->groups=NULL;
+    source->merge_target=destination;
+}
+
+void __stdcall merge_output_section(OutputSection *source,OutputSection *destination)
+{
+    ContributionGroup **last;
+    if(resolve_output_section(source)==destination)return;
+    destination=resolve_output_section(destination);
+    last=&destination->groups;
+    while(*last)last=&(*last)->next;
+    *last=source->groups;
+    while(*last) {
+        (*last)->section=destination;
+        last=&(*last)->next;
+    }
+    source->groups=NULL;
+    source->merge_target=destination;
+}
+
+void __stdcall move_named_group(const char *name,OutputSection *source,OutputSection *destination)
+{
+    ContributionGroup *group,*current,**previous,**position;
+    group=find_contribution_group(source,name);
+    if(!group)return;
+    previous=&source->groups;
+    current=*previous;
+    while(current!=group && current) {
+        previous=&current->next;
+        current=*previous;
+    }
+    *previous=group->next;
+    destination=resolve_output_section(destination);
+    position=&destination->groups;
+    current=*position;
+    while(current && strcmp(group->name,current->name)>=0) {
+        position=&current->next;
+        current=current->next;
+    }
+    *position=group;
+    group->next=current;
+    group->section=destination;
+}
+
+/* The inherited provisional name is misleading: the original prepends. */
+void __stdcall move_group_to_end(ContributionGroup *group)
+{
+    OutputSection *section=group->section;
+    ContributionGroup **previous=&section->groups;
+    if(*previous==group)return;
+    while(*previous!=group)previous=&(*previous)->next;
+    *previous=group->next;
+    group->next=section->groups;
+    section->groups=group;
+}
+
+void __stdcall move_section_to_end(OutputSection *section,SectionList *sections)
+{
+    OutputSection **previous;
+    if(sections->last==&section->next)return;
+    previous=&sections->first;
+    while(*previous!=section)previous=&(*previous)->next;
+    *previous=section->next;
+    *sections->last=section;
+    sections->last=&section->next;
+    section->next=NULL;
+}
+void __stdcall partition_sections(SectionList *sections,DWORD mask,DWORD value)
+{
+    OutputSection **order=(OutputSection **)allocate_memory(output_section_count*4);
+    SectionEnumerator enumerator;
+    DWORD copied=0;
+    WORD index;
+    initialize_section_enumerator(&enumerator,sections);
+    while(next_output_section(&enumerator))order[(WORD)copied++]=enumerator.current;
+    sections->last=&sections->first;
+    for(index=0;index<output_section_count;++index) {
+        if((order[index]->characteristics & mask)==value) {
+            *sections->last=order[index];
+            sections->last=&order[index]->next;
+        }
+    }
+    for(index=0;index<output_section_count;++index) {
+        if((order[index]->characteristics & mask)!=value) {
+            *sections->last=order[index];
+            sections->last=&order[index]->next;
+        }
+    }
+    *sections->last=NULL;
+    release_memory(order);
+}
+
+OutputSection *__stdcall find_input_output_section(OutputModule *module,const char *name,
+    DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header)
+{
+    const char *base;
+    OutputSection *section;
+    SectionEnumerator enumerator;
+    split_section_name(name,&base);
+    section=find_matching_output_section(module,base,flags,sections,header);
+    if(section && find_contribution_group(section,name))return section;
+    initialize_section_enumerator(&enumerator,sections);
+    while(next_output_section(&enumerator))
+        if(find_contribution_group(enumerator.current,name))break;
+    end_section_enumerator(&enumerator);
+    return enumerator.current;
 }

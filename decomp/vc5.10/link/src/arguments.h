@@ -18,7 +18,7 @@ typedef struct InputArgument {
     char *name;
     char *original_name;
     SwitchInfo *switch_info;
-    DWORD input_tag, reserved10; /* Opaque tag carried into a module/library. */
+    DWORD input_tag, flags; /* Opaque tag and argument-selection flags. */
     struct InputArgument *next;
 } InputArgument;
 typedef struct InputArguments {

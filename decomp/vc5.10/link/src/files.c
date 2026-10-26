@@ -55,6 +55,19 @@ unsigned __stdcall mapped_read(FileRecord *record,void *buffer,unsigned bytes)
     record->file_size=(LONG)((DWORD)record->file_size+bytes);
     return bytes;
 }
+unsigned __stdcall mapped_write(FileRecord *record,const void *buffer,unsigned bytes)
+{
+    DWORD error=0;
+    LONG end=(LONG)((DWORD)record->file_size+bytes);
+    if(end>record->mapping_size && !resize_file_mapping(record,end,&error))
+        link_fatal(record->name,1106,(DWORD)record->file_size+bytes);
+    /* Resizing may replace the view and cursor, so reload both afterwards. */
+    end=(LONG)((DWORD)record->file_size+bytes);
+    if(end>record->size)record->size=end;
+    memcpy((char *)record->view+record->file_size,buffer,bytes);
+    record->file_size=(LONG)((DWORD)record->file_size+bytes);
+    return bytes;
+}
 BYTE __stdcall resize_file_mapping(FileRecord *record,LONG minimum,DWORD *error)
 {
     __asm { int 3 }
@@ -226,7 +239,23 @@ FileRecord *__cdecl get_available_file_record(void)
     return record;
 }
 int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
-BOOL __stdcall close_mapped_file(FileRecord *record) { __asm { int 3 } return 0; }
+BOOL __stdcall close_mapped_file(FileRecord *record)
+{
+    BOOL result;
+    unsigned index;
+    if(!record->file)return 1;
+    if(!UnmapViewOfFile(record->view))link_fatal(NULL,1105,record->name);
+    if(record->flags & 2) {
+        if(SetFilePointer(record->file,record->size,NULL,FILE_BEGIN)!=(DWORD)record->size ||
+           !SetEndOfFile(record->file))link_fatal(NULL,1105,record->name);
+    }
+    result=CloseHandle(record->file);
+    if(!result)link_fatal(NULL,1105,record->name);
+    for(index=0;index<16;++index)
+        if(mapped_files[index]==record)mapped_files[index]=NULL;
+    if(record->name)release_memory(record->name);
+    return result;
+}
 LONG __stdcall seek_mapped_file(FileRecord *record,LONG offset,int origin,DWORD *error)
 {
     if (origin==FILE_BEGIN) record->file_size=offset;
@@ -373,5 +402,79 @@ void __stdcall cache_file_record(FileRecord *record)
         move_file_record(oldest,&cached_files,&cached_file_tail,&file_newest,NULL,0);
         if (oldest->flags & 8) close_mapped_file(oldest);
         else close_buffered_file(oldest);
+    }
+}
+
+/* Only this existing handle field of the converted-input owner is consumed.
+ * This is a prefix, not a claim about the complete auxiliary object. */
+typedef struct ConvertedInputFile {
+    DWORD reserved[23];
+    int file;
+} ConvertedInputFile;
+typedef char ConvertedInputHandleAt5c[(offsetof(ConvertedInputFile,file)==0x5c)?1:-1];
+int __stdcall open_module_file(OutputModule *module,int flags,int access)
+{
+    if(module->flags & 0x40)
+        return ((ConvertedInputFile *)module->auxiliary)->file;
+    return open_argument_file((module->library->flags & 16) ?
+        (const char *)module->identity : module->library->name,flags,access);
+}
+
+extern unsigned __stdcall buffered_write(FileRecord *,const void *,unsigned);
+void __stdcall write_section_header(int file,const IMAGE_SECTION_HEADER *header,IMAGE_SECTION_HEADER *destination)
+{
+    FileRecord *record;
+    if(destination) {
+        memcpy(destination,header,sizeof(IMAGE_SECTION_HEADER));
+        return;
+    }
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags & 8)mapped_write(record,header,sizeof(IMAGE_SECTION_HEADER));
+    else buffered_write(record,header,sizeof(IMAGE_SECTION_HEADER));
+}
+
+void __stdcall write_file_header(int file,IMAGE_FILE_HEADER *header,IMAGE_FILE_HEADER *destination)
+{
+    FileRecord *record;
+    header->Characteristics|=IMAGE_FILE_32BIT_MACHINE;
+    if(destination) {
+        memcpy(destination,header,sizeof(*header));
+        return;
+    }
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags & 8)mapped_write(record,header,sizeof(*header));
+    else buffered_write(record,header,sizeof(*header));
+}
+
+void __stdcall write_optional_header(int file,const IMAGE_OPTIONAL_HEADER *header,WORD bytes)
+{
+    FileRecord *record;
+    if(!bytes)return;
+    if(file_access_statistics)record_file_access();
+    record=file_slots[file];
+    if(record->flags & 8)mapped_write(record,header,bytes);
+    else buffered_write(record,header,bytes);
+}
+
+void __cdecl close_files(void)
+{
+    FileRecord *record=pending_files;
+    while(record) {
+        FileRecord *next=record->previous;
+        move_file_record(record,&pending_files,NULL,&file_newest,NULL,0);
+        if(record->flags & 8)close_mapped_file(record);
+        else close_buffered_file(record);
+        record=next;
+    }
+    record=cached_files;
+    while(record) {
+        FileRecord *next=record->previous;
+        --cached_file_count;
+        move_file_record(record,&cached_files,&cached_file_tail,&file_newest,NULL,0);
+        if(record->flags & 8)close_mapped_file(record);
+        else close_buffered_file(record);
+        record=next;
     }
 }

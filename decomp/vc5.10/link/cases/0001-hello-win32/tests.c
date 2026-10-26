@@ -2,12 +2,19 @@
 #include <recon-tool.h>
 #include <recon-native.h>
 #include <string.h>
+#include <stdarg.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <sys/wait.h>
 #include "../../src/input.h"
 #include "../../src/memory.h"
 #include "../../src/comdat.h"
 #include "../../src/initializers.h"
 #include "../../src/files.h"
 #include "../../src/options.h"
+#include "../../src/pass-one.h"
+#include "../../src/full-link-functions.h"
+#include "../../src/sections.h"
 #include "../../harness/startup.h"
 #include <recon.h>
 
@@ -1422,7 +1429,1301 @@ static int library_file_restore(void)
     return recon_native_at_entry(ensure_library_loaded,check_library_file_restore,
         invoke_hello,NULL)==1;
 }
+extern void __stdcall initialize_undefined_enumerator(void *,StringTable *);
+static void __stdcall check_undefined_enumerator_input(void *output,StringTable *table)
+{
+    recon_native_entry_finish(output && table && table->undefined_first &&
+        table->hash.state && table->hash.state->key_name==string_key_name &&
+        entry_symbol && !(entry_symbol->flags & 1) &&
+        native_find_entry_symbol(table,"_WinMainCRTStartup")==entry_symbol);
+}
+static int undefined_enumerator_input(void)
+{
+    return recon_native_at_entry(initialize_undefined_enumerator,
+        check_undefined_enumerator_input,invoke_hello,NULL)==1;
+}
+typedef struct TestUndefinedEnumerator {
+    BYTE (__stdcall *next)(struct TestUndefinedEnumerator *);
+    void (__stdcall *end)(struct TestUndefinedEnumerator *);
+    StringNode *next_symbol,*current;
+} TestUndefinedEnumerator;
+extern BYTE __stdcall next_undefined(TestUndefinedEnumerator *);
+static BYTE __stdcall check_undefined_enumerator(TestUndefinedEnumerator *e)
+{
+    StringNode *symbol;
+    unsigned count=0;
+    if (!(e && e->next==next_undefined &&
+        (void *)e->end==(void *)end_section_enumerator && e->next_symbol &&
+        !(e->next_symbol->flags & 1) && e->next_symbol->undefined_previous &&
+        *e->next_symbol->undefined_previous==e->next_symbol)) recon_native_entry_finish(0);
+    /* current is own unwritten prestate until the first genuine step. */
+    symbol=e->next_symbol;
+    while (symbol) {
+        StringNode *following=symbol->undefined_next;
+        if (++count>8192 || !next_undefined(e) || e->current!=symbol ||
+            e->next_symbol!=following) recon_native_entry_finish(0);
+        symbol=following;
+    }
+    recon_native_entry_finish(count && !next_undefined(e) && !e->current && !e->next_symbol);
+    return 0;
+}
+static int undefined_enumerator(void)
+{
+    return recon_native_at_entry(next_undefined,check_undefined_enumerator,
+        invoke_hello,NULL)==1;
+}
+extern BYTE RECON_THISCALL native_find_symbol_member(OutputLibrary *,LinkContext *,StringNode *,const char *,DWORD *)
+    __asm__("_ZN13OutputLibrary16FindSymbolMemberEP11LinkContextP10StringNodePKcPm");
+static BYTE RECON_THISCALL check_find_symbol_member_input(OutputLibrary *library,
+    LinkContext *context,StringNode *symbol,const char *name,DWORD *offset)
+{
+    WORD kind;
+    const char *expected;
+    if (!(context && library==context->command_line_library->next && symbol &&
+        !(symbol->flags & 0x4140) && !symbol->symbol.SectionNumber && !symbol->symbol.Value &&
+        name && offset==&archive_member_offset)) recon_native_entry_finish(0);
+    expected=get_symbol_name(symbol,context->symbols->hash.string_storage,&kind,NULL);
+    recon_native_entry_finish(expected && (kind==1 ? !memcmp(name,expected,8) : !strcmp(name,expected)));
+    return 0;
+}
+static int find_symbol_member_input(void)
+{
+    return recon_native_at_entry(native_find_symbol_member,check_find_symbol_member_input,
+        invoke_hello,NULL)==1;
+}
+extern int __cdecl compare_archive_symbol_names(const void *,const void *);
+static int __cdecl check_archive_compare_inputs(const void *key,const void *element)
+{
+    OutputLibrary *library=current_input_library->next;
+    if (!(library && library->archive_symbol_count==1353 &&
+        element==(const char **)library->index_data[3]+676 &&
+        key && *(const char *const *)key &&
+        !strcmp(*(const char *const *)key,"__imp__PostQuitMessage@4") &&
+        !strcmp(*(const char *const *)element,"__imp__CloseConsoleHandle@4")))
+        recon_native_entry_finish(0);
+    recon_native_entry_finish(compare_archive_symbol_names(key,element)==1 &&
+        compare_archive_symbol_names(element,key)==-1 && compare_archive_symbol_names(key,key)==0);
+    return 0;
+}
+static int archive_compare_inputs(void)
+{
+    return recon_native_at_entry(compare_archive_symbol_names,check_archive_compare_inputs,
+        invoke_hello,NULL)==1;
+}
+extern OutputLibrary *__stdcall load_next_default_library(LinkPointerList *);
+static OutputLibrary *__stdcall check_default_library_input(LinkPointerList *list)
+{
+    static const char *const names[]={"user32.lib","gdi32.lib","LIBC","OLDNAMES"};
+    DefaultLibrary *library;
+    unsigned i;
+    if (!(list && list->first==current_input_library && !list->suppress_default_libraries &&
+        list->last==(void **)&current_input_library->next->next &&
+        current_input_library->next->flags==1)) recon_native_entry_finish(0);
+    library=list->default_libraries;
+    for (i=0;i<4;++i) {
+        if (!library || strcmp(library->name,names[i]) || library->flags!=8 || library->owner)
+            recon_native_entry_finish(0);
+        library=library->next;
+    }
+    recon_native_entry_finish(library==NULL);
+    return NULL;
+}
+static int default_library_input(void)
+{
+    return recon_native_at_entry(load_next_default_library,check_default_library_input,
+        invoke_hello,NULL)==1;
+}
+extern OutputLibrary *__stdcall find_loaded_default_library(const char *,LinkPointerList *);
+static OutputLibrary *__stdcall check_default_library_attempt(const char *name,LinkPointerList *list)
+{
+    DefaultLibrary *first=list->default_libraries;
+    if (!(first && name==first->name && !strcmp(name,"user32.lib") &&
+        first->flags==0x28 && !first->owner && first->next && first->next->flags==8 &&
+        list->first==current_input_library && current_input_library->next &&
+        current_input_library->next->flags==1 && !current_input_library->next->next))
+        recon_native_entry_finish(0);
+    recon_native_entry_finish(!find_loaded_default_library(name,list) &&
+        find_loaded_default_library("kernel32",list)==current_input_library->next &&
+        find_loaded_default_library("R:\\toolchains\\5.10\\lib\\kernel32.lib",list)==
+            current_input_library->next && first->flags==0x28 && !first->owner);
+    return NULL;
+}
+static int default_library_attempt(void)
+{
+    return recon_native_at_entry(find_loaded_default_library,check_default_library_attempt,
+        invoke_hello,NULL)==1;
+}
+extern const char *RECON_THISCALL native_library_member_name(OutputLibrary *,const IMAGE_ARCHIVE_MEMBER_HEADER *)
+    __asm__("_ZN13OutputLibrary10MemberNameEPK27IMAGE_ARCHIVE_MEMBER_HEADER");
+static const char *RECON_THISCALL check_library_member_header(OutputLibrary *library,
+    const IMAGE_ARCHIVE_MEMBER_HEADER *header)
+{
+    FileRecord *record=file_slots[current_input_file];
+    recon_native_entry_finish(library==current_input_library->next->next &&
+        (library->flags & 0xb)==0xb && library->name && record && record->view &&
+        !strcmp(record->name,library->name) && header && archive_member_offset>=60 &&
+        archive_member_size>=20 && record->file_size==archive_member_offset &&
+        (DWORD)record->size>=archive_member_offset+archive_member_size &&
+        !memcmp(header,(const BYTE *)record->view+archive_member_offset-60,60) &&
+        header->EndHeader[0]=='`' && header->EndHeader[1]=='\n');
+    return NULL;
+}
+static int library_member_header(void)
+{
+    return recon_native_at_entry(native_library_member_name,check_library_member_header,
+        invoke_hello,NULL)==1;
+}
+extern const char *__stdcall archive_member_name(const IMAGE_ARCHIVE_MEMBER_HEADER *,const char *);
+static const char *__stdcall check_archive_name_input(const IMAGE_ARCHIVE_MEMBER_HEADER *header,
+    const char *long_names)
+{
+    FileRecord *record=file_slots[current_input_file];
+    OutputLibrary *library=current_input_library->next->next;
+    char expected[17],*slash;
+    const char *actual;
+    memcpy(expected,header->Name,16);
+    expected[16]=0;
+    slash=strrchr(expected,'/');
+    if (!slash) { recon_native_entry_finish(0); return NULL; }
+    *slash=0;
+    actual=archive_member_name(header,long_names);
+    recon_native_entry_finish(actual && !strcmp(actual,expected) &&
+        archive_member_name(header,long_names)==actual && header && record && record->view &&
+        !memcmp(header,(const BYTE *)record->view+archive_member_offset-60,60) &&
+        long_names==(const char *)library->index_data[4] && !long_names &&
+        header->Name[0]!='/' && memchr(header->Name,'/',16)!=NULL);
+    return NULL;
+}
+static int archive_name_last_separator(void)
+{
+    IMAGE_ARCHIVE_MEMBER_HEADER header;
+    const char *name;
+    memset(&header,' ',sizeof(header));
+    memcpy(header.Name,"a/b/",4);
+    name=archive_member_name(&header,NULL);
+    return name && !strcmp(name,"a/b") && !memcmp(header.Name,"a/b/",4);
+}
+static int archive_name_input(void)
+{
+    return recon_native_at_entry(archive_member_name,check_archive_name_input,
+        invoke_hello,NULL)==1;
+}
+extern BYTE __stdcall select_delay_load_library(const char *);
+static BYTE __stdcall check_delay_selection(const char *name)
+{
+    recon_native_entry_finish(name && *name && !delay_libraries.first &&
+        !delay_libraries.count && !select_delay_load_library(name));
+    return 0;
+}
+static int delay_selection(void)
+{
+    return recon_native_at_entry(select_delay_load_library,check_delay_selection,
+        invoke_hello,NULL)==1;
+}
+extern IMAGE_SECTION_HEADER *module_section_headers;
+extern unsigned module_section_capacity;
+extern IMAGE_SECTION_HEADER *__stdcall find_section_by_name(IMAGE_SECTION_HEADER *,
+    DWORD,const char *,BYTE *);
+static IMAGE_SECTION_HEADER *__stdcall check_member_sections(IMAGE_SECTION_HEADER *sections,
+    DWORD count,const char *name,BYTE *duplicate)
+{
+    FileRecord *record=file_slots[current_input_file];
+    const IMAGE_FILE_HEADER *header=(const IMAGE_FILE_HEADER *)
+        ((const BYTE *)record->view+archive_member_offset);
+    DWORD start=archive_member_offset+20+header->SizeOfOptionalHeader;
+    recon_native_entry_finish(sections==module_section_headers && count &&
+        count==header->NumberOfSections && count<=module_section_capacity &&
+        name && !strcmp(name,".idata$5") && duplicate && !*duplicate &&
+        record->file_size==start+40*count &&
+        !memcmp(sections,(const BYTE *)record->view+start,40*count));
+    return NULL;
+}
+static int member_sections(void)
+{
+    return recon_native_at_entry(find_section_by_name,check_member_sections,
+        invoke_hello,NULL)==1;
+}
+extern ComdatRoot *comdat_roots;
+extern void __stdcall add_comdat_root(const char *,StringNode *,Contribution *,ComdatRoot **);
+static void __stdcall check_comdat_root(const char *name,StringNode *symbol,
+    Contribution *owner,ComdatRoot **roots)
+{
+    MemoryPool *pool=comdat_names;
+    ComdatRoot *previous,*expected;
+    unsigned used;
+    if (name || symbol || !owner || roots!=&comdat_roots || !pool ||
+        pool->remaining<12) { recon_native_entry_finish(0); return; }
+    previous=*roots;
+    used=pool->used;
+    expected=(ComdatRoot *)((BYTE *)(pool+1)+used);
+    add_comdat_root(name,symbol,owner,roots);
+    recon_native_entry_finish(comdat_names==pool && pool->used==used+12 &&
+        *roots==expected && expected->owner==owner && expected->kind==1 &&
+        expected->next==previous);
+}
+static int comdat_root(void)
+{
+    return recon_native_at_entry(add_comdat_root,check_comdat_root,invoke_hello,NULL)==1;
+}
+static Contribution class_probe_contribution;
+static OutputModule class_probe_module;
+static ContributionInfo class_probe_info;
+static LinkContext class_probe_context;
+static IMAGE_SYMBOL class_probe_symbol;
+static IMAGE_RELOCATION class_probe_relocation;
+extern void __cdecl link_contribution_fatal(Contribution *,unsigned,...);
+static void __cdecl check_undefined_static(Contribution *contribution,unsigned message,...)
+{
+    va_list arguments;
+    const char *name;
+    va_start(arguments,message);
+    name=va_arg(arguments,const char *);
+    va_end(arguments);
+    recon_native_entry_finish(contribution==&class_probe_contribution && message==1186 &&
+        class_probe_symbol.StorageClass==IMAGE_SYM_CLASS_UNDEFINED_STATIC &&
+        name && !strcmp(name,"probe"));
+}
+static void invoke_relocation_classes(void *unused)
+{
+    class_probe_symbol.StorageClass=IMAGE_SYM_CLASS_LABEL;
+    if (read_x86_relocations(&class_probe_context,&class_probe_contribution,
+        &class_probe_symbol,&class_probe_relocation,1,1)!=1) return;
+    class_probe_symbol.StorageClass=IMAGE_SYM_CLASS_UNDEFINED_STATIC;
+    read_x86_relocations(&class_probe_context,&class_probe_contribution,
+        &class_probe_symbol,&class_probe_relocation,1,1);
+}
+static int relocation_storage_classes(void)
+{
+    memset(&class_probe_contribution,0,sizeof(class_probe_contribution));
+    memset(&class_probe_module,0,sizeof(class_probe_module));
+    memset(&class_probe_context,0,sizeof(class_probe_context));
+    memset(&class_probe_info,0,sizeof(class_probe_info));
+    memset(&class_probe_symbol,0,sizeof(class_probe_symbol));
+    memset(&class_probe_relocation,0,sizeof(class_probe_relocation));
+    class_probe_module.contributions=&class_probe_contribution;
+    class_probe_module.section_count=1;
+    class_probe_module.contribution_info=&class_probe_info;
+    class_probe_contribution.module=&class_probe_module;
+    memcpy(class_probe_symbol.N.ShortName,"probe",6);
+    class_probe_relocation.Type=IMAGE_REL_I386_DIR32;
+    return recon_native_at_entry(link_contribution_fatal,check_undefined_static,
+        invoke_relocation_classes,NULL)==1;
+}
+extern void __stdcall remember_common_symbol(CommonSymbol **,StringNode *);
+static void __stdcall check_common_symbol_list(CommonSymbol **list,StringNode *symbol)
+{
+    CommonSymbol *previous,*first,*second;
+    StringNode distinct;
+    if (!list || !symbol) { recon_native_entry_finish(0); return; }
+    previous=*list;
+    remember_common_symbol(list,symbol);
+    first=*list;
+    remember_common_symbol(list,&distinct);
+    second=*list;
+    recon_native_entry_finish(first && second && first!=second &&
+        first->symbol==symbol && first->next==previous && second->symbol==&distinct &&
+        second->next==first && offsetof(OutputModule,common_symbols)==0x54);
+}
+static int common_symbol_list(void)
+{
+    return recon_native_at_entry(remember_common_symbol,check_common_symbol_list,
+        invoke_hello,NULL)==1;
+}
+/* The real 20-byte member receiver and thiscall1/RET4 entry, expressed in
+ * native test C without adding an application adapter. */
+typedef struct DefinitionBufferState {
+    BYTE *data,*end;
+    int capacity;
+    void (__stdcall *relocate)(void *,void *,void *);
+    void *context;
+} DefinitionBufferState;
+extern int RECON_THISCALL native_definition_grow(DefinitionBufferState *,int)
+    __asm__("_ZN17DefinitionStorageIhE4GrowEi");
+extern void RECON_THISCALL native_definition_destroy(DefinitionBufferState *)
+    __asm__("_ZN17DefinitionStorageIhED2Ev");
+static int definition_buffer_allocation(void)
+{
+    DefinitionBufferState owner={NULL,NULL,0,NULL,NULL};
+    ReconCppAllocation *allocation;
+    BYTE *base;
+    unsigned i;
+    if(sizeof(owner)!=20 || !native_definition_grow(&owner,4096) ||
+       !owner.data || owner.end!=owner.data || owner.capacity!=8192 ||
+       owner.relocate || owner.context) return 0;
+    for(allocation=recon_cpp_allocations;allocation;allocation=allocation->next)
+        if(allocation->base==owner.data && allocation->live)break;
+    if(!allocation || allocation->requested!=8192)return 0;
+    for(i=0;i<8192;++i)if(owner.data[i])return 0;
+    base=owner.data;
+    native_definition_destroy(&owner);
+    return !allocation->live && owner.data==base && owner.end==base &&
+        !owner.capacity && !owner.relocate && !owner.context;
+}
+
+static int subsystem_versions(void)
+{
+    static const WORD inputs[]={1,2,3,7,9,0,4,6};
+    static const WORD majors[]={4,4,4,19,2,0,0,0};
+    static const WORD minors[]={0,0,0,90,0,0,0,0};
+    LinkContext context,expected;
+    unsigned i;
+    for(i=0;i<sizeof(inputs)/sizeof(inputs[0]);++i) {
+        memset(&context,0x69,sizeof(context));
+        context.optional_header.Subsystem=inputs[i];
+        expected=context;
+        expected.optional_header.MajorSubsystemVersion=majors[i];
+        expected.optional_header.MinorSubsystemVersion=minors[i];
+        set_subsystem_version(&context);
+        if(memcmp(&context,&expected,sizeof(context)))return 0;
+    }
+    return 1;
+}
+
+static void __cdecl check_default_library_warning(const char *file,unsigned message,...)
+{
+    const char *name;
+    va_list args;
+    va_start(args,message);
+    name=va_arg(args,const char *);
+    va_end(args);
+    recon_native_entry_finish(!file && message==4098 && name && !strcmp(name,"blocked.lib"));
+}
+static void invoke_default_library_warning(void *list)
+{
+    warn_missing_default_libraries((LinkPointerList *)list);
+}
+static int missing_default_library_warning(void)
+{
+    DefaultLibrary item={NULL,"blocked.lib",0x48,NULL};
+    LinkPointerList list={NULL,NULL,1,{0,0,0},&item};
+    warn_missing_default_libraries(&list);
+    list.suppress_default_libraries=0;
+    item.flags=4;
+    warn_missing_default_libraries(&list);
+    item.flags=8;
+    warn_missing_default_libraries(&list);
+    item.flags=0x40;
+    warn_missing_default_libraries(&list);
+    item.flags=0x48;
+    return recon_native_at_entry(link_warning,check_default_library_warning,
+        invoke_default_library_warning,&list)==1;
+}
+
+static void __cdecl check_unused_delay_warning(const char *file,unsigned message,...)
+{
+    const char *first,*second;
+    va_list args;
+    va_start(args,message);
+    first=va_arg(args,const char *);
+    second=va_arg(args,const char *);
+    va_end(args);
+    recon_native_entry_finish(!file && message==4199 && first==second && first &&
+        !strcmp(first,"unused.dll"));
+}
+static void invoke_unused_delay_warning(void *unused)
+{
+    (void)unused;
+    warn_unused_delay_libraries();
+}
+static int unused_delay_warning(void)
+{
+    InputArgument unused={"unused.dll",NULL,NULL,0,0,NULL};
+    InputArgument used={"used.dll",NULL,NULL,0,0x12340200,&unused};
+    delay_libraries.first=NULL;
+    delay_libraries.count=2;
+    warn_unused_delay_libraries();
+    delay_libraries.first=&used;
+    delay_libraries.count=1;
+    warn_unused_delay_libraries();
+    delay_libraries.count=2;
+    return recon_native_at_entry(link_warning,check_unused_delay_warning,
+        invoke_unused_delay_warning,NULL)==1;
+}
+
+extern const char *output_file_name;
+static int old_image_name(void)
+{
+    const char *saved=output_file_name;
+    InputArguments saved_files=link_files;
+    char *name;
+    int pass;
+    output_file_name="hello.exe";
+    name=derive_old_image_name(NULL);
+    pass=name && !strcmp(name,"hello.ilk") && name!=output_file_name;
+    release_memory(name);
+    output_file_name=NULL;
+    link_files.count=0;
+    pass=pass && derive_old_image_name(NULL)==NULL;
+    link_files=saved_files;
+    output_file_name=saved;
+    return pass;
+}
+
+static int missing_old_image(void)
+{
+    LinkContext image,before;
+    struct _stat information,old_information;
+    BYTE result;
+    memset(&image,0x5a,sizeof(image));
+    before=image;
+    memset(&information,0x6b,sizeof(information));
+    old_information=information;
+    result=read_old_image("hello.ilk",0,&image,&information);
+    return result==0 && !memcmp(&image,&before,sizeof(image)) &&
+        !memcmp(&information,&old_information,sizeof(information));
+}
+
+extern char short_symbol_name[9];
+extern void __stdcall place_common_symbol(LinkContext *,StringNode *);
+static void __stdcall check_common_placement(LinkContext *context,StringNode *symbol)
+{
+    StringNode probe;
+    LinkContext copy;
+    Contribution *contribution;
+    (void)symbol;
+    if(!context) { recon_native_entry_finish(0); return; }
+    copy=*context;
+    copy.options.gp_size=0;
+    copy.options.effective_reference_opt=1;
+    memset(&probe,0,sizeof(probe));
+    memcpy(probe.symbol.N.ShortName,"ALIAS123",8);
+    probe.symbol.Value=17;
+    probe.flags=2;
+    memcpy(short_symbol_name,"sentinel",8);
+    short_symbol_name[8]=0;
+    place_common_symbol(&copy,&probe);
+    contribution=probe.contribution;
+    recon_native_entry_finish(contribution && !probe.symbol.Value &&
+        contribution->raw_size==17 &&
+        contribution->characteristics==0xc0600080 &&
+        !strcmp(contribution->group->name,".bss") &&
+        !memcmp(short_symbol_name,"ALIAS123",8) && !short_symbol_name[8]);
+}
+static int common_placement(void)
+{
+    return recon_native_at_entry(place_common_symbol,check_common_placement,
+        invoke_hello,NULL)==1;
+}
+
+extern void RECON_THISCALL native_resolve_local_imports(LinkContext *,Contribution **,IncludeSymbol **)
+    __asm__("_ZN11LinkContext19ResolveLocalImportsEPP12ContributionPP13IncludeSymbol");
+static void RECON_THISCALL check_local_import_outputs(LinkContext *context,
+    Contribution **contribution,IncludeSymbol **aliases)
+{
+    LinkContext before;
+    if(!context || !contribution || !aliases || (void *)contribution==(void *)aliases) {
+        recon_native_entry_finish(0); return;
+    }
+    before=*context;
+    native_resolve_local_imports(context,contribution,aliases);
+    recon_native_entry_finish(!*contribution && !*aliases &&
+        !memcmp(context,&before,sizeof(before)));
+}
+static int local_import_outputs(void)
+{
+    return recon_native_at_entry(native_resolve_local_imports,check_local_import_outputs,
+        invoke_hello,NULL)==1;
+}
+
+static int merged_group_order(void)
+{
+    OutputSection source,destination;
+    ContributionGroup left[3],right[2],*group;
+    ContributionGroup *expected[5];
+    unsigned i;
+    memset(&source,0,sizeof(source));
+    memset(&destination,0,sizeof(destination));
+    memset(left,0,sizeof(left));
+    memset(right,0,sizeof(right));
+    left[0].name="a"; left[1].name="b"; left[2].name="d";
+    right[0].name="b"; right[1].name="c";
+    for(i=0;i<3;++i) {
+        left[i].section=&source;
+        if(i<2)left[i].next=&left[i+1];
+    }
+    right[0].section=right[1].section=&destination;
+    right[0].next=&right[1];
+    source.groups=left; destination.groups=right;
+    expected[0]=left; expected[1]=right; expected[2]=left+1;
+    expected[3]=right+1; expected[4]=left+2;
+    merge_section_groups(&source,&destination);
+    if(source.groups || source.merge_target!=&destination)return 0;
+    for(i=0,group=destination.groups;i<5;++i,group=group->next) {
+        if(group!=expected[i] || group->section!=&destination)return 0;
+    }
+    if(group)return 0;
+    merge_section_groups(&source,&destination);
+    return destination.groups==left && left[0].next==right;
+}
+extern InputArguments section_attributes,section_merges;
+static void __cdecl check_distinct_section_options(void)
+{
+    recon_native_entry_finish(!section_attributes.first && !section_attributes.count &&
+        section_merges.first && section_merges.count);
+}
+static int distinct_section_options(void)
+{
+    return recon_native_at_entry(prepare_import_sections,check_distinct_section_options,
+        invoke_hello,NULL)==1;
+}
+
+extern void __stdcall sort_import_group(ContributionGroup *);
+static void __stdcall check_import_alignment(ContributionGroup *group)
+{
+    ContributionGroup *descriptors,*null_descriptor;
+    descriptors=find_contribution_group(import_descriptor_section,".idata$2");
+    null_descriptor=find_contribution_group(import_descriptor_section,".idata$3");
+    recon_native_entry_finish(group && !strcmp(group->name,".idata$4") &&
+        group->first && descriptors && null_descriptor &&
+        descriptors->alignment==4 && null_descriptor->alignment==4);
+}
+static int import_alignment(void)
+{
+    return recon_native_at_entry(sort_import_group,check_import_alignment,
+        invoke_hello,NULL)==1;
+}
+
+extern BYTE __stdcall sort_import_tail(Contribution *);
+static BYTE __stdcall check_sorted_imports(Contribution *current)
+{
+    Contribution *item;
+    ContributionGroup *group=current?current->group:NULL;
+    const char *previous=NULL;
+    unsigned count=0;
+    if(!group || !current->rva || strcmp(group->name,".idata$4")) {
+        recon_native_entry_finish(0); return 0;
+    }
+    for(item=group->first;item && count<=group->contribution_count;item=item->next) {
+        if(item->group!=group || !item->module || !item->module->name ||
+            (previous && strcmp(previous,item->module->name)>0)) {
+            recon_native_entry_finish(0); return 0;
+        }
+        previous=item->module->name;
+        ++count;
+    }
+    recon_native_entry_finish(!item && count==group->contribution_count && count>1);
+    return 0;
+}
+static int sorted_imports(void)
+{
+    return recon_native_at_entry(sort_import_tail,check_sorted_imports,
+        invoke_hello,NULL)==1;
+}
+
+static int import_module_tail(void)
+{
+    OutputModule modules[4];
+    Contribution members[4];
+    ContributionGroup group;
+    unsigned i;
+    memset(modules,0,sizeof(modules));
+    memset(members,0,sizeof(members));
+    memset(&group,0,sizeof(group));
+    for(i=0;i<4;++i) {
+        modules[i].name=i<3?"same":"later";
+        members[i].module=&modules[i];
+        members[i].group=&group;
+        if(i<3)members[i].next=&members[i+1];
+    }
+    group.first=members;
+    group.last=members+3;
+    if(sort_import_tail(members)!=1 || group.first!=members+1 ||
+        members[1].next!=members+2 || members[2].next!=members ||
+        members[0].next!=members+3 || members[3].next || group.last!=members+3)return 0;
+    return sort_import_tail(members)==0 && group.first==members+1 &&
+        members[0].next==members+3;
+}
+
+extern OutputSection *relocation_section;
+extern BYTE *base_relocations,*next_base_relocation,*base_relocations_end;
+extern BYTE no_base_relocations;
+extern void RECON_THISCALL native_finalize_order(LinkContext *)
+    __asm__("_ZN11LinkContext13FinalizeOrderEv");
+static void RECON_THISCALL check_relocation_allocation(LinkContext *context)
+{
+    DWORD count;
+    BYTE *old_base=base_relocations,*old_next=next_base_relocation,*old_end=base_relocations_end;
+    BYTE old_empty=no_base_relocations;
+    if(!context || context->is_vxd) {
+        recon_native_entry_finish(0); return;
+    }
+    count=context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size;
+    native_finalize_order(context);
+    if(!relocation_section || strcmp(relocation_section->name,".reloc")) {
+        recon_native_entry_finish(0); return;
+    }
+    if(context->options.fixed_image) {
+        recon_native_entry_finish(relocation_section->raw_size==0 &&
+            base_relocations==old_base && next_base_relocation==old_next &&
+            base_relocations_end==old_end && no_base_relocations==old_empty &&
+            context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size==count);
+        return;
+    }
+    recon_native_entry_finish(relocation_section->raw_size==1 &&
+        base_relocations && next_base_relocation==base_relocations &&
+        context->optional_header.DataDirectory[IMAGE_DIRECTORY_ENTRY_BASERELOC].Size==(count?count:1) &&
+        (DWORD)(base_relocations_end-base_relocations)==(count?count:1)*12 &&
+        (count || no_base_relocations));
+}
+static int relocation_allocation(void)
+{
+    return recon_native_at_entry(native_finalize_order,check_relocation_allocation,
+        invoke_hello,NULL)==1;
+}
+
+static int appended_section_groups(void)
+{
+    OutputSection source,destination;
+    ContributionGroup first,second;
+    memset(&source,0,sizeof(source));
+    memset(&destination,0,sizeof(destination));
+    memset(&first,0,sizeof(first));
+    memset(&second,0,sizeof(second));
+    first.name="z"; second.name="a";
+    first.section=&destination; second.section=&source;
+    destination.groups=&first; source.groups=&second;
+    merge_output_section(&source,&destination);
+    if(destination.groups!=&first || first.next!=&second || second.next ||
+        second.section!=&destination || source.groups || source.merge_target!=&destination)return 0;
+    merge_output_section(&source,&destination);
+    return destination.groups==&first && first.next==&second && !second.next;
+}
+
+static int named_group_transfer(void)
+{
+    OutputSection source,destination,alias;
+    ContributionGroup a,b,c,old_b,d;
+    memset(&source,0,sizeof(source)); memset(&destination,0,sizeof(destination));
+    memset(&alias,0,sizeof(alias)); memset(&a,0,sizeof(a)); memset(&b,0,sizeof(b));
+    memset(&c,0,sizeof(c)); memset(&old_b,0,sizeof(old_b)); memset(&d,0,sizeof(d));
+    a.name="a"; b.name="b"; c.name="c"; old_b.name="b"; d.name="d";
+    a.next=&b; b.next=&c; old_b.next=&d;
+    a.section=b.section=c.section=&source;
+    old_b.section=d.section=&destination;
+    source.groups=&a; destination.groups=&old_b;
+    alias.merge_target=&destination;
+    move_named_group("b",&source,&alias);
+    if(source.groups!=&a || a.next!=&c || c.next ||
+        destination.groups!=&old_b || old_b.next!=&b || b.next!=&d || d.next ||
+        b.section!=&destination || alias.groups || alias.merge_target!=&destination)return 0;
+    move_named_group("missing",&source,&alias);
+    return source.groups==&a && a.next==&c && old_b.next==&b && b.next==&d;
+}
+
+static int prepended_group(void)
+{
+    OutputSection section;
+    ContributionGroup a,b,c;
+    memset(&section,0,sizeof(section));
+    memset(&a,0,sizeof(a)); memset(&b,0,sizeof(b)); memset(&c,0,sizeof(c));
+    section.groups=&a; a.next=&b; b.next=&c;
+    a.section=b.section=c.section=&section;
+    move_group_to_end(&c);
+    if(section.groups!=&c || c.next!=&a || a.next!=&b || b.next ||
+        a.section!=&section || b.section!=&section || c.section!=&section)return 0;
+    move_group_to_end(&c);
+    return section.groups==&c && c.next==&a && a.next==&b && !b.next;
+}
+
+extern WORD RECON_THISCALL native_count_sections(LinkContext *)
+    __asm__("_ZN11LinkContext19CountOutputSectionsEv");
+static int counted_sections(void)
+{
+    LinkContext context;
+    OutputSection sections[7];
+    ContributionGroup group;
+    Contribution ignored,live;
+    OutputSection *old_debug=debug_section,*old_procedure=procedure_section;
+    OutputSection *old_relocation=relocation_section;
+    unsigned i;
+    int pass;
+    memset(&context,0,sizeof(context)); memset(sections,0,sizeof(sections));
+    memset(&group,0,sizeof(group)); memset(&ignored,0,sizeof(ignored));
+    memset(&live,0,sizeof(live));
+    for(i=0;i<6;++i)sections[i].next=sections+i+1;
+    context.sections.first=sections;
+    sections[0].raw_size=1;
+    sections[1].raw_size=1; sections[1].characteristics=0x800;
+    debug_section=sections+2;
+    sections[3].groups=&group; group.first=&ignored;
+    ignored.raw_size=4; ignored.characteristics=0x800; ignored.next=&live;
+    live.raw_size=1;
+    procedure_section=sections+4; sections[4].raw_size=1;
+    relocation_section=sections+5; sections[5].raw_size=1;
+    pass=native_count_sections(&context)==4;
+    context.options.rom=1;
+    pass=pass && native_count_sections(&context)==2;
+    debug_section=old_debug; procedure_section=old_procedure;
+    relocation_section=old_relocation;
+    return pass;
+}
+
+extern DWORD RECON_THISCALL native_dos_extension(LinkContext *,void **)
+    __asm__("_ZN11LinkContext17BuildDosExtensionEPPv");
+static int encoded_compiler_ids(void)
+{
+    LinkContext context;
+    OutputLibrary library;
+    OutputModule modules[3];
+    DWORD expected[14]={0x536e61cc,136,136,136,138,137,137,138,
+        0x68636952,136,0,0,0,0};
+    void *buffer=NULL;
+    DWORD size;
+    int pass;
+    memset(&context,0,sizeof(context)); memset(&library,0,sizeof(library));
+    memset(modules,0,sizeof(modules));
+    modules[0].compiler_id=1; modules[0].next=modules+1;
+    modules[1].compiler_id=2; modules[1].next=modules+2;
+    modules[2].compiler_id=1;
+    library.module_head=modules;
+    context.pointer_list.first=&library; context.dos_image_size=128;
+    size=native_dos_extension(&context,&buffer);
+    pass=size==sizeof(expected) && buffer && !memcmp(buffer,expected,sizeof(expected));
+    release_memory(buffer);
+    context.options.rom=1;
+    buffer=&context;
+    return pass && native_dos_extension(&context,&buffer)==0 && !buffer;
+}
+
+extern DWORD RECON_THISCALL native_pe_header_size(LinkContext *,DWORD *)
+    __asm__("_ZN11LinkContext12PeHeaderSizeEPm");
+extern ByteBuffer image_comments;
+extern BYTE mapped_debug;
+static int pe_header_offsets(void)
+{
+    LinkContext context;
+    DWORD offset,old_used=image_comments.used;
+    BYTE old_mapped=mapped_debug;
+    int pass;
+    memset(&context,0,sizeof(context));
+    context.pe_header_offset=176;
+    context.file_header.SizeOfOptionalHeader=224;
+    context.file_header.NumberOfSections=3;
+    image_comments.used=7; mapped_debug=0;
+    pass=native_pe_header_size(&context,&offset)==551 && offset==424;
+    mapped_debug=1;
+    pass=pass && native_pe_header_size(&context,&offset)==591 && offset==424;
+    context.options.rom=1;
+    pass=pass && native_pe_header_size(&context,&offset)==411 && offset==244;
+    image_comments.used=old_used; mapped_debug=old_mapped;
+    return pass;
+}
+
+extern BYTE mac_target;
+extern void __stdcall mark_live_comdat(StringTable *,Contribution *);
+static int comdat_cycle(void)
+{
+    OutputModule module;
+    Contribution members[3];
+    ContributionInfo info[3];
+    ComdatReference references[2];
+    BYTE old_mac=mac_target;
+    unsigned i;
+    int pass;
+    memset(&module,0,sizeof(module)); memset(members,0,sizeof(members));
+    memset(info,0,sizeof(info)); memset(references,0,sizeof(references));
+    module.section_count=3; module.contributions=members; module.contribution_info=info;
+    for(i=0;i<3;++i)members[i].module=&module;
+    members[0].characteristics=0x40; members[1].characteristics=0x80;
+    members[2].characteristics=0x100;
+    info[0].references_used=info[0].reference_count=1; info[0].references=references;
+    info[1].references_used=info[1].reference_count=1; info[1].references=references+1;
+    references[0].contribution=members+1; references[1].contribution=members;
+    mac_target=0;
+    mark_live_comdat(NULL,members);
+    pass=members[0].characteristics==0x2040 && members[1].characteristics==0x2080 &&
+        members[2].characteristics==0x100 && references[0].contribution==members+1 &&
+        references[1].contribution==members;
+    mac_target=old_mac;
+    return pass;
+}
+
+extern void __stdcall append_import_module(OutputLibrary *,OutputLibrary ***,int *,int *);
+extern void __stdcall reset_import_modules(OutputLibrary **,int *);
+static int import_library_storage(void)
+{
+    OutputLibrary owners[4];
+    OutputLibrary **libraries=(OutputLibrary **)allocate_memory(8);
+    int capacity=2,count=0,pass;
+    memset(owners,0,sizeof(owners));
+    owners[0].name="first.lib"; owners[1].name="second.lib";
+    owners[2].name="third.lib"; owners[3].name="tail.lib";
+    append_import_module(owners,&libraries,&capacity,&count);
+    append_import_module(owners+1,&libraries,&capacity,&count);
+    append_import_module(owners,&libraries,&capacity,&count);
+    pass=count==2 && capacity==2 && libraries[0]==owners && libraries[1]==owners+1;
+    append_import_module(owners+2,&libraries,&capacity,&count);
+    pass=pass && count==3 && capacity==4 && libraries[0]==owners &&
+        libraries[1]==owners+1 && libraries[2]==owners+2;
+    if(capacity==4) {
+        libraries[3]=owners+3;
+        reset_import_modules(libraries,&count);
+        pass=pass && count==0 && !libraries[0] && !libraries[1] && !libraries[2] &&
+            libraries[3]==owners+3;
+    } else pass=0;
+    release_memory(libraries);
+    return pass;
+}
+static void __stdcall check_import_library(OutputLibrary *library,OutputLibrary ***libraries,
+    int *capacity,int *count)
+{
+    ContributionGroup *group=find_contribution_group(import_section,".idata$4");
+    recon_native_entry_finish(group && group->first && group->first->module &&
+        library==group->first->module->library && library && libraries && *libraries &&
+        capacity && *capacity==5 && count && !*count);
+}
+static int actual_import_library(void)
+{
+    return recon_native_at_entry(append_import_module,check_import_library,
+        invoke_hello,NULL)==1;
+}
+
+extern BYTE __stdcall compare_fold_references(ContributionInfo *,ContributionInfo *,LinkContext *,DWORD);
+static BYTE __stdcall check_fold_recursion_marker(ContributionInfo *first,ContributionInfo *second,
+    LinkContext *context,DWORD depth)
+{
+    recon_native_entry_finish(first && second && first!=second && context && depth==2 &&
+        first->comparison_depth==1 && second->comparison_depth==1 &&
+        first->fold_candidate && second->fold_candidate &&
+        first->fold_candidate!=second->fold_candidate &&
+        first->fold_candidate->group==second->fold_candidate->group &&
+        first->fold_candidate->characteristics==second->fold_candidate->characteristics &&
+        first->fold_candidate->comdat_selection==second->fold_candidate->comdat_selection);
+    return 0;
+}
+static int fold_recursion_marker(void)
+{
+    return recon_native_at_entry(compare_fold_references,check_fold_recursion_marker,
+        invoke_hello,NULL)==1;
+}
+
+extern MemoryPool *fold_changes;
+extern BYTE __stdcall compare_fold_symbols(IMAGE_SYMBOL *,const char *,IMAGE_SYMBOL *,const char *,LinkContext *);
+static int fold_pool_span(const void *pointer,DWORD bytes)
+{
+    MemoryPool *block;
+    DWORD start,address=(DWORD)pointer;
+    for(block=fold_changes;block;block=block->previous) {
+        start=(DWORD)(block+1);
+        if(address>=start && bytes<=block->used && address-start<=block->used-bytes)return 1;
+    }
+    return 0;
+}
+static BYTE __stdcall check_fold_input_cache(IMAGE_SYMBOL *first,const char *first_strings,
+    IMAGE_SYMBOL *second,const char *second_strings,LinkContext *context)
+{
+    OutputLibrary *library;
+    OutputModule *module;
+    ModuleIndexRecord *cache;
+    DWORD start,bytes,address;
+    int found_first=0,found_second=0;
+    if(!context || !buffer8.base || !fold_changes)recon_native_entry_finish(0);
+    for(library=(OutputLibrary *)context->pointer_list.first;library;library=library->next) {
+        for(module=library->module_head;module;module=module->next) {
+            if(module->module_index>=buffer8.remaining)recon_native_entry_finish(0);
+            cache=(ModuleIndexRecord *)buffer8.base+module->module_index;
+            if(!cache->symbols)continue;
+            start=(DWORD)cache->symbols; bytes=module->symbol_count*18;
+            address=(DWORD)first;
+            if(address>=start && address-start<bytes && !((address-start)%18) &&
+                cache->strings==first_strings && fold_pool_span(cache->symbols,bytes) &&
+                fold_pool_span(cache->strings,0))found_first=1;
+            address=(DWORD)second;
+            if(address>=start && address-start<bytes && !((address-start)%18) &&
+                cache->strings==second_strings && fold_pool_span(cache->symbols,bytes) &&
+                fold_pool_span(cache->strings,0))found_second=1;
+        }
+    }
+    recon_native_entry_finish(found_first && found_second);
+    return 0;
+}
+static int fold_input_cache(void)
+{
+    return recon_native_at_entry(compare_fold_symbols,check_fold_input_cache,
+        invoke_hello,NULL)==1;
+}
+
+extern WORD output_section_count;
+static int section_partition_order(void)
+{
+    OutputSection nodes[6];
+    SectionList list;
+    WORD old_count=output_section_count;
+    unsigned i;
+    int pass;
+    memset(nodes,0,sizeof(nodes));
+    for(i=0;i<5;++i)nodes[i].next=nodes+i+1;
+    nodes[0].characteristics=nodes[2].characteristics=0x40;
+    nodes[1].characteristics=nodes[3].characteristics=0x80;
+    nodes[4].characteristics=0x20;
+    list.first=nodes; list.last=&nodes[5].next;
+    output_section_count=6;
+    partition_sections(&list,0xc0,0x40);
+    pass=list.first==nodes && nodes[0].next==nodes+2 && nodes[2].next==nodes+1 &&
+        nodes[1].next==nodes+3 && nodes[3].next==nodes+4 && nodes[4].next==nodes+5 &&
+        !nodes[5].next && list.last==&nodes[5].next;
+    partition_sections(&list,0x20,0x20);
+    pass=pass && list.first==nodes+4 && nodes[4].next==nodes && nodes[0].next==nodes+2 &&
+        nodes[2].next==nodes+1 && nodes[1].next==nodes+3 && nodes[3].next==nodes+5 &&
+        !nodes[5].next && list.last==&nodes[5].next;
+    partition_sections(&list,0x100,0x100);
+    pass=pass && list.first==nodes+4 && nodes[4].next==nodes && nodes[0].next==nodes+2 &&
+        nodes[2].next==nodes+1 && nodes[1].next==nodes+3 && nodes[3].next==nodes+5 &&
+        !nodes[5].next && list.last==&nodes[5].next;
+    output_section_count=old_count;
+    return pass;
+}
+
+extern void RECON_THISCALL native_layout_sections(LinkContext *,DWORD *,DWORD *,DWORD *)
+    __asm__("_ZN11LinkContext14LayoutSectionsEPmS0_S0_");
+extern BYTE initialize_bss,pdb_enabled,incremental_enabled,mac_target;
+static int section_layout_offsets(void)
+{
+    LinkContext context;
+    OutputSection sections[3];
+    ContributionGroup groups[3];
+    Contribution contributions[5];
+    OutputSection *old_read_only=read_only_section;
+    BYTE old_pdb=pdb_enabled,old_incremental=incremental_enabled;
+    BYTE old_mac=mac_target,old_bss=initialize_bss;
+    DWORD rva=0x1000,file=0x200,lines=0;
+    unsigned i;
+    int pass;
+    memset(&context,0,sizeof(context));
+    memset(sections,0,sizeof(sections));
+    memset(groups,0,sizeof(groups));
+    memset(contributions,0,sizeof(contributions));
+    context.file_header.Machine=0x14c;
+    context.file_header.NumberOfSections=3;
+    context.optional_header.SectionAlignment=4096;
+    context.optional_header.FileAlignment=512;
+    context.sections.first=sections;
+    context.sections.last=&sections[2].next;
+    sections[0].name=".text"; sections[0].characteristics=0x20;
+    sections[1].name=".data"; sections[1].characteristics=0x40;
+    sections[2].name=".bss"; sections[2].characteristics=0x80;
+    for(i=0;i<3;++i) {
+        sections[i].groups=groups+i;
+        if(i<2)sections[i].next=sections+i+1;
+        groups[i].name=sections[i].name;
+        groups[i].alignment=1;
+        groups[i].section=sections+i;
+    }
+    groups[0].first=contributions; groups[0].last=contributions+1;
+    groups[1].first=contributions+2; groups[1].last=contributions+3;
+    groups[2].first=groups[2].last=contributions+4;
+    contributions[0].next=contributions+1;
+    contributions[2].next=contributions+3;
+    for(i=0;i<5;++i) {
+        contributions[i].group=groups+(i/2);
+        contributions[i].characteristics=0x100000 | (i<2?0x20:i==2?0x40:0x80);
+    }
+    contributions[0].raw_size=13;
+    contributions[1].raw_size=7; contributions[1].characteristics=0x500020;
+    contributions[2].raw_size=5;
+    contributions[3].raw_size=11;
+    contributions[4].raw_size=17;
+    read_only_section=sections+1;
+    pdb_enabled=incremental_enabled=mac_target=initialize_bss=0;
+    native_layout_sections(&context,&rva,&file,&lines);
+    pass=rva==0x4000 && file==0x600 && !lines &&
+        context.optional_header.BaseOfData==0x2000 &&
+        context.optional_header.SizeOfCode==512 &&
+        context.optional_header.SizeOfInitializedData==512 &&
+        context.optional_header.SizeOfUninitializedData==512 &&
+        context.file_header.NumberOfSections==3 &&
+        contributions[0].rva==0x1000 && contributions[0].raw_size==16 &&
+        contributions[0].padding==3 && contributions[1].rva==0x1010 &&
+        contributions[1].file_offset==0x210 && groups[0].size==23 &&
+        sections[0].virtual_size==23 && sections[0].raw_size==512 &&
+        sections[0].reserved08==0x217 && sections[0].initialized_file_size==512 &&
+        sections[1].rva==0x2000 && sections[1].virtual_size==16 &&
+        sections[1].reserved08==0x405 && sections[1].initialized_file_size==512 &&
+        sections[2].rva==0x3000 && sections[2].virtual_size==17 &&
+        !sections[2].file_offset && !sections[2].initialized_file_size;
+    read_only_section=old_read_only;
+    pdb_enabled=old_pdb; incremental_enabled=old_incremental;
+    mac_target=old_mac; initialize_bss=old_bss;
+    return pass;
+}
+
+static int mapped_output_cursor(void)
+{
+    FileRecord record;
+    BYTE storage[24],expected[24];
+    static const BYTE first[]={0x41,0x00,0x7f,0x82,0xff};
+    static const BYTE second[]={0x22,0x33};
+    int pass;
+    memset(&record,0,sizeof(record));
+    memset(storage,0xa5,sizeof(storage));
+    memset(expected,0xa5,sizeof(expected));
+    record.view=storage; record.mapping_size=sizeof(storage);
+    record.file_size=3; record.size=4; record.flags=0x1234;
+    memcpy(expected+3,first,sizeof(first));
+    pass=mapped_write(&record,first,sizeof(first))==sizeof(first) &&
+        record.file_size==8 && record.size==8 &&
+        !memcmp(storage,expected,sizeof(storage));
+    record.file_size=4;
+    memcpy(expected+4,second,sizeof(second));
+    pass=pass && mapped_write(&record,second,sizeof(second))==sizeof(second) &&
+        record.file_size==6 && record.size==8 &&
+        !memcmp(storage,expected,sizeof(storage));
+    pass=pass && mapped_write(&record,second,0)==0 &&
+        record.file_size==6 && record.size==8 && record.flags==0x1234 &&
+        record.view==storage && record.mapping_size==sizeof(storage) &&
+        !memcmp(storage,expected,sizeof(storage));
+    return pass;
+}
+
+static void RECON_THISCALL check_import_hint_alignment(LinkContext *context,
+    DWORD *rva,DWORD *offset,DWORD *lines)
+{
+    ContributionGroup *group=find_contribution_group(read_only_section,".idata$6");
+    Contribution *item;
+    unsigned count=0;
+    int pass=context && rva && offset && lines && group &&
+        group->alignment==2 && import_section!=procedure_section;
+    if(group)for(item=group->first;item;item=item->next) {
+        if(item->characteristics & 0x800)continue;
+        pass=pass && (item->characteristics & 0x700000)==0x200000 &&
+            item->module && item->group==group;
+        ++count;
+    }
+    recon_native_entry_finish(pass && count>40);
+}
+static int import_hint_alignment(void)
+{
+    return recon_native_at_entry(native_layout_sections,check_import_hint_alignment,
+        invoke_hello,NULL)==1;
+}
+
+extern void RECON_THISCALL native_process_output(OutputModule *,LinkContext *,DWORD)
+    __asm__("_ZN12OutputModule13ProcessOutputEP11LinkContextm");
+extern const char *current_object_name;
+static void RECON_THISCALL check_defined_output_state(OutputModule *module,
+    LinkContext *context,DWORD state)
+{
+    FileRecord *file;
+    if(!context || !module || !context->command_line_library || current_input_file<0)
+        recon_native_entry_finish(0);
+    file=file_slots[current_input_file];
+    recon_native_entry_finish(module==context->command_line_library->module_head &&
+        !strcmp(module->name,"hello.obj") && !strcmp(current_phase,"hello.obj") &&
+        !current_object_name && file && file->size==2262 &&
+        !strcmp(file->name,"hello.obj") &&
+        state==(((DWORD)module & 0xffffff00)|1));
+}
+static int defined_output_state(void)
+{
+    return recon_native_at_entry(native_process_output,check_defined_output_state,
+        invoke_hello,NULL)==1;
+}
+
+extern void __stdcall process_output_symbol(LinkContext *,OutputModule *,IMAGE_SYMBOL *,
+    IMAGE_SYMBOL **,DWORD *,DWORD *,DWORD);
+extern DWORD emitted_symbol_count,coff_symbol_offset,module_debug_index;
+extern char *current_module_strings;
+extern BYTE skip_module_debug_symbols;
+static void __stdcall check_module_output_symbols(LinkContext *context,OutputModule *module,
+    IMAGE_SYMBOL *symbol,IMAGE_SYMBOL **cursor,DWORD *index,DWORD *slot,DWORD state)
+{
+    FileRecord *input,*output;
+    int pass=context && module && symbol && cursor && index;
+    if(!pass)recon_native_entry_finish(0);
+    input=file_slots[current_input_file];
+    output=file_slots[output_file];
+    recon_native_entry_finish(module==context->command_line_library->module_head &&
+        !strcmp(module->name,"hello.obj") && module->input_symbols==symbol &&
+        *cursor==symbol+1 && *index==0 && !slot && module->symbol_count>0 &&
+        current_module_strings && module->section_map &&
+        !module_debug_index && !skip_module_debug_symbols && input && output &&
+        input->file_size==(LONG)module->symbol_offset &&
+        output->file_size==(LONG)(coff_symbol_offset+emitted_symbol_count*18) &&
+        state==(((DWORD)module & 0xffffff00)|1));
+}
+static int module_output_symbols(void)
+{
+    return recon_native_at_entry(process_output_symbol,check_module_output_symbols,
+        invoke_hello,NULL)==1;
+}
+
+extern void __stdcall process_file_output_symbol(LinkContext *,IMAGE_SYMBOL *,DWORD,DWORD *);
+static void __stdcall check_file_output_symbol(LinkContext *context,IMAGE_SYMBOL *symbol,
+    DWORD index,DWORD *replacement)
+{
+    OutputModule *module=context ? context->command_line_library->module_head : NULL;
+    recon_native_entry_finish(module && symbol==module->input_symbols &&
+        symbol->StorageClass==IMAGE_SYM_CLASS_FILE && symbol->SectionNumber==-2 &&
+        symbol->NumberOfAuxSymbols && !index && replacement && *replacement==0xffffffff);
+}
+static int file_output_symbol(void)
+{
+    return recon_native_at_entry(process_file_output_symbol,check_file_output_symbol,
+        invoke_hello,NULL)==1;
+}
+
+extern StringNode *__stdcall process_external_output_symbol(LinkContext *,IMAGE_SYMBOL *);
+static void __stdcall check_local_output_values(LinkContext *context,IMAGE_SYMBOL *raw)
+{
+    OutputModule *module=context->command_line_library->module_head;
+    FileRecord *input=file_slots[current_input_file];
+    IMAGE_SYMBOL *original;
+    unsigned index=0,checked=0;
+    if(!module || !input || !(input->flags & 8) || !input->view ||
+       raw<=module->input_symbols || raw>=module->input_symbols+module->symbol_count)
+        recon_native_entry_finish(0);
+    original=(IMAGE_SYMBOL *)((BYTE *)input->view+module->symbol_offset);
+    while(module->input_symbols+index<raw) {
+        IMAGE_SYMBOL *source=original+index,*current=module->input_symbols+index;
+        if(source->StorageClass==IMAGE_SYM_CLASS_STATIC ||
+           source->StorageClass==IMAGE_SYM_CLASS_LABEL ||
+           source->StorageClass==IMAGE_SYM_CLASS_UNDEFINED_LABEL ||
+           source->StorageClass==IMAGE_SYM_CLASS_UNDEFINED_STATIC) {
+            if(source->SectionNumber>0) {
+                Contribution *contribution=(Contribution *)module->contributions+
+                    source->SectionNumber-1;
+                while(contribution && (contribution->characteristics & 0x4000))
+                    contribution=contribution->associated_contribution;
+                if(!contribution || current->Value!=source->Value+contribution->rva ||
+                   current->SectionNumber!=contribution->group->section->index)
+                    recon_native_entry_finish(0);
+            } else if(current->Value)recon_native_entry_finish(0);
+            ++checked;
+        }
+        index+=source->NumberOfAuxSymbols+1;
+    }
+    recon_native_entry_finish(checked>0 && module->input_symbols+index==raw &&
+        raw->StorageClass==IMAGE_SYM_CLASS_EXTERNAL);
+}
+static int local_output_values(void)
+{
+    return recon_native_at_entry(process_external_output_symbol,check_local_output_values,
+        invoke_hello,NULL)==1;
+}
+
+static void __stdcall check_contribution_bytes(Contribution *contribution,void *relocations,
+    DWORD count,void *data,void *symbols,LinkContext *context,DWORD *indices)
+{
+    FileRecord *input=file_slots[current_input_file],*output=file_slots[output_file];
+    int pass=contribution && context && input && output && relocations && count && !indices;
+    if(!pass)recon_native_entry_finish(0);
+    pass=contribution->module==context->command_line_library->module_head &&
+        symbols==contribution->module->input_symbols && count==contribution->relocation_count &&
+        (input->flags & 8) && (output->flags & 8) &&
+        data==(BYTE *)output->view+contribution->file_offset &&
+        !memcmp(data,(BYTE *)input->view+contribution->input_raw_offset,
+            contribution->raw_size-contribution->padding);
+    recon_native_entry_finish(pass);
+}
+static int contribution_bytes(void)
+{
+    return recon_native_at_entry(process_x86_relocations,check_contribution_bytes,
+        invoke_hello,NULL)==1;
+}
+
+extern void RECON_THISCALL native_write_common_symbols(OutputModule *,BYTE)
+    __asm__("_ZN12OutputModule18WriteCommonSymbolsEh");
+static int common_list_stop(void)
+{
+    OutputModule module;
+    StringNode first,second;
+    CommonSymbol head,tail;
+    memset(&module,0,sizeof(module));
+    memset(&first,0,sizeof(first));
+    memset(&second,0,sizeof(second));
+    head.symbol=&first;head.next=&tail;
+    tail.symbol=&second;tail.next=NULL;
+    second.flags=2;
+    module.common_symbols=&head;
+    /* A continued traversal would reach the genuine BSS trap. */
+    native_write_common_symbols(&module,0);
+    return module.common_symbols==&head && head.next==&tail && second.flags==2;
+}
+
+/* Regression for the former32-byte diagnostic-prefix overwrite. Both native
+ * guards must stop longer writes; ordinary formatter destinations stay valid. */
+extern void RECON_THISCALL native_load_input_argument(LinkContext *,InputArgument *,OutputLibrary *)
+    __asm__("_ZN11LinkContext17LoadInputArgumentEP13InputArgumentP13OutputLibrary");
+extern int native_host_close(int) __asm__("close");
+static int diagnostic_prefix_bounds(void)
+{
+    char longer[37],other[128];
+    OutputModule module;
+    OutputLibrary library;
+    unsigned which;
+    memset(longer,'x',36);longer[36]=0;
+    memset(&module,0,sizeof(module));memset(&library,0,sizeof(library));
+    module.name=longer;module.library=&library;library.flags=16;
+    if(sizeof(current_phase)!=36 || format_module_name(&module,other)!=other || strcmp(other,longer))return 0;
+    for(which=0;which<2;++which) {
+        int status;
+        pid_t child=fork();
+        if(child<0)return 0;
+        if(!child) {
+            InputArgument argument;
+            native_host_close(2);
+            if(which)format_module_name(&module,current_phase);
+            else {
+                memset(&argument,0,sizeof(argument));argument.name=longer;
+                native_load_input_argument(NULL,&argument,NULL);
+            }
+            _exit(1);
+        }
+        if(waitpid(child,&status,0)!=child || !WIFEXITED(status) || WEXITSTATUS(status)!=125)return 0;
+    }
+    return 1;
+}
 const ReconTest hello_tests[]={
+    {"diagnostic-prefix-bounds",1,diagnostic_prefix_bounds},
+    {"common-list-stop",1,common_list_stop},
+    {"contribution-bytes",1,contribution_bytes},
+    {"local-output-values",1,local_output_values},
+    {"file-output-symbol",1,file_output_symbol},
+    {"module-output-symbols",1,module_output_symbols},
+    {"defined-output-state",1,defined_output_state},
+    {"import-hint-alignment",1,import_hint_alignment},
+    {"mapped-output-cursor",1,mapped_output_cursor},
+    {"section-layout-offsets",1,section_layout_offsets},
+    {"section-partition-order",1,section_partition_order},
+    {"fold-input-cache",1,fold_input_cache},
+    {"fold-recursion-marker",1,fold_recursion_marker},
+    {"import-library-storage",1,import_library_storage},
+    {"actual-import-library",1,actual_import_library},
+    {"comdat-cycle",1,comdat_cycle},
+    {"pe-header-offsets",1,pe_header_offsets},
+    {"encoded-compiler-ids",1,encoded_compiler_ids},
+    {"counted-sections",1,counted_sections},
+    {"prepended-group",1,prepended_group},
+    {"named-group-transfer",1,named_group_transfer},
+    {"appended-section-groups",1,appended_section_groups},
+    {"relocation-allocation",1,relocation_allocation},
+    {"import-module-tail",1,import_module_tail},
+    {"sorted-imports",1,sorted_imports},
+    {"import-alignment",1,import_alignment},
+    {"merged-group-order",1,merged_group_order},
+    {"distinct-section-options",1,distinct_section_options},
+    {"local-import-outputs",1,local_import_outputs},
+    {"common-placement",1,common_placement},
+    {"missing-old-image",1,missing_old_image},
+    {"old-image-name",1,old_image_name},
+    {"unused-delay-warning",1,unused_delay_warning},
+    {"missing-default-library-warning",1,missing_default_library_warning},
+    {"subsystem-versions",1,subsystem_versions},
+    {"definition-buffer-allocation",1,definition_buffer_allocation},
+    {"common-symbol-list",1,common_symbol_list},
+    {"relocation-storage-classes",1,relocation_storage_classes},
+    {"comdat-root",1,comdat_root},
+    {"member-sections",1,member_sections},
+    {"delay-selection",1,delay_selection},
+    {"archive-name-input",1,archive_name_input},
+    {"archive-name-last-separator",1,archive_name_last_separator},
+    {"library-member-header",1,library_member_header},
+    {"default-library-attempt",1,default_library_attempt},
+    {"default-library-input",1,default_library_input},
+    {"archive-compare-inputs",1,archive_compare_inputs},
+    {"find-symbol-member-input",1,find_symbol_member_input},
+    {"undefined-enumerator",1,undefined_enumerator},
+    {"undefined-enumerator-input",1,undefined_enumerator_input},
     {"library-file-restore",1,library_file_restore},
     {"library-search-outputs",1,library_search_outputs},
     {"archive-index-tables",1,archive_index_tables},

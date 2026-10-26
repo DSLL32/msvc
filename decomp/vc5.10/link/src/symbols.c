@@ -207,3 +207,31 @@ void __stdcall record_symbol_reference(StringNode *symbol,void *owner)
     additional->next=symbol->auxiliary;
     symbol->auxiliary=additional;
 }
+
+void __stdcall remember_common_symbol(CommonSymbol **list,StringNode *symbol)
+{
+    CommonSymbol *entry=(CommonSymbol *)allocate_memory(sizeof(CommonSymbol));
+    entry->symbol=symbol;
+    entry->next=*list;
+    *list=entry;
+}
+
+/* Original47f02c is the head of12-byte weak-external/default records.
+ * Its insertion and lookup bodies remain pending; cleanup owns this head. */
+typedef struct WeakDefault {
+    StringNode *symbol,*default_symbol;
+    struct WeakDefault *next;
+} WeakDefault;
+typedef char WeakDefaultSize[(sizeof(WeakDefault)==12)?1:-1];
+WeakDefault *weak_defaults;
+void __cdecl finish_symbol_tables(void)
+{
+    WeakDefault *entry=weak_defaults;
+    while(entry) {
+        WeakDefault *next=entry->next;
+        release_memory(entry);
+        weak_defaults=next;
+        entry=next;
+    }
+    weak_defaults=NULL;
+}

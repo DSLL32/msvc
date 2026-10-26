@@ -30,7 +30,7 @@ void __stdcall record_undefined_comdat(StringNode *,const char *,OutputModule *)
 int __stdcall has_incremental_symbol(void *,StringNode *);
 int __stdcall update_incremental_symbol(const char *,IMAGE_SYMBOL *,StringNode *,BYTE);
 void __stdcall process_mac_common(LinkContext *,StringNode *,IMAGE_SYMBOL *,const char *,BYTE,OutputModule *);
-void __stdcall remember_common_symbol(void *,StringNode *);
+void __stdcall remember_common_symbol(CommonSymbol **,StringNode *);
 void __stdcall clear_incremental_undefined(StringNode *,LinkContext *);
 void __stdcall process_mac_undefined(LinkContext *,StringNode *,IMAGE_SYMBOL *,const char *,BYTE,OutputModule *);
 void __stdcall define_input_symbol(StringNode *,Contribution *,DWORD,SHORT,WORD,DWORD,OutputModule *,StringTable *);
@@ -162,7 +162,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
                     }
                     if((symbol->flags & 1) && !(symbol->flags & 2)) goto define_symbol;
                     if(!(symbol->flags & 2)) {
-                        remember_common_symbol(module->reserved54,symbol);
+                        remember_common_symbol(&module->common_symbols,symbol);
                         symbol->flags |= 2;
                     }
                     value=symbol->contribution ?

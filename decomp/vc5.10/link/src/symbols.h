@@ -30,7 +30,7 @@ typedef struct HashTable {
     /* These views describe the same embedded buffer, not separate storage. */
     union { const void *string_storage; ByteBuffer strings; };
     StringTreeNode *string_tree;
-    DWORD reserved[3];
+    void *lookup_buffers[3];
 } HashTable;
 typedef struct HashEntry {
     void *value;
@@ -46,6 +46,7 @@ typedef struct StringTable {
 #ifdef __cplusplus
     StringNode *RECON_THISCALL Lookup(const unsigned char *,BYTE *);
     void RECON_THISCALL SortSymbols(void);
+    void RECON_THISCALL ReleaseLookupIndex(void);
     StringNode * RECON_THISCALL LookupSymbol(WORD kind,const char *name,BYTE *created);
     StringNode * RECON_THISCALL FindSymbol(const char *name);
 #endif

@@ -16,7 +16,6 @@ extern OutputSection *import_section,*import_thunk_section,*import_descriptor_se
 extern OutputSection *architecture_section,*debug_section;
 extern ComdatRoot *comdat_roots;
 extern int selected_tool_kind;
-typedef struct ModuleListNode { OutputModule *module; struct ModuleListNode *next; } ModuleListNode;
 ModuleListNode *precompiled_modules;
 void __stdcall add_module_to_list(ModuleListNode **,OutputModule *);
 char *__stdcall get_input_section_name(IMAGE_SECTION_HEADER *,const char *);
@@ -71,7 +70,7 @@ void __stdcall add_input_section(LinkContext *context,OutputModule *module,DWORD
     if (selected_tool_kind==2 || (contribution->characteristics & 0x800)) return;
     group=contribution->group;
     section=group->section;
-    if (section==import_section) {
+    if (section==procedure_section) {
         flags=(flags & 0xffbfffff)|0x300000;
         contribution->characteristics=flags;
     }

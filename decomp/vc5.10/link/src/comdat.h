@@ -4,6 +4,23 @@
 #include "full-link.h"
 #include <recon.h>
 
+/* A root's WORD tag identifies the currently active pointer role. */
+struct ComdatRoot {
+    union { const char *name; StringNode *symbol; Contribution *owner; };
+    ComdatRoot *next;
+    WORD kind,reserved0a;
+};
+typedef char ComdatRootSize[(sizeof(ComdatRoot)==12)?1:-1];
+typedef char ComdatRootFields[(offsetof(ComdatRoot,next)==4 &&
+    offsetof(ComdatRoot,kind)==8)?1:-1];
+
+typedef struct ComdatRootEnumerator {
+    BYTE (__stdcall *next)(struct ComdatRootEnumerator *);
+    void (__stdcall *end)(void *);
+    ComdatRoot *current,*first;
+} ComdatRootEnumerator;
+typedef char ComdatRootEnumeratorSize[(sizeof(ComdatRootEnumerator)==16)?1:-1];
+
 /* A reference holds either an original COFF symbol index or a contribution.
  * Incremental processing may replace its flags with a redirected target. */
 typedef struct ComdatReference {

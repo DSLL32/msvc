@@ -7,15 +7,11 @@
 #include "memory.h"
 #include "files.h"
 #include "full-link-functions.h"
+#include "pass-one.h"
+#include "options.h"
+#include "comdat.h"
 #include <recon.h>
 
-typedef struct ModuleEnumerator {
-    BYTE (__stdcall *next)(struct ModuleEnumerator *);
-    void (__stdcall *end)(struct ModuleEnumerator *);
-    OutputLibrary *library;
-    OutputModule *current;
-} ModuleEnumerator;
-typedef char ModuleEnumeratorSize[(sizeof(ModuleEnumerator)==16)?1:-1];
 extern "C" {
 void __stdcall initialize_module_enumerator(ModuleEnumerator *,OutputLibrary *);
 BYTE __stdcall next_module(ModuleEnumerator *);
@@ -174,4 +170,157 @@ extern "C" void __stdcall check_input_modules(LinkContext *context,OutputLibrary
         initialize_machine(context);
     }
     end_section_enumerator((SectionEnumerator *)&enumerator);
+}
+
+extern "C" OutputModule *output_module;
+extern "C" char short_symbol_name[9];
+extern "C" void __stdcall place_common_symbol(LinkContext *context,StringNode *symbol)
+{
+    Contribution *contribution;
+    const char *name;
+    DWORD flags,size;
+    WORD name_kind;
+    if(!(symbol->flags & 2))return;
+    contribution=symbol->contribution;
+    while(contribution && (contribution->characteristics & 0x4000))
+        contribution=contribution->associated_contribution;
+    if(contribution)return;
+    size=symbol->symbol.Value;
+    if(size<=context->options.gp_size) {
+        name=".sdata";
+        flags=0xc0000040;
+    } else {
+        name=".bss";
+        flags=0xc0000080;
+    }
+    if(size<=1)flags|=0x100000;
+    else if(size<=2)flags|=0x200000;
+    else if(size<=4)flags|=0x300000;
+    else if(size<=8)flags|=0x400000;
+    else if(size<=16)flags|=0x500000;
+    else flags|=0x600000;
+    symbol->contribution=create_contribution(name,size,flags,flags,output_module,
+        &context->sections,context);
+    if(context->options.effective_reference_opt || context->options.fold_identical_comdats) {
+        name=get_symbol_name(symbol,context->symbols->hash.string_storage,&name_kind,NULL);
+        if(name_kind==1)name=strncpy(short_symbol_name,name,8);
+        attach_comdat(symbol->contribution,name,0);
+    }
+    symbol->symbol.Value=0;
+}
+extern "C" void __stdcall pad_common_symbol(StringNode *,DWORD)
+{ __asm { int 3 } }
+extern "C" void __stdcall place_module_common_symbols(LinkContext *context,OutputModule *module)
+{
+    CommonSymbol *item=module->common_symbols;
+    Contribution *contribution;
+    DWORD total=0;
+    while(item) {
+        place_common_symbol(context,item->symbol);
+        /* Placement can replace the symbol's contribution. Reload it. */
+        contribution=item->symbol->contribution;
+        while(contribution && (contribution->characteristics & 0x4000))
+            contribution=contribution->associated_contribution;
+        total+=contribution->raw_size;
+        item=item->next;
+    }
+    if(incremental_enabled && total)
+        pad_common_symbol(module->common_symbols->symbol,total);
+}
+
+void RECON_THISCALL LinkContext::ApplySectionAttributes(void)
+{
+    LibraryEnumerator libraries;
+    ModuleEnumerator modules;
+    initialize_library_enumerator(&libraries,(OutputLibrary *)pointer_list.first);
+    while(next_library(&libraries)) {
+        initialize_module_enumerator(&modules,libraries.current);
+        while(next_module(&modules))place_module_common_symbols(this,modules.current);
+    }
+    place_module_common_symbols(this,output_module);
+}
+
+/* Counts the compiler identities contributing to the encoded DOS extension. */
+struct CompilerUse {
+    CompilerUse *next;
+    DWORD identity,count;
+};
+typedef char CompilerUseSize[(sizeof(CompilerUse)==12)?1:-1];
+DWORD RECON_THISCALL LinkContext::BuildDosExtension(void **buffer)
+{
+    LibraryEnumerator libraries;
+    ModuleEnumerator modules;
+    CompilerUse *uses=NULL,*use,*next;
+    DWORD distinct=0,checksum,bytes,*output;
+    if(options.rom) {
+        *buffer=NULL;
+        return 0;
+    }
+    initialize_library_enumerator(&libraries,(OutputLibrary *)pointer_list.first);
+    while(next_library(&libraries)) {
+        initialize_module_enumerator(&modules,libraries.current);
+        while(next_module(&modules)) {
+            for(use=uses;use && use->identity!=modules.current->compiler_id;use=use->next) ;
+            if(use)++use->count;
+            else {
+                use=(CompilerUse *)allocate_memory(sizeof(CompilerUse));
+                use->next=uses;
+                uses=use;
+                ++distinct;
+                use->count=1;
+                use->identity=modules.current->compiler_id;
+            }
+        }
+        end_section_enumerator((SectionEnumerator *)&modules);
+    }
+    end_section_enumerator((SectionEnumerator *)&libraries);
+    checksum=dos_image_size;
+    for(use=uses;use;use=use->next)
+        checksum+=(use->identity << (use->count & 31)) |
+            (use->identity >> ((0-use->count) & 31));
+    bytes=32+(distinct+((checksum>>5)%3))*8;
+    output=(DWORD *)zero_allocate(bytes);
+    *buffer=output;
+    *output++=checksum ^ 0x536e6144; /* DanS */
+    *output++=checksum;
+    *output++=checksum;
+    *output++=checksum;
+    for(use=uses;use;use=next) {
+        *output++=use->identity ^ checksum;
+        *output++=use->count ^ checksum;
+        next=use->next;
+        release_memory(use);
+    }
+    *output++=0x68636952; /* Rich */
+    *output=checksum;
+    return bytes;
+}
+
+extern "C" {
+void __stdcall initialize_comdat_root_enumerator(ComdatRootEnumerator *,ComdatRoot *);
+BYTE __stdcall next_comdat_root(ComdatRootEnumerator *);
+void __stdcall mark_live_comdat(StringTable *,Contribution *);
+}
+extern "C" void __stdcall eliminate_unused_comdats(ComdatRoot *roots,StringTable *symbols)
+{
+    ComdatRootEnumerator enumerator;
+    /* Unknown tags retain this defined incoming pointer, then the prior result,
+     * exactly as the original register flow. The producer writes only tags1..3. */
+    Contribution *contribution=(Contribution *)roots;
+    initialize_comdat_root_enumerator(&enumerator,roots);
+    while(next_comdat_root(&enumerator)) {
+        ComdatRoot *root=enumerator.current;
+        switch(root->kind) {
+        case 3:
+            contribution=symbols->FindSymbol(root->name)->contribution;
+            break;
+        case 2:
+            contribution=(root->symbol->flags & 1) ? root->symbol->contribution : NULL;
+            break;
+        case 1:
+            contribution=root->owner;
+            break;
+        }
+        if(contribution)mark_live_comdat(symbols,contribution);
+    }
 }

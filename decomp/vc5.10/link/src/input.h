@@ -2,15 +2,12 @@
 #define LINK_INPUT_H
 #include <windows.h>
 #include "link-driver.h"
+#include "link.h"
 #include <recon.h>
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-/* Diagnostic input filename. This 32-byte native prefix models observed input;
- * it is not a claim about the original full buffer capacity. Capture guards hold
- * a longer filename before this body executes. */
-extern char current_phase[32];
 extern int current_input_file;
 /* Distinct from the BYTE incremental_failed flag used by run_linker. */
 extern DWORD incremental_status_code;
@@ -42,11 +39,11 @@ extern BYTE small_section_alignment;
  * be requalified before an invocation is reconstructed. Physical cleanup slots
  * are known from the original callbacks' actual RET16/RET28 instructions. */
 typedef BYTE (__stdcall *RelocationClassifier)(Contribution *,WORD,DWORD,BYTE);
-typedef void (__stdcall *RelocationProcessor)(Contribution *,void *,DWORD,void *,void *,LinkContext *,DWORD);
+typedef void (__stdcall *RelocationProcessor)(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
 extern RelocationClassifier classify_relocation;
 extern RelocationProcessor process_relocations;
 BYTE __stdcall classify_x86_relocation(Contribution *,WORD,DWORD,BYTE);
-void __stdcall process_x86_relocations(Contribution *,void *,DWORD,void *,void *,LinkContext *,DWORD);
+void __stdcall process_x86_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
 extern InputArguments delay_libraries;
 BYTE __stdcall read_coff_header(int,IMAGE_FILE_HEADER *,void *,BYTE *);
 void __stdcall validate_import_object_header(void *);

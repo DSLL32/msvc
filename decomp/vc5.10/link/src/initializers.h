@@ -14,6 +14,12 @@ typedef struct BufferBlock {
     unsigned remaining;
     unsigned capacity;
 } BufferBlock;
+/* Per-module symbol/string caches share the original eight-byte index buffer. */
+typedef struct ModuleIndexRecord {
+    IMAGE_SYMBOL *symbols;
+    const char *strings;
+} ModuleIndexRecord;
+typedef char ModuleIndexRecordSize[(sizeof(ModuleIndexRecord)==8)?1:-1];
 typedef struct TimingState {
     DWORD start_tick, end_tick;
     FILE *output;

@@ -248,11 +248,25 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
     return auxiliary;
 }
 void RECON_THISCALL LinkContext::InitializeVxd(void) { __asm { int 3 } }
-DWORD RECON_THISCALL LinkContext::PeHeaderSize(DWORD *offset) { __asm { int 3 } return 0; }
+extern "C" {
+extern ByteBuffer image_comments;
+extern BYTE mapped_debug;
+}
+DWORD RECON_THISCALL LinkContext::PeHeaderSize(DWORD *offset)
+{
+    DWORD start=options.rom ? 0 : pe_header_offset+4;
+    start+=sizeof(IMAGE_FILE_HEADER)+file_header.SizeOfOptionalHeader;
+    *offset=start;
+    return start+file_header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER)+
+        image_comments.used+(mapped_debug ? sizeof(IMAGE_SECTION_HEADER) : 0);
+}
 DWORD RECON_THISCALL LinkContext::VxdHeaderSize(DWORD *offset) { __asm { int 3 } return 0; }
-void RECON_THISCALL LinkContext::PeWriteSection(int file,void *section,void *header) { __asm { int 3 } }
+extern "C" void __stdcall write_section_header(int file,const IMAGE_SECTION_HEADER *header,IMAGE_SECTION_HEADER *destination);
+void RECON_THISCALL LinkContext::PeWriteSection(int file,void *section,void *header)
+{
+    write_section_header(file,(IMAGE_SECTION_HEADER *)header,NULL);
+}
 void RECON_THISCALL LinkContext::VxdWriteSection(int file,void *section,void *header) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PeWriteHeaders(int file) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::VxdWriteHeaders(int file) { __asm { int 3 } }
 
 /* Named original callees remain trapping until reached. */
@@ -391,8 +405,6 @@ int __stdcall incremental_link(LinkContext **context) { __asm { int 3 } return 0
 int __stdcall abort_incremental(int failed) { __asm { int 3 } return 0; }
 void __stdcall write_image_map(LinkContext *context,FILE *output) { __asm { int 3 }  }
 void __stdcall save_incremental_state(LinkContext *context) { __asm { int 3 }  }
-void __cdecl close_files(void) { __asm { int 3 }  }
-void __cdecl cleanup_pdb(void) { __asm { int 3 }  }
 int __cdecl run_cvpack(void) { __asm { int 3 } return 0; }
 void __cdecl close_repro(void) { __asm { int 3 }  }
 }

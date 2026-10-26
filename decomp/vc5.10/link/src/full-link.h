@@ -13,6 +13,25 @@ typedef struct OutputSection OutputSection;
 typedef struct ContributionGroup ContributionGroup;
 typedef struct Contribution Contribution;
 typedef struct ComdatRoot ComdatRoot;
+typedef struct ModuleListNode {
+    OutputModule *module;
+    struct ModuleListNode *next;
+} ModuleListNode;
+typedef char ModuleListNodeSize[(sizeof(ModuleListNode)==8)?1:-1];
+typedef struct CommonSymbol {
+    StringNode *symbol;
+    struct CommonSymbol *next;
+} CommonSymbol;
+typedef char CommonSymbolSize[(sizeof(CommonSymbol)==8)?1:-1];
+/* The producer reserves twelve bytes per internal base-relocation record.
+ * These are not the public eight-byte IMAGE_BASE_RELOCATION block headers. */
+typedef struct LinkBaseRelocation {
+    WORD type;
+    SHORT section;
+    DWORD address,value;
+} LinkBaseRelocation;
+typedef char LinkBaseRelocationSize[(sizeof(LinkBaseRelocation)==12)?1:-1];
+
 typedef struct SectionFileMap {
     DWORD virtual_address,line_number_offset;
 } SectionFileMap;
@@ -24,14 +43,18 @@ typedef struct ContributionInfo {
     struct ContributionInfo *reference_overflow;
     Contribution *previous_contribution;
     const char *name;
-    DWORD fold_signature,reserved18,reserved1c;
+    DWORD fold_signature,content_signature;
+    IMAGE_RELOCATION *fold_relocations;
     Contribution *fold_candidate;
-    DWORD reserved24;
+    DWORD comparison_depth;
 } ContributionInfo;
 typedef char ContributionInfoSize[(sizeof(ContributionInfo)==40)?1:-1];
 typedef char ContributionInfoFields[(offsetof(ContributionInfo,reference_count)==2 &&
     offsetof(ContributionInfo,references)==4 && offsetof(ContributionInfo,previous_contribution)==12 &&
     offsetof(ContributionInfo,name)==16)?1:-1];
+typedef char ContributionInfoFoldingFields[(offsetof(ContributionInfo,content_signature)==0x18 &&
+    offsetof(ContributionInfo,fold_relocations)==0x1c &&
+    offsetof(ContributionInfo,comparison_depth)==0x24)?1:-1];
 typedef char FoldCandidateAt20[(offsetof(ContributionInfo,fold_candidate)==0x20)?1:-1];
 
 /* Only fields consumed by reached reconstruction logic are named here. These are prefixes, not
@@ -56,6 +79,9 @@ struct OutputLibrary {
     OutputModule *RECON_THISCALL FindModule(const char *,const void *);
     void RECON_THISCALL SearchSymbols(struct LinkContext *,BYTE *,BYTE *);
     void RECON_THISCALL ReadIndex(struct LinkContext *);
+    BYTE RECON_THISCALL FindSymbolMember(struct LinkContext *,StringNode *,const char *,DWORD *);
+    void RECON_THISCALL RememberSymbol(StringNode *);
+    const char *RECON_THISCALL MemberName(const IMAGE_ARCHIVE_MEMBER_HEADER *);
 #endif
 };
 struct OutputModule {
@@ -66,7 +92,8 @@ struct OutputModule {
     WORD optional_header_size, characteristics;
     DWORD section_count;
     DWORD contribution_count;
-    BYTE reserved20[8];
+    DWORD debug_symbol_index;
+    IMAGE_SYMBOL *input_symbols;
     DWORD base_relocation_size;
     SectionFileMap *section_map;
     DWORD compiler_id, input_tag, timestamp, file_size;
@@ -75,28 +102,39 @@ struct OutputModule {
     IMAGE_SECTION_HEADER *section_headers;
     BYTE *section_flags;
     DWORD auxiliary;
-    BYTE reserved54[12];
+    CommonSymbol *common_symbols;
+    BYTE reserved58[8];
     ContributionInfo *contribution_info;
     OutputLibrary *library;
     /* Original allocation uses 64 bytes per section; the public Contribution
        prefix does not yet describe that complete record. */
     void *contributions;
     OutputModule *next;
-    BYTE reserved70[20];
+    void *debug_stream;
+    BYTE *serialized_debug;
+    DWORD serialized_debug_size;
+    BYTE reserved7c[8];
     WORD *incremental_state;
     StringNode *defined_symbols;
     DWORD *symbol_bits[2], *symbol_indices;
     BYTE flags, reserved99[3];
 #ifdef __cplusplus
     IMAGE_SECTION_HEADER *RECON_THISCALL ReadSectionHeaders(IMAGE_SECTION_HEADER **);
+    void RECON_THISCALL WriteOutput(struct LinkContext *,DWORD pdb_library_state);
+    void RECON_THISCALL ProcessOutput(struct LinkContext *,DWORD output_state);
+    void RECON_THISCALL ReopenOutput(int file);
+    void RECON_THISCALL WriteCommonSymbols(BYTE reference_optimization);
+    void RECON_THISCALL WriteDebug(BYTE reference_optimization);
 #endif
 };
 struct OutputSection {
     char *name;
-    DWORD rva, reserved08, raw_size, virtual_size, reserved14, file_offset;
-    DWORD reserved1c, characteristics, original_characteristics, reserved28[2];
+    DWORD rva, reserved08, raw_size, virtual_size, initialized_file_size, file_offset;
+    DWORD line_number_offset, characteristics, original_characteristics, line_number_count, reserved2c;
     WORD index, reserved32;
-    DWORD reserved34[2];
+    WORD reserved34;
+    BYTE has_base_relocations,reserved37;
+    DWORD reserved38;
     OutputSection *merge_target;
     ContributionGroup *groups;
     OutputSection *next;
@@ -123,11 +161,14 @@ struct Contribution {
     DWORD comdat_checksum;
     BYTE comdat_selection, reserved3d[3];
 #ifdef __cplusplus
+    void RECON_THISCALL ProcessOutput(struct LinkContext *,IMAGE_SYMBOL *,DWORD *,DWORD);
     BYTE RECON_THISCALL CanFold(const char *name);
     IMAGE_RELOCATION *RECON_THISCALL ReadRelocations(DWORD *count);
     void RECON_THISCALL ReadConvertedRelocations(void *buffer,DWORD bytes);
+    void RECON_THISCALL ReadConvertedData(void *buffer,DWORD bytes);
 #endif
 };
+typedef char ModuleCommonSymbolsAt54[(offsetof(OutputModule,common_symbols)==0x54)?1:-1];
 typedef char ModuleCompilerIdAt30[(offsetof(OutputModule,compiler_id)==0x30)?1:-1];
 typedef char ModuleContributionCountAt1c[(offsetof(OutputModule,contribution_count)==0x1c)?1:-1];
 typedef char ContributionAssociationAndPadding[(offsetof(Contribution,associated_contribution)==0x10 && offsetof(Contribution,padding)==0x14)?1:-1];
@@ -152,7 +193,8 @@ struct StringNode {
     union { StringNode **undefined_previous; StringNode *defined_next; };
     StringNode *undefined_next;
     union { SymbolAuxiliary *auxiliary; void *reference_owner; };
-    DWORD reserved28, reserved2c;
+    DWORD reserved28;
+    const char *diagnostic_name;
     union { DWORD flags; BYTE flag_byte; };
     WORD attributes;
 };

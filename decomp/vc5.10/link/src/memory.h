@@ -16,6 +16,8 @@ typedef struct MemoryArena {
     unsigned used, remaining;
     BYTE *base;
 } MemoryArena;
+void __stdcall release_memory_pool(MemoryPool **);
+void __stdcall release_memory_arena(MemoryArena *);
 void *__stdcall allocate_link_memory(unsigned,unsigned);
 void *__stdcall allocate_memory(unsigned);
 void *__stdcall allocate_virtual_memory(void *,unsigned,DWORD,DWORD);

@@ -25,6 +25,8 @@ typedef char FileRecordLayoutCheck[(sizeof(FileRecord)==40 &&
     offsetof(FileRecord,view)==20 && offsetof(FileRecord,mapping_size)==24 &&
     offsetof(FileRecord,file_size)==28 && offsetof(FileRecord,base)==32 &&
     offsetof(FileRecord,previous)==36)?1:-1];
+struct OutputModule;
+int __stdcall open_module_file(struct OutputModule *,int,int);
 extern FileRecord **file_slots, *file_newest;
 extern unsigned file_record_count, file_window_limit;
 extern FileRecord *mapped_files[16];

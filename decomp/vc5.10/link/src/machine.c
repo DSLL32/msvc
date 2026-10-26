@@ -101,7 +101,6 @@ BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWOR
     link_contribution_fatal(contribution,1190,(unsigned)type);
     return 0;
 }
-void __stdcall process_x86_relocations(Contribution *contribution,void *relocations,DWORD count,void *contents,void *symbols,LinkContext *context,DWORD mode) { __asm { int 3 } }
 void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }

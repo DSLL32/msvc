@@ -568,7 +568,7 @@
         "rva": 12735
       },
       "entry_bytes": "a1c0f1037853565785c00f84f48800",
-      "abi": "x86 __cdecl; EBX/EBP preserved on ordinary normal return; exact public CRT declaration and canonical provider, no callback/nonlocal-return premise",
+      "abi": "x86 __cdecl; EBX/EBP preserved on ordinary normal return; exact public CRT declaration and canonical provider, no callback/nonlocal-return premise; valid_section_name also needs the same public cdecl EDI preservation.",
       "declarations": [
         {
           "path": "toolchains/5.10/include/MBSTRING.H",
@@ -788,6 +788,127 @@
           "0x800"
         ]
       }
+    },
+    {
+      "identity": "msvcrt.dll!strncmp",
+      "abi": "Public SDK x86 __cdecl normal-return contract preserves EBX; no provider-body reconstruction or nonlocal-return claim. EBP is likewise an ordinary cdecl nonvolatile register, needed by the undefined-symbol formatter loop. EDI is likewise preserved by the public cdecl ABI; process_section_output_symbol caches strncmp in EDI across44c1a7 before44c1b8.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 153,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP int     __cdecl strncmp(const char *, const char *, size_t);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!free",
+      "abi": "Public x86 cdecl normal-return contract preserves EDI; no provider-body or nonlocal-return claim.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STDLIB.H",
+          "line": 424,
+          "sha256": "3949b5b83fa854ef497e905db2c4c3e2d95f09a440c440836fd716eec9132cfb",
+          "declaration": "_CRTIMP void   __cdecl free(void *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "msvcrt.dll!strstr",
+      "abi": "Documented public x86 cdecl normal-return contract preserves EBP.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/STRING.H",
+          "line": 161,
+          "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+          "declaration": "_CRTIMP char *  __cdecl strstr(const char *, const char *);"
+        }
+      ],
+      "provider": {
+        "path": "toolchains/5.10/bin/MSVCRT.DLL",
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+      }
+    },
+    {
+      "identity": "kernel32.dll!VirtualFree",
+      "abi": "Identified public WINAPI x86 stdcall3 normal-return contract preserves EDI, including the cached pointer across both calls and loop backedge in release_memory_arena. No custom or nonlocal return claim.",
+      "declarations": [
+        {
+          "path": "toolchains/5.10/include/WINBASE.H",
+          "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+          "declaration": "BOOL WINAPI VirtualFree(LPVOID lpAddress, DWORD dwSize, DWORD dwFreeType);"
+        }
+      ],
+      "original_caller_sites": [
+        4519605,
+        4519636
+      ]
+    },
+    {
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. SDK STDLIB.H426 cdecl integer/base conversion; EBP retains own cached pointer across44a86e/44a945.",
+      "identity": "msvcrt.dll!_itoa"
+    },
+    {
+      "preserves": [
+        "edi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. SDK STDIO.H343 cdecl; cached fputc EDI crosses44b061.",
+      "identity": "msvcrt.dll!fputc"
+    },
+    {
+      "preserves": [
+        "esi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. SDK STDIO.H328 cdecl; cached __p__pgmptr ESI crosses44b075.",
+      "identity": "msvcrt.dll!fflush"
+    },
+    {
+      "preserves": [
+        "esi",
+        "edi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. Public SDK WINAPI stdcall2; cached __p__pgmptr ESI/fputc EDI cross44b088.",
+      "identity": "kernel32.dll!SetEnvironmentVariableA"
+    },
+    {
+      "preserves": [
+        "esi",
+        "edi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. SDK STDLIB.H361 cdecl char** accessor; cached own pointer ESI crosses44afa3/44afb2, cached fputc EDI crosses44b093.",
+      "identity": "msvcrt.dll!__p__pgmptr"
+    },
+    {
+      "preserves": [
+        "edi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. SDK PROCESS.H151 cdecl; cached fputc EDI crosses44b09a.",
+      "identity": "msvcrt.dll!_spawnv"
+    },
+    {
+      "identity": "msvcrt.dll!strncpy",
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "Public SDK STRING.H cdecl, preserves cached own EBX across repeated44a45a loop. Ordinary normal-return ABI only."
+    },
+    {
+      "identity": "msvcrt.dll!_stat",
+      "preserves": [
+        "edi"
+      ],
+      "abi": "Public SDK SYS/STAT.H cdecl, preserves cached own EDI across44b1ae before44b1f0. Ordinary normal-return ABI only."
     }
   ],
   "functions": [
@@ -3174,7 +3295,20 @@
           }
         ]
       },
-      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance."
+      "abi_basis": "Finite complete original compiler routine, own saves/writes/restores and all normal-return sites; ordinary x86 cdecl/stdcall callee-saved ABI at nested compiler/SDK boundaries. Replaces prior finite manual cache certificate, no App acceptance.",
+      "variants": [
+        {
+          "name": "_duplicate_argument@4",
+          "preserves": [
+            "esi"
+          ],
+          "original_begin": 4521680,
+          "original_end": 4521712,
+          "original_body_sha256": "5ae311aa5bd19ffd0a31b6b3562a34b18225572d6fe2e4fe2da35ea24b00a960",
+          "basis": "ESI PUSH44fed4, write44fedc, POP44feec, RET4 at44feed; ordinary _strdup cdecl call; out_of_memory nonreturn.",
+          "counterpart": "Accepted ordinary original-compiler stdcall source body; current full shared graph/RET remains mandatory."
+        }
+      ]
     },
     {
       "name": "_release_memory@4",
@@ -3803,7 +3937,20 @@
             "bytes": "c21000"
           }
         ]
-      }
+      },
+      "variants": [
+        {
+          "name": "_get_symbol_name@16",
+          "preserves": [
+            "esi"
+          ],
+          "original_begin": 4595072,
+          "original_end": 4595139,
+          "original_body_sha256": "056d73f12c5c948a8b692ab393a4ca94b8b04b606aa7dcc281c44e0076762c6e",
+          "basis": "Complete call-free body has no ESI writes; RET16 at461dc0.",
+          "counterpart": "Accepted ordinary original-compiler stdcall source body; current full shared graph/RET remains mandatory."
+        }
+      ]
     },
     {
       "name": "_record_relocation_reference@16",
@@ -4346,6 +4493,116 @@
           }
         ]
       }
+    },
+    {
+      "name": "_is_delay_load_excluded@4",
+      "variants": [
+        {
+          "name": "_is_delay_load_excluded@4",
+          "preserves": [
+            "ebp"
+          ],
+          "original_begin": 4324016,
+          "original_end": 4324102,
+          "original_body_sha256": "feef606c3ecab859c200ae31bcaaa36f267f9ff1dd0b0ba97e974f6f8c69826f",
+          "standard_abi": "stdcall1/RET4; EBP saved by PUSH41fab1 and restored on all three normal exits41faef/41faf8/41faff; only EBP write41fac4 loads identified _stricmp. Public ordinary cdecl nested compare preserves nonvolatile EBP.",
+          "original_normal_returns": [
+            4324081,
+            4324090,
+            4324099
+          ],
+          "rebuilt_boundary": "Current ordinary original-compiler named stdcall1 INT3 stub retains normal EBP save/restore; no body credit."
+        }
+      ]
+    },
+    {
+      "name": "_move_section_to_end@8",
+      "abi": "Identified ordinary stdcall2/RET8; documented nonvolatile EBP is preserved on normal return. Original caller43ef8b and complete accepted target40fa40 bind this role, not a custom callback.",
+      "preserves": [
+        "ebp"
+      ]
+    },
+    {
+      "name": "_format_module_name@8",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "Identified ordinary x86 stdcall2/RET8; documented normal-return nonvolatile EBP preservation.",
+      "original_caller_sites": [
+        4578536,
+        4578581
+      ]
+    },
+    {
+      "name": "_link_unresolved_error",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "Identified ordinary x86 cdecl variadic/RET0; documented normal-return nonvolatile EBP preservation.",
+      "original_caller_sites": [
+        4578542,
+        4578587
+      ]
+    },
+    {
+      "name": "_next_symbol_reference@4",
+      "preserves": [
+        "ebp"
+      ],
+      "abi": "Identified ordinary x86 stdcall1/RET4; documented normal-return nonvolatile EBP preservation.",
+      "original_caller_sites": [
+        4578555
+      ]
+    },
+    {
+      "name": "_emit_symbol_class@8",
+      "preserves": [
+        "esi"
+      ],
+      "abi": "Identified ordinary x86 stdcall2/RET8 normal-return ABI preserves ESI; original44bf63 crosses the cached strncpy pointer live in ESI before44bf8f."
+    },
+    {
+      "name": "LinkContext::ApplyOrderFile",
+      "original_begin": 4557232,
+      "original_end": 4557561,
+      "original_body_sha256": "3922ee5c644c2e3b42c244ebd2ac1beb4b9abb69b582841f8b98322e1d31c9c7",
+      "abi": "Whole original329B ABI-only tail qualification: ECX receiver, thiscall0, one C3 at458af8; all branches internal/no external tails, own frame0x24, EBX/ESI/EDI saved/restored. PrepareAuxiliarySections tail JMP458b09 binds this role. Native remains implementation0/genuine named entry trap; no body credit."
+    },
+    {
+      "preserves": [
+        "ebx",
+        "ebp"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. Identified thiscall2/RET8; cached strncpy EBX crosses44a404 and _itoa EBP crosses44a887..44a9f8. Pending native entry remains a trap.",
+      "name": "DefinitionBuffer::Advance"
+    },
+    {
+      "preserves": [
+        "ebx"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. Identified stdcall4/RET16, cached strncpy EBX crosses44a445.",
+      "name": "_get_symbol_name@16"
+    },
+    {
+      "preserves": [
+        "esi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. Identified stdcall2/RET8, cached __p__pgmptr ESI crosses44b042.",
+      "name": "_close_argument_file@8"
+    },
+    {
+      "preserves": [
+        "edi"
+      ],
+      "abi": "Documented ordinary x86 normal-return calling convention preserves these nonvolatile registers; no custom/nonlocal return claim. Identified ordinary cdecl variadic; cached fputc EDI crosses44b06b.",
+      "name": "_link_message"
+    },
+    {
+      "name": "_duplicate_link_string@4",
+      "preserves": [
+        "edi"
+      ],
+      "abi": "Identified ordinary stdcall1/RET4 normal-return ABI; actual target44fd80 at44b1dc preserves cached _stat EDI. Distinct from duplicate_argument44fed0."
     }
   ],
   "callback": {

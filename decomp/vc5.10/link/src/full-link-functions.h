@@ -25,6 +25,7 @@ void __stdcall merge_section_groups(OutputSection *source,OutputSection *destina
 void __stdcall merge_output_section(OutputSection *source,OutputSection *destination);
 void __stdcall move_contribution_to_end(Contribution *contribution);
 void __stdcall move_group_to_end(ContributionGroup *group);
+void __stdcall move_named_group(const char *name,OutputSection *source,OutputSection *destination);
 void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,SectionList *sections);
 BYTE __stdcall next_output_section(SectionEnumerator *enumerator);
 void __stdcall end_section_enumerator(SectionEnumerator *enumerator);
@@ -38,7 +39,8 @@ void __cdecl link_contribution_fatal(Contribution *contribution,unsigned message
 unsigned __stdcall count_hash_symbols(HashState *table);
 void __stdcall allocate_pdb_module_table(DWORD count);
 char * __stdcall derive_old_image_name(LinkContext *context);
-BYTE __stdcall read_old_image(const char *name,BYTE quiet,LinkContext *image,void *information);
+struct _stat;
+BYTE __stdcall read_old_image(const char *name,BYTE warn,LinkContext *image,struct _stat *information);
 void __stdcall adjust_incremental_symbols(LinkContext *context);
 void __stdcall write_mac_incremental_table(LinkContext *context,DWORD offset);
 void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed);
@@ -69,7 +71,7 @@ void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *s
 void __cdecl initialize_comdats(void);
 void __cdecl release_comdat_tables(void);
 void __stdcall attach_comdat(Contribution *contribution,const char *name,BYTE linker_defined);
-void __stdcall add_comdat_root(Contribution *contribution,StringNode *symbol,Contribution *owner,ComdatRoot **roots);
+void __stdcall add_comdat_root(const char *name,StringNode *symbol,Contribution *owner,ComdatRoot **roots);
 void __stdcall add_special_comdat_roots(StringTable *symbols);
 void __stdcall eliminate_unused_comdats(ComdatRoot *roots,StringTable *symbols);
 void __cdecl finish_comdat_elimination(void);

@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 2864
+              "offset": 28992
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 2875
+              "offset": 29003
             }
           ]
         }
@@ -4659,6 +4659,212 @@
             }
           ]
         }
+      },
+      "_set_subsystem_version@4": {
+        "original": {
+          "switches": [
+            {
+              "site": 4503531,
+              "targets": [
+                4503538,
+                4503556,
+                4503577,
+                4503595
+              ]
+            }
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_set_subsystem_version@4",
+                "offset": 138
+              },
+              {
+                "rebuilt_symbol": "_set_subsystem_version@4",
+                "offset": 163
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_set_subsystem_version@4",
+                "offset": 47
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_set_subsystem_version@4",
+                  "offset": 54
+                },
+                {
+                  "rebuilt_symbol": "_set_subsystem_version@4",
+                  "offset": 68
+                },
+                {
+                  "rebuilt_symbol": "_set_subsystem_version@4",
+                  "offset": 82
+                },
+                {
+                  "rebuilt_symbol": "_set_subsystem_version@4",
+                  "offset": 96
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "LinkContext::CanMergeImportSections": {
+        "original": {
+          "switches": [
+            {
+              "site": 4450296,
+              "targets": [
+                4450303,
+                4450335,
+                4450332,
+                4450325
+              ]
+            }
+          ]
+        }
+      },
+      "_process_output_symbol@28": {
+        "original": {
+          "switches": [
+            {
+              "site": 4507203,
+              "targets": [
+                4507247,
+                4507230,
+                4507210,
+                4507363,
+                4507377
+              ]
+            }
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_process_output_symbol@28",
+                "offset": 752
+              },
+              {
+                "rebuilt_symbol": "_process_output_symbol@28",
+                "offset": 892
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_process_output_symbol@28",
+                "offset": 231
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_process_output_symbol@28",
+                  "offset": 238
+                },
+                {
+                  "rebuilt_symbol": "_process_output_symbol@28",
+                  "offset": 266
+                },
+                {
+                  "rebuilt_symbol": "_process_output_symbol@28",
+                  "offset": 288
+                },
+                {
+                  "rebuilt_symbol": "_process_output_symbol@28",
+                  "offset": 451
+                },
+                {
+                  "rebuilt_symbol": "_process_output_symbol@28",
+                  "offset": 470
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_process_x86_relocations@28": {
+        "original": {
+          "switches": [
+            {
+              "site": 4396104,
+              "targets": [
+                4397043,
+                4397077,
+                4396509,
+                4397003,
+                4397008,
+                4396971,
+                4396111,
+                4397098
+              ]
+            }
+          ]
+        }
+      },
+      "LinkContext::PeWriteHeaders": {
+        "original": {
+          "switches": [
+            {
+              "site": 4562567,
+              "targets": [
+                4562574,
+                4562581,
+                4562588,
+                4562595
+              ]
+            }
+          ]
+        }
+      },
+      "_process_definition_file@8": {
+        "original": {
+          "roots": [
+            4609456,
+            4609467
+          ],
+          "text_data": [
+            [
+              4609928,
+              4609968
+            ]
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_process_definition_file@8",
+              "offset": 46656
+            },
+            {
+              "rebuilt_symbol": "_process_definition_file@8",
+              "offset": 46667
+            }
+          ]
+        },
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_select_delay_load_library@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_valid_section_name@4": {
+        "register_imports": {
+          "enabled": true,
+          "require_all_register_calls_resolved": true
+        }
       }
     },
     "callback_tables": [
@@ -4694,12 +4900,12 @@
           },
           "preserves": [
             "ebx",
-            "esi",
-            "edi"
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4716,7 +4922,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4733,7 +4939,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4751,7 +4957,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4768,7 +4974,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4785,7 +4991,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4802,7 +5008,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4817,7 +5023,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4834,7 +5040,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4848,7 +5054,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4863,7 +5069,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4879,7 +5085,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4891,11 +5097,12 @@
           },
           "preserves": [
             "ebx",
-            "edi"
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4911,7 +5118,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4923,7 +5130,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4931,11 +5138,12 @@
             "function": "_close_argument_file@8"
           },
           "preserves": [
-            "edi"
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4947,7 +5155,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4959,7 +5167,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4971,7 +5179,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4983,7 +5191,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -4995,7 +5203,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5007,7 +5215,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5019,7 +5227,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5031,7 +5239,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5043,7 +5251,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5051,11 +5259,12 @@
             "function": "_emit_symbol_class@8"
           },
           "preserves": [
-            "edi"
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5067,7 +5276,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5079,7 +5288,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5091,7 +5300,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5103,7 +5312,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5115,7 +5324,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5127,7 +5336,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5140,7 +5349,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5152,7 +5361,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5164,7 +5373,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5176,7 +5385,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5188,7 +5397,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5200,7 +5409,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5212,7 +5421,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5224,7 +5433,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5236,7 +5445,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5244,11 +5453,12 @@
             "function": "_link_message"
           },
           "preserves": [
+            "edi",
             "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5259,11 +5469,12 @@
             }
           },
           "preserves": [
+            "edi",
             "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5280,7 +5491,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5297,7 +5508,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5312,7 +5523,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5324,7 +5535,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5336,7 +5547,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5351,7 +5562,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5367,7 +5578,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5383,7 +5594,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5399,7 +5610,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5412,7 +5623,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5420,11 +5631,12 @@
             "function": "_duplicate_argument@4"
           },
           "preserves": [
-            "ebx"
+            "ebx",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5436,7 +5648,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5448,7 +5660,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5460,7 +5672,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5476,7 +5688,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5492,7 +5704,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5504,11 +5716,12 @@
           },
           "preserves": [
             "ebx",
-            "ebp"
+            "ebp",
+            "edi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5520,7 +5733,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5528,11 +5741,13 @@
             "function": "_get_symbol_name@16"
           },
           "preserves": [
-            "edi"
+            "ebx",
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5544,7 +5759,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5556,7 +5771,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5571,7 +5786,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5582,11 +5797,13 @@
             }
           },
           "preserves": [
-            "edi"
+            "ebx",
+            "edi",
+            "esi"
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         },
         {
@@ -5601,7 +5818,215 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_is_delay_load_excluded@4"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          },
+          "preserves": [
+            "ebp",
+            "ebx",
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_move_section_to_end@8"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strstr"
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_format_module_name@8"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_link_unresolved_error"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_next_symbol_reference@4"
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "VirtualFree"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "DefinitionBuffer::Advance"
+          },
+          "preserves": [
+            "ebx",
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_itoa"
+            }
+          },
+          "preserves": [
+            "ebp"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "SetEnvironmentVariableA"
+            }
+          },
+          "preserves": [
+            "esi",
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_spawnv"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_stat"
+            }
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
+          }
+        },
+        {
+          "target": {
+            "function": "_duplicate_link_string@4"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "evidence": {
+            "path": "policy-contracts.json",
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         }
       ],
@@ -5627,7 +6052,7 @@
           ],
           "evidence": {
             "path": "policy-contracts.json",
-            "sha256": "cc04638a988dc9207a6e87e29a133b1781f6b76859bf49c7ff45f06b53481509"
+            "sha256": "63da3ca3c03a5accee338b35eb3ad205408d81b20fc908fab1b6dce91a306497"
           }
         }
       ]
@@ -5656,6 +6081,111 @@
           4
         ]
       },
+      "?ReadRelocations@Contribution@@QAEPAU_IMAGE_RELOCATION@@PAK@Z": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "Contribution::CanFold": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "Contribution::ProcessOutput": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "DefinitionBuffer::Grow": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "DefinitionBuffer::Set": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "DefinitionBuffer::~DefinitionBuffer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkAuxiliaryData::FinishOutput": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "LinkAuxiliaryData::PrepareOutput": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkAuxiliaryData::SetProcedureSize": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LinkContext::ApplyMerges": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::ApplySectionAttributes": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::BuildDosExtension": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "LinkContext::CanMergeImportSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::CanMergeReadOnlyData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::CheckMachine": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LinkContext::CountOutputSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::EmitDebugDirectories": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "LinkContext::FinalizeOrder": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::FinishImage": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::FinishNativeSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::FoldIdenticalComdats": {
+        "expected_cleanup": [
+          0
+        ]
+      },
       "LinkContext::Initialize": {
         "expected_cleanup": [
           4
@@ -5666,7 +6196,22 @@
           0
         ]
       },
+      "LinkContext::LayoutSections": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "LinkContext::LoadInputArgument": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LinkContext::MergeExceptionSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::MergeNamedSections": {
         "expected_cleanup": [
           8
         ]
@@ -5676,9 +6221,149 @@
           0
         ]
       },
+      "LinkContext::PassTwo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::PeHeaderSize": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "LinkContext::PeWriteHeaders": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "LinkContext::PeWriteSection": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "LinkContext::PrepareAuxiliarySections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::PrepareSectionLayout": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::ResolveLocalImports": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LinkContext::ResolveUndefined": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::WriteLocalImports": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LinkContext::WriteSections": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "OutputLibrary::FindModule": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "OutputLibrary::FindSymbolMember": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "OutputLibrary::MemberName": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "OutputLibrary::ReadIndex": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "OutputLibrary::SearchSymbols": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "OutputModule::ProcessOutput": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "OutputModule::ReadSectionHeaders": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "OutputModule::WriteCommonSymbols": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "OutputModule::WriteOutput": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "ScopedBuffer::~ScopedBuffer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StringTable::FindSymbol": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "StringTable::Lookup": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "StringTable::LookupSymbol": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "StringTable::ReleaseLookupIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "StringTable::SortSymbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__matherr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__onexit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__setargv": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__setdefaultprecision": {
+        "expected_cleanup": [
+          0
         ]
       },
       "_acquire_file_record@16": {
@@ -5686,9 +6371,44 @@
           16
         ]
       },
+      "_add_comdat_reference@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_add_comdat_root@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_add_default_library@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_add_input_section@24": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_add_special_comdat_roots@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_adjust_output_section_flags@12": {
         "expected_cleanup": [
           12
+        ]
+      },
+      "_align_image_base@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_align_section_size@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_allocate_buffer12": {
@@ -5706,6 +6426,11 @@
           0
         ]
       },
+      "_allocate_incremental@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_allocate_link_memory@8": {
         "expected_cleanup": [
           8
@@ -5719,6 +6444,21 @@
       "_allocate_module_index": {
         "expected_cleanup": [
           0
+        ]
+      },
+      "_allocate_module_section_headers@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_allocate_pool_memory@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_allocate_symbol_string_block@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_allocate_virtual_memory@16": {
@@ -5736,7 +6476,52 @@
           12
         ]
       },
+      "_append_bytes@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_append_import_module@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_archive_big_endian_dword@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_archive_member_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_atexit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_attach_comdat@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_build_section_header@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_build_section_symbol_ranges@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_byte_swap_dword@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_cache_file_record@4": {
         "expected_cleanup": [
           4
         ]
@@ -5751,9 +6536,44 @@
           8
         ]
       },
+      "_check_input_modules@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_check_output_input_collision@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_classify_x86_relocation@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_cleanup_pdb": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_clear_argument_list@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_close_argument_file@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_close_files": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_close_mapped_file@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_close_timing": {
@@ -5766,9 +6586,69 @@
           16
         ]
       },
+      "_collect_module_directives@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_compact_procedure_entries@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_compare_and_fold_comdats@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_compare_archive_symbol_names": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_fold_candidates": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_fold_references@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_compare_fold_section_symbols@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_compare_fold_symbols@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_compare_import_modules": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_compare_special_fold_references@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
       "_configure_link_options@12": {
         "expected_cleanup": [
           12
+        ]
+      },
+      "_count_section_lines@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_create_contribution@28": {
+        "expected_cleanup": [
+          28
         ]
       },
       "_create_contribution_group@8": {
@@ -5801,12 +6681,32 @@
           12
         ]
       },
+      "_define_input_symbol@32": {
+        "expected_cleanup": [
+          32
+        ]
+      },
+      "_derive_old_image_name@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_detect_input_machine@8": {
         "expected_cleanup": [
           8
         ]
       },
+      "_disallow_library@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "_duplicate_argument@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_duplicate_comdat_name@4": {
         "expected_cleanup": [
           4
         ]
@@ -5816,9 +6716,24 @@
           4
         ]
       },
+      "_eliminate_unused_comdats@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_emit_symbol_class@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_end_section_enumerator": {
         "expected_cleanup": [
           4
+        ]
+      },
+      "_ensure_library_loaded@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_find_cached_file@4": {
@@ -5826,9 +6741,24 @@
           4
         ]
       },
+      "_find_console_entry_symbols@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "_find_contribution_group@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_find_gui_entry_symbols@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_find_input_output_section@20": {
+        "expected_cleanup": [
+          20
         ]
       },
       "_find_library@12": {
@@ -5836,9 +6766,59 @@
           12
         ]
       },
+      "_find_loaded_default_library@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_find_matching_output_section@20": {
         "expected_cleanup": [
           20
+        ]
+      },
+      "_find_member_section@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_find_output_section@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_find_section_by_name@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_finish_comdat_elimination": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_finish_image_layout@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_finish_symbol_tables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_fold_comdat_range@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_format_contribution_module@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_format_module_name@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_free_buffer12": {
@@ -5861,6 +6841,11 @@
           0
         ]
       },
+      "_get_contribution_info@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_get_debug_flag@4": {
         "expected_cleanup": [
           4
@@ -5871,6 +6856,21 @@
           4
         ]
       },
+      "_get_hash_flags@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_get_input_section_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_get_symbol_name@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
       "_has_switch@4": {
         "expected_cleanup": [
           4
@@ -5879,6 +6879,16 @@
       "_hash_allocate@16": {
         "expected_cleanup": [
           16
+        ]
+      },
+      "_infer_entry_point@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_infer_subsystem@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_initialize_buffer12": {
@@ -5894,6 +6904,21 @@
       "_initialize_buffer8": {
         "expected_cleanup": [
           0
+        ]
+      },
+      "_initialize_comdat_enumerator@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_initialize_comdat_reference_enumerator@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_initialize_comdat_root_enumerator@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_initialize_comdats": {
@@ -5921,6 +6946,11 @@
           12
         ]
       },
+      "_initialize_group_contributions@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_initialize_group_enumerator@8": {
         "expected_cleanup": [
           8
@@ -5944,6 +6974,11 @@
       "_initialize_memory": {
         "expected_cleanup": [
           0
+        ]
+      },
+      "_initialize_module_contribution_enumerator@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_initialize_module_enumerator@8": {
@@ -5971,7 +7006,17 @@
           0
         ]
       },
+      "_initialize_undefined_enumerator@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_initialize_x86_backend@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_intern_symbol_string@8": {
         "expected_cleanup": [
           8
         ]
@@ -5979,6 +7024,11 @@
       "_is_archive@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_is_discardable_comdat@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_is_libpath@4": {
@@ -5991,9 +7041,34 @@
           4
         ]
       },
+      "_is_precompiled_module@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_library_name_matches@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_linker_usage": {
         "expected_cleanup": [
           0
+        ]
+      },
+      "_load_next_default_library@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_load_object_module@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_lookup_hash@20": {
+        "expected_cleanup": [
+          20
         ]
       },
       "_main": {
@@ -6001,9 +7076,49 @@
           0
         ]
       },
+      "_mainCRTStartup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_map_file_range@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "_mapped_read@12": {
         "expected_cleanup": [
           12
+        ]
+      },
+      "_mapped_write@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_mark_incremental_contribution@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_mark_live_comdat@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_member_contains_symbol@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_merge_output_section@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_merge_section_groups@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_move_file_record@24": {
@@ -6011,12 +7126,57 @@
           24
         ]
       },
+      "_move_group_to_end@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_move_named_group@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_move_section_to_end@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_new_file_record": {
         "expected_cleanup": [
           0
         ]
       },
+      "_next_coff_symbol@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_next_comdat@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_next_comdat_reference@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_next_comdat_root@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_next_contribution_group@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_next_directive_token@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_next_group_contribution@4": {
         "expected_cleanup": [
           4
         ]
@@ -6031,7 +7191,17 @@
           4
         ]
       },
+      "_next_module_contribution@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_next_output_section@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_next_undefined@4": {
         "expected_cleanup": [
           4
         ]
@@ -6044,6 +7214,11 @@
       "_open_mapped_file@16": {
         "expected_cleanup": [
           16
+        ]
+      },
+      "_open_module_file@12": {
+        "expected_cleanup": [
+          12
         ]
       },
       "_parse_argument@8": {
@@ -6061,7 +7236,82 @@
           8
         ]
       },
+      "_partition_sections@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_place_common_symbol@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_place_module_common_symbols@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_prepare_delay_imports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_import_sections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_prepare_module_imports@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
       "_print_logo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_process_aux_output_symbols@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_process_external_output_symbol@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_process_file_output_symbol@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_process_local_output_symbol@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_process_module_directives@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_process_output_symbol@28": {
+        "expected_cleanup": [
+          28
+        ]
+      },
+      "_process_section_output_symbol@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_process_x86_relocations@28": {
+        "expected_cleanup": [
+          28
+        ]
+      },
+      "_read_archive_member_header": {
         "expected_cleanup": [
           0
         ]
@@ -6076,7 +7326,32 @@
           16
         ]
       },
+      "_read_comdat_section@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
+      "_read_fold_inputs@20": {
+        "expected_cleanup": [
+          20
+        ]
+      },
       "_read_input_argument@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_read_library_index@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_read_module_string_table@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_read_module_symbols@12": {
         "expected_cleanup": [
           12
         ]
@@ -6084,6 +7359,46 @@
       "_read_object_file@12": {
         "expected_cleanup": [
           12
+        ]
+      },
+      "_read_old_image@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_read_section_directives@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_read_section_relocations@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_read_x86_relocations@24": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_reallocate_memory@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_record_module_comdats@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_record_relocation_reference@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_record_symbol_reference@8": {
+        "expected_cleanup": [
+          8
         ]
       },
       "_register_buffer12_cleanup": {
@@ -6106,14 +7421,74 @@
           0
         ]
       },
+      "_release_comdat_tables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
       "_release_memory@4": {
         "expected_cleanup": [
           4
         ]
       },
+      "_release_memory_arena@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_memory_pool@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_module_strings@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_module_symbols@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_release_relocations@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_remember_common_symbol@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_remove_converted_arguments@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_reserve_byte_buffer@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
       "_reserve_memory@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_reset_import_modules@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_resolve_entry_symbol@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_resolve_initial_entry@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_resolve_output_section@4": {
@@ -6124,6 +7499,11 @@
       "_run_linker@8": {
         "expected_cleanup": [
           8
+        ]
+      },
+      "_search_libraries@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_search_library_paths@8": {
@@ -6141,9 +7521,49 @@
           16
         ]
       },
+      "_select_delay_load_library@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_set_subsystem_version@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_set_symbol_defined@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "_setup_timing": {
         "expected_cleanup": [
           0
+        ]
+      },
+      "_sort_import_group@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_sort_import_tail@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_split_section_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_string_key_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_valid_section_name@4": {
+        "expected_cleanup": [
+          4
         ]
       },
       "_validate_debug_options@4": {
@@ -6156,414 +7576,44 @@
           4
         ]
       },
+      "_warn_missing_default_libraries@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_warn_unused_delay_libraries@0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_write_bss_contribution@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "_write_file_header@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_write_optional_header@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "_write_output_line_numbers@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_write_section_header@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
       "_zero_allocate@4": {
         "expected_cleanup": [
           4
-        ]
-      },
-      "__matherr": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "__onexit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "__setargv": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "__setdefaultprecision": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "_atexit": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "_mainCRTStartup": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "_allocate_module_section_headers@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_load_object_module@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "OutputModule::ReadSectionHeaders": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_read_module_symbols@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_map_file_range@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_read_module_string_table@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_add_input_section@24": {
-        "expected_cleanup": [
-          24
-        ]
-      },
-      "_get_input_section_name@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_create_contribution@28": {
-        "expected_cleanup": [
-          28
-        ]
-      },
-      "_split_section_name@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_mark_incremental_contribution@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_read_section_directives@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "_process_module_directives@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_collect_module_directives@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "_next_directive_token@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_format_contribution_module@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_format_module_name@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_add_default_library@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_allocate_incremental@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_library_name_matches@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_read_comdat_section@20": {
-        "expected_cleanup": [
-          20
-        ]
-      },
-      "_build_section_symbol_ranges@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_get_symbol_name@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "StringTable::LookupSymbol": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_lookup_hash@20": {
-        "expected_cleanup": [
-          20
-        ]
-      },
-      "_intern_symbol_string@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_allocate_symbol_string_block@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_reserve_byte_buffer@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_reallocate_memory@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_append_bytes@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_set_symbol_defined@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "Contribution::CanFold": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_get_contribution_info@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_align_section_size@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_attach_comdat@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_duplicate_comdat_name@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_allocate_pool_memory@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_read_section_relocations@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "?ReadRelocations@Contribution@@QAEPAU_IMAGE_RELOCATION@@PAK@Z": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_read_x86_relocations@24": {
-        "expected_cleanup": [
-          24
-        ]
-      },
-      "_classify_x86_relocation@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "_record_relocation_reference@16": {
-        "expected_cleanup": [
-          16
-        ]
-      },
-      "_add_comdat_reference@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_release_relocations@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "ScopedBuffer::~ScopedBuffer": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "_next_coff_symbol@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_emit_symbol_class@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_string_key_name@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_define_input_symbol@32": {
-        "expected_cleanup": [
-          32
-        ]
-      },
-      "_record_symbol_reference@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_record_module_comdats@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_initialize_module_contribution_enumerator@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_next_module_contribution@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_initialize_comdat_reference_enumerator@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_next_comdat_reference@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_release_module_strings@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_release_module_symbols@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_close_argument_file@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_cache_file_record@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_check_input_modules@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_infer_subsystem@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_find_console_entry_symbols@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "StringTable::FindSymbol": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_find_gui_entry_symbols@12": {
-        "expected_cleanup": [
-          12
-        ]
-      },
-      "_infer_entry_point@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_resolve_initial_entry@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_resolve_entry_symbol@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "StringTable::Lookup": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_search_libraries@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_ensure_library_loaded@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "_read_library_index@8": {
-        "expected_cleanup": [
-          8
-        ]
-      },
-      "OutputLibrary::ReadIndex": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "_read_archive_member_header": {
-        "expected_cleanup": [
-          0
-        ]
-      },
-      "_archive_big_endian_dword@4": {
-        "expected_cleanup": [
-          4
-        ]
-      },
-      "LinkContext::CheckMachine": {
-        "expected_cleanup": [
-          8
         ]
       }
     }
@@ -6574,24 +7624,51 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 2864
+            "offset": 28992
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 2875
+            "offset": 29003
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 2875
+            "offset": 29003
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 2885
+            "offset": 29013
           }
         ]
       ]
+    },
+    "_process_definition_file@8": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_process_definition_file@8",
+            "offset": 46656
+          },
+          {
+            "rebuilt_symbol": "_process_definition_file@8",
+            "offset": 46667
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_process_definition_file@8",
+            "offset": 46667
+          },
+          {
+            "rebuilt_symbol": "_process_definition_file@8",
+            "offset": 46677
+          }
+        ]
+      ]
+    },
+    "LinkContext::ApplyOrderFile": {
+      "pending_extent": false
     }
   }
 }

@@ -1,184 +1,312 @@
 #include <recon-tool.h>
 #include "../../harness/startup.h"
 #include <recon.h>
-extern const ReconTest hello_tests[65];
+extern const ReconTest hello_tests[];
 static const uint32_t order[] = {
- 0x24e60, /* _initialize_buffer12 */
- 0x24e70, /* _allocate_buffer12 */
- 0x24ea0, /* _register_buffer12_cleanup */
- 0x31d70, /* _initialize_buffer8 */
- 0x31d80, /* _allocate_buffer8 */
- 0x31db0, /* _register_buffer8_cleanup */
- 0x31de0, /* _initialize_buffer4 */
- 0x31df0, /* _allocate_buffer4 */
- 0x31e20, /* _register_buffer4_cleanup */
- 0x44e60, /* _initialize_timing */
- 0x44e70, /* _setup_timing */
- 0x44ea0, /* _register_timing_cleanup */
- 0xde90, /* _main */
- 0x15230, /* _initialize_debug@8 */
- 0xb560, /* _initialize_file_cache@16 */
- 0x152f0, /* _get_debug_flag@4 */
- 0x4fe70, /* _zero_allocate@4 */
- 0xb660, /* _new_file_record */
- 0x4f560, /* _initialize_memory */
- 0x48cb0, /* _run_linker@8 */
- 0x44b10, /* _initialize_repro */
- 0x5caa0, /* _collect_file_arguments@16 */
- 0x5cb20, /* _parse_command_line@16 */
- 0x5c780, /* _parse_argument@8 */
- 0x5c750, /* _is_libpath@4 */
- 0x5cca0, /* _append_argument@8 */
- 0x5cc00, /* _append_argument_record@12 */
- 0x5c650, /* _canonicalize_argument@8 */
- 0x4fed0, /* _duplicate_argument@4 */
- 0x5c530, /* _search_library_paths@8 */
- 0x44f20, /* _has_switch@4 */
- 0x4fd40, /* _allocate_link_memory@8 */
- 0x337d0, /* LinkContext::Initialize */
- 0x62220, /* _create_string_table@12 */
- 0x30c70, /* _initialize_hash_table@20 */
- 0x30c30, /* _hash_allocate@16 */
- 0x4f5e0, /* _reserve_memory@8 */
- 0x4f640, /* _create_memory_arena@4 */
- 0x4fe50, /* _allocate_memory@4 */
- 0x45130, /* _configure_link_options@12 */
- 0xd0c0, /* _parse_switch@8 */
- 0x4fe30, /* _release_memory@4 */
- 0x48630, /* _validate_debug_options@4 */
- 0x42f50, /* ?FullLink@LinkContext@@QAEHPAE@Z */
- 0xe3b0, /* _initialize_output_modules@4 */
- 0x4fd80, /* _duplicate_link_string@4 */
- 0xe360, /* _initialize_contribution_pools */
- 0x4f5b0, /* _allocate_virtual_memory@16 */
- 0x62eb0, /* _initialize_comdats */
- 0x3e170, /* LinkContext::InitializeSections */
- 0xef90, /* _create_output_section@20 */
- 0xf130, /* _find_matching_output_section@20 */
- 0x5e820, /* _adjust_output_section_flags@12 */
- 0xfbd0, /* _initialize_section_enumerator@8 */
- 0xfc00, /* _next_output_section@4 */
- 0xfd90, /* _end_section_enumerator */
- 0xe620, /* _resolve_output_section@4 */
- 0xe700, /* _create_contribution_group@8 */
- 0xe670, /* _find_contribution_group@8 */
- 0xfc40, /* _initialize_group_enumerator@8 */
- 0xfc70, /* _next_contribution_group@4 */
- 0x4b860, /* LinkContext::PassOne */
- 0x61840, /* _check_output_input_collision@8 */
- 0xb7f0, /* _open_argument_file@12 */
- 0xb870, /* _acquire_file_record@16 */
- 0xb960, /* _find_cached_file@4 */
- 0xb8f0, /* _get_available_file_record */
- 0xc7e0, /* _move_file_record@24 */
- 0xc880, /* _open_mapped_file@16 */
- 0xccf0, /* _initialize_file_mapping@12 */
- 0xedd0, /* _create_library@12 */
- 0xf650, /* _find_library@12 */
- 0xfaf0, /* _initialize_library_enumerator@8 */
- 0xfb20, /* _next_library@4 */
- 0x49a50, /* LinkContext::LoadInputArgument */
- 0x498d0, /* _read_input_argument@12 */
- 0x5cd40, /* _is_archive@8 */
- 0xcab0, /* _mapped_read@12 */
- 0x4e620, /* _is_mac_resource_file@4 */
- 0xc080, /* _get_file_length@4 */
- 0xc030, /* _seek_file@16 */
- 0xca10, /* _seek_mapped_file@16 */
- 0x4e5c0, /* _read_big_endian_dword@4 */
- 0x5d890, /* _byte_swap_dword@4 */
- 0x497e0, /* _read_object_file@12 */
- 0x10530, /* _check_input_machine@8 */
- 0x103f0, /* _detect_input_machine@8 */
- 0x49630, /* _initialize_machine@4 */
- 0x1f9b0, /* _validate_delay_load_options@4 */
- 0x31890, /* _initialize_x86_backend@8 */
- 0x610c0, /* _read_coff_header@16 */
- 0xea00, /* _create_input_module@48 */
- 0xf7a0, /* OutputLibrary::FindModule */
- 0xfb60, /* _initialize_module_enumerator@8 */
- 0xfb90, /* _next_module@4 */
- 0x31e50, /* _allocate_module_index */
- 0x62ef0, /* _allocate_module_section_headers@4 */
- 0x5fc90, /* _load_object_module@16 */
- 0x608e0, /* OutputModule::ReadSectionHeaders */
- 0x60f30, /* _read_module_symbols@12 */
- 0xcfc0, /* _map_file_range@12 */
- 0x60a10, /* _read_module_string_table@12 */
- 0x5ea70, /* _add_input_section@24 */
- 0x61680, /* _get_input_section_name@8 */
- 0xe850, /* _create_contribution@28 */
- 0xe5e0, /* _split_section_name@8 */
- 0x5eef0, /* _mark_incremental_contribution@4 */
- 0x5e910, /* _read_section_directives@16 */
- 0x49380, /* _process_module_directives@12 */
- 0x492f0, /* _collect_module_directives@16 */
- 0x5c2c0, /* _next_directive_token@8 */
- 0xe5b0, /* _format_contribution_module@8 */
- 0xe420, /* _format_module_name@8 */
- 0x16ba0, /* _add_default_library@8 */
- 0x4fce0, /* _allocate_incremental@4 */
- 0x16cc0, /* _library_name_matches@8 */
- 0x5ff70, /* _read_comdat_section@20 */
- 0x5fe80, /* _build_section_symbol_ranges@8 */
- 0x61d80, /* _get_symbol_name@16 */
- 0x61dd0, /* StringTable::LookupSymbol */
- 0x30e20, /* _lookup_hash@20 */
- 0x60790, /* _intern_symbol_string@8 */
- 0x4f420, /* _allocate_symbol_string_block@4 */
- 0x4f450, /* _reserve_byte_buffer@8 */
- 0x4fea0, /* _reallocate_memory@8 */
- 0x4f4e0, /* _append_bytes@12 */
- 0x61f50, /* _set_symbol_defined@12 */
- 0x31f30, /* Contribution::CanFold */
- 0x62f10, /* _get_contribution_info@4 */
- 0x616d0, /* _align_section_size@8 */
- 0x62f50, /* _attach_comdat@12 */
- 0x62e60, /* _duplicate_comdat_name@4 */
- 0x4f700, /* _allocate_pool_memory@8 */
- 0x5e400, /* _read_section_relocations@16 */
- 0x60c80, /* Contribution::ReadRelocations */
- 0x31a00, /* _read_x86_relocations@24 */
- 0x31230, /* _classify_x86_relocation@16 */
- 0x63080, /* _record_relocation_reference@16 */
- 0x62fe0, /* _add_comdat_reference@12 */
- 0x60f20, /* _release_relocations@4 */
- 0x5f430, /* _process_module_symbols@24 */
- 0x61010, /* _next_coff_symbol@4 */
- 0x41610, /* _emit_symbol_class@8 */
- 0x622e0, /* _string_key_name@8 */
- 0x5f220, /* _define_input_symbol@32 */
- 0x62070, /* _record_symbol_reference@8 */
- 0x63150, /* _record_module_comdats@4 */
- 0xfcb0, /* _initialize_module_contribution_enumerator@8 */
- 0xfce0, /* _next_module_contribution@4 */
- 0x63800, /* _initialize_comdat_reference_enumerator@8 */
- 0x63830, /* _next_comdat_reference@4 */
- 0x60bb0, /* _release_module_strings@4 */
- 0x61000, /* _release_module_symbols@4 */
- 0xbd10, /* _close_argument_file@8 */
- 0xbe20, /* _cache_file_record@4 */
- 0x49af0, /* _check_input_modules@8 */
- 0x4b710, /* _infer_subsystem@4 */
- 0x493e0, /* _find_console_entry_symbols@12 */
- 0x61f20, /* StringTable::FindSymbol */
- 0x49480, /* _find_gui_entry_symbols@12 */
- 0x4b590, /* _infer_entry_point@4 */
- 0x495f0, /* _resolve_initial_entry@4 */
- 0x49530, /* _resolve_entry_symbol@4 */
- 0x61ee0, /* StringTable::Lookup */
- 0x49b90, /* _search_libraries@4 */
- 0x49b40, /* _ensure_library_loaded@8 */
- 0x497b0, /* _read_library_index@8 */
- 0x5cff0, /* OutputLibrary::ReadIndex */
- 0x5d6d0, /* _read_archive_member_header */
- 0x5d830, /* _archive_big_endian_dword@4 */
- 0x5cec0, /* LinkContext::CheckMachine */
- 0x5dec0, /* OutputLibrary::SearchSymbols */
+ 0x24e60,
+ 0x24e70,
+ 0x24ea0,
+ 0x31d70,
+ 0x31d80,
+ 0x31db0,
+ 0x31de0,
+ 0x31df0,
+ 0x31e20,
+ 0x44e60,
+ 0x44e70,
+ 0x44ea0,
+ 0xde90,
+ 0x15230,
+ 0xb560,
+ 0x152f0,
+ 0x4fe70,
+ 0xb660,
+ 0x4f560,
+ 0x48cb0,
+ 0x44b10,
+ 0x5caa0,
+ 0x5cb20,
+ 0x5c780,
+ 0x5c750,
+ 0x5cca0,
+ 0x5cc00,
+ 0x5c650,
+ 0x4fed0,
+ 0x5c530,
+ 0x44f20,
+ 0x4fd40,
+ 0x337d0,
+ 0x62220,
+ 0x30c70,
+ 0x30c30,
+ 0x4f5e0,
+ 0x4f640,
+ 0x4fe50,
+ 0x45130,
+ 0xd0c0,
+ 0x4fe30,
+ 0x48630,
+ 0x42f50,
+ 0xe3b0,
+ 0x4fd80,
+ 0xe360,
+ 0x4f5b0,
+ 0x62eb0,
+ 0x3e170,
+ 0xef90,
+ 0xf130,
+ 0x5e820,
+ 0xfbd0,
+ 0xfc00,
+ 0xfd90,
+ 0xe620,
+ 0xe700,
+ 0xe670,
+ 0xfc40,
+ 0xfc70,
+ 0x4b860,
+ 0x61840,
+ 0xb7f0,
+ 0xb870,
+ 0xb960,
+ 0xb8f0,
+ 0xc7e0,
+ 0xc880,
+ 0xccf0,
+ 0xedd0,
+ 0xf650,
+ 0xfaf0,
+ 0xfb20,
+ 0x49a50,
+ 0x498d0,
+ 0x5cd40,
+ 0xcab0,
+ 0x4e620,
+ 0xc080,
+ 0xc030,
+ 0xca10,
+ 0x4e5c0,
+ 0x5d890,
+ 0x497e0,
+ 0x10530,
+ 0x103f0,
+ 0x49630,
+ 0x1f9b0,
+ 0x31890,
+ 0x610c0,
+ 0xea00,
+ 0xf7a0,
+ 0xfb60,
+ 0xfb90,
+ 0x31e50,
+ 0x62ef0,
+ 0x5fc90,
+ 0x608e0,
+ 0x60f30,
+ 0xcfc0,
+ 0x60a10,
+ 0x5ea70,
+ 0x61680,
+ 0xe850,
+ 0xe5e0,
+ 0x5eef0,
+ 0x5e910,
+ 0x49380,
+ 0x492f0,
+ 0x5c2c0,
+ 0xe5b0,
+ 0xe420,
+ 0x16ba0,
+ 0x4fce0,
+ 0x16cc0,
+ 0x5ff70,
+ 0x5fe80,
+ 0x61d80,
+ 0x61dd0,
+ 0x30e20,
+ 0x60790,
+ 0x4f420,
+ 0x4f450,
+ 0x4fea0,
+ 0x4f4e0,
+ 0x61f50,
+ 0x31f30,
+ 0x62f10,
+ 0x616d0,
+ 0x62f50,
+ 0x62e60,
+ 0x4f700,
+ 0x5e400,
+ 0x60c80,
+ 0x31a00,
+ 0x31230,
+ 0x63080,
+ 0x62fe0,
+ 0x60f20,
+ 0x5f430,
+ 0x61010,
+ 0x41610,
+ 0x622e0,
+ 0x5f220,
+ 0x62070,
+ 0x63150,
+ 0xfcb0,
+ 0xfce0,
+ 0x63800,
+ 0x63830,
+ 0x60bb0,
+ 0x61000,
+ 0xbd10,
+ 0xbe20,
+ 0x49af0,
+ 0x4b710,
+ 0x493e0,
+ 0x61f20,
+ 0x49480,
+ 0x4b590,
+ 0x495f0,
+ 0x49530,
+ 0x61ee0,
+ 0x49b90,
+ 0x49b40,
+ 0x497b0,
+ 0x5cff0,
+ 0x5d6d0,
+ 0x5d830,
+ 0x5cec0,
+ 0x5dec0,
+ 0x62030,
+ 0x62050,
+ 0x5dd90,
+ 0x608a0,
+ 0x16d60,
+ 0x16a10,
+ 0x5d770,
+ 0x5d790,
+ 0x1fb10,
+ 0x22710,
+ 0x1fc70,
+ 0x1fbf0,
+ 0x631e0,
+ 0x5f360,
+ 0x61770,
+ 0xf610,
+ 0x16c30,
+ 0x49d10,
+ 0x1f010,
+ 0x1f910,
+ 0x4b7d0,
+ 0x4b3b0,
+ 0x1fb80,
+ 0x33d80,
+ 0x34170,
+ 0x40560,
+ 0x404e0,
+ 0x403a0,
+ 0x40930,
+ 0x40b50,
+ 0x5dba0,
+ 0x62620,
+ 0x30c20,
+ 0x3e520,
+ 0x3e4b0,
+ 0xf0a0,
+ 0xf2d0,
+ 0x40630,
+ 0xf830,
+ 0xfd20,
+ 0xfd50,
+ 0xf8d0,
+ 0xf920,
+ 0x40f10,
+ 0x22780,
+ 0x3e770,
+ 0xf390,
+ 0x3e850,
+ 0x3e7b0,
+ 0xe7a0,
+ 0xfa00,
+ 0x58b00,
+ 0x3ebd0,
+ 0x3e340,
+ 0x59d00,
+ 0x40300,
+ 0x63240,
+ 0x637a0,
+ 0x637d0,
+ 0x63390,
+ 0x638a0,
+ 0x638d0,
+ 0x63310,
+ 0x63470,
+ 0x63660,
+ 0x635d0,
+ 0x63630,
+ 0x31fb0,
+ 0x32130,
+ 0x32970,
+ 0x32a90,
+ 0x32530,
+ 0x32390,
+ 0xba00,
+ 0x327b0,
+ 0x32230,
+ 0x321d0,
+ 0x4f770,
+ 0x3ee90,
+ 0xf3f0,
+ 0xfa40,
+ 0x3f1c0,
+ 0x58b10,
+ 0x58b50,
+ 0xcb40,
+ 0x40100,
+ 0x3fea0,
+ 0x3ffa0,
+ 0x59d50,
+ 0x61340,
+ 0x62ec0,
+ 0x4f690,
+ 0x58b80,
+ 0x4dc80,
+ 0x4daa0,
+ 0x4dad0,
+ 0x4d490,
+ 0x4c580,
+ 0x4bd70,
+ 0x4c450,
+ 0x4bee0,
+ 0x4c030,
+ 0x4cb10,
+ 0x312b0,
+ 0x4d110,
+ 0x4caa0,
+ 0xcbd0,
+ 0x4c110,
+ 0xf230,
+ 0x4c990,
+ 0x41950,
+ 0x590a0,
+ 0x414f0,
+ 0x5cd00,
+ 0x41e20,
+ 0x3ecf0,
+ 0x42c50,
+ 0x59d70,
+ 0x611e0,
+ 0x612a0,
+ 0x61b50,
+ 0xbea0,
+ 0x10730,
+ 0x106a0,
+ 0x44eb0,
+ 0x31e30,
+ 0x31dc0,
+ 0x24eb0,
 };
 RECON_EXPORT const ReconCase case_descriptor = {
  RECON_ABI_VERSION,sizeof(ReconCase),"hello-win32",
  "Win32 hello window object compiled /O2 /G5, linked as an ordinary executable.",
- order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_FRONTIER,0x5dec0,
- recon_link_setup,recon_link_invoke,NULL,hello_tests,65
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_EXIT,0,
+ recon_link_setup,recon_link_invoke,NULL,hello_tests,115
 };
