@@ -866,18 +866,43 @@ options, replacement/deletion/extraction/addition, dictionary handling and an
 explicit import. WASM's next coherent assembly case combines includes, macros,
 conditionals, typed data, symbols/relocations and integer/x87 instructions.
 
-**Post-help progress checkpoint.** WLIB's archive case has reached 81 verified
-App functions / 8,212 unique original bytes, and WASM's assembly case has reached
-73 / 12,310 bytes. Their next candidates remain separate from those counts.
-The three initial help cases still in progress have reached WCC 34 logical
-functions / 3,295 bytes (33 executed bodies plus the explicitly seeded empty
-`CPragmaInit` facet), WPP 63 / 3,916 bytes and WLINK 52 / 4,993 bytes.
-Shared `__STOSD` support (`df20b369a`), leaf-only `_splitpath2` (`ba70f19e0`)
-and Watcom private errno/startup OS storage (`ea2632e72`) have been adopted
-without publication-only original reruns. WLINK's actual missing-file pair
-matches at `QMakeFileName`: original 538.194 ms, native 13.459 ms
-(8.201 setup, 1.258 execution, 3.999 checks; build 0.918 s).
-These are current-case checkpoints, not completed-case/full-audit claims.
+**Current-case checkpoint, 26 October.** WLIB's archive case has reached 125
+matched App functions / 14,982 unique original bytes before the later combined
+extraction prefix passed through `out\\keep.obj` (971.691 ms original / 10.777 ms
+native; shared adapter `d429066b3`). WASM's assembly case has reached 96 /
+15,042 bytes. These remain substantial cases in progress.
+The initial help cases have reached WCC 68 logical functions / 6,894 bytes
+(including the explicitly seeded empty `CPragmaInit` identity), WPP 98 / 6,827
+bytes and WLINK 80 / 7,238 bytes (including the seeded shared-return identity
+`SetBreak`, which adds no instruction bytes). WCC's three banner lines match
+at `CCusage`: original 1,652.075 ms / native 8.451 ms. WPP's complete help run
+exits 1 with matching streams, artifacts and five-node shutdown: 2,175.476 ms
+original / 8.444 ms native (4.607 setup, 2.573 execution, 1.263 checks).
+Its final native regression passes in 10.602 ms; full audit exposed a genuine
+rebuilt CODE-data boundary for the const help-pointer table, still to resolve.
+WLINK's full 8,475-byte help output matches; the bounded live-Spawn `longjmp`
+adapter (`ce8c8d4df`) is adopted through `Suicide` to `CloseSpillFile` in
+1,139.107 ms original / 19.893 ms native, and cleanup continues.
+No initial-case completion or full-audit claim is made for these three.
+
+Shared CF raw-command input (`af8e6922e`) now records the actual loader
+`CreateProcessA` buffer and independently observed payload tail. WPP's actual
+92-entry `parseCmdLine` continuation passed in 2,350.712 ms original / 9.014 ms
+native, with raw loader text distinct from the observed `?` tail. It was
+adopted without a publication-only recapture. Reached `__STOSD`, `_splitpath2`,
+private errno/OS storage, writable open and file-position support likewise use
+shared implementations rather than local host shims.
+
+WASM encountered an original read-before-buffer defect in `join_multiline_cmds`:
+an empty line computes `line + strlen(line) - 1` before testing for a trailing
+comma. Two permitted normal current-case observations both reached the
+unambiguous no-join `AsmLine` frontier (1,612.908 / 1,293.007 ms original),
+while native guards intentionally trapped (12.766 / 10.930 ms). These failed
+comparisons earn no body credit. A documented native-only empty-line return
+qualified through the next genuine matching pair to `AsmLine`, which then
+executed to `ExpandMacro`. The Win32 defect and broad comment, blank-line and
+conditional workload remain intact. No predecessor bytes were copied and no
+stack layout was tuned.
 
 **Earlier scaffold and committed migration checkpoints.**
 WLINK scaffold commit `e469762a1` and WASM scaffold commit `207036122b` use the
