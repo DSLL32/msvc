@@ -183,9 +183,26 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
         recon_unsupported("Watcom open outside qualified tuple");
     for(;*cursor;++cursor)if(*cursor>=128) recon_unsupported("Watcom open nonASCII path");
     if(writing) {
-        size_t length=strlen(name);
-        if(length>=MAX_PATH || strpbrk(name,"/\\:") || name[length-1]=='.' || name[length-1]==' ')
-            recon_unsupported("Watcom writable open outside relative leaf");
+        size_t length=strlen(name),component_size;
+        const char *component=name;char prefix[MAX_PATH];
+        if(length>=MAX_PATH || strpbrk(name,":") || name[0]=='/' || name[0]=='\\')
+            recon_unsupported("Watcom writable open outside relative path");
+        for(cursor=(const unsigned char *)name;;++cursor) {
+            if(*cursor && *cursor!='/' && *cursor!='\\')continue;
+            component_size=(const char *)cursor-component;
+            if(!component_size || component[component_size-1]=='.' ||
+               component[component_size-1]==' ')
+                recon_unsupported("Watcom writable open invalid relative component");
+            if(!*cursor)break;
+            memcpy(prefix,name,(const char *)cursor-name);
+            prefix[(const char *)cursor-name]=0;
+            if(recon_host_path(prefix,path,sizeof(path)) || lstat(path,&information) ||
+               !S_ISDIR(information.st_mode)) {
+                errno=saved_errno;
+                recon_unsupported("Watcom writable open requires existing directory");
+            }
+            component=(const char *)cursor+1;
+        }
         /* Only these actual writing callers supply a permission argument.
          * The readonly two-argument boundary must never fetch one. */
         va_start(arguments,flags);permission=va_arg(arguments,int);va_end(arguments);

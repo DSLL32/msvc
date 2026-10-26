@@ -23,7 +23,23 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"permission")){flags=0x0262;permission=0644;}
     if(!strcmp(argv[1],"directory"))name="folder";
     if(!strcmp(argv[1],"symlink"))name="alias.dat";
-    if(!strcmp(argv[1],"path"))name="folder/new.dat";
+    if(!strcmp(argv[1],"path"))name="missing/new.dat";
+    if(argc>2 && !strcmp(argv[2],"directory-new"))name="folder/created.dat";
+    if(argc>2 && !strcmp(argv[2],"directory-old"))name="folder/existing.dat";
+    if(argc>2 && !strcmp(argv[2],"backslash-new"))name="folder\\created.dat";
+    if(argc>2 && !strcmp(argv[2],"backslash-old"))name="folder\\existing.dat";
+    if(argc>2 && !strcmp(argv[2],"nested-new"))name="folder/sub/created.dat";
+    if(argc>2 && !strcmp(argv[2],"nested-old"))name="folder/sub/existing.dat";
+    if(!strcmp(argv[1],"parent-symlink"))name="aliasdir/new.dat";
+    if(!strcmp(argv[1],"parent-file"))name="existing.dat/new.dat";
+    if(!strcmp(argv[1],"traversal"))name="folder/../new.dat";
+    if(!strcmp(argv[1],"dot"))name="./new.dat";
+    if(!strcmp(argv[1],"double"))name="folder//new.dat";
+    if(!strcmp(argv[1],"absolute"))name=argc>2?argv[2]:"/";
+    if(!strcmp(argv[1],"drive"))name="C:new.dat";
+    if(!strcmp(argv[1],"unc"))name="\\\\server\\new.dat";
+    if(!strcmp(argv[1],"trailing-parent"))name="folder./new.dat";
+    if(!strcmp(argv[1],"trailing-slash"))name="folder/";
     if(!strcmp(argv[1],"trailing"))name="trailing.";
     if(!strcmp(argv[1],"null"))name=NULL;
     if(argc>3)__asm__ __volatile__("fld1\n\tfldpi":::"st");

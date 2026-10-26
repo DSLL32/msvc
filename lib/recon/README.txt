@@ -1289,7 +1289,8 @@ The Watcom-only char __OS alias starts at2, matching the qualified loader AH2
 store before App; it does not detect the Linux host or change original naming.
 
 Watcom writable open admits only0162 with0666 and0262 with0600/0666, for regular
-ASCII relative leaves in the owned cwd. Native O_RDWR/O_CREAT/O_TRUNC/O_TEXT
+ASCII relative outputs in the owned cwd, with existing-directory components
+qualified below. Native O_RDWR/O_CREAT/O_TRUNC/O_TEXT
 spellings retain2/20/40/100; shim implementations keep host flags. The exact
 tuples translate to existing Microsoft4302/8302 descriptor operations, providing
 real create/truncate, initial position0 and text CRLF/binary writes. The caller's
@@ -1325,3 +1326,11 @@ current errors/FP remain current. Generic, unknown and _setjmp3 contexts deny125
 The registry does not prove liveness. Expired frames, Windows SEH/RtlUnwind,
 private register serialization and other values remain outside this contract.
 Native tracing emits first entries only, so no abandoned trace frames need cleanup.
+
+Watcom writable open also admits ordinary relative output components through
+existing directories. Each parent is translated by the existing path backend
+and checked as a nonsymlink directory; the final leaf remains new or regular
+and nonsymlink. Empty/dot/parent components, absolute/drive/UNC paths and trailing
+dot/space components deny before open. No directories are created. Exact
+0162/0262 flag and permission tuples, descriptor ownership and failure limits
+remain unchanged. This qualifies WLIB out\keep.obj through its fixture-owned out.
