@@ -13,6 +13,7 @@ mod pe;
 mod register_imports;
 mod ret_checks;
 mod shared_returns;
+mod terminating_calls;
 mod virtual_preservation;
 mod watcom_map;
 use anyhow::Result;

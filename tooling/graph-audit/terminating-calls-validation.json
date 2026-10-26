@@ -1,0 +1,36 @@
+{
+  "scope": "Finite explicit terminalCALL process-exit assertion. Rawcallee/noRET retained; onlyfalse neighbor continuation suppressed. Explicit owner successorclosure distinguishes validated noreturn from unknownempty cleanup, without propagation through unannotated wrappers/provider inference.",
+  "source_sha256": {
+    "src/terminating_calls.rs": "eeceb3da8295926a36d636a9660e80a2e2cbdb5c11d963e641d9fcff619414d0",
+    "src/flow.rs": "7bdbb6106476234699bcafae576042126d1ffb14dcec0e1d47b6c0d034e4f06d",
+    "src/index.rs": "81b97f245795dd66d4847befa80a2e9a69ecb9eb6cf9f7f899a10b521fa63fae",
+    "src/audit.rs": "fb38d411f4e5513fd96d72bc301cbe49ec510cf347b61190c5a77f368ae5e129",
+    "src/main.rs": "a2d0700e2a7e84f4b1251cb2112a654248b88e0ce14656e02306786e9410c86c",
+    "README.md": "efec2eea97e5c6f581a151b5df19d0f42e60dfe64632e1504c19fe9351d2efab"
+  },
+  "release_sha256": "8f05977054e89533df80752ba23e8356e1c01f871e927b284e7bf0bc9edc3d7e",
+  "validation_sha256": "42aeb2f3a720a521352658fe274c3b0f79f563497ac34d6a21df0fd62642e1c8",
+  "checks": {
+    "focused_unit_tests": 4,
+    "clippy": "all-targets -D warnings PASS",
+    "frozen_full_seconds": 0.4829292129725218,
+    "App_graphs": 241,
+    "ordinary_RET_checks": 234,
+    "negative_controls": 10,
+    "raw_exit_and_parser_tails_retained": true,
+    "syntax_local_RET": [],
+    "syntax_checked_cleanup": null,
+    "unknown_empty_remains_unknown": true,
+    "no_unannotated_wrapper_propagation": true,
+    "default_report_byte_parity": true
+  },
+  "review": "Root approved finite terminalCALL and explicit-owner CleanupSummary distinction; delegated Watcom parent read all six source hashes/full241+234 result/ten denials/default parity. Existing independent exit residual remains mandatory.",
+  "limits": [
+    "Same frozen default-od tuple; one initial full failure honestly exposed unknown/nonreturn distinction; root approved one same-full retry after fix. No compiler-option search or target/original/native execution.",
+    "Existing independent binary exit residual retained; ReportSyntaxError noRET/localcleanup[]/checkedcleanupnull. All234 ordinaryRET sets remain real and equal, raw parsercoldtails retained.",
+    "No global name/classification inference, callback/value/preservation/cleanup seed, provider proof framework, body availability, code permission or Appcredit.",
+    "Default/prior opaque-call region report byte-identical; unknown/ambiguous/cyclic/unmatched endpoints remain denied."
+  ],
+  "canonical_release_build_seconds": 65.69198090862483,
+  "canonical_release_byte_identity": true
+}

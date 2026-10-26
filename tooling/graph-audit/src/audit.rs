@@ -976,6 +976,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_seh: !x.o.explicit_flat_ownership(),
             require_explicit_seh_roots: x.o.explicit_flat_ownership(),
             imports: original_imports.clone(),
+            terminating_calls: x.terminating_calls.sites(&f.name, "original"),
             record_dataflow: resolve_owner || a.export_instructions,
             code_chunks: f.code_chunks.clone(),
             fallthrough_entries: f
@@ -998,6 +999,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
             infer_switches: true,
             infer_seh: true,
             imports: rebuilt_imports.clone(),
+            terminating_calls: x.terminating_calls.sites(&f.name, "rebuilt"),
             record_dataflow: resolve_owner || a.export_instructions,
             code_chunks: other.code_chunks.clone(),
             fallthrough_entries: other
@@ -1017,6 +1019,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         validate_text_data(&x.r, other, &rebuilt_options.data, &x.ri)?;
         let mut r = flow::walk(&d, &x.r, other.start, other.end, &rebuilt_options)
             .with_context(|| format!("reconstructed {}", f.name))?;
+        x.terminating_calls
+            .validate_graph(&f.name, "original", &l)?;
+        x.terminating_calls.validate_graph(&f.name, "rebuilt", &r)?;
         for check in &x.rebuilt_extent_checks {
             let begin = crate::index::num(&check["end"])?;
             let end = crate::index::num(&check["map_envelope_end"])?;
@@ -1136,8 +1141,10 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &x.oi,
                 &metadata,
                 "original",
+                &x.terminating_calls,
                 &mut HashSet::new(),
-            )?;
+            )?
+            .returns;
             let right = cfg_cleanup(
                 &d,
                 &x.r,
@@ -1145,8 +1152,10 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 &x.ri,
                 &metadata,
                 "rebuilt",
+                &x.terminating_calls,
                 &mut HashSet::new(),
-            )?;
+            )?
+            .returns;
             ensure!(left == right, "{} RET cleanup differs", f.name);
             if let Some(expected) = expected_ret {
                 ensure!(
@@ -1352,6 +1361,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     if let Some(shared) = x.shared_return_entries.regions_report() {
         result["shared_terminal_regions"] = shared;
     }
+    if let Some(calls) = x.terminating_calls.report() {
+        result["terminating_calls"] = calls;
+    }
     if let Some(shared) = x.shared_return_entries.report() {
         result["shared_return_entries"] = shared;
     }
@@ -1529,6 +1541,11 @@ fn apply_metadata(options: &mut crate::flow::Options, value: &Value) -> Result<(
     }
     Ok(())
 }
+struct CleanupSummary {
+    returns: BTreeSet<u32>,
+    validated_no_return: bool,
+}
+#[allow(clippy::too_many_arguments)]
 fn cfg_cleanup(
     d: &Decoder,
     pe: &impl ImageView,
@@ -1536,10 +1553,13 @@ fn cfg_cleanup(
     index: &[Record],
     metadata: &Value,
     side: &str,
+    terminating: &crate::terminating_calls::Contracts,
     visiting: &mut HashSet<u32>,
-) -> Result<BTreeSet<u32>> {
+) -> Result<CleanupSummary> {
     ensure!(visiting.insert(r.start), "tail-call cycle {}", r.name);
     let mut options = crate::flow::Options {
+        terminating_calls: terminating.sites(&r.name, side),
+        record_dataflow: !terminating.sites(&r.name, side).is_empty(),
         infer_switches: true,
         infer_seh: !pe.explicit_flat_ownership(),
         require_explicit_seh_roots: pe.explicit_flat_ownership(),
@@ -1555,14 +1575,16 @@ fn cfg_cleanup(
     apply_metadata(&mut options, &metadata["functions"][&r.name][side])?;
     validate_text_data(pe, r, &options.data, index)?;
     let graph = crate::flow::walk(d, pe, r.start, r.end, &options)?;
+    terminating.validate_graph(&r.name, side, &graph)?;
     validate_inferred_data(pe, r, &graph, index)?;
     ensure!(
         !graph.unresolved_tail,
         "unresolved indirect tail ABI in {}",
         r.name
     );
-    let mut returns = graph.returns;
-    for target in graph.tails {
+    let validated_no_return = terminating.validated_no_return(&r.name, side, &graph);
+    let mut returns = graph.returns.clone();
+    for &target in &graph.tails {
         let target = index
             .iter()
             .rev()
@@ -1573,15 +1595,18 @@ fn cfg_cleanup(
                     r.name, r.start, r.end
                 )
             })?;
-        let inherited = cfg_cleanup(d, pe, target, index, metadata, side, visiting)?;
+        let inherited = cfg_cleanup(d, pe, target, index, metadata, side, terminating, visiting)?;
         ensure!(
-            !inherited.is_empty(),
+            !inherited.returns.is_empty() || inherited.validated_no_return,
             "tail callee has no determined RET convention"
         );
-        returns.extend(inherited);
+        returns.extend(inherited.returns);
     }
     visiting.remove(&r.start);
-    Ok(returns)
+    Ok(CleanupSummary {
+        returns,
+        validated_no_return,
+    })
 }
 fn callback_values(
     pe: &impl ImageView,

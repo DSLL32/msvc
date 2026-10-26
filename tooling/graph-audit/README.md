@@ -860,3 +860,36 @@ jumps, interrupts, cycles and other transfers reject. Raw callee edges and all
 ordinary paired graph/ABI/RET checks remain unchanged. This is physical ownership
 metadata, with zero unique-byte credit; it supplies no callback target, register
 value, preservation, cleanup, body availability or runtime permission.
+
+`terminating_calls` is an opt-in finite semantic assertion for an independently
+reviewed process-exit boundary, not a global name-based noreturn inference:
+
+```json
+{"terminating_calls":[{"owner":"ReportSyntaxError","side":"rebuilt",
+  "site_offset":143,"target":"exit_","role":"process_exit"}]}
+```
+
+The owner must be one selected implemented canonical App body. The target must
+be one unique already-classified CRT identity with its actual mapped executable
+endpoint; classification or spelling alone never creates this assertion. The
+checked owner-relative site must decode as the exact final unprefixed direct E8
+CALL to that target, ending the genuine owning code chunk with no contiguous
+owner continuation. The existing owner CFG must actually discover and consume
+it. The raw callee/instruction stays; only this CALL's false continuation into
+the next function stops. No code bytes, neighboring ownership, roots or RETs are
+changed. The same validated map applies to RET traversal without supplying any
+cleanup convention. Selected scope declarations must name selected owners.
+
+The separate binary-local exit role/status residual remains required; this
+mechanism does not verify a provider body or introduce callback, ABI, body
+availability, execution permission or acceptance claims. With the field absent,
+ordinary CALL/fallthrough discovery and reports are unchanged.
+
+RET traversal distinguishes an unknown empty cleanup set from a validated
+no-return endpoint. Only an explicitly declared terminal-CALL owner can earn the
+latter: its existing normal CFG must close acyclically to the consumed CALL sinks,
+with no RET, other tail or unresolved path. A direct tail caller keeps its raw
+edge and contributes no RET value for that endpoint, while retaining its own
+actual RET set. Unknown/ambiguous endpoints and cycles still reject. This tag is
+not inferred for unannotated tail-only wrappers or arbitrary providers, and never
+supplies a fake RET0 convention.

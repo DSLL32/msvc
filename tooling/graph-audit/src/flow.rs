@@ -8,6 +8,7 @@ use anyhow::{Context, Result, ensure};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 #[derive(Clone, Default)]
 pub struct Options {
+    pub terminating_calls: BTreeMap<u32, u32>,
     pub roots: Vec<u32>,
     pub compatibility_calls: BTreeMap<u32, String>,
     pub record_dataflow: bool,
@@ -27,6 +28,7 @@ pub struct Options {
 }
 #[derive(Default)]
 pub struct Graph {
+    pub terminating_calls: BTreeMap<u32, u32>,
     pub calls: BTreeSet<u32>,
     pub compatibility_calls: BTreeMap<u32, String>,
     pub imports: BTreeSet<crate::imports::Identity>,
@@ -189,6 +191,20 @@ pub fn walk(
                 }
                 out.indirect = true
             }
+        }
+        if let Some(target) = options.terminating_calls.get(&a) {
+            ensure!(
+                operation == "call"
+                    && i.bytes.len() == 5
+                    && i.bytes[0] == 0xe8
+                    && i.imm() == Some(*target)
+                    && i.next() == chunk_end
+                    && out.calls.contains(target),
+                "terminating CALL must be its exact final direct E8 with retained raw callee"
+            );
+            out.terminating_calls.insert(a, *target);
+            out.instructions.insert(a, i);
+            continue;
         }
         if operation == "jmp" {
             if let Some(t) = i.imm() {

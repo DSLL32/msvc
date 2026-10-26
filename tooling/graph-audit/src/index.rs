@@ -136,6 +136,7 @@ pub fn imports(
 }
 pub type EntryNames = BTreeMap<u32, BTreeSet<String>>;
 pub struct Inputs {
+    pub terminating_calls: crate::terminating_calls::Contracts,
     pub shared_return_entries: crate::shared_returns::SharedReturns,
     pub o: Image,
     pub r: Image,
@@ -469,6 +470,17 @@ impl Inputs {
                 "function_registry identity mappings require cfg discovery"
             );
         }
+        let terminating_calls = crate::terminating_calls::Contracts::parse(
+            &cfg,
+            &o,
+            &r,
+            &drivers,
+            &oi,
+            &ri,
+            &registry_entries.original,
+            &registry_entries.rebuilt,
+            &accepted,
+        )?;
         o.bind_code(&oi)?;
         r.bind_code(&ri)?;
         let shared_metadata = if cfg.get("shared_return_entries").is_some()
@@ -544,6 +556,7 @@ impl Inputs {
             &a.project,
         )?;
         Ok(Self {
+            terminating_calls,
             original_support,
             identity_only_entries,
             rebuilt_extent_checks,
