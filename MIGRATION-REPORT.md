@@ -842,18 +842,22 @@ graph/ABI checks, and keep only `case.c`/`capture.bin` plus ignored build output
 under cases. WCC's 74 logical identities include one seeded empty `CPragmaInit`
 entry; WLINK's 116 include seeded `SetBreak`. Their actual observed entry counts
 are 73 and 115; the shared empty entries add no unique instruction bytes and
-their first-entry order is explicitly excluded. WCC, WPP and WLINK are paused
-for user review. WLIB has autonomous substantial-case authorization. WASM also
-has that authorization, but its current work is held after the platform
-interruption described below.
+their first-entry order is explicitly excluded. The user subsequently released
+WCC, WPP and WLINK for autonomous substantial cases. All five workers now have
+that authorization. WASM and WLIB were held after platform access interruptions;
+the user's explicit retry has resumed both preserved workers on the same model,
+without replacing history or repeating completed captures. Any renewed access
+rejection must stop that attempt and be reported immediately.
 
 The user subsequently approved integrating this backend into shared
 `recon-tool original capture`. The shared recon-tool owner implements the
 integration; the Watcom coordinator supplies controller contracts and review.
 That release permits replacing the old minimal source/cases; history preserves
 them. Workers use the shared runner, explicit original captures and period
-compiler checks, with native-only regression fixtures. WLIB and WASM alone
-have subsequent autonomous authorization.
+compiler checks, with native-only regression fixtures. All five have subsequent
+autonomous authorization; case completion still requires final checks, README
+and a case commit. During reconstruction, builds and checks stay scoped to the
+current case rather than repeated full regressions or per-function commits.
 
 **Initial reset plan (historical).**
 
@@ -1018,18 +1022,43 @@ parallel period/native builds take 2.628 s and full audit 399.460 ms for
 239 owners, 233 strict RET contracts and six existing residuals. No new shared
 support was needed.
 
-All five case folders contain only `case.c` and `capture.bin` outside `.build`.
-Twelve named App stubs remain, including member/syntax diagnostics, signal and
-low-stack paths, suppression with no demonstrated CLI caller, and alternate
-resource/error helpers. They remain App code without completion credit. The
-next coherent member-resolution workload precedes a separate syntax/nonlocal
-case: an early parser error cannot honestly also reach later member processing.
+The member-resolution case is complete in `d5f4ef089`: 240 App functions /
+28,453 unique bytes. Its final 198-entry pair takes 1,525.013 ms original /
+16.391 ms native. The separate syntax-error case is complete in `8ca15e139`:
+241 / 28,568 bytes, with a final 1,304.167 / 12.659 ms pair and cached replay
+10.667 ms. Seven completed cached cases and units take 105.359 ms; the full
+241-owner audit retains 234 ordinary RET checks and explicit nonlocal/exit
+residuals. A validated terminal process-exit CALL preserves its raw callee and
+no-RET result without inventing continuation into the next MAP public.
 
-WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
-authoritative.
-That worker is temporarily held after a platform interruption, with WIP/raw
-history preserved and no process running. The last completed command was a
-successful read-only inspection; no action-specific cause is established.
+The ordinary library-capacity case is complete in `72959145c`: 242 App functions /
+28,712 unique bytes, adding the actual 144-byte `AbortCommand`. It repages the
+unmodified shipped `RAFXCWD.LIB` with `-p=16 -o=compact.lib`, reaches the documented
+library-size error, exits 1, and removes the partial output. The final pair takes
+594.385 ms original / 39.754 ms native (9.475 setup, 26.293 execution, 3.986 checks).
+Eight completed cached cases and units pass in 118.870 ms; period/native builds
+take 2.209 s and full graph/reference/ownership/extent checks take 394.257 ms,
+with 234 strict RET contracts and finite nonlocal/process-exit residuals. The
+live-main `Env`/value1 unwind uses the released shared boundary; original CRT
+classification adds no reconstruction credit. The earlier unfinished truncated
+input case and its raw failures remain separate and were not relabeled or run
+as a completed regression.
+
+The eight completed case directories retain only scoped `case.c`/`capture.bin`
+outside `.build`. Nine named App stubs remain: signal handling, six alternate
+resource/error helpers, suppression with no demonstrated CLI caller, and a
+failed-alloca listing fallback. They remain App code without credit. Further
+work first assesses ordinary reach instead of forcing private state or adding
+arbitrary malformed inputs.
+
+WASM's interrupted checkpoint was step042, 99 / 16,906 bytes at `AsmParse`, last
+qualified at 00:59:20 UTC. WIP/raw history was preserved; the last inspected
+command was read-only, and no action-specific cause of the platform rejection
+was established. After the user's explicit retry, step043 qualified the actual
+3,664-byte `AsmParse` body through to pending `proc_check`: 100 / 20,570 bytes,
+with period/native builds and scoped graph/reference/ownership/extent/RET checks
+passing and native execution 11.669 ms. The ordinary assembly-source input is
+unchanged, pending encoding consumers still trap, and no old capture was repeated.
 WLINK's bounded live-Spawn `longjmp` adapter (`ce8c8d4df`) was adopted through
 `Suicide` to `CloseSpillFile` in 1,139.107 ms original / 19.893 ms native before
 the completed cleanup above. Windows SEH/expired-owner behavior remains outside
