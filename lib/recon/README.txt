@@ -372,7 +372,7 @@ legacy object's address is an opaque owner token; original raw register/SEH
 writes and untouched tail remain in case evidence, not equated to glibc bytes.
 Cases must prove no application raw-field interpretation. Count/unwind variants
 remain unsupported. Explicit510 may resume an existing count0 context with
-value1 or2 through the native caller-frame longjmp. Same-thread, still-live caller
+values1,2 or102 through the native caller-frame longjmp. Same-thread, still-live caller
 and no intervening active SEH/C++ cleanup are caller preconditions; the registry
 tag establishes the64-byte/count0 save, not those lifetimes. Other values and
 profiles retain their denials for these opaque contexts. No Windows private
@@ -382,7 +382,11 @@ empty-register contents. Ordinary VC1 setjmp/longjmp is unchanged.
 The additional value1 role is exercised by RCDLL's typed native fatal unit,
 starting from real initialization/output storage and its own live context; no
 error counter is seeded to select a different result and no original probe is
-used for that unit-only extension.
+used for that unit-only extension. Value102 is separately exercised by the
+unchanged threshold unit:101 ordinary input-error calls from initialized0 reach
+the real limit diagnostic, fatal cleanup and still-live saved unit frame. No
+counter is seeded; this remains native-unit evidence, not a Windows private
+context or original per-call-state observation.
 
 FormatMessageA also supports the observed FROM_STRING0x400 path when source
 content matches a registered encountered ANSI message: exactly one `%1` string

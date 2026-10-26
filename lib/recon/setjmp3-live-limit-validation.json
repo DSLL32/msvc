@@ -1,0 +1,14 @@
+{
+  "scope": "Only existing explicit510 opaque64B count0 live route now admits102 alongside1/2; unchanged validated value forwarded to hostlongjmp.",
+  "caller_preconditions": "Same-thread/still-live save on same chain, no active intervening SEH/C++ cleanup. Registry does not prove lifetime. No Windows privatecontext/originalFP equivalence.",
+  "actual_adoption": "Unchanged native unit performs101 rc_input_error calls from initialized result0, naturally resumes102 after actual cleanup;10.453ms,14-group batch27.292ms. No seeded state/original/controller.",
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/setjmp3-live-limit/receipt.json",
+  "receipt_sha256": "d65f3e7752c818b369e983b4beca83cdd084847433ac171af6558472e64afa85",
+  "source_sha256": {
+    "src/compat.c": "b0e87a0d829e3f8199b6351eb64bfee153613d98295880a46292289c97c77ca0",
+    "tests/setjmp3-live-resume-probe.c": "5c92352c0858ae5ae8f898fd5178c43a90f7457695ed78429a43611b927a0c87",
+    "tests/check-setjmp3-live-resume.py": "6072c9a81b50be1362cff70924c753edf7eed448aab4b2cb2591d99200764589"
+  },
+  "groups": 6,
+  "wall_s": 3.190461886115372
+}

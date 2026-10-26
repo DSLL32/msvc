@@ -31,11 +31,14 @@ int main(int argc,char **argv)
     if(!result) {
         if(!strcmp(mode,"zero"))recon_longjmp(state.owner,0);
         if(!strcmp(mode,"one"))transfer(state.owner,1);
+        if(!strcmp(mode,"limit"))transfer(state.owner,102);
+        if(!strcmp(mode,"below"))recon_longjmp(state.owner,101);
+        if(!strcmp(mode,"above"))recon_longjmp(state.owner,103);
         if(!strcmp(mode,"seven"))recon_longjmp(state.owner,7);
         if(!strcmp(mode,"negative"))recon_longjmp(state.owner,-1);
         transfer(state.owner,2);
     }
-    snapshot(after);assert(result==(!strcmp(mode,"one")?1:2) && !memcmp(saved,&state,sizeof(state)));
+    snapshot(after);assert(result==(!strcmp(mode,"one")?1:!strcmp(mode,"limit")?102:2) && !memcmp(saved,&state,sizeof(state)));
     /* Compare observable control/status/tag and the two valid stack values.
      * Incidental instruction/data pointers and empty registers are not an
      * original-equivalence requirement for this host-context implementation. */
