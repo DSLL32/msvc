@@ -1,0 +1,13 @@
+{
+  "scope": "Explicit Watcom/default-C/endptrNULL unsigned plain decimal <=17digits; exact dyadic binary64 normal/+0 only; ordinary native typed-double ABI.",
+  "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/watcom-strtod/receipt.json",
+  "receipt_sha256": "d22b0989b876005be4d0de81e51e9be92fe44b96bc35bff8ddb084d179da2df6",
+  "source_sha256": {
+    "src/compat.c": "3859f3063f4c2828b2bd20df2ef9733c7602c82ab9cdb00637ff6633c0b33b3f",
+    "native/recon-remaps.h": "48e9b4a193ffb7ac2f604a2b725a58464eaee801fe7bc06a8e97a9b4efa3a980",
+    "tests/watcom-strtod-probe.c": "373bf4faa86df6efd269edf1217ce39834e2f54796cd19960aa714b9093cf189"
+  },
+  "groups": 6,
+  "wall_s": 3.0546223875135183,
+  "actual_adoption": "Pending WASM normal conversion/CRT closure; no original conversion claim."
+}

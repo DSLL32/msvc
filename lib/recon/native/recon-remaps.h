@@ -293,6 +293,7 @@ struct ReconWatcomDirent *__cdecl recon_watcom_readdir(struct ReconWatcomDirent 
 int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *);
 char *__cdecl recon_watcom_getcmd(char *);
 void *__cdecl recon_watcom_fill_dwords(void *,unsigned,unsigned);
+double __cdecl recon_watcom_strtod(const char *,char **);
 char *__cdecl recon_watcom_strrev(char *);
 void __cdecl recon_watcom_splitpath_dos(const char *,char *,char *,char *,char *);
 void __cdecl recon_watcom_splitpath2(const char *,char *,char **,char **,char **,char **);
@@ -511,6 +512,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define getch recon_watcom_getch
 #define utoa recon_watcom_utoa
 #define ultoa recon_watcom_ultoa
+#define strtod recon_watcom_strtod
 #define itoa recon_itoa
 /* Source-level successful mtime use; no raw Watcom stat layout promise. */
 #define stat recon_stat

@@ -110,6 +110,50 @@ volatile int *__cdecl recon_watcom_errno(void)
     recon_unsupported("Watcom errno requires explicit profile");return NULL;
 #endif
 }
+/* Exact dyadic subset of the old decimal conversion role. Caller supplies a
+ * readable terminated string; bounds do not prove arbitrary storage ownership.
+ * The result uses the ordinary native typed-double ABI, not Watcom registers. */
+double __cdecl recon_watcom_strtod(const char *text,char **end)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    uint64_t coefficient=0,bits,odd;unsigned n,digits=0,fraction=0,width;
+    int dot=0,power,exponent;double result;
+    if(end || (uintptr_t)text<4096 || (uintptr_t)text>UINTPTR_MAX-19)
+        recon_unsupported("Watcom strtod input/end span");
+    if(recon_mb_codepage || recon_mb_codepage_gate || recon_lc_codepage || recon_mb_cur_max!=1)
+        recon_unsupported("Watcom strtod default locale");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])
+        recon_unsupported("Watcom strtod locale handles");
+    for(n=0;n<19 && text[n];++n) {
+        if(text[n]=='.' && !dot){dot=1;continue;}
+        if(text[n]<'0' || text[n]>'9' || ++digits>17)
+            recon_unsupported("Watcom strtod plain decimal grammar");
+        coefficient=coefficient*10+(unsigned)(text[n]-'0');
+        if(dot)++fraction;
+    }
+    if(n==19 || !digits)recon_unsupported("Watcom strtod length/digits");
+    bits=0;
+    if(coefficient) {
+        power=-(int)fraction;
+        while(fraction--) {
+            if(coefficient%5)recon_unsupported("Watcom strtod non-dyadic decimal");
+            coefficient/=5;
+        }
+        while(!(coefficient&1)){coefficient>>=1;++power;}
+        odd=coefficient;for(width=0;odd;odd>>=1)++width;
+        if(width>53)recon_unsupported("Watcom strtod inexact significand");
+        exponent=(int)width-1+power;
+        if(exponent<-1022 || exponent>1023)
+            recon_unsupported("Watcom strtod nonnormal result");
+        bits=((uint64_t)(exponent+1023)<<52)|
+             ((coefficient<<(53-width))&UINT64_C(0xfffffffffffff));
+    }
+    memcpy(&result,&bits,sizeof(result));return result;
+#else
+    (void)text;(void)end;
+    recon_unsupported("strtod requires explicit Watcom profile");return 0;
+#endif
+}
 char *__cdecl recon_watcom_strrev(char *text)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

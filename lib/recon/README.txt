@@ -1630,3 +1630,13 @@ not establish general memory ownership. NULL/wrap/long/unterminated inputs and
 direct other-profile use deny125; other profiles have no new bare alias. WASM's
 ordinary first little_endian pair qualifies typing and its width1 bypass only;
 strrev execution remains unobserved there. Original per-call state is unmeasured.
+
+Watcom strtod has a finite exact-decimal branch: default-C, endptrNULL, unsigned
+plain ASCII with at most17 digits and one optional dot. Integer coefficient
+reduction admits only exact dyadic values whose reduced significand fits53 bits;
+IEEE binary64 normal/+0 bits are assembled without host parsing or rounding.
+Signs, exponents, whitespace, nonexact values and other domains deny125. The
+result uses the ordinary native typed-double ABI; no Watcom return-register or
+private x87-state equivalence is claimed. Focused exact arithmetic/bit-pattern,
+error/control-state and denial checks pass. Actual WASM conversion adoption is
+pending its ordinary original CRT closure, separately from this source release.
