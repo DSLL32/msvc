@@ -884,3 +884,9 @@ build/watcom-tmpnam-probe: tests/watcom-tmpnam-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-tmpnam-check: build/watcom-tmpnam-probe
 	$(PYTHON) tests/check-watcom-tmpnam.py $< watcom
+
+.PHONY: mbscmp-check
+build/mbscmp-probe: tests/mbscmp-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+mbscmp-check: build/mbscmp-probe
+	$(PYTHON) tests/check-mbscmp.py $< 510

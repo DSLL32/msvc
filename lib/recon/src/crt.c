@@ -2616,6 +2616,17 @@ int __cdecl recon_mbsnbcmp(const unsigned char *left,const unsigned char *right,
     return 0;
 #endif
 }
+int __cdecl recon_mbscmp(const unsigned char *left,const unsigned char *right)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    /* The canonical gate-zero branch is a case-sensitive unsigned compare.
+     * Reuse the guarded ASCII loop through its first mismatch or NUL. */
+    return recon_mbsnbcmp(left,right,(size_t)-1);
+#else
+    (void)left;(void)right;
+    recon_unsupported("_mbscmp MSVCRT510 profile required");return 0;
+#endif
+}
 WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

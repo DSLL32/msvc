@@ -1380,3 +1380,10 @@ filesystem results remain denied. This equivalence applies only to the proved
 internal/deleted, non-name-sensitive identity: no historical AAA/A..P sequence,
 captured PID, or host-control PID behavior is supplied. Other CRT profiles retain
 tmpnam denial, and final exit file inventory remains strict.
+
+Explicit MSVCRT510 _mbscmp has the SDK cdecl unsigned-char string pair signature.
+It reuses the default-C/CP0/MB1/gate0 ASCII comparison loop through mismatch or
+NUL, returning normalized unsigned -1/0/1 without case folding. Valid readable
+string prefixes are caller preconditions; other profiles, NULL, unknown state
+and nonASCII compared units deny125. LINK consumes equality for module names.
+Original live per-call state and identical provider read schedules are unclaimed.
