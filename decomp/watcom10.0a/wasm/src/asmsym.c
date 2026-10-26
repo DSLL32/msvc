@@ -187,3 +187,18 @@ void AsmSymFini(void)
         }
     }
 }
+
+/* CF8ad8..8b02. FreeASym's name/object frees are inline in1994. */
+void AsmTakeOut( char *name )
+{
+    asm_sym *sym;
+    asm_sym **sym_ptr;
+    sym_ptr = AsmFind( name );
+    if( *sym_ptr != NULL ) {
+        sym = *sym_ptr;
+        *sym_ptr = sym->next;
+        FreeInfo( (dir_node *)sym );
+        AsmFree( sym->name );
+        AsmFree( sym );
+    }
+}

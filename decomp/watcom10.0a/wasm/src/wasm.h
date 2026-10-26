@@ -34,6 +34,7 @@ typedef struct File_Info {
 
 extern File_Info AsmFiles;
 extern global_options Options;
+extern unsigned LineNumber;
 typedef struct carve_block {
     struct carve_block *next;
     char data[1];
@@ -82,7 +83,10 @@ typedef char fixup_size_check[sizeof(fixup) == 18 ? 1 : -1];
 typedef char fixup_target_check[offsetof(fixup,lr.target_offset) == 14 ? 1 : -1];
 fixup *FixNew(void);
 typedef char fixup_offset_check[offsetof(fixup,loc_offset) == 5 ? 1 : -1];
-struct linnum_data;
+#pragma pack(1)
+struct linnum_data { unsigned short number; unsigned long offset; };
+#pragma pack()
+typedef char linnum_data_size_check[sizeof(struct linnum_data) == 6 ? 1 : -1];
 #pragma pack(1)
 typedef struct pubdef_data {
     unsigned short name;
@@ -241,6 +245,7 @@ int writeLedata(obj_rec *objr, pobj_state *state);
 int writeFixup(obj_rec *objr, pobj_state *state);
 int writePubdef(obj_rec *objr, pobj_state *state);
 int writeLinnum(obj_rec *objr, pobj_state *state);
+void writeLinnumData(obj_rec *objr, OBJ_WFILE *out);
 int writeLidata(obj_rec *objr, pobj_state *state);
 int writeMisc32(obj_rec *objr, pobj_state *state);
 int writeComdat(obj_rec *objr, pobj_state *state);
@@ -464,13 +469,17 @@ typedef struct global_vars {
     unsigned long sel_start;
     unsigned short sel_idx;
     unsigned expand_count;
+    unsigned for_counter;
 } global_vars;
 #pragma pack()
 typedef char globals_expand_check[offsetof(global_vars,expand_count) == 14 ? 1 : -1];
+typedef char globals_for_check[offsetof(global_vars,for_counter) == 18 ? 1 : -1];
 extern global_vars Globals;
 typedef struct queuenode { void *next, *data; } queuenode;
 typedef struct qdesc { void *head, *tail; } qdesc;
 extern qdesc *LnameQueue;
+extern qdesc *LinnumQueue;
+long QCount(qdesc *queue);
 extern qdesc *GlobalQueue;
 extern qdesc *AliasQueue;
 void *QDequeue(qdesc *queue);

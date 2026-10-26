@@ -784,7 +784,6 @@ typedef char proc_info_size_check[sizeof(proc_info) == 30 ? 1 : -1];
 typedef char macro_info_size_check[sizeof(macro_info) == 17 ? 1 : -1];
 extern dir_node *CurrProc;
 extern unsigned LnamesIdx, segdefidx, extdefidx;
-extern unsigned LineNumber;
 asm_sym *AsmAdd(asm_sym *sym);
 unsigned char AsmQueryExternal(char *name);
 /* Both released interfaces share the single shipped CFdd50 body. */

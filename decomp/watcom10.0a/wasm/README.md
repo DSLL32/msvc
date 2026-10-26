@@ -1,29 +1,35 @@
 # Watcom 10.0a WASM
 
-Two cases are complete: `/?` (exit 1) and `/q /fo=transform.obj transform.asm`
-(exit 0). The assembly workload combines includes, macros, conditionals, typed
-records, integer/x87 instructions, branches and external relocations; its
-485-byte OMF object matches exactly. Inputs and references are frozen in the
-numbered case captures, with no Wine during fixtures.
+Three cases are complete: `/?` (exit 1), `/q /fo=transform.obj transform.asm`
+(exit 0), and `/d1 /fo=records.obj records.asm` (exit 0). The first assembly
+workload combines includes, macros, conditionals, typed records, integer/x87
+instructions, branches and external relocations; its 485-byte OMF matches exactly.
+The DOS workload adds small-model segments, IRP, macro-local labels, stack
+arguments/locals, COMMON and debug lines. Its 561-byte OMF matches exactly, with
+54 lines, zero warnings and zero errors. Inputs and references are frozen in the
+numbered captures; fixtures never invoke Wine.
 
-The reconstruction covers 329 application functions and 80,523 unique original
+The reconstruction covers 359 application functions and 87,477 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
-from the assembly case's entry order, without a runtime observation claim.
+from the assembly cases' entry orders, without a runtime observation claim.
 Original CRT bodies execute unchanged and receive no application credit.
 Unsupported instruction fields and pending functions still trap. The original
 empty-line read-before-buffer defect remains in the period build; the native
-branch uses the documented, twice-observed no-join outcome.
+branch uses the documented, twice-observed no-join outcome. Native `GetAssume`
+projects the original selector 8 read onto its actual `ModuleInfo.flat_idx`
+owner rather than depending on host global placement; other unknown selectors
+remain unsupported.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 329 graph/reference/ownership/extent checks pass, with 258 ordinary RET
-contracts and 71 finite cold-error, tail-wrapper or exit checks. Pending error
+All 359 graph/reference/ownership/extent checks pass, with 282 ordinary RET
+contracts and 77 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-Final native fixtures: help 15.02 ms and assembly 16.24 ms (assembly setup
-8.54 ms, execution 4.29 ms, checks 3.41 ms). Parallel Make check took 70.82 ms;
-incremental native/case/period build setup took 136.84 ms; the full audit took
-675.70 ms. The final explicit original capture took 1.59 s. These are measured
+Final native fixtures: help 13.34 ms, buffer transform 15.45 ms, DOS records 13.46 ms
+(DOS setup 7.26 ms, execution 3.07 ms, checks 3.13 ms). Parallel Make check took 68.42 ms;
+incremental native/case/period build setup took 138.73 ms; the full audit took
+709.63 ms. The final explicit original capture took 1.29 s. These are measured
 closeout runs, not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical

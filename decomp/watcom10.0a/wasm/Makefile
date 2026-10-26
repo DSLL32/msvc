@@ -1,7 +1,7 @@
 RECON_TOOL_DIR := $(abspath ../../../tooling/recon-tool)
 RECON := ../../../lib/recon
 RECON_CF_PROFILE := harness/cf-profile.json
-BINARY_SOURCES := src/main.c src/fatal.c src/write.c src/objrec.c src/objio.c src/carve.c src/fixup.c src/memutil.c src/asmalloc.c src/genmsomf.c src/util.c src/wasmmsg.c src/loadstr.c src/ropenfro.c src/wrinitdi.c src/wrreaddi.c src/wriswrf.c src/resread.c src/wrrhr.c src/wresid.c src/reslist.c src/asmins.c src/asmparse.c src/asmmatch.c src/breakout.c src/asmstruc.c src/mnemonics.c src/insthash.c src/expand.c src/asmline.c src/condasm.c src/macro.c src/mangle.c src/asmscan.c src/asmsym.c src/asmlabel.c src/asmjump.c src/direct.c src/asmeval.c src/asmdata.c src/asmfixup.c src/posndir.c src/wrfindrs.c src/stubs.c
+BINARY_SOURCES := src/main.c src/fatal.c src/write.c src/objrec.c src/objio.c src/carve.c src/fixup.c src/memutil.c src/asmalloc.c src/genmsomf.c src/util.c src/wasmmsg.c src/loadstr.c src/ropenfro.c src/wrinitdi.c src/wrreaddi.c src/wriswrf.c src/resread.c src/wrrhr.c src/wresid.c src/reslist.c src/asmins.c src/asmparse.c src/asmmatch.c src/breakout.c src/asmstruc.c src/mnemonics.c src/insthash.c src/expand.c src/asmline.c src/condasm.c src/for.c src/macro.c src/mangle.c src/asmscan.c src/asmsym.c src/asmlabel.c src/asmjump.c src/direct.c src/asmeval.c src/asmdata.c src/asmfixup.c src/posndir.c src/wrfindrs.c src/stubs.c
 BINARY_SUPPORT_SOURCES := $(wildcard $(RECON)/src/*.c)
 NATIVE_CPPFLAGS := -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_SPLITPATH_WATCOM_DOS -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_CFLAGS := -std=gnu89
@@ -57,7 +57,7 @@ $(WASM_AUDIT_DIR)/rebuilt-runtime.json:
 	@mkdir -p $(@D)
 	@printf '[]\n' > $@
 
-#258 ordinary returning contracts stay strict;71 exact cold-error/tail/exit
+#282 ordinary returning contracts stay strict;77 exact cold-error/tail/exit
 # owners use the finite residual without inheriting a fictitious cold RET.
 .PHONY: audit-error-tails
 audit: audit-error-tails

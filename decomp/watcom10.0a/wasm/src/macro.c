@@ -530,3 +530,40 @@ void free_parmlist(parm_list *head)
         parm->replace = NULL;
     }
 }
+
+/* CF16d60..16e9b: source matches the original temporary-local macro. */
+int macro_local( void )
+/****************************/
+{
+    /* take a line that looks like  LOCAL varname [, varname * ] */
+
+    int i = 0;
+    char buffer[256];
+
+    if( AsmBuffer[i]->value != T_LOCAL ) {
+        AsmError( 51 );
+        return( -1 );
+    }
+
+    PushLineQueue();
+    for( i++; AsmBuffer[i]->token != T_FINAL; i++ ) {
+        /* define an equ to expand the specified variable to a temp. name */
+        if( AsmBuffer[i]->token != T_ID ) {
+            AsmError( 103 );
+            return( -1 );
+        }
+        strcpy( buffer, AsmBuffer[i]->string_ptr );
+        strcat( buffer, " TEXTEQU " );
+        sprintf( buffer + strlen( buffer ), "??%#04d", MacroLocalVarCounter );
+        MacroLocalVarCounter++;
+        InputQueueLine( buffer );
+        i++;
+        if( AsmBuffer[i]->token == T_FINAL ) break;
+        /* now skip the comma */
+        if( AsmBuffer[i]->token != T_COMMA ) {
+            AsmError( 33 );
+            return( -1 );
+        }
+    }
+    return( 1 );
+}

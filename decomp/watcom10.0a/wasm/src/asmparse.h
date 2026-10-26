@@ -32,6 +32,8 @@
 #define ASMPARSE_H
 #include "asminit.h"
 #include <recon.h>
+enum { PREFIX_ES=0x26, PREFIX_CS=0x2e, PREFIX_SS=0x36,
+       PREFIX_DS=0x3e, PREFIX_FS=0x64, PREFIX_GS=0x65 };
 #define ERROR -1
 #define STRING_EXPANDED 2
 #define NOT_ERROR 1

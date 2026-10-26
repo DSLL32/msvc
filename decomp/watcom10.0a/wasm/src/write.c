@@ -704,3 +704,83 @@ int write_modend(void)
     write_record(ModendRec,TRUE);
     return NOT_ERROR;
 }
+
+/* CFe02c..e05f: the standard DOS segment-order comment record. */
+void write_dosseg( void )
+{
+    obj_rec *objr;
+    objr = ObjNewRec( CMD_COMENT );
+    objr->d.coment.attr = 0x80;
+    objr->d.coment.class = 0x9e;
+    ObjAttachData( objr, "", 0 );
+    write_record( objr, TRUE );
+}
+
+/* CFe6f8..e793: memory width used by communal object records. */
+int opsize( unsigned mem_type )
+{
+    switch( mem_type ) {
+    case T_SBYTE: case T_BYTE: return 1;
+    case T_SWORD: case T_WORD: return 2;
+    case T_SDWORD: case T_DWORD: return 4;
+    case T_FWORD: case T_PWORD: return 6;
+    case T_QWORD: return 8;
+    case T_TBYTE: return 10;
+    default: return 0;
+    }
+}
+
+/* CFe794..e7bf. The original accepts128 in one byte and actually compares
+ * against21 in the third branch, unlike the later source's24-bit maximum.
+ * That branch cannot be reached after the <=65535 test; retain the old test. */
+int get_number_of_bytes_for_size_in_commdef( unsigned long value )
+{
+    if( value <= 128 ) return 1;
+    else if( value <= 65535UL ) return 3;
+    else if( value <= 21 ) return 4;
+    else return 5;
+}
+
+/* CFeb5c..ec19. The older body always emits16-bit LINNUM records;
+ * the later per-offset need_32 test is absent. */
+void write_linnum( void )
+{
+    queuenode *node;
+    struct linnum_data *ldata, *next;
+    int count, i;
+    obj_rec *objr;
+
+    count = QCount( LinnumQueue );
+    if( count == 0 ) return;
+    ldata = AsmAlloc( count * sizeof(struct linnum_data) );
+    for( i = 0; i < count; i++ ) {
+        node = QDequeue( LinnumQueue );
+        next = node->data;
+        ldata[i].number = next->number;
+        ldata[i].offset = next->offset;
+        AsmFree( next );
+        AsmFree( node );
+    }
+    AsmFree( LinnumQueue );
+    LinnumQueue = NULL;
+    objr = ObjNewRec( CMD_LINNUM );
+    objr->d.linnum.num_lines = count;
+    objr->d.linnum.lines = ldata;
+    objr->d.linnum.d.base.grp_idx = GetCurrGrp();
+    objr->d.linnum.d.base.seg_idx = CurrSeg->seg->e.seginfo->segrec->d.segdef.idx;
+    objr->d.linnum.d.base.frame = 0;
+    write_record( objr, TRUE );
+}
+
+/* CFeb38..eb5b, the writer's queue count and overflow sentinel. */
+long QCount( qdesc *queue )
+{
+    long count = 0;
+    queuenode *curr;
+    if( queue == NULL ) return 0;
+    for( curr = queue->head; curr != NULL; curr = curr->next ) {
+        count++;
+        if( count < 0 ) return -1;
+    }
+    return count;
+}

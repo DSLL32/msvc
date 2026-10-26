@@ -346,3 +346,45 @@ void GenMSOmfFini(void)
 {
     PObjUnRegList(myFuncs,sizeof(myFuncs) / sizeof(myFuncs[0]));
 }
+
+/* CF1b9f0..1ba96, line-number record framing. */
+int writeLinnum( obj_rec *objr, pobj_state *state )
+{
+    OBJ_WFILE *out;
+    int is32;
+    if( objr == NULL ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",596);
+    if( objr->command != CMD_LINNUM ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",597);
+    if( state == NULL ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",598);
+    if( state->pass != POBJ_WRITE_PASS ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",599);
+    out = state->file_out;
+    is32 = objr->is_32 || objr->is_phar;
+    ObjWBegRec( out, is32 ? CMD_LINNUM + 1 : CMD_LINNUM );
+    writeBase( objr, out );
+    writeLinnumData( objr, out );
+    ObjWEndRec( out );
+    return 0;
+}
+
+/* CF1b92c..1b9ed, little-endian line-number serialization. */
+void writeLinnumData( obj_rec *objr, OBJ_WFILE *out )
+{
+    int is32;
+    struct linnum_data *cur, *stop;
+    if( objr == NULL ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",550);
+    if( out == NULL ) InternalError("g:\\bld\\womp\\c\\genmsomf.c",551);
+    is32 = objr->is_32 || objr->is_phar;
+    if( is32 ) {
+        ObjWrite( out, (char *)objr->d.linnum.lines,
+            6 * objr->d.linnum.num_lines );
+    } else {
+        cur = objr->d.linnum.lines;
+        stop = cur + objr->d.linnum.num_lines;
+        while( cur < stop ) {
+            ObjWrite16( out, cur->number );
+            if( (cur->offset & 0xffff0000UL) != 0 )
+                InternalError("g:\\bld\\womp\\c\\genmsomf.c",566);
+            ObjWrite16( out, (unsigned short)cur->offset );
+            ++cur;
+        }
+    }
+}

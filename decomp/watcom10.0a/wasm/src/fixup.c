@@ -158,3 +158,21 @@ void FixFini(void)
 {
     CarveDestroy(myCarver);
 }
+
+/* CF1c4d4..1c540, select a logical or physical module-entry reference. */
+size_t FixGenRef( union logphys *ref, int is_logical, char *buffer, int type )
+{
+    if( ref == NULL ) InternalError("g:\\bld\\womp\\c\\fixup.c",341);
+    if( buffer == NULL ) InternalError("g:\\bld\\womp\\c\\fixup.c",342);
+    if( type != FIX_GEN_INTEL && type != FIX_GEN_PHARLAP && type != FIX_GEN_MS386 )
+        InternalError("g:\\bld\\womp\\c\\fixup.c",344);
+    if( is_logical ) return FixGenLRef( &ref->log, buffer, type );
+    return FixGenPRef( &ref->phys, buffer, type );
+}
+
+/* CF1c2cc..1c2d4, the target's little-endian16-bit buffer store. */
+char *put16( char *p, unsigned short value )
+{
+    *(unsigned short *)p = value;
+    return p + 2;
+}

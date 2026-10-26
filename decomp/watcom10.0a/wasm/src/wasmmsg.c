@@ -131,3 +131,13 @@ int MsgFini(void)
     }
     return status;
 }
+
+/* CF164b0..16511, original asmmsg.c statistics with no clock fields. */
+void PrintStats( void )
+{
+    printf( "%s: ", AsmFiles.fname[ASM] );
+    printf( "%u lines, ", LineNumber );
+    printf( "%u warnings, ", (unsigned)Options.warning_count );
+    printf( "%u errors\n", (unsigned)Options.error_count );
+    fflush( stdout );
+}

@@ -57,13 +57,15 @@ enum { TOK_EXT_NEAR=25,TOK_EXT_FAR,TOK_EXT_PROC,TOK_EXT_BYTE,TOK_EXT_SBYTE,
        TOK_EXT_WORD,TOK_EXT_SWORD,TOK_EXT_DWORD,TOK_EXT_SDWORD,TOK_EXT_PWORD,
        TOK_EXT_FWORD,TOK_EXT_QWORD,TOK_EXT_TBYTE,TOK_EXT_ABS };
 enum { TOK_DS=39,TOK_ES,TOK_SS,TOK_FS,TOK_GS,TOK_CS,TOK_ERROR,TOK_NOTHING };
-#define ALIGN_PARA 3
+enum { ALIGN_ABS, ALIGN_BYTE, ALIGN_WORD, ALIGN_PARA, ALIGN_PAGE,
+       ALIGN_DWORD, ALIGN_4KPAGE };
 #define COMB_INVALID 0
 #define LNAME_NULL 0
 extern seg_list *CurrSeg;
 void AsmTakeOut(char *name);
 void write_epilogue(void);
 void close_lastseg(void);
+int MakeComm(char *name, int type, unsigned char already_defd, int number, int distance);
 void pop_register(struct regs_list *regist);
 void push_proc(dir_node *procedure);
 dir_node *pop_proc(void);
@@ -92,7 +94,13 @@ unsigned long GetCurrSegStart(void);
 unsigned GetGrpIdx(asm_sym *sym);
 void find_use32(void);
 #define INIT_MEMORY 0x10
-#define SIM_NONE 7
+enum { SIM_CODE, SIM_STACK, SIM_DATA, SIM_DATA_UN, SIM_FARDATA, SIM_FARDATA_UN, SIM_CONST, SIM_NONE };
+#define SIM_CODE_OFFSET 5
+#define SIM_DATA_OFFSET 5
+#define FAROFFSET(seg) ((seg) == SIM_FARDATA ? 8 : 7)
+void input_group(int type);
+unsigned long GetCurrSegAlign(void);
+void fill_in_objfile_space(unsigned size);
 typedef struct typeinfo { char *string; unsigned value, init; } typeinfo;
 extern typeinfo TypeInfo[63];
 void get_module_name(void);

@@ -49,12 +49,12 @@ int asmmatch_output(int i)
 
     /* Only encoding families consumed on the reconstructed instruction path. */
     switch (ins->token) {
-    case T_PUSH: case T_MOV: case T_XOR: case T_ROL: case T_ADD:
+    case T_PUSH: case T_MOV: case T_XOR: case T_ROL: case T_ADD: case T_SUB: case T_CMP:
     case T_MOVZX: case T_SHLD: case T_BT: case T_ADC: case T_XCHG:
-    case T_INC: case T_DEC: case T_JNZ:
+    case T_INC: case T_DEC: case T_NEG: case T_JNZ: case T_JGE:
     case T_FLDZ: case T_FILD: case T_FMUL: case T_FADDP: case T_LOOP:
     case T_FSTP: case T_IMUL: case T_IDIV: case T_TEST: case T_JZ:
-    case T_CALL: case T_POP: case T_RETN:
+    case T_CALL: case T_POP: case T_RETN: case T_INT:
         break;
     default: WASM_PENDING();
     }
@@ -555,4 +555,27 @@ int match_phase_3( int *i, unsigned long determinant )
     }
     (*i)--;
     return( EMPTY );
+}
+
+/* CF25fa0: the line-number queue consumed by the object writer. */
+qdesc *LinnumQueue;
+
+/* CFa560..a5cd. The1994 condition is nonzero Parse_Pass && debug_flag;
+ * the later line-number-range test is absent. */
+void AddLinnumData( void )
+{
+    struct linnum_data *curr;
+    queuenode *node;
+    if( Parse_Pass != PASS_1 && Options.debug_flag ) {
+        curr = AsmAlloc( sizeof(struct linnum_data) );
+        curr->number = LineNumber;
+        curr->offset = GetCurrAddr();
+        node = AsmAlloc( sizeof(queuenode) );
+        node->data = curr;
+        if( LinnumQueue == NULL ) {
+            LinnumQueue = AsmAlloc( sizeof(qdesc) );
+            QInit( LinnumQueue );
+        }
+        QEnqueue( LinnumQueue, node );
+    }
 }

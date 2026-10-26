@@ -97,3 +97,31 @@ void PrepAnonLabels(void)
     sym = AsmGetSymbol("L&_0");
     if (sym != NULL) AsmChangeName(sym->name,"@F");
 }
+
+/* CF8eec..8fac. Unlike2002, the original neither requires i==1 nor
+ * rechecks T_RES_ID after recognizing the declaration's type token. */
+int LabelDirective( int i )
+{
+    asm_sym *sym;
+    if( AsmBuffer[i+1]->token == T_ID ) {
+        sym = AsmGetSymbol( AsmBuffer[i+1]->string_ptr );
+        if( sym != NULL && sym->state == SYM_STRUCT ) {
+            return MakeLabel( AsmBuffer[i-1]->string_ptr, T_STRUCT );
+        }
+    }
+    switch( AsmBuffer[i+1]->value ) {
+    case T_NEAR:
+    case T_FAR:
+    case T_BYTE:
+    case T_WORD:
+    case T_DWORD:
+    case T_FWORD:
+    case T_PWORD:
+    case T_QWORD:
+    case T_TBYTE:
+        return MakeLabel( AsmBuffer[i-1]->string_ptr, AsmBuffer[i+1]->value );
+    default:
+        AsmError( 35 );
+        return ERROR;
+    }
+}

@@ -749,3 +749,18 @@ int reg( int i )
     }
     return( i );
 }
+
+/* CF5394..53e0, segment-register field from its prefix byte. */
+unsigned char get_sr_rm_byte( unsigned char seg_prefix )
+{
+    switch( seg_prefix ) {
+    case PREFIX_ES: return 0;
+    case PREFIX_CS: return 1;
+    case PREFIX_SS: return 2;
+    case PREFIX_DS: return 3;
+    case PREFIX_FS: return 4;
+    case PREFIX_GS: return 5;
+    }
+    InternalError( "..\\c\\asmins.c", 1236 );
+    return 0;
+}

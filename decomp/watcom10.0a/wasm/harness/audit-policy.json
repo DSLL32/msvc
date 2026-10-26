@@ -83,6 +83,38 @@
             ]
           ]
         }
+      },
+      "asmmatch.output": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "asmmatch_output_",
+                "offset": 24
+              },
+              {
+                "rebuilt_symbol": "asmmatch_output_",
+                "offset": 214
+              }
+            ]
+          ]
+        }
+      },
+      "CreateFixupRec": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "CreateFixupRec_",
+                "offset": 118
+              },
+              {
+                "rebuilt_symbol": "CreateFixupRec_",
+                "offset": 150
+              }
+            ]
+          ]
+        }
       }
     },
     "callback_tables": []
@@ -1379,6 +1411,126 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "NameDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IncludeLib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CommDef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeComm": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "GlobalDef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "input_group": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "close_lastseg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OrgDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LabelDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ForDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AlignDirective": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCurrSegAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "find_size": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "size_override": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddLinnumData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "macro_local": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmTakeOut": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_dosseg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "opsize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "get_number_of_bytes_for_size_in_commdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "write_linnum": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QCount": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "put16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrintStats": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1430,6 +1582,16 @@
       ],
       "original": {
         "start": 65722,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "input_group",
+        "close_lastseg"
+      ],
+      "original": {
+        "start": 70864,
         "bytes_hex": "c3"
       }
     }

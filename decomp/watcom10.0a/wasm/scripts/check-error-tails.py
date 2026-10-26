@@ -54,6 +54,12 @@ def pe_bytes(address, size):
 symbols = {name: 0x410000 + int(offset, 16) for offset, name in re.findall(
     r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wasm.map').read_text(), re.M)}
 owners = [
+    ('FixGenRef', 115924, 116032, 'a0f6a48aaf04e9c5548369bd69ecaad9717ce618146819777f8cbe9402ab4501', [116018, 116031], [115949, 115968, 115997]),
+    ('writeLinnumData', 112940, 113133, '190e156b55f2f3389d97622a4439f2a66234026143a5accda891c4013b4ba072', [113042, 113132], [112961, 112980, 113104]),
+    ('writeLinnum', 113136, 113302, 'cc6e4e566baa12a19dc2b31d0671c7b17aeb630074e0aa41d98e481a0e482b45', [113301], [113156, 113177, 113196, 113216]),
+    ('get_sr_rm_byte', 21396, 21472, 'f0c59408536b93aabb9608824f60f025a6b0fcd796f3679b0eca8fe59adf5cf6', [21436, 21440, 21444, 21448, 21452, 21456], [21467]),
+    ('LocalDef', 76272, 76964, '6a903d48cb53699ce2658570e4e67eacec986b8dc9fea08a77a520dba0e02ada', [76405, 76432, 76463, 76654, 76704, 76751, 76807, 76933, 76963], [76331]),
+    ('SimSeg',0x116e8,0x11d74,'e605a11234c07b99e152d6131df36b5c32d7e3ba15243810c28b99f6b9073c64',[0x118ce,0x11928,0x119b1,0x119fe,0x11a19,0x11a34,0x11ba7,0x11be2,0x11d64],[0x117d5,0x11d6f]),
     ('ObjWriteClose',0x1a610,0x1a645,'6cacc973890e604b9d4905677fe441210a124a158c8757e89b432d8fb4f57af4',[0x1a644],[0x1a622]),
     ('CarveDestroy',0x1aae0,0x1ab19,'21e6a6b7b2662fc98b5ab8a6c6f02ed002f5b306438ce2a2a161bdc1025f5a4a',[0x1ab18],[0x1aaf3]),
     ('writeModend',0x1b4f8,0x1b608,'e88cbe1ffee9784ea1b908cd3ea396667d9650cd67ef45b2bbfb3ed8e0666c3a',[0x1b607],[0x1b511,0x1b526,0x1b539,0x1b54d]),
@@ -172,14 +178,32 @@ for name, start, end, digest, returns, tails in owners:
         assert struct.unpack('<I',pe_bytes(table_end+15,4))[0] == table_begin
         code = instructions(rebuilt,begin,table_begin) + instructions(rebuilt,table_end,limit)
     else:
-        code = instructions(rebuilt, begin, limit)
+        # Declared text data is data even when relocated target bytes resemble
+        # RET opcodes. Keep decoding every instruction outside those ranges.
+        metadata = json.loads((project / 'harness/audit-policy.json').read_text())
+        spans = metadata['graph_metadata']['functions'].get(name, {}).get(
+            'rebuilt', {}).get('text_data', [])
+        ranges = []
+        for span in spans:
+            assert [item['rebuilt_symbol'] for item in span] == [name + '_'] * 2
+            low, high = [begin + item['offset'] for item in span]
+            assert begin <= low < high <= limit
+            ranges.append((low, high))
+        code = []
+        cursor = begin
+        for low, high in sorted(ranges):
+            assert cursor <= low
+            code += instructions(rebuilt, cursor, low)
+            cursor = high
+        code += instructions(rebuilt, cursor, limit)
     rebuilt_returns = [(a, operand) for a, m, operand in code if m.startswith('ret')]
     assert rebuilt_returns and all(not operand for _, operand in rebuilt_returns)
     jumps = external_jumps(code, begin, limit)
     # The period -Od build merges get_precedence's three original default
-    # assertion tails into one shared default block. Both shapes still end
+    # assertion tails into one shared default block. SimSeg's two original
+    # switch-default copies similarly merge to its one source default. Both end
     # only at pending InternalError; ordinary decoded RET0 checks stay above.
-    expected_rebuilt_tails = 1 if name == 'get_precedence' else len(tails)
+    expected_rebuilt_tails = 1 if name in ('get_precedence','SimSeg') else len(tails)
     assert len(jumps) == expected_rebuilt_tails and all(m == 'jmp' and target == symbols['InternalError_'] for _, m, target in jumps)
     report.append({'name': name, 'original_sha256': digest, 'original_ret0': returns,
         'original_error_tails': tails, 'rebuilt_extent': [begin, limit], 'rebuilt_ret0': rebuilt_returns,
