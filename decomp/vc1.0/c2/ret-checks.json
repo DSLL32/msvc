@@ -970,6 +970,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@region_operand_replacement_safe@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

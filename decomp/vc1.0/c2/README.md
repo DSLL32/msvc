@@ -1,22 +1,56 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1500 completes the INTERNAL allocation-diagnostics case. There are1385
+Checkpoint1501 completes the INTERNAL region-consistency case. There are1386
 reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies361763/399693 original code-section bytes(90.5102%); adding940 owned
-text-data bytes gives362703/399693(90.7454%). These clipped extent unions use
+occupies361960/399693 original code-section bytes(90.5595%); adding940 owned
+text-data bytes gives362900/399693(90.7947%). These clipped extent unions use
 section VirtualSize(raw size only if zero), not branch coverage. Five historical
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover389077/399693(97.3440%). A reliable non-CRT
-denominator is unavailable;24 pending App rows and10616B outside the available
+classified CRT/import extents cover389274/399693(97.3932%). A reliable non-CRT
+denominator is unavailable;23 pending App rows and10419B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All36 cached IO cases, nine INTERNAL DIRECT
+`binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
 cases and250 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The region-consistency scenario uses a bounded unsigned global-bank checksum.
+Untouched CL/O2/Ob0/G4/Z7/W3 succeeds and its actual child transport retains636B
+source plus five real IR files. Parent CL exit is unobserved in that snapshot.
+At genuine combine_machine_instructions entry the child region owns3 pointer
+inductions, each increment4. There are no scaled no-base index uses: the initial
+scaling hypothesis misses and those transformation owners remain pending.
+
+The existing prepare_region_insertion API publishes the real child region and
+cursor. One whole197B owner then checks37 real instruction/operand/register
+queries, giving30 true and seven false results. The29 register-only positives
+and three mixed address/register negatives are independently meaningful witnesses.
+The exact3172B defined-field/relationship report matches; before/after snapshots
+preserve existing flags, machine stream/order, owners, register IDs and published
+cursor/insertion aliases. No raw private state is forced or padding compared.
+Fresh masked original/native prefix1500..1501 matches. The initial195B extent
+estimate was corrected before promotion to include all of the final RET4; all
+three return epilogues are checked. Changing an actual expected query result
+rejects exit125. Abrupt INTERNAL DIRECT completion retains the exact empty partial
+bank.obj, empty streams and status0; it does not claim a complete compilation or
+public transform reach. No normalization, CRT body or shared shim was added.
+
+Final make-j4 audit/check/unit passes2.827s(phases unsplit):1391 paired graphs/
+accepted extents,195 scoped RET contracts,46 cases and250 units. Original/W3
+passes1.794s. All measured attempts: target/case/metadata builds5.136s, original
+CL1.141s, helper compilation3.800s, transport1.612s, original references3.101s,
+focused graph0.060s and native replays0.141s. Three GDB domain diagnostics total
+0.613s and end by debugger termination, not pass; the first query enumeration
+missed source operands and was corrected before original observation. Intentional
+negative0.033s. Analysis/editing/manual scratch compilation/disassembly/packing
+are unmeasured; sums are not task elapsed. Raw original artifacts are retained
+with --artifacts-dir; completion/time/coverage summaries and rejected scaling
+domain remain under `~/.ai-tmp/msvc2/vc1.0/c2/global-index-motion/`.
+
+The preceding allocation-diagnostics case completed checkpoint1500.
 The allocation diagnostic scenario uses a single bounded unsigned ledger scan
 with external counters and observable callbacks. Untouched CL/O2/Ob0/G3/Z7/W3
 succeeds; actual C1 transport supplies837B source and five IR inputs. Parent CL

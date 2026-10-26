@@ -14122,11 +14122,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@region_operand_replacement_safe@12",
         .entry_rva = 0x3a820,
-        .code = (const ReconExtent[]) { { 0x3a820, 0x3a821 } },
+        .code = (const ReconExtent[]) { { 0x3a820, 0x3a8e5 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "region_operand_replacement_safe",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@reserve_region_result_register@8",

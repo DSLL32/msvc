@@ -754,3 +754,31 @@ void __fastcall replace_region_operand_uses(MachineOperand *operand, unsigned sh
     replacement.flags &= ~0xf0U;
     replace_region_operand(active_machine_region, first, operand, &replacement);
 }
+
+/* Original4a820..4a8e5 (197 bytes, including the complete final RET4).
+   Every later mention must have the same operand base as the proposed use.
+   Inspect the second operand first, matching the two-operand early exit;
+   record kinds outside ordinary data/selected operations are skipped. */
+int __fastcall region_operand_replacement_safe(MachineInstruction *first,
+    unsigned short number, MachineOperand *operand)
+{
+    unsigned kind;
+    int operands;
+    MachineOperand *use;
+    for (; first != active_machine_region->last->next; first = first->next) {
+        kind = first->opcode & 15;
+        if (kind && kind != 8 && kind != 9 && kind != 10) continue;
+        operands = machine_operand_counts[(first->opcode >> 8) & 255];
+        if (operands == 2) {
+            use = &first->operands[1];
+            if (operand_mentions_register(use, number) &&
+                !same_machine_operand_base(use, operand)) return 0;
+        }
+        if (operands == 1 || operands == 2) {
+            use = &first->operands[0];
+            if (operand_mentions_register(use, number) &&
+                !same_machine_operand_base(use, operand)) return 0;
+        }
+    }
+    return 1;
+}

@@ -186,7 +186,6 @@ void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, Machi
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-int __fastcall region_operand_replacement_safe(MachineInstruction *first, unsigned short number, MachineOperand *operand) { __asm int 3 }
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block) { __asm int 3 }
 
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
