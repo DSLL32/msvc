@@ -12,5 +12,19 @@
     "tests/watcom-cold-probe.c": "9576aa7ea30b2ae90163b3dee54168918b0ec38ce11f2078c75b370c83eb4105"
   },
   "groups": 6,
-  "wall_s": 3.1022283658385277
+  "wall_s": 3.1022283658385277,
+  "radix36_extension": {
+    "scope": "ExplicitWatcom radix36 alongside10, same12B caller-owned/nonNULL/nonwrap guards, validatedradix forwarded to existing unsigned32 lowercase backend; no new backend.",
+    "source_sha256": "1e99522aeac0354fb62ffe89c0ae64e0478fc09e3014056c4c77dad08b246fdf",
+    "probe_sha256": "f89287383321df87043484dcb8630ac0c7f361b444303dcaa49d7970f3829da2",
+    "focused": "GCC/ClangWatcom and GCCdefault3groups; independent0/9/35/36/1295/1296/highbit/max radix36 outputs,alias/NUL/tails/errors/semanticFP,decimal retention,other radix/null/wrap denials.",
+    "focused_wall_s": 1.5540141519159079,
+    "logs": "/root/.ai-tmp/msvc2/recon-maintenance/ultoa-base36",
+    "actual": "Saved original2.755s reused; native19.456ms (11.566setup/3.750execution/4.139checks) through actualprependLen length9/local16B todefaultArgCantExist56dab. GDB quit signal9 diagnostic is separate; no original per-call state claim.",
+    "evidence_sha256": {
+      "/root/.ai-tmp/msvc2/watcom10.0a/wpp386/cpp-object-model/default-prototype-closure-9xm1zlgz/original-report.json": "df55165be7d1985801e28b6a01b9747bd812a87911cd0171bdb6e88feca461cf",
+      "/root/.ai-tmp/msvc2/watcom10.0a/wpp386/cpp-object-model/default-prototype-closure-9xm1zlgz/radix-gdb.log": "f4a6733db79d87f7d2916e3f5813e65e7f64f07a52cd9f2d32d285a646aa7c9d",
+      "/root/.ai-tmp/msvc2/watcom10.0a/wpp386/cpp-object-model/default-prototype-closure-9xm1zlgz/radix36-adoption-native-report.json": "729b1c3760f05445b4267d8c08e7f2aaeafef9708ef6112916d48fd281f57b78"
+    }
+  }
 }
