@@ -165,3 +165,18 @@ void MsgPrintf1(int resourceid, const char *arg)
     MsgGet(resourceid, buffer);
     printf(buffer, arg);
 }
+
+/* CF16590..16686, source wasmmsg.c output. Watcom's default char is
+ * unsigned: retain the actual zero-extended fputc argument for high bytes.
+ * The original do/while reads text[1] even for an initial NUL; callers of
+ * that empty-input path must own two readable zero bytes. */
+void output(const unsigned char *text)
+{
+    unsigned char c;
+    do {
+        c = *text;
+        putchar(c);
+        ++text;
+    } while (*text);
+    putchar('\n');
+}

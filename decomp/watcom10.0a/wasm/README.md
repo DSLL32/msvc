@@ -32,8 +32,13 @@ syntax names an environment variable, not a response file.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 399 application functions and 94,373 unique original
-code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
+The reconstruction covers 401 application functions and 94,646 unique original
+code bytes. Of these, 398 have original/native execution-pair evidence. The
+separate native unit case qualifies `output` and `GetGrpIdx` through released
+source/1994 disassembly, period compilation, graph/ABI checks and typed assertions;
+it carries no original-runtime claim. Output checks include ASCII, high bytes
+and an owned two-zero-byte empty buffer matching the original read-ahead.
+Group-index checks use the real segment lookup and preserve borrowed owners. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
 Original CRT bodies execute unchanged and receive no application credit.
@@ -48,16 +53,16 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 399 graph/reference/ownership/extent checks pass, with 315 ordinary RET
+All 401 graph/reference/ownership/extent checks pass, with 317 ordinary RET
 contracts and 84 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-The ten final cached native fixtures pass; option-contract takes 13.67 ms
-(setup 7.44 ms, execution 3.06 ms, checks 3.18 ms). Parallel Make check took
-116.89 ms, and the full graph and finite RET audit took 837.14 ms. The last
-explicit original capture took 1.22 s. Native and period builds passed; their
-final incremental build time was not measured. These are measured closeout
-runs, not clean-build timings.
+The ten cached CLI fixtures and the authored native unit case pass. The unit
+case takes 8.38 ms (setup 5.63 ms, execution 1.12 ms, checks 1.63 ms), and its
+two forked assertion groups also pass. Parallel Make check took 114.35 ms;
+the full graph and finite RET audit took 835.06 ms. Native and period builds
+passed; incremental build time was not measured. This unit case performs no
+original capture and retains the ten unchanged CLI references.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its

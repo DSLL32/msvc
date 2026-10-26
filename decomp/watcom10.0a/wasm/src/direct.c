@@ -2748,3 +2748,15 @@ int FixOverride( int index )
     AsmError( 51 );
     return( ERROR );
 }
+
+/* CF124b0..124cb, direct.c GetGrpIdx. */
+unsigned GetGrpIdx(asm_sym *sym)
+{
+    dir_node *segment;
+    unsigned index = sym->grpidx;
+    if (index == 0) {
+        segment = GetSeg(sym);
+        if (segment != NULL) index = segment->e.seginfo->idx;
+    }
+    return index;
+}
