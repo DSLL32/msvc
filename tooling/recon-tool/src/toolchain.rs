@@ -63,6 +63,48 @@ fn executable(directory: &Path, name: &str) -> Result<PathBuf> {
     bail!("tool {name} not found in {}", directory.display())
 }
 
+fn watcom_executable(root: &Path, tool: &str) -> Result<PathBuf> {
+    let linker = tool.eq_ignore_ascii_case("WLINK") || tool.eq_ignore_ascii_case("WLINK.EXE");
+    let assembler = tool.eq_ignore_ascii_case("WASM") || tool.eq_ignore_ascii_case("WASM.EXE");
+    let directory = if linker {
+        ".patched"
+    } else if assembler {
+        ".patched/binnt"
+    } else {
+        "binnt"
+    };
+    let program = executable(&root.join(directory), tool)?;
+    if linker || assembler {
+        use sha2::{Digest, Sha256};
+        let (expected, label) = if linker {
+            (
+                "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+                "WLINK GS-patched image",
+            )
+        } else {
+            (
+                "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+                "WASM loader",
+            )
+        };
+        anyhow::ensure!(
+            crate::fixture::hex(&Sha256::digest(fs::read(&program)?)) == expected,
+            "Watcom {label} differs"
+        );
+        if assembler {
+            // This loader derives the sibling binb path from its own location.
+            // Qualify the same unmasked pair used by ordinary CF capture.
+            let payload = executable(&root.join(".patched/binb"), "WASM")?;
+            anyhow::ensure!(
+                crate::fixture::hex(&Sha256::digest(fs::read(payload)?))
+                    == "f7189b9de3de853139d381816ab5ed9aefdd6a4fd988e29a023f1f5fbd640de9",
+                "Watcom WASM GS-patched CF payload differs"
+            );
+        }
+    }
+    Ok(program)
+}
+
 pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
     anyhow::ensure!(
         matches!(name, "1.0-nt" | "5.10" | "watcom10.0a"),
@@ -72,20 +114,7 @@ pub fn command(repo: &Path, name: &str, tool: &str) -> Result<Command> {
     let mut command = crate::wine::command(repo)?;
     let program;
     if name == "watcom10.0a" {
-        let patched_linker =
-            tool.eq_ignore_ascii_case("WLINK") || tool.eq_ignore_ascii_case("WLINK.EXE");
-        program = executable(
-            &root.join(if patched_linker { ".patched" } else { "binnt" }),
-            tool,
-        )?;
-        if patched_linker {
-            use sha2::{Digest, Sha256};
-            anyhow::ensure!(
-                crate::fixture::hex(&Sha256::digest(fs::read(&program)?))
-                    == "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
-                "Watcom WLINK GS-patched image differs"
-            );
-        }
+        program = watcom_executable(&root, tool)?;
         for key in [
             "WCC",
             "WCC386",
@@ -124,4 +153,105 @@ pub fn run(options: Tool) -> Result<()> {
     command.args(options.args);
     // Replace the launcher, preserving the tool's streams, status and signals.
     Err(command.exec()).context("execute original tool through Wine")
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    fn shipped_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../toolchains/watcom10.0a")
+            .canonicalize()
+            .unwrap()
+    }
+    #[test]
+    fn qualified_wasm_selection_preserves_other_tools_and_launch_inputs() -> Result<()> {
+        let root = shipped_root();
+        let program = root.join(".patched/binnt/WASM.EXE");
+        for name in ["WASM", "wasm", "WASM.EXE", "wasm.exe"] {
+            assert_eq!(watcom_executable(&root, name)?, program);
+        }
+        assert_eq!(
+            watcom_executable(&root, "WLINK")?,
+            root.join(".patched/WLINK.EXE")
+        );
+        assert_eq!(
+            watcom_executable(&root, "WCC386")?,
+            root.join("binnt/WCC386.EXE")
+        );
+        let repo = root.parent().unwrap().parent().unwrap();
+        let mut launch = command(repo, "watcom10.0a", "WASM")?;
+        let tail = ["-q", "-fo=out.obj", "input.asm"];
+        launch.args(tail);
+        let args: Vec<_> = launch.get_args().map(|v| v.to_str().unwrap()).collect();
+        assert_eq!(
+            args,
+            [
+                r"R:\toolchains\watcom10.0a\.patched\binnt\WASM.EXE",
+                tail[0],
+                tail[1],
+                tail[2]
+            ]
+        );
+        let env: std::collections::HashMap<_, _> = launch.get_envs().collect();
+        assert_eq!(
+            env[std::ffi::OsStr::new("WINEPREFIX")],
+            Some(crate::wine::prefix()?.as_os_str())
+        );
+        assert_eq!(
+            env[std::ffi::OsStr::new("WATCOM")],
+            Some(std::ffi::OsStr::new(r"R:\toolchains\watcom10.0a"))
+        );
+        assert_eq!(
+            env[std::ffi::OsStr::new("WINEPATH")],
+            Some(std::ffi::OsStr::new(r"R:\toolchains\watcom10.0a\binnt"))
+        );
+        assert!(launch.get_current_dir().is_none());
+        Ok(())
+    }
+    #[test]
+    fn loader_and_sibling_payload_are_both_required_and_hash_bound() -> Result<()> {
+        let source = shipped_root();
+        let root = PathBuf::from(std::env::var_os("HOME").unwrap())
+            .join(".ai-tmp/msvc2")
+            .join(format!(
+                "wasm-tool-hashes-{}-{}",
+                std::process::id(),
+                std::time::SystemTime::now()
+                    .duration_since(std::time::UNIX_EPOCH)?
+                    .as_nanos()
+            ));
+        let loader = root.join(".patched/binnt/WASM.EXE");
+        let payload = root.join(".patched/binb/WASM.EXE");
+        fs::create_dir_all(loader.parent().unwrap())?;
+        fs::create_dir_all(payload.parent().unwrap())?;
+        let result = (|| -> Result<()> {
+            assert!(watcom_executable(&root, "WASM").is_err());
+            fs::copy(source.join(".patched/binnt/WASM.EXE"), &loader)?;
+            assert!(watcom_executable(&root, "WASM").is_err());
+            fs::copy(source.join(".patched/binb/WASM.EXE"), &payload)?;
+            assert!(watcom_executable(&root, "WASM").is_ok());
+            fs::write(&loader, b"changed loader")?;
+            assert!(
+                watcom_executable(&root, "WASM")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("loader differs")
+            );
+            fs::copy(source.join(".patched/binnt/WASM.EXE"), &loader)?;
+            fs::write(&payload, b"changed payload")?;
+            assert!(
+                watcom_executable(&root, "WASM")
+                    .unwrap_err()
+                    .to_string()
+                    .contains("payload differs")
+            );
+            for invalid in ["../WASM", r"binnt\WASM.EXE", ""] {
+                assert!(watcom_executable(&root, invalid).is_err());
+            }
+            Ok(())
+        })();
+        fs::remove_dir_all(&root)?;
+        result
+    }
 }

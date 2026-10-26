@@ -306,6 +306,12 @@ status and signals. It adds no ASCII restriction to tool arguments.
 
 Profiles cover `1.0-nt`, `5.10` (native MSVCRT override), and `watcom10.0a`
 (Win32 binnt stubs, WATCOM root and the documented hash-verified GS-patched WLINK).
+Selecting `WASM` or `WASM.EXE` uses the already-qualified
+`.patched/binnt/WASM.EXE` loader and verifies both that loader and its sibling
+`.patched/binb/WASM.EXE` payload before execution. The payload includes the
+qualified GS resource-reader patch; this is not a pristine-image claim.
+This shared tool route can prepare unmasked syntax/output baselines; it does
+not write a reconstruction oracle or change ordinary CF progress capture.
 Tool names are case-insensitive and may omit `.EXE`. This command is for explicit
 original builds/runs only; native replay never invokes it. `original build-helper`
 uses the same shared toolchain setup.
