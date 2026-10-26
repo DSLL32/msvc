@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1954 historical frontiers/1856 App bodies;
- * latest nine support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1954 historical frontiers/1858 App bodies;
+ * latest eleven support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -12615,10 +12615,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_classify_special_scalar_conversion@16",
         .entry_rva = 0x53f90,
-        .code = (const ReconExtent[]) { { 0x53f90, 0x53f91 } },
+        .code = (const ReconExtent[]) { { 0x53f90, 0x5406d } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "classify_special_scalar_conversion",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_classify_special_type_conversion@16",
@@ -12630,12 +12631,13 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
-        .name = "_has_pointer_or_member_pointer_shape@4",
+        .name = "_has_member_pointer_shape@4",
         .entry_rva = 0x54120,
-        .code = (const ReconExtent[]) { { 0x54120, 0x54121 } },
+        .code = (const ReconExtent[]) { { 0x54120, 0x54155 } },
         .code_count = 1,
         .definition = RECON_APP,
-        .native_symbol = "has_pointer_or_member_pointer_shape",
+        .native_symbol = "has_member_pointer_shape",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_select_allocation_function@8",

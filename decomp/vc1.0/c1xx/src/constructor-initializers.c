@@ -539,6 +539,41 @@ unsigned __stdcall classify_type_conversion(CType *target, CType *source,
     return 0x2000;
 }
 
+/* Original 0x63f90..0x6406d, stdcall 16. Abstract arithmetic
+   operator patterns accept only a bare type or one reference prefix. */
+unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source,
+    unsigned char flags, OverloadCandidate *context)
+{
+    TypeShape *shape = source->related;
+    CppSymbol *conversion;
+    unsigned rank;
+    unsigned short kind;
+    if (shape && (!(shape->flags & 0x40) || shape->related)) return 0x2000;
+    if (target->flags & source->flags & 0x2fdf) return 4;
+    kind = target->flags & 0x2fdf;
+    if ((source->flags & 0x200) && (kind == 0x40 || kind == 0x140)) return 4;
+    if (flags & 1) return 0x2000;
+    if (!(source->flags & 0x400)) return 0x2000;
+    conversion = find_source_conversion(cpp_context_stack->items[source->field08],
+        target, &rank);
+    record_user_conversion(context, conversion, target, rank);
+    return rank;
+}
+
+/* Original 0x64120..0x64155, stdcall 4. The 0x30 mask selects
+   member-pointer shapes; ordinary pointers are not accepted here. */
+int __stdcall has_member_pointer_shape(CType *type)
+{
+    TypeShape *shape;
+    if (!type) return 0;
+    shape = type->related;
+    if (shape) {
+        if (!(shape->flags & 0x77)) shape = shape->related;
+        if (shape && (shape->flags & 0x30)) return 1;
+    }
+    return 0;
+}
+
 /* Original 0x64070..0x64111: special destination forms precede the
    ordinary derived-type and arithmetic ranking paths. */
 unsigned __stdcall classify_special_type_conversion(CType *target, CType *source,
@@ -552,7 +587,7 @@ unsigned __stdcall classify_special_type_conversion(CType *target, CType *source
     if (kind == 0x84) {
         rank = classify_derived_type_conversion(type_indirect_0080_2, source, flags, context);
         if ((int)rank < 0x400) return 4;
-        if ((flags & 1) && has_pointer_or_member_pointer_shape(source)) return 4;
+        if ((flags & 1) && has_member_pointer_shape(source)) return 4;
         return 0x2000;
     }
     return 0;

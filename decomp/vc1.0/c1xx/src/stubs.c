@@ -222,8 +222,6 @@ void __stdcall report_invalid_operand(unsigned char operation, int position) { _
 
 
 
-unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
-int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 
 
 

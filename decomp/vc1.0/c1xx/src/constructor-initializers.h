@@ -50,7 +50,7 @@ int __stdcall classify_user_conversion(unsigned char flags, CType *source, CType
     OverloadCandidate *context, unsigned *rank);
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source,
     unsigned char flags, OverloadCandidate *context);
-int __stdcall has_pointer_or_member_pointer_shape(CType *type);
+int __stdcall has_member_pointer_shape(CType *type);
 unsigned __stdcall classify_class_reference_conversion(CType *target, CType *source);
 unsigned __stdcall classify_null_pointer_shape(unsigned rank, TypeShape *target, TypeShape *source);
 unsigned __stdcall rank_pointer_attributes(unsigned rank, unsigned char target, unsigned char source, TypeShape *shape);

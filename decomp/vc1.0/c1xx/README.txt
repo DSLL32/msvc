@@ -1,6 +1,33 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Implicit operator SDK is COMPLETE: case0047 freezes a coherent acquisition
+client with scalar/pointer view classes, arithmetic/bitwise/logical operators,
+virtual sensor callbacks and browser/debug output. The original and native
+compile successfully with the same diagnostics, exit0 and all six complete
+IR/browser artifacts. This workload reaches no pending helper; its two related
+abstract-pattern matchers are qualified separately by whole-body analysis,
+original-compiler/ABI/graph checks and two minimal typed native unit groups.
+No original-pair reach or new historical frontier is claimed for those bodies.
+
+classify_special_scalar_conversion(221 B) preserves reference-prefix rejection,
+scalar/enum ranks and source-class conversion recording. The53 B shape predicate
+is now named has_member_pointer_shape: its original0x30 mask excludes ordinary
+pointers and skips at most one qualification prefix. Unit checks cover valid
+scalar/reference/enum ranks and rejected chains, plus pointer/member-pointer
+identity through that single prefix. The original CLI gate remains unchanged.
+
+Totals are1,858 App /406,451 B (85.31% of whole original code),37 named pending
+App and seven unchanged historical CRT source bodies. The latest eleven support
+bodies are unit-qualified; historical first-entry count remains1,954. All48
+cached native cases and41 unit groups pass, with original-toolchain compilation
+and the1,866-function six-check graph/ABI audit. Closing gate3.479 s; necessary
+original/native header rebuild7.901 s is separate. Full pair original797.368 ms /
+native34.701 ms (setup17.996 ms, execution8.370 ms, checks8.335 ms); focused
+units25.264 ms (execution3.537 ms). No normalization or shared shim change.
+
+Earlier legacy support qualification:
+
 Legacy based/qualified-declarator support is COMPLETE (native-unit-only): six
 application helpers add911 B. Whole-body/ABI/static graph qualification covers
 self-relative cast/source validation, canonical based-expression identity,
