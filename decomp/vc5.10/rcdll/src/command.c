@@ -7,6 +7,7 @@
 #include "rcdll.h"
 #include "command.h"
 #include "resources.h"
+#include "preprocess.h"
 #include <recon.h>
 
 #ifdef _MSC_VER
@@ -30,9 +31,22 @@ UINT rc_codepage, rc_saved_codepage;
 WORD rc_language;
 unsigned rc_default_language=0x409;
 int rc_mac, rc_preprocess_only, rc_apstudio, rc_verbose;
-int rc_new_style, rc_warnings, rc_special_type_count;
+int rc_null_terminate_strings, rc_warnings, rc_special_type_count;
 WCHAR rc_special_file[257];
 WCHAR *rc_special_types[16];
+
+void __stdcall rc_cleanup(void)
+{
+    rc_flush_resources(NULL);
+    if(rc_output_file) fclose(rc_output_file);
+    if(rc_preprocessed_file) fclose(rc_preprocessed_file);
+    if(rc_resource_data_file) fclose(rc_resource_data_file);
+    rc_close_preprocessor();
+    if(rc_font_resource_count) remove("rc$x.fdr");
+    if(rc_input_temporary) remove(rc_input_temporary);
+    if(rc_output_temporary) remove(rc_output_temporary);
+    if(rc_result>0) remove(rc_output_path);
+}
 
 int __cdecl main(int count, char **arguments)
 {
@@ -126,7 +140,7 @@ int __cdecl main(int count, char **arguments)
             while (*arguments[1]++);
             break;
         case 'M': rc_mac=1; goto chained_option;
-        case 'N': rc_new_style=1; goto chained_option;
+        case 'N': rc_null_terminate_strings=1; goto chained_option;
         case 'P': rc_preprocess_only=1; break;
         case 'R': goto chained_option;
         case 'S': rc_apstudio=1; break;

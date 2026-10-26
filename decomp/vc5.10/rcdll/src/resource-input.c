@@ -1,9 +1,15 @@
+#include <string.h>
 #include <wchar.h>
 #include <wctype.h>
 #include "command.h"
 #include "resource-input.h"
 #include "resources.h"
 #include <recon.h>
+
+#ifdef _MSC_VER
+#pragma intrinsic(memcpy)
+#endif
+extern int rc_mac;
 
 /* Resource status at 25d3c is distinct from the command result at 1853c.
  * File index, line and stream are at 27f78/27f7c/27f84. */
@@ -544,4 +550,183 @@ WORD __stdcall rc_lookup_resource_keyword(const WCHAR *text)
         ++keyword;
     }
     return 0xffff;
+}
+
+/* The original has a 4096-WCHAR conversion workspace. The supported native
+ * name object is smaller; every source and output span stays within its
+ * established 257-WCHAR storage, without claiming the original capacity. */
+void __cdecl rc_read_resource_string(void)
+{
+    WCHAR converted[4096],*cursor=rc_resource_name;
+    unsigned count=0,remaining,digit;
+    WCHAR character;
+    BYTE byte;
+    rc_resource_token.unknown19=21;
+    rc_resource_token.kind=23;
+    rc_resource_token.value=0;
+    for(;;){
+        if(rc_read_resource_character()==127)break;
+        if(rc_resource_character==L'"'&&rc_next_resource_character()!=L'"')
+            goto collected;
+        if(rc_resource_token.value++==4097){
+            rc_resource_input_fatal(2102);
+            continue;
+        }
+#ifdef RECON_NATIVE_TEST
+        if(cursor>=rc_resource_name+256){ __asm int 3 }
+#endif
+        *cursor++=rc_resource_character;
+    }
+    if(rc_resource_character==127)rc_resource_input_fatal(2103);
+collected:
+    *cursor=0;
+    cursor=rc_resource_name;
+    while(*cursor){
+        character=*cursor;
+        if(character==L'\\'){
+            character=*++cursor;
+            switch(character){
+            case L'\\':character=L'\\';break;
+            case L'T':case L't':character=9;break;
+            case L'\n':++cursor;continue;
+            case L'A':case L'a':character=8;break;
+            case L'n':character=rc_mac?13:10;break;
+            case L'r':character=rc_mac?10:13;break;
+            case L'"':character=L'"';break;
+            case L'X':case L'x':
+                byte=0;++cursor;remaining=2;
+                while(remaining){
+                    character=towupper(*cursor);
+                    if(!iswctype(character,128))break;
+                    digit=character>=L'A'?character-L'A'+10:character-L'0';
+                    byte=(BYTE)((byte<<4)+digit);
+                    ++cursor;--remaining;
+                }
+                MultiByteToWideChar(rc_codepage,1,(const char *)&byte,1,
+                                    &converted[(short)count],1);
+                ++count;continue;
+            default:
+                if(character>=L'0'&&character<=L'7'){
+                    byte=0;remaining=3;
+                    do{
+                        byte=(BYTE)((byte<<3)+*cursor-L'0');
+                        ++cursor;
+                    }while(--remaining&&*cursor>=L'0'&&*cursor<=L'7');
+                    MultiByteToWideChar(rc_codepage,1,(const char *)&byte,1,
+                                        &converted[(short)count],1);
+                    ++count;continue;
+                }
+                character=L'\\';--cursor;
+                break;
+            }
+        }
+        converted[(short)count++]=character;
+        ++cursor;
+    }
+    converted[(short)count]=0;
+    rc_resource_token.value=(WORD)count;
+    memcpy(rc_resource_name,converted,((short)count+1)*sizeof(WCHAR));
+}
+
+void __cdecl rc_expand_resource_string(void)
+{
+    /* The original compiler allocates a 0x200c-byte frame, including this
+     * conversion array, through its normal compiler-owned stack helper. */
+    WCHAR converted[4096],*cursor=rc_resource_name;
+    unsigned count=0,remaining,value,digit;
+    WCHAR character;
+    rc_resource_token.value=0;
+    rc_resource_token.kind=23;rc_resource_token.unknown19=23;
+    for(;;){
+        if(rc_read_resource_character()==127)break;
+        if(rc_resource_character==L'"'&&rc_next_resource_character()!=L'"')
+            goto collected;
+        if(rc_resource_token.value++==4097){
+            rc_resource_input_fatal(2102);
+            continue;
+        }
+#ifdef RECON_NATIVE_TEST
+        if(cursor>=rc_resource_name+256){ __asm int 3 }
+#endif
+        *cursor++=rc_resource_character;
+    }
+    if(rc_resource_character==127)rc_resource_input_fatal(2103);
+    if(rc_resource_token.value>=256){
+        rc_emit("\n");
+        rc_format(rc_error_text,2048,rc_message(4205),rc_resource_filename,
+                  rc_resource_token.line);
+        rc_emit(rc_error_text);
+    }
+collected:
+    *cursor=0;
+    cursor=rc_resource_name;
+    while(*cursor){
+        character=*cursor;
+        if(character==L'\\'){
+            character=*++cursor;
+#ifdef RECON_NATIVE_TEST
+            /* A terminal escape would advance past the initialized NUL. */
+            if(!character){ __asm int 3 }
+#endif
+            switch(character){
+            case L'\\':character=L'\\';break;
+            case L'T':case L't':character=9;break;
+            case L'A':case L'a':character=8;break;
+            case L'n':character=rc_mac?13:10;break;
+            case L'r':character=rc_mac?10:13;break;
+            case L'"':character=L'"';break;
+            case L'X':case L'x':
+                value=0;++cursor;remaining=4;
+                while(remaining){
+                    character=(WCHAR)towupper(*cursor);
+                    if(!iswctype(character,128))break;
+                    digit=character>=L'A'?character-L'A'+10:character-L'0';
+                    value=(value<<4)+digit;
+                    ++cursor;--remaining;
+                }
+                converted[(short)count++]=(WCHAR)value;
+                continue;
+            default:
+                if(character>=L'0'&&character<=L'7'){
+                    value=0;remaining=7;
+                    do {
+                        value=value*8+*cursor-L'0';
+                        ++cursor;
+                    }while(--remaining&&*cursor>=L'0'&&*cursor<=L'7');
+                    converted[(short)count++]=(WCHAR)value;
+                    continue;
+                }
+                ++cursor;
+                continue;
+            }
+        }
+        converted[(short)count++]=character;
+        ++cursor;
+    }
+    converted[(short)count]=0;
+    rc_resource_token.value=(WORD)count;
+    memcpy(rc_resource_name,converted,((short)count+1)*sizeof(WCHAR));
+}
+
+DWORD __cdecl rc_parse_resource_decimal(void)
+{
+    DWORD value=0;
+    while(iswctype(rc_resource_number_character,4)){
+        value=value*10+rc_resource_number_character-L'0';
+        rc_next_resource_digit();
+    }
+    return value;
+}
+
+void __cdecl rc_read_resource_integer(void)
+{
+    rc_parse_resource_integer();
+}
+
+WORD __stdcall rc_scan_resource_value(WORD flags)
+{
+    do {
+        rc_scan_resource_token(flags|1);
+    }while(rc_resource_token.kind==15);
+    return rc_resource_token.kind;
 }

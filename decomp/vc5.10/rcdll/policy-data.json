@@ -142,6 +142,168 @@
             }
           ]
         }
+      },
+      "rc_parse_dialog_attributes": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                "offset": 422
+              },
+              {
+                "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                "offset": 640
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                "offset": 109
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 116
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 130
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 148
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 162
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 216
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 240
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 289
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 355
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 366
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_dialog_attributes@12",
+                  "offset": 392
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rc_parse_accelerators": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_parse_accelerators@4",
+                "offset": 1121
+              },
+              {
+                "rebuilt_symbol": "_rc_parse_accelerators@4",
+                "offset": 1181
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_parse_accelerators@4",
+                "offset": 511
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 518
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 531
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 543
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 556
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 565
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 585
+                },
+                {
+                  "rebuilt_symbol": "_rc_parse_accelerators@4",
+                  "offset": 597
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "rc_write_version_data": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_rc_write_version_data@4",
+                "offset": 496
+              },
+              {
+                "rebuilt_symbol": "_rc_write_version_data@4",
+                "offset": 618
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_rc_write_version_data@4",
+                "offset": 170
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_rc_write_version_data@4",
+                  "offset": 463
+                },
+                {
+                  "rebuilt_symbol": "_rc_write_version_data@4",
+                  "offset": 303
+                },
+                {
+                  "rebuilt_symbol": "_rc_write_version_data@4",
+                  "offset": 177
+                },
+                {
+                  "rebuilt_symbol": "_rc_write_version_data@4",
+                  "offset": 469
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     "callback_tables": []

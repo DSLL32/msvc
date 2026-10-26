@@ -212,3 +212,43 @@ unsigned __stdcall rc_read_bytes(FILE *file,void *buffer,unsigned bytes)
     }
     return received;
 }
+
+long __stdcall rc_seek(FILE *file,long offset,int origin)
+{
+    long position;
+    char *error="RC : fatal error RW1023: I/O error seeking in file";
+    if(fseek(file,offset,origin))rc_fatal(error);
+    position=ftell(file);
+    if(position==-1)rc_fatal(error);
+    return position;
+}
+
+unsigned __stdcall rc_copy_file_bytes(FILE *input,FILE *output,unsigned bytes)
+{
+    void *buffer=rc_allocate(0x4000);
+    unsigned remaining=bytes,chunk=bytes;
+    while(remaining){
+        chunk=remaining>0x4000?0x4000:remaining;
+        remaining-=chunk;
+#ifdef RECON_NATIVE_TEST
+        /* The original writes the requested size even after a short read.
+         * Only fully initialized chunks are supported by the native case. */
+        if(rc_read_bytes(input,buffer,chunk)!=chunk){ __asm int 3 }
+#else
+        rc_read_bytes(input,buffer,chunk);
+#endif
+        rc_write_bytes(output,buffer,chunk);
+    }
+    rc_release(buffer);
+    return chunk;
+}
+
+int __stdcall rc_copy_file(FILE *input,FILE *output)
+{
+    void *buffer=rc_allocate(0x4000);
+    unsigned received;
+    while((received=fread(buffer,1,0x4000,input))!=0)
+        rc_write_bytes(output,buffer,received);
+    rc_release(buffer);
+    return 1;
+}

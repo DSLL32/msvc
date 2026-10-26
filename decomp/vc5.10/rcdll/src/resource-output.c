@@ -57,6 +57,96 @@ int __stdcall rc_initialize_resource(void)
     return 1;
 }
 
+int __stdcall rc_flush_resources(FILE *file)
+{
+    RcResource resource;
+    RcResourceType *type;
+    DWORD position;
+    if(!rc_apstudio)return 1;
+#ifdef RECON_NATIVE_TEST
+    /* APSTUDIO side-file contents and their final assembly remain unvisited. */
+    __asm int 3
+#endif
+    if(file){
+        rc_write_apstudio_symbol(L"",L"",L"",0,0);
+        rc_seek(rc_apstudio_stream1,0,SEEK_SET);
+        rc_write_bytes(rc_apstudio_stream1,&rc_apstudio_size1,4);
+        rc_seek(rc_apstudio_stream2,0,SEEK_SET);
+        rc_write_bytes(rc_apstudio_stream2,&rc_apstudio_size2,4);
+        rc_write_resource_metadata(NULL,NULL,0);
+        rc_seek(rc_apstudio_stream3,0,SEEK_SET);
+        rc_write_bytes(rc_apstudio_stream3,&rc_apstudio_size3,4);
+        type=rc_find_resource_type(L"HWB",0);
+        resource.language=(WORD)rc_default_language;
+        resource.version=rc_resource_version;
+        resource.characteristics=rc_resource_characteristics;
+        resource.flags=0x30;resource.name=NULL;resource.next=NULL;
+        rc_seek(rc_apstudio_stream1,0,SEEK_SET);
+        rc_align_output(file);
+        resource.data_offset=rc_seek(file,0,SEEK_END)+rc_apstudio_header_size;
+        resource.id=200;resource.size=rc_apstudio_size1;
+        rc_write_resource_metadata(&resource,type,1);
+        rc_copy_file(rc_apstudio_stream1,file);
+        rc_seek(rc_apstudio_stream2,0,SEEK_SET);
+        rc_align_output(file);
+        resource.data_offset=rc_seek(file,0,SEEK_END)+rc_apstudio_header_size;
+        resource.id=201;resource.size=rc_apstudio_size2;
+        rc_write_resource_metadata(&resource,type,1);
+        rc_copy_file(rc_apstudio_stream2,file);
+        rc_seek(rc_apstudio_stream3,0,SEEK_SET);
+        rc_align_output(file);
+        resource.data_offset=rc_seek(file,0,SEEK_END)+rc_apstudio_header_size;
+        resource.id=202;resource.size=rc_apstudio_size3;
+        rc_write_resource_metadata(&resource,type,1);
+        rc_copy_file(rc_apstudio_stream3,file);
+        rc_align_output(file);
+        position=rc_seek(file,0,SEEK_CUR);
+        rc_seek(rc_apstudio_stream4,0,SEEK_SET);
+        rc_write_bytes(rc_apstudio_stream4,&rc_apstudio_size4,4);
+        rc_seek(rc_apstudio_stream4,0,SEEK_SET);
+        rc_copy_file(rc_apstudio_stream4,file);
+        rc_seek(file,rc_hwb_resource_offset,SEEK_SET);
+        rc_write_bytes(file,&position,4);
+        rc_seek(file,0,SEEK_END);
+    }
+    if(rc_apstudio_stream2){fclose(rc_apstudio_stream2);remove(rc_apstudio_path2);}
+    if(rc_apstudio_stream3){fclose(rc_apstudio_stream3);remove(rc_apstudio_path3);}
+    if(rc_apstudio_stream1){fclose(rc_apstudio_stream1);remove(rc_apstudio_path1);}
+    if(rc_apstudio_stream4){fclose(rc_apstudio_stream4);remove(rc_apstudio_path4);}
+    return 1;
+}
+
+void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *type,
+                                       const WCHAR *filename)
+{
+    WORD ordinal=0xffff,type_id;
+    if(!rc_apstudio)return;
+#ifdef RECON_NATIVE_TEST
+    /* The APSTUDIO source stream has not been opened by this case. */
+    __asm int 3
+#endif
+    type_id=type->id;
+    if(!type_id)
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,type->name,
+                                        (wcslen(type->name)+1)*2);
+    else {
+        if(type_id==15)type_id=4;
+        else if(type_id==18)type_id=5;
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,&ordinal,2);
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,&type_id,2);
+    }
+    if(!resource->id)
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,resource->name,
+                                        (wcslen(resource->name)+1)*2);
+    else {
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,&ordinal,2);
+        rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,&resource->id,2);
+    }
+    rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,&resource->language,2);
+    rc_apstudio_size2+=rc_write_bytes(rc_apstudio_stream2,filename,
+                                    (wcslen(filename)+1)*2);
+}
+
 /* APSTUDIO metadata has separate binary and textual side streams. The rich
  * case uses the early return; the native unobserved service path stays held. */
 void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *type,int phase)
@@ -109,4 +199,395 @@ void __stdcall rc_write_resource_metadata(RcResource *resource,RcResourceType *t
         rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,resource->prefix+248);
         rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,resource->prefix+508,2);
     }
+}
+
+WORD __stdcall rc_write_menu_item(RcMenuItem *item)
+{
+    int offset=rc_resource_buffer_used;
+    WORD value;
+    extern int rc_mac;
+    value=rc_mac?(WORD)rc_mac_word(item->flags):item->flags;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+    if(!(item->flags&0x10)){
+        value=rc_mac?(WORD)rc_mac_word(item->id):item->id;
+        *(WORD *)rc_reserve_resource_bytes(2)=value;
+    }
+    rc_write_resource_string(item->caption,1);
+    return (WORD)offset;
+}
+
+void __stdcall rc_write_resource_string(const WCHAR *text,int flags)
+{
+    WORD value;
+    extern int rc_mac;
+    if(rc_mac)rc_write_mac_string(text,flags,0);
+    else{
+        do{
+            value=rc_mac?(WORD)rc_mac_word(*text):*text;
+            *(WORD *)rc_reserve_resource_bytes(2)=value;
+        }while(*text++);
+    }
+}
+
+void __stdcall rc_write_apstudio_name(const WCHAR *text)
+{
+    WORD ordinal=0xffff;
+    if(!rc_apstudio)return;
+#ifdef RECON_NATIVE_TEST
+    /* APSTUDIO streams and the input's trailing metadata are unvisited. */
+    __asm int 3
+#endif
+    if(!text){
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,L"$",2);
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,&ordinal,2);
+    }else{
+        rc_apstudio_size3+=rc_write_apstudio_string(rc_apstudio_stream3,text);
+        rc_apstudio_size3+=rc_write_bytes(rc_apstudio_stream3,text+509,2);
+    }
+}
+
+void __stdcall rc_mark_last_menu_item(WORD offset)
+{
+    unsigned position=offset;
+    extern int rc_mac;
+    if(rc_mac)++position;
+#ifdef RECON_NATIVE_TEST
+    /* Only already-written menu bytes belong to the supported live prefix. */
+    if(!rc_resource_buffer||rc_resource_buffer_used<0||
+       rc_resource_buffer_used>rc_resource_buffer_size||
+       position>=(unsigned)rc_resource_buffer_used){ __asm int 3 }
+#endif
+    rc_resource_buffer[position]|=0x80;
+}
+
+/* RVA 25584 is a separate DWORD in the original loader-zeroed data tail.
+ * Each accelerator records its own offset before any bytes are appended. */
+DWORD rc_accelerator_offset;
+
+void __stdcall rc_append_resource_bytes(const void *bytes,WORD count)
+{
+    const BYTE *source=bytes;
+    while(count--)*(BYTE *)rc_reserve_resource_bytes(1)=*source++;
+}
+
+WORD __cdecl rc_resource_buffer_position(void)
+{
+    return (WORD)rc_resource_buffer_used;
+}
+
+WORD __stdcall rc_resource_buffer_word(DWORD offset)
+{
+#ifdef RECON_NATIVE_TEST
+    if(!rc_resource_buffer||rc_resource_buffer_used<2||
+       rc_resource_buffer_used>rc_resource_buffer_size||(offset&1)||
+       offset>(DWORD)(rc_resource_buffer_used-2)){ __asm int 3 }
+#endif
+    return *(WORD *)(rc_resource_buffer+offset);
+}
+
+void __stdcall rc_set_resource_buffer_word(DWORD offset,WORD value)
+{
+#ifdef RECON_NATIVE_TEST
+    if(!rc_resource_buffer||rc_resource_buffer_used<2||
+       rc_resource_buffer_used>rc_resource_buffer_size||(offset&1)||
+       offset>(DWORD)(rc_resource_buffer_used-2)){ __asm int 3 }
+#endif
+    *(WORD *)(rc_resource_buffer+offset)=value;
+}
+
+void __cdecl rc_begin_accelerator(void)
+{
+    rc_accelerator_offset=rc_resource_buffer_used;
+}
+
+void __cdecl rc_mark_last_accelerator(void)
+{
+    DWORD position=rc_accelerator_offset;
+    extern int rc_mac;
+#ifdef RECON_NATIVE_TEST
+    /* The empty-table and unwritten-prefix cases have no supported byte. */
+    if(!rc_resource_buffer||rc_resource_buffer_used<0||
+       rc_resource_buffer_used>rc_resource_buffer_size||
+       position>=(DWORD)rc_resource_buffer_used||
+       (rc_mac&&position+1>=(DWORD)rc_resource_buffer_used)){ __asm int 3 }
+#endif
+    if(rc_mac)++position;
+    rc_resource_buffer[position]|=0x80;
+}
+
+void __stdcall rc_write_resource(RcResourceType *type,RcResource *resource)
+{
+    extern int rc_mac;
+    extern FILE *rc_output_file;
+    if(!rc_mac)rc_align_output(rc_output_file);
+    rc_append_resource(type,resource,rc_resource_buffer,rc_resource_buffer_used,-1);
+}
+
+unsigned __stdcall rc_align_output(FILE *file)
+{
+    DWORD zero=0;
+    unsigned padding=(unsigned)rc_seek(file,0,SEEK_CUR)&3;
+    if(!padding)return 0;
+    padding=4-padding;
+    rc_write_bytes(file,&zero,padding);
+    return padding;
+}
+
+void __stdcall rc_append_resource(RcResourceType *type,RcResource *resource,
+                                  const void *data,int bytes,int file_bytes)
+{
+    RcResource *last=type->resources;
+    if(last){
+        while(last->next)last=last->next;
+        last->next=resource;
+    }else type->resources=resource;
+    rc_write_resource_record(type,resource,data,bytes,file_bytes);
+    ++type->count;
+    ++rc_resource_count;
+    rc_write_resource_metadata(resource,type,1);
+}
+
+/* The actual 23-pointer verbose label table. Its DIALOGEX/DLGINCLUDE order
+ * and NULL holes are retained; these are display labels, not type IDs. */
+static const WCHAR *const rc_resource_type_labels[23]={
+    NULL,L"CURSOR",L"BITMAP",L"ICON",L"MENU",L"DIALOG",L"STRING",
+    L"FONTDIR",L"FONT",L"ACCELERATOR",L"RCDATA",L"MESSAGETABLE",
+    L"GROUP_CURSOR",NULL,L"GROUP_ICON",NULL,L"VERSION",L"DIALOGEX",
+    L"DLGINCLUDE",L"PLUGPLAY",L"VXD",L"ANICURSOR",L"ANIICON"
+};
+
+void __stdcall rc_write_resource_record(RcResourceType *type,RcResource *resource,
+                                        const void *data,int bytes,int file_bytes)
+{
+    DWORD header_size=24,name_bytes=0,zero=0,converted;
+    const WCHAR *type_name;
+    extern int rc_verbose,rc_mac;
+    extern FILE *rc_output_file;
+    if(!resource->size)resource->size=rc_resource_data_size();
+    if(!type->id){
+        header_size+=(wcslen(type->name)+1)*2;
+        name_bytes=(wcslen(type->name)+1)*2;
+    }else header_size+=4;
+    if(!resource->id){
+        header_size+=(wcslen(resource->name)+1)*2;
+        name_bytes+=(wcslen(resource->name)+1)*2;
+    }else header_size+=4;
+    if(name_bytes&3)header_size+=2;
+    if(rc_verbose){
+#ifdef RECON_NATIVE_TEST
+        /* No verbose formatting service contract has been encountered. */
+        __asm int 3
+#endif
+        if(!type->id||type->id<=22){
+            type_name=type->id?rc_resource_type_labels[type->id]:type->name;
+            if(!resource->id)
+                wsprintfA(rc_error_text,"\nWriting %ws:%ws,\tlang:0x%x,\tsize %d",
+                          type_name,resource->name,resource->language,resource->size);
+            else wsprintfA(rc_error_text,"\nWriting %ws:%d,\tlang:0x%x,\tsize %d",
+                           type_name,resource->id,resource->language,resource->size);
+        }else{
+            if(!resource->id)
+                wsprintfA(rc_error_text,"\nWriting %d:%ws,\tlang:0x%x,\tsize %d",
+                          type->id,resource->name,resource->language,resource->size);
+            else wsprintfA(rc_error_text,"\nWriting %d:%d,\tlang:0x%x,\tsize %d",
+                           type->id,resource->id,resource->language,resource->size);
+        }
+        printf(rc_error_text);
+    }
+    if(rc_mac){
+        resource->data_offset=(DWORD)rc_seek(rc_output_file,0,SEEK_CUR)-256;
+        converted=rc_mac_long(resource->size);
+        rc_write_bytes(rc_output_file,&converted,4);
+    }else{
+        rc_write_bytes(rc_output_file,&resource->size,4);
+        rc_write_bytes(rc_output_file,&header_size,4);
+        rc_write_resource_identifier(type->id,type->name);
+        rc_write_resource_identifier(resource->id,resource->name);
+        rc_align_output(rc_output_file);
+        rc_write_bytes(rc_output_file,&zero,4);
+        rc_write_bytes(rc_output_file,&resource->flags,2);
+        rc_write_bytes(rc_output_file,&resource->language,2);
+        rc_write_bytes(rc_output_file,&resource->version,4);
+        rc_write_bytes(rc_output_file,&resource->characteristics,4);
+        resource->data_offset=(DWORD)rc_seek(rc_output_file,0,SEEK_CUR);
+    }
+    rc_write_resource_payload(rc_output_file,data,bytes,file_bytes);
+}
+
+DWORD __cdecl rc_resource_data_size(void)
+{
+    long position,end;
+    DWORD size;
+    if(!rc_resource_data_file)return (DWORD)rc_resource_buffer_used;
+    position=rc_seek(rc_resource_data_file,0,SEEK_CUR);
+    end=rc_seek(rc_resource_data_file,0,SEEK_END);
+    size=(DWORD)end+(DWORD)rc_resource_buffer_used-(DWORD)position;
+    rc_seek(rc_resource_data_file,position,SEEK_SET);
+    return size;
+}
+
+unsigned __stdcall rc_write_resource_identifier(WORD id,const WCHAR *name)
+{
+    WORD ordinal=0xffff;
+    extern FILE *rc_output_file;
+    if(id){
+        rc_write_bytes(rc_output_file,&ordinal,2);
+        return rc_write_bytes(rc_output_file,&id,2);
+    }
+    return rc_write_bytes(rc_output_file,name,(wcslen(name)+1)*2);
+}
+
+int __stdcall rc_write_resource_payload(FILE *file,const void *data,int bytes,int file_bytes)
+{
+    if(bytes>0)rc_write_bytes(file,data,bytes);
+    if(rc_resource_data_file){
+        if(file_bytes==-1){
+            rc_copy_file(rc_resource_data_file,file);
+            fclose(rc_resource_data_file);
+        }else rc_copy_file_bytes(rc_resource_data_file,file,(unsigned)file_bytes);
+    }
+    return bytes;
+}
+
+/* RVA 28fdc is assigned from the live output cursor before count consumers. */
+DWORD rc_dialog_count_offset;
+extern int rc_mac;
+
+void __stdcall rc_write_dialog_header(RcDialog *dialog,int extended)
+{
+    WORD word;
+    DWORD value;
+    if(extended){
+        word=rc_mac?(WORD)rc_mac_word(1):1;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        word=rc_mac?(WORD)rc_mac_word(0xffff):0xffff;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        value=rc_mac?rc_mac_long(dialog->help_id):dialog->help_id;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        value=rc_mac?rc_mac_long(dialog->exstyle):dialog->exstyle;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }
+    value=rc_mac?rc_mac_long(dialog->style):dialog->style;
+    *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    if(!extended){
+        value=rc_mac?rc_mac_long(dialog->exstyle):dialog->exstyle;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }
+    rc_dialog_count_offset=rc_resource_buffer_used;
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(dialog->x):dialog->x;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(dialog->y):dialog->y;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(dialog->width):dialog->width;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(dialog->height):dialog->height;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    if(dialog->menu_is_ordinal){
+        rc_write_ordinal_marker();
+        word=rc_mac?(WORD)rc_mac_word(rc_decimal_resource_id(dialog->menu)):
+            (WORD)rc_decimal_resource_id(dialog->menu);
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }else rc_write_resource_string(dialog->menu,0);
+    if(dialog->class_is_ordinal){
+        rc_write_ordinal_marker();
+        word=rc_mac?(WORD)rc_mac_word(rc_decimal_resource_id(dialog->class_name)):
+            (WORD)rc_decimal_resource_id(dialog->class_name);
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }else rc_write_resource_string(dialog->class_name,0);
+    rc_write_resource_string(dialog->caption,1);
+    if(dialog->point_size){
+        word=rc_mac?(WORD)rc_mac_word(dialog->point_size):dialog->point_size;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        if(extended){
+            word=rc_mac?(WORD)rc_mac_word(dialog->weight):dialog->weight;
+            *(WORD *)rc_reserve_resource_bytes(2)=word;
+            *(BYTE *)rc_reserve_resource_bytes(1)=dialog->italic;
+            *(BYTE *)rc_reserve_resource_bytes(1)=dialog->charset;
+        }
+        rc_write_resource_string(dialog->font,0);
+    }
+}
+
+void __cdecl rc_write_ordinal_marker(void)
+{
+    WORD value=rc_mac?(WORD)rc_mac_word(0xffff):0xffff;
+    *(WORD *)rc_reserve_resource_bytes(2)=value;
+}
+
+/* RVA 28ffc: output-relative location of an extended control's size WORD. */
+DWORD rc_control_data_offset;
+
+void __stdcall rc_write_control(RcControl *control,int extended)
+{
+    DWORD value;
+    WORD word;
+    rc_pad_resource_buffer();
+    if(extended){
+        value=rc_mac?rc_mac_long(control->help_id):control->help_id;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        value=rc_mac?rc_mac_long(control->exstyle):control->exstyle;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        value=rc_mac?rc_mac_long(control->style):control->style;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }else {
+        value=rc_mac?rc_mac_long(control->style):control->style;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        value=rc_mac?rc_mac_long(control->exstyle):control->exstyle;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }
+    word=rc_mac?(WORD)rc_mac_word(control->x):control->x;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(control->y):control->y;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(control->width):control->width;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(control->height):control->height;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    if(extended){
+        value=rc_mac?rc_mac_long(control->id):control->id;
+        *(DWORD *)rc_reserve_resource_bytes(4)=value;
+    }else {
+        word=rc_mac?(WORD)rc_mac_word((WORD)control->id):(WORD)control->id;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }
+    if(control->class_name[0]==0xffff){
+        word=rc_mac?(WORD)rc_mac_word(0xffff):0xffff;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        word=rc_mac?(WORD)rc_mac_word(control->class_name[1]):control->class_name[1];
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }else rc_write_resource_string(control->class_name,0);
+    if(control->text_is_ordinal){
+        rc_write_ordinal_marker();
+        word=rc_mac?(WORD)rc_mac_word(rc_decimal_resource_id(control->text)):
+            (WORD)rc_decimal_resource_id(control->text);
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }else rc_write_resource_string(control->text,1);
+    if(extended)rc_control_data_offset=rc_resource_buffer_used;
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    rc_increment_dialog_count();
+}
+
+void __cdecl rc_pad_resource_buffer(void)
+{
+    WORD count=(WORD)(rc_resource_buffer_used%4);
+    /* The original adds the remainder, rather than four minus it. Its current
+     * WCHAR records have even lengths, for which this pads to a DWORD. */
+    while(count){
+        *(BYTE *)rc_reserve_resource_bytes(1)=0;
+        --count;
+    }
+}
+
+void __cdecl rc_increment_dialog_count(void)
+{
+#ifdef RECON_NATIVE_TEST
+    if(!rc_resource_buffer||rc_resource_buffer_used<2||
+       rc_resource_buffer_used>rc_resource_buffer_size||
+       (rc_dialog_count_offset&1)||
+       rc_dialog_count_offset>(DWORD)(rc_resource_buffer_used-2)){ __asm int 3 }
+#endif
+    ++*(WORD *)(rc_resource_buffer+rc_dialog_count_offset);
 }

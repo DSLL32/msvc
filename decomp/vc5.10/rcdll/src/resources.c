@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <wchar.h>
 #include <wctype.h>
@@ -7,29 +8,35 @@
 #include <recon.h>
 
 #ifdef _MSC_VER
-#pragma intrinsic(memcpy)
+#pragma intrinsic(memcpy,memset,strcmp,strcpy,strlen)
 #endif
 
 extern FILE *rc_output_file;
 extern int rc_mac,rc_verbose;
 extern unsigned rc_default_language;
 extern char rc_input_path[260];
-void *rc_string_tables;
+/* RVA28fd4, distinct from the block-list head at28fd0. Both are in the
+ * original loader-zero tail; the first string-table call resets the head. */
+RcResource *rc_last_string_resource;
+RcStringBlock *rc_string_blocks;
 extern DWORD rc_resource_recording;
 
 /* New fields are in the verified loader-zero .data tail. The default language
  * is the existing command DWORD at 14db8; this parser accesses its low WORD. */
 WCHAR rc_resource_name[257];
-WORD rc_font_resource_count,rc_next_resource_id;
+WORD rc_font_resource_count,rc_resource_count;
 DWORD rc_resource_version,rc_resource_characteristics;
 int rc_explicit_font_directory;
-void *rc_dialog_template;
+RcDialog *rc_dialog_template;
 DWORD rc_hwb_resource_offset;
 int rc_resource_buffer_size,rc_resource_buffer_used;
 /* DWORD/PTR at RVA28fd8, separate from the preprocessed input FILE.
  * Resource read/seek paths use it as a FILE; this helper clears it. */
 FILE *rc_resource_data_file;
 BYTE *rc_resource_buffer;
+/* The actual icon/cursor ID WORD at RVA15248 has pristine initialized value1.
+ * It is distinct from the parser/appender resource count at RVA25a24. */
+WORD rc_next_image_id=1;
 
 /* These records describe only the actual fields constructed at the two
  * indirect call sites. The callback remains opaque at the public RC boundary;
@@ -64,7 +71,7 @@ int __stdcall rc_parse_resources(void)
     RcResourceResponse response;
     char format[512];
 
-    rc_next_resource_id=0;
+    rc_resource_count=0;
     rc_font_resource_count=0;
     rc_initialize_resource_types();
     if(!rc_mac){
@@ -208,7 +215,7 @@ dispatch:
             rc_parse_menu_template(0,resource);
             goto write_resource;
         case 5:
-            rc_dialog_template=rc_allocate(0x826);
+            rc_dialog_template=rc_allocate(sizeof(*rc_dialog_template));
             rc_parse_dialog(resource,rc_dialog_template,0);
             goto write_dialog;
         case 7:
@@ -237,7 +244,7 @@ dispatch:
             if(!resource->size)break;
             if(rc_is_riff_resource(resource->size))goto riff;
             if(rc_mac)rc_mac_group_cursor(type,resource);
-            else rc_convert_group_resource(type,resource,3);
+            else rc_convert_group_resource(type,resource,1);
             break;
         case 14:
             rc_write_resource_source(resource,type,rc_resource_name);
@@ -245,7 +252,7 @@ dispatch:
             if(!resource->size)break;
             if(rc_is_riff_resource(resource->size))goto riff;
             if(rc_mac)rc_mac_group_icon(type,resource);
-            else rc_convert_group_resource(type,resource,1);
+            else rc_convert_group_resource(type,resource,3);
             break;
         case 15:
             value=rc_mac?(WORD)rc_mac_word(1):1;
@@ -262,7 +269,7 @@ dispatch:
             rc_parse_dialog_include(resource);
             goto write_resource;
         case 18:
-            rc_dialog_template=rc_allocate(0x826);
+            rc_dialog_template=rc_allocate(sizeof(*rc_dialog_template));
             rc_parse_dialog(resource,rc_dialog_template,1);
             type=rc_find_resource_type(L"DIALOG",0);
 write_dialog:
@@ -345,7 +352,7 @@ next_resource:
 finish:
     if(!rc_explicit_font_directory&&rc_font_resource_count)
         rc_flush_font_directory();
-    if(rc_string_tables)rc_write_string_table(rc_string_tables);
+    if(rc_last_string_resource)rc_write_string_table(rc_last_string_resource);
     if(rc_mac)rc_write_mac_resource_file();
     rc_release_resource_buffer();
     if(rc_verbose)printf("\n");
@@ -395,8 +402,8 @@ RcResourceType *__stdcall rc_find_resource_type(const WCHAR *name,unsigned id)
     if(last)last->next=entry;
     else rc_resource_types=entry;
     name=rc_duplicate_resource_name(name);
-    entry->unknown18=0;
-    entry->unknown4=0;
+    entry->count=0;
+    entry->resources=NULL;
     entry->name=(WCHAR *)name;
     entry->id=(WORD)id;
     return entry;
@@ -533,6 +540,509 @@ void __cdecl rc_reset_resource_buffer(void)
     rc_resource_data_file=NULL;
 }
 
+void __cdecl rc_release_resource_buffer(void)
+{
+    rc_resource_buffer_size=0;
+    rc_release(rc_resource_buffer);
+}
+
+FILE *__stdcall rc_resource_file(FILE *file)
+{
+    if(file)rc_resource_data_file=file;
+    return rc_resource_data_file;
+}
+
+int __stdcall rc_is_riff_resource(long unused_size)
+{
+    DWORD header[2];
+    unsigned received=rc_read_bytes(rc_resource_data_file,header,8);
+    rc_seek(rc_resource_data_file,0,SEEK_SET);
+    return received==8&&header[0]==0x46464952;
+}
+
+void __stdcall rc_convert_group_resource(RcResourceType *type,RcResource *resource,
+                                        unsigned kind)
+{
+    RcImageDirectory directory;
+    RcImageFileEntry entry;
+    RcBitmapInfo bitmap;
+    RcImageGroupEntry group;
+    RcResource *image;
+    RcResourceType *image_type;
+    WORD hotspot[2],id;
+    unsigned index,prefix;
+    long position;
+#ifdef RECON_NATIVE_TEST
+    if(rc_read_bytes(rc_resource_data_file,&directory,6)!=6){ __asm int 3 }
+#else
+    rc_read_bytes(rc_resource_data_file,&directory,6);
+#endif
+    if(directory.reserved||(directory.kind!=1&&directory.kind!=2))
+        rc_resource_file_fatal(2175,rc_resource_name);
+    rc_append_resource_bytes(&directory,6);
+    for(index=0;index<directory.count;++index){
+#ifdef RECON_NATIVE_TEST
+        if(rc_read_bytes(rc_resource_data_file,&entry,16)!=16){ __asm int 3 }
+#else
+        rc_read_bytes(rc_resource_data_file,&entry,16);
+#endif
+        position=rc_seek(rc_resource_data_file,0,SEEK_CUR);
+        rc_seek(rc_resource_data_file,entry.offset,SEEK_SET);
+#ifdef RECON_NATIVE_TEST
+        if(rc_read_bytes(rc_resource_data_file,&bitmap,40)!=40){ __asm int 3 }
+#else
+        rc_read_bytes(rc_resource_data_file,&bitmap,40);
+#endif
+        if(bitmap.size!=40)rc_resource_file_fatal(2176,rc_resource_name);
+        group.bit_count=bitmap.bit_count;group.planes=bitmap.planes;
+        rc_seek(rc_resource_data_file,entry.offset,SEEK_SET);
+        prefix=0;
+        switch(directory.kind){
+        case 1:
+            group.dimensions.icon.width=entry.width;
+            group.dimensions.icon.height=entry.height;
+            group.dimensions.icon.color_count=entry.color_count;
+            group.dimensions.icon.reserved=entry.reserved;
+            break;
+        case 2:
+            hotspot[0]=entry.planes_or_x;hotspot[1]=entry.bits_or_y;
+            group.dimensions.cursor.width=(WORD)bitmap.width;
+            group.dimensions.cursor.height=(WORD)bitmap.height;
+            prefix=4;
+            break;
+        }
+        group.size=entry.size+prefix;
+        image=rc_allocate(sizeof(*image));
+        image->language=(WORD)rc_default_language;
+        image->version=rc_resource_version;
+        image->characteristics=rc_resource_characteristics;
+        image->name=NULL;
+        image->id=rc_next_image_id++;
+        image->flags=resource->flags;
+        image->size=entry.size+prefix;
+        image_type=rc_find_resource_type(NULL,kind);
+        rc_append_resource_bytes(&group,12);
+        id=rc_mac?(WORD)rc_mac_word(image->id):image->id;
+        *(WORD *)rc_reserve_resource_bytes(2)=id;
+        rc_align_output(rc_output_file);
+        rc_append_resource(image_type,image,hotspot,prefix,entry.size);
+        rc_seek(rc_resource_data_file,position,SEEK_SET);
+    }
+    resource->size=directory.count*14+6;
+    if(!(resource->flags&0x40))resource->flags=0x1030;
+    fclose(rc_resource_data_file);rc_resource_data_file=NULL;
+    rc_write_resource(type,resource);
+}
+
+long __cdecl rc_convert_bitmap_file(void)
+{
+    FILE *file=rc_resource_file(NULL);
+    RcBitmapFileHeader file_header;
+    RcBitmapHeader header;
+    DWORD header_size,palette_size,bits,offset,result;
+    void *palette;
+    if(!file)return 0;
+#ifdef RECON_NATIVE_TEST
+    if(rc_read_bytes(file,&file_header,14)!=14){ __asm int 3 }
+#else
+    rc_read_bytes(file,&file_header,14);
+#endif
+    if(file_header.type!=0x4d42)rc_resource_file_fatal(2170,rc_resource_name);
+#ifdef RECON_NATIVE_TEST
+    if(rc_read_bytes(file,&header,12)!=12){ __asm int 3 }
+#else
+    rc_read_bytes(file,&header,12);
+#endif
+    header_size=header.info.size;
+    if(header_size>=40){
+#ifdef RECON_NATIVE_TEST
+        /* Larger headers exceed the original local header object's extent. */
+        if(header_size!=40){ __asm int 3 }
+        if(rc_read_bytes(file,(BYTE *)&header+12,header_size-12)!=header_size-12){ __asm int 3 }
+#else
+        rc_read_bytes(file,(BYTE *)&header+12,header_size-12);
+#endif
+        bits=header.info.planes*header.info.bit_count;
+        if(header.info.compression==3){
+            if(header.info.bit_count<=8||header.info.bit_count==24)
+                rc_resource_file_fatal(2170,rc_resource_name);
+            palette_size=12;
+        }else {
+            palette_size=header.info.colors_used*4;
+            if(!palette_size&&header.info.bit_count<=8)
+                palette_size=(1u<<(bits&31))*4;
+        }
+        if(rc_mac){
+            header.info.size=rc_mac_long(header.info.size);
+            header.info.width=rc_mac_long(header.info.width);
+            header.info.height=rc_mac_long(header.info.height);
+            header.info.planes=(WORD)rc_mac_word(header.info.planes);
+            header.info.bit_count=(WORD)rc_mac_word(header.info.bit_count);
+            header.info.compression=rc_mac_long(header.info.compression);
+            header.info.image_size=rc_mac_long(header.info.image_size);
+            header.info.x_pixels=rc_mac_long(header.info.x_pixels);
+            header.info.y_pixels=rc_mac_long(header.info.y_pixels);
+            header.info.colors_used=rc_mac_long(header.info.colors_used);
+            header.info.colors_important=rc_mac_long(header.info.colors_important);
+        }
+    }else if(header_size==12){
+        bits=header.core.planes*header.core.bit_count;
+        palette_size=bits==24?0:(1u<<(bits&31))*3;
+        if(rc_mac){
+            header.core.size=rc_mac_long(12);
+            header.core.width=(WORD)rc_mac_word(header.core.width);
+            header.core.height=(WORD)rc_mac_word(header.core.height);
+            header.core.planes=(WORD)rc_mac_word(header.core.planes);
+            header.core.bit_count=(WORD)rc_mac_word(header.core.bit_count);
+        }
+    }else {
+        rc_resource_data_fatal(2171);
+    }
+    rc_append_resource_bytes(&header,(WORD)header_size);
+    if(palette_size){
+#ifdef RECON_NATIVE_TEST
+        if(palette_size>0xffff){ __asm int 3 }
+#endif
+        palette=rc_allocate(palette_size);
+#ifdef RECON_NATIVE_TEST
+        if(rc_read_bytes(file,palette,palette_size)!=palette_size){ __asm int 3 }
+#else
+        rc_read_bytes(file,palette,palette_size);
+#endif
+        rc_append_resource_bytes(palette,(WORD)palette_size);
+        rc_release(palette);
+    }
+    offset=file_header.pixel_offset;
+    result=(DWORD)rc_seek(file,0,SEEK_END)+header_size+palette_size-offset;
+    rc_seek(file,offset,SEEK_SET);
+    return result;
+}
+
+WORD __stdcall rc_parse_raw_resource(RcResource *resource)
+{
+    unsigned count=0,bytes,left;
+    WCHAR *text;
+    BYTE *buffer,*cursor;
+    WORD word;
+    DWORD value;
+    rc_read_resource_preamble(resource,2134);
+    while(rc_resource_token.kind!=14){
+        if(rc_resource_token.kind==23)
+            rc_resource_token.kind=rc_resource_token.unknown19;
+        switch(rc_resource_token.kind){
+        case 23:
+#ifdef RECON_NATIVE_TEST
+            if(rc_resource_token.value>256){ __asm int 3 }
+#endif
+            text=rc_resource_name;
+            while(rc_resource_token.value--){
+                word=rc_mac?(WORD)rc_mac_word(*text++):*text++;
+                *(WORD *)rc_reserve_resource_bytes(2)=word;
+                count+=2;
+            }
+            break;
+        case 21:
+#ifdef RECON_NATIVE_TEST
+            if(rc_resource_token.value>256){ __asm int 3 }
+#endif
+            bytes=WideCharToMultiByte(rc_codepage,0,rc_resource_name,
+                       rc_resource_token.value,NULL,0,NULL,NULL);
+            buffer=rc_allocate(bytes);
+            WideCharToMultiByte(rc_codepage,0,rc_resource_name,
+                       rc_resource_token.value,(char *)buffer,bytes,NULL,NULL);
+            cursor=buffer;left=bytes;count+=bytes;
+            while(left--)*(BYTE *)rc_reserve_resource_bytes(1)=*cursor++;
+            rc_release(buffer);
+            break;
+        case 20:
+            if(rc_resource_token.unknown12){
+                value=rc_mac?rc_mac_long(rc_resource_token.unknown0):rc_resource_token.unknown0;
+                *(DWORD *)rc_reserve_resource_bytes(4)=value;
+                count+=4;
+            }else {
+                word=rc_mac?(WORD)rc_mac_word(rc_resource_token.value):rc_resource_token.value;
+                *(WORD *)rc_reserve_resource_bytes(2)=word;
+                count+=2;
+            }
+            break;
+        default:
+            rc_resource_error(2164);
+            return 0;
+        }
+        rc_scan_menu_commas();
+    }
+    return (WORD)count;
+}
+
+void __stdcall rc_parse_dialog_include(RcResource *unused_resource)
+{
+    char *text;
+    int bytes,index;
+    if(rc_resource_token.kind!=23){
+        rc_resource_error(2165);
+        return;
+    }
+    bytes=WideCharToMultiByte(0,0,rc_resource_name,-1,NULL,0,NULL,NULL);
+    text=rc_allocate(bytes);
+    WideCharToMultiByte(0,0,rc_resource_name,-1,text,bytes,NULL,NULL);
+    for(index=0;index<bytes;++index)
+        *(BYTE *)rc_reserve_resource_bytes(1)=(BYTE)text[index];
+    rc_release(text);
+}
+
+int __cdecl rc_parse_version_resource(void)
+{
+    WORD offset=rc_write_fixed_version();
+    WORD length=rc_resource_buffer_word(offset);
+    length=(WORD)(length+rc_parse_version_children());
+    rc_set_resource_buffer_word(offset,length);
+    return 1;
+}
+
+WORD __cdecl rc_write_fixed_version(void)
+{
+    RcFixedVersion fixed;
+    memset(&fixed,0,sizeof(fixed));
+    fixed.date_ms=0;fixed.date_ls=0;
+    fixed.signature=0xfeef04bd;fixed.structure_version=0x10000;
+    while(rc_resource_token.kind!=13){
+        switch(rc_resource_token.kind){
+        case 120:rc_read_version_quad(&fixed.file_version);break;
+        case 121:rc_read_version_quad(&fixed.product_version);break;
+        case 122:rc_read_version_number(&fixed.flags_mask);break;
+        case 123:rc_read_version_number(&fixed.flags);break;
+        case 124:rc_read_version_number(&fixed.os);break;
+        case 125:rc_read_version_number(&fixed.type);break;
+        case 126:rc_read_version_number(&fixed.subtype);break;
+        default:rc_resource_error(2167);break;
+        }
+    }
+    return rc_write_version_block(L"VS_VERSION_INFO",&fixed,sizeof(fixed));
+}
+
+void __stdcall rc_read_version_quad(RcVersionNumber *number)
+{
+    rc_scan_resource_token(1);
+    if(rc_resource_token.kind!=20||rc_resource_token.unknown12)rc_resource_error(2127);
+    number->ms=(DWORD)rc_resource_token.value<<16;
+    rc_scan_resource_token(1);
+    if(rc_resource_token.kind==15){
+        rc_scan_resource_token(1);
+        if(rc_resource_token.kind!=20||rc_resource_token.unknown12)rc_resource_error(2127);
+        *(WORD *)&number->ms=rc_resource_token.value;
+        rc_scan_resource_token(1);
+        if(rc_resource_token.kind==15){
+            rc_scan_resource_token(1);
+            if(rc_resource_token.kind!=20||rc_resource_token.unknown12)rc_resource_error(2127);
+            number->ls=(DWORD)rc_resource_token.value<<16;
+            rc_scan_resource_token(1);
+            if(rc_resource_token.kind==15){
+                rc_scan_resource_token(1);
+                if(rc_resource_token.kind!=20||rc_resource_token.unknown12)rc_resource_error(2127);
+                *(WORD *)&number->ls=rc_resource_token.value;
+                rc_scan_resource_token(1);
+            }
+            return;
+        }
+    }
+    number->ls=0;
+}
+
+void __stdcall rc_read_version_number(DWORD *number)
+{
+    rc_scan_resource_token(1);
+    if(rc_resource_token.kind!=20)rc_resource_error(2128);
+    *number=rc_resource_token.unknown0;
+    rc_scan_resource_token(1);
+}
+
+WORD __stdcall rc_write_version_block(const WCHAR *name,const void *data,unsigned bytes)
+{
+    DWORD zero=0;
+    WORD padding,start,offset,word;
+    padding=(WORD)((rc_resource_buffer_position()+3)&0xfffc);
+    padding=(WORD)(padding-rc_resource_buffer_position());
+    if(padding)rc_append_resource_bytes(&zero,padding);
+    start=rc_resource_buffer_position();
+    offset=rc_resource_buffer_position();
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(bytes):(WORD)bytes;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    rc_write_resource_string(name,1);
+    if((WORD)bytes){
+        padding=(WORD)((rc_resource_buffer_position()+3)&0xfffc);
+        padding=(WORD)(padding-rc_resource_buffer_position());
+        if(padding)rc_append_resource_bytes(&zero,padding);
+        rc_append_resource_bytes(data,(WORD)bytes);
+    }
+    rc_set_resource_buffer_word(offset,(WORD)(rc_resource_buffer_position()-start));
+    return offset;
+}
+
+WORD __cdecl rc_parse_version_children(void)
+{
+    WORD start=rc_resource_buffer_position(),kind,offset,length;
+    if(rc_resource_token.kind!=13)rc_resource_error(2129);
+    rc_scan_resource_token(1);
+    while(rc_resource_token.kind!=14){
+        if(rc_resource_token.kind==113||rc_resource_token.kind==114){
+            kind=rc_resource_token.kind;
+            rc_scan_resource_token(1);
+            if(rc_resource_token.kind!=23)rc_resource_error(2131);
+            offset=rc_write_version_value(rc_resource_name);
+            if(kind==114){
+                length=rc_resource_buffer_word(offset);
+                length=(WORD)(length+rc_parse_version_children());
+                rc_set_resource_buffer_word(offset,length);
+                rc_scan_resource_token(1);
+            }
+        }else rc_resource_error(2132);
+    }
+    return (WORD)(rc_resource_buffer_position()-start);
+}
+
+WORD __stdcall rc_write_version_value(const WCHAR *name)
+{
+    DWORD zero=0;
+    WORD padding,start,offset,length_offset,type_offset,word;
+    padding=(WORD)((rc_resource_buffer_position()+3)&0xfffc);
+    padding=(WORD)(padding-rc_resource_buffer_position());
+    if(padding)rc_append_resource_bytes(&zero,padding);
+    start=rc_resource_buffer_position();
+    offset=rc_resource_buffer_position();
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    length_offset=rc_resource_buffer_position();
+    word=rc_mac?(WORD)rc_mac_word(0):0;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    type_offset=rc_resource_buffer_position();
+    word=rc_mac?(WORD)rc_mac_word(1):1;
+    *(WORD *)rc_reserve_resource_bytes(2)=word;
+    rc_write_resource_string(name,1);
+    rc_set_resource_buffer_word(length_offset,rc_write_version_data(type_offset));
+    rc_set_resource_buffer_word(offset,(WORD)(rc_resource_buffer_position()-start));
+    return offset;
+}
+
+WORD __stdcall rc_write_version_data(DWORD type_offset)
+{
+    DWORD zero=0,count=0,value;
+    WORD first=0,kind,padding,word;
+    for(;;){
+        kind=rc_scan_menu_commas();
+        if(!first){
+            first=1;
+            padding=(WORD)((rc_resource_buffer_position()+3)&0xfffc);
+            padding=(WORD)(padding-rc_resource_buffer_position());
+            if(padding)rc_append_resource_bytes(&zero,padding);
+        }
+        switch(kind){
+        case 23:
+            if(!rc_resource_name[0])continue;
+#ifdef RECON_NATIVE_TEST
+            if(!rc_resource_token.value||rc_resource_token.value>256){ __asm int 3 }
+#endif
+            while(!rc_resource_name[rc_resource_token.value-1])
+                --rc_resource_token.value;
+            /* Retain the actual full packed DWORD in this arithmetic; only
+             * the low WORD is returned for the serialized value length. */
+            count+=rc_resource_token.packed_value+1;
+            if(rc_menu_had_comma)rc_write_resource_string(rc_resource_name,1);
+            else {
+                rc_concatenate_resource_string(rc_resource_name,1);
+                count+=0xffff;
+            }
+            break;
+        case 20:
+            rc_set_resource_buffer_word(type_offset,0);
+            if(rc_resource_token.unknown12){
+                value=rc_mac?rc_mac_long(rc_resource_token.unknown0):rc_resource_token.unknown0;
+                *(DWORD *)rc_reserve_resource_bytes(4)=value;
+                count+=4;
+            }else {
+                word=rc_mac?(WORD)rc_mac_word(rc_resource_token.value):rc_resource_token.value;
+                *(WORD *)rc_reserve_resource_bytes(2)=word;
+                count+=2;
+            }
+            break;
+        case 13:case 14:case 113:case 114:
+            return (WORD)count;
+        default:
+            rc_resource_error(2133);
+            return 0;
+        }
+    }
+}
+
+void __stdcall rc_write_string_table(RcResource *unused_resource)
+{
+    RcStringBlock *block;
+    RcResource *resource;
+    RcResourceType *type;
+    WCHAR *text,*cursor,*prefix,empty[510];
+    unsigned slot,length,index;
+    DWORD bytes;
+    WORD word;
+    for(block=rc_string_blocks;block;block=block->next){
+        bytes=0;
+        rc_reset_resource_buffer();
+        if(rc_mac){
+            word=(WORD)rc_mac_word(16);
+            *(WORD *)rc_reserve_resource_bytes(2)=word;
+        }
+        for(slot=0;slot<16;++slot){
+            text=block->strings[slot];length=0;
+            if(rc_mac){
+                rc_write_mac_string(text,1,1);
+                continue;
+            }
+            if(text){
+                cursor=text;
+                for(;;){
+#ifdef RECON_NATIVE_TEST
+                    /* The real parser publishes value+2 initialized WCHARs
+                     * with two terminal NULs, within its value<=255 scope.
+                     * Arbitrary replacements of those live owners are unknown. */
+                    if(length>255){ __asm int 3 }
+#endif
+                    if(!cursor[0]&&!cursor[1])break;
+                    ++length;++cursor;
+                }
+                if(rc_null_terminate_strings)++length;
+            }
+            bytes+=length*2+2;
+            *(WORD *)rc_reserve_resource_bytes(2)=(WORD)length;
+            for(index=0;index<length;++index){
+                word=rc_mac?(WORD)rc_mac_word(*text++):*text++;
+                *(WORD *)rc_reserve_resource_bytes(2)=word;
+            }
+        }
+        resource=rc_allocate(sizeof(*resource));
+        resource->language=block->language;
+        resource->version=block->version;
+        resource->characteristics=block->characteristics;
+        type=rc_find_resource_type(NULL,6);
+        resource->size=bytes;
+        resource->flags=block->flags;
+        resource->id=(WORD)(block->block+1);
+        rc_write_resource(type,resource);
+        memset(empty,0,sizeof(empty));
+        rc_write_resource_metadata(resource,type,0);
+        for(slot=0;slot<16;++slot){
+            prefix=block->prefixes[slot];
+#ifdef RECON_NATIVE_TEST
+            if(prefix&&!block->strings[slot]){ __asm int 3 }
+#endif
+            if(!prefix||!block->strings[slot][0])prefix=empty;
+            rc_write_apstudio_name(prefix);
+        }
+        rc_write_resource_metadata(NULL,NULL,0);
+    }
+}
+
 void *__stdcall rc_reserve_resource_bytes(WORD bytes)
 {
     BYTE *buffer,*result;
@@ -639,4 +1149,694 @@ WORD __stdcall rc_parse_menu_item(int popup)
         rc_scan_menu_commas();
     }else rc_resource_error(2126);
     return rc_write_menu_item(&item);
+}
+
+int __stdcall rc_copy_menu_caption(WCHAR *text)
+{
+    if(rc_resource_token.kind!=21&&rc_resource_token.kind!=23)return 0;
+    if(rc_resource_token.value>256){
+        rc_format(rc_error_text,2048,rc_message(4208),
+                  rc_resource_filename,rc_resource_token.line);
+        rc_emit(rc_error_text);
+        rc_resource_name[256]=0;
+        rc_resource_token.value=255;
+    }
+    memcpy(text,rc_resource_name,(rc_resource_token.value+1)*sizeof(WCHAR));
+    return 1;
+}
+
+/* DWORD at RVA29014 is written before this scanner's first consumer. */
+int rc_menu_had_comma;
+WORD __cdecl rc_scan_menu_commas(void)
+{
+    rc_menu_had_comma=0;
+    rc_scan_resource_token(1);
+    while(rc_resource_token.kind==15){
+        rc_scan_resource_token(1);
+        rc_menu_had_comma=1;
+    }
+    return rc_resource_token.kind;
+}
+
+int __stdcall rc_parse_menu_attribute(unsigned kind,RcMenuItem *item)
+{
+    if(kind==50)item->flags|=0x100;
+    else if(kind==67)item->flags|=4;
+    else if(kind==73)item->flags|=8;
+    else if(kind==74)item->flags|=1;
+    else if(kind==75)item->flags|=2;
+    else if(kind==76)item->flags|=0x20;
+    else if(kind==77)item->flags|=0x40;
+    else if(kind==79)item->flags|=0x4000;
+    else return 0;
+    return 1;
+}
+
+int __stdcall rc_parse_resource_style(void *style,unsigned flags)
+{
+    DWORD value=0;
+    int result;
+    if(!(flags&1))value=flags&2?*(WORD *)style:*(DWORD *)style;
+    result=rc_parse_resource_style_expression(&value,0);
+    if(flags&2)*(WORD *)style=(WORD)value;
+    else *(DWORD *)style=value;
+    return result;
+}
+
+int __stdcall rc_parse_resource_style_expression(DWORD *value,int parenthesized)
+{
+    WORD operation;
+    BYTE kind;
+    if(!rc_apply_resource_style_term(value,12))return 0;
+    for(;;){
+        if(rc_resource_token.kind==20){
+            if((LONG)rc_resource_token.unknown0<0){
+                *value+=rc_resource_token.unknown0;
+                rc_scan_resource_token(0x8000);
+                continue;
+            }
+            if(!rc_resource_token.unknown0&&rc_resource_name[0]==L'-'&&
+               !rc_resource_name[1])rc_resource_token.kind=102;
+        }
+        kind=rc_resource_token.kind;
+        if(kind==2){
+            if(parenthesized)rc_scan_resource_token(0x8000);
+            else rc_resource_error_name(2241,rc_resource_name);
+            return 1;
+        }
+        if(kind==12||kind==17||(kind>100&&kind<=102)||kind==104){
+            operation=kind;
+            rc_scan_resource_token(0x8000);
+            if(!rc_apply_resource_style_term(value,operation))
+                rc_resource_error_name(2237,rc_resource_name);
+            continue;
+        }
+        if(parenthesized)rc_resource_error_name(2241,rc_resource_name);
+        return 1;
+    }
+}
+
+int __stdcall rc_apply_resource_style_term(DWORD *value,WORD operation)
+{
+    DWORD operand=0;
+    int grouped=0;
+    BYTE kind=rc_resource_token.kind;
+    if(kind==1){
+        rc_scan_resource_token(0x8000);
+        if(!rc_parse_resource_style_expression(&operand,1))return 0;
+        grouped=1;
+    }else if(kind==16||kind==104){
+        if(kind==104)operation=17;
+        rc_scan_resource_token(0x8000);
+        operand=~rc_resource_token.unknown0;
+    }else if(kind==20)operand=rc_resource_token.unknown0;
+    else if(kind==101){
+        rc_scan_resource_token(0x8000);
+        operand=rc_resource_token.unknown0;
+    }else if(kind==102){
+        rc_scan_resource_token(0x8000);
+        operand=0-rc_resource_token.unknown0;
+    }else return 0;
+    if(!grouped){
+        if(rc_resource_token.kind!=20)rc_resource_error_name(2237,rc_resource_name);
+        rc_scan_resource_token(0x8000);
+    }
+    if(operation==12)*value|=operand;
+    else if(operation==17)*value&=operand;
+    else if(operation==101)*value+=operand;
+    else if(operation==102)*value-=operand;
+    return 1;
+}
+
+int __stdcall rc_parse_dialog(RcResource *resource,RcDialog *dialog,int extended)
+{
+    dialog->style=0x80880000;
+    dialog->exstyle=resource->unknown8;
+    dialog->menu[0]=0;
+    dialog->caption[0]=0;
+    dialog->class_name[0]=0;
+    dialog->menu_is_ordinal=0;
+    dialog->class_is_ordinal=0;
+    dialog->point_size=0;
+    rc_read_dialog_rectangle(&dialog->x,&dialog->y,&dialog->width,&dialog->height);
+    if(!rc_parse_dialog_attributes(resource,dialog,extended))return 0;
+    if(dialog->point_size)dialog->style|=0x40;
+    else dialog->style&=~0x40;
+    rc_write_dialog_header(dialog,extended);
+    if(rc_resource_token.kind!=13)rc_resource_error(2112);
+    rc_parse_dialog_controls(extended);
+    if(rc_mac)rc_convert_dialog_count();
+    if(rc_resource_token.kind!=14)rc_resource_error(2113);
+    return 1;
+}
+
+void __stdcall rc_read_dialog_rectangle(WORD *x,WORD *y,WORD *width,WORD *height)
+{
+    *x=rc_read_dialog_coordinate();
+    if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+    *y=rc_read_dialog_coordinate();
+    if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+    *width=rc_read_dialog_coordinate();
+    if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+    *height=rc_read_dialog_coordinate();
+}
+
+WORD __cdecl rc_read_dialog_coordinate(void)
+{
+    WORD value;
+    if(!rc_parse_resource_style(&value,3))rc_resource_error(2109);
+    return value;
+}
+
+int __stdcall rc_parse_dialog_attributes(RcResource *resource,RcDialog *dialog,int extended)
+{
+    if(extended&&rc_resource_token.kind==15){
+        rc_scan_resource_token(0x8000);
+        rc_parse_resource_style(&dialog->help_id,1);
+    }
+    while(rc_resource_token.kind!=13){
+        switch(rc_resource_token.kind){
+        case 70:rc_parse_dialog_menu(dialog);break;
+        case 94:rc_parse_dialog_font(dialog,extended);break;
+        case 100:rc_parse_dialog_class(dialog);break;
+        case 130:
+            rc_scan_resource_token(0);
+            if(rc_resource_token.kind!=20)rc_resource_error(2140);
+            resource->characteristics=rc_resource_token.unknown0;
+            rc_scan_resource_token(0);
+            break;
+        case 131:
+            resource->language=rc_read_resource_language();
+            rc_scan_resource_token(0);
+            break;
+        case 132:
+            rc_scan_resource_token(0);
+            if(rc_resource_token.kind!=20)rc_resource_error(2139);
+            resource->version=rc_resource_token.unknown0;
+            rc_scan_resource_token(0);
+            break;
+        case 133:
+            dialog->style=(dialog->style&0xc00000)==0xc00000?0xc00000:0;
+            rc_scan_resource_value(0x8000);
+            rc_parse_resource_style(&dialog->style,0);
+            break;
+        case 135:rc_parse_dialog_caption(dialog);break;
+        case 247:
+            rc_scan_resource_value(0x8000);
+            rc_parse_resource_style(&dialog->exstyle,0);
+            break;
+        default:rc_resource_error(2112);return 0;
+        }
+    }
+    return 1;
+}
+
+void __stdcall rc_parse_dialog_caption(RcDialog *dialog)
+{
+    rc_scan_resource_token(1);
+    if(rc_copy_menu_caption(dialog->caption))dialog->style|=0xc00000;
+    else rc_resource_error(2119);
+    rc_scan_resource_token(1);
+}
+
+void __stdcall rc_parse_dialog_font(RcDialog *dialog,int extended)
+{
+    WORD value;
+    int i;
+    rc_scan_resource_token(1);
+    if(!rc_parse_resource_style(&dialog->point_size,3))rc_resource_error(2117);
+    if(rc_resource_token.kind==15)rc_scan_menu_commas();
+    if(!rc_copy_menu_caption(dialog->font))rc_resource_error(2118);
+    if(_wcsicmp(dialog->font,L"System")&&rc_special_file[0]&&rc_special_type_count>0){
+        for(i=0;i<rc_special_type_count;++i){
+            if(!_wcsicmp(rc_special_types[i],dialog->font)){
+                rc_resource_notice_strings(4510,dialog->font,rc_special_file,0);
+                wcscpy(dialog->font,rc_special_file);
+            }
+        }
+    }
+    rc_scan_resource_token(1);
+    dialog->charset=1;
+    if(extended&&rc_resource_token.kind==15){
+        rc_scan_resource_token(0x8000);
+        if(rc_parse_resource_style(&value,3))dialog->weight=value;
+        if(rc_resource_token.kind==15){
+            rc_scan_resource_token(0x8000);
+            if(rc_resource_token.kind==20){
+                dialog->italic=rc_resource_token.value!=0;
+                rc_scan_resource_token(0x8000);
+                if(rc_resource_token.kind==15){
+                    rc_scan_resource_token(0x8000);
+                    if(rc_parse_resource_style(&value,3))dialog->charset=(BYTE)value;
+                }
+            }
+        }
+    }
+}
+
+void __stdcall rc_parse_dialog_menu(RcDialog *dialog)
+{
+    WCHAR first;
+    if(rc_collect_resource_name()){
+        rc_resource_token.kind=23;
+        rc_copy_menu_caption(dialog->menu);
+        first=dialog->menu[0];
+        if(first>=L'0'&&first<=L'9')dialog->menu_is_ordinal=1;
+        rc_scan_resource_token(1);
+    }
+}
+
+typedef struct RcControlKind {
+    WORD kind,reserved2;
+    DWORD style;
+    BYTE class_ordinal,has_text;
+    WORD reserved10;
+} RcControlKind;
+typedef char RcControlKindLayout[
+    sizeof(RcControlKind)==12 && offsetof(RcControlKind,style)==4 &&
+    offsetof(RcControlKind,class_ordinal)==8 && offsetof(RcControlKind,has_text)==9 ? 1 : -1];
+/* Exact 22 contextual descriptors at RVA15290..15398. */
+static const RcControlKind rc_control_kinds[]={
+    { 51,0,0x00000007,0x80,1,0 }, /* GROUPBOX */
+    { 42,0,0x00010000,0x80,1,0 }, /* PUSHBUTTON */
+    { 43,0,0x00010001,0x80,1,0 }, /* DEFPUSHBUTTON */
+    { 41,0,0x00010002,0x80,1,0 }, /* CHECKBOX */
+    { 40,0,0x00000004,0x80,1,0 }, /* RADIOBUTTON */
+    { 46,0,0x00010006,0x80,1,0 }, /* AUTO3STATE */
+    { 44,0,0x00010003,0x80,1,0 }, /* AUTOCHECKBOX */
+    { 48,0,0x00000009,0x80,1,0 }, /* AUTORADIOBUTTON */
+    { 52,0,0x0001000a,0x80,1,0 }, /* PUSHBOX */
+    { 45,0,0x00010005,0x80,1,0 }, /* STATE3 */
+    { 47,0,0x00010008,0x80,1,0 }, /* USERBUTTON */
+    { 61,0,0x00020000,0x82,1,0 }, /* LTEXT */
+    { 62,0,0x00020002,0x82,1,0 }, /* RTEXT */
+    { 63,0,0x00020001,0x82,1,0 }, /* CTEXT */
+    { 66,0,0x00000003,0x82,1,0 }, /* ICON */
+    { 57,0,0x00810000,0x00,0,0 }, /* BEDIT */
+    { 58,0,0x00810000,0x00,0,0 }, /* HEDIT */
+    { 59,0,0x00810000,0x00,0,0 }, /* IEDIT */
+    { 60,0,0x00810000,0x81,0,0 }, /* EDITTEXT */
+    { 90,0,0x00800001,0x83,0,0 }, /* LISTBOX */
+    { 91,0,0x00000000,0x85,0,0 }, /* COMBOBOX */
+    { 93,0,0x00000000,0x84,0,0 }, /* SCROLLBAR */
+};
+/* Each invocation establishes the count/capacity and allocated list before use. */
+int rc_dialog_id_count,rc_dialog_id_capacity;
+DWORD *rc_dialog_ids;
+
+int __stdcall rc_parse_dialog_controls(int extended)
+{
+    RcControl control;
+    unsigned i;
+    BYTE kind;
+    rc_dialog_id_count=0;
+    rc_dialog_id_capacity=100;
+    rc_dialog_ids=rc_allocate(400);
+    if(!rc_dialog_ids)return 0;
+    rc_scan_resource_token(1);
+    control.id=0;
+    while(rc_resource_token.kind!=14){
+        kind=rc_resource_token.kind;
+        control.help_id=0;control.exstyle=0;control.style=0x50000000;
+        control.text[0]=0;control.text_is_ordinal=0;
+        if(kind==134)rc_parse_generic_control(&control,extended);
+        else {
+            for(i=0;i<22;++i)if(rc_control_kinds[i].kind==kind)break;
+            if(i==22){rc_resource_error(2111);return 0;}
+            control.style=rc_control_kinds[i].style|0x50000000;
+            if(rc_mac&&(kind==42||kind==43||kind==41||kind==46||
+                        kind==44||kind==52||kind==45||kind==47))
+                control.style&=0xfffeffff;
+            if(rc_control_kinds[i].class_ordinal){
+                control.class_name[0]=0xffff;
+                control.class_name[1]=rc_control_kinds[i].class_ordinal;
+            }else {
+#ifdef RECON_NATIVE_TEST
+                /* No uninitialized class spelling is a supported native input. */
+                if(!rc_copy_menu_caption(control.class_name)){ __asm int 3 }
+#else
+                rc_copy_menu_caption(control.class_name);
+#endif
+            }
+            if(rc_control_kinds[i].has_text)rc_read_control_text(&control);
+            rc_read_control_id(&control,extended);
+            rc_read_dialog_rectangle(&control.x,&control.y,&control.width,&control.height);
+            if(rc_resource_token.kind==15){
+                rc_scan_resource_token(0x8000);
+                rc_parse_resource_style(&control.style,0);
+            }
+        }
+        if(rc_resource_token.kind==15){
+            rc_scan_resource_token(0x8000);
+            rc_parse_resource_style(&control.exstyle,0);
+            if(extended&&rc_resource_token.kind==15){
+                rc_scan_resource_token(0x8000);
+                rc_parse_resource_style(&control.help_id,1);
+            }
+        }
+        rc_write_control(&control,extended);
+        if(extended&&rc_resource_token.kind==13){
+            rc_patch_control_data_size(rc_parse_raw_resource(NULL),extended);
+            rc_scan_resource_token(0x8000);
+        }
+    }
+    rc_release(rc_dialog_ids);
+    return 1;
+}
+
+void __stdcall rc_read_control_text(RcControl *control)
+{
+    rc_scan_resource_value(0x8000);
+    if(rc_copy_menu_caption(control->text)){
+        control->text_is_ordinal=0;
+        rc_resource_token.text[0]=0;
+        rc_resource_token.unknown1038=0;
+    }else if(rc_resource_token.kind==20){
+        rc_format_wide_resource_number(rc_resource_token.value,control->text,10);
+        control->text_is_ordinal=1;
+        rc_write_apstudio_name(rc_resource_token.text);
+    }else rc_resource_error(2115);
+}
+
+void __stdcall rc_read_control_id(RcControl *control,int extended)
+{
+    DWORD *ids;
+    int i;
+    rc_scan_menu_commas();
+    rc_write_apstudio_name(rc_resource_token.text);
+    if(rc_parse_resource_style(&control->id,extended?1:3)){
+        if((extended||control->id!=0xffff)&&control->id!=0xffffffff){
+#ifdef RECON_NATIVE_TEST
+            if(rc_dialog_id_count<0||rc_dialog_id_capacity<rc_dialog_id_count||
+               !rc_dialog_ids){ __asm int 3 }
+#endif
+            for(i=0;i<rc_dialog_id_count;++i){
+                if(control->id==rc_dialog_ids[i]){
+                    rc_format(rc_error_text,2048,rc_message(2182),rc_resource_filename,
+                              rc_resource_token.line,control->id);
+                    rc_emit(rc_error_text);
+                    break;
+                }
+            }
+            if(rc_dialog_id_count==rc_dialog_id_capacity){
+#ifdef RECON_NATIVE_TEST
+                if(rc_dialog_id_capacity>0x1fffff99){ __asm int 3 }
+#endif
+                rc_dialog_id_capacity+=100;
+                ids=rc_allocate(rc_dialog_id_capacity*sizeof(DWORD));
+                memcpy(ids,rc_dialog_ids,rc_dialog_id_count*sizeof(DWORD));
+                rc_release(rc_dialog_ids);
+                rc_dialog_ids=ids;
+            }
+            rc_dialog_ids[rc_dialog_id_count++]=control->id;
+        }
+    }else rc_resource_error(2116);
+    if(rc_resource_token.kind==15)rc_scan_menu_commas();
+}
+
+typedef struct RcControlClass {
+    BYTE ordinal,reserved1;
+    WORD kind;
+    const WCHAR *name;
+} RcControlClass;
+typedef char RcControlClassLayout[
+    sizeof(RcControlClass)==8 && offsetof(RcControlClass,kind)==2 &&
+    offsetof(RcControlClass,name)==4 ? 1 : -1];
+/* Case-insensitive aliases, searched from the final row back to the first. */
+static const RcControlClass rc_control_classes[]={
+    {0x80,0,95,L"button"},
+    {0x81,0,64,L"edit"},
+    {0x82,0,65,L"static"},
+    {0x83,0,90,L"listbox"},
+    {0x84,0,93,L"scrollbar"},
+    {0x85,0,91,L"combobox"}
+};
+
+void __stdcall rc_parse_generic_control(RcControl *control,int extended)
+{
+    int i;
+    rc_read_control_text(control);
+    rc_read_control_id(control,extended);
+    if(rc_resource_token.kind==20){
+        control->class_name[0]=(WORD)(signed char)rc_resource_token.value;
+        control->class_name[1]=0;
+    }else {
+        if(rc_resource_token.kind==23){
+            for(i=5;i>=0;--i)
+                if(!_wcsicmp(rc_resource_name,rc_control_classes[i].name))break;
+            if(i<0)rc_copy_menu_caption(control->class_name);
+        }else {
+            for(i=5;i>=0;--i)
+                if(rc_resource_token.kind==rc_control_classes[i].kind)break;
+            if(i<0){rc_resource_error(2114);i=0;}
+        }
+        if(i>=0){
+            control->class_name[0]=0xffff;
+            control->class_name[1]=rc_control_classes[i].ordinal;
+        }
+    }
+    rc_scan_resource_value(0x8000);
+    rc_parse_resource_style(&control->style,0);
+    rc_scan_menu_commas();
+    rc_read_dialog_rectangle(&control->x,&control->y,&control->width,&control->height);
+}
+
+WCHAR *__stdcall rc_format_wide_resource_number(unsigned value,WCHAR *text,unsigned radix)
+{
+    unsigned remaining=value,digits=0;
+    WCHAR *cursor;
+#ifdef RECON_NATIVE_TEST
+    /* Current callers provide a live 257-WCHAR field and radix ten. */
+    if(!text||radix!=10){ __asm int 3 }
+#endif
+    while(remaining){++digits;remaining/=radix;}
+    text[digits]=0;
+    cursor=text+digits;
+    while(value){
+        *--cursor=(WCHAR)(L'0'+(signed char)(value%radix));
+        value/=radix;
+    }
+    return cursor;
+}
+
+RcResource * __stdcall rc_parse_string_table(RcResource *resource)
+{
+    RcStringBlock *block,*previous;
+    DWORD id;
+    WCHAR *prefix;
+    BYTE found;
+    unsigned slot;
+    rc_read_resource_preamble(resource,2105);
+    if(!rc_last_string_resource){previous=NULL;rc_string_blocks=NULL;}
+#ifdef RECON_NATIVE_TEST
+    else if(!rc_string_blocks){ __asm int 3 }
+#endif
+    do {
+        found=0;
+        block=rc_string_blocks;
+        if(rc_resource_token.kind!=20)rc_resource_error(2149);
+        id=rc_resource_token.packed_value;
+        prefix=rc_allocate_copy(1020,(BYTE *)&rc_resource_token+
+                                    offsetof(RcResourceToken,text));
+        if(!rc_parse_resource_style(&id,3))rc_resource_error(2110);
+        if(rc_resource_token.kind==15)rc_scan_resource_token(0x8000);
+        if(rc_resource_token.kind!=23)rc_resource_error(2150);
+#ifdef RECON_NATIVE_TEST
+        /* This consumer needs both the terminator and one extra initialized
+         * NUL within the existing 257-WCHAR name workspace. */
+        if(rc_resource_token.value>255){ __asm int 3 }
+#endif
+        rc_resource_name[rc_resource_token.value+1]=0;
+        slot=(WORD)id%16;
+        while(block){
+            if(block->language==resource->language&&block->block==((WORD)id>>4)){
+                found=1;
+                if(!block->strings[slot]){
+                    block->strings[slot]=rc_allocate_copy(rc_resource_token.value*2+4,
+                                                         rc_resource_name);
+                    block->prefixes[slot]=prefix;
+                }else {
+                    rc_format(rc_error_text,2048,rc_message(2151),rc_resource_filename,
+                              rc_resource_token.line,(unsigned)(WORD)id,
+                              block->strings[slot],rc_resource_name);
+                    rc_report_resource_error(2151);
+                }
+            }
+            previous=block;
+            block=block->next;
+            if(found)break;
+        }
+        if(!found){
+            block=rc_allocate_copy(sizeof(RcStringBlock),NULL);
+            block->block=(WORD)id>>4;
+            block->flags=resource->flags;
+            block->language=resource->language;
+            block->version=resource->version;
+            block->characteristics=resource->characteristics;
+            block->strings[slot]=rc_allocate_copy(rc_resource_token.value*2+4,
+                                                 rc_resource_name);
+            block->prefixes[slot]=prefix;
+            if(previous)previous->next=block;
+            if(!rc_string_blocks)rc_string_blocks=block;
+        }
+        rc_scan_resource_token(1);
+    }while(rc_resource_token.kind!=14);
+    rc_last_string_resource=resource;
+    return resource;
+}
+
+void *__stdcall rc_allocate_copy(unsigned bytes,const void *source)
+{
+    BYTE *result,*out;
+    const BYTE *in=source;
+    unsigned count=bytes;
+#ifdef RECON_NATIVE_TEST
+    if(bytes>0x7ffffff7){ __asm int 3 }
+#endif
+    result=rc_allocate(bytes);
+    if(!result)rc_fatal("RC : fatal error RW1025: Out of heap memory");
+    if(source){
+        out=result;
+        while(count--)*out++=*in++;
+    }else memset(result,0,bytes);
+    return result;
+}
+
+int __stdcall rc_parse_accelerators(RcResource *resource)
+{
+    WORD flags,key,command,word;
+    BYTE key_kind;
+    int count=0,mode_given;
+    DWORD value;
+    rc_read_resource_preamble(resource,2106);
+    while(rc_resource_token.kind!=14){
+        mode_given=0;
+        key_kind=rc_resource_token.kind;
+        if(key_kind==20)key=rc_resource_token.value;
+        else if(key_kind==23){
+            if(rc_resource_name[0]==L'^'){
+                if(wcslen(rc_resource_name)!=2)rc_resource_error(2152);
+                if(rc_resource_name[1]==L'^')key=L'^';
+                else {
+                    key=(WORD)towupper(rc_resource_name[1]);
+                    if(!iswctype(key,0x103))rc_resource_error(2154);
+                    key-=64;
+                }
+            }else if(wcslen(rc_resource_name)==2)
+                key=(WORD)((rc_resource_name[0]<<8)+rc_resource_name[1]);
+            else if(wcslen(rc_resource_name)==1)key=rc_resource_name[0];
+            else rc_resource_error(2155);
+        }else rc_resource_error(2156);
+        rc_scan_resource_token(1);
+        if(rc_resource_token.kind!=15)rc_resource_error(2157);
+        rc_scan_resource_token(1);
+        if(rc_resource_token.kind!=20)rc_resource_error(2107);
+        command=rc_resource_token.value;
+        rc_write_apstudio_name(rc_resource_token.text);
+        if(!rc_parse_resource_style(&command,3))rc_resource_error(2107);
+        flags=0;
+        while(rc_resource_token.kind==15){
+            rc_scan_resource_token(1);
+            switch(rc_resource_token.kind){
+            case 103:flags|=2;break;
+            case 106:flags|=4;break;
+            case 110:flags|=16;break;
+            case 111:mode_given=1;break;
+            case 112:flags|=1;mode_given=1;break;
+            case 134:flags|=8;break;
+            default:rc_resource_error(2159);break;
+            }
+            rc_scan_resource_token(1);
+        }
+        if(key_kind==20&&!mode_given)rc_resource_error(2163);
+        if(!(flags&1)&&(flags&12)){
+            rc_format(rc_error_text,2048,rc_message(4203),rc_resource_filename,
+                      rc_resource_token.line);
+            rc_emit(rc_error_text);
+        }
+        if((flags&1)&&key_kind==23){
+            key=(WORD)towupper(key);
+            if(!iswctype(key,0x107)){
+                rc_format(rc_error_text,2048,rc_message(4204),rc_resource_filename,
+                          rc_resource_token.line);
+                rc_emit(rc_error_text);
+            }
+        }
+        rc_begin_accelerator();
+        word=rc_mac?(WORD)rc_mac_word(flags):flags;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        word=rc_mac?(WORD)rc_mac_word(key):key;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        if(rc_mac){
+            value=rc_mac_long(command);
+            *(DWORD *)rc_reserve_resource_bytes(4)=value;
+        }else {
+            *(WORD *)rc_reserve_resource_bytes(2)=command;
+            word=rc_mac?(WORD)rc_mac_word(0):0;
+            *(WORD *)rc_reserve_resource_bytes(2)=word;
+        }
+        ++count;
+    }
+    rc_mark_last_accelerator();
+    return count*5;
+}
+
+long __cdecl rc_read_resource_file(void)
+{
+    char filename[MAX_PATH],path[MAX_PATH];
+    FILE *file;
+    long size;
+    WideCharToMultiByte(GetACP(),0,rc_resource_name,-1,filename,
+                        MAX_PATH,NULL,NULL);
+    rc_search_resource_path(filename,"INCLUDE",path);
+    if(path[0]){
+        file=fopen(path,"rb");
+        if(file){
+            size=rc_seek(file,0,SEEK_END);
+            rc_seek(file,0,SEEK_SET);
+            rc_resource_file(file);
+            return size;
+        }
+    }
+    rc_resource_error_name(2135,filename);
+    return 0;
+}
+
+void __stdcall rc_search_resource_path(const char *filename,const char *variable,
+                                      char *path)
+{
+    const char *paths;
+    char *end;
+    unsigned length;
+    FILE *file;
+    paths=!strcmp(variable,"INCLUDE")?rc_include_paths:getenv(variable);
+#ifdef RECON_NATIVE_TEST
+    if(!paths||!filename[0]||strlen(filename)>=MAX_PATH){ __asm int 3 }
+#endif
+    if(filename[0]=='\\'||filename[0]=='/'||filename[1]==':'){
+        strcpy(path,filename);
+        return;
+    }
+    do {
+        length=0;
+        while(paths[length]&&paths[length]!=';'){
+#ifdef RECON_NATIVE_TEST
+            if(length>=MAX_PATH-1){ __asm int 3 }
+#endif
+            path[length]=paths[length];
+            ++length;
+        }
+        path[length]=0;
+        paths+=length;
+        if(*paths)++paths;
+        end=path+strlen(path);
+#ifdef RECON_NATIVE_TEST
+        /* The original examines end[-1]; an empty path component is unknown. */
+        if(end==path||length+strlen(filename)+2>MAX_PATH){ __asm int 3 }
+#endif
+        if(end[-1]!='\\'&&end[-1]!='/')*end++='\\';
+        strcpy(end,filename);
+        file=fopen(path,"rb");
+        if(file){fclose(file);break;}
+    }while(*path&&*paths);
 }

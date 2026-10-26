@@ -1,206 +1,92 @@
 # RCDLL (Visual C++ 5.10)
 
-The native i386 library uses the shared reconstruction harness. Run `make -j4
-native cases check unit`, `make -j4 original`, and `make -j4 audit` from this
-folder. Fixtures never launch Wine. `binary.c` is the function registry; policy
-contains only live graph/ABI contracts. Application source is in `src/`, the two historical startup bodies in `crt/`
-(with per-file rationale), and native glue in `harness/`. The native adapter
-registers the DLL,
-binds the captured argument/environment vectors, performs CRT attach, invokes
-`RC(0,0,diagnostic,NULL,argc,argv)`, and detaches. The resource callback is opaque
-and only NULL is supported. The two encountered message resources are generated
-from `src/help.mc` for both builds.
+Both current cases complete using the native i386 shared library. Run `make -j4
+native cases check unit original` and `make -j4 audit` from this folder.
+Fixtures never launch Wine. `binary.c` is the sole function registry;
+`policy-data.json` contains finite graph/ABI contracts. Application source is in
+`src/`, two historical startup bodies with per-file rationale are in `crt/`,
+and native adapters and test glue are in `harness/`.
 
-Cases retain the original invocations and outputs:
+The native adapter registers the actual DLL identity, binds captured arguments
+and environment, attaches the CRT, calls
+`RC(0,0,diagnostic,NULL,argc,argv)`, and detaches. Only a NULL resource callback
+is supported. Encountered message resources are generated from `src/help.mc`.
 
-- `0000-help`: complete `/help`, 589 stdout bytes, empty stderr, status zero.
-  Historical trace labels `rcdll_main`/`rc_main` map to DllMain/main.
-- `0001-resources-rich`: include/macro/conditional/resource corpus with the
-  single quoted `/dCASE_FROM_COMMAND=7 ` argument. The current reconstruction
-  stops at `rc_parse_resource_hexadecimal` (RVA 9c7d). Its partial streams and actual
-  temporary/output files are checked separately from the final 3,672-byte RES
-  oracle. The fresh partial invocation uses the stable rich-case-0001 S: workload
-  paths and only INCLUDE/absent RCCODEPAGE as explicit target environment inputs.
-  Native host controls are established by case setup. The final RES oracle
-  remains the independently captured rich-trailing-space-baseline-01 output.
+- `0000-help`: `/help`, 589 stdout bytes, empty stderr, exit zero.
+- `0001-resources-rich`: includes, command/source macros, conditionals and the
+  resource corpus, using one quoted `/dCASE_FROM_COMMAND=7 ` argument with a
+  trailing space. It produces exactly 3,672 RES bytes, empty stdout/stderr and
+  exit zero. The RES SHA-256 is
+  `ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318`.
+  The corpus covers menus, dialogs, string tables, accelerators, icon/cursor
+  groups, bitmap conversion, raw data, DLGINCLUDE and VERSIONINFO. Final cleanup
+  closes streams, removes temporary files and destroys its tracked private heap.
 
-The old command without the trailing space provokes an original read beyond its
-requested allocation. Its former debugger guard is retained as a narrow shared entry-hook unit:
-the actual public invocation stops at rc_define_macro before the unsupported
-copy. This is a host checkpoint, not a production copy-body guard or a
-fabricated pending-function frontier. Native execution uses proved readable normal-path copies; native SEH recovery
-is unclaimed.
-Other unavailable native data/modes retain production traps.
+The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
+RCCODEPAGE are explicit Windows target environment inputs; native adapter
+controls are set separately. Its fresh final masked-original capture uses the
+unchanged shipped RC.EXE host and the identified shipped MSVCRT. The native
+comparison explicitly selects that original receipt. It matches all 217 actual
+first-entry encounters, final status, streams, artifacts and file inventory.
+Original pointed-memory and per-call CRT error/FP state were not universally
+captured; no whole-memory equivalence is claimed.
 
-Accepted application reconstruction is **135 functions, 35,189 code bytes**
-This is 47.16% of the 74,609-byte whole-text extent.
-The d08815612 baseline was 95 functions / 25,732 bytes.
-The provisional discovered application denominator is 299
-functions / 66,295 bytes (53.08%); Ghidra discovery is not a completed ownership
-classification. The entire .text virtual extent is 74,609 bytes and includes
-non-code. Two historical startup CRT source bodies (555 bytes), import thunks
-(12 bytes), and the provided custom-ABI __chkstk helper (47 bytes) receive no
-application credit. __chkstk uses custom EAX=size / ESP=entryESP+4-size
-semantics (the original caller requests 0x42c4); native execution uses its
-compiler-owned frame, not a fake C helper call. Shared identify-runtime matches
-the shipped MSVCRT.LIB helper. Unknown entries stay unknown.
+Application reconstruction now comprises **220 functions and 51,779 unique
+original code bytes**, **69.40% of the 74,609-byte whole-text extent**. Summed
+accepted code extents equal their owned-byte union. This denominator includes
+non-code and CRT; complete non-CRT coverage has not been established. The
+migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
+read found that the registry at 2fffb5e7d contained 37,282 bytes, whereas its
+running report said 37,222; the 60-byte understatement was reporting only.
+Earlier running receipts remain unchanged. Final accounting uses the registry
+and independently agrees with shared registry-export, rather than incremental
+status totals. A superseded final scratch parser crossed NULL-symbol record
+boundaries and reported 51,823 bytes; the corrected record-bounded count is
+51,779, with no code or credit added by that accounting correction.
 
-Current accepted bodies pass both builds, the strict graph/ABI audit and
-fresh matching original/native frontier evidence. The former WIP snapshot remains at
-`~/.ai-tmp/msvc2/vc5.10/rcdll/migration-snapshot-20261025/`; contextual descriptor
-research remains under `analysis/output-descriptor-data/rows.json` in the same
-scratch namespace. Unavailable descriptors still trap before native consumption.
-The resource dispatcher now has its complete readable source and ABI-correct
-named traps for its unreconstructed dependencies. Its compiler-generated pointer
-and byte-remap tables use exact COFF-proven text-data intervals. Its built-in initializer now registers the 22 encountered literal name/ID pairs.
-The fresh original/native pair reaches the first CURSOR lookup with both actual
-formals matched: 1.447 s original and 181.037 ms native (setup 75.287, execution
-35.817, checks 69.933 ms). Both builds and strict audit took 2.823 s. Further list
-mutations and dispatcher object/callback/conversion paths remain unvisited.
-The type lookup now performs its linked-list search and empty-list insertion.
-The fresh pair reaches the name-copy helper: 1.387 s original and 181.035 ms
-native (36.462 ms execution). Both builds/full audit took 3.826 s. A focused
-lookup unit checks name priority, DWORD/WORD ID behavior and returned identity.
-Original pointed node bytes were not directly observed; native ownership and
-zeroing use the independently established allocator contract.
-The dispatcher reuses existing command/result/language globals and token fields.
+The existing registry has 52 pending App records with 9,861 bytes of known code
+extents, plus 27 unknown records spanning 4,702 bytes whose classification is
+unresolved. Substantial remaining areas include font/RIFF resources, Macintosh
+output, APSTUDIO recording, pragma/codepage handling and diagnostics. An extended
+resource corpus and a preprocessor/diagnostic workload are possible future
+cases; neither has been started.
 
-The raw UTF16 reader preserves its initialized index 4097, 8,194-byte buffer and
-non-advancing EOF. Its byte wrapper uses the real input FILE, fread and ferror.
-Shared explicit-510 ASCII/default-C WCHAR16 towlower support was adopted against
-an unchanged original; original per-call API state was not measured. Later
-recording and APSTUDIO paths remain unsupported.
-Earlier failures and the unchanged original-reuse evidence remain in
-`~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0110/`.
-Two custom argument helpers have named ABI-correct traps and no body credit.
-Packed arguments currently require even alignment natively; the original
-odd-address padding branch is retained in Win32 source, but is unclaimed.
-A focused native unit checks the copy helper's terminator return, WCHAR16 content, empty
-input and untouched tail; it took 147.958 ms (3.183 ms execution).
-The earlier external loader
-INT3 failure and its shared-tool diagnostic remain in scratch; no program
-behavior was changed to bypass that stop.
+The two historical startup CRT bodies (555 bytes), import thunks (12 bytes)
+and provided 47-byte __chkstk helper receive no application credit. __chkstk
+uses custom EAX/ESP semantics; native callers allocate their own real frames.
+Shared identify-runtime binds the shipped MSVCRT.LIB helper. Compiler-emitted
+switch tables have exact COFF-backed text-data bounds and targets. The strict
+whole graph, RET, reference, ownership and extent checks remain enabled. A tiny
+target-specific SEH check separately proves parent RET8 and local-filter RET0,
+EAX1 and qualified handler identity; native SEH recovery remains unclaimed.
 
-Layout-only validation: original/native/case build 10.468 s; both native IO
-checks and four unit groups together 0.244 s; 97-function graph and SEH-role
-audit 0.501 s. Help IO took 8.048 ms (setup 4.396, execution 2.459, checks 1.193);
-rich partial IO took 174.830 ms (76.011 / 30.249 / 68.571). Application bodies,
-registry identities, case captures and policy are unchanged by this reorganization.
+Supported native storage is bounded to encountered initialized objects and
+payloads. Unknown descriptors, class-index256's mutable union alias, unsupported
+numeric/storage modes, longer unproved buffers and APSTUDIO branches retain
+production traps. The old command without the trailing space causes an original
+read beyond its requested allocation. Its historical raw evidence is preserved;
+a narrow host entry-hook unit stops before that copy. This is an unsupported
+invocation checkpoint, not proof of a production copy guard or SEH recovery.
 
-Comment preservation uses the distinct `-C` option, not the preprocessor-active
-flag. A zero-credit correction binds both original/rebuilt operands and an
-opposite-state native unit (C=0, active=1). Earlier partial matches did not
-establish that storage identity. The corrected native replay against the
-unchanged original took 192.661 ms; the branch unit took 151.867 ms. No new
-original capture or additional code credit was needed.
+Zero-credit storage corrections preserve distinct command result1853c and
+resource status25d3c, expression lookahead149dc and lexer token144f4, macro depth
+and source depth, and the real shared APSTUDIO/heap owners. Opposite-state tests
+cover affected identities. Earlier equal-zero/value-only evidence and mistaken
+correction history retain their limitations. Resource count and image IDs,
+string-list head and last-resource pointer also remain separate owners. Packed
+resource layouts retain original allocation requests and consumed offsets;
+unknown fields and untouched tails are not treated as initialized values.
 
-The resource status at RVA 25d3c is distinct from the command result at
-1853c. A mistaken source-name-based correction in 4f7a7b5e merged them; that
-history and its equal-zero evidence remain preserved with their limitation.
-The corrected mapping binds actual main/initializer/resource-parser operands,
-restores distinct storage, and replaces old reset placeholders with the genuine
-font count, type-list head and HWB offset. Seventeen bounded fields have explicit
-operand/MAP identities. Noncoincident command/resource reset units and a fresh
-native pair against the unchanged original pass. This adds no code credit.
+The final original capture took 839.197 ms. Native adoption took 203.741 ms
+(setup 76.448, execution 57.043, checks 70.249 ms). Case-end parallel builds,
+both cached case checks and 92 unit groups passed in 0.553 s; strict graph/ABI
+and SEH-role audit passed in 0.838 s. The first final audit exposed an undeclared
+compiler-emitted VERSIONINFO switch table; exact COFF labels, five pointer
+relocations and its 102-byte remap now describe only that data. No target source
+or capture changed for this metadata correction.
 
-The unvisited callback context at RVA 25f54 is the existing rc_heap HANDLE,
-also used by main for HeapDestroy. Its duplicate placeholder was removed after
-binding both actual consumers. The callback remains NULL-only natively; this
-storage correction supplies no callback behavior or reconstruction credit.
-
-The custom resource-name allocator/copy now executes for all 22 built-ins.
-A fresh original/native pair reaches resource-buffer initialization; full build
-and graph/ABI preflight passed. The name helper retains its NULL branch and
-uses the existing application allocator and shared WCHAR16 CRT operations.
-
-The 128,000-byte resource-buffer initializer is accepted with its two actual
-storage operands bound. The fresh pair reaches the pending name reader in
-1.614 s original / 183.577 ms native (36.191 ms execution); both builds and strict
-audit took 3.948 s. The shared allocator's existing ownership contract applies;
-no new original pointed-buffer snapshot is claimed.
-
-The complete resource-name classifier is accepted through its first collector
-call. Its later uppercase and decimal/four-digit-hexadecimal branches have strict
-static graph/ABI proof but are not yet executed. At that milestone shared _wcsupr had only a typed
-fail-closed surface; its subsequent ASCII adoption is described below.
-iswctype mask 128 remains unsupported. The fresh original
-capture took 1.442 s; native timing is recorded in resume-rich-0128. Header fanout
-made both builds and audit take 10.508 s.
-
-The resource-name collector now preserves marker/whitespace/EOF handling and its
-actual no-argument ABI. The contextual 257-WCHAR workspace has a native bound
-guard reserving its terminator; the original complete capacity and longer-input
-behavior remain unclaimed. A 256-character case passes, and GDB confirms the
-production guard rejects 257 before overwriting the terminator. Original/native
-advance to the language reader in 878.779 / 179.832 ms. Shared explicit-510
-default-C ASCII _wcsupr was adopted by native-only retry against that unchanged
-original; original per-call pointed memory, errors and FP were not measured.
-The typed-denial failure and exact source/artifact identities remain in
-`~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0129/`.
-
-The language reader preserves the complete validation/error flow and actual
-WORD-returning ABI. The packed DWORD token load shares storage with its WORD
-value and BYTE kind; the caller consumes only AX. Both builds/full strict audit
-took 4.181 s. The fresh original/native pair reaches the token scanner with
-actual flags=0 in 1.385 s / 179.115 ms; later language-result behavior remains
-unvisited until that scanner advances. The separate GDB inspection was terminated
-after observing the real flags/caller and is retained as partial debug evidence.
-
-The resource-token scanner preserves marker/whitespace, string/symbol/numeric
-dispatch, source-position fields, flags and BYTE token-kind return promotion.
-Its genuine unread dependencies have named ABI-correct traps. The fresh pair
-reaches the no-argument resource-number reader in 835.084 / 180.662 ms; both
-builds and strict graph/ABI preflight took 4.251 s. No dependency body or later
-scanner dispatch path receives credit from this advance.
-
-The numeric-expression wrapper explicitly resets its two actual DWORD owners
-at 27f88/27f90 and preserves numeric value/long-kind/error flow. A noncoincident
-entry-hook unit confirms both resets while distinct preprocessor/token state
-stays untouched. The original/rebuilt operand identities and corrected typed
-unit callback are retained in resume-rich-0132, including the initial failed
-unit adapter. Fresh original/native advance to the expression helper in
-1.297 s / 180.438 ms. Both builds/full audit took 3.170 s; the focused reset
-unit took 147.349 ms. Later expression results are not yet executed.
-
-The resource expression helper now retains the actual flat arithmetic/bitwise
-operator loop, parenthesis handling and token side effects. Its first operand
-reader remains a genuine named trap. Fresh original/native reach that no-argument
-term reader in 1.233 s / 183.163 ms; both builds/full audit took 2.708 s.
-Unreturned term/operator effects are not assumed by the current acceptance.
-
-The resource-term reader preserves parenthesized recursion, signed/complement
-spelling dispatch, numeric token result and genuine error-name dependency. The
-new adjacent helper exposed a compiler-generated switch table on the preceding
-expression owner. Exact COFF relocation/87-byte remap proof now bounds that
-107-byte text-data interval; strict audit passes without a discovery waiver.
-The failed preflight is preserved, and no original was captured before its
-correction. Fresh original/native reach the integer parser in 1.415 s /
-181.601 ms. No integer-parser body is credited yet.
-
-The full integer parser preserves sign/complement/radix/suffix flow and token
-outputs. Its numeric character/cursor owners are the actual WORD 27f74 and
-pointer 27f80; no prior defaults are claimed. Fresh original/native reach the
-word collector with its actual mutable resource-name pointer in 1.021 s /
-180.134 ms, with both builds/full audit taking 4.110 s. The native pointer alias
-is directly verified; original pointed bytes were not captured and are not
-claimed equal. Radix readers and the collector remain pending.
-
-The word collector now uses its actual punctuation table and returns the
-terminating pointer. Thirteen contextual eight-byte rows (WCHAR character, BYTE
-kind, verified zero reserved fields) are shared with the pending symbol reader;
-no surrounding data is copied. Native owner/length guards preserve the known
-257-WCHAR workspace. The focused boundary/delimiter/foreign-owner unit passes
-in 142.418 ms, with GDB confirming the production overflow trap before the
-reserved NUL. Fresh original/native reach the digit reader in 892.039 /
-181.854 ms. The current native initialized spelling is exactly `0x09` plus NUL;
-later stale buffer words are retained raw and unclaimed. Original pointed bytes
-remain unmeasured. Shared header-only RETAIN publication changed no runtime.
-
-The digit reader retains its WORD return/global store and pointer advance.
-Native reads require the real aligned cursor inside the current terminated
-name, including its initialized NUL; foreign, lower, unaligned, unterminated and
-past-NUL states trap. A focused unit passes in 151.616 ms. GDB confirms the real
-production trap when cursor5 exceeds terminator4, independently of controller
-policy. Fresh original/native advance to the hex parser in 1.445 s /179.653 ms;
-both builds/full audit took 10.227 s with shared-header fanout. Upper EAX outside
-the actual WORD result is unclaimed.
+Current final raw/reference, failed native HeapDestroy denial, native-only
+adoption, exact source snapshots, accounting and gate logs are retained in
+`~/.ai-tmp/msvc2/vc5.10/rcdll/resume-rich-0222/`. Earlier WIP and failure evidence
+remain in their scratch namespaces and Git history. Reconstruction is paused
+after this completed case; no next case has been started.

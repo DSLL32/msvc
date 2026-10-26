@@ -18,11 +18,6 @@ void __stdcall rc_fatal(char *message)
 {
     __asm int 3
 }
-long __stdcall rc_seek(FILE *file, long offset, int origin)
-{
-    __asm int 3
-    return 0;
-}
 void __stdcall rc_write_apstudio_header(FILE *file,DWORD size,WORD id)
 {
     __asm int 3
@@ -45,21 +40,11 @@ void __stdcall rc_resource_data_fatal(unsigned message)
 {
     __asm int 3
 }
-int __stdcall rc_flush_resources(FILE *file)
-{
-    __asm int 3
-    return 0;
-}
-unsigned __stdcall rc_align_output(FILE *file)
-{
-    __asm int 3
-    return 0;
-}
-void __stdcall rc_cleanup(void)
+void __stdcall rc_write_apstudio_symbol(const WCHAR *first,const WCHAR *second,
+                                        const void *unused,WORD value,BYTE kind)
 {
     __asm int 3
 }
-
 WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
 {
     __asm int 3
@@ -205,23 +190,9 @@ void __stdcall rc_resource_error(unsigned code)
     __asm int 3
 }
 
-long __cdecl rc_read_resource_file(void)
-{
-    __asm int 3
-    return 0;
-}
 
 
-int __stdcall rc_parse_resource_style(void *style,unsigned flags)
-{
-    __asm int 3
-    return 0;
-}
-WORD __stdcall rc_scan_resource_value(WORD flags)
-{
-    __asm int 3
-    return 0;
-}
+
 
 
 void __cdecl rc_flush_font_directory(void)
@@ -230,28 +201,16 @@ void __cdecl rc_flush_font_directory(void)
 }
 
 
-RcResource * __stdcall rc_parse_string_table(RcResource *resource)
-{
-    __asm int 3
-    return NULL;
-}
 
-void __stdcall rc_write_string_table(void *table)
-{
-    __asm int 3
-}
-
-void __stdcall rc_parse_accelerators(RcResource *resource)
+void __stdcall rc_report_resource_error(unsigned code)
 {
     __asm int 3
 }
 
 
 
-void __cdecl rc_release_resource_buffer(void)
-{
-    __asm int 3
-}
+
+
 
 long __stdcall rc_convert_icon_file(long size)
 {
@@ -259,16 +218,7 @@ long __stdcall rc_convert_icon_file(long size)
     return 0;
 }
 
-long __cdecl rc_convert_bitmap_file(void)
-{
-    __asm int 3
-    return 0;
-}
 
-void __stdcall rc_parse_raw_resource(RcResource *resource)
-{
-    __asm int 3
-}
 
 int __stdcall rc_parse_font_resource(RcResource *resource)
 {
@@ -276,21 +226,8 @@ int __stdcall rc_parse_font_resource(RcResource *resource)
     return 0;
 }
 
-void __stdcall rc_write_resource(RcResourceType *type,RcResource *resource)
-{
-    __asm int 3
-}
 
-void __stdcall rc_convert_group_resource(RcResourceType *type,RcResource *resource,unsigned kind)
-{
-    __asm int 3
-}
 
-int __stdcall rc_is_riff_resource(long unused_size)
-{
-    __asm int 3
-    return 0;
-}
 
 long __stdcall rc_copy_riff_resource(long size)
 {
@@ -330,55 +267,43 @@ void __stdcall rc_parse_toolbar_resource(RcResource *resource)
     __asm int 3
 }
 
-void __stdcall rc_parse_dialog(RcResource *resource,void *dialog,int extended)
+
+void __stdcall rc_resource_notice_strings(unsigned code,const WCHAR *first,const WCHAR *second,DWORD extra)
 {
     __asm int 3
 }
 
-int __stdcall rc_copy_menu_caption(WCHAR *text)
-{
-    __asm int 3
-    return 0;
-}
-WORD __cdecl rc_scan_menu_commas(void)
-{
-    __asm int 3
-    return 0;
-}
-int __stdcall rc_parse_menu_attribute(unsigned kind,RcMenuItem *item)
-{
-    __asm int 3
-    return 0;
-}
-WORD __stdcall rc_write_menu_item(RcMenuItem *item)
-{
-    __asm int 3
-    return 0;
-}
-void __stdcall rc_write_apstudio_name(const WCHAR *text)
-{
-    __asm int 3
-}
-void __stdcall rc_mark_last_menu_item(WORD offset)
+
+void __stdcall rc_parse_dialog_class(RcDialog *dialog)
 {
     __asm int 3
 }
 
-int __cdecl rc_parse_version_resource(void)
+
+
+
+
+
+void __stdcall rc_patch_control_data_size(WORD size,int enabled)
 {
     __asm int 3
-    return 0;
+}
+void __cdecl rc_convert_dialog_count(void)
+{
+    __asm int 3
 }
 
-void __stdcall rc_parse_dialog_include(RcResource *unused_resource)
+void __stdcall rc_write_mac_string(const WCHAR *text,int flags,int counted)
 {
     __asm int 3
 }
 
-void __stdcall rc_write_resource_source(RcResource *resource,RcResourceType *type,const WCHAR *filename)
+void __stdcall rc_concatenate_resource_string(const WCHAR *text,int flags)
 {
     __asm int 3
 }
+
+
 
 char *__stdcall rc_format_resource_ordinal(WORD id,char *text,int radix)
 {
@@ -400,42 +325,32 @@ void __stdcall rc_read_resource_marker(int mode,DWORD character)
     __asm int 3
 }
 
-void __cdecl rc_read_resource_string(void)
+
+
+
+
+
+
+
+
+
+
+
+void __stdcall rc_resource_error_name(unsigned code,const void *name)
 {
     __asm int 3
 }
-void __cdecl rc_expand_resource_string(void)
+
+void __stdcall rc_resource_file_fatal(unsigned code,const WCHAR *name)
 {
     __asm int 3
 }
 
-void __cdecl rc_read_resource_integer(void)
-{
-    __asm int 3
-}
-
-
-
-
-
-
-
-
-
-void __stdcall rc_resource_error_name(unsigned code,const WCHAR *name)
-{
-    __asm int 3
-}
 
 
 
 
 DWORD __cdecl rc_parse_resource_octal(void)
-{
-    __asm int 3
-    return 0;
-}
-DWORD __cdecl rc_parse_resource_decimal(void)
 {
     __asm int 3
     return 0;
