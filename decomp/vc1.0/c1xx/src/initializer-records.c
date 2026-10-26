@@ -1,5 +1,6 @@
 /* Literal declarations and their segmented initializer records. */
 #include "initializer-records.h"
+#include "initialization.h"
 #include "global-ir.h"
 #include "class-members.h"
 #include "numeric-conversion.h"
@@ -374,4 +375,25 @@ void flush_initializer_records(void)
         }
     }
     initialize_work_stack(&initializer_record_stack);
+}
+
+/* Original0x5bdd0..0x5be78, stdcall4. Function addresses retain the
+   code model's widths; ordinary data addresses use the full distance field. */
+unsigned __stdcall initializer_address_size(CppSymbol *symbol)
+{
+    unsigned kind, attributes;
+    if (!symbol) return 0;
+    kind = symbol->kind & 31;
+    if (kind == 6 || kind == 7) {
+        attributes = symbol->type->attributes & 7;
+        if (attributes == 1 || attributes == 2) return 4;
+        return code_pointer_bytes;
+    }
+    if (kind == 13) return 2;
+    attributes = symbol->type->attributes;
+    if (attributes & 4) return 4;
+    attributes &= 7;
+    if (attributes == 1) return 4;
+    if (attributes == 2 || attributes == 3) return 8;
+    return data_pointer_bytes;
 }

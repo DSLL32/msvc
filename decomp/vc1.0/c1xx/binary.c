@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1961 historical frontiers/1870 App bodies;
- * latest sixteen support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1961 historical frontiers/1873 App bodies;
+ * latest nineteen support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -11586,10 +11586,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_initializer_address_size@4",
         .entry_rva = 0x4bdd0,
-        .code = (const ReconExtent[]) { { 0x4bdd0, 0x4bdd1 } },
+        .code = (const ReconExtent[]) { { 0x4bdd0, 0x4be78 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initializer_address_size",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_write_initializer_value@12",
@@ -12019,12 +12020,13 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
-        .name = "_new_unary_ir_expression@8",
+        .name = "_new_declared_symbol_reference@8",
         .entry_rva = 0x512f0,
-        .code = (const ReconExtent[]) { { 0x512f0, 0x512f1 } },
+        .code = (const ReconExtent[]) { { 0x512f0, 0x51306 } },
         .code_count = 1,
         .definition = RECON_APP,
-        .native_symbol = "new_unary_ir_expression",
+        .native_symbol = "new_declared_symbol_reference",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_symbol_reference@12",
@@ -12085,10 +12087,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_segment_offset_expression@8",
         .entry_rva = 0x51890,
-        .code = (const ReconExtent[]) { { 0x51890, 0x51891 } },
+        .code = (const ReconExtent[]) { { 0x51890, 0x519b0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "segment_offset_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_make_assignment_lvalue@4",

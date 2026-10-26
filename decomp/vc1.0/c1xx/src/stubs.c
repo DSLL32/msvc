@@ -93,14 +93,12 @@ void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
-IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 
 
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
-IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
 
 /* C++ token classification and deferred lookahead. */
 
@@ -255,7 +253,6 @@ unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *
 
 
 
-unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
 
 

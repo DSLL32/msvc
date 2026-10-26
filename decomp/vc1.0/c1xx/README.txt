@@ -1,6 +1,29 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Legacy descriptor support is COMPLETE (native-unit-only): three whole App
+helpers add478 B: declared-symbol reference(22 B), initializer address width
+(168 B) and segment/offset expression(288 B). The scaffold's generic unary/void*
+name is replaced with new_declared_symbol_reference and its real CppSymbol*
+formal. Source callers and the registry use the same identity; ABI remains
+stdcall8. Initializer widths retain the original separate data/code defaults.
+Segment construction retains the offset/segment IR ordering, precise accepted
+shape/flag conditions, type-description save/restore and original diagnostic arms.
+
+Two minimal typed units check actual segment and based-offset owners, constructor
+fields, result type/prefix/flag and stack-depth restoration, plus exact data/code
+address-width domains. No NT CLI spelling/reach is claimed, original gates stay
+unchanged, and no extra initialized bytes or native guard was introduced.
+Total is1,873 App /407,359 B (85.50% of whole original code),23 named pending
+App and seven unchanged historical CRT source bodies. Nineteen helpers are
+explicitly unit-qualified; historical frontiers remain1,961. All52 native cases
+and46 unit groups pass, with original compilation and the1,881-function six-check
+ABI/graph audit. Closing gate3.618 s. Header rebuild27.176 s ended on a missing
+native-test declaration; corrected incremental build1.190 s then passed. Focused
+units24.989/23.434 ms (execution4.520/2.359 ms). No original/oracle/shim change.
+
+Earlier plugin SDK qualification:
+
 Plugin SDK validation is COMPLETE: cases0050/0051 compile the same inline
 singleton/registration SDK with a valid layout and a deliberately private
 anonymous-union field. The normal frontend invocation reaches the40 B generated

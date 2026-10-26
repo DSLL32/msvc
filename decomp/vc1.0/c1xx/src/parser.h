@@ -204,7 +204,7 @@ IrToken *__stdcall begin_member_lookup(unsigned char operation, IrToken *object,
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments);
 void __stdcall record_string_literal(IrToken *literal);
 IrToken *__stdcall builtin_unary_expression(unsigned char operation, IrToken *expression);
-IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value);
+IrToken *__stdcall new_declared_symbol_reference(unsigned char operation, CppSymbol *symbol);
 IrToken *__stdcall member_expression(unsigned char operation, IrToken *object, IrToken *member);
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name);
 IrToken *__stdcall identifier_expression(char *name);

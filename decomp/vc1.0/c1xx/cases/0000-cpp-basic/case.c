@@ -1,6 +1,6 @@
 #include <recon-tool.h>
 #include "entry.h"
-extern const ReconTest c1xx_tests[23];
+extern const ReconTest c1xx_tests[25];
 
 static const uint32_t order[] = {
     0x59630, /* main */

@@ -203,7 +203,7 @@
             POP_DECLARATION();
             break;
         case 315:
-            parser_value.expression = new_unary_ir_expression(0x1b, right[0].symbol);
+            parser_value.expression = new_declared_symbol_reference(0x1b, right[0].symbol);
             break;
         case 317:
             parser_value.expression = member_expression(member_lookup_operator, member_lookup_context, right[0].expression);

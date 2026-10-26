@@ -71,7 +71,7 @@ IrToken *__stdcall based_type_expression(CType *type)
     case 5:
         symbol = shape->data.based_symbol;
         symbol->references += (unsigned short)options.configuration.debug_info;
-        if ((symbol->kind & 31) == 13) return new_unary_ir_expression(0x1b, symbol);
+        if ((symbol->kind & 31) == 13) return new_declared_symbol_reference(0x1b, symbol);
         expression = symbol_reference(symbol);
         return indirect_storage_expression(expression);
     case 6:

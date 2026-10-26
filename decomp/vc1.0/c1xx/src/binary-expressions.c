@@ -7,6 +7,7 @@
 #include "numeric-conversion.h"
 #include "keywords.h"
 #include "call-expressions.h"
+#include "types.h"
 #include <recon.h>
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
@@ -1217,4 +1218,45 @@ IrToken *__stdcall make_comma_lvalue(IrToken *expression)
     expression->tail.right = right;
     expression->type = right->type;
     return expression;
+}
+
+/* Original0x61890..0x619b0, stdcall8. The offset must be a based-void
+   pointer (or carry original flag0x80); the segment is a segment value
+   or an ordinary pointer. IR operands retain offset first and segment second. */
+IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset)
+{
+    TypeShape *shape;
+    TypeDescription *description;
+    IrToken *result;
+    int invalid;
+    if (!segment || !offset) return 0;
+    shape = offset->type->related;
+    if (!shape || ((shape->attributes & 7) != 4 && !(offset->flags & 0x80))) {
+        report_syntax_error(215);
+        return offset;
+    }
+    shape = segment->type->related;
+    if (shape)
+        invalid = (shape->flags & 0x77) != 1 || (shape->attributes & 4);
+    else invalid = !(segment->type->flags & 0x800);
+    if (invalid) {
+        report_invalid_operand(0x68, 1);
+        return offset;
+    }
+    result = new_ir_expression(0x68, offset, segment, 0);
+    description = &type_description_stack[++type_description_depth];
+    description->flags = 0;
+    description->attributes = 0;
+    description->related = 0;
+    description->field08 = description->field0a = 0;
+    if (offset->flags & 0x80) result->flags |= 0x80;
+    description->flags = offset->type->flags;
+    description->attributes = offset->type->attributes;
+    description->related = offset->type->related;
+    description->field08 = offset->type->field08;
+    description->field0a = offset->type->debug_index;
+    result->type = replace_first_type_shape((CType *)description, 1,
+        normalize_type_attributes(1, 0), 0);
+    --type_description_depth;
+    return result;
 }

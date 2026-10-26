@@ -12,6 +12,8 @@
 #include "lexer.h"
 #include "browser.h"
 #include "virtual-table-output.h"
+#include "initializer-records.h"
+#include "types.h"
 #include <recon.h>
 
 static int traps(void (*invoke)(void))
@@ -294,6 +296,59 @@ static int check_database_pool_release(void)
     /* Compare retained field values only; never dereference released blocks. */
     return pool.first == first && pool.current == second && pool.used == 27;
 }
+/* Legacy descriptor algebra is unit-qualified, without claiming that this
+   NT frontend accepts a public segmented-expression spelling. */
+static int check_segment_descriptor_expression(void)
+{
+    CType segment_type = {0}, offset_type = {0};
+    TypeShape based = {0};
+    CppSymbol segment = {0}, offset = {0};
+    IrToken *segment_value, *offset_value, *result;
+    int depth = type_description_depth;
+    initialize_type_table();
+    segment_type.flags = 0x802; segment.kind = 13; segment.type = &segment_type;
+    offset_type.flags = 0x64; offset_type.related = &based;
+    based.flags = 1; based.attributes = 4;
+    offset.kind = 2; offset.type = &offset_type;
+    data_pointer_kind = 1;
+    segment_value = new_declared_symbol_reference(0x1b, &segment);
+    offset_value = new_declared_symbol_reference(2, &offset);
+    if (segment_value->kind != 0x1b || segment_value->flags != 4 ||
+        segment_value->value.pointer != &segment || segment_value->type != &segment_type) return 0;
+    result = segment_offset_expression(segment_value, offset_value);
+    if (!result || result->kind != 0x68 || result->flags != 2 ||
+        result->value.pointer != offset_value || result->tail.right != segment_value ||
+        !result->type || result->type->flags != 0x64 || !result->type->related ||
+        result->type->related->flags != 1 || result->type->related->attributes != 1 ||
+        type_description_depth != depth) return 0;
+    offset_value->flags |= 0x80;
+    result = segment_offset_expression(segment_value, offset_value);
+    return result && result->flags == 0x82 && type_description_depth == depth &&
+        segment_offset_expression(0, offset_value) == 0;
+}
+static int check_initializer_address_widths(void)
+{
+    CppSymbol symbol = {0}; CType type = {0}; TypeShape function = {0};
+    unsigned i;
+    static const unsigned data_widths[8] = {4,4,8,8,4,4,4,4};
+    symbol.type = &type; symbol.kind = 2; type.flags = 0x64;
+    data_pointer_bytes = code_pointer_bytes = 4;
+    if (initializer_address_size(0) != 0) return 0;
+    for (i=0; i<8; ++i) {
+        type.attributes = (unsigned short)i;
+        if (initializer_address_size(&symbol) != data_widths[i]) return 0;
+    }
+    type.attributes = 0; data_pointer_bytes = 8;
+    if (initializer_address_size(&symbol) != 8) return 0;
+    function.flags = 4; type.related = &function;
+    symbol.kind = 6;
+    for (i=0; i<8; ++i) {
+        type.attributes = (unsigned short)i;
+        if (initializer_address_size(&symbol) != 4) return 0;
+    }
+    symbol.kind = 13; type.flags = 0x802; type.related = 0;
+    return initializer_address_size(&symbol) == 2;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -317,5 +372,7 @@ const ReconTest c1xx_tests[] = {
     {"legacy declarator prefix owners (unit-only)",1,check_legacy_prefix_owners},
     {"frontend owner helpers (unit-only)",1,check_frontend_owner_helpers},
     {"thunk-key relocation slot (unit-only)",1,check_thunk_key_relocation},
-    {"database pool release (unit-only)",1,check_database_pool_release}
+    {"database pool release (unit-only)",1,check_database_pool_release},
+    {"segmented descriptor expression (unit-only)",1,check_segment_descriptor_expression},
+    {"initializer address widths (unit-only)",1,check_initializer_address_widths}
 };

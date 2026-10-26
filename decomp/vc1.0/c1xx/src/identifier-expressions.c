@@ -195,6 +195,13 @@ IrToken *__stdcall new_symbol_reference(unsigned char operation,
     return reference;
 }
 
+/* Original0x612f0..0x61306, stdcall8. Infer the declared symbol
+   type, leaving the explicit constructor's other fields and ABI unchanged. */
+IrToken *__stdcall new_declared_symbol_reference(unsigned char operation, CppSymbol *symbol)
+{
+    return new_symbol_reference(operation, symbol, symbol->type);
+}
+
 /* Original 0x61380..0x614f7. Preserve a qualified wrapper in the operand
    while using its target for type classification. Member/overload forms
    deliberately leave type completion to their later resolution path. */
