@@ -15,8 +15,8 @@ Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
 The CLI-qualified checkpoint remains242 application functions and28,712 unique
-original bytes. A ninth, native-only resource-unit case adds26 functions/2,446
-unique bytes, for268 reconstructed App functions/31,158 bytes in total. Its ten
+original bytes. Two native-only resource-unit cases add43 functions/3,798
+unique bytes, for285 reconstructed App functions/32,510 bytes in total. The first ten
 source/disassembly-grounded tests cover the signal callback body (not OS signal
 delivery), listing-byte output, suppression, counted-name handling and comparison,
 named WRES v2 language directories, valid Win16 MRes numeric/named resources,
@@ -26,8 +26,8 @@ The units have no claimed original-runtime or CLI qualification.
 
 Shared chunks count once. The empty CommitDictionaryBlock entry shares another
 function's RET and is explicitly excluded from entry order. There is no verified
-complete non-CRT denominator yet. All268 bodies retain function-graph, ownership
-and extent checks;260 have strict RET checks. Six normal-return owners with cold
+complete non-CRT denominator yet. All285 bodies retain function-graph, ownership
+and extent checks;277 have strict RET checks. Six normal-return owners with cold
 nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
 separate direct-exit residual and explicit terminating-call graph declaration.
 AbortCommand preserves its explicit Env/value1 nonlocal transfer. The formerly
@@ -75,3 +75,12 @@ units without original execution. The final incremental native/period build took
 The resource-unit execution took18.916ms (3.230setup/14.291execution/1.395checks).
 The valid unit assets and source are the only new case contents. The existing
 CLI fixtures retain their original inputs/oracles;0007 remains unaccepted.
+
+The resource-writing case adds17 helpers/1,352 unique bytes through four native
+units: byte/word/dword serialization, Win16 MRes header roundtrip, a valid named
+WRES v2 directory roundtrip, and wide-name/string forms including static and
+allocated conversion buffers. Raw counted-ID bytes are checked independently.
+These are source/disassembly-qualified helpers, not additional CLI observations.
+All eight CLI fixtures and both resource-unit cases pass; the final incremental
+build/audit took174.079/413.141ms. The four writer units took10.354ms;
+all final replay/unit commands took360.997ms wall. No original was executed.

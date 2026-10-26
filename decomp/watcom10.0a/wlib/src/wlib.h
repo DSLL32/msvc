@@ -141,6 +141,7 @@ typedef enum {
     WRS_BAD_VERSION = 4,
     WRS_OPEN_FAILED = 5,
     WRS_CLOSE_FAILED = 6,
+    WRS_WRITE_FAILED = 7,
     WRS_SEEK_FAILED = 9,
     WRS_READ_FAILED = 8,
     WRS_READ_INCOMPLETE = 14,
@@ -176,6 +177,24 @@ int WResReadFixedResRecord1( WResResInfo1 *info, int handle );
 int WResReadFixedResRecord( WResResInfo *info, int handle );
 int readLangInfoList( int handle, WResResNode *node );
 ResNameOrOrdinal *ResReadNameOrOrdinal( int handle );
+int DefaultConversion( int length, const char *source, char *buffer );
+extern int (*ConvToUnicode)( int, const char *, char * );
+int ResWriteUint8( const unsigned char *value, int handle );
+int ResWriteUint16( const unsigned short *value, int handle );
+int ResWriteUint32( const unsigned long *value, int handle );
+int WResWriteWResIDNameUni( const WResIDName *name, unsigned char unicode, int handle );
+int WResWriteWResIDName( const WResIDName *name, int handle );
+int WResWriteWResID( const WResID *id, int handle );
+int WResWriteTypeRecord( const WResTypeInfo *info, int handle );
+int WResWriteResRecord( const WResResInfo *info, int handle );
+int WResWriteLangRecord( const WResLangInfo *info, int handle );
+int WResWriteHeaderRecord( const WResHeader *info, int handle );
+int WResWriteExtHeader( const WResExtHeader *info, int handle );
+int ResWriteString( const char *text, unsigned char unicode, int handle );
+int ResWriteNameOrOrdinal( const ResNameOrOrdinal *name, unsigned char unicode, int handle );
+int MResWriteResourceHeader( const MResResourceHeader *info, int handle );
+ResNameOrOrdinal *ResRead32NameOrOrdinal( int handle );
+char *ResRead32String( int handle, int *length );
 int ResReadUint8( unsigned char *value, int handle );
 int ResReadUint16( unsigned short *value, int handle );
 char *ResReadString( int handle, int *length );
