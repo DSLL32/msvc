@@ -29,8 +29,13 @@
 *
 ****************************************************************************/
 
+#include <string.h>
 #include "cmdline.h"
 #include <recon.h>
+
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen)
+#endif
 
 void SetOS2Fmt( void )
 {
@@ -192,4 +197,158 @@ void FreeOS2Fmt( void )
     FreeImpNameTab();
     FreeExportList();
     FreeSegFlags( FmtData.u.os2.os2_seg_flags );
+}
+
+extern unsigned char ProcInitGlobal( void );
+extern unsigned char ProcInitInstance( void );
+extern unsigned char ProcTermGlobal( void );
+extern unsigned char ProcTermInstance( void );
+
+/* The old thread options share the exact existing Memory/Font setter
+ * entries; they are aliases, not extra calls or newly separate functions. */
+static parse_entry Init_Keywords[] = {
+    { "INITGlobal", ProcInitGlobal, 0x001f },
+    { "INITInstance", ProcInitInstance, 0x001f },
+    { "INITThread", ProcMemory, 0x0010 },
+    { 0, 0, 0 }
+};
+static parse_entry Term_Keywords[] = {
+    { "TERMGlobal", ProcTermGlobal, 0x0016 },
+    { "TERMInstance", ProcTermInstance, 0x0016 },
+    { "TERMThread", ProcFont, 0x0010 },
+    { 0, 0, 0 }
+};
+
+unsigned char ProcOS2DLL( void )
+{
+    FmtData.flags |= 1;
+    Extension = 6;
+    FmtData.u.os2.flags = (FmtData.u.os2.flags & ~3) | 1;
+    if( FmtData.type & 8 ) FmtData.def_seg_flags |= 0x20;
+    if( ProcOne( Init_Keywords, SEP_NO, 0 ) ) {
+        if( !ProcOne( Term_Keywords, SEP_NO, 0 ) ) {
+            if( FmtData.u.os2.flags & 4 ) FmtData.u.os2.flags |= 0x8000;
+        }
+    }
+    return 1;
+}
+
+unsigned char ProcDescription( void )
+{
+    if( !GetToken( SEP_NO, TOK_INCLUDE_DOT ) ) return 0;
+    FmtData.u.os2.description = tostring();
+    return 1;
+}
+
+unsigned char ProcObjAlign( void )
+{
+    unsigned long value;
+
+    if( !HaveEquals( 0 ) ) return 0;
+    if( getatol( &value ) != 0 || value == 0 ) return 0;
+    if( value < 512 || value > 0x10000000UL || (value & (value - 1)) ) {
+        LnkMsg( 0x7a3c, "s", "objalign" );
+        value = 65536;
+    }
+    FmtData.u.pe.objalign = value;
+    return 1;
+}
+
+extern unsigned char AddCommit( void );
+unsigned char ProcCommit( void )
+{
+    return ProcArgList( AddCommit, TOK_INCLUDE_DOT );
+}
+
+extern unsigned char ProcCommitStack( void );
+extern unsigned char ProcCommitHeap( void );
+static parse_entry CommitKeywords[] = {
+    { "STack", ProcCommitStack, 0x0010 },
+    { "Heap", ProcCommitHeap, 0x0010 },
+    { 0, 0, 0 }
+};
+
+unsigned char AddCommit( void )
+{
+    Token.thumb = REJECT;
+    return ProcOne( CommitKeywords, SEP_NO, 0 ) != 0;
+}
+
+unsigned char ProcCommitStack( void )
+{
+    return GetLong( &FmtData.u.pe.stackcommit );
+}
+
+unsigned char ProcCommitHeap( void )
+{
+    return GetLong( &FmtData.u.pe.heapcommit );
+}
+
+unsigned char ProcOS2HeapSize( void )
+{
+    unsigned long value;
+
+    if( !HaveEquals( 0 ) ) return 0;
+    if( getatol( &value ) != 0 || value == 0 ) {
+        LnkMsg( 0x7a3c, "s", "heapsize" );
+    } else {
+        FmtData.u.os2.heapsize = value;
+    }
+    return 1;
+}
+
+extern unsigned char getimport( void );
+unsigned char ProcOS2Import( void )
+{
+    return ProcArgList( getimport, 0 );
+}
+
+unsigned char getimport( void )
+{
+    char *intname, *modname, *extname;
+    unsigned char state;
+    unsigned short ordinal;
+    symbol *sym;
+    dll_sym_info *dll;
+
+    intname = tostring();
+    if( !GetToken( SEP_NO, 0 ) ) {
+        _LnkFree( intname );
+        return 0;
+    }
+    modname = tostring();
+    state = 2;
+    if( GetToken( SEP_PERIOD, TOK_INCLUDE_DOT ) ) {
+        state = getatoi( &ordinal );
+        if( state == 1 ) {
+            extname = tostring();
+        } else if( state == 2 ) {
+            LnkMsg( 0x7b28, 0 );
+            _LnkFree( intname );
+            _LnkFree( modname );
+            return 1;
+        }
+    }
+    sym = SymOp( 0x26, intname, strlen( intname ) );
+    if( sym != 0 && sym->u.import == 0 ) {
+        sym->info = (sym->info & 0xfff0) | 0x4006;
+        dll = ChkLAlloc( sizeof(dll_sym_info) );
+        sym->u.import = dll;
+        dll->modnum = AddImpName( modname, strlen( modname ), 1 );
+        if( state == 0 ) {
+            dll->isordinal = 1;
+            dll->entry = ordinal;
+        } else {
+            dll->isordinal = 0;
+            if( state == 1 ) {
+                dll->entry = AddImpName( extname, strlen( extname ), 0 );
+                _LnkFree( extname );
+            } else {
+                dll->entry = AddImpName( intname, strlen( intname ), 0 );
+            }
+        }
+    }
+    _LnkFree( intname );
+    _LnkFree( modname );
+    return 1;
 }

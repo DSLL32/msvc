@@ -625,3 +625,33 @@ void XWriteImports( void )
         }
     }
 }
+
+extern void SetSymAlias( symbol *, char *, int );
+void MakeSymAlias( char *name, int namelen, char *target, int targetlen )
+{
+    symbol *sym;
+
+    if( namelen == targetlen && CmpSym( name, target, namelen ) == 0 ) {
+        LnkMsg( 0x324a, "s", target );
+        _LnkFree( target );
+        return;
+    }
+    sym = SymXOp( 6, name, namelen );
+    if( (sym->info & 15) == 5 ) {
+        LnkMsg( 0x327d, "S", sym );
+        if( sym->info & 0x10 ) _LnkFree( sym->p.alias );
+    } else if( sym->info & 0x1000 ) {
+        _LnkFree( target );
+        return;
+    }
+    sym->info |= 0x10;
+    SetSymAlias( sym, target, targetlen );
+    SymOp( 2, target, targetlen );
+}
+
+void SetSymAlias( symbol *sym, char *target, int targetlen )
+{
+    sym->p.alias = target;
+    sym->u.aliaslen = targetlen;
+    sym->info = (sym->info & 0xfff0) | 0x1005;
+}

@@ -32,6 +32,9 @@
 #include <string.h>
 #include "cmdline.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen)
+#endif
 
 static unsigned short CurrModHandle;     /* original450066 */
 static mod_entry **ModTable;             /* original441df8 */
@@ -91,15 +94,15 @@ void SetSegments( void )
         for( index = 1; index <= CurrModHandle; ++index ) {
             mod = ModTable[index];
             CurrMod = mod;
-            ovlref = ((module_segments *)mod->unknown16)->ovlref;
+            ovlref = ((module_segments *)mod->arcs)->ovlref;
             if( ovlref == 0xffff ) sect = Root;
             else sect = SectOvlTab[ovlref];
             CurrSect = sect;
             SetModSegments( mod );
             sect = CurrSect;
-            mod->unknown16 = 0;
+            mod->arcs = 0;
             owner = &sect->u.dist_mods;
-            while( *owner != 0 ) owner = (mod_entry **)&(*owner)->unknown16;
+            while( *owner != 0 ) owner = (mod_entry **)&(*owner)->arcs;
             *owner = mod;
             mod->next_mod = (mod_entry *)sect;
         }
@@ -111,4 +114,123 @@ void SetSegments( void )
         SectOvlTab = 0;
     }
     ReleasePass1();
+}
+
+void InitArcBuffer( mod_entry *mod )
+{
+    if( !(LinkFlags & 4) || !(LinkState & 2) ) {
+        mod->arcs = PermAlloc( sizeof(segdata *) );
+        *(segdata **)mod->arcs = 0;
+    }
+}
+
+/* This older DefModSegments receives the saved segment list and publist
+ * directly, before the later source merged those arguments into mod_entry. */
+extern void DefModSegments( segdata *, symbol * );
+void SetModSegments( mod_entry *mod )
+{
+    for( ; mod != 0; mod = mod->next_mod ) {
+        CurrMod = mod;
+        DefModSegments( *(segdata **)mod->arcs, mod->publist );
+        DBIP1ModuleScanned();
+        if( mod->modinfo & 0x4000 ) DBIGenModule( mod );
+        FreeSavedSegs();
+    }
+}
+
+void SetSectSegments( section *sect )
+{
+    CurrSect = sect;
+    SetModSegments( sect->mods );
+}
+
+extern void SetSavedSegs( segdata * );
+extern void LinkSavedSeg( segdata * );
+extern void ClearBit( void *, unsigned );
+extern void RestoreComdat( symbol *, segdata * );
+extern void DBIAddModLines( unsigned );
+extern void FinishComdat( saved_seg * );
+void DefModSegments( segdata *segs, symbol *syms )
+{
+    segdata *seg;
+    symbol *sym;
+    unsigned type;
+    unsigned char removed;
+
+    SetSavedSegs( segs );
+    for( seg = segs; seg != 0; seg = seg->next ) {
+        if( (seg->flags & 1) || !(LinkFlags & 0x10000UL) ) {
+            seg->cl.entry = FindClass( CurrSect, seg->cl.name->name, seg->acbp & 1 );
+            seg->u.leader = AddSegment( seg, 0, CurrSect, &seg->a.saved_addr );
+            DBIAddModLines( seg->line_size );
+        } else {
+            seg->flags |= 0x10;
+            ClearBit( SavedSegMask, seg->index );
+        }
+    }
+    for( sym = syms; sym != 0; sym = sym->publink ) {
+        if( sym->info & 0x10 ) {
+            sym->info &= ~0x10;
+            removed = 0;
+            if( LinkFlags & 0x10000UL ) {
+                seg = sym->p.seg;
+                if( !(seg->flags & 1) ) {
+                    if( sym->e.def != 0 ) WeldSyms( sym, sym->e.def );
+                    else sym->info |= 0x10;
+                    removed = 1;
+                    if( LinkFlags & 0x02000000UL ) LnkMsg( 0x2090, "S", sym );
+                } else if( (sym->info & 0x0e) == 2 ) {
+                    seg->flags &= ~4;
+                    if( ((segdata *)seg->u.leader)->flags & 0x10 ) {
+                        RestoreComdat( sym, seg );
+                    } else {
+                        seg->u.leader = ((segdata *)seg->u.leader)->u.leader;
+                        FinishComdat( seg );
+                    }
+                    LinkSavedSeg( seg );
+                    removed = 1;
+                }
+            }
+            if( !removed ) {
+                seg = sym->p.seg;
+                sym->addr.off += seg->a.saved_addr;
+                sym->p.leader = seg->u.leader;
+            }
+        }
+        type = sym->info & 0x0f;
+        if( type < 7 && type != 5 && sym->p.leader != 0
+            && !(sym->info & 0x10) && (sym->p.leader->info & 0x38) != 0 ) {
+            DBIAddGlobal( sym, strlen( sym->name ) );
+        }
+    }
+}
+
+void FixGroupProblems( void )
+{
+    group_entry *group;
+    seg_leader **first, **cursor, **prev, *leader;
+    short index, limit;
+
+    for( group = Groups; group != 0; group = group->next_group ) {
+        if( group->autogroup == -1 ) continue;
+        first = group->leaders + group->autogroup;
+        cursor = first;
+        limit = group->num;
+        for( index = group->autogroup; index < limit; ++index ) {
+            leader = ((segdata *)*cursor)->u.leader;
+            for( prev = first; prev < cursor; ++prev ) {
+                if( *prev == leader ) {
+                    memmove( cursor, cursor + 1, (limit - index - 1) * sizeof(*cursor) );
+                    --group->num;
+                    ++group->free_slots;
+                    leader = 0;
+                    break;
+                }
+            }
+            if( leader != 0 ) {
+                leader->group = group;
+                *cursor++ = leader;
+            }
+        }
+    }
 }

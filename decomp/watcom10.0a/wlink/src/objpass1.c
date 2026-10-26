@@ -107,8 +107,8 @@ void AllocateSegment( segdata *seg )
         seg->u.name->flags = 1;
         seg->cl.name->flags = 1;
         seg->index = NextSegIndex - 1;
-        seg->sect_id = CurrSect->sect_addr.seg;
-        LinkList( CurrMod->unknown16, seg );
+        seg->owner.normal.sect_id = CurrSect->sect_addr.seg;
+        LinkList( CurrMod->arcs, seg );
         node->info |= 0x0100;
         return;
     }
@@ -195,11 +195,11 @@ seg_leader *AddSegment( segdata *seg, segnode *node, section *sect,
         if( DBISkip( info ) ) return 0;
         if( LinkState & 0x1000 ) {
             node->addr.off = 0;
-            node->addr.seg = seg->frame;
+            node->addr.seg = seg->a.absolute.frame;
         }
         leader = MakeNewLeader( seg->cl.entry, seg->u.name, seg->length, info );
         leader->seg_addr.off = 0;
-        leader->seg_addr.seg = seg->frame;
+        leader->seg_addr.seg = seg->a.absolute.frame;
         leader->info |= 0x4000;
         leader->section = sect;
         return leader;
@@ -515,5 +515,19 @@ void DefineSymbol( symbol *sym, segnode *seg, unsigned long off,
         if( LinkFlags & 0x10000UL ) CleanStripInfo( sym );
         XDefSymAddr( sym, off, frame );
         sym->p.seg = 0;
+    }
+}
+
+void FindRedefs( void )
+{
+    struct saved_public *saved;
+    symbol *sym;
+
+    for( saved = SavedPublics; saved != 0; saved = saved->next ) {
+        sym = saved->sym;
+        if( sym->p.seg != saved->seg->entry || sym->addr.off != saved->off ) {
+            CurrMod = saved->mod;
+            ReportMultiple( sym, sym->name, strlen( sym->name ) );
+        }
     }
 }

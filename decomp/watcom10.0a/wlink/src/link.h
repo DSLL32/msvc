@@ -38,6 +38,7 @@ typedef struct dbi_section {
 extern void DoAddLocal( dbi_section *, unsigned long );
 struct group_entry;
 typedef struct segdata segdata;
+typedef struct edgelist edgelist;
 typedef struct segnode segnode;
 typedef struct class_entry class_entry;
 typedef struct seg_leader seg_leader;
@@ -76,8 +77,8 @@ typedef struct symbol {
     struct symbol *publink;
     struct { unsigned long off; unsigned short seg; } addr;
     unsigned short info;
-    union { char *alias; void *seg; } p;
-    union { dll_sym_info *import; unsigned long value; } u;
+    union { char *alias; void *seg; seg_leader *leader; edgelist *edges; } p;
+    union { dll_sym_info *import; int aliaslen; segdata *comdat; unsigned long value; } u;
     union { void *def; unsigned long value; } e;
     char name[1];
 } symbol;
@@ -386,7 +387,7 @@ struct mod_entry {
     char *name;
     unsigned long location;
     symbol *publist;
-    void *unknown16;
+    void *arcs;                 /* segment-list owner or distributed-module data */
     mod_entry *next_mod;
     union { odbimodinfo *o; void *d; void *cv; } d;
     unsigned short modinfo;
@@ -549,12 +550,17 @@ struct segdata {
     unsigned long length;
     union { list_of_names *name; seg_leader *leader; } u;
     union { list_of_names *name; class_entry *entry; } cl;
-    unsigned short frame;
-    unsigned char unknown18[2];
+    union {
+        struct { unsigned short frame; unsigned char reserved[2]; } absolute;
+        unsigned long saved_addr;
+        edgelist *refs;
+    } a;
     unsigned long line_size;
     unsigned index;
-    unsigned short sect_id;
-    unsigned short unknown30;
+    union {
+        struct { unsigned short sect_id, reserved; } normal;
+        symbol *sym;
+    } owner;
     unsigned char acbp;
     unsigned char flags;
 };
@@ -629,7 +635,7 @@ extern char *DBIModName;
 extern unsigned DBIModNameLen;
 extern void ODBIGenModule( mod_entry * );
 extern void DwarfGenModule( void );
-extern void CVGenModule( void );
+extern void CVP1ModuleFinished( mod_entry * );
 extern void DBIGenModule( mod_entry * );
 extern void ReleaseNamelist( void * );
 extern void ReleaseNames( void );
@@ -640,7 +646,8 @@ extern void FreeObjCache( file_list * );
 extern void CacheClose( file_list *, unsigned );
 extern void FreeMods( mod_entry * );
 extern void FreeAMod( mod_entry * );
-typedef struct saved_seg saved_seg;
+typedef segdata saved_seg;
+extern saved_seg *SavedSegs;
 extern void ResetSegAddr( void * );
 extern void ResetSavedSegAddr( saved_seg * );
 extern void FinishComdat( saved_seg * );

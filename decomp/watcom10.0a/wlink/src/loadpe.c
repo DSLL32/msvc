@@ -614,3 +614,59 @@ unsigned long WriteRelocList( void **reloclist, unsigned long size,
     }
     return size;
 }
+
+int namecmp( const void *a, const void *b )
+{
+    entry_export *left, *right;
+
+    left = *(entry_export * const *)a;
+    right = *(entry_export * const *)b;
+    return strcmp( left->name, right->name );
+}
+
+void WriteDescription( pe_header *header, pe_object *object )
+{
+    unsigned long length;
+
+    length = strlen( FmtData.u.os2.description );
+    strncpy( (char *)object->name, ".desc", 8 );
+    object->physical_offset = NullAlign( header->file_align );
+    object->rva = header->image_size;
+    object->flags = 0x40000040UL;
+    object->physical_size = (length + header->file_align - 1) & ~(header->file_align - 1);
+    WriteLoad( FmtData.u.os2.description, (unsigned short)length );
+    header->table[PE_TBL_DESCRIPTION].size = length;
+    header->table[PE_TBL_DESCRIPTION].rva = object->rva;
+    header->image_size += (length + header->object_align - 1) & ~(header->object_align - 1);
+}
+
+extern unsigned long CVSize;
+#pragma pack(1)
+typedef struct cvdebugdirectory {
+    unsigned long flags, timestamp;
+    unsigned short major, minor;
+    unsigned long type, size, rva, seek;
+} cvdebugdirectory;
+#pragma pack()
+void WriteDebugTable( pe_header *header, pe_object *object )
+{
+    cvdebugdirectory dir;
+
+    strncpy( (char *)object->name, ".rdata", 8 );
+    object->physical_offset = NullAlign( header->file_align );
+    object->rva = header->image_size;
+    object->flags = 0x40000040UL;
+    object->physical_size = (sizeof(dir) + header->file_align - 1) & ~(header->file_align - 1);
+    dir.flags = 0;
+    dir.timestamp = 0;
+    dir.major = 4;
+    dir.minor = 0;
+    dir.type = 2;
+    dir.size = CVSize;
+    dir.rva = object->rva;
+    dir.seek = object->physical_offset + object->physical_size;
+    WriteLoad( &dir, sizeof(dir) );
+    header->table[PE_TBL_DEBUG].size = sizeof(dir);
+    header->table[PE_TBL_DEBUG].rva = object->rva;
+    header->image_size += (sizeof(dir) + header->object_align - 1) & ~(header->object_align - 1);
+}

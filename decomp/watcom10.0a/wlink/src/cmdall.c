@@ -30,11 +30,13 @@
 ****************************************************************************/
 
 #include <string.h>
+#include <ctype.h>
+#include <malloc.h>
 #include "cmdline.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
-#pragma intrinsic(strlen,strcpy)
+#pragma intrinsic(strlen,strcpy,memcpy)
 #endif
 
 /* Actual old option table: no later per-entry flags member. */
@@ -296,4 +298,95 @@ file_list *AddObjLib( char *name, unsigned char priority )
         LinkState |= 4;
     }
     return newproc;
+}
+
+unsigned char ProcCodeviewDBI( void )
+{
+    if( LinkFlags & 0x4001 ) LnkMsg( 0x7a95, 0 );
+    else LinkFlags |= 0x20;
+    return 1;
+}
+
+unsigned char ProcVersion( void )
+{
+    unsigned char result;
+    unsigned short value;
+
+    if( !GetToken( SEP_EQUALS, 0 ) ) return 0;
+    FmtData.minor = 0;
+    FmtData.revision = 0;
+    if( getatoi( &FmtData.major ) != 0 ) {
+        LnkMsg( 0x7a3c, "s", "version" );
+        return 1;
+    }
+    FmtData.flags |= 2;
+    if( !GetToken( SEP_PERIOD, 0 ) ) return 1;
+    if( getatoi( &value ) != 0 || value >= 100 ) {
+        LnkMsg( 0x7a3c, "s", "version" );
+        return 1;
+    }
+    FmtData.minor = value;
+    if( !GetToken( SEP_PERIOD, 0 ) ) return 1;
+    result = getatoi( &value );
+    if( result == 1 && Token.len == 1 ) {
+        FmtData.revision = tolower( (unsigned char)*Token.this ) - 'a' + 1;
+    } else if( result == 0 && value < 27 ) {
+        FmtData.revision = value;
+    } else {
+        LnkMsg( 0x7a3c, "s", "version" );
+    }
+    return 1;
+}
+
+extern unsigned char ProcOS2HeapSize( void );
+extern unsigned char ProcQNXHeapSize( void );
+unsigned char ProcHeapsize( void )
+{
+    if( HintFormat( 0x001f ) ) return ProcOS2HeapSize();
+    if( HintFormat( 0x4200 ) ) return ProcQNXHeapSize();
+    return 1;
+}
+
+unsigned char ProcEliminate( void )
+{
+    LinkFlags |= 0x10000UL;
+    return 1;
+}
+
+extern unsigned char AddAlias( void );
+unsigned char ProcAlias( void )
+{
+    return ProcArgList( AddAlias, TOK_INCLUDE_DOT );
+}
+
+extern void MakeSymAlias( char *, int, char *, int );
+unsigned char AddAlias( void )
+{
+    char *name;
+    int namelen, targetlen;
+    char *target;
+
+    namelen = Token.len;
+    name = alloca( namelen );
+    memcpy( name, Token.this, namelen );
+    if( !GetToken( SEP_EQUALS, TOK_INCLUDE_DOT ) ) return 0;
+    targetlen = Token.len;
+    target = tostring();
+    MakeSymAlias( name, namelen, target, targetlen );
+    return 1;
+}
+
+extern unsigned char AddReference( void );
+unsigned char ProcReference( void )
+{
+    return ProcArgList( AddReference, TOK_INCLUDE_DOT );
+}
+
+unsigned char AddReference( void )
+{
+    symbol *sym;
+
+    sym = SymXOp( 0x12, Token.this, Token.len );
+    sym->info |= 0x4000;
+    return 1;
 }

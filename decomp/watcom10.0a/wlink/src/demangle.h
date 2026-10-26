@@ -113,12 +113,19 @@ typedef struct output_desc {
     unsigned reserved : 28;
 } output_desc;
 typedef char old_output_descriptor_is_56[(sizeof(output_desc) == 56) ? 1 : -1];
+#pragma pack(1)
+typedef struct state_desc {
+    unsigned prefix, suffix;
+    unsigned char right : 1;
+} state_desc;
+#pragma pack()
+typedef char old_state_descriptor_is_9[(sizeof(state_desc) == 9) ? 1 : -1];
 extern void init_globals( realloc_fn_t );
 extern int __is_mangled( const char *, unsigned );
 extern void init_descriptor( output_desc *, outfunPtr, void *, const char *,
                              unsigned, char *, unsigned );
 extern void demangleEmit( void **, dm_pts, int, const char * );
-extern void do_demangle( output_desc * );
+extern int do_demangle( output_desc * );
 extern void do_copy( output_desc * );
 extern char nextChar( output_desc * );
 extern void advanceChar( output_desc * );

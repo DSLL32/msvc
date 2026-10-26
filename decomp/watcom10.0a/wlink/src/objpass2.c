@@ -270,3 +270,81 @@ unsigned long TrimTrailingZeros( unsigned char *data, unsigned long len, unsigne
     while( len > min && data[len - 1] == 0 ) --len;
     return len;
 }
+
+extern void WriteIteratedData( unsigned char *, unsigned long, unsigned );
+unsigned char *ExpandIteratedData( unsigned char *data, unsigned long repeat )
+{
+    unsigned short blocks, count;
+    unsigned char size, *start;
+    unsigned long repetitions;
+
+    if( repeat == 0 ) return CurrIterated->buffer + CurrIterated->length;
+    blocks = *(unsigned short *)data;
+    data += 2;
+    if( blocks == 0 ) {
+        size = *data++;
+        do {
+            WriteIteratedData( data, repeat, size );
+        } while( --repeat != 0 );
+        data += size;
+    } else {
+        start = data;
+        do {
+            data = start;
+            count = blocks;
+            do {
+                if( CurrIterated->is32 ) {
+                    repetitions = *(unsigned long *)data;
+                    data += 4;
+                } else {
+                    repetitions = *(unsigned short *)data;
+                    data += 2;
+                }
+                data = ExpandIteratedData( data, repetitions );
+            } while( --count != 0 );
+        } while( --repeat != 0 );
+    }
+    return data;
+}
+
+static unsigned short IteratedBufferSize; /* original4501c4 */
+extern void ApplyIteratedFixups( unsigned char *, unsigned short );
+void WriteIteratedData( unsigned char *data, unsigned long repeat, unsigned len )
+{
+    unsigned long size, oldlen;
+    lobject_data *rec;
+
+    if( CurrRec == 0 ) {
+        size = repeat * len;
+        if( size > 0xff5c ) IteratedBufferSize = 0xff5c;
+        else if( size < 1024 ) IteratedBufferSize = 1024;
+        else IteratedBufferSize = size;
+        CurrRec = LAlloc( 27 + IteratedBufferSize );
+        if( CurrRec == 0 ) {
+            IteratedBufferSize = 1024;
+            CurrRec = ChkLAlloc( 27 + IteratedBufferSize );
+        }
+        rec = CurrRec;
+        rec->seg = CurrIterated->seg;
+        rec->fixups = 0;
+        rec->offset = 0;
+        rec->data = CurrIterated->data;
+        rec->length = len;
+        memcpy( rec->buffer, data, len );
+    } else {
+        rec = CurrRec;
+        if( rec->length + len - rec->offset <= IteratedBufferSize ) {
+            memcpy( rec->buffer + rec->length - rec->offset, data, len );
+            rec->length += len;
+        } else {
+            ApplyObjectFixups();
+            rec = CurrRec;
+            oldlen = rec->length;
+            rec->data += oldlen - rec->offset;
+            rec->offset = oldlen;
+            rec->length = oldlen + len;
+            memcpy( rec->buffer, data, len );
+        }
+    }
+    if( LinkState & 1 ) ApplyIteratedFixups( data, (unsigned short)len );
+}

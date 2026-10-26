@@ -236,3 +236,33 @@ snamelist *IndexSName( snamelist *list, unsigned index )
     while( list != 0 && --index != 0 ) list = list->next;
     return list;
 }
+
+void ResetSavedSegAddr( saved_seg *seg )
+{
+    if( !(seg->flags & 0x10) && seg->u.leader != 0 )
+        seg->u.leader->info &= ~0x40;
+}
+
+static void (*ModSegmentProc)( seg_leader * ); /* original4501b0 */
+extern void ProcSegNode( void * );
+extern void ProcSavedSeg( saved_seg * );
+void ProcModSegments( void (*fn)(seg_leader *) )
+{
+    ModSegmentProc = fn;
+    IterateNodelist( SegNodes, ProcSegNode );
+    WalkSavedSegs( ProcSavedSeg );
+}
+
+void ProcSegNode( void *node )
+{
+    seg_leader *leader;
+
+    leader = ((segnode *)node)->entry;
+    if( leader != 0 ) ModSegmentProc( leader );
+}
+
+void ProcSavedSeg( saved_seg *seg )
+{
+    if( !(seg->flags & 0x10) && seg->u.leader != 0 )
+        ModSegmentProc( seg->u.leader );
+}

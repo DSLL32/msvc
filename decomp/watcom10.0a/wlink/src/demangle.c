@@ -36,6 +36,10 @@
 #include "demangle.h"
 #include <recon.h>
 
+#define _output1(k) data->outfun( &data->cookie, (k), 0, 0 )
+#define _output2(k,v) data->outfun( &data->cookie, (k), (v), 0 )
+#define _output3(k,v,p) data->outfun( &data->cookie, (k), (v), (p) )
+
 extern int checkInternal( const char * );
 
 int __is_mangled_internal( const char *name, unsigned len )
@@ -510,4 +514,593 @@ unsigned terminateOutput( output_desc *data )
         data->output[outlen] = '\0';
     }
     return outlen;
+}
+
+int checkInternal( const char *name )
+{
+    if( name[0] == '.' || (name[0] == '$' && tolower((unsigned char)name[1]) == 'w') )
+        return 2;
+    if( name[0] == '$' && tolower((unsigned char)name[1]) == 'c'
+        && tolower((unsigned char)name[2]) == 't' ) return 3;
+    if( name[0] == '$' && tolower((unsigned char)name[1]) == 'd'
+        && tolower((unsigned char)name[2]) == 't' ) return 4;
+    return 1;
+}
+
+extern int mangled_name( output_desc * );
+int do_demangle( output_desc *data )
+{
+    unsigned advances;
+
+    advances = 1;
+    switch( nextChar( data ) ) {
+    case 'T':
+        advances += 4;
+        data->outfun( &data->cookie, DM_TRUNCATED_NAME, 0, 0 );
+        /* fall through */
+    case 'W':
+        advanceChar( data );
+        if( nextChar( data ) == '?' ) {
+            while( advances != 0 ) {
+                advanceChar( data );
+                if( nextChar( data ) == 0 ) return 0;
+                --advances;
+            }
+            return mangled_name( data );
+        }
+        break;
+    }
+    return 0;
+}
+
+extern int scoped_name( output_desc *, state_desc * );
+extern int type_encoding( output_desc *, state_desc * );
+int mangled_name( output_desc *data )
+{
+    state_desc state;
+
+    data->outfun( &data->cookie, DM_MANGLED_NAME, 0, 0 );
+    state.prefix = 0;
+    state.suffix = 0;
+    state.right = 0;
+    if( scoped_name( data, &state ) ) {
+        data->outfun( &data->cookie, DM_RESET_INDEX, 0, 0 );
+        data->outfun( &data->cookie, DM_ZAP_SPACE, 0, 0 );
+        return type_encoding( data, &state );
+    }
+    return 0;
+}
+
+extern int sym_name( output_desc *, state_desc * );
+extern int scope( output_desc *, state_desc * );
+int scoped_name( output_desc *data, state_desc *state )
+{
+    _output1( DM_SCOPED_NAME );
+    if( sym_name( data, state ) ) {
+        while( nextChar( data ) == ':' ) {
+            _output2( DM_SET_INDEX, state->prefix );
+            _output1( DM_SCOPE_SEPARATOR );
+            advanceChar( data );
+            if( !scope( data, state ) ) return 0;
+            _output1( DM_ZAP_SPACE );
+        }
+        return 1;
+    }
+    return 0;
+}
+
+extern int op_name( output_desc *, state_desc * );
+extern int name( output_desc *, state_desc * );
+int sym_name( output_desc *data, state_desc *state )
+{
+    _output1( DM_NAME );
+    if( nextChar( data ) == '$' ) {
+        advanceChar( data );
+        return op_name( data, state );
+    }
+    return name( data, state );
+}
+
+typedef struct replicate_desc {
+    const char *ptr;
+    unsigned len;
+} replicate_desc;
+static replicate_desc replicate[10];      /* original450300 */
+extern int is_identifier( unsigned char );
+
+int name( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    c = nextChar( data );
+    if( isdigit( c ) ) {
+        size_t len;
+        char const *id;
+
+        c = c - '0';
+        /* This older binary indexes the ten-entry cache directly. */
+        id = replicate[c].ptr;
+        len = replicate[c].len;
+        if( data->ctdt_pending ) {
+            _output2( DM_RESET_INDEX, data->pending_loc );
+            _output1( DM_CTOR_DTOR_NAME );
+            _output3( DM_IDENTIFIER, len, id );
+            data->ctdt_pending = 0;
+        }
+        if( data->scope_name && data->scope_index == 0 ) {
+            data->scope_name = 0;
+            data->scope_ptr = id;
+            data->scope_len = len;
+        }
+        _output2( DM_SET_INDEX, state->prefix );
+        _output3( DM_IDENTIFIER, len, id );
+        _output1( DM_EMIT_SPACE );
+        advanceChar( data );
+        return( 1 );
+    } else {
+        char const *ptr = data->input;
+        size_t  len = 0;
+        while( is_identifier( c ) ) {
+            len++;
+            advanceChar( data );
+            c = nextChar( data );
+        }
+        if( data->scope_name && data->scope_index == 0 ) {
+            data->scope_name = 0;
+            data->scope_ptr = ptr;
+            data->scope_len = len;
+        }
+        if( c == '$' ) {
+            advanceChar( data );
+            if( data->ctdt_pending ) {
+                _output2( DM_RESET_INDEX, data->pending_loc );
+                _output1( DM_CTOR_DTOR_NAME );
+                _output3( DM_IDENTIFIER, len, ptr );
+                data->ctdt_pending = 0;
+            }
+            _output2( DM_SET_INDEX, state->prefix );
+            _output3( DM_IDENTIFIER, len, ptr );
+            _output1( DM_EMIT_SPACE );
+            if( next_replicate < 10 ) {
+                replicate[next_replicate].ptr = ptr;
+                replicate[next_replicate].len = len;
+                next_replicate++;
+            }
+            return( 1 );
+        }
+    }
+    return( 0 );
+}
+
+
+int is_identifier( unsigned char c )
+{
+    return isalnum( c ) || c == '_' || c == '.';
+}
+
+void setEmitIndex( output_desc *data, unsigned index )
+{
+    data->index = index;
+}
+
+void resetEmitIndex( output_desc *data, unsigned offset )
+{
+    unsigned index;
+
+    index = data->count - offset;
+    if( index >= data->size ) index = data->size - 1;
+    data->index = index;
+}
+
+void zapSpace( output_desc *data )
+{
+    unsigned last;
+
+    if( data->output == 0 || data->index > data->size ) return;
+    if( data->output[data->index - 1] != ' ' ) return;
+    --data->count;
+    if( data->index != data->count + 1 ) {
+        last = data->size < data->count ? data->size : data->count;
+        if( last >= data->index ) {
+            memmove( &data->output[data->index - 1], &data->output[data->index],
+                     last - data->index + 1 );
+        }
+    }
+    --data->index;
+}
+
+extern int typeChar( unsigned char, int );
+extern int modifier_list( output_desc *, state_desc * );
+extern int unmodified_type( output_desc *, state_desc * );
+int type_encoding( output_desc *data, state_desc *state )
+{
+    _output1( DM_TYPE_ENCODING );
+    if( typeChar( (unsigned char)nextChar( data ), CHAR_MODIFIER ) ) {
+        if( !modifier_list( data, state ) ) return 0;
+    }
+    return unmodified_type( data, state );
+}
+
+int typeChar( unsigned char c, int grouping )
+{
+    c -= LOWER_TABLE_LIMIT;
+    if( c < sizeof(translate_type_encoding) / sizeof(translate_type_encoding[0]) )
+        return translate_type_encoding[c].grouping == grouping;
+    return 0;
+}
+
+extern int based_encoding( output_desc *, state_desc * );
+int modifier_list( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    _output1( DM_MODIFIER_LIST );
+    c = nextChar( data );
+    while( typeChar( c, CHAR_MODIFIER ) ) {
+        advanceChar( data );
+        if( c != 'U' || nextChar( data ) != 'A' ) {
+            _output2( DM_SET_INDEX, state->prefix );
+            _output2( DM_CHAR_ENCODING, (int)c - LOWER_TABLE_LIMIT );
+        }
+        if( c == 'J' && !based_encoding( data, state ) ) return 0;
+        c = nextChar( data );
+    }
+    return 1;
+}
+
+void emitStr( output_desc *data, const char *text )
+{
+    if( text != 0 ) {
+        while( *text != 0 ) emitChar( data, *text++ );
+    }
+}
+
+extern int function( output_desc *, state_desc * );
+extern int tq_function( output_desc *, state_desc * );
+extern int array( output_desc *, state_desc * );
+extern int pointer( output_desc *, state_desc * );
+extern int basic_type( output_desc *, state_desc * );
+int unmodified_type( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    _output1( DM_UNMODIFIED_TYPE );
+    c = nextChar( data );
+    if( c == '$' ) {
+        advanceChar( data );
+        if( scoped_name( data, state ) && nextChar( data ) == '$' ) {
+            advanceChar( data );
+            return 1;
+        }
+    } else if( c == '(' ) {
+        advanceChar( data );
+        return function( data, state );
+    } else if( c == '.' ) {
+        advanceChar( data );
+        return tq_function( data, state );
+    } else if( c == '[' ) {
+        return array( data, state );
+    } else if( typeChar( c, CHAR_POINTER ) ) {
+        if( pointer( data, state ) ) {
+            state->right = 1;
+            return type_encoding( data, state );
+        }
+    } else {
+        return basic_type( data, state );
+    }
+    return 0;
+}
+
+extern void setSuppression( output_desc * );
+extern void resetSuppression( output_desc * );
+int function( output_desc *data, state_desc *state )
+{
+    state_desc new_state;
+    size_t          conv_offset;
+    int             first_arg = 0;
+    char            c;
+
+    _output1( DM_FUNCTION );
+    _output2( DM_RESET_INDEX, state->suffix );
+    if( data->cv_pending ) {
+        _output1( DM_EMIT_SPACE );
+        conv_offset = data->index;
+    } else {
+        _output1( DM_ZAP_SPACE );
+    }
+    if( state->right ) {
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPEN_PAREN );
+        _output2( DM_RESET_INDEX, state->suffix );
+        _output1( DM_CLOSE_PAREN );
+        state->right = 0;
+    }
+    new_state = *state;
+    _output1( DM_FUNCTION_PREFIX );
+    setSuppression( data );
+    c = nextChar( data );
+    while( c != ')' ) {
+        if( first_arg ) {
+            _output2( DM_RESET_INDEX, state->suffix );
+            _output1( DM_ZAP_SPACE );
+            _output1( DM_FUNCTION_ARG_SEPARATOR );
+        }
+        new_state.prefix = data->index;
+        if( !type_encoding( data, &new_state ) ) {
+            return( 0 );
+        }
+        first_arg = 1;
+        c = nextChar( data );
+    }
+    advanceChar( data );
+    _output2( DM_RESET_INDEX, state->suffix );
+    if( !first_arg ) {
+        _output1( DM_ZAP_SPACE );
+    }
+    resetSuppression( data );
+    _output1( DM_FUNCTION_SUFFIX );
+    if( data->cv_pending ) {
+        _output2( DM_SET_INDEX, conv_offset );
+    } else {
+        _output2( DM_SET_INDEX, state->prefix );
+    }
+    new_state.prefix = data->index;
+    if( type_encoding( data, &new_state ) ) {
+        data->cv_pending = 0;
+        return( 1 );
+    } else {
+        return( 0 );
+    }
+}
+
+
+void setSuppression( output_desc *data )
+{
+    if( data->suppress_output != 0 ) ++data->suppress_output;
+}
+
+extern char prevChar( output_desc * );
+int basic_type( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    _output1( DM_BASIC_TYPE );
+    c = nextChar( data );
+    if( typeChar( c, CHAR_BASIC_TYPE ) ) {
+        if( c == 'C' && prevChar( data ) != 'U' ) {
+            _output2( DM_SET_INDEX, state->prefix );
+            _output1( DM_CHAR_ENCODING_SIGNED );
+        }
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output2( DM_CHAR_ENCODING, (int)c - LOWER_TABLE_LIMIT );
+        return 1;
+    }
+    return 0;
+}
+
+void resetSuppression( output_desc *data )
+{
+    if( data->suppress_output != 0 ) --data->suppress_output;
+}
+
+extern int ctor_or_convert( output_desc *, state_desc * );
+extern int dtor_or_delete( output_desc *, state_desc * );
+extern int op_new( output_desc *, state_desc * );
+extern int assignment_function( output_desc *, state_desc * );
+extern int relational_function( output_desc *, state_desc * );
+extern int operator_function( output_desc *, state_desc * );
+extern int special_type_names( output_desc *, state_desc * );
+extern int watcom_object( output_desc *, state_desc * );
+int op_name( output_desc *data, state_desc *state )
+{
+    switch( tolower((unsigned char)nextChar( data )) ) {
+    case 'c':
+        advanceChar( data );
+        return ctor_or_convert( data, state );
+    case 'd':
+        advanceChar( data );
+        return dtor_or_delete( data, state );
+    case 'n':
+        advanceChar( data );
+        return op_new( data, state );
+    case 'a':
+        advanceChar( data );
+        return assignment_function( data, state );
+    case 'r':
+        advanceChar( data );
+        return relational_function( data, state );
+    case 'o':
+        advanceChar( data );
+        return operator_function( data, state );
+    case 't':
+        advanceChar( data );
+        return special_type_names( data, state );
+    case 'w':
+        advanceChar( data );
+        return watcom_object( data, state );
+    }
+    return 0;
+}
+
+int ctor_or_convert( output_desc *data, state_desc *state )
+{
+    char c;
+
+    c = nextChar( data );
+    if( c == 'T' ) {
+        advanceChar( data );
+        _output1( DM_CONSTRUCTOR );
+        data->pending_loc = data->count - data->index;
+        data->ctdt_pending = 1;
+        return 1;
+    } else if( c == 'V' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_CONVERT );
+        data->cv_pending = 1;
+        return 1;
+    }
+    return 0;
+}
+
+extern int check_recurse( void );
+extern int recursive_mangled_name( output_desc *, state_desc * );
+extern int template_name( output_desc *, state_desc * );
+int scope( output_desc *data, state_desc *state )
+{
+    char c;
+    state_desc new_state;
+
+    _output1( DM_SCOPE );
+    if( data->scope_name && data->scope_index > 0 ) --data->scope_index;
+    c = nextChar( data );
+    if( c == '?' ) {
+        advanceChar( data );
+        if( check_recurse() ) return recursive_mangled_name( data, state );
+    } else if( c == ':' ) {
+        advanceChar( data );
+        new_state = *state;
+        new_state.suffix = data->count - state->prefix;
+        return template_name( data, &new_state );
+    } else {
+        return sym_name( data, state );
+    }
+    return 0;
+}
+
+extern int template_arg( output_desc *, state_desc * );
+int template_name( output_desc *data, state_desc *state )
+{
+    state_desc new_state;
+    int             first_arg = 0;
+    char            c;
+
+    _output1( DM_TEMPLATE_NAME );
+    new_state = *state;
+    _output2( DM_RESET_INDEX, state->suffix );
+    _output1( DM_TEMPLATE_PREFIX );
+    c = nextChar( data );
+    while( c == '0' || c == '1' || c == '?' ) {
+        if( first_arg ) {
+            _output2( DM_RESET_INDEX, state->suffix );
+            _output1( DM_ZAP_SPACE );
+            _output1( DM_TEMPLATE_ARG_SEPARATOR );
+        }
+        new_state.prefix = data->index;
+        if( !template_arg( data, &new_state ) ) {
+            return( 0 );
+        }
+        first_arg = 1;
+        c = nextChar( data );
+    }
+    _output2( DM_RESET_INDEX, state->suffix );
+    if( !first_arg ) {
+        _output1( DM_ZAP_SPACE );
+    }
+    _output1( DM_TEMPLATE_SUFFIX );
+    return( 1 );
+}
+
+
+extern int base_32_num( output_desc *, int * );
+int template_arg( output_desc *data, state_desc *state )
+{
+    char c;
+
+    _output1( DM_TEMPLATE_ARG );
+    c = nextChar( data );
+    if( c == '0' ) {
+        int value;
+        advanceChar( data );
+        if( base_32_num( data, &value ) ) {
+            c = nextChar( data );
+            if( c == 'Z' ) {
+                advanceChar( data );
+                _output2( DM_SET_INDEX, state->prefix );
+                _output2( DM_INTEGER, value );
+                return( 1 );
+            } else if( c == 'Y' ) {
+                advanceChar( data );
+                _output2( DM_SET_INDEX, state->prefix );
+                _output2( DM_INTEGER, -value );
+                return( 1 );
+            }
+        }
+    } else if( c == '1' ) {
+        advanceChar( data );
+        return( type_encoding( data, state ) );
+    } else if( c == '?' ) {
+        advanceChar( data );
+        if( check_recurse() ) {
+            return( recursive_mangled_name( data, state ) );
+        }
+    }
+    return( 0 );
+}
+
+
+int tq_function( output_desc *data, state_desc *state )
+{
+    char c;
+    char const *tq_ptr;
+    size_t tq_len;
+
+    _output1( DM_THIS_FUNCTION );
+    tq_ptr = data->input;
+    tq_len = 0;
+    c = nextChar( data );
+    while( typeChar( c, CHAR_MODIFIER ) ) {
+        // note: doesn't handle based modifiers
+        tq_len++;
+        advanceChar( data );
+        c = nextChar( data );
+    }
+    if( c == '(' ) {
+        advanceChar( data );
+        if( function( data, state ) ) {
+            _output2( DM_RESET_INDEX, state->suffix );
+            if( tq_len > 0 ) {
+                _output1( DM_EMIT_SPACE );
+                while( tq_len-- ) {
+                    _output2( DM_CHAR_ENCODING, (int)toupper((unsigned char)*tq_ptr++) - LOWER_TABLE_LIMIT );
+                }
+                _output1( DM_ZAP_SPACE );
+            }
+            return( 1 );
+        }
+    }
+    return( 0 );
+}
+
+
+int pointer( output_desc *data, state_desc *state )
+{
+    unsigned char c;
+
+    _output1( DM_POINTER );
+    c = nextChar( data );
+    if( typeChar( c, CHAR_POINTER ) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output2( DM_CHAR_ENCODING, (int)c - LOWER_TABLE_LIMIT );
+        if( c == 'M' ) {
+            c = nextChar( data );
+            if( c == '$' ) {
+                advanceChar( data );
+                if( !scoped_name( data, state ) ) {
+                    return( 0 );
+                }
+                c = nextChar( data );
+                if( c != '$' ) {
+                    return( 0 );
+                }
+                advanceChar( data );
+                _output1( DM_ZAP_SPACE );
+            }
+        }
+        return( 1 );
+    }
+    return( 0 );
 }

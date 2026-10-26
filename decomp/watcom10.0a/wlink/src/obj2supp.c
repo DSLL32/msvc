@@ -29,9 +29,14 @@
 *
 ****************************************************************************/
 
+#include <string.h>
 #include "cmdline.h"
 #include "fixup.h"
 #include <recon.h>
+
+#ifdef __WATCOMC__
+#pragma intrinsic(memcpy)
+#endif
 
 extern unsigned char CheckSpecials( fixup_record *, fixup_ref * );
 extern void PatchData( fixup_record *, fixup_ref * );
@@ -568,4 +573,61 @@ pending_reloc *NewReloc( void )
     rel->next = (pending_reloc *)CurrRec->fixups;
     CurrRec->fixups = (path_entry *)rel;
     return rel;
+}
+
+/* Convert the actual output selector to its one-based CodeView group index. */
+unsigned short GetCVSegment( unsigned short seg )
+{
+    group_entry *group;
+    unsigned index;
+
+    index = 1;
+    for( group = Groups; group != 0; group = group->next_group, ++index ) {
+        if( group->grp_addr.seg == seg ) return index;
+    }
+    return 0;
+}
+
+void ApplyIteratedFixups( unsigned char *data, unsigned short len )
+{
+    pending_reloc *rel, *copy;
+    unsigned long base, start, end, adjust;
+
+    base = CurrIterated->addr.off;
+    start = base + (data - CurrIterated->buffer);
+    end = start + len;
+    for( rel = (pending_reloc *)CurrIterated->fixups; rel != 0; rel = rel->next ) {
+        if( rel->offset < start || rel->offset >= end ) continue;
+        copy = NewReloc();
+        memcpy( copy->data, rel->data, sizeof(copy->data) );
+        copy->length = rel->length;
+        copy->span = rel->span;
+        adjust = CurrRec->length - len - start + base;
+        copy->offset = rel->offset + adjust;
+        if( FmtData.type & 9 ) {
+            *(unsigned short *)(copy->data + 2) += adjust;
+        } else if( FmtData.type & 6 ) {
+            *(unsigned short *)(copy->data + 2) =
+                (*(unsigned short *)(copy->data + 2) + adjust) & 0x0fff;
+        } else if( FmtData.type & 0x0100 ) {
+            *(unsigned long *)copy->data += adjust;
+        } else if( FmtData.type & 0x4200 ) {
+            if( copy->flags & 2 ) *(unsigned long *)copy->data += adjust;
+            else *(unsigned long *)(copy->data + 2) += adjust;
+        } else if( FmtData.type & 0x1000 ) {
+            *(unsigned long *)copy->data += adjust;
+        } else if( FmtData.type & 0x10 ) {
+            *(unsigned short *)copy->data =
+                (*(unsigned short *)copy->data + adjust) & 0x0fff;
+        } else {
+            *(unsigned short *)copy->data += adjust;
+        }
+    }
+}
+
+void ReleaseIteratedRecord( void )
+{
+    if( LinkState & 1 ) FreeList( CurrIterated->fixups );
+    _LnkFree( CurrIterated );
+    CurrIterated = 0;
 }

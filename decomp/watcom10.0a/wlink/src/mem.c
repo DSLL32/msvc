@@ -3,6 +3,7 @@
  * The released mem.c confirms both operations are empty without TRACKER,
  * _INT_DEBUG or the other platform-specific reserve-memory configurations. */
 #include <stdlib.h>
+#include <malloc.h>
 #include "link.h"
 #include <recon.h>
 
@@ -37,4 +38,25 @@ void *LAlloc( unsigned size )
 void _LnkFree( void *ptr )
 {
     if( ptr != 0 ) free( ptr );
+}
+
+void *LnkExpand( void *memory, unsigned size )
+{
+    return _expand( memory, size );
+}
+
+extern unsigned char CacheRelease( void );
+extern unsigned char SwapOutVirt( void );
+extern unsigned char SwapOutRelocs( void );
+void *LnkReAlloc( void *memory, unsigned size )
+{
+    void *ptr;
+
+    for( ;; ) {
+        ptr = realloc( memory, size );
+        if( ptr != 0 ) return ptr;
+        if( !CacheRelease() && !SwapOutVirt() && !SwapOutRelocs() ) {
+            LnkMsg( 0x3409, 0 );
+        }
+    }
 }

@@ -459,3 +459,13 @@ void SetFormat( void )
     if( FmtData.type & 0x4200 ) CmdQNXFini();
     SetRelocSize();
 }
+
+extern unsigned char ProcOS2Import( void );
+extern unsigned char ProcELFImport( void );
+extern unsigned char ProcNovImport( void );
+unsigned char ProcImport( void )
+{
+    if( HintFormat( 0x001f ) ) return ProcOS2Import();
+    if( HintFormat( 0x8000 ) ) return ProcELFImport();
+    return ProcNovImport();
+}

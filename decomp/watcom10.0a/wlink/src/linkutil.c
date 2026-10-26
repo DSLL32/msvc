@@ -157,3 +157,8 @@ unsigned short binary_log( unsigned short value )
     }
     return log;
 }
+
+void ClearBit( void *bits, unsigned bit )
+{
+    ((unsigned char *)bits)[bit >> 3] &= ~(1U << (bit & 7));
+}

@@ -383,7 +383,7 @@ void ProcSegDef( void )
     if( ObjFormat & 1 ) seg->acbp |= 1;
     align = (seg->acbp >> 5) & 7;
     if( align == 0 ) {
-        seg->frame = *(unsigned short *)ObjBuff;
+        seg->a.absolute.frame = *(unsigned short *)ObjBuff;
         ObjBuff += 3;
         seg->flags |= 8;
     } else if( align == 6 && !(ObjFormat & 3) ) {

@@ -178,7 +178,7 @@ void DBIGenModule( mod_entry *mod )
     if( !(LinkFlags & 0x4021) ) return;
     if( LinkFlags & 0x4000 ) ODBIGenModule( mod );
     else if( LinkFlags & 1 ) DwarfGenModule();
-    else CVGenModule();
+    else CVP1ModuleFinished( mod );
     _LnkFree( DBIModName );
     DBIModName = 0;
 }
@@ -337,4 +337,14 @@ void WriteDBI( void )
         QClose( handle, SymFileName );
         Root->outfile->handle = saved;
     }
+}
+
+extern void ODBIAddModLines( unsigned );
+extern void DwarfAddModLines( unsigned );
+extern void CVAddModLines( unsigned );
+void DBIAddModLines( unsigned count )
+{
+    if( LinkFlags & 0x4000 ) ODBIAddModLines( count );
+    else if( LinkFlags & 1 ) DwarfAddModLines( count );
+    else if( LinkFlags & 0x20 ) CVAddModLines( count );
 }

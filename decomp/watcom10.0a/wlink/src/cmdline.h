@@ -66,7 +66,7 @@ typedef struct fmt_data {
     int cpu_type;
     unsigned long base;
     unsigned short major, minor;
-    unsigned char common_reserved;
+    unsigned char revision;
     unsigned char flags;          /* bit0 dll, original4500b3 */
     char *osname;              /* old final common pointer, original4500b4 */
 } fmt_data;

@@ -168,3 +168,14 @@ outfilelist *NewOutFile( char *filename )
     OutFiles = fnode;
     return fnode;
 }
+
+unsigned char IsSystemBlock( void )
+{
+    cmdfilelist *temp;
+
+    if( Token.how == SYSTEM ) return 1;
+    for( temp = CmdFile; temp != 0; temp = temp->prev ) {
+        if( temp->token.how == SYSTEM ) return 1;
+    }
+    return 0;
+}

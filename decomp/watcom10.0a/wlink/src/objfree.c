@@ -88,7 +88,7 @@ void FreeObjInfo( void )
 
 /* Provisional role names: this older saved segment list predates the
  * released source's storage and carve organization. */
-static saved_seg *SavedSegs;       /* original44125c */
+saved_seg *SavedSegs;       /* original44125c */
 
 void FreeSavedSegs( void )
 {
@@ -96,9 +96,7 @@ void FreeSavedSegs( void )
     SavedSegs = 0;
 }
 
-struct saved_seg {
-    struct saved_seg *next;
-};
+
 
 void WalkSavedSegs( void (*fn)(saved_seg *) )
 {
@@ -207,4 +205,54 @@ void FreeSegFlags( seg_flags *list )
 void FreeAGroup( group_entry *group )
 {
     _LnkFree( group->leaders );
+}
+
+void FreeSavedSeg( saved_seg *seg )
+{
+    if( !(seg->flags & 0x80) ) FreeSegData( seg );
+}
+
+void SetSavedSegs( segdata *seg )
+{
+    SavedSegs = seg;
+}
+
+void LinkSavedSeg( segdata *seg )
+{
+    seg->next = SavedSegs;
+    SavedSegs = seg;
+}
+
+extern void RestoreComdat( symbol *, segdata * );
+extern void RestoreLinkerComdat( symbol * );
+void FinishSavedSeg( saved_seg *seg )
+{
+    symbol *sym;
+    unsigned long off;
+
+    sym = seg->owner.sym;
+    if( !(sym->info & 0x10) ) {
+        if( seg->u.leader == 0 ) RestoreLinkerComdat( sym );
+        else if( seg->flags & 0x10 ) RestoreComdat( sym, seg );
+        else AddToSegment( sym->u.comdat, &off );
+    }
+}
+
+extern char *GetClassName( seg_leader * );
+extern void WriteSeg( char *, char *, unsigned short, address, unsigned long, unsigned char );
+void WriteSavedSeg( saved_seg *seg )
+{
+    seg_leader *leader;
+    char *class;
+    symbol *sym;
+    address addr;
+
+    leader = seg->u.leader;
+    if( leader != 0 ) {
+        class = seg->cl.entry != 0 ? seg->cl.entry->name : GetClassName( leader );
+        sym = seg->owner.sym;
+        addr.off = sym->addr.off;
+        addr.seg = sym->addr.seg;
+        WriteSeg( leader->segname->name, class, leader->info, addr, seg->length, 1 );
+    }
 }

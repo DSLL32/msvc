@@ -184,6 +184,76 @@ def main():
                      'member_public_offset': 63, 'member_segment_length': 187,
                      'body_sha256': hashlib.sha256(body).hexdigest()}
     }]
+    # Shipped nexpand splits wrapper0..58, helper58..457, epilogue457..472.
+    # Original old CRT combines these roles; keep the actual rebuilt ranges.
+    if '_expand_' in symbols:
+        expand = symbols['_expand_']
+        assert symbols['_nexpand_'] == expand
+        assert symbols['__HeapManager_expand_'] == expand + 58
+        expected_expand = bytearray(472)
+        for at, expected_offset in ((150426, 0), (150654, 175), (150865, 348)):
+            length = int.from_bytes(library_bytes[at+1:at+3], 'little') + 3
+            record = library_bytes[at:at+length]
+            assert record[0] == 0xa1 and sum(record) & 255 == 0
+            assert record[3] == 1
+            offset = int.from_bytes(record[4:8], 'little')
+            assert offset == expected_offset
+            expected_expand[offset:offset+len(record)-9] = record[8:-1]
+        offset = image_offset(expand, 472)
+        actual_expand = data[offset:offset+472]
+        relocations = (12, 17, 33, 47, 167, 179, 268, 333, 385, 407, 442, 459)
+        relocation_bytes = {i for at in relocations for i in range(at, at+4)}
+        assert all(a == b for i, (a, b) in enumerate(zip(actual_expand, expected_expand))
+                   if i not in relocation_bytes)
+        def map_data_symbol(name):
+            found = re.search(r'0002:([0-9a-fA-F]+)\s*[+*]?\s*' + re.escape(name) + r'\s*$', map_path.read_text(), re.M)
+            assert found, name
+            return dgroup[0] + int(found[1], 16)
+        for at, name in ((12, '__AccessNHeap'), (47, '__ReleaseNHeap'),
+                         (459, '__ReleaseNHeap'), (17, '___nheapbeg'),
+                         (167, '___nheapbeg'), (179, '___nheapbeg'),
+                         (385, '___nheapbeg'), (407, '___nheapbeg'),
+                         (268, '___fheap_clean'), (333, '___fheap_clean')):
+            assert struct.unpack_from('<I', actual_expand, at)[0] == map_data_symbol(name)
+        assert expand + 37 + struct.unpack_from('<i', actual_expand, 33)[0] == expand + 58
+        assert expand + 446 + struct.unpack_from('<i', actual_expand, 442)[0] == symbols['_nfree_']
+        assert min(address for address in symbols.values() if address > expand + 58) >= expand + 472
+        runtime.append({
+            'name': '_nexpand', 'start': expand, 'end': expand + 58,
+            'shared': [], 'code_chunks': [[expand + 457, expand + 472]],
+            'evidence': {'image_sha256': digest(image), 'map_sha256': digest(map_path),
+                         'library_sha256': digest(library), 'member': 'nexpand',
+                         'member_segment_length': 472, 'wrapper_offsets': [[0,58],[457,472]],
+                         'contribution_sha256': hashlib.sha256(actual_expand).hexdigest()}
+        })
+    if 'realloc_' in symbols:
+        start = symbols['realloc_']
+        assert symbols['_nrealloc_'] == start
+        at = 155681
+        length = int.from_bytes(library_bytes[at+1:at+3], 'little') + 3
+        record = library_bytes[at:at+length]
+        assert record[0] == 0xa1 and sum(record) & 255 == 0
+        assert record[3:8] == bytes.fromhex('0100000000')
+        expected_realloc = record[8:-1]
+        assert len(expected_realloc) == 131
+        body = data[image_offset(start, 131):image_offset(start, 131)+131]
+        calls = ((19, '_nmalloc_'), (30, '_nfree_'), (39, '_nmsize_'),
+                 (48, '_nexpand_'), (62, '_nmalloc_'), (104, '_nfree_'),
+                 (115, '_nexpand_'))
+        fields = {i for at, _ in calls for i in range(at, at+4)}
+        assert all(a == b for i,(a,b) in enumerate(zip(body, expected_realloc)) if i not in fields)
+        for at, name in calls:
+            assert start + at + 4 + struct.unpack_from('<i', body, at)[0] == symbols[name]
+        assert body[-1] == 0xc3
+        assert min(address for address in symbols.values() if address > start) >= start + 131
+        runtime.append({
+            'name': 'realloc', 'start': start, 'end': start + 131,
+            'shared': [], 'code_chunks': [],
+            'evidence': {'image_sha256': digest(image), 'map_sha256': digest(map_path),
+                         'library_sha256': digest(library), 'member': 'nrealloc',
+                         'member_segment_length': 131,
+                         'body_sha256': hashlib.sha256(body).hexdigest()}
+        })
     runtime_path = ROOT / '.build/runtime-rebuilt.json'
     runtime_path.parent.mkdir(exist_ok=True)
     runtime_path.write_text(json.dumps(runtime, indent=2) + '\n')

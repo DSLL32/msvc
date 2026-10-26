@@ -2836,6 +2836,591 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcOS2DLL": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCodeviewDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVersion": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDescription": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcObjAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCommit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddCommit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCommitStack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCommitHeap": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcHeapsize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2HeapSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcEliminate": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeSymAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSymAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Import": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "getimport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "IsSystemBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitArcBuffer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVInitModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSubSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcComdat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefStripSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLinsym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DoStripReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DataRef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RefSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddEdge": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AllocEdge": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeEdge": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FinishComdat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVP1ModuleScanned": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetSavedSegAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeSavedSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PruneNonSymEdges": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CleanStripInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RefGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeEdgeList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LnkExpand": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LnkReAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSectSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetModSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefModSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSavedSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIAddModLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddModLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkSavedSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVP1ModuleFinished": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ClearBit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FixGroupProblems": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindRedefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddrStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVDumpInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVAddModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenSubSection": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGenGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGetSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "checkInternal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "do_demangle": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "mangled_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "scoped_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "sym_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "is_identifier": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "setEmitIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "resetEmitIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "zapSpace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "type_encoding": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "typeChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "modifier_list": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "emitStr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "unmodified_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "setSuppression": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "basic_type": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "resetSuppression": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "op_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ctor_or_convert": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "scope": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "template_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "template_arg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "tq_function": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "pointer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGenAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGenLocal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SaveComdatData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGenLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetCVSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FinishSavedSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteSavedSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVP2Module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SortRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SwapRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RelocCompare": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GenSrcModHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcModSegments": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegNode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVGenSegInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSavedSeg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExpandIteratedData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteIteratedData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ApplyIteratedFixups": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReleaseIteratedRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "namecmp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDescription": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteDebugTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CVWriteDBI": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -2851,6 +3436,10 @@
     {
       "owner": "MapSizes",
       "entry": "EndTime"
+    },
+    {
+      "owner": "CleanStripInfo",
+      "entry": "RefGroup"
     }
   ],
   "shared_terminal_epilogues": [
@@ -3043,6 +3632,36 @@
         "start": 4292432,
         "bytes_hex": "c3"
       }
+    },
+    {
+      "owners": [
+        "LAlloc",
+        "LnkReAlloc"
+      ],
+      "original": {
+        "start": 4404000,
+        "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "DBIAddModLines",
+        "DBIGenLines"
+      ],
+      "original": {
+        "start": 4390766,
+        "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "emitChar",
+        "emitStr"
+      ],
+      "original": {
+        "start": 4380724,
+        "bytes_hex": "595bc3"
+      }
     }
   ],
   "function_properties": {
@@ -3052,13 +3671,7 @@
     "ProcNovExport": {
       "pending_extent": false
     },
-    "CVInit": {
-      "pending_extent": false
-    },
     "OvlPass1": {
-      "pending_extent": false
-    },
-    "CVAddLocal": {
       "pending_extent": false
     },
     "OvlDefVector": {
@@ -3068,9 +3681,6 @@
       "pending_extent": false
     },
     "DwarfAddLines": {
-      "pending_extent": false
-    },
-    "CVAddLines": {
       "pending_extent": false
     },
     "DwarfDefClass": {
@@ -3085,28 +3695,25 @@
     "DwarfGenAddrInfo": {
       "pending_extent": false
     },
-    "CVGenAddrInfo": {
-      "pending_extent": false
-    },
-    "CVGenLocal": {
-      "pending_extent": false
-    },
     "OvlUseVector": {
       "pending_extent": false
     },
     "DwarfGenLines": {
       "pending_extent": false
     },
-    "CVGenLines": {
-      "pending_extent": false
-    },
     "ODBIFini": {
       "pending_extent": false
     },
-    "CVFini": {
+    "XWriteImports": {
       "pending_extent": false
     },
-    "XWriteImports": {
+    "ProcQNXHeapSize": {
+      "pending_extent": false
+    },
+    "ProcELFImport": {
+      "pending_extent": false
+    },
+    "ProcNovImport": {
       "pending_extent": false
     }
   }
