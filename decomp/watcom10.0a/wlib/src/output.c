@@ -191,3 +191,16 @@ void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
     CheckMemoryHook();
     exit( 1 );
 }
+
+/* Original0x412a5c..0x412a67: CRT callback records a deferred break.
+   Event delivery is the runtime's responsibility, not this application body. */
+void HandleSignal( int signal_number )
+{
+    BreakRequested = 1;
+}
+
+/* Original0x4120a5..0x4120bf: listing's low-stack one-byte fallback. */
+void WriteListingCharacter( unsigned char ch, int handle )
+{
+    write( handle, &ch, 1 );
+}

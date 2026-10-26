@@ -1395,3 +1395,10 @@ int special_type_names( output_desc *data, state_desc *state )
     }
     return( 0 );
 }
+
+/* Original0x415080..0x41508b. Nested suppression is represented by
+   adding three only when no forced-suppression level is already present. */
+void forceSuppression( output_desc *data )
+{
+    if( data->suppress_output <= 2 ) data->suppress_output += 3;
+}

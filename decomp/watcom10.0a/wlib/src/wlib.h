@@ -19,6 +19,20 @@ typedef struct handle_info {
 } HANDLE_INFO;
 typedef char WlibResourceHandleSize[(sizeof(HANDLE_INFO) == 8) ? 1 : -1];
 #pragma pack(1)
+typedef union ResNameOrOrdinal {
+    struct { unsigned char fFlag; unsigned short wOrdinalID; } ord;
+    char name[1];
+} ResNameOrOrdinal;
+typedef struct MResResourceHeader {
+    ResNameOrOrdinal *Type, *Name;
+    unsigned short MemoryFlags;
+    unsigned long Size;
+} MResResourceHeader;
+typedef struct VarString {
+    char partString[64];
+    int lastLoc;
+    struct VarString *next;
+} VarString;
 typedef struct WResIDName {
     unsigned char NumChars;
     char Name[1];
@@ -121,6 +135,8 @@ struct WResRoutines {
 extern struct WResRoutines WResRtns;
 extern long FileShift;             /* Original VA 0x430440. */
 typedef enum {
+    WRS_BAD_PARAMETER = 1,
+    WRS_DUP_ENTRY = 2,
     WRS_BAD_SIG = 3,
     WRS_BAD_VERSION = 4,
     WRS_OPEN_FAILED = 5,
@@ -159,6 +175,27 @@ int readResList( int handle, WResTypeNode *type, unsigned short version );
 int WResReadFixedResRecord1( WResResInfo1 *info, int handle );
 int WResReadFixedResRecord( WResResInfo *info, int handle );
 int readLangInfoList( int handle, WResResNode *node );
+ResNameOrOrdinal *ResReadNameOrOrdinal( int handle );
+int ResReadUint8( unsigned char *value, int handle );
+int ResReadUint16( unsigned short *value, int handle );
+char *ResReadString( int handle, int *length );
+VarString *VarStringStart( void );
+void VarStringAddChar( VarString *list, int ch );
+int ComputeVarStringLen( VarString *list );
+char *VarStringEnd( VarString *list, int *length );
+MResResourceHeader *MResReadResourceHeader( int handle );
+void MResFreeResourceHeader( MResResourceHeader *header );
+WResID *WResIDFromNameOrOrd( const ResNameOrOrdinal *name );
+WResID *WResIDFromNum( long number );
+WResID *WResIDFromStr( const char *name );
+WResTypeNode *newTypeNode( const WResID *type );
+WResResNode *newResNode( const WResID *name );
+WResLangNode *newLangNode( unsigned short flags, unsigned long offset,
+                           unsigned long length, WResLangType *lang );
+int WResAddResource( const WResID *type, const WResID *name,
+                     unsigned short flags, unsigned long offset,
+                     unsigned long length, WResDir dir, WResLangType *lang,
+                     int *duplicate );
 int readMResDir( int handle, WResDir dir, int *dup_discarded );
 
 void CheckMemoryHook( void );       /* Original VA 0x411fdf; name unknown. */
@@ -166,7 +203,7 @@ int InitMsg( const char *image_name );
 void MsgGet( int resourceid, char *buffer );
 int LoadString( HANDLE_INFO *instance, unsigned resourceid,
                 char __far *buffer, int capacity );
-void WResIDFromNum( unsigned short number, WResID *id );
+void WResInitIDFromNum( unsigned short number, WResID *id );
 WResDirWindow WResFindResource( const WResID *type, const WResID *name,
                                WResDir dir, WResLangType *lang );
 WResLangInfo *WResGetLangInfo( WResDirWindow window );

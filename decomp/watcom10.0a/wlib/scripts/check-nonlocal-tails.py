@@ -149,7 +149,20 @@ assert read_va(rebuilt, end - 15, 5) == bytes.fromhex('ba01000000')
 env_matches = re.findall(r'^0002:([0-9a-fA-F]{8})[ *+]\s+_Env\s*$',
                          (project / 'build/wlib.map').read_text(), re.M)
 assert len(env_matches) == 1
-env_address = 0x420000 + int(env_matches[0], 16)
+# The rebuilt DGROUP may move to another64K section boundary as App code
+# grows. Resolve its actual PE virtual address instead of assuming420000.
+pe_data = rebuilt.read_bytes()
+pe_at = struct.unpack_from('<I', pe_data, 0x3c)[0]
+section_count = struct.unpack_from('<H', pe_data, pe_at + 6)[0]
+optional_size = struct.unpack_from('<H', pe_data, pe_at + 20)[0]
+image_base = struct.unpack_from('<I', pe_data, pe_at + 52)[0]
+data_sections = []
+for section in range(section_count):
+    at = pe_at + 24 + optional_size + 40 * section
+    if pe_data[at:at + 8].rstrip(b'\0') == b'DGROUP':
+        data_sections.append(image_base + struct.unpack_from('<I', pe_data, at + 12)[0])
+assert len(data_sections) == 1
+env_address = data_sections[0] + int(env_matches[0], 16)
 assert read_va(rebuilt, end - 10, 5) == b'\xb8' + struct.pack('<I', env_address)
 assert read_va(original, 0x418647, 6) == bytes.fromhex('8b601cff7018')
 print('PASS AbortCommand exact Env/value1 nonlocal JMP; no normal caller RET claim')

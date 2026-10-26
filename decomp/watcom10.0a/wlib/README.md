@@ -1,6 +1,6 @@
 # Watcom 10.0a WLIB
 
-Eight cases are complete: basic help, archive update, in-place C++ update,
+Eight CLI cases are complete: basic help, archive update, in-place C++ update,
 PE DLL/COMMON import, NE/NLM export conversion with C++ listing, and unmatched
 member diagnostics, nested-response syntax termination and archive-capacity
 cleanup. They cover replacement/deletion/addition/extraction,
@@ -14,17 +14,26 @@ and application entry order. The last five cases observe 166, 200, 172, 209 and 
 Case-sensitive missing deletion/extraction diagnostics retain counted names and
 produce the original warnings while successful extraction still completes.
 
-The reconstruction has 242 qualified application functions covering 28,712 unique
-original code bytes. Shared chunks count once. The empty CommitDictionaryBlock
-entry shares another function's RET and is explicitly excluded from entry order.
-There is no verified complete non-CRT denominator yet. All 242 bodies retain
-function-graph/ownership/extent checks; 234 have strict RET checks and six
-normal-return owners with cold nonlocal exits retain the finite residual in
-scripts/. ReportSyntaxError has a separate exact direct-exit residual; its final
-period-compiler CALL exit has an explicit terminating-call graph declaration. AbortCommand preserves its explicit Env/value1 nonlocal transfer; remaining
-callbacks and conditional support paths stay named traps.
+The CLI-qualified checkpoint remains242 application functions and28,712 unique
+original bytes. A ninth, native-only resource-unit case adds26 functions/2,446
+unique bytes, for268 reconstructed App functions/31,158 bytes in total. Its ten
+source/disassembly-grounded tests cover the signal callback body (not OS signal
+delivery), listing-byte output, suppression, counted-name handling and comparison,
+named WRES v2 language directories, valid Win16 MRes numeric/named resources,
+duplicate handling and linked string ownership. Seventeen resource callees were
+newly registered during that work; they are App support, not CRT exemptions.
+The units have no claimed original-runtime or CLI qualification.
 
-`make -j4 native cases check unit audit win32` builds the native i386 DSO,
+Shared chunks count once. The empty CommitDictionaryBlock entry shares another
+function's RET and is explicitly excluded from entry order. There is no verified
+complete non-CRT denominator yet. All268 bodies retain function-graph, ownership
+and extent checks;260 have strict RET checks. Six normal-return owners with cold
+nonlocal exits retain the finite residual in scripts/. ReportSyntaxError has a
+separate direct-exit residual and explicit terminating-call graph declaration.
+AbortCommand preserves its explicit Env/value1 nonlocal transfer. The formerly
+named traps are reconstructed; unregistered code is still subject to assessment.
+
+The shared Make targets build the native i386 DSO,
 runs cached fixtures and checks the source with the original Watcom compiler.
 Fixtures never invoke Wine or recapture. Source preserves the 1994 graph/Watcom
 ABI; native GCC uses the authorized semantic projection through lib/recon.
@@ -58,4 +67,11 @@ native/period build took 2209.011 ms and full audit 394.257 ms. Diagnostics and
 input producers stay in scratch; completed cases contain case.c/capture.bin only.
 Preserved0007 truncation work is unaccepted and has no frozen fixture. Console
 signal delivery, alternate resource formats and two conditional helper paths
-remain to be reconstructed.
+remain outside CLI qualification.
+
+Resource-unit completion passed all eight cached CLI fixtures and all ten new
+units without original execution. The final incremental native/period build took
+162.231ms, full audit396.347ms, and all replay/unit commands347.047ms wall.
+The resource-unit execution took18.916ms (3.230setup/14.291execution/1.395checks).
+The valid unit assets and source are the only new case contents. The existing
+CLI fixtures retain their original inputs/oracles;0007 remains unaccepted.

@@ -966,7 +966,7 @@
         4
       ]
     },
-    "WResIDFromNum": {
+    "WResInitIDFromNum": {
       "expected_cleanup": [
         0
       ]
@@ -1167,6 +1167,136 @@
       ]
     },
     "CopyCountedName": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "MResReadResourceHeader": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDFromNameOrOrd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "newTypeNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "newLangNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "newResNode": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResAddResource": {
+      "expected_cleanup": [
+        16
+      ]
+    },
+    "MResFreeResourceHeader": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResReadNameOrOrdinal": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResReadUint16": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDFromStr": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDFromNum": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResReadUint8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ResReadString": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "VarStringStart": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "VarStringAddChar": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ComputeVarStringLen": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "VarStringEnd": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "readMResDir": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "HandleSignal": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteListingCharacter": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "forceSuppression": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WresRecordError": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadFixedResRecord": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResReadExtraWResID": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WResIDNameCmp": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "readLangInfoList": {
       "expected_cleanup": [
         0
       ]
