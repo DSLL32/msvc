@@ -850,3 +850,14 @@ void __stdcall report_conversion_rank_failure(unsigned char operation,
     }
     report_type_conversion(code, 0, operation, source, target);
 }
+
+/* Original0x5cd30..0x5cd5d, stdcall8. Keep formatted type storage
+   alive through the variadic diagnostic, then release its text context. */
+void __stdcall report_type_error(unsigned code, CType *type)
+{
+    short text;
+    begin_type_diagnostic();
+    text = format_declarator(0, type);
+    report_syntax_error(code, type_diagnostic_text(text));
+    end_type_diagnostic();
+}

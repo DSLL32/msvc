@@ -810,3 +810,10 @@ void __stdcall visit_pragma_names(void (__stdcall *callback)(char *))
         return;
     }
 }
+
+/* Original0x215a0..0x215b4, cdecl; tail transfers to source-line skip. */
+void warn_bad_pragma(void)
+{
+    compiler_warning(1, 612);
+    skip_source_line();
+}

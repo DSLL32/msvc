@@ -129,3 +129,52 @@ void __stdcall set_asm_directive(short directive, unsigned value)
     }
     asm_member_mode = 0;
 }
+
+char *__stdcall copy_asm_context_text(char *destination, char *source);
+
+/* Original0x7de50..0x7df1e, cdecl. Message resources supply the localized
+   instruction/operand name; operand contexts additionally append its number. */
+char *asm_error_context(void)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    char *text, *end, *result;
+    unsigned bytes;
+    if (asm_operand_mode) {
+        text = message_text(322);
+        end = text;
+        while (*end) ++end;
+        bytes = ((unsigned)(end - text) + 6) & ~3U;
+        if ((int)bytes > pool->remaining) refill_arena(&compiler_arena, pool);
+        result = pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+        end = copy_asm_context_text(result, text);
+        *end++ = ' ';
+        *end++ = (char)('1' + (unsigned char)asm_operand_count);
+        *end = 0;
+    } else {
+        text = message_text(323);
+        end = text;
+        while (*end) ++end;
+        bytes = ((unsigned)(end - text) + 4) & ~3U;
+        if (pool->remaining < (int)bytes) refill_arena(&compiler_arena, pool);
+        result = pool->next;
+        pool->remaining -= bytes;
+        pool->next += bytes;
+        end = copy_asm_context_text(result, text);
+        *end = 0;
+    }
+    return result;
+}
+
+/* Original0x7df1e..0x7df38, stdcall8. Return the copied terminator
+   so the context builder can append its optional operand suffix. */
+char *__stdcall copy_asm_context_text(char *destination, char *source)
+{
+    char *result;
+    do {
+        result = destination++;
+        *result = *source++;
+    } while (*result);
+    return result;
+}

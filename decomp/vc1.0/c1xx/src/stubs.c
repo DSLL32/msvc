@@ -76,10 +76,8 @@ void report_ide_source(void) { __asm { int 3 } }
 int release_input_handle(void) { __asm { int 3 } return 0; }
 void browser_symbol_rollover(void) { __asm { int 3 } }
 void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
-char *__stdcall format_qualified_path(QualifierBinding *binding) { __asm { int 3 } return 0; }
 void __stdcall initialize_zero_object(CppSymbol *symbol) { __asm { int 3 } }
 
-void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
@@ -120,16 +118,11 @@ IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken 
 
 IrToken *__stdcall report_expression_error(unsigned char operation, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) { __asm { int 3 } }
-void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
 void skip_balanced_brace_body(void) { __asm { int 3 } }
-unsigned char synchronize_tokens(unsigned first, ...) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_bit_field_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_extended_bound(unsigned short flags, char *name) { __asm { int 3 } return 0; }
 unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) { __asm { int 3 } return 0; }
-void __stdcall report_inserted_token(int actual, int expected) { __asm { int 3 } }
-ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
-void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
 
@@ -276,7 +269,6 @@ CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *
 FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
 
 
-unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop_kind) { __asm { int 3 } return 0; }
 
 
 
@@ -321,7 +313,6 @@ OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *se
 void capture_directive_text(void) { __asm { int 3 } }
 int __stdcall record_pch_condition(int condition) { __asm { int 3 } return 0; }
 int process_pch_directive(void) { __asm { int 3 } return 0; }
-void warn_ident_requires_string(void) { __asm { int 3 } }
 
 void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
 
@@ -385,7 +376,6 @@ IrToken *__stdcall adjust_member_pointer_displacement(IrToken *adjustment, int d
 
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
-void warn_bad_pragma(void) { __asm { int 3 } }
 void synchronize_pch_pragma(void) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
@@ -406,7 +396,6 @@ void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int
 
 RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { ParserValue value; __asm { int 3 } value.words.low = value.words.high = 0; RECON_RETURN8(value); }
 
-void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 
 
 
@@ -419,7 +408,6 @@ void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 
 void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
 
-char *asm_error_context(void) { __asm { int 3 } return 0; }
 
 
 
@@ -462,3 +450,13 @@ void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
 void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
 void __stdcall mark_pch_access_key(AccessDeclaration *access) { __asm { int 3 } }
+
+
+
+unsigned __stdcall scan_conditional_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }
+
+unsigned __stdcall scan_switch_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }
+
+unsigned __stdcall scan_loop_return_paths(FrontendRecord **cursor, unsigned char kind) { __asm { int 3 } return 0; }
+
+unsigned __stdcall scan_label_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }

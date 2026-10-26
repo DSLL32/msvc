@@ -56,7 +56,7 @@ extern unsigned declaration_code_count;
 unsigned char read_parser_token(void);
 unsigned char scan_token(void);
 void __stdcall report_inserted_token(int actual, int expected);
-ParserValue __stdcall recovery_token_value(int token);
+RECON_RETURN8_TYPE(ParserValue) __stdcall recovery_token_value(int token);
 void __stdcall report_parser_error(char *text);
 void __stdcall unget_token(unsigned char token);
 unsigned char synchronize_tokens(unsigned first, ...);

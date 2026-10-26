@@ -117,7 +117,7 @@ read_action:
                     }
                     if (parser_recovery_count < 2)
                         report_inserted_token(parser_lookahead, i);
-                    parser_value = recovery_token_value(i);
+                    RECON_ASSIGN_RETURN8(parser_value, recovery_token_value(i));
                     state = repair->next_state;
                     goto push_state;
                 }

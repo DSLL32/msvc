@@ -1327,3 +1327,37 @@ unsigned resolved_declaration_index(CppSymbol *symbol)
     }
     return symbol->index;
 }
+
+/* Original0x78680..0x78703, stdcall4. Build the qualified path backwards
+   at the end of the shared literal workspace, retaining the original budget. */
+char *__stdcall format_qualified_path(QualifierBinding *binding)
+{
+    unsigned char *destination = expression_storage + 2048;
+    char *begin, *end;
+    int remaining = (int)((expression_storage + 2047) - text_work_cursor);
+    *destination = 0;
+    while (binding) {
+        begin = binding->target->name;
+        end = begin;
+        while (*end) ++end;
+        remaining -= (int)(end - begin);
+        if (remaining <= 0) fatal_error(5);
+        while (end != begin) *--destination = (unsigned char)*--end;
+        binding = binding->next;
+        if (binding) {
+            *--destination = ':';
+            *--destination = ':';
+        }
+    }
+    return (char *)destination;
+}
+
+/* Original0x50ea0..0x50ec7, stdcall8. A declaration's shared
+   diagnostic bit suppresses repeated reports for the same symbol. */
+void __stdcall report_symbol_declaration_error(unsigned code, CppSymbol *symbol)
+{
+    if (!(symbol->declaration_flags & 2)) {
+        report_syntax_error(code, format_symbol_name(symbol));
+        symbol->declaration_flags |= 2;
+    }
+}

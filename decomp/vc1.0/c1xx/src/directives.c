@@ -584,3 +584,10 @@ void __stdcall skip_directive_literal(unsigned char delimiter)
         }
     }
 }
+
+/* Original0x3c8f0..0x3c90c, cdecl. The diagnostic names the actual
+   token code, which is distinct from the pragma parser's token category. */
+void warn_ident_requires_string(void)
+{
+    compiler_warning(1, 79, token_spellings[current_token_code]);
+}

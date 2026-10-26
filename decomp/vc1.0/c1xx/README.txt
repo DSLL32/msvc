@@ -1,6 +1,47 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Generated SDK import recovery is COMPLETE: case0020 version2. A damaged SDK
+header/record decoder combines malformed directives, declaration punctuation,
+incompatible member definitions, duplicate function bodies and assembler syntax,
+scale/type/alignment errors, followed by a valid recovery sentinel. Fresh masked-
+original/native runs match15 first encounters, all diagnostics, exit19 and six
+IR/browser artifacts. Final observations match the untouched version2 baseline
+exactly, without artifact normalization.
+
+Version1 deliberately omitted an if-condition's closing parenthesis. Its original
+continues, but native reaches the existing begin_implicit_statement_scope guard
+for an unwritten lookahead local; GDB confirmed that limitation. Version1's raw
+failure/source/oracle remain in scratch, unsupported and unaccepted as a complete
+case. Version2 repairs only that parenthesis and has its own source/invocation/
+oracle identity. The existing guard and original Win32 defect remain unchanged.
+
+This case accepts15 whole App bodies/2,508 code bytes plus356 owned switch bytes.
+Totals:1,725 App bodies/1,832 historical frontiers and seven unchanged historical
+CRT source bodies. App-only code extent union389,588/476,418 B is81.77% of whole
+original code extent, not a non-CRT denominator. Recovery semantic values use the
+proved EDX:EAX ABI; originally unwritten returned bytes are zeroed with a source
+comment, while token-required payloads remain exact. Four newly identified
+conditional/loop/switch/label return scanners remain unimplemented.
+
+All21 cached native cases and31 unit groups pass. The initial case-end gate
+exposed one false CRT identity over the new cleanup helper's final RET+alignment.
+Independent raw/entry/reference review justified removing only its two raw aliases
+and one canonical row, preserving other same-name matches and the81B App owner.
+The corrected1,733-function six-check graph/ABI audit passes; no new CRT body,
+graph waiver, native guard or shared change was introduced.
+
+Fresh final original1.019 s; native31.510 ms (setup19.289 ms, execution5.647 ms,
+checks6.573 ms). Current native after metadata correction30.901 ms. The final
+incremental native/Win32 body build took3.245 s; later pending-symbol naming
+rebuild3.385 s. Cached/unit/first-audit gate1.485 s; corrected audit gate8.647 s
+includes native rebuild/setup, with graph-only wall time not separately measured.
+Source-list/header changes earlier caused36.606/29.216 s original rebuilds;
+these are build costs, separate from fixture execution. No original or broad
+regression suite was repeated solely for the metadata correction.
+
+Earlier completed relocation-codec case:
+
 Relocation-codec is COMPLETE: case0019. The valid packed-record codec combines
 C++ static members, scaled indexed fields, ALIGN/EVEN, HIGH/LOW/NOT and signed
 constants, SEG/OFFSET relocations, repeated record copying and x87 checksum

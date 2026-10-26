@@ -391,3 +391,17 @@ char *asm_token_names[50] = {
     "asm data type", "asm code type", "data type", "typedef name",
     "identifier", "constant", "enum member", "prefix", "opcode", "directive"
 };
+
+/* Original0x7c44a..0x7c4a7, stdcall4. Keep the offending spelling
+   separate from the operand/instruction context consumed by the diagnostic. */
+void __stdcall report_asm_parser_error(char *message)
+{
+    char *description, *context;
+    if (*message == 'y') fatal_error(26);
+    if (asm_current_token == 44 && current_token_value.name && *message)
+        description = current_token_value.name;
+    else description = asm_token_names[asm_current_token];
+    context = asm_error_context();
+    report_syntax_error(400, context, description);
+    asm_operand_mode = 1;
+}

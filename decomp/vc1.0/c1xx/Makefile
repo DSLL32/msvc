@@ -119,6 +119,7 @@ BINARY_SOURCES = src/c1xx.c \
     src/identifier-expressions.c \
     build/parser-grammar.c \
     src/parser.c \
+    src/parser-recovery.c \
     src/declaration-codes.c \
     src/lexer.c \
     src/token-categories.c \

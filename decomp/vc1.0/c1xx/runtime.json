@@ -105,20 +105,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "??1Iostream_init@@QAE@XZ",
-    "start": 254832,
-    "end": 254848,
-    "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 254832,
-    "end": 254848,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__execv",
     "start": 320816,
     "end": 320848,

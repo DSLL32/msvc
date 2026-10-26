@@ -4259,6 +4259,25 @@
         ],
         "owner_bytes_sha256": "6affde14fc112e9fc2b8fab350e4031e57d827840e6523fd61c9dcd405f1e280",
         "reason": "Whole independent compiler scratch-cursor helper, not CRT: getter/setter share a2718 initialized991b8 with WORD append/read helpers. Caller71030 saves/restores it around parameter type WORDs copied to CodeView0201. Independent full references/callers confirm role; preserve all other same-name matches and assign no implementation credit from reclassification."
+      },
+      {
+        "original": [
+          254832,
+          254848
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_discard_trailing_expression_records",
+        "owner_ranges": [
+          [
+            254752,
+            254833
+          ]
+        ],
+        "reason": "Complete81B frontend record cleanup owner ends POPESI/RET; candidate is finalRET plus15B LEA alignment. Independent direct-transfer/decoded-address/initialized-pointer/export/symbol checks found no separate suffix entry; actual CALL2631f targets wholeowner3e320. Preserve other eight same-name raw rows and unrelated canonicalRVA3e370; no added function/byte credit."
       }
     ]
   }

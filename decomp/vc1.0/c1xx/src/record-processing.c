@@ -504,3 +504,125 @@ FrontendRecord *__stdcall find_label_record(CppSymbol *label)
         record = record->next_label;
     return (FrontendRecord *)record;
 }
+
+unsigned __stdcall scan_compound_return_paths(FrontendRecord **cursor);
+unsigned __stdcall scan_conditional_return_paths(FrontendRecord **cursor);
+unsigned __stdcall scan_switch_return_paths(FrontendRecord **cursor);
+unsigned __stdcall scan_loop_return_paths(FrontendRecord **cursor, unsigned char kind);
+unsigned __stdcall scan_label_return_paths(FrontendRecord **cursor);
+
+/* Original0x421c0..0x42418; dispatch tables0x42418..0x4257c.
+   Results distinguish a terminal path(0), continuing path(1), and function
+   boundary(2). Each nested scanner advances the same caller-owned cursor. */
+unsigned __stdcall scan_return_paths(FrontendRecord **cursor, unsigned char stop_kind)
+{
+    FrontendRecord *record = *cursor, *previous;
+    unsigned result = 1, kind;
+    int stopped = 0, select_previous, walking;
+    while (result == 1 && !stopped) {
+        kind = record->kind & 0x3f;
+        switch (kind) {
+        case 4: result = 2; break;
+        case 8:
+        case 11: result = 0; break;
+        case 15: result = scan_compound_return_paths(&record); break;
+        case 17: result = scan_conditional_return_paths(&record); break;
+        case 25:
+        case 31:
+        case 37: result = scan_loop_return_paths(&record, (unsigned char)kind); break;
+        case 30:
+        case 36:
+        case 44:
+            if ((record->flags & 3) == 3 && stop_kind == 4) {
+                result = 0;
+                stop_kind = FRONTEND_RECORD_MATE(kind);
+            }
+            goto test_stop;
+        case 45: result = scan_switch_return_paths(&record); break;
+        case 51:
+        case 52:
+            if (stop_kind == 49) {
+                previous = record->previous;
+                if ((previous->kind & 0x3f) >= 51 &&
+                    (previous->kind & 0x3f) <= 53 && (previous->flags & 1)) {
+                    record->flags = (record->flags & ~3) | (previous->flags & 3);
+                    return (record->flags & 2) == 0;
+                }
+            }
+            goto test_stop;
+        case 53: result = scan_label_return_paths(&record); break;
+        case 54:
+        case 55:
+            record = find_label_record(((GotoFrontendRecord *)record)->label);
+            result = scan_return_paths(&record, 4);
+            break;
+        case 56:
+        case 57:
+            select_previous = kind == 56;
+            walking = 1;
+            record = record->previous;
+            while (walking) {
+                kind = record->kind & 0x3f;
+                switch (kind) {
+                case 16:
+                    record = find_frontend_record(record->previous, 15, 1);
+                    break;
+                case 24:
+                    record = find_frontend_record(record->previous, 17, 1);
+                    break;
+                case 30:
+                case 36:
+                case 44:
+                    record = find_frontend_record(record->previous,
+                        FRONTEND_RECORD_MATE(kind), 1);
+                    if (record->flags & 4) record->flags &= ~2;
+                    break;
+                case 50:
+                    record = find_frontend_record(record->previous, 45, 1);
+                    break;
+                case 45:
+                    if (!select_previous) { walking = 0; continue; }
+                    break;
+                case 25:
+                case 31:
+                case 37:
+                    walking = 0;
+                    continue;
+                }
+                record = record->previous;
+            }
+            if (!select_previous) record = record->next;
+            result = scan_return_paths(&record, 4);
+            break;
+        default:
+        test_stop:
+            if (stop_kind == kind) stopped = 1;
+            else record = record->next;
+            break;
+        }
+    }
+    *cursor = record;
+    return result;
+}
+
+/* Original0x42580..0x42619, stdcall4. Cache the terminal-path result
+   on a compound opener and advance past its matching closing record. */
+unsigned __stdcall scan_compound_return_paths(FrontendRecord **cursor)
+{
+    FrontendRecord *opener = *cursor, *record = opener;
+    FrontendRecord *end = find_forward_frontend_record(record->next, 16, 1);
+    unsigned result;
+    if (opener->flags & 1) result = (opener->flags & 2) == 0;
+    else {
+        opener->flags |= 3;
+        result = 1;
+        record = record->next;
+        while ((record->kind & 0x3f) != 16) {
+            result = scan_return_paths(&record, 16);
+            if (result != 1) break;
+        }
+    }
+    opener->flags = (opener->flags & ~2) | (result < 1 ? 2 : 0);
+    *cursor = end->next;
+    return result;
+}

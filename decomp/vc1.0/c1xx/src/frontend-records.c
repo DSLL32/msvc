@@ -1557,3 +1557,18 @@ void increment_expression_record_depth(void)
 {
     if (!allow_incomplete_class) ++ir_expression_depth;
 }
+
+/* Original0x3e320..0x3e371, cdecl. A repaired declaration discards
+   trailing expression markers and an incomplete two-record type region. */
+void discard_trailing_expression_records(void)
+{
+    if (ir_records_suppressed || !ir_record_tail) return;
+    while ((ir_record_tail->kind & 0x3f) == 13) {
+        remove_last_frontend_record();
+        if (!ir_record_tail) break;
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 18) {
+        remove_last_frontend_record();
+        remove_last_frontend_record();
+    }
+}
