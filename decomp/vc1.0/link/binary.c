@@ -7882,6 +7882,17 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
+        /* SETARGV local parser, distinct from the existing STDARGV copy. */
+        .name = "_SETARGV::_parse_cmdline",
+        .entry_rva = 0x424b0,
+        .code = (const ReconExtent[]){{0x424b0, 0x42632}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
+        .original_symbol = "_parse_cmdline",
+    },
+    {
         .name = "__find",
         .entry_rva = 0x42640,
         .code = (const ReconExtent[]){{0x42640, 0x426d0}},
@@ -8369,6 +8380,16 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
+        /* Named CRT caller relocation proves origin; excludes lookup54820. */
+        .name = "__NMSG_WRITE",
+        .entry_rva = 0x447c0,
+        .code = (const ReconExtent[]){{0x447c0, 0x4481b}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
+    },
+    {
         .name = "__heap_abort",
         .entry_rva = 0x44850,
         .code = (const ReconExtent[]){{0x44850, 0x44860}},
@@ -8402,6 +8423,15 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x44a20, 0x44a70}},
         .code_count = 1,
         .definition = RECON_CRT,
+    },
+    {
+        .name = "__commit",
+        .entry_rva = 0x44a70,
+        .code = (const ReconExtent[]){{0x44a70, 0x44acf}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
     },
     {
         .name = "__fcloseall",
@@ -8849,6 +8879,15 @@ static const ReconFunction functions[] = {
         .definition = RECON_CRT,
     },
     {
+        .name = "_wctomb",
+        .entry_rva = 0x48060,
+        .code = (const ReconExtent[]){{0x48060, 0x480fb}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
+    },
+    {
         .name = "__open",
         .entry_rva = 0x48100,
         .code = (const ReconExtent[]){{0x48100, 0x48120}},
@@ -8863,6 +8902,15 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_CRT,
         .native_symbol = "_sopen",
+    },
+    {
+        .name = "_mbtowc",
+        .entry_rva = 0x484d0,
+        .code = (const ReconExtent[]){{0x484d0, 0x485aa}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
     },
     {
         .name = "_isalpha",
@@ -8982,6 +9030,15 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]){{0x48940, 0x489d0}},
         .code_count = 1,
         .definition = RECON_CRT,
+    },
+    {
+        .name = "__putenv",
+        .entry_rva = 0x489d0,
+        .code = (const ReconExtent[]){{0x489d0, 0x48b83}},
+        .code_count = 1,
+        .definition = RECON_CRT,
+        .implementation = 0,
+        .native_symbol = NULL,
     },
     {
         .name = "_findenv",
