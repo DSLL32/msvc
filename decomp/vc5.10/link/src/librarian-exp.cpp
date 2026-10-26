@@ -16,7 +16,7 @@ extern DWORD librarian_next_ordinal;
 extern ByteBuffer definition_directives;
 DWORD __stdcall append_zero_bytes(ByteBuffer *,DWORD);
 void __stdcall sort_export_names(BYTE *,DWORD *,DWORD,DWORD);
-void __stdcall write_mac_shared_library(int,const char *,BYTE *,DWORD,DWORD,DWORD) { __asm { int 3 } }
+void __stdcall write_mac_shared_library(int,const char *,BYTE *,DWORD,DWORD,DWORD);
 void __stdcall write_file_header(int,IMAGE_FILE_HEADER *,IMAGE_FILE_HEADER *);
 void __stdcall write_section_header(int,const IMAGE_SECTION_HEADER *,IMAGE_SECTION_HEADER *);
 void __stdcall write_relocations(int,const IMAGE_RELOCATION *,DWORD);
@@ -34,6 +34,79 @@ void __stdcall write_symbol_strings(int,StringTable *);
     symbol.Value=(value);symbol.SectionNumber=1;symbol.StorageClass=IMAGE_SYM_CLASS_STATIC; \
     WRITE_EXP(&symbol,18); \
 } while(0)
+
+/* MPPC's .ppcshl payload is a fixed header followed by 200-byte names. */
+struct MacExportBucket { LONG first; DWORD count; };
+struct MacSharedLibraryHeader {
+    MacExportBucket buckets[76];
+    DWORD reserved, named_count;
+    WORD format, reserved_version;
+    DWORD section_file_offset;
+    char library[52];
+};
+typedef char MacSharedHeaderLayout[(sizeof(MacSharedLibraryHeader)==676 &&
+    offsetof(MacSharedLibraryHeader,named_count)==612 &&
+    offsetof(MacSharedLibraryHeader,library)==624)?1:-1];
+#define WRITE_MAC(data,bytes) do { \
+    if(file_access_statistics)record_file_access(); \
+    file=file_slots[fd]; \
+    if(file->flags & 8)mapped_write(file,(data),(bytes)); \
+    else buffered_write(file,(data),(bytes)); \
+} while(0)
+#pragma intrinsic(strlen,strcpy,memset)
+extern "C" void __stdcall write_mac_shared_library(int fd,const char *library,
+    BYTE *exports,DWORD names_offset,DWORD named_count,DWORD section_file_offset)
+{
+    MacSharedLibraryHeader header;
+    DWORD *names=(DWORD *)(exports+names_offset);
+    LONG index=0,first;
+    int character;
+    const signed char *name;
+    char record[200];
+    FileRecord *file;
+    memset(&header,0,sizeof(header));
+    if(named_count) {
+        for(character='0';character<='z';++character) {
+            name=(const signed char *)(exports+names[index]);
+            while(character<='z' && *name!=character) {
+                header.buckets[character-'0'].first=-1;
+                header.buckets[character-'0'].count=0;
+                ++character;
+            }
+            header.buckets[character-'0'].first=index;
+            if(*name==character) {
+                while(index<(LONG)(named_count-1)) {
+                    ++index;
+                    if((signed char)exports[names[index]]!=character)break;
+                }
+            }
+            first=header.buckets[character-'0'].first;
+            /* Preserve the actual index difference, including the final run. */
+            header.buckets[character-'0'].count=index-first;
+        }
+    } else {
+        for(character=0;character<76;++character) {
+            header.buckets[character].first=-1;
+            header.buckets[character].count=0;
+        }
+    }
+    header.named_count=named_count;
+    header.format=2;
+    header.section_file_offset=section_file_offset;
+#ifdef __linux__
+    /* The emitted header has exactly 52 name bytes. The original unchecked
+     * strcpy is retained on Win32; longer native names are unqualified. */
+    if(strlen(library)>=sizeof(header.library)) { __asm { int 3 } }
+#endif
+    strcpy(header.library,library);
+    WRITE_MAC(&header,sizeof(header));
+    for(index=0;(DWORD)index<named_count;++index) {
+        memset(record,0,sizeof(record));
+        strncpy(record,(const char *)exports+names[index],sizeof(record));
+        WRITE_MAC(record,sizeof(record));
+    }
+}
+#undef WRITE_MAC
 
 #pragma intrinsic(strlen,memset,memcpy)
 void RECON_THISCALL LibrarianContext::WriteExportObject(DWORD symbol_count,
@@ -149,7 +222,7 @@ void RECON_THISCALL LibrarianContext::WriteExportObject(DWORD symbol_count,
         strncpy((char *)section.Name,".ppcshl",8);
         section.SizeOfRawData=mac_size;
         section.PointerToRawData=offset;
-        section.PointerToRelocations=offset;
+        /* The Mac section contains serialized names, with no relocations. */
         section.Characteristics=0x02000800;
         write_section_header(exp_file,&section,NULL);
     }
@@ -195,7 +268,7 @@ void RECON_THISCALL LibrarianContext::WriteExportObject(DWORD symbol_count,
     }
     if(machine==0x601) {
         default_phase="MppcWriteShlSection";
-        write_mac_shared_library(exp_file,owned3c,exports.data,names_offset,named_count,symbols_to_write);
+        write_mac_shared_library(exp_file,owned3c,exports.data,names_offset,named_count,offset);
         default_phase="EmitDllExportDirectory";
     }
     if(!special) {

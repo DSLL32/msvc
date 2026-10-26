@@ -7,6 +7,9 @@
 #include "../crt/crt-imports.h"
 #include "link-driver.h"
 #include "options.h"
+#include "input.h"
+#include "arguments.h"
+#include "full-link-functions.h"
 #include <recon.h>
 
 extern "C" {
@@ -408,8 +411,54 @@ incompatible_option:
 disable_incremental:
     incremental_enabled=0;
 }
-BYTE __stdcall supports_incremental(LinkContext *context) { __asm { int 3 } return 0; }
-void __stdcall load_incremental_state(LinkContext **context) { __asm { int 3 }  }
+extern "C" DWORD symbol_record_size;
+BYTE __stdcall supports_incremental(LinkContext *context)
+{
+    WORD machine=context->file_header.Machine;
+    InputArgument *argument;
+    DWORD index,error;
+    IMAGE_FILE_HEADER header;
+    int file;
+    if(!machine) {
+        argument=link_files.first;
+        for(index=0;index<link_files.count;++index,argument=argument->next) {
+            file=open_argument_file(argument->name,0x8000,0);
+            if(is_archive(argument->name,file)) {
+                close_argument_file(file,0);
+                continue;
+            }
+            error=0;
+            seek_file(file,0,FILE_BEGIN,&error);
+            read_coff_header(file,&header,NULL,NULL);
+            close_argument_file(file,0);
+            machine=header.Machine;
+            if(!machine)continue;
+            if(machine==IMAGE_FILE_MACHINE_I386 || machine==IMAGE_FILE_MACHINE_ALPHA) {
+                symbol_record_size=52;
+                return 1;
+            }
+            if(machine==IMAGE_FILE_MACHINE_R4000 || machine==IMAGE_FILE_MACHINE_R10000) {
+                if(context->options.reference_opt_specified)return 0;
+                symbol_record_size=52;
+                return 1;
+            }
+            if(machine==IMAGE_FILE_MACHINE_POWERPC)symbol_record_size=52;
+            return machine==0x601;
+        }
+        return 1;
+    }
+    if(machine==IMAGE_FILE_MACHINE_I386 || machine==IMAGE_FILE_MACHINE_ALPHA) {
+        symbol_record_size=52;
+        return 1;
+    }
+    if(machine==IMAGE_FILE_MACHINE_R4000 || machine==IMAGE_FILE_MACHINE_R10000) {
+        if(context->options.reference_opt_specified)return 0;
+        symbol_record_size=52;
+        return 1;
+    }
+    if(machine==IMAGE_FILE_MACHINE_POWERPC)symbol_record_size=52;
+    return machine==0x601;
+}
 void __cdecl initialize_incremental_inputs(void) { __asm { int 3 }  }
 int __stdcall incremental_link(LinkContext **context) { __asm { int 3 } return 0; }
 int __stdcall abort_incremental(int failed) { __asm { int 3 } return 0; }
@@ -417,4 +466,48 @@ void __stdcall save_incremental_state(LinkContext *context) { __asm { int 3 }  }
 int __cdecl run_cvpack(void) { __asm { int 3 } return 0; }
 extern FILE *repro_response;
 void __cdecl close_repro(void) { fclose(repro_response); }
+}
+
+extern "C" {
+int __cdecl incremental_mapping_may_grow(void);
+void *__stdcall next_incremental_mapping_address(BYTE,void *);
+void *__stdcall open_incremental_heap(void *,DWORD,BYTE,DWORD *);
+BYTE __stdcall incremental_disk_space(DWORD);
+void __stdcall copy_link_configuration(LinkContext *,const LinkContext *);
+void __stdcall release_link_context(LinkContext **,BYTE);
+void __stdcall initialize_incremental_database(LinkContext **context)
+{
+    LinkContext *old=*context;
+    BYTE legacy=(BYTE)incremental_mapping_may_grow();
+    DWORD error=0;
+    void *base;
+    int vxd;
+    if(old->options.order) {
+        incremental_enabled=0;
+        return;
+    }
+    base=next_incremental_mapping_address(legacy,NULL);
+    while(base!=(void *)-1) {
+        if(open_incremental_heap(base,0,1,&error)!=(void *)-1)break;
+        if(error>=ERROR_FILE_NOT_FOUND && error<=ERROR_PATH_NOT_FOUND)
+            link_fatal(NULL,1104,output_file_name);
+        else if(error==ERROR_DISK_FULL)goto insufficient_space;
+        if(legacy && !incremental_disk_space(0x40000))goto insufficient_space;
+        base=next_incremental_mapping_address(legacy,base);
+    }
+    if(base==(void *)-1) {
+        link_error(NULL,4073);
+        incremental_enabled=0;
+        return;
+    }
+    vxd=old->is_vxd;
+    *context=(LinkContext *)allocate_link_memory(1,sizeof(LinkContext));
+    (*context)->Initialize(vxd);
+    copy_link_configuration(*context,old);
+    release_link_context(&old,0);
+    return;
+insufficient_space:
+    link_warning(NULL,4081);
+    incremental_enabled=0;
+}
 }

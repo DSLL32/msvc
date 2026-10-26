@@ -9,8 +9,8 @@
 extern "C" {
 extern BYTE incremental_enabled;
 extern char short_symbol_name[9];
-/* Default record width at4672dc. The unvisited supports_incremental routine
- * can select52; it must update this same storage when reconstructed. */
+/* Original4672dc:60 by default; supports_incremental selects52 for its
+ * actual x86/Alpha/MIPS and rejected PowerPC cases. */
 DWORD symbol_record_size=60;
 DWORD __stdcall append_symbol_string(StringTable *,const char *);
 DWORD __stdcall intern_symbol_string(StringTable *,const char *);

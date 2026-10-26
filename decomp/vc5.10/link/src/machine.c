@@ -28,7 +28,7 @@ void __stdcall initialize_machine(LinkContext *context)
     validate_delay_load_options(context);
     switch (context->file_header.Machine) {
     case 0x14c: initialize_x86_backend(context,&incremental_supported); break;
-    case 0x166: case 0x168:
+    case 0x166: case IMAGE_FILE_MACHINE_R10000:
         initialize_mips_backend(context,&incremental_supported); break;
     case 0x184: initialize_alpha_backend(context,&incremental_supported); break;
     case 0x1a2: case 0x1a6:
@@ -76,7 +76,7 @@ const char *__stdcall get_machine_name(LinkContext *context,unsigned machine)
     case 0x14c: return "IX86";
     case 0x162: case 0x166:
         return context->options.mips_r41xx ? "MIPSR41XX" : "MIPS";
-    case 0x168: return "MIPSR10";
+    case IMAGE_FILE_MACHINE_R10000: return "MIPSR10";
     case 0x184: return "ALPHA";
     case 0x1a2: return "SH3";
     case 0x1a6: return "SH4";
@@ -95,7 +95,7 @@ WORD __stdcall parse_machine(LinkContext *context,const char *name)
         if(context)context->options.mips_r41xx=1;
         return 0x166;
     }
-    if(!_stricmp(name,"MIPSR10"))return 0x168;
+    if(!_stricmp(name,"MIPSR10"))return IMAGE_FILE_MACHINE_R10000;
     if(!_stricmp(name,"ALPHA") || !_stricmp(name,"ALPHA_AXP"))return 0x184;
     if(!_stricmp(name,"PPC"))return 0x1f0;
     if(!_stricmp(name,"SH3"))return 0x1a2;

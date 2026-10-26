@@ -5334,5 +5334,90 @@
         "role": "failure retry retains cached CreateFileA in EBP before sprintf and next iteration"
       }
     }
+  ],
+  "incremental_case_ordinary_abi": [
+    {
+      "owner": "_load_incremental_state@4",
+      "cached_imports": {
+        "ebp": "msvcrt.dll!exit IAT401184 loaded433fc0; sites433fe6/434071",
+        "edi": "msvcrt.dll!_access IAT40126c loaded434011; sites43401c/434052"
+      },
+      "ordinary_crossings": {
+        "kernel32.dll!CloseHandle": [
+          "ebp"
+        ],
+        "_derive_pdb_name@8": [
+          "ebp"
+        ],
+        "msvcrt.dll!_access": [
+          "ebp",
+          "edi"
+        ],
+        "_link_system_error": [
+          "ebp"
+        ],
+        "msvcrt.dll!exit": [
+          "ebp"
+        ]
+      },
+      "basis": "Identified public WINAPI/cdecl and actual two-stack-slot stdcall PDB-name helper preserve stated nonvolatile registers on ordinary normal return; error helper is caller-cleaned varargs. Pending bodies and PDB/error domains retain traps and zero body credit. No nonlocal-return inference.",
+      "exit_scope": "Identified public void cdecl exit(int) has no normal return. This finite normal-return nonvolatile fact is vacuous for that API and prevents its impossible fall-through from losing the cached exit identity; no exit return value, body implementation or nonlocal-return equivalence is claimed."
+    }
+  ],
+  "mac_import_case_ordinary_abi": [
+    {
+      "owner": "_set_mac_import_versions@16",
+      "cached_import": "msvcrt.dll!atoi IAT4011b0 in EBP at455f67; sites455f76/456016/4560b7",
+      "normal_return_preservation": {
+        "msvcrt.dll!atoi": [
+          "ebp"
+        ],
+        "_duplicate_argument@4": [
+          "ebp"
+        ],
+        "_append_mac_version@16": [
+          "ebp"
+        ]
+      },
+      "basis": "Identified public cdecl atoi preserves EBP; actual ordinary stdcall string-duplicate and20-byte list-append bodies preserve EBP (append own instructions do not write it; its zero_allocate callee uses the ordinary ABI). Current native pending append is a genuine framed trap and grants no body credit. No provider implementation or unvisited incremental-history equivalence claim."
+    },
+    {
+      "owner": "_write_mac_shared_library@24",
+      "cached_import": "msvcrt.dll!strncpy IAT401278 in EBP at45102f; one physical cached site451058, repeated for names",
+      "normal_return_preservation": {
+        "_mapped_write@12": [
+          "ebp"
+        ],
+        "_buffered_write@12": [
+          "ebp"
+        ],
+        "_record_file_access": [
+          "ebp"
+        ]
+      },
+      "basis": "Actual ordinary stdcall mapped/buffered file writers and cdecl statistics boundary preserve EBP on normal return; existing identified cdecl strncpy EBP contract retained. No unsupported buffered/statistics domain body credit."
+    },
+    {
+      "owner": "LibrarianContext::EmitMacImportMember",
+      "cached_imports": {
+        "esi_itoa": "msvcrt.dll!_itoa IAT4010cc loaded41d616; sites41d63f/41d65a",
+        "esi_strncpy": "msvcrt.dll!strncpy IAT401278 loaded41db36; sites41db69/41dc24"
+      },
+      "normal_return_preservation": {
+        "msvcrt.dll!_itoa": [
+          "esi"
+        ],
+        "_mapped_write@12": [
+          "esi"
+        ],
+        "_buffered_write@12": [
+          "esi"
+        ],
+        "_record_file_access": [
+          "esi"
+        ]
+      },
+      "basis": "Identified public cdecl _itoa and existing strncpy signatures preserve ESI. File/statistics calls use their actual ordinary stdcall/cdecl ABI and preserve ESI across the later cached short-name copy. Finite normal-return facts only; no provider-byte campaign or pending body credit."
+    }
   ]
 }

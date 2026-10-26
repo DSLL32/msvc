@@ -26,6 +26,7 @@ extern const char *output_file_name,*import_library_name;
 extern StringNode *entry_symbol;
 extern char short_symbol_name[9];
 DWORD mac_current_import_version;
+/* Original4670b4 code compatibility and4670b0 API compatibility. */
 LONG mac_old_code_version=-1,mac_old_api_version=-1;
 DWORD definition_export_state;
 void __stdcall collect_incremental_exports(LinkContext *,const char *,IncrementalDefinition *);

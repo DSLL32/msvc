@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <string.h>
+#include <stdlib.h>
 #include "librarian.h"
 #include "link.h"
 #include "memory.h"
@@ -288,4 +289,79 @@ void RECON_THISCALL LibrarianContext::AddSymbol(CoffImportHeader *import,const c
     if(debug_formats&2)librarian_codeview_object.size=(WORD)(cached_name_length+7);
     EmitImportSymbol(name,no_prefix,flags,by_ordinal,ordinal,create_object,
         archive_header,header,sections,section_flags,info);
+}
+
+extern "C" {
+extern DWORD mac_current_import_version;
+extern LONG mac_old_code_version;
+void __stdcall write_file_header(int,IMAGE_FILE_HEADER *,IMAGE_FILE_HEADER *);
+}
+#pragma intrinsic(strlen,strcpy,strcat,memset)
+void RECON_THISCALL LibrarianContext::EmitMacImportMember(StringNode *symbol)
+{
+    char current[12],old_code[12];
+    char *name,*duplicate,*quoted_library;
+    WORD kind;
+    DWORD position,directive_size,string_bytes,padding,zero=0;
+    IMAGE_SECTION_HEADER section;
+    IMAGE_SYMBOL record;
+    FileRecord *file;
+    default_phase="EmitDirectiveThunk";
+    _itoa(mac_current_import_version,current,10);
+    _itoa(mac_old_code_version==-1?0:mac_old_code_version,old_code,10);
+    name=(char *)get_symbol_name(symbol,image->symbols->hash.strings.data,&kind,NULL);
+    if(kind==1)name=strncpy(short_symbol_name,name,8);
+    duplicate=duplicate_argument(name);
+    name=duplicate;
+    if(*name=='_')++name;
+    TELL_ARCHIVE(position);
+    librarian_ordinal_symbols[symbol->input_flags]=position;
+    quoted_library=(char *)allocate_memory(strlen(owned44)+strlen(owned3c)+3);
+    strcpy(quoted_library,"\"");
+    strcat(quoted_library,owned3c);
+    strcat(quoted_library,owned44);
+    strcat(quoted_library,"\"");
+    directive_size=strlen(name)+strlen(quoted_library)+strlen(current)+strlen(old_code)+
+        strlen("/IMPORT:")+strlen(",LIB=")+strlen(",CURRENTVER=")+strlen(",OLDCODEVER=");
+    string_bytes=strlen(duplicate)>8?strlen(duplicate)+5:4;
+    padding=(-(directive_size+string_bytes))&3;
+    write_archive_header(output_file,member_name,flag20,state2c,0,
+        directive_size+string_bytes+padding+96,NULL);
+    file_header.NumberOfSections=1;
+    file_header.PointerToSymbolTable=directive_size+60;
+    file_header.NumberOfSymbols=2;
+    write_file_header(output_file,&file_header,NULL);
+    memset(&section,0,sizeof(section));
+    strncpy((char *)section.Name,".drectve",8);
+    section.SizeOfRawData=directive_size;
+    section.PointerToRawData=60;
+    section.Characteristics=0xa00;
+    WRITE_ARCHIVE(&section,sizeof(section));
+    WRITE_ARCHIVE("/IMPORT:",strlen("/IMPORT:"));
+    WRITE_ARCHIVE(name,strlen(name));
+    WRITE_ARCHIVE(",LIB=",strlen(",LIB="));
+    WRITE_ARCHIVE(quoted_library,strlen(quoted_library));
+    WRITE_ARCHIVE(",CURRENTVER=",strlen(",CURRENTVER="));
+    WRITE_ARCHIVE(current,strlen(current));
+    WRITE_ARCHIVE(",OLDCODEVER=",strlen(",OLDCODEVER="));
+    WRITE_ARCHIVE(old_code,strlen(old_code));
+    memset(&record,0,sizeof(record));
+    strncpy((char *)record.N.ShortName,"@comp.id",8);
+    record.Value=0x21c87;
+    record.SectionNumber=-1;
+    record.StorageClass=IMAGE_SYM_CLASS_STATIC;
+    WRITE_ARCHIVE(&record,sizeof(record));
+    memset(&record,0,sizeof(record));
+    record.SectionNumber=1;
+    record.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
+    if(strlen(duplicate)>8) {
+        record.N.Name.Short=0;
+        record.N.Name.Long=4;
+    } else strncpy((char *)record.N.ShortName,duplicate,8);
+    WRITE_ARCHIVE(&record,sizeof(record));
+    WRITE_ARCHIVE(&string_bytes,4);
+    if(string_bytes>4)WRITE_ARCHIVE(duplicate,strlen(duplicate)+1);
+    WRITE_ARCHIVE(&zero,padding);
+    release_memory(quoted_library);
+    free(duplicate);
 }

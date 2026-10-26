@@ -14,7 +14,7 @@ BINARY_SOURCES += src/definition-file-stubs.c
 BINARY_SOURCES += src/librarian.cpp src/librarian-stubs.cpp
 BINARY_SOURCES += src/vxd.cpp src/order-file.cpp src/comdat-fold-report.cpp src/debug-lines.cpp src/map-output.cpp
 BINARY_SOURCES += src/import-conversion.cpp src/archive-convert.cpp
-BINARY_SOURCES += src/librarian-options.cpp
+BINARY_SOURCES += src/mac-options.c src/librarian-options.cpp
 BINARY_SOURCES += src/librarian-input.cpp src/librarian-process.cpp src/librarian-prepare.cpp src/librarian-machine.cpp src/definition-parser.cpp src/definition-parser-stubs.cpp src/definition-lexer.cpp src/definition-name.cpp src/definition-export.cpp src/librarian-export.cpp src/librarian-output.cpp src/librarian-thunks.cpp src/librarian-descriptor.cpp src/librarian-exp.cpp src/archive-output.cpp src/archive-build.cpp src/messages.c
 BINARY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
 

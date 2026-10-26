@@ -21,8 +21,6 @@ void RECON_THISCALL LibrarianContext::EmitImportDebugRelocations(LibrarianImport
 
 
 
-void RECON_THISCALL LibrarianContext::EmitMacImportMember(StringNode *)
-{ __asm { int 3 } }
 extern "C" {
 void __cdecl librarian_usage(void) { __asm { int 3 } }
 void __stdcall list_librarian_members(OutputLibrary *) { __asm { int 3 } }

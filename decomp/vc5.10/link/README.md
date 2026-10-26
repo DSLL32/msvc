@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-504 application functions / 174,673 original code bytes are reconstructed
-(42.11% of the 414,810-byte whole `.text` extent, which includes CRT and text
+515 application functions / 179,776 original code bytes are reconstructed
+(43.34% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 41 pending bodies with known extents totaling 5,714 bytes and
-149 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 41 pending bodies with known extents totaling 4,624 bytes and
+154 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all nineteen cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-517-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 499 ordinary application bodies and six CRT bodies. Seven import
+528-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 510 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -360,3 +360,49 @@ the repair; the remaining cached checks and current full original-build/audit
 passed in 2.67 s. All nineteen cached cases and unit checks are covered, with a
 517-vertex graph, 505 return contracts and the five existing EH-owner checks.
 These batch times combine work and are not isolated audit benchmarks.
+
+
+The Mac PowerPC import-library case uses the authentic `/lib /machine:MPPC`
+route with an authored DEF containing function and data exports, explicit
+ordinals, initializer/terminator names and distinct current/code/API versions.
+Both sides exit 0 with 160 application entries and matching 1,959-byte EXP and
+1,434-byte LIB files. The EXP contains the original 676-byte `.ppcshl` header,
+its character buckets and five 200-byte name records. Archive members carry
+ordinary COFF `.drectve` import/version text and short/long symbol records.
+This qualifies serialization; no Mac executable or runtime invocation is claimed.
+
+Five bodies / 3,866 original code bytes recover version merging, initialization
+and termination name decoration, the shared-library header writer and the Mac
+member emitter. The actual code-version owner is 4670b4 and the API-version
+owner is 4670b0. Earlier Prepare source had conflated these initially equal
+owners; its real OldAPIVer consumer now uses the API owner. Two formerly
+unvisited caller/header fields were also corrected without credit: `.ppcshl`
+has no relocation pointer, and the writer's sixth DWORD is its section file
+offset, not a symbol count. Failed comparisons and raw bytes remain retained.
+Per-library version lists and incremental history retain genuine pending
+append calls. Native header names longer than the emitted 52-byte field remain
+guarded; the Win32 source retains its original unchecked copy.
+
+Only generated COFF TimeDateStamp DWORDs and the ten decimal digits in archive
+Date fields are normalized. Spaces, padding, version text, buckets, symbols,
+complete lengths and final inventory stay strict. The masked completion also
+matches the separately retained untouched original master outside the same
+clock fields. The original took 1,701.1 ms; fresh native completion took 13.9 ms
+(8.8 ms setup, 2.4 ms execution, 2.7 ms checks). The single case-end parallel
+cached regression/unit/original-build/full-audit batch passed in 3.63 s, covering
+twenty fixtures, the 528-vertex graph, 516 return contracts and the five existing
+C++ EH-owner checks. This batch time combines work and is not an isolated audit
+or clean-build benchmark.
+
+Six additional whole bodies / 1,237 bytes retain their genuinely matched
+incremental-prefix evidence: support checks, old-state loading/database
+initialization and the OS/address-selection helpers. They do not establish ILK
+creation or reuse. The attempted incremental case is excluded from passing
+fixture discovery because its first original fixed mapping at 3fff0000 fails
+with error 487 while the identical native request succeeds. A single read-only
+original diagnostic observed that first request, NULL return and the target's
+immediate GetLastError; the earlier final retry's 1132 is a distinct observation.
+The unaccepted mapper remains a named entry trap with implementation 0; its
+whole source draft, authored inputs, raw pairs and blocked-case snapshot remain
+in scratch. No collision was seeded or emulated, and these prefixes make no
+incremental-completion claim.
