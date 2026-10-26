@@ -974,3 +974,9 @@ build/watcom-memicmp-probe: tests/watcom-memicmp-probe.c $(SOURCES) $(HEADERS) |
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
 watcom-memicmp-check: build/watcom-memicmp-probe
 	$(PYTHON) tests/check-watcom-memicmp.py $< watcom
+
+.PHONY: mbstok-continuation-check
+build/mbstok-continuation-probe: tests/mbstok-continuation-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+mbstok-continuation-check: build/mbstok-continuation-probe
+	$(PYTHON) tests/check-mbstok-continuation.py $< 510
