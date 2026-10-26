@@ -171,3 +171,60 @@ void __stdcall emit_asm_label(char *name)
         emit_label(new_symbol_reference(2,label,0));
     }
 }
+
+CppSymbol *__stdcall find_asm_member(CppSymbol *members, char *name);
+CppSymbol *__stdcall find_asm_scope_member(char *name);
+
+/* Original 0x7dc13..0x7dd61. A dotted assembler field retains the
+   current aggregate tag; otherwise infer it from the real operand symbol.
+   Scalar fields update operand size, nested aggregates retain their context. */
+unsigned __stdcall asm_member_offset(char *name)
+{
+    CppSymbol *symbol;
+    char *context;
+    unsigned kind;
+    if (!asm_member_context || !asm_member_context->auxiliary.scope_members) {
+        symbol = asm_operand->address->symbol;
+        if (symbol && (asm_operand->address->address_flags & 1))
+            asm_member_context = cpp_context_stack->items[(short)symbol->type->field08];
+        else if (asm_operand->frame_symbol)
+            asm_member_context = cpp_context_stack->items[
+                (short)asm_operand->frame_symbol->type->field08];
+        else if (asm_operand->register_symbol)
+            asm_member_context = cpp_context_stack->items[
+                (short)asm_operand->register_symbol->type->field08];
+        else
+            asm_member_context = 0;
+    }
+    if (asm_member_context && asm_member_context->auxiliary.scope_members)
+        symbol = find_asm_member(asm_member_context->auxiliary.scope_members, name);
+    else
+        symbol = find_asm_scope_member(name);
+    if (symbol) {
+        kind = symbol->kind & 31;
+        if ((kind == 2 || kind == 3) && (symbol->storage[0] & 7) != 3) {
+            asm_member_context = cpp_context_stack->items[(short)symbol->type->field08];
+            if (!asm_member_context) {
+                if (kind == 2)
+                    compiler_warning(1, 401, symbol->name);
+                asm_operand->size = asm_size_encoding(asm_symbol_type_size(symbol));
+            }
+            return symbol->detail.value;
+        }
+    }
+    context = asm_error_context();
+    report_syntax_error(411, name, context);
+    return 0;
+}
+
+/* Original 0x7dae6..0x7db0b. Hidden alignment declarations cannot
+   satisfy an assembler field name, even if their interned spelling matches. */
+CppSymbol *__stdcall find_asm_member(CppSymbol *members, char *name)
+{
+    while (members) {
+        if (members->name != name_alignment && members->name == name)
+            break;
+        members = members->next;
+    }
+    return members;
+}

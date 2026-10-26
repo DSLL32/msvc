@@ -3,6 +3,7 @@
 #include "parameters.h"
 #include "inline-capture.h"
 #include "member-access.h"
+#include "symbol-bindings.h"
 #include <recon.h>
 
 /* Original 0x4e130..0x4e181. Qualified member-pointer names must
@@ -1536,4 +1537,98 @@ CppSymbol *get_current_class_symbol(void)
 {
     if (current_class_context < 0) return 0;
     return class_contexts[current_class_context].symbol;
+}
+
+/* Original 0x2fa60..0x2fab0. Class DLL storage supplies the member's
+   import/export direction while diagnosing an explicit duplicate modifier. */
+void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member)
+{
+    if (context->storage[2] & 4)
+        report_syntax_error(487, format_symbol_name(member));
+    context->storage[2] |= 4;
+    context->storage[2] = (context->storage[2] & ~8) |
+        ((CLASS_TAG->detail.class_info->flags2 << 2) & 8);
+}
+
+CppSymbol *__stdcall new_anonymous_aggregate_object(DeclarationType *context);
+void __stdcall bind_anonymous_aggregate_member(CppSymbol *object, CppSymbol *member,
+    DeclarationType *context);
+void __stdcall finish_anonymous_aggregate_object(CppSymbol *object);
+
+/* Original 0x2e140..0x2e1c5. A standalone anonymous aggregate exposes
+   its real data members through a separately declared backing object. */
+void __stdcall declare_anonymous_aggregate_object(DeclarationType *context)
+{
+    CppSymbol *object, *member, *next, *tag;
+    validate_anonymous_aggregate(context);
+    object = new_anonymous_aggregate_object(context);
+    if (object) {
+        tag = cpp_context_stack->items[(short)object->type->field08];
+        for (member = tag->auxiliary.scope_members; member; member = next) {
+            next = member->next;
+            if ((member->kind & 31) == 3 && !(member->flags & 0x80))
+                bind_anonymous_aggregate_member(object, member, context);
+        }
+        finish_anonymous_aggregate_object(object);
+    }
+}
+
+/* Original 0x2e390..0x2e3ad. The hidden anonymous object is completed
+   through the same declaration path as an explicitly named object. */
+CppSymbol *__stdcall new_anonymous_aggregate_object(DeclarationType *context)
+{
+    CppSymbol *object = new_declarator(name_unnamed);
+    object->flags |= 0x80;
+    return complete_declaration(context, object);
+}
+
+void __stdcall record_symbol_binding(int local, CppSymbol *alias,
+    CppSymbol *object, CppSymbol *member);
+
+/* Original 0x2e3b0..0x2e4e2. Expose a copied member in the surrounding
+   scope while retaining its backing object/member binding separately. */
+void __stdcall bind_anonymous_aggregate_member(CppSymbol *object, CppSymbol *member,
+    DeclarationType *context)
+{
+    CppSymbol *copy, *existing;
+    ArenaPool *pool;
+    int local = declaration_mode != 0;
+    unsigned i;
+    if (!local)
+        copy = allocate_permanent(sizeof(CppSymbol));
+    else {
+        pool = &compiler_arena.pools[1];
+        if (pool->remaining < (int)sizeof(CppSymbol))
+            refill_arena(&compiler_arena, pool);
+        copy = (CppSymbol *)pool->next;
+        pool->remaining -= sizeof(CppSymbol);
+        pool->next += sizeof(CppSymbol);
+    }
+    *copy = *member;
+    copy->kind = 9;
+    if (next_symbol_index >= 0x7fffffffUL)
+        fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    copy->index = next_symbol_index++;
+    for (i = 0; i < 3; ++i)
+        copy->storage[i] = context->storage[i];
+    copy->attributes |= 0x1000;
+    record_symbol_binding(local, copy, object, member);
+    existing = lookup_current_scope_declaration(copy);
+    if (existing)
+        copy = existing;
+    else if (is_current_class_name(copy->name)) {
+        report_syntax_error(630, copy->name);
+        return;
+    } else
+        insert_current_scope_symbol(copy);
+    if (browser_filename && (!declaration_mode || options.option_FR))
+        browser_declaration(copy);
+}
+
+/* Original 0x2e4f0..0x2e4f3 is an empty RET4 extension hook. The backing
+   object argument is neither read nor forwarded; retain its real ABI/entry. */
+void __stdcall finish_anonymous_aggregate_object(CppSymbol *object)
+{
 }

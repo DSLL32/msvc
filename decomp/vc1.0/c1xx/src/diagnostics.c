@@ -302,3 +302,17 @@ int effective_warning_level(int level, unsigned code)
     default: return 0;
     }
 }
+
+/* Original 0x3c8c0..0x3c8ec. Extensions select a plain W4 warning;
+   strict mode forwards only the error's actual variadic argument list. */
+void report_declaration_diagnostic(unsigned warning_code, unsigned error_code, ...)
+{
+    va_list arguments;
+    if (options.configuration.extensions_enabled)
+        compiler_warning(4, warning_code);
+    else {
+        va_start(arguments, error_code);
+        report_syntax_error_list(error_code, arguments);
+        va_end(arguments);
+    }
+}

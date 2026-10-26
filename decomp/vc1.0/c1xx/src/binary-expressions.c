@@ -6,6 +6,7 @@
 #include "return-statements.h"
 #include "numeric-conversion.h"
 #include "keywords.h"
+#include "call-expressions.h"
 #include <recon.h>
 
 unsigned integer_constant_scratch; /* original 0x912e8: shared constant payload */
@@ -1183,4 +1184,36 @@ int __stdcall report_operator_resolution_failure(unsigned char operation,
         return 0;
     report_conversion_rank_failure(operation, failure, left, right);
     return 1;
+}
+
+/* Original 0x61ac0..0x61b33. Both branches must yield modifiable
+   lvalues before the copied condition is evaluated through one temporary. */
+IrToken *__stdcall make_conditional_lvalue(IrToken *expression)
+{
+    IrToken *if_true, *if_false;
+    if_true = modifiable_lvalue(expression->tail.right->value.pointer, 0);
+    if (!if_true)
+        return 0;
+    if_false = modifiable_lvalue(expression->tail.right->tail.right, 0);
+    if (!if_false)
+        return 0;
+    expression = clone_expression(expression, 0);
+    expression->tail.right->value.pointer = if_true;
+    expression->tail.right->tail.right = if_false;
+    expression->tail.right->type = make_pointer_to_type(0, expression->type);
+    expression->type = expression->tail.right->type;
+    return materialize_call_result(expression);
+}
+
+/* Original 0x61a80..0x61ab6. A comma expression inherits the final
+   operand's lvalue and type without mutating the caller's original tree. */
+IrToken *__stdcall make_comma_lvalue(IrToken *expression)
+{
+    IrToken *right = modifiable_lvalue(expression->tail.right, 0);
+    if (!right)
+        return 0;
+    expression = clone_expression(expression, 0);
+    expression->tail.right = right;
+    expression->type = right->type;
+    return expression;
 }

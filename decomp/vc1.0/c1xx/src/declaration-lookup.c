@@ -1286,3 +1286,44 @@ char *__stdcall format_qualified_name(QualifierBinding *binding, int verbose)
     }
     return (char *)expression_storage;
 }
+
+HashTable *typedef_aliases; /* original 0x9f348; shared PCH root98 */
+
+/* Original 0x54680..0x546b3. Resolve declarations before hashing;
+   the alias itself is the table key and its original symbol is the value. */
+void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias)
+{
+    if (!typedef_aliases)
+        typedef_aliases = new_hash_table(16, 0, 7, 6);
+    set_hash_value(typedef_aliases, alias, symbol);
+}
+
+unsigned resolved_declaration_index(CppSymbol *symbol);
+
+/* Original 0x54640..0x5464e. Hash aliases by the resolved declaration's
+   compiler index rather than the transient key address. */
+unsigned __cdecl hash_resolved_declaration(void *key)
+{
+    return resolved_declaration_index((CppSymbol *)key);
+}
+
+CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads);
+
+/* Original 0x54590..0x54612. Base paths and overload sets resolve to
+   an actual declaration before lazily assigning its shared compiler index. */
+unsigned resolved_declaration_index(CppSymbol *symbol)
+{
+    unsigned kind = symbol->kind & 31;
+    if (kind == 15)
+        symbol = cpp_context_stack->items[((BaseClassLink *)symbol)->context_index];
+    else if (kind == 16 || kind == 17)
+        symbol = last_overload_declaration((OverloadSet *)symbol);
+    if (!symbol->index) {
+        if (next_symbol_index >= 0x7fffffffUL)
+            fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        symbol->index = next_symbol_index++;
+    }
+    return symbol->index;
+}

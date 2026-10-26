@@ -1491,3 +1491,64 @@ OverloadCandidate *__stdcall report_call_overload_failure(OverloadSearch *search
     diagnose_overload_failure(0, search, 0);
     return 0;
 }
+
+/* Original 0x3dc30..0x3dca2. Conditional cleanups use kind13's
+   expression payload and high marker bit in an otherwise initialized record. */
+void __stdcall record_conditional_cleanup(IrToken *expression)
+{
+    TemporaryFrontendRecord record;
+    if (ir_records_suppressed || allow_incomplete_class || !expression)
+        return;
+    record.header.kind = 13;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = record.header.previous = 0;
+    record.object = 0;
+    record.field14 = 0;
+    record.header.kind &= ~0x40;
+    record.header.kind |= 0x80;
+    record.object = expression;
+    append_frontend_record(&record.header, sizeof(record));
+}
+
+/* Original 0x61b40..0x61be0. Evaluate once into a fresh typed temporary,
+   then expose its dereferenced value through the original comma sequence. */
+IrToken *__stdcall materialize_call_result(IrToken *expression)
+{
+    CType *type = expression->type;
+    IrToken *temporary, *assignment, *reference;
+    if (next_symbol_index >= 0x7fffffffUL)
+        fatal_error(55);
+    if (next_symbol_index >= browser_symbol_limit && browser_filename)
+        browser_symbol_rollover();
+    temporary = new_temporary_reference(next_symbol_index++, type);
+    assignment = new_ir_expression(0x3d, temporary, expression, type);
+    reference = clone_expression(temporary, 0);
+    reference = new_typed_unary_expression(0x46, type, reference);
+    expression = new_ir_expression(0x40, assignment, reference, type);
+    if (expression->type && expression->type->related &&
+        (expression->type->related->flags & 0x77) == 2)
+        expression->type = parameter_reference_type(expression);
+    return expression;
+}
+
+/* Original 0x65a80..0x65af0. Prefer a class conversion; otherwise cast
+   the original lvalue's address and expose the referenced destination type. */
+IrToken *__stdcall cast_to_reference(CType *type, IrToken *operand)
+{
+    IrToken *result = try_user_defined_conversion(type, operand, 1);
+    CType *destination;
+    if (result)
+        return result;
+    if (!modifiable_lvalue(operand, 0)) {
+        report_syntax_error(608);
+        return 0;
+    }
+    operand = builtin_unary_expression(OP_BIT_AND, operand);
+    destination = dereference_pointer_type(type);
+    operand = cast_to_type(make_pointer_to_type(0, destination), operand);
+    result = indirect_storage_expression(new_cast_expression(type, operand));
+    result->type = destination;
+    return result;
+}

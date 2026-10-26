@@ -367,3 +367,36 @@ IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displaceme
     IrToken *adjusted = new_left_typed_expression(0xa9, object, offset);
     return new_cast_expression(type, adjusted);
 }
+
+/* Original 0x32110..0x321ef. A real nontrivial destructor follows
+   ordinary member lookup. Trivial destruction retains the object expression
+   and closes the pending class-lookup state without inventing a call. */
+IrToken *__stdcall member_destructor_expression(unsigned char operation,
+    IrToken *object, char *name)
+{
+    CppSymbol *tag;
+    IrToken *destructor;
+    if (object) {
+        if (object->type && (object->type->flags & 0x400)) {
+            tag = cpp_context_stack->items[(short)object->type->field08];
+            if (tag->name == name) {
+                if ((tag->declaration_flags & 0x2000) &&
+                    !(tag->detail.class_info->trivial_special_members & 8)) {
+                    destructor = identifier_expression(name_dtor);
+                    return member_expression(operation, object, destructor);
+                }
+            } else {
+                report_syntax_error(300, tag->name, name);
+                object = 0;
+            }
+        } else {
+            report_syntax_error(operation == 0x5c ? 301 : 302, name);
+            object = 0;
+        }
+    }
+    token_allocation_flags &= ~0x80;
+    class_lookup_error = 0;
+    class_lookup_operator = 1;
+    class_lookup_context = 0;
+    return object;
+}

@@ -12,6 +12,7 @@
 #include "cpp-context.h"
 #include "special-members.h"
 #include "constructor-initializers.h"
+#include "symbol-bindings.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -555,4 +556,54 @@ void __stdcall begin_initializer_function(CppSymbol *symbol)
     declaration_mode = 0;
     function_symbol->declaration_flags =
         (function_symbol->declaration_flags & ~0x100) | 0x200;
+}
+
+HashTable *global_symbol_bindings; /* original 0x9f344; shared PCH root97 */
+
+/* Original 0x56010..0x56061. File-scope aliases use permanent bindings;
+   local aliases use the existing per-function map and arena1 allocation. */
+void __stdcall record_symbol_binding(int local, CppSymbol *alias,
+    CppSymbol *object, CppSymbol *member)
+{
+    HashTable **table = local ? &function_symbol_bindings : &global_symbol_bindings;
+    short arena = local != 0;
+    SymbolBinding *binding;
+    if (!*table)
+        *table = new_hash_table(11, arena, 2, 1);
+    binding = new_symbol_binding(object, member, arena);
+    set_hash_value(*table, alias, binding);
+}
+
+/* Original 0x560a0..0x560f1. Allocate only the two initialized binding
+   words; arena-1 explicitly selects pool0 rather than permanent allocation. */
+SymbolBinding *__stdcall new_symbol_binding(CppSymbol *object, CppSymbol *member,
+    short arena)
+{
+    SymbolBinding *binding;
+    ArenaPool *pool;
+    if (!arena)
+        binding = allocate_permanent(sizeof(SymbolBinding));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(SymbolBinding))
+            refill_arena(&compiler_arena, pool);
+        binding = (SymbolBinding *)pool->next;
+        pool->remaining -= sizeof(SymbolBinding);
+        pool->next += sizeof(SymbolBinding);
+    }
+    binding->object = object;
+    binding->member = member;
+    return binding;
+}
+
+/* Original 0x56070..0x560a0. Alias consumers require an existing
+   binding; per-function aliases take precedence over file-scope bindings. */
+CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value)
+{
+    SymbolBinding *binding = find_hash_value(function_symbol_bindings, symbol);
+    if (!binding)
+        binding = find_hash_value(global_symbol_bindings, symbol);
+    *value = binding->member;
+    return binding->object;
 }

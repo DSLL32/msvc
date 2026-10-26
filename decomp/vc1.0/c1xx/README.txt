@@ -1,6 +1,38 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Telemetry-frame is COMPLETE: case0018. One valid legacy telemetry compiler
+workload combines packed bit fields, anonymous aggregate bindings, DLL storage
+inheritance, conditional temporaries/lvalues, reference casts, explicit destructor
+syntax and inline-assembly member addressing. Fresh masked-original/native runs
+match all24 first encounters, complete diagnostics, exit0 and six IR/browser
+artifacts. Final observations match the untouched full original baseline exactly;
+there is no byte normalization or downstream runtime correctness claim.
+
+This case accepted24 whole App bodies/3,302 code bytes, with no new owned switch
+data. The shared registry reports1,703 App bodies/1,810 historical frontiers, plus
+the unchanged seven historical CRT source bodies. App-only code extent union is
+386,423/476,418 B (81.11% of whole original code extent, not a non-CRT denominator),
+excluding CRT/imports and owned data. The typedef-alias and global symbol-binding
+PCH roots now reference their encountered operational owners; cached creation and
+reuse remain passing. Newly identified overload-tail and assembler scope lookup
+helpers remain unimplemented. No new CRT body, guard or shared change was needed.
+
+Original-toolchain builds passed. The completed-case gate passes all19 cached
+native cases,31 unit groups and the1,711-function six-check graph/ABI audit in
+2.952 s. Fresh final original capture1.366 s; native34.601 ms (setup18.924 ms,
+execution9.592 ms, checks6.085 ms); incremental native/Win32 build2.990 s.
+Cached telemetry replay32.334 ms. Intermediate checks used the current case;
+complete regressions and audit ran only at completion.
+
+One premature capture used a stale library after a failed build and earned no
+credit. After correcting the missing prototype, a separately completed build and
+fresh original/native pair established the real successor. Registry validation
+also rejected a duplicate conversion-helper entry before launch; the existing
+helper was reused without extra credit. Failed records remain in scratch.
+
+Earlier completed rejected-plugin diagnostics:
+
 Rejected-plugin diagnostics is COMPLETE: case0017. One deliberately rejected
 legacy SDK plugin combines a packed request header with macro redefinition,
 invalid bit fields/arrays, inaccessible and ambiguous members, incompatible

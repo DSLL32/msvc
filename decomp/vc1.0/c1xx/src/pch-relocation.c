@@ -17,6 +17,7 @@
 #include "class-members.h"
 #include "virtual-table-output.h"
 #include "member-access.h"
+#include "symbol-bindings.h"
 #include <recon.h>
 
 extern unsigned char *permanent_next;
@@ -41,6 +42,8 @@ extern int member_pointer_requested_model, anonymous_identifier_count;
    two far-function fallback pointers have no reconstructed live consumer yet.
    Their canonical cells remain in the image view: preserve actual values on
    load, without claiming they are unused or forcing them to zero. */
+extern HashTable *typedef_aliases;
+
 #define ROOT(object_) ((unsigned *)&(object_))
 unsigned * const pch_root_cells[149] = {
     ROOT(generated_member_queue), /* 9f1c0 */
@@ -140,8 +143,8 @@ unsigned * const pch_root_cells[149] = {
     ROOT(declaration_thunks), /* 9f338 */
     ROOT(deferred_type_tables), /* 9f33c */
     ROOT(declaration_table), /* 9f340 */
-    ROOT(pch_compiler_image.roots[97]), /* 9f344; pending global_symbol_bindings */
-    ROOT(pch_compiler_image.roots[98]), /* 9f348; pending typedef_aliases */
+    ROOT(global_symbol_bindings), /* 9f344 */
+    ROOT(typedef_aliases), /* 9f348 */
     ROOT(member_context_links), /* 9f34c */
     ROOT(initializer_segment_name), /* 9f350 */
     ROOT(name_ctor), /* 9f354 */
@@ -899,10 +902,7 @@ void mark_pch_deferred_types(void)
         mark_pch_deferred_type_key, (PchVisit)mark_pch_symbol_chain);
 }
 
-/* These pending lookup maps have no reconstructed writer yet. Their actual
-   root cells remain the sole owners; the PCH visitor supplies the typed view. */
-#define global_symbol_bindings (*(HashTable **)&pch_compiler_image.roots[97])
-#define typedef_aliases (*(HashTable **)&pch_compiler_image.roots[98])
+
 void __stdcall mark_pch_symbol_binding(void *binding);
 void __stdcall mark_pch_access_key(AccessDeclaration *access);
 

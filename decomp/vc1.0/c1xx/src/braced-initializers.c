@@ -6,6 +6,7 @@
 #include "binary-expressions.h"
 #include "numeric-conversion.h"
 #include "type-sizes.h"
+#include "function-finalization.h"
 #include <recon.h>
 
 int initializer_excess_reported; /* original 0x915a8 */
@@ -671,4 +672,157 @@ void __stdcall emit_initializer_padding(CppSymbol *symbol)
     integer_constant_scratch = symbol->detail.value;
     if (!(token_allocation_flags & 0x200000)) emit_initializer_constant(0);
     initializer_offset += integer_constant_scratch;
+}
+
+/* Original 0x45f00..0x4601a. Accumulate runtime bit fields in the
+   existing initializer data symbol, clearing it once before a new run. */
+void __stdcall emit_runtime_bit_field_initializer(IrToken *value)
+{
+    CppSymbol *field;
+    IrToken *offset, *mask, *target;
+    unsigned i;
+    if (!initializer_data_symbol) {
+        initializer_data_symbol = new_symbol(0,
+            (token_allocation_flags & 0x40) ? 2 : declaration_mode);
+        initializer_data_symbol->type = type_0044;
+        for (i = 0; i < 3; ++i)
+            initializer_data_symbol->storage[i] = declaration_storage[i];
+        initializer_data_symbol->storage[0] =
+            (initializer_data_symbol->storage[0] & ~7) | 4;
+        initializer_data_used = 1;
+    }
+    if (initializer_data_used) {
+        offset = make_integer_constant(0);
+        target = indirect_storage_expression(symbol_reference(initializer_data_symbol));
+        target = builtin_binary_expression(0x7e, target, offset);
+        emit_expression_statement(target);
+        initializer_data_used = 0;
+    }
+    field = current_braced_initializer->symbol;
+    offset = make_integer_constant(field->auxiliary.bit_field.offset);
+    /* The original variable x86 shift consumes only the low five count bits. */
+    mask = make_integer_constant((1U << (field->auxiliary.bit_field.width & 31)) - 1);
+    value = builtin_binary_expression(OP_BIT_AND, value, mask);
+    value = builtin_binary_expression(OP_SHIFT_LEFT, value, offset);
+    target = indirect_storage_expression(symbol_reference(initializer_data_symbol));
+    value = builtin_binary_expression(OP_OR_ASSIGN, target, value);
+    emit_expression_statement(value);
+}
+
+CppSymbol *__stdcall next_initializer_at_offset(unsigned offset, CppSymbol *member);
+CppSymbol *__stdcall skip_initializer_aggregate(CppSymbol *member);
+
+/* Original 0x477f0..0x47aab. Account for implicit array/class tail
+   initialization, retaining constructor batching and packed-field ownership. */
+unsigned remaining_braced_initializer_bytes(void)
+{
+    CppSymbol *symbol, *member, *next, *tag;
+    CType *type;
+    TypeShape *shape;
+    unsigned bytes, total = 0, kind;
+    if (braced_initializer_depth < 0)
+        return 0;
+    symbol = current_braced_initializer->symbol;
+    type = symbol->type;
+    shape = type->related;
+    if (shape && (shape->flags & 0x77) == 2) {
+        if (!shape->data.array_bound)
+            return 0;
+        tag = cpp_context_stack->items[type->field08];
+        bytes = ((unsigned)shape->data.array_bound - current_braced_initializer->offset) *
+            inner_type_size(type->flags, tag, shape);
+        if (!bytes)
+            return 0;
+        if ((classify_incomplete_type(type) & 0x82) && tag &&
+            (tag->kind & 31) == 4 && !(tag->detail.class_info->flags2 & 1) &&
+            (tag->declaration_flags & 0x1000)) {
+            if (has_class_initialization(type)) {
+                if (!initializer_constructor_count)
+                    initializer_constructor_offset = initializer_offset;
+                initializer_constructor_count += bytes / inner_type_size(type->flags, tag, 0);
+            } else if (!initializer_value_error_reported) {
+                report_syntax_error(73, initializer_storage_symbol->name);
+                initializer_value_error_reported = 1;
+            }
+        } else if ((type_qualifiers(type) & 0x1000) && !initializer_value_error_reported) {
+            report_syntax_error(147, initializer_storage_symbol->name);
+            initializer_value_error_reported = 1;
+        }
+        return bytes;
+    }
+    if (!(type->flags & 0x400))
+        return type_size(type);
+    if (initializer_bit_field_pending) {
+        integer_constant_scratch = initializer_bit_field_value;
+        emit_initializer_constant(symbol->auxiliary.scope_members);
+    }
+    member = symbol->auxiliary.scope_members;
+    while (member) {
+        kind = member->kind & 31;
+        if (kind >= 1 && kind <= 13 && kind != 5) {
+            if (member->attributes & 0x800) {
+                total += type_size(member->type);
+                skip_initializer_aggregate(member);
+                break;
+            }
+            if (member->attributes & 0x1000)
+                break;
+        }
+        if (member->name == name_alignment || is_initializer_data_member(member)) {
+            if (kind == 2) {
+                while ((next = next_initializer_at_offset(member->detail.value,
+                        member->next)) != 0)
+                    member = next;
+                if (initializer_bit_field_pending) {
+                    initializer_bit_field_pending = 0;
+                    bytes = 0;
+                } else
+                    bytes = member->type->flags & 15;
+            } else if (member->name == name_alignment)
+                bytes = member->detail.value;
+            else
+                bytes = type_size(member->type);
+            total += bytes;
+        }
+        member = member->next;
+    }
+    symbol->auxiliary.scope_members = 0;
+    initializer_bit_field_pending = 0;
+    return total;
+}
+
+/* Original 0x47730..0x47781. Packed bit fields may share a storage
+   offset across intervening tag/overload declarations, but not alignment. */
+CppSymbol *__stdcall next_initializer_at_offset(unsigned offset, CppSymbol *member)
+{
+    unsigned kind;
+    if (!member || member->name == name_alignment)
+        return 0;
+    while (member) {
+        kind = member->kind & 31;
+        if (kind != 16 && kind != 17 && kind != 4)
+            break;
+        member = member->next;
+    }
+    if (member && member->detail.value == offset)
+        return member;
+    return 0;
+}
+
+/* Original 0x47790..0x477eb. Return the declaration following a
+   balanced anonymous aggregate, counting only ordinary declaration markers. */
+CppSymbol *__stdcall skip_initializer_aggregate(CppSymbol *member)
+{
+    int depth = 1;
+    unsigned kind;
+    member = member->next;
+    while (member && depth > 0) {
+        kind = member->kind & 31;
+        if (kind >= 1 && kind <= 13 && kind != 5) {
+            if (member->attributes & 0x1000) --depth;
+            if (member->attributes & 0x800) ++depth;
+        }
+        member = member->next;
+    }
+    return member;
 }
