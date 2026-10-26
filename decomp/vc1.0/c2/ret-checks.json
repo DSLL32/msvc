@@ -1020,6 +1020,16 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@append_intrinsic_expression@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@has_unblocked_derived_use@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

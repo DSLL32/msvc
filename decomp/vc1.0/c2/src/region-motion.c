@@ -1820,3 +1820,17 @@ void __fastcall release_loop_tree_record(LoopTreeRecord *record)
     release_tree(record->trip_count);
     free_loop_tree_records = record;
 }
+
+/* Original607e0..60819 (57 bytes), ECX tree, RET0. Search every unblocked
+   representative for a structurally matching descendant (including itself).
+   The equality walk's private target cache is updated by the existing child;
+   no induction owners or blocking flags are changed. Native live-owner unit
+   qualification is distinct from original-pair and CLI helper reach. */
+int __fastcall has_unblocked_derived_use(Node *node)
+{
+    Node *__fastcall find_matching_parent(Node *tree, Node *target);
+    DerivedInductionGroup *group;
+    for (group = derived_induction_groups; group; group = group->next)
+        if (!group->blocked && find_matching_parent(group->representative, node)) return 1;
+    return 0;
+}

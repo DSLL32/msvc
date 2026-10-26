@@ -74,9 +74,29 @@ static int descriptors(void)
   !rotate_right_intrinsic.flags&&!strcmp(rotate_right_intrinsic.commands,"vb")&&
   !*rotate_right_intrinsic.runtime_name;
 }
+/* Native unit only: borrow the real interpreter root after it publishes
+   current_intrinsic, before argument preparation. No descriptor A recipe or
+   private global is forced merely to run the dormant sequencing helper. */
+static void __fastcall prefix_entry(Node *node,unsigned intrinsic,Node **arguments)
+{
+ Node *old=node,*left=node->left.node,*second=node->second.node,*prefix,*result;
+ unsigned opcode=node->opcode;
+ (void)intrinsic;(void)arguments;
+ if(current_intrinsic!=old||!left||!second)recon_native_entry_finish(0);
+ prefix=integer_node(0x1234,0x204);
+ append_intrinsic_expression(prefix);result=current_intrinsic;
+ recon_native_entry_finish(result&&result!=old&&result->opcode==0x44&&
+  result->left.node==prefix&&result->second.node==old&&
+  old->opcode==opcode&&old->left.node==left&&old->second.node==second&&
+  result->attributes.words.type==old->attributes.words.type);
+}
+static int actual_intrinsic_prefix(void)
+{return recon_native_at_entry((const void*)prepare_intrinsic_arguments,
+ (const void*)prefix_entry,real_input,0)==1;}
 const ReconTest dictionary_tests[]={
  {"actual tail label identity and unchanged chain",1,actual_tail},
  {"actual pure call argument value IDs",1,actual_chain},
  {"cold argument list equality edges",1,chain_edges},
- {"encountered rotate and integer absolute descriptors",1,descriptors}
+ {"encountered rotate and integer absolute descriptors",1,descriptors},
+ {"unit-qualified sequence precedes a genuine active intrinsic root",1,actual_intrinsic_prefix}
 };

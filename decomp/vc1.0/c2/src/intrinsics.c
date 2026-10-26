@@ -457,3 +457,12 @@ void __fastcall set_generated_intrinsic_call(FunctionSymbol *symbol,
     information->argument_count = (short)argument_count;
     symbol->field2c = (unsigned)information;
 }
+
+/* Original63f20..63f3c (28 bytes), ECX expression, RET0. The intrinsic
+   interpreter's dormant A recipe inserts a fully typed sequence before its
+   active intrinsic root. Keep the genuine PPNY builder edge and publication;
+   native live-entry unit qualification does not claim public A-recipe reach. */
+void __fastcall append_intrinsic_expression(Node *expression)
+{
+    current_intrinsic = build_tree("PPNY", expression, current_intrinsic, 0x44);
+}

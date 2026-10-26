@@ -4113,11 +4113,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@has_unblocked_derived_use@4",
         .entry_rva = 0x507e0,
-        .code = (const ReconExtent[]) { { 0x507e0, 0x507e1 } },
+        .code = (const ReconExtent[]) { { 0x507e0, 0x50819 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "has_unblocked_derived_use",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@region_assignment_precedes@8",
@@ -5013,11 +5013,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@append_intrinsic_expression@4",
         .entry_rva = 0x53f20,
-        .code = (const ReconExtent[]) { { 0x53f20, 0x53f21 } },
+        .code = (const ReconExtent[]) { { 0x53f20, 0x53f3c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "append_intrinsic_expression",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@prepare_intrinsic_arguments@12",

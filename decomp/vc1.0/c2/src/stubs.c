@@ -179,8 +179,6 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 
 #include "intrinsics.h"
-void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
-int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
 
 
 int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }

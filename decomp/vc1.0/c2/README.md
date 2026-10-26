@@ -1,24 +1,44 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1510 adds four unit-qualified dormant flow-maintenance helpers. There
-are1395 reconstructed App functions and five unchanged historical CRT bodies.
-App code occupies362781/399693 original code-section bytes(90.7649%); adding976
-owned text-data bytes gives363757/399693(91.0091%). These clipped extent unions
+Checkpoint1512 adds two unit-qualified dormant tree-support helpers. There are
+1397 reconstructed App functions and five unchanged historical CRT bodies.
+App code occupies362866/399693 original code-section bytes(90.7862%); adding976
+owned text-data bytes gives363842/399693(91.0304%). These clipped extent unions
 use section VirtualSize(raw size only if zero), not branch coverage. Five old
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover390131/399693(97.6077%). A reliable non-CRT
-denominator is unavailable;14 pending App rows and9562B outside the available
+classified CRT/import extents cover390216/399693(97.6289%). A reliable non-CRT
+denominator is unavailable;12 pending App rows and9477B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
 `binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
-cases and259 narrow units pass. Fixtures are native-only. Inputs preserve actual
+cases and261 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
-listings/OMF remain exact. Nine current App owners are explicitly UNIT-qualified
+listings/OMF remain exact. Eleven current App owners are explicitly UNIT-qualified
 (dormant source/disassembly+original-compiler+graph/RET+typed native units),
 distinct from original-pair qualification; no CLI reach is claimed for them.
 
+The latest two owners add85B: intrinsic-prefix sequence28 and unblocked derived
+use query57. Existing shared entry hooks borrow real state from unchanged cached
+inputs. The dictionary case reaches argument preparation after the real intrinsic
+interpreter publishes its root. A target-created integral expression is prefixed
+through the exact PPNY builder; the new typed comma owner retains both child
+identities and the old root's opcode/children. No A-recipe descriptor is invented.
+The bank case reaches an actual unblocked induction rewrite group; the genuine
+representative gives1 and a fresh absent typed constant gives0. Its opcode/type/
+children remain unchanged. No induction-group private globals are assigned.
+The accepted equality walk's target cache is its ordinary query state. These are
+live-state native units, not new original-pair or public helper reach.
+
+Final make-j4 audit/check/unit passes5.297s(phases unsplit):1402 graphs/accepted
+extents,206 scoped RET,46 original-backed cases and261 units. Original/W3 passes
+3.020s; necessary canonical/native/case build8.205s and the two case-unit sets
+0.067s. Analysis/editing/disassembly elapsed is unmeasured. No new capture,
+changed oracle, shared shim or extra observer. Scratch source/qualification/time/
+coverage records: `~/.ai-tmp/msvc2/vc1.0/c2/tree-support-units/`.
+
+Checkpoint1510 added the four flow-maintenance owners below.
 The latest four owners add323B: numbered-work successor31B, forget protected
 label50B, recursive region split marking83B and inline-assembly label redirect159B.
 Their original complete intervals/signatures are preserved. Four units attached
@@ -41,8 +61,8 @@ capture or shared shim. Scratch qualification/timing/coverage/source hashes:
 Checkpoint1506 added the three selection queries below.
 The latest three owners are UNIT-qualified, with no new original-pair or CLI
 reach claim: secondary aggregate register72B, integer bit width8B and resident
-floating arithmetic mapping60B plus36B owned switch data. Together with the two
-scaling helpers below, five current App owners use this explicitly distinct
+floating arithmetic mapping60B plus36B owned switch data. At checkpoint1506, these and the two
+scaling helpers below made five App owners with this explicitly distinct
 qualification. No new original capture, input/private flag change or CRT body.
 
 Typed native controls cover all five encountered bit-width table entries, plain

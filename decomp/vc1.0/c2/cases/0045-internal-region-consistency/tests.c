@@ -10,6 +10,9 @@
 #include "../../src/bitsets.h"
 #include "../../src/symbols.h"
 #include "../../src/float-machine.h"
+#include "../../src/region-motion.h"
+#include "../../src/expression-fields.h"
+#include <recon-native.h>
 #include <recon-tool.h>
 #include <unistd.h>
 #include <signal.h>
@@ -144,10 +147,31 @@ static int aggregate_secondary_result(void)
     }
     return 1;
 }
+/* Actual unblocked representative group, reached through unchanged bank
+   input. Only typed query arguments are created; group storage stays private. */
+extern int main(int,char **,char **);
+int __fastcall has_unblocked_derived_use(Node *node);
+static void __fastcall derived_entry(DerivedInduction *candidates,Node *representative)
+{
+ Node *absent=new_node(0x33),*left=representative->left.node,*second=representative->second.node;
+ unsigned op=representative->opcode,attributes=representative->attributes.value;
+ if(!candidates||!representative||!current_function)recon_native_entry_finish(0);
+ absent->attributes.words.type=0x204;absent->left.value=0xbadc0ffeU;
+ recon_native_entry_finish(has_unblocked_derived_use(representative)==1&&
+  has_unblocked_derived_use(absent)==0&&representative->opcode==op&&
+  representative->attributes.value==attributes&&representative->left.node==left&&
+  representative->second.node==second);
+}
+static void actual_bank_input(void *unused)
+{char *argv[]={"R:\\toolchains\\1.0-nt\\bin\\c23232.exe",0};(void)unused;main(1,argv,0);}
+static int actual_derived_query(void)
+{return recon_native_at_entry((const void*)rewrite_derived_induction_group,
+ (const void*)derived_entry,actual_bank_input,0)==1;}
 const ReconTest scaled_induction_tests[]={
     {"unit-qualified induction summary uses original x86 shift count",1,increment_summary},
     {"unit-qualified indexed normalization preserves owned address annotations",1,normalized_addresses},
     {"unit-qualified integer memory arithmetic maps to resident ST forms",1,resident_arithmetic_forms},
     {"unit-qualified scalar operand widths retain actual bit counts",1,scalar_bit_widths},
-    {"unit-qualified plain aggregate secondary result uses EDX",1,aggregate_secondary_result}
+    {"unit-qualified plain aggregate secondary result uses EDX",1,aggregate_secondary_result},
+    {"unit-qualified unblocked query borrows a genuine derived representative",1,actual_derived_query}
 };
