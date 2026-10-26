@@ -320,8 +320,7 @@ void parse_token( char *token, int nesting_level )
                     if( (*token == '=' || *token == '#') ) token++;
                     get_fname( token, OBJ );
                     break;
-                case 'r':
-                case 'e': /* for backwards compatablity */
+                case 'e': /* original1994 error-file option */
                     /* use this as the error file, default fname.err */
                     token += 2;
                     if( (*token == '=' || *token == '#') ) token++;

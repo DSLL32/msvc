@@ -34,6 +34,11 @@
 #include <string.h>
 #include "wasm.h"
 #include <recon.h>
+
+/* Historical WOMP declaration: its cold warning calls resolve to the
+ * assembler's incompatible four-register PrtMsg at CF16380. Keep those
+ * period calls, but reject the undefined native argument state. */
+extern void PrtMsg(unsigned message, ...);
 #ifdef __WATCOMC__
 #pragma intrinsic(strlen)
 #endif
@@ -142,7 +147,10 @@ int writeSegdef(obj_rec *objr, pobj_state *state)
     case 5: acbp |= 5 << 5; break; /* dword */
     case 6:
         acbp |= 4;
-        WompPrtMsg(0x8040); /* WRN | MSG_MS386_NO_4KPAGE */
+#ifdef __linux__
+        WASM_PENDING();
+#endif
+        PrtMsg(0x8040); /* WRN | MSG_MS386_NO_4KPAGE */
         break;
     default: InternalError("g:\\bld\\womp\\c\\genmsomf.c",162);
     }
@@ -157,7 +165,12 @@ int writeSegdef(obj_rec *objr, pobj_state *state)
     ObjWriteIndex(out,objr->d.segdef.seg_name_idx);
     ObjWriteIndex(out,objr->d.segdef.class_name_idx);
     ObjWriteIndex(out,objr->d.segdef.ovl_name_idx);
-    if (objr->d.segdef.access_valid) WompPrtMsg(0x41); /* MSG_MS386_NO_ACCESS */
+    if (objr->d.segdef.access_valid) {
+#ifdef __linux__
+        WASM_PENDING();
+#endif
+        PrtMsg(0x41); /* MSG_MS386_NO_ACCESS */
+    }
     ObjWEndRec(out);
     return 0;
 }

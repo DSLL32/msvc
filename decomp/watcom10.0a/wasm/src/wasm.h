@@ -265,7 +265,6 @@ void ObjWrite(OBJ_WFILE *out, const char *data, size_t length);
 void ObjWEndRec(OBJ_WFILE *out);
 size_t FixGenRef(union logphys *ref, int is_logical, char *buffer, int type);
 size_t FixGenPRef(physref *ref, char *buffer, int type);
-void WompPrtMsg(unsigned message, ...);
 
 /* LIDATA relocation adjustment node: actual8B owner. */
 typedef struct lifix_munge {

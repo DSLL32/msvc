@@ -1,6 +1,7 @@
 # Watcom 10.0a WASM
 
-Five cases are complete: `/?` (exit 1) and four successful assembly workloads.
+Six cases are complete: `/?` (exit 1), four successful assembly workloads,
+and a source-configuration diagnostic workload (exit 7).
 The buffer transform combines includes, macros, conditionals, typed records,
 integer/x87 instructions, branches and external relocations (485-byte OMF).
 The DOS record formatter adds small-model segments, IRP, macro-local labels,
@@ -10,10 +11,14 @@ include-path lookup, aliases, string conditionals, register arguments, quoted
 identifiers, TBYTE data and embedded-code data records (362-byte OMF). Each
 object matches exactly. The segmented286 x87 library adds emulation patch
 fixups, explicit segment frames and C naming (359-byte OMF), also matching
-exactly. Inputs and references are frozen in numbered captures;
+exactly. The diagnostic workload exercises included macro error directives,
+string/value/defined-symbol conditions, macro-call notes and alignment warnings.
+Its seven errors and one warning match exactly; redirected stdout suppresses
+`/fe` error-file creation, and the erroneous object is deleted.
+Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 380 application functions and 91,610 unique original
+The reconstruction covers 390 application functions and 93,357 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
@@ -23,19 +28,23 @@ empty-line read-before-buffer defect remains in the period build; the native
 branch uses the documented, twice-observed no-join outcome. Native `GetAssume`
 projects the original selector 8 read onto its actual `ModuleInfo.flat_idx`
 owner rather than depending on host global placement; other unknown selectors
-remain unsupported.
+remain unsupported. The original WOMP warning callers have an incompatible
+`PrtMsg` declaration: period builds preserve their actual calls, while native
+builds explicitly trap those unreached malformed-call paths. The proper
+assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 380 graph/reference/ownership/extent checks pass, with 299 ordinary RET
-contracts and 81 finite cold-error, tail-wrapper or exit checks. Pending error
+All 390 graph/reference/ownership/extent checks pass, with 308 ordinary RET
+contracts and 82 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-Final cached native fixtures: help 14.30 ms, buffer transform 15.91 ms,
-DOS records 15.91 ms, flat32 library 15.58 ms and segmented x87 library 13.78 ms
-(setup 7.60 ms, execution 2.83 ms, checks 3.35 ms). Parallel Make check took
-90.64 ms; final incremental native/case/period build setup took 5.25 s. The final
-full graph and finite RET audit took 774.75 ms. The last explicit original
-capture took 1.73 s. These are measured closeout runs, not clean-build timings.
+Final cached native fixtures: help 16.50 ms, buffer transform 16.64 ms,
+DOS records 15.65 ms, flat32 library 15.51 ms, segmented x87 library 15.79 ms
+and diagnostics 13.72 ms (setup 8.20 ms, execution 2.32 ms, checks 3.20 ms).
+Parallel Make check took 98.98 ms; the final full graph and finite RET audit
+took 767.59 ms. The last explicit original capture took 1.82 s. Native and
+period builds passed; their final incremental build time was not measured.
+These are measured closeout runs, not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its

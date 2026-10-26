@@ -55,6 +55,7 @@ def pe_bytes(address, size):
 symbols = {name: 0x410000 + int(offset, 16) for offset, name in re.findall(
     r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wasm.map').read_text(), re.M)}
 owners = [
+    ('fill_in_objfile_space', 82244, 82463, '07df95d39d02c40c475b2d2c2155334888d98d917b7cea35451f35db4665ce15', [82462], [82311]),
     ('FixOverride',0x124cc,0x12599,'5d4c76290c60a4069427a2dfccad96a1922d6f4ea279f62ad2d8952c3bac5402',[0x12540,0x12585,0x12598],[0x124f0,0x12523,0x12568]),
     ('AddFloatingPointEmulationFixup',0x192c0,0x19381,'6a9ca32fd35ad0d2faec80efa8a91ee5cb98a786f255243c65e478fdd974539a',[0x19380],[0x1933a]),
     ('ObjPut16',0x1bfdc,0x1c010,'b508785272d5472ce71da69c6daf858a72ad5da10b629e22c4f6045da1a803b3',[0x1c00f],[0x1bff6]),

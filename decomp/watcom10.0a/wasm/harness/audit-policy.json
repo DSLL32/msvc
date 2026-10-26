@@ -115,6 +115,35 @@
             ]
           ]
         }
+      },
+      "conditional_error_directive": {
+        "original": {
+          "switches": {
+            "97474": [
+              97482,
+              97482,
+              97482,
+              97482,
+              97482,
+              97492,
+              97492,
+              97482
+            ],
+            "97519": [
+              97527,
+              97770,
+              97656,
+              97901,
+              97982,
+              97604,
+              98060,
+              98137,
+              97837,
+              97713,
+              97552
+            ]
+          }
+        }
       }
     },
     "callback_tables": []
@@ -1616,6 +1645,51 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "conditional_error_directive": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmErr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrtMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OpenErrFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PutMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "print_include_file_nesting_structure": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmNote": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "is_code_seg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AsmWarn": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1678,6 +1752,16 @@
       "original": {
         "start": 70864,
         "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "input_get",
+        "print_include_file_nesting_structure"
+      ],
+      "original": {
+        "start": 32267,
+        "bytes_hex": "5d5f5e5a595bc3"
       }
     }
   ],

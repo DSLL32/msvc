@@ -33,6 +33,12 @@
 #include "wasm.h"
 #include <recon.h>
 
+/* The linked1994 WOMP objects declared PrtMsg this way, but resolved it
+ * to the assembler's four-register diagnostic routine at CF16380.
+ * Preserve that period ABI collision; malformed cold calls are unsupported
+ * natively rather than supplying invented register arguments. */
+extern void PrtMsg(unsigned message, ...);
+
 static carve_t myCarver;
 
 void FixInit(void)
@@ -64,7 +70,10 @@ size_t FixGenFix(fixup *fix, char *buffer, int type)
         byte |= 1 << 2;
         if (fix->loader_resolved) {
             if (type == FIX_GEN_PHARLAP) {
-                WompPrtMsg(0x8039);
+#ifdef __linux__
+                WASM_PENDING();
+#endif
+                PrtMsg(0x8039);
             } else {
                 if (type != FIX_GEN_INTEL && type != FIX_GEN_MS386)
                     InternalError("g:\\bld\\womp\\c\\fixup.c",373);
@@ -77,7 +86,12 @@ size_t FixGenFix(fixup *fix, char *buffer, int type)
     case FIX_HI_BYTE: byte |= 4 << 2; break;
     case FIX_OFFSET386:
         if (type == FIX_GEN_PHARLAP) {
-            if (fix->loader_resolved) WompPrtMsg(0x8039);
+            if (fix->loader_resolved) {
+#ifdef __linux__
+                WASM_PENDING();
+#endif
+                PrtMsg(0x8039);
+            }
             byte |= 5 << 2;
         } else {
             byte |= (fix->loader_resolved ? 13 : 9) << 2;

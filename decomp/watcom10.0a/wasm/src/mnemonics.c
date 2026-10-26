@@ -815,7 +815,7 @@ const struct asm_ins AsmOpTable[] = {
     I(T_MUL), I(T_MUL), I(T_MUL), S(T_NAME,OP_DIRECTIVE),
     S(T_NE,OP_ARITHOP), S(T_NEAR,OP_RES_ID), S(T_NEARSTACK,OP_RES_ID), ins (T_NEG,     OP_R,   0,              OP_NONE,        0,      0xF6,   0x18,   P_86,   NO_PREFIX),
     ins (T_NEG,     OP_M_B, 0,      OP_NONE,        0,      0xF6,   0x18,   P_86,   LOCK), ins (T_NEG,     OP_M_W, 0,      OP_NONE,        0,      0xF7,   0x18,   P_86,   LOCK), ins (T_NEG,     OP_M_DW,        0,      OP_NONE,        0,      0xF7,   0x18,   P_386,  LOCK), S(T_NO87,OP_DIRECTIVE),
-    I(T_NOP), I(T_NOT), I(T_NOT), I(T_NOT),
+    ins (T_NOP,     OP_NONE,        0,      OP_NONE,        no_RM,  0x90,   0x00,   P_86,   NO_PREFIX), I(T_NOT), I(T_NOT), I(T_NOT),
     I(T_NOT), S(T_NOTHING,OP_RES_ID), S(T_OFFSET,OP_UNARY_OPERATOR), S(T_OPATTR,OP_DIRECTIVE),
     S(T_OPTION,OP_DIRECTIVE), I(T_OR), I(T_OR), I(T_OR),
     I(T_OR), I(T_OR), I(T_OR), I(T_OR),

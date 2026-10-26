@@ -155,6 +155,23 @@ char *get_curr_filename(void)
     return file_stack == NULL ? AsmFiles.fname[ASM] : file_stack->name;
 }
 
+/* CF7d7c..7e12; actual1994 note IDs1146 and1147. */
+void AsmNote(int message, ...);
+void print_include_file_nesting_structure(void)
+{
+    file_list *node = file_stack;
+    if (node == NULL) return;
+    while (node->next != NULL) {
+        if (!node->hidden)
+            AsmNote(node->is_a_file ? 1146 : 1147,
+                    node->next->name, node->line);
+        node = node->next;
+    }
+    if (!node->hidden)
+        AsmNote(node->is_a_file ? 1146 : 1147,
+                AsmFiles.fname[ASM], node->line);
+}
+
 /* CF7c94..7d64; retained old initializer writes only. The hidden byte
  * belongs to PushMacro, not this allocator, in the shipped body. */
 file_list *push_flist(char *name, unsigned char is_a_file)

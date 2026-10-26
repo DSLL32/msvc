@@ -114,3 +114,46 @@ int AlignDirective( unsigned short directive, int i )
     }
     return NOT_ERROR;
 }
+
+/* Source NOP patterns, checked against actual CF26734 and26738.
+ * Index0 is the longest pattern; shorter alternatives follow. */
+static unsigned char NopList16[] = {
+    2, 0x89,0xc0, /* MOV AX,AX */
+    0xfc         /* CLD */
+};
+static unsigned char NopList32[] = {
+    6, 0x8d,0x80,0,0,0,0, /* LEA EAX,[EAX] */
+    0x8d,0x40,0,0x8b,0xc9,0x8d,0x44,0x20,0,
+    0x8d,0x40,0,0x8b,0xc0,0x90
+};
+static unsigned char *NopLists[] = { NopList16, NopList32 };
+unsigned char is_code_seg(void);
+
+/* CF14144..1421f. */
+void fill_in_objfile_space(unsigned size)
+{
+    int i, nop_type;
+    if (!is_code_seg()) {
+        for (i = 0; i < size; ++i) AsmByte(0);
+    } else {
+        if (Use32 != 0 && Use32 != 1)
+            InternalError("g:\\bld\\wasm\\c\\posndir.c",134);
+        while (size > NopLists[Use32][0]) {
+            for (i = 1; i <= NopLists[Use32][0]; ++i)
+                AsmByte(NopLists[Use32][i]);
+            size -= NopLists[Use32][0];
+        }
+        if (size == 0) return;
+        i = 1;
+        for (nop_type = NopLists[Use32][0]; nop_type > size; --nop_type)
+            i += nop_type;
+        for (; nop_type > 0; --nop_type, ++i)
+            AsmByte(NopLists[Use32][i]);
+    }
+}
+/* CF14118..14142: class-name index, not segment name. */
+unsigned char is_code_seg(void)
+{
+    int code = FindClassLnameIdx("CODE");
+    return CurrSeg->seg->e.seginfo->segrec->d.segdef.class_name_idx == code;
+}

@@ -8,7 +8,6 @@
 void Fatal(unsigned message, ...) { (void)message; WASM_PENDING(); }
 void DiskError(void) { WASM_PENDING(); }
 size_t FixGenPRef(physref *ref, char *buffer, int type) { WASM_PENDING(); return 0; }
-void WompPrtMsg(unsigned message, ...) { WASM_PENDING(); }
 
 
 
@@ -86,7 +85,6 @@ void jumpExtend(void) { WASM_PENDING(); }
 
 
 
-int conditional_error_directive(int index) { WASM_PENDING(); (void)index; return 0; }
 
 
 
@@ -98,7 +96,6 @@ int conditional_error_directive(int index) { WASM_PENDING(); (void)index; return
 
 
 void push_proc(dir_node *procedure) { (void)procedure; WASM_PENDING(); }
-void AsmWarn(int level, int message, ...) { WASM_PENDING(); (void)level; (void)message; }
 
 
 
@@ -110,7 +107,6 @@ void AsmWarn(int level, int message, ...) { WASM_PENDING(); (void)level; (void)m
 
 
 
-void fill_in_objfile_space(unsigned size) { (void)size; WASM_PENDING(); }
 
 
 
@@ -121,11 +117,3 @@ void fill_in_objfile_space(unsigned size) { (void)size; WASM_PENDING(); }
 
 
 unsigned GetGrpIdx(asm_sym *sym) { (void)sym; WASM_PENDING(); return 0; }
-
-
-
-
-
-
-
-void AsmErr(int message, ...) { (void)message; WASM_PENDING(); }

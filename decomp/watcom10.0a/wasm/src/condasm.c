@@ -250,3 +250,92 @@ int conditional_assembly_directive( int i )
     }
     return( NOT_ERROR );
 }
+
+/* CF17ca0..17faf, two dispatch tables17c54..17ca0. */
+int conditional_error_directive( int i )
+/**************************************/
+{
+    unsigned short         direct;
+
+    direct = AsmBuffer[i]->value;
+
+    /* expand any constants if necessary */
+    switch( direct ) {
+    case T_ERRE:
+    case T_ERRNZ:
+    case T_ERRDIF:
+    case T_ERRDIFI:
+    case T_ERRIDN:
+    case T_ERRIDNI:
+        ExpandTheWorld( i+1, FALSE );
+    }
+
+    switch( direct ) {
+    case T_ERR:
+        AsmErr( 1131 );
+        return( ERROR );
+    case T_ERRNZ:
+        if( AsmBuffer[i+1]->token == T_NUM && AsmBuffer[i+1]->value ) {
+            AsmErr( 1132, AsmBuffer[i+1]->value );
+            return( ERROR );
+        }
+        break;
+    case T_ERRE:
+        if( AsmBuffer[i+1]->token == T_NUM && !AsmBuffer[i+1]->value ) {
+            AsmErr( 1133, AsmBuffer[i+1]->value );
+            return( ERROR );
+        }
+        break;
+    case T_ERRDEF:
+        if( check_defd( AsmBuffer[i+1]->string_ptr ) ) {
+            AsmErr( 1134, AsmBuffer[i+1]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRNDEF:
+        if( !check_defd( AsmBuffer[i+1]->string_ptr ) ) {
+            AsmErr( 1135, AsmBuffer[i+1]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRB:
+        if( AsmBuffer[i+1]->token == T_STRING &&
+            check_blank( AsmBuffer[i+1]->string_ptr ) ) {
+            AsmErr( 1136, AsmBuffer[i+1]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRNB:
+        if( AsmBuffer[i+1]->token != T_STRING ||
+            !check_blank( AsmBuffer[i+1]->string_ptr ) ) {
+            AsmErr( 1137, AsmBuffer[i+1]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRDIF:
+        if( check_dif( TRUE, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr ) ) {
+            AsmErr( 1144, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRDIFI:
+        if( check_dif( FALSE, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr ) ) {
+            AsmErr( 1144, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRIDN:
+        if( !check_dif( TRUE, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr ) ) {
+            AsmErr( 1145, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    case T_ERRIDNI:
+        if( !check_dif( FALSE, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr ) ) {
+            AsmErr( 1145, AsmBuffer[i+1]->string_ptr, AsmBuffer[i+3]->string_ptr );
+            return( ERROR );
+        }
+        break;
+    }
+    return( NOT_ERROR );
+}
