@@ -475,6 +475,7 @@ impl Inputs {
             || cfg.get("shared_terminal_epilogues").is_some()
             || cfg.get("shared_call_return_tails").is_some()
             || cfg.get("shared_jump_tails").is_some()
+            || cfg.get("shared_terminal_regions").is_some()
         {
             ensure!(
                 a.discovery != crate::Discovery::Legacy,

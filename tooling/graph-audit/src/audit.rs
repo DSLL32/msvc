@@ -1349,6 +1349,9 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
     if let Some(shared) = x.shared_return_entries.jump_report() {
         result["shared_jump_tails"] = shared;
     }
+    if let Some(shared) = x.shared_return_entries.regions_report() {
+        result["shared_terminal_regions"] = shared;
+    }
     if let Some(shared) = x.shared_return_entries.report() {
         result["shared_return_entries"] = shared;
     }

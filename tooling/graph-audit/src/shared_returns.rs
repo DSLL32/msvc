@@ -1,4 +1,6 @@
 //! Exact shared terminal instructions preserve distinct function identities.
+mod terminal_regions;
+
 use crate::{
     decode::Decoder,
     image::ImageView,
@@ -86,6 +88,7 @@ enum TerminalTransfer<'a> {
     CallJump(&'a ResolvedTransfer, &'a ResolvedTransfer),
 }
 struct Pair {
+    regions: Option<Value>,
     jump: Option<ResolvedTransfer>,
     call: Option<ResolvedTransfer>,
     terminal: Option<(u32, String)>,
@@ -398,6 +401,7 @@ impl SharedReturns {
             let evidence =
                 crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
             out.0.push(Pair {
+                regions: None,
                 jump: None,
                 call: None,
                 terminal: None,
@@ -426,6 +430,7 @@ impl SharedReturns {
                 let evidence =
                     crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
                 out.0.push(Pair {
+                    regions: None,
                     jump: None,
                     call: None,
                     terminal: Some((row.original.start, row.original.bytes_hex)),
@@ -470,6 +475,7 @@ impl SharedReturns {
                 let evidence =
                     crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
                 out.0.push(Pair {
+                    regions: None,
                     terminal: Some((row.original.start, row.original.bytes_hex)),
                     call: Some(call),
                     jump: None,
@@ -521,6 +527,7 @@ impl SharedReturns {
                 let evidence =
                     crate::register_imports::verified_documentary_evidence(project, &row.evidence)?;
                 out.0.push(Pair {
+                    regions: None,
                     terminal: Some((row.original.start, row.original.bytes_hex)),
                     jump: Some(jump),
                     call,
@@ -529,6 +536,11 @@ impl SharedReturns {
                     evidence,
                 });
             }
+        }
+        if let Some(value) = cfg.get("shared_terminal_regions") {
+            out.0.extend(terminal_regions::parse(
+                cfg, metadata, image, drivers, index, project, value,
+            )?);
         }
         Ok(out)
     }
@@ -575,8 +587,12 @@ impl SharedReturns {
             report
         })).collect::<Vec<_>>()))
     }
+    pub fn regions_report(&self) -> Option<Value> {
+        let rows: Vec<_> = self.0.iter().filter_map(|p| p.regions.as_ref()).collect();
+        (!rows.is_empty()).then(|| json!(rows))
+    }
     pub fn report(&self) -> Option<Value> {
-        self.0.iter().any(|p|p.terminal.is_none()).then(||json!(self.0.iter().filter(|p|p.terminal.is_none()).map(|p|json!({"owner":p.owner.name,"entry":p.entry.name,"original_range":[p.entry.start,p.entry.end],"bytes_hex":"c3","evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"two distinct function identities share only this terminal RET; no added call edge, runtime admission or frontier observation"})).collect::<Vec<_>>()))
+        self.0.iter().any(|p|p.terminal.is_none() && p.regions.is_none()).then(||json!(self.0.iter().filter(|p|p.terminal.is_none() && p.regions.is_none()).map(|p|json!({"owner":p.owner.name,"entry":p.entry.name,"original_range":[p.entry.start,p.entry.end],"bytes_hex":"c3","evidence":p.evidence,"additional_unique_code_bytes":0,"meaning":"two distinct function identities share only this terminal RET; no added call edge, runtime admission or frontier observation"})).collect::<Vec<_>>()))
     }
 }
 #[cfg(test)]
@@ -602,6 +618,7 @@ mod tests {
         validate_pair(&p, &a, &b, &index, &json!({}))?;
         assert!(crate::index::validate_chunk_ownership(&p, &index).is_err());
         let policy = SharedReturns(vec![Pair {
+            regions: None,
             jump: None,
             call: None,
             terminal: None,

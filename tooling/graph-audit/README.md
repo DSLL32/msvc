@@ -831,3 +831,32 @@ and the complete exact shared range must still end both owning chunks. The
 terminal endpoint can remain pending; neither role supplies cleanup, nonreturn
 proof, body availability, or runtime permission. Without `call`, the existing
 branchless shared-JMP rule and report are unchanged.
+
+`shared_terminal_regions` describes an exact physically shared terminal subgraph
+for two implemented canonical App owners, including disconnected chunks:
+
+```json
+{"shared_terminal_regions":[{"owners":["template_arg","name"],"original":{
+  "regions":[{"start":4281981,"bytes_hex":"31c0eb19"},
+             {"start":4282010,"bytes_hex":"c95f5e595bc3"}],
+  "branches":[{"site":4281983,"target":4282010}]
+}}]}
+```
+
+The sorted exact-byte regions (1–32 bytes total) must equal the complete pairwise
+code intersection and end both owning chunks. Both existing owner CFGs must
+discover identical complete instruction coverage and successors. Every branch is
+explicitly inventoried; all normal successors stay within the union and form an
+acyclic graph terminating at actual unprefixed near RET instructions. No new
+roots or function identities are created.
+
+Optional `original.calls` inventories exact existing near CALL sites. Each row
+has `site` and either `target` (using the existing implemented canonical App
+qualification) or `indirect_operand` (the exact existing decoder operand, e.g.
+`"dword ptr [esi]"`). Both owners must retain the actual raw direct or opaque
+indirect call fact and the normal post-CALL successor inside the union. Every
+CALL must be consumed once; absent inventory admits none. Indirect/external
+jumps, interrupts, cycles and other transfers reject. Raw callee edges and all
+ordinary paired graph/ABI/RET checks remain unchanged. This is physical ownership
+metadata, with zero unique-byte credit; it supplies no callback target, register
+value, preservation, cleanup, body availability or runtime permission.

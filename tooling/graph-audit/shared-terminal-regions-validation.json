@@ -1,0 +1,32 @@
+{
+  "scope": "Opt-in exact two-owner shared terminal CFG regions. Complete overlap coverage, exact raw CALL/branch inventory, same existing acyclic normal successors closed to real nearRET; no target/value/preservation/ABI/permission or credit inference.",
+  "source_sha256": {
+    "src/shared_returns.rs": "542c1fa59a7adb20146ca07e85df37371f50f326abeb6a92a9d811ccfedeeb84",
+    "src/shared_returns/terminal_regions.rs": "c9e548329c79388a0ee23769a291b0f0d6db16c17c4c48581214a3bec65aa16b",
+    "src/index.rs": "a2cf3c5486328fa59965f9f10ac81c5f09a90392f00b397ebd8d874fa0ba1849",
+    "src/audit.rs": "6c19a8f7c9ee71d9be1a91357e437dd5571e6e84ce7c30879a5154996206b2e8",
+    "README.md": "20771e90c7d611d0838d585b550cddf87b14af84b8e92df2b8255895302c4eb8"
+  },
+  "release_sha256": "5516975b677ac27cb80a59113757100a3822e6c7ca03512496981658cae6da01",
+  "validation_sha256": "0361bda53778f61cc1caccba3fe08ad014690b69579cd7646a5b45c684f19891",
+  "checks": {
+    "focused_unit_tests": 15,
+    "new_unit_tests": 4,
+    "clippy": "all-targets -D warnings PASS",
+    "actual_disconnected_two_owner_seconds": 0.02205637190490961,
+    "actual_opaque_call_two_owner_seconds": 0.02015323843806982,
+    "concrete_denials": 12,
+    "existing_raw_indirect_topology_retained": true,
+    "strict_per_owner_RET0": true,
+    "prior_call_jump_and_absent_feature_reports_byte_identical": true
+  },
+  "review": "Delegated Watcom consuming parent read exact five-file source and frozen hashes; confirmed both scoped positives,12denial reasons and prior/default byte parity.",
+  "limits": [
+    "Two actual current pair scopes selected; full canonical identity registry retained. No full-case/acceptance claim.",
+    "Both positives retain strict ordinary RET cleanup0 and graph/references/ownership/whole-extent checks. Opaque CALL remains indirect on both sides and no target/body/ABI/preservation facts are seeded.",
+    "Single frozen original per supplied tuple. No original/native target execution or runtime/controller/exporter changes.",
+    "Existing branchless/CALL/JMP contracts remain unchanged; optional documentary binding validates when supplied."
+  ],
+  "canonical_release_build_seconds": 66.16898385528475,
+  "canonical_release_byte_identity": true
+}
