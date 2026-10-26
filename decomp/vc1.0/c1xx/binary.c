@@ -426,6 +426,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "encode_line_record_based_symbol",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_hash_debug_database_record",
@@ -6258,10 +6259,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_strip_address_expression@4",
         .entry_rva = 0x29fa0,
-        .code = (const ReconExtent[]) { { 0x29fa0, 0x29fa1 } },
+        .code = (const ReconExtent[]) { { 0x29fa0, 0x29faf } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "strip_address_expression",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_resolve_qualified_assignment_operand@8",
@@ -12612,10 +12614,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_resolve_overloaded_initializer@12",
         .entry_rva = 0x553e0,
-        .code = (const ReconExtent[]) { { 0x553e0, 0x553e1 } },
+        .code = (const ReconExtent[]) { { 0x553e0, 0x554b0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "resolve_overloaded_initializer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_cast_expression@8",

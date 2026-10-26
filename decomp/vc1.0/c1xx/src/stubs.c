@@ -99,7 +99,6 @@ void __stdcall report_call_argument_error(unsigned code, CppSymbol *function, un
 
 
 
-IrToken *__stdcall strip_address_expression(IrToken *expression) { __asm { int 3 } return 0; }
 
 void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
 
@@ -264,7 +263,6 @@ IrToken * __stdcall convert_class_condition(IrToken *expression, int mode, unsig
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
-CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 
 

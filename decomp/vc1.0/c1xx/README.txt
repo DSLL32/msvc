@@ -1,6 +1,35 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Shared-mailbox is COMPLETE: case 0022. The mapped-buffer mailbox combines
+packed records, named-base pointers, explicit attachment/rebasing, typed visitor
+callbacks and /Zi /Brepro /FR debug/browser output. This NT frontend rejects the
+initial class-scope based(this) and __segment/__self drafts; the accepted source
+uses supported named bases and an explicit near-to-based attachment cast. Failed
+drafts remain in scratch; no unsupported mode was forced into the case.
+
+Three whole App bodies / 362 code bytes were accepted: the based-symbol debug
+leaf encoder, overloaded initializer resolution and address-wrapper stripping.
+Fresh masked-original/native runs match all three first encounters, exit 0,
+two integral-conversion warnings and seven complete IR/PDB/browser artifacts.
+They match the untouched supported original baseline exactly, without masks.
+The resolver's original qualified-NULL-target branch leaves its candidate-list
+local unwritten; source preserves that local/read in both builds with a defect
+comment. The actual callback is nonnull; NULL behavior/incidental stack values
+are unvalidated. No new guard, CRT body or shared shim change was added.
+
+Totals: 1,733 App bodies / 1,840 historical frontiers, plus seven unchanged CRT
+source bodies. App-only code extent union is 391,059 / 476,418 B (82.08% of whole
+original code extent, not a non-CRT denominator). All 23 cached native cases,
+31 unit groups and the 1,741-function six-check graph/ABI audit pass. Original-
+toolchain builds pass. Final gate took 42.352 s including a full original build
+and native/case rebuilds; graph-only time was not measured separately. Final
+fresh original 0.649 s; native 30.280 ms (setup 17.066 ms, execution 7.209 ms,
+checks 6.005 ms); preceding incremental native/Win32 build 3.309 s. Cached mailbox
+replay took 32.425 ms. No extra broad/original replay was used for timing alone.
+
+Earlier completed scheduler case:
+
 Scheduler dispatch-flow is COMPLETE: case0021. The unchanged3,231-byte C++
 workload combines nested return-bearing conditionals, complete switches, bounded
 retry/poll loops, break/continue and suspend/resume goto labels. The supported

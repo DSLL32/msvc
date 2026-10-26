@@ -1884,3 +1884,34 @@ unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape
     }
     return 0x2000;
 }
+
+/* Original0x653e0..0x654b0, stdcall12. Resolve the first function in
+   an initializer's overload set whose stripped type matches the target. */
+CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode)
+{
+    CppSymbol *symbol, *functions, *current, *next;
+    unsigned kind;
+    expression = strip_address_expression(expression);
+    if (expression->kind == 0x5c) expression = expression->tail.right;
+    symbol = (CppSymbol *)expression->value.pointer;
+    if ((symbol->kind & 31) == 18)
+        symbol = (CppSymbol *)((QualifiedDeclarator *)symbol)->resolution->binding->target;
+    type = drop_first_type_shape(type);
+    if (symbol) {
+        kind = symbol->kind & 31;
+        functions = kind == 16 || kind == 17 ? ((OverloadSet *)symbol)->functions : symbol;
+    }
+    /* Original defect: a qualified name resolving to NULL skips every
+       writer of entryESP-8 before65440 consumes it. Retain that genuine
+       unwritten local/read in both builds; no incidental stack-value promise. */
+    next = functions;
+    while (next) {
+        current = next;
+        kind = current->kind & 31;
+        if (kind != 6 && kind != 7) break;
+        next = current->next;
+        if (classify_type_conversion(type, strip_based_shape(current->type), mode == 0, 0) == 1)
+            return current;
+    }
+    return 0;
+}

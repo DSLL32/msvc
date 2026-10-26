@@ -108,3 +108,11 @@ int __stdcall type_needs_intrinsic_fallback(CType *type)
     if (type && type->related) return 0;
     return 0;
 }
+
+/* Original0x39fa0..0x39faf, stdcall4. A single address wrapper around
+   a function designator does not change its overload-set identity. */
+IrToken *__stdcall strip_address_expression(IrToken *expression)
+{
+    if (expression->kind == 0x3a) expression = expression->value.pointer;
+    return expression;
+}

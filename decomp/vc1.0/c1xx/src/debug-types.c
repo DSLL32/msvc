@@ -1203,10 +1203,26 @@ void __stdcall ensure_debug_constant_symbol(CppSymbol *symbol)
 {
     __asm { int 3 }
 }
+/* Original0x72c40..0x72ccb, cdecl2 with defined AX result. Based
+   pointer leaves embed an actual stack/global symbol record and counted name. */
 unsigned short encode_line_record_based_symbol(unsigned char *destination, CppSymbol *symbol)
 {
-    __asm { int 3 }
-    return 0;
+    unsigned storage = symbol->storage[0] & 7;
+    unsigned short length;
+    if (storage == 4 || storage == 5) {
+        *(unsigned short *)(destination + 2) = 0x200;
+        *(unsigned *)(destination + 4) = 0;
+        *(unsigned short *)(destination + 8) = symbol->type->debug_index;
+        length = (unsigned short)(copy_line_record_name(destination + 10, symbol->name) + 10);
+    } else {
+        *(unsigned short *)(destination + 2) = storage == 3 ? 0x201 : 0x202;
+        *(unsigned *)(destination + 4) = 0;
+        *(unsigned short *)(destination + 8) = 0;
+        *(unsigned short *)(destination + 10) = symbol->type->debug_index;
+        length = (unsigned short)(copy_line_record_name(destination + 12, symbol->name) + 12);
+    }
+    *(unsigned short *)destination = length;
+    return length;
 }
 
 /* Original0x70f70..0x70fbe, cdecl2. Separate-debug arrays retain
