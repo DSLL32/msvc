@@ -40,7 +40,6 @@
 #include <recon.h>
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
-int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
 #include "algebra.h"

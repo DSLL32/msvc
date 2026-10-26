@@ -13686,11 +13686,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@suffix_matches@12",
         .entry_rva = 0x60fb0,
-        .code = (const ReconExtent[]) { { 0x60fb0, 0x61010 } },
+        .code = (const ReconExtent[]) { { 0x60fb0, 0x61007 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "suffix_matches",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@apply_option@12",

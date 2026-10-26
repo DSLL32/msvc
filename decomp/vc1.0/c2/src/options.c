@@ -283,3 +283,21 @@ void __fastcall apply_function_options(unsigned bits)
         optimize_global = 0;
     }
 }
+
+/* Original70fb0..71007 (87 bytes), ECX pattern/EDX text/action on stack,
+   RET4. The sole production wildcard is "*"; its nonempty suffix arms
+   preserve the original backward scan and guarded-string assumptions.
+   Do not replace that scan with a safer/different standard wildcard matcher. */
+int __fastcall suffix_matches(char *pattern, char *text, unsigned action)
+{
+    char *pattern_end = pattern, *text_end = text;
+    (void)action;
+    if (!pattern[1]) return 1;
+    while (pattern_end[1]) ++pattern_end;
+    while (text_end[1]) ++text_end;
+    while (*text_end == *pattern_end) {
+        --text_end;
+        --pattern_end;
+    }
+    return pattern_end == pattern && text_end >= text;
+}

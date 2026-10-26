@@ -1030,6 +1030,11 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@suffix_matches@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

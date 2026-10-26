@@ -1,24 +1,50 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1512 adds two unit-qualified dormant tree-support helpers. There are
-1397 reconstructed App functions and five unchanged historical CRT bodies.
-App code occupies362866/399693 original code-section bytes(90.7862%); adding976
-owned text-data bytes gives363842/399693(91.0304%). These clipped extent unions
+Checkpoint1513 completes the public standalone unsupported-option case. There
+are1398 reconstructed App functions and five unchanged historical CRT bodies.
+App code occupies362953/399693 original code-section bytes(90.8079%); adding976
+owned text-data bytes gives363929/399693(91.0521%). These clipped extent unions
 use section VirtualSize(raw size only if zero), not branch coverage. Five old
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover390216/399693(97.6289%). A reliable non-CRT
-denominator is unavailable;12 pending App rows and9477B outside the available
+classified CRT/import extents cover390303/399693(97.6507%). A reliable non-CRT
+denominator is unavailable;11 pending App rows and9390B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All36 cached IO cases, ten INTERNAL DIRECT
-cases and261 narrow units pass. Fixtures are native-only. Inputs preserve actual
-frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
-established COFF timestamp bytes4..8 are normalized in completed object cases;
-listings/OMF remain exact. Eleven current App owners are explicitly UNIT-qualified
+`binary.c` is the sole registry. All37 cached IO cases, ten INTERNAL DIRECT
+cases and263 narrow units pass. Fixtures are native-only. Inputs preserve actual
+frontend IR where required, stable cwd and explicit entry seeds. Only established
+COFF timestamp bytes4..8 are normalized in completed object cases; listings/OMF/
+diagnostics remain exact. Eleven current App owners are explicitly UNIT-qualified
 (dormant source/disassembly+original-compiler+graph/RET+typed native units),
 distinct from original-pair qualification; no CLI reach is claimed for them.
 
+The new negative case invokes the original backend directly with the explicit
+pinned6019B C23.ERR and unsupported option. No frontend/source/IR is required.
+Untouched original and fresh masked prefixes1512..1513 match native execution:
+exact83B fatal C1007 text, empty stdout, status1 and strict output-file absence.
+One whole87B suffix matcher is added with its original three-argument fastcall/
+RET4. Original entry retains ECX/EDX/raw stack; ECX resolves inside the pristine
+image to "*" and the stack action is34. The final original diagnostic renders
+the exact supplied unknown flag; native live-entry unit checks both strings,
+action and preservation directly. The bare-star return is the actually executed
+production arm, not the cold nonempty-suffix scan.
+
+Separate cold units supply actual enclosing text arrays and a defined nonstar
+guard for matching/mismatched/whole/short suffixes. They preserve the old backward
+read and comparison behavior without an invented guard or safer replacement.
+No arbitrary internal error is forced. A changed expected diagnostic byte rejects
+on exact stderr comparison. No normalization, new CRT/provider or shared shim.
+
+Final make-j4 audit/check/unit passes2.257s(phases unsplit):1403 graphs/accepted
+extents,207 scoped RET,47 original-backed cases and263 units. Original/W3 passes
+1.684s. Measured target/case builds4.230s, metadata0.706s, original baseline/
+masked references3.510s, focused graph0.058s, native pairs0.105s and intentional
+negative0.035s. Analysis/editing/packing/static-proof elapsed unmeasured. Raw
+original artifacts use --artifacts-dir; source/ABI/qualification/time/coverage
+records remain under `~/.ai-tmp/msvc2/vc1.0/c2/unsupported-option/`.
+
+Checkpoint1512 added the two live-state unit owners below.
 The latest two owners add85B: intrinsic-prefix sequence28 and unblocked derived
 use query57. Existing shared entry hooks borrow real state from unchanged cached
 inputs. The dictionary case reaches argument preparation after the real intrinsic
