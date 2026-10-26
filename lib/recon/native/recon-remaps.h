@@ -298,6 +298,7 @@ extern char recon_watcom_os;
 int __cdecl recon_watcom_getch(void);
 char *__cdecl recon_watcom_utoa(unsigned int,char *,int);
 char *__cdecl recon_watcom_ultoa(unsigned long,char *,int);
+unsigned int __cdecl recon_watcom_rotl(unsigned int,unsigned int);
 int __cdecl recon_watcom_setvbuf(ShimFILE *,char *,int,size_t);
 ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
 int recon_watcom_raise(int);
@@ -502,6 +503,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define closedir recon_watcom_closedir
 #define getcmd recon_watcom_getcmd
 #define __STOSD recon_watcom_fill_dwords
+#define _rotl recon_watcom_rotl
 #define _splitpath2 recon_watcom_splitpath2
 #define getch recon_watcom_getch
 #define utoa recon_watcom_utoa

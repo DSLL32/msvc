@@ -1500,3 +1500,11 @@ creates no tokenization state; NULL/invalid/owned spans all deny without writes.
 The whole DEF-reader source may compile, while actual tokenization remains
 unsupported pending a reached caller domain. Other profiles keep no _mbstok
 alias. No strtok substitution or provider execution is qualified here.
+
+Watcom _rotl maps to a shared unsigned32 helper implementing count modulo32,
+with count0 returned unchanged to avoid shift-by32 C undefined behavior. The
+actual seven-byte CRT helper uses ROL EAX,CL; no assembly or target flag model
+is copied. Other profiles keep no alias and deny direct helper use. WCC's
+ordinary hash path retains its real period CALL and qualifies value/count4;
+focused wrap-count/signed-bit vectors preserve native errors/full FP. Original
+per-call errors/FP were unmeasured.

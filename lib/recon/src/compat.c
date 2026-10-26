@@ -292,6 +292,16 @@ int __cdecl recon_watcom_closedir(struct ReconWatcomDirent *directory)
 {
     (void)directory;recon_unsupported("unreviewed Watcom closedir");return -1;
 }
+unsigned int __cdecl recon_watcom_rotl(unsigned int value,unsigned int count)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    count&=31;
+    return count?(value<<count)|(value>>(32-count)):value;
+#else
+    (void)value;(void)count;
+    recon_unsupported("Watcom _rotl requires explicit profile");return 0;
+#endif
+}
 char *__cdecl recon_watcom_ultoa(unsigned long value,char *output,int radix)
 {
     (void)value;(void)output;(void)radix;
