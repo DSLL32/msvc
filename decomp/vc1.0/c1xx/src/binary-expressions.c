@@ -1260,3 +1260,30 @@ IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset)
     --type_description_depth;
     return result;
 }
+
+/* Original0x5cc30..0x5cc98, stdcall12. Normalize only an untyped
+   symbol/member designator; qualified aliases publish their actual target. */
+void __stdcall resolve_untyped_binary_operand(unsigned char operation,
+    IrToken **operand, IrToken *other)
+{
+    IrToken *designator, *converted;
+    CppSymbol *symbol;
+    if ((*operand)->type) return;
+    designator = strip_address_expression(*operand);
+    if (designator->kind == 0x5c) designator = designator->tail.right;
+    else if (designator->kind != 2) return;
+    symbol = designator->value.pointer;
+    if ((symbol->kind & 31) == 18)
+        designator->value.pointer = ((QualifiedDeclarator *)symbol)->resolution->binding->target;
+    converted = resolve_assignment_operand(other->type, *operand);
+    if (converted) *operand = converted;
+    else report_expression_error(operation, *operand);
+}
+
+/* Original0x60810..0x6082b, stdcall12. Preserve the shared diagnostic's
+   complete five-argument ABI and the caller's actual ordered type owners. */
+void __stdcall report_incompatible_type_shapes(unsigned char operation,
+    CType *target, CType *source)
+{
+    report_type_conversion(40, 0, operation, target, source);
+}

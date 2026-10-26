@@ -354,3 +354,27 @@ char *__stdcall member_protection_keyword(unsigned char protection)
     default: return "inaccessible";
     }
 }
+
+/* Original0x7bf40..0x7bff2, stdcall8/AL. The original iterator is
+   inline: only live kind15 base links participate, with maximum effective access. */
+unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived)
+{
+    CppSymbol *member = derived->auxiliary.scope_members, *tag;
+    BaseClassLink *link;
+    VirtualTableGroup *group;
+    unsigned char access = 0, candidate;
+    while (member) {
+        link = (BaseClassLink *)member;
+        member = member->next;
+        if ((link->kind & 31) != 15 || (link->flags & 0x80)) continue;
+        tag = cpp_context_stack->items[link->context_index];
+        candidate = 0;
+        if (tag == base) candidate = link->flags & 3;
+        else {
+            group = find_virtual_base_group(base, tag->detail.class_info->virtual_table_groups);
+            if (group) candidate = combine_member_access(group->flags, link->flags & 3);
+        }
+        if (candidate > access) access = candidate;
+    }
+    return access;
+}

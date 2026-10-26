@@ -64,7 +64,6 @@
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 
 void report_error(unsigned code, ...) { __asm { int 3 } }
-void __stdcall warn_ignored_distance(CppSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -201,9 +200,6 @@ int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
 
-IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
-void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
-void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
 
 
@@ -233,7 +229,6 @@ void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *t
 
 
 
-unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 
 
 

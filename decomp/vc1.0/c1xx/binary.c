@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1968 historical frontiers/1888 App bodies;
- * Twenty-seven support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1968 historical frontiers/1893 App bodies;
+ * Thirty-two support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -10670,6 +10670,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "warn_ignored_distance",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finalize_object_storage@4",
@@ -11650,10 +11651,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_resolve_untyped_binary_operand@12",
         .entry_rva = 0x4cc30,
-        .code = (const ReconExtent[]) { { 0x4cc30, 0x4cc31 } },
+        .code = (const ReconExtent[]) { { 0x4cc30, 0x4cc98 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "resolve_untyped_binary_operand",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_arithmetic_promotion_type@4",
@@ -11784,10 +11786,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_make_address_temporary@4",
         .entry_rva = 0x4d920,
-        .code = (const ReconExtent[]) { { 0x4d920, 0x4d921 } },
+        .code = (const ReconExtent[]) { { 0x4d920, 0x4d9b2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "make_address_temporary",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_reset_materialized_value_index",
@@ -11940,10 +11943,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_incompatible_type_shapes@12",
         .entry_rva = 0x50810,
-        .code = (const ReconExtent[]) { { 0x50810, 0x50811 } },
+        .code = (const ReconExtent[]) { { 0x50810, 0x5082b } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_incompatible_type_shapes",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_check_type_conversion_warning@12",
@@ -16209,10 +16213,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compute_virtual_base_access@8",
         .entry_rva = 0x6bf40,
-        .code = (const ReconExtent[]) { { 0x6bf40, 0x6bf41 } },
+        .code = (const ReconExtent[]) { { 0x6bf40, 0x6bff2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compute_virtual_base_access",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_virtual_table_owners@4",

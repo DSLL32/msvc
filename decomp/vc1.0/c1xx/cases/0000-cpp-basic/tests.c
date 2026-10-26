@@ -5,6 +5,9 @@
 #include <io.h>
 #include <fcntl.h>
 #include "macro-expansion.h"
+#include "member-access.h"
+#include "function-finalization.h"
+#include "type-diagnostics.h"
 #include <recon-tool.h>
 #include "debug-types.h"
 #include "debug-info.h"
@@ -423,6 +426,87 @@ static int check_browser_fallback_state(void)
     return !options.option_FR && !browser_filename && browser_record_count == 2 &&
         first_browser_record()->kind == 7 && second_browser_record()->kind == 14;
 }
+/* Explicit unit-only legacy expression/type-owner qualification. */
+static int check_untyped_operand_owner(void)
+{
+    TypeShape function_shape = {0};
+    CType function_type = {0};
+    CppSymbol function = {0};
+    OverloadSet overload = {0};
+    IrToken designator = {0}, other = {0}, *operand = &designator;
+    initialize_preprocessor(); initialize_type_table();
+    function_shape.flags = 3;
+    function_type.flags = 0x140; function_type.related = &function_shape;
+    function.kind = 7; function.type = &function_type;
+    overload.kind = 16; overload.functions = &function;
+    designator.kind = 2; designator.value.pointer = &overload;
+    other.type = &function_type;
+    resolve_untyped_binary_operand(0x51, &operand, &other);
+    return operand == &designator && operand->value.pointer == &function &&
+        operand->type && operand->type->related &&
+        operand->type->related->flags == 0xb;
+}
+static int check_materialized_address_owner(void)
+{
+    IrToken operand = {0}, address = {0}, *result, *again, *assignment, *left, *right;
+    initialize_preprocessor(); initialize_type_table();
+    reset_materialized_value_index(); next_symbol_index = 101;
+    browser_symbol_limit = 0x7fffffffU;
+    operand.kind = 7; operand.type = type_0000;
+    address.value.pointer = &operand;
+    result = make_address_temporary(&address);
+    if (!result || result->kind != 0x40 || result->type != operand.type) return 0;
+    assignment = result->value.pointer; right = result->tail.right;
+    if (!assignment || assignment->kind != 0x3d || assignment->tail.right != &operand) return 0;
+    left = assignment->value.pointer;
+    if (!left || !right || left == right || left->kind != 0xa7 || right->kind != 0xa7 ||
+        left->value.integer != 101 || right->value.integer != 101 ||
+        left->type != operand.type || right->type != operand.type) return 0;
+    again = make_address_temporary(&address);
+    return next_symbol_index == 102 && again->tail.right->value.integer == 101;
+}
+static int check_virtual_access_owners(void)
+{
+    CppSymbol base = {0}, via = {0}, derived = {0};
+    ClassInfo via_info = {0};
+    BaseClassLink direct = {0}, indirect = {0}, suppressed = {0};
+    VirtualTableGroup group = {0};
+    int base_index, via_index;
+    initialize_preprocessor(); initialize_cpp_context_stack();
+    cpp_context_stack = add_inline_pointer(cpp_context_stack, &base);
+    cpp_context_stack = add_inline_pointer(cpp_context_stack, &via);
+    if (!locate_inline_pointer(cpp_context_stack, &base, &base_index) ||
+        !locate_inline_pointer(cpp_context_stack, &via, &via_index)) return 0;
+    via.detail.class_info = &via_info;
+    via_info.virtual_table_groups = new_vector(2, 0);
+    group.tag = &base; group.flags = 2;
+    append_vector(via_info.virtual_table_groups, &group);
+    direct.kind = indirect.kind = suppressed.kind = 15;
+    direct.flags = 1; direct.context_index = (short)base_index; direct.next = (CppSymbol *)&indirect;
+    indirect.flags = 3; indirect.context_index = (short)via_index; indirect.next = (CppSymbol *)&suppressed;
+    suppressed.flags = 0x83; suppressed.context_index = (short)base_index;
+    derived.auxiliary.scope_members = (CppSymbol *)&direct;
+    if (virtual_base_access_level(&base, &derived) != 2) return 0;
+    group.flags = 3;
+    if (virtual_base_access_level(&base, &derived) != 3) return 0;
+    derived.auxiliary.scope_members = 0;
+    return virtual_base_access_level(&base, &derived) == 0;
+}
+static int check_type_recovery_diagnostics(void)
+{
+    CppSymbol symbol = {0};
+    initialize_preprocessor(); initialize_type_table();
+    symbol.name = "distance_object"; symbol.flags = 0x80;
+    options.option_W = 0; warning_levels[40] = 14; error_count = 0;
+    warn_ignored_distance(&symbol);
+    if (error_count) return 0;
+    symbol.flags = 0;
+    warn_ignored_distance(&symbol);
+    if (error_count != 1 || symbol.flags) return 0;
+    error_count = 0;
+    report_incompatible_type_shapes(0x3d, type_0000, type_0080);
+    return error_count == 1 && type_diagnostic_depth == 0;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -451,5 +535,9 @@ const ReconTest c1xx_tests[] = {
     {"initializer address widths (unit-only)",1,check_initializer_address_widths},
     {"segment debug owners (unit-only)",1,check_segment_debug_owners},
     {"input handle retirement (unit-only)",1,check_input_handle_retirement},
-    {"browser fallback state (unit-only)",1,check_browser_fallback_state}
+    {"browser fallback state (unit-only)",1,check_browser_fallback_state},
+    {"untyped operand owner (unit-only)",1,check_untyped_operand_owner},
+    {"materialized address owner (unit-only)",1,check_materialized_address_owner},
+    {"virtual access owners (unit-only)",1,check_virtual_access_owners},
+    {"type recovery diagnostics (unit-only)",1,check_type_recovery_diagnostics}
 };

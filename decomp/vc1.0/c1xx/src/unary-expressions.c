@@ -2,6 +2,7 @@
 #include "lexer.h"
 #include "unary-expressions.h"
 #include "global-ir.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 /* Original 0x3b7a0..0x3b831. sizeof strips based/reference wrappers,
@@ -523,4 +524,24 @@ int __stdcall has_single_function(CppSymbol *symbol)
     if (!cursor) return 1;
     kind = cursor->kind & 31;
     return kind != 6 && kind != 7;
+}
+
+extern unsigned materialized_value_index; /* owner in function-finalization.c */
+IrToken *__stdcall new_temporary_reference(unsigned index, CType *type);
+
+/* Original0x5d920..0x5d9b2, stdcall4. Both references share the lazy
+   per-function symbol identity, while the two IR nodes keep separate ownership. */
+IrToken *__stdcall make_address_temporary(IrToken *expression)
+{
+    IrToken *operand = expression->value.pointer, *left, *right, *assignment;
+    if (!materialized_value_index) {
+        if (next_symbol_index >= 0x7fffffffU) fatal_error(55);
+        if (next_symbol_index >= browser_symbol_limit && browser_filename)
+            browser_symbol_rollover();
+        materialized_value_index = next_symbol_index++;
+    }
+    left = new_temporary_reference(materialized_value_index, operand->type);
+    right = new_temporary_reference(materialized_value_index, operand->type);
+    assignment = new_left_typed_expression(0x3d, left, operand);
+    return new_ir_expression(0x40, assignment, right, operand->type);
 }

@@ -1,6 +1,29 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Legacy expression support is COMPLETE (native-unit-only): five whole App
+helpers add484 B: untyped binary operand resolution(104 B), shape-mismatch
+reporting(27 B), address materialization(146 B), virtual-base access(178 B) and
+ignored-distance warning(29 B). Actual App callers establish these roles;
+no successful original CLI reach is claimed for this support batch.
+Four typed units check a real single-function overload owner, distinct temporary
+IR references sharing one cached symbol index, direct/inherited/suppressed base
+owners with maximum effective access, and exact warning/error dispatch plus
+balanced diagnostic lifetime. Original field gates and allocation behavior stay
+unchanged. Virtual-base iteration remains inline, preserving the original graph.
+
+Total is1,893 App /409,217 B (85.89% of whole original code),six named pending
+App,1,968 historical frontiers,32 explicitly unit-qualified support bodies and
+seven unchanged historical CRT source bodies. All55 native cases and54 unit
+groups pass, with original compilation and the1,901-function six-check graph/ABI
+audit. Focused units22.123/22.222/22.516/24.312 ms; closing gate3.625 s.
+Initial build2.114 s failed on a missing existing-helper declaration; the corrected
+build passed (elapsed unmeasured). The first virtual-access unit assumed context
+insertion order; actual pointer-sorted indices fixed the unit without changing
+App source. No original invocation, oracle, guard or shared shim change.
+
+Earlier descriptor schema qualification:
+
 Descriptor schema validation is COMPLETE: case0054 combines opaque packet
 strides/differences, callback-versus-array-row contracts, missing generated
 members and legacy distance declarations in one negative SDK compilation.

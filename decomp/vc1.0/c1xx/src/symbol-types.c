@@ -343,3 +343,10 @@ unsigned short __stdcall normalize_symbol_distance(unsigned short attributes, Cp
     }
     return attributes;
 }
+
+/* Original0x526a0..0x526bd, stdcall4. Synthetic declarations suppress
+   this original ignored-distance warning through their existing flag. */
+void __stdcall warn_ignored_distance(CppSymbol *symbol)
+{
+    if (!(symbol->flags & 0x80)) compiler_warning(1, 40, symbol->name);
+}
