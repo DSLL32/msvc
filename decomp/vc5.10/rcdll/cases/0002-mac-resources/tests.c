@@ -87,16 +87,16 @@ static int WINAPI receive_notice(DWORD first,DWORD second,char *message)
 }
 static int notice_dispatch(void)
 {
-    extern int rc_line,rc_last_line,rc_message_count;
+    extern int rc_last_line,rc_message_count;
     char message[]="a notice";
-    rc_line=rc_last_line=17;rc_message_count=3;rc_window=NULL;
+    rc_resource_token.line=rc_last_line=17;rc_message_count=3;rc_window=NULL;
     rc_diagnostic=NULL;notice_calls=0;notice_message=NULL;
     rc_emit_notice(message);
     if(notice_calls||rc_message_count!=3)return 0;
     rc_diagnostic=receive_notice;
     rc_emit_notice(message);
     return notice_calls==1&&notice_message==message&&rc_message_count==3&&
-           rc_line==17&&rc_last_line==17;
+           rc_resource_token.line==17&&rc_last_line==17;
 }
 const ReconTest mac_tests[]={
     {"mac-color-map",1,color_mapping},

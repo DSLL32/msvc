@@ -1,6 +1,21 @@
 ; Encountered help and resource diagnostic messages. ANSI, language0x0409.
 LanguageNames=(English=0x409:MSG00409)
 
+MessageId=312
+Language=English
+warning
+.
+
+MessageId=313
+Language=English
+error
+.
+
+MessageId=314
+Language=English
+fatal error
+.
+
 MessageId=10001
 Language=English
 Microsoft (R) Windows 32 Resource Compiler, Version %1 - Build %2!d!
@@ -25,6 +40,16 @@ Flags may be either upper or lower case
 
 .
 
+MessageId=4067
+Language=English
+unexpected characters following '%1!ws!' directive; newline expected
+.
+
+MessageId=4213
+Language=English
+Codepage 1200 (Unicode) not allowed:  ignored
+.
+
 MessageId=4506
 Language=English
 %1 (%2!d!): warning RC4506 : scaling cursor %3!ws! down to 16 by 16
@@ -33,4 +58,9 @@ Language=English
 MessageId=4509
 Language=English
 %1 (%2!d!): warning RC4509 : Resource types '%3' and '%4' were both mapped to '%5'
+.
+
+MessageId=2109
+Language=English
+%1 (%2!d!): error RC2108 : expected numerical dialog constant
 .

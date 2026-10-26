@@ -14,10 +14,6 @@ BOOL WINAPI Handler(DWORD event)
     __asm int 3
     return FALSE;
 }
-void __stdcall rc_fatal(char *message)
-{
-    __asm int 3
-}
 void __stdcall rc_resource_input_fatal(unsigned message)
 {
     __asm int 3
@@ -34,10 +30,6 @@ void __stdcall rc_input_fatal(unsigned code)
 {
     __asm int 3
 }
-void __stdcall rc_input_warning(unsigned code)
-{
-    __asm int 3
-}
 
 int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
 {
@@ -45,11 +37,6 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     return 0;
 }
 
-void __cdecl rc_skip_line(void)
-{
-    __asm int 3
-    
-}
 
 int __stdcall rc_change_codepage(UINT page)
 {
@@ -57,10 +44,6 @@ int __stdcall rc_change_codepage(UINT page)
     return 0;
 }
 
-void __cdecl rc_line_comment(void)
-{
-    __asm int 3
-}
 
 
 
@@ -73,10 +56,6 @@ void __stdcall rc_macro_buffer_fatal(unsigned message)
 
 
 
-void __stdcall rc_resource_error(unsigned code)
-{
-    __asm int 3
-}
 
 void __stdcall rc_report_resource_error(unsigned code)
 {

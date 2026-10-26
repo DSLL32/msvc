@@ -10,6 +10,8 @@ extern int rc_result;
 extern HANDLE rc_heap;
 extern char *rc_include_paths;
 extern char rc_error_text[2048];
+extern char rc_output_path[260];
+void __stdcall rc_report_input_message(DWORD,unsigned,char *);
 void __stdcall rc_emit_notice(char *);
 extern char *rc_error_template;
 extern char *rc_input_temporary;

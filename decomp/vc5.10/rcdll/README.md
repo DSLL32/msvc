@@ -1,6 +1,6 @@
 # RCDLL (Visual C++ 5.10)
 
-All six current cases complete using the native i386 shared library. Run `make -j4
+All seven current cases complete using the native i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -50,6 +50,11 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   the genuine RC4506 scaling warning and RC4509 type warning, empty stderr and
   exit zero. All 133 first-entry encounters and strict cleanup match.
 
+- `0006-diagnostic-recovery`: codepage and trailing-directive warnings, an
+  expression line comment, and a dialog with a missing coordinate. It preserves
+  the expected failure: exit 2, exactly 415 diagnostic bytes, empty stderr and
+  no RES or temporary files. All 158 first-entry encounters match.
+
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
 controls are set separately. Its fresh final masked-original capture uses the
@@ -59,8 +64,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **276 functions and 63,980 unique
-original code bytes**, **85.75% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **282 functions and 64,851 unique
+original code bytes**, **86.92% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -254,3 +259,43 @@ ABI roles, bounds and final receipts remain under
 There are now 21 known pending application routines (1,914 bytes), plus the same
 two unclassified routines (448 bytes); the whole-text percentage remains the
 only qualified global coverage figure.
+
+
+The diagnostic recovery case adds six application bodies and 871 code bytes:
+input warning/reporting, line skipping/comment handling, resource errors and
+fatal cleanup. The fatal extent includes the physical stdcall
+cleanup tail through RVA8a46 (RET4); an initial
+93-byte boundary incorrectly ended before that tail. The corrected whole body
+is 99 bytes. The final masked capture uses this corrected physical mask.
+
+The diagnostic emitter now reads the real resource-token line DWORD at25064,
+removing an unwritten duplicate. Earlier equal-zero observations did not prove
+that storage identity and retain that limitation. This zero-credit repair is
+checked with noncoincident resource/preparation lines and the genuine nonzero
+resource-error line. Input reporting separately uses preparation line16ce8.
+Its two distinct 512-byte contextual buffers retain their verified raw/loader-zero
+basis, bounded writes and original-primary callback identity; they do not claim
+recovered original C capacities. Resource-error history fields remain distinct.
+
+Shared additions are the exact WCHAR16 filename/line sprintf prefix, the
+registered RC4067 directive warning, and an explicit VC5.10 saved-count-zero
+context resume with value2. The last route requires the same thread, a still-live
+main frame and an unchanged SEH chain; the context registry does not prove those
+caller premises. No general SEH unwind, private Windows jump-buffer byte identity
+or original per-call API/FP state is claimed. The target performs real cleanup,
+removal and heap destruction before returning the expected failure.
+
+The corrected final original took 1,253.232 ms and native matching 12.552 ms
+(setup 6.184, execution 4.940, checks 1.427 ms). All seven cached cases, 114 unit groups
+and both builds passed in 0.442 s; strict graph/ABI and SEH checks passed in 1.000 s.
+The initial full audit exposed the incomplete fatal extent. Earlier partials,
+the native context denial, original invalid-input draft and corrected input
+remain separate evidence. The untouched and final masked captures agree exactly
+on invocation, inputs, streams, status and complete inventories. Future reference
+captures retain raw artifact copies in scratch using the shared capture option.
+
+Diagnostic evidence and compiled-source snapshots remain under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/diagnostic-recovery/`, with final corrected-mask
+closeout in `0012-fatal-extent/`. The authoritative registry now has 16 known
+pending application routines (1,469 bytes), plus one unclassified 28-byte routine;
+these are a classified subset, not a complete non-CRT denominator.
