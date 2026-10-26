@@ -479,6 +479,18 @@ void __fastcall coff_add_relocation(unsigned identifier, unsigned offset,
     }
 }
 
+/* Original [0006ec00,0006ec2a). A forward function reference has no
+   symbol handle yet. Retain the actual relocation owner in its identifier
+   bucket until coff_resolve_function can patch that handle. */
+void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation)
+{
+    CoffFunctionFixup *fixup = coff_allocator(sizeof(CoffFunctionFixup));
+    fixup->identifier = identifier;
+    fixup->relocation = relocation;
+    fixup->next = coff_function_fixups[identifier & 31];
+    coff_function_fixups[identifier & 31] = fixup;
+}
+
 /* Original [0006eb60,0006eb79). Relocations to section-relative data
    use the current contribution's existing section-symbol handle. */
 unsigned __fastcall coff_section_symbol(unsigned short identifier)

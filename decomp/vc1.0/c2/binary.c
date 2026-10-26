@@ -5056,11 +5056,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@coff_add_function_fixup@8",
         .entry_rva = 0x5ec00,
-        .code = (const ReconExtent[]) { { 0x5ec00, 0x5ec01 } },
+        .code = (const ReconExtent[]) { { 0x5ec00, 0x5ec2a } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "coff_add_function_fixup",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@coff_add_relocation@16",
@@ -13388,11 +13388,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_ide_message",
         .entry_rva = 0x5f420,
-        .code = (const ReconExtent[]) { { 0x5f420, 0x5f421 } },
+        .code = (const ReconExtent[]) { { 0x5f420, 0x5f561 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "ide_message",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@format_function_name@4",
@@ -13890,10 +13890,34 @@ static const ReconFunction functions[] = {
     {
         .name = "_initialize_debugging",
         .entry_rva = 0x5f370,
-        .code = (const ReconExtent[]) { { 0x5f370, 0x5f420 } },
+        .code = (const ReconExtent[]) { { 0x5f370, 0x5f3b8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "initialize_debugging",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "@ide_bind_context@4", .entry_rva = 0x5f570,
+        .code = (const ReconExtent[]) { { 0x5f570, 0x5f584 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "ide_bind_context",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "@ide_open_channel@4", .entry_rva = 0x5f410,
+        .code = (const ReconExtent[]) { { 0x5f410, 0x5f413 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "ide_open_channel",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "@ide_write_channel@12", .entry_rva = 0x5f3e0,
+        .code = (const ReconExtent[]) { { 0x5f3e0, 0x5f40d } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "ide_write_channel",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
+        .name = "@ide_error@8", .entry_rva = 0x5f3c0,
+        .code = (const ReconExtent[]) { { 0x5f3c0, 0x5f3c1 } }, .code_count = 1,
+        .definition = RECON_APP, .native_symbol = "ide_error",
         .implementation = RECON_UNIMPLEMENTED,
     },
     {

@@ -35,13 +35,12 @@
 #include "backend-passes.h"
 #include "float-peepholes.h"
 #include "float-machine.h"
+#include "ide.h"
 #include <stdarg.h>
 #include <recon.h>
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
-void initialize_debugging(void) { __asm int 3 }
 void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
 int __fastcall suffix_matches(char *pattern, char *text, unsigned action) { __asm int 3 }
-void __cdecl ide_message(int code, ...) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
@@ -195,7 +194,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
-void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *relocation) { __asm int 3 }
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
@@ -209,3 +207,5 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 void __fastcall include_register_block_use(unsigned short number, int block) { __asm int 3 }
 void __fastcall split_float_motion_branch(MachineInstruction *instruction, MemoryMotionContext *context) { __asm int 3 }
 unsigned __fastcall float_register_arithmetic_opcode(unsigned operation) { __asm int 3 }
+
+int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }

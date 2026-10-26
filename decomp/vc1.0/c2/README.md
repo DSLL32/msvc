@@ -1,21 +1,64 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1460 completes the INTERNAL DIRECT canonical-expression case.
-There are 1345 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 353276/399693 original code-section bytes (88.3868%);
-adding 940 owned text-data bytes gives 354216/399693 (88.6220%). These clipped
+Checkpoint 1466 completes the derived IDE progress/object case.
+There are 1351 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 353779/399693 original code-section bytes (88.5127%);
+adding 940 owned text-data bytes gives 354719/399693 (88.7479%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 380590/399693
-(95.2206%). A reliable non-CRT denominator remains unavailable; 40 pending App
-rows and 19103B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 381093/399693
+(95.3464%). A reliable non-CRT denominator remains unavailable; 38 pending App
+rows and 18600B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 33 cached IO cases, two INTERNAL DIRECT
-cases and 238 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 34 cached IO cases, two INTERNAL DIRECT
+cases and 240 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
-The new DIRECT case reuses the preceding profile's exact genuine source/IR,
+The new IDE case uses the exact captured CL/C1 profile inputs and environment,
+restores the original -Foprofile.obj removed only by the preceding listing-only
+case, and appends the explicitly parsed -ide switch. It is honestly standalone
+derived, not a claim that CL emitted that switch. The complete3487B object is
+identical to untouched CL output except established timestamp4..8, and the
+6072B listing is exact. Protocol stderr is exactly50 bytes, with no newline:
+`@I4rotate_profile@I4split_profile@I4audit_profiles`. Stdout is empty/status0.
+
+Six whole App owners add503B: IDE context constructor72, binder20, channel
+identity3, forward-function relocation registrar42, message formatter321 and
+raw descriptor writer45. The old176B constructor envelope is corrected;
+neighboring callbacks are independent graph owners, never extra constructor
+credit. The error callback remains a named unaccepted trap. Typed context/data
+are defined beside the transport; no new CRT implementation or shared shim.
+
+Two real-entry units check the actual17-byte/channel2 message, context/buffer/
+callback identity and write result, plus the profile's identifier9c forward
+relocation owner, unchanged defined relocation fields and unrelated buckets.
+All code0..6 formatting control is recovered, but only actual code4 records
+are observed. Post-sprintf capacity/prefix error paths remain cold, with the
+original check order/assumptions and unaccepted error callback preserved.
+
+The final graph gate caught a real cold-path mistake: original6f51f..6f52f
+pushes2, "@I" and the buffer before calling strncmp. The initial strrchr guess
+returned the same0 on valid messages, but the callee graph rejected it. The
+owner is corrected, with the failed gate retained. No invalid buffer/mock was
+invented to force this assertion; every supported formatter arm creates @I.
+A changed expected protocol byte is separately rejected. A macro-sensitive
+write field was renamed consistently without layout/ABI changes. Corrected
+native qualification reuses the unchanged1466 original, with no extra capture.
+
+Final `make -j4 audit check unit` passes2.605s (phases unsplit), including1356
+paired graphs/accepted extents and160 scoped RET contracts. The failed gate
+adds1.311s and stopped during case prerequisite rebuilds. All original /W3
+compiles total6.110s. Measured original references total8.380s;
+combined target builds60.468s (including36.806s from the shared return-
+prototype header invalidation), metadata5.152s, case builds0.801s
+and native pairs0.517s. Completion IO takes26.431ms:
+setup13.534/execution8.205/checks4.691. All attempts,
+source/binary bindings and completion/coverage/timing records are retained in
+`~/.ai-tmp/msvc2/vc1.0/c2/ide-progress/`. Analysis/editing/packing are unmeasured;
+combined phases are unsplit and their totals are not task elapsed.
+
+The preceding DIRECT case reuses the preceding profile's exact genuine source/IR,
 MSC_CMD_FLAGS and cwd. It takes over at the first transform_function_trees
 entry, where the active _rotate_profile arena/scope and current expression
 belong to the real function. Target constructors build finite Boolean/unary

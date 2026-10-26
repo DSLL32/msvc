@@ -770,6 +770,36 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_initialize_debugging": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@ide_bind_context@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@ide_open_channel@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@coff_add_function_fixup@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_ide_message": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@ide_write_channel@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }
