@@ -5,6 +5,7 @@
 #include <sys/timeb.h>
 #include <sys/time.h>
 #include <limits.h>
+#include <malloc.h>
 #include <recon.h>
 
 /* Compiler-generated abstract vtables may reference this boundary during
@@ -498,12 +499,23 @@ static void watcom_target_heap_activity(void)
     recon_unsupported("Watcom target allocation requires explicit profile");
 #endif
 }
-/* Typed allocator spelling only. No pointer, extent or allocator state is
- * inspected until an actual in-place resize role is qualified. */
+/* The caller supplies the still-live base of a genuine host malloc block;
+ * arithmetic guards do not establish ownership. This finite policy reports an
+ * actual capacity shortfall without relocating or modifying the allocation. */
 void *__cdecl recon_watcom_expand(void *pointer,size_t size)
 {
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    size_t capacity;int saved_errno=errno;
+    if((uintptr_t)pointer<4096 || !size || (uintptr_t)pointer>UINTPTR_MAX-size)
+        recon_unsupported("Watcom expansion pointer/request span");
+    capacity=malloc_usable_size(pointer);errno=saved_errno;
+    if(!capacity || size<=capacity)
+        recon_unsupported("unreviewed Watcom expansion success/shrink");
+    return NULL;
+#else
     (void)pointer;(void)size;
-    recon_unsupported("unreviewed Watcom in-place expansion");return NULL;
+    recon_unsupported("Watcom expansion requires explicit profile");return NULL;
+#endif
 }
 void *recon_watcom_malloc(size_t size)
 { watcom_target_heap_activity();return malloc(size); }

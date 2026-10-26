@@ -1682,8 +1682,15 @@ not retroactively attributed to the overwritten MemorySize DSO. Original
 per-call private error/FP effects remain unmeasured.
 
 Watcom _expand/_nexpand have the SDK void* cdecl(void*,size_t) surface and
-profile-only aliases to one shared cold boundary. It unconditionally denies125
-without pointer, size or allocator access. This qualifies typing/linkage only:
-no resize success/failure result, ownership or pointer-lifetime semantics have
-yet been enabled. The ordinary WLINK LnkExpand caller retains its real
-allocator outcome as a separate pending assessment.
+profile-only aliases to one shared failure-only boundary. The caller supplies
+the still-live base of a genuine host malloc block; pointer arithmetic does not
+establish ownership or lifetime. Positive nonwrapping requests use the existing
+public malloc_usable_size backend. Only a real capacity shortfall returnsNULL,
+retaining the old allocation, bytes and independent native errors/semantic FP.
+Requests within current capacity (success/shrink), zero/invalid spans and other
+profiles deny125. No relocating realloc, free, private heap headers or new
+allocation registry are used. This is a native capacity policy, not blanket
+old-heap equivalence. WLINK's actual16392-byte allocation has16396 usable bytes;
+its16408-byte request follows the original NULL fallback then real realloc
+shrink. The ordinary joint pair matches325 entries and retains contemporaneous
+source/DSO binding. Original per-call private error/FP effects remain unmeasured.
