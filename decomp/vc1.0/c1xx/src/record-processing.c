@@ -626,3 +626,167 @@ unsigned __stdcall scan_compound_return_paths(FrontendRecord **cursor)
     *cursor = end->next;
     return result;
 }
+
+/* Original0x42620..0x4271b, stdcall4. Constant-branch flags and
+   branch goto deltas determine which alternatives require recursive scanning. */
+unsigned __stdcall scan_conditional_return_paths(FrontendRecord **cursor)
+{
+    ConditionalFrontendRecord *conditional = (ConditionalFrontendRecord *)*cursor;
+    FrontendRecord *end = find_forward_frontend_record(conditional->header.next, 24, 1);
+    FrontendRecord *record;
+    unsigned result, alternative;
+    if (conditional->header.flags & 1) result = (conditional->header.flags & 2) == 0;
+    else {
+        conditional->header.flags |= 3;
+        if (conditional->header.flags & 8) result = 0;
+        else if (conditional->then_record && ((conditional->header.flags & 4) ||
+            conditional->else_record ||
+            ((BranchBoundaryRecord *)conditional->then_record)->goto_count)) {
+            record = conditional->then_record;
+            result = scan_return_paths(&record, 21);
+        } else result = 1;
+        if (!(conditional->header.flags & 4) && result != 2) {
+            if (conditional->else_record && ((conditional->header.flags & 8) ||
+                conditional->then_record ||
+                ((BranchBoundaryRecord *)conditional->else_record)->goto_count)) {
+                record = conditional->else_record;
+                alternative = scan_return_paths(&record, 23);
+                if (!result || alternative == 2) result = alternative;
+            } else result = 1;
+        }
+    }
+    conditional->header.flags = (conditional->header.flags & ~2) | (result < 1 ? 2 : 0);
+    *cursor = end->next;
+    return result;
+}
+
+/* Original0x42720..0x42880, stdcall4. A constant switch selects one
+   label; otherwise every reachable case/default region must terminate. */
+unsigned __stdcall scan_switch_return_paths(FrontendRecord **cursor)
+{
+    SwitchFrontendRecord *opening = (SwitchFrontendRecord *)*cursor;
+    FrontendRecord *end = find_forward_frontend_record(opening->header.next, 50, 1);
+    SwitchLabelFrontendRecord *label, *selected;
+    FrontendRecord *record;
+    unsigned result, kind;
+    if ((opening->header.flags & 1) && !opening->case_records)
+        result = (opening->header.flags & 2) == 0;
+    else if (opening->header.kind & 0x80) {
+        selected = 0;
+        for (label = opening->case_records; label; label = label->next_label) {
+            kind = label->header.kind & 0x3f;
+            if (kind == 51) {
+                if (((CaseFrontendRecord *)label)->value == opening->constant_condition) {
+                    selected = label;
+                    break;
+                }
+            } else if (kind == 52) selected = label;
+        }
+        result = 1;
+        opening->header.flags |= 3;
+        opening->case_records = 0;
+        if (selected) {
+            selected->header.flags |= 3;
+            record = &selected->header;
+            result = scan_return_paths(&record, 49);
+        }
+        if (result) opening->header.flags &= ~2;
+    } else if (!(opening->header.kind & 0x40)) {
+        opening->header.flags = (opening->header.flags | 1) & ~2;
+        opening->case_records = 0;
+        result = 1;
+    } else {
+        label = opening->case_records;
+        result = 0;
+        opening->header.flags |= 3;
+        while (label && !result) {
+            opening->case_records = label->next_label;
+            if (label->header.flags & 1) {
+                if (!(label->header.flags & 2)) result = 1;
+            } else {
+                record = &label->header;
+                label->header.flags |= 3;
+                result = scan_return_paths(&record, 49);
+                if (result) label->header.flags &= ~2;
+            }
+            label = label->next_label;
+        }
+        if (result) opening->header.flags &= ~2;
+        opening->case_records = 0;
+    }
+    *cursor = end->next;
+    return result;
+}
+
+/* Original0x42880..0x429e0, stdcall8. The caller dispatch supplies only
+   while/do/for kinds25,31,37. Their condition regions use distinct delimiters;
+   other kinds leave that delimiter unwritten in the original. */
+unsigned __stdcall scan_loop_return_paths(FrontendRecord **cursor, unsigned char kind)
+{
+    FrontendRecord *opening = *cursor, *record = opening;
+    FrontendRecord *end = find_forward_frontend_record(record->next,
+        FRONTEND_RECORD_MATE(kind), 1);
+    unsigned result;
+    unsigned char delimiter;
+    if (opening->flags & 1) result = (opening->flags & 2) == 0;
+    else {
+        opening->flags |= 3;
+        if (kind != 31 && ((opening->flags & 8) || !(opening->flags & 4)))
+            result = 1;
+        else {
+            if (opening->flags & 4) end->flags |= 3;
+            switch (kind) {
+            case 25:
+                record = ((LoopFrontendRecord *)record)->condition_records;
+                delimiter = 29;
+                break;
+            case 31:
+                record = ((LoopFrontendRecord *)record)->condition_records;
+                delimiter = 33;
+                break;
+            case 37:
+                record = ((LoopFrontendRecord *)record)->condition_records;
+                delimiter = 43;
+                break;
+            }
+            if (record) result = scan_return_paths(&record, delimiter);
+            else result = 1;
+            if (result != 2) {
+                if (!(opening->flags & 2)) result = 1;
+                else if (opening->flags & 4) result = 0;
+            }
+        }
+    }
+    opening->flags = (opening->flags & ~2) | (result < 1 ? 2 : 0);
+    if ((end->flags & 1) && (opening->flags & 4))
+        end->flags = (end->flags & ~2) | (opening->flags & 2);
+    *cursor = end->next;
+    return result;
+}
+
+/* Original0x42040..0x42060, stdcall4. The caller supplies a nonempty
+   record chain ending in a statement delimiter after declaration markers. */
+FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from)
+{
+    while ((from->kind & 0x3f) == 13) from = from->next;
+    return from;
+}
+
+/* Original0x429e0..0x42a5a, stdcall4. Labels cache a provisional
+   terminal result before recursive goto traversal, preventing endless cycles. */
+unsigned __stdcall scan_label_return_paths(FrontendRecord **cursor)
+{
+    FrontendRecord *label = *cursor, *record = label;
+    unsigned result;
+    if (label->flags & 1) {
+        result = (label->flags & 2) == 0;
+        record = record->next;
+    } else {
+        label->flags |= 3;
+        record = record->next;
+        result = scan_return_paths(&record, 4);
+    }
+    label->flags = (label->flags & ~2) | (result < 1 ? 2 : 0);
+    *cursor = record;
+    return result;
+}

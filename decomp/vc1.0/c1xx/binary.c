@@ -7742,10 +7742,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_skip_declaration_records@4",
         .entry_rva = 0x32040,
-        .code = (const ReconExtent[]) { { 0x32040, 0x32041 } },
+        .code = (const ReconExtent[]) { { 0x32040, 0x32060 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "skip_declaration_records",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_skip_previous_declaration_records@4",
@@ -7790,6 +7791,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_conditional_return_paths",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_switch_return_paths@4",
@@ -7798,6 +7800,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_switch_return_paths",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_loop_return_paths@8",
@@ -7806,6 +7809,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_loop_return_paths",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_label_return_paths@4",
@@ -7814,6 +7818,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "scan_label_return_paths",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_scan_return_paths@8",

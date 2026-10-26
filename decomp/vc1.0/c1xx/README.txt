@@ -1,6 +1,31 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Scheduler dispatch-flow is COMPLETE: case0021. The unchanged3,231-byte C++
+workload combines nested return-bearing conditionals, complete switches, bounded
+retry/poll loops, break/continue and suspend/resume goto labels. The supported
+standalone frontend flags include -Ob0/-G3/-Z7/-FR. Two earlier flag-only drafts
+were rejected for driver-only -Od and -G5; their raw diagnostics are retained.
+The actual source baseline succeeds with one normal constant-condition warning.
+
+Five whole App bodies/1,109 code bytes were accepted:conditional, switch, loop
+and label return scanners plus declaration-record skipping. Fresh masked-original/
+native observations match all five first encounters, exit0, diagnostics and six
+IR/browser artifacts, exactly matching the untouched supported original baseline.
+There is no output normalization, forced internal state, new CRT body, native
+guard or shared change. Loop-kind handling follows the actual caller's three
+while/do/for kinds; unrelated direct-call values are not qualified by this case.
+
+Totals:1,730 App bodies/1,837 historical frontiers plus seven unchanged historical
+CRT source bodies. App-only code extent union390,697/476,418 B is82.01% of whole
+original code extent, not a non-CRT denominator. Original-toolchain builds pass.
+All22 cached native cases,31 unit groups and the1,738-function six-check graph/ABI
+audit pass in3.004 s. Final fresh original1.162 s; native30.532 ms (setup19.513 ms,
+execution5.002 ms, checks6.017 ms); incremental native/Win32 build3.648 s.
+Complete regressions/audit ran only after case completion.
+
+Earlier completed generated SDK recovery:
+
 Generated SDK import recovery is COMPLETE: case0020 version2. A damaged SDK
 header/record decoder combines malformed directives, declaration punctuation,
 incompatible member definitions, duplicate function bodies and assembler syntax,

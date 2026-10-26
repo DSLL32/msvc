@@ -266,7 +266,6 @@ unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *sour
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
-FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
 
 
 
@@ -450,13 +449,3 @@ void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
 void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
 void __stdcall mark_pch_access_key(AccessDeclaration *access) { __asm { int 3 } }
-
-
-
-unsigned __stdcall scan_conditional_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }
-
-unsigned __stdcall scan_switch_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }
-
-unsigned __stdcall scan_loop_return_paths(FrontendRecord **cursor, unsigned char kind) { __asm { int 3 } return 0; }
-
-unsigned __stdcall scan_label_return_paths(FrontendRecord **cursor) { __asm { int 3 } return 0; }
