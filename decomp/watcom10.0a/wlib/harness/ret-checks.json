@@ -1035,6 +1035,76 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "CloseFileCache": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "CloseImportInput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ConvertPeExports": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ConvertPeNameBlock": {
+      "expected_cleanup": [
+        12
+      ]
+    },
+    "GetComLen": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "LoadExecutableCache": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "OpenFileCache": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadImportByte": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadImportData": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "ReadImportNameAtOffset": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SeekImportInput": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "SetImportOption": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "WriteImportSymbol": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "getcomdef": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

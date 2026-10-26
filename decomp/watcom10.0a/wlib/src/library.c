@@ -706,3 +706,36 @@ void getcomdat( void )
     symbol->Value.Owner = CurrentModuleSymbol;
     InsertSymbol( symbol, 0 );
 }
+
+/* Original0x411b18..0x411b77 shares GetComent's two-byte return.
+   COMMON records carry an index and one near/two far size leaves. */
+void getcomdef( void )
+{
+    SymbolRecord *symbol;
+    unsigned char kind;
+
+    while( (unsigned)(OmfRecordCursor - OmfRecordData) < OmfRecordLength - 1 ) {
+        symbol = ReadRecordName( 0 );
+        symbol->Value.Owner = CurrentModuleSymbol;
+        symbol->Flags &= 0x80;
+        InsertSymbol( symbol, 0 );
+        GetIndex();
+        kind = *OmfRecordCursor++;
+        if( kind == 0x61 ) GetComLen();
+        if( kind == 0x61 || kind == 0x62 ) GetComLen();
+    }
+}
+
+/* Original0x411aea..0x411b18. Unlike the later released decoder,
+   this version advances only2/3/4 total bytes for an extended size leaf,
+   including its marker: it leaves the final size byte to be read as a name.
+   Preserve that original extended-COMMON decoding defect. */
+void GetComLen( void )
+{
+    switch( *OmfRecordCursor ) {
+    case 0x88: OmfRecordCursor += 4; break;
+    case 0x84: OmfRecordCursor += 3; break;
+    case 0x81: OmfRecordCursor += 2; break;
+    default: ++OmfRecordCursor; break;
+    }
+}

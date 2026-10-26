@@ -267,3 +267,20 @@ void CopyOutputFileName( void )
     OutputLibraryName->Path = AllocPoolItem( &PathPool, sizeof(PathName) );
     *OutputLibraryName->Path = *LibraryName->Path;
 }
+
+/* Original0x4122b9..0x412308. Replace an executable's raw descriptor
+   with the generated OMF import stream and mark its special cache mode. */
+int LoadExecutableCache( OpenFile *file )
+{
+    int handle;
+
+    if( lseek( file->Handle, 0, 0 ) == -1 ) return( 0 );
+    handle = OpenFileCache( file->Handle );
+    if( handle == -1 ) return( 0 );
+    file->Handle = handle;
+    file->Mode = 3;
+    file->Current = file->Buffer;
+    file->Available = 0;
+    file->Position = 0;
+    return( 1 );
+}

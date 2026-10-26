@@ -3,6 +3,7 @@
 #include "wlib.h"
 #include "toolstate.h"
 #include "demangle.h"
+#include "imports.h"
 #include <recon.h>
 
 void HandleSignal( int signal_number )
@@ -46,10 +47,6 @@ void AbortCommand( void )
 }
 
 
-void CloseFileCache( int handle )
-{
-    WLIB_FRONTIER();
-}
 
 
 
@@ -62,11 +59,6 @@ int WResIDNameCmp( const WResIDName *first, const WResIDName *second )
 
 
 
-unsigned char SetImportOption( void )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
 {
@@ -78,17 +70,8 @@ void ReportSyntaxError( unsigned message, unsigned context, unsigned char *ch )
 
 
 
-int LoadExecutableCache( OpenFile *file )
-{
-    WLIB_FRONTIER();
-    return( 0 );
-}
 
 
-void getcomdef( void )
-{
-    WLIB_FRONTIER();
-}
 
 
 
@@ -112,3 +95,7 @@ char *CopyCountedName( int length, const char *name )
 
 
 void WriteListingCharacter( unsigned char ch, int handle ) { WLIB_FRONTIER(); }
+
+int ReadImportModuleName( unsigned wide_ordinal ) { WLIB_FRONTIER(); return( 0 ); }
+int ConvertNlmExports( int handle, unsigned long count ) { WLIB_FRONTIER(); return( 0 ); }
+int ConvertNameTable( int handle, unsigned by_name ) { WLIB_FRONTIER(); return( 0 ); }

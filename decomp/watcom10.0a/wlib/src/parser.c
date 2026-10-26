@@ -606,3 +606,24 @@ unsigned char ParseModuleName( unsigned char ch )
     AddRemoveCommand( name, 0 );
     return( ch );
 }
+
+/* Original0x4104cc..0x41054e. N/R selects the nonresident/resident
+   export-name table; N/O selects importing by name or by ordinal. */
+unsigned char SetImportOption( void )
+{
+    unsigned char ch;
+    unsigned char *option;
+
+    ch = NextNonwhite();
+    switch( toupper( ch ) ) {
+    case 'N': option = &InCommand; break;
+    case 'R': option = &FirstCommand; break;
+    default: ReportSyntaxError( 74, 99, &ch ); break;
+    }
+    switch( toupper( NextNonwhite() ) ) {
+    case 'N': *option = 1; break;
+    case 'O': *option = 0; break;
+    default: ReportSyntaxError( 81, 99, &ch ); break;
+    }
+    return( NextNonwhite() );
+}

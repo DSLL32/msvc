@@ -203,6 +203,7 @@ void CheckLibrarySize( void );
 int ReadBufferedByteStrict( OpenFile *file );
 unsigned long NextLibraryPage( void );
 int LoadExecutableCache( OpenFile *file );
+int OpenFileCache( int handle );
 void ProcessModuleRecords( MemberCommand *remove, FileName *extract,
                            unsigned from_library );
 extern unsigned long InputModuleOffset;
@@ -243,6 +244,7 @@ void procsegdef( void );
 void getpubdef( void );
 void GetComent( void );
 void getcomdef( void );
+void GetComLen( void );
 void getcomdat( void );
 void getlname( unsigned local );
 void CopyOmfRecord( SymbolRecord *module, unsigned trim_name );

@@ -986,6 +986,26 @@
         "start": 4282010,
         "bytes_hex": "c95f5e595bc3"
       }
+    },
+    {
+      "owners": [
+        "GetComent",
+        "getcomdef"
+      ],
+      "original": {
+        "start": 4266728,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "FreeLNames",
+        "getcomdef"
+      ],
+      "original": {
+        "start": 4266728,
+        "bytes_hex": "5ac3"
+      }
     }
   ],
   "shared_call_return_tails": [
