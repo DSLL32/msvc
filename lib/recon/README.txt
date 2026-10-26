@@ -1642,8 +1642,11 @@ IEEE binary64 normal/+0 bits are assembled without host parsing or rounding.
 Signs, exponents, whitespace, nonexact values and other domains deny125. The
 result uses the ordinary native typed-double ABI; no Watcom return-register or
 private x87-state equivalence is claimed. Focused exact arithmetic/bit-pattern,
-error/control-state and denial checks pass. Actual WASM conversion adoption is
-pending its ordinary original CRT closure, separately from this source release.
+error/control-state and denial checks pass. WASM's ordinary conversion prefix
+now executes through the restored original CRT closure and matches the next App
+frontiers. The subsequent ordinary step131 retains genuine pre-run source/object/
+DSO identities. This pass0 path does not yet compare emitted floating bytes;
+original per-call error/FP state remains unmeasured.
 
 Typed native diagnostic units additionally qualify five explicit510 fixed
 registered layouts:2104/2175 use ANSI filename,signed line,ASCII WCHAR name;

@@ -1,7 +1,7 @@
 {
   "scope": "Explicit Watcom/default-C/endptrNULL unsigned plain decimal <=17digits; exact dyadic binary64 normal/+0 only; ordinary native typed-double ABI.",
   "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/watcom-strtod/receipt.json",
-  "receipt_sha256": "d22b0989b876005be4d0de81e51e9be92fe44b96bc35bff8ddb084d179da2df6",
+  "receipt_sha256": "a7e336bfcf3c1f23137e776226f7fa987113d493426f85a68ebdc8954b9f4178",
   "source_sha256": {
     "src/compat.c": "3859f3063f4c2828b2bd20df2ef9733c7602c82ab9cdb00637ff6633c0b33b3f",
     "native/recon-remaps.h": "48e9b4a193ffb7ac2f604a2b725a58464eaee801fe7bc06a8e97a9b4efa3a980",
@@ -9,5 +9,5 @@
   },
   "groups": 6,
   "wall_s": 3.0546223875135183,
-  "actual_adoption": "Pending WASM normal conversion/CRT closure; no original conversion claim."
+  "actual_adoption": "Ordinary step130 executes positive1.25/endptrNULL/size8 prefix through actual restored original CRT closure; native14.512ms. No emitted-byte check at pass0 and no retroactive step130 fullDSO/hash attribution. Next ordinary step131 re-executes conversion prefix, native10.851ms to InitializeStructure18e3c with genuine pre-run DSO/source/object binding. Currentcompatb0e87a0d differs from tested3859 only by unrelated510 longjmp102 guard; strtod body unchanged. No original per-call error/FP observation."
 }
