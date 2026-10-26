@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <wchar.h>
+#include <stddef.h>
 #include "command.h"
 #include "resources.h"
 #include <recon.h>
@@ -687,4 +688,198 @@ DWORD __stdcall rc_mac_resource_type(const WCHAR *name,WORD id)
            ((DWORD)(BYTE)"0123456789ABCDEF"[(id>>8)&15]<<16)|
            ((DWORD)(BYTE)"0123456789ABCDEF"[(id>>4)&15]<<8)|
            (BYTE)"0123456789ABCDEF"[id&15];
+}
+
+/* The contextual128-entry high-byte map selected only for codepage1252.
+ * Literal values retain the original legacy substitutions, including '?'. */
+static const BYTE rc_windows_to_mac[128]={
+    0x3f, /* 80 EURO SIGN */
+    0x3f, /* 81 UNDEFINED CP1252 BYTE */
+    0xe2, /* 82 SINGLE LOW-9 QUOTATION MARK */
+    0xc4, /* 83 LATIN SMALL LETTER F WITH HOOK */
+    0xe3, /* 84 DOUBLE LOW-9 QUOTATION MARK */
+    0xc9, /* 85 HORIZONTAL ELLIPSIS */
+    0xa0, /* 86 DAGGER */
+    0xe0, /* 87 DOUBLE DAGGER */
+    0xf6, /* 88 MODIFIER LETTER CIRCUMFLEX ACCENT */
+    0xe4, /* 89 PER MILLE SIGN */
+    0x3f, /* 8A LATIN CAPITAL LETTER S WITH CARON */
+    0xdc, /* 8B SINGLE LEFT-POINTING ANGLE QUOTATION MARK */
+    0xce, /* 8C LATIN CAPITAL LIGATURE OE */
+    0x3f, /* 8D UNDEFINED CP1252 BYTE */
+    0x3f, /* 8E LATIN CAPITAL LETTER Z WITH CARON */
+    0x3f, /* 8F UNDEFINED CP1252 BYTE */
+    0x3f, /* 90 UNDEFINED CP1252 BYTE */
+    0xd4, /* 91 LEFT SINGLE QUOTATION MARK */
+    0xd5, /* 92 RIGHT SINGLE QUOTATION MARK */
+    0xd2, /* 93 LEFT DOUBLE QUOTATION MARK */
+    0xd3, /* 94 RIGHT DOUBLE QUOTATION MARK */
+    0xa5, /* 95 BULLET */
+    0xd0, /* 96 EN DASH */
+    0xd1, /* 97 EM DASH */
+    0xf7, /* 98 SMALL TILDE */
+    0x84, /* 99 TRADE MARK SIGN */
+    0x3f, /* 9A LATIN SMALL LETTER S WITH CARON */
+    0xdd, /* 9B SINGLE RIGHT-POINTING ANGLE QUOTATION MARK */
+    0xcf, /* 9C LATIN SMALL LIGATURE OE */
+    0x3f, /* 9D UNDEFINED CP1252 BYTE */
+    0x3f, /* 9E LATIN SMALL LETTER Z WITH CARON */
+    0xd9, /* 9F LATIN CAPITAL LETTER Y WITH DIAERESIS */
+    0xca, /* A0 NO-BREAK SPACE */
+    0xc1, /* A1 INVERTED EXCLAMATION MARK */
+    0xa2, /* A2 CENT SIGN */
+    0xa3, /* A3 POUND SIGN */
+    0xdb, /* A4 CURRENCY SIGN */
+    0xb4, /* A5 YEN SIGN */
+    0x3f, /* A6 BROKEN BAR */
+    0xa4, /* A7 SECTION SIGN */
+    0xac, /* A8 DIAERESIS */
+    0xa9, /* A9 COPYRIGHT SIGN */
+    0xbb, /* AA FEMININE ORDINAL INDICATOR */
+    0xc7, /* AB LEFT-POINTING DOUBLE ANGLE QUOTATION MARK */
+    0xc2, /* AC NOT SIGN */
+    0x3f, /* AD SOFT HYPHEN */
+    0xa8, /* AE REGISTERED SIGN */
+    0x3f, /* AF MACRON */
+    0xa1, /* B0 DEGREE SIGN */
+    0xb1, /* B1 PLUS-MINUS SIGN */
+    0x3f, /* B2 SUPERSCRIPT TWO */
+    0x3f, /* B3 SUPERSCRIPT THREE */
+    0xab, /* B4 ACUTE ACCENT */
+    0xb5, /* B5 MICRO SIGN */
+    0xa6, /* B6 PILCROW SIGN */
+    0xe1, /* B7 MIDDLE DOT */
+    0xfc, /* B8 CEDILLA */
+    0x3f, /* B9 SUPERSCRIPT ONE */
+    0xbc, /* BA MASCULINE ORDINAL INDICATOR */
+    0xc8, /* BB RIGHT-POINTING DOUBLE ANGLE QUOTATION MARK */
+    0x3f, /* BC VULGAR FRACTION ONE QUARTER */
+    0x3f, /* BD VULGAR FRACTION ONE HALF */
+    0x3f, /* BE VULGAR FRACTION THREE QUARTERS */
+    0xc0, /* BF INVERTED QUESTION MARK */
+    0xcb, /* C0 LATIN CAPITAL LETTER A WITH GRAVE */
+    0xe7, /* C1 LATIN CAPITAL LETTER A WITH ACUTE */
+    0xe5, /* C2 LATIN CAPITAL LETTER A WITH CIRCUMFLEX */
+    0xcc, /* C3 LATIN CAPITAL LETTER A WITH TILDE */
+    0x80, /* C4 LATIN CAPITAL LETTER A WITH DIAERESIS */
+    0x81, /* C5 LATIN CAPITAL LETTER A WITH RING ABOVE */
+    0xae, /* C6 LATIN CAPITAL LETTER AE */
+    0x82, /* C7 LATIN CAPITAL LETTER C WITH CEDILLA */
+    0xe9, /* C8 LATIN CAPITAL LETTER E WITH GRAVE */
+    0x83, /* C9 LATIN CAPITAL LETTER E WITH ACUTE */
+    0xe6, /* CA LATIN CAPITAL LETTER E WITH CIRCUMFLEX */
+    0xe8, /* CB LATIN CAPITAL LETTER E WITH DIAERESIS */
+    0xed, /* CC LATIN CAPITAL LETTER I WITH GRAVE */
+    0xea, /* CD LATIN CAPITAL LETTER I WITH ACUTE */
+    0xeb, /* CE LATIN CAPITAL LETTER I WITH CIRCUMFLEX */
+    0xec, /* CF LATIN CAPITAL LETTER I WITH DIAERESIS */
+    0x3f, /* D0 LATIN CAPITAL LETTER ETH */
+    0x84, /* D1 LATIN CAPITAL LETTER N WITH TILDE */
+    0xf1, /* D2 LATIN CAPITAL LETTER O WITH GRAVE */
+    0xee, /* D3 LATIN CAPITAL LETTER O WITH ACUTE */
+    0xef, /* D4 LATIN CAPITAL LETTER O WITH CIRCUMFLEX */
+    0xcd, /* D5 LATIN CAPITAL LETTER O WITH TILDE */
+    0x85, /* D6 LATIN CAPITAL LETTER O WITH DIAERESIS */
+    0x3f, /* D7 MULTIPLICATION SIGN */
+    0xaf, /* D8 LATIN CAPITAL LETTER O WITH STROKE */
+    0x84, /* D9 LATIN CAPITAL LETTER U WITH GRAVE */
+    0xf2, /* DA LATIN CAPITAL LETTER U WITH ACUTE */
+    0xf3, /* DB LATIN CAPITAL LETTER U WITH CIRCUMFLEX */
+    0x86, /* DC LATIN CAPITAL LETTER U WITH DIAERESIS */
+    0x3f, /* DD LATIN CAPITAL LETTER Y WITH ACUTE */
+    0x3f, /* DE LATIN CAPITAL LETTER THORN */
+    0xa7, /* DF LATIN SMALL LETTER SHARP S */
+    0x88, /* E0 LATIN SMALL LETTER A WITH GRAVE */
+    0x87, /* E1 LATIN SMALL LETTER A WITH ACUTE */
+    0x89, /* E2 LATIN SMALL LETTER A WITH CIRCUMFLEX */
+    0x8b, /* E3 LATIN SMALL LETTER A WITH TILDE */
+    0x8a, /* E4 LATIN SMALL LETTER A WITH DIAERESIS */
+    0x8c, /* E5 LATIN SMALL LETTER A WITH RING ABOVE */
+    0xbe, /* E6 LATIN SMALL LETTER AE */
+    0x8d, /* E7 LATIN SMALL LETTER C WITH CEDILLA */
+    0x8f, /* E8 LATIN SMALL LETTER E WITH GRAVE */
+    0x8e, /* E9 LATIN SMALL LETTER E WITH ACUTE */
+    0x90, /* EA LATIN SMALL LETTER E WITH CIRCUMFLEX */
+    0x91, /* EB LATIN SMALL LETTER E WITH DIAERESIS */
+    0x93, /* EC LATIN SMALL LETTER I WITH GRAVE */
+    0x92, /* ED LATIN SMALL LETTER I WITH ACUTE */
+    0x94, /* EE LATIN SMALL LETTER I WITH CIRCUMFLEX */
+    0x95, /* EF LATIN SMALL LETTER I WITH DIAERESIS */
+    0x3f, /* F0 LATIN SMALL LETTER ETH */
+    0x96, /* F1 LATIN SMALL LETTER N WITH TILDE */
+    0x98, /* F2 LATIN SMALL LETTER O WITH GRAVE */
+    0x97, /* F3 LATIN SMALL LETTER O WITH ACUTE */
+    0x99, /* F4 LATIN SMALL LETTER O WITH CIRCUMFLEX */
+    0x9b, /* F5 LATIN SMALL LETTER O WITH TILDE */
+    0x9a, /* F6 LATIN SMALL LETTER O WITH DIAERESIS */
+    0xd6, /* F7 DIVISION SIGN */
+    0xbf, /* F8 LATIN SMALL LETTER O WITH STROKE */
+    0x9d, /* F9 LATIN SMALL LETTER U WITH GRAVE */
+    0x9c, /* FA LATIN SMALL LETTER U WITH ACUTE */
+    0x9e, /* FB LATIN SMALL LETTER U WITH CIRCUMFLEX */
+    0x9f, /* FC LATIN SMALL LETTER U WITH DIAERESIS */
+    0x3f, /* FD LATIN SMALL LETTER Y WITH ACUTE */
+    0x3f, /* FE LATIN SMALL LETTER THORN */
+    0xd8, /* FF LATIN SMALL LETTER Y WITH DIAERESIS */
+};
+const BYTE *rc_mac_byte_map;
+
+void __stdcall rc_select_mac_byte_map(UINT page)
+{
+    rc_mac_byte_map=page==1252?rc_windows_to_mac:NULL;
+}
+
+void __stdcall rc_map_mac_bytes(char *text,int bytes)
+{
+    int index;
+    unsigned char value;
+    if(!rc_mac_byte_map)rc_select_mac_byte_map(rc_codepage);
+    if(rc_mac_byte_map){
+        for(index=0;index<bytes;++index){
+            value=(unsigned char)text[index];
+            if(value&0x80)text[index]=rc_mac_byte_map[value-128];
+        }
+    }
+}
+
+/* The encountered legacy icon record has a two-byte tag followed by these
+ * twelve bytes. It is not the modern ICO directory/BITMAPINFOHEADER format. */
+typedef struct RcLegacyIconShape {
+    short hotspot_x,hotspot_y,width,height,row_bytes;
+    BYTE planes,bits_per_pixel;
+} RcLegacyIconShape;
+typedef char RcLegacyIconShapeSize[sizeof(RcLegacyIconShape)==12?1:-1];
+typedef char RcLegacyIconHeightOffset[offsetof(RcLegacyIconShape,height)==6?1:-1];
+typedef char RcLegacyIconRowOffset[offsetof(RcLegacyIconShape,row_bytes)==8?1:-1];
+
+long __stdcall rc_convert_icon_file(long size)
+{
+    extern int rc_mac;
+    FILE *file=rc_resource_file(NULL);
+    RcLegacyIconShape shape;
+    WORD tag,word;
+    long expected,position;
+    int extra=0;
+    if(!file)return 0;
+    /* Short records leave original automatic bytes undefined. Hold before any
+     * such bytes are consumed; valid typed record units supply all fourteen. */
+    if(rc_read_bytes(file,&tag,2)!=2){ __asm int 3 }
+    if((BYTE)tag!=1&&(BYTE)tag!=3)
+        rc_resource_file_fatal(2169,rc_resource_name);
+    if(rc_read_bytes(file,&shape,12)!=12){ __asm int 3 }
+    expected=(long)shape.height*shape.row_bytes*2+14;
+    if(expected<size){
+        tag&=0x00ff;
+        rc_seek(file,expected,SEEK_SET);
+        word=rc_mac?(WORD)rc_mac_word(tag):tag;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+    }else{
+        tag=(WORD)((tag&0x00ff)|0x0100);
+        word=rc_mac?(WORD)rc_mac_word(tag):tag;
+        *(WORD *)rc_reserve_resource_bytes(2)=word;
+        rc_append_resource_bytes(&shape,12);
+        extra=12;
+    }
+    position=rc_seek(file,0,SEEK_CUR);
+    return size-position+extra+2;
 }

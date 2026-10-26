@@ -153,3 +153,91 @@ void __stdcall rc_report_resource_error(unsigned code)
     rc_last_resource_error_file=rc_resource_token.file_index;
     rc_last_resource_error_code=code;
 }
+
+void __stdcall rc_input_error(unsigned code)
+{
+    rc_report_input_message(2000,code,rc_error_text);
+    ++rc_result;
+    if(rc_result>100){
+        rc_error_template=rc_message(1003);
+        rc_format(rc_error_text,2048,rc_error_template,100);
+        rc_input_fatal(1003);
+    }
+}
+
+void __stdcall rc_input_fatal(unsigned code)
+{
+    rc_report_input_message(1000,code,rc_error_text);
+    rc_fatal(NULL);
+}
+
+void __stdcall rc_macro_buffer_fatal(unsigned code)
+{
+    rc_preparing_line=rc_prepared_lines;
+    strcpy(rc_error_text,rc_message(code));
+    rc_input_fatal(code);
+}
+
+void __stdcall rc_resource_input_fatal(unsigned code)
+{
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_line);
+    rc_emit(rc_error_text);
+    rc_fatal("\n");
+}
+
+void __stdcall rc_resource_input_fatal_name(unsigned code,const WCHAR *name)
+{
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_line,name);
+    rc_emit(rc_error_text);
+    rc_fatal("\n");
+}
+
+void __stdcall rc_resource_error_name(unsigned code,const void *name)
+{
+    if(rc_result>0&&rc_last_resource_error_code==code&&
+       rc_last_resource_error_line==rc_resource_token.line&&
+       rc_last_resource_error_file==rc_resource_token.file_index)
+        rc_fatal("\n");
+    rc_emit("\n");
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_token.line,name);
+    rc_emit(rc_error_text);
+    ++rc_result;
+    if(rc_result>25)rc_fatal("\n");
+    rc_last_resource_error_line=rc_resource_token.line;
+    rc_last_resource_error_file=rc_resource_token.file_index;
+    rc_last_resource_error_code=code;
+}
+
+void __stdcall rc_resource_file_fatal(unsigned code,const WCHAR *name)
+{
+    if(rc_resource_data_file)fclose(rc_resource_data_file);
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_token.line,name);
+    rc_emit(rc_error_text);
+    rc_fatal("\n");
+}
+
+void __stdcall rc_resource_data_fatal(unsigned code)
+{
+    if(rc_resource_data_file)fclose(rc_resource_data_file);
+    rc_format(rc_error_text,2048,rc_message(code),rc_resource_filename,
+              rc_resource_token.line);
+    rc_emit(rc_error_text);
+    rc_fatal("\n");
+}
+
+BOOL WINAPI Handler(DWORD event)
+{
+    if(!event){
+        rc_emit("\n");
+        rc_format(rc_error_text,2048,rc_message(20101));
+        rc_emit(rc_error_text);
+        rc_cleanup();
+        HeapDestroy(rc_heap);
+        if(rc_output_path)remove(rc_output_path);
+    }
+    return FALSE;
+}

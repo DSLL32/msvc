@@ -18,7 +18,7 @@ while index<len(lines):
     while index<len(lines) and lines[index].strip()!='.':body.append(lines[index]);index+=1
     assert index<len(lines) and identity not in messages;index+=1
     messages[identity]=''.join(body).replace('\n','\r\n').encode('ascii')
-assert set(messages)=={312,313,314,2109,2151,4067,4213,4506,4509,10001,20001}
+assert set(messages)=={312,313,314,1003,2101,2104,2170,2175,20101,2109,2135,2151,2171,4067,4213,4506,4509,10001,20001}
 for identity,text in sorted(messages.items()):
     entries.append(dict(kind='message',id=identity,language=1033,text=text))
 spec=importlib.util.spec_from_file_location('resources',ROOT/'lib/recon/resources.py')

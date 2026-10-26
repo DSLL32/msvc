@@ -45,7 +45,6 @@ BINARY_SOURCES = src/characters.c \
     src/scanning.c \
     crt/startup.c \
     src/strings.c \
-    src/stubs.c \
     src/token-info.c \
     src/types.c
 BINARY_SUPPORT_SOURCES = harness/native-host.c $(wildcard $(RECON)/src/*.c)

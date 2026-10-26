@@ -69,3 +69,43 @@ MessageId=2151
 Language=English
 %1 (%2!d!): error RC2151 : cannot reuse string constants, %3!d!(0x%3!X!) - "%4!ws!" already defined. Cannot add %3!d!(0x%3!X!) - "%5!ws!".
 .
+
+MessageId=2135
+Language=English
+%1 (%2!d!): error RC2135 : file not found: %3
+.
+
+MessageId=2171
+Language=English
+%1 (%2!d!): error RC2171 : unknown DIB header format
+.
+
+MessageId=1003
+Language=English
+error count exceeds %1!d!; stopping compilation
+.
+
+MessageId=2101
+Language=English
+%1 (%2!d!): error RC2101 : invalid directive in preprocessed RC file
+.
+
+MessageId=2104
+Language=English
+%1 (%2!d!): error RC2104 : undefined keyword or key name: %3!ws!
+.
+
+MessageId=2170
+Language=English
+%1 (%2!d!): error RC2170 : bitmap file %3!ws! is not in 3.00 format
+.
+
+MessageId=2175
+Language=English
+%1 (%2!d!): error RC2175 : resource file %3!ws! is not in 3.00 format
+.
+
+MessageId=20101
+Language=English
+RC terminated by user
+.

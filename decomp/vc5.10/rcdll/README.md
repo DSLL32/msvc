@@ -1,6 +1,7 @@
 # RCDLL (Visual C++ 5.10)
 
-All eight current cases complete using the native i386 shared library. Run `make -j4
+All eight CLI cases and the authorized helper-unit batch complete using the native
+i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -70,8 +71,10 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **286 functions and 65,186 unique
-original code bytes**, **87.37% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **299 functions and 66,348 unique
+original code bytes**, **88.93% of the 74,609-byte whole-text extent**. Of these,
+286 functions / 65,186 bytes are CLI-qualified and 13 functions / 1,162 bytes are
+qualified through the explicitly authorized native-unit route. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -85,7 +88,7 @@ boundaries and reported 51,823 bytes; the corrected record-bounded count is
 
 The Mac case adds 21 application bodies and 6,508 code bytes to the completed
 rich-case baseline of 220 / 51,779. The editor case adds 20 application bodies and 3,473 code bytes, including eight
-newly identified MENUEX/toolbar helpers. The current registry has 34 pending App
+newly identified MENUEX/toolbar helpers. At the editor closeout the registry had 34 pending App
 records with 4,085 known code bytes, plus four unknown records spanning 497 bytes
 whose classification is unresolved. Remaining areas include APSTUDIO recording,
 codepage changes, escape/error handling and unvisited Macintosh resizing and
@@ -341,3 +344,59 @@ tuple, failed/corrected unit and final source snapshots remain under
 routines (1,134 bytes), plus one unclassified 28-byte routine. Complete non-CRT
 coverage remains unestablished; whole-text coverage is the qualified global
 percentage.
+
+
+The user-authorized `0008-helper-units` batch qualifies the final 13 known
+application helpers without a new original invocation or controller. It covers
+the option suffix matcher, the contextual 128-byte legacy Macintosh substitution
+selector/applicator, the legacy icon-record converter, nine error/termination
+helpers and the exported console handler. The original compiler and full-body
+graph, RET, reference, ownership and extent checks qualify the recovered bodies;
+small deterministic native units qualify the stated typed domains. This is
+separate from the 286-function CLI checkpoint, which is unchanged.
+
+The mapping unit checks every input byte against the exact original table,
+ASCII identity, unsupported codepage selection, sticky selection, nonpositive
+counts and untouched canaries. The suffix unit uses longer terminated arguments;
+the original backwards walk is retained and is not a generally bounded wildcard
+implementation. The icon unit supplies initialized legacy tag/header/plane records,
+covering tags 1/3, both record-size branches and both byte orders, returned sizes,
+FILE positions, output prefixes and untouched payload. It does not claim modern
+ICO file compatibility. Short legacy headers trap before undefined automatic
+bytes can be consumed in either build. Both compilers assert the actual 12-byte
+header and consumed signed-WORD offsets.
+
+Diagnostic units use real module resources, FILEs and a tracked heap, with
+preparation line 7, reader line 11 and token line 13 kept distinct. They exercise
+real cleanup and live-context resumes, duplicate-error history and both console
+handler branches. The error limit is reached by 101 ordinary error calls from
+count zero, rather than a seeded counter. Shared resume support remains bounded
+to explicit VC5.10 count-zero contexts and values 1, 2 and 102, with the same-thread,
+still-live-frame and no-active-unwind premises. Private original context/error/FP
+state is unmeasured; no general SEH recovery is claimed.
+
+Shared formatting additions are fixed authenticated templates 1003, 2104, 2135,
+2175 and literal 20101. The actual macro callers use ID 10056, which is absent
+from every block of the pristine bounded message table. Its shared failure
+returns zero; `rc_message` immediately selects its ordinary empty literal, so
+failed output bytes are not consumed. Original failure-buffer effects remain
+unmeasured, and no message text or error state was invented or seeded.
+
+All nine native cases, 131 unit groups and both builds passed in 0.689 s;
+full graph/ABI and the retained SEH-role audit passed in 1.024 s. The final
+14-group helper batch took 27.292 ms, and the natural error-limit adoption took
+10.453 ms. The necessary full source rebuild took 11.193 s separately. Earlier
+unit denials and declaration/build errors remain retained as failures, with no
+qualification credit from them.
+
+The authoritative registry now has no pending App or unknown records. Its five
+other records are three CRT helpers and two import thunks; they receive no new
+application credit. This is a bounded registry inventory, not an exhaustive
+classification of every physical text byte or a complete non-CRT denominator.
+Existing storage/overread/API-domain and SEH qualifications remain in force.
+The unfinished CLI asset-error draft and its raw references remain preserved in
+scratch, outside the numbered cases, and are not relabeled as completed evidence.
+Unit sources, exact compiled snapshots, static table/absence proofs, shared
+adoptions, accounting and closeout logs are under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/explicit-helper-units/`, with final gates in
+`0013-complete/`.

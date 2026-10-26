@@ -278,6 +278,8 @@ WORD __stdcall rc_write_menu_item(RcMenuItem *);
 void __stdcall rc_write_resource_string(const WCHAR *,int);
 void __stdcall rc_write_mac_string(const WCHAR *,int,int);
 void __stdcall rc_map_mac_bytes(char *,int);
+void __stdcall rc_select_mac_byte_map(UINT);
+extern const BYTE *rc_mac_byte_map;
 int __stdcall rc_expand_mac_bytes(const char *,int,BYTE *);
 void __stdcall rc_write_apstudio_name(const WCHAR *);
 void __stdcall rc_mark_last_menu_item(WORD);

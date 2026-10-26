@@ -363,3 +363,13 @@ void __cdecl rc_close_preprocessor(void)
     while(rc_open_source_frame()) {}
     if(rc_cpp_output_file)fclose(rc_cpp_output_file);
 }
+
+int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
+{
+    const WCHAR *tail=pattern+1,*end=argument;
+    if(!*tail)return 1;
+    while(tail[1])++tail;
+    while(end[1])++end;
+    while(*end==*tail){--end;--tail;}
+    return tail==pattern&&end>=argument;
+}
