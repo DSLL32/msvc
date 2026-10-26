@@ -34,8 +34,8 @@ unsigned short OMFCompName( char *name, char *buff, unsigned short index ) { TRA
 unsigned char ModNameCompare( char *name, char *member ) { TRAP(); return 0; }
 
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
-void FillTypeFlags( unsigned short flags, unsigned type ) { TRAP(); }
-seg_leader *FindASeg( class_entry *class, char *name ) { TRAP(); return 0; }
+
+
 
 
 
@@ -200,7 +200,7 @@ unsigned char ProcMemory( void ) { TRAP(); return 0; }
 unsigned char ProcOldPE( void ) { TRAP(); return 0; }
 
 unsigned char ProcPM( void ) { TRAP(); return 0; }
-unsigned char ProcPMCompatible( void ) { TRAP(); return 0; }
+
 unsigned char ProcPhysDevice( void ) { TRAP(); return 0; }
 unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
@@ -246,9 +246,9 @@ unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
 unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
 unsigned char ProcModName( void ) { TRAP(); return 0; }
-unsigned char ProcMultiple( void ) { TRAP(); return 0; }
+
 unsigned char ProcNameLen( void ) { TRAP(); return 0; }
-unsigned char ProcNewFiles( void ) { TRAP(); return 0; }
+
 unsigned char ProcNoCache( void ) { TRAP(); return 0; }
 unsigned char ProcNoCaseExact( void ) { TRAP(); return 0; }
 unsigned char ProcNoDefLibs( void ) { TRAP(); return 0; }
@@ -259,7 +259,7 @@ unsigned char ProcNone( void ) { TRAP(); return 0; }
 unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
-unsigned char ProcProtMode( void ) { TRAP(); return 0; }
+
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
@@ -476,7 +476,7 @@ int CmpLn286( const void *a, const void *b ) { TRAP(); return 0; }
 
 void RestoreLinkerComdat( symbol *sym ) { TRAP(); }
 
-unsigned char ProcInitGlobal( void ) { TRAP(); return 0; }
+
 
 
 
@@ -542,20 +542,20 @@ int base_32_num( output_desc *data, int *value ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcSegType( void ) { TRAP(); return 0; }
-unsigned char ProcSegCode( void ) { TRAP(); return 0; }
-unsigned char ProcSegData( void ) { TRAP(); return 0; }
-unsigned char ProcLoadoncall( void ) { TRAP(); return 0; }
-unsigned char ProcIopl( void ) { TRAP(); return 0; }
-unsigned char ProcNoIopl( void ) { TRAP(); return 0; }
-unsigned char ProcExecuteonly( void ) { TRAP(); return 0; }
-unsigned char ProcExecuteread( void ) { TRAP(); return 0; }
+
+
+
+
+
+
+
+
 unsigned char ProcReadOnly( void ) { TRAP(); return 0; }
-unsigned char ProcReadWrite( void ) { TRAP(); return 0; }
-unsigned char ProcShared( void ) { TRAP(); return 0; }
-unsigned char ProcNonShared( void ) { TRAP(); return 0; }
-unsigned char ProcConforming( void ) { TRAP(); return 0; }
-unsigned char ProcNonConforming( void ) { TRAP(); return 0; }
+
+
+
+
+
 unsigned char ProcFixed( void ) { TRAP(); return 0; }
 unsigned char ProcNonPageable( void ) { TRAP(); return 0; }
 unsigned char ProcPageable( void ) { TRAP(); return 0; }

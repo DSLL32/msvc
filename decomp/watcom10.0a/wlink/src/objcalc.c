@@ -599,3 +599,30 @@ void CalcGrpAddr( group_entry *group )
         group->totalsize = high - low;
     }
 }
+
+void FillTypeFlags( unsigned short flags, unsigned char type )
+{
+    class_entry *class;
+    seg_leader *leader;
+    unsigned char code;
+
+    code = (type == 2) ? 0x10 : 0;
+    for( class = Root->classlist; class != 0; class = class->next_class ) {
+        if( (class->flags & 0x10) == code ) {
+            for( leader = class->segs; leader != 0; leader = leader->next_seg )
+                leader->u.p1.segflags = flags;
+        }
+    }
+}
+
+seg_leader *FindASeg( class_entry *class, char *name )
+{
+    seg_leader *leader;
+
+    for( ; class != 0; class = class->next_class ) {
+        for( leader = class->segs; leader != 0; leader = leader->next_seg ) {
+            if( stricmp( leader->segname->name, name ) == 0 ) return leader;
+        }
+    }
+    return 0;
+}

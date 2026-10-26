@@ -518,3 +518,163 @@ unsigned char ProcOS2Dynamic( void )
 {
     return 1;
 }
+
+unsigned char ProcInitGlobal( void )
+{
+    FmtData.u.os2.flags &= ~4;
+    return 1;
+}
+
+unsigned char ProcPMCompatible( void )
+{
+    FmtData.u.os2.flags |= 0x10;
+    return 1;
+}
+
+unsigned char ProcProtMode( void )
+{
+    FmtData.u.os2.flags |= 0x0200;
+    return 1;
+}
+
+unsigned char ProcNewFiles( void )
+{
+    FmtData.u.os2.flags |= 0x40;
+    return 1;
+}
+
+unsigned char ProcMultiple( void )
+{
+    if( CmdFlags & 0x20 ) LnkMsg( 0x7a30, 0 );
+    CmdFlags |= 0x20;
+    FmtData.u.os2.flags = (FmtData.u.os2.flags & ~3) | 2;
+    return 1;
+}
+
+unsigned char ProcSegType( void )
+{
+    if( !ProcOne( SegTypeDesc, SEP_NO, 0 ) ) LnkMsg( 0x7a94, 0 );
+    return 1;
+}
+
+unsigned char ProcSegCode( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.type = 2;
+    return 1;
+}
+
+unsigned char ProcSegData( void )
+{
+    ((os2_seg_flags *)FmtData.u.os2.os2_seg_flags)->entry.type = 3;
+    return 1;
+}
+
+unsigned char ProcLoadoncall( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x40 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x40;
+    flags->specified |= 0x40;
+    return 1;
+}
+
+unsigned char ProcIopl( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x800 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags = (flags->entry.flags & ~0xc00) | 0x800;
+    flags->specified |= 0x800;
+    return 1;
+}
+
+unsigned char ProcNoIopl( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x800 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0xc00;
+    flags->specified |= 0x800;
+    return 1;
+}
+
+unsigned char ProcExecuteonly( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x480 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x80;
+    flags->specified |= 0x80;
+    return 1;
+}
+
+unsigned char ProcExecuteread( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x480 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x80;
+    flags->specified |= 0x80;
+    return 1;
+}
+
+unsigned char ProcReadWrite( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x480 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x80;
+    flags->specified |= 0x400;
+    return 1;
+}
+
+unsigned char ProcShared( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x20 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x20;
+    flags->specified |= 0x20;
+    return 1;
+}
+
+unsigned char ProcNonShared( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x20 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x20;
+    flags->specified |= 0x20;
+    return 1;
+}
+
+unsigned char ProcConforming( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x200 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x200;
+    flags->specified |= 0x200;
+    return 1;
+}
+
+unsigned char ProcNonConforming( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x200 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x200;
+    flags->specified |= 0x200;
+    return 1;
+}

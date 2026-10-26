@@ -4791,6 +4791,106 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcInitGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPMCompatible": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcProtMode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNewFiles": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMultiple": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegType": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegCode": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSegData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLoadoncall": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcIopl": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoIopl": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExecuteonly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExecuteread": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcReadWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcShared": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNonShared": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcConforming": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNonConforming": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FillTypeFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindASeg": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

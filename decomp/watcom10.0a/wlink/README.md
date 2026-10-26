@@ -1,5 +1,5 @@
-WLINK 10.0a has eleven completed native regression cases. The acceptance ledger
-contains **956 application functions / 115,287 unique original code bytes**.
+WLINK 10.0a has twelve completed native regression cases. The acceptance ledger
+contains **976 application functions / 116,183 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -25,6 +25,9 @@ The tenth links ELF386 load groups with an archive, imported/exported symbols,
 a dependency module, aligned dynamic tables and exercised DWARF generation.
 The eleventh exercises extended-flat Phar Lap image output, runtime memory/buffer/
 interrupt-stack/privilege settings, an explicit base and a USE16 real-break symbol.
+The twelfth links an OS/2 NE DLL with global initialization, PM compatibility,
+protected/multiple-data/new-files policies and type-wide and named-segment
+load, access, sharing, conformance and IOPL flags.
 
 | Case | Result |
 | --- | --- |
@@ -39,6 +42,7 @@ interrupt-stack/privilege settings, an explicit base and a USE16 real-break symb
 | `0008-pharlap-segmented` | Exit 0; exact 259-byte stdout, empty stderr, 28,536-byte executable and 3,166-byte map |
 | `0009-elf386` | Exit 0; exact 245-byte stdout, empty stderr, 32,848-byte executable and 3,147-byte map |
 | `0010-pharlap-flat` | Exit 0; exact 258-byte stdout, empty stderr, 28,347-byte executable and 3,373-byte map |
+| `0011-os2-ne` | Exit 0; exact 256-byte stdout, empty stderr, 943-byte NE DLL and 3,507-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 551 first entries match.
@@ -156,14 +160,23 @@ actual observed order matches without seeding. Only six map clock fields are
 excluded. Invalid selector relocations in the first producer were corrected in
 the input assembly before freezing the successful case.
 
-The final parallel build/regression/unit/audit batch took **2.328 s**, including
-necessary native and period rebuilds. All eleven cases and 959 source-ready graph/ABI
-identities pass. The 22 native regression runs took **17.627–51.542 ms**. The genuine
-extended-flat capture command took **2,076.208 ms**; its exact native pair took
-**28.765 ms**, split **15.762 / 6.572 / 6.431 ms** for setup/execution/checks. The
-map-clock-derived native comparison reused that capture and took **31.946 ms**.
-The real-mode and revised main OMF objects took **381.675 / 348.441 ms** to
-assemble; the successful original baseline took **585.284 ms**. Other objects,
-archive and DOS stub were reused. No ELF, Phar Lap, QNX, DOS, NE, LX or DWARF
-executable bytes are normalized. Raw artifacts, producer inputs, earlier failures
-and diagnostics remain under `~/.ai-tmp/msvc2/watcom-shared-integration/`.
+The OS/2 NE case matches 558 first entries and every DLL byte, including the
+OS/2-specific header flags, segment access policies, communal allocation,
+far/import relocations, export ordinal gaps and Watcom debug data. Its type-wide
+and named-segment passes use the actual old linear class/segment lists. Only six
+map clock digit fields are excluded. Packing options disambiguate the old NE
+format; unsupported OSName/version spellings were removed before freezing.
+A separate exploratory Microsoft COFF workload was rejected: this original's
+IsORL always returns false. That failed baseline remains in scratch and is not
+a reconstruction case or a claim of working COFF support.
+
+The final parallel build/regression/unit/audit batch took **1.207 s**. All twelve
+cases and 979 source-ready graph/ABI identities pass. The 24 native regression
+runs took **17.897–49.313 ms**. The genuine OS/2 NE capture command took
+**2,045.184 ms** (owned target **1,284.577 ms**); its exact native pair took
+**26.799 ms**, split **15.568 / 4.887 / 6.344 ms** for setup/execution/checks.
+The map-clock-derived native comparison reused that capture and took **27.305 ms**.
+The successful original baseline took **615.772 ms**, reusing existing genuine
+USE16 objects and archive. Every OS/2 NE DLL byte stays strict. Raw artifacts,
+producer inputs, earlier failures and diagnostics remain under
+`~/.ai-tmp/msvc2/watcom-shared-integration/`.

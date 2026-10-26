@@ -248,7 +248,7 @@ extern void ChkPEData( void );
 extern void ChkOS2Data( void );
 typedef struct seg_flags seg_flags;
 extern void SetSegFlags( seg_flags * );
-extern void FillTypeFlags( unsigned short, unsigned );
+extern void FillTypeFlags( unsigned short, unsigned char );
 extern void FillClassFlags( char *, unsigned short );
 extern seg_leader *FindASeg( class_entry *, char * );
 extern void FindExportedSyms( void );
