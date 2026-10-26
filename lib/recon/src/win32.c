@@ -519,6 +519,53 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
 }
 
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+static DWORD format_duplicate_string_error(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
+{
+    const char *filename,*parts[16];const WCHAR *names[2];
+    size_t sizes[16],units[2],file_length,length=0,n,index;uintptr_t file,wide[2],out=(uintptr_t)output,source=(uintptr_t)text;
+    char line_number[12],decimal[11],hex[9],strings[2][256],*destination;
+    int line;unsigned ordinal;va_list copied;
+    if(strcmp(text,"%1 (%2!d!): error RC2151 : cannot reuse string constants, %3!d!(0x%3!X!) - \"%4!ws!\" already defined. Cannot add %3!d!(0x%3!X!) - \"%5!ws!\".\r\n") ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("message2151 exact template/default-C domain");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])recon_unsupported("message2151 locale handles");
+    va_copy(copied,*arguments);filename=va_arg(copied,const char *);line=va_arg(copied,int);
+    ordinal=va_arg(copied,unsigned);names[0]=va_arg(copied,const WCHAR *);names[1]=va_arg(copied,const WCHAR *);va_end(copied);
+    file=(uintptr_t)filename;
+    if(ordinal>65535 || file<4096 || file>UINTPTR_MAX-MAX_PATH)
+        recon_unsupported("message2151 WORD ordinal/filename extent");
+    for(file_length=0;file_length<MAX_PATH && filename[file_length];++file_length)
+        if((unsigned char)filename[file_length]>=128)recon_unsupported("message2151 ASCII ANSI filename");
+    if(file_length==MAX_PATH)recon_unsupported("message2151 filename length");
+    for(index=0;index<2;++index) {
+        wide[index]=(uintptr_t)names[index];
+        if(wide[index]<4096 || (wide[index]&1) || wide[index]>UINTPTR_MAX-256*sizeof(WCHAR))
+            recon_unsupported("message2151 WCHAR string extent");
+        for(units[index]=0;units[index]<256 && names[index][units[index]];++units[index])
+            if(names[index][units[index]]>=128)recon_unsupported("message2151 ASCII WCHAR strings");
+        if(units[index]==256)recon_unsupported("message2151 string length");
+        for(n=0;n<=units[index];++n)strings[index][n]=(char)names[index][n];
+    }
+    /* The real caller zero-extends a WORD, so its signed decimal insert and
+     * unsigned hexadecimal insert describe the same positive ordinal. */
+    recon_itoa(line,line_number,10);recon_ultoa(ordinal,decimal,10);recon_ultoa(ordinal,hex,16);
+    for(n=0;hex[n];++n)if(hex[n]>='a' && hex[n]<='f')hex[n]-='a'-'A';
+    parts[0]=filename;parts[1]=" (";parts[2]=line_number;
+    parts[3]="): error RC2151 : cannot reuse string constants, ";parts[4]=decimal;
+    parts[5]="(0x";parts[6]=hex;parts[7]=") - \"";parts[8]=strings[0];
+    parts[9]="\" already defined. Cannot add ";parts[10]=decimal;parts[11]="(0x";
+    parts[12]=hex;parts[13]=") - \"";parts[14]=strings[1];parts[15]="\".\r\n";
+    for(n=0;n<16;++n){sizes[n]=strlen(parts[n]);length+=sizes[n];}
+    if(out<4096 || capacity<=length || out>UINTPTR_MAX-length-1 || source>UINTPTR_MAX-strlen(text)-1 ||
+       (out<source+strlen(text)+1 && source<out+length+1) ||
+       (out<file+file_length+1 && file<out+length+1))
+        recon_unsupported("message2151 output capacity/extents/template or filename overlap");
+    for(index=0;index<2;++index)if(out<wide[index]+(units[index]+1)*sizeof(WCHAR) && wide[index]<out+length+1)
+        recon_unsupported("message2151 output/WCHAR overlap");
+    destination=output;
+    for(n=0;n<16;++n){memcpy(destination,parts[n],sizes[n]);destination+=sizes[n];}
+    *destination=0;return (DWORD)length;
+}
 static DWORD format_directive_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
 {
     const char *prefix="unexpected characters following '",*suffix="' directive; newline expected\r\n";
@@ -643,6 +690,7 @@ static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
             if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
     if (!entry) recon_unsupported("unregistered FormatMessageA template");
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(entry->id==2151 && entry->language==0x409) return format_duplicate_string_error(text,output,capacity,arguments);
     if(entry->id==4067 && entry->language==0x409) return format_directive_warning(text,output,capacity,arguments);
     if(entry->id==4506 && entry->language==0x409) return format_mac_cursor_warning(text,output,capacity,arguments);
     if(entry->id==4509 && entry->language==0x409) return format_mac_type_warning(text,output,capacity,arguments);

@@ -1606,3 +1606,13 @@ most256 units. Default-C/MB1 and the exact authenticated template are required;
 all insert/output spans, capacity and overlaps are checked before output. The
 exact text/CRLF/count/NUL are retained. Other messages, wide content and grammars
 keep their previous boundaries. Original per-call state remains unmeasured.
+
+Registered2151/lang409 has a separate explicit510 fixed-template branch for the
+duplicate-string error. Its five slots are an ANSI filename, signed32 line,
+zero-extended WORD ordinal and two ASCII WCHAR strings of at most255 units. The
+ordinal's decimal and unpadded uppercase-hex representations are reused twice,
+matching the template; the WORD range makes the signed decimal interpretation
+equivalent. Default-C/MB1, exact registration and complete prewrite span/capacity/
+disjointness checks are required. The ordinary complete case matches its186-byte
+diagnostic, exit1 and empty final inventory. Other grammars remain unsupported;
+original per-call output/error/FP state was not observed separately.

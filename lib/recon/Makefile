@@ -1034,3 +1034,9 @@ build/macroman-reverse-probe: tests/macroman-reverse-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 macroman-reverse-check: build/macroman-reverse-probe
 	$<
+
+.PHONY: format2151-check
+build/format2151-probe: tests/format2151-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+format2151-check: build/format2151-probe
+	$(PYTHON) tests/check-format2151.py $<
