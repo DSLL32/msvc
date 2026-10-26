@@ -1926,6 +1926,91 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "DefaultConversion": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResWriteUint8": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResWriteUint16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResWriteUint32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteWResIDNameUni": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteWResIDName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteWResID": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteTypeRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteResRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteLangRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteHeaderRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WResWriteExtHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResWriteString": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResWriteNameOrOrdinal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MResWriteResourceHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResRead32NameOrOrdinal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResRead32String": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

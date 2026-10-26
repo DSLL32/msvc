@@ -32,8 +32,8 @@ syntax names an environment variable, not a response file.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 438 application functions and 98,850 unique original
-code bytes. Of these, 398 have original/native execution-pair evidence, 39 have
+The reconstruction covers 455 application functions and 100,202 unique original
+code bytes. Of these, 398 have original/native execution-pair evidence, 56 have
 source/disassembly, period-compiler, graph/ABI and authored native-unit
 qualification, and one is statically empty. Units carry no original-runtime
 claim. The output/group-index units check exact ASCII/high-byte/read-ahead
@@ -54,6 +54,13 @@ These units do not claim assembler CLI reach for WOMP-only record variants.
 The object-buffer units add real record API roundtrips for16/32-bit fields,
 flag-selected widths and one/two-byte OMF indices through0x7fff; they assert
 exact endian bytes, cursor movement, flag stability and borrowed-owner bounds.
+Resource-writing units add valid v2/Win16 serialization and real-reader
+roundtrips with exact scalar/header/name bytes and cursor/payload checks. The
+actual default byte-to-wide callback uses its shared512-byte buffer or an owned
+long-string allocation. The32-bit-name reader projects each UTF16 code unit's
+low byte; this is not general Unicode support. Caller records and conversion
+inputs remain unchanged; short counted IDs and long terminated strings retain
+their distinct limits.
 The empty `PObjUnRegList` is statically qualified at the RET shared with
 `PObjRegList`: zero additional bytes and explicitly excluded from the assembly
 cases' entry orders, without a runtime observation claim.
@@ -69,15 +76,15 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 438 graph/reference/ownership/extent checks pass, with 342 ordinary RET
+All 455 graph/reference/ownership/extent checks pass, with 359 ordinary RET
 contracts and 96 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-The ten cached CLI fixtures and four authored native unit cases pass. The
-object-buffer smoke takes 9.22 ms (setup 5.88 ms, execution 1.35 ms, checks
-1.99 ms); its two forked assertion groups take 10.81 ms (4.55/4.44/1.82 ms).
-Parallel `make -j4 check unit` took 181.46 ms; the full graph and finite RET
-audit took 895.18 ms. Native and period builds passed; incremental build time
+The ten cached CLI fixtures and five authored native unit cases pass. The
+resource-writing smoke takes 8.60 ms (setup 5.82 ms, execution 0.89 ms, checks
+1.89 ms); its four forked assertion groups take 12.52 ms (4.63/6.25/1.64 ms).
+Parallel `make -j4 check unit` took 198.64 ms; the full graph and finite RET
+audit took 867.68 ms. Native and period builds passed; incremental build time
 was not measured. Unit cases perform no original capture and retain the ten
 unchanged CLI references.
 
