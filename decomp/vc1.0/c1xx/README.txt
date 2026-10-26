@@ -1,6 +1,29 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+SDK declaration/export workflow is COMPLETE: prototype case0040 and ordinary
+compile case0041 use the same3,423-byte SDK source/header. Callable typedef
+modifiers, callback-return signatures, array-reference parameters, C linkage and
+variadic declarations compile normally; prototype mode prints eleven signatures
+and creates SBR while all five IR streams are absent. The old array modifier is
+accepted/ignored by this original in both modes, not diagnosed as predicted.
+
+Both fresh native runs exactly match their untouched original streams, exit0
+and complete presence/absence/artifact inventories. Neither phase reaches a new
+application frontier: zero new functions/bytes, with reconstruction totals
+unchanged at1,833 App /404,139 B (84.83% of whole original code),59 named pending
+App and seven historical CRT source bodies. These are two added regression
+fixtures for one real workflow, not reconstruction or branch-coverage credit.
+All42 cached native cases and32 existing unit groups pass; the1,841-function
+six-check graph/ABI audit and original-toolchain build remain passing/current.
+
+Prototype original1,163.193 ms/native28.519 ms (setup18.634 ms, execution3.901 ms,
+checks5.984 ms); ordinary original467.841 ms/native30.388 ms (setup18.712 ms,
+execution5.619 ms, checks6.057 ms). Complete closing gate2.877 s. Raw captures
+and artifacts remain in scratch; no output exception or shared/source change.
+
+Earlier completed numeric-view calibration:
+
 Numeric-view calibration is COMPLETE: case0039. The frozen6,385-byte
 workload combines integer/real/pointer conversions, builtin arithmetic, mutable
 reference proxies, RAII defaults/conditional temporaries and old calibration
