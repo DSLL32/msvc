@@ -589,8 +589,7 @@ int RECON_THISCALL CompilerSymbolTable::HasBuckets(void)
      * predicate is consumed, with no hash-table tail access. */
     return buckets != NULL;
 }
-void *RECON_THISCALL CompilerSymbolTable::Lookup(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
-void *RECON_THISCALL CompilerSymbolTable::FindOrdinary(CompilerNameEntry *name) { __asm { int 3 } return NULL; }
+
 void RECON_THISCALL CompilerSymbolTable::FindNested(CompilerNameEntry *name, void **result) { __asm { int 3 } }
 CompilerIrSymbol **RECON_THISCALL CompilerSymbolTable::FindLink(CompilerIrSymbol *symbol) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerSymbolTable::Serialize(void) { __asm { int 3 } }
@@ -744,13 +743,13 @@ void RECON_THISCALL CompilerDeclarator::AddFunction(CompilerParameterDescription
         flags |= 8;
     }
 }
-extern "C" unsigned __cdecl classify_parameter_list(const void *);
+extern "C" unsigned __cdecl classify_parameter_list(const CompilerParameterBindings *);
 void RECON_THISCALL CompilerParameterDescription::Normalize(void)
 {
     if (scope_active)
         c1_data.translation_unit->EndParameterScope();
     if (kind == 6)
-        kind = classify_parameter_list((const void *)value);
+        kind = classify_parameter_list((const CompilerParameterBindings *)value);
 }
 CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(void)
 {
@@ -759,8 +758,35 @@ CompilerIrSymbol **RECON_THISCALL CompilerTranslationUnit::EndParameterScope(voi
     UnregisterScope();
     return value;
 }
-extern "C" unsigned __cdecl classify_parameter_list(const void *value)
-{ __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl classify_parameter_list(const CompilerParameterBindings *list)
+{
+    unsigned kind = 1;
+    for (CompilerSymbolBinding *binding = list ? list->first : NULL; binding; binding = binding->next) {
+        CompilerIrSymbol *symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+        switch (kind) {
+        case 1:
+            if (symbol->kind == 12) kind = 4;
+            else if (symbol->kind == 11)
+                kind = ((~symbol->declaration_flags & 0x10) | 0x20) >> 4;
+            break;
+        case 2:
+            if (symbol->kind == 12) compiler_warning(122, 84, symbol->value_type);
+            else if (symbol->kind == 11 && !(symbol->declaration_flags & 0x10)) {
+                if (symbol->binding.name == c1_data.builtin_names.ellipsis &&
+                    c1_data.options.language_extensions) report_language_diagnostic(4, 202);
+                else compiler_warning(122, 83, symbol);
+            }
+            break;
+        case 3:
+        case 4:
+            if (symbol->kind == 12) kind = 4;
+            else if (symbol->kind == 11 && (symbol->declaration_flags & 0x10))
+                compiler_warning(81, symbol);
+            break;
+        }
+    }
+    return kind;
+}
 extern "C" CompilerTypeShape *__cdecl create_type_shape(unsigned kind, unsigned attributes,
     const unsigned *value)
 {
@@ -789,14 +815,10 @@ extern "C" CompilerTypeList *__cdecl get_empty_type_list(void);
 extern "C" CompilerTypeList *__cdecl get_void_type_list(void);
 extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *);
 extern "C" void __cdecl compiler_warning(int, ...);
-struct CompilerParameterSequence {
-    BYTE unmodeled_00[4];
-    CompilerSymbolBinding *first;
-};
 extern "C" struct CompilerTypeList *__cdecl intern_function_parameters(const void *value,
     WORD *function_flags, unsigned kind)
 {
-    const CompilerParameterSequence *sequence = (const CompilerParameterSequence *)value;
+    const CompilerParameterBindings *sequence = (const CompilerParameterBindings *)value;
     CompilerSymbolBinding *parameter;
     CompilerIrSymbol *symbol;
     CompilerTypeList *temporary;
@@ -891,8 +913,29 @@ extern "C" CompilerTypeList *__cdecl get_empty_type_list(void)
     /* Its unused first element is not written by the original getter. */
     return c1_data.empty_type_list;
 }
-extern "C" CompilerTypeList *__cdecl get_void_type_list(void) { __asm { int 3 } return NULL; }
-extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *list) { __asm { int 3 } return 0; }
+extern "C" CompilerTypeList *__cdecl get_void_type_list(void)
+{
+    CompilerArena *arena;
+    CompilerTypeList *list;
+    if (c1_data.void_type_list) return c1_data.void_type_list;
+    arena = &c1_bss.arenas[0];
+    list = (CompilerTypeList *)arena->cursor;
+    arena->cursor += 12;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    c1_data.void_type_list = list;
+    list->count = 1;
+    /* The original leaves the middle DWORD untouched. */
+    list->types[0] = c1_data.builtin_types.type_0080;
+    return c1_data.void_type_list;
+}
+extern "C" unsigned __cdecl hash_type_list(const CompilerTypeList *list)
+{
+    unsigned count = (unsigned)list->count;
+    unsigned hash = count;
+    for (unsigned i = 0; i < count; ++i)
+        hash += ((unsigned)list->types[i] >> 2) & 0xfff;
+    return hash;
+}
 void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
 {
     shape_flags |= 1;
@@ -924,7 +967,14 @@ void RECON_THISCALL CompilerDeclarator::AppendShape(CompilerTypeShape *next)
     }
 }
 void RECON_THISCALL CompilerDeclarator::MergeQualifiers(const CompilerDeclarationAttributes *first,
-    const CompilerDeclarationAttributes *second) { __asm { int 3 } }
+    const CompilerDeclarationAttributes *second)
+{
+    if (first->flags & 0x70) shape_flags |= 1;
+    CompilerTypeShape *pointer = create_type_shape(1, first->flags | second->flags, &first->extra);
+    if (last_shape) last_shape->base = pointer;
+    else shape = pointer;
+    last_shape = pointer;
+}
 void RECON_THISCALL CompilerDeclarator::ApplyAttributes(const CompilerDeclarationAttributes *attributes)
 {
     if (attributes->flags & 1) {
@@ -1010,9 +1060,6 @@ CompilerType *RECON_THISCALL CompilerDeclarator::Resolve(void)
     return result;
 }
 extern "C" CompilerTypeShape *__cdecl copy_type_shape(const CompilerTypeShape *);
-/* The tagged-type consumer establishes only this flag byte. Its producer,
- * allocation extent and other fields remain pending. */
-struct CompilerTagState { BYTE unmodeled_00[4]; BYTE flags; };
 void RECON_THISCALL CompilerDeclarator::FinalizeShape(void)
 {
     if (base_type->shape) {
@@ -1046,18 +1093,37 @@ void RECON_THISCALL CompilerDeclarator::FinalizeShape(void)
     }
     if ((last_shape->flags & 7) == 2 && !base_type->shape &&
         (base_type->flags & 0x400)) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("FinalizeShape: tagged-type owner is not yet modeled");
+        CompilerIrSymbol *tag = base_type->symbol_owner;
+        if (!tag || tag->kind != 4 || !(tag->flags & 1)) {
+#ifdef __linux__
+            recon_unsupported("FinalizeShape: incomplete or unsupported tag owner");
+#else
+            __asm { int 3 }
 #endif
-        CompilerTagState *tag = (CompilerTagState *)base_type->auxiliary;
-        if (tag->flags & 1) {
+        }
+        /* Record-member layout propagates this low qualifier bit on the
+         * existing tag-symbol owner. No other +4 bits are interpreted. */
+        if (tag->qualifier_flags & 1) {
             compiler_warning(233, symbol);
             flags |= 1;
         }
     }
 }
-void RECON_THISCALL CompilerDeclarator::AppendArray(CompilerTypeShape *shape)
-{ __asm { int 3 } }
+void RECON_THISCALL CompilerDeclarator::AppendArray(CompilerTypeShape *array)
+{
+    if (!shape) return;
+    if (!array->value && (last_shape->flags & 7) == 2) {
+        compiler_warning(87, symbol);
+        flags |= 1;
+        array->value = 1;
+    }
+    if ((last_shape->flags & 7) == 4) {
+        compiler_warning(90, symbol);
+        flags |= 1;
+        array->flags = 1;
+        array->value = 0;
+    }
+}
 extern "C" CompilerTypeShape *__cdecl copy_type_shape(const CompilerTypeShape *shape)
 {
     CompilerArena *arena = &c1_bss.arenas[3];

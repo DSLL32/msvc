@@ -110,7 +110,31 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         __asm { int 3 }
 #endif
     }
-    if (symbol && !((opcode == 3 && symbol->kind == 9 && !symbol->binding.name &&
+    if (symbol && !((opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 3 &&
+        !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        (symbol->value_type->flags == 0x402 || symbol->value_type->flags == 0x61) &&
+        symbol->value_type->attributes == 0x100 &&
+        symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
+        !symbol->value_type->shape->base && !symbol->value_type->shape->attributes &&
+        (symbol->value_type->flags == 0x61 ||
+        (symbol->value_type->symbol_owner && symbol->value_type->symbol_owner->kind == 4 &&
+        (symbol->value_type->symbol_owner->flags & 1)))) ||
+        (opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && ((symbol->storage_class & 7) == 7 ||
+        (symbol->storage_class & 7) == 3) &&
+        !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        !symbol->value_type->shape && symbol->value_type->flags == 0x63 &&
+        !symbol->value_type->attributes) ||
+        (opcode == 1 && (symbol->kind == 10 || symbol->kind == 11) &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 4 &&
+        !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        ((!symbol->value_type->shape && (symbol->value_type->flags & ~0x4000) == 0x63) ||
+        (symbol->value_type->flags == 0x402 && symbol->value_type->shape &&
+        (symbol->value_type->shape->flags & 7) == 1 &&
+        symbol->value_type->symbol_owner->kind == 4 &&
+        (symbol->value_type->symbol_owner->flags & 1)))) ||
+        (opcode == 3 && symbol->kind == 9 && !symbol->binding.name &&
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) != 7 &&
         !(symbol->function_flags & 1) && symbol->value_type == c1_data.builtin_types.type_0063) ||
         (opcode == 14 && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
@@ -328,7 +352,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
             else {
                 shape_flags = shape ? shape->flags : 0;
                 if ((type_flags & 0x400) && (type_flags == 0x404 ||
-                    (type->symbol_owner->unmodeled_2d_flags & 1))) storage = 0x10;
+                    (type->symbol_owner->tag_definition_flags & 0x100))) storage = 0x10;
             }
             if ((shape_flags & 7) == 2) storage |= 6;
             else if (shape_flags & 0xb) storage |= 3;
@@ -669,12 +693,15 @@ struct AggregateSizeOwnerView {
 extern "C" unsigned __cdecl primitive_type_size(WORD flags, unsigned auxiliary)
 {
     if (flags & 0x400) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("tagged aggregate size owner is not yet modeled");
-#endif
         CompilerIrSymbol *symbol = (CompilerIrSymbol *)auxiliary;
-        if (symbol->kind != 4)
+        if (symbol->kind != 4) {
+#ifdef __linux__
+            recon_unsupported("indirect aggregate size owner is not yet modeled");
+#else
+            __asm { int 3 }
+#endif
             symbol = ((AggregateSizeOwnerView *)symbol->abstract_type)->owner;
+        }
         return symbol->integer_value;
     }
     if (flags & 0x200) return c1_primitive_widths[3];
@@ -682,8 +709,51 @@ extern "C" unsigned __cdecl primitive_type_size(WORD flags, unsigned auxiliary)
         return c1_primitive_widths[flags & 15];
     return flags & 15;
 }
-extern "C" unsigned __cdecl pointer_storage_size(WORD) { __asm { int 3 } return 0; }
-extern "C" unsigned __cdecl type_shape_element_size(WORD, unsigned, CompilerTypeShape *) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl pointer_storage_size(WORD)
+{
+    return 4;
+}
+extern "C" unsigned __cdecl type_shape_element_size(WORD flags, unsigned auxiliary,
+    CompilerTypeShape *shape)
+{
+    CompilerTypeShape *part;
+    unsigned element, bytes;
+    for (;;) {
+        if (!shape) return primitive_type_size(flags, auxiliary);
+        switch (shape->flags & 7) {
+        case 1:
+            part = shape->base;
+            if (!part) return primitive_type_size(flags, auxiliary);
+            switch (part->flags & 7) {
+            case 1: case 3:
+                return pointer_storage_size(part->attributes);
+            case 2:
+                return type_shape_element_size(flags, auxiliary, part) * part->value;
+            default:
+                return 0;
+            }
+        case 2:
+            part = shape->base;
+            if (part && (part->flags & 1)) return pointer_storage_size(part->attributes);
+            element = type_shape_element_size(flags, auxiliary, part);
+            if (!part) return element;
+            bytes = element * part->value;
+            if ((int)bytes < (int)element && part->value) {
+                compiler_warning(148);
+                part->value = 1;
+            }
+            return bytes;
+        case 3:
+            return pointer_storage_size(shape->attributes);
+        case 4:
+            shape = shape->base;
+            if (shape && (shape->flags & 1)) return pointer_storage_size(shape->attributes);
+            break;
+        default:
+            return 0;
+        }
+    }
+}
 extern "C" void __cdecl report_incomplete_global_type(CompilerType *type) { __asm { int 3 } }
 extern "C" CompilerType *__cdecl get_function_return_type(CompilerType *type)
 {
@@ -839,7 +909,14 @@ extern "C" void __cdecl remember_symbol_reference(CompilerSymbolBinding *) { __a
 int RECON_THISCALL CompilerIrSymbol::IsNamed(void) { __asm { int 3 } return 0; }
 
 extern "C" void __cdecl global_debug_location(unsigned index, int kind, CompilerGlobalLocation **location) { __asm { int 3 } }
-extern "C" unsigned __cdecl global_array_element_size(CompilerIrSymbol *symbol) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl global_array_element_size(CompilerIrSymbol *symbol)
+{
+    CompilerType *type = symbol->value_type;
+    CompilerTypeShape *shape = type->shape;
+    while (shape && !(shape->flags & 1)) shape = shape->base;
+    if (!shape) return primitive_type_size(type->flags, type->auxiliary);
+    return pointer_storage_size(shape->attributes);
+}
 /* This scratch owner is source-only until decorated naming is encountered.
  * No default, snapshot or buffer-content equality is claimed. */
 static char decorated_symbol_name[0x1800]; /* original RVA55d58 */
@@ -870,7 +947,20 @@ extern "C" const char *__cdecl global_symbol_name(CompilerIrSymbol *symbol)
 }
 extern "C" void __cdecl compute_parameter_bytes(CompilerIrSymbol *symbol) { __asm { int 3 } }
 
-unsigned RECON_THISCALL CompilerType::GetCallingConvention(void) { __asm { int 3 } return 0; }
+unsigned RECON_THISCALL CompilerType::GetCallingConvention(void)
+{
+    CompilerTypeShape *selected = shape ? shape->FindMatching(&CompilerTypeShape::IsNotArray) : NULL;
+    return (selected ? selected->attributes : attributes) & 0x1f00;
+}
+CompilerTypeShape *RECON_THISCALL CompilerTypeShape::FindMatching(CompilerTypeShapePredicate predicate)
+{
+    CompilerTypeShape *shape;
+    for (shape = this; shape; shape = shape->base)
+        if ((shape->*predicate)()) return shape;
+    return NULL;
+}
+int RECON_THISCALL CompilerTypeShape::IsNotArray(void)
+{ return (flags & 7) != 2; }
 unsigned RECON_THISCALL CompilerSourceFile::OutputIndex(void)
 {
     if (c1_data.c9_il) return record_id & 0xffffff;

@@ -14,7 +14,6 @@
  * snapshot bytes or equality claim is assigned to these source-only owners. */
 struct PragmaSourceState {
     CompilerIrSymbol *allocated_text_segment; /* RVA5e470 */
-    unsigned pch_stop_seen;                  /* RVA5f324 */
     WORD pch_header_status;                  /* RVA5f5a8 */
     const char *optimization_text;           /* RVA54c84 */
     int optimization_enabled;               /* RVA53ff0 */
@@ -23,11 +22,7 @@ struct PragmaSourceState {
 };
 static PragmaSourceState pragma_state;
 void *c1_pch_stop_owner; /* Shared source-only PCH stop/file owner, RVA5f31c */
-static struct {
-    CompilerIrSymbol *fallback;     /* RVA5e588, BSS segment */
-    CompilerIrSymbol *type_context; /* RVA5e58c, CONST segment */
-    CompilerIrSymbol *definition;   /* RVA5e590, DATA segment */
-} declaration_reference_defaults;
+/* Respectively RVA5e588(BSS), 5e58c(CONST), 5e590(DATA). */
 extern "C" int function_pch_replayed; /* Same owner as check_finished_function */
 extern const char *current_forced_include; /* Same owner as forced-source input */
 #define PRAGMA_CONTEXT c1_bss.current_context
@@ -98,9 +93,9 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != 45) {
+    if (code != 45 && (code != 44 || !token->value.context.object)) {
 #ifdef __linux__
-        recon_unsupported("pragma dispatcher: only encountered source-return marker");
+        recon_unsupported("pragma dispatcher: unsupported source marker or missing owner");
 #else
         __asm { int 3 }
 #endif
@@ -136,15 +131,16 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
         } else PRAGMA_UNREAD(token);
         emit_control_record(1);
         break;
-    case 44: /* Recorded source owner, followed by the initial line. */
-        text = (const char *)token->value.pointer;
-        c1_bss.current_context.object = text ? (void *)text :
+    case 44: { /* Recorded source owner, followed by the initial line. */
+        CompilerSourceFile *file = (CompilerSourceFile *)token->value.context.object;
+        c1_bss.current_context.object = file ? file :
             c1_data.translation_unit->FindSourceFile(current_forced_include, 0);
         c1_bss.current_context.value = 1;
         emit_control_record(2);
         emit_control_record(1);
         if (c1_bss.browser_filename) c1_data.backend->Slot18();
         break;
+    }
     case 45:
         signed_position = (int)token->value.pointer;
         position = signed_position < 0 ? -signed_position : signed_position;
@@ -161,10 +157,11 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
         PRAGMA_UNREAD(token);
         emit_control_record(2); emit_control_record(1);
         if (position > 0 && c1_bss.browser_filename) c1_data.backend->Slot14(position);
-        if (position == 1) PRAGMA_UNSUPPORTED("pragma: PCH source-return state");
+        if (position == 1 && c1_data.pch_creation_name_seen)
+            PRAGMA_UNSUPPORTED("pragma: PCH source-return state");
         if (!c1_data.source_include_depth && c1_bss.forced_source_index == 1)
             PRAGMA_UNSUPPORTED("pragma: PCH header-status state");
-        if (position == 1 && pragma_state.pch_stop_seen && !function_pch_replayed) {
+        if (position == 1 && c1_data.pch_creation_name_seen && !function_pch_replayed) {
             prepare_pch_expression_input(c1_data.options.pch_create_file);
             return (CompilerParserToken *)c1_data.predefined_tokens[3];
         }

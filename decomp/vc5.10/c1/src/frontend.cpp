@@ -222,16 +222,8 @@ extern "C" unsigned __cdecl pack_option_flags(void)
  * through55920. Current native -V use is held, so this source-only owner has
  * no modeled byte defaults, reset or equality claim yet. */
 char c1_lexer_token_text[2048];
-struct CompilerVersionRecord {
-    BYTE kind, flags;
-    BYTE unmodeled_02[14];
-    const char *text;
-    WORD length;
-    BYTE unmodeled_16[2];
-};
-typedef char CompilerVersionRecord_size[sizeof(CompilerVersionRecord) == 24 ? 1 : -1];
-extern "C" void __cdecl process_version_literal(CompilerVersionRecord *);
-extern "C" void __cdecl record_version_literal(CompilerVersionRecord *);
+extern "C" void __cdecl initialize_string_literal_type(CompilerParserNode *);
+extern "C" void __cdecl record_version_literal(CompilerParserNode *);
 extern "C" void __cdecl prepare_translation_unit(void)
 {
     if (c1_bss.options.version_string) {
@@ -239,22 +231,55 @@ extern "C" void __cdecl prepare_translation_unit(void)
         recon_unsupported("version record: lexer scratch and later record owners are unmodeled");
 #endif
         CompilerArena *arena = &c1_bss.arenas[c1_data.expression_arena_kind];
-        CompilerVersionRecord *record = (CompilerVersionRecord *)arena->cursor;
+        CompilerParserNode *record = (CompilerParserNode *)arena->cursor;
         arena->cursor += 24;
         if (arena->cursor > arena->committed_limit)
             arena->CommitExtent();
         record->kind = 7;
         record->flags = 5;
-        record->length = (WORD)(strlen(c1_bss.options.version_string) + 1);
+        record->string_length = (WORD)(strlen(c1_bss.options.version_string) + 1);
         record->text = c1_lexer_token_text;
-        memcpy(c1_lexer_token_text, c1_bss.options.version_string, record->length);
-        process_version_literal(record);
+        memcpy(c1_lexer_token_text, c1_bss.options.version_string, record->string_length);
+        initialize_string_literal_type(record);
         record_version_literal(record);
         c1_bss.global_expression_scope_active = 1;
     }
 }
-extern "C" void __cdecl process_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
-extern "C" void __cdecl record_version_literal(CompilerVersionRecord *) { __asm { int 3 } }
+extern "C" const signed char c1_primitive_widths[16];
+extern "C" CompilerTypeShape *__cdecl make_type_shape(unsigned, unsigned, unsigned *);
+extern "C" CompilerTypeShape *__cdecl intern_type_shape(CompilerTypeShape *);
+extern "C" CompilerType *__cdecl intern_type(CompilerType *);
+extern "C" void __cdecl initialize_string_literal_type(CompilerParserNode *literal)
+{
+    CompilerType *description;
+    CompilerTypeShape *shape;
+    unsigned count, unit;
+    WORD flags;
+    if (literal->string_flags & 1) flags = 0x4042;
+    else flags = c1_data.options.language_extensions && c1_data.options.unsigned_char ? 0x4061 : 0x61;
+    if (c1_bss.type_description_depth != 0) {
+#ifdef __linux__
+        recon_unsupported("string literal type scratch beyond encountered slot1");
+#else
+        __asm { int 3 }
+#endif
+    }
+    description = &c1_bss.type_descriptions[++c1_bss.type_description_depth];
+    /* Unlike the copied scratch descriptors, this constructor really clears
+     * all sixteen bytes, including the separate debug-index cell. */
+    description->flags = flags;
+    description->attributes = 0;
+    description->shape = NULL;
+    description->auxiliary = 0;
+    description->debug_index = 0;
+    unit = literal->string_flags & 1 ? 2 : (unsigned)(int)c1_primitive_widths[1];
+    count = literal->string_length / unit;
+    shape = make_type_shape(2, 0, &count);
+    description->shape = intern_type_shape(shape);
+    literal->type = intern_type(description);
+    --c1_bss.type_description_depth;
+}
+extern "C" void __cdecl record_version_literal(CompilerParserNode *) { __asm { int 3 } }
 extern "C" void __cdecl load_precompiled_header(const char *path, int required) { __asm { int 3 } }
 extern "C" void __cdecl begin_automatic_pch(void) { __asm { int 3 } }
 extern "C" void __cdecl begin_debug_info(int mode) { __asm { int 3 } }

@@ -22,6 +22,7 @@ unsigned __cdecl resolve_special_character(unsigned);
 unsigned __int64 __cdecl parse_integer_digits(const char *, int, int);
 int __cdecl numeric_digit_value(unsigned);
 CompilerType *__cdecl select_decimal_literal_type(unsigned __int64 *);
+CompilerType *__cdecl select_extended_integer_type(unsigned __int64 *);
 CompilerType *__cdecl select_based_literal_type(unsigned __int64 *);
 CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *);
 CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *);
@@ -40,11 +41,14 @@ CompilerParserToken *__cdecl scan_numeric_token(unsigned input, int alternate_ba
     unsigned __int64 value;
     CompilerType *type = c1_data.builtin_types.type_0063;
     CompilerNumericToken *token;
-#ifdef RECON_NATIVE_TEST
-    if (input != '0' || alternate_base || c1_bss.options.preprocess_stdout ||
-        (c1_data.lexer_flags & 0x800000))
-        recon_unsupported("numeric token mode is outside the encountered ordinary zero literal");
+    if (input < '0' || input > '9' || alternate_base || c1_bss.options.preprocess_stdout ||
+        (c1_data.lexer_flags & 0x800000)) {
+#ifdef __linux__
+        recon_unsupported("numeric token mode is outside ordinary integer literals");
+#else
+        __asm { int 3 }
 #endif
+    }
     if ((c1_bss.options.preprocess_stdout || (c1_data.lexer_flags & 0x800000)) &&
         !(c1_data.lexer_flags & 0x4000)) {
         *cursor = character;
@@ -189,10 +193,23 @@ unsigned char __cdecl read_numeric_character(void)
 }
 unsigned __int64 __cdecl parse_integer_digits(const char *text, int length, int base)
 {
-#ifdef RECON_NATIVE_TEST
-    if (length != 1 || text[0] != '0' || text[1] || base != 8 || c1_data.internal_zb_value != 4)
-        recon_unsupported("integer spelling is outside the encountered zero literal");
+    if (length < 1 || length > 10 || text[length] ||
+        (base != 8 && base != 10) || c1_data.internal_zb_value != 4) {
+#ifdef __linux__
+        recon_unsupported("integer spelling is outside the recovered ordinary-width domain");
+#else
+        __asm { int 3 }
 #endif
+    }
+    for (int checked = 0; checked < length; ++checked) {
+        if (text[checked] < '0' || text[checked] >= '0' + base) {
+#ifdef __linux__
+            recon_unsupported("integer digit spelling is outside the recovered radix domain");
+#else
+            __asm { int 3 }
+#endif
+        }
+    }
     int configured_bytes = c1_data.internal_zb_value;
     int bits = configured_bytes * 8;
     int short_limit = bits / 4;
@@ -235,7 +252,14 @@ int __cdecl numeric_digit_value(unsigned character)
         return character - '0';
     return (character & 0xdf) - ('A' - 10);
 }
-CompilerType *__cdecl select_decimal_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl select_decimal_literal_type(unsigned __int64 *value)
+{
+    if (*value <= 0x7fffffff) return c1_data.builtin_types.type_0063;
+    if (c1_data.internal_bm_flags || (*value > 0xffffffff && c1_data.internal_zb_value > 4))
+        return select_extended_integer_type(value);
+    return c1_data.builtin_types.type_4044;
+}
+CompilerType *__cdecl select_extended_integer_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
 CompilerType *__cdecl select_based_literal_type(unsigned __int64 *value)
 {
     if (*value <= 0x7fffffff) return c1_data.builtin_types.type_0063;
@@ -249,5 +273,19 @@ CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *) { __as
 CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
 CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
 CompilerType *__cdecl select_sized_literal_type(int) { __asm { int 3 } return NULL; }
-void __cdecl copy_numeric_spelling(CompilerValue *, const char *, unsigned, unsigned) { __asm { int 3 } }
+/* Both numeric and quoted literals use the same spelling allocation. The
+ * incoming length is truncated to a WORD before allocating/copying; flags
+ * and the rest of the caller-owned literal value are not written. */
+void __cdecl copy_numeric_spelling(CompilerValue *literal, const char *text,
+                                   unsigned length, unsigned arena_kind)
+{
+    CompilerArena *arena = &c1_bss.arenas[arena_kind];
+    unsigned bytes = (WORD)length;
+    BYTE *copy = arena->cursor;
+    arena->cursor += (bytes + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    memcpy(copy, text, bytes);
+    literal->string_attributes.text = (const char *)copy;
+    literal->string_attributes.length = (WORD)length;
+}
 }

@@ -242,6 +242,15 @@ struct CompilerParser {
 typedef char CompilerParser_size[sizeof(CompilerParser) == 8864 ? 1 : -1];
 typedef char CompilerParser_states[offsetof(CompilerParser, states) == 0x1ff8 ? 1 : -1];
 
+struct CompilerScopeTable;
+struct CompilerParameterBindings;
+/* Authentic eight-byte lookup result, shared by ordinary and tag lookup. */
+struct CompilerScopeLookup {
+    CompilerIrSymbol *symbol;
+    CompilerScopeTable *scope;
+};
+typedef char CompilerScopeLookup_size[sizeof(CompilerScopeLookup) == 8 ? 1 : -1];
+
 /* The two actual scope tables share this20-byte prefix and ten-slot
  * interface. The hash table appends a mask; parameter scopes reuse+16 as
  * their incoming parameter value. No wider scope allocation is implied. */
@@ -249,7 +258,7 @@ struct CompilerScopeTable {
     CompilerScopeTable *next;
     BYTE level;
     union { CompilerScopeTable *outer; void *unmodeled_0c; };
-    union { CompilerSymbolBinding **buckets; unsigned parameter_value; };
+    union { CompilerSymbolBinding **buckets; unsigned parameter_value; CompilerParameterBindings *parameter_bindings; };
     RECON_FORCEINLINE CompilerScopeTable(unsigned nesting)
         : next(NULL), level((BYTE)nesting), outer(NULL) {}
     CompilerIrSymbol **RECON_THISCALL MergeDeclaration(CompilerIrSymbol *);
@@ -283,6 +292,16 @@ struct CompilerSymbolTable : CompilerScopeTable {
     void RECON_THISCALL Link(CompilerIrSymbol *symbol);
 };
 typedef char CompilerSymbolTable_size[sizeof(CompilerSymbolTable) == 24 ? 1 : -1];
+/* Authentic twelve-byte parameter list, constructed by parameter Link.
+ * Nodes are the symbols' embedded binding headers, with a previous link
+ * in the parameter-specific symbol union. */
+struct CompilerParameterBindings {
+    unsigned arena_kind;
+    union { CompilerSymbolBinding *first; CompilerParameterBindings *free_next; };
+    CompilerSymbolBinding *last;
+    CompilerIrSymbol *RECON_THISCALL Find(CompilerNameEntry *);
+};
+typedef char CompilerParameterBindings_extent[sizeof(CompilerParameterBindings) == 12 ? 1 : -1];
 struct CompilerParameterScope : CompilerScopeTable {
     RECON_FORCEINLINE CompilerParameterScope(int value) : CompilerScopeTable(1)
     { parameter_value = (unsigned)value; }
@@ -307,7 +326,8 @@ struct CompilerTranslationUnit {
     CompilerSymbolTable *root;
     CompilerScopeTable *current;
     /* Push/pop index this array by a byte depth, checked against128. Only
-     * slot0 is written by Initialize; other values remain unmodeled. */
+     * slot0 is written by Initialize; later live slots are written by PushScope.
+     * Unwritten slots have no default or equality claim. */
     CompilerScopeTable *scopes[128];
     BYTE depth;
     int lookup_mode;
@@ -317,11 +337,14 @@ struct CompilerTranslationUnit {
     CompilerTranslationUnit *RECON_THISCALL Initialize(void);
     CompilerIrSymbol **RECON_THISCALL EndParameterScope(void);
     CompilerIrSymbol **RECON_THISCALL FindName(CompilerNameEntry *);
+    CompilerIrSymbol **RECON_THISCALL FindTag(CompilerNameEntry *, int);
     CompilerIrSymbol **RECON_THISCALL FindScopedDeclaration(CompilerIrSymbol *);
     void RECON_THISCALL EnterParameterScope(int);
     void RECON_THISCALL EnterBlockScope(void);
     void RECON_THISCALL FinishScope(CompilerScopeTable *);
     void RECON_THISCALL FinishFunction(void);
+    void RECON_THISCALL InsertDeclaration(void *);
+    CompilerScopeTable *RECON_THISCALL DeclarationScope(void);
     CompilerSourceFile *RECON_THISCALL FindSourceFile(const char *name, unsigned hash);
     CompilerSourceFile *RECON_THISCALL LookupSourceFile(CompilerNameEntry *name);
     void RECON_THISCALL PushScope(CompilerScopeTable *);

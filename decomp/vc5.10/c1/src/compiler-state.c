@@ -90,8 +90,22 @@ CompilerInitializedState c1_data = {
     0, NULL, NULL, /* PCH type value, record name and serialized options. */
     0, 0, 0, 0, /* PCH stream-open flags and cleanup marker. */
     NULL, 0, /* Empty saved-context table. */
-    { { { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 }, 52, { 0 } } },
-    { { { 0 }, NULL } } /* Unknown prefix is representation only; head9 is known. */
+    -1, NULL, -1, /* Tag diagnostic mode, active enum type and last value. */
+    10, 5, /* Actual tag/enumerator symbol cache indexes. */
+    c1_bss.quoted_workspace, /* Actual initialized quoted-spelling cursor. */
+    9, NULL, /* Parameter-symbol cache selector and lazy sentinel identity. */
+    0, /* PCH creation filename has not been encountered. */
+    0, /* Data-linkage option5ef9c is disabled. */
+    0, 0, 0, /* Writer-only initializer reset cells. */
+    -1, NULL, /* Initializer frame depth and last published symbol. */
+    0, /* Unevaluated type nesting. */
+    9, /* Actual kind7 symbol-cache selector. */
+    9, /* Actual kind10 symbol-cache selector. */
+    { { { 0 }, 52, 0, 52, 52, 40, 52, { 0 }, 52, 52, 0, 52, 52, { 0 } } },
+    { { { 0 }, NULL, { 0 }, NULL, NULL } }, /* Only heads5/9/10 have known defaults. */
+    { NULL, NULL, NULL }, /* BSS/CONST NULL are semantic; DATA remains representation. */
+    NULL, /* void_type_list */
+    NULL /* call_context */
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

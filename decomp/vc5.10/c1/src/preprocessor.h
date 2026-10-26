@@ -26,6 +26,17 @@ typedef struct CompilerMacro {
     struct CompilerNameEntry *identifier;
     CompilerMacroBody *body;
 } CompilerMacro;
+/* Rescan stack records have an authentic24-byte stride and256-entry bound.
+ * The current projection exposes only the first two encountered records. */
+typedef struct CompilerMacroExpansionFrame {
+    BYTE *source, *arguments, *replacement;
+    CompilerMacro *macro;
+    signed char argument_count;
+    signed char argument_index; /* Number of argument streams already started. */
+    BYTE unmodeled_12[2];
+    unsigned active;
+} CompilerMacroExpansionFrame;
+typedef char CompilerMacroExpansionFrame_size[sizeof(CompilerMacroExpansionFrame) == 24 ? 1 : -1];
 typedef char CompilerMacro_size[sizeof(CompilerMacro) == 8 ? 1 : -1];
 typedef char CompilerMacroBody_kind[offsetof(CompilerMacroBody, kind) == 4 ? 1 : -1];
 typedef char CompilerMacroBody_payload[offsetof(CompilerMacroBody, payload) == 5 ? 1 : -1];

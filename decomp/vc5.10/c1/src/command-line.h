@@ -11,10 +11,18 @@ typedef struct CompilerVector {
     void **items;
 } CompilerVector;
 struct CompilerPacking;
-struct CompilerIncludeAlias;
+typedef struct CompilerIncludeAlias {
+    struct CompilerIncludeAlias *next;
+    const char *name;
+    const char *replacement;
+    int kind, replacement_kind;
+} CompilerIncludeAlias;
 /* The list root contains one link; node names/layout are recovered separately. */
 typedef struct CompilerIncludeAliases {
     struct CompilerIncludeAlias *head;
+#ifdef __cplusplus
+    const char *RECON_THISCALL Find(const char *, int *);
+#endif
 } CompilerIncludeAliases;
 
 /* These options belong to the initialized compiler-state snapshot. Names

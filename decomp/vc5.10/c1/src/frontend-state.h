@@ -20,6 +20,19 @@ struct CompilerLexer;
 struct CompilerTokenStream;
 struct CompilerTypeShape;
 struct CompilerNameEntry;
+/* BYTE column63c78. Only indirection61 and integer101 are semantic;
+ * gap storage is representation and must not be indexed. */
+typedef union CompilerExpressionClasses {
+    struct { BYTE unmodeled_00[6]; BYTE symbol; BYTE unmodeled_07[54]; BYTE indirection; BYTE unmodeled_3e[39]; BYTE integer; BYTE unmodeled_66[10]; BYTE call_argument; } known;
+    BYTE indexed[1];
+} CompilerExpressionClasses;
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern CompilerExpressionClasses c1_expression_classes;
+#ifdef __cplusplus
+}
+#endif
 /* Encoded two-DWORD declaration position; component meanings remain pending. */
 typedef struct CompilerSourcePosition { DWORD first, second; } CompilerSourcePosition;
 
@@ -43,7 +56,9 @@ typedef struct CompilerType {
     unsigned debug_index;
 #ifdef __cplusplus
     unsigned RECON_THISCALL GetCallingConvention(void);
+    struct CompilerType *RECON_THISCALL WithoutTopQualifiers(void);
     struct CompilerType *RECON_THISCALL WithAttributes(unsigned);
+    struct CompilerType *RECON_THISCALL WithShape(struct CompilerTypeShape *);
     struct CompilerType *RECON_THISCALL FunctionResult(void);
     struct CompilerType *RECON_THISCALL DecayFunction(void);
     struct CompilerType *RECON_THISCALL DecayArray(void);
@@ -120,6 +135,7 @@ typedef struct CompilerIrSymbol {
         BYTE unmodeled_20[16];
         struct { BYTE unmodeled_label_20[4], label_nesting, label_exception_depth, unmodeled_label_26[10]; };
         unsigned symbol_value; /* Translation-state initializer clears DWORD+32. */
+        CompilerSymbolBinding *previous_parameter; /* Parameter Link stores the preceding embedded binding. */
         struct { WORD intrinsic_opcode, intrinsic_traits; BYTE unmodeled_24[12]; };
         /* Source-only tagged views for global-record operands. Native symbol
          * consumers remain guarded; these aliases assign no new defaults. */
@@ -127,20 +143,80 @@ typedef struct CompilerIrSymbol {
             struct CompilerNameEntry *alternate_name;
             union {
                 int integer_value;
+                int enum_base_width;
                 struct { BYTE parameter_kind, bit_width, unmodeled_26[2]; };
             };
             union { unsigned alternate_size; struct CompilerIrSymbol *initializer_symbol; };
-            BYTE unmodeled_2c, unmodeled_2d_flags, unmodeled_2e[2];
+            union {
+                struct { BYTE unmodeled_2c, unmodeled_2d_flags, unmodeled_2e[2]; };
+                struct { WORD tag_definition_flags; BYTE unmodeled_tag_2e[2]; };
+            };
         };
     };
     void *kind4_context; /* Constructor clears this pointer only for kind4. */
 #ifdef __cplusplus
+    CompilerIrSymbol *RECON_THISCALL CopyFrom(CompilerIrSymbol *, unsigned);
+    void RECON_THISCALL CopyInitializerFrom(CompilerIrSymbol *, unsigned);
     CompilerIrSymbol *RECON_THISCALL Initialize(unsigned kind,
         struct CompilerNameEntry *name, unsigned arena);
     void RECON_THISCALL SetDeclarationContext(void *);
     int RECON_THISCALL IsNamed(void);
 #endif
 } CompilerIrSymbol;
+/* Initializer frame at57588, original stride20 and depth bound32. Only the
+ * encountered first four records have storage/default/consumer contracts here. */
+typedef struct CompilerInitializerFrame {
+    CompilerIrSymbol *symbol;
+    BYTE unmodeled_04[4];
+    CompilerType *type;
+    unsigned offset;
+    BYTE flags, reset_byte;
+    BYTE unmodeled_12[2];
+} CompilerInitializerFrame;
+typedef char InitializerFrame_extent[sizeof(CompilerInitializerFrame) == 20 ? 1 : -1];
+typedef char InitializerFrame_flags[offsetof(CompilerInitializerFrame, flags) == 16 ? 1 : -1];
+/* Aggregate-definition state at original53be8, stride24. The initializer
+ * establishes these fixed-width cells; their wider interpretations wait for
+ * the actual member-layout consumers. Only flags bits0/2 are currently used. */
+typedef struct CompilerRecordDefinition {
+    struct CompilerIrSymbol *symbol;
+    DWORD initialized_04;
+    CompilerType *type;
+    DWORD byte_size;
+    WORD bitfield_type_flags, alignment;
+    BYTE initialized_14, flags;
+    BYTE unmodeled_16[2];
+} CompilerRecordDefinition;
+typedef char CompilerRecordDefinition_extent[sizeof(CompilerRecordDefinition) == 24 ? 1 : -1];
+typedef char CompilerRecordDefinition_flags[offsetof(CompilerRecordDefinition, flags) == 21 ? 1 : -1];
+/* Actual twelve-byte member-list owner. The first pointer is initialized but
+ * its role is not yet recovered; binding consumers establish first/last. */
+typedef struct CompilerRecordMembers {
+    union { void *unmodeled_00; unsigned arena_kind; };
+    CompilerSymbolBinding *first, *last;
+} CompilerRecordMembers;
+typedef char CompilerRecordMembers_extent[sizeof(CompilerRecordMembers) == 12 ? 1 : -1];
+/* A24-byte enum accumulator plus a separate, initially unwritten vector.
+ * Only the two flag bits written by its constructor are interpreted. */
+typedef struct CompilerEnumEntry {
+    struct CompilerNameEntry *name;
+    struct CompilerIrSymbol *symbol;
+    struct CompilerEnumEntry *next;
+} CompilerEnumEntry;
+typedef char CompilerEnumEntry_extent[sizeof(CompilerEnumEntry) == 12 ? 1 : -1];
+typedef struct CompilerEnumContext {
+    unsigned arena_kind;
+    unsigned match_kind, hash_kind;
+    WORD capacity;
+    BYTE flags, padding_0f;
+    CompilerEnumEntry **symbols;
+    unsigned count;
+} CompilerEnumContext;
+typedef char CompilerEnumContext_extent[sizeof(CompilerEnumContext) == 24 ? 1 : -1];
+typedef char CompilerEnumContext_symbols[offsetof(CompilerEnumContext, symbols) == 16 ? 1 : -1];
+#ifdef __cplusplus
+typedef int (RECON_THISCALL CompilerTypeShape::*CompilerTypeShapePredicate)(void);
+#endif
 struct CompilerTypeShape {
     WORD flags;
     union {
@@ -151,8 +227,12 @@ struct CompilerTypeShape {
     union {
         unsigned value;
         struct CompilerTypeList *parameters;
+        struct CompilerIrSymbol *symbol_owner; /* Source-only symbol-bearing shape. */
     };
 #ifdef __cplusplus
+    CompilerTypeShape *RECON_THISCALL FindMatching(CompilerTypeShapePredicate);
+    int RECON_THISCALL IsNotArray(void);
+    CompilerTypeShape *RECON_THISCALL Replace(CompilerTypeShape *, const CompilerTypeShape *);
     void RECON_THISCALL SetParameters(unsigned value, unsigned kind);
     CompilerTypeShape *RECON_THISCALL InternUntil(CompilerTypeShape *stop);
 #endif
@@ -202,12 +282,13 @@ typedef struct CompilerLexerBackend {
     struct CompilerBackend *backend;
 } CompilerLexerBackend;
 
-/* Parser declaration attributes use only WORD0 and DWORD4. The intervening
- * WORD has no established writer or semantic meaning. */
+/* Declaration storage/qualifier flags. Only the encountered bits of the
+ * extended WORD have meanings; setters retain all other bits. DWORD4 is also
+ * the allocated-segment pointer when extended bit0x100 is present. */
 typedef struct CompilerDeclarationAttributes {
     WORD flags;
-    WORD unmodeled_02;
-    unsigned extra;
+    WORD extended_flags;
+    union { unsigned extra; struct CompilerIrSymbol *allocated_segment; };
 } CompilerDeclarationAttributes;
 #ifdef __cplusplus
 /* Run's declaration callback is a real single-inheritance member pointer.
@@ -233,15 +314,26 @@ struct CompilerParserNode {
         struct { BYTE classification_flags, unmodeled_03; }; /* Source-only float bit1 */
     };
     CompilerType *type;
-    BYTE unmodeled_08[8];
+    union { BYTE unmodeled_08[8]; struct { CompilerParserNode *argument_head; BYTE unmodeled_0c[4]; }; };
     union { const char *text; struct CompilerIrSymbol *symbol; CompilerParserNode *left; unsigned low; };
-    union { CompilerParserNode *argument; CompilerParserNode *right; unsigned length, high; };
+    union {
+        CompilerParserNode *argument;
+        CompilerParserNode *right;
+        unsigned length, high;
+        struct { WORD string_length, string_flags; }; /* String-node source view. */
+    };
 };
 #endif
 /* Original semantic values have24 bytes. Native transfers select only the
  * established fields for each encountered alternative: declaration state,
  * declarator pairs, or numeric type/value. Other bytes and alternatives
  * have no default, full-copy or equality claim. */
+typedef struct CompilerStringValue {
+    const char *text;
+    WORD length, flags;
+} CompilerStringValue;
+typedef char CompilerStringValue_size[sizeof(CompilerStringValue) == 8 ? 1 : -1];
+typedef char CompilerStringValue_flags[offsetof(CompilerStringValue, flags) == 6 ? 1 : -1];
 typedef union CompilerParserValue {
     void *pointer; /* Pragma text/scalar union, original first DWORD. */
     struct CompilerDeclarator *declarator;
@@ -258,11 +350,14 @@ typedef union CompilerParserValue {
 #ifdef __cplusplus
     CompilerParserDeclaration declaration;
     CompilerDeclarationAttributes attributes;
+    struct { BYTE unmodeled_00[12]; struct CompilerIrSymbol *symbol;
+             CompilerDeclarationApply apply; } tag_declaration;
     struct CompilerParameterDescription *parameters;
     CompilerParserNode *node;
     struct { struct CompilerDeclarator *declarator; struct CompilerIrSymbol *symbol; } declarator_symbol;
     struct { CompilerType *type; unsigned unmodeled_04; __int64 value; } typed_constant;
     struct { const char *text; unsigned length; } string;
+    CompilerStringValue string_attributes; /* Quoted-token WORD fields at+4/+6. */
 #endif
 } CompilerParserValue;
 typedef char CompilerParserValue_extent[sizeof(CompilerParserValue) == 24 ? 1 : -1];

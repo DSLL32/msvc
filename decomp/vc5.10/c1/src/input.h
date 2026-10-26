@@ -132,13 +132,13 @@ struct CompilerRecordedLexer : CompilerTokenStream {
     CompilerContextBuffer buffer, read_buffer, start_buffer;
     unsigned arena_kind;
     unsigned char active : 1;
-    RECON_FORCEINLINE CompilerRecordedLexer(void *object, unsigned value, unsigned arena) {
+    RECON_FORCEINLINE CompilerRecordedLexer(void *object, unsigned value, unsigned arena, int enabled = 0) {
         initial_object = current_object = object;
         initial_value = current_value = value;
         buffer.Initialize(arena);
         read_buffer = start_buffer = buffer;
         arena_kind = arena;
-        active = 0;
+        active = enabled;
     }
     unsigned RECON_THISCALL Read(void);
     unsigned RECON_THISCALL Peek(void);

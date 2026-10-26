@@ -13,16 +13,21 @@
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
-/* Original RVA5f400 has26 DWORD slots. Only kinds1/6/9/13 are known.
+/* Original RVA5f400 has26 DWORD slots. Only kinds1/3/4/5/6/9/10/12/13 are known.
  * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
 typedef struct CompilerRecordSizeFields {
         unsigned unmodeled_00[1];
         unsigned declaration_symbol_bytes; /* slot1, RVA5f404, default52 */
-        unsigned unmodeled_02[4];
+        unsigned unmodeled_02;
+        unsigned member_symbol_bytes; /* slot3, RVA5f40c, default52 */
+        unsigned tag_symbol_bytes; /* slot4, RVA5f410, default52 */
+        unsigned enumerator_symbol_bytes; /* slot5, RVA5f414, default40 */
         unsigned intrinsic_symbol_bytes; /* slot6, RVA5f418, default52 */
         unsigned unmodeled_07[2];
         unsigned global_symbol_bytes; /* slot9, RVA5f424, default52 */
-        unsigned unmodeled_0a[3];
+        unsigned static_symbol_bytes; /* slot10, RVA5f428, default52 */
+        unsigned unmodeled_0b;
+        unsigned parameter_symbol_bytes; /* slot12, RVA5f430, default52 */
         unsigned abstract_symbol_bytes; /* slot13, RVA5f434, default52 */
         unsigned unmodeled_0e[12];
 } CompilerRecordSizeFields;
@@ -32,22 +37,39 @@ typedef union CompilerRecordSizes {
 } CompilerRecordSizes;
 typedef char CompilerRecordSizes_extent[sizeof(CompilerRecordSizes) == 104 ? 1 : -1];
 typedef char CompilerRecordSizes_kind1[offsetof(CompilerRecordSizeFields, declaration_symbol_bytes) == 4 ? 1 : -1];
+typedef char CompilerRecordSizes_kind3[offsetof(CompilerRecordSizeFields, member_symbol_bytes) == 12 ? 1 : -1];
+typedef char CompilerRecordSizes_kind4[offsetof(CompilerRecordSizeFields, tag_symbol_bytes) == 16 ? 1 : -1];
+typedef char CompilerRecordSizes_kind5[offsetof(CompilerRecordSizeFields, enumerator_symbol_bytes) == 20 ? 1 : -1];
 typedef char CompilerRecordSizes_kind6[offsetof(CompilerRecordSizeFields, intrinsic_symbol_bytes) == 24 ? 1 : -1];
 typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global_symbol_bytes) == 36 ? 1 : -1];
+typedef char CompilerRecordSizes_kind10[offsetof(CompilerRecordSizeFields, static_symbol_bytes) == 40 ? 1 : -1];
+typedef char CompilerRecordSizes_kind12[offsetof(CompilerRecordSizeFields, parameter_symbol_bytes) == 48 ? 1 : -1];
 typedef char CompilerRecordSizes_kind13[offsetof(CompilerRecordSizeFields, abstract_symbol_bytes) == 52 ? 1 : -1];
-/* Only head9 of the source's indexed cache is known. The open-ended array
+/* Only heads5/9/10 of the source's indexed cache are known. The open-ended array
  * spelling retains the original generic access, not an inferred table bound.
- * The preceding36 bytes supply storage identity only; they are never included
+ * The unmodeled gaps supply storage identity only; they are never included
  * in defaults/snapshot transfer and native indexed reads are guarded. */
 typedef struct CompilerSymbolCachePrefix {
-    BYTE unmodeled_00[36];
+    BYTE unmodeled_00[20];
+    CompilerSymbolBinding *head5; /* RVA5e50c, defaultNULL; enumerator-symbol cache. */
+    BYTE unmodeled_18[12];
     CompilerSymbolBinding *head9;
+    CompilerSymbolBinding *head10; /* RVA5e520, defaultNULL; tag-symbol cache. */
 } CompilerSymbolCachePrefix;
 typedef union CompilerSymbolCacheHeads {
     CompilerSymbolCachePrefix known;
     CompilerSymbolBinding *indexed[1];
 } CompilerSymbolCacheHeads;
+typedef char CompilerSymbolCacheHeads_head5[offsetof(CompilerSymbolCachePrefix, head5) == 20 ? 1 : -1];
 typedef char CompilerSymbolCacheHeads_head9[offsetof(CompilerSymbolCachePrefix, head9) == 36 ? 1 : -1];
+typedef char CompilerSymbolCacheHeads_head10[offsetof(CompilerSymbolCachePrefix, head10) == 40 ? 1 : -1];
+/* One original12-byte segment-default owner at5e588. BSS5e588 and CONST
+ *5e58c have actual NULL defaults; DATA5e590 remains unmodeled. */
+typedef struct CompilerDeclarationReferenceDefaults {
+    CompilerIrSymbol *fallback, *type_context, *definition;
+} CompilerDeclarationReferenceDefaults;
+typedef char DeclarationReferenceDefaults_middle[
+    offsetof(CompilerDeclarationReferenceDefaults, type_context) == 4 ? 1 : -1];
 typedef struct CompilerInitializedState {
     int first_call;
     int compiler_phase;
@@ -142,11 +164,32 @@ typedef struct CompilerInitializedState {
     int pch_cleanup_done; /* RVA5f5d0, DWORD0; once-only cleanup marker */
     struct CompilerSavedContextRecord *saved_context_records; /* RVA5f4f4, NULL */
     int saved_context_count; /* RVA5f4f8, DWORD0 */
+    int record_definition_depth; /* RVA5f35c, default-1; aggregate-definition stack depth. */
+    CompilerType *enumerator_type; /* RVA5e400, defaultNULL; active enum definition type. */
+    __int64 enumerator_value; /* RVA5f380, default-1; next enumerator value state. */
+    unsigned tag_symbol_cache_index; /* RVA5f478, default10 */
+    unsigned enumerator_symbol_cache_index; /* RVA5f47c, default5 */
+    BYTE *quoted_cursor; /* RVA5f38c, initialized to the BSS spelling workspace55120. */
+    unsigned parameter_symbol_cache_index; /* RVA5f498, canonical default9 */
+    CompilerIrSymbol *parameter_sentinel; /* RVA5e9ac, initializedNULL; lazy identity from1771e. */
+    unsigned pch_creation_name_seen; /* RVA5f324, DWORD0; matching PCH include sets1. */
+    unsigned data_linkage_option; /* RVA5ef9c, DWORD0; nonzero sets data linkage bit1. */
+    unsigned initializer_reset_first, initializer_reset_second, initializer_reset_third; /* RVA5f3f0/4/8, DWORD0; writer-only clears. */
+    int initializer_depth; /* RVA5f3ec, default-1; twenty-byte frame indexing. */
+    CompilerIrSymbol *last_initializer_symbol; /* RVA5f3b0, NULL. */
+    int unevaluated_type_depth; /* RVA5f3a8, DWORD0; sizeof/type expression nesting. */
+    unsigned function_symbol_cache_index; /* RVA5f484, default9; kind7 recycle selector. */
+    unsigned static_symbol_cache_index; /* RVA5f490, default9; kind10 recycle selector. */
     /* From here, snapshot transfer selects only the known cells. */
     CompilerRecordSizes record_sizes;
-    CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only head9/5e51c defaultNULL */
+    CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only heads5/9/10 are known */
+    CompilerDeclarationReferenceDefaults segment_defaults;
+    CompilerTypeList *void_type_list; /* RVA5e57c, initializedNULL; lazy one-void parameter list. */
+    struct CompilerCallContext *call_context; /* RVA5e3e4, initializedNULL; active call-analysis frame. */
 } CompilerInitializedState;
+typedef char CompilerInitializedState_fits_snapshot[sizeof(CompilerInitializedState) <= 6548 ? 1 : -1];
 #define abstract_symbol_free symbol_cache.known.head9
+#define c1_constant_diagnostic_mode c1_data.record_definition_depth
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
 struct CompilerContextFrame;
@@ -205,18 +248,26 @@ typedef char CompilerOutputBuffer_owned_extent[sizeof(CompilerOutputBuffer) == 3
  * owner. Declaration consumers currently use only flags/value/type; the final
  * twelve bytes retain no native semantic/default/equality claim. */
 typedef union CompilerValue {
+#ifdef __cplusplus
+    CompilerParserDeclaration parser_declaration; /* Same owner; native member pointer is wider. */
+#endif
     __int64 integer;
     struct { CompilerType *type; unsigned unmodeled_04; __int64 value; } typed_constant;
     struct {
         unsigned flags, value;
         CompilerType *type;
         void *unmodeled_0c;
+#ifdef __cplusplus
+        CompilerDeclarationApply apply;
+#else
         DWORD unmodeled_10;
+#endif
     } declaration;
     struct CompilerNameEntry *identifier;
     struct CompilerIrSymbol *symbol; /* Resolved declaration-name token. */
     struct CompilerTokenStream *recorded_stream;
-    struct { const void *text; unsigned length; } string; /* Source-only literal view. */
+    struct { const void *text; unsigned length; } string;
+    CompilerStringValue string_attributes; /* Source-only literal view. */
     struct { void *object; unsigned value; } context; /* Source-only location alternative. */
     /* Authentic24-byte owner. Only the numeric8-byte alternative currently
      * has a native state contract; Run's declaration overlay is guarded. */
@@ -343,6 +394,7 @@ typedef struct CompilerBss {
     struct CompilerTextInput *text_input;           /* RVA58f48 */
     CompilerLexerBackend *lexer_backend;            /* RVA518e0 */
     char *browser_filename;                         /* RVA54ddc */
+    BYTE browser_name_deferred; /* RVA54c78, BSS0; implicit declaration paths later write the nesting mode. */
     int pch_replayed;                               /* RVA53d7c */
     int pch_file_failed;                            /* RVA54f20 */
     unsigned processor_instruction_mask;             /* RVA55098; opcode-table mask */
@@ -353,7 +405,7 @@ typedef struct CompilerBss {
     unsigned ir_record_count; /* RVA55058 */
     unsigned symbol_arena_kind; /* RVA518d8; symbols allocate from this arena. */
     struct CompilerSymbolArenaFrame *saved_symbol_arenas; /* RVA518dc; linked saved indices */
-    CompilerIrSymbol *current_function; /* RVA54c90 */
+    CompilerIrSymbol *switch_control_symbol; /* RVA54c90, switch record reference */
     CompilerIrSymbol *current_scope_symbol; /* RVA54dd4 */
     int pending_line_delta; /* RVA5780c; current line minus saved line origin */
     CompilerSourcePosition declaration_position; /* RVA57810..57818; BSS */
@@ -364,9 +416,28 @@ typedef struct CompilerBss {
     char *macro_time; /* RVA54db4 */
     CompilerVector *pending_forced_includes; /* RVA54da8 */
     short forced_include_index; /* RVA54dac */
+    CompilerIrSymbol *initializer_symbol; /* RVA57574, current initialization target */
+    unsigned initializer_bytes; /* RVA57558, cleared at initialization entry; accumulated by element layout */
+    unsigned initializer_value_pending; /* RVA57570, cleared at initialization entry; later consumers test truth */
+    struct CompilerParserNode *initializer_resume_label; /* RVA57560, BSS0; finalization emits and clears this label. */
+    unsigned initializer_error_reported; /* RVA57564, BSS; suppresses repeated initializer error78. */
+    CompilerType *initializer_saved_type; /* RVA57578, BSS; element expansion saves a type. */
+    unsigned initializer_bitfield_active; /* RVA57808, BSS0; selects the accumulated unit. */
+    unsigned __int64 initializer_bitfield_value; /* RVA57580/57584, cleared when the unit opens. */
+    unsigned initializer_bitfield_position; /* RVA5755c, copied from the first field's offset. */
+    __int64 integer_work_value; /* RVA54b28/54b2c; shared integer scratch, written before use here. */
+    struct CompilerInitializerFrame *initializer_frame; /* RVA57568, selected by frame helper. */
+    CompilerInitializerFrame initializer_frames[4]; /* RVA57588, encountered frames0..3 only; not original capacity. */
     BYTE *macro_token_cursor; /* RVA5003c; first work-buffer cursor */
+    unsigned macro_whitespace_seen; /* RVA50020, BSS0; cleared at skip entry, set by space/newline. */
     BYTE *macro_text_cursor; /* RVA50040; second work-buffer cursor */
     BYTE *saved_macro_text_cursor; /* RVA50034 */
+    unsigned macro_rescan_output_pending; /* RVA53bdc, BSS; finished expansion awaits replay */
+    unsigned macro_active_count; /* RVA5002c, BSS; counts nested replacement inputs */
+    unsigned macro_line; /* RVA50038; saved source line during expansion */
+    unsigned macro_argument_count; /* RVA50044; current replacement parameter count */
+    BYTE *saved_macro_token_cursor; /* RVA50048; current encoded argument mark */
+    CompilerMacroExpansionFrame macro_expansions[2]; /* RVA50050, encountered0/1; not the original capacity */
     const char *current_macro_text; /* RVA50028; encoded command-line/directive text */
     BYTE *source_cursor; /* RVA54f30, BSS; current byte input position */
     char incremental_database_path[256]; /* RVA578a8, BSS; cached .idb path */
@@ -403,9 +474,24 @@ typedef struct CompilerBss {
     int declaration_depth; /* RVA5416c, BSS initial0 */
     /* Only record0/1.flags are encountered. The real source has60 records;
      * native code must guard before any other record or unknown byte read. */
+    int macro_parameter_count; /* RVA50030, BSS0; -1 distinguishes an empty parameter list. */
+    int tag_declaration_seen; /* RVA53d70, BSS0; a tag definition sets1. */
+    CompilerIrSymbol *current_tag_symbol; /* RVA54c8c, BSSNULL; enum definition writer. */
+    /* Original initializer checks16 before24-byte indexing. Only record0
+     * has supported semantic consumers; wider storage has no default claim. */
+    CompilerRecordDefinition record_definitions[16]; /* RVA53be8..53d68 */
+    struct ParserLabelStack *loop_labels; /* RVA55090, BSS NULL */
+    struct ParserLabelStack *continue_labels; /* RVA547f0, BSS NULL */
+    struct ParserLabelStack *break_labels; /* RVA54014, BSS NULL */
+    struct ParserLabelStack *switch_labels; /* RVA54dd0, BSS NULL */
+    struct ParserLabelStack *default_labels; /* RVA54020, BSS NULL */
+    int label_stack_count; /* RVA550a8, BSS0; label pushes/pops balance */
+    unsigned call_reference_depth; /* RVA53d6c, BSS0; FindCallSymbol starts at1. */
+    unsigned conditional_states[1]; /* RVA518e8: encountered slot0 only; real push bound32. */
+    BYTE quoted_workspace[2048]; /* RVA55120..55920; checked by ensure_quoted_cursor. */
     CompilerDeclarationControl declaration_control[60];
     /* Original541f0+20*depth, checked depth<60; ends546a0 inside the
-     * .bssfe reset owner. Only record0 is interpreted at this frontier.
+     * .bssfe reset owner. Records0/1 have encountered declaration fields.
      * C sees storage solely for the shared BSS reset; C++ uses real member
      * pointers (4B VC5,8B native i386), so its native record is24B. */
 #ifdef __cplusplus

@@ -317,7 +317,7 @@ extern "C" void __cdecl write_ir_record(int kind, const void *value)
                 break;
             case 0x3b:
             case 0x3c:
-                symbol = c1_bss.current_function;
+                symbol = c1_bss.switch_control_symbol;
                 UPDATE_REFERENCE(symbol);
                 write_symbol_record(symbol);
                 break;
@@ -447,8 +447,10 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
     if (c1_bss.parser_early_result) return;
     type = node->type;
 #ifdef RECON_NATIVE_TEST
-    if (type->shape || !(type->flags & 0x40) || (mode != 1 && mode != 2))
-        recon_unsupported("noninteger IR operand type is not yet modeled");
+    if ((mode != 1 && mode != 2) ||
+        (!type->shape && !(type->flags & 0x40)) ||
+        (type->shape && (type->shape->flags & 7) != 1))
+        recon_unsupported("IR operand type or mode is not yet modeled");
 #endif
     if (type->shape) {
         attributes = type->shape->attributes;
@@ -496,8 +498,14 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
     }
 }
 #undef OPERAND_RESERVE
-extern "C" unsigned __cdecl require_complete_type_size(CompilerType *)
-{ __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl type_shape_element_size(WORD, unsigned, CompilerTypeShape *);
+extern "C" void __cdecl report_incomplete_global_type(CompilerType *);
+extern "C" unsigned __cdecl require_complete_type_size(CompilerType *type)
+{
+    unsigned size = type_shape_element_size(type->flags, type->auxiliary, type->shape);
+    if (!size) report_incomplete_global_type(type);
+    return size;
+}
 extern "C" void __cdecl compiler_warning(int, ...);
 extern "C" void __cdecl write_symbol_record(CompilerIrSymbol *symbol)
 {

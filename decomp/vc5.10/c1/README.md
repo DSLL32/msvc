@@ -3,20 +3,32 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 342 application functions / 92,202 code bytes and
-3,574 bytes of owned text data. Application code is 28.61% of the original
+The reconstruction contains 542 application functions / 159,932 code bytes and
+5,885 bytes of owned text data. Application code is 49.62% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
-and is not a classified application-only denominator. Five original CRT/support
-owners / 571 bytes remain separate, without application credit. MSVCRT.LIB is
+and is not a classified application-only denominator. Ten original CRT/support
+owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-Both cached cases complete natively: DLL attach/export lookup/detach, and the
-minimal C compilation `int main () { return 0; }`. The latter forwards the actual
+All three cached cases complete natively: DLL attach/export lookup/detach, the
+minimal C compilation `int main () { return 0; }`, and the language workload
+below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
 compiler finalization, arena release and registered cleanup callbacks.
 No clock normalization is required by these outputs.
+
+The language case compiles a C89 header and source using function-like macros,
+an enum and structure, initialized record and character arrays, function
+parameters and calls, pointer arithmetic, member access, local variables,
+for/while loops, switch, continue/break, comparisons and a conditional return.
+Its original and native executions exit zero with 541 first entries and match
+all four artifacts: `languageex` (1,728 bytes), `languagegl` (172), `languagein`
+(84), and `languagesy` (228). The cached native replay took 18.209 ms; the
+explicit final reference capture took 1,068.472 ms. The case adds 23 focused
+tests. Retained raw artifacts and intermediate failures are in scratch
+`language-case-20261026/`, outside the checkout.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so`, discovers all
 numbered cases and checks their cached original invocations. The minimal case

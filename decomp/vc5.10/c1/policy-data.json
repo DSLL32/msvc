@@ -621,6 +621,36 @@
             "path": "cleanup-imports.json",
             "sha256": "1e83fed77777309d839feb9a1d2607449f260aa754b1669dd2de2574bdc5d3ca"
           }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strchr"
+            }
+          },
+          "preserves": [
+            "esi"
+          ],
+          "evidence": {
+            "path": "directive-imports.json",
+            "sha256": "4ceeaa835cd373a32813652b48925d1c85a0ecc8056ecff1b997d73ef0b0ca73"
+          }
+        },
+        {
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_stricmp"
+            }
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "evidence": {
+            "path": "directive-imports.json",
+            "sha256": "4ceeaa835cd373a32813652b48925d1c85a0ecc8056ecff1b997d73ef0b0ca73"
+          }
         }
       ],
       "virtual_preservation_contracts": [
@@ -647,7 +677,7 @@
           "rebuilt": {
             "site": {
               "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-              "offset": 1207
+              "offset": 1337
             },
             "slot": 12,
             "receiver_global": {
@@ -656,15 +686,15 @@
             },
             "receiver_load_site": {
               "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-              "offset": 1194
+              "offset": 1324
             },
             "this_load_site": {
               "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-              "offset": 1201
+              "offset": 1331
             },
             "vptr_load_site": {
               "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-              "offset": 1199
+              "offset": 1329
             },
             "vtables": [
               {
@@ -1240,11 +1270,11 @@
             [
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 12305
+                "offset": 12992
               },
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 12574
+                "offset": 13261
               }
             ]
           ],
@@ -1252,228 +1282,228 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 825
+                "offset": 1509
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 832
+                  "offset": 1516
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 893
+                  "offset": 1577
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 939
+                  "offset": 1623
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 893
+                  "offset": 1577
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 948
+                  "offset": 1632
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 1343
+                "offset": 2027
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1350
+                  "offset": 2034
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 1682
+                  "offset": 2366
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2409
+                  "offset": 3093
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2489
+                  "offset": 3173
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2679
+                  "offset": 3363
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3040
+                  "offset": 3724
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3530
+                  "offset": 4214
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3645
+                  "offset": 4329
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 3839
+                  "offset": 4523
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4007
+                  "offset": 4691
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4102
+                  "offset": 4786
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4186
+                  "offset": 4870
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4583
+                  "offset": 5267
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5533
+                  "offset": 6220
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5656
+                  "offset": 6343
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 5875
+                  "offset": 6562
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6255
+                  "offset": 6942
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12026
+                  "offset": 12713
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6705
+                  "offset": 7392
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6863
+                  "offset": 7550
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7407
+                  "offset": 8094
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7407
+                  "offset": 8094
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7954
+                  "offset": 8641
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8081
+                  "offset": 8768
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8434
+                  "offset": 9121
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8621
+                  "offset": 9308
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12026
+                  "offset": 12713
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9155
+                  "offset": 9842
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9155
+                  "offset": 9842
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9243
+                  "offset": 9930
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12026
+                  "offset": 12713
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 4102
+                  "offset": 4786
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9464
+                  "offset": 10151
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10679
+                  "offset": 11366
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11406
+                  "offset": 12093
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12026
+                  "offset": 12713
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9342
+                  "offset": 10029
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11592
+                  "offset": 12279
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12026
+                  "offset": 12713
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11755
+                  "offset": 12442
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11925
+                  "offset": 12612
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 2056
+                "offset": 2740
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2063
+                  "offset": 2747
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2073
+                  "offset": 2757
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2084
+                  "offset": 2768
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2134
+                  "offset": 2818
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 2143
+                  "offset": 2827
                 }
               ]
             }
@@ -1748,11 +1778,11 @@
             [
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 10149
+                "offset": 10264
               },
               {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 11153
+                "offset": 11268
               }
             ]
           ],
@@ -1760,364 +1790,360 @@
             {
               "site": {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 666
+                "offset": 667
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 673
+                  "offset": 674
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 935
+                  "offset": 936
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 935
+                  "offset": 936
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1153
+                  "offset": 1154
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 1546
+                "offset": 1547
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1553
+                  "offset": 1554
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1577
+                  "offset": 1578
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1640
+                  "offset": 1641
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1663
+                  "offset": 1664
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1673
+                  "offset": 1674
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1683
+                  "offset": 1684
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1693
+                  "offset": 1694
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1724
+                  "offset": 1725
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1756
+                  "offset": 1757
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1792
+                  "offset": 1793
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1818
+                  "offset": 1819
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1854
+                  "offset": 1855
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1898
+                  "offset": 1899
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 1966
+                  "offset": 1967
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2058
+                  "offset": 2059
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2855
+                  "offset": 2856
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2872
+                  "offset": 2873
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2905
+                  "offset": 2906
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2954
+                  "offset": 2955
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3032
+                  "offset": 3033
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3163
+                  "offset": 3164
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3307
+                  "offset": 3308
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3349
+                  "offset": 3350
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3603
+                  "offset": 3604
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3618
+                  "offset": 3619
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3633
+                  "offset": 3634
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3688
+                  "offset": 3689
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3721
+                  "offset": 3722
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3798
+                  "offset": 3799
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3862
+                  "offset": 3863
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3923
+                  "offset": 3924
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 3954
+                  "offset": 3955
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4053
+                  "offset": 4054
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4160
+                  "offset": 4161
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4173
+                  "offset": 4174
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4223
+                  "offset": 4224
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4344
+                  "offset": 4345
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4364
+                  "offset": 4365
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4440
+                  "offset": 4479
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4513
+                  "offset": 4552
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4543
+                  "offset": 4582
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4563
+                  "offset": 4602
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4675
+                  "offset": 4754
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4719
+                  "offset": 4798
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4785
+                  "offset": 4864
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4804
+                  "offset": 4883
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4823
+                  "offset": 4902
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4974
+                  "offset": 5054
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5036
+                  "offset": 5117
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5088
+                  "offset": 5170
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5111
+                  "offset": 5193
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5133
+                  "offset": 5215
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5185
+                  "offset": 5268
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5246
+                  "offset": 5328
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5416
+                  "offset": 5497
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5557
+                  "offset": 5638
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5581
+                  "offset": 5662
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5615
+                  "offset": 5696
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5185
+                  "offset": 5268
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5246
+                  "offset": 5328
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5416
+                  "offset": 5497
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5581
+                  "offset": 5662
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5615
+                  "offset": 5696
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5653
+                  "offset": 5734
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5831
+                  "offset": 5910
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6029
+                  "offset": 6109
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6083
+                  "offset": 6163
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6128
+                  "offset": 6208
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5133
+                  "offset": 5215
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6103
+                  "offset": 6183
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6128
+                  "offset": 6208
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6265
+                  "offset": 6344
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6307
+                  "offset": 6388
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6331
+                  "offset": 6412
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6379
+                  "offset": 6460
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 4974
+                  "offset": 5054
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5036
+                  "offset": 5117
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5088
+                  "offset": 5170
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5111
+                  "offset": 5193
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 5133
+                  "offset": 5215
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8695
+                  "offset": 8802
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6574
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 6882
+                  "offset": 6663
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2125,31 +2151,23 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2872
+                  "offset": 7058
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7023
+                  "offset": 2873
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7043
+                  "offset": 7111
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7059
+                  "offset": 7131
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7108
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7128
-                },
-                {
-                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7174
+                  "offset": 7147
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2157,95 +2175,99 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7229
+                  "offset": 7216
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7174
+                  "offset": 7262
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7284
+                  "offset": 7272
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7294
+                  "offset": 7305
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7536
+                  "offset": 7262
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7608
+                  "offset": 7381
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7734
+                  "offset": 7391
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7744
+                  "offset": 7630
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7790
+                  "offset": 7700
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7836
+                  "offset": 7827
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7853
+                  "offset": 7837
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7904
+                  "offset": 7882
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8017
+                  "offset": 7928
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8027
+                  "offset": 7945
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8037
+                  "offset": 7996
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8047
+                  "offset": 8109
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8057
+                  "offset": 8119
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 7043
+                  "offset": 8129
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8075
+                  "offset": 8139
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8085
+                  "offset": 8149
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8095
+                  "offset": 7131
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8105
+                  "offset": 8167
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8182
+                  "offset": 8177
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 8187
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
@@ -2253,195 +2275,203 @@
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8217
+                  "offset": 8274
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8267
+                  "offset": 8289
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8394
+                  "offset": 8309
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8499
+                  "offset": 8359
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8589
+                  "offset": 8485
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8614
+                  "offset": 8606
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8665
+                  "offset": 8696
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8695
+                  "offset": 8721
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8710
+                  "offset": 8772
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8748
+                  "offset": 8802
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8809
+                  "offset": 8817
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8881
+                  "offset": 8855
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8910
+                  "offset": 8916
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8936
+                  "offset": 8987
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8962
+                  "offset": 9016
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 8988
+                  "offset": 9042
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9084
+                  "offset": 9068
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9134
+                  "offset": 9094
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9160
+                  "offset": 9189
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9186
+                  "offset": 9240
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9245
+                  "offset": 9266
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9287
+                  "offset": 9292
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9320
+                  "offset": 9349
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9389
+                  "offset": 9391
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9438
+                  "offset": 9424
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9509
+                  "offset": 9493
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9530
+                  "offset": 9541
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9583
+                  "offset": 9612
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9614
+                  "offset": 9633
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9638
+                  "offset": 9687
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9676
+                  "offset": 9718
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9695
+                  "offset": 9742
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9844
+                  "offset": 9779
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9871
+                  "offset": 9798
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9891
+                  "offset": 9963
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 9931
+                  "offset": 9990
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10035
+                  "offset": 10008
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10057
+                  "offset": 10047
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10079
+                  "offset": 10149
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10104
+                  "offset": 10171
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 10132
+                  "offset": 10193
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10218
+                },
+                {
+                  "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
+                  "offset": 10246
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                "offset": 2256
+                "offset": 2257
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2437
+                  "offset": 2438
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2263
+                  "offset": 2264
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2263
+                  "offset": 2264
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2393
+                  "offset": 2394
                 },
                 {
                   "rebuilt_symbol": "?Run@CompilerParser@@QAEHXZ",
-                  "offset": 2762
+                  "offset": 2763
                 }
               ]
             }
@@ -2489,11 +2519,11 @@
             [
               {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 860
+                "offset": 1221
               },
               {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 1145
+                "offset": 1506
               }
             ]
           ],
@@ -2501,100 +2531,100 @@
             {
               "site": {
                 "rebuilt_symbol": "_get_next_token",
-                "offset": 69
+                "offset": 429
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 813
+                  "offset": 1173
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 159
+                  "offset": 519
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 283
+                  "offset": 643
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 283
+                  "offset": 643
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 300
+                  "offset": 660
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 283
+                  "offset": 643
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 813
+                  "offset": 1173
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 585
+                  "offset": 945
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 535
+                  "offset": 895
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 702
+                  "offset": 1062
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 76
+                  "offset": 436
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 751
+                  "offset": 1111
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 283
+                  "offset": 643
                 },
                 {
                   "rebuilt_symbol": "_get_next_token",
-                  "offset": 851
+                  "offset": 1211
                 }
               ]
             }
@@ -2736,11 +2766,11 @@
             [
               {
                 "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                "offset": 5982
+                "offset": 6128
               },
               {
                 "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                "offset": 6150
+                "offset": 6296
               }
             ]
           ],
@@ -2748,176 +2778,176 @@
             {
               "site": {
                 "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                "offset": 214
+                "offset": 344
               },
               "targets": [
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 800
+                  "offset": 930
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 287
+                  "offset": 417
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 403
+                  "offset": 533
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5812
+                  "offset": 5958
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 221
+                  "offset": 351
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 2238
+                  "offset": 2381
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 2067
+                  "offset": 2209
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 3574
+                  "offset": 3719
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 2904
+                  "offset": 3052
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5662
+                  "offset": 5809
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 718
+                  "offset": 848
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5362
+                  "offset": 5508
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5513
+                  "offset": 5658
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5212
+                  "offset": 5359
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 4896
+                  "offset": 5042
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 4730
+                  "offset": 4877
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 4565
+                  "offset": 4710
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 4375
+                  "offset": 4519
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 3755
+                  "offset": 3899
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 4065
+                  "offset": 4209
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 2821
+                  "offset": 2970
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 2593
+                  "offset": 2740
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5877
+                  "offset": 6023
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5842
+                  "offset": 5988
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5856
+                  "offset": 6002
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5063
+                  "offset": 5208
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5863
+                  "offset": 6009
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5822
+                  "offset": 5968
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 3499
+                  "offset": 3647
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5832
+                  "offset": 5978
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5849
+                  "offset": 5995
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5870
+                  "offset": 6016
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5904
+                  "offset": 6050
                 },
                 {
                   "rebuilt_symbol": "?Read@CompilerLexer@@UAEIXZ",
-                  "offset": 5884
+                  "offset": 6030
                 }
               ]
             }
@@ -3106,11 +3136,11 @@
             [
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 1605
+                "offset": 1744
               },
               {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 1637
+                "offset": 1776
               }
             ]
           ],
@@ -3118,40 +3148,40 @@
             {
               "site": {
                 "rebuilt_symbol": "_declare_symbol",
-                "offset": 806
+                "offset": 942
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 829
+                  "offset": 965
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 954
+                  "offset": 1090
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 829
+                  "offset": 965
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 841
+                  "offset": 977
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 813
+                  "offset": 949
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 813
+                  "offset": 949
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 813
+                  "offset": 949
                 },
                 {
                   "rebuilt_symbol": "_declare_symbol",
-                  "offset": 913
+                  "offset": 1049
                 }
               ]
             }
@@ -3197,6 +3227,62 @@
               274794419
             ]
           }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_emit_ir_node",
+                "offset": 2560
+              },
+              {
+                "rebuilt_symbol": "_emit_ir_node",
+                "offset": 2718
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_emit_ir_node",
+                "offset": 488
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 495
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 914
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 953
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 1009
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 1268
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 1247
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 1384
+                },
+                {
+                  "rebuilt_symbol": "_emit_ir_node",
+                  "offset": 2041
+                }
+              ]
+            }
+          ]
         }
       },
       "_scan_numeric_token": {
@@ -3236,11 +3322,11 @@
             [
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1745
+                "offset": 1790
               },
               {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1859
+                "offset": 1904
               }
             ]
           ],
@@ -3248,88 +3334,88 @@
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 668
+                "offset": 714
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 675
+                  "offset": 721
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 684
+                  "offset": 730
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 693
+                  "offset": 739
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 702
+                  "offset": 748
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 702
+                  "offset": 748
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 709
+                  "offset": 755
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1158
+                "offset": 1203
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1287
+                  "offset": 1332
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1324
+                  "offset": 1369
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1361
+                  "offset": 1406
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1398
+                  "offset": 1443
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_scan_numeric_token",
-                "offset": 1231
+                "offset": 1276
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1450
+                  "offset": 1494
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1469
+                  "offset": 1513
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1482
+                  "offset": 1526
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1499
+                  "offset": 1543
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1515
+                  "offset": 1559
                 },
                 {
                   "rebuilt_symbol": "_scan_numeric_token",
-                  "offset": 1530
+                  "offset": 1574
                 }
               ]
             }
@@ -3442,11 +3528,11 @@
             [
               {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 5301
+                "offset": 5330
               },
               {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 5569
+                "offset": 5598
               }
             ]
           ],
@@ -3454,96 +3540,12 @@
             {
               "site": {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 115
+                "offset": 130
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1597
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1026
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 154
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1157
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1255
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1558
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1026
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2006
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2134
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 3252
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 3642
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2654
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1026
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2654
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4726
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4604
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4011
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4102
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4551
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 122
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1876
-                },
-                {
-                  "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 122
+                  "offset": 1626
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
@@ -3551,63 +3553,147 @@
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 213
+                  "offset": 169
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 249
+                  "offset": 1186
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 544
+                  "offset": 1284
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 659
+                  "offset": 1587
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 4853
+                  "offset": 1055
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2594
+                  "offset": 2035
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 2654
+                  "offset": 2163
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 5155
+                  "offset": 3281
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 3671
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2683
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1055
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2683
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4755
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4633
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4040
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4131
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4580
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 137
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1905
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 137
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 1084
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 228
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 266
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 564
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 679
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 4882
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2623
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 2683
+                },
+                {
+                  "rebuilt_symbol": "_dispatch_recorded_pragma",
+                  "offset": 5184
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_dispatch_recorded_pragma",
-                "offset": 1699
+                "offset": 1728
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1736
+                  "offset": 1765
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1721
+                  "offset": 1750
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1706
+                  "offset": 1735
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1774
+                  "offset": 1803
                 },
                 {
                   "rebuilt_symbol": "_dispatch_recorded_pragma",
-                  "offset": 1847
+                  "offset": 1876
                 }
               ]
             }
@@ -3623,8 +3709,1586 @@
         "register_imports": {
           "require_all_register_calls_resolved": true
         }
+      },
+      "_read_directive_token": {
+        "original": {
+          "text_data": [
+            [
+              274746128,
+              274746212
+            ]
+          ],
+          "switches": {
+            "274744756": [
+              274745178,
+              274745623,
+              274745695,
+              274745790,
+              274744854,
+              274744854,
+              274745389,
+              274745427,
+              274745889,
+              274745925,
+              274891379,
+              274892602,
+              274891868,
+              274892023,
+              274891423
+            ],
+            "274744792": [
+              274744799,
+              274744811,
+              274892618,
+              274890774,
+              274892618,
+              274890878
+            ]
+          }
+        }
+      },
+      "_scan_quoted_literal": {
+        "original": {
+          "text_data": [
+            [
+              274789440,
+              274789496
+            ]
+          ],
+          "switches": {
+            "274789408": [
+              274789192,
+              274919282,
+              274789050,
+              274919334,
+              274789320
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_scan_quoted_literal",
+                "offset": 920
+              },
+              {
+                "rebuilt_symbol": "_scan_quoted_literal",
+                "offset": 976
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_scan_quoted_literal",
+                "offset": 177
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_scan_quoted_literal",
+                  "offset": 184
+                },
+                {
+                  "rebuilt_symbol": "_scan_quoted_literal",
+                  "offset": 445
+                },
+                {
+                  "rebuilt_symbol": "_scan_quoted_literal",
+                  "offset": 526
+                },
+                {
+                  "rebuilt_symbol": "_scan_quoted_literal",
+                  "offset": 705
+                },
+                {
+                  "rebuilt_symbol": "_scan_quoted_literal",
+                  "offset": 750
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_open_forced_include": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "CompilerIncludeAliases::Find": {
+        "register_imports": {
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_classify_parameter_list": {
+        "original": {
+          "switches": {
+            "274764489": [
+              274764379,
+              274764419,
+              274764446,
+              274764446
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_classify_parameter_list",
+                "offset": 360
+              },
+              {
+                "rebuilt_symbol": "_classify_parameter_list",
+                "offset": 376
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_classify_parameter_list",
+                "offset": 101
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_classify_parameter_list",
+                  "offset": 108
+                },
+                {
+                  "rebuilt_symbol": "_classify_parameter_list",
+                  "offset": 168
+                },
+                {
+                  "rebuilt_symbol": "_classify_parameter_list",
+                  "offset": 286
+                },
+                {
+                  "rebuilt_symbol": "_classify_parameter_list",
+                  "offset": 286
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_expand_macro": {
+        "original": {
+          "switches": {
+            "274752272": [
+              274898823,
+              274898805,
+              274898762,
+              274898706,
+              274752295,
+              274752279
+            ],
+            "274753100": [
+              274753010,
+              274752962,
+              274752540,
+              274752779,
+              274752940,
+              274752839,
+              274752540,
+              274752922,
+              274899571,
+              274753112
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_expand_macro",
+                "offset": 2563
+              },
+              {
+                "rebuilt_symbol": "_expand_macro",
+                "offset": 2668
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_expand_macro",
+                "offset": 224
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 465
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 447
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 378
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 250
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 319
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 231
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_expand_macro",
+                "offset": 1881
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 1888
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 1910
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 1975
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2174
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2405
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2207
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 1975
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2436
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2457
+                },
+                {
+                  "rebuilt_symbol": "_expand_macro",
+                  "offset": 2478
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_process_trigraph": {
+        "original": {
+          "switches": {
+            "274781621": [
+              274913937,
+              274914037,
+              274914025,
+              274913991,
+              274914019,
+              274914049,
+              274913997,
+              274914031,
+              274913985,
+              274914043,
+              274781628
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_process_trigraph",
+                "offset": 336
+              },
+              {
+                "rebuilt_symbol": "_process_trigraph",
+                "offset": 443
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_process_trigraph",
+                "offset": 159
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 166
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 187
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 193
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 199
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 205
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 211
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 217
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 223
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 229
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 235
+                },
+                {
+                  "rebuilt_symbol": "_process_trigraph",
+                  "offset": 241
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_initializer_bytes": {
+        "original": {
+          "switches": {
+            "274858888": [
+              274858341,
+              274957329,
+              274858428,
+              274858524,
+              274858895,
+              274858610,
+              274858778,
+              274859041,
+              274859370,
+              274858835
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_write_initializer_bytes",
+                "offset": 3867
+              },
+              {
+                "rebuilt_symbol": "_write_initializer_bytes",
+                "offset": 3928
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_write_initializer_bytes",
+                "offset": 461
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 698
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 584
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 985
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 840
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 1859
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 1181
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 468
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 2503
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 2197
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_bytes",
+                  "offset": 3855
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_write_initializer_symbol": {
+        "original": {
+          "switches": {
+            "274857792": [
+              274857646,
+              274857833,
+              274857899,
+              274857944,
+              274857761
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_write_initializer_symbol",
+                "offset": 848
+              },
+              {
+                "rebuilt_symbol": "_write_initializer_symbol",
+                "offset": 889
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_write_initializer_symbol",
+                "offset": 112
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_write_initializer_symbol",
+                  "offset": 311
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_symbol",
+                  "offset": 119
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_symbol",
+                  "offset": 224
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_symbol",
+                  "offset": 286
+                },
+                {
+                  "rebuilt_symbol": "_write_initializer_symbol",
+                  "offset": 839
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_make_unary_expression": {
+        "original": {
+          "text_data": [
+            [
+              274838552,
+              274838670
+            ]
+          ],
+          "switches": {
+            "274837728": [
+              274837942,
+              274838241,
+              274837739,
+              274838334,
+              274837961,
+              274838410,
+              274947104,
+              274947492
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_make_unary_expression",
+                "offset": 2272
+              },
+              {
+                "rebuilt_symbol": "_make_unary_expression",
+                "offset": 2406
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_make_unary_expression",
+                "offset": 177
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 184
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 1370
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 203
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 1561
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 830
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 1713
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 1779
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 1990
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_make_unary_expression",
+                "offset": 240
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 302
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 658
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 247
+                },
+                {
+                  "rebuilt_symbol": "_make_unary_expression",
+                  "offset": 688
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_make_binary_expression": {
+        "original": {
+          "switches": {
+            "274831356": [
+              274831533,
+              274831533,
+              274831533,
+              274831607,
+              274831533,
+              274831533,
+              274831363,
+              274831533,
+              274831533,
+              274831434
+            ],
+            "274831379": [
+              274831386,
+              274831386,
+              274831386,
+              274831386,
+              274831415
+            ],
+            "274831450": [
+              274831489,
+              274831489,
+              274831489,
+              274831457,
+              274831489,
+              274831511
+            ],
+            "274831600": [
+              274832754,
+              274833373,
+              274832826,
+              274833426,
+              274833835,
+              274831622,
+              274832754,
+              274832826,
+              274833335,
+              274833335,
+              274831622,
+              274832918,
+              274832826,
+              274832693,
+              274833335,
+              274832187,
+              274832826,
+              274832754,
+              274832826,
+              274832754,
+              274832826,
+              274833335,
+              274832754,
+              274832826,
+              274833373,
+              274831855,
+              274832826,
+              274831622,
+              274833812,
+              274832826,
+              274832693,
+              274832754,
+              274832826,
+              274832826,
+              274832908
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_make_binary_expression",
+                "offset": 4296
+              },
+              {
+                "rebuilt_symbol": "_make_binary_expression",
+                "offset": 4672
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_make_binary_expression",
+                "offset": 105
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 287
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 235
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 287
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 287
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 255
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 287
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 117
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 112
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 381
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_make_binary_expression",
+                "offset": 509
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3944
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 950
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 4161
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 516
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3887
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3887
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 516
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 950
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3508
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3887
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 950
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3887
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3944
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 950
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 516
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 4009
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3508
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3579
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 3661
+                },
+                {
+                  "rebuilt_symbol": "_make_binary_expression",
+                  "offset": 4286
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_simplify_binary_expression": {
+        "original": {
+          "switches": {
+            "274838772": [
+              274838947,
+              274839186,
+              274838947,
+              274839452,
+              274838801,
+              274838859,
+              274839022,
+              274839022,
+              274838947,
+              274838947,
+              274839022,
+              274839239,
+              274838947,
+              274838947,
+              274838801,
+              274838859,
+              274839022,
+              274838947,
+              274838947,
+              274839186,
+              274839239,
+              274838947,
+              274838947,
+              274838947,
+              274838947,
+              274839452,
+              274947867
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_simplify_binary_expression",
+                "offset": 1258
+              },
+              {
+                "rebuilt_symbol": "_simplify_binary_expression",
+                "offset": 1414
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_simplify_binary_expression",
+                "offset": 181
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 465
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 1180
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 200
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 321
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 590
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 590
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 590
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 865
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 200
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 321
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 590
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 465
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 865
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 188
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 1180
+                },
+                {
+                  "rebuilt_symbol": "_simplify_binary_expression",
+                  "offset": 1245
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_fold_binary_expression": {
+        "original": {
+          "switches": {
+            "274835391": [
+              274835578,
+              274835578,
+              274835578,
+              274835578,
+              274835642
+            ],
+            "274835787": [
+              274836275,
+              274836467,
+              274836530,
+              274836241,
+              274945991,
+              274945894,
+              274836086,
+              274945736,
+              274835911,
+              274836028,
+              274836590,
+              274836163,
+              274946146,
+              274836293,
+              274946197,
+              274835961,
+              274835961,
+              274836120,
+              274946176,
+              274946428
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_fold_binary_expression",
+                "offset": 4303
+              },
+              {
+                "rebuilt_symbol": "_fold_binary_expression",
+                "offset": 4426
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_fold_binary_expression",
+                "offset": 1921
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 1928
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 1951
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2011
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2133
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2189
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2319
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2449
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2541
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2671
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2801
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 2881
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3003
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3092
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3148
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3171
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3231
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3231
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3311
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3549
+                },
+                {
+                  "rebuilt_symbol": "_fold_binary_expression",
+                  "offset": 3569
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_begin_switch_statement": {
+        "original": {
+          "switches": {
+            "274854603": [
+              274955887,
+              274955887,
+              274955931,
+              274955931,
+              274955931,
+              274955887,
+              274854438
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_begin_switch_statement",
+                "offset": 500
+              },
+              {
+                "rebuilt_symbol": "_begin_switch_statement",
+                "offset": 554
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_begin_switch_statement",
+                "offset": 224
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 231
+                },
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 252
+                },
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 294
+                },
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 294
+                },
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 273
+                },
+                {
+                  "rebuilt_symbol": "_begin_switch_statement",
+                  "offset": 317
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_parse_macro_arguments": {
+        "original": {
+          "switches": {
+            "274784156": [
+              274784679,
+              274784405,
+              274784163,
+              274784430,
+              274784405,
+              274784469,
+              274784439,
+              274783915,
+              274783880,
+              274784652,
+              274915554,
+              274915575,
+              274783891
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_parse_macro_arguments",
+                "offset": 2346
+              },
+              {
+                "rebuilt_symbol": "_parse_macro_arguments",
+                "offset": 2439
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_parse_macro_arguments",
+                "offset": 853
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 1255
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 915
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 1334
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 901
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 915
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 982
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 949
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 885
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 860
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 1187
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 1213
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 1234
+                },
+                {
+                  "rebuilt_symbol": "_parse_macro_arguments",
+                  "offset": 2006
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_find_call_symbol": {
+        "original": {
+          "switches": {
+            "274851318": [
+              274851325,
+              274954280,
+              274954258,
+              274954258,
+              274954258,
+              274954252,
+              274851329
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_find_call_symbol",
+                "offset": 140
+              },
+              {
+                "rebuilt_symbol": "_find_call_symbol",
+                "offset": 275
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_find_call_symbol",
+                "offset": 50
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 57
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 65
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 119
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 119
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 119
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 104
+                },
+                {
+                  "rebuilt_symbol": "_find_call_symbol",
+                  "offset": 130
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_check_type_qualifiers": {
+        "original": {
+          "switches": {
+            "274850017": [
+              274850033,
+              274850024,
+              274850024,
+              274850033,
+              274850033,
+              274850024,
+              274850033,
+              274953736
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_check_type_qualifiers",
+                "offset": 261
+              },
+              {
+                "rebuilt_symbol": "_check_type_qualifiers",
+                "offset": 367
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_check_type_qualifiers",
+                "offset": 71
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 78
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 78
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 78
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 88
+                },
+                {
+                  "rebuilt_symbol": "_check_type_qualifiers",
+                  "offset": 249
+                }
+              ]
+            }
+          ]
+        }
       }
-    }
+    },
+    "callback_tables": [
+      {
+        "name": "encountered enum name hash",
+        "original": [
+          275134576,
+          275134580
+        ],
+        "rebuilt_begin": "_c1_enum_hashers",
+        "count": 1,
+        "expected_functions": [
+          "_hash_enum_name"
+        ],
+        "when_accepted": [
+          "_enum_symbol_bucket"
+        ]
+      },
+      {
+        "name": "encountered enum name equality",
+        "original": [
+          275134560,
+          275134564
+        ],
+        "rebuilt_begin": "_c1_enum_matchers",
+        "count": 1,
+        "expected_functions": [
+          "_enum_names_equal"
+        ],
+        "when_accepted": [
+          "_find_enum_entry"
+        ]
+      }
+    ]
   },
-  "function_properties": {}
+  "function_properties": {
+    "_process_trigraph": {
+      "pending_extent": false
+    },
+    "_finish_initializer_record": {
+      "pending_extent": false
+    }
+  }
 }

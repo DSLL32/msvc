@@ -316,13 +316,16 @@ int RECON_THISCALL CompilerNullDebugModule::Slot18(unsigned, unsigned, unsigned,
 }
 
 int RECON_THISCALL CompilerNullDebugModule::Slot20(unsigned)
-{ __asm { int 3 } return 0; }
+{ return 1; }
 
 int RECON_THISCALL CompilerNullDebugModule::Slot30(const char *, int)
-{ __asm { int 3 } return 0; }
+{ return 1; }
 
-int RECON_THISCALL CompilerNullDebugModule::Slot3c(unsigned, unsigned, unsigned *)
-{ __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerNullDebugModule::Slot3c(unsigned, unsigned, unsigned *index)
+{
+    *index = 0;
+    return 1;
+}
 
 int RECON_THISCALL CompilerNullDebugModule::Slot54(int signature, int *language)
 {

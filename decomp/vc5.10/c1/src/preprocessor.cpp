@@ -471,11 +471,14 @@ extern "C" int __cdecl restore_forced_source_input(void)
     const char *name;
     int status = 0;
     if (c1_data.source_include_depth == -1) return 0;
-#ifdef RECON_NATIVE_TEST
-    if (c1_data.source_include_depth != 0 || !frame || (frame->flags & 1) ||
-        !(frame->flags & 4) || c1_data.dependency_local || c1_data.options.dependency_output)
-        recon_unsupported("nested, PCH or dependency source restoration is not yet modeled");
+    if ((unsigned)c1_data.source_include_depth > 1 || !frame || (frame->flags & 1) ||
+        !(frame->flags & 4) || c1_data.dependency_local || c1_data.options.dependency_output) {
+#ifdef __linux__
+        recon_unsupported("deeper, PCH or dependency source restoration is not yet modeled");
+#else
+        __asm { int 3 }
 #endif
+    }
     if (c1_data.source_include_depth > 0) {
         if (!c1_bss.debug_module->Slot34(c1_bss.current_context.value))
             compiler_error(73, ".\\p0io.c", 947);

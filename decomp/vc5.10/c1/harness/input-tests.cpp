@@ -969,3 +969,286 @@ extern "C" int c1_test_output_destroy(void)
         fgetc(stream) != EOF) { fclose(stream); return 0; }
     return !fclose(stream);
 }
+
+extern "C" int c1_test_include_alias_lookup(void)
+{
+    const char replacement[] = "selected.h";
+    CompilerIncludeAlias second = { NULL, "language.h", replacement, 0, 1 };
+    CompilerIncludeAlias first = { &second, "LANGUAGE.H", "wrong-kind.h", 1, 0 };
+    CompilerIncludeAliases aliases = { &first };
+    int kind = 0;
+    if (aliases.Find("Language.H", &kind) != replacement || kind != 1) return 0;
+    kind = 2;
+    if (aliases.Find("language.h", &kind) || kind != 2) return 0;
+    aliases.head = NULL;
+    if (aliases.Find("language.h", &kind) || kind != 2) return 0;
+    return second.replacement == replacement && first.next == &second;
+}
+
+extern "C" int c1_test_recorded_lexer_initialize(void)
+{
+    DWORD objects[18], blocks[34];
+    unsigned marker = 0;
+    memset(objects, 0xa5, sizeof(objects));
+    memset(blocks, 0x96, sizeof(blocks));
+    c1_bss.current_context.object = &marker;
+    c1_bss.current_context.value = 73;
+    c1_bss.arenas[2].cursor = (BYTE *)(blocks + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(blocks + 33);
+    CompilerRecordedLexer *lexer = (CompilerRecordedLexer *)(objects + 1);
+    if (lexer->Initialize(2, 1) != lexer || !*(void **)lexer ||
+        lexer->initial_object != &marker || lexer->current_object != &marker ||
+        lexer->initial_value != 73 || lexer->current_value != 73 ||
+        lexer->arena_kind != 2 || !lexer->active || lexer->buffer.position != 4 ||
+        lexer->buffer.arena_kind != 2 || lexer->buffer.block != (CompilerContextBlock *)(blocks + 1) ||
+        lexer->buffer.block->next || c1_bss.arenas[2].cursor != (BYTE *)(blocks + 33)) return 0;
+    if (memcmp(&lexer->buffer, &lexer->read_buffer, 12) ||
+        memcmp(&lexer->buffer, &lexer->start_buffer, 12)) return 0;
+    if ((((BYTE *)lexer)[60] & ~1U) != 0xa4) return 0;
+    for (unsigned i = 61; i < 64; ++i) if (((BYTE *)lexer)[i] != 0xa5) return 0;
+    for (unsigned j = 4; j < 128; ++j) if (((BYTE *)lexer->buffer.block)[j] != 0x96) return 0;
+    return objects[0] == 0xa5a5a5a5 && objects[17] == 0xa5a5a5a5 &&
+        blocks[0] == 0x96969696 && blocks[33] == 0x96969696;
+}
+
+extern "C" void __cdecl begin_record_definition(CompilerIrSymbol *, CompilerType *);
+extern "C" int c1_test_record_definition_write_extent(void)
+{
+    DWORD objects[18], blocks[34], member_storage[8];
+    CompilerContextFrame context;
+    CompilerIrSymbol symbol;
+    CompilerType type;
+    CompilerRecordDefinition *frame = &c1_bss.record_definitions[0];
+    memset(objects, 0xa5, sizeof(objects));
+    memset(blocks, 0x96, sizeof(blocks));
+    memset(member_storage, 0xa6, sizeof(member_storage));
+    memset(&c1_bss.record_definitions[0], 0xa5, 2 * sizeof(*frame));
+    memset(&type, 0, sizeof(type));
+    type.flags = 0x402;
+    c1_bss.arenas[2].cursor = (BYTE *)(blocks + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(blocks + 33);
+    CompilerRecordedLexer *lexer = ((CompilerRecordedLexer *)(objects + 1))->Initialize(2, 0);
+    context.stream = (CompilerLexer *)lexer;
+    c1_bss.current_context.saved_frame = &context;
+    c1_bss.browser_filename = NULL;
+    c1_bss.pools[7].cursor = (BYTE *)(member_storage + 1);
+    c1_bss.pools[7].remaining = 24;
+    symbol.Initialize(4, NULL, 0);
+    symbol.value_type = &type;
+    c1_data.record_definition_depth = -1;
+    begin_record_definition(&symbol, &type);
+    CompilerRecordMembers *members = (CompilerRecordMembers *)(member_storage + 1);
+    if (c1_data.record_definition_depth || frame->symbol != &symbol || frame->type != &type ||
+        frame->initialized_04 || frame->byte_size || frame->bitfield_type_flags ||
+        frame->alignment != 1 || frame->initialized_14 || frame->flags != 0xa1 ||
+        frame->unmodeled_16[0] != 0xa5 || frame->unmodeled_16[1] != 0xa5 ||
+        symbol.kind4_context != members || members->unmodeled_00 || members->first || members->last ||
+        c1_bss.pools[7].cursor != (BYTE *)(member_storage + 4) || c1_bss.pools[7].remaining != 12)
+        return 0;
+    for (unsigned i = 0; i < sizeof(*frame); ++i)
+        if (((BYTE *)&c1_bss.record_definitions[1])[i] != 0xa5) return 0;
+    return member_storage[0] == 0xa6a6a6a6 && member_storage[4] == 0xa6a6a6a6;
+}
+
+extern "C" int c1_test_parameter_link_write_extent(void)
+{
+    DWORD storage[8];
+    CompilerIrSymbol symbol;
+    BYTE before[sizeof(symbol)];
+    CompilerParameterScope scope(0);
+    memset(storage, 0xa5, sizeof(storage));
+    memset(&symbol, 0xa6, sizeof(symbol));
+    memcpy(before, &symbol, sizeof(symbol));
+    c1_bss.parameter_nesting = 1;
+    c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 7);
+    scope.Link(&symbol);
+    CompilerParameterBindings *list = (CompilerParameterBindings *)(storage + 1);
+    if (scope.parameter_bindings != list || list->arena_kind != 2 ||
+        list->first != &symbol.binding || list->last != &symbol.binding ||
+        symbol.binding.next || symbol.previous_parameter ||
+        c1_bss.arenas[2].cursor != (BYTE *)(storage + 4)) return 0;
+    for (unsigned i = 0; i < sizeof(symbol); ++i)
+        if (!(i >= 12 && i < 16) && !(i >= 32 && i < 36) && ((BYTE *)&symbol)[i] != before[i])
+            return 0;
+    return storage[0] == 0xa5a5a5a5 && storage[4] == 0xa5a5a5a5 &&
+        storage[5] == 0xa5a5a5a5 && storage[6] == 0xa5a5a5a5 && storage[7] == 0xa5a5a5a5;
+}
+
+/* A byte transfer preserves opaque payload too; this checks extent, not a
+ * semantic default or cross-process equality for those bytes. */
+extern "C" int c1_test_initializer_copy_extent(void)
+{
+    struct OwnedSymbol { DWORD before; CompilerIrSymbol symbol; DWORD after; } destination;
+    CompilerIrSymbol source;
+    memset(&source, 0x6b, sizeof(source));
+    memset(&destination, 0xa5, sizeof(destination));
+    source.kind = 10;
+    destination.symbol.CopyInitializerFrom(&source, 1);
+    if (memcmp(&source, &destination.symbol, 52) ||
+        destination.before != 0xa5a5a5a5U || destination.after != 0xa5a5a5a5U) return 0;
+    source.kind = 3;
+    destination.symbol.CopyInitializerFrom(&source, 1);
+    if (memcmp(&source, &destination.symbol, 52)) return 0;
+    DWORD storage[8];
+    CompilerRecordMembers original;
+    CompilerSymbolBinding first, last;
+    original.first = &first;
+    original.last = &last;
+    source.kind = 4;
+    source.kind4_context = &original;
+    memset(storage, 0xa5, sizeof(storage));
+    c1_bss.arenas[1].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[1].committed_limit = (BYTE *)(storage + 8);
+    destination.symbol.CopyInitializerFrom(&source, 1);
+    CompilerRecordMembers *copy = (CompilerRecordMembers *)(storage + 1);
+    if (destination.symbol.kind4_context != copy || copy->arena_kind != 1 ||
+        copy->first != &first || copy->last != &first ||
+        c1_bss.arenas[1].cursor != (BYTE *)(storage + 4)) return 0;
+    for (unsigned i = 0; i < 48; ++i)
+        if (((BYTE *)&source)[i] != ((BYTE *)&destination.symbol)[i]) return 0;
+    for (unsigned i = 4; i < 8; ++i) if (storage[i] != 0xa5a5a5a5U) return 0;
+    return storage[0] == 0xa5a5a5a5U && destination.before == 0xa5a5a5a5U &&
+        destination.after == 0xa5a5a5a5U;
+}
+
+extern "C" CompilerParserNode *__cdecl make_typed_unary_operation(unsigned, CompilerType *, CompilerParserNode *);
+extern "C" CompilerParserNode *__cdecl make_enumerator_expression(CompilerIrSymbol *);
+extern "C" int c1_test_unary_node_extent(void)
+{
+    DWORD storage[10];
+    CompilerParserNode child;
+    CompilerType type;
+    CompilerIrSymbol symbol;
+    CompilerParserNode *value;
+    memset(storage, 0xa5, sizeof(storage));
+    memset(&child, 0x96, sizeof(child));
+    c1_data.expression_arena_kind = 2;
+    c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 10);
+    value = make_typed_unary_operation(0x15a, &type, &child);
+    if ((void *)value != storage + 1 || c1_bss.arenas[2].cursor != (BYTE *)(storage + 7) ||
+        value->kind != 90 || value->flags != 1 || value->type != &type || value->left != &child)
+        return 0;
+    for (unsigned i = 2; i < 4; ++i) if (((BYTE *)value)[i] != 0xa5) return 0;
+    for (unsigned j = 8; j < 16; ++j) if (((BYTE *)value)[j] != 0xa5) return 0;
+    for (unsigned k = 20; k < 24; ++k) if (((BYTE *)value)[k] != 0xa5) return 0;
+    for (unsigned l = 7; l < 10; ++l) if (storage[l] != 0xa5a5a5a5) return 0;
+    if (storage[0] != 0xa5a5a5a5) return 0;
+    for (unsigned m = 0; m < sizeof(child); ++m) if (((BYTE *)&child)[m] != 0x96) return 0;
+    for (int negative = 0; negative < 2; ++negative) {
+        memset(storage, 0xa5, sizeof(storage));
+        c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+        symbol.integer_value = negative ? -17 : 0;
+        c1_data.builtin_types.type_0063 = &type;
+        value = make_enumerator_expression(&symbol);
+        if ((void *)value != storage + 1 || c1_bss.arenas[2].cursor != (BYTE *)(storage + 7) ||
+            value->kind != 101 || value->flags != 3 || value->type != &type ||
+            value->low != (unsigned)symbol.integer_value || value->high != (negative ? ~0U : 0)) return 0;
+        for (unsigned n = 2; n < 4; ++n) if (((BYTE *)value)[n] != 0xa5) return 0;
+        for (unsigned o = 8; o < 16; ++o) if (((BYTE *)value)[o] != 0xa5) return 0;
+        for (unsigned q = 7; q < 10; ++q) if (storage[q] != 0xa5a5a5a5) return 0;
+        if (storage[0] != 0xa5a5a5a5) return 0;
+    }
+    return 1;
+}
+
+extern "C" CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *, CompilerParserNode *, CompilerParserNode *);
+extern "C" int c1_test_binary_comparison_signedness(void)
+{
+    struct Comparison { BYTE operation; int signed_result, unsigned_result; } comparisons[] = {
+        { 59, 0, 0 }, { 76, 1, 1 }, { 68, 1, 0 },
+        { 69, 1, 0 }, { 62, 0, 1 }, { 63, 0, 1 }
+    };
+    CompilerTypeEntry integer_entry;
+    CompilerTypeEntry *buckets[2048];
+    CompilerType &integer_type = integer_entry.type;
+    CompilerType operand_type;
+    memset(&integer_entry, 0, sizeof(integer_entry));
+    memset(buckets, 0, sizeof(buckets));
+    memset(&integer_type, 0, sizeof(integer_type));
+    integer_type.flags = 0x63;
+    integer_type.attributes = 0x100;
+    buckets[0x163] = &integer_entry;
+    c1_data.type_buckets = buckets;
+    c1_bss.type_description_depth = 0;
+    c1_data.builtin_types.type_0063 = &integer_type;
+    c1_data.expression_arena_kind = 2;
+    for (unsigned sign = 0; sign < 2; ++sign) {
+        operand_type = integer_type;
+        if (sign) operand_type.flags |= 0x4000;
+        for (unsigned i = 0; i < sizeof(comparisons) / sizeof(comparisons[0]); ++i) {
+            DWORD storage[10];
+            CompilerParserNode left, right, node, saved_node;
+            memset(storage, 0xa5, sizeof(storage));
+            memset(&left, 0x6b, sizeof(left));
+            memset(&right, 0x7c, sizeof(right));
+            memset(&node, 0x8d, sizeof(node));
+            left.kind = right.kind = 101;
+            left.flags = right.flags = 3;
+            left.type = right.type = &operand_type;
+            left.low = ~0U;
+            left.high = sign ? 0 : ~0U;
+            right.low = 1;
+            right.high = 0;
+            node.kind = comparisons[i].operation;
+            node.flags = 2;
+            node.type = &integer_type;
+            node.left = &left;
+            node.right = &right;
+            saved_node = node;
+            c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+            c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 10);
+            CompilerParserNode *value = fold_binary_expression(&node, &left, &right);
+            unsigned expected = sign ? comparisons[i].unsigned_result : comparisons[i].signed_result;
+            if ((void *)value != storage + 1 || value->kind != 101 ||
+                value->type != &integer_type || value->low != expected || value->high ||
+                value->flags != (expected ? 3 : 0x83) ||
+                memcmp(&node, &saved_node, sizeof(node)) ||
+                c1_bss.arenas[2].cursor != (BYTE *)(storage + 7)) return 0;
+            for (unsigned j = 2; j < 4; ++j) if (((BYTE *)value)[j] != 0xa5) return 0;
+            for (unsigned k = 8; k < 16; ++k) if (((BYTE *)value)[k] != 0xa5) return 0;
+            if (storage[0] != 0xa5a5a5a5U) return 0;
+            for (unsigned tail = 7; tail < 10; ++tail)
+                if (storage[tail] != 0xa5a5a5a5U) return 0;
+        }
+    }
+    return 1;
+}
+
+extern "C" int __cdecl integer_value_loses_bits(int, int, int, __int64);
+extern "C" int c1_test_integer_conversion_ranges(void)
+{
+    struct Range { int width, destination_unsigned, source_unsigned; __int64 value; int loses; } ranges[] = {
+        {1,0,0,-128,0}, {1,0,0,-129,1}, {1,0,0,127,0}, {1,0,0,128,1},
+        {1,1,0,-255,0}, {1,1,0,-256,1}, {1,1,0,255,0}, {1,1,0,256,1},
+        {1,0,1,255,0}, {1,0,1,256,1},
+        {2,0,0,-32768,0}, {2,0,0,-32769,1}, {2,0,0,32767,0}, {2,0,0,32768,1},
+        {4,0,0,-2147483648LL,0}, {4,0,0,-2147483649LL,1},
+        {4,0,0,2147483647LL,0}, {4,0,0,2147483648LL,1},
+        {4,1,0,-4294967295LL,0}, {4,1,0,-4294967296LL,1},
+        {8,0,0,(-9223372036854775807LL-1),0}, {8,0,0,9223372036854775807LL,0},
+        {8,1,0,(-9223372036854775807LL-1),0}, {8,0,1,-1,0}
+    };
+    for (unsigned i = 0; i < sizeof(ranges)/sizeof(ranges[0]); ++i)
+        if (integer_value_loses_bits(ranges[i].width, ranges[i].destination_unsigned,
+            ranges[i].source_unsigned, ranges[i].value) != ranges[i].loses) return 0;
+    return 1;
+}
+
+struct ParserLabelStack;
+extern "C" ParserLabelStack *__cdecl push_parser_label_link(ParserLabelStack **, unsigned);
+extern "C" int c1_test_parser_label_link_extent(void)
+{
+    DWORD storage[6];
+    memset(storage, 0xa5, sizeof(storage));
+    ParserLabelStack *previous = (ParserLabelStack *)(storage + 5), *head = previous;
+    c1_bss.arenas[4].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[4].committed_limit = (BYTE *)(storage + 5);
+    ParserLabelStack *entry = push_parser_label_link(&head, 4);
+    return entry == (ParserLabelStack *)(storage + 1) && head == entry &&
+        storage[1] == (DWORD)previous && storage[2] == 0xa5a5a5a5U &&
+        storage[0] == 0xa5a5a5a5U && storage[3] == 0xa5a5a5a5U &&
+        storage[4] == 0xa5a5a5a5U && storage[5] == 0xa5a5a5a5U &&
+        c1_bss.arenas[4].cursor == (BYTE *)(storage + 3);
+}

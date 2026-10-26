@@ -461,15 +461,16 @@ static int type_arena_snapshot(void)
         saved->anonymous_global_symbol != &owned_symbols[0] ||
         saved->local_size_symbol != &owned_symbols[1]) return 0;
     if (saved->abstract_symbol_free != &owned_symbols[0].binding) return 0;
-    /* The open-ended cache prefix remains unmodeled. Distinct owned storage
+    /* The cache gaps remain unmodeled. Distinct owned storage
      * sentinels detect copying it along with its separately known head9. */
-    memset(saved->symbol_cache.known.unmodeled_00, 0xa5, 36);
-    memset(c1_data.symbol_cache.known.unmodeled_00, 0x5a, 36);
+    memset(saved->symbol_cache.known.unmodeled_00, 0xa5, sizeof(saved->symbol_cache.known.unmodeled_00));
+    memset(c1_data.symbol_cache.known.unmodeled_00, 0x5a, sizeof(c1_data.symbol_cache.known.unmodeled_00));
     c1_data.abstract_symbol_free = &owned_symbols[1].binding;
     /* Owned representation sentinels are not original table defaults.
-     * Restore must not transfer any of these22 unknown slots. */
+     * Restore must not transfer any of these17 unknown slots. */
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 6 || i == 9 || i == 13) continue;
+        if (i == 1 || i == 3 || i == 4 || i == 5 || i == 6 ||
+            i == 9 || i == 10 || i == 12 || i == 13) continue;
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
     }
@@ -572,11 +573,12 @@ static int type_arena_snapshot(void)
     if (initialize_compiler_pass()) return 0;
     if (c1_data.abstract_symbol_free != &owned_symbols[0].binding ||
         saved->abstract_symbol_free != &owned_symbols[0].binding) return 0;
-    for (i = 0; i < 36; ++i)
+    for (i = 0; i < sizeof(saved->symbol_cache.known.unmodeled_00); ++i)
         if (saved->symbol_cache.known.unmodeled_00[i] != 0xa5 ||
             c1_data.symbol_cache.known.unmodeled_00[i] != 0x5a) return 0;
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 6 || i == 9 || i == 13) continue;
+        if (i == 1 || i == 3 || i == 4 || i == 5 || i == 6 ||
+            i == 9 || i == 10 || i == 12 || i == 13) continue;
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
     }

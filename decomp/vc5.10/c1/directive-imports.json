@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "scope": "Finite normal-return ABI premises for cached strchr/_stricmp calls in include lookup; no provider body/runtime credit.",
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "calling_convention": "i386 Microsoft __cdecl preserves ESI on ordinary return; exceptional and nonlocal returns are unclaimed.",
+  "caller": {
+    "function": "_open_forced_include",
+    "load_rva": 45036,
+    "iat_rva": 381236,
+    "calls_rva": [
+      45048,
+      45069
+    ]
+  },
+  "contracts": [
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "strchr"
+      },
+      "preserves": [
+        "esi"
+      ],
+      "sdk": {
+        "path": "toolchains/5.10/include/STRING.H",
+        "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+        "line": 140,
+        "declaration": "_CRTIMP char *  __cdecl strchr(const char *, int);"
+      }
+    },
+    {
+      "qualified_import": {
+        "dll": "msvcrt.dll",
+        "name": "_stricmp"
+      },
+      "preserves": [
+        "ebx"
+      ],
+      "sdk": {
+        "path": "toolchains/5.10/include/STRING.H",
+        "sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+        "line": 142,
+        "declaration": "_CRTIMP int     __cdecl _stricmp(const char *, const char *);"
+      }
+    }
+  ],
+  "alias_lookup": {
+    "function": "CompilerIncludeAliases::Find",
+    "load_rva": 181869,
+    "iat_rva": 381212,
+    "call_rva": 181880
+  }
+}

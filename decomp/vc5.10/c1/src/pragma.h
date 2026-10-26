@@ -1,6 +1,6 @@
 #ifndef C1_PRAGMA_H
 #define C1_PRAGMA_H
-#include "c1.h"
+#include "compiler-state.h"
 #include <recon.h>
 /* C1 token selectors0..49; C++-only map-region/implementation selectors omitted. */
 enum CompilerPragma {
@@ -52,6 +52,10 @@ enum CompilerPragma {
     PRAGMA_WARNING = 28,
     PRAGMA_UNKNOWN = -1
 };
+struct CompilerIrSymbol;
+/* These existing pragma/segment cells remain source-only until their first
+ * supported declaration consumer establishes defaults and restoration. */
+#define declaration_reference_defaults c1_data.segment_defaults
 extern unsigned control_option_kind;
 extern const BYTE *control_option_value;
 extern WORD control_state_first, control_state_second;
