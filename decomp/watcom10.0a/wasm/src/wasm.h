@@ -52,6 +52,8 @@ void CarveDestroy(carve_t cv);
 void CarveFree(carve_t cv, void *element);
 void MemFree(void *memory);
 void *MemAlloc(size_t size);
+void *MemRealloc(void *ptr,size_t size);
+void *AsmRealloc(void *ptr,size_t size);
 void *AsmAlloc(size_t size);
 void Fatal(unsigned message, ...);
 int InternalError(const char *file, unsigned line);
@@ -83,6 +85,7 @@ typedef struct fixup {
 typedef char fixup_size_check[sizeof(fixup) == 18 ? 1 : -1];
 typedef char fixup_target_check[offsetof(fixup,lr.target_offset) == 14 ? 1 : -1];
 fixup *FixNew(void);
+fixup *FixDup(const fixup *source);
 typedef char fixup_offset_check[offsetof(fixup,loc_offset) == 5 ? 1 : -1];
 #pragma pack(1)
 struct linnum_data { unsigned short number; unsigned long offset; };
@@ -543,6 +546,18 @@ typedef char globals_expand_check[offsetof(global_vars,expand_count) == 14 ? 1 :
 typedef char globals_for_check[offsetof(global_vars,for_counter) == 18 ? 1 : -1];
 extern global_vars Globals;
 typedef struct queuenode { void *next, *data; } queuenode;
+typedef struct array_blk { struct array_blk *next; char data[1]; } array_blk;
+typedef struct array_hdr {
+    array_blk *block;
+    size_t elm_size,num_elms;
+    void *def;
+} array_hdr;
+array_hdr *ArrCreate(size_t elm_size,void *def);
+void ArrDestroy(array_hdr *arr);
+array_blk *newBlock(array_hdr *arr);
+void *ArrNewElm(array_hdr *arr,size_t number);
+void *ArrAccess(array_hdr *arr,size_t number);
+int ArrWalk(array_hdr *arr,void *parameter,int (*callback)(void *,void *));
 typedef struct qdesc { void *head, *tail; } qdesc;
 extern qdesc *LnameQueue;
 extern qdesc *LinnumQueue;
@@ -552,6 +567,7 @@ extern qdesc *AliasQueue;
 void *QDequeue(qdesc *queue);
 void QInit(qdesc *queue);
 void QEnqueue(qdesc *queue, void *item);
+void QJoinQueue(qdesc *dest,qdesc *source);
 void IdxInit(void);
 int LnameInsert(char *name);
 void ModuleInit(void);

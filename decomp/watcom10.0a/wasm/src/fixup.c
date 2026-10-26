@@ -211,3 +211,12 @@ size_t FixGenPRef(physref *ref, char *buffer, int type)
     else p = put16(p,(unsigned short)ref->offset);
     return p - buffer;
 }
+
+/* CF1c280..1c29d, initial fixup.c shallow copy in the genuine carve owner. */
+fixup *FixDup(const fixup *source)
+{
+    fixup *item;
+    if (source == NULL) return NULL;
+    item=CarveAlloc(myCarver);*item=*source;
+    return item;
+}

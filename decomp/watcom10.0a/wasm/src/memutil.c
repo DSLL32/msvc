@@ -49,3 +49,12 @@ void MemFree(void *memory)
 {
     AsmFree(memory);
 }
+
+/* CF168e0..168ff, older womp allocator routes through assembler wrapper. */
+void *MemRealloc(void *pointer,size_t size)
+{
+    void *result;
+    result=AsmRealloc(pointer,size);
+    if (result == NULL && size != 0) Fatal(0);
+    return result;
+}

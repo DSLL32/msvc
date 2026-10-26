@@ -49,3 +49,13 @@ void AsmFree(void *ptr)
 {
     if (ptr != NULL) free(ptr);
 }
+
+/* CF161d0..161eb. Preserve the original erroneous input-pointer test,
+ * which happens after realloc rather than testing its returned owner. */
+void *AsmRealloc(void *pointer,size_t size)
+{
+    void *result;
+    result=realloc(pointer,size);
+    if (pointer == NULL) Fatal(0);
+    return result;
+}

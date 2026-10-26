@@ -231,3 +231,17 @@ void ObjPut32(obj_rec *objr, unsigned long value)
     *(unsigned long *)(objr->data + objr->curoff) = value;
     objr->curoff += 4;
 }
+
+/* Initial queue.c CF1c1cc..1c20d; source links remain borrowed aliases.
+ * Both-empty inputs dereference source->tail in the original and are outside
+ * the tested contract. The source queue is deliberately not cleared. */
+void QJoinQueue(qdesc *dest,qdesc *source)
+{
+    if (dest->head == NULL) dest->head=source->head;
+    else if (source->head == NULL) return;
+    else {
+        if (dest->tail == NULL) InternalError("g:\\bld\\womp\\c\\queue.c",46);
+        *(void **)dest->tail=source->head;
+    }
+    dest->tail=source->tail;*(void **)source->tail=NULL;
+}

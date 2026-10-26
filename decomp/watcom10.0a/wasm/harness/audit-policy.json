@@ -2011,6 +2011,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "AsmRealloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MemRealloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FixDup": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
