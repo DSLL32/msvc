@@ -4,6 +4,7 @@
 #include "records.h"
 #include "function-input.h"
 #include "instruction-encoding.h"
+#include "register-use.h"
 #include <recon.h>
 extern int optimize_global, codeview_debug, string_blocks;
 /* Original [000685d0,00068870), including its twelve-entry kind table. */
@@ -266,7 +267,7 @@ int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsi
     unsigned operation = (instruction->opcode >> 8) & 255;
     if (operation == MC_JMP || operation == MC_RET) return 0;
     if (bytes == 1 && cpu_model == 3) {
-        if (widen_instruction_encoding(instruction, bytes) || add_alignment_prefix(instruction)) return 1;
+        if (widen_instruction_encoding(instruction, bytes) || insert_alignment_increment(instruction)) return 1;
         return 0;
     }
     return widen_instruction_encoding(instruction, bytes);
@@ -323,4 +324,69 @@ int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsig
         instruction = instruction->previous;
     }
     return 0;
+}
+
+/* Original33170..332a4, fastcall ECX machine record/RET0. On i386,
+   fill a single alignment byte with INC of a dead register. Scan backward
+   for a candidate, and forward to the next flag access: a read forbids the
+   insertion while an overwrite or block boundary permits it. Native opcode
+   property bits2/4 at82210 agree exactly with the named flag properties.
+   The register-eligibility child remains its own original graph vertex. */
+int __fastcall insert_alignment_increment(MachineInstruction *instruction)
+{
+    MachineInstruction *previous, *scan, *inserted;
+    MachineOperand operand;
+    unsigned kind, operation;
+    unsigned short number;
+    for (;;) {
+        kind = instruction->opcode & 15;
+        if (kind == 1 || kind == 2) return 0;
+        if (kind == 0) {
+            operation = (instruction->opcode >> 8) & 255;
+            if (operation == MC_JCC || operation == MC_JMP) return 0;
+            if (machine_operand_counts[operation] > 0) {
+                number = alignment_increment_register(instruction);
+                if (number != 0xffff) {
+                    previous = instruction->previous;
+                    scan = previous->next;
+                    while ((scan->opcode & 15) != 7) {
+                        if (!(scan->opcode & 15) &&
+                            (machine_selection_properties[(scan->opcode >> 8) & 255] &
+                             (MC_WRITES_FLAGS | MC_READS_FLAGS))) break;
+                        scan = scan->next;
+                    }
+                    if ((scan->opcode & 15) ||
+                        !(machine_selection_properties[(scan->opcode >> 8) & 255] & MC_READS_FLAGS)) {
+                        initialize_operand(&operand, OPERAND_REGISTER, number, 0, 0);
+                        inserted = new_machine_record(0, MC_INC, 4, &operand);
+                        insert_machine_after(previous, inserted);
+                        inserted->record.encoding_length =
+                            (inserted->record.encoding_length & ~0x3feU) | 1 | 0xe000;
+                        return 1;
+                    }
+                }
+            }
+        }
+        instruction = instruction->previous;
+    }
+}
+
+/* Original332b0..33327, fastcall ECX candidate/AX result, RET0.
+   A full-width first-register overwrite may tolerate INC immediately before
+   it only if its other operand does not read the old value. ESP/EBP and the
+   byte/word alias range8..31 are excluded; preserve the original >31 allowance. */
+unsigned short __fastcall alignment_increment_register(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    int count = machine_operand_counts[operation];
+    unsigned short number;
+    if (count < 1 || (instruction->operands[0].flags & 15) != OPERAND_REGISTER)
+        return 0xffff;
+    number = instruction->operands[0].value.reg.words.number;
+    if ((number > 7 && number <= 31) || number == 5 || number == 4 ||
+        (instruction->opcode & 0xf0) != 0x40) return 0xffff;
+    if (count > 1 && operand_mentions_register(&instruction->operands[1], number))
+        return 0xffff;
+    if (!overwrites_first_register(instruction, 0)) return 0xffff;
+    return number;
 }

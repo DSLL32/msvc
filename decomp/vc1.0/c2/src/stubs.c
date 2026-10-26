@@ -57,11 +57,8 @@ int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 #include "output.h"
-__declspec(naked) void output_noop_data(void) { RECON_TRACE_NAKED_ENTRY(output_noop_data) __asm int 3 }
-__declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_noop_value) __asm int 3 }
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
-__declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
 
 
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
@@ -110,7 +107,6 @@ unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
 #include "float-peepholes.h"
 #include "float-machine.h"
 #include <recon.h>
-int __fastcall add_alignment_prefix(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
     unsigned char storage, unsigned offset, unsigned short type, unsigned fallback,
     unsigned char search) { __asm int 3 }

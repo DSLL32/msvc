@@ -10,5 +10,6 @@ MachineInstruction *__fastcall next_machine_operation(MachineInstruction *instru
 int __fastcall alignment_lookahead(MachineInstruction *instruction);
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes);
 int __fastcall widen_instruction_encoding(MachineInstruction *instruction, unsigned bytes);
-int __fastcall add_alignment_prefix(MachineInstruction *instruction);
+int __fastcall insert_alignment_increment(MachineInstruction *instruction);
+unsigned short __fastcall alignment_increment_register(MachineInstruction *instruction);
 #endif

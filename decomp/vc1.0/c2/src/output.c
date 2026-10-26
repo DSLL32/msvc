@@ -1,6 +1,7 @@
 /* Original output callback constructor [00068dc0,00069100). */
 #include "output.h"
 #include "options.h"
+#include "machine.h"
 #include <recon.h>
 extern int dos_object, coff_object, codeview_debug, line_debug;
 extern int default_library, ansi_mode, floating_frontend;
@@ -38,6 +39,30 @@ void __fastcall output_noop_function(FunctionSymbol *symbol, char *filename,
     int frame, unsigned line)
 {
 }
+/* Original68d50..68d51, unused ECX data/EDX byte count, RET0. */
+void __fastcall output_noop_data(void *data, unsigned bytes)
+{
+    (void)data;
+    (void)bytes;
+}
+
+/* Original68d80..68d81, unused ECX value/EDX symbol, RET0. The
+   no-object callback is shared by address/reference/size output slots. */
+void __fastcall output_noop_value(unsigned value, SymbolHeader *symbol)
+{
+    (void)value;
+    (void)symbol;
+}
+
+/* Original69160..69171, fastcall ECX symbol/RET0. In no-object mode,
+   data and function symbols retain the referenced/output bit in their common
+   descriptor prefix at22. Other descriptor kinds are untouched. */
+void __fastcall mark_unwritten_symbol(SymbolHeader *symbol)
+{
+    if (symbol->kind == 1 || symbol->kind == 4)
+        ((BackendSymbol *)symbol)->output_flags |= 1;
+}
+
 void initialize_output_callbacks(void)
 {
     char *library;

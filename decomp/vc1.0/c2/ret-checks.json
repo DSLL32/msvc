@@ -730,6 +730,31 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@mark_unwritten_symbol@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@output_noop_data@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@add_alignment_prefix@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@alignment_increment_register@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@output_noop_value@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -1,20 +1,55 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1452 completes the supported C++ coefficient-pair classifier case.
-There are 1337 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 352464/399693 original code-section bytes (88.1837%);
-adding 940 owned text-data bytes gives 353404/399693 (88.4189%). These clipped
+Checkpoint 1457 completes the standalone listing-only profile-auditor case.
+There are 1342 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 352910/399693 original code-section bytes (88.2953%);
+adding 940 owned text-data bytes gives 353850/399693 (88.5304%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 379778/399693
-(95.0174%). A reliable non-CRT denominator remains unavailable; 47 pending App
-rows and 19915B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 380224/399693
+(95.1290%). A reliable non-CRT denominator remains unavailable; 43 pending App
+rows and 19469B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 32 cached IO cases, one INTERNAL DIRECT
-case and 236 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 33 cached IO cases, one INTERNAL DIRECT
+case and 238 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+Untouched CL `/O2 /Ob0 /G3 /Z7 /FAcs /W3 profile.c` compiles the 1671B typed
+ROM-profile auditor into a 3487B object and 6072B source/code listing. Actual
+001752 ex/sy/in/gl/db inputs are 1680/405/215/345/299B. The explicitly derived
+standalone C2 invocation removes only the optional `-Foprofile.obj ` token; all
+other actual arguments, source and IR stay unchanged. It succeeds with the same
+exact listing and no object, empty streams/status 0. Listing SHA256:
+`c47b8c34862b6c1280124d01ea75eabbb6fcf81cb3b7716f3929d76fff1af998`.
+There is no normalization. Strict inventory pins profile.obj absence. CL did
+not emit the derived flags; pre-C2 parent observation leaves CL exit unobserved.
+
+Five whole App owners add 446B: no-object symbol mark (17), data no-op (1),
+i386 alignment INC insertion (308), its independently reached register checker
+(119), and value no-op (1). The provisional prefix helper is accurately renamed
+insert_alignment_increment while its logical registry identity/RVA is preserved
+through an explicit canonical MAP symbol. Three obsolete naked callback stubs
+are now typed ordinary fastcall C. No-op record/relocation remain unclaimed.
+
+The real first alignment inserts one INC EDI, encoded length/flags E001. Two
+live-owner units verify that insertion, old order/opcode preservation, register
+eligibility and cold exclusions, plus the actual default-profile symbol flags
+4-to-5 and a cold other-kind no-write control. Existing named read/write-flags
+properties exactly match the relevant original bits across all 231 opcodes;
+no new opcode table or assembly implementation was added. No CRT/shim change.
+
+Final `make -j4 audit check unit` passes in 2.129s (phases unsplit), including
+1347 paired graphs/accepted extents and 151 scoped RET contracts. Global RET
+remains unresolved at finish_debugging's indirect tail. Completion IO takes
+26.605ms: setup 15.649/execution 6.467/checks 4.489. All measured attempts,
+including corrected missing-include/test-declaration failures, remain with raw
+references and completion/coverage/timing summaries under
+`~/.ai-tmp/msvc2/vc1.0/c2/listing-only/`. Analysis/editing/authoring and scratch
+observer compilation/packing are unmeasured; combined phases are unsplit and
+not additive task elapsed. Full gates and README/commit remain case-level work.
+
+The preceding finite C++ comparison case adds one App owner/139B plus24B table.
 Untouched CL `/O2 /Ob2 /G5 /Z7 /W3 classify.cpp` genuinely invokes C1XX3232.EXE.
 Its supported 1531B finite coefficient classifier and standalone original C2
 agree on the complete 1808B object, empty streams/status 0. Normalized SHA256:
