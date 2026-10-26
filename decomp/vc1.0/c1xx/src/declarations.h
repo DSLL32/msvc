@@ -185,7 +185,7 @@ typedef char SymbolReferenceDepthOffsetMustBe1[(offsetof(SymbolReferenceState, s
         ClassInfo *class_info; \
         CppSymbol *parameter_next; \
     } detail; \
-    union { unsigned value; unsigned char segment_kind; short declaring_class; SymbolVirtualFunction virtual_function; SymbolReferenceState reference; SymbolBitField bit_field; VirtualTable *virtual_table; CppSymbol *scope_members; HashTable *enumerators; } auxiliary;
+    union { unsigned value; unsigned char segment_kind; short declaring_class; SymbolVirtualFunction virtual_function; SymbolReferenceState reference; SymbolBitField bit_field; VirtualTable *virtual_table; CppSymbol *scope_members, *conversion_source; HashTable *enumerators; } auxiliary;
 typedef struct TagSymbol {
     COMMON_SYMBOL_FIELDS
 } TagSymbol;

@@ -18,6 +18,7 @@
 #include "virtual-table-output.h"
 #include "member-access.h"
 #include "symbol-bindings.h"
+#include "segments.h"
 #include <recon.h>
 
 extern unsigned char *permanent_next;
@@ -181,11 +182,11 @@ unsigned * const pch_root_cells[149] = {
     ROOT(classes_pending_table_output), /* 9f3d0 */
     ROOT(static_member_aliases), /* 9f3d4 */
     ROOT(declaration_parameter_buckets), /* 9f3d8 */
-    ROOT(pch_compiler_image.roots[135]), /* 9f3dc; pending default_far_data_segment */
+    ROOT(default_far_data_segment), /* 9f3dc */
     ROOT(default_bss_segment), /* 9f3e0 */
     ROOT(default_constant_segment), /* 9f3e4 */
     ROOT(default_data_segment), /* 9f3e8 */
-    ROOT(pch_compiler_image.roots[139]), /* 9f3ec; pending default_far_code_segment */
+    ROOT(default_far_code_segment), /* 9f3ec */
     ROOT(default_code_segment), /* 9f3f0 */
     ROOT(name_default_ctor_closure), /* 9f3f4 */
     ROOT(constructor_closures), /* 9f3f8 */

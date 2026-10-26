@@ -8,6 +8,11 @@
 #include "parameters.h"
 #include "member-pointers.h"
 #include "class-lookup.h"
+#include "segments.h"
+#include "braced-initializers.h"
+#include "macros.h"
+#include "mangling.h"
+#include "object-initializers.h"
 #include "member-expressions.h"
 #include "expression-preparation.h"
 #include "type-sizes.h"
@@ -2036,4 +2041,255 @@ IrToken *__stdcall convert_general_to_virtual_data_pointer(IrToken *expression, 
     result = preserve_virtual_data_null(result, original_table);
     if (prefix) result = new_right_typed_expression(0x40, prefix, result);
     return result;
+}
+
+/* Original0x4daa0..0x4daec, stdcall4. Search from the enclosing
+   declaration back toward the source; yield the owner after the last edge. */
+QualifierBinding *__stdcall last_virtual_conversion_path(QualifierBinding *path)
+{
+    QualifierBinding *last;
+    BaseClassLink *base;
+    if (!path || (((CppSymbol *)path->target)->kind & 31) == 4) return 0;
+    last = last_virtual_conversion_path(path->next);
+    if (last) return last;
+    base = (BaseClassLink *)path->target;
+    if (base->state & 1) return path->next;
+    if (base->displacement && !member_conversion_preserves_virtual_layout(path))
+        return path->next;
+    return 0;
+}
+
+/* Original0x4d710..0x4d768, stdcall16. Keep the three initialized
+   class-pair/direction words in the requested actual compiler arena. */
+MemberConversionKey *__stdcall new_member_conversion_key(CppSymbol *target,
+    CppSymbol *source, int forward, short arena)
+{
+    MemberConversionKey *key;
+    ArenaPool *pool;
+    if (!arena) key = allocate_permanent(sizeof(MemberConversionKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(MemberConversionKey))
+            refill_arena(&compiler_arena, pool);
+        key = (MemberConversionKey *)pool->next;
+        pool->remaining -= sizeof(MemberConversionKey);
+        pool->next += sizeof(MemberConversionKey);
+    }
+    key->target = target;
+    key->source = source;
+    key->forward = forward;
+    return key;
+}
+
+char *__stdcall name_member_conversion_table(CppSymbol *symbol, MemberConversionKey *key);
+
+/* Original0x4d570..0x4d6c0, stdcall4. Declare the generated vdispmap
+   as a retained integer array, sized from the selected owner's virtual groups. */
+CppSymbol *__stdcall new_member_conversion_table(MemberConversionKey *key)
+{
+    CppSymbol *symbol = allocate_permanent(sizeof(CppSymbol));
+    ArenaPool *pool = &compiler_arena.pools[2];
+    DeclarationType context;
+    CppSymbol *owner;
+    TypeShape *array;
+    unsigned short attributes;
+    int count;
+    symbol->kind = 1;
+    symbol->name = name_vdispmap;
+    if (token_allocation_flags & 0x20) symbol->type = allocate_permanent(sizeof(CType));
+    else {
+        if (pool->remaining < (int)sizeof(CType)) refill_arena(&compiler_arena, pool);
+        symbol->type = (CType *)pool->next;
+        pool->remaining -= sizeof(CType);
+        pool->next += sizeof(CType);
+    }
+    attributes = normalize_type_attributes(2, 0);
+    symbol->type->attributes = attributes;
+    symbol->flags |= 0x80;
+    symbol->flags |= 4;
+    symbol->name = name_member_conversion_table(symbol, key);
+    if ((symbol->type->attributes & 7) == 2)
+        apply_symbol_based_type(symbol, (CppSymbol *)(default_far_code_segment ?
+            default_far_code_segment : default_far_data_segment));
+    owner = key->forward ? key->target : key->source;
+    count = vector_count(owner->detail.class_info->virtual_table_groups) + 1;
+    array = new_type_shape(2, attributes, &count);
+    attach_type_shape(symbol, array);
+    context.type = builtin_integer_type();
+    /* The three copied storage bytes replace all prior local bits except
+       the already determined kind1; no undefined high local bits survive. */
+    context.storage[0] = (declaration_storage[0] & ~7) | 0x41;
+    context.storage[1] = declaration_storage[1] | 0x20;
+    context.storage[2] = declaration_storage[2];
+    symbol = apply_declaration_type(&context, symbol);
+    symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
+    return symbol;
+}
+
+/* Original0x4d6c0..0x4d704, stdcall8. Decorate vdispmap with both
+   real class owners while preserving its pending declaration type. */
+char *__stdcall name_member_conversion_table(CppSymbol *symbol, MemberConversionKey *key)
+{
+    CType *saved = symbol->type;
+    char *name;
+    symbol->type = type_0064_q1000;
+    symbol->storage[0] = (symbol->storage[0] & ~5) | 2;
+    symbol->declaration_flags &= ~0x300;
+    symbol->auxiliary.conversion_source = key->source;
+    name = intern_identifier(write_decorated_name(0, symbol, key->target, 0));
+    symbol->type = saved;
+    return name;
+}
+
+/* Original0x4d770..0x4d7c8, stdcall8. Retain all three key words
+   independently of the temporary lookup key and its arena lifetime. */
+MemberConversionKey *__stdcall copy_member_conversion_key(MemberConversionKey *key, short arena)
+{
+    MemberConversionKey *copy;
+    ArenaPool *pool;
+    if (!arena) copy = allocate_permanent(sizeof(MemberConversionKey));
+    else {
+        if (arena == -1) arena = 0;
+        pool = &compiler_arena.pools[arena];
+        if (pool->remaining < (int)sizeof(MemberConversionKey)) refill_arena(&compiler_arena, pool);
+        copy = (MemberConversionKey *)pool->next;
+        pool->remaining -= sizeof(MemberConversionKey);
+        pool->next += sizeof(MemberConversionKey);
+    }
+    *copy = *key;
+    return copy;
+}
+
+/* Original0x4c420..0x4c4be, stdcall24. The original tests the TARGET
+   model for2, although this dispatch normally targets3. Preserve that check:
+   replacing it with a source-model test would repair the historical2-to3 bug. */
+IrToken *__stdcall convert_compact_to_virtual_method_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    int adjustment_word, table_word;
+    IrToken *saved, *storage, *function, *adjustment, *table_offset;
+    CppSymbol *owner = member_pointer_owner_class(type);
+    compute_member_pointer_adjustment(owner, 0, displacement, virtual_base,
+        &adjustment_word, &table_word);
+    if (member_pointer_inheritance_model(type) == 2) {
+        storage = member_pointer_component(expression, 0, &saved);
+        function = member_pointer_function_value(storage, expression);
+        storage = member_pointer_component(expression, 1, &saved);
+        adjustment = member_pointer_adjustment_value(storage, expression);
+        adjustment = adjust_member_pointer_displacement(adjustment, adjustment_word);
+    } else {
+        function = expression;
+        adjustment = make_integer_constant(adjustment_word);
+    }
+    /* No virtual base, or an ignored failed query in the helper, leaves
+       table_word unwritten. Preserve that local/read without a fallback. */
+    table_offset = make_integer_constant(table_word);
+    return build_virtual_method_pointer(type, function, adjustment, table_offset);
+}
+
+int __stdcall data_member_conversion_needs_null_check(IrToken *expression);
+
+/* Original0x4c180..0x4c23e, stdcall24. Widen a compact data offset
+   and preserve null through the real one-evaluation object/condition pair. */
+IrToken *__stdcall convert_compact_to_virtual_data_pointer(IrToken *expression, CType *type,
+    QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base)
+{
+    CppSymbol *owner = member_pointer_owner_class(type);
+    int adjustment_word, table_word;
+    IrToken *value, *address, *offset, *table_offset, *converted;
+    CType *integer_type;
+    compute_member_pointer_adjustment(owner, 0, displacement, virtual_base,
+        &adjustment_word, &table_word);
+    if (data_member_conversion_needs_null_check(expression)) {
+        prepare_data_member_object(expression, &value, &address);
+        integer_type = builtin_integer_type();
+        offset = make_member_at_offset(address, adjustment_word, integer_type);
+        /* As in the method converter, absent/failed query leaves the original
+           table_word local unwritten; do not initialize a replacement value. */
+        table_offset = make_integer_constant(table_word);
+        converted = make_virtual_data_member_pointer(type, offset, table_offset);
+        return preserve_null_data_member_conversion(converted, value, expression->type);
+    }
+    integer_type = builtin_integer_type();
+    offset = make_member_at_offset(expression, adjustment_word, integer_type);
+    table_offset = make_integer_constant(table_word);
+    return make_virtual_data_member_pointer(type, offset, table_offset);
+}
+
+/* Original0x4c2a0..0x4c2ce, stdcall4. A known non-null constant
+   needs no conditional preservation; unknown values and null constants do. */
+int __stdcall data_member_conversion_needs_null_check(IrToken *expression)
+{
+    IrToken *null_value;
+    if (expression && expression->kind == 7) {
+        null_value = make_null_member_pointer(expression->type);
+        if (null_value->value.integer != expression->value.integer) return 0;
+    }
+    return 1;
+}
+
+int __stdcall find_virtual_base_pointer(CppSymbol *base, CppSymbol *derived,
+    unsigned *pointer_offset, unsigned *table_offset, CType **pointer_type);
+void __stdcall write_member_conversion_table(CppSymbol *symbol, unsigned *values, int count);
+
+/* Original0x4d870..0x4d9b8, stdcall8. Materialize the deferred class
+   map using the original direction, table-byte indices and integer width. */
+void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol)
+{
+    MemberConversionKey *key = description;
+    unsigned width = builtin_integer_type()->flags & 15;
+    CppSymbol *owner = key->forward ? key->target : key->source;
+    int count = vector_count(owner->detail.class_info->virtual_table_groups) + 1;
+    unsigned bytes = ((unsigned)count * sizeof(unsigned) + 3) & ~3U;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    unsigned *values;
+    VirtualBaseSearch search;
+    unsigned source_pointer, target_pointer, source_index, target_index;
+    if (pool->remaining < (int)bytes) refill_arena(&compiler_arena, pool);
+    values = (unsigned *)pool->next;
+    pool->remaining -= bytes;
+    pool->next += bytes;
+    if (key->forward) {
+        if (find_virtual_base_pointer(key->target, key->source,
+            &source_pointer, &source_index, 0)) values[0] = source_index;
+        else values[0] = 0;
+    }
+    begin_virtual_base_search(&search, key->forward ? key->target : key->source);
+    while (next_virtual_base_search(&search)) {
+        /* The first query's ignored failure leaves its output words untouched,
+           whereas the second explicitly substitutes a zero table index. */
+        query_virtual_base_pointer(search.tag, key->source,
+            &source_pointer, &source_index, 0);
+        if (!find_virtual_base_pointer(search.tag, key->target,
+            &target_pointer, &target_index, 0)) target_index = 0;
+        if (key->forward) values[target_index / width] = source_index;
+        else values[source_index / width] = target_index;
+    }
+    write_member_conversion_table(symbol, values, count);
+}
+
+/* Original0x4d9c0..0x4da4b, stdcall12. Emit each retained map word
+   through the ordinary initializer stream and its actual integer type. */
+void __stdcall write_member_conversion_table(CppSymbol *symbol, unsigned *values, int count)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    CppSymbol *element;
+    IrToken *value;
+    if (pool->remaining < (int)sizeof(CppSymbol)) refill_arena(&compiler_arena, pool);
+    element = (CppSymbol *)pool->next;
+    pool->remaining -= sizeof(CppSymbol);
+    pool->next += sizeof(CppSymbol);
+    symbol->attributes |= 4;
+    symbol->storage[0] = (symbol->storage[0] & ~5) | 2;
+    write_literal_initializer(symbol, 0, 0);
+    element->kind = 9;
+    element->name = 0;
+    while (count > 0) {
+        value = make_integer_constant(*values++);
+        element->type = value->type;
+        write_initializer_value(element, value, 0);
+        --count;
+    }
+    flush_initializer_records();
 }

@@ -66,7 +66,6 @@ void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
-void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
 void report_error(unsigned code, ...) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
@@ -279,10 +278,8 @@ int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 
 
 
 CppSymbol *__stdcall last_overload_declaration(OverloadSet *overloads) { __asm { int 3 } return 0; }
-unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
-int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
@@ -327,11 +324,9 @@ void browser_end_macro_expansion(void) { __asm { int 3 } }
 
 char *__stdcall make_local_static_destructor_name(CppSymbol *object, CppSymbol *function) { __asm { int 3 } return 0; }
 
-IrToken *__stdcall convert_compact_to_virtual_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_compact_to_general_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_virtual_to_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_general_to_compact_method_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
-IrToken *__stdcall convert_compact_to_virtual_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_compact_to_general_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_virtual_to_compact_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_general_to_compact_data_pointer(IrToken *expression, CType *type, QualifierBinding *path, int forward, int displacement, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
@@ -408,13 +403,3 @@ void __stdcall mark_pch_declaration_thunk_key(MemberPointerThunkKey *key) { __as
 void __stdcall mark_pch_deferred_type_key(void *description) { __asm { int 3 } }
 
 void __stdcall mark_pch_symbol_binding(void *binding) { __asm { int 3 } }
-
-
-QualifierBinding *__stdcall last_virtual_conversion_path(QualifierBinding *path)
-{ __asm { int 3 } return 0; }
-MemberConversionKey *__stdcall new_member_conversion_key(CppSymbol *target,
-    CppSymbol *source, int forward, short arena) { __asm { int 3 } return 0; }
-MemberConversionKey *__stdcall copy_member_conversion_key(MemberConversionKey *key, short arena)
-{ __asm { int 3 } return 0; }
-CppSymbol *__stdcall new_member_conversion_table(MemberConversionKey *key)
-{ __asm { int 3 } return 0; }

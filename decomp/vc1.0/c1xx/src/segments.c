@@ -5,6 +5,9 @@
 #include "macros.h"
 #include <recon.h>
 extern SegmentSymbol *default_data_segment;
+/* Encountered default far-segment roots are initially NULL in original data. */
+SegmentSymbol *default_far_data_segment; /* original9f3dc */
+SegmentSymbol *default_far_code_segment; /* original9f3ec */
 
 /* Original0x550e0..0x55265, stdcall16. Existing declarations retain
    compatible code/data kinds and class names. Builtin segment indices5/2

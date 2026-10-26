@@ -275,3 +275,19 @@ int __cdecl equal_word_triplets(void *left, void *right)
     return first[0] == second[0] && first[1] == second[1] &&
         first[2] == second[2];
 }
+
+/* Original0x4d7d0..0x4d7f8, cdecl4. Class-pair keys hash the
+   aligned low twelve address bits of their first two words. */
+unsigned __cdecl hash_word_pair(void *key)
+{
+    unsigned *words = key;
+    return ((words[0] & 0xffc) >> 2) + ((words[1] & 0xffc) >> 2);
+}
+
+/* Original0x4d800..0x4d81f, cdecl8. Compare exactly the two class
+   pointer words; the direction word is deliberately absent from equality. */
+int __cdecl equal_word_pairs(void *left, void *right)
+{
+    unsigned *first = left, *second = right;
+    return first[0] == second[0] && first[1] == second[1];
+}

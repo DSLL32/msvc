@@ -1,6 +1,43 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Multi-service router is COMPLETE: case0032. The7,863-byte source adds a
+shared ServiceIdentity, a virtual Session interface and compact Clock callbacks
+to the command router. A sibling Clock alone retains compatible inherited
+vbtable indices; routing the two-level Session interface genuinely needs deferred
+mapping. All supported planning drafts/raw outputs remain in scratch; reconstruction
+uses only the final frozen source. No internal state or conversion outcome was forced.
+
+Twelve whole App bodies /1,588 code bytes were accepted: last virtual-path
+selection, temporary/permanent class-pair keys, hash/equality, generated table
+construction/naming/emission, compact-to-virtual method/data conversion and its
+null-check predicate. Key equality intentionally ignores direction. The known
+target-model check in the compact method converter is preserved rather than
+repairing the historical2-to3 behavior; this case's compact Clock callback uses
+the defined1-to3 path. Absent/failed query outputs retain original unwritten
+locals/read comments, without a new guard or invented selector.
+
+Generated table symbols reuse the real twelve-byte type and52-byte symbol
+layouts. A typed union alias names the actual conversion-source word. The two
+encountered far-segment globals have their original zero initial values and are
+bound to their existing PCH root slots, rather than introducing duplicate live
+storage; that adds no code credit. The current NT case does not qualify nonzero
+far-segment behavior. Fresh original/native observations match all12 entries,
+exit0, streams and six complete IR/browser artifacts, also byte-identical to the
+untouched supported baseline. No output exception, shared change or CRT source.
+Generated-program runtime behavior is outside this frontend compile/IR case.
+
+Totals:1,797 App bodies /1,904 historical frontiers, plus seven unchanged CRT
+source bodies. App-only union400,684 /476,418 B is84.10% of whole original code
+extent, not a non-CRT denominator;92 named App stubs remain. All33 cached native
+cases,32 unit groups and the1,805-function six-check graph/ABI audit pass, as do
+original-toolchain builds. Final original691.726 ms; native44.821 ms (setup20.558 ms,
+execution16.709 ms, checks7.553 ms). The one typed-header rebuild took30.722 s,
+separate from the complete closing gate3.269 s and fixture execution. Raw artifacts
+and ordinary paired reports remain in scratch, outside cases and Git.
+
+Earlier completed command adapter:
+
 Command adapter is COMPLETE: case0031. A6,199-byte C++ workload routes typed
 member callbacks and field selectors through single/multiple, virtual and
 full-generality command interfaces. It combines inherited same-model conversion,

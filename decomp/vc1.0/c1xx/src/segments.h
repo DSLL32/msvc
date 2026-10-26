@@ -2,6 +2,7 @@
 #define SEGMENTS_H
 #include "parser.h"
 #include <recon.h>
+extern SegmentSymbol *default_far_data_segment, *default_far_code_segment;
 CppSymbol *__stdcall find_name_in_chain(CppSymbol *symbol, char *name);
 SegmentSymbol *__stdcall find_segment_symbol(char *name);
 SegmentSymbol *__stdcall new_segment_symbol(char *name, char *class_name,

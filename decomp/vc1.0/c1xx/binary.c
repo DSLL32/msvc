@@ -1,5 +1,5 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1892 historical frontiers/1785 App bodies.
+ * Current completed-case boundary:1904 historical frontiers/1797 App bodies.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -9425,10 +9425,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_compact_to_virtual_data_pointer@24",
         .entry_rva = 0x3c180,
-        .code = (const ReconExtent[]) { { 0x3c180, 0x3c181 } },
+        .code = (const ReconExtent[]) { { 0x3c180, 0x3c23e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "convert_compact_to_virtual_data_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_preserve_null_data_member_conversion@12",
@@ -9450,10 +9451,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_convert_compact_to_virtual_method_pointer@24",
         .entry_rva = 0x3c420,
-        .code = (const ReconExtent[]) { { 0x3c420, 0x3c421 } },
+        .code = (const ReconExtent[]) { { 0x3c420, 0x3c4be } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "convert_compact_to_virtual_method_pointer",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_convert_virtual_to_compact_method_pointer@24",
@@ -9578,18 +9580,20 @@ static const ReconFunction functions[] = {
     {
         .name = "_hash_word_pair",
         .entry_rva = 0x3d7d0,
-        .code = (const ReconExtent[]) { { 0x3d7d0, 0x3d7d1 } },
+        .code = (const ReconExtent[]) { { 0x3d7d0, 0x3d7f8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "hash_word_pair",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_equal_word_pairs",
         .entry_rva = 0x3d800,
-        .code = (const ReconExtent[]) { { 0x3d800, 0x3d801 } },
+        .code = (const ReconExtent[]) { { 0x3d800, 0x3d81f } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "equal_word_pairs",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_types",
@@ -9603,10 +9607,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_emit_deferred_type_table@8",
         .entry_rva = 0x3d870,
-        .code = (const ReconExtent[]) { { 0x3d870, 0x3d871 } },
+        .code = (const ReconExtent[]) { { 0x3d870, 0x3d9b8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "emit_deferred_type_table",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_member_pointer_virtual_function@4",
@@ -19037,34 +19042,38 @@ static const ReconFunction functions[] = {
     {
         .name = "_last_virtual_conversion_path@4",
         .entry_rva = 0x3daa0,
-        .code = (const ReconExtent[]) { { 0x3daa0, 0x3daa1 } },
+        .code = (const ReconExtent[]) { { 0x3daa0, 0x3daec } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "last_virtual_conversion_path",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_member_conversion_key@16",
         .entry_rva = 0x3d710,
-        .code = (const ReconExtent[]) { { 0x3d710, 0x3d711 } },
+        .code = (const ReconExtent[]) { { 0x3d710, 0x3d768 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "new_member_conversion_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_copy_member_conversion_key@8",
         .entry_rva = 0x3d770,
-        .code = (const ReconExtent[]) { { 0x3d770, 0x3d771 } },
+        .code = (const ReconExtent[]) { { 0x3d770, 0x3d7c8 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "copy_member_conversion_key",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_new_member_conversion_table@4",
         .entry_rva = 0x3d570,
-        .code = (const ReconExtent[]) { { 0x3d570, 0x3d571 } },
+        .code = (const ReconExtent[]) { { 0x3d570, 0x3d6c0 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "new_member_conversion_table",
+        .implementation = RECON_IMPLEMENTED,
     },
 
     {
@@ -19114,6 +19123,36 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "preserve_general_data_null",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
+        .name = "_name_member_conversion_table@8",
+        .entry_rva = 0x3d6c0,
+        .code = (const ReconExtent[]) { { 0x3d6c0, 0x3d704 } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "name_member_conversion_table",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
+        .name = "_data_member_conversion_needs_null_check@4",
+        .entry_rva = 0x3c2a0,
+        .code = (const ReconExtent[]) { { 0x3c2a0, 0x3c2ce } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "data_member_conversion_needs_null_check",
+        .implementation = RECON_IMPLEMENTED,
+    },
+
+    {
+        .name = "_write_member_conversion_table@12",
+        .entry_rva = 0x3d9c0,
+        .code = (const ReconExtent[]) { { 0x3d9c0, 0x3da4b } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "write_member_conversion_table",
         .implementation = RECON_IMPLEMENTED,
     },
 
