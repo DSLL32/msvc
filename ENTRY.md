@@ -183,6 +183,16 @@ replace them. Preserve the original command-line serialization/tokenization,
 environment, handles and synchronous status. Children must start with their
 actual supplied environment, even when it omits `PATH` and all `RECON_*` settings.
 
+For the old Microsoft CRT spawn boundary, preserve its joined Windows command
+line rather than treating packed option strings as Linux argv elements.
+Canonical wrappers can opt into protocol v1 through root-only
+`NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1`. The read-only
+ELF marker advertises support for a sealed raw-command-line memfd inherited
+at descriptor 198; startup consumes and closes it before calling App code.
+Reject an occupied slot without overwriting it. Unmarked external programs
+retain ordinary exec arguments and receive no transport descriptor. This
+does not carry fixture state or change the child environment.
+
 Reuse the existing native reconstruction objects and flags. Cases continue to
 use the same application code through `libbinary.so`, with their own host setup
 and explicitly captured dependency responses where the case requires those.
