@@ -1022,3 +1022,9 @@ build/format4067-probe: tests/format4067-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 format4067-check: build/format4067-probe
 	$(PYTHON) tests/check-format4067.py $<
+
+.PHONY: setjmp3-live-resume-check
+build/setjmp3-live-resume-probe: tests/setjmp3-live-resume-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_NATIVE_SETJMP3_COUNT0 -DRECON_LEGACY_JMP_WORDS=16 $< $(SOURCES) -o $@
+setjmp3-live-resume-check: build/setjmp3-live-resume-probe
+	$(PYTHON) tests/check-setjmp3-live-resume.py $< 510

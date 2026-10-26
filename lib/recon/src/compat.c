@@ -578,7 +578,17 @@ void recon_longjmp(void *legacy, int value)
 #endif
     for (context = jump_contexts; context; context = context->next)
         if (context->legacy == legacy) {
-            if (context->opaque_setjmp3) recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
+            if (context->opaque_setjmp3) {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+                if(value!=2)recon_unsupported("MSVCRT510 count0 longjmp value");
+                /* The caller guarantees this same-thread frame is still live,
+                 * on the same chain with no active intervening SEH/C++ cleanup.
+                 * The owner tag proves the64B/count0 save, not those lifetimes. */
+                longjmp(context->host,2);
+#else
+                recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
+#endif
+            }
             if (context->watcom_normal_only) recon_unsupported("unreviewed Watcom saved-context resume");
             longjmp(context->host, value);
         }

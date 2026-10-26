@@ -371,10 +371,14 @@ observed MSVCRT `_setjmp3` intrinsic for ordinary source `setjmp`. It validates
 legacy object's address is an opaque owner token; original raw register/SEH
 writes and untouched tail remain in case evidence, not equated to glibc bytes.
 Cases must prove no application raw-field interpretation. Count/unwind variants
-and longjmp from these contexts fail explicitly until characterized. Ordinary
-VC1 setjmp/longjmp is unchanged. RC's unvisited IsValidCodePage/GetACP/CharNextA
-imports have SDK call ABIs and explicitly unsupported bodies, not guessed locale
-behavior.
+remain unsupported. Explicit510 may resume an existing count0 context with
+value2 through the native caller-frame longjmp. Same-thread, still-live caller
+and no intervening active SEH/C++ cleanup are caller preconditions; the registry
+tag establishes the64-byte/count0 save, not those lifetimes. Other values and
+profiles retain their denials for these opaque contexts. No Windows private
+context, SEH unwind or original x87 effects are modeled. Focused checks compare
+native control/status/valid-stack values, excluding incidental FP pointers and
+empty-register contents. Ordinary VC1 setjmp/longjmp is unchanged.
 
 FormatMessageA also supports the observed FROM_STRING0x400 path when source
 content matches a registered encountered ANSI message: exactly one `%1` string
