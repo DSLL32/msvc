@@ -55,11 +55,20 @@ typedef struct fmt_nov_data {
 } fmt_nov_data;
 typedef char old_nov_format_is_58[(sizeof(fmt_nov_data) == 58) ? 1 : -1];
 
+typedef struct fmt_qnx_data {
+    seg_flags *seg_flags;
+    unsigned long heapsize;
+    char *resource;
+    unsigned char flags, priv_level, reloc_flags;
+} fmt_qnx_data;
+typedef char old_qnx_format_is_15[(sizeof(fmt_qnx_data) == 15) ? 1 : -1];
+
 typedef struct fmt_data {
     union {
         unsigned char platform_data[58];
         fmt_os2_data os2;
         fmt_nov_data nov;
+        fmt_qnx_data qnx;
         struct {
             fmt_os2_data os2;
             unsigned long objalign;
@@ -209,6 +218,15 @@ extern unsigned char GetNovModule( void );
 extern unsigned char CompareProtSegments( address *left, address *right );
 extern int QOpenR( char *name );
 extern unsigned long CopyToLoad( int handle, char *name );
+extern void ChkBase4K( void );
+extern unsigned char ProcQNXFlat( void );
+extern unsigned char GetQNXSegFlags( void );
+extern unsigned char ProcQNXExecuteonly( void );
+extern unsigned char ProcQNXExecuteread( void );
+extern unsigned char ProcQNXReadOnly( void );
+extern unsigned char ProcQNXReadWrite( void );
+extern void SetQNXGroupFlags( void );
+extern void WriteQNXGroup( group_entry *group, unsigned long *segments );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

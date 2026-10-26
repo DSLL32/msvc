@@ -331,7 +331,7 @@ void CVGenGlobal( symbol *sym, section *sect )
     }
 }
 
-extern unsigned short FindGroupIdx( unsigned short );
+extern unsigned short ToQNXIndex( unsigned short );
 /* File-local GetCVSegment in dbgcv.c takes a leader, unlike the older
  * selector-index helper in obj2supp.c. Keep their ELF identities distinct. */
 unsigned short CVGetSegment( seg_leader *seg )
@@ -347,7 +347,7 @@ unsigned short CVGetSegment( seg_leader *seg )
         }
         return 0;
     }
-    if( FmtData.type & 0x4200 ) return FindGroupIdx( seg->seg_addr.seg );
+    if( FmtData.type & 0x4200 ) return ToQNXIndex( seg->seg_addr.seg );
     return seg->seg_addr.seg;
 }
 

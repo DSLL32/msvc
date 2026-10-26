@@ -59,10 +59,9 @@ void Relocate( fixup_record *fix, fixup_ref *target )
 
 /* Encountered old fixup widths, indexed by the seven1994 relocation kinds. */
 const unsigned char FixupSizeTable[] = { 1, 2, 2, 4, 1, 4, 6 };
-unsigned char FloatOptions;             /* original BSS450076 */
 
 extern pending_reloc *NewReloc( void );
-extern unsigned short FindGroupIdx( unsigned short );
+extern unsigned short ToQNXIndex( unsigned short );
 extern void AddNovImpReloc( symbol *, unsigned long, unsigned char, unsigned char );
 extern void PatchOffset( fixup_record *, long );
 extern group_entry *GetGroupBySeg( unsigned short );
@@ -76,11 +75,11 @@ unsigned char CheckSpecials( fixup_record *fix, fixup_ref *target )
 
     kind = target->flags >> 24;
     if( (FmtData.type & 0x4200) && kind != 0 ) {
-        if( (FloatOptions & 1) && kind != 7 ) {
+        if( (FmtData.u.qnx.reloc_flags & 1) && kind != 7 ) {
             rel = NewReloc();
             rel->flags |= 1;
             *(unsigned long *)(rel->data + 2) = fix->addr.off | ((unsigned long)kind << 28);
-            *(unsigned short *)rel->data = FindGroupIdx( fix->addr.seg );
+            *(unsigned short *)rel->data = ToQNXIndex( fix->addr.seg );
         }
         return 1;
     }
@@ -367,9 +366,9 @@ void FmtReloc( fixup_record *fix, fixup_ref *target )
     if( (FmtData.type & 0x8000) && target->import == 0 ) return;
     if( FmtData.type & 0x4200 ) {
         if( fix->type == 5 ) {
-            if( !(FloatOptions & 2) ) return;
+            if( !(FmtData.u.qnx.reloc_flags & 2) ) return;
         } else if( fix->type == 2 || fix->type == 3 ) {
-            if( !(FloatOptions & 1) ) return;
+            if( !(FmtData.u.qnx.reloc_flags & 1) ) return;
         } else if( fix->type != 6 ) return;
     }
     rec = NewReloc();
@@ -429,7 +428,7 @@ void FmtReloc( fixup_record *fix, fixup_ref *target )
             case 5:
                 for( group = Groups; group != 0; group = group->next_group )
                     if( group->grp_addr.seg == targ.seg ) break;
-                if( group != 0 ) group->info |= 1;
+                if( group != 0 ) group->u.info |= 1;
                 break;
             }
         }
@@ -512,7 +511,7 @@ void FmtReloc( fixup_record *fix, fixup_ref *target )
     }
     if( FmtData.type & 0x4200 ) {
         saved = 0;
-        if( (fix->type == 5 || fix->type == 6) && (FloatOptions & 2) ) {
+        if( (fix->type == 5 || fix->type == 6) && (FmtData.u.qnx.reloc_flags & 2) ) {
             rec->flags |= 2;
             *(unsigned long *)item = fix->addr.off;
             if( !(target->flags & 0x80) ) item[3] |= 0x80;
@@ -527,7 +526,7 @@ void FmtReloc( fixup_record *fix, fixup_ref *target )
         if( !saved ) {
             MakeBase( fix );
             *(unsigned long *)(item + 2) = fix->addr.off;
-            *(unsigned short *)item = FindGroupIdx( fix->addr.seg );
+            *(unsigned short *)item = ToQNXIndex( fix->addr.seg );
         }
         return;
     }

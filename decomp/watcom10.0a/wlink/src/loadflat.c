@@ -152,7 +152,7 @@ unsigned long WriteObjectTables( os2_flat_header *header, unsigned long loc )
         obj.addr = group->linear;
         obj.flags = 0;
         if( group->leaders[0]->info & 0x0400 ) obj.flags |= 0x2000;
-        else if( group->info & 1 ) obj.flags |= 0x1000;
+        else if( group->u.info & 1 ) obj.flags |= 0x1000;
         if( (group->segflags & 0x0c00) != 0x0c00 ) obj.flags |= 0x8000;
         if( group->segflags & 1 ) {
             obj.flags |= 1;

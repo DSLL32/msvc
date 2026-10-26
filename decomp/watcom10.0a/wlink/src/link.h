@@ -690,7 +690,7 @@ struct group_entry {
     unsigned short segflags;
     unsigned long linear;
     short autogroup;
-    unsigned short info;
+    union { unsigned short info, qnxflags; } u;
 };
 #pragma pack()
 typedef char old_group_is_52[(sizeof(group_entry) == 52) ? 1 : -1];

@@ -183,7 +183,7 @@ group_entry *GetAutoGroup( unsigned num_segs, unsigned char absolute )
     group->totalsize = 0;
     group->leaders = 0;
     group->grp_relocs = 0;
-    group->info = 0;
+    group->u.info = 0;
     group->segflags = 0x0c80;
     group->num = num_segs;
     if( num_segs != 0 ) group->leaders = ChkLAlloc( num_segs * sizeof( seg_leader * ) );

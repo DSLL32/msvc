@@ -35,6 +35,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cmdline.h"
+#include "diagnostic.h"
 #include <recon.h>
 
 #if defined(__WATCOMC__)
@@ -161,4 +162,13 @@ unsigned short binary_log( unsigned short value )
 void ClearBit( void *bits, unsigned bit )
 {
     ((unsigned char *)bits)[bit >> 3] &= ~(1U << (bit & 7));
+}
+
+extern group_entry *GetGroupBySeg( unsigned short );
+unsigned long FindLinearAddr( msg_address *addr )
+{
+    group_entry *group;
+    group = GetGroupBySeg( addr->seg );
+    if( group != 0 ) return addr->off + group->linear - group->grp_addr.off;
+    return addr->off;
 }

@@ -4401,6 +4401,146 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "SetQNXFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ChkBase4K": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNX": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXFlat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXHeapSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLonglived": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLinearRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPrivilege": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXResource": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetQNXSegFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXExecuteread": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXReadOnly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXReadWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CmdQNXFini": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ToQNXSel": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindLinearAddr": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetQNXSegFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetQNXGroupFlags": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ToQNXIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QNXLinearReloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniQNXLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteQNXResource": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteQNXData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteQNXGroup": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteQNXLoad": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteQNXRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeQNXFmt": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

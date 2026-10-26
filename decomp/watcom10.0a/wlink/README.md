@@ -1,5 +1,5 @@
-WLINK 10.0a has seven completed native regression cases. The acceptance ledger
-contains **878 application functions / 107,653 unique original code bytes**.
+WLINK 10.0a has eight completed native regression cases. The acceptance ledger
+contains **906 application functions / 110,194 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -16,6 +16,9 @@ paragraph/sector padding, relocations and Watcom debug information.
 The seventh produces a NetWare NLM from USE32 modules and an archive, with code/data
 imports, exports, start/exit/check routines, BSS, Novell debug records, module flags,
 screen/thread/version/copyright settings and custom/message/help/RPC payloads.
+The eighth creates a QNX386 flat executable with code/data/selector relocations,
+an archive, protected segment classes, privilege/heap/stack options, an embedded
+resource file, linear fixups and Watcom debug information.
 
 | Case | Result |
 | --- | --- |
@@ -23,9 +26,10 @@ screen/thread/version/copyright settings and custom/message/help/RPC payloads.
 | `0001-nt-link` | Exit 0; exact 243-byte stdout, empty stderr, 7,588-byte PE and 11,855-byte map |
 | `0002-nt-dll` | Exit 0; exact 253-byte stdout, empty stderr, 34,475-byte DLL and 44,357-byte map |
 | `0003-os2-lx` | Exit 0; exact 272-byte stdout, empty stderr, 5,132-byte LX DLL and 4,274-byte map |
-| `0004-win16-ne` | Exit 0; exact 258-byte stdout, empty stderr, 905-byte NE DLL and 3,508-byte map |
+| `0004-win16-ne` | Exit 0; exact 248-byte stdout, empty stderr, 905-byte NE DLL and 3,508-byte map |
 | `0005-dos-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ overlay executable and 9,395-byte map |
 | `0006-netware-nlm` | Exit 0; exact 255-byte stdout, empty stderr, 1,701-byte NLM and 3,064-byte map |
+| `0007-qnx-flat` | Exit 0; exact 248-byte stdout, empty stderr, 820-byte QNX executable and 2,990-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 551 first entries match.
@@ -53,7 +57,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 881 source-ready identities, their actual graph,
+The complete audit passes for 909 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -105,12 +109,24 @@ length; the reconstruction preserves that old ordering in both builds. The
 complete NLM matched byte-for-byte on capture day. Regressions exclude only its
 identified three date DWORDs and the same six map clock digit fields.
 
-The final parallel build/regression/unit/audit batch took **5.697 s**, including
-necessary native and period rebuilds. All seven cases and 881 source-ready graph/ABI
-identities pass. The 14 native regression runs took **17.699–47.062 ms**. The genuine
-NLM original took **1,285.498 ms**; its exact native pair took **24.367 ms**, split
-**14.725 / 3.300 / 6.341 ms** for setup/execution/checks. The explicitly clock-derived
-native comparison reused that capture and took **30.480 ms**. No DOS, NE, LX or
-DWARF executable bytes are normalized. Raw artifacts, producer inputs,
-intermediate failures and diagnostics remain under
+The QNX case matches 510 first entries and every executable byte. Its old packed
+48-byte header, six-byte records, group protection/size descriptors, resource
+chunks, verification/signature record, selector and linear relocations, EOF and
+debug information remain distinct from the later released writer. A data group
+provides the defined verification word; the original's uninitialized-output
+path without such a group remains trapped. Only the six map clock fields are
+excluded. The case also corrects cold QNX relocation flags to their real format
+union field and trailing-zero trimming to the group protection flags. Earlier
+failed pairs remain in scratch; their genuine originals were reused for fixes.
+
+The final parallel build/regression/unit/audit batch took **1.826 s**, including
+necessary native and period rebuilds. All eight cases and 909 source-ready graph/ABI
+identities pass. The 16 native regression runs took **17.535–47.769 ms**. The genuine
+QNX original took **1,917.443 ms**; its exact native pair took **24.297 ms**, split
+**14.526 / 3.614 / 6.156 ms** for setup/execution/checks. The map-clock-derived
+native comparison reused that capture and took **31.852 ms**. QNX producers took
+**513.268 ms** for the main OMF object and **625.103 ms** for the archive; its
+ordinary original baseline took **484.936 ms**. Worker/helper objects were reused
+from the NLM producer. No QNX, DOS, NE, LX or DWARF executable bytes are normalized.
+Raw artifacts, producer inputs, intermediate failures and diagnostics remain under
 `~/.ai-tmp/msvc2/watcom-shared-integration/`.

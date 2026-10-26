@@ -8,6 +8,7 @@
 #include "dbgdwarf.h"
 #include "strtab.h"
 #include "exenov.h"
+#include "exeqnx.h"
 #include <recon.h>
 
 #if defined(__WATCOMC__)
@@ -31,12 +32,10 @@ unsigned short OMFCompName( char *name, char *buff, unsigned short index ) { TRA
 
 unsigned char ModNameCompare( char *name, char *member ) { TRAP(); return 0; }
 
-void CmdQNXFini( void ) { TRAP(); }
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
 void FillTypeFlags( unsigned short flags, unsigned type ) { TRAP(); }
 seg_leader *FindASeg( class_entry *class, char *name ) { TRAP(); return 0; }
 
-unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
 
 
 
@@ -45,7 +44,6 @@ unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
 void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
 void PhoneyStack( void ) { TRAP(); }
 void ReadOldLib( void ) { TRAP(); }
-void SetQNXSegFlags( void ) { TRAP(); }
 
 
 
@@ -55,13 +53,11 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 void FiniPharLapLoadFile( void ) { TRAP(); }
-void FiniQNXLoadFile( void ) { TRAP(); }
 void FiniELFLoadFile( void ) { TRAP(); }
 
 
 void Locator( char *name, char *member, unsigned rec )
 { name=name; member=member; rec=rec; TRAP(); }
-unsigned long FindLinearAddr( msg_address *addr ) { addr=addr; TRAP(); return 0; }
 void FileOrder( char *buff, int which ) { buff=buff; which=which; TRAP(); }
 void Msg_Do_Put_Args( char *buff, MSG_ARG_LIST *info, char *types, ... )
 { buff=buff; info=info; types=types; TRAP(); }
@@ -125,8 +121,6 @@ void CheckFileTrace( section *sect ) { sect=sect; TRAP(); }
 
 
 
-void SetQNXFmt( void ) { TRAP(); }
-void FreeQNXFmt( void ) { TRAP(); }
 void SetELFFmt( void ) { TRAP(); }
 void FreeELFFmt( void ) { TRAP(); }
 
@@ -202,7 +196,6 @@ unsigned char ProcCom( void ) { TRAP(); return 0; }
 unsigned char ProcELF( void ) { TRAP(); return 0; }
 
 unsigned char ProcPharlap( void ) { TRAP(); return 0; }
-unsigned char ProcQNX( void ) { TRAP(); return 0; }
 
 
 
@@ -268,8 +261,6 @@ unsigned char ProcDynamic( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcInternalRelocs( void ) { TRAP(); return 0; }
-unsigned char ProcLinearRelocs( void ) { TRAP(); return 0; }
-unsigned char ProcLonglived( void ) { TRAP(); return 0; }
 unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
 
 unsigned char ProcMaxData( void ) { TRAP(); return 0; }
@@ -290,9 +281,7 @@ unsigned char ProcOSName( void ) { TRAP(); return 0; }
 
 unsigned char ProcOffset( void ) { TRAP(); return 0; }
 unsigned char ProcOldLibrary( void ) { TRAP(); return 0; }
-unsigned char ProcPrivilege( void ) { TRAP(); return 0; }
 unsigned char ProcProtMode( void ) { TRAP(); return 0; }
-unsigned char ProcQNXResource( void ) { TRAP(); return 0; }
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
@@ -462,7 +451,6 @@ void ProcNamedBackpatch( void ) { TRAP(); }
 
 
 void FloatReloc( void *data ) { TRAP(); }
-void QNXLinearReloc( group_entry *group, void *data ) { TRAP(); }
 
 
 
@@ -491,7 +479,6 @@ void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 
 
-unsigned short FindGroupIdx( unsigned short seg ) { TRAP(); return 0; }
 
 
 
@@ -531,7 +518,6 @@ unsigned char ProcTermInstance( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcQNXHeapSize( void ) { TRAP(); return 0; }
 
 
 
@@ -582,7 +568,6 @@ int recursive_mangled_name( output_desc *data, state_desc *state ) { TRAP(); ret
 int base_32_num( output_desc *data, int *value ) { TRAP(); return 0; }
 
 
-unsigned char ProcQNXSegment( void ) { TRAP(); return 0; }
 
 unsigned char ProcSegType( void ) { TRAP(); return 0; }
 unsigned char ProcSegCode( void ) { TRAP(); return 0; }
@@ -713,3 +698,8 @@ unsigned char ProcNAM( void ) { TRAP(); return 0; }
 unsigned char ProcNovDBIExports( void ) { TRAP(); return 0; }
 
 unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }
+
+
+
+
+unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }

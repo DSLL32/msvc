@@ -540,7 +540,7 @@ void AllocGroupBuffers( void )
         OvlGroup->grp_addr.off = OvltabAddr.off;
         OvlGroup->grp_addr.seg = OvltabAddr.seg;
         OvlGroup->next_group = Groups;
-        OvlGroup->info = 0;
+        OvlGroup->u.info = 0;
         Groups = OvlGroup;
         OvlRefs->group = OvlGroup;
     }

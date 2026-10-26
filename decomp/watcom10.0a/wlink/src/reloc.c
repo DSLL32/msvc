@@ -37,7 +37,7 @@
 #pragma intrinsic(memcpy)
 #endif
 
-static reloc_info *FloatFixups;       /* original4501e8 */
+reloc_info *FloatFixups;       /* original4501e8 */
 
 void FreeRelocInfo( void )
 {
@@ -315,4 +315,9 @@ unsigned char TraverseRelocBlock( reloc_info **list, unsigned num,
 os2_reloc_header **OS2FlatRelocInit( unsigned long size )
 {
     return (os2_reloc_header **)OS2PagedRelocInit( size, sizeof(os2_reloc_header) );
+}
+
+void QNXLinearReloc( group_entry *group, void *data )
+{
+    DoWriteReloc( (reloc_info **)&group->grp_relocs, data, 4 );
 }

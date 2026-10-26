@@ -384,7 +384,7 @@ group_entry *FindGroup( list_of_names *name )
     group->data = 0;
     group->leaders = 0;
     group->autogroup = -1;
-    group->info = 0;
+    group->u.info = 0;
     group->segflags = 0x0c80;
     group->name = name->name;
     if( last == 0 ) Groups = group;

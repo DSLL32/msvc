@@ -248,7 +248,7 @@ void WriteObjectData( void )
     if( group != 0 ) {
         total = (unsigned long)rec->data - group->data + len;
         if( ((FmtData.type & 0x801f) && (group->segflags & 1))
-            || ((FmtData.type & 0x4200) && (leader->u.p1.segflags & 3) <= 1) ) {
+            || ((FmtData.type & 0x4200) && (group->u.qnxflags & 3) <= 1) ) {
             if( total > group->size + len ) min = 0;
             else min = len - (total - group->size);
             oldlen = len;
