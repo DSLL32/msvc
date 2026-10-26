@@ -729,5 +729,125 @@
         ]
       }
     ]
+  },
+  "compiler_arithmetic_support": {
+    "scope": "Original-only compiler support identified from shipped LIBC.LIB. No source, native binding, paired-body availability or App credit. Registry alone owns extents/status.",
+    "library": {
+      "path": "toolchains/5.10/lib/LIBC.LIB",
+      "sha256": "f81440dd014ca4ce7ef8b4d60ed1ee4ad544601b07fbdb4fca54a1dfca31f9b0"
+    },
+    "abi": "Two64-bit stack arguments, EDX:EAX result, RET16; original mul/div/rem compiler helper convention.",
+    "exact_identification": {
+      "name": "__allmul",
+      "start": 4544343,
+      "end": 4544395,
+      "object": "build\\intel\\st_obj\\llmul.obj",
+      "library": "LIBC.LIB"
+    },
+    "semantic_compatible_helpers": [
+      {
+        "name": "__allrem",
+        "entry_rva": 369112,
+        "code": [
+          [
+            369112,
+            369218
+          ],
+          [
+            488713,
+            488798
+          ]
+        ],
+        "chunks": [
+          {
+            "start": 4563416,
+            "end": 4563522,
+            "sha256": "bd0c0c0dd805a7560f74766beaf99a5b4b64920aeb1d6f858e37d9eb5a2ddebe"
+          },
+          {
+            "start": 4683017,
+            "end": 4683102,
+            "sha256": "e4c399e97c2894a0c7086f9812f9d4f3af606cb1dc8a324044ee947309effd3b"
+          }
+        ],
+        "member": "build/intel/st_obj/llrem.obj",
+        "member_sha256": "bba73713e0baf12572d211165ebb1b4969f22256e01f4e5c682b3ef5ef0396b2",
+        "evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/target-llrem348.txt",
+        "library_evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/crt-llrem348.txt"
+      },
+      {
+        "name": "__alldiv",
+        "entry_rva": 369218,
+        "code": [
+          [
+            369218,
+            369309
+          ],
+          [
+            488798,
+            488893
+          ]
+        ],
+        "chunks": [
+          {
+            "start": 4563522,
+            "end": 4563613,
+            "sha256": "5221cbe650e95499a698141431f4d97d212030ad21fca00a860274179625f27f"
+          },
+          {
+            "start": 4683102,
+            "end": 4683197,
+            "sha256": "d7063450f815b421addb266cf22824a1843eddc4f54435803b5909d104e70eba"
+          }
+        ],
+        "member": "build/intel/st_obj/lldiv.obj",
+        "member_sha256": "3aebc660260502c161b2ba8ce5f9b31399cc9f203d21a878b6daca70e5a58379",
+        "evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/target-lldiv348.txt",
+        "library_evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/crt-lldiv348.txt"
+      },
+      {
+        "name": "__aullrem",
+        "entry_rva": 573393,
+        "code": [
+          [
+            573393,
+            573510
+          ]
+        ],
+        "chunks": [
+          {
+            "start": 4767697,
+            "end": 4767814,
+            "sha256": "c6331d724b8b8e5dc896db39e9e7c7146cc352551208382d11a898cea63b70dc"
+          }
+        ],
+        "member": "build/intel/st_obj/ullrem.obj",
+        "member_sha256": "eef9e4957a06ec108782e25a4d097ca594470b2857422a27ae2233fd3856aa2f",
+        "evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/target-ullrem348.txt",
+        "library_evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/crt-ullrem348.txt"
+      },
+      {
+        "name": "__aulldiv",
+        "entry_rva": 573510,
+        "code": [
+          [
+            573510,
+            573614
+          ]
+        ],
+        "chunks": [
+          {
+            "start": 4767814,
+            "end": 4767918,
+            "sha256": "21b0b5760f8e6f31faa4b4dc31912c3be2aa8c830de5f18536658c53f485b064"
+          }
+        ],
+        "member": "build/intel/st_obj/ulldiv.obj",
+        "member_sha256": "d5bf9f838499c8f42f166988d4098e5ebb1e1702f92bc4da8c13c50a18b47648",
+        "evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/target-ulldiv348.txt",
+        "library_evidence": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-resume-20261025/crt-ulldiv348.txt"
+      }
+    ],
+    "qualification": "Multiplication is exact shared-identifier match. Signed div/rem reorder original hot/cold branch blocks; unsigned div/rem share the epilogue earlier. Full sign-normalization, two-word DIV, quotient-product correction, result sign and nonvolatile/RET paths match corresponding shipped members. This is semantic/library identity, not a byte-identical layout assertion."
   }
 }

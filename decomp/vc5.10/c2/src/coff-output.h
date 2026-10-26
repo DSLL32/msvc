@@ -41,7 +41,14 @@ struct C2OutputSection {
 };
 /* Encountered prefixes only. The allocator requests60/508/308 bytes;
    unvisited tails and the byte28..47 gap have no field/content credit. */
-struct C2OutputBlock508 { unsigned count; C2OutputBlock508 *last; };
+struct C2OutputBlock508 {
+    unsigned count;
+    C2OutputBlock508 *last; /* Circular successor; the historical field name is retained. */
+    IMAGE_RELOCATION entries[50];
+};
+typedef char C2CoffRelocationSizeCheck[sizeof(IMAGE_RELOCATION) == 10 ? 1 : -1];
+typedef char C2CoffRelocationsOffsetCheck[offsetof(C2OutputBlock508, entries) == 8 ? 1 : -1];
+typedef char C2CoffRelocationsBlockSizeCheck[sizeof(C2OutputBlock508) == 508 ? 1 : -1];
 struct C2OutputBlock308 { unsigned count; C2OutputBlock308 *last; };
 struct C2CoffSectionData {
     C2CoffSectionData *next;
@@ -53,10 +60,12 @@ struct C2CoffSectionData {
     unsigned size;
     unsigned char pending28[20];
     unsigned short storage_index, flags;
+    unsigned relocation_count;
 };
 typedef char C2CoffSectionDataOutputCheck[offsetof(C2CoffSectionData, output) == 12 ? 1 : -1];
 typedef char C2CoffSectionDataSizeCheck[offsetof(C2CoffSectionData, size) == 24 ? 1 : -1];
 typedef char C2CoffSectionDataIndexCheck[offsetof(C2CoffSectionData, storage_index) == 48 ? 1 : -1];
+typedef char C2CoffRelocationCountCheck[offsetof(C2CoffSectionData, relocation_count) == 52 ? 1 : -1];
 typedef char C2CoffSectionDataFlagsCheck[offsetof(C2CoffSectionData, flags) == 50 ? 1 : -1];
 typedef char C2OutputSectionSizeCheck[sizeof(C2OutputSection) == 24 ? 1 : -1];
 typedef char C2OutputSectionNameCheck[offsetof(C2OutputSection, name) == 4 ? 1 : -1];
@@ -73,9 +82,12 @@ struct C2CoffSource {
 };
 struct C2CoffRecord {
     unsigned kind;
-    unsigned pending04;
-    union { C2CoffSource *source; C2CoffSectionData *section; } value;
+    union { unsigned pending04, serial; };
+    union { C2CoffSource *source; C2CoffSectionData *section; IMAGE_SYMBOL *symbol; } value;
 };
+typedef char C2ImageSymbolSizeCheck[sizeof(IMAGE_SYMBOL) == 18 ? 1 : -1];
+typedef char C2ImageSymbolValueCheck[offsetof(IMAGE_SYMBOL, Value) == 8 ? 1 : -1];
+typedef char C2ImageSymbolTypeCheck[offsetof(IMAGE_SYMBOL, Type) == 14 ? 1 : -1];
 typedef char C2CoffRecordSizeCheck[sizeof(C2CoffRecord) == 12 ? 1 : -1];
 typedef char C2CoffRecordValueCheck[offsetof(C2CoffRecord, value) == 8 ? 1 : -1];
 typedef char C2CoffSourceSizeCheck[sizeof(C2CoffSource) == 8 ? 1 : -1];

@@ -6,6 +6,7 @@
 #include <recon-tool.h>
 #include <recon.h>
 
+extern int final_multiply_table_initialized;
 static char **target_environment;
 static int setup(void)
 {
@@ -15,7 +16,13 @@ static int setup(void)
     unsigned count,offset;
     ReconModuleSpec module;
     HMODULE instance;
+    final_multiply_table_initialized = 0;
+    register_set_pool_three_initialized = 0;
+    register_set_pool_four_initialized = 0;
     register_set_pool_six_initialized = 0;
+    register_set_pool_twelve_initialized = 0;
+    register_set_pool_thirteen_initialized = 0;
+    register_set_pool_fourteen_initialized = 0;
     file=fopen("target-environment.bin","rb");
     if(!file || fseek(file,0,SEEK_END))return 0;
     size=ftell(file);

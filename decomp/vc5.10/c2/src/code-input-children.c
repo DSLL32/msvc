@@ -3,37 +3,6 @@
 
 /* Unreconstructed reader children stop at their own actual identities. */
 
-C2Expression * __fastcall attach_input_expression(C2Expression *owner, C2Expression *prior, C2Expression *expression)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-
-C2Expression * __fastcall copy_input_operand(C2Expression *owner, C2Expression *value)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-C2Expression * __fastcall new_assignment_expression(unsigned opcode, unsigned short type, C2Expression *operand, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-
-C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes)
-{
-    __asm { int 3 }
-    return 0;
-}
-
-int __fastcall set_input_expression_type(C2Expression *expression, unsigned short type)
-{
-    __asm { int 3 }
-    return 0;
-}
 
 
 
@@ -47,64 +16,27 @@ int __fastcall set_input_expression_type(C2Expression *expression, unsigned shor
 
 
 
-C2Expression * __fastcall new_input_expression(unsigned opcode, unsigned short type)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-unsigned char __fastcall input_comparison(C2InputStack **stack)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-void __fastcall adjust_input_operand(C2Expression *operand)
-{
-    __asm { int 3 }
-}
 
-void __fastcall input_call(C2InputStack **stack, C2ILToken *token, int depth, C2Function *function, int arguments)
-{
-    __asm { int 3 }
-}
 
-void __fastcall input_pragma(C2InputStack *stack, C2ILToken *token)
-{
-    __asm { int 3 }
-}
 
-void __fastcall set_input_operand_type(C2InputStack *stack, unsigned short type)
-{
-    __asm { int 3 }
-}
 
-C2Expression * __fastcall save_input_expression(C2InputStack *stack)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-void __fastcall input_assignment_operator(C2InputStack **stack, unsigned opcode, C2ILToken *token)
-{
-    __asm { int 3 }
-}
 
-C2Expression * __fastcall new_input_temporary(unsigned short type)
-{
-    __asm { int 3 }
-    return 0;
-}
+
+
+
+
+
+
 
 void __fastcall bind_input_temporary(C2FunctionRegister *reg, C2Expression *expression)
 {
     __asm { int 3 }
 }
 
-void __fastcall input_argument_list(C2InputStack **stack)
-{
-    __asm { int 3 }
-}
+
 
 C2Expression * __fastcall finish_input_clauses(C2InputClause *clauses, C2Expression *expression)
 {
@@ -281,11 +213,7 @@ void __fastcall discard_input_tree(C2Expression *tree)
     __asm { int 3 }
 }
 
-C2Expression *__fastcall last_input_tree(C2Expression *tree)
-{
-    __asm { int 3 }
-    return 0;
-}
+
 
 C2Expression *__fastcall prune_cached_input(C2Expression *tree)
 {
@@ -299,21 +227,10 @@ int __fastcall rewrite_input_reference(C2Expression *tree, C2Expression *result)
     return 0;
 }
 
-void __fastcall remove_input_result(C2Expression *tree, C2Expression *result)
-{
-    __asm { int 3 }
-}
 
 
-void __fastcall release_small_node_list(C2SmallNode *nodes)
-{
-    __asm { int 3 }
-}
 
-void __fastcall unlink_input_use(C2InputUse *use, C2Expression *owner)
-{
-    __asm { int 3 }
-}
+
 
 void __fastcall release_input_exception_context(C2Expression *tree)
 {
@@ -345,34 +262,13 @@ C2Expression *__fastcall extract_aggregate_result(C2Expression *value, C2Express
     return 0;
 }
 
-C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
-                                                    unsigned bits, long displacement)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement)
 {
     __asm { int 3 }
 }
 
-C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned short type,
-    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
-{
-    __asm { int 3 }
-    return 0;
-}
 
-void __fastcall prepare_input_comparison(C2Expression *left, C2Expression *right, int pointer_pair)
-{
-    __asm { int 3 }
-}
 
-void __fastcall release_function_register(C2FunctionRegister *reg)
-{
-    __asm { int 3 }
-}
 
 void c2_real_from_unsigned(unsigned *input, C2Real *output)
 {
@@ -401,12 +297,6 @@ void __fastcall input_deferred_store(C2InputStack **stack, C2ILToken *token)
     __asm { int 3 }
 }
 
-void __fastcall replace_input_result(C2Expression *owner, C2Expression *old,
-                                     C2Expression *replacement)
-{
-    __asm { int 3 }
-}
-
 int __fastcall input_basic_has_side_effects(C2Expression *tree)
 {
     __asm { int 3 }
@@ -419,7 +309,30 @@ int __fastcall input_instruction_has_side_effects(C2Expression *tree)
     return 0;
 }
 
-void __fastcall attach_call_result(C2Expression *call, C2Expression *result)
-{
-    __asm { int 3 }
-}
+
+
+/* Genuine callees encountered while recovering call input. Each remains a
+ * distinct entry trap until this workload reaches it. */
+C2Expression *__fastcall new_input_intrinsic_expression(unsigned opcode, unsigned short type,
+    C2Expression *first, C2Expression *second, C2Expression *third,
+    C2Expression *fourth, unsigned short intrinsic, C2InputLink link, C2Record *prior)
+{ __asm { int 3 } return NULL; }
+
+C2InputStack *__fastcall prepare_intrinsic_argument_stacks(C2InputStack *arguments)
+{ __asm { int 3 } return NULL; }
+C2Expression *__fastcall lower_input_intrinsic_call(C2Function *function, C2Expression *call)
+{ __asm { int 3 } return NULL; }
+C2Expression *__fastcall materialize_input_call_result(C2Function *function,
+    C2Expression *call, unsigned bytes)
+{ __asm { int 3 } return NULL; }
+C2Expression *__fastcall finish_input_call_prefix(C2Expression *prefix, C2Expression *call)
+{ __asm { int 3 } return NULL; }
+
+
+
+
+
+C2Expression *__fastcall new_select_expression(unsigned opcode, unsigned short type,
+    C2Expression *condition, C2Expression *left, C2Expression *right,
+    unsigned char comparison, C2InputLink link, C2Record *prior)
+{ __asm { int 3 } return NULL; }

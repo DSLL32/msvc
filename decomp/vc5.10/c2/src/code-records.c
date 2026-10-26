@@ -3,6 +3,7 @@
 #include "code-input.h"
 #include "small-nodes.h"
 #include "flow.h"
+#include "functions.h"
 #include <recon.h>
 
 unsigned record_source_line;
@@ -497,6 +498,70 @@ C2Expression *__fastcall new_binary_expression(unsigned opcode, unsigned short t
     return record;
 }
 
+C2Expression *__fastcall new_aggregate_expression(unsigned opcode, unsigned short type,
+    C2FunctionRegister *address, long displacement, C2Expression *source,
+    C2Expression *destination, unsigned attributes)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(6);
+    record->opcode = opcode;
+    record->type = type;
+    record->tail.aggregate_register = address;
+    record->detail.aggregate_displacement = displacement;
+    record->immediate = attributes;
+    if (source) {
+        if ((1U << (source->kind & 31)) & 0x7fe) {
+            if (source->location.expression.properties & 0x10)
+                source = copy_input_expression(source);
+            source->location.expression.properties |= 0x10;
+        }
+        record->aggregate_value = source;
+        source->location.expression.properties |= 0x20;
+    }
+    if (destination) {
+        if ((1U << (destination->kind & 31)) & 0x7fe) {
+            if (destination->location.expression.properties & 0x10)
+                destination = copy_input_expression(destination);
+            destination->location.expression.properties |= 0x10;
+        }
+        record->aggregate_second = destination;
+        destination->location.expression.properties |= 0x20;
+    }
+    return record;
+}
+
+C2Expression *__fastcall new_comparison_expression(unsigned opcode, unsigned short type,
+    C2Expression *left, C2Expression *right, C2InputLink link, C2Record *prior)
+{
+    C2Expression *temporary = new_temporary_operand(0x8000), *output = temporary;
+    C2Expression *record = (C2Expression *)allocate_small_node(11);
+    record->opcode = opcode;
+    record->type = type;
+    record->flags |= 1;
+    if ((1U << (output->kind & 31)) & 0x7fe) {
+        if (output->location.expression.properties & 0x10)
+            output = copy_input_expression(output);
+        output->location.expression.properties |= 0x10;
+    }
+    record->tail.right = output;
+    if ((1U << (left->kind & 31)) & 0x7fe) {
+        if (left->location.expression.properties & 0x10)
+            left = copy_input_expression(left);
+        left->location.expression.properties |= 0x10;
+    }
+    record->left = left;
+    if ((1U << (right->kind & 31)) & 0x7fe) {
+        if (right->location.expression.properties & 0x10)
+            right = copy_input_expression(right);
+        right->location.expression.properties |= 0x10;
+    }
+    left->next = right;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    temporary->value.reg->value = record;
+    return record;
+}
+
 C2Expression *__fastcall new_transfer_expression(unsigned opcode, unsigned short type,
     C2Expression *right, C2Expression *left, C2InputLink link, C2Record *prior)
 {
@@ -588,6 +653,46 @@ C2Expression *__fastcall symbol_input_expression(C2InputSymbol *symbol)
     expression->opcode = 0x178;
     expression->location.line = 0;
     return expression;
+}
+
+C2Expression *__fastcall new_input_call_expression(unsigned opcode, unsigned short type,
+    C2Expression *target, unsigned char convention, C2InputLink link, C2Record *prior)
+{
+    C2Expression *temporary = new_temporary_operand(type), *output = temporary;
+    C2Expression *record = (C2Expression *)allocate_small_node(13);
+    record->opcode = opcode;
+    record->type = type;
+    record->flags |= 1;
+    /* Kind13 stores its convention at+36, distinct from the kind16
+     * branch/call convention view at+10. */
+    record->call_convention = convention;
+    if (output) {
+        if ((1U << (output->kind & 31)) & 0x7fe) {
+            if (output->location.expression.properties & 0x10)
+                output = copy_input_expression(output);
+            output->location.expression.properties |= 0x10;
+        }
+        record->tail.right = output;
+    }
+    if ((1U << (target->kind & 31)) & 0x7fe) {
+        if (target->location.expression.properties & 0x10)
+            target = copy_input_expression(target);
+        target->location.expression.properties |= 0x10;
+    }
+    record->left = target;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    temporary->value.reg->value = record;
+    return record;
+}
+
+void __fastcall attach_call_result(C2Expression *call, C2Expression *result)
+{
+    C2StatementLink *link = (C2StatementLink *)allocate_small_node(29);
+    link->record = result;
+    link->next = call->detail.statement_links;
+    call->detail.statement_links = link;
 }
 
 C2Expression *__fastcall new_call_expression(unsigned opcode, unsigned char convention,
@@ -861,4 +966,185 @@ void __fastcall normalize_line_record(C2Record *record)
         }
         break;
     }
+}
+
+void __fastcall unlink_input_use(C2InputUse *use, C2Expression *owner)
+{
+    C2SymbolInputUse *node = use->tail.symbol_uses, *previous;
+    if (node->expression == owner) {
+        use->tail.symbol_uses = node->next;
+        release_small_node(node);
+        --use->declaration->storage.input_references;
+        return;
+    }
+    previous = node;
+    while (previous->next->expression != owner) previous = previous->next;
+    node = previous->next;
+    previous->next = node->next;
+    release_small_node(node);
+    --use->declaration->storage.input_references;
+}
+
+void __fastcall remove_symbol_record(C2Expression *record)
+{
+    C2InputSymbol *symbol = record->declaration;
+    C2Expression *previous, *next;
+    if (symbol->detail.variable.flags) {
+        switch (symbol->symbol.source_kind) {
+        case 'S':
+            clear_function_symbol_references(current_function, symbol);
+            break;
+        case 'V':
+            remove_pending_symbol_references(symbol);
+            break;
+        case 'X':
+            symbol->symbol.association = current_symbol->association;
+            break;
+        }
+    }
+    previous = record->previous;
+    next = record->next;
+    previous->next = next;
+    next->previous = previous;
+    release_small_node(record);
+}
+
+C2Expression *__fastcall replace_input_result(C2Expression *owner, C2Expression *old,
+                                             C2Expression *replacement)
+{
+    if ((1U << (replacement->kind & 31)) & 0x7fe) {
+        if (replacement->location.expression.properties & 0x10)
+            replacement = copy_input_expression(replacement);
+        replacement->location.expression.properties |= 0x10;
+    }
+    replacement->next = old->next;
+    old->next = replacement;
+    remove_input_result(owner, old);
+    if (((1U << (replacement->kind & 31)) & 0x60) &&
+        !(replacement->location.expression.comparison & 0x20)) {
+        if (replacement->aggregate_value) {
+            replacement->aggregate_value->location.expression.properties &= ~0x10;
+            copy_input_operand(owner, replacement->aggregate_value);
+        }
+        if (replacement->aggregate_second) {
+            replacement->aggregate_second->location.expression.properties &= ~0x10;
+            copy_input_operand(owner, replacement->aggregate_second);
+        }
+    }
+    return replacement;
+}
+
+void __fastcall release_result_aggregate_operands(C2Expression *owner, C2Expression *result);
+
+void __fastcall remove_input_result(C2Expression *owner, C2Expression *result)
+{
+    C2Expression *current = owner->tail.right, *previous = NULL;
+    while (current && current != result) {
+        previous = current;
+        current = current->next;
+    }
+    if (previous) previous->next = result->next;
+    else owner->tail.right = result->next;
+    if ((1U << (result->kind & 31)) & 0x60)
+        release_result_aggregate_operands(owner, result);
+    release_small_node(result);
+}
+
+C2Expression *__fastcall copy_input_operand(C2Expression *owner, C2Expression *value)
+{
+    C2Expression *last;
+    if ((1U << (value->kind & 31)) & 0x7fe) {
+        if (value->location.expression.properties & 0x10)
+            value = copy_input_expression(value);
+        value->location.expression.properties |= 0x10;
+    }
+    last = owner->left;
+    if (last) {
+        while (last->next) last = last->next;
+        last->next = value;
+    } else {
+        owner->left = value;
+    }
+    if (((1U << (value->kind & 31)) & 0x60) &&
+        !(value->location.expression.comparison & 0x20)) {
+        if (value->aggregate_value) {
+            value->aggregate_value->location.expression.properties &= ~0x10;
+            copy_input_operand(owner, value->aggregate_value);
+        }
+        if (value->aggregate_second) {
+            value->aggregate_second->location.expression.properties &= ~0x10;
+            copy_input_operand(owner, value->aggregate_second);
+        }
+    }
+    return value;
+}
+
+C2Expression *__fastcall retain_input_result(C2Expression *expression)
+{
+    if ((1U << (expression->kind & 31)) & 0x7fe) {
+        if (expression->location.expression.properties & 0x10)
+            expression = copy_input_expression(expression);
+        expression->location.expression.properties |= 0x10;
+    }
+    return expression;
+}
+
+C2Expression *__fastcall new_assignment_expression(unsigned opcode, unsigned short type,
+    C2Expression *operand, C2InputLink link, C2Record *prior)
+{
+    C2Expression *temporary = new_temporary_operand(type);
+    C2Expression *result = temporary;
+    C2Expression *record = (C2Expression *)allocate_small_node(11);
+
+    record->type = type;
+    record->opcode = opcode;
+    record->flags |= 1;
+    if ((1U << (result->kind & 31)) & 0x7fe) {
+        if (result->location.expression.properties & 0x10)
+            result = copy_input_expression(result);
+        result->location.expression.properties |= 0x10;
+    }
+    record->tail.right = result;
+    if ((1U << (operand->kind & 31)) & 0x7fe) {
+        if (operand->location.expression.properties & 0x10)
+            operand = copy_input_expression(operand);
+        operand->location.expression.properties |= 0x10;
+    }
+    record->left = operand;
+    retain_aggregate_operands(record);
+    if (link) link(prior, (C2Record *)record);
+    record->location.line = record_line_delta;
+    temporary->value.reg->value = record;
+    return record;
+}
+
+C2Expression *__fastcall new_input_expression(unsigned opcode, unsigned short type)
+{
+    C2Expression *record = (C2Expression *)allocate_small_node(19);
+    record->opcode = opcode;
+    record->flags |= 1;
+    record->type = type;
+    record->location.line = record_line_delta;
+    return record;
+}
+
+void __fastcall validate_symbol_function_owner(C2Symbol *symbol) { __asm { int 3 } }
+void __fastcall queue_symbol_debug(C2Symbol *symbol)
+{
+    C2DebugLink *link;
+    if (c2_il_extended_header && symbol->association.function_owner != current_symbol && current_symbol)
+        validate_symbol_function_owner(symbol);
+    if (symbol->output_flags & 5) return;
+    symbol->output_flags |= 4;
+    link = c2_pool_allocate(1, sizeof(*link));
+    link->symbol = symbol;
+    link->next = pending_debug_symbols;
+    pending_debug_symbols = link;
+}
+
+C2FunctionRegister *__fastcall new_spill_temporary_register(unsigned short type);
+
+C2Expression *__fastcall new_input_temporary(unsigned short type)
+{
+    return new_typed_register_expression(0x120, type, new_spill_temporary_register(type));
 }

@@ -16,7 +16,8 @@ int retain_function_input_pool;
 C2InputSymbol *pending_optimized_input;
 unsigned input_source_line_base;
 unsigned short input_value_type = 0x1004;
-C2InputLineMap *input_line_cache, *input_first_line_map;
+C2InputLineMap *input_line_cache, *input_first_line_map; /*490be0 tail,490bf8 head */
+extern C2InputLineMap *diagnostic_line_cache; /*497e4c, separate traversal cursor */
 char *input_line_filename;
 unsigned input_last_line;
 int input_line_needs_record;
@@ -24,7 +25,7 @@ int input_line_needs_record;
 unsigned reset_function_line_input(void)
 {
     input_line_needs_record = 1;
-    input_line_cache = NULL;
+    diagnostic_line_cache = NULL;
     input_line_filename = NULL;
     return input_last_line;
 }
@@ -161,9 +162,12 @@ unsigned __fastcall resolve_input_source_line(unsigned serial)
 
 void finish_function_input(void)
 {
-    while (pending_input_records) {
-        release_small_node(pending_input_records->expression);
-        pending_input_records = pending_input_records->next;
+    /* The original490c08 owner is the reusable input-stack chain. Its first
+     * sentinel is a separate small node; pending_input_records/490e78 is a
+     * distinct IL list and is not consumed by this cleanup. */
+    while (free_input_stacks) {
+        release_small_node(free_input_stacks->first);
+        free_input_stacks = free_input_stacks->next;
     }
     if (!retain_function_input_pool) reset_input_pool(4);
 }

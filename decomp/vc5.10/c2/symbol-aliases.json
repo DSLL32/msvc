@@ -1,0 +1,47 @@
+{
+  "schema": 1,
+  "aliases": [
+    {
+      "win32_alias": "@final_default_input_bits@0",
+      "win32_target": "_c2_math_error",
+      "native_alias": "final_default_input_bits",
+      "native_target": "c2_math_error"
+    },
+    {
+      "win32_alias": "@output_noop_symbol@4",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_symbol",
+      "native_target": "c2_set_argv"
+    },
+    {
+      "win32_alias": "@output_noop_relocation@8",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_relocation",
+      "native_target": "c2_set_argv"
+    },
+    {
+      "win32_alias": "@output_noop_section@4",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_section",
+      "native_target": "c2_set_argv"
+    },
+    {
+      "win32_alias": "@output_noop_bytes@8",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_bytes",
+      "native_target": "c2_set_argv"
+    },
+    {
+      "win32_alias": "@output_noop_filename@4",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_filename",
+      "native_target": "c2_set_argv"
+    },
+    {
+      "win32_alias": "@output_noop_line@8",
+      "win32_target": "_c2_set_argv",
+      "native_alias": "output_noop_line",
+      "native_target": "c2_set_argv"
+    }
+  ]
+}

@@ -357,3 +357,12 @@ next_record:
     }
     return first;
 }
+
+void __fastcall insert_input_record(C2Record *prior, C2Record *record)
+{
+    C2Record *next = prior->next;
+    prior->next = record;
+    record->previous = prior;
+    record->next = next;
+    next->previous = record;
+}

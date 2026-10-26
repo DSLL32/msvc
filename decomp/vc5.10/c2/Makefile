@@ -30,6 +30,30 @@ BINARY_SOURCES = crt/math-error.c \
     src/functions.c \
     src/inlining.c \
     src/optimizer.c \
+    src/global-optimizer.c \
+    src/global-rewrite.c \
+    src/final-operands.c \
+    src/final-lowering.c \
+    src/final-integer.c \
+    src/final-schedule.c \
+    src/final-registers.c \
+    src/frame-layout.c src/function-output.c src/instruction-output.c \
+    src/function-prologue.c \
+    src/final-peephole.c \
+    src/final-instruction-peephole.c \
+    src/final-value-reuse.c \
+    src/global-expressions.c \
+    src/global-optimizer-stubs.c \
+    src/expression-rewrite.c \
+    src/integer-fold.c \
+    src/real-fold.c \
+    src/expression-compare.c \
+    src/expression-order.c \
+    src/expression-restore.c \
+    src/expression-factors.c \
+    src/optimizer-translate.c \
+    src/optimizer-sets.c \
+    src/optimizer-finish.c \
     src/optimizer-stubs.c \
     src/inlining-stubs.c \
     src/function-records.c \
@@ -59,13 +83,15 @@ ORIGINAL_LDFLAGS = /nologo /subsystem:console /entry:mainCRTStartup
 ORIGINAL_LDLIBS = $(ORIGINAL_BUILD)/messages.res $(ORIGINAL_TOOLCHAIN_ROOT)/lib/KERNEL32.LIB $(ORIGINAL_TOOLCHAIN_ROOT)/lib/USER32.LIB
 ORIGINAL_INCLUDE_DIRS = src crt $(RECON)/include $(ORIGINAL_TOOLCHAIN_ROOT)/include
 
+RECON_ALIAS_MAP = symbol-aliases.json
+
 RECON_AUDIT_PROFILE = cl
 RECON_IMAGE_BASE = 4194304
 RECON_POLICY = policy-data.json
 RECON_AUDIT_REGISTRY_METADATA = 1
 RECON_METADATA_REBUILT_MAP = $(ORIGINAL_BUILD)/c2.map
 RECON_AUDIT_REGISTRY_RUNTIME = 1
-RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE) --rebuilt $(abspath $(ORIGINAL_OUTPUT)) --map $(abspath $(ORIGINAL_BUILD)/c2.map) --discovery cfg --check-ret --check-imports --check-references --check-accepted-extents --check-ownership --check-extents
+RECON_AUDIT_FLAGS = -q --original $(abspath ../../../toolchains/5.10/bin/C2.EXE) --rebuilt $(abspath $(ORIGINAL_OUTPUT)) --map $(abspath $(ORIGINAL_BUILD)/c2.map) --discovery cfg --check-ret --check-imports --check-references --check-callbacks --check-accepted-extents --check-ownership --check-extents
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
@@ -74,8 +100,12 @@ RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Preserve encountered compiler intrinsic choices and the genuine CRT thunk.
-$(addprefix $(ORIGINAL_BUILD)/obj/src/,option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj function-setup.c.obj small-nodes.c.obj flow.c.obj code-input.c.obj code-records.c.obj function-reader.c.obj inlining.c.obj): ORIGINAL_CFLAGS += /Oi
+$(addprefix $(ORIGINAL_BUILD)/obj/src/,function-output.c.obj option-match.c.obj diagnostics.c.obj il-files.c.obj symbols.c.obj nodes.c.obj symbol-input.c.obj coff-output.c.obj function-records.c.obj function-setup.c.obj small-nodes.c.obj flow.c.obj optimizer-sets.c.obj code-input.c.obj code-records.c.obj function-reader.c.obj inlining.c.obj): ORIGINAL_CFLAGS += /Oi
 $(ORIGINAL_BUILD)/obj/crt/precision.c.obj: ORIGINAL_CFLAGS = /nologo /c /Od /G3 /W3 /ML /Zl
 $(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
 	@mkdir -p $(@D)
 	$(RECON_TOOL) original tool 5.10 RC.EXE -- /r /fo $@ $<
+
+$(ORIGINAL_BUILD)/obj/src/expression-factors.c.obj $(ORIGINAL_BUILD)/obj/src/global-optimizer.c.obj $(ORIGINAL_BUILD)/obj/src/global-rewrite.c.obj: ORIGINAL_CFLAGS += /Oi
+
+$(ORIGINAL_BUILD)/obj/src/final-lowering.c.obj $(ORIGINAL_BUILD)/obj/src/final-registers.c.obj: ORIGINAL_CFLAGS += /Oi

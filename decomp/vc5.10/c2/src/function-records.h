@@ -13,19 +13,57 @@ struct C2FunctionRegister {
     C2FunctionRegister *variant_next;
     unsigned short type, pending12;
     struct C2Expression *value;
-    unsigned pending18;
+    union { unsigned pending18; struct C2GlobalExpression *global_expression; };
     unsigned number;
     unsigned value_bytes;
-    long displacement;
-    C2FunctionRegister *next_free;
-    unsigned pending2c;
-    union { unsigned properties; C2OptimizerRegisterInfo *optimizer; C2OptimizerUse *optimizer_uses; };
-    unsigned optimizer_index;
-    unsigned char pending38[24];
+    union { long displacement; unsigned optimizer_scope_number; };
+    union { C2FunctionRegister *next_free, *copied_register; long frame_displacement;
+        C2Expression *diagnostic_record; C2Expression *allocation_operand; };
+    union {
+        unsigned pending2c;
+        C2FunctionRegister *previous_parameter;
+        C2OptimizerUse *dependent_uses;
+        C2FunctionRegister *global_next;
+        C2FunctionRegister *diagnostic_next;
+        C2FunctionRegister *allocation_next;
+        C2FunctionRegister *spill_preferred_register;
+        C2FunctionRegister *frame_next;
+        C2FunctionRegister *cache_equivalent_next;
+    };
+    union { C2FunctionRegister *cache_group_next; unsigned properties; C2FunctionRegister *frame_previous; C2OptimizerRegisterInfo *optimizer; C2OptimizerUse *optimizer_uses;
+        struct C2AllocationInfo *allocation;
+        struct { unsigned char rewrite_seen, rewrite_queued, rewrite_flags, pending33; };
+        /* Final width analysis reuses these bytes for forward facts and
+         * backward use requirements after its real scratch reset. */
+        struct { unsigned char known_zero_bits, unused_high_bits, extension_flags,
+            pending_extension_flags; }; };
+    union { C2Expression *cache_values; unsigned optimizer_index; C2RegisterSet *optimizer_set; struct C2GlobalDependency *global_dependents;
+        C2FunctionRegister *allocation_root; int spill_cost, frame_uses; };
+    union {
+        unsigned char pending38[24];
+        struct {
+            union { unsigned char pending38_prefix[12];
+                struct {
+                    union { struct C2GlobalDependency *global_dependencies; int frame_index; };
+                    struct C2GlobalRegisterLink *global_assignments;
+                    C2RegisterSet *global_dependency_set;
+                };
+            };
+            union { C2OptimizerUse *global_followers; unsigned global_invalidation_epoch; };
+            union { struct C2OptimizerRecordLink *global_definitions; C2Expression *global_definition_record;
+                C2Expression *allocation_definition_record; };
+            union { struct C2OptimizerRecordLink *global_uses;
+                C2Expression *global_last_input_operand; C2Expression *allocation_definition_operand; };
+        };
+    };
 };
+typedef char C2CacheEquivalentOffset[offsetof(C2FunctionRegister, cache_equivalent_next) == 44 ? 1 : -1];
+typedef char C2CacheGroupOffset[offsetof(C2FunctionRegister, cache_group_next) == 48 ? 1 : -1];
+typedef char C2CacheValuesOffset[offsetof(C2FunctionRegister, cache_values) == 52 ? 1 : -1];
 typedef char C2FunctionRegisterValueCheck[offsetof(C2FunctionRegister, value) == 20 ? 1 : -1];
 typedef char C2FunctionRegisterCanonicalCheck[offsetof(C2FunctionRegister, canonical) == 8 ? 1 : -1];
 typedef char C2FunctionRegisterPropertiesCheck[offsetof(C2FunctionRegister, properties) == 48 ? 1 : -1];
+typedef char C2GlobalLastOperandOffset[offsetof(C2FunctionRegister, global_last_input_operand) == 76 ? 1 : -1];
 typedef char C2FunctionRegisterSizeCheck[sizeof(C2FunctionRegister) == 80 ? 1 : -1];
 typedef char C2FunctionRegisterKindCheck[offsetof(C2FunctionRegister,kind) == 4 ? 1 : -1];
 typedef char C2FunctionRegisterNumberCheck[offsetof(C2FunctionRegister,number) == 28 ? 1 : -1];
@@ -58,4 +96,5 @@ C2FunctionRegister *__fastcall new_bitfield_register(C2FunctionRegister *source,
 void __fastcall replace_register_uses(C2FunctionRegister *source, C2FunctionRegister *replacement);
 void __fastcall clear_register_set(C2RegisterSet *set);
 void __fastcall add_register_to_set(C2RegisterSet *set, unsigned number);
+int __fastcall compare_function_registers(C2FunctionRegister *left, C2FunctionRegister *right);
 #endif

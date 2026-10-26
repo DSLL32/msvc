@@ -10,7 +10,7 @@ typedef struct C2NodeHeader {
 } C2NodeHeader;
 
 unsigned long c2_node_bytes[4];
-C2Pool c2_pools[13];
+C2Pool c2_pools[15];
 C2PoolBlock *c2_free_blocks;
 
 void *__fastcall c2_pool_allocate(int pool, unsigned bytes)
@@ -21,7 +21,9 @@ void *__fastcall c2_pool_allocate(int pool, unsigned bytes)
     unsigned char *result;
 
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if ((unsigned)pool >= 8 && pool != 12)
+    if ((unsigned)pool >= 9 && pool != 12 &&
+        !(pool == 13 && register_set_pool_thirteen_initialized) &&
+        !(pool == 14 && register_set_pool_fourteen_initialized))
         recon_unsupported("unmodeled C2 allocation-pool slot");
 #endif
     arena = &c2_pools[pool];
@@ -107,7 +109,9 @@ void __fastcall reset_input_pool(unsigned pool)
     C2Pool *arena;
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
     /* Other pools are valid original inputs; their reset slots are unmodeled. */
-    if (pool != 4 && pool != 6 && pool != 12) recon_unsupported("unmodeled C2 pool-reset free-head slot");
+    if (pool != 1 && pool != 3 && pool != 4 && pool != 5 && pool != 6 &&
+        pool != 8 && pool != 12 && pool != 13 && pool != 14)
+        recon_unsupported("unmodeled C2 pool-reset free-head slot");
 #endif
     arena = &c2_pools[pool];
     release_input_pool(arena);
@@ -120,7 +124,12 @@ void __fastcall reset_input_pool(unsigned pool)
     last_free_register_sets[pool] = NULL;
     input_pool_reset_state_a = input_pool_reset_state_b = 0;
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
+    if (pool == 3) register_set_pool_three_initialized = 1;
+    if (pool == 4) register_set_pool_four_initialized = 1;
     if (pool == 6) register_set_pool_six_initialized = 1;
+    if (pool == 12) register_set_pool_twelve_initialized = 1;
+    if (pool == 13) register_set_pool_thirteen_initialized = 1;
+    if (pool == 14) register_set_pool_fourteen_initialized = 1;
 #endif
 }
 

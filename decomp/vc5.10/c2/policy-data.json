@@ -618,51 +618,51 @@
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8251
+                "offset": 8520
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8559
+                "offset": 8828
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8559
+                "offset": 8828
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8716
+                "offset": 8985
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8716
+                "offset": 8985
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8736
+                "offset": 9005
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8736
+                "offset": 9005
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8792
+                "offset": 9061
               }
             ],
             [
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8792
+                "offset": 9061
               },
               {
                 "rebuilt_symbol": "@read_function_code@20",
-                "offset": 8829
+                "offset": 9098
               }
             ]
           ]
@@ -762,21 +762,21 @@
             [
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 573
+                "offset": 700
               },
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 617
+                "offset": 744
               }
             ],
             [
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 617
+                "offset": 744
               },
               {
                 "rebuilt_symbol": "@release_small_node@4",
-                "offset": 641
+                "offset": 768
               }
             ]
           ]
@@ -1035,9 +1035,3370 @@
             ]
           ]
         }
+      },
+      "@translate_optimizer_input@16": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@translate_optimizer_input@16",
+                "offset": 6186
+              },
+              {
+                "rebuilt_symbol": "@translate_optimizer_input@16",
+                "offset": 6486
+              }
+            ]
+          ]
+        }
+      },
+      "@compare_optimizer_operand@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@compare_optimizer_operand@12",
+                "offset": 355
+              },
+              {
+                "rebuilt_symbol": "@compare_optimizer_operand@12",
+                "offset": 379
+              }
+            ]
+          ]
+        }
+      },
+      "@simplify_function_expressions@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_function_expressions@8",
+                "offset": 247
+              },
+              {
+                "rebuilt_symbol": "@simplify_function_expressions@8",
+                "offset": 283
+              }
+            ]
+          ]
+        }
+      },
+      "@simplify_expression_tree@4": {
+        "original": {
+          "text_data": [
+            [
+              4214040,
+              4214060
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_expression_tree@4",
+                "offset": 472
+              },
+              {
+                "rebuilt_symbol": "@simplify_expression_tree@4",
+                "offset": 484
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@simplify_expression_tree@4",
+                "offset": 484
+              },
+              {
+                "rebuilt_symbol": "@simplify_expression_tree@4",
+                "offset": 492
+              }
+            ]
+          ]
+        }
+      },
+      "@mark_expression_execution@8": {
+        "original": {
+          "text_data": [
+            [
+              4214272,
+              4214339
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@mark_expression_execution@8",
+                "offset": 334
+              },
+              {
+                "rebuilt_symbol": "@mark_expression_execution@8",
+                "offset": 354
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@mark_expression_execution@8",
+                "offset": 354
+              },
+              {
+                "rebuilt_symbol": "@mark_expression_execution@8",
+                "offset": 401
+              }
+            ]
+          ]
+        }
+      },
+      "@simplify_expression_operation@8": {
+        "original": {
+          "text_data": [
+            [
+              4220992,
+              4221056
+            ],
+            [
+              4221056,
+              4221098
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_expression_operation@8",
+                "offset": 5143
+              },
+              {
+                "rebuilt_symbol": "@simplify_expression_operation@8",
+                "offset": 5207
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@simplify_expression_operation@8",
+                "offset": 5207
+              },
+              {
+                "rebuilt_symbol": "@simplify_expression_operation@8",
+                "offset": 5249
+              }
+            ]
+          ]
+        }
+      },
+      "@operation_identity@8": {
+        "original": {
+          "text_data": [
+            [
+              4232292,
+              4232336
+            ],
+            [
+              4232336,
+              4232352
+            ],
+            [
+              4232352,
+              4232361
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 316
+              },
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 360
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 360
+              },
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 376
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 376
+              },
+              {
+                "rebuilt_symbol": "@operation_identity@8",
+                "offset": 385
+              }
+            ]
+          ]
+        }
+      },
+      "@apply_integer_mask@12": {
+        "original": {
+          "text_data": [
+            [
+              4418968,
+              4419000
+            ],
+            [
+              4419000,
+              4419047
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@apply_integer_mask@12",
+                "offset": 1212
+              },
+              {
+                "rebuilt_symbol": "@apply_integer_mask@12",
+                "offset": 1244
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@apply_integer_mask@12",
+                "offset": 1244
+              },
+              {
+                "rebuilt_symbol": "@apply_integer_mask@12",
+                "offset": 1291
+              }
+            ]
+          ]
+        }
+      },
+      "@operation_is_associative@4": {
+        "original": {
+          "text_data": [
+            [
+              4208244,
+              4208264
+            ],
+            [
+              4208264,
+              4208283
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@operation_is_associative@4",
+                "offset": 64
+              },
+              {
+                "rebuilt_symbol": "@operation_is_associative@4",
+                "offset": 84
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@operation_is_associative@4",
+                "offset": 84
+              },
+              {
+                "rebuilt_symbol": "@operation_is_associative@4",
+                "offset": 103
+              }
+            ]
+          ]
+        }
+      },
+      "@expression_is_unary_operation@4": {
+        "original": {
+          "text_data": [
+            [
+              4221136,
+              4221156
+            ],
+            [
+              4221156,
+              4221202
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@expression_is_unary_operation@4",
+                "offset": 67
+              },
+              {
+                "rebuilt_symbol": "@expression_is_unary_operation@4",
+                "offset": 87
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@expression_is_unary_operation@4",
+                "offset": 87
+              },
+              {
+                "rebuilt_symbol": "@expression_is_unary_operation@4",
+                "offset": 133
+              }
+            ]
+          ]
+        }
+      },
+      "@expression_is_binary_operation@4": {
+        "original": {
+          "text_data": [
+            [
+              4221240,
+              4221256
+            ],
+            [
+              4221256,
+              4221279
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@expression_is_binary_operation@4",
+                "offset": 67
+              },
+              {
+                "rebuilt_symbol": "@expression_is_binary_operation@4",
+                "offset": 83
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@expression_is_binary_operation@4",
+                "offset": 83
+              },
+              {
+                "rebuilt_symbol": "@expression_is_binary_operation@4",
+                "offset": 106
+              }
+            ]
+          ]
+        }
+      },
+      "@fold_expression_tree@8": {
+        "original": {
+          "text_data": [
+            [
+              4222444,
+              4222460
+            ],
+            [
+              4222460,
+              4222471
+            ],
+            [
+              4222472,
+              4222508
+            ],
+            [
+              4222508,
+              4222537
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 756
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 772
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 772
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 783
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 783
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 815
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 815
+              },
+              {
+                "rebuilt_symbol": "@fold_expression_tree@8",
+                "offset": 838
+              }
+            ]
+          ]
+        }
+      },
+      "@rewrite_expression_operands@8": {
+        "original": {
+          "text_data": [
+            [
+              4223436,
+              4223456
+            ],
+            [
+              4223456,
+              4223473
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@rewrite_expression_operands@8",
+                "offset": 1113
+              },
+              {
+                "rebuilt_symbol": "@rewrite_expression_operands@8",
+                "offset": 1133
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@rewrite_expression_operands@8",
+                "offset": 1133
+              },
+              {
+                "rebuilt_symbol": "@rewrite_expression_operands@8",
+                "offset": 1150
+              }
+            ]
+          ]
+        }
+      },
+      "@compare_expression_trees@8": {
+        "original": {
+          "text_data": [
+            [
+              4226296,
+              4226332
+            ]
+          ]
+        }
+      },
+      "@expression_value_hash@4": {
+        "original": {
+          "text_data": [
+            [
+              4216072,
+              4216104
+            ],
+            [
+              4216104,
+              4216124
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@expression_value_hash@4",
+                "offset": 475
+              },
+              {
+                "rebuilt_symbol": "@expression_value_hash@4",
+                "offset": 503
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@expression_value_hash@4",
+                "offset": 503
+              },
+              {
+                "rebuilt_symbol": "@expression_value_hash@4",
+                "offset": 523
+              }
+            ]
+          ]
+        }
+      },
+      "@distribute_widening_conversion@8": {
+        "original": {
+          "text_data": [
+            [
+              4224440,
+              4224456
+            ],
+            [
+              4224456,
+              4224477
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@distribute_widening_conversion@8",
+                "offset": 900
+              },
+              {
+                "rebuilt_symbol": "@distribute_widening_conversion@8",
+                "offset": 916
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@distribute_widening_conversion@8",
+                "offset": 916
+              },
+              {
+                "rebuilt_symbol": "@distribute_widening_conversion@8",
+                "offset": 937
+              }
+            ]
+          ]
+        }
+      },
+      "@mark_register_references@4": {
+        "original": {
+          "text_data": [
+            [
+              4234624,
+              4234648
+            ],
+            [
+              4234648,
+              4234668
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@mark_register_references@4",
+                "offset": 300
+              },
+              {
+                "rebuilt_symbol": "@mark_register_references@4",
+                "offset": 324
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@mark_register_references@4",
+                "offset": 324
+              },
+              {
+                "rebuilt_symbol": "@mark_register_references@4",
+                "offset": 344
+              }
+            ]
+          ]
+        }
+      },
+      "@optimize_global_flow@4": {
+        "original": {
+          "text_data": [
+            [
+              4331676,
+              4331708
+            ],
+            [
+              4331708,
+              4331740
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@optimize_global_flow@4",
+                "offset": 1902
+              },
+              {
+                "rebuilt_symbol": "@optimize_global_flow@4",
+                "offset": 1934
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_global_flow@4",
+                "offset": 1934
+              },
+              {
+                "rebuilt_symbol": "@optimize_global_flow@4",
+                "offset": 1966
+              }
+            ]
+          ]
+        }
+      },
+      "@prepare_global_record@12": {
+        "original": {
+          "text_data": [
+            [
+              4237416,
+              4237432
+            ],
+            [
+              4615644,
+              4615668
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@prepare_global_record@12",
+                "offset": 2568
+              },
+              {
+                "rebuilt_symbol": "@prepare_global_record@12",
+                "offset": 2592
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@prepare_global_record@12",
+                "offset": 2592
+              },
+              {
+                "rebuilt_symbol": "@prepare_global_record@12",
+                "offset": 2608
+              }
+            ]
+          ]
+        }
+      },
+      "@fold_integer_operation@16": {
+        "original": {
+          "text_data": [
+            [
+              4208820,
+              4208896
+            ],
+            [
+              4208896,
+              4208944
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_integer_operation@16",
+                "offset": 788
+              },
+              {
+                "rebuilt_symbol": "@fold_integer_operation@16",
+                "offset": 860
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_integer_operation@16",
+                "offset": 860
+              },
+              {
+                "rebuilt_symbol": "@fold_integer_operation@16",
+                "offset": 908
+              }
+            ]
+          ]
+        }
+      },
+      "@fold_real_operation@16": {
+        "original": {
+          "text_data": [
+            [
+              4237744,
+              4237792
+            ],
+            [
+              4237792,
+              4237840
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_real_operation@16",
+                "offset": 503
+              },
+              {
+                "rebuilt_symbol": "@fold_real_operation@16",
+                "offset": 547
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_real_operation@16",
+                "offset": 547
+              },
+              {
+                "rebuilt_symbol": "@fold_real_operation@16",
+                "offset": 595
+              }
+            ]
+          ]
+        }
+      },
+      "@compare_input_operands@8": {
+        "original": {
+          "text_data": [
+            [
+              4202752,
+              4202792
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@compare_input_operands@8",
+                "offset": 851
+              },
+              {
+                "rebuilt_symbol": "@compare_input_operands@8",
+                "offset": 891
+              }
+            ]
+          ]
+        }
+      },
+      "@build_global_flow_analysis@4": {
+        "original": {
+          "text_data": [
+            [
+              4318712,
+              4318724
+            ],
+            [
+              4318724,
+              4318731
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@build_global_flow_analysis@4",
+                "offset": 1401
+              },
+              {
+                "rebuilt_symbol": "@build_global_flow_analysis@4",
+                "offset": 1413
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@build_global_flow_analysis@4",
+                "offset": 1413
+              },
+              {
+                "rebuilt_symbol": "@build_global_flow_analysis@4",
+                "offset": 1420
+              }
+            ]
+          ]
+        }
+      },
+      "@rewrite_global_record@12": {
+        "original": {
+          "text_data": [
+            [
+              4212032,
+              4212072
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@rewrite_global_record@12",
+                "offset": 3810
+              },
+              {
+                "rebuilt_symbol": "@rewrite_global_record@12",
+                "offset": 3850
+              }
+            ]
+          ]
+        }
+      },
+      "@collect_global_record_sets@4": {
+        "original": {
+          "text_data": [
+            [
+              4300952,
+              4300968
+            ],
+            [
+              4300968,
+              4300978
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@collect_global_record_sets@4",
+                "offset": 1484
+              },
+              {
+                "rebuilt_symbol": "@collect_global_record_sets@4",
+                "offset": 1500
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@collect_global_record_sets@4",
+                "offset": 1500
+              },
+              {
+                "rebuilt_symbol": "@collect_global_record_sets@4",
+                "offset": 1510
+              }
+            ]
+          ]
+        }
+      },
+      "@prepare_global_expressions@4": {
+        "original": {
+          "text_data": [
+            [
+              4299748,
+              4299788
+            ],
+            [
+              4299788,
+              4299800
+            ],
+            [
+              4299800,
+              4299808
+            ],
+            [
+              4299808,
+              4299820
+            ],
+            [
+              4299820,
+              4299828
+            ],
+            [
+              4299828,
+              4299840
+            ],
+            [
+              4299840,
+              4299848
+            ],
+            [
+              4299848,
+              4299860
+            ],
+            [
+              4299860,
+              4299868
+            ],
+            [
+              4299868,
+              4299880
+            ],
+            [
+              4299880,
+              4299888
+            ],
+            [
+              4299888,
+              4299900
+            ],
+            [
+              4299900,
+              4299908
+            ],
+            [
+              4299908,
+              4299920
+            ],
+            [
+              4299920,
+              4299928
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@prepare_global_expressions@4",
+                "offset": 1804
+              },
+              {
+                "rebuilt_symbol": "@prepare_global_expressions@4",
+                "offset": 1844
+              }
+            ]
+          ]
+        }
+      },
+      "@hash_global_operand@4": {
+        "original": {
+          "text_data": [
+            [
+              4238040,
+              4238080
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@hash_global_operand@4",
+                "offset": 109
+              },
+              {
+                "rebuilt_symbol": "@hash_global_operand@4",
+                "offset": 149
+              }
+            ]
+          ]
+        }
+      },
+      "@global_opcode_requires_exact_type@4": {
+        "original": {
+          "text_data": [
+            [
+              4238536,
+              4238556
+            ],
+            [
+              4238560,
+              4238595
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@global_opcode_requires_exact_type@4",
+                "offset": 64
+              },
+              {
+                "rebuilt_symbol": "@global_opcode_requires_exact_type@4",
+                "offset": 84
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@global_opcode_requires_exact_type@4",
+                "offset": 84
+              },
+              {
+                "rebuilt_symbol": "@global_opcode_requires_exact_type@4",
+                "offset": 119
+              }
+            ]
+          ]
+        }
+      },
+      "@update_global_available_registers@4": {
+        "original": {
+          "text_data": [
+            [
+              4243892,
+              4243912
+            ],
+            [
+              4243912,
+              4243922
+            ],
+            [
+              4243924,
+              4243948
+            ],
+            [
+              4243948,
+              4243972
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1183
+              },
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1203
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1203
+              },
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1213
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1213
+              },
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1237
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1237
+              },
+              {
+                "rebuilt_symbol": "@update_global_available_registers@4",
+                "offset": 1261
+              }
+            ]
+          ]
+        }
+      },
+      "@update_global_record_registers@8": {
+        "original": {
+          "text_data": [
+            [
+              4244948,
+              4244968
+            ],
+            [
+              4244968,
+              4244978
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@update_global_record_registers@8",
+                "offset": 900
+              },
+              {
+                "rebuilt_symbol": "@update_global_record_registers@8",
+                "offset": 920
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@update_global_record_registers@8",
+                "offset": 920
+              },
+              {
+                "rebuilt_symbol": "@update_global_record_registers@8",
+                "offset": 930
+              }
+            ]
+          ]
+        }
+      },
+      "@get_global_value_operand@4": {
+        "original": {
+          "text_data": [
+            [
+              4433460,
+              4433472
+            ],
+            [
+              4433472,
+              4433480
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@get_global_value_operand@4",
+                "offset": 92
+              },
+              {
+                "rebuilt_symbol": "@get_global_value_operand@4",
+                "offset": 104
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@get_global_value_operand@4",
+                "offset": 104
+              },
+              {
+                "rebuilt_symbol": "@get_global_value_operand@4",
+                "offset": 112
+              }
+            ]
+          ]
+        }
+      },
+      "@collect_global_available_record@8": {
+        "original": {
+          "text_data": [
+            [
+              4296088,
+              4296108
+            ],
+            [
+              4296112,
+              4296122
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@collect_global_available_record@8",
+                "offset": 1125
+              },
+              {
+                "rebuilt_symbol": "@collect_global_available_record@8",
+                "offset": 1145
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@collect_global_available_record@8",
+                "offset": 1145
+              },
+              {
+                "rebuilt_symbol": "@collect_global_available_record@8",
+                "offset": 1155
+              }
+            ]
+          ]
+        }
+      },
+      "@collect_global_loop_record@8": {
+        "original": {
+          "text_data": [
+            [
+              4213616,
+              4213636
+            ],
+            [
+              4213636,
+              4213646
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@collect_global_loop_record@8",
+                "offset": 1027
+              },
+              {
+                "rebuilt_symbol": "@collect_global_loop_record@8",
+                "offset": 1047
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@collect_global_loop_record@8",
+                "offset": 1047
+              },
+              {
+                "rebuilt_symbol": "@collect_global_loop_record@8",
+                "offset": 1057
+              }
+            ]
+          ]
+        }
+      },
+      "@rewrite_global_cleanup_record@16": {
+        "original": {
+          "text_data": [
+            [
+              4247616,
+              4247632
+            ],
+            [
+              4247632,
+              4247642
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@rewrite_global_cleanup_record@16",
+                "offset": 1634
+              },
+              {
+                "rebuilt_symbol": "@rewrite_global_cleanup_record@16",
+                "offset": 1650
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@rewrite_global_cleanup_record@16",
+                "offset": 1650
+              },
+              {
+                "rebuilt_symbol": "@rewrite_global_cleanup_record@16",
+                "offset": 1660
+              }
+            ]
+          ]
+        }
+      },
+      "@global_record_skips_replacement_check@4": {
+        "original": {
+          "text_data": [
+            [
+              4247912,
+              4247924
+            ],
+            [
+              4247924,
+              4247932
+            ]
+          ]
+        }
+      },
+      "@input_operands_may_alias@8": {
+        "original": {
+          "text_data": [
+            [
+              4227424,
+              4227464
+            ],
+            [
+              4227464,
+              4227484
+            ],
+            [
+              4227484,
+              4227494
+            ],
+            [
+              4227496,
+              4227516
+            ],
+            [
+              4227516,
+              4227526
+            ],
+            [
+              4227528,
+              4227548
+            ],
+            [
+              4227548,
+              4227558
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 712
+              },
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 752
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 752
+              },
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 772
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 772
+              },
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 782
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 782
+              },
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 802
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 802
+              },
+              {
+                "rebuilt_symbol": "@input_operands_may_alias@8",
+                "offset": 812
+              }
+            ]
+          ]
+        }
+      },
+      "@rewrite_final_input_record@4": {
+        "original": {
+          "text_data": [
+            [
+              4272664,
+              4272692
+            ],
+            [
+              4272692,
+              4272709
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@rewrite_final_input_record@4",
+                "offset": 1352
+              },
+              {
+                "rebuilt_symbol": "@rewrite_final_input_record@4",
+                "offset": 1380
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@rewrite_final_input_record@4",
+                "offset": 1380
+              },
+              {
+                "rebuilt_symbol": "@rewrite_final_input_record@4",
+                "offset": 1397
+              }
+            ]
+          ]
+        }
+      },
+      "@classify_final_shift@12": {
+        "original": {
+          "text_data": [
+            [
+              4432072,
+              4432092
+            ],
+            [
+              4432096,
+              4432143
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@classify_final_shift@12",
+                "offset": 644
+              },
+              {
+                "rebuilt_symbol": "@classify_final_shift@12",
+                "offset": 664
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@classify_final_shift@12",
+                "offset": 664
+              },
+              {
+                "rebuilt_symbol": "@classify_final_shift@12",
+                "offset": 711
+              }
+            ]
+          ]
+        }
+      },
+      "@final_type_register_class@4": {
+        "original": {
+          "text_data": [
+            [
+              4261320,
+              4261364
+            ],
+            [
+              4261364,
+              4261396
+            ],
+            [
+              4261396,
+              4261428
+            ],
+            [
+              4261428,
+              4261460
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 514
+              },
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 554
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 554
+              },
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 586
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 586
+              },
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 618
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 618
+              },
+              {
+                "rebuilt_symbol": "@final_type_register_class@4",
+                "offset": 650
+              }
+            ]
+          ]
+        }
+      },
+      "@simplify_final_block_forward@4": {
+        "original": {
+          "text_data": [
+            [
+              4262448,
+              4262472
+            ],
+            [
+              4262472,
+              4262487
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_final_block_forward@4",
+                "offset": 1203
+              },
+              {
+                "rebuilt_symbol": "@simplify_final_block_forward@4",
+                "offset": 1227
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@simplify_final_block_forward@4",
+                "offset": 1227
+              },
+              {
+                "rebuilt_symbol": "@simplify_final_block_forward@4",
+                "offset": 1242
+              }
+            ]
+          ]
+        }
+      },
+      "@final_record_zero_bits@4": {
+        "original": {
+          "text_data": [
+            [
+              4270260,
+              4270280
+            ],
+            [
+              4270280,
+              4270303
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_record_zero_bits@4",
+                "offset": 435
+              },
+              {
+                "rebuilt_symbol": "@final_record_zero_bits@4",
+                "offset": 455
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_record_zero_bits@4",
+                "offset": 455
+              },
+              {
+                "rebuilt_symbol": "@final_record_zero_bits@4",
+                "offset": 478
+              }
+            ]
+          ]
+        }
+      },
+      "@count_integer_leading_zero_bits@4": {
+        "original": {
+          "text_data": [
+            [
+              4432832,
+              4432852
+            ],
+            [
+              4432852,
+              4432868
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@count_integer_leading_zero_bits@4",
+                "offset": 209
+              },
+              {
+                "rebuilt_symbol": "@count_integer_leading_zero_bits@4",
+                "offset": 229
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@count_integer_leading_zero_bits@4",
+                "offset": 229
+              },
+              {
+                "rebuilt_symbol": "@count_integer_leading_zero_bits@4",
+                "offset": 245
+              }
+            ]
+          ]
+        }
+      },
+      "@final_record_can_narrow@8": {
+        "original": {
+          "text_data": [
+            [
+              4270848,
+              4270880
+            ],
+            [
+              4270880,
+              4270907
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_record_can_narrow@8",
+                "offset": 540
+              },
+              {
+                "rebuilt_symbol": "@final_record_can_narrow@8",
+                "offset": 568
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_record_can_narrow@8",
+                "offset": 568
+              },
+              {
+                "rebuilt_symbol": "@final_record_can_narrow@8",
+                "offset": 595
+              }
+            ]
+          ]
+        }
+      },
+      "@final_operand_supports_width@8": {
+        "original": {
+          "text_data": [
+            [
+              4273392,
+              4273420
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_operand_supports_width@8",
+                "offset": 451
+              },
+              {
+                "rebuilt_symbol": "@final_operand_supports_width@8",
+                "offset": 479
+              }
+            ]
+          ]
+        }
+      },
+      "@expand_final_operand@20": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7844
+              },
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7868
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7868
+              },
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7889
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7889
+              },
+              {
+                "rebuilt_symbol": "@expand_final_operand@20",
+                "offset": 7989
+              }
+            ]
+          ]
+        }
+      },
+      "@find_final_operand_constraints@20": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@find_final_operand_constraints@20",
+                "offset": 2959
+              },
+              {
+                "rebuilt_symbol": "@find_final_operand_constraints@20",
+                "offset": 3326
+              }
+            ]
+          ]
+        }
+      },
+      "@final_record_condition@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_record_condition@4",
+                "offset": 142
+              },
+              {
+                "rebuilt_symbol": "@final_record_condition@4",
+                "offset": 190
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_record_condition@4",
+                "offset": 190
+              },
+              {
+                "rebuilt_symbol": "@final_record_condition@4",
+                "offset": 271
+              }
+            ]
+          ]
+        }
+      },
+      "@final_input_accepts_replacement@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_input_accepts_replacement@12",
+                "offset": 156
+              },
+              {
+                "rebuilt_symbol": "@final_input_accepts_replacement@12",
+                "offset": 184
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_input_accepts_replacement@12",
+                "offset": 184
+              },
+              {
+                "rebuilt_symbol": "@final_input_accepts_replacement@12",
+                "offset": 428
+              }
+            ]
+          ]
+        }
+      },
+      "@final_record_needs_allocation@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_record_needs_allocation@4",
+                "offset": 625
+              },
+              {
+                "rebuilt_symbol": "@final_record_needs_allocation@4",
+                "offset": 673
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_record_needs_allocation@4",
+                "offset": 673
+              },
+              {
+                "rebuilt_symbol": "@final_record_needs_allocation@4",
+                "offset": 813
+              }
+            ]
+          ]
+        }
+      },
+      "@normalize_final_float_opcode@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@normalize_final_float_opcode@4",
+                "offset": 960
+              },
+              {
+                "rebuilt_symbol": "@normalize_final_float_opcode@4",
+                "offset": 988
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@normalize_final_float_opcode@4",
+                "offset": 988
+              },
+              {
+                "rebuilt_symbol": "@normalize_final_float_opcode@4",
+                "offset": 1103
+              }
+            ]
+          ]
+        }
+      },
+      "@normalize_final_float_order@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@normalize_final_float_order@4",
+                "offset": 982
+              },
+              {
+                "rebuilt_symbol": "@normalize_final_float_order@4",
+                "offset": 998
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@normalize_final_float_order@4",
+                "offset": 998
+              },
+              {
+                "rebuilt_symbol": "@normalize_final_float_order@4",
+                "offset": 1070
+              }
+            ]
+          ]
+        }
+      },
+      "@final_float_stack_effect@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@final_float_stack_effect@4",
+                "offset": 303
+              },
+              {
+                "rebuilt_symbol": "@final_float_stack_effect@4",
+                "offset": 379
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@final_float_stack_effect@4",
+                "offset": 379
+              },
+              {
+                "rebuilt_symbol": "@final_float_stack_effect@4",
+                "offset": 516
+              }
+            ]
+          ]
+        }
+      },
+      "@allocation_operand_is_copy@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@allocation_operand_is_copy@8",
+                "offset": 1978
+              },
+              {
+                "rebuilt_symbol": "@allocation_operand_is_copy@8",
+                "offset": 2018
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@allocation_operand_is_copy@8",
+                "offset": 2018
+              },
+              {
+                "rebuilt_symbol": "@allocation_operand_is_copy@8",
+                "offset": 2220
+              }
+            ]
+          ]
+        }
+      },
+      "@collect_frame_registers@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@collect_frame_registers@4",
+                "offset": 611
+              },
+              {
+                "rebuilt_symbol": "@collect_frame_registers@4",
+                "offset": 627
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@collect_frame_registers@4",
+                "offset": 627
+              },
+              {
+                "rebuilt_symbol": "@collect_frame_registers@4",
+                "offset": 636
+              }
+            ]
+          ]
+        }
+      },
+      "@optimize_final_record_pass@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_record_pass@4",
+                "offset": 1022
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_record_pass@4",
+                "offset": 1042
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_record_pass@4",
+                "offset": 1042
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_record_pass@4",
+                "offset": 1054
+              }
+            ]
+          ]
+        }
+      },
+      "@prune_after_final_transfer@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@prune_after_final_transfer@4",
+                "offset": 181
+              },
+              {
+                "rebuilt_symbol": "@prune_after_final_transfer@4",
+                "offset": 217
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@prune_after_final_transfer@4",
+                "offset": 217
+              },
+              {
+                "rebuilt_symbol": "@prune_after_final_transfer@4",
+                "offset": 232
+              }
+            ]
+          ]
+        }
+      },
+      "@optimize_final_instruction_forms@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13457
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13481
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13481
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13505
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13505
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13565
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13565
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_instruction_forms@4",
+                "offset": 13742
+              }
+            ]
+          ]
+        }
+      },
+      "@finish_instruction_peephole_record@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@finish_instruction_peephole_record@8",
+                "offset": 144
+              },
+              {
+                "rebuilt_symbol": "@finish_instruction_peephole_record@8",
+                "offset": 168
+              }
+            ]
+          ]
+        }
+      },
+      "@preceding_instruction_is_arithmetic@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@preceding_instruction_is_arithmetic@4",
+                "offset": 67
+              },
+              {
+                "rebuilt_symbol": "@preceding_instruction_is_arithmetic@4",
+                "offset": 87
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@preceding_instruction_is_arithmetic@4",
+                "offset": 87
+              },
+              {
+                "rebuilt_symbol": "@preceding_instruction_is_arithmetic@4",
+                "offset": 236
+              }
+            ]
+          ]
+        }
+      },
+      "@optimize_final_branch_sequences@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_branch_sequences@4",
+                "offset": 1221
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_branch_sequences@4",
+                "offset": 1245
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_branch_sequences@4",
+                "offset": 1245
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_branch_sequences@4",
+                "offset": 1257
+              }
+            ]
+          ]
+        }
+      },
+      "@optimize_final_value_reuse@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 3918
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 3942
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 3942
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 3978
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 3978
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 4090
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 4090
+              },
+              {
+                "rebuilt_symbol": "@optimize_final_value_reuse@4",
+                "offset": 4326
+              }
+            ]
+          ]
+        }
+      },
+      "@select_final_cached_value@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@select_final_cached_value@8",
+                "offset": 664
+              },
+              {
+                "rebuilt_symbol": "@select_final_cached_value@8",
+                "offset": 688
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@select_final_cached_value@8",
+                "offset": 688
+              },
+              {
+                "rebuilt_symbol": "@select_final_cached_value@8",
+                "offset": 740
+              }
+            ]
+          ]
+        }
+      },
+      "@fold_final_cached_output@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@fold_final_cached_output@8",
+                "offset": 823
+              },
+              {
+                "rebuilt_symbol": "@fold_final_cached_output@8",
+                "offset": 843
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@fold_final_cached_output@8",
+                "offset": 843
+              },
+              {
+                "rebuilt_symbol": "@fold_final_cached_output@8",
+                "offset": 895
+              }
+            ]
+          ]
+        }
+      },
+      "@initialize_schedule_function@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@initialize_schedule_function@4",
+                "offset": 662
+              },
+              {
+                "rebuilt_symbol": "@initialize_schedule_function@4",
+                "offset": 678
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_range_has_memory_output@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_range_has_memory_output@4",
+                "offset": 298
+              },
+              {
+                "rebuilt_symbol": "@schedule_range_has_memory_output@4",
+                "offset": 318
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_range_has_memory_output@4",
+                "offset": 318
+              },
+              {
+                "rebuilt_symbol": "@schedule_range_has_memory_output@4",
+                "offset": 328
+              }
+            ]
+          ]
+        }
+      },
+      "@find_schedule_range_end@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@find_schedule_range_end@4",
+                "offset": 167
+              },
+              {
+                "rebuilt_symbol": "@find_schedule_range_end@4",
+                "offset": 207
+              }
+            ]
+          ]
+        }
+      },
+      "@build_schedule_graph@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1785
+              },
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1801
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1801
+              },
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1813
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1813
+              },
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1853
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1853
+              },
+              {
+                "rebuilt_symbol": "@build_schedule_graph@12",
+                "offset": 1893
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_node_operand_cost@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_operand_cost@4",
+                "offset": 493
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_operand_cost@4",
+                "offset": 549
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_operand_cost@4",
+                "offset": 549
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_operand_cost@4",
+                "offset": 755
+              }
+            ]
+          ]
+        }
+      },
+      "@add_schedule_record_dependencies@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@add_schedule_record_dependencies@8",
+                "offset": 619
+              },
+              {
+                "rebuilt_symbol": "@add_schedule_record_dependencies@8",
+                "offset": 659
+              }
+            ]
+          ]
+        }
+      },
+      "@add_schedule_control_dependencies@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@add_schedule_control_dependencies@12",
+                "offset": 703
+              },
+              {
+                "rebuilt_symbol": "@add_schedule_control_dependencies@12",
+                "offset": 743
+              }
+            ]
+          ]
+        }
+      },
+      "@set_schedule_register_overlap@12": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@set_schedule_register_overlap@12",
+                "offset": 236
+              },
+              {
+                "rebuilt_symbol": "@set_schedule_register_overlap@12",
+                "offset": 252
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_record_resource_class@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_record_resource_class@4",
+                "offset": 139
+              },
+              {
+                "rebuilt_symbol": "@schedule_record_resource_class@4",
+                "offset": 203
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_record_resource_class@4",
+                "offset": 203
+              },
+              {
+                "rebuilt_symbol": "@schedule_record_resource_class@4",
+                "offset": 426
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_node_cost@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_cost@4",
+                "offset": 230
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_cost@4",
+                "offset": 298
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_cost@4",
+                "offset": 298
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_cost@4",
+                "offset": 521
+              }
+            ]
+          ]
+        }
+      },
+      "@prepare_schedule_paths@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@prepare_schedule_paths@8",
+                "offset": 1370
+              },
+              {
+                "rebuilt_symbol": "@prepare_schedule_paths@8",
+                "offset": 1390
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@prepare_schedule_paths@8",
+                "offset": 1390
+              },
+              {
+                "rebuilt_symbol": "@prepare_schedule_paths@8",
+                "offset": 1642
+              }
+            ]
+          ]
+        }
+      },
+      "@adjust_schedule_dependency@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3330
+              },
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3358
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3358
+              },
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3391
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3391
+              },
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3415
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3415
+              },
+              {
+                "rebuilt_symbol": "@adjust_schedule_dependency@4",
+                "offset": 3448
+              }
+            ]
+          ]
+        }
+      },
+      "@can_pair_schedule_nodes@8": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 432
+              },
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 480
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 480
+              },
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 703
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 703
+              },
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 751
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 751
+              },
+              {
+                "rebuilt_symbol": "@can_pair_schedule_nodes@8",
+                "offset": 974
+              }
+            ]
+          ]
+        }
+      },
+      "@schedule_node_resource_cost@4": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_resource_cost@4",
+                "offset": 150
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_resource_cost@4",
+                "offset": 202
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@schedule_node_resource_cost@4",
+                "offset": 202
+              },
+              {
+                "rebuilt_symbol": "@schedule_node_resource_cost@4",
+                "offset": 425
+              }
+            ]
+          ]
+        }
+      },
+      "@adjust_final_stack_depth@8": {
+        "original": {
+          "text_data": [
+            [
+              4405192,
+              4405208
+            ],
+            [
+              4405208,
+              4405236
+            ],
+            [
+              4405236,
+              4405419
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1460
+              },
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1476
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1476
+              },
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1504
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1504
+              },
+              {
+                "rebuilt_symbol": "@adjust_final_stack_depth@8",
+                "offset": 1687
+              }
+            ]
+          ]
+        }
+      },
+      "_finalize_register_displacements": {
+        "original": {
+          "text_data": [
+            [
+              4406336,
+              4406360
+            ]
+          ]
+        }
+      },
+      "@encode_final_record@16": {
+        "original": {
+          "text_data": [
+            [
+              4377104,
+              4377128
+            ],
+            [
+              4377136,
+              4377168
+            ],
+            [
+              4377168,
+              4377420
+            ],
+            [
+              4377420,
+              4377508
+            ],
+            [
+              4377508,
+              4377524
+            ],
+            [
+              4377524,
+              4377608
+            ],
+            [
+              4377608,
+              4377805
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10177
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10245
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10245
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10468
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10468
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10492
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10492
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10524
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10524
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10776
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10776
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10864
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10864
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10960
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 10960
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 11215
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 11215
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 11283
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 11283
+              },
+              {
+                "rebuilt_symbol": "@encode_final_record@16",
+                "offset": 11506
+              }
+            ]
+          ]
+        }
+      },
+      "@encode_modrm_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4378480,
+              4378524
+            ]
+          ]
+        }
+      },
+      "@encode_immediate_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4378992,
+              4379056
+            ],
+            [
+              4379056,
+              4379076
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@encode_immediate_operand@12",
+                "offset": 870
+              },
+              {
+                "rebuilt_symbol": "@encode_immediate_operand@12",
+                "offset": 906
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@encode_immediate_operand@12",
+                "offset": 906
+              },
+              {
+                "rebuilt_symbol": "@encode_immediate_operand@12",
+                "offset": 922
+              }
+            ]
+          ]
+        }
+      },
+      "@emit_encoding_integer@8": {
+        "original": {
+          "text_data": [
+            [
+              4377856,
+              4377876
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@emit_encoding_integer@8",
+                "offset": 93
+              },
+              {
+                "rebuilt_symbol": "@emit_encoding_integer@8",
+                "offset": 113
+              }
+            ]
+          ]
+        }
+      },
+      "@layout_function_code@8": {
+        "original": {
+          "text_data": [
+            [
+              4407352,
+              4407376
+            ],
+            [
+              4407376,
+              4407391
+            ],
+            [
+              4407392,
+              4407428
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 971
+              },
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 995
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 995
+              },
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 1010
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 1010
+              },
+              {
+                "rebuilt_symbol": "@layout_function_code@8",
+                "offset": 1042
+              }
+            ]
+          ]
+        }
+      },
+      "@output_callback_41fa04@4": {
+        "original": {
+          "text_data": [
+            [
+              4324512,
+              4324528
+            ]
+          ]
+        }
+      },
+      "@coff_selection_code@4": {
+        "original": {
+          "text_data": [
+            [
+              4325468,
+              4325496
+            ]
+          ]
+        }
+      },
+      "@clone_function_section@8": {
+        "original": {
+          "text_data": [
+            [
+              4647852,
+              4647888
+            ],
+            [
+              4647888,
+              4647907
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@clone_function_section@8",
+                "offset": 313
+              },
+              {
+                "rebuilt_symbol": "@clone_function_section@8",
+                "offset": 349
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@clone_function_section@8",
+                "offset": 349
+              },
+              {
+                "rebuilt_symbol": "@clone_function_section@8",
+                "offset": 368
+              }
+            ]
+          ]
+        }
+      },
+      "@coff_symbol_name@4": {
+        "original": {
+          "text_data": [
+            [
+              4325144,
+              4325180
+            ]
+          ]
+        }
+      },
+      "@finish_function_code_offsets@4": {
+        "original": {
+          "text_data": [
+            [
+              4409008,
+              4409024
+            ],
+            [
+              4409024,
+              4409039
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@finish_function_code_offsets@4",
+                "offset": 894
+              },
+              {
+                "rebuilt_symbol": "@finish_function_code_offsets@4",
+                "offset": 910
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@finish_function_code_offsets@4",
+                "offset": 910
+              },
+              {
+                "rebuilt_symbol": "@finish_function_code_offsets@4",
+                "offset": 925
+              }
+            ]
+          ]
+        }
+      },
+      "@finish_function_output_state@4": {
+        "original": {
+          "text_data": [
+            [
+              4649576,
+              4649596
+            ],
+            [
+              4649600,
+              4649615
+            ]
+          ]
+        }
+      },
+      "@simplify_unary_constant@12": {
+        "original": {
+          "text_data": [
+            [
+              4233168,
+              4233208
+            ],
+            [
+              4233208,
+              4233253
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@simplify_unary_constant@12",
+                "offset": 809
+              },
+              {
+                "rebuilt_symbol": "@simplify_unary_constant@12",
+                "offset": 849
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@simplify_unary_constant@12",
+                "offset": 849
+              },
+              {
+                "rebuilt_symbol": "@simplify_unary_constant@12",
+                "offset": 894
+              }
+            ]
+          ]
+        }
+      },
+      "@peephole_436085@8": {
+        "original": {
+          "text_data": [
+            [
+              4416032,
+              4416052
+            ],
+            [
+              4416052,
+              4416073
+            ],
+            [
+              4416076,
+              4416096
+            ],
+            [
+              4416096,
+              4416117
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 634
+              },
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 654
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 654
+              },
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 675
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 675
+              },
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 695
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 695
+              },
+              {
+                "rebuilt_symbol": "@peephole_436085@8",
+                "offset": 716
+              }
+            ]
+          ]
+        }
+      },
+      "@input_operand_has_effects@4": {
+        "original": {
+          "text_data": [
+            [
+              4484432,
+              4484458
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_operand_has_effects@4",
+                "offset": 97
+              },
+              {
+                "rebuilt_symbol": "@input_operand_has_effects@4",
+                "offset": 113
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_operand_has_effects@4",
+                "offset": 113
+              },
+              {
+                "rebuilt_symbol": "@input_operand_has_effects@4",
+                "offset": 123
+              }
+            ]
+          ]
+        }
+      },
+      "@input_record_has_effects@4": {
+        "original": {
+          "text_data": [
+            [
+              4485948,
+              4486000
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@input_record_has_effects@4",
+                "offset": 197
+              },
+              {
+                "rebuilt_symbol": "@input_record_has_effects@4",
+                "offset": 217
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@input_record_has_effects@4",
+                "offset": 217
+              },
+              {
+                "rebuilt_symbol": "@input_record_has_effects@4",
+                "offset": 227
+              }
+            ]
+          ]
+        }
+      },
+      "@repair_relinked_block@16": {
+        "original": {
+          "text_data": [
+            [
+              4463360,
+              4463376
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@repair_relinked_block@16",
+                "offset": 303
+              },
+              {
+                "rebuilt_symbol": "@repair_relinked_block@16",
+                "offset": 319
+              }
+            ]
+          ]
+        }
+      },
+      "@common_factored_operand@12": {
+        "original": {
+          "text_data": [
+            [
+              4475728,
+              4475764
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@common_factored_operand@12",
+                "offset": 313
+              },
+              {
+                "rebuilt_symbol": "@common_factored_operand@12",
+                "offset": 349
+              }
+            ]
+          ]
+        }
+      },
+      "@subtract_common_factor@12": {
+        "original": {
+          "text_data": [
+            [
+              4476184,
+              4476220
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@subtract_common_factor@12",
+                "offset": 568
+              },
+              {
+                "rebuilt_symbol": "@subtract_common_factor@12",
+                "offset": 604
+              }
+            ]
+          ]
+        }
+      },
+      "@analyze_single_region_registers@4": {
+        "original": {
+          "text_data": [
+            [
+              4466056,
+              4466082
+            ],
+            [
+              4466084,
+              4466116
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1590
+              },
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1606
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1606
+              },
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1616
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1616
+              },
+              {
+                "rebuilt_symbol": "@analyze_single_region_registers@4",
+                "offset": 1648
+              }
+            ]
+          ]
+        }
+      },
+      "@global_condition_opcode@4": {
+        "original": {
+          "text_data": [
+            [
+              4245288,
+              4245312
+            ]
+          ]
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "@global_condition_opcode@4",
+                "offset": 96
+              },
+              {
+                "rebuilt_symbol": "@global_condition_opcode@4",
+                "offset": 120
+              }
+            ]
+          ]
+        }
       }
     },
-    "callback_tables": [],
+    "callback_tables": [
+      {
+        "label": "real constant-folding operations",
+        "original": [
+          4782768,
+          4782808
+        ],
+        "rebuilt_begin": "_global_real_operations",
+        "count": 5,
+        "stride": 8,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_c2_real_add",
+          "_c2_real_subtract",
+          "_c2_real_multiply",
+          "_c2_real_divide",
+          null
+        ],
+        "require_accepted": false,
+        "when_accepted": [
+          "@fold_real_operation@16"
+        ]
+      }
+    ],
     "register_imports": {
       "preservation_contracts": [
         {
@@ -1049,7 +4410,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1061,7 +4422,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1073,7 +4434,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1085,7 +4446,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1097,7 +4458,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1109,7 +4470,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1121,7 +4482,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1133,7 +4494,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1145,7 +4506,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1157,7 +4518,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1171,7 +4532,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1183,7 +4544,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1199,7 +4560,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1211,7 +4572,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1223,7 +4584,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1235,7 +4596,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1247,7 +4608,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1259,7 +4620,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1274,7 +4635,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1289,7 +4650,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1301,7 +4662,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1313,7 +4674,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1325,7 +4686,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1340,7 +4701,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1355,7 +4716,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1367,7 +4728,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1382,7 +4743,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         },
         {
@@ -1394,7 +4755,7 @@
           ],
           "evidence": {
             "path": "abi-contracts.json",
-            "sha256": "37e4d4e9619184a659c8cd3da458deaa8f7cc3534364fb9461fa0f36bae6a013"
+            "sha256": "30650e74e7869d6401e1abc950021bb0b178312e695c08f5eca1d6faeea86905"
           }
         }
       ]
@@ -1408,6 +4769,9 @@
       "pending_extent": false
     },
     "@visit_symbols@8": {
+      "pending_extent": false
+    },
+    "@propagate_final_stack_depths@8": {
       "pending_extent": false
     }
   }

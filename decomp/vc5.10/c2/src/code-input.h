@@ -4,6 +4,14 @@
 #include "function-records.h"
 #include <recon.h>
 
+/* Original48d1c0, shared by input and global operand normalization.
+ * Only the encountered local3/tracked4/parameter5 rows are modeled. */
+typedef union C2InputRegisterOpcodes {
+    struct { unsigned pending00[3], local, tracked, parameter, pending06[11]; } row;
+    unsigned values[17];
+} C2InputRegisterOpcodes;
+extern C2InputRegisterOpcodes input_register_opcodes;
+
 /* The stack producer allocates 28 bytes. Each element owns a tree-list sentinel,
  * its last tree, and deferred before/after stacks. */
 struct C2InputStack {
@@ -89,8 +97,8 @@ C2Expression *__fastcall resolve_symbol_input_operand(C2Expression *symbol, int 
 void __fastcall attach_call_result(C2Expression *call, C2Expression *result);
 C2Expression * __fastcall new_call_expression(unsigned opcode, unsigned char convention, C2Expression *target, C2Expression *arguments, C2Expression *result, C2InputLink link, C2Record *prior);
 C2Expression * __fastcall symbol_input_expression(C2InputSymbol *symbol);
-C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2Expression *target, void *detail, C2Expression *source, C2Expression *destination, unsigned attributes);
-int __fastcall set_input_expression_type(C2Expression *expression, unsigned short type);
+C2Expression * __fastcall new_aggregate_expression(unsigned opcode, unsigned short type, C2FunctionRegister *address, long displacement, C2Expression *source, C2Expression *destination, unsigned attributes);
+C2Expression *__fastcall set_input_expression_type(C2Expression *expression, unsigned short type);
 C2Expression * __fastcall new_function_exit(C2Function *function);
 void __fastcall read_input_type(C2ILToken *token);
 void __fastcall read_control_fields(C2ILToken *token);
@@ -141,7 +149,7 @@ C2Expression * __fastcall new_function_entry(C2Function *function);
 void __fastcall set_function_input_options(unsigned options);
 C2Expression *__fastcall new_typed_register_expression(unsigned opcode, unsigned short type, C2FunctionRegister *reg);
 C2Expression * __fastcall input_symbol_operand(C2InputSymbol *symbol);
-void __fastcall replace_input_result(C2Expression *owner, C2Expression *old,
+C2Expression *__fastcall replace_input_result(C2Expression *owner, C2Expression *old,
                                      C2Expression *replacement);
 void __fastcall finish_input_expression(C2InputStack *stack);
 void __fastcall input_operand_pair(C2InputStack **stack, C2Expression **left, C2Expression **right, int condition);
@@ -161,7 +169,7 @@ void __fastcall input_store_operator(C2InputStack **stack, C2ILToken *token);
 unsigned char __fastcall input_comparison(C2InputStack **stack);
 void __fastcall adjust_input_operand(C2Expression *operand);
 void __fastcall input_call(C2InputStack **stack, C2ILToken *token, int depth, C2Function *function, int arguments);
-void __fastcall input_pragma(C2InputStack *stack, C2ILToken *token);
+void __fastcall input_call_argument(C2InputStack *stack, C2ILToken *token);
 void __fastcall set_input_operand_type(C2InputStack *stack, unsigned short type);
 C2Expression * __fastcall save_input_expression(C2InputStack *stack);
 void __fastcall input_assignment_operator(C2InputStack **stack, unsigned opcode, C2ILToken *token);
@@ -194,4 +202,8 @@ void __fastcall splice_symbol_record_range(C2Expression *first,
     C2Expression *last, C2Expression *anchor);
 int __fastcall simplify_symbol_record(C2Expression *record);
 void __fastcall remove_symbol_record(C2Expression *record);
+extern const unsigned char input_inverse_condition[17];
+void __fastcall replace_aggregate_operand(C2Expression *owner,
+    C2Expression *old, C2Expression *replacement);
+void __fastcall release_result_aggregate_operands(C2Expression *owner, C2Expression *result);
 #endif

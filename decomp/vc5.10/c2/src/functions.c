@@ -133,29 +133,29 @@ void compile_functions(void)
                 function_pass_4828f8(function);
                 function_pass_state = 0;
             }
-            function_pass_421bdf(function);
+            optimize_function_returns(function);
             function_pass_state = 0;
-            function_pass_421e34(function);
+            prepare_function_liveness(function);
             function_pass_state = 0;
-            function_pass_409dac(function, 1);
+            simplify_function_expressions(function, 1);
             function_pass_state = 0;
-            function_pass_409c5c(function);
-            function_pass_42127d(function);
+            release_unreferenced_temporaries(function);
+            optimize_global_flow(function);
             function_pass_state = 0;
-            function_pass_409c5c(function);
+            release_unreferenced_temporaries(function);
             function_pass_state = 0;
-            function_pass_409dac(function, 2);
+            simplify_function_expressions(function, 2);
             function_pass_state = 0;
-            function_pass_4180e8(function);
+            rewrite_function_records_backward(function);
             function_pass_state = 0;
-            function_pass_413245(function);
+            materialize_final_register_operands(function);
             function_pass_state = 0;
-            function_pass_4132fa(function);
+            rewrite_final_assignments(function);
             function_pass_state = 0;
-            function_pass_413369(function);
+            simplify_final_blocks(function);
             function_pass_state = 0;
-            function_pass_412292(function);
-            function_pass_412412(function);
+            simplify_final_transfers(function);
+            fold_final_conditional_branches(function);
             function_pass_state = 0;
         }
         if (function->symbol->symbol.flags & 0x1000) {
@@ -163,52 +163,52 @@ void compile_functions(void)
             function_pass_state = 0;
         }
         if (c2_global_optimize) {
-            function_pass_412457(function);
+            lower_final_constant_arithmetic(function);
             function_pass_state = 0;
         }
-        function_pass_4120d4(function);
+        lower_final_operands(function);
         function_pass_state = 0;
-        function_pass_412d5c(function);
+        lower_final_function_records(function);
         function_pass_state = 0;
-        function_pass_4144ef(function);
+        assign_function_parameters(function);
         function_pass_state = 0;
         if (c2_global_optimize) {
-            function_pass_414862(function);
+            fold_final_integer_forms(function);
             function_pass_state = 0;
             function_pass_4088c7(function);
             function_pass_state = 0;
-            function_pass_40d254(function);
+            refresh_final_flow_analysis(function);
             function_pass_state = 0;
             if (function->symbol->symbol.flags & 0x1000) {
                 if (special_function_passes)
-                    function_pass_40d9be(function, 1);
+                    schedule_final_function(function, 1);
             } else if (!(function->symbol->additional_flags & 0x200) || c2_exception_mode) {
-                function_pass_40d9be(function, 1);
+                schedule_final_function(function, 1);
             } else if (special_function_passes) {
-                function_pass_40d9be(function, 1);
+                schedule_final_function(function, 1);
             }
             function_pass_state = 0;
-            function_pass_414a64(function);
+            allocate_final_function_registers(function);
             function_pass_state = 0;
-            function_pass_41759e(function);
-            function_pass_416e6a(function);
+            plan_function_frame_pointer(function);
+            assign_machine_registers(function);
             function_pass_state = 0;
         }
-        function_pass_42a8aa(function);
+        rewrite_spilled_function_registers(function);
         function_pass_state = 0;
         if (c2_global_optimize && c2_favor_speed) {
-            function_pass_42b3e2(function);
+            materialize_spill_scratch_operands(function);
             function_pass_state = 0;
         }
-        function_pass_42b750(function);
+        layout_function_stack_frame(function);
         function_pass_state = 0;
-        function_pass_42e689(function);
+        finalize_stack_frame_size(function);
         function_pass_state = 0;
         if (c2_basic_mode && c2_global_optimize) {
             function_pass_483b6f(function);
             function_pass_state = 0;
         }
-        function_pass_42e6a6(function);
+        build_function_prologue(function);
         function_pass_state = 0;
         function_pass_result = 0;
         if (c2_global_optimize) {
@@ -217,48 +217,48 @@ void compile_functions(void)
             function_pass_state = 0;
         }
         if (!(function->flags & 0x800)) {
-            function_pass_42d635(function);
+            optimize_final_record_sequence(function);
             function_pass_state = 0;
         }
-        function_pass_42d65a(function);
+        optimize_final_instruction_forms(function);
         function_pass_state = 0;
         code_generation_state = 0;
         if (c2_global_optimize) {
-            function_pass_42d635(function);
+            optimize_final_record_sequence(function);
             function_pass_state = 0;
-            function_pass_42f060(function);
+            optimize_final_branch_sequences(function);
             function_pass_state = 0;
             group_symbol_records(function);
             function_pass_state = 0;
             simplify_symbol_records(function);
-            function_pass_42f3e4(function);
+            prune_final_transfer_ranges(function);
             function_pass_state = 0;
             if (c2_global_optimize) {
-                function_pass_42f446(function);
+                optimize_final_value_reuse(function);
                 function_pass_state = 0;
                 if (function->symbol->symbol.flags & 0x1000) {
                     if (special_function_passes)
-                        function_pass_40d9be(function, 0);
+                        schedule_final_function(function, 0);
                 } else if (!(function->symbol->additional_flags & 0x200) || c2_exception_mode) {
-                    function_pass_40d9be(function, 0);
+                    schedule_final_function(function, 0);
                 } else if (special_function_passes) {
-                    function_pass_40d9be(function, 0);
+                    schedule_final_function(function, 0);
                 }
                 function_pass_state = 0;
                 if (c2_favor_speed) {
-                    function_pass_4330f7(function);
+                    fold_scheduled_register_moves(function);
                     function_pass_state = 0;
                 }
             }
         }
         if (function->flags & 0x10) {
             generate_prologue = generate_frame = 1;
-            function_pass_433546(function);
+            initialize_final_stack_depths(function);
         } else {
             generate_prologue = 0;
             if (function->flags & 0x300000) {
                 generate_frame = 1;
-                function_pass_433546(function);
+                initialize_final_stack_depths(function);
                 function_pass_state = 0;
             } else {
                 generate_frame = 0;
@@ -266,13 +266,13 @@ void compile_functions(void)
                     function_pass_465486(function);
             }
         }
-        function_pass_4338ab(function);
+        lower_final_switch_records(function);
         function_pass_state = 0;
         if (c2_entry_hooks) {
             function_pass_47d1d3(function);
             function_pass_state = 0;
         }
-        function_pass_433906(function);
+        emit_final_function(function);
         finish_function();
     }
 }

@@ -1,5 +1,6 @@
 #include "function-records.h"
 #include "code-records.h"
+#include "optimizer-translate.h"
 #include <recon.h>
 
 C2RegisterBlock **function_register_blocks;
@@ -249,4 +250,127 @@ C2FunctionRegister *__fastcall new_temporary_register(unsigned short type)
     reg->view_flags |= 1;
     reg->canonical = reg;
     return reg;
+}
+
+void __fastcall release_function_register(C2FunctionRegister *reg)
+{
+    C2FunctionRegister *last;
+    if (reg->kind == 3) {
+        last = reg;
+        while (reg) {
+            /* Every variant receives the old head. The original publishes only
+             * the last variant; do not silently turn this into a new chain. */
+            reg->next_free = free_plain_register_nodes;
+            reg->kind = 0x10;
+            last = reg;
+            reg = reg->variant_next;
+        }
+        free_plain_register_nodes = last;
+    } else {
+        while (reg) {
+            remove_optimizer_symbol(tracked_register_set, reg->number);
+            reg->kind = 0x10;
+            reg->next_free = free_tracked_register_nodes;
+            free_tracked_register_nodes = reg;
+            reg = reg->variant_next;
+        }
+    }
+}
+
+void __fastcall mark_register_references(C2Expression *records);
+
+unsigned __fastcall release_unreferenced_temporaries(C2Function *function)
+{
+    C2RegisterBlock *block;
+    C2FunctionRegister *reg, *variant;
+    unsigned released = 0;
+    int used;
+    mark_register_references((C2Expression *)function->flow->last->records);
+    for (block = first_function_register_block; block; block = block->next) {
+        for (reg = block->records; reg < block->cursor; ++reg) {
+            if (reg->kind == 0x10 || reg->kind != 3 || reg->canonical != reg) continue;
+            used = 0;
+            for (variant = reg; variant; variant = variant->variant_next) {
+                if (variant->flags & 2) {
+                    variant->flags &= ~2;
+                    used = 1;
+                }
+            }
+            if (!used) {
+                ++released;
+                release_function_register(reg);
+            }
+        }
+    }
+    return released;
+}
+
+void __fastcall mark_register_references(C2Expression *records)
+{
+    C2FunctionRegister *reg, *original;
+    C2OptimizerHandler *handler;
+    C2OptimizerScope *scope;
+    for (; records; records = records->next) {
+        switch (records->kind) {
+        case 1:
+            reg = records->value.reg;
+            reg->flags |= 2;
+            original = records->original_register;
+            if (original != reg && original->kind != 2) original->flags |= 2;
+            break;
+        case 2:
+        case 3:
+            records->value.reg->flags |= 2;
+            break;
+        case 19:
+            if (records->opcode == 0x16d) {
+                handler = records->detail.data;
+                scope = handler->scope;
+                if (scope && scope->handler_function)
+                    mark_register_references((C2Expression *)scope->handler_function->flow->last->records);
+            }
+            goto children;
+        case 20:
+            mark_register_references(records->detail.data);
+            /* The embedded list is additional to the ordinary operands. */
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+children:
+            if (records->left) mark_register_references(records->left);
+            if (records->tail.right) mark_register_references(records->tail.right);
+            break;
+        }
+    }
+}
+
+int __fastcall compare_function_registers(C2FunctionRegister *left,
+    C2FunctionRegister *right)
+{
+    unsigned first, second;
+
+    if (left == right) return 0;
+    if (!left) return -1;
+    if (!right) return 1;
+    if (left->kind == 3) {
+        if (right->kind != 3) return -1;
+        return left->number < right->number ? -1 : 1;
+    }
+    if (right->kind == 3) return 1;
+    if (left->kind == 6 || right->kind == 6) return -1;
+    if (left->displacement != right->displacement)
+        return left->displacement < right->displacement ? -1 : 1;
+    if (left->value_bytes != right->value_bytes)
+        return (long)left->value_bytes < (long)right->value_bytes ? -1 : 1;
+    if (!register_types_match(left->type, right->type))
+        return left->type < right->type ? -1 : 1;
+    first = left->canonical->symbol->serial;
+    second = right->canonical->symbol->serial;
+    if (first == second) return 0;
+    return first < second ? -1 : 1;
 }

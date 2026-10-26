@@ -4,10 +4,6 @@
 /* Genuine pending targets; declarations are based on their actual callers
  * and complete ABI analysis, with no implementation or extent credit. */
 
-void __fastcall insert_input_record(C2Record *prior, C2Record *record)
-{
-    __asm { int 3 }
-}
 
 
 

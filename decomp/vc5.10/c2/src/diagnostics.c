@@ -1,4 +1,5 @@
 #include "c2.h"
+#include "function-reader.h"
 #include <recon.h>
 
 extern int c2_errors;
@@ -204,4 +205,26 @@ int __fastcall format_integer(int value, char *buffer, unsigned base)
     while ((*buffer++ = *--next) != '\0')
         ++length;
     return length;
+}
+
+/* Distinct diagnostic lookup cursor; the input producer has its own append
+ * cursor. Both refer to the same real 24-byte source-map nodes. */
+C2InputLineMap *diagnostic_line_cache; /*497e4c, initialized NULL*/
+unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
+{
+    C2InputLineMap *entry;
+    if (!location || location > input_last_line) {
+        *file = NULL;
+        return 0;
+    }
+    entry = diagnostic_line_cache ? diagnostic_line_cache : input_line_cache;
+    for (;;) {
+        if (location < entry->first_line) entry = entry->previous;
+        else if (location > entry->last_line) entry = entry->next;
+        else {
+            *file = entry->filename;
+            diagnostic_line_cache = entry;
+            return entry->source_line - entry->first_line + location;
+        }
+    }
 }

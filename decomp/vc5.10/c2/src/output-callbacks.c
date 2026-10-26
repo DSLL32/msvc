@@ -6,21 +6,21 @@ extern int c2_dos_messages, c2_codeview_types, c2_line_numbers;
 extern int c2_default_library, c2_strict_ansi;
 char *output_group_name;
 int output_enabled = 1;
-C2PendingCallback output_slot_497de4;
+C2SymbolCallback output_slot_497de4;
 C2PendingCallback output_slot_499a00;
 C2PendingCallback output_slot_497e10;
-C2PendingCallback output_slot_497dbc;
-C2PendingCallback output_slot_497de0;
-C2PendingCallback output_slot_497dec;
-C2PendingCallback output_slot_497db0;
-C2PendingCallback output_slot_497dd4;
-C2PendingCallback output_slot_497ce4;
-C2PendingCallback output_slot_497ddc;
-C2PendingCallback output_slot_497dcc;
-C2PendingCallback output_slot_499750;
-C2PendingCallback output_slot_491070;
-C2PendingCallback output_slot_497db4;
-C2PendingCallback output_slot_491078;
+C2SymbolCallback output_slot_497dbc;
+C2SymbolCallback output_slot_497de0;
+C2FunctionCodeCallback output_slot_497dec;
+C2BytesCallback output_slot_497db0;
+C2BytesCallback output_slot_497dd4;
+C2SectionCallback output_slot_497ce4;
+C2FilenameCallback output_slot_497ddc;
+C2LineCallback output_slot_497dcc;
+C2CodeRelocationCallback output_slot_499750;
+C2CodeRelocationCallback output_slot_491070;
+C2CodeRelocationCallback output_slot_497db4;
+C2CodeRelocationCallback output_slot_491078;
 C2PendingCallback output_slot_497f60;
 C2PendingCallback output_slot_497dfc;
 C2PendingCallback output_slot_497f50;
@@ -37,24 +37,24 @@ void initialize_pass_functions(void)
         output_slot_499a00.target = output_callback_4432a1;
         output_slot_497e10.target = output_callback_454ba8;
     } else {
-        output_slot_497de4.target = c2_set_argv;
+        output_slot_497de4.target = output_noop_symbol;
         output_slot_499a00.target = c2_set_argv;
         output_slot_497e10.target = c2_set_argv;
     }
     if (!c2_output_name) {
-        output_slot_497dbc.target = c2_set_argv;
-        output_slot_497de0.target = c2_set_argv;
-        output_slot_497ce4.target = c2_set_argv;
+        output_slot_497dbc.target = output_noop_symbol;
+        output_slot_497de0.target = output_noop_symbol;
+        output_slot_497ce4.target = output_noop_section;
         output_slot_497dec.target = output_callback_4849f2;
-        output_slot_497db0.target = c2_set_argv;
-        output_slot_497dd4.target = c2_set_argv;
-        output_slot_499750.target = c2_set_argv;
-        output_slot_491070.target = c2_set_argv;
-        output_slot_497db4.target = c2_set_argv;
-        output_slot_491078.target = c2_set_argv;
+        output_slot_497db0.target = output_noop_bytes;
+        output_slot_497dd4.target = output_noop_bytes;
+        output_slot_499750.target = output_noop_relocation;
+        output_slot_491070.target = output_noop_relocation;
+        output_slot_497db4.target = output_noop_relocation;
+        output_slot_491078.target = output_noop_relocation;
         output_slot_497f60.target = c2_set_argv;
-        output_slot_497ddc.target = c2_set_argv;
-        output_slot_497dcc.target = c2_set_argv;
+        output_slot_497ddc.target = output_noop_filename;
+        output_slot_497dcc.target = output_noop_line;
         output_slot_497dfc.target = c2_set_argv;
         output_slot_497f50.target = output_callback_4849f5;
         output_slot_49971c.target = (C2OutputDirectiveWriter) c2_set_argv;
@@ -67,13 +67,13 @@ void initialize_pass_functions(void)
         output_slot_497dec.target = output_callback_434139;
         output_slot_497db0.target = output_callback_41f3f2;
         output_slot_497dd4.target = output_callback_41f3f2;
-        output_slot_497ce4.target = (void (__cdecl *)()) select_output_section;
+        output_slot_497ce4.target = select_output_section;
         if (c2_codeview_types || c2_line_numbers) {
             output_slot_497ddc.target = output_callback_442d21;
             output_slot_497dcc.target = output_callback_442b9f;
         } else {
-            output_slot_497ddc.target = c2_set_argv;
-            output_slot_497dcc.target = c2_set_argv;
+            output_slot_497ddc.target = output_noop_filename;
+            output_slot_497dcc.target = output_noop_line;
         }
         output_slot_499750.target = output_callback_4850f5;
         output_slot_491070.target = output_callback_43696a;

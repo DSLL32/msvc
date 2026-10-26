@@ -21,53 +21,77 @@ typedef void (__fastcall *C2OutputDirectiveWriter)(C2OutputDirective *directive)
 typedef struct C2DirectiveCallback { C2OutputDirectiveWriter target; } C2DirectiveCallback;
 typedef char C2DirectiveCallbackSizeCheck[sizeof(C2DirectiveCallback) == 4 ? 1 : -1];
 typedef char C2DirectiveCallbackOffsetCheck[offsetof(C2DirectiveCallback, target) == 0 ? 1 : -1];
-/* Provisional code-address values only: this incomplete pointer view must not
- * be called. The symbol visitor remains a named trap until real signatures
- * are recovered at its consumer boundary. It is a scalar for the EDX argument.
- */
-typedef void (__cdecl *C2AssemblyVisitor)();
+/* The visitor calls with the symbol in ECX, no stack arguments and RET0.
+ * All known assembly callbacks use that same signature; their bodies remain
+ * pending. The shared prefix admits function and input symbol subtypes. */
+typedef void (__fastcall *C2AssemblyVisitor)(C2Symbol *symbol);
 void __fastcall visit_symbols(int local, C2AssemblyVisitor visitor);
-void assembly_callback_4894ca();
-void assembly_callback_489596();
-void assembly_callback_489693();
-void assembly_callback_48a251();
+void __fastcall assembly_callback_4894ca(C2Symbol *symbol);
+void __fastcall assembly_callback_489596(C2Symbol *symbol);
+void __fastcall assembly_callback_489693(C2Symbol *symbol);
+void __fastcall assembly_callback_48a251(C2Symbol *symbol);
 typedef void (__fastcall *C2SymbolWriter)(C2Symbol *symbol);
 typedef struct C2SymbolCallback { C2SymbolWriter target; } C2SymbolCallback;
 typedef char C2SymbolCallbackSizeCheck[sizeof(C2SymbolCallback) == 4 ? 1 : -1];
 typedef char C2SymbolCallbackOffsetCheck[offsetof(C2SymbolCallback, target) == 0 ? 1 : -1];
-extern C2PendingCallback output_slot_497de4;
+/* Reached function-output slots have independent, actual fastcall views.
+ * All other pending slots retain their stores-only barrier. */
+typedef void (__fastcall *C2FunctionCodeWriter)(C2Symbol *symbol,
+    char *file, int unwind, unsigned line);
+typedef struct C2FunctionCodeCallback { C2FunctionCodeWriter target; } C2FunctionCodeCallback;
+typedef char C2FunctionCodeCallbackSize[sizeof(C2FunctionCodeCallback) == 4 ? 1 : -1];
+/* These register-only views are recovered from the actual output caller and
+ * complete callback bodies. The canonical no-op alternatives are code-free
+ * aliases of the existing no-input RET0 CRT body, not new function vertices. */
+typedef struct C2SectionCallback { void (__fastcall *target)(C2Section *section); } C2SectionCallback;
+typedef struct C2BytesCallback { void (__fastcall *target)(const void *bytes, unsigned count); } C2BytesCallback;
+typedef struct C2FilenameCallback { void (__fastcall *target)(char *file); } C2FilenameCallback;
+typedef struct C2LineCallback { void (__fastcall *target)(unsigned line, unsigned offset); } C2LineCallback;
+typedef char C2OutputViewsSizeCheck[sizeof(C2SectionCallback) == 4 &&
+    sizeof(C2BytesCallback) == 4 && sizeof(C2FilenameCallback) == 4 &&
+    sizeof(C2LineCallback) == 4 ? 1 : -1];
+void __fastcall output_noop_section(C2Section *section);
+void __fastcall output_noop_bytes(const void *bytes, unsigned count);
+void __fastcall output_noop_filename(char *file);
+void __fastcall output_noop_line(unsigned line, unsigned offset);
+void __fastcall output_noop_symbol(C2Symbol *symbol);
+extern C2SymbolCallback output_slot_497de4;
 extern C2PendingCallback output_slot_499a00;
 extern C2PendingCallback output_slot_497e10;
-extern C2PendingCallback output_slot_497dbc;
-extern C2PendingCallback output_slot_497de0;
-extern C2PendingCallback output_slot_497dec;
-extern C2PendingCallback output_slot_497db0;
-extern C2PendingCallback output_slot_497dd4;
-extern C2PendingCallback output_slot_497ce4;
-extern C2PendingCallback output_slot_497ddc;
-extern C2PendingCallback output_slot_497dcc;
-extern C2PendingCallback output_slot_499750;
-extern C2PendingCallback output_slot_491070;
-extern C2PendingCallback output_slot_497db4;
-extern C2PendingCallback output_slot_491078;
+extern C2SymbolCallback output_slot_497dbc;
+extern C2SymbolCallback output_slot_497de0;
+extern C2FunctionCodeCallback output_slot_497dec;
+extern C2BytesCallback output_slot_497db0;
+extern C2BytesCallback output_slot_497dd4;
+extern C2SectionCallback output_slot_497ce4;
+extern C2FilenameCallback output_slot_497ddc;
+extern C2LineCallback output_slot_497dcc;
+typedef void (__fastcall *C2CodeRelocationWriter)(unsigned offset, C2Symbol *symbol);
+typedef struct C2CodeRelocationCallback { C2CodeRelocationWriter target; } C2CodeRelocationCallback;
+typedef char C2CodeRelocationCallbackSize[sizeof(C2CodeRelocationCallback) == 4 ? 1 : -1];
+void __fastcall output_noop_relocation(unsigned offset, C2Symbol *symbol);
+extern C2CodeRelocationCallback output_slot_499750;
+extern C2CodeRelocationCallback output_slot_491070;
+extern C2CodeRelocationCallback output_slot_497db4;
+extern C2CodeRelocationCallback output_slot_491078;
 extern C2PendingCallback output_slot_497f60;
 extern C2PendingCallback output_slot_497dfc;
 extern C2PendingCallback output_slot_497f50;
 extern C2DirectiveCallback output_slot_49971c;
 extern C2SymbolCallback output_slot_497cec;
 void __fastcall select_output_section(C2Section *section);
-void output_callback_41f3f2();
+void __fastcall output_callback_41f3f2(const void *bytes, unsigned count);
 void __fastcall output_callback_41fa04(C2Symbol *symbol);
-void output_callback_434139();
-void output_callback_4346cf();
-void output_callback_435633();
-void output_callback_4357b8();
-void output_callback_435af6();
-void output_callback_43696a();
-void output_callback_442b9f();
-void output_callback_442d21();
+void __fastcall output_callback_434139(C2Symbol *symbol, char *file, int unwind, unsigned line);
+void __fastcall output_callback_4346cf(C2Symbol *symbol);
+void __fastcall output_callback_435633(C2Symbol *symbol);
+void __fastcall output_callback_4357b8(unsigned offset, C2Symbol *symbol);
+void __fastcall output_callback_435af6(unsigned offset, C2Symbol *symbol);
+void __fastcall output_callback_43696a(unsigned offset, C2Symbol *symbol);
+void __fastcall output_callback_442b9f(unsigned line, unsigned offset);
+void __fastcall output_callback_442d21(char *file);
 void output_callback_442d33();
-void output_callback_44308f();
+void __fastcall output_callback_44308f(C2Symbol *symbol);
 void output_callback_4432a1();
 void output_callback_44a79d();
 void __fastcall emit_output_directive(C2OutputDirective *directive);
@@ -75,10 +99,10 @@ void __fastcall emit_incremental_string(char *value);
 void __fastcall write_coff_directive(char *prefix, char *value, char *suffix, int quoted);
 void output_callback_4541f3();
 void output_callback_454ba8();
-void output_callback_4849f2();
+void __fastcall output_callback_4849f2(C2Symbol *symbol, char *file, int unwind, unsigned line);
 void output_callback_4849f5();
 void __fastcall output_callback_4849fa(C2Symbol *symbol);
-void output_callback_4850f5();
+void __fastcall output_callback_4850f5(unsigned offset, C2Symbol *symbol);
 extern char *output_group_name;
 extern int output_enabled;
 char *default_runtime_library(void);

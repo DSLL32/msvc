@@ -84,9 +84,9 @@ typedef struct C2Pool {
     unsigned char *cursor;
     int remaining;
 } C2Pool;
-/* Existing pools0..7 and the encountered pool12. Slots8..11 are UNMODELED
+/* Existing pools0..8 and the encountered pools12/13/14. Slots9..11 are UNMODELED
  * backing only, with no original default or whole-array extent claim. */
-extern C2Pool c2_pools[13];
+extern C2Pool c2_pools[15];
 typedef char C2PoolSizeCheck[sizeof(C2Pool) == 12 ? 1 : -1];
 typedef char C2PoolCursorCheck[offsetof(C2Pool, cursor) == 4 ? 1 : -1];
 typedef char C2PoolRemainingCheck[offsetof(C2Pool, remaining) == 8 ? 1 : -1];
@@ -130,7 +130,8 @@ typedef struct C2Record C2Record;
 typedef struct C2BasicBlock C2BasicBlock;
 typedef struct C2FunctionRegister C2FunctionRegister;
 typedef struct C2RegisterSet C2RegisterSet;
-typedef struct C2InputUse C2InputUse;
+/* A use owner is the symbol's existing kind25 expression, not a separate object. */
+typedef struct C2Expression C2InputUse;
 typedef struct C2Expression C2Expression;
 typedef struct C2BranchTarget C2BranchTarget;
 typedef struct C2OptimizerRegisterInfo C2OptimizerRegisterInfo;
@@ -147,10 +148,11 @@ struct C2Symbol {
     long value;
     unsigned flags;
     char *name;
-    unsigned char pending1c[8];
+    union { unsigned char pending1c[8]; struct { unsigned coff_symbol_index, pending20; }; };
     union {
         C2SectionContext *context;
         C2SectionGroup *group;
+        C2Symbol *function_owner;
         unsigned section_serial;
     } association;
     unsigned serial;
@@ -188,7 +190,12 @@ typedef struct C2FunctionSymbol {
     unsigned return_bytes;
     unsigned char pending3e;
     signed char scope_line;
-    unsigned char pending40[22];
+    union {
+        unsigned char pending40[22];
+        struct { unsigned char pending40_before_arguments[6]; unsigned argument_stack_bytes; unsigned char pending4a[12]; };
+        struct { unsigned char pending40_before_frame[2]; unsigned frame_stack_bytes; unsigned char pending46[16]; };
+        struct { unsigned char pending40_before_code[10]; unsigned code_bytes, prologue_bytes, epilogue_offset; };
+    };
     long input_order;
     unsigned source_file;
     C2FunctionListing *listing;
@@ -199,17 +206,23 @@ typedef struct C2FunctionSymbol {
     struct C2FunctionSymbol *pending_next;
     unsigned additional_flags;
 } C2FunctionSymbol;
+typedef char C2FunctionCodeBytesCheck[offsetof(C2FunctionSymbol, code_bytes) == 0x4a ? 1 : -1];
+typedef char C2FunctionPrologueBytesCheck[offsetof(C2FunctionSymbol, prologue_bytes) == 0x4e ? 1 : -1];
+typedef char C2FunctionEpilogueOffsetCheck[offsetof(C2FunctionSymbol, epilogue_offset) == 0x52 ? 1 : -1];
+typedef char C2FunctionFrameBytesCheck[offsetof(C2FunctionSymbol, frame_stack_bytes) == 66 ? 1 : -1];
+typedef char C2FunctionArgumentBytesCheck[offsetof(C2FunctionSymbol, argument_stack_bytes) == 70 ? 1 : -1];
 /* The decoder's common variable/function record. Its kind selects overlapping
  * fields: local lifetime at3c, an alias target at3e, or flags/scope at3e/3f. */
 typedef struct C2InputSymbol {
     C2Symbol symbol;
-    union { C2InitRecord *initializer; C2Expression *input_operand; C2InputUse *input_uses; };
-    unsigned attributes;
+    union { C2InitRecord *initializer; C2Expression *input_operand, *branch_record; C2InputUse *input_uses; C2BranchTarget *branch_target; };
+    union { unsigned attributes; int stack_depth; };
     union {
         long frame_size;
         unsigned value_bytes;
         unsigned input_references;
         struct { unsigned short pending3a; signed char lifetime; unsigned char pending3d; } local;
+        struct { unsigned short number, pending3c; } register_location;
         struct { unsigned short pending3a; unsigned char anonymous, pending3d; } temporary;
     } storage;
     union {
@@ -262,42 +275,78 @@ struct C2SymbolScope {
     C2DebugScope *debug_scope;
 };
 #pragma pack()
+typedef struct C2ListingSymbol {
+    struct C2ListingSymbol *next;
+    unsigned short index;
+} C2ListingSymbol;
 struct C2FunctionListing {
-    unsigned begin, end, available;
+    unsigned begin, end;
+    union { unsigned available; C2ListingSymbol *symbols; };
     unsigned short source_index, pending0e;
 };
 /* Only the record-list consumer's encountered block/flow prefixes. */
 typedef struct C2FlowEdge C2FlowEdge;
+typedef struct C2FlowRegion C2FlowRegion;
+typedef C2FlowRegion C2BlockScope;
 struct C2BasicBlock {
     C2BasicBlock *previous, *next;
     union {
         unsigned char pending08[16];
-        struct { C2FlowEdge *incoming, *outgoing; unsigned char pending10[8]; };
+        struct {
+            C2FlowEdge *incoming, *outgoing;
+            union {
+                unsigned char pending10[8];
+                struct {
+                    C2BasicBlock *traversal_next;
+                    union { C2FlowEdge *traversal_edge; C2BasicBlock *traversal_previous; };
+                };
+            };
+        };
     };
     unsigned flags;
     C2Record *records, *last_record;
     union {
         unsigned char pending24[96];
         struct {
-            unsigned char pending24_prefix[8];
-            C2RegisterSet *alias_uses;
-            unsigned pending30;
-            C2RegisterSet *alias_kills;
-            C2RegisterSet *alias_in, *alias_out, *alias_constraints;
-            unsigned char pending44[64];
+            /* The mode bits select these exact register-set groups. */
+            C2RegisterSet *rewrite_mode1[8];
+            C2RegisterSet *rewrite_mode4[7];
+            C2RegisterSet *rewrite_mode2[6];
+        };
+        struct {
+            union { unsigned char pending24_prefix[8];
+                struct {
+                    union { unsigned allocation_state24; C2RegisterSet *allocation_edge_uses; };
+                    union { unsigned allocation_state28; C2RegisterSet *allocation_edge_definitions; };
+                }; };
+            union { C2RegisterSet *alias_uses, *allocation_live_in; };
+            union { unsigned pending30; C2RegisterSet *allocation_uses; };
+            union { C2RegisterSet *alias_kills, *allocation_definitions; };
+            C2RegisterSet *alias_in, *alias_out;
+            union { C2RegisterSet *alias_constraints, *allocation_live_out; };
+            union {
+                unsigned char pending44[64];
+                struct { C2RegisterSet *allocation_live_in_after, *allocation_region_uses, *allocation_region_input; };
+                struct { union { unsigned char pending44_prefix[52]; struct { unsigned char pending44_before_definitions[12]; C2RegisterSet *global_available_in, *global_definitions; unsigned char pending58_after_definitions[32]; }; }; C2RegisterSet *dominators; union { unsigned pending7c; C2RegisterSet *predecessors; }; C2BlockScope *block_scope; };
+            };
         };
     };
-    unsigned short number84, number86;
+    unsigned short number84;
+    union { unsigned short number86, region_depth; };
     union { unsigned short number88, scope_depth; };
     unsigned char pending8a[2];
 };
 typedef char C2BlockSizeCheck[sizeof(C2BasicBlock) == 140 ? 1 : -1];
+typedef char C2BlockAllocationOutCheck[offsetof(C2BasicBlock, allocation_live_out) == 64 ? 1 : -1];
+typedef char C2BlockAllocationInCheck[offsetof(C2BasicBlock, allocation_live_in_after) == 68 ? 1 : -1];
 typedef char C2BlockNumbersCheck[offsetof(C2BasicBlock, number84) == 132 ? 1 : -1];
+typedef char C2BlockRegionDepthCheck[offsetof(C2BasicBlock, region_depth) == 134 ? 1 : -1];
 /* The constructor proves a52-byte allocation. Unencountered flow fields are
  * reserved storage until their actual initializer/consumer is reconstructed. */
 struct C2FlowGraph {
     C2BasicBlock *last, *first;
-    unsigned state08, state0c;
+    union { unsigned state08; C2BasicBlock *traversal_first; };
+    union { unsigned state0c; C2BasicBlock *traversal_last; };
     int pool;
     unsigned block_bytes, edge_bytes;
     C2BasicBlock *free_blocks;
@@ -312,14 +361,15 @@ typedef struct C2Function {
     C2FunctionSymbol *symbol;
     C2InputSymbol *return_storage;
     C2FlowGraph *flow;
-    unsigned pending0c;
+    union { unsigned pending0c; C2FlowRegion *flow_regions; };
     C2ScopeHash *symbols;
     unsigned pending14;
     unsigned options;
     unsigned short *warning_state;
     C2DebugScope *debug_scope;
     unsigned source_line_base;
-    unsigned char pending28[12];
+    unsigned frame_layout_state; /* Full DWORD reset at42b75a; no pointer/default role inferred. */
+    union { unsigned char pending2c[8]; struct { unsigned saved_register_count, pending30; }; };
     unsigned flags;
 } C2Function;
 typedef char C2FunctionReturnCheck[offsetof(C2Function, return_storage) == 4 ? 1 : -1];
@@ -328,6 +378,7 @@ typedef char C2FunctionWarningCheck[offsetof(C2Function, warning_state) == 28 ? 
 typedef char C2FunctionReturnBytesCheck[offsetof(C2FunctionSymbol, return_bytes) == 58 ? 1 : -1];
 typedef char C2FunctionFlowCheck[offsetof(C2Function, flow) == 8 ? 1 : -1];
 typedef char C2FunctionDebugCheck[offsetof(C2Function, debug_scope) == 32 ? 1 : -1];
+typedef char C2FunctionFrameStateCheck[offsetof(C2Function, frame_layout_state) == 40 ? 1 : -1];
 typedef char C2FunctionLineCheck[offsetof(C2Function, source_line_base) == 36 ? 1 : -1];
 typedef char C2FunctionSizeCheck[sizeof(C2Function) == 56 ? 1 : -1];
 typedef char C2BasicBlockRecordsCheck[offsetof(C2BasicBlock, records) == 28 ? 1 : -1];
@@ -389,6 +440,7 @@ void __fastcall read_module_directive(int kind);
 int __fastcall register_source_file(char *name);
 char *__fastcall lookup_source_file(char *name, unsigned *bytes);
 C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial);
+C2Symbol *__fastcall next_scope_symbol(C2ScopeHash *scope, C2Symbol *previous);
 C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol);
 void __fastcall queue_symbol_debug(C2Symbol *symbol);
 extern int c2_internal_listing;

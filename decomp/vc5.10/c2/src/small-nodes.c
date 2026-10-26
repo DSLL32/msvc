@@ -7,21 +7,20 @@
  * Kinds2/3/4/21/22 are 28-byte register/symbol/control/entry nodes; kind24
  * and kind23 are 24-byte boundary/exit records; integer kind7, binary-operation kind11 and transfer kind14 are 32 bytes.
  * Kind1 is the 28-byte temporary register/original-register expression;
- * kinds16 and25 are 36-byte call and symbol-owner expressions;
- * kind27 is the 20-byte symbol-use list record. */
-const C2SmallNodeSizeView small_node_sizes = { { 0, 28, 28, 28, 28, {0}, 32, {0}, 32, {0}, 32, 0, 36, {0}, 28, 28, 24, 24, 36, 0, 20 } };
+ * kinds16/19/25 are 36-byte call, input and symbol-owner expressions;
+ * kind26 is the 28-byte register-set record; kind27 is the 20-byte symbol-use list record; kind29 is the16-byte context link; kind6 is the44-byte aggregate address; kind13 is the40-byte typed call. */
+const C2SmallNodeSizeView small_node_sizes = { { 0, 28, 28, 28, 28, 0, 44, 32, {0}, 24, 32, 0, 40, 32, 0, 36, {0}, 36, 0, 28, 28, 24, 24, 36, 28, 20, 0, 16 } };
 typedef char C2SmallNodeSizeWidthCheck[sizeof(small_node_sizes.values[0]) == 4 ? 1 : -1];
 typedef char C2SmallNodeSizeOffsetCheck[
+    offsetof(C2SmallNodeKnownSizes, optimizer_index) == 40 &&
     offsetof(C2SmallNodeKnownSizes, statement_boundary) == 96 ? 1 : -1];
 
 C2SmallNode *__fastcall allocate_small_node(unsigned char kind)
 {
     C2SmallNode *node;
     unsigned bytes;
-#if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 14 && kind != 16 && kind != 21 && kind != 22 && kind != 23 && kind != 24 && kind != 25 && kind != 27)
-        recon_unsupported("unmodeled C2 small-node size row");
-#endif
+    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 6 && kind != 7 && kind != 10 && kind != 11 && kind != 13 && kind != 14 && kind != 16 && kind != 19 && kind != 21 && kind != 22 && kind != 23 && kind != 24 && kind != 25 && kind != 26 && kind != 27 && kind != 29)
+        { __asm { int 3 } }
     bytes = small_node_sizes.values[kind];
     node = free_small_nodes[bytes];
     if (node) {
@@ -99,11 +98,19 @@ release_children:
         release_small_node(child);
     }
 recycle:
-#if defined(RECON_NATIVE_TEST) && defined(__linux__)
-    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 7 && kind != 11 && kind != 14 && kind != 16 && kind != 21 && kind != 22 && kind != 23 && kind != 24 && kind != 25 && kind != 27)
-        recon_unsupported("unmodeled C2 small-node size row");
-#endif
+    if (kind != 1 && kind != 2 && kind != 3 && kind != 4 && kind != 6 && kind != 7 && kind != 10 && kind != 11 && kind != 13 && kind != 14 && kind != 16 && kind != 19 && kind != 21 && kind != 22 && kind != 23 && kind != 24 && kind != 25 && kind != 26 && kind != 27 && kind != 29)
+        { __asm { int 3 } }
     bytes = small_node_sizes.values[kind];
     node->next = free_small_nodes[bytes];
     free_small_nodes[bytes] = node;
+}
+
+void __fastcall release_small_node_list(C2SmallNode *nodes)
+{
+    C2SmallNode *next;
+    while (nodes) {
+        next = nodes->next;
+        release_small_node(nodes);
+        nodes = next;
+    }
 }
