@@ -1,11 +1,11 @@
 CVPACK 5.10 reconstruction
 ========================
 
-`make -j4 check unit` runs the cached cases and twenty-four narrow native tests.
+`make -j4 check unit` runs the cached cases and twenty-five narrow native tests.
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-219 accepted application functions total 57,614 original code bytes: 91.94% of the
+228 accepted application functions total 58,836 original code bytes: 93.89% of the
 62,662-byte whole-text extent. That denominator includes CRT/support, unknown
 code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
@@ -124,6 +124,20 @@ Completed cases:
   owners; earlier cases only exercised the duplicate source names at zero.
   Plain/based pointer attributes and opaque COBOL payloads remain unqualified.
 
+- 0016-c6-pointers: authored near/far/huge and segment/self/type/value-based
+  pointers, with genuine register, frame and data base records in both address
+  widths. Base offsets point to the actual input subsection; optional pointer
+  names provide the original in-place record capacity. Status 0, exact verbose
+  statistics and complete DLL SHA256
+  `700534cd1785aed409baa782b225a58af6495016a70a87c762c90147b122a2a3`.
+  Nine pointer/base-lookup/embedded-symbol functions were reconstructed.
+  Original attribute bits 0x1800 are unwritten; source zeros them with a defect
+  comment, while this case observes zero and compares every raw byte strictly.
+  A concurrent native replay also exposed the original empty argument-list
+  allocation defect: eight allocated bytes with a ten-byte emitted record.
+  Source now allocates ten and zeros the two unwritten bytes, preserving the
+  original header and strict output comparison. No allocator tuning or masks.
+
 0002-cpp-scene-growth is a new three-module C++ workload with 240 telemetry
 schemas, shared recursive types, virtual inheritance and large arrays. Original
 packed CodeView is 238,240 bytes. Its source inputs remain capture assets. Numeric sizing, derived-base tracking,
@@ -158,17 +172,18 @@ reconstructed. `binary.c` is the sole function/extent/status registry. Finite
 rules remain in `policy-data.json`/`abi-policy.json`; the exact 8-byte Release tail
 retains its reviewed residual, with strict cleanup checks on all other accepted bodies.
 
-Latest compound verification: genuine completion capture 918.638 ms; matching
-native replay 10.154 ms (setup 5.092 / execution 3.937 / checks 1.125). All sixteen
-cached cases, twenty-four units and original-compiler compatibility passed.
-Full 219-body graph/import/reference/ownership/extent/callback checks and strict
-RET on 218 bodies pass with the existing Release residual. The case-end batch
-was 0.477 s, with an inherited rebuilt switch offset rejected after the corrected
-WORD store shortened its owner by one byte. Exact COFF relocations/classmap
-confirmed the new table interval; the static audit then passed in 0.419 s without
-another original run. Cached compound replay took 10.075 ms. During reconstruction
-only current-case pairs and selected changed-function audits ran; the completed
-case receives one commit.
+Latest pointer verification: final original completion 1184.956 ms; native
+10.800 ms (setup 5.349 / execution 4.142 / checks 1.309). After the bounded
+empty-list fix, native replay against that same retained original passed in
+12.258 ms; no original was repeated. All seventeen cached cases, twenty-five
+units, original-compiler compatibility, full 228-body graph/import/reference/
+ownership/extent/callback checks and strict RET on 227 bodies pass. The existing
+Release residual remains explicit. Final case-end batch: 0.571 s; cached pointer
+replay: 10.106 ms. The earlier rejected batch and exact differing native bytes
+remain in scratch, along with the temporary post-exit archive used to identify
+the defect; that diagnostic hook was removed before final verification.
+During reconstruction only current-case pairs and selected changed-function
+checks ran; the completed case receives one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.

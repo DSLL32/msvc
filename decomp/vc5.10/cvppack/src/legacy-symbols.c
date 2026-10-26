@@ -638,3 +638,100 @@ void convert_legacy_register_relative16(void)
     legacy_symbol_output += 14;
     while (padding--) *legacy_symbol_output++ = 0;
 }
+
+/* Resolve a real C6 base-symbol offset within the retained input subsection
+ * [00405450,00405462). */
+unsigned char *legacy_symbol_at(unsigned short offset)
+{
+    return module_symbol_records + offset;
+}
+
+/* [00412288,004122b8): register/frame/data forms embedded in based pointers. */
+LegacyBaseSymbolConverter legacy_base_symbol_converters[3] = {
+    { 4, 0x0100, convert_legacy_base_bprel16, 0x1006, convert_legacy_base_bprel32 },
+    { 5, 0x0101, convert_legacy_base_data16, 0x1007, convert_legacy_base_data32 },
+    { 0x0d, 0x1001, convert_legacy_base_register, 0x1001, convert_legacy_base_register }
+};
+
+/* [00408fc0,00409007). As in the original, only the three listed symbol
+ * families have a defined table entry; callers supply actual base symbols. */
+unsigned convert_legacy_base_symbol(unsigned char *output, unsigned char *symbol)
+{
+    unsigned short index;
+    unsigned char kind = symbol[1] & 0x7f, wide = symbol[1] >> 7;
+    for (index = 0; index < 3; ++index)
+        if (legacy_base_symbol_converters[index].kind == kind) break;
+    if (wide) return legacy_base_symbol_converters[index].wide(output, symbol);
+    return legacy_base_symbol_converters[index].narrow(output, symbol);
+}
+
+/* Widen the register's type/register fields and copy the counted name
+ * [00409010,00409099). */
+unsigned convert_legacy_base_register(unsigned char *output, unsigned char *symbol)
+{
+    unsigned char *cursor = output + 10, *name = symbol + 5;
+    unsigned short count = (unsigned short)(symbol[0] - 4);
+    unsigned padding = 3 - ((count + 9) & 3);
+    *(unsigned short *)output = ((count + 13) & 0xfffc) - 2;
+    *(unsigned short *)(output + 2) = 0x1001;
+    *(unsigned *)(output + 4) = *(unsigned short *)(symbol + 2);
+    *(unsigned short *)(output + 8) = symbol[4];
+    while (count--) *cursor++ = *name++;
+    while (padding--) *cursor++ = 0;
+    return cursor - output;
+}
+
+/* Preserve the original narrow frame record's payload layout, including its
+ * WORD fields; compaction of the embedded type is the caller's operation.
+ * [004090a0,00409119). */
+unsigned convert_legacy_base_bprel16(unsigned char *output, unsigned char *symbol)
+{
+    unsigned char *cursor = output + 4, *input = symbol + 2;
+    unsigned short length = symbol[0], count = (unsigned short)(length - 1);
+    unsigned padding = 3 - ((length + 2) & 3);
+    *(unsigned short *)output = ((length + 6) & 0xfffc) - 2;
+    *(unsigned short *)(output + 2) = 0x0100;
+    while (count--) *cursor++ = *input++;
+    while (padding--) *cursor++ = 0;
+    return cursor - output;
+}
+
+/* Narrow data payload in an embedded base symbol [004091a0,00409219). */
+unsigned convert_legacy_base_data16(unsigned char *output, unsigned char *symbol)
+{
+    unsigned char *cursor = output + 4, *input = symbol + 2;
+    unsigned short length = symbol[0], count = (unsigned short)(length - 1);
+    unsigned padding = 3 - ((length + 2) & 3);
+    *(unsigned short *)output = ((length + 6) & 0xfffc) - 2;
+    *(unsigned short *)(output + 2) = 0x0101;
+    while (count--) *cursor++ = *input++;
+    while (padding--) *cursor++ = 0;
+    return cursor - output;
+}
+
+/* Wide frame payload with its genuine DWORD type [00409120,00409199). */
+unsigned convert_legacy_base_bprel32(unsigned char *output, unsigned char *symbol)
+{
+    unsigned char *cursor = output + 4, *input = symbol + 2;
+    unsigned short length = symbol[0], count = (unsigned short)(length - 1);
+    unsigned padding = 3 - ((length + 2) & 3);
+    *(unsigned short *)output = ((length + 6) & 0xfffc) - 2;
+    *(unsigned short *)(output + 2) = 0x1006;
+    while (count--) *cursor++ = *input++;
+    while (padding--) *cursor++ = 0;
+    return cursor - output;
+}
+
+/* Wide data payload: DWORD type precedes offset/segment, just as supplied
+ * by the actual VC5 input layout [00409220,00409299). */
+unsigned convert_legacy_base_data32(unsigned char *output, unsigned char *symbol)
+{
+    unsigned char *cursor = output + 4, *input = symbol + 2;
+    unsigned short length = symbol[0], count = (unsigned short)(length - 1);
+    unsigned padding = 3 - ((length + 2) & 3);
+    *(unsigned short *)output = ((length + 6) & 0xfffc) - 2;
+    *(unsigned short *)(output + 2) = 0x1007;
+    while (count--) *cursor++ = *input++;
+    while (padding--) *cursor++ = 0;
+    return cursor - output;
+}

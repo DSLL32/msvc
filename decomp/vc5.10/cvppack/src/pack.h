@@ -19,6 +19,7 @@ extern unsigned total_symbol_bytes, total_line_bytes;
 extern unsigned short module_symbol_count, module_reference_count, module_procedure_count;
 extern unsigned short current_type_index;
 extern unsigned char *current_module_buffer;
+extern unsigned char *module_symbol_records;
 void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info);
 void read_module_types(CodeViewDirectoryEntry *entry, int precompiled);
 extern unsigned module_type_entries, module_type_list_used, module_precompiled_limit;

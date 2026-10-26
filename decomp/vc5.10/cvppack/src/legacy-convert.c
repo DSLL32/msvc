@@ -1,5 +1,6 @@
 /* Dispatch marker/WORD-length/byte-leaf C6 records to their typed converters. */
 #include "legacy-types.h"
+#include "legacy-symbols.h"
 #include "pack.h"
 #include <recon.h>
 
@@ -444,4 +445,69 @@ void convert_legacy_based_array(TypeRecord *record)
     *(unsigned short *)data = 6;
     *(unsigned short *)(data + 2) = 0x100b;
     *(unsigned *)(data + 4) = referent;
+}
+
+/* C6 near/far/huge pointers expand in place [00407740,004077b8).
+ * The original carries unwritten attribute bits0x1800 (and an unknown mode)
+ * from its stack local. Zero that undefined output. This case observes zero
+ * for the carried bits and still compares the complete raw output strictly. */
+void convert_legacy_pointer(TypeRecord *record)
+{
+    unsigned char *data = record->data;
+    unsigned referent = *(unsigned short *)(data + 6), attributes = 0;
+    record->status |= 0x400;
+    switch (data[4]) {
+    case 0x5e: attributes = 2; break;
+    case 0x73: attributes = 1; break;
+    case 0x74: attributes = 0; break;
+    }
+    attributes |= 0x100;
+    *(unsigned short *)data = 10;
+    *(unsigned short *)(data + 2) = 0x1002;
+    *(unsigned *)(data + 4) = referent;
+    *(unsigned *)(data + 8) = attributes;
+}
+
+/* C6 based pointers retain the actual base relation and consumed embedded
+ * symbol [004077c0,00407948), switch data[00407948,00407980).
+ * Original reserved attribute bits0x1800 are unwritten stack data, as in the
+ * plain pointer converter. Zero only that undefined output, not the payload. */
+void convert_legacy_based_pointer(TypeRecord *record)
+{
+    unsigned char *old = record->data, *data;
+    unsigned char suffix[260];
+    unsigned referent = *(unsigned short *)(old + 5), attributes = 0;
+    unsigned short old_length = *(unsigned short *)(old + 1), length, bytes = 0;
+    int symbol = 0;
+    record->status |= 0x400;
+    switch (old[7]) {
+    case 0x92:
+        attributes = 3;
+        *(unsigned short *)suffix = *(unsigned short *)(old + 8);
+        bytes = 2;
+        break;
+    case 0x93: attributes = 4; symbol = 1; break;
+    case 0x94: attributes = 5; symbol = 1; break;
+    case 0x97: attributes = 6; symbol = 1; break;
+    case 0x98: attributes = 7; symbol = 1; break;
+    case 0x83:
+        attributes = 8;
+        *(unsigned short *)suffix = 0x9c;
+        suffix[2] = 0;
+        bytes = 3;
+        break;
+    case 0x81: attributes = 9; break;
+    }
+    if (symbol)
+        bytes += convert_legacy_base_symbol(suffix + bytes,
+            legacy_symbol_at(*(unsigned short *)(old + 8)));
+    attributes |= 0x100;
+    length = bytes + 10;
+    if (length <= (unsigned)old_length + 1) data = old;
+    else data = resize_legacy_type_payload(record, length + 2);
+    *(unsigned short *)data = length;
+    *(unsigned short *)(data + 2) = 0x1002;
+    *(unsigned *)(data + 4) = referent;
+    *(unsigned *)(data + 8) = attributes;
+    memcpy(data + 12, suffix, bytes);
 }

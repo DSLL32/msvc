@@ -1092,6 +1092,51 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_convert_legacy_pointer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_based_pointer": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_legacy_symbol_at": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_symbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_register": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_bprel16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_data16": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_bprel32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_base_data32": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -1471,6 +1516,22 @@
               {
                 "rebuilt_symbol": "_convert_legacy_numeric_leaf",
                 "offset": 0
+              }
+            ]
+          ]
+        }
+      },
+      "_convert_legacy_based_pointer": {
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_convert_legacy_based_pointer",
+                "offset": 518
+              },
+              {
+                "rebuilt_symbol": "_convert_legacy_based_pointer",
+                "offset": 574
               }
             ]
           ]
@@ -2069,6 +2130,40 @@
           "_convert_legacy_data32",
           "_convert_legacy_skip",
           "_convert_legacy_change_segment"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_base_symbol_converters:narrow",
+        "original": [
+          4268680,
+          4268728
+        ],
+        "rebuilt_begin": "_legacy_base_symbol_converters",
+        "count": 3,
+        "stride": 16,
+        "pointer_offset": 4,
+        "expected_functions": [
+          "_convert_legacy_base_bprel16",
+          "_convert_legacy_base_data16",
+          "_convert_legacy_base_register"
+        ],
+        "require_accepted": false
+      },
+      {
+        "label": "_legacy_base_symbol_converters:wide",
+        "original": [
+          4268680,
+          4268728
+        ],
+        "rebuilt_begin": "_legacy_base_symbol_converters",
+        "count": 3,
+        "stride": 16,
+        "pointer_offset": 12,
+        "expected_functions": [
+          "_convert_legacy_base_bprel32",
+          "_convert_legacy_base_data32",
+          "_convert_legacy_base_register"
         ],
         "require_accepted": false
       }

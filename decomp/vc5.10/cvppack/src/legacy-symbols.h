@@ -12,7 +12,23 @@ extern LegacySymbolSizer legacy_symbol_sizers[14];
 extern unsigned char *legacy_symbol_input, *legacy_symbol_output;
 extern unsigned short legacy_symbol_segment;
 void convert_legacy_symbols(unsigned char *end);
+unsigned char *legacy_symbol_at(unsigned short offset);
+unsigned convert_legacy_base_symbol(unsigned char *output, unsigned char *symbol);
 unsigned short convert_legacy_numeric_leaf(unsigned char **input, unsigned char **output);
+typedef unsigned (__cdecl *LegacyBaseConverter)(unsigned char *, unsigned char *);
+typedef struct LegacyBaseSymbolConverter {
+    unsigned char kind;
+    unsigned short narrow_kind;
+    LegacyBaseConverter narrow;
+    unsigned short wide_kind;
+    LegacyBaseConverter wide;
+} LegacyBaseSymbolConverter;
+extern LegacyBaseSymbolConverter legacy_base_symbol_converters[3];
+unsigned convert_legacy_base_register(unsigned char *output, unsigned char *symbol);
+unsigned convert_legacy_base_bprel16(unsigned char *output, unsigned char *symbol);
+unsigned convert_legacy_base_bprel32(unsigned char *output, unsigned char *symbol);
+unsigned convert_legacy_base_data16(unsigned char *output, unsigned char *symbol);
+unsigned convert_legacy_base_data32(unsigned char *output, unsigned char *symbol);
 typedef struct LegacySymbolConverter {
     unsigned char kind;
     unsigned short narrow_kind;

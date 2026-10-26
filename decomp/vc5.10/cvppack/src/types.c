@@ -33,11 +33,15 @@ void initialize_type_tables(void)
     initialize_arena(&type_arena, 0x1000);
     initialize_arena(&type_large_arena, 0x10000);
     empty_type_record = allocate_cleared(sizeof(TypeRecord));
-    empty_type_record->data = allocate_bytes(8);
+    /* Original allocates8 bytes but length8 below emits10, reading two
+     * unwritten bytes beyond its object. Preserve that length/header while
+     * allocating the emitted extent and zeroing the undefined output tail. */
+    empty_type_record->data = allocate_bytes(10);
     empty_type_record->flags |= 4;
     *(unsigned short *)empty_type_record->data = 8;
     *(unsigned short *)(empty_type_record->data + 2) = 0x1201;
     *(unsigned *)(empty_type_record->data + 4) = 0;
+    *(unsigned short *)(empty_type_record->data + 8) = 0;
 }
 
 /* Original checked allocation with explicit clearing [0040fb90,0040fbce). */
