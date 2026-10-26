@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1968 historical frontiers/1932 App bodies;
- * Seventy-one support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1968 historical frontiers/1945 App bodies;
+ * Eighty-four support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -1958,13 +1958,6 @@ static const ReconFunction functions[] = {
         .name = "??3@YAXPAX@Z",
         .entry_rva = 0x7030,
         .code = (const ReconExtent[]) { { 0x7030, 0x7040 } },
-        .code_count = 1,
-        .definition = RECON_CRT,
-    },
-    {
-        .name = "??1Iostream_init@@QAE@XZ",
-        .entry_rva = 0x7070,
-        .code = (const ReconExtent[]) { { 0x7070, 0x7080 } },
         .code_count = 1,
         .definition = RECON_CRT,
     },
@@ -17222,6 +17215,9 @@ static const ReconFunction functions[] = {
         .code = (const ReconExtent[]) { { 0x731c4, 0x7328f } },
         .code_count = 1,
         .definition = RECON_CRT,
+        /* EXSUP.OBJ .text[0..4]: XC00 precedes its actual handler symbol. */
+        .text_data = (const ReconExtent[]) { { 0x731c0, 0x731c4 } },
+        .text_data_count = 1,
     },
     {
         .name = "__global_unwind2",
@@ -19531,6 +19527,79 @@ static const ReconFunction functions[] = {
       .code = (const ReconExtent[]) { { 0x254f0, 0x25565 } }, .code_count = 1,
       .definition = RECON_APP, .native_symbol = "write_formatted_text",
       .implementation = RECON_IMPLEMENTED },
+
+/* Whole conversion/PCH support qualified by typed units and ABI audit. */
+    { .name = "_extended_format", .entry_rva = 0x64c60,
+      .code = (const ReconExtent[]) { { 0x64c60, 0x64c75 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "extended_format",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_copy_extended", .entry_rva = 0x64c75,
+      .code = (const ReconExtent[]) { { 0x64c75, 0x64c99 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "copy_extended",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_extended_to_long_double", .entry_rva = 0x64e23,
+      .code = (const ReconExtent[]) { { 0x64e23, 0x64e46 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "extended_to_long_double",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_long_double_to_extended", .entry_rva = 0x64e8a,
+      .code = (const ReconExtent[]) { { 0x64e8a, 0x64eac } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "long_double_to_extended",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_extended_to_unsigned", .entry_rva = 0x64f2f,
+      .code = (const ReconExtent[]) { { 0x64f2f, 0x64f74 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "extended_to_unsigned",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_round_extended_to_integer", .entry_rva = 0x64f74,
+      .code = (const ReconExtent[]) { { 0x64f74, 0x64fbf } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "round_extended_to_integer",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_normalize_outer_pointer_type@4", .entry_rva = 0x53750,
+      .code = (const ReconExtent[]) { { 0x53750, 0x53779 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "normalize_outer_pointer_type",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_encode_pch_vector_values@4", .entry_rva = 0x5a7e0,
+      .code = (const ReconExtent[]) { { 0x5a7e0, 0x5a826 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "encode_pch_vector_values",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_decode_pch_vector_values@4", .entry_rva = 0x5ab50,
+      .code = (const ReconExtent[]) { { 0x5ab50, 0x5aba8 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "decode_pch_vector_values",
+      .implementation = RECON_IMPLEMENTED },
+
+/* Whole remaining frontend support; explicit native-unit-only qualification. */
+    { .name = "_codeview_leaf_offset", .entry_rva = 0x7040,
+      .code = (const ReconExtent[]) { { 0x7040, 0x7071 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "codeview_leaf_offset",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_take_unnamed_entity_index", .entry_rva = 0x44ed0,
+      .code = (const ReconExtent[]) { { 0x44ed0, 0x44ee0 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "take_unnamed_entity_index",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_subtraction_expression_base@4", .entry_rva = 0x24790,
+      .code = (const ReconExtent[]) { { 0x24790, 0x247af } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "subtraction_expression_base",
+      .implementation = RECON_IMPLEMENTED },
+    { .name = "_write_asm_segment_prefix", .entry_rva = 0x6ebfe,
+      .code = (const ReconExtent[]) { { 0x6ebfe, 0x6ec60 } }, .code_count = 1,
+      .definition = RECON_APP, .native_symbol = "write_asm_segment_prefix",
+      .implementation = RECON_IMPLEMENTED },
+
+/* Positive residual CRT classification only: no source reconstruction or App
+ * credit. WINSIG.OBJ names its static control callback; original matched signal
+ * registers this exact target and shares the two signal slots. IEEE87.OBJ names
+ * clearfp; this older body additionally has FWAIT prefixes. STRGTOLD.OBJ's
+ * STRINGTOLD wrapper matches after its two call relocations, targeting the
+ * already-qualified old parser and ld12told. No general native equivalence is
+ * inferred for newly reached states of these dormant runtime surfaces. */
+    { .name = "_ctrlevent_capture@4", .entry_rva = 0x72e80,
+      .code = (const ReconExtent[]) { { 0x72e80, 0x72ed2 } }, .code_count = 1,
+      .definition = RECON_CRT },
+    { .name = "__clearfp", .entry_rva = 0x74520,
+      .code = (const ReconExtent[]) { { 0x74520, 0x7453a } }, .code_count = 1,
+      .definition = RECON_CRT },
+    { .name = "___STRINGTOLD", .entry_rva = 0x78c40,
+      .code = (const ReconExtent[]) { { 0x78c40, 0x78c89 } }, .code_count = 1,
+      .definition = RECON_CRT },
 
 };
 

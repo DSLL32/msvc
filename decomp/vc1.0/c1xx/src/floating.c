@@ -431,3 +431,117 @@ int unsigned_to_extended(const unsigned long *value, Extended *result)
     }
     return 0;
 }
+
+/* Original0x74c60..0x74c75, cdecl1. The representation tag is signed. */
+int extended_format(const Extended *value)
+{
+    return (short)value->format;
+}
+
+/* Original0x74c75..0x74c99, cdecl2. Six forward WORD moves include
+   the representation tag and retain the original overlap behavior. */
+int copy_extended(const Extended *value, Extended *result)
+{
+    const unsigned short *source = (const unsigned short *)value;
+    unsigned short *target = (unsigned short *)result;
+    unsigned index;
+    for (index = 0; index < 6; ++index) target[index] = source[index];
+    return 0;
+}
+
+/* Original0x74e23..0x74e46, cdecl2. The range result does not gate
+   the original unconditional ten-byte store. Period C cannot express it. */
+int extended_to_long_double(const Extended *value, ExtendedLimit *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+        fld tbyte ptr extended_round_limit
+    }
+    overflow = check_extended_range();
+    __asm {
+        mov eax, result
+        fstp tbyte ptr [eax]
+        fwait
+    }
+    return overflow;
+}
+
+/* Original0x74e8a..0x74eac, cdecl2. The ten-byte input and private
+   ESI/ST(0) store ABI require narrow bridges; tag initialization stays C. */
+int long_double_to_extended(const ExtendedLimit *value, Extended *result)
+{
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+    }
+    result->format = 10;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+    return 0;
+}
+
+/* Greatest unsigned32-bit integer, original0xa66fc..0xa6706. */
+ExtendedLimit unsigned_integer_limit = { 0, 0xffffffffU, 0x401e };
+
+/* Original0x74f2f..0x74f74, cdecl2. A negative input still writes
+   the truncated low DWORD, returning the range helper's negative flag. */
+int extended_to_unsigned(const Extended *value, unsigned long *result)
+{
+    unsigned short words[4];
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+    }
+    truncate_extended();
+    __asm { fld tbyte ptr unsigned_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        overflow |= extended_workspace.range.negative;
+        __asm {
+            lea eax, words
+            fistp qword ptr [eax]
+            fwait
+        }
+        ((unsigned short *)result)[0] = words[0];
+        ((unsigned short *)result)[1] = words[1];
+    }
+    return overflow;
+}
+
+float integer_rounding_half = 0.5f; /* original0xa6706..0xa670a */
+
+/* Original0x74f74..0x74fbf, cdecl2. Add signed one-half before the
+   separate truncation/range calls. Only x87 transfers/condition extraction
+   and operations unavailable for ten-byte values require inline assembly. */
+int round_extended_to_integer(const Extended *value, long *result)
+{
+    unsigned short status;
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+        ftst
+        fstsw status
+        fwait
+        fld integer_rounding_half
+    }
+    extended_workspace.range.status = status;
+    if (status & 0x100) { __asm { fchs } }
+    __asm { faddp st(1), st(0) }
+    truncate_extended();
+    __asm { fld tbyte ptr signed_integer_limit }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fistp dword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}

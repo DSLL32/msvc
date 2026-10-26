@@ -321,3 +321,12 @@ char *__stdcall append_symbol_suffix(char *prefix, char *suffix)
     result[prefix_length + suffix_length] = 0;
     return result;
 }
+
+unsigned unnamed_entity_next_index = 65535; /* initialized original0xa0d20 */
+
+/* Original0x54ed0..0x54ee0, cdecl0. This separate descending index
+   family is shared with the C frontend, not the ordinary symbol sequence. */
+unsigned take_unnamed_entity_index(void)
+{
+    return unnamed_entity_next_index--;
+}

@@ -475,3 +475,18 @@ void __stdcall subtract_bitset(BitSet *set, BitSet *other)
     for (index = 0; (int)index <= last; ++index)
         set->bits[index] &= ~other->bits[index];
 }
+
+/* Original0x6ab50..0x6aba8, stdcall4. The original decodes only
+   a local copy and never writes the vector slot. Keep that value-only
+   behavior, including the real page-table lookup and its unchanged slots. */
+Vector *__stdcall decode_pch_vector_values(Vector *vector)
+{
+    short index = 0;
+    unsigned pointer;
+    while (index < vector->count) {
+        pointer = (unsigned)vector->items[index++];
+        pointer = (unsigned)permanent_pages[pointer >> 16].start + (pointer & 0xffff);
+    }
+    /* The final loop-header load is the original deterministic EAX result. */
+    return vector;
+}

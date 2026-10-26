@@ -4345,6 +4345,44 @@
           ]
         ],
         "reason": "Whole193B embedded typesrvr.cpp record-pool owner with threecdeclargs ends POPEDI/POPESI/POPEBX/RET; candidate is finalRET plus15B LEA padding. Independent direct-transfer/address-operand/initialized-pointer/export/symbol review found no suffix entry. Preserve four other same-name raw rows and whole owner/status; no extra function/byte credit."
+      },
+      {
+        "original": [
+          94320,
+          94336
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_codeview_leaf_offset",
+        "owner_ranges": [
+          [
+            94272,
+            94321
+          ]
+        ],
+        "reason": "Whole49B CodeView directory scanner ends RET followed by15B LEA alignment. Internal JB1706e targets the owned RET; independent outside transfer/address operand/initialized pointer/export review found no separate entry. All59 leaf/name rows independently confirmed; no credit from identity correction."
+      },
+      {
+        "original": [
+          250640,
+          250656
+        ],
+        "candidate_names": [
+          "??1Iostream_init@@QAE@XZ",
+          "__fpclear"
+        ],
+        "bytes_sha256": "419f2192e581528c7c7270e779d78e833772f6a72c12dd7725822d3549963f18",
+        "owner": "_initialize_intermediate_output",
+        "owner_ranges": [
+          [
+            250640,
+            250641
+          ]
+        ],
+        "reason": "Already accepted1B compiler-specific initialization hook: actual CALL695e9 is prototypes-only guarded and followed by translation-state initialization, matching its source/module role. No independent CRT caller/name/pointer/export provenance. The remaining15B are alignment. Preserve canonical App body/status and award no credit."
       }
     ]
   }

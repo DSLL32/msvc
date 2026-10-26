@@ -46,4 +46,10 @@ int subtract_extended(const Extended *left, const Extended *right, Extended *res
 Extended *__stdcall save_extended_constant(Extended *value);
 Extended *__stdcall save_extended_in_arena(Extended value, int arena);
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right);
+int extended_format(const Extended *value);
+int copy_extended(const Extended *value, Extended *result);
+int extended_to_long_double(const Extended *value, ExtendedLimit *result);
+int long_double_to_extended(const ExtendedLimit *value, Extended *result);
+int extended_to_unsigned(const Extended *value, unsigned long *result);
+int round_extended_to_integer(const Extended *value, long *result);
 #endif

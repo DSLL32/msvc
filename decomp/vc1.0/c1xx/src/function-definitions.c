@@ -491,3 +491,16 @@ void discard_function_definition(void)
     token_allocation_flags &= ~0x00080000UL;
     function_symbol = 0;
 }
+
+/* Original0x34790..0x347af, stdcall4. Change just the outer operator
+   and select the base through three actual left/value links. The dormant
+   entry's caller purpose is not established; no implicit this owner is assumed. */
+IrToken *__stdcall subtraction_expression_base(IrToken *expression)
+{
+    IrToken *left;
+    if (!expression) return 0;
+    expression->kind = OP_SUBTRACT;
+    left = expression->value.pointer;
+    left = left->value.pointer;
+    return left->value.pointer;
+}

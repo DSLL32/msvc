@@ -579,3 +579,54 @@ extern "C" unsigned short __cdecl debug_database_next_type(DebugDatabase *databa
 /* Original0x18000..0x18018, cdecl1/EAX. Hash WORDs are excluded. */
 extern "C" unsigned __cdecl debug_database_record_bytes(DebugDatabase *database)
 { return database->records.used + (database->header.first_type-database->header.next_type)*2; }
+
+/* Original0x17040..0x17071, cdecl1. The complete encountered leaf
+   directory is59 eight-byte rows at9d3d8..9d5b0. The name slots belong
+   to the logical CodeView catalog even though this checker uses only codes.
+   LF_NUMERIC/LF_CHAR deliberately share0x8000. The scan's result is unused;
+   the trailing original range branch has an empty body, not an error guard. */
+extern "C" unsigned __cdecl codeview_leaf_offset(unsigned short *leaf)
+{
+    struct LeafName { unsigned short code; const char *name; };
+    static const LeafName names[] = {
+        {0x001,"LF_MODIFIER"}, {0x002,"LF_POINTER"},
+        {0x003,"LF_ARRAY"}, {0x004,"LF_CLASS"},
+        {0x005,"LF_STRUCTURE"}, {0x006,"LF_UNION"},
+        {0x007,"LF_ENUM"}, {0x008,"LF_PROCEDURE"},
+        {0x009,"LF_MFUNCTION"}, {0x00a,"LF_VTSHAPE"},
+        {0x00b,"LF_COBOL0"}, {0x00c,"LF_COBOL1"},
+        {0x00d,"LF_BARRAY"}, {0x00e,"LF_LABEL"},
+        {0x00f,"LF_NULL"}, {0x010,"LF_NOTTRAN"},
+        {0x011,"LF_DIMARRAY"}, {0x012,"LF_VFTPATH"},
+        {0x013,"LF_PRECOMP"}, {0x014,"LF_ENDPRECOMP"},
+        {0x200,"LF_SKIP"}, {0x201,"LF_ARGLIST"},
+        {0x202,"LF_DEFARG"}, {0x203,"LF_LIST"},
+        {0x204,"LF_FIELDLIST"}, {0x205,"LF_DERIVED"},
+        {0x206,"LF_BITFIELD"}, {0x207,"LF_METHODLIST"},
+        {0x208,"LF_DIMCONU"}, {0x209,"LF_DIMCONLU"},
+        {0x20a,"LF_DIMVARU"}, {0x20b,"LF_DIMVARLU"},
+        {0x20c,"LF_REFSYM"}, {0x400,"LF_BCLASS"},
+        {0x401,"LF_VBCLASS"}, {0x402,"LF_IVBCLASS"},
+        {0x403,"LF_ENUMERATE"}, {0x404,"LF_FRIENDFCN"},
+        {0x405,"LF_INDEX"}, {0x406,"LF_MEMBER"},
+        {0x407,"LF_STMEMBER"}, {0x408,"LF_METHOD"},
+        {0x409,"LF_NESTTYPE"}, {0x40a,"LF_VFUNCTAB"},
+        {0x40b,"LF_FRIENDCLS"}, {0x8000,"LF_NUMERIC"},
+        {0x8000,"LF_CHAR"}, {0x8001,"LF_SHORT"},
+        {0x8002,"LF_USHORT"}, {0x8003,"LF_LONG"},
+        {0x8004,"LF_ULONG"}, {0x8005,"LF_REAL32"},
+        {0x8006,"LF_REAL64"}, {0x8007,"LF_REAL80"},
+        {0x8008,"LF_REAL128"}, {0x8009,"LF_QUADWORD"},
+        {0x800a,"LF_UQUADWORD"}, {0x800b,"LF_REAL48"}, {0,"???"}
+    };
+    typedef char LeafNameSizeMustBe8[(sizeof(LeafName) == 8) ? 1 : -1];
+    const LeafName *entry = names;
+    unsigned code = *leaf;
+    if (names[0].code != code) {
+        do {
+            if (!entry->code) break;
+            ++entry;
+        } while (entry->code != code);
+    }
+    return code - 2U;
+}

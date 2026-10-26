@@ -520,3 +520,12 @@ CType *__stdcall make_scalar_pointer_type(unsigned short flags,
         normalize_type_attributes(kind, attributes), 0));
     return intern_type(description);
 }
+
+/* Original0x63750..0x63779, stdcall4. Normalize the encountered
+   outer shape's attributes as a data pointer, retaining its payload word. */
+CType *__stdcall normalize_outer_pointer_type(CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned short attributes = normalize_type_attributes(1, shape->attributes);
+    return replace_first_type_shape(type, 1, attributes & 15, &shape->data.word);
+}

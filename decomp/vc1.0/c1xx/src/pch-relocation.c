@@ -1074,3 +1074,17 @@ void __stdcall mark_pch_symbol_binding(SymbolBinding *binding)
     mark_pch_pointer((void **)&binding->member);
     mark_pch_pointer((void **)&binding->object);
 }
+
+/* Original0x6a7e0..0x6a826, stdcall4. The dormant value-only walk
+   computes each page/offset into the shared scratch result without replacing
+   the actual vector items; this differs from the live pointer-slot walker. */
+Vector *__stdcall encode_pch_vector_values(Vector *vector)
+{
+    short index = 0;
+    while (index < vector->count) {
+        void *pointer = vector->items[index++];
+        encode_pch_pointer(pointer);
+    }
+    /* The terminating header comparison leaves the actual vector in EAX. */
+    return vector;
+}

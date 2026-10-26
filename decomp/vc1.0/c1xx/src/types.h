@@ -57,4 +57,5 @@ typedef char CTypeContextIndexOffsetMustBe8[(offsetof(CType, field08) == 8) ? 1 
 typedef char CTypeContextIndexSizeMustBe2[(sizeof(((CType *)0)->field08) == 2) ? 1 : -1];
 typedef char CTypeSizeMustBe12[(sizeof(CType) == 12) ? 1 : -1];
 typedef char TypeShapeSizeMustBe12[(sizeof(TypeShape) == 12) ? 1 : -1];
+CType *__stdcall normalize_outer_pointer_type(CType *type);
 #endif

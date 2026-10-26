@@ -103,4 +103,5 @@ extern unsigned short asm_register_properties[46];
 AsmExpression *__stdcall make_asm_stack_register(short reg, int index);
 void __stdcall set_asm_operand_size(unsigned char size);
 unsigned char __stdcall asm_size_encoding(unsigned bytes);
+void write_asm_segment_prefix(void);
 #endif

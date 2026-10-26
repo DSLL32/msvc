@@ -27,6 +27,13 @@
 #include "class-type-sets.h"
 #include "source-input.h"
 #include "member-pointers.h"
+#include "numeric-conversion.h"
+#include "pch-relocation.h"
+#include "symbol-output.h"
+#include "function-definitions.h"
+#include "control-ir.h"
+#include "operators.h"
+#include <float.h>
 #include "text-format.h"
 #include "parser.h"
 #include <recon.h>
@@ -858,6 +865,107 @@ static int check_text_support_owners(void)
         readback[11] != 0x5a || fclose(stream)) return 0;
     return _unlink("formatter-unit.txt") == 0;
 }
+static int check_extended_support_owners(void)
+{
+    Extended value, copy;
+    ExtendedLimit raw;
+    double real = 1.5;
+    unsigned long maximum = 0xffffffffUL, converted = 0;
+    long negative = -1, rounded = 0;
+    unsigned control = _control87(0,0);
+    unsigned short before, after;
+    __asm { fstsw before }
+    if (double_to_extended(&real,&value) || extended_format(&value) != 8 ||
+        copy_extended(&value,&copy) || memcmp(&value,&copy,sizeof(value))) return 0;
+    copy.format = 0xffff;
+    if (extended_format(&copy) != -1 || extended_to_long_double(&value,&raw) ||
+        memcmp(&raw,&value,sizeof(raw)) || long_double_to_extended(&raw,&copy) ||
+        copy.format != 10 || memcmp(&copy,&value,sizeof(raw))) return 0;
+    if (round_extended_to_integer(&value,&rounded) || rounded != 2) return 0;
+    real = -1.5;
+    if (double_to_extended(&real,&value) ||
+        round_extended_to_integer(&value,&rounded) || rounded != -2) return 0;
+    if (unsigned_to_extended(&maximum,&value) || extended_to_unsigned(&value,&converted) ||
+        converted != maximum) return 0;
+    if (integer_to_extended(&negative,&value) ||
+        extended_to_unsigned(&value,&converted) != 1 || converted != 0xffffffffUL) return 0;
+    __asm { fstsw after }
+    return _control87(0,0) == control && !((before ^ after) & 0x3800);
+}
+void __stdcall encode_pch_pointer(void *pointer);
+static int check_pch_value_vector_owners(void)
+{
+    void *items[2], *first = allocate_permanent(4), *second = allocate_permanent(4);
+    Vector vector;
+    unsigned references[2], final;
+    vector.count = vector.capacity = 2; vector.arena = 0; vector.items = items;
+    items[0] = first; items[1] = second;
+    encode_pch_pointer(first); references[0] = pch_encoded_pointer;
+    encode_pch_pointer(second); references[1] = pch_encoded_pointer; final = pch_encoded_pointer;
+    if (references[0] == 0xffffffff || final == 0xffffffff) return 0;
+    if (encode_pch_vector_values(&vector) != &vector) return 0;
+    if (pch_encoded_pointer != final || items[0] != first || items[1] != second) return 0;
+    items[0] = (void *)references[0]; items[1] = (void *)references[1];
+    if (decode_pch_vector_values(&vector) != &vector) return 0;
+    return (unsigned)items[0] == references[0] && (unsigned)items[1] == references[1] &&
+        pch_encoded_pointer == final && vector.count == 2;
+}
+static int check_outer_pointer_type_owner(void)
+{
+    CType type = {0}, *result;
+    TypeShape shape = {0};
+    initialize_type_table();
+    type.flags = 0x64; type.related = &shape;
+    shape.flags = 2; shape.attributes = 2; shape.data.array_bound = 8;
+    result = normalize_outer_pointer_type(&type);
+    return result && result->flags == 0x64 && result->related &&
+        result->related->flags == 1 && (result->related->attributes & 15) == 2 &&
+        type.related == &shape && shape.flags == 2 && shape.data.array_bound == 8;
+}
+unsigned __cdecl codeview_leaf_offset(unsigned short *leaf);
+static int check_remaining_frontend_owners(void)
+{
+    unsigned short leaf;
+    IrToken outer = {0}, second = {0}, third = {0}, base = {0};
+    if (take_unnamed_entity_index() != 65535 || take_unnamed_entity_index() != 65534) return 0;
+    leaf = 1; if (codeview_leaf_offset(&leaf) != 0xffffffffU) return 0;
+    leaf = 2; if (codeview_leaf_offset(&leaf)) return 0;
+    leaf = 0x800b; if (codeview_leaf_offset(&leaf) != 0x8009) return 0;
+    leaf = 0; if (codeview_leaf_offset(&leaf) != 0xfffffffeU) return 0;
+    leaf = 0xffff; if (codeview_leaf_offset(&leaf) != 0xfffd) return 0;
+    outer.kind = OP_ADD; outer.flags = 0x71; outer.field02 = 0x1234;
+    outer.value.pointer = &second; second.value.pointer = &third; third.value.pointer = &base;
+    return subtraction_expression_base(&outer) == &base && outer.kind == OP_SUBTRACT &&
+        outer.flags == 0x71 && outer.field02 == 0x1234 &&
+        outer.value.pointer == &second && !subtraction_expression_base(0);
+}
+static int check_asm_segment_prefix_owner(void)
+{
+    static const unsigned char expected[] = {
+        0x4f,22,5,5,0xaf,0,1,12, 0x4f,22,5,5,0xaf,0,1,13,
+        0x4f,22,5,5,0xaf,0,1,12
+    };
+    unsigned char actual[sizeof(expected)+1];
+    FILE *stream = fopen("asm-prefix-unit.bin","w+b");
+    if (!stream) return 0;
+    expression_file = stream; options.prototypes_only = 0;
+    reset_asm_operand(0); reset_asm_operand(1); asm_operand_count = 1;
+    write_asm_segment_prefix();
+    if (ftell(stream)) return 0;
+    asm_addresses[0].flags = 29;
+    write_asm_segment_prefix();
+    if (control_counted_data[4] != 12 || control_counted_data[5]) return 0;
+    asm_addresses[0].flags = 0; asm_addresses[1].flags = 30; asm_operand_count = 2;
+    write_asm_segment_prefix();
+    asm_addresses[0].flags = 29;
+    write_asm_segment_prefix();
+    if (fflush(stream) || fseek(stream,0,SEEK_SET)) return 0;
+    memset(actual,0x5a,sizeof(actual));
+    if (fread(actual,1,sizeof(actual),stream) != sizeof(expected) ||
+        memcmp(actual,expected,sizeof(expected)) || actual[sizeof(expected)] != 0x5a ||
+        fclose(stream)) return 0;
+    return _unlink("asm-prefix-unit.bin") == 0;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -900,5 +1008,10 @@ const ReconTest c1xx_tests[] = {
     {"bitset ownership (unit-only)",1,check_bitset_owners},
     {"DOS calendar (unit-only)",1,check_dos_calendar},
     {"declaration support owners (unit-only)",1,check_declaration_support_owners},
-    {"text support owners (unit-only)",1,check_text_support_owners}
+    {"text support owners (unit-only)",1,check_text_support_owners},
+    {"extended support owners (unit-only)",1,check_extended_support_owners},
+    {"PCH value vector owners (unit-only)",1,check_pch_value_vector_owners},
+    {"outer pointer type owner (unit-only)",1,check_outer_pointer_type_owner},
+    {"remaining frontend owners (unit-only)",1,check_remaining_frontend_owners},
+    {"ASM segment prefix owner (unit-only)",1,check_asm_segment_prefix_owner}
 };

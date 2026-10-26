@@ -143,3 +143,20 @@ unsigned char __stdcall asm_address_mode_code(AsmAddress *address)
     }
     return mode;
 }
+
+/* Original0x7ebfe..0x7ec60, cdecl0. Segment IDs are still parser
+   IDs here, before normalize_asm_addresses replaces them with encodings. */
+void write_asm_segment_prefix(void)
+{
+    unsigned char segment = asm_operands[0].address->flags & 63;
+    if (asm_operand_count > 1 && !segment)
+        segment = asm_operands[1].address->flags & 63;
+    if (!segment) return;
+    control_counted_data[0] = 5;
+    control_counted_data[1] = (char)0xaf;
+    control_counted_data[2] = 0;
+    control_counted_data[3] = 1;
+    control_counted_data[4] = (char)(asm_register_properties[segment] & 63);
+    control_counted_data[5] = 0;
+    record_line_information(22);
+}

@@ -42,4 +42,5 @@ CppSymbol *__stdcall prepare_function_definition(CppSymbol *symbol);
 extern char *declaration_print_error;
 extern int printing_function_declaration;
 void __stdcall write_storage_specification(StorageSpec storage, FILE *stream);
+IrToken *__stdcall subtraction_expression_base(IrToken *expression);
 #endif

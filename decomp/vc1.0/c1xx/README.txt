@@ -1,6 +1,49 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+IDENTIFIED APPLICATION RECONSTRUCTION IS COMPLETE.
+All1,945 identified App bodies are implemented:412,933 B of accepted code extents
+(86.67% of the476,418 B original .text). There are no pending App or Unknown
+registry entries. Finite subtraction of all classified code/text data leaves
+1,768 gaps/13,625 B, entirely the observed instruction-alignment sequences;
+no unclassified nonpadding gap remains. This completion does not remove the
+explicit native host/domain limitations or original defects documented below.
+Eighty-four support bodies are explicitly native-unit-qualified, rather than
+claiming fresh public-CLI reach. Historical original frontiers remain1,968 and
+the seven historical CRT source bodies remain unchanged. No new CRT was written.
+
+The final residual batch adds13 whole App bodies/663 B: six Extended-format,
+copy and conversion helpers; outer-pointer normalization; two value-only PCH
+vector walks; CodeView leaf lookup; the separate descending unnamed index;
+subtraction-base selection; and ASM segment-prefix output. Their real typed
+owners and frontend/module interfaces establish roles. The PCH walks retain
+unchanged vector slots and the deterministic returned Vector* in EAX. Only
+required ten-byte/private-x87 transfers use documented assembly. The complete
+encountered59-row CodeView directory retains its duplicate0x8000 code and unused
+scan result. The descending index uses the actual initialized65535. ASM prefix
+mapping consumes parser segment IDs before address normalization; units check
+nil, FS, second-operand GS and first-operand precedence through real IR files.
+
+Residual CRT classification is positive and earns no App credit: WINSIG.OBJ's
+static ctrlevent_capture is registered by the actual matched signal routine;
+IEEE87.OBJ identifies clearfp (this older body retains additional FWAIT prefixes);
+STRGTOLD.OBJ's STRINGTOLD wrapper matches after two call relocations, targeting
+the already-qualified old parser and ld12told. EXSUP.OBJ's XC00 signature is data
+immediately before its actual except_handler2 symbol. These labels do not assert
+general native equivalence for newly reached runtime states. Independent review
+removed only the leaf scanner's final-RET two false CRT aliases/canonical row,
+and two raw aliases for the already accepted compiler initialization hook.
+
+All55 native cases and69 unit groups pass, with original compilation and the
+1,953-function six-check graph/ABI audit. Five focused units21.678/21.584/21.514/
+25.231/23.108 ms; execution2.360/3.980/4.133/3.789/3.657 ms. Combined original/
+native builds31.906 s and19.934 s; final vector-return ABI refinement2.655 s.
+The first closing gate3.923 s passed; the subsequent ABI correction required
+fresh affected validation and the final closing gate3.653 s. No original
+invocation, oracle, shared shim or comparison-policy change in this batch.
+
+Earlier declaration/text qualification:
+
 Declaration/text support is COMPLETE (native-unit-only): twelve whole App
 bodies add615 B. They cover leading base-qualifier displacement, interned current
 class identity, member-pointer hierarchy eligibility, primary virtual-table

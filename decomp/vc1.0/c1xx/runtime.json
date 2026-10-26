@@ -28,20 +28,6 @@
     "library": "LIBC.LIB"
   },
   {
-    "name": "??1Iostream_init@@QAE@XZ",
-    "start": 94320,
-    "end": 94336,
-    "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 94320,
-    "end": 94336,
-    "object": "obj\\i386\\fpinit.obj",
-    "library": "LIBC.LIB"
-  },
-  {
     "name": "__inc",
     "start": 180176,
     "end": 180192,
@@ -60,20 +46,6 @@
     "start": 204896,
     "end": 204912,
     "object": "misc\\obj\\i386\\LCONV.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "??1Iostream_init@@QAE@XZ",
-    "start": 250640,
-    "end": 250656,
-    "object": "iostream\\obj\\i386\\IOSTRINI.OBJ",
-    "library": "LIBC.LIB"
-  },
-  {
-    "name": "__fpclear",
-    "start": 250640,
-    "end": 250656,
-    "object": "obj\\i386\\fpinit.obj",
     "library": "LIBC.LIB"
   },
   {
