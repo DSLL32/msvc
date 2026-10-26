@@ -1441,3 +1441,11 @@ output is denied before effects. Existing recon_itoa supplies decimal output
 and NUL; return excludes NUL, errors/full FP remain unchanged. Other formats
 (including unvisited "%ws") and profiles remain125. No general formatting or
 original per-call bytes/errors/FP claim is introduced.
+
+Explicit MSVCRT510 FormatMessageA FROM_STRING/id0/lang0 additionally admits
+registered ANSI message4509/lang409 with exactly one each of inserts1..5:
+ASCII strings1/3/4/5 and signed decimal2!d!. Template/strings, computed output
+capacity/extents and disjointness are validated before writes; return excludes
+NUL and literal CRLF is retained. Other grammars/wide inserts stay denied;
+existing two-insert help formatting is unchanged. Original per-call output and
+error/FP state were unmeasured; the ordinary warning continuation qualifies use.

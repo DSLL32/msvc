@@ -914,3 +914,9 @@ build/wsprintf-decimal-probe: tests/wsprintf-decimal-probe.c $(SOURCES) $(HEADER
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 wsprintf-decimal-check: build/wsprintf-decimal-probe
 	$(PYTHON) tests/check-wsprintf-decimal.py $< 510
+
+.PHONY: format4509-check
+build/format4509-target: tests/format-inserts-target.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+format4509-check: build/format4509-target
+	$(PYTHON) tests/check-format4509.py $< 510

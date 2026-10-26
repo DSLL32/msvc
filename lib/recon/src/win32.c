@@ -513,6 +513,56 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
     return entry->length;
 }
 
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static DWORD format_mac_type_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
+{
+    const char *cursor,*inserts[6];size_t sizes[6],length=0,n,source_length=strlen(text);
+    unsigned seen[6]={0,0,0,0,0,0},index,width;int value;char number[12],*destination;
+    uintptr_t out=(uintptr_t)output,source=(uintptr_t)text;va_list copied;
+    if(source_length>1024) recon_unsupported("message4509 template length");
+    for(cursor=text;*cursor;++cursor) {
+        if((unsigned char)*cursor>=128) recon_unsupported("message4509 template encoding");
+        if(*cursor!='%')continue;
+        if(!strncmp(cursor,"%2!d!",5)){index=2;width=5;}
+        else if((cursor[1]=='1' || (cursor[1]>='3' && cursor[1]<='5')) &&
+                cursor[2]!='!' && !isdigit((unsigned char)cursor[2])) {index=cursor[1]-'0';width=2;}
+        else recon_unsupported("message4509 insert grammar");
+        if(++seen[index]!=1) recon_unsupported("message4509 duplicate insert");
+        cursor+=width-1;
+    }
+    for(index=1;index<=5;++index)if(seen[index]!=1)recon_unsupported("message4509 insert arity");
+    va_copy(copied,*arguments);inserts[1]=va_arg(copied,const char *);value=va_arg(copied,int);
+    for(index=3;index<=5;++index)inserts[index]=va_arg(copied,const char *);
+    va_end(copied);recon_itoa(value,number,10);inserts[2]=number;
+    for(index=1;index<=5;++index) {
+        if(!inserts[index] || (uintptr_t)inserts[index]>UINTPTR_MAX-MAX_PATH)
+            recon_unsupported("message4509 string extent");
+        sizes[index]=strnlen(inserts[index],MAX_PATH);
+        if(sizes[index]==MAX_PATH)recon_unsupported("message4509 string length");
+        for(n=0;n<sizes[index];++n)if((unsigned char)inserts[index][n]>=128)
+            recon_unsupported("message4509 nonASCII insert");
+    }
+    for(cursor=text;*cursor;++cursor) {
+        if(*cursor!='%'){++length;continue;}
+        index=cursor[1]-'0';length+=sizes[index];cursor+=index==2?4:1;
+    }
+    if(!output || capacity<=length || out>UINTPTR_MAX-length-1 ||
+       source>UINTPTR_MAX-source_length-1 ||
+       (out<source+source_length+1 && source<out+length+1))
+        recon_unsupported("message4509 output capacity/extent/template overlap");
+    for(index=1;index<=5;++index)if(out<(uintptr_t)inserts[index]+sizes[index]+1 &&
+       (uintptr_t)inserts[index]<out+length+1)
+        recon_unsupported("message4509 output/insert overlap");
+    destination=output;
+    for(cursor=text;*cursor;++cursor) {
+        if(*cursor!='%')*destination++=*cursor;
+        else {index=cursor[1]-'0';memcpy(destination,inserts[index],sizes[index]);
+              destination+=sizes[index];cursor+=index==2?4:1;}
+    }
+    *destination=0;return (DWORD)length;
+}
+#endif
+
 static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
                                        LPSTR output,DWORD capacity,va_list *arguments)
 {
@@ -525,6 +575,9 @@ static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
         for (candidate=native_modules[module].resources;candidate;candidate=candidate->next)
             if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
     if (!entry) recon_unsupported("unregistered FormatMessageA template");
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(entry->id==4509 && entry->language==0x409) return format_mac_type_warning(text,output,capacity,arguments);
+#endif
     for (cursor=text;*cursor;++cursor) if (*cursor=='%') {
         if (cursor[1]=='1' && cursor[2]!='!' && !isdigit((unsigned char)cursor[2])) { ++saw_string; ++cursor; }
         else if (!strncmp(cursor,"%2!d!",5)) { ++saw_number; cursor+=4; }
