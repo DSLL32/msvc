@@ -242,7 +242,7 @@ int ReadImportData( void *buffer, unsigned length );
 unsigned char ReadImportByte( void );
 int SeekImportInput( unsigned long offset );
 int CloseImportInput( void );
-int ReadImportModuleName( unsigned wide_ordinal );
+int ReadImportModuleName( unsigned byte_ordinal );
 int ConvertNlmExports( int handle, unsigned long count );
 int ConvertNameTable( int handle, unsigned by_name );
 int ConvertPeExports( int handle, unsigned long *offset, unsigned char by_name );

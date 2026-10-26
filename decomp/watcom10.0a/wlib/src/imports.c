@@ -325,3 +325,50 @@ void CloseFileCache( int handle )
     FreeMemory( ImportReadBuffer );
     if( ImportModuleName != NULL ) FreeMemory( ImportModuleName );
 }
+
+/* Original0x41416c..0x4141c9. NLM names have a byte terminator;
+   NE/LE module-name entries have a two-byte zero ordinal. */
+int ReadImportModuleName( unsigned byte_ordinal )
+{
+    unsigned terminator;
+
+    ImportModuleNameLength = ReadImportByte();
+    if( ImportModuleNameLength == 0 ) return( 0 );
+    ImportModuleName = AllocMemory( ImportModuleNameLength );
+    if( !ReadImportData( ImportModuleName, ImportModuleNameLength ) ) return( 0 );
+    terminator = 0;
+    if( !ReadImportData( &terminator, 1 + !byte_ordinal ) ) return( 0 );
+    return( (unsigned short)terminator == 0 );
+}
+
+/* Original0x414430..0x41448c. NLM exports have counted names and
+   four-byte image offsets; imports are always emitted by name. */
+int ConvertNlmExports( int handle, unsigned long count )
+{
+    unsigned length;
+    unsigned long address;
+
+    while( (long)--count >= 0 ) {
+        length = ReadImportByte();
+        if( !ReadImportData( ImportReadBuffer, length ) ) return( 0 );
+        if( !ReadImportData( &address, 4 ) ) return( 0 );
+        WriteImportSymbol( (char *)ImportReadBuffer, length, 1, handle, 1 );
+    }
+    return( 1 );
+}
+
+/* Original0x4143d2..0x414430. NE/LE resident and nonresident tables
+   terminate with a zero-length name; each other entry carries a word ordinal. */
+int ConvertNameTable( int handle, unsigned by_name )
+{
+    unsigned length;
+    short ordinal;
+
+    for( ;; ) {
+        length = ReadImportByte();
+        if( length == 0 ) return( 1 );
+        if( !ReadImportData( ImportReadBuffer, length ) ) return( 0 );
+        if( !ReadImportData( &ordinal, 2 ) ) return( 0 );
+        WriteImportSymbol( (char *)ImportReadBuffer, length, ordinal, handle, (unsigned char)by_name );
+    }
+}

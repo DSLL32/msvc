@@ -32,6 +32,7 @@
    6b9cb4438959d845a2b4dd4bf19f7908ecd608e9. Signatures/descriptor layout
    and individual bodies follow this1994 image, not later parser additions. */
 #include <ctype.h>
+#include <malloc.h>
 #include <stdlib.h>
 #include <string.h>
 #include "demangle.h"
@@ -1054,6 +1055,23 @@ int operator_function( output_desc *data, state_desc *state )
     return( 0 );
 }
 
+/* Original0x416169..0x4161b9, with the same compiler-shared terminal
+   chunks as operator_function. The table index is an unsigned byte. */
+int assignment_function( output_desc *data, state_desc *state )
+{
+    unsigned char index;
+
+    index = nextChar( data ) - 'A';
+    if( index < sizeof(assignmentFunction) / sizeof(assignmentFunction[0]) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output2( DM_ASSIGNMENT_FUNCTION, index );
+        return( 1 );
+    }
+    return( 0 );
+}
+
 /* Original0x4155e5..0x4156a0, including the compiler-shared terminal
    region. Member pointers include their scoped class name before the type. */
 int pointer( output_desc *data, state_desc *state )
@@ -1221,4 +1239,159 @@ int base_10_num( output_desc *data, int *value )
 char prevChar( output_desc *data )
 {
     return( toupper( (unsigned char)data->input[-1] ) );
+}
+
+/* Original0x4154a7..0x4154d9; the final store/return is also used by
+   base_10_num. Accumulation wraps at the original 32-bit word width. */
+int base_32_num( output_desc *data, int *value )
+{
+    unsigned digit;
+    unsigned number;
+
+    number = 0;
+    for( ;; ) {
+        digit = char_to_digit( nextChar( data ) );
+        if( digit >= 32 ) break;
+        number = number * 32 + digit;
+        advanceChar( data );
+    }
+    *value = number;
+    return( 1 );
+}
+
+/* Original0x4153ec..0x41540a. The period alloca macro checks available
+   stack before reserving400 bytes. As with PadLibraryPage, native builds
+   use an actual small caller-frame allocation; callers test only nonzero. */
+int check_recurse( void )
+{
+    return( (int)alloca( 400 ) );
+}
+
+/* Original0x416977..0x4169d5 and callback-return suffix0x415693. */
+int recursive_mangled_name( output_desc *data, state_desc *state )
+{
+    char buffer[80];
+
+    _output1( DM_RECURSE_BEGIN );
+    data->input += demangle_recursive( data->input, buffer, sizeof(buffer) );
+    _output1( DM_RECURSE_END );
+    _output2( DM_SET_INDEX, state->prefix );
+    _output3( DM_COPY_STRING, 0, buffer );
+    return( 1 );
+}
+
+/* Original0x416928..0x416977. Recursive output uses a fixed caller buffer
+   and temporarily disables the optional user reallocator. */
+unsigned demangle_recursive( const char *input, char *output, unsigned size )
+{
+    realloc_fn_t saved_reallocator;
+    output_desc data;
+
+    saved_reallocator = user_realloc;
+    user_realloc = NULL;
+    init_descriptor( &data, demangleEmit, &data, input, 0, output, size );
+    mangled_name( &data );
+    terminateOutput( &data );
+    user_realloc = saved_reallocator;
+    return( data.input - input );
+}
+
+/* Original0x4161b9..0x41623f: scalar and array allocation operators. */
+int op_new( output_desc *data, state_desc *state )
+{
+    if( nextChar( data ) == 'W' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_NEW );
+        return( 1 );
+    } else if( nextChar( data ) == 'A' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output1( DM_OPERATOR_NEW_ARRAY );
+        return( 1 );
+    }
+    return( 0 );
+}
+
+/* Original0x416119..0x416169, unsigned six-entry relational table. */
+int relational_function( output_desc *data, state_desc *state )
+{
+    unsigned char index;
+
+    index = nextChar( data ) - 'A';
+    if( index < sizeof(relationalFunction) / sizeof(relationalFunction[0]) ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_OPERATOR_PREFIX );
+        _output2( DM_RELATIONAL_FUNCTION, index );
+        return( 1 );
+    }
+    return( 0 );
+}
+
+/* Original0x415b3a..0x415ca9 with shared false/return regions. */
+int based_encoding( output_desc *data, state_desc *state )
+{
+    unsigned length;
+    state_desc new_state;
+
+    _output1( DM_BASED_ENCODING );
+    switch( nextChar( data ) ) {
+    case 'S':
+        advanceChar( data );
+        _output1( DM_BASED_SELF );
+        _output1( DM_BASED_SUFFIX );
+        return( 1 );
+    case 'V':
+        advanceChar( data );
+        _output1( DM_BASED_VOID );
+        _output1( DM_BASED_SUFFIX );
+        return( 1 );
+    case 'L':
+        advanceChar( data );
+        if( base_36_2digit( data, &length ) ) {
+            _output1( DM_BASED_STRING_PREFIX );
+            _output3( DM_IDENTIFIER, length, data->input );
+            while( length-- ) advanceChar( data );
+            _output1( DM_BASED_STRING_SUFFIX );
+            _output1( DM_BASED_SUFFIX );
+            return( 1 );
+        }
+        break;
+    case 'A':
+    case 'F':
+        advanceChar( data );
+        if( nextChar( data ) == '$' ) {
+            advanceChar( data );
+            new_state = *state;
+            new_state.prefix = data->index;
+            new_state.suffix = data->count - data->index;
+            if( scoped_name( data, &new_state ) ) {
+                _output2( DM_RESET_INDEX, new_state.suffix );
+                _output1( DM_ZAP_SPACE );
+                _output1( DM_BASED_SUFFIX );
+                return( 1 );
+            }
+        }
+        break;
+    }
+    return( 0 );
+}
+
+/* Original0x416073..0x4160c9. This1994 anonymous-enum encoding expects
+   the closing '$' immediately; the later source skips an encoded name. */
+int special_type_names( output_desc *data, state_desc *state )
+{
+    if( nextChar( data ) == 'E' ) {
+        advanceChar( data );
+        _output2( DM_SET_INDEX, state->prefix );
+        _output1( DM_ANONYMOUS_ENUM );
+        if( nextChar( data ) == '$' ) {
+            advanceChar( data );
+            return( 1 );
+        }
+    }
+    return( 0 );
 }

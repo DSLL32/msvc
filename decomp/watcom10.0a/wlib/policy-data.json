@@ -7,9 +7,6 @@
       "name": "getch_"
     },
     {
-      "name": "itoa_"
-    },
-    {
       "name": "__get_errno_ptr_"
     },
     {
@@ -1006,6 +1003,226 @@
         "start": 4266728,
         "bytes_hex": "5ac3"
       }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "assignment_function"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "base_10_num",
+        "base_32_num"
+      ],
+      "original": {
+        "start": 4281551,
+        "bytes_hex": "890ab801000000595bc3"
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "watcom_object",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "scoped_name"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "modifier_list"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "function"
+      ],
+      "original": {
+        "start": 4282005,
+        "bytes_hex": "b801000000c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "scope"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "relational_function"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "modifier_list",
+        "based_encoding"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "based_encoding"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "function",
+        "based_encoding"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
+    },
+    {
+      "owners": [
+        "array",
+        "based_encoding"
+      ],
+      "original": {
+        "start": 4282010,
+        "bytes_hex": "c95f5e595bc3"
+      }
     }
   ],
   "shared_call_return_tails": [
@@ -1821,6 +2038,946 @@
       "owners": [
         "watcom_object",
         "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "basic_type",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_name",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282005,
+            "bytes_hex": "b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "relational_function",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "operator_function",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "recursive_mangled_name",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282003,
+            "bytes_hex": "ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "assignment_function",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282001,
+            "bytes_hex": "31c9ff16b801000000c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ],
+        "calls": [
+          {
+            "site": 4282003,
+            "indirect_operand": "dword ptr [esi]"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "dimension",
+        "based_encoding"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "tq_function",
+        "based_encoding"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "pointer",
+        "based_encoding"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "template_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "operator_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "watcom_object"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "scope"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "scoped_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "assignment_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "recursive_mangled_name"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "based_encoding",
+        "relational_function"
+      ],
+      "original": {
+        "regions": [
+          {
+            "start": 4281981,
+            "bytes_hex": "31c0eb19"
+          },
+          {
+            "start": 4282010,
+            "bytes_hex": "c95f5e595bc3"
+          }
+        ],
+        "branches": [
+          {
+            "site": 4281983,
+            "target": 4282010
+          }
+        ]
+      }
+    },
+    {
+      "owners": [
+        "template_arg",
+        "based_encoding"
       ],
       "original": {
         "regions": [

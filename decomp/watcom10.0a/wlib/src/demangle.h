@@ -143,6 +143,7 @@ int is_identifier( char );
 int scope( output_desc *, state_desc * );
 int check_recurse( void );
 int recursive_mangled_name( output_desc *, state_desc * );
+unsigned demangle_recursive( const char *, char *, unsigned );
 int template_name( output_desc *, state_desc * );
 int template_arg( output_desc *, state_desc * );
 int base_32_num( output_desc *, int * );
