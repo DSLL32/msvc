@@ -416,6 +416,16 @@ Node *__fastcall lift_left_unary(Node *node)
     return build_tree("PPLYLY", left->left.node, node->second.node, node, left);
 }
 
+/* Original [00056e50,00056e75). The matching right unary wrapper
+   becomes the outer owner; both reused nodes receive canonical types. */
+Node *__fastcall lift_right_unary(Node *node)
+{
+    Node *right;
+    tree_changed = 1;
+    right = node->second.node;
+    return build_tree("PPLYLY", node->left.node, right->left.node, node, right);
+}
+
 /* Original [00055e90,00055ee1). Express a constant left shift as a
    multiply before common-factor analysis, looking through one negation. */
 int __fastcall rewrite_shift_as_multiply(Node *node)

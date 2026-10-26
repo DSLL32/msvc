@@ -755,6 +755,21 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@simplify_short_circuit@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lift_right_unary@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@rewrite_short_circuit@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

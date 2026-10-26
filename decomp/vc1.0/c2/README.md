@@ -1,20 +1,57 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1457 completes the standalone listing-only profile-auditor case.
-There are 1342 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 352910/399693 original code-section bytes (88.2953%);
-adding 940 owned text-data bytes gives 353850/399693 (88.5304%). These clipped
+Checkpoint 1460 completes the INTERNAL DIRECT canonical-expression case.
+There are 1345 reconstructed App functions and five unchanged historical CRT
+bodies. App code occupies 353276/399693 original code-section bytes (88.3868%);
+adding 940 owned text-data bytes gives 354216/399693 (88.6220%). These clipped
 extent unions use section VirtualSize (raw size only if zero), not branch
 coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 380224/399693
-(95.1290%). A reliable non-CRT denominator remains unavailable; 43 pending App
-rows and 19469B outside available extents need investigation. No only-CRT claim.
+credit. Available App/classified CRT/import extents cover 380590/399693
+(95.2206%). A reliable non-CRT denominator remains unavailable; 40 pending App
+rows and 19103B outside available extents need investigation. No only-CRT claim.
 
-`binary.c` is the sole registry. All 33 cached IO cases, one INTERNAL DIRECT
-case and 238 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All 33 cached IO cases, two INTERNAL DIRECT
+cases and 238 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
 
+The new DIRECT case reuses the preceding profile's exact genuine source/IR,
+MSC_CMD_FLAGS and cwd. It takes over at the first transform_function_trees
+entry, where the active _rotate_profile arena/scope and current expression
+belong to the real function. Target constructors build finite Boolean/unary
+trees; real splice/insert APIs link target-created labels and branch owners,
+then rewrite_expression publishes the owner and integrates each returned root.
+There is no private-global assignment or claim that the front ends emit these
+short-circuit shapes during ordinary compilation.
+
+Three whole App owners add366B: simplify_short_circuit179, lift_right_unary37
+and rewrite_short_circuit150. Sixteen literal-position/truth/context controls,
+two independent unsigned modulo32 unary identities, returned shapes, complete
+expression order and bounded label identity/reference relationships match the
+original's1440B defined report. Original roots survive in order, with other
+borrowed owner identities retained. Inactive fields/padding and host pointers
+are excluded. The original's abrupt DIRECT completion leaves an empty partial
+listing, no object, empty streams/status0; this is not compiler completion.
+The unchanged fixture pins those artifacts and the report asset without Wine.
+
+Fresh original/native prefixes1457..1460 match. One flipped expected report
+byte is rejected with status125. Initial reversed Boolean-code assumptions,
+invalid bare4 type, diagnostic-helper link failures and a re-entered original
+marker remain failed scratch attempts with zero credit. Valid unsigned type204,
+OR1b/AND1c and the later marker resolve the contracts; no shared feature was
+added. The no-literal result and some nested paths remain cold analysis scope.
+
+Final `make -j4 audit check unit` passes2.104s (phases unsplit):1350 paired
+graphs/accepted extents and154 scoped RET contracts. Original /W3 compile takes
+3.640s. Completion DIRECT is19.963ms: setup13.467/execution2.010/checks4.485.
+All measured helper builds, including failures, total60.708s; reference
+attempts total10.886s; combined canonical/native builds10.607s,
+metadata1.886s and native pairs0.205s. Analysis/editing/packing
+are unmeasured; these phase totals are not task elapsed. Raw references,
+failures and completion/coverage/timing records remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/canonical-direct/`.
+
+The preceding standalone listing-only case used the following workflow.
 Untouched CL `/O2 /Ob0 /G3 /Z7 /FAcs /W3 profile.c` compiles the 1671B typed
 ROM-profile auditor into a 3487B object and 6072B source/code listing. Actual
 001752 ex/sy/in/gl/db inputs are 1680/405/215/345/299B. The explicitly derived

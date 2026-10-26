@@ -4174,11 +4174,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lift_right_unary@4",
         .entry_rva = 0x46e50,
-        .code = (const ReconExtent[]) { { 0x46e50, 0x46e51 } },
+        .code = (const ReconExtent[]) { { 0x46e50, 0x46e75 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lift_right_unary",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@pentium_flags_live_after@4",
@@ -11135,11 +11135,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@simplify_short_circuit@8",
         .entry_rva = 0x41570,
-        .code = (const ReconExtent[]) { { 0x41570, 0x41571 } },
+        .code = (const ReconExtent[]) { { 0x41570, 0x41623 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "simplify_short_circuit",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@materialize_boolean@8",
@@ -11432,11 +11432,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@rewrite_short_circuit@4",
         .entry_rva = 0x422f0,
-        .code = (const ReconExtent[]) { { 0x422f0, 0x422f1 } },
+        .code = (const ReconExtent[]) { { 0x422f0, 0x42386 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "rewrite_short_circuit",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@rewrite_after_left@12",

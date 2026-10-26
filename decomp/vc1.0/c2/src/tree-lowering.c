@@ -80,6 +80,35 @@ Node *__fastcall rewrite_before_children(Node *node, Node *parent, unsigned flag
     return node;
 }
 
+/* Original [000522f0,00052386). Expand the leftmost short-circuit
+   predicate into ordinary conditional branches. Each insertion goes through
+   the expression splicer, which preserves the active enclosing owner. */
+Node *__fastcall rewrite_short_circuit(Node *node)
+{
+    Node *left, *label, *branch;
+    for (;;) {
+        left = node->left.node;
+        switch (left->opcode) {
+        case 0x1b: /* OR: a true left side skips the right-hand branch. */
+            label = new_flow_label_node();
+            node->left.node = left->second.node;
+            branch = build_tree("POL", negate_condition(left->left.node), 0x38, left);
+            branch->right.symbol = label->right.symbol;
+            splice_expressions("IA", branch, label);
+            break;
+        case 0x1c: /* AND: either false operand reaches the original target. */
+            node->left.node = left->second.node;
+            branch = build_tree("POL", left->left.node, 0x38, left);
+            branch->right.symbol = node->right.symbol;
+            ++((LabelSymbol *)branch->right.symbol)->references;
+            splice_expressions("I", branch);
+            break;
+        default:
+            return node;
+        }
+    }
+}
+
 /* Original [00051a40,00051e20). Preserve the sequencing of compound and
    post-increment assignments by splicing expression records when needed. */
 Node *__fastcall rewrite_after_left(Node *node, Node *parent, unsigned flags)
@@ -246,6 +275,35 @@ Node *__fastcall materialize_boolean(Node *node, Node *parent)
     zero = integer_node(0, 0x104);
     one = integer_node(1, 0x104);
     return build_tree("PYPPNYNY", node, one, zero, 0x43, 0x42);
+}
+
+/* Original [00051570,00051623). A literal on either side can decide
+   a short-circuit value. OR is opcode1b, AND1c. A deciding right literal
+   still retains evaluation of the left tree through an ordinary comma. */
+Node *__fastcall simplify_short_circuit(Node *node, Node *parent)
+{
+    Node *left = node->left.node, *other = left;
+    Node *constant = node->second.node, *value;
+    int literal_left = left->opcode == 0x33;
+    int decides;
+    if (literal_left) {
+        other = constant;
+        constant = left;
+    } else if (constant->opcode != 0x33) return 0;
+    decides = node->opcode == 0x1c ? constant->left.value == 0 :
+                                           constant->left.value != 0;
+    if (decides) {
+        if (literal_left) {
+            release_node(node);
+            release_tree(other);
+            return fold_constant_node(make_truth_test(constant));
+        }
+        value = fold_constant_node(make_truth_test(constant));
+        return build_tree("PPOL", other, value, 0x44, node);
+    }
+    release_node(constant);
+    release_node(node);
+    return materialize_boolean(make_truth_test(other), parent);
 }
 
 /* Original [00052390,000523e3). Produce the value of an assignment
