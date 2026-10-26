@@ -233,6 +233,9 @@ pub struct Capture {
     /// Mask original code, restoring classified boundaries and implemented App extents.
     #[arg(long)]
     pub progress: bool,
+    /// At a genuine progress frontier compare only explicitly declared Partial output paths.
+    #[arg(long, requires = "progress")]
+    pub partial_output_files_only: bool,
     #[arg(long)]
     pub replace: bool,
 }
@@ -964,6 +967,41 @@ fn capture_files(f: &Fixture, cwd: &Path, output_rules: &[OutputFile]) -> Result
     }
     Ok(result)
 }
+fn validate_partial_selection(progress: bool, selected: bool, f: &Fixture) -> Result<()> {
+    anyhow::ensure!(
+        !selected || (progress && f.partial.is_some()),
+        "--partial-output-files-only requires --progress and an explicit Partial input policy"
+    );
+    Ok(())
+}
+
+fn capture_output_files(
+    f: &Fixture,
+    cwd: &Path,
+    partial: bool,
+    selected: bool,
+) -> Result<(Vec<OutputFile>, bool)> {
+    let rules = if partial {
+        f.partial
+            .as_ref()
+            .map_or(&[][..], |p| p.output_files.as_slice())
+    } else {
+        f.output_files.as_slice()
+    };
+    let mut files = capture_files(f, cwd, rules)?;
+    let reject_unexpected = if partial && selected {
+        let policy = f
+            .partial
+            .as_ref()
+            .context("explicit Partial input policy required")?;
+        files.retain(|file| rules.iter().any(|rule| rule.path == file.path));
+        policy.reject_unexpected_files
+    } else {
+        f.reject_unexpected_files
+    };
+    Ok((files, reject_unexpected))
+}
+
 fn typed_results(data: &[u8]) -> Result<Vec<InputFile>> {
     let word = |offset: usize| -> Result<u32> {
         Ok(u32::from_le_bytes(
@@ -1172,13 +1210,14 @@ fn capture_executor(
             }
             let stdout = Some(Bytes(fs::read(root.join("original-stdout"))?));
             let stderr = Some(Bytes(fs::read(root.join("original-stderr"))?));
-            let files = capture_files(f, cwd, rules)?;
+            let (files, reject_unexpected_files) =
+                capture_output_files(f, cwd, partial, options.partial_output_files_only)?;
             if partial {
                 fixture.partial = Some(fixture::Partial {
                     stdout,
                     stderr,
                     output_files: files,
-                    reject_unexpected_files: f.reject_unexpected_files,
+                    reject_unexpected_files,
                 });
                 snapshot = Some(serde_json::from_value(
                     backend["frontier_snapshot"].clone(),
@@ -1683,13 +1722,14 @@ fn capture_executor(
         Some(directory) => export_artifacts(f, cwd, rules, directory)?,
         None => vec![],
     };
-    let files = capture_files(f, cwd, rules)?;
+    let (files, reject_unexpected_files) =
+        capture_output_files(f, cwd, partial, options.partial_output_files_only)?;
     if partial {
         fixture.partial = Some(fixture::Partial {
             stdout: Some(stdout),
             stderr: Some(stderr),
             output_files: files,
-            reject_unexpected_files: f.reject_unexpected_files,
+            reject_unexpected_files,
         });
     } else {
         fixture.partial = None;
@@ -1981,6 +2021,11 @@ pub fn capture(mut options: Capture) -> Result<()> {
         Some(path) => fixture::read(path)?,
         None => Fixture::default(),
     };
+    validate_partial_selection(
+        options.progress,
+        options.partial_output_files_only,
+        &fixture,
+    )?;
     let parent = options
         .output
         .parent()
@@ -2082,6 +2127,95 @@ mod target_environment_tests {
 mod partial_output_tests {
     use super::*;
     #[test]
+    fn selection_requires_progress_and_an_explicit_partial_policy() {
+        use clap::Parser;
+        assert!(
+            crate::Cli::try_parse_from([
+                "recon-tool",
+                "original",
+                "capture",
+                "case",
+                "--output",
+                "capture.bin",
+                "--partial-output-files-only",
+            ])
+            .is_err()
+        );
+        let mut f = Fixture::default();
+        assert!(validate_partial_selection(false, true, &f).is_err());
+        assert!(validate_partial_selection(true, true, &f).is_err());
+        assert!(validate_partial_selection(false, false, &f).is_ok());
+        f.partial = Some(fixture::Partial::default());
+        assert!(validate_partial_selection(true, true, &f).is_ok());
+    }
+
+    #[test]
+    fn selection_records_declared_absence_but_default_and_exit_keep_full_inventory() -> Result<()> {
+        let root = native::create_workspace()?;
+        let result = (|| -> Result<()> {
+            let cwd = root.join("work");
+            fs::create_dir(&cwd)?;
+            fs::write(cwd.join("selected.bin"), [1u8, 2])?;
+            fs::write(cwd.join("internal.tmp"), b"temporary data")?;
+            let rule = |path: &str, zero_ranges| OutputFile {
+                path: path.into(),
+                absent: false,
+                data: None,
+                sha256: None,
+                zero_ranges,
+            };
+            let mut f = Fixture::default();
+            f.reject_unexpected_files = true;
+            f.output_files = vec![rule("selected.bin", vec![[1, 2]])];
+            f.partial = Some(fixture::Partial {
+                output_files: vec![
+                    rule("selected.bin", vec![[0, 1]]),
+                    rule("missing.obj", vec![]),
+                ],
+                reject_unexpected_files: false,
+                ..Default::default()
+            });
+            let (selected, reject) = capture_output_files(&f, &cwd, true, true)?;
+            assert!(!reject);
+            assert_eq!(selected.len(), 2);
+            assert!(
+                selected
+                    .iter()
+                    .find(|v| v.path == "missing.obj")
+                    .unwrap()
+                    .absent
+            );
+            assert_eq!(
+                selected
+                    .iter()
+                    .find(|v| v.path == "selected.bin")
+                    .unwrap()
+                    .sha256,
+                Some(fixture::hex(&Sha256::digest([0u8, 2])))
+            );
+            let (default, reject) = capture_output_files(&f, &cwd, true, false)?;
+            assert!(reject);
+            assert_eq!(default.len(), 3);
+            assert!(default.iter().any(|v| v.path == "internal.tmp"));
+            let (normal_exit, reject) = capture_output_files(&f, &cwd, false, true)?;
+            assert!(reject);
+            assert_eq!(normal_exit.len(), 2);
+            assert!(normal_exit.iter().any(|v| v.path == "internal.tmp"));
+            assert_eq!(
+                normal_exit
+                    .iter()
+                    .find(|v| v.path == "selected.bin")
+                    .unwrap()
+                    .sha256,
+                Some(fixture::hex(&Sha256::digest([1u8, 0])))
+            );
+            Ok(())
+        })();
+        fs::remove_dir_all(root)?;
+        result
+    }
+
+    #[test]
     fn empty_partial_does_not_inherit_final_coff_normalization() {
         let root = crate::native::create_workspace().unwrap();
         let result = (|| -> Result<()> {
@@ -2171,6 +2305,14 @@ mod raw_artifact_tests {
             let destination = reserve_artifacts(&root.join("raw"), &capture, &cwd)?;
             let exported = export_artifacts(&fixture, &cwd, &rules, &destination)?;
             assert_eq!(exported.len(), 2);
+            fixture.partial = Some(fixture::Partial {
+                output_files: vec![rules[0].clone()],
+                ..Default::default()
+            });
+            let (selected, _) = capture_output_files(&fixture, &cwd, true, true)?;
+            assert_eq!(selected.len(), 1);
+            assert_eq!(selected[0].path, "nested/out.obj");
+            assert!(exported.iter().any(|v| v.path == "manifest.json"));
             let object = exported
                 .iter()
                 .find(|v| v.path == "nested/out.obj")

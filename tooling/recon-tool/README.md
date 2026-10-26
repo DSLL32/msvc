@@ -856,3 +856,14 @@ checks that the existing native literal-token getcmd consumes exactly that
 observed tail. This mode requires the hash-bound loader path to have no whitespace
 or quote characters. No payload argv is re-quoted to create the captured raw input;
 old captures remain unchanged. Declared raw input must match the actual launch.
+
+For progress-only file assertions, `original capture --progress
+--partial-output-files-only` requires an explicit input `partial` policy. At an
+actual identified App frontier it captures only that policy's `output_files`
+paths (including observed absence), and uses its `reject_unexpected_files` value.
+Actual streams and the logical frontier still match. Use `--artifacts-dir` to
+retain the complete raw original file inventory, including unasserted internal
+temporary files. The capture/report hash binds the selected comparison policy;
+this is a fresh capture choice, not a rewrite of earlier raw references. Default
+capture behavior is unchanged. If the original exits normally, all final files
+are captured and the final extra-file policy applies even with this flag.
