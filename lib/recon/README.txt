@@ -1585,3 +1585,10 @@ their previous host forwarding behavior. Other Windows wide string/character
 forms, including alternate spellings/modifiers, deny instead of reaching host
 WCHAR32 formatting. Other profiles keep their prior unmapped sprintf spelling;
 direct use of the new boundary there denies. Original per-call state is unmeasured.
+
+Registered message4067/lang409 has a separate explicit510 fixed-template branch
+for the directive/newline warning, with one aligned ASCII WCHAR insert of at
+most256 units. Default-C/MB1 and the exact authenticated template are required;
+all insert/output spans, capacity and overlaps are checked before output. The
+exact text/CRLF/count/NUL are retained. Other messages, wide content and grammars
+keep their previous boundaries. Original per-call state remains unmeasured.

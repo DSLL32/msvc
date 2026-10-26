@@ -1016,3 +1016,9 @@ build/sprintf510-diagnostic-probe: tests/sprintf510-diagnostic-probe.c $(SOURCES
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 sprintf510-diagnostic-check: build/sprintf510-diagnostic-probe
 	$<
+
+.PHONY: format4067-check
+build/format4067-probe: tests/format4067-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+format4067-check: build/format4067-probe
+	$(PYTHON) tests/check-format4067.py $<

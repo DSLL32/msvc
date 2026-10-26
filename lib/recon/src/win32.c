@@ -519,6 +519,31 @@ int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
 }
 
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+static DWORD format_directive_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
+{
+    const char *prefix="unexpected characters following '",*suffix="' directive; newline expected\r\n";
+    const WCHAR *directive;size_t units,length,n;uintptr_t out=(uintptr_t)output,wide,source=(uintptr_t)text;
+    char *destination;va_list copied;
+    if(strcmp(text,"unexpected characters following '%1!ws!' directive; newline expected\r\n") ||
+       recon_mb_codepage || recon_mb_codepage_gate || recon_mb_cur_max!=1 || recon_lc_codepage)
+        recon_unsupported("message4067 exact template/default-C domain");
+    for(n=0;n<6;++n)if(recon_lc_handle[n])recon_unsupported("message4067 locale handles");
+    va_copy(copied,*arguments);directive=va_arg(copied,const WCHAR *);va_end(copied);wide=(uintptr_t)directive;
+    if(wide<4096 || (wide&1) || wide>UINTPTR_MAX-257*sizeof(WCHAR))
+        recon_unsupported("message4067 WCHAR insert extent");
+    for(units=0;units<257 && directive[units];++units)
+        if(directive[units]>=128)recon_unsupported("message4067 ASCII WCHAR directive");
+    if(units==257)recon_unsupported("message4067 directive length");
+    length=strlen(prefix)+units+strlen(suffix);
+    if(out<4096 || capacity<=length || out>UINTPTR_MAX-length-1 ||
+       source>UINTPTR_MAX-strlen(text)-1 ||
+       (out<source+strlen(text)+1 && source<out+length+1) ||
+       (out<wide+(units+1)*sizeof(WCHAR) && wide<out+length+1))
+        recon_unsupported("message4067 output capacity/extents/overlap");
+    destination=output;memcpy(destination,prefix,strlen(prefix));destination+=strlen(prefix);
+    for(n=0;n<units;++n)*destination++=(char)directive[n];
+    memcpy(destination,suffix,strlen(suffix)+1);return (DWORD)length;
+}
 static DWORD format_mac_cursor_warning(const char *text,LPSTR output,DWORD capacity,va_list *arguments)
 {
     const char *filename,*middle="): warning RC4506 : scaling cursor ",*tail=" down to 16 by 16\r\n";
@@ -618,6 +643,7 @@ static DWORD format_registered_inserts(LPCVOID source,DWORD id,DWORD language,
             if (candidate->kind==2 && candidate->length==length && !memcmp(text,candidate->text,length)) entry=candidate;
     if (!entry) recon_unsupported("unregistered FormatMessageA template");
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if(entry->id==4067 && entry->language==0x409) return format_directive_warning(text,output,capacity,arguments);
     if(entry->id==4506 && entry->language==0x409) return format_mac_cursor_warning(text,output,capacity,arguments);
     if(entry->id==4509 && entry->language==0x409) return format_mac_type_warning(text,output,capacity,arguments);
 #endif
