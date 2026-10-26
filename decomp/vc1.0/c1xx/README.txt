@@ -1,6 +1,47 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Plugin service is COMPLETE: case0023. The accepted module combines global
+registration constructors/destructors, callback dispatch, explicitly allocated
+code/data/constant sections and an exported stdcall entry. The first source
+used C++ linkage for alloc_text callbacks, which the original rejects; the
+supported C-linkage revision has its own untouched successful baseline.
+
+Six whole App bodies /1,127 code bytes were accepted: initializer flushing,
+alloc_text selection, expression-based symbol qualification, initializer
+chaining/registration and the newly identified segment-initializer object
+builder. Fresh original/native observations match all six first encounters,
+exit0 and all six IR/browser artifacts exactly, without output normalization.
+The three startup-section names and their countdown are defined contextually;
+no CRT implementation or shared shim change was needed.
+
+Original finish_function_output reads an unwritten scope local when its list
+is empty, using it only in a pointer comparison. Faithful native source omitted
+six record06 separators and changed derived offsets. Raw failures are retained.
+The user approved the tested native-only scope=NULL treatment in that empty arm;
+Win32 preserves the original local/read and both genuine preceding record13
+writes. The prior native trap was removed. This is a specific approved treatment,
+not a general permission to initialize other original bugs. The separately
+approved malformed-parenthesis guard is unchanged.
+
+The previously partial state_machine_debug case0005 is now COMPLETE too. One
+genuinely needed original progress capture at its unchanged cwd yielded exit0
+and233 seeded-relative first encounters; native matches every complete output.
+Its old raw/workspace bytes are retained in scratch, not relabeled. Its cached
+oracle and descriptor now describe the actual completed invocation.
+
+Totals:1,739 App bodies /1,846 historical frontiers, plus seven unchanged CRT
+source bodies. App-only code union392,186 /476,418 B is82.32% of whole original
+code extent, not a non-CRT denominator. All24 cached native cases,31 unit groups
+and the1,747-function six-check graph/ABI audit pass; original-toolchain builds
+pass. Case-end full gate3.067 s including incremental setup (graph-only time not
+separately measured). Final fresh original1.079 s; canonical native32.202 ms
+(setup19.208 ms, execution6.178 ms, checks6.815 ms). Old-case advancement original
+1.289 s/native33.199 ms (setup20.197 ms, execution6.737 ms, checks6.264 ms).
+Final gate cached plugin31.003 ms. No timing-only runs or intermediate commits.
+
+Earlier completed shared mailbox:
+
 Shared-mailbox is COMPLETE: case 0022. The mapped-buffer mailbox combines
 packed records, named-base pointers, explicit attachment/rebasing, typed visitor
 callbacks and /Zi /Brepro /FR debug/browser output. This NT frontend rejects the
@@ -537,8 +578,9 @@ packet_engine.
 Each checks exact streams, status and complete frontend artifacts against the cached original.
 packet_engine completes the original-backed packet, generated-special-member,
 temporary, SEH and integer/x87 assembly workload described above.
-state_machine_debug remains a partial case at flush_current_function: its valid
-input encounters the unsupported native empty-closed-scope stale-local path.
+state_machine_debug was historically partial at flush_current_function. The
+plugin-service case above qualifies the specific approved native empty-list
+treatment and advances that original invocation to exact full completion.
 member_registry_browser is the completed case described above; capture.bin retains
 the original six-artifact byte oracle and has no obsolete partial assertions.
 Its exact visible cwd S:\vc1.0\c1xx\member-registry-browser-driver is real input,

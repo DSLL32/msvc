@@ -5154,10 +5154,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_chain_initializer_function",
         .entry_rva = 0x24250,
-        .code = (const ReconExtent[]) { { 0x24250, 0x24251 } },
+        .code = (const ReconExtent[]) { { 0x24250, 0x24274 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "chain_initializer_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_translation_symbols",
@@ -8691,12 +8692,22 @@ static const ReconFunction functions[] = {
         .implementation = RECON_IMPLEMENTED,
     },
     {
+        .name = "_create_segment_initializer@12",
+        .entry_rva = 0x24100,
+        .code = (const ReconExtent[]) { { 0x24100, 0x241af } },
+        .code_count = 1,
+        .definition = RECON_APP,
+        .native_symbol = "create_segment_initializer",
+        .implementation = RECON_IMPLEMENTED,
+    },
+    {
         .name = "_register_initializer_function@4",
         .entry_rva = 0x38420,
-        .code = (const ReconExtent[]) { { 0x38420, 0x38421 } },
+        .code = (const ReconExtent[]) { { 0x38420, 0x38503 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "register_initializer_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_begin_initializer_function@4",
@@ -8710,10 +8721,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_flush_current_function@4",
         .entry_rva = 0x38560,
-        .code = (const ReconExtent[]) { { 0x38560, 0x38561 } },
+        .code = (const ReconExtent[]) { { 0x38560, 0x385c7 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "flush_current_function",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_merge_declaration_type@12",
@@ -12194,10 +12206,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_apply_symbol_based_type@8",
         .entry_rva = 0x52810,
-        .code = (const ReconExtent[]) { { 0x52810, 0x52811 } },
+        .code = (const ReconExtent[]) { { 0x52810, 0x52858 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "apply_symbol_based_type",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_assign_symbol_segment@8",
@@ -18804,10 +18817,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_assign_allocated_text@4",
         .entry_rva = 0x453a0,
-        .code = (const ReconExtent[]) { { 0x453a0, 0x453a1 } },
+        .code = (const ReconExtent[]) { { 0x453a0, 0x455a2 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "assign_allocated_text",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_unpack_option_flags",

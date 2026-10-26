@@ -132,8 +132,6 @@ unsigned short __stdcall validate_integer_bit_field_type(unsigned short flags) {
 
 
 void report_ide_source_end(void) { __asm { int 3 } }
-void chain_initializer_function(void) { __asm { int 3 } }
-void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
 void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
 long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
@@ -143,7 +141,6 @@ void report_ide_line(void) { __asm { int 3 } }
 CType *__stdcall copy_unfinished_type(CType *type) { __asm { int 3 } return 0; }
 
 
-void __stdcall flush_current_function(int retain) { __asm { int 3 } }
 
 
 CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -335,7 +332,6 @@ int __stdcall equivalent_operand_types(CType *left, CType *right) { __asm { int 
 
 
 
-void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base) { __asm { int 3 } }
 
 
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
@@ -377,7 +373,6 @@ void synchronize_pch_pragma(void) { __asm { int 3 } }
 void __stdcall emit_listing_directive(unsigned char mode) { __asm { int 3 } }
 void warn_expected_identifier(void) { __asm { int 3 } }
 void __stdcall set_default_inheritance_policy(int general) { __asm { int 3 } }
-void __stdcall assign_allocated_text(char *name) { __asm { int 3 } }
 
 
 

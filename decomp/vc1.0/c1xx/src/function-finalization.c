@@ -13,6 +13,8 @@
 #include "special-members.h"
 #include "constructor-initializers.h"
 #include "symbol-bindings.h"
+#include "segments.h"
+#include "braced-initializers.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -76,12 +78,33 @@ void __stdcall finish_function_body(int recovering)
     reset_materialized_value_index();
 }
 
+/* Original 0x9ebd0. Only the initializer flush publishes this temporary
+   closing state; the original has no other references to the word. */
+int initializer_function_closing;
+
+/* Original 0x48560..0x485c7, stdcall4. Synthetic file-scope initializer
+   functions close their outer scope before the ordinary function epilogue. */
+void __stdcall flush_current_function(int retain)
+{
+    if (function_symbol) {
+        declaration_mode = 2;
+        leave_compound_scope();
+        initializer_function_closing = 1;
+        finish_function_body(1);
+        initializer_function_closing = 0;
+        if (retain) append_vector(translation_symbols, function_symbol);
+    }
+    function_symbol = 0;
+    token_allocation_flags &= ~(0x80000U | 0x40U);
+}
+
 /* Original 0x55ac0..0x55b5e. Emit labels and retained lexical scopes before
    recording the function's intermediate-stream positions and attributes. */
 void finish_function_output(void)
 {
-    /* The native empty-list branch reads an unspecified local at 0x55b06.
-       Preserve that original source condition; normal definitions queue scopes. */
+    /* Original defect: the empty closed-scope branch leaves scope unwritten,
+       then compares it with global_scope at0x55b26; no dereference follows.
+       Keep the Win32 defect; the native empty-arm treatment below is explicit. */
     SymbolScope *scope;
     if (options.prototypes_only) return;
     global_record_kind = 1;
@@ -91,10 +114,10 @@ void finish_function_output(void)
         write_global_record(13, 0);
         global_record_kind = 2;
         write_global_record(13, 0);
-#ifdef RECON_NATIVE_TEST
-        /* Original 0x55b06 reads the unwritten entryESP-4 local here.
-           Keep the two real records above, then reject this native path. */
-        __asm { int 3 }
+#ifdef __linux__
+        /* User-approved deterministic native empty-list treatment. Win32
+           retains the original unwritten local and comparison below. */
+        scope = 0;
 #endif
     } else {
         for (scope = closed_scopes; scope; scope = scope->next) serialize_scope(scope);
@@ -606,4 +629,76 @@ CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value)
         binding = find_hash_value(global_symbol_bindings, symbol);
     *value = binding->member;
     return binding->object;
+}
+
+/* Original0x34250..0x34274, cdecl0. Register the completed cleanup
+   through a newly generated initializer, then queue that initializer. */
+void chain_initializer_function(void)
+{
+    CppSymbol *cleanup = function_symbol;
+    flush_current_function(0);
+    begin_initializer_function(0);
+    emit_atexit_registration(cleanup);
+    flush_current_function(1);
+}
+
+extern CppSymbol *initializer_segment_symbol;
+extern char *initializer_segment_name;
+/* Three built-in CRT initializer sections, in user/library/compiler order.
+   field0c is set only to0..2 by named pragmas, or3 for a custom section. */
+char *initializer_segment_names[3] = { ".CRT$XCU", ".CRT$XCL", ".CRT$XCC" };
+unsigned initializer_segments_remaining = 3; /* original0xa0a90 */
+CppSymbol *__stdcall create_segment_initializer(char *name, CType *type,
+    CppSymbol *segment);
+
+/* Original0x48420..0x48503, stdcall4. Emit a static function-address
+   object into the requested CRT startup section, declaring builtins once. */
+void __stdcall register_initializer_function(CppSymbol *function)
+{
+    IrToken *address;
+    CppSymbol *object;
+    char *class_name;
+    if (!initializer_segment_symbol) {
+        if (options.configuration.field0c == 3) {
+            initializer_segment_symbol = (CppSymbol *)lookup_segment_symbol(
+                initializer_segment_name, name_unnamed, 8, 2);
+        } else {
+            while (initializer_segments_remaining) {
+                --initializer_segments_remaining;
+                class_name = intern_identifier("DATA");
+                lookup_segment_symbol(
+                    intern_identifier(initializer_segment_names[initializer_segments_remaining]),
+                    class_name, 1, 2);
+            }
+            initializer_segment_symbol = (CppSymbol *)find_segment_symbol(
+                intern_identifier(initializer_segment_names[options.configuration.field0c]));
+        }
+    }
+    address = builtin_unary_expression(0x3a, symbol_reference(function));
+    object = create_segment_initializer(make_anonymous_identifier(), address->type,
+        initializer_segment_symbol);
+    object->attributes |= 4;
+    initialize_object(prepare_initializer_symbol(object), address);
+    if (options.configuration.field0c != 3) initializer_segment_symbol = 0;
+}
+
+/* Original0x34100..0x341af, stdcall12. A generated startup address is
+   static storage based on its segment, with both modifier chains interned. */
+CppSymbol *__stdcall create_segment_initializer(char *name, CType *type,
+    CppSymbol *segment)
+{
+    CppSymbol *symbol = new_symbol(name, 0);
+    symbol->type = (CType *)copy_type_description(type);
+    symbol->storage[0] = (declaration_storage[0] & ~7) | 3;
+    symbol->storage[1] = declaration_storage[1];
+    symbol->storage[2] = declaration_storage[2];
+    ++symbol->references;
+    symbol->type->related = intern_type_shape(symbol->type->related);
+    apply_symbol_based_type(symbol, segment);
+    symbol->type->related = intern_type_shape(symbol->type->related);
+    symbol->type->attributes = (symbol->type->attributes & 0xf7f8) | 5;
+    symbol->type = intern_type((TypeDescription *)symbol->type);
+    --type_description_depth;
+    global_expression_scope_active = 1;
+    return symbol;
 }

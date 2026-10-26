@@ -2,231 +2,239 @@
 #include "entry.h"
 
 static const uint32_t order[] = {
-    0x5d660, /* begin_debug_info */
-    0x604a0, /* write_debug_record */
-    0x63fb0, /* write_ir_integer */
-    0x641f0, /* write_counted_ir */
-    0x63d30, /* write_ir_short */
-    0x2ca20, /* parse_linkage */
-    0x2d320, /* find_intrinsic_index */
-    0x2d450, /* intrinsic_enabled */
-    0x2cd70, /* pop_linkage */
-    0x1edc0, /* declare_enumerator */
-    0x1ed90, /* next_enumerator_value */
-    0x1ddb0, /* end_enum_specifier */
-    0x1e680, /* layout_bit_field */
-    0x36590, /* begin_braced_initializer */
-    0x37480, /* push_braced_initializer */
-    0x37410, /* copy_initializer_symbol */
-    0x375b0, /* begin_nested_initializer */
-    0x380f0, /* flush_initializer_constructors */
-    0x36c40, /* advance_braced_initializer */
-    0x2c5b0, /* enumerator_expression */
-    0x36700, /* initialize_element */
-    0x36bd0, /* select_braced_initializer */
-    0x36f50, /* find_next_initializer_member */
-    0x20af0, /* is_initializer_data_member */
-    0x37000, /* finish_braced_initializer_element */
-    0x37e50, /* emit_initializer_constant */
-    0x37630, /* end_nested_initializer */
-    0x376f0, /* finish_implicit_initializers */
-    0x37bb0, /* end_braced_initializer */
-    0x37be0, /* finish_braced_initializer */
-    0x37ab0, /* inferred_initializer_count */
-    0x1fda0, /* validate_union_member */
-    0x1fab0, /* create_static_member_alias */
-    0x2caf0, /* make_anonymous_identifier */
-    0x45fd0, /* mangle_static_member_name */
-    0x45f20, /* register_static_member_alias */
-    0x46160, /* hash_symbol_index */
-    0x3ec00, /* hash_low_pointer_bits */
-    0x8bb0, /* deferred_tokens_may_be_declaration */
-    0x2ad80, /* check_parameter_default */
-    0x2e090, /* save_default_argument */
-    0x2df20, /* collect_member_references */
-    0x57a10, /* print_inline_declaration */
-    0x57a40, /* print_declaration */
-    0x57be0, /* format_declarator */
-    0x57f50, /* format_declarator_shape */
-    0x57e10, /* format_shape_attributes */
-    0x57c50, /* format_enclosing_declarator_scope */
-    0x58140, /* format_declarator_shapes */
-    0x57880, /* append_type_diagnostic_char */
-    0x58610, /* format_function_parameters */
-    0x582a0, /* format_declaration_base_type */
-    0x578e0, /* type_kind_name */
-    0x58a10, /* release_type_diagnostic */
-    0x58c50, /* format_this_qualifiers */
-    0x15340, /* read_number_text */
-    0x58470, /* write_storage_specification */
-    0x584f0, /* format_storage_spec */
-    0x583c0, /* format_storage_extensions */
-    0x1fc10, /* declare_friend_member */
-    0x21f80, /* record_friend */
-    0x21f40, /* append_friend_record */
-    0x21f20, /* find_friend_record */
-    0x21ef0, /* hash_first_word */
-    0x271b0, /* make_default_constructor_closure */
-    0x27180, /* default_constructor_closure_table */
-    0x24e80, /* emit_deferred_class_terminator */
-    0x232c0, /* declare_nctag */
-    0x21ff0, /* find_friend_access */
-    0x21ed0, /* equal_first_words */
-    0x45f90, /* static_member_alias */
-    0x46140, /* equal_symbol_indices */
-    0x46cb0, /* prepare_symbol_debug_type */
-    0x5d6e0, /* reference_debug_type */
-    0x5d9c0, /* base_debug_type */
-    0x5d920, /* primitive_debug_type */
-    0x5e080, /* flush_debug_types */
-    0x5d860, /* primitive_pointer_debug_type */
-    0x5db20, /* debug_tag_type */
-    0x5df80, /* reserve_debug_type */
-    0x6c0e0, /* class_virtual_table_group_count */
-    0x5dd80, /* count_debug_methods */
-    0x5dab0, /* reference_parameter_debug_types */
-    0x5e5e0, /* emit_debug_class */
-    0x60320, /* encode_debug_unsigned */
-    0x64500, /* copy_debug_name */
-    0x5ffd0, /* emit_debug_type_record */
-    0x5e340, /* emit_debug_pointer_type */
-    0x5ff00, /* emit_debug_qualified_type */
-    0x5fe80, /* emit_debug_argument_list */
-    0x5fdf0, /* emit_debug_member_function_type */
-    0x5fd00, /* debug_calling_convention */
-    0x5ee50, /* emit_debug_field_list */
-    0x5f480, /* emit_debug_base_fields */
-    0x20bb0, /* count_emitted_overloads */
-    0x5ea40, /* debug_member_name_length */
-    0x5ebe0, /* write_debug_member_name */
-    0x5fc70, /* emit_debug_vshape */
-    0x6c010, /* begin_virtual_entries */
-    0x6c030, /* next_virtual_entry */
-    0x5fab0, /* emit_debug_method_list */
-    0x5e020, /* reset_debug_type_records */
-    0x1dd50, /* reference_tag_symbol */
-    0x44710, /* reconcile_typedef */
-    0x41ac0, /* declare_qualified_member */
-    0x3e550, /* equal_inline_vectors */
-    0x60750, /* pad_debug_field */
-    0x588a0, /* format_pointer_declarator */
-    0x57860, /* prepend_type_diagnostic_char */
-    0x578a0, /* prepend_type_diagnostic */
-    0x3e130, /* resolve_member_pointer_class */
-    0x39e30, /* member_pointer_class_kind */
-    0x39cb0, /* query_inheritance_model */
-    0x39ed0, /* infer_inheritance_model */
-    0x3e020, /* class_has_zero_base_offsets */
-    0x39fc0, /* member_pointer_expression */
-    0x39e10, /* member_pointer_inheritance_model */
-    0x3dfe0, /* member_pointer_owner_class */
-    0x3a260, /* make_compact_method_pointer */
-    0x54da0, /* classify_member_pointer_conversion */
-    0x534f0, /* equal_member_function_parameters */
-    0x56490, /* convert_member_pointer_initializer */
-    0x3a200, /* resolve_member_pointer_path */
-    0x3dbf0, /* member_pointer_virtual_function */
-    0x3dee0, /* new_member_pointer_thunk_key */
-    0x3dfa0, /* hash_tail_word_pair */
-    0x3dc90, /* emit_member_pointer_virtual_thunk */
-    0x3df40, /* copy_member_pointer_thunk_key */
-    0x3e0c0, /* member_pointer_is_aggregate */
-    0x2b6d0, /* sizeof_expression */
-    0x2b7a0, /* sizeof_type */
-    0x11380, /* recover_special_character */
-    0x16010, /* consume_line_escape */
-    0x15900, /* decode_literal_escape */
-    0x150d0, /* concatenate_strings */
-    0x1c530, /* record_string_literal */
-    0x4cbc0, /* materialize_string_literal */
-    0x32aa0, /* mangle_string_literal */
-    0x34350, /* encode_string_literal_name */
-    0x4c9a0, /* make_string_literal_object */
-    0x4bb30, /* write_initializer_record */
-    0x15590, /* scan_float_tail */
-    0x64b40, /* convert_floating_literal */
-    0x64dfc, /* extended_to_double */
-    0x650a5, /* check_extended_range */
-    0x64e68, /* double_to_extended */
-    0x650a1, /* store_extended */
-    0x1d3f0, /* save_extended_constant */
-    0x1d430, /* save_extended_in_arena */
-    0x1d090, /* fold_floating_binary */
-    0x64d37, /* multiply_extended */
-    0x65034, /* finish_extended_arithmetic */
-    0x14bc0, /* scan_character_literal */
-    0x2fd60, /* begin_for_condition */
-    0x2fdc0, /* begin_for_condition_region */
-    0x2fe00, /* begin_for_increment */
-    0x2fe70, /* begin_for_increment_region */
-    0x2ff10, /* begin_for_body */
-    0x2feb0, /* end_for_increment_region */
-    0x30220, /* begin_switch_condition */
-    0x30290, /* begin_switch_condition_region */
-    0x40840, /* begin_switch_body */
-    0x30360, /* begin_switch_body_region */
-    0x302d0, /* end_switch_condition_region */
-    0x40ad0, /* add_case_label */
-    0x30400, /* record_case_label */
-    0x31b40, /* check_switch_case_initialization */
-    0x2fa60, /* begin_do_statement */
-    0x2fac0, /* begin_do_body_region */
-    0x40800, /* prepare_do_body */
-    0x3a910, /* apply_member_pointer */
-    0x3b1e0, /* convert_member_pointer_object */
-    0x3ad80, /* lower_member_pointer_call */
-    0x2fb70, /* begin_do_condition */
-    0x2fb00, /* end_do_body_region */
-    0x2fc20, /* end_do_statement */
-    0x2fbc0, /* end_do_condition_region */
-    0x30a60, /* record_break_statement */
-    0x309f0, /* record_continue_statement */
-    0x30540, /* record_default_label */
-    0x2b430, /* find_label */
-    0x2b490, /* new_label */
-    0x308e0, /* record_goto */
-    0x40a40, /* write_switch_dispatch */
-    0x305c0, /* end_switch_statement */
-    0x30550, /* end_switch_body_region */
-    0x2ffd0, /* end_for_statement */
-    0x2ff60, /* end_for_body_region */
-    0x2b4e0, /* define_named_label */
-    0x30860, /* record_label_definition */
-    0x31bc0, /* resolve_goto_cleanup */
-    0x31d10, /* walk_goto_cleanup */
-    0x32060, /* skip_previous_declaration_records */
-    0x51310, /* new_symbol_reference */
-    0x3b440, /* compare_member_pointer_expression */
-    0x3b260, /* make_null_member_pointer */
-    0x3b2f0, /* make_null_compact_method_pointer */
-    0x3b310, /* make_null_member_function */
-    0x3bcf0, /* member_pointer_function_type */
-    0x3b330, /* make_null_simple_data_pointer */
-    0x3b350, /* data_member_pointer_uses_zero_null */
-    0x3a9d0, /* apply_simple_data_member_pointer */
-    0x32020, /* find_label_record */
-    0x5da50, /* reference_function_debug_type */
-    0x5fd90, /* emit_debug_function_type */
-    0x3e1f0, /* member_function_pointer_size */
-    0x3e190, /* data_member_pointer_size */
-    0x46490, /* make_local_static_name */
-    0x45ed0, /* record_function_symbol_alias */
-    0x2cb70, /* create_generated_object */
-    0x45f00, /* symbol_alias */
-    0x38340, /* finish_local_static_initialization */
-    0x24350, /* make_missing_function_declaration */
-    0x241b0, /* emit_atexit_registration */
-    0x3f370, /* defer_object_definition */
-    0x2e110, /* append_default_call_argument */
-    0x3be50, /* convert_member_pointer_representation */
-    0x3bee0, /* convert_compact_data_member_pointer */
-    0x3b410, /* equal_data_member_null_representation */
-    0x67a10, /* resolve_overloaded_arrow */
-    0x67440, /* builtin_operand_is_lvalue */
-    0x678d0, /* convert_selected_operator_operand */
-    0x3f3c0, /* emit_pending_function_cleanup */
-    0x38510, /* begin_initializer_function */
-    0x38560, /* flush_current_function */
+    0x5d660,
+    0x604a0,
+    0x63fb0,
+    0x641f0,
+    0x63d30,
+    0x2ca20,
+    0x2d320,
+    0x2d450,
+    0x2cd70,
+    0x1edc0,
+    0x1ed90,
+    0x1ddb0,
+    0x1e680,
+    0x36590,
+    0x37480,
+    0x37410,
+    0x375b0,
+    0x380f0,
+    0x36c40,
+    0x2c5b0,
+    0x36700,
+    0x36bd0,
+    0x36f50,
+    0x20af0,
+    0x37000,
+    0x37e50,
+    0x37630,
+    0x376f0,
+    0x37bb0,
+    0x37be0,
+    0x37ab0,
+    0x1fda0,
+    0x1fab0,
+    0x2caf0,
+    0x45fd0,
+    0x45f20,
+    0x46160,
+    0x3ec00,
+    0x8bb0,
+    0x2ad80,
+    0x2e090,
+    0x2df20,
+    0x57a10,
+    0x57a40,
+    0x57be0,
+    0x57f50,
+    0x57e10,
+    0x57c50,
+    0x58140,
+    0x57880,
+    0x58610,
+    0x582a0,
+    0x578e0,
+    0x58a10,
+    0x58c50,
+    0x15340,
+    0x58470,
+    0x584f0,
+    0x583c0,
+    0x1fc10,
+    0x21f80,
+    0x21f40,
+    0x21f20,
+    0x21ef0,
+    0x271b0,
+    0x27180,
+    0x24e80,
+    0x232c0,
+    0x21ff0,
+    0x21ed0,
+    0x45f90,
+    0x46140,
+    0x46cb0,
+    0x5d6e0,
+    0x5d9c0,
+    0x5d920,
+    0x5e080,
+    0x5d860,
+    0x5db20,
+    0x5df80,
+    0x6c0e0,
+    0x5dd80,
+    0x5dab0,
+    0x5e5e0,
+    0x60320,
+    0x64500,
+    0x5ffd0,
+    0x5e340,
+    0x5ff00,
+    0x5fe80,
+    0x5fdf0,
+    0x5fd00,
+    0x5ee50,
+    0x5f480,
+    0x20bb0,
+    0x5ea40,
+    0x5ebe0,
+    0x5fc70,
+    0x6c010,
+    0x6c030,
+    0x5fab0,
+    0x5e020,
+    0x1dd50,
+    0x44710,
+    0x41ac0,
+    0x3e550,
+    0x60750,
+    0x588a0,
+    0x57860,
+    0x578a0,
+    0x3e130,
+    0x39e30,
+    0x39cb0,
+    0x39ed0,
+    0x3e020,
+    0x39fc0,
+    0x39e10,
+    0x3dfe0,
+    0x3a260,
+    0x54da0,
+    0x534f0,
+    0x56490,
+    0x3a200,
+    0x3dbf0,
+    0x3dee0,
+    0x3dfa0,
+    0x3dc90,
+    0x3df40,
+    0x3e0c0,
+    0x2b6d0,
+    0x2b7a0,
+    0x11380,
+    0x16010,
+    0x15900,
+    0x150d0,
+    0x1c530,
+    0x4cbc0,
+    0x32aa0,
+    0x34350,
+    0x4c9a0,
+    0x4bb30,
+    0x15590,
+    0x64b40,
+    0x64dfc,
+    0x650a5,
+    0x64e68,
+    0x650a1,
+    0x1d3f0,
+    0x1d430,
+    0x1d090,
+    0x64d37,
+    0x65034,
+    0x14bc0,
+    0x2fd60,
+    0x2fdc0,
+    0x2fe00,
+    0x2fe70,
+    0x2ff10,
+    0x2feb0,
+    0x30220,
+    0x30290,
+    0x40840,
+    0x30360,
+    0x302d0,
+    0x40ad0,
+    0x30400,
+    0x31b40,
+    0x2fa60,
+    0x2fac0,
+    0x40800,
+    0x3a910,
+    0x3b1e0,
+    0x3ad80,
+    0x2fb70,
+    0x2fb00,
+    0x2fc20,
+    0x2fbc0,
+    0x30a60,
+    0x309f0,
+    0x30540,
+    0x2b430,
+    0x2b490,
+    0x308e0,
+    0x40a40,
+    0x305c0,
+    0x30550,
+    0x2ffd0,
+    0x2ff60,
+    0x2b4e0,
+    0x30860,
+    0x31bc0,
+    0x31d10,
+    0x32060,
+    0x51310,
+    0x3b440,
+    0x3b260,
+    0x3b2f0,
+    0x3b310,
+    0x3bcf0,
+    0x3b330,
+    0x3b350,
+    0x3a9d0,
+    0x32020,
+    0x5da50,
+    0x5fd90,
+    0x3e1f0,
+    0x3e190,
+    0x46490,
+    0x45ed0,
+    0x2cb70,
+    0x45f00,
+    0x38340,
+    0x24350,
+    0x241b0,
+    0x3f370,
+    0x2e110,
+    0x3be50,
+    0x3bee0,
+    0x3b410,
+    0x67a10,
+    0x67440,
+    0x678d0,
+    0x3f3c0,
+    0x38510,
+    0x38560,
+    0x3ee60,
+    0x3ee80,
+    0x3ddb0,
+    0x34280,
+    0x342f0,
+    0x5e590,
+    0x5f8f0,
+    0x5d6c0,
 };
 static const uint32_t seen[] = {
     0x59630, /* main */
@@ -1136,8 +1144,8 @@ static const uint32_t seen[] = {
 
 RECON_EXPORT const ReconCase case_descriptor = {
     RECON_ABI_VERSION, sizeof(ReconCase), "state_machine_debug",
-    "Unsupported native local-static cleanup guard; partial original-backed checkpoint; trace compares unseeded encounters with explicit per-case seed",
+    "State-machine local-static cleanup; completed original-backed compilation with explicit per-case entry seed",
     order, RECON_COUNT(order), seen, RECON_COUNT(seen),
-    RECON_IO, RECON_FRONTIER, 0x38560,
+    RECON_IO, RECON_EXIT, 0,
     NULL, c1xx_case_invoke, NULL, NULL, 0
 };

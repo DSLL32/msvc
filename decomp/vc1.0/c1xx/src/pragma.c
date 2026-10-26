@@ -817,3 +817,69 @@ void warn_bad_pragma(void)
     compiler_warning(1, 612);
     skip_source_line();
 }
+
+/* Original0x553a0..0x555a2, stdcall4. alloc_text selects a C-linkage
+   overload; same-segment allocation instead validates the data declaration. */
+void __stdcall assign_allocated_text(char *name)
+{
+    CppSymbol *symbol, *functions, *current;
+    unsigned kind;
+    int c_linkage, other_linkage;
+    symbol = find_scope_symbol(global_scope, name, 0);
+    if (!symbol) {
+        report_syntax_error(157, name);
+        return;
+    }
+    if (token_allocation_flags & 0x20000) {
+        c_linkage = other_linkage = 0;
+        if ((symbol->kind & 31) != 16) {
+            report_syntax_error(63, name);
+            return;
+        }
+        if (symbol) {
+            kind = symbol->kind & 31;
+            functions = kind == 16 || kind == 17 ?
+                ((OverloadSet *)symbol)->functions : symbol;
+        }
+        for (;;) {
+            current = functions;
+            if (!current) break;
+            kind = current->kind & 31;
+            if (kind != 6 && kind != 7) break;
+            functions = current->next;
+            if (current->declaration_flags & 0x200) {
+                c_linkage = 1;
+                symbol = current;
+            } else other_linkage = 1;
+            if (c_linkage && other_linkage) break;
+        }
+        if (!c_linkage) {
+            report_syntax_error(128, name);
+            return;
+        }
+        if (other_linkage) compiler_warning(1, 122, name);
+        if (symbol->flags & 4) report_syntax_error(200, symbol->name);
+    }
+    if (symbol->attributes & 2) {
+        if (symbol->type->related->data.based_symbol != record_context_symbol)
+            report_syntax_error(193, name);
+        return;
+    }
+    if (!(token_allocation_flags & 0x20000)) {
+        if ((symbol->kind & 31) != 9) {
+            symbol->declaration_flags |= 2;
+            report_syntax_error(158, name);
+            return;
+        }
+        if ((symbol->storage[0] & 7) != 1) {
+            symbol->declaration_flags |= 2;
+            report_syntax_error(178, name);
+            return;
+        }
+        if ((symbol->type->attributes & 7) == 1) {
+            compiler_warning(1, 104, name);
+            return;
+        }
+    }
+    assign_symbol_segment(symbol, (SegmentSymbol *)record_context_symbol);
+}

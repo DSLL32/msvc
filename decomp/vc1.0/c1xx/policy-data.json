@@ -3067,6 +3067,36 @@
         "_mark_pch_constructor_closures",
         "_mark_pch_access_declarations"
       ]
+    },
+    {
+      "name": "_initializer_function_closing",
+      "original": 650192,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_function_closing",
+          "original": 650192,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_initializer_segment_names",
+      "original": 658128,
+      "kind": "string_pointers",
+      "count": 3
+    },
+    {
+      "name": "_initializer_segments_remaining",
+      "original": 658064,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_initializer_segments_remaining",
+          "original": 658064,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "buffered_streams": [
@@ -3315,19 +3345,6 @@
       "authorization": "Parent approved established precise original-bug policy after independent whole-body frame/def-use check",
       "coverage_note": "The byte at adjustedESP+11 has no writer in whole728Bbody; result and conversion output spans do not overlap it. Public reachability UNKNOWN; no undefined-kind or original stack equivalence claim.",
       "historical_evidence": "17c78f8c6:evidence/floating-binary-fold/analysis.json"
-    },
-    {
-      "function": "_finish_function_output",
-      "original": [
-        350912,
-        351070
-      ],
-      "condition": "!options.prototypes_only and closed_scopes==NULL after finish_label_symbols; native guard follows both genuine records13",
-      "behavior": "exact native-only INT3 before original55b06 unwritten entryESP-4 DWORD read",
-      "win32": "original-style uninitialized scope pointer retained",
-      "authorization": "Parent approved established original-UB policy after concrete valid-input original/native divergence and exact whole-body owner/read proof",
-      "coverage_note": "Public valid-input reach is proven by frozen state_machine_debug synthetic local-static cleanup. Original symbol buffer1802B vs unguarded native1801B omitted06; guarded native1634B matches original prefix before06. Unaccepted flush candidate remains a patch/stub boundary; no original stale-stack equivalence or current-case completion claim.",
-      "historical_evidence": "17c78f8c6:evidence/empty-output-scope/receipt.json"
     },
     {
       "function": "_format_browser_temporary_name@4",

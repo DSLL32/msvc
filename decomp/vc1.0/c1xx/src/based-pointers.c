@@ -178,3 +178,17 @@ void __stdcall check_based_pointer_conversion(unsigned char operation,
     if (source_base != target_base)
         compiler_warning(1, 119, target_base->name, source_base->name);
 }
+
+CType *__stdcall make_expression_qualified_type(CType *base, unsigned short kind,
+    unsigned short attributes, void *parameter);
+
+/* Original0x62810..0x62858, stdcall8. Attach an arena-owned based
+   modifier while keeping a function's declared pointer-model attributes. */
+void __stdcall apply_symbol_based_type(CppSymbol *symbol, CppSymbol *base)
+{
+    unsigned attributes;
+    symbol->attributes |= 2;
+    attributes = (symbol->kind & 31) == 7 ? symbol->type->attributes : 5;
+    symbol->type = make_expression_qualified_type(symbol->type, 0,
+        (unsigned short)attributes, &base);
+}
