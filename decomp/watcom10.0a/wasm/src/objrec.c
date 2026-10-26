@@ -195,3 +195,39 @@ unsigned short ObjGet16(obj_rec *objr)
         InternalError("g:\\bld\\womp\\c\\objrec.c",137);
     return *(unsigned short *)ObjGet(objr,2);
 }
+
+/* Initial objrec.c, CF1be9c..1beca. */
+unsigned long ObjGet32(obj_rec *objr)
+{
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c",148);
+    return *(unsigned long *)ObjGet(objr,4);
+}
+
+/* CF1becc..1bf09: original flag-selected width with16-bit zero extension. */
+unsigned long ObjGetEither(obj_rec *objr)
+{
+    if (objr == NULL) InternalError("g:\\bld\\womp\\c\\objrec.c",156);
+    if (objr->is_32 || objr->is_phar) return ObjGet32(objr);
+    return (unsigned long)ObjGet16(objr);
+}
+
+/* CF1bf0c..1bf4e, one- or two-byte15-bit OMF index. */
+unsigned short ObjGetIndex(obj_rec *objr)
+{
+    unsigned short index;
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c",168);
+    index = ObjGet8(objr);
+    if (index > 0x7f) index = ((index & 0x7f) << 8) | ObjGet8(objr);
+    return index;
+}
+
+/* CF1c010..1c043, original little-endian store and16-bit cursor increment. */
+void ObjPut32(obj_rec *objr, unsigned long value)
+{
+    if (objr == NULL || objr->data == NULL)
+        InternalError("g:\\bld\\womp\\c\\objrec.c",207);
+    *(unsigned long *)(objr->data + objr->curoff) = value;
+    objr->curoff += 4;
+}

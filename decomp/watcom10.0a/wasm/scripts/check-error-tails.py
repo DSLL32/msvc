@@ -55,6 +55,11 @@ def pe_bytes(address, size):
 symbols = {name: 0x410000 + int(offset, 16) for offset, name in re.findall(
     r'^0001:([0-9a-fA-F]{8})[ *+]\s+(\S+)', (project / 'build/wasm.map').read_text(), re.M)}
 owners = [
+    ('ObjGet32', 114332, 114378, '647d26571e14d9d0c71288b8140c8cf05c7b22bc5ec9d53b529923c51d0f9061', [114377], [114356]),
+    ('ObjGetEither', 114380, 114441, '5be5cd6d5a99edf655bc6629c132d12d8ec1cb0d94e908eb7ee9076fd1b8e606', [114425, 114440], [114398]),
+    ('ObjGetIndex', 114444, 114510, 'd53aa9b6434acb8a1ac2cd7702747a394e6b001e0544471c7a52e53f51eb2b3f', [114509], [114468]),
+    ('ObjPut32', 114704, 114755, '140de9d502c83333d01cfcaf3fad449a8beb0a8c566de516bba9687ed712d5c6', [114754], [114730]),
+
     ('FixGenPRef', 115804, 115923, '64f089edd9c4cf1c64c88f1c020348f2b191cb8124438ace3993e65fcfc44efa', [115906, 115922], [115824, 115843, 115872]),
     ('writeMisc32', 109844, 110026, '8a79847028db59cf4007bd80ed5aa94b9ac5b7f8e9038ccc80c122b34bd2b520', [110025], [109869, 109890, 109909, 109929]),
     ('writeLidata', 111420, 111756, 'd6b1acd281be263c4b25818df392a723703a8aeff0a45d042e18fd244d2bdb4d', [111755], [111445, 111466, 111485, 111505]),
