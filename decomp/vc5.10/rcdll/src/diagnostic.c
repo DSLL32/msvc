@@ -138,3 +138,18 @@ void __stdcall rc_fatal(char *message)
     ++rc_result;
     longjmp(rc_abort_context,rc_result);
 }
+
+void __stdcall rc_report_resource_error(unsigned code)
+{
+    if(rc_result>0&&rc_last_resource_error_code==code&&
+       rc_last_resource_error_line==rc_resource_token.line&&
+       rc_last_resource_error_file==rc_resource_token.file_index)
+        rc_fatal("\n");
+    rc_emit("\n");
+    rc_emit(rc_error_text);
+    ++rc_result;
+    if(rc_result>25)rc_fatal("\n");
+    rc_last_resource_error_line=rc_resource_token.line;
+    rc_last_resource_error_file=rc_resource_token.file_index;
+    rc_last_resource_error_code=code;
+}

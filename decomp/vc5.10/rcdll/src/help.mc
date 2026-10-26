@@ -64,3 +64,8 @@ MessageId=2109
 Language=English
 %1 (%2!d!): error RC2108 : expected numerical dialog constant
 .
+
+MessageId=2151
+Language=English
+%1 (%2!d!): error RC2151 : cannot reuse string constants, %3!d!(0x%3!X!) - "%4!ws!" already defined. Cannot add %3!d!(0x%3!X!) - "%5!ws!".
+.

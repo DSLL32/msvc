@@ -38,11 +38,6 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
 }
 
 
-int __stdcall rc_change_codepage(UINT page)
-{
-    __asm int 3
-    return 0;
-}
 
 
 
@@ -57,10 +52,6 @@ void __stdcall rc_macro_buffer_fatal(unsigned message)
 
 
 
-void __stdcall rc_report_resource_error(unsigned code)
-{
-    __asm int 3
-}
 
 long __stdcall rc_convert_icon_file(long size)
 {
@@ -68,10 +59,6 @@ long __stdcall rc_convert_icon_file(long size)
     return 0;
 }
 
-void __stdcall rc_concatenate_resource_string(const WCHAR *text,int flags)
-{
-    __asm int 3
-}
 
 void __stdcall rc_resource_error_name(unsigned code,const void *name)
 {
@@ -83,11 +70,6 @@ void __stdcall rc_resource_file_fatal(unsigned code,const WCHAR *name)
     __asm int 3
 }
 
-DWORD __cdecl rc_parse_resource_octal(void)
-{
-    __asm int 3
-    return 0;
-}
 
 void __stdcall rc_resource_input_fatal_name(unsigned code,const WCHAR *name)
 {

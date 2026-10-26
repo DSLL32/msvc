@@ -668,3 +668,14 @@ void __cdecl rc_convert_dialog_count(void)
     count=(WORD *)(rc_resource_buffer+rc_dialog_count_offset);
     *count=(WORD)rc_mac_word(*count);
 }
+
+void __stdcall rc_concatenate_resource_string(const WCHAR *text,int flags)
+{
+    /* Only the existing initialized output prefix may supply the last WORD. */
+    if(!rc_resource_buffer||rc_resource_buffer_used<2||
+       rc_resource_buffer_used>rc_resource_buffer_size||
+       (rc_resource_buffer_used&1)){ __asm int 3 }
+    if(!*(WORD *)(rc_resource_buffer+rc_resource_buffer_used-2))
+        rc_resource_buffer_used-=2;
+    rc_write_resource_string(text,flags);
+}

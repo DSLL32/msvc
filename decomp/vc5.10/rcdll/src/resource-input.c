@@ -839,3 +839,15 @@ WORD __stdcall rc_scan_resource_value(WORD flags)
     }while(rc_resource_token.kind==15);
     return rc_resource_token.kind;
 }
+
+DWORD __cdecl rc_parse_resource_octal(void)
+{
+    DWORD value=0;
+    rc_next_resource_digit();
+    while(rc_resource_number_character>=L'0'&&
+          rc_resource_number_character<=L'7'){
+        value=value*8+rc_resource_number_character-L'0';
+        rc_next_resource_digit();
+    }
+    return value;
+}

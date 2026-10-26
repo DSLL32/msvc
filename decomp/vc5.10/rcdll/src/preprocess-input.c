@@ -271,3 +271,20 @@ unsigned short __cdecl rc_open_source_frame(void)
     }
     return 1;
 }
+
+int __stdcall rc_change_codepage(UINT page)
+{
+    RcSourceFrame *source=&rc_source_frames[rc_source_depth];
+    int remaining,bytes;
+    (void)page;
+    if(source->encoding!=1)return 1;
+    remaining=source->chars_read-(rc_source_cursor-source->buffer);
+    if(remaining){
+        bytes=WideCharToMultiByte(rc_codepage,0,rc_source_cursor,remaining,
+                                  NULL,0,NULL,NULL);
+        if(!bytes)return 1;
+        fseek(rc_source_file,-bytes,SEEK_CUR);
+    }
+    source->chars_read=0;
+    return rc_refill_source();
+}

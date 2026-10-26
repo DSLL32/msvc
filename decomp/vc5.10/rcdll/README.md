@@ -1,6 +1,6 @@
 # RCDLL (Visual C++ 5.10)
 
-All seven current cases complete using the native i386 shared library. Run `make -j4
+All eight current cases complete using the native i386 shared library. Run `make -j4
 native cases check unit original` and `make -j4 audit` from this folder.
 Fixtures never launch Wine. `binary.c` is the sole function registry;
 `policy-data.json` contains finite graph/ABI contracts. Application source is in
@@ -55,6 +55,12 @@ is supported. Encountered message resources are generated from `src/help.mc`.
   the expected failure: exit 2, exactly 415 diagnostic bytes, empty stderr and
   no RES or temporary files. All 158 first-entry encounters match.
 
+- `0007-localized-version`: switches between MacRoman and default codepages,
+  joins adjacent VERSIONINFO fragments, parses explicit RC octal constants and
+  reports a duplicate string ID. The expected recoverable failure has exit 1,
+  exactly 186 diagnostic bytes, empty stderr and no RES or temporary files.
+  All 148 first-entry encounters match.
+
 The rich invocation uses stable `S:` workload paths. Only INCLUDE and absent
 RCCODEPAGE are explicit Windows target environment inputs; native adapter
 controls are set separately. Its fresh final masked-original capture uses the
@@ -64,8 +70,8 @@ first-entry encounters, final status, streams, artifacts and file inventory.
 Original pointed-memory and per-call CRT error/FP state were not universally
 captured; no whole-memory equivalence is claimed.
 
-Application reconstruction now comprises **282 functions and 64,851 unique
-original code bytes**, **86.92% of the 74,609-byte whole-text extent**. Summed
+Application reconstruction now comprises **286 functions and 65,186 unique
+original code bytes**, **87.37% of the 74,609-byte whole-text extent**. Summed
 accepted code extents equal their owned-byte union. This denominator includes
 non-code and CRT; complete non-CRT coverage has not been established. The
 migration baseline d08815612 was 95 functions / 25,732 bytes. A bounded accounting
@@ -296,6 +302,42 @@ captures retain raw artifact copies in scratch using the shared capture option.
 
 Diagnostic evidence and compiled-source snapshots remain under
 `~/.ai-tmp/msvc2/vc5.10/rcdll/diagnostic-recovery/`, with final corrected-mask
-closeout in `0012-fatal-extent/`. The authoritative registry now has 16 known
+closeout in `0012-fatal-extent/`. At diagnostic-case closeout the registry had 16 known
 pending application routines (1,469 bytes), plus one unclassified 28-byte routine;
 these are a classified subset, not a complete non-CRT denominator.
+
+
+The localized-version case adds four application bodies and 335 code bytes:
+codepage switching, version-value concatenation, explicit octal parsing and
+prepared resource-error reporting. The current codepage calls use the existing
+UTF16 source frame, so the byte-input rewind/refill branch remains unvisited.
+Concatenation reads only the initialized last WORD of the owned output prefix;
+focused tests cover both removing an existing NUL and appending after a non-NUL,
+with untouched canaries. The octal parser retains its first non-octal character
+and cursor. Resource diagnostic history shares the actual existing line, file
+and code owners, with a noncoincident-state test.
+
+The genuine MacRoman source switch exposed reverse conversion returning zero
+and silently dropping later prepared lines. The raw original 1,584-byte file and
+native 300-byte identical prefix remain preserved. The shared explicit VC5.10
+ASCII reverse conversion now validates the terminated input and disjoint,
+aligned output before writing; it restores the exact 1,584-byte file. The duplicate
+string formatter is limited to authenticated RC2151 and its five typed inserts,
+including repeated decimal/unpadded uppercase-hex WORD IDs and two ASCII WCHAR
+strings. Original per-call conversion/formatter state remains unmeasured.
+
+The final original took 1,430.617 ms; native matching took 12.670 ms (setup 5.871,
+execution 5.314, checks 1.485 ms). All eight cached cases, 117 unit groups and both
+builds passed in 0.460 s; strict graph/ABI and SEH checks passed in 0.999 s. A failed
+unit used host WCHAR32 wcscpy in test glue; the corrected test copies explicit
+WCHAR16 storage. Target source and original captures were unchanged by that test
+repair. The untouched and final masked captures agree on every capture field,
+including complete strict file inventory.
+
+Localized-version input, raw artifacts, conversion mismatch/adoption, formatter
+tuple, failed/corrected unit and final source snapshots remain under
+`~/.ai-tmp/msvc2/vc5.10/rcdll/localized-version/`, with closeout in
+`0007-complete/`. The authoritative registry has 12 known pending application
+routines (1,134 bytes), plus one unclassified 28-byte routine. Complete non-CRT
+coverage remains unestablished; whole-text coverage is the qualified global
+percentage.
