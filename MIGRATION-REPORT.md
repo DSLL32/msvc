@@ -925,16 +925,33 @@ symbols, COMDAT records, dictionary prime sizing above 36 publics, response
 comments and member-name extraction. Genuine COMMON coverage is deferred;
 record B7 is LPUBDEF, not LCOMDEF or COMDEF.
 
-The current C++ listing prefix reaches `dimension` at RVA 0x156a0 with 179 first
-entries: original 1,232.485 ms / native 15.942 ms. The worker reports 209
-runtime-matched App bodies / 24,432 unique original bytes, with no built but
-unrun candidate at this boundary. Seven matched owners still need shared-region
-ownership qualification; these numbers therefore do not replace the completed,
-fully qualified 171 / 19,558 checkpoint. The graph owner is implementing one
-exact terminal-region contract for both disconnected return fragments and
-inventoried existing CALL facts. It preserves raw callee edges and ordinary
-per-owner graph/ABI checks, without changing runtime masking or inferring a
-callback contract. Full-case gates remain deferred until this case completes.
+The in-place C++ case is complete in `c0338becb`: 213 qualified App functions /
+24,667 unique original bytes, adding 42 functions and 5,109 bytes. Exit 0,
+200 first entries, streams and complete archive/backup/demangled-listing/member
+outputs match. The final pair takes 1,418.458 ms original / 22.565 ms native
+(6.835 setup, 12.528 execution, 3.202 checks); cached replay takes 19.996 ms.
+Changed-source period/native builds take 1.856 s and the final incremental
+build 147 ms. All three cached cases and units pass, along with full
+graph/reference/ownership/extent checks, 207 strict RET contracts and six
+existing nonlocal residuals. Audit corrective runs take roughly 80–200 ms each;
+the logs do not isolate a final tool-only total. Counts exclude the pending
+one-byte `WresRecordError` placeholder.
+
+Shared graph `c96d4f78f` validates exact terminal regions, including disconnected
+fragments and inventoried existing CALL facts. The case's narrow 11-owner check
+retains all 33 complete pair intersections and ordinary graph/ABI checks, without
+changing masking or inferring callback contracts. Shared CRT `cbf2c1b5a` adds an
+explicit WLIB opt-in for its identified older qsort algorithm: the real listing
+exposes equal-key ordering, so the comparator and input remain unchanged. Its
+retained original listing matches native in 19.888 ms without another original.
+Existing unlink/rename suffice for the reached closed regular-file and absent
+destination domain; existing-destination rename behavior remains unqualified.
+Producer-only case sources were hash-preserved in scratch and removed by
+`10fca91d0` / `894d3817d`; all three case directories now contain only `case.c`
+and `capture.bin` outside generated `.build` output. No replay was needed for
+that layout correction. The next authorized coherent case targets real PE
+named/ordinal import conversion and valid authored near/far COMMON OMF inputs;
+syntax, baseline and actual App reach remain to be established.
 
 WASM's assembly case has reached 99 / 16,906 bytes at `AsmParse`; step042 is
 authoritative.
