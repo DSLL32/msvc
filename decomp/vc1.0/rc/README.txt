@@ -28,6 +28,35 @@ sources remain compatible with original CL/LINK. The small scripts/import-librar
 fixes the original librarian's decorated NTDLL import strings without changing
 object sizes, offsets or hints; it is not an execution/capture helper.
 
+Canonical native CLI
+--------------------
+    make -C .. -j4 native-bin-rc native-bin-rcpp
+
+The coordinator installs native ELF programs as ../build/native/bin/RC.EXE and
+RCPP.EXE. Run RC.EXE from the resource source directory, supplying INCLUDE for
+the SDK headers as with the original compiler. The binary-local native-bin target
+also remains available; it needs a reconstructed RCPP.EXE beside it or on the
+Windows-style PATH. SDK headers and user resource inputs remain ordinary files.
+
+Root entry.c is native host code and is excluded from fixtures and Win32 builds.
+It reuses the approved resource_main bridge with shared CRT support, the retained
+locale converters and wide-copy implementation. Shared bootstrap owns mutable
+arguments/environment, the Windows command line and actual executable/cwd Z:
+identities, explicitly updating constructor-owned _pgmptr. Existing normal exit
+and resource cleanup remain active. No Wine mapping or fixture environment is
+required. VC1.0 RC needs no external diagnostic catalog or RCDLL.
+The shared native bootstrap currently accepts ASCII arguments and executable/cwd
+paths; resource contents retain the tested resource encodings.
+
+Ordinary compilation launches the actual reconstructed RCPP child, trying the
+executable's sibling first and PATH after ENOENT. The shared spawn/bootstrap
+boundary preserves the old Windows serialization and child CRT tokenization of
+RC's two-element argv with its packed option string. This CLI uses neither the
+fixture process broker nor captured preprocessor responses.
+The real rich-resource CLI smoke produced the cached 3684-byte resource exactly,
+with empty streams, unchanged inputs and no temporary files left behind. All
+eighteen cached cases and both narrow dependency rejection tests also pass.
+
 Cases
 -----
 The suite contains sixteen CLI invocations and two labelled direct helper cases.

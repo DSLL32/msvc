@@ -51,6 +51,11 @@ BINARY_SOURCES = src/heap.c \
     src/kanji-strings.c \
     src/unused-helpers.c
 BINARY_SUPPORT_SOURCES = $(wildcard $(RECON)/src/*.c)
+# Canonical CLI reuses production objects and one shared runtime. The common
+# fixture entry hook/asset hosts and generated shim main are not linked here.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c process.c trace.c win32.c)
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = crt/startup.c \
     src/heap.c \
