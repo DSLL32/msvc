@@ -253,6 +253,8 @@ struct CallbackRequest {
     assets_root: *const c_char,
     prepared_environment_count: u32,
     prepared_environment: *const *const c_char,
+    target_os_environment_count: u32,
+    target_os_environment: *const *const c_char,
 }
 #[repr(C)]
 struct Response {
@@ -412,6 +414,12 @@ pub fn prepare(
             CString::new(bytes).map_err(Into::into)
         })
         .collect::<Result<_>>()?;
+    let target_os_environment = fixture
+        .process_os_environment
+        .as_ref()
+        .map(|v| v.entries())
+        .transpose()?
+        .unwrap_or_default();
     let workspace = CString::new(cwd.as_os_str().as_encoded_bytes())?;
     let logical = fixture
         .logical_cwd
@@ -467,6 +475,8 @@ pub fn prepare(
                 let prepared_pointers: Vec<_> = prepared.iter().map(|s| s.as_ptr()).collect();
                 let args: Vec<_> = request.args.iter().map(|s| s.as_ptr()).collect();
                 let env: Vec<_> = request.env.iter().map(|s| s.as_ptr()).collect();
+                let target_os_pointers: Vec<_> =
+                    target_os_environment.iter().map(|s| s.as_ptr()).collect();
                 let call = CallbackRequest {
                     struct_size: size_of::<CallbackRequest>() as u32,
                     index: count,
@@ -488,6 +498,12 @@ pub fn prepare(
                     assets_root: assets.as_ref().map_or(std::ptr::null(), |s| s.as_ptr()),
                     prepared_environment_count: prepared_pointers.len() as u32,
                     prepared_environment: prepared_pointers.as_ptr(),
+                    target_os_environment_count: target_os_pointers.len() as u32,
+                    target_os_environment: if target_os_pointers.is_empty() {
+                        std::ptr::null()
+                    } else {
+                        target_os_pointers.as_ptr()
+                    },
                 };
                 let mut response = Response {
                     struct_size: size_of::<Response>() as u32,
@@ -519,6 +535,22 @@ pub fn prepare(
                 match reply {
                     Ok(bytes) => {
                         if response.action == 1 {
+                            if let Some(initial) = &fixture.process_os_environment {
+                                let environment =
+                                    crate::fixture::ProcessOsEnvironment::from_entries(
+                                        &request.env,
+                                        initial.provider_sha256.clone(),
+                                    )?;
+                                let path = root.join(format!(
+                                    "self-process-os-environment-{}.json",
+                                    request.pid
+                                ));
+                                let mut file = fs::OpenOptions::new()
+                                    .write(true)
+                                    .create_new(true)
+                                    .open(path)?;
+                                file.write_all(&serde_json::to_vec(&environment)?)?;
+                            }
                             self_count += 1;
                         }
                         stream.write_all(&bytes)?;

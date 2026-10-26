@@ -24,10 +24,22 @@ pub struct Options {
     #[arg(last = true, required = true)]
     pub args: Vec<OsString>,
 }
+// Only native resources lost when exec receives the exact target OS vector.
+// They remain host controls; none is inserted into the staged target block.
+#[derive(Serialize, Deserialize)]
+struct NativeResources {
+    drive_r: Option<PathBuf>,
+    logical_drive: Option<String>,
+    spawn_fd: RawFd,
+}
 #[derive(Serialize, Deserialize)]
 struct Paths {
     logical_cwd: Option<String>,
     assets: Option<PathBuf>,
+    #[serde(default)]
+    process_os_provider: Option<String>,
+    #[serde(default)]
+    native_resources: Option<NativeResources>,
 }
 pub fn save_paths(f: &Fixture, root: &Path) -> Result<()> {
     if std::env::var_os("RECON_SELF_SPAWN").is_some_and(|v| v == "1") {
@@ -37,6 +49,19 @@ pub fn save_paths(f: &Fixture, root: &Path) -> Result<()> {
             serde_json::to_vec_pretty(&Paths {
                 logical_cwd: f.logical_cwd.clone(),
                 assets: assets::root(f, root),
+                process_os_provider: f
+                    .process_os_environment
+                    .as_ref()
+                    .map(|v| v.provider_sha256.clone()),
+                native_resources: if f.process_os_environment.is_some() {
+                    Some(NativeResources {
+                        drive_r: std::env::var_os("RECON_DRIVE_R").map(PathBuf::from),
+                        logical_drive: f.logical_drive.clone(),
+                        spawn_fd: std::env::var("RECON_SPAWN_FD")?.parse()?,
+                    })
+                } else {
+                    None
+                },
             })?,
         )?;
     }
@@ -227,11 +252,44 @@ pub fn results(root: &Path, expected: u32) -> Result<Vec<ChildResult>> {
     );
     Ok(children)
 }
-unsafe fn executor(options: &Options, root: &Path) -> Result<()> {
+unsafe fn executor(options: &Options, root: &Path, parent: u32) -> Result<()> {
     // The launcher has not loaded the DSO: both CRT and application globals are fresh.
     let trap_file = File::create(root.join("trap"))?;
     trap::install(trap_file.as_raw_fd())?;
     let receipt = status::Receipt::create(root)?;
+    let paths: Paths = serde_json::from_slice(&fs::read(
+        options.workspace.join("native-child-paths.json"),
+    )?)?;
+    if let Some(resources) = &paths.native_resources {
+        ensure!(
+            resources.spawn_fd >= 0
+                && unsafe { libc::fcntl(resources.spawn_fd, libc::F_GETFD) } >= 0,
+            "native SELF broker descriptor was not inherited"
+        );
+        unsafe {
+            std::env::set_var("RECON_DRIVE_T", &options.workspace);
+            match &resources.drive_r {
+                Some(root) => std::env::set_var("RECON_DRIVE_R", root),
+                None => std::env::remove_var("RECON_DRIVE_R"),
+            }
+            if let Some(drive) = &resources.logical_drive {
+                ensure!(
+                    drive.len() == 1 && drive.as_bytes()[0].is_ascii_alphabetic(),
+                    "invalid native SELF logical drive"
+                );
+                if !drive.eq_ignore_ascii_case("R") {
+                    std::env::set_var(
+                        format!("RECON_DRIVE_{}", drive.to_ascii_uppercase()),
+                        &options.workspace,
+                    );
+                }
+            }
+            if let Some(logical) = &paths.logical_cwd {
+                std::env::set_var("RECON_CANONICAL_CWD", logical);
+            }
+            std::env::set_var("RECON_SPAWN_FD", resources.spawn_fd.to_string());
+        }
+    }
     crate::errno::set(0);
     let loaded = unsafe { Loaded::open(&options.case) }?;
     let constructor_errno = crate::errno::get();
@@ -242,9 +300,24 @@ unsafe fn executor(options: &Options, root: &Path) -> Result<()> {
     let recorder =
         unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
     receipt.supported(root, recorder.is_some())?;
-    let paths: Paths = serde_json::from_slice(&fs::read(
-        options.workspace.join("native-child-paths.json"),
-    )?)?;
+    let _process_os_environment = if let Some(provider) = &paths.process_os_provider {
+        // The broker retained the exact accepted request before permitting SELF.
+        // It includes actual OS-only mutations, independently of the CRT vector.
+        let path = options
+            .workspace
+            .join(format!("self-process-os-environment-{}.json", parent));
+        let environment: crate::fixture::ProcessOsEnvironment =
+            serde_json::from_slice(&fs::read(&path)?)?;
+        ensure!(
+            &environment.provider_sha256 == provider,
+            "SELF process OS provider differs"
+        );
+        let storage = unsafe { environment.stage(&loaded) }?;
+        fs::remove_file(path)?;
+        Some(storage)
+    } else {
+        None
+    };
     assets::configure_paths(
         &loaded,
         &options.cwd,
@@ -308,7 +381,7 @@ pub fn run(options: Options) -> Result<()> {
     fs::create_dir(&root)?;
     let pid = native::fork()?;
     if pid == 0 {
-        let result = unsafe { executor(&options, &root) };
+        let result = unsafe { executor(&options, &root, parent) };
         if let Err(error) = result {
             let _ = fs::write(root.join("executor-error"), format!("{error:#}"));
         }

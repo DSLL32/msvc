@@ -37,7 +37,9 @@ static int io(int argc,char **argv)
 static int policy(const ReconProcessRequest *request,ReconProcessResponse *response)
 {
     uint32_t i;const char *mode=getenv("SELF_CASE");
-    if(request->protocol!=RECON_PROCESS_RSP1 || request->mode || request->index>1 ||
+    if(request->struct_size!=sizeof(*request) ||
+       request->target_os_environment_count || request->target_os_environment ||
+       request->protocol!=RECON_PROCESS_RSP1 || request->mode || request->index>1 ||
        strcmp(request->cwd,request->workspace_cwd) ||
        request->environment_count!=request->prepared_environment_count)return 0;
     for(i=0;i<request->environment_count;++i)

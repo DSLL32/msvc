@@ -627,6 +627,45 @@ static char *target_environment(const char *path)
     free(overlay);
     return result;
 }
+/* Preserve the exact already-built launch input, not an inferred child/CRT
+ * environment. A declared saved input must compare before any target launch. */
+static int record_process_environment(const char *path, const char *environment)
+{
+    DWORD size = 0, expected_size, got = 0, open_error;
+    HANDLE file;
+    char *expected_path, *bytes;
+    int ok;
+    while (size + 1 < ORIGINAL_ENVIRONMENT_LIMIT &&
+           (environment[size] || environment[size + 1])) ++size;
+    size += 2;
+    if (size > ORIGINAL_ENVIRONMENT_LIMIT ||
+        !original_environment_valid(environment, size, 0)) return 0;
+    expected_path = malloc(strlen(path) + 10);
+    if (!expected_path) return 0;
+    strcpy(expected_path, path); strcat(expected_path, ".expected");
+    file = CreateFileA(expected_path, GENERIC_READ, FILE_SHARE_READ, NULL,
+                       OPEN_EXISTING, 0, NULL);
+    open_error = file == INVALID_HANDLE_VALUE ? GetLastError() : 0;
+    free(expected_path);
+    if (file != INVALID_HANDLE_VALUE)
+    {
+        expected_size = GetFileSize(file, NULL);
+        if (expected_size != size) { CloseHandle(file); return 0; }
+        bytes = malloc(size);
+        if (!bytes) { CloseHandle(file); return 0; }
+        ok = ReadFile(file, bytes, size, &got, NULL) && got == size &&
+             !memcmp(bytes, environment, size);
+        CloseHandle(file); free(bytes);
+        if (!ok) return 0;
+    }
+    else if (open_error != ERROR_FILE_NOT_FOUND) return 0;
+    file = CreateFileA(path, GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
+    if (file == INVALID_HANDLE_VALUE) return 0;
+    got = 0;
+    ok = WriteFile(file, environment, size, &got, NULL) && got == size;
+    CloseHandle(file);
+    return ok;
+}
 int main(int argc, char **argv)
 {
     STARTUPINFOA startup;
@@ -638,9 +677,22 @@ int main(int argc, char **argv)
     CONTEXT before, c;
     int kind, ok = 0;
     char *command,*environment=NULL;
+    const char *process_environment_receipt = NULL;
     int callback_argument, environment_argument;
-    self_mode = argc > 1 && !strcmp(argv[argc - 1], "pe-self-child=1");
-    if (self_mode) --argc;
+    while (argc > 1)
+    {
+        if (!strcmp(argv[argc - 1], "pe-self-child=1"))
+        {
+            if (self_mode) return 2;
+            self_mode = 1; --argc;
+        }
+        else if (!strncmp(argv[argc - 1], "process-os-environment=", 23))
+        {
+            if (process_environment_receipt || !argv[argc - 1][23]) return 2;
+            process_environment_receipt = argv[--argc] + 23;
+        }
+        else break;
+    }
     callback_argument = argc >= 15 && !strncmp(argv[14], "callback=", 9);
     environment_argument = callback_argument ? (argc == 16 || argc == 17) :
         (argc == 11 || argc == 12 || argc == 15 || argc == 16);
@@ -668,6 +720,8 @@ int main(int argc, char **argv)
     }
     target_dll = strcmp(argv[9], "-") != 0;
     if (self_mode && (target_dll || typed_helper)) return 2;
+    if (process_environment_receipt &&
+        (target_dll || typed_helper || !provider_required || !environment)) return 2;
     if (target_dll || self_mode)
     {
         HANDLE module =
@@ -747,6 +801,12 @@ int main(int argc, char **argv)
     command = malloc(strlen(argv[1]) + 1);
     if (!command) { fputs("original command allocation failed\n",stderr); return 5; }
     strcpy(command, argv[1]);
+    if (process_environment_receipt &&
+        !record_process_environment(process_environment_receipt, environment)) {
+        fputs("actual target OS environment input differs or receipt failed before launch\n", stderr);
+        free(environment); free(command);
+        return 6;
+    }
     if (!CreateProcessA(argv[7], command, NULL, NULL, TRUE,
                         self_mode ? DEBUG_PROCESS : DEBUG_ONLY_THIS_PROCESS, environment, argv[3], &startup, &launch)) {
         fprintf(stderr,"original CreateProcess %s: %lu\n",argv[7],GetLastError());

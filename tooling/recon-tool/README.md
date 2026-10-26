@@ -887,3 +887,30 @@ combined successful-child pair. This mode does not compose separately captured
 traces or replay a fabricated same-tool response. Run `tests/pe-self-child.py`
 explicitly for the single authored parent/child control and its negative modes;
 `RECON_PE_SELF_PREPARE_ONLY=1` builds that control without launching originals.
+
+For the reached native-MSVCRT PE environment boundary, explicitly add
+`original capture --native-msvcrt --process-os-environment`. Capture retains the
+exact ANSI MULTISZ supplied to CreateProcessA and the staged provider SHA256 in
+`capture.bin`'s optional `process_os_environment` input. It is distinct from the
+requested environment overlay and target CRT `_environ`. A declared saved block
+must match before launch; use an inputs-only fixture for a new invocation whose
+inherited original OS environment differs. Original launch remains unchanged.
+
+Native execution owns the corresponding UTF16 storage through target exit and
+stages it before setup. The shared shim consumes it when the target actually
+binds CRT arguments, preserving startup order and the separate CRT snapshot.
+For SELF, the case must validate its complete child environment request; the
+runner stages that exact accepted vector in the fresh child, including OS-only
+application mutations. It never substitutes the root's initial block or the
+host environment. Old fixtures and captures without this option are unchanged;
+this seam requires the shared staging provider and ordinary PE IO execution.
+The native process-policy request appends optional trusted
+`target_os_environment_count` / `target_os_environment` fields from that captured
+initial block; without it they are zero / NULL. `prepared_environment` retains
+its host post-setup meaning. Policies still validate the actual child request
+and all inputs; these fields do not approve a child invocation.
+When SELF exec receives that target vector, existing native resources are
+restored separately before loading the DSO: the R mapping, T workspace, selected
+logical-drive mapping/cwd and live process-broker FD. The existing path/trace
+bindings remain in use; no parent host-environment snapshot or resource keys
+are added to the staged target OS block.

@@ -515,6 +515,11 @@ unsafe fn executor(
             unsafe { bind(bytes.as_mut_ptr().cast(), bytes.len()) };
         }
     }
+    let _process_os_environment = f
+        .process_os_environment
+        .as_ref()
+        .map(|environment| unsafe { environment.stage(&loaded) })
+        .transpose()?;
     let recorder =
         unsafe { loaded.optional::<status::Recorder>(b"recon_record_terminal_status\0") }?;
     receipt.supported(root, recorder.is_some())?;

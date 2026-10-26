@@ -133,6 +133,84 @@ pub enum StdinKind {
     Pipe,
     Null,
 }
+/// Exact original CreateProcessA environment input, separate from CRT _environ.
+#[derive(Clone, Serialize, Deserialize, Debug, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct ProcessOsEnvironment {
+    pub ansi: Bytes,
+    pub provider_sha256: String,
+}
+impl ProcessOsEnvironment {
+    pub fn validate(&self) -> Result<()> {
+        let bytes = &self.ansi.0;
+        anyhow::ensure!(
+            (3..=32767).contains(&bytes.len())
+                && bytes.is_ascii()
+                && bytes.ends_with(&[0, 0])
+                && bytes[0] != 0,
+            "process_os_environment requires a nonempty ASCII MULTISZ of at most 32767 bytes"
+        );
+        let mut names = std::collections::BTreeSet::new();
+        for entry in bytes[..bytes.len() - 1].split_inclusive(|v| *v == 0) {
+            let entry = &entry[..entry.len() - 1];
+            let at = entry
+                .iter()
+                .enumerate()
+                .skip(usize::from(entry.first() == Some(&b'=')))
+                .find(|(_, v)| **v == b'=')
+                .map(|(i, _)| i)
+                .context("process_os_environment entry lacks assignment")?;
+            anyhow::ensure!(
+                at > 0 && names.insert(entry[..at].to_ascii_uppercase()),
+                "process_os_environment has empty or duplicate names"
+            );
+        }
+        anyhow::ensure!(
+            self.provider_sha256.len() == 64
+                && self
+                    .provider_sha256
+                    .bytes()
+                    .all(|v| v.is_ascii_digit() || (b'a'..=b'f').contains(&v)),
+            "process_os_environment requires a lowercase provider SHA256"
+        );
+        Ok(())
+    }
+    pub fn entries(&self) -> Result<Vec<std::ffi::CString>> {
+        self.validate()?;
+        self.ansi.0[..self.ansi.0.len() - 1]
+            .split_inclusive(|v| *v == 0)
+            .map(|entry| std::ffi::CString::new(&entry[..entry.len() - 1]).map_err(Into::into))
+            .collect()
+    }
+    pub fn from_entries(entries: &[std::ffi::CString], provider_sha256: String) -> Result<Self> {
+        let mut bytes = Vec::new();
+        for entry in entries {
+            bytes.extend_from_slice(entry.as_bytes_with_nul());
+        }
+        bytes.push(0);
+        let result = Self {
+            ansi: Bytes(bytes),
+            provider_sha256,
+        };
+        result.validate()?;
+        Ok(result)
+    }
+    /// Caller owns the returned process-lifetime storage through target exit.
+    pub unsafe fn stage(&self, loaded: &crate::abi::Loaded) -> Result<Vec<u16>> {
+        self.validate()?;
+        let wide: Vec<u16> = self.ansi.0.iter().map(|v| u16::from(*v)).collect();
+        let provider = std::ffi::CString::new(self.provider_sha256.as_str())?;
+        type Bind = unsafe extern "C" fn(*const u16, usize, *const libc::c_char);
+        let bind = unsafe {
+            loaded
+                .library
+                .get::<Bind>(b"recon_bind_process_os_environment\0")
+        }
+        .context("process_os_environment requires shared native input staging")?;
+        unsafe { bind(wide.as_ptr(), wide.len(), provider.as_ptr()) };
+        Ok(wide)
+    }
+}
 #[derive(Clone, Serialize, Deserialize, Debug)]
 #[serde(deny_unknown_fields)]
 pub struct Fixture {
@@ -143,6 +221,8 @@ pub struct Fixture {
     /// Exact ANSI text passed to the original CreateProcessA, independent of argv.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub raw_command_line: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub process_os_environment: Option<ProcessOsEnvironment>,
     #[serde(default)]
     pub stdin: Option<Bytes>,
     #[serde(default)]
@@ -213,6 +293,9 @@ impl Fixture {
         }
         if self.timeout_ms == 0 {
             bail!("timeout_ms must be positive")
+        }
+        if let Some(environment) = &self.process_os_environment {
+            environment.validate()?;
         }
         if let Some(text) = &self.raw_command_line {
             if !text.is_ascii() || text.contains('\0') || text.len() > 32766 {
@@ -472,5 +555,69 @@ mod asset_tests {
             data: Bytes(vec![]),
         }];
         assert!(f.validate().is_ok());
+    }
+}
+
+#[cfg(test)]
+mod process_os_environment_tests {
+    use super::*;
+    fn input(bytes: &[u8]) -> ProcessOsEnvironment {
+        ProcessOsEnvironment {
+            ansi: Bytes(bytes.to_vec()),
+            provider_sha256: "ab".repeat(32),
+        }
+    }
+    #[test]
+    fn process_os_environment_is_optional_and_preserves_exact_multisz() {
+        assert!(
+            serde_json::to_value(Fixture::default())
+                .unwrap()
+                .get("process_os_environment")
+                .is_none()
+        );
+        let original = input(b"=R:=R:\\case\0A=one\0EMPTY=\0\0");
+        original.validate().unwrap();
+        let mut f = Fixture::default();
+        f.process_os_environment = Some(original.clone());
+        let mut encoded = vec![];
+        ciborium::into_writer(&f, &mut encoded).unwrap();
+        let decoded: Fixture = ciborium::from_reader(encoded.as_slice()).unwrap();
+        assert_eq!(decoded.process_os_environment, Some(original));
+    }
+    #[test]
+    fn process_os_environment_rejects_ambiguous_or_invalid_blocks() {
+        for bytes in [
+            b"".as_slice(),
+            b"\0\0",
+            b"A=x\0",
+            b"A=x\0\0B=y\0\0",
+            b"A=x\0a=y\0\0",
+            b"A\0\0",
+            b"=x\0\0",
+            b"A=\xff\0\0",
+        ] {
+            assert!(input(bytes).validate().is_err(), "{bytes:?}");
+        }
+        assert!(input(&[b'A'; 32768]).validate().is_err());
+        for hash in ["a".repeat(63), "AB".repeat(32), "gg".repeat(32)] {
+            let mut f = input(b"A=x\0\0");
+            f.provider_sha256 = hash;
+            assert!(f.validate().is_err());
+        }
+    }
+    #[test]
+    fn process_os_environment_child_uses_actual_accepted_vector() {
+        let entries = [
+            std::ffi::CString::new("A=one").unwrap(),
+            std::ffi::CString::new("LINK_REPRO_NAME=\\deflib.rsp").unwrap(),
+        ];
+        let child = ProcessOsEnvironment::from_entries(&entries, "ab".repeat(32)).unwrap();
+        assert_eq!(child.ansi.0, b"A=one\0LINK_REPRO_NAME=\\deflib.rsp\0\0");
+        assert_ne!(child, input(b"A=one\0\0"));
+        let vector = child.entries().unwrap();
+        assert_eq!(vector.len(), 2);
+        assert_eq!(vector[1].as_bytes(), b"LINK_REPRO_NAME=\\deflib.rsp");
+        drop(child);
+        assert_eq!(vector[0].as_bytes(), b"A=one");
     }
 }

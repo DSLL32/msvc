@@ -549,6 +549,32 @@ mod tests {
         assert!(comparison_changes(&parent, &next).is_err());
     }
     #[test]
+    fn process_os_environment_is_immutable_during_derivation() {
+        let mut parent = fixture::Fixture::default();
+        parent.process_os_environment = Some(fixture::ProcessOsEnvironment {
+            ansi: fixture::Bytes(b"A=one\0\0".to_vec()),
+            provider_sha256: "ab".repeat(32),
+        });
+        let mut next = parent.clone();
+        next.assets.push(fixture::AssetFile {
+            path: "oracle.bin".into(),
+            data: fixture::Bytes(vec![1]),
+        });
+        assert!(comparison_changes(&parent, &next).is_ok());
+        let valid = next.clone();
+        next.process_os_environment.as_mut().unwrap().ansi.0 = b"A=two\0\0".to_vec();
+        assert!(comparison_changes(&parent, &next).is_err());
+        next = valid.clone();
+        next.process_os_environment
+            .as_mut()
+            .unwrap()
+            .provider_sha256 = "cd".repeat(32);
+        assert!(comparison_changes(&parent, &next).is_err());
+        next = valid;
+        next.process_os_environment = None;
+        assert!(comparison_changes(&parent, &next).is_err());
+    }
+    #[test]
     fn direct_process_exit_requires_explicit_callback_proof() {
         let mut info = info();
         info.execution = 1;

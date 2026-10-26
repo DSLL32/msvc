@@ -469,6 +469,16 @@ exit. The report records that callback PC/PID/TID and expected/actual status;
 native pairing must exit without returning from DIRECT. Returning probes retain
 their normal completion contract. No helper globals are read after process exit.
 
+Optional `original capture --native-msvcrt --process-os-environment` retains the
+exact pre-launch target OS environment and actual provider identity in
+`capture.bin`. Native startup stages that separate input until the application
+binds its CRT arguments; SELF children stage their actual accepted request
+vector. Optional trusted process-policy fields expose the saved initial target
+vector separately from the host prepared environment. Native drive/resource
+controls stay outside the target input. A supervised original child frontier
+remains discovery evidence: native child traps fail the fixture and do not
+constitute combined acceptance.
+
 For Watcom PE IO, `original capture --watcom-main-argv` observes the unique App
 `main` at its existing entry stop using the actual EAX/EDX argument ABI. It
 checks argc, the terminal NULL and every argv[1..] string against requested CLI

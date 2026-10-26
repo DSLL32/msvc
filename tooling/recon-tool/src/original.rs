@@ -239,6 +239,9 @@ pub struct Capture {
     /// Debug one synchronous child loading the exact same staged PE EXE.
     #[arg(long, requires = "progress", conflicts_with_all = ["cf_profile", "direct_helper", "watcom_main_argv"])]
     pub pe_self_child: bool,
+    /// Retain the actual target launch OS block separately from the CRT snapshot.
+    #[arg(long, requires = "native_msvcrt", conflicts_with_all = ["cf_profile", "direct_helper", "watcom_main_argv"])]
+    pub process_os_environment: bool,
     #[arg(long)]
     pub replace: bool,
 }
@@ -292,6 +295,7 @@ struct Broker {
     emitted: Vec<InputFile>,
     error: Option<String>,
     pe_self: Option<crate::pe_self::Tracker>,
+    wait_cleanup: bool,
 }
 impl Broker {
     fn reply(&mut self) -> Result<Reply> {
@@ -381,8 +385,8 @@ impl Broker {
 }
 impl Drop for Broker {
     fn drop(&mut self) {
-        if self.pe_self.is_some() {
-            // EOF requests the existing bounded owned-family teardown even on errors.
+        if self.wait_cleanup {
+            // EOF requests the existing bounded owned-process teardown even on errors.
             self.input.take();
             let _ = self.child.wait();
         }
@@ -1152,11 +1156,11 @@ fn capture_executor(
     artifacts_dir: Option<&Path>,
 ) -> Result<(Option<Fixture>, CaptureReport)> {
     let result = capture_executor_inner(options, f, root, cwd, artifacts_dir);
-    if options.pe_self_child {
+    if options.pe_self_child || options.process_os_environment {
         result.with_context(|| {
             let log = fs::read(root.join("wine-diagnostics")).unwrap_or_default();
             format!(
-                "PE SELF owned-process diagnostics: {}",
+                "Original owned-process diagnostics: {}",
                 String::from_utf8_lossy(&log[..log.len().min(65536)])
             )
         })
@@ -1191,6 +1195,14 @@ fn capture_executor_inner(
     anyhow::ensure!(
         !options.pe_self_child || loaded.info.execution == 0,
         "PE SELF capture requires ordinary IO execution"
+    );
+    anyhow::ensure!(
+        !options.process_os_environment || loaded.info.execution == 0,
+        "process OS environment capture requires ordinary IO execution"
+    );
+    anyhow::ensure!(
+        f.process_os_environment.is_none() || options.process_os_environment,
+        "declared process_os_environment requires --process-os-environment for original capture"
     );
     let program = options
         .program
@@ -1564,6 +1576,28 @@ fn capture_executor_inner(
     }
     let environment = root.join("original-environment");
     fs::write(&environment, target_environment(&target_env)?)?;
+    let process_environment_receipt = root.join("process-os-environment");
+    let process_provider_sha256 = if options.process_os_environment {
+        anyhow::ensure!(!image.dll, "process OS environment capture requires an EXE");
+        let provider = staged
+            .provider
+            .as_ref()
+            .context("process OS environment requires staged native MSVCRT")?;
+        let sha = fixture::hex(&Sha256::digest(fs::read(provider)?));
+        if let Some(declared) = &f.process_os_environment {
+            anyhow::ensure!(
+                declared.provider_sha256 == sha,
+                "declared process_os_environment provider differs from actual staged MSVCRT"
+            );
+            fs::write(
+                root.join("process-os-environment.expected"),
+                &declared.ansi.0,
+            )?;
+        }
+        Some(sha)
+    } else {
+        None
+    };
     command.arg(windows(&environment, &options.repo)?);
     if let Some(provider) = &staged.provider {
         command.arg(windows(provider, &options.repo)?);
@@ -1574,6 +1608,12 @@ fn capture_executor_inner(
     );
     if options.pe_self_child {
         command.arg("pe-self-child=1");
+    }
+    if options.process_os_environment {
+        command.arg(format!(
+            "process-os-environment={}",
+            windows(&process_environment_receipt, &options.repo)?
+        ));
     }
     let mut child = command.spawn().context("launch explicit Wine debugger")?;
     let input = child.stdin.take().unwrap();
@@ -1594,6 +1634,7 @@ fn capture_executor_inner(
         emitted: vec![],
         error: None,
         pe_self: options.pe_self_child.then(crate::pe_self::Tracker::default),
+        wait_cleanup: options.pe_self_child || options.process_os_environment,
     };
     let hello = broker.reply()?;
     // Startup's a/b are base/entry, not kind/status; the owner is still validated.
@@ -1777,6 +1818,23 @@ fn capture_executor_inner(
     };
     let mut fixture = f.clone();
     fixture.raw_command_line = Some(commandline);
+    if let Some(provider_sha256) = process_provider_sha256 {
+        let actual = fixture::ProcessOsEnvironment {
+            ansi: Bytes(
+                fs::read(&process_environment_receipt)
+                    .context("actual process OS environment receipt missing")?,
+            ),
+            provider_sha256,
+        };
+        actual.validate()?;
+        anyhow::ensure!(
+            f.process_os_environment
+                .as_ref()
+                .is_none_or(|v| *v == actual),
+            "declared process_os_environment differs from actual launch input"
+        );
+        fixture.process_os_environment = Some(actual);
+    }
     fixture.args = if options.watcom_main_argv {
         watcom_main_argv
             .as_ref()
@@ -2514,6 +2572,36 @@ mod pe_self_option_tests {
             let mut bad = args.clone();
             bad.extend(extra);
             assert!(crate::Cli::try_parse_from(&bad).is_err());
+        }
+    }
+}
+
+#[cfg(test)]
+mod process_os_environment_options {
+    use clap::Parser;
+    #[test]
+    fn process_os_environment_requires_supported_capture_mode() {
+        let command = [
+            "recon-tool",
+            "original",
+            "capture",
+            "case.so",
+            "--output",
+            "out.bin",
+            "--process-os-environment",
+        ];
+        assert!(crate::Cli::try_parse_from(command).is_err());
+        let mut valid = command.to_vec();
+        valid.push("--native-msvcrt");
+        assert!(crate::Cli::try_parse_from(&valid).is_ok());
+        for extra in [
+            vec!["--cf-profile", "cf.json"],
+            vec!["--direct-helper", "x.dll"],
+            vec!["--watcom-main-argv"],
+        ] {
+            let mut invalid = valid.clone();
+            invalid.extend(extra);
+            assert!(crate::Cli::try_parse_from(invalid).is_err());
         }
     }
 }

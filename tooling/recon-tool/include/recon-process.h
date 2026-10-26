@@ -28,6 +28,11 @@ typedef struct ReconProcessRequest {
      * environments and application mutations require their own case contract. */
     uint32_t prepared_environment_count;
     const char *const *prepared_environment;
+    /* Optional trusted initial target OS block retained in capture.bin. Empty
+     * without that opt-in; distinct from both host prepared_environment and
+     * this request's actual (possibly mutated) environment. */
+    uint32_t target_os_environment_count;
+    const char *const *target_os_environment;
 } ReconProcessRequest;
 
 typedef struct ReconProcessResponse {
