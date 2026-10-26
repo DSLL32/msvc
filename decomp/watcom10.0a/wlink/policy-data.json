@@ -4611,6 +4611,111 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "SetELFFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcELF": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAlignment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcELFAlignment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetELFImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetELFImportSymbol": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcELFImport": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DWLineGen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DW_LEB128": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AssignELFImportIndex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfGenSegInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniELFLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PadToAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteELFData": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteELFDynamic": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AssignELFExportIndices": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteELFHash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ELFPrimeBuckets": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ELFHash": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteELFSymbols": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeELFFmt": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -4872,6 +4977,16 @@
         "start": 4330348,
         "bytes_hex": "c3"
       }
+    },
+    {
+      "owners": [
+        "PadToAlign",
+        "CheckErr"
+      ],
+      "original": {
+        "start": 4287701,
+        "bytes_hex": "c3"
+      }
     }
   ],
   "function_properties": {
@@ -4924,6 +5039,9 @@
       "pending_extent": false
     },
     "WritePharExtended": {
+      "pending_extent": false
+    },
+    "ProcOS2Alignment": {
       "pending_extent": false
     }
   }

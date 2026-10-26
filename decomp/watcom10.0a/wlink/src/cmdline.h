@@ -69,6 +69,11 @@ typedef struct fmt_phar_data {
     char *stub;
 } fmt_phar_data;
 
+typedef struct fmt_elf_data {
+    snamelist *exports, *modules;
+    unsigned long alignment;
+} fmt_elf_data;
+
 typedef struct fmt_qnx_data {
     seg_flags *seg_flags;
     unsigned long heapsize;
@@ -84,6 +89,7 @@ typedef struct fmt_data {
         fmt_nov_data nov;
         fmt_qnx_data qnx;
         fmt_phar_data phar;
+        fmt_elf_data elf;
         struct {
             fmt_os2_data os2;
             unsigned long objalign;
@@ -253,6 +259,19 @@ extern unsigned long WriteRTPBlock( void );
 extern unsigned long WritePharSegData( void );
 extern unsigned long WritePharData( unsigned long file_pos );
 extern void WriteDescriptor( unsigned long base, unsigned long limit, unsigned flags );
+extern unsigned char ProcELFDLL( void );
+extern unsigned char ProcOS2Alignment( void );
+extern unsigned char ProcELFAlignment( void );
+extern unsigned char GetELFImport( void );
+extern void SetELFImportSymbol( symbol *sym );
+extern char *DW_LEB128( char *buffer, long value );
+extern unsigned long PadToAlign( unsigned long offset, unsigned long alignment );
+extern void AssignELFExportIndices( void );
+extern unsigned long WriteELFHash( symbol **indices );
+struct stringtable;
+extern unsigned long WriteELFSymbols( symbol **indices, struct stringtable *strings );
+extern unsigned ELFPrimeBuckets( unsigned count );
+extern unsigned long ELFHash( char *name );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

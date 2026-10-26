@@ -340,7 +340,7 @@ extern unsigned short FindEntryOrdinal( address, group_entry * );
 extern unsigned char FindOS2ExportSym( symbol *, dll_sym_info ** );
 extern void RemoveReloc( pending_reloc * );
 extern void MakeBase( fixup_record * );
-extern unsigned long GetElfImport( symbol * );
+extern unsigned long AssignELFImportIndex( symbol * );
 
 void FmtReloc( fixup_record *fix, fixup_ref *target )
 {
@@ -532,7 +532,7 @@ void FmtReloc( fixup_record *fix, fixup_ref *target )
     }
     if( FmtData.type & 0x8000 ) {
         if( target->import == (dll_sym_info *)-1 )
-            target->import = (dll_sym_info *)GetElfImport( target->u.sym );
+            target->import = (dll_sym_info *)AssignELFImportIndex( target->u.sym );
         *(unsigned long *)item = off;
         *(unsigned long *)(item + 4) = ((fix->flags & 2) ? 2 : 1)
                                       | ((unsigned long)target->import << 8);

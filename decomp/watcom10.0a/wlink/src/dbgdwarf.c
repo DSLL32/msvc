@@ -381,7 +381,20 @@ typedef struct dwarf_arange_tuple {
     unsigned long size;
 } dwarf_arange_tuple;
 #pragma pack()
-extern void DwarfGenSegInfo( seg_leader * );
+void DwarfGenSegInfo( seg_leader *seg )
+{
+    dwarf_arange_tuple tuple;
+    dwarfmodinfo *info;
+    if( seg->info & 0x40 ) {
+        tuple.offset = seg->seg_addr.off + seg->size - seg->saved_size;
+        tuple.segment = seg->seg_addr.seg;
+        tuple.size = seg->saved_size;
+        info = CurrMod->d.d;
+        memcpy( info->arange.addr, &tuple, sizeof(tuple) );
+        info->arange.addr += sizeof(tuple);
+        seg->info &= ~0x40;
+    }
+}
 extern void ProcModSegments( void (*)(seg_leader *) );
 void DwarfP2Module( void )
 {

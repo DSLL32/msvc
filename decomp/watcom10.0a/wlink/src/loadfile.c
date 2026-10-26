@@ -349,3 +349,12 @@ unsigned long CopyToLoad( int handle, char *name )
     QClose( handle, name );
     return wrote;
 }
+
+unsigned long PadToAlign( unsigned long offset, unsigned long alignment )
+{
+    unsigned long pad;
+    --alignment;
+    pad = ((offset + alignment) & ~alignment) - offset;
+    if( pad != 0 ) PadLoad( pad );
+    return offset + pad;
+}

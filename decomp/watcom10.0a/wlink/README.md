@@ -1,5 +1,5 @@
-WLINK 10.0a has nine completed native regression cases. The acceptance ledger
-contains **920 application functions / 111,946 unique original code bytes**.
+WLINK 10.0a has ten completed native regression cases. The acceptance ledger
+contains **941 application functions / 114,369 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -21,6 +21,8 @@ an archive, protected segment classes, privilege/heap/stack options, an embedded
 resource file, linear fixups and Watcom debug information.
 The ninth links a Phar Lap segmented executable with a real USE32 stack, an
 archive, selector/offset fixups, the shipped DOS stub and Watcom debug data.
+The tenth links ELF386 load groups with an archive, imported/exported symbols,
+a dependency module, aligned dynamic tables and exercised DWARF generation.
 
 | Case | Result |
 | --- | --- |
@@ -33,6 +35,7 @@ archive, selector/offset fixups, the shipped DOS stub and Watcom debug data.
 | `0006-netware-nlm` | Exit 0; exact 255-byte stdout, empty stderr, 1,701-byte NLM and 3,064-byte map |
 | `0007-qnx-flat` | Exit 0; exact 248-byte stdout, empty stderr, 820-byte QNX executable and 2,990-byte map |
 | `0008-pharlap-segmented` | Exit 0; exact 259-byte stdout, empty stderr, 28,536-byte executable and 3,166-byte map |
+| `0009-elf386` | Exit 0; exact 245-byte stdout, empty stderr, 32,848-byte executable and 3,147-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 551 first entries match.
@@ -60,7 +63,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 923 source-ready identities, their actual graph,
+The complete audit passes for 944 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup and
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -129,14 +132,27 @@ mode descriptors and complete segment/debug images. Only the six map clock
 fields are excluded. The segmented path remains distinct from the pending simple,
 REX and extended-flat image writers; unused format callbacks stay trapped.
 
-The final parallel build/regression/unit/audit batch took **1.849 s**, including
-necessary native and period rebuilds. All nine cases and 923 source-ready graph/ABI
-identities pass. The 18 native regression runs took **17.668–53.848 ms**. The genuine
-Phar Lap original took **1,466.775 ms**; its exact native pair took **28.558 ms**,
-split **14.528 / 7.544 / 6.486 ms** for setup/execution/checks. The map-clock-derived
-native comparison reused that capture and took **29.357 ms**. Its new main OMF
-object took **470.886 ms** to assemble; the ordinary original baseline took
-**293.235 ms**. Other OMF objects/archive were reused from the previous workload.
-No Phar Lap, QNX, DOS, NE, LX or DWARF executable bytes are normalized. Raw
-artifacts, producer inputs, intermediate failures and diagnostics remain under
-`~/.ai-tmp/msvc2/watcom-shared-integration/`.
+The ELF case matches 485 first entries and every executable byte, including its
+52-byte ELF32 header, 32-byte program headers, groups, relocations, imports/exports,
+hash chains, symbols, strings and dynamic entries. The old writer advertises
+program headers at byte 52 while placing them at the selected alignment; that
+defined layout bug is preserved. DWARF line/range generation runs, but this old
+ELF writer does not emit the collected debug image. Later OBJAlign, EXPORTAll
+and EXTRASections options are unsupported and absent from the case. Only six
+map clock fields are excluded. The semantic prime constant has a real data
+public so the preceding function's MAP extent ends at its actual boundary.
+The import-index helper has a distinct descriptive name to avoid colliding with
+the source-known GetELFImport parser under the old linker's case folding.
+
+The final parallel build/regression/unit/audit batch took **1.971 s**, including
+necessary native and period rebuilds. All ten cases and 944 source-ready graph/ABI
+identities pass. The 20 native regression runs took **18.210–46.919 ms**. The genuine
+ELF capture command took **4,383.022 ms**, including **1,850.153 ms** reported for
+the original process; its exact native pair took **30.708 ms**, split
+**14.767 / 9.441 / 6.499 ms** for setup/execution/checks. The map-clock-derived
+native comparison reused that capture and took **33.982 ms**. Its new main OMF
+object took **532.681 ms** to assemble; the successful ordinary original baseline
+took **360.897 ms**. Other objects/archive were reused. No ELF, Phar Lap, QNX, DOS,
+NE, LX or DWARF executable bytes are normalized. Raw artifacts, producer inputs,
+failed syntax probes, the earlier const-boundary audit failure and diagnostics
+remain under `~/.ai-tmp/msvc2/watcom-shared-integration/`.

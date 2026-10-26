@@ -455,3 +455,10 @@ unsigned char ProcStub( void )
     }
     return 1;
 }
+
+unsigned char ProcAlignment( void )
+{
+    if( HintFormat( 0x001d ) ) return ProcOS2Alignment();
+    if( HintFormat( 0x8000 ) ) return ProcELFAlignment();
+    return 1;
+}

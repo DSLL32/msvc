@@ -9,6 +9,7 @@
 #include "strtab.h"
 #include "exenov.h"
 #include "exeqnx.h"
+#include "dbgdwarf.h"
 #include <recon.h>
 
 #if defined(__WATCOMC__)
@@ -52,7 +53,6 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 
-void FiniELFLoadFile( void ) { TRAP(); }
 
 
 void Locator( char *name, char *member, unsigned rec )
@@ -120,8 +120,6 @@ void CheckFileTrace( section *sect ) { sect=sect; TRAP(); }
 
 
 
-void SetELFFmt( void ) { TRAP(); }
-void FreeELFFmt( void ) { TRAP(); }
 
 
 
@@ -190,7 +188,6 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 
 unsigned char ProcCom( void ) { TRAP(); return 0; }
-unsigned char ProcELF( void ) { TRAP(); return 0; }
 
 
 
@@ -248,7 +245,6 @@ unsigned char ProcDBIStatic( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcAlignment( void ) { TRAP(); return 0; }
 unsigned char ProcArea( void ) { TRAP(); return 0; }
 unsigned char ProcArtificial( void ) { TRAP(); return 0; }
 unsigned char ProcCase( void ) { TRAP(); return 0; }
@@ -361,7 +357,6 @@ void UndefinedSym( symbol *sym ) { TRAP(); }
 
 
 
-unsigned DWLineGen( long line, long address, char *buffer ) { TRAP(); return 0; }
 
 
 
@@ -448,7 +443,6 @@ void FloatReloc( void *data ) { TRAP(); }
 
 
 
-void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 
 
@@ -477,7 +471,6 @@ void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 unsigned char FindOS2ExportSym( symbol *sym, dll_sym_info **dll ) { TRAP(); return 0; }
 
-unsigned long GetElfImport( symbol *sym ) { TRAP(); return 0; }
 
 
 
@@ -520,7 +513,6 @@ unsigned char ProcTermInstance( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcELFImport( void ) { TRAP(); return 0; }
 
 
 
@@ -710,3 +702,7 @@ void WritePharSimple( unsigned long start ) { TRAP(); }
 
 
 unsigned long WritePharData( unsigned long file_pos ) { TRAP(); return 0; }
+
+unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
+
+unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
