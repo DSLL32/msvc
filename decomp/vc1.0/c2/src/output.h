@@ -50,7 +50,7 @@ void __fastcall output_noop_function(FunctionSymbol *symbol, char *filename, int
 void __fastcall output_noop_value(unsigned value, SymbolHeader *symbol);
 void __fastcall output_noop_debug(unsigned line, unsigned offset);
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
-void output_noop_record(void);
+void __fastcall output_noop_record(ModuleDirective *directive);
 void __fastcall mark_unwritten_symbol(SymbolHeader *symbol);
 void __fastcall end_debug_function(FunctionSymbol *symbol);
 void begin_debug_function(void);
@@ -76,7 +76,7 @@ void __fastcall omf_select_segment(Segment *segment);
 void __fastcall omf_output_data(void *data, unsigned bytes);
 void __fastcall omf_output_debug_pair(char *filename);
 void __fastcall omf_output_debug_record(unsigned line, unsigned offset);
-void omf_output_value(void);
+void __fastcall omf_output_value(unsigned displacement, SymbolHeader *symbol);
 void __fastcall omf_output_bytes(unsigned displacement, SymbolHeader *symbol);
 void __fastcall omf_output_offset(unsigned displacement, SymbolHeader *symbol);
 void __fastcall omf_output_size(unsigned displacement, SymbolHeader *symbol);

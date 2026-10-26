@@ -1557,3 +1557,11 @@ void __fastcall omf_write_comdat_line(unsigned short line, unsigned offset, Segm
     record->count = ++count; *cursor++ = (unsigned char)(offset >> 16); record->cursor = cursor;
     record->count = ++count; *cursor++ = (unsigned char)(offset >> 24); record->cursor = cursor;
 }
+
+/* Original6bce0..6bcf0 (16 bytes), ECX displacement/EDX symbol, RET0.
+   Segment references use fixup type2 with nonrelative addressing. The old
+   naked trap carried no formals; preserve the now-recovered callback ABI. */
+void __fastcall omf_output_value(unsigned displacement, SymbolHeader *symbol)
+{
+    omf_add_fixup(symbol, 2, displacement, 0);
+}

@@ -68,7 +68,36 @@ static void __fastcall comment_entry(FunctionSymbol *symbol)
 }
 static int actual_comment(void)
 {return recon_native_at_entry((const void*)omf_write_weak_external_comment,(const void*)comment_entry,real_input,0)==1;}
+/* Adapter unit at a genuine initialized fixup entry. Reuse the real symbol,
+   record, target threads and descriptor; no private OMF globals are forced.
+   Stop before resuming compilation after the two deliberately added entries. */
+void __fastcall omf_add_fixup(SymbolHeader *symbol,unsigned char type,unsigned displacement,int relative);
+static void __fastcall segment_fixup_entry(SymbolHeader *symbol,unsigned char type,unsigned displacement,int relative)
+{
+ OmfRecord *record=omf_current_record;OmfFixup *wrapped,*direct;
+ int before=omf_fixup_count;unsigned count,identifier,attributes;unsigned char *cursor;
+ (void)type;(void)relative;
+ if(!record||!symbol||before<0||before>247)recon_native_entry_finish(0);
+ count=record->count;cursor=record->cursor;identifier=symbol->identifier;attributes=symbol->field0e;
+ omf_output_value(displacement,symbol);wrapped=&omf_fixups[before];
+ omf_add_fixup(symbol,2,displacement,0);direct=&omf_fixups[before+1];
+ if(omf_fixup_count!=before+2||omf_current_record!=record||record->count!=count||record->cursor!=cursor||
+  wrapped->type!=2||wrapped->location!=(unsigned short)(count+displacement)||
+  direct->type!=wrapped->type||direct->location!=wrapped->location||
+  (wrapped->flags&15)!=(direct->flags&15)||!(wrapped->flags&OMF_FIXUP_SEGMENT_RELATIVE)||
+  wrapped->frame_code!=direct->frame_code||wrapped->frame_datum!=direct->frame_datum||
+  wrapped->target_code!=direct->target_code||symbol->identifier!=identifier||symbol->field0e!=attributes)
+  recon_native_entry_finish(0);
+ if(!(wrapped->flags&OMF_FIXUP_TARGET_THREAD)&&wrapped->target_datum!=direct->target_datum)
+  recon_native_entry_finish(0);
+ if(!(wrapped->flags&OMF_FIXUP_NO_ADDEND)&&wrapped->addend!=direct->addend)
+  recon_native_entry_finish(0);
+ recon_native_entry_finish(1);
+}
+static int actual_segment_fixup_adapter(void)
+{return recon_native_at_entry((const void*)omf_add_fixup,(const void*)segment_fixup_entry,real_input,0)==1;}
 const ReconTest weak_tests[]={
  {"original-bound live method alias fallback publication",1,actual_weak},
- {"actual WKEXT attribute class and ordered external indices",1,actual_comment}
+ {"actual WKEXT attribute class and ordered external indices",1,actual_comment},
+ {"unit-qualified segment fixup adapter borrows actual record and symbol",1,actual_segment_fixup_adapter}
 };

@@ -91,7 +91,7 @@ void initialize_output_callbacks(void)
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
     output_callbacks.finish_module = (OutputRoutine)output_noop;
     output_callbacks.relocation = output_noop_relocation;
-    output_callbacks.record = (void (__fastcall *)(ModuleDirective *))output_noop_record;
+    output_callbacks.record = output_noop_record;
     output_callbacks.mark_symbol = (void (__fastcall *)(SymbolHeader *))mark_unwritten_symbol;
         return;
     }
@@ -123,7 +123,7 @@ void initialize_output_callbacks(void)
     output_callbacks.begin_function = output_noop_function;
     output_callbacks.select_segment = omf_select_segment;
     output_callbacks.data = omf_output_data;
-    output_callbacks.segment_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_value;
+    output_callbacks.segment_reference = omf_output_value;
     output_callbacks.absolute_reference = omf_output_bytes;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = omf_output_offset;
@@ -181,4 +181,19 @@ void write_module_directives(void)
         output_callbacks.record(directive);
         directive = directive->next;
     }
+}
+
+/* Original68da0..68da5 (5 bytes), ECX initializer/EDX symbol/stack segment,
+   RET4. No-object mode suppresses both serialization and byte emission. */
+unsigned __fastcall output_noop_relocation(Initializer *initializer,
+    SymbolHeader *symbol, Segment *segment)
+{
+    (void)initializer; (void)symbol; (void)segment;
+    return 0;
+}
+/* Original68db0..68db1 (one byte), unused ECX directive, RET0.
+   This callback's old naked trap had not yet exposed its actual signature. */
+void __fastcall output_noop_record(ModuleDirective *directive)
+{
+    (void)directive;
 }

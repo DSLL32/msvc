@@ -1,24 +1,46 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1513 completes the public standalone unsupported-option case. There
-are1398 reconstructed App functions and five unchanged historical CRT bodies.
-App code occupies362953/399693 original code-section bytes(90.8079%); adding976
-owned text-data bytes gives363929/399693(91.0521%). These clipped extent unions
+Checkpoint1517 adds four unit-qualified dormant output/naming adapters. There
+are1402 reconstructed App functions and five unchanged historical CRT bodies.
+App code occupies363001/399693 original code-section bytes(90.8200%); adding976
+owned text-data bytes gives363977/399693(91.0641%). These clipped extent unions
 use section VirtualSize(raw size only if zero), not branch coverage. Five old
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover390303/399693(97.6507%). A reliable non-CRT
-denominator is unavailable;11 pending App rows and9390B outside the available
+classified CRT/import extents cover390351/399693(97.6627%). A reliable non-CRT
+denominator is unavailable;seven pending App rows and9342B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
 `binary.c` is the sole registry. All37 cached IO cases, ten INTERNAL DIRECT
-cases and263 narrow units pass. Fixtures are native-only. Inputs preserve actual
+cases and266 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR where required, stable cwd and explicit entry seeds. Only established
 COFF timestamp bytes4..8 are normalized in completed object cases; listings/OMF/
-diagnostics remain exact. Eleven current App owners are explicitly UNIT-qualified
+diagnostics remain exact. Fifteen current App owners are explicitly UNIT-qualified
 (dormant source/disassembly+original-compiler+graph/RET+typed native units),
 distinct from original-pair qualification; no CLI reach is claimed for them.
 
+The latest four owners add48B: disabled relocation5, disabled directive1,
+OMF segment-reference adapter16 and ASCII uppercase26. Both old naked traps are
+ordinary C with recovered signatures: record callback ECX directive/RET0 and
+OMF ECX displacement/EDX symbol/RET0. Their logical decorations now reflect those
+signatures at the same original RVAs; no extra graph vertex or assembly adapter.
+A native unit installs the real no-object callback table, invokes both disabled
+slots and checks all initialized input owners remain intact with relocation0.
+At the genuine first OMF fixup entry from unchanged polymorphic input, another
+unit calls the wrapper and direct type2 path with the same live record/symbol.
+Defined fixup type/location/flag/frame/target/addend fields agree; symbol/record/
+cursor remain intact. Padding and untouched reserved words are excluded. All255
+nonzero name bytes plus empty input verify only ASCII lowercase changes; no
+Pascal frontend support is claimed. No forced private OMF state or new capture.
+
+Final make-j4 audit/check/unit passes3.605s(phases unsplit):1407 graphs/accepted
+extents,211 scoped RET,47 original-backed cases and266 units. Original/W3 passes
+2.945s; necessary canonical/native/case build8.199s and three case-unit sets0.101s.
+Analysis/editing/disassembly elapsed is unmeasured. No new oracle normalization,
+CRT body or shared shim. Scratch source/artifact hashes, qualification/time/
+coverage records: `~/.ai-tmp/msvc2/vc1.0/c2/output-adapter-units/`.
+
+Checkpoint1513 completed the original-paired unsupported-option case below.
 The new negative case invokes the original backend directly with the explicit
 pinned6019B C23.ERR and unsupported option. No frontend/source/IR is required.
 Untouched original and fresh masked prefixes1512..1513 match native execution:

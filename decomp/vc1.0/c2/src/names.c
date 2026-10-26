@@ -177,3 +177,14 @@ char *__fastcall format_function_name(SymbolHeader *symbol)
     }
     return name + 1;
 }
+
+/* Original4df50..4df6a (26 bytes), ECX writable name, RET0. Pascal name
+   spelling changes ASCII lowercase only; high bytes are not locale folded.
+   Dormant naming helper is typed-unit qualified, not supported Pascal CLI. */
+void __fastcall uppercase_name(char *name)
+{
+    while (*name) {
+        if (*name >= 'a' && *name <= 'z') *name -= 'a' - 'A';
+        ++name;
+    }
+}

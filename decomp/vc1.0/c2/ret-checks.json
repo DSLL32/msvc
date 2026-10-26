@@ -1035,6 +1035,26 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@output_noop_relocation@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@uppercase_name@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@output_noop_record@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@omf_output_value@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

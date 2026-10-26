@@ -72,7 +72,28 @@ static int __fastcall padding_entry(MachineInstruction *input)
 }
 static int actual_padding(void)
 {return recon_native_at_entry((const void*)insert_alignment_increment,(const void*)padding_entry,real_input,0)==1;}
+/* Native unit of genuinely installed no-object callbacks; original IO
+   remains unchanged and does not claim these dormant callback entries. */
+void initialize_output_callbacks(void);
+static int disabled_output_callbacks(void)
+{
+ Initializer initializer;SymbolHeader symbol;Segment segment;ModuleDirective directive;
+ Initializer old_initializer;SymbolHeader old_symbol;Segment old_segment;ModuleDirective old_directive;
+ memset(&initializer,0,sizeof(initializer));memset(&symbol,0,sizeof(symbol));
+ memset(&segment,0,sizeof(segment));memset(&directive,0,sizeof(directive));
+ symbol.kind=1;symbol.identifier=37;directive.kind=4;directive.text="LIBC";
+ old_initializer=initializer;old_symbol=symbol;old_segment=segment;old_directive=directive;
+ if(object_filename) return 0;
+ initialize_output_callbacks();
+ if(output_callbacks.record!=output_noop_record||output_callbacks.relocation!=output_noop_relocation)return 0;
+ output_callbacks.record(&directive);
+ if(output_callbacks.relocation(&initializer,&symbol,&segment)!=0)return 0;
+ return !memcmp(&initializer,&old_initializer,sizeof(initializer))&&
+  !memcmp(&symbol,&old_symbol,sizeof(symbol))&&!memcmp(&segment,&old_segment,sizeof(segment))&&
+  !memcmp(&directive,&old_directive,sizeof(directive));
+}
 const ReconTest listing_tests[]={
  {"actual no-object symbol mark and cold other-kind control",1,actual_mark},
- {"actual INC EDI padding owners and cold register exclusions",1,actual_padding}
+ {"actual INC EDI padding owners and cold register exclusions",1,actual_padding},
+ {"unit-qualified disabled output callbacks retain typed input owners",1,disabled_output_callbacks}
 };

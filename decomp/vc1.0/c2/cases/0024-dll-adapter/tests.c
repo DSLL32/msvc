@@ -156,6 +156,18 @@ static int call_boundary_controls(void)
  marker.operands[0].value.constant=4;marker.opcode=0x2d40;
  return find_transfer_call_boundary(&transfer)==&ordinary;
 }
+/* Dormant Pascal spelling helper: full byte-domain native unit, no claim
+   that the NT frontend accepted the previously rejected Pascal syntax. */
+void __fastcall uppercase_name(char *name);
+static int ascii_uppercase_bytes(void)
+{
+ char text[256],empty[2]={0,0x55};unsigned i,want;
+ for(i=0;i<255;++i)text[i]=(char)(i+1);text[255]=0;
+ uppercase_name(text);uppercase_name(empty);
+ for(i=0;i<255;++i){want=i+1;if(want>='a'&&want<='z')want-='a'-'A';
+  if((unsigned char)text[i]!=want)return 0;}
+ return text[255]==0&&empty[0]==0&&empty[1]==0x55;
+}
 const ReconTest dll_adapter_tests[]={
  {"actual-import-alias-owner-and-suffix",1,actual_import_alias},
  {"actual-kind1-clone-extent-and-identity",1,actual_descriptor_clone},
@@ -165,5 +177,6 @@ const ReconTest dll_adapter_tests[]={
  {"actual-global-inline-argument",1,actual_global_argument},
  {"cold-argument-arity-shortcircuit-and-storage",1,global_argument_controls},
  {"actual-nine-record-call-boundary",1,actual_call_boundary},
- {"cold-forward-backward-call-boundaries",1,call_boundary_controls}
+ {"cold-forward-backward-call-boundaries",1,call_boundary_controls},
+ {"unit-qualified name uppercase changes ASCII lowercase only",1,ascii_uppercase_bytes}
 };

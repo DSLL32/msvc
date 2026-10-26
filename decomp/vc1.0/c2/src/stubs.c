@@ -46,17 +46,13 @@ Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 #include "instruction-selection.h"
-void __fastcall uppercase_name(char *name) { __asm int 3 }
 #include "output.h"
-unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
-__declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 
 
 
 
 
 
-__declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_output_value) __asm int 3 }
 
 
 
