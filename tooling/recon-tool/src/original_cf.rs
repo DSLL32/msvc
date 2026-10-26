@@ -88,6 +88,27 @@ fn launch_executable(command: &Command) -> Result<String> {
         .context("Wine executable is not UTF-8")?
         .to_owned())
 }
+fn raw_command_line(loader: &str, tail: &str, declared: Option<&str>) -> Result<String> {
+    ensure!(
+        !loader.is_empty()
+            && loader.is_ascii()
+            && !loader
+                .chars()
+                .any(|c| c.is_whitespace() || matches!(c, '"' | '\0'))
+            && tail.is_ascii()
+            && !tail.contains('\0')
+            && loader.len() + tail.len() + 5 < 4096,
+        "CF command-line domain requires an ASCII loader path without whitespace/quotes and bounded ANSI tail"
+    );
+    // Match the helper's actual sprintf recipe; the capture uses its recorded
+    // buffer, not this prelaunch validation copy.
+    let text = format!("\"{loader}\" {tail}");
+    ensure!(
+        declared.is_none_or(|value| value == text),
+        "raw_command_line differs from constructed CF launch text; use an inputs-only fixture without the captured raw_command_line for a fresh invocation"
+    );
+    Ok(text)
+}
 
 fn validate(
     profile: &Profile,
@@ -327,6 +348,11 @@ pub fn capture(
         args.is_ascii() && args.len() <= 2048,
         "CF ANSI command tail invalid/too large"
     );
+    let raw_command_line = raw_command_line(
+        &crate::wine::windows(&loader, &options.repo)?,
+        &args,
+        f.raw_command_line.as_deref(),
+    )?;
     // Copy shared Wine host transport only; case env is the separate Win32 block.
     let wine = crate::wine::command(&options.repo)?;
     let mut command = Command::new("python3");
@@ -360,6 +386,7 @@ pub fn capture(
     let request = serde_json::json!({"repo":options.repo,"profile":profile,"profile_sha256":hash(&raw),
         "target_env":f.env,"registry":info.functions,"first_entry_seen":info.first_entry_seen,"sources":sources,"root":root,"cwd":cwd,"target":target,"loader":loader,"helper":helper,
         "wine":launch_executable(&wine)?,"environment":environment,"arguments":args,
+        "raw_command_line":raw_command_line,
         "stdin":if f.stdin_kind==crate::fixture::StdinKind::Null {"NUL".into()}else{crate::wine::windows(&stdin,&options.repo)?},
         "timeout_ms":f.timeout_ms,"seconds":(f.timeout_ms as f64/1000.+1.).min(300.)});
     let request_path = root.join("cf-request");
@@ -385,6 +412,10 @@ pub fn capture(
             && report["oracle_written"] == !options.entry_stop
             && (!options.entry_stop || report["original_cf_instructions_executed"] == 0),
         "invalid CF entry-stop receipt"
+    );
+    ensure!(
+        report["raw_command_line"] == raw_command_line,
+        "CF report lacks exact actual command input"
     );
     Ok(report)
 }
@@ -422,6 +453,23 @@ pub fn build_helper(repo: &Path) -> Result<PathBuf> {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn cf_raw_command_line_matches_helper_recipe_and_declared_input() {
+        let loader = r"R:\toolchains\watcom10.0a\binnt\WPP386.EXE";
+        let raw = raw_command_line(loader, "?", None).unwrap();
+        assert_eq!(raw, format!("\"{loader}\" ?"));
+        assert_eq!(raw_command_line(loader, "?", Some(&raw)).unwrap(), raw);
+        assert!(raw_command_line(loader, "?", Some("WPP386.EXE ?")).is_err());
+        assert_eq!(
+            raw_command_line(loader, "", None).unwrap(),
+            format!("\"{loader}\" ")
+        );
+        for bad in ["", "R:\\a b.exe", "R:\\a\"b.exe", "R:\\a\0b.exe", "é.exe"] {
+            assert!(raw_command_line(bad, "?", None).is_err());
+        }
+        assert!(raw_command_line(loader, "x\0y", None).is_err());
+        assert!(raw_command_line(loader, &"x".repeat(4096), None).is_err());
+    }
     fn valid(value: &serde_json::Value) -> bool {
         let p: Profile = match serde_json::from_value(value.clone()) {
             Ok(p) => p,

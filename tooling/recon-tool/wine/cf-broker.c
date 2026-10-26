@@ -42,6 +42,15 @@ static ExtraProcess extra[16];
 static unsigned extra_count;
 static int ownership_incomplete, teardown_ok;
 
+static void command_line_receipt(const char *command)
+{
+    const unsigned char *p=(const unsigned char *)command;
+    fputs("raw-command-line=",log_file);
+    for(;*p;++p) fprintf(log_file,"%02x",*p);
+    fputc('\n',log_file);
+    fflush(log_file);
+}
+
 static DWORD load(unsigned offset) { return *(volatile DWORD *)(area+offset); }
 static void publish(unsigned offset,DWORD value)
 { InterlockedExchange((LONG *)(area+offset),(LONG)value); }
@@ -546,6 +555,7 @@ int main(int argc,char **argv)
     SetStdHandle(STD_INPUT_HANDLE,INVALID_HANDLE_VALUE);SetStdHandle(STD_OUTPUT_HANDLE,INVALID_HANDLE_VALUE);
     SetStdHandle(STD_ERROR_HANDLE,INVALID_HANDLE_VALUE);
     sprintf(command,"\"%s\" %s",argv[2],argv[3]);
+    command_line_receipt(command);
     if(!CreateProcessA(argv[2],command,NULL,NULL,TRUE,DEBUG_PROCESS,environment,argv[4],&startup,&process)) goto done;
     free(environment);environment=NULL;
     child=process.hProcess;thread=process.hThread;child_pid=process.dwProcessId;child_tid=process.dwThreadId;

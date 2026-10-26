@@ -1156,6 +1156,12 @@ fn capture_executor(
                 raw_artifacts = export_artifacts(f, cwd, rules, directory)?;
             }
             let mut fixture = f.clone();
+            fixture.raw_command_line = Some(
+                backend["raw_command_line"]
+                    .as_str()
+                    .context("CF actual raw command line missing")?
+                    .to_owned(),
+            );
             let argv0 = backend["logical_payload_argv0"]
                 .as_str()
                 .context("CF payload argv0 missing")?;

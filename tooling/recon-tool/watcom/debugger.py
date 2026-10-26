@@ -26,6 +26,33 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def command_line_receipt(log, expected):
+    prefix = b'raw-command-line='
+    lines = [line[len(prefix):] for line in log.splitlines() if line.startswith(prefix)]
+    require(len(lines) == 1 and 0 < len(lines[0]) <= 8190 and len(lines[0]) % 2 == 0 and
+            all(byte in b'0123456789abcdef' for byte in lines[0]),
+            'missing/invalid actual CF command-line receipt')
+    raw = bytes.fromhex(lines[0].decode('ascii'))
+    require(raw.isascii() and b'\0' not in raw, 'invalid actual CF ANSI command line')
+    text = raw.decode('ascii')
+    require(text == expected, 'actual CF command line differs from launch input')
+    return text
+
+
+def verify_command_tail(raw, tail):
+    # The CF loader passes _LpCmdLine without argv0. Verify that the existing
+    # native literal-token getcmd boundary consumes those exact observed bytes.
+    whitespace = ' \t\r\n\v\f'
+    require(raw and raw[0] not in whitespace, 'CF raw command line lacks program token')
+    start = 0
+    while start < len(raw) and raw[start] not in whitespace:
+        start += 1
+    while start < len(raw) and raw[start] in whitespace:
+        start += 1
+    require(raw[start:].encode('ascii') + b'\0' == tail,
+            'native command input differs from observed CF payload tail')
+
+
 def layout_evidence(repo, layout):
     """Verify an optional documentary pin; mask ranges remain canonical."""
     if 'evidence' not in layout:
@@ -138,6 +165,8 @@ def execute(request):
             receipt['launcher_pid'] = child.pid
             broker = Broker(channel)
             event, context = broker.entry(0x10010, 0xe9)
+            receipt['raw_command_line'] = command_line_receipt(
+                (root / 'cf-events').read_bytes(), request['raw_command_line'])
             base = event['base']
             receipt['loader_entry'] = {'event': event, 'context': context}
             receipt['loaded_loader'] = shared.loader_bytes(broker, base)
@@ -156,6 +185,8 @@ def execute(request):
             environment = shared.terminated(broker, params[2], double=True)
             require(name.decode('ascii').lower() == shared.win(target).lower() + '\0', 'payload name differs')
             require(tail == request['arguments'].encode('ascii') + b'\0', 'payload command tail differs')
+            verify_command_tail(receipt['raw_command_line'], tail)
+            receipt['payload_command_tail'] = tail[:-1].decode('ascii')
             receipt['logical_payload_argv0'] = name[:-1].decode('ascii')
             receipt['target_environment'] = shared.verify_overlay(environment, request['target_env'])
             snapshot = shared.read_all(broker, allocation, image.loaded_size)

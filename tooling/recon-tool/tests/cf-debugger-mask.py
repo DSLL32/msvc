@@ -2,10 +2,11 @@
 from pathlib import Path
 import sys
 import struct
+import subprocess
 import tempfile
 import unittest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'watcom'))
-from debugger import layout_evidence, mask_image, sha
+from debugger import command_line_receipt, layout_evidence, mask_image, sha, verify_command_tail
 from broker import Broker
 from ipc import ProtocolError
 
@@ -16,6 +17,40 @@ def row(name, rva, definition, implementation, code, data=()):
 
 
 class MaskTests(unittest.TestCase):
+    def test_actual_c_command_receipt_and_observed_payload_tail(self):
+        package = Path(__file__).resolve().parents[1]
+        source = (package / 'wine/cf-broker.c').read_text()
+        start = source.index('static void command_line_receipt(')
+        end = source.index('\n}\n', start) + 3
+        function = source[start:end]
+        scratch = Path.home() / '.ai-tmp'
+        scratch.mkdir(exist_ok=True)
+        with tempfile.TemporaryDirectory(dir=scratch) as directory:
+            root = Path(directory)
+            program = root / 'receipt'
+            c = root / 'receipt.c'
+            c.write_text('#include <stdio.h>\n#include <string.h>\nstatic FILE *log_file;\n' +
+                         function + '\nint main(int argc,char **argv) { char command[4096]; '
+                         'if(argc!=3)return 2; log_file=stdout; '
+                         'sprintf(command,"\\\"%s\\\" %s",argv[1],argv[2]); '
+                         'command_line_receipt(command); return 0; }\n')
+            subprocess.run(['cc', '-Wall', '-Wextra', '-Werror', c, '-o', program], check=True)
+            loader = 'R:\\toolchains\\watcom10.0a\\binnt\\WPP386.EXE'
+            for tail in ['?', '', '"two words" ?  ', '@response.rsp\t']:
+                log = subprocess.check_output([program, loader, tail])
+                expected = '"' + loader + '" ' + tail
+                self.assertEqual(command_line_receipt(log, expected), expected)
+                verify_command_tail(expected, tail.encode('ascii') + b'\0')
+            for bad in [b'', log + log, b'raw-command-line=0\n',
+                        b'raw-command-line=zz\n', b'raw-command-line=00\n',
+                        b'raw-command-line=ff\n']:
+                with self.assertRaises(ProtocolError):
+                    command_line_receipt(bad, expected)
+            with self.assertRaises(ProtocolError):
+                command_line_receipt(log, 'different declared input')
+            with self.assertRaises(ProtocolError):
+                verify_command_tail(expected, b'different actual payload\0')
+
     def setUp(self):
         self.original = bytes(range(128))
         self.layout = dict(code=[[0, 96]], text_data=[[4, 8]])

@@ -848,3 +848,11 @@ the file hash; null or malformed bindings fail. The profile, target/container
 identity, interpreted ranges and registry ownership remain mandatory and checked
 without this documentary file. Mask ranges precede the relocation stream.
 The profile does not supply bodies or override registry classification/status.
+
+CF capture also retains the helper's exact pre-CreateProcessA command text in
+`raw_command_line`. Its receipt separately preserves the actual loader parameter
+tail consumed by the CF `_LpCmdLine`/getcmd path. Before payload execution, capture
+checks that the existing native literal-token getcmd consumes exactly that
+observed tail. This mode requires the hash-bound loader path to have no whitespace
+or quote characters. No payload argv is re-quoted to create the captured raw input;
+old captures remain unchanged. Declared raw input must match the actual launch.
