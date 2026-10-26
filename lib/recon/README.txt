@@ -1951,8 +1951,9 @@ Each permission check uses a current in-stack local probe, conservatively below
 the caller with native alignment padding. Insufficient space returns NULL;
 unknown bounds, other sizes and direct other-profile helper calls deny125.
 Returned storage lives only until its caller returns. The actual check_recurse
-consumer uses only zero/nonzero, not the pointer's address or bytes; ordinary
-WLINK adoption is pending. This does not claim original private stack layout,
+consumer uses only zero/nonzero, not the pointer's address or bytes. The ordinary
+471-entry WLINK continuation to recursive_mangled_name matches (native32.618ms),
+qualifying its normal non-NULL path with exact source/DSO binding. This does not claim original private stack layout,
 hard overflow protection or original low-stack behavior. Focused authored main
 and pthread controls verify400 writable bytes, canaries, one size evaluation,
 independent errors/semantic FP and a genuinely low-stack NULL path.
