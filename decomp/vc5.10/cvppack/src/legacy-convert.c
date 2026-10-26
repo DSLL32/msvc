@@ -511,3 +511,38 @@ void convert_legacy_based_pointer(TypeRecord *record)
     *(unsigned *)(data + 8) = attributes;
     memcpy(data + 12, suffix, bytes);
 }
+
+/* Preserve the opaque COBOL parent/item bytes. Unlike the pointer converters,
+ * these original routines do not widen or interpret the copied payload.
+ * [00408530,004085b6), cdecl with one TypeRecord pointer. */
+void convert_legacy_cobol0(TypeRecord *record)
+{
+    unsigned char *old = record->data, *data;
+    unsigned short size = (unsigned short)(*(unsigned short *)(old + 1) + 3);
+    current_type_count = 1;
+    record->status |= 0x400;
+    data = allocate_bytes(size);
+    *(unsigned short *)data = (unsigned short)(size - 2);
+    *(unsigned short *)(data + 2) = 0x100a;
+    memmove(data + 4, old + 4, (unsigned)*(unsigned short *)(old + 1) - 1);
+    if (record->status & 0x38) release_type_payload(record);
+    record->status |= 8;
+    record->data = data;
+}
+
+/* Same opaque ownership conversion for the unparented COBOL leaf.
+ * [004085c0,00408646), cdecl with one TypeRecord pointer. */
+void convert_legacy_cobol1(TypeRecord *record)
+{
+    unsigned char *old = record->data, *data;
+    unsigned short size = (unsigned short)(*(unsigned short *)(old + 1) + 3);
+    current_type_count = 1;
+    record->status |= 0x400;
+    data = allocate_bytes(size);
+    *(unsigned short *)data = (unsigned short)(size - 2);
+    *(unsigned short *)(data + 2) = 0x0c;
+    memmove(data + 4, old + 4, (unsigned)*(unsigned short *)(old + 1) - 1);
+    if (record->status & 0x38) release_type_payload(record);
+    record->status |= 8;
+    record->data = data;
+}

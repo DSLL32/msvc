@@ -1,13 +1,15 @@
 CVPACK 5.10 reconstruction
 ========================
 
-`make -j4 check unit` runs the cached cases and twenty-five narrow native tests.
+`make -j4 check unit` runs the cached cases and twenty-seven narrow native tests.
 `make -j4 win32 audit` checks original-compiler compatibility and the function
 graph/ABIs. Fixtures never invoke Wine.
 
-228 accepted application functions total 58,836 original code bytes: 93.89% of the
-62,662-byte whole-text extent. That denominator includes CRT/support, unknown
-code and padding; a complete non-CRT denominator is not established. CRT/import
+230 implemented application functions total 59,104 original code bytes: 94.32% of
+the 62,662-byte whole-text extent. Of these, 228 functions / 58,836 bytes are
+qualified by matching original/native pairs; the two COBOL converters / 268 bytes
+have the explicit native-unit qualification below. That denominator includes
+CRT/support, unknown code and padding; a complete non-CRT denominator is not established. CRT/import
 selection and the external MSPDB provider earn no application reconstruction credit.
 
 Completed cases:
@@ -187,3 +189,22 @@ checks ran; the completed case receives one commit.
 
 Full build/capture accounting stays in scratch. Historical per-function
 state/proof campaigns are not rerun. Unvisited application stubs remain traps.
+
+The two opaque C6 COBOL converters are separately qualified by user-authorized
+native units grounded in the complete target disassembly and public CodeView
+layouts. They preserve the copied payload exactly, select LF_COBOL0/LF_COBOL1,
+and perform the original ownership/status transition. Two forked tests cover
+borrowed, heap-owned, small-pool and medium-pool payloads, including real pool
+reuse and preservation of all other record fields. Both original-compiler
+build and scoped graph/import/ABI checks pass. This does not establish successful
+original execution, CLI reach or parent-index validity. The faulting authored
+COBOL CLI fixture remains unaccepted and is set aside with its unchanged raw
+failure in scratch; it is not part of the seventeen cached cases.
+
+This completed native-unit workload passes all seventeen cached cases and
+twenty-seven units, plus the full 230-body graph/import/reference/ownership/
+extent/callback audit and strict RET checks on 229 bodies. The existing Release
+residual is unchanged. The two selected units took 5.845 and 5.759 ms; their
+scoped two-body audit took 13.268 ms including process startup. The final
+incremental native/original build, cached regression/unit and full-audit batch
+took 2.623 s. No original target was rerun for this qualification.

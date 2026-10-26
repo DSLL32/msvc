@@ -2,7 +2,7 @@
 #include <recon-fixture.h>
 #include <stdio.h>
 extern int cvpack_native_setup_resources(int,const char *,const char *);
-extern const ReconTest cvpack_pointer_tests[1];
+extern const ReconTest cvpack_pointer_tests[3];
 extern int cvpack_main(int,char **,char **);
 /* Authored C6 pointer model; make-pointer-input.py validates real base offsets. */
 static int setup(void)
@@ -19,6 +19,6 @@ RECON_EXPORT const ReconCase case_descriptor={
  .name="c6-pointers",.description="Authored C6 pointer addressing with genuine embedded base symbols",
 
  .first_entry_order=order,.first_entry_count=sizeof(order)/sizeof(order[0]),
- .tests=cvpack_pointer_tests,.test_count=1,
+ .tests=cvpack_pointer_tests,.test_count=3,
  .execution=RECON_IO,.terminal=RECON_EXIT,.setup=setup,.io=invoke
 };

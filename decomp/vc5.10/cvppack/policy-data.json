@@ -1137,6 +1137,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "_convert_legacy_cobol0": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_convert_legacy_cobol1": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
