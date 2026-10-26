@@ -598,11 +598,11 @@ void recon_longjmp(void *legacy, int value)
         if (context->legacy == legacy) {
             if (context->opaque_setjmp3) {
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
-                if(value!=2)recon_unsupported("MSVCRT510 count0 longjmp value");
+                if(value!=1 && value!=2)recon_unsupported("MSVCRT510 count0 longjmp value");
                 /* The caller guarantees this same-thread frame is still live,
                  * on the same chain with no active intervening SEH/C++ cleanup.
                  * The owner tag proves the64B/count0 save, not those lifetimes. */
-                longjmp(context->host,2);
+                longjmp(context->host,value);
 #else
                 recon_unsupported("unreviewed _setjmp3 longjmp/SEH unwind");
 #endif

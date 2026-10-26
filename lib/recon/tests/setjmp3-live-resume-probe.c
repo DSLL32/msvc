@@ -4,12 +4,12 @@
 static unsigned char current_fp[108];
 static void snapshot(unsigned char bytes[108])
 { __asm__ __volatile__("fnsave %0\n\tfrstor %0":"=m"(*(unsigned char (*)[108])bytes)); }
-static void __attribute__((noinline)) transfer(void *owner)
+static void __attribute__((noinline)) transfer(void *owner,int value)
 {
     __asm__ __volatile__("fldpi":::"st");
     _control87(_RC_DOWN,_MCW_RC);
     *recon_errno()=113;recon_doserrno=317;SetLastError(419);
-    snapshot(current_fp);recon_longjmp(owner,2);
+    snapshot(current_fp);recon_longjmp(owner,value);
 }
 int main(int argc,char **argv)
 {
@@ -30,12 +30,12 @@ int main(int argc,char **argv)
 #endif
     if(!result) {
         if(!strcmp(mode,"zero"))recon_longjmp(state.owner,0);
-        if(!strcmp(mode,"one"))recon_longjmp(state.owner,1);
+        if(!strcmp(mode,"one"))transfer(state.owner,1);
         if(!strcmp(mode,"seven"))recon_longjmp(state.owner,7);
         if(!strcmp(mode,"negative"))recon_longjmp(state.owner,-1);
-        transfer(state.owner);
+        transfer(state.owner,2);
     }
-    snapshot(after);assert(result==2 && !memcmp(saved,&state,sizeof(state)));
+    snapshot(after);assert(result==(!strcmp(mode,"one")?1:2) && !memcmp(saved,&state,sizeof(state)));
     /* Compare observable control/status/tag and the two valid stack values.
      * Incidental instruction/data pointers and empty registers are not an
      * original-equivalence requirement for this host-context implementation. */
