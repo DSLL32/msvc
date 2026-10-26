@@ -311,6 +311,8 @@ int __cdecl recon_watcom_open(const char *name,int flags,...)
         /* Only these actual writing callers supply a permission argument.
          * The readonly two-argument boundary must never fetch one. */
         va_start(arguments,flags);permission=va_arg(arguments,int);va_end(arguments);
+        /* Watcom's zero permission selects0600 under the reached default mask. */
+        if(flags==0x0262 && !permission)permission=0600;
         if((flags==0x0162 && permission!=0666) ||
            (flags==0x0262 && permission!=0600 && permission!=0666) ||
            ((exclusive || temporary) && permission!=0666))

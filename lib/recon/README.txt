@@ -1312,14 +1312,17 @@ unknown failures remain125, and unmeasured Win32/private DOS errors are unclaime
 The Watcom-only char __OS alias starts at2, matching the qualified loader AH2
 store before App; it does not detect the Linux host or change original naming.
 
-Watcom writable open admits only0162 with0666 and0262 with0600/0666, for regular
+Watcom writable open admits0162 with0666 and0262 with0600/0666 or permission0,
+which the reached default-umask0 CRT rule normalizes to0600, for regular
 ASCII relative outputs in the owned cwd, with existing-directory components
 qualified below. Native O_RDWR/O_CREAT/O_TRUNC/O_TEXT
 spellings retain2/20/40/100; shim implementations keep host flags. The exact
 tuples translate to existing Microsoft4302/8302 descriptor operations, providing
 real create/truncate, initial position0 and text CRLF/binary writes. The caller's
 private errno is preserved on success; unknown flags/permissions/paths/failures
-deny125. Readonly0200 never fetches an absent variadic permission argument.
+deny125. Permission0 is admitted only for0262; readonly0200 never fetches an
+absent variadic permission argument. This models the target DOS writable
+attribute selection, with no POSIX chmod or file-mode identity claim.
 
 Watcom fpos_t is a typed4-byte long at native source declarations. Its fgetpos
 and fsetpos use registered native ShimFILE streams and disjoint aligned4B

@@ -16,7 +16,7 @@ int main(int argc,char **argv)
 #else
     assert(O_CREAT==0x40 && O_TRUNC==0x200 && O_EXCL==0x80 && O_WRONLY==1);
 #endif
-    if(!strncmp(argv[1],"binary",6)){binary=1;flags=0x0262;permission=!strcmp(argv[1],"binary600")?0600:0666;}
+    if(!strncmp(argv[1],"binary",6)){binary=1;flags=0x0262;permission=!strcmp(argv[1],"binaryzero")?0:!strcmp(argv[1],"binary600")?0600:0666;}
     if(!strncmp(argv[1],"exclusive",9)){exclusive=1;binary=1;flags=0x0621;}
 #ifdef RECON_CRT_PROFILE_WATCOM_100A
     if(exclusive)assert(flags==(O_WRONLY|O_CREAT|O_BINARY|O_EXCL));
@@ -26,6 +26,8 @@ int main(int argc,char **argv)
     if(argc>2 && !strcmp(argv[2],"old"))name="existing.dat";
     if(!strcmp(argv[1],"linux"))flags=0x0242;
     if(!strcmp(argv[1],"text600"))permission=0600;
+    if(!strcmp(argv[1],"textzero") || !strcmp(argv[1],"exclusivezero"))permission=0;
+    if(!strcmp(argv[1],"temporaryzero")){flags=0x0261;permission=0;binary=1;}
     if(!strcmp(argv[1],"permission")){flags=0x0262;permission=0644;}
     if(!strcmp(argv[1],"directory"))name="folder";
     if(!strcmp(argv[1],"symlink"))name="alias.dat";
@@ -54,7 +56,8 @@ int main(int argc,char **argv)
         errno=111+row;*recon_errno()=777;recon_doserrno=222;recon_SetLastError(333);
 #endif
         fp(before);fd=recon_watcom_open(name,flags,permission);fp(after);
-        assert(fd>=0 && !memcmp(before,after,108));
+        assert(fd>=0 && !memcmp(before,after,2) && !memcmp(before+4,after+4,2) && !memcmp(before+8,after+8,2));
+        if(argc>3)assert(!memcmp(before+28,after+28,20));
         assert((recon_osfile[fd]&0x81)==(binary?1:0x81));
         assert(recon_lseek(fd,0,SEEK_END)==0 && recon_lseek(fd,0,SEEK_SET)==0);
         assert(recon_write(fd,payload,binary?5:3)==(binary?5:3));

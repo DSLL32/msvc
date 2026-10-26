@@ -1,0 +1,19 @@
+{
+  "scope": "ExactWatcom0262 permission0 normalized0600 immediately after genuinewritevariadicfetch; all remaining guards/backend/descriptor ownership unchanged.",
+  "premise": "Actual original defaultumask0 unchanged; targetDOSwritable attribute semantics, noPOSIXchmod/filemode identity or originalpercallstate claim.",
+  "source_sha256": "15fa5e560f2b285ac364e532abab09bf9367742380ff3881ab06a2b460af516d",
+  "tests": {
+    "lib/recon/tests/watcom-writable-probe.c": "3ba443b8cde323159231fc671c3e38cebe89e4d5218638d60796d99179044fef",
+    "lib/recon/tests/check-watcom-writable.py": "a0a4e2fc33bd01f6bcdefd3a32868f554c0a7ca3b73e4fcb230f2ee70019d66a"
+  },
+  "focused": "GCC/ClangWatcom + GCCdefault3groups; zero new/existing binary/create/truncate/read/write/seek/close/privateerrno/semanticFP;0600/0666retained;text/exclusive/tempzero125.",
+  "focused_wall_s": 1.6325537534430623,
+  "logs": "/root/.ai-tmp/msvc2/recon-maintenance/open-permission-zero",
+  "actual_adoption": "Saved original reused; native13.830ms(setup6.816/execution4.303/checks2.710) toNewBuffer42e93, period/nativebuild1.517s. No neworiginal. Actual compiled source15fa confirmed by consuming worker; no retroactiveDSO hash claim.",
+  "evidence_sha256": {
+    "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/compile-records/open-permission-zero.json": "38a7a785470bf64945165d71d84a512aefb454fc09c3e301e6804eada72c68c1",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/compile-records/object-stream-create-symbol-original-report.json": "a772983f5910a45cc5bfcf634278d5fdb0ddd10194c842ea1fc1c630df91822e",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/compile-records/object-stream-create-adopt-native-report.json": "e32e46e3075488dc7b2d04508ed85338eec7d06a84f3e4a92674e254f303a09c",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/compile-records/object-stream-create-adopt-commands.json": "03aa0784c15d202a64cdf0375aed3fb29b642c02c07e7ff8a6b57458c3fc7a7b"
+  }
+}
