@@ -68,7 +68,6 @@ __declspec(naked) void omf_output_value(void) { RECON_TRACE_NAKED_ENTRY(omf_outp
 
 
 
-void __fastcall omf_emit_weak_external(FunctionSymbol *symbol) { __asm int 3 }
 
 
 

@@ -935,6 +935,16 @@
       "expected_cleanup": [
         4
       ]
+    },
+    "@omf_emit_weak_external@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@omf_write_weak_external_comment@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

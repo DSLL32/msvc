@@ -1,22 +1,66 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1493 completes the INTERNAL induction-motion case. There are1378
-reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies361262/399693 original code-section bytes(90.3849%); adding940 owned
-text-data bytes gives362202/399693(90.6201%). These clipped extent unions use
-section VirtualSize(raw size only if zero), not branch coverage. Five historical
-CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover388576/399693(97.2186%). A reliable non-CRT
-denominator is unavailable;30 pending App rows and11117B outside the available
-union still need investigation. The latter includes unclassified/support/padding
-and is not a known remaining-App byte count. No only-CRT claim.
+Checkpoint1495 completes the polymorphic OMF case. There are1380 reconstructed
+App functions and five unchanged historical CRT bodies. App code occupies
+361526/399693 original code-section bytes(90.4509%); adding940 owned text-data
+bytes gives362466/399693(90.6861%). These clipped extent unions use section
+VirtualSize(raw size only if zero), not branch coverage. Five historical CRT
+overrides contribute1776B separately, zero App credit. Available App/classified
+CRT/import extents cover388840/399693(97.2847%). A reliable non-CRT denominator
+is unavailable;29 pending App rows and10853B outside the available union still
+need investigation. The latter includes unclassified/support/padding and is not
+a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All35 cached IO cases, seven INTERNAL DIRECT
-cases and248 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All36 cached IO cases, seven INTERNAL DIRECT
+cases and250 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The polymorphic checksum accumulator uses ordinary virtual destructors, scalar
+and array deletion, observable callbacks and bounded unsigned arithmetic.
+Untouched CL/O2/Ob0/G3/Z7/W3 succeeds. Its9805B COFF object matches the exact
+captured standalone C2 run except the established timestamp. C1XX genuinely
+emits method record16: the vector-deleting destructor carries its scalar-deleting
+fallback alias. Ordinary DLL import alone was rejected as a static hypothesis
+before any OMF run. The derived standalone invocation appends only supported
+-omf to actual captured MSC_CMD_FLAGS; CL did not emit that option. Parent CL
+completion is unobserved in the read-only transport snapshot. Actual source and
+five IR files are frozen; standalone C2 supplies the complete4696B OMF oracle.
+All records/checksums, streams, status and complete object bytes match exactly,
+including COMENT classA8 with weak/fallback indices2/3. No new normalization.
+
+Two whole App owners add264B: weak fallback publication183 and WKEXT writer81.
+Fresh masked original/native prefixes1493..1495 match through ordinary compiler
+completion. An additional bounded original marker observation binds16 defined
+live symbol/fallback/segment fields, including actual alias145->143, attributes,
+external index and initial output flags. The native unit compares that input,
+then checks fallback name/index publication and flag changes. Another unit
+checks the actual four-byte COMENT payload without mutating its owner. Flipping
+the expected defined alias rejects exit125; changing the expected weak index
+while recomputing a valid record checksum rejects the complete-object oracle.
+The alternate already-emitted/local-name branches remain cold; no claim of
+exhaustive branch coverage or new CRT/shim implementation.
+
+Final make-j4 audit/check/unit passes2.209s(phases unsplit):1385 paired graphs/
+accepted extents and189 scoped RET contracts,43 cases and250 units. Original/W3
+passes1.893s with existing trapping-stub warnings only. A final comment and
+explicit test-header cleanup is followed by necessary build4.759s, focused
+new-owner graph/RET0.061s and current-case check/unit0.226s; unchanged historical
+suites are not repeated. Measured combined canonical/native builds11.577s,
+metadata1.374s, additional case builds1.015s, original CL1.339s, CL transport1.476s,
+standalone baselines1.284s, original input observer build4.283s/run1.157s,
+masked originals2.291s, focused graph/RET0.185s and native current-case/units
+0.513s. GDB diagnostics0.388s include failed shifted-line breakpoints, not passes;
+intentional negatives0.070s. Test glue initially omitted a fastcall declaration,
+then wrongly used the mutating record-lookup API as an inspector. Both failures
+are retained and corrected with the real prototype and read-only slot scan;
+originals are not repeated for those native-only fixes. Analysis/editing,
+disassembly/packing and manual scratch compilation are unmeasured. Sums are not
+task elapsed. Raw references, timing and coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/omf-polymorphic/`.
+
+The preceding INTERNAL induction-motion case completed checkpoint1493.
 The induction-motion source computes bounded tiled checksums using unsigned
 arithmetic and callback-visible local coefficients. Untouched CL/O2/Ob0/G4/Z7/W3
 and exact captured standalone C2 both complete:2854B object for the initial

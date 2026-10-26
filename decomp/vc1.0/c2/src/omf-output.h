@@ -62,6 +62,7 @@ void omf_write_fixups(void);
 void __fastcall omf_write_fixup(OmfFixup *fixup);
 void __fastcall omf_write_line(unsigned short line, unsigned offset, Segment *segment);
 void __fastcall omf_write_comdat_line(unsigned short line, unsigned offset, Segment *segment);
+void __fastcall omf_write_weak_external_comment(FunctionSymbol *symbol);
 void omf_write_module_end(void);
 void omf_initialize_records(void);
 OmfRecord *omf_flush_records(void);

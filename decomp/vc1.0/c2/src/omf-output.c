@@ -838,6 +838,54 @@ void __fastcall omf_mark_symbol(SymbolHeader *symbol)
     }
 }
 
+/* Original [0006acc0,0006ad77). C1XX method-alias declarations carry
+   a weak vector-deleting destructor and its scalar-deleting fallback in
+   field40. Ensure the fallback CEXTDEF has an index before the WKEXT comment.
+   Flush the CEXTDEF buffer, or ordinary EXTDEF when none exists, before
+   writing the comment so index order is also physical record order. */
+void __fastcall omf_emit_weak_external(FunctionSymbol *symbol)
+{
+    FunctionSymbol *fallback = (FunctionSymbol *)lookup_global_symbol(symbol->field40);
+    Segment *segment;
+    if (!fallback || !(fallback->field24 & 0x4000) ||
+        !(fallback->symbol.field0e & 0x20))
+        compiler_internal_error("@(#)omf.c:1.10", 0x6dc);
+    if (!(((BackendSymbol *)fallback)->output_flags & 1)) {
+        segment = (Segment *)lookup_global_symbol(fallback->symbol.field18.identifier);
+        if (!segment->object_section) {
+            if ((fallback->field24 & 0xf0) == 0x50)
+                segment->object_section = omf_name_index(symbol_display_name(&fallback->symbol));
+            else {
+                segment->object_attributes.omf_comdat.flags |= 4;
+                segment->object_section = omf_local_name_index(symbol_display_name(&fallback->symbol));
+            }
+        }
+        omf_emit_comdat_external(&fallback->symbol);
+        ((BackendSymbol *)fallback)->output_flags |= 1;
+    }
+    ((BackendSymbol *)fallback)->output_flags |= 4;
+    fallback->flags52 |= 0x20;
+    if (!omf_flush_record_type(0xbc)) omf_flush_record_type(0x8c);
+    omf_write_weak_external_comment(symbol);
+    omf_flush_record_type(0x88);
+}
+
+/* Original [0006c7c0,0006c811). WKEXT is a COMENT payload containing
+   attribute0, classA8, then the weak and fallback EXTDEF indices. Both use
+   the ordinary signed OMF index writer, in that order. */
+void __fastcall omf_write_weak_external_comment(FunctionSymbol *symbol)
+{
+    OmfRecord *record = omf_begin_record(0x88, NULL);
+    FunctionSymbol *fallback;
+    unsigned count = record->count + 1;
+    unsigned char *cursor = record->cursor;
+    record->count = count; *cursor++ = 0; record->cursor = cursor;
+    record->count = ++count; *cursor++ = 0xa8; record->cursor = cursor;
+    fallback = (FunctionSymbol *)lookup_global_symbol(symbol->field40);
+    omf_write_index(record, symbol->symbol.field14);
+    omf_write_index(record, fallback->symbol.field14);
+}
+
 /* Original [0006aef0,0006afbe). Offset is cached before all children,
    but the type WORD is read after name/prefix output. The original assumes
    kind1/3/4: other kinds use an uninitialized local record type. Preserve that
