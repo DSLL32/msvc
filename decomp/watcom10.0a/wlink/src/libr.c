@@ -34,7 +34,7 @@
 #include <recon.h>
 
 #if defined(__WATCOMC__)
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen,memcmp)
 #endif
 
 
@@ -267,4 +267,15 @@ void FreeDictCache( void **cache, unsigned short buckets )
 {
     while( buckets != 0 ) _LnkFree( cache[--buckets] );
     _LnkFree( cache );
+}
+
+unsigned short OMFCompName( char *name, char *buff, unsigned short index )
+{
+    unsigned len;
+
+    buff += (unsigned char)buff[index] * 2;
+    len = (unsigned char)*buff++;
+    if( memcmp( buff, name, len ) == 0 && name[len] == 0 )
+        return *(unsigned short *)(buff + len);
+    return 0;
 }

@@ -32,6 +32,13 @@
 #define WLINK_CMDLINE_H
 #include "link.h"
 
+/* The old SYSTEM block owns a next/name header and inline command text. */
+typedef struct sysblock {
+    struct sysblock *next;
+    char *name;
+    char commands[1];
+} sysblock;
+
 #pragma pack(1)
 /* Old format union/common record: only encountered fields are identified. */
 typedef struct fmt_os2_data {
@@ -273,6 +280,14 @@ extern unsigned long WriteELFSymbols( symbol **indices, struct stringtable *stri
 extern unsigned ELFPrimeBuckets( unsigned count );
 extern unsigned long ELFHash( char *name );
 extern unsigned char CompareOffsets( address *left, address *right );
+extern sysblock *FindSysBlock( char * );
+extern sysblock *FindSystemBlock( char * );
+extern unsigned char ProcSysBegin( void );
+extern unsigned char ProcSysEnd( void );
+extern void SetSymCase( void );
+extern unsigned char AddModTrace( void );
+extern unsigned char AddSymTrace( void );
+extern unsigned char AddLibFile( void );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

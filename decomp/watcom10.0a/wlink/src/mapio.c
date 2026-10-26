@@ -513,3 +513,9 @@ void WriteOvlHead( void )
 {
     WriteBox( 0x122 );
 }
+
+void WriteMapBox12B( void )
+{
+    /* Distinct old entry loads this message then falls into WriteBox. */
+    WriteBox( 0x12b );
+}

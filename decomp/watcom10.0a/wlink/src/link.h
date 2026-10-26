@@ -69,10 +69,13 @@ typedef struct list_of_names list_of_names;
 typedef struct nodearray nodearray;
 typedef struct odbimodinfo odbimodinfo;
 typedef struct dbi_demand dbi_demand;
+#pragma pack(1)
 typedef struct path_entry {
     struct path_entry *next;
     char name[1];
 } path_entry;
+#pragma pack()
+typedef char old_path_header_is_5[(sizeof(path_entry) == 5) ? 1 : -1];
 
 /* Export/symbol prefixes encountered by the old export parser. */
 #pragma pack(1)

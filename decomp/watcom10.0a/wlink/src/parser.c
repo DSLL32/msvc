@@ -915,3 +915,32 @@ unsigned char ProcDwarfDBI( void )
     DBIFlag |= 0x17;
     return 1;
 }
+
+void ExpandEnvVariable( void )
+{
+    char *name, *env, *buff;
+    unsigned len;
+
+    ++Token.next;
+    if( !MakeToken( TOK_INCLUDE_DOT, SEP_PERCENT ) ) LnkMsg( 0x7c72, 0 );
+    name = tostring();
+    env = getenv( name );
+    if( env == 0 ) {
+        LnkMsg( 0x7a73, "s", name );
+        _LnkFree( name );
+    } else {
+        len = strlen( env );
+        if( *Token.next != ' ' && *Token.next != '\t' && *Token.next != '\r' ) {
+            MakeToken( TOK_INCLUDE_DOT, SEP_SPACE );
+            buff = ChkLAlloc( len + Token.len + 1 );
+            memcpy( buff, env, len );
+            memcpy( buff + len, Token.this, Token.len );
+            buff[len + Token.len] = 0;
+        } else {
+            buff = ChkLAlloc( len + 1 );
+            memcpy( buff, env, len );
+            buff[len] = 0;
+        }
+        NewCommandSource( name, buff, ENVIRONMENT );
+    }
+}

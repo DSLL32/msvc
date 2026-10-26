@@ -134,9 +134,13 @@ unsigned char ProcMap( void )
 
 unsigned char ProcVerbose( void )
 {
-    if( LinkFlags & 8 ) LnkMsg( 0x7a65, 0 );
-    else MapFlags |= 0x40;
-    return 1;
+    if( LinkFlags & 8 ) {
+        LnkMsg( 0x7a65, 0 );
+        return 1;
+    }
+    MapFlags |= 0x40;
+    /* The genuine successful prefix falls into the shared true callback. */
+    return ProcSysEnd();
 }
 
 unsigned char ProcStack( void )
@@ -468,5 +472,82 @@ unsigned char ProcOffset( void )
     if( !GetLong( &FmtData.base ) ) return 0;
     if( !(FmtData.type & 0x7c00) ) ChkBase();
     else if( !(FmtData.type & 0x0016) ) ChkBase4K();
+    return 1;
+}
+
+unsigned char ProcSymFile( void )
+{
+    CmdFlags |= 0x80;
+    if( GetToken( SEP_EQUALS, TOK_INCLUDE_DOT | TOK_IS_FILENAME ) ) {
+        if( SymFileName != 0 ) _LnkFree( SymFileName );
+        SymFileName = FileName( Token.this, Token.len, 15, 0 );
+    }
+    return 1;
+}
+
+unsigned char ProcCase( void )
+{
+    LinkFlags |= 0x2000;
+    SetSymCase();
+    return 1;
+}
+
+unsigned char ProcStatics( void )
+{
+    MapFlags |= 2;
+    return 1;
+}
+
+unsigned char ProcPath( void )
+{
+    path_entry *entry;
+    unsigned char ret;
+
+    ret = GetToken( SEP_NO, TOK_INCLUDE_DOT | TOK_IS_FILENAME );
+    if( ret ) {
+        entry = ChkLAlloc( sizeof(*entry) + Token.len );
+        memcpy( entry->name, Token.this, Token.len );
+        entry->name[Token.len] = 0;
+        entry->next = Path;
+        Path = entry;
+    }
+    return ret;
+}
+
+unsigned char ProcLibPath( void )
+{
+    if( !GetToken( SEP_NO, TOK_INCLUDE_DOT | TOK_IS_FILENAME ) ) {
+        LnkMsg( 0x7a3c, "s", "libpath" );
+        return 1;
+    }
+    AddLibPaths( Token.this, Token.len, 1 );
+    return 1;
+}
+
+unsigned char ProcLibFile( void )
+{
+    if( !(LinkFlags & 0x4801) ) CmdFlags |= 8;
+    return ProcArgList( AddLibFile, TOK_INCLUDE_DOT | TOK_IS_FILENAME );
+}
+
+unsigned char AddLibFile( void )
+{
+    char *name, *member;
+    file_list *file;
+
+    CmdFlags &= ~0x440;
+    CmdFlags |= 0x400;
+    name = GetFileName( &member, 0 );
+    if( member != 0 ) {
+        LnkMsg( 0x7a6e, 0 );
+        _LnkFree( member );
+    } else {
+        file = AllocNewFile( 0 );
+        file->file = AllocFileEntry( name, LibPath );
+        file->next_file = Root->files;
+        Root->files = file;
+        file->file->flags |= 1;
+    }
+    _LnkFree( name );
     return 1;
 }

@@ -210,3 +210,9 @@ void MakeNonArea( void )
     NonSect = NewSection();
     NewArea( NonSect );
 }
+
+unsigned char ProcCom( void )
+{
+    Extension = 12;
+    return 1;
+}

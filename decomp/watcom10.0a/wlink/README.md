@@ -1,5 +1,5 @@
-WLINK 10.0a has twelve completed native regression cases. The acceptance ledger
-contains **976 application functions / 116,183 unique original code bytes**.
+WLINK 10.0a has thirteen completed native regression cases. The acceptance ledger
+contains **1,002 application functions / 118,427 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -28,6 +28,9 @@ interrupt-stack/privilege settings, an explicit base and a USE16 real-break symb
 The twelfth links an OS/2 NE DLL with global initialization, PM compatibility,
 protected/multiple-data/new-files policies and type-wide and named-segment
 load, access, sharing, conformance and IOPL flags.
+The thirteenth links a DOS COM program through a reusable SYSTEM block, nested
+response files, environment-expanded object and library paths, explicit LIBFILE
+inclusion, case-sensitive symbols, module/symbol tracing and separate debug data.
 
 | Case | Result |
 | --- | --- |
@@ -43,9 +46,10 @@ load, access, sharing, conformance and IOPL flags.
 | `0009-elf386` | Exit 0; exact 245-byte stdout, empty stderr, 32,848-byte executable and 3,147-byte map |
 | `0010-pharlap-flat` | Exit 0; exact 258-byte stdout, empty stderr, 28,347-byte executable and 3,373-byte map |
 | `0011-os2-ne` | Exit 0; exact 256-byte stdout, empty stderr, 943-byte NE DLL and 3,507-byte map |
+| `0012-dos-com` | Exit 0; exact 249-byte stdout, empty stderr, 47-byte COM, 316-byte debug file and 1,958-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
-timestamp and date/time digits in the map header. Its 551 first entries match.
+timestamp and date/time digits in the map header. Its 552 first entries match.
 The help reference was explicitly refreshed after correcting the genuine
 BurnSystemList/PruneSystemList/CleanSystemList function boundaries; the earlier
 raw capture is retained in scratch, not relabeled.
@@ -79,7 +83,7 @@ no observed separate invocation is claimed. The original first-node AddAddrInfo
 sentinel read is preserved on Win32; its documented native-only deterministic
 zero choice is limited to the observed invalid sentinel control read.
 
-The DLL case matches 620 first entries. It compares all defined bytes, excluding
+The DLL case matches 621 first entries. It compares all defined bytes, excluding
 only the known COFF timestamp, map clock digits and 25 exact two-byte imported
 CodeView segment fields. The original treats live nine-byte elimination edges
 as segment leaders, reading beyond their owner for the record format and segment.
@@ -89,7 +93,7 @@ bounded original defect, not recovered initialized segment data. Null imported
 references and all record lengths, names, offsets and directories stay strict.
 The earlier raw output and failed comparisons remain untouched in scratch.
 
-The LX case matches 522 first entries and every DLL byte, including its old
+The LX case matches 523 first entries and every DLL byte, including its old
 196-byte LX header, page/fixup tables, export bundles and ELF32 DWARF container.
 Only the six identified map date/time digit fields are excluded. DWARF-bearing
 objects take the original preexisting-debug paths; the still-unreached line
@@ -97,14 +101,14 @@ encoder and segment-info helper remain trapped. Source review also corrected
 CodeView's genuine previous-offset field, with the existing DLL oracle passing
 unchanged.
 
-The NE case matches 542 first entries and every executable byte, including its
+The NE case matches 543 first entries and every executable byte, including its
 64-byte header, segment/entry/name tables and far/import relocation records.
 Only the same six map clock digit fields are excluded. Its typed segment flags
 retain the old 13-byte layout; communal allocation and the aggregate-argument
 entry-ordinal routine retain the original register/stack ABI, including RET 12.
 Undefined COMDEF leaf tags remain explicitly trapped in both builds.
 
-The DOS case matches 583 first entries and every executable byte, including the
+The DOS case matches 584 first entries and every executable byte, including the
 28-byte MZ header, real overlay-manager code, vectors, overlay table and section
 relocations. Only the six identified map clock fields are excluded. Reconstruction
 uses the actual 1994 overlay implementation; the later reference source's disabled
@@ -113,7 +117,7 @@ identities and contributes bytes once. The case also corrects previously cold
 overlay-state offsets and distinguishes the real vector-map heading from a
 separate, still-trapped box-12B helper.
 
-The NLM case matches 491 first entries. Its packed 131-byte fixed header and
+The NLM case matches 492 first entries. Its packed 131-byte fixed header and
 124-byte extension, code/data images, imported references, exports, dependency
 names, Novell debug records and metadata payloads match. The message catalog is
 a valid empty catalog with the documented signature and language/count fields.
@@ -122,7 +126,7 @@ length; the reconstruction preserves that old ordering in both builds. The
 complete NLM matched byte-for-byte on capture day. Regressions exclude only its
 identified three date DWORDs and the same six map clock digit fields.
 
-The QNX case matches 510 first entries and every executable byte. Its old packed
+The QNX case matches 511 first entries and every executable byte. Its old packed
 48-byte header, six-byte records, group protection/size descriptors, resource
 chunks, verification/signature record, selector and linear relocations, EOF and
 debug information remain distinct from the later released writer. A data group
@@ -132,14 +136,14 @@ excluded. The case also corrects cold QNX relocation flags to their real format
 union field and trailing-zero trimming to the group protection flags. Earlier
 failed pairs remain in scratch; their genuine originals were reused for fixes.
 
-The Phar Lap case matches 495 first entries and every executable byte, including
+The Phar Lap case matches 496 first entries and every executable byte, including
 the captured DOS stub, 128-byte P3 extended header, 12-byte segment-information
 records, relocations, runtime-parameter block, 104-byte task state, 8-byte protected
 mode descriptors and complete segment/debug images. Only the six map clock
 fields are excluded. The segmented path remains distinct from the simple/REX writers, which remain
 trapped, and the separately exercised extended-flat writer.
 
-The ELF case matches 485 first entries and every executable byte, including its
+The ELF case matches 486 first entries and every executable byte, including its
 52-byte ELF32 header, 32-byte program headers, groups, relocations, imports/exports,
 hash chains, symbols, strings and dynamic entries. The old writer advertises
 program headers at byte 52 while placing them at the selected alignment; that
@@ -151,7 +155,7 @@ public so the preceding function's MAP extent ends at its actual boundary.
 The import-index helper has a distinct descriptive name to avoid colliding with
 the source-known GetELFImport parser under the old linker's case folding.
 
-The extended-flat Phar Lap case matches 501 first entries and every executable
+The extended-flat Phar Lap case matches 502 first entries and every executable
 byte. It resolves the real-break symbol from genuine USE16 code alongside USE32
 modules, emits the runtime parameters and flat image, and retains archive/debug
 and DOS-stub inputs. The real ProcUnpriv store prefix falls into the distinct
@@ -160,7 +164,7 @@ actual observed order matches without seeding. Only six map clock fields are
 excluded. Invalid selector relocations in the first producer were corrected in
 the input assembly before freezing the successful case.
 
-The OS/2 NE case matches 558 first entries and every DLL byte, including the
+The OS/2 NE case matches 559 first entries and every DLL byte, including the
 OS/2-specific header flags, segment access policies, communal allocation,
 far/import relocations, export ordinal gaps and Watcom debug data. Its type-wide
 and named-segment passes use the actual old linear class/segment lists. Only six
@@ -170,13 +174,32 @@ A separate exploratory Microsoft COFF workload was rejected: this original's
 IsORL always returns false. That failed baseline remains in scratch and is not
 a reconstruction case or a claim of working COFF support.
 
-The final parallel build/regression/unit/audit batch took **1.207 s**. All twelve
-cases and 979 source-ready graph/ABI identities pass. The 24 native regression
-runs took **17.897–49.313 ms**. The genuine OS/2 NE capture command took
-**2,045.184 ms** (owned target **1,284.577 ms**); its exact native pair took
-**26.799 ms**, split **15.568 / 4.887 / 6.344 ms** for setup/execution/checks.
-The map-clock-derived native comparison reused that capture and took **27.305 ms**.
-The successful original baseline took **615.772 ms**, reusing existing genuine
-USE16 objects and archive. Every OS/2 NE DLL byte stays strict. Raw artifacts,
-producer inputs, earlier failures and diagnostics remain under
+The DOS COM case matches 489 first entries and every COM/debug byte. The old
+writer cuts the actual group buffer and adjusts section file positions directly;
+it has no later WriteCOMGroup helper. The parser owns the actual old inline
+SYSTEM command block and linear path lists, with five-byte packed path headers.
+Only six map clock digit fields are excluded. Trace and verbose modes are
+mutually exclusive in the original, so this workload selects real module/symbol
+tracing rather than verbose output.
+
+The SYSTEM end callback exposes a distinct three-byte true-return entry at
+412164, reached by fallthrough from the successful ProcVerbose prefix. The source
+and registry now preserve both identities with disjoint extents and a genuine
+edge; no trace seeding suppresses it. Exactly the eleven previously completed
+verbose cases were explicitly recaptured, adding that actual entry to their
+traces. Every resulting status, stream and artifact was independently checked
+against the old oracle with its unchanged exclusions before adoption. Their old
+source/capture files and existing raw histories remain in scratch. Help was
+unaffected. The eleven necessary correction captures totaled **21.206 s**.
+
+The final parallel build/regression/unit/audit batch took **1.218 s**. All thirteen
+cases and 1,005 source-ready graph/ABI identities pass. The 26 native regression
+runs took **18.073–50.865 ms**. The genuine COM capture command took
+**1,970.354 ms** (owned target **1,953.568 ms**); its exact native pair took
+**27.259 ms**, split **16.424 / 3.885 / 6.950 ms** for setup/execution/checks.
+The map-clock-derived comparison reused that capture and took **27.891 ms**.
+The main, worker and helper producers took **615.978 / 666.575 / 516.139 ms**;
+the archive took **515.783 ms**, and the successful baseline **315.047 ms**.
+Every COM and separate debug byte stays strict. Raw artifacts, producer inputs,
+earlier failures and diagnostics remain under
 `~/.ai-tmp/msvc2/watcom-shared-integration/`.

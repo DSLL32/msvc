@@ -24,14 +24,14 @@ void QDelete( char *name ) { name = name; TRAP(); }
 
 void TrapBreak( int value ) { value = value; TRAP(); }
 void ExecSystem( char *name ) { TRAP(); }
-void AddLibPaths( char *name, unsigned len, unsigned char front ) { TRAP(); }
+
 
 unsigned char CheckVFList( symbol *sym ) { TRAP(); return 0; }
 
-unsigned short OMFCompName( char *name, char *buff, unsigned short index ) { TRAP(); return 0; }
 
 
-unsigned char ModNameCompare( char *name, char *member ) { TRAP(); return 0; }
+
+
 
 void WeldSyms( symbol *sym, symbol *defsym ) { TRAP(); }
 
@@ -142,13 +142,13 @@ void Syntax( void ) { TRAP(); }
 
 
 
-unsigned char ProcSystem( void ) { TRAP(); return 0; }
-unsigned char ProcLibPath( void ) { TRAP(); return 0; }
-unsigned char ProcLibFile( void ) { TRAP(); return 0; }
-unsigned char ProcPath( void ) { TRAP(); return 0; }
 
-unsigned char ProcModTrace( void ) { TRAP(); return 0; }
-unsigned char ProcSymTrace( void ) { TRAP(); return 0; }
+
+
+
+
+
+
 
 
 unsigned char ProcDisable( void ) { TRAP(); return 0; }
@@ -169,7 +169,7 @@ unsigned char ProcNewSegment( void ) { TRAP(); return 0; }
 
 
 
-void ExpandEnvVariable( void ) { TRAP(); }
+
 void BackupParser( void ) { TRAP(); }
 
 
@@ -187,7 +187,7 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 
 
-unsigned char ProcCom( void ) { TRAP(); return 0; }
+
 
 
 
@@ -236,7 +236,7 @@ unsigned char ProcDBIStatic( void ) { TRAP(); return 0; }
 
 unsigned char ProcArea( void ) { TRAP(); return 0; }
 unsigned char ProcArtificial( void ) { TRAP(); return 0; }
-unsigned char ProcCase( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcDynamic( void ) { TRAP(); return 0; }
 
@@ -269,8 +269,8 @@ unsigned char ProcShowDead( void ) { TRAP(); return 0; }
 unsigned char ProcSingle( void ) { TRAP(); return 0; }
 unsigned char ProcSmall( void ) { TRAP(); return 0; }
 
-unsigned char ProcStatics( void ) { TRAP(); return 0; }
-unsigned char ProcSymFile( void ) { TRAP(); return 0; }
+
+
 unsigned char ProcToggleRelocsFlag( void ) { TRAP(); return 0; }
 unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
 unsigned char ProcVFRemoval( void ) { TRAP(); return 0; }
@@ -301,10 +301,10 @@ unsigned char ProcVFRemoval( void ) { TRAP(); return 0; }
 
 unsigned long CalcAlign( unsigned long loc, unsigned short align ) { TRAP(); return 0; }
 member_list *GetObjMember( file_list *list, unsigned long *loc ) { TRAP(); return 0; }
-void TraceSymList( symbol *list ) { TRAP(); }
 
 
-int PathObjOpen( char *path, char *name, char *buffer, infilelist *list ) { TRAP(); return -1; }
+
+
 void PrintIOError( unsigned error, const char *types, char *name ) { TRAP(); }
 
 
@@ -635,7 +635,7 @@ void ShortVectors( symbol *sym ) { TRAP(); }
 
 
 
-void WriteCOMFile( void ) { TRAP(); }
+
 
 
 
@@ -659,7 +659,7 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 
-void WriteMapBox12B( void ) { TRAP(); }
+
 
 
 unsigned char ProcLAN( void ) { TRAP(); return 0; }

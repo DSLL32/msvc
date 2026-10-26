@@ -130,3 +130,47 @@ void PrintBadTraces( void )
     }
     TraceList = 0;
 }
+
+unsigned char ProcModTrace( void )
+{
+    if( MapFlags & 0x40 ) {
+        LnkMsg( 0x3265, 0 );
+        return 1;
+    }
+    LinkFlags |= 8;
+    return ProcArgList( AddModTrace, 3 );
+}
+
+unsigned char ProcSymTrace( void )
+{
+    if( MapFlags & 0x40 ) {
+        LnkMsg( 0x3265, 0 );
+        return 1;
+    }
+    LinkFlags |= 8;
+    return ProcArgList( AddSymTrace, 1 );
+}
+
+unsigned char AddModTrace( void )
+{
+    char *name, *member;
+    trace_info *info;
+
+    name = GetFileName( &member, 0 );
+    info = ChkLAlloc( sizeof(*info) );
+    info->u.name = name;
+    info->member = member;
+    info->found = 0;
+    info->next = TraceList;
+    TraceList = info;
+    return 1;
+}
+
+unsigned char AddSymTrace( void )
+{
+    symbol *sym;
+
+    sym = SymXOp( 0x12, Token.this, Token.len );
+    sym->info |= 0x0400;
+    return 1;
+}

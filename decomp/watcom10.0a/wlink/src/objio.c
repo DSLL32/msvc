@@ -158,3 +158,17 @@ int TrySearchingLib( char *name, char *buffer, infilelist *list )
     }
     return -1;
 }
+
+int PathObjOpen( char *path, char *name, char *buffer, infilelist *list )
+{
+    int file;
+
+    file = -1;
+    for( ;; ) {
+        list->prefix = path;
+        if( !QMakeFileName( &path, name, buffer ) ) break;
+        file = QObjOpen( buffer );
+        if( file != -1 ) break;
+    }
+    return file;
+}

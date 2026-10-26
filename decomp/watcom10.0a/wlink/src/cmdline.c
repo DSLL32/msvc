@@ -33,6 +33,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "cmdline.h"
+#include "strtab.h"
 #include <recon.h>
 
 /* The old parser table has no later command-flags member. */
@@ -278,11 +279,6 @@ void Ignite( void )
     BurnUtils();
 }
 
-/* Only the common next/name prefix is used by this version's cleanup. */
-typedef struct sysblock {
-    struct sysblock *next;
-    char *name;
-} sysblock;
 static sysblock *SysBlocks;       /* original441288 */
 
 void CleanSystemList( unsigned char check )
@@ -468,4 +464,104 @@ unsigned char ProcImport( void )
     if( HintFormat( 0x001f ) ) return ProcOS2Import();
     if( HintFormat( 0x8000 ) ) return ProcELFImport();
     return ProcNovImport();
+}
+
+static parse_entry SysBeginOptions[] = {
+    { "Begin", ProcSysBegin, 0xffff },
+    { 0, 0, 0 }
+};
+unsigned char ProcSystem( void )
+{
+    char *name;
+    sysblock *sys;
+
+    if( ProcOne( SysBeginOptions, SEP_NO, 0 ) ) return 1;
+    Token.thumb = OK;
+    name = tostring();
+    sys = FindSystemBlock( name );
+    if( sys == 0 ) {
+        LnkMsg( 0x7a6b, "s", name );
+        _LnkFree( name );
+        return 1;
+    }
+    RestoreParser();
+    NewCommandSource( name, sys->commands, SYSTEM );
+    return 1;
+}
+
+static parse_entry SysEndOptions[] = {
+    { "End", ProcSysEnd, 0xffff },
+    { 0, 0, 0 }
+};
+unsigned char ProcSysBegin( void )
+{
+    stringtable table;
+    char *name;
+    sysblock *sys;
+    unsigned char duplicate;
+
+    if( !GetToken( SEP_NO, TOK_INCLUDE_DOT ) ) {
+        LnkMsg( 0x7a3c, "s", "system begin" );
+        return 1;
+    }
+    duplicate = 0;
+    name = tostring();
+    sys = FindSysBlock( name );
+    if( sys != 0 ) {
+        LnkMsg( 0x7a6c, "s", name );
+        duplicate = 1;
+    } else {
+        InitStringTable( &table );
+        AddStringTable( &table, (char *)&table, 8 );
+    }
+    while( !ProcOne( SysEndOptions, SEP_SPACE, 0 ) ) {
+        Token.thumb = OK;
+        if( !duplicate ) {
+            if( !AddStringTable( &table, Token.this, Token.len ) )
+                LnkMsg( 0x7c6d, "s", name );
+            CharStringTable( &table, ' ' );
+        }
+        RestoreParser();
+    }
+    if( !duplicate ) {
+        CharStringTable( &table, 0 );
+        sys = (sysblock *)GetStringTable( &table );
+        sys->name = name;
+        sys->next = SysBlocks;
+        SysBlocks = sys;
+    }
+    return 1;
+}
+
+sysblock *FindSysBlock( char *name )
+{
+    sysblock *sys;
+
+    for( sys = SysBlocks; sys != 0; sys = sys->next ) {
+        if( stricmp( sys->name, name ) == 0 ) return sys;
+    }
+    return 0;
+}
+
+unsigned char ProcSysEnd( void )
+{
+    return 1;
+}
+
+sysblock *FindSystemBlock( char *name )
+{
+    sysblock *found, *sys;
+    unsigned len;
+
+    found = FindSysBlock( name );
+    if( found == 0 ) {
+        len = strlen( name );
+        for( sys = SysBlocks; sys != 0; sys = sys->next ) {
+            if( strnicmp( sys->name, name, len ) == 0 ) {
+                if( found != 0 ) return 0;
+                found = sys;
+            }
+        }
+    }
+    return found;
 }

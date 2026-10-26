@@ -4,7 +4,11 @@
  * Later released wlink.c correlates phase names; target order is authoritative. */
 #include <string.h>
 #include "cmdline.h"
+extern char *RemovePath( char *, int * );
 #include <recon.h>
+#if defined(__WATCOMC__)
+#pragma intrinsic(strlen)
+#endif
 
 /* Unlike the later bool-returning import-prefix search, the1994 routine
  * has no defined result when the library list is empty. Callers ignore it. */
@@ -46,4 +50,12 @@ unsigned char LibProcFile( file_list *lib, char *name )
     if( LinkFlags & 4 ) FinishArcs( mod );
     if( FindLibTrace( mod ) ) TraceSymList( mod->publist );
     return 1;
+}
+
+unsigned char ModNameCompare( char *name, char *member )
+{
+    int len;
+
+    name = RemovePath( name, &len );
+    return strlen( member ) == len && memicmp( name, member, len ) == 0;
 }

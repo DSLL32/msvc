@@ -154,3 +154,37 @@ void WriteDOSSectRelocs( section *sect, unsigned char repos )
         if( loc > file->file_loc ) file->file_loc = loc;
     }
 }
+
+void WriteCOMFile( void )
+{
+    group_entry *group;
+    outfilelist *file;
+    long chop;
+
+    if( StartInfo.seg != 0 ) {
+        LnkMsg( 0x3356, 0 );
+        return;
+    }
+    if( StackAddr.seg != 0 || StackAddr.off != 0 ) LnkMsg( 0x3257, 0 );
+    OrderGroups( CompareDosSegments );
+    CurrSect = Root;
+    file = Root->outfile;
+    Root->u.file_loc = file->file_loc = 0;
+    Root->sect_addr.off = Groups->grp_addr.off;
+    Root->sect_addr.seg = Groups->grp_addr.seg;
+    for( group = Groups; group != 0; group = group->next_group ) {
+        chop = group->grp_addr.off - StartInfo.off
+            + ((long)(group->grp_addr.seg - StartInfo.seg) << 4);
+        /* This version cuts the actual group buffer directly, before the
+         * later separate WriteCOMGroup helper existed. */
+        if( chop < 0 ) {
+            group->size += chop;
+            group->data -= chop;
+        }
+        if( (long)group->size > 0 && WriteDOSGroup( group ) )
+            QSeek( file->handle, file->file_loc, file->fname );
+        if( chop < 0 ) Root->u.file_loc += chop;
+    }
+    if( file->file_loc > 0xff9aUL ) LnkMsg( 0x3359, 0 );
+    WriteDBI();
+}

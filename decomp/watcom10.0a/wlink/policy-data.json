@@ -4891,6 +4891,136 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcSystem": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSysBegin": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindSysBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSysEnd": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FindSystemBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCom": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSymFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcCase": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcStatics": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetSymCase": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExpandEnvVariable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLibPath": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddLibPaths": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcModTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSymTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddModTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSymTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcLibFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddLibFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PathObjOpen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFCompName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ModNameCompare": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TraceSymList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteMapBox12B": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteCOMFile": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

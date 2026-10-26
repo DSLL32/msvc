@@ -665,3 +665,14 @@ symbol *DefISymbol( char *name )
     sym->info |= 0x1000;
     return sym;
 }
+
+void SetSymCase( void )
+{
+    if( LinkFlags & 0x2000 ) CmpSym = memcmp;
+    else CmpSym = memicmp;
+}
+
+void TraceSymList( symbol *sym )
+{
+    for( ; sym != 0; sym = sym->publink ) sym->info |= 0x0400;
+}
