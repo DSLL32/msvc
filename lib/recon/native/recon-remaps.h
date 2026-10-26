@@ -26,6 +26,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+void __cdecl __cxa_pure_virtual(void) __attribute__((noreturn));
 
 #ifndef _ONEXIT_T_DEFINED
 typedef int (__cdecl *_onexit_t)(void);
@@ -642,6 +643,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _strupr recon_strupr
 #define _strlwr recon_strlwr
 #define _ultoa recon_ultoa
+#define _purecall __cxa_pure_virtual
 #define _itoa recon_itoa
 #define _ltoa recon_ltoa
 #define _gcvt recon_gcvt

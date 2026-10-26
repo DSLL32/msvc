@@ -13,10 +13,11 @@ struct Concrete : Abstract {
 int RECON_THISCALL Concrete::Value() const { return value; }
 extern "C" void *__attribute__((noinline)) make_object(void *storage)
 { return new(storage) Concrete; }
-int main(int argc,char **)
+static void (__cdecl *public_purecall)(void)=_purecall;
+int main(int argc,char **argv)
 {
     unsigned storage[2];
-    if(argc>1)__cxa_pure_virtual();
+    if(argc>1){if(argv[1][0]=='p')public_purecall();__cxa_pure_virtual();}
     Abstract *object=(Abstract *)make_object(storage);
     return object==(void *)storage && object->Value()==7 ? 0 : 1;
 }

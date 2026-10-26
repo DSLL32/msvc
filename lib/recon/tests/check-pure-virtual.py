@@ -13,10 +13,11 @@ assert not any(re.search(r'(\w+)::\1\(|operator new',line) for line in symbols.s
 assert ' T Concrete::Value() const' in symbols and ' U __cyg_profile_func_enter' in symbols
 exports=subprocess.check_output(['nm','-g',str(exe)],text=True)
 assert ' T __cxa_pure_virtual' in exports
+assert not re.search(r' [Tt] (?:_purecall|recon_purecall)$',exports,re.M),exports
 needed=subprocess.check_output(['readelf','-d',str(exe)],text=True)
 assert 'libstdc++' not in needed
-for args,code in [([],0),(['invoke'],125)]:
+for args,code in [([],0),(['invoke'],125),(['public'],125)]:
  p=subprocess.run([str(exe.resolve()),*args],capture_output=True)
  assert p.returncode==code and not p.stdout,(args,p.returncode,p.stdout,p.stderr)
  assert p.stderr==(b'recon: unsupported native operation: pure virtual invocation\n' if args else b''),p.stderr
-print(json.dumps(dict(status='passed',seconds=time.monotonic()-start,scope='Abstract vtable links without libstdc++; genuine pure-virtual invocation terminates125, no helper vertices or App instrumentation suppression.')))
+print(json.dumps(dict(status='passed',seconds=time.monotonic()-start,scope='Abstract vtable links without libstdc++; genuine pure-virtual and public _purecall alias invocations terminate125, no helper vertices or App instrumentation suppression.')))

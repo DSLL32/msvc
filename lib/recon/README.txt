@@ -1425,3 +1425,11 @@ the reached count0/capacity0 with nonNULL aligned input: it returns0 with
 ERROR_INVALID_PARAMETER87, without reading input or writing output (including
 nonnull output at capacity0). This is invalid-count failure, not empty success.
 Independent errno/DOS/FP stay unchanged; original per-call LastError unmeasured.
+
+The cold Microsoft _purecall spelling maps directly to the existing void cdecl
+noreturn __cxa_pure_virtual denial symbol. No new body/wrapper or successful
+return is introduced. The original VC5 declaration keeps its compiler-known
+int return type; the native installed-only denial uses the existing void type.
+RPCPROXY.H also has a void dummy definition, not a CRT success specification.
+Invocation remains unsupported125; the original import identity and installed
+vtable compile without qualifying a purecall execution or returned value.
