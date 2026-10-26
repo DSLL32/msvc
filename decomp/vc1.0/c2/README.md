@@ -1,22 +1,58 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1498 completes the INTERNAL paired-address case. There are1383
+Checkpoint1500 completes the INTERNAL allocation-diagnostics case. There are1385
 reconstructed App functions and five unchanged historical CRT bodies. App code
-occupies361627/399693 original code-section bytes(90.4762%); adding940 owned
-text-data bytes gives362567/399693(90.7114%). These clipped extent unions use
+occupies361763/399693 original code-section bytes(90.5102%); adding940 owned
+text-data bytes gives362703/399693(90.7454%). These clipped extent unions use
 section VirtualSize(raw size only if zero), not branch coverage. Five historical
 CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover388941/399693(97.3099%). A reliable non-CRT
-denominator is unavailable;26 pending App rows and10752B outside the available
+classified CRT/import extents cover389077/399693(97.3440%). A reliable non-CRT
+denominator is unavailable;24 pending App rows and10616B outside the available
 union still need investigation. The latter includes unclassified/support/padding
 and is not a known remaining-App byte count. No only-CRT claim.
 
-`binary.c` is the sole registry. All36 cached IO cases, eight INTERNAL DIRECT
+`binary.c` is the sole registry. All36 cached IO cases, nine INTERNAL DIRECT
 cases and250 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
 established COFF timestamp bytes4..8 are normalized in completed object cases;
 listings/OMF remain exact.
 
+The allocation diagnostic scenario uses a single bounded unsigned ledger scan
+with external counters and observable callbacks. Untouched CL/O2/Ob0/G3/Z7/W3
+succeeds; actual C1 transport supplies837B source and five IR inputs. Parent CL
+completion is unobserved in the read-only snapshot. At the genuine first
+assign_global_registers entry, nine arena-zeroed AllocationValue owners have
+load counts0/3/6, and16 numbered work blocks share one initialized loop region.
+No target objects, intervals or flags are manufactured or rewritten.
+
+Two whole App owners add136B: signed descending-load comparator39 and nested
+backedge-dominance query97. Fresh masked original/native prefixes1498..1500 match.
+All81 real value pairs give20/41/20 negative/equal/positive results; all16 work
+queries give11 positive and five negative results. The exact652B defined-field/
+relationship report matches. Before/after snapshots preserve actual value/range
+owners, lists, active work alternatives, dominator/flow sets and region/header/
+predecessor identities, without padding or cross-process addresses. The scenario
+is INTERNAL DIRECT, not a claim that ordinary pruning crossed its qsort threshold.
+Abrupt completion retains an exact empty partial scan.obj, empty streams and
+status0. A changed expected dominance result rejects exit125. No normalization,
+new CRT body or shared shim. Irregular-region and negative-counter branches are
+reconstructed/static checked but not claimed as actual case reach.
+
+Final make-j4 audit/check/unit passes3.247s(phases unsplit):1390 paired graphs/
+accepted extents,194 scoped RET contracts,45 cases and250 units. Original/W3
+passes1.521s with existing trapping-stub warnings only. Measured canonical/native
+builds6.051s, metadata1.518s, case builds6.324s, original CL2.405s, CL transport
+1.628s, original helper build4.479s, DIRECT baseline1.061s, masked originals3.080s,
+focused graph/RET0.124s and native case/setup0.194s. GDB domain inspection0.201s
+terminates with SIGTRAP and is a diagnostic only; its facts are subsequently
+qualified by the actual original/native case. The missing-cwd command was
+rejected before shell execution. Intentional negative0.031s. Analysis/editing,
+disassembly/packing and manual scratch compilation are unmeasured; sums are not
+task elapsed. Raw original artifacts are retained with --artifacts-dir; references,
+completion/timing/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/allocation-diagnostics/`.
+
+The preceding INTERNAL paired-address case completed checkpoint1498.
 The paired-address case reuses owned copies of case0034's genuine source/IR and
 optimizer entry at transform_function_trees. The live _rotate_profile function
 owns an initialized arena/scope and11 expression roots. Through existing target

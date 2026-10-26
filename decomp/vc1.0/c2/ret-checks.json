@@ -960,6 +960,16 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "_compare_allocation_load_counts": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@allocation_use_dominates_backedges@4": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

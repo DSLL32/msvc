@@ -707,3 +707,38 @@ void *__fastcall float_register_heap_allocate(unsigned bytes)
     if (!block) compiler_internal_error("@(#)fltreg.c:1.31", 0x169b);
     return block;
 }
+
+/* Original63610..63637. qsort passes pointers to AllocationValue pointers.
+   Compare the load counters as signed DWORDs and rank the greatest first;
+   subtraction would incorrectly overflow for counters with unlike signs. */
+int __cdecl compare_allocation_load_counts(const void *left, const void *right)
+{
+    long a = (long)(*(AllocationValue *const *)left)->global_load_count;
+    long b = (long)(*(AllocationValue *const *)right)->global_load_count;
+    if (b < a) return -1;
+    if (b == a) return 0;
+    return 1;
+}
+
+int __fastcall work_dominates_block(WorkItem *candidate, WorkItem *block);
+/* Original63410..63471. A use is unconditional for its nested loops only
+   when it dominates every numbered backedge predecessor. An irregular region
+   (flag1) prevents that conclusion; a region without a header adds no test. */
+int __fastcall allocation_use_dominates_backedges(WorkItem *work)
+{
+    FlowRegion *region;
+    WorkItem *header;
+    FlowLink *predecessor;
+    for (region = work->region; region; region = region->parent) {
+        if (region->flags & 1) return 0;
+        header = region->header;
+        if (header) {
+            for (predecessor = header->predecessors; predecessor;
+                 predecessor = predecessor->next) {
+                if (predecessor->work->number >= header->number &&
+                    !work_dominates_block(work, predecessor->work)) return 0;
+            }
+        }
+    }
+    return 1;
+}

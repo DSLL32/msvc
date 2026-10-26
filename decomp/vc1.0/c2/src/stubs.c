@@ -165,9 +165,7 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-int __cdecl compare_allocation_load_counts(const void *left, const void *right) { __asm int 3 }
 
-int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 }
 
 
 int __fastcall redirect_assembly_label(Node *node, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }

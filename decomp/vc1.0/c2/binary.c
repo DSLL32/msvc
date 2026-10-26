@@ -6919,11 +6919,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@allocation_use_dominates_backedges@4",
         .entry_rva = 0x53410,
-        .code = (const ReconExtent[]) { { 0x53410, 0x53411 } },
+        .code = (const ReconExtent[]) { { 0x53410, 0x53471 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "allocation_use_dominates_backedges",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@lowest_set_bit@4",
@@ -6937,11 +6937,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compare_allocation_load_counts",
         .entry_rva = 0x53610,
-        .code = (const ReconExtent[]) { { 0x53610, 0x53611 } },
+        .code = (const ReconExtent[]) { { 0x53610, 0x53637 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compare_allocation_load_counts",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@count_global_allocation_loads@4",
