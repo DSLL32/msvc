@@ -4,6 +4,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "algebra.h"
+#include "instruction-selection.h"
 #include <recon.h>
 extern int floating_frontend;
 extern int optimize_global;
@@ -539,4 +540,58 @@ Node *__fastcall switch_range_at(Node *range, unsigned index)
 {
     while (index--) range = range->second.node;
     return range;
+}
+
+/* Original67d10..67d48, range ECX/case count EDX, four stack arguments,
+   RET16. A useful dense prefix determines the left count; otherwise split
+   the range count in half. Span is retained in the original ABI but unused. */
+void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count,
+    unsigned span, Node **pivot, int *left_count)
+{
+    (void)span;
+    *left_count = choose_switch_prefix_count(ranges, count, cases) - 1;
+    if (*left_count == count) *left_count = count / 2;
+    *pivot = switch_range_at(ranges, (unsigned)*left_count);
+}
+
+/* Original67c80..67d03, range ECX/count EDX/unused case count stack,
+   RET4. Prefer a sufficiently long dense prefix, stopping at a large gap
+   or when its span exceeds three entries per included range. */
+int __fastcall choose_switch_prefix_count(Node *ranges, int count, unsigned cases)
+{
+    unsigned first = ranges->left.value, previous = first, capacity = 3;
+    int remaining = count, prefix = 1;
+    (void)cases;
+    while (--remaining) {
+        ranges = ranges->second.node;
+        if (ranges->left.value - previous > 3 && remaining != 1 &&
+            2 * ranges->left.value - previous <= ranges->second.node->left.value) break;
+        if (ranges->left.value - first + 1 > capacity) break;
+        capacity += 3;
+        ++prefix;
+        previous = ranges->left.value;
+    }
+    if (prefix <= 6) return count + 1;
+    return prefix + 1;
+}
+
+/* Original67b10..67bce, ECX pivot range/RET0. Separate values above
+   the inclusive upper bound, then branch to the pivot range itself. The
+   returned label starts the right-hand recursive dispatch. */
+Node *__fastcall make_switch_pivot(Node *range)
+{
+    Node *label, *constant, *branch;
+    unsigned comparison;
+    label = new_node(0x29);
+    label->right.symbol = (SymbolHeader *)new_internal_label();
+    constant = intern_leaf(0x33, 0, (unsigned)switch_selector_type, range->detail.value);
+    branch = build_tree("DPNYN", switch_selector, constant, 0x21, 0x38);
+    branch->right.symbol = label->right.symbol;
+    insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, branch);
+    comparison = range->detail.value == range->left.value ? 0x20 : 0x22;
+    constant = intern_leaf(0x33, 0, (unsigned)switch_selector_type, range->left.value);
+    branch = build_tree("DPNYN", switch_selector, constant, comparison, 0x38);
+    branch->right.symbol = range->right.symbol;
+    insert_tree_expression(switch_dispatch_expression, switch_dispatch_node, branch);
+    return label;
 }

@@ -19,6 +19,7 @@ int __fastcall propagate_physical_copy(MachineInstruction *instruction);
 int __fastcall propagate_physical_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned index);
 int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, MachineOperand *first_operand,
     MachineInstruction *last, MachineOperand *last_operand);
+int __fastcall stack_copy_instruction_changed(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes);
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last,
     MachineOperand *operand, unsigned bytes);
 int __fastcall same_machine_operand_base(MachineOperand *left, MachineOperand *right);

@@ -380,6 +380,36 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@materialize_expression@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@split_switch_ranges@24": {
+      "expected_cleanup": [
+        16
+      ]
+    },
+    "@choose_switch_prefix_count@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@make_switch_pivot@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@stack_copy_operand_changed@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@stack_copy_instruction_changed@12": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

@@ -4,6 +4,7 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "physical-allocation.h"
+#include "physical-rewrite.h"
 #include <recon.h>
 #define MEMORY_COPY_OPERAND(p) (((p)->flags & 15) == OPERAND_ABSOLUTE || \
     ((p)->flags & 15) == OPERAND_BASED || ((p)->flags & 15) == OPERAND_INDEXED)
@@ -301,4 +302,80 @@ unsigned __fastcall stack_adjustment_between(MachineInstruction *first,
         }
     }
     return adjustment;
+}
+
+/* Original2f020..2f103, first ECX/last EDX/operand and byte width stack,
+   RET8. Inspect the open interval with a private address copy, tracking ESP
+   movement. Unsupported addressing and intervening labels are conservative. */
+int __fastcall stack_copy_operand_changed(MachineInstruction *first,
+    MachineInstruction *last, MachineOperand *operand, unsigned bytes)
+{
+    MachineOperand saved;
+    MachineInstruction *instruction;
+    unsigned kind = operand->flags & 15;
+    if ((kind != OPERAND_BASED && kind != OPERAND_INDEXED) ||
+        operand->value.address->base.words.number != REG_ESP || !operand->value.address->symbol) return 1;
+    if (kind == OPERAND_INDEXED &&
+        (register_reuse_barriers(first, last) &
+         (1U << ((unsigned char)operand->value.address->index.words.number & 31)))) return 1;
+    copy_machine_operand(operand, &saved);
+    for (instruction = first->next; instruction != last; instruction = instruction->next) {
+        if (!instruction) compiler_internal_error("@(#)color.c:1.101", 0xd7c);
+        kind = instruction->opcode & 15;
+        if (kind == 1) return 1;
+        if ((kind == 0 || kind == 10) && stack_copy_instruction_changed(instruction, &saved, bytes)) return 1;
+    }
+    return 0;
+}
+
+/* Original2f210..2f3ea, instruction ECX/private operand EDX/width stack,
+   RET4. Track the saved ESP-relative displacement before testing writes.
+   A kind19 temporary is private; other symbols may expose their stack home
+   through the original attributes bit0x2000. */
+int __fastcall stack_copy_instruction_changed(MachineInstruction *instruction,
+    MachineOperand *operand, unsigned bytes)
+{
+    MachineAddress *address = operand->value.address, *destination;
+    SymbolHeader *symbol = address->symbol;
+    unsigned operation = (instruction->opcode >> 8) & 255, kind, difference;
+    switch (operation) {
+    case MC_POP:
+        address->first.displacement = (long)((unsigned)address->first.displacement - 4);
+        break;
+    case MC_PUSH:
+        address->first.displacement = (long)((unsigned)address->first.displacement + 4);
+        break;
+    case MC_CALL:
+        if (symbol->kind != 19 && (((BackendSymbol *)symbol)->attributes & 0x2000)) return 1;
+        address->first.displacement = (long)((unsigned)address->first.displacement -
+            instruction->operands[1].value.call->argument_bytes);
+        break;
+    case MC_ADD: case MC_SUB:
+        if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+            instruction->operands[0].value.reg.words.number == REG_ESP) {
+            if (operation == MC_SUB)
+                address->first.displacement = (long)((unsigned)address->first.displacement + instruction->operands[1].value.constant);
+            else address->first.displacement = (long)((unsigned)address->first.displacement - instruction->operands[1].value.constant);
+        }
+        break;
+    case MC_INS: case MC_MOVS: case MC_STOS:
+        return 1;
+    }
+    if (machine_operand_counts[operation] <= 0 || !writes_first_operand(instruction)) return 0;
+    kind = instruction->operands[0].flags & 15;
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) return 0;
+    destination = instruction->operands[0].value.address;
+    if (!destination->symbol) {
+        if (symbol->kind == 19 || !(((BackendSymbol *)symbol)->attributes & 0x2000)) return 0;
+        return 1;
+    }
+    if (destination->symbol != symbol) return 0;
+    if (destination->base.words.number != REG_ESP)
+        compiler_internal_error("@(#)color.c:1.101", 0xdb0);
+    difference = instruction->operands[0].flags ^ operand->flags;
+    if (difference & 15) return 1;
+    if ((operand->flags & 15) == OPERAND_INDEXED &&
+        (address->index.words.number != destination->index.words.number || (difference & 0x300))) return 1;
+    return memory_displacements_overlap(&instruction->operands[0],
+        (instruction->opcode >> 4) & 15, operand, bytes);
 }

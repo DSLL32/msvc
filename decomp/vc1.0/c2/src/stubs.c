@@ -53,7 +53,6 @@ Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
-Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
 int __fastcall inline_argument_has_global_load(Node *node) { __asm int 3 }
@@ -202,8 +201,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 
-Node *__fastcall make_switch_pivot(Node *range) { __asm int 3 }
-void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count) { __asm int 3 }
 
 
 
@@ -231,7 +228,6 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 
 
 
-int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }

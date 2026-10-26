@@ -20,6 +20,7 @@ int __fastcall coalesce_switch_ranges(Node *node);
 void __fastcall emit_switch_dispatch(Node *ranges, int count);
 void __fastcall summarize_switch_ranges(Node *ranges, int count, unsigned *cases, unsigned *span, int *tests);
 void __fastcall emit_linear_switch(Node *ranges, int count);
+int __fastcall choose_switch_prefix_count(Node *ranges, int count, unsigned cases);
 Node *__fastcall make_switch_pivot(Node *range);
 void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, unsigned span, Node **pivot, int *left_count);
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2);

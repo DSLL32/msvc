@@ -439,3 +439,12 @@ void __fastcall lower_bitfield_assignment(Node *node)
         build_tree("PPPOLYL", field->left.node, clear, value, 0xc, field, node);
     }
 }
+
+/* Original521c0..521eb, ECX expression/RET0. Preserve the expression's
+   representation on its assignment while giving the result a private stack
+   temporary. The builder consumes the original expression as the right arm. */
+Node *__fastcall materialize_expression(Node *node)
+{
+    Node *temporary = new_temporary_reference(node->attributes.words.type & 255, 0x200);
+    return build_tree("PPNT", temporary, node, 0x32, node);
+}
