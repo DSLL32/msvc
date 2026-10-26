@@ -358,9 +358,9 @@ void CVGenAddrInfo( seg_leader *seg, unsigned long start, unsigned long padding 
     if( (seg->info & 0x7000) || !(seg->info & 0x0200) ) return;
     size = seg->size - start;
     if( size + padding > 0 ) {
-        if( seg->info & 0x40 ) seg->saved_size += size + padding;
+        if( seg->info & 0x40 ) seg->u.p2.prev_offset += size + padding;
         else if( size > 0 ) {
-            seg->saved_size = size;
+            seg->u.p2.prev_offset = size;
             seg->info |= 0x40;
         }
     }
@@ -646,8 +646,8 @@ void CVGenSegInfo( seg_leader *seg )
     if( (seg->info & 0x40) && (seg->info & 0x0200) ) {
         info.segment = CVGetSegment( seg );
         info.pad = 0;
-        info.offset = seg->seg_addr.off + seg->size - seg->saved_size;
-        info.length = seg->saved_size;
+        info.offset = seg->seg_addr.off + seg->size - seg->u.p2.prev_offset;
+        info.length = seg->u.p2.prev_offset;
         CVDumpInfo( CVSECT_MODULE, &info, sizeof(info) );
         seg->info &= ~0x40;
     }

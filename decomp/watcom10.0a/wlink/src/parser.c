@@ -904,3 +904,14 @@ unsigned char getatoi( unsigned short *pnt )
     }
     return status;
 }
+
+unsigned char ProcDwarfDBI( void )
+{
+    if( LinkFlags & 0x4020 ) {
+        LnkMsg( 0x7a95, 0 );
+        return 1;
+    }
+    LinkFlags |= 1;
+    DBIFlag |= 0x17;
+    return 1;
+}

@@ -352,3 +352,26 @@ unsigned char getimport( void )
     _LnkFree( modname );
     return 1;
 }
+
+unsigned char ProcLE( void )
+{
+    return 1;
+}
+
+unsigned char ProcInitInstance( void )
+{
+    FmtData.u.os2.flags |= 4;
+    return 1;
+}
+
+unsigned char ProcTermGlobal( void )
+{
+    FmtData.u.os2.flags &= ~0x8000;
+    return 1;
+}
+
+unsigned char ProcExpResident( void )
+{
+    FmtData.u.os2.exports->flags |= 1;
+    return 1;
+}

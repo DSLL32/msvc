@@ -30,6 +30,7 @@
 ****************************************************************************/
 
 #include <string.h>
+#include <ctype.h>
 #include "cmdline.h"
 #include "peimports.h"
 #include <recon.h>
@@ -266,4 +267,38 @@ entry_export *FreeAnExport( entry_export *exp )
     next = exp->next;
     _LnkFree( exp );
     return next;
+}
+
+extern unsigned long WriteTabList( snamelist *, unsigned long *, unsigned char );
+unsigned long ImportModTable( unsigned long *count )
+{
+    return WriteTabList( ModuleNames, count, 0 );
+}
+
+extern void WriteLoad( void *, unsigned );
+unsigned long WriteTabList( snamelist *list, unsigned long *count, unsigned char upper )
+{
+    snamelist *node;
+    unsigned long off, i;
+    int j;
+
+    off = i = 0;
+    for( node = list; node != NULL; node = node->next ) {
+        WriteLoad( &node->len, 1 );
+        ++i;
+        if( upper ) {
+            for( j = (int)node->len - 1; j >= 0; --j ) {
+                node->name[j] = toupper( (unsigned char)node->name[j] );
+            }
+        }
+        WriteLoad( node->name, node->len );
+        off += node->len + 1;
+    }
+    *count = i;
+    return off;
+}
+
+unsigned long ImportProcTable( unsigned long *count )
+{
+    return WriteTabList( ImportNames, count, !(LinkFlags & 0x2000) );
 }

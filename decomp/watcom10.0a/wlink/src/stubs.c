@@ -3,6 +3,9 @@
 #include "demangle.h"
 #include "fixup.h"
 #include "peheader.h"
+#include "exeflat.h"
+#include "dbgdwarf.h"
+#include "strtab.h"
 #include <recon.h>
 
 #if defined(__WATCOMC__)
@@ -37,22 +40,22 @@ void FindExportedSyms( void ) { TRAP(); }
 unsigned char SortGroupAreas( ovl_area *area ) { TRAP(); return 0; }
 unsigned short ToQNXSel( unsigned short number ) { TRAP(); return 0; }
 void NormalizeAddr( void ) { TRAP(); }
-void DwarfDefClass( class_entry *class, unsigned long size ) { TRAP(); }
+
 void CalcOvl( void ) { TRAP(); }
 void CalcGrpAddr( group_entry *group ) { TRAP(); }
-void DwarfAddrSectStart( section *sec ) { TRAP(); }
+
 void NovDBIAddrStart( void ) { TRAP(); }
 void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
 void PhoneyStack( void ) { TRAP(); }
 void ReadOldLib( void ) { TRAP(); }
 void SetQNXSegFlags( void ) { TRAP(); }
 void FiniDOSLoadFile( void ) { TRAP(); }
-void FiniOS2FlatLoadFile( void ) { TRAP(); }
+
+
 
 void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned size ) { TRAP(); }
 
 
-void DwarfWriteDBI( void ) { TRAP(); }
 
 void FiniOS2LoadFile( void ) { TRAP(); }
 void FiniPharLapLoadFile( void ) { TRAP(); }
@@ -175,7 +178,7 @@ unsigned char ProcAnonExport( void ) { TRAP(); return 0; }
 
 unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
-unsigned char ProcExpResident( void ) { TRAP(); return 0; }
+
 unsigned char ProcNovExport( void ) { TRAP(); return 0; }
 unsigned char ProcSegment( void ) { TRAP(); return 0; }
 unsigned char ProcOverlay( void ) { TRAP(); return 0; }
@@ -219,7 +222,7 @@ unsigned char ProcQNX( void ) { TRAP(); return 0; }
 
 unsigned char ProcFont( void ) { TRAP(); return 0; }
 unsigned char ProcFullScreen( void ) { TRAP(); return 0; }
-unsigned char ProcLE( void ) { TRAP(); return 0; }
+
 unsigned char ProcMemory( void ) { TRAP(); return 0; }
 
 unsigned char ProcOldPE( void ) { TRAP(); return 0; }
@@ -257,7 +260,7 @@ unsigned char ProcRunDosstyle( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcDwarfDBI( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcNovDBI( void ) { TRAP(); return 0; }
 unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
@@ -382,13 +385,13 @@ unsigned long ORLPass1( void ) { TRAP(); return 0; }
 
 
 
-void DwarfP1ModuleScanned( void ) { TRAP(); }
 
 
-void DwarfGenModule( void ) { TRAP(); }
 
 
-void DwarfInitModule( mod_entry *mod ) { TRAP(); }
+
+
+
 
 
 
@@ -403,7 +406,7 @@ void ReportMultiple( symbol *sym, char *name, int len ) { TRAP(); }
 
 
 
-void DwarfAddGlobal( symbol *sym, unsigned len ) { TRAP(); }
+
 void NovDBIAddGlobal( unsigned len ) { TRAP(); }
 void OvlDefVector( symbol *sym ) { TRAP(); }
 void DefDistribSym( symbol *sym ) { TRAP(); }
@@ -412,7 +415,7 @@ void UndefinedSym( symbol *sym ) { TRAP(); }
 
 
 
-void DwarfAddLines( seg_leader *seg, unsigned char is32, unsigned char isdata ) { TRAP(); }
+unsigned DWLineGen( long line, long address, char *buffer ) { TRAP(); return 0; }
 
 
 void ProcComdef( unsigned char pass, unsigned char isstatic ) { TRAP(); }
@@ -451,7 +454,7 @@ unsigned char CheckOvlClass( char *name, unsigned char *isovl ) { TRAP(); return
 
 
 
-void DwarfAddAddrInfo( seg_leader *seg, unsigned long start ) { TRAP(); }
+
 
 
 
@@ -464,8 +467,8 @@ void WriteUndefHead( void ) { TRAP(); }
 void WriteOvlHead( void ) { TRAP(); }
 
 
-void DwarfAddModule( mod_entry *mod, section *sect ) { TRAP(); }
-void DwarfGenGlobal( symbol *sym, section *sect ) { TRAP(); }
+
+
 void NovDBIGenGlobal( symbol *sym ) { TRAP(); }
 void WriteSymArray( symbol **syms, unsigned num ) { TRAP(); }
 
@@ -500,10 +503,10 @@ void ProcNamedBackpatch( void ) { TRAP(); }
 void FloatReloc( void *data ) { TRAP(); }
 void QNXLinearReloc( group_entry *group, void *data ) { TRAP(); }
 
-void DwarfGenAddrInfo( seg_leader *seg, unsigned long start, unsigned long padding ) { TRAP(); }
 
 
-void DwarfP2Module( void ) { TRAP(); }
+
+void DwarfGenSegInfo( seg_leader *seg ) { TRAP(); }
 
 
 
@@ -539,14 +542,14 @@ void MakeBase( fixup_record *fix ) { TRAP(); }
 unsigned long GetElfImport( symbol *sym ) { TRAP(); return 0; }
 
 
-struct os2_reloc_header **OS2FlatRelocInit( unsigned long size ) { TRAP(); return 0; }
+
 
 
 void SpillWrite( unsigned long spill, unsigned long off, void *data, unsigned size ) { TRAP(); }
 
 unsigned long SpillAlloc( unsigned size ) { TRAP(); return 0; }
 
-void DwarfGenLines( seg_leader *seg, unsigned long adjust, unsigned char is32 ) { TRAP(); }
+
 
 int CmpLn386( const void *a, const void *b ) { TRAP(); return 0; }
 int CmpLn286( const void *a, const void *b ) { TRAP(); return 0; }
@@ -556,10 +559,10 @@ void RestoreLinkerComdat( symbol *sym ) { TRAP(); }
 
 unsigned char ProcInitGlobal( void ) { TRAP(); return 0; }
 
-unsigned char ProcInitInstance( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcTermGlobal( void ) { TRAP(); return 0; }
+
+
 
 unsigned char ProcTermInstance( void ) { TRAP(); return 0; }
 

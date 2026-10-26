@@ -32,6 +32,9 @@
 #include <string.h>
 #include "diagnostic.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen)
+#endif
 
 void ChkOS2Data( void )
 {
@@ -242,4 +245,56 @@ unsigned long WriteDefStub( void )
     WriteLoad( TokBuff, length );
     PadLoad( stub_len - length - sizeof( stub ) );
     return stub_len;
+}
+
+extern char *RemovePath( char *, int * );
+unsigned long ResNonResNameTable( unsigned char resident )
+{
+    entry_export *exp;
+    int length;
+    unsigned long size;
+    char *name;
+
+    size = 0;
+    if( resident ) {
+        if( FmtData.u.os2.res_module_name != 0 ) {
+            name = FmtData.u.os2.res_module_name;
+            length = strlen( name );
+        } else name = RemovePath( Root->outfile->fname, &length );
+    } else {
+        if( FmtData.u.os2.description != 0 ) name = FmtData.u.os2.description;
+        else if( FmtData.type & 9 ) name = Root->outfile->fname;
+        else name = "";
+        length = strlen( name );
+    }
+    if( resident || length > 0 ) {
+        WriteLoad( &length, 1 );
+        WriteLoad( name, (unsigned short)length );
+        PadLoad( 2 );
+        size += length + 3;
+    }
+    if( resident && FmtData.u.os2.res_module_name != 0 ) {
+        _LnkFree( name );
+        FmtData.u.os2.res_module_name = 0;
+    }
+    if( !resident && FmtData.u.os2.description != 0 ) {
+        _LnkFree( name );
+        FmtData.u.os2.description = 0;
+    }
+    for( exp = FmtData.u.os2.exports; exp != 0; exp = exp->next ) {
+        if( !(exp->flags & 2) || (exp->flags & 8) ) continue;
+        if( (resident && (exp->flags & 1)) || (!resident && !(exp->flags & 1)) ) {
+            if( !(LinkFlags & 0x2000) ) strupr( exp->name );
+            length = strlen( exp->name );
+            WriteLoad( &length, 1 );
+            WriteLoad( exp->name, (unsigned short)length );
+            WriteLoad( &exp->ordinal, 2 );
+            size += length + 3;
+        }
+    }
+    if( size > 0 ) {
+        PadLoad( 1 );
+        ++size;
+    }
+    return size;
 }

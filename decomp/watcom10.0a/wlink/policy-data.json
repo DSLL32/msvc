@@ -3421,6 +3421,196 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcLE": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcInitInstance": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcTermGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDwarfDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcExpResident": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfInitModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfP1ModuleScanned": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfGenModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfDefClass": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddrSectStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfAddModule": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfGenGlobal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfGenAddrInfo": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OS2FlatRelocInit": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfGenLines": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfP2Module": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FiniOS2FlatLoadFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteObjectTables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "NumberBuf": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResNonResNameTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpFlatEntryTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteFixupTables": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteRelocSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ImportModTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteTabList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ImportProcTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteFlatDataPages": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DwarfWriteDBI": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteELFSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "InitStringTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CharStringTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddStringTable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FillHeader": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetStringTableSize": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetStringTable": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -3680,25 +3870,10 @@
     "DefDistribSym": {
       "pending_extent": false
     },
-    "DwarfAddLines": {
-      "pending_extent": false
-    },
-    "DwarfDefClass": {
-      "pending_extent": false
-    },
-    "DwarfAddrSectStart": {
-      "pending_extent": false
-    },
     "SetQNXSegFlags": {
       "pending_extent": false
     },
-    "DwarfGenAddrInfo": {
-      "pending_extent": false
-    },
     "OvlUseVector": {
-      "pending_extent": false
-    },
-    "DwarfGenLines": {
       "pending_extent": false
     },
     "ODBIFini": {

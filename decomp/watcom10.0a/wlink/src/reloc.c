@@ -311,3 +311,8 @@ unsigned char TraverseRelocBlock( reloc_info **list, unsigned num,
     }
     return 0;
 }
+
+os2_reloc_header **OS2FlatRelocInit( unsigned long size )
+{
+    return (os2_reloc_header **)OS2PagedRelocInit( size, sizeof(os2_reloc_header) );
+}
