@@ -82,7 +82,7 @@ BINARY_SOURCES = src/link.c \
     src/machine-stubs.c \
     src/object-stubs.c \
     src/option-stubs.c
-BINARY_SUPPORT_SOURCES = crt/runtime.c crt/anchors.c harness/native-host.c harness/fixture-artifacts.c harness/fixture-process.c $(wildcard $(RECON)/src/*.c)
+BINARY_SUPPORT_SOURCES = crt/runtime.c crt/anchors.c harness/native-runtime.c harness/native-host.c harness/fixture-artifacts.c harness/fixture-process.c $(wildcard $(RECON)/src/*.c)
 NATIVE_LDFLAGS = -Wl,--wrap=write_import_members -Wl,--wrap=omf_convert_debug_symbols
 ORIGINAL_TOOLCHAIN = 1.0-nt
 ORIGINAL_SOURCES = $(BINARY_SOURCES) crt/anchors.c crt/runtime.c
@@ -101,4 +101,12 @@ RECON_AUDIT_REGISTRY_RUNTIME = 1
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_OVERRIDE_OBJECTS = $(ORIGINAL_BUILD)/obj/crt/runtime.c.obj
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/link.map
+# Canonical executable uses the same App/16 historical CRT bodies. Fixture
+# policies, providers, entry observers and process/artifact comparators stay out.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = crt/runtime.c crt/anchors.c harness/native-runtime.c \
+    $(addprefix $(RECON)/src/,compat.c crt.c decimal.c process.c trace.c win32.c)
+NATIVE_BINARY ?= build/LINK.EXE
+NATIVE_BIN_FILES = messages=../../../toolchains/1.0-nt/bin/LINK.ERR
+NATIVE_BIN_ENTRY_CPPFLAGS = -URECON_NATIVE_ENTRY
 include $(RECON_TOOL_DIR)/recon-tool.mk
