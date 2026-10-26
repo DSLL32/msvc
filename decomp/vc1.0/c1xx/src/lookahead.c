@@ -453,3 +453,31 @@ int __stdcall deferred_scope_allows_expression(int depth)
     }
     return 1;
 }
+
+/* Original0x75100..0x751ee, cdecl. Preserve the live caller controls
+   and leave one state/value slot between nested parser frames. Original
+   packed-yacc scratch WORDs0x8cc0c(goto index),0x8cc10(action index) and
+   0x8cc14(production) have only parser/wrapper references and no escaped
+   address or serialized owner. Their logical-table equivalents are automatic
+   locals in lookahead_parse, so C call frames already preserve that scratch. */
+int recursive_lookahead_parse(void)
+{
+    int saved_token = lookahead_token, saved_errors = lookahead_error_count, result;
+    short saved_recovery = lookahead_recovery_count, saved_state = lookahead_state;
+    short *saved_state_top = lookahead_state_top;
+    ParserValue *saved_value_top = lookahead_value_top;
+    lookahead_token = -1;
+    lookahead_error_count = 0;
+    lookahead_recovery_count = 0;
+    lookahead_state = 0;
+    ++lookahead_state_top;
+    ++lookahead_value_top;
+    result = lookahead_parse();
+    lookahead_token = saved_token;
+    lookahead_error_count = saved_errors;
+    lookahead_recovery_count = saved_recovery;
+    lookahead_state = saved_state;
+    lookahead_state_top = saved_state_top;
+    lookahead_value_top = saved_value_top;
+    return result;
+}

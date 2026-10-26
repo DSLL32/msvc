@@ -61,9 +61,7 @@
 #include "diagnostics.h"
 #include "symbol-bindings.h"
 #include <recon.h>
-void interrupt_compile(int signal_number) { __asm { int 3 } }
 
-void report_error(unsigned code, ...) { __asm { int 3 } }
 
 
 
@@ -122,7 +120,6 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 
 
 
-int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
 
@@ -262,7 +259,6 @@ int recursive_lookahead_parse(void) { __asm { int 3 } return 0; }
 
 
 /* Newly encountered pragma callees; bodies remain unaccepted entry traps. */
-void synchronize_pch_pragma(void) { __asm { int 3 } }
 
 
 
@@ -273,9 +269,7 @@ void synchronize_pch_pragma(void) { __asm { int 3 } }
 
 
 
-void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int 3 } }
 
-RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token) { ParserValue value; __asm { int 3 } value.words.low = value.words.high = 0; RECON_RETURN8(value); }
 
 
 

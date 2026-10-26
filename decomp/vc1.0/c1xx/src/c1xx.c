@@ -1,5 +1,6 @@
 /* Process driver, original 0x69630..0x696a8. */
 #include <signal.h>
+#include <stdlib.h>
 #include "options.h"
 #include <recon.h>
 
@@ -30,4 +31,14 @@ int guarded_compile(void)
     __except (1) {
         fatal_error(1, "msc1.cpp", 602);
     }
+}
+
+void cleanup_fatal_outputs(void);
+
+/* Original0x69c80..0x69c93, cdecl signal callback. The signal number
+   is unused; cleanup precedes the original complete0x8000 exit status. */
+void interrupt_compile(int signal_number)
+{
+    cleanup_fatal_outputs();
+    exit(0x8000);
 }

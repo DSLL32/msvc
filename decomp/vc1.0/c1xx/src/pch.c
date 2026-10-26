@@ -770,3 +770,28 @@ int __stdcall record_pch_condition(int condition)
     }
     return condition;
 }
+
+/* Original0x233e0..0x234a1, cdecl. A quoted hdrstop filename owns
+   its duplicated string, with leading/trailing whitespace removed in place. */
+void synchronize_pch_pragma(void)
+{
+    unsigned char token = read_pragma_token();
+    char *filename;
+    if (token == 0x80) {
+        token_allocation_flags |= 0x4000;
+        token = read_pragma_argument(3);
+        token_allocation_flags &= ~0x4000U;
+        if (!token) {
+            report_syntax_error(854);
+            skip_source_line();
+            return;
+        }
+        filename = _strdup((char *)text_work_cursor);
+        while (isspace((unsigned char)*filename)) ++filename;
+        *trim_filename_space(filename, 0) = 0;
+        if (!options.option_Fp) options.option_Fp = filename;
+    } else if (token != 1) {
+        report_syntax_error(854);
+        skip_source_line();
+    }
+}

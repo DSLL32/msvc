@@ -8,6 +8,10 @@
 #include "member-access.h"
 #include "function-finalization.h"
 #include "type-diagnostics.h"
+#include "lookahead.h"
+#include "pragma.h"
+#include "asm.h"
+#include "c1xx.h"
 #include <recon-tool.h>
 #include "debug-types.h"
 #include "debug-info.h"
@@ -507,6 +511,98 @@ static int check_type_recovery_diagnostics(void)
     report_incompatible_type_shapes(0x3d, type_0000, type_0080);
     return error_count == 1 && type_diagnostic_depth == 0;
 }
+/* Unit-only callbacks inspect child exit bytes; the complete0x8000 literal
+   and cdecl callbacks are independently checked in the original whole body. */
+static int check_fatal_callbacks(void)
+{
+    int child, status, mode;
+    for (mode = 0; mode < 2; ++mode) {
+        child = fork();
+        if (child < 0) return 0;
+        if (!child) {
+            active_input = 0; browser_filename = 0; error_count = 0;
+            if (!mode) interrupt_compile(SIGINT);
+            else {
+                if (_open("missing-unit-pch-file", _O_RDONLY|_O_BINARY) != -1) _exit(98);
+                report_error(82, 0, 0, "unit-source", 23);
+            }
+            _exit(99);
+        }
+        if (waitpid(child, &status, 0) != child || !WIFEXITED(status) ||
+            WEXITSTATUS(status) != (mode ? 1 : 0)) return 0;
+    }
+    return 1;
+}
+static int check_asm_recovery_defined_words(void)
+{
+    ParserValue value;
+    int token;
+    initialize_preprocessor(); initialize_type_table();
+    for (token = 39; token <= 49; ++token) {
+        RECON_ASSIGN_RETURN8(value, asm_recovery_value(token));
+        if (token == 43) {
+            if (value.words.high != (unsigned)type_0000) return 0;
+        } else if (value.words.low != (unsigned)(token == 46 ? token : 0)) return 0;
+    }
+    RECON_ASSIGN_RETURN8(value, asm_recovery_value(18));
+    if (value.words.low != 18) return 0;
+    error_count = 0;
+    report_asm_expected_token(0, 29);
+    if (error_count != 1) return 0;
+    asm_current_token = 44; current_token_value.name = "bad_operand";
+    asm_operand_mode = 0;
+    report_asm_expected_token(44, 29);
+    return error_count == 2;
+}
+static void push_unit_token(unsigned char token, ParserValue value)
+{
+    current_token_code = token; current_token_value = value;
+    unget_token(token);
+}
+static int check_recursive_lookahead_frame(void)
+{
+    ParserValue empty = {{0}}, *value_top;
+    short *state_top;
+    int expected, result;
+    initialize_preprocessor(); initialize_type_table();
+    initialize_lookahead_parser();
+    push_unit_token(0, empty);
+    expected = lookahead_parse();
+    lookahead_token = 133; lookahead_error_count = 7;
+    lookahead_recovery_count = 2; lookahead_state = 5;
+    state_top = lookahead_state_stack+3; value_top = lookahead_value_stack+3;
+    *state_top = 5; value_top->words.low = 123; value_top->words.high = 456;
+    lookahead_state_top = state_top; lookahead_value_top = value_top;
+    push_unit_token(0, empty);
+    result = recursive_lookahead_parse();
+    return result == expected && lookahead_token == 133 && lookahead_error_count == 7 &&
+        lookahead_recovery_count == 2 && lookahead_state == 5 &&
+        lookahead_state_top == state_top && lookahead_value_top == value_top &&
+        *state_top == 5 && value_top->words.low == 123 && value_top->words.high == 456;
+}
+static int check_pch_pragma_name_owner(void)
+{
+    ParserValue empty = {{0}}, name = {{0}};
+    char text[] = "  unit sdk.pch  ", *first;
+    initialize_preprocessor(); initialize_type_table();
+    name.string.text = text; name.string.length = sizeof(text);
+    push_unit_token(0x88, empty);
+    push_unit_token(3, name);
+    push_unit_token(0x80, empty);
+    options.option_Fp = 0;
+    synchronize_pch_pragma();
+    first = options.option_Fp;
+    if (!first || first == text || strcmp(first, "unit sdk.pch") ||
+        (token_allocation_flags & 0x4000)) return 0;
+    push_unit_token(0x88, empty);
+    push_unit_token(3, name);
+    push_unit_token(0x80, empty);
+    synchronize_pch_pragma();
+    if (options.option_Fp != first) return 0;
+    push_unit_token(1, empty);
+    synchronize_pch_pragma();
+    return options.option_Fp == first;
+}
 const ReconTest c1xx_tests[] = {
     {"NULL single-function guard",1,check_single_null},
     {"NULL overload-count guard",1,check_overload_null},
@@ -539,5 +635,9 @@ const ReconTest c1xx_tests[] = {
     {"untyped operand owner (unit-only)",1,check_untyped_operand_owner},
     {"materialized address owner (unit-only)",1,check_materialized_address_owner},
     {"virtual access owners (unit-only)",1,check_virtual_access_owners},
-    {"type recovery diagnostics (unit-only)",1,check_type_recovery_diagnostics}
+    {"type recovery diagnostics (unit-only)",1,check_type_recovery_diagnostics},
+    {"fatal callbacks (unit-only)",1,check_fatal_callbacks},
+    {"ASM recovery defined words (unit-only)",1,check_asm_recovery_defined_words},
+    {"recursive lookahead frame (unit-only)",1,check_recursive_lookahead_frame},
+    {"PCH pragma name owner (unit-only)",1,check_pch_pragma_name_owner}
 };

@@ -405,3 +405,39 @@ void __stdcall report_asm_parser_error(char *message)
     report_syntax_error(400, context, description);
     asm_operand_mode = 1;
 }
+
+/* Original0x7c390..0x7c3e1, stdcall8. The expected-token formal is
+   unused: diagnostic text comes from the actual current assembler token. */
+void __stdcall report_asm_expected_token(int actual, int expected)
+{
+    char *description, *context;
+    if (!actual) report_syntax_error(60);
+    else {
+        if (asm_current_token == 44 && current_token_value.name && *current_token_value.name)
+            description = current_token_value.name;
+        else description = asm_token_names[asm_current_token];
+        context = asm_error_context();
+        report_syntax_error(400, context, description);
+    }
+}
+
+/* Original0x7c3e1..0x7c41e with11-entry switch0x7c41e..0x7c44a.
+   Preserve its EDX:EAX ABI. Original defect: only one return word is written
+   on each arm; the other genuine local remains unwritten in both builds. */
+RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token)
+{
+    ParserValue value;
+    switch (token) {
+    case 39: case 40: case 41: case 42: case 44: case 45:
+    case 47: case 48: case 49:
+        value.words.low = 0;
+        break;
+    case 43:
+        value.words.high = (unsigned)type_0000;
+        break;
+    default:
+        value.words.low = token;
+        break;
+    }
+    RECON_RETURN8(value);
+}

@@ -74,6 +74,6 @@ void write_global_header(void);
 void generate_inline_queries(void);
 void close_intermediate(FILE *file);
 void finish_browser_output(void);
-void report_error(unsigned code, ...);
+void report_error(unsigned code, char *kind, char *filename, char *source, unsigned line);
 void cleanup_precompiled_files(void);
 #endif

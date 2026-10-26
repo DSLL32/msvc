@@ -1,6 +1,40 @@
 C1XX3232.EXE (vc1.0 / 1.0-nt)
 ============================
 
+Parser/callback support is COMPLETE (native-unit-only): six whole App bodies
+add659 B: signal interruption(19 B), fatal I/O wrapper(67 B), recursive lookahead
+frame(238 B), ASM expected-token diagnostic(81 B), ASM recovery value(61 B) and
+hdrstop filename synchronization(193 B). The ASM switch owns44 B of text data,
+excluded from code coverage. Its original empty recovery list stays unchanged.
+Four typed units exercise actual nested parser frames, quoted pragma token/name
+owners, defined ASM return words/diagnostics, and real child termination after
+cleanup or a genuine missing-file error. Child exit-byte checks do not claim a
+fresh original/full-DWORD signal observation. The original0x8000 constant and
+whole callback ABI are statically retained.
+
+ASM recovery's unwritten return word remains a genuine uninitialized local in
+both builds and is not compared. The recursive wrapper preserves six live parser
+controls/cursors and actual cursor advancement; original packed-yacc scratch
+WORDs8cc0c/8cc10/8cc14 are confined to that parser/wrapper, with no address escape
+or serialized consumer. Their existing automatic-local equivalents are isolated
+by native C call frames, so no unused BSS copies were invented.
+
+Total is1,899 App /409,876 B (86.03% of whole original code),no named pending
+registry entries,1,968 historical frontiers,38 explicitly unit-qualified support
+bodies and seven unchanged historical CRT source bodies. This is NOT whole App
+completion: finite .text subtraction still contains unregistered executable
+helpers among alignment/data gaps, under separate positive classification.
+All55 native cases and58 unit groups pass, original compilation and the
+1,907-function six-check graph/ABI audit included. Header rebuild33.365 s;
+focused units27.352/21.519/19.566/21.499 ms. First closing gate1.798 s held on
+one false Iostream/__fpclear identity at234a0..234b0; independent whole193 B owner,
+entry/pointer/export proof justified only two raw and one canonical removals.
+Corrected closing audit2.878 s passes; unchanged native checks were retained.
+The first fatal-I/O unit used unreviewed errno0; a real missing-file open supplies
+the supported ENOENT state instead. No shared shim, guard or oracle change.
+
+Earlier legacy expression qualification:
+
 Legacy expression support is COMPLETE (native-unit-only): five whole App
 helpers add484 B: untyped binary operand resolution(104 B), shape-mismatch
 reporting(27 B), address materialization(146 B), virtual-base access(178 B) and

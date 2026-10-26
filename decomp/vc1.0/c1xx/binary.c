@@ -1,6 +1,6 @@
 /* Single original function registry; RVAs are relative to image base0x10000.
- * Current completed-case boundary:1968 historical frontiers/1893 App bodies;
- * Thirty-two support bodies are explicitly native-unit-qualified.
+ * Current completed-case boundary:1968 historical frontiers/1899 App bodies;
+ * Thirty-eight support bodies are explicitly native-unit-qualified.
  * CRT/import entries have no implementation credit. The seven historical CRT
  * source overrides remain qualified in README.txt. Pending one-byte extents
  * are entry placeholders, not whole recovered bodies. */
@@ -2938,13 +2938,6 @@ static const ReconFunction functions[] = {
         .definition = RECON_APP,
         .native_symbol = "prepare_pch_output",
         .implementation = RECON_IMPLEMENTED,
-    },
-    {
-        .name = "??1Iostream_init@@QAE@XZ",
-        .entry_rva = 0x134a0,
-        .code = (const ReconExtent[]) { { 0x134a0, 0x134b0 } },
-        .code_count = 1,
-        .definition = RECON_CRT,
     },
     {
         .name = "_push_conditional_state",
@@ -13494,6 +13487,7 @@ static const ReconFunction functions[] = {
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "interrupt_compile",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_preprocess_translation_unit",
@@ -14150,10 +14144,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_error",
         .entry_rva = 0x631f0,
-        .code = (const ReconExtent[]) { { 0x631f0, 0x631f1 } },
+        .code = (const ReconExtent[]) { { 0x631f0, 0x63233 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_error",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_fatal",
@@ -14653,10 +14648,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_recursive_lookahead_parse",
         .entry_rva = 0x65100,
-        .code = (const ReconExtent[]) { { 0x65100, 0x65101 } },
+        .code = (const ReconExtent[]) { { 0x65100, 0x651ee } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "recursive_lookahead_parse",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_initialize_lookahead_parser",
@@ -16350,18 +16346,22 @@ static const ReconFunction functions[] = {
     {
         .name = "_report_asm_expected_token@8",
         .entry_rva = 0x6c390,
-        .code = (const ReconExtent[]) { { 0x6c390, 0x6c391 } },
+        .code = (const ReconExtent[]) { { 0x6c390, 0x6c3e1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "report_asm_expected_token",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_asm_recovery_value@4",
         .entry_rva = 0x6c3e1,
-        .code = (const ReconExtent[]) { { 0x6c3e1, 0x6c3e2 } },
+        .code = (const ReconExtent[]) { { 0x6c3e1, 0x6c41e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "asm_recovery_value",
+        .text_data = (const ReconExtent[]) { { 0x6c41e, 0x6c44a } },
+        .text_data_count = 1,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_report_asm_parser_error@4",
@@ -18994,10 +18994,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_synchronize_pch_pragma",
         .entry_rva = 0x133e0,
-        .code = (const ReconExtent[]) { { 0x133e0, 0x133e1 } },
+        .code = (const ReconExtent[]) { { 0x133e0, 0x134a1 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "synchronize_pch_pragma",
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_set_warning_level@8",

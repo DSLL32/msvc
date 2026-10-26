@@ -361,3 +361,14 @@ int fatal_error(unsigned code, ...)
     exit(error_count);
     return error_count;
 }
+
+/* Original0x731f0..0x73233, cdecl5. The I/O failure wrapper retains
+   its real source/line arguments after the ordinary CRT error string. */
+void report_error(unsigned code, char *kind, char *filename, char *source, unsigned line)
+{
+    char *error;
+    if (!filename) filename = "";
+    if (!kind) kind = "";
+    error = _strerror(0);
+    fatal_error(code, kind, filename, error, source, line);
+}
