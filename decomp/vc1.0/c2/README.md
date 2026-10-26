@@ -1,20 +1,75 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint 1476 completes the INTERNAL COFF-finishing case.
-There are 1361 reconstructed App functions and five unchanged historical CRT
-bodies. App code occupies 354804/399693 original code-section bytes (88.7691%);
-adding 940 owned text-data bytes gives 355744/399693 (89.0043%). These clipped
-extent unions use section VirtualSize (raw size only if zero), not branch
-coverage. Five historical CRT overrides contribute 1776B separately, zero App
-credit. Available App/classified CRT/import extents cover 382118/399693
-(95.6029%). A reliable non-CRT denominator remains unavailable; 28 pending App
-rows and 17575B outside available extents need investigation. No only-CRT claim.
+Checkpoint1488 completes the INTERNAL region-motion case. There are1373
+reconstructed App functions and five unchanged historical CRT bodies. App code
+occupies360077/399693 original code-section bytes(90.0884%); adding940 owned
+text-data bytes gives361017/399693(90.3236%). These clipped extent unions use
+section VirtualSize(raw size only if zero), not branch coverage. The five
+historical CRT overrides contribute1776B separately, zero App credit. Available
+App/classified CRT/import extents cover387391/399693(96.9221%). A reliable
+non-CRT denominator is unavailable;32 pending App rows and12302B outside the
+available union still require investigation. Newly encountered child entries
+increase the pending-row inventory; those bytes are not all proved App or CRT.
 
-`binary.c` is the sole registry. All 35 cached IO cases, five INTERNAL DIRECT
-cases and 246 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All35 cached IO cases, six INTERNAL DIRECT
+cases and248 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR, child MSC_CMD_FLAGS, stable S cwd and explicit entry seeds. Only
-established COFF timestamp bytes 4..8 are normalized; listings/OMF remain exact.
+established COFF timestamp bytes4..8 are normalized in completed object cases;
+listings/OMF remain exact.
 
+The region-motion case borrows case0002's genuine first nested_loops machine
+state at combine_machine_instructions, before immediate promotion and physical
+allocation. Source/IR/options remain unchanged; the standalone cwd is explicitly
+S:vc1.0/c2/region-motion-live because the legacy loops capture directory is
+occupied. The outer request really does nothing: its eligible instructions are
+in a nested child that it skips. Selecting that existing child supplies the
+positive contract: real preheader, initialized induction/register summaries and
+matching entry references, without private flags or fabricated instructions.
+
+Twelve whole App owners add5273B: region/block drivers, instruction mover,
+constant predicate, address builder, result-register reservation, recursive
+operand replacement, displacement/value-copy helpers, use accounting and
+instruction removal. Fresh masked original/native prefixes1476..1488 match.
+The actual transform has112->113 nodes, four shifted old positions and one
+surviving new preheader LEA; the old inner LEA is removed and its load address
+rewritten. The5988B report compares defined stream/owner/register/label fields
+and bounded identity indices, with full live-input comparison before mutation.
+Actual seven-argument address-builder inputs are also bound at its raw ABI
+entry. All other existing fields and relationships remain checked. Empty partial
+loops.obj, empty streams and status0 match abrupt DIRECT completion; this is
+internal optimizer reach, not a completed compilation or public producer claim.
+
+Two original stack operands have partially initialized internal flag words.
+Their App writes remain partial: no invented zero initialization or allocator
+matching. The diagnostic alone projects the actual newly created LEA source to
+its defined low15 bits, and the actual rewritten existing MOV source to its
+low16 bits. Block analysis defines0x7c00; value replacement preserves the
+existing0x8000 as well as the other annotations. All before-state words and
+other after-state flags remain intact. Selection uses genuine new-node/result
+relationships, not fixed addresses/numbers. Raw original observations remain
+in scratch. This does not prove later consumers ignore undefined bits; any
+future control divergence still requires diagnosis. Narrow controls protect
+the existing annotation bits and signed displacement contract. Changing the
+expected actual new result register rejects with exit125. Unvisited transform
+branches and five discovered motion children remain explicitly unqualified or
+named trapping; no CRT body, shared shim or new public-output normalization.
+
+Final `make -j4 audit check unit` passes3.632s(phases unsplit):1378 paired graphs/
+accepted extents,182 scoped RET contracts,41 cases and248 units. Original /W3
+compilation passes3.333s with existing stub warnings only. All measured attempts:
+combined canonical/native builds88.262s, metadata20.895s, case builds15.028s,
+helper builds22.196s, original references17.896s, native pairs/setup0.894s and
+focused graph/RET0.537s. The initial Makefile/new-object rebuild alone is37.383s;
+these are build times, not audit times. Failed setup observations, occupied-cwd
+rejection, two case compile omissions and diagnostic GDB teardown receipts are
+retained. Native GDB/anchor inspection totals1.815s; these deliberately stopped
+runs are not fixture passes. Final concurrent DIRECT execution23.813ms splits
+setup14.717/execution4.864/checks4.232; the two units take19.306ms. Analysis,
+editing, disassembly and packing are unmeasured; combined phases are unsplit,
+and sums are not task elapsed. Raw evidence and completion/timing/coverage
+summaries remain under `~/.ai-tmp/msvc2/vc1.0/c2/region-motion-residual/`.
+
+The preceding COFF-finishing case completed checkpoint1476.
 The COFF-finishing case borrows the actual DLL adapter's finish_debugging entry:
 five genuine imported/target aliases and a live initialized writer. It queries
 all aliases without descriptor/list mutation, defines a weak import-cell name

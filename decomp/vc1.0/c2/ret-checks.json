@@ -850,6 +850,66 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@transform_machine_region_blocks@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@move_region_block_operations@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@move_region_instruction@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@region_register_is_constant@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@new_region_address_register@28": {
+      "expected_cleanup": [
+        20
+      ]
+    },
+    "@reserve_region_result_register@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@replace_region_operand@16": {
+      "expected_cleanup": [
+        8
+      ]
+    },
+    "@region_operand_displacement@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@replace_region_operand_value@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@adjust_region_operand_uses@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@adjust_region_register_uses@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@remove_region_instruction@8": {
+      "expected_cleanup": [
+        0
+      ]
     }
   }
 }

@@ -114,6 +114,7 @@ BINARY_SOURCES = src/c2.c \
     src/initializer-symbols.c \
     src/symbol-output.c \
     src/machine-analysis.c \
+    src/machine-region-motion.c \
     src/machine-simplify.c \
     src/physical-allocation.c \
     src/physical-conflicts.c \
