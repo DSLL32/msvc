@@ -176,6 +176,13 @@ typedef struct ReconNativeEntry {
  const char *program_path,*current_directory,*command_line;
 } ReconNativeEntry;
 ReconNativeEntry *recon_native_entry_initialize(int,char **,char **);
+/* Explicit root-entry-only opt-in; do not set for general support/App objects.
+ * The marked root must call initialize before invoking any App code. */
+#define RECON_NATIVE_ENTRY_PROTOCOL_TEXT "recon-native-command-line-v1"
+#ifdef RECON_NATIVE_ENTRY_PROTOCOL_V1
+static const char recon_native_entry_protocol_v1[]
+ __attribute__((used,section(".recon.entry"),aligned(1)))=RECON_NATIVE_ENTRY_PROTOCOL_TEXT;
+#endif
 /* Captured WCHAR16 process namespace; no Linux host controls are inherited. */
 extern const WCHAR *recon_crt_os_environment;
 extern size_t recon_crt_os_environment_units;

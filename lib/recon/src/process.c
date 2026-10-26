@@ -8,6 +8,7 @@
 #include <sys/socket.h>
 #include <elf.h>
 #include <sys/mman.h>
+#include "native-entry.h"
 
 /* An explicitly configured fixture broker can observe native children or replay
  * an external tool at its process boundary. No broker means ordinary spawning;
@@ -202,6 +203,73 @@ static int native_program(const char *file,char *path)
     }
     return 0;
 }
+/* Only explicitly marked root entries consume fd198. This inspects bounded
+ * ELF32 metadata, not an original/provider identity or executable code. */
+static int native_command_capability(const char *path)
+{
+    Elf32_Ehdr header;Elf32_Shdr names,section;struct stat file;
+    static const char section_name[]=".recon.entry",marker[]=RECON_NATIVE_ENTRY_PROTOCOL_TEXT;
+    char name[sizeof(section_name)],bytes[sizeof(marker)];unsigned n;int fd,result=0,saved;
+    fd=open(path,O_RDONLY|O_CLOEXEC);if(fd<0)return -1;
+    if(fstat(fd,&file) || pread(fd,&header,sizeof(header),0)!=sizeof(header))goto done;
+    if(memcmp(header.e_ident,ELFMAG,SELFMAG) || header.e_ident[EI_CLASS]!=ELFCLASS32 ||
+       header.e_shentsize!=sizeof(section) || !header.e_shnum || header.e_shnum>4096 ||
+       header.e_shstrndx>=header.e_shnum || file.st_size<0 ||
+       (uint64_t)header.e_shoff+(uint64_t)header.e_shnum*sizeof(section)>(uint64_t)file.st_size)goto done;
+    if(pread(fd,&names,sizeof(names),header.e_shoff+header.e_shstrndx*sizeof(names))!=sizeof(names) ||
+       names.sh_type!=SHT_STRTAB || (uint64_t)names.sh_offset+names.sh_size>(uint64_t)file.st_size)goto done;
+    for(n=0;n<header.e_shnum;++n) {
+        if(pread(fd,&section,sizeof(section),header.e_shoff+n*sizeof(section))!=sizeof(section))goto done;
+        if((uint64_t)section.sh_name+sizeof(name)>names.sh_size ||
+           pread(fd,name,sizeof(name),names.sh_offset+section.sh_name)!=sizeof(name) ||
+           memcmp(name,section_name,sizeof(name)))continue;
+        if(result) {errno=ENOEXEC;result=-1;goto done;}
+        if(section.sh_type!=SHT_PROGBITS || !(section.sh_flags&SHF_ALLOC) || (section.sh_flags&SHF_WRITE) ||
+           section.sh_size!=sizeof(marker) || (uint64_t)section.sh_offset+sizeof(marker)>(uint64_t)file.st_size ||
+           pread(fd,bytes,sizeof(bytes),section.sh_offset)!=sizeof(bytes) || memcmp(bytes,marker,sizeof(bytes))) {
+            errno=ENOEXEC;result=-1;goto done;
+        }
+        result=1;
+    }
+done:
+    saved=errno;if(close(fd) && result>=0){saved=errno;result=-1;}errno=saved;return result;
+}
+static int native_command_transport(const char *image,const char *const *argv,int *transport)
+{
+    size_t bytes=0,length,offset=0;unsigned n;int capability,fd,saved;ssize_t wrote;
+    char *line,*out;const unsigned char *p;
+    *transport=-1;
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    (void)image;(void)argv;return 0;
+#endif
+    if(!recon_native_entry_active())return 0;
+    capability=native_command_capability(image);if(capability<=0)return capability;
+    if(fcntl(RECON_NATIVE_COMMAND_FD,F_GETFD)>=0){errno=EBUSY;return -1;}
+    if(errno!=EBADF)return -1;
+    if(!argv || !argv[0] || !*argv[0]){errno=EINVAL;return -1;}
+    for(n=0;argv[n];++n) {
+        length=strnlen(argv[n],32767);
+        if(n==4096 || length==32767 || length+(n!=0)>32766-bytes){errno=E2BIG;return -1;}
+        for(p=(const unsigned char *)argv[n];*p;++p)if(*p>=128 || (*p<32 && *p!='\t')){errno=EILSEQ;return -1;}
+        bytes+=length+(n!=0);
+    }
+    line=malloc(bytes+1);if(!line)return -1;out=line;
+    /* Actual old _cenvarg/_dospawn join: strings verbatim, one separator. */
+    for(n=0;argv[n];++n) {if(n)*out++=' ';length=strlen(argv[n]);memcpy(out,argv[n],length);out+=length;}
+    *out=0;fd=memfd_create(RECON_NATIVE_COMMAND_MEMFD,MFD_CLOEXEC|MFD_ALLOW_SEALING);
+    if(fd<0){saved=errno;free(line);errno=saved;return -1;}
+    while(offset<bytes+1) {
+        wrote=write(fd,line+offset,bytes+1-offset);
+        if(wrote<0 && errno==EINTR)continue;
+        if(wrote<=0){saved=wrote<0?errno:EIO;close(fd);free(line);errno=saved;return -1;}
+        offset+=wrote;
+    }
+    free(line);
+    if(fchmod(fd,0400) || fcntl(fd,F_ADD_SEALS,F_SEAL_WRITE|F_SEAL_GROW|F_SEAL_SHRINK|F_SEAL_SEAL)<0) {
+        saved=errno;close(fd);errno=saved;return -1;
+    }
+    *transport=fd;return 0;
+}
 /* Trusted host setup only: the registered command re-enters this same native
  * runner. The broker still authenticates the original target request. */
 static const char *const *native_self_command;
@@ -239,7 +307,7 @@ void recon_set_native_self_command(const char *exe,const char *const *prefix,siz
 static int spawnve_body(int mode,const char *file,const char *const *argv,const char *const *env,
                         unsigned source,SpawnState entry)
 {
-    char path[PATH_MAX],logical[PATH_MAX]; pid_t pid; int status,result,native_allowed;
+    char path[PATH_MAX],logical[PATH_MAX]; pid_t pid; int status,result,native_allowed,transport=-1,setup_error=0;
     char **routed=NULL;size_t routed_size=0;
     const char *self=recon_native_entry_active()?NULL:getenv("RECON_SELF_SPAWN");
     const char *require_exists=recon_native_entry_active()?NULL:getenv("RECON_SPAWN_REQUIRE_EXISTS");
@@ -279,10 +347,24 @@ static int spawnve_body(int mode,const char *file,const char *const *argv,const 
             routed[native_self_prefix_count+1+argc]=NULL;
         }else if (native_program("/proc/self/exe",path)<0) return -1;
     } else if (native_program(file,path)<0) return -1;
-    pid=fork(); if (pid<0) {if(routed)munmap(routed,routed_size);return -1;}
-    if (!pid) { execve(path,routed?routed:(char *const *)argv,(char *const *)(env?env:(const char *const *)environ)); _exit(127); }
+    if(native_command_transport(path,argv,&transport)<0){if(routed)munmap(routed,routed_size);return -1;}
+    pid=fork();
+    if(pid<0){int saved=errno;if(transport>=0)close(transport);if(routed)munmap(routed,routed_size);errno=saved;return -1;}
+    if(!pid) {
+        if(transport>=0) {
+            if(transport!=RECON_NATIVE_COMMAND_FD) {
+                if(fcntl(RECON_NATIVE_COMMAND_FD,F_GETFD)>=0 || errno!=EBADF ||
+                   dup2(transport,RECON_NATIVE_COMMAND_FD)<0)_exit(127);
+                close(transport);
+            }
+            if(fcntl(RECON_NATIVE_COMMAND_FD,F_SETFD,0)<0)_exit(127);
+        }
+        execve(path,routed?routed:(char *const *)argv,(char *const *)(env?env:(const char *const *)environ));_exit(127);
+    }
+    if(transport>=0 && close(transport))setup_error=errno;
     if(routed)munmap(routed,routed_size);
     while (waitpid(pid,&status,0)<0) if (errno!=EINTR) return -1;
+    if(setup_error){errno=setup_error;return -1;}
     if (!WIFEXITED(status)) { errno=EINTR; return -1; }
     return WEXITSTATUS(status);
 }

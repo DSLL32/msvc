@@ -1883,9 +1883,51 @@ are not needed. GetACP has the explicitly selected ordinary native1252 profile.
 
 Owned process inputs stay live until OS process reclamation, including App exit
 and final static-DLL detach; no main-registered atexit free precedes DLL cleanup.
-Existing CRT/module atexit handling supplies normal cleanup. Real Windows-spawn
-raw-line transport and ordinary full-DWORD/signal child-status equivalence remain
-separate boundaries; basic startup alone does not claim either. The native-only
+Existing CRT/module atexit handling supplies normal cleanup. Ordinary full-DWORD/signal child-status equivalence remains a separate boundary;
+basic startup alone does not claim Windows child command-line semantics. The native-only
 native-bootstrap-check target covers default/510/Watcom profiles, real minimal/
 empty/host environments, direct quoting, independent OS inheritance, actual Z:
 identities and final detach input lifetime. No originals or fixture controllers.
+
+
+Ordinary Windows child command transport (protocol v1)
+-----------------------------------------------------
+An entry that consumes the shared bootstrap may explicitly opt in with root-only
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1. This emits one
+readonly .recon.entry protocol-v1 marker from recon.h. Do not define it on common
+support/App objects; a marked root must call initialize before invoking App code.
+The initializer remains an ordinary C function. The marker declares a compiled
+argument protocol, not original identity/provider proof or a DLL/resource image.
+Markerless basic executables still run unchanged and get no transport descriptor.
+
+Only ordinary LIBC100/MSVCRT510 spawning to a marked native ELF32 uses the
+protocol. The parent checks bounded section metadata and requires one exact v1
+marker (duplicates/wrong version are rejected). The actual old _cenvarg/_dospawn
+rule joins argv strings verbatim with one space; it adds no quoting, including
+argv0. Quotes supplied by the caller are preserved. The resulting bounded ASCII
+line plus NUL is placed in a sealed memfd named recon-windows-command-line.
+There is no environment entry, controller, identity proof or runtime state packet.
+
+Descriptor198 is reserved only for this transfer. An occupied parent slot fails
+with EBUSY without clobbering it; the slot must be within the native fd limit.
+The parent owner is CLOEXEC and closed after fork/error. Only the child duplicates
+the sealed input to198 for exec. Bootstrap checks its exact memfd name/type/seals/
+size, consumes and closes it before App. It leaves an unrelated direct-launch198
+untouched and performs no descriptor scan. Unknown native programs get no extra
+fd and keep existing POSIX argv behavior. The declared consumer is responsible
+for calling bootstrap; no inference from a filename or adjacent executable occurs.
+
+The child applies the old RCPP CRT argv0/backslash/quote grammar, including its
+legacy doubled-quote toggle, and exposes the exact raw GetCommandLineA bytes.
+Direct shell argv remains the supplied vector with lossless Windows serialization.
+This supports real RC's two-element argv containing an option bag while preserving
+ordinary quoted direct invocation. Target OS/CRT environments remain independent
+and the child's actual minimal environment is unmodified. Watcom and fixture
+spawning retain their prior behavior. Full-DWORD/signal status and general Windows
+handle/CRT-private inheritance are not provided by this argument-only protocol.
+
+native-command-check exercises real authored children, old quoting/argv0, empty
+arguments, minimal environment, occupied/unrelated198, invalid seals, close-before-
+App, repeated parent descriptor ownership and unmarked/native basic compatibility.
+Actual RC/RCPP consumes the same slice with strict rich resource output and cleanup;
+its old source argument/runtime rules are retained, without an original API probe.

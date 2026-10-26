@@ -10,6 +10,7 @@
 #include <sys/mman.h>
 #include <malloc.h>
 #include "native-files.h"
+#include "native-entry.h"
 
 /* Reconstructed CRT overrides in a target take precedence over these fallbacks. */
 #define WEAK __attribute__((weak))
@@ -410,9 +411,76 @@ char **recon_native_entry_spawn_environment(void)
     }
     result[count]=NULL;return result;
 }
+static char *native_take_command_line(void)
+{
+    static const char expected[]="/memfd:" RECON_NATIVE_COMMAND_MEMFD " (deleted)";
+    char name[128],*line;struct stat info;ssize_t length,got;size_t offset=0,n;
+    int seals,failed=0;
+    if(fcntl(RECON_NATIVE_COMMAND_FD,F_GETFD)<0)return NULL;
+    length=readlink("/proc/self/fd/198",name,sizeof(name)-1);
+    if(length<0 || length>=(ssize_t)sizeof(name)-1)return NULL;
+    name[length]=0;if(strcmp(name,expected))return NULL; /* unrelated fd: leave it owned by caller */
+    seals=fcntl(RECON_NATIVE_COMMAND_FD,F_GET_SEALS);
+    if(fstat(RECON_NATIVE_COMMAND_FD,&info) || !S_ISREG(info.st_mode) || info.st_size<2 || info.st_size>32767 ||
+       seals<0 || (seals&(F_SEAL_WRITE|F_SEAL_GROW|F_SEAL_SHRINK|F_SEAL_SEAL))!=(F_SEAL_WRITE|F_SEAL_GROW|F_SEAL_SHRINK|F_SEAL_SEAL))
+        failed=1;
+    line=failed?NULL:malloc(info.st_size);
+    if(!failed && !line)failed=1;
+    while(!failed && offset<(size_t)info.st_size) {
+        got=pread(RECON_NATIVE_COMMAND_FD,line+offset,info.st_size-offset,offset);
+        if(got<0 && errno==EINTR)continue;
+        if(got<=0){failed=1;break;}offset+=got;
+    }
+    if(close(RECON_NATIVE_COMMAND_FD))failed=1;
+    if(failed)recon_unsupported("invalid native command-line transport");
+    if(line[info.st_size-1] || !line[0])recon_unsupported("native command-line terminator");
+    for(n=0;n<(size_t)info.st_size-1;++n)
+        if(!line[n] || (unsigned char)line[n]>=128 || ((unsigned char)line[n]<32 && line[n]!='\t'))
+            recon_unsupported("native command-line ASCII extent");
+    return line;
+}
+/* Old single-byte CRT argument grammar: argv0 has quote grouping; later
+ * arguments use even/odd backslashes before quotes. No shell expansion. */
+static char **native_parse_command_line(const char *line,int *argc)
+{
+    size_t bytes=strlen(line)+1,slashes,n;char **arguments,*out;const char *p=line;
+    int quoted=0,count=0,copy;
+    arguments=malloc(4097*sizeof(*arguments)+bytes);
+    if(!arguments)recon_unsupported("native command-line argument allocation");
+    out=(char *)(arguments+4097);arguments[count++]=out;
+    if(*p=='"') {
+        ++p;while(*p && *p!='"')*out++=*p++;
+        if(*p=='"')++p;
+    } else while(*p && (unsigned char)*p>' ')*out++=*p++;
+    *out++=0;
+    for(;;) {
+        while(*p==' ' || *p=='\t')++p;
+        if(!*p)break;
+        if(count==4096)recon_unsupported("native command-line argument count");
+        arguments[count++]=out;quoted=0;
+        for(;;) {
+            slashes=0;copy=1;while(*p=='\\'){++slashes;++p;}
+            if(*p=='"') {
+                if(!(slashes&1)) {
+                    if(quoted && p[1]=='"')++p;
+                    else copy=0;
+                    /* The reached old CRT toggles even for doubled quotes. */
+                    quoted=!quoted;
+                }
+                slashes/=2;
+            }
+            for(n=0;n<slashes;++n)*out++='\\';
+            if(!*p || (!quoted && (*p==' ' || *p=='\t')))break;
+            if(copy)*out++=*p;
+            ++p;
+        }
+        *out++=0;
+    }
+    arguments[count]=NULL;*argc=count;return arguments;
+}
 ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **environment)
 {
-    ReconNativeEntry *entry;char program[PATH_MAX],*cwd,*raw_environment,*cursor;
+    ReconNativeEntry *entry;char program[PATH_MAX],*cwd,*raw_environment,*cursor,*raw_command;
     char **arguments,**variables;WCHAR *os_block;ssize_t length;
     unsigned count,n;size_t argument_bytes,environment_bytes,units,k;
     if(native_entry_context || recon_crt_arguments_bound || recon_crt_os_environment ||
@@ -422,8 +490,12 @@ ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **envi
     if(pending_os_environment || os_environment_bound)
         recon_unsupported("ordinary startup mixed with fixture OS binding");
 #endif
-    arguments=native_copy_vector(argv,4096,&count,&argument_bytes);
-    if(count!=(unsigned)argc)recon_unsupported("ordinary startup argument count");
+    raw_command=native_take_command_line();
+    if(raw_command)arguments=native_parse_command_line(raw_command,&argc);
+    else {
+        arguments=native_copy_vector(argv,4096,&count,&argument_bytes);
+        if(count!=(unsigned)argc)recon_unsupported("ordinary startup argument count");
+    }
     variables=native_copy_vector(environment?environment:environ,16384,&count,&environment_bytes);
     units=environment_bytes+1;if(!count)units=2;
     if(units>32767)recon_unsupported("ordinary startup environment length");
@@ -438,7 +510,7 @@ ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **envi
         recon_unsupported("ordinary startup actual executable/cwd");
     program[length]=0;entry->program_path=native_windows_path(program);
     entry->current_directory=native_windows_path(cwd);free(cwd);
-    entry->command_line=native_quote_arguments(argc,arguments);
+    entry->command_line=raw_command?raw_command:native_quote_arguments(argc,arguments);
     entry->argc=argc;entry->argv=arguments;entry->environment=variables;
     native_entry_context=entry;
     recon_crt_bind_arguments(argc,arguments,variables);recon_crt_initenv=variables;

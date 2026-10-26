@@ -1060,3 +1060,7 @@ native-entry-foundation-check:
 .PHONY: native-bootstrap-check
 native-bootstrap-check:
 	$(PYTHON) tests/native-bootstrap/check.py
+
+.PHONY: native-command-check
+native-command-check:
+	$(PYTHON) tests/native-bootstrap/check-protocol.py
