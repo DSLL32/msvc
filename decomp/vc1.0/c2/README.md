@@ -1,44 +1,66 @@
 # VC1.0 C2 reconstruction
 
-Checkpoint1517 adds four unit-qualified dormant output/naming adapters. There
-are1402 reconstructed App functions and five unchanged historical CRT bodies.
-App code occupies363001/399693 original code-section bytes(90.8200%); adding976
-owned text-data bytes gives363977/399693(91.0641%). These clipped extent unions
-use section VirtualSize(raw size only if zero), not branch coverage. Five old
-CRT overrides contribute1776B separately, zero App credit. Available App/
-classified CRT/import extents cover390351/399693(97.6627%). A reliable non-CRT
-denominator is unavailable;seven pending App rows and9342B outside the available
-union still need investigation. The latter includes unclassified/support/padding
-and is not a known remaining-App byte count. No only-CRT claim.
+Checkpoint1524 completes the internal console-control case and six related
+unit-qualified residual owners. All1409 registered App functions have complete
+source; five historical CRT bodies remain separately accounted. App code occupies
+363370/399693 original code-section bytes(90.9123%); adding976 owned text-data
+bytes gives364346/399693(91.1565%). These clipped extent unions use section
+VirtualSize(raw size only if zero), not branch coverage. Five old CRT overrides
+contribute1776B separately, zero App credit. Available App/classified CRT/import
+extents cover390720/399693(97.7550%). A reliable non-CRT denominator is unavailable.
+No registered App row remains pending, but8973B outside the available union still
+needs classification; support/padding/unclassified bytes are not known all-CRT.
 
-`binary.c` is the sole registry. All37 cached IO cases, ten INTERNAL DIRECT
-cases and266 narrow units pass. Fixtures are native-only. Inputs preserve actual
+`binary.c` is the sole registry. All37 cached IO cases, eleven INTERNAL DIRECT
+cases and273 narrow units pass. Fixtures are native-only. Inputs preserve actual
 frontend IR where required, stable cwd and explicit entry seeds. Only established
 COFF timestamp bytes4..8 are normalized in completed object cases; listings/OMF/
-diagnostics remain exact. Fifteen current App owners are explicitly UNIT-qualified
+diagnostics remain exact. Twenty-one App owners are explicitly UNIT-qualified
 (dormant source/disassembly+original-compiler+graph/RET+typed native units),
 distinct from original-pair qualification; no CLI reach is claimed for them.
 
-The latest four owners add48B: disabled relocation5, disabled directive1,
-OMF segment-reference adapter16 and ASCII uppercase26. Both old naked traps are
-ordinary C with recovered signatures: record callback ECX directive/RET0 and
-OMF ECX displacement/EDX symbol/RET0. Their logical decorations now reflect those
-signatures at the same original RVAs; no extra graph vertex or assembly adapter.
-A native unit installs the real no-object callback table, invokes both disabled
-slots and checks all initialized input owners remain intact with relocation0.
-At the genuine first OMF fixup entry from unchanged polymorphic input, another
-unit calls the wrapper and direct type2 path with the same live record/symbol.
-Defined fixup type/location/flag/frame/target/addend fields agree; symbol/record/
-cursor remain intact. Padding and untouched reserved words are excluded. All255
-nonzero name bytes plus empty input verify only ASCII lowercase changes; no
-Pascal frontend support is claimed. No forced private OMF state or new capture.
+The console callback's complete30B body has fresh masked-original/native entry
+and completion qualification. A genuine main reaches initialize_limits after
+registering cleanup and parsing arguments; the existing typed DIRECT callback
+then passes CTRL_C_EVENT0. Both sides disable Ctrl-C handling and really exit with
+DWORD32768, empty streams and no artifacts. This is internal callback invocation,
+not a claim of sending a Wine console event. The native logical status retains
+32768 despite its POSIX low byte0; an expected0 oracle rejects. A wrong initial
+marker was honestly rejected for missing callback-entry proof before correction.
+No output normalization or target state forcing is introduced.
 
-Final make-j4 audit/check/unit passes3.605s(phases unsplit):1407 graphs/accepted
-extents,211 scoped RET,47 original-backed cases and266 units. Original/W3 passes
-2.945s; necessary canonical/native/case build8.199s and three case-unit sets0.101s.
-Analysis/editing/disassembly elapsed is unmeasured. No new oracle normalization,
-CRT body or shared shim. Scratch source/artifact hashes, qualification/time/
-coverage records: `~/.ai-tmp/msvc2/vc1.0/c2/output-adapter-units/`.
+The six unit-qualified owners add339B. A193B Pentium label-redirection transform
+uses genuine live machine state and API-created labels/instructions: selected
+branch stays on the old label, two related edges redirect, new refs2/old refs3
+and original stream order are preserved. Five diagnostic adapters(146B total)
+run through ordinary parsed state and real target constructors/fopen failure.
+C1001 increments the shared error counter twice and exits2; the actual COFF14
+arm reports C1085 using object_filename and compiler-generated source, exits1.
+Their whole original bodies/ABIs and call edges are retained, without fabricated
+malformed IR or frontend claims. Native host-pipe glue uses host syscalls rather
+than incorrectly passing pipe descriptors to the target CRT. Initial declaration/
+pipe failures and debugging remain in scratch alongside the corrected passing
+units. The compiler_internal_error extent is its actual19B body, excluding13B
+padding formerly retained only for an ABI-tail proof.
+
+Final make-j4 audit/check/unit passes4.205s(phases unsplit):1414 paired graphs/
+accepted extents,218 scoped RET,48 original-backed cases and273 units. Original
+W3 compilation passes7.631s. All measured attempts in this group, including failed
+builds/retries: canonical/native/case builds50.491s, metadata2.883s, original
+reference captures4.772s, original probe build6.119s, focused graph/RET0.180s,
+native pairs0.108s, units0.188s, GDB0.392s and expected-status rejection0.032s.
+The final pair takes23.823ms: setup17.409/execution2.135/checks4.278. Categories
+can overlap wall time; analysis/editing/disassembly/authoring are unmeasured.
+No new CRT body or shared shim. Full source/artifact identities, failures,
+qualification/timing/coverage summaries remain under
+`~/.ai-tmp/msvc2/vc1.0/c2/console-control/`, `shared-branch-unit/` and
+`diagnostic-boundary-units/`.
+
+Checkpoint1517's prior four unit-qualified owners added48B: disabled relocation5,
+disabled directive1, OMF segment-reference adapter16 and ASCII uppercase26.
+Typed callback ABIs replace old naked traps at unchanged original RVAs. Native
+units verify the real no-object table, live OMF type2 fixup relation and every
+nonzero name byte; no Pascal frontend support is claimed.
 
 Checkpoint1513 completed the original-paired unsupported-option case below.
 The new negative case invokes the original backend directly with the explicit
@@ -997,8 +1019,9 @@ C++ ledger(7810B object/18463B listing), text-record assembler(3102B object) and
 SEH packet(3723B object). Calibration pins the actual consumed6019B C23.ERR:
 `c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5`.
 No diagnostic text is embedded in App source. Far-pointer lowering's deliberate
-internal-error stubs remain unforced; other unvisited App children and unsupported
-OMF alignment/public-kind paths remain named traps.
+internal-error paths now have complete unit-qualified adapters as above; no
+frontend reach is claimed. Unsupported native OMF alignment/public-kind paths
+remain explicit traps.
 
 Original eight-byte name POD returns and raw DoubleBits use per-object
 `-freg-struct-return` for complete App caller/definition and narrow harness

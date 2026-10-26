@@ -311,3 +311,38 @@ int __fastcall pentium_flags_live_after(MachineInstruction *instruction)
     }
     return 0;
 }
+
+/* Original47780..47841 (193 bytes), ECX branch/EDX paired middle, RET0.
+   Keep the selected edge on its old label and redirect every other ordinary
+   Jcc/JMP sharing that target to a new label after the moved instruction.
+   The original does not subtract redirected edges from the old reference
+   counter here. Its label-chain publication is inlined, not a helper edge.
+   Dormant transform: constructor-based live native unit qualification only. */
+void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch,
+    MachineInstruction *middle)
+{
+    LabelSymbol *symbol = new_internal_label();
+    MachineInstruction *label = new_machine_instruction(1), *scan;
+    SymbolHeader *old;
+    symbol->instruction = label;
+    fflush(stdout);
+    symbol->references = 0;
+    label->record.symbol = &symbol->symbol;
+    label->labels.next = machine_context->labels.next;
+    machine_context->labels.next = label;
+    fflush(stdout);
+    insert_machine_after(middle, label);
+    old = branch->operands[0].value.symbol;
+    scan = machine_context;
+    fflush(stdout);
+    for (; scan; scan = scan->next) {
+        if (!(scan->opcode & 15) && scan != branch &&
+            (BRANCH_OPERATION(scan) == MC_JCC || BRANCH_OPERATION(scan) == MC_JMP) &&
+            scan->operands[0].value.symbol == old) {
+            fflush(stdout);
+            scan->operands[0].value.symbol = &symbol->symbol;
+            ++symbol->references;
+        }
+    }
+    fflush(stdout);
+}

@@ -11,6 +11,8 @@
 #include "../../src/symbols.h"
 #include "../../src/float-machine.h"
 #include "../../src/region-motion.h"
+#include "../../src/scheduler.h"
+#include "../../src/jump-threading.h"
 #include "../../src/expression-fields.h"
 #include <recon-native.h>
 #include <recon-tool.h>
@@ -167,11 +169,62 @@ static void actual_bank_input(void *unused)
 static int actual_derived_query(void)
 {return recon_native_at_entry((const void*)rewrite_derived_induction_group,
  (const void*)derived_entry,actual_bank_input,0)==1;}
+/* Same real arena/context as the bank case; add only target-created labels
+   and ordinary records through target splice/registration APIs. This is a
+   native internal transform unit, not public scheduling eligibility. */
+extern void combine_machine_instructions(void);
+static void branch_redirect_entry(void)
+{
+ MachineInstruction *before[4096],*created[7],*scan,*position,*original_labels,*label;
+ unsigned opcodes[4096],n=0,i,j,new_seen=0;
+ MachineContext *context=machine_context;MachineInstruction *head=machine_instructions;
+ LabelSymbol *old,*other,*replacement;MachineOperand target,reg;
+ if(!context||!context->next||!current_scope||!current_function)recon_native_entry_finish(0);
+ for(scan=context;scan;scan=scan->next){
+  if(n==4096)recon_native_entry_finish(0);before[n]=scan;opcodes[n++]=scan->opcode;
+ }
+ original_labels=context->labels.next;old=new_internal_label();other=new_internal_label();
+ initialize_operand(&target,OPERAND_SYMBOL,0,0,&old->symbol);
+ created[0]=new_machine_record(0,MC_JCC,4,&target,4);
+ created[1]=new_machine_record(0,MC_JMP,4,&target);
+ created[2]=new_machine_record(0,MC_JCC,4,&target,5);
+ initialize_operand(&target,OPERAND_SYMBOL,0,0,&other->symbol);
+ created[3]=new_machine_record(0,MC_JMP,4,&target);
+ created[4]=new_machine_record(1,&old->symbol);
+ initialize_operand(&reg,OPERAND_REGISTER,REG_EAX,0,0);
+ created[5]=new_machine_record(0,MC_MOV,4,&reg,&reg);
+ created[6]=new_machine_record(1,&other->symbol);
+ position=context;
+ for(i=0;i<7;++i){insert_machine_after(position,created[i]);position=created[i];}
+ old->references=3;other->references=1;
+ register_machine_label(created[4]);register_machine_label(created[6]);
+ redirect_pentium_branch_labels(created[0],created[5]);label=created[5]->next;
+ if(!label||(label->opcode&15)!=1||label==created[6]||label->next!=created[6])
+  recon_native_entry_finish(0);
+ replacement=(LabelSymbol*)label->record.symbol;
+ if(replacement==old||replacement==other||replacement->instruction!=label||replacement->references!=2||
+  context->labels.next!=label||label->labels.next!=created[6]||created[6]->labels.next!=created[4]||
+  created[4]->labels.next!=original_labels||created[0]->operands[0].value.symbol!=&old->symbol||
+  created[1]->operands[0].value.symbol!=&replacement->symbol||
+  created[2]->operands[0].value.symbol!=&replacement->symbol||
+  (created[2]->operands[1].flags&15)!=5||created[3]->operands[0].value.symbol!=&other->symbol||
+  old->references!=3||other->references!=1||machine_context!=context||machine_instructions!=head)
+  recon_native_entry_finish(0);
+ for(scan=context,i=0;scan;scan=scan->next){
+  if(i<n&&scan==before[i]){if(scan->opcode!=opcodes[i])recon_native_entry_finish(0);++i;}
+  else if(scan!=label){for(j=0;j<7&&created[j]!=scan;++j);if(j==7)recon_native_entry_finish(0);++new_seen;}
+ }
+ recon_native_entry_finish(i==n&&new_seen==7);
+}
+static int actual_shared_branch_redirect(void)
+{return recon_native_at_entry((const void*)combine_machine_instructions,
+ (const void*)branch_redirect_entry,actual_bank_input,0)==1;}
 const ReconTest scaled_induction_tests[]={
     {"unit-qualified induction summary uses original x86 shift count",1,increment_summary},
     {"unit-qualified indexed normalization preserves owned address annotations",1,normalized_addresses},
     {"unit-qualified integer memory arithmetic maps to resident ST forms",1,resident_arithmetic_forms},
     {"unit-qualified scalar operand widths retain actual bit counts",1,scalar_bit_widths},
     {"unit-qualified plain aggregate secondary result uses EDX",1,aggregate_secondary_result},
-    {"unit-qualified unblocked query borrows a genuine derived representative",1,actual_derived_query}
+    {"unit-qualified unblocked query borrows a genuine derived representative",1,actual_derived_query},
+    {"unit-qualified shared branch redirection preserves original stream owners",1,actual_shared_branch_redirect}
 };

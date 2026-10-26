@@ -274,3 +274,13 @@ void __cdecl format_diagnostic_arguments(char *buffer, char *format, va_list arg
     }
     *buffer = 0;
 }
+
+/* Original6fb70..6fb83 (19 bytes), ECX source/EDX code, RET0.
+   This boundary increments the same compiler_errors word as compiler_report;
+   the fatal child increments it again before exiting. No separate counter.
+   Native typed fatal-boundary units do not claim malformed-IR CLI reach. */
+void __fastcall compiler_internal_error(char *source, unsigned code)
+{
+    ++compiler_errors;
+    compiler_report(1, source, code);
+}

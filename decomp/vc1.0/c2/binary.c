@@ -5103,11 +5103,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@redirect_pentium_branch_labels@8",
         .entry_rva = 0x37780,
-        .code = (const ReconExtent[]) { { 0x37780, 0x37781 } },
+        .code = (const ReconExtent[]) { { 0x37780, 0x37841 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "redirect_pentium_branch_labels",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@pair_pentium_taken_edge@16",
@@ -10460,11 +10460,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lower_far_pointer_cast@4",
         .entry_rva = 0x5f5e0,
-        .code = (const ReconExtent[]) { { 0x5f5e0, 0x5f5e1 } },
+        .code = (const ReconExtent[]) { { 0x5f5e0, 0x5f5f9 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lower_far_pointer_cast",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@conversion_loses_value@8",
@@ -11290,11 +11290,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@lower_target_address@4",
         .entry_rva = 0x5f600,
-        .code = (const ReconExtent[]) { { 0x5f600, 0x5f601 } },
+        .code = (const ReconExtent[]) { { 0x5f600, 0x5f617 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "lower_target_address",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@release_tree@4",
@@ -12215,11 +12215,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@coff_error@12",
         .entry_rva = 0x5c960,
-        .code = (const ReconExtent[]) { { 0x5c960, 0x5c961 } },
+        .code = (const ReconExtent[]) { { 0x5c960, 0x5c99c } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "coff_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "@coff_allocate@4",
@@ -13767,11 +13767,11 @@ static const ReconFunction functions[] = {
     {
         .name = "@compiler_internal_error@8",
         .entry_rva = 0x5fb70,
-        .code = (const ReconExtent[]) { { 0x5fb70, 0x5fb90 } },
+        .code = (const ReconExtent[]) { { 0x5fb70, 0x5fb83 } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compiler_internal_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_finish_globals",
@@ -13928,9 +13928,9 @@ static const ReconFunction functions[] = {
     },
     {
         .name = "@ide_error@8", .entry_rva = 0x5f3c0,
-        .code = (const ReconExtent[]) { { 0x5f3c0, 0x5f3c1 } }, .code_count = 1,
+        .code = (const ReconExtent[]) { { 0x5f3c0, 0x5f3d3 } }, .code_count = 1,
         .definition = RECON_APP, .native_symbol = "ide_error",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_parse_options",
@@ -13962,11 +13962,11 @@ static const ReconFunction functions[] = {
     {
         .name = "_compiler_control@4",
         .entry_rva = 0x3c560,
-        .code = (const ReconExtent[]) { { 0x3c560, 0x3c580 } },
+        .code = (const ReconExtent[]) { { 0x3c560, 0x3c57e } },
         .code_count = 1,
         .definition = RECON_APP,
         .native_symbol = "compiler_control",
-        .implementation = RECON_UNIMPLEMENTED,
+        .implementation = RECON_IMPLEMENTED,
     },
     {
         .name = "_main",

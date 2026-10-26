@@ -29,6 +29,16 @@ void compiler_cleanup(void)
         remove(assembly_filename);
     }
 }
+/* Original [0004c560,0004c57e). Console events terminate compilation after
+   disabling Ctrl-C handling. The original BOOL return is unreachable after
+   exit, but remains part of its stdcall signature and complete body. */
+BOOL WINAPI compiler_control(DWORD event)
+{
+    (void)event;
+    SetConsoleCtrlHandler(NULL, TRUE);
+    exit(0x8000);
+    return TRUE;
+}
 int main(int argc, char **argv, char **envp)
 {
     __try {

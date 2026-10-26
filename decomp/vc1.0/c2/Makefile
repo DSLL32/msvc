@@ -17,6 +17,7 @@ BINARY_SOURCES = src/c2.c \
     src/symbols.c \
     src/extended.c \
     src/constant-conversion.c \
+    src/target-diagnostics.c \
     src/segments.c \
     src/initializers.c \
     src/functions.c \

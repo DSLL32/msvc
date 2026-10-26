@@ -95,3 +95,13 @@ int __fastcall ide_write_channel(int channel, char *text, unsigned bytes)
     fflush(&_iob[channel]);
     return _write(channel, text, bytes);
 }
+
+/* Original6f3c0..6f3d3 (19 bytes), ignored ECX/EDX callback inputs, RET0.
+   Report the adapter implementation site, not the caller-supplied strings.
+   The zero return is nominal only: the original fatal child does not return. */
+int __fastcall ide_error(char *source, unsigned line)
+{
+    (void)source; (void)line;
+    compiler_internal_error("@(#)ide.c:1.2", 0x44);
+    return 0;
+}

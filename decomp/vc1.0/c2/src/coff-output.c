@@ -137,3 +137,14 @@ void __fastcall coff_write_data(void *data, unsigned bytes)
 {
     coff_write_scope_data(data, bytes);
 }
+
+/* Original6c960..6c99c (60 bytes), ECX code/EDX source/stack line, RET4.
+   Writer code14 reports the configured output filename and current CRT error;
+   all other codes report this module's original implementation site instead.
+   Both incoming source/line fields are deliberately unused. */
+void __fastcall coff_error(unsigned code, char *source, unsigned line)
+{
+    (void)source; (void)line;
+    if (code == 14) report_context_error(0x55, generated_source, object_filename);
+    else compiler_internal_error("@(#)coff.c:1.14", 0x3fd);
+}

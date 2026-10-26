@@ -1055,6 +1055,41 @@
       "expected_cleanup": [
         0
       ]
+    },
+    "@redirect_pentium_branch_labels@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@compiler_internal_error@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@ide_error@8": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@coff_error@12": {
+      "expected_cleanup": [
+        4
+      ]
+    },
+    "@lower_far_pointer_cast@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "@lower_target_address@4": {
+      "expected_cleanup": [
+        0
+      ]
+    },
+    "_compiler_control@4": {
+      "expected_cleanup": [
+        4
+      ]
     }
   }
 }

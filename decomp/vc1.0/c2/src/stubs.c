@@ -38,12 +38,8 @@
 #include "ide.h"
 #include <stdarg.h>
 #include <recon.h>
-BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
-void __fastcall compiler_internal_error(char *source, unsigned code) { __asm int 3 }
-Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 #include "inline-calls.h"
 #include "algebra.h"
-int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 #include "instruction-selection.h"
 #include "output.h"
@@ -65,7 +61,6 @@ int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 
 
 #include "coff-output.h"
-void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm int 3 }
 #include "coff-writer.h"
 #include "coff-segments.h"
 #include "listing.h"
@@ -171,9 +166,5 @@ void __fastcall coff_error(unsigned code, char *source, unsigned line) { __asm i
 
 
 
-void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 
 #include "intrinsics.h"
-
-
-int __fastcall ide_error(char *source, unsigned line) { __asm int 3 }
