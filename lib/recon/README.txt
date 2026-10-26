@@ -863,7 +863,16 @@ Success preserves errors. Directory/socket/error variants remain unsupported.
 MapViewOfFileEx supports the observed whole-view NULL-base form through the
 same typed mapping/view ownership model. Its successful call preserves both
 error slots, proved with a full2MB zero-extension/lifetime/persistence probe.
-Fixed-base or partial-view requests remain explicitly unsupported.
+Explicit MSVCRT_510 also admits a non-NULL, 64KiB-aligned preferred address
+for a full owned writable mapping, FILE_MAP_ALL_ACCESS and zero offsets.
+MAP_FIXED_NOREPLACE never overwrites another allocation; real collisions return
+ERROR_INVALID_ADDRESS, misaligned bases ERROR_MAPPED_ALIGNMENT. Nonexact hint
+fallbacks are unmapped and rejected. Successful views retain normal shared-view
+ownership/unmap and preserve native error slots; original per-call error state
+is unmeasured. Partial views and other-profile fixed bases remain unsupported.
+The focused preferred-view check proves real success, collision/no-clobber,
+alignment, file persistence, lifetime and profile isolation. Native address-layout
+success does not establish equality with LINK's retained failed original view.
 
 IsDBCSLeadByteEx supports explicit codepage1252 and ASCII bytes (includingNUL),
 returningFALSE with unchanged errors; other pages/bytes fail. UTF16 wcscat uses

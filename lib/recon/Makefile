@@ -1064,3 +1064,11 @@ native-bootstrap-check:
 .PHONY: native-command-check
 native-command-check:
 	$(PYTHON) tests/native-bootstrap/check-protocol.py
+
+.PHONY: preferred-view-check
+build/preferred-view-probe: tests/preferred-view-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/preferred-view-generic: tests/preferred-view-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+preferred-view-check: build/preferred-view-probe build/preferred-view-generic
+	$(PYTHON) tests/check-preferred-view.py $^

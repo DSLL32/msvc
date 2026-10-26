@@ -1749,6 +1749,35 @@ BOOL WINAPI recon_FlushViewOfFile(LPCVOID address,DWORD bytes)
 LPVOID WINAPI recon_MapViewOfFileEx(HANDLE handle,DWORD access,DWORD high,DWORD low,DWORD bytes,LPVOID base)
 {
     DWORD saved_error=last_error;int saved_errno=errno;LPVOID result;Mapping *mapping;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (base) {
+        View *view;struct stat identity;void *address;DWORD failure;
+        for(mapping=mappings;mapping && (HANDLE)mapping!=handle;mapping=mapping->next) ;
+        if(!mapping || !mapping->writable || access!=FILE_MAP_ALL_ACCESS || high || low ||
+           !bytes || bytes!=mapping->length || bytes>INT_MAX ||
+           (uintptr_t)base>UINTPTR_MAX-bytes)
+            recon_unsupported("MapViewOfFileEx full owned writable preferred view");
+        if((uintptr_t)base&0xffff) {last_error=ERROR_MAPPED_ALIGNMENT;return NULL;}
+        if(fstat(mapping->fd,&identity)) {failure=error_code(errno);errno=saved_errno;last_error=failure;return NULL;}
+        /* Never replace another allocation. Older kernels can ignore this flag;
+         * reject and unmap any nonexact result instead of accepting a hint. */
+        address=mmap(base,bytes,PROT_READ|PROT_WRITE,MAP_SHARED|MAP_FIXED_NOREPLACE,mapping->fd,0);
+        if(address==MAP_FAILED) {
+            failure=errno==EEXIST?ERROR_INVALID_ADDRESS:error_code(errno);
+            errno=saved_errno;last_error=failure;return NULL;
+        }
+        if(address!=base) {
+            munmap(address,bytes);errno=saved_errno;last_error=ERROR_INVALID_ADDRESS;return NULL;
+        }
+        view=malloc(sizeof(*view));
+        if(!view) {munmap(address,bytes);errno=saved_errno;last_error=ERROR_NOT_ENOUGH_MEMORY;return NULL;}
+        view->address=address;view->length=bytes;
+        view->file_device=identity.st_dev;view->file_inode=identity.st_ino;
+        view->decommit_eligible=0;view->decommitted=0;view->committed_prefix=0;
+        view->next=views;views=view;
+        errno=saved_errno;last_error=saved_error;return address;
+    }
+#endif
     if (base || high || low) recon_unsupported("MapViewOfFileEx fixed/partial view");
     if (bytes) {
         for(mapping=mappings;mapping && (HANDLE)mapping!=handle;mapping=mapping->next) ;
