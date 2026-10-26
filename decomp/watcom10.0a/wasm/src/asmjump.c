@@ -32,9 +32,15 @@
 
 /* operator CFc708..c8b0, adapted to the1994 body without later MMX guards. */
 #include <limits.h>
+#include <string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include "asmparse.h"
 #include "direct.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(strlen,strcpy,strcat)
+#endif
 
 int operator(int mem_type, unsigned char fix_mem_type)
 {
@@ -407,4 +413,92 @@ int jmp( int i )                // Bug: can't handle indirect jump
         }
     }
     return( NOT_ERROR );
+}
+
+/* CFbbd0..bd75, from initial asmjump.c. */
+enum asm_token getJumpNegation(enum asm_token instruction);
+void jumpExtend( void )
+/****************************/
+{
+    unsigned i;
+    unsigned next_ins_size;
+    enum asm_token negation;
+    char buffer[256];
+
+    /* there MUST be a conditional jump instruction in asmbuffer */
+    for( i=0; ; i++ ) {
+        if( AsmBuffer[i]->token==T_INS && IS_JMP( AsmBuffer[i]->value ) ) break;
+    }
+
+    AsmWarn( 4, 1149 );
+
+    negation = getJumpNegation( AsmBuffer[i]->value );
+    GetInsString( negation, buffer, 256 );
+    next_ins_size = Code->use32 ? 5 : 3;
+    sprintf( buffer + strlen( buffer ), " $+%d ", next_ins_size+2 );
+    InputQueueLine( buffer );
+    strcpy( buffer, "jmp NEAR PTR " );
+    for( i++; AsmBuffer[i]->token != T_FINAL; i++ ) {
+        switch( AsmBuffer[i]->token ) {
+        case T_NUM:
+        case T_DEC_NUM:
+        case T_OCT_NUM:
+        case T_HEX_NUM_0:
+        case T_HEX_NUM:
+        case T_BIN_NUM:
+            itoa( AsmBuffer[i]->value, buffer+strlen( buffer ), 10 );
+            break;
+        case T_OP_SQ_BRACKET:
+            strcat( buffer, "[" );
+            break;
+        case T_CL_SQ_BRACKET:
+            strcat( buffer, "]" );
+            break;
+        default:
+            strcat( buffer, AsmBuffer[i]->string_ptr );
+            break;
+        }
+    }
+    InputQueueLine( buffer );
+    return;
+}
+
+/* CFbaf8..bbcf,34-way table atba70..baf8. */
+enum asm_token getJumpNegation( enum asm_token instruction )
+/*****************************************************************/
+{
+    switch( instruction ) {
+    case T_JA:          return( T_JNA );
+    case T_JAE:         return( T_JNAE );
+    case T_JB:          return( T_JNB );
+    case T_JBE:         return( T_JNBE );
+    case T_JC:          return( T_JNC );
+    case T_JE:          return( T_JNE );
+    case T_JG:          return( T_JNG );
+    case T_JGE:         return( T_JNGE );
+    case T_JL:          return( T_JNL );
+    case T_JLE:         return( T_JNLE );
+    case T_JNA:         return( T_JA );
+    case T_JNAE:        return( T_JAE );
+    case T_JNB:         return( T_JB );
+    case T_JNBE:        return( T_JBE );
+    case T_JNC:         return( T_JC );
+    case T_JNE:         return( T_JE );
+    case T_JNG:         return( T_JG );
+    case T_JNGE:        return( T_JGE );
+    case T_JNL:         return( T_JL );
+    case T_JNLE:        return( T_JLE );
+    case T_JNO:         return( T_JO );
+    case T_JNP:         return( T_JP );
+    case T_JNS:         return( T_JS );
+    case T_JNZ:         return( T_JZ );
+    case T_JO:          return( T_JNO );
+    case T_JP:          return( T_JNP );
+    case T_JPE:         return( T_JPO );
+    case T_JPO:         return( T_JPE );
+    case T_JS:          return( T_JNS );
+    case T_JZ:          return( T_JNZ );
+    default:
+        return( (enum asm_token)ERROR );
+    }
 }

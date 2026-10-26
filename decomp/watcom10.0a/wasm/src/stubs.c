@@ -80,7 +80,6 @@ int WResIDNameCmp(const WResIDName *first, const WResIDName *second)
 
 int comp_mem(int first, int second) { (void)first; (void)second; WASM_PENDING(); return -1; }
 
-void jumpExtend(void) { WASM_PENDING(); }
 
 
 

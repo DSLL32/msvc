@@ -1,6 +1,6 @@
 # Watcom 10.0a WASM
 
-Six cases are complete: `/?` (exit 1), four successful assembly workloads,
+Seven cases are complete: `/?` (exit 1), five successful assembly workloads,
 and a source-configuration diagnostic workload (exit 7).
 The buffer transform combines includes, macros, conditionals, typed records,
 integer/x87 instructions, branches and external relocations (485-byte OMF).
@@ -15,10 +15,13 @@ exactly. The diagnostic workload exercises included macro error directives,
 string/value/defined-symbol conditions, macro-call notes and alignment warnings.
 Its seven errors and one warning match exactly; redirected stdout suppresses
 `/fe` error-file creation, and the erroneous object is deleted.
+The DOS screen library adds long286 conditional-branch expansion, group
+relocations and unrolled segment-override stores (445-byte OMF); both
+jump-extension warnings and the object match.
 Inputs and references are frozen in numbered captures;
 fixtures never invoke Wine.
 
-The reconstruction covers 390 application functions and 93,357 unique original
+The reconstruction covers 392 application functions and 93,993 unique original
 code bytes. One empty function, `PObjUnRegList`, is statically qualified at the
 RET shared with `PObjRegList`: zero additional bytes and explicitly excluded
 from the assembly cases' entry orders, without a runtime observation claim.
@@ -34,17 +37,18 @@ builds explicitly trap those unreached malformed-call paths. The proper
 assembler diagnostic interface retains its two independent `va_list` arguments.
 
 Use `make -j4 native cases win32`, `make -j4 check`, and `make -j4 audit`.
-All 390 graph/reference/ownership/extent checks pass, with 308 ordinary RET
+All 392 graph/reference/ownership/extent checks pass, with 310 ordinary RET
 contracts and 82 finite cold-error, tail-wrapper or exit checks. Pending error
 handlers stay masked. Reports and raw artifacts remain in scratch.
 
-Final cached native fixtures: help 16.50 ms, buffer transform 16.64 ms,
-DOS records 15.65 ms, flat32 library 15.51 ms, segmented x87 library 15.79 ms
-and diagnostics 13.72 ms (setup 8.20 ms, execution 2.32 ms, checks 3.20 ms).
-Parallel Make check took 98.98 ms; the final full graph and finite RET audit
-took 767.59 ms. The last explicit original capture took 1.82 s. Native and
-period builds passed; their final incremental build time was not measured.
-These are measured closeout runs, not clean-build timings.
+Final cached native fixtures: help 13.30 ms, buffer transform 15.47 ms,
+DOS records 13.44 ms, flat32 library 15.98 ms, segmented x87 library 13.42 ms,
+diagnostics 13.45 ms and DOS screen library 15.23 ms (setup 6.64 ms,
+execution 5.67 ms, checks 2.92 ms). Parallel Make check took 91.52 ms; the
+final full graph and finite RET audit took 784.60 ms. The last explicit
+original capture took 1.81 s. Native and period builds passed; their final
+incremental build time was not measured. These are measured closeout runs,
+not clean-build timings.
 
 The captured original is `.patched/binb/WASM.EXE` through the byte-identical
 `.patched/binnt/WASM.EXE` loader, hash-bound by `harness/cf-profile.json`. Its
