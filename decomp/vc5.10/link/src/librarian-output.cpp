@@ -262,3 +262,30 @@ DWORD RECON_THISCALL CoffLibrarianContext::Emit(CoffImportHeader *header,const c
     }
     return position;
 }
+
+void RECON_THISCALL LibrarianContext::AddSymbol(CoffImportHeader *import,const char *name,
+    DWORD create_object,IMAGE_ARCHIVE_MEMBER_HEADER *archive_header,
+    IMAGE_FILE_HEADER *header,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,
+    LibrarianImportInfo *info)
+{
+    DWORD flags=0;
+    /* These are defined pointer-derived physical DWORD transports. The target
+     * replaces only their low BYTE/WORD; the emitter consumes those low parts.
+     * Keep the carried address bits instead of treating them as unwritten. */
+    DWORD no_prefix=(DWORD)this&0xffffff00;
+    DWORD by_ordinal=(DWORD)import&0xffffff00;
+    DWORD ordinal=((DWORD)import&0xffff0000)|import->ordinal_hint;
+    switch(import->kind) {
+    case 1:flags=0x2000;break;
+    case 2:flags=8;break;
+    }
+    if(info)info->name_type=import->name_type;
+    switch(import->name_type) {
+    case 0:by_ordinal|=1;break;
+    case 2:no_prefix|=1;break;
+    case 3:flags|=0x10;break;
+    }
+    if(debug_formats&2)librarian_codeview_object.size=(WORD)(cached_name_length+7);
+    EmitImportSymbol(name,no_prefix,flags,by_ordinal,ordinal,create_object,
+        archive_header,header,sections,section_flags,info);
+}

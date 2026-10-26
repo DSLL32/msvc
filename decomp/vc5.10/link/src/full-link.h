@@ -61,11 +61,13 @@ typedef char FoldCandidateAt20[(offsetof(ContributionInfo,fold_candidate)==0x20)
  * claims about an allocation's complete size or its as-yet unknown tail. */
 /* The initializer allocates complete 156-byte module and 68-byte library records.
  * Name fields as their producers/consumers are reached; retain unknown gaps. */
+struct CoffLibrarianContext;
 struct OutputLibrary {
     char *name;
-    OutputModule **modules;
-    DWORD module_capacity;
-    LONG module_count;
+    /* Conversion contexts, distinct from module_head linked modules. */
+    struct CoffLibrarianContext **import_conversions;
+    DWORD conversion_capacity;
+    LONG conversion_count;
     BYTE active, reserved11[3];
     const char *path;
     DWORD archive_symbol_count;
@@ -216,8 +218,8 @@ typedef struct MacResource {
 } MacResource;
 
 typedef char OutputLibrarySize[(sizeof(OutputLibrary)==68)?1:-1];
-typedef char LibraryCreatorFields[(offsetof(OutputLibrary,modules)==4 &&
-    offsetof(OutputLibrary,module_capacity)==8 && offsetof(OutputLibrary,module_count)==12 &&
+typedef char LibraryCreatorFields[(offsetof(OutputLibrary,import_conversions)==4 &&
+    offsetof(OutputLibrary,conversion_capacity)==8 && offsetof(OutputLibrary,conversion_count)==12 &&
     offsetof(OutputLibrary,active)==16 && offsetof(OutputLibrary,path)==20)?1:-1];
 typedef char LibraryIndexDataAt1c[(offsetof(OutputLibrary,index_data)==0x1c)?1:-1];
 typedef char LibraryFlagsAt30[(offsetof(OutputLibrary,flags)==0x30)?1:-1];

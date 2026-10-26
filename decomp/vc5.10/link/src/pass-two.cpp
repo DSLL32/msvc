@@ -10,6 +10,7 @@
 #include "sections.h"
 #include "comdat.h"
 #include "debug-output.h"
+#include "librarian.h"
 #include <recon.h>
 
 extern "C" {
@@ -510,7 +511,24 @@ void RECON_THISCALL Contribution::ProcessOutput(LinkContext *context,IMAGE_SYMBO
     if(file->flags & 8)mapped_write(file,data,count);
     else buffered_write(file,data,count);
 }
-void RECON_THISCALL Contribution::ReadConvertedData(void *,DWORD) { __asm { int 3 } }
+typedef void (RECON_THISCALL LibrarianContext::*ConvertedDataEmitter)(
+    LibrarianImportInfo *,void *,void *);
+/* The encountered short-import format supplies only section kinds 0..8. */
+static ConvertedDataEmitter converted_data_emitters[9]={
+    &LibrarianContext::EmitImportDebug,&LibrarianContext::EmitImportDebugRelocations,
+    &LibrarianContext::EmitImportCode,&LibrarianContext::EmitImportFunctionDebug,
+    &LibrarianContext::EmitImportOrdinalThunk,&LibrarianContext::EmitImportOrdinalThunk,
+    &LibrarianContext::EmitImportNamedThunk,&LibrarianContext::EmitImportNamedThunk,
+    &LibrarianContext::EmitImportHintName
+};
+void RECON_THISCALL Contribution::ReadConvertedData(void *buffer,DWORD bytes)
+{
+    BYTE kind=module->section_flags ? module->section_flags[
+        ((LONG)((DWORD)this-(DWORD)module->contributions))>>6] : 255;
+    if(kind>=9) { __asm { int 3 } }
+    (((LibrarianContext *)module->auxiliary)->*converted_data_emitters[kind])(
+        (LibrarianImportInfo *)module->optional_data,buffer,(void *)bytes);
+}
 BYTE RECON_THISCALL LinkAuxiliaryData::WriteProcedures(WORD,void *,Contribution *) { __asm { int 3 } return 0; }
 extern "C" {
 void __stdcall write_bss_contribution(Contribution *contribution)

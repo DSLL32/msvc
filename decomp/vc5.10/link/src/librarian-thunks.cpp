@@ -31,8 +31,21 @@ char *__stdcall select_import_name(DWORD strip,DWORD undecorate,const char *name
     if((BYTE)undecorate && *selected!='?' && *selected!='@')--*length;
     return selected;
 }
-char *__stdcall import_debug_name(const char *,BYTE *) { __asm { int 3 } return NULL; }
-#pragma intrinsic(memset,strncpy)
+char *__stdcall undecorate_import_symbol(const char *) { __asm { int 3 } return NULL; }
+char *__stdcall import_debug_name(const char *name,BYTE *length)
+{
+    char *selected,*suffix;
+    if(*name=='?')selected=undecorate_import_symbol(name);
+    else {
+        selected=duplicate_argument(name);
+        if(*selected=='@' || (underscore_symbols && *selected=='_'))++selected;
+        suffix=strchr(selected,'@');
+        if(suffix)*suffix=0;
+    }
+    *length=(BYTE)strlen(selected);
+    return selected;
+}
+#pragma intrinsic(memset,strncpy,memcpy)
 void __stdcall initialize_import_section(IMAGE_SECTION_HEADER *section,DWORD *offset,
     const char *name,DWORD bytes,DWORD relocations,DWORD attributes)
 {
@@ -73,7 +86,11 @@ void __stdcall write_archive_header(int,const char *,DWORD,DWORD,DWORD,DWORD,IMA
 void __stdcall write_file_header(int,IMAGE_FILE_HEADER *,IMAGE_FILE_HEADER *);
 void __stdcall write_section_header(int,const IMAGE_SECTION_HEADER *,IMAGE_SECTION_HEADER *);
 void __stdcall write_relocations(int,const IMAGE_RELOCATION *,DWORD);
-void __stdcall copy_relocations(IMAGE_RELOCATION *,const IMAGE_RELOCATION *,DWORD) { __asm { int 3 } }
+void __stdcall copy_relocations(IMAGE_RELOCATION *destination,
+    const IMAGE_RELOCATION *source,DWORD count)
+{
+    memcpy(destination,source,count*sizeof(IMAGE_RELOCATION));
+}
 }
 
 #pragma pack(push,2)
@@ -310,7 +327,7 @@ void RECON_THISCALL LibrarianContext::EmitImportCode(LibrarianImportInfo *info,v
 }
 
 void RECON_THISCALL LibrarianContext::EmitImportCodeRelocations(LibrarianImportInfo *info,
-    void *,void *destination)
+    void *destination,void *)
 {
     IMAGE_RELOCATION relocation,*out=(IMAGE_RELOCATION *)destination;
     const ImportThunkRelocation *source;
@@ -372,7 +389,7 @@ void RECON_THISCALL LibrarianContext::EmitImportFunctionDebug(LibrarianImportInf
 }
 
 void RECON_THISCALL LibrarianContext::EmitImportFunctionRelocations(LibrarianImportInfo *info,
-    void *,void *destination)
+    void *destination,void *)
 {
     IMAGE_RELOCATION relocation,*out=(IMAGE_RELOCATION *)destination;
     if(info->type || !(debug_formats&2))return;
@@ -416,7 +433,7 @@ void RECON_THISCALL LibrarianContext::EmitImportNamedThunk(LibrarianImportInfo *
 }
 
 void RECON_THISCALL LibrarianContext::EmitImportNameRelocation(LibrarianImportInfo *info,
-    void *,void *destination)
+    void *destination,void *)
 {
     IMAGE_RELOCATION relocation;
     if(!info->name_type)return;

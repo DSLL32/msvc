@@ -24,6 +24,9 @@ RECON_FORCEINLINE RECON_THISCALL ExportLibrarianContext::ExportLibrarianContext(
     : LibrarianContext(source,source->options.debug_formats) {}
 RECON_FORCEINLINE RECON_THISCALL CoffLibrarianContext::CoffLibrarianContext(LinkContext *source)
     : LibrarianContext(source,2) {}
+RECON_FORCEINLINE RECON_THISCALL CoffLibrarianContext::CoffLibrarianContext(int file,
+    const char *base,const char *extension,DWORD formats,WORD target_machine,DWORD timestamp)
+    : LibrarianContext(file,base,extension,formats,target_machine,timestamp) {}
 RECON_FORCEINLINE RECON_THISCALL LibrarianContext::~LibrarianContext()
 {
     if(owned10)release_memory(owned10);

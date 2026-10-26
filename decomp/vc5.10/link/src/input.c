@@ -151,7 +151,13 @@ BYTE __stdcall read_coff_header(int file,IMAGE_FILE_HEADER *header,void *alterna
     if (alternate) *alternate=is_import;
     return is_import;
 }
-void __stdcall validate_import_object_header(void *header) { __asm { int 3 } }
+void __stdcall validate_import_object_header(const CoffImportHeader *header)
+{
+    if(header->version)link_fatal(NULL,1196);
+    if(header->kind>2)link_fatal(NULL,1197);
+    if(header->name_type>3)link_fatal(NULL,1198);
+    if(header->reserved)link_fatal(NULL,1199);
+}
 /* Separate from copied input headers at module+0x48. This arena is also
    released by the later COMDAT cleanup. */
 MemoryArena *section_header_arena;

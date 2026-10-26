@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 87536
+              "offset": 90176
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 87547
+              "offset": 90187
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 105200
+              "offset": 108208
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 105211
+              "offset": 108219
             }
           ]
         },
@@ -4950,6 +4950,26 @@
         "register_imports": {
           "enabled": true,
           "require_all_register_calls_resolved": true
+        }
+      },
+      "_get_import_conversion@28": {
+        "original": {
+          "roots": [
+            4609088,
+            4609102
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_get_import_conversion@28",
+              "offset": 56992
+            },
+            {
+              "rebuilt_symbol": "_get_import_conversion@28",
+              "offset": 57006
+            }
+          ]
         }
       }
     },
@@ -8741,6 +8761,81 @@
         "expected_cleanup": [
           8
         ]
+      },
+      "_copy_relocations@12": {
+        "expected_cleanup": [
+          12
+        ]
+      },
+      "LibrarianContext::AddSymbol": {
+        "expected_cleanup": [
+          32
+        ]
+      },
+      "_import_debug_name@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "LibrarianContext::LibrarianContext(file,names)": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_find_import_conversion@16": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "_free_import_payload": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_choose_file_view_size@8": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "_open_file_view@24": {
+        "expected_cleanup": [
+          24
+        ]
+      },
+      "_free_short_import_payload": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CoffLibrarianContext::ConvertShortMember": {
+        "expected_cleanup": [
+          32
+        ]
+      },
+      "_convert_library_member@60": {
+        "expected_cleanup": [
+          60
+        ]
+      },
+      "LinkContext::ResolveEntryPoint": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "_validate_import_object_header@4": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "?ReadConvertedRelocations@Contribution@@QAEXPAXK@Z": {
+        "expected_cleanup": [
+          8
+        ]
+      },
+      "Contribution::ReadConvertedData": {
+        "expected_cleanup": [
+          8
+        ]
       }
     }
   },
@@ -8750,21 +8845,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 87536
+            "offset": 90176
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 87547
+            "offset": 90187
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 87547
+            "offset": 90187
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 87557
+            "offset": 90197
           }
         ]
       ]
@@ -8774,27 +8869,51 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 105200
+            "offset": 108208
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 105211
+            "offset": 108219
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 105211
+            "offset": 108219
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 105221
+            "offset": 108229
           }
         ]
       ]
     },
     "LinkContext::ApplyOrderFile": {
       "pending_extent": false
+    },
+    "_get_import_conversion@28": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_get_import_conversion@28",
+            "offset": 56992
+          },
+          {
+            "rebuilt_symbol": "_get_import_conversion@28",
+            "offset": 57006
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_get_import_conversion@28",
+            "offset": 57006
+          },
+          {
+            "rebuilt_symbol": "_get_import_conversion@28",
+            "offset": 57016
+          }
+        ]
+      ]
     }
   }
 }

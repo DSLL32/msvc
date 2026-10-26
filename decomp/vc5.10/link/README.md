@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-407 application functions / 141,421 original code bytes are reconstructed
-(34.09% of the 414,810-byte whole `.text` extent, which includes CRT and text
+423 application functions / 144,772 original code bytes are reconstructed
+(34.90% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 47 pending bodies with known extents totaling 6,966 bytes and
-181 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 46 pending bodies with known extents totaling 6,788 bytes and
+177 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all ten cached native cases and their narrow checks;
+`make -j4 check unit` runs all eleven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,9 +45,9 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-420-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 405 ordinary application bodies and six CRT bodies. Seven import
-thunks remain in the graph without body-return claims. The two genuine C++
+436-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 420 ordinary application bodies and six CRT bodies. Seven import
+thunks remain in the graph without body-return claims. The three genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
 contracts; they do not grant provider or pending-helper body credit.
@@ -86,7 +86,8 @@ complete file inventory compare strictly. Raw reference artifacts remain in
 scratch. The genuine completion native replay took 15.9 ms (9.7 ms setup,
 3.6 ms execution, 2.6 ms checks). Case-end regression/unit checks took 0.93 s;
 the successful full graph/RET/EH audit took 1.71 s. These are incremental
-measurements. Archive extraction and converted-member paths remain unqualified.
+measurements. Archive extraction and other conversion formats remain unqualified; the
+short-import consumer below qualifies its reached conversion domain.
 
 The archive-replacement case loads that unchanged original-produced archive,
 replaces `left.obj`, retains `right.obj`, and adds a long-named cross-referencing
@@ -131,3 +132,34 @@ without a wider return-value claim. Other pending interface methods remain
 named traps. Native completion took 33.7 ms (18.1 ms setup, 4.8 ms execution,
 10.8 ms checks). The ten-case regression/unit batch took 0.98 s; the full
 original-build/graph/RET/EH gate took 1.71 s.
+
+The short-import client links an original-compiled x86 object against the unchanged
+original-produced new-format import library. Its actual stdcall DllMain call and
+imported data reference exercise named and ordinal imports; additional /include
+records are archive roots, not client calls. Both runs exit 0 with 321 application
+first entries and a matching 1,536-byte executable. Its final import table retains
+hello.dll, the named _DllMain@12 import and ordinal 11. Only the identified COFF
+TimeDateStamp DWORD at PE+8 is normalized; all other bytes and the complete file
+inventory remain strict. Actual temp files are independently created, opened
+with delete-on-close and removed, without pathname seeding or masking. Raw
+reference output and failed partial comparisons remain in scratch.
+
+This case adds 16 bodies / 3,351 original code bytes: short-header validation,
+conversion lookup and construction, lazy payload owners and their actual cleanup
+callbacks, converted section dispatch and copying, and decorated entry resolution.
+The new-expression failure action retains its actual saved allocation, scalar
+delete and C++ handler. Only encountered short-import section kinds 0..8 are
+supported by the converted dispatch tables; other format kinds stop before
+indirection. Delayed conversion, decorated-name undecoration and incremental
+entry bookkeeping remain genuine pending traps. AddSymbol and ConvertShortMember
+are void on the closed consumed call chain, preserving thiscall and RET32; this
+does not settle the separate virtual Emit return. Three relocation emitters now
+use the original second stack argument for their destination; earlier NULL/NULL
+writer observations did not distinguish those slots. Defined carried DWORDs
+remain distinct from unwritten upper bytes and their narrower consumers.
+
+The final fresh native completion took 18.2 ms (11.2 ms setup, 4.3 ms execution,
+2.7 ms checks). The eleven-case regression/unit batch took 1.08 s, and the full
+original-build/graph/RET/EH gate took 1.85 s. These are incremental measurements;
+the complete suites ran only at case completion. The source and case are native
+fixtures, with original builds and captures using the shared toolchain launcher.

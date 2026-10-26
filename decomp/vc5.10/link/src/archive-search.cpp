@@ -13,6 +13,7 @@
 #include "full-link-functions.h"
 #include "memory.h"
 #include "comdat.h"
+#include "librarian.h"
 #include <recon.h>
 
 #pragma intrinsic(strcmp,strlen)
@@ -32,10 +33,7 @@ typedef struct SymbolReferenceEnumerator {
 } SymbolReferenceEnumerator;
 typedef char UndefinedEnumeratorSize[(sizeof(UndefinedEnumerator)==16)?1:-1];
 typedef char ReferenceEnumeratorSize[(sizeof(SymbolReferenceEnumerator)==24)?1:-1];
-typedef struct LibraryConversion {
-    BYTE reserved00[0x5c];
-    int file;
-} LibraryConversion;
+typedef CoffLibrarianContext LibraryConversion;
 /* The two producer BYTEs were physically forwarded in DWORD stack slots.
  * No preceding own stores define their three upper bytes. Keep those original
  * unwritten bytes zero, preserving the complete transport slots. */
@@ -153,7 +151,26 @@ void __stdcall convert_library_member(LinkContext *context,OutputLibrary *librar
     IMAGE_FILE_HEADER *header,void *import_header,int file,DWORD convert,DWORD is_import,
     const char *symbol,const char *member,IMAGE_SECTION_HEADER *sections,BYTE *section_flags,
     void *section_data,LibraryConversion **result,DWORD option1,DWORD option2)
-{ __asm { int 3 } }
+{
+    LibraryConversion *conversion=get_import_conversion(context,library,file,
+        (CoffImportHeader *)import_header,header,member,is_import);
+    LibrarianImportInfo *info=(LibrarianImportInfo *)section_data;
+    CoffImportHeader *import=(CoffImportHeader *)import_header;
+    *result=conversion;
+    info->machine=import->machine;
+    info->type=(BYTE)import->kind;
+    info->name_type=import->name_type;
+    info->ordinal=import->ordinal_hint;
+    if((BYTE)convert) {
+        /* The load into AL preserves the carried member-pointer upper bits;
+         * the pending consumer has not qualified their semantic use. */
+        DWORD library_flags=((DWORD)member&0xffffff00)|library->active;
+        conversion->ConvertDelayedMember(library_flags,is_import,import,file,
+            header,member,symbol,sections,section_flags,info);
+        library->active=0;
+    } else conversion->ConvertShortMember(file,import,option1,option2,header,
+        sections,section_flags,info);
+}
 void __stdcall record_incremental_module(OutputModule *module)
 { __asm { int 3 } }
 }
@@ -269,7 +286,7 @@ void RECON_THISCALL OutputLibrary::SearchSymbols(LinkContext *context,
             converted=1;
             section_offset=0;
             saved_file=current_input_file;
-            current_input_file=conversion->file;
+            current_input_file=conversion->output_file;
         }
         module=create_input_module(NULL,identity,(const void *)member_start,&header,this,NULL,
             is_import.low || convert.low,section_offset,sections,section_flags,section_data,

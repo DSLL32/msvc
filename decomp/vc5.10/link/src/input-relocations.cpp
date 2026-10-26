@@ -4,6 +4,7 @@
 #include "input.h"
 #include "files.h"
 #include "full-link-functions.h"
+#include "librarian.h"
 #include <recon.h>
 
 extern "C" {
@@ -126,7 +127,21 @@ IMAGE_RELOCATION *RECON_THISCALL Contribution::ReadRelocations(DWORD *count)
     else buffered_read(file,relocations,n);
     return relocations;
 }
-void RECON_THISCALL Contribution::ReadConvertedRelocations(void *,DWORD)
+typedef void (RECON_THISCALL LibrarianContext::*ConvertedSectionEmitter)(
+    LibrarianImportInfo *,void *,void *);
+/* Encountered short-import section kinds 0..8. The remaining format-specific
+ * table entries are not recovered yet; they stop before dispatch. */
+static ConvertedSectionEmitter converted_relocation_emitters[9]={
+    NULL,NULL,&LibrarianContext::EmitImportCodeRelocations,
+    &LibrarianContext::EmitImportFunctionRelocations,NULL,NULL,
+    &LibrarianContext::EmitImportNameRelocation,
+    &LibrarianContext::EmitImportNameRelocation,NULL
+};
+void RECON_THISCALL Contribution::ReadConvertedRelocations(void *buffer,DWORD bytes)
 {
-    __asm { int 3 }
+    BYTE kind=module->section_flags ? module->section_flags[
+        ((LONG)((DWORD)this-(DWORD)module->contributions))>>6] : 255;
+    if(kind>=9) { __asm { int 3 } }
+    (((LibrarianContext *)module->auxiliary)->*converted_relocation_emitters[kind])(
+        (LibrarianImportInfo *)module->optional_data,buffer,(void *)bytes);
 }

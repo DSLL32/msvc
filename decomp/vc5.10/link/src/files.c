@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
+#include <io.h>
 #include "files.h"
 #include "link.h"
 #include "options.h"
@@ -495,4 +496,35 @@ void __stdcall write_relocations(int output,const IMAGE_RELOCATION *relocations,
     file=file_slots[output];
     if (file->flags & 8) mapped_write(file,relocations,bytes);
     else buffered_write(file,relocations,bytes);
+}
+
+DWORD __stdcall choose_file_view_size(DWORD size,DWORD minimum)
+{
+    while(size>=minimum)minimum*=2;
+    return minimum;
+}
+int __stdcall open_file_view(const char *name,int flags,int mode,void **view,DWORD *size,DWORD *error)
+{
+    FileRecord *record;
+    unsigned char created=0;
+    int result;
+    if(file_access_statistics)record_file_access();
+    if(!file_mapping_enabled)return -1;
+    record=acquire_file_record(name,flags,mode,&created);
+    record->base=*view;
+    record->size=*size;
+    record->mapping_size=(flags&0x100)?0x40000:choose_file_view_size(record->size,0x40000);
+    result=open_mapped_file(record,flags,created,error);
+    if(result==-1) {
+        move_file_record(record,&pending_files,NULL,&file_newest,NULL,0);
+        if(record->name) {
+            if(!_access(record->name,0))_unlink(record->name);
+            release_memory(record->name);
+        }
+        return result;
+    }
+    *size=record->mapping_size-((flags&0x100)?0:record->size);
+    record->base=record->view;
+    *view=record->view;
+    return record->index;
 }

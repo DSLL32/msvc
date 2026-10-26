@@ -151,9 +151,9 @@ extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *
         library->module_head=NULL;
         library->next=NULL;
         library->reserved40=0;
-        library->module_capacity=5;
-        library->module_count=0;
-        library->modules=(OutputModule **)allocate_memory(5*sizeof(*library->modules));
+        library->conversion_capacity=5;
+        library->conversion_count=0;
+        library->import_conversions=(CoffLibrarianContext **)allocate_memory(5*sizeof(*library->import_conversions));
         library->active=1;
         *libraries->last=library;
         libraries->last=(void **)&library->next;
@@ -466,4 +466,58 @@ extern "C" char * __stdcall derive_old_image_name(LinkContext *context)
     _splitpath(output_file_name,drive,directory,name,NULL);
     _makepath(path,drive,directory,name,".ilk");
     return duplicate_argument(path);
+}
+
+extern "C" {
+extern BYTE duplicate_symbols;
+extern char short_symbol_name[9];
+void __stdcall merge_librarian_exports(StringTable *,StringTable *,void *,DWORD);
+void __stdcall initialize_hash_enumerator(HashState *);
+void __stdcall end_hash_enumerator(HashState *);
+StringNode *__stdcall record_incremental_entry(const char *,Contribution *,LinkContext *,DWORD)
+{ __asm { int 3 } return NULL; }
+}
+void RECON_THISCALL LinkContext::ResolveEntryPoint(void)
+{
+    StringTable *matches;
+    StringNode *candidate;
+    const char *name;
+    union { DWORD value; WORD kind; BYTE decorated; } mode;
+    /* get_symbol_name writes WORD0, then this caller replaces BYTE0. The
+     * forwarded DWORD's upper half is unwritten in the original. Its actual
+     * merge consumer reads only BYTE0; native zero does not qualify wider use. */
+#ifdef __linux__
+    mode.value=0;
+#endif
+    create_string_table(&matches,1024,128);
+    name=get_symbol_name(entry_symbol,symbols->hash.string_storage,&mode.kind,NULL);
+    if(mode.kind==1)name=strncpy(short_symbol_name,name,8);
+    switch(file_header.Machine) {
+    case IMAGE_FILE_MACHINE_I386: case 0x1a2: case 0x1a6: case 0x601:
+        if(is_vxd!=1 && *name=='_')++name;
+        mode.decorated=1;
+        break;
+    default:
+        mode.decorated=0;
+        break;
+    }
+    candidate=matches->Lookup((const unsigned char *)name,NULL);
+    set_symbol_defined(candidate,1,matches);
+    merge_librarian_exports(matches,symbols,NULL,mode.value);
+    if(duplicate_symbols)link_fatal(NULL,1152);
+    initialize_hash_enumerator(matches->hash.state);
+    while((candidate=matches->NextSymbol())!=NULL) {
+        if((candidate->flag_byte&1) && (candidate->flag_byte&0x10)) {
+            entry_symbol->flags|=0x100;
+            name=get_symbol_name(candidate,matches->hash.string_storage,&mode.kind,NULL);
+            if(mode.kind==1)name=strncpy(short_symbol_name,name,8);
+            entry_symbol=symbols->FindSymbol(name);
+        }
+    }
+    end_hash_enumerator(matches->hash.state);
+    if(incremental_enabled && entry_symbol) {
+        symbols->ReleaseLookupIndex();
+        record_incremental_entry(name,entry_symbol->contribution,this,0);
+    }
+    clear_buffer(&matches->hash.strings);
 }

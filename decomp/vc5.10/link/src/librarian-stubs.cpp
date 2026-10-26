@@ -1,8 +1,6 @@
 #include "librarian.h"
 #include <recon.h>
 
-DWORD RECON_THISCALL LibrarianContext::AddSymbol(DWORD,DWORD,DWORD,DWORD,DWORD,DWORD,DWORD,DWORD)
-{ __asm { int 3 } return 0; }
 void RECON_THISCALL LibrarianContext::Prepare(DWORD) { __asm { int 3 } }
 
 DWORD RECON_THISCALL ExportLibrarianContext::Emit(CoffImportHeader *,const char *) { __asm { int 3 } return 0; }
@@ -43,3 +41,7 @@ void __stdcall write_converted_archive_member(LinkContext *,OutputModule *,int,D
 
 extern "C" {
 }
+
+DWORD RECON_THISCALL CoffLibrarianContext::ConvertDelayedMember(DWORD,DWORD,CoffImportHeader *,int,
+    IMAGE_FILE_HEADER *,const char *,const char *,IMAGE_SECTION_HEADER *,BYTE *,LibrarianImportInfo *)
+{ __asm { int 3 } return 0; }

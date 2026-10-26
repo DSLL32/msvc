@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Two compiler lifetimes' normal/action/handler ABI residuals; Rust owns CFGs."""
+"""Compiler lifetime normal/action/handler ABI residuals; Rust owns CFGs."""
 import argparse
 import hashlib
 import json
@@ -31,6 +31,8 @@ def verify(report, images):
                      'DefinitionBuffer::~DefinitionBuffer', 8,
                      0x79c if side == 'original' else 0x7ac,
                      -0x7a0 if side == 'original' else -0x7b0, 1)
+
+        verify_import_conversion(facts, side, image)
 
 
 def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
@@ -104,6 +106,10 @@ def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
     assert struct.unpack('<2I', contextual_bytes(image, words[2], 8)) == (0xffffffff, action)
     if side == 'original':
         assert owner['record']['shared'][-1] == [info, words[2]+8]
+    assert qualified_import(image,identity,thunk) == [('msvcrt.dll','__CxxFrameHandler')]
+
+
+def qualified_import(image, identity, thunk):
     raw = contextual_bytes(image, thunk, 6)
     assert raw[:2] == bytes.fromhex('ff25')
     slot = struct.unpack_from('<I', raw, 2)[0]
@@ -116,7 +122,57 @@ def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
         for index,name in enumerate(names):
             if identity['preferred_base']+iat+4*index == slot:
                 found.append((module.lower(),name))
-    assert found == [('msvcrt.dll','__CxxFrameHandler')]
+    return found
+
+
+def verify_import_conversion(facts, side, image):
+    identity=facts['inputs']['images'][side]
+    assert identity['original_file_sha256']==hashlib.sha256(image.read_bytes()).hexdigest()
+    owner=facts['functions']['_get_import_conversion@28'][side]
+    start,end=owner['record']['start'],owner['record']['end']
+    (action,action_end),(handler,handler_end)=owner['record']['code_chunks']
+    assert action_end==handler and handler-action==14 and handler_end-handler==10
+    assert set(owner['effective_roots'])=={start,action,handler}
+    assert owner['checked_ret_cleanup_set'] is None
+    instructions={row['address']:bytes.fromhex(row['bytes_hex']) for row in owner['instructions']}
+    memory={at+i:byte for at,data in instructions.items() for i,byte in enumerate(data)}
+    def code(at,count):
+        return bytes(memory[at+i] for i in range(count))
+    returns=[(at,data) for at,data in instructions.items()
+             if start<=at<end and data[:1] in (b'\xc2',b'\xc3')]
+    assert len(returns)==1 and returns[0][1]==bytes.fromhex('c21c00')
+    frame=0x424 if side=='original' else 0x428
+    local=-0x420 if side=='original' else -0x418
+    result_offset=0x14 if side=='original' else 0x10
+    prologue=code(start,32)
+    assert prologue[:9]==bytes.fromhex('64a1000000006aff68')
+    assert struct.unpack_from('<I',prologue,9)[0]==handler
+    assert prologue[13:15]==bytes.fromhex('50a0')
+    assert prologue[19:28]==bytes.fromhex('6489250000000081ec')
+    assert struct.unpack_from('<I',prologue,28)[0]==frame
+    epilogue=(bytes.fromhex('5f5e8b8c24')+struct.pack('<I',frame+8)+
+              bytes.fromhex('8b4424')+bytes([result_offset])+bytes.fromhex('5d64890d000000005b81c4')+
+              struct.pack('<I',frame+12)+bytes.fromhex('c21c00'))
+    assert code(returns[0][0]+3-len(epilogue),len(epilogue))==epilogue
+    # The constructor-failure action deletes the exact saved allocation,
+    # rather than invoking a destructor on a fully constructed object.
+    a=code(action,14)
+    assert a[:8]==bytes.fromhex('8b85')+struct.pack('<i',local)+bytes.fromhex('50e8')
+    assert a[-2:]==bytes.fromhex('59c3')
+    delete=action+12+struct.unpack_from('<i',a,8)[0]
+    assert qualified_import(image,identity,delete)==[('msvcrt.dll','??3@YAXPAX@Z')]
+    saved=frame+28+local
+    assert any(start<=at<end and data==bytes.fromhex('897424')+bytes([saved])
+               for at,data in instructions.items())
+    h=code(handler,10)
+    assert h[0]==0xb8 and h[5]==0xe9
+    info=struct.unpack_from('<I',h,1)[0]
+    words=struct.unpack('<8I',contextual_bytes(image,info,32))
+    assert words[:2]==(0x19930520,1) and words[3:]==(0,0,0,0,0)
+    assert struct.unpack('<2I',contextual_bytes(image,words[2],8))==(0xffffffff,action)
+    if side=='original':assert owner['record']['shared']==[[info,words[2]+8]]
+    thunk=handler+10+struct.unpack_from('<i',h,6)[0]
+    assert qualified_import(image,identity,thunk)==[('msvcrt.dll','__CxxFrameHandler')]
 
 
 if __name__ == '__main__':
@@ -127,4 +183,4 @@ if __name__ == '__main__':
     options = parser.parse_args()
     verify(json.loads(options.report.read_text()),
            {'original':options.original,'rebuilt':options.rebuilt})
-    print('PASS symbol/definition normal RET24/8, actual12/20B cleanup RET0, qualified C++ handlers')
+    print('PASS symbol/definition RET24/8 and import conversion RET28, distinct object/failure cleanup roles, qualified C++ handlers')
