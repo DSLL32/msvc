@@ -5,7 +5,7 @@ Reconstruct `binb/WCC386.EXE`, `binb/WPP386.EXE`, `binb/WASM.EXE`,
 `toolchain-import.json` records the copied originals and selected hashes.
 
 All five binaries use the standardized shared harness and have completed their
-initial help cases. See [MIGRATION-REPORT.md](../../MIGRATION-REPORT.md) and the
+initial help cases. See [MIGRATION-REPORT.md](../../docs/reports/MIGRATION-REPORT.md) and the
 binary READMEs for committed coverage and measured checks. Further cases follow
 the user's current authorization; without autonomous authorization, finish the
 case, run its final checks, commit and pause for review. Keep verified functions
@@ -65,7 +65,7 @@ build, an unrun case or merely matching a candidate's entry trap does not prove
 execution of its implementation. Update a binary's README and commit when the
 case is complete. Keep diagnostics in scratch and only the scoped case source
 and `capture.bin` under cases, as described in
-[STANDARDIZATION.md](../../STANDARDIZATION.md).
+[STANDARDIZATION.md](../../docs/STANDARDIZATION.md).
 
 `tooling/graph-audit/` supports explicit CF image-offset inputs and actual Watcom
 PE MAP files (`--map-format watcom10`). Declare proved code, shared data, and SEH

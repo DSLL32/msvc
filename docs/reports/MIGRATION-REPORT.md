@@ -1,7 +1,7 @@
 # Harness migration report
 
 Status: interim, in progress, 2026-10-25. This records the migration to
-`STANDARDIZATION.md`, including shared changes already published and work that
+[STANDARDIZATION.md](../STANDARDIZATION.md), including shared changes already published and work that
 is still pending. Timings below are reported measurements from the relevant
 workers, not a new benchmark campaign.
 

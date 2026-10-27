@@ -2,7 +2,7 @@
 
 The support is opt-in; existing binaries have not been migrated. See
 [ITERATION.md](ITERATION.md) for the design and the
-[tool README](tooling/recon-tool/README.md#opt-in-iteration-orchestration) for configuration details.
+[tool README](../tooling/recon-tool/README.md#opt-in-iteration-orchestration) for configuration details.
 
 ## Setup
 

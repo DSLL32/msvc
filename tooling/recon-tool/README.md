@@ -1031,7 +1031,7 @@ context discarded before this reporting change.
 
 ## Opt-in iteration orchestration
 
-`ITERATION.md` describes the reconstruction cadence. Shared command composition
+[ITERATION.md](../../docs/ITERATION.md) describes the reconstruction cadence. Shared command composition
 is implemented; no binary is automatically opted in or migrated. Existing
 `registry-export`, `original capture`, `run`, `test` and case Make targets remain
 available and keep their default behavior.

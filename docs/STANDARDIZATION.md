@@ -4,7 +4,7 @@ Shared Rust `recon-tool` is implemented under `tooling/recon-tool/`: native
 execution/tests, GDB debugging, capture pack/unpack, registry projection, and
 explicit PE/CF original capture. C1/C1XX and other migrated binaries use the shared
 IO/DIRECT interfaces. Current consumer status and verification accounting live
-in `MIGRATION-REPORT.md`.
+in [MIGRATION-REPORT.md](reports/MIGRATION-REPORT.md).
 
 A capture is a saved invocation's inputs and expected results. Original-capture
 smoke tests validate the shared harness; they are not reconstruction cases.
