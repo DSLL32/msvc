@@ -496,7 +496,6 @@ void __stdcall dump_fpo(DumperSectionState *state,DWORD position,DWORD bytes)
     }
     release_memory(records);
 }
-void __stdcall dump_object_pdata(LinkContext *,IMAGE_SECTION_HEADER *,DWORD) { __asm { int 3 } }
 void __stdcall dump_directives(DWORD offset,DWORD bytes)
 {
     char *text=(char *)allocate_memory(bytes+1),*token;

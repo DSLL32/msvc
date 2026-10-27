@@ -11,6 +11,7 @@ BINARY_SOURCES = src/definition-buffer.cpp src/definition-reserve.cpp src/option
 BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-image.c src/definition-file.cpp src/archive-index.cpp src/archive-search.cpp src/input-relocations.cpp src/x86-relocations.c src/alpha-relocations.c src/alpha-fixups.cpp src/mips-relocations.c src/mips-fixups.cpp src/arm-relocations.cpp src/ppc-relocations.c src/ppc-fixups.cpp src/sh-relocations.cpp src/editor.cpp src/dumper.cpp src/dumper-short-import.cpp src/dumper-file.cpp src/dumper-sections.cpp src/dumper-legacy.cpp src/module-symbols.cpp src/module-symbol-stubs.c
 BINARY_SOURCES += src/section-layout.cpp src/pass-two.cpp src/output-symbols.cpp src/debug-output.cpp
 BINARY_SOURCES += src/definition-file-stubs.c
+BINARY_SOURCES += src/dumper-pdata.cpp
 BINARY_SOURCES += src/librarian.cpp src/librarian-extract.cpp src/librarian-stubs.cpp
 BINARY_SOURCES += src/vxd.cpp src/order-file.cpp src/comdat-fold-report.cpp src/debug-lines.cpp src/map-output.cpp
 BINARY_SOURCES += src/import-conversion.cpp src/archive-convert.cpp

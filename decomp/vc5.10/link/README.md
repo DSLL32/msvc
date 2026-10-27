@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-636 application functions / 240,089 original code bytes are reconstructed
-(57.88% of the 414,810-byte whole `.text` extent, which includes CRT and text
+638 application functions / 240,603 original code bytes are reconstructed
+(58.00% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-170 entries whose body extents remain unknown; this is not a complete non-CRT
+169 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-eight cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-nine cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-649-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 628 ordinary application bodies and six CRT bodies. Seven import
+651-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 630 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -86,7 +86,7 @@ complete file inventory compare strictly. Raw reference artifacts remain in
 scratch. The genuine completion native replay took 15.9 ms (9.7 ms setup,
 3.6 ms execution, 2.6 ms checks). Case-end regression/unit checks took 0.93 s;
 the successful full graph/RET/EH audit took 1.71 s. These are incremental
-measurements. Archive extraction and other conversion formats remain unqualified; the
+measurements. That observation did not qualify archive extraction or other conversion formats; the
 short-import consumer below qualifies its reached conversion domain.
 
 The archive-replacement case loads that unchanged original-produced archive,
@@ -100,8 +100,8 @@ mask; its corrected four-byte ownership has no code credit, and failed evidence
 remains in scratch. Encountered resource 9021 uses the existing identity-bound
 STRINGTABLE route. Native completion took 16.5 ms (10.0 ms setup, 3.4 ms execution,
 3.1 ms checks); case-end regression/unit checks took 0.45 s and the full audit
-1.69 s. Explicit `/remove`, listing, extraction and conversion remain separate
-unqualified domains.
+1.69 s. That observation did not qualify explicit `/remove`, listing, extraction or
+conversion.
 
 The archive-backed executable case selects a real three-member reference chain
 from `updated.lib`, excludes default libraries, removes an unused COMDAT and
@@ -952,3 +952,31 @@ regression, unit, original-build and full graph/RET/EH batch passed in 6.14 s:
 EH-owner checks. All raw references, original-produced archive/member identity,
 pre-support frontiers and failed static checks remain in scratch. These are
 incremental measurements.
+
+The procedure-table inspection case dumps a genuine original-compiled COFF object
+and its original-linked DLL. Three authored five-DWORD procedure records carry
+actual function relocations in a 60-byte `.pdata` section. The x86 linker retains
+that section but publishes an empty exception directory; its attribute warning
+4078 is retained in producer evidence. This qualifies serialized metadata and
+inspection, without claiming valid runtime unwinding or a RISC machine identity.
+The image procedure-table reader remains a genuine pending entry because this
+image does not reach it.
+
+Two whole bodies / 514 original code bytes recover the object procedure-table
+reader and its separate machine-format selector. The current x86 input reads
+and prints all three ordinary records. Compact PowerPC/Windows CE encoding,
+other machine interpretations, empty and malformed tables remain unvisited.
+The full physical section-index DWORD retains its actual signed low-WORD use.
+The original and native executions exit 0 with 113 first entries and exactly
+21,986 stdout bytes. Every capture field equals the untouched master, with no
+clock, pathname, payload or output normalization. The earlier master has one
+fewer cataloged first entry because the format selector was newly discovered;
+its historical raw trace is preserved.
+
+The completed original took 1,766.8 ms; fresh native comparison took 20.7 ms
+(12.9 ms setup, 4.7 ms execution, 3.1 ms checks). The single parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 5.35 s:
+39 cached cases, 651 graph vertices, 636 scoped return contracts and eight
+EH-owner checks. Failed declaration builds and strict narrow extent/import/RET
+checks remain in scratch, alongside raw master/progress artifacts and producer
+source/objects. These are incremental measurements.
