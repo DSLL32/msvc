@@ -621,3 +621,38 @@ unsigned char ProcELFHelp( void )
     WriteHelp( 0x234, 0x243, (CmdFlags & 1) != 0 );
     return 1;
 }
+
+/* The old default SYSTEM path accepts this narrower directive list. */
+static parse_entry SysDirectives[] = {
+    { "Library", ProcLibrary, 0xffff },
+    { "Name", ProcName, 0xffff },
+    { "OPtion", ProcOptions, 0xffff },
+    { "LIBPath", ProcLibPath, 0xffff },
+    { "FORMat", ProcFormat, 0xffff },
+    { "DISAble", ProcDisable, 0xffff },
+    { "RUntime", ProcRuntime, 0x3c10 },
+    { "SEGment", ProcSegment, 0x421f },
+    { 0, 0, 0 }
+};
+
+void ExecSystem( char *name )
+{
+    sysblock *sys;
+
+    sys = FindSysBlock( name );
+    if( sys != 0 ) {
+        NewCommandSource( 0, 0, ENVIRONMENT );
+        Token.where = ENDOFCMD;
+        NewCommandSource( sys->name, sys->commands, SYSTEM );
+        sys->name = 0;
+        while( !GetToken( SEP_END, TOK_INCLUDE_DOT ) ) {
+            if( !ProcOne( SysDirectives, SEP_NO, 0 ) ) {
+                LnkMsg( 0x7a6f, 0 );
+                RestoreCmdLine();
+                break;
+            }
+        }
+        BurnSystemList();
+        BurnUtils();
+    }
+}

@@ -29,6 +29,8 @@
 *
 ****************************************************************************/
 /* Quiet file operations. Original QLSeek424e4c..424e8a. */
+/* Only the reached target-errno ENOENT diagnostic uses this shared profile. */
+#define RECON_WATCOM_STRERROR_ENOENT
 #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
@@ -56,6 +58,12 @@ long QLSeek( int file, long position, int start, char *name )
 }
 
 static unsigned char CaughtBreak; /* original441f90; TrapBreak sets it. */
+
+void TrapBreak( int value )
+{
+    value = value;
+    CaughtBreak = 1;
+}
 
 void CheckBreak( void )
 {
@@ -308,4 +316,9 @@ int ExeOpen( char *name )
     if( handle != -1 ) return handle;
     LnkMsg( 0x3408, "12", name, strerror( errno ) );
     return -1;
+}
+
+void PrintIOError( unsigned error, const char *types, char *name )
+{
+    LnkMsg( error, types, name, strerror( errno ) );
 }

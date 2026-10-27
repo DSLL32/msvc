@@ -1,8 +1,8 @@
-WLINK 10.0a has forty-one completed paired CLI cases and five source-backed
-native unit cases. The acceptance ledger contains **1,234 application functions /
-135,824 unique original code bytes**. Paired CLI evidence covers **1,179 /
-131,793 bytes**; **55** further functions have source/static/native-unit
-qualification only, owning **4,045 bytes**. Those add **4,031** unique bytes;
+WLINK 10.0a has forty-four completed paired CLI cases and six source-backed
+native unit cases. The acceptance ledger contains **1,240 application functions /
+136,157 unique original code bytes**. Paired CLI evidence covers **1,182 /
+131,924 bytes**; **58** further functions have source/static/native-unit
+qualification only, owning **4,247 bytes**. Those add **4,233** unique bytes;
 14 bytes are genuinely shared with already qualified CLI bodies and count once.
 Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
@@ -150,7 +150,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,234 source-ready identities, their actual graph,
+The complete audit passes for 1,240 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions in the CLI
@@ -949,13 +949,59 @@ run was used. Exact adoption bindings, diagnostics and the generated split
 acceptance ledger remain in scratch wlink-reopen-units; the case contains only
 case.c, direct.c and capture.bin.
 
-This is not an only-CRT completion claim. Six known App stubs remain: Syntax,
-TrapBreak, PrintIOError, EarlyEOF, BadObject and ExecSystem. The existing full
-graph resolves every named direct edge to a registered identity; indirect calls
-still require their real caller/table contracts. The current registry leaves
-21,531 bytes in the code-mask envelope unattributed, including padding/data,
-unknown CRT and potentially further App code. Existing guarded domains also
-remain explicit: multibyte lexing, wildcard recovery with an undefined result,
-invalid communal-number tags, and PE layouts that lack required code/import
-or nonempty group owners. Their absence from successful CLI paths does not
-classify them as CRT or qualify their behavior.
+Three completed diagnostic invocations exercise real missing FORMAT operands,
+a well-framed SEGDEF32 with an invalid big attribute, and a missing readonly
+object. They qualify Syntax, BadObject and PrintIOError through genuine original
+exit 1 and exact entry/status/stream/artifact matches, without normalization.
+The missing-file diagnostic uses the target errno 1 string through the explicit
+io.c-only RECON_WATCOM_STRERROR_ENOENT shim opt-in; other translation units keep
+their former host surface. Only the positively identified 23-byte CRT strerror
+provider and reached literal are additionally restored, with no App credit.
+
+The original short-record/truncated and absolute-alignment malformed shapes
+reached BadObject, but subsequent original runs hit the broker's 30-second
+operation-7 deadline. Native-only GDB identified a repeated record: attribute
+0x02 selects absolute alignment and advances the cursor past the short record,
+then the old outer loader repeats the failed location. Those failed inputs,
+raw artifacts, timeout and explicitly revised native diagnostic remain in
+scratch; none is a completed oracle. The final diagnostic instead uses 0x22
+(alignment 1 plus the invalid big bit) and a real MODEND. It does not claim the
+failed shapes or EarlyEOF's NULL-read branch were observed successfully.
+
+A final source/static/native-unit case qualifies ExecSystem, EarlyEOF and
+TrapBreak. ExecSystem runs a real ProcSystem-created SYSTEM directive list
+(OPTION QUIET and OSNAME), then genuinely frees its SYSTEM/command-source owners;
+it is not host process spawning. The exact older eight-row directive table and
+RestoreCmdLine error edge are preserved. EarlyEOF receives valid module/file
+owners with message 29 disabled through actual GetToken/AddDisable policy;
+whole owner snapshots and GDB prove its IOERR bit and Locator filename/NULL
+memory/record-0 effects. The similarly message-disabled TrapBreak callback and
+CheckBreak prove CaughtBreak 0→1→0. These units claim no diagnostic text, short
+read, console delivery or original CLI observation. Initial unit setup omitted
+GetToken before AddDisable; that failed native attempt is retained, and the
+public parser sequence was corrected before qualification.
+
+Final diagnostic original/native times were **1,595.840 / 24.111 ms** (126
+entries), **1,593.206 / 22.093 ms** (195), and **1,177.075 / 25.454 ms** (161).
+The initial necessary diagnostic build took **4.598 s**. Final-unit builds took
+**2.337 s** and **1.707 s**, with a **394.042 ms** scoped graph/ABI check; the
+first check correctly rejected an incorrectly identified cold call before its
+RestoreCmdLine correction. Native unit DIRECT/tests took **20.363 / 14.418 ms**;
+setup/execution/check splits and actual GDB state assertions remain in scratch.
+The final full build/regression/unit/audit took **5.385 s**, passing forty-four
+CLI and six unit cases and all 1,240 source-ready graph/ABI identities. Its 100
+native invocations took **14.258–58.524 ms**. Cases contain only their standard
+source and capture.bin; diagnostics and generated ledgers remain in scratch
+wlink-diagnostics and wlink-final-units.
+
+All currently identified App identities are now qualified in their recorded
+CLI or native-unit domains. This is not a whole-code only-CRT claim: the bounded
+existing-registry assessment leaves **21,183 bytes** in the code-mask envelope
+unattributed, including padding/data, unknown CRT and potentially further App.
+The existing full audit resolves every named graph edge to a registered identity;
+its remaining generic indirect marker does not identify a new helper or prove
+all possible callback destinations. No positively identified App callee is
+being discarded as CRT by elimination. Explicit guarded domains remain:
+multibyte lexing, wildcard recovery with an undefined result, invalid communal
+number tags, and PE layouts missing required code/import or nonempty group
+owners. These residuals and failed malformed-input behavior remain unqualified.

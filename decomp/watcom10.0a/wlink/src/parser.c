@@ -1088,3 +1088,13 @@ void OutPutPrompt( char *text )
     if( QIsADevice( CmdFile->file ) )
         QWrite( fileno(stdout), text, strlen(text), 0 );
 }
+
+void Syntax( void )
+{
+    if( Token.this == 0 ) {
+        LnkMsg( 0x7c80, 0 );
+    } else {
+        Token.this[Token.len] = '\0';
+        LnkMsg( 0x7c21, "s", Token.this );
+    }
+}

@@ -206,3 +206,16 @@ unsigned char DumpObjCache( void )
     }
     return 0;
 }
+
+void BadObject( void )
+{
+    CurrMod->f.source->file->flags |= 4;
+    LnkMsg( 0xf30b, 0 );
+}
+
+void EarlyEOF( void )
+{
+    CurrMod->f.source->file->flags |= 4;
+    Locator( CurrMod->f.source->file->name, 0, 0 );
+    LnkMsg( 0x331d, 0 );
+}

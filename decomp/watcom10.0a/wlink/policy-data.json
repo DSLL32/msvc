@@ -6166,6 +6166,36 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "Syntax": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BadObject": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EarlyEOF": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PrintIOError": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TrapBreak": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExecSystem": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
