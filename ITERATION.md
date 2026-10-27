@@ -1,6 +1,6 @@
 # Common reconstruction iteration
 
-Proposal for review; the iteration commands below are not implemented. This
+Shared opt-in command support is implemented; binary workflows remain unadopted. This
 extends `recon-tool`, its shared Make rules and `graph-audit`; it does not replace
 the capture, tracing, debugging or audit engines. `STANDARDIZATION.md` remains
 the case format contract and `ENTRY.md` governs canonical executable startup.
@@ -43,9 +43,9 @@ Builds add variable time. These workers do not currently have reliable aggregate
 launch counts or an accounting of analysis versus shared-support waiting time.
 Function counts and first-entry counts are not original-launch counts.
 
-## Proposed interface
+## Shared interface
 
-Illustrative commands:
+Supported commands (opt-in Make configuration is documented in tooling/recon-tool/README.md):
 
 ```sh
 # Incremental preparation, preflight, one fresh original reference, native pair.
@@ -58,6 +58,11 @@ recon-tool iterate replay CASE --reference latest
 recon-tool iterate status CASE
 recon-tool iterate export CASE --reference STEP
 ```
+
+First use requires an explicitly requested `--all-restored --check-only` static
+baseline, or `--all-restored` on the attempt. A narrow first request fails before
+launch instead of triggering an implicit full audit. No binary is migrated by
+providing these commands.
 
 `original iterate` explicitly permits the original invocation. It performs one
 discovery attempt, not an unattended reconstruction loop or automatic retry

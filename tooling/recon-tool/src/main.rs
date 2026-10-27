@@ -6,6 +6,7 @@ mod debug;
 mod errno;
 mod fixture;
 mod host_alloc;
+mod iteration;
 mod native;
 mod original;
 mod original_cf;
@@ -47,7 +48,20 @@ enum Command {
     /// Identify shipped i386 COFF runtime code without executing the image.
     IdentifyRuntime(runtime::Options),
     /// Inspect descriptors without running the case.
-    Inspect { case: PathBuf },
+    Inspect {
+        case: PathBuf,
+        #[arg(long)]
+        progress: bool,
+        #[arg(long = "capture")]
+        io: Option<PathBuf>,
+        #[arg(long, requires = "io")]
+        original_report: Option<PathBuf>,
+    },
+    /// Native-only iteration history, replay and expectation export.
+    Iterate {
+        #[command(subcommand)]
+        command: iteration::Command,
+    },
     /// Generate graph-audit's legacy config from the single binary registry.
     RegistryExport(projection::Options),
     /// Run native case(s), asserting trace, terminal and available final oracle.
@@ -68,6 +82,8 @@ enum Command {
     },
     /// Run optional unit tests from the initialized setup fork checkpoint.
     Test {
+        #[arg(long, requires = "io")]
+        original_report: Option<PathBuf>,
         #[arg(required = true)]
         cases: Vec<PathBuf>,
         #[arg(long = "capture")]
@@ -94,6 +110,8 @@ enum Command {
 }
 #[derive(Subcommand)]
 enum OriginalCommand {
+    /// Build/check selected owners, capture one original and compare native.
+    Iterate(iteration::Discover),
     /// Build a case-owned C helper for explicit original DIRECT capture only.
     BuildDirect(original::BuildDirect),
     /// Run an original compiler/linker/tool in the shared Wine prefix.
@@ -134,12 +152,29 @@ fn execute() -> Result<()> {
         Command::BuildAliases(options) => symbol_aliases::build(options)?,
         Command::NativeChild(options) => self_child::run(options)?,
         Command::IdentifyRuntime(options) => runtime::identify(options)?,
-        Command::Inspect { case } => println!(
-            "{}",
-            serde_json::to_string_pretty(&native::inspect(&case.canonicalize()?)?)?
-        ),
+        Command::Inspect {
+            case,
+            progress,
+            io,
+            original_report,
+        } => {
+            let mut info = native::inspect_for_reference(
+                &iteration::case_library(&case)?,
+                progress || original_report.is_some(),
+            )?;
+            if let Some(report) = original_report {
+                let capture = io
+                    .as_ref()
+                    .context("selected inspection requires --capture")?;
+                let expected = original_reference::Expected::load(&report, capture, &info)?;
+                expected.apply(&mut info, &mut fixture::read(capture)?)?;
+            }
+            println!("{}", serde_json::to_string_pretty(&info)?);
+        }
+        Command::Iterate { command } => iteration::execute(command)?,
         Command::RegistryExport(options) => projection::export(options)?,
         Command::Original { command } => match command {
+            OriginalCommand::Iterate(options) => iteration::discover(options)?,
             OriginalCommand::BuildDirect(options) => {
                 println!("{}", original::build_direct(&options)?.display())
             }
@@ -190,6 +225,7 @@ fn execute() -> Result<()> {
                     },
                 ),
                 Command::Test {
+                    original_report,
                     cases,
                     io,
                     report,
@@ -199,7 +235,7 @@ fn execute() -> Result<()> {
                 } => (
                     cases,
                     io,
-                    None,
+                    original_report,
                     report,
                     true,
                     debug::Options {

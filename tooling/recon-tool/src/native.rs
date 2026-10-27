@@ -420,8 +420,9 @@ unsafe fn executor(
     tests: bool,
     debug: &debug::Options,
     supervisor: i32,
-    explicit_reference: bool,
+    reference: Option<&crate::original_reference::Expected>,
 ) -> Result<()> {
+    let explicit_reference = reference.is_some();
     let setup_start = Instant::now();
     unsafe {
         let core = libc::rlimit {
@@ -543,7 +544,7 @@ unsafe fn executor(
         constructor_errno
     };
     output::prepare(&loaded, f, root, cwd, tests)?;
-    crate::self_child::save_paths(f, root)?;
+    crate::self_child::save_paths(f, root, reference)?;
     process::prepare(&loaded, f, root, cwd, process_server, tests)?;
     if tests {
         fs::write(
@@ -748,7 +749,7 @@ fn supervise(
                     tests,
                     debug,
                     supervisor,
-                    reference.is_some(),
+                    reference,
                 )
             };
             if let Err(e) = result {
@@ -1078,7 +1079,10 @@ fn supervise(
                 .ok()
                 .map(|bytes| serde_json::from_slice(&bytes))
                 .transpose()?;
-        if let Some(proof) = reference.and_then(|v| v.summary.pe_self_child.as_ref()) {
+        if let Some(proof) = reference
+            .filter(|_| !tests)
+            .and_then(|v| v.summary.pe_self_child.as_ref())
+        {
             if let Err(error) = proof.check_children(
                 process_requests
                     .as_ref()
@@ -1124,7 +1128,7 @@ fn supervise(
 pub fn inspect(path: &Path) -> Result<abi::Info> {
     inspect_for_reference(path, false)
 }
-fn inspect_for_reference(path: &Path, explicit_reference: bool) -> Result<abi::Info> {
+pub(crate) fn inspect_for_reference(path: &Path, explicit_reference: bool) -> Result<abi::Info> {
     let mut pipe = [0; 2];
     if unsafe { libc::pipe2(pipe.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
         bail!("pipe")
@@ -1187,7 +1191,6 @@ pub fn run(
     };
     let reference = original_report
         .map(|report| -> Result<_> {
-            anyhow::ensure!(!tests, "original report applies to a case run, not units");
             crate::original_reference::Expected::load(
                 report,
                 fixture.context("original report needs --capture")?,

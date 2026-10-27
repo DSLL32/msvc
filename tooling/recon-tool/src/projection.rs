@@ -15,6 +15,20 @@ pub struct Options {
     /// Select a finite policy.accepted_scopes view; never adds accepted functions.
     #[arg(long)]
     pub accepted_scope: Option<String>,
+    /// Add finite accepted owners using the same scope validator.
+    #[arg(long)]
+    pub owner: Vec<String>,
+    /// Load an intermediate descriptor whose cached frontier is now implemented.
+    #[arg(long)]
+    pub progress: bool,
+    /// Scope only owner-specific register assertions and RET checks; retain globals.
+    #[arg(long, requires = "owner")]
+    pub scope_checks: bool,
+    /// Existing target metadata/RET inputs; validated before projection.
+    #[arg(long)]
+    pub metadata_input: Option<PathBuf>,
+    #[arg(long)]
+    pub ret_checks_input: Option<PathBuf>,
     #[arg(long)]
     pub policy: Option<PathBuf>,
     #[arg(long)]
@@ -389,12 +403,23 @@ fn accepted_view(config: &mut Value, info: &Info, policy: &Value, scope: &str) -
         .as_array()
         .context("accepted scope must be an array")?;
     ensure!(!names.is_empty(), "accepted scope must not be empty");
+    let names = names
+        .iter()
+        .map(|v| {
+            v.as_str()
+                .context("accepted scope name must be string")
+                .map(str::to_owned)
+        })
+        .collect::<Result<Vec<_>>>()?;
+    select_owners(config, info, &names)
+}
+
+pub(crate) fn select_owners(config: &mut Value, info: &Info, names: &[String]) -> Result<()> {
+    ensure!(!names.is_empty(), "owner selection must not be empty");
     let accepted = config["accepted"].as_array().unwrap();
     let mut selected = std::collections::HashSet::new();
     for name in names {
-        let name = name
-            .as_str()
-            .context("accepted scope name must be string")?;
+        let name = name.as_str();
         ensure!(
             selected.insert(name)
                 && info.functions.iter().any(|f| f.name == name)
@@ -567,17 +592,70 @@ fn rebuilt_chunks(
     Ok(())
 }
 
+fn scope_site_rows(value: &mut Value, key: &str, config: &Value) -> Result<()> {
+    let Some(rows) = value.get_mut(key) else {
+        return Ok(());
+    };
+    let rows = rows
+        .as_array_mut()
+        .with_context(|| format!("{key} must be an array"))?;
+    for row in rows.iter() {
+        let owner = row["owner"]
+            .as_str()
+            .with_context(|| format!("{key} owner missing"))?;
+        ensure!(
+            config["function_registry"]
+                .as_array()
+                .is_some_and(|v| v.iter().any(|r| r["name"] == owner)),
+            "{key} unknown owner {owner}"
+        );
+    }
+    rows.retain(|r| config["accepted"].as_array().unwrap().contains(&r["owner"]));
+    if rows.is_empty() {
+        value.as_object_mut().unwrap().remove(key);
+    }
+    Ok(())
+}
+pub(crate) fn scope_metadata(metadata: &mut Value, config: &Value) -> Result<()> {
+    let selected = config["accepted"].as_array().context("accepted array")?;
+    for (name, annotations) in metadata["functions"]
+        .as_object_mut()
+        .context("metadata functions")?
+    {
+        if !selected.iter().any(|v| v == name) {
+            annotations
+                .as_object_mut()
+                .context("metadata owner object")?
+                .remove("register_imports");
+        }
+    }
+    // These are owner-specific site assertions. Shared return/terminal regions,
+    // global preservation facts and callback tables must remain complete.
+    scope_site_rows(metadata, "compatibility_calls", config)?;
+    Ok(())
+}
+pub(crate) fn scope_config(config: &mut Value) -> Result<()> {
+    let identities = config.clone();
+    scope_site_rows(config, "terminating_calls", &identities)
+}
+
 pub fn export(options: Options) -> Result<()> {
     let path = if options.case.is_dir() {
         options.case.join(".build/case.so")
     } else {
         options.case
     };
-    let info = crate::native::inspect(&path.canonicalize()?)?;
-    let policy = match options.policy {
+    let info = crate::native::inspect_for_reference(&path.canonicalize()?, options.progress)?;
+    let mut policy: Value = match options.policy {
         Some(path) => serde_json::from_slice(&fs::read(path)?)?,
         None => json!({}),
     };
+    if let Some(path) = options.metadata_input {
+        policy["graph_metadata"] = serde_json::from_slice(&fs::read(path)?)?;
+    }
+    if let Some(path) = options.ret_checks_input {
+        policy["ret_checks"] = serde_json::from_slice(&fs::read(path)?)?;
+    }
     let mut config = registry(&info, options.image_base, policy.clone())?;
     if let Some(path) = options.cf_profile {
         ensure!(
@@ -587,7 +665,22 @@ pub fn export(options: Options) -> Result<()> {
         config["target"]["image"] = crate::original_cf::graph_image(&path, &info)?;
     }
     if let Some(scope) = options.accepted_scope {
-        accepted_view(&mut config, &info, &policy, &scope)?;
+        let mut scoped = config.clone();
+        accepted_view(&mut scoped, &info, &policy, &scope)?;
+        let mut names: Vec<String> = scoped["accepted"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|n| n.as_str().unwrap().to_owned())
+            .collect();
+        for name in &options.owner {
+            if !names.contains(name) {
+                names.push(name.clone());
+            }
+        }
+        select_owners(&mut config, &info, &names)?;
+    } else if !options.owner.is_empty() {
+        select_owners(&mut config, &info, &options.owner)?;
     }
     let has_chunks = policy["function_properties"]
         .as_object()
@@ -624,6 +717,9 @@ pub fn export(options: Options) -> Result<()> {
     if let Some(path) = options.metadata_output {
         let metadata = projected_metadata.as_mut().unwrap();
         resolve(metadata, &publics)?;
+        if options.scope_checks {
+            scope_metadata(metadata, &config)?;
+        }
         fs::write(path, serde_json::to_string_pretty(metadata)? + "\n")?;
     }
     if let Some(path) = options.runtime_output {
@@ -634,9 +730,10 @@ pub fn export(options: Options) -> Result<()> {
         )?;
     }
     if let Some(path) = options.ret_checks_output {
-        let checks = policy
+        let mut checks = policy
             .get("ret_checks")
-            .context("policy.ret_checks missing")?;
+            .context("policy.ret_checks missing")?
+            .clone();
         ensure!(
             checks["schema"] == 1 && checks["functions"].is_object(),
             "ret_checks requires schema1/functions"
@@ -658,7 +755,22 @@ pub fn export(options: Options) -> Result<()> {
                 "invalid RET check for {name}"
             );
         }
-        fs::write(path, serde_json::to_string_pretty(checks)? + "\n")?;
+        if options.scope_checks {
+            checks["functions"]
+                .as_object_mut()
+                .unwrap()
+                .retain(|name, _| {
+                    config["accepted"]
+                        .as_array()
+                        .unwrap()
+                        .iter()
+                        .any(|v| v == name)
+                });
+        }
+        fs::write(path, serde_json::to_string_pretty(&checks)? + "\n")?;
+    }
+    if options.scope_checks {
+        scope_config(&mut config)?;
     }
     let text = serde_json::to_string_pretty(&config)? + "\n";
     if let Some(output) = options.output {

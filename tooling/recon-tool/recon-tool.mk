@@ -73,12 +73,13 @@ RECON_AUDIT_FLAGS += --runtime $(RECON_AUDIT_ORIGINAL_RUNTIME)
 RECON_AUDIT_PREREQUISITES += $(RECON_AUDIT_ORIGINAL_RUNTIME)
 endif
 RECON_REGISTRY_OUTPUTS := $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RUNTIME)),$(RECON_AUDIT_ORIGINAL_RUNTIME)) $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),$(RECON_AUDIT_METADATA)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RET_CHECKS)),$(RECON_AUDIT_RET_CHECKS))
+RECON_PROJECTION_CASE = $(if $(RECON_ITERATION_CASE),$(RECON_ITERATION_CASE),$(firstword $(CASE_DIRS)))
 RECON_PROJECTION_INPUTS := $(if $(RECON_METADATA_REBUILT_MAP),$(ORIGINAL_OUTPUT) $(RECON_METADATA_REBUILT_MAP))
-$(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_CF_PROFILE) $(RECON_PROJECTION_INPUTS) $(RECON_TOOL) | $(firstword $(CASE_TARGETS))
+$(RECON_REGISTRY_OUTPUTS) &: binary.c Makefile $(RECON_TOOL_DIR)/recon-tool.mk $(RECON_POLICY) $(RECON_CF_PROFILE) $(RECON_PROJECTION_INPUTS) $(RECON_TOOL) | $(addsuffix /.build/case.so,$(RECON_PROJECTION_CASE))
 	@test -n "$(CASE_DIRS)" || { echo 'Registry export needs a numbered case' >&2; exit 1; }
 	@test -n "$(RECON_IMAGE_BASE)" || { echo 'Set RECON_IMAGE_BASE for registry export' >&2; exit 1; }
 	@mkdir -p $(dir $(RECON_REGISTRY_OUTPUTS))
-	$(RECON_TOOL) registry-export $(firstword $(CASE_DIRS)) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_CF_PROFILE),--cf-profile $(RECON_CF_PROFILE)) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RET_CHECKS)),--ret-checks-output $(RECON_AUDIT_RET_CHECKS)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RUNTIME)),--runtime-output $(RECON_AUDIT_ORIGINAL_RUNTIME)) $(if $(RECON_METADATA_REBUILT_MAP),--rebuilt-image $(ORIGINAL_OUTPUT) --rebuilt-map $(RECON_METADATA_REBUILT_MAP))
+	$(RECON_TOOL) registry-export $(RECON_PROJECTION_CASE) $(if $(RECON_ITERATION_CASE),--progress) --image-base $(RECON_IMAGE_BASE) $(if $(RECON_CF_PROFILE),--cf-profile $(RECON_CF_PROFILE)) $(if $(RECON_POLICY),--policy $(RECON_POLICY)) --output $(RECON_REGISTRY) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_METADATA)),--metadata-output $(RECON_AUDIT_METADATA)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RET_CHECKS)),--ret-checks-output $(RECON_AUDIT_RET_CHECKS)) $(if $(filter 1,$(RECON_AUDIT_REGISTRY_RUNTIME)),--runtime-output $(RECON_AUDIT_ORIGINAL_RUNTIME)) $(if $(RECON_METADATA_REBUILT_MAP),--rebuilt-image $(ORIGINAL_OUTPUT) --rebuilt-map $(RECON_METADATA_REBUILT_MAP))
 # CRT naming for the rebuilt image is shared read-only analysis, never Wine.
 ifeq ($(RECON_AUDIT_IDENTIFY_RUNTIME),1)
 RECON_AUDIT_RUNTIME ?= $(ORIGINAL_BUILD)/runtime.json
@@ -105,3 +106,5 @@ recon-graph-audit: $(GRAPH_AUDIT_BIN) $(RECON_REGISTRY) $(RECON_AUDIT_METADATA) 
 	@mkdir -p $(dir $(RECON_AUDIT_REPORT))
 	"$(GRAPH_AUDIT_BIN)" --profile $(RECON_AUDIT_PROFILE) --project . --repo $(RECON_REPO_ROOT) --config $(RECON_REGISTRY) $(if $(RECON_AUDIT_METADATA),--metadata $(RECON_AUDIT_METADATA)) $(RECON_AUDIT_FLAGS) --report $(RECON_AUDIT_REPORT)
 endif
+
+include $(RECON_TOOL_DIR)/iteration.mk

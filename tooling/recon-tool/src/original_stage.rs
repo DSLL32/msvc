@@ -86,6 +86,60 @@ fn copy(
     known.insert(key, source);
     Ok(staged)
 }
+/// The exact finite source closure used by private staging. Read-only callers
+/// may bind these inputs before capture; absence of local DLLs still means Wine.
+pub fn input_sources(
+    repo: &Path,
+    declared: &Path,
+    program: &Path,
+    host: &Path,
+    dll: bool,
+    native_msvcrt: bool,
+) -> Result<(Option<PathBuf>, Vec<PathBuf>)> {
+    let directory = declared
+        .parent()
+        .context("original toolchain directory")?
+        .canonicalize()?;
+    // Only declared imports found beside the selected toolchain binary are staged.
+    // System DLLs absent from that directory remain the Wine loader's concern.
+    let mut sources = vec![];
+    let mut selected_provider = None;
+    let mut queue = vec![program.to_owned()];
+    if dll {
+        queue.push(host.to_owned());
+    }
+    if native_msvcrt {
+        ensure!(
+            directory.starts_with(repo.join("toolchains").canonicalize()?),
+            "native MSVCRT requires an original toolchain directory"
+        );
+        let provider =
+            local(&directory, "MSVCRT.DLL")?.context("selected toolchain lacks MSVCRT.DLL")?;
+        selected_provider = Some(provider.clone());
+        queue.push(provider);
+    }
+    let mut seen = std::collections::BTreeSet::new();
+    while let Some(source) = queue.pop() {
+        let source = source.canonicalize()?;
+        if !seen.insert(source.clone()) {
+            continue;
+        }
+        ensure!(
+            seen.len() <= 128,
+            "toolchain dependency closure exceeds 128 images"
+        );
+        let bytes = fs::read(&source)?;
+        let image = Image::parse(&bytes)?;
+        for name in original_loader::imports(&image, &bytes)? {
+            if let Some(dependency) = local(&directory, &name)? {
+                sources.push(dependency.clone());
+                queue.push(dependency);
+            }
+        }
+    }
+    Ok((selected_provider, sources))
+}
+
 pub fn prepare(
     repo: &Path,
     declared: &Path,
@@ -131,23 +185,9 @@ pub fn prepare(
     } else {
         target.to_owned()
     };
-    let directory = declared
-        .parent()
-        .context("original toolchain directory")?
-        .canonicalize()?;
-    // Only declared imports found beside the selected toolchain binary are staged.
-    // System DLLs absent from that directory remain the Wine loader's concern.
-    let mut queue = vec![program.to_owned()];
-    if dll {
-        queue.push(host.to_owned());
-    }
-    if native_msvcrt {
-        ensure!(
-            directory.starts_with(repo.join("toolchains").canonicalize()?),
-            "native MSVCRT requires an original toolchain directory"
-        );
-        let provider =
-            local(&directory, "MSVCRT.DLL")?.context("selected toolchain lacks MSVCRT.DLL")?;
+    let (provider, dependencies) =
+        input_sources(repo, declared, program, host, dll, native_msvcrt)?;
+    if let Some(provider) = provider {
         selected_provider = Some(copy(
             &provider,
             root,
@@ -155,32 +195,15 @@ pub fn prepare(
             &mut known,
             &mut files,
         )?);
-        queue.push(provider);
     }
-    let mut seen = std::collections::BTreeSet::new();
-    while let Some(source) = queue.pop() {
-        let source = source.canonicalize()?;
-        if !seen.insert(source.clone()) {
-            continue;
-        }
-        ensure!(
-            seen.len() <= 128,
-            "toolchain dependency closure exceeds 128 images"
-        );
-        let bytes = fs::read(&source)?;
-        let image = Image::parse(&bytes)?;
-        for name in original_loader::imports(&image, &bytes)? {
-            if let Some(dependency) = local(&directory, &name)? {
-                copy(
-                    &dependency,
-                    root,
-                    "toolchain-import",
-                    &mut known,
-                    &mut files,
-                )?;
-                queue.push(dependency);
-            }
-        }
+    for dependency in dependencies {
+        copy(
+            &dependency,
+            root,
+            "toolchain-import",
+            &mut known,
+            &mut files,
+        )?;
     }
     Ok(Staged {
         host: staged_host,

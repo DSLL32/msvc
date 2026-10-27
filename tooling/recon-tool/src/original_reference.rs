@@ -107,6 +107,7 @@ struct Receipt {
 }
 #[derive(Clone)]
 pub struct Expected {
+    pub capture_path: PathBuf,
     case: String,
     identity: Option<Identity>,
     order: Vec<u32>,
@@ -342,6 +343,7 @@ impl Expected {
         let derivation = validate_derivation(&raw, &capture_raw, info)?;
         let mut expected = Self::parse(&raw, &capture_raw, path, info)?;
         expected.summary.comparison_derivation = derivation;
+        expected.capture_path = capture.canonicalize()?;
         Ok(expected)
     }
     fn parse(raw: &[u8], capture: &[u8], path: PathBuf, info: &Info) -> Result<Self> {
@@ -455,6 +457,7 @@ impl Expected {
             );
         }
         Ok(Self {
+            capture_path: PathBuf::new(),
             case: receipt.case,
             identity: receipt.identity,
             order: receipt.first_entry_order,

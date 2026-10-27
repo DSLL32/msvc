@@ -1028,3 +1028,123 @@ context bytes, plus process/thread identity when same-EXE child supervision
 is active. The error remains a failed capture without a fixture oracle. No
 additional memory inspection is performed, and old failures cannot recover
 context discarded before this reporting change.
+
+## Opt-in iteration orchestration
+
+`ITERATION.md` describes the reconstruction cadence. Shared command composition
+is implemented; no binary is automatically opted in or migrated. Existing
+`registry-export`, `original capture`, `run`, `test` and case Make targets remain
+available and keep their default behavior.
+
+From a binary root that explicitly opts in:
+
+```sh
+# One explicit first-use STATIC baseline. Builds the period PE/MAP if needed,
+# but does not launch the original target or run the regression suite.
+recon-tool original iterate cases/0001-example --all-restored --check-only
+# One changed-owner graph gate, one original capture, one exact native comparison.
+recon-tool original iterate cases/0001-example --owner Parse --owner ParseTable
+# Native-only repair/retry. Never builds the period PE or launches Wine.
+recon-tool iterate replay cases/0001-example --reference latest
+recon-tool iterate latest cases/0001-example
+recon-tool iterate status cases/0001-example
+recon-tool iterate export cases/0001-example --reference STEP --output ~/.ai-tmp/update.json
+```
+
+`--accepted-scope NAME` unions an existing policy scope with repeated `--owner`.
+Selections must already be accepted in the canonical registry. Full identities,
+shared ownership contracts, callback tables and global preservation facts stay
+present. Only owner-specific register assertions, compatibility/terminating CALL
+sites and RET contracts are selected. The explicit owner list declares semantic
+edits; the tool does not infer owner/source relationships. New or changed
+restored App code/data rows outside the selection reject before capture.
+A narrow first attempt fails with an explanation instead of silently running a
+full audit. Establish the explicit baseline at an ordinary planned static gate.
+
+Set these opt-in variables before including `recon-tool.mk` (or assign ordinary
+recursive variables afterwards):
+
+```make
+RECON_ITERATION_ENABLED := 1
+RECON_ITERATION_INPUT := $(RECON_ITERATION_CASE)/capture.bin # shared default; authored inputs only
+# Existing ORIGINAL_OUTPUT/MAP, RECON_IMAGE_BASE/POLICY/CF_PROFILE,
+# RECON_AUDIT_PROFILE/FLAGS and graph-audit inputs remain authoritative.
+RECON_ITERATION_CAPTURE_FLAGS := --host harness/host.exe --native-msvcrt
+RECON_ITERATION_NATIVE_PREREQUISITES := # optional selected-case native support
+RECON_ITERATION_METADATA_PREREQUISITES := # explicit finite post-link inputs
+RECON_ITERATION_CHECK_TARGETS := # optional finite residual Make targets
+RECON_ITERATION_INPUTS := # additional source/witness prerequisites consumed
+RECON_ITERATION_ARTIFACTS := # additional build outputs consumed
+```
+
+The common opt-in targets are `recon-iteration-config`,
+`recon-iteration-native`, `recon-iteration-original` and
+`recon-iteration-metadata`. They use the requested numbered case, its normal
+objects and the existing jobserver (otherwise `make -j4`). The executing tool
+is pinned during its own attempt. Target hooks must be declared explicitly;
+iteration does not discover custom semantic checks. They cannot bypass a failed
+common graph gate. Missing configuration, artifacts or unsupported backend
+options fail before original target execution. The enabled configuration must
+retain applicable graph flags, including ownership/extents checks. Existing
+`--original`, `--rebuilt` and `--map` audit flags are validated against actual
+inputs; existing external metadata, RET and filtered runtime files are preserved.
+A backend-specific unsupported operation remains unsupported: in particular,
+original timed/console-event or pipe-input delivery is not added here. Saved
+native event replay and unit-only DIRECT probes retain their existing routes.
+
+Generated configuration and immutable attempt results/logs live beneath
+`~/.ai-tmp/msvc2/iterations`, never case folders. `--state` selects an owned
+scratch directory outside the project. Each reference binds capture/report bytes
+and the original execution-plan digest. The plan includes registry restoration,
+seen seeds, authored inputs, format/loader layout, helper/host/provider identities
+and original transport implementation. Rebuilt reconstruction PE/MAP, native
+DSO addresses and auditor/witness changes are separate audit inputs. An unrelated
+native relink does not invalidate a reference. A single current checked-plan
+snapshot supports restoration-delta checks; each journal row stores compact
+bindings/digests, not another full function registry or source archive.
+Consumed sources, compiler dependency closures, semantic objects, policy,
+metadata and actual artifacts are fingerprinted around execution. These checks
+prevent stale or changing inputs, not undisclosed semantic edits.
+
+`latest` chooses a compatible captured original even if native comparison failed;
+prelaunch failures never create a selectable reference. A stale selected frontier
+that is now implemented rejects rather than recreating an old stub. Fresh
+iteration and replay require modern capture/identity-bound receipts; legacy
+unbound cached replay remains supported by ordinary `run`. Native-only replay
+records zero original launches and does not claim a new period-source check.
+`--check-only` supplies that explicit static/period check when required.
+
+A new invocation uses an authored inputs-only fixture. Observed
+`raw_command_line`, `program_image` or `process_os_environment` inputs reject
+unless `--preserve-launch-inputs` intentionally requests exact retention. No
+fields are silently removed. Existing capture options control whether a fresh
+OS block is retained/staged. Partial-output selection, DLL hosts, DIRECT helpers,
+external child policies, supervised SELF and CF continue through their existing
+engines. Native child traps still fail; no new child-frontier acceptance exists.
+
+`registry-export --progress` and `inspect --progress` explicitly permit a stale
+cached descriptor frontier while inspecting current implementation availability.
+`inspect`, `test` and SELF setup also accept a selected `--capture` plus
+`--original-report` context, with the existing reference validation. Ordinary
+cached `run`, `test` and inspection stay strict. SELF revalidates the pinned
+selected reference in its owned workspace before using the progress loader.
+
+Results retain phase milliseconds and existing native setup/execution/check
+splits. A successful receipt proves one root target/loader execution, with child
+counts only where supervised receipts establish them. Ambiguous capture failures
+say `unknown`; compiler/helper commands and capture CLI attempts are not target
+launch counts. Original raw artifacts use the existing `--artifacts-dir` export;
+native workspaces still have no universal durable artifact export.
+
+`iterate export` creates a reviewable JSON delta and order initializer, including
+selected-reference identity, the original attempt's comparison outcome and any
+latest native replay. It never rewrites C, accepts a comparison exception, grants
+function credit or finishes a case. Current passing traces only identify exercised
+selected owners; they do not prove return, hidden branches or table coverage.
+
+Authored controls: `tests/iteration.py` uses explicit Make/auditor stand-ins and
+synthetic bound receipts with the real native executor; `tests/progress-context.py`
+executes real native SELF with a stale descriptor. `tests/iteration-original.py`
+is an explicit original-only test with one real authored PE progress capture,
+real graph/RET checks and native comparison. These are not binary adoption or a
+qualification claim for every DLL/DIRECT/SELF/CF combination.

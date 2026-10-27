@@ -33,7 +33,16 @@ struct NativeResources {
     spawn_fd: RawFd,
 }
 #[derive(Serialize, Deserialize)]
+struct SelectedReference {
+    report: PathBuf,
+    capture: PathBuf,
+    report_sha256: String,
+    capture_sha256: String,
+}
+#[derive(Serialize, Deserialize)]
 struct Paths {
+    #[serde(default)]
+    selected_reference: Option<SelectedReference>,
     logical_cwd: Option<String>,
     assets: Option<PathBuf>,
     #[serde(default)]
@@ -41,12 +50,22 @@ struct Paths {
     #[serde(default)]
     native_resources: Option<NativeResources>,
 }
-pub fn save_paths(f: &Fixture, root: &Path) -> Result<()> {
+pub fn save_paths(
+    f: &Fixture,
+    root: &Path,
+    reference: Option<&crate::original_reference::Expected>,
+) -> Result<()> {
     if std::env::var_os("RECON_SELF_SPAWN").is_some_and(|v| v == "1") {
         fs::create_dir(root.join("children"))?;
         fs::write(
             root.join("native-child-paths.json"),
             serde_json::to_vec_pretty(&Paths {
+                selected_reference: reference.map(|r| SelectedReference {
+                    report: r.summary.report.clone(),
+                    capture: r.capture_path.clone(),
+                    report_sha256: r.summary.report_sha256.clone(),
+                    capture_sha256: r.summary.capture_sha256.clone(),
+                }),
                 logical_cwd: f.logical_cwd.clone(),
                 assets: assets::root(f, root),
                 process_os_provider: f
@@ -290,9 +309,30 @@ unsafe fn executor(options: &Options, root: &Path, parent: u32) -> Result<()> {
             std::env::set_var("RECON_SPAWN_FD", resources.spawn_fd.to_string());
         }
     }
-    crate::errno::set(0);
-    let loaded = unsafe { Loaded::open(&options.case) }?;
-    let constructor_errno = crate::errno::get();
+    let (loaded, constructor_errno) = if let Some(selected) = &paths.selected_reference {
+        use sha2::{Digest, Sha256};
+        ensure!(
+            crate::fixture::hex(&Sha256::digest(fs::read(&selected.report)?))
+                == selected.report_sha256
+                && crate::fixture::hex(&Sha256::digest(fs::read(&selected.capture)?))
+                    == selected.capture_sha256,
+            "selected SELF reference changed"
+        );
+        crate::errno::set(0);
+        let loaded = unsafe { Loaded::open_for_progress(&options.case) }?;
+        let constructor_errno = crate::errno::get();
+        crate::original_reference::Expected::load(
+            &selected.report,
+            &selected.capture,
+            &loaded.info,
+        )?;
+        (loaded, constructor_errno)
+    } else {
+        crate::errno::set(0);
+        let loaded = unsafe { Loaded::open(&options.case) }?;
+        let constructor_errno = crate::errno::get();
+        (loaded, constructor_errno)
+    };
     ensure!(
         loaded.case.execution == 0,
         "native-child requires an IO adapter"

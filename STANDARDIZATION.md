@@ -520,3 +520,8 @@ its private staged program, the fixture includes an exact `program_image` input
 recipe: readonly source identity, actual staged hash/length and raw INT3 ranges.
 Native replay recreates that frozen image at the observed T: path outside cwd
 and verifies it unchanged; no executable blob or current-registry mask is used.
+
+Shared opt-in iteration commands are implemented in `tooling/recon-tool/`; see
+`ITERATION.md` and the tool README for exact CLI/Make configuration. No binary
+workflow is automatically migrated. Existing case format and default gates remain
+unchanged.
