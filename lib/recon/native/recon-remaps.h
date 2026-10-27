@@ -456,6 +456,7 @@ void recon_load_system_info_profile(const char *,const char *);
  X(BOOL,CopyFileA,(LPCSTR,LPCSTR,BOOL)) \
  X(BOOL,DeleteFileA,(LPCSTR)) \
  X(PIMAGE_NT_HEADERS,CheckSumMappedFile,(LPVOID,DWORD,LPDWORD,LPDWORD)) \
+ X(DWORD,MapFileAndCheckSumA,(LPSTR,LPDWORD,LPDWORD)) \
  X(void,CoUninitialize,(void)) \
  X(BOOL,BindImageEx,(DWORD,LPSTR,LPSTR,LPSTR,PIMAGEHLP_STATUS_ROUTINE)) \
  X(BOOL,ReBaseImage,(LPSTR,LPSTR,BOOL,BOOL,BOOL,ULONG,ULONG *,ULONG *,ULONG *,ULONG *,ULONG)) \
@@ -838,6 +839,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define CreateFileA recon_CreateFileA
 #define DeleteFileA recon_DeleteFileA
 #define CheckSumMappedFile recon_CheckSumMappedFile
+#define MapFileAndCheckSumA recon_MapFileAndCheckSumA
 #define CoUninitialize recon_CoUninitialize
 #define BindImageEx recon_BindImageEx
 #define ReBaseImage recon_ReBaseImage

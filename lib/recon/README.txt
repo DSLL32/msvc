@@ -2031,8 +2031,10 @@ BindImageEx WINAPI5 and ReBaseImage WINAPI11 declarations, bind flags and image
 separation constant. These two static imports map to unconditional125 bodies:
 no input/output memory, callbacks, file effects or successful binding/rebasing
 semantics are selected. The existing CheckSumMappedFile ABI/remap is unchanged.
-MapFileAndCheckSumA and checksum status constants are declarations only for a
-later pending caller; no native body/remap or checksum-file success is granted.
+MapFileAndCheckSumA has a cold direct DWORD WINAPI3 native remap to
+unconditional125 for the editor checksum fallback. No path/output memory is
+accessed and no checksum-file success is granted; checksum status constants
+retain their SDK values. Existing CheckSumMappedFile behavior is unchanged.
 No IMAGEHLP dynamic-export/provider routing is broadened. Native C/C++ typing
 and NULL/invalid/owned-output denial controls cover the cold surface; the actual
 editor driver matches its ordinary 48-entry continuation (native 16.828ms),

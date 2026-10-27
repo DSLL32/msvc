@@ -1803,6 +1803,11 @@ BOOL WINAPI recon_ReBaseImage(LPSTR image,LPSTR symbols,BOOL rebase,BOOL system_
     (void)check_size;(void)old_size;(void)old_base;(void)new_size;(void)new_base;(void)timestamp;
     recon_unsupported("unreviewed IMAGEHLP ReBaseImage");return FALSE;
 }
+DWORD WINAPI recon_MapFileAndCheckSumA(LPSTR filename,LPDWORD old_sum,LPDWORD new_sum)
+{
+    (void)filename;(void)old_sum;(void)new_sum;
+    recon_unsupported("unreviewed IMAGEHLP MapFileAndCheckSumA");
+}
 PIMAGE_NT_HEADERS WINAPI recon_CheckSumMappedFile(LPVOID base,DWORD length,LPDWORD old_sum,LPDWORD new_sum)
 {
     const unsigned char *bytes=base;View *view;DWORD nt,optional_size,field,original;
