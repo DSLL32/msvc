@@ -1980,3 +1980,15 @@ retained readonly/create domains. WLINK's real existing-file native units pass
 (three groups19.877ms; direct TempFileOpen19.541ms), with source/DSO binding and
 owned close/reopen checks. This is source/static/native-unit support, not
 original-runtime equivalence.
+
+Cold VC5 imports provide declaration/link boundaries only: explicit510 maps
+_adj_fdiv_r to void cdecl(void), with its original EAX/x87 operands implicit;
+the native body unconditionally denies125 without inspecting them or performing
+FDIV. PDB::OpenValidate retains its authentic eight-argument static cdecl int
+signature (three char pointers, two DWORDs, LONG*, char*, PDB**). A native-only
+RECON_MSPDB_PDB_OPENVALIDATE declaration suffix binds the method directly to its
+shared C symbol; it is empty in period builds and adds no App wrapper. That body
+also unconditionally denies125 without touching input/output pointers. Authored
+C++ typing/alias tests and NULL/invalid/owned-pointer and empty/live-x87 denial
+controls pass; ordinary cold-path consumer adoption remains pending. No PDB
+validation or adjusted-division success/private-runtime equivalence is claimed.

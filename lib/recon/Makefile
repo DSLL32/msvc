@@ -1098,3 +1098,15 @@ build/watcom-open-rw-generic: tests/watcom-open-rw-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 watcom-open-rw-check: build/watcom-open-rw-probe build/watcom-open-rw-generic
 	$(PYTHON) tests/check-watcom-open-rw.py $^
+
+.PHONY: cold-vc5-imports-check
+build/cold-vc5-imports-probe.o: tests/cold-vc5-imports-probe.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -c $< -o $@
+build/cold-vc5-imports-generic.o: tests/cold-vc5-imports-probe.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/cold-vc5-imports-probe: build/cold-vc5-imports-probe.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $^ -o $@
+build/cold-vc5-imports-generic: build/cold-vc5-imports-generic.o $(SOURCES)
+	$(CC) $(CPPFLAGS) $(CFLAGS) $^ -o $@
+cold-vc5-imports-check: build/cold-vc5-imports-probe build/cold-vc5-imports-generic
+	$(PYTHON) tests/check-cold-vc5-imports.py $^

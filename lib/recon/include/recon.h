@@ -7,6 +7,7 @@
 #define RECON_THISCALL __attribute__((thiscall))
 /* Typed private MSPDB static import; declaration binding only, no wrapper. */
 #define RECON_MSPDB_NAMEMAP_OPEN __asm__("recon_mspdb_NameMap_open")
+#define RECON_MSPDB_PDB_OPENVALIDATE __asm__("recon_mspdb_PDB_OpenValidate")
 /* Use only for an independently proved 8-byte EDX:EAX return ABI. The
  * return object is addressable; sizeof checks never read/initialize its fields. */
 #define RECON_RETURN8_TYPE(type) uint64_t
@@ -24,6 +25,7 @@
 #else
 #define RECON_THISCALL
 #define RECON_MSPDB_NAMEMAP_OPEN
+#define RECON_MSPDB_PDB_OPENVALIDATE
 #define RECON_RETURN8_TYPE(type) type
 #define RECON_RETURN8(value) return (value)
 #define RECON_ASSIGN_RETURN8(destination,call) ((destination)=(call))

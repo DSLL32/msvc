@@ -153,12 +153,14 @@ unsigned long __cdecl recon_mspdb_SigForPbCb(const void *,long,unsigned long);
 void __cdecl recon_mspdb_TruncStFromSz(char *,const char *,size_t);
 struct PDB;struct NameMap;
 int __cdecl recon_mspdb_NameMap_open(struct PDB *,int,struct NameMap **);
+int __cdecl recon_mspdb_PDB_OpenValidate(char *,char *,char *,DWORD,DWORD,LONG *,char *,struct PDB **);
 extern char *recon_pgmptr,*recon_aenvptr;
 extern long recon_timezone;
 extern int recon_daylight;
 extern char *recon_tzname[2];
 extern int recon_days[13],recon_fltused,recon_tmpoff;
 extern unsigned recon_tempnam_counter,recon_tempnam_prefix_length;
+void __cdecl recon_adj_fdiv_r(void);
 extern int recon_adjust_fdiv;
 typedef void (__cdecl *ReconInitializer)(void);
 void recon_initterm(ReconInitializer *,ReconInitializer *);
@@ -529,6 +531,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define wcsncpy recon_wcsncpy
 #define _control87 recon_control87
 #define _controlfp recon_controlfp
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#define _adj_fdiv_r recon_adj_fdiv_r
+#endif
 #define _ftime recon_ftime
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)
 #ifndef __far

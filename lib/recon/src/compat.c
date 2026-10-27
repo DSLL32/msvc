@@ -55,6 +55,20 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
     recon_unsupported("unreviewed MSPDB NameMap::open");return 0;
 }
 
+/* Cold VC5 imports: linkability only. Neither implicit x87 operands nor PDB
+ * input/output pointers are inspected; successful provider behavior is absent. */
+void __cdecl recon_adj_fdiv_r(void)
+{
+    recon_unsupported("unreviewed MSVCRT _adj_fdiv_r");
+}
+int __cdecl recon_mspdb_PDB_OpenValidate(char *path,char *search,char *mode,
+    DWORD signature,DWORD age,LONG *error,char *error_text,struct PDB **result)
+{
+    (void)path;(void)search;(void)mode;(void)signature;(void)age;
+    (void)error;(void)error_text;(void)result;
+    recon_unsupported("unreviewed MSPDB PDB::OpenValidate");return 0;
+}
+
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
  * target namespace heap check below has an established success contract. */
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;
