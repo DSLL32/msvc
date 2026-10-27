@@ -27,7 +27,8 @@ typedef struct VxdImageHeader {
 } VxdImageHeader;
 typedef struct VxdObjectRecord {
     DWORD virtual_size,base,flags,page_map_index,page_count;
-    char name[4];
+    /* The writer stores its four-byte tag in the LE reserved DWORD. */
+    union { char name[4]; DWORD reserved; };
 } VxdObjectRecord;
 typedef char VxdHeaderSize[(sizeof(VxdImageHeader)==196)?1:-1];
 typedef char VxdHeaderLastPageAt2c[(offsetof(VxdImageHeader,last_page_size)==0x2c)?1:-1];

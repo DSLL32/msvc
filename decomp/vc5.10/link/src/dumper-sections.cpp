@@ -298,7 +298,34 @@ extern "C" void __stdcall dump_sections(DumperSectionState *state,DWORD extra_of
 /* Genuine unvisited children retain their named entry traps. */
 extern "C" {
 
-void __stdcall dump_disassembly(DumperSectionState *,void *,DWORD,IMAGE_SECTION_HEADER *,DWORD,DWORD,const void *,DWORD) { __asm { int 3 } }
+void __stdcall build_dumper_symbol_index(DumperSectionState *,DWORD,DWORD);
+void __stdcall release_dumper_symbol_index(DumperSectionState *);
+void __stdcall disassemble_section(DumperSectionState *,void *,DWORD,DWORD,DWORD,DWORD,
+    const void *,DWORD,FILE *) { __asm { int 3 } }
+void __stdcall dump_disassembly(DumperSectionState *state,void *context,DWORD raw_machine,
+    IMAGE_SECTION_HEADER *section,DWORD index,DWORD image_base,const void *data,DWORD bytes)
+{
+    WORD machine=(WORD)raw_machine;
+    DWORD address=section->VirtualAddress+(dump_file_type==1?0:image_base);
+    union {DWORD raw;BYTE low;} mode;
+#ifdef __linux__
+    /* The original initializes only its low BYTE, then forwards the DWORD.
+     * Native upper bytes are zero representation only; the pending consumer
+     * traps before any unqualified upper-bit use. No raw equality is claimed. */
+    mode.raw=0;
+#endif
+    mode.low=0;
+    if(machine==IMAGE_FILE_MACHINE_I386) {
+        if(section->Characteristics&0x20000) {
+            address=(index&0xffff)<<16;
+            mode.low=1;
+        }
+    } else if(machine==IMAGE_FILE_MACHINE_R4000 &&
+        !strncmp((char *)section->Name,".text16",7))mode.low=1;
+    if(dump_file_type!=2)build_dumper_symbol_index(state,index,image_base);
+    disassemble_section(state,context,raw_machine,mode.raw,index,address,data,bytes,map_output);
+    if(dump_file_type!=2)release_dumper_symbol_index(state);
+}
 void __stdcall dump_raw_data(DWORD address,const void *buffer,DWORD length)
 {
     const BYTE *data=(const BYTE *)buffer,*end=data+length,*line;
@@ -422,7 +449,26 @@ void __stdcall dump_fpo(DumperSectionState *state,DWORD position,DWORD bytes)
     release_memory(records);
 }
 void __stdcall dump_object_pdata(LinkContext *,IMAGE_SECTION_HEADER *,DWORD) { __asm { int 3 } }
-void __stdcall dump_directives(DWORD,DWORD) { __asm { int 3 } }
+void __stdcall dump_directives(DWORD offset,DWORD bytes)
+{
+    char *text=(char *)allocate_memory(bytes+1),*token;
+    DWORD error=0,index;
+    FileRecord *record;
+    seek_file(current_input_file,offset,FILE_BEGIN,&error);
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,text,bytes);
+    else buffered_read(record,text,bytes);
+    for(index=0;index<bytes;++index)if(!text[index])text[index]=' ';
+    text[bytes]=0;
+    fputs("\n   Linker Directives\n   -----------------\n",map_output);
+    token=strtok(text," ");
+    while(token) {
+        fprintf(map_output,"   %s\n",token);
+        token=strtok(NULL," ");
+    }
+    release_memory(text);
+}
 void __stdcall dump_debug_directory(IMAGE_DEBUG_DIRECTORY *directory)
 {
     DWORD saved,error,bytes,remaining;

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-590 application functions / 228,448 original code bytes are reconstructed
-(55.07% of the 414,810-byte whole `.text` extent, which includes CRT and text
+598 application functions / 230,876 original code bytes are reconstructed
+(55.66% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,219 bytes and
-197 entries whose body extents remain unknown; this is not a complete non-CRT
+194 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-eight cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-nine cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-603-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 583 ordinary application bodies and six CRT bodies. Seven import
+611-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 591 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -663,3 +663,26 @@ regression/unit/original-build/full-audit batch passed in 4.82 s: twenty-eight
 fixtures, 603 graph vertices, 589 return contracts and seven separate EH-owner
 checks. Raw reference artifacts and failed build/comparison evidence remain in
 scratch. These measurements are incremental, not clean-build benchmarks.
+
+The legacy-image dumper case completes with 79 application first entries and
+strict streams and file inventory, without clock normalization. It reads the
+shipped OS/2 NE WBIND executable and an unchanged original-produced LE/VxD
+image. The NE path emits the original unsupported-format warning; it does not
+decode NE tables. The LE path prints its header, object records and page maps,
+then reads and dumps the genuine object bytes, retaining zero-filled pages and
+the shorter final file page. The object record's reserved DWORD aliases the
+writer's existing four-byte tag at the same offset. Native malformed-page
+bounds stop before unsafe pointer arithmetic or writes. Completion replay took
+18.6 ms (12.0 ms setup, 3.5 ms execution, 3.1 ms checks); the parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 4.74 s.
+These are incremental measurements.
+
+The disassembly workload remains dependency-blocked and excluded from passing
+fixture discovery. Its complete inputs, raw references and scoped patch are
+retained in scratch. Two matched prefix bodies (directive token printing and
+disassembly dispatch) are preserved with their reached-prefix qualification;
+the actual MSDIS-dependent section wrapper at RVA 22c40 remains a named trap
+with no implementation credit. The shipped provider lacks some dormant exact
+imports, and no decoder, substitute vtable or provider-success behavior is
+claimed. The new completion carries these two prefixes and six legacy dumper
+bodies, adding eight functions and 2,428 code bytes since the PE editor case.
