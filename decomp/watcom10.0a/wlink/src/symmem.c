@@ -157,3 +157,11 @@ unsigned char PermShrink( void )
     if( !freed ) freed = ShrinkBlock( &Pass1Blocks );
     return freed;
 }
+
+/* The 1994 reset prefix falls through the distinct empty storage entry.
+ * Keep both identities and the real edge, without enlarging either body. */
+void ResetSym( void )
+{
+    LastSym = 0;
+    InitSymStorage();
+}

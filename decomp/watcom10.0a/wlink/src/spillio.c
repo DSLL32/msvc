@@ -90,3 +90,10 @@ void SpillRead( unsigned long base, unsigned long off, void *memory, unsigned si
     QSeek( TempFile, base + off - 1, TFileName );
     QRead( TempFile, memory, size, TFileName );
 }
+
+extern void WriteNulls( int, unsigned long, char * );
+void SpillNull( unsigned long base, unsigned long off, unsigned size )
+{
+    QSeek( TempFile, base + off - 1, TFileName );
+    WriteNulls( TempFile, size, TFileName );
+}

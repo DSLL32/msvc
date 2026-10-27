@@ -348,3 +348,8 @@ void PSection( section *sect )
     CurrSect = sect;
     PModList( sect->mods );
 }
+
+void ResetOvlSupp( void )
+{
+    AreaSize = 0xffff;
+}

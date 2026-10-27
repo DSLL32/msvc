@@ -1560,3 +1560,45 @@ unsigned __mangle_operator( const char *op, unsigned len, char *result )
     }
     return 0;
 }
+
+unsigned __demangle_r( const char *input, unsigned len, char **output,
+                         unsigned size, realloc_fn_t reallocator )
+{
+    char *buffer;
+    int mangled;
+    unsigned outlen;
+    output_desc data;
+
+    init_globals( reallocator );
+    mangled = __is_mangled( input, len );
+    buffer = 0;
+    if( output != 0 ) buffer = *output;
+    init_descriptor( &data, demangleEmit, &data, input, len, buffer, size );
+    data.suppress_output = 0;
+    if( mangled ) do_demangle( &data );
+    else do_copy( &data );
+    outlen = terminateOutput( &data );
+    if( output != 0 ) *output = data.output;
+    return outlen;
+}
+
+int __scope_name( const char *input, unsigned len, unsigned index,
+                   const char **scope, unsigned *size )
+{
+    output_desc data;
+
+    init_globals( 0 );
+    *scope = 0;
+    *size = 0;
+    if( !__is_mangled(input,len) ) return 0;
+    init_descriptor( &data, demangleEmit, &data, input, len, 0, 0 );
+    data.scope_name = 1;
+    data.scope_index = index;
+    do_demangle( &data );
+    if( data.scope_len != 0 ) {
+        *scope = data.scope_ptr;
+        *size = data.scope_len;
+        return 1;
+    }
+    return 0;
+}

@@ -929,3 +929,10 @@ unsigned char IsORL( file_list *list, unsigned long loc )
 }
 unsigned long ORLPass1( void ) { return 0; }
 void ORLPass2( void ) {}
+
+/* The old standalone object reset clears the current segment node only;
+ * its buffer cursors are reset by the separate ResetObjIO body. */
+void ResetObjOMF( void )
+{
+    CurrNode = 0;
+}

@@ -6341,6 +6341,46 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResetOvlSupp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SetDosFmt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetObjOMF": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetSym": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillNull": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__demangle_r": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "__scope_name": {
+        "expected_cleanup": [
+          4
+        ]
+      },
+      "DW_ULEB128": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -6685,6 +6725,16 @@
       "original": {
         "start": 4337454,
         "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "DW_LEB128",
+        "DW_ULEB128"
+      ],
+      "original": {
+        "start": 4420362,
+        "bytes_hex": "408858ff5bc3"
       }
     }
   ],

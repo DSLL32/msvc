@@ -322,3 +322,8 @@ unsigned char AddNoVector( void )
     sym->u.value |= 0x30000000UL;
     return 1;
 }
+
+void SetDosFmt( void )
+{
+    Extension = 4;
+}

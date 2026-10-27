@@ -58,3 +58,17 @@ char *DW_LEB128(
 }
 
 
+
+char *DW_ULEB128( char *buf, unsigned long value )
+{
+    unsigned char byte;
+
+    for(;;) {
+        byte = value & 0x7f;
+        value >>= 7;
+        if( value == 0 ) break;
+        *buf++ = byte | 0x80;
+    }
+    *buf++ = byte;
+    return buf;
+}

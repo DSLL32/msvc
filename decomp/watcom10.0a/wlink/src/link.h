@@ -833,4 +833,10 @@ extern void ResetObjPass1( void );
 extern void ResetObjStrip( void );
 extern void ResetSymTrace( void );
 extern void ResetODBI( void );
+extern void SetDosFmt( void );
+extern void ResetOvlSupp( void );
+extern void ResetObjOMF( void );
+extern void ResetSym( void );
+extern void SpillNull( unsigned long, unsigned long, unsigned );
+extern char *DW_ULEB128( char *, unsigned long );
 #endif

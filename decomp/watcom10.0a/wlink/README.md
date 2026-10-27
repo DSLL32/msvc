@@ -1128,3 +1128,44 @@ wlink-wide-read-units retains source/body bindings, failed attempts, timing
 splits and the generated ledger (**138,351** qualified unique App bytes).
 The fresh **18,952**-byte registry remainder remains unattributed;
 nearby FILE-like code is not restored or classified as CRT by resemblance.
+
+
+The closing source-backed unit batch qualifies eight further old App entries.
+ResetOvlSupp writes only AreaSize=ffff; SetDosFmt writes only Extension=4.
+ResetObjOMF clears CurrNode while preserving OMF cursors, unlike the newer
+source reset. The LastSym-only ResetSym prefix retains its actual fallthrough
+into the separate empty InitSymStorage identity; no overlap, synthetic entry
+or new startup call is introduced. Borrowed symbol/segment owners and unrelated
+fields remain unchanged. SpillNull uses a genuine pre-opened spill descriptor
+and token, seeks and zeros exactly its requested subrange through the real
+WriteNulls graph, preserving prefix/suffix, file size/accounting and zero-size
+seek behavior. First-open, pressure and error domains remain separate.
+
+The public __demangle_r and __scope_name signatures preserve their genuine
+five-argument/RET4 original ABIs. A bounded fixed output and real live-owner
+reallocator callback cover returned length/content, pointer updates and cleanup;
+no allocation address or moving/nonmoving outcome is prescribed. Scope results
+are exact borrowed slices into unchanged live input, with normal no-scope
+outputs and pointer/length canaries. DW_ULEB128 has exact independently encoded
+boundary tests through unsigned32 maximum, return-pointer and buffer canaries.
+Its true six-byte terminal block is shared with DW_LEB128 under the existing
+strict epilogue metadata; both identities/extents and unique-byte accounting
+remain intact. These are native-unit qualifications, not original CLI/runtime
+observations; no original was launched.
+
+After correcting missing case-only declarations, the necessary native/Watcom
+build took **4.418 s**; selected strict graph/ABI/ownership checks took
+**391.524 ms**. The two DIRECT runs took **16.784 / 19.343 ms**, and their
+five tests **14.572 / 14.924 ms**, with splits retained in scratch
+wlink-closing-units. One grouped final full build/regression/unit/audit took
+**2.135 s**, passing forty-four CLI and twelve native-unit cases and all
+**1,277** source-ready identities. Its 112 native invocations took
+**12.338–59.068 ms**. The generated qualified-code union is
+**138,716 bytes**; CLI and unit-only provenance remains separate.
+
+The fresh registry remainder is **18,587 bytes**, including zero-fill,
+alignment, runtime/data-like areas and possibly code without an established App
+reference. Source review has recovered all positively correlated routines in
+the finite App-adjacent gap set. That is a bounded attribution result, not proof
+that every remaining byte is CRT. No unknown span is restored by resemblance
+or elimination, and existing semantic guards/unsupported domains stay explicit.

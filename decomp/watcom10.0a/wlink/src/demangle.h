@@ -143,4 +143,6 @@ extern int base_10_num( output_desc *data, int *value );
 unsigned __demangled_basename( const char *, unsigned, char *, unsigned );
 void __parse_mangled_name( const char *, unsigned, void *, outfunPtr );
 unsigned __mangle_operator( const char *, unsigned, char * );
+unsigned __demangle_r( const char *, unsigned, char **, unsigned, realloc_fn_t );
+int __scope_name( const char *, unsigned, unsigned, const char **, unsigned * );
 #endif
