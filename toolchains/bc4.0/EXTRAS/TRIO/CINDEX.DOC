@@ -1,0 +1,2495 @@
+
+
+
+
+
+
+
+
+
+
+
+                                         C-INDEX
+
+                                DEMONSTRATION DISK MANUAL
+
+
+
+
+
+
+
+              This  manual   is  provided   for  use   with   the   C-Index
+              Demonstration Disk  and contains  portions  of  the  complete
+              C-Index manual.  Included in this manual are the instructions
+              for programming the most commonly used C-Index functions.
+
+                                      Trio Systems
+                               936 E. Green St. Suite 105
+                                   Pasadena, CA  91106
+                                      818/584-9706
+                                    FAX: 818/584-0364
+
+
+                                 (c) Copyright 1987-1993
+                                   All Rights Reserved
+
+
+
+
+
+
+                                  INTRODUCTION
+
+
+
+
+
+
+
+
+
+
+                             Description of C-Index
+
+          C-Index is a productivity tool written in the C language.  It
+          is a  complete implementation  of a B-Tree Indexed Sequential
+          Access Method  (ISAM) with extended capabilities for variable
+          length data handling. You as the C programmer can use C-Index
+          to quickly  create and maintain multi-keyed records stored in
+          a single index/data file or to utilize customized indexing of
+          data stored  in separate  files. Specific features of C-Index
+          include:
+
+          . Variable length keys and data
+          . Fully Automated Multi-key storage
+          . True Multi-User capabilities with file and record locking
+          . Implementation of advanced B-Link structure
+          . Single and multiple-keyed access to data
+          . Addition and Deletion of keys in any order
+          . Full source code
+          . Data integrity functions
+          . No royalties on developed applications
+
+          The philosophy  of C-Index  is to  provide a  tool that is as
+          flexible as  possible. The  system does  not make assumptions
+          about how you may choose to store data. Rather, the functions
+          allow you  to create  a developmental  environment that  will
+          best suit your application.
+
+
+                               System Requirements
+
+          Because C-Index is a portable C language package, you will be
+          able to  use it with a wide variety of compilers. C-Index was
+          written using  C syntax  that is compatible with both K&R and
+          ANSI standards,  and should  move easily from one compiler to
+          another.
+
+
+                                          Introduction   3
+         _________________________________________________
+
+
+                                   Supplied Materials
+
+              C-Index is  supplied on  5.25" or  3.5" IBM  PC format floppy
+              disk.  The source files can be transferred to other platforms
+              for compilation  outside the  PC  environment.    Because  of
+              constant changes  in the computers and compilers supported an
+              up-to-date list  is provided on the release disk.  We make an
+              effort to support all the popular platforms and compilers.
+
+
+                                  How to Use the Manual
+
+              C-Index has  two groups  of function calls: high level multi-
+              key functions  and low  level single-key functions.  For both
+              of these  groups there  are additional  multi-user functions.
+              This manual first describes all high level functions and then
+              discusses all low level functions.
+
+              The multi-key  functions are the high level calls of C-Index,
+              and are  at the  beginning of  the manual.   For most typical
+              data management applications, the multi-key functions are the
+              ones you will be using.
+
+              The single-key  functions are  more flexible  and potentially
+              more  powerful  but  also  require  more  work  to  implement
+              traditional record  filing schemes. They can be easier to use
+              for certain applications however, and therefore should not be
+              ignored. Again,  single-key functions are discussed after the
+              multi-key functions.
+
+              Each set of calls has two chapters:  one describing the usage
+              of the  functions and  one  summarizing  the  functions.  The
+              chapters  describing  usage  should  be  used  to  learn  the
+              functions, and  the summarizing  chapters, to  reference  the
+              functions.
+
+              Important: Whichever  set of  functions you  choose  to  use,
+              universal information  on both  is contained  in  Chapter  1,
+              "C-Index  Universal  Information".  This  chapter  should  be
+              thoroughly read  and understood  before proceeding. It should
+              also be  consulted for  basic information  about all  C-Index
+              functions. The  individual chapters  on the  functions assume
+              you have read and absorbed Chapter 1.
+
+              This manual  also contains  additional chapters  on  advanced
+              usage, multi-user  support, and  other related  subjects.  Be
+              sure to  review these  chapters so you will better understand
+              C-Index and its potential uses for your software development.
+
+
+     4                                            
+     _________________________________________________
+
+
+                                Example Programs
+
+          The package  comes with  two example  programs.  Each  demon-
+          strates the  usage and  capabilities of  one of  the sets  of
+          function calls.  The information  given in  the manual  fully
+          explains operations,  so it is not mandatory that you look at
+          these programs.  It is  suggested, however, that you run both
+          of them.  They are  found in executable form on the utilities
+          disk, and  the source is supplied on the source disk. The two
+          programs are:
+
+          tutor.exe   This program shows the capabilities of single-key
+                      functions and  clearly demonstrates  the easy use
+                      of single-key functions. The tutor.exe program is
+                      described in  Chapter 4  in  the  section  titled
+                      "Example Program for Single-Key Functions".
+
+          example.exe This program  demonstrates the  use of the multi-
+                      key functions  to maintain a simple database. The
+                      example.exe program  is described in Chapter 3 in
+                      the  section  titled  "Example  Program  for  the
+                      Multi-Key Functions".
+
+          Both programs  are interesting  examples of using C-Index and
+          can provide ideas for programming.
+
+
+                               The C-Index License
+
+          C-Index is sold as a development tool for use on a single
+          programmer.  The Individual Copy License (the standard
+          "shrink wrap license" supplied with each copy of the product)
+          permits the package to be used by a single programmer on a
+          single machine. The license agreement permits the
+          distribution of applications created with C-Index without
+          payment of royalties, provided that the C-Index software is
+          distributed in such a way that access to C-Index for program
+          development is not possible by the end user. The source code
+          for C-Index may not be distributed.  A copy of the license
+          agreement is included in this document.  For a thorough
+          understanding of the terms of the license agreement we
+          encourage you to review it with your attorney.
+
+
+
+
+
+
+                                        CHAPTER 1
+
+                              C-INDEX UNIVERSAL INFORMATION
+
+
+
+
+
+
+
+              This chapter  is a  general guide to using C-Index. It covers
+              basic ISAM  concepts and  specific terminology  that will  be
+              used throughout  the manual. It provides a basis for learning
+              and using  all the  functions of  C-Index. Once you have read
+              this chapter,  you will be able to decide which functions you
+              wish to  learn next. It is important, however, that you fully
+              absorb the material presented here to use C-Index correctly.
+
+
+                                      ISAM Concepts
+
+              Indexed Sequential  Access  Method  (ISAM)  has  become  very
+              popular  for   use  in   many  business  systems.  It  allows
+              information to  be retrieved randomly by data value (indexed)
+              and in  sorted order  (sequential) using just one index file.
+              This dual ability distinguishes ISAM from other methods, such
+              as Hashing.
+
+              An ISAM  file is  a file  composed of  individual  pieces  of
+              information  called   "keys".  A   key  is  an  ASCII  string
+              representing some  value in  a  data  record.  The  index  is
+              arranged in  such a  way that  keys  can  be  retrieved  both
+              randomly and  sequentially, together  with  their  associated
+              data record numbers.
+
+              This manual assumes that the programmer is familiar with data
+              management techniques.  If you  are not  familiar  with  this
+              subject,  we   suggest  that   your  consult   the  following
+              references in addition to this manual:
+
+              1: Knuth, Donald E. The Art of Computer Programming, Vol 3,
+              Sorting and Searching, Addison-Wesly Publishing Co. 1973
+
+              2: Comer, Douglas. The ubiquitous B-Tree, references,
+              Computing Surveys, Vol. 1, No. 2, June 1979
+
+
+     6                                            
+     _________________________________________________
+
+
+                               C-Index Source Code
+
+          The C-Index  package is  written in  the C  language  and  is
+          designed to  function as a library containing data management
+          functions callable  from an  application program. Source code
+          is supplied  to users  for  documentation  and  customization
+          purposes. The source is not required for using C-Index unless
+          you have  a compiler  that is  not  directly  supported.  For
+          instructions on making libraries for non-supported compilers,
+          see Chapter 11, "Source Code Documentation".
+
+
+                            Interfacing with C-Index
+
+          C-Index is  a library of C language functions that are linked
+          with the  application program.  There are no requirements for
+          loading memory  resident software  in advance  of running any
+          application that  uses C-Index.  The required portions of the
+          C-Index system are incorporated in the application program by
+          the linking  processing. The  following sections describe the
+          steps necessary for calling C-Index functions.
+
+
+                                  Include Files
+
+          Every program  that calls  C-Index must  #include one  of two
+          special  header  files.  One  module  (source  file)  of  the
+          application must include the header file cindex.h:
+
+             #include "cindex.h"   /* C-Index/PC */
+
+             or
+
+             #include "cndx.h"     /* C-Index/II */
+
+
+                           Defining Number of Buffers
+
+          C-Index allows  the definition of the number of buffers to be
+          used. Since  C-Index does  its own buffering, it is important
+          to be  able to  set the  level of trade-off between speed and
+          memory  usage.   In  C-Index/PC  the  number  of  buffers  is
+          controlled by  the  define  statement  in  the  header  file,
+          cindex.h:
+
+             #define BUFFERS 10
+
+          where 10 is the number of buffers to be used.
+
+          In C-Index/II  the number  of buffers  is controlled  by  the
+          global  variable   "bcbnum"  or   by  calling   the  function
+          cibufnum(number_of_buffers).
+
+
+              Chapter 1  C-Index Universal Information   7
+         _________________________________________________
+
+
+              Since each  buffer is 1K, the ability to choose the number of
+              buffers can  be very  useful. In  practice  10  buffers  have
+              proven to  be a  good general  figure and that is the default
+              number specified by C-Index.
+
+              If the program will be executing on computers with sufficient
+              memory, more  buffers may  speed up  C-Index  operation.  You
+              should experiment  to find the optimum setting.  Depending on
+              the compiler  and the  memory model  selected, the  number of
+              buffers may  be limited  by the amount of global static space
+              available (C-Index/PC) or the global heap space (C-Index/II).
+
+
+                               Communicating with C-Index
+
+              C-Index consists  of a  set of functions that are linked into
+              the application  program. The  functions can  open, close, or
+              create a  file, and  add, delete, and find entries in a file,
+              in addition to other operations.
+
+              All function  calls to  C-Index must  supply a  pointer to  a
+              structure of  type CFILE  (called a  psp, parameter structure
+              pointer) which  holds important information about the file on
+              which the  function is  operating. On  opening or  creating a
+              file, a  pointer is  passed to  a structure of type CFILE and
+              subsequent operations  on that open file will also supply the
+              same pointer. For instance the statement
+
+                 CFILE datafile;
+
+              creates a  parameter structure  called datafile  that can  be
+              subsequently used  for communication  with C-Index.  For more
+              detail regarding  how the  psp  must  be  used,  consult  the
+              reference sections of the manual which describe the functions
+              of interest.
+
+
+                            Linking C-Index with Applications
+
+              Included in  the C-Index package are libraries containing all
+              the functions  discussed in this manual. C-Index is linked in
+              the same  way as  any library.
+
+
+     8                                            
+     _________________________________________________
+
+
+                                 Opening a File
+
+          A file  must be opened for access before any functions can be
+          called. The functions for creating a new file will also leave
+          it open  for  access.  There  are  various  open  and  create
+          functions. For  more detail,  consult the  individual  manual
+          sections describing these functions.
+
+
+                              Calling the Functions
+
+          Every function  returns an  integer return  code. There  is a
+          list of  all  return  codes  in  "Appendix  A",  as  well  as
+          individual  returns   described  for  each  function  in  the
+          summaries. Always  check the  return code, as any information
+          obtained will be invalid if the function failed in any way.
+
+
+                                  Closing Files
+
+          As stated earlier, a file must be opened before it can be ac-
+          cessed. It  is just  as important  to close  the file  before
+          exiting the program to insure file integrity. C-Index does as
+          much as  possible to  take care of this for you, but there is
+          no substitute  for closing  a file. The vast majority of user
+          problems stem from non-closure of files.
+
+
+                           Which Function Group to Use
+
+          C-Index has  two distinct groups of function calls: multi-key
+          and single-key  functions.  Each  group  has  its  respective
+          characteristics and  advantages. The choice of which group to
+          use is best determined by the nature of your application.
+
+          For example,  a  typical  application  will  need  to  manage
+          information in  the form of records. Each record will contain
+          several fields with two or more fields acting as "key" fields
+          for retrieving  the record.  For this  type  of  application,
+          multi-key functions  will automatically  handle  the  complex
+          processes of addition, update and deletion of records.
+
+          Other types  of  applications  may  have  a  requirement  for
+          managing information that is not oriented around records. For
+          example,  it   would  be   possible  to  use  C-Index  in  an
+          application to store and retrieve the definitions of words in
+          a dictionary.   The  single-key routines provide a simple and
+          fast way  to access  information based  on one key value.  In
+          this example  the definition  of a  word in  a dictionary  is
+          located using the word itself as the key.
+
+
+              Chapter 1  C-Index Universal Information   9
+         _________________________________________________
+
+
+                                 The Multi-key Functions
+
+              The  multi-key   functions  are   a  "record"  based  set  of
+              functions. They fully automate the process of managing multi-
+              keyed data  records. The  application program  specifies  the
+              definition of the record and key structure. C-Index then does
+              all the  work of  storing and  retrieving these  records. The
+              method for defining the record structure has been designed to
+              be as flexible as possible. For the majority of applications,
+              the multi-key  functions are the best choice. It is suggested
+              that you first examine the multi-key functions to see if they
+              satisfy your needs.
+
+
+                                The Single-Key Functions
+
+              The single-key functions operate on objects called "entries".
+              Each entry  contains a  variable length key, a record number,
+              and variable length data of any format.
+
+              This set of functions is a more universal data storage scheme
+              that allows  the storage,  by keyed value, of variable length
+              data up  to 16K  of any  format. The multi-key functions were
+              built entirely  by using single-key functions. The single-key
+              functions may  be seen  as flexible building blocks which can
+              be combined and built upon to make any kind of storage system
+              desired. They are also very useful for storing such pieces of
+              information as  access codes,  system information,  and other
+              types of  information  that  are  typically  used  in  system
+              development.
+
+              An advanced  usage of  C-Index might  include the  use of the
+              multi-key functions  for record  storage and  the  single-key
+              functions  for  all  else.  Low  level  file  access  becomes
+              unnecessary because  it is handled by C-Index. Thus, portable
+              programs are  much easier  to write  using C-Index.  For more
+              information, see Chapter 10, "Advanced Usage of C-Index."
+
+              If the  multi-key functions  do not offer enough flexibility,
+              the single-key  functions should  be used. And again, because
+              the single-key  functions are  the  building  blocks  of  the
+              C-Index system,  it is  helpful to  be  familiar  with  their
+              general usage.
+
+
+     10                                           
+     _________________________________________________
+
+
+                                Error Processing
+
+          Each function  returns a  return code  which should always be
+          checked. In  any file  system, there are a number of problems
+          that can  occur such  as disk  error, out of disk space, etc.
+          C-Index internally  handles all these problems correctly, but
+          if a program ignores return codes which are reporting errors,
+          serious problems can occur. Each function description in this
+          manual contains  a section  on return  codes. In  addition, a
+          complete list of error codes may be found in "Appendix A".
+
+
+
+
+
+
+                                        CHAPTER 2
+
+                              USING THE MULTI-KEY FUNCTIONS
+
+
+
+
+
+
+
+
+
+              This chapter  provides a  general discussion of the using the
+              Multi-key functions  of C-Index.  You must  read this chapter
+              before using  these functions.  The detailed  descriptions of
+              each function  will be found in Chapter 3, "Summary of Multi-
+              key Functions".
+
+
+                         Description of the Multi-Key Functions
+
+              The multi-key  functions automate  the  process  of  managing
+              multi-keyed records. These functions use a data definition to
+              create the keys and data record. The data definition includes
+              key descriptions and pointers to each field. The functions do
+              all the  work in  building and extracting records, as well as
+              error checking during the multi-key operations. The functions
+              are easy  to use,  and very  consistent in their syntax. When
+              you have  learned to use them effectively, you will find that
+              they satisfy  most  of  your  data  management  needs.  If  a
+              different data  storage system  than  that  provided  by  the
+              multi-key  functions  is  needed  however,  the  lower  level
+              single-key functions may be suitable. The multi-key functions
+              should be  tried first  however, as  most applications can be
+              easily handled  by them.  Features of the multi-key functions
+              include:
+
+              . A concise set of powerful functions
+              . Automatic building of keys and records from data definition
+              . Variable length keys and data
+              . Storage of Keys and data in same file, reducing open files
+              . Full error checking during multi-key adding
+              . Fields at any location in memory
+              . Data integrity with checksum techniques
+              . Multiple record types allowed in same file
+              . Deleted record space reclaimed automatically
+
+
+                       An Example of Usage: A Name and Phone List
+
+              The best  way to  describe how to use the multi-key functions
+              is to  provide an  example. We  will progressively  show  the
+              basic structure of a program which uses these functions. This
+              example is kept extremely simple for clarity.
+
+
+     12                                           
+     _________________________________________________
+
+
+          The example  program will  maintain a  name and  phone number
+          database. The  last name  will be  used as  the key to search
+          through the  file. The cleanest way to handle data records in
+          C is  to define  a structure that represents the data record.
+          The structure  can then  be used  to supply  the data  to  be
+          added, and  to receive  the data  when reading. The structure
+          for this example is:
+
+             struct nap {          /* name and phone data structure */
+                char lastname[10]; /* last name, key */
+                char firstname[20];          /* first name */
+                char phone[20];    /* phone number */
+             };
+
+          All the  functions in  the following  examples use  the above
+          definition.
+
+          Next we must declare a structure of this type to be used.
+
+             struct nap naprec;
+
+          We now can use naprec for input and output of data records of
+          this type.
+
+          In this  example we  use the  last name as the only key. This
+          means  that   all  finds   will  use   a  name  to  find  the
+          corresponding data  record. In C-Index, all keys are standard
+          C language  zero terminated  strings, that  is, a  series  of
+          characters ending  with a final byte of binary zero. We could
+          also use the first name or last name and first name for keys.
+          This would  allow us to search the file by last name or first
+          name.
+
+          Note: See  the example program, example.c, on the source code
+          disk for an example of writing multi-keyed access routines.
+
+
+                                  The Datalist
+
+          A datalist  is a  description of  the data record to be used.
+          The purpose  of the  datalist is  to provide  all the  needed
+          information for  data record  reading, writing, and deleting.
+          The datalist  defines which  fields in a record will be keys,
+          and what  type the  fields and  keys  are.  It  also  defines
+          maximum field lengths, and pointers to each field. Typically,
+          it mirrors  the definition  of the  data  structure  for  the
+          record in  memory, although  it  is  not  required  that  the
+          individual fields  of a record all be a part of the same data
+          structure. In  fact, fields may be stored anywhere in memory,
+          as indicated  by the  pointer to  the field  defined  in  the
+          datalist.
+
+
+              Chapter 2  Using the Multi-Key Functions  13
+         _________________________________________________
+
+
+              Physically, a  datalist  is  an  array  of  structures,  each
+              structure being a description of the individual fields and/or
+              keys in  the data record. The individual structure is of type
+              FIELD and its definition looks like this:
+
+                 struct flddef {
+                    char fldtype;      /* type of data in field */
+                    char keytype;      /* type of key */
+                    char dupflag;      /* duplicate or unique key */
+                    char fldlen;       /* maximum length of field */
+                    char fldindex;     /* index (key) number */
+                    char *fldptr;      /* pointer to (& of) field */
+                 };
+
+                 typedef struct flddef FIELD;
+
+                                   Creating a Datalist
+
+              To declare  a datalist for a data record with 4 fields (as in
+              our example), the statement
+
+                 FIELD naplist[4];
+
+              creates an array of 4 FIELDs. We use one more than the number
+              of data  fields because the last FIELD is used for specifying
+              the end. This is accomplished by specifying:
+
+                 naplist[3].fldtype = ENDLIST;
+
+              and will be explained in more detail later.
+
+
+                                Initializing the Datalist
+
+              Once the  datalist has  been created,  it must be initialized
+              with the  appropriate values  in order  to correctly describe
+              the data  record. The  simplest method is to use one function
+              which is called at the beginning of the program. The function
+              to initialize could appear as follows:
+
+
+     14                                           
+     _________________________________________________
+
+
+             struct nap naprec;    /* globally defined */
+             FIELD naplist[4];
+
+             initdlist()           /* initialize nap list */
+             {
+                /* initialize last name field */
+                naplist[0].fldtype = STRING;
+                naplist[0].keytype = STRING;
+                naplist[0].dupflag = DUPKEY;
+                naplist[0].fldlen = 10;
+                naplist[0].fldindex = 1;
+                naplist[0].fldptr = naprec.lastname;   
+
+                /* initialize first name field */
+                naplist[1].fldtype = STRING;
+                naplist[1].keytype = NONKEY;
+                naplist[1].dupflag = NONKEY;
+                naplist[1].fldlen = 20;
+                naplist[1].fldindex = 0;
+                naplist[1].fldptr = naprec.firstname;
+
+                /* initialize phone field */
+                naplist[2].fldtype = STRING;
+                naplist[2].keytype = NONKEY;
+                naplist[2].dupflag = NONKEY;
+                naplist[2].fldlen = 20;
+                naplist[2].fldindex = 0;
+                naplist[2].fldptr = naprec.phone;
+
+                /* signal end of list */
+                naplist[3].fldtype = ENDLIST;
+             }
+
+          The following is a brief description of the above example:
+
+          naplist[0].fldtype = STRING;
+
+          Indicates that  the first field is of type string, in C terms
+          (sequence of  characters,  zero  terminated).  See  reference
+          section for all allowable field types.
+
+          naplist[0].keytype = STRING;
+
+          Declares the  field to  be a  key, and  of type  STRING. Only
+          STRING and NONKEY (meaning not a key field) are allowed.
+
+          naplist[0].dupflag = DUPKEY;
+
+          Declares that  duplicate name  keys are allowed. With a field
+          that is a unique identifier, use the UNQKEY type.
+
+
+              Chapter 2  Using the Multi-Key Functions  15
+         _________________________________________________
+
+
+              naplist[0].fldlen = 40;
+
+              Indicates that  the maximum length of the field is 40 and  is
+              used to  check the  field length  to  make  sure  it  doesn't
+              overflow the  field buffer.  This helps  to avoid many common
+              and hard to find C errors.
+
+              naplist[0].fldindex = 1;
+
+              Tells C-Index  to  store  the  name  key  in  index  1.  When
+              searching for  a record  by name  key (using  dfind) the  key
+              number indicates which index of keys to search.
+
+              naplist[0].fldptr = naprec.lastname;
+
+              Tells C-Index  where the  field is (when adding a record) and
+              where to put the found field (on reading a data record).
+
+              naplist[1].fldtype = STRING;
+
+              Declares that the second field is type string.
+
+              naplist[1].keytype = NONKEY;
+
+              This declares that the field is a non-key field.
+
+              naplist[1].dupflag = NONKEY;
+
+              Although it is a nonkey field, this statement is required for
+              integrity checking.  C-Index always  checks the  datalist for
+              valid types  to insure  that each  field has  been  specified
+              correctly.
+
+              list[1].fldindex = 0;
+
+              Again, although  this is  a non-key  field, this  command  is
+              another check on the definition of the list. Also required.
+
+              naplist[7].fldtype = ENDLIST;
+
+              Signals the  end of  the datalist,  and  the  previous  field
+              becomes the  last. You  MUST have  this declaration  in  your
+              datalist, or the program will give an invalid datalist error.
+
+
+     16                                           
+     _________________________________________________
+
+
+                          How C-Index Uses The Datalist
+
+          C-Index asks  for the maximum field length for string fields,
+          but only  stores the  actual length  of the  string. Thus, in
+          addition to  variable length  fields, C-Index  uses  variable
+          length data  records.  In  fact,  only  absolutely  essential
+          information is stored in the data record, and null fields (or
+          0 fields for numeric types) are not physically stored at all.
+          This can  greatly increase  the space  efficiency for storing
+          data records. C-Index also stores very little of the datalist
+          definition in  the record.  Because  of  this  fact,  C-Index
+          requires that  you always use the same datalist for reading a
+          record that  was used  for adding  or changing  a  record.  A
+          checksum of  the datalist  used on  adding a record is stored
+          with the record on disk and this value is checked against the
+          supplied datalist on reads. If the checksums do not match, an
+          error message is returned on reading the record.
+
+
+                             The Data Record Buffer
+
+          Before C-Index  adds or  reads a  data record  it must have a
+          buffer in which to build the record. On opening or creating a
+          file, the program specifies the location and size of a record
+          buffer. To  determine the  maximum size  of the  data  buffer
+          required for any data structure, the following formula should
+          be used:
+
+             maximum_buf_size =
+                total_length_fields +
+                (number_fields * 2) +
+                (number_binary_fields * 2) +
+                7;
+
+          This would mean for our example
+
+             len of fields = 10 + 20 + 20 = 50
+             number fields * 2 = 6
+             number binary fields * 2 = 0 (no BINARY field types)
+             50 + 6 + 7 = 63
+
+          Thus, a buffer of at least 63 bytes is necessary. This can be
+          accomplished by:
+
+             char workbuf[70];
+
+          Notice that there are 7 extra bytes allocated for workbuf. It
+          is advisable  to add  a few  extra bytes  to  compensate  for
+          possible miscalculation.  C-Index checks  that  it  does  not
+          overflow the  buffer, but  it must  use the  length  that  is
+          specified. If  this length is wrong and the buffer overflows,
+          the program  will probably malfunction in unpredictable ways.
+          If in doubt, be generous in the allocation of buffer space.
+
+
+              Chapter 2  Using the Multi-Key Functions  17
+         _________________________________________________
+
+
+              At this  point, the  main function  of the sample program can
+              now be produced:
+
+                 /* example of a name and phone list */
+
+                 #define BUFFERS 10    /* use standard amount */
+                 #include "cindex.h"   /* required header */
+
+                 struct nap {
+                    char lastname[10]; /* last name, key */
+                    char firstname[20];          /* first name */
+                    char phone[20];    /* phone number */
+                 };
+
+                 struct nap naprec;    /* declare data record */
+                 CFILE napfile;         /* psp  */
+                 FIELDS naplist[4];    /* our datalist */
+                 char workbuf[70];     /* work buffer */
+
+                 void main()
+                 {
+                    initdlist();       /* see definition above */
+
+                 /* main body of code goes here */
+
+                    exit(0);
+                 }
+
+              The above  statements are  all that  is necessary to begin to
+              use the file in this example. This preparatory work must only
+              be written  once and  it contains all the information C-Index
+              must know about your file.  With C-Index, it is not necessary
+              to run  a  separate  utility  program  to  define  your  file
+              information.
+
+
+                                   Using the Functions
+
+              The individual  functions can  now be discussed. It should be
+              pointed out  that there are 7 basic file operations needed to
+              maintain a  C-Index file: create a file, open a file, close a
+              file, add  a record,  find a  record by  key, find  a  record
+              sequentially, and  delete a  record.  The  C-Index  multi-key
+              routines have  exactly one  function call  for each  of these
+              operations. (Additional  multi-user versions are discussed in
+              Chapter 8,  "Multi-user Support"). C-Index also has an update
+              function, which  is a  combination  of  the  delete  and  add
+              functions.
+
+              With only  one flexible  function for  each operation,  it is
+              simple to access C-Index files. In addition, writing programs
+              with  C-Index  multi-key  routines  encourages  a  consistent
+              programming sytle.
+
+
+     18                                           
+     _________________________________________________
+
+
+                      Creating, Opening, and Closing a File
+
+          The three  functions to  create, open  and close  a file are:
+          dcreate, dopen, and dclose.
+
+          The dcreate function is defined as follows:
+
+          int dcreate(psp, filename, workbuf, buflen)
+          CFILE *psp;         /* pointer to psp */
+          char *filename;     /* pointer to name of file to open */
+          char *workbuf; /* pointer to work buffer */
+          int buflen;         /* length of work buffer */
+
+          The file must not already exist or there will be an error, so
+          be sure to remove an existing file before creating a new one.
+          The usage for dcreate looks like:
+
+             ret = dcreate(&napfile, "nap.dat", workbuf, 63);
+
+          The file is now open and ready to access.
+
+
+
+          The dopen function is defined as follows:
+
+          int dopen(psp, filename, workbuf, buflen)
+          CFILE *psp;         /* pointer to psp */
+          char *filename;     /* pointer to name of file to open */
+          char *workbuf; /* pointer to work buffer */
+          int buflen;         /* length of work buffer */
+
+          Remember, in  order  to  open  a  file,  it  must  have  been
+          previously created by C-Index. The usage for dopen is:
+
+             int ret;
+
+             ret = dopen(&napfile, "nap.dat", workbuf, 63);
+
+          The variable  ret is  an integer  return code.  All functions
+          return  an   integer  and  should  always  be  checked.  (See
+          reference  section   for  all   return  codes.)  Notice,  the
+          parameter &napfile is used here. The & character must be used
+          in this  case in  order to  pass a  pointer to the psp rather
+          than to pass the psp itself.
+
+          The dclose function is defined as follows:
+
+          int dclose(psp)
+          CFILE *psp;         /* pointer to an open psp */
+
+          A file  must have  been opened before it can be closed. Also,
+          if a  psp was  used to  open a file, that file must be closed
+          before the  psp can  be used  again to open or create another
+          file. The usage for dclose:
+
+
+              Chapter 2  Using the Multi-Key Functions  19
+         _________________________________________________
+
+
+                 ret = dclose(&napfile);
+
+
+                                     Adding Records
+
+              There is one way to add a multi-key record to a C-Index file,
+              using the  dadd function.  The dadd  function is  defined  as
+              follows:
+
+
+
+              int dadd(psp, datalist)
+              CFILE *psp;              /* pointer to an open psp */
+              FIELD *datalist;         /* pointer to datalist */
+
+              Remember, the  datalist must  have been  initialized and  the
+              file must  have been  opened before  any information  may  be
+              added to it. After a routine has completed setting the values
+              of a  data record,  dadd may  then be  called.  The  datalist
+              specifies the type and location of fields in memory. The dadd
+              function uses  the datalist to build a variable length record
+              and add  the record  and its associated keys to the file. For
+              example, a  function called  getdata() obtains all the fields
+              of information  from the  user and  puts them in the name and
+              address fields  in the  example program  structure naprec. To
+              add a record the following routine could be written:
+
+                 addrec()    /* add a record to the file */
+                 {
+                    int ret; /* return code from dadd */
+
+                    getdata();         /* first get data */
+                    ret = dadd(&napfile, naplist);         /* do add */
+                 }
+
+              Note that  the routine  getdata would  only have  to fill the
+              naprec data  structure, and  would never change the datalist,
+              naplist. Again, once the datalist has been initialized, there
+              is no  need to access it. Of course, in the above example the
+              return code should be checked for any possible errors.
+
+
+                                     Finding Records
+
+              C-Index uses  two methods  of finding  records.    These  two
+              methods are  referred to as find operations. The two kinds of
+              find operations  are: random  and sequential.  To  perform  a
+              random find,  the  dfind  function  is  used;  to  perform  a
+              sequential function, the dseq function is used.
+
+
+     20                                           
+     _________________________________________________
+
+
+          The dfind function is defined as follows:
+
+          int dfind(psp, indexnum, key, keytype, findtype)
+          CFILE *psp;         /* pointer to open file psp */
+          int indexnum;  /* index number to search */
+          char *key;          /* value to look for */
+          int keytype;        /* key type (only STRING allowed) */
+          int findtype;       /* type of find - see below */
+
+          The type  of random  find operation  (findtype) may be one of
+          the following:
+
+          EQUAL     find only exact matches
+          GREATEQ   find anything greater than or equal to key
+          GREAT     find anything greater than key
+          LESSEQ    find anything less than or equal to key
+          LESS           find anything less than key
+
+          For example,  assuming an entire list of names has been added
+          by using  dadd. It  may now  be  desirable  to  find  certain
+          records based  on a  name key, in this case, the first record
+          with the  last name  SMITH. (Note  that it is important to be
+          careful when adding and finding keys because C-Index keys are
+          case-sensitive.)
+
+             ret = dfind(&napfile, 1, "SMITH", STRING, EQUAL);
+
+          This statement  is a  request to look in index# 1 (defined by
+          the datalist  as the  name key)  for the  first record with a
+          last name  of "SMITH". If the find was successful, the return
+          code will  be OK. If it is unsuccessful, the return code will
+          be FAIL, indicating that no records were found with a name of
+          "SMITH". Any  other  return  code  indicates  that  an  error
+          occurred.
+
+          As another example of the use of random find, a record may be
+          found with a last name that starts with the letter "T".
+
+             ret = dfind(&napfile, 1, "T", STRING, GREATEQ);
+
+          This statement  is a  request to  look in  index# 1  for  any
+          record that is equal to or greater than "T". C-Index uses the
+          standard ASCII  collating sequence,  and therefore  any  name
+          that starts with a "T" (including the name "T") will be equal
+          to or greater than "T". A successful return code in this case
+          would be  either OK  or GREATER.  OK indicates  that an exact
+          match was  found; GREATER  indicates that a greater value was
+          found. In  this example,  a return code of GREATER could also
+          indicate a record starting with letters higher than "T", such
+          as "U" or "Z".
+
+          On the  multiple find  types (GREATEQ,  LESSEQ), C-Index will
+          always first  try to find an exact match, and then look for a
+          greater or less than match.
+
+
+              Chapter 2  Using the Multi-Key Functions  21
+         _________________________________________________
+
+
+              The other  random find  types in  C-Index may  be used  in  a
+              similar manner.
+
+              The second  type of  find operation  in C-Index is sequential
+              find (dseq).   It  is used  to locate  records in  sequential
+              order. A  sequential find  does not locate using a key value,
+              as does  a random find, but rather, from the current position
+              in the file. In other words, a sequential find may obtain the
+              next key  in sequence,  the previous key, the first key (from
+              the beginning) or the last key (from the end).
+
+              The dseq function is defined as follows:
+
+              int dseq(psp, indexnum, seqtype)
+              CFILE *psp;         /* pointer to open file */
+              int indexnum;  /* index number to read from */
+              int seqtype;        /* sequential type */
+
+              The allowed types of sequential finds are:
+
+              NEXT       find next record in sequence
+              PREV       find previous record in sequence
+              FIRST      find first record in file
+              LAST            find last record in file
+
+              To use  the FIRST and LAST sequential find types, no previous
+              positioning is needed; they simply retrieve the first or last
+              record in  the file. To use the NEXT and PREV sequential find
+              types, the  position must  be set  by a  successful  dadd  or
+              dfind. For example:
+
+                 ret = dseq(&napfile, 1, FIRST);
+
+              finds the  first record  in the file (i.e., the first name in
+              alpha sequence). (Note that if the return code is FAIL, there
+              are no records to be found using that index).
+
+
+     22                                           
+     _________________________________________________
+
+
+                                 Reading Records
+
+          The above  examples are  incomplete however, because there is
+          no mention of a datalist in the functions. It might be asked,
+          "Without the  datalist, how  can my  record be  read?".  That
+          would be  a very  good question, and the answer is "It can't"
+          because an  important function  has been  omitted up  to this
+          point. Why  not read  the record  in directly on finds, then?
+          Remember it is possible to find a record greater than or less
+          than desired,  or to finding nothing at all. The exact record
+          needed is  not always  found. In addition, there may be times
+          when a  key count is desired, and in this case, time is saved
+          by not  reading the  data record. C-Index therefore, provides
+          the capability  of deciding when to actually read the record.
+          The functions  dfind and  dseq prepare  C-Index to  read  the
+          record requested,  but the  function dread  must be  used  to
+          actually read the data record.
+
+          The dread function is defined as follows:
+
+          int dread(psp, datalist)
+          CFILE *psp;              /* pointer to open file */
+          FIELD *datalist;         /* pointer to datalist */
+
+          A typical usage:
+
+             ret = dfind(&napfile, 1, "JONES", STRING, EQUAL);
+             if (ret == OK)                  /* found something */
+                ret = dread(&napfile, naplist);
+
+
+                                Deleting Records
+
+          Deleting a record is accomplished with one function, ddelete.
+          The definition of ddelete is as follows:
+
+          int ddelete(psp, datalist)
+          CFILE *psp;              /* pointer to open file */
+          FIELD *datalist;         /* pointer to datalist */
+
+          In order  to delete, a current record must have been set by a
+          previously successful  dfind  or  dseq.  When  deleting,  the
+          datalist  is  required  because  C-Index  must  know  how  to
+          construct the  keys before  it is  able to  delete  them.  An
+          example usage of ddelete is:
+
+             /* first find name to delete */
+             ret = dfind(&napfile, 1, "BAD", STRING, EQUAL);
+             if (ret == OK)
+                ret = ddelete(&napfile, naplist);
+                /* delete on good find */
+
+
+              Chapter 2  Using the Multi-Key Functions  23
+         _________________________________________________
+
+
+              As an elaboration on the above example, it might be desirable
+              to call  dread before  deleting, display  the record  on  the
+              console and  verify with  the user  if it  really  should  be
+              deleted.
+
+
+                                    Updating Records
+
+              There is  one function  to update  a record. Updating is best
+              described as  a single  function  call  to  both  delete  the
+              current record  and then  add a new one in its place. First a
+              record must  be made  current, then  a new data record built,
+              and then dupdate called.
+
+              The definition of dupdate is defined as follows:
+
+              int dupdate(psp, datalist)
+              CFILE *psp;
+              FIELD *datalist;
+
+
+     24                                           
+     _________________________________________________
+
+
+          For example, to update the record for "JONES":
+
+             /* find record */
+             ret = dfind(&napfile, 1, "JONES", STRING, EQUAL);
+             if (ret == OK)
+                ret = dread(&napfile, naplist);   /* read record */
+             if (ret == OK)
+             {
+                getdata();         /* get new data for this record */
+                ret = dupdate(&napfile, naplist);      /* change it */
+             }
+
+          All the  functions needed  for fully  maintaining a  database
+          have now been discussed. For more detailed information, refer
+          to the  reference section  that follows and study the example
+          program  supplied  on  disk.  The  file  "example.exe"  is  a
+          executable version  of the  example source  code contained in
+          "example.c". Experimenting  with this  program  will  give  a
+          sense for how to use the functions that have been discussed.
+
+
+                                 Advanced Usage
+
+          The  basic  multi-key  functions  discussed  above  are  very
+          flexible   and    should   accommodate    most    programming
+          requirements.  When   more  flexibility  is  needed  however,
+          C-Index  includes  some  additional  capabilities  for  these
+          multi-key routines.
+
+
+                        Accessing the Parameter Structure
+
+          As stated,  the parameter structure (psp) is used to transfer
+          information between  the application  program and the C-Index
+          functions. In  most cases  the program  need not  examine the
+          information in  the psp when using multi-key functions. Those
+          situations in  which it might be useful to set or examine the
+          psp information are described below.
+
+
+                      Examining the Current Record Number;
+
+          The data record number that is returned by the dfind and dseq
+          functions (the  "current" record  number) is contained in the
+          psp long  int variable  currec  (i.e.  psp.currec).  For  our
+          previous example,  we might  look at  the record  number like
+          this:
+
+             if (dfind(&napfile, "Test", 1, STRING, EQUAL) == OK)
+                printf("Current record number = %ld", napfile.currec);
+
+
+              Chapter 2  Using the Multi-Key Functions  25
+         _________________________________________________
+
+
+              It may  be desirable  for the  program to  save  the  current
+              record number for reading a data record at a later time. This
+              is accomplished  by saving  the current  record  number,  for
+              example after  a dfind,  and then  restoring it  in  the  psp
+              before calling dread.
+
+
+                                Examining the Current Key
+
+              The key  that was  found from the dfind and dseq functions is
+              pointed to  by the  psp char  * variable key (i.e., psp.key).
+              This is  always set  by the locating functions dfind and dseq
+              which can  be useful  when using  non-equal finds by dfind or
+              sequential operations  with dseq  and deciding whether or not
+              to read  the data  record based  on the key found. Again from
+              the previous  example, the method for examining the found key
+              might be as follows:
+
+                 if (dfind(&napfile,"Test",1,STRING,GREATEQ) == GREATER)
+                    printf("Greater key found = %s", napfile.key);
+
+              Note here  that after  dread the  current  key  from  a  find
+              operation is  null. This  occurs because  dfind also uses the
+              psp, and  in looking  for the data record, it resets the key.
+              Therefore, be  sure to  look at  the key  before reading  the
+              record. Because the keys are built from the data record, once
+              it has  been read  it is  possible to  examine the key in the
+              appropriate field of the data record itself.
+
+
+                                   Multiple Datalists
+
+              There may be occasions when it is necessary to have different
+              datalists in  the same  file. Since C-Index always checks the
+              supplied datalist against the datalist of the record, it must
+              be known  in advance  which  datalist  to  supply  to  dread.
+              C-Index has  an additional  piece of information encoded with
+              each data record called the idbyte. It is also located in the
+              char psp variable psp.idbyte.
+
+              The idbyte is an identifying byte value stored near the front
+              of each  data record.  For  instance,  in  the  case  of  two
+              datalists, naplist1  and naplist2,  the idbyte  for  naplist1
+              could be set to 1 and the idbyte for naplist2 could be set to
+              the value  2. The  value for naplist1 could be set in the psp
+              before adding or updating records as follows:
+
+                 /* have assembled a record already */
+                 napfile.idbyte = 1; /* this record has idbyte of 1 */
+                 ret = dadd(&napfile, naplist1);
+
+              The  idbyte  may  then  be  retrieved  by  using  the  dgetid
+              function, which has the following definition:
+
+
+     26                                           
+     _________________________________________________
+
+
+          int dgetid(psp)
+          CFILE *psp;
+
+          After a  find and  before reading the record using dread, the
+          dgetid function  can be used to read the idbyte. Based on its
+          value, the  appropriate datalist  can be used in a subsequent
+          dread of  the record. dgetid returns a condition code, and if
+          the code  is OK the idbyte will be in the variable idbyte. An
+          example of usage is:
+
+             ret = dfind(&napfile, 1, "Jones", STRING, EQUAL);
+
+             if (ret == OK)
+                if (dgetid(&napfile) == OK)   /* always check return*/
+                   if (napfile.idbyte == 1)
+                      dread(&napfile, naplist1);
+                   else
+                      dread(napfile, naplist2);
+
+          Because this is a more advanced feature, it can be ignored if
+          it is  not necessary  to mix  multiple record  types within a
+          single-key index.  The idbyte  value will  always be  set  to
+          whatever is  in the idbyte variable at the time of add. It is
+          meant only  for the  programmer's  reference,  and  does  not
+          influence the internal functioning of C-Index.
+
+
+                       Auto Initialization of the Datalist
+
+          Since the  datalist is  an array,  it can be initialized as a
+          static array  at the  top of  the source  code file as is any
+          other array.  Initializing an  array of  structures  requires
+          thought but  it can  eliminate the coding involved in setting
+          up the datalist. For example, the previous example's datalist
+          might have been specified as follows:
+
+
+              Chapter 2  Using the Multi-Key Functions  27
+         _________________________________________________
+
+
+                 #include "cindex.h"
+
+                 /* assumes naprec already defined */
+                 FIELD naplist[] = {
+                 /* fldtype  keytype  duptype  len  index#  fldptr */
+                    STRING,  STRING,  DUPKEY,  10,  1, naprec.lastname,
+                    STRING,  NONKEY,  NONKEY,  20,  0, naprec.firstname,
+                    STRING,  NONKEY,  NONKEY,  20,  0, naprec.phone,
+                 LASTFIELD
+                 };
+
+              Note: the  comment line  showing the  field types  helps keep
+              track of the type being defined.
+
+              The above definition of naplist accomplishes exactly the same
+              thing as  the initdlist()  function. With  a large datalist a
+              great deal  of  programming  time  can  be  saved  since  the
+              compiler does  all the  work. Notice that the macro LASTFIELD
+              sets the  appropriate values  for the last item in a datalist
+              and is defined in the header file cindexsb.h.
+
+              The main  problem with this approach to defining the datalist
+              is that  some compilers  will not  support  this  syntax.  In
+              addition, some  compilers will not allow a global variable to
+              be initialized  with a pointer cast to a type other than char
+              *. Experimentation  is the  best way  to find  out what  each
+              compiler allows.
+
+              A good  compromise is  to initialize  the datalist  supplying
+              null field  pointers, and  code a function that sets only the
+              field pointers.  Refer to  the example.c  program to see this
+              method of initializing a datalist.
+
+
+                       Example Program for the Multi-key Functions
+
+              An example  program is  supplied to  illustrate uses  for the
+              multi-key functions.  This is  an interactive program that is
+              designed  to  run  only  on  IBM  PC/AT  computers  and  100%
+              compatables since  it both  writes to  screen memory and uses
+              BIOS calls.
+
+              The example  implements a  simple database  type program that
+              allows full screen data entry and display of a record with 10
+              fields of  information. The  information is stored with three
+              key values.  Using function  keys all the multi-key functions
+              can be  performed, including  add, delete,  update, search on
+              keyed   value,    and   next/previous/first/last   sequential
+              searches.
+
+
+     28                                           
+     _________________________________________________
+
+
+                       Supplied Files for Example Program
+
+          example.exe Pre-compiled version  of the  program,  ready  to
+                      run.
+
+          example.c   Main source  file showing  function calls  to the
+                      C-Index routines.  This part  of the program code
+                      is transportable  to computer  systems other than
+                      the IBM PC.
+
+          scrnio.c    Include  file  containing  source  code  for  the
+                      screen handling,  including record  display, data
+                      entry, and  function key handling. This file con-
+                      tains machine  dependent code  designed  specifi-
+                      cally for the IBM PC. To transport the program to
+                      other environments  would require  modifying  the
+                      keyboard and display handling routines.
+
+
+                               Datalist Variables
+
+          Setting  the   datalist  correctly  is  absolutely  essential
+          because C-Index  must have  an accurate  image of  the record
+          that is  being used.  The following  describes each variable,
+          its uses, and allowable settings:
+
+          fldtype     The type  of data pointed to by the fldptr value.
+                      Valid types are as follows:
+
+                      STRING       zero terminated string
+                      BINARY       binary bytes, specify length
+                      SHORTINT     short variable
+                      INT               integer variable
+                      LONG         long variable
+                      FLOAT        float variable
+                      DOUBLE       double variable
+                      ENDLIST      must be last entry in array
+
+                      Be sure  to remember to terminate the datalist by
+                      setting the  last entry  (i.e. the entry past the
+                      last field description) as the ENDLIST type.
+
+          fldlen      The field  length. In  the case of binary fields,
+                      this length  specifies the  exact length  of  the
+                      field. In  the case  of string  fields, fldlen is
+                      the maximum  size of  the array that contains the
+                      string. For  the other field types, this value is
+                      ignored.
+
+
+              Chapter 2  Using the Multi-Key Functions  29
+         _________________________________________________
+
+
+              fldptr      The pointer  to the data field in memory. This is
+                          a char  * pointer value to the variable in memory
+                          where the data is stored. If the variable pointed
+                          to is  not a  char type,  it is necessary to cast
+                          the  pointer   when  initializing  the  datalist.
+                          Setting this value correctly is the most critical
+                          step in  creating the  datalist. Clearly,  if the
+                          wrong address is specified, the wrong information
+                          will be  used on data write operations and memory
+                          will  be  corrupted  when  performing  data  read
+                          operations.
+
+              keytype     The type  of key  to be  built from  the data, if
+                          any. In  the current  release  of  C-Index,  only
+                          string keys are allowed. If the data field is not
+                          used as a key field, the NONKEY type must be set.
+                          Valid types are as follows:
+
+                          STRING       zero terminated string key
+                          NONKEY       not a key value field
+
+              dupflag     The Duplicate/Unique  key  flag.  This  field  is
+                          referenced only  when the  field is used as a key
+                          field.  When  duplicate  is  specified,  the  key
+                          stored may  be duplicate.  When unique  is speci-
+                          fied, the  key value  stored must be unique. When
+                          using unique  key fields, note that if the key is
+                          not unique  when adding or updating the record an
+                          error (FAIL) will be returned and the record will
+                          not be added or changed. For data fields that are
+                          not keys,  this field  is  ignored.  The  dupflag
+                          values are as follows:
+
+                          DUPKEY       Duplicate key
+                          UNQKEY       Unique key
+                          NONKEY       Not a key field
+
+              fldindex    The key  field index  number. This  is the  index
+                          number in  which the key is stored when adding or
+                          updating the  record. The legal index numbers for
+                          keys are 1-15.
+
+
+                                     Common Problems
+
+              Probably  the  most  common  error  is  an  invalid  datalist
+              definition. This is usually caused by omitting some part of a
+              field's definition,  or by  giving an  invalid type  for some
+              part of  the datalist. To avoid errors, consult the reference
+              section on the multi-key routines for all allowable types. In
+              addition, be sure to define the last field in the datalist as
+              ENDLIST or C-Index will not know where the end occurs.
+
+
+     30                                           
+     _________________________________________________
+
+
+          Another error  can occur  if the  pointer  to  the  field  is
+          incorrect. On  dread, C-Index  stores the  found data  in the
+          areas pointed  to by the datalist. If the pointers are wrong,
+          memory can be corrupted and can cause very serious errors.
+
+
+
+
+
+
+                                        CHAPTER 3
+
+                             SUMMARY OF MULTI-KEY FUNCTIONS
+
+
+
+
+
+
+
+
+
+              This chapter contains a summary of of the Multi-key functions
+              of C-Index. Each one is listed in alphabetical order with its
+              name, synopsis,  description, a list of special return codes,
+              notes (if  any), a  coding example, and references to related
+              functions. For  a more  general  discussion  on  using  these
+              functions  refer   to  Chapter   2,  "Using   the   Multi-key
+              Functions".
+
+
+                                      Abbreviations
+
+
+              abv            usage                    type
+              _________________________________________________
+
+              cc             condition code           int
+              databuf        data buffer for dopen    char *
+              &datafile      address of file psp      CFILE *
+              datalist       address of datalist array     FIELD *
+              DBUFLEN        buffer length of databuf int
+              file           pointer to file name     char *
+              ftype          find type                int
+              key            pointer to key           char *
+              keyn           key-index number         int
+              keytype        STRING only              int
+              psp            parameter struct pointer      CFILE *
+              stype          sequential type          int
+              wrkbuf         work buffer for routines char *
+              wrklen         work buffer length       int
+
+
+                                      Return Codes
+
+              All functions  return an  integer  return  code  that  should
+              always be checked. There is a complete list of error codes in
+              "Appendix A". In the RETURNS section of each function summary
+              there is  a list  of returns  that have  a unique meaning for
+              that specific  function.  For  example,  all  functions  will
+              return DSKERR  if an  error in  a disk  operation occurs.  To
+              avoid redundancy  this chapter will only discuss those return
+              codes whose significance need special explanation.
+
+
+     32                                           
+     _________________________________________________
+
+
+          NAME
+             dadd - add a data record
+
+          SYNOPSIS
+             int dadd(psp, datalist)
+             CFILE *psp;           /* file psp */
+             FIELD *datalist;      /* record datalist */
+
+          DESCRIPTION
+             Adds a  new record  to the  file  specified  by  the  psp.
+             Automatically builds a variable length record as specified
+             by the  datalist.   Automatically adds the keys to the re-
+             quired indexes as specified by the datalist.
+
+          RETURNS
+             OK          Successfully added the record.
+             FAIL        Duplicate key encountered when adding.
+
+          NOTES
+             Care must  be taken  when using  unique keys  to check for
+             completion of the add.
+
+             The idbyte  can be  set into  the record  by  setting  the
+             psp.idbyte variable for the record just before calling the
+             dadd function.  The idbyte can then be read before reading
+             the record by using the dgetid function.
+
+          EXAMPLE
+
+             cc = dadd(&datafile, datalist);
+
+          SEE ALSO
+             ddelete
+             dupdate
+             dgetid
+
+
+             Chapter 3  Summary of Multi-Key Functions  33
+         _________________________________________________
+
+
+              NAME
+                 dclose - close a file
+
+              SYNOPSIS
+                 int dclose(psp)                 /* Close file */
+                 CFILE *psp;           /* file to close */
+
+              DESCRIPTION
+                 Closes the  file that was previously opened using dopen or
+                 dcreate.
+
+              RETURNS
+                 OK          Successfully closed the file.
+                 FAIL        Unable to close file (system error).
+
+              EXAMPLE
+
+                 cc = dclose(&datafile);
+
+              SEE ALSO
+                 dopen
+                 dcreate
+
+
+     34                                           
+     _________________________________________________
+
+
+          NAME
+             dcreate - create a file
+
+          SYNOPSIS
+             int dcreate(psp, file, wrkbuf, wrklen)
+             CFILE *psp;           /* file psp */
+             char *file;           /* file name */
+             char *wrkbuf;                   /* work buffer */
+             int wrklen;           /* work buf len */
+
+          DESCRIPTION
+             Create a  new C-Index  index/data file using the operating
+             system file  name specified.  Initializes the file, closes
+             it to  ensure the file information is on disk, re-opens it
+             and initializes the psp with the work buffer information.
+
+          RETURNS
+             OK          Successfully created the file, file is open.
+             FAIL        Unable to create file (system error).
+             FILEXIST    File already exists, does not do create.
+
+
+             Chapter 3  Summary of Multi-Key Functions  35
+         _________________________________________________
+
+
+              NOTES
+                 Sets the  data integrity  level to  3, maximum  integrity.
+                 (See Chapter 6, Data Integrity Features).
+
+                 The size  of the  data buffer is determined by the maximum
+                 size of  the data record plus the overhead of the variable
+                 length record  mechanism. Be  generous with space to avoid
+                 borderline problems.  The formula  for the  minimum buffer
+                 size is:
+
+                 bufsiz = (max length of all fields)
+                 + (7 bytes overhead)
+                 + ( (number of fields) * 2)
+                 + ( (number of binary fields) * 2)
+
+                 Refer to  the discussion of the physical record layout for
+                 a more detailed discussion.
+
+              EXAMPLE
+
+                 cc = dcreate(&datafile, "exam.fil", databuf, DBUFLEN);
+
+              SEE ALSO
+                 dclose
+                 dopen
+
+
+     36                                           
+     _________________________________________________
+
+
+          NAME
+             ddelete - delete the current record
+
+          SYNOPSIS
+             int ddelete(psp, datalist)
+             CFILE *psp;
+             FIELD *datalist;
+
+          DESCRIPTION
+             Deletes the  current record  in  the  file.  Automatically
+             deletes all  related keys  in the  indexes. Deleted record
+             number is retained for future use by dadd or dupdate.
+
+          RETURNS
+             OK          Record and keys successfully deleted.
+             NOCUR       No current record for this file.
+             CHKSMERR    Incorrect datalist specified.
+
+          NOTES
+             The current record number for this file must have been set
+             by a  call to either the dfind or dseq functions, prior to
+             the ddelete call.
+
+          EXAMPLE
+
+             cc = ddelete(&datafile, datalist);
+
+          SEE ALSO
+             dadd
+             dupdate
+             dfind
+             dseq
+
+
+             Chapter 3  Summary of Multi-Key Functions  37
+         _________________________________________________
+
+
+              NAME
+                 dfind - find a record by key value
+
+              SYNOPSIS
+                 int dfind(psp, keyn, key, keytype, ftype)
+                 CFILE *psp; /* file psp */
+                 int keyn;   /* index # */
+                 char *key;  /* key pointer */
+                 int keytype;          /* type of key */
+                 int ftype;  /* find type */
+
+              DESCRIPTION
+                 Finds records according to the key definition and the find
+                 "type." For  example, the EQUAL type searches for an equal
+                 match to  the key  definition. It  does not  read the data
+                 record. The  data record  number is  set as  the "current"
+                 record and  returned in  the psp  variable currec. The key
+                 actually found  is returned using the psp pointer variable
+                 key.
+
+              RETURNS
+                 OK          Found and returned specified record.
+                 FAIL        No matching key found.
+                 GREATER     Higher value key found with GREATEQ.
+                 LESSTHAN    Lower value key found with LESSEQ.
+
+
+     38                                           
+     _________________________________________________
+
+
+          NOTES
+             Valid find types:
+
+             EQUAL       Exact key match required.
+             GREATEQ     Greater than or equal key.
+             GREAT       Next greater value key.
+             LESSEQ      Less than or equal key.
+             LESS        Next smaller value key.
+
+             Valid key types:
+
+             STRING      String type  of key.  Only the  string type is
+                         allowed in the current release.
+
+             A subsequent  dread can  be used to return the data record
+             found by a successful dfind.
+
+          EXAMPLE
+
+             cc = dfind(&datafile, 1, "SMITH", STRING, EQUAL);
+
+          SEE ALSO
+             dread
+             dseq
+
+
+             Chapter 3  Summary of Multi-Key Functions  39
+         _________________________________________________
+
+
+              NAME
+                 dgetid - read idbyte of current record
+
+              SYNOPSIS
+                 int dgetid(psp)
+                 CFILE *psp; /* file psp */
+
+              DESCRIPTION
+                 Read the idbyte of the current record.
+
+              RETURNS
+                 The idbyte  value is  returned in  the parameter structure
+                 variable psp.idbyte.
+
+                 Condition codes returned:
+
+                 OK          Successfully read the ID Byte.
+                 FAIL        Unable to read ID Byte.
+                 NOCUR       No current record.
+
+              NOTES
+                 The idbyte  is originally  put into  the record by setting
+                 the psp.idbyte variable for the record just before calling
+                 the dadd function.
+
+              EXAMPLE
+
+                 int idbyte;
+
+                 cc = dgetid(&datafile);
+                 idbyte = datafile.idbyte;
+
+              SEE ALSO
+                 dadd
+
+
+     40                                           
+     _________________________________________________
+
+
+          NAME
+             dopen - open a file
+
+          SYNOPSIS
+             int dopen(psp, file, wrkbuf, wrklen)
+             CFILE *psp;           /* file psp         */
+             char *file;           /* file name   */
+             char *wrkbuf;                   /* work buffer      */
+             int wrklen;           /* length of buf    */
+
+          DESCRIPTION
+             Open a  preexisting C-Index  index/data  file,  using  the
+             specified name and work buffer.
+
+          RETURNS
+             OK          Successfully opened file.
+             FAIL        Unable to open file (e.g. file not found)
+
+          NOTES
+             Sets the  data integrity  level to  3 which is the maximum
+             level (See Chapter 6, Data Integrity Features).
+
+             The size  of the  data buffer is determined by the maximum
+             size of  the data record plus the overhead of the variable
+             length record  mechanism. Be generous! The formula for the
+             minimum buffer size is:
+
+             bufsiz = (max length of all fields)
+              + (7 bytes overhead)
+              + ( (number of fields) * 2)
+              + ( (number of binary fields) * 2)
+
+             Refer to  the discussion  of  the  Data  Record  Structure
+             (Source  Code   Documentation,  Chapter  11)  for  a  more
+             detailed discussion.
+
+          EXAMPLE
+             cc = dopen(&datafile, "example.fil", databuf, DBUFLEN);
+
+          SEE ALSO
+             dclose
+             dcreate
+
+
+             Chapter 3  Summary of Multi-Key Functions  41
+         _________________________________________________
+
+
+              NAME
+                 dread - read the current record into the datalist
+
+              SYNOPSIS
+                 int dread(psp, datalist)
+                 CFILE *psp;           /* file parameter structure */
+                 FIELD *datalist;      /* pointer to datalist array*/
+
+              DESCRIPTION
+                 Reads the  current data  record. The  current data  record
+                 number must  have been  set from a previous key operations
+                 using dfind or dseq.
+
+              RETURNS
+                 OK          Successfully read data.
+                 FAIL        Error occurred reading the data record.
+                 CHKSUMERR   Invalid datalist for reading this record.
+                 CHKSUMDERR Data error found reading record.
+
+              NOTES
+                 The datalist  supplied must  have the same characteristics
+                 defined as  the datalist  used to add or update the record
+                 being read.
+
+              EXAMPLE
+
+                 cc = dread(&datafile, datalist);
+
+              SEE ALSO
+                 dfind
+                 dseq
+
+
+     42                                           
+     _________________________________________________
+
+
+          NAME
+             dseq - find a record in sequence
+
+          SYNOPSIS
+             int dseq(psp, keyn, stype)
+             CFILE *psp;           /* file psp */
+             int keyn;             /* key index number */
+             int stype;            /* sequential type */
+
+          DESCRIPTION
+             Sequential key  search. Finds  the next,  previous, first,
+             and last  sequential key  in an  index. Does  not read the
+             data record.  The data  record  number  found  is  set  as
+             "current" and  is returned in the psp variable currec. The
+             key found is returned using the psp pointer variable key.
+
+          RETURNS
+             OK          Found the requested sequential record.
+             FAIL        Cannot find requested sequential key.
+
+          NOTES
+             Valid sequential types (stype):
+
+             FIRST       First key in index.
+             LAST        Last key in index.
+             NEXT        Next key.
+             PREV        Previous key.
+
+             A subsequent  dread can  be used to return the data record
+             found by a successful dseq.
+
+          EXAMPLE
+
+             cc = dseq(&datafile, 1, NEXT);
+
+          SEE ALSO
+             dfind
+             dread
+
+
+             Chapter 3  Summary of Multi-Key Functions  43
+         _________________________________________________
+
+
+              NAME
+                 dupdate - update the current record
+
+              SYNOPSIS
+                 int dupdate(psp, datalist)
+                 CFILE *psp;           /* file psp */
+                 FIELD *datalist;      /* record datalist */
+
+              DESCRIPTION
+                 Updates the  "current" data  record with  the new  values.
+                 Automatically deletes  old records  and keys  and adds new
+                 record and  keys. The current data record number must have
+                 been set by a previous key operation using dfind or dseq.
+
+              RETURNS
+                 OK          Successfully updated record.
+                 FAIL        Duplicate key found updating the record.
+                 BADOLDDEL   Error deleting original keys
+                 BADDATDEL   Error deleting original data record.
+                 CHKSUMERR   Datalist does not match original record.
+
+              NOTES
+                 If the  update fails,  the original  record remains in the
+                 file unless  a disk error is encountered trying to restore
+                 that record.
+
+              EXAMPLE
+
+                 cc = dupdate(&datafile, datalist);
+
+              SEE ALSO
+                 dadd
+                 ddelete
+                 dfind
+                 dseq
+
+
+         Appendix A  Return Codes
+         _________________________________________________
+
+
+          name                usage
+
+          OK = 0              An entry with an exact match was found.
+
+          GREATER = 2         An entry  was found  where the  key value
+                              does not  match and the entry found has a
+                              key of the next greater positional value.
+                              Only returned  by dfind  when  using  the
+                              GREATEQ option.
+
+          LESSTHAN = 3        An entry  was found  where the  key value
+                              does not  match and the entry found has a
+                              key of the next smaller positional value.
+                              Only returned  by dfind  when  using  the
+                              LESSEQ option.
+
+          FAIL = -1           The operation  failed. The  exact meaning
+                              varies for each function.
+
+          PARMERR = -2        Error in the specified parameters.
+
+          PSPERR = -3         Corrupted, already  open, or unopened psp
+                              data structure  (depending on the type of
+                              function).
+
+          DSKERR = -4         Disk error occurred during operation.
+
+          BADINDEX = -5       Bad index file header record.
+
+          WRITERR = -6        Disk error while writing buffer.
+
+          SEEKERR = -7        Disk error  while  seeking  for  read  or
+                              write of a buffer.
+
+          NOSPACE = -8        No disk  space is  left for the operation
+                              (disk full condition).
+
+          OLDERR = -10        Error  opening  old  file  during  cbuild
+                              function.
+
+          NEWERR = -11        Error creating  new  file  during  cbuild
+                              function.
+
+          INCOMPLETE = -12    Incomplete data  record found in any find
+                              function.
+
+          BAD = -13           Error found  in file  using ccheck  func-
+                              tion.
+
+          BADDLIST = -14      Invalid information in datalist.
+
+          NOCUR = -16         No current  record number. Must use dfind
+                              or dseq to position to a current record.
+
+
+                              Appendix A  Return Codes  45
+         _________________________________________________
+
+
+              BADOLDDEL = -17     Failed deleting  original  index  entries
+                                  during the  dupdate function.  An attempt
+                                  is made to restore the original entries.
+
+              DATAERR = -18       An error  occurred while reading, adding,
+                                  or updating the data portion of a record.
+
+              BADDATDEL = -19     Failed to  delete old  data record during
+                                  ddelete or dupdate.
+
+              CHKSUMERR = -20     Checksum  of  the  data  record  and  the
+                                  datalist do  not  match.  This  indicates
+                                  that  the  datalist  used  in  adding  or
+                                  updating the record and the datalist used
+                                  in reading  the record  are  not  defined
+                                  having the same characteristics.
+
+              CHKSUMDERR = -21    The checksum  of the  data  values  shows
+                                  that  the   record  has  been  corrupted.
+                                  Indicates a  hardware failure  (or  power
+                                  failure with files left open).
+
+              BADFLDTYP = -22     Invalid  field   type  specified  in  the
+                                  datalist.
+
+              BADKEYTYP = -23     Invalid  key   type  specified   in   the
+                                  datalist.
+
+              BADDUPFLG = -24     Invalid   duplicate/unique   flag   value
+                                  specified in the datalist.
+
+              BADFLDLEN = -25     Invalid length specified in the datalist.
+
+              BADSTRLEN = -26     Invalid string  length, it is longer than
+                                  the maximum field length specified in the
+                                  datalist (datalist.fldlen).
+
+              BADFLDINX = -27     Invalid index  number specified for a key
+                                  field in the datalist.
+
+              BUFOVER = -28       When building  the variable  length  data
+                                  record, the  buffer specified on open has
+                                  been found  to be smaller than needed for
+                                  this particular record.
+
+              FILEXIST = -29      File  requested   by  a  create  function
+                                  already exists.  No create  operation  is
+                                  performed in this case.
+
+              BADNODE = -30       A  corrupted   node  was   detected  when
+                                  searching through  the index. Indicates a
+                                  hardware failure  (or power  failure with
+                                  files left open).
+
+
+     46                                           
+     _________________________________________________
+
+
+          FILENOTLOCKED =-101 File is not locked.
+
+          FILELOCKED =-102    File is locked.
+
+          MODEERR = -103      Open mode error.
+
+          RECSHLK = -104      Record is locked by a sharing process.
+
+          RECSFLK = -105      Record is locked by self.
+
+          RECUNLK = -106      Record is unlocked.
+
+          RECNOLK = -107      Record is unlocked and should be locked.
+
+
+         Appendix B  Alphabetical List of Functions
+         _________________________________________________
+
+
+              Single-Key Functions:
+
+              cbuild - rebuild a file
+              cchange - change an entry
+              ccheck - check the integrity of a file
+              cchgcur - change the current record
+              cclose - close an open file
+              ccreate - create and leave open a new file
+              cdelcur - delete the current entry
+              cdelete - delete an entry by key value
+              cdupadd - add an entry, allowing duplicate keys
+              cfind - find an entry by key value
+              cfirst - find the first entry in an index
+              cflush - flush C-Index buffers
+              cgetcur - get current entry
+              clast - get last entry in an index
+              cnext - get next entry in an index
+              cnextrec - retrieve the next available record number
+              copen - open a C-Index file for access
+              cprev - get previous entry from an index
+              csave - save an entry
+              csetfile - set level of data integrity
+              csetrec - set next available record number
+              cunqadd - add an entry, duplicate keys not allowed
+
+              Multi-Key Functions:
+
+              dadd - add a data record
+              dclose - close a file
+              dcreate - create a file
+              ddelete - delete the current record
+              dfind - find a record by key value
+              dgetid - read id byte of current record
+              dmclose - multi-key close file in multi-user mode
+              dmcreate - multi-key create file in multi-user mode
+              dmopen - multi-key open in multi-user mode
+              dopen - open a file
+              dread - read the current record into the datalist
+              dseq - find a record in sequence
+              dupdate - update the current record
+
+              Multi-User Functions:
+
+              mclose - single key close in multi-user mode
+              mclrlock - unlock the current entry
+              mclrrec - unlock the current record
+              mclrsema - clear semaphore
+              mcreate - single entry create in multi-user mode
+              msetlock - lock current entry
+              msetrec - lock current record
+              msetsema - set a semaphore
+              mtstlock - test lock status of current entry
+              mtstrec- test lock status of current record
+              mtstsema - test the status of a semaphore
+
+
+
+
+
+
+            Trio Systems                       Pasadena, CA  91106
+
+
+
+
+
+                                      C-INDEX
+
+
+                         INDIVIDUAL COPY LICENSE AGREEMENT
+
+
+
+
+
+            I. PREACCEPTANCE NOTICE
+
+            YOU AGREE TO READ THE TERMS AND CONDITIONS OF THIS AGREEMENT
+            BEFORE OPENING  THE  DISKETTE  PACKAGE.    YOU  ACCEPT  THIS
+            AGREEMENT IF  YOU OPEN  THE DISKETTE  PACKAGE  OR  KEEP  THE
+            DISKETTE PACKAGE  MORE THAN  30 DAYS.  IF YOU DO NOT WISH TO
+            ACCEPT THIS  AGREEMENT YOU MUST RETURN THE UNOPENED DISKETTE
+            PACKAGE WITHIN 30 DAYS, AND YOUR MONEY WILL BE REFUNDED.
+
+            Trio Systems  provides the C-INDEX computer software program
+            (also referred  to herein as the "Program") and licenses its
+            use in  the United  States, Puerto  Rico, and  all countries
+            providing for the legal protection of computer software.
+
+            The Program  may be  supplied to  you as object code, source
+            code, or  other forms  of representation.    This  agreement
+            covers any  and all  forms of  the Program  that you receive
+            from Trio Systems directly or indirectly.
+
+            II. DEVELOPMENT LICENSE
+
+            You may:
+
+            a. Use the Program on a single machine.
+
+            b. Copy the Program in machine readable form for the purpose
+            of backup  or modification  in support  of your  use of  the
+            Program on the single machine.
+
+            c. Modify  the Program or merge it into any User Application
+            software program  for your  use on  the single machine.  The
+            Trio Systems copyright notice must be affixed to any and all
+            media containing complete or partial contents of the Program
+            used on the single machine.
+
+
+
+
+
+
+
+
+                         C-Index Individual License Agreement   Page 1
+
+
+
+
+
+
+            d. Transfer  the Program and license to another party if the
+            other party  agrees to  accept the  terms and  conditions of
+            this Agreement.   If  you transfer  the Program, you must at
+            the same  time either  transfer all copies to the same party
+            or destroy  any copies  not transferred;  this includes  all
+            modifications and  portions  of  the  Program  contained  or
+            merged into  other programs.   If you transfer possession of
+            any copy,  modification, or merged portion of the Program to
+            another  party,   except  as   provided  by   the   "Limited
+            Distribution  License",   your  license   is   automatically
+            terminated.
+
+            III. LIMITED DISTRIBUTION LICENSE
+
+            Trio   Systems   grants   you   a   limited,   non-exclusive
+            distribution license.   You  may distribute  copies  of  the
+            Program that  have been  merged by you into User Application
+            software provided that:
+
+            a. You  make all  reasonable efforts  to protect the Program
+            copyright.   This includes,  but  is  not  limited  to,  the
+            placing  of   proper  copyright  notices  on  all  materials
+            containing all or portions of the Program.
+
+            b. You  do not  modify any  copyright notices  that  may  be
+            imbedded in the Program itself.
+
+            c. You limit any software that is distributed containing any
+            portion of  the  Program  such  that  an  end-user  may  not
+            directly access  or call  any function  of the  Program,  or
+            otherwise  make  use  of  the  Program  for  development  of
+            application software.   At  no time  may you  distribute the
+            source  code   representation  of  the  Program,  except  as
+            provided explicitly by this Agreement.
+
+            d.  The   Program  remains   property   of   Trio   Systems,
+            irrespective of  any modifications  or enhancements that you
+            may make to the Program in the process of creating your User
+            Application.
+
+            IV. TERM
+
+            This agreement  is effective  from the  date you receive the
+            Program and shall remain in force until terminated.  You may
+            terminate it  at any time by destroying the supplied Program
+            together with  all copies, modifications and merged portions
+            in any  form.   This agreement  shall  also  terminate  upon
+            conditions set  forth elsewhere  in this Agreement or if you
+            fail to comply with any term or condition of this Agreement.
+            You agree  upon such  termination to  destroy  the  supplied
+            Program together  with all  copies, modifications and merged
+            portions in any form.
+
+
+
+
+
+                         C-Index Individual License Agreement   Page 2
+
+
+
+
+
+
+            V. LIMITED WARRANTY
+
+            THE PROGRAM  IS PROVIDED  "AS IS"  WITHOUT WARRANTY  OF  ANY
+            KIND,  EITHER  EXPRESSED  OR  IMPLIED,  INCLUDING,  BUT  NOT
+            LIMITED TO  THE IMPLIED  WARRANTIES OF  MERCHANTABILITY  AND
+            FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS TO THE
+            QUALITY AND  PERFORMANCE OF  THE PROGRAM  IS WITH  YOU,  THE
+            CUSTOMER.   SHOULD THE PROGRAM PROVE DEFECTIVE, YOU (AND NOT
+            TRIO SYSTEMS  OR AN  AUTHORIZED DEALER)  ASSUMES THE  ENTIRE
+            COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.
+
+            However, Trio  Systems warrants the diskette(s) on which the
+            Program is  furnished, to  be free from defects in materials
+            and workmanship under normal use for a period of ninety (90)
+            days from the date of delivery to you.
+
+            Trio Systems  does not  warrant that the functions contained
+            in the Program will meet any particular requirements or that
+            the operation  of the Program will be uninterrupted or error
+            free.   Although Trio  Systems has designed the Program with
+            great care  in an  effort to  make it error-free, errors may
+            exist in  the Program.   Do  not use the Program in ANY case
+            where significant  damage or injury to persons, property, or
+            business may  happen if  an error  occurs.    You  expressly
+            assume all  risks for  such use.   The amount of the license
+            fee charged  by Trio Systems does not include any assumption
+            of risk  by Trio Systems for defects in the Program.  In any
+            event, any  warranties required by law or implied under this
+            Agreement are extended only to you.
+
+            Some states  do not allow limitations on how long an implied
+            warranty lasts, or the exclusion or limitation of incidental
+            or consequential  damages,  so  the  above  limitations  and
+            exclusions may  not apply  to you.   This warranty gives you
+            specific legal  rights and  you may  also have  other rights
+            which vary from state to state.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         C-Index Individual License Agreement   Page 3
+
+
+
+
+
+
+            VI. LIMITATIONS OF LIABILITY
+
+            Trio Systems  shall not  be liable for any damages to you or
+            any third party caused by use of, or Trio Systems' active or
+            passive negligence  with respect  to,  the  Program.    Trio
+            Systems shall  not  be  liable  for  any  direct,  indirect,
+            special, consequential,  incidental, or punitive damages, or
+            lost profits  or loss  of use  or interruption  of business,
+            regardless of  the form  of action  or theory  of  liability
+            (including,  without   limitation,  actions   in   contract,
+            warranty, negligence,  or products liability) resulting from
+            any defect  in, or use of, or inability to use, the Program,
+            or from  any breach  of this Agreement (even if Trio Systems
+            has been  advised of  the possibility  of such damages).  In
+            any event,  Trio Systems' liability under this Agreement for
+            any damages  to you  or any  third party,  regardless of the
+            form of  action or  theory of  liability (including, without
+            limitation, actions  in contract,  warranty, negligence,  or
+            products liability) shall not exceed the license fee paid by
+            you under  this Agreement.  You agree that any suit or other
+            legal action  or any arbitration relating in any way to this
+            Agreement or  to the  Program must  be officially  filed  or
+            officially commenced  no  later  than  one  year  after  you
+            receive the Program.
+
+            VII. PROTECTION OF DATA
+
+            It is your responsibility to maintain periodic backup copies
+            of all  data and  programs  used  in  conjunction  with  the
+            Program.   At least  one copy  of each  backup of  data  and
+            programs must be kept in a safe location in order for you to
+            prevent catastrophic  loss.   Trio Systems recommends that a
+            daily backup  copy of  all data be made using a rotating set
+            of backup  media (to  prevent destruction of the backup copy
+            during the  backup process).   In addition, Trio Systems may
+            recommend  (in  documentation  supplied  with  the  Program)
+            additional  precautionary  measures  to  protect  data  from
+            catastrophic loss.    It  is  your  responsibility  to  make
+            effective use  of these  recommendations and  to provide any
+            required advise  to persons  using a User Application on the
+            appropriate steps to take to protect their data.
+
+            VIII. GENERAL TERMS
+
+            This Agreement  can only  be modified by a written agreement
+            signed by  you or by persons authorized to sign agreement on
+            your behalf and Trio Systems, and changes from the terms and
+            conditions of  this Agreement  made in any other manner will
+            be of no effect.
+
+            If any  provision or  provisions of  this Agreement shall be
+            held  invalid,  illegal,  or  unenforceable,  the  validity,
+            legality and  enforceability  of  the  remaining  provisions
+            shall not in any way be affected or impaired thereby.
+
+
+
+                         C-Index Individual License Agreement   Page 4
+
+
+
+
+
+
+            You agree  that this  Agreement is  considered to be entered
+            into  in  Los  Angeles  County,  California,  and  that  all
+            obligations  of   Trio  Systems  under  this  Agreement  are
+            incurred in  and are  to be performed in Los Angeles County.
+            You consent  to personal  jurisdiction  of  California  with
+            respect to  any arbitration or suit brought relating to this
+            Agreement.   You waive all objections to venue to the extent
+            permitted by  law.  Arbitration or suit with respect to this
+            Agreement may be brought only in Los Angeles County.
+
+            You acknowledge  that the laws and regulations of the United
+            States restrict  the export and re-export of commodities and
+            technical data  of United  States origin,  including some or
+            all of  the Program.   You  agree that you do not intend to,
+            and will  not, ship  or transmit  (directly  or  indirectly)
+            copies of  the Program or any technical data embodied in the
+            Program or  any direct  product or result of the Program, in
+            or to  any country  of destination  prohibited by the United
+            States Government.
+
+            This Agreement shall be governed by the laws of the State of
+            California.
+
+            IX. ACKNOWLEDGEMENT
+
+            You  acknowledge   that  you   have  read   this  Agreement,
+            understand it,  and agree  to be  bound  by  its  terms  and
+            conditions.   Further, you agree that it is the complete and
+            exclusive statement  of the  agreement between  you and Trio
+            Systems which  supersedes all proposals or prior agreements,
+            oral or  written, and  all other  communications between you
+            and Trio  Systems relating  to the  subject matter  of  this
+            Agreement.
+
+                                                              971534
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                         C-Index Individual License Agreement   Page 5

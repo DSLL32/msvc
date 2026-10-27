@@ -1,0 +1,2304 @@
+
+\RT\
+ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ Built-in Keystroke Macros for "Normal" Layout ÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ
+		(Edit VVHELP.HLP if you change the layout)
+File Handling:
+
+<Alt-N>		Open a new file in same buffer (save/abandon current file)
+<Alt-O>		Open a new file in new buffer without windows
+<Alt-Y>		Open a new file in new buffer in horizontal window
+<Ctrl-F4>	Close the current buffer (save/abandon current file)
+<Alt-T>		Toggle current window between files
+<Ctrl-T>	Toggle between windows on the screen
+<Alt-V>		Split current window into two vertical windows
+<Alt-I>		Start up Integrated compiler support
+
+<F4>		{FILE, Buffer switch}	 Switch to the selected buffer (file)
+<Alt-X>		{FILE, Exit}		 Exit VEDIT
+
+Box drawing characters assigned to <SHFT-F1> through <SHFT-F10>:
+ÉÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍÑÍÍÍÍÍÍ»
+º  F1  ³  F2  ³  F3  ³  F4  ³  F5  ³  F6  ³  F7  ³  F8  ³  F9  ³  F10 º
+ÇÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄÅÄÄÄÄÄÄ¶
+º  º   ³  Í   ³  É   ³  »   ³	È  ³  ¼   ³  Ë   ³  Ê   ³  Ì   ³  ¹   º
+ÈÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍÏÍÍÍÍÍÍ¼
+Press <Enter> to continue: 
+Other "normal" keystroke macros:
+
+<Ctrl-F>	{EDIT, Format para}	 Format a paragraph
+<Alt-Bksp>	{EDIT, Undo, Edit}	 Undo last edit operation (keystroke)
+<Ctrl-U>	{EDIT, Undo, Line}	 Undo current/previous line(s)
+<Alt-F4>	{WINDOW, Switch}	 Switch to the selected window (file)
+<Alt-D>		{WINDOW, Toggle mode}	 Toggle through 7 display modes
+
+<F9>		{BLOCK, Set marker}	 Set "character" type block marker
+<Ctrl-N>	{BLOCK, Set column}	 Set "column" type block marker
+<Ctrl-PgUp>	{GOTO, Beginning}	 Goto the beginning of the file
+<Ctrl-PgDn>	{GOTO, End}		 Goto the end of the file
+<Ctrl-S>	{GOTO, Set}		 Set a text marker
+<Ctrl-G>	{GOTO, Goto}		 Goto a text marker
+<Alt-F3>	{GOTO, Matching ()}	 Goto matching parentheses () <> [] {}
+<Alt-J>		{MISC, Color toggle}	 Toggle between window colors
+<Alt-L>		{MISC, VGA/EGA toggle}	 Toggle between 25, 28 and 43/50 line
+<Ctrl-F8>	{MISC, Execute macro}	 Execute the Command Macro in a T-Reg
+<Alt-A>		{MISC, Keyboard, Add}    Add a new keystroke macro
+<Alt-K>		{MISC, Keyboard, Record} Begin recording a new keystroke macro
+<Ctrl-O>	{PRINT, Block}		 Print a block of text
+
+Press <Enter> to continue: 
+
+		HELP TOPICS
+
+STAT		Status line messages
+MARG		Setting left and right margins
+FORM		Formatting paragraphs
+HZ		Horizontal scrolling
+IC		Inserting control and graphics characters
+REGEXP		Regular expression syntax
+CONV		Lower / upper case key conversion
+EMPTY		Emptying a text register (free more memory space)
+FILES		Editing additional files
+COMWIN		Creating a window for Command Mode
+CM		Enter Command Mode from Visual Mode
+MOUSE		Mouse support
+
+Enter the word on the left for help on above topics: 
+\CU\ \CD\ \CR\ \CL\
+
+[CURSOR UP]		Moves the cursor up one line, to the same horizontal
+			position if possible.
+
+		NOTE:	The "Cursor positioning mode" determines whether the
+			cursor can be positioned past shorter lines.
+
+[CURSOR DOWN]		Moves the cursor down one line, to the same
+			horizontal position if possible.
+
+[CURSOR RIGHT]		Moves the cursor to the next character. At the end of
+			the line, it moves to the beginning of the next line.
+			With "Cursor positioning mode" set to "4", the cursor
+			is permitted to move past the end of a line.
+
+[CURSOR LEFT]		Moves the cursor to the previous character. At the
+			beginning of a line, it moves to the end of the
+			previous line.
+
+\LB\ \LE\ \NL\
+
+[LINE BEGIN]		Moves the cursor to the first character of the
+			current line or, if already there, to the first
+			character of the previous line of text.
+
+[LINE END]		Moves the cursor to the end of the current line or,
+			if already there, to the end of the next line of
+			text.
+
+		NOTE:	The behavior of [LINE BEGIN/END] can be changed with
+			{CONFIG, Emulation, Line emulation mode}.
+
+[NEXT LINE]		Moves the cursor to the beginning of the next line of
+			text.
+
+\PW\ \NW\ \PP\ \NP\
+
+[PREVIOUS WORD]		Moves the cursor to the first character of the
+			current word or, if already there, to the beginning
+			of the previous word.
+
+[NEXT WORD]		Moves the cursor to the first character of next word.
+
+
+[PREV PARAGRAPH]	Moves the cursor to the beginning of the current
+			paragraph or, if already there, to the beginning of
+			the previous paragraph.
+
+[NEXT PARAGRAPH]	Moves the cursor to the beginning of next paragraph.
+
+\SU\ \SD\ \SR\ \SL\
+
+[SCROLL UP]		Similar to [CURSOR UP], except that the cursor
+			remains on the same screen line and the screen moves
+			down instead.
+
+[SCROLL DOWN]		Similar to [CURSOR DOWN], except that the cursor
+			remains on the same screen line and the screen moves
+			up instead.
+
+[SCROLL RIGHT]		Moves the screen window right to view long lines
+			going off the right side of the screen.
+
+[SCROLL LEFT]		Moves the screen window left to view the beginning
+			part of long lines.
+
+\TC\ \NT\
+
+[TAB CHARACTER]		In Overstrike mode, it moves the cursor to the next
+			tab stop, same as [NEXT TAB STOP]. In Insert Mode or
+			at the end of a line it inserts a Tab character
+			<Ctrl-I> (or optionally spaces to the next tab stop).
+
+		NOTE:	Change the "Typewriter mode" to always insert a Tab
+			character (or spaces).
+
+[NEXT TAB STOP]		Moves the cursor to the character at the next tab
+			stop.
+
+\PU\ \PD\ \SB\ \SE\
+
+[PAGE UP]		Backs up to the previous "page" of text - similar to
+			typing [CURSOR UP] for 3/4 screen lines.
+
+[PAGE DOWN]		Advances to the next "page" of text - similar to
+			typing [CURSOR DOWN] for 3/4 screen lines.
+
+[SCREEN BEGIN]		Moves the cursor to the top (allowed) line in the
+			window, typically line 3.
+
+[SCREEN END]		Moves the cursor to the bottom (allowed) line in the
+			window, typically the 3rd from the last.
+
+\IT\ \EC\
+
+[INSERT TOGGLE]		Toggles between the "Insert" and "Overstrike" modes.
+			Use {EDIT, Insert mode} and {EDIT, Overstrike mode}
+			to force a particular mode.
+
+
+[ENTER CTRL]		Enters the next character, whether a displayable
+			character, a control character or a graphics
+			character, into the text.
+
+\BS\ \DC\ \EE\ \EL\
+
+[BACKSPACE]	Deletes the character to the left of the cursor. At the
+		beginning of a line it deletes the preceding "newline",
+		effectively merging two lines together.
+
+	NOTE:	The behavior can be changed with {CONFIG, Emulation,
+		[BACKSPACE] emulation mode}.
+
+[DELETE]	Deletes the character at the cursor position. The cursor
+		doesn't move. Also deletes the "newline" character, which for
+		DOS, is normally a <CR><LF> pair.
+
+		If the cursor is in, or just past, a highlighted block, the
+		entire block is deleted.
+
+	NOTE:	The behavior can be changed with {CONFIG, Emulation,
+		Special emulation modes}.
+
+[ERASE EOL]	Deletes (erases) all characters from the cursor position to
+		the end of the text line.
+
+[ERASE LINE]	Deletes (erases) the entire text line.
+
+\DP\ \DN\
+
+[DEL PREVIOUS WORD]	When the cursor is at the beginning of a word or
+			between words, it deletes characters to the left up
+			to the next word. Pressed again, it deletes the
+			previous word.
+
+[DEL NEXT WORD]		When the cursor is in a word, it deletes to the end
+			of the word. Pressed again, it deletes the characters
+			between words.
+
+\CA\ \ES\
+
+[CANCEL]	Cancels the current operation, e.g. any pull-down menu or any
+		prompt. It cancels any operation taking place because of a
+		[REPEAT]. At the edit level (no prompts) it removes the
+		first block marker (if set).
+
+[ESCAPE]	Escapes from the current prompt or menu level. At the edit
+		level it pops up the {ESCAPE} menu from which you can cancel
+		operations or exit/quit the editor.
+
+\RE\ \RL\
+
+[REPEAT]	The next typed character or edit function is repeated. This
+		is either a multiple of four or the number typed in. Press
+		[CANCEL] to abort.
+
+[REPEAT LAST]	Repeats the last edit operation a single time.
+
+\ID\ \UD\
+
+[INDENT]	Increases the left margin by the amount of the "Indent
+		increment". Each new line is then automatically padded with
+		tabs and spaces to the left margin. The padding will also
+		take place on the current line if the cursor is before any
+		text on the line.
+
+[UNDENT]	Reduces the left margin by the "Indent increment", until it
+		is zero. One [UNDENT] therefore cancels one [INDENT].
+
+	NOTE:	If the cursor is within a highlighted block, these functions
+		will indent/undent the entire block.
+
+\VE\ \VS\
+
+[VISUAL EXIT]		Visual Mode is exited to Command Mode. The current
+			cursor position in the buffer becomes the Command
+			Mode edit position.
+
+[VISUAL ESCAPE]		This is identical to the [VISUAL EXIT], except that
+			any current command execution is aborted.
+
+\BC\ \BM\
+
+[BLOCK COPY]	Copies a block of text within the current file. A highlighted
+		block will be copied to the current cursor position. It is
+		identical to {BLOCK, Copy to cursor}.
+
+[BLOCK MOVE]	Moves a block of text within the current file. A highlighted
+		block will be moved to the current cursor position. It is
+		identical to {BLOCK, Move to cursor}.
+
+	NOTE:	{CONFIG, Emulation, Auto-cancel block markers} controls
+		whether the block will remain highlighted in its new
+		location.
+
+The exact operation of these editing functions depends upon how many block
+markers have been set:
+
+FUNCTION      Default    NO MARKERS SET  1 MARKER SET    2 MARKERS SET
+ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÂÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ
+[BLOCK COPY]  <Ctrl-F9>³ Set 1st Marker  Set 2nd Marker  Copy block to cursor
+[BLOCK MOVE]  <Alt-F9> ³ Set 1st Marker  Set 2nd Marker  Move block to cursor
+
+Therefore, [BLOCK COPY] can be used to set the block markers regardless of
+how the block will be used.
+
+\RC\ \RM\ \RI\
+
+[T-REG COPY]	Copies the highlighted block of text to the specified text
+		register. If no block markers are yet set, it sets the first
+		block marker.
+
+[T-REG MOVE]	Copies the highlighted block of text to the specified text
+		register and deletes the block from the original text. If no
+		block markers are yet set, it sets the first block marker.
+
+[T-REG INSERT]	Inserts the contents of the specified text register at the
+		current cursor position. If the block was copied/moved to the
+		text register as a columnar block, it will be inserted as a
+		columnar block. The register contents are not altered.
+
+	NOTE:	{CONFIG, Emulation, Advance cursor...} controls whether the
+		cursor will be at the beginning or end of the inserted block.
+
+\SH\ \SA\
+[SEARCH]	Performs a search. Prompts for the search string - enter up
+		to 80 characters; or [CURSOR UP] to reuse previous search
+		strings. Press [SEARCH] again to select from the "search
+		options".
+
+		Press <Ctrl-N> to search for "newline" (according to the
+		current file-type.) To search for other control chars
+		precede them with [ENTER CTRL] (<Ctrl-P>). Use "||" to search
+		for a single "|".
+
+		If the cursor is within a highlighted block, the search is
+		restricted to the block. The search starts at the cursor
+		position; move to the beginning of the block to search the
+		entire block.
+
+[SEARCH AGAIN]	Repeats the previous [SEARCH] or [REPLACE]. Allows searching
+		for or replacing the next occurrence.
+
+
+
+OPTIONS: [A]gain  [B]egin  [F]ar  [R]everse  [W]ord  Expressions[Y/N]
+
+	Select one or more options by typing the corresponding letters
+	"A", "B", "F", "R", "W" and "Y" or "N" followed by <Enter>.
+
+A	Reuses the previous search/replace strings. In conjunction with
+	[B]egin it can be used to search again starting from the beginning of
+	the file.
+
+B	Starts search from the beginning of the buffer/file.
+
+F	Search/replace to the "far" end of the file, performing file
+	buffering if necessary. Also causes [B]egin option to start search
+	from the beginning of the file. This option is the DEFAULT unless the
+	"Enable global file operations" switch is off.
+
+R	Search/replace in the reverse direction, i.e. toward the beginning of
+	the file.
+
+W	Restricts the search to entire "words".
+
+Y/N	Overrides the current search mode. "Y" enables regular expressions
+	while "N" disables regular expressions.
+
+
+
+
+
+
+
+
+SEARCH PATTERN MATCHING CODES
+
+|A	Match any alphabetic letter, upper or lower case
+|B	Match a blank - single space or tab
+|C	Match any control character
+|D	Match any numeric digit - "0" - "9"
+|F	Match any alphanumeric - a letter or a digit
+|G	Match any graphics (high-bit) character
+|Hhh	Match character with hexadecimal value 'hh'
+|L	Match end of line:  <CR> and/or <LF>
+|M	Multi - match any sequence of zero or more characters
+|N	Match any character except following character or pattern
+|P	Match any parenthesis - (), {}, [], <>
+|Rr	Access contents of text register 'r' as variable string
+|S	Match any separator - not a letter or digit
+|T	Match selected separators (terminators) -
+	Space, Tab, <CR>, <LF>, ; : , " '
+|U	Match any upper case letter
+|V	Match any lower case letter
+|W	Match white space - single or multiple spaces or tabs
+|X	Match any character
+|Y	Match multiple characters until the next pattern matches
+|<	Match beginning of line (zero length match)
+|>	Match end of line (zero length match)
+|ddd	Match character with decimal value 'ddd'
+|000	Match the null (hex 00) character
+|{set}	Matches one occurrence of any item in the "pattern set".
+|[set]	Matches one optional occurrence of any item in "pattern set".
+||	Use "||" when you need to search for "|"
+
+Note:	For help with Regular expressions, press [HELP] and then <Enter>
+	four times to see additional help topics. Then pick "REGEXP".
+
+\RP\
+[REPLACE]	Performs a selective or global search and replace. Prompts
+		for the search and replacement strings. After locating the
+		text, prompts with the replacement options.
+
+		If the cursor is within a highlighted block, the search/
+		replace is restricted to the block; the search starts at the
+		cursor position.
+
+
+
+Replace? [Y]es [N]o [R]est [O]ne [C]ancel
+
+	Select one option by pressing "Y", "N", "R", "O" or "C".
+
+Y	Make the replacement; search for next occurrence.
+N	Do not make the replacement; search for next occurrence.
+R	Make replacement and replace all other occurrences without prompting.
+O	Make "one" single replacement; function is done.
+C	Do not make the replacement; function is done.
+
+\HE\
+
+[HELP]		You are successfully using the [HELP] function. In addition
+		to help with the edit functions, the last help menu screen
+		includes a menu of common Visual Mode topics. Help is
+		available in the Command Mode with the "H" and "EH" commands.
+
+\ME\
+
+[MENU]		Starts the pull-down menu interface from which you can select
+		the desired editing function. Use the cursor keys to access
+		the desired item. Then press <Enter> to select it. Pressing
+		[ESCAPE] backs you out of the menu system one level at a
+		time. Pressing [CANCEL] cancels any prompts and removes the
+		menu system.
+
+		For specific help, access the desired pull-down menu and
+		press [HELP].
+
+\BL\
+{BLOCK} Menu --
+
+Set marker		Marks the beginning and end of a block of text. The
+			block will be highlighted as you move the cursor.
+			Note that either the beginning or the end of the
+			block may be set first. The 2nd marker is only needed
+			for "Copy to cursor" and "Move to cursor". When only
+			the first block marker is set, the cursor position is
+			used as the second marker.
+
+Set column marker	Marks a columnar block of text.
+
+Copy to cursor		Copies the previously marked block of text to the
+			current cursor position.
+
+Move to cursor		Moves the previously marked block of text to the
+			current cursor position and deletes the block from
+			its original position.
+
+Copy to register	Prompts for the name of a text register and then
+			copies the currently highlighted block of text to the
+			register. Optionally, the name may be preceded with a
+			"+" to append the block to any text already in the
+			register, or with a "-" to insert the block before
+    			any text in the register.
+
+Move to register	Similar to "Copy", except that the block of text is
+			deleted from the edit buffer after it is moved to the
+			text register.
+
+Insert register		Prompts for the name of the text register to be
+			inserted at the current cursor position. The register
+			itself is not changed. {CONFIG, Emulation, Advance
+			cursor past...} controls whether the cursor is left
+			at the beginning or end of the inserted text.
+
+Delete			Deletes the currently marked block of text.
+
+			[DELETE] will also delete the block when the cursor
+			is in the block.
+
+Write to disk		Prompts for a filename and then writes the marked
+			block of text to a file on disk.
+
+Remove markers		Removes (cancels) any block markers that are
+			currently set.
+
+Swap ends		Swaps the position of the cursor with the current
+			block marker. Selecting it twice restores the cursor
+			and block marker. Useful for seeing where the block
+			begins.
+
+\ED\
+{EDIT} Menu --
+
+Insert mode		Changes to "Insert" mode if not already set.
+
+Overstrike mode		Changes to "Overstrike" mode if not already set.
+
+Enter CTRL char		Prompts for the control character to be inserted.
+			The character corresponding to the next pressed key
+			is inserted without regard to any function that
+			key might perform. Same as [ENTER CTRL].
+
+Erase line		Deletes (erases) the entire text line. Same as
+			[ERASE LINE].
+
+Erase EOL		Deletes (erases) all characters from the cursor
+			position to the end of the text line. Same as
+			[ERASE EOL].
+
+Center line		Centers the text line between the current left and
+			right margins; advances to the next line.
+
+Format paragraph	Formats a paragraph using the current left and
+			right margins.
+
+Repeat			The next typed character or edit function is
+			repeated. This is either a multiple of four or the
+			number typed in. Press [CANCEL] to abort. Same as
+			[REPEAT].
+
+Insert file		Prompts for and then inserts the specified file at
+			the cursor position. {CONFIG, Emulation, Advance
+			cursor past...} controls whether the cursor is left
+			at the beginning or end of the inserted text.
+
+Undo			Sub-menu - Undo recent editing operations keystroke-
+			by-keystroke, line-by-line or deletion-by-deletion.
+
+Lower/Upper case	Sub-menu - Change a letter to upper case, lower case
+			or switch its case. Works on a single char or within
+			a highlighted block.
+
+\FL\
+{FILE} Menu --
+
+Browse mode	When set to "Yes" the current file cannot be altered any
+		further. Also, the next file opened in the current buffer
+		with {FILE, Open}-S (<Alt-N>) will be opened in a fast
+		"browse-only" mode.
+
+		Browse-only mode is permanently selected when starting up
+		VEDIT with the "-b" option.
+
+New		Opens a new (empty) edit buffer without an assigned filename.
+		This command is ignored if the current buffer is empty.
+		Experienced users will probably prefer to use {FILE, Open}
+		even when creating new files.
+
+Open		Opens a new file in either the same (current) buffer or in a
+		new edit buffer. A new buffer can be display in the current
+		window or in a new vertical or horizontal window. If the new
+		file does not exist, it is created.
+
+		The "Normal" keyboard layout contains several "hot keys" for
+		directly accessing most {FILE, Open} options:
+
+		<Alt-N>		{FILE, Open}-Same_buffer
+		<Alt-O>		{FILE, Open}-No_window
+		<Alt-Y>		{FILE, Open}-Horizontal_window
+
+Close		Close the current buffer, saving or abandoning any current
+		file. Does not close the main "@" buffer - it then only
+		clears the current file.
+
+Buffer switch	Switches to the selected edit buffer (press <Enter> to get
+		the pick-list). The buffer will be displayed in its
+		"corresponding" window, typically the same window it was last
+		displayed in.
+
+Buffer toggle	Toggles the current window between between the edit buffers,
+		i.e. the files currently being edited.
+
+		Combined with {WINDOW, Window toggle} you can display any
+		file in any desired window.
+
+Directory   	Displays the directory of any desired drive or directory. Any
+		new drive and/or directory you select will become the new
+		"default" or "current" directory. Allows use of wildcard
+		characters, e.g. "*.TXT". Press <Enter> to display all files.
+
+Save as		Saves the file being edited under a new name and permits
+		continued editing under this new name.
+
+Save and cont.	Saves current file to disk for continued editing. Protection
+		against power failure or major mistakes.
+
+Save all	Saves all altered files to disk for continued editing.
+		Note: it only saves those buffers with an assigned filename.
+
+Exit		Displays each altered buffer (file) and prompts whether it is
+		to be saved or abandoned. It repeats this for each buffer and
+		then exits VEDIT. The "[S]ave-all" option saves all files and
+		exits. The "[Q]uit-all" option abandons all files and exits.
+
+\GO\
+{GOTO} Menu --
+
+Begin of file	Moves the cursor to the first character in the file.
+
+Home in memory	Moves the cursor to the beginning of text currently in memory.
+
+Zend in memory	Moves the cursor to the end of text currently in memory.
+
+End of file	Moves the cursor past the last character in the file.
+
+Line #		Prompts for a line number and moves the cursor to the
+		beginning of that line.
+
+Column #	Prompts for a column number and moves the cursor to that
+		column. Useful when editing very long lines.
+
+File position	Prompts for the absolute file position and moves the cursor
+		to that position. "0" corresponds to the beginning of the
+		file. Numbers can be entered in hexadecimal using the
+		"0Hhhhh" format.
+
+Set marker	Prompts for a digit "0 - 9". Sets an invisible text marker
+		to which you can later "jump" back with {GOTO, Goto marker}.
+
+Goto marker	Prompts for a digit "0 - 9". "Jumps" to a previously set
+		text marker. If the marker has not been set the cursor does
+		not move.
+
+Matching ()	Performs nested parentheses matching for structured
+		programming languages. With the cursor positioned at one of
+		the eight characters (, ), {, }, [, ], <, >, it moves the
+		cursor forward or backward to the matching pair. Otherwise,
+		searches forwards for one of the characters.
+
+\HM\
+{HELP} Menu --
+
+General		Same as pressing [HELP] while editing. Begins by displaying
+		the current keyboard layout.
+
+Status display	Displays the VEDIT version #, current directory, input and
+		output file names, file size, memory usage, time and date.
+
+Edit buffers	Edit buffer pick list. Displays the names of the current edit
+		buffers, which window they are in and the name of the file
+		being edited. Permits switching to any buffer.
+
+Text registers	Displays the names of the non-empty text registers (which are
+		not edit buffers), their size and the first line of their
+		contents.
+
+\MM\
+{MISC} Menu --
+
+ASCII table	Displays the 256 byte ASCII table. Allows inserting any
+		character while viewing the table.
+
+DOS shell	Permits temporarily entering DOS. Give the DOS command "EXIT"
+		to return to VEDIT.
+
+Run DOS program	  Prompts for the name of the DOS program (or command) to be
+		  run. Returns immediately to VEDIT when the program is done.
+
+Color toggle	Toggles through different window colors (attributes).
+
+VGA/EGA toggle	Toggles a VGA between 25, 28 and 50 line modes; toggles an
+		EGA between 25 and 43 line modes.
+
+Compiler support  Starts up the integrated compiler support by loading the
+		  COMPILE.VDM macro into text register "Z".
+
+WILDFILE macro	Starts up the WILDFILE.VDM macro by loading it into text
+		register "Z". Permits search/replace on multiple files.
+
+Load/Exec macro Loads a command macro and executes it. Prompts for a text
+		register name and a filename containing a command macro. (The
+		typical ".VDM" extension can be left off; it automatically
+		searches the VEDIT Home directory.)  The macro is loaded into
+		the text register and executed.
+
+Execute macro	Executes a command macro. Prompts for the name of the text
+		register that contains the macro to be executed. Use this
+		function to execute macros already loaded.
+
+Keyboard layout		Sub-menu - Add new keystroke macros and display
+			existing ones. Also save keystroke macros to disk
+			and load from disk.
+
+\PR\
+{PRINT} Menu --
+
+All		Prints the entire file. All text is offset from the left edge
+		of the paper by the "Printer margin". Typically prints 60
+		lines of text on each page, with a 3 line margin at the top
+		and bottom of each page. (Also performs a "Finish/Eject".)
+
+Block		Prints a block of text. If no block marker is set, sets the
+		first marker. If one or two block markers are set, prints
+		the block.
+
+Finish/Eject	Releases (flushes) the current print job. On a network
+		printer (or under UNIX), this causes the text to be sent to
+		the printer (print spooler). When printing to a file, this
+		closes the file, making it permanent on disk.
+
+		If {PRINT, Config, Page eject on Finish/Eject} is set, a page
+		eject is also sent to the printer (or print file).
+
+		Use this item following one or more {PRINT, Block}.
+
+Eject		Advances the printer to the top of the next page. (Depending
+		upon configuration, either line feeds or a form feed is
+		used.)
+
+		Use this item to start printing on a new page without
+		releasing the print job (or closing the print file).
+
+		On a non-network DOS printer, there is no noticeable
+		difference between "Finish/Eject" and "Eject".
+
+Reset		Resets VEDIT to assume printer is at the top of a page.
+
+Config		Sub-menu - Change configuration of the margins, paper size,
+		line spacing and enabling Form-feeds.
+
+\SM\
+{SEARCH} Menu --
+
+Search		 Performs the same function as [SEARCH].
+
+Replace		 Performs the same function as [REPLACE].
+
+Again		 Performs the same function as [SEARCH AGAIN].
+
+Compare buffers	 Compares the current buffer (file) with the selected one.
+		 The comparison starts at the current cursor position of both
+		 buffers, and both cursor positions are advanced over all
+		 matching characters.
+
+		 If only two files are being edited, it skips the selection
+		 prompt and immediately compares against the "other" file.
+
+Config		 Sub-menu - enable/disable regular expressions and select
+		 whether the search distinguishes between upper and lower
+		 case letters.
+
+\WI\
+{WINDOW} Menu --
+
+Create		Creates a new window by splitting the current window. Prompts
+		for window position, name and size.
+
+Delete		Prompts for and deletes the selected window. Only the "@"
+		window cannot be deleted. Switches to the main "@" edit
+		buffer and window.
+
+Switch		Switches to the selected window, if it exists. (Press <Enter>
+		to get the pick-list). It also switches to the edit buffer
+		displayed in that window (if any).
+
+Window toggle	Toggles between the windows displayed on the screen. If a
+		window is currently zoomed, it first de-zooms the window.
+
+		Combined with {FILE, Buffer toggle} you can display any file
+		in any desired window.
+
+Horiz. split	Splits the current window into two horizontal windows which
+		display the same file.
+
+Vertical split	Splits the current window into two vertical windows which
+		display the same file.
+
+	NOTE:	Use {FILE, Buffer toggle} to display a different file in the
+		new window.
+
+Hex-mode split	Splits the current window into two vertical windows which
+		display the same file. The left window is in hexadecimal,
+		the right window is in ASCII.
+
+Toggle display	Toggles the current window through seven display modes,
+mode		including hexadecimal and EBCDIC. (These modes can also be
+		set with {CONFIG, Screen display, Screen display mode}).
+
+Remove all	Removes (deletes) all windows and initializes the screen;
+		resets the display mode and screen colors (attributes).
+
+Zoom		Zooms current window to full screen. Remains in effect until
+		the editor switches to another window. Selected again, it
+		de-zooms the window, re-displaying all windows.
+
+\CF\
+{CONFIG} Menu --
+
+Tab stops	 Display/change the current tab stops.
+
+Word processing	 Display/change left/right margins, enable justification.
+
+Programming	 Access features that aid in writing programs.
+
+Colors		 Display/change any of the screen colors.
+
+Screen display	 Access screen display modes, enable scroll bars.
+
+Emulation	 Access features for emulating other word processors.
+
+File handling	 Access to file handling parameters.
+
+Misc		 Access to cursor and keyboard options; beep and help levels.
+
+Save into VEDIT  Saves any configuration changes and, optionally, any new
+		 keystroke macros into VEDIT to make them permanent.
+
+Save to disk	 Saves the current configuration to a disk file, typically
+		 "VEDIT.CFG". This file can easily be edited and then loaded
+		 back into VEDIT.
+
+Load from disk	 Loads new configuration values from a disk file, typically
+		 "VEDIT.CFG".
+
+	NOTE:	 Use {MISC, Keyboard layout} to change keyboard layout.
+		 Use {PRINT, Config} to change printer configuration.
+		 Use {SEARCH, Config} to change search configuration.
+\EM\
+ESCAPE Menu --		(Press [ESCAPE] again to escape from this menu.)
+
+Command Mode		Escapes to Command Mode; stops any Command Macro
+			that is running. Same as [VISUAL ESCAPE].
+
+Remove block markers	Removes any block markers that are currently set.
+			The messages "1-END" or "BLOCK" will disappear from
+			the status line. Same as {BLOCK, Remove markers}.
+
+Exit			Displays each altered buffer (file) and prompts
+			whether it is to be saved or abandoned. It repeats
+			this for each buffer and then exits VEDIT. The
+			"[A]ll" option saves all files and exits.
+			Same as {FILE, Exit}.
+
+\UN\
+{EDIT, Undo} Sub-Menu --
+
+Edit		Each time pressed, restores the effect of the previous key-
+		stroke.
+
+Line		Restores the current line to its earlier condition. Pressed
+		again, it moves to the previously accessed line. Pressed
+		again, it restores the previously changed line.
+
+Deletion	Inserts the most recently deleted text (of 3 or more
+		characters) at the cursor. Pressed again inserts the
+		previously deleted text and so on.
+
+Reset		Resets the Undo stacks. Permits setting a starting point for
+		extensive Undo later.
+
+\LU\
+{EDIT, Lower/Upper case} Sub-menu --
+
+Changes the case of a letter; other characters are not affected. Works on a
+single character or, if the cursor is within a highlighted block, on the
+entire block.
+
+Lower case		Force letter(s) to lower case.
+
+Upper case		Force letter(s) to upper case.
+
+Switch case		Switch the case of the letters.
+
+\KM\
+{MISC, Keyboard layout} Sub-menu --
+
+Add macro	Adds a keystroke macro to the keyboard layout. First prompts
+		for the key that will perform the keystroke macro. Then
+		prompts for the keystrokes that constitute the macro. You can
+		edit the keystroke macro using [BACKSPACE].
+
+		Keystroke macros let you assign a frequently typed sequence
+		of keys to an unused function or control key. They permit
+		"hot key" access to common menu functions. Custom edit
+		functions can be created through use of the Command Mode.
+
+Record macro	Adds a keystroke macro by recording your editing operations
+		while you make them. The status line indicates this special
+		mode with "Record macro" on the left side. The right side
+		indicates the key-press needed to stop the recording.
+
+	NOTE:	Use {CONFIG, Save into VEDIT} to permanently add new
+		keystroke macros to VEDIT.
+
+Change layout	Lets you change the keyboard layout for the basic edit
+		functions.
+
+Display layout	Displays the keyboard layout. Either the entire layout or
+		just the keystroke macros can be displayed.
+
+Print layout	Prints the keyboard layout. Either the entire layout or just
+		the keystroke macros can be printed.
+
+Save to disk	Saves the entire keyboard layout including any newly added
+		keystroke macro to a disk file. This file can easily be
+		edited and then loaded back into VEDIT.
+
+Load from disk	Load an entire new keyboard layout including new keystroke
+		macros from a disk file. Examples files to load are
+		"WORDSTAR.KEY" and "WORDPERF.KEY".
+
+\PC\ {PRINT, Config} Sub-menu --
+Paper length		Set to the LENGTH of the paper in lines, typically
+			66. The number of lines printed per page is the paper
+			size minus the top and bottom margins.
+
+Top margin		The number of blank lines printed at the top of each
+			page. A value of "0" causes printing to start on the
+			very first line.
+
+Bottom margin		The number of blank lines printed at the bottom of
+			each page.
+
+Left margin		This is the number of columns that all text is offset
+			from the left edge of the paper.
+
+	NOTE:		If all three margins are set to zero (0), the text is
+			printed without any formatting.
+
+
+Line spacing		Determines whether text is single spaced (1), double
+			spaced (2) or triple spaced (3).
+
+Enable Form-feed	When enabled, VEDIT uses a Form-feed character to
+			advance to a new page;  otherwise multiple Line-feeds
+			are used. Any Form-feed character in the text also
+			signals VEDIT to start a new page.
+
+Page eject on		Determines whether a page eject is included at the
+Finish/Eject		end of each print job, i.e. with {PRINT, All} and
+			{PRINT, Finish/Eject}. Normally enabled for non-
+			network DOS printers and disabled for network and
+			UNIX printers.
+
+Printer		Selects the printer device:
+		0 = Default	The default printer can be changed below.
+		1 = LPT1:
+		2 = LPT2:
+		3 = LPT3:
+		4 = COM1:
+		5 = COM2:
+		6 = COM3:
+		7 = file	Each time you start a new print job, you will
+				be prompted for the filename.
+
+Change default printer	Selects the device to which VEDIT prints when
+			{PRINT, Config, Printer} is set to "0". Under DOS,
+			this is initially "PRN" (under UNIX/QNX, it is "lp").
+			This device can also be changed to a filename such
+			as "VEDITPRN.PRN"; however, each print job will then
+			overwrite the previous one.
+
+\SC\ {SEARCH, Config} Sub-menu --
+Equate Upper/Lower case during search
+
+	Determines whether upper and lower case letters are equated when
+	searching and replacing. Typically they are equated so that the
+	string "why" will match "Why", "WHY" and "why".
+
+Regular expression search mode
+
+	Enables and disables the regular expression searching mode. When
+	enabled, normal pattern matching is disabled.
+Maximize Regular expression matching
+
+	Determines whether regular expressions attempt to match the largest
+	possible string.
+
+	Consider the search string "a.+b" and the text "12a3456b7890b". When
+	set to "No", it will match "a3456b"; when set to "Yes" it will match
+	"a3456b7890b".
+
+\GW\ {CONFIG, Word processing} Sub-menu --
+Left margin  (0 - 80)
+
+	The left margin used for formatting paragraphs. It is also the
+	"Indent position" in Visual Mode and can also be changed with
+	[INDENT] and [INDENT].
+
+Right margin  (0=Off, 1 - 255)
+	The right margin used for word wrap and for formatting paragraphs. A
+	value of "0" disables both word wrap and formatting. It should be
+	disabled when editing programs!
+
+Justify paragraphs  (0=Off, 1=On, 2=Unjustify)
+
+	Determines whether {EDIT, Format paragraph} will also justify the
+	formatted paragraph. "0" disables justification; "1" enables
+	justification. "2" will "unjustify" the paragraph, removing extra
+	spaces.
+
+\GP\ {CONFIG, Programming} Sub-menu --
+Auto-indent mode
+
+	When enabled, the indent position for a new line of text is initially
+	the same as for the previous line of text. This is convenient for
+	programming in 'C', Pascal, PL/I, etc. The indent position can then
+	be changed with [INDENT] and [UNDENT].
+
+
+
+
+Indent increment  (1 - 20)
+
+	Controls how much further the editor indents each time [INDENT] is
+	pressed.
+
+
+
+
+
+
+Lower/upper case key conversion  (0 - 3)
+
+	Determines whether lower case characters are converted to upper case.
+
+	0 - No conversion takes place.
+	1 - All lower case letters are converted to upper case.
+	2 - Lower case letters are converted to upper case, unless the cursor
+	    is past a "special" character set by parameter (5). Primarily
+	    applicable to assembly language programming, where it is
+	    desirable to have the Label, Opcode and Operand in upper case and
+	    the comment in upper and lower case.
+	3 - Similar to (2) except that characters are reversed instead of
+	    being forced to upper case.
+
+Conditional conversion character  (32 - 126)
+
+	Sets the conditional upper/lower case conversion character used
+	above.
+
+\GC\ {CONFIG, Colors} Sub-menu --
+Black on Blue	  16	Blue on Black	  1	Green on Black	  2
+	 Green	  32		Green	 33		 Blue	 18
+	 Cyan	  48		Cyan	 49		 Cyan	 50
+	 Red	  64		Red	 65		 Red	 66
+	 Magenta  80		Magenta  81		 Magenta 82
+	 Brown	  96		Brown	 97		 Brown	 98
+	 White	 112		White	113		 White  114
+
+Note:	Add 8 if you want "bright" colors. "Bright black" is grey. "Bright
+	Brown" is really yellow.
+
+Cyan on Black	  3	Red on  Black	  4	Magenta on Black   5
+	Blue	 19		Blue	 20		   Blue	  21
+	Green	 35		Green	 36		   Green  37
+	Red	 67		Cyan	 52		   Cyan	  53
+	Magenta	 83		Magenta	 84		   Red	  69
+	Brown	 99		Brown	100		   Brown 101
+	White	115		White	116		   White 117
+
+
+
+Brown on Black	  6	White on Black	  7	Yellow on Black	  14
+	 Blue	 22		 Blue	 23		  Blue	  30
+	 Green	 38		 Green	 39		  Green	  46
+	 Cyan	 54		 Cyan	 55		  Cyan	  62
+	 Red	 70		 Red	 71		  Red	  78
+	 Magenta 86		 Magenta 87		  Magenta 94
+	 White	111		 Brown	103		  Brown	 110
+							  White	 119
+
+
+Edited text		Color of the text being edited.
+
+Status line		Color of the status line, filename, line and column
+			numbers.
+
+Status line messages	Color of the "BLOCK", "INS" and other messages.
+
+Window border		Color of the borders around editing windows.
+
+Window border message	Color of the "WINDOW" message of the active window.
+
+Dialog prompts		Color of the pop-up dialog boxes.
+
+Main menu		Color of the main menu bar
+
+Main menu selection	Color of the letter that selects each main menu item.
+
+Main menu highlighting	Color of the item which is currently selected.
+
+Pull-down menu		Color of the pull-down menus
+
+Pull-down menu selection	Color of the letter which selects each
+				pull-down menu item.
+
+Pull-down menu (override)	Override color for the sub-menu item which is
+				currently selected. If "0", the reverse video
+				of "Pull-down menu" is used.
+
+Block highlighting (override)	Override color for blocks being highlighted.
+				If "0", the reverse video of the text color
+				is used.
+
+Cursor (override)		Override color for the (non-system) cursor.
+				If "0", the reverse video of the text color
+				is used.
+
+Screen erase (override)		Override for portion of editing window where
+				there is no text. If "0", the same color as
+				the text is used.
+
+Help window (override)		Override for pop-up help windows. If "0", the
+				same color as the current text is used.
+
+Inactive menu items (override)	Override for items in the {BLOCK} menu which
+				are currently inactive. If "0", the same
+				color as "Pull-down menu" is used.
+
+Current line (override)		Override for the current line when {CONFIG,
+				Screen display, Highlight cursor line} is
+				enabled. If "0", the current line is
+				displayed in "bright" characters.
+
+\GD\ {CONFIG, Screen display} Sub-menu --
+Window borders (0=None, 1=Partial, 2=Full)
+
+	Controls the type of borders editing windows will have.
+	0 - No borders. Difficult to tell one window from another unless each
+	    window is in a different color.
+	1 - Minimal borders (default) are used, and only when necessary.
+	2 - Full borders are drawn around each window.
+
+	Note: If scroll bars are enabled, full borders are always used.
+
+Enable scroll bars
+
+	Determines whether editing windows are displayed with scroll bars
+	and full borders; this simplifies mouse operation. Scroll bars are
+	only displayed with windows used for Visual Mode editing, Command
+	Mode windows will have full borders but no scroll bars.
+
+	Since a change does not affect current windows, you must use
+	{WINDOW, Remove all} for the change to take effect.
+
+Enable sub-menu preview
+
+	When set to "Yes", sub-menus are displayed before they are selected.
+	This is non-standard, but is particularly useful when browsing the
+	sub-menus in the {CONFIG} menu. When using a mouse, sub-menus are
+	always previewed as is typical in other programs.
+
+
+
+
+Highlight cursor line
+
+	When set to "Yes", the entire line the cursor is on is highlighted.
+	By default, the highlighting is displayed using "bright" characters.
+	Or select an overriding color with {CONFIG, Colors, Color override
+	for current line.}
+
+
+
+
+Screen display mode (0 - 16)
+
+	Controls in what mode characters are displayed.
+
+	This option combines five options into one by having you add "mask"
+	values (setting bits) for each desired sub-option.
+
+	The base value of "0" displays all characters literally except <Tab>,
+	<CR> and <LF>.
+
+	Mask 1 -  Display control characters in the format "^x".
+	Mask 2 -  Display graphics characters in the format "<nnn>".
+	Mask 4 -  Display <Tab>, <CR> and <LF> literally (when possible).
+		  Used in the ASCII window of a Hex/ASCII window split.
+	Mask 8 -  Display all characters in hexadecimal.
+	Mask 16 - Display all characters in EBCDIC.
+
+
+
+
+	{WINDOW, Toggle display mode} toggles through these seven values:
+
+	0 -  Display graphics chars; display CTRL chars literally.
+	1 -  Display graphics chars; display CTRL chars as "^x".
+	2 -  Display graphics chars as "<nnn>"; display CTRL chars literally.
+	3 -  Expand graphics chars to "<nnn>"; display CTRL chars as "^x".
+	4 -  Normal value in the ASCII window following {WINDOW, Hex split}.
+	8 -  Normal value in the Hex window following {WINDOW, Hex split}.
+	16 - Display all characters in EBCDIC.
+
+Newline display character (0 - 255)
+
+	The character displayed at the end of each line in Visual Mode where
+	the "newline" normally is. The default "space" (value 32) is, of
+	course, not visible. Visible candidates on an IBM PC include values
+	11 and 14.
+
+Note:	This character is only displayed when Mask-4 and Mask-8 of "Screen
+	display mode" are both reset, i.e. not in "hex" mode.
+
+Tab display character (0 - 255)
+
+	The fill-character used to display tab characters on the screen. By
+	default "spaces" (value 32) are displayed to the next tab position.
+	If you need a better indication of where tab characters are, pick
+	another character such as a "period" (value 46) or value 4.
+
+Note:	This character is only displayed when Mask-4 and Mask-8 of "Screen
+	display mode" are both reset, i.e. not in "hex" mode.
+
+\GE\ {CONFIG, Emulation} Sub-menu --
+Cursor positioning mode (0 - 4)
+
+	Controls how the cursor moves on the screen where there is no text.
+
+	0 - Cursor positions only to real text.
+	1 - Cursor moves straight up/down past short lines.
+	2 - Cursor zig-zags up/down past short lines.
+	3 - Cursor moves as (1), pads when inserting past line.
+	4 - Cursor moves anywhere, pads when inserting past line.
+
+Typewriter emulation mode (0 - 7)
+	0 - [TAB CHAR] and <Enter> always insert respective characters.
+	1 - [TAB CHAR] performs [NEXT TAB STOP] in "Overstrike" mode and
+	    inserts a Tab character in "Insert" mode.
+	2 - [TAB CHAR] always inserts; <Enter> performs [NEXT LINE] in
+	    "Overstrike" mode and inserts a "newline" in "Insert" mode.
+	3 - [TAB CHAR] same as mode "1"; <Enter> same as mode "2".
+	4 - [TAB CHAR] always inserts; <Enter> always performs [NEXT LINE].
+	5 - [TAB CHAR] same as mode "1"; <Enter> always performs [NEXT LINE].
+more...
+	6 - [TAB CHAR] always inserts; <Enter> inserts a "newline" following
+	    the current line (opens a new line).
+	7 - [TAB CHAR] same as mode "1"; <Enter> same as mode "6".
+
+
+
+
+
+
+
+[BACKSPACE] emulation mode (0 - 3)
+
+	0 - Always deletes the preceding character including "newline".
+	1 - Only deletes in "Insert" mode, just moves the cursor left in
+	    "Overstrike" mode.
+	2 - Always deletes the preceding character, but stops at the
+	    beginning of the line.
+	3 - Only deletes in "Insert" mode and stops at the beginning of line.
+
+
+Line emulation mode (0 - 5)
+	0 - [LINE BEGIN] and [LINE END] move to 1st/last character only on
+	    the current screen line. Successive presses have no effect.
+	1 - Move to 1st/last character of current text line. Successive
+	    presses have no effect.
+	2 - Move to 1st/last char only on current screen line. Successive
+	    presses move to preceding/next screen line.
+	3 - Move to 1st/last char on current text line. Successive presses
+	    move to preceding/next text line.
+more...
+
+	4 - Move to 1st/last char only on current screen line; otherwise
+	    same as mode "5".
+	5 - Move to 1st/last char on current text line. 2nd [LINE BEGIN]
+	    moves to beginning of screen; 3rd moves to beginning of file.
+	    2nd [LINE END] moves to end of screen; 3rd moves to end of file.
+
+
+
+
+
+Special emulation modes (0 - 255)
+
+	Enables special emulation modes. "0" disables the special modes.
+
+	This option combines several options into one by having you add
+	"mask" values (setting bits) for each desired sub-option.
+
+	VEDIT accepts numeric expressions on input; therefore you can, for
+	example, enter "8+32+64".
+
+	Mask 1  - [SCREEN BEGIN] / [SCREEN END] goto 1st/last column on line.
+	Mask 2  - [SCROLL UP] / [SCROLL DOWN] leave cursor in screen line.
+	Mask 4  - Unused.
+	Mask 8  - [CURSOR RIGHT] and [CURSOR LEFT] don't wrap.
+	Mask 16 - Last char, not newline, is last line position (vi only).
+	Mask 32 - [DELETE] doesn't delete newline.
+	Mask 64 - [DELETE] doesn't delete block.
+	Mask 128- [SEARCH] and [REPLACE] also perform [SEARCH AGAIN]
+
+
+Expand <Tab> key with spaces
+
+	Determines whether the [TAB CHARACTER] key is expanded with spaces to
+	the next tab position. If not, a Tab character is inserted into the
+	text. Tab characters are normally used to save disk space.
+
+NOTE:	If you enable this option, you will probably want to disable {CONFIG,
+	Emulation, Retab after columnar block insert} to prevent columnar-
+	block operations from inserting Tab characters.
+
+Auto-Cancel block markers
+
+	Determines whether the new block of text is highlighted following a
+	direct block copy or move.
+
+	No  - New block of text is highlighted. This emulates WordStar,
+	      Sidekick, etc., but requires an extra step to remove markers.
+	Yes - Auto-cancel markers so that block markers are reset/removed
+	      following a direct copy or move.
+
+Horizontal scroll margin  (0 = Off, 40 - 255)
+
+	Sets the maximum right margin for scrolling. Text lines longer than
+	this "scroll margin" are wrapped to the next screen line. Typically
+	set to 79 to have long lines wrapped on the screen. Set to "0" to
+	disable the margin and have long lines extend indefinitely to the
+	right.
+
+
+
+Horizontal scroll increment  (1 - 100)
+
+	Determines how much the screen scrolls right or left when [SCROLL
+	RIGHT] and [SCROLL LEFT] are pressed or VEDIT scrolls automatically.
+
+
+
+
+
+
+Retab after columnar block insert
+
+	Controls whether sequences of spaces in a columnar block insertion
+	are converted to Tab characters. During a columnar block copy/move to
+	a text register, tab characters are always converted to spaces. When
+	a columnar register is inserted or "Copy/Move to cursor" is
+	performed, and this switch enabled, the spaces in the inserted text
+	are converted to tab characters.
+
+	This switch does not affect normal (non-columnar) block operations.
+
+
+Trim spaces after columnar block insert
+
+	Controls whether the trailing spaces of a columnar block insertion at
+	the end of lines are removed. This only trims spaces on those lines
+	involved in the insertion.
+
+
+
+
+
+Advance cursor past block insert
+
+	Determines whether the cursor advances following a block, text
+	register or file insertion.
+
+	No  - The cursor is not moved and is left at the beginning of the
+	      inserted text.
+	Yes - The cursor is advanced past the inserted text.
+
+\GF\ {CONFIG, File handling} Sub-menu --
+Auto-save interval (0=Off, minutes)
+
+	Controls the auto-file-save feature. "0" disables it. Otherwise,
+	VEDIT will save all modified files after the configured number of
+	minutes (1 - 255) from the time of the last auto-save -OR- you
+	manually selected {FILE, Save All}.
+
+
+
+
+Enable global file operations
+
+	Enables/disables the "global option". Applies primarily to the
+	Command Mode, but also controls whether "global" or "far" searching
+	to the end of the file is the default for [SEARCH] and [REPLACE].
+
+Enable backup files
+
+	Controls whether backup files are created, i.e. whether the original
+	file is renamed to "filename.BAK".
+
+Enable fast browse mode
+
+	Only applicable when VEDIT has been started in browse mode ("-b"),
+	the current file is a "read-only" file or you selected {FILE, Browse
+	mode} before editing the current file.
+
+	When enabled, {GOTO, Beginning of file}, {GOTO, End of file} and
+	relative jumps with the mouse will be instantaneous; however, the
+	current line number will not always be known. When disabled, browsing
+	is slower, but the line number is always displayed.
+
+Use V-SWAP when entering DOS
+
+	Determines whether VEDIT will use the V-SWAP program (when already
+	installed in memory) to swap itself out of memory when entering DOS.
+	No error is given if V-SWAP is not in memory.
+
+
+
+
+
+E-O-F processing (0=Off, 1=Truncate, 2=EOF Mark, 3=Padding)
+	Controls how VEDIT deals with the Ctrl-Z End-Of-File marker used in
+	some DOS text files. If enabled, VEDIT does not read past the first
+	Ctrl-Z and will not insert Ctrl-Z characters.
+
+	0 - Normal text/binary file. Ctrl-Z is not treated specially.
+	1 - Text file. Files are written in their exact file length.
+	2 - Text file. Files are written with one Ctrl-Z end-of-file marker.
+	3 - Text file. Files are written with one Ctrl-Z and are padded with
+	    zeros to make the file length a multiple of 128.
+
+File type ((0=CR+LF, 1=LF, 2=CR, n=record size)
+
+	Determines the type of file VEDIT assumes it is editing. Controls
+	screen display and some editing operations.
+
+	0=CR+LF	 Each text line ends in both a Carriage-return and Line-feed.
+		 Typical for DOS.
+	1=LF	 Each text line ends in just a Line-feed.
+		 Typical for UNIX/XENIX.
+
+	2=CR	 Each text line ends in just a Carriage-Return.
+		 Typical for Mac.
+
+	n	 Instead of assuming that lines end in a "newline" character,
+	(8-2048) VEDIT treats each line as simply 'n' characters. Useful for
+		 binary files and fixed-length-record data files. Word
+		 processing and columnar operations are not available in this
+		 mode.
+
+
+	Notes:	 Changing this value only affects the current edit buffer.
+
+		 Although VEDIT can edit some binary files, such as .EXE
+		 files, in text mode (file types 0, 1 and 2) you may have
+		 trouble moving the cursor when very long lines are reached.
+		 In this case simply change the "File type" to "64".
+
+
+
+
+Enable auto-file type
+
+	When enabled, VEDIT sets the best file type for each file edited. If
+	a LF is not found within the first 1024 bytes, a binary file is
+	assumed and "File type" is set to "64". If a LF is found, the "File
+	type" is set to "0" or "1" depending upon whether the previous
+	character is a CR.
+
+	You can override the "File type" if VEDIT sets it incorrectly for
+	your needs.
+
+\GM\ {CONFIG, Misc} Sub-menu --
+Cursor type in overstrike mode  (0 - 6)
+Cursor type in insert mode  (0 - 6)
+
+	The displayed cursor type used in overstrike and insert modes.
+	Types 1, 2, 4, 5 and 6 are best on the IBM PC.
+
+	0 - Blinking Underline (configurable) character
+	1 - Blinking Reverse Video Block - variable blink rate
+	2 - Solid Reverse Video Block
+	3 - Attribute  (uses IBM PC "blink" attribute)
+	4 - Thin system cursor (IBM PC only)
+	5 - Medium system cursor
+	6 - Full-height system cursor
+
+Cursor blink rate  (10 - 255)
+
+	The cursor's blink rate for cursor types 0 and 1. A smaller number
+	causes the cursor to blink faster.
+
+
+
+
+
+
+Keyboard input options  (0 - 15)
+
+	Controls processing of keyboard characters. Only rarely changed!
+
+	This option combines four options into one by having you add "mask"
+	values (setting bits) for each desired sub-option.
+
+	The base value of "0" strips 8 bit characters, discards unassigned
+	control keys and preserves the case of letters.
+
+	Mask 1 - Enable 8 bit (graphics) keyboard characters.
+	Mask 2 - Treat 8 bit characters as function keys.
+	Mask 4 - Enter unassigned function/control keys into the text.
+	Mask 8 - Reverse the case of all letters, e.g. typing "a" gives you
+		 "A" and typing "A" gives you "a".
+
+
+
+
+
+Beep level (0 - 4)
+
+	Controls under what conditions VEDIT produces a beep on the speaker.
+
+	0 - Never.
+	1 - Only from the macro language (YA command).
+	2 - Also when pressing invalid keys in dialog boxes.
+	3 - Also when pressing invalid keys in the menu system.
+	4 - Also when pressing unassigned function keys.
+
+Help level (0 - 1)
+
+	Enables the help line at the bottom of the screen within the menu
+	system and during Point & Shoot file selection. "0" turns off this
+	line.
+
+
+
+
+
+Mouse options (0=Off, 1=Corner, 2=Center)
+
+	Controls mouse support and where the mouse cursor is initially
+	placed.
+
+	0 - Disable mouse support.
+	1 - Enable mouse support, place mouse cursor in top left corner
+	    where it is "invisible".
+	2 - Enable mouse support, place mouse cursor in center of screen.
+
+	To select any "compatibility" options, add the "mask" value to your
+	choice of "1" or "2" above.
+
+	+128	Supports very old mouse drivers. Rarely if ever needed.
+	+64	Causes VEDIT to perform a "Hardware/software" mouse reset
+		upon startup. May be needed to support Mouse Systems drivers.
+	+32	Causes VEDIT to reset the mouse following {MISC, DOS Shell}
+		or {MISC, Run DOS program}.
+
+
+Keyboard typematic rate (0=Normal, 1 - 32)
+
+	Controls how fast the keyboard will repeat when a key is held down.
+	It is only applicable with IBM PC AT and PS/2 type keyboards.
+
+	Higher numbers repeat faster. With value "0" VEDIT does not change
+	the existing "typematic" rate.
+
+\TR\
+Select text register -- Copy/Move to register; Insert register
+
+Press the single character name of the desired text register: "0" - "9" or
+"A" - "Z". Or press <Enter> or any function key to select register "0".
+
+Optionally, on a "Copy to register" or "Move to register" operation, the name
+may be preceded with "+" to append the block to any text already in the
+register, or with "-" to insert the block before any text in the register.
+
+Note: Don't press the "Grey -" and "Grey +" to select appending or inserting.
+
+\TM\
+Select text marker -- (Set marker; Goto marker)
+
+Press a digit "0" - "9" to select the desired text marker. Or press <Enter>
+or any function key to select marker "0".
+
+Up to 10 invisible markers may be set for remembering positions in a file and
+returning to them later. Markers "stick" to particular characters.
+Attempting to go to a marker that has not been set has no effect.
+
+\XM\
+Load/Execute macro and Execute macro --
+
+Press the single character name of the text register that will hold the
+command macro: "0" - "9" or "A" - "Z". Pressing <Enter> uses the default
+register "Z".
+
+Enter the filename of the command macro. The default ".VDM" can be left off;
+VEDIT's "Home directory" is searched automatically. Press <Enter> for a
+simple point&shoot selection from all ".VDM" files in the VEDIT Home
+Directory.
+
+Once a macro is loaded into a text register, use {MISC, Execute macro} to run
+or re-run the macro. You are only prompted for the register name.
+
+\CT\
+Display/Change Tab stops --
+
+Displays the current tab stops. Press "Y" to change positions. If you want a
+constant tab interval, e.g. "8", enter the single number and press <Enter>.
+Otherwise, enter all of the explicit tab stops followed by one <Enter>. (The
+cursor automatically moves to the next line if needed.)
+
+NOTES:	Any tab characters past the last explicit tab stops will be displayed
+	as normal control characters.
+
+	Setting a tab interval of "0" causes all tab characters to be
+	displayed as normal control chars.
+
+ 	This changes the tab stops in all edit buffers. The Command Mode "ET"
+	command is more flexible.
+
+\AT\
+ASCII table --		Display the ASCII table; insert any value.
+
+All 256 characters are displayed with their decimal values. The first 32
+control characters are also displayed in the common expanded "^" format.
+Press <Enter> to see the next page of characters. Press "I" to enter a
+particular character - you will be prompted for its decimal value.
+
+Note:	You can also enter control chars directly using [ENTER CTRL] or
+	{EDIT, Enter CTRL char}. Box drawing characters can be entered
+	directly using the IBM PC keyboard's "ALT keypad" feature.
+
+\FC\ \FN\
+{FILE, Close} and {FILE, Open}-S prompt -- Save or abandon the current file.
+
+[Y]es		Saves the changes to the current file.
+
+[N]o		Abandons (quits) the current file. The changes to the current
+		file are not saved.
+
+\FO\
+{FILE, Open} prompt -- Open another file for editing.
+
+[S]ame		Opens the file in the current buffer. If it contains an
+		altered file, you will be prompted whether to save or abandon
+		the changes.
+
+[V]ertical	Opens the file in a new buffer and displays the file in a new
+		vertical window.
+
+[H]orizontal	Opens the file in a new buffer and displays the file in a new
+		horizontal window.
+
+[N]o window	Opens the file in a new buffer and displays the file in the
+		current window.
+
+\FE\
+{FILE, Exit} prompt -- Save/abandon file(s) and exit.
+
+[Y]es		Saves the specified file; if the file has no assigned
+		filename, you are prompted for one. If this is the last
+		altered file, it exits VEDIT, otherwise it prompts for the
+		next file.
+
+[N]o-abandon	Abandons (quits) the specified file; the changes are not
+		saved. If this is the last altered file, it exits VEDIT,
+		otherwise it prompts for the next file.
+
+[S]ave-all	Saves all remaining files being edited and exits VEDIT.
+		Note: it only saves those files (buffers) that have assigned
+		filenames!
+
+[Q]uit-all	Abandons all remaining files being edited and exits VEDIT.
+		The files ARE NOT SAVED TO DISK. Use with Care!
+
+[C]ancel	Does not save/abandon any more files and returns to editing.
+
+\QF\
+Abandon (quit) altered file [Y]es [N]o -- Confirmation for "EQ" command
+
+[Y]es		Abandons the current file without saving any changes. If this
+		is the last altered file, it exits VEDIT, otherwise it
+		repeats for the next file.
+
+[N]o		Cancels the command; does not abandon the file.
+
+\QA\
+Abandon (quit) all files [Y]es [N]o -- Confirmation for {FILE, Exit}-Q
+
+[Y]es		Abandons all files being edited and exits VEDIT.
+		The files ARE NOT SAVED TO DISK. Use with Care!
+
+[N]o		Cancels the command; does not abandon any files.
+
+\FF\
+"Enter filename" prompt --
+
+Enter the name of the desired file. You can include a full drive and path
+specification. Examples: "letter2.txt", "c:\documents\family\letter2.txt".
+
+-OR-	Just press <Enter> to select the file via "Point & Shoot".
+
+-OR-	Enter a 'filespec' such as "*.txt" to select via Point & Shoot only
+	from those files ending in ".txt".
+
+\SF\
+Point & Shoot file selection --
+
+To select a file, use the cursor keys to highlight the desired filename and
+press <Enter>. When there are many files, [PAGE UP] and [PAGE DOWN] may help
+in viewing the filenames; [LINE END] (<End>) highlights the last filename and
+[LINE BEGIN] (<Home>) highlights the first filename.
+
+To select a filename by incremental searching, type the first characters of
+the filename. The first (or nearest) filename matching those characters will
+be highlighted. Press [LINE BEGIN] (<Home>) to reset the incremental search.
+
+Selecting the special filename ".." moves up in the directory structure. Any
+directories are displayed before other filenames and are indicated with a
+following "\". Selecting a subdirectory moves to that subdirectory.
+
+The top line displays the current "filespec" consisting of the drive,
+directory name and the wildcard "filter" that determines which filenames are
+displayed. Press [CURSOR UP] to recall previously entered filespecs.
+
+Press [TAB CHAR] (<Tab>) to access the top line and enter a new filespec.
+
+Press [ESCAPE] to cancel the point & shoot operation.
+
+Use {FILE, Directory (change)} to change the default "current" directory.
+
+\AM\
+Add keystroke macro --
+
+Adds new keystroke macros to the keyboard layout. Also modifies and deletes
+existing ones. Immediately press [ESCAPE] to cancel this function.
+
+For "Function/control key" press the function (or <ALT>) key to which a
+sequence of keystrokes will be assigned. Then press [ESCAPE].
+
+For "Edit sequence" enter the keystrokes exactly as you would type them to
+perform the desired editing operation. Press [ESCAPE] again.
+
+To edit an existing keystroke macro, enter the corresponding key at the first
+prompt. Press the key again at the second prompt. This will display the
+entire keystroke sequence. Then use [BACKSPACE] to delete keystrokes from the
+end and enter the revised keystrokes.
+
+To delete an existing keystroke macro, enter the corresponding key at the
+first prompt. At the "Edit sequence" prompt, immediately press [ESCAPE].
+
+Alternatively, use {MISC, Keyboard layout, Record macro} to add a new
+keystroke macro by recording your editing operations as you make them.
+
+Use {CONFIG, Save into VEDIT} to permanently add new keystroke macros to
+VEDIT.
+
+\LM\
+Record macro --
+
+Adds a new keystroke macro to the keyboard layout. First prompts for
+"Function/control key" - this is usually an unused function (or <ALT>) key to
+which a sequence of keystrokes are then assigned. Follow with [ESCAPE].
+
+The status line will display "Record macro" to indicate that all editing
+operations are now being recorded. The status line also indicates the
+key-press needed to turn off the recording. This is either the "hot-key"
+for {MISC, Keyboard layout, Record macro} (default: Alt-K) or <Ctrl-]>.
+
+Alternatively, new keystroke macros can be added using {MISC, Keyboard
+layout, Add macro}. In particular, "Add macro" should be used for macros
+that involve the VEDIT PLUS macro language, i.e. begin with "[VISUAL EXIT]".
+
+\KC\
+Change keyboard layout --
+
+This function lets you change the key assignments for the basic edit
+functions. It does not change or add keystroke macros.
+
+[M]odify layout; [C]reate new basic layout; [D]elete entire layout?
+
+[M]odify	Does not initially delete any assignments. Use this when
+		making small to moderate changes to the keyboard layout.
+
+[C]reate	Deletes all basic edit function assignments from the
+		keyboard layout; it does not delete keystroke macros. Use
+		this when you want to make major changes to the layout but
+		save all existing keystroke macros.
+
+[D]elete	Deletes all key assignments including keystroke macros. Use
+		this only when entering an entirely new keyboard layout.
+
+Beginning with [BACKSPACE], each edit function is displayed, following by
+the current key assignment. If there is none, "Not assigned" is displayed.
+You can then enter a new assignment followed by <Enter>, or advance to the
+next edit function by immediately pressing <Enter>.
+
+You can also type the following character followed by <Enter>:
+
+B	Go back to the beginning, i.e. back to "[BACKSPACE]".
+P	Go to the previous item.
+E	Exit this function and return to normal editing.
+-	Delete the current assignment, changing it to "not assigned".
++	Add a duplicate assignment.
+
+Duplicate assignments permit two (or more) keys to perform the same edit
+function. After entering "+", the name of the edit function is displayed
+again; normally this is followed by "Not assigned" unless there already is a
+duplicate assignment.
+
+When done, VEDIT checks that [ESCAPE] is assigned to some key. If not, it
+is assigned to the <ESC> key. This ensures that enough keys are defined
+to exit VEDIT via the {ESCAPE} menu. Remember that you can use <Space Bar>
+to navigate a menu.
+
+\KD\
+[F]ull layout  [K]eystroke macros only
+
+[F]ull		Displays the full layout which includes the basic keyboard
+		layout and all keystroke macros.
+
+[K]eystroke	Skips displaying the basic layout and displays only the
+		keystroke macros.
+
+\KS\
+Save in [T]ext or [B]inary format -
+
+[T]ext		The keyboard layout is saved in a format that is easy to
+		edit. However this format takes a few seconds to load with
+		{MISC, Keyboard layout, Load from disk}.
+
+[B]inary	The keyboard layout is saved in a format that cannot be
+		easily edited. This format loads very quickly into VEDIT.
+
+\WC\
+Window create --	Splits the current window into two windows.
+
+First prompt determines where in the current window the new window will
+appear. To place the new window at the top press "T", at the bottom press
+"B", at the right press "R", at the left press "L".
+     Then press the single character name for the window. This is generally
+the name of the edit buffer to be displayed in the window. "$" is the name
+of the special Command Mode window.
+     Last, enter the size of the window in lines or columns.
+
+\HB\
+Edit buffer pick-list and info display.
+
+Displays names of the current edit buffers, which window they are attached
+to, and the names of the files being edited. "*" indicates file is altered,
+"!" indicates file is in browse mode.
+
+Type the name of the selected edit buffer. (Mouse: Click on the edit buffer
+name or its surrounding "[ ]".) Press <Enter> to see any additional buffers.
+Press [ESCAPE] or [CANCEL] leave the pick-list and cancel the current
+command.
+
+\GH\
+		-- NO SPECIFIC HELP IS AVAILABLE --
+
+Prompts to "Press" a key require only a single keystroke - do not press
+<Enter>. Prompts to "Enter" a value or string must be followed by <Enter>.
+Press [CANCEL] (<Ctrl-C>) to cancel this operation.
+
+When prompted for a number, you can also enter a numeric expression. For
+example: "1234+854/2", which is identical to "1234+(854/2)".
+
+You can enter numbers in hexadecimal using the format "0Hhhhh". For example:
+"0h29af", which is identical to the decimal number "10671".
+
+Before you press <Enter> you can edit your response using [BACKSPACE],
+[CURSOR RIGHT], [CURSOR LEFT] and [DELETE]. Characters typed in the middle
+of a line are inserted. You do NOT need to move the cursor to the end of
+the line before pressing <Enter>.
+
+Responses can be entered in "Insert" or "Overstrike" mode. Press [INSERT]
+to toggle between the modes. Initally VEDIT is in "Insert" mode. This is
+independent of the Insert/Overstrike mode for normal editing.
+
+\STAT\
+#R		The "#" is followed by the name of the current edit buffer.
+		It does not appear when you are in the main edit buffer.
+
+BLOCK		Indicates that both block markers have been set. The block
+		can be processed from the {BLOCK} menu or printed from the
+		{PRINT} menu. The block markers can be removed (cancelled)
+		by pressing [CANCEL].
+
+C-N-S		On the IBM PC, the status of the Caps/Num/Scroll Lock is
+		displayed on the status line with the single letters "C", "N"
+		and "S".
+
+COL:		Indicates in which column of the text the cursor is located.
+
+Command Mode	Indicates either that a command macros is currently running
+		or that you are in Command Mode. Only the filename and the
+		name of the current edit buffer are displayed on the status
+		line in Command Mode.
+
+DISK		Indicates that the disk is full. This requires immediate
+		attention since the file currently cannot be saved to disk.
+		Use {MISC, DOS shell} to enter DOS and delete unnecessary
+		files. Or use {FILE, Save as} to save the current file on
+		another disk.
+
+EBCDIC		Indicates that the current display mode is "EBCDIC". ASCII
+		text files will display as gibberish.
+
+filename	Indicates the name of the file you are currently editing.
+		Technically it is the name of the "output file" - the name
+		that the file will have when you save it on disk.
+
+		When the filename is preceded with "!", this indicates that
+		the file was opened in "browse-only" mode - you cannot alter
+		the file, but you can browse through it more quickly.
+
+INS		Indicates that you are in "Insert" mode. Any typed text will
+		be inserted and not overwrite the existing text.
+
+LINE:		Indicates on what line of the file the cursor is. When the
+		message is all in capital letters the entire file is memory.
+		Otherwise the message is displayed as follows:
+
+Line:		The beginning of the file is currently in memory, but the end
+		of the file is on disk.
+
+lINE:		The end of the file is currently in memory, but the beginning
+		of the file has been written to disk.
+
+line:		Neither the very beginning nor end of the file is currently
+		in memory - they are both on disk.
+
+POS:		Displays the cursor's character offset into the file when
+		editing in hexadecimal.
+
+RM:		This message is only displayed when a right margin is set and
+		is followed by the margin value.
+
+1-END		Indicates that you have marked one end of a block of text.
+		The block of text is highlighted as you move the cursor. The
+		block block can be processed from the {BLOCK} menu or printed
+		from the {PRINT} menu. The block markers can be removed
+		(cancelled) by pressing [CANCEL] (<Ctrl-C>).
+
+<<		Indicates that the window is horizontally scrolled. It is
+		followed by the column number corresponding to the left side
+		of the screen.
+
+\MARG\
+
+You can set the left margin in the {CONFIG, Word processing} sub-menu or with
+the [INDENT] and [UNDENT] keys which change the margin by an "increment",
+typically 4.
+
+To enable word wrap and paragraph formatting, you must set the right margin
+using the {CONFIG, Word processing} sub-menu. A value of 00 turns word wrap
+off and disables {EDIT, Format paragraph}.
+
+\FORM\
+
+{EDIT, Format paragraph} will format (or re-format) a paragraph between the
+current left and right margins. Optionally, the paragraph will be right
+justified if this is selected from the {CONFIG, Word processing} sub-menu.
+
+After formatting, the cursor moves to the next paragraph. Therefore, you can
+repeatedly select {EDIT, Format paragraph} to format one paragraph after
+another.
+
+REMEMBER:  Paragraphs must be separated from each other by a blank line.
+
+\HZ\
+
+The screen may be scrolled horizontally by pressing [SCROLL RIGHT] and
+[SCROLL LEFT]. The status line indicates how far the screen has been
+scrolled. The horizontal scrolling works in "increments", typically 20
+columns. This increment can be changed with {CONFIG, Emulation, Horizontal
+scroll increment}.
+
+An optional maximum line length (with horizontal scrolling) can be set with
+{CONFIG, Emulation, Horizontal scroll margin}. Lines longer than this margin
+are wrapped to the next screen line. The leftmost screen column is then
+reserved for the "Continuation character". A value of "79" forces long
+lines to simply wrap on the screen with no horizontal scrolling.
+
+\IC\
+To enter control characters into the text first press [ENTER CTRL] (<Ctrl-P>)
+and then type the desired control character such as <Esc>, <Ctrl-C>, etc.
+Control characters are often needed in the text to control printer functions
+such as font changes, underlining and overstrike. Control characters and
+graphics characters can also be inserted using {MISC, ASCII table}.
+
+To enter a "null" (value 00) press [ENTER CTRL] and then <Ctrl-2>.
+
+Graphics characters (with value 128 - 255) can also be inserted using the
+"Alt-Keypad" feature on the IBM PC Keyboard. For example, to enter
+the graphics character "É" hold down the ALT key and type 201 on the keypad
+(not the top row of keys) and release the ALT key.
+
+If you use a sequence of control characters over and over again, you may want
+to store it in a text register and then insert the text register when needed.
+
+\REGEXP\
+			REGULAR EXPRESSIONS
+
+Expressions that match a single character:
+
+.	  (Period) Simple wildcard that matches any character.
+
+[list]	  Matches any one character in the 'list'.
+
+[^list]	  Matches any one character not in the 'list'.
+
+ \b	  Matches the ASCII backspace character (hex 08).
+
+ \dDDD	  Matches the character with decimal value 'DDD'. All three digits
+	  must be present. "010" is not allowed.
+
+ \e	  Matches the ASCII <ESC> character (hex 1B).
+
+ \hHH	  Matches the character with hexadecimal value 'HH'. Both digits
+	  must be present. "0A" is not allowed.
+Press <Enter> to continue: 
+
+ \r	Matches the ASCII CR character (hex 0D) which is not part of the
+	CR-LF end-of-line sequence.
+
+ \s	Matches the ASCII space character (hex 20).
+
+ \t	Matches the ASCII tab character (hex 09).
+
+ \0	(Zero) Matches the ASCII null character (hex 00).
+
+ \	"\" followed by a special character matches that character. The
+	special characters are:
+
+	^  $  .  *  +  ?  -  ~  \  |  [  ]  {  }
+
+Press <Enter> to continue: 
+
+Expressions that match multiple characters:
+
+*	  Matches zero or more occurrences of the preceding single character
+	  matching expression.
+
++	  Matches one or more occurrences of the preceding single character
+	  matching expression.
+
+?	  Matches zero or one occurrences of the preceding single character
+	  matching expression.
+
+ \1 - \9  Matches the same text as was matched by the previous 'n'th group.
+Press <Enter> to continue: 
+
+Other:
+
+^	(Caret) Matches the beginning of a line (when it is the first
+	character in a regular expression).
+
+$	Matches the end of a line (when it is the last character in a regular
+	expression).
+
+{   }	Groups expressions for future reference in either the search string
+	or replacement string.
+
+|	Matches any text that is matched by the preceding OR the following
+	expression. It CANNOT occur within {   }.
+Press <Enter> to continue: 
+
+Replacement Side:
+
+ \1 - \9  Same text as was matched by the 'n'th group on the search side.
+
+ &	   Entire text that was matched by the search expression.
+
+Precedence of operators:
+
+Highest:	\
+
+		[ ]
+
+		* + ?
+
+		{ }
+
+		Concatenation
+
+Lowest:		|
+
+\CONV\
+Several options are available for converting lower case letters to upper
+case. They are controlled with {CONFIG, Program, Lower/upper case key
+conversion}.
+
+0	No conversion is made
+
+1	All lower case letters are converted to upper case
+
+2	Only lower case letters to the left of the "conditional conversion
+	character", typically ";" are converted to upper case. Useful for
+	assembly language programming.
+
+3	To the left of the "conditional conversion character", lower case
+	letters are converted to upper case and upper case letters are
+	converted to lower case.
+
+The "conditional conversion character" may be changed with {CONFIG, Program,
+Conditional conversion character}.
+
+\EMPTY\
+It is best to empty a text register when its contents are no longer needed.
+This frees up more memory space too.
+
+Select {BLOCK, Set marker} and then immediately {BLOCK, Copy to register}. It
+does not matter where the cursor is. When prompted, type the name "0 - 9" or
+"A" - "Z" to specify which register to empty.
+
+Registers can also be emptied in Command Mode. The command to empty register
+9 is "RE(9)", to empty register Z is "RE(Z)", etc.
+
+\FILES\
+It is easiest to edit additional files using the built-in keystroke macros
+in the "normal" and "alternate" keyboard layouts.
+
+<Alt-N>		Opens a new file for editing in the current (same) buffer. If
+		the current buffer contains an altered file, you are prompted
+		whether to save or abandon it. Same as {FILE, Open}-S.
+
+<Alt-O>		Opens a new file for editing in a new buffer. The new file
+		is displayed in the current window. Same as {FILE, Open}-N.
+
+<Alt-Y>		Opens a new file for editing in a new buffer. The new file
+		is displayed in a new horizontal window - the current window
+		is split in half and the bottom is used for the new file.
+		Same as {FILE, Open}-H.
+
+<Alt-T>		Toggles the current window between the files being edited.
+
+<Ctrl-F4>	Closes the current buffer (and file). If the buffer contains
+		altered text, you are prompted whether to save or abandon it.
+		Same as {FILE, Close}.
+
+
+The {FILE} and {WINDOW} menus give you additional flexibility:
+
+{FILE, Open} lets you open a file in either the same buffer or in a new
+buffer. The new buffer can be displayed in either the same window or in a new
+vertically or horizontally split window.
+
+If you need more flexibility in the size of windows, you must explicitly
+create each window with {WINDOW, Create}. Be sure to give each window the
+same name as the edit buffer to be displayed in the window. Then use {FILE,
+Buffer switch} (<F4>) to switch to the desired buffer (it will also switch to
+the corresponding window by the same name). Then select {FILE, Open}-S to
+open a file for editing in this buffer/window.
+
+{WINDOW, Zoom} lets you zoom the window to full screen for easier editing. The
+window will remain zoomed until you switch to another buffer/window.
+
+You can simultaneously edit multiple files without splitting the screen into
+windows:
+
+Use the built-in keystroke macro <Alt-T> to toggle between the files being
+edited. Or use {FILE, Buffer switch} (<F4>) to switch directly to a desired
+edit buffer.
+
+\COMWIN\
+It is often easier to run Command Mode in its own window. Any edit changes
+made in Command Mode are then immediately displayed in the Visual Mode
+window. A window with the special name "$" becomes the Command Mode window.
+
+It is typical to place the Command Mode window at the bottom of the screen.
+First select {WINDOW, Create}. Type "B" (bottom), then "$" (name of Command
+Mode window), and finally the number of lines, typically "5".
+
+\CM\
+You can exit from Visual Mode to Command Mode with [VISUAL EXIT] (<Ctrl-E>)
+or [VISUAL ESCAPE] (<Alt-F8>). In most cases there will is no difference and
+you can press either key. However, if a command macro or an iteration loop
+is executing, [VISUAL EXIT] will exit with the macro or loop still executing,
+while [VISUAL ESCAPE] will abort any macro or iteration loop.
+
+The "Escape" menu function {ESCAPE, Command Mode} is the same as [VISUAL
+ESCAPE].
+
+\M1\ \M2\ \M3\ \M4\ \MOUSE\
+MOUSE SUPPORT - Pull-down menus:
+--------------------------------
+
+To access the menu system, move the mouse to the status line and click the
+left button. To access the "Escape" menu click the right button.
+
+To navigate the menu system, hold down the left button. Sliding the mouse
+along the top screen line displays each sub-menu. Sliding the mouse up/down
+highlights each item or sub-sub-menu. Placing the mouse on an item and
+releasing the left button selects the item.
+
+To escape from the menu system, move the mouse off the menus (into the text)
+and click the left button. This is the same action as [CANCEL].
+
+Pressing both mouse buttons also performs a [CANCEL]. This is best done
+by holding down the left button, clicking the right button and releasing the
+left button.
+
+Clicking the right button within the menu system accesses the on-line help.
+
+
+
+Scroll Bars
+-----------
+
+Standard scroll bar functions are available through use of the left button.
+
+The vertical scroll bar indicates your position with respect to the file. The
+horizontal scroll bar indicates how much the screen is scrolled sideways with
+respect to 1000 columns. (However, you can edit lines longer than 1000
+characters; the scroll bar slider will remain in the rightmost position.)
+
+Clicking an arrow scrolls in the indicated direction. Holding down the left
+button scrolls continuously.
+
+Clicking on the vertical scroll bar above or below the "slider" performs a
+[PAGE UP] or [PAGE DOWN]. You can also drag the slider in order to quickly
+jump to a relative position in the file. This may take some time in
+multi-megabyte files, but will be nearly instantaneous in "browse" mode.
+
+Clicking on the horizontal scroll bar to the left or right of the "slider"
+performs a [SCROLL LEFT] or [SCROLL RIGHT] respectively (typically 20
+columns). You can also drag the slider in order to quickly scroll the screen
+sideways up to 1000 columns.
+
+"Stealth" scroll bars and the right button
+------------------------------------------
+
+The right button performs useful (and non-standard) mouse operations.
+
+When scroll bars are enabled, the right button can also access them. When
+scroll bars are disabled, the rightmost window column is considered a
+"stealth" scroll bar, just as if it were visible. Similarly, the bottom window
+line is the horizontal stealth scroll bar.
+
+Clicking the right button on real or "stealth" arrows scrolls in the desired
+direction. Clicking anywhere on a real or stealth scroll bar immediately jumps
+to the relative position.
+
+To make quick jumps within the file, move the mouse to the relative position
+on the real/stealth vertical scroll bar and click the right button. (This may
+take some time in multi-megabyte files!)
+
+To [PAGE UP] move the mouse to the four rightmost columns of the top line, not
+including the real/stealth scroll bar, and click the right button.
+
+To [PAGE DOWN] move the mouse to the four rightmost columns of the bottom
+line, not including the real/stealth scroll bar, and click the right button.
+
+You can also [SCROLL UP] / [SCROLL DOWN] by moving the mouse anywhere in the
+top/bottom half of the window, respectively, and holding the right button as
+long as desired. Moving the mouse further to the right scrolls the screen
+faster. THIS IS A VERY CONVENIENT WAY TO SCROLL AT VARYING SPEEDS.
+
+In summary, the right button responds to these regions of the window:
+
+ÕÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¸
+³					    PgUp^³
+³		Scroll Up			±³
+³(Slow ....................................Fast)±³
+³						±³
+³						±³
+³						±³
+³						±³
+³						±³
+³		Scroll Down			±³
+³					    PgDn±³
+³<±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±±>v³
+ÔÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ¾
+
+(Note the slight inconsistency in the lower right corner between "real"
+and "stealth" scroll bars.)
+
+Block Operation
+---------------
+
+To move the editing cursor to the mouse position, click the left button.
+
+To highlight a block of text, simply drag the mouse over the desired block
+of text with the left button held down.
+
+HINTS:  To highlight a small block, move the mouse to the desired 1st
+	position. Press and hold the left button. Drag the mouse to the 2nd
+	position - the highlighting will follow the mouse. Release the left
+	button. This sets both block markers.
+
+	To highlight a block larger than the screen, move the mouse to the
+	desired 1st position. Press and hold the left button. Drag the mouse
+	to another character and then back again to the original position.
+	Release the left button; this only sets the 1st block marker. Then
+	page to the desired 2nd position. Finish highlighting, by pressing,
+	dragging and releasing the left button. Both block markers are now
+	set.
+
+To copy a block, first highlight the block, setting both markers. Move the
+mouse to the position for inserting the block. While holding down the <Ctrl>
+key, click the left button.
+
+Moving a block is similar, except that you hold down the <Alt> key and click
+the left button.
+
+
+Search/Replace Options
+----------------------
+
+The top line of the pop-up window for the Search/Replace functions reads
+"Press ... for options". To access the search options move the mouse to this
+top line and click the left button. You can then click on the desired
+option(s). When all options are selected, move the mouse anywhere else in the
+prompt window and click the right button.
+
+
+Misc
+----
+
+VEDIT's simple dialog boxes display selections in square brackets, i.e.
+"[Y]es [N]o". You can answer these by moving the mouse to the selection
+letter (or the bracket) and clicking the left button.
+
+When normal prompts are on the screen, the left button acts identical to the
+<Enter> key (when it is not on top of a selection). Therefore, the prompt
+"Press any key to continue" is satisfied by moving the mouse anywhere in the
+window containing the prompt and clicking the left button.
+
+When prompts and menus are on the screen, the right button acts identical to
+the [HELP] key and supplies context sensitive help.
+
+Pressing both buttons together always performs a [CANCEL], cancelling any
+current operation. During normal editing, this removes any block markers.
+
+To make the mouse cursor invisible, move it to the top left hand corner of
+the screen. This is useful when the mouse driver is loaded, but you don't
+want to use the mouse. Or set {CONFIG, Misc, Mouse cursor} to "0".
+
+{CONFIG, Misc, Mouse cursor} also controls the mouse cursor upon startup. "0"
+leaves the mouse cursor off, effectively disabling mouse support. "1" starts
+the mouse cursor in the top left hand corner where it remains "invisible"
+until moved somewhere else. "2" starts the mouse cursor in the middle of the
+screen.
+\\

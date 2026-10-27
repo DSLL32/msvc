@@ -1,0 +1,199 @@
+
+		DEMONSTRATING THE VEDIT COMPILER SUPPORT
+		----------------------------------------
+
+You can start up the Compiler Support from DOS with the command:
+
+	COMPILE ADDER.C
+
+The Compiler Support starts up with a large menu on the right half of
+the screen.  Displayed near the top are the current Compiler, Linker,
+Debugger and Make commands.  The initial commands are set by the
+editable COMPILE.CNF file.
+
+NOTES:	You can override the commands in COMPILE.CNF by creating the
+	file COMPILE.VCO in each local directory you use for
+	programming.  This file consists of the four lines - the
+	desired Compiler, Linker, Debugger and Make commands. This way
+	the correct Compiler/Assembler is always ready to run.
+	COMPILE.VCO files also let you set the Compiler options needed
+	for each of your programs. For example, one program may need
+	to be compiled with the "medium model" option while another
+	needs the "large model" option.  The Compiler Support will
+	adjust automatically.
+
+	The prompt for whether you have a color display can be turned
+	off by editing COMPILE.CNF and changing "COLORDISPLAY=" from
+	a value of "?" to "Y" or "N".
+
+Also displayed is the name of the "Current File", e.g. "ADDER.C".
+This is also known as the "project" file and is the name of the file
+to be compiler, linked and debugged.  The "-proj.ext" and "-proj" you
+see in the Compiler, Linker and Debugger commands are place holders
+for the current filename, with and without extension.
+
+
+Troubleshooting
+---------------
+
+If upon starting up the Compiler Support you get the error message
+"Fatal compiler support error!", you will first need to edit the
+file COMPILE.CNF.  Examine the line beginning with "SUPPORTPATH="
+and make sure that the following pathname is correct.  It must be
+the name of the directory containing the VEDIT Demo files, in
+particular, the directory containing CL.VCS. 
+
+Compiling ADDER
+---------------
+
+Assuming the Current File is ADDER.C, you can compile it by selecting
+"C" from the main menu.  Your C compiler should run and report errors.
+The Compiler Support should automatically load ADDER.C and position
+the cursor on the first line containing an error.  The reported error
+will also be displayed on the screen.  Correct the first error by
+changing "num0" to "num1".  Press <ESC> for the "Error menu":
+
+(N)ext  (P)revious  (F)irst  (B)rowse  (R)ecompile  (E)xit to Menu
+
+Press "N" to advance to the next error.  ("Browse" lets you see all
+errors and select a desired error.)  Correct the error as described in
+the comment.  Press <ESC> and "N" again.  "No more errors" is
+displayed.  Press "R" to recompile.  The compilation should now be
+successful.  If indicated, press <ESC> to return to the main menu.
+
+
+Linking ADDER
+-------------
+
+The program ADDER is now ready for linking.  Select "L" from the main
+menu.
+
+The linker's output is displayed on the screen for you; press <ESC> to
+return to the main menu.
+
+NOTE:	The Borland C Compiler also lets you compile and
+	link in one step, but we have purposely broken it into
+	distinct compile and link steps.  
+
+
+Running / Debugging ADDER
+-------------------------
+
+You can now run ADDER by selecting "G" from the main menu and at the
+prompt typing "ADDER".
+
+In practice, you can run your debugger by selecting "D" from the main
+menu.
+
+
+Assembling EGA43
+----------------
+
+Change the current Compiler by selecting "S" from the main menu.  At
+the filename prompt simply press <Enter> for Point & Shoot file
+selection.  Select "TASM".
+
+NOTES:	When you select a new compiler, the Compiler Support loads the
+	associated ".VCS" file, e.g. "TASM.VCS".  Each
+	supported compiler has an associated ".VCS" file.  VEDIT
+	supports numerous other compilers.  Users can also create
+	their own ".VCS" files for custom compilers.
+
+	The Compiler Support also loads the associated ".VCO" file,
+	e.g. "TASM.VCO".  The ".VCO" file contains the
+	new Compiler command you see displayed in the menu.  It can
+	also set new Linker, Debugger and Make commands.  In this
+	demo, it only sets the Compiler and Linker commands.
+
+To assemble EGA43.ASM select "P" from the main menu.  At the filename
+prompt simply press <Enter>.  Select EGA43.ASM.
+
+To assemble EGA43.ASM select "C" from the main menu.  EGA43.ASM also
+contains several obvious syntactic errors which need correction.
+Using the same procedure as with ADDER.C, correct the errors and
+re-assemble the program until no further errors are reported.
+
+
+Linking EGA43
+-------------
+
+When you selected a new compiler (assembler) above, it changed both
+the Compiler and Linker commands.  The Linker command should now be
+set to "TLINK -proj.obj" for the Borland linker.
+
+If you want to experiment with changing the Linker command, follow
+these steps:
+
+    Select "O" from the main menu.  Select "L" from the "Change
+    Options" sub-menu to change the Link command.  Select "E" to edit
+    the command.  Edit the command as needed.  Press <Esc>.  Select
+    "X" twice to return to the main menu.
+
+Select "L" from the main menu to run the linker.
+
+
+Running EGA43
+-------------
+
+You can now run EGA43 by selecting "G" from the main menu and at the
+prompt entering "EGA43".
+
+You may want to restore the screen back to 25 lines by selecting "G"
+from the main menu and at the prompt entering "MODE CO80".
+
+Running Make
+------------
+
+This discussion assumes you are familiar with Make programs and
+"makefiles".
+
+The Borland MAKE programs is supported.  Using a "makefile" simplifies not 
+only general program development, but also use of the Compiler Support.  The 
+supplied makefile "MAKEFILE" will compile/assemble and link both ADDER.C and 
+EGA43.ASM.  The Compiler Support automatically handles any errors reported by 
+different compilers/assemblers used during the Make process.
+
+The displayed Make command is "MAKE -n" for Borland.  The default makefile 
+for each is "MAKEFILE".
+
+To try the Make process first delete the files ADDER.OBJ, ADDER.EXE,
+EGA43.OBJ and EGA43.COM created by compiling and linking above.  You
+may want to reintroduce some errors in ADDER.C and EGA43.ASM.
+
+Start the Make process by selecting "M" from the main menu.  The
+Compiler Support will display any errors reported by the compiler or
+assembler as before.  After correcting an error and pressing <ESC>, a
+different "Error menu" is displayed:
+
+(N)ext (P)rev (F)irst (B)rowse (M)ake (R)etry (S)kip (E)xit to Menu
+
+Press "R" to retry the current compilation.  "(M)ake" restarts the
+entire Make process.  "(S)kip" skips the current compilation and
+continues with the rest of the Make process.
+
+When running Make, it is irrelevant what the current Compiler and
+Linker commands displayed in the Compiler Support's menu are.  The
+Make process is completely controlled by the makefile.  The Compiler
+Support automatically loads the appropriate ".VCS" files to handle any
+errors reported by a compiler or assembler.
+
+
+In practice, its simple
+-----------------------
+
+In practice, you would set up COMPILE.VCO and "makefile" files for
+each of your major programs.  It would then no longer be necessary to
+switch compilers and change Compiler and Link commands from within the
+Compiler Support.  You would simply start up the Compiler Support in
+the program's directory and the Compile/Link commands would adjust
+automatically.
+
+The Compiler Support is normally used in conjunction with our V-SWAP
+program.  When V-SWAP is loaded, you can start up the Compiler Support
+at any time from within VEDIT by selecting {MISC, Compiler support}
+(default: <ALT-I>).  The current file you are editing becomes ready
+for compilation.  V-SWAP will completely swap VEDIT out of memory in
+order to run the most memory demanding compilers and debuggers.
+
+We hope that you have enjoyed the Compiler Support portion of the
+VEDIT PLUS demo/tutorial.

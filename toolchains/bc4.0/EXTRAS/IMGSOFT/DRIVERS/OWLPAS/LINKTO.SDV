@@ -1,0 +1,51 @@
+$IF VLinkToType == "Dialog"$
+var pDlg : PDialog;
+begin
+	$LOOP Application.Dialogs WHERE Dialog.Name == VLinkToName$
+		$IF Dialog.IsModal == "N"$
+		$OR Dialog.ClassName != ""$	 {TDlgWindows must be created as non-modal}
+	pDlg := New(P$VLinkToName$, Init(@Self, '$VLinkToName$'));
+	Application^.MakeWindow(pDlg);
+	pDlg^.Show(SW_SHOW);
+		$ELSE$
+	Application^.ExecDialog(New(P$CAP(VLinkToName)$, Init(@Self, '$VLinkToName$'))); 
+		$END IF$
+	{ $PROTECTBLOCK	VProtectTag$ }
+	$BREAK$	 {Only 1}
+	$END LOOP$
+$ELSE$
+	$IF VLinkToType == "Window"$
+var pWin : PWindow;
+begin
+	pWin := New(P$VLinkToName$, Init(@Self));
+	Application^.MakeWindow(pWin);
+	pWin^.Show(SW_SHOW);
+	{ $PROTECTBLOCK	VProtectTag$ }
+	$ELSE$
+		$IF VLinkToType == "Application"$
+begin
+	{ $PROTECTBLOCK	VProtectTag$ }
+	WinExec('$VLinkToName$', SW_SHOW);
+		$ELSE$
+			$IF VLinkToType == "UserCode"$
+begin
+			$COPYSOURCE VLinkToName$	 // Insert User Code
+	{ $PROTECTBLOCK	VProtectTag$ }
+			$ELSE$
+				$IF VLinkToType == "CommonDialog"$
+				$INPUT "commdlg.sdv"$
+				$ELSE$
+					$IF VLinkToType == "SoundFile"$
+begin
+	sndPlaySound('$VLinkToName$', SND_SYNC);
+	{ $PROTECTBLOCK	VProtectTag$ }
+					$ELSE$
+begin
+	{ $PROTECTBLOCK	VProtectTag$ }
+					$END IF$
+				$END IF$
+			$END IF$
+		$END IF$
+	$END IF$
+$END IF$
+

@@ -1,0 +1,99 @@
+Introduction
+------------
+
+VEDIT is both a full featured general purpose text editor and a unique
+universal file editor.
+
+As a text editor, VEDIT is intended for both program development and text
+preparation.  It is ideal for writing assembly language and structured
+programs (C, Pascal, PL/I) and lengthy documents such as reports or
+manuscripts.  It is also well suited for the preparation of text files being
+used with Desktop Publishing packages such as Xerox's Ventura Publisher (tm).
+
+VEDIT's universal file editing capabilities let you edit ANY text, data or
+binary file you will ever encounter.  This includes mainframe, database (both
+variable-length and fixed-length records), postscript, plotter output,
+executable (.EXE) and other non-standard files.  VEDIT can edit huge files up
+to 2 Gigabytes in size and supports unlimited line lengths.  While you can't
+alter a file on CD-ROM, you can quickly browse the CD-ROM, or copy a CD-ROM
+file to your hard disk and edit it there.
+
+Compared to a traditional text editor, VEDIT can effortlessly edit data and
+huge files that other text editors can't handle.  Compared to traditional
+disk utilities, VEDIT has a full range of editing capabilities such as
+sophisticated searching and block operations not found in disk utilities.
+
+
+Simple, Yet Powerful
+--------------------
+
+VEDIT is simple enough to learn and use for the novice, yet has the speed,
+flexibility and power to satisfy the most demanding computer professional.
+It offers a rich assortment of editing capabilities, simple menu operation,
+complete on-line help facilities, and the ability to edit text and data files
+up to 2 Gigabytes in size.
+
+VEDIT's multi-mode editing and display capabilities let you effortlessly edit
+any file in the most efficient manner possible.  Edit in five different ASCII
+modes, EBCDIC (used by IBM mainframes) or Hexadecimal, or split the screen
+for any combination of modes.  File modes support DOS, UNIX and Max text,
+binary, plus variable length and fixed-length-records data files.
+
+VEDIT lets you perform near-miracles on data files.  If you have ever had to
+patch a corrupted database file, convert a huge mainframe file to a
+DOS text file, perform a last minute search/replace on a 400 Megabyte file,
+examine a Postscript file, or similar task, you probably wished for the kind
+of speed and capability that only VEDIT offers.
+
+VEDIT really shines in speed, especially when editing large files.  For 
+example, VEDIT can perform a global search and replace on a 10 Megabyte file
+(180,000 occurrences) in less than 3 minutes.  Other text editors, assuming 
+that they can edit the file at all, take between 2 and 30 HOURS!
+
+Plain and simple, VEDIT is the fastest editor available.
+
+Integrated Compiler Support
+---------------------------
+
+VEDIT has the ability to create an integrated programming environment by
+running your favorite compilers, assemblers, linkers, debuggers, and "make"
+programs from within the editor.  Any compilation errors are automatically
+tracked.  This can significantly speed up program development.
+
+The DOS version of VEDIT includes the innovative V-SWAP (tm) program.  V-SWAP
+not only swaps VEDIT out of memory when running large compilers, debuggers
+and other programs from within VEDIT, but can even swap out many TSRs
+(Terminate-Stay-Resident programs).  For example, V-SWAP can swap out pop-up
+utilities and network drivers which are not needed during compilation.
+
+
+Totally Configurable, Yet Instant Startup
+-----------------------------------------
+
+The comprehensive configuration lets you completely determine your own
+keyboard layout and select numerous default settings to configure VEDIT to
+your particular hardware, applications and personal preferences.  By using
+the available options and "keystroke macros", VEDIT can very closely emulate
+other editors and word processors.
+
+An easy to use installation program for the IBM PC permits a quick, menu
+driven selection of the most common configurations of VEDIT.  This includes
+selecting from the recommended keyboard layout or from a Brief, WordStar or
+Word Perfect layout.
+
+Since all configuration settings and the keyboard layout are normally built
+into the VEDIT.EXE file and VEDIT.EXE is only 85K in size, VEDIT starts up
+instantly.
+
+Note:	Configuration changes cannot be saved in this demo version of
+	VEDIT PLUS.
+
+
+VEDIT Family of Editors
+-----------------------
+
+VEDIT is one of the VEDIT Family of Editors that also includes VEDIT Jr. and
+VEDIT PLUS.  The VEDIT family is available for virtually every computer
+running under the PCDOS, MS-DOS (IBM and non-IBM compatible), UNIX
+286/386/486, XENIX, QNX, Concurrent DOS, FlexOS and IBM 4680 operating
+systems.

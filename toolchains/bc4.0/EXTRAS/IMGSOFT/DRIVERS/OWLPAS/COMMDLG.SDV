@@ -1,0 +1,90 @@
+$IF VLinkToName == "OpenFile"$
+$OR VLinkToName == "SaveFile"$
+var
+	OpenFN      	: TOpenFileName;
+	szFilter    	: array [0..256] of Char;
+	szFile		: array [0..256] of Char;
+begin
+	FillChar(szFilter, SizeOf(szFilter), #0);  
+	StrCopy(szFilter, 'All Files (*.*)');
+	StrCopy(@szFilter[StrLen(szFilter)+1], '*.*');
+	FillChar(OpenFN, SizeOf(TOpenFileName), #0);
+	StrCopy(szFile, '');
+	with OpenFN do
+	begin
+		hInstance	:= HInstance;
+		hwndOwner     	:= HWindow;
+		lpstrFile     	:= szFile;
+		nMaxFile      	:= SizeOf(szFile);
+		lpstrFilter   	:= szFilter;
+		flags         	:= ofn_FileMustExist;
+		lStructSize   	:= sizeof(TOpenFileName);
+		nFilterIndex  	:= 1;
+	end;
+	$IF VLinkToName == "OpenFile"$
+	if GetOpenFileName(OpenFN) <> True then	exit;
+	$ELSE$
+	if GetSaveFileName(OpenFN) <> True then	exit;
+	$END IF$
+	{ $PROTECTBLOCK	VProtectTag$ }
+$ELSE$
+$IF VLinkToName == "Print"$
+$OR VLinkToName == "PrintSetup"$
+var	PrintD	: TPrintDlg;
+begin
+	FillChar(PrintD, SizeOf(TPrintDlg), #0);
+	with PrintD do
+	begin
+		hInstance     	:= HInstance;
+		hwndOwner     	:= HWindow;
+		lStructSize	:= sizeof(TPrintDlg);
+	$IF VLinkToName == "PrintSetup"$
+		Flags		:= pd_PrintSetup;
+	$ELSE$
+		Flags		:= pd_ReturnDC;
+	$END IF$
+  end;
+	if PrintDlg(PrintD) <> True then exit;
+	{ $PROTECTBLOCK	VProtectTag$ }
+$ELSE$
+$IF VLinkToName == "ChooseColor"$
+var
+	ChooseClr	: TChooseColor;
+	i        	: Integer;
+	aclrCust 	: array [0..15] of Longint;
+begin
+	FillChar(ChooseClr, SizeOf(TChooseColor), #0);
+	{ Set the custom color controls to white }
+	for i := 0 to 15 do
+		aclrCust[i] := RGB(255, 255, 255);
+	with ChooseClr do
+	begin
+		HWndOwner   	:= HWindow;
+		lStructSize 	:= Sizeof(TChooseColor);
+		lpCustColors	:= @aclrCust;
+		Flags       	:= cc_PreventFullOpen;
+	end;
+	if ChooseColor(ChooseClr) <> True then exit;
+	{ $PROTECTBLOCK	VProtectTag$ }
+$ELSE$
+$IF VLinkToName == "ChooseFont"$
+var
+	ChooseFnt	: TChooseFont;
+	AFont 		: TLogFont;
+begin
+	FillChar(ChooseFnt, SizeOf(TChooseFont), #0);
+	with ChooseFnt do
+	begin
+		lStructSize	:= SizeOf(TChooseFont);
+		hwndOwner  	:= HWindow;
+		lpLogFont  	:= @AFont;
+		Flags      	:= cf_ScreenFonts or cf_Effects;
+	end;
+	if ChooseFont(ChooseFnt) <> True then exit;
+	{ $PROTECTBLOCK	VProtectTag$ }
+$END IF$
+$END IF$
+$END IF$
+$END IF$
+
+

@@ -1,0 +1,46 @@
+/* README.DOC - Copyright (c) 1993 Metagraphics Software Corporation */
+
+
+                   Metagraphics Demonstration Programs
+
+The Metagraphics "METAGRAF" directory contains two subdirectories,
+MWDEMO and FWDEMO.  The subdirectories contain demonstration programs
+of Metagraphics MetaWINDOW(tm) and FontWINDOW(tm) graphics
+programming tools for Borland C/C++ and Pascal.
+
+
+-MWDEMO- Metagraphics MetaWINDOW(tm) Demo
+
+Directory MWDEMO contains a demonstration program of Metagraphics
+MetaWINDOW graphics development tools for use with Borland C/C++ and
+Pascal.  You can execute the MetaWINDOW demo program directly from
+the subdirectory, or copy all the files to a local directory.  Execute
+MWDEMO to start the demo program.
+
+
+-FWDEMO- Metagraphics FontWINDOW(tm) Demo
+
+Directory FWDEMO contains a demonstration program of Metagraphics
+FontWINDOW development tools for use Metagraphics MetaWINDOW product
+and Borland C/C++ and Pascal compilers.  You can execute the
+FontWINDOW demo program directly from the subdirectory, or copy all
+the files to a local directory.  Execute FONTDEMO to start the demo
+program.
+
+
+If you have any questions at all, please contact Metagraphics
+directly at:
+
+Metagraphics
+269 Mount Hermon Road
+PO Box 66779
+Scotts Valley, CA 95066
+U.S.A.
+
+Phone:      408-438-1550
+Fax:        408-438-5379
+BBS:        408-438-5368
+Internet:   support@metagraphics.com
+CompuServe: 75300,3053
+
+/* End of File - README.DOC */

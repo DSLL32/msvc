@@ -1,0 +1,148 @@
+
+		WORDSTAR KEYBOARD LAYOUT FOR VEDIT
+		----------------------------------
+
+The WordStar layout comes very close for the common cursor movement and
+editing functions.  Most of the original WordStar control keys and some of the
+newer (Version 4 and later) IBM PC Function keys are emulated.
+
+Major Differences:
+
+1.  <F1> and <Ctrl-J> are the [HELP] keys.  <F10> pops up the menu system.
+
+2.  <F2> performs only [CANCEL], <Ctrl-U> performs {UNDO, Line}.
+
+3.  <Enter> inserts a CR-LF (splits the line) when in insert mode.  <F3>
+    always moves the cursor to the next line.
+
+4.  While the Wordstar block functions are closely emulated, it is easier to
+    use <F9> - {BLOCK, Set Marker} to set block markers, and <Ctrl-F9> and
+    <Alt-F9> to copy and move blocks.
+
+5.  The file save functions that WordStar assigns to <F9> and <F10> are
+    available from the [ESCAPE] menu.  <F9> performs block operations, while
+    <F10> is [MENU] and <Alt-F10> is [VISUAL EXIT].
+
+6.  Although Wordstar assigns <Home> equivalent to ^QE (top of screen) and
+    <End> equivalent to ^QX (end of screen), we have assigned <Home> to 
+    [LINE BEGIN] and <End> to [LINE END].
+
+
+    Note:  [HELP] will first display the keyboard layout listed on the next 
+	   page.  However, the screen for "Built-in Keystroke Macros" will not 
+	   be entirely correct.  This can be corrected by editing the 
+	   beginning of VHELP.HLP (VEDIT PLUS: VVHELP.HLP) which is an
+	   explanation of the built-in keystroke macros.
+
+
+		  KEYBOARD LAYOUT
+
+"+" indicates functions not available on WordStar
+"!" indicates functions which operate differently from WordStar
+
+[BACKSPACE]		^H			<Backspace>
+[BLOCK COPY]		^K C			<Shft-F8>	<Ctrl-F9>
+[BLOCK MOVE]		^K V			<Shft-F7>	<Alt-F9>
+[CANCEL]		<F2>
+[CURSOR UP]		^E			<Up Arrow>
+[CURSOR DOWN]		^X			<Down Arrow>
+[CURSOR RIGHT]		^D			<Right Arrow>
+[CURSOR LEFT]		^S			<Left Arrow>
+[DELETE]		^G			<Del>
+[DEL PREV WORD]    +	<Ctrl-Bksp>
+[DEL NEXT WORD]		^T			<F6>
+[ENTER CTRL]		^P P
+[ERASE EOL]	    	^Q Y
+[ERASE LINE]		^Y			<F5>
+[ESCAPE]	   +	<ESC>
+[FORMAT PARA]		^B
+[HELP]			^J			<F1>
+[INDENT]	   +	<F8>
+[INSERT MODE]	   	^V			<Ins>
+[LINE BEGIN]	   	^Q S
+[LINE END]	   	^Q D
+[MENU]		   +	<F10>
+[NEXT LINE]	   !	<F3>
+[NEXT PARA]	   +	^Q <PgDn>
+[NEXT TAB STOP]	   +	^Q --->|		|<---  (Shift --->|)
+[NEXT WORD]		^F			<Ctrl-Right Arrow>
+[PAGE UP]		^R			<PgUp>
+[PAGE DOWN]		^C			<PgDn>
+[PREVIOUS PARA]		^Q <PgUp>
+[PREVIOUS WORD]		^A			<Ctrl-Left Arrow>
+[REPEAT]		^Q Q
+[REPEAT LAST]	   +	<Alt-R>
+[REPLACE]		^Q A			<Ctrl-F2>
+[SCREEN BEGIN]	   	^Q E
+[SCREEN END]	   	^Q X
+[SCROLL UP]		^W			<Ctrl-PgUp>
+[SCROLL DOWN]		^Z			<Ctrl-PgDn>
+[SCROLL RIGHT]	   +	^Q <Right Arrow>
+[SCROLL LEFT]	   +	^Q <Left Arrow>
+[SEARCH]		^Q F			<Ctrl-F1>
+[SEARCH AGAIN]		^L			<Ctrl-F3>
+[TAB CHARACTER]		--->|
+[T-REG COPY]	   +	<Grey +>
+[T-REG MOVE]	   +	<Grey ->
+[T-REG INSERT]	   +	<Grey *>
+[UNDENT]	   +	<F7>
+[VISUAL ESCAPE]	   +	Available in ESCAPE menu
+[VISUAL EXIT]	   +	<Alt-F10>
+
+Begin of file		^Q R			<Ctrl-Home>
+End of file		^Q C			<Ctrl-End>
+Begin of block	    	^Q B
+End of block	    	^Q K
+To specified line	^Q I			<Ctrl-F4>
+Start of last find   !	^Q V			(Simulated by {UNDO, Edit})
+To Marker 0-9		^Q 0 through ^Q 9
+
+Delete line to left	^Q <Del>
+Delete word		^T			<F6>
+
+Mark block begin    	^K B			<Shft-F9>
+Mark block end     	^K K			<Shft-F10>
+Copy Block	    	^K C			<Shft-F8>
+Move Block	    	^K V			<Shft-F7>
+Delete block	    	^K Y			<Shft-F5>
+Column mode		^K N
+Write block to disk	^K W
+Set Marker 0-9		^K 0 through ^K 9
+Convert block to LC	^K '
+Convert block to UC	^K "	
+
+Insert a file from disk		^K R
+Run a program/DOS command	^K F
+Change logged drive/direc	^K L
+Save and resume editing		^K S
+Save menu		   !!	^K D
+Save and exit window		^K X
+Quit without saving		^K Q
+Save and Print			<Ctrl-PrtSc>
+
+Set right margin		^O R		<Ctrl-F6>
+Set left margin			^O L		<Ctrl-F5>
+Justify				^O J
+Center line			^O C		<Shft-F2>
+
+Insert date			^P @
+Insert time			^P !
+Insert Line-Feed		^P J
+Insert Form-Feed		^P L
+Insert CR-LF			^N
+
+Switch/create edit buffer  +	<F4>
+Switch windows		   +	<Alt-F4>
+Open (edit) new file	   +    <Alt-N>		(Same buffer)
+Open (edit) new file	   +	<Alt-O>		(New buffer, same window)
+Open (edit) new file	   +	<Alt-Y>		(New buffer, new window)
+Toggle between files	   +	<Alt-T>
+Toggle VGA/EGA line mode   +	<Alt-L>
+Toggle text colors	   +	<Alt-J>
+Start up Compiler Support  +	<Alt-I>
+
+{Block}  Menu	<Alt-B>		{Config} Menu	<Alt-C>
+{Edit}   Menu	<Alt-E>		{File}   Menu	<Alt-F>
+{Goto}   Menu	<Alt-G>		{Help}   Menu	<Alt-H>
+{Misc}   Menu	<Alt-M>		{Print}  Menu	<Alt-P>
+{Search} Menu	<Alt-S>		{Window} Menu	<Alt-W>

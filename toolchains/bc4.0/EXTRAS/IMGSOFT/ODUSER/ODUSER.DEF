@@ -1,0 +1,7 @@
+LIBRARY        ODUSER
+DESCRIPTION    'User Defined Functions for Object/Designer'
+EXETYPE        WINDOWS
+CODE           PRELOAD MOVEABLE DISCARDABLE
+DATA           PRELOAD FIXED SINGLE
+HEAPSIZE       1024
+

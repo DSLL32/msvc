@@ -1,0 +1,50 @@
+$IF Dialog.IsModal == "N"$
+$OR Dialog.IsMain == "Y"$
+class $CAP(Dialog.Name)$ : public ModeLessDialog
+$ELSE$
+class $CAP(Dialog.Name)$ : public DialogWindow
+$END IF$
+
+{
+	char *p, szWorkStr[80];		// Char Pointer & buffer for Edit Validation
+	$IF COUNT(dialog.listboxs) > 0$
+	ListBox $LIST dialog.listboxs "*"+listbox.name$;
+	$END IF$
+	$IF COUNT(dialog.edits) > 0$
+	SingleLineEdit $LIST dialog.edits "*"+edit.name$;
+	$END IF$
+	$IF COUNT(dialog.statics) > 0$
+	FixedText $LIST dialog.statics  "*"+static.name$;
+	$END IF$
+	$IF COUNT(dialog.RadioButtons) > 0$
+	RadioButton $LIST dialog.RadioButtons "*"+RadioButton.Name$;
+	$END IF$
+	$IF COUNT(dialog.CheckBoxs) > 0$
+	CheckBox $LIST dialog.CheckBoxs "*"+CheckBox.Name$;
+	$END IF$
+	$IF COUNT(dialog.ComboBoxs) > 0$
+	ComboBox $LIST dialog.ComboBoxs "*"+ComboBox.Name$;
+	$END IF$
+	$IF Menu.Name != ""$ 
+	Menu $Menu.Name$Menu;	
+	$END IF$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	Accel $Menu.Name$Accel;	
+	$END IF$
+	$IF ToolBar.Name != ""$
+	ToolBar *pTB;
+	$END IF$
+public:
+	$CAP(Dialog.Name)$(pWindow Parent);
+	~$CAP(Dialog.Name)$();
+	virtual void ButtonClick(ControlEvt);
+	virtual void MenuCommand (MenuCommandEvt);	// For ToolItems 
+	virtual Bool CanClose();
+	$IF Dialog.IsModal == "N"$	// For NonModal delete this						 
+	$OR Dialog.IsMain == "Y"$
+	virtual void Close(Event) {delete this;} // Delete modeless dlg
+	$END IF$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Class"$
+};
+
+

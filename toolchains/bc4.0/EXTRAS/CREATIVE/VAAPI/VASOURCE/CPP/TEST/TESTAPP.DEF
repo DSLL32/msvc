@@ -1,0 +1,33 @@
+;------------------------------------------------
+;   Main test
+;   
+;   Copyright © 1993.  All Rights Reserved.
+;
+;   SUBSYSTEM:    test.exe Module Defintion File
+;   FILE:         testapp.def
+;   AUTHOR:       
+;
+;
+;   OVERVIEW
+;   ========
+;
+;   The Module Defintion File for the Linker.  This file describes the
+;   EXE header for New Executable section. The description is at the
+;   beginning of file and is therefore a good place for the copyright
+;   notice.  HeapSize is the intial size of the application's local
+;   heap.  StackSize is the maximum amount of stack space to be used
+;   by both non-static variables and the call stack (remember the
+;   stack grows down into the static area of variables, therefore if
+;   the stack size is not large enough static variables will be over-
+;   written).
+;
+;------------------------------------------------
+
+NAME test
+
+DESCRIPTION 'test Application - Copyright © 1993.  All Rights Reserved.'
+EXETYPE     WINDOWS
+CODE        PRELOAD MOVEABLE DISCARDABLE
+DATA        PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE    4096
+STACKSIZE   8192

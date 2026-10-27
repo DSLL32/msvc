@@ -1,0 +1,93 @@
+--------------------------------
+          Comparing
+        C++ Libraries
+--------------------------------
+This column compares two class libraries:
+
+(1) Rogue Wave's "tool.h" library, derived
+    from the NIH class library which was
+    the standard 3-4 years ago.
+(2) Code Farms' library, the new standard
+    needed for today's advanced projects.
+
+Example:
+
+Assume the following data organization
+
+          ............................
+          :     C o m p a n y        :
+          :..........................:
+           1      1              1
+           |      |              |
+    byDate |      | byRev        | depts
+           |      |              |
+           n      n              n
+  ....................       ..........................
+  :  P R O J E C T   :       :  D E P A R T M E N T   :
+  :..................:       :........................:
+              1                  1
+              |                  |
+              | byProj           | byDept
+              |                  |
+              n                  n
+          ............................
+          :     E m p l o y e e      :
+          :..........................:
+
+The two libraries implement this data differently.
+For 5 projects, 5 departments, and 8 employees, 
+they need:                     
+                               
+      Rogue W: 50 objects,114 pointers 
+      Code F:  19 objects, 69 pointers
+
+Rogue Wave classes follow the old Smalltalk style,
+while Code Farms library uses a natural C++ design
+style which leaves classes independent for modular
+testing.
+
+Code Farms solution, with arrows showing the class dependency:      
+
+       ..........  .......... .........  .........  ..........
+       : byProj :  : byDate : : byRev :  : depts :  : byDep  :
+       :........:  :........: :.......:  :.......:  :........:
+        |      |    |    |     |     |     |    |    |    |    
+        |   *--+----*    |  *--+-----+-----+----+----*    |    
+        |   |  |         |  |  |     |     |    |         |
+        |   |  *-----*   |  |  |     |     |    |         |    
+        |   |        |   |  |  |     |     |    |         |
+        |   |   *----+---+--+--*     |     |    |         |   
+        |   |   |    |   |  |        |     |    |         |
+        |   |   |    |   *--+------* |     |    |         |    
+        |   |   |    |      |      | |     |    |         |
+       .v...v...v.  .v......v...  .v.v.....v.  .v.........v..
+       : Project :  : Employee :  : Company :  : Department :
+       :.........:  :..........:  :.........:  :............:
+
+The corresponding Rogue Wave solution has many mutually  
+dependent classes, and is not suitable for large projects. 
+
+                    Code   Rogue
+                    Farms   Wave
+---------------------------------
+collections,bags,etc   X      X
+lists,arrays,trees     X      X
+virtual page           X      X
+graphs                 X
+ER models              X
+properties             X
+automatic persistence  X
+meta-class info        X
+data browser           X
+memory management      X
+data integrity         X
+database maker         X
+schema migration       X
+works also with C      X
+full source            X      X
+no royalties           X      X
+
+Contacts:
+Rogue Wave 503-754-3010,fax 757-6650
+Code Farms 613-838-4829,fax 838-3316
+

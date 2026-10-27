@@ -1,0 +1,65 @@
+!
+!	For: Borland Turbo Assembler 1.0
+!
+
+(Q96=0)[ JP"FUNC-0" ]		
+(Q96=1)[ JP"FUNC-1" ]
+(Q96=2)[ JP"FUNC-2" ]
+(Q96=3)[ JP"FUNC-3" ]
+(Q96=4)[ JP"FUNC-4" ]
+(Q96=5)[ JP"FUNC-5" ]
+(Q96=6)[ JP"FUNC-6" ]
+JM
+
+!FUNC-0!
+YT"Borland Turbo Assembler 1.0"
+JM
+
+!FUNC-1!
+-@OC"|Ru > VCS.TMP"	
+JM
+
+!FUNC-2!
+1XS(97)				
+_$N"|{|<**Error** ,|<*Warning* }"
+
+!F-3-1!
+(.rv<>Q97)[			
+    Q96=2[			
+	_Z			
+	][			
+	_B			
+	]
+    ][				
+    (.n=0)[			
+	0XS(95) RE(g)		
+	]
+    (.n=10)[			
+	.pXBB			
+	.lnXS(97)		
+	N"(" (~.er)&(.ln=Q97)[	
+	    .pXBE .vXS(95)	
+	    .bb,(.be-1)RC(g)	
+	    ][
+	    0XS(95) RE(g) .bbEJ	
+	    ]
+	]
+    $N"|>" -0RC(h)		
+    1L -XBB			
+    ]
+JM
+
+!FUNC-3!
+(2-.eof)XS(97)			
+-Q97_$N"|{|<**Error** ,|<*Warning* }"
+(.rv=Q97)[ .nC ]		
+JP"F-3-1"			
+
+!FUNC-4!
+!FUNC-5!
+RI(v)"*.ASM"
+JM
+
+!FUNC-6!
+(Q95-.ln)L				!Goto line # Q95
+JM

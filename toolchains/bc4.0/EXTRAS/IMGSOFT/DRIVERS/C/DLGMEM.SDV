@@ -1,0 +1,261 @@
+//****************************************************************************
+//
+// FUNCTION: $Dialog.Name$DlgProc(HWND, unsigned, WORD, LONG)
+//
+// PURPOSE:  Processes Dialog Messages
+//
+//****************************************************************************
+$VAR VValidation = "N"$		// Flag to indicate the need for edit validation
+$LOOP Dialog.Edits$
+$IF Edit.Validation != "(None)"$	 // (None) is the default
+$VValidation = "Y"$		// Set Flag
+$BREAK$
+$END IF$
+$END LOOP$
+BOOL CALLBACK _export $Dialog.Name$DlgProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Vars"$
+	$IF ToolBar.Name != ""$
+	HWND hToolWnd;			 // Handle to Tool Bar Window
+	$END IF$
+	switch (message) 
+	{
+		case WM_INITDIALOG:
+			$IF Dialog.Caption != ""$
+			SetWindowText(hWnd, "$Dialog.Caption$");
+			$END IF$
+			$IF ToolBar.Name != ""$
+			// Create Tool bar - This is a child so don't worry about showing
+			hToolWnd = CreateToolbar(hWnd, $ToolBar.H$);
+			$LOOP ToolBar.ToolItems$
+			AddToolItem(hToolWnd, "$ToolItem.ToolType$", CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 		"N$ToolBar.Name$$ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+			$END LOOP$
+			$END IF$
+			$LOOP Dialog.Edits WHERE Edit.Length > 0$  
+			SendDlgItemMessage(hWnd, ID_$UP(Edit.Name)$, EM_LIMITTEXT, $Edit.Length$, 0L);
+			$END LOOP$
+			$LOOP Dialog.RadioButtons WHERE RadioButton.IsInitialCheck == "Y"$
+			SendMessage(GetDlgItem(hWnd, $RadioButton.ID$), BM_SETCHECK, TRUE, 0);
+			$END LOOP$
+			$LOOP Dialog.CheckBoxes WHERE CheckBox.IsInitialCheck == "Y"$
+			SendMessage(GetDlgItem(hWnd, $CheckBox.ID$), BM_SETCHECK, TRUE, 0);
+			$END LOOP$
+			$LOOP Dialog.ComboBoxs WHERE ComboBox.InitialData != ""$
+			$ARRAY AInitialData$
+			$FILLARRAY AInitialData ComboBox.InitialData$
+			// Fill Combo with initial values
+				$LOOP AInitialData$
+			SendMessage(GetDlgItem(hWnd, $ComboBox.ID$), 
+				CB_ADDSTRING, 0, (LONG)(LPSTR)"$AInitialData.Value$");
+				$END LOOP$
+			$END LOOP$
+			$LOOP Dialog.ListBoxs WHERE ListBox.InitialData != ""$
+			$ARRAY AInitialData$
+			$FILLARRAY AInitialData ListBox.InitialData$
+			// Fill List Box with initial values
+				$LOOP AInitialData$
+			SendMessage(GetDlgItem(hWnd, $ListBox.ID$), 
+				LB_ADDSTRING, 0, (LONG)(LPSTR)"$AInitialData.Value$");
+				$END LOOP$
+			$END LOOP$
+			//$PROTECTBLOCK	"d"+Dialog.Name+"WM_INITDIALOG"$
+			break;
+		case WM_CLOSE:
+			//$PROTECTBLOCK	"d"+Dialog.Name+"WM_CLOSE"$
+			PostMessage(hWnd, WM_COMMAND, IDCANCEL, 0L);
+			break; 
+ 		$IF Dialog.IsMain == "Y"$
+		case WM_DESTROY:
+			//$PROTECTBLOCK	"d"+Dialog.Name+"WM_DESTROY"$
+			PostQuitMessage(0);
+			break;
+ 		$END IF$
+		case WM_COMMAND:
+			switch (wParam) 
+			{
+				$LOOP Menu.MenuStrings$  
+				case CM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$:
+				{
+					$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+					$VAR VLinkToType = MenuItem.LinkToType$
+					$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+					$VAR VProtectTag = "d"+Dialog.Name+VItemName$
+					$INPUT "linkto.sdv"$	//insert linkto code
+				}
+				break;  
+				$END LOOP$	 //MenuStrings
+				$LOOP Toolbar.ToolItems$  
+				case CM_$UP(ToolBar.Name+ToolItem.Name)$:
+				{
+					$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+					$VAR VLinkToType = ToolItem.LinkToType$
+					$VAR VItemName = 	ToolItem.Name$
+					$VAR VProtectTag = "d"+Dialog.Name+ToolBar.Name+ToolItem.Name$
+					$INPUT "linkto.sdv"$	//insert linkto code
+				}
+				break;  
+				$END LOOP$	 // ToolItems
+				$IF Count(Dialog.Edits) > 0$
+					$LOOP Dialog.Edits$  
+				case $Edit.Id$:			// Edit $Edit.Desc$ 
+					//$PROTECTBLOCK	"d"+Dialog.Name+Edit.Name$
+					$END LOOP$
+					switch(HIWORD(lParam))			// Edit Notifications
+					{ 
+						case EN_SETFOCUS:  
+							break;
+						case EN_KILLFOCUS: 
+							break;
+						case EN_CHANGE: 
+							break;
+					}
+					break;
+				$END IF$
+				$IF Count(Dialog.ListBoxs) > 0$
+					$LOOP Dialog.ListBoxs$  
+				case $ListBox.Id$:			// ListBox $ListBox.Desc$ 
+					//$PROTECTBLOCK	"d"+Dialog.Name+ListBox.Name$
+					$END LOOP$
+					switch(HIWORD(lParam))			// ListBox Notifications
+					{ 
+						case LBN_SELCHANGE:  
+							break;
+						case LBN_KILLFOCUS: 
+							break;
+						case LBN_DBLCLK: 
+							break;
+					}
+					break;
+				$END IF$
+				$IF Count(Dialog.ComboBoxs) > 0$
+					$LOOP Dialog.ComboBoxs$  
+				case $ComboBox.Id$:			// ComboBox $ComboBox.Desc$ 
+					//$PROTECTBLOCK	"d"+Dialog.Name+ComboBox.Name$
+					$END LOOP$
+					switch(HIWORD(lParam))			// ComboBox Notifications
+					{ 
+						case CBN_SELCHANGE:  
+							break;
+						case CBN_KILLFOCUS: 
+							break;
+						case CBN_DBLCLK: 
+							break;
+					}
+					break;
+				$END IF$
+				$VAR VOk = "N"$		 	// Check to see if OK or Cancel has been redefined
+				$VAR VCancel = "N"$
+				$LOOP Dialog.Buttons$  
+					$IF Button.ID == "1"$
+					$OR Button.ID == "IDOK"$
+					$VOk = "Y"$
+					$ELSE$
+						$IF Button.ID == "2"$
+						$OR Button.ID == "IDCANCEL"$
+						$VCancel = "Y"$
+						$END IF$
+					$END IF$
+				case $Button.Id$:
+				{
+					$VAR VLinkToName = Button.LinkToName$		// setup vars for linkto code 
+					$VAR VLinkToType = Button.LinkToType$
+					$VAR VItemName = Button.Name$
+					$VAR VProtectTag = "d"+Dialog.Name+Button.Name$
+					$INPUT "linkto.sdv"$	//insert linkto code
+				}
+				break;  
+				$END LOOP$
+				$IF VOk != "Y"$
+				case IDOK:				// End with update
+					$IF VValidation == "Y"$			 // Skip this stuff if no validation
+					if ( CanClose$Dialog.Name$(hWnd) )
+					{
+						//$PROTECTBLOCK	"d"+Dialog.Name+"IDOK"$
+				 		$IF Dialog.IsMain == "Y"$
+				 		$OR Dialog.IsModal == "N"$
+		   				DestroyWindow(hWnd);
+						$ELSE$
+	        				EndDialog(hWnd, TRUE);
+						$END IF$
+					}
+					$ELSE$
+					//$PROTECTBLOCK	"d"+Dialog.Name+"IDOK"$
+				 		$IF Dialog.IsMain == "Y"$
+				 		$OR Dialog.IsModal == "N"$
+			     		DestroyWindow(hWnd);
+						$ELSE$
+	     				EndDialog(hWnd, TRUE);
+						$END IF$
+					$END IF$
+					break;
+				$END IF$
+				$IF VCancel != "Y"$
+				case IDCANCEL:		// End with no update
+					//$PROTECTBLOCK	"d"+Dialog.Name+"IDCANCEL"$
+				 	$IF Dialog.IsMain == "Y"$
+				 	$OR Dialog.IsModal == "N"$
+			  		DestroyWindow(hWnd);
+					$ELSE$
+					EndDialog(hWnd, FALSE);
+					$END IF$
+					break;
+				$END IF$
+			} 
+			break;
+		default:
+			return FALSE;
+	}
+	return TRUE;
+}
+$IF VValidation == "Y"$			 // Skip this stuff if no validation
+//
+// CanClose$Dialog.Name$ - Determine if dialog can be exited with update
+//
+BOOL CanClose$Dialog.Name$(HWND hWnd)
+{
+	char szWorkStr[81], *p;
+$LOOP Dialog.Edits$
+$IF Edit.Validation == "Mandatory"$
+	if ( !GetDlgItemText(hWnd, $Edit.Id$, szWorkStr, 80) )
+	{
+		MessageBox(hWnd, "Mandatory field requires input.", "Error", 
+			MB_OK | MB_ICONEXCLAMATION);
+		SetFocus(GetDlgItem(hWnd, $Edit.Id$));	 // Position cursor to error
+		return FALSE;
+	}
+$ELSE$
+	$IF Edit.Validation == "Integer"$
+	GetDlgItemText(hWnd, $Edit.Id$, szWorkStr, 80);
+	for (p=szWorkStr; *p; p++ )
+	{
+		if ( !isdigit(*p) && *p!='-' )
+		{
+			MessageBox(hWnd, "Invalid integer input.", "Error", 
+		 		MB_OK | MB_ICONEXCLAMATION);
+			SetFocus(GetDlgItem(hWnd, $Edit.Id$));	 // Position cursor to error
+			return FALSE;
+		}
+	}
+	$ELSE$
+		$IF Edit.Validation == "Float"$
+	GetDlgItemText(hWnd, $Edit.Id$, szWorkStr, 80);
+	for (p=szWorkStr; *p; p++ )
+	{
+		if ( !isdigit(*p) && *p!='-' && *p!='.'  )
+		{
+			MessageBox(hWnd, "Invalid real number input.", "Error", 
+		 		MB_OK | MB_ICONEXCLAMATION);
+			SetFocus(GetDlgItem(hWnd, $Edit.Id$));	 // Position cursor to error
+			return FALSE;
+		}
+	}
+		$END IF$
+	$END IF$
+$END IF$
+$END LOOP$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"CanClose"$
+	return TRUE;
+}
+$END IF$
+

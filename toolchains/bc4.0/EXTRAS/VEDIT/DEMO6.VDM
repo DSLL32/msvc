@@ -1,0 +1,154 @@
+RI(9)/VEDIT Family - Keystroke Macros/
+M(H)			!Display header
+
+YT/
+Keystroke macros let you assign a commonly typed sequence of keys to a single
+key.  Pressing that single key then types the whole sequence - saving you
+time and reducing the chances for error.
+
+For example, if you were repeatedly typing the phrase "attached and included
+herein by reference", you could define the key <Ctrl-A> to type out the
+whole phrase each time it was pressed.
+
+Keystroke macros are also used to set up "hot-keys" for accessing the menu
+functions directly.  This speeds editing for the experienced user.
+
+With VEDIT PLUS, keystroke macros have the additional capability of accessing
+the powerful Command Mode macro language.  This lets you create almost any edit
+function you might want.
+
+You can set up as many keystroke macros as you like.  Keystroke macros can be
+"temporary" or can be built permanently into the editor.
+
+/
+M(K)			!Pause for user
+
+9XS(100)		!Need 9 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main edit buffer
+EB demo.txt		!Load demo file
+Z			!Goto end-of-file
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/In this example keystroke macro, you will assign the words "VEDIT PLUS" to the
+key <Ctrl-A>.  <Alt-K> is itself a keystroke macro ("hot-key") which accesses
+the {MISC, Keyboard layout, Record macro} function.
+
+Press <Alt-K>.  At the prompt press <Ctrl-A> and then <Esc>.  You are now in
+"Record Mode" - note the status line.  Type "VEDIT PLUS".  Press <Alt-K> again
+to turn off record mode.  Press <Ctrl-A>.  If all went well, the words "VEDIT
+PLUS" will appear.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Many pre-configured keystroke macros directly access functions in the menu
+system as "hot-keys".  For example, <Alt-F3> is configured to perform [MENU],
+select the {GOTO} sub-menu and select the "Matching ()" function.  Therefore,
+we say that <Alt-F3> is a hot-key for {GOTO, Matching ()}.
+
+You can view all of the active keystroke macros by entering the {MISC} sub-
+menu (press <Alt-M>), selecting the "Keyboard Layout" sub-menu and selecting
+"Display Layout".  Note that the last displayed macro is for "^A" which you
+just added.	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+
+I/Now lets add another hot-key to directly access the {HELP, Status display}
+function.  We will assign it to <Ctrl-F1>.  Menus and most menu functions can
+simply be selected by their first letter.
+
+Press <Alt-K>.  At the prompt press <Ctrl-F1> and then <Esc>.  Now press
+press <F10>, then "H", then "S".  Press <Alt-K> again to turn off the record
+mode.  Try out the new keystroke macro by pressing <Ctrl-F1>.  The pop-up
+status display should appear.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Display the keystroke macros again using {MISC, Keyboard layout, Display}.
+Note that the new "Ctrl-F1" is assigned "[MENU]-HS".  Therefore, <Ctrl-F1>
+is the same as pressing the [MENU] key, then "H" and then "S".
+
+VEDIT remembers keystroke macros in terms of the functions they access, e.g.
+[MENU], and NOT the keys assigned to the functions, e.g. <F10>.  This way,
+should the keyboard layout change (e.g. you assign a different key to [MENU]),
+all existing keystroke macros will still work.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/You can also enter new keystrokes by using {MISC, Keyboard layout, Add macro}
+(assigned to <Alt-A>).  Instead of recording your keystrokes while you edit,
+you enter the keystrokes directly into a window.  This method if preferable
+for keystroke macros which access VEDIT PLUS's macro language.
+
+Lets redo our first example using this method.  Press <Alt-A>.  At the first
+prompt press <Ctrl-A> and <Esc>.  Press "Y" to confirm.  At the second prompt
+type "VEDIT PLUS" and press <Esc>.  Now press <Ctrl-A> to test it.  "VEDIT
+PLUS" should again appear.		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Now lets use VEDIT PLUS's macro language to create an editing function to
+delete characters from the beginning of the line up to the cursor:
+
+Press <Alt-A>.  At the first prompt press <Ctrl-W>.  Then press <Esc>.  At
+the second prompt first press <Ctrl-E> (this is the [VISUAL EXIT] function).
+Then type (without quotes) "0K".  Then press <Esc> again.
+
+Move the cursor to the middle of a line and press <Ctrl-W>.  The characters
+before the cursor will be deleted.   --- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/This keystroke macro also uses VEDIT PLUS's macro language to create an
+editing function to duplicate a line of text:
+
+Press <Alt-A>.  At the prompt press <Ctrl-D>.  Then press <Esc>.  At the
+second prompt first press <Ctrl-E>.  Then type (without quotes) "0L G".  Then
+press <Esc> again.
+
+Press <Ctrl-D>. If all went well, the current line of text will be duplicated.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+-L -@$N/|S|A/ 0L	!Position cursor
+V
+
+EE(1)
+B#K
+I/The function {CONFIG, Save into VEDIT} can be used to save new keystroke
+macros (and other configuration changes) permanently into VEDIT.
+
+You can also save the entire keyboard layout, with all keystroke macros, to
+a disk file using {MISC, Keyboard layout, Save to disk}.  This file can
+easily be edited and loaded back into VEDIT.  Therefore, you can change the
+keyboard layout by using the {MISC, Keyboard layout} sub-menu or by editing
+and loading keyboard configuration files.
+		  --- Press <Esc> to return to the Main Menu ---/
+B -V
+EE(@)
+V

@@ -1,0 +1,198 @@
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	$VAR VChildMenuPos = 0$
+	$LOOP Menu.MenuItems$
+	$VChildMenuPos = VChildMenuPos+1$
+	$END LOOP$
+	// Menu to be updated with MDI child names
+#define	MDICHILDMENUPOS $VChildMenuPos$ // Position of MDI Child Window menu
+//$PROTECTBLOCK	"wMainMDIWin"$
+
+//****************************************************************************
+//
+// FUNCTION: MDIChildWndProc(HWND, UINT, WPARAM, LPARAM)
+//
+// PURPOSE:  Processes messages for sample MDIChild Windows
+//
+//****************************************************************************
+
+LRESULT CALLBACK _export MDIChildWndProc(HWND hWnd, UINT message, 
+	WPARAM wParam, LPARAM lParam)
+{
+	//$PROTECTBLOCK	"wMDIChildWinProc"$
+	return (DefMDIChildProc(hWnd, message, wParam, lParam));
+}
+$END IF$
+
+//****************************************************************************
+//
+// FUNCTION: $Window.Name$WndProc(HWND, UINT, WPARAM, LPARAM)
+//
+// PURPOSE:  Processes messages
+//
+//****************************************************************************
+
+LRESULT CALLBACK _export $Window.Name$WndProc(HWND hWnd, UINT message, 
+	WPARAM wParam, LPARAM lParam)
+{
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	MDICREATESTRUCT cs;
+	CLIENTCREATESTRUCT ccs;
+	HWND hWndChild;
+	$IF ToolBar.Name != ""$
+	RECT rect;
+	$END IF$
+$END IF$
+$IF ToolBar.Name != ""$
+	HWND hToolWnd;			 // Handle to Tool Bar Window
+$END IF$
+	//$PROTECTBLOCK	"w"+Window.Name+"Vars"$
+
+	switch (message) 
+	{
+		case WM_CREATE:
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+			// Create the MDICLIENT window as a child of the Frame.
+			ccs.hWindowMenu = GetSubMenu(GetMenu(hWnd), MDICHILDMENUPOS);
+			ccs.idFirstChild = CM_MDICHILDWINDOW;
+
+			hWndClient = CreateWindow("MDIClient", "",
+				WS_CHILD | WS_CLIPCHILDREN | WS_VISIBLE | WS_CLIPSIBLINGS, 0, 0, 0, 0, 
+				hWnd, NULL, hInst, (LPSTR) (LPCLIENTCREATESTRUCT) &ccs);
+$END IF$
+$IF ToolBar.Name != ""$
+			// Create Tool bar - This is a child so don't worry about showing
+			hToolWnd = CreateToolbar(hWnd, $ToolBar.H$);
+	$LOOP ToolBar.ToolItems$
+			AddToolItem(hToolWnd, "$ToolItem.ToolType$", CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 		"N$ToolBar.Name$$ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+	$END LOOP$
+$END IF$
+			//$PROTECTBLOCK	"w"+Window.Name+"WM_CREATE"$
+			break;
+		case WM_COMMAND:
+			switch (wParam) 
+			{
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+				case CM_CREATECHILD:
+					// Create an MDI Child window.
+   					cs.szClass = "MDIChildWClass";
+		   			cs.szTitle = "MDI Child Window";
+   					cs.hOwner  = hInst;
+   					cs.x       = CW_USEDEFAULT;
+   					cs.y       = CW_USEDEFAULT;
+	   				cs.cx      = CW_USEDEFAULT;
+   					cs.cy      = CW_USEDEFAULT;
+   					cs.style   = 0;
+   					cs.lParam   = 0;
+   					SendMessage(hWndClient, WM_MDICREATE,
+            					0, (LONG) (LPMDICREATESTRUCT) &cs);
+						//$PROTECTBLOCK	"w"+Window.Name+"CM_CREATECHILD"$
+			     		break;
+				case CM_MDITILE:
+					//$PROTECTBLOCK	"w"+Window.Name+"CM_MDITILE"$
+					SendMessage(hWndClient, WM_MDITILE, 0, 0);
+					break;
+        			case CM_MDICASCADE:
+					//$PROTECTBLOCK	"w"+Window.Name+"CM_MDITILE"$
+			        	SendMessage(hWndClient, WM_MDICASCADE, 0, 0);
+	        			break;
+				case CM_MDIICONARRANGE:
+					//$PROTECTBLOCK	"w"+Window.Name+"CM_MDIICONARRANGE"$
+					SendMessage(hWndClient, WM_MDIICONARRANGE, 0, 0);
+					break;
+				case CM_CLOSECHILDREN:
+					//$PROTECTBLOCK	"w"+Window.Name+"CM_CLOSECHILDREN"$
+					// Close all Child windows for MDIClient
+					// You may want to Query the window to see if closing is OK
+					// Get handle of first MDI Child window.
+					if ( !(hWndChild = GetWindow(hWndClient, GW_CHILD)) )
+						break;
+
+				    	// Close each MDI child
+				    	do
+					{
+				     		// Do not send to caption bars of iconic MDI Children.
+					    	if (GetWindow(hWndChild, GW_OWNER) != NULL)
+							continue;
+
+					    	PostMessage(hWndChild, WM_CLOSE, 0, 0);
+				    	} while ((hWndChild = GetWindow(hWndChild, GW_HWNDNEXT)) != NULL);
+					break;
+$END IF$
+				$LOOP Menu.MenuStrings$  
+				case CM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$:
+				{
+					$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+					$VAR VLinkToType = MenuItem.LinkToType$
+					$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+					$VAR VProtectTag = "w"+Window.Name+VItemName$
+					$INPUT "linkto.sdv"$	//insert linkto code
+				}
+				break;  
+				$END LOOP$  //MenuStrings
+				$LOOP Toolbar.ToolItems$  
+				case CM_$UP(ToolBar.Name+ToolItem.Name)$:
+				{
+					$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+					$VAR VLinkToType = ToolItem.LinkToType$
+					$VAR VItemName = 	ToolItem.Name$
+					$VAR VProtectTag = "w"+Window.Name+ToolBar.Name+ToolItem.Name$
+					$INPUT "linkto.sdv"$	//insert linkto code
+				}
+				break;  
+				$END LOOP$	// ToolItems
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	$IF ToolBar.Name != ""$
+				case WM_SIZE:
+					// Adjust MDIClient window to be below ToolBar
+					GetClientRect(hWnd, &rect);
+					rect.top+=$ToolBar.H$;
+					rect.bottom-=$ToolBar.H$;
+					MoveWindow(hWndClient, 0, rect.top, rect.right, rect.bottom, TRUE);
+					//$PROTECTBLOCK	"w"+Window.Name+"WM_SIZE"$
+					break;
+	$END IF$
+				default:
+					// Very important to pass leftover MDI commands to DefFrameProc
+      					DefFrameProc(hWnd, hWndClient, message, wParam, lParam);
+$END IF$
+			} 
+			break;
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	$IF ToolBar.Name != ""$
+		case WM_SIZE:
+			// Adjust MDIClient window to be below ToolBar
+			GetClientRect(hWnd, &rect);
+			rect.top+=$ToolBar.H$;
+			rect.bottom-=$ToolBar.H$;
+			MoveWindow(hWndClient, 0, rect.top, rect.right, rect.bottom, TRUE);
+			//$PROTECTBLOCK	"w"+Window.Name+"WM_SIZE"$
+			break;
+	$END IF$
+$END IF$
+		case WM_DESTROY:
+			$IF Window.IsMain == "Y"$
+			PostQuitMessage(0);
+			$END IF$
+			//$PROTECTBLOCK	"w"+Window.Name+"WM_DESTROY"$
+			break;
+		default:
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$
+		return DefFrameProc(hWnd, hWndClient, message, wParam, lParam);
+	$ELSE$
+		return DefMDIChildProc(hWnd, message, wParam, lParam);
+	$END IF$
+$ELSE$
+		return DefWindowProc(hWnd, message, wParam, lParam);
+$END IF$
+	}
+	return (NULL);
+}
+

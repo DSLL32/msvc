@@ -1,0 +1,315 @@
+$VAR VCompiler = "Borland"$	// Borland, Microsoft or MS_NT
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 // Flag if there are Toolbars in app
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$ARRAY AModules$									 	// Array of all pgm modules
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$
+	$ADDVAL AModules Window.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP AModules$
+	$OUTPUT AModules.Value+".c"$		// Create Module Files with hdr info
+	$INPUT "modhdr.sdv"$								
+	$OUTPUT AModules.Value+".h"$		// Use APPEND to add to these
+//$PROTECTBLOCK	"ModuleDefs"$
+$END LOOP$
+$IF VToolBarExists == "Y"$				// Flag if there are Toolbars in app
+$ADDVAL AModules "jtools"$	 			// Add ToolBar after others
+$END IF$
+$OUTPUT VPgmName+".h"$							// Create Application Hdr File
+$INPUT "apphdr.sdv"$							 	// Initialize App Header				
+$IF VCompiler == "Microsoft"$		 
+$INPUT "msmak.sdv"$			// Generate Microsoft MAKE file
+$ELSE$
+	$IF VCompiler == "MS_NT"$		 
+	$INPUT "msmaknt.sdv"$		// Generate MS NT MAKE file
+	$ELSE$
+	$INPUT "mak.sdv"$		// Generate Borland MAKE file
+	$END IF$
+$END IF$
+$INPUT "rc.sdv"$					// Generate RC file
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$INPUT "jtools.sdv"$			// Generate Tool Bar Class Files
+$END IF$
+$OUTPUT VPgmName+".c"$	// Must specify an output file
+//***************************************************************************
+// $System.OutFile$ - $application.desc$
+// $System.Date$ - $System.Time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"AppRevisions"$
+#define _EXTERN 		 // Ignore External definition in main module
+#include "$VPgmName$.h"		// Function Prototypes & other includes
+
+//$PROTECTBLOCK	"GlobalVars"$
+
+$LOOP Application.Windows$
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".h"$		// Append to App Definition file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to App Definition file
+	$ELSE$
+		$APPEND Window.ModuleName+".h"$		// Append to module file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all Windows
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".h"$		// Append to App Definition file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".h"$		// Append to module file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all dialogs
+$APPEND VPgmName+".h"$		// Append to App Definition file
+
+$APPEND VPgmName+".c"$	// Continue output to current source
+$LOOP Application.Windows$		 // Generate member functions for all windows
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Current Source
+	$ELSE$
+		$APPEND Window.ModuleName+".c"$		// Append to module file
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Module File
+		$APPEND VPgmName+".c"$	// Continue output to current source
+	$END IF$
+$END LOOP$		 // All windows
+$LOOP Application.dialogs$	// Generate member functions for all dialogs
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".c"$		// Append to module file
+		$INPUT "dlgmem.sdv"$	 // Process Dialog member Driver to Module File
+		$APPEND VPgmName+".c"$	// Continue output to current source
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$
+	$APPEND AModules.Value+".c"$		// Append to module file
+
+//$PROTECTBLOCK	AModules.Value+"UserCode"$
+$END LOOP$
+$APPEND VPgmName+".c"$	// Continue output to current source
+
+//$PROTECTBLOCK	"AppUserCode"$
+
+//****************************************************************************
+//
+// FUNCTION: InitApplication(HINSTANCE)
+//
+// PURPOSE: Initializes window data and registers window & dialog classes
+//
+//****************************************************************************
+
+BOOL InitApplication(HINSTANCE hInstance)
+{
+	WNDCLASS  wc;
+	//
+	// Register class for each window. Also register every dialog that has a 
+	// class specified within the resource definition
+	//
+$LOOP Application.Windows$		 
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = $Window.Name$WndProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	$IF Window.IconFile != ""$
+	wc.hIcon = LoadIcon(hInstance, "$Window.Name$");
+	$ELSE$
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	$END IF$	
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	$IF Window.Color != ""$
+	wc.hbrBackground = CreateSolidBrush($Window.Color$); 
+	$ELSE$
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+	$END IF$	
+	$IF Menu.Name != ""$
+	wc.lpszMenuName =  "$Menu.Name$";
+	$ELSE$
+	wc.lpszMenuName =  NULL;
+	$END IF$	
+	wc.lpszClassName = "$Window.Name$WClass";
+
+	RegisterClass(&wc);
+
+$END LOOP$
+$LOOP Application.Dialogs WHERE Dialog.ClassName != ""$		 
+
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = DefDlgProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = DLGWINDOWEXTRA;	 // Important for dialogs
+	wc.hInstance = hInstance;
+	$IF Dialog.IconFile != ""$
+	wc.hIcon = LoadIcon(hInstance, "$Dialog.Name$");
+	$ELSE$
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	$END IF$	
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+	wc.lpszMenuName =  NULL;				// If menu needed...specify in resource
+	wc.lpszClassName = "$Dialog.ClassName$";	// Must match resource
+
+	RegisterClass(&wc);
+$END LOOP$
+$IF Application.Type == "MDI"$		// If MDI Window default Menu
+	// MDI Default Child Window Class
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = MDIChildWndProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+	wc.lpszMenuName =  NULL;
+	wc.lpszClassName = "MDIChildWClass";
+
+	RegisterClass(&wc);
+$END IF$
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+
+	// Tool Bar Class
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = ToolbarProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.hInstance = hInstance;
+	wc.hIcon = NULL;
+	wc.hCursor = NULL;
+	wc.hbrBackground = (HBRUSH)GetStockObject(LTGRAY_BRUSH); 
+	wc.lpszMenuName =  NULL;
+	wc.lpszClassName = "ToolbarClass";
+
+	RegisterClass(&wc);
+$END IF$							
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary("$LITERAL(ADLLs.Value)$"); // Load Application DLL
+$END LOOP$
+
+	//$PROTECTBLOCK	"InitApplication"$
+
+	return TRUE;
+}
+
+
+//****************************************************************************
+//
+// FUNCTION:  InitInstance(HINSTANCE, INT)
+//
+// PURPOSE:  Saves instance handle and creates main window
+//
+//****************************************************************************
+
+BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
+{
+
+	hInst = hInstance;
+
+$IF Application.WindowName != ""$			// Not using a Dlg for Main Window
+	$LOOP Application.Windows WHERE Window.IsMain == "Y"$	// Find main window & create
+	hWndMain = CreateWindow(
+		"$Window.Name$WClass",
+		"$Window.Caption$",
+		$Window.Style$,
+	$IF Window.DefaultPosition != "Y"$
+		$Window.X$,
+		$Window.Y$,
+	$ELSE$
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+	$END IF$
+	$IF Window.DefaultSize != "Y"$
+		$Window.W$,
+		$Window.H$,
+	$ELSE$
+		CW_USEDEFAULT,
+		CW_USEDEFAULT,
+	$END IF$
+		NULL, NULL, hInstance, NULL );
+	$BREAK$
+	$END LOOP$
+$ELSE$
+	// Create Main Dialog
+	hWndMain = CreateDialog(hInstance, "$Application.DialogName$", 
+		NULL, $Application.DialogName$DlgProc);
+$END IF$
+
+	if (!hWndMain)
+		return (FALSE);
+
+	ShowWindow(hWndMain, nCmdShow);
+	UpdateWindow(hWndMain);
+	//$PROTECTBLOCK	"InitInstance"$
+	return (TRUE);
+}
+
+//****************************************************************************
+//
+// FUNCTION: WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+//
+$IF Application.WindowName != ""$ 
+// PURPOSE: Calls initialization function, processes message loop
+$ELSE$
+// PURPOSE: Calls initialization function, Creates main DialogBox
+$END IF$
+//
+//****************************************************************************
+
+int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, 
+	LPSTR lpCmdLine, int nCmdShow)
+{
+	MSG msg;
+$IF Application.DialogName != ""$ 
+	FARPROC lpDlgProc;
+$END IF$
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+ 	HACCEL hAccel;
+$END IF$
+
+
+	if (!hPrevInstance)
+		if (!InitApplication(hInstance))
+	   		return (FALSE);
+
+	if (!InitInstance(hInstance, nCmdShow))
+  		return (FALSE);
+
+	//$PROTECTBLOCK	"WinMain"$
+
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+ 	hAccel = LoadAccelerators(hInstance, "$Application.Name$");
+$END IF$
+
+	while (GetMessage(&msg, NULL, NULL, NULL)) 
+	{
+		$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+		if(TranslateAccelerator(hWndMain, hAccel, &msg))
+			continue;
+		$END IF$
+		TranslateMessage(&msg);
+	 	DispatchMessage(&msg); 
+	}
+  
+	return (msg.wParam);
+}
+$$
+$$ Create Borland Project File
+$$ You can use the Exists() function if you don't want to overwrite project
+$$
+$IF VCompiler == "Borland"$
+$AND Exists("\objdes21\copyprj.exe") == "Y"$
+$EXEC "\objdes21\copyprj.exe \objdes21\c.prj "+VPgmName+".prj"$
+$END IF$
+
+

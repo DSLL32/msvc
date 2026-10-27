@@ -1,0 +1,16 @@
+Welcome to the MetaWINDOW graphic environment!
+This demo program will take you on a quick tour 
+of the MetaWINDOW graphics library.
+
+MetaWINDOW, which is written and optimized in
+assembly code, has a rich set of over 200
+functions. Combine this functionality with
+high-performance, and you have THE graphics
+toolkit of the 90's!
+
+  [space bar]        - PAUSE and RESUME
+
+  [Escape]           - QUIT TO DOS
+
+  any other key  or 
+  mouse button      - Stops demo

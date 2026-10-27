@@ -1,0 +1,142 @@
+$VAR VCompiler = "Borland"$	// Determines which Makefile is generated
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 // Flag if there are Toolbars in app
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$ARRAY AModules$									 	// Array of all pgm modules
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$ADDVAL AModules "jtools"$	 	// Add ToolBar Module First
+$END IF$
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$	
+	$ADDVAL AModules Window.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$ // Init all new module files
+	$OUTPUT AModules.Value+".cxx"$		// Create Module Files with hdr info
+	$INPUT "modhdr.sdv"$								
+	$OUTPUT AModules.Value+".hxx"$		// Use APPEND to add to these
+$END LOOP$
+$OUTPUT VPgmName+".hxx"$		// Create Application Hdr File
+$INPUT "apphdr.sdv"$				// Initialize App Header				
+$IF VCompiler == "Microsoft"$		 
+$INPUT "msmak.sdv"$					// Generate Microsoft NMAKE file
+$ELSE$
+$INPUT "mak.sdv"$						// Generate Borland MAKE file
+$END IF$
+$INPUT "rc.sdv"$					// Generate RC file
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$INPUT "jtools.sdv"$			// Generate Tool Bar Class Files
+$END IF$
+$INPUT "jkickdwn.sdv"$			// Generate header for Windows kickdown	stuff			
+$OUTPUT VPgmName+".cxx"$		// Must specify an output file
+//***************************************************************************
+// $System.OutFile$ - $application.desc$
+// $System.Date$ - $System.Time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"AppRevisions"$
+#include "$VPgmName$.hxx"				// Main App Class Definitions
+
+//$PROTECTBLOCK	"GlobalVars"$
+
+App *ThisApp;			// Pointer to reference App::Run() etc...
+
+$LOOP Application.Windows$
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".hxx"$		// Append to App Definition file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to App Definition file
+	$ELSE$
+		$APPEND Window.ModuleName+".hxx"$		// Append to module file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all Windows
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".hxx"$		// Append to App Definition file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".hxx"$		// Append to module file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$END IF$
+$END LOOP$		// Loop thru all dialogs
+$APPEND VPgmName+".hxx"$		// Append to App Definition file
+
+$APPEND VPgmName+".cxx"$	// Continue output to current source
+$LOOP Application.Windows$		 // Generate member functions for all windows
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Current Source
+	$ELSE$
+		$APPEND Window.ModuleName+".cxx"$		// Append to module file
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Module File
+		$APPEND VPgmName+".cxx"$	// Continue output to current source
+	$END IF$
+$END LOOP$		 // All windows
+$LOOP Application.dialogs$	// Generate member functions for all dialogs
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".cxx"$		// Append to module file
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Module File
+		$APPEND VPgmName+".cxx"$	// Continue output to current source
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$
+	$APPEND AModules.Value+".cxx"$		// Append to module file
+
+//$PROTECTBLOCK	AModules.Value+"UserCode"$
+$END LOOP$
+$APPEND VPgmName+".cxx"$	// Continue output to current source
+
+//$PROTECTBLOCK	"AppUserCode"$
+
+//
+//	Application Member Functions
+//
+App *GetApp()
+{
+	return ThisApp;
+}
+
+void App::Start(const int, const char*[])
+{
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary("$LITERAL(ADLLs.Value)$"); // Load Application DLL
+$END LOOP$
+	//$PROTECTBLOCK	"AppStart"$
+	ThisApp = this;	 // Save global pointer to app
+$IF Application.WindowName != ""$
+	$LOOP Application.Windows WHERE Window.IsMain == "Y"$
+		$IF Application.Type == "MDI"$
+	$Application.WindowName$Win $Application.WindowName$Win;
+		$ELSE$
+	$Application.WindowName$Win $Application.WindowName$Win;
+		$END IF$
+	Exec();
+	$BREAK$				// Do once
+	$END LOOP$
+$ELSE$
+	$LOOP Application.Dialogs WHERE Dialog.IsMain == "Y"$
+	$CAP(Dialog.Name)$* p=new $CAP(Dialog.Name)$(NULL);
+	p->Show();
+	Exec();
+	$END LOOP$
+$END IF$
+}
+$$
+$$ Create Borland Project File
+$$ You can use the Exists() function if you don't want to overwrite project
+$$
+$IF VCompiler == "Borland"$
+$AND Exists("\objdes21\copyprj.exe") == "Y"$
+$EXEC "\objdes21\copyprj.exe \objdes21\cv3b.prj "+VPgmName+".prj"$
+$END IF$
+

@@ -1,0 +1,182 @@
+//
+// Dialog Member Functions - $CAP(Dialog.Name)$ 
+//
+$CAP(Dialog.Name)$::$CAP(Dialog.Name)$(PTWindowsObject AParent, Pchar DlgName) : TDialog(AParent, DlgName)
+{
+	$LOOP Dialog.listboxs$
+	$listbox.name$ = new TListBox(this, $listbox.Id$, NULL);
+	$END LOOP$
+	$LOOP Dialog.edits$
+	$edit.name$ = new TEdit(this, $edit.Id$, $edit.length$);
+	$END LOOP$
+	$LOOP Dialog.statics$
+	$static.name$ = new TStatic(this, $Static.Id$, $Static.length$);
+	$END LOOP$
+	$LOOP Dialog.CheckBoxs$
+	$CheckBox.name$ = new TCheckBox(this, $CheckBox.Id$, NULL);
+	$END LOOP$
+	$LOOP Dialog.ComboBoxs$
+	$ComboBox.name$ = new TComboBox(this, $ComboBox.Id$, $ComboBox.length$);
+	$END LOOP$
+	$LOOP Dialog.RadioButtons$
+	$RadioButton.name$ = new TRadioButton(this, $RadioButton.Id$, NULL);
+	$END LOOP$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Constructor"$
+}
+	$IF Dialog.ClassName != ""$  
+//
+// GetWindowClass - Allows a new window class to be defined 
+//
+void $CAP(Dialog.Name)$::GetWindowClass(WNDCLASS& AWndClass)
+{
+	TDialog::GetWindowClass(AWndClass);
+		$IF Dialog.IconFile != ""$
+	AWndClass.hIcon = LoadIcon(GetApplication()->hInstance, "$Dialog.Name$");
+		$END IF$	
+	//$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"GetWindowClass"$
+}
+	$END IF$
+//
+//	SetupWindow - Initialize controls, anything requiring win handle
+//
+void $CAP(Dialog.Name)$::SetupWindow()
+{
+$IF ToolBar.Name != ""$
+	PTToolBar pTB = new TToolBar(this, $ToolBar.H$);	// This is a child so don't wory about deleting
+	$LOOP ToolBar.ToolItems$
+	pTB->ToolItems->add(* new TToolItem(this, "$ToolItem.ToolType$", CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 "N$ToolBar.Name+ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$"));
+	$END LOOP$
+
+$END IF$
+	TWindowsObject::SetupWindow();	// will setup child windows
+$IF Dialog.Caption != ""$
+	SetCaption("$Dialog.Caption$");
+$END IF$
+$LOOP Dialog.RadioButtons WHERE RadioButton.IsInitialCheck == "Y"$
+	$RadioButton.Name$->SetCheck(TRUE);	 // Set Initial Check
+$END LOOP$
+$LOOP Dialog.CheckBoxes WHERE CheckBox.IsInitialCheck == "Y"$
+	$CheckBox.Name$->SetCheck(TRUE);	 // Set Initial Check
+$END LOOP$
+$LOOP Dialog.ComboBoxs WHERE ComboBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ComboBox.InitialData$
+	// Fill Combo with initial values
+	$LOOP AInitialData$
+	$ComboBox.name$->AddString("$AInitialData.Value$");
+	$END LOOP$
+$END LOOP$
+$LOOP Dialog.ListBoxs WHERE ListBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ListBox.InitialData$
+	// Fill List Box with initial values
+	$LOOP AInitialData$
+	$ListBox.name$->AddString("$AInitialData.Value$");
+	$END LOOP$
+$END LOOP$
+	//$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"SetupWindow"$
+}
+//
+// Dialog Response functions - $CAP(Dialog.Name)$
+//
+	$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+void $CAP(Dialog.Name)$::CM$ToolBar.Name+ToolItem.Name$(RTMessage )
+{
+	$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = ToolItem.LinkToType$
+	$VAR VItemName = ToolItem.Name$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+ToolBar.Name+ToolItem.Name$
+	$INPUT "linkto.sdv"$	// insert linkto code
+}
+	$END LOOP$
+	$LOOP Dialog.buttons$  
+	$IF Button.Id == "IDOK"$
+	$OR Button.Id == 1$
+void $CAP(Dialog.Name)$::Ok(RTMessage )
+	$ELSE$
+		$IF Button.Id == "IDCANCEL"$
+		$OR Button.Id == 2$
+void $CAP(Dialog.Name)$::Cancel(RTMessage )
+		$ELSE$
+void $CAP(Dialog.Name)$::CM$Button.name$(RTMessage )
+		$END IF$
+	$END IF$
+{
+	$VAR VLinkToName = Button.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = Button.LinkToType$
+	$VAR VItemName = Button.Name$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+Button.Name$
+	$INPUT "linkto.sdv"$	//insert linkto code 
+}
+	$END LOOP$
+	$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+void $CAP(Dialog.Name)$::CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(RTMessage )
+{
+	$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = MenuItem.LinkToType$
+	$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+VItemName$
+	$INPUT "linkto.sdv"$	//insert linkto code
+}
+	$END LOOP$
+//
+// CanClose - Determine if dialog should be allowed to update
+//
+BOOL $CAP(Dialog.Name)$::CanClose()
+{
+$LOOP Dialog.Edits$
+$IF Edit.Validation == "Mandatory"$
+	if ( $Edit.Name$->GetTextLen() == 0 )
+	{
+		MessageBox(HWindow, "Mandatory field requires input.", "Error", 
+	  	 MB_OK | MB_ICONEXCLAMATION);
+		SetFocus($Edit.Name$->HWindow);	 // Position cursor to error
+		return FALSE;
+	}
+$ELSE$
+	$IF Edit.Validation == "Integer"$
+	$Edit.Name$->GetText(szWorkStr, 80);
+	for (p=szWorkStr; *p; p++ )
+	{
+		if ( !isdigit(*p) && *p!='-' )
+		{
+			MessageBox(HWindow, "Invalid integer input.", "Error", 
+		 		MB_OK | MB_ICONEXCLAMATION);
+			SetFocus($Edit.Name$->HWindow);	 // Position cursor to error
+			return FALSE;
+		}
+	}
+	$ELSE$
+		$IF Edit.Validation == "Float"$
+	$Edit.Name$->GetText(szWorkStr, 80);
+	for (p=szWorkStr; *p; p++ )
+	{
+		if ( !isdigit(*p) && *p!='-' && *p!='.'  )
+		{
+			MessageBox(HWindow, "Invalid real number input.", "Error", 
+		 		MB_OK | MB_ICONEXCLAMATION);
+			SetFocus($Edit.Name$->HWindow);	 // Position cursor to error
+			return FALSE;
+		}
+	}
+		$END IF$
+	$END IF$
+$END IF$
+$END LOOP$
+	//$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"CanClose"$
+	return TRUE;
+}
+//
+// CloseWindow - Close Window and Update Data
+//
+void $CAP(Dialog.Name)$::CloseWindow(int ARetValue)
+{
+	if ( ARetValue == IDOK && CanClose() ) // Update Dialog
+	{
+		
+		//$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"CloseWindow"$
+		TDialog::CloseWindow(ARetValue);	// Finish the CloseWindow
+	}
+}
+

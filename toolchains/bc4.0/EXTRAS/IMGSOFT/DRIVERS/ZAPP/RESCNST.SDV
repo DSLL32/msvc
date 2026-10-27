@@ -1,0 +1,51 @@
+$OUTPUT VPgmName+".h"$		// Must specify an output file
+$VAR VToolItemNum = 500$
+$LOOP Application.Windows$
+	$LOOP ToolBar.ToolItems$
+#define		ID_$UP(ToolBar.Name)UP(ToolItem.Name))$ $POS(30)VToolItemNum$
+$VToolItemNum = VToolItemNum + 1$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Dialogs$
+	$LOOP ToolBar.ToolItems$
+#define		ID_$UP(ToolBar.Name)UP(ToolItem.Name))$ $POS(30)VToolItemNum$
+$VToolItemNum = VToolItemNum + 1$
+	$END LOOP$
+$END LOOP$
+$IF Application.Type == "MDI"$
+#define		IDM_CREATECHILD $POS(30)$750
+#define		IDM_CASCADE $POS(30)$751
+#define		IDM_TILE $POS(30)$752
+#define		IDM_ARRANGEICONS $POS(30)$753
+#define		IDM_CLOSECHILDREN $POS(30)$754
+$END IF$
+$VAR VMenuItemNum = 800$
+$LOOP application.dialogs$
+	$LOOP Menu.MenuStrings$
+#define		IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$ $POS(30)VMenuItemNum$
+$VMenuItemNum = VMenuItemNum + 1$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Windows$
+	$LOOP Menu.MenuStrings$
+#define		IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$ $POS(30)VMenuItemNum$
+$VMenuItemNum = VMenuItemNum + 1$
+	$END LOOP$
+$END LOOP$
+
+$ARRAY AConstants$
+$LOOP application.dialogs$
+	$LOOP Dialog.Controls$
+		$ADDVAL AConstants Control.Id$
+	$END LOOP$
+$END LOOP$
+$VAR VCtlNum = 100$
+$LOOP AConstants WHERE AConstants.Value < 1$ // Only #Define Text ID's
+$IF AConstants.Value != "IDOK"$
+$AND AConstants.Value != "IDCANCEL"$
+#define		$AConstants.Value$ $POS(30)VCtlNum$
+$VCtlNum = VCtlNum + 1$
+$END IF$
+$END LOOP$
+//$PROTECTBLOCK	"AdditionalIDs"$
+

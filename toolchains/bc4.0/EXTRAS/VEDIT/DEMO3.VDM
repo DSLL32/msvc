@@ -1,0 +1,571 @@
+RI(9)/VEDIT Family - Basic Editing/
+M(H)			!Display header
+
+YT/
+This demo uses "windows" to let you edit in one window while the other window
+gives instructions.  In practice you can have the "editing window" fill the
+entire screen.
+
+Although VEDIT Jr. does not have windows, all editing features described here
+are available on VEDIT Jr.  References to "VEDIT" apply to all VEDIT Family
+editors.
+
+Feel free to experiment.  Don't be concerned about modifying the text.  Any
+changes you make won't be permanent (as long as you don't use the {FILE} menu
+to save files).
+
+REMEMBER:	Press <Esc> to continue to the next step.
+
+		Press <Alt-F8> to return to the Main Menu.
+
+		Press <F1> for on-line help.
+
+/
+M(K)			!Pause for user
+
+9XS(100)		!Need 9 line window
+M(W)			!Create instruction window; set attributes
+B#K			!Empty edit buffer
+EB demo.txt		!Load demo file
+6L			!Start in middle of text
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/There are 20 cursor movement keys.   The most commonly used one are:
+
+<Cursor Up>    Move up one line        <Cursor Right> Move to next char.
+<Cursor Down>  Move down one line      <Cursor Left>  Move to prev. char.
+<Home>         Move to begin of line   <Pg Up>        Move up a "Page"
+<End>          Move to end of line     <Pg Dn>        Move down a "Page"
+<Ctrl-Enter>   Move to next line
+
+Try these cursor movement keys.  --- Then press <Esc> to continue ---/
+
+B -V			!Display text
+EE(@)			!Switch back to main edit buffer
+V
+
+EE(1)
+B#K
+I\Other cursor movement keys help with word processing:
+
+<F5>         Move to previous word      <F6>         Move to next word
+<Ctrl-F5>    Move to prev. paragraph    <Ctrl-F6>    Move to next paragraph
+<Ctrl-Home>  Move to top of screen      <Ctrl-End>   Move to bottom of screen
+<Ctrl-PgUp>  Move to beginning of file  <Ctrl-PgDn>  Move to end of file
+
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Sometimes lines are longer than the screen.  These lines can be viewed and
+edited using the two "horizontal scrolling" keys:
+
+<Shft-Right Arrow>	Scrolls the screen towards the end of the line
+<Shft-Left Arrow>	Scrolls the screen back to the beginning of the line
+
+Try these horizontally scrolling keys.  Notice how the text shifts sideways.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+ R* 0YWS		!Reset horizontal scroll margin
+EE(1)
+B#K
+I/You can enter new text at the cursor by simply typing it.  Press <Ins> if
+you want the text to be inserted instead of overwriting existing text.  (Note
+that "INS" appears on the "status line" when you are in "Insert mode".)  Two
+keys let you delete single characters.
+
+<Ins>	Toggle "Insert" mode	Text	New text is entered at cursor
+<Del>	Deletes char at cursor	<Bksp>	Deletes previous char
+
+Try some simple changes to the text.	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/To insert a new line of text, first move the cursor to the end of the
+previous line (use <Up Arrow> and <End>).  Be sure you are in Insert Mode and
+then press <Enter>.  This inserts a new line (which is initially blank).  Now
+enter the line of text.  You can press <Enter> again to insert another line.
+
+If you press <Enter> with the cursor in the middle of a line, the line is
+split into two lines.  (Press <Backspace> to merge the lines back together.)
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Most editing functions can be accessed using the "pull-down" menus.  As you
+become more familiar with VEDIT you can also access editing functions directly
+using Function and CTRL keys.  This saves steps by bypassing the menus.  Press
+<F10> to start the menu system.  Use the cursor keys to move around the menus.
+
+Pressing <Esc> removes the menus one level at a time.  Pressing <Ctrl-C>
+removes the menus at once.  (This is the "CANCEL" function.)
+
+	--- Remove the Menu system and press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/As you moved around the menus in the previous step, sub-menus were not
+displayed until you selected them.  This is the norm with most Microsoft and
+Borland products.  We have now enabled "sub-menu preview" so that sub-menus
+are displayed before you select them; we think this makes it easier to browse
+a menu system.  (Sub-menus are always previewed when using a mouse.)
+
+Press <F10> again to start the menu system.  Notice how sub-menus are now
+previewed.  If desired, toggle "Enable sub-menu preview" in the {CONFIG, Screen
+display} sub-menu. 	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+YJN 11 1	R* Enable sub-menu preview
+V
+
+EE(1)
+B#K
+I/To display the ASCII table from the menu system first press <F10>.  Select the
+{MISC} menu by typing "M".  (Or you can highlight "Misc" using <Cursor Right>
+and <Cursor Left> and then press <Enter>.)  Select "ASCII Table" by typing
+"A".  (Or you can highlight "ASCII table" using <Cursor Up> and <Cursor Down>
+and then press <Enter>.)
+
+Press <Enter> after each "page" of the displayed table.  Press <Esc> to leave
+the ASCII table.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\If you have a mouse, move the mouse to the top screen line and click the left
+button.  This brings up the menu system.  You can select an item by first
+clicking on its menu name and then on the desired item.  Or you can navigate
+the menu by holding down the left button.  Sliding the mouse along the top
+screen line displays each menu.  Sliding the mouse up/down highlights each
+item or sub-menu.  Placing the mouse on an item and releasing the left button
+selects the item.
+
+  		--- Press <Esc> to continue ---\
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/On-line help is available at any time by pressing <F1>.  It first displays a
+keyboard layout listing which key(s) access each editing function.  To get
+help on a particular function just press the associated key.
+
+For example, for help with searching, first press <F1> and then <F2>.
+
+-- OR -- Press <Enter> (twice) to see the first of two screens which
+	 summarize the built-in keystroke macros.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/If you press <F1> and then press <Enter> about four times, you will see a
+list of topics for which on-line help is available.
+
+For example, for an explanation of how to insert control and graphics
+characters, first press <F1>; then press <Enter> four times; then type "IC"
+and <Enter>.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Pressing <F1> within the menu system gives you an explanation of the functions
+available in the currently displayed menu.  (Pressing the right button on a
+mouse does the same thing.)
+
+Experiment with the menu system by using <Cursor Right> and <Cursor Left> to
+display different menus and then pressing <F1> from each menu.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\If you have a mouse, it can also be used to scroll to other parts of the file,
+highlight and copy/move blocks, access help and switch between windows.
+
+The mouse operations are fully described in the on-line help.  To access it
+press <F1> (or select "General" in the {HELP} menu).  At the prompt for the
+desired function key click the left button.  Or select "Mouse" from the help
+topics.
+
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+
+
+EE(1)
+B#K
+I/You can quickly delete lines or words with these keys:
+
+<Ctrl-Z>	Delete text from cursor to end of line.
+<Ctrl-X>	Delete entire line.  The cursor can be anywhere on the line.
+
+<Alt-F5>	Delete the previous word.
+<Alt-F6>	Delete the next word.
+
+Try these deletion keys.  --- Then press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/You can "undo" most changes keystroke by keystroke or line by line.  To undo
+the previous keystroke press <Alt-Bksp>.  To undo the keystroke before that
+press <Alt-Bksp> again, and so on.
+
+To undo all the changes made to a line press <Ctrl-U>.  Pressing <Ctrl-U>
+again moves to the previous line you were on.  Pressing <Ctrl-U> a third time
+restores the previous line, and so on.
+
+Try the undo functions.  --- Then press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/The undo keys <Alt-Bksp> and <Ctrl-U> are "keystroke macros" (sometimes called
+"hot-keys") which directly access functions within the {EDIT, Undo} sub-menu.
+
+<Alt-Bksp> is equivalent to {EDIT, Undo, Edit}.
+<Ctrl-U>   is equivalent to {EDIT, Undo, Line}.
+
+Another topic describes "keystroke macros" in detail.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Additional keystroke macros permit direct access to each of the menus:
+<Alt-B> selects {BLOCK} menu		<Alt-M> selects {MISC} menu
+<Alt-C> selects {CONFIG} menu		<Alt-P> selects {PRINT} menu
+<Alt-E> selects {EDIT} menu		<Alt-S> selects {SEARCH} menu
+<Alt-F> selects {FILE} menu		<Alt-W> selects {WINDOW} menu
+<Alt-G> selects {GOTO} menu			(VEDIT and VEDIT PLUS only)
+<Alt-H> selects {HELP} menu
+
+	Note: It is <ALT> and the 1st letter of the menu.
+	--- Remove the menu system and press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/You can easily enter graphics characters and create "boxes".  For example:
+
+ษออออออออออออออออออออออออออออออออออออออออออออออออป
+
+First type <Alt>-201 (hold down the <Alt> key and type 201 on the KEYPAD).
+Then press <Ctrl-R>, enter "48" and type <Alt>-205.  Last type <Alt>-187.
+Note: You must type "201" on the KEYPAD (cursor keys)!
+
+Note:  <Ctrl-R> is the [REPEAT] function.  --- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+Z
+V
+
+EE(1)
+B#K
+I\You could use the {BLOCK} menu to copy/move blocks of text, but special block
+functions are quicker.  First, move the cursor to the 1st character in the
+block.  Then press <F9> to set the 1st block marker.  Now highlight the block
+by moving the cursor one position PAST the LAST desired character in the
+block.  (This is generally the beginning of the next line.)  Press <F9> again
+to set the 2nd block marker.  Now move the cursor to the desired destination
+for the block.  Now press <Ctrl-F9> to copy the block; or press <Alt-F9> to
+move the block.
+		--- Press <Esc> to continue ---\
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/You can perform more flexible "cut and paste" using a text register.  (VEDIT
+Jr. has one register, VEDIT and VEDIT PLUS have 36 registers named "0" thru
+"9" and "A" thru "Z".)  To copy a block of text to a register, set the 1st
+marker and highlight the block as before.  Then press <Grey+> for "Copy to
+register" or <Grey-> for "Move to register" depending upon whether you want
+to copy or move the original block.  With VEDIT and VEDIT PLUS you are also
+prompted for the "register" name.  (Only use register "0" in this demo.)  As a
+shortcut simply press <Enter> or any <Grey> key again to use register "0".
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/You can now insert (paste) the block of text anywhere in the file.  First,
+position the cursor where you want it inserted.  Then press <Grey*>.  With
+VEDIT and VEDIT PLUS you are also prompted for the "register" name.  Press
+<Grey*> again to insert register "0".  One advantage of using registers is
+that you can easily insert the same block of text several times in the file --
+inserting a register does not empty it.  Registers also let you copy a block
+from one file to another.  (VEDIT also has <Shift-Del>, <Ctrl-Ins> and
+<Shift-Ins> defined as the "Cut", "Copy" and "Paste" functions.)
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\The block copy/move operations are also available in the {BLOCK} menu.  "Set
+marker" marks the block.  "Copy to cursor" and "Move to cursor" directly
+copy/move the block.  "Copy to register" and "Move to register" copy/move the
+block to a text register.  Finally, "Insert register" inserts a text register.
+
+Many common edit functions can be performed step by step using the menu system
+or more directly using "hot-keys".	 --- Press <Esc> to continue ---\
+B -V
+EE(@)
+V
+
+B#K
+ER demo.txt 0A		!Load demo file again
+
+EE(1)
+B#K
+I/The search and search & replace operations are very flexible.
+
+<F2>	  Is the "search" key
+<Alt-F2>  Is the "search & replace" key
+<F3>	  Performs the last "search" or "search & replace" again
+
+Press <F2>.  At the prompt, type the desired 'search string', e.g. "the" and
+press <Enter>.  The cursor will move to the first occurrence of "the".
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/To search for the next occurrence of "the" press <F3>.  Notice that it will
+find both "The" and "the" or even "THE".  Notice that it will also find the
+first three letters of "they", the word "other", etc.
+(Note: this method only finds words in the text FOLLOWING the cursor.)
+
+To search for a different word press <F2> again and enter the new 'string'.
+Note that you can press [CURSOR UP] to reuse the previous string.  You can
+also edit the string being entered.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Press <F2> and then press <F2> immediately again.  You can now select from
+the "search options".  "Again" lets you reuse the previous search string.
+"Begin" forces the search to start from the beginning of the text.  "Far" (the
+default) permits searching through very large files.  "Reverse" searches in
+the reverse direction.  "Word" restricts the search to entire words.
+
+Press "R" and <Enter> to search in reverse.  Now type the word you want to
+search and <Enter>.  Note how the search is in reverse toward the beginning of
+the file.  Experiment.	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/More sophisticated searches are possible with "pattern matching".
+Here are six of the 22 "pattern matching codes":
+
+|<	Beginning of line		|>	End of line
+|X	Anything "wildcard"		|D	Digit (0 - 9)
+|A	Letter (alphabet)		|U	Upper case letter
+
+For example, to search for lines beginning with "the" press <F2> and then
+type "|<the" followed by <Enter>.	  --- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+B
+V
+
+EE(1)
+B#K
+I/To perform a search & replace press <Alt-F2>.  At the "Search?" prompt enter
+the desired search string just as before.  At the "Replace with?" prompt enter
+the replacement text.  You are then prompted for confirmation to make the
+replacement.
+
+For example, let's replace "VEDIT PLUS" with "VEDIT+".  Press <Alt-F2>.  Press
+<Alt-F2> again to get the options.  Press "B" and <Enter>.  Type "VEDIT PLUS"
+and <Enter>.  Then type "VEDIT+" and <Enter>.  Notice the confirmation prompt.
+Press "O" to make the replacement.	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Now press <F3> to find the second occurrence.  At the confirmation prompt
+press "Y" to make the replacement and immediately search for the next
+occurrence.  Or press "N" to not make the replacement, but keep searching.
+Press <F1> if you want assistance from the on-line help.
+
+As above, you can selectively replace each occurrence.  However, to quickly
+replace all occurrences press "R" for "rest" at the confirmation prompt.
+(You can undo the entire global replacement by pressing <Alt-Bksp> once.)
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Press <F2> to get the search prompt.  Press <Up Arrow>.  Notice that the
+previous search string appears.  <Up Arrow> and <Down Arrow> let you select
+previous entries for many of VEDIT's prompts.  You can also edit previous
+entries with <Right Arrow>, <Left Arrow>, <Home>, <End> and <Del>.  Text typed
+in the middle of a line is inserted.  When the entry is correct, press
+<Enter>.  Feel free to experiment.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\"Regular expressions" (VEDIT and VEDIT PLUS only) permit even more powerful
+search/replace pattern matching.  Although regular expressions are too complex
+to cover in this tutorial, you can try a simple example which will search for
+capitalized words of two or more letters.
+
+Press <F2> twice to get the search options.  Press "Y" and <Enter> to select
+regular expressions.  Type "[A-Z][a-z]+" and press <Enter>.  This will search
+for the next capitalized word.  Press <F3> to search for the next word.
+		--- Press <Esc> to continue ---\
+B -V
+EE(@)
+B
+V
+
+EE(1)
+B#K
+I\You can restrict search/replace operations to a highlighted block of text.
+First mark and highlight the block in the normal way (using <F9> twice).  To
+search the entire block place the cursor at the beginning of the block.  Any
+search and replace operations will now only occur within the block.
+
+For maximum flexibility, VEDIT only performs a block search when the cursor is
+within the block.  This way you can highlight a block and then search the
+entire file for the destination to which you want to copy/move the block.
+		--- Press <Esc> to continue ---\
+B -V
+EE(@)
+B
+V
+
+EE(1)
+B#K
+I\VEDIT can perform other block oriented operations.  The {EDIT, Lower/Upper
+case} sub-menu lets you convert all letters in a block to upper case, lower
+case or switch the case.  If no block is marked, or the cursor is not within
+the block, these functions only convert a single character.
+
+You can also indent/undent a block.  Try it by highlighting a block of several
+lines.  Make sure the cursor is within the block and press <F8>; this indents
+all lines in the block.  <F7> will undent all lines in the block.
+		--- Press <Esc> to continue ---\
+B -V
+EE(@)
+B
+V
+
+EE(1)
+B#K
+I\Most file handling can be performed with the {FILE} menu.  Press <Alt-F>.
+Then press <F1> and the on-line help will explain each item.
+
+To prevent destroying the demo files, don't try any of the file operations at
+this time except for "Directory" which is covered next.
+
+	--- Remove the Menu system and press <Esc> to continue ---\
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/For example, you can display the directory:
+
+Press <Alt-F> for the {FILE} menu.  Press "D" for "Directory".  To display the
+entire directory, press <Enter> at the "Filename:" prompt.  To display only
+files with a filename extension of ".HLP" type "*.HLP" and <Enter> at the
+prompt.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/In this tutorial the <Esc> key is used to go to the next step.  Normally,
+however, the <Esc> key puts up the "ESCAPE MENU".  From this menu you can go
+to Command Mode (VEDIT PLUS only), remove block markers, exit VEDIT saving
+your file(s) or quit VEDIT.
+
+The <Esc> key has now been switched to perform its normal function.  Press
+<Esc>.  Select "Command Mode" and press <Enter> to return to the main menu
+of this demo.  (Selecting anything else may stop the demo!)
+	--- Press <Esc> and select "Command Mode" ---/
+B -V
+EE(@)
+-YYE		!Restore ESC key to normal operation
+V

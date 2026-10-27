@@ -1,0 +1,47 @@
+--------------------------------------------------------------------------------
+                  Access to Hidden Pointers
+     Allows You to Code Class Browsers and Other Advanced Tools
+--------------------------------------------------------------------------------
+Ottawa, Ontario, Canada - October 10, 1992 - Code Farms Inc. has announced a new
+utility now available as a part of their C/C++ data library.
+
+If you want to design your own class browsers,  fast persistent data,  or other
+advanced C++   tools,   you need information on how the classes are constructed
+(meta class information),  including the inheritance graph and locations of all
+the virtual function and virtual class pointers.
+
+Unfortunately, different compilers construct classes in different ways, and most
+C++ compilers keep this information hidden from the user.
+
+Code Farms discovered a new simple method which can retrieve this information in
+in a completely general way,  without mimicking the logic of the compiler.  Code
+Farms' persistent data has been based on this idea for over a year. The feature
+is now available to all users of the library.
+
+Based on the observation that "standard" class  libraries  are quickly becoming
+obsolete,  because they lead to spaghetti++ code on large projects,  Code Farms
+developed a new  generation  C++   library,   which fully separates objects and
+relations for data structures such as linked lists,  collections, aggregations,
+associations, trees, graphs, hash tables, properties, and ER models.
+
+"This  is  a  state-of-the-art  technology  which  cannot  be  implemented with
+templates",  says Jiri Soukup,  president of Code Farms.  "We have  a clean and
+simple implementation of Booch's mechanism. Programs designed with this library
+are easier to debug and maintain,  and require less memory than those  designed
+with traditional templates."
+
+The type tables, the inheritance graph, and the hidden pointers are available as
+a new library class, called "TYPE". This class includes iterators that traverse
+base classes of a given class, and inter-class (relational) pointers.
+
+Code Farms' data objects are automatically persistent(no user-coded IO functions
+required),and have superior run-time performance. The library includes fast disk
+storage (memory blasting), data browser, and can be used as a database maker.
+
+The software runs with most C++ compilers under UNIX,  DOS,  WINDOWS,  and Mac:
+AT&T, SUN, HP, MIPS, Borland, Zortech, and Microsoft. Both programs and data are
+portable between  different  environments.   A  similar library is available in
+regular C.
+
+The new feature will be demostrated at OOPSLA-92 Conference,  Vancouver, B.C.,
+October 19-21, 1992.

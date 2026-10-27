@@ -1,0 +1,2 @@
+TASM /zi -proj.ext
+TLINK -proj.obj

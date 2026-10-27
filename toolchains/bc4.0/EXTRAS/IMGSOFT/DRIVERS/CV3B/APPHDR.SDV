@@ -1,0 +1,17 @@
+//***************************************************************************
+// $System.OutFile$ - Application Class Definitions
+// $system.date$ - $system.time$
+// $application.programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"Revisions"$
+#include <CommonVu.hxx>
+#include <string.h>
+#include "jkickdwn.h"			// Needed for Postmessage() & Win31 stuff
+#include "$VPgmName$.h"	 		// Resource Constants
+$LOOP AModules$
+#include "$AModules.Value$.hxx"		// Module Class Definitions
+$END LOOP$
+//$PROTECTBLOCK	"AppIncludes"$
+
+App *GetApp();	 // Return pointer to app
+

@@ -1,0 +1,15 @@
+/*  VCS_ID
+ *  $Filename:   graph.rc
+ *  $Author  :   John Pompeii
+ *  $Revision:   1.1  $
+ *  $Date:   28 Dec 1991 14:18:30  $
+ */
+ 
+#include <os2.h>
+#include "about.h"
+#include "graph.h"
+#include "printdlg.h"
+
+POINTER I_OBJPM PRELOAD MOVEABLE objpm.ico
+rcinclude about.dlg
+rcinclude printdlg.dlg

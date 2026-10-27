@@ -1,0 +1,71 @@
+$IF VLinkToName == "OpenFile"$
+$OR VLinkToName == "SaveFile"$
+			char *types[]=
+			{ 
+				"All Files (*.*)","*.*",
+				"Text Files (*.txt)","*.txt",
+				0,0 
+			};
+	$IF VLinkToName == "OpenFile"$
+			zFileOpenForm *p = new zFileOpenForm(this,"Open File", NULL, types);
+	$ELSE$
+			zFileSaveAsForm *p = new zFileSaveAsForm(this,"Save File As", NULL, types);
+	$END IF$
+			if (p->completed()) 
+			{
+				// Use p->name() to retrieve filename
+				//$PROTECTBLOCK	VProtectTag$
+			}
+			delete p;
+$ELSE$
+$IF VLinkToName == "Print"$
+$OR VLinkToName == "PrintSetup"$
+			PRINTDLG pd;
+			memset(&pd, 0, sizeof( PRINTDLG ));
+			pd.lStructSize = sizeof( PRINTDLG );
+			pd.hwndOwner=(HWND)*this;	 
+	$IF VLinkToName == "PrintSetup"$
+			pd.Flags=PD_PRINTSETUP;
+	$ELSE$
+			pd.Flags=PD_RETURNDC;
+	$END IF$
+			if (PrintDlg(&pd))
+			{
+				//$PROTECTBLOCK	VProtectTag$
+			}
+$ELSE$
+$IF VLinkToName == "ChooseColor"$
+			CHOOSECOLOR cc;
+			COLORREF aclrCust[16];
+			memset(&cc, 0, sizeof( CHOOSECOLOR ));
+			// Set the custom color controls to white. 
+			for (int i=0; i < 16; i++)
+		    		aclrCust[i] = RGB(255, 255, 255);
+			cc.lStructSize = sizeof( CHOOSECOLOR );
+			cc.hwndOwner=(HWND)*this;	 
+			cc.rgbResult = RGB(0, 0, 0);	// Initialize color to black
+			cc.lpCustColors = aclrCust;
+			// cc.Flags = CC_PREVENTFULLOPEN;
+			if (ChooseColor(&cc))
+			{
+				//$PROTECTBLOCK	VProtectTag$
+			}
+$ELSE$
+$IF VLinkToName == "ChooseFont"$
+			CHOOSEFONT cf;
+			LOGFONT lf;
+			memset(&cf, 0, sizeof( CHOOSEFONT ));
+			cf.Flags = CF_SCREENFONTS | CF_FORCEFONTEXIST | CF_EFFECTS;
+			cf.nFontType = SCREEN_FONTTYPE;
+			cf.lpLogFont = &lf;
+			cf.lStructSize = sizeof( CHOOSEFONT );
+			cf.hwndOwner=(HWND)*this;	 
+			if (ChooseFont(&cf))
+			{
+				//$PROTECTBLOCK	VProtectTag$
+			}
+$END IF$
+$END IF$
+$END IF$
+$END IF$
+

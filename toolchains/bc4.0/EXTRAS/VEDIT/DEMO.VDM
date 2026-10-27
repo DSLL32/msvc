@@ -1,0 +1,388 @@
+R* 
+R*	VEDIT PLUS Demo/Tutorial Macro - Give DOS command: VDEMO -X DEMO.VDM
+R* 
+R*	Greenview Data, Inc.
+R*	P.O. Box 1586
+R*	Ann Arbor, MI, 48106
+R*	(313) 996-1300
+R* 
+ES 8 1			R* Suppress search errors
+ES 9 1			R* Use explicit text delimiters
+ET 8			R* Set tabs stops at every 8
+(.ev>=372)[ -JO ]	R* Permit demo to run from {MISC, Load/execute macro}
+R* 
+R*	The following "trick" removes comments from this macro.
+R*	Register "Y" is loaded with the commands to strip comments.
+R*	We then "chain" to "Y", which finally chains back to "Z".
+R* 
+RI(y)"EE(z) B 2F/!START!/ 0L -#K #$S/R*|B|Y|>// EE(@) RJ(z)"
+RJ(y)
+R* 
+!START!
+(Q11 == -1) JP"MLOOP"		R* Skip setup if macro already running
+R* 
+R*	Load DEMO.VD2 into register U.
+R*	This macro then loads the "subroutine macros"
+R* 
+RL(U) DEMO.VD2		R* Load 2nd file
+EE(U)			R* Switch to edit them
+#$S/R*|Y|>//		R* Strip comments
+EE(@)			R* Switch back
+M(U)			R* Execute DEMO.VD2 - load "subroutines"
+EE(U) EQY		R* Empty and remove Buffer "U"
+(Q11 == -2) JP"MLOOP"	R* Skip signon if returning from compiler support
+R* 
+R*	Determine colors to use for different machines.
+R*	First preset for B/W display.
+R* 
+112XS(21)		R* Q21 = header attribute (Reverse video)
+112XS(22)		R* Q22 = menu-bar attribute (Reverse video)
+15XS(23)		R* Q23 = user-message attribute (Intense)
+7XS(24)			R* Q24 = normal
+112XS(25)		R* Q25 = reverse
+7XS(26)			R* Q26 = edit window attribute
+7XS(27)			R* Q27 = text (directions) window attribute
+7YEA			R* Normal text attribute
+
+(.sd==3)[		R* If IBM Color
+
+YEC YEN
+YT"Do you have a color display on your computer? [Y]es [N]o "
+[ XK(100)"" Q100&95XS(100) (Q100=="Y | Q100=="N)JL YA ] Q100YD
+
+(Q100=="Y) [
+23XS(21)		R* Q21 = header attribute (White on blue)
+71XS(22)		R* Q22 = menu-bar attribute (White on red)
+14XS(23)		R* Q23 = user-message attribute (Yellow)
+66XS(24)		R* Q24 = green on red window
+49XS(25)		R* Q25 = blue on cyan window
+23XS(26)		R* Q26 = edit window attribute
+2XS(27)			R* Q27 = text (directions) window attribute
+2YEA			R* Normal text attribute
+][
+YYM			R* No - change to monochrome attributes
+]
+]
+
+M(S)			R* Execute signon macro
+RE(S)			R* Empty signon macro
+0XS(12)			R* Init main-menu selection
+YJN 11 0		R* Turn off sub-menu preview
+
+R* 
+R*	M A I N    P R O G R A M
+R* 
+
+!MLOOP!			R* Main loop
+YJN  9 1		R* Partial window borders
+YJN 10 0		R* No scroll bars
+YWI			R* Init all windows
+22085YYE		R* Make <ESC> perform [VISUAL EXIT]
+(.sl<>25)[ 25YEM ]	R* Switch EGA/VGA to 25 lines
+EE(1) EQY		R* Clear edit buffers 1, 2, 7, 8, A, B
+EE(2) EQY
+EE(7) EQY
+EE(8) EQY
+EE(A) EQY
+EE(B) EQY
+RE(P)			R* Empty registers P and T
+RE(T)
+EE(@)			R* Switch to main edit buffer
+EZY			R* Clear main edit buffer; also reset indentation
+EP 4 0			R* Disable LC to UC conversion
+EP 7 0			R* Disable word wrap
+EP 13 0			R* Disable binary mode
+ES 3 0			R* Disable auto-indent
+ES 6 0			R* Disable regular expressions
+ES 8 1			R* Suppress search errors
+ES 9 1			R* Use explicit delimiters
+ES 11 0			R* Disable justification
+PP 4 10			R* Left printer margin = 10
+1YML			R* Reset left margin
+0YMS			R* Reset horizontal scroll
+1RPROT(H,Z)		R* Write protect registers H - Z from visual mode
++RA(Z)			R* Auto-execute register Z
+-XS(11)			R* Flag that macro running
+
+RI(9)/  VEDIT FAMILY DEMONSTRATION -- MAIN MENU  /
+
+RI(8)\Introduction
+List Main Features
+Demonstrate Basic Editing Features (Tutorial)
+Demonstrate Program Development Features
+Demonstrate Word Processing Features
+Demonstrate Keystroke Macros
+Demonstrate Printing
+Demonstrate Windows and EGA/VGA support (VEDIT)
+Demonstrate Multiple File Editing       (VEDIT)
+Demonstrate Multiple File Processing    (VEDIT)
+Demonstrate Data/Binary File Editing    (VEDIT)
+Demonstrate Basic Command Mode Features (VEDIT PLUS)
+Demonstrate DOS Commands                (VEDIT PLUS)
+Explain Configuration Options
+Exit Demonstration (Ordering information)
+\
+
+Q22_XS(8)		R* Set menu-bar attribute
+M(M)			R* Display menu - get user's option in Q12
+YR(t) -:XT(12) -YR	R* Convert option to ASCII in "T"
+
+EE(8) EQY		R* Clear edit buffer 8
+EE(@)			R* Ensure main edit buffer
+
+:JP"MAIN-|Rt"		R* Jump to "variable" label
+0XS(12)			R* In case of error, reset main-menu selection
+JP"MLOOP"
+
+
+R* 
+!MAIN-1!		R* List introduction
+R*
+RI(9)"     VEDIT Family - Introduction     "
+RI(8)"DEMO1.TXT"	R* File name of text
+M(L)			R* Display text
+JP"MLOOP"
+
+
+R* 
+!MAIN-2!		R* List Main features
+R* 
+RI(9)"VEDIT Family - Main Features"
+RI(8)"demo2.txt"
+M(L)
+JP"MLOOP"
+
+
+R* 
+!MAIN-3!		R* Demonstrate basic editing features
+R* 
+RL(T) demo3.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-4!		R* Demonstrate Programming features
+R* 
+RL(T) demo4.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-5!		R* Demonstrate Word Processing features
+R* 
+RL(T) demo5.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-6!		R* Demonstrate Keystroke Macros
+R* 
+RL(T) demo6.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-7!		R* Demonstrate Printing
+R* 
+RL(T) demo7.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-8!		R* Demonstrate Windows
+R* 
+RL(T) demo8.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-9!		R* Demonstrate Multiple File Editing
+R* 
+RL(T) demo9.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-10!		R* Demonstrate Multiple File Processing
+R* 
+RL(T) demo10.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-11!		R* Demonstrate Data/Binary File Editing
+R* 
+RL(T) demo11.vdm
+M(T)
+JP"MLOOP"
+
+
+R* 
+!MAIN-12!		R* Demonstrate Command Mode
+R* 
+RI9"VEDIT PLUS - Command Mode Demo"
+M(H)
+
+YT/
+You can perform all routine editing entirely in the easy to use Visual Mode.
+However, the Command Mode is even more powerful; it is a complete programming
+language.  You can use the commands singly or combine them into programs
+called "macros".  Remember that this entire demo is written as a "macro".
+
+You may find the Command Mode a little terse at first.  However, this
+programming language has several advantages over more verbose ones.  First,
+you can create a program or "macro" at any time and use it immediately.  There
+is no time wasted with "compiling", yet it executes as fast as a compiled one.
+The language is interactive; you can easily change macros and debug complex
+ones.  You can try out the commands one by one.  The short commands let you do
+a lot with just a few keystrokes.
+
+You don't have to be a programmer to use "macros".  We regularly receive
+letters from people who say that VEDIT PLUS is the first programming language
+they can understand and use.
+
+/
+
+M(K)
+
+5YEV 0YEH		R* Position cursor
+YES			R* Clear rest of screen
+
+YT/
+You have to be a little careful when running this part of the demo.  Since
+you will really be in the Command Mode, this demo macro is no longer running
+and it cannot catch your errors.  (Of course there is nothing you can hurt,
+but it is possible to stop this demo.)
+
+
+REMEMBER:  You can enter commands in upper or lower case.  You must press
+	   <Enter> at the end of each command line.
+
+REMEMBER:  Give the command "MN" to continue with the next step of the demo.
+
+REMEMBER:  If things don't seem to be working right, first press <CTRL-C>.
+	   Then give the command "MZ" to return to the Main Menu.
+
+
+/
+
+M(K)
+
+YWR(1) 41		R* Setup 2 windows
+YWB($) 9
+
+EE(1)
+B#K
+ER demo12.txt 0A	R* Load instruction text
+-V			R* Display text
+
+EE(@)
+B#K			R* Empty edit buffer
+ER demo.txt 0A		R* Load demo text
+-V			R* Display text
+
+YWS$			R* Switch to command mode window
+YEN
+
+RA(0)			R* Disable auto-execution
+JO			R* Goto command mode
+
+
+R* 
+!MAIN-13!		R* Demonstrate DOS Commands
+R* 
+RI(9)"VEDIT PLUS - Demonstrate DOS Commands"
+M(H)
+
+YT/
+You can run DOS commands and other programs from within any VEDIT Family
+editor using the {MISC, DOS shell} and {MISC, Run DOS program} menu functions.
+
+This topic demonstrates the additional flexibility available in VEDIT PLUS's
+command mode language for interfacing with DOS.
+
+You have to be a little careful when running this part of the demo.  Since you
+will really be in the Command Mode or in DOS, this demo macro is no longer
+running and it cannot catch your errors.
+
+You can enter commands in upper or lower case.  You must press <Enter> at the
+end of each command line.
+
+
+REMEMBER:  Give the command "MN" to continue with the next step of the demo.
+
+REMEMBER:  Give the DOS command "EXIT" to return to VEDIT and this demo.
+
+/
+
+M(K)
+
+YWR(1) 41		R* Setup 2 windows
+YWB($) 15
+
+EE(1)
+B#K
+ER demo13.txt 0A	R* Load instruction text
+-V			R* Display text
+
+EE(@)
+B#K			R* Empty edit buffer
+
+YWS$			R* Switch to command mode window
+YEN
+
+RA(0)			R* Disable auto-execution
+JO			R* Goto command mode
+
+
+R* 
+!MAIN-14!		R* Explain Configuration Options
+R* 
+RI(9)"VEDIT Family - Configuration Options"
+RI(8)"demo14.txt"
+M(L)
+JP"MLOOP"
+
+
+R* 
+!MAIN-15!		R* Exit demo
+R* 
+Q27YEA YEC			R* Clear window
+YT\Thank you for the time you have spent with the VEDIT Family Demo/Tutorial.
+We welcome any comments on how we can make this demo more informative.
+
+VEDIT PLUS, VEDIT and VEDIT Jr. are sold with a 30 day money-back guarantee.
+Evaluate the complete product and, if you are not satisfied, return it within
+30 days for a full refund.
+
+Our customer support includes free telephone support, a newsletter,
+inexpensive software updates and a 24-hour bulletin board system. You may call
+the BBS for the most recent version of the demo/tutorial disk and other
+product information.
+
+Purchasing VEDIT PLUS directly through Greenview entitles you to automatic and
+free updates for 12 months (3 updates including one with new manual) and
+discounts on other versions of VEDIT PLUS such as for UNIX/XENIX.
+
+For more information and	Greenview Data, Inc.
+to order please contact:	P.O. Box 1586
+				Ann Arbor, MI  48106
+
+Telephone: (313) 996-1300	Toll Free: (800) 45-VEDIT   (U.S. and Canada)
+Fax:       (313) 996-1308	BBS:       (313) 996-1304
+
+\
+
+Q23YEA
+YT/		 --- PRESS ANY KEY TO EXIT THIS DEMO --- /
+Q27YEA
+XK(0)//
+:EQAY

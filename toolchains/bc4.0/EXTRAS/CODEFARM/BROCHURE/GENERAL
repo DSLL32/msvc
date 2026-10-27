@@ -1,0 +1,170 @@
+-------------------------------------------------
+C O D E   F A R M S '   C / C + +   L I B R A R Y
+-------------------------------------------------
+                                                                                                                               Lets a novice code like a pro
+                                               Turns a pro into a wizard
+
+
+                * works with either plain C or C++
+                * provides 2-3 times faster coding and debugging
+                * is easy to use, one day will get you started
+                * has the run-time efficiency of custom designed code
+                * has fast automatic persistency (storage to disk)
+                * prevents spaghetti++ code on large C++ projects
+                * creates fast memory-resident databases inside your code
+
+
+Problems with existing software
+-------------------------------
+Most of  the problems with  today's software  stem from  the poor management of 
+data.  Data related  errors  such  as  dangling  pointers may stay in your code
+unnoticed for a long time,  and are often difficult  to  find.   There  are  no
+generic, fully typed libraries for data structures in C, and standard C++ class
+libraries based  on  the NIH model are not suitable for routine commercial use,
+because they require too much manual interaction.  They are also inefficient at
+run-time (see illustration, next page). Some libraries offer persistent objects,
+but require custom coded IO functions for every new class.
+
+Code Farms' solution
+--------------------
+We think that data structures should be as easy to use as strcmp()  or qsort(),
+and we  provide  a  transparent layer which acts as if the compiler handles the
+data structures automatically.  For example,   assume  that you want to write a
+program  for  processing  data  related to a Company  that  includes  Projects,
+Departments,  and Employees.  You start by declaring a class/structure for each
+object type, but without using the usual pointers that express relations between
+objects.  Then you describe the  organization  separately,   in  several simple
+statements:
+
+        AGGREGATE(depts,Company,Department);
+        AGGREGATE(byDept,Department,Employee);
+        AGGREGATE(byProj,Project,Employee);
+        AGGREGATE(byDate,Company,Project);
+        AGGREGATE(byRev,Company,Project);
+
+Booch's diagram, when using boxes instead of "clouds", looks like this:
+
+          ............................
+          :     C o m p a n y        :
+          :..........................:
+           1      1              1
+           |      |              |
+    byDate |      | byRev        | depts
+           |      |              |
+           n      n              n
+  ....................       ..........................
+  :  P R O J E C T   :       :  D E P A R T M E N T   :
+  :..................:       :........................:
+              1                  1
+              |                  |
+              | byProj           | byDept
+              |                  |
+              n                  n
+          ............................
+          :     E m p l o y e e      :
+          :..........................:
+
+ 
+Here AGGREGATE is one of many data organizations available from the library. For
+example,  the first line says that any Company may contain several Departments.
+The relation has  its  name,  depts.  In the same simple way,  you can invoke a
+LINKED_LIST, GRAPH, TREE, HASH_TABLE, DYNAMIC_ARRAY, Lisp-like PROPERTY, M_TO_N
+entity-relationship, or any other data structure.  The library is open, you can
+modify it or add new features.  It also  supports memory management,  paging to
+disk, free lists, blasting of memory to disk, and portable data formats.
+
+The Library
+-----------
+The library includes a special code generator, which runs very fast - typically
+requires less than  1/10 the compilation time.  It reads  the data declarations
+and connects your program  to a special library.  It also  inserts the required
+pointers into your classes/structures.  This happens automatically and transpa-
+rently.  You don't  know about these pointers and you don't have to worry about
+debugging them.
+
+The code generator  also  creates special interface classes,  one for each data
+organization,  deposits them into the file zzincl.h,  and then it moves all the
+functions you will need into the file zzfunc.c.  Since the code generator knows
+the locations of all  the pointers,  it can  generate all the IO functions that
+make the data persistent. You simply compile and debug our original source with
+those two files:
+
+
+     C++:   #include "zzincl.h"
+            //  your class/structure declarations
+            //  data declarations (AGGREGATES etc)
+            int main(void){
+                Project *p; Employee *e; Department *d;
+                  ...
+                byProj.add(p,e); // add e under p
+                byDept.del(e); // delete e from its dept
+                byDept_iterator it(d); // prepare a loop
+                while(e=it++){ // traverse Employees in d
+                    // .. do something with e
+                }
+                ...
+            }
+            #include "zzfunc.c"
+
+       C:   #include "zzincl.h"
+            /*  your class/structure declarations */
+            /*  data declarations (AGGREGATES etc) */
+            int main(void){
+            Project *p; Employee *e; Department *d;
+               ...
+            ZZ_ADD(byProj,p,e); /* add e under p */
+            ZZ_DEL(byDept,d,e); /* delete e from d */
+            /* next loop traverses all e under d */
+            ZZ_A_TRAVERSE(byDept,d,e){
+                /* .. do something with e */
+            }ZZ_A_END;
+            }
+            #include "zzfunc.c"
+
+
+Better than templates
+---------------------
+Using  the  library  is  as easy as  using  templates  but,   internally,   the
+implementation is different. Code Farms' approach is more flexible,  automatic,
+run-time  efficient,   and because it involves fewer objects,  it is easier  to
+maintain. (Illustration comparing the two approaches is available on request,it
+cannot be reproduced without  graphics.)   The  whole  concept  is more object-
+oriented than in other class libraries, because it represents data relations as
+objects. Associations and aggregations map directly into the library. Note that
+the code generator is not the usual preprocessor,it does not modify your source.
+You run it only once, after you declare your data. The library also protects the
+integrity of your data.  If you add an object to  the  wrong organization,  the
+compiler finds  the  error,   and  if you create invalid pointers,  the library
+detects it at run-time. The C++ version is fully encapsulated, the C version is
+based on protected macros.
+
+Database Maker
+--------------
+In minutes,  you can set up a  fast  memory-resident  database  based  on  data
+structures,  without the limitations of a database language,  such as SQL.  The
+database becomes a part of your code, and is so fast that is can be used inside
+algorithmic loops without loss of efficiency. Schema migration is supported.
+
+Professional product for commercial applications
+------------------------------------------------
+The whole process is unbelievably simple and efficient.Your program will shrink
+and become easy to manage.   In one command,  you can store all of your data to
+disk.
+This methodology is useful for projects of any size but,  without a system like
+this,   large  C++  systems can easily become unmanageable (spaghetti ++).  The
+library has been used on many commercial applications over a period of 2 years;
+entire VLSI CAD systems  have  been built with this technology.  In addition to
+printed  manuals,   the  libraries have smart on-line  documentation,   and  an
+interactive data browser. Code Farms is a leader in data management technology,
+and is a third party vendor with Sun Microsystems, MIPS, and Hewlett-Packard.
+
+Order now
+---------
+Learn about the new technology,  order now! Prices: DOS/MAC US$199, single UNIX
+Workstation or DOS/MAC Site Licence US$495.  UNIX site licence $1,195.  We ship
+full source on SUN tar tape, or DOS diskettes (1.2MB or 1.44MB).  The libraries
+compile on  most computers,  but you have to transfer the source yourself.  Add
+US$25 for overseas orders. No royalties. VISA, MC, PO, or cheque.
+
+       Code Farms Inc., 7214 Jock Trail, Richmond, Ont., K0A 2Z0
+       tel (613)-838-4829, fax (613)-838-3316, eMail jiri@debra.dgbt.doc.ca

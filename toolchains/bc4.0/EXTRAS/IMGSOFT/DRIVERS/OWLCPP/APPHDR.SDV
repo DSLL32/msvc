@@ -1,0 +1,32 @@
+//***************************************************************************
+// $System.OutFile$ - Application Class Definitions
+// $system.date$ - $system.time$
+// $application.programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"Revisions"$
+#include <owl.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <dialog.h>
+$IF Application.Type == "MDI"$
+#include <mdi.h>
+$END IF$
+$IF COUNT(Application.Dialogs) > 0$
+#include <listbox.h>
+#include <edit.h>
+#include <radiobut.h>
+#include <checkbox.h>
+#include <combobox.h>
+#include <listbox.h>
+$END IF$
+#include <mmsystem.h>		// Multimedia...needed for sndPlaySound()
+#include <commdlg.h>		// Common Dialogs
+#include "$VPgmName$.h"				// Resource Constants
+$LOOP AModules$
+#include "$AModules.Value$.hpp"				// Module Class Definitions
+$END LOOP$
+//$PROTECTBLOCK	"AppIncludes"$
+
+
+

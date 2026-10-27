@@ -1,0 +1,18 @@
+$ARRAY AModules$									 // Array of all pgm modules
+$VAR VPgmName = Application.Name$
+$IF Window.ModuleName != "Default"$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Window.ModuleName)$
+$ELSE$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Window.Name)$
+$END IF$
+$IF ToolBar.Name != ""$			{ If Window has Toolbar, include jtools }
+$ADDVAL AModules "Jtools"$	 	{ Add ToolBar Module First }
+$END IF$
+$ADDVAL AModules VModuleName$	 // Add Module Name to list
+$OUTPUT VModuleName+".pas"$		{ Output to source file }
+$INPUT "modhdr.sdv"$	 { Process Module Include Info to source file }
+$INPUT "windef.sdv"$	 { Process Window Definition Driver to Module Header }
+implementation	 { Begin implementation }
+$INPUT "winmem.sdv"$	 { Process Window Member Functions to source file }
+end. { end of implementation }
+

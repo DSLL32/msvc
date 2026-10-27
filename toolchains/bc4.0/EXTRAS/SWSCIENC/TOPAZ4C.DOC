@@ -1,0 +1,174 @@
+
+  ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+  ³        TOPAZ for C           ³
+  ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+PRODUCT FEATURES AND SPECIFICATIONS
+
+Product:  Topaz for C, version 4.0
+ 
+Manufacturer:  Software Science Inc.
+               1818 Gilbreth Road, Suite 230,
+               Burlingame, CA 94010-1213
+
+Customer Service: (415) 697-0411,  Fax: (415) 697-1916,
+Technical Support BBS (via modem): (415) 697-1624, or Voice: (510) 845-2110
+
+Description:
+
+TOPAZ is a C library of over 550 routines integrating a broad spectrum of
+functions into a versatile programmer's tool-kit.  TOPAZ enables programmers
+to write with "dBASE-like" syntax in C and use standard dBASE data files.
+TOPAZ includes utilities, numerous programming examples and sample programs,
+a dBASE-like report generator, and a template-based code generator.  TOPAZ
+provides a powerful comprehensive platform from which you can quickly
+develop applications of any type.  Both single-user and multi-user database
+applications can be created.  In addition, the database engine portion of
+the library can be used in Windows applications.
+
+Features:
+
+dBASE database file access with numerous high-level commands such as Use(),
+Select(), Go(), GoTop(), GoBottom(), Skip(), Find(), Edit(), CopyTo(),
+SayGet(), ReadGets(), SetFilterTo(),  SetRelationTo(), Browse(), EditMemo(),
+ReportForm(), Append(), SetWhileTo(), AppendFrom(), Replace(),  etc.
+Ascending, descending, and soundex indexes.  Fast full-database searches and
+fast search and/or replace at the field level.  Database searches at a rate
+of one million records per minute have been achieved. Relational database
+systems may be created using any relational model. Multi-user support
+includes record locking, file locking, append-only locking,  and programs
+will operate with any MS-NET compatible network such as Novell NetWare,
+3Com, Lantastic, Invisible Network, etc.  Unlike dBASE III+, Topaz
+multi-user programs never prevent users from reading records or generating
+reports even when other users have records or the file locked for update.
+The Topaz exclusive ALock() function allows appending records to a file even
+when other users have records locked for editing.
+
+Sophisticated data entry routines provide easy multi-field editing with
+unlimited data input validation at the individual field level.  Additional
+input formatting with picture masks, range limits, color control and easy
+field-by-field help specification is available.  Full featured text editor
+functions are included for use with text files and memo fields.
+Programmable access and manipulation of memo fields is also supported.
+
+Numerous useful high-level routines are included for comprehensive date and
+time math, print spooling, string manipulation, moving bar menus, dialog
+boxes, pick and tag lists, progress bars, screen and window management,
+pop-up calculator and calendar, screen savers, automatic and custom mouse
+support, and much more. TOPAZ also includes support for screens produced
+with the  Saywhat?! screen generator, also a product of Software Science
+Inc.
+
+Powerful utilities are provided including a template-based code generator, a
+file definition/creation program, a report generator, a help system editor,
+a dBASE file browser, end-user application color mapping utility, and a
+database structure display utility.
+
+Build complete context-sensitive help systems while you run your
+application.  Even the end user can be allowed to create and/or edit the
+help system.  Help screens may be moved around the screen at run-time so
+that they don't obscure important information.
+
+Topaz comes with over 800 pages of documentation including tutorial and
+technical reference, dBASE to TOPAZ cross-reference, numerous code samples,
+as well as sample programs and sample templates for the code generator.
+
+           ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+           ³     TOPAZ  for C SPECIFICATIONS       ³
+           ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+User Interface Features:
+
+   * 128 data entry fields per screen
+   * Picture masks
+   * Picture functions
+   * Range limits supported for date and numeric fields
+   * Unlimited data input validation
+   * Pop-up four-function calculator
+   * Automatic mouse support
+   * Box drawing
+   * Window management
+   * Moving bar menus with optional "Lotus" style help
+   * Dialog boxes
+   * Progress bars
+   * Pick lists
+   * Tag lists
+   * Screen savers
+   * User/programmer defined context-sensitive help system
+   * Support for screens created with the SAYWHAT?! screen generator
+
+
+Database Files:
+
+   * Standard format dBASE III+ database files with memo field support
+   * Default configuration allows up to 33 open database files
+   * Up to 2.1 billion records per file (limited by disk space)
+   * Maximum record size: 4000 Bytes
+   * Maximum number of fields per file: 128
+   * Maximum field size: 254 bytes
+   * Proprietary index file format
+   * Up to 16 indexes per database
+
+
+Virtual Files:
+
+   * EMS, and XMS memory support
+   * Variable length records
+   * Database, Text, or Binary data storage
+
+
+Time and Date:
+
+   * Date range from 01/01/0001 to 12/31/9999
+   * Time Formats HH:MM:SS, HH:MM, MM:SS
+   * Date Formats: American, ANSI, British, German, Italian, Spanish, French,
+                   French Canadian (Quebec), Russian
+   * On-screen interrupt driven clock display
+   * Pop-up interactive calendar
+   * Fuzzy date support
+   * SetEpochTo()
+
+Database Browser: 
+
+   * Windowable
+   * Programmable
+   * Recursive
+   * Virtual fields
+   * Calculated fields
+
+Printing:
+
+   * Print spooler
+   * Page printing
+   * Box and line drawing
+   * Report generator
+   * Laser printer support
+
+
+Utilities:
+
+    CREATE.EXE     Database structure creation and modification utility
+    MAKECODE.EXE   Template-driven program/code generator
+    REPGEN.EXE     Report specification generator
+    BROWSE.EXE     Database browser/editor
+    DISPSTRU.EXE   Database structure display utility
+    HELPEDIT.EXE   Help database editor
+    COLORMAP.EXE   Application color map utility
+    INSTALL.EXE    Source code included
+
+Requirements:
+
+     Borland C/C++, Turbo C/C++, or Microsoft C
+     IBM PC/XT/AT, PS/2, or compatible computer
+     MS-DOS or PC-DOS 3.1 or higher
+
+Price:    $299.   Includes source and library files for use with Borland and
+                  Microsoft compilers, and utilities.
+
+To Order:
+
+   USA: 800-468-9273 (credit card and COD orders only)
+   International orders and information: 415-697-0411
+
+
+

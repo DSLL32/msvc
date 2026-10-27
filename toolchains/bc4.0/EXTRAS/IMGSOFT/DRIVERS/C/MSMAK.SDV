@@ -1,0 +1,46 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+# 
+# ~VPgmName~
+# Microsoft Make File
+
+MODEL = M
+CFLAGS = -A$(MODEL) -Gsw -W3 -Zpe -Oas
+LFLAGS = /NOD
+LIBS = $(MODEL)libcew + libw + mmsystem + commdlg
+
+PGM=~VPgmName~
+OBJS = $(PGM).obj	\
+~LOOP AModules~
+				~AModules.Value~.obj \
+~END LOOP~
+
+.SUFFIXES: .rc
+
+.rc.res:
+    rc -r $*.rc
+
+$(PGM).Exe: $(OBJS) $(PGM).def $(PGM).res
+     link $(LFLAGS) @<<$(PGM).lnk
+$(OBJS)
+$(PGM), $(PGM), $(LIBS), $(PGM)
+<<
+     rc $(PGM).res
+
+$(PGM).obj:			$*.c $(PGM).h
+~LOOP AModules~
+~AModules.Value~.obj: $*.c $*.h	
+~END LOOP~
+
+$(PGM).res:   $*.rc $*.h
+
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE PRELOAD MOVEABLE DISCARDABLE
+DATA PRELOAD MOVEABLE SINGLE
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+
+

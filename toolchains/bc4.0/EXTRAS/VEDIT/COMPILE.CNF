@@ -1,0 +1,21 @@
+COMPILE.CNF - Default compiler support specifications
+
+SUPPORTPATH=C:\VDEMO\
+
+DEFCOMPILE=TCC -c -proj.ext
+DEFLINK=TCC -proj.obj
+DEFDEBUG=TD -proj.exe
+DEFMAKE=MAKE -n
+
+COLORDISPLAY=?		;True color display (Y/N/?)
+
+MENUCOLOR=79		;Menu window "M"
+			;Default 79 for color and 112 for B/W
+INCLUDECOLOR=31		;Error and include file window
+			;Default 31 for color and 7 for B/W
+HELPCOLOR=30		;Help window "H"
+			;Default 30 for color and 7 for B/W
+OPTIONSCOLOR=48		;Options edit window "O"
+			;Default 48 for color and 112 for B/W
+ERRORCOLOR=71		;Error window
+			;Default 71 for color and 112 for B/W

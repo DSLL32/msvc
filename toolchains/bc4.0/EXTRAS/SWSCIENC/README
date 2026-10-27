@@ -1,0 +1,64 @@
+
+
+TOPAZ.ZIP was created with PKZIP version 1.1.  It contains directories and
+files so please unzip it with the following command line:
+
+      C>e:unzip -d e:topaz
+
+where C is your local drive and e is your cdrom drive.  The -d parameter
+tells unzip to create the directories contained in the zip file.
+
+The following is a listing of the files contained in TOPAZ.ZIP:
+
+  \BROWSER\BROWSE.EXE    - a DBF file browser
+  \BROWSER\BROWSE.C       
+  \BROWSER\BUDGET.DBF
+  \BROWSER\CB.DBF
+  \BROWSER\CUSTOMER.DBF
+  \BROWSER\SALES.DBF
+
+  \MEMODEMO\MEMODEMO.EXE - sample data entry application
+  \MEMODEMO\MEMODEMO.RPT 
+  \MEMODEMO\MEMODEMO.DBT
+  \MEMODEMO\MEMODEMO.DBF
+  \MEMODEMO\MEMODEMO.C
+  \MEMODEMO\EDITOR.HLP
+  \MEMODEMO\MEMODEM2.RPT
+
+  \PHONE\PHONE.EXE       - a real-world database application
+  \PHONE\PHONSCRN.OBJ
+  \PHONE\FONEDATA.DBF
+  \PHONE\FAXLIST.RPT
+  \PHONE\FONEDATA.DBT
+  \PHONE\FAXBILL.RPT
+  \PHONE\VOICLIST.RPT
+  \PHONE\VOICBILL.RPT
+  \PHONE\PHONE.LIB
+  \PHONE\ALLLIST.RPT
+  \PHONE\PHONE.C
+
+  \SAVERS\SAVER2.EXE     - a demo of screen saver
+  \SAVERS\SAVER2.C
+  \SAVERS\CB.DBF
+  \SAVERS\CUSTOMER.DBF
+
+  \TED\TED.EXE           - text editor
+  \TED\TED.C
+  \TED\EDITOR.HLP
+
+  \VIEW\VF.EXE           - text file viewer
+  \VIEW\VIEW.C
+  \VIEW\VIEW.H
+  \VIEW\VF.C
+
+  \WINDEMO\TZWDEMO.EXE   - sample Windows database application
+  \WINDEMO\TZWDEMO.CPP
+  \WINDEMO\TZWDEMO.DBF
+  \WINDEMO\TZWDEMO.DBT
+  \WINDEMO\TZWDEMO.DEF
+  \WINDEMO\TZWDEMO.H
+  \WINDEMO\TZWDEMO.RES
+
+
+
+

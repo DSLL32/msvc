@@ -1,0 +1,40 @@
+#include <windows.h>
+#include <owlrc.h>	// CM_EXIT etc...
+#include "Tutor.h"
+//PROTECT_BEGIN RCIncludes 
+//PROTECT_END 
+Main ICON tutor.ico
+
+NMainApp BITMAP app.bmp
+NMainDialog BITMAP dialog.bmp
+NMainWindow BITMAP window.bmp
+NMainCheckBox BITMAP checkbx1.bmp
+SMainCheckBox BITMAP checkbx2.bmp
+NMainSound BITMAP sound.bmp
+
+// Dialog Resource Files
+rcinclude tutor.dlg
+
+Main MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "&New\tCtrl+N", CM_NEW
+		MENUITEM "&Open...", CM_OPEN
+		MENUITEM "&Save...", CM_SAVE
+		MENUITEM "&Print...", CM_PRINT
+		MENUITEM SEPARATOR
+		MENUITEM "&Exit", CM_EXIT
+	}
+	POPUP "&Help"
+	{
+		MENUITEM "&About...", CM_ABOUT
+	}
+}
+
+
+// Single table to hold all application accelerators
+Tutor ACCELERATORS
+{
+	"N", CM_NEW, VIRTKEY, CONTROL
+}

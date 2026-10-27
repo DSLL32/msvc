@@ -1,0 +1,442 @@
+CURRENT DATA ORGANIZATIONS AND ACCESS FUNCTIONS IN C AND C++
+------------------------------------------------------------
+
+This file lists all available classes (data organizations)
+and the methods (functions) to operate on the data.
+The C functions (left column) are implemented through CPP macros
+and code generated functions.
+The C++ functions (right column) are implemented through pure
+C++ classes. There is no hierarchy of classes; classes are not derived
+from a common base class, they are 'flat'. Each class is represented
+by an interface class that contains no data, only the methods.
+
+If some data organizations which you need are missing, you can
+easily add it to the library. Everything is in source.
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_RING(id,type); ZZ_HYPER_SINGLE_RING(id,type);
+-------------------------------------------------------------
+type *entry,*p;
+int cmpF(char *p1,char *p2);
+
+ZZ_FORWARD(id,p,next);		next=id.fwd(p);
+ZZ_ADD(id,entry,p);		entry=id.add(entry,p);
+ZZ_DELETE(id,entry,p);		entry=id.del(entry,p);
+ZZ_MERGE(id,s,t,NULL);		s=id.merge(s,t);
+ZZ_SORT(id,cmpFun,entry);	entry=id.sort(cmpFun,entry);
+
+ZZ_A_TRAVERSE(id,entry,p){	id_iterator it(entry); 
+     ...         		while(p=it++){
+}ZZ_A_END;	 		   ...
+               			};
+				it.start(entry);
+
+-------------------------------------------------------------
+ZZ_ORG_DOUBLE_RING(id,type); ZZ_HYPER_DOUBLE_RING(id,type);
+-------------------------------------------------------------
+type *entry,*p,*next;
+int cmpF(char *p1,char *p2);
+
+ZZ_FORWARD(id,p,next);		next=id.fwd(p);
+ZZ_BACKWARD(id,p,next);		next=id.bwd(p);
+ZZ_ADD(id,entry,p);		entry=id.add(entry,p); 
+ZZ_INSERT(id,entry,p);	 	entry=id.ins(entry,p);
+ZZ_DELETE(id,entry,p);		entry=id.del(entry,p);
+ZZ_MERGE(id,s,t,NULL);		s=id.merge(s,t);
+ZZ_SORT(id,cmpFun,entry);	entry=id.sort(cmpFun,entry);
+
+ZZ_A_TRAVERSE(id,entry,p){	id_iterator it(entry);  
+     ...  			while(p=it++){
+}ZZ_A_END;			    ...
+				};
+
+ZZ_A_REVERSE(id,entry,p){	it.start(entry);
+    ...				while(p=it++ ){
+ZZ_A_END;	   		   ...
+				};
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_TRIANGLE(id,parT,chiT); ZZ_HYPER_SINGLE_TRIANGLE(id,parT,chiT);
+-------------------------------------------------------------
+parT *p;
+chiT *c,*s;
+
+ZZ_PARENT(id,c,p);		p=id.par(c);
+ZZ_CHILD(id,c,p);		p=id.child(c);
+ZZ_FORWARD(id,c,s);		s=id.fwd(c);
+ZZ_SET(id,p,c);			id.set(p,c);
+ZZ_ADD(id,p,c);			id.add(p,c);
+ZZ_DELETE(id,p,c);		id.del(p,c);
+ZZ_MERGE(id,c,s,p);		id.merge(c,s,p);
+ZZ_SORT(id,cmpFun,p);		id.sort(cmpFun,p);
+
+ZZ_A_TRAVERSE(id,p,c){ 		id_iterator it(p); 
+     ...			while(c=it++){
+}ZZ_A_END;			    ...
+				};
+				it.start(p);
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_COLLECT(id,parT,chiT); ZZ_HYPER_SINGLE_COLLECT(id,parT,chiT); 
+-------------------------------------------------------------
+parT *p;
+chiT *c,*s;
+
+ZZ_CHILD(id,c,p);		p=id.child(c);
+ZZ_FORWARD(id,c,s);		s=id.fwd(c);
+ZZ_SET(id,p,c);			id.set(p,c);
+ZZ_ADD(id,p,c);			id.add(p,c);
+ZZ_DELETE(id,p,c);		id.del(p,c);
+ZZ_MERGE(id,c,s,p);		id.merge(c,s,p);
+ZZ_SORT(id,cmpFun,p);		id.sort(cmpFun,p);
+
+ZZ_A_TRAVERSE(id,p,c){		id_iterator it(p); 
+     ...			while(c=it++){
+}ZZ_A_END;			    ...
+				};
+				it.start(p);
+
+-------------------------------------------------------------
+ZZ_ORG_NAME(id,type); 		ZZ_HYPER_NAME(id,type); 
+-------------------------------------------------------------
+type *p;
+char *n;
+
+ZZ_FORWARD(id,p,n);i		n=id.fwd(p);
+ZZ_ADD(id,p,n);	i		id.add(p,n);
+ZZ_DELETE(id,p,n);		n=id.del(p);
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_LINK(id,sourT,targT); ZZ_HYPER_SINGLE_LINK(id,sourT,targT); 
+-------------------------------------------------------------
+sourT *s;
+targT *t;
+
+ZZ_FORWARD(id,s,t);		t=id.fwd(p);
+ZZ_ADD(id,s,t);			id.add(p,t);
+ZZ_DELETE(id,s,t);		t=id.del(p);
+
+-------------------------------------------------------------
+ZZ_ORG_LIFO(id,type);  		ZZ_HYPER_LIFO(id,type);
+-------------------------------------------------------------
+type *p;     /* an object */
+type *entry; /* entry into the stack */
+
+ZZ_PUSH(id,entry,t);		id.push(p);
+ZZ_POP(id,entry,t);		p=id.pop();
+
+-------------------------------------------------------------
+ZZ_ORG_FIFO(id,type); 		ZZ_HYPER_FIFO(id,type);
+-------------------------------------------------------------
+type *p;     /* an object */
+type *entry; /* entry into the stack */
+
+ZZ_PUSH(id,entry,t);		id.push(p);
+ZZ_POP(id,entry,t);		p=id.pop();
+
+-------------------------------------------------------------
+ZZ_ORG_DOUBLE_LINK(id,sourT,targT); ZZ_HYPER_DOUBLE_LINK(id,sourT,targT); 
+-------------------------------------------------------------
+sourT *s;
+targT *t;
+
+ZZ_FORWARD(id,s,t);		t=id.fwd(p);
+ZZ_BACKWARD(id,t,s);		s=id.bwd(t);
+ZZ_ADD(id,s,t);			id.add(p,t);
+ZZ_DELETE(id,s,t);		t=id.del(p);
+
+-------------------------------------------------------------
+ZZ_ORG_GENERAL_LINK(id,sourT); ZZ_HYPER_GENERAL_LINK(id,sourT); 
+-------------------------------------------------------------
+sourT *s;
+char *t;
+
+ZZ_FORWARD(id,s,t);		t=id.fwd(p);
+ZZ_ADD(id,s,t);			id.add(p,t);
+ZZ_DELETE(id,s,t);		t=id.del(p);
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_TREE(id,obj); 	ZZ_HYPER_SINGLE_TREE(id,obj);
+-------------------------------------------------------------
+obj *p,*c,*s;
+
+ZZ_PARENT(id,c,p);		p=id.par(c);
+ZZ_CHILD(id,p,c);		c=id.child(p);
+ZZ_FORWARD(id,c,s);		s=id.fwd(c);
+ZZ_SET(id,p,c);			id.bwd(p,c);
+ZZ_ADD(id,p,c);			id.add(p,c);
+ZZ_APPEND(id,c,s);		id.app(c,s);
+ZZ_DELETE(id,NULL,c);		id.del(c);
+
+ZZ_A_TRAVERSE(id,p,c){  	id_iterator it(p);  
+    ... 			while(c=it++){
+}ZZ_A_END;			    ...
+				};
+				it.start(p);
+
+-------------------------------------------------------------
+ZZ_ORG_DOUBLE_TREE(id,obj); 	ZZ_HYPER_DOUBLE_TREE(id,obj);
+-------------------------------------------------------------
+obj *p,*c,*s;
+
+ZZ_PARENT(id,c,p);		p=id.par(c);
+ZZ_CHILD(id,p,c);		c=id.child(p);
+ZZ_FORWARD(id,c,s);		s=id.fwd(c);
+ZZ_BACKWARD(id,c,s);		s=id.bwd(c);
+ZZ_SET(id,p,c);			id.bwd(p,c);
+ZZ_ADD(id,p,c);			id.add(p,c);
+ZZ_INSERT(id,c,s);		id.ins(c,s);
+ZZ_APPEND(id,c,s);		id.app(c,s);
+ZZ_DELETE(id,NULL,c);		id.del(c);
+
+ZZ_A_TRAVERSE(id,p,c){		id_iterator it(p);
+     ...			while(c=it++){
+}ZZ_A_END;			    ...
+				};
+
+ZZ_A_RETRACE(id,p,c){		it.start(p);
+     ...			while(c=it- -){
+}ZZ_A_END;			    ...
+				};
+
+-------------------------------------------------------------
+ZZ_ORG_SINGLE_GRAPH(id,vertex,edge); ZZ_HYPER_SINGLE_GRAPH(id,vertex,edge); 
+-------------------------------------------------------------
+vertex *v,*t[2];
+edge *e,*s;R>
+
+ZZ_ADD(id,s,e);			id.add(v,e);
+ZZ_DELETE(id,s,e);		id.del(e);
+ZZ_NODES(id,s,e);		id.nodes(v,e);
+				e=id.edge(v);
+				s=id.fwd(e);
+
+ZZ_A_TRAVERSE(id,t,e){		id_iterator it(t[0]);
+     ...			while(e=it++){
+}ZZ_A_END;			    t[1]=it.adj();
+				    ...
+				};
+				it.start(t[0]);
+
+-------------------------------------------------------------
+ZZ_ORG_DIRECT_GRAPH(id,vertex,edge); ZZ_HYPER_DIRECT_GRAPH(id,vertex,edge); 
+-------------------------------------------------------------
+vertex *v,*t[2];
+edge *e,*s;
+
+ZZ_ADD(id,s,e);			id.add(v,e);
+ZZ_DELETE(id,s,e);		id.del(e);
+ZZ_NODES(id,s,e);		id.nodes(v,e);
+				e=id.edge(v);
+				s=id.fwd(e);R>
+ZZ_A_TRAVERSE(id,t,e){		id_iterator it(t[0]);
+     ...			while(e=it++){
+}ZZ_A_END;		    	    t[1]=it.adj();
+				    ...
+				};
+				it.start(t[0]);
+
+-------------------------------------------------------------
+ZZ_ORG_1_TO_1(id,holder,obj); 	ZZ_HYPER_1_TO_1(id,holder,obj);
+ZZ_ORG_1_TO_N(id,holder,obj); 	ZZ_HYPER_1_TO_N(id,holder,obj);
+ZZ_ORG_M_TO_1(id,holder,obj); 	ZZ_HYPER_M_TO_1(id,holder,obj);
+ZZ_ORG_M_TO_N(id,holder,obj); 	ZZ_HYPER_M_TO_N(id,holder,obj);
+-------------------------------------------------------------
+Source *s; Relation *r; Target *t;
+
+ZZ_ADD_RELATION(id,s,r,t);	id.add(s,r,t);
+ZZ_DELETE_RELATION(id,r);	id.del(r);
+ZZ_FORWARD(id,s,r);		r=id.fwd(s);
+ZZ_BACKWARD(id,t,r);		r=id.bwd(t);
+ZZ_SOURCE(id,s,r);		s=id.source(r);
+ZZ_TARGET(id,t,r);		t=id.target(r);
+
+ZZ_A_TRAVERSE(id,s,r){		id_sIterator it(s);
+     ...			while(r=it++){ ... }
+}ZZ_A_END;
+				id.start(s);
+
+ZZ_A_RETRACE(id,t,r){		id_tIterator it(t);
+     ...			while(r=it++){ ... }
+}ZZ_A_END;
+				id.start(t);
+
+-------------------------------------------------------------
+ZZ_ORG_ARRAY(id,holder,obj); 		ZZ_HYPER_ARRAY(id,holder,obj);
+-------------------------------------------------------------
+int sz,incr,wMark;	/* size, increment, waterMark */
+int i;  		/* index */
+int cmpF(); 		/* function to compare two objects */
+holder *hp;
+obj *a; 		/* start of the array */
+obj *e; 		/* pointer to an object/array */
+obj r; 			/* element of the array */
+
+ZZ_FORM_ARRAY(i,hp,sz,incr,a);		a=id.form(hp,sz,incr);
+ZZ_FREE_ARRAY(id,hp);			id.free(hp);
+ZZ_SIZE_ARRAY(id,hp,sz,wMark,incr); 	sz=id.size(hp,&wMark,&incr);
+ZZ_INDEX_ARRAY(id,hp,i,e);		e=id.ind(hp,i);
+ZZ_RESET_ARRAY(id,hp,wMark,incr); 	id.reset(hp,wMark,incr);
+ZZ_PUSH(id,hp,e);			id.push(hp,e);
+ZZ_POP(id,hp,e);			e=id.pop(hp);
+ZZ_SORT(id,cmpF,hp);			id.sort(cmpF,hp);
+ZZ_IN_HEAP(id,cmpF,hp,e);		id.inHeap(cmpF,hp,e);
+ZZ_OUT_HEAP(id,cmpF,hp,&r);		id.outHeap(cmpF,hp,&r);
+ZZ_UPDATE_HEAP(id,cmpF,hp,i);		id.updHeap(cmpF,hp,i);
+ZZ_DELETE_HEAP(id,cmpF,hp,i);		id.delHeap(cmpF,hp,i);
+
+-------------------------------------------------------------
+ZZ_HYPER_HASH(id,holder,obj); 		ZZ_HYPER_HASH(id,holder,obj); 
+-------------------------------------------------------------
+int sz,num,slot;		/* size, number, slot */
+holder *hp; 			/* holder object */
+obj *p,*s; 			/* objects */
+obj *t; 			/* object template with a search key */
+
+ZZ_FORM_HASH(id,hp,sz);		id.form(hp,sz);
+ZZ_RESIZE_HASH(id,hp,sz);	id.resize(hp,sz);
+ZZ_ADD(id,hp,p);		id.add(hp,p);
+ZZ_DELETE(id,hp,p);		id.del(hp,p);
+ZZ_SIZE_HASH(id,hp,sz,*num);	sz=id.size(hp,&num);
+ZZ_SLOT_HASH(id,hp,slot,p);	p=id.slot(hp,slot);
+ZZ_FREE_HASH(id,hp);		id.free(hp);
+ZZ_GET_HASH(id,hp,t,p);		p=id.get(h,t);
+
+ZZ_A_TRAVERSE(id,s,p){		id_iterator it(s);
+     ...			while(p=it++){
+}ZZ_A_END;			    ...
+				};
+				it.start(s);
+
+-------------------------------------------------------------
+ZZ_ORG_TIME_STAMP(obj); 	ZZ_HYPER_TIME_STAMP(obj);
+-------------------------------------------------------------
+char ts[6]; /* time record, byte encoded numbers: Y M D H M S */ 
+obj *p,*s;  /* two objects */
+
+ZZ_GET_TIME_STAMP(p,ts);	p->getTime(ts);
+ZZ_SET_TIME(p);			p->setTime();
+ZZ_CMP_TIME_STAMP(p,s,i);	i=p->cmpTime(s);
+
+-------------------------------------------------------------
+ZZ_ORG_SELF_ID(obj); 		ZZ_HYPER_SELF_ID(obj);
+-------------------------------------------------------------
+obj *p; 	/* given object */
+char *type; 	/* structure or class name */
+int n;  	/* number of objects in an array, 1 = single object */
+
+ZZ_SET_SELF_ID(type,p,n);	p->seIfID(type,n);
+
+/* note that ZZ_GET_SELF_ID() and getID() are in general utilities */
+
+-------------------------------------------------------------
+ZZ_ORG_PROPERTY(obj); 		ZZ_HYPER_PROPERTY(obj); 
+-------------------------------------------------------------
+TEXT prop;   	/* property type, for example: int */
+char *pTyp; 	/* property type as string, for example: ~int~ */ 
+obj *p;      	/* given object */
+char *label;	/* property label */
+char **val; 	/* property value always treated as an array */
+int n; 		/* size of the array */
+FILE *fp; 	/* output file for the print */
+
+ZZ_SET_PROPERTY(prop,p,label,val,n);	p->setProp(pTyp,label,val,n);
+ZZ_GET_PROPERTY(pTyp,p,label,val,n);	val=(char *)p->getProp(label,&pTyp,&n);
+ZZ_DELETE_PROPERTY(p,label);		p->delProp(label);
+
+ZZ_A_TRAVERSE_PROPERTY(pTyp,p,label,val,n){ 
+    ...
+}ZZ_A_END;
+					obj_propIterator it(p);
+					while(val=p->next(&label,&pType,&n)){ 
+					    ...
+					};
+
+-------------------------------------------------------------
+ZZ_ORG_PAGER(id); 			ZZ_HYPER_PAGER(id);
+-------------------------------------------------------------
+Holder *hp;   /* holder object */
+char *fn;     /* file name */
+int ps;       /* page size */
+int np;       /* number of pages */
+int ii;       /* 0= no initialization, 1= by '\0', 2= by' ' */
+long ind;     /* byte address within the file */
+char *buff;   /* memory buffer */
+int n;        /* object size */
+int mode;     /* 0=read 1=write */
+char *ptr;    /* returned pointer to 'ind' location */
+
+ZZ_FORM_PAGER(id,hp,fn,ps,np,ii); 	id.form(hp,fn,ps,np,ii);
+ZZ_IO_PAGER(id,hp,ind,buff,n,mode); 	id.io(hp,ind,buff,n,mode);
+ZZ_ADDRESS_PAGER(id,hp,ind,ptr); 	ptr=id.addr(hp,ind);
+ZZ_CLOSE_PAGER(id,hp); 			id.close(hp);
+
+-------------------------------------------------------------
+					ZZ_HYPER_TYPE(id);
+-------------------------------------------------------------
+// This organization works in C++ only
+int n;          // total number of types used
+int tp,tt;      // index into the internal type table
+text objType;   // object type
+void *vp;       // object pointer
+void **vv;      // pointer to a pointer
+zzTypeInfo inf; // type info structure
+
+n=id.num();   // returns number of types
+tp=ZZgetType(objType); // gets type index
+id.true(&vp,&tp); // updates vp and tp to the true pointer and type
+id.info(tp,&inf);  // returns info for type tp
+
+id_iterate it(tp);  // iterates through the base classes and members of tp
+while((tt= ++it)>=0){ ... }
+
+type_pointers ptrs(vp,tp); // traverse HYPER pointers on vp
+while(vv= ++ptrs){ ... }
+
+struct zzTypeInfo {  // structure which keeps the type info
+    char *name;  // class name
+    int size;    // size of this class
+    char *mask1; // 0-filled object with correct v.f/v.c. pointers
+    char *mask2; // 'F' or 'C' for bytes that start v.f./v.c. pointers
+    int virt;    // bin packed:
+        // 01=abstr.class,02=virt.base class,04=virt.functions present
+};
+
+-------------------------------------------------------------
+ZZ_ORG_UTILITIES(id); 			ZZ_HYPER_UTILITIES(id);
+-------------------------------------------------------------
+char *s,*p;		/* strings */
+int i;
+int fmt,mode,ver;	/* format, mode, and version for open/save */
+char *file;
+char *obj;		/* general object */
+FILE *fp;		/* file to print on */
+char *lb,*tp; 		/* label and type of the property */
+void *val;		/* array of property values */
+int n;			/* size of the property array */
+void fun(char *obj,int typeInd,int size,char *priv);
+type *r;
+
+ZZ_STRING_ALLOC(s,p);			p=id.strAlloc(s);
+ZZ_STRING_FREE(s);			id.strFree(s);
+ZZ_PLAIN_ALLOC(type,i,r);		r=new type[i];
+ZZ_PLAIN_FREE(type,i,r); 		delete(r);
+ZZ_OBJECT_CLEAR();			id.objClear();
+ZZ_BLOCK_ALLOC(i);			id.blkAlloc(i);
+ZZ_BLOCK_FREE(i);			id.blkFree(i);
+i=ZZerror;				i=id.error();
+ZZ_SAVE(file,n,v,t);			id.save(file,n,v,t);
+ZZ_OPEN(file,n,v,t);			id.open(file,n,v,t);
+ZZ_CLEAR(n,v,t);			id.clear(n,v,t);
+ZZ_BIND_POINTER(s,p);			p=id.bind(s);
+ZZ_KEEP_TABLES();			id.keepTbl();
+ZZ_FREE_TABLES();			id.freeTbl()'
+ZZ_SWEAP_SET(n,v,t);			id.swpSet(n,v,t);
+ZZ_SWEAP_FUNCTION(n,v,t);		id.swpFun(fun,priv);
+ZZ_SWEAP_FREE;				id.swpFree();
+ZZ_MODE_SAVE(fmt,mode,ver);		id.mode(fmt,mode,ver);
+ZZ_CLOSE_BIND;				id.close();
+ZZ_TYPE_NAME(i,p);			p=id.type(i);
+ZZ_GET_SELF_ID(obj,p);			p=id.getID(obj);
+ZZ_PRINT_PROPERTY(fp,lb,tp,val,n);	prtProp(fp,lb,tp,va l,n);
+ZZ_DEB_PRT(r,tp);			id.debug(r,tp);

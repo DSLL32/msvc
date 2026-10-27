@@ -1,0 +1,990 @@
+!	Compiler Support Macro - Version 1.59
+!		Last Change: 06/01/93
+!
+!	To save disk space, all comments have been stripped. However, the
+!	COMPILE.VDM supplied with VEDIT and VEDIT PLUS is fully commented.
+!
+ES 7 1
+ES 8 2
+ES 9 1
+ES 10 1
+(Q81==302111)[ JP"START" ]
+
+.waXS(92)
++7YEA
+.bnXS(76)
+0XS(101)
+"F XS(102)
+20[ (.rt(#102)==2)[ 1XA(101) ] 1XA(102) ]
+Q101[
+    YA YEN
+    YT"Registers F - Y may contain files. Do you want to save them?" YEN
+    YT"[S]ave files; [A]bandon files; [C]ancel macro : "
+    [ XK(100)"" Q100&95XS(100) (Q100=="S | Q100=="A | Q100=="C)JL YA ] Q100YD
+
+    (Q100=="C)[ JO ]
+    "F XS(102)
+    20[
+	(.rt(#102)==2)[
+	    EE(#102)
+	    ((Q100=="S) & .of)[ EY ]
+	    @EQY
+	    ]
+	1XA(102)
+	]
+    ]
+
+!START!
+.rcXS(100)
+(Q81<>302110 & Q81<>302111)[
+    0XS(99)
+    0XS(93)
+    0XS(82)
+    1XS(83)
+    302110XS(81)
+    -1XS(80)
+    0XS(79)
+    RE(k)
+    RI(t)"Error in COMPILE.CNF parameter: "
+    +RL(u) compile.cnf
+    EE(u)
+
+    B :N"SUPPORTPATH="
+    .es[ RI(+t)"SUPPORTPATH" JP"CNFERROR" ]
+    .pXBB :$N"|{|B,|>}" .es[ JP"CNFERROR" ]
+    -(.n+1)C
+    .os<4[ $EM"\" .er[ C I"\" ]
+	][ $EM"/" .er[ C I"/" ]
+    ]
+    .bb,.pRC(p) -XBB
+    .ed[ RE(p) ]
+
+    0XS(101)
+    "NXS(100)
+    (.sd==3)[
+	B :N"COLORDISPLAY=" .cXS(100)
+	.es[ 1XA(101) RI(+t)"COLORDISPLAY" ]
+	(Q100=="?)[
+	    YEC YEN
+	    YT"Do you have a Color display on your computer (Y/N)? "
+	    [ XK(100)"" Q100&95XS(100) (Q100=="Y | Q100=="N)JL YA ] Q100YD
+	]
+	(Q100=="N)[ YYM ]
+    ]
+
+    (Q100=="Y)[
+	B :N"INCLUDECOLOR=" .vXS(87) .es[ 1XA(101) RI(+t)"INCLUDECOLOR" ]
+	B :N"OPTIONSCOLOR=" .vXS(88) .es[ 1XA(101) RI(+t)"OPTIONSCOLOR" ]
+	B :N"HELPCOLOR="    .vXS(89) .es[ 1XA(101) RI(+t)"HELPCOLOR" ]
+	B :N"ERRORCOLOR="   .vXS(90) .es[ 1XA(101) RI(+t)"ERRORCOLOR" ]
+	B :N"MENUCOLOR="    .vXS(91) .es[ 1XA(101) RI(+t)"MENUCOLOR" ]
+	+Q92YEA
+    ][
+	(.sd>=2)[
+	    7 XS(87)
+	    7 XS(88)
+	    112 XS(89)
+	    112 XS(90)
+	    15 XS(91)
+	][
+	    0 XS(87)
+	    0 XS(88)
+	    1 XS(89)
+	    1 XS(90)
+	    0 XS(91)
+	]
+    ]
+
+    B :N"DEFCOMPILE="
+    .es[ RI(+t)"DEFCOMPILE" JP"CNFERROR" ]
+    .pXBB :$N"|>" .es[ JP"CNFERROR" ]
+    .bb,.pRC(r) -XBB
+    B :N"DEFLINK="
+    .es[ RI(+t)"DEFLINK" JP"CNFERROR" ]
+    .pXBB :$N"|>" .es[ JP"CNFERROR" ]
+    .bb,.pRC(l) -XBB
+    B :N"DEFDEBUG="
+    .es[ RI(+t)"DEFDEBUG" JP"CNFERROR" ]
+    .pXBB :$N"|>" .es[ JP"CNFERROR" ]
+    .bb,.pRC(o) -XBB
+    B :N"DEFMAKE="
+    .es[ RI(+t)"DEFMAKE" JP"CNFERROR" ]
+    .pXBB :$N"|>" .es[ JP"CNFERROR" ]
+    .bb,.pRC(m) -XBB
+    EQY
+    :ED compile.vco
+    (.rv>0)[
+	RL(u) compile.vco
+	EE(u)
+	B $EM"|W" .pXBB $N"|>"
+	(.p>.bb)[ .bb,.pRC(r) ]
+	L .eof_JP"START-1"
+	$EM"|W" .pXBB $N"|>"
+	(.p>.bb)[ .bb,.pRC(l) ]
+	L .eof_JP"START-1"
+	$EM"|W" .pXBB $N"|>"
+	(.p>.bb)[ .bb,.pRC(o) ]
+	L .eof_JP"START-1"
+	$EM"|W" .pXBB $N"|>"
+	(.p>.bb)[ .bb,.pRC(m) ]
+	]
+
+!START-1!
+
+    RR(r,j)
+    EE(v) B#K RG(r) B
+    $N"|{|B,|>}" -.nC
+    .pXBB
+    .os<4[ -$N"|{|<,:,\}" .nC
+	][ -$N"|{|<,/}" .nC
+	]
+    .p,.bbRC(q)
+    EE(u)
+    :ED |Rp|Rq.vcs
+    ~.rv[ RI(t)"Support not found" JP"CNFERROR"]
+    EQY
+    ]
+
+EE(#76)
+
+(Q81==302110)[
+    302111XS(81)
+    +RA(z)
+    JO
+    ]
+
+(Q99==1)[ JP"OP-O-E-1" ]
+
+Q82>0[
+    YEN XK(100)"BREAKOUT! - Press any key to continue..."
+    Q100=24[ -RA JO ]
+    0XS(79)
+    ]
+
+!MAIN!
++RA(z)
+EE(#76)
+ES 8 2
+ES 5 1
+1RPROT(f,z)
+(Q79>0)[ JP"MAKE_LOOP" ]
+
+0XS(98)
+1XS(82)
+22085YYE
+.rt(g)=2[ EE(g) EQY ]
+.rt(h)=2[ EE(h) EQY ]
+.rt(n)=2[ EE(n) EQY ]
+.rt(s)=2[ EE(s) EQY ]
+.rt(u)=2[ EE(u) EQY ]
+.rt(v)=2[ EE(v) EQY ]
+RE(t)
+EE(#76)
+(Q80>-1)[
+    :EZY
+    .u(w)>0[ EB |Rw Q80EJ .c=10[ -1c ] ]
+    -1XS(80)
+    ]
+
+RE(w)
+.of[
+    YR(w) +:EW -YR
+    ]
+Q83>0[
+    0XS(83)
+    +RL(y) |Rp|Rq.vcs
+    RR(j,r)
+    ]
+(Q86==302110)[
+    0XS(86)
+    1XS(93)
+    JP"OPTION-R"
+    ]
+
+.rcXS(100)
+YWI
+(.wb=2)[ 0YWB(h) 1 ][ YWB(h) 1 ]
+YWR(m) 45
+-V
+
+YWS(h) Q89YEA YEC YT" Select desired option"
+YWS(m) Q91YEA YEC
+YT"       COMPILER SUPPORT Ver. 1.59"
+YEN YT"---------------------------------------------"
+YEN YT" Compiler Name.." 0XS(96) M(y)
+YEN YT" Compiler......." RD(r)
+YEN YT" Linker........." RD(l)
+YEN YT" Debugger......." RD(o)
+YEN YT" Make..........." RD(m)
+YEN YT" Project File..." RD(w)
+YEN YT" Default Ext...." 4XS(96) M(y) RT(v)
+YEN YT"
+[E].Edit current file [S].Select compiler
+[N].Edit new file     [O].Change options
+[C].Run Compiler      [G].Goto OS (shell)
+[L].Run Linker        [R].Reexamine errors
+[D].Run Debugger      [Q].Quit support
+[M].Run Make          [X].Exit VEDIT
+
+ Enter Letter: "
+
+[
+    :XK(84)//
+    Q84&95XS(84) Q84=26[ JN ]
+    EE(v) B #K Q84EI B
+    $N"|{E,N,C,L,D,M,S,O,G,R,Q,X,}"
+    ~.es[ JL ]
+    YA
+]
+-1T
+YEN
+JP"OPTION-|Rv"
+
+!CONTBEEP!
+YA
+!CONTMAIN!
+YEN XK(100)" Press any key to continue..." YEN
+JP"MAIN"
+
+!OPTION-!
+-RA JO
+
+!OPTION-E!
+12XS(98)
+YWD(m)
+YWS(h) Q89YEA YEC
+YT"Edit file; press ESC to return to Compiler Support menu"
+0XS(82)
+EE(v) EQY
+EE(#76) V
+.bnXS(76)
+JP"START"
+
+!OPTION-N!
+13XS(98)
+0XS(93)
+EE(#76)
+.oa[
+    YT" [S]ave current file; [A]bandon file : "
+    [ XK(100)"" Q100&95XS(100) (Q100=="S | Q100=="A | Q100=="C)JL YA ] Q100YD
+    Q100="C[ JP"MAIN" ]
+    Q100="S[ :EY ]
+    Q100="A[ EZY ]
+    ][
+    EZY
+    ]
+
+EE(v) EQY EE(#76) :RQ(v)" File: "
+~.u(v)[ 4XS(96) M(y) ]
+RF(v) |Rv
+~.u(v)[ JP"MAIN" ]
+RR(v,w)
+EE(#76) EB|Rw
+JP"MAIN"
+
+!OPTION-G!
+(.os<4)[
+    :RQ(i)" DOS Command: "
+    ][
+    :RQ(i)" Shell Command: "
+    ]
+.u(i)>0[
+    YWS(@) YEB -YWZ
+    @OC"|Ri"
+    ][
+    YWI	.wl-1YEV
+    OS
+    ]
+JP"MAIN"
+
+!OPTION-X!
+-:EK vcs.tmp
+YWI
+EE(v) EQY
+0XS(82)
+EXX
+JP"MAIN"
+
+!OPTION-Q!
+YWD(m) YWD(h)
+-:EK vcs.tmp
+EE(v) EQY EE(#76)
+ES 8 0
+0XS(81)
+0RPROT(f,z)
+0YYE
+-RA
+RI(y)"EE(z) EQY EE(#76) +JO"
+RJ(y)
+
+!OPTION-R!
+25XS(98)
+Q93=0[
+    YEN YT" Errors unavailable!" YEN
+    JP"CONTMAIN"
+]
+YWD(m)
+JP"OP-C-COMM"
+
+!OPTION-S!
+14XS(98)
+EE(v) EQY EE(#76)
+.wl-1YEV YEL
+:RQ(v)" (Do not include path or .VCS extension)
+ Compiler: "
+EE(u) B #K RG(v) B
+.os<4[ $N"|{:,\,.}"
+    ][ $N"|{/,.}"
+    ]
+~.es[
+    YEN YT"Paths and extensions not allowed!"
+    JP"CONTBEEP"
+    ]
+~.u(v)[ RI(v)"*" ]
+RF(v) |Rp|Rv.vcs
+~.u(v)[ JP"MAIN" ]
+:ED |Rv
+~.rv[
+    YWS(m) YEN YT" Specified compiler not found!"
+    JP"CONTBEEP"
+    ]
+EE(v) B
+$N"|{ ,.,|>}" -.nC #D
+Z
+.os<4[ -$N"|{|<,:,\}"
+    ][ -$N"|{|<,/}"
+    ]
+.nC 0K
+EE(#76)
+RR(v,q)
+:ED |Rq.vco
+~.rv[
+    :ED |Rp|Rq.vco
+    ~.rv[ RI(r)"|Rq -proj.ext"
+	][
+	+RL(r) |Rp|Rq.vco
+	]
+    ][
+    +RL(r) |Rq.vco
+    ]
+EE(u) B #K
+RG(r)
+B .pXBB $N"|>" .bb,.pRC(r)
+L .eof_JP"OPTION-S-1"
+$EM"|W" .pXBB $N"|>"
+(.p>.bb)[ .bb,.pRC(l) ]
+L .eof_JP"OPTION-S-1"
+$EM"|W" .pXBB $N"|>"
+(.p>.bb)[ .bb,.pRC(o) ]
+L .eof_JP"OPTION-S-1"
+$EM"|W" .pXBB $N"|>"
+(.p>.bb)[ .bb,.pRC(m) ]
+
+!OPTION-S-1!
+-XBB
+RR(r,j)
+1XS(83)
+0XS(93)
+JP"MAIN"
+
+!OPTION-O!
+20XS(98)
+0XS(99)
+YWD(o)
+YWS(m) Q91YEA YEC
+YEN YT"           Change Options Sub-menu"
+YEN YT"---------------------------------------------" YEN
+YEN YT" Compiler Name.." 0XS(96) M(y)
+YEN YT" Compiler......." RD(r)
+YEN YT" Linker........." RD(l)
+YEN YT" Debugger......." RD(o)
+YEN YT" Make..........." RD(m)
+YT"
+
+[C]...Compiler command
+[L]...Linker command
+[D]...Debugger command
+[M]...Make command
+[X]...Exit Options Menu
+
+ Enter Letter: "
+[
+    :XK(84)//
+    Q84&95XS(84)
+    Q84="C [ 21XS(98) JP/OP-O/ ]
+    Q84="M [ 22XS(98) JP/OP-O/ ]
+    Q84="D [ 23XS(98) JP/OP-O/ ]
+    Q84="L [ 24XS(98) JP/OP-O/ ]
+    Q84="X [ JP/MAIN/ ]
+    YA
+]
+
+!OP-O!
+YWD(m)
+YWB(o) 1
+YWR(m) 45
+
+!OP-O-1!
+YWS(o) Q88YEA YEC
+YT" Current command: "
+Q98=21[ RT(r) ]
+Q98=22[ RT(m) ]
+Q98=23[ RT(o) ]
+Q98=24[ RT(l) ]
+YWS(h) Q89YEA YEC YT" Select desired option"
+EE(#76) -V
+YWS(m) Q91YEA YEC
+
+YEN
+Q98=21[ YT"     Change Compiler command" ]
+Q98=22[ YT"     Change Make command" ]
+Q98=23[ YT"     Change Debugger command" ]
+Q98=24[ YT"     Change Linker command" ]
+YEN YT"---------------------------------------------"
+2YEN YT" Compiler Name: " 0XS(96) M(y)
+
+YT"
+
+[E]...Edit command
+[H]...Help with command options
+[L]...Load command
+[S]...Save command
+[X]...Exit Command Menu
+
+ Enter Letter: "
+
+[
+    :XK(84)//
+    Q84&95XS(84)
+    Q84="E [ JP/OP-O-E/ ]
+    Q84="H [ JP/OP-O-H/ ]
+    Q84="L [ JP/OP-O-L/ ]
+    Q84="S [ JP/OP-O-S/ ]
+    Q84="X [ JP/OPTION-O/ ]
+    YA
+]
+
+!OP-O-E!
+1XS(99)
+YWS(h) Q89YEA YEC
+YT"Press ESC when done, -PROJ.EXT=place project file -PROJ=project no ext."
+YWS(o) YEC
+EE(v) B #K YI
+Q98=21[ RT(r) ]
+Q98=22[ RT(m) ]
+Q98=23[ RT(o) ]
+Q98=24[ RT(l) ]
+-YI B
+0XS(82) V
+
+!OP-O-E-1!
+0XS(99)
+EE(v)
+B #:$S/|L/ / B
+Q98=21[ 1RC(r) ]
+Q98=22[ 1RC(m) ]
+Q98=23[ 1RC(o) ]
+Q98=24[ 1RC(l) ]
+EQY EE(#76)
+JP"OP-O-1"
+
+!OP-O-H!
+2XS(99)
+EE(u) B #K
+Q98=21[ RG(r) ]
+Q98=22[ RG(m) ]
+Q98=23[ RG(o) ]
+Q98=24[ RG(l) ]
+B $N"|{|B,|>}" -.nC
+#K
+.os<4[ -$N"|{|<,:,\}" .nC
+    ][ -$N"|{|<,/}" .nC
+    ]
+-#K
+EE(#76)
+
+:ED |Rp|Ru.vch
+~.rv[
+    YEN YT" No help available!"
+    YEN YT" Could not find the file: "
+    RT(p) RT(u) .os<4[ YT".VCH" ][ YT".vch" ] YEN
+    :XK(100)" Press any key to continue..."
+    ][
+    YWZ YEC
+    EE(v) EQY EE(#76)
+    RL(v) |Rp|Ru.vch
+    327RD(v)
+    YWS(o)
+    ]
+JP"OP-O-1"
+
+!OP-O-L!
+3XS(99)
+EE(v) EQY EE(#76)
+0YYE
+:RQ(v)"
+ (Do not include .VCO extension)
+ File: "
+EE(u) B #K RG(v) B $N"."
+~.es[ JP"OP-O-ERR" ]
+22085YYE
+~.u(v)[ RI(v)"*" ]
+RI(+v)".vco"
+EE(u) B #K RG(v) B $N"|{*,?}"
+.es[
+    :ED |Rv
+    ~.rv[
+	B
+	.os<4[ $N"|{\,:}"
+	    ][ $N"/"
+	    ]
+	.es[ RR(p,-v) ]
+	]
+    JP"OP-O-L-1"
+    ]
+:ED |Rv
+.rv>0[
+    YWS(m) :XK(84)"
+ Load from current directory? (Y/N) "
+    (Q84&95)<>"Y[ RR(p,-v) ]
+    ][
+    RR(p,-v)
+    ]
+RF(v) |Rv
+~.u(v)[ JP"OP-O-1" ]
+
+!OP-O-L-1!
+:ED |Rv
+~.rv[
+    YA
+    YWS(m) :XK(100)"
+ Options file not found!
+ Press any key to continue..."
+    ][
+    EE(u) EQY EE(#76)
+    RL(u) |Rv
+    EE(u) B #:$S/|L/ / B
+    Q98=21[ 1RC(r) ]
+    Q98=22[ 1RC(m) ]
+    Q98=23[ 1RC(o) ]
+    Q98=24[ 1RC(l) ]
+    ]
+JP"OP-O-1"
+
+!OP-O-S!
+4XS(99)
+EE(v) EQY EE(#76)
+:RQ(v)"
+ (Do not include .VCO extension)
+ File: "
+EE(u) B #K RG(v) B $N"."
+~.es[ JP"OP-O-ERR" ]
+~.u(v)[ RI(v)"*" ]
+EE(u) B #K RG(v) B
+.os<4[ $N"|{\,:}" ][ $N"/" ]
+.es[
+    YWS(m) :XK(84)"
+ Save in current directory? (Y/N) "
+    (Q84&95)<>"Y[ RR(p,-v) ]
+    ]
+RF(v) |Rv.vco
+~.u(v)[ JP"OP-O-1" ]
+:ED |Rv
+.rv[
+    YWS(m) :XK(84)"
+ File already exists!
+ Overwrite (Y/N)?...."
+    (Q84&95)<>"Y[ JP"OP-O-1" ]
+    ]
+Q98=21[ -RS(r) |Rv ]
+Q98=22[ -RS(m) |Rv ]
+Q98=23[ -RS(o) |Rv ]
+Q98=24[ -RS(l) |Rv ]
+JP"OP-O-1"
+
+!OP-O-ERR!
+YA
+XK(100)"
+ Extensions not allowed!
+ Press any key to continue..."
+JP"OP-O-1"
+
+!OPTION-D!
+17XS(98)
+EE(u) B #K RG(o)
+JP"ADD_PROJECT"
+
+!OP-D-1!
+Z 0,.pRC(i)
+YWI .wl-1YEV
+RT(i)
+@OC"|Ri"
+JP"MAIN"
+
+!OPTION-L!
+16XS(98)
+EE(u) B #K RG(l)
+JP"ADD_PROJECT"
+
+!OP-L-1!
+Z 0,.pRC(i)
+YWI .wl-1YEV
+RT(i)
+-:EK vcs.tmp
+.os>4[
+    @OC"|Ri 2>&1 | tee vcs.tmp"
+    ][
+    @OC"|Ri > vcs.tmp"
+    ]
+JP"OP-C-COMM"
+
+!OPTION-M!
+18XS(98)
+RR(j,f)
+EE(u) B #K RG(m)
+B $N"|{-n,/n}"
+~.es[
+    19XS(98)
+    1XS(83)
+    ]
+JP"ADD_PROJECT"
+
+!OP-M-1!
+Z 0,.pRC(i)
+YWI .wl-1YEV
+RT(i)
+-:EK vcs.tmp
+-:@OC"|Ri > vcs.tmp"
+JP"OP-C-COMM"
+!OP-M-2!
+.rc>0[
+    JP"OP-C-DISPLAY"
+    ]
+EE(s)
+B EM"Make" (.rv=0)[
+    B 3K
+    ]
+B #S"=(noexec)>""
+B $N"|<|W"
+.es=0[
+    B #[ $N"|<|N|W" ; 0KK ]
+    B #$S"|<|W""
+    B #[ $N"|L|L" ; -.nD YN ]
+    ]
+B #RC(n)
+(.u(n)<3)[
+    +XK(100)/There is nothing to "make". Press any key to continue.../
+    JP"MAIN"
+    ]   
+1XS(79)
+
+!MAKE_LOOP!
+.wt>1[ YWI ]
+[
+    -:EK vcs.tmp
+    EE(u) EQY
+    EE(n)
+    _B Q79-1L .eof[ JL ]
+    $N"|{|B,|>}" -.nC
+    .pXBB
+    .os<4[ -$N"|{|<,:,\}" .nC
+	][ -$N"|{|<,/}" .nC
+	]
+    .p,.bbRC(t)
+    0L .pXBB
+    :$N"|>" .pXBE
+    .bb,.beRC(u)
+    0L EM"echo"
+    ~.es [
+	EO 17 0
+	.rvXS(100)
+	-:@OC"|Ru"
+	EO 17 Q100
+	1XA(79)
+	JN
+	]
+    .wl-1YEV RT(u)
+    EE(v) B #K
+    RG(t) B RM(f)
+    EQY EE(n)
+    (.rv<>0)[
+	:ED |Rp|Rt.vcs
+	~.rv[
+	    -:@OC"|Ru"
+	    1XA(79)
+	    _B Q79-1L .eof[ JL ]
+	    .rc>0[ JP"CONTMAIN" ]
+	    JN
+	    ]
+	+:RL(y) |Rp|Rt.vcs
+	RR(t,f)
+	]
+
+    -:@OC"|Ru > vcs.tmp"
+    :ED vcs.tmp
+    ~.rv[ 1XA(79) JN ]
+    EE(g) EQY EE(h) EQY
+    EE(s) EZY EB vcs.tmp
+    2XS(96) M(y)
+    ~.rt(h)[ 1XA(79) JN ][
+	JP"OP-C-ERR"
+	]
+    ]
+
+0XS(79)
+0XS(93)
+JP"CONTMAIN"
+
+!OPTION-C!
+15XS(98)
+0XS(93)
+EE(u) B #K RG(r)
+
+!ADD_PROJECT!
+EE(#76) .of[
+    (Q80=-1)[ .pXS(80) ]
+    :EY
+    ]
+EE(@) .oa[ :EA ]
+.rt(a)==2[ EE(a) .oa[ :EA ] ]
+.rt(b)==2[ EE(b) .oa[ :EA ] ]
+.rt(c)==2[ EE(c) .oa[ :EA ] ]
+.rt(d)==2[ EE(d) .oa[ :EA ] ]
+.rt(e)==2[ EE(e) .oa[ :EA ] ]
+EE(u) B
+10[
+    $N"-proj"
+    .es_JL
+    ~.rt(w)[
+	EE(v) EQY EE(#76)
+	YEN :RQ(v)" Project file: "
+	~.u(v)[ 4XS(96) M(y) ]
+	RF(v) |Rv
+	~.u(v)[ JP"MAIN" ]
+	:ED |Rv
+	~.rv[ JP"MAIN" ][ RR(v,w) ]
+	EE(#76) EB|Rw -V
+	]
+    EE(u)
+    $EM".ext"
+    ~.es[
+	-9D +RG(w)
+	][
+	-5D +RG(w)
+	.pXBB
+	-4C $N"."
+	~.es[ .p-1,.bbK ]
+	]
+]
+
+(Q98=16)[ JP"OP-L-1" ]
+(Q98=17)[ JP"OP-D-1" ]
+(Q98=18 | Q98=19)[ JP"OP-M-1" ]
+
+!OP-C-1!
+.wt>1[ YWI ]
+.wl-1YEV
+0XS(96) M(y) YT" - " RT(u)
+-:EK vcs.tmp
+1XS(96) M(y)
+
+!OP-C-COMM!
+:ED vcs.tmp
+~.rv[
+    YWS(@) Q87YEA YEC
+    3YEV YT"
+        No "vcs.tmp" error file created or
+        cannot run specified compiler/tool.
+
+        Possible causes:        Can't find "
+    (.os<3)[ YT"COMMAND.COM" ][ YT/"shell"/ ]
+    YT"
+                                Insufficient free memory
+                                Compiler/tool not found" YEN
+    JP"CONTBEEP"
+    ]
+EE(s) EZY EB vcs.tmp
+_B #$S"""
+_B #\S"\r"
+"
+_B
+
+(Q98=15 | Q98=18 | Q98=25)[ JP"OP-C-ERR" ]
+(Q98=19)[ JP"OP-M-2" ]
+
+!OP-C-DISPLAY!
+~.ws(h)[ YWI
+    (.wb=2)[ 0YWB(h) 1 ][ YWB(h) 1 ]
+    ]
+YWS(@) Q87YEA
+EE(s) -V
+YWS(h) Q89YEA YEC YT'Press "V" to view output; any other key to continue: '
+XK(100)"" Q100&95XS(100)
+Q100="V[
+    YWS(h) Q89YEA YEC
+    YT"View file; press ESC to return to main menu"
+    V
+    ]
+
+JP"MAIN"
+
+!OP-C-ERR!
+1XS(93)
+_Z 13EI 10EI
+_B
+RE(t)
+EE(g) EQY EE(h) EQY
+2XS(96)
+EE(s) M(y)
+~.u(h)[
+    .os>4[ JP"MAIN" ]
+    JP"OP-C-DISPLAY"
+    ]
+EE(#76) .of[
+    (Q80=-1)[ .pXS(80) ]
+    :EY
+    ]
+2XS(96)	EE(s) _B
+
+~.ws(h)[ YWI
+    (.wb=2)[ 0YWB(h) 1 ][ YWB(h) 1 ]
+    ]
+YWS(@) Q87YEA
+
+#[
+    0XS(75)
+    EE(g) EQY EE(h) EQY
+    EE(s) M(y)
+    ~.u(h)[
+	YWS(@) YWB(e) 1 YWS(e) Q90YEA YEC
+	YT"No more errors"
+	EE(#76) .of[ :EX ] RE(t)
+	][
+	.rt(g)[
+	    EE(g) B
+	    .os<4[ #$S"/"\" B ]
+	    RM(t) .rv>0[
+		EE(#76) .of[ :EY ]
+		YQ |Rg
+		.rvXS(77)
+		(Q77>0)[
+		    EE(#77)
+		    ][
+		    Q76XS(77)
+		    EB |Rg
+		    ]
+		]
+	    ][
+	    EE(#76) .of[ :EY ]
+	    ]
+	RR(g,t)
+	EE(h)
+	Z -C (.c<>10)[ C ][
+	    -C (.c<>13)[ C ]
+	    ]
+	2D
+	.lnXS(94)
+	Q94XS(97) B
+	Q97[
+	    $N"|>"
+	    ((.cn+1)/.wc)XA(94)
+	    :L
+	    ]
+	(Q94>8)[ 8XS(94) ]
+	YWS(@) YWB(e) Q94
+	YWS(e) Q90YEA YEC RT(h)
+	EE(v) EQY
+	EE(#77) 6XS(96) M(y)
+	80[ .cn>=Q75JL 1C ]
+	]
+
+!OP-C-4!
+    EE(#77) YWS(@) Q87YEA
+    .u(h)>0[
+	~.u(g)[
+	    YWS(@) YEC YT"
+    Error not related to a particular source file.
+
+    See error message below or press B to examine error list."
+	    ][
+	    YWS(h) Q89YEA YEC
+	    YT"Edit file; press <Esc> for other options"
+	    YWS(@)
+	    V
+	    ]
+	]
+    #[
+	YWS(h) Q89YEA YEC YT" Select option from status line"
+	Q79>0[
++:XK(84)" [N]ext  [P]rev  [F]irst  [B]rowse  [M]ake  [R]etry  [S]kip  E[X]it to Menu "
+	    ][
++:XK(84)" [N]ext  [P]revious  [F]irst  [B]rowse  [R]ecompile  E[X]it to Menu "
+	    ]
+	Q84&95XS(84)
+	Q84=27[ JP"OP-C-4" ]
+	Q84="N[ 2XS(96) JL ]
+	Q84="P[ 3XS(96) JL ]
+	Q84="F[ 2XS(96) EE(s) _B JL ]
+	Q84="B[
+	    YWD(e)
+	    YWS(h) Q89YEA YEC
+	    YT"Position on desired error and press <Esc> "
+	    YWS(@) EE(s) 2XS(96) V 0L JL
+	    ]
+
+	((Q84="R) | (Q84="E) | (Q84="X) | (((Q84="M) | (Q84="S)) & (Q79>0)))[
+	    EE(#76) .oa[ :EA ]
+	    ][
+	    YA
+	    JP"OP-C-4"
+	    ]
+
+	(((Q84="E) | (Q84="X)) & (Q79>0))[
+	    0XS(79)
+	    0XS(93)
+	    ]
+
+	(Q84="R) & (Q79=0)[
+	    RE(t)
+	    (Q98=18 | Q98=19)[ JP"OPTION-M" ]
+	    JP"OPTION-C"
+	    ]
+
+	(Q84="M)[
+	    0XS(79)
+	    0XS(93)
+   	    EE(n) EQY EE(s) EQY EE(#76)
+	    JP"OPTION-M"
+	    ]
+
+	(Q84="S)[
+	    1XA(79)
+	    ]
+
+	JP"MAIN"
+	]
+
+    .ws(e)>0[ YWD(e) ]
+    ]
+
+JP"MAIN"
+
+!ERROR!
+!CNFERROR!
+YWI
+-RA
+0YYE
+YEN YT"Fatal compiler support error!" 2YEN
+RI(+t)"
+
+           ERROR: Possible Compiler Support Configuration Error!
+     Check the COMPILE.CNF file for an incorrect path or default compiler.
+		   (COMPILE.CNF will be loaded for you)"
+
+RT(t) 2YEN
+XK(100)"Press any key to continue..."
+"AXS(85) 25[ EE(#85) EQY 1XA(85) ]
+EE(#76) .of[ EY ]
+EB |Rpcompile.cnf
+V
+JO

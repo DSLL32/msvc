@@ -1,0 +1,51 @@
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$							 
+class $Window.Name$ : public zMDIAppFrame 	 // MDI Parent Window
+{
+public:
+	$Window.name$(zString &title);
+	$ELSE$																 // Normal Window
+class $Window.Name$ : public zMDIChildFrame 
+{
+	zPane *wp;	 // Window Pane
+public:
+	$Window.name$(zMDIAppFrame *w, zString &title);
+	$END IF$
+$ELSE$																 // Normal Window
+	$IF Window.IsMain == "Y"$							 
+class $Window.Name$ : public zAppFrame 
+	$ELSE$
+class $Window.Name$ : public zDialogFrame 
+	$END IF$
+{
+	zPane *wp;	 // Window Pane
+public:
+	$Window.name$(zWindow *w, zString &title);
+$END IF$
+	~$Window.name$(){};
+$IF ToolBar.Name != ""$
+	jToolBar *pTB;
+$END IF$
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+$AND ToolBar.Name != ""$
+	virtual int size(zSizeEvt *Ev);
+$END IF$
+	virtual int command(zCommandEvt *);
+$IF Application.Type != "MDI"$
+$AND Window.IsMain != "Y"$							 
+	virtual void shutdown() {zDialogFrame::shutdown(); delete this;}
+$END IF$
+	//$PROTECTBLOCK	"w"+Window.Name+"Class"$
+};
+$IF Application.Type != "MDI"$
+$OR Window.IsMain != "Y"$							 
+class $Window.Name$Pane : public zPane 	 
+{
+public:
+	$Window.Name$Pane(zWindow *w, zSizer *sz);
+	~$Window.Name$Pane(){};
+	//$PROTECTBLOCK	"p"+Window.Name+"Class"$
+};
+$END IF$
+

@@ -1,0 +1,527 @@
+
+ED - The Advanced Configurable Editor. Demonstration Version 2.01  10 Aug 93
+============================================================================
+
+This is a Demonstration Copy of the third release of the award winning
+Windows version of "ED - The Advanced Configurable Editor".  
+
+Please note that a major upgrade to ED for DOS is nearing completion and
+incorporates all the features of this release of ED for Windows.
+
+This release includes some important new features which keep ED as the
+leader of the pack for professional programmer's editors. 
+
+In particular language support has been extended considerably to include
+Cobol, Fortran, Paradox, Progress, Pascal, Lisp, Assembler, DataFlex,
+FoxPro and SQL as well as C/C++, Clipper/dBase etc.
+
+Color Syntax highlighting has been added which goes way beyond similar
+features in other products. Sixteen base item categories are provided
+including: comments, preprocessor statements, strings, hex, octal and
+decimal numbers, keywords, whitespace etc. In addition you can specify
+your own separate lists of words for each language in a simple ASCII
+text file and associate colors for each list.
+
+File difference analysis lets you compare files. Any differences are
+highlighted with simultaneous scrolling through both files in separate
+windows.
+
+A Ruler can be displayed at the current cursor location. This quickly
+lets you find the number of characters in a string.
+
+ED's dialog boxes now have a jazzy 3D look.
+
+The on line help has been extended and improved, making it easier to
+find information.
+
+ED now keeps track of original line numbers so compiler error tracking
+now works even after lines have been inserted or deleted.
+
+Bracket matching ignores brackets inside comments and strings so you end
+up on the correct bracket at all times.
+
+Code Templates have been extended and can now optionally be expanded
+with the Space bar in addition to the K_TEMPLATE command. The template
+programs have been rewritten making it easier to add or change
+templates,
+
+Template expansion using the Space bar no longer occurs inside
+comments.
+
+A new option has been added which prevents ED from restoring to the
+directory it was in when last run. This lets you have separate ED icons
+in the Program Manager ED group, with each one starting ED in a
+different working directory.
+
+dBase/Clipper programmers can now access DBF file field information by
+using Goto|Locate Object on a USE, DBUSEAREA or SELECT statement.
+Alternatively you can use Tool|Execute ED Program DBF_GETS at any time. 
+
+Paradox for Windows developers can right click on any Paradox keyword
+and get context sensitive help.
+
+
+This release also incorporates as many enhancements and problem fixes as
+possible that have been requested since the second release.
+
+Please read the file READ.ME for a summary of new features and enhancements.
+Also the "What's New" topic in the on line help.
+
+
+
+This release also incorporates as many enhancements and problem fixes as
+possible that have been requested since the second release.
+
+Please read READ.ME for a summary of new features and enhancements.
+
+======================================================================
+
+
+The Wait is Over!  AT LAST, a full featured Windows developer's
+editor is HERE!
+
+You are about to use the most powerful programmer's text editor
+available today. ED is fully configurable, fully programmable
+and is very easy to use. Plenty of on line help is available,
+along with emulations for editors such as Brief, MultiEdit, Wordstar,
+Qedit and Norton Editor. ED is available for DOS and Windows with
+versions for other platforms and operating systems in progress.
+
+
+****  ED NEWS and REVIEWS ****
+
+   ED for Windows was one of the earliest Windows configurable
+   programmer's editors, and this new release keeps it well ahead of the
+   competition.
+   
+      PC WEEK (Aus) 28 Jul 1993
+
+   
+   ED includes some features that are likely to wind up as "must haves"
+   in any programming editor. For users who spend time picking up the
+   pieces after another programmer has abandoned ship, ED's hypertext
+   function lookup capabilities make it a winner.
+
+      DATA BASED ADVISOR (US), April 1993
+
+
+   "ED is a great editor that I can recommend confidently".
+
+      Japan Windows Magazine, Feb 93 review of Japanese ED for Windows
+	with full 2 byte Kanji support.
+	
+
+   Previous attempts at creating the ultimate editor for Windows have
+   always failed because of inflexibility: too often the editor would
+   impose a style of working that did not necessarily suit the
+   programmer. Happily, ED is highly configurable and has all the
+   functions that could be expected.
+
+      UK Windows User Magazine, Feb 93
+
+
+  "The diversity of needs and expectations of text editors has
+  resulted in a dilution of capabilities and performance. The
+  successful "editor" of the future will be designed by someone
+  that can blend innovation with expectations and actually
+  improve performance, rather than degrade it.  It appears
+  you've taken this challenge."
+         Bill French
+         Author of dBrief and Evolve (dBrief for Multiedit) and 
+         co-creator of LapLink.
+
+
+  ED for Windows is clearly the best Windows programming editor
+  on the market, and we've found it to be almost limitless in
+  its flexibility and usability. This is supported by every
+  member of my team.
+
+         Luke Smith, PC Development Manager, 
+         Dun & Bradstreet Information Services.
+
+
+  "ED for Windows" won the Australian PC92/PC WEEK "Best New Software
+  Product Award" for 1992, at the awards ceremony held on August 12,
+  1992.
+
+
+  US PC WEEK Aug 10, 1992 stated "Although ED Ver 1,00 has a few
+  minor first-version bugs, it offers a series of nice touches
+  typical of products far more mature than this" and continues
+  "ED's features are some of the most powerful PC WEEK Labs has
+  seen in a Windows programming editor". 
+
+
+  US Windows Tech Journal, Aug 92 said "ED has 70 buffers that
+  provide an intuitive, flexible architecture..., ED's
+  outstanding help system includes Windows SDK help..., ED has
+  unique capabilities that make you think, 'Why didn't I think
+  of that?'" and concludes with "This is one editor that is well
+  worth keeping an eye on."
+
+  
+  UK Program Now, Sept 92 wrote "ED for DOS has become one of the
+  established programmer's editors. ED is now available in a
+  Windows version, the first significant editor available under
+  this environment." The article concludes "ED4W does more than
+  enhance all the normal ED features with a GUI interface and
+  fully exploits the Windows interface. It offers developers
+  significant gains in productivity compared with a DOS editor.
+  ED for Windows is well worth consideration by any developer
+  for any development environment."
+
+
+            *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+
+Installation Procedure
+-----------------------
+Place the Demonstration Disk into drive A. Change to drive A and
+type WIN INSTALL at the DOS prompt. This will start Windows, and
+run the Install program.  Alternatively use the Program Manager
+File|Run menu item and type "A:INSTALL".  In this example drive A
+can be any floppy drive.
+
+The Install main menu offers two options.
+  o  Complete installation
+  o  Custom Installation
+
+For the Demonstration version of ED select "Complete" installation.
+
+When Install has finished, ED will be added to Program Manager.
+ED may then be run by double clicking on the ED4W icon.
+
+You need approximately 865 KBytes of free disk space to install
+the Demonstration version of ED.
+
+
+Feel free to give your colleagues and friend's copies of the ED
+Demonstration system.
+
+
+            *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+
+Overview
+--------
+ED the programmers' editor is setting today's standards for
+Windows and DOS environments. Designed for professionals and new
+users alike, ED incorporates the best features found in all
+other programming editors, and we've then added a "hand's full"
+more.
+
+ED is your one-stop programming productivity tool. ED supports
+Assembler, C/C++, Cobol, Fortran, dBase, Clipper, FoxPro,
+DataFlex, Lisp, Pascal, Paradox, Progress, Prolog and SQL
+languages; Automatic code indenting; Automatic code completion;
+Function/Procedure lookups; Keyboard macros; 100% keyboard
+remapping; "session recall"; Compiler support and so much more.
+
+ED has received outstanding reviews since its debut in 1988, and
+was reviewed as the "favourite editor" in Cliff Saran's
+comparison of programmers editors in .EXE Magazine, Feb 1992.
+
+For the new user, ED's features are all encapsulated into a
+selectable emulation environment (Brief, Wordstar, Norton,
+Qedit...). Learning is optimised, you receive a quantum leap in
+efficiency and the wealth of ED's distinctive features will
+permit you to manage the business whilst ED manages your code.
+
+For the seasoned user, ED's appearance as the first programmers
+editor for Windows and the steady flow of enhancements continues
+to reward ED users and supports ED's continual rating as the
+optimum professional programmer's editor.
+
+ED will increase your productivity from day one, by simplifying
+and automating many tedious and time consuming tasks.
+
+
+Increased productivity now
+--------------------------
+Language sensitive editing automatically indents your code as
+you write it, providing a consistent well laid out style with no
+effort on your part.
+
+Code templates dramatically reduce the number of keystrokes
+needed to enter common code fragments. Code completion writes
+code for you.
+
+To let you quickly navigate around your many source files and
+functions, ED provides hypertext like capabilities for all of
+your functions, procedures and methods. This indispensable
+feature gets you to any function in any source file at the touch
+of a key.
+
+
+Use keys you already know
+-------------------------
+You do not need to learn a new set of keyboard commands to use
+ED. We have taken the industry standard text editing command
+sets and made them available to you as a configuration setting.
+Brief, Wordstar, Norton, Qedit... formats are available, or you
+can easily create your own.
+
+
+What about a safety net?  Undo, Redo, Auto-save!
+------------------------------------------------
+There's unlimited Undo for undoing any mistake you happen to
+make, be it a simple cursor movement or an accidental block
+delete. This is teamed with full Redo just in case you undo a
+bit too far. Auto-save periodically saves any changes you make,
+to a temporary file, and optional Backup files are kept whenever
+you save a file.
+
+
+Making ED your editor
+---------------------
+Many users want to configure an editor to suit their specific
+needs. With ED you can set up the keyboard and menus as you
+like, and an extensive range of configuration options are
+provided. Our powerful built-in C extension language enables you
+to modify and extend its capabilities as required. A large part
+of ED is written in this extension language and full source code
+is provided.
+
+
+ED's macros stop you repeating yourself
+---------------------------------------
+Keyboard macros are used to repeat a common task on a regular
+basis. Record any series of keystrokes, name them, and then
+replay them when required - it's that simple.
+
+
+I need that piece of code here, now!
+------------------------------------
+Block operations including stream, line and rectangular column
+blocks are fully supported. You can cut, copy and paste blocks
+between files and windows, with just a few keystrokes.  In
+addition, you can move blocks left and right, fill blocks,
+search within blocks, align comments and more.
+
+
+Full Search and Replace capability
+----------------------------------
+ED optimises the time taken to accomplish complex Search and
+Replace chores. Each time you look for something, ED remembers
+it in a history list, even between editing sessions.  Later on
+you can just pick it from the list instead of typing the same
+string over and over. Of course there are full regular
+expression capabilities, case insensitive search, incremental
+search, search and replace across files and more.
+
+
+What Compiler support is provided?
+----------------------------------
+You can run any compiler without leaving ED. After compiling,
+error tracking positions you at each error. ED for DOS shrinks
+to 4K leaving plenty of memory to run any program. ED for
+Windows runs your DOS compilers in the background so you can
+keep on working. It even lets you know when the compiler has
+finished and lets you fix any errors.
+
+
+But I want ED on a Network!
+---------------------------
+On a LAN, ED  locks files you're editing so no one else can
+change them. Other team members can still view the files and
+extract information. Each team member has their own personal
+configuration setup and history lists.
+
+
+GUI help when and where you need it
+-----------------------------------
+Put your SDK Reference back on the Bookshelf. ED for Windows
+gives you full context sensitive Windows SDK help for all API
+functions, messages, data structures, printer escapes and
+utility macros. Just click the right mouse button on the item
+where you want help and  up comes the information you need. The
+right mouse button gives you SDK help, bracket, comment and
+object matching, hypertext function and procedure lookup and
+opens #include files. (Another "how did I ever live with out it"
+feature.)
+
+
+Can I edit big files?
+---------------------
+ED uses its own fast Virtual memory editing engine so file
+sizes, undo, history lists etc. are not limited by your
+operating system or environment.
+
+
+What about "Session Recall"
+---------------------------
+ED remembers all windows, files and history lists between
+editing sessions. When reloading ED, you are presented with the
+same environment and history lists you used in the last session.
+File history lists keep track of the work you have been doing,
+on a project by project basis.
+
+
+Who should use ED?
+------------------
+ED is suited to programmers requiring the absolute leading edge
+in program editors. ED combines the best editing tools into one
+user configurable package that suits novice through to
+professional programmers. There is simply no reason for not
+using ED in any development environment.
+
+
+Where is ED going?
+------------------
+ED for Windows is breaking new ground being the first fully
+featured editor available for this environment. A Unix X Windows
+version is in development.
+
+Functionality, features and form are common across all
+platforms, allowing you to easily migrate from one to the other
+while retaining a consistent, easy to use and powerful
+development environment.
+
+Soft As It Gets is committed to success and excellence in
+everything it does. This attitude is reflected in our products
+and the quality of the support we provide to you.
+
+            *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+
+Feature  Summary
+----------------
+
+ o  Available for DOS and Windows
+
+ o  Multiple Windows and files and multiple files in each window
+
+ o  VM engine handles very large files
+
+ o  Extensive context sensitive help
+ 
+ o  Context sensitive Windows SDK help. Also supports Borland C++
+
+ o  Unlimited Undo and Redo
+ 
+ o  Color Syntax highlighting with user defined language word lists.
+
+ o  Rectangular column blocks, plus stream and line
+ 
+ o  Block cut, paste, write, sort, search, case change etc.
+
+ o  Named keyboard macros
+
+ o  Regular expression search and replace, Incremental search
+ 
+ o  Search for Tabs, control characters etc.
+ 
+ o  Search across all buffers and files, including entire directory trees
+    and across all drives. 
+
+ o  File difference analysis for comparing files.
+ 
+ o  Emulates Brief, MultiEdit, Wordstar, Norton, Qedit, Wordperfect...
+
+ o  Fully configurable menus, keyboard etc
+
+ o  Windows Toolbar. Position on any border, or floating
+
+ o  Language sensitive editing for C/C++, Clipper/dBase/FoxPro, Cobol,
+    Fortran, Progress, Paradox, Pascal, DataFlex and Assembler.
+
+ o  Code templates, code completion, smart indenting
+
+ o  Comment, bracket and object matching
+
+ o  Hypertext like function and procedure lookup. Smart C++ method lookup.
+ 
+ o  dBase/Clipper DBF file field extraction
+ 
+ o  Ruler for measuring strings etc.
+
+ o  Text selection drag and drop
+ 
+ o  File drag and drop from File manager.
+ 
+ o  Printing with Font selection, headings, line numbers etc.
+ 
+ o  Support for editing Unix files
+ 
+ o  Support for Mainframe DOS emulations
+
+ o  Works with File manager for Opening and Printing files
+ 
+ o  Hunt for files across all directories on any or all drives
+ 
+ o  View directory trees
+ 
+ o  Windows Font selection. DOS Super VGA support - 132 x 60+
+
+ o  Auto-save, Backup files, Session recall
+
+ o  Extensive compiler support with error tracking
+
+ o  Fast C extension language with source included.  Access to
+    user defined dialog boxes and string tables.
+
+ o  Full LAN and multiuser support
+
+ o  Word wrap and paragraph reformat
+ 
+ o  Lets other Applications run during lengthy operations
+ 
+ o  Japanese and German versions available 
+
+ o  350 Page manual.
+
+
+ED is designed for the 90's and gives you the absolute leading
+edge in programmer's editors. Discover the tool for DOS and
+Windows that frees you from the tedium of editing and lets your
+creative instincts flow!
+
+No developers' toolkit is complete without ED, the power
+programmers' editor.
+
+            *  *  *  *  *  *  *  *  *  *  *  *  *  *  *
+
+
+ED for Windows and ED for DOS have been designed, written and
+developed by:
+
+    Neville Franks,
+    Soft As It Gets Pty Ltd
+    3 Pullman Court,
+    East St.Kilda,
+    Victoria, 3183
+    Australia
+    Ph. +613 523 0557
+    FAX +613 528 6836
+    CIS 100032,522
+
+
+To purchase your copy of ED contact:
+
+Australia
+   Aeronaut Industries  Ph +612 957 3127   Fax +612 954 3049
+   Soft As It Gets      Ph +613 523 0557   Fax +613 528 6836
+   Noble Systems        Ph +612 564 1200   Fax +612 564 1465
+
+UK and Europe
+   QBS Software Ltd.    Ph +44 81 994 4842  Fax +44 81 994 3441
+
+Germany
+   dc Soft GmbH         Ph +49 89 785 8910  Fax +49 89 785 89111
+
+Holland
+   Markus Software      Ph +31 47 50 32555  Fax +31 47 50 35577
+
+USA
+   Lifeboat Software    Ph 800 451 6174 or +201 762 6965
+                        Fax +201 762 0118
+
+Japan
+   Systemserve Japan Co., Ltd. Ph 06 266 2667  Fax 06 266 2668
+
+
+ED the Programmer's Editor Copyright(c) 1991-1993 Soft As It Gets P/L.
+
+All Brand and Product names are trademarks or registered trademarks of
+their respective holders and are hereby acknowledged.
+

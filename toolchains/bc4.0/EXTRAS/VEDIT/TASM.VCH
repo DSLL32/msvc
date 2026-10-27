@@ -1,0 +1,46 @@
+		ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		³ Borland Turbo Assembler Options - Page #1 ³
+		ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ MESSAGES ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ /t		Suppress messages if successful assembly		     ³
+³ /wx		Set warning level x: 0=none, 1=2=warnings on		     ³
+³ /w-xxx	Disable warning xxx					     ³
+³ /w+xxx	Enable warning xxx					     ³
+³ /z		Display source line with error message			     ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ OUTPUT FILES ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ /c   Generate cross-ref in listing  /l   Generate normal listing	     ³
+³ /la  Generate expanded listing      /n   Suppress symbol tables in listing ³
+³ /x   False conditionals in listing  /zd  Line number info in object files  ³
+³ /zi  Full debug info in object files					     ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ SEGMENTATION ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ /a   Alphabetic segment ordering    /a   Source-code segment ordering	     ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ FLOATING POINT ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ /e   Generate emulator instructions /r   Generate real instructions	     ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ (press any key to continue) ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ 
+
+
+		ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+		³ Borland Turbo Assembler Options - Page #2 ³
+		ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ MISCELLANEOUS ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ /dSYM[=VAL]	Define symbol SYM = 0, or = VAL				     ³
+³ /h /?		Display help screen					     ³
+³ /iPATH	Search PATH for include files				     ³
+³ /jCMD		Jam in an assembler directive CMD (eg. /jIDEAL)		     ³
+³ /kh#		Hash table capacity in number of symbols		     ³
+³ /ml		Treat all symbols as case sensitive			     ³
+³ /mu		Convert all symbols to upper case (def.)		     ³
+³ /mx		Make public and external symbols case sensitive		     ³
+³ /p		Check for code segment overrides in protected mode	     ³
+³ /q		Suppress OBJ records not needed for linking		     ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ (press any key to continue) ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+
+
+

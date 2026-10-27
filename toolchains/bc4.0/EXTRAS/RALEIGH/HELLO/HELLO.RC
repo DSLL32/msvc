@@ -1,0 +1,6 @@
+#include <os2.h>
+#include "about.h"
+#include "hello.h"
+
+POINTER I_OBJPM PRELOAD MOVEABLE objpm.ico
+rcinclude about.dlg

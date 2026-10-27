@@ -1,0 +1,203 @@
+//
+// Frame Window Member Functions - $Window.Name$ 
+//
+// Window Constructor
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$
+$Window.Name$Win::$Window.Name$Win() : ShellWindow()
+	$ELSE$
+$Window.Name$Win::$Window.Name$Win(ShellWindow *w) : ChildAppWindow(w) 
+	$END IF$
+$ELSE$
+$Window.Name$Win::$Window.Name$Win() : TopAppWindow() 
+$END IF$
+$IF Menu.Name != ""$
+ ,$Menu.Name$Menu(ResID(IDM_$UP(Menu.Name)$))	
+$END IF$
+$IF Window.IconFile != ""$
+ ,$Window.Name$Icon(ResID(IDI_$UP(Window.Name)$))	
+$END IF$
+$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+ ,$Menu.Name$Accel(ResID(IDA_$UP(Menu.Name)$))
+$END IF$
+{
+	$IF Window.Style != "WS_OVERLAPPEDWINDOW"$	 // Not default style
+		$IF Window.HasMaxBox == "Y"$
+	EnableMaxBox(TRUE);
+		$ELSE$
+	EnableMaxBox(FALSE);
+		$END IF$
+		$IF Window.HasMinBox == "Y"$
+	EnableMinBox(TRUE);
+		$ELSE$
+	EnableMinBox(FALSE);
+		$END IF$
+		$IF Window.HasSystemMenu == "Y"$
+	EnableSysMenu(TRUE);
+		$ELSE$
+	EnableSysMenu(FALSE);
+		$END IF$
+		$IF Window.HasSizeableFrame == "Y"$
+	EnableBorder(SizingBorder);
+		$ELSE$
+	EnableBorder(NonSizingBorder);
+		$END IF$
+		$IF Window.HasVertScroll == "Y"$
+	pWndVertScroll pwvs = EnableVScroll();
+	pwvs->Show();
+		$END IF$
+		$IF Window.HasHorizScroll == "Y"$
+	pWndHorzScroll pwhs = EnableHScroll();
+	pwhs->Show();
+		$END IF$
+	$END IF$
+	$IF Window.Caption != ""$
+	SetCaption("$Window.Caption$");
+	$END IF$
+	$IF Window.Color != ""$
+	ChangeBackground(new Brush(Color($Window.Red$, $Window.Green$, $Window.Blue$)));
+	$END IF$
+	$IF Menu.Name != ""$
+		$IF Application.Type == "MDI"$
+	$Menu.Name$Menu.AppendItem(new Menu(ResID(IDM_MDIWINDOW)), "&Window");
+	$Menu.Name$Menu.SetAutoUpdate($COUNT(Menu.MenuItems)$);
+		$END IF$
+	ChangeMenu(&$Menu.Name$Menu);
+		$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	ChangeAccel(&$Menu.Name$Accel);
+		$END IF$
+
+	$END IF$
+	$IF Window.IconFile != ""$
+	SetIcon(&$Window.Name$Icon);
+	$END IF$
+$IF Window.DefaultPosition != "Y"$
+	$IF Window.IsMain == "Y"$ // Based on resolution at generation time(640x480)
+	$OR Application.Type != "MDI"$
+	ChangePosition(Point($Window.X$, $480-Window.Y-Window.H$));	
+	$ELSE$				 // MDI Child Window
+		$IF Window.DefaultSize != "Y"$	
+	// Adjust coords to match CommonView
+		$ELSE$
+	// Adjust coords to match CommonView - May not be accurate because
+	// DefaultSize was specified at generation time
+		$END IF$
+	ChangePosition(Point($Window.X$, w->CanvasRect().Top()-$Window.H$));
+	$END IF$
+$END IF$
+$IF Window.DefaultSize != "Y"$
+	ChangeSize(Dimension($Window.W$, $Window.H$));
+$END IF$
+	// $PROTECTBLOCK "w"+Window.Name+"Constructor"$
+
+	Show();		// Display Window
+	$IF ToolBar.Name != ""$
+	
+		$IF Application.Type == "MDI"$ 	// MDI toolbars require more work
+		$AND Window.IsMain == "Y"$			
+	// Save handle to MDI Client Window for Kickdown to move window
+ 	hMDIClient = GetWindow(Handle(), GW_CHILD);
+		$END IF$
+	// Create ToolBar
+ 	pTB = new ToolBar(this, ResID(IDD_TOOLBAR), $ToolBar.H$);	
+		$LOOP ToolBar.ToolItems$
+	pTB->AddTool("$ToolItem.ToolType$", IDTI_$UP(ToolBar.Name)UP(ToolItem.Name)$, Point($ToolItem.X$, $ToolBar.H-ToolItem.Y$), 
+		Dimension($ToolItem.W$, $ToolItem.H$), ResID(IDNB_$UP(ToolBar.Name+ToolItem.Name)$), 
+		ResID(IDSB_$UP(ToolBar.Name+ToolItem.Name)$), "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+		$END LOOP$
+	pTB->Show();
+	$END IF$
+}
+// 
+// Window Destructor
+//
+$Window.Name$Win::~$Window.Name$Win()
+{
+$IF ToolBar.Name != ""$
+	if (pTB)			 	// Delete allocated ToolBar
+		delete pTB;
+$END IF$
+}
+$IF ToolBar.Name != ""$
+$AND Application.Type == "MDI"$ 
+$AND Window.IsMain == "Y"$			
+// 
+// Resize Event - Posts a message to resize MDI client below tool bar
+//
+void MainWin::ReSize( ReSizeEvt e ) 
+{
+	ShellWindow::ReSize(e);
+	PostMessage(Handle(), WM_POSMDICLIENT, 0, 0);	// Custom Event to move client
+}
+// 
+//  Dispatch - Handles Custom Message Routing & Processing
+//
+long MainWin::Dispatch( Event e ) 
+{
+	// Check for Resizing MDI Client below Tool Bar
+	if ( ((MDIClientEvent &)e).Message() == WM_POSMDICLIENT )
+	{
+		// Kickdown to move non CommonView window
+ 		MoveWindow(hMDIClient, 0, $ToolBar.H$, CanvasRect().Right(), 
+			CanvasRect().Top()-$ToolBar.H$, TRUE);
+		return TRUE;
+	}
+	else
+		return ShellWindow::Dispatch(e);
+}
+$END IF$
+// 
+// Process Menu and Toolbar commands
+//
+void $Window.Name$Win::MenuCommand( MenuCommandEvt e ) 
+{
+	switch (e.GetItemID())
+	{
+		$LOOP Menu.MenuStrings$  
+		case IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$:
+		{
+			$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+			$VAR VLinkToType = MenuItem.LinkToType$
+			$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+			$INPUT "linkto.sdv"$	//insert linkto code
+			// $PROTECTBLOCK "w"+Window.Name+"Menu"+VItemName$
+		}
+		break;  
+		$END LOOP$  //MenuStrings
+		$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+		case IDTI_$UP(ToolBar.Name)UP(ToolItem.Name)$:
+		{
+			$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+			$VAR VLinkToType = ToolItem.LinkToType$
+			$VAR VItemName = ToolItem.Name$
+			$INPUT "linkto.sdv"$	//insert linkto code
+			// $PROTECTBLOCK "w"+Window.Name+"Tool"+ToolItem.Name$
+		}
+		break;  
+		$END LOOP$	// ToolItems
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+		case IDMI_CREATECHILD:
+		{
+			MDIChildWin *tmp=new MDIChildWin(this);
+			tmp->SetCaption("Practice MDI Child Window");
+			tmp->Show();
+		}
+		break;
+		case IDMI_CASCADE:
+			Arrange(ShellWindow::Cascade);
+		break;
+		case IDMI_TILE:
+			Arrange(ShellWindow::Tile);
+		break;
+		case IDMI_ARRANGEICONS:
+			Arrange(ShellWindow::Icons);
+		break;
+$END IF$
+		// $PROTECTBLOCK "w"+Window.Name+"MenuCommand"$
+		default:
+			Window::MenuCommand(e);	 // Pass msg on
+	}
+}
+
+

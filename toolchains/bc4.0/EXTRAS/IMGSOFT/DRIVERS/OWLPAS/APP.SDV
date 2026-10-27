@@ -1,0 +1,209 @@
+$VAR VVersion = "7.0"$	{Either 1.5 or 7.0}
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 { Flag if there are Toolbars in app }
+$INPUT "rescnst.sdv"$	{ Generate Resource Constants file - AConstants defined}
+$IF COUNT(Application.Dialogs WHERE ToolBar.Name != "") > 0$
+	$VToolBarExists = "Y"$
+$ELSE$
+	$IF COUNT(Application.Windows WHERE ToolBar.Name != "") > 0$
+		$VToolBarExists = "Y"$
+	$END IF$
+$END IF$
+$ARRAY AStdUnits$	{Standard units array}
+$ADDVAL AStdUnits "WinTypes"$
+$ADDVAL AStdUnits "WinProcs"$
+$IF VVersion == "7.0"$
+$ADDVAL AStdUnits "Objects"$  
+$ADDVAL AStdUnits "OMemory"$  
+$ADDVAL AStdUnits "OWindows"$  
+$ADDVAL AStdUnits "ODialogs"$  
+$ELSE$
+$ADDVAL AStdUnits "WObjects"$
+$END IF$
+$ADDVAL AStdUnits "Strings"$  
+$ADDVAL AStdUnits "CommDlg"$   { For Common Dialog Support }
+$ADDVAL AStdUnits "MMSystem"$  { For sndPlaySound support }
+$ARRAY AModules$									 	{ Array of all pgm modules }
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 { mak.sdv will use AModules }
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$
+	$ADDVAL AModules Window.ModuleName$	 { mak.sdv will use AModules }
+$END LOOP$
+$IF VToolBarExists == "Y"$			{ Flag if there are Toolbars in app }
+$ADDVAL AModules "Jtools"$	 	{ Add ToolBar Module First }
+$END IF$
+$LOOP AModules$	 									// Init all new module files
+	$IF AModules.Value != "JTools"$	 // Jtools.pas created later
+	$VAR VModuleName = AModules.Value$
+	$OUTPUT AModules.Value+".pas"$		{ Create Module Files with hdr info }
+	$INPUT "modhdr.sdv"$								
+	$END IF$
+$END LOOP$
+$INPUT "mak.sdv"$					{ Generate MAKE file }
+$INPUT "rc.sdv"$					{ Generate RC file }
+$IF VToolBarExists == "Y"$					{ Flag if there are Toolbars in app }
+$INPUT "jtools.sdv"$			{ Generate Tool Bar Class Files }
+$END IF$
+$OUTPUT VPgmName+".pas"$		{ Must specify an output file }
+{*-----------------------------------------------------------------
+ * $System.OutFile$ - $application.desc$													 
+ * $System.Date$ - $System.Time$																	 
+ * $Application.Programmer$																				 
+ *-----------------------------------------------------------------}
+{$PROTECTBLOCK	"AppRevisions"$}
+
+program $VPgmName$;
+
+$SETDELIMITER "~"$  { Directive uses dollar sign so change delimiter}
+{$R ~VPgmName~.res}
+~SETDELIMITER "$"~  { Restore default delimiter}
+
+$IF COUNT(AModules) > 0$
+uses $LIST AStdUnits AStdUnits.Value$, $LIST AModules AModules.Value$;
+$ELSE$
+uses $LIST AStdUnits AStdUnits.Value$;
+$END IF$
+
+{$PROTECTBLOCK	"GlobalVars"$}
+
+const
+$INPUT "pascnst.sdv"$	 { Constants to match up with resources }
+
+$LOOP Application.Windows$	{ Group all Type definitions together }
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".pas"$		{ Append to App Definition file }
+		$INPUT "windef.sdv"$	 { Process Window Definition Driver to App Definition file }
+	$ELSE$
+		$VAR VModuleName = Window.ModuleName$
+		$APPEND Window.ModuleName+".pas"$		{ Append to module file }
+		$INPUT "windef.sdv"$	 { Process Window Definition Driver to Module Header }
+	$END IF$
+$END LOOP$		{ Loop thru all Windows }
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".pas"$		{ Append to App Definition file }
+		$INPUT "dlgdef.sdv"$	 { Process Dialog Definition Driver to Current Source }
+	$ELSE$
+		$VAR VModuleName = Dialog.ModuleName$
+		$APPEND Dialog.ModuleName+".pas"$		{ Append to module file }
+		$INPUT "dlgdef.sdv"$	 { Process Dialog Definition Driver to Module Header }
+	$END IF$
+$END LOOP$		{ Loop thru all dialogs }
+$APPEND VPgmName+".pas"$	{ Continue output to current source }
+
+type
+	T$Application.name$App = object(TApplication)
+  	procedure InitMainWindow; virtual;
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+	procedure InitInstance; virtual;
+	$LOOP application.Dialogs WHERE COUNT(Menu.MenuItems) > 0$
+		$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	function ProcessAppMsg(var Message: TMsg) : Boolean; virtual;
+		$BREAK$
+		$END IF$
+	$END LOOP$
+$END IF$
+	{$PROTECTBLOCK	"AppDefinition"$}
+	end;
+
+$LOOP AModules WHERE AModules.Value != "Jtools"$ { Append single line to each module file }
+	$APPEND AModules.Value+".pas"$	{ A pain...need to write IMPLEMENTATION }
+implementation
+$END LOOP$		 { All modules }
+$APPEND VPgmName+".pas"$	{ Continue output to current source }
+$LOOP Application.Windows$		 { Generate member functions for all windows }
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 { Process Window Member Driver to Current Source }
+	$ELSE$
+		$VAR VModuleName = Window.ModuleName$
+		$APPEND Window.ModuleName+".pas"$		{ Append to module file }
+		$INPUT "winmem.sdv"$	 { Process Window Member Driver to Module File }
+		$APPEND VPgmName+".pas"$	{ Continue output to current source }
+	$END IF$
+$END LOOP$		 { All windows }
+$APPEND VPgmName+".pas"$	{ Continue output to current source }
+$LOOP Application.dialogs$	{ Generate member functions for all dialogs }
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 { Process Dialog Member Driver to Current Source }
+	$ELSE$
+		$VAR VModuleName = Dialog.ModuleName$
+		$APPEND Dialog.ModuleName+".pas"$		{ Append to module file }
+		$INPUT "dlgmem.sdv"$	 { Process Dialog member Driver to Module File }
+		$APPEND VPgmName+".pas"$	{ Continue output to current source }
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "Jtools"$ { Append single line to each module file }
+	$APPEND AModules.Value+".pas"$	{ A pain...need to write END. }
+
+{ $PROTECTBLOCK	AModules.Value+"UserCode"$ }
+end.
+$END LOOP$		 { All modules }
+$APPEND VPgmName+".pas"$	{ Continue output to current source }
+
+{$PROTECTBLOCK	"AppUserCode"$ }
+
+{*-----------------------------------------------------------------
+ * T$Application.name$App method implementations:        
+ *-----------------------------------------------------------------}
+
+procedure T$Application.name$App.InitMainWindow;
+begin
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary('$ADLLs.Value$'); { Load Application DLL }
+$END LOOP$
+$IF Application.DialogName != ""$
+	MainWindow := New(P$CAP(Application.DialogName)$, Init(nil, '$Application.DialogName$'));
+$ELSE$
+	$LOOP Application.Windows WHERE Window.IsMain == "Y"$
+		$IF Application.Type == "MDI"$
+	MainWindow := New(P$Window.Name$, Init);
+		$ELSE$
+	MainWindow := New(P$Window.Name$, Init(nil));
+		$END IF$
+	$BREAK$				 { Only 1 main window }
+	$END LOOP$
+$END IF$
+	{$PROTECTBLOCK	"AppInitMain"$}
+end;
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+{*-----------------------------------------------------------------
+ *  InitInstance - Needed to load accelerator table      
+ *-----------------------------------------------------------------}
+procedure T$Application.name$App.InitInstance;
+begin
+	TApplication.InitInstance;
+	HAccTable := LoadAccelerators(HInstance, '$Application.name$');
+end;
+	$LOOP application.Dialogs WHERE COUNT(Menu.MenuItems) > 0$
+		$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+{*-----------------------------------------------------------------
+ *  ProcessAppMsg - When using dialogs with Accelerators
+ *  we must change the order of message processing. The dialog must
+ *  be created as a modeless dialog to handle accels correctly.   
+ *  Note: Do not use any accels in dialogs that would interfere 
+ *  with normal dialog behavior or text input
+ *-----------------------------------------------------------------}
+function T$Application.name$App.ProcessAppMsg(var Message: TMsg): Boolean;
+begin
+	ProcessAppMsg := ProcessMDIAccels(Message) or ProcessAccels(Message) or 
+		ProcessDlgMsg(Message);
+end;
+		$BREAK$
+		$END IF$
+	$END LOOP$
+$END IF$
+{*-----------------------------------------------------------------
+ * Main Program:
+ *-----------------------------------------------------------------}
+var
+	$Application.Name$App: T$Application.Name$App;
+
+begin
+	$Application.Name$App.Init('$VPgmName$');
+	$Application.Name$App.Run;
+	$Application.Name$App.Done;
+end.
+

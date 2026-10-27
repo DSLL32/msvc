@@ -1,0 +1,73 @@
+$IF VLinkToName == "OpenFile"$
+$OR VLinkToName == "SaveFile"$
+					OPENFILENAME of;
+					// Filter Type & Extension...separate strings with NULL byte
+					char szFilter[256] = "All Files (*.*)\0*.*\0Text Files (*.txt)\0*.txt\0"; 
+					char szFile[256] = ""; 
+					memset(&of, 0, sizeof( OPENFILENAME ));
+					of.lStructSize = sizeof( OPENFILENAME );
+					of.lpstrFilter = szFilter;
+					of.lpstrFile = szFile;
+					of.nMaxFile = sizeof(szFile);
+					of.hwndOwner=hWnd;
+	$IF VLinkToName == "OpenFile"$
+					if (GetOpenFileName(&of))
+	$ELSE$
+					if (GetSaveFileName(&of))
+	$END IF$
+					{
+						//$PROTECTBLOCK	VProtectTag$
+					}
+$ELSE$
+$IF VLinkToName == "Print"$
+$OR VLinkToName == "PrintSetup"$
+					PRINTDLG pd;
+					memset(&pd, 0, sizeof( PRINTDLG ));
+					pd.lStructSize = sizeof( PRINTDLG );
+					pd.hwndOwner=hWnd;
+	$IF VLinkToName == "PrintSetup"$
+					pd.Flags=PD_PRINTSETUP;
+	$ELSE$
+					pd.Flags=PD_RETURNDC;
+	$END IF$
+					if (PrintDlg(&pd))
+					{
+						//$PROTECTBLOCK	VProtectTag$
+					}
+$ELSE$
+$IF VLinkToName == "ChooseColor"$
+					CHOOSECOLOR cc;
+					COLORREF aclrCust[16];
+					int i;
+					memset(&cc, 0, sizeof( CHOOSECOLOR ));
+					// Set the custom color controls to white. 
+					for (i=0; i < 16; i++)
+					    aclrCust[i] = RGB(255, 255, 255);
+					cc.lStructSize = sizeof( CHOOSECOLOR );
+					cc.hwndOwner=hWnd;
+					cc.rgbResult = RGB(0, 0, 0);	// Initialize color to black
+					cc.lpCustColors = aclrCust;
+					// cc.Flags = CC_PREVENTFULLOPEN;
+					if (ChooseColor(&cc))
+					{
+						//$PROTECTBLOCK	VProtectTag$
+					}
+$ELSE$
+$IF VLinkToName == "ChooseFont"$
+					CHOOSEFONT cf;
+					LOGFONT lf;
+					memset(&cf, 0, sizeof( CHOOSEFONT ));
+					cf.Flags = CF_SCREENFONTS | CF_FORCEFONTEXIST | CF_EFFECTS;
+					cf.nFontType = SCREEN_FONTTYPE;
+					cf.lpLogFont = &lf;
+					cf.lStructSize = sizeof( CHOOSEFONT );
+					cf.hwndOwner=hWnd;
+					if (ChooseFont(&cf))
+					{
+						//$PROTECTBLOCK	VProtectTag$
+					}
+$END IF$
+$END IF$
+$END IF$
+$END IF$
+

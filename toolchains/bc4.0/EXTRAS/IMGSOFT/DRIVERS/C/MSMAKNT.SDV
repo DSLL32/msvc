@@ -1,0 +1,82 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+# 
+# ~VPgmName~
+# Microsoft NT C Make File
+#
+CPU=i386
+
+!IF "$(CPU)" != ""
+OS=NT
+ENV=WIN32
+!ELSE
+OS=DOS
+ENV=WIN16
+!ENDIF
+
+!include <$(OS)$(ENV).MAK>
+
+PGM = ~VPgmName~
+OBJS= $(PGM).obj \
+~LOOP AModules~
+~AModules.Value~.obj
+~END LOOP~
+
+all: $(PGM).exe
+
+# Update the object files if necessary
+$(PGM).obj : $*.c $*.h
+    $(cc) $(cflags) $(cvars) $(cdebug) $*.c
+
+~LOOP AModules~
+~AModules.Value~.obj : $*.c $*.h
+    $(cc) $(cflags) $(cvars) $(cdebug) $*.c
+
+~END LOOP~
+# Update the resource if necessary
+$(PGM).res:   $(PGM).rc $(PGM).h
+    rc -r -fo $(PGM).res $(cvars) $(PGM).rc
+!IFDEF CPUTYPE
+    cvtres -$(CPU) $(PGM).res -o $(PGM).rbj
+!ENDIF
+
+# Since the link line has some severe differences depending on what
+# platform we are running on, we need to special case this so that
+# we execute the correct commands:
+
+$(PGM).exe: $(OBJS) $(PGM).res $(PGM).def
+!IFDEF CPUTYPE
+# This is for Windows NT:
+    $(cvtobj) $(cvtdebug) *.obj
+    $(link) $(linkdebug) $(guiflags) $(OBJS) $(guilibs) VERSION.LIB $(PGM).rbj -out:$(PGM).exe
+!ENDIF
+!IFNDEF CPUTYPE
+# This is for Windows DOS:
+    $(link) $(guiflags) $(OBJS) $(guilibs) $(PGM).DEF
+    rc $(PGM).res
+!ENDIF
+~~ Note: The following file is generated for convenience. You should copy file
+~~ to your include directory, and remove from this driver.
+~OUTPUT "DOSWIN16.MAK"~		
+# If no CPUTYPE variable is defined, then we are running on a DOS system
+# so lets whack in some flags and switches to match the NTWIN32.MAK
+# settings:
+hcopts = -n
+cc = cl
+cdebug = -Zipe -Oas
+cflags = -c -AM -Gsw -W3 $(cdebug)
+cvars = -D$(ENV)
+linkdebug = 
+link = link $(linkdebug)
+guiflags = /NOE /NOD
+guilibs = ,,,libw mlibcew ver,
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE PRELOAD MOVEABLE DISCARDABLE
+DATA PRELOAD MOVEABLE SINGLE
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+
+

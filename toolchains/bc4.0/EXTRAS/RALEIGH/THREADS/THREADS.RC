@@ -1,0 +1,11 @@
+/*  VCS_ID
+ *  $Filename:   threads.rc
+ *  $Author  :   John Pompeii
+ *  $Revision:   1.1  $
+ *  $Date:   28 Dec 1991 14:57:26  $
+ */
+ 
+#include <os2.h>
+#include "threads.h"
+
+POINTER I_OBJPM PRELOAD MOVEABLE objpm.ico

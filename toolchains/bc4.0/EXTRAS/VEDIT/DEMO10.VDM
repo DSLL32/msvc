@@ -1,0 +1,89 @@
+RI(9)/VEDIT and VEDIT PLUS - Multiple File Processing/
+M(H)			!Display header
+
+YT/
+VEDIT can easily perform the same editing operation on a whole group of
+files.  For example, you might want to see which files contain a particular
+word (such as a program variable name).  Or you might discover that you have
+consistently misspelled the same word in twenty files.  Or you might want to
+print an entire group of files.
+
+These and similar operation are easily performed in VEDIT and VEDIT PLUS using
+the supplied macro "WILDFILE.VDM".  As its name implies, the group of files
+may either be specified individually or using the wildcards "*" and "?".
+
+This demo will first have you search for all occurrences of a word in all the
+text files on this demo disk.  It will then have you display the beginning
+of each text file.
+
+/
+M(K)			!Pause for user
+
+8XS(100)		!Need 8 line window
+M(W)			!Create instruction window; set attributes
+B #K			!Empty edit buffer
++RL(P) wildfile.vdm	!Load macro
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I\To search through all text files enter "*.TXT" for the first prompt, and
+press <Enter> twice.  At the "Execute..." prompt press "S".  At the search
+prompt type "programs" and press <Enter>.
+
+At the "Display line..." prompt press "V" to enter editing mode.
+Alternatively, you could just display the line.
+
+Press <Enter> to start.  \
+
+B -V
+
+EE(Y) EQY
+EE(@)
+YWS(@)			!Let WILDFILE run in default window
+
+M(P)			!Execute the macro
+
+YWI YWB(1) 8
+Q26YEA			!Set editing attribute
+YWS(1) Q27YEA		!Set attribute in lower window "1"
+EE(1)
+B #K
+I/To display the beginning of the text files enter "*.TXT" for the first
+prompt, and press <Enter> twice.  At the "Execute..." prompt press "C" to
+execute a command.  At the command prompt enter:
+
+	11T
+
+This will display the first 11 lines in each file.  At the next prompt
+press "Y" to pause the screen display after each file. /
+
+B-V
+
+EE(@)
+YWS@
+M(P)
+
+RI(9)/VEDIT PLUS - Multiple File Processing/
+M(H)
+
+YT\
+Obviously, many other useful operations can be performed using the WILDFILE
+macro.  (It is more flexible than the similar UNIX "grep" function.)
+
+Although outside the scope of this demo, you could create a file containing
+numerous search and replace commands.  The WILDFILE macro could then
+automatically perform the entire list of search and replace operations on an
+entire group of files.
+
+After finishing this demo you might want to try the WILDFILE macro on your own
+text or program files.  Try it to see how fast VEDIT can search!  (VEDIT is
+the fastest editor available for performing search/replace in multi-megabyte
+files.)
+
+After running "VDEMO", you can startup WILDFILE by selecting it from the
+{MISC} pull-down menu.  Or you can start it up from DOS with the command:
+
+	VDEMO -X WILDFILE
+\
+
+M(K)

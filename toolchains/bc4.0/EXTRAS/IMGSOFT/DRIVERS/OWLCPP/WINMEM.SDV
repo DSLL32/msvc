@@ -1,0 +1,142 @@
+//
+// Member Functions - $Window.Name$ 
+//
+// Window Constructor
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$
+$Window.Name$::$Window.Name$(): TMDIFrame("$Window.Caption$", "$Menu.Name$")
+	$ELSE$
+$Window.Name$::$Window.Name$(PTWindowsObject AParent) 
+: TWindow(AParent, "$Window.Caption$")
+	$END IF$
+$ELSE$
+$Window.Name$::$Window.Name$(PTWindowsObject AParent) 
+: TWindow(AParent, "$Window.Caption$")
+$END IF$
+{
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+	$VAR VChildMenuPos = 0$
+	$LOOP Menu.MenuItems$
+	$VChildMenuPos = VChildMenuPos+1$
+	$END LOOP$
+	// Menu to be updated with MDI child names
+	ChildMenuPos = $VChildMenuPos$; 
+$END IF$
+$IF Window.IsMain != "Y"$ 	 // If this is a popup set style
+	Attr.Style = $Window.Style$|WS_VISIBLE;
+$ELSE$
+	$IF Window.Style != "WS_OVERLAPPEDWINDOW"$
+	Attr.Style = $Window.Style$;	
+	$END IF$
+$END IF$
+
+$IF Window.DefaultPosition != "Y"$
+	Attr.X = $Window.X$;
+	Attr.Y = $Window.Y$;
+$END IF$
+$IF Window.DefaultSize != "Y"$
+	Attr.W = $Window.W$;
+	Attr.H = $Window.H$;
+$END IF$
+$IF ToolBar.Name != ""$
+	// Create ToolBar - This is a child window so OWL will delete
+	PTToolBar pTB = new TToolBar(this, $ToolBar.H$);	
+	$LOOP ToolBar.ToolItems$
+	pTB->ToolItems->add(* new TToolItem(this, "$ToolItem.ToolType$", CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 "N$ToolBar.Name+ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$"));
+	$END LOOP$
+$END IF$
+	// $PROTECTBLOCK "w"+Window.Name+"Constructor"$
+}
+//
+// GetWindowClass - Allows a new window class to be defined 
+//
+void $Window.Name$::GetWindowClass(WNDCLASS& AWndClass)
+{
+	TWindow::GetWindowClass(AWndClass);
+	$IF Window.Color != ""$
+	AWndClass.hbrBackground = CreateSolidBrush($Window.Color$);
+	$END IF$
+	$IF Window.IconFile != ""$
+	AWndClass.hIcon = LoadIcon(GetApplication()->hInstance, "$Window.Name$");
+	$END IF$	
+	//$PROTECTBLOCK	"w"+Window.Name+"GetWindowClass"$
+}
+//
+//	SetupWindow - Initialization stuff requiring a window handle
+//
+void $Window.Name$::SetupWindow()
+{
+$IF Menu.Name != ""$
+	$IF Application.Type != "MDI"$		 // Menu Assigned in constructor of MDI
+	AssignMenu("$Menu.Name$");
+	$ELSE$
+		$IF Window.IsMain != "Y"$
+		AssignMenu("$Menu.Name$");
+		$END IF$
+	$END IF$
+$END IF$
+
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+  TMDIFrame::SetupWindow();				 // will setup child windows
+$ELSE$
+	TWindowsObject::SetupWindow();	// will setup child windows
+$END IF$
+	//$PROTECTBLOCK	"w"+Window.Name+"SetupWindow"$
+}
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+$AND ToolBar.Name != ""$
+//
+// Trap the size message so we can adjust Client Window to be below Tool Bar
+//
+void $Window.Name$::WMSize(RTMessage )
+{
+	RECT rect;
+	// Adjust MDIClient window to be below ToolBar
+	GetClientRect(HWindow, &rect);
+	rect.top+=$ToolBar.H$;
+	rect.bottom-=$ToolBar.H$;
+	MoveWindow(ClientWnd->HWindow, 0, rect.top, rect.right, rect.bottom, TRUE);
+	//$PROTECTBLOCK	"w"+Window.Name+"WMSize"$
+}
+$END IF$
+//
+// Window Response functions
+//
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+void $Window.Name$::Msg$ToolBar.Name+ToolItem.Name$(RTMessage )
+{
+	$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = ToolItem.LinkToType$
+	$VAR VItemName = ToolItem.Name$
+	$VAR VProtectTag = "w"+Window.Name+ToolBar.Name+ToolItem.Name$
+	$INPUT "linkto.sdv"$	// insert linkto code
+}
+$END LOOP$
+$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+void $Window.Name$::CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(RTMessage )
+{
+	$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = MenuItem.LinkToType$
+	$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+	$VAR VProtectTag = "w"+Window.Name+VItemName$
+	$INPUT "linkto.sdv"$	//insert linkto code
+}
+$END LOOP$
+//
+// CloseWindow - Close Window and Update Data
+//
+void $Window.name$::CloseWindow()
+{
+	if ( CanClose() )	// Update Window if OK
+	{
+		//$PROTECTBLOCK	"w"+Window.Name+"CloseWindow"$
+		TWindow::CloseWindow();	// Finish the CloseWindow
+	}
+}
+
+
+

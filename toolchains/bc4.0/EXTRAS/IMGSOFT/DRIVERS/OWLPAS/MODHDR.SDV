@@ -1,0 +1,101 @@
+{*-----------------------------------------------------------------
+ * $System.OutFile$ -  Member Functions for Module
+ * $System.Date$ - $System.Time$																	 
+ * $Application.Programmer$																				 
+ *-----------------------------------------------------------------}
+{$PROTECTBLOCK	"ModuleRevisions"$}
+unit $VModuleName$;
+interface
+$ARRAY ARefModules$		{Use only Modules actually referenced}
+$LOOP Application.Dialogs WHERE Dialog.ModuleName == VModuleName$
+$IF ToolBar.Name != ""$
+	$ADDVAL ARefModules "JTools"$
+$END IF$
+	$LOOP Dialog.Buttons WHERE Button.LinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == Button.LinkToName$
+			$IF Window.ModuleName != "Default"$
+			$ADDVAL ARefModules Window.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP Dialog.Buttons WHERE Button.LinkToType == "Dialog"$
+		$LOOP Application.Dialogs WHERE Dialog.Name == Button.LinkToName$
+			$IF Dialog.ModuleName != "Default"$
+			$ADDVAL ARefModules Dialog.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP Menu.MenuStrings WHERE MenuItem.LinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == MenuItem.LinkToName$
+			$IF Window.ModuleName != "Default"$
+			$ADDVAL ARefModules Window.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP Menu.MenuStrings WHERE MenuItem.LinkToType == "Dialog"$
+		$LOOP Application.Dialogs WHERE Dialog.Name == MenuItem.LinkToName$
+			$IF Dialog.ModuleName != "Default"$
+			$ADDVAL ARefModules Dialog.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.LinkToType == "Dialog"$
+		$LOOP Application.Dialogs WHERE Dialog.Name == ToolItem.LinkToName$
+			$IF Dialog.ModuleName != "Default"$
+			$ADDVAL ARefModules Dialog.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.LinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == ToolItem.LinkToName$
+			$IF Window.ModuleName != "Default"$
+			$ADDVAL ARefModules Window.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName == VModuleName$
+$IF ToolBar.Name != ""$
+	$ADDVAL ARefModules "JTools"$
+$END IF$
+	$LOOP Menu.MenuStrings WHERE MenuItem.LinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == MenuItem.LinkToName$
+			$IF Window.ModuleName != "Default"$
+			$ADDVAL ARefModules Window.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP Menu.MenuStrings WHERE MenuItem.LinkToType == "Dialog"$
+		$LOOP Application.Dialogs WHERE Dialog.Name == MenuItem.LinkToName$
+			$IF Dialog.ModuleName != "Default"$
+			$ADDVAL ARefModules Dialog.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.LinkToType == "Dialog"$
+		$LOOP Application.Dialogs WHERE Dialog.Name == ToolItem.LinkToName$
+			$IF Dialog.ModuleName != "Default"$
+			$ADDVAL ARefModules Dialog.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.LinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == ToolItem.LinkToName$
+			$IF Window.ModuleName != "Default"$
+			$ADDVAL ARefModules Window.ModuleName$
+			$END IF$
+		$END LOOP$
+	$END LOOP$
+$END LOOP$
+$IF COUNT(ARefModules) >= 1$
+uses $LIST AStdUnits AStdUnits.Value$, 
+$LIST ARefModules ARefModules.Value WHERE ARefModules.Value != VModuleName$;
+$ELSE$
+uses $LIST AStdUnits AStdUnits.Value$;
+$END IF$
+
+const
+$INPUT "pascnst.sdv"$	 { Constants to match up with resources }
+{$PROTECTBLOCK	"ModuleVars"$}
+
+

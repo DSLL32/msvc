@@ -1,0 +1,17 @@
+
+              ษอออออออออออออออออออออออออออออออออออออออออป
+              บ      THE VEDIT PLUS DEMO/TUTORIAL       บ
+              ศอออออออออออออออออออออออออออออออออออออออออผ
+                                                     
+     The  VEDIT  PLUS  3.7  file editor is ideal for program development and 
+editing huge text, data, and binary files up  to  2  Gigabytes.   Edit  DOS, 
+Unix,  and  Mac  text  files,  fixed  and  variable length record databases, 
+mainframe,  Postscript,  .EXE  and  other  non-standard  files   in   ASCII, 
+Hexadecimal  or  EBCDIC.   Hyper-browse  CD-ROM  files.  It fully integrates 
+compilers, linkers, debuggers, and MAKE utilities.  Features  multiple  file 
+editing,  pull-down  menus,  undo,  configurable keyboard, keystroke macros, 
+regular expressions, columnar blocks, programming aids, word processing, and 
+a powerful macro programming language.
+
+Refer to  the  READ-ME.BAT  file  for  installation  instructions  and  file 
+descriptions.

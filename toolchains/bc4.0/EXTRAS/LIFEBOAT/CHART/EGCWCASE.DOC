@@ -1,0 +1,141 @@
+====================================
+EGCWCASE: The Chart Development Tool
+====================================
+
+Using a Windows development library for the first time can sometimes be a 
+confusing and overwhelming task.  The concepts and terminology of a new package 
+can be difficult to comprehend when you are not familiar with the software.  
+A visual representation of what the software does and how each function 
+effects the display can help to alleviate this problem.  To help you 
+familiarize yourself with Chart for Windows, we have provided such a tool.  
+
+EGCWCASE.EXE is a chart development tool that can be used to produce any of 
+the charts provided in Chart for Windows.  It is an interactive, menu driven 
+CASE tool that provides great flexibility in chart development. Using this tool to 
+create charts is a great way to familiarize yourself with the different chart 
+types and options found in Chart for Windows.  We suggest trying EGCWCASE 
+before attempting to develop charts in your applications with our DLLs.  
+Creating charts with EGCWCASE first, will make the concepts and functions 
+provided in the manual easier to follow and understand.
+
+EGCWCASE provides instant answers as to how each attribute of the chart is 
+used.  You immediately see exactly what happens to the display whenever a 
+characteristic of the chart is changed.  This helps in understanding the terms and 
+attributes associated with a chart.  When you read about the chart messages in 
+the manual, and use the messages in your application, you'll know exactly
+how they affect the chart.
+
+All the messages and attributes used with the charts are accessible through 
+EGCWCASE.  Try them out with different values and see what happens to the 
+appearance of the chart.  We suggest using the messages in the manual 
+as a guide while you work with EGCWCASE.  As each message is discussed in 
+the manual, try it out in EGCWCASE.  It will help you to understand what the 
+message does.  
+
+================
+Chart Templates
+================
+
+EGCWCASE is based on the concept of chart template files.  When a chart is saved 
+with EGCWCASE, it creates a chart template for that chart on disk.  A chart 
+template file consists of the attributes and data for a specific chart.  Charts 
+developed in your applications can also be saved to disk as chart templates 
+using the WriteChart() function.  These templates can then be loaded into 
+EGCWCASE and modified.  
+
+This also works in the opposite fashion.  Any chart template created or modified 
+in EGCWCASE can be loaded into your Windows application with the ReadChart() 
+function.  The ReadChart() and WriteChart() functions are described in more 
+detail in the manual.
+
+
+There are a number of advantages to using EGCWCASE to develop chart templates.  
+First of all, you can prototype and save charts in EGCWCASE without having to 
+develop a Windows program.  This replaces the repetitive action of rebuilding 
+your program after each change to the chart source code.  When you are satisfied 
+with the chart template, it can be loaded into your Windows application.  At 
+this point, any attribute available for that chart can be modified.  This is 
+done by sending a message to the chart for the particular attribute you wish to 
+change.  This includes the ability to change the data that is passed to the 
+chart once it has been loaded.
+
+
+For example, you could use EGCWCASE to create a template for a pie chart.  To do 
+this you would select options such as slice colors, label styles, legend type, 
+and other attributes from the menus provided in EGCWCASE.  It would take a lot 
+more time to create a chart template if you tried programming to develop the 
+chart instead of using EGCWCASE.  For each change made in a program, you would 
+have to rebuild the application to see what effects a new message had.  With 
+EGCWCASE, you don't need to spend time rebuilding.  This saves a great deal of 
+time prototyping the colors and other attributes needed to develop a great 
+looking chart.
+
+Once the chart template is saved to a file, you can load it into your 
+application.  To use new data with the template, simply call the appropriate 
+chart message.  In this case, its the EGW_DATA message.  This can be done for 
+any chart attribute and message.
+
+===============
+Using EGCWCASE
+===============
+
+EGCWCASE is very straightforward in its usage.  The File option of the main 
+menu allows you to create chart templates, load/edit data files, setup the 
+printer, print the charts, and save/load chart files.  
+
+EGCWCASE uses a number of standard menus and dialog boxes for its interface.  
+The File option of the main menu gets you started.  From this menu you can 
+create, save and load chart templates.  The New option enables you to select 
+the chart type you wish to create.  The column chart type defaults to use a 
+vertical bar chart.  To change the column chart type for a series of data, 
+simply access the Type option from the Series option of the main menu.
+
+When a chart is created with the New option, a default set of attributes and 
+data values are assigned to the chart.  The number of data series in a chart 
+and the data values associated with each series are loaded from a data file.  
+The data file may be given any name with the extension of ".INI".  This 
+extension is used because the data file uses the format of a Windows 
+initialization file.
+
+The data file contains information to set up the number of series, number of 
+categories, data type and the data values for a chart template.  Below is a 
+sample data file.  
+
+[EGW]
+; Number of series in the chart
+NumSeries=2
+; Number of categories in the chart
+NumCategories=5
+; Data type to use for the data
+; 0 - integer
+; 1 - long
+; 2 - float
+; 3 - double
+DataType=0
+; The actual data values, use one line for each series of data with the
+; number of data points equal to NumCategories. Use the data type as set
+; by DataType
+Series0=1 2 3 4 5 
+Series1=5 10 15 20 25
+
+To select or modify a data file, select the Read Data File option.  This 
+option allows you to read as well as modify any data file.
+
+The Open option enables you to load previously saved chart templates.  The 
+dialog box defaults to use the ".IC" extensions for chart files, but the 
+templates may be saved to any file name.
+
+Once you have created a new chart or loaded an existing chart template, the 
+main menu changes to add a number of additional options.  These options are 
+headings for all the messages available with the chart type you have selected.  
+Use the sections on chart messages in this manual as a guide when using 
+EGCWCASE.  Any message you see in the manual is available through a menu 
+selection. 
+
+Messages of the same group will be placed under the associated menu selection.  
+For instance, in column charts, all messages for Series, Categories and Values 
+can be found under those menu options.  
+
+Now that we have given you an overview of EGCWCASE, try it out and see what 
+kind of charts you can develop with Chart for Windows.
+

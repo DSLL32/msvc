@@ -1,0 +1,361 @@
+
+/*  Main test
+    
+    Copyright © 1993.  All Rights Reserved.
+
+    SUBSYSTEM:    test.exe Application
+    FILE:         testapp.rc
+    AUTHOR:       
+
+
+    OVERVIEW
+    ========
+    All resources defined here.      
+*/
+
+#include <d:\BC4\include\windows.h>
+#include "testapp.rh"
+
+SDI_MENU MENU 
+{
+ POPUP "&VAControl"
+ {
+  MENUITEM "&Command", CM_VACONTROLCOMMAND1
+  MENUITEM "&User", CM_VACONTROLUSER1
+  MENUITEM "C&onfidence", CM_VACONTROLCONFIDENCE1
+  MENUITEM "E&xit", CM_VACONTROLEXIT1
+ }
+
+ POPUP "&Help"
+ {
+  MENUITEM "&About...", CM_HELPABOUT
+ }
+
+}
+
+
+// Accelerator table for short-cut to menu commands.
+IDA_EDITFILE ACCELERATORS
+BEGIN
+  VK_DELETE, CM_EDITCUT, VIRTKEY, SHIFT
+  VK_INSERT, CM_EDITCOPY, VIRTKEY, CONTROL
+  VK_INSERT, CM_EDITPASTE, VIRTKEY, SHIFT
+  VK_DELETE, CM_EDITCLEAR, VIRTKEY, CONTROL
+  VK_BACK,   CM_EDITUNDO, VIRTKEY, ALT
+  VK_F3,     CM_EDITFINDNEXT, VIRTKEY
+END
+
+
+//
+// Table of help hints displayed in the status bar.
+//
+
+
+//
+// OWL string table
+//
+
+
+// Exception string resources
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+  IDS_OWLEXCEPTION        "ObjectWindows Exception"
+  IDS_UNHANDLEDXMSG       "Unhandled Exception"
+  IDS_OKTORESUME          "OK to resume?"
+  IDS_UNKNOWNEXCEPTION    "Unknown exception"
+
+  IDS_UNKNOWNERROR        "Unknown error"
+  IDS_NOAPP               "No application object"
+  IDS_OUTOFMEMORY         "Out of memory"
+  IDS_INVALIDMODULE       "Invalid module specified for window"
+  IDS_INVALIDMAINWINDOW   "Invalid MainWindow"
+
+  IDS_INVALIDWINDOW       "Invalid window %s"
+  IDS_INVALIDCHILDWINDOW  "Invalid child window %s"
+  IDS_INVALIDCLIENTWINDOW "Invalid client window %s"
+
+  IDS_CLASSREGISTERFAIL   "Class registration fail for window %s"
+  IDS_CHILDREGISTERFAIL   "Child class registration fail for window %s"
+  IDS_WINDOWCREATEFAIL    "Create fail for window %s"
+  IDS_WINDOWEXECUTEFAIL   "Execute fail for window %s"
+  IDS_CHILDCREATEFAIL     "Child create fail for window %s"
+
+  IDS_MENUFAILURE         "Menu creation failure"
+  IDS_VALIDATORSYNTAX     "Validator syntax error"
+  IDS_PRINTERERROR        "Printer error"
+
+  IDS_GDIFAILURE          "GDI failure"
+  IDS_GDIALLOCFAIL        "GDI allocate failure"
+  IDS_GDICREATEFAIL       "GDI creation failure"
+  IDS_GDIRESLOADFAIL      "GDI resource load failure"
+  IDS_GDIFILEREADFAIL     "GDI file read failure"
+  IDS_GDIDELETEFAIL       "GDI object %X delete failure"
+  IDS_GDIDESTROYFAIL      "GDI object %X destroy failure"
+  IDS_INVALIDDIBHANDLE    "Invalid DIB handle %X"
+END
+
+
+// General Window's status bar messages.
+STRINGTABLE
+BEGIN
+    SC_SIZE,                    "Changes the size of the window"
+    SC_MOVE,                    "Moves the window to another position"
+    SC_MINIMIZE,                "Reduces the window to an icon"
+    SC_MAXIMIZE,                "Enlarges the window to it maximum size"
+    SC_RESTORE,                 "Restores the window to its previous size"
+    SC_CLOSE,                   "Closes the window"
+    SC_TASKLIST,                "Opens task list"
+    SC_NEXTWINDOW,              "Switches to next window"
+END
+
+
+// Validator messages.
+STRINGTABLE LOADONCALL MOVEABLE DISCARDABLE
+BEGIN
+	 IDS_VALPXPCONFORM           "Input does not conform to picture:\n""%s"""
+    IDS_VALINVALIDCHAR          "Invalid character in input"
+    IDS_VALNOTINRANGE           "Value is not in the range %ld to %ld."
+    IDS_VALNOTINLIST            "Input is not in valid-list"
+END
+
+
+//
+// Misc application definitions
+//
+
+// Application ICON
+IDI_SDIAPPLICATION ICON "applsdi.ico"
+
+
+// About box.
+IDD_ABOUT DIALOG 12, 17, 204, 65
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About test"
+FONT 10, "Arial"
+BEGIN
+    CTEXT "Version", IDC_VERSION, 2, 14, 200, 8
+    CTEXT "test", -1, 2, 4, 200, 8
+    CTEXT "", IDC_COPYRIGHT, 2, 27, 200, 17
+    RTEXT "", IDC_DEBUG, 136, 56, 66, 8
+    ICON IDI_SDIAPPLICATION, -1, 2, 2, 16, 16
+    DEFPUSHBUTTON "OK", IDOK, 88, 48, 28, 12
+END
+
+
+// TInputDialog class dialog box.
+IDD_INPUTDIALOG DIALOG 20, 24, 180, 64
+STYLE WS_POPUP | WS_CAPTION | DS_SETFONT
+FONT 8, "Helv"
+BEGIN
+	LTEXT "", ID_PROMPT, 10, 8, 160, 10
+	CONTROL "", ID_INPUT, "EDIT", WS_CHILD | WS_VISIBLE | WS_BORDER | WS_TABSTOP | ES_AUTOHSCROLL, 10, 20, 160, 12
+	DEFPUSHBUTTON "&OK", IDOK, 47, 42, 40, 14
+	PUSHBUTTON "&Cancel", IDCANCEL, 93, 42, 40, 14
+END
+
+
+// Horizontal slider thumb bitmap for TSlider and VSlider
+IDB_HSLIDERTHUMB BITMAP PRELOAD MOVEABLE DISCARDABLE 
+BEGIN
+	'42 4D 66 01 00 00 00 00 00 00 76 00 00 00 28 00'
+	'00 00 12 00 00 00 14 00 00 00 01 00 04 00 00 00'
+	'00 00 F0 00 00 00 00 00 00 00 00 00 00 00 00 00'
+	'00 00 10 00 00 00 00 00 00 00 00 00 C0 00 00 C0'
+	'00 00 00 C0 C0 00 C0 00 00 00 C0 00 C0 00 C0 C0'
+	'00 00 C0 C0 C0 00 80 80 80 00 00 00 FF 00 00 FF'
+	'00 00 00 FF FF 00 FF 00 00 00 FF 00 FF 00 FF FF'
+	'00 00 FF FF FF 00 BB BB 0B BB BB BB B0 BB BB 00'
+	'00 00 BB B0 80 BB BB BB 08 0B BB 00 00 00 BB 08'
+	'F8 0B BB B0 87 70 BB 00 00 00 B0 8F F8 80 BB 08'
+	'77 77 0B 00 00 00 08 F8 88 88 00 88 88 87 70 00'
+	'00 00 0F F7 77 88 00 88 77 77 70 00 00 00 0F F8'
+	'88 88 00 88 88 87 70 00 00 00 0F F7 77 88 00 88'
+	'77 77 70 00 00 00 0F F8 88 88 00 88 88 87 70 00'
+	'00 00 0F F7 77 88 00 88 77 77 70 00 00 00 0F F8'
+	'88 88 00 88 88 87 70 00 00 00 0F F7 77 88 00 88'
+	'77 77 70 00 00 00 0F F8 88 88 00 88 88 87 70 00'
+	'00 00 0F F7 77 88 00 88 77 77 70 00 00 00 0F F8'
+	'88 88 00 88 88 87 70 00 00 00 0F F7 77 88 00 88'
+	'77 77 70 00 00 00 0F F8 88 88 00 88 88 87 70 00'
+	'00 00 0F F7 77 78 00 88 77 77 70 00 00 00 0F FF'
+	'FF FF 00 88 88 88 80 00 00 00 B0 00 00 00 BB 00'
+	'00 00 0B 00 00 00'
+END
+
+
+// Vertical slider thumb bitmap for TSlider and HSlider
+IDB_VSLIDERTHUMB BITMAP PRELOAD MOVEABLE DISCARDABLE 
+BEGIN
+	'42 4D 2A 01 00 00 00 00 00 00 76 00 00 00 28 00'
+	'00 00 28 00 00 00 09 00 00 00 01 00 04 00 00 00'
+	'00 00 B4 00 00 00 00 00 00 00 00 00 00 00 00 00'
+	'00 00 10 00 00 00 00 00 00 00 00 00 C0 00 00 C0'
+	'00 00 00 C0 C0 00 C0 00 00 00 C0 00 C0 00 C0 C0'
+	'00 00 C0 C0 C0 00 80 80 80 00 00 00 FF 00 00 FF'
+	'00 00 00 FF FF 00 FF 00 00 00 FF 00 FF 00 FF FF'
+	'00 00 FF FF FF 00 B0 00 00 00 00 00 00 00 00 0B'
+	'B0 00 00 00 00 00 00 00 00 0B 0F 88 88 88 88 88'
+	'88 88 88 80 08 88 88 88 88 88 88 88 88 80 0F 77'
+	'77 77 77 77 77 77 77 80 08 77 77 77 77 77 77 77'
+	'77 80 0F 77 FF FF FF FF FF FF F7 80 08 77 FF FF'
+	'FF FF FF FF F7 80 0F 70 00 00 00 00 00 00 77 80'
+	'08 70 00 00 00 00 00 00 77 80 0F 77 77 77 77 77'
+	'77 77 77 80 08 77 77 77 77 77 77 77 77 80 0F 77'
+	'77 77 77 77 77 77 77 80 08 77 77 77 77 77 77 77'
+	'77 80 0F FF FF FF FF FF FF FF FF F0 08 88 88 88'
+	'88 88 88 88 88 80 B0 00 00 00 00 00 00 00 00 0B'
+	'B0 00 00 00 00 00 00 00 00 0B'
+END
+
+
+// Version info.
+//
+#ifndef __DEBUG_
+// Non-Debug VERSIONINFO
+1 VERSIONINFO LOADONCALL MOVEABLE 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEFLAGSMASK 0
+FILEFLAGS VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS16
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        // Language type = U.S. English (0x0409) and Character Set = Windows, Multilingual(0x04e4)
+        BLOCK "040904E4"                            // Matches VarFileInfo Translation hex value.
+        BEGIN
+            VALUE "CompanyName", "\000"
+            VALUE "FileDescription", "test for Windows\000"
+            VALUE "FileVersion", "1.0\000"
+				VALUE "InternalName", "test\000"
+            VALUE "LegalCopyright", "Copyright © 1993.  All Rights Reserved.\000"
+            VALUE "LegalTrademarks", "Windows /231 is a trademark of Microsoft Corporation\000"
+            VALUE "OriginalFilename", "test.EXE\000"
+            VALUE "ProductName", "test for Windows\000"
+            VALUE "ProductVersion", "1.0\000"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x04e4, 0x0409        // U.S. English(0x0409) & Windows Multilingual(0x04e4) 1252
+    END
+
+END
+#else
+
+// Debug VERSIONINFO
+1 VERSIONINFO LOADONCALL MOVEABLE 
+FILEVERSION 1, 0, 0, 0
+PRODUCTVERSION 1, 0, 0, 0
+FILEFLAGSMASK VS_FF_DEBUG | VS_FF_PRERELEASE | VS_FF_PATCHED | VS_FF_PRIVATEBUILD | VS_FF_SPECIALBUILD
+FILEFLAGS VS_FFI_FILEFLAGSMASK
+FILEOS VOS__WINDOWS16
+FILETYPE VFT_APP
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        // Language type = U.S. English (0x0409) and Character Set = Windows, Multilingual(0x04e4)
+		  BLOCK "040904E4"                            // Matches VarFileInfo Translation hex value.
+        BEGIN
+            VALUE "CompanyName", "\000"
+            VALUE "FileDescription", "test for Windows\000"
+            VALUE "FileVersion", "1.0\000"
+            VALUE "InternalName", "test\000"
+            VALUE "LegalCopyright", "Copyright © 1993.  All Rights Reserved.\000"
+				VALUE "LegalTrademarks", "Windows \231 is a trademark of Microsoft Corporation\000"
+				VALUE "OriginalFilename", "test.EXE\000"
+            VALUE "ProductName", "test for Windows\000"
+            VALUE "ProductVersion", "1.0\000"
+            VALUE "SpecialBuild", "Debug Version\000"
+            VALUE "PrivateBuild", "Built by \000"
+        END
+    END
+
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x04e4, 0x0409        // U.S. English(0x0409) & Windows Multilingual(0x04e4) 1252
+    END
+
+END
+#endif
+
+IDD_TDLG DIALOG 50, 32, 129, 137
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "VA Control"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "&Single", IDC_TRSINGLE, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 83, 15, 40, 12
+ CONTROL "A&ll", IDC_TRALL, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 83, 29, 37, 10
+ PUSHBUTTON "&Add", IDC_ADD, 80, 48, 47, 14, WS_GROUP | WS_TABSTOP
+ PUSHBUTTON "&Delete", IDC_DELETE, 80, 66, 47, 14, WS_GROUP | WS_TABSTOP
+ PUSHBUTTON "&Rename", IDC_RENAME, 80, 84, 47, 14, WS_GROUP | WS_TABSTOP
+ PUSHBUTTON "&Train Action", IDC_TRACTION, 80, 102, 47, 14, WS_GROUP | WS_TABSTOP
+ DEFPUSHBUTTON "&Close", IDC_CLOSE, 80, 120, 47, 14, BS_DEFPUSHBUTTON | WS_GROUP | WS_TABSTOP
+ LISTBOX IDC_COMMAND, 7, 17, 64, 112, LBS_NOTIFY | LBS_NOINTEGRALHEIGHT | WS_BORDER | WS_VSCROLL | WS_GROUP
+ CONTROL "Command:", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 2, 3, 73, 131
+ CONTROL "Train Voice:", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 81, 3, 45, 40
+}
+
+
+IDD_ADDRENAME DIALOG 9, 15, 86, 56
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Add Command"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT IDC_EDITCOMMAND, 7, 8, 73, 13
+ CONTROL "Button", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 27, 36, 24
+ CONTROL "Button", IDCANCEL, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 46, 27, 36, 24
+ CONTROL "", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 4, 5, 79, 19
+}
+
+
+IDD_TRVOICE DIALOG 58, 33, 84, 82
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Voice Training"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 3, 32, 78, 18
+ CONTROL "Command:", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 3, 2, 78, 27
+ CONTROL "1", IDC_TR1, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 6, 36, 21, 10
+ CONTROL "2", IDC_TR2, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE |  WS_TABSTOP, 31, 36, 21, 10
+ CONTROL "3", IDC_TR3, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE |  WS_TABSTOP, 56, 36, 21, 10
+// CONTROL "Button", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 2, 53, 36, 24
+// CONTROL "Button", IDCANCEL, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP, 44, 53, 36, 24
+	CONTROL "Button", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 24, 54, 36, 24
+ 	CONTROL "Button", IDCANCEL, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | NOT WS_VISIBLE|WS_GROUP|WS_TABSTOP, 24, 55, 36, 24
+
+ LTEXT "", IDC_COMMAND, 7, 15, 71, 13
+}
+
+
+IDD_USER DIALOG 6, 15, 99, 121
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Change User"
+FONT 8, "MS Sans Serif"
+{
+ COMBOBOX IDC_USERLB, 6, 10, 87, 79, CBS_SIMPLE | CBS_SORT | CBS_DISABLENOSCROLL | WS_VSCROLL | WS_TABSTOP
+ CONTROL "Button", IDOK, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 11, 92, 36, 24
+ CONTROL "Button", IDCANCEL, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 57, 92, 36, 24
+}
+
+
+IDD_CONFIDENCE DIALOG 38, 40, 121, 125
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Confidence"
+FONT 8, "MS Sans Serif"
+{
+ LTEXT "Command:", IDC_COMMAND, 5, 12, 62, 76
+ LTEXT "Score:", IDC_SCORE, 75, 11, 41, 77
+ CONTROL "Button", IDOK, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 42, 96, 36, 24
+ CONTROL "", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 1, 8, 117, 85
+ CONTROL "", -1, "BorShade", BSS_VDIP | BSS_LEFT | WS_CHILD | WS_VISIBLE, 70, 8, 1, 85
+}
+
+

@@ -1,0 +1,1007 @@
+			ObjectPM 2.0 Class Library
+
+
+INTRODUCTION
+------------
+
+ObjectPM is a library of objects called a "class library" that
+provides the means to develop object-oriented OS/2 applications in
+C++. This allows industrial strength applications to be developed in a
+fraction of the time required to develop the same applications in C.
+In addition, the benefits of C++ can be realized in smaller, more
+reliable and maintainable programs. 
+
+Developing object-oriented applications means that you will be working
+with objects. For example, to create a Presentation Manager window,
+you create a "window" object. In C++, these objects are defined as a
+"class". Defining an object involves specifying the data that
+represents the object, and then a set of functions or "methods" that
+are used to manipulate that data. For a window object, the data can
+be its window handle, position, style and parent. The methods that
+manipulate the window are for example: "ChangeSize", "ChangePosition",
+"CaptureMouse", etc. ObjectPM applications are built by defining,
+creating, and manipulating such objects. 
+
+Increase Productivity
+
+Programming the Presentation Manager is much easier with Objectpm and
+C++.  Objectpm provides a clear and well organized application
+framework that removes the "grunt work" normally associated with
+Presentation Manager programming.  Creating and manipulating window
+and graphical objects is easy and consistent.
+
+Architecture 
+
+The Objectpm application framework is not a re-engineered windowing
+environment.  It is a true object-oriented representation of the
+Presentation Manager.  It is therefore an open and expandable system
+that allows direct calls to OS/2 to be made at will.  Through class
+methods, Objectpm makes all OS/2 handles and objects available.  This
+feature is important because no application framework, no matter how
+powerful, can provide all services required by all applications.
+
+Window Classes
+
+Objectpm provides a full complement of classes to create and manage
+windows, frame and dialog windows, controls, icons, menus, and event
+handling.  In addition, Objectpm provides additional control windows
+such as bitmap and icon buttons, and a listbox that supports column
+formatting, character attributes, bitmaps, and a better multi-select
+mode.  The "drag & drop" direct manipulation protocol, Workplace
+Shell integration, the new CUA-91 controls, and IPF help classes are 
+also provided.
+
+Graphics Classes
+
+The graphics objects include those used for drawing and management of
+devices such as windows and printers.  The drawing classes are used
+to draw lines, arcs, text, bitmaps, paths, and areas.  Graphics areas
+may be scaled, rotated, and translated.  Objectpm supports the
+retained drawing mode and transformation capabilities of the
+Presentation Manager.  Lastly, a class is provided for each type of
+output device including windows, printers, memory, and metafiles. 
+
+
+Forms Manager
+
+Anyone who has programmed a dialog box in the PM understands just how
+low level the PM can be.  The Forms Manager provides the means to do
+high level dialog window programming, and build sophisticated data
+entry screens.  The Forms Manager changes a dialog window into a
+"form" and edit controls and buttons into "fields".  It features
+nearly a dozen edit field types as well as a framework for adding new
+types.  Other features supported include field and form level
+validation, true enter-field / exit-field events, character
+filtering, NLS, and a powerful list region class that supports 
+management of row-oriented data.  
+
+Foundation Classes
+
+The Objectpm windowing class library is built on top of a foundation
+library called the BaseSet.  This library consists of over 70 general
+purpose classes that applications can use for managing threads,
+interprocess communications, exception and error condition handling,
+and OS/2 files.  In addition, a complete set of multi-threaded
+collections are supplied including support for templates.  These
+collections use a special locking semaphore that allows
+multi-threaded applications to lock a collection for update and allow
+multiple threads to iterate over a collection at the same time.  To 
+further help multi-threaded applications, a set of guardian classes
+have been provided to make it easy to add multi- threaded support
+into application classes.  
+
+The Objectpm classes for supporting the OS/2 file system include
+classes to manage files, directories, long filenames, extended
+attributes.
+
+The Package 
+
+The ObjectPM package contains primarily two dynamic-link libraries
+(DLL's), an import library, and a set of header files that define the
+objects. All applications created with ObjectPM will require the DLL.
+You may distribute this DLL in binary form without royalties of any
+kind (provided that you own a license to ObjectPM in the first place).
+
+If you purchased a source code license, then a directory will be
+installed that contains all files necessary to make the library such
+as source files, header files, definition files, and a makefile. In
+addition, you will have a copy of the DLL that was compiled will full
+debugging enabled so that it is possible to debug code within the
+library itself. 
+
+The package also contains a set of sample applications used to
+demonstrate various features of the library. These programs are
+organized under the SAMPLES directory and include: 
+
+hello        ObjectPM's version of the famous hello world application. 
+             This program however demonstrates the fundamental 
+             architecture of ObjectPM programs and the use of many 
+             classes. 
+cmapdemo     A program that demonstrates multi-keyed sorted collections 
+             using the bCMap and tCMap classes. 
+controls     Demonstrates the use and notifier of some control windows. 
+formdemo     Demonstrates the Forms Manager classes by building data 
+             entry windows. 
+graph        A simple program that draws a bar graph using various wPen, 
+             wTextPen, wFont, and wFillPattern objects. 
+listdemo     A program that demonstrates the use of the bDList 
+             collection class. 
+listea       A program that lists the extended attributes of a file 
+mapdemo      A program that demonstrates sorted collections using 
+             the bMap and tMap classes. 
+mdiEdit      An MDI version of the OS/2 system editor. 
+pcalc        A simple programmers calculator. 
+puzzle       A game program that demonstrates the picture, printer, 
+             and other graphics classes. 
+seefont      A program that demonstrates the font and textpen classes. 
+semdemo      A simple multi-threaded application that demonstrates 
+             how to start and stop new threads, and illustrates 
+             the use of the wSemaphore and wSemaphoreList objects. 
+setea        A program that sets extended attributes on a file. 
+spindemo     Demonstrates the use of spin buttons. 
+threads      A demonstration of creating windows in other threads. 
+
+
+
+ObjectPM 2.0 
+
+Is available in binary form, or bundled with full source code for
+Borland C++.  Support for IBM, Zortech, Metaware, and Watcom C++ 
+compilers will be available soon.  Programs created with Objectpm can
+be distributed along with the dynamic link libraries without
+royalties or additional purchases.  
+
+
+
+
+OBJECTPM CLASS HIERARCHY
+-------------------------
+ 
+ bCondition
+ bFacility
+ bEventHandler
+      ÀÄbConditionHandler
+ 
+ bProfile
+ bFileName
+ bExtAttr
+ bFSFile
+      ÃÄbDirectory
+      ÀÄbFile
+ 
+ bRWSemaphore
+ bSemaphore
+      ÃÄbMutexSemaphore
+      ³      ÀÄbNamedMutexSemaphore
+      ³
+      ÃÄbEventSemaphore
+      ³      ÀÄbNamedEventSemaphore
+      ³
+      ÃÄbSemaphoreList [bDList]
+      ³      ÀÄbNamedSemaphoreList
+      ³
+      ÃbGuardian
+      ÃbEndGuardian
+      ÀbCriticalGuardian
+ 
+ bModule
+ bApp
+ bCountry
+ bMoney
+ bUChar
+ bUCharPtr
+ bString
+ bPosition
+ bTimeStamp
+ bDate
+ bTime
+ 
+ bIterator
+ bNode
+      ÀÄbDNode
+ 
+ bCltn
+      ÃÄbDList
+      ³      ÃÄbStack
+      ³      ÀÄbQueue
+      ³
+      ÀÄwContainerItemCltn
+ 
+ tDList
+      ÃÄbEAList
+      ÃÄbFileList
+      ÃÄbDirList
+      ÃÄwPictureList
+      ÃÄwObjectExchangeList
+      ÃÄwContainerFieldList
+      ÃÄwNoteBookPageList
+      ÃÄwPrinterFormList
+      ÃÄwPrinterList
+      ÃÄwFontDefList
+      ÀÄwMdiDocumentList
+ 
+ bRecord
+ bType
+      ÃÄbSortedCltn
+      ³      ÀÄbMap
+      ³            ÀÄbComplexMap
+      ³
+      ÃÄbDArray
+      ³      ÀÄbArgArray
+      ³
+      ÀÄbBitArray
+ 
+ wFixed
+ fDataType
+      ÃÄfStringType
+      ³      ÃÄfChar
+      ³      ³      ÀÄfBool
+      ³      ÀÄfString
+      ³            ÀÄfCharArray
+      ÃÄfDate
+      ÃÄfTime
+      ÃÄfIntegerType
+      ³      ÃÄfCharArray
+      ³      ³      ÀÄfUShort
+      ³      ÀÄfLong
+      ³             ÀÄfULong
+      ÀÄfDecimalType
+             ÃÄfDouble
+             ÀÄfMoney
+ 
+ bEventListener
+      ÃÄbThread
+      ³      ÀÄbMainThread
+      ³
+      ÀÄwWorkplaceObject
+             ÃÄwWindow
+             ³      ÃÄwFrameWindow
+             ³      ³      ÃÄwMdiDesktop
+             ³      ³      ÀÄwMdiDocument
+             ³      ³
+             ³      ÃÄwControlWindow
+             ³      ³      ÃÄwCheckBox
+             ³      ³      ÃÄwPushButton
+             ³      ³      ÃÄwRadioButton
+             ³      ³      ÃÄwStaticControl
+             ³      ³      ³      ÃÄwTextBox
+             ³      ³      ³      ÃÄwGroupBox
+             ³      ³      ³      ÃÄwStaticFrame
+             ³      ³      ³      ÃÄwStaticFrame
+             ³      ³      ³      ÃÄwStaticBitmap
+             ³      ³      ³      ÀÄwStaticIcon
+             ³      ³      ³
+             ³      ³      ÃÄwScrollBar
+             ³      ³      ÃÄwIconWindow
+             ³      ³      ÃÄwListBox
+             ³      ³      ÃÄwCellBox
+             ³      ³      ÃÄwComboBox
+             ³      ³      ÃÄwContainer
+             ³      ³      ÃÄwMLEntry
+             ³      ³      ÃÄwSpinButton
+             ³      ³      ÃÄwSlider
+             ³      ³      ÃÄwValueSet
+             ³      ³      ÃÄwNoteBook
+             ³      ³      ÀÄwEntry
+             ³      ³
+             ³      ÀÄwPageWindow
+             ³             ÀÄwDialogWindow
+             ³                    ÃÄwFormWindow
+             ³                    ÃÄwMdiWinList
+             ³                    ÃÄStdErrorDialog
+             ³                    ÃÄStdFontDialog
+             ³                    ÀÄStdFileDialog
+             ³                           ÃÄStdFileOpenDialog
+             ³                           ÀÄStdFileSaveAsDialog
+             ³
+             ÃÄwContainerItem
+             ÃÄwValueSetItem
+             ÀÄwNoteBookPage
+ 
+ wHelpManager
+ 
+ wMessage
+      ÃÄwCommandMsg
+      ÃÄwControlMsg
+      ³      ÃÄwContainerEnterMsg
+      ³      ÃÄwContainerEmphasisMsg
+      ³      ÃÄwContainerItemMsg
+      ³      ÃÄwContainerEditMsg
+      ³      ÃÄwMLEOverflowMsg
+      ³      ÃÄwMLEMarginMsg
+      ³      ÃÄwSliderPositionMsg
+      ³      ÃÄwVSItemMsg
+      ³      ÀÄwNBPageMsg
+      ÃÄwSizeMsg
+      ÃÄwTimerMsg
+      ÃÄwCreateMsg
+      ÃÄwInitDlgMsg
+      ÃÄwActivateMsg
+      ÃÄwMenuActionMsg
+      ÃÄwScrollBarMsg
+      ÃÄwKeyStrokeMsg
+      ÃÄwFocusChangeMsg
+      ÃÄwFormActionMsg
+      ÃÄwSemaphoreMsg
+      ÃÄwIPFHelpMsg
+      ÃÄwButtonClickMsg
+      ÃÄwMouseMoveMsg
+      ÃÄwBeginDragMsg
+      ÃÄwFileFilterMsg
+      ÃÄwFileValidateMsg
+      ÃÄwFileErrorMsg
+      ÃÄwFaceNameChangedMsg
+      ÃÄwPointSizeChangedMsg
+      ÃÄwStyleChangedMsg
+      ÃÄwUpdatePreviewMsg
+      ÀÄwFontFilterMsg
+ 
+ wDragImage
+ wDragInfo
+ wRenderRequest
+ wObjectExchange
+ 
+ wCoord
+      ÃÄwPointl
+      ÃÄwDimension
+      ÀÄwRange
+ 
+ wRectl
+ wColor
+ wIcon
+      ÀÄwPointer
+ 
+ wCursor
+ wWindowClass
+ 
+ wMessageBox
+ wTrackRectangle
+ 
+ wMenu
+      ÃÄwSysMenu
+      ÀÄwPopupMenu
+ 
+ wAccelTable
+      ÀÄwSysAccelTable
+ 
+ wField
+      ÃÄwButtonField
+      ³      ÃÄwPushButtonField
+      ³      ÃÄwCheckBoxField
+      ³      ÀÄwRadioButtonField
+      ÀÄwEditField
+             ÀÄwComboField
+ 
+ wListRegion
+ wFieldRange
+ 
+ wDevice
+      ÃÄwMemoryDevice
+      ÃÄwWindowDevice
+      ÃÄwMetaFile
+      ÀÄwPrinter
+             ÀÄwTextPrinter
+ 
+ wPrinterForm
+ wPrinterSetup
+ wPrinterInfo
+ 
+ wGraphicsTool
+      ÃÄwPicture
+      ³      ÃÄwDynamicPicture
+      ³      ÀÄwSubPicture
+      ÃÄwRegion
+      ÀÄwConnectedGraphicsTool
+             ÃÄwFont
+             ÃÄwFillPattern
+             ÃÄwPen
+             ÃÄwTextPen
+             ÀÄwBitmap
+                    ÀÄwMemoryBitmap
+ 
+ wPresSpace
+ 
+
+
+OBJECTPM APPLICATIONS
+--------------------- 
+
+The remainder of this document describes many of the objects used to
+create an application and how to use them. To do this we will use the
+source code from the "Hello" demo program as well as others. The demo
+programs are supplied with the package and organized under the
+SAMPLES directory. The listing of the two source files for this demo
+are also appended to the end of this section. 
+
+The Hello application is a very simple application that creates a
+standard frame window and displays one of five messages in the client
+window. The message can be changed by choosing the "Next" or "Prev"
+menu options or by pressing the left or right arrow keys on the
+keyboard. The application also contains an "About box" which provides
+some basic information about the program in a dialog window, and a
+"confirm exit" dialog. 
+
+Let's start a the beginning. When an ObjectPM application is started,
+control is passed to a function called main contained within the
+library. The main function initializes the application by creating an
+instance of a class called "bMainThread". Once the object is created,
+main calls the virtual method Start of the bMainThread class. All
+ObjectPM applications must supply the bMainThread::Start method
+because this is where execution of the application starts. Let's look
+at the bMainThread::Start method for Hello. 
+
+void bMainThread :: Start()     // Program execution starts here
+{
+    HelloWindow w;      // Construct the top level frame window
+    Exec();             // Go to the message loop.
+}
+
+The first thing this method does is create an instance of the
+HelloWindow object. As we will see shortly, this creates the frame
+window for the application as well as some other objects that are
+associated with the frame window. 
+
+Once the objects are created, there is nothing left to do except paint
+the "client" window and wait for commands from the user. All
+Presentation Manager programs are event driven. For example, it is
+common for text-based program to poll the keyboard to see if a key
+has been pressed. In Presentation Manager programs, the systems tells
+the application that a key is ready by sending it a message. In other
+words, a "keystroke" event occurred. 
+
+To get messages and process them, Presentation Manager programs must
+implement a routine that continually gets and dispatches messages.
+This is called the message loop. In ObjectPM, the message loop is
+contained in the bThread::Exec method. This method is usually called
+from bMainThread::Start and does not return until the application is 
+given the command to close. 
+
+When Exec returns it is time to close down, and in the Hello
+application this is done in a somewhat sneaky way. The instance of
+the HelloWindow object was created in the form of an automatic
+variable. In other words, it was created on the stack. Upon exit from
+Start, the object goes out of scope and must be destroyed. Thus the
+object, it's associated window, and the objects it created are
+destroyed via the HelloWindow destructor method and the other 
+destructors in the wWindow class hierarchy. 
+
+Let us now focus on the HelloWindow object. It is defined as a class
+in the hello.hpp file as follows: 
+
+class HelloWindow : public wFrameWindow
+{
+  private:
+       wMenu *menubar;
+       wIcon *icon;
+       wAccelTable *acceltab;
+       short msg;
+
+       long MenuCommand(wCommandMsg);
+       long Close(wMessage);
+       void Paint();
+
+  public:
+       HelloWindow();
+       ~HelloWindow();
+};
+
+The HelloWindow object is derived from the "wFrameWindow" object
+contained in the ObjectPM library. wFrameWindow in turn is derived
+from the "wWindow" class. These classes, along with the other classes
+derived from wWindow, form the window class hierarchy. All ObjectPM
+applications that create window objects must do so by deriving a
+class from one of the ObjectPM window classes, such as wFrameWindow,
+and then creating an object that is an instance of that class. 
+
+Inside the HelloWindow class definition, four data members are
+declared. The menubar, icon, and acceltab members will hold pointers
+to dynamically created wMenu, wIcon, and wAccelTable objects. These
+objects are created in the constructor of HelloWindow and are created
+dynamically because they must exist for the duration of the
+application. The msg member represents which message will be
+displayed by the Paint method. 
+
+The three methods: MenuCommand, Close, and Paint are special methods
+called "message handlers". These methods are called from the ObjectPM
+library when the appropriate event occurs (such as a selecting an item
+from the menu). They are virtual, overloaded functions that are
+initially defined in "wWindow" class which is the base class of the 
+wWindow class hierarchy. There are many of these special methods
+including: 
+
+Create                 TimeOut 
+Destroy                ButtonClick 
+InitDlg                Activate 
+Paint                  Close 
+MenuCommand            MenuAction 
+PushButtonCommand      MouseMove 
+Control                wScrollBar 
+Size                   SaveApplication 
+Move                   KeyStroke 
+FocusChange            Semaphore 
+FormAction          
+
+Each of these methods represents an event or message generated by the
+Presentation Manager.	If you need to process a message that is
+not included in one of the standard ObjectPM event methods, you can
+install a message handler method, using the AddMessageHandler method
+of wWindow, that would be called any time the desired message was
+sent or posted to the window. 
+
+To put things in simpler terms, defining objects derived from a class
+in the wWindow hierarchy such as wFrameWindow, involves three things:
+
+ 1.  Define the data that is private to the new class 
+ 2.  Choose which message handler methods your window will process by 
+     including them in the class definition. ObjectPM will take the 
+     default action for all methods that are not included. For 
+     example, if the window has a menu bar, then it will be necessary 
+     to include the MenuCommand method. 
+ 3.  Define public methods that can be called from elsewhere in the 
+     application that manipulate the window in some way that is 
+     specific to the new class. In many cases, this step is not necessary. 
+
+The remainder of the class definition specifies a public constructor 
+and destructor for creating and destroying HelloWindow objects. The 
+following code is for the constructor: 
+
+HelloWindow :: HelloWindow()
+{
+    CreateWindow(OpmStdFrame);
+    SetCaption("Hello World");
+    SetSwitchTitle("Hello World Demo Program");
+    SetIcon(icon = new wIcon(ResIcon, I_OBJPM));
+    msg = 0;
+
+    menubar = new wMenu(this, MB_MESSAGE, "Message\\");
+    menubar->SetSubMenuItems(MB_MESSAGE, MI_NEXT, "Next\t\x1a;Previous\t\x1b");
+
+    wSysMenu sm(this);
+    sm.AppendSeparator();
+    sm.AppendItem(SC_ABOUT, "~About...");
+
+    acceltab = new wAccelTable(this);
+    acceltab->Set(VkRight, MI_NEXT, AsVirtualKey);
+    acceltab->Set(VkLeft,  MI_PREV, AsVirtualKey);
+
+    Show();
+}
+
+The code fragment: 
+
+    CreateWindow(OpmStdFrame);
+
+actually creates the window. For a number of reasons, the physical
+windows are not created when the objects are created in the wWindow
+hierarchy. The application must use the CreateWindow method to do
+this. The OpmStdFrame identifier is a define that sets a number of
+frame creation flags that specify the frame controls and options: 
+
+Option                 Meaning 
+FaShellPosition        Allows the PM to choose the size and position 
+FaTaskList             Creates a Task Manager entry 
+FaSysMenu              Creates a system menu 
+FaSizeBorder           Creates a sizing border 
+FaTitleBar             Creates a titlebar 
+FaMinMax               Creates minimize and maximize	buttons buttons 
+
+The next two lines: 
+
+    SetCaption("Hello World");
+    SetSwitchTitle("Hello World Demo Program");
+
+Set the text that appears both in the titlebar of the frame window and
+in the Task Manager's switch list. 
+
+    SetIcon(icon = new wIcon(ResIcon, I_OBJPM));
+
+This statement dynamically creates an wIcon object from an icon
+defined in the resource file and sets that icon to be shown when the
+frame window is minimized. 
+
+Note that the methods CreateWindow, SetCaption, SetSwitchTitle, and
+SetIcon are members of the wFrameWindow class and thus are inherited
+by our HelloWindow class. 
+
+The code: 
+
+    menubar = new wMenu(this, MB_MESSAGE, "Message\\");
+    menubar->SetSubMenuItems(MB_MESSAGE, MI_NEXT,
+    "Next\t\x1a;Previous\t\x1b");
+
+creates the menu bar for the frame window. It defines one submenu with
+the name "wMessage". The next line defines the actual menu items in
+the wMessage submenu. 
+
+Menus in ObjectPM may be defined such as this or constructed from a
+menu definition in a resource file. In the notation above, submenus
+end with a backslash (\\), menu items end with a semicolon (;),
+separator are indicated with a minus sign(-), and the menu items are
+separated from the accelerator key text with a tab character (\t).
+This scheme allows menus to be easily created and modified. 
+
+The MB_MESSAGE and MI_NEXT identifiers are defines that set the id's
+of the submenu and menu items. When a menu item is selected, the id
+of the menu item will be used to determine which item was selected. 
+
+As illustrated above, the Hello application contains a system menu.
+Most frame windows do. Often times it is desired to modify the
+contents of this menu by adding new items or deleting items. The code
+fragment: 
+
+    wSysMenu sm(this);
+    sm.AppendSeparator();
+    sm.AppendItem(SC_ABOUT, "~About...");
+
+creates a temporary wSysMenu object that allows the application to
+work with the system menu. Note that creating a wSysMenu object does
+not actually create the menu. It simply registers the object with the
+system menu of "this" frame window, and allows the application to use
+the methods in the wMenu class to work with it. Once the needed items
+are appended to the menu, the application does not need this object
+anymore. 
+
+The last object to be created is the wAccelTable object. Creating an
+wAccelTable object in turn causes an accelerator table to be created
+for the frame window. Accelerators are a neat little trick implemented
+by the Presentation Manager, that allow key strokes to be linked to a
+menu item. In the Hello application, pressing the right arrow key
+causes the "Next" menu item to be selected, and pressing the left
+arrow key causes the "Previous" menu item to selected. The code to
+create our accelerator table is: 
+
+    acceltab = new wAccelTable(this);
+    acceltab->Set(VkRight, MI_NEXT, AsVirtualKey);
+    acceltab->Set(VkLeft, MI_PREV, AsVirtualKey);
+
+And finally: 
+
+    Show();
+
+causes the frame window to become visible. 
+
+When a frame window is created, the frame window will in turn create a
+number of "child" windows such as the titlebar, the min/max buttons,
+etc. The frame window manages these windows automatically and takes
+care of drawing them. The frame window also creates a window called
+the "client" window. Your application will appear in this window, and
+thus the application is responsible for painting it. The Show method
+shown above will cause the frame to draw itself, and then post a
+"Paint" message to the client window. When the paint message arrives,
+the Paint method of the HelloWindow object will be called. It's code
+is as follows: 
+
+void HelloWindow :: Paint()
+{
+  static char *msgtext[LAST_MSG+1] = {
+       "Hello World",
+       "Welcome to OS/2 Object Oriented Programming",
+       "Introducing ObjectPM",
+       "A C++ Class Library and Application Framework",
+       "Have a Good Day!!!"
+  };
+  WindowPS()->Erase();
+  wTextPen t(WindowPS());
+  t.SetColor(ClrBlue);
+  wFont f(TmsRmn14, UnderscoreFont, WindowPS());
+  t.Display(WindowRectangle(), DfCenter+DfVCenter,
+            msgtext[msg]);
+}
+
+Before we get into this code, a few concepts need explaining. Within
+the Presentation Manager (and ObjectPM) there exists an object called
+a presentation space. This object is a virtual graphics medium that is
+drawn on, and provides independence from the output device connected
+to it. Applications do not draw on windows! They draw on presentation
+spaces. A window is an output device. This mechanism allows a picture
+drawn in a window to be drawn on a laser printer by simply connecting
+a different output device to the presentation space. 
+
+Presentation spaces are created in one of two ways. First, the
+application can create one by creating an instance of a wPresSpace
+object. Applications that need to draw in units other than pels, or
+that need advanced graphics capabilities should do this. 
+
+The other way of creating a presentation space, is to let ObjectPM do
+it. If the Paint method is to be called, and no presentation space
+has been created by the application for the window, the ObjectPM
+library will create one just prior to calling the Paint method. A
+pointer to the wPresSpace object is returned from the
+wWindow::WindowPS method. Thus the statement: 
+
+    WindowPS()->Erase();
+
+erases the visible portion of the presentation space and thus erases
+the client window. Understanding this concept is key to doing any
+drawing in the Presentation Manager no matter what platform you
+choose. 
+
+The next fragment of code: 
+
+    wTextPen t(WindowPS());
+
+creates a wTextPen object used for drawing text, and connects the pen
+to the wPresSpace object. There are five primary objects within
+ObjectPM that are used for drawing. These are: 
+
+wPen         Draws lines, arcs, polygons, paths, and areas. 
+wTextPen     Draws and formats text. 
+wFillPattern Defines patterns and colors used to fill objects drawn 
+             with a pen, or rectangles. 
+wBitmap      Used to draw, size, and move bit images. 
+wFont        Defines a font to be used with a wTextPen or wFillPattern. 
+
+The code: 
+
+    wFont f(TmsRmn14, UnderscoreFont, WindowPS());
+
+creates a wFont object representing a 14pt-underlined Times Roman 
+wFont, and sets it as the current font. 
+
+The last line of code in the Paint method finally draws the text using the blue wTextPen and the Times-Roman font: 
+
+    t.Display(WindowRectangle(), DfCenter+DfVCenter,
+    msgtext[msg]);
+
+This statement first calls the wWindow::WindowRectange method which
+returns a wRectl object representing the position and size of the
+client window. The wTextPen::Display method is then called which
+displays the appropriate text horizontally and vertically centered in
+the rectangle. 
+
+Upon exit from the Paint method, both the wTextPen and the wFont will
+be destroyed. 
+
+At this point, both the frame and client window's are drawn. The
+application has nothing left to do except wait for a menu command.
+Because of the accelerator keys, a menu command can be generated by a
+choosing a menu item, or pressing the left or right arrow keys. Let's
+say for example the "Next" menu item was chosen. When this occurs, the
+ObjectPM library will call the MenuCommand method and pass it a
+wCommandMsg object. Here is the code for the MenuCommand method: 
+
+long HelloWindow :: MenuCommand(wCommandMsg m)
+{
+  switch(m.usCmd())
+  {
+       case MI_NEXT:
+            msg = msg == LAST_MSG? 0: msg + 1;
+            break;
+
+       case MI_PREV:
+            msg = msg == 0? LAST_MSG: msg - 1;
+            break;
+
+       case SC_ABOUT:
+            {
+                 AboutDialog aboutWin(this);
+                 return FALSE;
+            }
+  }
+  RePaint();
+  return FALSE;
+}
+
+The operation of this method is very simple. The usCmd method of the
+wCommandMsg object returns the id of the selected menu item. If the
+menu item was MI_NEXT or MI_PREV, then the msg member will be adjusted
+accordingly and the RePaint method of the wWindow class will be
+called to invalidate the window. This will cause the ObjectPM library
+to call the Paint method at a later time. 
+
+If the "About..." menu item is selected from the system menu, the
+MenuCommand method will be called with the id set to SC_ABOUT. In
+this case, an instance of the AboutDialog class is created. This class
+implements a simple dialog window that displays some basic
+information about the Hello application. To create a dialog window,
+you must first draw it in the dialog box editor. The definition of
+the dialog window must then be compiled into the program as a 
+resource using the resource compiler. Within the code, a class must be
+defined which is derived from the wDialogWindow class. The definition
+of the AboutDialog class looks like this: 
+
+class AboutDialog : public wDialogWindow
+{
+  private:
+       long InitDlg(wInitDlgMsg)
+                   { ChangePosition(PosCenter, OwnerWindow());
+                     return FALSE; }
+       long PushButtonCommand(wCommandMsg)
+                   { Dismiss(); return FALSE; }
+  public:
+       AboutDialog(wWindow *owner) : (D_ABOUT)
+                   { CreateWindow(owner); }
+};
+
+Notice that the code is in-lined along with the definition of the
+class methods. In fact, all the processing for the dialog window is
+contained within this class definition. The AboutDialog method is the
+constructor for the class. It passes the resource id of the dialog
+window to the wDialogWindow constructor, and then calls the
+wDialogWindow::CreateWindow method to create the actual window. 
+
+The InitDlg and PushButtonCommand methods are both message handlers.
+The ObjectPM library calls the InitDlg method after all the dialog
+controls are created and before the window is actually shown. The
+AboutDialog class uses the InitDlg method to implements the code
+needed to center the dialog window inside the main window. 
+
+Whenever a push button is clicked in a dialog window, the
+PushButtonCommand method is called. Like the MenuCommandmethod, a
+wCommandMsg object is passed that indicates which button was clicked.
+Since the about dialog window contains only one push button, it's not
+hard to figure it out. The code for this method simply dismisses 
+(destroys) the dialog window. 
+
+
+Source Files: 
+
+
+/***************
+ * hello.hpp *
+ ***************/
+
+#include "hello.h"
+#include "about.h"
+
+// The app level frame window class
+
+class HelloWindow : public wFrameWindow
+{
+    private:
+        wMenu *menubar;
+        wIcon *icon;
+        wAccelTable *acceltab;
+        short msg;
+
+    public:
+        HelloWindow();
+        ~HelloWindow();
+        long MenuCommand(wCommandMsg);
+        long Close(wMessage);
+        void Paint();
+};
+
+
+// The about dialog box class.  Note that this all the code!
+  
+class AboutDialog : public wDialogWindow
+{
+    public:
+        AboutDialog(wWindow *owner) : (D_ABOUT) { CreateWindow(owner); }
+        long InitDlg(wInitDlgMsg) { ChangePosition(PosCenter, OwnerWindow()); return FALSE; }
+        long PushButtonCommand(wCommandMsg) { Dismiss(); return FALSE; }
+};
+
+/***************
+ * hello.cxx *
+ ***************/
+
+#define InclGraphics
+#include <ObjectPM.hpp>
+#include "hello.hpp"
+
+void App :: Start()     // Program execution starts here
+{
+    HelloWindow w;   // Construct the top level frame window
+    Exec();             // Go to the message loop.
+}
+
+HelloWindow :: HelloWindow()
+{
+    CreateWindow(OpmStdFrame);                   // Create the frame
+    SetCaption("Hello World");                   // Set captions
+    SetSwitchTitle("Hello World Demo Program");
+    SetIcon(icon = new wIcon(ResIcon, I_OBJPM)); // Set the app's icon
+    msg = 0;
+
+    // This section create a menu bar and then adds items to the
+    // sub menu itself. It is also possible to construct the menu
+    // from the resource file if desired
+
+    menubar = new wMenu(this, MB_MESSAGE, "~Message\\");
+    menubar->SetSubMenuItems(MB_MESSAGE, MI_NEXT, "Next\t\x1a;Previous\t\x1b");
+
+    // Create a temporary system menu object for the purposes of adding
+    // a separator and the "About..." menu item.
+
+    wSysMenu sm(this);
+    sm.AppendSeparator();
+    sm.AppendItem(SC_ABOUT, "~About...");
+
+    // Finally, create an accelerator table to bind the left and right
+    // arrow keys to the "Next" and "Prev" menu options. Like the menu's,
+    // it is also possible to load an accelerator table from the resource
+    // file
+
+    acceltab = new wAccelTable(this);
+    acceltab->Set(VkRight, MI_NEXT, AsVirtualKey);
+    acceltab->Set(VkLeft, MI_PREV, AsVirtualKey);
+
+    Show();              // Make the frame visible
+}
+
+HelloWindow :: ~HelloWindow()
+{
+    delete acceltab;     // destroy the allocated frame objects
+    delete menubar;
+    delete icon;
+}
+
+// The MenuCommand member is sent a Command message each time
+// an item on the menu bar is selected.
+
+long HelloWindow :: MenuCommand(wCommandMsg m)
+{
+    switch(m.usCmd())
+    {
+        case MI_NEXT:
+            msg = msg == LAST_MSG? 0: msg + 1;
+            break;
+
+        case MI_PREV:
+            msg = msg == 0? LAST_MSG: msg - 1;
+            break;
+
+        case SC_ABOUT:
+            {
+                AboutDialog aboutWin(this);      // Create the "about" box
+                return FALSE;
+            }
+    }
+    RePaint();      // invalidate the client window
+    return FALSE;
+}
+
+// The Paint member is responsible for painting the invalid
+// area of the client window. This program, like many programs that
+// do simple drawing, let the object library create a wPresSpace
+// object on which to draw on. The wPresSpace object is accessed
+// through the member function WindowPS() of the wWindow class.
+
+void HelloWindow :: Paint()
+{
+    static char *msgtext[LAST_MSG+1] = {
+        "Hello World",
+        "Welcome to OS/2 Object Oriented Programming",
+        "Introducing ObjectPM",
+        "A C++ Class Library and Application Framework",
+        "Have a Good Day!!!"
+    };
+
+    WindowPS()->Erase();         // Erase the client window
+    wTextPen t(WindowPS());      // Create a new wTextPen object
+    t.SetColor(ClrBlue);
+    wFont f(TmsRmn14, UnderscoreFont, WindowPS());
+    t.Display(WindowRectangle(), DfCenter+DfVCenter, msgtext[msg]);
+}
+
+// The Close member is called when the "Close" menu option is chosen
+// from the system menu. Returning TRUE from this function allows the
+// exit process to continue. Otherwise, a return of FALSE will prevent
+// the application from being closed
+
+long HelloWindow :: Close(wMessage)
+{
+    // create a message box to confirm exit from the application
+    wMessageBox m(this, " Are You Sure?", "Exit", MbYesNo + MbIconQuestion);
+    return m.MessBoxVal() == MbidYes;
+}
+
+
+MORE INFORMATION
+----------------
+
+If you want to see more examples (along with working code),  you can
+download the complete sample program set from our BBS.  On the BBS,
+you need to jump to the FILES/SAMPLES area, and download the
+SAMPLES.BAR, DLL.BAR, and BAR.EXE files.  The BSS can be reached at
+(216) 831-4805 using a 300-14KBaud modem with line settings of 8 bit,
+no parity, and one stop bit.  You can also leave a message on the BBS
+if you have questions.
+
+For ordering information: contact The Connection @ 1-800-336-1166
+
+Thanks for your interest!
+
+RSI/JP

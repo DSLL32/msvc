@@ -1,0 +1,73 @@
+You can display the disk directory,
+time and date without using DOS:
+
+ED	Display directory
+
+OD	Display date
+OT	Display time
+
+Try each of these commands.
+
+
+Note: the directory is hard to read in
+the narrow window because it is
+displayed four across.  The following
+command displays it two across:
+
+
+2ED	Display directory, 2 across
+
+
+-- Give the command "MN" to continue --
+
+
+
+
+The "OC" command will run a single DOS
+command or program and immediately
+return to VEDIT. "OC" is similar to the
+menu function {MISC, Run DOS Program}.
+
+OC dos-command
+
+For example, to let DOS display the
+directory and run the program CHKDSK,
+give the following commands:
+
+OC DIR		(and <Enter>)
+
+OC CHKDSK
+
+Technical Note:
+Although too complex for this demo, it
+is possible to give the "OC" command
+with a "variable" DOS command, i.e. the
+DOS command is stored in a "text
+register".
+
+-- Give the command "MN" to continue --
+
+
+To temporarily enter DOS give the "OS"
+command.  "OS" is identical to the menu
+function {MISC, DOS Shell}.
+
+The DOS prompt will be displayed as
+"pathname>>".  The double ">>" is a
+reminder that you are still in VEDIT.
+You can run as many DOS commands or
+other programs as you like.  Give the
+DOS command "EXIT" to return to VEDIT.
+
+REMEMBER: You must give the DOS command
+	  "EXIT" to return to VEDIT and
+	  this demo.
+
+Type:   OS		(and <Enter>)
+
+Technical note:
+VEDIT may be using too much memory to
+run some programs.  In practice, VEDIT
+can be invoked to use less memory.
+
+-- Give the command "MN" to continue --

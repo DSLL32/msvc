@@ -1,0 +1,66 @@
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ Instant Replay Professional Demo Disk  ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+   Instant Replay Installation Help
+
+
+Overview
+ÜÜÜÜÜÜÜÜ
+
+The user of this installation application
+can select the sub-directory and drive to
+which the demonstration files are installed.
+
+Install Directory
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+
+Target Drive And Path
+             -  This option selects the
+                drive and path to which the
+                demonstration files are
+                installed.
+
+ Example : If you wish the demonstration
+           files to be installed on drive "C:"
+           and sub-directory "DEMO".
+           Enter into the Target Drive And Path
+           "C:\DEMO".
+
+Source Drive  - This option tells where the
+               source files are located.
+
+ Example : If the disk containing the
+           demonstration files was inserted
+           into drive "A:". The Source Drive
+           option should be set to "DRIVE-A:".
+
+Disk Space Available On DRIVE
+             - This option tell the user
+               how much disk space is
+               currently available on the
+               target drive.
+
+ Example : If the Target Drive And Path option
+           is set to "C:\DEMO" then this option
+           tell the user how much disk space
+           he or she has on drive "C:".
+
+Disk Space Required
+             - This option tells the user
+               how much disk space is required
+               on the target drive to install
+               the demonstration files.
+
+Installing Files
+ÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜÜ
+
+Currently Installing
+             -  During the installation this
+                options displays the file
+                that is currently being
+                installed.
+
+Percent Complete
+             - This options displays how far
+               along the installation process
+               is.

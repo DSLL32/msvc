@@ -1,0 +1,186 @@
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+// MDI Child Window Menber Functions
+MDIChild::MDIChild(CMDIFrameWnd* Parent) 
+{
+	if (!Create(NULL, "MDI Child Window", 0, rectDefault, Parent))
+		 AfxAbort();
+}
+$END IF$
+//
+// $Window.Name$ message map:
+// Associate messages with appropriate member functions.
+//
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$
+BEGIN_MESSAGE_MAP( $Window.Name$, CMDIFrameWnd )
+	ON_WM_CREATE()
+	$IF ToolBar.Name != ""$
+	ON_WM_SIZE()	  // Resize MDIClient below tool bar 
+	$END IF$
+	ON_COMMAND(IDM_MDICASCADE, MDICascade)
+	ON_COMMAND(IDM_MDITILE, MDITile)
+	ON_COMMAND(IDM_MDIICONARRANGE, MDIIconArrange)
+	ON_COMMAND(IDM_CREATECHILD, OnCreateChild)
+	ON_COMMAND(IDM_CLOSECHILDREN, OnCloseAll)
+	$ELSE$
+BEGIN_MESSAGE_MAP( $Window.Name$, CMDIChildWnd )
+	$END IF$
+$ELSE$
+BEGIN_MESSAGE_MAP( $Window.Name$, CFrameWnd )
+$END IF$
+	$LOOP Menu.MenuStrings$  
+	ON_COMMAND( IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, On$TRIM(MenuItem.PopupName+MenuItem.Name)$ )
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$  
+	ON_COMMAND( IDT_$UP(ToolBar.Name+ToolItem.Name)$, On$ToolBar.Name+ToolItem.Name$ )
+	$END LOOP$
+	// $PROTECTBLOCK "w"+Window.Name+"MsgMap"$
+END_MESSAGE_MAP()
+//
+// Member Functions - $Window.Name$ 
+//
+// Window Constructor
+$IF Application.Type == "MDI"$
+$AND Window.IsMain != "Y"$				// MDI Child Window
+$Window.Name$::$Window.Name$(CMDIFrameWnd* Parent) 
+$ELSE$
+$Window.Name$::$Window.Name$(CWnd* Parent) 
+$END IF$
+{
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+	$VAR VWindowMenuPos = 0$
+	$LOOP Menu.MenuItems$
+	$VWindowMenuPos = VWindowMenuPos+1$ // MDI Window menu is last popup menu
+	$END LOOP$
+	nWindowMenuPos = $VWindowMenuPos$; // MDI Window menu position
+$END IF$
+	$IF Menu.Name != ""$
+		$VAR VMenu = CH(")+Menu.Name+CH(")$
+	$ELSE$
+		$VAR VMenu = "NULL"$
+	$END IF$
+	// Create Window with previously defined window class
+	if (!Create("$Window.Name$", "$Window.Caption$",
+		WS_OVERLAPPEDWINDOW, 
+	$IF Window.DefaultPosition == "Y"$
+	$AND Window.DefaultSize == "Y"$
+		rectDefault,
+	$ELSE$
+		$IF Window.DefaultPosition == "Y"$
+		CRect(CW_USEDEFAULT, CW_USEDEFAULT, $Window.W$, $Window.H$),
+		$ELSE$
+			$IF Window.DefaultSize == "Y"$
+		CRect($Window.X$, $Window.Y$, 0, 0),
+			$ELSE$
+		CRect($Window.X$, $Window.Y$, $Window.W$, $Window.H$),
+			$END IF$
+		$END IF$
+	$END IF$
+	$IF Application.Type != "MDI"$	
+	$OR Window.IsMain == "Y"$							 
+		Parent, $VMenu$))
+	$ELSE$								// MDI Child Window has no menu
+		Parent))
+	$END IF$
+		 AfxAbort();
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+	MDISetMenu(NULL, GetMenu()->GetSubMenu(nWindowMenuPos));
+$END IF$
+$IF ToolBar.Name != ""$
+	// Create ToolBar
+	pToolbar = new TToolBar(this, $ToolBar.H$);	
+	$LOOP ToolBar.ToolItems$
+	pToolbar->Add("$ToolItem.ToolType$", IDT_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 "N$ToolBar.Name+ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+	$END LOOP$
+$END IF$
+$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	LoadAccelTable("$Window.Name$");	 
+$END IF$
+	// $PROTECTBLOCK "w"+Window.Name+"Constructor"$
+}
+// Window Destructor
+$Window.Name$::~$Window.Name$() 
+{
+	// $PROTECTBLOCK "w"+Window.Name+"Destructor"$
+}
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+// OnCreate:
+// Load application's initial MDI frame menu and create the MDI client
+//
+int $Window.Name$::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{ 
+	CMenu *pMenuInit = new CMenu();
+	pMenuInit->LoadMenu("$Menu.Name$");
+	CreateClient(lpCreateStruct, pMenuInit->GetSubMenu(nWindowMenuPos));
+	// $PROTECTBLOCK "w"+Window.Name+"OnCreate"$
+	return 0;
+}
+
+// Close all Child windows for MDIClient
+// You may want to Query the window to see if closing is OK
+void $Window.Name$::OnCloseAll()
+{
+	HWND hWndChild;
+
+	// Get handle of first MDI Child window.
+	if ( !(hWndChild = ::GetWindow(m_hWndMDIClient, GW_CHILD)) )
+		return;
+
+	// Close each MDI child
+	do
+	{
+ 		// Do not send to caption bars of iconic MDI Children.
+ 		if (::GetWindow(hWndChild, GW_OWNER) != NULL)
+			continue;
+
+		// $PROTECTBLOCK "w"+Window.Name+"OnCloseAll"$
+
+ 		::PostMessage(hWndChild, WM_CLOSE, 0, 0);
+	} while ((hWndChild = ::GetWindow(hWndChild, GW_HWNDNEXT)) != NULL);
+}
+	$IF ToolBar.Name != ""$
+//
+// Trap the size message so we can adjust Client Window to be below Tool Bar
+//
+void $Window.Name$::OnSize(UINT, int, int)
+{
+	CRect rect;
+	// Adjust MDIClient window to be below ToolBar
+	GetClientRect(&rect);
+	rect.TopLeft().y+=$ToolBar.H$;
+	rect.BottomRight().y-=$ToolBar.H$;
+	::MoveWindow(m_hWndMDIClient, 0, rect.TopLeft().y, 
+		rect.BottomRight().x, rect.BottomRight().y, TRUE);
+	// $PROTECTBLOCK "w"+Window.Name+"OnSize"$
+}
+	$END IF$
+$END IF$
+//
+// Window Member Response functions
+//
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+void $Window.Name$::On$ToolBar.Name+ToolItem.Name$()
+{
+	$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = ToolItem.LinkToType$
+	$VAR VItemName = ToolItem.Name$
+	$VAR VProtectTag = "w"+Window.Name+ToolBar.Name+ToolItem.Name$
+	$INPUT "linkto.sdv"$	// insert linkto code
+}
+$END LOOP$
+$LOOP Menu.MenuStrings$  
+void $Window.Name$::On$TRIM(MenuItem.PopupName+MenuItem.Name)$()
+{
+	$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+	$VAR VLinkToType = MenuItem.LinkToType$
+	$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+	$VAR VProtectTag = "w"+Window.Name+VItemName$
+	$INPUT "linkto.sdv"$	//insert linkto code
+}
+$END LOOP$
+

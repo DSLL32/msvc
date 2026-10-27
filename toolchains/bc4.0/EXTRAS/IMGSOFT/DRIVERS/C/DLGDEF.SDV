@@ -1,0 +1,3 @@
+BOOL CALLBACK _export $Dialog.Name$DlgProc(HWND, UINT, WPARAM, LPARAM);
+BOOL CanClose$Dialog.Name$(HWND);
+

@@ -1,0 +1,198 @@
+//
+// Dialog Member Functions - $CAP(Dialog.Name)$ 
+//
+$CAP(Dialog.Name)$::$CAP(Dialog.Name)$(zWindow *w,zResId& rid) : zDialogFrame(w,rid)
+{
+	$IF Dialog.IconFile != ""$
+	setIcon(new zIcon(zResId("$Dialog.Name$")));
+	$END IF$
+	$IF Menu.Name != ""$
+	menu(new zMenu(this, zResId("$Menu.Name$")));
+	$END IF$
+	$LOOP Dialog.listboxs$
+	$listbox.name$ = new zListBox(this, $listbox.Id$);
+	$END LOOP$
+	$LOOP Dialog.edits WHERE Edit.Multiline != "Y"$
+	$edit.name$ = new zEditLine(this, $edit.Id$);
+		$IF Edit.Length > 0$
+	$edit.name$->limitText($Edit.Length$);
+		$END IF$
+	$END LOOP$
+	$LOOP Dialog.edits WHERE Edit.Multiline == "Y"$
+	$edit.name$ = new zEditBox(this, $edit.Id$);
+		$IF Edit.Length > 0$
+	$edit.name$->limitText($Edit.Length$);
+		$END IF$
+	$END LOOP$
+	$LOOP Dialog.statics$
+	$static.name$ = new zStaticText(this, $Static.Id$);
+	$END LOOP$
+	$LOOP Dialog.CheckBoxs$
+	$CheckBox.name$ = new zCheckBox(this, $CheckBox.Id$);
+	$END LOOP$
+	$LOOP Dialog.ComboBoxs$
+	$ComboBox.name$ = new zComboBox(this, $ComboBox.Id$);
+	$END LOOP$
+	$LOOP Dialog.RadioButtons$
+	$RadioButton.name$ = new zRadioButton(this, $RadioButton.Id$);
+	$END LOOP$
+$IF ToolBar.Name != ""$
+
+	// Create ToolBar
+	jToolBar *pTB = new jToolBar(this, ToolBar.H$);	
+	$LOOP ToolBar.ToolItems$
+	pTB->AddTool("$ToolItem.ToolType$", ID_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 "N$ToolBar.Name+ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+	$END LOOP$
+	pTB->show();
+$END IF$
+$IF Dialog.Caption != ""$
+	caption(zString("$Dialog.Caption$"));
+$END IF$
+$LOOP Dialog.RadioButtons WHERE RadioButton.IsInitialCheck == "Y"$
+	$RadioButton.Name$->check(TRUE);	 // Set Initial Check
+$END LOOP$
+$LOOP Dialog.CheckBoxes WHERE CheckBox.IsInitialCheck == "Y"$
+	$CheckBox.Name$->check(TRUE);	 // Set Initial Check
+$END LOOP$
+$LOOP Dialog.ComboBoxs WHERE ComboBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ComboBox.InitialData$
+	// Fill Combo with initial values
+	$LOOP AInitialData$
+	$ComboBox.name$->add("$AInitialData.Value$");
+	$END LOOP$
+$END LOOP$
+$LOOP Dialog.ListBoxs WHERE ListBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ListBox.InitialData$
+	// Fill List Box with initial values
+	$LOOP AInitialData$
+	$ListBox.name$->add("$AInitialData.Value$");
+	$END LOOP$
+$END LOOP$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Constructor"$
+}
+//
+// command - Distribute and handle command msgs 
+//
+int $CAP(Dialog.Name)$::command(zCommandEvt *Ev) {
+	switch (Ev->cmd()) 
+	{
+		$VAR VOk = "N"$		 	// Check to see if OK or Cancel has been redefined
+		$VAR VCancel = "N"$
+		$LOOP Dialog.Buttons$  
+			$IF Button.ID == "1"$
+			$OR Button.ID == "IDOK"$
+			$VOk = "Y"$
+			$ELSE$
+				$IF Button.ID == "2"$
+				$OR Button.ID == "IDCANCEL"$
+				$VCancel = "Y"$
+				$END IF$
+			$END IF$
+		$END LOOP$
+		$IF VOk != "Y"$
+		case IDOK:
+			if (CanClose())
+			{
+				//$PROTECTBLOCK	"d"+Dialog.Name+"IDOK"$
+				ok=TRUE;
+				shutdown();
+			}
+			break;
+		$END IF$
+		$IF VCancel != "Y"$
+		case IDCANCEL:
+			//$PROTECTBLOCK	"d"+Dialog.Name+"IDCANCEL"$
+			ok=FALSE;
+			shutdown();
+			break;
+		$END IF$
+	$LOOP Dialog.Buttons$  
+		case $button.ID$:
+		{
+			$VAR VLinkToName = Button.LinkToName$		
+			$VAR VLinkToType = Button.LinkToType$
+			$VAR VItemName = Button.Name$
+			$VAR VProtectTag = "d"+Dialog.Name+Button.Name$
+			$INPUT "linkto.sdv"$	//insert linkto code 
+		}
+		break;
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+		case ID_$UP(ToolBar.Name)UP(ToolItem.Name)$:
+		{
+			$VAR VLinkToName = ToolItem.LinkToName$
+			$VAR VLinkToType = ToolItem.LinkToType$
+			$VAR VItemName = ToolItem.Name$
+			$VAR VProtectTag = "d"+Dialog.Name+ToolItem.Name$
+			$INPUT "linkto.sdv"$	// insert linkto code
+		}
+		break;
+	$END LOOP$
+	$LOOP Menu.MenuStrings$  
+		case IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$:
+		{
+			$VAR VLinkToName = MenuItem.LinkToName$	
+			$VAR VLinkToType = MenuItem.LinkToType$
+			$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+			$VAR VProtectTag = "d"+Dialog.Name+VItemName$
+			$INPUT "linkto.sdv"$	//insert linkto code
+		}
+		break;
+	$END LOOP$
+		//$PROTECTBLOCK	"d"+Dialog.Name+"Command"$
+		default:
+			return 0;		 // Msg not processed
+	}
+	return 1;
+}
+//
+// CanClose - Determine if dialog should be allowed to update
+//
+BOOL $CAP(Dialog.Name)$::CanClose()
+{
+$LOOP Dialog.Edits$
+$IF Edit.Validation == "Mandatory"$
+	if ( $Edit.Name$->text().length() == 0 )
+	{
+		zMessage *msg = new zMessage(this, "Mandatory field requires input", 
+			"Info",	MB_OK | MB_ICONINFORMATION);
+		delete msg;
+		$Edit.Name$->setFocus();	 // Position cursor to error
+		return FALSE;
+	}
+$ELSE$
+	$IF Edit.Validation == "Integer"$
+	for (p=$Edit.Name$->text(); *p; p++ )
+	{
+		if ( !(*p>='0' && *p<='9') && *p!='-' )
+		{
+			zMessage *msg = new zMessage(this, "Invalid integer input", 
+				"Info",	MB_OK | MB_ICONINFORMATION);
+			delete msg;
+			$Edit.Name$->setFocus();	 // Position cursor to error
+			return FALSE;
+		}
+	}
+	$ELSE$
+		$IF Edit.Validation == "Float"$
+	for (p=$Edit.Name$->text(); *p; p++ )
+	{
+		if ( !(*p>='0' && *p<='9') && *p!='-' && *p!='.' )
+		{
+			zMessage *msg = new zMessage(this, "Invalid real number input", 
+				"Info",	MB_OK | MB_ICONINFORMATION);
+			delete msg;
+			$Edit.Name$->setFocus();	 // Position cursor to error
+			return FALSE;
+		}
+	}
+		$END IF$
+	$END IF$
+$END IF$
+$END LOOP$
+	return TRUE;
+}
+

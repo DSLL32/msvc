@@ -1,0 +1,84 @@
+#include <windows.h>
+#include <bwcc.h>
+#include "vagame.h"
+
+STRINGTABLE 
+BEGIN
+	IDD_STATES, "Alabama"
+	201, "Alaska"
+	202, "Arizona"
+	203, "Arkansas"
+	204, "California"
+	205, "Colorado"
+	206, "Connecticut"
+	207, "Delaware"
+	208, "Dist. of Columbia"
+	209, "Florida"
+	210, "Georgia"
+	211, "Hawaii"
+	212, "Idaho"
+	213, "Illinois"
+	214, "Indiana"
+	215, "Iowa"
+	216, "Kansas"
+	217, "Kentucky"
+	218, "Louisiana"
+	219, "Maine"
+	220, "Maryland"
+	221, "Massachusetts"
+	222, "Michigan"
+	223, "Minnesota"
+	224, "Mississippi"
+	225, "Missouri"
+	226, "Montana"
+	227, "Nebraska"
+	228, "Nevada"
+	229, "New Hampshire"
+	230, "New Jersey"
+	231, "New Mexico"
+	232, "New York"
+	233, "North Carolina"
+	234, "North Dakota"
+	235, "Ohio"
+	236, "Oklahoma"
+	237, "Oregon"
+	238, "Pennsylvania"
+	239, "Rhode Island"
+	240, "South Carolina"
+	241, "South Dakota"
+	242, "Tennessee"
+	243, "Texas"
+	244, "Utah"
+	245, "Vermont"
+	246, "Virginia"
+	247, "Washington"
+	248, "West Virginia"
+	249, "Wisconsin"
+	250, "Wyoming"
+END
+
+GAME DIALOG 16, 39, 176, 129
+STYLE DS_MODALFRAME | WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU
+CLASS "GAME"
+CAPTION "Which Game ?"
+BEGIN
+	CONTROL "", -1, "BorShade", BSS_GROUP | WS_CHILD | WS_VISIBLE, 2, 84, 173, 42
+	CONTROL "", ID_MEMWIN, "static", SS_BLACKFRAME | WS_CHILD | NOT WS_VISIBLE, 71, 2, 103, 80
+	CONTROL "Items:\nHat\nShirt\nBelt\nShoes\nJacket\nWatch\nTie\nGlasses", ID_MEMITEM, "static", SS_LEFT | WS_CHILD | NOT WS_VISIBLE, 79, 4, 40, 77
+	CONTROL "Prices:\n$\n$\n$\n$\n$\n$\n$\n$", ID_MEMNUM1, "static", SS_LEFT | WS_CHILD | NOT WS_VISIBLE, 129, 4, 38, 76
+	CONTROL "Which item costs", ID_MEMQUES, "STATIC", SS_LEFT | WS_CHILD | NOT WS_VISIBLE, 79, 4, 90, 10
+	CONTROL "", ID_MATHWIN, "static", SS_WHITEFRAME | WS_CHILD | NOT WS_VISIBLE | WS_BORDER, 89, 16, 58, 47
+	CONTROL "", ID_OPERAND1, "static", SS_RIGHT | WS_CHILD | NOT WS_VISIBLE, 94, 22, 36, 9
+	CONTROL "", ID_OPERAND2, "static", SS_RIGHT | WS_CHILD | NOT WS_VISIBLE, 94, 32, 36, 9
+	CONTROL "", ID_RESULT, "static", SS_RIGHT | WS_CHILD | NOT WS_VISIBLE, 94, 45, 36, 9
+	CONTROL "", ID_MATHBAR, "BorShade", BSS_HDIP | NOT WS_VISIBLE, 106, 43, 25, 4
+	CONTROL "", ID_CAPITALTEST, "static", SS_CENTER | WS_CHILD | NOT WS_VISIBLE | WS_BORDER, 79, 26, 88, 31
+	CONTROL "", 501, "BorShade", 1 | WS_CHILD | WS_VISIBLE, -1, 0, 178, 130
+	CONTROL "", 502, "BorShade", 1 | WS_CHILD | WS_VISIBLE, 2, 14, 65, 68
+	CONTROL "Math", ID_MATH, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP, 6, 22, 56, 12
+	CONTROL "Memory", ID_MEM, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE, 6, 42, 57, 10
+	CONTROL "State Capitals", ID_CAPITAL, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE, 6, 60, 55, 10
+	CONTROL "", ID_CORRECT, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_BORDER, 5, 89, 168, 11
+	CONTROL "         GAMES", 404, "BorShade", 1 | WS_CHILD | WS_VISIBLE, 2, 2, 65, 10
+	CONTROL "", ID_STATIC, "static", SS_LEFT | WS_CHILD | WS_VISIBLE | WS_BORDER, 5, 103, 168, 20
+END

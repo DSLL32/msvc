@@ -1,0 +1,83 @@
+RI(9)/VEDIT Family - Printing/
+M(H)			!Display header
+
+Q23YEA			!Use highlight attribute
+YEN YT/			      --- WARNING !!! ---/ YEN
+Q27YEA			!Restore attribute
+
+YT/
+Do not run this part of the demo if you do not have a printer connected!!
+
+You can print the entire file being edited or just a portion of it.  Printing
+is normally 60 lines per page with a 10 column (1 inch) left margin and
+without a header or page numbers.
+
+VEDIT and VEDIT PLUS are supplied with the print "macro" PRINT.VDM which can
+be used to print an entire file with a header on each page.  The header
+consists of the file name, the date and the page number.
+
+	--- Press <Esc> if you do not have a printer connected ---
+
+	--- OR  Press <Enter> to continue ---
+/
+
+XK(0)//
+(Q0 = 27) [ RJ(Z) ]	!Back to main menu if <Esc> was pressed
+
+9XS(100)		!Need 9 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main edit buffer
+EB demo.txt		!Load demo text
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/To print press <Alt-P> for the {PRINT} sub-menu.  To print the entire file
+press "A" to select "All".
+
+You can stop the printing before it is done by pressing <Ctrl-C>.
+
+When necessary, you can advance the printer to the top of the next page by
+pressing <Alt-P> and then "E" to select "Eject".  This is also a convenient
+way of sending a blank page through the printer.
+		--- Press <Esc> to continue ---/
+
+B -V			!Display instructions
+EE(@)			!Back to main text
+V
+
+EE(1)
+B#K
+I/To print a portion of the file, move the cursor to the FIRST character to be
+printed.  Then press <F9> to set the 1st marker and begin highlighting.
+Next, move the cursor one position PAST the LAST character to be printed.
+(Generally, this will be the beginning of the next line.)  Press <Alt-P> and
+"B" again (or press the "hot-key" <Ctrl-P> which directly accesses the {PRINT,
+Block} function).  The text will start printing.
+
+You may want to press <Alt-P> and "E" to advance the printer to the top of
+the next page.		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
++RL(p) print.vdm		!Load the print macro
+
+EE(1)
+B#K
+I/This demo has loaded the print "macro" PRINT.VDM for you.  The following
+steps let you print the entire file using this macro.
+
+Press <Alt-M> for the {MISC} sub-menu.  Select "Execute Macro".  At the
+prompt press "P".  The file should begin printing.
+
+Notice how the printed pages now have the file name, date and page number at
+the top.
+		--- Press <Esc> to return to the Main Menu ---/
+
+B -V
+EE(@)
+V
+
+EZY
+RE(P)

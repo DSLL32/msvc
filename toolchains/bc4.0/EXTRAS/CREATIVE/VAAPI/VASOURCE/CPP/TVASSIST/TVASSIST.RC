@@ -1,0 +1,107 @@
+#include "vadllRC.h"
+
+IDD_ADDRENAME DIALOG 9, 15, 86, 56
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Add Command"
+FONT 8, "MS Sans Serif"
+{
+ EDITTEXT IDC_EDITCOMMAND, 7, 8, 73, 13
+ CONTROL "Button", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 2, 27, 36, 24
+ CONTROL "Button", IDCANCEL, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 46, 27, 36, 24
+ CONTROL "", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 4, 5, 79, 19
+}
+STRINGTABLE
+{
+	1, "	Invalid window handle."
+	2,	"  Invalid pointer to SRWORD structure."
+	3, "  A link does not exist."
+	4, "  User or Application is incorrect."
+	5, " 	Cannot train command, invalid index."
+	6,	" 	Cannot train command; cannot start the recognition."
+	7,	" 	User or training dialog is on."
+	16, " Out of memory."
+}
+
+STRINGTABLE
+{
+	101, "Add command error. Invalid window handle."
+	102,	" Add command error. Invalid pointer to SRWORD structure."
+	103, " Add command error. A link does not exist."
+	104, " Add command error. User or Application is incorrect."
+	105, " Cannot add command, too may commands."
+	106,	" Cannot add command, the recognition is on."
+	107,	" User or training dialog is on."
+	108, 	" Command already exists. Please enter another one."
+	109, " Command is blank. Please enter another one."
+	116, " Out of memory."
+}
+STRINGTABLE
+{
+	201, "Add command error. Invalid window handle."
+	202,	" Add command error. Invalid pointer to SRWORD structure."
+	203, " Add command error. A link does not exist."
+	204, " Add command error. User or Application is incorrect."
+	205, " Cannot add command, too may commands."
+	206,	" Cannot add command, the recognition is on."
+	207,	" User or training dialog is on."
+	208, 	" Command already exists. Please enter another one."
+	209, " Command is blank. Please enter another one."
+	216, " Out of memory."
+}
+
+STRINGTABLE
+{
+	301, "	Invalid window handle."
+	302, "  Invalid pointer to SRWORD structure."
+	303, "  A link does not exist."
+	304, "  User or Application is incorrect."
+	305, " 	Cannot delete command, invalid index."
+	306,	" 	Cannot delete command, the recognition is on"
+	307,	" 	User or training dialog is on."
+	316, " Out of memory."
+}
+
+STRINGTABLE
+{
+	401, " Rejection (Recognition mode)."
+	402, " The command which was just trained is to similar to another  in the list. Record again. "
+	403, "  The training was bad."
+}
+
+STRINGTABLE
+{
+	501, "Window handle is invalid."
+	502,	" The owner window handle already has established a link"
+	503, " Cannot create a communication window."
+	504, " Cannot start VoiceAssist."
+	505, " Cannot establish a link with VoiceAssist"
+}
+
+
+IDD_TRVOICE DIALOG 58, 33, 84, 82
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Voice Training"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 3, 32, 78, 18
+ CONTROL "Command:", -1, "BorShade", BSS_GROUP | BSS_CAPTION | BSS_LEFT | WS_CHILD | WS_VISIBLE, 3, 2, 78, 27
+ CONTROL "1", IDC_TR1, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 6, 36, 21, 10
+ CONTROL "2", IDC_TR2, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 31, 36, 21, 10
+ CONTROL "3", IDC_TR3, "BorRadio", BS_AUTORADIOBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 56, 36, 21, 10
+ CONTROL "Button", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_GROUP | WS_TABSTOP, 24, 54, 36, 24
+ CONTROL "Button", IDCANCEL, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | NOT WS_VISIBLE|WS_GROUP|WS_TABSTOP, 24, 55, 36, 24
+ LTEXT "", IDC_COMMAND, 7, 15, 71, 13
+}
+IDD_DELETE DIALOG 6, 15, 97, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU
+CLASS "bordlg"
+CAPTION "Delete Commands"
+FONT 8, "MS Sans Serif"
+{
+ CONTROL "", -1, "BorShade", BSS_HDIP | BSS_LEFT | WS_CHILD | WS_VISIBLE, 0, 83, 98, 2
+ CONTROL "", IDOK, "BorBtn", BS_DEFPUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 8, 89, 37, 25
+ CONTROL "", IDCANCEL, "BorBtn", BS_PUSHBUTTON | WS_CHILD | WS_VISIBLE | WS_TABSTOP, 51, 89, 37, 25
+ LISTBOX IDC_DELETE, 4, 8, 88, 71, LBS_NOTIFY | LBS_MULTIPLESEL | WS_BORDER | WS_VSCROLL
+}

@@ -1,0 +1,9 @@
+This directory contains introduction tutorials for both C and C++.
+
+    INTRO.C     ....  introduction tutorial for C
+    INTRO.CPP   ....  introduction tutorial for C++
+
+Note that the two libraries (C and C++) are different. To compare
+the two interfaces, look at file A:\CLASSES.
+
+For examples, look at directories A:\EX* and A:\EXX*

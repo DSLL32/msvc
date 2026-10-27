@@ -1,0 +1,11 @@
+ObjectPM is a library of objects called a "class library" that
+provides the means to develop object-oriented OS/2 applications in
+C++. This allows industrial strength applications to be developed in
+a fraction of the time required to develop the same applications in
+C.  In addition, the benefits of C++ can be realized in smaller, more
+reliable and maintainable programs.  Included are some sample programs
+with source and the DLL's needed to run them.  The .LIBs are not
+supplied so you will not be able to recompile them yourselves.  The
+file FILELIST.DOC contains a listing and description of the included
+files.
+

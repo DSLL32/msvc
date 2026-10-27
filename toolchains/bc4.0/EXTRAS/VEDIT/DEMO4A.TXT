@@ -1,0 +1,48 @@
+/* EXPAND - Expand and display control sequence */
+
+expand(kbuf)
+unsigned char *kbuf;
+{
+unsigned char *sptr, *kptr, c;
+unsigned char messbuf[MAXSTR], save[MAXSTR];
+
+int getmess();
+
+    kptr = kbuf;
+    sptr = save;		/* Init PTR to buffer ending in 00 */
+
+    /* Convert "^Z" to CTRL-Z and change to use 00 terminator */
+
+    while (*kptr != KFF) {
+	*sptr = *kptr++;
+	if (*sptr == '^') {
+		if (*kptr != '^') *sptr = *kptr & 0x1F;
+	    	kptr++;
+		}
+	sptr++;
+	}
+    *sptr = 0;			/* SAVE[] ends in 00 terminator */
+
+    sptr = save;
+    if (*sptr == 0) {		/* Change IBM System call to ROM call */
+	sptr++;
+	*sptr |= 0x80;		/* Set high bit on next char */
+    }
+
+    if ( getmess(messbuf,sptr,topname) )
+	output("<%s>",messbuf);	     /* display string and key codes */
+
+    else {
+
+	for (sptr=save; *sptr; sptr++) {
+		c = *sptr;
+		if (c & 0x80) {
+			output("%s", func);
+			c &= 0x7f;
+			}
+		mnemonic(c);	/* Convert char to mnemonic if possible */
+		outc(SPACE);
+		}
+	}
+}
+

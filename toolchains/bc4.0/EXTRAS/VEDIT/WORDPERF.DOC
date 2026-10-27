@@ -1,0 +1,115 @@
+
+		WORD PERFECT KEYBOARD LAYOUT FOR VEDIT
+		--------------------------------------
+
+The Word Perfect layout comes close for the common cursor movement and editing
+functions.
+
+Major Differences:
+
+1.  <ESC> pops up the menu system.
+
+2.  <F1> performs only [CANCEL], <Ctrl-U> performs {EDIT, Undo, Line}.
+
+3.  The block functions work differently. [BLOCK COPY] is assigned to both 
+    <F9> and <Ctrl-F4>. [BLOCK MOVE] is assigned to <Alt-F9>. {BLOCK, Set 
+    marker} is assigned to <Alt-F4>.
+
+4.  <F7> brings up the {FILE} menu from which you can select "Exit" to save
+    your file and exit back to DOS.
+
+    Note:  [HELP] will first display the keyboard layout listed on the next 
+	   page. However, the screen for "Built-in Keystroke Macros" will not 
+	   be entirely correct. This can be corrected by editing the 
+	   beginning of VHELP.HLP (VEDIT PLUS: VVHELP.HLP) which is an
+	   explanation of the built-in keystroke macros.
+
+
+		  KEYBOARD LAYOUT
+
+"+" indicates functions not available on Word Perfect
+"!" indicates functions which operate differently from Word Perfect
+
+
+[BACKSPACE]		<Backspace>
+[BLOCK COPY]	   !	<F9>			<Ctrl-F4>
+[BLOCK MOVE]	   !	<Alt-F9>
+[CANCEL]		<F1>
+[CURSOR UP]		<Cursor Up>
+[CURSOR DOWN]		<Cursor Down>
+[CURSOR RIGHT]		<Cursor Right>
+[CURSOR LEFT]		<Cursor Left>
+[DELETE]		<Del>
+[DEL PREV WORD]	   !	<Home> <Del>
+[DEL NEXT WORD]    !	<Home> <Backspace>	<Ctrl-Bksp>
+[ENTER CTRL]	   !	<Ctrl-Q>
+[ERASE EOL]	    	<Ctrl-End>
+[ERASE LINE]	   +	<Ctrl-Y>
+[ESCAPE]	   +	Grey*
+[HELP]			<F3>
+[INDENT]	   	<F4>
+[INSERT TOGGLE]	   	<Ins>
+[LINE BEGIN]		<Home> <Cursor Left>
+[LINE END]		<Home> <Cursor Right>
+[MENU]		   +	<ESC>
+[NEXT LINE]	   +	<Ctrl-J>		<Ctrl-Enter>
+[NEXT PARA]	   +	<Ctrl-PgDn>
+[NEXT TAB STOP]	   +	<Ctrl-T>
+[NEXT WORD]		<Ctrl-Cursor Right>
+[PAGE UP]		<PgUp>			Grey-
+[PAGE DOWN]		<PgDn>			Grey+
+[PREVIOUS PARA]	   +	<Ctrl-PgUp>
+[PREVIOUS WORD]		<Ctrl-Cursor Left>
+[REPEAT]	   !	<Ctrl-R>
+[REPLACE]		<Alt-F2>
+[SCREEN BEGIN]		<Home> <Cursor Up>
+[SCREEN END]		<Home> <Cursor Down>
+[SCROLL UP]	   +	<Ctrl-A>
+[SCROLL DOWN]	   +	<Ctrl-F>
+[SCROLL RIGHT]	   +	<Ctrl-D>
+[SCROLL LEFT]	   +	<Ctrl-S>
+[SEARCH]		<F2>
+[SEARCH AGAIN]	   +	<Ctrl-F2>
+[TAB CHARACTER]		--->|
+[T-REG COPY]	   +	Available in BLOCK menu
+[T-REG MOVE]	   +	Available in BLOCK menu
+[T-REG INSERT]	   +	Available in BLOCK menu
+[UNDENT]	   +	|<---	
+[VISUAL ESCAPE]	   +	Available in ESCAPE menu
+[VISUAL EXIT]	   +	<Ctrl-E>
+
+
+Begin of file		<Home> <Home> <Cursor Up>
+End of file		<Home> <Home> <Cursor Down>
+{GOTO} menu		<Ctrl-Home>
+{FILE} menu		<F5> or <F7>
+{PRINT} menu		<Shft-F7>
+
+Block On	     !	<Alt-F4>
+Center line		<Shft-F6>
+Enter date		<Shft-F5>
+Execute Macro	     !  <Alt-F10>
+Format paragraph	<Alt-F3>
+Justification		<Ctrl-F8>
+Print configuration	<Alt-F8>
+Reverse search		<Shft-F2>
+Undo line	     +  <Ctrl-U>
+
+Save file and resume editing	<F10>
+
+Switch/create edit buffer	<Shft-F3>	(Simultaneously edit files)
+Open (edit) new file		<Shft-F10>	(Same buffer)
+Open (edit) new file		<Alt-N>		(Same buffer)
+Open (edit) new file	   +	<Alt-O>		(New buffer, same window)
+Open (edit) new file	   +	<Alt-Y>		(New buffer, new window)
+
+Toggle between files	   +	<Alt-T>
+Toggle VGA/EGA line mode   +	<Alt-L>
+Toggle text colors	   +	<Alt-J>
+Start up Compiler Support  +	<Alt-I>
+
+{Block}  Sub-menu	<Alt-B>		{Config} Sub-menu	<Alt-C>
+{Edit}   Sub-menu	<Alt-E>		{File}   Sub-menu	<Alt-F>
+{Goto}   Sub-menu	<Alt-G>		{Help}   Sub-menu	<Alt-H>
+{Misc}   Sub-menu	<Alt-M>		{Print}  Sub-menu	<Alt-P>
+{Search} Sub-menu	<Alt-S>		{Window} Sub-menu	<Alt-W>

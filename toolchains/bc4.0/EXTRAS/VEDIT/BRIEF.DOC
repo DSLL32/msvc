@@ -1,0 +1,251 @@
+
+		BRIEF 3.1 KEYBOARD LAYOUT FOR VEDIT PLUS
+		----------------------------------------
+
+Major Differences:
+
+1.  <F10> pops up the menu system.
+
+2.  <Ctrl-C> is the [CANCEL] function. Brief's "Center Line in Window" is
+    not implemented.
+
+3.  Many functions which Brief implements with macros via the the <F9> and 
+    <F10> keys, e.g. "Center Line Horizontal" and "Change Directory", VEDIT 
+    implements with built-in menu functions. Since VEDIT uses external macros 
+    far less than Brief, this Brief emulation uses <F9> and <F10> for VEDIT's 
+    normal assignments. Use {MISC, Load/Execute macro} and {MISC, Execute 
+    macro} to load and execute VEDIT's external macros. Commonly used macros 
+    can be built-in as "Keystroke Macros".
+
+4.  While the Brief block functions are closely emulated, it is often easier
+    to directly copy/move a block with <Ctrl-F9> and <Alt-F9> than to use
+    the "scrap".
+
+5.  <F12>, <Ctrl-F12> and <Alt-F12> are used to access VEDIT's Text Registers
+    via the functions [T-REG INSERT], [T-REG COPY] and [T-REG MOVE].
+
+6.  Brief's "scrap" is emulated with Text Register "0"; VEDIT has many other 
+    available Text Registers.
+
+7.  Instead of blindly toggling configuration parameters (e.g. "Backup File 
+    Toggle" and "Case Sensitivity Toggle") the parameter is toggled and you 
+    are left in the {CONFIG} menu to see the resulting value. Press <Ctrl-C> 
+    or <ESC> twice to exit the menus.
+
+8.  Brief's "Compile Buffer" <Alt-F10> is emulated by starting up VEDIT's
+    integrated compiler support.
+
+    Note:  [HELP] will first display the keyboard layout listed on the next 
+	   page. However, the screen for "Built-in Keystroke Macros" will not 
+	   be entirely correct. This can be corrected by editing the 
+	   beginning of VHELP.HLP (VEDIT PLUS: VVHELP.HLP) which is an
+	   explanation of the built-in keystroke macros.
+
+
+		  KEYBOARD LAYOUT
+
+Assignments to VEDIT's functions:
+--------------------------------
+
+"+" indicates functions not available in Brief
+"!" indicates functions which operate differently from Brief
+
+[BACKSPACE]		<Backspace>
+[BLOCK COPY]	   +	<Ctrl-F9>
+[BLOCK MOVE]	   +	<Alt-F9>
+[CANCEL]	   !	<Ctrl-C>
+[CURSOR UP]		<Up Arrow>
+[CURSOR DOWN]		<Down Arrow>
+[CURSOR RIGHT]		<Right Arrow>
+[CURSOR LEFT]		<Left Arrow>
+[DELETE]		<Del>
+[DEL PREV WORD]		<Ctrl-Bksp>
+[DEL NEXT WORD]		<Alt-Bksp>	<Ctrl-Y>
+[ENTER CTRL]		<Alt-Q>
+[ERASE TO EOL]	    	<Alt-K>
+[ERASE LINE]		<Alt-D>
+[ESCAPE]	   	<Esc>
+[FORMAT PARA]		<Ctrl-F>
+[HELP]		   !	<Alt-H>
+[INDENT]	   +	<F8>
+[LINE BEGIN]		<Home>
+[LINE END]		<End>
+[MENU]		   +	<F10>
+[NEXT PARA]	   +	<Ctrl-Z>
+[NEXT TAB STOP]	   !	<Shift Tab>
+[NEXT WORD]		<Ctrl-Right Arrow>
+[PAGE UP]		<PgUp>
+[PAGE DOWN]		<PgDn>
+[PREVIOUS PARA]	   +	<Ctrl-Q>
+[PREVIOUS WORD]		<Ctrl-Left Arrow>
+[REPEAT]		<Ctrl-R>
+[REPLACE]		<F6>			<Alt-T>
+[SCROLL UP]		<Ctrl-D>
+[SCROLL DOWN]		<Ctrl-E>
+[SCROLL RIGHT]	   +	<Ctrl-P>
+[SCROLL LEFT]	   +	<Ctrl-O>
+[SEARCH]		<F5>			<Alt-S>
+[SEARCH AGAIN]		<Shift F5>		<Shift F6>
+[TAB CHARACTER]		<Tab>
+[T-REG COPY]	   +	<Ctrl-F12>
+[T-REG MOVE]	   +	<Alt-F12>
+[T-REG INSERT]	   +	<F12>
+[UNDENT]	   +	<Alt-F8>
+[VISUAL ESCAPE]	   +	<Alt-F11>
+[VISUAL EXIT]	   +	<F11>
+
+Zoom / unzoom window	   +	<F2>
+Goto Matching ()	   !	<Alt-F3>
+Set text marker (bookmark)	<Ctrl-S>
+Goto text marker		<Ctrl-G> and <Alt-J>
+
+Open (edit) new file	   +    <Alt-F2>	(Same buffer)
+Open (edit) new file	   !	<Alt-E>		(New buffer, same window)
+Open (edit) new file	   +	<Alt-Y>		(New buffer, new window)
+Switch windows		   !	<Alt-F4>
+
+Toggle VGA/EGA line mode   +	<Alt-L>
+Start up Compiler Support  +	<Alt-I>
+
+
+Assignments to emulate Brief:
+-----------------------------
+
+Back Tab				Not implemented.
+Backspace		Backspace	Always deletes the previous char
+					including a "newline".
+Backup File Toggle	Ctrl-W		Accesses {CONFIG, File Handling} item.
+Beginning of Line	Home
+Border Toggle				Not implemented.
+Buffer List		Alt-B		Accesses {HELP,Edit buffers}. Select
+					files using {FILE,Buffer switch} or
+					<Alt-N>
+Case Sensitive Toggle	Ctrl-F5		Accesses {SEARCH, Option} item.
+Center Line Horizontal			Use {EDIT, Center} instead.
+Center Line in Window			No implemented.
+Change Directory			Use {FILE, Change Directory} instead.
+Change Output File	Alt-O
+Change Window		F1		You then enter the window #.
+Color					Use {MISC, Color toggle} to change the
+					text color. Use {CONFIG, Color) to
+					change other colors.
+Column Mark		Alt-C
+Compile Buffer		Alt-F10		Use the Integrated Compiler support.
+Copy to Scrap		Grey+
+Create Key Assignment			Use {MISC, Keyboard layout,Add}
+Create Window		F3		Only accesses the {WINDOW} menu.
+Cut to Scrap		Grey-
+Delete			Del		Only deletes characters, use {BLOCK,
+					Delete} to delete blocks.
+Delete Current Buffer	Ctrl-_
+Delete File				Not implemented. Use {MISC, DOS shell}
+					or VEDIT PLUS's "EK" command instead.
+Delte Line		Alt-D
+Delete Macro File			Not implemented; not needed.
+Delete Next Word	Alt-Bksp or Ctrl-Y
+Delete Previous Word	Ctrl-Bksp
+Delete to Begin of Line	Ctrl-K
+Delete to End of Line	Alt-K
+Delete Window				Then enter the window #.
+Display File Name	Alt-F		Displays on bottom screen line.
+Display Version ID	Alt-V		Accesses {HELP, Status}.
+Down			Down-Arrow
+Drop Bookmark		Alt-1 .. Alt-0
+Edit File		Alt-E		Accesses {FILE, Open}-N.
+End of Buffer		End End End
+			Ctrl-PgUp
+End of Line		End
+End of Window		End End		Similar operation.
+Enter			Enter
+Escape			Esc
+Execute Command				Not implemented; use {MISC, Load/
+					Execute macro} or {MISC, Execute 
+					macro} instead.
+Exit			Alt-X		Only exits the current buffer.
+Go to Line		Alt-G
+Go to Routine				Not implemented. Contact us for our
+					similar macro "FINDFUNC".
+Halt			Ctrl-C		This is the similar [CANCEL] function.
+Help			Alt-H
+Incremental Search			Not implemented.
+Indent Block		F8 Alt-F8	VEDIT's [INDENT] does this.
+Insert Mode Toggle	Alt-I		Use blinking/not blinking cursor.
+Jump to Bookmark	Alt-J and Ctrl-G
+Left			Left-Arrow	It can move to the previous line.
+Left Side of Window			Not implemented.
+Line Mark				Not implemented; use <Alt-M> instead.
+Line to Bottom Window	Ctrl-B
+Line to Top Window	Ctrl-T
+Load Keystroke Macro			See {MISC, Keyboard layout, Load}
+Load Macro File				Not implemented; use {MISC, Load/
+					Execute macro} or {MISC, Execute 
+					macro} instead.
+Lower Case Block			Use {EDIT, Lower/Upper case}.
+Lower Case Block			Use {EDIT, Lower/Upper case}.
+Margin					Use {CONFIG, Word processing} instead.
+Mark			Alt-M		VEDIT has additional ways of copying/
+					moving blocks using [BLOCK COPY] and
+					[BLOCK MOVE].
+Next Buffer		Alt-N		May also switch to another window.
+Next Char		Right Arrow
+Next Error				Implemented only within the Integrated
+					Compiler Support.
+Next Word		Ctrl-Right Arrow
+Noninclusive Mark	Alt-A
+Open Line		Ctrl-Enter
+Outdent Block		Alt-F8		VEDIT's [UNDENT] does this.
+Page Down		PgDn
+Page Up			PgUp
+Paste from Scrap	Ins		Similar operation.
+Pause Recording Toggle			Not implemented.
+Pause On Error				Not needed; the Integrated Compiler
+					Support lets you view errors.
+Playback				Press the key to which you assigned
+					the previously defined Keystroke Macro.
+Pop-Up Errors				Implemented only within the Integrated
+					Compiler Support.
+Pop-Up menu		F10		Accesses VEDIT's menu system.
+Previous Buffer				Not implemented; use <Alt-N> instead.
+Previous Char		Left Arrow
+Previous Word		Ctrl-Left Arrow
+Print Block		Alt-P		Highlights and prints the block.
+Quick Window Switch			Not implemented.
+Quote			Alt-Q		Also quotes ALT keys
+Read File into Buffer	Alt-R
+Redo					Not implemented (yet).
+Reformat Paragraph	Ctrl-F
+Regular Expr. Toggle	Ctrl-F6		Accesses {SEARCH, Option} item.
+Remember		F7		You can record more than one Keystroke
+					Macro.
+Repeat			Ctrl-R
+Resize Window				Not implemented.
+Right			Right Arrow	Can also move to next line.
+Right Side of Window			Not implemented.
+Save Keystroke Macro			See {MISC, Keyboard layout, Save}.
+Scroll Buffer Down	Ctrl-D
+Scroll Buffer Up	Ctrl-E
+Search Again		Shft-F5
+Search Backward		Alt-F5
+Search Block Toggle			Not needed.
+Search Forward		F5 and Alt-S
+Suspend Brief		Alt-Z
+Swap Cursor and Mark			Use {BLOCK, Swap ends}.
+Tab			Tab
+Tab Stops				Use {CONFIG, Tab stops} instead.
+Top of Buffer		Home Home Home
+Top of Window		Home Home
+Translate Again		Shft-F6		Same as Shft-F5; both are the 
+					function [SEARCH AGAIN].
+Translate Backward	Alt-F6
+Translate Forward	F6 and Alt-T
+Undo			Alt-U		Accesses {EDIT, Undo, Edit}. You can
+			Grey *		also undo line-by-line.
+Up			Up Arrow
+Upper Case Block			Use {EDIT, Lower/Upper case}.
+Use Tab Characters			Use {CONFIG, Emulation, Expand <Tab>
+					key with spaces} instead.
+Write			Alt-W		It emulates Brief, but selecting 
+					either {FILE, Save and Continue} or
+					{BLOCK, Write to Disk} might be more
+					straightforward.
+Write All and Exit	Ctrl-X		Seems to us like a dangerous key!

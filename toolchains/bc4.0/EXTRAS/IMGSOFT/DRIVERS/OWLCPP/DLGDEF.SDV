@@ -1,0 +1,55 @@
+_CLASSDEF($CAP(Dialog.Name)$)
+class $CAP(Dialog.Name)$ : public TDialog 
+{
+	char szWorkStr[81], *p;		// Work Buffer
+	$IF COUNT(dialog.listboxs) > 0$
+	PTListBox $LIST dialog.listboxs listbox.name$;
+	$END IF$
+	$IF COUNT(dialog.edits) > 0$
+	PTEdit $LIST dialog.edits  edit.name$;
+	$END IF$
+	$IF COUNT(dialog.statics) > 0$
+	PTStatic $LIST dialog.statics  static.name$;
+	$END IF$
+	$IF COUNT(dialog.RadioButtons) > 0$
+	PTRadioButton $LIST dialog.RadioButtons RadioButton.Name$;
+	$END IF$
+	$IF COUNT(dialog.CheckBoxs) > 0$
+	PTCheckBox $LIST dialog.CheckBoxs CheckBox.Name$;
+	$END IF$
+	$IF COUNT(dialog.ComboBoxs) > 0$
+	PTComboBox $LIST dialog.ComboBoxs ComboBox.Name$;
+	$END IF$
+public:
+	$CAP(Dialog.Name)$(PTWindowsObject AParent, Pchar DlgName);
+
+	virtual void CloseWindow(int ARetValue);
+	virtual void SetupWindow();
+	virtual BOOL CanClose();
+	$IF Dialog.ClassName != ""$ 
+	virtual LPSTR GetClassName() {return "$dialog.ClassName$";}
+	virtual void GetWindowClass(WNDCLASS&);
+	$END IF$
+	$LOOP Dialog.Buttons$  
+	$IF Button.Id == "IDOK"$
+	$OR Button.Id == 1$
+	virtual void Ok(RTMessage Msg) = [ID_FIRST+IDOK];
+	$ELSE$
+		$IF Button.Id == "IDCANCEL"$
+		$OR Button.Id == 2$
+	virtual void Cancel(RTMessage Msg) = [ID_FIRST+IDCANCEL];
+		$ELSE$
+	virtual void CM$button.name$(RTMessage Msg) = [ID_FIRST+$button.Id$];
+		$END IF$
+	$END IF$
+	$END LOOP$
+	$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+	virtual void CM$ToolBar.Name+ToolItem.Name$(RTMessage Msg) = [CM_FIRST+CM_$UP(ToolBar.Name)UP(ToolItem.Name)$];
+	$END LOOP$
+	$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+	virtual void CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(RTMessage Msg) = [CM_FIRST+CM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$];
+	$END LOOP$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Class"$
+};
+
+

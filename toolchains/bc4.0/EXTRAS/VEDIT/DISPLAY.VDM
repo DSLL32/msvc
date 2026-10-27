@@ -1,0 +1,11 @@
+(.wb=2)[ 0YWB(h) 2 ][ YWB(h) 2 ]  !Create help window
+YWS(h)				!Switch to help window
+YYE				!Let <ESC> perform [VISUAL EXIT]
+112YEA YEC			!Make into reverse video window
+@YT/  Press <Pg Dn>, <Pg Up>, <Cursor Up> or <Cursor Down> to view file
+                Press <ESC> to exit VEDIT/	!Display message
+22099YYE			!Force <ESC> to perform [VISUAL ESCAPE]
+@RI(y)/EQAY/			!Place Exit/Quit command in register Y
++RA(y)				!Execute reg Y if user presses <ESC>
+V				!Let user display file
+EQAY				!Exit/Quit if user presses <CTRL-E>

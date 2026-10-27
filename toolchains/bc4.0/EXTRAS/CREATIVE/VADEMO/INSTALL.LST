@@ -1,0 +1,21 @@
+[Params]
+    WndTitle   = VoiceAssist Installation
+    WndMess    = Initializing...
+    TmpDirSize = 500
+    TmpDirName = ~vatfqf.t
+    CmdLine    = _mstest v_assist.mst /C "/S %s %s"
+    DrvModName = DSHELL
+
+[Files]
+    v_assist.ms_  = v_assist.mst
+    v_assist.in_  = v_assist.inf
+    setupapi.in_ = setupapi.inc
+    msdetect.in_ = msdetect.inc
+    mscomstf.dl_ = mscomstf.dll
+    msinsstf.dl_ = msinsstf.dll
+    msuilstf.dl_ = msuilstf.dll
+    msshlstf.dl_ = msshlstf.dll
+    mscuistf.dl_ = mscuistf.dll
+    msdetstf.dl_ = msdetstf.dll
+    _mssetup.ex_ = _mssetup.exe
+    _mstest.ex_  = _mstest.exe

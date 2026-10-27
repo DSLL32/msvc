@@ -1,0 +1,21 @@
+Avanti PinPoint Demo Release for Borland CDROM
+==============================================
+
+PinPoint is designed to show you your programs' call stack as it is
+executing in real time.  It does this by preprocessing your source code
+with the MS-DOS program 'ppAutoC', which adds the necessary calls to 
+your application's functions.  Then compile (with pp_api.h), link
+(with pp_dll.lib), and execute your application after launching PinPoint.
+
+The OWL example TTT (TicTacToe) is provided as an example program.
+
+More detailed documentation is provided in PinPoint.doc, a Word file.
+
+Avanti Software Inc.
+385 Sherman Ave Unit 6
+Palo Alto CA 94306
+voice:  (415)329-8999
+orders: (800)758-7011 
+FAX:    (415)329-8722
+CompuServe 76260,266
+

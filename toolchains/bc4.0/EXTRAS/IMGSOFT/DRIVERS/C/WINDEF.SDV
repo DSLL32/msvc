@@ -1,0 +1,6 @@
+LRESULT CALLBACK _export $Window.Name$WndProc(HWND, UINT, WPARAM, LPARAM);
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+LRESULT CALLBACK _export MDIChildWndProc(HWND, UINT, WPARAM, LPARAM);
+$END IF$
+

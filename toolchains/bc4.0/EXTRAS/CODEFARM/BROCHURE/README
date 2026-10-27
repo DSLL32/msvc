@@ -1,0 +1,14 @@
+This directory contains information we usually distribute as marketing brochures
+printed on paper. These materials include:
+
+    HIGHLITE - short paragraphs with highlights
+    GENERAL  - general description
+    SHORT    - short list of main features
+    USERS    - quotes from happy users
+    AUTHOR   - about the author of the library
+    COMPARE  - comparing Code Farms and Rogue Wave libraries
+    META     - press release on access to meta-class information
+
+These are all  plain  ASCII  files,   not  as neatly formatted as our marketing
+brochures.  However,  consider how much more information you get by having this
+diskette instead of reading a few sheets of paper that would come in the mail.

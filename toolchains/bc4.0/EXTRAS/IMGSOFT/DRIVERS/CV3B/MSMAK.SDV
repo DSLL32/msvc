@@ -1,0 +1,121 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+# 
+# ~VPgmName~
+# Microsoft Make File
+PROJ = ~VPgmName~
+PROJFILE = ~VPgmName~.MAK
+DEBUG = 1
+
+NMAKEBSC1  = set
+NMAKEBSC2  = nmake
+LINKER	= link
+ILINK  = ilink
+LRF  = echo > NUL
+BIND  = bind
+RC  = rc
+IMPLIB	= implib
+LFLAGS_G  = /NOI /BATCH
+LFLAGS_D  = /CO /INC /FAR /PACKC
+LFLAGS_R  = /EXE /FAR /PACKC
+MAPFILE_D  = NUL
+MAPFILE_R  = NUL
+CC  = cl
+CFLAGS_G  = /BATCH
+CFLAGS_D  = /qc /Gi$(PROJ).mdt /Zr /Zi /Od
+CFLAGS_R  = /Ot
+ASM  = masm
+AFLAGS_G  = /Mx /T
+AFLAGS_D  = /Zi
+CCXX  = ccxx
+PWBRMAKE  = pwbrmake
+CXXFLAGS_R  = -MW /NOE
+CXXFLAGS_D  = !d -qc -MW /NOE
+CV  = WIN cvw
+LIBS_G	= libcxxw libcv3w libw llibcew /NOD:llibce.lib
+
+OBJS = $(PROJ).obj	\
+~LOOP AModules~
+				~AModules.Value~.obj \
+~END LOOP~
+
+SBRS = $(PROJ).sbr	\
+~LOOP AModules~
+				~AModules.Value~.sbr \
+~END LOOP~
+
+all: $(PROJ).exe
+
+.SUFFIXES: .cxx .obj .sbr
+
+$(PROJ).obj:			$*.cxx $(PROJ).hxx
+~LOOP AModules~
+~AModules.Value~.obj: $*.cxx $*.hxx	
+~END LOOP~
+
+$(PROJ).sbr:			$*.cxx $(PROJ).hxx
+~LOOP AModules~
+~AModules.Value~.sbr: $*.cxx $*.hxx	
+~END LOOP~
+
+$(PROJ).bsc : $(SBRS)
+	$(PWBRMAKE) @<<
+$(BRFLAGS) $(SBRS)
+<<
+
+$(PROJ).exe : $(OBJS) $(PROJ).res
+!IF $(DEBUG)
+	$(CCXX) $(CXXFLAGS_D) $(LFLAGS_G) <<$(PROJ).lnk
+$(OBJS: =+
+)
+$@
+
+$(LIBS_G)
+$(PROJ).def;
+<<
+	if B$(RESS)==B $(RC) $@
+	if not B$(RESS)==B $(RC) $(RESS) $@
+!ELSE
+	$(CCXX) $(CXXFLAGS_R) $(LFLAGS_G) <<$(PROJ).lnk
+$(OBJS: =+
+)
+$@
+
+$(LIBS_G)
+$(PROJ).def;
+<<
+	if B$(RESS)==B $(RC) $@
+	if not B$(RESS)==B $(RC) $(RESS) $@
+!ENDIF
+
+
+.cxx.obj :
+!IF $(DEBUG)
+	$(CCXX) -c $(CXXFLAGS_D) $<
+!ELSE
+	$(CCXX) -c $(CXXFLAGS_R) $<
+!ENDIF
+
+.cxx.sbr :
+!IF $(DEBUG)
+	$(CCXX) -c !d $(CXXFLAGS_D) -FR$@ $<
+!ELSE
+	$(CCXX) -c !d $(CXXFLAGS_R) -FR$@ $<
+!ENDIF
+
+
+run: $(PROJ).exe
+	WIN $(PROJ).exe $(RUNFLAGS)
+
+debug: $(PROJ).exe
+	$(CV) $(CVFLAGS) $(PROJ).exe $(RUNFLAGS)
+
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE	PRELOAD MOVEABLE DISCARDABLE
+DATA	PRELOAD MOVEABLE 
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+

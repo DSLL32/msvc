@@ -1,0 +1,110 @@
+RI(9)/VEDIT Family - Programming Features/
+M(H)			!Display header
+
+YT/
+All VEDIT Family editors are heavily oriented towards programmers; most
+features are useful to the task of editing programs.  Several additional
+features are intended specifically for program editing.  These are described
+here.
+
+/
+M(K)			!Pause for user
+
+9XS(100)		!Need 9 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main edit buffer
+EB demo4a.txt		!Load demo text
+3L			!Goto line 4
+EP 2 1			!Enable auto-indent
+ES 13 1			!Enable Insert-mode
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/The key <Alt-F3> performs nested parentheses matching.  These parentheses
+can be any of the sets of characters: { and }, [ and ], < and >, ( and ).
+This function is especially useful for checking the syntax of "C" programs
+and VEDIT PLUS macros.
+
+Press <Alt-F3>.  The cursor moves to the first parenthesis.  Press <Alt-F3>
+again.  The cursor now moves to the matching parenthesis.  Press it again.
+The cursor moves back to the original parenthesis.  Experiment.
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/VEDIT can automatically indent the lines of a structured program.  Two modes
+are available.  In the simplest mode, each new line is indented to the "indent
+margin" set with the keys <F7> and <F8>.  In "Auto-Indent" mode, preferred for
+programming, the new line is initially indented the same as the line above it.
+You can change this initial indent by pressing <F7> or <F8>.
+
+Press <Enter> while in "Insert" mode.  Notice how the new line is immediately
+indented.  Type a line of text.  Press <Enter> again.  Now press <F7> and <F8>
+to change the indent.  Experiment.	--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+B 21L $N"|>"		!Move to end of an indented line
+V
+
+EE(1)
+B#K
+I\An entire block of text can be re-indented by simply highlighting the block,
+positioning the cursor anywhere within the block and and pressing <F7> and/or
+<F8> as desired.  Try it:
+
+Move the cursor anywhere on the first line to be re-indented.  Press <F9> to
+start highlighting.  Move the cursor anywhere on the last line of the block.
+Press <F9> again.  Press <F8> and all lines in the block are indented an
+additional 4 columns.  Experiment with <F7> and <F8>.  Press <Ctrl-C> to
+remove the highlighting.	--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EZY			!Empty edit buffer
+EB demo4b.txt		!Read next demo file
+6L			!Goto line 7
+EP 4 2			!Enable conditional LC to UC conversion
+ES 3 0			!Disable auto-indent
+1YML			!Reset left margin
+
+EE(1)
+B#K
+I/Many assembly language programmers prefer to have their labels, opcodes and
+operands in upper case letters and their comments in upper and lower case, as
+above.  To speed assembly language editing, VEDIT can automatically convert
+all letters left of the comment ";" to upper case.
+
+Edit the assembly language code above.  Notice how letters typed in lower case
+are automatically converted to upper case when the cursor is to the left of
+the ";" comment character.   Try entering new lines of code.  Experiment.
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+
+I/VEDIT has options for explicitly displaying Tab characters and the end of
+lines.  Both are normally displayed with (invisible) spaces, but can be
+changed.
+
+Access the {CONFIG, Screen display} sub-menu.  Change the "Newline display
+character" to 17 and the "Tab display character" to 250.  Press <Ctrl-C> to
+exit the menu system.  Notice how the screen display has changed.  VEDIT also
+has "display modes" that control how other control and graphics characters are
+displayed.		--- Press <Esc> to return to the Main Menu ---/
+
+B -V
+EE(@)
+V
+EP 8 32		!Restore newline display char
+EP 9 32		!Restore tab display char

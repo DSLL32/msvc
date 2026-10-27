@@ -1,0 +1,333 @@
+Features common to all VEDIT Family editors:
+
+*   Edit ANY text, data or binary file up to 2 Gigabytes (2000 Megabytes) in
+    size.  Supports unlimited line lengths.  Edit database, mainframe,
+    Postscript, plotter, executable .EXE and other non-standard files.
+    VEDIT is the only editor that lets you edit really large files, like the
+    500 megabyte file you are putting onto CD-ROM.
+
+*   Multi-mode editing.  File editing modes support DOS, UNIX and Mac text
+    files, plus a mode for editing any data or binary file. (VEDIT and VEDIT
+    PLUS also support variable-length and fixed-length-record data files.)
+
+*   Hyper-browse mode.  Files may be opened for editing or just for browsing
+    to prevent accidental changes.  Hyper-browse mode allows instant access
+    to any part of a huge file and super-fast searching including CD-ROM
+    files.
+
+*   CUA-like pull-down menu system.  Easy access to most editing functions.
+    Editing functions can also be quickly accessed with "hot keys" which
+    bypass the menu system - the menu system does not slow down proficient
+    users.  Current "hot keys" are displayed in the menus.
+
+*   Intuitive keyboard layout. The "normal" keyboard is very similar to that
+    used by DOS 5.0's "EDIT", Microsoft's "PWB" and Borland's "IDE".
+    Alternatively, a very compatible WordStar, Word Perfect or Brief layout
+    may be chosen.  A different keyboard layout can be loaded or modified at
+    any time.
+
+*   Unlimited keystroke macros.  Any combination of keystrokes can be
+    assigned to a single key.  Allows single key access to menu functions and
+    creation of custom editing functions.  Record mode learns new keystroke
+    macros while you edit.  Keystroke macros may be built into VEDIT, saved
+    to and loaded from disk.
+
+*   Context sensitive help.  Pressing the help key gives you precisely the
+    information you need at the moment.  The help text is user changeable and
+    expandable.  Add your own help prompts and messages.
+
+*   Integrated mouse support.  You can quickly navigate and select from the
+    menu system, access help, scroll to other parts of the file, highlight,
+    copy/move blocks and switch between windows with a mouse.
+
+*   Optional scroll bars show your relative position in the file and simplify
+    mouse support.  When scroll bars are disabled, the mouse can still access
+    "stealth" scroll bars.
+
+*   "Point and shoot" file selection.  Use the cursor keys or mouse to
+    highlight the desired file or use incremental searching.  Easily change
+    drive, directory and the file selection "filter".
+
+*   Auto-save of files.  VEDIT can automatically save all modified files
+    after a configurable number of minutes.  Helps prevent loosing your work
+    due to power failures, etc.
+
+*   Multi-level Undo.  Up to 1000 of the most recent edit changes can be
+    reversed keystroke by keystroke or line by line.  Deleted text can be
+    re-inserted in its original position or anywhere else.
+
+*   Flexible block operations.  Process blocks of text on a character, line,
+    file, or column basis.  Blocks may be moved or copied directly or saved
+    in a scratchpad buffer.  Search/replace within blocks.  Convert blocks
+    to upper case, lower case or switch case.
+
+*   Automatic indenting simplifies editing of structured programs; block
+    indent/undent permits quick restructuring.  Check for proper nesting of
+    parentheses, e.g.~"{" and "}", aids C programming.
+
+*   Execute single DOS commands (DIR, compilers, V-SPELL, etc.) or enter DOS
+    and return later.  With V-SWAP loaded, you can have more memory available
+    when you enter DOS from within VEDIT than before you ran VEDIT!
+
+*   Powerful search and replace.  Supports sophisticated pattern matching,
+    reverse searching, selective and global replace.  Recall and editing of
+    search/replace strings and most other prompts.
+
+*   Flexible printing with variable margins and page size.  Print a block of
+    text or the entire file with single, double or triple spacing.  You can
+    also "print" to a file.
+
+*   ASCII table.  Pop up the ASCII table or insert any desired control,
+    printer or graphic character into the text.  IBM PC box drawing
+    characters are easily accessed.
+
+*   Horizontal scrolling for editing long lines, e.g. spreadsheets and
+    data files.  Optionally, long lines can be wrapped onto multiple screen
+    lines so that you can see the entire line at once.
+
+*   Fully adjustable tab positions.  The <Tab> key can enter a tab character
+    or, optionally, spaces to the next tab position.
+
+*   Word processing.  Word wrap, paragraph formatting between adjustable
+    margins, optional justification, printing.  (Does NOT enter any "special"
+    control character into the text.)  Can read/write WordStar compatible
+    files.
+
+*   Word Processor emulation.  VEDIT can closely emulate other editors and
+    word processors.  Contains options for emulating common cursor positioning
+    modes, other block operations, various styles of searching, functions
+    performed by the <Tab>, <Backspace> and <Enter> keys, and much more.
+
+*   Speed.  Completely written in assembly language the VEDIT Family editors
+    offer stunning speed.  (10 to 100 times faster than the competition on
+    large files where speed really counts.)
+
+*   Small size.  VEDIT Jr. is only 65K in size and VEDIT and VEDIT PLUS are
+    only 85K.  There are no overlays - VEDIT.EXE is all you need.  (The
+    on-line help files are optional.)
+
+*   Totally configurable.  The keyboard layout is completely configurable -
+    assign any key to any function.  Any desired number of keystroke macros
+    can be built in.  Default settings of all switches and parameters, screen
+    colors can be configured.  Configurable tab-fill and "newline" display
+    characters.  Selectable hardware/software cursor, cursor blink rate (or
+    no blink) and much more.
+
+*   All configuration changes can be saved directly in the VEDIT.EXE file
+    (DOS only) or to easily edited VEDIT.KEY and VEDIT.CFG config files.
+
+*   Easy installation.  The automated installation takes only a few minutes.
+    It places VEDIT, its help file(s) and macro files into a selected
+    directory, e.g. "C:\VEDIT".
+
+    You can also copy VEDIT.EXE to a floppy disk and immediately run it on
+    another computer - no directories to create, no environmental variables
+    to fiddle with.
+
+*   The VEDIT Family editors are available for the PCDOS/MSDOS, XENIX/UNIX,
+    QNX, FlexOS, and IBM 4680 operating systems.
+
+*   V-SPELL, an exceptionally fast and flexible spelling corrector is
+    available and can be run with a single keystroke.  A fully functional
+    demo disk of V-SPELL is also available.
+
+VEDIT has these additional features:
+
+*   Multiple file editing.  Simultaneously edit two, three, four or more
+    files (up to 37), each up to 2 Gigabytes (2000 Megabytes) in size.
+    Efficiently edits huge text, data and binary files.
+
+*   Flexible windowing.  Display each file you are editing in its own variable
+    sized window or toggle between files using just one window.  Set the color
+    for each window.  Different parts of one file can be displayed in separate
+    windows.  Windows can be zoomed to full screen and de-zoomed.
+
+*   Multi-mode display.  Each window can display in five different ASCII
+    modes, in hexadecimal or in EBCDIC.  Or split the screen to view any file
+    in multiple modes at once.
+
+*   Regular expressions for even more powerful search and replace operations.
+
+*   36 text registers may be used as scratch-pad buffers for extensive "cut
+    and paste" operations.  Blocks can be copied from one file to another.
+
+*   All "macros" written in the VEDIT PLUS programming language can be run
+    by VEDIT.  This includes the supplied Compiler Support, a simple print
+    formatter, split-screen file comparison macro, sort macro and a "grep-
+    like" multiple file processing macro.
+
+*   Integrated, menu-driven Compiler Support.  Popular compilers, assemblers,
+    linkers, debuggers and Make programs can be run from within VEDIT.  If any
+    compilation errors are reported, it automatically loads the correct source
+    file and positions the cursor on the error.  You can then make corrections
+    and press a key to move to the next error, or recompile.
+
+*   The Compiler Support automatically adjusts to the needs of different
+    programs in different directories, e.g. one program may be compiled as
+    "large model" while another is compiled as "small model".  Compiler and
+    other options can also be changed easily via menus.  Includes on-line help
+    for compiler options.
+
+*   The innovative V-SWAP memory manager does much more than swap VEDIT out of
+    memory when running large compilers, debuggers or otherwise shelling out
+    to DOS.  V-SWAP can even swap TSRs such as pop-up utilities and network
+    drivers out of memory.
+
+    For example, before you enter VEDIT you might have 500K of available
+    memory; after shelling out to DOS from within VEDIT you might now have
+    580K of available memory!
+
+    V-SWAP solves the common memory-crunch problems of large compilers and
+    debuggers once and for all.
+
+*   The Compiler Support works with Make programs and "makefiles" to further
+    automate program development.  It even tracks compilation errors reported
+    by different compilers run within one Make script.  Requires no changes
+    to your existing "makefiles".
+
+*   The following Make programs are supported:
+
+    Microsoft NMAKE
+
+    Borland MAKE
+
+    Avocet MAKE
+
+    Other UNIX style Make programs will also work with the Compiler Support.
+
+*   VEDIT and VEDIT PLUS support these and other compilers:
+
+    Microsoft - C++, C, Quick C, Basic, Fortran, Cobol, MASM Assembler
+    Borland - C++, Turbo C, Turbo Assembler, Turbo Pascal,
+    2500 A.D. - Most Cross-compilers and Cross-assemblers
+    Acucobol - Cobol
+    Avocet - All Compilers, Assemblers and Cross-compilers
+    Lahey - Fortran 77, Personal Fortran 77
+    Metaware - High C
+    Micro Focus - Cobol
+    Microrim - Rbase Compiler
+    Nantucket - Clipper Compiler
+    Phoenix - PASM Assembler
+    Realia - Cobol
+    SVC - Fortran
+    Watcom - C Compiler
+    Zortech - C++
+
+VEDIT PLUS adds a powerful, interactive macro programming language.
+
+*   Macro language is accessed via "Command Mode" - just a keystroke away.
+    Any command line entered is immediately executed - there is no tedious
+    compiling.  Permits creating and running macros "off the cuff".
+
+*   Commands can be combined to create powerful "macros" which save time by
+    automating complex editing operations.  Macros can be saved to disk and
+    loaded from disk.  Macros can be assigned to function keys or can be
+    loaded into any of the 36 "text registers"; macros can then be revised
+    and/or run directly from the text register.
+
+*   Source level debugging.  Complex macros can be debugged by setting
+    breakpoints and tracing.  By running the Command Mode in its own window
+    the effect of each command (typed in or traced) can be observed on the
+    file(s) in the remaining window(s).
+
+*   On-line calculator.  Any algebraic expression entered on the command line
+    is immediately calculated and displayed.
+
+*   Complete numerical capability with 24 bit resolution (+/- 8,388,607).
+    100 "variables", expression evaluation with numerical, logical and
+    relational functions.
+
+*   Auto-execution.  A file containing "macro" commands can be specified for
+    automatic execution when VEDIT PLUS is invoked.
+
+*   Program flow control with looping, "REPEAT UNTIL", "IF THEN", "IF THEN
+    ELSE", "CASE" and conditional "JUMP".  Numeric, character and string
+    testing.
+
+*   36 text registers may hold filenames, search strings, blocks of text or
+    entire files.  They can be directly edited.  Single command comparison of
+    two files or two text registers.
+
+*   Extensive file handling.  Multiple file editing.  Files can be split and
+    merged.  Blocks of text can be copied between files.  Access/log-into any
+    drive and sub-directory.  Easy recovery from running out of disk space -
+    delete files or insert another disk.
+
+*   Interactive input and output.  Messages and prompts can be displayed on
+    the screen.  Input can be in the form of single characters, character
+    strings, numbers, or numerical expressions.
+
+*   Screen control (Forms entry).  Address, write and erase the screen (or
+    individual windows) - write application programs (macros) with windows,
+    menu prompts and forms entry.
+
+*   Flexible window control.  Creating, deleting, size, position and color of
+    windows is fully programmable.
+
+*   Hardware access.  Macros can peek/poke memory and I/O ports, access system
+    and BIOS functions, even call assembly language programs.
+The VEDIT editors have important network support features:
+
+*   File locking.  The files being edited by one user cannot be modified by
+    another user.
+
+*   Network printers are supported.  Print jobs are released without having
+    to exit VEDIT.  Option whether VEDIT includes a "page eject" at the end
+    of each print job.
+
+*   Flexible configuration.  Each user on the network can have a separate
+    executable VEDIT.EXE file or all users can share one VEDIT.EXE file.  In
+    case of one shared VEDIT.EXE file, each user can then have a configuration
+    file which configures VEDIT to their personal preferences upon startup.
+
+*   (VEDIT and VEDIT PLUS only)  The V-SWAP program can temporarily swap
+    network drivers out of memory, when necessary, for running large compilers
+    and debuggers.
+
+    Many users find that they cannot run their compilers when their network
+    drivers are installed in memory.  VEDIT and V-SWAP solve this common
+    problem.
+
+Five ready to use programs or "macros" are supplied with VEDIT and VEDIT PLUS.
+These macros can automatically execute when the editor is invoked.  This
+allows someone without any knowledge of VEDIT to use these or custom macros.
+
+*   Integrated Compiler Support.  This was described above.
+
+*   WILDFILE macro.  This very useful macro lets you perform a search, search
+    and replace, or run another macro on an entire group of files.  The group
+    of files may be specified using the wildcards "?" and "*".  (WILDFILE
+    performs a superset of the UNIX "grep" command.)
+
+*   File comparison macro.  Displays the differences between two files on the
+    screen and lets you merge/edit them in any way desired.  After displaying
+    a difference the macro can re-align the files and then continue looking
+    for further differences.  For example, after finding where revisions were
+    made, you can copy blocks of text from one file to the other.
+
+*   Mailing list sort macro.  Sorts a typical list of mailing addresses into
+    alphabetical order.
+
+*   Print formatting macro.  This extends VEDIT and VEDIT PLUS's printing
+    capabilities by printing files with a header and page number on each page.
+    Containing only a dozen commands, it also serves as a simple example of a
+    useful macro.  It can be readily extended for fancier print formatting.
+
+VEDIT and VEDIT PLUS come with two libraries of additional macros.  The
+"Command Macros" can be loaded from disk and executed at any time.  The
+"Keystroke Macros" can be built into the editor and assigned to a "hot key".
+These libraries are constantly being expanded.
+
+*   Command Macro library.  Includes box drawing, splitting/merging very
+    large files, converting tabs to spaces.
+
+*   Keystroke Macro library.  Includes selecting window color from a color
+    chart, duplicating characters and lines, moving the cursor by sentence,
+    listing lines containing a text string, transposing characters, counting
+    words and much more.
+
+Since all macros are supplied in "source code", they also serve as elaborate
+examples of VEDIT PLUS macro programming.  And you can modify them to suit
+your personal needs.
+
+

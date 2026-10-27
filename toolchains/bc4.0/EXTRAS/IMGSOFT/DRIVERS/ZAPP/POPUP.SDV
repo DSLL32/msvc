@@ -1,0 +1,33 @@
+$VNumPopups = VNumPopups + 1$
+$TAB(VNumPopups-1)$POPUP "$MenuItem.Name$"
+$TAB(VNumPopups-1)${
+	$LOOP MenuItem.MenuItems$
+	$IF MenuItem.MenuItemType == "POPUP"$
+	$INPUT "popup.sdv"$
+	$ELSE$
+		$IF MenuItem.MenuItemType == "SEPARATOR"$
+$TAB(VNumPopups)$MENUITEM SEPARATOR
+		$ELSE$
+			$IF MenuItem.InitialState == "Grayed"$
+			$VAR VState = ", GRAYED"$
+			$ELSE$
+				$IF MenuItem.InitialState == "CHECKED"$
+				$VAR VState = ", CHECKED"$
+				$ELSE$
+				$VAR VState = ""$
+				$END IF$
+			$END IF$
+			$IF MenuItem.AccelKey != ""$
+			$VHasAccels = "Y"$	// Global Flag to indicate accelerators
+			$END IF$
+			$IF MenuItem.AccelText != ""$
+$TAB(VNumPopups)$MENUITEM "$MenuItem.Name$\t$MenuItem.AccelText$", IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$ELSE$
+$TAB(VNumPopups)$MENUITEM "$MenuItem.Name$", IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$END IF$
+		$END IF$
+	$END IF$
+	$END LOOP$
+$TAB(VNumPopups-1)$}
+$VNumPopups = VNumPopups - 1$
+

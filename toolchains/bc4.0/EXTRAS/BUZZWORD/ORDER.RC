@@ -1,0 +1,23 @@
+
+
+#include "order.h"
+
+
+Form54Menu MENU
+   BEGIN
+   POPUP "File"
+      BEGIN
+      MENUITEM "E&xit",   IDM_WINEXE_EXIT
+      END
+   END
+
+Form122Menu MENU
+   BEGIN
+   POPUP "File"
+      BEGIN
+      MENUITEM "E&xit",   IDM_WINEXE_EXIT
+      END
+   END
+152 ICON LOADONCALL FIXED DISCARDABLE IMPURE WG_ICO.ICO
+
+

@@ -1,0 +1,225 @@
+{*-----------------------------------------------------------------
+ * Dialog Method implementations - T$CAP(Dialog.Name)$    
+ *-----------------------------------------------------------------}
+constructor T$CAP(Dialog.Name)$.Init(AParent: PWindowsObject; AName :PChar);
+begin
+	$IF Dialog.ClassName != ""$ 		  { Use DlgWindow if class specified}
+	TDlgWindow.Init(AParent, AName);
+	$ELSE$
+	TDialog.Init(AParent, AName);
+	$END IF$
+	$LOOP Dialog.listboxs$
+	New($"Lb"+Listbox.Name$, InitResource(@Self, $Listbox.Id$));
+	$END LOOP$
+	$LOOP Dialog.edits$
+	New($"Ed"+Edit.Name$, InitResource(@Self, $Edit.Id$, $Edit.Length$));
+	$END LOOP$
+	$LOOP Dialog.statics$
+	New($"St"+Static.Name$, InitResource(@Self, $Static.Id$, $Static.Length$));
+	$END LOOP$
+	$LOOP Dialog.CheckBoxs$
+	New($"Cb"+Checkbox.Name$, InitResource(@Self, $Checkbox.Id$));
+	$END LOOP$
+	$LOOP Dialog.ComboBoxs$
+	New($"Co"+ComboBox.Name$, InitResource(@Self, $ComboBox.Id$, $ComboBox.Length$));
+	$END LOOP$
+	$LOOP Dialog.RadioButtons$
+	New($"Rb"+RadioButton.Name$, InitResource(@Self, $RadioButton.Id$));
+	$END LOOP$
+	{$PROTECTBLOCK	"d"+Dialog.Name+"Constructor"$}
+end;
+
+$IF Dialog.ClassName != ""$  
+{*-----------------------------------------------------------------
+ * procedure T$CAP(Dialog.Name)$.GetWindowClass
+ * Allows window class info to be modified (icon, color, etc.)
+ *-----------------------------------------------------------------}
+procedure T$CAP(Dialog.Name)$.GetWindowClass(var AWndClass: TWndClass);
+begin
+	TDlgWindow.GetWindowClass(AWndClass); { Get the default class }
+	$IF Dialog.IconFile != ""$
+	AWndClass.hIcon := LoadIcon(HInstance, '$Dialog.Name$');
+	$END IF$	
+	{$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"GetWindowClass"$}
+end;
+
+{*-----------------------------------------------------------------
+ * function T$CAP(Dialog.Name)$.GetClassName
+ * The class name must match the CLASS statement in the .DLG resource.
+ *-----------------------------------------------------------------}
+function T$CAP(Dialog.Name)$.GetClassName: PChar;
+begin
+	GetClassName := '$Dialog.ClassName$';
+end;
+$END IF$
+
+{*-----------------------------------------------------------------
+ * procedure T$CAP(Dialog.Name)$.SetupWindow
+ * Setup all child windows and controls.
+ * Perform any window setup operations requiring a window handle.
+ *-----------------------------------------------------------------}
+procedure T$CAP(Dialog.Name)$.SetupWindow;
+$IF ToolBar.Name != ""$
+var pTB : PToolBar;
+$END IF$
+begin
+$IF ToolBar.Name != ""$
+	{ Create ToolBar - This is a child window so OWL will delete }
+	pTB := New(PToolBar, Init(@Self, $ToolBar.H$));	
+	$LOOP ToolBar.ToolItems$
+	pTB^.AddToolItem(@Self, '$ToolItem.ToolType$', CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		'N$ToolBar.Name$$ToolItem.Name$', 'S$ToolBar.Name$$ToolItem.Name$', '$ToolItem.DrawShadow$', '$ToolItem.DrawBorder$');
+	$END LOOP$
+
+$END IF$
+$IF Dialog.ClassName != ""$ 		  { Use DlgWindow if class specified}
+	TDlgWindow.SetupWindow;
+$ELSE$
+	TDialog.SetupWindow;
+$END IF$
+$IF Dialog.Caption != ""$
+	SetWindowText(HWindow, '$Dialog.Caption$');
+$END IF$
+$LOOP Dialog.RadioButtons WHERE RadioButton.IsInitialCheck == "Y"$
+	$"Rb"+RadioButton.Name$^.Check;	 { Set Initial Check }
+$END LOOP$
+$LOOP Dialog.CheckBoxes WHERE CheckBox.IsInitialCheck == "Y"$
+	$"Cb"+CheckBox.Name$^.Check;	 { Set Initial Check }
+$END LOOP$
+$LOOP Dialog.ComboBoxs WHERE ComboBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ComboBox.InitialData$
+	{ Fill Combo with initial values }
+	$LOOP AInitialData$
+	$"Co"+ComboBox.name$^.AddString('$AInitialData.Value$');
+	$END LOOP$
+$END LOOP$
+$LOOP Dialog.ListBoxs WHERE ListBox.InitialData != ""$
+$ARRAY AInitialData$
+$FILLARRAY AInitialData ListBox.InitialData$
+	{ Fill List Box with initial values }
+	$LOOP AInitialData$
+	$"Lb"+ListBox.name$^.AddString('$AInitialData.Value$');
+	$END LOOP$
+$END LOOP$
+	{$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"SetupWindow"$}
+end;
+
+{*-----------------------------------------------------------------
+ * function T$CAP(Dialog.Name)$.CanClose
+ * Determine if dialog should be allowed to update
+ *-----------------------------------------------------------------}
+function T$CAP(Dialog.Name)$.CanClose : Boolean;
+var I : Word;
+begin
+$LOOP Dialog.Edits$
+$IF Edit.Validation == "Mandatory"$
+	if $"Ed"+Edit.Name$^.GetText(WorkStr, 80) = 0 then
+	begin
+		MessageBox(HWindow, 'Mandatory field requires input.', 'Error', 
+	  	 MB_OK or MB_ICONEXCLAMATION);
+		SetFocus($"Ed"+Edit.Name$^.HWindow);	 { Position cursor to error }
+		CanClose := false;
+		exit;
+	end;
+$ELSE$
+	$IF Edit.Validation == "Integer"$
+	$"Ed"+Edit.Name$^.GetText(WorkStr, 80);
+	I := 0;
+	while WorkStr[I] <> #0 do
+	begin
+		if ((WorkStr[I] < '0') or (WorkStr[I] > '9')) 
+			and (WorkStr[I] <> '-') then
+		begin
+		MessageBox(HWindow, 'Invalid integer input.', 'Error', 
+	  	 MB_OK or MB_ICONEXCLAMATION);
+		SetFocus($"Ed"+Edit.Name$^.HWindow);	 { Position cursor to error }
+		CanClose := false;
+		exit;
+		end;
+		Inc(I);
+	end;
+	$ELSE$
+		$IF Edit.Validation == "Float"$
+	$"Ed"+Edit.Name$^.GetText(WorkStr, 80);
+	I := 0;
+	while WorkStr[I] <> #0 do
+	begin
+		if ((WorkStr[I] < '0') or (WorkStr[I] > '9')) 
+			and (WorkStr[I] <> '-') and (WorkStr[I] <> '.') then
+		begin
+		MessageBox(HWindow, 'Invalid real number input.', 'Error', 
+	  	 MB_OK or MB_ICONEXCLAMATION);
+		SetFocus($"Ed"+Edit.Name$^.HWindow);	 { Position cursor to error }
+		CanClose := false;
+		exit;
+		end;
+		Inc(I);
+	end;
+		$END IF$
+	$END IF$
+$END IF$
+$END LOOP$
+	CanClose := true;
+	{$PROTECTBLOCK	"d"+CAP(Dialog.Name)+"CanClose"$}
+end;
+$VAR VCancel = "N"$
+$LOOP Dialog.Buttons$  
+	$IF Button.Id == "IDCANCEL"$
+	$OR Button.Id == 2$
+		$VCancel = "Y"$
+	$END IF$
+$END LOOP$
+$IF Dialog.ClassName != ""$
+$AND VCancel == "N"$
+{*-----------------------------------------------------------------
+ * procedure T$CAP(Dialog.Name)$.Cancel
+ * Overide Cancel method because TDlgWindow calls CanClose on a 
+ * Cancel
+ *-----------------------------------------------------------------}
+procedure T$CAP(Dialog.Name)$.Cancel(var Msg: TMessage);
+begin
+	Destroy;	{ Normal EndDlg() calls CanClose() }
+end;
+$END IF$
+{*-----------------------------------------------------------------
+ * Dialog Message Response Methods  - T$CAP(Dialog.Name)$
+ *-----------------------------------------------------------------}
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+procedure T$CAP(Dialog.Name)$.CM$ToolBar.Name+ToolItem.Name$(var Msg: TMessage);
+	$VAR VLinkToName = ToolItem.LinkToName$		{ setup vars for linkto code }
+	$VAR VLinkToType = ToolItem.LinkToType$
+	$VAR VItemName = ToolItem.Name$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+ToolBar.Name+ToolItem.Name$
+	$INPUT "linkto.sdv"$	{ insert linkto code }
+end;
+$END LOOP$
+$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+procedure T$CAP(Dialog.Name)$.CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(var Msg: TMessage);
+	$VAR VLinkToName = MenuItem.LinkToName$		{ setup vars for linkto code }
+	$VAR VLinkToType = MenuItem.LinkToType$
+	$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+VItemName$
+	$INPUT "linkto.sdv"$	{ insert linkto code }
+end;
+$END LOOP$
+$LOOP Dialog.Buttons$  
+	$IF Button.Id == "IDOK"$
+	$OR Button.Id == 1$
+procedure T$CAP(Dialog.Name)$.Ok(var Msg: TMessage);
+	$ELSE$
+		$IF Button.Id == "IDCANCEL"$
+		$OR Button.Id == 2$
+procedure T$CAP(Dialog.Name)$.Cancel(var Msg: TMessage);
+		$ELSE$
+procedure T$CAP(Dialog.Name)$.Msg$Button.Name$(var Msg: TMessage);
+		$END IF$
+	$END IF$
+	$VAR VLinkToName = Button.LinkToName$		{ setup vars for linkto code }
+	$VAR VLinkToType = Button.LinkToType$
+	$VAR VItemName = Button.Name$
+	$VAR VProtectTag = "d"+CAP(Dialog.Name)+Button.Name$
+	$INPUT "linkto.sdv"$	{ insert linkto code }
+end;
+$END LOOP$
+

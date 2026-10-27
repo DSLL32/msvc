@@ -1,0 +1,158 @@
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 // Flag if there are Toolbars in app
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$ARRAY AModules$									 	// Array of all pgm modules
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$	
+	$ADDVAL AModules Window.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP AModules$	 									// Init all new module files
+	$OUTPUT AModules.Value+".cpp"$		// Create Module Files with hdr info
+	$INPUT "modhdr.sdv"$								
+	$OUTPUT AModules.Value+".hpp"$		// Use APPEND to add to these
+$END LOOP$
+$IF VToolBarExists == "Y"$			 	// Flag if there are Toolbars in app
+$ADDVAL AModules "jtools"$	 			// Add ToolBar Module after others
+$END IF$
+$OUTPUT VPgmName+".hpp"$		// Create Application Hdr File
+$INPUT "apphdr.sdv"$				// Initialize App Header				
+$INPUT "mak.sdv"$					// Generate MAKE file
+$INPUT "rc.sdv"$					// Generate RC file
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$INPUT "jtools.sdv"$			// Generate Tool Bar Class Files
+$END IF$
+$OUTPUT VPgmName+".cpp"$		// Must specify an output file
+//***************************************************************************
+// $System.OutFile$ - $application.desc$
+// $System.Date$ - $System.Time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"AppRevisions"$
+#include "$VPgmName$.hpp"				// Main App Class Definitions
+//$PROTECTBLOCK	"GlobalVars"$
+$LOOP Application.Windows$
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to App Definition file
+	$ELSE$
+		$APPEND Window.ModuleName+".hpp"$		// Append to module file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all Windows
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".hpp"$		// Append to module file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all dialogs
+$APPEND VPgmName+".hpp"$		// Append to App Definition file
+
+class $Application.name$App : public TApplication {
+public:
+	$Application.name$App(LPSTR AName, HINSTANCE hInstance, HINSTANCE hPrevInstance,
+    LPSTR lpCmdLine, int nCmdShow)
+		: TApplication(AName, hInstance, hPrevInstance, lpCmdLine, nCmdShow) {};
+  
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+	virtual void InitInstance()
+	{
+  	TApplication::InitInstance();
+  	HAccTable = LoadAccelerators(hInstance, "$Application.name$");
+	}
+	$LOOP application.Dialogs WHERE COUNT(Menu.MenuItems) > 0$
+		$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	virtual BOOL ProcessAppMsg(LPMSG Message)
+	{
+		// If dialogs are using accels, change the message processing order.
+		// Caution: Do not use any accels in dialogs that would interfere 
+		// with normal dialog behavior or text input
+  	return ProcessMDIAccels(Message) || 
+			ProcessAccels(Message) || ProcessDlgMsg(Message);
+	}
+		$BREAK$
+		$END IF$
+	$END LOOP$
+$END IF$
+	virtual void InitMainWindow();
+	//$PROTECTBLOCK	"AppClass"$
+};
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+$LOOP Application.Windows$		 // Generate member functions for all windows
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Current Source
+	$ELSE$
+		$APPEND Window.ModuleName+".cpp"$		// Append to module file
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$		 // All windows
+$LOOP Application.dialogs$	// Generate member functions for all dialogs
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".cpp"$		// Append to module file
+		$INPUT "dlgmem.sdv"$	 // Process Dialog member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$
+	$APPEND AModules.Value+".cpp"$		// Append to module file
+
+//$PROTECTBLOCK	AModules.Value+"UserCode"$
+$END LOOP$
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+
+//$PROTECTBLOCK	"AppUserCode"$
+
+//
+//	Application Member Functions
+//
+void $Application.name$App::InitMainWindow()
+{
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary("$LITERAL(ADLLs.Value)$"); // Load Application DLL
+$END LOOP$
+$IF Application.DialogName != ""$
+	MainWindow = new $CAP(Application.DialogName)$(NULL, "$Application.DialogName$");
+$ELSE$
+	$LOOP Application.Windows WHERE Window.IsMain == "Y"$
+		$IF Application.Type == "MDI"$
+		MainWindow = new $Window.Name$();
+		$ELSE$
+		MainWindow = new $Window.Name$(NULL);
+		$END IF$
+		$BREAK$
+	$END LOOP$
+$END IF$
+	//$PROTECTBLOCK	"AppInitMain"$
+}
+
+int PASCAL WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+  LPSTR lpCmdLine, int nCmdShow)
+{
+	$Application.name$App $Application.name$App("$Application.Desc$", hInstance, hPrevInstance,
+		lpCmdLine, nCmdShow);
+	$Application.name$App.Run();
+	return $Application.name$App.Status;
+}
+$$
+$$ Create Borland Project File
+$$ You can use the Exists() function if you don't want to overwrite project
+$$
+$IF Exists("\objdes21\copyprj.exe") == "Y"$
+$EXEC "\objdes21\copyprj.exe \objdes21\owlcpp.prj "+VPgmName+".prj"$
+$END IF$
+

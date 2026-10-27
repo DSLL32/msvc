@@ -1,0 +1,64 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+#
+# ~VPgmName~ - Borland Make File
+#
+.autodepend
+.swap
+
+# CommonView Directory
+CVDIR=\cv3b
+BORDIR=\borlandc
+LIBPATH=$(CVDIR)\lib;$(BORDIR)\lib
+INCLUDEPATH=$(CVDIR)\INCLUDE;$(BORDIR)\include
+
+CC=bcc
+LINK=tlink
+LFLAGS= /e/v/s/n/P-/Twe/L$(LIBPATH)
+CFLAGS= -a- -c -WE -ml -Vf -P -v -DMSWIND=1
+LIBS=libcvbw mathwl import cwl 
+
+PGM=~VPgmName~
+OBJS = $(PGM).obj	\
+~LOOP AModules~
+				~AModules.Value~.obj \
+~END LOOP~
+
+$(PGM).exe: turboc.cfg $(OBJS) $(PGM).res
+     $(LINK) $(LFLAGS) @&&!
+	  c0wl.obj $(OBJS)
+	  $(PGM)
+	  nul
+	  $(LIBS)
+	  $(PGM).def
+!
+     rc -K $(PGM).res $(PGM).exe
+
+$(PGM).res: $(PGM).rc 
+     rc -r -I$(INCLUDEPATH) $(PGM).rc
+
+turboc.cfg: $(PGM).mak
+	echo -I$(INCLUDEPATH) >turboc.cfg
+	echo -L$(LIBPATH) >>turboc.cfg
+
+.cpp.obj :
+    $(CC) $(CFLAGS) $<
+.cxx.obj :
+    $(CC) $(CFLAGS) $<
+
+clean:
+	del *.obj
+	del *.exe
+	del *.res
+	del *.map
+	del *.sym
+
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE	PRELOAD MOVEABLE DISCARDABLE
+DATA	PRELOAD MOVEABLE 
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+

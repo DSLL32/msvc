@@ -1,0 +1,35 @@
+;
+;	-- Typical Assembly language subroutines --
+;
+; FILL - Fill 'CX' locations with 'AL' starting at (BX).
+;	 Return: BX = BX + CX; DX saved.
+;
+FILL:	PUSH	DX		;Save DX
+	MOV	DL,AL		;Save char in DL
+	JCXZ	#1		;Just return if CX == 0
+;
+	MOV	[BX],DL		;Fill first location
+	MOV	DX,BX		;Move BX to DX
+	INC	DX		;DX is Move destination
+	DEC	CX		;Account for one filled pos
+	CALL	MOVEBC		;Fill is overlapped block-move
+	MOV	BX,DX		;BX-> past last fill
+#1:	POP	DX
+	RET
+;
+; CONVUC - Convert lower case letter in 'AL' to upper case.
+;
+CONVUC:	CMP	AL,'a'		;Is char at least a 'a'?
+	RC			;No, not lower case
+	CMP	AL,'z'+1	;Is char greater than 'z'?
+	RNC			;Yes, not lower case
+	AND	AL,5FH		;Else convert lower to upper case
+	RET
+;
+; REVCAS - Reverse upper/lower case for letters.
+;
+REVCAS:	CALL	LETCHK		;Is the char a letter?
+	JNZ	#1		;No, don't change it
+	XOR	AL,020H		;Reverse upper and lower case
+#1:	MOV	CL,AL		;Also return char in C
+	RET

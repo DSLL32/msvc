@@ -1,0 +1,46 @@
+$IF VLinkToType == "Dialog"$
+	$LOOP Application.Dialogs WHERE Dialog.Name == VLinkToName$
+		$IF Dialog.IsModal == "N"$
+			$CAP(Dialog.Name)$* p=new $CAP(Dialog.Name)$(this);
+			p->Show();
+		$ELSE$
+			$CAP(Dialog.Name)$* p=new $CAP(Dialog.Name)$(this);
+			p->Show();
+			delete p;		 // Modal Dialogs don't delete themselves
+		$END IF$
+	$BREAK$
+	$END LOOP$
+$ELSE$
+	$IF VLinkToType == "Window"$
+	$LOOP Application.Windows WHERE Window.Name == VLinkToName$
+			$IF Application.Type == "MDI"$
+				$IF Window.IsMain != "Y"$
+			$VLinkToName$Win* p=new $VLinkToName$Win(this);
+				$ELSE$
+			$VLinkToName$Win* p=new $VLinkToName$Win();
+				$END IF$
+			$ELSE$
+			$VLinkToName$Win* p=new $VLinkToName$Win();
+			$END IF$
+			p->Show();
+		$BREAK$
+	$END LOOP$
+	$ELSE$
+		$IF VLinkToType == "Application"$
+			GetApp()->Run("$LITERAL(VLinkToName)$");
+		$ELSE$
+			$IF VLinkToType == "UserCode"$
+			$COPYSOURCE VLinkToName$	 // Insert User Code
+			$ELSE$
+				$IF VLinkToType == "CommonDialog"$
+				$INPUT "commdlg.sdv"$
+				$ELSE$
+					$IF VLinkToType == "SoundFile"$
+			sndPlaySound("$LITERAL(VLinkToName)$", 0);
+					$END IF$
+				$END IF$
+			$END IF$
+		$END IF$
+	$END IF$
+$END IF$
+

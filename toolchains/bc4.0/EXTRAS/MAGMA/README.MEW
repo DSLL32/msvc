@@ -1,0 +1,18 @@
+The \BORLANDC\MEWEL directory contains several demos of the MEWEL User
+Interface Library, a multi-platform UI which provides source code
+compatibility between Windows, DOS text and DOS graphics. There are
+three demos included :
+
+  GUIDEMO  - a general purpose demo of the DOS graphics version of
+             MEWEL. Included in the demo is a clone of the Windows
+             CLOCK and bitmap manipulation. All Windows controls are
+             demonstrated as well.
+  TEXTDEMO - a general purpose demo of the text mode version of MEWEL
+  CHECKERS - The OWL Checkers program running as a stand-alone DOS
+             graphics program. Prooves that OWL is a multi-platform
+             development tool.
+
+To dearchive the MEWEL demos, use the following command :
+
+  PKUNZIP MEWEL
+

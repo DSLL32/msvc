@@ -1,0 +1,37 @@
+#include <windows.h>
+#include "Tutor.h"
+Main ICON tutor.ico
+
+NMainApp BITMAP app.bmp
+NMainDialog BITMAP dialog.bmp
+NMainWindow BITMAP window.bmp
+NMainCheckBox BITMAP checkbx1.bmp
+SMainCheckBox BITMAP checkbx2.bmp
+NMainSound BITMAP sound.bmp
+
+// Dialog Resource Files
+rcinclude tutor.dlg
+
+Main MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "&New\tCtrl+N", IDM_NEW
+		MENUITEM "&Open...", IDM_OPEN
+		MENUITEM "&Save...", IDM_SAVE
+		MENUITEM "&Print...", IDM_PRINT
+		MENUITEM SEPARATOR
+		MENUITEM "&Exit", IDM_EXIT
+	}
+	POPUP "&Help"
+	{
+		MENUITEM "&About...", IDM_ABOUT
+	}
+}
+
+
+// Single table to hold all application accelerators
+Tutor ACCELERATORS
+{
+	"N", IDM_NEW, VIRTKEY, CONTROL
+}

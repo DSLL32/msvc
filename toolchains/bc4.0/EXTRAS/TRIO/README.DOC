@@ -1,0 +1,661 @@
+
+
+
+
+                                                                        1
+
+
+                                      C-INDEX
+
+
+                                 Demonstration Disk
+                                        and
+                                Product Information
+
+
+                                     C-Index/II
+                                     C-Index/PC
+
+
+
+
+                                     README.DOC
+                                   Documentation
+
+
+
+
+
+
+
+
+
+                             (c) Copyright 1983 - 1993
+
+                                    Trio Systems
+                             936 E. Green St. Suite 105
+                                Pasadena, CA  91106
+                                    818/584-9706
+                                 FAX: 818/584-0364
+
+
+
+                                                                        2
+
+
+
+                           THE C-INDEX DEMONSTRATION DISK
+
+            This Demonstration Disk is supplied to help you evaluate the
+            capabilities of C-Index.  With the manual supplied on disk,
+            interactive demonstration program and example source code,
+            you can evaluate the major features of the C-Index system.
+
+            We encourage you to make copies of the Demonstration Disk
+            software and documentation, provided that:
+
+                 a.   copies are used only for the purposes of
+                      evaluating C-Index and no money is charged for
+                      copies.
+
+                 b.   the C-Index documentation and software are not
+                      modified.
+
+                 c.   the following copyright notice appears on all
+                      copies:
+
+                      (c)Copyright 1983-1993, Trio Systems, Pasadena, CA
+
+
+            Please feel free to provide copies of the Demonstration Disk
+            to your friends and associates.
+
+
+                          FILES ON THE DEMONSTRATION DISK
+
+
+            DOCUMENTATION
+
+            The following files contain documentation about C-Index:
+
+            readme.doc          General release information.
+            cindex.doc          Excerpts from the complete manual.
+
+
+            DEMONSTRATION PROGRAM
+
+            The example program, including full source code, allows the
+            user to interactively try out all the C-Index Multi-Key
+            functions:
+
+            example.exe         Example demonstration program.
+            example.c           Main source for example program.
+            example.fil         Data file for example.
+
+
+
+                                                                        3
+
+
+                                      SUPPORT
+
+            As a C-Index customer you will receive one year of
+            Maintenance Support.  This includes free telephone support
+            for resolving problems of the system not performing
+            according to specification.  In addition, any assistance
+            required for porting C-Index to new environments is provided
+            at no charge.  In the event that you require assistance with
+            designing or debugging your application, this service is
+            provided on a consulting basis, charged at $60 per hour plus
+            expenses.
+
+            Trio Systems offers a full range of consulting services.  We
+            can assist your development staff with helpful techniques
+            for using C-Index.  We can also develop complete software
+            products for retail distribution or in-house use.
+
+                                 QUANTITY DISCOUNTS
+
+            Trio Systems offers a quantity discount for multiple copies
+            of C-Index used at a single site.  This discount schedule
+            offers significant savings over the cost of supplying each
+            programmer at the individual license price.  If you are
+            interested, please contact us for more details.
+
+
+                                     CODE SIZE
+
+            The size of the C-Index code will vary depending on the
+            compiler, the memory model being used, and how many C-Index
+            functions are used by your application.
+
+            For example, the C-Index code size for the Borland C++
+            compiler using the large memory model is about 35K. This is
+            for the code only, static memory usage is separate and
+            depends on the number of buffers specified in the CINDEX.H
+            header file.  As supplied, about 12K of static memory is
+            used (10K for buffers, 2K for additional internal memory).
+
+
+                                  PORTING C-INDEX
+
+            C-Index/II is designed to be ported to any operating system
+            with a K&R or ANSI C compiler.  Test utilities are supplied
+            to verify that your port is working.  Special design
+            considerations allow flexibility for unusual environments,
+            such VAX/VMS and Mainframe systems, without requiring major
+            code modifications.
+
+            C-Index/PC is designed to work with any compiler or
+            operating system running on an Intel architecture computer.
+            Support is provided for Borland C running under MSDOS.
+
+
+
+                                                                        4
+
+
+            EXAMPLE PORTS
+            C-Index is being used by our customers on many different
+            computer systems, including:
+
+                 MICROCOMPUTERS
+
+                    MSDOS
+                    Microsoft Windows 3.x
+                    OS/2 2.x
+                    PharLap
+                    Macintosh
+
+                 UNIX COMPUTERS
+
+                    Interactive Unix
+                    SCO Unix
+                    Sun 3 and Sparc
+                    IBM RT/AIX
+                    HP RISC
+                    DEC VAX/Ultrix
+                    NCR Tower
+                    ATT 3B2
+                    Cray
+
+                 MINI AND MAINFRAME COMPUTERS
+
+                    DEC VAX/VMS
+                    IBM 370
+
+
+
+                                                                        5
+
+
+                                     C-INDEX/II
+                                PRODUCT INFORMATION
+
+
+            C-Index/II is the advanced C-Index product. Several of the
+            advanced features that C-Index/II are:
+
+                 Files up to 8.7 Terabytes in size.
+                 Segmented (concatenated) keys.
+                 Binary, numeric and custom keys.
+                 Easy porting to new systems.
+                 File compatibility across diverse hardware.
+                 Windows memory management.
+
+
+            DIFFERENCES BETWEEN C-INDEX/II AND C-INDEX/PC
+
+            The following information lists the differences between
+            C-Index/II and C-Index/PC:
+
+
+            1. Increased Maximum File Size            ______________________________
+
+            C-Index/II uses 32 bit node pointers resulting in a maximum
+            file size of 8.7 Terabytes (trillion bytes).  C-Index/PC has
+            a maximum file size of 32 Megabytes.
+
+
+            2. Non-String Keys            __________________
+
+            C-Index/II supports index key values of any type, strings,
+            numerics, binary and custom.  The default value for indexes
+            is the string type.  No special steps need be taken to
+            specify string type keys.  To use any other type of key the
+            application program indicates to C-Index the index key type,
+            either when creating the file or by using the cchgndx()
+            function.
+
+            C-Index/PC supports null terminated string keys only.
+
+
+            3. Segmented Keys            _________________
+
+            C-Index/II provides for specifying segmented keys in single-
+            key and multi-key routines.  Segmented keys (also called
+            concatenated keys in some data managers) allows an
+            application to create a key that is made up of several
+            fields.  C-Index/II allows the keys to be of differing
+            lengths and types.  Segmented keys are variable in length.
+            There are no padding bytes added to the key to make the
+            individual segments position to fixed locations.  Instead,
+            C-Index/II keeps track of each segment separately and stores
+            only the number of bytes needed for that value.
+
+
+
+                                                                        6
+
+
+            When using the single-key routines, the application must
+            create the correct key format for all index operations.  The
+            format is a one byte (unsigned char) length indicator
+            followed by each key segment value stored end-to-end.
+
+            Multi-key routines automatically build the correct segmented
+            key values based on the datalist and indexlist
+            specification.  The dsetkey() function can also be used to
+            create search keys for dfind().
+
+
+            4. File Create Functions            ________________________
+
+            C-Index/II has two functions, bcreate() and dbcreate(), to
+            provide control over file mode and index type.
+
+
+            5. File Open Functions and Read-Only File Open Type            ___________________________________________________
+
+            C-Index/II has two function calls, bopen() and dbopen(), for
+            opening the index file.  These provide control for the
+            readonly mode and specifying index types (other than
+            string).  The additional read mode parameter allows the
+            specification of read-only access for the opened file.  This
+            solves problems for some LAN systems where users need to be
+            restricted to read only access for specific files.  The
+            bopen() and dbopen() functions are used in place of the
+            mopen() and dmopen() functions of C-Index/PC.  An indexlist
+            parameter specifies files with non-string indexes.
+
+            6. Custom Keys            ______________
+
+            C-Index/II has five index key types reserved for
+            customization.  This allows the user to implement any type
+            of custom key value and collating sequence.  The function of
+            the custom key values are defined in the compiler specific
+            source files.  The format of the custom key entry must begin
+            with a one byte length count.  Otherwise, the action of the
+            custom key comparison is entirely under the control of the
+            code defined by the user.
+
+
+
+                                                                        7
+
+
+            7. Multi-Key Functions Support New Key Types            ____________________________________________
+
+            The C-Index/II Multi-Key functions allow you to specify any
+            field as a key.  The keytype field of the datalist supports
+            the following types:
+
+            Field     Key
+            Type      Type            ______________
+            Any       NONKEY         Not a keyed field.
+            STRINGFLD STRINGIND      ASCIIZ string keys.
+            STRINGFLD NOCASEIND      ASCIIZ string key, ignore case
+            BINARYFLD BINARYIND      Binary keys.
+            SHORTFLD  SHORTIND       Short integer keys (16 bit).
+            INTFLD    INTIND         Integer keys (compiler specific).
+            LONGFLD   LONGIND        Long integer keys (32 bit).
+            FLOATFLD  FLOATIND       Float keys (compiler specific).
+            DOUBLEFLD DOUBLEIND      Double keys (compiler specific).
+            SEGFLD    SEGIND         Segmented keys.
+            BINARYFLD CUS1IND        Custom key #1 (customer supplied).
+            BINARYFLD CUS2IND        Custom key #2 (customer supplied).
+            BINARYFLD CUS3IND        Custom key #3 (customer supplied).
+            BINARYFLD CUS4IND        Custom key #4 (customer supplied).
+            BINARYFLD CUS5IND        Custom key #5 (customer supplied).
+
+
+            8. Creating the Search Key using dsetkey            ________________________________________
+
+            C-Index has a function, "dsetkey", to simplify creating a
+            key value for use with dfind.  The dsetkey function returns
+            the correct key value based on the index number and a
+            datalist.  The datalist would typically be the same as the
+            one used for the dread() function.  Before calling dsetkey
+            the field values required for the key must be stored in the
+            field locations pointed to by the datalist.  The dsetkey
+            function then reads these values and builds a key.  For most
+            types of keys it is not useful to call this function,
+            however, for binary and segmented keys, it simplifies the
+            process so that you do not need to be concerned with
+            internal representations of the search key.
+
+            9. Diverse Computer File Compatibility            ______________________________________
+
+            C-Index/II has provisions for reading and writing files on a
+            machine with an architecture different than Intel.  This
+            involves changing the byte order of shorts, ints, and longs
+            as required by the specific machine reading the file.  For
+            example, 68000 computers and 370 mainframes use the high to
+            low value byte ordering, whereas 8086 family processors and
+            VAX computers use low to high value byte ordering.  With
+            this feature data files can be created using any computer
+            and read on any computer.
+
+
+
+                                                                        8
+
+
+            10. Full Tree Deletion            ______________________
+
+            C-Index/II has the ability to re-use nodes that have been
+            made empty through deletion of keys.  For example, this
+            allows the program to add any combination of keys, delete
+            all of the keys, and then re-add any other combination of
+            keys without any wasted space being left in the file.
+            C-Index/PC has partial space reclamation that reuses the
+            space under most circumstances.
+
+
+            11. Improved Reading Performance in Shared Mode            _______________________________________________
+
+            When a file is opened in shared mode in C-Index/PC, the
+            cnext, cprev, and dseq functions must always simulate
+            sequential access by repositioning the current pointer with
+            the cfind function.  C-Index/II improves this by requiring
+            repositioning only in the event that the file has been
+            changed.
+
+
+            12. C-Index/II File Format            __________________________
+
+            C-Index/II and C-Index/PC file formats are not the same.
+            The larger maximum file size of C-Index/II requires the file
+            header and node header information to be stored as 32 bits.
+
+            The C-index/II header includes space for "custom"
+            information, a 100 byte binary record that can be written
+            and read directly from the header.  Also, the header has a
+            field for the number of records stored in the file and the
+            number of deleted record numbers stored in DELINDX (used
+            internally by the multi-key routines).
+
+            A general purpose utility program, convert, is provided to
+            read the file in C-Index/PC format and write it out in
+            C-Index/II format.  A new function, cconvert has been added
+            for converting files from within an application.  This
+            functions works in a similar manner to the cbuild function.
+
+
+            13. Source Code and Portability            _______________________________
+
+            C-Index/II source code uses a more conventional method for
+            building and maintaining the libraries.  The C-Index/II code
+            is easier than C-Index/PC to port to new compilers and
+            operating systems.  C-Index/PC only supports 16 bit PC type
+            environments.  C-Index/II can be ported to any environment.
+
+
+            14. Changeable Node Size            ________________________
+
+            With changes to the source code, the C-Index/II node size
+            may be changed to any arbitrary size that is at least 1K.
+
+
+
+                                                                        9
+
+
+            The typical application of this feature is in CDROM access
+            where having larger nodes improves access time on slow
+            optical disk media.  C-Index/PC only support 1K node sizes.
+
+
+            15. Enhanced C-Index/II Memory Allocation            _________________________________________
+
+            In C-Index/II the space for storing current key information
+            is allocated only when an index is used by the program, and
+            released when the file is closed.  The new allocation code
+            is designed to work correctly with Windows and Mac memory
+            allocation requirements via operating system specific
+            interface code that can easily be modified to meet custom
+            methods of memory allocation.  In addition, the virtual disk
+            buffers are allocated from heap space.  Compatibility is
+            provided for mixed model memory where the heap is in far
+            space.  The code will also work where the buffers have been
+            allocated from movable heap space, such as with Windows and
+            Macintosh systems.
+
+            C-Index/PC memory is entirely statically allocated at
+            compile time.
+
+
+            16. Faster Addition of Pre-Sorted Keys            ______________________________________
+
+            C-Index/II uses fewer key comparisons for insertion by
+            employing a modified binary search of the index nodes
+            instead of a linear search.  This new technique results in
+            approximately 6 times speed improvement for sequential key
+            insertion and also improves performance for non-sorted key
+            insertion and key retrieval.
+
+
+
+                                                                        10
+
+
+            17. Record Counting Primitives            ______________________________
+
+            C-Index/II has two single-key routines to assist in keeping
+            track of the number of records that are stored in the file.
+            These primitives are used by the Multi-Key routines to
+            maintain the number of active records in a file.
+
+            C-Index/PC does not count records contained in the file.
+
+
+            18. Multi-Key Record Count            __________________________
+
+            The C-Index/II Multi-Key routines automatically keep track
+            of the number of multi-key records stored in the file.  The
+            multi-key function, dgetcnt() returns the active record
+            count in the psp->rec variable.
+
+
+            19. Custom Header Information            _____________________________
+
+            Two C-Index/II functions allow the application to read and
+            write a binary block of information into the header.  The
+            maximum number of bytes that may be stored in the header is
+            defined by MAXCUSTINFO (default value of 100).  C-Index/PC
+            does not have custom header information.
+
+
+            20. Turning Off Multi-Key Record Number Reassignment            ____________________________________________________
+
+            C-Index/PC automatically reuses record numbers.  C-Index/II
+            allows the application program to specify whether or not to
+            reuse record numbers.
+
+
+
+                                                                        11
+
+
+            21. Improvements to the Dump Utility            ____________________________________
+
+            The C-Index/II Dump utility is enhanced with five features
+            not found in C-Index/PC.
+
+            First, at the command line there is an option, seq, which
+            will cause the leaf nodes to be printed sequentially.
+
+            The second feature is the ability to print individual nodes
+            while in the manual mode.  This is convenient for searching
+            through an index and then printing out the specific node of
+            interest.
+
+            The third additional feature is the printing of key values
+            in hex and ASCII.  This allows for viewing of non-string key
+            values.
+
+            The fourth feature is to display the new header fields for
+            custom information, delete and record counts, and index key
+            types.
+
+            The fifth feauture is the ability to view a file that is
+            being modified by a C-Index program that is running as a
+            separate process.  Commands allow for locking and unlocking
+            the file to be able to view the file in a non-changing
+            state, if desired.
+
+
+
+                                                                        12
+
+
+            CHANGES TO EXISTING PROGRAMS REQUIRED FOR C-INDEX/II
+
+            C-Index/II is almost completely program compatible with
+            C-Index/PC.  A new file structure is used that requires
+            converting existing C-Index/PC files to the C-Index/II
+            format using the supplied utility programs and function
+            calls.  In order to convert existing C-Index/PC programs for
+            C-Index/II the following changes are required:
+
+            1. New Header File            __________________
+
+            In place of CINDEX.H and CINDEXSB.H the application must
+            include CNDX.H.  This in turn includes a compiler specific
+            header file, such as CNDXTC.H in the case of Borland C.
+            Both CNDX.H and the compiler specific header file must be 
+            accessible to the compiler by moving them to the application 
+            directory or adding an include file directory command to the 
+            application module.
+
+
+            2. Compiler Define            __________________
+
+            The compile command line for the application must have a
+            define for the type of compiler and operating system being
+            used so that the correct compiler specific header file will
+            be included.  For example, the compile line for the example
+            program (compiled using Borland C++ to run under MSDOS)
+            contains the defines:
+
+                 -DTC -DDOS
+
+            to specify the Borland (or Turbo) C compiler and the MSDOS 
+            operating system.
+
+
+            3. -Zp Flag is not used
+            _______________________________________
+
+            C-Index/PC require the use of the -Zp option when compiling
+            with some C compilers.  The make file and pre-compiled libraries
+            supplied with the release version of C-Index/II do not use
+            the -Zp flag.  You can recompile the library with or without
+            the -Zp flag and the structure of the C-Index/II header file
+            will not be affected.  If you have previously modified
+            C-Index/PC libraries to not use -Zp, you will have files
+            that are incompatible with the conversion utility and
+            conversion function call.  This will require that you run
+            the hdrconv utility before running the convert utility to
+            update the header information to the standard format.
+
+
+
+                                                                        13
+
+
+            4. Number of Buffers            ____________________
+
+            The number of buffers is not changeable in the C-Index/II
+            header file.  Instead, if you need to modify the number of
+            buffers, the global variable bcbnum must be set in the
+            application program to the number of desired buffers before
+            any C-Index files are opened.
+
+
+            5. Allocated Memory            ___________________
+
+            Unlike C-Index/PC, C-Index/II uses memory allocation to
+            store information about the current index pointer location.
+            This saves considerable space in the parameter structure but
+            increases the space required in the heap.  For applications
+            that are short on memory, this may require changes to ensure
+            that the heap will be large enough.  Running out of heap
+            space during any C-Index operation will result in the return
+            of the OUTOFMEM error.
+
+            If the parameter structure has been allocated off of the
+            stack as an automatic variable, the stack may not need to be
+            as large as before.  However, it is advisable to be sure the
+            application stack is large enough, since stack bugs are
+            difficult to detect and fix.
+
+
+            6. Semaphore Keys            _________________
+
+            If your application uses the msetsema, mtstsema, or mclrsema
+            functions, you will need to change your functions to create
+            C-Index/II compatible binary semaphore keys, instead of
+            C-Index/PC string semaphore keys.
+
+            8. Record Locking            _________________
+
+            Some previous versions of C-Index/PC have not required that
+            a multi-key record be locked before preforming dupdate or
+            ddelete.  C-Index/II does require such a lock when the file
+            is open in SHARED mode.  If your application does not lock
+            records in SHARED mode, either add record locking calls or
+            turn off this locking requirement by setting the nolock
+            parameter structure variable:
+
+                 psp->nolock = TRUE;
+
+
+
+
+
+
+                        C-INDEX Current Versions and Prices
+
+            C-Index/II
+            Works with All Computer Systems
+            $695.00
+            Release 4.1
+
+            C-Index/II is a functional superset of C-Index/PC.  Major
+            feature enhancements include:
+
+                 Files up to 8.7 Terabytes in size.
+                 Segmented (concatenated) keys.
+                 Binary, numeric and custom keys.
+                 Easier porting to new systems.
+                 File compatibility across diverse hardware.
+                 Improved Windows memory management.
+                 Increased maximum record size (30K).
+
+
+
+
+            C-Index/PC
+            Works with MSDOS
+            $195.00
+            Release 3.4
+
+            C-Index/PC has all the major features of C-Index/II and is
+            designed to work in the IBM PC environment.  Complete source
+            code is included for the Borland C/C++ under MSDOS.  C-Index/PC 
+            is portable to all 16 bit IBM PC operating systems, including 
+            Microsoft Windows (technical support is only provided for MSDOS).
+
+            Registered users of C-Index/PC may upgrade to C-Index/II for an  
+            additional $500 (the difference in price).

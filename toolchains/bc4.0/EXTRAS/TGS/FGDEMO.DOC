@@ -1,0 +1,688 @@
+                             FGDEMO version 3.0
+
+Ted Gruber Software                                      Voice: (702) 735-1980
+PO Box 13408                                               FAX: (702) 735-4603
+Las Vegas, NV  89112                                       BBS: (702) 796-7134
+                                                           CIS:     72000,1642
+
+------------------------------------------------------------------------------
+    FGDEMO: the demo program for Fastgraph v3.0 and Fastgraph/Light v3.0
+------------------------------------------------------------------------------
+
+This program illustrates some of the features of the Fastgraph (tm) graphics
+library. It was written by Diana Gruber, senior programmer at Ted Gruber
+Software. You can contact Ted Gruber Software at the address and phone
+numbers listed at the bottom of this file.
+
+FGDEMO is distributed with source code. It was originally compiled with the
+Microsoft C 6.0 medium memory model. You may use the source code in FGDEMO in
+your own applications. This program requires either Fastgraph version 3.0 or
+Fastgraph/Light (tm) version 3.0 to link. If you want to use this code, and
+you don't have a copy of Fastgraph, please contact Ted Gruber Software.
+
+------------------------------------------------------------------------------
+                               Running FGDEMO
+------------------------------------------------------------------------------
+
+You can install FGDEMO on a hard disk or run it from diskette. Just type
+FGDEMO at the DOS command prompt. To install FGDEMO on a hard disk, create a
+subdirectory and copy all the files from the diskette to the subdirectory.
+
+When you start FGDEMO, you will see an attractive title screen with a picture
+of a mountain and a bird flying past it. Press any key to get to the main
+menu screen. From the main menu screen you may choose options from the point
+and click vertical menus to view various Fastgraph features and effects.
+
+------------------------------------------------------------------------------
+                              Distributing FGDEMO
+------------------------------------------------------------------------------
+
+You may freely distribute FGDEMO as long as all the files are distributed
+together in their original unaltered state. If you want to zip the files
+together for BBS distribution, please use the file name FGDEMO30.ZIP for
+version 3.0 of FGDEMO. The following files are included in the FGDEMO
+distribution:
+
+Files required to run FGDEMO:
+    FGDEMO   EXE  - the Fastgraph demo program
+    14PT     FNT  - 14pt font file (packed pixel run format)
+    ORDER    FRM  - order form (can be printed from File menu)
+
+Documentation:
+    FGDEMO   DOC  - this file
+
+Source code for FGDEMO:
+    CHAR     C   - character display and management functions
+    COMMON   C   - initialization, termination, general i/o functions
+    DISPLAY  C   - functions on Display submenu
+    FGDEMO   C   - function main and screen drawing functions
+    FILE     C   - functions on File submenu
+    FUNDMTLS C   - functions on Fundamentals submenu
+    MENU     C   - define and manage the horizontal and vertical menus
+    MISC     C   - functions on Miscellaneous submenu
+    VIDEO    C   - functions on Video submenu
+
+Header files:
+    DEFS     H   - general declarations and initializations
+    BIRDMAPS H   - Bird animation bitmaps
+    TNTMAPS  H   - TNT and "Kablooy" bitmaps for explosion
+    CHAR     H   - these files contain the function declarations.
+    COMMON   H     Each one is associated with a source code file.
+    DISPLAY  H     The Microsoft C compiler creates these files
+    EDITOR   H     when the /Zg switch is used.
+    FGDEMO   H
+    FILE     H
+    FUNDMTLS H
+    MENU     H
+    MISC     H
+    UTILITY  H
+    VIDEO    H
+
+Make files:
+    BUILDBC  BAT - batch file to compile and link FGDEMO with Borland C++
+    BUILDMSC BAT - batch file to compile and link FGDEMO with MSC or QuickC
+    BUILDTC  BAT - batch file to compile and link FGDEMO with Turbo C/C++
+    FGDEMO       - make file for Microsoft C or Quick C
+    FGDEMO   MAK - make file for Borland C++ or Turbo C++
+    FGDEMO   PRJ - project file for Turbo C
+    FGDEMPC  PRJ - project file for Power C
+
+------------------------------------------------------------------------------
+                         Compiling and linking FGDEMO
+------------------------------------------------------------------------------
+
+The source code files may be recompiled using either Microsoft C, Turbo C,
+Turbo C++, Borland C++ or Power C. The medium memory model is recommended, 
+and the large model will also work. FGDEMO is too big to use the small memory 
+model.
+
+If you are using Microsoft C, you can use the make file FGDEMO (no extension)
+to rebuild FGDEMO. If you want to link FGDEMO with Fastgraph instead of
+Fastgraph/Light, change the library name FGLM to FGM in the LINK command.
+
+If you are using Power C, use the FGDEMOPC.PRJ project file. 
+
+If you are using Turbo C or Turbo C++, you can use the project file FGDEMO.PRJ
+to rebuild FGDEMO. If you are compiling from withing the IDE, set the
+compilation options to use the medium memory model. Alternatively, you can
+use the command file BUILDTC.BAT to perform the compilation and linking. If
+you want to link FGDEMO with Fastgraph instead of Fastgraph/Light, change the
+library name FGLM to FGM in the TLINK command, or in the last line of the
+project make file.
+
+You may have problems running FGDEMO in the CGA 640x200 2-color mode (mode 6)
+in the Turbo C integrated development environment. That is because the
+environment allocates all available memory, making it impossible for Fastgraph
+to allocate a virtual video page. FGDEMO requires two video pages, of which
+one is virtual in mode 6. You should be able to run FGDEMO in the other video
+modes, and you should have no trouble compiling, linking, and running FGDEMO
+from the DOS command line.
+
+We have had some reports of trouble with older versions of TLINK finding the
+Fastgraph or Fastgraph/Light libraries. If you have this problem, be sure the
+full path name of the library appears in your TLINK.CFG file. If that does
+not solve the problem, include the full library path name in the TLINK
+command. We called Borland technical support about this problem, and they
+told us there is no TLINK.CFG file supported in Turbo C version 2.0, but it is
+supported in Turbo C++ and Borland C++.
+
+If you are using Borland C++, you can use the make file FGDEMO.MAK to rebuild
+FGDEMO. If you are compiling from withing the IDE, set the compilation
+options to use the medium memory model. Alternatively, you can use the
+command file BUILDBC.BAT to perform the compilation and linking. If you want
+to link FGDEMO with Fastgraph instead of Fastgraph/Light, change the library
+name FGLM to FGM in the TLINK command, or in the last line of the project make
+file.
+
+If you have problems compiling and linking FGDEMO within the Borland C++
+environment, please check the following before you call us:
+
+              ---------------------------------------
+              troubleshooting Borland C++ compilation
+              ---------------------------------------
+
+ - The include files must exist in a path recognized by the IDE.
+   From the menu, select Options; Directories; Include Directories.
+   Make sure fastgraf.h exists in the path.
+
+ - The library files must exist in a path recognized by the IDE
+   From the menu, select Options; Directories; Library Directories
+   Make sure fglm.lib exists in the path.
+
+ - You must compile and link for the same memory model. 
+   From the menu, select Options; Compiler; Code Generation.
+   Compile for the medium model if linking with fglm.lib.
+
+
+------------------------------------------------------------------------------
+                            About the FGDEMO menus
+------------------------------------------------------------------------------
+
+The menu structure is defined in the file DEFS.H. A typdef CMD is defined
+which is a structure containing information about each menu item: the
+function called when the menu choice is activated, the descriptive name of the
+menu item, the x and y location of the menu item, and pointers to the next and
+previous items on the menu. Each menu is defined by an array of these
+structures, and is initialized at the top of MENU.C.
+
+There are two types of menus: a horizontal menu, which is the moving bar menu
+at the top of the screen, and vertical menus, also known as "pull-down"
+menus. When a pull-down menu is visible, a menu function may be activated by
+either clicking the mouse on a highlighted menu function, or by pressing
+<Enter>. Arrow keys are used to highlight the next and previous menu item,
+and a mouse may also be used.
+
+User input relevant to the menus is accepted in two places: within the
+vertical_menu function (to activate a menu choice), or in the main function
+(to control the horizontal menu). The horizontal menu is also controlled
+within the vertical menu, to the extent that if an arrow key is pressed, the
+next or previous pull-down menu becomes active.
+
+The entire screen, including the horizontal menu and the dithered background,
+is drawn at the beginning of the program and stored on the hidden page. When
+a function is called, for example "point", part or all of the visual page is
+overwritten, in this case with a pattern of points. When a key or mouse
+button is pressed, the relevant parts of the hidden page are copied back to
+the visual page using fg_transfer, resulting in quick (almost instantaneous)
+screen redraws. Occasionally, the entire hidden page needs to be completely
+redrawn, such as after the graphics file is displayed, but in most cases only
+a small part of the hidden page needs to be redrawn, usually with a single
+call to fg_drect. In general, the hidden page is assumed to have a "clean"
+copy of the horizontal menu screen throughout the program, and whenever it is
+overwritten it is immediately restored.
+
+------------------------------------------------------------------------------
+                                  Fastgraph
+------------------------------------------------------------------------------
+
+Fastgraph is a versatile, high-performance programmer's graphics library for
+DOS-based PC systems. It is powerful enough to satisfy the most demanding
+graphics application, yet it is easy enough for even the novice graphics
+programmer. Fastgraph includes more than 170 hand-optimized routines, from
+pixel display to sophisticated animation tools. This collection of routines
+provides a programmer with proven, powerful tools to take command of the PC
+and PS/2 text and graphics video environment.
+
+Fastgraph's major functional areas include:
+
+   * Video mode detection and initialization
+   * Colors, virtual colors, and palettes
+   * Graphics fundamentals, including points, solid and dashed lines,
+     polygons, circles, ellipses, solid and dithered rectangles, region
+     fill, and clipping
+   * Redefinable world space coordinate system
+   * A scalable stroked character font
+   * Image display facilities, including mode-specific and mode-independent
+     images, clipped and reversed images, image retrieval, pixel run maps,
+     PCX file display and creation, and fast image transfer
+   * Physical, virtual, and logical video page management
+   * Resizeable video pages for smooth, flicker-free panning
+   * Animation and special effects
+   * Keyboard, mouse, and joystick support
+   * Sound effects and music, both synchronous and asynchronous
+   * Support for Borland C++, Turbo C and C++, Microsoft C and QuickC,
+     Power C, Turbo Pascal, QuickBASIC, Microsoft FORTRAN, and MASM/TASM
+   * Support for small, medium, and large memory models
+   * Extensive tutorial-style user's guide and reference manual
+   * No royalties
+
+Fastgraph is an ideal development tool for entertainment and educational
+software, presentation graphics products, scientific and engineering
+applications, CAD/CAM, animation, and any application that requires robust
+graphics. Fastgraph supports 22 video modes, including VGA (standard and
+extended), EGA, MCGA, CGA, Hercules, Tandy, and monochrome and color text.
+With Fastgraph, it's possible to write programs that run in many different
+video modes by changing only a few lines of code, resulting in fast program
+development.
+
+Originally developed for use in commercial video games, Fastgraph represents
+the cutting edge in graphics technology for the IBM PC. It has been used in
+commercial products such as Accolade's Test Drive III, Day of the Viper, Steel
+Thunder, and Gunboat; ComputerEasy's Video Poker a la Carte; Compu-Teach's
+Once Upon a Time series, Puppet Playhouse, and Destination Mars; and all our
+shareware products.
+
+------------------------------------------------------------------------------
+                               Fastgraph/Light
+------------------------------------------------------------------------------
+
+Fastgraph/Light is the shareware version of Fastgraph. It includes all the
+features of Fastgraph except the world space coordinate system, the GIF
+support, and stroked character font. Unlike Fastgraph, Fastgraph/Light uses
+an external video driver (FGDRIVER) that you load before running a program
+developed with Fastgraph/Light, just as you load a mouse driver before you
+run a program that uses a mouse.  Fastgraph does not use the external video
+driver but instead includes the necessary functions directly in your EXE or
+COM file.
+
+Any programs developed using Fastgraph/Light are 100% source code compatible
+with Fastgraph. If you upgrade from Fastgraph/Light to Fastgraph, all you
+need to do is re-link your programs. As with Fastgraph, we don't charge
+royalties for using Fastgraph/Light. The Fastgraph/Light software license
+agreement allows you to distribute the external video driver without charge
+as part of your applications.
+
+------------------------------------------------------------------------------
+                               Fastgraph/Fonts
+------------------------------------------------------------------------------
+
+Fastgraph/Fonts lets you easily add bit-mapped character support to Fastgraph
+applications. The product includes 40 font files in several point sizes. A
+program can load up to 32 fonts simultaneously. Font files shipped with
+Fastgraph/Fonts may be distributed without royalties in your applications.
+
+The Fastgraph/Fonts manual includes a detailed description of the font file
+format, so you can create your own font files. PCX templates and a MAKEFONT
+utility are included to assist in font file creation.
+
+Fastgraph/Fonts requires any version of Fastgraph or Fastgraph/Light.
+
+------------------------------------------------------------------------------
+                               Fastgraph/Image
+------------------------------------------------------------------------------
+
+Fastgraph/Image is a Fastgraph add-on product that provides functions and
+utilities for managing libraries containing images and other files. While
+the product was designed to manage and display PCX, PPR, and SPR images
+stored in a library file, Fastgraph/Image can be used with any type of file,
+including bit maps, text files, and Fastgraph/Fonts font files.
+
+Functions are provided for opening a library, displaying an image file from
+a library, retrieving a file from a library, and closing a library. The
+product also includes a library management utility that lets you add, delete,
+extract, and replace files in a library.
+
+If an application uses several image files, Fastgraph/Image is especially
+valuable because it lets you distribute these images in a single file. This
+provides added security because users can't take your image files and use
+them for other purposes (at least not easily). Another benefit is that
+combining many images in a single file uses less disk space than distributing
+separate files for each image.
+
+Fastgraph/Fonts requires any version of Fastgraph.
+
+------------------------------------------------------------------------------
+                       Summary of Fastgraph functions
+------------------------------------------------------------------------------
+
+Video initialization
+--------------------
+fg-automode    determine which available video mode offers the highest 
+               resolution and number of colors
+fg-bestmode    choose the best video mode given resolution and video page
+               requirements
+fg-cursor      turn the text mode cursor on or off
+fg-egacheck    return information about the active EGA or VGA adapter and
+               display
+fg-getlines    get the number of text rows per video page
+fg-getmode     return the current video mode number
+fg-reset       erase the screen, restoring screen attributes if ANSI.SYS
+               is loaded
+fg-setlines    in EGA/VGA/SVGA text modes, establish 25, 43, or 50 line
+               mode
+fg-setmode     establish a video mode and initialize Fastgraph
+fg-svgainit    autodetect the SVGA chipset (or VESA) and initialize
+               Fastgraph's SVGA kernel
+fg-testmode    determine whether or not a video mode is available on the
+               system
+
+Coordinate systems
+------------------
+fg-getmaxx     get the maximum x coordinate in screen space
+fg-getmaxy     get the maximum y coordinate in screen space
+fg-getworld    determine the current limits of the world space coordinate
+               system
+fg-initw       initialize the world space coordinate system
+fg-setworld    define the floating point world space coordinate system
+fg-xalpha      translate screen space x coordinate to character space
+               column
+fg-xconvert    translate character space column to screen space x
+               coordinate
+fg-xscreen     translate world space x coordinate to screen space x
+               coordinate
+fg-xworld      translate screen space x coordinate to world space x
+               coordinate
+fg-yalpha      translate screen space y coordinate to character space row
+fg-yconvert    translate character space row to screen space y coordinate
+fg-yscreen     translate world space y coordinate to screen space y
+               coordinate
+fg-yworld      translate screen space y coordinate to world space y
+               coordinate
+
+Colors and palettes
+-------------------
+fg-defcolor    assign a color value to a virtual color index
+fg-getcolor    get the current color index (graphics modes) or display
+               attributes (text modes)
+fg-getdacs     get the RGB components of a block of DAC registers
+fg-getindex    get the color value assigned to a virtual color index
+fg-getrgb      get the RGB components of a specified DAC register
+fg-maprgb      map six-bit RGB components to a 16-color palette value
+fg-palette     assign a color value to a palette
+fg-palettes    define 16 palette register values
+fg-setattr     establish display attributes in text modes
+fg-setcolor    establish the current color index
+fg-setdacs     specify RGB components of a block of DAC registers
+fg-setrgb      define the RGB value of a palette or video DAC register
+
+Graphics fundamentals
+---------------------
+fg-box         draw a hollow rectangle
+fg-boxdepth    specify the outline size of a hollow rectangle
+fg-boxw        draw a hollow rectangle in world space
+fg-boxx        draw a hollow rectangle in XOR mode
+fg-boxxw       draw a hollow rectangle in XOR mode in world space
+fg-circle      draw a hollow circle
+fg-circlef     draw a filled circle
+fg-circlefw    draw a filled circle in world space
+fg-circlew     draw a hollow circle in world space
+fg-clprect     draw a clipped rectangle
+fg-clprectw    draw a clipped rectangle in world space
+fg-dash        draw a dashed line
+fg-dashrel     draw a dashed line relative to current position
+fg-dashrw      draw a relative dashed line in world space
+fg-dashw       draw a dashed line in world space
+fg-draw        draw a line
+fg-drawrel     draw a line relative to the current position
+fg-drawrelx    draw a relative XOR line
+fg-drawrw      draw a relative line in world space
+fg-drawrxw     draw a relative XOR line in world space
+fg-draww       draw a line in world space
+fg-drawx       draw an XOR line
+fg-drawxw      draw an XOR line in world space
+fg-drect       draw a dithered rectangle
+fg-drectw      draw a dithered rectangle in world space
+fg-ellipse     draw an ellipse
+fg-ellipsef    draw a filled ellipse
+fg-ellipsew    draw an ellipse in world space
+fg-ellipsfw    draw a filled ellipse in world space
+fg-erase       clear the active video page
+fg-fillpage    fill active video page with current color
+fg-flood       like fg-paint but observes the clipping limits
+fg-floodw      like fg-paintw but observes the clipping limits
+fg-getpixel    get the color value of specified pixel
+fg-getxpos     get screen space x coordinate of graphics cursor
+fg-getypos     get the screen space y coordinate of graphics cursor
+fg-inside      check if a specified point is inside a convex polygon
+fg-move        position the graphics cursor
+fg-moverel     position the graphics cursor relative to current position
+fg-moverw      position the graphics cursor, relative, in world space
+fg-movew       position the graphics cursor in world space
+fg-paint       fast flood fill of any closed area, including an area with
+               holes
+fg-paintw      world space version of fg-paint
+fg-point       draw a point
+fg-pointw      draw a point in world space
+fg-pointx      draw a point in XOR mode
+fg-pointxw     draw a point in XOR mode in world space
+fg-polyfill    draw a filled convex polygon
+fg-polygon     draw an unfilled polygon
+fg-polygonw    draw an unfilled polygon in world space
+fg-polyline    draw an unfilled polygon from one vertex array
+fg-polyoff     define polygon offsets for fg-polyfill and fg-polyline
+fg-rect        draw a solid rectangle in screen space or character space
+fg-rectw       draw a solid rectangle in world space
+fg-setclip     establish limits of clipping region for primitives and
+               bit-mapped images
+fg-setclipw    world space version of fg-setclip
+
+Character display
+-----------------
+fg-chgattr     change display attribute for existing text in text modes
+fg-chgtext     change text while preserving the display attributes in text
+               modes
+fg-fontsize    enable 8x8, 8x14, or 8x16 ROM font (VGA/SVGA only)
+fg-getattr     get the display attribute of a given character cell in text
+               modes
+fg-getchar     get the character value of a given character cell in text
+               modes
+fg-justify     define justification settings for fg-print
+fg-locate      define row and column for character display
+fg-print       display hardware characters in screen space
+fg-setangle    define the orientation of software (stroked) characters
+fg-setratio    define the aspect ratio for software characters
+fg-setsize     define the height of software characters in screen space
+fg-setsizew    define the height of software characters in world space
+fg-swchar      display software (stroked) characters
+fg-swlength    compute the length of a string of software characters
+fg-swtext      display software characters
+fg-text        display hardware (ROM font) characters
+fg-where       return the text cursor position
+
+Video page management
+---------------------
+fg-allocate    create a virtual page in conventional memory
+fg-alloccms    create a logical page in conventional memory
+fg-allocems    create a logical page in expanded memory
+fg-allocxms    create a logical page in extended memory
+fg-freepage    release a virtual or logical page
+fg-getaddr     get the segment address of the active video page
+fg-getentry    get address and type of a physical, virtual or logical page
+fg-getpage     get the active video page number
+fg-getvpage    get the number of the visual video page
+fg-initems     initialize expanded memory (EMS)
+fg-initxms     initialize extended memory (XMS)
+fg-pagesize    return video page size in bytes
+fg-resize      change the size of a video page (use with fg-pan)
+fg-setentry    set address and type of a physical, virtual or logical page
+fg-setpage     establish the active video page
+fg-setvpage    establish the visual video page
+Bitmapped image management
+--------------------------
+fg-clipmask    draw a clipped masking map
+fg-clpimage    draw a clipped mode-specific bit map
+fg-display     display a pixel run map
+fg-displayp    display a packed pixel run map
+fg-drawmap     draw a mode-independent bit map
+fg-drawmask    draw a masking map
+fg-drwimage    draw a lightning-fast mode-specific bit map
+fg-flipmask    draw an inverted masking map
+fg-flpimage    draw an inverted mode-specific bit map
+fg-getimage    retrieve an image as a mode-specific bit map
+fg-getmap      retrieve an image as a mode-independent bit map
+fg-imagesiz    calculate the number of bytes required for mode-specific
+               bit map storage
+fg-putimage    like fg-drwimage but doesn't check for transparent pixels
+fg-revimage    display a reversed mode-specific bit map
+fg-revmask     display a reversed masking map
+
+Image file routines
+-------------------
+fg-dispfile    display a pixel run file, packed or unpacked
+fg-imagebuf    define the address and size of the image file buffer
+fg-makegif     create a GIF file from a rectangular region of the active
+               video page
+fg-makepcx     create a PCX file from a rectangular region of the active
+               video page
+fg-makeppr     create a PPR file from a rectangular region of the active
+               video page
+fg-makespr     create an SPR file from a rectangular region of the active
+               video page
+fg-pattern     define dither patterns for pixel run maps
+fg-pcxhead     read a PCX file header into a 128-byte buffer
+fg-pcxmode     determine the optimal mode for displaying a PCX file
+fg-showgif     display a GIF file
+fg-showpcx     display a PCX file
+fg-showppr     display a packed pixel run (PPR) file
+fg-showspr     display a standard pixel run (SPR) file (RLE)
+
+Block transfer routines
+-----------------------
+fg-copypage    copy an entire physical, virtual, or logical page
+fg-getblock    transfer rectangular region from video memory to RAM
+fg-gethpage    get the number of the current "hidden" video page
+fg-putblock    transfer rectangular region from RAM to video memory
+fg-restore     fast rectangular area copy from hidden to visual page
+fg-restorew    world space version of fg-restore
+fg-save        fast rectangular area copy from visual to hidden page
+fg-savew       world space version of fg-save
+fg-sethpage    establish the hidden video page
+fg-tcdefine    define transparent color number for fg-tcxfer
+fg-tcmask      define transparent colors for fg-tcxfer
+fg-tcxfer      transfer rectangular area with transparent colors
+fg-transfer    fast rectangular region copy from any page to any page
+               (bitblt)
+Special effects
+---------------
+fg-fadein      copy hidden to visual page in small, random increments
+fg-fadeout     erase the visual page in small, random increments
+fg-pan         change the screen origin for full-screen four-directional
+               smooth scrolling
+fg-panw        world space version of fg-pan
+fg-scroll      smooth vertical scrolling of rectangular area 
+
+Keyboard control
+----------------
+fg-capslock    turn the CapsLock key on or off
+fg-getkey      wait for a keystroke or retrieve the next value from the
+               keystroke buffer
+fg-intkey      get the next entry from BIOS keyboard buffer if it is not
+               empty
+fg-kbinit      enable or disable the low-level keyboard handler
+fg-kbtest      determine if a key is now pressed or released
+fg-numlock     get the state of the NumLock key
+fg-scrlock     get the state of the ScrollLock key
+fg-setcaps     turn the CapsLock key on or off
+fg-setnum      turn the NumLock key on or off
+fg-waitkey     wait for any keystroke
+
+Mouse management
+----------------
+fg-mousebut    get information about the mouse - were buttons pressed, and
+               where?
+fg-mousecur    define the appearance of the mouse cursor in text modes
+fg-mousefin    unhook Fastgraph's XVGA or SVGA mouse handler
+fg-mouseini    initialize the mouse
+fg-mouselim    define limits the mouse movement
+fg-mousemov    position the mouse cursor
+fg-mousepos    get the current mouse position and button status
+fg-mouseptr    define shape and appearance of mouse cursor in graphics
+               modes
+fg-mousespd    control the speed of mouse cursor relative to the speed of
+               the mouse
+fg-mousevis    make the mouse cursor visible or invisible
+
+Joystick support
+----------------
+fg-button      get a joystick's button status
+fg-getxjoy     get the horizontal position of the specified joystick
+fg-getyjoy     get the vertical position of the specified joystick
+fg-initjoy     initialize either joystick
+fg-intjoy      return keyboard codes analogous to joystick position and
+               button status
+
+Sound effects and music
+-----------------------
+fg-hush        immediately stop any asynchronous sound or music
+fg-hushnext    stop asynchronous sound or music after the current
+               iteration
+fg-music       play a sequence of musical notes
+fg-musicb      play asynchronous music (background music)
+fg-playing     determine whether there is any asynchronous sound in
+               progress
+fg-quiet       stop continuous sound
+fg-resume      after suspending asynchronous music, continue the music
+fg-sound       produce a tone of specified frequency and duration
+fg-sounds      play a series of tones, concurrent with other activity
+fg-suspend     suspend asynchronous sound (see fg-resume)
+fg-voice       produce sound on TI sound chip (as in Tandy 1000)
+fg-voices      play a series of tones on TI sound chip, concurrent with
+               other activity
+Timing
+------
+fg-getclock    get the number of clock ticks since midnight
+fg-measure     benchmark the system speed to determine delay units for
+               fg-stall
+fg-stall       stall for a given number of delay units (see fg-measure)
+fg-waitfor     delay a specified number of clock ticks (18.2 per second)
+
+Miscellaneous
+-------------
+fg-memavail    determine the amount of conventional memory available to
+               DOS
+fg-memory      return the amount of video memory present in kilobytes
+fg-setfunc     specify the logical operation in EGA/VGA modes (for XORing,
+               etc.)
+fg-svgaver     return Fastgraph SVGA kernel version number
+fg-version     return Fastgraph version number
+fg-waitvr      specify if functions wait internally for vertical retrace
+
+------------------------------------------------------------------------------
+                             Ordering Information
+------------------------------------------------------------------------------
+
+The Fastgraph family of products represents a high-performance, comprehensive
+development system for graphics programmers. For more information about any
+of our products, please call, write, or FAX. You can download evaluation
+versions and product demos from our technical support BBS at (702) 796-7134.
+
+We accept Visa, MasterCard, and COD (extra charge for COD orders). Purchase
+orders are welcome from most companies, schools, and government agencies.
+
+Site licenses are available for all products. Please call, write, or FAX for
+specific details.
+
+For your convenience, the order form below appears by itself in the ORDER.FRM
+file.
+
+Order from:                                              Voice: (702) 735-1980
+Ted Gruber Software                                        FAX: (702) 735-4603
+PO Box 13408                                               BBS: (702) 796-7134
+Las Vegas, NV  89112                                       CIS:     72000,1642
+
+Name:    _____________________________________________________________________
+
+Company: _____________________________________________________________________
+
+Address: _____________________________________________________________________
+
+City:    _____________________________________  State: ________  Zip: ________
+
+Country: _____________________________________  Phone: _______________________
+
++=====+=========================================+=======+============+=======+
+|     |                                         | Price |  Shipping  |       |
+| Qty |            Product Description          | Each  | Code  Cost | Total |
++=====+=========================================+=======+=====+======+=======+
+|     | Fastgraph graphics library              | $199  |  1  |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | Fastgraph/Light with on-line manuals    |  $49  |  2  |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | Fastgraph/Light with printed manuals    |  $74  |  1  |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | Fastgraph/Fonts bit-mapped font support |  $49  |  2  |      |       |
+|     | (requires Fastgraph or Fastgraph/Light) |       |     |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | Fastgraph/Image image management library|  $49  |  2  |      |       |
+|     | (requires Fastgraph)                    |       |     |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | FG/Fonts and FG/Image bundle            |  $88  |  2  |      |       |
++-----+-----------------------------------------+-------+-----+------+-------+
+|     | Graphics Power Pack                     | $279  |  1  |      |       |
+|     | Fastgraph, FG/Fonts, and FG/Image       |       |     |      |       |
++=====+=========================================+=======+=====+======+=======+
+                                                           Subtotal  |       |
+*********************************                                    +=======+
+*                               *    Nevada residents add sales tax  |       |
+* Shipping charges per product: *                                    +=======+
+*                               *     COD orders (U.S. only) add $5  |       |
+*     Code 1         Code 2     *                                    +=======+
+*   ----------     ----------   *                             Total  |       |
+*   U.S.    $5     U.S.    $3   *                                    +=======+
+*   Canada  $7     Canada  $3   *    Specify disk format:
+*   Other  $35     Other   $6   *
+*                               *       [ ]  3.5-inch    [ ]  5.25-inch
+*********************************
+                                     Method of payment:
+
+                                        [ ] payment enclosed
+                                        [ ] Visa or MasterCard
+                                        [ ] COD
+                                        [ ] purchase order # _________________
+For credit card orders only:
+
+Card number: ____________________________________  Expiration date: __________
+
+Signature:   _________________________________________________________________
+
+

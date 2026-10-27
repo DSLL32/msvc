@@ -1,0 +1,10 @@
+$VAR VIdNum = 100$	{ AConstants is defined in rescnst.sdv }
+$LOOP AConstants WHERE AConstants.Value < 1$		
+	$IF AConstants.Value != "IDOK"$
+	$AND AConstants.Value != "IDCANCEL"$
+	$AConstants.Value$ = $POS(20)VIdNum$;
+	$VIdNum = VIdNum + 1$
+	$END IF$
+$END LOOP$
+
+

@@ -1,0 +1,62 @@
+               Code Farms Inc.
+--------------------------------------------
+         C/C++ DATA OBJECT LIBRARY
+--------------------------------------------
+
+A new breakthrough which will revolutionize
+                programming
+
+
+INCREASE IN SOFTWARE PRODUCTIVITY:
+
+  - code and debug 3 times faster
+  - design large databases in hours
+  - simplify code maintenance
+  - efficiently handle complex data organizations
+
+NEW CONCEPT OF HANDLING DATA:
+
+  - data and relations independent (orthogonal)
+  - whole organizations of data treated as objects
+  - top-down approach to data management
+
+RUN-TIME EFFICIENCY:
+
+  - no run-time or memory overhead compared to hand-coded C or C++
+  - rus with both C and C++, under UNIX or DOS
+
+EASY TO USE:
+
+  - one day of introduction will get you started
+  - extensive manual provides many examples
+  - on-line help is available
+  - works with a small set of easy-to-remember generic functions
+
+PROTECTION AGAINST ERRORS:
+
+  - strongly typed, most errors detected by the compiler
+  - all pointers totally transparent
+  - protects against dangling pointers and other troublesome
+    allocation errors
+
+DATABASE-LIKE FEATURES:
+
+  - whole organizations can be saved to disk in binary or ASCII format
+  - has memory blasting similar to the Object Store storage mechanism
+  - provides virtual arrays that automatically page to disk
+  - has run-time extensibility (properties) on selected objects
+  - has optional selfId (isA) and time-stamp
+
+LIBRARIES:
+
+  - large royalty-free library contains linked lists, trees, graphs, 
+    general hierarchies (all singly or doubly linked), dynamic arrays,
+    hash tables, stacks, queues, ER models, heaps, and are continuously
+    being expanded
+  - libraries are open; users can add new organizations and functions
+  - automatic documentation update for features added by the user
+
+---------------------------------------------------------------------
+|      For the first time, object-oriented handling of data         |
+|             is conceptually clean and easy to use.                |
+---------------------------------------------------------------------

@@ -1,0 +1,145 @@
+@DefineProject
+	@Name		= "Zinc Demonstration"
+	@Version	= "3.50"
+	
+	@Subdir		= "\\ZINCDEMO"
+	@OutDrive	= C
+	@Requires	@HardDisk
+@EndProject
+
+
+@GetOption
+	@LocalWindow(15, 40)
+	@Option 1 = "Continue"
+	@Option 2 = "Exit"
+	@Option 3 = "Abort"
+	@Cls
+	             Zinc Application Framework 3.5 Demonstration
+
+	This demonstration disk contains executable programs that were
+	compiled from one set of source code and linked with Zinc Application 
+	Framework 3.5.   Zinc is a multiplatform, object-oriented development
+	tool that supports DOS Text, DOS Graphics, Microsoft Windows,
+	Windows NT, IBM OS/2, IBM PenDOS and OSF/Motif.
+
+
+
+
+
+
+
+
+
+
+
+	To install these programs onto your hard disk, press the <Enter>
+	key.  To cancel the installation, select "Exit" and press <Enter>.
+@EndOption
+
+
+@If (2 [= @Option || 3 [= @Option)
+	@Display
+	@Cls
+
+	Installation terminated.
+
+
+	@Abort
+
+	@EndDisplay
+@EndIf
+
+
+@GetOutDrive
+	@LocalWindow(11,40)
+	@Suppress A
+	@Suppress B
+	@Cls
+
+	Please select the drive to which you would like to install Zinc
+	Application Framework 3.5 Demonstration.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Use the <Up-Arrow> and <Down-Arrow> keys to move the selection bar
+	to the drive to which you would like to install Zinc Application
+	Framework 3.5 Demonstration and press the <Enter> key.
+@EndOutDrive
+
+
+@GetSubdir
+	@LocalWindow(11, 50)	
+	@Prompt = " @OutDrive:\\ "
+	@Cls
+	@CLS
+
+	Please specify the path on drive @OutDrive: where you would like to install
+	Zinc Application Framework 3.5 Demonstration.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	Type the path where you wish to install Zinc Application Framework
+	3.5 Demonstration and press the <Enter> key.  To accept the default
+	path, press <Enter>.
+@EndSubdir
+
+@DefineDisk
+	@Label = "Zinc Demos"
+
+	@File read.me
+	@BeginLib zincdemo.red
+		 @File *.* @Out *.*
+	@EndLib
+@EndDisk
+
+@Finish
+	@ChDrive @OutDrive
+	@ChDir "@Subdir"
+	@Cls
+            *** Zinc Application Framework 3.5 Demonstration ***
+
+These demonstration programs were created with Zinc Application Framework 3.5.
+The DOS Text, DOS Graphics, Microsoft Windows, and IBM OS/2 versions were
+compiled from the same source code (ZINCDEMO.CPP) and share the same platform-
+independent resource file (ZINCPOST.DAT).
+
+To run the demo, enter: "ZINC_DOS" for DOS Graphics Mode
+                        "ZINC_DOS /T" for DOS Text Mode 
+                        "WIN ZINC_WIN" for Microsoft Windows
+                        "ZINC_OS2" for IBM OS/2 (you must run IBM OS/2) 
+           
+For more information or to order, call or write:
+
+United States:                        Europe:
+  Zinc Software Incorporated            Zinc Software (UK) Limited
+  405 South 100 East 2nd Floor          58-60 Beresford Street
+  Pleasant Grove, Utah 84062 USA        London, SE18 6BG United Kingdom
+  Tel: (801) 785-8900                   Tel: +44 (0)81 855 9918
+  Fax: (801) 785-8996                   Fax: +44 (0)81 316 7778
+  BBS: (801) 785-8997                   BBS: +44 (0)81 317 2310
+@Pause
+@EndFinish
+
+

@@ -1,0 +1,137 @@
+RI(9)/VEDIT Family - Word Processing Features/
+M(H)			!Display header
+
+YT/
+All VEDIT Family editors have several features which simplify word processing.
+These include word wrap, formatting of paragraphs between adjustable margins,
+optional justification and centering of lines.
+
+VEDIT can print the text verbatim, or a macro, such as the supplied PRINT.VDM,
+can be used to add headers and page numbers to each page.  For more
+sophisticated printing, files generated with VEDIT can be imported into almost
+any word processor or desktop publishing package.  Greenview's print formatter
+V-PRINT and spelling corrector V-SPELL are available as inexpensive options.
+
+VEDIT is ideal for preparing text for use with desktop publishing systems
+such as Xerox Ventura (tm).  After the text is entered into Ventura and
+formatted, it can still be written out to an ASCII file for further editing
+with VEDIT; the formatting "tags" can also be edited.
+
+/
+M(K)			!Pause for user
+
+10XS(100)		!Need 10 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main edit buffer
+EB demo.txt		!Load demo text
+
+$N/|L|L/ I/
+/			!Add a blank line
+-2C			!Position on blank line
+60YMR			!Set right margin in case user doesn't
+ES 13 1			!Enable Insert mode
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/To enable word wrap you must first set the desired right margin.  Press
+<Alt-C> for the {CONFIG} sub-menu.  Select "Word Processing".  Then select
+"Right Margin".  At the prompt for the new value enter the desired right
+margin, e.g. "65" and press <Enter>.  Press <Esc> twice (or <Ctrl-C> once)
+to remove the menu system.
+
+Now enter a new line of text.  Notice how any words which don't quite fit
+within the right margin are wrapped to the next line.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+B 6L -2C		!Position cursor to end of a line
+EE(1)
+B#K
+I/The keys <F7> and <F8> change the "left margin".  <F8> moves the margin to
+the right and <F7> moves the margin to the left.  Normally the margin is at
+column 1.
+
+Be sure you are in "Insert" mode and press <Enter> to start a new line.  Now
+press <F8>; the cursor moves to column 5.  Type a few words and another
+<Enter>.  Now the cursor starts in column 5.  Enter a few more words and
+<Enter>.  Press <F8> again; the cursor moves to column 9.  Press <F7>; the
+cursor moves back to column 5.  Experiment.
+		--- Then press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+1YML			!Reset left margin
+EE(1)
+B#K
+I/The {CONFIG, Word processing} sub-menu sets the "right margin" and the
+initial "left margin".  The left margin can then be changed in increments of
+4 using the indent keys <F7> and <F8>.  The key <Ctrl-F> re-formats an
+existing paragraph to within new right and left margins.
+
+Using the {CONFIG, Word processing} sub-menu, set the right margin to column
+55 and the left margin to column 9.  Now press <Ctrl-F> to reformat the
+paragraph.  Notice the effect.  (You need to press <PgUp>.)  Since the cursor
+has also moved to the next paragraph, you can immediately press <Ctrl-F> again
+to re-format the next paragraph.	  --- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+B 6L -2C		!Position cursor to end of a line
+EE(1)
+B#K
+I/The paragraphs just reformatted are not justified - they have a ragged right
+margin.  However, you can also optionally justify paragraphs.
+
+Enter the {CONFIG, Word processing} sub-menu and select "Justify paragraphs".
+At the prompt for a new value enter "1" and press <Enter>.  This enables
+justification.  Remove the menu system.  Move the cursor to a paragraph to be
+justified.  Press <Ctrl-F>.  This re-formats and justifies the paragraph.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+EZY			!Empty edit buffer
+EB demo5.txt		!Load demo text
+9YML			!Set left margin
+
+EE(1)
+B#K
+I/Notice the structure of the two paragraphs above.  Reformatting a paragraph
+with <Ctrl-F> always preserves this structure.
+
+Press <Ctrl-F> twice.  Notice how the paragraphs have been reformatted to new
+left and right margins.  However the "offset" or "indent" of the first line
+has been preserved.
+
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+1YML
+60YMR
+Z
+
+EE(1)
+B#K
+I/Enter a short line of text.  Leave the cursor anywhere on the line.  Press
+<Alt-E> to select the {EDIT} sub-menu.  Select "Center line" to center the
+line between the current left and right margins.  (They are currently set to
+1 and 55.)
+
+This also moves the cursor to the next line so that you could center it too.
+If you used this function often, you could use keystroke macros to assign
+this function to a dedicated "hot-key".
+
+		--- Press <Esc> to return to the Main Menu ---/
+B -V
+EE(@)
+V

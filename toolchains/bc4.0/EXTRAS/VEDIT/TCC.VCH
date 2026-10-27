@@ -1,0 +1,72 @@
+
+              ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+              ³ Borland Turbo C 2.0 Compiler Options - Page #1 ³
+              ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ MEMORY MODEL ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³    -mc   Compact Model       -mh   Huge Model         -ml   Large Model    ³
+³    -mm   Medium Model        -ms * Small Model        -mt   Tiny Model     ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ PREPROCESSOR ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -D<name>  Define macro                -D<name>=<string> Define macro value ³
+³ -U<name>  Undefine macro                                                   ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ OPTIMIZATION ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -G       Generate for speed           -O       Optimize jumps              ³
+³ -r     * Register variables           -r-      Suppress register variables ³
+³ -Z       Optimize register usage                                           ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ SOURCE CODE ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -A       Disable non-ANSI extensions  -C       Allow nested comments       ³
+³ -i<n>    Maximum identifier length                                         ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ERROR REPORTING ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -g<n>    Stop after n warnings        -j<n>    Stop after n errors         ³
+³ -w       Enable all warnings          -w<w>    Enable warning <w>          ³
+³ -w-<w>   Disable warning <w>                                               ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ (press any key to continue) ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+
+              ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+              ³ Borland Turbo C 2.0 Compiler Options - Page #2 ³
+              ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ CODE GENERATION ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ -1       80186/286 Instructions       -a       Generate word alignment     ³
+³ -d       Merge duplicate strings      -f     * Floating point emulator     ³
+³ -f-      No floating point            -f87     8087 floating point         ³
+³ -K       Default char is unsigned     -k      Standard stack frame         ³
+³ -N       Check stack overflow         -p       Pascal calls                ³
+³ -u     * Underscores on externs       -y       Produce line number info    ³
+³ -v       Source level debugging                                            ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ SEGMENTATION ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -zA<name> Code segment class name...........................(default=CODE) ³
+³ -zB<name> Uninitialized data segment class...................(default=BSS) ³
+³ -zC<name> Code segment name................................(default=_TEXT) ³
+³ -zD<name> Uninitialized data segment name...................(default=_BSS) ³
+³ -zG<name> Uninitialized data segment group................(default=DGROUP) ³
+³ -zP<name> Output files generated with code group for segment <name>        ³
+³ -zR<name> Initialized data segment name....................(default=_DATA) ³
+³ -zS<name> Initialized data segment group..................(default=DGROUP) ³
+³ -zT<name> Initialized data segment class....................(default=DATA) ³
+³ -z<X>*    Use default for above option <X>                                 ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ (press any key to continue) ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+
+              ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+              ³ Borland Turbo C 2.0 Compiler Options - Page #3 ³
+              ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+ÚÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ COMPILATION ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ¿
+³ -B        Compile via assembly        -c        Compile only               ³
+³ -E<name>  Alternate assembler name    -o<name>  Object file name           ³
+³ -S        Produce assembly output                                          ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ LINKER ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -e<name>  Executable file name        -M        Generate link map          ³
+³ -lx       Pass option x to linker                                          ³
+ÃÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ ENVIRONMENT ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ´
+³ -n<dir>   Output file directory       -L<dir>   Libraries directory        ³
+³ -I<fnam>  Include files directory                                          ³
+ÀÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄ (press any key to continue) ÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÄÙ
+
+              (Turbo C is a trademark of Borland International)
+
+
+
+
+

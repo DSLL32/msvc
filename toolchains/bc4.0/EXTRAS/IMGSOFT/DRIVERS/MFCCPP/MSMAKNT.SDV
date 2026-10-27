@@ -1,0 +1,137 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+# 
+# ~VPgmName~
+# Microsoft NT MFC Make File
+#
+PGM=~VPgmName~
+OBJS = $(PGM).obj	\
+~LOOP AModules~
+				~AModules.Value~.obj \
+~END LOOP~
+
+!ifdef WIN16MFC
+#!message compiling for WIN16
+
+CPPFLAGS=  /DWINVER=0x0300 /AM /W3 /Zp /GA /GEs /G2 
+LINKFLAGS=/NOD /ONERROR:NOEXE
+
+!if "$(DEBUG)"=="1"
+CPPFLAGS=/D_DEBUG $(CPPFLAGS) /Od /Zi /f
+LINKFLAGS=$(LINKFLAGS) /COD
+LIBS=mafxcwd libw mlibcew commdlg
+!else
+CPPFLAGS=$(CPPFLAGS) /Oselg /Gs
+LINKFLAGS=$(LINKFLAGS)  
+LIBS=mafxcw libw mlibcew commdlg
+!endif
+$(PGM).exe:    $(OBJS) $(PGM).def $(PGM).res
+	link $(LINKFLAGS) $(OBJS), $(PGM), NUL, $(LIBS), $(PGM);
+	rc -30 /k /t $(PGM).res
+!else
+#
+#	Windows NT
+#
+!include <makent.inc>
+
+$(PGM).exe:    $(OBJS) $(PGM).def $(PGM).res
+    $(LINK) $(GUIFLAGS) -out:$(PGM).exe $(OBJS) $(PGM).res $(MFCLIB) $(GUILIBS)
+!endif
+
+$(PGM).obj: $(PGM).h
+    $(CPP) $(CPPFLAGS) /c $(PGM).cpp
+
+$(PGM).res:  $(PGM).h 
+
+clean:
+	-erase $(PGM).exe
+	-erase $(PGM).pch
+	-erase $(PGM).res
+	-erase $(PGM).obj
+
+~~ Note: The following file is generated for convenience. You should copy file
+~~ to your include directory, and remove from this driver.
+~OUTPUT "makent.inc"~
+DLLENTRY = @12
+!ifdef CONSOLE
+MFCFLAGS=/D_NTWIN /Di386=1
+!else
+MFCFLAGS=/D_NTWIN /D_WINDOWS /DWINVER=0x030a /Di386=1
+!endif
+
+!ifdef CONSOLE
+!if "$(DEBUG)" == "1"
+MFCLIB = nafxcrd.lib
+DEBUGFLAGS = /Zi /Od /D_DEBUG
+!else
+MFCLIB = nafxcr.lib
+DEBUGFLAGS = /Otx /Gs 
+!endif
+!else
+!if "$(DEBUG)" == "1"
+MFCLIB = nafxcwd.lib
+DEBUGFLAGS = /Zi /Od /D_DEBUG
+!else
+MFCLIB = nafxcw.lib
+DEBUGFLAGS = /Otx /Gs
+!endif
+!endif
+
+CC = cl386 
+CFLAGS	= /c /G3d /W3 $(DEBUGFLAGS) $(MFCFLAGS)
+
+CPP = cl386
+CPPFLAGS = /c /G3d /W3 $(DEBUGFLAGS) $(MFCFLAGS)
+
+!if "$(PCH)" != ""
+CPPFLAGS=$(CPPFLAGS) /Yu$(PCH)
+!endif
+
+!if "$(DEBUG)" == "1"
+LINKDEBUG = -debug:full -debugtype:cv
+!else
+LINKDEBUG = 
+!endif
+LINK = link $(LINKDEBUG)
+
+# link flags - must be specified after $(link)
+#
+# conflags : creating a character based console application
+# guiflags : creating a GUI based "Windows" application
+
+CONFLAGS =  -subsystem:console -entry:mainCRTStartup
+GUIFLAGS =  -subsystem:windows -entry:WinMainCRTStartup
+
+# Link libraries - system import and C runtime libraries
+#
+# conlibs : libraries to link with for a console application
+# guilibs : libraries to link with for a "Windows" application
+#
+
+CONLIBS = libc.lib ntdll.lib kernel32.lib netapi32.lib
+
+GUILIBS = libc.lib ntdll.lib kernel32.lib user32.lib gdi32.lib	\
+	winspool.lib comdlg32.lib advapi32.lib olecli32.lib olesvr32.lib \
+	shell32.lib
+
+.SUFFIXES : .cpp
+.cpp.obj :
+	$(CPP) $(CPPFLAGS) $*.cpp
+
+.c.obj :
+	$(CC) $(CFLAGS) $(CVARS) $*.c
+
+.rc.res :
+	rc /r /fo $*.tmp $<
+    cvtres -i386 $*.tmp -o $*.res
+    del $*.tmp
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE PRELOAD MOVEABLE DISCARDABLE
+DATA PRELOAD MOVEABLE MULTIPLE
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+
+

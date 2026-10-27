@@ -1,0 +1,64 @@
+!
+!	PRINT.VDM	Simple printing macro. Prints the filename and page #
+!			on the top of each page. Starts a new page if a <CTRL-L>
+!			is in the first column. 
+!
+!AGAIN!
+_B			!Print from the beginning of file
+
+ES 8 2 .rvXS(4)		!Suppress error handling; (save old values)
+PP 2 0 .rvXS(2)		!Disable page formatting,
+PP 3 0 .rvXS(3)		!  allows macro to control entire page
+PP 1 .rvXS(5)		!Q5 = number of physical lines per page
+1XS(1)			!Set page counter to 1
+YP			!Re-route output to the printer
+
+[			!Main print loop
+2YEN			!Print 2 blank lines
+@YT/FILE: /
+:EW			!Print filename
+30YET			!Tab-out to column 30
+(.os>1)[ :OD ]		!If DOS/UNIX print the date
+60YET			!Tab-out to column 60
+@YT/PAGE  / -XT(1)	!Print page number, left justified
+YEN			!Print 1 more blank line
+
+(Q5-6)[			!Print all (60) lines per page, 2 blank lines top & bottom
+(.c=^L)[ C JL ]		!Start new page if <Form-Feed> in 1st column
+.eof @JP/END/		!Branch on End-of-file
+1_T			!Print one text line, perform auto-buffering if needed
+1_:L			!Advance by 1 line
+]			!End of loop for one page
+
+PE			!Page-eject, start new page
+(.c=^L)[ C ]		!Ignore next char if it is a <CTRL-L>;
+			!  prevents printing blank pages
+XA(1)			!Advance page counter
+
+]			!END of main print loop
+ 
+!END!
+-YP			!Turn off printer re-routing
+PF			!Finish print job
+			!DOS: just a page eject (same as PE)
+			!UNIX: flush and close the print job
+PP 2 Q2			!Restore original values...
+PP 3 Q3			!"
+ES 8 Q4			!"
+
+(.mn<>"Z)[ JM ]		!If macro not in register "Z", it is now done
+
+!PROMPT!
++@XK(3)/Press "P" to print another file or <ESC> to return to OS: /
+(Q3=27)[ :EX ]		!Back to OS on <ESC>
+(Q3&95)XS(3)		!Convert lowercase to uppercase
+(Q3<>"P)[ @JP/PROMPT/	!Prompt over if not <ESC> or "P"
+	][		!ELSE
+	+@RQ(y)/Enter name of file to print: /
+	:ED|Ry		!Does the file exist?
+	(.rv=0)[+@XK(3)/File does not exist.  Press any key to continue /
+		@JP/PROMPT/
+	       ]
+	:EY EB|Ry	!Close old file, open new file
+	@JP/AGAIN/	!Start over
+	]

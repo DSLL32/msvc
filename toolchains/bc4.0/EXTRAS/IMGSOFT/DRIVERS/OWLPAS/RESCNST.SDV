@@ -1,0 +1,62 @@
+$OUTPUT VPgmName+".h"$		// Must specify an output file
+$ARRAY APreDefined$
+$ADDVAL APreDefined "EDITCUT"$
+$ADDVAL APreDefined "EDITCOPY"$
+$ADDVAL APreDefined "EDITPASTE"$
+$ADDVAL APreDefined "EDITDELETE"$
+$ADDVAL APreDefined "EDITCLEAR"$
+$ADDVAL APreDefined "EDITUNDO"$
+$ADDVAL APreDefined "EDITFIND"$
+$ADDVAL APreDefined "EDITREPLACE"$
+$ADDVAL APreDefined "EDITFINDNEXT"$
+$ADDVAL APreDefined "FILENEW"$
+$ADDVAL APreDefined "FILEOPEN"$
+$ADDVAL APreDefined "FILESAVE"$
+$ADDVAL APreDefined "FILESAVEAS"$
+$ADDVAL APreDefined "EXIT"$
+$ARRAY AConstants$
+$LOOP Application.Windows$
+	$LOOP ToolBar.ToolItems$
+	$ADDVAL AConstants "cm_"+ToolBar.Name+ToolItem.Name$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Dialogs$
+	$LOOP ToolBar.ToolItems$
+	$ADDVAL AConstants "cm_"+ToolBar.Name+ToolItem.Name$
+	$END LOOP$
+$END LOOP$
+$LOOP application.dialogs$
+	$LOOP Menu.MenuStrings$
+		$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+		$IF COUNT(APreDefined WHERE APreDefined.Value == VItemName) == 0$
+		$AND VItemName != "FileExit"$	// Don't redefine CM_EXIT
+		$ADDVAL AConstants "cm_"+TRIM(MenuItem.PopupName+MenuItem.Name)$
+		$END IF$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Windows$
+	$LOOP Menu.MenuStrings$
+		$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+		$IF COUNT(APreDefined WHERE APreDefined.Value == VItemName) == 0$
+		$AND VItemName != "FileExit"$	// Don't redefine CM_EXIT
+		$ADDVAL AConstants "cm_"+TRIM(MenuItem.PopupName+MenuItem.Name)$
+		$END IF$
+	$END LOOP$
+$END LOOP$
+
+
+$LOOP application.dialogs$
+	$LOOP dialog.Controls$
+		$ADDVAL AConstants Control.Id$
+	$END LOOP$
+$END LOOP$
+$VAR VIdNum = 100$
+$LOOP AConstants WHERE AConstants.Value < 1$	// Only #Define Text ID's
+$IF AConstants.Value != "IDOK"$
+$AND AConstants.Value != "IDCANCEL"$
+#define		$AConstants.Value$ $POS(30)VIdNum$
+$VIdNum = VIdNum + 1$
+$END IF$
+$END LOOP$
+#define		cm_FileExit $POS(30)$cm_Exit
+

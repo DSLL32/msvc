@@ -1,0 +1,108 @@
+After the original VEDIT hit the pages of BYTE magazine in 1980 it became the
+#1 programmer's editor virtually overnight.  In January 1982, VEDIT was the
+first editor available for the revolutionary IBM PC.  Since then, tens of
+thousands of programmers, engineers and writers have been enthusiastic users
+of VEDIT and its successor VEDIT PLUS.
+
+In 1988 we introduced VEDIT PLUS version 3.0 which was a total rewrite of the
+editor to give it a modern user interface with pull-down menus and context
+sensitive help, even greater speed and many new features including 1000 levels
+of undo, columnar blocks and regular expressions.
+
+The new VEDIT PLUS version 3.7 is the first and only "universal file editor"
+that can edit any text or data file in a wide variety of modes.  Both "fixed
+length" and "variable length" data records are supported.  Files can be
+edited in five ASCII modes, EBCDIC or Hexadecimal.
+
+VEDIT is actually a complete family of low cost, upwards compatible editors
+consisting of VEDIT Jr., VEDIT and VEDIT PLUS.  From this family you can
+choose the best editor for your needs without compromising performance or
+paying too much.  It also provides a convenient upgrade path.
+
+==>  Organizations that want the "same" editor for everyone can pick VEDIT or
+     VEDIT Jr. for most users and VEDIT PLUS for their power users.  There is
+     no need to purchase an expensive editor for everyone.
+
+==>  You can feel comfortable picking VEDIT Jr. or VEDIT today, because if
+     your editing needs increase tomorrow, you can upgrade to a more powerful
+     editor without having to unlearn anything!  You can upgrade to VEDIT or
+     VEDIT PLUS within 6 months for the price difference.
+
+==>  Even VEDIT Jr. can edit ANY text or data file.
+
+The VEDIT Family of editors are written entirely in assembly language and
+offer stunning speed.  They are 10 to 100 times faster than the competition
+on large files where speed really counts.  And they are small - only 65K for
+VEDIT Jr. and 85K for VEDIT and VEDIT PLUS.  Since VEDIT.EXE is the only
+necessary file, VEDIT can be run from floppy disks and from Laptops.
+
+For its price, VEDIT Jr. offers unmatched performance.  It can edit text and
+data files of any size, even 2 Gigabyte files!
+
+Basic features include pull-down menus with "hot keys", mouse support with
+"real" or "stealth" scroll bars, context sensitive help, pop-up ASCII table,
+a configurable keyboard and flexible, unlimited keystroke macros.  Undo up to
+1000 keystrokes - keystroke by keystroke, line by line or deletion by
+deletion.  Automatic indent, parentheses matching and other special features
+speed program development.  Word processing includes word wrap, paragraph
+formatting, justification, adjustable margins and printing.  Run DOS
+programs.  Perform block operations by character, line, file or column.
+
+VEDIT has all the features of VEDIT Jr. and the ability to simultaneously
+edit up to 36 files at the same time.  The screen can be split into windows
+for viewing multiple files or different parts of one file.  Any window can be
+toggled between five ASCII, EBCDIC and Hexadecimal modes.  Search/replace
+with regular expressions.
+
+VEDIT's extensive compiler support integrates your favorite compilers,
+assemblers, linkers, debuggers and Make utilities within VEDIT.  It is very
+flexible and automatically tracks compilation errors.  Compiler and other
+options are easily changed via menus.
+
+VEDIT PLUS has all the features of VEDIT and, additionally, a powerful macro
+programming language.  The macro language is accessed via the "Command" mode
+and gives you editing power which goes far beyond the capabilities of any
+other word processor.  Complex or repetitive editing tasks can be automated,
+such as numerous search/replace operations on multiple files.
+
+The macro language is an ideal application language for writing text oriented
+programs such as translators, scanners, context sensitive file mergers and
+much more.  This entire demo/tutorial is a VEDIT PLUS macro.  Despite its
+power, the Command Mode can be mastered by users with no previous programming
+experience.
+
+While VEDIT does not let you develop your own "macros", all macros written for
+VEDIT PLUS will also run under VEDIT.  This is convenient in organizations
+where VEDIT PLUS users can write custom macros for the VEDIT users.
+
+The comprehensive configuration lets you completely determine your own
+keyboard layout and select numerous default settings to configure any VEDIT
+Family editor to your particular hardware, applications and personal
+preferences.  By using the available options and "keystroke macros", you can
+very closely emulate other editors and word processors.
+
+An easy to use installation program for the IBM PC permits a quick, menu
+driven selection of the most common configurations of VEDIT.  This includes
+selecting from the recommended keyboard layout or from a Brief, WordStar or
+Word Perfect layout.  (The Installation program is not included on this Demo
+disk.)
+
+The VEDIT Family editors support the IBM PC, XT, AT, PS/2 and clones with CGA,
+MGA, EGA, VGA, Wyse 700 and other displays.  The IBM PC version also supports
+Microsoft Windows, DESQview, Concurrent DOS, PC-MOS/386 and most networks.
+
+A generic MS-DOS version runs on non-IBM type computers and on CRT terminals
+connected to an IBM PC via serial lines and modems.
+
+The UNIX/XENIX version supports most variations of UNIX running on Intel
+80286/80386/80486 processors.
+
+VEDIT PLUS is also available for the FlexOS and IBM 4680 operating systems.
+
+The QNX operating system is supplied with a custom version of VEDIT.  VEDIT
+PLUS is available as an option and includes integration for the Watcom C
+compiler, linker, debugger and Make programs.
+
+Discounts of 50% to 90% are available for additional copies and for network,
+educational, OEM and site licensing.
+

@@ -1,0 +1,27 @@
+-----------------------------------------------------------------------------
+                 CODE FARMS C/C++ DATA OBJECT LIBRARY
+-----------------------------------------------------------------------------
+  (Winner of the Computer Language JOLT AWARD, best 1992 Language/Library)
+
+The  diskette is organized into directories and files,  which you can   examine
+using your favourite text editor. Each directory has a README file, which helps
+you to find the right information.
+
+At the root directory, you have the following options:
+
+ BROCHURE - marketing brochures, which we normally distribute printed on paper;
+ TUTORIAL - tutorial on the use of the library (reprinted from our Users Guide);
+ QUESTION - frequently asked questions, and answers to them;
+ BUSINESS - business/legal information, including forms to order the product;
+ CLASSES  - list of available classes and functions;
+ REFER    - references to papers published on related topics;
+ EX*      - code examples in C 
+ EXX*     - code examples in C++
+
+If you don't know much about our library, start with BROCHURE and TUTORIAL.
+
+Each example is in a separate directory,  and contains the program itself,  two
+automatically generated files,  and the executable (compiled with Borland C++).
+Comments throughout the code and the README file explain how each program works.
+------------------------------------------------------------------------------
+Code Farms Inc, tel (613)-838-4829, fax (613)-838-3316, jiri@debra.dgbt.doc.ca

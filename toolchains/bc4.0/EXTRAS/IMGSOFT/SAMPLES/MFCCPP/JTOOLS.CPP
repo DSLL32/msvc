@@ -1,0 +1,251 @@
+#include <afxwin.h>
+#include <string.h>
+#include "jtools.hpp"
+
+TToolItem::TToolItem(char *szType, int id, int X,int Y,int W,int H, 
+char *szBitmap1, char *szBitmap2, char *szShadow, char *szBorder )
+{
+	nID = id;
+	Bitmap1.LoadBitmap(szBitmap1);
+	Bitmap2.LoadBitmap(szBitmap2);
+	
+	rect.SetRect(X, Y, X+W, Y+H);
+	bState = FALSE;
+	bEnabled = TRUE;
+
+	if ( *szShadow == 'Y' )
+		bShadow = TRUE;
+	else
+		bShadow = FALSE;
+
+	if ( *szBorder == 'Y' )
+		bBorder = TRUE;
+	else
+		bBorder = FALSE;
+
+	if ( !_stricmp(szType, "Button") )
+		bButton = TRUE;
+	else
+		bButton = FALSE;
+}
+void TToolItem::Show(CDC *PaintDC, HBRUSH hButtonBrush, CPen *ShadowPen)
+{
+	CDC MemoryDC;
+	CBitmap *OldBitmap;
+	DWORD dwMode; 
+
+	CPen *OldPen = (CPen *) PaintDC->SelectStockObject(BLACK_PEN);
+	CBrush *OldBrush = PaintDC->SelectObject(CBrush::FromHandle(hButtonBrush));
+
+	int	nOffset = 0, nShift = 0;
+
+	if ( bBorder )
+		nOffset++;
+	if ( bShadow )
+		nOffset++;
+	if ( bState && bShadow)
+		nShift=1;
+
+	if (bEnabled)
+		dwMode = SRCCOPY;
+	else
+		dwMode = MERGECOPY;
+
+	if (bBorder)
+		PaintDC->Rectangle(rect);
+	else
+		PaintDC->FillRect(rect, CBrush::FromHandle(hButtonBrush));
+
+	if ( !Bitmap1.m_hObject )
+		return;
+
+	MemoryDC.CreateCompatibleDC(PaintDC);
+	if (bState && Bitmap2.m_hObject)
+		OldBitmap = MemoryDC.SelectObject(&Bitmap2);
+	else
+		OldBitmap = MemoryDC.SelectObject(&Bitmap1);
+	PaintDC->BitBlt(rect.TopLeft().x+nOffset+nShift, rect.TopLeft().y+nOffset+nShift, 
+		rect.Width(), rect.Height(),	&MemoryDC, 0, 0, dwMode);
+
+	MemoryDC.SelectObject(OldBitmap);
+	MemoryDC.DeleteDC();
+
+	if (bShadow)
+	{
+		if (bState)
+	 		PaintDC->SelectObject(ShadowPen);
+		else
+	 		PaintDC->SelectStockObject(WHITE_PEN);
+	 	PaintDC->MoveTo(rect.TopLeft().x+nOffset-1, rect.BottomRight().y-nOffset);
+	 	PaintDC->LineTo(rect.TopLeft().x+nOffset-1, rect.TopLeft().y+nOffset-1);
+	 	PaintDC->LineTo(rect.BottomRight().x-nOffset+1,rect.TopLeft().y+nOffset-1);
+	
+		if (!bState)
+		{
+	 		PaintDC->SelectObject(ShadowPen);
+	 		PaintDC->MoveTo(rect.BottomRight().x-nOffset, rect.TopLeft().y+nOffset-1);
+	 		PaintDC->LineTo(rect.BottomRight().x-nOffset, rect.BottomRight().y-nOffset);
+	 		PaintDC->LineTo(rect.TopLeft().x+nOffset-2, rect.BottomRight().y-nOffset);
+	 		PaintDC->MoveTo(rect.BottomRight().x-nOffset-1, rect.TopLeft().y+nOffset);
+	 		PaintDC->LineTo(rect.BottomRight().x-nOffset-1, rect.BottomRight().y-nOffset-1);
+	 		PaintDC->LineTo(rect.TopLeft().x+nOffset-1, rect.BottomRight().y-nOffset-1);
+		}
+	 
+	}
+
+	PaintDC->SelectObject(OldPen);
+	PaintDC->SelectObject(OldBrush);
+}
+
+int TToolItem::HitTest(CPoint pt)
+{
+	if (!bEnabled)			// Allow hits for Enabled Tools
+		return FALSE;
+
+	return rect.PtInRect(pt);
+}
+
+BEGIN_MESSAGE_MAP(TToolBar, CWnd)
+	ON_WM_DESTROY()	 //Make sure destructor is called
+	ON_WM_PAINT()
+	ON_WM_MOUSEMOVE()
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
+END_MESSAGE_MAP()
+
+TToolBar::TToolBar(CWnd *AParent, int nHeight) :
+   CWnd()
+{
+	hButtonBrush = ::GetStockObject(LTGRAY_BRUSH);
+	const char *szClass = AfxRegisterWndClass(CS_HREDRAW|CS_VREDRAW, 
+		LoadCursor(NULL, IDC_ARROW), hButtonBrush, NULL);
+	CRect WndRect(0, 0, GetSystemMetrics(SM_CXSCREEN), nHeight);
+	if (!Create(szClass, "",	WS_CHILD|WS_VISIBLE, WndRect, AParent, 0))
+	{
+		MessageBox("Unable to create tool bar");
+		AfxAbort();
+	}
+
+	bButtonDown = FALSE;
+	pShadowPen = new CPen(PS_SOLID, 1, GetSysColor(COLOR_BTNSHADOW));
+	SelToolItem = NULL;
+}
+TToolBar::~TToolBar()
+{
+	delete pShadowPen;
+
+	// Need to delete tool items!!!
+	for (int i=0; i<ToolItems.GetSize(); i++)
+	 	delete (TToolItem *)ToolItems[i];
+	
+}
+void TToolBar::Add(char *szType, int id, int X,int Y,int W,int H, 
+char *szBitmap1, char *szBitmap2, char *szShadow, char *szBorder )
+{
+	ToolItems.Add(new TToolItem(szType, id, X, Y, W, H, 
+		 szBitmap1, szBitmap2, szShadow, szShadow));
+}
+void TToolBar::OnPaint() 
+{
+	CPaintDC DC(this);
+
+	CRect rcWin;
+  
+ 	GetClientRect( &rcWin );
+
+	CPen *pOldPen = (CPen *) DC.SelectStockObject(BLACK_PEN);
+	DC.MoveTo(0, rcWin.BottomRight().y-1); 
+	DC.LineTo(rcWin.BottomRight().x, rcWin.BottomRight().y-1);
+
+	DC.SelectObject(pShadowPen);
+	DC.MoveTo(0, rcWin.BottomRight().y-2); 
+	DC.LineTo(rcWin.BottomRight().x, rcWin.BottomRight().y-2);
+
+	DC.SelectObject(pOldPen);
+
+	for (int i=0; i<ToolItems.GetSize(); i++)
+	{
+		((TToolItem *)ToolItems[i])->Show(&DC, hButtonBrush, pShadowPen);
+	}
+}
+
+void TToolBar::OnLButtonDown(UINT nFlags, CPoint Point)
+{
+	SelToolItem = NULL;
+
+	for (int i=0; i<ToolItems.GetSize(); i++)
+	{
+	 	TToolItem *pToolItem = (TToolItem *)ToolItems[i];
+	 	if (pToolItem->HitTest(Point))
+	 	{
+	 		SelToolItem = pToolItem;
+	 		SelToolItem->SetState( !SelToolItem->GetState() );
+	 		CDC *DC = GetDC();
+	 		SelToolItem->Show(DC, hButtonBrush, pShadowPen);
+	 		ReleaseDC(DC);
+	 	
+	 		if ( !SelToolItem->bButton )	// Tell Toolbar the CheckBox has been set
+	 			GetParent()->PostMessage(WM_COMMAND, SelToolItem->GetID(), 0);	
+	 		break;
+	 	}
+	}
+	bButtonDown = TRUE;
+	SetCapture();
+}
+void TToolBar::OnMouseMove(UINT nButtons, CPoint Point)
+{
+	if ( bButtonDown && SelToolItem && SelToolItem->bButton )
+	{
+		if ( SelToolItem->HitTest(Point) != SelToolItem->GetState())
+		{
+			SelToolItem->SetState( !SelToolItem->GetState() );
+			CDC *DC = GetDC();
+			SelToolItem->Show(DC, hButtonBrush, pShadowPen);
+			ReleaseDC(DC);
+		}
+	}
+}
+void TToolBar::OnLButtonUp(UINT nButtons, CPoint Point)
+{
+	for (int i=0; i<ToolItems.GetSize(); i++)
+	{
+	 	TToolItem *pToolItem = (TToolItem *)ToolItems[i];
+		if (pToolItem->HitTest(Point) && pToolItem->GetState())
+		{
+			if ( pToolItem->bButton )
+			{
+				pToolItem->SetState( !pToolItem->GetState() );
+				CDC *DC = GetDC();
+				pToolItem->Show(DC, hButtonBrush, pShadowPen);
+				ReleaseDC(DC);
+
+				GetParent()->PostMessage(WM_COMMAND,pToolItem->GetID(), 0);	// Tell Toolbar the button has been set
+			}
+		}
+		else
+		{
+			if ( pToolItem->bButton && pToolItem->GetState())
+			{
+				pToolItem->SetState( !pToolItem->GetState() );
+				CDC *DC = GetDC();
+				pToolItem->Show(DC, hButtonBrush, pShadowPen);
+				ReleaseDC(DC);
+			}
+		}
+  }
+
+  bButtonDown = FALSE;
+	ReleaseCapture();
+}
+void TToolBar::SetItemState(int ID, int bState)
+{
+	for (int i=0; i<ToolItems.GetSize(); i++)
+	{
+	 	TToolItem *pToolItem = (TToolItem *)ToolItems[i];
+		if(pToolItem->GetID() == ID)
+		{
+			pToolItem->SetState(bState);
+			break;
+		}
+	}
+}

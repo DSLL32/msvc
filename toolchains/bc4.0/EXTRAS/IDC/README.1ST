@@ -1,0 +1,170 @@
+             The TesSeRact Development Tools Demonstration Disk
+
+                             March 1993 Release
+
+
+
+  Copyright 1987-93, Innovative Data Concepts, Inc.
+  All Rights Reserved
+
+  Innovative Data Concepts, Inc.
+  122 North York Road, Suite 5
+  Hatboro, PA 19040
+
+  Technical Support -- (215) 443-9611
+   Customer Support -- (215) 443-9705
+                FAX -- (215) 443-9753
+                BBS -- (215) 674-3528
+
+
+For installation instructions from a diskette, please see INSTALL.DOC.
+
+If you are downloading these demonstration files, the files you should
+be downloading are:
+
+  IDCD1.ZIP -- TCXL-DOS, TCXL/Graphics and TCXL/Windows demo programs
+  IDCD2.ZIP -- TCXL-DOS and TCXL/Windows TesSeRact User Interface demos
+  IDCD3.ZIP -- TCXL/Editor and TesSeRact File Management System demos
+  IDCD4.ZIP -- TCXL Advanced Utilities, TesSeRact Compression System
+                 and TesSeRact Printer Control System demos
+  IDCD5.ZIP -- TCXL Demonstration "shell" programs for TCXL-DOS and
+                 TCXL/Windows (TCXLDEMO.EXE and TCXLDEMW.EXE)
+
+
+After downloading these files, create a new directory called "TCXL60D", 
+copy the files into this directory, and run:
+
+  PKUNZIP IDCD?.ZIP
+
+This will extract the files from all the ZIPs you are installing.  In all
+cases except IDCD5.ZIP (which just contains the demo shell programs), you
+will have an executable file with the same name as the ZIP -- IDCD1.EXE,
+etc.  Execute these files in any order to create the appropriate demo
+files.
+
+----------------------------------
+
+After installation, you should have the following files:
+
+-----------------------------------------------------------------------
+TCXLDEMO.EXE
+TCXLDEMW.EXE
+TCXLDEMO.IDC
+TCXLDEMW.IDC
+DEMO\TCXLDEMO.H
+
+TCXLDEMO is the DOS version of a shell program that runs various individual
+demo programs, listed in a menu.  Only those demos that are actually present
+on your installation will be selectable.  TCXLDEMO was built with the TCXL-DOS
+library, and uses TSpawn() (one of IDC's Advanced Utilities) to swap itself out
+of memory when executing programs.  TCXLDEMW is the Windows version of
+TCXLDEMO, and was built using TCXL/Windows, using the same source code as the
+DOS version.
+
+
+-----------------------------------------------------------------------
+ALLTCXLD.EXE
+ALLTCXLG.EXE
+ALLTCXLW.EXE
+DEMO\ALLMISC.C
+DEMO\ALLTCXL.C
+DEMO\ALLTCXL.H
+ALLTUID.EXE
+ALLTUIW.EXE
+DEMO\ALLTUI.C
+
+ALLTCXL is a program that demonstrates many of TCXL's capabilities, including
+menus, entry forms, online help, and scrolling virtual windows.  The File
+pulldown menu includes a functional scrolling file viewer, an order-entry form
+with printing capability, and a directory listing function.  Online context-
+sensitive help can be invoked at any time by pressing F1.  All menu items can
+be selected either from the keyboard or with the mouse.  ALLTCXL is provided
+in three version: ALLTCXLD.EXE (DOS text), ALLTCXLG.EXE (DOS graphics), and
+ALLTCXLW.EXE (Windows).  All three versions were built from the same source
+code.
+
+ALLTUI is equivalent to the ALLTCXL demo program, but is implemented using
+TCXL's new TesSeRact User Interface, or TUI.  TUI is a portable, CUA-style
+interface that is much easier to use than typical event-driven systems.  A
+TUI program compiled with TCXL/Windows is a true Windows application, with
+all the standard controls and capabilities.  The same program built with
+TCXL-DOS gives you a Windows-style interface under DOS.  ALLTUI is provides
+in a Windows version (ALLTUIW.EXE) and a DOS version (ALLTUID.EXE), both
+built from the same source code.
+
+
+-----------------------------------------------------------------------
+TPRNDEMO.EXE
+DEMO\TPRNDEMO.C
+DRIVER\DEFAULT.PRT
+DRIVER\DESKINT.PRT
+DRIVER\DESKPLUS.PRT
+DRIVER\DIABLO.PRT
+DRIVER\DOSTEXT.PRT
+DRIVER\EPSON.PRT
+DRIVER\HOUSTON.PRT
+DRIVER\HPLJSII.PRT
+DRIVER\HPPLOT.PRT
+DRIVER\IBMCOMP.PRT
+DRIVER\IBMGRAPH.PRT
+DRIVER\IBMPRO.PRT
+DRIVER\IBMPROPR.PRT
+DRIVER\IBMQUIET.PRT
+DRIVER\NECSPIN.PRT
+DRIVER\OKIDATA.PRT
+DRIVER\PANASON.PRT
+DRIVER\PANASON9.PRT
+DRIVER\TOSHIBA.PRT
+
+TPRNDEMO demonstrates TPRINT, the TesSeRact Printer Control System.  It will
+print to the printer port of your choice (or to a file) using the printer
+driver that you select.
+
+
+-----------------------------------------------------------------------
+EDTDEMO.EXE
+DEMO\EDTDEMO.C
+
+EDTDEMO is a functional full-screen editor built using TCXL/Editor (TEDT).
+EDTDEMO will edit any text file that you specify on the command line.  If
+no file is specified, it will display its own source code.  EDTDEMO makes
+full use of TEDT's ability to hook into TCXL's menu and help systems.  You
+can use EDTDEMO to try TEDT's scrolling, cursor movement, block manipulation,
+and searching capabilities, as well as all other standard text-editing
+activities.
+
+
+-----------------------------------------------------------------------
+TFILDEMO.EXE
+DEMO\TFILDEMO.C
+DEMO\TFILDEMO.H
+MAIL.DBF
+MAIL.DBT
+MAIL.NDX
+MAIL.NTX
+
+TFILDEMO demonstrates TFILE, the TesSeRact File Management System.  TFILDEMO
+allows you to view and edit an indexed database file in DBF format.  The
+browser interface was implemented using a TCXL entry form.
+
+
+-----------------------------------------------------------------------
+ADVDEMO.EXE
+DEMO\ADVDEMO.C
+DEMO\ADVDEMO.H
+
+ADVDEMO demonstrates some of the products that are included in the TCXL
+Advanced Utilities.  TSpawn() is used to execute an external program while
+swapping the current application out of active memory.  TRedir() gives a
+TCXL program the ability to redirect the screen output of any DOS program
+into a TCXL window.
+
+
+-----------------------------------------------------------------------
+TCMPDEMO.EXE
+DEMO\TCMPDEMO.C
+DEMO\TCMPDEMO.H
+
+TCMPDEMO demonstrates the TesSeRact Compression System.  You can use any of
+the various compression methods provided with TCOMP, and compare the results,
+using any file you select.

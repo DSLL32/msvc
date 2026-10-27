@@ -1,0 +1,11 @@
+//***************************************************************************
+// $System.OutFile$ - Module Functions & Message Procs
+// $system.date$ - $system.time$
+// $application.programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"ModuleRevisions"$
+#define _EXTERN extern		 // Use External definitions from main module
+#include "$Application.Name$.h"
+//$PROTECTBLOCK	"ModuleVars"$
+
+

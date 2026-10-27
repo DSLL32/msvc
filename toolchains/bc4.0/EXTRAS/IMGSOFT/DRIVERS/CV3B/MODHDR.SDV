@@ -1,0 +1,10 @@
+//***************************************************************************
+// $System.OutFile$ - Member Functions
+// $System.date$ - $System.time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"ModuleRevisions"$
+#include "$VPgmName$.hxx"				// Main App Class Definitions
+//$PROTECTBLOCK	"ModuleVars"$
+
+

@@ -1,0 +1,849 @@
+
+                     METAGRAPHICS
+      MetaWINDOW VERSION 4 PRODUCT DESCRIPTION
+
+
+MetaWINDOW - Graphic Tools That Give You More...
+
+More Power - More Speed - More Support - More Quality
+
+ALL PRODUCTS ROYALTY-FREE * NO POP-UP'S * NO TSR's
+
+
+MetaWINDOW is a high performance graphic
+programming toolkit that combines speed,
+functionality, quality and support into an
+integrated graphics development system.  Designed
+for PC programmers developing DOS real-mode, 286
+protected-mode or 386 protected-mode
+applications, MetaWINDOW provides a powerful
+suite of drawing functions, top-rated
+performance, and direct runtime support for
+virtually every popular display adaptor and
+SuperVGA available.  Using MetaWINDOW you can
+turn the promise and power of PC computer
+graphics into reality.
+
+
+   MetaWINDOW-DOS
+     Advanced graphics toolkit for DOS real-mode
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $249     With Source Code: $599 *
+
+   MetaWINDOW-DOS/286
+     Advanced graphics toolkit for DOS real-mode
+     and 286 protected-mode.
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $349     With Source Code: $799 *
+
+   MetaWINDOW-DOS/386
+     Advanced graphics toolkit for DOS real-mode
+     and 386 protected-mode.
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $449     With Source Code: $999 *
+
+   MetACCEL-DOS/286/386
+     Dynamic link drivers for hardware accelerated SVGA's.
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $349     With Source Code: $799 *
+
+   MetHICOLOR-DOS/286/386
+     Dynamic link drivers for 16 bit-per-pixel,
+     65536-color SuperVGA modes.
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $349     With Source Code: $799 *
+
+   PCXLab-DOS/286/386
+     Add support for PCX Image files and
+     Intel DCX image file libraries.
+     No TSR's, No Pop-ups and No Royalties
+     List Price: $249     With Source Code: $599 *
+
+   FontWINDOW/Plus
+     250+ fonts, font editor, fontBuilder scaleable font
+     ultilty, 20 scaleable outline fonts,
+     plus TypeType and PostScript type importer.
+     No Font Royalties
+     List Price: $249
+
+* Source code versions include both binary object
+  libraries and full assembly language source code
+  (requires Borland TASM or Microsoft MASM version
+  5 to reassemble).
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+MetaWINDOW   ROYALTY-FREE - NO TSR's - NO POP-UPS
+
+  MetaWINDOW-DOS
+  MetaWINDOW-DOS/286
+  MetaWINDOW-DOS/386
+
+MetaWINDOW is a high performance graphic
+programming toolkit that combines speed,
+functionality, quality and support into an
+integrated graphics development system.  Designed
+for PC programmers developing DOS real-mode, 286
+protected-mode or 386 protected-mode
+applications, MetaWINDOW provides a powerful
+suite of drawing functions, top-rated
+performance, and direct runtime support for
+virtually every popular display adaptor and
+SuperVGA available.  MetaWINDOW DOS real-mode and
+286 protected-mode applications are fully DPMI
+compliant, and can be icon-launched and run from
+Microsoft Windows!
+
+Optimized in tight assembly language code,
+MetaWINDOW provides a full set of graphic
+primitive for: points, lines, squares,
+rectangles, circles, ovals, arcs, wedges,
+polygons, bitmap text, plus seed and boundary
+fills. Enhanced features include:  rounded-corner
+rectangles, advanced object detection, scaleable
+text, dynamic font facing, image scaling, fill
+rules, dash styles, line cap styles, full
+standard and transparent rasterOps, plus
+user-definable multi-colored patterns up to 32x32
+pixels in size. MetaWINDOW fully supports drawing
+to virtual bitmaps in either conventional, EMS,
+XMS or virtual disk-cached memory.  You can also
+define multiple independent windows, process
+mouse/timer/keyboard events, and print graphics
+to popular laser and dot-matrix printers. 
+Advanced features include: region clipping,
+PostScript style pens and lines, colored cursors
+(up to 32x32 pixels in size), and more.
+
+MetaWINDOW supports over 80 graphics modes from
+HGA to SuperVGA and VESA up to 1280x1024.  You
+can also expand display support with MetACCEL and
+MetHICOLOR options. Plus, MetaWINDOW benchmarks
+an average 2 to 10+ times faster than other PC
+graphics toolkits on the market, and is 15 to
+55(!) times faster with MetACCEL driving a
+hardware accelerated SuperVGA (see "More Speed"
+above!
+
+MetaWINDOW comes with a 400 page softcover manual
+and direct link libraries for use with popular
+real-mode compilers. MetaWIDNOW-DOS/286 includes
+both DOS real-mode and 286 protected-mode
+libraries.  MetaWINDOW-DOS/386 includes both DOS
+real-mode and 386 protected-mode libraries.
+
+
+MetaWINDOW-DOS supports popular real-mode
+compilers including:
+
+     Borland C++, versions 3.0, 3.1
+     Borland Turbo C++, versions 3.0, 3.1
+     Borland Assembler, version 3
+     Borland Turbo Pascal, versions 6.0, 7.0
+        (direct link TPU's, no TSR's!)
+     Metaware C++
+     Microsoft Assembler, versions 5.x, 6.x
+     Microsoft C/C++, versions 5.1, 6.0, 7.0
+     Microsoft Quick C, version 2.0
+     Microsoft Visual C++, Version 1.0
+     TopSpeed C/C++, version 3.0
+     Watcom C/C++, version 9.0
+     Zortech C++, version 3.0
+
+
+MetaWINDOW-DOS/286 supports DOS real-mode
+compilers listed above, plus 286 protected-mode
+environments including:
+
+     Borland/Turbo Pascal 286 DPMI DOS-Extender
+       Borland/Turbo Pascal, version 7.0
+       (direct link TPU's, no TSR's!)
+
+     Phar Lap 286 DOS-Extender
+       Borland/Turbo C++, versions 2.0, 3.0, 3.1
+       Microsoft C/C++, versions 6.0, 7.0
+
+     Rational Systems DOS/16M 286 DOS-Extender
+       Borland/Turbo C++, versions 2.0, 3.0, 3.1
+       Microsoft C/C++, versions 6.0, 7.0
+       Zortech C++, version 3.0
+
+
+MetaWINDOW-DOS/386 supports DOS real-mode
+compilers listed above, plus 386 protected-mode
+environments including:
+
+     Phar Lap 386 DOS-Extender
+       Metaware C++ 386, version 3.0
+       Watcom C 386, version 9.0
+
+     Rational Systems DOS/4G 386 DOS-Extender
+       Metaware C++ 386, version 3.0
+       Watcom C 386, version 9.0
+
+     Watcom 4GW 386 DOS-Extender
+       Watcom C 386, version 9.0
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MetACCEL-DOS/286/386
+  Add support for hardware accelerated SuperVGA's
+  No TSR's, No Pop-ups and No Royalties
+  List Price: $349     With Source Code: $799 
+
+MetACCEL provides a set of enhanced graphic
+display drivers for use with MetaWINDOW graphic
+libraries.   MetACCEL adds expanded support for
+hardware accelerated SuperVGA's such as S3 based
+cards including: Orchid Fahrenheit-1280, Diamond
+Stealth, Actrix Graphics Engine, plus IBM 8514
+and ATI Graphics Ultra.  MetACCEL with a hardware
+accelerated card boosts graphics performance more
+than 5 to 15 times over the speed of standard
+software programmed SuperVGA's. MetACCEL includes
+libraries for DOS, plus both 286 and 386
+protected-mode.
+
+MetACCEL works with compilers and DOS extenders
+compatible with MetaWINDOW for DOS, 286 and 386
+(see above).
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+MetHICOLOR-DOS/286/386
+  Add support for 64K-color SuperVGA display modes
+  No TSR's, No Pop-ups and No Royalties
+  List Price: $349     With Source Code: $799 
+
+MetHICOLOR provides an expanded set of 16-bit per
+pixel display drivers for use with new "hi-color"
+SuperVGA cards and MetaWINDOW graphics
+programming libraries.  MetHICOLOR allos you to
+create graphics applications with near
+photorealistic images of up to 65,536 displayable
+colors. Optimized entirely in assembly language
+for tight fast code, MetHICOLOR provides the
+ultimate in hi-color graphics performance. 
+MetHICOLOR includes libraries for DOS, plus both
+286 and 386 protected-mode.
+
+MetHICOLOR works with compilers and DOS extenders
+compatible with MetaWINDOW for DOS, 286 and 386
+(see above).
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+PCXLab-DOS/286/386
+  Add support for PCX image files and
+  Intel DCX image file libraries.
+  No TSR's, No Pop-ups and No Royalties
+  List Price: $249     With Source Code: $599 
+
+Metagraphics PCXLab provides an expanded set of
+MetaWINDOW routines for working with PCX
+compressed image files and Intel DCX image file
+libraries.  Optimized in tight assembly language
+code, PCXLab allows you to develop graphics
+applications that can: import/export and display
+PCX image files, import/export and display Intel
+DCX image file libraries, scroll and scale
+PCX/DCX images, access image header and palette
+information, read/write images to local memory
+buffers, output PCX/DCX images to popular laser
+and dot-matrix printers, and more.  PCXLab
+supports popular monochrome, 16-color, 256-color
+and 64K-color PCX/DCX image file formats.  PCXLab
+includes libraries for DOS, plus both 286 and 386
+protected-mode.
+
+PCXLab comes with a 70 page soft cover book
+describing the PCX image file formats, Intel DCX
+file library format, and use of the PCXLab
+functions with MetaWINDOW.  PCXLab works with
+compilers and DOS extenders compatible with
+MetaWINDOW for DOS, 286 and 386 (see above).
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+FontWINDOW/Plus
+  250+ fonts, font editor, FontBuilder scaleable
+  font ultilty, 20 scaleable outline fonts,
+  plus TypeType and PostScript type importer.
+  No Font Royalties
+  List Price: $249
+
+FontWINDOW/Plus provides an extended set of bitmap
+fonts, font tools and font documentation for use
+with Metagraphics MetaWINDOW.  Over 250+
+additional English and international font styles
+are provided.  A graphical bitmap font editor
+allows you to interactively create custom fonts or
+foreign language character sets; merge characters
+from different fonts to create a new font; create
+icons and animation fonts; or create new
+bold-faced, italicized or rotated font sets. The
+FontBUILDER utility processes scaleable outline
+fonts to create high-quality MetaWINDOW bitmap
+fonts at any size you specify. FontBUILDER
+includes over 20 outline typefaces in four font
+families (Times, Helvetica, Courier and Script),
+plus can import TrueType and PostScript fonts for
+conversion to bitmap fonts for use with
+MetaWINDOW graphic toolkits.  Style facings
+include normal, bold, italic, thin, condensed,
+wide, expanded, hollow - and combinations
+thereof.  Virtually no limitiation on font point
+sizes.  Virtually unlimited font rasterization
+resolutions.
+
+FontWINDOW comes with over 200 additional bitmap
+font styles, and includes a 100 page soft cover
+book describing MetaWINDOW fonts and use of the
+font editor.
+
+==========================================================================
+
+MetaWINDOW - Graphic Tools That Give You More...
+
+More Power - More Speed - More Support - More Quality
+
+ALL PRODUCTS ROYALTY-FREE * NO POP-UP'S * NO TSR's
+
+
+
+> More Power
+
+MetaWINDOW provides all the capabilities of low
+level compiler and other graphic libraries, plus
+much more! Off-screen bitmaps, hardcopy output,
+user event-queue services, automatic cursor
+tracking and flexible bitmap text are standard
+features of all MetaWINDOW products. Enhanced
+versions add support for scalable vector text,
+selected object detection, rounded-corner
+rectangles, dynamic font facing, marker plotting,
+polyfill rules, dash styles, line caps and more. 
+For high-end power applications, advanced
+versions of MetaWINDOW add expanded capabilities
+for arbitrary-shape region clipping, region
+computation and drawing, variable size fill
+patterns, enlarged colored cursors, PostScript
+style drawing pens, international fonts, plus
+even more.  MetaWINDOW provides the most powerful
+series of graphics tools available for PC
+programmers.
+
+
+> More Speed
+
+Benchmarked as the fastest PC graphics toolkit in
+the world, MetaWINDOW defines the meaning of high
+performance graphics.  Optimized totally in
+assembly language for fast, tight code,
+MetaWINDOW executes over 2 to 8 times faster than
+other PC graphic libraries.
+
+
+> More Support
+
+MetaWINDOW provides total direct support for
+virtually every mode of HGA, CGA, EGA, VGA and
+SuperVGA available  up to 1280x1024 monochrome,
+16-color and 256-color.  Over 300+ graphic cards
+and display modes are supported directly by
+MetaWINDOW.  MetaWINDOW tools also support full
+VESA standards, insuring compatibility with
+future graphics technology.  Add-on MetACCEL and
+MetHICOLOR driver packages expand support for
+accelerated SuperVGA's (such as the Orchid
+Fahrenheit-1280, Diamond Stealth, ATI Graphics
+Ultra and IBM 8514A), and 64K-color "hi-color"
+SuperVGA modes.
+
+
+> More Quality
+
+MetaWINDOW provides uncompromising pixel perfect
+drawing quality and accuracy  fully retraceable
+drawing and clipping of all graphic elements and
+text, plus perfect alignment and edge meshing of
+all objects.  MetaWINDOW real-mode and 286
+protected-mode applications can also be launched
+and run from Microsoft Windows.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+MORE SPEED
+
+MetaWINDOW benchmarks as the fastest PC graphics
+toolkit in the world! Optimized totally in
+assembly language, MetaWINDOW performs highly
+complex graphics operations quickly and easily. 
+This unsurpassed power and speed has made
+MetaWINDOW the professional choice for
+performance demanding applications.
+
+MetACCEL provides even faster support for
+accelerated SuperVGA cards such as the
+Fahrenheit-1280 and Diamond Stealth, plus IBM
+8514/A and ATI Graphics Ultra cards. MetaWINDOW's
+direct support for these high performance cards
+provides yet another quantum leap in performance.
+MetaWINDOW's unsurpassed performance and
+flexibility translates into major user benefits:
+
+
+Better Look and Feel
+
+The end-user "look and feel" of MetaWINDOW based
+applications is unrivaled.  On-screen menus pop
+up instantly, cursor tracking moves flawlessly,
+paragraphs of text snap crisply on the screen,
+and drawing operations execute blindingly fast.
+
+
+Power-Applications
+
+MetaWINDOW applications perform 2 to 8 times as
+many drawing operations in the same time as other
+graphic libraries. From a practical standpoint,
+this means that your programs can do more, and
+that end-users can create and work with far more
+complex drawings before running  into excessive
+drawing delays.
+
+
+Expanded Markets
+
+MetaWINDOW's ultra-quick performance "pushes the
+envelope" for PC systems on which your
+applications can run.  What Microsoft Windows and
+other graphic libraries struggle with on a 386,
+MetaWINDOW runs lightning quick on even the
+slowest XT. MetaWINDOW's extraordinary speed
+dramatically expands the market opportunities for
+your programs.
+
+
+Quick Object-Oriented API
+
+MetaWINDOW tools are based on an object-oriented
+programming that reduces interface that provides
+quick, direct access to all levels of the
+graphics system.  This interface design
+streamlines code efficiency and improves
+performance, while at the same time using less
+memory.
+
+        Conventional          
+       Procedural API         
+ 
+  fillPat  = GetFillPattern();
+  rasterOp = GetOp();         
+  foreColr = GetColor();      
+  backColr = GetBkColor();    
+  dashStyl = GetLineStyle();  
+
+
+     MetaWINDOW Object-
+     Oriented Interface
+
+  fillPat  = thePort.pnPat;
+  rasterOp = thePort.pnMode;
+  foreColr = thePort.pnColor;
+  backColr = thePort.bkColor;
+  dashStyl = thePort.pnStyle;
+
+In the above example performing the same
+functions, MetaWINDOW's object-oriented design
+requires less than one-tenth the code and
+executes over 20 times faster than a typical
+procedural interface library.
+
+
+Fast Region Clipping
+
+MetaWINDOW provides advanced support for clipping
+and drawing to arbitrary-shaped "region" areas. 
+Regions define areas that may be of any shape,
+contain holes, and even comprise multiple
+disconnected pieces.  Without region clipping,
+overlapped windows or layered objects must be
+drawn in sequence from back to front - presenting
+the user with the most important information
+last.
+
+With region clipping, layered objects are drawn
+from front to rear.  Not only does this display
+foreground information first, but since obscured
+objects are clipped and not drawn at all, overall
+drawing speed is blindingly fast!
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+MORE SUPPORT
+
+MetaWINDOW provide direct support for virtually
+every popular SuperVGA card and display mode
+available - monochrome, 16-color and 256-color -
+up to 1280x1024 resolution!  Other graphic
+packages provide direct support for only a
+limited number of VGA chipsets or only selected
+display modes. Still others require users to load
+a VESA TSR driver to work with certain adaptors. 
+MetaWINDOW provides total direct support for
+virtually every graphics card available - period!
+
+MetaWINDOW also supports a full range of graphic
+input devices including: mice, digitizers, touch
+screens and graphic tablets.  Integrated hardcopy
+functions allow you to output graphics to a wide
+range of dot-matrix and laser printers.
+
+
+Accelerated & High-Color SuperVGA's
+
+MetACCEL add-on drivers expand support for
+"accelerated" SuperVGA's such as S3 based cards
+(e.g. Fahrenheit-1280, Diamond Stealth), IBM
+8514/A and ATI Graphics Ultra adaptors. 
+MetHICOLOR adds near photorealistic imaging with
+new 16-bit/pixel 64K-color "hi-color" SuperVGA's. 
+Optimized entirely in tight assembly language
+code, MetACCEL and MetHICOLOR provide the
+ultimate in high performance graphics.
+
+New graphics hardware and support capabilities are
+added to MetaWINDOW on a continuing basis.  See
+the MetaWINDOW Supported Systems list for a full
+summary of compilers, operating systems and
+graphics hardware currently supported.
+
+
+286 & 386 Protected Mode
+
+MetaWINDOW-DOS/286 and MetaWINDOW-DOS/386 shatter
+the 640K memory barrier providing advanced
+support for 286 and 386 protected mode
+applications. These products execute entirely in
+protected mode eliminating time consuming
+real-mode switch delays.  In protected mode,
+MetaWINDOW takes full advantage of the extended
+addressing, advanced instruction set and enlarged
+registers available for protected mode programs.
+
+
+Broad Third Party Support
+
+MetaWINDOW's power is also magnified by the
+largest contingent of third party accessory
+products of any PC graphics toolkit.  A growing
+list of leading developers such as Accelerated
+Technology, Autumn Hill Software, Courseware
+Applications, Inmark Development, Island Systems,
+Magma Systems, Nanocomp Graphics, Oakland
+Group/Liant, Oxford Consulting, Ready Systems,
+WNDX and others offer a wide range of extended
+products which further expand MetaWINDOW's power
+and capabilities.
+
+
+Comprehensive Technical Support
+
+MetaWINDOW comes with a 400 page softcover book
+which includes extensive illustrations and
+examples for writing graphics programs.  For
+additional help, comprehensive technical support
+is available via phone, fax, Metagraphics
+CompuServ forum, Metagraphics BBS or by electronic
+mail.
+
+
+Full Direct Support - plus VESA!
+
+VESA (Video Electronic Standards Association) has
+grown to become a de facto interface standard in
+an ever growing diversity of graphics display
+hardware and chipsets. Metagraphics, in fact, has
+been a pioneering VESA member since 1989 and
+helped in developing the VESA SVGA specification.
+VESA defines a basic software programming
+interface for working with a broad variety of VGA
+and SuperVGA graphic cards now available.  But
+experience has shown VESA has certain limits.
+
+* "It seems that video card manufacturers really
+   drag their feet when it comes to supporting
+   VESA."  "Worse, they implement it wrong."  "I
+   agree, the lack of proper VESA support from the
+   card manufacturers is very frustrating." "Even
+   when they do support VESA they take the liberty
+   of twisting it so that it won't work!"
+
+VESA provides a specification.  The compliance,
+thoroughness, accuracy and performance of any VESA
+driver is up to the supplier.  And like any
+software, VESA drivers can range from "excellent"
+to "incomplete and buggy".  To an end-user, a
+weak link in a VESA driver ends up reflecting in
+the application - end-users simply want things to
+work, not finger pointing.
+
+* "I've encountered many users who have SVGA cards
+   but who do not have a VESA driver installed, so
+   my program fails to recognize the card as VESA
+   capable.  I can detect the failure and exit
+   gracefully, but I've had difficulty explaining
+   that they need to install a driver before running
+   the program."  "In one case, the computer
+   manufacturer told them that it was the program's
+   fault for not properly supporting SuperVGA."
+
+Even when working VESA drivers are available,
+locating the correct one, then getting end-users
+to load a VESA TSR before running an application
+is problematic.  Graphic cards and the related
+software become easily separated. And many users
+simply don't like the hassle of loading and
+unloading VESA TSR's.
+
+MetaWINDOW provides a complete solution by
+combining total direct runtime support for
+virtually every graphics card and chipset on the
+market, along with full VESA support! 
+MetaWINDOW's comprehensive support does not
+require VESA drivers and insures superior
+compatibility, performance and ease of use for
+your application.  But full VESA support is also
+always available whenever your program needs it.
+
+*  Comments from developers on CompuServe graphics
+   forums.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+MORE QUALITY
+
+MetaWINDOW is widely known for its uncompromising
+attention to detail and "pixel perfect" drawing
+quality.  Small, yet critical points, such as
+clipping retraceability and precise polygon edge
+meshing are details you don't have to worry about
+with MetaWINDOW.  MetaWINDOW provides accurate
+and repeatable pixel placement for all drawing
+operations - no pixel shift variations when
+drawing clipped areas, and no misaligned pixel
+boundaries when drawing banded segments.  Polygon
+edges are also drawn with precise exactness -
+with no pixel overlaps or gaps along common edges
+of adjacent objects.  With MetaWINDOW, "close"
+doesn't count. MetaWINDOW's precision design
+stands up to the highest technical quality
+requirements.  In addition to pixel perfect
+drawing, MetaWINDOW also provides an array of
+advanced quality features:
+
+   Clipping retraceability insures that clipped
+   objects retrace exactly the same pixel
+   sequences.
+
+   Edge meshing insures the edges of adjacent
+   object meet without pixel gaps or overlaps.
+
+   Thin-line end-caps eliminate end-point gaps
+   when rubberbanding lines.
+
+   Polygon "fill rules" control of overlapping
+   polygon areas are filled or left blank.
+
+   Objects can be filled with either solid-color,
+   two-color patterns or full-color patterns.
+
+   Line dash styles control how dashed lines are
+   drawn: 1-color or 2-color.
+
+   Wide lines can either be drawn with a square or
+   round pen shape.
+
+   Line join styles control how the corners of
+   connecting lines appear: mitered, rounded or
+   beveled.
+
+
+
+Experience That Counts
+
+Metagraphics has been a pioneer in the PC graphics
+software industry for more than ten years since
+its founding in 1983. Today Metagraphics is a
+recognized leader in PC graphics with more
+commercial software products shipped using
+MetaWINDOW, than with any other graphics
+programming toolkit.  MetaWINDOW technology has
+been licensed for use in major applications by
+virtually every major computer industry leader
+including:
+
+         Autodesk
+         Britannica Software
+         Compaq Computer
+         Davidson Associates
+         Great Plains Software
+         Hewlett Packard
+         IBM
+         Ithaca Software
+         Maxis
+         National Instruments
+         Polaroid
+         Santa Cruz Operations
+         Siemens
+         Software Toolworks
+         Sony
+         Symantec/Peter Norton
+         ... the list goes on!
+         
+These companies, plus over a thousand more, are
+now shipping commercial applications based on
+MetaWINDOW. And now that MetaWINDOW is ROYALTY
+FREE, there's no reason for you not to use the
+best graphics toolkit available.  Professional
+developers have tested the field demanding the
+best - and have found it with MetaWINDOW!
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Look Who's Talking About MetaWINDOW!
+
+"MetaWINDOW is written in hand optimized assembly
+code and is very fast. It is virtually bug free,
+and the manufacturer has been very responsive to
+questions.  If you intend to do any graphics work
+at all, you must have this product."  "A
+technological tour de force for fast PC
+graphics."  "One high-powered piece of artillery."
+"Customer support is excellent.  I've called
+Metagraphics several times and have gotten
+prompt, accurate help each time."  "If you do any
+graphics programming in C, try Metagraphics'
+MetaWINDOW - you'll like it!" Turbo Technix / PC
+Tech Journal
+    Jeff Duntemann
+    PC Techniques
+
+
+"MetaWINDOW provides a complete DOS solution for
+our cross platform graphic tools.  Our WNDX
+software works with multiple high-end platforms
+including Microsoft Windows, Apple Macintosh,
+Unix X-Windows and OS/2. MetaWINDOW is the best
+graphics toolkit we've found.  It provides the
+speed, power and support we need for running in
+DOS and 286/386 protected mode."
+    Kevin Greenwood
+    WNDX Corporation
+
+
+"For serious developers who are ready for more
+than elementary graphics, MetaWINDOW offers an
+outstanding combination of power and performance.
+Incredible speed coupled with support for
+practically every video card available puts
+MetaWINDOW way ahead of the pack."
+    Dave Herman
+    Island Systems
+
+
+"MetaWINDOW provides the graphics power of
+Macintosh, Windows and X-Windows for use with PC
+DOS.   Drawing speed is easily five times faster
+than any other PC graphics environment, and it
+supports just about every graphics card
+available.  MetaWINDOW is our first choice for
+graphics tools, and the ONLY choice for DOS."
+    Tod Brannan
+    Oxford Consulting Group
+
+
+"MetaWINDOW's speed and broad display support
+makes Menuet applications shine!"
+    Marv Luse
+    Autumn Hill Software
+
+
+"MetaWINDOW is a mature product with support for
+probably more graphics adaptors than anyone else
+on earth." 
+    William Gates
+    Midnight Engineering
+
+
+"MetaWINDOW is truly an exceptional graphics
+library.  When used with .RT-Link you can build
+megabyte MetaWINDOW programs that run in standard
+640K DOS."
+    Byron Reese
+    PocketSoft
+
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+
+Points To Consider In A Graphics Toolkit
+
+   o  Top rated drawing speed.
+
+   o  Professional drawing quality.
+
+   o  Full direct display support, plus VESA.
+
+   o  286 & 386 protected-mode versions.
+
+   o  Builds Windows launchable real-mode
+      and 286 protected-mode applications.
+
+   o  Versions for accelerated S3 & 8514A SVGA's.
+
+   o  Versions for 64,000-color SuperVGA's.
+
+   o  Tight, fast object-oriented API.
+
+   o  Versions with advanced power features.
+
+   o  Source code available, if needed.
+
+   o  Used in more major commercial applications
+      than any other graphics toolkit.
+
+   o  Leading vendor with performance products
+      for more than 10 years.
+
+
+=============================================================================
+
+
+FOR MORE INFORMATION -    
+                          
+METAGRAPHICS CORPORATION  
+269 Mount Hermon Road, Suite 104
+PO Box 66779              
+Scotts Valley, CA 95066   
+U.S.A.                    
+
+
+Sales:            800/332-1550
+Main:             408/438-1550
+Support:          408/438-6750
+Fax:              408/438-5379
+BBS:              408/438-5368
+CompuServ Mail:   75300,3053
+CompuServ Forum:  GO METAGR
+Internet:         sales@metagraphics.com
+
+

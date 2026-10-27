@@ -1,0 +1,205 @@
+                    SOFTWARE LICENCE AGREEMENT
+
+    Code Farms Inc ("Licensor"), a Canadian corporation, whose principal
+    office is Richmond, Ontario, and ___________________________(Licencee"),
+    whose principal office is set forth at the end of this Agreement,
+    hereby agree as follows:
+
+        1. Definitions.
+    The following terms are defined for the purposes of this Agreement
+    as follows:
+    (a) "Designated Locations" means the locations specified on Schedule 1
+        to this Agreement where the Licensed Program is permitted to be
+        used, and such additional locations as may be approved by Licensor
+        in writing.
+    (b) "Licenced Program" means the "Code Farms C/C++ Libraries" software
+        including the "Preprocessor", "Macro Library", and "Function Library",
+        and also including any updates subsequently provided by Licensor,
+        if any, all permitted copies made by Licensee, and all basic or
+        related material pertinent to Code Farms' software.
+
+        2. Licence.
+    Subject to the terms of this Agreement, Licensor hereby grants to
+    Licensee an unlimited, fully paid-up, non-exlusive, non-transferable,
+    royalty free license to use the Licensed Program at Designated Locations
+    only. Licensee agrees not to sub-licence, distribute, reproduce, copy,
+    or incorporate the Licenced Program for any purpose other than by its
+    employees, agents and other users affiliated with the Licensee, including
+    user groups, for internal use, except as expressely permitted herein, and
+    further agrees not to use Licenced Programs at other than the Designated 
+    Locations.
+        Licensor does grant Licensee the right to distribute the
+    files produced by Code Farms Preprocessor, the Macro Library, and
+    the Function Library in the form specified in Schedule 1.
+
+          3. Consideration.
+    In consideration for the license granted hereunder, Licensee agrees to
+    communicate to Licensor all observations concerning the Licensed Program
+    in the course of the first year of Licensee's use of the Licensed Program,
+    including but not limited to errors, malfunctions, bugs, design flaws
+    and applications of the Licensed Program. Licensor shall have the right to
+    make use of this information in any manner it sees fit, any knowledge
+    gained, including any information and documents provided by Licensee
+    hereunder, relating to the testing of, or correction to the Licensed
+    Program.
+
+        4. Title.
+    The original, and any copies of the Preprocessor and of the source code
+    of the function library in whole or in part, which are made by Licensor
+    or Licensee, including translations, compilations, partial copies,
+    modifications, and updates are the sole property of Licensor. Licensor
+    specifically retains title to any improvement, enhancement or modification
+    made to the Preprocessor and to the files that provide saving on disk by
+    Licensee, including but not limited to, any incorporation of the
+    Preprocessor by Licensee into any other software program or porting to
+    a different hardware. In case that Licensor cease exist, Licensee 
+    is entitled to an unlimited use of the software by any number of its
+    employees, but not to its ownership.
+
+        5. Copies.
+    Licensee may make copies of different parts of the Licensed Program
+    as specified in Schedule 1. Licensee agrees to maintain records of
+    each copy of the Preprocessor made by Licensee, its employees, agents
+    and users affiliated with Licensee, even when such copies are
+    incorporated in other software which is rightfully produced by Licensee.
+
+        6. Copyright Protection.
+    Copies may be made only as permitted by this Agreement or with a prior
+    written consent of the Licensor. Licensee agrees to apply the following
+    copyright notice and proprietary notice of Licensor Programs when copying
+    any part of the Licenced Program: COPYRIGHT (C) 1989-1991 CODE FARMS INC,
+    AS AN UNPUBLISHED WORK. USE GOVERNED AND RESTRICTED BY LICENSE AGREEMENT.
+    ALL RIGHTS RESERVED.
+
+        7. Warranty of Title.
+    Subject to the limitations of Section 8 hereof, Licensor warrants that
+    the Licenced Program constitutes an original work of Licensor and that
+    Licensor has not granted any license or otherwise conveyed any right to
+    any third party inconsistent with the license granted hereunder. EXCEPT
+    FOR THIS EXPRESS LIMITED WARRANTY, LICENSOR MAKES NO WARRANTIES, EITHER
+    EXPRESS OR IMPLIED, AND DISCLAIMS ALL IMPLIED WARRANTIES OF MERCHANTABILITY
+    OR FITNESS FOR PARTICULAR PURPOSE.
+    THE LICENCED PROGRAM IS BEING LICENSED "AS IS".
+    IF THE LICENSEE IS NOT SATISFIED WITH THE LICENCED PROGRAM, THE PROGRAM
+    MAY BE RETURNED WITHIN 30 DAYS AFTER THE PURCHASE, AND THE PURCHASE PRICE
+    WILL BE REFUNDED.
+        Except as expressly provided in this Agreement or otherwise, Licensor
+    shall have no obligation hereunder for user training, software installation,
+    support, and maintenance of the Licensed Program.
+        It is understood that the Licensed Program has been tested only on a
+    limited scale, and may contain defects. Licensor makes no representations
+    or warranties regarding its use or performance.
+
+        8. Limitation of Liability.
+    THE PARTIES AGREE THAT LICENSOR WILL NOT BE LIABLE FOR ANY LOSS OF USE,
+    INTERRUPTION OF BUSINESS, OR INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL
+    DAMAGES OF ANY KIND.
+
+        9. Confidential Information.
+    Because it is in Licensor's interest to disseminate information about
+    the Licenced Program, the documentation and other materials about
+    "Code Farms C/C++ Libraries" are not considered confidential, and
+    may be distributed to a third party within the rules stated in this
+    Agreement. The Licensee can make any number of copies of the program
+    documentation for its internal use.
+
+        10. Governing Law; Attorneys Fees.
+    In the event any litigation or arbitration arises between the parties,
+    the prevailing party will be entitled to reasonable attorneys fees and
+    all costs incurred in enforcing this Agreement. The parties agree that
+    in the event of a breach of Sections 4, 5, 6, or 9 of this Agreement,
+    money damages will be difficult to ascertain and in any event will be
+    inadequate; and Licensor will be entitled to injunctive or other equitable
+    relief, in addition to other available remedies.
+
+        11. General.
+    This Agreement is not assignable. The rights under this Agreement or
+    any license granted hereunder may not be assigned, sublicensed or otherwise
+    transferred without prior written consent of Licensor. This is the entire
+    agreement between the parties relating to the Licenced Program and
+    replaces any previous agreement relating to the subject matter hereof.
+    This Agreement is governed by the internal laws of the Province of Ontario,
+    and may only be modified in writing signed by each party.
+    If any of the provisions of this Agreement are invalid under any applicable
+    statue or rule of law, such provisions or portions thereof are to that
+    extent to be ommited. The following addresses will be used for any and all
+    communication of the parties, subject to change upon written notice.
+
+    Dated   _____________, 1991           ----------------, 1991
+
+    Accepted and Agreed:                  Accepted and Agreed:
+
+         LICENSOR                               LICENSEE
+
+    By: _________________                 By: __________________
+
+    Jiri Soukup, president                ......................
+
+    Code Farms Inc                        ......................
+    7214 Jock Trail, Richmond,            ......................
+    Ontario, K0A 2Z0, Canada              ......................
+
+    tel. (613)-838-4829                   ......................
+    fax. (613)-838-3316
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        SCHEDULE 1
+                           to
+                 SOFTWARE LICENCE AGREEMENT
+                         between
+                    CODE FARMS INCORPORATED
+                           and
+
+              .................................
+
+    LICENCED SOFTWARE
+
+    Complete source code of the "Code Farms C/C++ Libraries", including:
+    1. Preprocessor/class generator
+       (for internal use by .............. only)
+    2. Function library.
+    3. Macro library.
+    4. Regression tests.
+    5. On-line documentation
+
+    NUMBER OF STATIONS
+
+    Limited to ...... stations  ....... series.
+
+    DESIGNATED LOCATIONS
+
+    .........................
+
+    PRICE
+
+    .........................

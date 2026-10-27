@@ -1,0 +1,229 @@
+RI(9)/VEDIT and VEDIT PLUS - Multiple File Editing/
+M(H)			!Display header
+
+YT\
+You can easily edit two, three or more files at the same time.  Each file can
+be of any size and can optionally be displayed in its own window.  You can
+also display different parts of one file in separate windows.
+
+Although you can open files for editing with the {FILE} sub-menu and split the
+screen into windows with the {WINDOW} sub-menu, several built-in keystroke
+macros (hot-keys) simplify these operations.
+
+<Alt-N>	Opens a new file for editing in the current buffer and window.  You
+	are prompted whether any existing file should be saved or abandoned.
+
+<Alt-O>	Opens a file for editing in a new buffer, but in the current window.
+
+<Alt-Y> Opens a file for editing in a new buffer in a new horizontal window.
+
+<Alt-T> Toggles the current window through the files being edited.
+
+\
+M(K)			!Pause for user
+
+7XS(100)		!Need 7 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main edit buffer
+EB demo.txt		!Load demo text
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/Many times you simply want to edit a new file after saving the current file,
+i.e. you don't need to simultaneously edit the two files.  You can edit a new
+file by pressing <Alt-N> (hot-key for {FILE, Open}-S).  For example, you are
+currently editing the file DEMO.TXT.  To save this file and begin editing
+DEMO2.TXT, press <Alt-N> and at the filename prompt enter "DEMO2.TXT".  If you
+modified DEMO.TXT, you will be prompted whether to save or abandon this file.
+		--- Press <Esc> to continue ---/
+
+B -V			!Display instruction text
+EE(@)			!Switch to main edit buffer
+V
+
+EE(1)
+B#K
+I/If you are not exactly sure of the filename, you can use VEDIT's "point and
+shoot" file selection.  When prompted for a filename simply press <Enter> to
+see all files in the current directory or enter a "filter" such as "*.txt" to
+select only the files ending in ".TXT".
+     Experiment with the "point and shoot" by pressing <Alt-N> again to select
+a new file to edit.  Note the help line on the bottom of the screen during
+point and shoot.		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EZY
+EB demo.txt
+EE(1)
+B#K
+I/You are again editing the single file "DEMO.TXT".  To open an additional file
+for editing press <Alt-O>.  At the prompt enter the name of the file to edit.
+For example, enter "DEMO2.TXT" and press <Enter>.
+
+You are now editing the file DEMO2.TXT.  The letter "A" in the top-left of the
+status line indicates that this file is being edited in buffer "A".
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+.bnXS(97)		!Save edit buffer #
+EE(1)
+B#K
+I/Press <Alt-T> to toggle between the files being simultaneously edited.
+Notice how the name of the active file is displayed on the status line.
+
+(This demo uses buffer "1" to display the instructions; therefore <Alt-T>
+also toggles to this text.  Normally, when you aren't running this demo,
+just the current files being edited would be displayed on the screen.)
+		--- Press <Esc> to continue ---/
+
+B -V
+EE#97
+V
+
+.bnXS(97)		!Save edit buffer #
+EE(1)
+B#K
+I/It is usually easiest to switch between files by repeatedly pressing <Alt-T>
+(hot-key for {FILE, Buffer toggle}).  Alternatively, you can press <F4> (hot-
+key for {FILE, Buffer switch}) which prompts for a buffer name.  If you know
+the name of its corresponding buffer, you can switch directly to a file by
+pressing <F4> and its buffer name.  Or you can press <Enter> for a pick-list
+of buffers and corresponding file names.
+		--- Press <Esc> to continue ---/
+
+B -V
+EE#97
+V
+
+EE(1)
+B#K
+I/Press <F4> and "A" to switch to buffer A; if you followed the directions
+earlier, this is the file DEMO2.TXT.  To switch back to the main buffer, press
+<F4>; you could press "@", but as a shortcut, you can simply press <F4> again.
+
+Press <F4> and <Enter>; you will now see the pick-list.  Press <F1> for on-
+line help on using the pick-list.  Press the name of the desired edit-buffer,
+or <Esc> to leave the pick-list.	--- Press <Esc> to continue ---/
+
+B -V
+EE#97
+V
+
+EE(1)
+B#K
+I/Feel free to experiment using <F4> and the pick list.  An additional (third)
+file you can simultaneously edit is "DEMO14.TXT".  (Note: multiple file
+editing is simpler when you are not within the context of this demo macro.)
+
+You can also directly access the pick-list by pressing <Alt-F1> which is the
+hot-key for {HELP, Edit buffers}.
+		--- Press <Esc> to continue ---/
+
+B -V
+EE#97
+V
+
+EE(D) EQY		!Close buffers D, C, B and A
+EE(C) EQY
+EE(B) EQY
+EE(A) EQY
+EE(@) EZY		!Empty main buffer
+EB demo.txt		!Load demo file again
+EE(1)
+B#K
+I/You are again editing the single file "DEMO.TXT".  To simultaneously edit a
+second file, but also display it in its own window, press <Alt-Y>.  At the
+prompt enter the name of the file to edit.  For example, enter "DEMO2.TXT".
+
+Notice how the screen has been split in half and that the status line
+indicates you are editing "DEMO2.TXT".
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+.bnXS(97)		!Save edit buffer #
+EE(1)
+B#K
+I/Press <Alt-T> to toggle the current window between the files being edited.
+Press <Ctrl-T> to toggle between the windows.  With just these two keys you
+can easily display any file in any window or windows. <Alt-T> is a hot-key
+for {FILE, Buffer toggle}.  <Ctrl-T> is a hot-key for {WINDOW, Window toggle}.
+
+Feel free to experiment.  The mouse can also switch between windows.
+	   	--- Press <Esc> to continue ---/
+B -V
+EE#97
+V
+
+EE(1)
+B#K
+I/With a mouse, you can easily switch between windows by moving the mouse
+anywhere within the desired window and clicking the left button.
+
+When you click the left button in a non-active window, VEDIT switches to
+that window.  When you click the left button in the active window, VEDIT
+moves the editing cursor to the position of the mouse cursor.
+		--- Press <Esc> to continue ---/
+B -V
+EE(@)
+V
+
+8XS(100)		!Need 8 line window
+M(W)			!Create instruction window; set attributes
+EE(A) EQY
+EE(B) EQY
+EE(C) EQY
+EE(@) EZY
+ER demo.txt 0A		!Load demo file again
+EE(1)
+B#K
+I/You are again editing the single file "DEMO.TXT".  To display the file in two
+vertical windows press <Alt-V>.  Press <PgDn> a few times.  Notice how only
+the current window scrolled down.  You can view different parts of a file at
+the same time.
+
+Press <PgUp> again until both windows show the same text.  Make some edit
+changes.  Notice how both windows update at the same time.
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/Press <PgDn> again a few times.  Now press <Ctrl-T> to toggle between the
+windows on the screen.  This lets you switch to the other window on the same
+file.  You can, of course, edit in this window too.
+
+You can use <Ctrl-T>, <Alt-F4>, the {WINDOW} sub-menu or the mouse to switch
+windows.  Experiment.
+
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\VEDIT and VEDIT PLUS make it easy to compare files.  The function {SEARCH,
+Compare buffers} (default: <Ctrl-F3>) performs a quick comparison of two
+(already loaded) files from their current cursor positions.  The cursor
+advances to the next difference encountered.
+
+The more elaborate COMPARE macro (not on the demo disk) performs automatic
+realignment and is ideal for merging/updating two variations of a file.
+		--- Press <Esc> to return to the Main Menu ---\
+
+B -V
+EE(@)
+V

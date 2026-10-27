@@ -1,0 +1,338 @@
+$OUTPUT "jtools.hpp"$					 // Output JTOOLS Class Definitions
+#ifndef __JTOOLS_HPP
+#define __JTOOLS_HPP
+
+#ifndef MDI
+#include "mdi.hpp" 	 // Only include once
+#endif
+
+class jToolItem
+{
+  int nID;
+public:
+  zBitmap	*pBitmap1, *pBitmap2;
+  BOOL bState, bButton, bBorder, bShadow, bEnabled;
+  zRect *rect;
+
+  jToolItem(const char *Type, int id, int X,int Y,int W,int H, const char *Bitmap1, const char *Bitmap2, const char *Shadow, const char *Border);
+  ~jToolItem();
+  void Show(zDisplay *c, zBrush *ButtonBrush, zPen *ShadowPen);
+  void SetState(BOOL State){bState = State;}
+  BOOL GetState(){return bState;}
+  void Enable(BOOL bFlag){bEnabled = bFlag;}
+  int  GetID(){return nID;}
+};
+
+declPtr(jToolItem);
+declDlist(jToolItem);
+
+class jToolBar : public zPane
+{
+protected:
+  zPen *ShadowPen;
+  zBrush *ButtonBrush;
+  BOOL bButtonDown;
+  jToolItem *SelToolItem;
+	int nHeight;
+public:
+	jToolItemDlist ToolItems;
+  jToolBar(zWindow *w, int H);
+  ~jToolBar();
+	
+	int GetHeight() {return nHeight;}
+  void AddTool(const char *Type, int id, int X,int Y,int W,int H, const char *Bitmap1, const char *Bitmap2, const char *Shadow, const char *Border)
+	{ ToolItems.append(new jToolItem(Type, id, X, Y, W, H, Bitmap1, Bitmap2, Shadow, Border)) ;}
+  void SetItemState(int ID, int bState);
+
+	virtual int draw(zDrawEvt* Ev);
+	virtual int mouseButtonUp(zMouseClickEvt*);
+	virtual int mouseButtonDown(zMouseClickEvt*);
+	virtual int mouseMove(zMouseMoveEvt*);
+};
+
+// Margin Frame is needed for MDI Apps with Tool Bar
+class MDIToolBarFrame : public zMDIMarginFrame
+{
+public:
+// Use WS_BORDER for now because of placement of margin at bottom
+	MDIToolBarFrame(zFrameWin *w, zSizer *siz, SIDE s) :
+	zMDIMarginFrame(w,siz,WS_BORDER,"",s){};
+	
+	// Route tool bar commands to MDIFrame
+	virtual int command(zCommandEvt *Ev) {return parent()->command(Ev);}
+};
+
+// Size Pane using borders...needed to size around status and toolbars
+class jFrameSizer:public zSizer
+{
+	int Left, Top, Right, Bottom;
+public:
+	jFrameSizer(int L, int T, int R, int B): zSizer()
+	{Left=L; Top=T; Right=R; Bottom=B;}
+	virtual void resize(zWindow *w,zSizeEvt *Ev)
+	{
+		w->move(new zRect(Left, Top, Ev->width()-Right, Ev->height()-Bottom));
+	}
+};
+#endif
+$OUTPUT "jtools.cpp"$					 // Output JTOOLS source file
+#include "zapp.hpp"
+#include "jtools.hpp"
+#include <string.h>
+
+jToolItem::jToolItem(const char *Type, int id, int X,int Y,int W,int H, 
+	const char *Bitmap1, const char *Bitmap2, const char *Shadow, const char *Border)
+{
+	nID = id;
+	pBitmap1 = new zBitmap(zResId(Bitmap1));
+	pBitmap2 = new zBitmap(zResId(Bitmap2));
+	
+	rect = new zRect(X, Y, X+W, Y+H);
+	bState = FALSE;
+	bEnabled = TRUE;
+
+	if ( *Shadow == 'Y' )
+		bShadow = TRUE;
+	else
+		bShadow = FALSE;
+
+	if ( *Border == 'Y' )
+		bBorder = TRUE;
+	else
+		bBorder = FALSE;
+
+	if ( !stricmp(Type, "Button") )
+		bButton = TRUE;
+	else
+		bButton = FALSE;
+}
+jToolItem::~jToolItem()
+{
+	if ( pBitmap1 ) 
+	    delete pBitmap1;
+
+	if ( pBitmap2 ) 
+	    delete pBitmap2;
+
+	delete rect;
+}
+void jToolItem::Show(zDisplay *c, zBrush *ButtonBrush, zPen *ShadowPen)
+{
+	DWORD dwMode; 
+	c->pushPen(new zPen(BlackPen));
+	c->pushBrush(ButtonBrush);
+
+	int	nOffset = 0, nShift = 0;
+
+	if ( bBorder )
+		nOffset++;
+	if ( bShadow )
+		nOffset++;
+	if ( bState && bShadow)
+		nShift=1;
+
+	if (bEnabled)
+		dwMode = SRCCOPY;
+	else
+		dwMode = MERGECOPY;
+
+	if (bBorder)
+		c->rectangle(*rect);
+	else
+	  c->fill(*rect);
+
+	if ( !*pBitmap1 )
+		return;
+
+	if (bState && *pBitmap2)
+		c->bitmap(pBitmap2, rect->topLeft()+nOffset+nShift, dwMode);
+	else
+		c->bitmap(pBitmap1, rect->topLeft()+nOffset+nShift, dwMode);
+
+	if (bShadow)
+	{
+		if (bState)
+			c->pushPen(ShadowPen);
+		else
+			c->pushPen(new zPen(WhitePen));
+	 	
+		c->moveTo(rect->left()+nOffset-1, rect->bottom()-nOffset);
+	 	c->lineTo(rect->left()+nOffset-1, rect->top()+nOffset-1);
+	 	c->lineTo(rect->right()-nOffset+1, rect->top()+nOffset-1);
+	
+		if (!bState)
+		{
+			delete c->popPen();
+			c->pushPen(ShadowPen);
+	 		c->moveTo(rect->right()-nOffset, rect->top()+nOffset-1);
+	 		c->lineTo(rect->right()-nOffset, rect->bottom()-nOffset);
+	 		c->lineTo(rect->left()+nOffset-2, rect->bottom()-nOffset);
+	 		c->moveTo(rect->right()-nOffset-1, rect->top()+nOffset);
+	 		c->lineTo(rect->right()-nOffset-1, rect->bottom()-nOffset-1);
+	 		c->lineTo(rect->left()+nOffset-1, rect->bottom()-nOffset-1);
+			c->popPen();	 // Don't delete shadowpen
+		}
+		else
+		{
+			c->popPen();	 // Don't delete shadowpen
+			if (!bBorder) 	
+			{
+				c->pushPen(new zPen(WhitePen));
+				c->moveTo(rect->right()-nOffset, rect->top()+nOffset);
+		 		c->lineTo(rect->right()-nOffset, rect->bottom()-nOffset);
+	 			c->lineTo(rect->left()+nOffset-1, rect->bottom()-nOffset);
+				delete c->popPen();	 
+			}
+		}
+	}
+
+	delete c->popPen();
+	c->popBrush();
+}
+
+jToolBar::jToolBar(zWindow *w, int H)
+ : zPane(w, new zSizer(0,0,GetSystemMetrics(SM_CXSCREEN), H))
+{
+	nHeight = H;
+	bButtonDown = FALSE;
+	ShadowPen = new zPen(GetSysColor(COLOR_BTNSHADOW), Solid, 1);
+	ButtonBrush = new zBrush(GetSysColor(COLOR_BTNFACE));
+	SelToolItem = NULL;
+	WndBackColor=GetSysColor(COLOR_BTNFACE);
+}
+jToolBar::~jToolBar()
+{
+	delete ShadowPen;
+	delete ButtonBrush;
+}
+int jToolBar::draw(zDrawEvt*) 
+{
+	zRect r, r1;
+	jToolItemDlistIter trav(&ToolItems);
+	
+	getInterior(r1);
+
+	canvas()->lock();
+
+	canvas()->pushPen(new zPen(BlackPen));
+	canvas()->moveTo(0, r1.bottom()-1); canvas()->lineTo(r1.right(), r1.bottom()-1);
+	
+	canvas()->pushPen(ShadowPen);
+	canvas()->moveTo(0, r1.bottom()-2); canvas()->lineTo(r1.right(), r1.bottom()-2);
+	
+	canvas()->popPen();	 // Don't delete shadowpen
+	
+	canvas()->getDirty(r);
+	delete canvas()->popPen();
+	
+	jToolItem* t;
+	while((t=trav())!=0) 
+		if (r.intersects(*t->rect)) 
+			t->Show(canvas(), ButtonBrush, ShadowPen);
+	
+	canvas()->unlock();
+	return 1;
+}
+
+int jToolBar::mouseButtonDown(zMouseClickEvt *e)
+{
+	if (e->isButton(1)) 
+	{
+		SelToolItem = NULL;
+		jToolItemDlistIter trav(&ToolItems);
+
+		jToolItem* t;
+		while((t=trav())!=0) 
+		{
+			if (t->rect->contains(e->pos())) 
+			{
+				SelToolItem = t;
+				SelToolItem->SetState( !SelToolItem->GetState() );
+				canvas()->lock();
+				SelToolItem->Show(canvas(), ButtonBrush, ShadowPen);
+				canvas()->unlock();
+
+				PostMessage(*parent(), WM_MENUSELECT, SelToolItem->GetID(), 0);	
+				
+				if ( !SelToolItem->bButton )	// Tell Parent the CheckBox has been set
+					PostMessage(*parent(), WM_COMMAND, SelToolItem->GetID(), 0);	
+				break;
+			}
+		}
+	}
+	bButtonDown = TRUE;
+	SetCapture(*this);
+	return 0;
+}
+int jToolBar::mouseMove(zMouseMoveEvt *e)
+{
+	if ( bButtonDown && SelToolItem )
+	{
+		if ( SelToolItem->rect->contains(e->pos()) != SelToolItem->GetState())
+		{
+			if ( SelToolItem->bButton )
+			{
+				SelToolItem->SetState( !SelToolItem->GetState() );
+				canvas()->lock();
+				SelToolItem->Show(canvas(), ButtonBrush, ShadowPen);
+				canvas()->unlock();
+			}
+			if (SelToolItem->rect->contains(e->pos()))
+				PostMessage(*parent(), WM_MENUSELECT, SelToolItem->GetID(), 0);	
+			else
+				PostMessage(*parent(), WM_MENUSELECT, 0, MAKELONG(-1,0));
+		}
+	}
+	return 0;
+}
+int jToolBar::mouseButtonUp(zMouseClickEvt *e)
+{
+	if (e->isButton(1)) 
+	{
+		jToolItemDlistIter trav(&ToolItems);
+		jToolItem* t;
+		while((t=trav())!=0) 
+		{
+			if ( t->rect->contains(e->pos()) && t->GetState())
+			{
+				if ( t->bButton )
+				{
+			 		t->SetState( !t->GetState() );
+					canvas()->lock();
+					t->Show(canvas(), ButtonBrush, ShadowPen);
+					canvas()->unlock();
+
+			 		PostMessage(*parent(), WM_COMMAND, t->GetID(), 0);	// Tell Parent the button has been set
+				}
+			}
+			else
+			{
+				if ( t->bButton && t->GetState())
+				{
+					t->SetState( !t->GetState() );
+					canvas()->lock();
+					t->Show(canvas(), ButtonBrush, ShadowPen);
+					canvas()->unlock();
+				}
+			}
+		}
+	}
+	PostMessage(*parent(), WM_MENUSELECT, 0, MAKELONG(-1,0));	
+  bButtonDown = FALSE;
+	ReleaseCapture();
+	return 0;
+}
+void jToolBar::SetItemState(int ID, int bState)
+{
+	jToolItemDlistIter trav(&ToolItems);
+	jToolItem* t;
+	while((t=trav())!=0) 
+	{
+	 	if(t->GetID() == ID)
+	 	{
+	 		t->SetState(bState);
+	 		break;
+	 	}
+	}
+}
+

@@ -1,0 +1,281 @@
+R*
+R*	S U B R O U T I N E   M A C R O S
+R*
+R*  H -	"Header" macro - displays colored header
+R*	Enter:  R9 = text to display, Q21 = attribute to use
+R*
+RI(H)\
+YJN  9 1		R* Partial window borders
+YJN 10 0		R* No scroll bars
+(.wb==2 | .wt>1)[ YWI ]	R* Remove any windows and/or scroll bars
+Q27YEA YEC		R* Clear window
+.u9+10XS(0)		R* Q0 = total width of header
+(.wc-Q0)/2XS(1)		R* Q1 = # spaces to center header
+
+YEN Q1YEB		R* New line and spaces to center
+Q21YEA			R* Switch attribute
+"É:YD			R* Box-corner
+Q0-2["Í:YD] "»:YD	R* Box-top and box-corner
+
+Q27YEA			R* Restore attribute
+YEN Q1YEB		R* New line and spaces to center
+Q21YEA			R* Switch attribute
+"º:YD			R* Box-side
+4YEB			R* 4 spaces before header
+RD(9)			R* Actual header
+4YEB			R* 4 spaces after header
+"º:YD			R* Box-side
+
+Q27YEA			R* Restore attribute
+YEN Q1YEB		R* New line and spaces to center
+Q21YEA			R* Switch attribute
+"È:YD			R* Box-corner
+Q0-2["Í:YD] "¼:YD	R* Box-top and box-corner
+
+Q27YEA			R* Restore attribute
+YEN			R* End current line
+\
+R*
+R*  K -	"Key" macro - pause for user to press any key
+R*
+RI(K)\
+.wlYEV
+Q23YEA
+YT/		      --- PRESS ANY KEY TO CONTINUE --- /
+Q27YEA
+XK(0)//
+\
+R*
+R*  L -	"List" macro - list data files one page at a time
+R*	Enter:  R9 = header to display
+R*		R8 = filename of data file
+R*
+RI(L)\
+EE(7) EZY		R* Switch to temp buffer and empty it
+ER |R8			R* Open desired file
+0A			R* Read it all in
+
+M(H)			R* Display header using R9
+
+[			R* Start REPEAT-UNTIL loop
+
+6YEV 0YEH		R* Move cursor below header
+YES			R* Erase to to end of window
+
+.pXS(0)			R* Save current edit position
+F//			R* Search for <Ctrl-S> which ends this screen
+Q0,.p-1T		R* Display one screen of text (move back to Q0)
+F//			R* Find same <Ctrl-S> again
+
+M(K)			R* Pause()
+
+.eofJL			R* REPEAT-UNTIL end of file reached
+]
+
+EE(@)			R* Switch back to main buffer
+\
+R*
+R*  M -	"Menu" macro - displays and prompts user with menu
+R*	Enter:	R8 = Multi-line menu	Q8 = attribute for menu-bar
+R*		R9 = header to display
+R*					Q12 = initial menu item to highlight (-1)
+R*	Return: Q12 = user's selection number
+R*
+R*	Usage:	Q1 = # spaces to center menu
+R*		Q3 = Count of # lines in menu
+R*		Q4,Q5 = Save for cursor position
+R*
+RI(M)\
+M(H)			R* Display header using R9
+			R* Return: Q1 = # spaces to center header
+YEN			R* Display blank line
+1XA(12)			R* Skip to next menu-line
+EE(8)			R* Switch to editing menu-text
+Z			R* Goto last line+1
+.ln-1XS(3)		R* Q3 = # lines in menu
+B
+
+Q3[			R* Loop for all lines in menu
+	Q1YEH		R* Horizontally position on line
+	T L		R* Display line and goto next line
+]
+
+YEN			R* Display blank line
+Q1YEH			R* Horizontally position on line
+Q23YEA
+YT/Select with Arrow keys or <Space Bar>; then press <Enter>/
+Q27YEA
+.wxXS(5) .wyXS(6)	R* Save cursor position
+
+[
+
+B Q12-1L		R* Position to text for menu-bar
+Q12+5YEV Q1YEH		R* Position cursor in window
+Q8YEA			R* Highlight attribute
+T			R* Display text
+Q27YEA			R* Restore attribute
+
+!KEY!
+
+Q5YEH Q6YEV		R* Restore cursor position
+XF(0)""			R* Wait for keyboard input
+
+(Q0=="R *256+"T)[ JM ]		R* If <Return>
+
+(.kp(0)<>32) & (Q0<>"C*256+"U) & (Q0<>"C*256+"D)[	R* If invalid key
+	YA JP/KEY/					R* Get next key
+    ][				R* ELSE - <SPACE> or <Up> <Down>
+	B Q12-1L		R* Position to text for menu-bar
+	Q12+5YEV Q1YEH		R* Position cursor in window
+	T			R* Display text in normal attribute
+	(Q0=="C*256+"U)[
+		-XA(12) (Q12<1)[ Q3XS(12) ]
+	][
+		XA(12) (Q12>Q3)[ 1XS(12) ]
+	]
+    ]
+]
+\
+R*
+R*  N -	Macro to display the next screen of instructions during Command
+R*	Mode demos.
+R*	Enter: Instruction text loaded into edit buffer 1.
+R*
+RI(N)\
+EE(1)			R* Switch to edit buffer 1
+@F/|L/			R* Search for next ^S
+(.es) [ EE(@) RJ(Z) ]	R* Return to main menu when end-of-file reached
+-100K B			R* Delete text preceding ^S
+-V			R* Display next screen
+EE(@)
+\
+R*
+R*  S -	Macro to display signon message.
+R*	Set Q29 = "Y/N" for scroll bars.
+R*
+RI(S)\
+RI(9)"Welcome to the VEDIT Family Demonstration"
+M(H)			R* Display header
+
+EE(@)
+YT`
+Welcome to the demonstration/tutorial of the VEDIT Family of file editors.
+
+The VEDIT Family of editors includes VEDIT Jr., VEDIT and VEDIT PLUS. Since
+these editors are upwards compatible, this demo is applicable to all three.
+
+The demo is divided into 14 topics that you can select from a main menu. The
+features common to all three editors are covered first. Then the additional
+features in VEDIT (primarily multi-file editing, windowing and data/binary
+file editing) are covered. Last, the macro programming language capabilities
+of VEDIT PLUS are introduced.
+
+Unlike other demonstrations which are just "slide shows", in this demo you
+are running a fully functional version of VEDIT PLUS. When you are done with
+the demo, you can use VDEMO.EXE to edit your own files. The READ-ME.BAT file
+describes the capabilities and restrictions of VDEMO.EXE in more detail.
+
+Enjoy!
+`
+M(K)			R* Wait for <Enter>
+5YEV 0YEH YES		R* Position cursor, clear rest of screen
+
+YT`
+VEDIT Jr. has many features to make editing simple and productive:`
+
+Q22YEA			R* White on red
+YT`
+  * Intuitive full screen editing; edit text and data/binary files of any size  
+  * Pull-down menus with "hot keys", on-line help and mouse support             
+  * Block operations by character, line, file or column; block indent/undent    
+  * Completely re-configurable keyboard layout; unlimited keystroke macros      
+  * Multi-level UNDO (up to 1000 levels) lets you quickly recover from mistakes 
+  * Word processing features simplify editing of documentation, reports, etc.   
+  * Special features for program development (C, Assembler, Pascal, PL/I etc.)  
+`
+Q27YEA
+YT`
+VEDIT has all the features above plus:`
+Q22YEA
+YT`
+==> Simultaneously edit multiple files with or without windows                  
+==> Multi-mode editing of data/binary files in ASCII, EBCDIC or Hexadecimal     
+==> Integrated Compile/Link/Debug/Make support with automatic error tracking    
+`
+Q27YEA
+YT`
+VEDIT PLUS adds a powerful text oriented "programming language":`
+Q22YEA
+YT`
+==> Eliminates repetitive editing tasks; create your own editing functions      
+==> A complete application language for filters, translators and much more      
+==> This demonstration is entirely written in the VEDIT PLUS macro language!    
+`
+Q27YEA
+
+M(K)
+5YEV 0YEH YES
+
+YT`
+This demonstration is quite in-depth and also serves as a tutorial for new
+users. It is best to run through the menu from top to bottom. A quick
+overview will take about 15 minutes while a detailed tutorial will take about
+an hour. The topic marked as "Tutorial" is the most in-depth.
+
+NOTE:	   VEDIT attempts to increase your keyboard's "typematic" repeat rate.
+	   If this interferes with your pre-programmed rate, use the "-K"
+	   invocation option - see READ-ME.BAT.
+
+REMEMBER:  One window always gives explanations and directions. The last line
+	   tells you how to continue to the next "lesson". You can usually
+	   press the <Esc> key repeatedly to quickly run through the demo.
+
+	   Or you can press <Alt-F8> to return to the main menu.
+
+`
+M(K)
+5YEV 0YEH YES
+
+YT`
+VEDIT can display editing windows with or without scroll bars.
+
+Advantage	Scroll bars simplify mouse operation. They show the
+		relative position in the file.
+
+Disadvantage	Because of the lines/columns used by the scroll bars,
+		less of the file(s) can be seen at once.
+
+Without real scroll bars, VEDIT's "stealth" scroll bars still let you
+perform all mouse operations.
+
+`
+.wa+8YEA
+(.ma>0)[
+    YT`VEDIT has detected a mouse on your system.` YEN Q27YEA
+    YT`The mouse cursor is initially in the top left corner where it is invisible.
+The tutorial introduces mouse operation.`
+    ][
+    YT`VEDIT has not detected a mouse on your system.`
+    ]
+2YEN
+Q23YEA
+YT"Do you want to use scroll bars in this demonstration? [Y]es [N]o "
+[ XK(29)"" Q29&95XS(29) (Q29=="Y | Q29=="N)JL YA ] Q29YD
+\
+R*
+R*  W -	"Window" macro - create instruction window.
+R*	Enter:  Q100 = size of desired window.
+R*		Q29  = "Y" if scroll bars enabled.
+R*
+RI(W)\
+Q29="Y[
+    YJN 10 1 YWI	!Enable scroll bars if needed
+    0YWB(1) Q100	!Borderless window below
+    ][
+    (.wt>1)[ YWI ]	!Delete multiple windows
+    YWB(1) Q100		!Else a normal window
+    ]
+Q26YEA			!Set editing attribute
+YWS(1) Q27YEA		!Set attribute in instruction window
+YWS(@)
+\

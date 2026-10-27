@@ -1,0 +1,42 @@
+$IF VLinkToType == "Dialog"$
+	$LOOP Application.Dialogs WHERE Dialog.Name == VLinkToName$
+		$IF Dialog.IsModal == "N"$
+	P$CAP(Dialog.Name)$ pDlg = new $CAP(Dialog.Name)$(this, "$Dialog.Name$");
+	GetApplication()->MakeWindow(pDlg);
+	pDlg->Show(SW_SHOW);
+		$ELSE$
+	GetApplication()->ExecDialog(new $CAP(Dialog.Name)$(this, "$Dialog.Name$") );
+		$END IF$
+	//$PROTECTBLOCK	VProtectTag$
+	$BREAK$
+	$END LOOP$
+$ELSE$
+	$IF VLinkToType == "Window"$
+	PTWindow pWin = new $VLinkToName$(this);
+	GetApplication()->MakeWindow(pWin);
+	pWin->Show(SW_SHOW);
+	//$PROTECTBLOCK	VProtectTag$
+	$ELSE$
+		$IF VLinkToType == "Application"$
+	//$PROTECTBLOCK	VProtectTag$
+	WinExec("$LITERAL(VLinkToName)$", SW_SHOW);
+		$ELSE$
+			$IF VLinkToType == "UserCode"$
+			$COPYSOURCE VLinkToName$	 // Insert User Code
+	//$PROTECTBLOCK	VProtectTag$
+			$ELSE$
+				$IF VLinkToType == "CommonDialog"$
+				$INPUT "commdlg.sdv"$
+				$ELSE$
+					$IF VLinkToType == "SoundFile"$
+	sndPlaySound("$LITERAL(VLinkToName)$", SND_SYNC);
+	//$PROTECTBLOCK	VProtectTag$
+					$ELSE$
+	//$PROTECTBLOCK	VProtectTag$
+					$END IF$
+				$END IF$
+			$END IF$
+		$END IF$
+	$END IF$
+$END IF$
+

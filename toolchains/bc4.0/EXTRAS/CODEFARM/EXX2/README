@@ -1,0 +1,12 @@
+
+ This is the application most C++ programmers want to see:
+ How to handle heterogenous lists with virtual functions.
+ The example has a linked list of Shapes, that can be either Squares
+ or Rectangles. The entry pointer to the list is encapsulated under
+ Root. Root and Shapes form a COLLECTION.
+
+ In one command, util.save(), the entire data organization is saved to
+ disk, then util.open() retrieves the data back to memory.
+
+ In order to run the program, type:   test < inp > out
+ The results will be deposited into file 'out'.

@@ -1,0 +1,90 @@
+$IF VLinkToType == "Dialog"$
+	$LOOP Application.Dialogs WHERE Dialog.Name == VLinkToName$
+		$IF Dialog.IsModal == "N"$
+					HWND h$CAP(VLinkToName)$ = CreateDialog(hInst, "$VLinkToName$", hWnd, $VLinkToName$DlgProc);
+					ShowWindow(h$CAP(VLinkToName)$, SW_SHOW);
+		$ELSE$
+					DLGPROC lpDlgProc = (DLGPROC)MakeProcInstance((FARPROC)$VLinkToName$DlgProc, hInst);
+					DialogBox(hInst, "$VLinkToName$", hWnd, lpDlgProc);
+					FreeProcInstance((FARPROC)lpDlgProc);
+		$END IF$
+					//$PROTECTBLOCK	VProtectTag$
+	$BREAK$
+	$END LOOP$
+$ELSE$
+	$IF VLinkToType == "Window"$
+		$LOOP Application.Windows WHERE Window.Name == VLinkToName$
+			$IF Application.Type == "MDI"$
+					// Create an MDI Child window.
+					MDICREATESTRUCT cs;
+   					cs.szClass = "$Window.Name$WClass";
+			   		cs.szTitle = "$Window.Caption$";
+   					cs.hOwner  = hInst;
+					$IF Window.DefaultPosition != "Y"$
+					cs.x       = 	$Window.X$;
+					cs.y       = 	$Window.Y$;
+				$ELSE$
+  					cs.x       = 	CW_USEDEFAULT;
+					cs.y       = 	CW_USEDEFAULT;
+				$END IF$
+				$IF Window.DefaultSize != "Y"$
+					cs.cx      =	$Window.W$;
+					cs.cy      =	$Window.H$;
+				$ELSE$
+	   				cs.cx      = CW_USEDEFAULT;
+	   				cs.cy      = CW_USEDEFAULT;
+				$END IF$
+   					cs.style   = $Window.Style$;
+   					cs.lParam   = 0;
+   					SendMessage(hWndClient, WM_MDICREATE,
+           					0, (LONG) (LPMDICREATESTRUCT) &cs);
+			$ELSE$
+					HWND h$Window.Name$ = CreateWindow( 
+						"$Window.Name$WClass",
+						"$Window.Caption$",
+						$Window.Style$,
+				$IF Window.DefaultPosition != "Y"$
+						$Window.X$,
+						$Window.Y$,
+				$ELSE$
+  						CW_USEDEFAULT,
+						CW_USEDEFAULT,
+				$END IF$
+				$IF Window.DefaultSize != "Y"$
+						$Window.W$,
+						$Window.H$,
+				$ELSE$
+  						CW_USEDEFAULT,
+						CW_USEDEFAULT,
+				$END IF$
+  						hWnd,	NULL,	hInst, NULL);
+					ShowWindow(h$Window.Name$, SW_SHOW);
+					UpdateWindow(h$Window.Name$);
+					//$PROTECTBLOCK	VProtectTag$
+			$END IF$
+		$BREAK$
+		$END LOOP$
+	$ELSE$
+		$IF VLinkToType == "Application"$
+					//$PROTECTBLOCK	VProtectTag$
+					WinExec("$LITERAL(VLinkToName)$", SW_SHOW);
+		$ELSE$
+			$IF VLinkToType == "UserCode"$
+			$COPYSOURCE VLinkToName$	 // Insert User Code
+					//$PROTECTBLOCK	VProtectTag$
+			$ELSE$
+				$IF VLinkToType == "CommonDialog"$
+				$INPUT "commdlg.sdv"$
+				$ELSE$
+					$IF VLinkToType == "SoundFile"$
+					sndPlaySound("$LITERAL(VLinkToName)$", SND_SYNC);
+					//$PROTECTBLOCK	VProtectTag$
+					$ELSE$
+					//$PROTECTBLOCK	VProtectTag$
+					$END IF$
+				$END IF$
+			$END IF$
+		$END IF$
+	$END IF$
+$END IF$
+

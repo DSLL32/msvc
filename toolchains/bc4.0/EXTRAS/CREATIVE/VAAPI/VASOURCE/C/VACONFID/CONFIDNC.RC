@@ -1,0 +1,16 @@
+#include <windows.h>
+#include <bwcc.h>
+
+
+CONFIDENCE DIALOG 80, 23, 116, 54
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CLASS "CONFIDENCE"
+CAPTION "Confidence"
+BEGIN
+	CONTROL "Command:", 100, "static", SS_LEFT | WS_CHILD | WS_VISIBLE, 4, 1, 63, 52
+	CONTROL "Score:", 101, "static", SS_LEFT | WS_CHILD | WS_VISIBLE, 71, 2, 43, 52
+END
+
+
+
+

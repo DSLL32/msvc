@@ -1,0 +1,15 @@
+/*  VCS_ID
+ *  $Filename:   mdiedit.rc
+ *  $Author  :   John Pompeii
+ *  $Revision:   1.2  $
+ *  $Date:   28 Dec 1991 14:33:06  $
+ */
+ 
+#define INCL_WINSTDSPIN
+#include <os2.h>
+#include "mdidlg.h"
+
+
+POINTER I_OBJPM PRELOAD MOVEABLE document.ico
+
+rcinclude mdidlg.dlg

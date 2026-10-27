@@ -1,0 +1,67 @@
+type
+  P$CAP(Dialog.Name)$ = ^T$CAP(Dialog.Name)$;
+$IF Dialog.ClassName != ""$ 		  { Use DlgWindow if class specified}
+  T$CAP(Dialog.Name)$ = object(TDlgWindow)
+$ELSE$
+  T$CAP(Dialog.Name)$ = object(TDialog)
+$END IF$
+ 	WorkStr : array[0..80] of Char;
+	$IF COUNT(Dialog.listboxs) > 0$
+	$LIST Dialog.listboxs "Lb"+listbox.name$ : PListBox; 
+	$END IF$
+	$IF COUNT(Dialog.edits) > 0$
+	$LIST Dialog.edits  "Ed"+edit.name$ : PEdit;
+	$END IF$
+	$IF COUNT(Dialog.statics) > 0$
+	$LIST Dialog.statics  "St"static.name$ : PStatic;
+	$END IF$
+	$IF COUNT(Dialog.RadioButtons) > 0$
+	$LIST Dialog.RadioButtons "Rb"+RadioButton.Name$ : PRadioButton;
+	$END IF$
+	$IF COUNT(Dialog.CheckBoxs) > 0$
+	$LIST Dialog.CheckBoxs "Cb"+CheckBox.Name$ : PCheckBox;
+	$END IF$
+	$IF COUNT(Dialog.ComboBoxs) > 0$
+	$LIST Dialog.ComboBoxs "Co"ComboBox.Name$ : PComboBox;
+	$END IF$
+
+ 	constructor Init(AParent: PWindowsObject; AName : PChar);
+	procedure SetupWindow; virtual;
+	function CanClose: Boolean;virtual;
+$IF Dialog.ClassName != ""$ 
+	procedure GetWindowClass(var AWndClass: TWndClass);virtual;
+	function GetClassName: PChar;virtual;
+$END IF$
+$VAR VCancel = "N"$
+$LOOP Dialog.Buttons$  
+	$IF Button.Id == "IDOK"$
+	$OR Button.Id == 1$
+	procedure Ok(var Msg: TMessage); virtual id_First + id_Ok;
+	$ELSE$
+		$IF Button.Id == "IDCANCEL"$
+		$OR Button.Id == 2$
+		$VCancel = "Y"$
+	procedure Cancel(var Msg: TMessage); virtual id_First + id_Cancel;
+		$ELSE$
+	procedure Msg$Button.Name$(var Msg: TMessage); 
+		virtual id_First + $Button.Id$;
+		$END IF$
+	$END IF$
+$END LOOP$
+$IF Dialog.ClassName != ""$ // TDlgWindow dialogs incorrectly call CanClose()
+$AND VCancel == "N"$
+	procedure Cancel(var Msg: TMessage); virtual id_First + id_Cancel;
+$END IF$
+$LOOP ToolBar.ToolItems$
+	$IF ToolItem.ToolType == "Button"$
+	procedure CM$ToolBar.Name+ToolItem.Name$(var Msg: TMessage);
+		virtual cm_First + cm_$ToolBar.Name+ToolItem.Name$;
+	$END IF$
+$END LOOP$
+$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+	procedure CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(var Msg: TMessage); 
+		virtual cm_First + cm_$TRIM(MenuItem.PopupName+MenuItem.Name)$;
+$END LOOP$
+	{$PROTECTBLOCK	"d"+Dialog.Name+"Definition"$}
+  end;
+

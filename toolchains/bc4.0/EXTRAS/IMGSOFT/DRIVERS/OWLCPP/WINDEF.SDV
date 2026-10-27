@@ -1,0 +1,52 @@
+_CLASSDEF($Window.Name$)
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$							 
+class MDIChild : public TWindow 				 // Practice MDI Child Window
+{
+public:
+	MDIChild(PTWindowsObject AParent, Pchar Title) 
+	: TWindow(AParent, Title){}
+};
+
+class $Window.Name$ : public TMDIFrame 	 // MDI Parent Window
+{
+public:
+	$Window.name$();
+	virtual PTWindowsObject CreateChild()
+	{
+  		return GetApplication()->MakeWindow( 
+			new MDIChild(this, "MDI Child Window"));
+	}
+
+	$ELSE$																 // Normal Window
+class $Window.Name$ : public TWindow 
+{
+public:
+	$Window.name$(PTWindowsObject AParent);
+	$END IF$
+$ELSE$																 // Normal Window
+class $Window.Name$ : public TWindow 
+{
+public:
+	$Window.name$(PTWindowsObject AParent);
+$END IF$
+
+	virtual void CloseWindow();
+	virtual void SetupWindow();
+	virtual LPSTR GetClassName() {return "$Window.Name$";}
+	virtual void GetWindowClass(WNDCLASS&);
+	$IF Application.Type == "MDI"$
+	$AND Window.IsMain == "Y"$							 
+	$AND ToolBar.Name != ""$							 
+	virtual void WMSize(RTMessage Msg) = [WM_FIRST+WM_SIZE];	// For Toolbar
+	$END IF$
+$END IF$
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+	virtual void Msg$ToolBar.Name+ToolItem.Name$(RTMessage Msg) = [CM_FIRST+CM_$UP(ToolBar.Name)UP(ToolItem.Name)$];
+$END LOOP$
+$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+	virtual void CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(RTMessage Msg) = [CM_FIRST+CM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$];
+$END LOOP$
+	//$PROTECTBLOCK	"w"+Window.Name+"Class"$
+};
+

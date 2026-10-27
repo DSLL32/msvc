@@ -1,0 +1,24 @@
+$ARRAY AModules$									 // Array of all pgm modules
+$VAR VPgmName = Application.Name$
+$IF Dialog.ModuleName != "Default"$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Dialog.ModuleName)$
+$ELSE$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Dialog.Name)$
+$END IF$
+$ADDVAL AModules VModuleName$	 { Add Module Name to list }
+$IF ToolBar.Name != ""$			{ If Window has Toolbar, include jtools }
+$ADDVAL AModules "Jtools"$	 	{ Add ToolBar Module First }
+$END IF$
+$ARRAY AConstants$		{Add all constants to array - used in dlgdef.sdv}
+$LOOP application.dialogs$
+	$LOOP dialog.Controls$
+		$ADDVAL AConstants Control.Id$
+	$END LOOP$
+$END LOOP$
+$OUTPUT VModuleName+".pas"$		{ Output to source file }
+$INPUT "modhdr.sdv"$	 { Process Module Include Info to source file }
+$INPUT "dlgdef.sdv"$	 { Process Dialog Definition Driver to Module Header }
+implementation	 { Begin implementation }
+$INPUT "dlgmem.sdv"$	 { Process Dialog Member Functions to source file }
+end. { end of implementation }
+

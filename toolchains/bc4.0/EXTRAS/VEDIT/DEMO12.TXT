@@ -1,0 +1,311 @@
+As you enter Command Mode commands,
+you will be able to see their effect
+in the upper left window.
+
+There are several commands for moving
+the cursor:
+
+Z	Move to end of file
+B	Move to begin of file
+
+L	Move down one line
+10L	Move down 10 lines
+-L	Move up one line
+-5L	Move up five lines
+
+C	Move right one character
+-C	Move left one character
+-20C	Move left 20 characters
+
+Type each of these commands.  Remember
+to press <Enter> after each command.
+
+-- Give command "MN" to continue --
+
+
+Two commands delete text:
+
+D	Delete current character
+5D	Delete next 5 characters
+
+K	Delete to end of current line
+-2K	Delete the previous two lines
+
+Several commands insert text:
+
+I/text/	Insert the following 'text'
+nEI	Insert character with value 'n'
+
+For example, give the command:
+
+I/Insert this text. /
+
+To insert the graphics character with
+value "205" give the command:
+
+205 EI	   (the space is optional)
+
+-- Give command "MN" to continue --
+
+
+The real power of Command Mode comes
+from the ability to combine commands.
+
+For example, the commands to insert a
+new line at the end of the file are:
+(Note: Press the "<Enter>" key twice .)
+
+Z I/This is the last line <Enter>
+/ <Enter>
+
+An alternate way to do the same thing
+is:
+
+Z  I/This is the last line / YN
+
+The commands to delete the first line in
+the file are:
+
+B K
+
+
+-- Give command "MN" to continue --
+
+
+
+The "F" (Find) command searches for
+text.  For example, to find the next
+occurrence of "the" give the commands:
+
+F/the/
+
+The command to search for the 4th
+occurrence of "the" is:
+
+4F/the/
+
+(Try this: press <Cursor Up> to get the
+previous command "F/the/", press <Home>,
+type "4" and press <Enter>.)
+
+The commands to search from the
+beginning of the file for the word "the"
+occurring at the beginning of a line is:
+
+B F/|<the/
+
+-- Give command "MN" to continue --
+
+
+
+You can use the Command Mode as a simple
+integer calculator by just typing in the
+algebraic expression you want
+calculated.  For examples, enter:
+
+12 + (169 / 13)    (and <Enter>)
+
+24 * 92 - 16
+
+You can also calculate the ASCII values
+of characters and control characters.
+For example, enter:
+
+"A
+
+Its value is 65 because the letter "A"
+is the 65th character in the ASCII
+table.  For the value of <CTRL-S> enter:
+
+^S	(Type "^", then type "S".)
+
+Its value is 19.
+-- Give command "MN" to continue --
+
+
+VEDIT PLUS's on-line calculator also
+works with hexadecimal numbers.  For
+example, to convert the hex number
+"FA3B" to decimal, enter:
+
+0HFA3B
+
+Its value is 64059.
+
+To convert decimal "1234567" to hex,
+enter:
+
+\1234567
+
+Its value is 0H12D687.
+
+You can even perform mixed-radix
+calculations like this:
+
+(0HFA3B - 59) / 64
+
+-- Give command "MN" to continue --
+
+
+
+The following "macro" will display the
+line numbers of those lines in our file
+which contain the phrase "VEDIT PLUS".
+Type it in carefully.  Note that you
+must press the <ESC> key.
+
+B [ F/VEDIT PLUS/ .LN <ESC> ]
+
+Here is how it works:
+
+The "B" moves to the beginning of the
+file.   The "[" and "]" specify a loop
+which is to be repeated.  The
+"F/VEDIT PLUS/" searches for the phrase.
+The ".LN <ESC>" displays the current
+line number.  The macro loops until
+done.
+
+Congratulations.  You have now written
+a computer program using VEDIT PLUS!
+
+-- Give command "MN" to continue --
+
+
+
+Here is a macro which counts the number
+of words in the file and displays the
+result:
+
+0XS(1)
+B [ F/|S|A/ XA(1)]
+YT/Number of words =/ XT(1)
+
+Try it.
+
+"0XS(1)" initializes a counter to zero.
+"F/|S|A/ searches for the next word.
+"XA(1)" increments the counter each
+time a word is found.  The "YT" command
+displays the following text and "XT(1)"
+displays the contents of the counter.
+
+-- Give command "MN" to continue --
+
+
+
+
+
+
+
+VEDIT PLUS has many internal counters
+which simplify writing useful macros.
+For example, the following macro is an
+easier way of counting the words in a
+file.  Try it.
+
+B #F/|S|A/
+YT/Number of words = / .RV
+
+
+"#F/|S|A/" searches for all occurrences
+of a new word.  ".RV" displays how many
+times the search succeeded, i.e. how
+many words there are in the file.
+
+-- Give command "MN" to continue --
+
+
+
+
+
+
+
+
+
+"YI" is a very powerful command which
+lets you re-route anything that is
+normally displayed on the screen into
+the file.
+
+For example, try this variation of the
+previous macro:
+
+B #F/|S|A/
+Z
+YI YT/Number of words = / .RV
+
+
+-- Give command "MN" to continue --
+
+
+
+
+
+
+
+
+
+
+
+Note:	Since the help system fills
+	the entire screen, you should
+	read these instructions before
+	typing anything.
+
+The "H" command gives help in Command
+mode by first displaying several
+screens which list all commands.  For
+help on a particular command type the
+command letter(s) and <Enter>.
+
+For example, for help with the "ET"
+command which changes the Tab positions,
+type "H" and <Enter> and then "ET" and
+<Enter>.
+
+As an alternative, you can give the
+command "H ET" (and <Enter>) which skips
+the help menu and directly gives help on
+the "ET" command.
+
+-- Give command "MN" to continue --
+
+
+
+The "H" command gives help on any
+command.  The "EH" command gives help on
+common topics.
+
+The on-line help uses three help files
+(VVHELP.HLP, VPHELP.HLP and
+VPEHELP.HLP).  You can easily change
+these files to suit your own purposes.
+It is also informative to print these
+files;  they contain approximately the
+same information as the Quick Reference
+section of the manual.
+
+-- Give command "MN" to continue --
+
+
+
+
+
+
+
+
+
+
+
+This demo has barely scratched the
+capabilities of the Command Mode.
+However, we hope that it has given you a
+few hints on how it can be used.
+
+If you are the programming type, you may
+want to print the on-line help file
+VPHELP.HLP which briefly describes each
+command.
+
+-- Give command "MN" to continue --

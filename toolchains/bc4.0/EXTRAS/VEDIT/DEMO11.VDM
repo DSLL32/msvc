@@ -1,0 +1,160 @@
+RI(9)\VEDIT and VEDIT PLUS - Data/Binary File Editing\
+M(H)			!Display header
+
+YT\
+VEDIT's new, most unique, and for some people, most important feature is its
+ability to edit not only text files but also data (binary) files.  This means
+that VEDIT can edit ANY file you will ever encounter.  And it can edit multi-
+megabyte files (up to 2 Gigabytes) much faster than any other program you
+have ever used.
+
+The different "display modes" used for editing data files are also useful when
+editing text files that have embedded control and graphics characters.
+
+Since we can't fit a multi-megabyte data file onto this demo disk, we will
+demonstrate data file editing using the VDEMO.EXE file.  It will be opened
+in "Browse mode" so that it is not accidentally altered.
+
+Note:	If you attempt to alter VDEMO.EXE you will get an error message, and
+	the next time you press <ESC>, you will be returned to the main menu.
+
+\
+M(K)			!Pause for user
+
+8XS(100)		!Need 8 line window
+M(W)			!Create instruction window; set attributes
+EZY			!Empty main buffer
+:EB vdemo.exe		!Load file
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I\The VDEMO.EXE file has been loaded and is display above.  (Like many data
+files, it looks like gibberish.)  Since a typical ".EXE" file has what appears
+to VEDIT to be "Line-Feed" characters, VDEMO.EXE has been opened as a text
+file.  Some "lines" are short; others are quite long.  VEDIT considers each
+line to be a "variable length record".
+
+Select {CONFIG, File Handling, File type} and enter a new value of "64".  Then
+press <Ctrl-C>.		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\The file is now displayed with 64 characters per screen line.  The right
+edge is ragged because some characters, such as Line-Feed, are displayed
+as the four characters "<LF>".  The blank space is due to the many "nulls" in
+the begining of the file.  VEDIT's "display modes" let you display the file in
+other, perhaps more useful ways.
+
+VEDIT now considers each line to be a "fixed length record" of 64 bytes.
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+-EP 13 64	R* Force file type = 64
+V
+
+EE(1)
+B#K
+I\<Alt-D>, the hot-key for {WINDOW, Toggle display mode} lets you toggle
+between five ASCII modes for displaying control and graphics characters,
+plus Hexadecimal and EBCDIC modes.  Each window can be in a different mode!
+
+Press <Alt-D> repeatedly to toggle through the seven modes.  The mode
+immediately after Hexadecimal is "EBCDIC".  This is primarily useful for
+editing files downloaded from an IBM mainframe.
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EZY
+-EP 13 0	R* Reset file type
+YWS(@) 0YED	R* Reset display mode
+I/
+ÚÄÄÄÄÄÄÄ¿
+³       ³
+ÃÄÄÄÄÄÄÄ´
+³       ³
+ÀÄÄÄÄÄÄÄÙ
+
+Control characters can be displayed in different ways: 
+/
+B
+EE(1)
+B#K
+
+I\Since it is easier to understand the "display modes" by viewing some text
+containing graphics and control characters, we have created an example
+containing both above.
+
+Press <Alt-D> repeatedly to toggle through the display modes again.  Notice
+how the graphics and control characters are displayed in different ways.
+(You can edit the text above to experiment.)
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EZY
+:EB vdemo.exe
+-EP 13 16	R* Set file type = 16
+YWS(@) 4YED	R* Set display mode = 4
+35L		R* Skip initial "nulls"
+
+EE(1)
+B#K
+I\VDEMO.EXE has been loaded again.  The file type has been set to "16".  You can
+also view/edit in both Hexadecimal and ASCII at the same time.
+
+Select {WINDOW, Hex-mode split}.  The left window now displays in Hexadecimal
+and the right window in ASCII.  Notice that the ASCII window displays all
+characters literally, including Tab, Carriage-Return and Line-Feed.  You can
+edit in either window.  Use <Ctrl-T> to toggle between the windows.
+		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I\When you are in the hexadecimal window, the status line displays the cursor's
+relative file position in hexadecimal.  New bytes must be entered in hex.
+(However, you are currently in browse mode!)  You can search for hex values
+using the "|Hhh" pattern matching code.  For example, the search string
+"|H45|H6E" will search for the byte sequence "45 6E".
+
+If desired, you can press <Alt-D> to toggle the display mode of the current
+window.		--- Press <Esc> to continue ---\
+
+B -V
+EE(@)
+V
+
+EZY
+RI(9)\VEDIT and VEDIT PLUS - Data/binary File Editing\
+M(H)			!Display header
+
+YT\
+VEDIT has other data/binary file editing capabilities that are outside the
+scope of this demo.  A simple VEDIT PLUS macro can convert a "fixed length
+record" file (without Line-Feed characters) downloaded from a mainframe into
+a normal DOS text file.
+
+The "File type" can be set to any record size, even a record size of "2048".
+Horizontal scrolling can be used to edit these long records.  Alternatively,
+the "Horizontal scroll margin" can be set to wrap long records (lines) onto
+multiple screen lines.
+
+If you have a CD-ROM attached to your computer, you might enjoy using VDEMO
+to browse some of the huge data files found on CD-ROMs.
+
+		--- Press any key to return to the Main Menu ---\
+
+XK(0)""

@@ -1,0 +1,5 @@
+
+      For a quick, thorough introduction
+      to Rose for Windows, take a guided
+      tour using the Tutorial.  A program
+      item has been pre-installed!

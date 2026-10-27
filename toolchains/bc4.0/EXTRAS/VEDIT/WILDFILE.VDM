@@ -1,0 +1,213 @@
+!	WILDFILE.VDM Macro
+!
+! Runs any VEDIT command or another macro on an entire group of files.
+!
+! Register Usage:
+!
+!	  Y		Break-out/exit macro
+!	Q80		User's last choice
+!	Q81		Value of parent auto-execution macro
+!	Q82		T-Reg # containing this macro
+!	Q83		Original edit buffer #
+!	Q88		Original ES 8 value
+!	Q89		ES 9 value
+!	Q90		Edit-buffer # for editing each file
+!	Q91		Edit-buffer # for holding main macro
+!	Q92		T-Reg # for holding macro executed for each file
+!	Q93		T-Reg # for holding search string
+!	Q94		T-Reg # for holding replace string; temp filenames
+!	Q97		Flag - pause after each file
+!	Q98		Flag - break-out operation
+!	Q99		Flag - 1987654321 when macro is running
+!
+!****************************************************************************
+R*
+R*	Init -	1) Save state; set desired ES values
+R*		2) Determine free edit buffers/T-Regs
+R*		3) Setup Y with Break-out/exit (auto-execute) macro
+R*
+(Q99=1987654321)@JP"LABEL1"	R* Skip init if macro already running
+XPUSH(80,99)			R* Save numeric regs
+.raXS(81)			R* Q81 = parent's auto-execution (0=none)
+.mnXS(82)			R* #82 = T-Reg containing this macro
+.bnXS(83)			R* #83 = original edit buffer
+ES 8 1 .rvXS(88)		R* Save original ES values; set new ones
+ES 9 1 .rvXS(89)
+
+.bfXS(90) EE(#90)		R* #90 = buffer for editing files
+.bfXS(91) @EE(#91)		R* #91 = buffer for main macro
+.bfXS(92) RI(#92)" "		R* #92 = Reserve T-reg for sub-macro
+.bfXS(93) RI(#93)" "		R* #93 = Reserve T-Reg for search string
+.bfXS(94) RI(#94)" "		R* #94 = Reserve T-Reg for replace string
+
+R*
+R*****  Macro Y catches break-outs and exits macro
+R*
+RI(y)~
+.ws(z)>0[ YWD(z) ]
+(.ed & Q11=-1)_JP"EXIT"		R* Exit if VDEMO and demo macro are running
+YEN
+Q98=1[ YA YT"BREAK-OUT!" ]
+YT"
+1) Run WILDFILE again
+2) Exit macro, return to VEDIT
+3) Exit VEDIT (save/abandon files)
+
+Enter desired option: "
+
+[ XK(0)"" ("0<Q0 & Q0<"4)JL YA ] Q0:YD		R* Get valid reply
+
+-EE(#91) EZY -EE(#90)
+(Q0=="1)[ RJ(#82) ]
+(Q0=="3)[ EXX RJ(#82) ]
+
+!EXIT!
+ES 8 Q88			R* Restore state before returning
+ES 9 Q89
+-EE(#90) EQY -EE(#91) EQY RE(#92) RE(#93) RE(#94)
+-EE(#83)			R* Return to original edit buffer
++RA(#81) -YYA
+XPOP(80,99)			R* Restore numeric regs
+.ra>0[ JM ][ +JO ]
+~
+
+R*
+R*	Main Body of Macro...
+R*
+!LABEL1!
+1XS(98)			R* Enable "BREAKOUT" message
+1987654321XS(99)	R* Macro is now running
++RA(Y) YYA		R* Enable Break-out macro
+
+EE(#91)	EZY		R* Switch to main macro and clear it
+YEC
+YT"
+                *****************************************
+                *                                       *
+                *       WILDFILE.VDM - 11/12/92         *
+                *        Multi-file Processing          *
+                *                                       *
+                *****************************************
+
+Enter the names of the files you want to operate on and <Enter>.
+(The wildcards '?' and '*' may be used).
+
+Press <Enter> twice when done.
+
+"
+R*
+R*	Prompt for filenames and expand wildcards; add complete pathname.
+R*
+#[
+!FLOOP!
+:RQ(#94)"Enter filename: " (.u#94=0)_JL
+:ED|R#94			!Test if file(s) exist (.rv==0 if not)
+(.rv=0)[ YT"File(s) not found.  Try again." YEN JP"FLOOP" ]
+Z .pXS(0)			!Goto end of buffer and save position
+YI 1ED|R#94 -YI			!Insert directory into edit-buffer #91
+Q0EJ				!Restore position
+N"Directory "			!Search for "Directory" header
+-K				!Delete partial header and previous blank line
+.pXS(0)				!Save current position
+$N"|>"				!Advance to end of line
+Q0,.pRC(#92)			!Copy drive:pathname to T-Reg #92
+0KK				!Delete rest of header
+!
+!	Cleanup filenames.
+!
+B #[ $N"|L|L" ; -K ]		!Remove blank lines
+B #$S"|W""			!Eliminate excess white space (in filenames)
+B #[ $N".." ; 0KK ]		!Remove the ".." entry
+(.os<4)[			!DOS uses "\", UNIX/QNX use "/"
+	B #[ $N"\|>" ; 0KK ]	!Remove "\" sub-directory entries
+	][
+	B #[ $N"/|>" ; 0KK ]
+	]
+Q0EJ				!Restore position
+#[
+    $N"|<|X" ; -C +RG(#92) 	!Precede each filename with full drive:pathname
+    (.os<4)[ I"\" ][ I"/" ]	!DOS needs "\"; UNIX/QNX need "/"
+    ]
+]
+R*
+R*	Prompt for desired operation.
+R*
+#[
+	YEN XK(80)\Execute a [C]ommand, [M]acro, [S]earch or [R]eplace? \
+	Q80&223 XS(80) ((Q80="C)^(Q80="M)^(Q80="S)^(Q80="R))_JL YA
+	]
+
+(Q80="C)[ 2YEN :RQ(#92)"Enter command: "
+	][
+(Q80="M)[
+	2YEN :RQ(#94)"Enter filename of macro: "
+	+RL(#92) |R#94
+	][
+	2YEN :RQ(#93)"Enter search string: "
+	!
+	! Build macro in current edit buffer, 91EI and 93EI create brackets
+	! Use 255(decimal) as explicit delimiters
+	!
+	(Q80="S)[
+		EE(#90) EZY 91EI I"@_F" 255EI +RG(#93) 255EI
+		][
+		YEN :RQ(#94)"Enter replace string (and Enter): "
+		EE(#90) EZY 91EI I"@_S" 255EI +RG(#93) 255EI +RG(#94) 255EI
+		]
+	#[
+		YEN XK(80)\[D]isplay line or enter [V]isual Mode? \
+		Q80&223 XS(80) ((Q80="D)^(Q80="V))_JL YA
+		]
+
+	(Q80="D)[
+		I" @YT\LINE:\ .lnXS(80) :XT(80) 2YEB 0TT" 93EI
+		][
+		I"V" 93EI
+		]
+	-#RC(#92) EZY EE(#91)		!Copy to register #92 and clear edit buffer
+	]
+	]
+R*
+R* If not "[V]isual Mode", prompt whether to pause after each file.
+R*
+(Q80="V)[
+	0XS(97)
+	][
+	#[
+		YEN XK(97)\Should macro pause after each file is processed? [Y]es [N]o \
+		Q97&223 XS(97) ((Q97="Y)^(Q97="N))_JL YA
+		]
+	]
+R*
+R*	Expand each filename line into full macro command.
+R*	YQ filename .rvXS(100) Q100=0[ EE(#90) EB filename<ESC> 
+R*	YEN @YT\...Processing \ :EW 2YEN M(#92) :EY ][
+R*	EE(#100) YYP YEN @YT\...Processing \ :EW 2YEN B M(#92) YYO ]
+R*	Q97="Y[ +@XK(100)\Press any key to continue...\ ]
+R*
+RI(#93)\YQ |R#94 .rvXS(100) Q100=0[ EE(#90) EB |R#94 YEN @YT"...Processing " :EW 2YEN M(#92) :EY ][ EE(#100) YYP YEN @YT"...Processing " :EW 2YEN B M(#92) YYO ] Q97="Y[ +@XK(100)"Press any key to continue..." ]\
+B
+#[
+	.eof_JL
+	I/RI(#94)"/
+	$N"|>"
+	I/" M(#93)/
+	:L
+	]
+EE(@)
+YEN XK(100)"Press any key to begin operation..."
+
+.wt>1[ YWI ]		R* Delete any windows
+ES 9 Q89
+
+(Q80="V)[
+	(.wb=2)[ 0YWB(z) 1 ][ YWB(z) 1 ]
+	YWS(z)
+	112YEA YEC
+	YT"	Press [VISUAL EXIT] (<Ctrl-E>) to search for next occurrence."
+	YWS(@)
+	]
+
+M(#91)			R* Perform desired operation on all files
+0XS(98)			R* Disable "BREAK-OUT" message
+RJ(Y)			R* Chain to Break-out/exit macro

@@ -1,0 +1,10 @@
+This directory contains business information:
+
+   ORDER - order form which you can print on your printer, and mail/fax to us
+   PRICES - price list
+   CONTACTS - how to reach Code Farms
+   LICENSE - full text of the license which applies to single users or
+             small site licenses (up to 30 programmers);
+             as you will see there are practically no legal restrictions
+             in using the library
+   SITE - sample of a typical legal agreement for company-wide licenses.

@@ -1,0 +1,62 @@
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$							 
+class MDIChild : public CMDIChildWnd 				 // Practice MDI Child Window
+{
+public:
+	MDIChild(CMDIFrameWnd* Parent); 
+};
+
+class $Window.Name$ : public CMDIFrameWnd 	 // MDI Parent Window
+{
+		$IF ToolBar.Name != ""$
+	TToolBar *pToolbar;	// Pointer to tool bar
+		$END IF$
+	int nWindowMenuPos; // MDI Window menu position
+public:
+	$Window.name$(CWnd* Parent);
+	$ELSE$																 
+class $Window.Name$ : public CMDIChildWnd 	 // User defined MDI Child Window
+{
+		$IF ToolBar.Name != ""$
+	TToolBar *pToolbar;	// Pointer to tool bar
+		$END IF$
+public:
+	$Window.name$(CMDIFrameWnd* Parent);
+	$END IF$
+$ELSE$																 // Normal Window
+class $Window.Name$ : public CFrameWnd 
+{
+	$IF ToolBar.Name != ""$
+	TToolBar *pToolbar;	// Pointer to tool bar
+	$END IF$
+public:
+	$Window.name$(CWnd* Parent);
+$END IF$
+	~$Window.name$();
+
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+$AND ToolBar.Name != ""$							 
+	afx_msg void OnSize(UINT, int, int);	// For Toolbar
+$END IF$
+$END IF$
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+	afx_msg void On$ToolBar.Name+ToolItem.Name$();
+$END LOOP$
+$LOOP Menu.MenuStrings$  
+	afx_msg void On$TRIM(MenuItem.PopupName+MenuItem.Name)$();
+$END LOOP$
+	virtual void PostNcDestroy(){delete this;} // Allocated from heap
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+  afx_msg void OnCreateChild()
+	{
+		MDIChild *pWnd = new MDIChild(this);
+		pWnd->ShowWindow(SW_SHOW);
+	}
+  afx_msg void OnCloseAll();
+$END IF$
+	DECLARE_MESSAGE_MAP()
+};
+

@@ -1,0 +1,163 @@
+$VAR VCompiler = "Borland"$	// Borland, Microsoft, or Zortech
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 // Flag if there are Toolbars in app
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$ARRAY AModules$									 	// Array of all pgm modules
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$	
+	$ADDVAL AModules Window.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP AModules$	 									// Init all new module files
+	$OUTPUT AModules.Value+".cpp"$		// Create Module Files with hdr info
+	$INPUT "modhdr.sdv"$								
+	$OUTPUT AModules.Value+".hpp"$		// Use APPEND to add to these
+$END LOOP$
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$ADDVAL AModules "jtools"$	 	// Add ToolBar Module First
+$END IF$
+$OUTPUT VPgmName+".hpp"$		// Create Application Hdr File
+$INPUT "apphdr.sdv"$				// Initialize App Header				
+$INPUT "mak.sdv"$					// Generate MAKE file
+$INPUT "rc.sdv"$					// Generate RC file
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$INPUT "jtools.sdv"$			// Generate Tool Bar Class Files
+$END IF$
+$OUTPUT VPgmName+".cpp"$		// Must specify an output file
+//***************************************************************************
+// $System.OutFile$ - $application.desc$
+// $System.Date$ - $System.Time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"AppRevisions"$
+#include "$VPgmName$.hpp"				// Main App Class Definitions & Includes
+
+zApp *theApp;
+zApp *GetApp(); 
+
+$ARRAY ACustomCtrlClasses$
+$LOOP application.dialogs$
+	$LOOP dialog.CustomControls$ // Make unique list of custom ctrl classes
+		$ADDVAL ACustomCtrlClasses CustomControl.Class$ 
+	$END LOOP$
+$END LOOP$
+$LOOP ACustomCtrlClasses$
+declCtrlThunk(Thunk$ACustomCtrlClasses.Value$); // Thunk	for each Custom Ctrl
+$END LOOP$
+
+//$PROTECTBLOCK	"GlobalVars"$
+
+$LOOP Application.Windows$
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to App Definition file
+	$ELSE$
+		$APPEND Window.ModuleName+".hpp"$		// Append to module file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all Windows
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".hpp"$		// Append to module file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$END IF$
+$END LOOP$		// Loop thru all dialogs
+$APPEND VPgmName+".hpp"$		// Append to App Definition file
+
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+$LOOP Application.Windows$		 // Generate member functions for all windows
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Current Source
+	$ELSE$
+		$APPEND Window.ModuleName+".cpp"$		// Append to module file
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$		 // All windows
+$LOOP Application.dialogs$	// Generate member functions for all dialogs
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".cpp"$		// Append to module file
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$
+	$APPEND AModules.Value+".cpp"$		// Append to module file
+
+//$PROTECTBLOCK	AModules.Value+"UserCode"$
+$END LOOP$
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+
+//$PROTECTBLOCK	"AppUserCode"$
+
+//
+//	Application Member Functions
+//
+zApp *GetApp() 
+{
+	return(theApp);
+}
+
+void zApp::main() 
+{
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary("$LITERAL(ADLLs.Value)$"); // API - Load Application DLL
+$END LOOP$
+$LOOP ACustomCtrlClasses$
+	registerUserClass("$ACustomCtrlClasses.Value$", CTRLTHUNKNAME(Thunk$ACustomCtrlClasses.Value$), NULL ); 
+$END LOOP$
+	theApp = this;		// Save app ptr
+	//$PROTECTBLOCK	"AppMain"$
+$IF VHasAccels == "Y"$	// Global Flag to indicate accelerators
+	loadAccelerator(zResId("$Application.name$"));
+$END IF$
+$IF Application.WindowName != ""$
+	$LOOP Application.Windows WHERE Window.IsMain == "Y"$
+		$IF Application.Type == "MDI"$
+	$Application.WindowName$* p=new $Application.WindowName$(zString("$Window.Caption$"));
+		$ELSE$
+	$Application.WindowName$* p=new $Application.WindowName$(0,zString("$Window.Caption$"));
+		$END IF$
+	p->show();
+	go();
+	delete p;
+	$BREAK$
+	$END LOOP$
+$ELSE$
+	$LOOP Application.Dialogs WHERE Dialog.IsMain == "Y"$
+	zAppFrame *tmp = new zAppFrame(0, new zSizer);
+	$CAP(Dialog.Name)$* p=new $CAP(Dialog.Name)$(tmp, zResId("$Dialog.Name$"));
+	p->show();
+	p->modal();
+	delete tmp;
+		$IF Dialog.IsModal != "N"$	//Should always be modal
+	delete p;
+		$END IF$
+	$BREAK$
+	$END LOOP$
+$END IF$
+}
+$$
+$$ Create Borland Project File
+$$ You can use the Exists() function if you don't want to overwrite project
+$$
+$IF VCompiler == "Borland"$
+$AND Exists("\objdes21\copyprj.exe") == "Y"$
+$EXEC "\objdes21\copyprj.exe \objdes21\zapp.prj "+VPgmName+".prj"$
+$END IF$
+
+

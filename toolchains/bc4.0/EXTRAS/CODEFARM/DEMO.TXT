@@ -1,0 +1,23 @@
+
+
+
+                    Code Farms C/C++ Data Object Library
+              --------------------------------------------------
+                               demo diskette
+              
+              This demo does not contain a flashy video.
+              
+              Instead,  it is  made  for  programmers who want to
+              examine  things  themselves.   Use  your  favourite
+              editor to view all of the files.
+              
+              Each directory has a "readme" file with instructions
+              on where to find everything. Start with the "readme"
+              file in this directory.
+              
+              We hope that you will like what you see.  After all,
+              this is the best library on the market.
+
+
+
+

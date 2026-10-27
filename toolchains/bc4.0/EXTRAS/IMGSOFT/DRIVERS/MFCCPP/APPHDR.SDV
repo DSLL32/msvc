@@ -1,0 +1,26 @@
+//***************************************************************************
+// $System.OutFile$ - Application Class Definitions
+// $system.date$ - $system.time$
+// $application.programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"Revisions"$
+#include <afxwin.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <mmsystem.h>		// Multimedia...needed for sndPlaySound()
+#include <commdlg.h>		// Common Dialogs
+#include "$VPgmName$.h"				// Resource Constants
+$LOOP AModules$
+#include "$AModules.Value$.hpp"				// Module Class Definitions
+$END LOOP$
+//$PROTECTBLOCK	"AppIncludes"$
+
+class $VPgmName$App : public CWinApp
+{
+public:
+	BOOL InitInstance();
+	BOOL InitApplication();		 // Create window & dlg classes one time
+//$PROTECTBLOCK	"AppClass"$
+};
+

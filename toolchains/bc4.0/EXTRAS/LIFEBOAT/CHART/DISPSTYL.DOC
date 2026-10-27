@@ -1,0 +1,23 @@
+Charts may be drawn in a window using one of two methods.  These are:
+
+1) Display Charts Using Draw Mode
+   ==============================
+
+This is a direct draw method which displays the chart as it is being built.
+Anytime the chart needs to be updated or refreshed, it is redrawn.  For 
+example, this method would show the slices of a pie or bars in a bar chart 
+being generated to the window.
+
+2) Display Charts Using Bitmap Mode
+   ================================
+
+This is a bitmap draw method which displays the chart as a bitmap.  This
+means the chart is generated to an off screen bitmap and saved.  Upon 
+completion, the chart is displayed to the window in a bitblt.  
+
+Anytime the chart needs to be updated or refreshed, the bitmap is
+updated.  This means the chart is never redrawn and the result is a faster 
+redraw or refresh time.
+
+
+

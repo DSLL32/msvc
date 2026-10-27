@@ -1,0 +1,646 @@
+ MetaWINDOW SUPPORTED GRAPHICS CARDS
+          September 1993
+
+The following is a partial list of the graphics
+cards supported by MetaWINDOW.  Our policy is
+support all available cards.  If your card is not
+on the list, call us.  Chances are we either
+support it, or are working on supporting it.
+
+'+' indicates hardware accelerated mode supported
+    with MetACCEL.
+
+'*' indicates 65536 "high-color" mode supported
+    with MetHICOLOR.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Standard CGA Modes 
+  640x200, 2-color
+
+Standard EGA Modes
+  Standard CGA Modes 
+  EGA 640x350, 2-color
+  EGA 320x200, 16-color
+  EGA 640x200, 16-color
+  EGA 640x350, 16-color
+
+Standard VGA Modes
+  Standard CGA & EGA Modes 
+  640x480, 16-color
+  320x200, 256-color
+ 
+Standard HGC Modes
+  720x348, monochrome
+
+Actix, S3
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Adex 8514/A
++ 8514/A 1024x768, 256-color
+
+ADT, AcuView 8514/A Plus
++ 8514/A 1024x768, 256-color
+
+Ahead V-500B
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+
+Ahead VGA Wizard
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Amdek, 1280 Graphics Display
+  Standard CGA modes
+  640x400, monochrome
+  1280x400, monochrome
+  1280x800, monochrome
+
+ATI, EGA
+  Standard EGA Modes 
+
+ATI, EGA Wonder 800+
+  Standard VGA modes
+  800x600, 16-color
+  640x480, 256-color
+ 
+ATI, VGA Integra
+  Standard VGA modes
+  800x600, 16-color
+  640x480, 256-color
+ 
+ATI, VGA Wonder
+  Standard VGA modes
+  800x600, 16-color
+  640x480, 256-color
+ 
+ATI, VGA Wonder Plus
+  Standard VGA modes
+  800x600, 16-color
+  1024x768, 16-color
+  640x480, 256-color
+
+ATI, VGA Wonder XL
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+ATI, 8514/Ultra
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+ATI, 8514/Ultra Pro
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+ATI, 8514/Ultra Plus
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+ATI, Graphics Ultra
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+ATI, Vantage
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+AT&T, Display Controller Board
+  Standard CGA modes
+  640x400, 2-color
+
+AT&T, DEB Adaptor
+  Standard CGA modes
+  640x400, 2-color
+  640x200, 16-color
+  640x400, 16-color
+
+Boca Research
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Cardinal, VGA 400
+  Standard VGA modes
+  VGA 800x600, 16-color
+
+Cardinal, VGA 500
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+
+Cardinal, VGA 600
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+
+Chips & Technologies, 82C45x
+  Standard HGA, VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Compaq, Advanced VGA
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+
+Compaq, Portable
+  Standard CGA modes
+
+Compaq, Portable III/ (Plasma)
+  Standard CGA modes
+  640x400,    2-color
+
+Compaq, QVision VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+
+CompuAdd, Hi-Rez VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Cornerstone Technology, DualPage
+  Standard HGC modes
+  1600x1280,  2-color
+
+Cornerstone Technology, SinglePage
+  Standard HGA mode
+  768x1008,   2-color
+
+Cornerstone Technology, PC1280
+  Standard HGA mode
+  1280x960,   2-color
+
+Cornerstone Technology, DP150
+  Standard HGA mode
+  2048x1538,  2-color
+
+Definicon, HiRes 1024
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Diamond, Speedstar
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Diamond, Stealth
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Eizo, MD-B07
+  Standard HGA, VGA modes
+  800x600,   16-color
+
+Eizo, MD-B10
+  Standard HGA, VGA modes
+  640x480,   16-color
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+ 
+Everex, 623 Viewpoint VRAM
+  Standard CGA, VGA modes
+  800x600,   16-color
+
+Everex, 678 Viewpoint
+  Standard VGA modes
+  640x480,   16-color
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Everex, EV625
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Foresight VGA-16
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Genoa, SuperEGA HiRes+
+  Standard CGA & EGA modes
+  640x480,   16-color
+  800x600,   16-color
+
+Genoa, SuperVGA 5000 series
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Genoa, SuperVGA 6000 series
+  Standard CGA & VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+
+Genoa, SuperVGA 16-Bit 6000 series
+  Standard CGA & EGA modes
+  640x350,   16-color
+  640x480,   16-color
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Genoa, 7900 Multi-Media
+  Standard CGA & EGA modes
+  640x350,   16-color
+  640x480,   16-color
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Genoa, 8000 Series
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Headland Technology
+  (see Video Seven)
+
+Hercules Graphics Card
+  720x348, monochrome
+
+Hewlett Packard Ultra VGA
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+IBM, CGA
+  Standard CGA modes
+
+IBM, EGA
+  Standard CGA modes
+  Standard EGA modes
+
+IBM, PS/2 VGA
+  Standard CGA modes
+  Standard EGA modes
+  Standard VGA modes
+
+IBM, PS/2 MCGA
+  Standard CGA modes
+  640x480     2-color
+  320x200   256-color
+
+IBM, 3270 PC
+  720x350     2-color
+
+IBM, 8514/A
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+IPS, Overview 1024
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Matrox, Magnum
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Maxim, 8514 Xtra
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Metheus, Premier
+  Standard VGA modes
+
+MDS, Genius Display
+  Standard CGA modes
+  738x1004, monochrome
+
+NDI, AT600
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+NDI, Warp 10
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+NEC, MVA
+  Standard EGA modes
+
+NSI, Smart EGA Plus
+  Standard CGA & EGA modes
+  800x600,   16-color
+
+Nth Engine 150
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Oak, OTI-067 VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+
+Orchid, Designer VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Orchid, Fahrenheit-1280
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Orchid, Pro Designer II
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Paradise, VGA Plus 16
+  Standard VGA modes
+  800x600,   16-color
+
+Paradise, VGA Professional
+  Standard VGA modes
+  800x600,   16-color
+  640x480,  256-color
+
+Paradise, VGA 1024
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+
+Quadram, QuadVGA Spectra
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Quadrex, QVGA
+  Standard VGA modes
+  800x600,   16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Radius Multiview
+  1024x768, monochrome
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+
+Sigma Designs, L-View
+  Standard HGA mode
+  1664x1200,  2-color
+
+Sigma Designs, VGA Legend
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+STB, Auto VGA
+  Standard VGA modes
+  800x600,   16-color
+  640x350,  256-color
+  640x480,  256-color
+
+STB, PowerGraph VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+STB, VGA Extra/EM
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+STB, VGA 800/16
+  Standard VGA modes
+  800x600,   16-color
+  640x350,  256-color
+  640x480,  256-color
+
+STB WIND/X
+  Standard VGA modes
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256-color
+
+Swan, Super VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+Tecmar, VGA/AD
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Toshiba 3100 Portable
+  Standard CGA modes
+  640x400,  monochrome
+
+Trident Impact
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+
+Truevision, Targa M8
+  512x482,  256-color
+
+Tseng Labs, EVA-480 Adaptor
+  Standard HGA, EGA modes
+  640x480,   16-color
+
+Tseng Labs, ET3000 SuperVGA
+  Standard HGC, VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Tseng Labs, ET4000 SuperVGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+* 640x480,  32K-color
+
+VESA SuperVGA
+  800x600,   16-color
+  1024x768,  16-color
+  640x480,  256-color
+  800x600,  256-color
+  1024x768, 256-color
+
+Video Seven, FastWrite
+  Standard HGA, CGA & EGA modes
+  1024x768,  2-color
+  800x600,  16-color
+  640x480, 256-color
+  1024x768, 16-color
+  640x480, 256-color
+
+Video Seven, VEGA VGA Adaptor
+  Standard VGA modes
+  800x600,  16-color
+
+Video Seven, VRAM
+  Standard HGA, CGA & EGA modes
+  1024x768,  2-color
+  800x600,  16-color
+  640x480, 256-color
+  1024x768, 16-color
+  640x480, 256-color
+
+Video Seven, VRAM II 
+  Standard VGA modes
+  VGA 1024x768, 2-color
+  VGA 800x600, 16-color
+  VGA 1024x768, 16-color
+  VGA 640x480, 256-color
+  VGA 800x600, 256-color
+  VGA 1024x768, 256-color
+
+Video Seven, 1024i
+  Standard HGA, CGA & EGA modes
+  1024x768,  2-color
+  800x600,  16-color
+  640x480, 256-color
+  1024x768, 16-color
+  640x480, 256-color
+
+ViewSonic 1024 VGA
+  Standard VGA modes
+  800x600,   16-color
+  1024x768,  16-color
+  640x350,  256-color
+  640x480,  256-color
+
+Western Digital 8514/A
++ 640x480,  256-color
++ 800x600,  256-color
++ 1024x768, 256 color
+
+Wyse, WY-700 Display
+  Standard CGA modes
+  640x400,  monochrome
+  1280x400, monochrome
+  1280x800, monochrome
+
+
+

@@ -1,0 +1,39 @@
+class $CAP(Dialog.Name)$ : public zDialogFrame
+{
+	char *p;		// Char Pointer for Edit Validation
+	$IF COUNT(dialog.listboxs) > 0$
+	zListBox $LIST dialog.listboxs "*"+listbox.name$;
+	$END IF$
+	$IF COUNT(dialog.edits WHERE Edit.MultiLine != "Y") > 0$
+	zEditLine $LIST dialog.edits "*"+edit.name WHERE Edit.MultiLine != "Y"$;
+	$END IF$
+	$IF COUNT(dialog.edits WHERE Edit.MultiLine == "Y") > 0$
+	zEditBox $LIST dialog.edits "*"+edit.name WHERE Edit.MultiLine == "Y"$;
+	$END IF$
+	$IF COUNT(dialog.statics) > 0$
+	zStaticText $LIST dialog.statics  "*"+static.name$;
+	$END IF$
+	$IF COUNT(dialog.RadioButtons) > 0$
+	zRadioButton $LIST dialog.RadioButtons "*"+RadioButton.Name$;
+	$END IF$
+	$IF COUNT(dialog.CheckBoxs) > 0$
+	zCheckBox $LIST dialog.CheckBoxs "*"+CheckBox.Name$;
+	$END IF$
+	$IF COUNT(dialog.ComboBoxs) > 0$
+	zComboBox $LIST dialog.ComboBoxs "*"+ComboBox.Name$;
+	$END IF$
+	BOOL ok;
+public:
+	$CAP(Dialog.Name)$(zWindow *, zResId&);
+
+	virtual int command(zCommandEvt *);
+	BOOL isOk() { return ok; }
+
+	virtual BOOL CanClose();
+	$IF Dialog.IsModal == "N"$	// For NonModal delete this						 
+	virtual void shutdown() {zDialogFrame::shutdown(); delete this;}
+	$END IF$
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Class"$
+};
+
+

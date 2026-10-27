@@ -1,0 +1,223 @@
+!D-WINDOW!
+RI(9)/VEDIT and VEDIT PLUS - Windows/
+M(H)			!Display header
+
+YT/
+VEDIT and VEDIT PLUS can display windows in many different configurations.
+Vertical windows, horizontal windows, big windows and small windows.  On color
+systems, the window background and the text can be in color.  The user has
+control over window size, position and color.
+
+First we will demonstrate some window possibilities.  Then you can create your
+own windows.
+
+/
+M(K)			!Pause for user
+
+YWB($) 1		!Create example windows
+YWR(1) 40
+YWS($)
+YT/Vertical windows.  Press <Esc> to continue/
+XK(0)//
+
+YWI
+YWB($) 1
+YWB(1) (.sl/2-1)
+YWS($)
+YT/Horizontal windows.  Press <Esc> to continue/
+XK(0)//
+
+YJN 9 1
+YJN 10 0
+YWI
+YWB($) 1
+YWB(1) (.sl/2-1)
+YWR(2) 40
+YWS(1)
+YWR(3) 40
+YWS($)
+YT/Four windows with "minimal" borders.  Press <Esc> to continue/
+XK(0)//
+
+YJN 9 2
+YWI
+0YWB($) 1
+YWB(1) (.sl/2-1)
+YWR(2) 40
+YWS(1)
+YWR(3) 40
+YWS($)
+YT/Four windows with "full" borders.  Press <Esc> to continue/
+XK(0)//
+
+YJN 9 1
+RI(8)/You have complete control
+over the color of each
+window and the color of
+the text in the window.
+/
+
+YWI
+Q21YEA YEC
+YWB($) 1
+YWR(1) 52
+YWB(2) (.sl/2+4)
+YWS(2)
+36YEA YEC
+YWS(1)
+Q24YEA YEC
+YWB(3) 10
+YWS(3)
+80YEA YEC
+YWR(4) 25
+YWS(4)
+Q25YEA YEC
+YWB(5) (.wl/2-2)
+YWS(5)
+97YEA YEC
+YWS(@)
+RT(8) YT/This is white on blue./
+YWS(1)
+RT(8) YT/This is green on red./
+YWS(2)
+RT(8) YT/This is red on green./
+YWS(3)
+RT(8) YT/This is black on magenta./
+YWS(4)
+RT(8) YT/This is blue on cyan./
+YWS(5)
+RT(8) YT/This is blue on brown./
+YWS($)
+Q23YEA YEC
+YT/Irregular shaped and colored windows.  Press <Esc> to continue/
+XK(0)//
+
+YJN 9 0
+YWI
+Q21YEA YEC
+YWB($) 1
+YWR(1) 52
+YWB(2) (.sl/2+4)
+YWS(2)
+36YEA YEC
+YWS(1)
+Q24YEA YEC
+YWB(3) 10
+YWS(3)
+80YEA YEC
+YWR(4) 25
+YWS(4)
+Q25YEA YEC
+YWB(5) (.wl/2-2)
+YWS(5)
+97YEA YEC
+YWS(@)
+RT(8) YT/This is white on blue./
+YWS(1)
+RT(8) YT/This is green on red./
+YWS(2)
+RT(8) YT/This is red on green./
+YWS(3)
+RT(8) YT/This is black on magenta./
+YWS(4)
+RT(8) YT/This is blue on cyan./
+YWS(5)
+RT(8) YT/This is blue on brown./
+YWS($)
+Q23YEA YEC
+YT/Some or all windows can be borderless.  Press <Esc> to continue/
+XK(0)//
+
+YJN 9 1
+7XS(100)		!Need 7 line window
+M(W)			!Create instruction window; set attributes
+
+7XS(1)			!Start with white text
+0XS(2)			!Start with black window
+
+EZY			!Clear out main edit buffer
+RG(8) B			!Copy text into edit buffer
+
+EE(1)			!Switch to instruction buffer
+B#K			!Clear old contents
+I/Create your own colored window now.
+
+Press <SPACE BAR> to change window color
+Press <Enter> to change text color
+
+		--- Press <Esc> to continue ---/
+
+B -V			!Display instructions
+EE(@)
+[			!Loop "forever" or until <Esc> pressed
+
+	YWS(@)		!Switch to visual mode window for attribute switch
+	(Q1^Q2)YEA	!Switch attribute
+	YWS($)
+	-V		!Display visual mode window
+
+	XK(0)//		!Get and decode user's key
+
+	(Q0 = 32) [ 16XA(2) (Q2 & 127)XS(2)
+		][
+		(Q0 = 13) [ 1XA(1) (Q1 & 15)XS(1)
+		][
+		(Q0 = 27) JL		!Jump out of loop
+		]]
+]					!End of loop
+
+YWS(@) Q26YEA		!Set attribute in edit window
+YWS(1) Q27YEA		!Set attribute in lower window "1"
+EE(1)
+B#K
+I/To create your own windows press <Alt-W> for the {WINDOW} sub-menu.  Then
+press "C" to create a window.  You can create a window at the Top, Bottom,
+Right or Left of the current window.  Press "R" for "Right".  Next you give
+the window a single character name.  Press "2".  Last, you specify the size
+of the window.  Type "35" and <Enter> to specify a window of 35 columns.
+
+		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+EE(1)
+B#K
+I/<Alt-J> the hot-key for {MISC, Color toggle} lets you change the text color in
+the current window.  Pressing <Alt-J> toggles through 17 color combinations
+including white on blue, white on black and black on white.  Try it now.
+
+<Alt-J> makes it easy to switch colors at any time and to have different
+colors in different windows.  The installation lets you select the initial
+color combination.		--- Press <Esc> to continue ---/
+
+B -V
+EE(@)
+V
+
+YWI			!Clear screen
+B#K			!Clear edit buffer
+
+YT\
+		--- EGA 43 / VGA 28/50 LINE SUPPORT ---
+
+If you are using an EGA adapter, you can switch between 25 and 43 line modes
+within VEDIT.  (With a VGA you can switch between 25, 28 and 50 line modes.)
+Simply press <Alt-L> within Visual Mode.
+
+If you have an EGA/VGA, press <Alt-L> now and the Window portion of this demo
+will be repeated using the 43/50 line mode.
+
+--- Otherwise, press <Esc> to return to the Main Menu --- \
+
+!D-WIN2!
+XK(0)//			!Get user's keystroke
+
+(.kp(0) == 27)JM
+
+(.kp(0) == 9728)[ (.si >= 4)[(.sl=25)[ 43YEM ][ 25YEM ] -V JP/D-WINDOW/
+			 ][ YEN YT/This is not an EGA or VGA/ YEN ]
+	]
+
+JP/D-WIN2/

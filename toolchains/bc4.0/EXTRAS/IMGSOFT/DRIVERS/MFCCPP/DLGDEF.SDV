@@ -1,0 +1,83 @@
+$VAR VOk = "N"$		 	// Check to see if OK or Cancel has been redefined
+$VAR VCancel = "N"$
+$LOOP Dialog.Buttons$  
+	$IF Button.ID == "1"$
+	$OR Button.ID == "IDOK"$
+	$VOk = "Y"$
+	$ELSE$
+		$IF Button.ID == "2"$
+		$OR Button.ID == "IDCANCEL"$
+		$VCancel = "Y"$
+		$END IF$
+	$END IF$
+$END LOOP$
+$IF Dialog.IsModal == "N"$
+class $CAP(Dialog.Name)$ : public CDialog 
+$ELSE$
+class $CAP(Dialog.Name)$ : public CModalDialog 
+$END IF$
+{
+$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	HACCEL m_hAccelTable;	 // MFC doesn't directly support accels for dialogs
+$END IF$
+	char szWorkStr[81], *p;		// Work Buffer
+$IF ToolBar.Name != ""$
+	TToolBar *pToolbar;	// Pointer to tool bar
+$END IF$
+public:
+	$CAP(Dialog.Name)$(CWnd* pParentWnd);
+	~$CAP(Dialog.Name)$();
+
+	BOOL CanClose();
+	virtual BOOL OnInitDialog();
+$IF Dialog.IsModal == "N"$
+
+	// Implement Modeless dialog functions similar to modal
+	virtual void PostNcDestroy(){delete this;} // Allocated from heap
+	$IF VOk == "N"$
+	afx_msg void OnOK();
+	$END IF$
+	$IF VCancel == "N"$
+	afx_msg void OnCancel(){DestroyWindow();}
+	$END IF$
+
+$ELSE$
+	$IF VOk == "N"$
+	afx_msg void OnOK();
+	$END IF$
+
+$END IF$
+$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	// Implement accelerator load similar to CFrameWnd
+	BOOL LoadAccelTable(LPCSTR lpAccelTableName)
+	{
+		m_hAccelTable = ::LoadAccelerators(AfxGetResourceHandle(),
+			lpAccelTableName);
+		return (m_hAccelTable != NULL);
+	}
+	// Modify standard msg behavior to check for accelerators
+	virtual BOOL PreTranslateMessage(MSG* pMsg)
+	{
+		if (m_hAccelTable)
+			return (::TranslateAccelerator(m_hWnd, m_hAccelTable, pMsg) ||
+				CDialog::PreTranslateMessage(pMsg));
+		else
+			return CDialog::PreTranslateMessage(pMsg);
+	}
+$END IF$
+$LOOP Dialog.Buttons$  
+	afx_msg void OnBtn$button.name$();
+$END LOOP$
+$LOOP ToolBar.ToolItems$
+	$IF ToolItem.ToolType == "Button"$
+	afx_msg void On$ToolBar.Name+ToolItem.Name$();
+	$END IF$
+$END LOOP$
+$LOOP Menu.MenuStrings$  
+	afx_msg void On$TRIM(MenuItem.PopupName+MenuItem.Name)$();
+$END LOOP$
+	DECLARE_MESSAGE_MAP()
+	//$PROTECTBLOCK	"d"+Dialog.Name+"Class"$
+};
+
+

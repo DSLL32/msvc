@@ -1,0 +1,117 @@
+The following is a list of the files included with this demo of ObjectPM
+
+You must copy these DLL's to somewhere in your LIBPATH (c:\os2\dll is OK)
+bsebc20a.dll			Baseset DLL
+opmbc20a.dll			Windowing DLL
+
+opminfo					Overview of ObjectPM, including a class tree
+
+
+Demonstration of controls (including our custom cellbox control)
+----------------------------------------------------------------
+controls\
+	about.dlg			.dlg for the about box
+	about.h				defines for the about box
+	controls.cpp		program source
+	controls.def		.def file for command line compiling
+	controls.exe		the demo program
+	controls.h			defines for the demo program
+	controls.hpp		header for the demo program
+	controls.prj		.prj file for compiling from the IDE
+	controls.rc			resource fiel for the demo program
+	makefile			makefile for command line compiling
+	mark.ico			button icon
+	objpm.ico			program icon
+	paint.ico			button icon
+	trash.ico			button icon
+
+Demonstration of the ObjectPM Forms System, which turns ordinary
+dialog boxes into full functions entry forms
+----------------------------------------------------------------
+formdemo\
+	formdemo.cpp		program source
+	formdemo.def		.def file for command line compiling
+	formdemo.exe		the demo program
+	formdemo.h			defines for the demo program
+	formdemo.hlp		on-line help for the demo program
+	formdemo.hpp		header for the demo program
+	formdemo.ipf		source for the on-line help
+	formdemo.prj		.prj file for compiling from the IDE
+	formdemo.ptr		demo program pointer
+	formdemo.rc			resource file for the demo program
+
+Demonstration of graphics drawing/printing using ObjectPM
+---------------------------------------------------------
+graph\
+	about.dlg			.dlg for the about box
+	about.h				defines for the about box
+	graph.cpp			program source
+	graph.def			.def file ofr command line compiling
+	graph.exe			the demo program
+	graph.h				defines for the demo program
+	graph.hpp			header for the demo program
+	graph.prj			.prj file for compiling from the IDE
+	graph.rc			resource file for the demo program
+	printdlg.cpp		source for the printing dialog box
+	printdlg.dlg		.dlg for the printing dialog box
+	printdlg.h			defines for the printing dialog box
+	printdlg.hpp		header for the printing dialog box
+						
+Simple "Hello World" demo program, demonstrates window and menu creation
+and simple painting in ObjectPM
+------------------------------------------------------------------------
+hello\
+	about.dlg			.dlg for the about box
+	about.h				defines for the about box
+	hello.cpp			program source
+	hello.def			.def file for command line compiling
+	hello.exe			the demo program
+	hello.h				defines for the demo program
+	hello.hpp			header for the demo program
+	hello.prj			.prj file for compiling from the IDE
+	hello.rc			resource file for the demo program
+	makefile			makefile for command line compiling
+	objpm.ico			program icon
+						
+An MDI (Multiple Document Interface) file editor demonstrating the MDI
+classes and other more advanced library features
+----------------------------------------------------------------------
+mdiedit\
+	document.ico		document icon
+	makefile			makefile for command line compiling
+	mdidlg.dlg			.dlg file for the program
+	mdidlg.h			defines for the resources
+	mdiedit.cpp			program source
+	mdiedit.def			.def file for command line compiling
+	mdiedit.exe			the program
+	mdiedit.hpp			header for the program
+	mdiedit.prj			.prj for compiling from the IDE
+	mdiedit.rc			resource file for the program
+						
+A "Slide the Numbers" game demonstrating retained drawing using ObjectPM.
+-------------------------------------------------------------------------
+puzzle\
+	about.dlg			.dlg file for the about box
+	about.h				defines for the about box
+	makefile			makefile for command line compiling
+	objpm.ico			program icon
+	puzzle.cpp			program source
+	puzzle.def			.def file for command line compiling
+	puzzle.exe			the program
+	puzzle.h			defines for the program
+	puzzle.hpp			header for the program
+	puzzle.prj			.prj file for compiling from the IDE
+	puzzle.rc			resource file for the program
+
+A demonstration of using ObjectPM to create a multi-threaded program.
+---------------------------------------------------------------------
+threads\
+	makefile			makefile for command line compiling
+	objpm.ico			program icon
+	threads.cpp			program source
+	threads.def			.def file for command line compiling
+	threads.exe			the demo program
+	threads.h			defines for the demo program
+	threads.hpp			header for the demo program
+	threads.prj			.prj file for compiling from the IDE
+	threads.rc			resource file for the demo program

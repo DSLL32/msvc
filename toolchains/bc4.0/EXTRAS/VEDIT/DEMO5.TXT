@@ -1,0 +1,12 @@
+
+1.  This is an example of an offset paragraph.  Notice how the first
+    line begins in column 1, while the following lines begin in column
+    5.  This paragraph can be entered by pressing <F8> anywhere along
+    the first line.  When this type of paragraph is reformatted, the
+    relationship between the lines will be preserved.
+
+     This is an example of a typical paragraph in which the first line
+in indented to clearly show the start of the paragraph.  You create
+this indent by simply pressing the <SPACE BAR> five times.  When this
+type of paragraph is reformatted, the indent of the first line will be
+preserved.

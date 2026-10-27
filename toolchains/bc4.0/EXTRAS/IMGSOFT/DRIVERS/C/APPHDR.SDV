@@ -1,0 +1,30 @@
+//***************************************************************************
+// $System.OutFile$ - Application Prototypes & Definitions
+// $system.date$ - $system.time$
+// $application.programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"Revisions"$
+#include <windows.h>
+#include <string.h>
+#include <stdlib.h>
+#include <ctype.h>
+#include <mmsystem.h>		// Multimedia...needed for sndPlaySound()
+#include <commdlg.h>		// Common Dialogs
+#include "$VPgmName$.hh"			// Resource Constants
+$LOOP AModules$
+#include "$AModules.Value$.h"			// Module Class Definitions
+$END LOOP$
+//$PROTECTBLOCK	"AppIncludes"$
+
+int PASCAL WinMain(HINSTANCE, HINSTANCE, LPSTR, int);
+BOOL InitApplication(HINSTANCE);
+BOOL InitInstance(HINSTANCE, int);
+
+
+_EXTERN HINSTANCE 	hInst;			// Application Instance Handle
+_EXTERN HWND   	hWndMain;       // Main Window Handle                             
+$IF Application.Type == "MDI"$
+_EXTERN	HWND 		hWndClient;			// MDI Client Window
+$END IF$
+//$PROTECTBLOCK	"AppGlobalVars"$
+

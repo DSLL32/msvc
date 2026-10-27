@@ -1,0 +1,112 @@
+$OUTPUT VPgmName+".h"$		// Must specify an output file
+$VAR VBitmapNum = 400$							 // Bitmap Item ID's
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$LOOP ToolBar.ToolItems$
+#define		IDNB_$UP(ToolBar.Name+ToolItem.Name)$ $POS(30)VBitMapNum$
+$VBitMapNum = VBitMapNum + 1$
+#define		IDSB_$UP(ToolBar.Name+ToolItem.Name)$ $POS(30)VBitMapNum$
+$VBitMapNum = VBitMapNum + 1$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$LOOP ToolBar.ToolItems$
+#define		IDNB_$UP(ToolBar.Name+ToolItem.Name)$ $POS(30)VBitMapNum$
+$VBitMapNum = VBitMapNum + 1$
+#define		IDSB_$UP(ToolBar.Name+ToolItem.Name)$ $POS(30)VBitMapNum$
+$VBitMapNum = VBitMapNum + 1$
+	$END LOOP$
+$END LOOP$
+$VAR VIconNum = 500$								 // Icon ID's
+$LOOP application.dialogs WHERE Dialog.IconFile != ""$
+#define		IDI_$UP(Dialog.Name)$ $POS(30)VIconNum$
+$VIconNum = VIconNum + 1$
+$END LOOP$
+$LOOP Application.Windows WHERE Window.IconFile != ""$
+#define		IDI_$UP(Window.Name)$ $POS(30)VIconNum$
+$VIconNum = VIconNum + 1$
+$END LOOP$
+$VAR VDlgNum = 600$										// Dialog ID's
+$LOOP application.dialogs$
+#define		$Dialog.Name$ $POS(30)VDlgNum$
+$VDlgNum = VDlgNum + 1$
+$END LOOP$
+$IF COUNT(Application.Windows WHERE ToolBar.Name != "") > 0$
+$OR COUNT(Application.Dialogs WHERE ToolBar.Name != "") > 0$
+#define		IDD_TOOLBAR $POS(30)VDlgNum$
+$END IF$
+$VAR VMenuNum = 700$									// Menu ID's
+$LOOP Application.Windows WHERE Menu.Name != ""$
+#define		IDM_$UP(Menu.Name)$ $POS(30)VMenuNum$
+$VMenuNum = VMenuNum + 1$
+$END LOOP$
+$LOOP Application.Dialogs WHERE Menu.Name != ""$
+#define		$Menu.Name$ $POS(30)VMenuNum$	 // Must match resource
+$VMenuNum = VMenuNum + 1$
+$END LOOP$
+$LOOP Application.dialogs WHERE Menu.Name != ""$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+#define		IDA_$UP(Menu.Name)$ $POS(30)VMenuNum$	 
+$VMenuNum = VMenuNum + 1$
+	$END IF$
+$END LOOP$
+$LOOP Application.Windows WHERE Menu.Name != ""$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+#define		IDA_$UP(Menu.Name)$ $POS(30)VMenuNum$
+$VMenuNum = VMenuNum + 1$
+	$END IF$
+$END LOOP$
+
+$IF Application.Type == "MDI"$
+#define		IDM_MDIWINDOW $POS(30)$750
+#define		IDMI_CREATECHILD $POS(30)$751
+#define		IDMI_CASCADE $POS(30)$752
+#define		IDMI_TILE $POS(30)$753
+#define		IDMI_ARRANGEICONS $POS(30)$754
+#define		IDMI_CLOSECHILDREN $POS(30)$755
+$END IF$
+$VAR VMenuItemNum = 800$						// Menu Item ID's
+$LOOP application.dialogs$
+	$LOOP Menu.MenuStrings$
+#define		IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$ $POS(30)VMenuItemNum$
+$VMenuItemNum = VMenuItemNum + 1$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Windows$
+	$LOOP Menu.MenuStrings$
+#define		IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$ $POS(30)VMenuItemNum$
+$VMenuItemNum = VMenuItemNum + 1$
+	$END LOOP$
+$END LOOP$
+
+$ARRAY AConstants$
+$LOOP application.dialogs$
+	$LOOP dialog.Controls$
+		$ADDVAL AConstants Control.Id$
+	$END LOOP$
+$END LOOP$
+#define		IDOK $POS(30)$ 1				 // Control ID's
+#define		IDCANCEL $POS(30)$ 2
+$VAR VCtlNum = 100$
+$LOOP AConstants WHERE AConstants.Value < 1$ // Only #Define Text ID's
+$IF AConstants.Value != "IDOK"$
+$AND AConstants.Value != "IDCANCEL"$
+#define		$AConstants.Value$ $POS(30)VCtlNum$
+$VCtlNum = VCtlNum + 1$
+$END IF$
+$END LOOP$
+
+$VCtlNum = VCtlNum + 50$		 // Tool Item ID's
+$LOOP Application.Windows$
+	$LOOP ToolBar.ToolItems$
+#define		IDTI_$UP(ToolBar.Name+ToolItem.Name))$ $POS(30)VCtlNum$
+$VCtlNum = VCtlNum + 1$
+	$END LOOP$
+$END LOOP$
+$LOOP Application.Dialogs$
+	$LOOP ToolBar.ToolItems$
+#define		IDTI_$UP(ToolBar.Name+ToolItem.Name))$ $POS(30)VCtlNum$
+$VCtlNum = VCtlNum + 1$
+	$END LOOP$
+$END LOOP$
+//$PROTECTBLOCK	"AdditionalIDs"$
+

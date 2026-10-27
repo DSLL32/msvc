@@ -1,0 +1,658 @@
+      MetaWINDOW FUNCTION SUMMARY
+
+All MetaWINDOW graphic libraries include the
+following function set:
+
+System Initialization
+---------------------
+QueryGraphics() - Auto detect the graphics
+hardware configuration.
+
+InitGraphics() - Initialize the MetaWINDOW
+graphics system.
+
+StopGraphics() - Terminate graphics processing.
+
+MetaVersion() - Return MetaWINDOW version number.
+
+ScreenRect() - Return the screen bitmap limits.
+
+SetDisplay() - Select the visible graphics page.
+
+SetBitmap() - Select the writable graphics page.
+
+RasterOp() - Set the rasterOp drawing mode (16
+standard + 16 transparent).
+
+PlaneMask() - Inhibit writing to masked bitmap
+planes.
+
+
+Pen Attribute Functions
+-----------------------
+PenColor() - Select the pen color.
+
+PenSize() - Set the pen size.
+
+PenPattern() - Select the pen pattern.
+
+PenDash() - Select dashed line style.
+
+PenNormal() - Reset to default pen attributes.
+
+HidePen() - Disable drawing operations.
+
+ShowPen() - Enable drawing operations.
+
+GetPenState() - Save the current pen attributes.
+
+SetPenState() - Restore the pen attributes.
+
+PenOffset() - Set the centered-dash offset.
+
+FillRule() - Select the polygon fill rule
+(winding/oddEven).
+
+DashStyle() - Select the dash style
+(OnOff/Double).
+
+PenCap() - Select the thin line end-cap style.
+
+
+PostScript Pen Attributes
+--------------------------
+PenShape() - Select the pen shape
+(rectangle/square or oval/circle).
+
+PenCap() - Select the line end-cap style
+(flat/square/round).
+
+PenJoin() - Select the connected-line join style
+(round/bevel/miter).
+
+MiterLimit() - Set mitered-join limit angle.
+
+
+Background Style
+----------------
+BackPattern() - Set background pattern.
+
+BackColor() - Set background color.
+
+
+Point and Line Drawing Routines
+-------------------------------
+MoveTo() - Move to (X,Y).
+
+LineTo() - Draw line to (X,Y).
+
+MoveRel() - Move relative (DX,DY).
+
+LineRel() - Draw line relative (DX,DY).
+
+PolyLine() - Draw connected multi-line sequence.
+
+PolySegment() - Draw disconnected multi-line
+sequence.
+
+SetPixel() - Set pixel with the current pen
+color.
+
+GetPixel() - Return color of pixel at (X,Y).
+
+
+Rectangle Drawing Routines
+--------------------------
+FrameRect() - Draw rectangle outline.
+
+PaintRect() - Fill rectangle interior.
+
+EraseRect() - Erase rectangle interior.
+
+InvertRect() - Invert rectangle interior.
+
+FillRect() - Fill rectangle with specified
+pattern.
+
+
+Rounded-Corner Rectangle Drawing Routines
+-----------------------------------------
+FrameRoundRect() - Draw rounded-rectangle
+outline.
+
+PaintRoundRect() - Fill rounded-rectangle
+interior.
+
+EraseRoundRect() - Erase rounded-rectangle
+interior.
+
+InvertRoundRect() - Invert rounded-rectangle
+interior.
+
+FillRoundRect() - Fill roundRect with specified
+pattern.
+
+
+Circle/Ellipse/Oval Drawing Routines
+------------------------------------
+FrameOval() - Draw oval outline.
+
+PaintOval() - Fill oval interior.
+
+EraseOval() - Erase oval interior.
+
+InvertOval() - Invert oval interior.
+
+FillOval() - Fill oval with specified pattern.
+
+
+Arc and Wedge Drawing Routines
+------------------------------
+FrameArc() - Draw arc outline.
+
+PaintArc() - Fill arc interior.
+
+EraseArc() - Erase arc interior.
+
+InvertArc() - Invert arc interior.
+
+FillArc() - Fill arc with specified pattern.
+
+
+Polygon Drawing Routines
+------------------------
+FramePoly() - Draw polygon outline.
+
+PaintPoly() - Fill polygon interior(s).
+
+ErasePoly() - Erase polygon interior(s).
+
+InvertPoly() - Invert polygon interior(s).
+
+FillPoly() - Fill polygon(s) with specified
+pattern.
+
+FillPolygon() - Optimized fill for convex,
+non-convex and complex polygons.
+
+
+Marker Drawing Routines
+-----------------------
+MarkerType() - Set marker style.
+
+MarkerSize() - Set marker size.
+
+MarkerAngle() - Set marker angle.
+
+PolyMarker() - Draw marker(s).
+
+
+Text Drawing Procedures
+-----------------------
+DrawChar() - Draw character.
+
+DrawString() - Draw string.
+
+DrawText() - Draw text substring.
+
+CharWidth() - Return character width.
+
+StringWidth() - Return string width.
+
+TextWidth() - Return text substring width.
+
+
+Text Drawing Procedures - International Fonts
+(16-bit coded characters)
+---------------------------------------------
+DrawChar16() - Draw coded character.
+
+DrawString16() - Draw coded string.
+
+DrawText16() - Draw coded text substring.
+
+CharWidth16() - Return coded character width.
+
+StringWidth16() - Return coded string width.
+
+TextWidth16() - Return coded text substring
+width.
+
+
+Font Attribute Functions
+--------------------------
+SetFont() - Make a font the current drawing
+font.
+
+
+TextAlign() - Set text horizontal/vertical
+alignment.
+
+TextFace() - Set font facing (bold, italic,
+underline,strikeout,etc.).
+
+TextUnder() - Set text underline distance.
+
+TextScore() - Set text underline scoring.
+
+TextPath() - Set text path angle.
+
+TextExtra() - Set character justification
+spacing.
+
+TextSpace() - Set space justification spacing.
+
+TextAngle() - Set text rotation angle.
+
+TextSize() - Set text size.
+
+TextSlant() - Set text slant angle.
+
+
+Image Drawing Routines
+----------------------
+ImageSize() - Calculate image buffer
+requirements.
+
+ReadImage() - Read bitmap into an image buffer.
+
+WriteImage() - Write image buffer to bitmap.
+
+XlateImage() - Translate image buffer to a new
+bitmap format.
+
+
+Point "In" Object Detection
+--------------------------
+PtInRect() - Return true if point is inside a
+rectangle.
+
+PtInOval() - Return true if point is inside an
+oval.
+
+PtInArc() - Return true if point is inside an
+arc.
+
+PtInRoundRect() - Return true if point is inside a
+roundRect.
+
+PtInPoly() - Return true if point is inside a
+polygon.
+
+PtInFlood() - Return true if point is inside a
+flood-fill area.
+
+PtInBoundary() - Return true if point is inside a
+boundary-fill area.
+
+
+Point "On" Object Detection
+--------------------------
+PtOnLine() - Return true if point is on a line.
+
+PtOnPolyLine() - Return true if point is on a
+polyline.
+
+PtOnRect() - Determine if point is on the edge of
+a rectangle.
+
+PtOnOval() - Determine if point is on the edge of
+an oval.
+
+PtOnArc() - Determine if point is on the edge of
+an arc.
+
+PtOnRoundRect() - Determine if point is on the
+edge of a roundRect.
+
+PtOnPoly() - Determine if point is on the edge of
+a polygon.
+
+
+Graphic Inquiries
+-----------------
+QueryPosn() - Return current (X,Y) position.
+
+QueryX() - Return current X position.
+
+QueryY() - Return current Y position.
+
+QueryRes() - Return pixel resolution (X & Y
+pixels/inch).
+
+QueryError() - Return MetaWINDOW error status.
+
+
+Custom Styles and Patterns
+--------------------------
+AlignPattern() - Set pattern alignment.
+
+DefinePattern() - Define a custom multi-color fill
+pattern.
+
+DefineDash() - Define a custom line dash style (up
+to 256 pixel lengths).
+
+
+Color Graphics
+--------------
+QueryColors() - Return maximum display colors.
+
+SetPalette() - Select color palette.
+
+ReadPalette() - Read color palette.
+
+WritePalette() - Load color palette.
+
+BorderColor() - Sets the color of the screen
+overscan area.
+
+
+Operations with Bitmaps
+-----------------------
+InitBitmap() - Initialize a display,
+local-memory,
+
+MS,() - XMS or disk-cached virtual bitmap.
+
+CloseBitmap() - Release a display, local-memory,
+
+MS,() - XMS or disk-cached virtual bitmap.
+
+PortBitmap() - Assign bitmap to the current port.
+
+CopyBlit() - Copy an image between two bitmaps.
+
+ScrollRect() - Move an image to a new position on
+the same bitmap.
+
+CursorBitmap() - Set active bitmap for cursor
+tracking.
+
+ZoomBlit() - Copy a scaled image between two
+bitmaps.
+
+
+Operations with Ports & Windows
+-------------------------------
+InitPort() - Initialize a new port/window.
+
+GetPort() - Return pointer to the current port.
+
+SetPort() - Make specified port the current port.
+
+PortSize() - Set the port size.
+
+MovePortTo() - Set the port location.
+
+SetOrigin() - Set the local port coordinate
+origin.
+
+PortOrigin() - Set the origin orientation
+(upperleft/lowerleft).
+
+VirtualRect() - Set the port's virtual coordinate
+limits.
+
+SetLocal() - Set port to local coordinates.
+
+SetVirtual() - Set port to virtual coordinates.
+
+ClipRect() - Set the port clipping rectangle.
+
+ClipRegion() - Set clipping to an irregular shaped
+region.
+
+
+Operations with Regions
+-----------------------
+OpenRegion() - Open to create a new region from
+drawing calls.
+
+CloseRegion() - Closes OpenRegion() drawing
+calls.
+
+DupRegion() - Creates a duplicate of an existing
+region.
+
+RectRegion() - Creates a rectangle shaped region.
+
+RectListToRegion() - Converts a list of rectangles
+to a region.
+
+IntersectRegion() - Creates a region that is the
+intersection of two regions.
+
+SubtractRegion() - Creates a region that is the
+area of one region with a second region
+subtracted from it.
+
+UnionRegion() - Creates a region that is the
+combination of two regions.
+
+XorRegion() - Creates a region that is the area of
+one region or other, but not both.
+
+BitmapToRegion() - Converts a monchrome bitmap to
+a region.
+
+
+Calculations and Tests with Regions
+-----------------------------------
+EmptyRegion() - Determine if a region is a NULL
+region with no area
+
+NullRegion() - Sets a region to an empty region.
+
+OffsetRegion() - Move the position of a region.
+
+PtInRegion() - Determines if a point is located
+within a region.
+
+RectInRegion() - Determines if a rectangle
+intersects a region.
+
+
+Drawing Functions with Regions
+------------------------------
+EraseRegion() - Fills a region with the current
+background pattern.
+
+FillRegion() - Fills a region with a specified
+pattern.
+
+InvertRegion() - Inverts the colors within a
+region.
+
+PaintRegion() - Fills a region using the current
+foreground pattern & rasterOp
+
+
+Clipping Operations with Regions
+--------------------------------
+ClipRegion() - Set clipping to an irregular shaped
+region.
+
+
+Calculations with Points
+--------------------------
+SetPt() - Copy X,Y to a point variable.
+
+DupPt() - Copy a point variable to another point
+variable.
+
+AddPt() - Add two point variables.
+
+SubPt() - Subtract two point variables.
+
+EqualPt() - Return true if two points are equal.
+
+ScalePt() - Scale a point variable.
+
+MapPt() - Translate and scale a point variable.
+
+OvalPt() - Return the point on oval at a specified
+angle.
+
+PtToAngle() - Return angle from oval center to a
+point.
+
+
+Calculations with Rectangles
+----------------------------
+SetRect() - Copy coordinates to a rectangle
+variable.
+
+DupRect() - Copy a rect variable to another rect
+variable.
+
+Pt2Rect() - Copy diagonal points to a rectangle
+variable.
+
+CenterRect() - Calculate a centered rectangle
+variable.
+
+OffsetRect() - Offset a rectangle variable.
+
+InsetRect() - Inset or outset a rectangle
+variable.
+
+InceptRect() - Return intersect rect of two
+rectangles.
+
+UnionRect() - Return union rect of two
+rectangles.
+
+EqualRect() - Return true if two rectangles are
+equal.
+
+ShiftRect() - Return voided rect(s) of a shifted
+rect move.
+
+MapRect() - Translate and scale a rectangle
+variable.
+
+
+Calculations with Polygons
+--------------------------
+OffsetPoly() - Offset polygon coordinates.
+
+MapPoly() - Translate and scale polygon
+coordinates.
+
+
+Coordinate Transformations
+--------------------------
+Gbl2LclPt() - Transform point, global to local.
+
+Gbl2VirPt() - Transform point, global to virtual.
+
+Lcl2GblPt() - Transform point, local to global.
+
+Lcl2VirPt() - Transform point, local to virtual.
+
+Vir2GblPt() - Transform point, virtual to global.
+
+Vir2LclPt() - Transform point, virtual to local.
+
+Gbl2LclRect() - Transform rectangle, global to
+local.
+
+Gbl2VirRect() - Transform rectangle, global to
+virtual.
+
+Lcl2GblRect() - Transform rectangle, local to
+global.
+
+Lcl2VirRect() - Transform rectangle, local to
+virtual.
+
+Vir2GblRect() - Transform rectangle, virtual to
+global.
+
+Vir2LclRect() - Transform rectangle, virtual to
+local.
+
+ 
+Mouse/Digitizer/TouchScreen/Tablet/Pen Tracking
+-----------------------------------------------
+QueryMouse() - Locate mouse/locator input
+devices.
+
+InitMouse() - Initialize mouse/locator device
+tracking.
+
+StopMouse() - Terminate tracking.
+
+ReadMouse() - Read position and buttons.
+
+LimitMouse() - Set tracking limits.
+
+ScaleMouse() - Set tracking scale.
+
+
+Cursor Tracking Procedures
+--------------------------
+DefineCursor() - Define cursor style (up to 32x32
+pixels in size).
+
+CursorColor() - Select cursor colors.
+
+ShowCursor() - Display screen cursor.
+
+HideCursor() - Remove screen cursor.
+
+MoveCursor() - Move cursor to X,Y.
+
+CursorStyle() - Select cursor appearance.
+
+TrackCursor() - Enable asynchronous auto-cursor
+tracking.
+
+ProtectRect() - Define a cursor protected area.
+
+ProtectOff() - Disable cursor protected areas.
+
+QueryCursor() - Return cursor position and
+buttons.
+
+DefineCursor() - Define custom cursor style.
+
+ 
+Event Queue Processing Procedures
+---------------------------------
+EventQueue() - Enable event queue processing.
+
+StopEvent() - Terminate event queue processing.
+
+KeyEvent() - Retrieve next queued event.
+
+PeekEvent() - Examine queued events.
+
+StoreEvent() - Store a program generated event.
+
+EventMask() - Select events to be stored into the
+event-queue.
+
+
+File I/O Procedures
+-------------------
+FileQuery() - Retrieve file directory info.
+
+FileLoad() - Load a (font) file into memory.
+
+FileStore() - Write a file from memory.
+
+
+System Utilities
+----------------
+
+PushGrafix() - Push the graphics state.
+
+PopGrafix() - Pop the graphics state.
+
+HardCopy() - Output an area of a screen,
+local-memory, EMS, XMS or disk-cached virtual
+bitmap to a dot matrix printer, laser printer or
+disk file.
+

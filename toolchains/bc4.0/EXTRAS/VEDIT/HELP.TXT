@@ -1,0 +1,30 @@
+		ษอออออออออออออออออออออออออออออออออออออออออป
+		บ    WELCOME TO THE VEDIT DEMO/TUTORIAL   บ
+		ศอออออออออออออออออออออออออออออออออออออออออผ
+
+The demo/tutorial will work best if you create the directory "\VEDIT\DEMO"
+on your hard disk and copy all demo files to it. For example:
+
+    MD C:\VEDIT
+    MD C:\VEDIT\DEMO
+    COPY *.* C:\VEDIT\DEMO
+    C:
+    CD \VEDIT\DEMO
+
+------------------------------------------------------------------------------
+ÿ
+After installing the VEDIT PLUS demo on your hard disk, the following DOS
+commands can be given:
+
+READ-ME		 Gives an introduction to using the demo disk. It describes
+		 how to use VDEMO to edit your own files. It includes
+		 troubleshooting in case you are having trouble with screen
+		 colors, the keyboard or the mouse.  It also describes all 
+		 files.
+
+TUTOR		 Starts the in-depth demo / tutorial.
+
+VDEMO file(s)	 Lets you edit files of any size, but limits you to 1000
+		 keystrokes - it will then exit after letting you save or
+		 abandon any changes.
+

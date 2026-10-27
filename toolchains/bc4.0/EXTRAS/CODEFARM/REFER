@@ -1,0 +1,21 @@
+References 
+-------------
+[1] Murphy T.: I'd like to thank the Academy, 1992 best software products,
+               Computer Language, Vol.10, No.4 (Apr/93), pp.37-54
+               (Code Farms library recieved the JOLT AWARD for the best
+               Language/Library product, see pp.41-42).
+[2] Stevens A.: Object-Oriented Database Management Systems (compares
+               POET, Code Farms C/C++ Library, and Raima Object Manager),
+               Dr Dobbs Journal, Apr.93
+[3] Soukup J.: Selecting a C++ library, C++ Report, Vol.4, No.1, Jan.92
+               pp.1 and 4-6.
+[4] Soukup J.: Memory resident databases, C++ Report, Vol.4, No.2, Feb.92
+               pp.11-15.
+[5] Soukup J.: Beyond templates, C++ Report, two parts:
+               Vol.4, No.4, May 92, pp.27-31
+               Vol.4, No.5, June 92, pp.29-35
+[6] Soukup J.: Persistent data - Part I, C++ Journal, Sept.92
+               Part II - to be published.
+[7] Soukup J.: The secret of efficient software design: Internal data 
+               organization, IEEE Electro-International Conf., Boston May 92
+           

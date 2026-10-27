@@ -1,0 +1,57 @@
+This example demonstrates advanced use of data structures.
+Its purpose is to store, interactively, a road map, with names of towns
+connected by highways. Each highway section has an id number, and a distance.
+The id nubmers can repeat for several sections (as in the real life).
+
+After typing "test", you get into an interactive mode, which accepts
+three commands:
+   add [town1] [town2] [id] [distance]
+   route [town1] [town2]
+   exit
+Examples:
+   add Syracuse Watertown 81 65
+   route NewYork Boston
+   exit
+
+The command 'add' adds a new highway section to the map.
+Command 'route' finds the shortes route between the two towns, and prints
+it including complete routing (towns, highway sections) and the total distance.
+Command 'exit' not only exits from the program, but also stores the whole
+network to disk, so that when you invoke the program again, you can continue
+just where you left off before.
+If you want to start form scratch, remove the file 'backup' from your directory.
+This is the file that contains the data from your last run.
+----------------------------------------------------------------------------
+Note the organization of the program. File 'data.h' declares objects and
+data organization, file 'data.cc' contains the methods, and file 'test.cc'
+contains the main body of the program. Code Farms' code generator needs
+only 'data.h' as its input, and generates files 'zzincl.h' and 'zzfunc.c'.
+With these files you start debugging, and you do not have to re-run the code
+generator, unless you modify your data definition.
+----------------------------------------------------------------------------
+The program works with three objects: 
+ Root is an auxilliary object, which keeps a hash table for the fast pickup
+of names. It also keeps a collection (linked list) of towns required
+internally for the algorithm (front of the wave expanding through the network).
+ Hwy represents one highway section.
+ Town represents one town.
+
+Data organizations used:
+ SINGLE_GRAPH - representing the network as a graph, where edges adjacent
+                to any node form a singly-linked list
+ NAME - variable length names are treated as objects, which simplifies code
+ HASH - hash table of towns
+ UTILITIES - memory and disk saving utilities
+
+The hash table assumes that you supply two functions:
+zz_hashCmp_..() which compares two objects, using your particular key;
+zz_hashInd_..() which generates the hashing index.
+The first function is trivial. If you don't want anything special, the library
+provides a convenient default based on the golden ratio algorithm:
+ZZhashStr() for hashing a string, and ZZhashInt() for hashing an integer.
+----------------------------------------------------------------------------
+Paper "The secret of efficient software design: Internal data organization",
+by Jiri Soukup, has been submitted to the IEEE
+Electro-International Conference, May 12-14 1992, Boston, and copies are
+available from Code Farms. The paper describes this problem in more
+detail, and explains both the data structures and the algorithm.

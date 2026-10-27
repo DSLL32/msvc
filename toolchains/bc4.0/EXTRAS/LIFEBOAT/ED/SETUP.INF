@@ -1,0 +1,211 @@
+; ED for Windows Setup.Inf file for ED4W Ver 2.01 ** DEMONSTRATION VERSION **
+; Programmer : Neville Franks
+; Date       : 18 Aug 93
+
+[Application] 
+;Application global information 
+AppName=ED - The Advanced Configurable Editor
+DefDir=\ED4WDEMO
+SpaceNeeded=865
+DefPMGroup=ED4WDEMO.GRP, ED for Windows
+
+[PM Info] 
+;File Name, Expanded File Name, App Description, Icon file #, Icon #
+ED4W.EX_, ED4W.EXE,    ED for Windows *DEMO*
+
+ 
+[Disks] 
+;List of diskettes needed to install the product and the name 
+;of each diskette.
+1=ED for Windows
+ 
+[Dirs] 
+;lists of directories that must be created from the destination directory 
+;files to be copied are in the same directory structure on the 
+;floppy (by default) 
+1=.
+2=CONFIG
+3=SOURCE
+
+[Options]
+;List of installable options.  Desc string must not be more than 25 chars
+; (option #), option name, space required
+1,&Executable files. . .,646
+2,&Help text . . .,163
+3,&Keyboard/menu files. . .,178
+4,&Extension quick ref. . . ,16
+;4,Extension &compiler. . .,164
+;5,Extension &API Help. . .,366
+;6,Extension &source . . .,818
+;7,Ext &Resource Sample. . .,19
+
+
+[Files] 
+;description,   name, (dir #), (diskette #), (option #)
+
+ED4W EXE file,  ed4w.ex_,       1, 1, 1
+;Keyboard setup, edset.ex_,      1, 1, 1
+Task launcher,  edrun.ex_,      1, 1, 1
+Task launcher,  edrun.pi_,      1, 1, 1
+Command Header, edcmds.h_,      1, 1, 1
+Read.me file,   readme.1s_,     1, 1, 1
+;Read.me file,   read.me_,       1, 1, 1
+
+;Common dialog DLL, commdlg.dl_, 1000, 1, 1
+;Shell DLL,      shell.dl_,      1000, 1, 1
+
+Chart,          ascii.ed_,      1, 1, 1 
+Chart,          precdnce.ed_,   1, 1, 1 
+Chart,          regex.ed_,      1, 1, 1 
+Chart,          template.ed_,   1, 1, 1 
+
+User Program,   add_clm.ce_,    1, 1, 1 
+User Program,   charts.ce_,     1, 1, 1 
+User Program,   dbformat.ce_,   1, 1, 1 
+User Program,   dbgets.ce_,     1, 1, 1 
+User Program,   dbf_gets.ce_,   1, 1, 1 
+User Program,   dbheader.ce_,   1, 1, 1 
+User Program,   detab.ce_,      1, 1, 1 
+User Program,   diff.ce_,       1, 1, 1 
+User Program,   draw.ce_,       1, 1, 1 
+User Program,   edvtree.ce_,    1, 1, 1 
+User Program,   ed_funcs.ce_,   1, 1, 1 
+User Program,   ed_ins.ce_,     1, 1, 1 
+User Program,   funcs.ce_,      1, 1, 1 
+User Program,   func_brs.ce_,   1, 1, 1 
+User Program,   glob_sr.ce_,    1, 1, 1 
+User Program,   hunt.ce_,       1, 1, 1 
+User Program,   include.ce_,    1, 1, 1 
+User Program,   isearch.ce_,    1, 1, 1 
+User Program,   key_help.ce_,   1, 1, 1 
+User Program,   mk_menu.ce_,    1, 1, 1 
+User Program,   quickref.ce_,   1, 1, 1 
+User Program,   renum.ce_,      1, 1, 1 
+User Program,   ruler.ce_,      1, 1, 1 
+User Program,   srch_all.ce_,   1, 1, 1 
+User Program,   uniq.ce_,       1, 1, 1 
+User Program,   ver_algn.ce_,   1, 1, 1 
+User Program,   wd_count.ce_,   1, 1, 1 
+
+System Program, blk_wrt.ce_,    1, 1, 1
+System Program, briefcmd.ce_,   1, 1, 1 
+System Program, cblsmart.ce_,   1, 1, 1 
+System Program, cbltmplt.ce_,   1, 1, 1 
+System Program, clipr_tc.ce_,   1, 1, 1 
+System Program, clipr_tf.ce_,   1, 1, 1 
+System Program, clm_ops.ce_,    1, 1, 1 
+System Program, cmtalign.ce_,   1, 1, 1 
+System Program, config.ce_,     1, 1, 1 
+System Program, c_tmplt.ce_,    1, 1, 1 
+System Program, csmart.ce_,     1, 1, 1 
+System Program, dbase_tc.ce_,   1, 1, 1 
+System Program, dbase_tf.ce_,   1, 1, 1 
+System Program, db_acomp.ce_,   1, 1, 1 
+System Program, db_smart.ce_,   1, 1, 1 
+System Program, db_tmplt.ce_,   1, 1, 1 
+System Program, edblock.ce_,    1, 1, 1 
+System Program, edbuflst.ce_,   1, 1, 1 
+System Program, eddrvdir.ce_,   1, 1, 1 
+System Program, eddspinf.ce_,   1, 1, 1 
+System Program, edexcmd0.ce_,   1, 1, 1 
+System Program, edexcmd1.ce_,   1, 1, 1 
+System Program, edexcmd2.ce_,   1, 1, 1 
+System Program, edexcmd3.ce_,   1, 1, 1 
+System Program, edmacro0.ce_,   1, 1, 1 
+System Program, edopsys0.ce_,   1, 1, 1 
+System Program, ed_exit.ce_,    1, 1, 1 
+System Program, ed_fnm.ce_,     1, 1, 1 
+System Program, ed_wcmds.ce_,   1, 1, 1 
+System Program, fext_cfg.ce_,   1, 1, 1 
+System Program, fext_prg.ce_,   1, 1, 1 
+System Program, fext_sg.ce_,    1, 1, 1 
+System Program, file_new.ce_,   1, 1, 1 
+System Program, findwhlp.ce_,   1, 1, 1 
+System Program, flex_smt.ce_,   1, 1, 1 
+System Program, fortmplt.ce_,   1, 1, 1
+System Program, helpctxt.ce_,   1, 1, 1 
+System Program, home_end.ce_,   1, 1, 1 
+System Program, kcmd_lkp.ce_,   1, 1, 1 
+System Program, key_asgn.ce_,   1, 1, 1 
+System Program, key_bind.ce_,   1, 1, 1 
+System Program, me_emul.ce_,    1, 1, 1 
+System Program, mk_tags.ce_,    1, 1, 1 
+System Program, para_rfm.ce_,   1, 1, 1 
+System Program, pastmplt.ce_,   1, 1, 1 
+System Program, pgm_menu.ce_,   1, 1, 1 
+System Program, prg_errs.ce_,   1, 1, 1 
+System Program, prg_run.ce_,    1, 1, 1 
+System Program, prstmplt.ce_,   1, 1, 1 
+System Program, selwcolr.ce_,   1, 1, 1 
+System Program, setup_rd.ce_,   1, 1, 1 
+System Program, smartind.ce_,   1, 1, 1 
+System Program, sortdir.ce_,    1, 1, 1 
+System Program, tag_wild.ce_,   1, 1, 1 
+System Program, template.ce_,   1, 1, 1 
+System Program, trg_idle.ce_,   1, 1, 1 
+System Program, trg_save.ce_,   1, 1, 1 
+System Program, trg_strt.ce_,   1, 1, 1 
+System Program, trg_swb.ce_,    1, 1, 1 
+System Program, undo.ce_,       1, 1, 1 
+
+Help file,      ed4w.hl_,       1, 1, 2
+
+;description,   name, (dir #), (diskette #), (option #)
+;Keyboard,       brief.cf_,      2, 1, 3 
+Keyboard,       brief.xx_,      2, 1, 3 
+;Keyboard,       ed-deflt.cf_,   2, 1, 3 
+Keyboard,       ed-deflt.xx_,   2, 1, 3 
+;Keyboard,       me.cf_,         2, 1, 3 
+Keyboard,       me.xx_,         2, 1, 3 
+;Keyboard,       norton.cf_,     2, 1, 3 
+Keyboard,       norton.xx_,     2, 1, 3 
+;Keyboard,       qedit.cf_,      2, 1, 3 
+Keyboard,       qedit.xx_,      2, 1, 3 
+;Keyboard,       win3.cf_,       2, 1, 3
+Keyboard,       win3.xx_,       2, 1, 3
+;Keyboard,       wordperf.cf_,   2, 1, 3 
+Keyboard,       wordperf.xx_,   2, 1, 3 
+;Keyboard,       wordstar.cf_,   2, 1, 3 
+Keyboard,       wordstar.xx_,   2, 1, 3 
+
+Menu,           menu_mn.xx_,    2, 1, 3 
+Menu,           menu_mn.sr_,    2, 1, 3 
+Menu,           menu_mnl.xx_,   2, 1, 3 
+Menu,           menu_mnl.sr_,   2, 1, 3 
+Menu,           menu_mns.xx_,   2, 1, 3 
+Menu,           menu_mns.sr_,   2, 1, 3 
+Menu,           menu_pgm.xx_,   2, 1, 3 
+
+Language words, lang_asm.xx_,   2, 1, 3 
+Language words, lang_bat.xx_,   2, 1, 3 
+Language words, lang_c.xx_,     2, 1, 3 
+Language words, lang_cl5.xx_,   2, 1, 3 
+Language words, lang_cli.xx_,   2, 1, 3 
+Language words, lang_cob.xx_,   2, 1, 3 
+Language words, lang_dba.xx_,   2, 1, 3 
+Language words, lang_dfx.xx_,   2, 1, 3 
+Language words, lang_for.xx_,   2, 1, 3 
+Language words, lang_fox.xx_,   2, 1, 3 
+Language words, lang_lsp.xx_,   2, 1, 3 
+Language words, lang_par.xx_,   2, 1, 3 
+Language words, lang_pas.xx_,   2, 1, 3 
+Language words, lang_prs.xx_,   2, 1, 3 
+Language words, lang_sql.xx_,   2, 1, 3 
+
+System buffers, edbuffer.xx_,   2, 1, 3 
+File list,      edflist.xx_,    2, 1, 1
+                               
+;description,   name, (dir #), (diskette #), (option #)
+Chart,          ed_c_ref.ed_,   1, 1, 4
+;No Extension Compiler in DEMO
+
+;description,     name,   (dir #), (disk #), (option #)
+;No Extension Source in DEMO
+
+;description,     name,   (dir #), (disk #), (option #)
+;Ext Resource Sample, dlg_demo.c_,  1, 1, 7
+Ext Resource Sample, dlg_demo.ce_, 1, 1, 7 
+Ext Resource Sample, ed4wer6.dl_,  1, 1, 7
+
+[End]
+

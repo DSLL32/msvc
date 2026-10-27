@@ -1,0 +1,37 @@
+MetaWINDOW supports the following operating systems
+and runtime environments:
+
+     MetaWINDOW-DOS
+       MSDOS or PCDOS (real-mode ) V3.0 to present.
+
+     MetaWINDOW-DOS/286
+       Borland 286 DOS-Extender (Turbo Pascal 7.0)
+       Phar Lap 286 DOS-Extender
+       Rational Systems DOS/16M 286 DOS-Extender
+
+     MetaWINDOW-DOS/386
+       Phar Lap 386 DOS-Extender
+       Rational Systems DOS/4G 386 DOS-Extender
+       Watcom 4GW 386 DOS-Extender
+
+  Note that MetaWINDOW/286 and 386 use full
+  protected mode code.  No CPU time is wasted 
+  switching back and forth to real mode 
+  to draw!!
+  
+  MetaWINDOW/286 for 16 bit DOS extenders 
+  is fully DPMI 0.9 compliant and has been 
+  tested under MS-Windows.
+
+  MetaWINDOW/386 for 32 bit DOS extenders 
+  is true 32 code, assembled from a 
+  separate source than the 16-bit libraries.
+
+  MetaWINDOW's speed makes it ideal for real-
+  time applications.  While not directly supported
+  by Metagraphics, many customers are successfully
+  using MetaWINDOW with real-time protected-mode
+  kernals such as 'VRTX' from Ready Systems and
+  'Nucleus' from Accelerated Technology.
+   
+

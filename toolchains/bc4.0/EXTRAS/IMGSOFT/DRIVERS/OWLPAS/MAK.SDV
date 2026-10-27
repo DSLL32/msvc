@@ -1,0 +1,34 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+#
+# ~VPgmName~ - Make File
+#
+~IF VVersion == "7.0"~
+BPDIR=\bp
+UNITDIRS=$(BPDIR)\units
+CC=$(BPDIR)\bin\bpc /m /V /U$(UNITDIRS) /CW
+~ELSE~
+TPWDIR=\tpw
+UNITDIRS=$(TPWDIR)\owl;$(TPWDIR)\win31
+INCLUDE=$(TPWDIR)\owl
+CC=$(TPWDIR)\tpcw /m /V /U$(UNITDIRS)
+~END IF~
+
+PGM=~VPgmName~
+OBJS = 	$(PGM).pas \
+~LOOP AModules~
+	~AModules.Value~.pas \
+~END LOOP~
+
+$(PGM).exe: $(OBJS) $(PGM).res
+	$(CC) $(PGM)
+
+$(PGM).res: $(PGM).rc 
+~IF VVersion == "7.0"~
+     $(BPDIR)\bin\brc -r -I$(UNITDIRS) $(PGM).rc
+~ELSE~
+     $(TPWDIR)\utils\rc -r -I$(INCLUDE) $(PGM).rc
+~END IF~
+
+~SETDELIMITER "$"~  // Restore default delimiter
+

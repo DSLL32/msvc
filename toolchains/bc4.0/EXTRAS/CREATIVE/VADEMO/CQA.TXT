@@ -1,0 +1,110 @@
+Common Questions & Answers
+==========================
+
+The following are questions to problems that may arise when using
+VoiceAssist.
+
+Q1. I can use Microsoft Window's SOUND RECORDER to record my voice
+    using a microphone. However, when I try to run VoiceAssist for
+    recognition, it gives the message "The sound input device is
+    already in use". How can I make it run?
+
+A1. If you are using a Sound Blaster compatible card, you can use the
+    Wave driver for Sound Blaster 1.5 shipped with Windows 3.1. If
+    you are using a configuration software, make sure that you set
+    your audio card to Sound Blaster compatible. In the Wave driver,
+    the DMA and IRQ setting must match the settings on the Sound
+    Blaster compatible card.
+
+
+Q2. I am using the Turtle Beach MultiSound card. Although I can run
+    VoiceAssist, I cannot do speech recognition using the microphone
+    bundled with the VoiceAssist package. Why is it so?
+
+A2. Voice Assist needs a microphone input from the audio card, but the
+    Turtle Beach MultiSound card is not equipped with microphone
+    input.
+
+
+Q3. I moved the VoiceAssist to the Start Up Window in order to launch
+    VoiceAssist once I enter Windows. When entering Windows, after
+    hearing the "Tada" sound, it gives the message "The sound input
+    device is already in use". How can I overcome this ?
+
+A3. To start VoiceAssist after entering Windows, you need to disable
+    the Windows Start Sound. To do so, follow the steps below:
+
+    a. Double click Control Panel from the Main group window. (The
+       Control Panel window appears.)
+
+    b. Double click Sound icon in the Control Panel window. (The Sound
+       dialog box appears.)
+
+    c. Select "Windows Start" in the Event list.
+
+    d. Select <none> in the File list.
+
+    e. Click OK button.
+
+
+Q4. How do I install the Sound Blaster 1.5 drivers shipped with
+    Windows 3.1?
+
+A4. To install the Sound Blaster 1.5 drivers shipped with Windows 3.1,
+    do the following steps:
+
+    a. Double click Control Panel from the Main group window. (The
+       Control Panel window appears.)
+
+    b. Double click Drivers icon in the Control Panel window. (The
+       Drivers dialog box appears.)
+
+    c. Remove existing Wave drivers using the Remove button and
+       restart Windows.
+
+    d. Repeat steps a and b once you are in Windows.
+
+    e. Choose the Add button. (The Add dialog box appears.)
+
+    f. Select Creative Labs Sound Blaster 1.5 and choose OK.  (The
+       Install Driver dialog box appears.)
+
+    g. Insert the required diskette and click OK.
+
+    h. Restart Windows.
+
+
+Q5. VoiceAssist's menu extraction capabilities save lots of training
+    time. Why doesn't it work correctly with some applications like
+    Microsoft Word, PC Tools for Windows and Norton Desktop?
+    
+A5. VoiceAssist's menu extraction capabilities work with almost all
+    programs.  However, a few applications, like Microsoft Word,
+    PC Tools for Windows and Norton Desktop handle their menu
+    resources differently than most other applications. Consequently,
+    VoiceAssist can't extract menu items until the menus have been
+    opened.
+    
+    If you encounter an application with these problems, try the
+    following workaround:
+    
+    Open VoiceAssist and the training dialog. Run the "problem
+    application". Manually open each menu. When you have finished,
+    return to VoiceAssist. VoiceAssist will correctly extract the menu
+    items.
+
+
+Q6. I am a Sound Blaster 16 user. How can I update my Sound Blaster 16
+    drivers if my SB16SND.DRV is earlier than 29th April 93?
+
+A6. Creative has its Sound Blaster drivers updated to give better
+    quality and more application support. You might need to update
+    your Sound Blaster 16 drivers if you have a SB16SND.DRV earlier
+    than 29th April 93.
+
+    To get the latest drivers you can contact your local distributors
+    or call our BBS below for the SBUPDATE.ZIP file :
+
+    Singapore :  65-776-2423
+    USA       : 405-742-6660
+

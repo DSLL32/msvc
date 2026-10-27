@@ -1,0 +1,51 @@
+#   VCS_ID
+#  $Filename:   makefile
+#  $Author  :   John Pompeii
+#  $Revision:   1.1  $
+#  $Date:   28 Dec 1991 14:20:38  $
+#
+ 
+# Puzzle makefile for Borland C++ 
+# usage: make puzzle.exe
+
+INCLUDE=$(BCBASE)\include
+INCLUDPM=$(OPMBASE)\include
+LIB=$(BCBASE)\lib
+LIBPM=$(OPMBASE)\lib
+!IF "$(DEBUG)" == "ON"
+CPPFLAGS=-c -v -V -Od -I$(INCLUDE) -I$(INCLUDE)\sys -I$(INCLUDPM) 
+TLFLAGS=-c -m -Toe -v   
+!ELSE
+CPPFLAGS=-c -V -I$(INCLUDE) -I$(INCLUDE)\sys -I$(INCLUDPM)
+TLFLAGS=-c -m -Toe  
+!ENDIF
+
+.cpp.obj:
+    bcc $(CPPFLAGS) $*.cpp
+
+.rc.res:
+    brcc -r -fo$*.res -i$(BCBASE)\include $*.rc
+
+all: puzzle.exe
+
+puzzle.exe: puzzle.obj puzzle.res puzzle.def
+    tlink $(TLFLAGS) $(LIB)\c02 puzzle, puzzle, puzzle, $(LIB)\c2mti $(LIB)\os2 $(LIBPM)\objectpm, puzzle.def;
+    rc puzzle
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

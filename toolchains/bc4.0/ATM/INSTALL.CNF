@@ -1,0 +1,12 @@
+[Branches]
+Version=2.6
+Disks=1
+Fonts=YES
+PCLBits=NO
+
+[Disk1]
+Name=Program Disk
+ID=PROGDISK
+Files=ATM.CNF,ATMCNTRL.EX_,ATMSYS.DR_,ATM16.ND_,ATM32.ND_
+PSFonts=\PSFONTS
+CPSFONTS=32

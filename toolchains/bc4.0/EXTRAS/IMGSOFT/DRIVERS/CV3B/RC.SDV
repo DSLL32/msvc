@@ -1,0 +1,173 @@
+$OUTPUT VPgmName+".rc"$		// Must specify an output file
+#include <windows.h>
+#include "$VPgmName$.h"
+$ARRAY ADialogFiles$	// Array to list all dialog resource files
+$LOOP Application.Dialogs$
+$ADDVAL ADialogFiles Dialog.ResourceFile$
+$END LOOP$
+$IF COUNT(ADialogFiles) > 0$
+// Dialog Resource Files
+	$LOOP ADialogFiles$
+rcinclude $ADialogFiles.Value$
+	$END LOOP$
+
+$END IF$
+$LOOP Application.Windows WHERE Window.IconFile != ""$
+IDI_$UP(Window.Name)$ ICON $Window.IconFile$
+$END LOOP$
+$LOOP Application.Dialogs WHERE Dialog.IconFile != ""$
+IDI_$UP(Dialog.Name)$ ICON $Dialog.IconFile$
+$END LOOP$
+
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$LOOP ToolBar.ToolItems$
+	$IF ToolItem.NormBitmapFile != ""$
+IDNB_$UP(ToolBar.Name+ToolItem.Name)$ BITMAP $ToolItem.NormBitmapFile$
+	$END IF$
+	$IF ToolItem.SelBitmapFile != ""$
+IDSB_$UP(ToolBar.Name+ToolItem.Name)$ BITMAP $ToolItem.SelBitmapFile$
+	$END IF$
+	$END LOOP$
+
+$END LOOP$
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$LOOP ToolBar.ToolItems$
+	$IF ToolItem.NormBitmapFile != ""$
+IDNB_$UP(ToolBar.Name+ToolItem.Name)$ BITMAP $ToolItem.NormBitmapFile$
+	$END IF$
+	$IF ToolItem.SelBitmapFile != ""$
+IDSB_$UP(ToolBar.Name+ToolItem.Name)$ BITMAP $ToolItem.SelBitmapFile$
+	$END IF$
+	$END LOOP$
+
+$END LOOP$
+$IF COUNT(Application.Windows WHERE ToolBar.Name != "") > 0$
+$OR COUNT(Application.Dialogs WHERE ToolBar.Name != "") > 0$
+
+// Tool bar dialog template
+IDD_TOOLBAR DIALOG 0, 0, 253, 30
+STYLE WS_CHILD | WS_CLIPSIBLINGS
+BEGIN
+END
+
+$END IF$
+$VAR VNumPopups = 1$
+$LOOP application.Windows WHERE Menu.Name != ""$
+IDM_$UP(Menu.Name)$ MENU
+{
+	$LOOP Menu.MenuItems$
+	$IF MenuItem.MenuItemType == "POPUP"$
+	$INPUT "popup.sdv"$
+	$ELSE$
+		$IF MenuItem.MenuItemType == "SEPARATOR"$
+	MENUITEM SEPARATOR
+		$ELSE$
+			$IF MenuItem.InitialState == "Grayed"$
+			$VAR VState = ", GRAYED"$
+			$ELSE$
+				$IF MenuItem.InitialState == "Checked"$
+				$VAR VState = ", CHECKED"$
+				$ELSE$
+				$VAR VState = ""$
+				$END IF$
+			$END IF$
+			$IF MenuItem.AccelText != ""$
+	MENUITEM "$MenuItem.Name$\t$MenuItem.AccelText$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$ELSE$
+	MENUITEM "$MenuItem.Name$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$END IF$
+		$END IF$
+	$END IF$
+	$END LOOP$
+}
+$END LOOP$
+
+$IF Application.Type == "MDI"$		// If MDI Window default Menu
+IDM_MDIWINDOW MENU 
+{
+  MenuItem  "C&reate", 	IDMI_CREATECHILD
+  MenuItem  "&Cascade", IDMI_CASCADE
+  MenuItem  "&Tile", 		IDMI_TILE
+  MenuItem  "Arrange &Icons", IDMI_ARRANGEICONS
+}
+	$END IF$
+$END IF$
+
+$VNumPopups = 1$
+$LOOP application.dialogs WHERE COUNT(Menu.MenuItems) > 0$
+$Menu.Name$ MENU		// Menu Name must match MENU in dialog resource
+{
+	$LOOP Menu.MenuItems$
+	$IF MenuItem.MenuItemType == "POPUP"$
+	$INPUT "popup.sdv"$
+	$ELSE$
+		$IF MenuItem.MenuItemType == "SEPARATOR"$
+	MENUITEM SEPARATOR
+		$ELSE$
+			$IF MenuItem.InitialState == "Grayed"$
+			$VAR VState = ", GRAYED"$
+			$ELSE$
+				$IF MenuItem.InitialState == "Checked"$
+				$VAR VState = ", CHECKED"$
+				$ELSE$
+				$VAR VState = ""$
+				$END IF$
+			$END IF$
+			$IF MenuItem.AccelText != ""$
+	MENUITEM "$MenuItem.Name$\t$MenuItem.AccelText$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$ELSE$
+	MENUITEM "$MenuItem.Name$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name)) VState$
+			$END IF$
+		$END IF$
+	$END IF$
+	$END LOOP$
+}
+$END LOOP$
+
+
+$LOOP application.Windows WHERE Menu.Name != ""$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+IDA_$UP(Menu.Name)$ ACCELERATORS
+{
+	$LOOP Menu.MenuStrings WHERE MenuItem.AccelKey != ""$
+		$IF MenuItem.IsAccelVirtual == "Y"$
+			$IF MenuItem.AccelType != ""$	   
+	VK_$MenuItem.AccelKey$, IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY, $MenuItem.AccelType$
+			$ELSE$
+	VK_$MenuItem.AccelKey$, IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY
+			$END IF$
+		$ELSE$
+			$IF MenuItem.AccelType != ""$
+	"$MenuItem.AccelKey$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY, $MenuItem.AccelType$
+			$ELSE$
+	"$MenuItem.AccelKey$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY
+			$END IF$
+		$END IF$
+	$END LOOP$
+}
+	$END IF$
+$END LOOP$
+
+$LOOP Application.Dialogs WHERE COUNT(Menu.MenuItems) > 0$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+IDA_$UP(Menu.Name)$ ACCELERATORS
+{
+	$LOOP Menu.MenuStrings WHERE MenuItem.AccelKey != ""$
+		$IF MenuItem.IsAccelVirtual == "Y"$
+			$IF MenuItem.AccelType != ""$	   
+	VK_$MenuItem.AccelKey$, IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY, $MenuItem.AccelType$
+			$ELSE$
+	VK_$MenuItem.AccelKey$, IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY
+			$END IF$
+		$ELSE$
+			$IF MenuItem.AccelType != ""$
+	"$MenuItem.AccelKey$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY, $MenuItem.AccelType$
+			$ELSE$
+	"$MenuItem.AccelKey$", IDMI_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$, VIRTKEY
+			$END IF$
+		$END IF$
+	$END LOOP$
+}
+	$END IF$
+$END LOOP$
+

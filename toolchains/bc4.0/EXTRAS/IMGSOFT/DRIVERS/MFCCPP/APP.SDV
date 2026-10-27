@@ -1,0 +1,188 @@
+$VAR VCompiler = "Microsoft"$	// Microsoft or MS_NT
+$VAR VPgmName = PROMPT("Enter Program File Name (No extension):", application.name)$
+$VAR VToolBarExists = "N"$		 // Flag if there are Toolbars in app
+$LOOP Application.Windows WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$LOOP Application.Dialogs WHERE ToolBar.Name != ""$
+	$VToolBarExists = "Y"$
+$END LOOP$
+$ARRAY AModules$									 	// Array of all pgm modules
+$IF VToolBarExists == "Y"$		 	// Flag if there are Toolbars in app
+$ADDVAL AModules "jtools"$	 		// Add ToolBar Module first
+$END IF$
+$LOOP Application.Dialogs WHERE Dialog.ModuleName != "Default"$
+	$ADDVAL AModules Dialog.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP Application.Windows WHERE Window.ModuleName != "Default"$	
+	$ADDVAL AModules Window.ModuleName$	 // mak.sdv will use AModules
+$END LOOP$
+$LOOP AModules$	 
+	$IF AModules.Value != "jtools"$
+	$OUTPUT AModules.Value+".cpp"$		// Create Module Files with hdr info
+	$INPUT "modhdr.sdv"$								
+	$OUTPUT AModules.Value+".hpp"$		// Use APPEND to add to these
+	$END IF$
+$END LOOP$
+$OUTPUT VPgmName+".hpp"$		// Create Application Hdr File
+$INPUT "apphdr.sdv"$				// Initialize App Header				
+$IF VCompiler == "MS_NT"$		 
+$INPUT "msmaknt.sdv"$			// Generate Microsoft NT MAKE file
+$ELSE$
+$INPUT "mak.sdv"$					// Generate Microsoft MAKE file
+$END IF$
+$INPUT "rc.sdv"$					// Generate RC file
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$IF VToolBarExists == "Y"$					// Flag if there are Toolbars in app
+$INPUT "jtools.sdv"$			// Generate Tool Bar Class Files
+$END IF$
+$OUTPUT VPgmName+".cpp"$		// Must specify an output file
+//***************************************************************************
+// $System.OutFile$ - $application.desc$
+// $System.Date$ - $System.Time$
+// $Application.Programmer$
+//***************************************************************************
+//$PROTECTBLOCK	"AppRevisions"$
+#include "$VPgmName$.hpp"				// Main App Class Definitions
+
+$VPgmName$App theApp;		 // Create and run application
+
+//$PROTECTBLOCK	"GlobalVars"$
+
+$LOOP Application.Windows$
+	$IF Window.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to App Definition file
+	$ELSE$
+		$APPEND Window.ModuleName+".hpp"$		// Append to module file
+		$INPUT "windef.sdv"$	 // Process Window Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all Windows
+$LOOP Application.dialogs$
+	$IF Dialog.ModuleName == "Default"$			
+		$APPEND VPgmName+".hpp"$		// Append to App Definition file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".hpp"$		// Append to module file
+		$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Module Header
+	$END IF$
+$END LOOP$		// Loop thru all dialogs
+$APPEND VPgmName+".hpp"$		// Append to App Definition file
+
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+$LOOP Application.Windows$		 // Generate member functions for all windows
+	$IF Window.ModuleName == "Default"$			
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Current Source
+	$ELSE$
+		$APPEND Window.ModuleName+".cpp"$		// Append to module file
+		$INPUT "winmem.sdv"$	 // Process Window Member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$		 // All windows
+$LOOP Application.dialogs$	// Generate member functions for all dialogs
+	$IF Dialog.ModuleName == "Default"$			
+		$INPUT "dlgmem.sdv"$	 // Process Dialog Member Driver to Current Source
+	$ELSE$
+		$APPEND Dialog.ModuleName+".cpp"$		// Append to module file
+		$INPUT "dlgmem.sdv"$	 // Process Dialog member Driver to Module File
+		$APPEND VPgmName+".cpp"$	// Continue output to current source
+	$END IF$
+$END LOOP$
+$LOOP AModules WHERE AModules.Value != "JTools"$
+	$APPEND AModules.Value+".cpp"$		// Append to module file
+
+//$PROTECTBLOCK	AModules.Value+"UserCode"$
+$END LOOP$
+$APPEND VPgmName+".cpp"$	// Continue output to current source
+
+//$PROTECTBLOCK	"AppUserCode"$
+
+//
+//	Application Member Functions
+//
+BOOL $VPgmName$App::InitInstance()
+{
+$IF Application.DialogName != ""$	// Find the dialog to see if it's modal
+	$LOOP Application.Dialogs WHERE Dialog.Name == Application.DialogName$		 
+		$IF Dialog.IsModal == "N"$
+	m_pMainWnd = new $CAP(Application.DialogName)$(NULL);
+	m_pMainWnd->ShowWindow(m_nCmdShow);
+	m_pMainWnd->UpdateWindow();
+		$ELSE$
+	// Note: You should make this dialog non-modal for a main window
+	m_pMainWnd = new $CAP(Application.DialogName)$(NULL);
+	(($CAP(Dialog.Name+" *")$)m_pMainWnd)->DoModal();
+		$END IF$
+	$END LOOP$
+$ELSE$
+	m_pMainWnd = new $Application.WindowName$(NULL);
+	m_pMainWnd->ShowWindow(m_nCmdShow);
+	m_pMainWnd->UpdateWindow();
+$END IF$
+	//$PROTECTBLOCK	"AppInitInstance"$
+	return TRUE;
+}
+//
+// InitApplication - Create a window class for each window defined
+// This makes it easier to modify icons, brushes, menus, etc.
+//
+BOOL $VPgmName$App::InitApplication()
+{
+	if (!CWinApp::InitApplication())	 // Perform standard initialization
+		return FALSE;
+
+$ARRAY ADLLs$
+$FILLARRAY ADLLs Application.DLLs$
+$LOOP ADLLs$
+	LoadLibrary("$LITERAL(ADLLs.Value)$"); // Load Application DLL
+$END LOOP$
+
+	WNDCLASS  wc;
+	// Register custom window classes for each window
+	$LOOP Application.Windows$		 
+	wc.style = 0; // May want to use CS_HREDRAW | CS_VREDRAW
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = 0;
+	wc.lpfnWndProc  = AfxWndProc;
+	wc.hInstance = AfxGetInstanceHandle();
+	$IF Window.IconFile != ""$
+	wc.hIcon = LoadIcon("$Window.Name$");
+	$ELSE$
+	wc.hIcon = LoadStandardIcon(IDI_APPLICATION);
+	$END IF$
+	wc.hCursor = LoadStandardCursor(IDC_ARROW);
+	$IF Window.Color != ""$
+	wc.hbrBackground = CreateSolidBrush($Window.Color$); 
+	$ELSE$
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+	$END IF$	
+	wc.lpszMenuName =  NULL; // Specify Menu in Create()
+	wc.lpszClassName = "$Window.Name$";
+
+	::RegisterClass(&wc);
+
+	$END LOOP$
+	$LOOP Application.Dialogs WHERE Dialog.ClassName != ""$		 
+	// Create custom Dialog Classes specified within dialog resource
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = DefDlgProc;
+	wc.cbClsExtra = 0;
+	wc.cbWndExtra = DLGWINDOWEXTRA;	 // Important for dialogs
+	wc.hInstance = AfxGetInstanceHandle();
+		$IF Dialog.IconFile != ""$
+	wc.hIcon = LoadIcon("$Dialog.Name$");
+		$ELSE$
+	wc.hIcon = LoadStandardIcon(IDI_APPLICATION);
+		$END IF$
+	wc.hCursor = LoadStandardCursor(IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)(COLOR_WINDOW+1); 
+	wc.lpszMenuName =  NULL;				// If menu needed...specify in resource
+	wc.lpszClassName = "$Dialog.ClassName$";	// Must match resource
+
+	::RegisterClass(&wc);
+
+	$END LOOP$
+	//$PROTECTBLOCK	"AppInitApplication"$
+	return TRUE;
+}
+

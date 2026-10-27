@@ -1,0 +1,53 @@
+
+MetaWINDOW-DOS supports popular real-mode
+compilers including:
+
+     Borland C++, versions 3.0, 3.1
+     Borland Turbo C++, versions 3.0, 3.1
+     Borland Assembler, version 3
+     Borland Turbo Pascal, versions 6.0, 7.0
+        (direct link TPU's, no TSR's!)
+     Metaware C++
+     Microsoft Assembler, versions 5.x, 6.x
+     Microsoft C/C++, versions 5.1, 6.0, 7.0
+     Microsoft Quick C, version 2.0
+     Microsoft Visual C++, Version 1.0
+     TopSpeed C/C++, version 3.0
+     Watcom C/C++, version 9.0
+     Zortech C++, version 3.0
+
+
+MetaWINDOW-DOS/286 supports DOS real-mode
+compilers listed above, plus 286 protected-mode
+environments including:
+
+     Borland/Turbo Pascal 286 DPMI DOS-Extender
+       Borland/Turbo Pascal, version 7.0
+       (direct link TPU's, no TSR's!)
+
+     Phar Lap 286 DOS-Extender
+       Borland/Turbo C++, versions 2.0, 3.0, 3.1
+       Microsoft C/C++, versions 6.0, 7.0
+
+     Rational Systems DOS/16M 286 DOS-Extender
+       Borland/Turbo C++, versions 2.0, 3.0, 3.1
+       Microsoft C/C++, versions 6.0, 7.0
+       Zortech C++, version 3.0
+
+
+MetaWINDOW-DOS/386 supports DOS real-mode
+compilers listed above, plus 386 protected-mode
+environments including:
+
+     Phar Lap 386 DOS-Extender
+       Metaware C++ 386, version 3.0
+       Watcom C 386, version 9.0
+
+     Rational Systems DOS/4G 386 DOS-Extender
+       Metaware C++ 386, version 3.0
+       Watcom C 386, version 9.0
+
+     Watcom 4GW 386 DOS-Extender
+       Watcom C 386, version 9.0
+
+

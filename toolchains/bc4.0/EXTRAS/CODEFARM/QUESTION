@@ -1,0 +1,56 @@
+Frequently asked questions about our library
+--------------------------------------------
+Q: Are there two different libraries for C and C++?
+A: Yes, but if you start using our C library, and then transfer to C++,
+   the conversion is very simple.
+
+Q: On what platforms does it run?
+A: It runs on most UNIX workstations (SUN, HP, MIPS, SONY, ...), on IBM PC
+   (DOS or MS Windows), and on Macintosh (PWB). The library is not hardware
+   or OS dependent. We have users on a variety of computers, including
+   VMS VAX and Amdahl.
+
+Q: With what compilers does it run?
+A: The library is shipped with script files that allow you to recompile the
+   library with different compilers. Even if the script file is not included
+   for some particular compiler, it is usually easy to create your own script
+   file.  Examples of the compilers:   AT&T, SUN, HP, DEC-ULTRIX, AIX RS6000,
+   BORLAND, ZORTECH, MICROSOFT, GNU.
+
+Q: How much does it cost?
+A: See file A:\BUSINESS\PRICES
+    
+Q: What sort of documentation will I recieve?
+A: You will recieve two Users Guides, each over 250 pp.(one for C, one for C++).
+   Also, the library includes an automatic documentation generator, which
+   allows you to print the Reference Guide (over 350 pp.) yourself.
+   This information is retrieved directly from the library source, and is
+   therefore guaranteed to always be up to date.
+   In addition to this printed information, the library has an intelligent
+   on-line querry system.
+      
+Q: What kind of library is it (user interface or collection classes)?
+A: This is a new style of library, which has advantages of both systems.
+   All classes are custom generated, flat, and very efficient. There is 
+   no common class from which other objects must be derived.
+   For more details, see directories BROCHURE and TUTORIAL.
+
+Q: What classes does it contain?
+A: Look at file CLASSES.
+
+Q: Are there any restrictions in using the library?
+A: Practically none. You can even ship the source of the library with
+   your product. The only restriction is that you must not distribute
+   our code generator (users of your software do not need the code 
+   generator to recompile your product). For the full text of the legal
+   licence, look at A:\BUSINESS\LICENSE and A:\BUSINESS\PRICES
+   There are no royalties for using the library.
+
+Q: What about support?
+A: The library has been in heavy use on large commercial applications
+   for over 3 years, and it is very solid. If you find any bug, we 
+   fix it immediately. Additions, improvements, introductory
+   courses, and help with custom design is available on a contract basis.
+
+Q: How to order the library?
+A: The order form is in file A:\BUSINESS\ORDER

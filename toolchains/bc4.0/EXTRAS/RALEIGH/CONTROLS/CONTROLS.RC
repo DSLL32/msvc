@@ -1,0 +1,18 @@
+/*  VCS_ID
+ *  $Filename:   hello.rc
+ *  $Author  :   John Pompeii
+ *  $Revision:   1.1  $
+ *  $Date:   28 Dec 1991 14:20:36  $
+ */
+ 
+#include <os2.h>
+#include "about.h"
+#include "controls.h"
+
+POINTER I_OBJPM PRELOAD MOVEABLE objpm.ico
+
+ICON ICO_PAINT PRELOAD MOVEABLE paint.ico
+ICON ICO_TRASH PRELOAD MOVEABLE trash.ico
+ICON ICO_MARK  PRELOAD MOVEABLE mark.ico
+
+rcinclude about.dlg

@@ -1,0 +1,202 @@
+$IF Application.Type != "MDI"$
+$OR Window.IsMain != "Y"$							 
+// Pane Member Functions - $Window.Name$ 
+$Window.Name$Pane::$Window.Name$Pane(zWindow *w, zSizer *sz) 
+	: zPane(w, sz) 	 
+{
+	// $PROTECTBLOCK "p"+Window.Name+"Constructor"$
+	$IF Window.Color != ""$
+	WndBackColor = $Window.Color$;
+	$END IF$
+	show();
+}
+$END IF$
+$VAR VSetSizer = "N"$,
+$IF Window.DefaultPosition != "Y"$
+	$VAR VX = Window.X$
+	$VAR VY = Window.Y$
+	$VAR VSetSizer = "Y"$
+$ELSE$
+	$VAR VX = "CW_USEDEFAULT"$
+	$VAR VY = "CW_USEDEFAULT"$
+$END IF$
+$IF Window.DefaultSize != "Y"$
+	$VAR VW = Window.W$
+	$VAR VH = Window.H$
+	$VAR VSetSizer = "Y"$
+$ELSE$
+	$VAR VW = "CW_USEDEFAULT"$
+	$VAR VH = "CW_USEDEFAULT"$
+$END IF$
+//
+// Frame Member Functions - $Window.Name$ 
+//
+// Window Constructor
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$
+$Window.Name$::$Window.Name$(zString &title)
+		$IF VSetSizer == "Y"$,
+ : zMDIAppFrame(0,new zSizer($VX$,$VY$,$VW$,$VH$),$Window.Style$, 
+ 	title, new zMenu(zResId("MdiWindowMenu")))
+		$ELSE$
+ : zMDIAppFrame(0,new zSizer(),$Window.Style$, 
+ 	title, new zMenu(zResId("MdiWindowMenu")))
+		$END IF$
+{
+	$ELSE$
+$Window.Name$::$Window.Name$(zMDIAppFrame *w, zString &title)
+		$IF VSetSizer == "Y"$,
+ : zMDIChildFrame(w,new zSizer($VX$,$VY$,$VW$,$VH$),$Window.Style$, title) 
+		$ELSE$
+ : zMDIChildFrame(w,new zSizer(),$Window.Style$, title) 
+		$END IF$
+{
+	$END IF$
+$ELSE$
+	$IF Window.IsMain == "Y"$
+$Window.Name$::$Window.Name$(zWindow *w, zString &title)
+		$IF VSetSizer == "Y"$,
+ : zAppFrame(w,new zSizer($VX$,$VY$,$VW$,$VH$),$Window.Style$, title) 
+		$ELSE$
+ : zAppFrame(w,new zSizer(),$Window.Style$, title) 
+		$END IF$
+{
+	$ELSE$		// Standard Popup window
+		$IF VSetSizer == "Y"$,
+$Window.Name$::$Window.Name$(zWindow *w, zString &title)
+ : zDialogFrame(w,new zSizer($VX$,$VY$,$VW$,$VH$),$Window.Style$, title) 
+		$ELSE$
+// The default sizer doesn't work here...so create win at prototyped size
+$Window.Name$::$Window.Name$(zWindow *w, zString &title)
+ : zDialogFrame(w,new zSizer($Window.X$,$Window.Y$,$Window.W$,$Window.H$),$Window.Style$, title) 
+		$END IF$
+{
+	$END IF$
+$END IF$
+
+	$IF Window.Color != ""$
+	WndBackColor = $Window.Color$;
+	$END IF$
+	$IF Menu.Name != ""$
+	menu(new zMenu(this, zResId("$Menu.Name$")));
+		$IF Application.Type == "MDI"$
+		$AND Window.IsMain == "Y"$
+	menu()->appendDropDown(MDImenu(),"&Window");
+		$END IF$
+	$END IF$
+	$IF Window.IconFile != ""$
+	setIcon(new zIcon(zResId("$Window.Name$")));
+	$END IF$
+	$IF ToolBar.Name != ""$
+
+	// Create ToolBar
+	pTB = new jToolBar(this, $ToolBar.H$);	
+	$LOOP ToolBar.ToolItems$
+	pTB->AddTool("$ToolItem.ToolType$", ID_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		 "N$ToolBar.Name+ToolItem.Name$", "S$ToolBar.Name+ToolItem.Name$", "$ToolItem.DrawShadow$", "$ToolItem.DrawBorder$");
+	$END LOOP$
+	pTB->show();
+	$END IF$
+$IF Application.Type != "MDI"$
+$OR Window.IsMain != "Y"$
+	$IF ToolBar.Name != ""$
+		$VAR VTop = 0$ 
+		$VAR VBottom = 0$ 
+		$IF ToolBar.Name != ""$
+		$VAR VTop = "pTB->GetHeight()"$ 
+		$END IF$
+	wp = new $Window.Name$Pane(this, new jFrameSizer(0, $VTop$, 0, $VBottom$));
+	$ELSE$
+	wp = new $Window.Name$Pane(this, 	new zSizeWithParent);
+	$END IF$
+$END IF$
+
+	// $PROTECTBLOCK "w"+Window.Name+"Constructor"$
+}
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+$AND ToolBar.Name != ""$
+//
+// Resize MDI Client around tool bar
+//
+int Main::size(zSizeEvt *Ev)
+{
+ 	HWND hMDIClient = GetWindow(*this, GW_CHILD);
+	if (hMDIClient)
+	{	int y = 0, h = Ev->height();
+		if (pTB)
+		{
+			y += pTB->GetHeight();
+			h -= pTB->GetHeight();
+		}
+ 		MoveWindow(hMDIClient, 0, y, Ev->width(), h, 1);
+	}
+
+	return 1;
+}
+$END IF$
+int $Window.Name$::command(zCommandEvt *Ev) 
+{
+	switch (Ev->cmd())
+	{
+		$LOOP Menu.MenuStrings$  
+		case IDM_$UP(TRIM(MenuItem.PopupName+MenuItem.Name))$:
+		{
+			$VAR VLinkToName = MenuItem.LinkToName$		// setup vars for linkto code 
+			$VAR VLinkToType = MenuItem.LinkToType$
+			$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+			$VAR VProtectTag = "w"+Window.Name+VItemName$
+			$INPUT "linkto.sdv"$	//insert linkto code
+		}
+		break;  
+		$END LOOP$  //MenuStrings
+		$LOOP ToolBar.ToolItems$
+		$IF ToolItem.ToolType == "Button"$
+		case ID_$UP(ToolBar.Name)UP(ToolItem.Name)$:
+		{
+			$VAR VLinkToName = ToolItem.LinkToName$		// setup vars for linkto code 
+			$VAR VLinkToType = ToolItem.LinkToType$
+			$VAR VItemName = ToolItem.Name$
+			$VAR VProtectTag = "w"+Window.Name+ToolItem.Name$
+			$INPUT "linkto.sdv"$	//insert linkto code
+		}
+		break;  
+		$END IF$
+		$END LOOP$	// ToolItems
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+		case IDM_CREATECHILD:
+		{
+			// $PROTECTBLOCK "w"+Window.Name+"CreateChild"$
+			zMDIChildFrame *tmp=new zMDIChildFrame(this,new zSizer, zSTDFRAME, "Practice MDI Child");
+			tmp->show();
+		}
+		break;
+		case IDM_CASCADE:
+			// $PROTECTBLOCK "w"+Window.Name+"Cascade"$
+			cascade();
+			break;
+		case IDM_TILE:
+			// $PROTECTBLOCK "w"+Window.Name+"Tile"$
+			tile();
+			break;
+		case IDM_ARRANGEICONS:
+			// $PROTECTBLOCK "w"+Window.Name+"ArrangeIcons"$
+			arrangeIcons();
+			break;
+		case IDM_CLOSECHILDREN:
+		{
+			// $PROTECTBLOCK "w"+Window.Name+"CloseChildren"$
+			for (zMDIChildFrame *tmp = activeChild(); tmp; tmp = activeChild())
+				delete tmp;
+		}
+		break;
+$END IF$
+		// $PROTECTBLOCK "w"+Window.Name+"Command"$
+		default:
+			return 0;		 // Msg not processed
+	}
+	return 1;
+}
+
+

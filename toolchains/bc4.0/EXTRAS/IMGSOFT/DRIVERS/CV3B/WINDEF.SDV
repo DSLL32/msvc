@@ -1,0 +1,63 @@
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$							 
+class $Window.Name$Win : public ShellWindow 	 // MDI Parent Window
+	$ELSE$																 
+class $Window.Name$Win : public ChildAppWindow 	// Child MDI Window
+	$END IF$
+$ELSE$																 // Normal Window
+class $Window.Name$Win : public TopAppWindow 
+$END IF$
+{
+	$IF Menu.Name != ""$ 
+	Menu $Menu.Name$Menu;	
+	$END IF$
+	$IF Window.IconFile != ""$ 
+	Icon $Window.Name$Icon;	
+	$END IF$
+	$IF COUNT(Menu.MenuStrings WHERE MenuItem.AccelKey != "") > 0$
+	Accel $Menu.Name$Accel;	
+	$END IF$
+	$IF ToolBar.Name != ""$
+	ToolBar *pTB;
+		$IF Application.Type == "MDI"$
+		$AND Window.IsMain == "Y"$							 
+	HWND hMDIClient;	// Handle to MDI Client Window needed for tool bar
+		$END IF$
+	$END IF$
+public:
+$IF Application.Type == "MDI"$
+	$IF Window.IsMain == "Y"$							 
+	$Window.name$Win();
+	$ELSE$																 
+	$Window.name$Win(ShellWindow *);
+	$END IF$
+$ELSE$																 // Normal Window
+	$Window.name$Win();
+$END IF$
+	~$Window.name$Win();
+
+protected:
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+	virtual long Dispatch( Event e ); 	// Needed for MDI Tool Bar
+	virtual void ReSize( ReSizeEvt e ); // Needed for MDI Tool Bar
+$END IF$
+	virtual void MenuCommand ( MenuCommandEvt );
+$IF Application.Type != "MDI"$
+$AND Window.IsMain != "Y"$							 
+	virtual void Close(Event) {delete this;} // Delete dynamic win
+$END IF$
+	//$PROTECTBLOCK	"w"+Window.Name+"Class"$
+};
+
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$							 
+// Simple MDI Child Window for Test
+class MDIChildWin : public ChildAppWindow 	 
+{
+public:
+	MDIChildWin(ShellWindow *w) : ChildAppWindow(w){};
+	~MDIChildWin(){};
+};
+$END IF$
+

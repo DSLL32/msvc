@@ -1,0 +1,39 @@
+#include <windows.h>
+#include "Tutor.h"
+IDI_MAIN ICON tutor.ico
+
+IDNB_MAINAPP BITMAP app.bmp
+IDNB_MAINDIALOG BITMAP dialog.bmp
+IDNB_MAINWINDOW BITMAP window.bmp
+IDNB_MAINCHECKBOX BITMAP checkbx1.bmp
+IDSB_MAINCHECKBOX BITMAP checkbx2.bmp
+IDNB_MAINSOUND BITMAP sound.bmp
+
+// Dialog Resource Files
+rcinclude tutor.dlg
+
+IDM_MAIN MENU
+{
+	POPUP "&File"
+	{
+		MENUITEM "&New\tCtrl+N", IDMI_NEW
+		MENUITEM "&Open...", IDMI_OPEN
+		MENUITEM "&Save...", IDMI_SAVE
+		MENUITEM "&Print...", IDMI_PRINT
+		MENUITEM SEPARATOR
+		MENUITEM "&Exit", IDMI_EXIT
+	}
+	POPUP "&Help"
+	{
+		MENUITEM "&About...", IDMI_ABOUT
+	}
+}
+
+
+
+
+IDA_MAIN ACCELERATORS
+{
+	"N", IDMI_NEW, VIRTKEY, CONTROL
+}
+

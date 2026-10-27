@@ -1,0 +1,14 @@
+
+This is a simple example of how to use the OrgC/C++ library in the C mode.
+It runs in two stages:
+
+Program test1.c reads Employee records (name,salary), and puts them into two
+parallel linked lists. It sorts the two lists, prints them, and saves the data
+to disk (file "myFile").
+
+Program test2.c reads the data from disk, and prints it again.
+
+How to run the test:
+       test1 inp out1     ... prints the first result to file out1
+       test2 > out2       ... prints the second result to file out2
+       comp out1 out2     ... the two files should be the same

@@ -1,0 +1,55 @@
+VEDIT's flexible configuration lets you tailor it to the particulars of your
+computer and "customize" it to your applications, personal preferences and
+keyboard layout.
+
+For example, you could select to have tab positions set to 10, 25 and 30, the
+"right margin" set to column 65 and "justification" enabled.  You can even
+select the character to be displayed at the end of lines (where the <CR><LF>
+"newline" is) and the "fill character" used to display Tab characters.  You
+can select the cursor type and cursor blink rate or a non-blinking cursor.
+
+VEDIT can be configured to a wide variety of hardware.  All VGA screen sizes
+such as 132 x 60 are supported.  All colors used in VEDIT can be configured.
+
+An important feature is the ability to completely determine your own keyboard
+layout - what control or function key you will press to perform each edit
+function.  This demo asks you to press, for example, "<F10>" to access the menu
+system.  However, you can assign the [MENU] function to any key.  You can even
+assign it to two different keys.  The same holds for all edit functions.
+
+You can start with a keyboard layout we supply, such as the "normal",
+Brief(tm), WordStar (tm) or Word Perfect (tm) layouts, perhaps modifying them
+a little.  Or you can create your own keyboard layout, perhaps using one you
+are already familiar with from another editing/word processing program.
+
+You can add new keystroke macros at any time.  You can enter them directly
+using a special window or have VEDIT record your keystrokes while you edit.
+
+VEDIT PLUS's powerful macro language lets you create your own editing
+functions and assign them to a key using keystroke macros.  A library of
+keystroke macros is supplied that includes "duplicate line", "open line",
+"transpose letters", "word count" and many others.
+The VEDIT editors have two levels of configuration.
+
+1.  Most configuration changes can be made via menus.  The {CONFIG} sub-menu
+    lets you change the Tab stops, "Word processing", "Programming",
+    "Colors", "Screen display", "File handling", "Emulation" and "Misc"
+    options.  You can also change the "Printing" and "Searching" options.
+
+    The {CONFIG, Save into VEDIT} function makes the changes permanent by
+    saving the current configuration settings and, optionally, any new
+    keystroke macros into the "VEDIT.EXE" file.
+
+2.  The current configuration can also be saved to a disk file with {CONFIG,
+    Save to Disk}.  Similarly, the keyboard layout can be saved to disk with
+    {MISC, Keyboard Layout, Save to Disk}.  These files can easily be edited
+    and loaded back into VEDIT.
+
+In the simplest case, the VEDIT.EXE file contains the complete configuration;
+start up is not slowed down by separate configuration files.
+
+On the other hand, a network administrator can configure a single executable
+VEDIT.EXE for many users.  Individual users can then have VEDIT load a
+configuration file at startup which satisfies their personal preferences.
+
+

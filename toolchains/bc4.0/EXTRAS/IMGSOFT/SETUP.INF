@@ -1,0 +1,290 @@
+[App] 
+AppName=Object/Designer
+DefDir=C:\ObjDes21
+SpaceNeeded=2048
+DefPMGroup=ObjDes21.GRP, Object/Designer 2.1
+ 
+[Disks] 
+1=Object/Designer 2.1 Master Diskette
+ 
+[SrcDirs] 
+;lists of directories from root of source drive/directory where 
+;source files can be found
+1=.
+2=Backups
+3=Common
+4=Drivers
+5=Drivers\c
+6=Drivers\mfccpp
+7=Drivers\owlcpp
+8=Drivers\owlpas
+16=Drivers\zApp
+17=Drivers\cv3b
+9=System
+10=Tutor
+;Demo Directories
+11=Samples
+12=Samples\c
+13=Samples\mfccpp
+14=Samples\owlcpp
+15=Samples\owlpas
+18=Samples\zapp
+19=Samples\cv3b
+;New Dirs for 2.1
+20=Oduser
+
+[DstDirs] 
+;lists of directories from root of destination drive/directory
+;where destination files will be placed
+1=.
+2=Backups
+3=Common
+4=Drivers
+5=Drivers\c
+6=Drivers\mfccpp
+7=Drivers\owlcpp
+8=Drivers\owlpas
+16=Drivers\zApp
+17=Drivers\cv3b
+9=System
+10=Tutor
+
+;BeginDemo
+11=Samples
+12=Samples\c
+13=Samples\mfccpp
+14=Samples\owlcpp
+15=Samples\owlpas
+18=Samples\zapp
+19=Samples\cv3b
+;EndDemo
+20=Oduser
+
+[Files] 
+;Description,              Src(Dsk-Dir:Name), Dst(Dir:Name),  Shared
+;------------------------- -----------------  --------------- ------
+
+Object/Designer Help File, 	1-1:objdes.hlp, 			1:objdes.hlp, 			 N 
+Read Me File, 							1-1:readme.txt, 			1:readme.txt, 			 N 
+Object/Designer Exe,				1-1:objdes.ex_, 			1:objdes.exe, 			 N 
+Borland Make PIF,						1-1:make.pif, 				1:make.pif, 				 N 
+Microsoft NMake PIF,				1-1:nmake.pif, 				1:nmake.pif, 				 N 
+Microsoft NMake NT file,		1-1:nmake.bat, 				1:nmake.bat, 				 N 
+Copy Project Exe,						1-1:copyprj.exe, 			1:copyprj.exe,			 N 
+
+C Project File ,						1-1:c.prj, 						1:c.prj,		 				 N 
+OWL  Project File ,					1-1:owlcpp.prj, 			1:owlcpp.prj,		 		 N 
+zApp Project File ,					1-1:zapp.prj, 				1:zapp.prj,		 			 N 
+CommonView Project File ,		1-1:cv3b.prj, 				1:cv3b.prj,		 			 N 
+
+ODUser DLL Files,						1-20:oduser.dll, 			20:oduser.dll,		 	 N 
+ODUser DLL Files,						1-20:oduser.c, 				20:oduser.c, 			 	 N 
+ODUser DLL Files,						1-20:oduser.rc, 			20:oduser.rc, 		 	 N 
+ODUser DLL Files,						1-20:oduser.def, 			20:oduser.def,		 	 N 
+ODUser DLL Files,						1-20:oduser.mak, 			20:oduser.mak,		 	 N 
+ODUser DLL Files,						1-20:oduser.prj, 			20:oduser.prj,		 	 N 
+ODUser DLL Files,						1-20:readme.txt, 			20:readme.txt,		 	 N 
+
+;Put shared files in last...
+
+
+C Driver Descriptions, 			1-5:drivers.drd, 			5:drivers.drd, 			 N
+C Source Drivers, 					1-5:app.sdv,				 	5:app.sdv,				 	 N
+C Source Drivers, 					1-5:apphdr.sdv,		 		5:apphdr.sdv,		 		 N
+C Source Drivers, 					1-5:commdlg.sdv, 			5:commdlg.sdv, 			 N
+C Source Drivers, 					1-5:dlg.sdv, 					5:dlg.sdv, 					 N
+C Source Drivers, 					1-5:dlgdef.sdv, 			5:dlgdef.sdv, 			 N
+C Source Drivers, 					1-5:dlgmem.sdv, 			5:dlgmem.sdv, 			 N
+C Source Drivers, 					1-5:jtools.sdv, 			5:jtools.sdv, 			 N
+C Source Drivers, 					1-5:linkto.sdv, 			5:linkto.sdv, 			 N
+C Source Drivers, 					1-5:mak.sdv, 					5:mak.sdv, 					 N
+C Source Drivers, 					1-5:modhdr.sdv, 			5:modhdr.sdv, 			 N
+C Source Drivers, 					1-5:msmak.sdv, 				5:msmak.sdv, 				 N
+C Source Drivers, 					1-5:msmaknt.sdv, 			5:msmaknt.sdv, 			 N
+C Source Drivers, 					1-5:popup.sdv, 				5:popup.sdv, 				 N
+C Source Drivers, 					1-5:rc.sdv, 					5:rc.sdv, 					 N
+C Source Drivers, 					1-5:rescnst.sdv, 			5:rescnst.sdv, 			 N
+C Source Drivers, 					1-5:win.sdv, 					5:win.sdv, 					 N
+C Source Drivers, 					1-5:windef.sdv, 			5:windef.sdv, 			 N
+C Source Drivers, 					1-5:winmem.sdv, 			5:winmem.sdv, 			 N
+
+MFC CPP Driver Descs, 			1-6:drivers.drd, 			6:drivers.drd, 			 N
+MFC CPP Source Drivers, 		1-6:app.sdv, 					6:app.sdv, 					 N
+MFC CPP Source Drivers, 		1-6:apphdr.sdv, 			6:apphdr.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:dlg.sdv, 					6:dlg.sdv, 					 N
+MFC CPP Source Drivers, 		1-6:commdlg.sdv, 			6:commdlg.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:dlgdef.sdv, 			6:dlgdef.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:dlgmem.sdv, 			6:dlgmem.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:jtools.sdv, 			6:jtools.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:linkto.sdv, 			6:linkto.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:mak.sdv,			 	6:mak.sdv,			 N
+MFC CPP Source Drivers, 		1-6:msmaknt.sdv, 			6:msmaknt.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:modhdr.sdv, 			6:modhdr.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:popup.sdv, 				6:popup.sdv, 			N
+MFC CPP Source Drivers, 		1-6:rc.sdv, 				6:rc.sdv, 					 N
+MFC CPP Source Drivers, 		1-6:rescnst.sdv, 			6:rescnst.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:win.sdv, 				6:win.sdv, 					 N
+MFC CPP Source Drivers, 		1-6:windef.sdv, 			6:windef.sdv, 			 N
+MFC CPP Source Drivers, 		1-6:winmem.sdv, 			6:winmem.sdv, 			 N
+														 										 
+OWL CPP Driver Descs, 			1-7:drivers.drd, 			7:drivers.drd, 			 N
+OWL CPP Source Drivers, 		1-7:app.sdv, 				7:app.sdv, 					 N
+OWL CPP Source Drivers, 		1-7:apphdr.sdv, 			7:apphdr.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:commdlg.sdv, 			7:commdlg.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:dlg.sdv, 				7:dlg.sdv, 					 N
+OWL CPP Source Drivers, 		1-7:dlgdef.sdv, 			7:dlgdef.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:dlgmem.sdv, 			7:dlgmem.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:jtools.sdv, 			7:jtools.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:linkto.sdv, 			7:linkto.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:mak.sdv, 					7:mak.sdv, 					 N
+OWL CPP Source Drivers, 		1-7:modhdr.sdv, 			7:modhdr.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:popup.sdv, 				7:popup.sdv, 				 N
+OWL CPP Source Drivers, 		1-7:rc.sdv, 					7:rc.sdv, 					 N
+OWL CPP Source Drivers, 		1-7:rescnst.sdv, 			7:rescnst.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:win.sdv, 					7:win.sdv, 					 N
+OWL CPP Source Drivers, 		1-7:windef.sdv, 			7:windef.sdv, 			 N
+OWL CPP Source Drivers, 		1-7:winmem.sdv, 			7:winmem.sdv, 			 N
+														 										 
+OWL PAS Driver Descs, 			1-8:drivers.drd,	 		8:drivers.drd,	 		 N
+OWL PAS Source Drivers, 		1-8:app.sdv, 					8:app.sdv, 					 N
+OWL PAS Source Drivers, 		1-8:commdlg.sdv, 			8:commdlg.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:dlg.sdv, 					8:dlg.sdv, 					 N
+OWL PAS Source Drivers, 		1-8:dlgdef.sdv, 			8:dlgdef.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:dlgmem.sdv, 			8:dlgmem.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:jtools.sdv, 			8:jtools.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:linkto.sdv, 			8:linkto.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:mak.sdv,		 			8:mak.sdv,		 			 N
+OWL PAS Source Drivers, 		1-8:modhdr.sdv, 			8:modhdr.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:pascnst.sdv, 			8:pascnst.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:popup.sdv,	 			8:popup.sdv,	 			 N
+OWL PAS Source Drivers, 		1-8:rc.sdv,		 				8:rc.sdv,		 				 N
+OWL PAS Source Drivers, 		1-8:rescnst.sdv, 			8:rescnst.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:win.sdv,		 			8:win.sdv,		 			 N
+OWL PAS Source Drivers, 		1-8:windef.sdv, 			8:windef.sdv, 			 N
+OWL PAS Source Drivers, 		1-8:winmem.sdv, 			8:winmem.sdv, 			 N
+														 										 
+zApp CPP Driver Descs,			1-16:drivers.drd, 		16:drivers.drd, 		 N
+zApp CPP Source Drivers, 		1-16:app.sdv, 				16:app.sdv, 				 N
+zApp CPP Source Drivers, 		1-16:apphdr.sdv, 			16:apphdr.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:commdlg.sdv, 		16:commdlg.sdv, 		 N
+zApp CPP Source Drivers, 		1-16:dlg.sdv, 				16:dlg.sdv, 				 N
+zApp CPP Source Drivers, 		1-16:dlgdef.sdv, 			16:dlgdef.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:dlgmem.sdv, 			16:dlgmem.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:jtools.sdv, 			16:jtools.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:linkto.sdv, 			16:linkto.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:mak.sdv, 				16:mak.sdv, 				 N
+zApp CPP Source Drivers, 		1-16:modhdr.sdv, 			16:modhdr.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:popup.sdv, 			16:popup.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:rc.sdv, 					16:rc.sdv, 					 N
+zApp CPP Source Drivers, 		1-16:rescnst.sdv, 		16:rescnst.sdv, 		 N
+zApp CPP Source Drivers, 		1-16:win.sdv, 				16:win.sdv, 				 N
+zApp CPP Source Drivers, 		1-16:windef.sdv, 			16:windef.sdv, 			 N
+zApp CPP Source Drivers, 		1-16:winmem.sdv, 			16:winmem.sdv, 			 N
+																									
+CommonView Driver Descs,		1-17:drivers.drd, 		17:drivers.drd, 		 N
+CommonView CPP Drivers, 		1-17:app.sdv, 				17:app.sdv, 				 N
+CommonView CPP Drivers, 		1-17:apphdr.sdv, 			17:apphdr.sdv, 			 N
+CommonView CPP Drivers, 		1-17:commdlg.sdv, 		17:commdlg.sdv, 		 N
+CommonView CPP Drivers, 		1-17:dlg.sdv, 				17:dlg.sdv, 				 N
+CommonView CPP Drivers, 		1-17:dlgdef.sdv, 			17:dlgdef.sdv, 			 N
+CommonView CPP Drivers, 		1-17:dlgmem.sdv, 			17:dlgmem.sdv, 			 N
+CommonView CPP Drivers, 		1-17:jkickdwn.sdv, 		17:jkickdwn.sdv,		 N
+CommonView CPP Drivers, 		1-17:jtools.sdv, 			17:jtools.sdv, 			 N
+CommonView CPP Drivers, 		1-17:linkto.sdv, 			17:linkto.sdv, 			 N
+CommonView CPP Drivers, 		1-17:mak.sdv, 				17:mak.sdv, 				 N
+CommonView CPP Drivers, 		1-17:msmak.sdv, 			17:msmak.sdv, 			 N
+CommonView CPP Drivers, 		1-17:modhdr.sdv, 			17:modhdr.sdv, 			 N
+CommonView CPP Drivers, 		1-17:popup.sdv, 			17:popup.sdv, 			 N
+CommonView CPP Drivers, 		1-17:rc.sdv, 					17:rc.sdv, 					 N
+CommonView CPP Drivers, 		1-17:rescnst.sdv, 		17:rescnst.sdv, 		 N
+CommonView CPP Drivers, 		1-17:win.sdv, 				17:win.sdv, 				 N
+CommonView CPP Drivers, 		1-17:windef.sdv, 			17:windef.sdv, 			 N
+CommonView CPP Drivers, 		1-17:winmem.sdv, 			17:winmem.sdv, 			 N
+																									
+
+System Files, 							1-9:ATTRS.ATD, 				9:ATTRS.ATD, 				 N 
+														 										 
+Tutorial Files, 						1-10:app.bmp, 				10:app.bmp, 				 N 
+Tutorial Files, 						1-10:checkbx1.bmp, 		10:checkbx1.bmp, 		 N 
+Tutorial Files, 						1-10:checkbx2.bmp, 		10:checkbx2.bmp, 		 N 
+Tutorial Files, 						1-10:dialog.bmp, 			10:dialog.bmp, 			 N 
+Tutorial Files, 						1-10:tutor.dlg, 			10:tutor.dlg, 			 N 
+Tutorial Files, 						1-10:tutor.ico, 			10:tutor.ico, 			 N 
+Tutorial Files, 						1-10:tutor.txt, 			10:tutor.txt, 			 N 
+Tutorial Files, 						1-10:window.bmp, 			10:window.bmp, 			 N 
+Tutorial Files, 						1-10:sound.bmp, 			10:sound.bmp, 			 N 
+
+;BeginDemo
+Tutorial - Write Format, 		1-1:tutor.wr_, 				1:tutor.wri, 				 N
+														 										 
+C Sample Source Code, 			1-12:jtools.c, 				12:jtools.c, 				 N
+C Sample Source Code, 			1-12:jtools.h, 				12:jtools.h, 				 N
+C Sample Source Code, 			1-12:tutor.c, 				12:tutor.c, 				 N
+C Sample Source Code, 			1-12:tutor.def, 			12:tutor.def, 			 N
+C Sample Source Code, 			1-12:tutor.h, 				12:tutor.h, 				 N
+C Sample Source Code, 			1-12:tutor.hh, 				12:tutor.hh, 				 N
+C Sample Source Code, 			1-12:tutor.ms, 				12:tutor.ms, 				 N
+C Sample Source Code, 			1-12:tutor.rc, 				12:tutor.rc, 				 N
+C Sample Source Code, 			1-12:tutor.bor, 			12:tutor.bor, 			 N
+																									
+MFC CPP Sample Source, 		1-13:jtools.cpp, 			13:jtools.cpp, 			 N
+MFC CPP Sample Source, 		1-13:jtools.hpp, 			13:jtools.hpp, 			 N
+MFC CPP Sample Source, 		1-13:tutor.cpp, 			13:tutor.cpp, 			 N
+MFC CPP Sample Source, 		1-13:tutor.def, 			13:tutor.def, 			 N
+MFC CPP Sample Source, 		1-13:tutor.h, 				13:tutor.h, 				 N
+MFC CPP Sample Source, 		1-13:tutor.hpp, 			13:tutor.hpp, 			 N
+MFC CPP Sample Source, 		1-13:tutor.mak, 			13:tutor.mak, 			 N
+MFC CPP Sample Source, 		1-13:tutor.rc, 				13:tutor.rc, 				 N
+																									
+OWL CPP Sample Source, 		1-14:jtools.cpp, 			14:jtools.cpp, 			 N
+OWL CPP Sample Source, 		1-14:jtools.hpp, 			14:jtools.hpp, 			 N
+OWL CPP Sample Source, 		1-14:tutor.cpp, 			14:tutor.cpp, 			 N
+OWL CPP Sample Source, 		1-14:tutor.def, 			14:tutor.def, 			 N
+OWL CPP Sample Source, 		1-14:tutor.h, 				14:tutor.h, 				 N
+OWL CPP Sample Source, 		1-14:tutor.hpp, 			14:tutor.hpp, 			 N
+OWL CPP Sample Source, 		1-14:tutor.mak, 			14:tutor.mak, 			 N
+OWL CPP Sample Source, 		1-14:tutor.rc, 				14:tutor.rc, 				 N
+																									
+OWL PAS Sample Source, 		1-15:jtools.pas, 			15:jtools.pas, 			 N
+OWL PAS Sample Source, 		1-15:tutor.h, 				15:tutor.h, 				 N
+OWL PAS Sample Source, 		1-15:tutor.mak, 			15:tutor.mak, 			 N
+OWL PAS Sample Source, 		1-15:tutor.pas, 			15:tutor.pas, 			 N
+OWL PAS Sample Source, 		1-15:tutor.rc, 				15:tutor.rc, 				 N
+
+zApp CPP Sample Source, 	1-18:jtools.cpp, 			18:jtools.cpp, 			 N
+zApp CPP Sample Source, 	1-18:jtools.hpp, 			18:jtools.hpp, 			 N
+zApp CPP Sample Source, 	1-18:tutor.cpp, 			18:tutor.cpp, 			 N
+zApp CPP Sample Source, 	1-18:tutor.def, 			18:tutor.def, 			 N
+zApp CPP Sample Source, 	1-18:tutor.h, 				18:tutor.h, 				 N
+zApp CPP Sample Source, 	1-18:tutor.hpp, 			18:tutor.hpp, 			 N
+zApp CPP Sample Source, 	1-18:tutor.mak, 			18:tutor.mak, 			 N
+zApp CPP Sample Source, 	1-18:tutor.rc, 				18:tutor.rc, 				 N
+
+CommonView Sample Source, 1-19:jkickdwn.h,			19:jkickdwn.h, 		 N
+CommonView Sample Source, 1-19:jtools.cxx, 			19:jtools.cxx, 			 N
+CommonView Sample Source, 1-19:jtools.hxx, 			19:jtools.hxx, 			 N
+CommonView Sample Source, 1-19:tutor.cxx, 			19:tutor.cxx, 			 N
+CommonView Sample Source, 1-19:tutor.def, 			19:tutor.def, 			 N
+CommonView Sample Source, 1-19:tutor.h, 				19:tutor.h, 				 N
+CommonView Sample Source, 1-19:tutor.hxx, 			19:tutor.hxx, 			 N
+CommonView Sample Source, 1-19:tutor.mak, 			19:tutor.mak, 			 N
+CommonView Sample Source, 1-19:tutor.rc, 				19:tutor.rc, 				 N
+;EndDemo											
+
+;
+;	Put shared files last to avoid problems 
+;
+Borland Custom Controls,		1-1:bwcc.dl_, 				1:bwcc.dll, 				 Y 
+Microsoft Common Dialogs,		1-1:commdlg.dl_, 			1:commdlg.dll,			 Y 
+
+[PM Info] 
+;File Name, App Description, Icon file #, Icon #
+objdes.exe,    Object/Designer
+readme.txt,    Read Me
+
+;BeginDemo
+tutor.wri,    Tutorial
+;EndDemo
+
+[End]
+

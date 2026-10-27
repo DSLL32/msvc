@@ -1,0 +1,20 @@
+$ARRAY AModules$									 // Array of all pgm modules
+$VAR VPgmName = Application.Name$
+$IF Dialog.ModuleName != "Default"$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Dialog.ModuleName)$
+$ELSE$
+$VAR VModuleName = PROMPT("Enter Module Name (No extension):", Dialog.Name)$
+$END$
+$IF PROMPT("ReGenerate resource constants: Y or N", "Y") == "Y"$
+$INPUT "rescnst.sdv"$			// Generate Resource Constants file
+$END IF$
+$ADDVAL AModules VModuleName$	 // Add Module Name to list
+$IF ToolBar.Name != ""$			{ If Window has Toolbar, include jtools }
+$ADDVAL AModules "Jtools"$	 	{ Add ToolBar Module First }
+$END IF$
+$OUTPUT VModuleName+".h"$		// Output to header file
+$INPUT "dlgdef.sdv"$	 // Process Dialog Definition Driver to Header
+$OUTPUT VModuleName+".c"$		// Output to source file
+$INPUT "modhdr.sdv"$	 // Process Module Include Info to source file
+$INPUT "dlgmem.sdv"$	 // Process Dialog Member Functions to source file
+

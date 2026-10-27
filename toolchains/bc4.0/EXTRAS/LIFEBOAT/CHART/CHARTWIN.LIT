@@ -1,0 +1,79 @@
+                        ========================================
+			Essential  Graphics  Chart  for  Windows
+					Version  1.0 
+				$399  or  $999 with source
+                        ========================================
+
+ Visualize Your Data
+ ===================
+
+ The advent of graphical programming and GUIs mean the days of bland statistical 
+ reports and simple data representation are a thing of the past.  Windows 
+ applications demand your programs be as visual as possible.  Essential Graphics 
+ Chart for Windows gives you the functionality you need to visualize your data 
+ in the Windows environment.
+ 
+ 
+ Designed To Do The Job
+ ======================
+
+ Chart for Windows provides all the functionality you need to add professional 
+ charts to your Windows applications.  All charts are implemented through DLLs 
+ enabling multiple charts to be displayed in any number of windows simultaneously.  
+ Another benefit of the DLL implementation is that you can use the Chart library 
+ with any Windows API compatible language, such as C/C++.  A powerful interactive 
+ CASE tool is also provided for designing and prototyping charts.  
+ 
+ 
+ Feature Rich, Programmer Friendly
+ =================================
+ 
+ A wide selection of chart types and configuration settings is available in 
+ Chart For Windows.  All of this is provided without requiring extensive coding.  
+ Available charts such as 2-D and 3-D bars and pies, line and scatter, 
+ high-low-close, real time, area, pyramid and more can be displayed with less 
+ than 10 additional lines of Windows code.  Default information is implemented 
+ for all chart settings which allows you to display your data in only a few 
+ function calls.
+ 
+ The variety and flexibility of our chart types allows your program to give a 
+ new perspective to its data.  EG Chart for Windows gives you complete control 
+ over all presentation aspects of the charts through the use of "message based" 
+ function calls.  Titles, colors, labels, fonts, legends and other options are 
+ all easily configurable.  
+
+ Our CASE tool enables you to interactively develop charts which can be stored 
+ to disk and recalled later for display in your application.
+ 
+ Visual representation is only one part of a complete graphics presentation.  
+ Printer output is handled by Chart for Windows through the use of a virtual 
+ bitmap driver.  This enables you to produce professional hardcopy output on 
+ any graphics printer supported by Windows.
+ 
+ Software Backed By Professionals
+ ================================
+ 
+ South Mountain Software has been producing quality programming tools for over 
+ eight years.  Our graphics libraries for DOS have been used by over 7,000 
+ programmers worldwide in a variety of applications.  This commitment to quality 
+ and support now stands behind Chart For Windows.  Let Chart for Windows open a 
+ window of opportunity to visualize your data.
+ 
+                                  ================
+                                      Features  
+                                  ================
+
+                * No royalties or runtime fees
+                * Charts may be displayed in the parent window or located in
+                  windows of their own
+                * 2-D bar, stacked bar, pie, line, scatter, hi-low-close, 
+                  pyramid and area charts
+                * 3-D bar, stacked bar, pie, pyramid and area charts
+                * True perspective and rotational capability on 3-D charts
+                * Real time charts with scrolling horizontal axis and data values
+                * Legends for all chart types
+                * Integer, long, float or double data values
+                * CASE tool to supplement chart development
+                * Virtual bitmapped output to a any graphics Windows printer
+                * Plenty of example programs
+

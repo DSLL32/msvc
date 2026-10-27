@@ -1,0 +1,779 @@
+		 ___________________________________________
+		|					    |
+		|    WELCOME TO VEDIT PLUS VERSION 3.71     |
+		|___________________________________________|
+
+This file is primarily oriented towards previous VEDIT PLUS users. It gives
+an overview of the changes made from version 3.0 to 3.71.
+
+
+
+		CHANGES FROM 3.70 TO 3.71
+		-------------------------
+
+Monochrome	VEDIT now has two sets of configurable screen attributes; one
+Attributes	for Color displays and one for Monochrome displays. Also
+		useful for Laptop computers.
+
+Mouse		VEDIT's mouse support is optimized for the Microsoft and
+Compatibility	Logitech drivers. To support Mouse Systems (and perhaps
+Options		other) drivers, a compatibility option(s) must be selected
+		with {CONFIG, Misc, Mouse options}.
+
+Max [REPEAT]	The maximum [REPEAT] count of 256 can now be configured with
+count		"Max [REPEAT] count" in the VEDIT.CFG file or with the "YJO"
+		command from Command Mode. Note: VEDIT may not be able to
+		undo the effects of very large repeat counts!
+
+WordStar	The revised WORDSTAR.KEY file improves VEDIT's WordStar
+Emulation	emulation.
+
+.KEY file	Keyboard layout files, e.g. VEDIT.KEY, now treat lines
+Comments	beginning with "R*" as comment lines. (Note: only applicable
+		to keyboard layout files saved in "text" format.)
+
+On-line		The on-line calculator at the "COMMAND:" prompt can accept
+calculator	hexadecimal numbers and optionally display the result in
+		hex. See ERRATA.DOC.
+
+Overstrike	VEDIT can now operate in overstrike mode inside dialog boxes
+mode		and at the "COMMAND:" prompt. Pressing [INSERT] toggles
+		between insert and overstrike mode. It is independent of the
+		Visual Mode's "Insert mode".
+
+Tab Stops	Uniform Tab stops, e.g. every 4 or 8, now apply for any line
+		length. (Previously limited to column 254 or 33 tab stops.)
+
+{MISC, VGA/EGA	This menu item now toggles a VGA through 25, 28 and 50 line
+toggle}		modes. VEDIT fully supports the VGA 28-line mode.
+
+
+Technical Changes:
+------------------
+
+RB command	The new command "RB(r)/string/" compares text register 'r'
+		to the string 'string'. This is a very useful command.
+
+		The following macro example prompts the user for a string and
+		tests whether the user entered "red", "white" or "blue".
+
+		[
+		:RQ(9)"Enter desired color: "
+		RB(9)"red" (.rv=0)[ YT"Handle Red case" JL ]
+		RB(9)"white" (.rv=0)[ YT"Handle White case" JL ]
+		RB(9)"blue" (.rv=0)[ YT"Handle Blue case" JL ]
+		YA YEN YT/Please enter "red", "white" or "blue"./ YEN
+		]
+
+JP command	The "JP/label/" command now works in keystroke macros.
+		'label' may no longer include pattern matching codes,
+		however "|Rr", e.g. "JP/|R9/" is still supported and very
+		useful.
+
+XT command	The new "\" option on "\XT(x)" displays numeric register 'x'
+		in hexadecimal.
+
+OD/OT commands	The format of the date displayed by "OD" was changed. For
+		example, the previous "3-09-93" is now "03-09-93". The "OT"
+		command now displays "9:08:52" as " 9:08:52", i.e with a
+		leading space.
+
+
+
+		CHANGES FROM 3.61 TO 3.70 (Some were added in 3.62)
+		-------------------------
+
+****************************************************************************
+NOTE:	Several changes were made to the "normal" keyboard in order to make
+	it more Microsoft and Borland compatible:
+
+	[ENTER CTRL] was changed from <Ctrl-Q> to <Ctrl-P>.
+
+	{PRINT,Block} was changed from <Ctrl-P> to <Ctrl-O>.
+
+	{MISC,Keyboard layout,Add macro} was changed from <Ctrl-K> to <Alt-A>.
+
+NOTE:	The extremely rarely used pattern matching code "|G" (for
+	parentheses matching) has been changed to "|P".
+
+NOTE:	Any existing command macros using the rarely used "YC" command will
+	need modification.  See ERRATA.DOC.
+****************************************************************************
+
+Data/binary	The record size for binary files in {CONFIG, File handling,
+file support	File type} can now be set to any value between 8 and 2048.
+
+		The "horizontal scroll margin" can now be set to any value
+		between 40 and 2048. This can help in editing lines longer
+		than 2048 in "text" mode.
+
+Mac text	Mac style text files that use a Carriage-Return, instead of
+files		a Line-Feed as the "newline" character are now supported.
+		VEDIT will normally auto-detect these files and set {CONFIG,
+		File handling, File type} to the new value of "2".
+
+Compare		The new {SEARCH, Compare buffers} performs a quick comparison
+buffers		of two buffers (files) from their current cursor positions.
+
+Goto file	The new {GOTO, File position} permits a quick "jump" to any
+position	absolute file position. The position can be entered in hex.
+
+Hexadecimal	Any number can now be entered in hexadecimal by preceding it
+numbers		with "0h". For example, "0h29af" is identical to "10671".
+		Mixed radix expressions such as "0hffff-2000" are also valid.
+
+		The command mode can perform a hex to decimal conversion.
+		Simply enter the hex number at the "COMMAND:" prompt and it
+		will return the decimal equivalent.
+
+Point and	The point and shoot displays filenames in alphabetic order and
+Shoot		supports incremental searching.
+
+Much faster	Having a mouse driver installed no longer slows down startup
+startup		very much. (VEDIT now only resets the mouse driver on startup
+		instead of also the mouse hardware.)
+
+Unlimited	An unlimited number of screen lines are now supported. The
+screen lines	previous limit was 60.
+
+[BACKSPACE]	The new {CONFIG, Emulation, [BACKSPACE] emulation mode}
+emulation mode	optionally permits [BACKSPACE] to only be destructive in
+		"Insert" mode. In "Overstrike" mode it only moves the cursor
+		left. [BACKSPACE] can also optionally stop at the beginning of
+		line.
+
+Pattern		The new pattern matching code "|Hhh" matches the character
+Matching	with hexadecimal value 'hh'. Convenient during hex-mode
+		editing. Similarly, "|ddd" matches the character with decimal
+		value 'ddd'. The previously used "|0" must be changed to
+		"|000".
+
+		The code "|G" matches graphics (high-bit) characters.
+
+Improved block	[T-REG COPY/MOVE] and [BLOCK COPY/MOVE] no longer require the
+operations	block to be in memory. The "FILE POSITION NOT IN MEMORY" error
+		no longer exists. However, the new error "BLOCK IS TOO LARGE"
+		is still possible.
+
+		<Tab> characters no longer confuse columnar block
+		highlighting. [CURSOR UP/DOWN] can now also move through the
+		middle of a <Tab>.
+
+{EDIT, Lower/	Columnar blocks are now also supported. Any block operation
+ upper case}	now cancels the block.
+
+Technical Changes:
+------------------
+
+Columnar block	Command macros using columnar block commands such as "@RC"
+commands	previously worked erratically if executed as keystroke
+		macros or from {MISC, Execute macro}. This has been fixed.
+
+G command	":G" command option moves the block markers to the new block.
+		"p,qG" no longer requires 'p' and 'q' to be in memory.
+
+YN command	"nYN" inserts 'n' "newlines" according to the current file
+		type. Macros using "13EI 10EI" should be changed to "YN"
+		to handle non-DOS file types.
+
+YYG command	The new "YYG" command is similar to the "G" command, but
+		also deletes the original block; similar to [BLOCK MOVE].
+
+D, K, T, PR,	In "p,q:D", "p,q:K", "p,q:T", "p,q:PR", "p,q:RC", "p,q:YB" and
+RC, YB, YS	"p,q:YS", the ":" command option suppresses movement of the
+commands	edit position.
+
+YC command	The "YC" command and new "YCB" and "YCE" commands now set
+		block begin/end columns that correspond to those set with
+		{BLOCK, Set column marker}. See ERRATA.DOC.
+
+	NOTE:	Any existing macros using "YC" must be modified!
+
+XV command	The new "XV(x)" command reads the numeric expression at the
+		edit position and sets numeric register 'x'.
+
+EB command	The new option ":EB" opens the file in "browse mode".
+
+New Internal	.cc - Column position of the cursor; same as "COL:" display
+values		.cb - Block-begin marker's corresponding column
+		.ce - Block-end marker's corresponding column
+		.kt - Total number of keys pressed since VEDIT was started
+
+		The previous internal values ".cl" and ".cr" have been
+		replaced with ".cb" and ".ce"
+
+
+
+		CHANGES FROM 3.60 TO 3.61
+		-------------------------
+
+Multiple file	You can startup VEDIT with up to 26 files. The wildcards "*"
+startup		and "?" can also be used. E.g. "VEDIT *.C *.H".
+
+Auto-save	VEDIT can be configured to auto-save all modified files after
+		a configurable number of minutes.
+
+Highlight	VEDIT can be configured to highlight the entire line that the
+cursor line	cursor is on. Either "bright" characters or an overriding
+		color can be used.
+
+Improved file	The new {FILE, Buffer toggle}, assigned to <Alt-T> toggles the
+and window	current window between all files being edited. (This is a
+handling	little different from the previous <Alt-T> which toggled
+		between buffers and windows.)
+
+		The new {WINDOW, Window toggle}, assigned to <Ctrl-T> toggles
+		between windows.
+
+Binary file	Binary files that have no LF (line-feed) or excessively long
+support		lines are handled as simply 16 or 64 characters per line.
+		This is controlled with {CONFIG, File handling, File type}
+		and {CONFIG, File handling, Auto-file type}.
+
+{FILE, Exit}	{FILE, Quit} has been deleted. {FILE, Exit} has a new option
+{FILE, Quit}	"[Q]uit-all" to quit all files.
+
+		In {FILE, Exit}, the previous option "[A]ll-files" has been
+		renamed to "[S]ave-all".
+
+POS: yyyy:xxxx	When editing in hexadecimal, the cursor's character offset
+		into the file is displayed on the status line.
+
+EBCDIC display	{WINDOW, Toggle display mode} also toggles into EBCDIC mode.
+
+WILDFILE.VDM	The WILDFILE macro has been improved so that it can operate
+		on files currently being edited. This is the best way of
+		performing search/replace on multiple files. You can run
+		WILDFILE by selecting it from the {MISC} menu.
+
+SORT.VDM	The SORT macro is faster and can realistically handle files
+		up to about 1 Megabyte.
+
+CFUNC.VDM	The new CFUNC macro lists each C program routine declaration
+		in a separate window; as you move through the list, the
+		original window moves through the C program.
+
+COLOR.VDM	The new COLOR macro lets you select among common color
+		schemes for the text and menus. (It is used during
+		installation.)
+
+
+
+		CHANGES FROM 3.51 TO 3.60 (Some were added in 3.52 and 3.53)
+		-------------------------
+
+Menu operation	The operation of the menu system has been improved and now
+		operates identically to that on recent Microsoft and Borland
+		products which follow the IBM "SAA/CUA" standard.
+
+		VEDIT normally lets you "preview" sub-menus before they are
+		selected. Since this is non-standard (but we think very
+		desirable), the configuration option {CONFIG, Screen display,
+		Enable sub-menu preview} lets you control this feature. By
+		default it is set to "Yes". (However, on the Demo version, it
+		defaults to "No".)
+
+Menu items	The order of items in the main menu has been changed according
+		to the "CUA" standard. "Undo" is now a sub-menu in the "Edit"
+		menu. "Insert file" has been moved to the "Edit" menu.
+
+{BLOCK} menu	The {BLOCK} menu now always displays all items. The inactive
+		items are displayed in a different color. The color is
+		controlled with "Color override for inactive menu items".
+
+New {FILE}	{FILE, New} now opens a new, empty edit buffer. {FILE, Open}
+menu items	now lets you select whether the file is opened in the same
+		edit buffer or in a new buffer. {FILE, Close} closes the
+		current edit buffer, letting you save or abandon the file.
+		{FILE, Save all} saves all modified files. The old {FILE,
+		Read-only} has been changed to {FILE, Browse mode}.
+
+	Note:	The <Alt-N> keystroke macro which previously was {FILE, New}
+		is now {FILE, Open}-S.
+
+{FILE, Exit}	"Exit" now displays each modified buffer (file) and prompts
+		whether it is to be saved or abandoned. It repeats this for
+		each buffer and then exits VEDIT. If a buffer to be saved has
+		no assigned filename, you are prompted for one. At the {FILE,
+		Exit} prompt, you can reply with "[S]ave-all" to quickly save
+		all files which have assigned filenames.
+
+	Note:	To exit just the current buffer (file) and switch to another
+		buffer you previously used {FILE, Exit}-Y. You should now use
+		{FILE, Close}.
+
+Fast browse	You can quickly browse files by invoking VEDIT with the "-b"
+mode		option. You can also open a file in browse-only mode by
+		selecting {FILE, New}, {FILE, Browse mode} and then {FILE,
+		Open}-S. {GOTO, Beginning/End of file} and relative jumps
+		using the mouse are instantaneous. CD-ROM and other read-only
+		files are automatically opened in browse-only mode.
+
+Filename	The filename on the status line is preceded with "!" when the
+		file was opened in browse-only mode. The file cannot be
+		altered.
+
+{Help, Edit	Files which have been altered since they were last saved are
+buffers}	preceded with a "*".
+
+"-a filename"	You can edit an existing file and save it as another name by
+option		using the "-a filename" option. This is a convenient shortcut
+		for opening the file and then selecting another name with
+		{FILE, Save as}. This option can be used when you invoke
+		VEDIT:
+
+			vedit prototyp.let -a bobsmith.let
+
+		This option can also be used at the filename prompt for
+		{FILE, Open}.
+
+Cursor Type	{CONFIG, Misc} now has separate cursor types for overstrike
+		and insert modes.
+
+		The "System" cursor has been expanded to three types:
+		4 - Thin cursor
+		5 - Medium cursor
+		6 - Full height cursor
+
+[REPEAT]	The "repeat" count is now followed with <Enter>. It then
+		prompts for the key to repeat.
+
+[DEL NEXT WORD]	These functions now first delete the characters in a word, and
+[DEL PREV WORD]	when pressed again, the characters between words.
+
+Color		Screen colors can now be configured with the {CONFIG, Colors}
+Configuration	sub-menu.
+
+WILDFILE.VDM	The macro has been enhanced and made more robust. It can now
+		process files currently being edited.
+
+Keyboard	The "normal" keyboard has been changed; it is similar to the
+layout		"alternate" keyboard layout in 3.5x. The new "alternate"
+		keyboard layout is almost identical to the 3.5x "normal"
+		layout. See "Keyboard Layout" in Chapter 2 for details.
+
+	<Ctrl-Y>  Is [ERASE LINE]; you can still use <Ctrl-X>.
+	<F1>	  Is now [HELP].
+	<F10>	  Is now [MENU]
+
+		Previous F10 operations are now on F11 and the "Grey" keys:
+
+	<Grey+> and <Ctrl-F11> are now [T-REG COPY]
+	<Grey-> and <Alt-F11> are now [T-REG MOVE]
+	<Grey*> and <F11> are now [T-REG INSERT].
+
+Technical Changes:
+------------------
+
+EA command	The command "EAA" saves all modified files and lets you
+		continue editing. It is identical to {FILE, Save all}.
+
+EB command	The "EB" command supports the new "-a filename" option.
+		Use the on-line help for more information.
+
+EQ command	The command "EQX" prompts for verification that you want to
+		quit each modified buffer. It is identical to {FILE, Quit}.
+
+EX command	The command "EXX" prompts whether each modified buffer is
+		to be changed. It is identical to {FILE, Exit}.
+
+YQ command	The command "YQ filename" tests whether 'filename' is being
+		edited in any edit buffer and sets ".rv" accordingly.
+
+New Internal	.ba - Number of altered edit buffers
+values		.bf - Name of next free edit buffer in range "A"-"Z"
+		.bm - Browse mode flag (0=No, 1=Yes)
+		.bt - Total number of edit buffers
+		.fs - File size of the file being edited
+		.ic - DELETED - Use "YJU 1" instead
+		.ob - File opened in browse-only mode (0=No, n=modes)
+		.sv - IBM PC video mode
+		.wb - Type of window borders
+		.wd - Window display mode (see "Screen display options")
+		.wr - Reverse video of current window attribute
+
+
+
+		CHANGES FROM 3.50 TO 3.51
+		-------------------------
+
+Scroll bars	Editing windows can optionally be displayed with scroll bars.
+		The scroll bars work according to the "CUA" standard.
+
+Window borders	With scroll bars enabled, all windows normally have full
+		borders. You can also select full borders without scroll bars,
+		the default minimal borders or no borders.
+
+Mouse support	Enhanced mouse support works with the optional scroll bars.
+		Block highlighting is simplified and improved.
+
+		When scroll bars are not displayed, the right button can
+		access "stealth" scroll bars at the right and bottom edges
+		of the window.
+
+		The mouse can be used to make selection in VEDIT's simple
+		dialog boxes, e.g. "[Y]es [N]o" type prompts.
+
+		The mouse can make selections within the compiler support
+		macro.
+
+2 Gigabyte	The internal math has been expanded from 24 bit to 32 bit
+file size	precision, increasing VEDIT's maximum file size to
+		2 Gigabytes.
+
+		{HELP, Status} now displays the current file size. This
+		size includes any current edit changes.
+
+Hex-mode	The new function {WINDOW, Hex-mode split} lets you edit a file
+editing		in two windows; one displays and lets you edit in hexadecimal,
+		the other in normal ASCII.
+
+		The new function {WINDOW, Toggle display mode} toggles the
+		current window between six display modes, including
+		hexadecimal.
+
+		{CONFIG, Screen Display, Screen display options} sets the
+		default screen mode. (The settings have changed from previous
+		versions!)
+
+Block Delete	Pressing [DELETE] with the cursor within a highlighted block
+		now deletes the entire block. {CONFIG, Emulation, Special
+		emulation modes} can enable/disable this feature.
+
+Regular		A new search option {SEARCH, Config, Maximize regular
+Expressions	expression matching} determines whether regular expressions
+		always match the longest possible string as described on pages
+		98-99 of the 2.10 VEDIT User's manual.
+
+
+
+		CHANGES FROM 3.40 TO 3.50
+		-------------------------
+
+[BACK TAB]	[BACK TAB] has been renamed to [LINE BEGIN]. [ZIP] has been
+[ZIP]		renamed to [LINE END]. {CONFIG, Emulation, Line emulation
+		mode} controls how these functions work.
+
+[FIND]		Has been renamed to [SEARCH].
+
+[FIND AGAIN]	Has been renamed to [SEARCH AGAIN].
+
+[LINE TOGGLE]	Has been deleted. It can be simulated with the keystroke macro:
+
+			[VISUAL EXIT] $EM"|>" .rv=0[ 0L ][ $N"|>" ]
+
+[SCREEN TOGGLE]	Has been replaced with [SCREEN BEGIN] and [SCREEN END].
+		It can be simulated with the keystroke macro:
+
+			[VISUAL EXIT] (.wy<.wl/2)[ YV/\SE\/ ][ YV/\SB\/ ]
+
+[TAB CURSOR]	Has been renamed to [NEXT TAB STOP].
+
+[T-REG INSERT]	New function inserts the specified text register. [T-REG COPY]
+		no longer inserts the text register when no markers are set.
+
+[REPEAT LAST]	New function that repeats the last keystroke, keystroke macro
+		or menu function.
+
+[FORMAT		This Edit Function has been deleted. It is still available in
+ PARAGRAPH]	the {EDIT} menu. It is still assigned to <CTRL-F>.
+
+Keyboard	All changes to the keyboard layout are now made with the
+Layout		{MISC, Keyboard layout} sub-menu. This includes changing the
+		basic keyboard layout, adding Keystroke Macros, displaying and
+		printing the layout.
+
+		Keyboard layouts saved to disk as ".KEY" files can now be
+		easily changed, edited and loaded back in. Many users will
+		want to handle all keyboard layout changes in this way. See
+		the supplied WORDSTAR.KEY and BRIEF.KEY files for examples.
+
+		VEDIT now supports all enhanced keyboard keys including
+		<CTRL-Cursor-keys>, <Shift-Cursor-keys>, <Shift-Ins>, etc.
+
+		The "normal" keyboard layout for [PREV PARAGRAPH],
+		[NEXT PARAGRAPH], [SCROLL UP], [SCROLL DOWN], {GOTO, Beginning
+		of file}, {GOTO, End of file} and the block handling has been
+		changed.
+
+Keystroke	The [REPEAT] and new [REPEAT LAST] functions can now be used
+Macros		with any keystroke macro.
+
+Block		Many changes (improvements) were made to the overall block
+Handling	handling and related keyboard layout.
+
+		Columnar block operations are now selected with {BLOCK, Set
+		column marker}.
+
+		<F9> is now {BLOCK, Set marker}. It only sets the block
+		markers and no longer copies a block. <F9> can now be used
+		to change the size of an already highlighted block.
+
+		<CTRL-F9> is now [BLOCK COPY]. <ALT-F9> is still [BLOCK MOVE].
+
+		<Grey*> is the new function [T-REG INSERT]. It also inserts a
+		Text register, even if you have already started to highlight a
+		block.
+
+		<Grey+> is now [T-REG COPY]. <Grey-> is now [T-REG MOVE].
+
+		Previously, <F9> and <F10> were "smart" keys whose function
+		depended upon how many block markers were set. This turned
+		out to be confusing to many users.
+
+		The following key assignments emulate the old 3.40 layout:
+
+	<F9>	   [VISUAL EXIT] (.be=-1)[.pXBE][YV/\ME\BC/]
+	<ALT-F9>   [VISUAL EXIT] (.be=-1)[.pXBE][YV/\ME\BM/]
+	<F10>	   [VISUAL EXIT] (.bb=-1)[YV/\ME\BI/][YV/\ME\BP/]
+	<ALT-F10>  [VISUAL EXIT] (.bb=-1)[YV/\ME\BI/][YV/\ME\BV/]
+
+R/O Files	{FILE, Browse mode} prevents edit changes to this file. This
+		mode is automatically selected and cannot be changed when
+		editing a Read-only file. The "-B" invocation option also
+		forces this mode for all files.
+
+Change		"Change Directory" has been deleted from the {FILE} menu.
+Directory	Instead, VEDIT now remembers the last directory selected with
+		{FILE, Directory} via "point and shoot".
+
+"Print" to	{PRINT, Config} lets you print to a file. Can either have
+file		VEDIT prompt for the filename, or always print to the same
+		file.
+
+Mouse		With {CONFIG, Misc, Mouse cursor} set to "1", the mouse now
+		starts in the upper left hand corner. Moving the mouse cursor
+		to this corner also makes it invisible.
+
+VCONFIG		The previous VPCONFIG program has been replaced with VCONFIG,
+Program		which is a much smaller and simpler program. Most
+		configuration changes that can now be made with the {CONFIG}
+		menu or {MISC, Keyboard layout} sub-menu have been removed
+		from VCONFIG.
+
+Alternate	{CONFIG, Save to disk} saves ALL configuration parameters
+Configuration	(except keyboard configuration) to a "VEDIT.CFG" file. This
+		file can easily be edited and loaded into VEDIT with {CONFIG,
+		Load from disk}. Examining this file helps understand the
+		new "YJx" commands for changing configuration parameters.
+
+Startup		VEDIT can be configured to always startup in a particular
+screen size	screen size such as 25 or 43/50 line mode.
+
+Screen restore	Upon exit, VEDIT can optionally restore the screen size and
+options		also the original screen contents.
+
+Invocation	New invocation options "-B", "-O" and "-nnn", and revised
+Options		"-S" are described in the manual.
+
+/?		Displays a summary of all invocation options.
+
+Environment	The optional environment variable "VEDPATH" can be used to
+Variables	override the configured "VEDIT Home Directory". For example:
+
+			SET VEDPATH=D:\UTIL\VEDIT
+
+		The optional variable "VEDIT" can be used to set any desired
+		default invocation switches. For example:
+
+			SET VEDIT=+M +S196
+
+Compiler	The compiler support has been improved.
+Support
+		If you have supported any custom compilers by creating your
+		own ".VCS" files, a simple change must be made to them at
+		the "!FUNC-6!" label. See CL.VCS for the necessary change.
+
+
+
+Technical Changes:
+------------------
+
+ES and EO	EO 8 (Insert Mode) has been changed to ES 13. EO 9 (Column
+commands	Mode) has been changed to ES 14. EO 13 (Reset Undo stack)
+		has been changed to an emulation function; it should normally
+		be set to "0".
+
+RN command	"RN(r) file" loads 'file' into register 'r' and chains (jumps)
+		to it; 'r' can be the currently executing register.
+
+RV command	RV(r)/name/ loads the value of environment variable 'name'
+		into text register 'r'.
+
+YJ..		New commands for changing, loading and saving configuration.
+  YJS file	Save entire configuration to the file 'file'.
+  YJL file	Load the configuration file 'file'.
+  YJV VEDIT.EXE  Save the entire configuration into the VEDIT.EXE file.
+ +YJV VEDIT.EXE  Also saves the keyboard layout into VEDIT.EXE.
+  YJA		Display/change the configuration colors (attributes).
+  YJB		Display/change the configuration window border characters.
+  YJM		Display/change the memory mapped screen parameters.
+  YJN		Display/change the configuration screen parameters.
+  YJO		Display/change the configuration undo parameters.
+  YJU		Display/change the configuration user parameters.
+
+YK..		New commands for changing the keyboard layout from the
+		macro language. Use help command "H YKA" for details.
+  YKA		Add a key assignment to the keyboard layout table.
+  YKD		Delete a key assignment from the keyboard layout table.
+  YKI		Insert (temporary) a key assignment.
+  YKP		Pop (remove) temporary key assignments.
+
+Borderless	The "0" parameter in front of the YWB, YWT, YWR and YWL commands
+Windows		creates borderless windows.
+
+":" option	The ":" option for the commands ":F", ":S" and ":L" is now
+		equivalent to setting "ES 8 2". The ":" suppresses the error
+		message and only sets the ".er" and/or ".es" error flags; it
+		no longer jumps out of the iteration loop. Use ".erJL" or the
+		equivalent ";" to jump out of iteration loops when necessary.
+
+Search		|>	Always matches the End-of-file.
+Enhancements	|L	Never matches the End-of-file.
+
+		Search/replace string can include "/" or other delimiter; use
+		"|/" or "\/" to include the delimiter in a search string, e.g.
+		"F/17+7|/4/" is a search for "17+7/4".
+
+New Internal	.bol -   True if at beginning of line
+values		.cm  -   True if columnar block markers are set
+		.eol -   True if at end of line
+		.im  -   True if Insert mode is on
+		.ip  -   Index into pattern matching "pattern set"
+		.kc  -   Wait for and return next keyboard character
+		.kf(n) - Value of 'n'th previous keyboard char/function code
+		.kp(n) - Value of 'n'th previous raw keystroke
+		.ks  -   Return keyboard status
+		.le  -   Number of chars at normal end-of-line (CR/LF=2, LF=1)
+		.ma  -   True if mouse is active
+		.mv  -   True when this is a visual mode macro
+		.ol(x) - Flag whether invocation option 'x' was specified;
+			 supports custom invocation options
+		.or  -   Flag whether edit buffer is in Read-only mode
+		.rc  -   Return code from last program run from within VEDIT
+		.sm  -   True if screen only supports monochrome attributes
+		.tt  -   Time ticks; increment at 18 per second
+		.wq  -   Name of "next" window attached to an edit buffer
+
+
+
+		ADDITIONAL CHANGES FROM 3.30
+		----------------------------
+
+V-SWAP		The V-SWAP programs permits VEDIT to completely swap itself
+		and any desired TSRs out of memory when shelling out to DOS.
+		This makes more memory available for running large compilers
+		and debuggers.
+
+Compiler	Compiler Support integrates compilers, assemblers, linkers,
+Support		debuggers and Make utilities. The built-in keystroke macro
+		<ALT-I> starts up the Compiler Support.
+
+Backup Files	{CONFIG, File handling, Enable backup files} determines
+		whether VEDIT creates ".BAK" files. In Command Mode this is ES
+		12.
+
+Printer		{PRINT, Config, Printer} lets you print to "PRN:" as before,
+Support		or directly to "LPT1:", "LPT2:", "LPT3:", "COM1:", "COM2:" or
+		"COM3:". {PRINT, Finish/Eject} forces printing on a network.
+
+Keystroke	Keystroke macros that begin with [VISUAL EXIT] and perform
+Macros		no other Visual Mode functions can now be used from Command
+		Mode. For example, "[VISUAL EXIT] EXA" exits VEDIT PLUS from
+		both the Command and Visual modes.
+
+EO		The option "Reset UNDO stack when entering DOS" has been
+		deleted. EO 17 to enable V-SWAP has been added.
+
+
+
+		ADDITIONAL CHANGES FROM 3.20
+		----------------------------
+
+Point & Shoot	Files can be selected via Point & Shoot.
+
+		The "RF" command accesses Point & Shoot from the macro
+		language.
+
+Record Macro	Keystroke macros may be added by recording keystrokes while
+		you perform actual editing.
+
+Binary Editing	VEDIT can edit files containing CTRL-Z and binary files such
+		as .EXE files and database files.
+
+Save		{CONFIG, Save into VEDIT} saves all configuration changes and
+Configuration	optionally any new keystroke macros permanently into VEDIT.
+
+Save As		{FILE, Save as} saves the file being edited under a new name
+		and permits continued editing under this new name.
+
+Lower/Upper	The previous {EDIT, Switch Lower/Upper case} function has been
+Case Sub-menu	replaced with "Lower/Upper Case" sub-menu.
+
+{GOTO,Column}	The function {GOTO, Column} jumps the cursor to any selected
+		column in the current line; useful when editing very long
+		lines.
+
+[REPLACE]	After a string is found, the replacement options permit making
+		the current replacement and immediately searching for the next
+		occurrence.
+
+[SEARCH]	A new search option "Word" restricts searches to complete
+[REPLACE]	words, e.g. a search for "the" won't match "there".
+
+Keyboard	{CONFIG, Misc, Keyboard repeat rate} controls the keyboard
+repeat rate	repeat rate. It is only applicable to AT and PS/2 type
+		keyboards. It should be set to "0" if you already have
+		software which speeds up the repeat rate.
+
+UNIX Files	{CONFIG, File handling, Newline character(s)} controls what
+		type of files VEDIT is editing, in particular whether lines
+		end in Carriage-return Line-feed (like DOS) or just a
+		Line-feed (like UNIX).
+
+VEDIT Home	Previously, VEDIT had to be installed in the "\VEDIT"
+Directory	directory. Configuration parameter 1 now permits selecting
+		any path for the "VEDIT Home Directory". Furthermore, the
+		environment variable "VEDPATH" will override this setting.
+
+Block		New configuration parameter sets an overriding (color)
+Highlighting	attribute for highlighted blocks. Otherwise reverse video is
+		used.
+
+Hardware	Command Mode commands can access IBM PC hardware (peek/poke
+Access		memory, I/O ports), BIOS and low level DOS functions.
+
+
+
+		ADDITIONAL CHANGES FROM 3.10
+		----------------------------
+
+Mouse Support	Integrated mouse support added.
+
+DOS Shell	When you shell out to DOS, VEDIT changes the DOS prompt to
+		"pathname>>". This is a reminder that VEDIT is still loaded.
+		Technical users can select other prompts using the "OS"
+		command.
+
+Block Search	The [SEARCH] and [REPLACE] functions can be restricted to
+		operate within the highlighted block. Columnar blocks are also
+		supported.
+
+Sound		(Technical) Optional arguments to the "YA" command perform
+Generation	programmable sound generation. The supplied macro
+		"MARYLAMB.VDM" demonstrates this.
+
+
+
+		ADDITIONAL CHANGES FROM 3.00
+		----------------------------
+
+Long Line	The "horizontal scroll margin" can be turned off (value 0) to
+Support		disable "continuation" lines. This (default) mode permits
+		using just horizontal scrolling to view very long lines.
+
+New Block	When the cursor is within a highlighted block, [INDENT] and
+Functions	[UNDENT] indent/undent the entire block.
+
+		A highlighted block can be written to disk via {BLOCK, Write
+		to disk}.

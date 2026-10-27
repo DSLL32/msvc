@@ -1,0 +1,153 @@
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+{*-----------------------------------------------------------------
+ * Window Method implementations - TMDIChild
+ *-----------------------------------------------------------------}
+constructor TMDIChild.Init(AParent: PWindowsObject; ATitle : PChar );
+begin
+	TWindow.Init(AParent, ATitle);
+end;
+{*-----------------------------------------------------------------
+ * Window Method implementations - $Window.Name$ : MDIFrame
+ *-----------------------------------------------------------------}
+constructor T$Window.Name$.Init;
+	$IF ToolBar.Name != ""$
+var 	pTB : PToolBar;
+	$END IF$
+begin
+	TMDIWindow.Init('$Window.Caption$', LoadMenu(HInstance, '$Menu.Name$'));
+	$VAR VChildMenuPos = 0$
+	$LOOP Menu.MenuItems$
+	$VChildMenuPos = VChildMenuPos+1$
+	$END LOOP$
+	ChildMenuPos := $VChildMenuPos$; { Menu to be updated with MDI child names }
+$ELSE$
+{*-----------------------------------------------------------------
+ * Window Method implementations - $Window.Name$    
+ *-----------------------------------------------------------------}
+constructor T$Window.Name$.Init(AParent: PWindowsObject);
+	$IF ToolBar.Name != ""$
+var 	pTB : PToolBar;
+	$END IF$
+begin
+	TWindow.Init(AParent, '$Window.Caption$');
+	Attr.Menu := LoadMenu(HInstance, '$Menu.Name$');
+$END IF$
+	$IF Window.IsMain != "Y"$ 	 // If this is a popup set style
+	Attr.Style := $PASCAL(Window.Style)$ or ws_Visible;
+	$ELSE$
+		$IF Window.Style != "WS_OVERLAPPEDWINDOW"$
+	Attr.Style := $PASCAL(Window.Style)$;	
+		$END IF$
+	$END IF$
+	$IF Window.DefaultPosition != "Y"$
+	Attr.X := $Window.X$;
+	Attr.Y := $Window.Y$;
+	$END IF$
+	$IF Window.DefaultSize != "Y"$
+	Attr.W := $Window.W$;
+	Attr.H := $Window.H$;
+	$END IF$
+$IF ToolBar.Name != ""$
+	{ Create ToolBar - This is a child window so OWL will delete }
+	pTB := New(PToolBar, Init(@Self, $ToolBar.H$));	
+	$LOOP ToolBar.ToolItems$
+	pTB^.AddToolItem(@Self, '$ToolItem.ToolType$', CM_$UP(ToolBar.Name)UP(ToolItem.Name)$, $ToolItem.X$, $ToolItem.Y$, $ToolItem.W$, $ToolItem.H$, 
+		'N$ToolBar.Name$$ToolItem.Name$', 'S$ToolBar.Name$$ToolItem.Name$', '$ToolItem.DrawShadow$', '$ToolItem.DrawBorder$');
+	$END LOOP$
+$END IF$
+	{$PROTECTBLOCK "w"+Window.Name+"Constructor"$}
+end;
+
+{*-----------------------------------------------------------------
+ * procedure T$Window.Name$.GetWindowClass
+ * Allows window class info to be modified (icon, color, etc.)
+ *-----------------------------------------------------------------}
+procedure T$Window.Name$.GetWindowClass(var AWndClass: TWndClass);
+begin
+	TWindow.GetWindowClass(AWndClass); { Get the default class }
+	$IF Window.Color != ""$
+	AWndClass.hbrBackground := CreateSolidBrush($Window.Color$);
+	$END IF$
+	$IF Window.IconFile != ""$
+	AWndClass.hIcon := LoadIcon(HInstance, '$Window.Name$');
+	$END IF$	
+	{$PROTECTBLOCK "w"+Window.Name+"GetWindowClass"$}
+end;
+
+{*-----------------------------------------------------------------
+ * function T$Window.Name$.GetClassName
+ * Returns a unique class name for the window class.
+ *-----------------------------------------------------------------}
+function T$Window.Name$.GetClassName: PChar;
+begin
+	GetClassName := '$Window.Name$';
+end;
+
+{*-----------------------------------------------------------------
+ * procedure T$Window.Name$.SetupWindow
+ * Setup all child windows and controls.
+ * Perform any window setup operations requiring a window handle.
+ *-----------------------------------------------------------------}
+procedure T$Window.Name$.SetupWindow;
+begin
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+	TMDIWindow.SetupWindow;
+$ELSE$
+	TWindow.SetupWindow;
+$END IF$
+	{$PROTECTBLOCK "w"+Window.Name+"SetupWindow"$}
+end;
+$IF Application.Type == "MDI"$
+$AND Window.IsMain == "Y"$
+{*-----------------------------------------------------------------
+ * function T$Window.Name$.CreateChild
+ * Create an MDI Child window
+ *-----------------------------------------------------------------}
+function T$Window.Name$.CreateChild: PWindowsObject;
+begin
+	CreateChild := Application^.MakeWindow(New(PMDIChild,
+	Init(@Self, 'MDI Child Window')));
+end;
+	$IF ToolBar.Name != ""$
+
+{*-----------------------------------------------------------------
+ * procedure T$Window.Name$.WMSize
+ * Trap the size message so we can adjust MDI Client Window to be 
+ * below Tool Bar
+ *-----------------------------------------------------------------}
+procedure T$Window.Name$.WMSize(var Msg: TMessage);
+var rect : TRect;
+begin
+	GetClientRect(HWindow, rect);
+	rect.top := rect.top + $ToolBar.H$;
+	rect.bottom := rect.bottom - $ToolBar.H$;
+	MoveWindow(ClientWnd^.HWindow, 0, rect.top, rect.right, rect.bottom, TRUE);
+	{$PROTECTBLOCK "w"+Window.Name+"WMSize"$}
+end;
+	$END IF$
+$END IF$
+
+{*-----------------------------------------------------------------
+ * Window Message Response Methods  - $Window.Name$    		
+ *-----------------------------------------------------------------}
+$LOOP ToolBar.ToolItems WHERE ToolItem.ToolType == "Button"$
+procedure T$Window.Name$.CM$ToolBar.Name+ToolItem.Name$(var Msg: TMessage);
+	$VAR VLinkToName = ToolItem.LinkToName$		{ setup vars for linkto code }
+	$VAR VLinkToType = ToolItem.LinkToType$
+	$VAR VItemName = ToolItem.Name$
+	$VAR VProtectTag = "w"+Window.Name+ToolBar.Name+ToolItem.Name$
+	$INPUT "linkto.sdv"$	{ insert linkto code }
+end;
+$END LOOP$
+$LOOP Menu.MenuStrings WHERE TRIM(MenuItem.PopupName+MenuItem.Name) != "FileExit"$  
+procedure T$Window.Name$.CM$TRIM(MenuItem.PopupName+MenuItem.Name)$(var Msg: TMessage);
+	$VAR VLinkToName = MenuItem.LinkToName$		{ setup vars for linkto code }
+	$VAR VLinkToType = MenuItem.LinkToType$
+	$VAR VItemName = TRIM(MenuItem.PopupName+MenuItem.Name)$
+	$VAR VProtectTag = "w"+Window.Name+VItemName$
+	$INPUT "linkto.sdv"$	{ insert linkto code }
+end;
+$END LOOP$
+

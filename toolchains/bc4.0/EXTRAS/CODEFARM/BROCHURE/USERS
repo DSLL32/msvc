@@ -1,0 +1,98 @@
+------------------------------------------------------------------------------
+Reference letters from users of "Code Farms' Library"
+------------------------------------------------------------------------------
+
+"We are currently developing a large CAE/CAD/CAM database, and we have combined
+C++ with Code Farms' Library. Originally we tried,for 6 months,to do everything
+in C++  alone,  but we were not successful. It took us less than 4 weeks to put
+the database to work thanks to Code Farms' Library.
+
+Code Farms' Library had contributed  a major  new  dimension to the inheritance
+mechanism,   not  available  so  far  in  any of the existing  object  oriented
+approaches...   Code  Farms'  Library is  the  most powerful  toolset  for  the
+organization of data I have seen so far..."
+
+Dr. Hans Gethoffer, General Manager R&D, Zuken Inc., Japan
+                    (presently with Harris Corp., Fishers, N.Y.).
+------------------------------------------------------------------------------
+  
+"We have found Code Farms' Library to be:
+
+- Easy to learn and use: Most software engineers can make effective use
+  of the tool within one day.
+- Useful in a wide range of applications: Almost any project using linked
+  data-structures or complex databases can benefit from Code Farms' Library.
+- Robust and reliable: It eliminates the typical debugging necessary to get
+  applications with complex data-structures working.
+- Well structured: It integrates easily with other software development tools,
+  such as the Saber C data-browser.
+  Code Farms' Library is unlike any other product on the market that I am aware
+  of today,  providing services sorely needed by any software developer..."
+
+Gary Porter, Engineering Supervisor, CAE, Harris Semiconductor.
+------------------------------------------------------------------------------
+
+"Our product must operate in a heterogenous network of Sun and HP workstations,
+IBM PCs and Apple Macintoshes, storing complex networks of C++ objects. The Code
+Farms' Library was the only product we found that could meet these requirements.
+
+In addition to the technical merit of the product we have found customer support
+from Code Farms' to be equally impressive.
+
+David G. Seabury, V.P.Engineering, Rose Development, Schaumburg, Illinois
+------------------------------------------------------------------------------
+
+"Code Farms' Library has been used as a tool to shorten the period of developing
+the program, in which it contributes to the core-database. This database stores
+a  boolean  network  representing  a configuration of a  circuit  with  boolean
+expressions.
+
+The effect produced by using Code Farms' Library is that I could spend much more
+time in designing the data structure  at  a higher level,  because the pointers
+were generated automatically and hidden.  Data structure could  be  declared in
+top-down manner.."
+
+Masanobu Hiramine, Mitsubishi ASIC Design Center
+------------------------------------------------------------------------------
+
+"My student has been using Code Farms' Library since February 1989.. The code is
+currently about 22,000 lines of C...   We use complex data structures including
+hash tables, dynamic data structures for circuit networks, and  graph models for
+floor plans.
+
+A conservative estimate of the amount of time saved by using Code Farms'Library
+is at least a few months. An added  advantage of Code Farms' Library is that it
+supports and encourages an object-oriented programming style and thus not  only
+shortens the development cycle,  but also makes the code  easier  to understand
+and maintain."
+
+Prof.Gershon Kedem, Dept. of Computer Science, Duke University.
+------------------------------------------------------------------------------
+
+"Our experience with Code Farms' Library  has been very positive.  We have used
+Code Farms' Library on SUN workstations and on AT MS-DOS computers in two major
+projects  1)  to develop software for realtime data acquisition and  laboratory
+control, 2) to develop a natural language system for database access. All of our
+high level code is written in C and we found that Code Farms'Library sped up our
+software development, and improved the readability  and maintainability of our C
+source code.."
+
+Dr.  Lew Stelmach and Dr.  Thom Whalen,  Dept.of Communications,  Government of
+Canada.
+------------------------------------------------------------------------------
+
+"Code Farms' library is a twist on standard C++ class libraries. The Data Object
+Library wins a Jolt Award for being not only easy to use but very portable.
+   ... 
+Code Farms' decision to include full regression testing with the product is very
+impressive.  You install the library in source form on your machine and,  after
+the makefiles create  the library modules,  the entire library is exercised and
+checked for correctness.
+
+The  Data Object Library creates  structures  that  are  fast  and  use  memory
+efficiently. Adding persistence to your system is a snap..."
+ 
+Thomas Murphy, Tech.Editor, Computer Language, Apr/93
+------------------------------------------------------------------------------
+
+For references to papers published about our library , see file A:\REFER

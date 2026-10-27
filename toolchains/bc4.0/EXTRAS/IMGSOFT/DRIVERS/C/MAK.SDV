@@ -1,0 +1,61 @@
+$SETDELIMITER "~"$  // Make uses dollar sign so change delimiter...change back later!!!
+~OUTPUT VPgmName+".mak"~		// Must specify an output file
+#
+# ~VPgmName~
+#	Borland Make File
+.swap
+.autodepend
+CC=bcc
+LINK=tlink
+LFLAGS= /Tw /v /n /c
+LIBDIR=\BORLANDC\LIB
+INCLUDE=\BORLANDC\INCLUDE
+MODEL=m
+LIBS=cw$(MODEL) c$(MODEL) import
+
+PGM=~VPgmName~
+OBJS = $(PGM).obj	\
+~LOOP AModules~
+				~AModules.Value~.obj \
+~END LOOP~
+
+$(PGM).exe: turboc.cfg $(OBJS) $(PGM).res
+     $(LINK) $(LFLAGS) @&&!
+	  $(LIBDIR)\c0w$(MODEL) $(OBJS)
+	  $(PGM)
+	  nul
+	  $(LIBS)
+	  $(PGM).def
+!
+     rc -K $(PGM).res $(PGM).exe
+
+turboc.cfg: $(PGM).mak
+	echo -I$(INCLUDE) >turboc.cfg
+	echo -DSTRICT -L$(LIBDIR) >>turboc.cfg
+
+$(PGM).res: $(PGM).rc 
+     rc -r -I$(INCLUDE) $(PGM).rc
+
+.cpp.obj :
+    $(CC) -c -m$(MODEL) -v -W -w-par $<
+
+.c.obj :
+    $(CC) -c -m$(MODEL) -v -W -w-par $<
+
+
+clean:
+	del *.obj
+	del *.exe
+	del *.res
+	del *.map
+	del *.sym
+
+~OUTPUT VPgmName+".def"~		// Must specify an output file
+DESCRIPTION '~Application.Desc~'
+EXETYPE	WINDOWS
+CODE PRELOAD MOVEABLE DISCARDABLE
+DATA PRELOAD MOVEABLE SINGLE
+HEAPSIZE 		8192
+STACKSIZE   8192
+~SETDELIMITER "$"~  // Restore default delimiter
+

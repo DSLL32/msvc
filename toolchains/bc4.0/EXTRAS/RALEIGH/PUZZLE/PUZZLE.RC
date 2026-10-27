@@ -1,0 +1,13 @@
+/*  VCS_ID
+ *  $Filename:   puz.rc
+ *  $Author  :   John Pompeii
+ *  $Revision:   1.1  $
+ *  $Date:   28 Dec 1991 14:44:02  $
+ */
+ 
+#include <os2.h>
+#include "about.h"
+#include "puzzle.h"
+
+POINTER I_OBJPM PRELOAD MOVEABLE objpm.ico
+rcinclude about.dlg

@@ -1,0 +1,11 @@
+MetaWindow provides direct support for the
+following tracking devices:
+
+    Logitech Serial Mouse
+    Microsoft Serial Mouse
+    Mouse Systems Mouse
+    IBM PS/2 Mouse
+    Microsoft Inport Mouse
+
+MetaWINDOW also supports any input device
+utilizing a Microsoft compatible mouse driver.
