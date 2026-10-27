@@ -2035,4 +2035,11 @@ MapFileAndCheckSumA and checksum status constants are declarations only for a
 later pending caller; no native body/remap or checksum-file success is granted.
 No IMAGEHLP dynamic-export/provider routing is broadened. Native C/C++ typing
 and NULL/invalid/owned-output denial controls cover the cold surface; the actual
-editor caller's unvisited-branch adoption remains pending.
+editor driver matches its ordinary 48-entry continuation (native 16.828ms),
+with source/DSO bindings; bind/rebase remain unvisited.
+
+CoUninitialize has its SDK void WINAPI(void) declaration in native objbase.h
+and a direct native remap to unconditional125. The cold body has no COM state,
+cleanup, provider routing or successful return behavior. Focused C/C++ typing
+and terminal-denial controls cover this declaration-only support; C1XX's actual
+zero COM-initialized flag keeps the import unvisited. No COM cleanup is claimed.

@@ -1782,6 +1782,11 @@ static int checksum_external_output(LPDWORD output,const View *view)
     if(!output || (address&3) || address>UINTPTR_MAX-sizeof(DWORD)) return 0;
     return address<base?base-address>=sizeof(DWORD):address-base>=view->length;
 }
+/* Cold OLE32 import: no COM state or successful cleanup semantics selected. */
+void WINAPI recon_CoUninitialize(void)
+{
+    recon_unsupported("unreviewed OLE32 CoUninitialize");
+}
 /* Cold static IMAGEHLP imports: declaration/link surface only. No file,
  * callback, output-pointer or successful provider behavior is selected. */
 BOOL WINAPI recon_BindImageEx(DWORD flags,LPSTR image,LPSTR dll_path,LPSTR symbol_path,

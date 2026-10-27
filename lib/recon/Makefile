@@ -1140,3 +1140,13 @@ build/imagehlp-cold-editor-types.o: tests/imagehlp-cold-editor-types.cpp $(HEADE
 	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
 imagehlp-cold-editor-check: build/imagehlp-cold-editor-probe build/imagehlp-cold-editor-generic build/imagehlp-cold-editor-types.o
 	$(PYTHON) tests/check-imagehlp-cold-editor.py build/imagehlp-cold-editor-probe build/imagehlp-cold-editor-generic
+
+.PHONY: cold-ole-uninitialize-check
+build/cold-ole-uninitialize-probe: tests/cold-ole-uninitialize-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/cold-ole-uninitialize-generic: tests/cold-ole-uninitialize-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/cold-ole-uninitialize-types.o: tests/cold-ole-uninitialize-types.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+cold-ole-uninitialize-check: build/cold-ole-uninitialize-probe build/cold-ole-uninitialize-generic build/cold-ole-uninitialize-types.o
+	$(PYTHON) tests/check-cold-ole-uninitialize.py build/cold-ole-uninitialize-probe build/cold-ole-uninitialize-generic
