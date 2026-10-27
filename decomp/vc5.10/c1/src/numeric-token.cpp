@@ -223,11 +223,11 @@ unsigned char __cdecl read_numeric_character(void)
 }
 unsigned __int64 __cdecl parse_integer_digits(const char *text, int length, int base)
 {
-    if (length < 1 || length > 10 || text[length] ||
+    if (length < 1 || length > 22 || text[length] ||
         (base != 8 && base != 10 && base != 16) ||
         (c1_data.internal_zb_value != 4 && c1_data.internal_zb_value != 8)) {
 #ifdef __linux__
-        recon_unsupported("integer spelling is outside the recovered ordinary-width domain");
+        recon_unsupported("integer spelling is outside the recovered bounded 64-bit domain");
 #else
         __asm { int 3 }
 #endif

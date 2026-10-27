@@ -1,5 +1,8 @@
 #include <string.h>
 #include <float.h>
+#include <math.h>
+#include <stdio.h>
+#include <ctype.h>
 #include "frontend.h"
 #include "startup.h"
 #pragma intrinsic(memcpy)
@@ -545,8 +548,6 @@ extern "C" int __cdecl initializer_real_to_float(const InitializerExtendedReal *
     }
     return outside;
 }
-extern "C" int __cdecl initializer_real_to_integer(const InitializerExtendedReal *, unsigned __int64 *) { __asm { int 3 } return 0; }
-
 extern "C" int __cdecl precise_float_enabled(void)
 {
     return c1_data.options.precise_float;
@@ -627,10 +628,56 @@ extern "C" int __cdecl subtract_extended_constants(const InitializerExtendedReal
     return result;
 }
 
-extern "C" int __cdecl add_extended_constants(const InitializerExtendedReal *,
-    const InitializerExtendedReal *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
-extern "C" int __cdecl multiply_extended_constants(const InitializerExtendedReal *,
-    const InitializerExtendedReal *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl add_extended_constants(const InitializerExtendedReal *left,
+    const InitializerExtendedReal *right, InitializerExtendedReal *output)
+{
+    unsigned precision;
+    int result;
+    /* VC5 cannot express80-bit arithmetic in C. This irreducible primitive
+     * computes left+right with the original x87 operand/pop order. Tags,
+     * precision selection and return/control remain ordinary C. */
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        faddp st(1), st
+    }
+    precision = left->precision | right->precision;
+    output->precision = (precision & 2) ? 10 : (precision & 8) ? 8 : 4;
+    __asm {
+        mov esi, output
+        call store_rounded_extended
+        mov result, eax
+    }
+    return result;
+}
+
+extern "C" int __cdecl multiply_extended_constants(const InitializerExtendedReal *left,
+    const InitializerExtendedReal *right, InitializerExtendedReal *output)
+{
+    unsigned precision;
+    int result;
+    /* VC5 cannot express80-bit arithmetic in C. This irreducible primitive
+     * computes left*right with the original x87 operand/pop order. Tags,
+     * precision selection and return/control remain ordinary C. */
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fmulp st(1), st
+    }
+    precision = left->precision | right->precision;
+    output->precision = (precision & 2) ? 10 : (precision & 8) ? 8 : 4;
+    __asm {
+        mov esi, output
+        call store_rounded_extended
+        mov result, eax
+    }
+    return result;
+}
+
 /* The nonzero legacy-Pentium adjustment is a genuine imported register-ABI
  * entry. EAX selects the operation and the two operands remain on x87. */
 extern "C" void __cdecl _adj_fdiv_r(void);
@@ -659,6 +706,50 @@ extern "C" int __cdecl divide_extended_constants(const InitializerExtendedReal *
         mov result, eax
     }
     return result;
+}
+
+extern "C" int __cdecl initializer_real_to_integer(const InitializerExtendedReal *value,
+    unsigned __int64 *output)
+{
+    double real, rounded;
+    char number[309], *cursor, *magnitude;
+    const char *limit;
+    unsigned length, i;
+    int negative;
+    unsigned __int64 integer = 0;
+    if (initializer_real_to_double(value, &real)) {
+        /* The original ignores conversion failure and then reads an unwritten
+         * local. That unsupported domain must stop before the read. */
+#ifdef __linux__
+        recon_unsupported("real-to-integer conversion exceeds its defined double intermediate");
+#else
+        __asm { int 3 }
+#endif
+    }
+    for (i = 0; i < sizeof(number); ++i) number[i] = 0;
+    rounded = real < 0.0 ? ceil(real) : floor(real);
+    sprintf(number, "%.lf", rounded);
+    *output = 0;
+    cursor = number;
+    negative = *cursor == '-';
+    if (*cursor == '-' || *cursor == '+') ++cursor;
+    while ((isdigit)((unsigned char)*cursor)) {
+        integer += (signed char)*cursor - '0';
+        ++cursor;
+        if (!*cursor) {
+            if (negative) integer = (unsigned __int64)0 - integer;
+            break;
+        }
+        integer *= 10;
+    }
+    *output = integer;
+    magnitude = number + (*number == '-');
+    for (length = 0; magnitude[length]; ++length) {}
+    if (length < 20) return 0;
+    if (length > 20) return 1;
+    limit = "18446744073709551615";
+    while (*magnitude == *limit && *magnitude) { ++magnitude; ++limit; }
+    return (unsigned char)*magnitude > (unsigned char)*limit;
 }
 
 #undef INIT_COMPACT

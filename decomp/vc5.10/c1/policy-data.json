@@ -1481,11 +1481,11 @@
             [
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 18155
+                "offset": 18175
               },
               {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 18424
+                "offset": 18444
               }
             ]
           ],
@@ -1493,228 +1493,228 @@
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 6660
+                "offset": 6680
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6667
+                  "offset": 6687
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6728
+                  "offset": 6748
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6774
+                  "offset": 6794
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6728
+                  "offset": 6748
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 6783
+                  "offset": 6803
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 7178
+                "offset": 7198
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7185
+                  "offset": 7205
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7517
+                  "offset": 7537
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8244
+                  "offset": 8264
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8324
+                  "offset": 8344
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8514
+                  "offset": 8534
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 8875
+                  "offset": 8895
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9365
+                  "offset": 9385
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9480
+                  "offset": 9500
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9674
+                  "offset": 9694
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9848
+                  "offset": 9868
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9949
+                  "offset": 9969
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10033
+                  "offset": 10053
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 10430
+                  "offset": 10450
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11383
+                  "offset": 11403
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11506
+                  "offset": 11526
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 11725
+                  "offset": 11745
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12105
+                  "offset": 12125
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17876
+                  "offset": 17896
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12555
+                  "offset": 12575
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 12713
+                  "offset": 12733
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13257
+                  "offset": 13277
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13257
+                  "offset": 13277
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13804
+                  "offset": 13824
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 13931
+                  "offset": 13951
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14284
+                  "offset": 14304
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 14471
+                  "offset": 14491
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17876
+                  "offset": 17896
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15005
+                  "offset": 15025
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15005
+                  "offset": 15025
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15093
+                  "offset": 15113
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17876
+                  "offset": 17896
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 9949
+                  "offset": 9969
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15314
+                  "offset": 15334
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 16529
+                  "offset": 16549
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17256
+                  "offset": 17276
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17876
+                  "offset": 17896
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 15192
+                  "offset": 15212
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17442
+                  "offset": 17462
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17876
+                  "offset": 17896
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17605
+                  "offset": 17625
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 17775
+                  "offset": 17795
                 }
               ]
             },
             {
               "site": {
                 "rebuilt_symbol": "_write_global_record",
-                "offset": 7891
+                "offset": 7911
               },
               "targets": [
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7898
+                  "offset": 7918
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7908
+                  "offset": 7928
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7919
+                  "offset": 7939
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7969
+                  "offset": 7989
                 },
                 {
                   "rebuilt_symbol": "_write_global_record",
-                  "offset": 7978
+                  "offset": 7998
                 }
               ]
             }
@@ -5061,11 +5061,11 @@
             [
               {
                 "rebuilt_symbol": "_fold_binary_expression",
-                "offset": 4294
+                "offset": 4312
               },
               {
                 "rebuilt_symbol": "_fold_binary_expression",
-                "offset": 4417
+                "offset": 4435
               }
             ]
           ],
@@ -5106,55 +5106,55 @@
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 2532
+                  "offset": 2538
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 2662
+                  "offset": 2668
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 2792
+                  "offset": 2798
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 2872
+                  "offset": 2878
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 2994
+                  "offset": 3000
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3083
+                  "offset": 3089
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3139
+                  "offset": 3145
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3162
+                  "offset": 3168
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3222
+                  "offset": 3228
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3222
+                  "offset": 3228
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3302
+                  "offset": 3308
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3540
+                  "offset": 3558
                 },
                 {
                   "rebuilt_symbol": "_fold_binary_expression",
-                  "offset": 3560
+                  "offset": 3578
                 }
               ]
             }

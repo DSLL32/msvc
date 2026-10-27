@@ -4827,7 +4827,7 @@ CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *node,
             (!c1_data.options.language_extensions && c1_data.options.unsigned_char &&
              (left_flags & 0x2fcf) == 0x41 && !(left_flags & 0x8000));
         /* Preserve this dispatch's actual predicate and carried truth value. */
-        if (!((operation == 50) ^ !value)) return node;
+        if (!((operation == 50) ^ (value != 0))) return node;
         c1_bss.integer_work_value = value;
         return make_typed_constant(unsigned_values ? c1_data.builtin_types.type_4063_first :
             c1_data.builtin_types.type_0063, &c1_bss.integer_work_value,
@@ -4910,7 +4910,7 @@ CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *node,
         value = unsigned_values ? first >= second : (__int64)first >= (__int64)second;
         goto boolean_result;
     case 67:
-        value = right->low >= 64 ? 0 : first << right->low;
+        value = (BYTE)right->low >= 64 ? 0 : first << (BYTE)right->low;
         result_type = node->type;
         break;
     case 68:
@@ -4945,9 +4945,9 @@ CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *node,
             report_language_diagnostic(2, 307, operation);
         break;
     case 88:
-        if (unsigned_values) value = right->low >= 64 ? 0 : first >> right->low;
-        else value = right->low >= 64 ? ((__int64)first < 0 ? (unsigned __int64)-1 : 0) :
-            (__int64)first >> right->low;
+        if (unsigned_values) value = (BYTE)right->low >= 64 ? 0 : first >> (BYTE)right->low;
+        else value = (BYTE)right->low >= 64 ? ((__int64)first < 0 ? (unsigned __int64)-1 : 0) :
+            (__int64)first >> (BYTE)right->low;
         result_type = node->type;
         break;
     case 91: value = first ^ second; break;
@@ -5233,15 +5233,6 @@ CompilerParserNode *__cdecl convert_binary_rhs(BYTE operation, CompilerType *typ
     char integer_text[40];
     unsigned __int64 bits;
     unsigned width;
-    /* Destination floating precision depends on an unrecovered control.
-     * Reject that semantic domain before reading the control or mutating data. */
-    if ((type->flags & 0x100) && !type->shape) {
-#ifdef __linux__
-        recon_unsupported("floating constant precision control is not yet modeled");
-#else
-        __asm { int 3 }
-#endif
-    }
     if ((value->type->flags & 0x200) && !(type->flags & 0x200))
         value->type = c1_data.builtin_types.type_0063;
     source = value->type;
@@ -6468,8 +6459,9 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
     /* Scalar integers use the authentic diagnostics below. Identical shaped
      * types take the genuine compatibility fast path and skip scalar checks. */
     if (!(!type->shape && !value->type->shape &&
-          (type->flags == 0x106 || type->flags == 0x107) && value->type->flags == type->flags &&
-          !type->attributes && !(value->type->attributes & ~0x110U)) &&
+          (type->flags == 0x106 || type->flags == 0x107) &&
+          (value->type->flags == 0x106 || value->type->flags == 0x107) &&
+          !(type->attributes & ~0x100U) && !(value->type->attributes & ~0x110U)) &&
         !(type == value->type && type->shape) &&
         !((operation == 125 || operation == 112) && type == value->type && !type->shape &&
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
@@ -6545,8 +6537,9 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
     if (destination == source) return 1;
 #ifdef RECON_NATIVE_TEST
     if (!(!destination->shape && !source->shape &&
-          (destination->flags == 0x106 || destination->flags == 0x107) && source->flags == destination->flags &&
-          !destination->attributes && !(source->attributes & ~0x110U)) &&
+          (destination->flags == 0x106 || destination->flags == 0x107) &&
+          (source->flags == 0x106 || source->flags == 0x107) &&
+          !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(destination, source)) &&

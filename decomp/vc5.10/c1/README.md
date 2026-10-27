@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 784 application functions / 216,263 code bytes and
-9,498 bytes of owned text data. Application code is 67.10% of the original
+The reconstruction contains 787 application functions / 216,874 code bytes and
+9,498 bytes of owned text data. Application code is 67.29% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All fifteen cached cases complete natively: DLL attach/export lookup/detach, the
+All sixteen cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, and the assembly-operands workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, the pragma-configuration workload below, the header-directives workload below, the preprocessed-output workload below, the assembly-operands workload below, and the constant-expressions workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -229,6 +229,20 @@ cached invocations and units passed in 0.666 s; the complete graph/ABI audit
 passed in 1.418 s. Raw artifacts and preserved intermediate failures remain
 in scratch `assembly-operands-case-20261027/`. Unknown mnemonic, register,
 operand and encoding relations retain explicit unsupported boundaries.
+
+The constant-expressions case combines floating addition/multiplication/division,
+explicit narrowing and integer conversions, logical constant simplification and
+signed/unsigned 64-bit shifts. Both executions exit zero with 442 first entries
+and exact outputs: `constantsex` (1,481 bytes), `constantsgl` (281),
+`constantsin` (121), and `constantssy` (136). The final reference took
+1,487.726 ms; the matching native run took 21.018 ms. Three focused tests cover
+extended arithmetic precision/input/storage/stack effects, truncation toward
+zero with decimal overflow, and complete 64-bit radix spellings. This case adds
+three application functions and 611 code bytes. It also corrects the existing
+logical shortcut predicate and preserves the compiler shift helpers' BYTE count.
+Raw artifacts and preserved failures remain in scratch
+`constant-expressions-case-20261027/`. Unwritten conversion-failure locals and
+wider unmodeled semantic domains remain guarded.
 
 The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;

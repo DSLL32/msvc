@@ -248,7 +248,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               type->attributes == 0x100 && type->shape && type->shape->flags == 2 &&
               !type->shape->base && !type->shape->value) &&
             !(symbol->kind == 10 && original.flags == 3 &&
-              (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_0107 || VOLATILE_UNSIGNED_INT(type))) &&
+              (type == c1_data.builtin_types.type_0063 || SCALAR_ARITHMETIC_TYPE(type) || VOLATILE_UNSIGNED_INT(type))) &&
             !(symbol->kind == 10 && original.flags == 3 &&
               (CONST_CHAR_POINTER(type) || VOLATILE_SHORT_ARRAY(type) || FLOATING_ARRAY(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK_ARRAY(type) ||
                CONST_CHAR_POINTER_ARRAY(type))) &&
@@ -449,7 +449,7 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
           !symbol->value_type->shape->value) &&
         !(symbol->kind == 10 && flags == 3 &&
           (symbol->value_type == c1_data.builtin_types.type_0063 ||
-           symbol->value_type == c1_data.builtin_types.type_0107 || VOLATILE_UNSIGNED_INT(symbol->value_type))) &&
+           SCALAR_ARITHMETIC_TYPE(symbol->value_type) || VOLATILE_UNSIGNED_INT(symbol->value_type))) &&
         !(symbol->kind == 10 && flags == 3 &&
           (CONST_CHAR_POINTER(symbol->value_type) || VOLATILE_SHORT_ARRAY(symbol->value_type) || FLOATING_ARRAY(symbol->value_type) || CONST_INT_MATRIX(symbol->value_type) || COMPLETE_RECORD_VALUE(symbol->value_type) ||
            CDECL_INT_CALLBACK_ARRAY(symbol->value_type) || CONST_CHAR_POINTER_ARRAY(symbol->value_type))) &&
