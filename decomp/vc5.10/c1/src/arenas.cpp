@@ -145,4 +145,3 @@ void RECON_THISCALL CompilerArena::Release(void)
     }
     base = NULL;
 }
-extern "C" const char *__cdecl get_compiler_message(unsigned) { __asm { int 3 } return NULL; }

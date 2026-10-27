@@ -490,4 +490,3 @@ extern "C" void __cdecl set_keyword_category6(const char *name)
         ((CompilerKeywordEntry *)c1_data.current_identifier)->category = 6;
     }
 }
-extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned number, ...) { __asm { int 3 } }
