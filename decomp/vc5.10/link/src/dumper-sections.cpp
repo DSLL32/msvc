@@ -636,8 +636,63 @@ void __stdcall dump_debug_section_header(IMAGE_SECTION_HEADER *section)
         dump_debug_directory(&directory);
     }
 }
-void __stdcall dump_debug_fixups(DumperSectionState *,DWORD,DWORD) { __asm { int 3 } }
-void __stdcall dump_debug_omap(DumperSectionState *,DWORD,DWORD,DWORD) { __asm { int 3 } }
+void __stdcall dump_debug_fixups(DumperSectionState *state,DWORD position,DWORD bytes)
+{
+    struct DebugFixup { WORD type,flags; DWORD address,target; };
+    DebugFixup *records,*entry;
+    FileRecord *record;
+    DWORD error=0,offset;
+#ifdef __linux__
+    /* As in the OMAP reader, only complete records have defined fields. */
+    if(bytes%sizeof(*records)) { __asm { int 3 } }
+#endif
+    records=(DebugFixup *)allocate_memory(bytes);
+    seek_file(current_input_file,position,FILE_BEGIN,&error);
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,records,bytes);
+    else buffered_read(record,records,bytes);
+    fprintf(map_output,"\nFixup Data (%ld):\n\n",bytes/sizeof(*records));
+    fputs("  Type        Rva        RvaTarget  Symbol\n  ----  ----  --------   --------   --------\n",map_output);
+    for(offset=0;offset<bytes;offset+=sizeof(*records)) {
+        entry=(DebugFixup *)((BYTE *)records+offset);
+        fprintf(map_output,"  %04X  %04X  %08X   %08X",entry->type,entry->flags,
+            entry->address,entry->target);
+        if(entry->target)print_dumper_address(state,"   ",entry->target);
+        fputc('\n',map_output);
+    }
+    release_memory(records);
+}
+void __stdcall dump_debug_omap(DumperSectionState *state,DWORD position,
+    DWORD bytes,DWORD to_source)
+{
+    struct AddressMap { DWORD address,mapped_address; };
+    AddressMap *records,*entry;
+    FileRecord *record;
+    DWORD error=0,offset,address;
+#ifdef __linux__
+    /* The original rounds its iteration up. A partial final record has no
+     * defined mapping fields and is outside this complete-record domain. */
+    if(bytes%sizeof(*records)) { __asm { int 3 } }
+#endif
+    records=(AddressMap *)allocate_memory(bytes);
+    seek_file(current_input_file,position,FILE_BEGIN,&error);
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,records,bytes);
+    else buffered_read(record,records,bytes);
+    fprintf(map_output,"\nOMAP Data (%s_SRC) - (%ld):\n\n",
+        (BYTE)to_source?"TO":"FROM",bytes/sizeof(*records));
+    fputs("  Rva        RvaTo      Symbol\n  --------   --------   --------\n",map_output);
+    for(offset=0;offset<bytes;offset+=sizeof(*records)) {
+        entry=(AddressMap *)((BYTE *)records+offset);
+        fprintf(map_output,"  %08X   %08X",entry->address,entry->mapped_address);
+        address=(BYTE)to_source?entry->mapped_address:entry->address;
+        if(address)print_dumper_address(state,"   ",address);
+        fputc('\n',map_output);
+    }
+    release_memory(records);
+}
 void __stdcall dump_debug_directories(DumperSectionState *state,IMAGE_SECTION_HEADER *section)
 {
     DWORD position,count,error,signature;

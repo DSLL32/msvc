@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-698 application functions / 257,208 original code bytes are reconstructed
-(62.01% of the 414,810-byte whole `.text` extent, which includes CRT and text
+701 application functions / 257,975 original code bytes are reconstructed
+(62.19% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 39 pending bodies with known extents totaling 4,273 bytes and
-167 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 38 pending bodies with known extents totaling 4,066 bytes and
+165 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-six cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-seven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-711-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 690 ordinary application bodies and six CRT bodies. Seven import
+714-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 693 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1262,3 +1262,35 @@ batch passed in 7.06 s: 46 cached cases, 711 graph vertices, 696 scoped return
 contracts and nine distinct EH/SEH owner checks. Construction inputs, raw
 masters, fresh pairs, failed narrow gates and exact build/source identities
 remain in scratch. These are incremental measurements.
+
+
+`cases/0048-debug-tables` completes one inspection workload over two
+transparent standalone DBG inputs. The x86 file retains the genuine COFF
+payload and section/address domains from case 47. Its paired identity OMAPs,
+zero mapping tail, FPO entries and fixup records describe the retained code
+ranges and actual data-pointer relocations. The MIPS file separately uses the
+SDK's three-DWORD function-entry layout within an explicit section/image
+address domain. The corresponding MIPS image is unavailable, as the separate
+format permits; no input code, historical producer or runtime behavior is
+claimed. Every directory and complete record extent is validated before use.
+
+Three whole dumpers / 767 original code bytes recover file-based procedure
+entries, both OMAP directions and fixup fields, including ordinary symbol
+annotation and real buffer release. The address-map direction retains its full
+DWORD transport with the original low-byte predicate. Native guards reject
+partial final OMAP/fixup records before reading undefined fields. The first
+x86-then-MIPS `/all` reference exposed an original stale-context defect: the
+symbol count survives while its pointer is freed, causing a later NULL read.
+That genuine failed reference is preserved. The completed MIPS-first invocation
+uses actual initial zero state and later loads its own x86 symbols; the
+reconstruction retains the original lifecycle behavior with a source comment.
+
+Original and native exit 0 with 90 matching first entries, 5,348 identical stdout
+bytes and strict complete inventory. The final reference also equals the
+untouched successful master without normalization. Original time was
+1,647.6 ms; native comparison passed in 16.6 ms (10.4 ms setup, 3.0 ms execution,
+3.2 ms checks). One parallel case-end regression/unit/original-build and full
+graph/RET/EH batch passed in 6.82 s: 47 cached cases, 714 graph vertices,
+699 scoped return contracts and nine distinct EH/SEH checks. Raw inputs,
+construction facts, successful pairs and the failed ordering remain in scratch.
+These are incremental measurements.

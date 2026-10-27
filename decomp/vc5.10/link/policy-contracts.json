@@ -6034,5 +6034,18 @@
         "basis": "Identified public cdecl size_t fread(void*,size_t,size_t,FILE*) preserves nonvolatile EBX on ordinary return. Existing fseek EBX contract remains unchanged. No provider implementation or nonlocal-return claim."
       }
     ]
+  },
+  "dumper_debug_table_ordinary_abi": {
+    "owner": "_dump_debug_omap@16",
+    "cache": "Actual4276dd caches fprintf in EBP;42770d caches fputc in EBX. Symbol annotation call42774e must preserve both across the normal-return path.",
+    "facts": [
+      {
+        "target": "_print_dumper_address@12",
+        "preserves": [
+          "ebx"
+        ],
+        "basis": "Identified ordinary void stdcall(DumperSectionState*,const char*,DWORD)/RET12 guarantees nonvolatile EBX on normal return; existing EBP fact retained. No callback/provider behavior is granted."
+      }
+    ]
   }
 }

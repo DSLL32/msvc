@@ -322,7 +322,24 @@ void __stdcall dump_section_header(DWORD,IMAGE_SECTION_HEADER *);
 const char *__stdcall dumper_machine_name(DWORD);
 void __stdcall dump_debug_directory(IMAGE_DEBUG_DIRECTORY *);
 void __stdcall dump_fpo(DumperSectionState *,DWORD,DWORD);
-void __stdcall dump_debug_pdata(DWORD,DWORD) { __asm { int 3 } }
+void __stdcall dump_debug_pdata(DWORD position,DWORD bytes)
+{
+    IMAGE_FUNCTION_ENTRY entry;
+    DWORD count=bytes/sizeof(entry),offset=0,error=0;
+    FileRecord *record;
+    fprintf(map_output,"\nFunction Table (%lu)\n\n",count);
+    fprintf(map_output,"         Begin     End       PrologEnd\n\n");
+    seek_file(current_input_file,position,FILE_BEGIN,&error);
+    while(count--) {
+        if(file_access_statistics)record_file_access();
+        record=file_slots[current_input_file];
+        if(record->flags&8)mapped_read(record,&entry,sizeof(entry));
+        else buffered_read(record,&entry,sizeof(entry));
+        fprintf(map_output,"%08lX %08lX  %08lX  %08lX\n",offset,
+            entry.StartingAddress,entry.EndingAddress,entry.EndOfPrologue);
+        offset+=sizeof(entry);
+    }
+}
 void __stdcall dump_debug_omap(DumperSectionState *,DWORD,DWORD,DWORD);
 void __stdcall dump_debug_fixups(DumperSectionState *,DWORD,DWORD);
 void __stdcall release_module_symbols(void *);
@@ -440,6 +457,9 @@ void __stdcall dump_separate_debug_file(const char *name)
         release_module_symbols(dump_symbols);
         dump_symbols=NULL;
     }
+    /* The original retains the context's symbol count and file offset here.
+     * A later COFF-free DBG under /all can therefore dereference the cleared
+     * symbol pointer; the MIPS-first debug-table case avoids that real defect. */
     if(dump_strings_owned) {
         release_module_strings(dump_string_table);
         dump_strings_owned=0;
