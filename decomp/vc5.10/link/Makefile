@@ -48,7 +48,17 @@ RECON_AUDIT_FLAGS = --original $(RECON_REPO_ROOT)/toolchains/5.10/bin/LINK.EXE -
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_RUNTIME_FLAGS = --library MSVCRT.LIB
+# Canonical execution reuses App objects and one shared runtime. The fixture
+# startup, registry, entry hooks and captured process policies are not selected.
+RECON_ENTRY_SOURCES = $(filter src/%,$(BINARY_SOURCES))
+RECON_ENTRY_SUPPORT_SOURCES = $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
+NATIVE_APP_MAIN_SYMBOL = link_main
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1
+NATIVE_BIN_FILES = messages=.build/native-messages.rmr
 include $(RECON_TOOL_DIR)/recon-tool.mk
+
+$(abspath .build/native-messages.rmr): src/messages.rc scripts/prepare-resources.py $(RECON)/resources.py
+	$(PYTHON) -E scripts/prepare-resources.py
 
 .build/pic/src/driver.c.o: NATIVE_CPPFLAGS += -Dmain=link_main
 $(filter %.cpp.obj,$(ORIGINAL_OBJECTS)): ORIGINAL_CFLAGS += /GR- /GX-
