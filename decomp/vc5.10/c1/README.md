@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 752 application functions / 210,117 code bytes and
-9,406 bytes of owned text data. Application code is 65.20% of the original
+The reconstruction contains 757 application functions / 211,162 code bytes and
+9,406 bytes of owned text data. Application code is 65.52% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All ten cached cases complete natively: DLL attach/export lookup/detach, the
+All eleven cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, and the storage-initialization diagnostic workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, and its positive extended-C counterpart. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -127,6 +127,19 @@ All ten cached invocations and units passed in 0.234 s; the full graph/ABI audit
 passed in 1.366 s. Raw artifacts and retained failures remain in scratch
 `storage-case-20261027/`. The compile rejection is the expected result of this
 invocation, not evidence of successful runtime aggregate compilation.
+
+The positive storage counterpart uses explicit `-Ze` mode with the same coherent
+source workload. It exercises the actual runtime bitfield temporary, generated
+identifier sequence, signed-difference overflow check and intrinsic-call handling.
+Both executions exit zero with 552 first entries, empty stdout/stderr and exact
+artifacts: `storageex` (2,124 bytes), `storagegl` (226), `storagein` (138), and
+`storagesy` (350). The final reference took 2,124.276 ms; the matching native run
+took 21.138 ms. This case adds 5 application functions and 1,045 code bytes, with
+focused signed-width/unsigned-bypass tests and affected counter/marker snapshot
+coverage. All eleven cached invocations and units passed in 0.408 s; the complete
+graph/ABI audit passed in 1.377 s. Raw artifacts and retained intermediate failures
+remain in scratch `extended-storage-case-20261027/`. The preceding rejection
+oracle is preserved separately, with no relabeling or diagnostic suppression.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly

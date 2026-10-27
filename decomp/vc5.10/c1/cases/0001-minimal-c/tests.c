@@ -373,7 +373,7 @@ static int type_arena_snapshot(void)
     if (c1_data.function_directory_head || c1_data.function_directory_current || c1_data.function_directory_index != 19 || c1_data.function_debug_handle || c1_data.function_cleanup_flags || c1_data.debug_symbol_index || c1_data.function_scope_cache || c1_data.source_exhausted || c1_data.final_input_token_emitted || c1_data.omit_external_names || c1_data.pch_type_record_value || c1_data.pch_record_name || c1_data.global_options || c1_data.pch_expression_stream_open || c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open || c1_data.pch_cleanup_done || c1_data.saved_context_records || c1_data.saved_context_count || c1_bss.function_cleanup_context || c1_bss.token_input_finished || c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_data.label_symbols || c1_bss.function_entry_label || c1_data.line_range_warning_enabled != 1 || c1_data.function_record_flags || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_data.function_label_state_first != -1 || c1_data.function_label_state_second != -1 || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_data.parser_flags || c1_data.function_return_type || c1_data.function_label_depth || c1_data.local_symbol_limit != 0x3fffff || c1_data.function_reference_epoch != 1 || c1_data.disable_inline_records || c1_data.function_context || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags || c1_bss.type_description_depth || c1_data.lexer_flags || c1_data.active_parser || c1_bss.parser_value.declaration_flags || c1_bss.browser_context_value || c1_data.debug_module_kind != 2 || c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
-        c1_data.segment_symbol_cache_index != 9 || c1_data.declaration_context_map ||
+        c1_data.anonymous_identifier_count != 1 || c1_bss.runtime_initializer_pending || c1_data.segment_symbol_cache_index != 9 || c1_data.declaration_context_map ||
         c1_data.record_sizes.known.segment_symbol_bytes != 52 ||
         c1_data.declaration_symbol_cache_index != 9 || c1_data.member_symbol_cache_index != 9 || c1_data.compiler_messages_initialized ||
         c1_data.record_sizes.known.declaration_symbol_bytes != 52 ||
@@ -424,6 +424,7 @@ static int type_arena_snapshot(void)
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
     c1_data.record_sizes.known.segment_symbol_bytes = 45;
     c1_data.segment_symbol_cache_index = 11;
+    c1_data.anonymous_identifier_count = 53;
     c1_data.declaration_context_map = (CompilerSymbolMap *)&owned_symbols[0];
     c1_data.global_symbol_cache_index = 17;
     c1_data.anonymous_global_symbol = &owned_symbols[0];
@@ -479,7 +480,7 @@ static int type_arena_snapshot(void)
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
         saved->record_sizes.known.segment_symbol_bytes != 45 ||
-        saved->segment_symbol_cache_index != 11 ||
+        saved->segment_symbol_cache_index != 11 || saved->anonymous_identifier_count != 53 ||
         saved->declaration_context_map != (CompilerSymbolMap *)&owned_symbols[0] ||
         saved->global_symbol_cache_index != 17 ||
         saved->anonymous_global_symbol != &owned_symbols[0] ||
@@ -594,6 +595,8 @@ static int type_arena_snapshot(void)
     c1_data.record_sizes.known.abstract_symbol_bytes = 71;
     c1_data.record_sizes.known.segment_symbol_bytes = 77;
     c1_data.segment_symbol_cache_index = 3;
+    c1_data.anonymous_identifier_count = 79;
+    c1_bss.runtime_initializer_pending = 37;
     c1_data.declaration_context_map = (CompilerSymbolMap *)&owned_symbols[1];
     c1_data.global_symbol_cache_index = 3;
     c1_data.anonymous_global_symbol = NULL;
@@ -622,7 +625,7 @@ static int type_arena_snapshot(void)
             saved->predefined_time_text[i] != 0x37) return 0;
     for (i = 0; i < sizeof(c1_bss.declaration_specs[0]); ++i)
         if (c1_bss.declaration_specs[0][i]) return 0;
-    if (c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
+    if (c1_bss.runtime_initializer_pending || c1_bss.dereferenced_shape_value || c1_bss.token_input_finished || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_bss.function_entry_label || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting ||
         c1_bss.declaration_control[1].flags || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags ||
         c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth ||
         c1_bss.type_description_depth || c1_bss.type_descriptions[1].flags ||
@@ -670,6 +673,7 @@ static int type_arena_snapshot(void)
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&
         c1_data.record_sizes.known.abstract_symbol_bytes == 43 &&
         c1_data.record_sizes.known.segment_symbol_bytes == 45 && saved->record_sizes.known.segment_symbol_bytes == 45 &&
+        c1_data.anonymous_identifier_count == 53 && saved->anonymous_identifier_count == 53 &&
         c1_data.segment_symbol_cache_index == 11 && saved->segment_symbol_cache_index == 11 &&
         c1_data.declaration_context_map == (CompilerSymbolMap *)&owned_symbols[0] &&
         saved->declaration_context_map == (CompilerSymbolMap *)&owned_symbols[0] &&

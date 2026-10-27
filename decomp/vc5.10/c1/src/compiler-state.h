@@ -193,6 +193,7 @@ typedef struct CompilerInitializedState {
     unsigned member_symbol_cache_index; /* RVA5f474, actual DWORD9. */
     unsigned segment_symbol_cache_index; /* RVA5f4a0, default9; segment-symbol recycle selector. */
     CompilerSymbolMap *declaration_context_map; /* RVA5e9a8, defaultNULL; record-id to declaration-context binding. */
+    unsigned anonymous_identifier_count; /* RVA5e9d0, default1; generated $S names. */
     CompilerRecordSizes record_sizes;
     CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only heads5/9/10 are known */
     CompilerDeclarationReferenceDefaults segment_defaults;
@@ -446,6 +447,7 @@ typedef struct CompilerBss {
     short forced_include_index; /* RVA54dac */
     CompilerIrSymbol *initializer_symbol; /* RVA57574, current initialization target */
     unsigned initializer_bytes; /* RVA57558, cleared at initialization entry; accumulated by element layout */
+    unsigned runtime_initializer_pending; /* RVA5756c, BSS0; temporary requires an initial zero assignment. */
     unsigned initializer_value_pending; /* RVA57570, cleared at initialization entry; later consumers test truth */
     struct CompilerParserNode *initializer_resume_label; /* RVA57560, BSS0; finalization emits and clears this label. */
     unsigned initializer_error_reported; /* RVA57564, BSS; suppresses repeated initializer error78. */
@@ -488,7 +490,7 @@ typedef struct CompilerBss {
     unsigned function_reset_value; /* RVA54dd8, BSS; reset on function entry */
     unsigned nonil_type_index; /* RVA54c80, BSS; current context value at function entry */
     unsigned dereferenced_shape_value; /* RVA54c70, BSS; saved outer-shape payload, uninterpreted here. */
-    void *function_cleanup_context; /* RVA550c4, BSSNULL; function exit clears it */
+    CompilerIrSymbol *function_cleanup_context; /* RVA550c4, BSSNULL; runtime-bitfield temporary, cleared at function exit. */
     int token_input_finished; /* RVA54f24, BSS0; final token consumer writes1 */
     unsigned parameter_storage_class; /* RVA53d78, BSS0; function declarator copies parameter kind */
     unsigned parameter_scope_initial_value; /* RVA5509c, BSS0; function declarator copies parameter value */

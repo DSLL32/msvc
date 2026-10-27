@@ -110,9 +110,29 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         __asm { int 3 }
 #endif
     }
-    if (symbol && !((opcode == 9 && symbol->kind == 14 &&
+    if (symbol && !((opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 3 &&
+        symbol->function_flags == 3 && !c1_data.options.debug_info &&
+        (symbol->value_type == c1_data.builtin_types.type_0063 ||
+         (symbol->value_type->flags == 0x61 && symbol->value_type->attributes == 0x100 &&
+          symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
+          !symbol->value_type->shape->attributes && symbol->value_type->shape->base &&
+          symbol->value_type->shape->base->flags == 1 &&
+          !symbol->value_type->shape->base->attributes && !symbol->value_type->shape->base->base))) ||
+        (opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 4 &&
+        !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
+        !symbol->value_type->shape->attributes &&
+        ((!symbol->value_type->attributes && !symbol->value_type->shape->base &&
+          (symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x63 ||
+           symbol->value_type->flags == 0x107)) ||
+         (symbol->value_type->flags == 0x61 && symbol->value_type->attributes == 0x100 &&
+          symbol->value_type->shape->base && symbol->value_type->shape->base->flags == 1 &&
+          !symbol->value_type->shape->base->attributes && !symbol->value_type->shape->base->base))) ||
+        (opcode == 9 && symbol->kind == 14 &&
         !c1_data.options.debug_info && symbol->value_type == c1_data.builtin_types.type_0802 &&
-        symbol->segment_kind == 1 && !(symbol->scope_bits & 1) && !(symbol->function_flags & 1)) ||
+        (symbol->segment_kind == 0 || symbol->segment_kind == 1) && !(symbol->scope_bits & 1) && !(symbol->function_flags & 1)) ||
         (opcode == 1 && symbol->kind == 10 && !symbol->binding.name &&
          (symbol->declaration_flags & 12) == 12 && !(symbol->scope_bits & 1) &&
          (symbol->storage_class & 7) == 3 && symbol->function_flags == 1 &&
@@ -213,7 +233,9 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         ((symbol->value_type->flags & ~0x4000) == 0x63 ||
          (symbol->kind == 11 && symbol->value_type->flags == 0x62) ||
          (symbol->value_type->flags & ~0x4000) == 0x4c ||
-         symbol->value_type->flags == 0x4064 || symbol->value_type->flags == 0x106 ||
+         symbol->value_type->flags == 0x4064 || symbol->value_type->flags == 0x44 ||
+         symbol->value_type->flags == 0x64 || symbol->value_type->flags == 0x4062 ||
+         symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x106 ||
          symbol->value_type->flags == 0x107)) ||
         (symbol->value_type->flags == 0x63 && symbol->value_type->attributes == 0x100 &&
          !symbol->value_type->auxiliary && symbol->value_type->shape &&
@@ -257,7 +279,8 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) != 7 &&
         !(symbol->function_flags & 1) && symbol->value_type == c1_data.builtin_types.type_0063) ||
         ((opcode == 4 || opcode == 14) && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
-        (symbol->storage_class & 7) != 7 && !(symbol->function_flags & 1) &&
+        (symbol->storage_class & 7) != 7 &&
+        (!(symbol->function_flags & 1) || symbol->function_flags == 3) &&
         symbol->value_type->shape && (symbol->value_type->shape->flags & 7) == 4 &&
         !c1_data.options.debug_info))) {
 #ifdef __linux__
@@ -293,7 +316,19 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
                 if (shape && (shape->flags & 7) == 4)
                     return_type = get_function_return_type(type);
                 if (symbol->function_flags & 1) {
-                    if (lookup_ir_symbol(symbol)->kind == 14 &&
+                    CompilerIrSymbol *context = lookup_ir_symbol(symbol);
+                    if (symbol->function_flags == 3 &&
+                        (symbol->kind == 7 || symbol->kind == 10) &&
+                        (!context || context->kind != 14 ||
+                         context->value_type != c1_data.builtin_types.type_0802 ||
+                         context->segment_kind != (symbol->kind == 7 ? 0 : 1))) {
+#ifdef __linux__
+                        recon_unsupported("symbol output context is outside the recovered code/data-segment domain");
+#else
+                        __asm { int 3 }
+#endif
+                    }
+                    if (context->kind == 14 &&
                         !(lookup_ir_symbol(symbol)->flags & 2) &&
                         !c1_bss.declaration_scope_active)
                         write_global_reference(&lookup_ir_symbol(symbol)->binding);

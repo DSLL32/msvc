@@ -957,13 +957,52 @@ extern "C" void __cdecl emit_runtime_initializer_record(unsigned operation, Comp
     CompilerParserNode *code = (CompilerParserNode *)make_integer_constant(operation);
     emit_expression(make_ir_operation(119, code, arguments));
 }
-extern "C" void __cdecl finish_runtime_bitfield(CompilerParserNode *) { __asm { int 3 } }
+extern "C" CompilerNameEntry *__cdecl make_anonymous_identifier(void);
+extern "C" CompilerIrSymbol *__cdecl declare_implicit_function(CompilerNameEntry *, BYTE);
+extern "C" CompilerParserNode *__cdecl take_expression_address(CompilerParserNode *);
+extern "C" void __cdecl finish_runtime_bitfield(CompilerParserNode *value)
+{
+    CompilerParserNode *zero, *target, *width, *one, *mask, *bits, *position;
+    CompilerIrSymbol *symbol;
+    BYTE arena;
+    if (!c1_bss.function_cleanup_context) {
+        arena = (c1_data.lexer_flags & 0x20) ? 2 : c1_bss.parameter_nesting;
+        symbol = declare_implicit_function(make_anonymous_identifier(), arena);
+        c1_bss.function_cleanup_context = symbol;
+        symbol->value_type = c1_data.builtin_types.type_0044;
+        symbol->storage_class = (symbol->storage_class & ~7) | 4;
+        symbol->intrinsic_flags = symbol->storage_class & 7;
+        c1_bss.runtime_initializer_pending = 1;
+    }
+    if (c1_bss.runtime_initializer_pending) {
+        zero = (CompilerParserNode *)make_integer_constant(0);
+        target = take_expression_address(make_label_expression(c1_bss.function_cleanup_context, 0));
+        emit_expression(make_binary_expression(116, target, zero));
+        c1_bss.runtime_initializer_pending = 0;
+    }
+    symbol = c1_bss.initializer_frame->symbol;
+    width = (CompilerParserNode *)make_integer_constant(symbol->bit_width);
+    one = (CompilerParserNode *)make_integer_constant(1);
+    mask = make_binary_expression(67, one, width);
+    one = (CompilerParserNode *)make_integer_constant(1);
+    mask = make_binary_expression(70, mask, one);
+    bits = make_binary_expression(49, value, mask);
+    position = (CompilerParserNode *)make_integer_constant(c1_bss.initializer_frame->symbol->bit_offset);
+    bits = make_binary_expression(67, bits, position);
+    target = take_expression_address(make_label_expression(c1_bss.function_cleanup_context, 0));
+    emit_expression(make_binary_expression(78, target, bits));
+}
+extern "C" CompilerNameEntry *__cdecl find_or_create_identifier(const char *);
+extern "C" CompilerNameEntry *__cdecl make_anonymous_identifier(void)
+{
+    char name[32];
+    sprintf(name, "$S%u", c1_data.anonymous_identifier_count++);
+    return find_or_create_identifier(name);
+}
 extern "C" CompilerParserNode *__cdecl make_typed_constant(CompilerType *, const void *, unsigned);
 extern "C" CompilerParserNode *__cdecl take_expression_address(CompilerParserNode *);
 extern "C" CompilerParserNode *__cdecl make_binary_expression(BYTE, CompilerParserNode *, CompilerParserNode *);
 extern "C" void __cdecl write_anonymous_runtime_initializer(void);
-/* RVA5756c is source-only until the runtime-initializer producer is reached. */
-static int runtime_initializer_pending;
 extern "C" void __cdecl write_initializer_padding(CompilerIrSymbol *symbol)
 {
     CompilerParserNode *value;
@@ -980,14 +1019,7 @@ extern "C" void __cdecl write_initializer_padding(CompilerIrSymbol *symbol)
             value = make_binary_expression(77, take_expression_address(
                 make_label_expression((CompilerIrSymbol *)c1_bss.function_cleanup_context, 0)), value);
             write_runtime_initializer_value(symbol, value);
-            /* The genuine pending writer is reached before this later,
-             * still-unmodeled runtime completion flag. */
-#ifdef __linux__
-            recon_unsupported("runtime initializer completion flag is not yet modeled");
-#else
-            __asm { int 3 }
-#endif
-            runtime_initializer_pending = 1;
+            c1_bss.runtime_initializer_pending = 1;
         } else write_runtime_initializer_value(symbol, value);
     }
 }

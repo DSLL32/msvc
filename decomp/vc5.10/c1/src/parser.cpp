@@ -3636,12 +3636,13 @@ static const union CompilerIrOpcodeColumn {
         unsigned initializer;
         BYTE unmodeled_1d4[4];
         unsigned parenthesized;
-        BYTE unmodeled_1dc[52];
+        unsigned intrinsic_call;
+        BYTE unmodeled_1e0[48];
         unsigned switch_dispatch;
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, 25, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, 64, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
@@ -3703,12 +3704,16 @@ static const union CompilerIrPropertyColumn {
         BYTE initializer;
         BYTE unmodeled_075[1];
         BYTE parenthesized;
-        BYTE unmodeled_077[13];
+        BYTE intrinsic_call;
+        BYTE unmodeled_078[12];
         BYTE switch_dispatch;
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, 128, {0}, 128, 0 } };
+/* Intrinsic-call119 consumes opcode64@64044 and only property bit80@642b7. */
+typedef char IrIntrinsicCallOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.intrinsic_call) == 119 * 4 ? 1 : -1];
+typedef char IrIntrinsicCallPropertyOffset[offsetof(CompilerIrPropertyColumn, known.intrinsic_call) == 119 ? 1 : -1];
 typedef char IrStringOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.string_literal) == 7 * 4 ? 1 : -1];
 typedef char IrStringPropertyOffset[offsetof(CompilerIrPropertyColumn, known.string_literal) == 7 ? 1 : -1];
 typedef char IrOrLogicalOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.logical_or) == 79 * 4 ? 1 : -1];
@@ -3744,7 +3749,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 119 || (k) == 78 || (k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -3977,7 +3982,29 @@ extern "C" void __cdecl apply_symbol_segment(CompilerIrSymbol *symbol, CompilerI
     if (!segment) symbol->function_flags &= ~1;
     else attach_declaration_context(symbol, segment);
 }
-int __cdecl suppress_ir_call(CompilerParserNode *) { __asm { int 3 } return 0; }
+int __cdecl suppress_ir_call(CompilerParserNode *node)
+{
+    unsigned operation = node->left->low, length = 0;
+    CompilerParserNode *arguments, *value;
+    const char *text;
+    if (operation != 164 && operation != 167) return 0;
+    arguments = node->right;
+    if (!arguments || !arguments->left) return 0;
+    value = arguments->left;
+    if (value->kind == 100) value = value->left;
+    if (!value || value->kind != 7 || (value->string_flags & 1)) return 0;
+    text = value->text;
+    while (text[length]) ++length;
+    if (operation == 167) {
+        emit_ir_node((CompilerParserNode *)make_integer_constant(length));
+        return 1;
+    }
+    node->right = make_expression_with_type(arguments,
+        (CompilerParserNode *)make_integer_constant(length + 1), 2);
+    node->left->low = 172;
+    node->left->high = 0;
+    return 0;
+}
 CompilerParserNode *__cdecl make_typed_unary_operation(unsigned operation, CompilerType *type,
     CompilerParserNode *operand)
 {
@@ -5014,7 +5041,13 @@ integer_result:
     }
     return make_typed_constant(type, &c1_bss.integer_work_value, c1_data.expression_arena_kind);
 }
-int __cdecl integer_difference_out_of_range(__int64, unsigned __int64, WORD, WORD) { __asm { int 3 } return 0; }
+int __cdecl integer_difference_out_of_range(__int64 first, unsigned __int64 second,
+    WORD unsigned_values, WORD width)
+{
+    if (!unsigned_values && ((first >= 0) != ((__int64)second >= 0)))
+        return integer_sum_out_of_range(first, (unsigned __int64)0 - second, 0, width);
+    return 0;
+}
 int __cdecl integer_product_out_of_range(__int64 first, unsigned __int64 second,
     WORD unsigned_values, WORD width)
 {
@@ -5906,7 +5939,28 @@ CompilerParserNode * __cdecl make_identifier_expression(CompilerNameEntry *name)
     return make_symbol_expression(symbol);
 }
 CompilerIrSymbol *__cdecl resolve_expression_name(CompilerNameEntry *) { __asm { int 3 } return NULL; }
-CompilerIrSymbol *__cdecl declare_implicit_function(CompilerNameEntry *, BYTE) { __asm { int 3 } return NULL; }
+CompilerIrSymbol *__cdecl declare_implicit_function(CompilerNameEntry *name, BYTE local)
+{
+    unsigned arena = local ? 2 : 0;
+    CompilerIrSymbol *symbol = lookup_cached_symbol_record(10, name, arena);
+    if (!symbol) {
+        BYTE *memory = c1_bss.arenas[arena].AllocateBytes(
+            (c1_data.record_sizes.known.static_symbol_bytes + 3) & ~3U);
+        symbol = memory ? ((CompilerIrSymbol *)memory)->Initialize(10, name, arena) : NULL;
+    }
+    /* The original clears the complete intrinsic word after selecting its
+     * low storage-class bits, retaining only class1/global or class4/local. */
+    symbol->intrinsic_flags = local ? 4 : 1;
+    if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+    symbol->record_id = (symbol->record_id & 0xff000000U) |
+        (c1_data.next_symbol_record_id++ & 0xffffffU);
+    symbol->reference_flags &= ~7U;
+    symbol->value_type = c1_data.builtin_types.type_0063;
+    c1_bss.browser_name_deferred = local;
+    if (local) c1_data.translation_unit->current->Insert(symbol);
+    else c1_data.translation_unit->root->Insert(symbol);
+    return symbol;
+}
 CompilerParserNode *__cdecl make_symbol_expression(CompilerIrSymbol *symbol)
 {
     if (c1_bss.browser_filename) {

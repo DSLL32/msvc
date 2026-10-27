@@ -75,7 +75,7 @@ struct DeclarationTagNameView {
 #define SCALAR_ARITHMETIC_TYPE(t) (WIDE_INTEGER_TYPE(t) || \
     (t) == c1_data.builtin_types.type_0044 || (t) == c1_data.builtin_types.type_4044 || \
     (t) == c1_data.builtin_types.type_0106 || (t) == c1_data.builtin_types.type_0107 || \
-    ((t) && (((t)->flags & ~0x4000U) == 0x64 || ((t)->flags & ~0x4000U) == 0x62 || (t)->flags == 0x8061) && \
+    ((t) && (((t)->flags & ~0x4000U) == 0x64 || ((t)->flags & ~0x4000U) == 0x62 || (t)->flags == 0x8061 || (t)->flags == 0x61) && \
      !(t)->attributes && !(t)->shape && !(t)->auxiliary))
 #define VOLATILE_UNSIGNED_INT(t) ((t) && (t)->flags == 0x4063 && (t)->attributes == 0x200 && \
     !(t)->shape && !(t)->auxiliary)
