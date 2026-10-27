@@ -1,8 +1,8 @@
-WLINK 10.0a has forty-one completed paired CLI cases and four source-backed
-native unit cases. The acceptance ledger contains **1,231 application functions /
-135,620 unique original code bytes**. Paired CLI evidence covers **1,179 /
-131,793 bytes**; **52** further functions have source/static/native-unit
-qualification only, owning **3,841 bytes**. Those add **3,827** unique bytes;
+WLINK 10.0a has forty-one completed paired CLI cases and five source-backed
+native unit cases. The acceptance ledger contains **1,234 application functions /
+135,824 unique original code bytes**. Paired CLI evidence covers **1,179 /
+131,793 bytes**; **55** further functions have source/static/native-unit
+qualification only, owning **4,045 bytes**. Those add **4,031** unique bytes;
 14 bytes are genuinely shared with already qualified CLI bodies and count once.
 Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
@@ -150,15 +150,16 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,232 source-ready identities, their actual graph,
+The complete audit passes for 1,234 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions in the CLI
 references. The latter three now have direct native-unit qualification only;
 no observed separate original invocation is claimed. The base_32_num sibling's
 primary body also has native-unit qualification, while its terminal suffix is
-genuinely shared with base_10_num. TempFileOpen alone remains source-ready and
-unaccepted: the spill unit has not executed its existing-file open wrapper.
+genuinely shared with base_10_num. TempFileOpen now has native-unit qualification
+for real existing-file opens; the spill first-open environment/collision branch
+is still unqualified.
 The original first-node AddAddrInfo
 sentinel read is preserved on Win32; its documented native-only deterministic
 zero choice is limited to the observed invalid sentinel control read.
@@ -923,3 +924,38 @@ The full build/regression/unit/audit took **1.960 s**, passing forty-one CLI
 cases, four unit cases and all 1,232 source-ready graph/ABI identities. Its 90
 native invocations took **14.333–58.680 ms**. No original application or provider
 run was used. Each new case contains only case.c, direct.c and capture.bin.
+
+
+The file-reopen native unit qualifies TempFileOpen, the genuine 66-byte ExeOpen
+wrapper, and OpenOvlFile's normal owned-file transitions. Existing binary data
+includes NUL, CRLF, control-Z and high bytes; independent descriptors preserve
+separate cursors. A real outfilelist root, closed node, open overlay and target
+prove that OpenOvlFile closes and marks the old handle -1, reopens an existing
+target at its nonzero saved cursor, and preserves prefix/suffix bytes around a
+continued binary write. The separate zero-position branch genuinely truncates
+through ExeCreate. Source-state GDB assertions verify OpenFiles is 1 before and
+after each transition, then 0 after cleanup. No exhaustion or error is injected.
+PrintIOError remains masked/unimplemented; its complete original 34-byte body
+supplies only static ABI facts for the cold graph edge, with no execution credit.
+
+The first build caught a case-side QPos prototype error; the corrected necessary
+native/period build took **4.601 s**, with a **394.764 ms** scoped graph/ABI check.
+The DIRECT run took **19.541 ms** (setup/execution/checks **13.786 / 1.650 /
+4.105 ms**); its three tests took **19.877 ms** (**8.558 / 7.342 / 3.977 ms**).
+Final full build/regression/unit/audit took **1.985 s**, passing forty-one CLI
+and five native-unit cases and all 1,234 source-ready graph/ABI identities.
+Its 92 native invocations took **14.262–56.274 ms**. No original application
+run was used. Exact adoption bindings, diagnostics and the generated split
+acceptance ledger remain in scratch wlink-reopen-units; the case contains only
+case.c, direct.c and capture.bin.
+
+This is not an only-CRT completion claim. Six known App stubs remain: Syntax,
+TrapBreak, PrintIOError, EarlyEOF, BadObject and ExecSystem. The existing full
+graph resolves every named direct edge to a registered identity; indirect calls
+still require their real caller/table contracts. The current registry leaves
+21,531 bytes in the code-mask envelope unattributed, including padding/data,
+unknown CRT and potentially further App code. Existing guarded domains also
+remain explicit: multibyte lexing, wildcard recovery with an undefined result,
+invalid communal-number tags, and PE layouts that lack required code/import
+or nonempty group owners. Their absence from successful CLI paths does not
+classify them as CRT or qualify their behavior.

@@ -6156,6 +6156,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "OpenOvlFile": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ExeOpen": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -6562,6 +6572,9 @@
       "pending_extent": false
     },
     "ProcPENoRelocs": {
+      "pending_extent": false
+    },
+    "PrintIOError": {
       "pending_extent": false
     }
   }

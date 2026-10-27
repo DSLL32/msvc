@@ -299,3 +299,13 @@ unsigned char QReadStr( int file, char *buffer, unsigned size, char *name )
     *buffer = 0;
     return eof;
 }
+
+int ExeOpen( char *name )
+{
+    int handle;
+
+    handle = DoOpen( name, O_RDWR, 1 );
+    if( handle != -1 ) return handle;
+    LnkMsg( 0x3408, "12", name, strerror( errno ) );
+    return -1;
+}

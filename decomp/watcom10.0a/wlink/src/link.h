@@ -421,6 +421,7 @@ extern unsigned NumCacheBlocks( unsigned long );
 extern unsigned char QHavePath( char * );
 extern int PathObjOpen( char *, char *, char *, infilelist * );
 extern int TrySearchingLib( char *, char *, infilelist * );
+extern int ExeOpen( char * );
 extern void PrintIOError( unsigned, const char *, char * );
 extern void *CacheRead( file_list *, unsigned long, unsigned );
 extern unsigned char CacheEnd( file_list *, unsigned long );

@@ -188,3 +188,29 @@ void WriteCOMFile( void )
     if( file->file_loc > 0xff9aUL ) LnkMsg( 0x3359, 0 );
     WriteDBI();
 }
+
+void OpenOvlFile( outfilelist *thefile )
+{
+    outfilelist *fnode;
+
+    do {
+        fnode = OutFiles->next;      /* skip the root output */
+        while( fnode != 0 ) {
+            if( fnode->handle != -1 ) {
+                QClose( fnode->handle, fnode->fname );
+                fnode->handle = -1;
+                if( thefile->file_loc == 0 )
+                    thefile->handle = ExeCreate( thefile->fname );
+                else
+                    thefile->handle = ExeOpen( thefile->fname );
+                if( thefile->handle != -1 ) {
+                    QSeek( thefile->handle, thefile->file_loc, thefile->fname );
+                    return;
+                }
+                break;
+            }
+            fnode = fnode->next;
+        }
+    } while( fnode != 0 );
+    PrintIOError( 0x3408, "12", thefile->fname );
+}
