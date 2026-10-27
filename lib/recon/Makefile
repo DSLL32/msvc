@@ -1178,3 +1178,13 @@ build/tempnam510-prefix-probe: tests/tempnam510-prefix-probe.c $(SOURCES) $(HEAD
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 tempnam510-prefix-check: build/tempnam510-prefix-probe
 	$(PYTHON) tests/check-tempnam510-prefix.py $<
+
+.PHONY: cold-mbstrlen-check
+build/cold-mbstrlen-probe: tests/cold-mbstrlen-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/cold-mbstrlen-generic: tests/cold-mbstrlen-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/cold-mbstrlen-types.o: tests/cold-mbstrlen-types.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -c $< -o $@
+cold-mbstrlen-check: build/cold-mbstrlen-probe build/cold-mbstrlen-generic build/cold-mbstrlen-types.o
+	$(PYTHON) tests/check-cold-mbstrlen.py build/cold-mbstrlen-probe build/cold-mbstrlen-generic

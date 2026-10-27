@@ -384,6 +384,7 @@ unsigned char *__cdecl recon_mbslwr(unsigned char *);
 unsigned int __cdecl recon_mbctolower(unsigned int);
 unsigned char *recon_mbsstr(const unsigned char *,const unsigned char *);
 size_t recon_mbclen(const unsigned char *);
+size_t __cdecl recon_mbstrlen(const char *);
 size_t recon_mbsspn(const unsigned char *,const unsigned char *);
 unsigned char *recon_mbschr(const unsigned char *,unsigned int);
 int recon_mbsicmp(const unsigned char *,const unsigned char *);
@@ -546,6 +547,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _controlfp recon_controlfp
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 #define _adj_fdiv_r recon_adj_fdiv_r
+#define _mbstrlen recon_mbstrlen
 #endif
 #define _ftime recon_ftime
 #if defined(RECON_CRT_PROFILE_WATCOM_100A)

@@ -2086,3 +2086,10 @@ LINK's ordinary74-entry archive-extraction progression passes (18.933ms native)
 with real single-match enumeration, exhaustion and close. Final exact extraction
 completes83 entries (18.494ms), with no normalization; directory/restart/error
 branches remain source/static plus focused controls for that input.
+
+The MSVCRT _mbstrlen SDK surface is size_t __cdecl(const char *). Its explicit
+MSVCRT_510 original-name remap currently denies125 without reading the pointer,
+locale or multibyte state; no strlen substitution or character-count behavior is
+granted. Other profiles and SHIM_IMPL retain their prior original-name binding.
+Focused C/C++ typing and NULL/invalid/owned-buffer denial controls cover the cold
+boundary; C1's later diagnostic call/input remains pending.
