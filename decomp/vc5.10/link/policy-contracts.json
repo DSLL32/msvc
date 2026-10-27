@@ -5431,5 +5431,17 @@
       },
       "basis": "Actual stdcall four-slot classifier returns RET16; complete original409a10..409a92 own instructions do not write EDI, and its only callee is the existing ordinary caller-cleaned contribution-fatal boundary. Native pending counterpart remains a named trap, no body or error-domain credit. Existing SigForPbCb, symbol-name, strncpy, reference-record and fatal ordinary EDI contracts are reused."
     }
+  ],
+  "mips_resource_case_ordinary_abi": [
+    {
+      "owner": "_read_mips_relocations@24",
+      "cached_import": "mspdb50.dll!SigForPbCb IAT401294 in EDI at4508d9; sites4509a8/4509b4/4509c7/450a25/450a31",
+      "normal_return_preservation": {
+        "_classify_mips_relocation@16": [
+          "edi"
+        ]
+      },
+      "basis": "Actual stdcall classifier44fef0..44ff4e uses four physical slots and RET16. Its own instructions do not write EDI; only ordinary contribution-fatal is called. Existing symbol-name/strncpy/reference-record/fatal/SigForPbCb EDI contracts apply. Native pending classifier remains a named trap; no error-domain body credit."
+    }
   ]
 }

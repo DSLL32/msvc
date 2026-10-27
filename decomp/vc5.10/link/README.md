@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-521 application functions / 183,871 original code bytes are reconstructed
-(44.33% of the 414,810-byte whole `.text` extent, which includes CRT and text
+525 application functions / 186,568 original code bytes are reconstructed
+(44.98% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 41 pending bodies with known extents totaling 4,624 bytes and
-154 entries whose body extents remain unknown; this is not a complete non-CRT
+152 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-one cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-two cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-534-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 516 ordinary application bodies and six CRT bodies. Seven import
+538-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 520 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -439,3 +439,42 @@ parallel cached regression/unit/original-build/full-audit batch passed in 3.71 s
 covering twenty-one fixtures, the 534-vertex graph, 522 return contracts and the
 five existing C++ EH-owner checks. These are incremental timings; the batch is
 not an isolated audit or clean-build measurement.
+
+
+The MIPS Windows CE resource-only DLL case uses original RC/CVTRES output
+with three languages, version data and a named payload, plus COFF debug and
+a map. The period producer requires /WINDOWSCE for MIPS, and LINK requires
+/SUBSYSTEM:WINDOWSCE; the earlier rejected non-CE attempts are retained without
+completion credit. Both successful runs exit 0 with 229 application entries and
+matching 4,096-byte DLL and 515-byte map. The separately retained untouched
+master matches the masked completion outside the same exact clock ranges.
+Only the COFF TimeDateStamp, its two IMAGE_DEBUG_DIRECTORY copies, and the
+map's corresponding eight hexadecimal digits and 24-character ctime text are
+normalized. Resource trees, UTF-16 payloads, debug bytes, relocation output,
+padding, lengths and complete inventory remain strict.
+
+Four bodies / 2,697 original code bytes recover the MIPS backend, classifier,
+reader and fixup processor with their actual stdcall cleanups and five cached
+checksum import sites. Existing section, GP, incremental-code, error and
+auxiliary-fixup owners are reused. The resource path exercises REFWORDNB; it
+does not qualify MIPS instruction execution, GP-relative code, incremental
+patching or other machine relocation domains. Their genuine pending child
+entries remain trapped. Ordinary SDK spellings replaced authentic numeric
+values before closeout; native .text remained byte-identical to the matched
+completion build.
+
+The full-body comparison also corrected two unvisited Alpha tails with zero
+credit: paired debug-fixup sites use the contribution RVA after accounting
+for the preceding stack push, and a missing GP diagnostic skips the current
+relocation after the error counter. The prior Alpha resource-only observation
+reached neither tail; its REFLONGNB qualification remains unchanged. Current
+narrow static checks and the ordinary cached Alpha regression pass, without
+a retrospective original capture or wider error-domain claim.
+
+The completion original took 857.1 ms; native comparison took 13.7 ms
+(7.6 ms setup, 3.5 ms execution, 2.6 ms checks). The one case-end parallel
+regression/unit/original-build/full-audit batch passed in 3.36 s, covering
+twenty-two fixtures, 538 graph vertices, 526 return contracts and the five
+existing C++ EH-owner checks. Raw artifacts and failed clock comparisons are
+retained in scratch. Batch timing is incremental, not a clean-build or
+isolated audit benchmark.

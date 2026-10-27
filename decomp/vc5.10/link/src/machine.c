@@ -134,7 +134,40 @@ BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWOR
     link_contribution_fatal(contribution,1190,(unsigned)type);
     return 0;
 }
-void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
+BYTE __stdcall classify_mips_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    if(type==IMAGE_REL_MIPS_ABSOLUTE)return 1;
+    if(type==IMAGE_REL_MIPS_PAIR) {
+        if((BYTE)mode)link_contribution_fatal(contribution,1187,"PAIR");
+        return 1;
+    }
+    if((type>=IMAGE_REL_MIPS_REFHALF && type<=IMAGE_REL_MIPS_LITERAL) ||
+       (type>=IMAGE_REL_MIPS_SECTION && type<=IMAGE_REL_MIPS_SECRELHI) ||
+       type==IMAGE_REL_MIPS_REFWORDNB)
+        return 0;
+    link_contribution_fatal(contribution,1190,(unsigned)type);
+    return 0;
+}
+void __stdcall process_mips_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
+void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported)
+{
+    const char *name=context->options.mips_r41xx ? "MIPSR41XX" : "MIPS";
+    DWORD alignment=context->options.mips_r41xx ? 0x400 : 0x1000;
+    if(!(context->specified_switches & 1))context->optional_header.SectionAlignment=alignment;
+    if(context->options.rom) {
+        link_warning(NULL,4062,"ROM",name);
+        context->options.rom=0;
+    }
+    if(selected_tool_kind==1 && context->optional_header.Subsystem!=9)
+        link_fatal(NULL,1195,name,"/SUBSYSTEM:WINDOWSCE");
+    *incremental_supported=1;
+    classify_relocation=classify_mips_relocation;
+    process_relocations=process_mips_relocations;
+    if(context->optional_header.SectionAlignment<alignment) {
+        small_section_alignment=1;
+        context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
+    }
+}
 BYTE __stdcall classify_alpha_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
 {
     switch(type) {

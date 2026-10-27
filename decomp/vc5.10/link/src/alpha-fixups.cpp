@@ -40,7 +40,7 @@ BYTE RECON_THISCALL LinkAuxiliaryData::RecordFixup(DWORD value,WORD type,
 } while(0)
 #define PAIR_DEBUG_FIXUP() do { \
     if(save_fixups && !absolute)record_debug_fixup(relocation->Type,0, \
-        symbol_index+relocation->VirtualAddress-input_rva,relocation->SymbolTableIndex); \
+        contribution_rva+relocation->VirtualAddress-input_rva,relocation->SymbolTableIndex); \
 } while(0)
 
 extern "C" void __stdcall process_alpha_relocations(Contribution *contribution,
@@ -115,12 +115,12 @@ extern "C" void __stdcall process_alpha_relocations(Contribution *contribution,
             if(!absolute && !fixed)APPEND_BASE_RELOCATION(3,site,section,0);
             break;
         case IMAGE_REL_ALPHA_GPREL32:
-            if(!gp_symbol)RELOCATION_ERROR(2003);
+            if(!gp_symbol) {RELOCATION_ERROR(2003);break;}
             if(absolute || value<gp_base || value>=gp_limit)RELOCATION_ERROR(2003);
             *(DWORD *)fixup+=value-gp_symbol->symbol.Value;
             break;
         case IMAGE_REL_ALPHA_LITERAL:
-            if(!gp_symbol)RELOCATION_ERROR(2003);
+            if(!gp_symbol) {RELOCATION_ERROR(2003);break;}
             if(absolute || value<gp_base || value>=gp_limit)RELOCATION_ERROR(2003);
             value=value-gp_symbol->symbol.Value+(DWORD)(LONG)*(SHORT *)fixup;
             if((LONG)value< -32768 || (LONG)value>32767)RELOCATION_ERROR(2004);
