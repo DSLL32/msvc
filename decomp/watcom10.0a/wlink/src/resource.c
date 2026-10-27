@@ -1116,3 +1116,59 @@ char *ResReadString( int handle, int *length )
     }
     return( result );
 }
+
+/* Old16-bit resource units are projected to their low byte, without
+ * a host encoding conversion. Initial rrnamoor.c/rrdstr.c role; actual
+ * WLINK439138..439218 and439528..439590 are authoritative. */
+ResNameOrOrdinal *ResRead32NameOrOrdinal( int handle )
+{
+    unsigned short flag, ordinal;
+    ResNameOrOrdinal *name;
+    int error, length;
+    char *rest;
+    error = ResReadUint16( &flag, handle );
+    if( !error ) {
+        if( flag == 0xffff ) {
+            error = ResReadUint16( &ordinal, handle ); length = 0;
+        } else if( flag != 0 ) {
+            rest = ResRead32String( handle, &length );
+            ++length; error = (rest == NULL);
+        } else length = 0;
+    }
+    if( error ) name = NULL;
+    else {
+        name = (*WResRtns.alloc)( sizeof(ResNameOrOrdinal) + length );
+        error = (name == NULL);
+        if( error ) WresRecordError( 13 );
+    }
+    if( !error ) {
+        if( flag == 0xffff ) {
+            name->ord.fFlag = 0xff; name->ord.wOrdinalID = ordinal;
+        } else {
+            name->name[0] = flag;
+            if( flag != 0 ) {
+                memcpy( name->name + 1, rest, length );
+                (*WResRtns.free)( rest );
+            }
+        }
+    }
+    return( name );
+}
+char *ResRead32String( int handle, int *length )
+{
+    VarString *list;
+    unsigned short ch;
+    int error;
+    char *text;
+    list = VarStringStart();
+    error = ResReadUint16( &ch, handle );
+    while( !error && ch != 0 ) {
+        VarStringAddChar( list, (unsigned char)ch );
+        error = ResReadUint16( &ch, handle );
+    }
+    text = VarStringEnd( list, length );
+    if( error && text != NULL ) {
+        (*WResRtns.free)( text ); text = NULL;
+    }
+    return( text );
+}

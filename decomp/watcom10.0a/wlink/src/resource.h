@@ -120,4 +120,6 @@ int WResWriteExtHeader( const WResExtHeader *, int );
 int ResWriteString( const char *, unsigned char, int );
 int ResWriteNameOrOrdinal( const ResNameOrOrdinal *, unsigned char, int );
 int MResWriteResourceHeader( const MResResourceHeader *, int );
+ResNameOrOrdinal *ResRead32NameOrOrdinal( int );
+char *ResRead32String( int, int * );
 #endif

@@ -6331,6 +6331,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResRead32NameOrOrdinal": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResRead32String": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

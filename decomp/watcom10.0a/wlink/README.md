@@ -1102,3 +1102,29 @@ Fresh registry subtraction leaves **19,280** mask-envelope bytes
 unattributed. This is a derived remainder, not a classification as CRT: padding,
 data and further App code remain possible. The small DOS-adjacent entries and
 unused SDK read family remain under bounded source/reference investigation.
+
+
+The resource wide-reader unit qualifies the actual ResRead32NameOrOrdinal and
+ResRead32String helpers with real WResRtns file/read/seek/allocation/free
+operations. Numeric, empty and named forms have exact cursor and untouched-tail
+checks. The old algorithm reads 16-bit units but appends their low byte; a full
+zero unit terminates, while a nonzero unit with low byte zero appends an embedded
+zero. This projection is tested explicitly without a host/general Unicode
+conversion claim. A 300-unit input crosses several genuine VarString chunks;
+its returned name/string, exact length, terminator and independent cleanup are
+checked, preserving input bytes and length-owner canaries. Short-read/error and
+allocation-failure domains remain unqualified. No original was executed.
+
+The necessary corrected native/Watcom build took **1.208 s** after a retained
+compile failure from a reused private error-constant name; the selected
+strict graph/ABI check took **395.149 ms**. The initial DIRECT trace expectation
+omitted existing setup/allocation/position/cleanup calls; source call order
+confirmed them and the native-unit expectation was corrected, without a claim
+of observed original entries. DIRECT/three-test runs took **18.769 / 16.936 ms**.
+Final full build/regression/unit/audit took **2.125 s**, passing forty-four CLI
+and ten native-unit cases and all **1,269** source-ready identities. Its
+108 native invocations took **14.380–59.039 ms**. Scratch
+wlink-wide-read-units retains source/body bindings, failed attempts, timing
+splits and the generated ledger (**138,351** qualified unique App bytes).
+The fresh **18,952**-byte registry remainder remains unattributed;
+nearby FILE-like code is not restored or classified as CRT by resemblance.
