@@ -1,0 +1,24 @@
+{
+  "scope": "Optional exact external direct App JMP inventory in shared_terminal_regions; complete shared ownership only, raw edges and per-owner ABI checks independent.",
+  "validation_sha256": "49dd22ab78af8ef5275fee7b8ad77d5429817162018cf62fe283d0613f96b34f",
+  "release_sha256": "847919b6c5fbef23e5e0afd9cbb2fa6dad745e5808a4673533f53b1bf27338a3",
+  "source_sha256": {
+    "src/shared_returns/terminal_regions.rs": "8b46ed30cd36d52202ec268866b37b04d98a6646b2d76bf9f251e8a4249ba4cf",
+    "README.md": "fee87a0876884f34e66b6df59ff470c9c629290f92a4499d4253527dbc8f863a"
+  },
+  "actual_scope": "Frozen AddSCons/AddWCons pair with full canonical registry and driver catalogs",
+  "actual_static_ms": 4541.842725127935,
+  "denials": 7,
+  "shared_return_units": 17,
+  "prior_report_byte_parities": 3,
+  "limits": [
+    "Actual selected AddSCons/AddWCons only; all canonical registry/driver/sharing metadata retained. Full strict graph/RET0/ownership/extent checks pass, no full-case audit claim.",
+    "Identical bound CF profile and period object copied to scratch shadow project to keep required pins stable. No extent/evidence checks omitted.",
+    "Zoiks remains canonical pending App impl0; only exact endpoint identity used, no callee body/ABI/return/termination permission or credit inferred.",
+    "No target/native execution, original capture, source rewrite, runtime masking or acceptance change.",
+    "Absentfield priorCRT CALL/priorCALL-JMP/default reports are byte-identical."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/shared-region-tails",
+  "canonical_build_seconds": 66.31679157353938,
+  "canonical_bit_identical": true
+}

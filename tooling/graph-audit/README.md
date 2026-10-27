@@ -853,10 +853,21 @@ for two implemented canonical App owners, including disconnected chunks:
 
 The sorted exact-byte regions (1–64 bytes total) must equal the complete pairwise
 code intersection and end both owning chunks. Both existing owner CFGs must
-discover identical complete instruction coverage and successors. Every branch is
-explicitly inventoried; all normal successors stay within the union and form an
-acyclic graph terminating at actual unprefixed near RET instructions. No new
+discover identical complete instruction coverage and successors. Every internal branch is
+explicitly inventoried; by default all normal successors stay within the union
+and form an acyclic graph terminating at actual unprefixed near RET instructions. No new
 roots or function identities are created.
+
+Optional `original.tails` rows `{ "site": ADDRESS, "target": "NAME" }`
+inventory exact external unconditional direct JMP exits. Targets use the existing
+unique canonical App endpoint identity (implemented or pending), without body,
+return, termination or ABI inference. Both existing owner CFGs must retain the
+same decoded JMP and its raw call and tail edges. Every tail is consumed exactly
+once, separately from internal branches and CALLs. The complete shared instruction
+union remains acyclic and closed to normal successors; paths end only at real
+near RET instructions or these declared tail instructions. All ordinary per-owner
+call graph, tail ABI/RET, extent and masking checks remain independent. Without
+this field, the existing closed-near-RET contract and reports remain unchanged.
 
 Optional `original.calls` inventories exact existing near CALL sites. Each row
 has `site` and either `target` (a unique canonical App endpoint, implemented or
@@ -868,7 +879,7 @@ indirect call fact and the normal post-CALL successor inside the union. Every
 CALL must be consumed once; absent inventory admits none. A direct callee's
 identity does not require or grant body availability, acceptance or runtime
 permission; the two shared owners must still be implemented App bodies. Unknown
-and import classifications reject; shared-JMP roles remain App-only. Indirect/external
+and import classifications reject; shared-JMP roles remain App-only. Indirect jumps, uninventoried external
 jumps, interrupts, cycles and other transfers reject. Raw callee edges and all
 ordinary paired graph/ABI/RET checks remain unchanged. This is physical ownership
 metadata, with zero unique-byte credit; it supplies no callback target, register

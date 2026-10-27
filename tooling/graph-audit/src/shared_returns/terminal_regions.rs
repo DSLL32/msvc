@@ -1,5 +1,5 @@
 //! Exact shared terminal subgraphs, validated only from existing owner CFG facts.
-use super::{Pair, TerminalLocation, call_endpoint, canonical, unique};
+use super::{Pair, TerminalLocation, app_endpoint, call_endpoint, canonical, unique};
 use crate::{decode::Decoder, image::ImageView, index::Record};
 use anyhow::{Context, Result, ensure};
 use serde::Deserialize;
@@ -28,6 +28,14 @@ struct Region {
     branches: Vec<Branch>,
     #[serde(default)]
     calls: Vec<Call>,
+    #[serde(default)]
+    tails: Vec<Tail>,
+}
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Tail {
+    site: u32,
+    target: String,
 }
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -188,10 +196,23 @@ fn validate(
             "duplicate/conflicting shared terminal-region CALL"
         );
     }
+    let mut tails = BTreeMap::new();
+    for tail in &region.tails {
+        let target = app_endpoint(cfg, image, &tail.target)?;
+        ensure!(
+            tails
+                .insert(tail.site, (tail.target.clone(), target))
+                .is_none()
+                && !branches.contains_key(&tail.site)
+                && !calls.contains_key(&tail.site),
+            "duplicate/conflicting shared terminal-region tail"
+        );
+    }
     let decoder = Decoder::new()?;
     let mut common_edges = None;
     let mut common_returns = None;
     let mut call_report = Vec::new();
+    let mut tail_report = Vec::new();
     for owner in [a, b] {
         let (graph, _) = crate::audit::structural_facts(
             &decoder,
@@ -210,6 +231,7 @@ fn validate(
         let mut returns = BTreeSet::new();
         let mut used_branches = BTreeSet::new();
         let mut used_calls = BTreeSet::new();
+        let mut used_tails = BTreeSet::new();
         for &(lo, hi) in &ranges {
             let mut address = lo;
             while address < hi {
@@ -261,6 +283,18 @@ fn validate(
                         Target::Direct(name,target) => json!({"owner":owner.name,"site":address,"bytes_hex":i.bytes.iter().map(|b|format!("{b:02x}")).collect::<String>(),"target":name,"raw_target":target,"normal_successor":i.next()}),
                         Target::Indirect(operand) => json!({"owner":owner.name,"site":address,"bytes_hex":i.bytes.iter().map(|b|format!("{b:02x}")).collect::<String>(),"indirect_operand":operand,"raw_indirect":true,"normal_successor":i.next()}),
                     });
+                } else if let Some((name, target)) = tails.get(&address) {
+                    ensure!(
+                        i.m == "jmp"
+                            && i.imm() == Some(*target)
+                            && next.is_empty()
+                            && graph.calls.contains(target)
+                            && graph.tails.contains(target)
+                            && !bytes.contains_key(target),
+                        "shared terminal-region tail must retain exact external direct JMP/raw edges"
+                    );
+                    used_tails.insert(address);
+                    tail_report.push(json!({"owner":owner.name,"site":address,"bytes_hex":i.bytes.iter().map(|b|format!("{b:02x}")).collect::<String>(),"target":name,"raw_target":target,"raw_call":true,"raw_tail":true}));
                 } else if i.jump {
                     let target = branches
                         .get(&address)
@@ -290,19 +324,21 @@ fn validate(
         }
         ensure!(
             used_branches == branches.keys().copied().collect()
-                && used_calls == calls.keys().copied().collect(),
-            "unconsumed shared terminal-region branch/CALL inventory"
+                && used_calls == calls.keys().copied().collect()
+                && used_tails == tails.keys().copied().collect(),
+            "unconsumed shared terminal-region branch/CALL/tail inventory"
         );
         ensure!(
-            !returns.is_empty()
+            (!returns.is_empty() || !used_tails.is_empty())
                 && successors
                     .values()
                     .flatten()
                     .all(|target| successors.contains_key(target)),
             "shared terminal-region successors escape declared instruction union"
         );
-        // A finite reverse closure over existing successor facts: cycles/dead ends cannot become return paths.
-        let mut terminated = returns.clone();
+        // This proves local structural exit only; tail target return/termination
+        // and ABI remain the ordinary per-owner checks' independent concern.
+        let mut terminated = returns.union(&used_tails).copied().collect::<BTreeSet<_>>();
         loop {
             let before = terminated.len();
             for (&site, targets) in &successors {
@@ -316,7 +352,7 @@ fn validate(
         }
         ensure!(
             terminated.len() == successors.len(),
-            "shared terminal-region paths must be acyclic and terminate at nearRET"
+            "shared terminal-region paths must be acyclic and reach nearRET or a declared tail"
         );
         if let Some(previous) = &common_edges {
             ensure!(
@@ -333,11 +369,13 @@ fn validate(
         common_edges = Some(successors);
         common_returns = Some(returns);
     }
-    Ok(
-        json!({"owners":[a.name,b.name],"original_regions":region.regions.iter().map(|r|json!({"start":r.start,"bytes_hex":r.bytes_hex})).collect::<Vec<_>>(),
+    let mut report = json!({"owners":[a.name,b.name],"original_regions":region.regions.iter().map(|r|json!({"start":r.start,"bytes_hex":r.bytes_hex})).collect::<Vec<_>>(),
         "successors":common_edges,"near_ret_starts":common_returns,"raw_calls":call_report,"additional_unique_code_bytes":0,
-        "meaning":"only this exact existing terminal subgraph is physically shared; raw calls and all per-owner graph/ABI checks remain distinct; no target/value/preservation/cleanup inference, execution permission, roots or body credit"}),
-    )
+        "meaning":"only this exact existing terminal subgraph is physically shared; raw calls and all per-owner graph/ABI checks remain distinct; no target/value/preservation/cleanup inference, execution permission, roots or body credit"});
+    if !tail_report.is_empty() {
+        report["raw_tails"] = json!(tail_report);
+    }
+    Ok(report)
 }
 
 #[cfg(test)]
@@ -381,6 +419,102 @@ mod tests {
         cfg: &Value,
     ) -> Result<super::super::SharedReturns> {
         super::super::SharedReturns::parse(cfg, &json!({}), image, records, records, Path::new("."))
+    }
+    #[test]
+    fn conditional_region_keeps_both_external_raw_tails_and_pending_identity() -> Result<()> {
+        let mut code = vec![0xcc; 0xf1];
+        code[..5].copy_from_slice(&[0xe9, 0x7b, 0, 0, 0]);
+        code[0x40..0x45].copy_from_slice(&[0xe9, 0x3b, 0, 0, 0]);
+        let raw = [
+            0x80, 0xfa, 2, 0x72, 13, 0x80, 0xfa, 5, 0x77, 8, 0x0f, 0xb6, 0xd2, 0xe9, 0x4e, 0, 0, 0,
+            0xb8, 45, 0, 0, 0, 0xe9, 0x54, 0, 0, 0,
+        ];
+        code[0x80..0x9c].copy_from_slice(&raw);
+        code[0xe0] = 0xc3;
+        code[0xf0] = 0xc3;
+        let image = crate::tests::image(&code);
+        let records: Vec<_> = [("a", 0x401000), ("b", 0x401040)]
+            .into_iter()
+            .map(|(name, start)| Record {
+                name: name.into(),
+                start,
+                end: start + 5,
+                code_chunks: vec![(0x401080, 0x40109c)],
+                shared: vec![],
+                evidence: Value::Null,
+                pending_extent: false,
+            })
+            .collect();
+        let mut registry: Vec<_> = records
+            .iter()
+            .map(|r| {
+                json!({"name":r.name,"rva":r.start-0x400000,"definition":4,"implementation":1,
+            "code":r.code_ranges().map(|(a,b)|[a-0x400000,b-0x400000]).collect::<Vec<_>>()})
+            })
+            .collect();
+        registry.extend([
+            json!({"name":"callee","rva":0x10e0,"definition":4,"implementation":1}),
+            json!({"name":"error","rva":0x10f0,"definition":4,"implementation":0}),
+        ]);
+        let cfg = json!({"target":{"base":0x400000},"function_registry":registry,"shared_terminal_regions":[{
+            "owners":["a","b"],"original":{"regions":[{"start":0x401080,"bytes_hex":raw.iter().map(|b|format!("{b:02x}")).collect::<String>()}],
+                "branches":[{"site":0x401083,"target":0x401092},{"site":0x401088,"target":0x401092}],
+                "tails":[{"site":0x40108d,"target":"callee"},{"site":0x401097,"target":"error"}]}}]});
+        let policy = parse_fixture(&image, &records, &cfg)?;
+        assert!(policy.permits(&records[0], &records[1]));
+        let report = policy.regions_report().unwrap();
+        assert_eq!(report[0]["near_ret_starts"], json!([]));
+        assert_eq!(report[0]["raw_tails"].as_array().unwrap().len(), 4);
+        crate::index::validate_chunk_ownership_with_shared(&image, &records, &policy)?;
+        for record in &records {
+            let (graph, _) = crate::audit::structural_facts(
+                &Decoder::new()?,
+                &image,
+                record,
+                &json!({}),
+                "original",
+                &records,
+                crate::flow::Options {
+                    record_dataflow: true,
+                    ..Default::default()
+                },
+            )?;
+            assert_eq!(graph.calls, BTreeSet::from([0x4010e0, 0x4010f0]));
+            assert_eq!(graph.tails, graph.calls);
+            assert!(graph.returns.is_empty());
+        }
+        for tails in [
+            json!([]),
+            json!([{"site":0x40108d,"target":"callee"}]),
+            json!([{"site":0x40108d,"target":"error"},{"site":0x401097,"target":"error"}]),
+            json!([{"site":0x40108d,"target":"callee"},{"site":0x401097,"target":"error"},{"site":0x401080,"target":"callee"}]),
+            json!([{"site":0x401083,"target":"error"},{"site":0x40108d,"target":"callee"},{"site":0x401097,"target":"error"}]),
+        ] {
+            let mut bad = cfg.clone();
+            bad["shared_terminal_regions"][0]["original"]["tails"] = tails;
+            assert!(parse_fixture(&image, &records, &bad).is_err());
+        }
+        for replacement in [
+            [0xff, 0xe0, 0x90, 0x90, 0x90],
+            [0x75, 0x51, 0x90, 0x90, 0x90],
+        ] {
+            let mut changed = image.clone();
+            changed.data[0x28d..0x292].copy_from_slice(&replacement);
+            let mut changed_raw = raw;
+            changed_raw[13..18].copy_from_slice(&replacement);
+            let mut bad = cfg.clone();
+            bad["shared_terminal_regions"][0]["original"]["regions"][0]["bytes_hex"] = json!(
+                changed_raw
+                    .iter()
+                    .map(|b| format!("{b:02x}"))
+                    .collect::<String>()
+            );
+            assert!(parse_fixture(&changed, &records, &bad).is_err());
+        }
+        let mut bad = cfg.clone();
+        bad["function_registry"][3]["definition"] = json!(3);
+        assert!(parse_fixture(&image, &records, &bad).is_err());
+        Ok(())
     }
     #[test]
     fn terminal_region_size_limit_is_64_bytes_across_all_parts() -> Result<()> {
