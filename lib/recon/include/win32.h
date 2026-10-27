@@ -230,8 +230,11 @@ typedef struct { DWORD Characteristics,TimeDateStamp,ForwarderChain,Name,FirstTh
 typedef struct _IMAGE_COFF_SYMBOLS_HEADER { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER,*PIMAGE_COFF_SYMBOLS_HEADER;
 #pragma pack(pop)
 
-/* Separate .DBG header (bundled WINNT.H, four-byte packing). */
+/* Debugging records (bundled WINNT.H, four-byte packing). */
 #pragma pack(push,4)
+typedef struct _IMAGE_FUNCTION_ENTRY {
+ DWORD StartingAddress,EndingAddress,EndOfPrologue;
+} IMAGE_FUNCTION_ENTRY,*PIMAGE_FUNCTION_ENTRY;
 typedef struct _IMAGE_SEPARATE_DEBUG_HEADER {
  WORD Signature,Flags,Machine,Characteristics;
  DWORD TimeDateStamp,CheckSum,ImageBase,SizeOfImage,NumberOfSections;
