@@ -140,4 +140,7 @@ extern void unforceSuppression( output_desc * );
 extern int base_36_2digit( output_desc *data, unsigned *value );
 extern int dimension( output_desc *data, state_desc *state );
 extern int base_10_num( output_desc *data, int *value );
+unsigned __demangled_basename( const char *, unsigned, char *, unsigned );
+void __parse_mangled_name( const char *, unsigned, void *, outfunPtr );
+unsigned __mangle_operator( const char *, unsigned, char * );
 #endif

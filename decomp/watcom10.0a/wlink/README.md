@@ -1,8 +1,8 @@
-WLINK 10.0a has forty-four completed paired CLI cases and seven source-backed
-native unit cases. The acceptance ledger contains **1,255 application functions /
-137,181 unique original code bytes**. Paired CLI evidence covers **1,182 /
-131,924 bytes**; **73** further functions have source/static/native-unit
-qualification only, owning **5,271 bytes**. Those add **5,257** unique bytes;
+WLINK 10.0a has forty-four completed paired CLI cases and eight source-backed
+native unit cases. The acceptance ledger contains **1,258 application functions /
+137,644 unique original code bytes**. Paired CLI evidence covers **1,182 /
+131,924 bytes**; **76** further functions have source/static/native-unit
+qualification only, owning **5,734 bytes**. Those add **5,720** unique bytes;
 14 bytes are genuinely shared with already qualified CLI bodies and count once.
 Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
@@ -150,7 +150,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,255 source-ready identities, their actual graph,
+The complete audit passes for 1,258 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions in the CLI
@@ -1035,3 +1035,35 @@ split ledger remain in scratch wlink-gap-source. No original was launched.
 The earlier no-known-pending conclusion was bounded to that registry: this
 source-led review continues, including positively identified demangler and
 module-reset routines. The remaining gaps are not classified as CRT by absence.
+
+
+The next source-led unit qualifies the actual __demangled_basename,
+__parse_mangled_name and __mangle_operator public helpers. Detailed original
+argument/flag flow identifies these entries; the similarly named newer
+__demangle_r and __demangle_t APIs are not substituted. Basename tests cover
+ordinary/global names, constructors/destructors, explicit input length and a
+bounded output buffer. The old NULL-output mode deliberately retains its
+inconsistent count: foo sizes as four because zapSpace cannot inspect/remove
+its trailing blank, although the real buffer result is foo/three. The tests
+also preserve declared-capacity canaries without imposing an unsupported promise
+that all intermediate working bytes after the final NUL stay unchanged.
+
+The callback parser checks the exact sixteen-event stream for a simple mangled
+variable, identifier pointer/value and character-encoding values, plus its
+single plain-copy event. Actual callback updates of the live cookie pointer
+must reach subsequent calls through the same slot. Operator tests cover all
+three existing tables, explicit-length exact matches, failed lookup and exact
+three-byte nonterminated output/canaries. Its only new runtime edge is the
+positively identified 37-byte strncmp CRT variant, distinct from the shipped
+41-byte member. The application consumes equality only, covered by native
+strncmp; no CRT body is reconstructed and no original is launched.
+
+The necessary native/period build took **1.241 s**, scoped graph/ABI check
+**380.519 ms**, and DIRECT/final three-test runs **20.046 / 17.690 ms**.
+Earlier rejected test assumptions and native GDB findings remain in scratch
+wlink-demangler-units. Final full build/regression/unit/audit took
+**2.140 s**, passing forty-four CLI and eight unit cases, with
+1,258 source-ready graph/ABI identities. Its 104 native invocations took
+**14.157–58.664 ms**. The resource writer's stale peer-binary provenance
+comment is corrected to actual WLINK addresses. Source-led gap assessment
+continues; no conclusion that the remaining bytes are all CRT is drawn.

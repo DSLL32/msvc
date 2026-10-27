@@ -31,7 +31,7 @@
 
 
 /* Open Watcom initial6b9cb4438959d845a2b4dd4bf19f7908ecd608e9.
-   Actual WASM CF21b30..21f36,22538..22618 and22b68..22bd0.
+   Actual WLINK438770..438b76; exact bodies are bound in the writer source packet.
    Initial bld/sdk/rc/wres/c/write.c adapted to
    actual1994 bodies. ResWriteString directly owns conversion/write/free;
    the later ResWriteStringLen vertex and MRes Win32 wrapper are absent. */

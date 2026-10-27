@@ -1501,3 +1501,62 @@ void forceSuppression( output_desc *data )
 {
     if( data->suppress_output <= 2 ) data->suppress_output += 3;
 }
+
+unsigned __demangled_basename( const char *input, unsigned len,
+                               char *output, unsigned size )
+{
+    int mangled;
+    output_desc data;
+
+    init_globals( 0 );
+    mangled = __is_mangled( input, len );
+    init_descriptor( &data, demangleEmit, &data, input, len, output, size );
+    data.suppress_output = 0;
+    data.base_name = 1;
+    if( mangled ) do_demangle( &data );
+    else do_copy( &data );
+    return terminateOutput( &data );
+}
+
+void __parse_mangled_name( const char *input, unsigned len,
+                           void *cookie, outfunPtr ofn )
+{
+    int mangled;
+    output_desc data;
+
+    init_globals( 0 );
+    mangled = __is_mangled( input, len );
+    init_descriptor( &data, ofn, cookie, input, len, 0, 0 );
+    data.suppress_output = 0;
+    if( mangled ) do_demangle( &data );
+    else do_copy( &data );
+}
+
+unsigned __mangle_operator( const char *op, unsigned len, char *result )
+{
+    int i;
+
+    if( len == 0 ) len = strlen( op );
+    for( i = 0; i < num_elements(operatorFunction); ++i ) {
+        if( strncmp(op,operatorFunction[i],len) == 0
+            && operatorFunction[i][len] == '\0' ) {
+            *result++ = '$'; *result++ = 'o'; *result = i + 'a';
+            return 3;
+        }
+    }
+    for( i = 0; i < num_elements(relationalFunction); ++i ) {
+        if( strncmp(op,relationalFunction[i],len) == 0
+            && relationalFunction[i][len] == '\0' ) {
+            *result++ = '$'; *result++ = 'r'; *result = i + 'a';
+            return 3;
+        }
+    }
+    for( i = 0; i < num_elements(assignmentFunction); ++i ) {
+        if( strncmp(op,assignmentFunction[i],len) == 0
+            && assignmentFunction[i][len] == '\0' ) {
+            *result++ = '$'; *result++ = 'a'; *result = i + 'a';
+            return 3;
+        }
+    }
+    return 0;
+}

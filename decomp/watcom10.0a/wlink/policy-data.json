@@ -6271,6 +6271,21 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "__demangled_basename": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__parse_mangled_name": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "__mangle_operator": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
