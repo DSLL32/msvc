@@ -204,5 +204,9 @@ unsupported dependency/shim domains remain explicit failures.
 
 Verify canonical startup with ordinary CLI invocations and actual reconstructed
 dependencies, including VC5.10 RC/RCDLL and CL/C1XX; VC1.0 uses child EXEs.
+Check no-argument startup and, when supported, explicit help separately against
+the original. Exercise the installed native executable as well as library
+fixtures. Record the actual diagnostic and status; an unrecognized-option test
+does not qualify as help.
 Continue original-compiler builds
 and function-graph/ABI checks; native host glue grants no reconstruction credit.
