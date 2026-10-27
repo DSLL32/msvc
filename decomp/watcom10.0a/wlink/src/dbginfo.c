@@ -926,3 +926,18 @@ void ZeroAddrInfo( debug_info *dptr )
     entry.size = 0; entry.mod_idx = 0;
     DumpInfo( dptr, &entry, sizeof(entry) );
 }
+
+/* Descriptive name: the separate old entry431ed0 resets the initial
+ * debug-header fields which the later ODBIInit performs itself. It does
+ * not reset the header's language/segment/debug-size output fields. */
+void ResetODBI( void )
+{
+    DBISize = sizeof(dbgheader);
+    Master.exe_major_ver = 3;
+    DBISourceLang = 0;
+    Master.signature = 0x8386;
+    ObjSourceLang = 0;
+    Master.exe_minor_ver = 0;
+    Master.obj_major_ver = 0;
+    Master.obj_minor_ver = 0;
+}

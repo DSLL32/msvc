@@ -279,7 +279,7 @@ void Ignite( void )
     BurnUtils();
 }
 
-static sysblock *SysBlocks;       /* original441288 */
+extern sysblock *SysBlocks;       /* original441288; reset owner in cmdall.c */
 
 void CleanSystemList( unsigned char check )
 {

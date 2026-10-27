@@ -188,3 +188,8 @@ void CheckFileTrace( section *sect )
         }
     }
 }
+
+void ResetSymTrace( void )
+{
+    TraceList = 0;
+}

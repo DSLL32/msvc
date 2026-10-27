@@ -822,4 +822,15 @@ extern unsigned char ShrinkBlock( block_data * );
 extern void *LnkExpand( void *, unsigned );
 extern void *LnkReAlloc( void *, unsigned );
 #include <recon.h>
+
+/* Old standalone subsystem reset entry points. */
+extern void ResetComdef( void );
+extern void ResetCmdAll( void );
+extern void ResetDistrib( void );
+extern void ResetMsg( void );
+extern void ResetObjIO( void );
+extern void ResetObjPass1( void );
+extern void ResetObjStrip( void );
+extern void ResetSymTrace( void );
+extern void ResetODBI( void );
 #endif

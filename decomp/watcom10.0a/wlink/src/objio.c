@@ -219,3 +219,12 @@ void EarlyEOF( void )
     Locator( CurrMod->f.source->file->name, 0, 0 );
     LnkMsg( 0x331d, 0 );
 }
+
+/* The 1994 body combines cached-file and OMF cursor reset. */
+void ResetObjIO( void )
+{
+    CachedFiles = 0;
+    CachedLibFiles = 0;
+    ObjBuff = 0;
+    EOObjRec = 0;
+}

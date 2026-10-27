@@ -1067,3 +1067,38 @@ wlink-demangler-units. Final full build/regression/unit/audit took
 **14.157–58.664 ms**. The resource writer's stale peer-binary provenance
 comment is corrected to actual WLINK addresses. Source-led gap assessment
 continues; no conclusion that the remaining bytes are all CRT is drawn.
+
+
+The module-boundary source review next identifies nine standalone old subsystem
+reset entries. These are source/static/native-unit qualifications, with no new
+startup calls or original-execution claim. ResetComdef restores the full 19-byte
+name, four leader pointers, saved-segment head and counter, but clears only the
+first 20-byte saved node; its second node and alternating index stay unchanged.
+ResetCmdAll includes the old map/name/system-list fields, ResetObjIO combines
+cached lists with OMF cursors, and ResetObjPass1 also clears the saved-public and
+segment-mask fields. ResetDistrib, ResetMsg, ResetObjStrip and ResetSymTrace
+preserve the exact old field sets. ResetMsg clears the banner/index but leaves
+argument payloads and the enable bitmap unchanged. ResetODBI is a descriptive
+name for the separate old debug-header initialization entry: it resets the
+six leading header bytes/language state while preserving eight output bytes.
+The later ODBIInit source correlates this role, without supplying the old name.
+
+The unit retains independent aliases to borrowed stack and real heap owners,
+checks their bytes/canaries, and cleans them up explicitly after reset forgets
+the pointers; no free/shutdown semantics are inferred. COMDAT names restart
+without corrupting earlier allocated names, and repeated empty resets are
+idempotent. Seventeen native GDB assertions verify private fields and untouched
+neighbors in addition to the two ordinary unit tests. Original spans exclude
+surrounding module padding. The necessary native/Watcom build took **7.002 s**,
+selected graph/ABI/ownership checks **387.523 ms**,
+and DIRECT/tests **16.606 / 12.174 ms**; setup/execution/check splits are retained
+in scratch wlink-reset-units. Final full build/regression/unit/audit took
+**2.076 s**, passing forty-four CLI and nine unit cases and all **1,267**
+source-ready graph/ABI identities. Its 106 native invocations took
+**12.241–56.671 ms**. The generated ledger records
+**138,023** qualified unique App bytes, with CLI/unit provenance kept separate.
+
+Fresh registry subtraction leaves **19,280** mask-envelope bytes
+unattributed. This is a derived remainder, not a classification as CRT: padding,
+data and further App code remain possible. The small DOS-adjacent entries and
+unused SDK read family remain under bounded source/reference investigation.

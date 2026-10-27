@@ -227,3 +227,8 @@ void AddSymEdge( symbol *src, symbol *targ )
         src->p.edges = edge;
     }
 }
+
+void ResetObjStrip( void )
+{
+    FreedEdges = 0;
+}

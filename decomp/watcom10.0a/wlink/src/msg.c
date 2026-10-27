@@ -450,3 +450,15 @@ void FileOrder( char rc_buff[], int which_file )
             break;
     }
 }
+
+/* Unlike the newer ResetMsg, this body clears the banner byte and
+ * leaves the message-enable bitmap and argument payload untouched. */
+extern unsigned char BannerPrinted;
+void ResetMsg( void )
+{
+    LocFile = 0;
+    LocMem = 0;
+    LocRec = 0;
+    BannerPrinted = 0;
+    MsgArgInfo.index = -1;
+}

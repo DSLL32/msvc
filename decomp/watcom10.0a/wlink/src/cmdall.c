@@ -166,6 +166,19 @@ unsigned char ProcFiles( void )
 }
 
 static void *LastFile;          /* original441284: file or member node */
+sysblock *SysBlocks;             /* original441288 */
+extern unsigned NameLen;
+
+/* The old combined command reset also owns map/name/system-list state. */
+void ResetCmdAll( void )
+{
+    MapFlags = 0;
+    SymFileName = 0;
+    NameLen = 0;
+    LastFile = 0;
+    SysBlocks = 0;
+    LibPath = 0;
+}
 
 unsigned char AddFile( void )
 {

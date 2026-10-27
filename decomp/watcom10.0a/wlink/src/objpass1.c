@@ -710,3 +710,11 @@ unsigned char CheckVFList( symbol *sym )
     }
     return 0;
 }
+
+void ResetObjPass1( void )
+{
+    ObjFormat = 0;
+    SavedPublics = 0;
+    NextSegIndex = 0;
+    SavedSegMask = 0;
+}

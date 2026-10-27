@@ -552,3 +552,18 @@ void RestoreLinkerComdat( symbol *sym )
         (char *)CDatClassNames[alloc], alloc > 1 );
     AddSegment( saved, &node, leader->section, &off );
 }
+
+/* Old reset precedes the later released ring-based COMDAT representation.
+ * Only the first saved node is cleared; the second and alternating index
+ * are not written by the actual 1994 body. */
+void ResetComdef( void )
+{
+    memcpy( CDatSegName, "COMDAT_SEG\0\0\0\0\0\0\0\0", sizeof(CDatSegName) );
+    CDatSegments[0] = 0;
+    CDatSegments[1] = 0;
+    CDatSegments[2] = 0;
+    CDatSegments[3] = 0;
+    memset( ComdatNodes, 0, sizeof(ComdatNodes[0]) );
+    SavedSegs = 0;
+    CDatSegNum = 0;
+}

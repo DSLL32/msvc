@@ -496,3 +496,10 @@ void ProcDistMods( void )
         PModule( mod );
     }
 }
+
+void ResetDistrib( void )
+{
+    ArcBuffer = 0;
+    ModTable = 0;
+    SectOvlTab = 0;
+}

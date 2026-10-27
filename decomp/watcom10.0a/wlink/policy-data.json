@@ -6286,6 +6286,51 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ResetComdef": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetCmdAll": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetDistrib": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetMsg": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetObjIO": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetObjPass1": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetObjStrip": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetSymTrace": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ResetODBI": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
