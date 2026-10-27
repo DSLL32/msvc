@@ -206,3 +206,17 @@ unsigned char ResolveVFExtdefs( void )
     }
     return resolved;
 }
+
+member_list *GetObjMember( file_list *list, unsigned long *loc )
+{
+    member_list *member;
+
+    member = 0;
+    if( ObjFormat & 0x100 ) member = GetOMFMember( list, loc );
+    else if( ObjFormat & 0x200 ) {
+        /* This old build aliases the ORL member helper to the no-input,
+         * constant-zero ORLPass1 entry. It remains an unimplemented stub. */
+        member = (member_list *)ORLPass1();
+    }
+    return member;
+}

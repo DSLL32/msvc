@@ -5756,6 +5756,46 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcQNXExecuteonly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQuiet": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoRedefs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcAlign": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetObjMember": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetOMFMember": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WriteAbsSegs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FloatReloc": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

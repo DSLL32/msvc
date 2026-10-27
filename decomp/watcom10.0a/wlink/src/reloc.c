@@ -321,3 +321,9 @@ void QNXLinearReloc( group_entry *group, void *data )
 {
     DoWriteReloc( (reloc_info **)&group->grp_relocs, data, 4 );
 }
+
+/* QNX floating-emulation relocations use the actual packed six-byte item. */
+void FloatReloc( void *data )
+{
+    DoWriteReloc( &FloatFixups, data, 6 );
+}

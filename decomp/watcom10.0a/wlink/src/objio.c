@@ -172,3 +172,12 @@ int PathObjOpen( char *path, char *name, char *buffer, infilelist *list )
     }
     return file;
 }
+
+unsigned long CalcAlign( unsigned long loc, unsigned short align )
+{
+    unsigned short modulus;
+
+    modulus = loc % align;
+    if( modulus != 0 ) modulus = align - modulus;
+    return modulus;
+}

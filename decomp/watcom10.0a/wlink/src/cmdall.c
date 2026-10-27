@@ -705,3 +705,15 @@ unsigned char ProcNewSegment( void )
     }
     return 1;
 }
+
+unsigned char ProcQuiet( void )
+{
+    LinkFlags |= 0x100;
+    return 1;
+}
+
+unsigned char ProcNoRedefs( void )
+{
+    LinkFlags &= ~0x40000000UL;
+    return 1;
+}

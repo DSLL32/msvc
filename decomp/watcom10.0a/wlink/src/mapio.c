@@ -535,3 +535,29 @@ void UndefinedSym( symbol *sym )
     else UndefLast->next = info;
     UndefLast = info;
 }
+
+void WriteAbsSegs( class_entry *class )
+{
+    seg_leader *seg;
+    msg_address addr;
+
+    WriteBox( 0x117 );
+    Msg_Write_Map( 0x118 );
+    Msg_Write_Map( 0x119 );
+    WriteMapNL( 1 );
+    for( ; class != 0; class = class->next_class ) {
+        if( !(class->flags & 0x0c) ) {
+            for( seg = class->segs; seg != 0; seg = seg->next_seg ) {
+                if( !(seg->info & 0x38) ) {
+                    WriteFormat( 0, seg->segname->name );
+                    WriteFormat( 24, class->name );
+                    addr.off = seg->seg_addr.off;
+                    addr.seg = seg->seg_addr.seg;
+                    WriteFormat( 40, "%a", addr );
+                    WriteFormat( 60, "%h", seg->saved_size );
+                    WriteMapNL( 1 );
+                }
+            }
+        }
+    }
+}

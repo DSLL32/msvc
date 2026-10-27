@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-six completed native regression cases. The acceptance ledger
-contains **1,148 application functions / 130,376 unique original code bytes**.
+WLINK 10.0a has twenty-seven completed native regression cases. The acceptance ledger
+contains **1,156 application functions / 130,846 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -58,6 +58,9 @@ iterated COMDATs, additive backpatches and legacy debug names in a NetWare NAM.
 The twenty-sixth resolves conditional weak/pure virtual references through a real
 vtable archive member, alongside compiler exports and an import-definition
 member, in a NetWare DSK image.
+The twenty-seventh combines QNX16 floating-emulation loader relocations, an
+absolute hardware segment, explicit archive-member loading and quiet/segment
+policies.
 
 | Case | Result |
 | --- | --- |
@@ -87,6 +90,7 @@ member, in a NetWare DSK image.
 | `0024-omf-directives` | Exit 0; exact 253-byte stdout, empty stderr, 10,369-byte PE DLL and 3,276-byte map |
 | `0025-omf-records` | Exit 0; exact 255-byte stdout, empty stderr, 2,232-byte NAM and 3,860-byte map |
 | `0026-omf-conditional` | Exit 0; exact 255-byte stdout, empty stderr, 2,505-byte DSK and 4,713-byte map |
+| `0027-qnx-float` | Exit 0; empty stdout/stderr, 670-byte QNX16 image and 3,658-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -173,7 +177,7 @@ The QNX case matches 511 first entries and every executable byte. Its old packed
 chunks, verification/signature record, selector and linear relocations, EOF and
 debug information remain distinct from the later released writer. A data group
 provides the defined verification word; the original's uninitialized-output
-path without such a group remains trapped. Only the six map clock fields are
+path without such a group is covered separately by the later QNX16 case. Only the six map clock fields are
 excluded. The case also corrects cold QNX relocation flags to their real format
 union field and trailing-zero trimming to the group protection flags. Earlier
 failed pairs remain in scratch; their genuine originals were reused for fixes.
@@ -589,3 +593,39 @@ the distinct realvt.obj producer
 then succeeded. All authored source, record manifests, commands, raw artifacts
 and failed setup results remain in scratch wlink-omf-conditional. The numbered
 case contains only source and capture data.
+
+
+The QNX16 case matches 507 first entries and complete output. Genuine WASM
+-fpi output supplies the FIWRQQ/FIDRQQ x87 fixups; the shipped NOEMU87 archive
+provides their actual absolute marker definitions, consistent with the released
+emustub/initemuq source. The resulting image has four real six-byte floating
+loader relocations. A valid explicitly format-authored OMF SEGDEF describes the
+absolute hardware segment; WASM10 rejects SEGMENT AT, so no assembler origin is
+claimed for that one module. The verbose map lists the absolute segment and
+public. Explicit helpers.lib(helper) input exercises alignment and actual member
+header/name matching, without substituting an on-demand library search.
+Eight new application bodies also cover execute-only CODE, NOREDEFSOK and quiet.
+The aliased constant-zero ORL member/provider branch remains trapped/unqualified.
+
+The retained original exposed a previously guarded output defect: with only
+eight initialized data bytes, no eligible data group initializes rw_end.verify.
+The original nevertheless emits that stack word in its type7 six-byte payload.
+Both reconstruction builds now emit zero for only that undefined field; normal
+initialized verification still uses the original XORffff. Comparison excludes
+only the structurally validated original bytes88..90, plus the six established
+map-clock fields. The type7 header, following signature DWORD, all floating
+relocation records and every other executable/debug/map byte remain strict.
+No extra original capture or input padding was used to correct the mismatch.
+
+The final parallel build/regression/unit/audit batch took **2.843 s**; all
+twenty-seven cases and 1,160 source-ready graph/ABI identities pass. The 54 native
+regression runs took **17.647–57.193 ms**. Final original capture took
+**1,968.960 ms** (owned target **1,952.724 ms**); corrected native replay reused it
+and took **26.566 ms**, split **16.684 / 3.541 / 6.342 ms** for setup/execution/
+checks. Successful ordinary baseline took **558.398 ms**; assembler production
+needed **382.457 / 486.403 / 456.603 ms**, archive production **578.646 ms**.
+Earlier automatic-format/absent-marker attempts remain failed: the supported
+workload uses an explicit local QNX initialization file and the real marker
+library, and does not claim ExecSystem execution. Authoring, diagnostics,
+input provenance and raw artifacts remain in scratch wlink-qnx-float; the
+numbered case contains only source and capture data.

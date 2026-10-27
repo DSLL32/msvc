@@ -33,13 +33,8 @@
 #include "cmdline.h"
 #include "exeqnx.h"
 #include <recon.h>
-#ifndef __linux__
+#ifdef __WATCOMC__
 #pragma intrinsic(strlen,memcpy)
-void reconstruction_trap( void );
-#pragma aux reconstruction_trap = 0xcc;
-#define TRAP() reconstruction_trap()
-#else
-#define TRAP() __asm__ __volatile__( "int3" )
 #endif
 
 unsigned short ToQNXSel( unsigned short number )
@@ -200,10 +195,11 @@ void WriteQNXData( unsigned long *segments )
     record.rec_type = 7;
     record.data_nbytes = sizeof(rw_end);
     WriteLoad( &record, sizeof(record) );
-    /* The old writer leaves verify uninitialized if no suitable data group
-     * exists. That output domain has not been qualified. */
-    if( first ) TRAP();
-    rw_end.verify ^= 0xffff;
+    /* Original defect: without a data group holding bytes36..37, the old
+     * writer emits an uninitialized stack word. Emit deterministic zero in
+     * both builds; preserve the real verification XOR when initialized. */
+    if( first ) rw_end.verify = 0;
+    else rw_end.verify ^= 0xffff;
     WriteLoad( &rw_end, sizeof(rw_end) );
     for( group = Groups; group != 0; group = group->next_group ) {
         if( group->u.qnxflags != 0 && group->totalsize != 0 ) {

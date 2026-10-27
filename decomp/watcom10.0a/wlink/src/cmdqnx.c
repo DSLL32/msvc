@@ -181,3 +181,9 @@ unsigned char ProcQNXNoRelocs( void )
     FmtData.u.qnx.reloc_flags &= ~1;
     return 1;
 }
+
+unsigned char ProcQNXExecuteonly( void )
+{
+    FmtData.u.qnx.seg_flags->flags = 3;
+    return 1;
+}

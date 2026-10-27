@@ -886,3 +886,35 @@ void ProcImportKeyword( void )
         else SetELFImportSymbol( sym );
     }
 }
+
+/* Read the actual member header and unlink the matching requested name.
+ * The cached checksum byte is used as a NUL terminator by the old reader. */
+member_list *GetOMFMember( file_list *list, unsigned long *loc )
+{
+    unsigned long pos;
+    unsigned length, namelen;
+    unsigned char *header, *record;
+    char *name;
+    member_list **owner, *member;
+
+    pos = *loc;
+    header = CacheRead( list, pos, 3 );
+    if( header == 0 ) return 0;
+    pos += 3;
+    length = *(unsigned short *)(header + 1);
+    record = CacheRead( list, pos, length );
+    pos += length;
+    if( record == 0 ) return 0;
+    namelen = record[0];
+    name = (char *)record + 1;
+    name[namelen] = 0;
+    owner = &list->u.member;
+    while( *owner != 0 ) {
+        if( ModNameCompare( name, (*owner)->name ) ) break;
+        owner = &(*owner)->next;
+    }
+    member = *owner;
+    if( member == 0 ) *loc = ProcObj( list, pos, 0 );
+    else *owner = member->next;
+    return member;
+}

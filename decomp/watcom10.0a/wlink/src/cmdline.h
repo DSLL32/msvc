@@ -325,6 +325,7 @@ extern void DefineVFReference( void *src, symbol *targ, unsigned char issym );
 extern list_of_names *GetNewName( void );
 extern void SaveBakPat( segnode *seg, unsigned char type );
 extern void ConvertVFSym( symbol *sym );
+extern member_list *GetOMFMember( file_list *list, unsigned long *loc );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

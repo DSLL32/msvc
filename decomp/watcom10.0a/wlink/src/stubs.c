@@ -245,14 +245,12 @@ unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcNoRedefs( void ) { TRAP(); return 0; }
 
 unsigned char ProcNone( void ) { TRAP(); return 0; }
 
 
 
 
-unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 
 
 
@@ -290,8 +288,6 @@ unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 
 
 
-unsigned long CalcAlign( unsigned long loc, unsigned short align ) { TRAP(); return 0; }
-member_list *GetObjMember( file_list *list, unsigned long *loc ) { TRAP(); return 0; }
 
 
 
@@ -373,7 +369,6 @@ void BadObject( void ) { TRAP(); }
 
 
 
-void WriteAbsSegs( class_entry *class ) { TRAP(); }
 
 
 
@@ -409,7 +404,6 @@ void ORLPass2( void ) { TRAP(); }
 
 
 
-void FloatReloc( void *data ) { TRAP(); }
 
 
 
@@ -651,7 +645,6 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 
-unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
 
 
 
