@@ -512,10 +512,16 @@ typedef struct CompilerBss {
 } CompilerBss;
 /* Contextual scratch at RVA5c030; each known field is written before use.
  * The final two bytes have no initialized/default or semantic claim. */
-typedef struct CompilerRealRangeScratch {
-    unsigned negative;
-    WORD status;
-    BYTE unmodeled_tail[2];
+typedef union CompilerRealRangeScratch {
+    struct {
+        unsigned negative;
+        WORD status;
+        BYTE unmodeled_tail[2];
+    };
+    /* The precise-rounding branch overwrites this same8-byte owner, then
+     * reloads the rounded scalar. These are actual writes, not defaults. */
+    float rounded_float;
+    double rounded_double;
 } CompilerRealRangeScratch;
 typedef char CompilerRealRangeScratch_status[offsetof(CompilerRealRangeScratch, status) == 4 ? 1 : -1];
 typedef char CompilerRealRangeScratch_size[sizeof(CompilerRealRangeScratch) == 8 ? 1 : -1];

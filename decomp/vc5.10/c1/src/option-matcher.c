@@ -109,8 +109,34 @@ hash_original:
 int __cdecl match_option_suffix(const char *pattern, char *argument,
                                 unsigned action)
 {
-    __asm { int 3 }
-    return 0;
+    const char *suffix = pattern + 1;
+    char *tail = argument;
+    (void)action; /* The original never reads its third incoming slot. */
+    if (!*suffix) return 1;
+    if (!*argument) {
+#ifdef __linux__
+        recon_unsupported("option suffix comparison has no preceding input byte");
+#else
+        __asm { int 3 }
+#endif
+    }
+    while (suffix[1]) ++suffix;
+    while (tail[1]) ++tail;
+    while (*tail == *suffix) {
+        /* The original continues into preceding storage if the whole input
+         * matches, or if '*' itself matches. No such preceding-byte input
+         * contract is established for these unsupported alternatives. */
+        if (tail == argument || suffix == pattern) {
+#ifdef __linux__
+            recon_unsupported("option suffix comparison reaches unmodeled preceding storage");
+#else
+            __asm { int 3 }
+#endif
+        }
+        --tail;
+        --suffix;
+    }
+    return suffix == pattern && tail >= argument;
 }
 
 /* The table's actions describe the destination type, independently of the

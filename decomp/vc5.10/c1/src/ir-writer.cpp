@@ -449,7 +449,7 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
 #ifdef RECON_NATIVE_TEST
     if ((mode != 1 && mode != 2) ||
         (!type->shape && !(type->flags & 0x40) &&
-         !(type->flags == 0x107 && !(type->attributes & ~0x100U)) &&
+         !((type->flags == 0x106 || type->flags == 0x107) && !(type->attributes & ~0x110U)) &&
          !(type->flags == 0x402 && (!type->attributes ||
            (kind == 62 && mode == 2 && type->attributes == 0x10)) && type->symbol_owner &&
            type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1))) ||

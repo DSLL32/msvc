@@ -1,6 +1,7 @@
 #include <string.h>
 #include <float.h>
 #include "frontend.h"
+#include "startup.h"
 #pragma intrinsic(memcpy)
 #include <recon.h>
 
@@ -418,7 +419,21 @@ extern "C" void __cdecl store_extended_real(void)
         fwait
     }
 }
-extern "C" int __cdecl initializer_float_to_real(const float *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl initializer_float_to_real(const float *value, InitializerExtendedReal *output)
+{
+    /* Load before updating the possibly overlapping precision word. The
+     * outlined store consumes ST0 and the actual implicit ESI destination. */
+    __asm {
+        mov edi, value
+        fld dword ptr [edi]
+    }
+    output->precision = 4;
+    __asm {
+        mov esi, output
+        call store_extended_real
+    }
+    return 0;
+}
 extern "C" int __cdecl initializer_real_to_double(const InitializerExtendedReal *value, double *output)
 {
     /* VC5's C long double is only64 bits. Inline assembly is required at
@@ -503,8 +518,148 @@ extern "C" int __cdecl check_extended_range(void)
     if (c1_real_range_scratch.negative) { __asm { fchs } }
     return outside;
 }
-extern "C" int __cdecl initializer_real_to_float(const InitializerExtendedReal *, float *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl initializer_real_to_float(const InitializerExtendedReal *value, float *output)
+{
+    /* RVA5c008 is one extended ulp below FLT_MAX plus half a binary32 ulp.
+     * Its ten meaningful bytes bound conversion that still rounds finite;
+     * neighboring/padding bytes are not part of the number. VC5 cannot
+     * express this80-bit load or the outlined helper's x87-register ABI. */
+    static const struct {
+        DWORD significand_low, significand_high;
+        WORD exponent;
+    } maximum = { ~0U, ~128U, 0x3fff + FLT_MAX_EXP - 1 };
+    int outside;
+    __asm {
+        mov esi, value
+        fld tbyte ptr [esi]
+        fld tbyte ptr maximum
+        call check_extended_range
+        mov outside, eax
+    }
+    if (!outside) {
+        __asm {
+            mov edi, output
+            fstp dword ptr [edi]
+            fwait
+        }
+    }
+    return outside;
+}
 extern "C" int __cdecl initializer_real_to_integer(const InitializerExtendedReal *, unsigned __int64 *) { __asm { int 3 } return 0; }
+
+extern "C" int __cdecl precise_float_enabled(void)
+{
+    return c1_data.options.precise_float;
+}
+/* Implicit ESI=output and ST0=result, with no stack formal. The primitive
+ * captures that receiver before compiler use, preserving one physical owner. */
+extern "C" int __cdecl store_rounded_extended(void)
+{
+    static const struct { DWORD low, high; WORD exponent; } float_limit =
+        { ~0U, ~128U, 0x407e };
+    static const struct { DWORD low, high; WORD exponent; } double_limit =
+        { ~1024U, ~0U, 0x43fe };
+    static const struct { DWORD low, high; WORD exponent; } extended_limit =
+        { ~0U, ~0U, 0x7ffe };
+    InitializerExtendedReal *output;
+    int result;
+    __asm { mov output, esi }
+    if (output->precision == 4) {
+        __asm {
+            fld tbyte ptr float_limit
+            call check_extended_range
+        }
+        result = precise_float_enabled();
+        if (result) {
+            /* Actual binary32 store/reload uses the range-check scratch. */
+            __asm {
+                fstp dword ptr c1_real_range_scratch
+                fld dword ptr c1_real_range_scratch
+            }
+        }
+    } else if (output->precision == 10) {
+        __asm {
+            fld tbyte ptr extended_limit
+            call check_extended_range
+            mov result, eax
+        }
+    } else {
+        __asm {
+            fld tbyte ptr double_limit
+            call check_extended_range
+        }
+        result = precise_float_enabled();
+        if (result) {
+            __asm {
+                fstp qword ptr c1_real_range_scratch
+                fld qword ptr c1_real_range_scratch
+            }
+        }
+    }
+    __asm {
+        mov esi, output
+        call store_extended_real
+    }
+    return result;
+}
+extern "C" int __cdecl subtract_extended_constants(const InitializerExtendedReal *left,
+    const InitializerExtendedReal *right, InitializerExtendedReal *output)
+{
+    unsigned precision;
+    int result;
+    /* VC5 cannot express80-bit arithmetic in C. This irreducible primitive
+     * computes left-right with the original x87 operand/pop order. Tags,
+     * precision selection and return/control remain ordinary C. */
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fsubp st(1), st
+    }
+    precision = left->precision | right->precision;
+    output->precision = (precision & 2) ? 10 : (precision & 8) ? 8 : 4;
+    __asm {
+        mov esi, output
+        call store_rounded_extended
+        mov result, eax
+    }
+    return result;
+}
+
+extern "C" int __cdecl add_extended_constants(const InitializerExtendedReal *,
+    const InitializerExtendedReal *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl multiply_extended_constants(const InitializerExtendedReal *,
+    const InitializerExtendedReal *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
+/* The nonzero legacy-Pentium adjustment is a genuine imported register-ABI
+ * entry. EAX selects the operation and the two operands remain on x87. */
+extern "C" void __cdecl _adj_fdiv_r(void);
+extern "C" int __cdecl divide_extended_constants(const InitializerExtendedReal *left,
+    const InitializerExtendedReal *right, InitializerExtendedReal *output)
+{
+    unsigned precision;
+    int result;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+    }
+    if (c1_crt_adjust_fdiv) {
+        __asm {
+            mov eax, 13
+            call _adj_fdiv_r
+        }
+    } else { __asm { fdivp st(1), st } }
+    precision = left->precision | right->precision;
+    output->precision = (precision & 2) ? 10 : (precision & 8) ? 8 : 4;
+    __asm {
+        mov esi, output
+        call store_rounded_extended
+        mov result, eax
+    }
+    return result;
+}
 
 #undef INIT_COMPACT
 #undef INIT_BYTE

@@ -135,7 +135,7 @@ scan_suffix:
     case 0x42: value = (signed __int64)(value << 48) >> 48; break;
     case 0x43: value = (signed __int64)(value << 32) >> 32; break;
     case 0x44: type = select_signed_wide_literal_type(&value); break;
-    case 0x4c:
+    case 0x4d:
         /* The original compiler's two shift helpers receive CL=c0. Both
          * clamp counts>=64; this produces zero without a C oversized shift. */
         value = 0;
@@ -144,7 +144,7 @@ scan_suffix:
     case 0x4042: value &= 0xffff; break;
     case 0x4043: value &= 0xffffffff; break;
     case 0x4044: type = select_unsigned_wide_literal_type(&value); break;
-    case 0x404c: value = 0; break;
+    case 0x404d: value = 0; break;
     case 0x4063: type = select_unsigned_literal_type(&value); break;
     }
     c1_bss.literal.typed_constant.type = type;
@@ -194,7 +194,8 @@ unsigned char __cdecl read_numeric_character(void)
 unsigned __int64 __cdecl parse_integer_digits(const char *text, int length, int base)
 {
     if (length < 1 || length > 10 || text[length] ||
-        (base != 8 && base != 10 && base != 16) || c1_data.internal_zb_value != 4) {
+        (base != 8 && base != 10 && base != 16) ||
+        (c1_data.internal_zb_value != 4 && c1_data.internal_zb_value != 8)) {
 #ifdef __linux__
         recon_unsupported("integer spelling is outside the recovered ordinary-width domain");
 #else
@@ -281,8 +282,36 @@ CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *value)
     return c1_data.builtin_types.type_4044;
 }
 CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
-CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
-CompilerType *__cdecl select_sized_literal_type(int) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl select_extended_unsigned_type(unsigned __int64 *);
+CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *value)
+{
+    if (*value > 0xffffffff && c1_data.internal_zb_value > 4)
+        return select_extended_unsigned_type(value);
+    return c1_data.builtin_types.type_4044;
+}
+CompilerType *__cdecl select_extended_unsigned_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl select_sized_literal_type(int unsigned_literal)
+{
+    BYTE character = read_numeric_character();
+    int configured_bytes = c1_data.internal_zb_value;
+    if (configured_bytes >= 1 && character == '8')
+        return unsigned_literal ? c1_data.builtin_types.type_4041_second : c1_data.builtin_types.type_0041;
+    if (configured_bytes >= 4 && character == '3') {
+        if (read_numeric_character() == '2')
+            return unsigned_literal ? c1_data.builtin_types.type_4043 : c1_data.builtin_types.type_0043;
+    } else if (configured_bytes >= 8 && character == '6') {
+        if (read_numeric_character() == '4')
+            return unsigned_literal ? c1_data.builtin_types.type_404c : c1_data.builtin_types.type_004c;
+    } else if (configured_bytes >= 2 && character == '1') {
+        if (read_numeric_character() == '6')
+            return unsigned_literal ? c1_data.builtin_types.type_4042_first : c1_data.builtin_types.type_0042;
+    } else {
+        c1_bss.source_cursor -= 2;
+        return unsigned_literal ? c1_data.builtin_types.type_4063_first : c1_data.builtin_types.type_0063;
+    }
+    c1_bss.source_cursor -= 3;
+    return unsigned_literal ? c1_data.builtin_types.type_4063_first : c1_data.builtin_types.type_0063;
+}
 /* Both numeric and quoted literals use the same spelling allocation. The
  * incoming length is truncated to a WORD before allocating/copying; flags
  * and the rest of the caller-owned literal value are not written. */

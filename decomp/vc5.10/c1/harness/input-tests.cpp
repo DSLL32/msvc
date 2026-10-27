@@ -1511,3 +1511,134 @@ extern "C" int c1_test_deferred_literal_buffer(void)
         if (deferred[i] != 0x5a) return 0;
     return 1;
 }
+
+extern "C" int __cdecl initializer_real_to_float(const InitializerExtendedReal *, float *);
+extern "C" int c1_test_real_to_float_boundaries(void)
+{
+    struct FloatCase { DWORD low, high; WORD exponent; DWORD bits; int outside; } cases[] = {
+        {0,0xa0000000U,0x3fff,0x3fa00000,0},
+        {0,0x80000000U,0xbffe,0xbf000000,0},
+        {0,0,0,0,0}, {0,0,0x8000,0x80000000U,0},
+        {0,0xffffff00U,0x407e,0x7f7fffff,0},
+        {~1U,0xffffff7fU,0x407e,0x7f7fffff,0},
+        {~0U,0xffffff7fU,0x407e,0x7f7fffff,0},
+        {0,0xffffff80U,0x407e,0,1},
+        {0,0xffffff80U,0xc07e,0,1}
+    };
+    unsigned i;
+    for (i = 0; i < sizeof(cases)/sizeof(cases[0]); ++i) {
+        InitializerExtendedReal value = {cases[i].low,cases[i].high,cases[i].exponent,0x5a5a};
+        InitializerExtendedReal saved = value, retained;
+        DWORD owned[3] = {0xa5a5a5a5U,0xa5a5a5a5U,0xa5a5a5a5U};
+        WORD before, after, popped;
+        __asm { fstsw before }
+        int outside = initializer_real_to_float(&value, (float *)(owned + 1));
+        __asm { fstsw after }
+        if (outside) {
+            __asm {
+                fstp tbyte ptr retained
+                fstsw popped
+            }
+            if (memcmp(&retained, &saved, 10) || ((popped ^ before) & 0x3800) ||
+                owned[1] != 0xa5a5a5a5U) return 0;
+        } else if (owned[1] != cases[i].bits) return 0;
+        if (outside != cases[i].outside || memcmp(&value, &saved, sizeof(value)) ||
+            owned[0] != 0xa5a5a5a5U || owned[2] != 0xa5a5a5a5U ||
+            ((after >> 11) & 7) != (((before >> 11) - outside) & 7)) return 0;
+    }
+    return 1;
+}
+
+extern "C" int __cdecl initializer_float_to_real(const float *, InitializerExtendedReal *);
+extern "C" int c1_test_float_to_real_overlap(void)
+{
+    struct { DWORD before; InitializerExtendedReal number; DWORD after; } owned;
+    unsigned pass;
+    for (pass = 0; pass < 2; ++pass) {
+        DWORD bits = 0x3fa00000;
+        float *source = pass ? (float *)&owned.number.exponent : (float *)&bits;
+        WORD before, after;
+        memset(&owned, 0xa5, sizeof(owned));
+        if (pass) memcpy(source, &bits, 4);
+        __asm { fstsw before }
+        int result = initializer_float_to_real(source, &owned.number);
+        __asm { fstsw after }
+        if (result || owned.before != 0xa5a5a5a5U || owned.after != 0xa5a5a5a5U ||
+            owned.number.significand_low || owned.number.significand_high != 0xa0000000U ||
+            owned.number.exponent != 0x3fff || owned.number.precision != 4 ||
+            bits != 0x3fa00000 || ((after ^ before) & 0x3800)) return 0;
+    }
+    return 1;
+}
+
+extern "C" int __cdecl subtract_extended_constants(const InitializerExtendedReal *,
+    const InitializerExtendedReal *, InitializerExtendedReal *);
+extern "C" int c1_test_extended_subtraction_precision(void)
+{
+    struct { DWORD before; InitializerExtendedReal value; DWORD after; } owned;
+    const WORD tags[] = {4,8,10};
+    unsigned i, mode;
+    for (i = 0; i < 3; ++i) for (mode = 0; mode < 2; ++mode) {
+        InitializerExtendedReal left = {0,0xa0000000U,0x3fff,tags[i]};
+        InitializerExtendedReal right = {0,0x80000000U,0x3ffe,4};
+        InitializerExtendedReal saved_left = left, saved_right = right;
+        WORD before, after;
+        memset(&owned, 0xa5, sizeof(owned));
+        c1_data.options.precise_float = mode;
+        __asm { fstsw before }
+        int result = subtract_extended_constants(&left, &right, &owned.value);
+        __asm { fstsw after }
+        if (result != (i == 2 ? 0 : (int)mode) || owned.before != 0xa5a5a5a5U ||
+            owned.after != 0xa5a5a5a5U || owned.value.significand_low ||
+            owned.value.significand_high != 0xc0000000U || owned.value.exponent != 0x3ffe ||
+            owned.value.precision != tags[i] || memcmp(&left, &saved_left, 12) ||
+            memcmp(&right, &saved_right, 12) || ((after ^ before) & 0x3800)) return 0;
+    }
+    /* Select extended arithmetic precision so a binary64 half-ulp survives
+     * the subtraction itself. The -Op store/reload then ties to even. */
+    for (i = 0; i < 2; ++i) for (mode = 0; mode < 2; ++mode) {
+        InitializerExtendedReal left = {0,0x80000000U,0x3fff,tags[i]};
+        InitializerExtendedReal right = {0,0x80000000U,(WORD)(i ? 0xbfca : 0xbfe7),tags[i]};
+        WORD before, after, saved_control, extended_control;
+        c1_data.options.precise_float = mode;
+        memset(&owned, 0xa5, sizeof(owned));
+        __asm { fnstcw saved_control }
+        extended_control = (WORD)(saved_control | 0x0300);
+        __asm { fldcw extended_control }
+        __asm { fstsw before }
+        int result = subtract_extended_constants(&left, &right, &owned.value);
+        __asm { fstsw after }
+        __asm { fldcw saved_control }
+        if (result != (int)mode || owned.value.significand_low != (!mode && i ? 0x400U : 0) ||
+            owned.value.significand_high != (!mode && !i ? 0x80000080U : 0x80000000U) ||
+            owned.value.exponent != 0x3fff || owned.value.precision != tags[i] ||
+            owned.before != 0xa5a5a5a5U || owned.after != 0xa5a5a5a5U ||
+            ((after ^ before) & 0x3800)) return 0;
+    }
+    return 1;
+}
+
+extern "C" int __cdecl divide_extended_constants(const InitializerExtendedReal *,
+    const InitializerExtendedReal *, InitializerExtendedReal *);
+extern "C" int c1_test_extended_division_order(void)
+{
+    struct { DWORD before; InitializerExtendedReal value; DWORD after; } owned;
+    const WORD tags[] = {4,8,10};
+    for (unsigned i = 0; i < 3; ++i) {
+        InitializerExtendedReal left = {0,0x80000000U,0x4001,tags[i]}; /* 4 */
+        InitializerExtendedReal right = {0,0x80000000U,0x4000,4}; /* 2 */
+        InitializerExtendedReal saved_left = left, saved_right = right;
+        WORD before, after;
+        c1_data.options.precise_float = 0;
+        memset(&owned, 0xa5, sizeof(owned));
+        __asm { fstsw before }
+        int result = divide_extended_constants(&left, &right, &owned.value);
+        __asm { fstsw after }
+        if (result || owned.value.significand_low ||
+            owned.value.significand_high != 0x80000000U || owned.value.exponent != 0x4000 ||
+            owned.value.precision != tags[i] || owned.before != 0xa5a5a5a5U ||
+            owned.after != 0xa5a5a5a5U || memcmp(&left, &saved_left, 12) ||
+            memcmp(&right, &saved_right, 12) || ((after ^ before) & 0x3800)) return 0;
+    }
+    return 1;
+}

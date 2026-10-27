@@ -25,6 +25,20 @@ struct DeclarationTagNameView {
     (t)->shape->base && (t)->shape->base->flags == 0x404 && \
     (t)->shape->base->attributes == 0x10 && !(t)->shape->base->base)
 
+#define WIDE_INTEGER_TYPE(t) ((t) == c1_data.builtin_types.type_004c || \
+    (t) == c1_data.builtin_types.type_404c)
+#define SCALAR_ARITHMETIC_TYPE(t) (WIDE_INTEGER_TYPE(t) || \
+    (t) == c1_data.builtin_types.type_0044 || (t) == c1_data.builtin_types.type_4044 || \
+    (t) == c1_data.builtin_types.type_0106 || (t) == c1_data.builtin_types.type_0107 || \
+    ((t) && ((t)->flags & ~0x4000U) == 0x64 && !(t)->attributes && !(t)->shape && !(t)->auxiliary))
+#define VOLATILE_SHORT_POINTER(t) ((t) && (t)->flags == 0x62 && (t)->attributes == 0x200 && \
+    (t)->shape && (t)->shape->flags == 1 && !(t)->shape->attributes && !(t)->shape->base)
+#define VOLATILE_SHORT_ARRAY(t) ((t) && (t)->flags == 0x62 && (t)->attributes == 0x200 && \
+    (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && !(t)->shape->base)
+#define FLOATING_ARRAY(t) ((t) && ((t)->flags == 0x106 || (t)->flags == 0x107) && \
+    !(t)->attributes && (t)->shape && (t)->shape->flags == 2 && \
+    !(t)->shape->attributes && !(t)->shape->base)
+
 #define CDECL_INT_CALLBACK_ARRAY(t) ((t) && (t)->flags == 0x63 && !(t)->attributes && \
     (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && \
     (t)->shape->base && (t)->shape->base->flags == 3 && \
@@ -90,7 +104,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
     } else original.SetContext(NULL);
     if (!(symbol->kind == 13 && !original.flags && !original.context &&
           declarator && !(declarator->flags & 1) &&
-          (declarator->resolved_type == c1_data.builtin_types.type_0063 ||
+          (SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) || declarator->resolved_type == c1_data.builtin_types.type_0063 ||
            CDECL_INT_CALLBACK(declarator->resolved_type) ||
            COMPLETE_RECORD_POINTER(declarator->resolved_type) ||
            (declarator->resolved_type && !declarator->resolved_type->shape &&
@@ -101,7 +115,8 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         ((original.flags != 0x20 && original.flags != 7 && !(original.flags == 3 && symbol->kind == 10)) ||
         original.context || (symbol->kind != 10 && symbol->kind != 2 && symbol->kind != 3 && symbol->kind != 11 &&
         !(symbol->kind == 12 && declarator && declarator->resolved_type &&
-          (CDECL_INT_CALLBACK(declarator->resolved_type) ||
+          (CDECL_INT_CALLBACK(declarator->resolved_type) || SCALAR_ARITHMETIC_TYPE(declarator->resolved_type) ||
+           VOLATILE_SHORT_POINTER(declarator->resolved_type) ||
            COMPLETE_RECORD_VALUE(declarator->resolved_type) ||
            declarator->resolved_type == c1_data.builtin_types.type_0080 ||
            declarator->resolved_type == c1_data.builtin_types.type_0063 ||
@@ -135,8 +150,9 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         storage_class = flags & 7;
         validate_declaration_type(symbol, storage_class == 7);
 #ifdef RECON_NATIVE_TEST
-        if (!(symbol->kind == 13 && !original.flags &&
-              (type == c1_data.builtin_types.type_0063 || CDECL_INT_CALLBACK(type) || COMPLETE_RECORD_POINTER(type) ||
+        if (!(symbol->kind == 10 && (original.flags == 7 || original.flags == 3) && WIDE_INTEGER_TYPE(type)) &&
+            !(symbol->kind == 13 && !original.flags &&
+              (SCALAR_ARITHMETIC_TYPE(type) || type == c1_data.builtin_types.type_0063 || CDECL_INT_CALLBACK(type) || COMPLETE_RECORD_POINTER(type) ||
                (!type->shape && (type->flags == 0x402 || type->flags == 0x404) &&
                 !(type->attributes & ~0x100U) && type->symbol_owner &&
                 type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)))) &&
@@ -146,13 +162,13 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
             !(symbol->kind == 10 && original.flags == 3 &&
               (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_0107)) &&
             !(symbol->kind == 10 && original.flags == 3 &&
-              (CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK_ARRAY(type) ||
+              (VOLATILE_SHORT_ARRAY(type) || FLOATING_ARRAY(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK_ARRAY(type) ||
                CONST_CHAR_POINTER_ARRAY(type))) &&
             !(symbol->kind == 10 && original.flags == 3 && type->shape &&
               (type->shape->flags & 7) == 2 && type->flags == 0x402 && !(type->attributes & ~0x100U) &&
               type->symbol_owner && type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
             !(symbol->kind == 10 && original.flags == 0x20 &&
-              (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_4063_first)) &&
+              (SCALAR_ARITHMETIC_TYPE(type) || type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_4063_first)) &&
             !(symbol->kind == 10 && original.flags == 0x20 &&
               (COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK(type) || CONST_INT_ROW_POINTER(type) || VOID_POINTER(type))) &&
             !(symbol->kind == 10 && original.flags == 0x20 && type->shape &&
@@ -169,7 +185,8 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               !type->shape->attributes && !type->shape->base && type->symbol_owner &&
               type->symbol_owner->kind == 4) &&
             symbol->kind != 7 && symbol->kind != 11 &&
-            !(symbol->kind == 12 && (CDECL_INT_CALLBACK(type) || COMPLETE_RECORD_VALUE(type) ||
+            !(symbol->kind == 12 && (CDECL_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
+              VOLATILE_SHORT_POINTER(type) || COMPLETE_RECORD_VALUE(type) ||
               type == c1_data.builtin_types.type_0080 ||
               type == c1_data.builtin_types.type_0063 ||
               type == c1_data.builtin_types.type_4063_first ||
@@ -332,7 +349,8 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
     } else symbol->SetDeclarationContext(NULL);
     declare_symbol(declarator, symbol);
 #ifdef RECON_NATIVE_TEST
-    if (!(symbol->kind == 10 && flags == 3 && (symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x4062) &&
+    if (!(symbol->kind == 10 && (flags == 7 || flags == 3) && WIDE_INTEGER_TYPE(symbol->value_type)) &&
+        !(symbol->kind == 10 && flags == 3 && (symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x4062) &&
           symbol->value_type->attributes == 0x100 && symbol->value_type->shape &&
           symbol->value_type->shape->flags == 2 && !symbol->value_type->shape->base &&
           !symbol->value_type->shape->value) &&
@@ -340,14 +358,14 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
           (symbol->value_type == c1_data.builtin_types.type_0063 ||
            symbol->value_type == c1_data.builtin_types.type_0107)) &&
         !(symbol->kind == 10 && flags == 3 &&
-          (CONST_INT_MATRIX(symbol->value_type) || COMPLETE_RECORD_VALUE(symbol->value_type) ||
+          (VOLATILE_SHORT_ARRAY(symbol->value_type) || FLOATING_ARRAY(symbol->value_type) || CONST_INT_MATRIX(symbol->value_type) || COMPLETE_RECORD_VALUE(symbol->value_type) ||
            CDECL_INT_CALLBACK_ARRAY(symbol->value_type) || CONST_CHAR_POINTER_ARRAY(symbol->value_type))) &&
         !(symbol->kind == 10 && flags == 3 && symbol->value_type->shape &&
           (symbol->value_type->shape->flags & 7) == 2 && symbol->value_type->flags == 0x402 &&
           !(symbol->value_type->attributes & ~0x100U) && symbol->value_type->symbol_owner &&
           symbol->value_type->symbol_owner->kind == 4 && (symbol->value_type->symbol_owner->flags & 1)) &&
         !(symbol->kind == 10 && flags == 0x20 &&
-          (symbol->value_type == c1_data.builtin_types.type_0063 ||
+          (SCALAR_ARITHMETIC_TYPE(symbol->value_type) || symbol->value_type == c1_data.builtin_types.type_0063 ||
            symbol->value_type == c1_data.builtin_types.type_4063_first)) &&
         !(symbol->kind == 10 && flags == 0x20 &&
           (COMPLETE_RECORD_VALUE(symbol->value_type) || CDECL_INT_CALLBACK(symbol->value_type) ||
@@ -694,8 +712,10 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     CompilerType *type = symbol->value_type;
     CompilerTypeShape *shape = type->shape;
 #ifdef RECON_NATIVE_TEST
-    if (symbol->kind == 13 && !typedef_name &&
-        (type == c1_data.builtin_types.type_0063 || COMPLETE_RECORD_POINTER(type) ||
+    if (symbol->kind == 10 && (typedef_name || symbol->storage_class == 3) && WIDE_INTEGER_TYPE(type)) {
+        /* Explicit64-bit typedefs and static scalars retain their canonical type. */
+    } else if (symbol->kind == 13 && !typedef_name &&
+        (SCALAR_ARITHMETIC_TYPE(type) || type == c1_data.builtin_types.type_0063 || COMPLETE_RECORD_POINTER(type) ||
          (!shape && (type->flags == 0x402 || type->flags == 0x404) &&
           !(type->attributes & ~0x100U) && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)))) {
@@ -704,7 +724,8 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 12 && !typedef_name && type == c1_data.builtin_types.type_0080) {
         /* An unnamed void parameter retains the already interned scalar type. */
     } else if (symbol->kind == 11 || symbol->kind == 12) {
-        if (typedef_name || !(CDECL_INT_CALLBACK(type) || COMPLETE_RECORD_VALUE(type) ||
+        if (typedef_name || !(CDECL_INT_CALLBACK(type) || SCALAR_ARITHMETIC_TYPE(type) ||
+            VOLATILE_SHORT_POINTER(type) || COMPLETE_RECORD_VALUE(type) ||
             type == c1_data.builtin_types.type_0063 ||
             type == c1_data.builtin_types.type_4063_first ||
             (shape && (shape->flags & 7) == 1 && type->flags == 0x402 &&
@@ -714,7 +735,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 13 && !typedef_name && CDECL_INT_CALLBACK(type)) {
         /* Abstract callback type used by sizeof; its shape remains unchanged. */
     } else if (symbol->kind == 10 && !typedef_name &&
-               (VOID_POINTER(type) || CONST_INT_ROW_POINTER(type) || CDECL_INT_CALLBACK(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK_ARRAY(type) ||
+               (VOLATILE_SHORT_ARRAY(type) || FLOATING_ARRAY(type) || VOID_POINTER(type) || CONST_INT_ROW_POINTER(type) || CDECL_INT_CALLBACK(type) || CONST_INT_MATRIX(type) || COMPLETE_RECORD_VALUE(type) || CDECL_INT_CALLBACK_ARRAY(type) ||
                CONST_CHAR_POINTER_ARRAY(type))) {
         /* Complete record values and both array dimensions have ordinary
          * declarator producers; no inferred storage/table domain is added. */
@@ -739,8 +760,8 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
         /* The reached const-char/ushort arrays have omitted bounds; the real branch
          * below marks that bound for completion by the string initializer. */
     } else if (symbol->kind == 10 && !typedef_name && !shape &&
-        (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_4063_first ||
-         type == c1_data.builtin_types.type_0107)) {
+        (SCALAR_ARITHMETIC_TYPE(type) || type == c1_data.builtin_types.type_0063 ||
+         type == c1_data.builtin_types.type_4063_first)) {
         /* Reached scalar declarations retain their interned primitive type. */
     } else if (symbol->kind == 10 && !typedef_name && shape &&
         (shape->flags & 7) == 2 && type->flags == 0x402 && !(type->attributes & ~0x100U) &&
@@ -1140,7 +1161,7 @@ extern "C" void __cdecl finalize_declared_symbol(CompilerIrSymbol *symbol)
      * use no segment-default owner. */
     if (storage != 7 && storage != 3 &&
         !(storage == 4 && symbol->kind == 10 && !symbol->function_flags &&
-          (symbol->value_type == c1_data.builtin_types.type_0063 ||
+          (SCALAR_ARITHMETIC_TYPE(symbol->value_type) || symbol->value_type == c1_data.builtin_types.type_0063 ||
            symbol->value_type == c1_data.builtin_types.type_4063_first ||
            CDECL_INT_CALLBACK(symbol->value_type) || CONST_INT_ROW_POINTER(symbol->value_type) ||
            VOID_POINTER(symbol->value_type) ||

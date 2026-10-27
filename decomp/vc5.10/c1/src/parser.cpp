@@ -617,6 +617,7 @@ read_action:
         case 196:
         case 197: /* Postfix increment has the actual operand and explicitly written constant1. */
         case 199: /* Established operand node, then genuine unary-minus helper. */
+        case 200: /* Complement uses the same established operand node. */
         case 201: /* Logical negation consumes the established operand node. */
         case 203: /* Parenthesized expression reuses its node and closes one control level. */
         case 204: /* Dereference retains the actual operand node and enters unary conversion. */
@@ -821,7 +822,7 @@ case 29: {
 }
 case 31:
 #ifdef RECON_NATIVE_TEST
-    if (declaration_depth < 0 || declaration_depth > 1 || (lookahead && lookahead->kind == 118))
+    if (declaration_depth < 0 || declaration_depth > 2 || (lookahead && lookahead->kind == 118))
         recon_unsupported("nested declaration specification record is not yet modeled");
 #endif
     if (lookahead && lookahead->kind == 118) {
@@ -1728,8 +1729,7 @@ CompilerParserToken *__cdecl get_next_token(void)
         /* Ordinary grammar classes return the token without interpreting
          * payload bytes. Hold only the special declaration alternatives whose
          * consumed state has not yet been established. */
-        if (token_class == PARSER_CLASS_36 || token_class == PARSER_BASED ||
-            token_class == PARSER_CLASS_89) {
+        if (token_class == PARSER_CLASS_36 || token_class == PARSER_BASED) {
 #ifdef __linux__
             recon_unsupported("special declaration-token state is not yet modeled");
 #else
@@ -1920,7 +1920,8 @@ CompilerType *__cdecl intern_type(CompilerType *);
 CompilerParserNode *__cdecl make_typed_constant(CompilerType *type, const void *value, unsigned arena_kind)
 {
 #ifdef RECON_NATIVE_TEST
-    if (arena_kind >= 6 || (!(type->flags & 0x40) && type != c1_data.builtin_types.type_0107))
+    if (arena_kind >= 6 || (!(type->flags & 0x40) &&
+        type != c1_data.builtin_types.type_0106 && type != c1_data.builtin_types.type_0107))
         recon_unsupported("typed literal arena or noninteger payload is not yet modeled");
 #endif
     CompilerArena *arena = &c1_bss.arenas[arena_kind];
@@ -3414,6 +3415,10 @@ CompilerParserNode *__cdecl make_ir_operation(unsigned code, CompilerParserNode 
  * Bitfield53=55@63f3c/clear80@64275; dot-member80=39@63fa8/clear80@64290.
  * Subtraction70=3@63f80/clear80@64286; inequality76=32@63f98/clear80@6428c.
  * Right shift88=10@63fc8/clear80@64298.
+ * Division57=5@63f4c/clear80@64279; negate90=8@63fd0/clear80@6429a.
+ * Parenthesized118=89@64040/clear80@642b6. Bitwise-and assignment51=23@63f34,
+ * remainder72=6@63f88, complement89=14@63fcc, xor91=13@63fd4 and xor-assignment92=24@63fd8;
+ * Post-increment64=53@63f68/clear80@64280. Their property80 bit is clear at64273/64288/64299/6429b/6429c. Other bits unmodeled.
  * Left shift67=9@63f74/clear80@64283; bitwise-or77=12@63f9c/clear80@6428d. */
 static const union CompilerIrOpcodeColumn {
     struct {
@@ -3422,16 +3427,20 @@ static const union CompilerIrOpcodeColumn {
         BYTE unmodeled_01c[168];
         unsigned conjunction;
         unsigned logical_and;
-        BYTE unmodeled_0cc[4];
+        unsigned bitwise_and_assign;
         unsigned assignment;
         unsigned bitfield;
         unsigned conditional_arms;
-        BYTE unmodeled_0dc[16];
+        BYTE unmodeled_0dc[4];
+        unsigned decrement;
+        unsigned division;
+        BYTE unmodeled_0e8[4];
         unsigned equal;
         unsigned logical_not;
         unsigned indirection;
         unsigned greater;
-        BYTE unmodeled_0fc[8];
+        BYTE unmodeled_0fc[4];
+        unsigned post_increment;
         unsigned subscript;
         BYTE unmodeled_108[4];
         unsigned shift;
@@ -3439,12 +3448,14 @@ static const union CompilerIrOpcodeColumn {
         BYTE unmodeled_114[4];
         unsigned subtraction;
         unsigned subtract_assign;
-        BYTE unmodeled_120[8];
+        unsigned remainder;
+        BYTE unmodeled_124[4];
         unsigned multiplication;
         BYTE unmodeled_12c[4];
         unsigned not_equal;
         unsigned bitwise_or;
-        BYTE unmodeled_138[8];
+        BYTE unmodeled_138[4];
+        unsigned logical_or;
         unsigned dot_member;
         unsigned addition;
         unsigned add_assign;
@@ -3454,7 +3465,11 @@ static const union CompilerIrOpcodeColumn {
         unsigned conditional;
         BYTE unmodeled_15c[4];
         unsigned right_shift;
-        BYTE unmodeled_164[44];
+        unsigned complement;
+        unsigned negate;
+        unsigned bitwise_xor;
+        unsigned xor_assign;
+        BYTE unmodeled_174[28];
         unsigned conversion;
         unsigned integer;
         BYTE unmodeled_198[24];
@@ -3463,12 +3478,14 @@ static const union CompilerIrOpcodeColumn {
         unsigned call;
         BYTE unmodeled_1c4[12];
         unsigned initializer;
-        BYTE unmodeled_1d4[60];
+        BYTE unmodeled_1d4[4];
+        unsigned parenthesized;
+        BYTE unmodeled_1dc[52];
         unsigned switch_dispatch;
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, {0}, 11, 28, {0}, 50, 55, 67, {0}, 31, 26, 48, 36, {0}, 40, {0}, 9, 34, {0}, 3, 16, {0}, 4, {0}, 32, 12, {0}, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, {0}, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
@@ -3476,16 +3493,20 @@ static const union CompilerIrPropertyColumn {
         BYTE unmodeled_007[42];
         BYTE conjunction;
         BYTE logical_and;
-        BYTE unmodeled_033[1];
+        BYTE bitwise_and_assign;
         BYTE assignment;
         BYTE bitfield;
         BYTE conditional_arms;
-        BYTE unmodeled_037[4];
+        BYTE unmodeled_037[1];
+        BYTE decrement;
+        BYTE division;
+        BYTE unmodeled_03a[1];
         BYTE equal;
-        BYTE unmodeled_03c[1];
+        BYTE logical_not;
         BYTE indirection;
         BYTE greater;
-        BYTE unmodeled_03f[2];
+        BYTE unmodeled_03f[1];
+        BYTE post_increment;
         BYTE subscript;
         BYTE unmodeled_042[1];
         BYTE shift;
@@ -3493,12 +3514,14 @@ static const union CompilerIrPropertyColumn {
         BYTE unmodeled_045[1];
         BYTE subtraction;
         BYTE subtract_assign;
-        BYTE unmodeled_048[2];
+        BYTE remainder;
+        BYTE unmodeled_049[1];
         BYTE multiplication;
         BYTE unmodeled_04b[1];
         BYTE not_equal;
         BYTE bitwise_or;
-        BYTE unmodeled_04e[2];
+        BYTE unmodeled_04e[1];
+        BYTE logical_or;
         BYTE dot_member;
         BYTE addition;
         BYTE add_assign;
@@ -3508,7 +3531,11 @@ static const union CompilerIrPropertyColumn {
         BYTE conditional;
         BYTE unmodeled_057[1];
         BYTE right_shift;
-        BYTE unmodeled_059[11];
+        BYTE complement;
+        BYTE negate;
+        BYTE bitwise_xor;
+        BYTE xor_assign;
+        BYTE unmodeled_05d[7];
         BYTE conversion;
         BYTE integer;
         BYTE unmodeled_066[6];
@@ -3517,12 +3544,37 @@ static const union CompilerIrPropertyColumn {
         BYTE call;
         BYTE unmodeled_071[3];
         BYTE initializer;
-        BYTE unmodeled_075[15];
+        BYTE unmodeled_075[1];
+        BYTE parenthesized;
+        BYTE unmodeled_077[13];
         BYTE switch_dispatch;
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 128, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, {0}, 128, 0 } };
+typedef char IrOrLogicalOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.logical_or) == 79 * 4 ? 1 : -1];
+typedef char IrOrLogicalPropertyOffset[offsetof(CompilerIrPropertyColumn, known.logical_or) == 79 ? 1 : -1];
+typedef char IrNotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.logical_not) == 60 ? 1 : -1];
+typedef char IrPostIncrementOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.post_increment) == 64 * 4 ? 1 : -1];
+typedef char IrPostIncrementPropertyOffset[offsetof(CompilerIrPropertyColumn, known.post_increment) == 64 ? 1 : -1];
+typedef char IrDecrementOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.decrement) == 56 * 4 ? 1 : -1];
+typedef char IrDecrementPropertyOffset[offsetof(CompilerIrPropertyColumn, known.decrement) == 56 ? 1 : -1];
+typedef char Ir_bitwise_and_assign_opcode[offsetof(CompilerIrOpcodeColumn, known.bitwise_and_assign) == 51 * 4 ? 1 : -1];
+typedef char Ir_bitwise_and_assign_property[offsetof(CompilerIrPropertyColumn, known.bitwise_and_assign) == 51 ? 1 : -1];
+typedef char Ir_remainder_opcode[offsetof(CompilerIrOpcodeColumn, known.remainder) == 72 * 4 ? 1 : -1];
+typedef char Ir_remainder_property[offsetof(CompilerIrPropertyColumn, known.remainder) == 72 ? 1 : -1];
+typedef char Ir_complement_opcode[offsetof(CompilerIrOpcodeColumn, known.complement) == 89 * 4 ? 1 : -1];
+typedef char Ir_complement_property[offsetof(CompilerIrPropertyColumn, known.complement) == 89 ? 1 : -1];
+typedef char Ir_bitwise_xor_opcode[offsetof(CompilerIrOpcodeColumn, known.bitwise_xor) == 91 * 4 ? 1 : -1];
+typedef char Ir_bitwise_xor_property[offsetof(CompilerIrPropertyColumn, known.bitwise_xor) == 91 ? 1 : -1];
+typedef char Ir_xor_assign_opcode[offsetof(CompilerIrOpcodeColumn, known.xor_assign) == 92 * 4 ? 1 : -1];
+typedef char Ir_xor_assign_property[offsetof(CompilerIrPropertyColumn, known.xor_assign) == 92 ? 1 : -1];
+typedef char IrParenthesizedOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.parenthesized) == 118 * 4 ? 1 : -1];
+typedef char IrParenthesizedPropertyOffset[offsetof(CompilerIrPropertyColumn, known.parenthesized) == 118 ? 1 : -1];
+typedef char IrNegateOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.negate) == 90 * 4 ? 1 : -1];
+typedef char IrNegatePropertyOffset[offsetof(CompilerIrPropertyColumn, known.negate) == 90 ? 1 : -1];
+typedef char IrDivisionOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.division) == 57 * 4 ? 1 : -1];
+typedef char IrDivisionPropertyOffset[offsetof(CompilerIrPropertyColumn, known.division) == 57 ? 1 : -1];
 typedef char IrShiftOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.shift) == 67 * 4 ? 1 : -1];
 typedef char IrOrOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitwise_or) == 77 * 4 ? 1 : -1];
 typedef char IrShiftPropertyOffset[offsetof(CompilerIrPropertyColumn, known.shift) == 67 ? 1 : -1];
@@ -3531,7 +3583,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -3552,13 +3604,6 @@ void __cdecl emit_ir_node(CompilerParserNode *node)
     if (parser_early_result) return;
     while (node) {
         REQUIRE_IR_KIND(node->kind);
-        if (node->kind == 60) {
-#ifdef __linux__
-            recon_unsupported("logical-not IR property is not yet modeled");
-#else
-            __asm { int 3 }
-#endif
-        }
         if (ir_node_properties.indexed[node->kind] & 0x80) {
             switch (node->kind) {
             case 7:
@@ -4485,7 +4530,8 @@ CompilerType *__cdecl choose_binary_operand_type(CompilerType *other, CompilerPa
 struct InitializerExtendedReal;
 const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *, unsigned, int);
 int __stdcall parse_initializer_real(const char *, InitializerExtendedReal *);
-void __cdecl fold_floating_binary_expression(CompilerParserNode *, const void *, const void *);
+CompilerParserNode *__cdecl fold_floating_binary_expression(CompilerParserNode *,
+    const InitializerExtendedReal *, const InitializerExtendedReal *);
 int __cdecl integer_difference_out_of_range(__int64, unsigned __int64, WORD, WORD);
 int __cdecl integer_product_out_of_range(__int64, unsigned __int64, WORD, WORD);
 CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *node,
@@ -4532,8 +4578,8 @@ CompilerParserNode *__cdecl fold_binary_expression(CompilerParserNode *node,
         else if (parse_initializer_real(format_initializer_integer(&second, integer_text, 10,
             right_flags & 0x4000), (InitializerExtendedReal *)right_real))
             report_language_diagnostic(2, 56);
-        fold_floating_binary_expression(node, left_real, right_real);
-        return node;
+        return fold_floating_binary_expression(node,
+            (const InitializerExtendedReal *)left_real, (const InitializerExtendedReal *)right_real);
     }
     left_width = ((left_flags & 0x340) || !(left_flags & 0xfff0)) ?
         c1_primitive_widths[left_flags & 15] : left_flags & 15;
@@ -4673,7 +4719,66 @@ finish_integer:
         (unsigned_values ? c1_data.builtin_types.type_4063_first : c1_data.builtin_types.type_0063);
     return make_typed_constant(type, &c1_bss.integer_work_value, c1_data.expression_arena_kind);
 }
-void __cdecl fold_floating_binary_expression(CompilerParserNode *, const void *, const void *) { __asm { int 3 } }
+int __cdecl add_extended_constants(const InitializerExtendedReal *, const InitializerExtendedReal *, InitializerExtendedReal *);
+int __cdecl subtract_extended_constants(const InitializerExtendedReal *, const InitializerExtendedReal *, InitializerExtendedReal *);
+int __cdecl multiply_extended_constants(const InitializerExtendedReal *, const InitializerExtendedReal *, InitializerExtendedReal *);
+int __cdecl divide_extended_constants(const InitializerExtendedReal *, const InitializerExtendedReal *, InitializerExtendedReal *);
+void __cdecl round_extended_constant(BYTE *, unsigned);
+BYTE *__cdecl copy_extended_constant(const BYTE *, unsigned);
+CompilerParserNode *__cdecl fold_floating_binary_expression(CompilerParserNode *node,
+    const InitializerExtendedReal *left, const InitializerExtendedReal *right)
+{
+    InitializerExtendedReal value;
+    unsigned relation = 0;
+    int result;
+    CompilerType *type;
+    switch (node->kind) {
+    case 68: relation = 4; break;
+    case 69: relation = 5; break;
+    case 63: relation = 3; break;
+    case 62: relation = 2; break;
+    case 59: relation = 1; break;
+    case 76: relation = 6; break;
+    case 50:
+        result = classify_literal_bits(6, left, &extended_zero) &&
+            classify_literal_bits(6, right, &extended_zero);
+        goto integer_result;
+    case 79:
+        result = classify_literal_bits(6, left, &extended_zero) ||
+            classify_literal_bits(6, right, &extended_zero);
+        goto integer_result;
+    case 81: result = add_extended_constants(left, right, &value); break;
+    case 70: result = subtract_extended_constants(left, right, &value); break;
+    case 74: result = multiply_extended_constants(left, right, &value); break;
+    case 57:
+        if (!classify_literal_bits(6, right, &extended_zero)) {
+            node->flags = 0x40;
+            return node;
+        }
+        result = divide_extended_constants(left, right, &value);
+        break;
+    default: return node;
+    }
+    if (relation) {
+        result = classify_literal_bits(relation, left, right);
+integer_result:
+        c1_bss.integer_work_value = (__int64)result;
+        return make_typed_constant(c1_data.builtin_types.type_0063,
+            &c1_bss.integer_work_value, c1_data.expression_arena_kind);
+    }
+    if (result) report_language_diagnostic(2, 56);
+    if (c1_data.options.precise_float)
+        round_extended_constant((BYTE *)&value, (unsigned)(int)(short)value.precision);
+    *(unsigned *)&c1_bss.integer_work_value = (unsigned)copy_extended_constant((const BYTE *)&value,
+        c1_data.expression_arena_kind);
+    switch (node->type->flags & 0xefcf) {
+    case 0x106: type = c1_data.builtin_types.type_0106; break;
+    case 0x107: type = c1_data.builtin_types.type_0107; break;
+    case 0x108: type = c1_data.builtin_types.type_0108; break;
+    default: return NULL;
+    }
+    return make_typed_constant(type, &c1_bss.integer_work_value, c1_data.expression_arena_kind);
+}
 int __cdecl integer_difference_out_of_range(__int64, unsigned __int64, WORD, WORD) { __asm { int 3 } return 0; }
 int __cdecl integer_product_out_of_range(__int64 first, unsigned __int64 second,
     WORD unsigned_values, WORD width)
@@ -4844,8 +4949,8 @@ __int64 __cdecl convert_integer_constant(BYTE, CompilerParserNode *, WORD, WORD,
 int __cdecl initializer_real_to_integer(const InitializerExtendedReal *, unsigned __int64 *);
 void __cdecl round_extended_constant(BYTE *, unsigned);
 BYTE *__cdecl copy_extended_constant(const BYTE *, unsigned);
-/* RVA5efbc: this floating-only control has no modeled default or writers yet. */
-static int round_floating_constants;
+/* The -Op row, default and PCH snapshot already own this exact DWORD. */
+#define round_floating_constants c1_data.options.precise_float /* RVA5efbc */
 CompilerParserNode *__cdecl convert_binary_rhs(BYTE operation, CompilerType *type,
     CompilerParserNode *value)
 {
@@ -5121,7 +5226,8 @@ CompilerType *__cdecl dereference_expression_type(CompilerType *);
 CompilerType *__cdecl adjust_reference_type(CompilerType *, unsigned);
 CompilerParserNode *__cdecl convert_unary_operand(CompilerParserNode *, unsigned);
 CompilerParserNode *__cdecl finish_segment_dereference(CompilerParserNode *);
-int __cdecl negate_floating_constant(const void *, unsigned, BYTE *);
+extern "C" int __cdecl subtract_extended_constants(const InitializerExtendedReal *,
+    const InitializerExtendedReal *, InitializerExtendedReal *);
 BYTE *__cdecl copy_extended_constant(const BYTE *, unsigned);
 CompilerParserNode * __cdecl make_unary_expression(BYTE operation, CompilerParserNode *value)
 {
@@ -5198,7 +5304,8 @@ CompilerParserNode * __cdecl make_unary_expression(BYTE operation, CompilerParse
         if ((value->flags & 7) != 3) return result;
         flags = value->type->flags;
         if (flags & 0x100) {
-            if (negate_floating_constant(&extended_zero, value->low, floating))
+            if (subtract_extended_constants(&extended_zero,
+                (const InitializerExtendedReal *)value->low, (InitializerExtendedReal *)floating))
                 report_language_diagnostic(2, 56);
             value->low = (unsigned)copy_extended_constant(floating, c1_data.expression_arena_kind);
             return value;
@@ -5527,7 +5634,6 @@ CompilerType *RECON_THISCALL CompilerType::AddressType(unsigned attributes)
     return intern_type(&description);
 }
 CompilerParserNode *__cdecl finish_segment_dereference(CompilerParserNode *) { __asm { int 3 } return NULL; }
-int __cdecl negate_floating_constant(const void *, unsigned, BYTE *) { __asm { int 3 } return 0; }
 InitializerExtendedReal *__cdecl allocate_extended_constant(InitializerExtendedReal, unsigned);
 BYTE *__cdecl copy_extended_constant(const BYTE *value, unsigned arena_kind)
 {
@@ -6016,6 +6122,10 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     (d)->shape->base && (d)->shape->base == (s)->shape->base && \
     (d)->shape->base->flags == 0x404 && (d)->shape->base->attributes == 0x10 && \
     !(d)->shape->base->base)
+#define VOLATILE_SHORT_ARGUMENT(d,s) ((d)->flags == 0x62 && (s)->flags == 0x62 && \
+    (d)->attributes == 0x200 && (s)->attributes == 0x200 && (d)->shape && (s)->shape && \
+    (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
+    !(d)->shape->attributes && !(s)->shape->attributes && !(d)->shape->base && !(s)->shape->base)
 #define CHAR_POINTER_ASSIGNMENT(d,s) ((d)->flags == 0x61 && (s)->flags == 0x61 && \
     (d)->attributes == 0x100 && !(s)->attributes && (d)->shape && (s)->shape && \
     (d)->shape->flags == 1 && (s)->shape->flags == 2 && \
@@ -6043,14 +6153,15 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         return 1;
     /* Scalar integers use the authentic diagnostics below. Identical shaped
      * types take the genuine compatibility fast path and skip scalar checks. */
-    if (!((operation == 116 || operation == 62) && !type->shape && !value->type->shape &&
-          type->flags == 0x107 && value->type->flags == 0x107 &&
-          !type->attributes && value->type->attributes == 0x100) &&
+    if (!(!type->shape && !value->type->shape &&
+          (type->flags == 0x106 || type->flags == 0x107) && value->type->flags == type->flags &&
+          !type->attributes && !(value->type->attributes & ~0x110U)) &&
         !(type == value->type && type->shape) &&
         !((operation == 125 || operation == 112) && type == value->type && !type->shape &&
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
+        !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
         !(operation == 116 && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
@@ -6117,10 +6228,11 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
     CompilerType **left_argument, **right_argument;
     if (destination == source) return 1;
 #ifdef RECON_NATIVE_TEST
-    if (!((operation == 116 || operation == 62) && !destination->shape && !source->shape &&
-          destination->flags == 0x107 && source->flags == 0x107 &&
-          !destination->attributes && source->attributes == 0x100) &&
+    if (!(!destination->shape && !source->shape &&
+          (destination->flags == 0x106 || destination->flags == 0x107) && source->flags == destination->flags &&
+          !destination->attributes && !(source->attributes & ~0x110U)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
+        !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
         !(operation == 116 && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
@@ -7792,6 +7904,7 @@ unsigned RECON_THISCALL CompilerLexer::Read(void)
              dispatch != SC_DIGIT && dispatch != SC_NEWLINE && dispatch != SC_IDENTIFIER && dispatch != SC_LETTER_L &&
              dispatch != SC_SPACE && dispatch != SC_LPAREN && dispatch != SC_RPAREN &&
              dispatch != SC_LBRACE && dispatch != SC_DQUOTE && dispatch != SC_SQUOTE && dispatch != SC_COMMA &&
+             dispatch != SC_CARET && dispatch != SC_PERCENT && dispatch != SC_TILDE &&
              dispatch != SC_SLASH && dispatch != SC_BAR && dispatch != SC_DOT && dispatch != SC_GREATER && dispatch != SC_COLON && dispatch != SC_AMP && dispatch != SC_BANG && dispatch != SC_PLUS && dispatch != SC_LESS && dispatch != SC_STAR && dispatch != SC_MINUS && dispatch != SC_LBRACKET && dispatch != SC_RBRACKET && dispatch != SC_EQUAL) ||
             (dispatch == SC_SPECIAL && character != '?' && (character || c1_bss.options.preprocess_stdout ||
                 (lexical_skip_mode && (lexical_skip_mode > 1 || *c1_bss.source_cursor != 'R'))))) {
