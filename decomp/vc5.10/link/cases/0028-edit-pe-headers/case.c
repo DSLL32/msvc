@@ -1,0 +1,30 @@
+#include <recon-tool.h>
+#include <recon-fixture.h>
+#include <stdio.h>
+#include "../../harness/startup.h"
+#include <recon.h>
+static int setup(void)
+{
+ const char *assets=recon_case_assets();
+ char resources[4096];
+ int length;
+ if(!assets)return 0;
+ length=snprintf(resources,sizeof(resources),"%s/resources/messages-dump.rmr",assets);
+ return length>=0 && length<sizeof(resources) && recon_link_setup_resources(resources);
+}
+static const uint32_t order[]={
+ 0x24e60,0x24e70,0x24ea0,0x31d70,0x31d80,0x31db0,0x31de0,0x31df0,0x31e20,0x44e60,
+ 0x44e70,0x44ea0,0xde90,0x15230,0xb560,0x152f0,0x4fe70,0xb660,0x4f560,0x2f680,
+ 0x4fd40,0x337d0,0x62220,0x30c70,0x30c30,0x4f5e0,0x4f640,0x4fe50,0x5cb20,0x5c780,
+ 0x5c750,0x5cca0,0x5cc00,0x5c650,0x4fed0,0xb7f0,0xb870,0xb960,0xb8f0,0xc7e0,
+ 0xc880,0xccf0,0x5cd40,0xcab0,0xbd10,0xbe20,0x4fe30,0x105e0,0xca10,0xd0c0,
+ 0x2e230,0xcbd0,0xc030,0x610c0,0x617b0,0x61240,0x2ecd0,0x2e400,0x61680,0x61340,
+ 0xcb40,0x2eb20,0x2ea30,0x612a0,0x61900,0xc080,0xcfc0,0xbea0,0x10730,0x106a0,
+ 0x44eb0,0x31e30,0x31dc0,0x24eb0
+};
+RECON_EXPORT const ReconCase case_descriptor={
+ RECON_ABI_VERSION,sizeof(ReconCase),"edit-pe-headers",
+ "Edit an original-produced exported DLL and import client together: rename/change code section flags, set stack/heap/subsystem/image/OS versions and release checksums, preserving all remaining image bytes.",
+ order,RECON_COUNT(order),NULL,0,RECON_IO,RECON_EXIT,0,
+ setup,recon_link_invoke,NULL,NULL,0
+};

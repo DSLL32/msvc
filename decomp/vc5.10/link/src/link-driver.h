@@ -28,7 +28,10 @@ typedef struct LinkOptions {
     BYTE librarian_list,librarian_skip_directive_symbols,librarian_convert,reserved16f;
     WORD dump_linker_members,dump_raw_count;
     DWORD dump_raw_format;
-    BYTE dump_headers,dump_relocations,dump_line_numbers,dump_symbols;
+    /* At the same option byte, the editor tests PE signatures; the dumper
+     * selects header display. These are separate per-tool context instances. */
+    union { BYTE dump_headers; BYTE editor_require_pe; };
+    BYTE dump_relocations,dump_line_numbers,dump_symbols;
     BYTE dump_base_relocations,dump_imports,dump_exports,dump_raw_data;
     union { BYTE default180; BYTE dump_summary; };
     BYTE dump_architecture,dump_archive_members,dump_convert,dump_fpo;

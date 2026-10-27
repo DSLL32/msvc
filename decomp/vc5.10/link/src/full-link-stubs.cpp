@@ -45,4 +45,3 @@ extern "C" void __cdecl set_mac_symbol_addresses(void) { __asm { int 3 } }
 extern "C" void __stdcall prepare_mac_debug_information(LinkContext *context) { __asm { int 3 } }
 extern "C" void __cdecl finish_ppc_branches(void) { __asm { int 3 } }
 extern "C" char * __stdcall replace_extension(const char *file,const char *extension) { __asm { int 3 } return 0; }
-void RECON_THISCALL LinkContext::UpdateChecksum(void) { __asm { int 3 } }

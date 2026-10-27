@@ -5665,5 +5665,37 @@
       ]
     },
     "basis": "Actual ordinary stdcall seek(int,LONG,int,DWORD*)/RET16 and read(FileRecord*,void*,unsigned)/RET12 preserve nonvolatile EBP/EDI. Original caches fprintf in EBP at4285e3, forwards it over seek42862c and byte reads428670/42867d before4286c9; caches fputc in EDI at428975 across byte reads4289a9/4289b6 before4289ce/4289de. Existing EBX and public cdecl preservation facts retained. Normal-return scope only; no new provider body claim."
+  },
+  "editor_driver_ordinary_abi": {
+    "scope": "Normal-return nonvolatile register preservation only; no cold bind/rebase/API or pending helper body credit.",
+    "declarations": "VC5.10 IMAGEHLP.H WINAPI5 BindImageEx / WINAPI11 ReBaseImage; period CRT time/_tzset; recovered stdcall prototypes and actual caller pushes.",
+    "sites": {
+      "prepare_editor_argument": [
+        "0x42f867",
+        "0x42fa03"
+      ],
+      "is_mppc_editor_file": [
+        "0x42f9e7"
+      ],
+      "switch_number": [
+        "0x42f91a"
+      ],
+      "_tzset": [
+        "0x42f8be"
+      ],
+      "time": [
+        "0x42f8d9"
+      ]
+    },
+    "claims": {
+      "prepare_editor_argument": "EBP",
+      "is_mppc_editor_file": "EBP",
+      "switch_number": "EBX",
+      "_tzset": "EBX",
+      "time": "EBX"
+    }
+  },
+  "editor_section_ordinary_abi": {
+    "scope": "Only EBP normal-return preservation for cached public strncpy address at42e450 across its first call42e45f and ordinary allocate_memory/zero_allocate before second call42e4cf. Recovered stdcall allocation prototypes and public cdecl strncpy; no body expansion."
   }
 }

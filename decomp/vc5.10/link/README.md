@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-582 application functions / 221,269 original code bytes are reconstructed
-(53.34% of the 414,810-byte whole `.text` extent, which includes CRT and text
+590 application functions / 228,448 original code bytes are reconstructed
+(55.07% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,219 bytes and
-196 entries whose body extents remain unknown; this is not a complete non-CRT
+197 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-seven cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-eight cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-595-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 575 ordinary application bodies and six CRT bodies. Seven import
+603-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 583 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -628,3 +628,38 @@ regression/unit/original-build/full-audit batch passed in 4.09 s: twenty-seven
 fixtures, 595 graph vertices, 581 return contracts and seven separate EH-owner
 checks. Raw references and build failures remain in scratch; timings are
 incremental rather than isolated audit or clean-build measurements.
+
+
+The PE editor case runs `/edit /nologo /release /section:.text=.code,erw`
+with stack `0x200000,0x4000`, heap `0x300000,0x8000`, console subsystem 4.1,
+image version 3.7 and OS version 5.1 on the unchanged original-produced
+`hello.dll` and `client.exe`. Both sides exit 0 with 74 application first
+entries. The modified 3,072-byte DLL and 1,536-byte client match the untouched
+master exactly, including computed PE checksums, with no normalization.
+
+Eight whole bodies / 7,179 original code bytes recover the editor driver,
+input precheck, writable-file preparation, option dispatch, section parsing,
+symbol-name updates, stack/heap number parsing and shared checksum method.
+Section records retain the original spare first slot. The editor consumes the
+existing ordinary-file list, distinct from the link/dump list; the initial
+wrong-list comparison remains failed evidence in scratch. The two real parser
+switch tables and all RET20/RET12/RET8/RET0 roles pass the ordinary owner checks.
+The same context byte has separate editor signature-check and dumper header
+selection roles in their independent context instances.
+
+This case exercises PE header edits and in-place mapped checksum computation.
+Bind/rebase, OMF conversion, COFF symbol rewriting and file-checksum fallback
+success remain unvisited; pending bodies keep named traps, and cold IMAGEHLP
+APIs deny natively before effects. Numeric size parsing guards the original's
+unwritten commit-local domain on invalid leading-comma input. The authentic
+large-address-aware bit remains numeric in ordinary source because the shipped
+VC5 header lacks that spelling; native SDK declarations do not change the
+original build's headers. Earlier uppercase section flags were rejected by the
+original; the supported workload uses its actual lowercase syntax.
+
+The completed original took 1,674.9 ms; fresh native comparison took 18.5 ms
+(12.4 ms setup, 3.1 ms execution, 3.0 ms checks). The single case-end parallel
+regression/unit/original-build/full-audit batch passed in 4.82 s: twenty-eight
+fixtures, 603 graph vertices, 589 return contracts and seven separate EH-owner
+checks. Raw reference artifacts and failed build/comparison evidence remain in
+scratch. These measurements are incremental, not clean-build benchmarks.
