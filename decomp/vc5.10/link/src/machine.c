@@ -213,7 +213,39 @@ void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_s
 }
 void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_mac_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
-void __stdcall initialize_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
+BYTE __stdcall classify_ppc_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    BYTE kind=(BYTE)type;
+    if(kind==IMAGE_REL_PPC_ABSOLUTE)return 1;
+    if(kind==IMAGE_REL_PPC_PAIR) { /* Belongs to the preceding fixup. */
+        if((BYTE)mode)link_contribution_fatal(contribution,1187,"PAIR");
+        return 1;
+    }
+    if((kind>=1 && kind<=7) || (kind>=10 && kind<=12) ||
+       (kind>=15 && kind<=17) || (kind>=19 && kind<=21))return 0;
+    link_contribution_fatal(contribution,1190,(unsigned)type);
+    return 0;
+}
+void __stdcall process_ppc_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
+void __stdcall initialize_ppc_backend(LinkContext *context,BYTE *incremental_supported)
+{
+    extern BYTE native_ppc_symbol_maps;
+    native_ppc_symbol_maps=1;
+    if(!(context->specified_switches & 1))context->optional_header.SectionAlignment=0x1000;
+    if(context->options.rom) {
+        link_warning(NULL,4062,"ROM","PPC");
+        context->options.rom=0;
+    }
+    if(selected_tool_kind==1 && context->optional_header.Subsystem!=9)
+        link_fatal(NULL,1195,"PPC","/SUBSYSTEM:WINDOWSCE");
+    *incremental_supported=0;
+    process_relocations=process_ppc_relocations;
+    classify_relocation=classify_ppc_relocation;
+    if(context->optional_header.SectionAlignment<0x1000) {
+        small_section_alignment=1;
+        context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
+    }
+}
 BYTE __stdcall classify_arm_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
 {
     if(type==ARM_REL_ABSOLUTE)return 1;

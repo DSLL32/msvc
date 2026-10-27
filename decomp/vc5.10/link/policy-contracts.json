@@ -5455,5 +5455,17 @@
       },
       "basis": "Actual stdcall four-slot classifier40ae20..40ae5a uses RET16; own instructions do not write EDI, only the existing ordinary contribution-fatal boundary is called. Existing reference-record/SigForPbCb EDI facts are reused. Native pending classifier is a genuine named trap with no body credit."
     }
+  ],
+  "ppc_resource_case_ordinary_abi": [
+    {
+      "owner": "_read_ppc_relocations@28",
+      "cached_import": "mspdb50.dll!SigForPbCb IAT401294 in EDI; original sites45b024/45b030/45b043/45b0f2/45b0fe",
+      "normal_return_preservation": {
+        "_classify_ppc_relocation@16": [
+          "edi"
+        ]
+      },
+      "basis": "Identified stdcall classifier four stack slots/RET16; EDI is ordinary nonvolatile. Existing symbol-name, reference-record and SigForPbCb ordinary ABI contracts reused. No body credit for pending classifier."
+    }
   ]
 }
