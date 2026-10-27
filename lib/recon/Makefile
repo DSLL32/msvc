@@ -1196,3 +1196,7 @@ build/mbstrlen-ascii-generic: tests/mbstrlen-ascii-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mbstrlen-ascii-check: build/mbstrlen-ascii-probe build/mbstrlen-ascii-generic
 	$(PYTHON) tests/check-mbstrlen-ascii.py $^
+
+.PHONY: native-system-check
+native-system-check:
+	$(PYTHON) tests/native-system/check.py

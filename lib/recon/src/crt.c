@@ -525,6 +525,16 @@ ReconNativeEntry *recon_native_entry_initialize(int argc,char **argv,char **envi
     native_entry_context=entry;
     recon_crt_bind_arguments(argc,arguments,variables);recon_crt_initenv=variables;
     recon_crt_os_environment=os_block;recon_crt_os_environment_units=units;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    /* These are the actual owned startup namespaces, not a fixture provider
+     * binding. Preserve the CRT snapshot while an API derives the OS block. */
+    initial_os_environment=os_block;initial_os_environment_units=units;
+    initial_crt_environment=variables;
+    recon_crt_environment_vectors[0].vector=variables;
+    recon_crt_environment_vectors[0].count=count;
+    recon_crt_environment_vectors[0].borrowed=1;
+    recon_crt_environment_vectors[0].live=1;os_environment_bound=1;
+#endif
     recon_pgmptr=(char *)entry->program_path;recon_aenvptr=raw_environment;
     recon_bind_command_line((char *)entry->command_line,strlen(entry->command_line)+1);
     /* Target fresh-process errors are independent of Linux setup syscalls. */

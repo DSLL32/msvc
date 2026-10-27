@@ -13,6 +13,11 @@
 #include <link.h>
 #include <dirent.h>
 #include <pthread.h>
+#include <cpuid.h>
+#include <sys/sysinfo.h>
+#include <sys/resource.h>
+#include <sys/utsname.h>
+#include <sys/personality.h>
 #include "native-files.h"
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
@@ -41,7 +46,7 @@ LPSTR WINAPI recon_GetCommandLineA(void)
 static void temp_current_directory(char path[MAX_PATH])
 {
     const char *temporary;size_t n;
-    if(!recon_crt_arguments_bound || !getenv("RECON_CANONICAL_CWD"))
+    if(!recon_crt_arguments_bound || (!recon_native_entry_active() && !getenv("RECON_CANONICAL_CWD")))
         recon_unsupported("temporary path unbound target environment/cwd");
     temporary=recon_getenv("TMP");
     if(!temporary || strcmp(temporary,"."))
@@ -852,8 +857,91 @@ void recon_load_system_info_profile(const char *filename,const char *reference_s
     native_system_profile.bound=2;errno=saved_errno;last_error=saved_error;
 }
 
+/* Ordinary i386-on-x86_64 Linux snapshot. This is not a Windows VM model.
+ * Linux v6.10 arch/x86/include/asm/page_64_types.h defines the admitted IA32
+ * TASK_SIZE as 0xffffe000, or 0xc0000000 with ADDR_LIMIT_3GB. No address probes.
+ * The 32-bit processor view projects at most32 online CPUs. Virtual availability
+ * is an estimate from this ABI window, RLIMIT_AS and current mapped size;
+ * physical/pagefile availability uses native free RAM/swap, not Win32 commit. */
+static uint64_t native_system_number(const char *path)
+{
+    FILE *file=fopen(path,"r");unsigned long long value=0;int ok;
+    if(!file)recon_unsupported("ordinary system query file");
+    ok=fscanf(file,"%llu",&value)==1;
+    if(fclose(file))ok=0;
+    if(!ok)recon_unsupported("ordinary system query numeric field");
+    return value;
+}
+static DWORD native_system_scaled(uint64_t count,uint64_t unit)
+{
+    if(!unit)recon_unsupported("ordinary system memory unit");
+    return count>UINT32_MAX/unit?UINT32_MAX:(DWORD)(count*unit);
+}
+static void native_system_snapshot(SYSTEM_INFO *system,MEMORYSTATUS *memory)
+{
+    struct utsname kernel;struct sysinfo info;struct rlimit64 limit;
+    long page=sysconf(_SC_PAGESIZE),cpus=sysconf(_SC_NPROCESSORS_ONLN);
+    int personality_flags;unsigned a,b,c,d,family,model,stepping;
+    uint64_t ceiling,minimum,window,mapped,total,available;
+    if(page<=0 || (page&(page-1)) || page>65536 || 65536%page || cpus<=0 ||
+       uname(&kernel) || strcmp(kernel.sysname,"Linux") || strcmp(kernel.machine,"x86_64"))
+        recon_unsupported("ordinary system admitted Linux IA32 ABI");
+    personality_flags=personality(0xffffffffUL);
+    if(personality_flags<0 || (personality_flags&PER_MASK)!=PER_LINUX ||
+       !__get_cpuid(1,&a,&b,&c,&d))
+        recon_unsupported("ordinary system personality/CPU query");
+    ceiling=(personality_flags&ADDR_LIMIT_3GB)?0xc0000000ULL:0xffffe000ULL;
+    minimum=native_system_number("/proc/sys/vm/mmap_min_addr");
+    if(minimum>=ceiling || minimum>UINT64_MAX-(unsigned long)page+1)
+        recon_unsupported("ordinary system native minimum address");
+    minimum=(minimum+(unsigned long)page-1)&~((uint64_t)(unsigned long)page-1);
+    if(minimum>=ceiling || sysinfo(&info) || !info.totalram ||
+       info.freeram>info.totalram || info.freeswap>info.totalswap || !info.mem_unit ||
+       getrlimit64(RLIMIT_AS,&limit))
+        recon_unsupported("ordinary system memory query");
+    window=ceiling-minimum;total=window;
+    if(limit.rlim_cur!=RLIM64_INFINITY && limit.rlim_cur<total)total=limit.rlim_cur;
+    mapped=native_system_number("/proc/self/statm");
+    if(mapped>UINT64_MAX/(unsigned long)page)
+        recon_unsupported("ordinary system mapped size overflow");
+    mapped*=page;available=total>mapped?total-mapped:0;
+    family=(a>>8)&15;if(family==15)family+=(a>>20)&255;
+    model=(a>>4)&15;if(family==6 || family>=15)model|=((a>>16)&15)<<4;
+    stepping=a&15;
+    if(family<3 || family>65535)recon_unsupported("ordinary system x86 processor family");
+    memset(system,0,sizeof(*system));memset(memory,0,sizeof(*memory));
+    system->wProcessorArchitecture=0;system->dwPageSize=(DWORD)page;
+    system->lpMinimumApplicationAddress=(LPVOID)(uintptr_t)minimum;
+    system->lpMaximumApplicationAddress=(LPVOID)(uintptr_t)(ceiling-1);
+    system->dwNumberOfProcessors=cpus>32?32:(DWORD)cpus;
+    system->dwActiveProcessorMask=cpus>=32?UINT32_MAX:(1UL<<cpus)-1;
+    system->dwProcessorType=family==3?386:family==4?486:586;
+    system->dwAllocationGranularity=65536;
+    system->wProcessorLevel=(WORD)family;system->wProcessorRevision=(WORD)((model<<8)|stepping);
+    memory->dwLength=sizeof(*memory);
+    memory->dwMemoryLoad=(DWORD)(((uint64_t)(info.totalram-info.freeram)*100)/info.totalram);
+    memory->dwTotalPhys=native_system_scaled(info.totalram,info.mem_unit);
+    memory->dwAvailPhys=native_system_scaled(info.freeram,info.mem_unit);
+    memory->dwTotalPageFile=native_system_scaled((uint64_t)info.totalram+info.totalswap,info.mem_unit);
+    memory->dwAvailPageFile=native_system_scaled((uint64_t)info.freeram+info.freeswap,info.mem_unit);
+    memory->dwTotalVirtual=native_system_scaled(total,1);
+    memory->dwAvailVirtual=native_system_scaled(available,1);
+}
+static void native_system_output(const void *output,size_t bytes)
+{
+    uintptr_t address=(uintptr_t)output;
+    if(address<4096 || (address&3) || address>UINTPTR_MAX-bytes)
+        recon_unsupported("ordinary system caller-owned output span");
+}
+
 void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
 {
+    if(recon_native_entry_active()) {
+        SYSTEM_INFO system;MEMORYSTATUS memory;int saved=errno,*target=recon_errno(),saved_target=*target;
+        unsigned long dos=recon_doserrno;DWORD error=last_error;
+        native_system_output(output,sizeof(*output));native_system_snapshot(&system,&memory);*output=system;
+        errno=saved;*target=saved_target;recon_doserrno=dos;last_error=error;return;
+    }
     if (!output || !native_system_profile.bound || native_system_profile.system_calls ||
         native_system_profile.memory_calls) recon_unsupported("GetSystemInfo captured inventory");
     memcpy(output,&native_system_profile.system,sizeof(*output));
@@ -862,6 +950,12 @@ void WINAPI recon_GetSystemInfo(LPSYSTEM_INFO output)
 
 void WINAPI recon_GlobalMemoryStatus(LPMEMORYSTATUS output)
 {
+    if(recon_native_entry_active()) {
+        SYSTEM_INFO system;MEMORYSTATUS memory;int saved=errno,*target=recon_errno(),saved_target=*target;
+        unsigned long dos=recon_doserrno;DWORD error=last_error;
+        native_system_output(output,sizeof(*output));native_system_snapshot(&system,&memory);*output=memory;
+        errno=saved;*target=saved_target;recon_doserrno=dos;last_error=error;return;
+    }
     if (!output || native_system_profile.bound!=1 || native_system_profile.system_calls!=1 ||
         native_system_profile.memory_calls) recon_unsupported("GlobalMemoryStatus captured inventory");
     memcpy(output,&native_system_profile.memory,sizeof(*output));

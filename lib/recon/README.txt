@@ -2103,3 +2103,17 @@ input, state/error/semantic-FP and finite-denial controls pass. C1's saved382-en
 ordinary diagnostic-emitter adoption passes (21.275ms native), followed by exact
 525-entry/four-output/78-byte-warning case completion. Original per-call/private
 state remains unmeasured and no provider-body credit is claimed.
+
+Ordinary native entry uses a real Linux i386-on-x86_64 system snapshot for
+`GetSystemInfo` and `GlobalMemoryStatus`; fixture-bound system inventories keep
+their existing ordering and values. Page size, online processors (projected to
+32 mask bits), RAM and swap come from host queries, with DWORD saturation.
+Allocation granularity remains 64 KiB. The admitted PER_LINUX compatibility
+address ceiling follows Linux's IA32 TASK_SIZE (including ADDR_LIMIT_3GB), and
+minimum address follows the host mmap floor. Virtual availability is only an
+estimate from that window, RLIMIT_AS and current mapped size; RAM-plus-swap is
+not Windows commit accounting. This is not a Windows VM or historical hardware
+model. Caller-owned output spans must fit the complete typed structures.
+Canonical temporary paths use the actual cwd, and the initial OS block and CRT
+vector have distinct startup-owned storage; the existing restricted LINK OS-only
+insertion can derive the child environment without changing the CRT snapshot.
