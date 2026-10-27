@@ -1,0 +1,23 @@
+{
+  "scope": "Normalize declared-boundary fallthrough only when exact chunk_end exists in the existing import catalog, matching explicit JMP; ordinary raw calls/tails unchanged. No catalog/ownership/ABI rule change.",
+  "validation_sha256": "4d69360cd21289af8188cae61eb91d76ebe28b4da0801ab9ffcfbba20c92bf68",
+  "release_sha256": "13a3a40e09a10fc2514e6058bdf970f31b2c6ca0858915581f612a72dd3b0ad5",
+  "source_sha256": {
+    "src/flow.rs": "bc9bac4655badd7c417e5304817eb7a573303aaed1488a9f28e6fa1e1a59a5fd",
+    "src/tests.rs": "0b72e5876b95172cf74beafd49cec25a99c0c0cf6d7c363d706352e741fa2e98",
+    "README.md": "961542b36d183920defff9aeecfa470ef243d91aee92e7d4d4ffbd221879897b"
+  },
+  "actual_scope": "Frozen5-owner C1XX graph/import/reference/ownership/extent audit, strict RET on other4 owners; COM ABI residual pending separately",
+  "actual_static_ms": 162.9871092736721,
+  "focused_units": 3,
+  "default_report_byte_parity": true,
+  "limits": [
+    "Frozen selected5-owner graph/import/reference/ownership/extents audit with strict RET4 other owners; COMowner actual localRET0 exported on both sides, checkedRETnull.",
+    "Existing cfg_cleanup cannot resolve imported tail ABI; separate binary-owned exact SDK WINAPI0/flag/import/control-role residual required and pending. No generic RET/catalog change.",
+    "No target/native/original run and no COM execution claim.",
+    "Absent-feature prior/default report byte parity; no additional campaign."
+  ],
+  "scratch": "~/.ai-tmp/graph-audit/import-fallthrough",
+  "canonical_build_seconds": 67.73462611343712,
+  "canonical_bit_identical": true
+}

@@ -156,7 +156,7 @@ or the legacy CVPACK preset.
 `--check-imports` reads the standard PE32 import directory with bounded, file-backed
 lookup/IAT/string validation. Exact unprefixed absolute `FF 15` calls and `FF 25`
 jumps resolve to structured `{dll,name}` or `{dll,ordinal}` identities. Direct
-transfers through proven six-byte import thunks use the same identities. Named
+transfers through proven six-byte import thunks use the same identities. Declared boundary fallthrough into an exact cataloged import thunk uses that same identity; ordinary function-boundary calls and tails remain unchanged. Named
 source/runtime graph vertices remain function edges even if their bodies begin
 with a thunk. DLL basename and ASCII case are normalized; export name case and
 ordinals are preserved. Unresolved register/indexed/segment-relative transfers

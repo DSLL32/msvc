@@ -439,6 +439,65 @@ fn imported_image(code: &[u8], dll: &str, name: &str) -> Pe {
     Pe::parse(bytes).unwrap()
 }
 #[test]
+fn known_import_boundary_fallthrough_uses_catalog_identity() {
+    let pe = imported_image(
+        &[0x90, 0xff, 0x25, 0x50, 0x11, 0x40, 0],
+        "OLE32.DLL",
+        "CoUninitialize",
+    );
+    let decoder = Decoder::new().unwrap();
+    let catalog = crate::imports::Catalog::load(&pe).unwrap();
+    let identity = catalog.thunks[&0x401001].clone();
+    for options in [
+        Options {
+            fallthrough_entry: Some(0x401001),
+            ..Default::default()
+        },
+        Options {
+            fallthrough_entries: vec![0x401001],
+            ..Default::default()
+        },
+    ] {
+        let ordinary = walk(&decoder, &pe, 0x401000, 0x401001, &options).unwrap();
+        assert_eq!(ordinary.calls, BTreeSet::from([0x401001]));
+        assert_eq!(ordinary.tails, ordinary.calls);
+        assert!(ordinary.imports.is_empty());
+        let qualified = Options {
+            imports: Some(std::sync::Arc::new(catalog.clone())),
+            ..options.clone()
+        };
+        let graph = walk(&decoder, &pe, 0x401000, 0x401001, &qualified).unwrap();
+        assert_eq!(graph.imports, BTreeSet::from([identity.clone()]));
+        assert!(graph.calls.is_empty() && graph.tails.is_empty() && graph.returns.is_empty());
+        assert_eq!(graph.instructions.len(), 1);
+        assert_eq!(graph.instructions[&0x401000].bytes, vec![0x90]);
+        let mut wrong_catalog = catalog.clone();
+        wrong_catalog.thunks.clear();
+        wrong_catalog.thunks.insert(0x401002, identity.clone());
+        let unmatched = Options {
+            imports: Some(std::sync::Arc::new(wrong_catalog)),
+            ..options
+        };
+        let graph = walk(&decoder, &pe, 0x401000, 0x401001, &unmatched).unwrap();
+        assert_eq!(graph.calls, ordinary.calls);
+        assert_eq!(graph.tails, ordinary.tails);
+        assert!(graph.imports.is_empty());
+    }
+    assert!(
+        walk(
+            &decoder,
+            &pe,
+            0x401000,
+            0x401001,
+            &Options {
+                imports: Some(std::sync::Arc::new(catalog)),
+                ..Default::default()
+            }
+        )
+        .is_err()
+    );
+}
+#[test]
 fn known_import_direct_iat_and_thunk_calls_share_identity() {
     let d = Decoder::new().unwrap();
     let direct = imported_image(

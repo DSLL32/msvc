@@ -301,8 +301,16 @@ pub fn walk(
             && (options.fallthrough_entry == Some(chunk_end)
                 || options.fallthrough_entries.contains(&chunk_end))
         {
-            out.calls.insert(chunk_end);
-            out.tails.insert(chunk_end);
+            if let Some(identity) = options
+                .imports
+                .as_ref()
+                .and_then(|c| c.thunks.get(&chunk_end))
+            {
+                out.imports.insert(identity.clone());
+            } else {
+                out.calls.insert(chunk_end);
+                out.tails.insert(chunk_end);
+            }
         } else {
             ensure!(
                 i.next() < chunk_end,
