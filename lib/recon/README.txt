@@ -586,7 +586,8 @@ success/guards use `make wcsicmp-ascii-check`.
 
 The Watcom100A profile alone remaps bare open to a distinct cdecl variadic
 typed boundary and supplies encountered O_BINARY=0x0200 (O_RDONLY=0). Every
-other mode denies125 without fetching any variadic permission word. Exact0200
+unqualified mode denies125 without fetching any variadic permission word;
+additional admitted tuples are documented below. Exact0200
 supports an ASCII nonempty/non-wildcard existing regular readonly path via the
 existing binary descriptor backend (mode8000, OPEN_EXISTING/shareREAD|WRITE).
 Host-only preflight preserves incoming errno; real descriptor publication,
@@ -1964,3 +1965,16 @@ qualifying its normal non-NULL path with exact source/DSO binding. This does not
 hard overflow protection or original low-stack behavior. Focused authored main
 and pthread controls verify400 writable bytes, canaries, one size evaluation,
 independent errors/semantic FP and a genuinely low-stack NULL path.
+
+Watcom existing-file RW open additionally admits exact0202 (O_RDWR|O_BINARY)
+for a real existing regular relative ASCII path, under the existing bounded
+component/lstat checks. It calls the same descriptor backend with8002 and never
+fetches a variadic permission argument; no CREATE/TRUNC/exclusive semantics are
+introduced. Missing paths and other failures remain unsupported for this tuple,
+separately from the prior readonly ENOENT behavior. Success retains target errno
+and normal binary bytes, initial cursor0 and independent descriptor ownership.
+Native success LastError clearing comes from the existing backend; original
+per-call error values are unmeasured. Focused two-argument and unused-third-arg
+controls cover raw read/write, independent cursors, close, unchanged tails and
+retained readonly/create domains. WLINK residual-unit adoption is pending;
+this is source/static/native-unit support, not original-runtime equivalence.

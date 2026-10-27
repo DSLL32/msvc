@@ -1090,3 +1090,11 @@ build/mbtowc-1252-generic: tests/mbtowc-1252-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mbtowc-1252-check: build/mbtowc-1252-probe build/mbtowc-1252-generic
 	$(PYTHON) tests/check-mbtowc-1252.py $^
+
+.PHONY: watcom-open-rw-check
+build/watcom-open-rw-probe: tests/watcom-open-rw-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+build/watcom-open-rw-generic: tests/watcom-open-rw-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+watcom-open-rw-check: build/watcom-open-rw-probe build/watcom-open-rw-generic
+	$(PYTHON) tests/check-watcom-open-rw.py $^
