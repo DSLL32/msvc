@@ -1400,22 +1400,48 @@ static const struct CompilerPragmaName {
     { "age", PRAGMA_PAGE },
     { "ack", PRAGMA_PACK }
 };
-/* Encountered prefix3..6 of the 'c' bucket, in original search order.
- * The following check_stack/check_pointer rows are not consumed here. */
+/* Encountered prefix3..7 of the 'c' bucket, in original search order.
+ * The following check_pointer row remains unsupported. */
 static const CompilerPragmaName pragma_c_prefix[] = {
     { "onst_seg", PRAGMA_CONST_SEG },
     { "omponent", PRAGMA_COMPONENT },
     { "omment", PRAGMA_COMMENT },
-    { "ode_seg", PRAGMA_CODE_SEG }
+    { "ode_seg", PRAGMA_CODE_SEG },
+    { "heck_stack", PRAGMA_CHECK_STACK }
 };
 extern "C" int __cdecl classify_pragma_name(const char *name)
 {
     unsigned i;
     signed char first = (signed char)*name;
     if (first < '_') return PRAGMA_UNKNOWN;
+    /* Complete encountered 'm' bucket, relation20. */
+    if (first == 'm') return strcmp(name + 1, "essage") == 0 ? PRAGMA_MESSAGE : PRAGMA_UNKNOWN;
+    /* Complete encountered 'w' bucket, relation48. */
+    if (first == 'w') return strcmp(name + 1, "arning") == 0 ? PRAGMA_WARNING : PRAGMA_UNKNOWN;
+    /* Encountered prefix12..14 of the 'i' bucket, in search order. */
+    if (first == 'i') {
+        if (!strcmp(name + 1, "ntrinsic")) return PRAGMA_INTRINSIC;
+        if (!strcmp(name + 1, "nline_recursion")) return PRAGMA_INLINE_RECURSION;
+        if (!strcmp(name + 1, "nline_depth")) return PRAGMA_INLINE_DEPTH;
+        __asm { int 3 }
+    }
+    /* Complete two-row 'a' bucket, relations0..1. */
+    if (first == 'a') {
+        if (!strcmp(name + 1, "uto_inline")) return PRAGMA_AUTO_INLINE;
+        if (!strcmp(name + 1, "lloc_text")) return PRAGMA_ALLOC_TEXT;
+        return PRAGMA_UNKNOWN;
+    }
     /* Encountered relation24 in the 'o' bucket: suffix nce -> ONCE37.
      * Other 'o' spellings remain unsupported rather than missing keywords. */
-    if (first == 'o' && strcmp(name + 1, "nce") == 0) return PRAGMA_ONCE;
+    if (first == 'o') {
+        if (!strcmp(name + 1, "ptions")) return PRAGMA_OPTIONS;
+        if (!strcmp(name + 1, "ptimize")) return PRAGMA_OPTIMIZE;
+        if (!strcmp(name + 1, "nce")) return PRAGMA_ONCE;
+        return PRAGMA_UNKNOWN;
+    }
+    if (first == 'f') return !strcmp(name + 1, "unction") ? PRAGMA_FUNCTION : PRAGMA_UNKNOWN;
+    /* Complete encountered 'b' bucket, relation2. */
+    if (first == 'b') return !strcmp(name + 1, "ss_seg") ? PRAGMA_BSS_SEG : PRAGMA_UNKNOWN;
     /* The complete encountered 'd' bucket is relation9: ata_seg ->22. */
     if (first == 'd') return strcmp(name + 1, "ata_seg") == 0 ? PRAGMA_DATA_SEG : PRAGMA_UNKNOWN;
     if (first == 'c') {

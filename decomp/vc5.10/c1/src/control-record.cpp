@@ -4,7 +4,7 @@
 #include "keywords.h"
 #include "global-record.h"
 #include "pragma.h"
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen, memcpy)
 #include <recon.h>
 
 /* The encountered control-record format column at RVA653c8. Each nonNULL
@@ -31,11 +31,10 @@ const BYTE *control_option_value; /* RVA5e230 */
 /* RVA54fd8 is the shared counted assembler record in c1_bss. */
 static BYTE control_byte; /* RVA550f0 */
 static short control_short; /* RVA54b34 */
-WORD control_state_first, control_state_second; /* RVA5f364/5f368 */
 extern "C" {
 void __cdecl write_expression_marker(unsigned);
 int __cdecl has_control_location(void);
-void *__cdecl copy_control_option(const void *, void *, unsigned);
+void *__cdecl copy_control_option(const void *, unsigned, unsigned);
 void __cdecl write_global_record(unsigned, CompilerIrSymbol *);
 void __cdecl initialize_semantic_context(void);
 unsigned __cdecl pack_option_flags(void);
@@ -58,8 +57,8 @@ extern "C" void __cdecl emit_control_record(int code)
     if (!c1_data.c9_il && code != 11 && !(c1_data.function_record_flags & 0x1000)) return;
     if (c1_bss.function_output_mode) return;
 #ifdef RECON_NATIVE_TEST
-    if (!c1_data.c9_il || code < 0 || code > 36 || code == 11)
-        recon_unsupported("non-IL or option-list control record is not yet modeled");
+    if (!c1_data.c9_il || code < 0 || code > 36)
+        recon_unsupported("non-IL or unknown control record is not yet modeled");
 #endif
     if (code == 1 || code == 36) {
         if (code == 36) {
@@ -94,7 +93,7 @@ extern "C" void __cdecl emit_control_record(int code)
         item->kind = control_option_kind;
         unsigned count = control_option_kind == 7 ? control_option_value[0] + 1 :
             strlen((const char *)control_option_value) + 1;
-        item->value = (const BYTE *)copy_control_option(control_option_value, NULL, count);
+        item->value = (const BYTE *)copy_control_option(control_option_value, 0, count);
         c1_data.global_options = item;
         return;
     }
@@ -185,9 +184,6 @@ write_record:
             buffer->cursor += 4;
         }
     } else if (operand == CONTROL_STATE) {
-#ifdef RECON_NATIVE_TEST
-        recon_unsupported("control-record state bytes are not yet modeled");
-#endif
         value = control_state_first | ((unsigned)control_state_second << 8);
         CONTROL_ENCODED_SHORT(value, 4);
     } else if (operand == CONTROL_SUBCODE) write_warning_controls(code);
@@ -220,8 +216,24 @@ extern "C" int __cdecl has_control_location(void)
     c1_data.line_range_warning_enabled = 1;
     return 1;
 }
-extern "C" void *__cdecl copy_control_option(const void *, void *, unsigned)
-{ __asm { int 3 } return NULL; }
+extern "C" void *__cdecl copy_control_option(const void *source, unsigned arena_kind, unsigned count)
+{
+    CompilerArena *arena;
+    BYTE *result;
+    if (arena_kind >= 6) {
+#ifdef __linux__
+        recon_unsupported("control-option copy arena is not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    arena = &c1_bss.arenas[arena_kind];
+    result = arena->cursor;
+    arena->cursor += (count + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    memcpy(result, source, count);
+    return result;
+}
 /* The warning table and its unsigned scan bounds are existing option
  * owners. Offsets in the stream are signed WORDs relative to warning700. */
 #define WARNING_SPACE(n) \

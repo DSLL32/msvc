@@ -2,13 +2,14 @@
  * The wider directive state is source-only. Its entry guard traps in both
  * builds before unmodeled values are consumed. */
 #include <locale.h>
+#include <stdio.h>
 #include <string.h>
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
 #include "pragma.h"
 #include "packing.h"
-#pragma intrinsic(strcmp, memcpy, memset)
+#pragma intrinsic(strcmp, memcpy, memset, strlen)
 #include <recon.h>
 
 /* Contextual cells on currently unsupported branches. No initialized value,
@@ -18,8 +19,6 @@ struct PragmaSourceState {
     WORD pch_header_status;                  /* RVA5f5a8 */
     const char *optimization_text;           /* RVA54c84 */
     int optimization_enabled;               /* RVA53ff0 */
-    unsigned optimization_restore_mask;     /* RVA5f8b8 */
-    unsigned optimization_disable_mask;     /* RVA5f8c0 */
 };
 static PragmaSourceState pragma_state;
 void *c1_pch_stop_owner; /* Shared source-only PCH stop/file owner, RVA5f31c */
@@ -94,7 +93,11 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != PRAGMA_PACK && code != PRAGMA_DATA_SEG && code != PRAGMA_CODE_SEG && code != 45 &&
+    if (code != PRAGMA_PACK && code != PRAGMA_MESSAGE && code != PRAGMA_WARNING && code != PRAGMA_CHECK_STACK &&
+        code != PRAGMA_INLINE_DEPTH && code != PRAGMA_INLINE_RECURSION && code != PRAGMA_AUTO_INLINE &&
+        code != PRAGMA_OPTIMIZE && code != PRAGMA_INTRINSIC && code != PRAGMA_FUNCTION &&
+        code != PRAGMA_COMMENT && code != PRAGMA_ALLOC_TEXT && code != PRAGMA_CONST_SEG && code != PRAGMA_BSS_SEG &&
+        code != PRAGMA_DATA_SEG && code != PRAGMA_CODE_SEG && code != 45 &&
         (code != 44 || !token->value.context.object)) {
 #ifdef __linux__
         recon_unsupported("pragma dispatcher: unsupported source marker or missing owner");
@@ -363,9 +366,9 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
         } else {
             unsigned flags = pack_option_flags();
             if (pragma_state.optimization_enabled)
-                flags = (flags & ~pragma_state.optimization_restore_mask) |
-                    (c1_bss.initial_option_flags & pragma_state.optimization_restore_mask);
-            else flags &= ~pragma_state.optimization_disable_mask;
+                flags = (flags & ~c1_data.pragma_restore_options) |
+                    (c1_bss.initial_option_flags & c1_data.pragma_restore_options);
+            else flags &= ~c1_data.pragma_disable_options;
             apply_option_flags(flags);
         }
         break;
@@ -469,8 +472,34 @@ extern "C" CompilerParserToken *__cdecl expect_directive_token(BYTE kind)
     return NULL;
 }
 extern "C" void __cdecl skip_to_directive_newline(CompilerParserToken *) { __asm { int 3 } }
-extern "C" void __cdecl set_warning_state(unsigned, unsigned) { __asm { int 3 } }
-extern "C" CompilerParserToken * __cdecl read_optional_pragma_value(unsigned) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl set_warning_state(unsigned number, unsigned state)
+{
+    unsigned index = number > 4000 ? number - 4000 : number;
+    if (index < 1 || index > 999) {
+        report_language_diagnostic(1, 616, number, 4001, 4999);
+        return;
+    }
+    c1_data.options.warning_levels[index] = (BYTE)state;
+    if (index >= 700) {
+        if (c1_data.options.lowest_warning >= index)
+            c1_data.options.lowest_warning = index;
+        if (c1_data.options.highest_warning <= index)
+            c1_data.options.highest_warning = index;
+    }
+}
+extern "C" CompilerParserToken * __cdecl read_optional_pragma_value(unsigned kind)
+{
+    CompilerParserToken *token, *value;
+    if (!expect_directive_token(118)) return NULL;
+    token = PRAGMA_CONTEXT.ReadToken();
+    if (token->kind == 126) return NULL;
+    PRAGMA_UNREAD(token);
+    if ((BYTE)kind == 1) value = read_pragma_switch();
+    else if ((BYTE)kind == 7) value = read_pragma_string();
+    else value = expect_directive_token((BYTE)kind);
+    if (!value) return NULL;
+    return expect_directive_token(126) ? value : NULL;
+}
 extern "C" CompilerParserToken * __cdecl read_required_pragma_value(unsigned) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl append_literal_text(CompilerStringValue *, const CompilerStringValue *);
 extern "C" CompilerParserToken * __cdecl read_pragma_string(void)
@@ -508,7 +537,52 @@ extern "C" CompilerParserToken * __cdecl read_pragma_string(void)
     }
     return result;
 }
-extern "C" CompilerParserToken * __cdecl read_pragma_switch(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerParserToken * __cdecl read_pragma_switch(void)
+{
+    CompilerParserToken *token = expect_directive_token(6), *result;
+    const char *name;
+    if (!token) return NULL;
+    name = token->value.name->name;
+    if (!strcmp(name, "on")) {
+        c1_bss.literal.integer = 1;
+        if (c1_bss.symbol_arena_kind) {
+            if (c1_bss.symbol_arena_kind >= 6)
+                PRAGMA_UNSUPPORTED("pragma switch token arena outside recovered owners");
+            result = (CompilerParserToken *)c1_bss.arenas[c1_bss.symbol_arena_kind].AllocateBytes(32);
+        } else {
+            CompilerPool *pool = &c1_bss.pools[6];
+            if (pool->remaining < 32) pool->Refill(32);
+            result = (CompilerParserToken *)pool->cursor;
+            pool->cursor += 32;
+            pool->remaining -= 32;
+        }
+    } else if (!strcmp(name, "off")) {
+        c1_bss.literal.integer = 0;
+        if (c1_bss.symbol_arena_kind) {
+            if (c1_bss.symbol_arena_kind >= 6)
+                PRAGMA_UNSUPPORTED("pragma switch token arena outside recovered owners");
+            CompilerArena *arena = &c1_bss.arenas[c1_bss.symbol_arena_kind];
+            result = (CompilerParserToken *)arena->cursor;
+            arena->cursor += 32;
+            if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        } else {
+            CompilerPool *pool = &c1_bss.pools[6];
+            if (pool->remaining < 32) pool->Refill(32);
+            result = (CompilerParserToken *)pool->cursor;
+            pool->cursor += 32;
+            pool->remaining -= 32;
+        }
+    } else {
+        report_language_diagnostic(1, 85);
+        return NULL;
+    }
+    if (result) {
+        result->kind = 101;
+        /* Retain the authentic opaque tail; only the first QWORD is written. */
+        memcpy(&result->value, &c1_bss.literal, 24);
+    }
+    return result;
+}
 extern "C" CompilerIrSymbol *__cdecl create_segment_symbol(CompilerNameEntry *, CompilerNameEntry *, unsigned, unsigned);
 extern "C" int __cdecl segment_has_suffix(const char *, const char *);
 extern "C" CompilerIrSymbol *__cdecl lookup_ir_symbol(CompilerIrSymbol *);
@@ -590,12 +664,135 @@ extern "C" void __cdecl enable_minimal_rebuild_component(void) { __asm { int 3 }
 extern "C" void __cdecl enable_minimum_type_info_component(void) { __asm { int 3 } }
 extern "C" void __cdecl enable_browser_component(void) { __asm { int 3 } }
 extern "C" void __cdecl mark_precompiled_header_stop(void **) { __asm { int 3 } }
-extern "C" void __cdecl apply_option_flags(unsigned) { __asm { int 3 } }
-extern "C" void __cdecl print_pragma_message(const char *) { __asm { int 3 } }
-extern "C" void __cdecl read_pragma_identifier_list(void (__cdecl *)(CompilerNameEntry *)) { __asm { int 3 } }
-extern "C" void __cdecl mark_function_nonintrinsic(CompilerNameEntry *) { __asm { int 3 } }
-extern "C" void __cdecl mark_function_intrinsic(CompilerNameEntry *) { __asm { int 3 } }
-extern "C" void __cdecl assign_allocated_text_segment(CompilerNameEntry *) { __asm { int 3 } }
+extern "C" void __cdecl apply_option_flags(unsigned flags)
+{
+    unsigned index;
+    for (index = 0; index != 21; ++index, flags <<= 1)
+        if (c1_option_flag_destinations[index])
+            *c1_option_flag_destinations[index] = (int)flags < 0;
+}
+extern "C" void __cdecl print_pragma_message(const char *text)
+{
+    fwrite(text, strlen(text), 1, stderr);
+}
+extern "C" void __cdecl read_pragma_identifier_list(void (__cdecl *apply)(CompilerNameEntry *))
+{
+    CompilerParserToken *token;
+    CompilerNameEntry *name;
+    for (;;) {
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 6) name = token->value.name;
+        else {
+            PRAGMA_UNREAD(token);
+            if (token->kind != 7) return;
+            token = read_pragma_string();
+            name = find_or_create_identifier((const char *)token->value.pointer);
+        }
+        if (apply) apply(name);
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind != 55) {
+            PRAGMA_UNREAD(token);
+            return;
+        }
+    }
+}
+extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *);
+extern "C" void __cdecl reset_function_intrinsic(CompilerIrSymbol *);
+extern "C" int __cdecl find_intrinsic_number(CompilerNameEntry *identifier)
+{
+    /* Encountered 'a' bucket: the actual bounds select relations30..34.
+     * Suffixes retain the original lookup order and intrinsic numbers. */
+    static const char *suffixes[] = { "tan2", "tan", "sin", "cos", "bs" };
+    const char *name = identifier->name;
+    unsigned i;
+    if ((signed char)*name < '_') return -1;
+    if (*name != 'a') PRAGMA_UNSUPPORTED("intrinsic classifier bucket not recovered");
+    for (i = 0; i != sizeof(suffixes) / sizeof(suffixes[0]); ++i)
+        if (!strcmp(name + 1, suffixes[i])) return 30 + i;
+    return -1;
+}
+extern "C" void __cdecl reset_function_intrinsic(CompilerIrSymbol *symbol)
+{
+    symbol->kind = 7;
+    symbol->intrinsic_flags = 0x21;
+}
+extern "C" void __cdecl mark_function_nonintrinsic(CompilerNameEntry *name)
+{
+    CompilerIrSymbol **found, *symbol;
+    if (find_intrinsic_number(name) == -1) {
+        report_language_diagnostic(1, 163, name);
+        return;
+    }
+    found = c1_data.translation_unit->FindName(name);
+    if (!found) {
+        report_language_diagnostic(1, 164, name, name);
+        return;
+    }
+    symbol = *found;
+    if (symbol->kind != 7 && symbol->kind != 8 && symbol->kind != 6) {
+        compiler_warning(170, name);
+        return;
+    }
+    if (symbol->intrinsic_traits & 0x80) {
+        report_language_diagnostic(1, 167, name, name);
+        return;
+    }
+    reset_function_intrinsic(symbol);
+}
+extern "C" void __cdecl initialize_intrinsic_symbol(CompilerIrSymbol *, unsigned);
+extern "C" void __cdecl mark_function_intrinsic(CompilerNameEntry *name)
+{
+    int number = find_intrinsic_number(name);
+    CompilerIrSymbol **found, *symbol;
+    if (number == -1) {
+        report_language_diagnostic(1, 163, name);
+        return;
+    }
+    found = c1_data.translation_unit->FindName(name);
+    symbol = found ? *found : NULL;
+    if (!symbol) {
+        report_language_diagnostic(1, 164, name, name);
+        return;
+    }
+    if (symbol->kind != 7 && symbol->kind != 8 && symbol->kind != 6) {
+        compiler_warning(170, name);
+        return;
+    }
+    initialize_intrinsic_symbol(symbol, number);
+}
+extern "C" void __cdecl apply_function_context(CompilerIrSymbol *, CompilerIrSymbol *);
+extern "C" void __cdecl assign_allocated_text_segment(CompilerNameEntry *name)
+{
+    CompilerIrSymbol **found = (CompilerIrSymbol **)c1_data.translation_unit->root->Find(name);
+    CompilerIrSymbol *symbol = found ? *found : NULL;
+    if (!symbol) { compiler_warning(157, name); return; }
+    if (symbol->function_flags & 1) {
+        if (lookup_ir_symbol(symbol) != pragma_state.allocated_text_segment)
+            compiler_warning(193, symbol);
+        return;
+    }
+    if (c1_data.lexer_flags & 0x10000) {
+        if (symbol->kind != 7 && symbol->kind != 8) {
+            compiler_warning(63, symbol);
+            goto apply;
+        }
+        if (!(symbol->flags & 1)) goto apply;
+        compiler_warning(200, symbol);
+        apply_function_context(symbol, pragma_state.allocated_text_segment);
+        return;
+    }
+    if (symbol->kind != 10) {
+        symbol->scope_bits |= 1;
+        compiler_warning(158, symbol);
+        return;
+    }
+    if ((symbol->storage_class & 7) == 1) goto apply;
+    symbol->scope_bits |= 1;
+    compiler_warning(178, symbol);
+    return;
+apply:
+    apply_function_context(symbol, pragma_state.allocated_text_segment);
+}
 extern "C" unsigned __cdecl normalize_packing_alignment(unsigned);
 extern "C" void __cdecl pop_packing(unsigned, const void *);
 extern "C" void __cdecl process_pack_pragma(void)

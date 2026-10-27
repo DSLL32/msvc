@@ -200,21 +200,21 @@ finish_streams:
     return c1_bss.error_count + (c1_bss.options.warnings_are_errors > 1);
 }
 
-extern "C" unsigned __cdecl pack_option_flags(void)
-{
-    /* Sparse positions are the established IL option-bit contract, not fields
-     * synthesized for the unused entries of the original pointer table. */
-    static const int *values[21] = {
+/* Both pack and restore consume this one authentic21-position relation at
+ * RVA5f8c8. NULL positions neither read nor write a destination. */
+int *const c1_option_flag_destinations[21] = {
         &c1_data.normalized_stack_checks, NULL, NULL, NULL, NULL, NULL,
         &c1_data.options.assume_no_alias, &c1_data.options.assume_no_global_alias,
         &c1_data.options.optimize_size, NULL, &c1_data.options.global_optimize,
         NULL, NULL, &c1_data.options.precise_float, NULL, NULL, NULL,
         &c1_data.normalized_oq, &c1_data.options.option_ov, NULL,
         &c1_data.options.omit_frame_pointer
-    };
+};
+extern "C" unsigned __cdecl pack_option_flags(void)
+{
     unsigned result = 0, bit = 0x80000000U, index;
     for (index = 0; index < 21; ++index, bit >>= 1)
-        if (values[index] && *values[index])
+        if (c1_option_flag_destinations[index] && *c1_option_flag_destinations[index])
             result |= bit;
     return result;
 }

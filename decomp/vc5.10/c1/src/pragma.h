@@ -58,6 +58,8 @@ struct CompilerIrSymbol;
 #define declaration_reference_defaults c1_data.segment_defaults
 extern unsigned control_option_kind;
 extern const BYTE *control_option_value;
-extern WORD control_state_first, control_state_second;
+#define control_state_first c1_data.inline_depth
+#define control_state_second c1_data.inline_recursion
+extern int *const c1_option_flag_destinations[21];
 extern void *c1_pch_stop_owner; /* RVA5f31c, source-only until PCH creation */
 #endif

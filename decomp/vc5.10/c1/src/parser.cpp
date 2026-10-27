@@ -6788,7 +6788,10 @@ void __cdecl check_constant_conversion(unsigned operation, CompilerParserNode *v
     int source_width, destination_width;
     if (c1_data.options.warning_level < 2) return;
 #ifdef RECON_NATIVE_TEST
-    recon_unsupported("conversion diagnostics at higher warning levels are not yet modeled");
+    if (!value || !value->type || !destination || value->type->shape || destination->shape ||
+        value->type->flags != 0x63 || destination->flags != 0x63 ||
+        (value->type->attributes & ~0x110U) || (destination->attributes & ~0x100U))
+        recon_unsupported("conversion diagnostics outside the same-int domain are not yet modeled");
 #endif
     switch ((BYTE)operation) {
     case 52: case 58: case 71: case 75:
@@ -7028,7 +7031,8 @@ CompilerParserNode * __cdecl normalize_based_expression(CompilerParserNode *valu
         call_context->callee = symbol;
         if (symbol->kind == 6) {
 #ifdef __linux__
-            recon_unsupported("intrinsic call context is not yet qualified");
+            if (symbol->intrinsic_opcode != 0x0f || symbol->intrinsic_traits != 1)
+                recon_unsupported("intrinsic call context is outside the integer-absolute domain");
 #endif
             unsigned opcode = symbol->intrinsic_opcode;
             if ((opcode == 0xd9 && !(lexer_flags & 0x2000000) && !exception_code_enabled) ||

@@ -194,6 +194,10 @@ typedef struct CompilerInitializedState {
     unsigned segment_symbol_cache_index; /* RVA5f4a0, default9; segment-symbol recycle selector. */
     CompilerSymbolMap *declaration_context_map; /* RVA5e9a8, defaultNULL; record-id to declaration-context binding. */
     unsigned anonymous_identifier_count; /* RVA5e9d0, default1; generated $S names. */
+    WORD inline_depth; /* RVA5f364, initial8; pragma emits the low byte. */
+    WORD inline_recursion; /* RVA5f368, initial0. */
+    unsigned pragma_restore_options; /* RVA5f8b8, initial03fff800. */
+    unsigned pragma_disable_options; /* RVA5f8c0, initial037eb800. */
     CompilerRecordSizes record_sizes;
     CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only heads5/9/10 are known */
     CompilerDeclarationReferenceDefaults segment_defaults;

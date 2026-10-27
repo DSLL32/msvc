@@ -195,6 +195,8 @@ CompilerInitializedState c1_data = {
     9, /* Actual kind14 segment-symbol cache selector. */
     NULL, /* Record-id declaration-context map. */
     1, /* Generated anonymous-identifier sequence. */
+    8, 0, /* Inline depth and recursion pragma state. */
+    0x03fff800, 0x037eb800, /* Empty optimize-string restore/disable masks. */
     { { { 0 }, 52, 52, 52, 52, 40, 52, { 0 }, 52, 52, 52, 52, 52, 52, { 0 } } },
     { { { 0 }, NULL, { 0 }, NULL, NULL } }, /* Only heads5/9/10 have known defaults. */
     { NULL, NULL, NULL }, /* BSS/CONST/DATA segment defaults are semantic NULL. */

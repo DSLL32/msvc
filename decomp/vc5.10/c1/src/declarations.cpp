@@ -49,6 +49,9 @@ struct DeclarationTagNameView {
 
 #define INT_ARRAY_TYPE(t) ((t) && (t)->flags == 0x63 && !(t)->attributes && \
     (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && !(t)->shape->base)
+#define CONST_INT_ARRAY_TYPE(t) ((t) && (t)->flags == 0x63 && (t)->attributes == 0x100 && \
+    (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && \
+    !(t)->shape->base && (t)->shape->value)
 
 #define CHAR_ARRAY_TYPE(t) ((t) && (t)->flags == 0x61 && !(t)->attributes && \
     (t)->shape && (t)->shape->flags == 2 && !(t)->shape->attributes && !(t)->shape->base)
@@ -230,6 +233,7 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         validate_declaration_type(symbol, storage_class == 7);
 #ifdef RECON_NATIVE_TEST
         if (!(symbol->kind == 10 && original.flags == 0x20003 && type == c1_data.builtin_types.type_0063) &&
+            !(symbol->kind == 10 && original.flags == 3 && CONST_INT_ARRAY_TYPE(type)) &&
             !(symbol->kind == 10 && (original.flags == 0x1001 || original.flags == 3 || original.flags == 0x20) &&
               (INT_ARRAY_TYPE(type) || INT_MATRIX_TYPE(type))) &&
             !(symbol->kind == 3 && original.flags == 0x20 && DECLARED_RECORD_MEMBER_TYPE(type)) &&
@@ -433,6 +437,7 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
     declare_symbol(declarator, symbol);
 #ifdef RECON_NATIVE_TEST
     if (!(symbol->kind == 10 && flags == 0x20003 && symbol->value_type == c1_data.builtin_types.type_0063) &&
+        !(symbol->kind == 10 && flags == 3 && CONST_INT_ARRAY_TYPE(symbol->value_type)) &&
         !(symbol->kind == 10 && (flags == 0x1001 || flags == 3 || flags == 0x20) &&
           (INT_ARRAY_TYPE(symbol->value_type) || INT_MATRIX_TYPE(symbol->value_type))) &&
         !(symbol->kind == 3 && flags == 0x20 && DECLARED_RECORD_MEMBER_TYPE(symbol->value_type)) &&
@@ -852,6 +857,10 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     } else if (symbol->kind == 10 && typedef_name && DECLARED_INT_CALLBACK(type)) {
         /* The explicit cdecl callback typedef retains its pointer/function
          * shape chain. No parameter-list or pointee bytes are consumed. */
+    } else if (symbol->kind == 10 && !typedef_name && type->flags == 0x63 && type->attributes == 0x100 &&
+        shape && shape->flags == 2 && !shape->attributes && !shape->base && shape->value) {
+        /* Complete const-int array: the real qualifier and bound writers
+         * retain the same established primitive and array shape. */
     } else if (symbol->kind == 10 && !typedef_name && (INT_ARRAY_TYPE(type) || INT_MATRIX_TYPE(type) || CHAR_ARRAY_TYPE(type))) {
         /* An int array object has the existing bound/qualifier writers below,
          * including the zero bound of an incomplete extern declaration. */

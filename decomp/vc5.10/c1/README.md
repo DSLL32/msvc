@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 757 application functions / 211,162 code bytes and
-9,406 bytes of owned text data. Application code is 65.52% of the original
+The reconstruction contains 769 application functions / 212,893 code bytes and
+9,406 bytes of owned text data. Application code is 66.06% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All eleven cached cases complete natively: DLL attach/export lookup/detach, the
+All twelve cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, and its positive extended-C counterpart. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, the declarators workload below, the Win32 extensions workload below, the storage-initialization diagnostic workload below, its positive extended-C counterpart, and the pragma-configuration workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -140,6 +140,20 @@ coverage. All eleven cached invocations and units passed in 0.408 s; the complet
 graph/ABI audit passed in 1.377 s. Raw artifacts and retained intermediate failures
 remain in scratch `extended-storage-case-20261027/`. The preceding rejection
 oracle is preserved separately, with no relabeling or diagnostic suppression.
+
+The pragma case combines compiler messages, warning disable/restore, stack
+checks, inline depth/recursion, automatic inlining, optimization controls,
+intrinsic off/on selection, linker comments and named CODE/CONST/BSS sections.
+Both executions exit zero with 472 first entries and exact outputs: `pragmaex`
+(1,344 bytes), `pragmagl` (226), `pragmain` (23), and `pragmasy` (64).
+The final reference took 1,941.802 ms and the matching native run 21.020 ms.
+It adds 12 application functions and 1,731 code bytes. Focused tests cover
+warning-number normalization, sparse option bits, copy alignment/tails and
+nonzero restoration of inline controls and optimization masks. All twelve
+cached invocations and units passed in 0.429 s; the complete graph/ABI audit
+passed in 1.385 s. Retained raw outputs and intermediate failures are in scratch
+`pragma-configuration-case-20261027/`. Other intrinsic-name buckets, diagnostic
+conversions and pragma domains retain their explicit unsupported boundaries.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly
