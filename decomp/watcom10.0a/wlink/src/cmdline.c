@@ -565,3 +565,59 @@ sysblock *FindSystemBlock( char *name )
     }
     return found;
 }
+
+unsigned char ProcDosHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x174, 0x183, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcOS2Help( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x184, 0x1a3, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcWindowsHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x1a4, 0x1c3, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcNTHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x1c4, 0x1e3, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcPharHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x1e4, 0x1f3, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcNovellHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x1f4, 0x213, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcQNXHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x224, 0x233, (CmdFlags & 1) != 0 );
+    return 1;
+}
+
+unsigned char ProcELFHelp( void )
+{
+    WriteGenHelp();
+    WriteHelp( 0x234, 0x243, (CmdFlags & 1) != 0 );
+    return 1;
+}

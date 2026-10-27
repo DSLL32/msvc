@@ -76,14 +76,6 @@ void WresRecordError( int status ) { status = status; TRAP(); }
 
 
 
-unsigned char ProcDosHelp( void ) { TRAP(); return 0; }
-unsigned char ProcOS2Help( void ) { TRAP(); return 0; }
-unsigned char ProcWindowsHelp( void ) { TRAP(); return 0; }
-unsigned char ProcNTHelp( void ) { TRAP(); return 0; }
-unsigned char ProcPharHelp( void ) { TRAP(); return 0; }
-unsigned char ProcNovellHelp( void ) { TRAP(); return 0; }
-unsigned char ProcQNXHelp( void ) { TRAP(); return 0; }
-unsigned char ProcELFHelp( void ) { TRAP(); return 0; }
 
 
 

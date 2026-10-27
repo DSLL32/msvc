@@ -5841,6 +5841,46 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcDosHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcOS2Help": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcWindowsHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNTHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcPharHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovellHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXHelp": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcELFHelp": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

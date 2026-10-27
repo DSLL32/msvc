@@ -1,5 +1,5 @@
-WLINK 10.0a has thirty completed native regression cases. The acceptance ledger
-contains **1,165 application functions / 131,124 unique original code bytes**.
+WLINK 10.0a has thirty-eight completed native regression cases. The acceptance ledger
+contains **1,173 application functions / 131,484 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -67,6 +67,8 @@ The twenty-ninth combines old ELF DLL policy, dead-code selection and DWARF
 line accounting with real imports/exports and a dependency module.
 The thirtieth uses seventeen genuine OMF files to exercise ordinary cache-handle
 cleanup in a PE OS/2-character-subsystem link.
+Eight further cases cover the terminal format-help selectors, one actual
+invocation per format.
 
 | Case | Result |
 | --- | --- |
@@ -100,6 +102,14 @@ cleanup in a PE OS/2-character-subsystem link.
 | `0028-ne-lines` | Exit 0; exact 248-byte stdout, empty stderr, 771-byte NE executable and 3,212-byte map |
 | `0029-elf-dll` | Exit 0; exact 255-byte stdout, empty stderr, 32,848-byte ELF image and 3,126-byte map |
 | `0030-pe-modules` | Exit 0; exact 222-byte stdout, empty stderr, 4,576-byte PE and 4,290-byte map |
+| `0031-help-dos` | Exit 0; exact 2,620-byte stdout, empty stderr, no artifacts |
+| `0032-help-os2` | Exit 0; exact 3,384-byte stdout, empty stderr, no artifacts |
+| `0033-help-windows` | Exit 0; exact 3,091-byte stdout, empty stderr, no artifacts |
+| `0034-help-nt` | Exit 0; exact 3,082-byte stdout, empty stderr, no artifacts |
+| `0035-help-pharlap` | Exit 0; exact 2,393-byte stdout, empty stderr, no artifacts |
+| `0036-help-novell` | Exit 0; exact 2,783-byte stdout, empty stderr, no artifacts |
+| `0037-help-qnx` | Exit 0; exact 2,502-byte stdout, empty stderr, no artifacts |
+| `0038-help-elf` | Exit 0; exact 2,270-byte stdout, empty stderr, no artifacts |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -707,3 +717,23 @@ invocation timed out after 30 s and its owned process was killed/waited; the
 failed runtime-version baseline and first raw timestamp mismatch are preserved.
 Authoring, commands and raw artifacts remain in scratch wlink-pe-modules; the
 case contains only source and capture data.
+
+
+The format-help family qualifies all eight actual wrappers. Each terminates
+the process after its selector, so DOS, OS/2, Windows, NT, Phar Lap, NetWare,
+QNX and ELF remain distinct cached CLI cases rather than a fabricated combined
+trace. Each matches 115 first entries, exact status/streams and empty artifact
+inventory. The source preserves each real resource-ID range, WriteGenHelp and
+WriteHelp edges, and console/pagination flag. No output normalization or new
+resource-reader owner was needed.
+
+One family build took **1.276 s**, its scoped graph/ABI check **352.676 ms**.
+The final full build/regression/unit/audit took **1.960 s**; all thirty-eight
+cases and 1,177 source-ready graph/ABI identities pass. The 76 native runs took
+**17.765–58.340 ms**. Final selector captures took **763.386–3,362.126 ms** per
+command (**754.405–1,753.715 ms** owned execution); native comparisons took
+**24.010–28.839 ms**. Individual setup/execution/check splits, raw streams,
+artifacts and commands remain in scratch wlink-format-help. Only the actual
+selector invoked to completion gains ledger credit; the seven other prepared
+wrappers remained explicitly unaccepted until their own comparisons passed.
+All eight case folders contain only source and capture data.
