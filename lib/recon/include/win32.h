@@ -227,7 +227,7 @@ typedef struct _IMAGE_EXPORT_DIRECTORY {
 } IMAGE_EXPORT_DIRECTORY,*PIMAGE_EXPORT_DIRECTORY;
 typedef struct { DWORD Characteristics,TimeDateStamp; WORD MajorVersion,MinorVersion; DWORD Type,SizeOfData,AddressOfRawData,PointerToRawData; } IMAGE_DEBUG_DIRECTORY;
 typedef struct { DWORD Characteristics,TimeDateStamp,ForwarderChain,Name,FirstThunk; } IMAGE_IMPORT_DESCRIPTOR;
-typedef struct { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER;
+typedef struct _IMAGE_COFF_SYMBOLS_HEADER { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER,*PIMAGE_COFF_SYMBOLS_HEADER;
 #pragma pack(pop)
 
 /* Separate .DBG header (bundled WINNT.H, four-byte packing). */
@@ -292,8 +292,13 @@ typedef struct _FPO_DATA {
 #define IMAGE_DIRECTORY_ENTRY_LOAD_CONFIG 10
 #define IMAGE_DIRECTORY_ENTRY_BOUND_IMPORT 11
 #define IMAGE_DIRECTORY_ENTRY_IAT 12
+#define IMAGE_DEBUG_TYPE_COFF 1
 #define IMAGE_DEBUG_TYPE_CODEVIEW 2
 #define IMAGE_DEBUG_TYPE_FPO 3
+#define IMAGE_DEBUG_TYPE_EXCEPTION 5
+#define IMAGE_DEBUG_TYPE_FIXUP 6
+#define IMAGE_DEBUG_TYPE_OMAP_TO_SRC 7
+#define IMAGE_DEBUG_TYPE_OMAP_FROM_SRC 8
 #define IMAGE_SCN_TYPE_NO_PAD 0x00000008
 #define IMAGE_SCN_CNT_CODE 0x00000020
 #define IMAGE_SCN_CNT_INITIALIZED_DATA 0x00000040
