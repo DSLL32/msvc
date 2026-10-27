@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-615 application functions / 234,136 original code bytes are reconstructed
-(56.44% of the 414,810-byte whole `.text` extent, which includes CRT and text
+621 application functions / 234,675 original code bytes are reconstructed
+(56.57% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 42 pending bodies with known extents totaling 4,434 bytes and
-185 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 40 pending bodies with known extents totaling 4,281 bytes and
+182 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-one cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-two cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-628-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 608 ordinary application bodies and six CRT bodies. Seven import
+634-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 614 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -741,3 +741,30 @@ original-build and full graph/RET/EH batch passed in 4.66 s. Two missing
 stdcall declarations during the source split were caught by original linking
 before execution; those failed candidates remain excluded and retained in
 scratch.
+
+The failed-link case uses two genuine original-compiled objects in buffered-file
+mode, with duplicate strong data/function definitions and unresolved references.
+One undefined symbol has two referring modules, exercising the real four-slot
+reference block; the other retains its single-module owner. Both duplicate
+warnings, all three unresolved-reference diagnostics and the fatal summary
+match the untouched master exactly. Both executions retain the full DWORD exit
+status 1120, with an empty map and no executable. No normalization is used.
+
+Six whole bodies / 539 original code bytes recover duplicate reporting,
+reference-enumerator initialization/advance, ordinary error and fatal wrappers,
+and terminating cleanup. The third fatal formal keeps its physical DWORD
+transport and actual low-BYTE cleanup meaning; exit receives the diagnostic
+number. The single fatal flag at 48a738 is set before file cleanup, so buffered
+pages follow their original discard path. Incremental/PDB cleanup children and
+warning-as-error resource 1218 remain unvisited; genuine pending children retain
+entry traps. Ordinary cdecl nonvolatile ESI contracts qualify only the two
+actual cached unlink sites across unlink/access calls, with exact site checks.
+
+The completed original took 1,664.6 ms; the fresh native comparison took
+16.5 ms (11.3 ms setup, 2.1 ms execution, 3.1 ms checks). All capture fields equal
+the separately retained untouched master. The single parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 4.17 s:
+32 cases, 634 graph vertices, 620 scoped return contracts and seven distinct
+EH-owner checks. Earlier single-reference inputs/prefixes, rejected producer
+flags and failed static metadata remain separately retained in scratch. These
+are incremental measurements, not clean-build timings.

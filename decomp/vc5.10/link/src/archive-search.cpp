@@ -80,10 +80,37 @@ BYTE __stdcall next_undefined(UndefinedEnumerator *e)
     e->next_symbol=e->current->undefined_next;
     return 1;
 }
-void __stdcall initialize_symbol_reference_enumerator(SymbolReferenceEnumerator *e,StringNode *symbol)
-{ __asm { int 3 } }
 BYTE __stdcall next_symbol_reference(SymbolReferenceEnumerator *e)
-{ __asm { int 3 } return 0; }
+{
+    if(!e->symbol)return 0;
+    if(!(e->symbol->flags&0x1000)) {
+        e->current=(OutputModule *)e->symbol->reference_owner;
+        e->symbol=NULL;
+        return (BYTE)(e->current!=NULL);
+    }
+    while(e->block) {
+        while(e->index<4 && !e->block->owners[e->index])++e->index;
+        if(e->index!=4) {
+            e->current=(OutputModule *)e->block->owners[e->index++];
+            return 1;
+        }
+        e->block=e->block->next;
+        e->index=0;
+    }
+    return 0;
+}
+void __stdcall initialize_symbol_reference_enumerator(SymbolReferenceEnumerator *e,StringNode *symbol)
+{
+    e->next=next_symbol_reference;
+    e->end=(void (__stdcall *)(SymbolReferenceEnumerator *))end_section_enumerator;
+    e->symbol=symbol;
+    if(symbol->flags&0x1000) {
+        e->index=0;
+        e->block=symbol->auxiliary;
+    }
+    /* The single-owner representation does not initialize block/index;
+     * current is written by the genuine next function before consumption. */
+}
 char *__cdecl __unDName(char *,const char *,int,
     void *(__cdecl *)(size_t),void (__cdecl *)(void *),unsigned short);
 #pragma intrinsic(strlen,strcpy,strcat)
@@ -429,8 +456,7 @@ extern BYTE mac_target,verbose_libraries,file_access_statistics;
 extern DWORD undefined_symbols;
 /* Set by the as-yet unreconstructed Mac library-binding paths. */
 BYTE mac_library_binding_seen;
-void __cdecl link_unresolved_error(const char *file,unsigned message,...)
-{ __asm { int 3 } }
+void __cdecl link_unresolved_error(const char *file,unsigned message,...);
 }
 extern "C" WORD __stdcall get_hash_flags(HashState *state)
 { return state->flags; }

@@ -25,7 +25,7 @@ extern int selected_tool_kind;
 IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
 void __stdcall mark_symbol_bit(DWORD *,DWORD);
 void __stdcall collect_weak_external(StringTable *,IMAGE_SYMBOL **,IMAGE_SYMBOL *,StringNode *,OutputModule *,BYTE *,BYTE,DWORD);
-void __stdcall report_duplicate_comdat(LinkOptions *,const char *,const char *,const char *);
+void __stdcall report_duplicate_symbol(LinkOptions *,const char *,const char *,const char *);
 void __stdcall record_undefined_comdat(StringNode *,const char *,OutputModule *);
 int __stdcall has_incremental_symbol(void *,StringNode *);
 int __stdcall update_incremental_symbol(const char *,IMAGE_SYMBOL *,StringNode *,BYTE);
@@ -139,7 +139,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
                                 has_incremental_symbol(context->incremental_symbols,symbol))
                                 goto duplicate_incremental;
                         }
-                        report_duplicate_comdat(&context->options,module_name,name,previous_name);
+                        report_duplicate_symbol(&context->options,module_name,name,previous_name);
                     }
                     contribution=symbol->contribution;
                     define=0;
@@ -192,7 +192,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
                     if(symbol->contribution)
                         format_contribution_module(symbol->contribution,previous_absolute_name);
                     else strcpy(previous_absolute_name,"a previous module");
-                    report_duplicate_comdat(&context->options,module_name,name,previous_absolute_name);
+                    report_duplicate_symbol(&context->options,module_name,name,previous_absolute_name);
                     define=0;
                 }
                 if(mac_target) {

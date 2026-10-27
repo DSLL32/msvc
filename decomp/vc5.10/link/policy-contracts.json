@@ -5703,5 +5703,17 @@
   },
   "dumper_map_ordinary_abi": {
     "scope": "The reconstructed next_coff_symbol uses the actual stdcall1/RET4 ABI. Its ordinary normal-return ABI preserves EBP while dump_coff_map caches fprintf across both the main-symbol and auxiliary-record calls. Only that EBP fact is added; no helper or runtime body credit."
+  },
+  "fatal_cleanup_ordinary_abi": {
+    "owner": "_exit_link_diagnostic@20",
+    "normal_return_preservation": {
+      "msvcrt.dll!_access": [
+        "esi"
+      ],
+      "msvcrt.dll!_unlink": [
+        "esi"
+      ]
+    },
+    "basis": "Public cdecl int _access(const char*,int) and int _unlink(const char*) preserve x86 nonvolatile ESI on normal return. Actual target caches IAT401270 (_unlink) in ESI at4301c8 and calls it at4301d8/430202, spanning actual _access4301ef. No provider-body audit or error/success semantics are added."
   }
 }

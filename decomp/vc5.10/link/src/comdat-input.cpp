@@ -6,6 +6,7 @@
 #include "sections.h"
 #include "memory.h"
 #include "initializers.h"
+#include "arguments.h"
 #include "full-link-functions.h"
 #include <recon.h>
 
@@ -27,7 +28,7 @@ char short_symbol_name[9];
 char *__stdcall format_contribution_module(Contribution *,char *);
 DWORD *__stdcall build_section_symbol_ranges(Contribution *,IMAGE_SYMBOL *);
 void __stdcall discard_associated_comdats(Contribution *);
-void __stdcall report_duplicate_comdat(LinkOptions *,const char *,const char *,const char *);
+void __stdcall report_duplicate_symbol(LinkOptions *,const char *,const char *,const char *);
 void __stdcall record_undefined_comdat(StringNode *,const char *,OutputModule *);
 BYTE __stdcall remove_module_symbol(OutputModule *,StringNode *);
 ContributionInfo *__stdcall get_contribution_info(Contribution *);
@@ -234,7 +235,7 @@ accepted:
 duplicate:
     format_module_name(comdat_symbol_module,module_name);
     format_contribution_module(symbol->contribution,previous_name);
-    report_duplicate_comdat(&context->options,module_name,symbol_name,previous_name);
+    report_duplicate_symbol(&context->options,module_name,symbol_name,previous_name);
     return 0;
 }
 DWORD *__stdcall build_section_symbol_ranges(Contribution *contribution,IMAGE_SYMBOL *symbols)
@@ -259,7 +260,21 @@ DWORD *__stdcall build_section_symbol_ranges(Contribution *contribution,IMAGE_SY
     return ranges;
 }
 void __stdcall discard_associated_comdats(Contribution *parent) { __asm { int 3 } }
-void __stdcall report_duplicate_comdat(LinkOptions *options,const char *module,const char *symbol,const char *previous) { __asm { int 3 } }
+/* This reporter also serves ordinary strong definitions, not just COMDATs. */
+extern int selected_tool_kind;
+extern BYTE duplicate_symbols;
+char *__stdcall display_symbol_name(const char *,DWORD);
+void __cdecl link_unresolved_error(const char *,unsigned,...);
+void __stdcall report_duplicate_symbol(LinkOptions *options,const char *module,
+    const char *symbol,const char *previous)
+{
+    char *display=display_symbol_name(symbol,1);
+    if(selected_tool_kind==1 && !(options->force&2))
+        link_unresolved_error(module,2005,display,previous);
+    else link_warning(module,4006,display,previous);
+    if(display!=symbol)release_memory(display);
+    duplicate_symbols=1;
+}
 void __stdcall record_undefined_comdat(StringNode *symbol,const char *name,OutputModule *module) { __asm { int 3 } }
 BYTE __stdcall remove_module_symbol(OutputModule *module,StringNode *symbol) { __asm { int 3 } return 0; }
 }

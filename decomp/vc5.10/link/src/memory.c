@@ -141,3 +141,6 @@ void __stdcall release_memory_arena(MemoryArena *arena)
         release_memory(block);
     }
 }
+
+/* The incremental fatal-cleanup path has not yet been reached. */
+void __cdecl close_incremental_heap(void) { __asm { int 3 } }

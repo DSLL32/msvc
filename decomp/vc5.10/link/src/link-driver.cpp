@@ -342,7 +342,7 @@ void __cdecl linker_usage(void)
     );
     exit(1100);
 }
-void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
+
 void __cdecl link_error(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __stdcall validate_debug_options(LinkContext *context)
 {
