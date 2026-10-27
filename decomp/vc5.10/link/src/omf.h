@@ -72,6 +72,7 @@ typedef char OmfExternalNodeLayout[(sizeof(OmfExternalNode)==16 &&
 extern struct OmfNameEntry **omf_symbol_hash;
 extern struct OmfExternalNode **omf_offset_hash;
 DWORD __stdcall hash_omf_name(const char *);
+OmfNameEntry *__stdcall find_omf_name(const char *);
 void __stdcall insert_omf_name(char *,DWORD,DWORD,DWORD,DWORD,DWORD);
 extern DWORD omf_external_map[4096],omf_public_map[4096];
 typedef struct OmfSegmentInfo {
@@ -85,6 +86,7 @@ extern OmfSegmentInfo omf_segments[256]; /* logical segment IDs1..255 */
 extern DWORD omf_segdef_symbols[256],omf_group_symbols[256];
 extern DWORD omf_section_auxiliary_indices[256]; /* output section ordinal minus1 */
 DWORD __cdecl read_omf_dword(void);
+DWORD __cdecl read_omf_number(void);
 WORD __cdecl read_omf_index(void);
 extern WORD omf_output_section_count;
 extern IMAGE_SECTION_HEADER omf_output_sections[256];
@@ -158,5 +160,6 @@ void __cdecl finish_omf_external_symbols(void);
 void __cdecl resolve_omf_segments(void);
 void __cdecl write_omf_lines(void);
 void __stdcall append_omf_line(DWORD,DWORD,DWORD);
+void __stdcall append_omf_line_node(OmfLineList *,DWORD,DWORD);
 void __cdecl replay_omf_fixups(void);
 #endif

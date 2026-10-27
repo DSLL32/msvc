@@ -75,3 +75,18 @@ WORD __cdecl read_omf_index(void)
     }
     return first;
 }
+
+DWORD __cdecl read_omf_number(void)
+{
+    BYTE marker,bytes[4];
+    unsigned count,i;
+    DWORD value=0;
+    read_omf_bytes(&marker,1);
+    if(marker==0x81)count=2;
+    else if(marker==0x84)count=3;
+    else if(marker==0x88)count=4;
+    else return marker;
+    read_omf_bytes(bytes,count);
+    for(i=count;i;--i)value=(value<<8)|bytes[i-1];
+    return value;
+}

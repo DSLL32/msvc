@@ -212,3 +212,114 @@ DWORD __stdcall intern_omf_string(const char *name)
     omf_string_length+=length;
     return offset;
 }
+
+#pragma intrinsic(strcmp)
+void __stdcall read_omf_extdefs(DWORD indexed_names,DWORD storage_class)
+{
+    WORD name_index=0,type;
+    const char *name;
+    OmfNameEntry *previous;
+    DWORD kind,section;
+    while(omf_record_length>1) {
+        if((BYTE)indexed_names) {
+            name_index=read_omf_index();
+            name=omf_names[(SHORT)name_index];
+        } else name=read_omf_string((WORD)storage_class==3?0:1);
+        type=read_omf_index();
+        if((BYTE)indexed_names && omf_name_kinds[(SHORT)name_index])continue;
+        omf_external_count=(WORD)(omf_external_count+1);
+        if(omf_external_count>=4096)omf_error("Too many externals");
+        omf_external_symbol_count=(WORD)(omf_external_symbol_count+1);
+        omf_external_map[(SHORT)omf_external_symbol_count]=omf_external_count;
+        if(!strcmp(name,"_acrtused") || !strcmp(name,"__acrtused"))continue;
+        kind=(DWORD)((WORD)storage_class==3?2:1);
+        previous=find_omf_name(name);
+        section=previous?(DWORD)previous->section:0;
+        /* The actual insertion writer consumes low WORD type/index/section;
+         * full volatile return uppers from read_index are not semantic data. */
+        insert_omf_name((char *)name,0,kind,section,omf_external_count,type);
+    }
+}
+
+OmfNameEntry *__stdcall find_omf_name(const char *name)
+{
+    OmfNameEntry *entry=omf_symbol_hash[hash_omf_name(name)];
+    while(entry && strcmp(entry->name,name))entry=entry->next;
+    return entry;
+}
+
+void __stdcall read_omf_comdefs(DWORD storage_class)
+{
+    char *name;
+    BYTE kind;
+    DWORD size;
+    while(omf_record_length>1) {
+        name=read_omf_string(1);
+        read_omf_index(); /* physical type index is ignored here */
+        kind=(BYTE)read_omf_byte();
+        size=read_omf_number();
+        if(kind==0x61)size*=read_omf_number();
+        omf_external_count=(WORD)(omf_external_count+1);
+        if(omf_external_count>=4096)omf_error("Too many externals");
+        omf_external_symbol_count=(WORD)(omf_external_symbol_count+1);
+        omf_external_map[(SHORT)omf_external_symbol_count]=omf_external_count;
+        omf_public_map[omf_external_count]=
+            append_omf_symbol(name,size,0,storage_class,0);
+    }
+}
+
+void __stdcall append_omf_function_auxiliary(DWORD count,DWORD section,
+    DWORD unused_start,DWORD first_line,DWORD length,DWORD last_line)
+{
+    IMAGE_AUX_SYMBOL auxiliary;
+    IMAGE_SYMBOL marker;
+    /* The original marks the immediately preceding symbol as a function.
+     * All six physical slots remain; the start-offset slot is not consumed. */
+    omf_symbols[omf_symbol_count-1].Type=0x20;
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.TagIndex=omf_symbol_count+1;
+    auxiliary.Sym.Misc.TotalSize=length+1;
+    append_omf_auxiliary(&auxiliary);
+    memset(&marker,0,sizeof(marker));
+    memcpy(marker.N.ShortName,".bf",4);
+    marker.SectionNumber=(SHORT)section;
+    marker.StorageClass=IMAGE_SYM_CLASS_FUNCTION;
+    marker.NumberOfAuxSymbols=1;
+    append_omf_auxiliary(&marker);
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.Misc.LnSz.Linenumber=(WORD)first_line;
+    append_omf_auxiliary(&auxiliary);
+    memcpy(marker.N.ShortName,".lf",4);
+    marker.Value=count;
+    marker.NumberOfAuxSymbols=0;
+    append_omf_auxiliary(&marker);
+    memcpy(marker.N.ShortName,".ef",4);
+    marker.Value=0;
+    marker.NumberOfAuxSymbols=1;
+    append_omf_auxiliary(&marker);
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Sym.Misc.LnSz.Linenumber=(WORD)last_line;
+    append_omf_auxiliary(&auxiliary);
+}
+
+void __stdcall append_omf_line(DWORD section,DWORD offset,DWORD line)
+{
+    SHORT index=(SHORT)(section-1);
+    ++omf_output_line_count;
+    ++omf_output_sections[index].NumberOfLinenumbers;
+    append_omf_line_node(&omf_line_lists[index],offset,line);
+}
+
+void __stdcall append_omf_line_node(OmfLineList *list,DWORD offset,DWORD line)
+{
+    OmfLineNode *node=allocate_memory(sizeof(*node));
+    node->next=NULL;
+    node->offset=offset;
+    node->line=(WORD)line;
+    /* The original does not initialize the unused word at +6. Its line
+     * serializer writes only the defined four-byte offset/two-byte line. */
+    if(!list->head)list->head=node;
+    else list->tail->next=node;
+    ++list->count;
+    list->tail=node;
+}

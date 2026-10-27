@@ -102,3 +102,22 @@ void __cdecl write_omf_lines(void)
     for(;line<end;++line)
         append_omf_line(omf_default_line_segment,line->offset,line->line);
 }
+
+void __cdecl read_omf_linnum(void)
+{
+    WORD segment,line;
+    DWORD offset;
+    read_omf_index(); /* group index is ignored */
+    segment=read_omf_index();
+    while(omf_record_length>1) {
+        line=(WORD)read_omf_word();
+        offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        if(!omf_module_name_changed && segment==omf_default_line_segment) {
+            omf_line_buffer[omf_line_count].offset=offset;
+            omf_line_buffer[omf_line_count].line=line;
+            ++omf_line_count;
+            if(!(omf_line_count&63))
+                omf_line_buffer=reallocate_memory(omf_line_buffer,omf_line_count*8+512);
+        }
+    }
+}
