@@ -975,3 +975,98 @@ unsigned char ProcDBIStatic( void )
     DBIFlag |= 0x10;
     return 1;
 }
+
+void MapEscapeChar( void )
+/*******************************/
+/* turn the current character located at Token.next into a possibly unprintable
+ * character using C escape codes */
+{
+    char *      str;
+    int         shift;
+
+    shift = 2;
+    str = Token.next + 1;
+    switch( *str ) {
+    case 'a':
+        *Token.next = '\a';
+        break;
+    case 'b':
+        *Token.next = '\b';
+        break;
+    case 'f':
+        *Token.next = '\f';
+        break;
+    case 'n':
+        *Token.next = '\n';
+        break;
+    case 'r':
+        *Token.next = '\r';
+        break;
+    case 't':
+        *Token.next = '\t';
+        break;
+    case 'v':
+        *Token.next = '\v';
+        break;
+    case 'x':
+        shift += ParseNumber( ++str, 16 );
+        break;
+    case '0': case '1': case '2': case '3': case '4': case'5': case '6':
+    case '7': case '8': case '9':
+        shift += ParseNumber( str, 8 ) - 1;
+        break;
+    default:
+        *Token.next = *str;
+        break;
+    }
+    str = Token.next + shift;
+    memmove( Token.next + 1, str, strlen( str ) + 1 );
+}
+
+
+int ParseNumber( char * str, int radix )
+/*********************************************/
+/* read a (possibly hexadecimal) number */
+{
+    int         isdig;
+    int         isvalid;
+    unsigned char ch;
+    int         size;
+    unsigned    value;
+
+    size = 0;
+    value = 0;
+    for(;;) {
+        ch = tolower( (unsigned char)*str );
+        isdig = isdigit( ch );
+        if( radix == 8 ) {
+            /* Preserve the old condition, which also admits octal 8/9. */
+            isvalid = isdig && !(ch == '8' && ch == '9');
+        } else {
+            isvalid = isxdigit( ch );
+        }
+        if( !isvalid ) break;
+        value *= radix;
+        if( isdig ) {
+            value += ch - '0';
+        } else {
+            value += ch - 'a' + 10;
+        }
+        size++;
+        str++;
+    }
+    *Token.next = value;
+    return( size );
+}
+
+
+void BackupParser( void )
+{
+    if( CmdFile->prev == 0 ) {
+        LnkMsg( 0x7a70, 0 );
+        return;
+    }
+    memcpy( &CmdFile->token, &Token, sizeof(tok) );
+    CmdFile = CmdFile->prev;
+    memcpy( &Token, &CmdFile->token, sizeof(tok) );
+}

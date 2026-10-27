@@ -277,3 +277,29 @@ void FreeNovFmt( void )
     FreeList( (path_entry *)FmtData.u.nov.exports );
     FreeList( (path_entry *)FmtData.u.nov.modules );
 }
+
+unsigned char ProcLAN( void )
+{
+    Extension = 9;
+    FmtData.u.nov.moduletype = 1;
+    return 1;
+}
+
+unsigned char ProcNovDBIExports( void )
+{
+    FmtData.u.nov.flags |= 0x80;
+    return 1;
+}
+
+unsigned char ProcNovDBIReferenced( void )
+{
+    FmtData.u.nov.flags |= 0x20;
+    return 1;
+}
+
+unsigned char ProcSharelib( void )
+{
+    if( !GetToken( SEP_EQUALS, TOK_INCLUDE_DOT | TOK_IS_FILENAME ) ) return 0;
+    FmtData.u.nov.sharednlm = FileName( Token.this, Token.len, 8, 0 );
+    return 1;
+}

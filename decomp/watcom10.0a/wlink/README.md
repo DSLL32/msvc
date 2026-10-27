@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-one completed native regression cases. The acceptance ledger
-contains **1,101 application functions / 126,154 unique original code bytes**.
+WLINK 10.0a has twenty-two completed native regression cases. The acceptance ledger
+contains **1,110 application functions / 126,853 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -47,6 +47,8 @@ The twentieth emits a non-DLL OS/2 LX physical-device image with explicit
 internal/self-relative relocation policy, toggled flags and single autodata.
 The twenty-first combines TNT DLL thread metadata with genuine OMF aliases, long
 public names, duplicate/undefined-symbol policies and their complete diagnostics.
+The twenty-second combines NetWare LAN shared-image rebasing, referenced/export
+debug filtering, numeric string escapes and a caret response-source handoff.
 
 | Case | Result |
 | --- | --- |
@@ -71,6 +73,7 @@ public names, duplicate/undefined-symbol policies and their complete diagnostics
 | `0019-pharlap-rex` | Exit 0; exact 261-byte stdout, empty stderr, 27,811-byte REX image and 3,070-byte map |
 | `0020-os2-driver` | Exit 0; exact 262-byte stdout, empty stderr, 1,645-byte LX image and 3,324-byte map |
 | `0021-tnt-symbols` | Exit 0; exact 422-byte stdout, empty stderr, 9,119-byte TNT DLL and 3,235-byte map |
+| `0022-novell-shared` | Exit 0; exact 255-byte stdout, empty stderr, 3,276-byte LAN image and 3,066-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -98,7 +101,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,105 source-ready identities, their actual graph,
+The complete audit passes for 1,114 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -424,3 +427,28 @@ checks. The final supported baseline took **672.128 ms**; main/worker assembly
 needed **534.294 / 591.620 ms**. Authoring errors, unsupported runtime-version/
 resident spellings, all raw captures and diagnostics remain in scratch
 wlink-tnt-symbols; the case retains only source/capture data.
+
+
+The shared NetWare LAN case matches 501 first entries and complete output. A
+captured genuine NLM supplies the shared code/data/fixup/public/debug image;
+its exact embedded bytes remain strict while the outer headers rebase the real
+source offsets. Referenced/export-only Novell debug filtering and the LAN module
+kind are exercised. The response file's caret returns to the parent command line
+to read main.obj, then restores its own parser state. Hex/octal escapes and TAB/LF
+metadata exercise real token-buffer mutation; the original octal 8/9 admission
+bug is preserved. Integer ctype booleans avoid truncating the native library's
+nonzero predicate flags; the final retained original caught and verified that
+source correction. DISABLE consumes the ordinary diagnostic number and updates
+the existing bitset.
+
+Only six map clock digit fields and the outer VeRsIoN# year/month/day DWORDs
+206..218 are excluded. The prior embedded NLM's date is captured input and is not
+masked. The final parallel build/regression/unit/audit batch took **1.511 s**.
+All twenty-two cases and 1,114 source-ready graph/ABI identities pass; the 44
+native regression runs took **18.487–58.602 ms**. The final genuine capture
+command took **1,064.790 ms** (owned target **1,050.044 ms**); corrected clock-derived
+native replay reused that capture and took **31.394 ms**, split **19.153 / 4.855 /
+7.385 ms** for setup/execution/checks. The clean baseline took **632.405 ms**, reusing
+genuine objects/archive/resources and the fixed shared NLM. Authoring inputs,
+raw artifacts and the failed ctype comparison remain in scratch wlink-novell-shared;
+the numbered case contains only source and capture data.

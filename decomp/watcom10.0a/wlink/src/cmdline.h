@@ -308,6 +308,8 @@ extern unsigned char AddForceVector( void );
 extern unsigned char AddNoVector( void );
 extern unsigned char ProcQNXNoRelocs( void );
 extern unsigned char ProcPENoRelocs( void );
+extern int ParseNumber( char *str, int radix );
+extern unsigned char AddDisable( void );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

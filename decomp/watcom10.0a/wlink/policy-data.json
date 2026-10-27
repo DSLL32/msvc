@@ -5521,6 +5521,51 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcLAN": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MapEscapeChar": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ParseNumber": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovDBIExports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNovDBIReferenced": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "BackupParser": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddDisable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcDisable": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcSharelib": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

@@ -149,7 +149,7 @@ void Syntax( void ) { TRAP(); }
 
 
 
-unsigned char ProcDisable( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcLanguage( void ) { TRAP(); return 0; }
 
@@ -168,11 +168,11 @@ unsigned char ProcNewSegment( void ) { TRAP(); return 0; }
 
 
 
-void BackupParser( void ) { TRAP(); }
 
 
 
-void MapEscapeChar( void ) { TRAP(); }
+
+
 
 
 
@@ -262,7 +262,7 @@ unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcSharelib( void ) { TRAP(); return 0; }
+
 
 
 
@@ -660,15 +660,15 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 
 
-unsigned char ProcLAN( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcDSK( void ) { TRAP(); return 0; }
 
 unsigned char ProcNAM( void ) { TRAP(); return 0; }
 
-unsigned char ProcNovDBIExports( void ) { TRAP(); return 0; }
 
-unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }
+
+
 
 
 

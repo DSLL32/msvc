@@ -33,6 +33,7 @@
 #include <ctype.h>
 #include <malloc.h>
 #include "cmdline.h"
+#include "diagnostic.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
@@ -670,4 +671,25 @@ unsigned char ProcNoRelocs( void )
     if( HintFormat( 0x4210 ) ) return ProcQNXNoRelocs();
     if( HintFormat( 0x0010 ) ) return ProcPENoRelocs();
     return 1;
+}
+
+extern void ClearBit( void *, unsigned );
+unsigned char AddDisable( void )
+{
+    unsigned short value;
+
+    if( getatoi( &value ) == 0 ) {
+        value %= 1000;
+        if( value <= 149 ) {
+            ClearBit( MsgFlags, value );
+            return 1;
+        }
+    }
+    LnkMsg( 0x7a8c, 0 );
+    return 1;
+}
+
+unsigned char ProcDisable( void )
+{
+    return ProcArgList( AddDisable, 0 );
 }
