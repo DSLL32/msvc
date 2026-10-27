@@ -25,16 +25,11 @@ extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,
 extern "C" void __cdecl update_gp_bounds(void) { __asm { int 3 } }
 
 void RECON_THISCALL LinkContext::PrepareMacJumpTables(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::ResolveMacImports(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::ResolveMacExports(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PrepareMacResources(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PrepareMacSections(void) { __asm { int 3 } }
 extern "C" void __stdcall set_mac_entry_point(StringNode *entry,LinkContext *context) { __asm { int 3 } }
 extern "C" void __cdecl prepare_mac_resource_map(void) { __asm { int 3 } }
 extern "C" void __stdcall prepare_mac_data_headers(LinkContext *context) { __asm { int 3 } }
 extern "C" void __stdcall finish_mac_entry_point(StringNode *entry,LinkContext *context) { __asm { int 3 } }
 extern "C" void __stdcall set_mac_section_addresses(SectionList *sections) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PrepareMacSymbols(void) { __asm { int 3 } }
 extern "C" void __stdcall finish_mac_headers(LinkContext *context) { __asm { int 3 } }
 extern "C" void __cdecl set_mac_symbol_addresses(void) { __asm { int 3 } }
 extern "C" void __stdcall prepare_mac_debug_information(LinkContext *context) { __asm { int 3 } }

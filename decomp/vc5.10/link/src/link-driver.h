@@ -143,7 +143,7 @@ struct LinkContext {
     BYTE reserved280[8];
     Contribution *incremental_contribution;
     BYTE ignore_directives, reserved28d[3];
-    DWORD reserved290;
+    DWORD mac_glue_count; /* Actual+290, counted generated glue entries. */
     MacResource *resources;
 
 #ifdef __cplusplus
@@ -225,6 +225,7 @@ typedef char LinkAuxiliaryOutputFields[(offsetof(LinkAuxiliaryData,procedure_dat
     offsetof(LinkAuxiliaryData,procedure_record_size)==40)?1:-1];
 typedef char LinkContextSymbolsAt1d0[(offsetof(LinkContext,symbols)==0x1d0)?1:-1];
 typedef char LinkContextPdbModulesAt248[(offsetof(LinkContext,pdb_modules)==0x248)?1:-1];
+typedef char LinkContextMacGlueCountAt290[(offsetof(LinkContext,mac_glue_count)==0x290)?1:-1];
 typedef char LinkContextMacModulesAt25c[(offsetof(LinkContext,mac_modules)==0x25c)?1:-1];
 typedef char LinkContextAuxiliaryAt260[(offsetof(LinkContext,auxiliary)==0x260)?1:-1];
 typedef char LinkContextSectionsAt1b4[(offsetof(LinkContext,sections)==0x1b4)?1:-1];

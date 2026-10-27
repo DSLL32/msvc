@@ -134,7 +134,19 @@ DWORD __stdcall align_section_size(DWORD size,DWORD flags)
     if (size & mask) size=(size & ~mask)+mask+1;
     return size;
 }
-void __stdcall remember_mac_module_name(const char *name) { __asm { int 3 } }
+/* Actual4945a8 writer/451d30,451d4d reader owner. Eleven bytes support the
+ * encountered shared.exp name including NUL. Original total capacity remains
+ * unknown; next referenced global is4946ac, not an array-capacity claim. */
+char mac_shared_module_name[11];
+#pragma intrinsic(strcpy)
+void __stdcall remember_mac_module_name(const char *name)
+{
+#ifdef __linux__
+    if(strlen(name)>=sizeof(mac_shared_module_name))
+        recon_unsupported("Mac shared-module name exceeds observed prefix");
+#endif
+    strcpy(mac_shared_module_name,name);
+}
 extern WORD warning_level;
 extern BYTE arch_data_ignored;
 void __stdcall mark_incremental_contribution(Contribution *contribution)

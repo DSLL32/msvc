@@ -383,7 +383,64 @@ extern "C" BYTE __stdcall infer_entry_point(LinkContext *context)
     entry_point_name=duplicate_argument(startup);
     return resolve_initial_entry(context);
 }
-extern "C" void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context) { __asm { int 3 } }
+extern "C" {
+extern char short_symbol_name[9];
+extern DWORD mac_relocation_count;
+extern ComdatRoot *comdat_roots;
+StringNode *__stdcall record_incremental_entry(const char *,Contribution *,LinkContext *,DWORD);
+void __stdcall finalize_mac_entry(StringNode **entry,LinkContext *context)
+{
+    const char *name=NULL;
+    WORD kind;
+    StringNode *symbol;
+    if(*entry) {
+        name=get_symbol_name(*entry,context->symbols->hash.string_storage,&kind,NULL);
+        if(kind==1)name=strncpy(short_symbol_name,name,8);
+    }
+    context->symbols->ReleaseLookupIndex();
+    if((context->file_header.Characteristics & IMAGE_FILE_DLL) && !context->options.no_entry) {
+        if(!context->mac_initializer_name) {
+            if(*entry) {
+                context->mac_initializer_name=(const unsigned char *)duplicate_link_string(name);
+                *entry=NULL;
+                link_warning(NULL,1594);
+            } else context->mac_initializer_name=(const unsigned char *)
+                duplicate_link_string("__DllMainCRTStartup");
+        }
+        if(!context->mac_terminator_name)
+            context->mac_terminator_name=(const unsigned char *)
+                duplicate_link_string("__DllMainCRTExit");
+    }
+    if(*entry && !((*entry)->attributes & 0x100) && !((*entry)->attributes & 2) &&
+        ((*entry)->symbol.Type & 0x30)==0x20) {
+        ++mac_relocation_count;
+        record_incremental_entry(name,(*entry)->contribution,context,0);
+        (*entry)->attributes|=0x100;
+    }
+    if(context->mac_initializer_name) {
+        symbol=context->symbols->Lookup(context->mac_initializer_name,NULL);
+        if(!(symbol->attributes & 0x100)) {
+            ++mac_relocation_count;
+            record_incremental_entry((const char *)context->mac_initializer_name,
+                symbol->contribution,context,0);
+            symbol->attributes|=0x100;
+        }
+        if(context->options.effective_reference_opt || context->options.fold_identical_comdats)
+            add_comdat_root(NULL,symbol,NULL,&comdat_roots);
+    }
+    if(context->mac_terminator_name) {
+        symbol=context->symbols->Lookup(context->mac_terminator_name,NULL);
+        if(!(symbol->attributes & 0x100)) {
+            ++mac_relocation_count;
+            record_incremental_entry((const char *)context->mac_terminator_name,
+                symbol->contribution,context,0);
+            symbol->attributes|=0x100;
+        }
+        if(context->options.effective_reference_opt || context->options.fold_identical_comdats)
+            add_comdat_root(NULL,symbol,NULL,&comdat_roots);
+    }
+}
+}
 extern "C" void __stdcall set_subsystem_version(LinkContext *context)
 {
     WORD major,minor;

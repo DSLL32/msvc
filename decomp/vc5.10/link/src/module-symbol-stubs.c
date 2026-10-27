@@ -3,8 +3,6 @@
 #include <recon.h>
 
 /* Named pending callees: declarations retain actual stack cleanup, no body credit. */
-void __stdcall mark_symbol_bit(DWORD *bits,DWORD index)
-{ __asm { int 3 } }
 int __stdcall has_incremental_symbol(void *table,StringNode *symbol)
 { __asm { int 3 } return 0; }
 int __stdcall update_incremental_symbol(const char *name,IMAGE_SYMBOL *raw,

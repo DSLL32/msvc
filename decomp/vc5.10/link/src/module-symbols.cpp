@@ -23,7 +23,7 @@ BYTE undefined_list_changed;
 extern DWORD weak_external_count,local_symbol_count;
 extern int selected_tool_kind;
 IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
-void __stdcall mark_symbol_bit(DWORD *,DWORD);
+BOOL __stdcall mark_symbol_bit(DWORD *,DWORD);
 void __stdcall collect_weak_external(StringTable *,IMAGE_SYMBOL **,IMAGE_SYMBOL *,StringNode *,OutputModule *,BYTE *,BYTE,DWORD);
 void __stdcall report_duplicate_symbol(LinkOptions *,const char *,const char *,const char *);
 void __stdcall record_undefined_comdat(StringNode *,const char *,OutputModule *);
@@ -68,7 +68,9 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
         name=get_symbol_name((StringNode *)raw,current_module_strings,&kind,&is_import);
         symbol=context->symbols->LookupSymbol(kind,name,&created);
         any_import |= is_import;
-        if(incremental_enabled) {
+        /* Actual494578 gates Mac symbol bookkeeping (45f539/45f587/45f600).
+         * The separate47f01c owner gates the incremental hooks below. */
+        if(mac_target) {
             if(first_pass) {
                 if(created) symbol->attributes |= 0x800;
             } else if(symbol->attributes & 0x800) {
@@ -77,7 +79,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
             }
         }
         current_module_symbols[index]=symbol;
-        if(incremental_enabled && selected_tool_kind==1) {
+        if(mac_target && selected_tool_kind==1) {
             module->symbol_indices[index]=(DWORD)symbol;
             mark_symbol_bit(module->symbol_bits[0],index);
         }
@@ -88,7 +90,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
             symbol->undefined_next=NULL;
             symbol->flags=1;
             set_symbol_defined(symbol,0,context->symbols);
-            if(incremental_enabled) symbol->attributes=(symbol->attributes & 0xffbe)|0x800;
+            if(mac_target) symbol->attributes=(symbol->attributes & 0xffbe)|0x800;
         }
         if(!created && (symbol->flags & 0xc0) && raw->StorageClass!=0x69) {
             symbol->flags &= ~0xc0U;
@@ -119,17 +121,17 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
             define=1;
             if(symbol->flags & 1) {
                 if(symbol->flags & 2) {
-                    if(mac_target) record_undefined_comdat(symbol,name,module);
+                    if(incremental_enabled) record_undefined_comdat(symbol,name,module);
                     symbol->flags &= ~2U;
                 } else {
                     if(symbol->contribution &&
                         (symbol->contribution->characteristics & 0x1000) &&
                         (contribution->characteristics & 0x1000)) {
-                        if(mac_target) {
+                        if(incremental_enabled) {
                             record_symbol_reference(symbol,module);
                             record_incremental_include(module,symbol);
                         }
-                    } else if(!incremental_enabled || *name!='.') {
+                    } else if(!mac_target || *name!='.') {
                         if(symbol->contribution)
                             format_contribution_module(symbol->contribution,previous_name);
                         else strcpy(previous_name,"a previous module");
@@ -156,7 +158,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
             contribution=NULL;
             if(section==0) {
                 if(raw->Value) {
-                    if(mac_target) {
+                    if(incremental_enabled) {
                         process_mac_common(context,symbol,raw,name,created,module);
                         if(incremental_status_code) return;
                     }
@@ -173,7 +175,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
                     if(incremental_reuse && (symbol->flags & 1))
                         clear_incremental_undefined(symbol,context);
                     record_symbol_reference(symbol,module);
-                    if(mac_target) record_incremental_include(module,symbol);
+                    if(incremental_enabled) record_incremental_include(module,symbol);
                     if(symbol->flags & 1) goto define_symbol;
                     if(incremental_reuse && created)
                         symbol->flags |= (raw->Type & 0x30)==0x20 ? 0x20000 : 0x40000;
@@ -195,7 +197,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
                     report_duplicate_symbol(&context->options,module_name,name,previous_absolute_name);
                     define=0;
                 }
-                if(mac_target) {
+                if(incremental_enabled) {
                     process_mac_undefined(context,symbol,raw,name,created,module);
                     if(incremental_status_code) return;
                 }

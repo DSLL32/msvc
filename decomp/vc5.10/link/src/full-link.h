@@ -238,7 +238,10 @@ typedef struct MacResource {
     void *data;
     DWORD size;
     Contribution *contribution;
+    DWORD reserved18; /* Genuine28B allocation; role not yet consumed. */
 } MacResource;
+typedef char MacResourceLayout[(sizeof(MacResource)==28 &&
+    offsetof(MacResource,data)==12 && offsetof(MacResource,contribution)==20)?1:-1];
 
 typedef char OutputLibrarySize[(sizeof(OutputLibrary)==68)?1:-1];
 typedef char LibraryCreatorFields[(offsetof(OutputLibrary,import_conversions)==4 &&

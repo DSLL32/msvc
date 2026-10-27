@@ -6,6 +6,7 @@
 #include "files.h"
 #include "options.h"
 #include "full-link-functions.h"
+#include "mac-format.h"
 #include <recon.h>
 
 extern "C" {
@@ -35,18 +36,6 @@ void __stdcall write_symbol_strings(int,StringTable *);
     WRITE_EXP(&symbol,18); \
 } while(0)
 
-/* MPPC's .ppcshl payload is a fixed header followed by 200-byte names. */
-struct MacExportBucket { LONG first; DWORD count; };
-struct MacSharedLibraryHeader {
-    MacExportBucket buckets[76];
-    DWORD reserved, named_count;
-    WORD format, reserved_version;
-    DWORD section_file_offset;
-    char library[52];
-};
-typedef char MacSharedHeaderLayout[(sizeof(MacSharedLibraryHeader)==676 &&
-    offsetof(MacSharedLibraryHeader,named_count)==612 &&
-    offsetof(MacSharedLibraryHeader,library)==624)?1:-1];
 #define WRITE_MAC(data,bytes) do { \
     if(file_access_statistics)record_file_access(); \
     file=file_slots[fd]; \

@@ -127,3 +127,12 @@ BYTE __stdcall emit_symbol_class(BYTE symbol_class,LinkOptions *options)
         return 0;
     }
 }
+
+/* Return whether the bit was already set, leaving an existing bit unchanged. */
+BOOL __stdcall mark_symbol_bit(DWORD *bits,DWORD index)
+{
+    DWORD word=index>>5,mask=1UL<<(index&31);
+    DWORD previous=bits[word]&mask;
+    if(!previous)bits[word]|=mask;
+    return previous!=0;
+}

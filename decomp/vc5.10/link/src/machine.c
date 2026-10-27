@@ -240,7 +240,6 @@ void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supp
     }
 }
 
-void __stdcall initialize_mac_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 BYTE __stdcall classify_ppc_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
 {
     BYTE kind=(BYTE)type;
