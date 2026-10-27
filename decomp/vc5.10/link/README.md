@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-689 application functions / 253,634 original code bytes are reconstructed
-(61.14% of the 414,810-byte whole `.text` extent, which includes CRT and text
+692 application functions / 254,683 original code bytes are reconstructed
+(61.40% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 38 pending bodies with known extents totaling 4,066 bytes and
-173 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 39 pending bodies with known extents totaling 4,130 bytes and
+171 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-three cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-four cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-702-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 681 ordinary application bodies and six CRT bodies. Seven import
+705-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 684 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1159,3 +1159,40 @@ and full graph/RET/EH batch passed in 5.27 s: 43 cached cases, 702 graph vertice
 687 scoped return contracts and nine distinct EH/SEH owner checks. Failed
 partial temporary-file and clock-only comparisons remain preserved. These are
 incremental measurements.
+
+
+`cases/0045-omf-cpp-comdat` completes conversion and executable linking of two
+genuine Watcom C++ OMF modules. A shared function template produces duplicate
+COMDAT records, while each module retains its own static function and data.
+Cross-module references and line records remain authentic compiler output.
+The period compiler uses deduced template calls and `-zm` function packaging;
+its ordinary `-s` option removes stack-probe dependencies. The earlier genuine
+`__CHK` unresolved-symbol reference is preserved separately, without a fake
+helper or replayed dependency. Input object checksums and exact producer/source
+identities remain in scratch. No input code is executed.
+
+Three whole bodies / 1,049 code bytes recover local-public records, the real
+name update/insert helper and the complete COMDAT reader. Name updates retain
+the existing 24-byte owner and its actual WORD fields. COMDAT uses the same
+logical segment descriptors, output-section arrays, current segment and data
+offset as ordinary records; its separate last-segment WORD supports continuation.
+The real checksum-byte read/seek, selection mapping, section auxiliary and public
+symbol emission remain in order. The shared alignment table has one source
+object. Continuation, iterated records, malformed inputs and other unvisited
+selection domains are not dynamically qualified; the continuation writer remains
+a genuine named pending trap with zero credit.
+
+Original and native exit 0 with 296 application first entries and genuine
+temporary cleanup. Raw EXE (4,608 bytes) and map (844 bytes) equal the untouched
+master except PE timestamp DWORDs [184,188), [2052,2056), [2080,2084), and map
+hex/ctime text [25,33)/[35,59). The derived comparison changes only these clock
+fields. All code, data, COMDAT records, symbols, relocations, streams and final
+inventory stay strict. The final original took 1,673.3 ms; fresh native comparison
+passed in 19.5 ms (10.4 ms setup, 5.4 ms execution, 3.7 ms checks). The separate
+GDB raw-copy diagnostic is excluded.
+
+One parallel case-end regression/unit/original-build and full graph/RET/EH
+batch passed in 5.28 s: 44 cached cases, 705 graph vertices, 690 scoped return
+contracts and nine distinct EH/SEH owner checks. Failed producer syntax/path
+attempts, the stack-probe reference and partial temp/clock-only comparison
+results remain in scratch. These are incremental measurements.

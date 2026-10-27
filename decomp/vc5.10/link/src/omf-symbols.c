@@ -323,3 +323,34 @@ void __stdcall append_omf_line_node(OmfLineList *list,DWORD offset,DWORD line)
     ++list->count;
     list->tail=node;
 }
+
+void __stdcall read_omf_lpubdefs(DWORD unused_formal)
+{
+    WORD segment,type;
+    DWORD section,offset;
+    char *name;
+    read_omf_index(); /* group index is physically read and ignored */
+    segment=read_omf_index();
+    if(!segment) {
+        section=(DWORD)-1;
+        read_omf_word(); /* absolute frame */
+    } else section=omf_segments[(SHORT)segment].output_section;
+    while(omf_record_length>1) {
+        name=read_omf_string(0);
+        offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        type=read_omf_index();
+        update_omf_name(name,offset,4,section,type);
+    }
+}
+
+void __stdcall update_omf_name(char *name,DWORD value,DWORD kind,
+    DWORD section,DWORD type)
+{
+    OmfNameEntry *entry=find_omf_name(name);
+    if(entry) {
+        entry->value=value;
+        entry->kind=(WORD)kind;
+        entry->section=(SHORT)section;
+        entry->type_index=(WORD)type;
+    } else insert_omf_name(name,value,kind,section,omf_external_count,type);
+}

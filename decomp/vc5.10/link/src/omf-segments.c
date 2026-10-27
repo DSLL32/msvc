@@ -11,7 +11,7 @@ DWORD omf_segdef_symbols[256];
 /* Original first actual element478a78 is distinct from record-length478a74.
  * SEGDEF uses (section*4+478a74), whereas the writer uses index*4+478a78. */
 DWORD omf_section_auxiliary_indices[256];
-static const DWORD omf_segment_alignments[8]={0,1,2,16,4096,4,0,0};
+const DWORD omf_segment_alignments[8]={0,1,2,16,4096,4,0,0};
 
 #pragma intrinsic(strcmp,strlen,strcpy,strcat,memset,memcpy)
 void __cdecl read_omf_segdef(void)
@@ -188,4 +188,72 @@ void __stdcall write_omf_section_data(DWORD section,DWORD offset,
         omf_section_capacities[index]=capacity+size+0x20000;
     }
     memcpy(omf_section_data[index]+offset,bytes,size);
+}
+
+/* Original479a88 remembers the last logical COMDAT segment for continuation
+ * records, separate from current data segment478a70 and data offset479a90. */
+WORD omf_last_comdat_segment;
+void __cdecl read_omf_comdat(void)
+{
+    BYTE flags,attributes,alignment,checksum=0;
+    BYTE bytes[4096];
+    WORD base_segment,name_index,output_section;
+    DWORD size,created,symbol;
+    LONG count;
+    const char *name,*section_name;
+    IMAGE_AUX_SYMBOL auxiliary;
+    flags=(BYTE)read_omf_byte();
+    attributes=(BYTE)read_omf_byte();
+    alignment=(BYTE)read_omf_byte();
+    omf_data_record=0xa0;
+    omf_data_offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+    read_omf_index(); /* type index */
+    read_omf_index(); /* group index */
+    base_segment=read_omf_index();
+    if(!base_segment)omf_error("Section not defined in COMDAT");
+    name_index=read_omf_index();
+    name=omf_names[(SHORT)name_index];
+    count=(LONG)omf_record_length-1;
+    if(count>4096)omf_error("Bad data record; too large");
+    memset(bytes,0,count);
+    read_omf_bytes(bytes,count);
+    if(flags&1) {
+        omf_data_segment=omf_last_comdat_segment;
+        append_omf_section_data(omf_segments[(SHORT)omf_data_segment].output_section,
+            omf_data_offset,bytes,count);
+        return;
+    }
+    omf_segdef_count=(WORD)(omf_segdef_count+1);
+    if((SHORT)omf_segdef_count>=256)omf_error("Too many SEGDEF/COMDAT records");
+    omf_section_symbol_count=(WORD)(omf_section_symbol_count+1);
+    omf_data_segment=omf_section_symbol_count;
+    omf_segments[(SHORT)omf_data_segment]=omf_segments[(SHORT)base_segment];
+    size=alignment?omf_segment_alignments[alignment]:omf_segments[(SHORT)omf_data_segment].alignment;
+    section_name=omf_names[(SHORT)omf_segments[(SHORT)base_segment].name_index];
+    created=create_omf_section(section_name,size,0,count,
+        omf_segments[(SHORT)base_segment].characteristics|IMAGE_SCN_LNK_COMDAT);
+    omf_last_comdat_segment=omf_data_segment;
+    omf_segments[(SHORT)omf_data_segment].output_section=(WORD)created;
+    write_omf_section_data(created,omf_data_offset,bytes,count);
+    if(flags&2)omf_error("COMDAT uses iterated data");
+    symbol=append_omf_symbol(section_name,0,
+        omf_segments[(SHORT)omf_data_segment].output_section,IMAGE_SYM_CLASS_STATIC,1);
+    omf_segdef_symbols[(SHORT)omf_segdef_count]=symbol;
+    memset(&auxiliary,0,sizeof(auxiliary));
+    auxiliary.Section.Length=count;
+    /* Read and put back the actual following checksum byte, without changing
+     * the record-length owner as read_omf_bytes would do. */
+    if(fread(&checksum,1,1,omf_stream)!=1)omf_error("Bad read of object file");
+    if(fseek(omf_stream,-1,SEEK_CUR))omf_error("Bad seek on object file");
+    auxiliary.Section.CheckSum=checksum;
+    if(attributes==0)auxiliary.Section.Selection=1;
+    else if(attributes==0x10)auxiliary.Section.Selection=2;
+    else if(attributes==0x20)auxiliary.Section.Selection=3;
+    else if(attributes==0x30)auxiliary.Section.Selection=4;
+    else auxiliary.Section.Selection=0;
+    output_section=omf_segments[(SHORT)omf_data_segment].output_section;
+    omf_section_auxiliary_indices[(SHORT)output_section-1]=append_omf_auxiliary(&auxiliary);
+    symbol=append_omf_symbol(name,0,output_section,2|((flags&4)>>2),0);
+    if(omf_name_kinds[(SHORT)name_index]==(DWORD)-1)
+        omf_name_kinds[(SHORT)name_index]=symbol;
 }

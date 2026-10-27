@@ -74,6 +74,7 @@ extern struct OmfExternalNode **omf_offset_hash;
 DWORD __stdcall hash_omf_name(const char *);
 OmfNameEntry *__stdcall find_omf_name(const char *);
 void __stdcall insert_omf_name(char *,DWORD,DWORD,DWORD,DWORD,DWORD);
+void __stdcall update_omf_name(char *,DWORD,DWORD,DWORD,DWORD);
 extern DWORD omf_external_map[4096],omf_public_map[4096];
 typedef struct OmfSegmentInfo {
     WORD name_index,output_section;
@@ -82,6 +83,7 @@ typedef struct OmfSegmentInfo {
 typedef char OmfSegmentInfoLayout[(sizeof(OmfSegmentInfo)==12 &&
     offsetof(OmfSegmentInfo,name_index)==0 && offsetof(OmfSegmentInfo,output_section)==2 &&
     offsetof(OmfSegmentInfo,alignment)==4 && offsetof(OmfSegmentInfo,characteristics)==8)?1:-1];
+extern const DWORD omf_segment_alignments[8];
 extern OmfSegmentInfo omf_segments[256]; /* logical segment IDs1..255 */
 extern DWORD omf_segdef_symbols[256],omf_group_symbols[256];
 extern DWORD omf_section_auxiliary_indices[256]; /* output section ordinal minus1 */
@@ -138,6 +140,7 @@ extern DWORD omf_target_threads[4];
 extern BYTE omf_target_thread_is_segment[4];
 void __stdcall read_omf_pubdefs(DWORD);
 void __cdecl read_omf_ledata(void);
+void __stdcall append_omf_section_data(DWORD,DWORD,const void *,DWORD);
 void __stdcall write_omf_section_data(DWORD,DWORD,const void *,DWORD);
 void __cdecl read_omf_lidata(void);
 void __stdcall read_omf_comdefs(DWORD);
