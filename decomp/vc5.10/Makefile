@@ -22,10 +22,11 @@ fixtures-$(1):
 endef
 $(foreach binary,$(BINARY_DIRS),$(eval $(call BINARY_TARGETS,$(binary))))
 
-# Canonical executable adoption currently includes RC with static RCDLL only.
+# Canonical native executables; RC carries its static RCDLL dependency.
 RECON_TOOL_DIR := $(abspath ../../tooling/recon-tool)
 RECON_NATIVE_BIN_DIR ?= $(abspath build/native/bin)
 include $(RECON_TOOL_DIR)/native-entry.mk
 $(eval $(call recon-native-program,rc,rc,$(RECON_NATIVE_BIN_DIR)/RC.EXE))
+$(eval $(call recon-native-program,c2,c2,$(RECON_NATIVE_BIN_DIR)/C2.EXE))
 .PHONY: native-bin
 native-bin: native-bins

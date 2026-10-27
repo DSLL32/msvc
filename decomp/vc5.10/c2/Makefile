@@ -100,6 +100,13 @@ RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/LIBC.LIB
 RECON_RUNTIME_OVERRIDE_OBJECTS = $(addprefix $(ORIGINAL_BUILD)/obj/crt/,startup.c.obj onexit.c.obj precision.c.obj)
 RECON_RUNTIME_OVERRIDE_MAP = $(ORIGINAL_BUILD)/c2.map
+# Canonical native executable: reuse App/CRT objects and one shared runtime.
+# Fixture hosts, the registry and recon-tool callbacks are excluded.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = $(BINARY_SUPPORT_SOURCES)
+NATIVE_APP_MAIN_SYMBOL = c2_main
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1
+NATIVE_BIN_FILES = messages=.build/messages.rmr
 include $(RECON_TOOL_DIR)/recon-tool.mk
 
 # Preserve encountered compiler intrinsic choices and the genuine CRT thunk.
@@ -112,3 +119,9 @@ $(ORIGINAL_BUILD)/messages.res: src/messages.rc $(RECON_TOOL)
 $(ORIGINAL_BUILD)/obj/src/expression-factors.c.obj $(ORIGINAL_BUILD)/obj/src/global-optimizer.c.obj $(ORIGINAL_BUILD)/obj/src/global-rewrite.c.obj: ORIGINAL_CFLAGS += /Oi
 
 $(ORIGINAL_BUILD)/obj/src/final-lowering.c.obj $(ORIGINAL_BUILD)/obj/src/final-registers.c.obj $(ORIGINAL_BUILD)/obj/src/final-schedule.c.obj: ORIGINAL_CFLAGS += /Oi
+
+# Embed only the existing encountered diagnostic strings, validated against the
+# shipped C2 resource leaves; no fixture input or original execution is used.
+$(abspath .build/messages.rmr): scripts/message-resources.py src/messages.rc $(ORIGINAL_TOOLCHAIN_ROOT)/bin/C2.EXE $(RECON)/resources.py
+	@mkdir -p $(@D)
+	python3 scripts/message-resources.py $@
