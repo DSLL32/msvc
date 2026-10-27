@@ -432,6 +432,15 @@ void *__cdecl recon_watcom_fill_dwords(void *destination,unsigned pattern,unsign
     recon_unsupported("Watcom DWORD fill requires explicit profile");return NULL;
 #endif
 }
+char *__cdecl recon_watcom_strerror(int error)
+{
+#ifdef RECON_CRT_PROFILE_WATCOM_100A
+    if(error==1) return "No such file or directory";
+#else
+    (void)error;
+#endif
+    recon_unsupported("unreviewed Watcom strerror error/profile");return NULL;
+}
 int __cdecl recon_watcom_open(const char *name,int flags,...)
 {
 #ifdef RECON_CRT_PROFILE_WATCOM_100A

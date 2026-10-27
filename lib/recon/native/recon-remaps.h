@@ -324,6 +324,7 @@ ReconSignalHandler recon_signal(int,ReconSignalHandler);
 /* Explicit Watcom surfaces only: all remain unavailable until reached proof. */
 int recon_watcom_heapchk(void),recon_watcom_nheapchk(void);
 int __cdecl recon_watcom_open(const char *,int,...);
+char *__cdecl recon_watcom_strerror(int);
 long __cdecl recon_watcom_lseek(int,long,int);
 long __cdecl recon_watcom_tell(int);
 int __cdecl recon_watcom_setmode(int,int);
@@ -553,6 +554,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef EMFILE
 #define EMFILE 11
 #define open recon_watcom_open
+#define strerror recon_watcom_strerror
 #define lseek recon_watcom_lseek
 #define tell recon_watcom_tell
 #define setmode recon_watcom_setmode
