@@ -91,4 +91,33 @@ void VarStringAddChar( VarString *list, int ch );
 int ComputeVarStringLen( VarString *list );
 char *VarStringEnd( VarString *list, int *retlength );
 char *ResReadString( int handle, int *length );
+#pragma pack(1)
+struct WResHeader {
+    unsigned long Magic[2], DirOffset;
+    unsigned short NumResources, NumTypes, WResVer;
+};
+struct WResExtHeader {
+    unsigned short TargetOS, reserved[4];
+};
+#pragma pack()
+typedef char WResHeader_is_18[(sizeof(WResHeader)==18)?1:-1];
+typedef char WResExtHeader_is_10[(sizeof(WResExtHeader)==10)?1:-1];
+
+
+int DefaultConversion( int, const char *, char * );
+extern int (*ConvToUnicode)( int, const char *, char * );
+int ResWriteUint8( const unsigned char *, int );
+int ResWriteUint16( const unsigned short *, int );
+int ResWriteUint32( const unsigned long *, int );
+int WResWriteWResIDNameUni( const WResIDName *, unsigned char, int );
+int WResWriteWResIDName( const WResIDName *, int );
+int WResWriteWResID( const WResID *, int );
+int WResWriteTypeRecord( const WResTypeInfo *, int );
+int WResWriteResRecord( const WResResInfo *, int );
+int WResWriteLangRecord( const WResLangInfo *, int );
+int WResWriteHeaderRecord( const WResHeader *, int );
+int WResWriteExtHeader( const WResExtHeader *, int );
+int ResWriteString( const char *, unsigned char, int );
+int ResWriteNameOrOrdinal( const ResNameOrOrdinal *, unsigned char, int );
+int MResWriteResourceHeader( const MResResourceHeader *, int );
 #endif

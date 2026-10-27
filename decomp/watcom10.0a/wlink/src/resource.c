@@ -224,17 +224,6 @@ int ResReadUint32( unsigned long *value, int file )
     return 0;
 }
 
-#pragma pack(1)
-struct WResHeader {
-    unsigned long Magic[2], DirOffset;
-    unsigned short NumResources, NumTypes, WResVer;
-};
-struct WResExtHeader {
-    unsigned short TargetOS, reserved[4];
-};
-#pragma pack()
-typedef char WResHeader_is_18[(sizeof(WResHeader)==18)?1:-1];
-typedef char WResExtHeader_is_10[(sizeof(WResExtHeader)==10)?1:-1];
 
 int readWResDir( int file, WResDir dir )
 {

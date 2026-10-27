@@ -1,8 +1,8 @@
-WLINK 10.0a has forty-four completed paired CLI cases and six source-backed
-native unit cases. The acceptance ledger contains **1,240 application functions /
-136,157 unique original code bytes**. Paired CLI evidence covers **1,182 /
-131,924 bytes**; **58** further functions have source/static/native-unit
-qualification only, owning **4,247 bytes**. Those add **4,233** unique bytes;
+WLINK 10.0a has forty-four completed paired CLI cases and seven source-backed
+native unit cases. The acceptance ledger contains **1,255 application functions /
+137,181 unique original code bytes**. Paired CLI evidence covers **1,182 /
+131,924 bytes**; **73** further functions have source/static/native-unit
+qualification only, owning **5,271 bytes**. Those add **5,257** unique bytes;
 14 bytes are genuinely shared with already qualified CLI bodies and count once.
 Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
@@ -150,7 +150,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,240 source-ready identities, their actual graph,
+The complete audit passes for 1,255 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions in the CLI
@@ -1005,3 +1005,33 @@ being discarded as CRT by elimination. Explicit guarded domains remain:
 multibyte lexing, wildcard recovery with an undefined result, invalid communal
 number tags, and PE layouts missing required code/import or nonempty group
 owners. These residuals and failed malformed-input behavior remain unqualified.
+
+
+Source/reference-led gap review found additional SDK application writers outside
+the earlier reachable graph. The resource writer unit qualifies fifteen genuine
+entries from DefaultConversion through MResWriteResourceHeader, preserving exact
+1994 extents and excluding intervening padding. It checks scalar/identifier
+records, both named and numeric directory records, language records, header
+seek/overwrite and untouched file tails, string/name/ordinal forms and the old
+Win16 MRes header using real WResRtns callbacks and files. The expected bytes are
+format-derived, with exact cursors, input/canary preservation and cleanup.
+
+DefaultConversion is the actual byte-to-two-byte zero-extension loop, including
+high bytes and no-output sizing. Both static-buffer strings and a real allocated
+602-byte conversion are covered; no host encoding/general Unicode conversion
+is claimed. The old signed-int work count/low-word file length and the ignored
+second ordinal-writer error result are preserved. ResWriteString owns its real
+conversion/write/free graph, without the later ResWriteStringLen helper or MRes
+Win32-header branch. Only normal valid owned inputs and successful real file
+operations have unit qualification; failure/malformed domains remain separate.
+
+The original/native build took **4.347 s**, scoped fifteen-function graph/ABI check
+**379.116 ms**, and DIRECT/four-test runs **18.634 / 19.579 ms**.
+Final full build/regression/unit/audit, including the explicit low-word pointer
+typing cleanup, took **2.861 s**, passing forty-four CLI and seven unit cases
+and all 1,255 source-ready identities. Its 102 native invocations took
+**14.130–59.141 ms**. Source/body/callback correlations, timing and the
+split ledger remain in scratch wlink-gap-source. No original was launched.
+The earlier no-known-pending conclusion was bounded to that registry: this
+source-led review continues, including positively identified demangler and
+module-reset routines. The remaining gaps are not classified as CRT by absence.
