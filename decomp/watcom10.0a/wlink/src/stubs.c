@@ -153,9 +153,6 @@ void Syntax( void ) { TRAP(); }
 
 unsigned char ProcLanguage( void ) { TRAP(); return 0; }
 
-unsigned char ProcAnonExport( void ) { TRAP(); return 0; }
-
-unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
 
@@ -163,7 +160,7 @@ unsigned char GetWlibImports( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcNewSegment( void ) { TRAP(); return 0; }
+
 
 
 
@@ -259,7 +256,6 @@ unsigned char ProcNone( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
-unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
 
 
 
@@ -548,13 +544,11 @@ void DwarfAddModLines( unsigned count ) { TRAP(); }
 
 
 
-unsigned char ProcReadOnly( void ) { TRAP(); return 0; }
 
 
 
 
 
-unsigned char ProcFixed( void ) { TRAP(); return 0; }
 
 
 
@@ -689,7 +683,6 @@ unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
 
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
-unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
 
 
 

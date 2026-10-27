@@ -172,3 +172,16 @@ unsigned long FindLinearAddr( msg_address *addr )
     if( group != 0 ) return addr->off + group->linear - group->grp_addr.off;
     return addr->off;
 }
+
+unsigned short blog_32( unsigned long value )
+{
+    unsigned short log;
+
+    if( value == 0 ) return 0;
+    log = 31;
+    while( !(value & 0x80000000UL) ) {
+        value <<= 1;
+        --log;
+    }
+    return log;
+}

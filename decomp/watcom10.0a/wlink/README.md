@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-two completed native regression cases. The acceptance ledger
-contains **1,110 application functions / 126,853 unique original code bytes**.
+WLINK 10.0a has twenty-three completed native regression cases. The acceptance ledger
+contains **1,118 application functions / 127,619 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -49,6 +49,8 @@ The twenty-first combines TNT DLL thread metadata with genuine OMF aliases, long
 public names, duplicate/undefined-symbol policies and their complete diagnostics.
 The twenty-second combines NetWare LAN shared-image rebasing, referenced/export
 debug filtering, numeric string escapes and a caret response-source handoff.
+The twenty-third reads WLIB export-command text, including quoted/renamed and
+anonymous exports, with NE segment boundaries, alignment and relocation checks.
 
 | Case | Result |
 | --- | --- |
@@ -74,6 +76,7 @@ debug filtering, numeric string escapes and a caret response-source handoff.
 | `0020-os2-driver` | Exit 0; exact 262-byte stdout, empty stderr, 1,645-byte LX image and 3,324-byte map |
 | `0021-tnt-symbols` | Exit 0; exact 422-byte stdout, empty stderr, 9,119-byte TNT DLL and 3,235-byte map |
 | `0022-novell-shared` | Exit 0; exact 255-byte stdout, empty stderr, 3,276-byte LAN image and 3,066-byte map |
+| `0023-wlib-exports` | Exit 0; exact 483-byte stdout, empty stderr, 935-byte NE DLL and 3,730-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -452,3 +455,28 @@ native replay reused that capture and took **31.394 ms**, split **19.153 / 4.855
 genuine objects/archive/resources and the fixed shared NLM. Authoring inputs,
 raw artifacts and the failed ctype comparison remain in scratch wlink-novell-shared;
 the numbered case contains only source and capture data.
+
+
+The WLIB export-file case matches 550 first entries and complete output. Two
+ordinary `.lbc` files provide quoted symbol names, explicit ordinals, an external
+name mapped to a different internal symbol, and anonymous exports. The original
+locked child-command parser returns to the parent response file. Its 1994 export
+allocator owns the copied name, unlike the later released-source interface.
+NEWSEGMENT marks the real preceding object; fixed CODE, readonly DATA, alignment
+rounding and RWRELOCCHECK exercise the actual NE policies and preserve both
+relocation warnings. Eight additional application functions are qualified; no
+shared shim or CRT implementation was added.
+
+Only the established six map-header clock digit fields are excluded. Every NE
+DLL byte, remaining map byte, diagnostic, stream and exit status is strict.
+The final parallel build/regression/unit/audit batch took **1.498 s**. All
+twenty-three cases and 1,122 source-ready graph/ABI identities pass; the 46 native
+regression runs took **17.973–55.966 ms**. The final genuine capture command
+took **2,153.624 ms** (owned target **2,138.034 ms**); clock-derived native replay
+reused it and took **26.882 ms**, split **15.464 / 4.597 / 6.820 ms** for setup/
+execution/checks. The supported original baseline took **362.512 ms**, reusing
+genuine USE16 objects and archive. The initial full check exposed the missing
+map-clock comparison rule; offline derivation corrected only that established
+rule, without another original run. Raw captures, producer inputs and all
+failed setup/check diagnostics remain in scratch wlink-wlib-exports; the case
+contains only source and capture data.

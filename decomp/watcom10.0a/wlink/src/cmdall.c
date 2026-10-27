@@ -693,3 +693,15 @@ unsigned char ProcDisable( void )
 {
     return ProcArgList( AddDisable, 0 );
 }
+
+unsigned char ProcNewSegment( void )
+{
+    if( LastFile == 0 ) {
+        LnkMsg( 0x7a5c, 0 );
+    } else if( CmdFlags & 0x40 ) {
+        ((member_list *)LastFile)->flags |= 0x8000;
+    } else {
+        ((file_list *)LastFile)->status |= 0x0200;
+    }
+    return 1;
+}

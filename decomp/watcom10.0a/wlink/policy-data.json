@@ -5566,6 +5566,46 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcOS2Alignment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "blog_32": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRWRelocCheck": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNewSegment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFixed": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcReadOnly": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetWlibImports": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcAnonExport": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

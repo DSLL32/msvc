@@ -835,3 +835,111 @@ unsigned char ProcRunDosstyle( void )
     FmtData.u.pe.flags |= 1;
     return 1;
 }
+
+unsigned char ProcOS2Alignment( void )
+{
+    unsigned long value;
+
+    if( !HaveEquals( 0 ) ) return 0;
+    if( getatol( &value ) != 0 || value == 0 ) return 0;
+    FmtData.u.os2.segment_shift = blog_32( value - 1 ) + 1;
+    return 1;
+}
+
+unsigned char ProcRWRelocCheck( void )
+{
+    LinkFlags |= 0x00020000UL;
+    return 1;
+}
+
+unsigned char ProcFixed( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x10 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags &= ~0x10;
+    flags->specified |= 0x10;
+    return 1;
+}
+
+unsigned char ProcReadOnly( void )
+{
+    os2_seg_flags *flags;
+
+    flags = FmtData.u.os2.os2_seg_flags;
+    if( flags->specified & 0x480 ) LnkMsg( 0x7a2d, 0 );
+    flags->entry.flags |= 0x80;
+    flags->specified |= 0x400;
+    return 1;
+}
+
+/* WLIB import-command text can supply the reverse export mapping. */
+unsigned char GetWlibImports( void )
+{
+    char *fname, *symname, *internal;
+    int handle;
+    unsigned short ordinal;
+    entry_export *exp;
+
+    fname = FileName( Token.this, Token.len, 16, 0 );
+    handle = QOpenR( fname );
+    SetCommandFile( handle, fname );
+    Token.locked = 1;
+    while( GetToken( SEP_SPACE, 0 ) ) {
+        if( Token.len <= 2 ) continue;
+        if( Token.this[0] != '+' || Token.this[1] != '+' ) continue;
+        Token.this += 2;
+        Token.len -= 2;
+        if( Token.this[0] == '\'' ) {
+            Token.thumb = REJECT;
+            if( !GetToken( SEP_QUOTE, 0 ) ) {
+                LnkMsg( 0x7b77, 0 );
+                RestoreCmdLine();
+                return 1;
+            }
+        }
+        symname = tostring();
+        internal = 0;
+        if( !GetToken( SEP_DOT_EXT, 0 ) ) {
+            LnkMsg( 0x7b77, 0 );
+            _LnkFree( symname );
+            RestoreCmdLine();
+            return 1;
+        }
+        ordinal = 0;
+        if( GetToken( SEP_DOT_EXT, 0 ) && getatoi( &ordinal ) != 0 ) {
+            if( Token.len > 0 ) {
+                internal = symname;
+                symname = tostring();
+            }
+            if( GetToken( SEP_DOT_EXT, 0 ) && getatoi( &ordinal ) != 0 ) {
+                if( GetToken( SEP_DOT_EXT, 0 ) ) getatoi( &ordinal );
+            }
+        }
+        /* The old AllocExport takes ownership of the allocated name. */
+        exp = AllocExport( symname );
+        if( internal != 0 ) {
+            exp->sym = RefISymbol( internal );
+            _LnkFree( internal );
+        } else {
+            exp->sym = RefISymbol( symname );
+        }
+        exp->sym->info |= 0x4000;
+        exp->ordinal = ordinal;
+        if( ordinal == 0 ) exp->flags |= 1;
+        AddToExportList( exp );
+    }
+    Token.locked = 0;
+    return 1;
+}
+
+unsigned char ProcAnonExport( void )
+{
+    unsigned char result;
+
+    CmdFlags |= 0x4000;
+    result = ProcOS2Export();
+    CmdFlags &= ~0x4000;
+    return result;
+}

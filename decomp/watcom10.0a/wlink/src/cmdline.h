@@ -310,6 +310,7 @@ extern unsigned char ProcQNXNoRelocs( void );
 extern unsigned char ProcPENoRelocs( void );
 extern int ParseNumber( char *str, int radix );
 extern unsigned char AddDisable( void );
+extern unsigned short blog_32( unsigned long value );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

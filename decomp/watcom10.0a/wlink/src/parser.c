@@ -399,7 +399,7 @@ void StartNewFile( void )
 /* Filename extension selection is the actual 1994 command-format table. */
 static const char *DefExt[] = {
     ".lnk", ".map", ".lib", ".obj", ".exe", ".ovl", ".dll", ".exp",
-    ".nlm", ".lan", ".dsk", ".nam", ".com", ".rex", ".qnx", ".sym"
+    ".nlm", ".lan", ".dsk", ".nam", ".com", ".rex", ".qnx", ".sym", ".lbc"
 };
 char *FileName( char *buff, unsigned len, unsigned etype, int force )
 /******************************************************************/
