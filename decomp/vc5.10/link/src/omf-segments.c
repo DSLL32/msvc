@@ -232,6 +232,45 @@ void __cdecl read_omf_lidata(void)
         omf_data_offset=read_omf_iterated_block(omf_data_offset);
 }
 
+void __cdecl read_omf_bakpat(void)
+{
+    SHORT segment=(SHORT)read_omf_index();
+    BYTE location=(BYTE)read_omf_byte();
+    DWORD offset,value,wide;
+    WORD word_value;
+    SHORT section;
+    BYTE *destination;
+#ifdef __linux__
+    if(segment<0 || segment>=256) { __asm { int 3 } }
+#endif
+    while(omf_record_length>1) {
+        offset=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        value=omf_record_is32?read_omf_dword():(read_omf_word()&0xffff);
+        section=(SHORT)(omf_segments[segment].output_section-1);
+#ifdef __linux__
+        /* Only a live allocated output-section span is supported natively. */
+        if(section<0 || section>=omf_output_section_count ||
+            offset>omf_section_capacities[section] ||
+            (location<=2 && (1U<<location)>omf_section_capacities[section]-offset)) {
+            __asm { int 3 }
+        }
+#endif
+        destination=omf_section_data[section]+offset;
+        switch(location) {
+        case 0:*destination=(BYTE)(*destination+(BYTE)value);break;
+        case 1:
+            memcpy(&word_value,destination,sizeof(word_value));
+            word_value=(WORD)(word_value+(WORD)value);
+            memcpy(destination,&word_value,sizeof(word_value));break;
+        case 2:
+            memcpy(&wide,destination,sizeof(wide));
+            wide+=value;
+            memcpy(destination,&wide,sizeof(wide));break;
+        default:omf_error("Ilegal LocTyp in BAKPAT record");break;
+        }
+    }
+}
+
 /* Original479a88 remembers the last logical COMDAT segment for continuation
  * records, separate from current data segment478a70 and data offset479a90. */
 WORD omf_last_comdat_segment;

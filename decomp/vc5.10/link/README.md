@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-703 application functions / 258,386 original code bytes are reconstructed
-(62.29% of the 414,810-byte whole `.text` extent, which includes CRT and text
+706 application functions / 258,722 original code bytes are reconstructed
+(62.37% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-164 entries whose body extents remain unknown; this is not a complete non-CRT
+161 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-eight cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-nine cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-716-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 695 ordinary application bodies and six CRT bodies. Seven import
+719-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 698 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1331,3 +1331,36 @@ The final original took 1,801.8 ms; native comparison passed in 20.2 ms
 regression/unit/original-build and full graph/RET/EH batch passed in 5.48 s:
 48 cached cases, 716 graph vertices, 701 scoped return contracts and nine
 EH/SEH owner checks. These are incremental measurements.
+
+
+`cases/0050-omf-backpatch` completes linking of genuine WASM code/data with
+transparent public OMF backpatch records. Distinct source BYTE, WORD and DWORD
+owners receive six bounded additive patches, including unsigned wraparound.
+The two genuine local pointer fixups are represented equivalently by moving
+only their source addends into explicit segment-target displacement fields.
+Independent validation retains the exact location/segment/target offsets,
+all code and code fixups, and every other original record. The untouched
+original naturally accepts the object; its final data independently confirms
+all six results and both relocated pointer targets. No input code is executed.
+
+Three whole bodies / 336 code bytes recover the real B2/B3 reader and the
+symbol/displacement hash insertion and lookup helpers. The existing 16-byte
+owner retains its symbol at 0, displacement at 4, resolved output symbol at 8
+and next pointer at 12. Insertion leaves the output field untouched until the
+existing resolver writes it before lookup. Native guards bound actual section
+storage and reject absent lookup keys; no missing-key or malformed-record
+behavior is granted. The named-backpatch C8/C9 reader remains genuinely pending,
+with no alias semantics inferred from its provisional name.
+
+Original and native exit 0 with 299 matching first entries. The 4,096-byte EXE
+and 900-byte map compare strictly apart from established timestamp DWORDs
+[184,188), [1540,1544), [1568,1572), and map hex/ctime [28,36)/[38,62).
+All other bytes and final inventory match the untouched master. The final
+original took 1,755.5 ms; native comparison passed in 18.7 ms (11.9 ms setup,
+3.5 ms execution, 3.3 ms checks). Raw originals, producer/transform identities,
+independent data checks and the failed reserved-keyword build remain in scratch;
+no reference was launched after that failed build.
+
+One parallel case-end regression/unit/original-build and full graph/RET/EH
+batch passed in 5.50 s: 49 cached cases, 719 graph vertices, 704 scoped return
+contracts and nine distinct EH/SEH checks. These are incremental measurements.

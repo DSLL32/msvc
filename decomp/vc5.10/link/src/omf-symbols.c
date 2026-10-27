@@ -133,6 +133,35 @@ void __cdecl finish_omf_external_symbols(void)
     }
 }
 
+void __stdcall remember_omf_target_offset(DWORD symbol,DWORD offset)
+{
+    DWORD bucket=(symbol+offset)%211;
+    OmfExternalNode *entry;
+    for(entry=omf_offset_hash[bucket];entry;entry=entry->next)
+        if(entry->symbol==symbol && entry->displacement==offset)return;
+    entry=allocate_memory(sizeof(*entry));
+    entry->symbol=symbol;
+    entry->displacement=offset;
+    /* output_symbol is written by finish_omf_external_symbols before lookup. */
+    entry->next=omf_offset_hash[bucket];
+    omf_offset_hash[bucket]=entry;
+}
+
+DWORD __stdcall lookup_omf_target_offset(DWORD symbol,DWORD offset)
+{
+    OmfExternalNode *entry=omf_offset_hash[(symbol+offset)%211];
+    for(;;) {
+#ifdef __linux__
+        /* The original dereferences missing keys. Only the pass-one inserted
+         * and subsequently resolved keys have a supported lookup result. */
+        if(!entry) { __asm { int 3 } }
+#endif
+        if(entry->symbol==symbol && entry->displacement==offset)
+            return entry->output_symbol;
+        entry=entry->next;
+    }
+}
+
 DWORD omf_function_auxiliary_index; /*479a78*/
 void __cdecl resolve_omf_segments(void)
 {
