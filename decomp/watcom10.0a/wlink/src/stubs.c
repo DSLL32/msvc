@@ -41,8 +41,6 @@ void ExecSystem( char *name ) { TRAP(); }
 
 
 
-void CheckBSSInStart( symbol *sym, char *name ) { TRAP(); }
-void PhoneyStack( void ) { TRAP(); }
 
 
 
@@ -204,7 +202,6 @@ unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
 
 
-unsigned char CheckFence( void ) { TRAP(); return 0; }
 
 
 
@@ -447,8 +444,6 @@ unsigned long SpillAlloc( unsigned size ) { TRAP(); return 0; }
 
 
 
-int CmpLn386( const void *a, const void *b ) { TRAP(); return 0; }
-int CmpLn286( const void *a, const void *b ) { TRAP(); return 0; }
 
 
 

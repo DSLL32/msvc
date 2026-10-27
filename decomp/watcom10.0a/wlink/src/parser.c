@@ -1070,3 +1070,15 @@ void BackupParser( void )
     CmdFile = CmdFile->prev;
     memcpy( &Token, &CmdFile->token, sizeof(tok) );
 }
+
+unsigned char CheckFence( void )
+{
+    if( Token.thumb == REJECT ) {
+        if( !Token.quoted && *Token.this == '}' ) {
+            ++Token.this;
+            return 1;
+        }
+        return 0;
+    }
+    return GetToken( SEP_RCURLY, 0 );
+}

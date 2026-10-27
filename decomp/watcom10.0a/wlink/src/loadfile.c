@@ -363,3 +363,15 @@ unsigned char CompareOffsets( address *left, address *right )
 {
     return left->off < right->off;
 }
+
+void CheckBSSInStart( symbol *sym, char *name )
+{
+    symbol *chk;
+
+    chk = StartMod != 0 ? StartMod->publist : 0;
+    while( chk != 0 ) {
+        if( chk == sym ) return;
+        chk = chk->publink;
+    }
+    LnkMsg( 0x331a, "s", name );
+}

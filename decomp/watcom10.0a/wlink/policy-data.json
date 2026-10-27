@@ -5796,6 +5796,31 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "CheckFence": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CheckBSSInStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PhoneyStack": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CmpLn386": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CmpLn286": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -6106,6 +6131,26 @@
       "original": {
         "start": 4320850,
         "bytes_hex": "c3"
+      }
+    },
+    {
+      "owners": [
+        "CheckFence",
+        "EatWhite"
+      ],
+      "original": {
+        "start": 4276833,
+        "bytes_hex": "5ac3"
+      }
+    },
+    {
+      "owners": [
+        "DefABSSSym",
+        "CheckBSSInStart"
+      ],
+      "original": {
+        "start": 4290033,
+        "bytes_hex": "595bc3"
       }
     }
   ],

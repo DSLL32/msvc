@@ -891,3 +891,15 @@ void ODBIAddModLines( unsigned count )
 {
     if( CurrSect->dbg_info != 0 ) CurrSect->dbg_info->line.curr += count;
 }
+
+int CmpLn386( const void *a, const void *b )
+{
+    return (int)(((const ln_off_386 *)a)->off -
+                 ((const ln_off_386 *)b)->off);
+}
+
+int CmpLn286( const void *a, const void *b )
+{
+    return (int)((const ln_off_286 *)a)->off -
+           (int)((const ln_off_286 *)b)->off;
+}

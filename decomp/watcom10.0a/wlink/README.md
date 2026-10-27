@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-seven completed native regression cases. The acceptance ledger
-contains **1,156 application functions / 130,846 unique original code bytes**.
+WLINK 10.0a has twenty-eight completed native regression cases. The acceptance ledger
+contains **1,161 application functions / 131,004 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -61,6 +61,8 @@ member, in a NetWare DSK image.
 The twenty-seventh combines QNX16 floating-emulation loader relocations, an
 absolute hardware segment, explicit archive-member loading and quiet/segment
 policies.
+The twenty-eighth combines Windows NE implicit-stack selection, reserved BSS
+boundaries, brace lists and real unordered16/32-bit line metadata.
 
 | Case | Result |
 | --- | --- |
@@ -91,6 +93,7 @@ policies.
 | `0025-omf-records` | Exit 0; exact 255-byte stdout, empty stderr, 2,232-byte NAM and 3,860-byte map |
 | `0026-omf-conditional` | Exit 0; exact 255-byte stdout, empty stderr, 2,505-byte DSK and 4,713-byte map |
 | `0027-qnx-float` | Exit 0; empty stdout/stderr, 670-byte QNX16 image and 3,658-byte map |
+| `0028-ne-lines` | Exit 0; exact 248-byte stdout, empty stderr, 771-byte NE executable and 3,212-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -629,3 +632,25 @@ workload uses an explicit local QNX initialization file and the real marker
 library, and does not claim ExecSystem execution. Authoring, diagnostics,
 input provenance and raw artifacts remain in scratch wlink-qnx-float; the
 numbered case contains only source and capture data.
+
+
+The NE-line case matches 514 first entries and every executable/debug byte.
+Genuine WASM startup/archive inputs define the reserved BSS bounds in the entry
+module. Explicitly authored OMF LINNUM16/32 records name real MOV instruction
+offsets0/4/8 in valid USE16 segments, deliberately arrive out of order, and
+produce the exact sorted line tables. The header uses autodata/SS2 with an
+explicit4096-byte stack and no physical STACK input segment. Five new bodies
+cover brace fences, startup-module BSS ownership, implicit-stack policy and
+both line comparators. CheckFence/EatWhite share only their actual POP EDX/RET;
+CheckBSSInStart/DefABSSSym share only POP ECX/POP EBX/RET. Both identities/edges
+remain intact and shared bytes count once; no trace seeding was added.
+Only the six known map-clock fields are excluded.
+
+Full parallel build/regression/unit/audit took **2.841 s**: all twenty-eight
+cases and 1,165 source-ready graph/ABI identities pass. The 56 native runs took
+**17.621–56.774 ms**. Final original capture took **2,028.731 ms** (owned target
+**2,015.660 ms**); final clock-adjusted native replay took **27.959 ms**, split
+**17.308 / 3.596 / 7.055 ms** for setup/execution/checks. The clean original
+baseline took **666.892 ms**; assembly/archive production took **445.609 /
+472.416 / 580.266 ms**. All authoring, manifests, diagnostics and raw artifacts
+remain in scratch wlink-ne-lines; only source/capture data are in the case.

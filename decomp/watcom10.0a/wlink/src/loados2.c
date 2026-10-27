@@ -597,3 +597,9 @@ unsigned char WriteOS2Relocs( group_entry *group )
     DumpRelocList( group->grp_relocs );
     return 1;
 }
+
+/* Explicit stack size without a STACK segment uses Windows autodata. */
+void PhoneyStack( void )
+{
+    FmtData.u.os2.flags |= 8;
+}
