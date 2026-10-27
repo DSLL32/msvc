@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-632 application functions / 237,983 original code bytes are reconstructed
-(57.37% of the 414,810-byte whole `.text` extent, which includes CRT and text
+633 application functions / 238,978 original code bytes are reconstructed
+(57.61% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-173 entries whose body extents remain unknown; this is not a complete non-CRT
+172 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-six cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-seven cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,9 +45,9 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-645-vertex graph, imports, references, ownership and extents. Scoped return
+646-vertex graph, imports, references, ownership and extents. Scoped return
 checks cover 625 ordinary application bodies and six CRT bodies. Seven import
-thunks remain in the graph without body-return claims. The seven genuine C++
+thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
 contracts; they do not grant provider or pending-helper body credit.
@@ -884,3 +884,33 @@ The final original took 1,197.3 ms; fresh native comparison took 502.6 ms
 regression, unit, original-build and full graph/RET/EH batch passed in 4.31 s:
 36 cases, 645 graph vertices, 631 scoped return contracts and seven distinct
 EH-owner checks. These are incremental measurements.
+
+The short-import inspection case reads the unchanged original-produced new-format
+archive and EXP, its five byte-exact extracted short members, and the genuine
+original-compiled client object. One `/dump /all` invocation exercises archived
+and standalone record decoding, code/data imports, named and ordinal encodings,
+COFF symbols, relocations and archive export collection. Both executions exit 0
+with 122 application first entries and exactly 27,640 stdout bytes. All target
+input/reference fields equal the untouched master, with only the previously
+omitted existing dumper-resource harness asset added. No output normalization
+is used; input timestamps are already frozen. The original's warning that
+`/nologo` is unrecognized by this dumper is preserved.
+
+The 995-byte whole decoder reuses the qualified 20-byte scoped buffer, its real
+Grow edge, inline normal scalar delete and exceptional tail to the one canonical
+cleanup body. The export-name array uses its actual scalar new/delete calls,
+retains all 12-byte records on growth and writes the defined flag padding.
+An initial narrow graph check caught and corrected a provisional malloc/free
+substitution before any new masked reference. Original `/O2 /Ob2 /GX` and scoped
+native optimization after inlining preserve the actual lifetime and entry roles;
+no helper vertex or additional destructor qualification was added. The eighth
+bounded EH-owner check separately binds normal RET8, the actual stack owner,
+action, FuncInfo/unwind data and authenticated frame-handler thunk. Allocation
+failure and malformed record domains remain unvisited.
+
+The original took 1,656.8 ms; fresh native comparison took 21.4 ms (14.3 ms setup,
+3.7 ms execution, 3.4 ms checks). The single parallel case-end regression, unit,
+original-build and full graph/RET/EH batch passed in 5.30 s: 37 cases, 646 graph
+vertices, 631 scoped return contracts and eight distinct EH-owner checks.
+The resource-setup failure, failed declaration builds, allocator graph failure
+and unchanged raw references remain in scratch. These are incremental timings.

@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 135216
+              "offset": 135248
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 135227
+              "offset": 135259
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 223472
+              "offset": 224480
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 223483
+              "offset": 224491
             }
           ]
         },
@@ -4963,11 +4963,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 68528
+              "offset": 68560
             },
             {
               "rebuilt_symbol": "_get_import_conversion@28",
-              "offset": 68542
+              "offset": 68574
             }
           ]
         }
@@ -4983,11 +4983,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_write_converted_archive_member@32",
-              "offset": 67120
+              "offset": 67152
             },
             {
               "rebuilt_symbol": "_write_converted_archive_member@32",
-              "offset": 67128
+              "offset": 67160
             }
           ]
         }
@@ -5094,11 +5094,11 @@
           "roots": [
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 80880
+              "offset": 80912
             },
             {
               "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-              "offset": 80891
+              "offset": 80923
             }
           ]
         }
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 163104
+              "offset": 163136
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 163115
+              "offset": 163147
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 162144
+              "offset": 162176
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 162155
+              "offset": 162187
             }
           ]
         }
@@ -13646,6 +13646,118 @@
                 {
                   "rebuilt_symbol": "_adjust_rom_section_header@12",
                   "offset": 59
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_dump_short_import@8": {
+        "original": {
+          "roots": [
+            4609296,
+            4609304
+          ],
+          "switches": [
+            {
+              "site": 4377909,
+              "targets": [
+                4377916,
+                4377926,
+                4377936,
+                4377946
+              ]
+            },
+            {
+              "site": 4378172,
+              "targets": [
+                4378179,
+                4378251,
+                4378205,
+                4378205
+              ]
+            }
+          ]
+        },
+        "rebuilt": {
+          "roots": [
+            {
+              "rebuilt_symbol": "_dump_short_import@8",
+              "offset": 164128
+            },
+            {
+              "rebuilt_symbol": "_dump_short_import@8",
+              "offset": 164136
+            }
+          ],
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 988
+              },
+              {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 1004
+              }
+            ],
+            [
+              {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 1004
+              },
+              {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 1020
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 551
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 558
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 568
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 578
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 588
+                }
+              ]
+            },
+            {
+              "site": {
+                "rebuilt_symbol": "_dump_short_import@8",
+                "offset": 816
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 823
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 848
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 870
+                },
+                {
+                  "rebuilt_symbol": "_dump_short_import@8",
+                  "offset": 870
                 }
               ]
             }
@@ -19305,21 +19417,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 135216
+            "offset": 135248
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 135227
+            "offset": 135259
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 135227
+            "offset": 135259
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 135237
+            "offset": 135269
           }
         ]
       ]
@@ -19329,21 +19441,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 223472
+            "offset": 224480
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 223483
+            "offset": 224491
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 223483
+            "offset": 224491
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 223493
+            "offset": 224501
           }
         ]
       ]
@@ -19353,21 +19465,21 @@
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 68528
+            "offset": 68560
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 68542
+            "offset": 68574
           }
         ],
         [
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 68542
+            "offset": 68574
           },
           {
             "rebuilt_symbol": "_get_import_conversion@28",
-            "offset": 68552
+            "offset": 68584
           }
         ]
       ]
@@ -19377,21 +19489,21 @@
         [
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 67120
+            "offset": 67152
           },
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 67128
+            "offset": 67160
           }
         ],
         [
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 67128
+            "offset": 67160
           },
           {
             "rebuilt_symbol": "_write_converted_archive_member@32",
-            "offset": 67138
+            "offset": 67170
           }
         ]
       ]
@@ -19401,21 +19513,21 @@
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 80880
+            "offset": 80912
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 80891
+            "offset": 80923
           }
         ],
         [
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 80891
+            "offset": 80923
           },
           {
             "rebuilt_symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ",
-            "offset": 80901
+            "offset": 80933
           }
         ]
       ]
@@ -19425,21 +19537,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 163104
+            "offset": 163136
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 163115
+            "offset": 163147
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 163115
+            "offset": 163147
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 163125
+            "offset": 163157
           }
         ]
       ]
@@ -19449,21 +19561,45 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 162144
+            "offset": 162176
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 162155
+            "offset": 162187
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 162155
+            "offset": 162187
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 162165
+            "offset": 162197
+          }
+        ]
+      ]
+    },
+    "_dump_short_import@8": {
+      "rebuilt_code_chunks": [
+        [
+          {
+            "rebuilt_symbol": "_dump_short_import@8",
+            "offset": 164128
+          },
+          {
+            "rebuilt_symbol": "_dump_short_import@8",
+            "offset": 164136
+          }
+        ],
+        [
+          {
+            "rebuilt_symbol": "_dump_short_import@8",
+            "offset": 164136
+          },
+          {
+            "rebuilt_symbol": "_dump_short_import@8",
+            "offset": 164146
           }
         ]
       ]

@@ -39,6 +39,7 @@ def verify(report, images):
         verify_converted_member(facts, side, image)
         verify_dumper_file(facts, side, image)
         verify_dumper_file(facts, side, image, members=True)
+        verify_short_import(facts, side, image)
 
 
 def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
@@ -322,19 +323,73 @@ def verify_dumper_file(facts, side, image, members=False):
     assert qualified_import(image, identity, thunk) == [('msvcrt.dll','__CxxFrameHandler')]
 
 
+def verify_short_import(facts, side, image):
+    """The actual 20-byte temporary has normal delete and one EH tail cleanup."""
+    identity=facts['inputs']['images'][side]
+    assert identity['original_file_sha256']==hashlib.sha256(image.read_bytes()).hexdigest()
+    owner=facts['functions']['_dump_short_import@8'][side]
+    destructor=facts['functions']['DefinitionBuffer::~DefinitionBuffer'][side]
+    start,end=owner['record']['start'],owner['record']['end']
+    (action,action_end),(handler,handler_end)=owner['record']['code_chunks']
+    assert action_end==handler and handler-action==8 and handler_end-handler==10
+    assert set(owner['effective_roots'])=={start,action,handler}
+    assert owner['checked_ret_cleanup_set'] is None
+    assert owner['local_ret_cleanup_set']==[8]
+    assert destructor['checked_ret_cleanup_set']==[0]
+    ins={row['address']:bytes.fromhex(row['bytes_hex']) for row in owner['instructions']}
+    memory={at+i:byte for at,data in ins.items() for i,byte in enumerate(data)}
+    def code(at,count):return bytes(memory[at+i] for i in range(count))
+    frame=0x24 if side=='original' else 0x1c
+    prologue=bytes.fromhex('6aff68')+struct.pack('<I',handler)+bytes.fromhex('64a100000000506489250000000083ec')+bytes([frame])
+    assert code(start,len(prologue))==prologue
+    returns=[at for at,data in ins.items() if start<=at<end and data[:1] in (b'\xc2',b'\xc3')]
+    assert len(returns)==1 and ins[returns[0]]==bytes.fromhex('c20800')
+    epilogue=bytes.fromhex('8b4c24')+bytes([frame+16])+bytes.fromhex('5f5e5d64890d000000005b83c4')+bytes([frame+12])+bytes.fromhex('c20800')
+    assert code(returns[0]+3-len(epilogue),len(epilogue))==epilogue
+    if side=='original':
+        stores=bytes.fromhex('89442420')+b''.join(bytes.fromhex('895c24')+bytes([x]) for x in (0x24,0x28,0x2c,0x30))
+    else:
+        stores=bytes.fromhex('895c2418')+b''.join(bytes.fromhex('897424')+bytes([x]) for x in (0x1c,0x20,0x24,0x28))
+    assert contextual_bytes(image,start,128).count(stores)==1
+    a=code(action,8)
+    assert a[:4]==bytes.fromhex('8d4de0e9')
+    assert action+8+struct.unpack_from('<i',a,4)[0]==destructor['record']['start']
+    normal_delete=[]
+    for at,data in ins.items():
+        if start<=at<end and data[:1]==b'\xe8':
+            target=at+5+struct.unpack_from('<i',data,1)[0]
+            assert target!=destructor['record']['start']
+            if contextual_bytes(image,target,2)==bytes.fromhex('ff25') and qualified_import(image,identity,target)==[('msvcrt.dll','??3@YAXPAX@Z')]:normal_delete.append(at)
+    assert len(normal_delete)==2  # replaced export array and final buffer
+    final_delete=max(normal_delete)
+    assert code(final_delete-1,1)==b'\x50' and code(final_delete+5,3)==bytes.fromhex('83c404')
+    h=code(handler,10)
+    assert h[0]==0xb8 and h[5]==0xe9
+    info=struct.unpack_from('<I',h,1)[0]
+    words=struct.unpack('<8I',contextual_bytes(image,info,32))
+    assert words[:2]==(0x19930520,1) and words[3:]==(0,0,0,0,0)
+    assert struct.unpack('<2I',contextual_bytes(image,words[2],8))==(0xffffffff,action)
+    if side=='original':assert [info,words[2]+8] in owner['record']['shared']
+    thunk=handler+10+struct.unpack_from('<i',h,6)[0]
+    assert qualified_import(image,identity,thunk)==[('msvcrt.dll','__CxxFrameHandler')]
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--original',type=Path,required=True)
     parser.add_argument('--rebuilt',type=Path,required=True)
-    parser.add_argument('--owner', choices=['dumper-file','dumper-members'])
+    parser.add_argument('--owner', choices=['dumper-file','dumper-members','short-import'])
     options = parser.parse_args()
     report = json.loads(options.report.read_text())
     images = {'original': options.original, 'rebuilt': options.rebuilt}
-    if options.owner in ('dumper-file','dumper-members'):
+    if options.owner == 'short-import':
+        for side,image in images.items():verify_short_import(report['decoded_instructions'],side,image)
+        print('PASS short-import: normal RET8/delete, actual 20-byte local EH tail and qualified handler')
+    elif options.owner in ('dumper-file','dumper-members'):
         for side, image in images.items():
             verify_dumper_file(report['decoded_instructions'], side, image, members=options.owner=='dumper-members')
         print('PASS '+options.owner+': normal caller cleanup, allocation-bound failed-new RET0 action and qualified handler')
     else:
         verify(report, images)
-        print('PASS seven C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32, COMDAT report RET0 dumper file RET4 and archive members RET8; distinct cleanup roles and qualified handlers')
+        print('PASS eight C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32, COMDAT report RET0 dumper file RET4 archive members RET8 and short import RET8; distinct cleanup roles and qualified handlers')
