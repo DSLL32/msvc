@@ -1638,7 +1638,10 @@ profiles and the existing libc100 variant retain their behavior. Focused native
 four-stream lifecycle controls complete cleanup. Subsequent ordinary APSTUDIO
 completion also matches the full RES and strict inventory with no temporary-file
 leaks. Ordinary prefix boundary/invalid-leaf controls and real owned-file
-write/reopen/remove checks pass; LINK's new OMF caller adoption is pending.
+write/reopen/remove checks pass. LINK's actual OMF temporary-file prefix reaches
+its converter with independent names; final289-entry completion (15.578ms native,
+only identified PE/debug/map clocks normalized) proves real create/convert/delete
+and strict final inventory without a pathname mask or seed.
 Generated names and original per-call state remain unmeasured.
 
 Registered message4506/lang409 has a separate explicit510 fixed-template branch
@@ -2097,5 +2100,6 @@ arithmetic. The implementation writes no input/state and preserves errors/FP.
 Other profiles and SHIM_IMPL retain their prior original-name binding; the helper
 still denies other profiles. C/C++ typing, generic ASCII/empty/boundary/readonly
 input, state/error/semantic-FP and finite-denial controls pass. C1's saved382-entry
-ordinary diagnostic-emitter adoption remains pending; original per-call/private
-state is unmeasured and no provider-body credit is claimed.
+ordinary diagnostic-emitter adoption passes (21.275ms native), followed by exact
+525-entry/four-output/78-byte-warning case completion. Original per-call/private
+state remains unmeasured and no provider-body credit is claimed.

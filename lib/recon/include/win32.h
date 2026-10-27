@@ -230,6 +230,18 @@ typedef struct { DWORD Characteristics,TimeDateStamp,ForwarderChain,Name,FirstTh
 typedef struct { DWORD NumberOfSymbols,LvaToFirstSymbol,NumberOfLinenumbers,LvaToFirstLinenumber,RvaToFirstByteOfCode,RvaToLastByteOfCode,RvaToFirstByteOfData,RvaToLastByteOfData; } IMAGE_COFF_SYMBOLS_HEADER;
 #pragma pack(pop)
 
+/* Separate .DBG header (bundled WINNT.H, four-byte packing). */
+#pragma pack(push,4)
+typedef struct _IMAGE_SEPARATE_DEBUG_HEADER {
+ WORD Signature,Flags,Machine,Characteristics;
+ DWORD TimeDateStamp,CheckSum,ImageBase,SizeOfImage,NumberOfSections;
+ DWORD ExportedNamesSize,DebugDirectorySize,SectionAlignment,Reserved[2];
+} IMAGE_SEPARATE_DEBUG_HEADER,*PIMAGE_SEPARATE_DEBUG_HEADER;
+#pragma pack(pop)
+#define IMAGE_SEPARATE_DEBUG_SIGNATURE 0x4944
+#define IMAGE_SEPARATE_DEBUG_FLAGS_MASK 0x8000
+#define IMAGE_SEPARATE_DEBUG_MISMATCH 0x8000
+
 /* NT's frame-pointer-omission debug record (bundled WINNT.H). */
 #pragma pack(push,1)
 typedef struct _FPO_DATA {
