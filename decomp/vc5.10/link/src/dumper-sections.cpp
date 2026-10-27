@@ -8,6 +8,7 @@
 #include "dumper.h"
 #include "input.h"
 #include "memory.h"
+#include "initializers.h"
 #include "arguments.h"
 #include "sections.h"
 #include "full-link-functions.h"
@@ -379,7 +380,54 @@ void __stdcall dump_raw_data(DWORD address,const void *buffer,DWORD length)
         fputc('\n',map_output);
     }
 }
-void __stdcall dump_import_addresses(const void *,DWORD,DWORD) { __asm { int 3 } }
+extern char short_symbol_name[9];
+extern DWORD dump_archive_export_capacity;
+void __stdcall dump_import_addresses(const void *data,DWORD bytes,DWORD section)
+{
+    DumperArchiveExport entry,*replacement;
+    IMAGE_SYMBOL *symbol;
+    const char *name;
+    DWORD index,needed,capacity,i;
+    WORD kind;
+#ifdef __linux__
+    /* With no ordinal the original's ordinal slot is unwritten; padding in
+     * the physical flag DWORD is also undefined. Neither is consumed here. */
+    memset(&entry,0,sizeof(entry));
+#endif
+    entry.has_ordinal=0;
+    if(*(const DWORD *)data) {
+        entry.has_ordinal=1;
+        entry.ordinal=*(const DWORD *)data&0xffff;
+    }
+    for(index=0;index<dumper_context->file_header.NumberOfSymbols;
+        index+=symbol->NumberOfAuxSymbols+1) {
+        symbol=dump_symbols+index;
+        if(symbol->SectionNumber!=(WORD)section)continue;
+        if(symbol->StorageClass!=IMAGE_SYM_CLASS_EXTERNAL &&
+            (symbol->StorageClass!=IMAGE_SYM_CLASS_STATIC ||
+             (symbol->NumberOfAuxSymbols==1 && (symbol->Type&0x30)!=0x20)))continue;
+        name=get_symbol_name((StringNode *)symbol,dump_string_table,&kind,NULL);
+        if(kind==1)name=strncpy(short_symbol_name,name,8);
+        if(!name || strncmp(name,"__imp_",strlen("__imp_")))continue;
+        entry.name=duplicate_argument(name+strlen("__imp_"));
+        needed=dump_archive_export_count+1;
+        if(needed>dump_archive_export_capacity) {
+            capacity=dump_archive_export_capacity*3/2;
+            if(capacity<needed)capacity=needed;
+            replacement=(DumperArchiveExport *)crt_operator_new(capacity*sizeof(*replacement));
+            if(!replacement)return;
+            if(dump_archive_exports) {
+                for(i=0;i<dump_archive_export_count;++i)replacement[i]=dump_archive_exports[i];
+                crt_operator_delete(dump_archive_exports);
+            }
+            dump_archive_exports=replacement;
+            dump_archive_export_capacity=capacity;
+        }
+        dump_archive_export_count=needed;
+        dump_archive_exports[needed-1]=entry;
+        return;
+    }
+}
 IMAGE_SECTION_HEADER *__stdcall find_dumper_section(DWORD,WORD *) { __asm { int 3 } return NULL; }
 IMAGE_SYMBOL *__stdcall find_dumper_symbol(DumperSectionState *,DWORD,DWORD,DWORD *) { __asm { int 3 } return NULL; }
 void __stdcall print_dumper_address(DumperSectionState *state,const char *prefix,DWORD address)

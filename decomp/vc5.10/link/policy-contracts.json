@@ -5700,5 +5700,8 @@
   },
   "dumper_directives_ordinary_abi": {
     "scope": "Public MSVCRT cdecl strtok preserves ESI on normal return; original42803d caches its actual IAT40119c in ESI, calls42804c/428074; no tokenizer provider/state expansion. Existing EBX strtok and all fprintf nonvolatile claims retained."
+  },
+  "dumper_map_ordinary_abi": {
+    "scope": "The reconstructed next_coff_symbol uses the actual stdcall1/RET4 ABI. Its ordinary normal-return ABI preserves EBP while dump_coff_map caches fprintf across both the main-symbol and auxiliary-record calls. Only that EBP fact is added; no helper or runtime body credit."
   }
 }

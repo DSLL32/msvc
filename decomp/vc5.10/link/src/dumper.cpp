@@ -161,6 +161,7 @@ void __stdcall build_dumper_symbol_index(DumperSectionState *state,DWORD section
 void __stdcall release_dumper_symbol_index(DumperSectionState *state) { release_memory(state->symbol_index); }
 extern const char *default_phase;
 DWORD dump_archive_export_count;
+DWORD dump_archive_export_capacity;
 DumperArchiveExport *dump_archive_exports;
 void __stdcall dump_archive_linker_members(OutputLibrary *library);
 #pragma intrinsic(memcmp)
@@ -576,7 +577,37 @@ void __stdcall prepare_dumper_file(DWORD archive)
 }
 
 
-void __cdecl dump_coff_map(void) { __asm { int 3 } }
+IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
+void __cdecl dump_coff_map(void)
+{
+    IMAGE_SYMBOL *cursor=dump_symbols,*symbol;
+    DWORD index=0,auxiliary,length;
+    const char *name;
+    char short_name[9];
+    short_name[8]=0;
+    default_phase="DumpSymbolMap";
+    fputs("\nSYMBOL MAP\n",map_output);
+    while(index<dumper_context->file_header.NumberOfSymbols) {
+        ++index;
+        symbol=next_coff_symbol(&cursor);
+        auxiliary=symbol->NumberOfAuxSymbols;
+        index+=auxiliary;
+        while(auxiliary--)next_coff_symbol(&cursor);
+        if(symbol->SectionNumber<=0 || symbol->StorageClass!=IMAGE_SYM_CLASS_EXTERNAL)continue;
+        if(!symbol->N.Name.Short)name=dump_string_table+symbol->N.Name.Long;
+        else name=strncpy(short_name,(const char *)symbol->N.ShortName,8);
+        if(*name=='_')++name;
+        fprintf(map_output,"%08lX",symbol->Value);
+        if(index+1<dumper_context->file_header.NumberOfSymbols &&
+            cursor->SectionNumber==symbol->SectionNumber)length=cursor->Value-symbol->Value;
+        else {
+            IMAGE_SECTION_HEADER *section=dump_section_headers+symbol->SectionNumber-1;
+            length=section->VirtualAddress+section->SizeOfRawData-symbol->Value;
+        }
+        fprintf(map_output," , %8lu",length);
+        fprintf(map_output,", %s\n",name);
+    }
+}
 void __stdcall dump_relocation_symbol(FILE *,const char *,IMAGE_SYMBOL *);
 #pragma intrinsic(strcpy,strcat,strlen,memset)
 void __stdcall format_dumper_symbol(IMAGE_SYMBOL *symbol,char *text)

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-598 application functions / 230,876 original code bytes are reconstructed
-(55.66% of the 414,810-byte whole `.text` extent, which includes CRT and text
+600 application functions / 231,704 original code bytes are reconstructed
+(55.86% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 40 pending bodies with known extents totaling 4,219 bytes and
-194 entries whose body extents remain unknown; this is not a complete non-CRT
+192 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty-nine cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-611-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 591 ordinary application bodies and six CRT bodies. Seven import
+613-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 593 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -686,3 +686,25 @@ with no implementation credit. The shipped provider lacks some dormant exact
 imports, and no decoder, substitute vtable or provider-success behavior is
 claimed. The new completion carries these two prefixes and six legacy dumper
 bodies, adding eight functions and 2,428 code bytes since the PE editor case.
+
+The import-archive/map inspection case completes with 129 application first
+entries over the genuine original-produced DLL import archive, an optimized
+original-compiled COFF object, and the DLL/client images. COFF symbol maps retain
+the actual auxiliary-record walk and next-record length calculation. The import
+collector uses the real `.idata$5` word and `__imp_` symbol, preserving ordinal
+presence and the shared short-name storage. With no ordinal, its original local
+ordinal slot and three local flag-padding bytes are unwritten; native zeros are
+representation only, and the real consumer tests the presence BYTE before
+reading the ordinal. Defined pointer bits carried in the reused input formal
+are distinct from those unwritten local bytes. The section-search helper and
+external decoder remain pending because this workload did not reach them.
+
+All streams, input bytes and final inventory match the untouched reference
+without normalization. Completion replay took 21.1 ms (12.3 ms setup, 5.4 ms
+execution, 3.3 ms checks). The parallel case-end regression, unit,
+original-build and full graph/RET/EH batch passed in 4.19 s. This adds two
+whole bodies and 828 code bytes; the current 30-case graph has 613 vertices,
+599 scoped return contracts and seven distinct EH role checks. The attempted
+separate-debug input producer remains separately blocked: shipped REBASE
+returned error 120 while splitting symbols, so no `.DBG` fixture or decoder
+success was invented.
