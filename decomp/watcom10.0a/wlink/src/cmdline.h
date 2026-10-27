@@ -306,6 +306,8 @@ extern unsigned demangle_recursive( const char *input, char *output, unsigned si
 extern unsigned char AddVector( void );
 extern unsigned char AddForceVector( void );
 extern unsigned char AddNoVector( void );
+extern unsigned char ProcQNXNoRelocs( void );
+extern unsigned char ProcPENoRelocs( void );
 extern unsigned char ProcDosHelp( void );
 extern unsigned char ProcOS2Help( void );
 extern unsigned char ProcWindowsHelp( void );

@@ -810,3 +810,28 @@ unsigned char ProcSingle( void )
     CmdFlags |= 0x20;
     return 1;
 }
+
+unsigned char ProcTNT( void )
+{
+    FmtData.u.pe.flags |= 1;
+    return 1;
+}
+
+unsigned char ProcMemory( void )
+{
+    FmtData.u.os2.flags |= 0x0080;
+    return 1;
+}
+
+unsigned char ProcFont( void )
+{
+    FmtData.u.os2.flags |= 0x0100;
+    return 1;
+}
+
+unsigned char ProcRunDosstyle( void )
+{
+    FmtData.u.pe.subsystem = 0x42;
+    FmtData.u.pe.flags |= 1;
+    return 1;
+}

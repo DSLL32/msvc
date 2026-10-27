@@ -681,3 +681,24 @@ void WeldSyms( symbol *sym, symbol *defsym )
 {
     if( defsym != NULL ) SetSymAlias( sym, defsym->name, strlen( defsym->name ) );
 }
+
+void ReportMultiple( symbol *sym, char *name, int len )
+{
+    char *symname;
+    unsigned level;
+
+    symname = alloca( len + 1 );
+    if( symname == NULL ) {
+        name[len - 1] = '\0';
+        LnkMsg( 0x3363, "s", name );
+    } else {
+        memcpy( symname, name, len );
+        symname[len] = '\0';
+        level = (LinkFlags & 0x40000000UL) ? 0x3200 : 0x3300;
+        if( CmpSym( sym->name, symname, len + 1 ) == 0 ) {
+            LnkMsg( level + 0x401b, "S", sym );
+        } else {
+            LnkMsg( level + 0x405a, "12", sym->name, symname );
+        }
+    }
+}

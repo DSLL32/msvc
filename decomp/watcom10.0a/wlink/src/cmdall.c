@@ -609,3 +609,65 @@ unsigned char ProcSort( void )
     ProcOne( SortOptions, SEP_NO, 0 );
     return 1;
 }
+
+extern unsigned long MaxErrors;
+unsigned char ProcMaxErrors( void )
+{
+    if( !GetLong( &MaxErrors ) ) return 0;
+    LinkFlags |= 0x00040000UL;
+    return 1;
+}
+
+extern unsigned NameLen;
+unsigned char ProcNameLen( void )
+{
+    unsigned long value;
+    unsigned char ret;
+
+    ret = GetLong( &value );
+    if( ret ) {
+        if( value == 0 ) LnkMsg( 0x7a3c, "s", "namelen" );
+        else NameLen = value;
+    }
+    return ret;
+}
+
+unsigned char ProcNoCaseExact( void )
+{
+    LinkFlags &= ~0x2000UL;
+    SetSymCase();
+    return ProcNoCache();
+}
+
+unsigned char ProcNoCache( void )
+{
+    /* This 1994 entry is a no-op; it does not select a cache policy. */
+    return 1;
+}
+
+unsigned char ProcRedefsOK( void )
+{
+    LinkFlags |= 0x40000000UL;
+    return 1;
+}
+
+unsigned char ProcUndefsOK( void )
+{
+    LinkFlags |= 0x40UL;
+    return 1;
+}
+
+unsigned char ProcMangledNames( void )
+{
+    LinkFlags |= 0x80000UL;
+    return 1;
+}
+
+unsigned char ProcNoRelocs( void )
+{
+    /* The 1994 first hint also includes NT, so that format takes the
+     * QNX setter rather than reaching the second PE-only branch. */
+    if( HintFormat( 0x4210 ) ) return ProcQNXNoRelocs();
+    if( HintFormat( 0x0010 ) ) return ProcPENoRelocs();
+    return 1;
+}

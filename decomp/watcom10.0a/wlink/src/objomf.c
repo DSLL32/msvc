@@ -771,3 +771,25 @@ void DoLazyExtdef( unsigned char isweak )
         DefineLazyExtdef( sym, ext->entry, isweak );
     }
 }
+
+void OMFProcAlias( void )
+{
+    char *alias, *target;
+    unsigned aliaslen, targetlen;
+    symbol *sym;
+
+    while( ObjBuff < EOObjRec ) {
+        aliaslen = *ObjBuff++;
+        alias = (char *)ObjBuff;
+        ObjBuff += aliaslen;
+        targetlen = *ObjBuff++;
+        sym = SymXOp( 0x0c, alias, aliaslen );
+        if( !(sym->info & 0x1000) ) {
+            target = ChkLAlloc( targetlen + 1 );
+            memcpy( target, ObjBuff, targetlen );
+            target[targetlen] = '\0';
+            MakeSymAlias( alias, aliaslen, target, targetlen );
+        }
+        ObjBuff += targetlen;
+    }
+}

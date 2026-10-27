@@ -5426,6 +5426,101 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcTNT": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMemory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcFont": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRunDosstyle": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMaxErrors": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNameLen": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoCaseExact": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoCache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcRedefsOK": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcUndefsOK": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcMangledNames": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNoRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcQNXNoRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "OMFProcAlias": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ReportMultiple": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Locator": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FileOrder": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "Msg_Do_Put_Args": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "UndefinedSym": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -5717,6 +5812,16 @@
         "start": 4382232,
         "bytes_hex": "b8010000008911595bc3"
       }
+    },
+    {
+      "owners": [
+        "ProcPubdef",
+        "OMFProcAlias"
+      ],
+      "original": {
+        "start": 4314483,
+        "bytes_hex": "83c4085d5f5e5a595bc3"
+      }
     }
   ],
   "function_properties": {
@@ -5772,6 +5877,12 @@
       "pending_extent": false
     },
     "ProcOS2Alignment": {
+      "pending_extent": false
+    },
+    "ProcQNXNoRelocs": {
+      "pending_extent": false
+    },
+    "ProcPENoRelocs": {
       "pending_extent": false
     }
   }

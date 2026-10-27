@@ -147,3 +147,12 @@ void Msg_Write_Map( int resourceid, ... )
     DoWriteMap( msg_buff, &args );
     va_end( args );
 }
+
+void Msg_Do_Put_Args( char *buff, MSG_ARG_LIST *info, char *types, ... )
+{
+    va_list args;
+
+    va_start( args, types );
+    Msg_Put_Args( buff, info, types, &args );
+    va_end( args );
+}

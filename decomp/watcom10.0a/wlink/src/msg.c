@@ -414,3 +414,39 @@ int SymAlphaCompare( const void *a, const void *b )
     }
     return result;
 }
+
+void Locator( char *name, char *member, unsigned rec )
+{
+    LocFile = name;
+    LocMem = member;
+    LocRec = rec;
+}
+
+void FileOrder( char rc_buff[], int which_file )
+/*****************************************************/
+{
+    switch( which_file ) {
+        case 1:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "s", LocFile );
+            break;
+        case 2:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "s", LocMem );
+            break;
+        case 3:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "12", LocFile, LocMem );
+            break;
+        case 4:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "d", LocRec );
+            break;
+        case 5:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "sd", LocFile, LocRec );
+            break;
+        case 6:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "sd", LocMem, LocRec );
+            break;
+        case 7:
+            Msg_Do_Put_Args( rc_buff, &MsgArgInfo, "12d", LocFile, LocMem,
+                        LocRec );
+            break;
+    }
+}

@@ -52,6 +52,7 @@ typedef struct symrecinfo {
     mod_entry *mod;
 } symrecinfo;
 static symrecinfo *UndefList;    /* original441e9c */
+static symrecinfo *UndefLast;    /* original441ea0 */
 
 void FreeUndefs( void )
 {
@@ -518,4 +519,19 @@ void WriteMapBox12B( void )
 {
     /* Distinct old entry loads this message then falls into WriteBox. */
     WriteBox( 0x12b );
+}
+
+void UndefinedSym( symbol *sym )
+{
+    symrecinfo *info;
+
+    if( !(LinkFlags & 0x40) ) LinkState |= 8;
+    LnkMsg( 0x1125, "12S", CurrMod->f.source->file->name, CurrMod->name, sym );
+    info = ChkLAlloc( sizeof(*info) );
+    info->next = 0;
+    info->sym = sym;
+    info->mod = CurrMod;
+    if( UndefList == 0 ) UndefList = info;
+    else UndefLast->next = info;
+    UndefLast = info;
 }

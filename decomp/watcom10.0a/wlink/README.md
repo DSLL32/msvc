@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty completed native regression cases. The acceptance ledger
-contains **1,082 application functions / 124,993 unique original code bytes**.
+WLINK 10.0a has twenty-one completed native regression cases. The acceptance ledger
+contains **1,101 application functions / 126,154 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -45,6 +45,8 @@ The nineteenth emits Phar Lap REX with a DOS stub, flat offset relocations,
 data/BSS, stack, min/max memory settings and Watcom debug information.
 The twentieth emits a non-DLL OS/2 LX physical-device image with explicit
 internal/self-relative relocation policy, toggled flags and single autodata.
+The twenty-first combines TNT DLL thread metadata with genuine OMF aliases, long
+public names, duplicate/undefined-symbol policies and their complete diagnostics.
 
 | Case | Result |
 | --- | --- |
@@ -68,6 +70,7 @@ internal/self-relative relocation policy, toggled flags and single autodata.
 | `0018-short-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ and 9,063-byte map |
 | `0019-pharlap-rex` | Exit 0; exact 261-byte stdout, empty stderr, 27,811-byte REX image and 3,070-byte map |
 | `0020-os2-driver` | Exit 0; exact 262-byte stdout, empty stderr, 1,645-byte LX image and 3,324-byte map |
+| `0021-tnt-symbols` | Exit 0; exact 422-byte stdout, empty stderr, 9,119-byte TNT DLL and 3,235-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -95,7 +98,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,086 source-ready identities, their actual graph,
+The complete audit passes for 1,105 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -384,3 +387,40 @@ The clock-derived replay reused that capture and took **26.815 ms**, split
 took **242.869 ms**, reusing genuine USE32 objects/archive. Raw artifacts, earlier
 DLL-shape captures and authoring inputs remain in scratch wlink-os2-driver;
 case folders retain only source/capture data.
+
+
+The TNT symbol-policy case matches 527 first entries and complete diagnostics,
+DLL and map bytes, excluding only the known four-byte timestamp and six map clock
+fields. Genuine period assembly objects contain an OMF C6 alias, long public
+names, repeated initialized data and a duplicate definition; an intentionally
+unresolved hook exercises the explicitly enabled permissive policy. Nineteen
+application functions qualify, including alias decoding, duplicate/undefined
+handling, diagnostic location and argument ordering, name-length/case policy,
+TNT/DOSstyle selection and thread settings. The output has the real PL signature
+and DOSstyle subsystem 0x42. It deliberately permits an unresolved reference;
+no successful loading or execution of that DLL is claimed. The producer emitted
+ordinary LEDATA for its repeated data, not synthetic LIDATA/backpatch records.
+
+ProcNoCaseExact's real setter/call prefix falls into the distinct three-byte
+ProcNoCache true-return entry. Both identities and their genuine edge are now
+preserved without seeding; the retained original already recorded both entries,
+so only native correction was needed. NOCACHE still selects no streaming policy.
+OMFProcAlias and ProcPubdef share an exact ten-byte terminal epilogue, counted
+once while retaining both source bodies and identities.
+
+The old NORELOCS dispatch first tests a mask that includes NT, so this case
+actually invokes the QNX setter and retains a 24-byte PE relocation directory.
+That defect is preserved; the separate PE setter remains masked/unimplemented
+with ABI-only static extent qualification and no execution credit. DOSstyle has
+no later version-suffix parser. The memory/font setters are the actual aliases
+used by INITTHREAD/TERMTHREAD, with no extra invented wrapper identities.
+
+The final parallel build/regression/unit/audit batch took **1.457 s**. All twenty-one
+cases and 1,105 source-ready graph/ABI identities pass. The 42 native regression
+runs took **17.996–56.295 ms**. The final genuine capture command took
+**2,079.985 ms** (owned target **2,064.250 ms**); clock-derived native replay reused
+it and took **28.777 ms**, split **17.345 / 4.782 / 6.649 ms** for setup/execution/
+checks. The final supported baseline took **672.128 ms**; main/worker assembly
+needed **534.294 / 591.620 ms**. Authoring errors, unsupported runtime-version/
+resident spellings, all raw captures and diagnostics remain in scratch
+wlink-tnt-symbols; the case retains only source/capture data.

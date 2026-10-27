@@ -55,11 +55,9 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 
-void Locator( char *name, char *member, unsigned rec )
-{ name=name; member=member; rec=rec; TRAP(); }
-void FileOrder( char *buff, int which ) { buff=buff; which=which; TRAP(); }
-void Msg_Do_Put_Args( char *buff, MSG_ARG_LIST *info, char *types, ... )
-{ buff=buff; info=info; types=types; TRAP(); }
+
+
+
 
 unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
 
@@ -192,10 +190,10 @@ void OutPutPrompt( char *text ) { text=text; TRAP(); }
 
 
 
-unsigned char ProcFont( void ) { TRAP(); return 0; }
+
 unsigned char ProcFullScreen( void ) { TRAP(); return 0; }
 
-unsigned char ProcMemory( void ) { TRAP(); return 0; }
+
 
 
 
@@ -204,7 +202,7 @@ unsigned char ProcMemory( void ) { TRAP(); return 0; }
 
 unsigned char ProcVirtDevice( void ) { TRAP(); return 0; }
 
-unsigned char ProcTNT( void ) { TRAP(); return 0; }
+
 
 
 
@@ -217,7 +215,7 @@ unsigned char CheckFence( void ) { TRAP(); return 0; }
 
 unsigned char ProcRunPosix( void ) { TRAP(); return 0; }
 unsigned char ProcRunOS2( void ) { TRAP(); return 0; }
-unsigned char ProcRunDosstyle( void ) { TRAP(); return 0; }
+
 
 
 
@@ -242,19 +240,19 @@ unsigned char ProcExportsDBI( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcMangledNames( void ) { TRAP(); return 0; }
-
-unsigned char ProcMaxErrors( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcNameLen( void ) { TRAP(); return 0; }
 
-unsigned char ProcNoCache( void ) { TRAP(); return 0; }
-unsigned char ProcNoCaseExact( void ) { TRAP(); return 0; }
+
+
+
+
+
+
 
 
 unsigned char ProcNoRedefs( void ) { TRAP(); return 0; }
-unsigned char ProcNoRelocs( void ) { TRAP(); return 0; }
+
 unsigned char ProcNone( void ) { TRAP(); return 0; }
 
 
@@ -262,7 +260,7 @@ unsigned char ProcNone( void ) { TRAP(); return 0; }
 
 unsigned char ProcQuiet( void ) { TRAP(); return 0; }
 unsigned char ProcRWRelocCheck( void ) { TRAP(); return 0; }
-unsigned char ProcRedefsOK( void ) { TRAP(); return 0; }
+
 
 unsigned char ProcSharelib( void ) { TRAP(); return 0; }
 
@@ -272,7 +270,7 @@ unsigned char ProcSharelib( void ) { TRAP(); return 0; }
 
 
 
-unsigned char ProcUndefsOK( void ) { TRAP(); return 0; }
+
 
 
 
@@ -332,16 +330,6 @@ unsigned long ORLPass1( void ) { TRAP(); return 0; }
 void EarlyEOF( void ) { TRAP(); }
 void BadObject( void ) { TRAP(); }
 
-void ReportMultiple( symbol *sym, char *name, int len ) { TRAP(); }
-
-
-
-
-
-
-
-
-void UndefinedSym( symbol *sym ) { TRAP(); }
 
 
 
@@ -354,7 +342,17 @@ void UndefinedSym( symbol *sym ) { TRAP(); }
 
 
 
-void OMFProcAlias( void ) { TRAP(); }
+
+
+
+
+
+
+
+
+
+
+
 
 void MSExportKeyword( void ) { TRAP(); }
 void ProcExportKeyword( void ) { TRAP(); }
@@ -692,3 +690,7 @@ unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
 unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 unsigned char ProcOS2Alignment( void ) { TRAP(); return 0; }
+
+
+
+unsigned char ProcPENoRelocs( void ) { TRAP(); return 0; }

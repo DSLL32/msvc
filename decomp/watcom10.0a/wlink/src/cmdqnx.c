@@ -175,3 +175,9 @@ void FreeQNXFmt( void )
     FreeSegFlags( FmtData.u.qnx.seg_flags );
     _LnkFree( FmtData.u.qnx.resource );
 }
+
+unsigned char ProcQNXNoRelocs( void )
+{
+    FmtData.u.qnx.reloc_flags &= ~1;
+    return 1;
+}
