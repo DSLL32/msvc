@@ -13,6 +13,44 @@ extern "C" void __cdecl restore_type_context(void);
 extern "C" void __cdecl cleanup_saved_contexts(void);
 extern "C" char *__cdecl trim_include_name(char *, char *);
 
+extern "C" int c1_test_parameter_append_links(void)
+{
+    DWORD storage[5];
+    CompilerIrSymbol nodes[3], sentinel;
+    CompilerNameEntry names[3];
+    CompilerParameterDescription description;
+    memset(storage, 0xa5, sizeof(storage));
+    memset(nodes, 0x5a, sizeof(nodes));
+    memset(&sentinel, 0x37, sizeof(sentinel));
+    description.bindings = NULL;
+    description.kind = 6;
+    description.scope_active = 1;
+    c1_bss.arenas[2].cursor = (BYTE *)(storage + 1);
+    c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 4);
+    c1_data.parameter_sentinel = &sentinel;
+    for (unsigned i = 0; i < 3; ++i) nodes[i].binding.name = &names[i];
+    description.AppendParameter(&nodes[0]);
+    CompilerParameterBindings *list = description.bindings;
+    if (list != (CompilerParameterBindings *)(storage + 1) || list->arena_kind != 2 ||
+        list->first != &nodes[0].binding || list->last != &nodes[0].binding ||
+        nodes[0].binding.next || nodes[0].previous_parameter ||
+        c1_bss.arenas[2].cursor != (BYTE *)(storage + 4) ||
+        storage[0] != 0xa5a5a5a5 || storage[4] != 0xa5a5a5a5) return 0;
+    description.AppendParameter(&nodes[1]);
+    if (list->first != &nodes[0].binding || list->last != &nodes[1].binding ||
+        nodes[0].binding.next != &nodes[1].binding || nodes[1].binding.next ||
+        nodes[1].previous_parameter != &nodes[0].binding) return 0;
+    list->first = list->last = &sentinel.binding;
+    description.AppendParameter(&nodes[2]);
+    if (list->first != &nodes[2].binding || list->last != &nodes[2].binding ||
+        nodes[2].previous_parameter != &sentinel.binding || nodes[2].binding.next ||
+        (unsigned)sentinel.binding.next != 0x37373737) return 0;
+    for (unsigned j = 0; j < 3; ++j)
+        if (nodes[j].binding.name != &names[j] || nodes[j].flags != 0x5a ||
+            nodes[j].kind != 0x5a || nodes[j].record_id != 0x5a5a5a5a) return 0;
+    return description.kind == 6 && description.scope_active == 1;
+}
+
 extern "C" int c1_test_include_trailing_space(void)
 {
     char bounded[] = "name \t_suffix";
@@ -1696,4 +1734,92 @@ extern "C" int c1_test_extended_division_order(void)
             memcmp(&right, &saved_right, 12) || ((after ^ before) & 0x3800)) return 0;
     }
     return 1;
+}
+
+extern "C" void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+extern "C" int c1_test_suppressed_language_diagnostic(void)
+{
+    c1_bss.error_count = 17;
+    if (c1_bss.parser_early_result != 17) return 0;
+    c1_bss.parser_early_result = 23;
+    if (c1_bss.error_count != 23) return 0;
+    c1_data.parser_flags = 0;
+    c1_data.options.warning_level = 1;
+    c1_data.options.warning_levels[131] = 0;
+    report_language_diagnostic(4, 131, (void *)0x13579);
+    c1_data.options.warning_level = 4;
+    c1_data.options.warning_levels[131] = 13;
+    report_language_diagnostic(4, 131, (void *)0x13579);
+    c1_data.options.warning_levels[131] = 255;
+    report_language_diagnostic(4, 131, (void *)0x13579);
+    c1_data.parser_flags = 0x20000;
+    report_language_diagnostic(4, ~0U, (void *)0x13579);
+    return c1_bss.error_count == 23 && c1_bss.parser_early_result == 23 &&
+        c1_data.parser_flags == 0x20000 && c1_data.options.warning_level == 4 &&
+        c1_data.options.warning_levels[131] == 255;
+}
+
+extern "C" int c1_test_symbol_copy_storage(void)
+{
+    struct { DWORD before; CompilerIrSymbol value; DWORD after; } source, destination;
+    CompilerIrSymbol expected;
+    if (sizeof(CompilerIrSymbol) != 52) return 0;
+    memset(&source, 0x3d, sizeof(source));
+    memset(&destination, 0xa7, sizeof(destination));
+    source.value.kind = 10;
+    source.value.binding.name = (CompilerNameEntry *)&source.before;
+    source.value.binding.next = (CompilerSymbolBinding *)&source.after;
+    memcpy(&expected, &source.value, 52);
+    expected.binding.next = NULL;
+    c1_data.record_sizes.known.static_symbol_bytes = 52;
+    if (destination.value.CopyFrom(&source.value, 0) != &destination.value) return 0;
+    return !memcmp(&destination.value, &expected, 52) &&
+        destination.before == 0xa7a7a7a7U && destination.after == 0xa7a7a7a7U &&
+        source.before == 0x3d3d3d3dU && source.after == 0x3d3d3d3dU &&
+        source.value.binding.next == (CompilerSymbolBinding *)&source.after;
+}
+
+extern "C" char *__cdecl encode_declaration_number(char *, unsigned);
+extern "C" int c1_test_declaration_number_encoding(void)
+{
+    static const unsigned values[] = {0,1,10,11,15,16,256,0xffffffffU};
+    static const char *expected[] = {"A@","0","9","L@","P@","BA@","BAA@","PPPPPPPP@"};
+    char owned[24];
+    for (unsigned i = 0; i < 8; ++i) {
+        memset(owned, 0xa5, sizeof(owned));
+        unsigned length = strlen(expected[i]);
+        if (encode_declaration_number(owned + 4, values[i]) != owned + 4 + length ||
+            memcmp(owned + 4, expected[i], length)) return 0;
+        for (unsigned j = 0; j < sizeof(owned); ++j)
+            if ((j < 4 || j >= 4 + length) && (BYTE)owned[j] != 0xa5) return 0;
+    }
+    return 1;
+}
+
+extern "C" unsigned __cdecl enum_symbol_bucket(CompilerSymbolMap *, void *);
+extern "C" CompilerIrSymbol *__cdecl find_symbol_map_value(CompilerSymbolMap *, void *);
+extern "C" int c1_test_static_symbol_map_lookup(void)
+{
+    char key_storage[512];
+    CompilerIrSymbol payload[2];
+    CompilerSymbolMapEntry entries[2], *buckets[31];
+    CompilerSymbolMap map, saved;
+    void *first = (void *)(((unsigned)key_storage + 127) & ~127U);
+    void *second = (BYTE *)first + 124;
+    memset(&map, 0xe7, sizeof(map));
+    memset(buckets, 0, sizeof(buckets));
+    map.arena_kind = 2; map.match_kind = 1; map.hash_kind = 2;
+    map.capacity = 31; map.symbols = buckets; map.count = 2;
+    entries[0].key = first; entries[0].symbol = payload; entries[0].next = entries + 1;
+    entries[1].key = second; entries[1].symbol = payload + 1; entries[1].next = NULL;
+    unsigned bucket = enum_symbol_bucket(&map, first);
+    if (enum_symbol_bucket(&map, second) != bucket) return 0;
+    buckets[bucket] = entries;
+    memcpy(&saved, &map, sizeof(map));
+    return find_symbol_map_value(NULL, first) == NULL &&
+        find_symbol_map_value(&map, first) == payload &&
+        find_symbol_map_value(&map, second) == payload + 1 &&
+        find_symbol_map_value(&map, (BYTE *)first + 4) == NULL &&
+        !memcmp(&map, &saved, sizeof(map)) && buckets[bucket] == entries &&
+        entries[0].next == entries + 1 && entries[1].next == NULL;
 }

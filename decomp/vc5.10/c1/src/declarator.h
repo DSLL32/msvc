@@ -6,11 +6,13 @@
 /* The encoded source-position pair is copied as two DWORDs. Its component
  * encodings have not yet been interpreted by a reconstructed consumer. */
 struct CompilerParameterDescription {
-    unsigned value, kind;
+    union { unsigned value; struct CompilerParameterBindings *bindings; };
+    unsigned kind;
     unsigned scope_active; /* Run stores literal1; Normalize tests only truth. */
     void RECON_THISCALL Normalize(void);
     void RECON_THISCALL AppendParameter(CompilerIrSymbol *);
 };
+typedef char CompilerParameterDescription_extent[sizeof(CompilerParameterDescription) == 12 ? 1 : -1];
 struct CompilerDeclarator {
     CompilerType *base_type;
     CompilerTypeShape *shape;

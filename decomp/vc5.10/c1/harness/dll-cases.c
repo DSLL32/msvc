@@ -5,6 +5,7 @@
 #include <string.h>
 #include "startup.h"
 #include "dll-cases.h"
+#include <recon-fixture.h>
 #include <recon.h>
 int c1_lifecycle_invoke(int argc, char **argv)
 {
@@ -31,6 +32,8 @@ int c1_lifecycle_invoke(int argc, char **argv)
  return 0;
 }
 
+static char compiler_resource_asset[1024];
+
 int c1_minimal_setup(void)
 {
  const char *reference = "cc2f15a9e873f45b33fba0c0d3861cdfb1238d87de021fe230e4cfea7909af63";
@@ -39,6 +42,17 @@ int c1_minimal_setup(void)
  recon_controlfp(0x10000, 0x30000);
  return 1;
 }
+int c1_messages_setup(void)
+{
+ const char *assets = recon_case_assets();
+ int length;
+ if (!assets) return 0;
+ length = snprintf(compiler_resource_asset,sizeof(compiler_resource_asset),
+                   "%s/compiler-messages.rmr",assets);
+ if (length < 0 || (unsigned)length >= sizeof(compiler_resource_asset)) return 0;
+ return c1_minimal_setup();
+}
+
 int c1_minimal_invoke(int argc, char **argv)
 {
  ReconModuleSpec spec = { "C1.DLL", "R:\\toolchains\\5.10\\bin\\C1.DLL",
@@ -48,7 +62,9 @@ int c1_minimal_invoke(int argc, char **argv)
   * new typed-host invocation. Other environment queries need their own input. */
  static char *environment[] = { NULL };
  int result;
- if (!module || !_DllMainCRTStartup(module, DLL_PROCESS_ATTACH, NULL)) return 126;
+ if (!module) return 126;
+ if (compiler_resource_asset[0]) recon_load_module_resources(module,compiler_resource_asset);
+ if (!_DllMainCRTStartup(module, DLL_PROCESS_ATTACH, NULL)) return 126;
  recon_crt_bind_arguments(argc, argv, environment);
  result = InvokeCompilerPass(argc, argv, TRUE);
  if (!_DllMainCRTStartup(module, DLL_PROCESS_DETACH, NULL)) return 126;

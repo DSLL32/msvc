@@ -9,12 +9,15 @@
 #ifdef __cplusplus
 #include "declarator.h"
 #endif
+#include "compiler-message-ids.h"
 #include <recon.h>
 
 /* Only recovered semantic fields live here. Other historical bytes are
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
-/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/9/10/12/13 are known.
+/* Original RVA5f400 has26 DWORD slots. Only kinds1/2/3/4/5/6/9/10/11/12/13 are known.
  * Gap storage supplies layout, never defaults, snapshot bytes or read access. */
+typedef struct CompilerMessageText { unsigned id; char *text; } CompilerMessageText;
+typedef char CompilerMessageText_size[sizeof(CompilerMessageText) == 8 ? 1 : -1];
 typedef struct CompilerRecordSizeFields {
         unsigned unmodeled_00[1];
         unsigned declaration_symbol_bytes; /* slot1, RVA5f404, default52 */
@@ -26,7 +29,7 @@ typedef struct CompilerRecordSizeFields {
         unsigned unmodeled_07[2];
         unsigned global_symbol_bytes; /* slot9, RVA5f424, default52 */
         unsigned static_symbol_bytes; /* slot10, RVA5f428, default52 */
-        unsigned unmodeled_0b;
+        unsigned named_parameter_symbol_bytes; /* slot11, RVA5f42c, default52 */
         unsigned parameter_symbol_bytes; /* slot12, RVA5f430, default52 */
         unsigned abstract_symbol_bytes; /* slot13, RVA5f434, default52 */
         unsigned unmodeled_0e[12];
@@ -44,6 +47,7 @@ typedef char CompilerRecordSizes_kind5[offsetof(CompilerRecordSizeFields, enumer
 typedef char CompilerRecordSizes_kind6[offsetof(CompilerRecordSizeFields, intrinsic_symbol_bytes) == 24 ? 1 : -1];
 typedef char CompilerRecordSizes_kind9[offsetof(CompilerRecordSizeFields, global_symbol_bytes) == 36 ? 1 : -1];
 typedef char CompilerRecordSizes_kind10[offsetof(CompilerRecordSizeFields, static_symbol_bytes) == 40 ? 1 : -1];
+typedef char CompilerRecordSizes_kind11[offsetof(CompilerRecordSizeFields, named_parameter_symbol_bytes) == 44 ? 1 : -1];
 typedef char CompilerRecordSizes_kind12[offsetof(CompilerRecordSizeFields, parameter_symbol_bytes) == 48 ? 1 : -1];
 typedef char CompilerRecordSizes_kind13[offsetof(CompilerRecordSizeFields, abstract_symbol_bytes) == 52 ? 1 : -1];
 /* Only heads5/9/10 of the source's indexed cache are known. The open-ended array
@@ -153,7 +157,7 @@ typedef struct CompilerInitializedState {
     unsigned function_debug_handle; /* RVA5f954, default0; debug-provider handle */
     unsigned function_cleanup_flags; /* RVA5f348, DWORD0; reset on function exit */
     unsigned debug_symbol_index; /* RVA5f984, DWORD0; function exit resets it */
-    void *function_scope_cache; /* RVA5f3fc, NULL; lazy table is cleared on function exit */
+    CompilerSymbolMap *function_scope_cache; /* RVA5f3fc, NULL; enum/static map, cleared on function exit */
     int source_exhausted; /* RVA5e214, DWORD0; lexer EOF latch */
     int final_input_token_emitted; /* RVA5e210, DWORD0; class0 EOF handoff occurs once */
     int omit_external_names; /* RVA5f4d0, DWORD0; scoped by global binding writer */
@@ -182,6 +186,9 @@ typedef struct CompilerInitializedState {
     unsigned function_symbol_cache_index; /* RVA5f484, default9; kind7 recycle selector. */
     unsigned static_symbol_cache_index; /* RVA5f490, default9; kind10 recycle selector. */
     /* From here, snapshot transfer selects only the known cells. */
+    CompilerMessageText compiler_messages[C1_COMPILER_MESSAGE_COUNT]; /* RVA5f5e8..5f8a0, including sentinel. */
+    int compiler_messages_initialized; /* RVA5f8a0, DWORD0; lazy text catalog. */
+    unsigned member_symbol_cache_index; /* RVA5f474, actual DWORD9. */
     CompilerRecordSizes record_sizes;
     CompilerSymbolCacheHeads symbol_cache; /* base5e4f8; only heads5/9/10 are known */
     CompilerDeclarationReferenceDefaults segment_defaults;
@@ -389,7 +396,10 @@ typedef struct CompilerBss {
     /* Borrowed current argument, retained for option-error diagnostics. */
     char *current_argument;
     /* Diagnostic total, shared by guarded compilation and its reporting path. */
-    int error_count;
+    union {
+        int error_count;
+        int parser_early_result;
+    }; /* RVA55068, BSS0: one diagnostic count / parser early-exit owner. */
     unsigned initial_option_flags;                  /* RVA57f40 */
     int global_expression_scope_active;             /* RVA53d74 */
     unsigned forced_source_index;                   /* RVA57e34 */
@@ -435,7 +445,7 @@ typedef struct CompilerBss {
     unsigned initializer_bitfield_position; /* RVA5755c, copied from the first field's offset. */
     __int64 integer_work_value; /* RVA54b28/54b2c; shared integer scratch, written before use here. */
     struct CompilerInitializerFrame *initializer_frame; /* RVA57568, selected by frame helper. */
-    CompilerInitializerFrame initializer_frames[4]; /* RVA57588, encountered frames0..3 only; not original capacity. */
+    CompilerInitializerFrame initializer_frames[32]; /* RVA57588..57808; wider semantic accesses remain guarded. */
     BYTE *macro_token_cursor; /* RVA5003c; first work-buffer cursor */
     unsigned macro_whitespace_seen; /* RVA50020, BSS0; cleared at skip entry, set by space/newline. */
     BYTE *macro_text_cursor; /* RVA50040; second work-buffer cursor */
@@ -457,7 +467,6 @@ typedef struct CompilerBss {
     struct CompilerParserNode *case_label; /* RVA53ff8, BSS; reset on statement entry */
     struct CompilerPendingScopeSymbol *pending_scope_symbols; /* RVA54b30, BSSNULL */
     int function_stack_check_reported; /* RVA53d68, BSS; one-time diagnostic */
-    int parser_early_result; /* RVA55068, BSS; parser early exit */
     struct CompilerParserNode *function_entry_label; /* RVA54fc8, BSS; label builder result */
     long function_expression_offset; /* RVA550fc, BSS; ftell of expression stream */
     long function_symbol_offset; /* RVA54f34, BSS; ftell of symbol stream */

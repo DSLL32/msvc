@@ -373,9 +373,10 @@ static int type_arena_snapshot(void)
     if (c1_data.function_directory_head || c1_data.function_directory_current || c1_data.function_directory_index != 19 || c1_data.function_debug_handle || c1_data.function_cleanup_flags || c1_data.debug_symbol_index || c1_data.function_scope_cache || c1_data.source_exhausted || c1_data.final_input_token_emitted || c1_data.omit_external_names || c1_data.pch_type_record_value || c1_data.pch_record_name || c1_data.global_options || c1_data.pch_expression_stream_open || c1_data.pch_primary_stream_open || c1_data.pch_secondary_stream_open || c1_data.pch_cleanup_done || c1_data.saved_context_records || c1_data.saved_context_count || c1_bss.function_cleanup_context || c1_bss.token_input_finished || c1_bss.pending_scope_symbols || c1_data.try_depth || c1_data.finally_depth || c1_data.exception_filter_depth || c1_bss.case_label || c1_bss.function_stack_check_reported || c1_bss.parser_early_result || c1_data.label_symbols || c1_bss.function_entry_label || c1_data.line_range_warning_enabled != 1 || c1_data.function_record_flags || c1_bss.function_expression_offset || c1_bss.function_symbol_offset || c1_bss.function_output_mode || c1_bss.parameter_symbol_count || c1_bss.lexical_skip_mode || c1_bss.parameter_scope_value || c1_bss.function_storage_class || c1_data.function_label_state_first != -1 || c1_data.function_label_state_second != -1 || c1_bss.function_reset_value || c1_bss.nonil_type_index || c1_data.parser_flags || c1_data.function_return_type || c1_data.function_label_depth || c1_data.local_symbol_limit != 0x3fffff || c1_data.function_reference_epoch != 1 || c1_data.disable_inline_records || c1_data.function_context || c1_bss.parameter_storage_class || c1_bss.parameter_scope_initial_value || c1_bss.unevaluated_expression_depth || c1_bss.parameter_nesting || c1_bss.declaration_depth || c1_bss.declaration_control[0].flags || c1_bss.type_description_depth || c1_data.lexer_flags || c1_data.active_parser || c1_bss.parser_value.declaration_flags || c1_bss.browser_context_value || c1_data.debug_module_kind != 2 || c1_data.source_frames || c1_data.root_source_frame || c1_data.free_source_frames ||
         c1_data.source_descriptor != -1 || c1_data.conditional_depth != -1 ||
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
-        c1_data.declaration_symbol_cache_index != 9 ||
+        c1_data.declaration_symbol_cache_index != 9 || c1_data.member_symbol_cache_index != 9 || c1_data.compiler_messages_initialized ||
         c1_data.record_sizes.known.declaration_symbol_bytes != 52 ||
         c1_data.record_sizes.known.bitfield_symbol_bytes != 52 ||
+        c1_data.record_sizes.known.named_parameter_symbol_bytes != 52 ||
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
@@ -403,8 +404,19 @@ static int type_arena_snapshot(void)
     c1_data.conditional_depth = 13;
     c1_data.type_arena_kind = 2;
     c1_data.declaration_symbol_cache_index = 13;
+    c1_data.member_symbol_cache_index = 37;
+    unsigned catalog_index = 0;
+    while (catalog_index < C1_COMPILER_MESSAGE_COUNT &&
+           c1_data.compiler_messages[catalog_index].id != C1_TEXT_FUNCTION_THROUGH_POINTER)
+        ++catalog_index;
+    if (catalog_index == C1_COMPILER_MESSAGE_COUNT ||
+        c1_data.compiler_messages[catalog_index].text ||
+        c1_data.compiler_messages[86].id || c1_data.compiler_messages[86].text) return 0;
+    c1_data.compiler_messages[catalog_index].text = (char *)&owned_symbols[0];
+    c1_data.compiler_messages_initialized = 37;
     c1_data.record_sizes.known.declaration_symbol_bytes = 47;
     c1_data.record_sizes.known.bitfield_symbol_bytes = 49;
+    c1_data.record_sizes.known.named_parameter_symbol_bytes = 41;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
@@ -454,9 +466,10 @@ static int type_arena_snapshot(void)
         saved->free_source_frames != &owned_frames[2] ||
         saved->source_descriptor != 41 || saved->conditional_depth != 13 ||
         saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
-        saved->declaration_symbol_cache_index != 13 ||
+        saved->declaration_symbol_cache_index != 13 || saved->member_symbol_cache_index != 37 || saved->compiler_messages_initialized != 37 || saved->compiler_messages[catalog_index].text != (char *)&owned_symbols[0] ||
         saved->record_sizes.known.declaration_symbol_bytes != 47 ||
         saved->record_sizes.known.bitfield_symbol_bytes != 49 ||
+        saved->record_sizes.known.named_parameter_symbol_bytes != 41 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
@@ -470,10 +483,10 @@ static int type_arena_snapshot(void)
     memset(c1_data.symbol_cache.known.unmodeled_00, 0x5a, sizeof(c1_data.symbol_cache.known.unmodeled_00));
     c1_data.abstract_symbol_free = &owned_symbols[1].binding;
     /* Owned representation sentinels are not original table defaults.
-     * Restore must not transfer any of these17 unknown slots. */
+     * Restore must not transfer any of these15 unknown slots. */
     for (i = 0; i < 26; ++i) {
         if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
-            i == 9 || i == 10 || i == 12 || i == 13) continue;
+            i == 9 || i == 10 || i == 11 || i == 12 || i == 13) continue;
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
     }
@@ -562,8 +575,12 @@ static int type_arena_snapshot(void)
     c1_bss.type_descriptions[1].debug_index = 97;
     saved->first_call = 0;
     c1_data.declaration_symbol_cache_index = 17;
+    c1_data.member_symbol_cache_index = 43;
+    c1_data.compiler_messages_initialized = 43;
+    c1_data.compiler_messages[catalog_index].text = (char *)&owned_symbols[1];
     c1_data.record_sizes.known.declaration_symbol_bytes = 73;
     c1_data.record_sizes.known.bitfield_symbol_bytes = 79;
+    c1_data.record_sizes.known.named_parameter_symbol_bytes = 47;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
     c1_data.record_sizes.known.abstract_symbol_bytes = 71;
@@ -583,7 +600,7 @@ static int type_arena_snapshot(void)
             c1_data.symbol_cache.known.unmodeled_00[i] != 0x5a) return 0;
     for (i = 0; i < 26; ++i) {
         if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
-            i == 9 || i == 10 || i == 12 || i == 13) continue;
+            i == 9 || i == 10 || i == 11 || i == 12 || i == 13) continue;
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
     }
@@ -629,6 +646,12 @@ static int type_arena_snapshot(void)
         c1_data.macro_reset_value == 83 && saved->macro_reset_value == 83 &&
         c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
         c1_data.declaration_symbol_cache_index == 13 && saved->declaration_symbol_cache_index == 13 &&
+        c1_data.member_symbol_cache_index == 37 && saved->member_symbol_cache_index == 37 &&
+        c1_data.compiler_messages_initialized == 37 && saved->compiler_messages_initialized == 37 &&
+        c1_data.compiler_messages[catalog_index].id == C1_TEXT_FUNCTION_THROUGH_POINTER &&
+        c1_data.compiler_messages[catalog_index].text == (char *)&owned_symbols[0] &&
+        saved->compiler_messages[catalog_index].text == (char *)&owned_symbols[0] &&
+        c1_data.record_sizes.known.named_parameter_symbol_bytes == 41 && saved->record_sizes.known.named_parameter_symbol_bytes == 41 &&
         c1_data.record_sizes.known.declaration_symbol_bytes == 47 &&
         c1_data.record_sizes.known.bitfield_symbol_bytes == 49 && saved->record_sizes.known.bitfield_symbol_bytes == 49 &&
         saved->record_sizes.known.declaration_symbol_bytes == 47 &&

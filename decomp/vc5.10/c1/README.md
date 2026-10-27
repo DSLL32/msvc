@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 665 application functions / 190,711 code bytes and
-7,887 bytes of owned text data. Application code is 59.17% of the original
+The reconstruction contains 684 application functions / 192,837 code bytes and
+7,922 bytes of owned text data. Application code is 59.83% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All seven cached cases complete natively: DLL attach/export lookup/detach, the
+All eight cached cases complete natively: DLL attach/export lookup/detach, the
 minimal C compilation `int main () { return 0; }`, the language workload
-below, the declarations workload described next, the types workload below, the scalars workload below, and the preprocessing workload below. The minimal invocation forwards the actual
+below, the declarations workload described next, the types workload below, the scalars workload below, the preprocessing workload below, and the declarators workload below. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -78,6 +78,21 @@ The case adds 25 application functions and 7,147 code bytes. Current semantic
 projections retain explicit guards for unknown punctuation entries, wider
 rescan states, recorded line payloads and debug-expression contexts. Raw
 artifacts and preserved failures remain in scratch `preprocessor-case-20261027/`.
+
+The declarators case combines nested record/union initializers, arrays of
+callbacks, pointers to callback arrays and rows, callback-returning functions,
+K&R parameter declarations, aggregate returns, static local objects and a
+variadic call. Both executions exit zero with 565 first entries and exact
+artifacts: `declaratorsex` (2,615 bytes), `declaratorsgl` (779), `declaratorsin`
+(399), and `declaratorssy` (598). The final reference took 1,819.666 ms; its
+matching native run took 21.005 ms. Five focused tests cover parameter-list
+links, suppressed diagnostics, opaque symbol-copy bytes, declaration-number
+encoding and collision-chain lookup. The case adds 19 application functions,
+2,126 code bytes and 35 bytes of owned text data. It also recovers the finite
+86-string compiler-message catalog using source STRINGTABLE resources and the
+existing native resource loader. Raw artifacts and retained failures are in
+scratch `declarators-case-20261027/`. All eight cached cases and their units
+passed in 0.713 s; the complete graph/ABI audit passed in 1.246 s.
 
 The original extended-precision boundary uses ten-byte x87 values that VC5
 cannot express with its ordinary `long double`. Tiny documented assembly

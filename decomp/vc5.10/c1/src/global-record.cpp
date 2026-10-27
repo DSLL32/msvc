@@ -111,9 +111,21 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
 #endif
     }
     if (symbol && !((opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && ((symbol->storage_class & 7) == 2 ||
+        (symbol->storage_class & 7) == 7) && !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        symbol->value_type->flags == 0x63 && !symbol->value_type->attributes &&
+        symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
+        !symbol->value_type->shape->attributes && !symbol->value_type->shape->base) ||
+        (opcode == 1 && symbol->kind == 10 &&
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 3 &&
         !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
-        ((symbol->value_type->flags == 0x63 && symbol->value_type->attributes == 0x100 &&
+        symbol->value_type->flags == 0x61 && symbol->value_type->attributes == 0x100 &&
+        symbol->value_type->shape && symbol->value_type->shape->flags == 1 &&
+        !symbol->value_type->shape->attributes && !symbol->value_type->shape->base) ||
+        (opcode == 1 && symbol->kind == 10 &&
+        !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 3 &&
+        !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
+        ((symbol->value_type->flags == 0x63 && !(symbol->value_type->attributes & ~0x100U) &&
         symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
         !symbol->value_type->shape->attributes && symbol->value_type->shape->base &&
         symbol->value_type->shape->base->flags == 2 &&
@@ -168,8 +180,20 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         (opcode == 1 && (symbol->kind == 10 || symbol->kind == 11) &&
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) == 4 &&
         !(symbol->function_flags & 1) && !c1_data.options.debug_info &&
-        ((!symbol->value_type->shape && !symbol->value_type->attributes &&
+        ((symbol->value_type->flags == 0x63 && !symbol->value_type->attributes &&
+         symbol->value_type->shape && symbol->value_type->shape->flags == 1 &&
+         !symbol->value_type->shape->attributes && symbol->value_type->shape->base &&
+         symbol->value_type->shape->base->flags == 2 && !symbol->value_type->shape->base->attributes &&
+         symbol->value_type->shape->base->value == 2 && symbol->value_type->shape->base->base &&
+         symbol->value_type->shape->base->base->flags == 3 &&
+         symbol->value_type->shape->base->base->attributes == 0x10 &&
+         symbol->value_type->shape->base->base->base &&
+         symbol->value_type->shape->base->base->base->flags == 0x404 &&
+         symbol->value_type->shape->base->base->base->attributes == 0x10 &&
+         !symbol->value_type->shape->base->base->base->base) ||
+        (!symbol->value_type->shape && !symbol->value_type->attributes &&
         ((symbol->value_type->flags & ~0x4000) == 0x63 ||
+         (symbol->kind == 11 && symbol->value_type->flags == 0x62) ||
          (symbol->value_type->flags & ~0x4000) == 0x4c ||
          symbol->value_type->flags == 0x4064 || symbol->value_type->flags == 0x106 ||
          symbol->value_type->flags == 0x107)) ||
@@ -206,7 +230,7 @@ extern "C" void __cdecl write_global_record(unsigned opcode, CompilerIrSymbol *s
         (opcode == 3 && symbol->kind == 9 && !c1_data.options.debug_info &&
         !(symbol->scope_bits & 1) && (symbol->storage_class & 7) != 7 &&
         !(symbol->function_flags & 1) && symbol->value_type == c1_data.builtin_types.type_0063) ||
-        (opcode == 14 && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
+        ((opcode == 4 || opcode == 14) && symbol->kind == 7 && !(symbol->scope_bits & 1) &&
         (symbol->storage_class & 7) != 7 && !(symbol->function_flags & 1) &&
         symbol->value_type->shape && (symbol->value_type->shape->flags & 7) == 4 &&
         !c1_data.options.debug_info))) {
@@ -930,7 +954,7 @@ extern "C" void __cdecl write_global_reference(CompilerSymbolBinding *binding)
         if (!suppress) write_global_record(11, symbol);
         goto marked;
     }
-    if (symbol->kind != 10 && (symbol->declaration_flags & 0x40)) {
+    if (symbol->kind == 10 && (symbol->declaration_flags & 0x40)) {
         target = resolve_symbol_alias(symbol);
         target->declaration_flags = (target->declaration_flags & ~4) |
             (symbol->declaration_flags & 4);
@@ -986,9 +1010,55 @@ extern "C" unsigned __cdecl global_array_element_size(CompilerIrSymbol *symbol)
     if (!shape) return primitive_type_size(type->flags, type->auxiliary);
     return pointer_storage_size(shape->attributes);
 }
-/* This scratch owner is source-only until decorated naming is encountered.
- * No default, snapshot or buffer-content equality is claimed. */
+/* Shared naming scratch. Only the written string prefix is defined;
+ * no pristine default, snapshot or untouched-tail equality is claimed. */
 static char decorated_symbol_name[0x1800]; /* original RVA55d58 */
+/* RVA55d50 is written on every entry before use; no pristine pointer or
+ * untouched buffer-tail equality is asserted. Both naming paths share55d58. */
+static char *decorated_name_start;
+extern "C" char *__cdecl encode_declaration_number(char *, unsigned);
+extern "C" char *__cdecl format_static_declaration_name(CompilerIrSymbol *symbol, unsigned depth)
+{
+    char *cursor;
+    const char *name;
+    decorated_name_start = decorated_symbol_name;
+    cursor = decorated_symbol_name;
+    *cursor++ = '?';
+    for (name = symbol->binding.name->name; *name; ++name) *cursor++ = *name;
+    *cursor++ = '@';
+    *cursor++ = '?';
+    cursor = encode_declaration_number(cursor, depth & 0xffff);
+    *cursor++ = '?';
+    *cursor++ = '?';
+    if (symbol->binding.name == c1_bss.current_scope_symbol->binding.name)
+        *cursor++ = '0';
+    else
+        for (name = c1_bss.current_scope_symbol->binding.name->name; *name; ++name)
+            *cursor++ = *name;
+    for (name = "@@9@9"; *name; ++name) *cursor++ = *name;
+    *cursor = 0;
+    return decorated_symbol_name;
+}
+extern "C" char *__cdecl encode_declaration_number(char *cursor, unsigned value)
+{
+    unsigned mask, shift;
+    if (value >= 1 && value <= 10) {
+        *cursor++ = (char)(value + '0' - 1);
+        return cursor;
+    }
+    mask = 0xf0000000U;
+    shift = 28;
+    while (shift && !(value & mask)) { shift -= 4; mask >>= 4; }
+    while (shift) {
+        *cursor++ = (char)('A' + ((value & mask) >> shift));
+        shift -= 4;
+        mask >>= 4;
+    }
+    *cursor++ = (char)('A' + (value & 15));
+    *cursor++ = '@';
+    return cursor;
+}
+
 extern "C" int __cdecl format_buffer(char *, const char *, unsigned, ...);
 extern "C" void __cdecl compute_parameter_bytes(CompilerIrSymbol *);
 extern "C" const char *__cdecl global_symbol_name(CompilerIrSymbol *symbol)

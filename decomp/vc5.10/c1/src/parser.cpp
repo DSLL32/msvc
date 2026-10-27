@@ -200,8 +200,8 @@ void __cdecl append_literal_text(CompilerStringValue *, const CompilerStringValu
 CompilerIrSymbol * __cdecl find_statement_label(CompilerNameEntry *); /* RVA25125 */
 CompilerIrSymbol * __cdecl make_statement_label(CompilerNameEntry *); /* RVA2517f */
 void __cdecl define_statement_label(CompilerNameEntry *); /* RVA251d5 */
-CompilerParameterDescription * __cdecl make_parameter_description(CompilerNameEntry *); /* RVA25ba5 */
-void __cdecl add_old_style_parameter(const CompilerParserDeclaration *, CompilerIrSymbol *, CompilerDeclarator *); /* RVA25c26 */
+CompilerIrSymbol * __cdecl make_parameter_description(CompilerNameEntry *); /* RVA25ba5 */
+CompilerIrSymbol *__cdecl add_old_style_parameter(const CompilerParserDeclaration *, CompilerIrSymbol *, CompilerDeclarator *); /* RVA25c26 */
 void __cdecl prepare_for_statement(void); /* RVA25eb0 */
 void __cdecl report_expected_parser_token(CompilerParserToken *, int); /* RVA3f1b4 */
 CompilerParserValue * __cdecl make_recovery_parser_value(CompilerParserValue *, int); /* RVA3f281 */
@@ -276,7 +276,7 @@ int RECON_THISCALL CompilerParser::Run(void)
             value_top->value.attributes = c1_bss.parser_value.attributes;
         else if (state == 103 || state == 104 || state == 268)
             value_top->value.integer = c1_bss.parser_value.integer;
-        else if (state == 27 || state == 101 || state == 211 || state == 212 || state == 213 || state == 150 || state == 218 || state == 222 || state == 219 || state == 277 || state == 223 || state == 205 || state == 86 || state == 33)
+        else if (state == 234 || state == 256 || state == 98 || state == 27 || state == 101 || state == 211 || state == 212 || state == 213 || state == 150 || state == 218 || state == 222 || state == 219 || state == 277 || state == 223 || state == 205 || state == 86 || state == 33)
             value_top->value.declarator_symbol = c1_bss.parser_value.declarator_symbol;
         else value_top->value.declaration_flags = c1_bss.parser_value.declaration_flags;
 #else
@@ -454,9 +454,13 @@ read_action:
                 recon_unsupported("bitfield declarator and integer source are not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
         } else if (rule == 78 || rule == 77) {
-            if ((rule == 78 && state_top[1] != 27) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212 && state_top[1] != 150 && state_top[1] != 101) || state_top[2] != 55 ||
+            if ((rule == 78 && state_top[1] != 27 && state_top[1] != 150 && state_top[1] != 101) || (rule == 77 && ((state_top[1] != 27 && state_top[1] != 212 && state_top[1] != 150 && state_top[1] != 101) || state_top[2] != 55 ||
                     state_top[3] != 103 || state_top[4] != 169)))
                 recon_unsupported("declarator pair reduction source state is not yet modeled");
+            c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
+        } else if (rule == 120) {
+            if (state_top[1] != 234)
+                recon_unsupported("abstract array declarator source state is not yet modeled");
             c1_bss.parser_value.declarator_symbol = value_top[1].value.declarator_symbol;
         } else if (rule == 112) {
             if (state_top[1] != 222)
@@ -493,6 +497,7 @@ read_action:
         case 10: /* Function declarator identity, then genuine finalization. */
         case 11: /* Reads only the established lexer diagnostic flag. */
         case 20:
+        case 21: /* Old-style declaration-list continuation clears the existing control flags. */
         case 16:
         case 18:
         case 19:
@@ -501,6 +506,7 @@ read_action:
         case 24:
         case 25:
         case 26:
+        case 28: /* Existing declaration/declarator pair enters the old-style parameter owner. */
         case 30:
         case 31:
         case 32:
@@ -520,6 +526,7 @@ read_action:
         case 47: /* Member terminator clears the established temporary arena/control bits. */
         case 49:
         case 50: /* Established record-member declarator then genuine member owner. */
+        case 51: /* A comma-separated member retains the same declarator/symbol pair. */
         case 55: /* The second DWORD is the actual declaration symbol. */
         case 56: /* Existing member symbol and the established two-DWORD bit width. */
         case 58:
@@ -547,6 +554,7 @@ read_action:
         case 82:
         case 83:
         case 84: /* Builds the actual parameter-list descriptor from the active scope. */
+        case 86: /* Identifier token enters the genuine old-style parameter constructor. */
         case 90:
         case 85:
         case 87:
@@ -555,6 +563,7 @@ read_action:
         case 94:
         case 95:
         case 99: /* Abstract parameter uses the explicitly written declarator/symbol pair. */
+        case 126: /* Ellipsis creates the actual named-parameter sentinel in arena2. */
         case 114: /* Genuine abstract symbol plus48-byte declarator constructor. */
         case 98: /* Established parameter declaration and pointer declarator. */
         case 103: /* Calling-convention BYTE uses its recovered qualifier relation. */
@@ -564,6 +573,8 @@ read_action:
         case 112:
         case 113:
         case 122:
+        case 120: /* Abstract array bound consumes the known declarator pair and integer. */
+        case 123: /* Parenthesized abstract declarator retains its established pair. */
         case 124:
         case 127: /* Established CLI predicates, then genuine compound entry. */
         case 128: /* Genuine compound exit, with no semantic operand. */
@@ -822,7 +833,7 @@ case 29: {
 }
 case 31:
 #ifdef RECON_NATIVE_TEST
-    if (declaration_depth < 0 || declaration_depth > 2 || (lookahead && lookahead->kind == 118))
+    if (declaration_depth < 0 || declaration_depth > 3 || (lookahead && lookahead->kind == 118))
         recon_unsupported("nested declaration specification record is not yet modeled");
 #endif
     if (lookahead && lookahead->kind == 118) {
@@ -940,7 +951,7 @@ case 52:
     if (rule == 52)
         report_language_diagnostic(1, 228);
 #ifdef RECON_NATIVE_TEST
-    if (rule != 50 || declaration_depth != 0 || c1_constant_diagnostic_mode != 0 ||
+    if ((rule != 50 && rule != 51) || declaration_depth != 0 || c1_constant_diagnostic_mode != 0 ||
         !right[0].value.declarator || !right[0].value.declarator_symbol.symbol)
         recon_unsupported("record member semantic alternative is not yet modeled");
 #endif
@@ -1140,7 +1151,7 @@ case 93:
     c1_bss.parser_value.parameters = parameters;
     break;
 case 86:
-    c1_bss.parser_value.parameters = make_parameter_description(right[0].value.name);
+    c1_bss.parser_value.symbol = make_parameter_description(right[0].value.name);
     break;
 case 88:
 case 96:
@@ -1263,6 +1274,13 @@ case 126:
     if (rule == 125)
         compiler_warning(59, 76, 55);
     name = c1_data.builtin_names.ellipsis;
+    if (parameter_nesting != 1 || c1_data.record_sizes.known.named_parameter_symbol_bytes != 52) {
+#ifdef __linux__
+        recon_unsupported("ellipsis parameter allocation outside the established arena2 domain");
+#else
+        __asm { int 3 }
+#endif
+    }
     arena_kind = parameter_nesting ? 2 : 0;
     symbol = NULL;
     if (!arena_kind) {
@@ -1274,7 +1292,7 @@ case 126:
             symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
             binding->name = NULL;
             binding->next = NULL;
-            memset(symbol, 0, c1_data.record_sizes.indexed[11]);
+            memset(symbol, 0, c1_data.record_sizes.known.named_parameter_symbol_bytes);
             binding->name = name;
             symbol->kind = 11;
         }
@@ -1282,7 +1300,7 @@ case 126:
     if (!symbol) {
         storage = &c1_bss.arenas[arena_kind];
         symbol = (CompilerIrSymbol *)storage->cursor;
-        storage->cursor += (c1_data.record_sizes.indexed[11] + 3) & ~3U;
+        storage->cursor += (c1_data.record_sizes.known.named_parameter_symbol_bytes + 3) & ~3U;
         if (storage->cursor > storage->committed_limit)
             storage->CommitExtent();
         if (symbol) {
@@ -2366,13 +2384,15 @@ unsigned __cdecl layout_record_member(CompilerIrSymbol *member)
             goto have_alignment;
     }
     if (!type->shape && (type->flags & 0x400)) {
-        /* The alignment byte shares the established tag flags owner. Its
-         * aggregate initializer/consumer domain is still pending. */
+        /* FinishRecord writes this byte from its actual alignment WORD. */
+        if ((type->flags != 0x402 && type->flags != 0x404) || !type->symbol_owner ||
+            type->symbol_owner->kind != 4 || !(type->symbol_owner->flags & 1)) {
 #ifdef __linux__
-        recon_unsupported("aggregate member alignment is not yet recovered");
+            recon_unsupported("aggregate member alignment requires a completed tag");
 #else
-        __asm { int 3 }
+            __asm { int 3 }
 #endif
+        }
         alignment = (BYTE)type->symbol_owner->tag_definition_flags;
     } else alignment = global_type_size(type);
 have_alignment:
@@ -2463,7 +2483,46 @@ unsigned __cdecl calculate_alignment_padding(unsigned alignment, unsigned offset
     unsigned remainder = offset % bounded;
     return remainder ? bounded - remainder : 0;
 }
-void __cdecl append_record_padding(unsigned) { __asm { int 3 } }
+void __cdecl append_record_padding(unsigned bytes)
+{
+    CompilerIrSymbol *symbol = NULL;
+    CompilerSymbolBinding *binding;
+    CompilerNameEntry *name = c1_data.builtin_names.alignment_member;
+    unsigned arena_kind = parameter_nesting ? 2 : 0;
+    unsigned size = c1_data.record_sizes.known.member_symbol_bytes;
+    CompilerArena *arena;
+    if (c1_constant_diagnostic_mode != 0 ||
+        (!arena_kind && c1_data.member_symbol_cache_index != 9) || size != 52) {
+#ifdef __linux__
+        recon_unsupported("padding symbol cache or record frame is not modeled");
+#else
+        __asm { int 3 }
+#endif
+    }
+    if (!arena_kind) {
+        binding = c1_data.symbol_cache.indexed[c1_data.member_symbol_cache_index];
+        if (binding) {
+            c1_data.symbol_cache.indexed[c1_data.member_symbol_cache_index] = binding->next;
+            symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
+            binding->name = NULL;
+            binding->next = NULL;
+            memset(symbol, 0, size);
+            binding->name = name;
+            symbol->kind = 3;
+        }
+    }
+    if (!symbol) {
+        arena = &c1_bss.arenas[arena_kind];
+        symbol = (CompilerIrSymbol *)arena->cursor;
+        arena->cursor += (size + 3) & ~3U;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        if (symbol) symbol = symbol->Initialize(3, name, arena_kind);
+    }
+    symbol->flags |= 0x40;
+    symbol->symbol_value = bytes;
+    append_record_member(symbol);
+    c1_bss.record_definitions[c1_constant_diagnostic_mode].byte_size += bytes;
+}
 int __cdecl integer_sum_out_of_range(__int64 first, unsigned __int64 second,
     WORD unsigned_values, WORD width)
 {
@@ -2663,7 +2722,7 @@ BYTE __cdecl prepare_bitfield(CompilerIrSymbol *symbol, __int64 width)
 /* RVA0eed5 */
 extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned, CompilerNameEntry *, unsigned);
 extern "C" CompilerIrSymbol *__cdecl merge_scoped_declaration(CompilerIrSymbol *, CompilerIrSymbol *, int);
-extern "C" CompilerEnumEntry *__cdecl append_enum_symbol(CompilerEnumContext *, CompilerNameEntry *, CompilerIrSymbol *);
+extern "C" CompilerSymbolMapEntry *__cdecl append_enum_symbol(CompilerSymbolMap *, void *, CompilerIrSymbol *);
 void __cdecl add_enumerator(CompilerNameEntry *name, CompilerType *type, __int64 value)
 {
     CompilerIrSymbol *symbol, *previous = NULL;
@@ -2706,7 +2765,7 @@ void __cdecl add_enumerator(CompilerNameEntry *name, CompilerType *type, __int64
         symbol = previous;
     } else c1_data.translation_unit->current->Insert(symbol);
     if (c1_bss.current_tag_symbol->kind4_context) {
-        append_enum_symbol((CompilerEnumContext *)c1_bss.current_tag_symbol->kind4_context,
+        append_enum_symbol((CompilerSymbolMap *)c1_bss.current_tag_symbol->kind4_context,
                            name, symbol);
         if (!(symbol->record_id & 0xffffff)) {
             if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
@@ -2754,18 +2813,18 @@ extern "C" CompilerIrSymbol *__cdecl lookup_cached_symbol_record(unsigned kind,
     symbol->kind = (BYTE)kind;
     return symbol;
 }
-extern "C" unsigned __cdecl enum_symbol_bucket(CompilerEnumContext *, CompilerNameEntry *);
-extern "C" CompilerEnumEntry *__cdecl find_enum_entry(CompilerEnumContext *, CompilerNameEntry *, unsigned);
-extern "C" CompilerEnumEntry *__cdecl append_enum_symbol(CompilerEnumContext *context,
-    CompilerNameEntry *name, CompilerIrSymbol *symbol)
+extern "C" unsigned __cdecl enum_symbol_bucket(CompilerSymbolMap *, void *);
+extern "C" CompilerSymbolMapEntry *__cdecl find_enum_entry(CompilerSymbolMap *, void *, unsigned);
+extern "C" CompilerSymbolMapEntry *__cdecl append_enum_symbol(CompilerSymbolMap *context,
+    void *name, CompilerIrSymbol *symbol)
 {
     unsigned bucket = enum_symbol_bucket(context, name);
-    CompilerEnumEntry *entry = find_enum_entry(context, name, bucket);
+    CompilerSymbolMapEntry *entry = find_enum_entry(context, name, bucket);
     if (!entry) {
         if (!context->arena_kind) {
             CompilerPool *pool = &c1_bss.pools[3];
             if (pool->remaining < 12) pool->Refill(12);
-            entry = (CompilerEnumEntry *)pool->cursor;
+            entry = (CompilerSymbolMapEntry *)pool->cursor;
             pool->cursor += 12;
             pool->remaining -= 12;
         } else {
@@ -2774,11 +2833,11 @@ extern "C" CompilerEnumEntry *__cdecl append_enum_symbol(CompilerEnumContext *co
                 recon_unsupported("enum entry arena is not modeled");
 #endif
             CompilerArena *arena = &c1_bss.arenas[context->arena_kind];
-            entry = (CompilerEnumEntry *)arena->cursor;
+            entry = (CompilerSymbolMapEntry *)arena->cursor;
             arena->cursor += 12;
             if (arena->cursor > arena->committed_limit) arena->CommitExtent();
         }
-        entry->name = name;
+        entry->key = name;
         entry->next = context->symbols[bucket];
         context->symbols[bucket] = entry;
         ++context->count;
@@ -2786,15 +2845,16 @@ extern "C" CompilerEnumEntry *__cdecl append_enum_symbol(CompilerEnumContext *co
     entry->symbol = symbol;
     return entry;
 }
-extern "C" unsigned __cdecl hash_enum_name(CompilerNameEntry *);
+extern "C" unsigned __cdecl hash_enum_name(void *);
 extern "C" {
-/* Only the encountered enum-name hash relation is recovered. Other
- * original selectors remain valid but unsupported, before any table read. */
-unsigned (__cdecl *c1_enum_hashers[])(CompilerNameEntry *) = { hash_enum_name };
+/* Encountered name and static-symbol hash slots0/2. Slot1 is unmodeled
+ * representation and guarded before lookup; it is not a NULL original row. */
+unsigned __cdecl hash_static_symbol(void *);
+unsigned (__cdecl *c1_enum_hashers[])(void *) = { hash_enum_name, NULL, hash_static_symbol };
 }
-extern "C" unsigned __cdecl enum_symbol_bucket(CompilerEnumContext *context, CompilerNameEntry *name)
+extern "C" unsigned __cdecl enum_symbol_bucket(CompilerSymbolMap *context, void *name)
 {
-    if (context->hash_kind != 0) {
+    if (context->hash_kind != 0 && context->hash_kind != 2) {
 #ifdef __linux__
         recon_unsupported("enum hash selector is not yet recovered");
 #else
@@ -2803,20 +2863,21 @@ extern "C" unsigned __cdecl enum_symbol_bucket(CompilerEnumContext *context, Com
     }
     return c1_enum_hashers[context->hash_kind](name) % context->capacity;
 }
-extern "C" unsigned __cdecl hash_enum_name(CompilerNameEntry *name)
+extern "C" unsigned __cdecl hash_enum_name(void *name)
 {
     return ((unsigned)name >> 2) & 0xfff;
 }
-extern "C" int __cdecl enum_names_equal(CompilerNameEntry *, CompilerNameEntry *);
+extern "C" int __cdecl enum_names_equal(void *, void *);
 extern "C" {
-int (__cdecl *c1_enum_matchers[])(CompilerNameEntry *, CompilerNameEntry *) = { enum_names_equal };
+int __cdecl static_symbols_equal(void *, void *);
+int (__cdecl *c1_enum_matchers[])(void *, void *) = { enum_names_equal, static_symbols_equal };
 }
-extern "C" CompilerEnumEntry *__cdecl find_enum_entry(CompilerEnumContext *context,
-    CompilerNameEntry *name, unsigned bucket)
+extern "C" CompilerSymbolMapEntry *__cdecl find_enum_entry(CompilerSymbolMap *context,
+    void *name, unsigned bucket)
 {
-    CompilerEnumEntry *entry;
-    int (__cdecl *matches)(CompilerNameEntry *, CompilerNameEntry *);
-    if (context->match_kind != 0) {
+    CompilerSymbolMapEntry *entry;
+    int (__cdecl *matches)(void *, void *);
+    if (context->match_kind != 0 && context->match_kind != 1) {
 #ifdef __linux__
         recon_unsupported("enum equality selector is not yet recovered");
 #else
@@ -2826,22 +2887,22 @@ extern "C" CompilerEnumEntry *__cdecl find_enum_entry(CompilerEnumContext *conte
     matches = c1_enum_matchers[context->match_kind];
     entry = context->symbols[bucket];
     while (entry) {
-        if (matches(name, entry->name)) return entry;
+        if (matches(name, entry->key)) return entry;
         entry = entry->next;
     }
     return NULL;
 }
-extern "C" int __cdecl enum_names_equal(CompilerNameEntry *left, CompilerNameEntry *right)
+extern "C" int __cdecl enum_names_equal(void *left, void *right)
 {
     return left == right;
 }
 /* RVA0f092 */
-extern "C" unsigned __cdecl enum_entry_count(CompilerEnumContext *);
+extern "C" unsigned __cdecl enum_entry_count(CompilerSymbolMap *);
 CompilerType *__cdecl parse_enum_specifier(void)
 {
     CompilerIrSymbol *symbol = enumerator_type->symbol_owner;
     if (!c1_data.options.language_extensions &&
-        !enum_entry_count((CompilerEnumContext *)symbol->kind4_context))
+        !enum_entry_count((CompilerSymbolMap *)symbol->kind4_context))
         compiler_warning(138);
     if (symbol->binding.name != c1_data.builtin_names.unnamed && c1_bss.browser_filename) {
         if (parameter_nesting) {
@@ -2857,7 +2918,7 @@ CompilerType *__cdecl parse_enum_specifier(void)
     parser_flags |= 0x400;
     return c1_data.builtin_types.type_0063;
 }
-extern "C" unsigned __cdecl enum_entry_count(CompilerEnumContext *context)
+extern "C" unsigned __cdecl enum_entry_count(CompilerSymbolMap *context)
 {
     return context->count;
 }
@@ -3126,6 +3187,8 @@ void __cdecl prepare_function_definition(const CompilerParserDeclaration *declar
 #ifdef RECON_NATIVE_TEST
     if (symbol->kind != 7 || !(symbol->declaration_flags & 0x80) ||
         (parameter_storage_class != 1 && parameter_storage_class != 3 &&
+        !(parameter_storage_class == 2 && declarator->parameters &&
+          declarator->parameters->kind == 2 && declarator->parameters->bindings) &&
         !(parameter_storage_class == 5 && symbol->function_type->shape &&
         (symbol->function_type->shape->flags & 0x4000) &&
         symbol->function_type->shape->parameters == c1_data.void_type_list)) || function_context)
@@ -3420,11 +3483,14 @@ CompilerParserNode *__cdecl make_ir_operation(unsigned code, CompilerParserNode 
  * remainder72=6@63f88, complement89=14@63fcc, xor91=13@63fd4 and xor-assignment92=24@63fd8;
  * Post-increment64=53@63f68/clear80@64280. Their property80 bit is clear at64273/64288/64299/6429b/6429c. Other bits unmodeled.
  * Left shift67=9@63f74/clear80@64283; bitwise-or77=12@63f9c/clear80@6428d. */
+/* String-literal kind7: opcode51 at63e84, property bit80 at64247.
+ * The emitter lowers it through the real string owner before writing. */
 static const union CompilerIrOpcodeColumn {
     struct {
         BYTE unmodeled_000[24];
         unsigned symbol;
-        BYTE unmodeled_01c[168];
+        unsigned string_literal;
+        BYTE unmodeled_020[164];
         unsigned conjunction;
         unsigned logical_and;
         unsigned bitwise_and_assign;
@@ -3485,12 +3551,13 @@ static const union CompilerIrOpcodeColumn {
         unsigned switch_value;
     } known;
     unsigned indexed[1];
-} ir_node_opcodes = { { {0}, 38, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, {0}, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, {0}, 60, 59 } };
+} ir_node_opcodes = { { {0}, 38, 51, {0}, 11, 28, 23, 50, 55, 67, {0}, 54, 5, {0}, 31, 26, 48, 36, {0}, 53, 40, {0}, 9, 34, {0}, 3, 16, 6, {0}, 4, {0}, 32, 12, {0}, 27, 39, 2, 15, 39, {0}, 15, 66, {0}, 10, 14, 8, 13, 24, {0}, 44, 51, {0}, 70, {0}, 62, {0}, 50, {0}, 89, {0}, 60, 59 } };
 static const union CompilerIrPropertyColumn {
     struct {
         BYTE unmodeled_000[6];
         BYTE symbol;
-        BYTE unmodeled_007[42];
+        BYTE string_literal;
+        BYTE unmodeled_008[41];
         BYTE conjunction;
         BYTE logical_and;
         BYTE bitwise_and_assign;
@@ -3551,7 +3618,9 @@ static const union CompilerIrPropertyColumn {
         BYTE switch_value;
     } known;
     BYTE indexed[1];
-} ir_node_properties = { { {0}, 0, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, {0}, 128, 0 } };
+} ir_node_properties = { { {0}, 0, 128, {0}, 0, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 128, 0, {0}, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, {0}, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 0, 0, {0}, 0, 0, 0, 0, 0, {0}, 128, 0, {0}, 128, {0}, 128, {0}, 0, {0}, 0, {0}, 128, 0 } };
+typedef char IrStringOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.string_literal) == 7 * 4 ? 1 : -1];
+typedef char IrStringPropertyOffset[offsetof(CompilerIrPropertyColumn, known.string_literal) == 7 ? 1 : -1];
 typedef char IrOrLogicalOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.logical_or) == 79 * 4 ? 1 : -1];
 typedef char IrOrLogicalPropertyOffset[offsetof(CompilerIrPropertyColumn, known.logical_or) == 79 ? 1 : -1];
 typedef char IrNotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.logical_not) == 60 ? 1 : -1];
@@ -3583,7 +3652,7 @@ typedef char IrBitfieldOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.bitfi
 typedef char IrDotOpcodeOffset[offsetof(CompilerIrOpcodeColumn, known.dot_member) == 80 * 4 ? 1 : -1];
 typedef char IrBitfieldPropertyOffset[offsetof(CompilerIrPropertyColumn, known.bitfield) == 53 ? 1 : -1];
 typedef char IrDotPropertyOffset[offsetof(CompilerIrPropertyColumn, known.dot_member) == 80 ? 1 : -1];
-#define IR_KIND_MODELED(k) ((k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
+#define IR_KIND_MODELED(k) ((k) == 7 || (k) == 79 || (k) == 64 || (k) == 56 || (k) == 51 || (k) == 72 || (k) == 89 || (k) == 91 || (k) == 92 || (k) == 118 || (k) == 90 || (k) == 57 || (k) == 88 || (k) == 76 || (k) == 70 || (k) == 67 || (k) == 77 || (k) == 53 || (k) == 80 || (k) == 6 || (k) == 49 || (k) == 50 || (k) == 52 || (k) == 54 || (k) == 59 || (k) == 60 || (k) == 61 || (k) == 62 || (k) == 65 || (k) == 68 || (k) == 71 || (k) == 74 || (k) == 81 || (k) == 82 || (k) == 83 || (k) == 85 || (k) == 86 || (k) == 100 || (k) == 101 || (k) == 108 || (k) == 112 || (k) == 116 || (k) == 132 || (k) == 133)
 #ifdef __linux__
 #define REQUIRE_IR_KIND(k) do { if (!IR_KIND_MODELED(k)) \
     recon_unsupported("IR node column is not modeled for this kind"); } while (0)
@@ -3782,8 +3851,10 @@ extern "C" CompilerParserNode *__cdecl create_string_literal_reference(
         if ((symbol->scope_bits & 4) && !c1_bss.debug_module->Slot48())
             compiler_error(73, "p1inl.inl", 648);
     }
-    c1_bss.declaration_scope_active = 0;
-    parameter_nesting = 0;
+    if (pooled || global) {
+        c1_bss.declaration_scope_active = 0;
+        parameter_nesting = 0;
+    }
     if (c1_data.normalized_readonly_strings && pooled)
         segment = c1_data.segment_defaults.type_context;
     else segment = c1_data.segment_defaults.definition;
@@ -4212,7 +4283,11 @@ void __cdecl check_finished_function(CompilerIrSymbol *function)
     c1_bss.ir_record_count = 0;
     c1_data.emit_global_locations = 0;
 }
-extern "C" int __cdecl uses_global_function_record(CompilerIrSymbol *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl uses_global_function_record(CompilerIrSymbol *function)
+{
+    if ((function->symbol_qualifiers & 1) || (lexer_flags & 0x20)) return 1;
+    return c1_data.options.inline_level == 2 && c1_data.ir_symbol_state_ready;
+}
 extern "C" int __cdecl omit_inline_expression_record(void)
 {
     CompilerIrSymbol *function = c1_bss.current_scope_symbol;
@@ -5193,7 +5268,7 @@ CompilerParserNode *__cdecl validate_assignment_target(CompilerParserNode *value
     }
     if (value->kind == 93) value = value->left;
     if (value->kind == 94) return NULL;
-    if (value->kind != 61 && value->kind != 101) {
+    if (value->kind != 6 && value->kind != 61 && value->kind != 101) {
 #ifdef __linux__
         recon_unsupported("assignment lvalue classification is not yet recovered");
 #else
@@ -6038,7 +6113,7 @@ CompilerParserNode * __cdecl make_member_expression(BYTE operation, CompilerPars
             retain_temporary = 1;
     }
     qualifiers = member_base_qualifiers(type);
-    if (base->kind != 6 && base->kind != 61 && base->kind != 65 && base->kind != 101) {
+    if (base->kind != 6 && base->kind != 61 && base->kind != 65 && base->kind != 101 && base->kind != 83) {
 #ifdef __linux__
         recon_unsupported("member address classification is not yet recovered");
 #else
@@ -6161,9 +6236,12 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     !(d)->attributes && (s)->attributes == 0x10 && (d)->shape && (s)->shape && \
     (d)->shape->flags == 3 && (s)->shape->flags == 11 && \
     (d)->shape->attributes == 0x10 && (s)->shape->attributes == 0x10 && \
-    (d)->shape->base && (d)->shape->base == (s)->shape->base && \
-    (d)->shape->base->flags == 0x404 && (d)->shape->base->attributes == 0x10 && \
-    !(d)->shape->base->base)
+    (d)->shape->base && (s)->shape->base && \
+    ((d)->shape->base->flags & ~0x400U) == 4 && \
+    ((s)->shape->base->flags & ~0x400U) == 4 && \
+    (d)->shape->base->attributes == 0x10 && (s)->shape->base->attributes == 0x10 && \
+    (d)->shape->base->parameters == (s)->shape->base->parameters && \
+    !(d)->shape->base->base && !(s)->shape->base->base)
 #define VOLATILE_SHORT_ARGUMENT(d,s) ((d)->flags == 0x62 && (s)->flags == 0x62 && \
     (d)->attributes == 0x200 && (s)->attributes == 0x200 && (d)->shape && (s)->shape && \
     (d)->shape->flags == 1 && ((s)->shape->flags == 1 || (s)->shape->flags == 2) && \
@@ -6204,9 +6282,9 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
-        !(operation == 116 && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
+        !((operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(type, value->type)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(type, value->type)) &&
-        !(operation == 52 && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
+        !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(type, value->type)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(type, value->type)) &&
         !(operation == 116 && type->flags == 0x402 && value->type->flags == 0x402 &&
           !type->attributes && !value->type->attributes &&
@@ -6275,9 +6353,9 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           !destination->attributes && !(source->attributes & ~0x110U)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
-        !(operation == 116 && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
+        !((operation == 112 || operation == 116) && CHAR_POINTER_ASSIGNMENT(destination, source)) &&
         !(operation == 52 && RECORD_POINTER_ASSIGNMENT(destination, source)) &&
-        !(operation == 52 && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
+        !((operation == 52 || operation == 116) && RECORD_VALUE_ASSIGNMENT(destination, source)) &&
         !(operation == 116 && VOID_FROM_RECORD_POINTER(destination, source)) &&
         !(operation == 116 && destination->flags == 0x402 && source->flags == 0x402 &&
           !destination->attributes && !source->attributes && destination->shape &&
@@ -6606,7 +6684,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Shared BYTE column at63c78: two encountered semantic relations only. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, {0}, 61, {0}, 65, {0}, 128, 124, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -6741,7 +6819,7 @@ CompilerParserNode * __cdecl normalize_based_expression(CompilerParserNode *valu
     for (;;) {
         /* Only the established indirection relation is currently consumed.
          * Other original kinds remain valid but unsupported in both builds. */
-        if (unwrapped->kind != 6 && unwrapped->kind != 61 && unwrapped->kind != 101) {
+        if (unwrapped->kind != 6 && unwrapped->kind != 61 && unwrapped->kind != 101 && unwrapped->kind != 112 && unwrapped->kind != 65) {
 #ifdef __linux__
             recon_unsupported("call wrapper classification is not yet recovered");
 #else
@@ -7299,7 +7377,7 @@ void __cdecl complete_initializer_symbol(CompilerIrSymbol *symbol)
     unsigned count;
     int unbounded_array, incomplete_record;
     if (function_output_mode || !symbol || c1_data.initializer_depth == -1) return;
-    if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > 3) {
+    if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
         recon_unsupported("initializer symbol completion beyond encountered frame records");
 #else
@@ -7502,9 +7580,53 @@ CompilerParserNode *__cdecl make_symbol_node(BYTE kind, CompilerIrSymbol *symbol
     return node;
 }
 /* RVA25ba5 */
-CompilerParameterDescription * __cdecl make_parameter_description(CompilerNameEntry *) { __asm { int 3 } return 0; }
+CompilerIrSymbol * __cdecl make_parameter_description(CompilerNameEntry *name)
+{
+    CompilerIrSymbol *symbol;
+    unsigned index;
+    if (c1_data.record_sizes.known.named_parameter_symbol_bytes != 52) {
+#ifdef __linux__
+        recon_unsupported("old-style parameter symbol size is not recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    symbol = (CompilerIrSymbol *)c1_bss.arenas[2].AllocateBytes(
+        (c1_data.record_sizes.known.named_parameter_symbol_bytes + 3) & ~3U);
+    if (symbol) symbol = symbol->Initialize(11, name, 2);
+    symbol->value_type = c1_data.builtin_types.type_0063;
+    if (c1_data.next_symbol_record_id >= 0x7fffffffU) compiler_fatal(55);
+    index = c1_data.next_symbol_record_id++;
+    symbol->record_id = (symbol->record_id & 0xff000000U) | (index & 0xffffffU);
+    symbol->declaration_flags |= 0x10;
+    c1_data.translation_unit->current->Insert(symbol);
+    return symbol;
+}
 /* RVA25c26 */
-void __cdecl add_old_style_parameter(const CompilerParserDeclaration *, CompilerIrSymbol *, CompilerDeclarator *) { __asm { int 3 } }
+CompilerIrSymbol *__cdecl add_old_style_parameter(const CompilerParserDeclaration *declaration,
+    CompilerIrSymbol *symbol, CompilerDeclarator *declarator)
+{
+    CompilerIrSymbol **found = c1_data.translation_unit->FindName(symbol->binding.name);
+    CompilerIrSymbol *parameter = found ? *found : NULL;
+    CompilerType *type;
+    if (!parameter) { compiler_warning(85, symbol); return NULL; }
+    if (parameter->storage_class & 7) { compiler_warning(82, symbol); return NULL; }
+    symbol->kind = 11;
+    symbol->intrinsic_flags = declaration->flags;
+    if ((declaration->flags & 0x1000000U) && declaration->value)
+        attach_declaration_context(symbol, (void *)declaration->value);
+    else symbol->function_flags &= ~1U;
+    parameter->intrinsic_flags = declaration->flags;
+    if ((declaration->flags & 0x1000000U) && declaration->value)
+        attach_declaration_context(parameter, (void *)declaration->value);
+    else parameter->function_flags &= ~1U;
+    declare_symbol(declarator, symbol);
+    type = symbol->value_type;
+    if (type->flags == 0x106 && !type->shape)
+        type = c1_data.builtin_types.type_0107;
+    parameter->value_type = type;
+    return parameter;
+}
 /* RVA25eb0 */
 void __cdecl prepare_for_statement(void)
 {
@@ -7571,8 +7693,37 @@ void RECON_THISCALL CompilerDeclarator::AppendArrayBound(const unsigned *bound)
         last_shape = array;
     }
 }
-void RECON_THISCALL CompilerParameterDescription::AppendParameter(CompilerIrSymbol *)
-{ __asm { int 3 } }
+extern "C" CompilerIrSymbol *__cdecl create_parameter_sentinel(void);
+void RECON_THISCALL CompilerParameterDescription::AppendParameter(CompilerIrSymbol *symbol)
+{
+    CompilerParameterBindings *list = bindings;
+    CompilerSymbolBinding *entry = &symbol->binding;
+    if (!list) {
+        CompilerArena *arena = &c1_bss.arenas[2];
+        list = (CompilerParameterBindings *)arena->cursor;
+        arena->cursor += 12;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        if (list) {
+            list->arena_kind = 2;
+            list->first = NULL;
+            list->last = NULL;
+        }
+        bindings = list;
+    }
+    if (entry) {
+        entry->name = symbol->binding.name;
+        entry->next = NULL;
+        symbol->previous_parameter = list->last;
+    }
+    if (list->last) {
+        if (!c1_data.parameter_sentinel)
+            c1_data.parameter_sentinel = create_parameter_sentinel();
+        CompilerIrSymbol *previous = (CompilerIrSymbol *)((BYTE *)list->last - 8);
+        if (previous != c1_data.parameter_sentinel) list->last->next = entry;
+        else list->first = entry;
+    } else list->first = entry;
+    list->last = entry;
+}
 void RECON_THISCALL CompilerArena::ClearUsed(void)
 {
     memset(base, 0, cursor - base);
@@ -9414,7 +9565,7 @@ extern "C" void *__cdecl create_enum_context(unsigned capacity, unsigned arena_k
     if (arena_kind >= 6) recon_unsupported("enum context arena is not modeled");
 #endif
     CompilerArena *arena = &c1_bss.arenas[arena_kind];
-    CompilerEnumContext *context = (CompilerEnumContext *)arena->cursor;
+    CompilerSymbolMap *context = (CompilerSymbolMap *)arena->cursor;
     arena->cursor += 24;
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
     context->match_kind = match_kind;
@@ -9422,7 +9573,7 @@ extern "C" void *__cdecl create_enum_context(unsigned capacity, unsigned arena_k
     context->capacity = (WORD)capacity;
     context->arena_kind = arena_kind;
     context->flags = (context->flags & ~3) | (first_flag & 1) | ((second_flag & 1) << 1);
-    CompilerEnumEntry **symbols = (CompilerEnumEntry **)arena->cursor;
+    CompilerSymbolMapEntry **symbols = (CompilerSymbolMapEntry **)arena->cursor;
     arena->cursor += (capacity * 4 + 3) & ~3U;
     if (arena->cursor > arena->committed_limit) arena->CommitExtent();
     context->symbols = symbols;
@@ -9690,16 +9841,16 @@ void RECON_THISCALL CompilerDeclarationScanner::ScanClass32(void)
         attributes.flags |= 8;
         return;
     }
-    /* First-byte storage column at63e68+4*kind: static9/storage3 and
-     * typedef12/storage7. Neighboring properties remain unknown. */
-    if (token->kind != 12 && token->kind != 9) {
+    /* First-byte storage column at63e68+4*kind: static9/storage3,
+     * extern10/storage1 and typedef12/storage7. Other properties stay unknown. */
+    if (token->kind != 12 && token->kind != 9 && token->kind != 10) {
 #ifdef __linux__
-        recon_unsupported("storage keyword outside the encountered static/typedef column");
+        recon_unsupported("storage keyword outside the encountered static/extern/typedef column");
 #else
         __asm { int 3 }
 #endif
     }
-    storage = token->kind == 12 ? 7 : 3;
+    storage = token->kind == 12 ? 7 : token->kind == 10 ? 1 : 3;
     set_declaration_storage(&attributes, storage, 1);
     attributes_seen = 1;
 }

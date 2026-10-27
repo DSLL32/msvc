@@ -33,7 +33,8 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_3c[1], indirection;
         BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
         BYTE unmodeled_42[1], shift_left, less; /* kinds67/68 ->128/124 */
-        BYTE unmodeled_45[32], integer;
+        BYTE unmodeled_45[14], member_address; /* kind83, RVA63ccb ->131 */
+        BYTE unmodeled_54[17], integer;
         BYTE unmodeled_66[10], call_argument;
         BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
         BYTE unmodeled_75[1], left_parenthesis; /* kind118 ->118 */
@@ -44,6 +45,7 @@ typedef union CompilerExpressionClasses {
 #ifdef __cplusplus
 typedef char ExpressionSubscriptClassOffset[offsetof(CompilerExpressionClasses, known.subscript) == 65 ? 1 : -1];
 typedef char ExpressionShiftClassOffset[offsetof(CompilerExpressionClasses, known.shift_left) == 67 ? 1 : -1];
+typedef char ExpressionMemberAddressOffset[offsetof(CompilerExpressionClasses, known.member_address) == 83 ? 1 : -1];
 typedef char ExpressionRightParenClassOffset[offsetof(CompilerExpressionClasses, known.right_parenthesis) == 126 ? 1 : -1];
 #endif
 #ifdef __cplusplus
@@ -214,8 +216,10 @@ typedef struct CompilerIrSymbol {
     int RECON_THISCALL IsNamed(void);
 #endif
 } CompilerIrSymbol;
-/* Initializer frame at57588, original stride20 and depth bound32. Only the
- * encountered first four records have storage/default/consumer contracts here. */
+/* Initializer frames at57588 have stride20 and a producer depth bound32.
+ * Only encountered frames0..5 have semantic support; other rows and the
+ * named storage gaps remain unmodeled even within the reserved span. */
+enum { C1_INITIALIZER_LAST = 5 };
 typedef struct CompilerInitializerFrame {
     CompilerIrSymbol *symbol;
     BYTE unmodeled_04[4];
@@ -247,24 +251,25 @@ typedef struct CompilerRecordMembers {
     CompilerSymbolBinding *first, *last;
 } CompilerRecordMembers;
 typedef char CompilerRecordMembers_extent[sizeof(CompilerRecordMembers) == 12 ? 1 : -1];
-/* A24-byte enum accumulator plus a separate, initially unwritten vector.
- * Only the two flag bits written by its constructor are interpreted. */
-typedef struct CompilerEnumEntry {
-    struct CompilerNameEntry *name;
+/* Generic24-byte key/payload map, used by enum names and static symbols.
+ * Its separately allocated bucket vector and12-byte linked entries retain
+ * their actual owners. Only the two constructor flag bits are interpreted. */
+typedef struct CompilerSymbolMapEntry {
+    union { struct CompilerNameEntry *name; struct CompilerIrSymbol *source; void *key; };
     struct CompilerIrSymbol *symbol;
-    struct CompilerEnumEntry *next;
-} CompilerEnumEntry;
-typedef char CompilerEnumEntry_extent[sizeof(CompilerEnumEntry) == 12 ? 1 : -1];
-typedef struct CompilerEnumContext {
+    struct CompilerSymbolMapEntry *next;
+} CompilerSymbolMapEntry;
+typedef char CompilerSymbolMapEntry_extent[sizeof(CompilerSymbolMapEntry) == 12 ? 1 : -1];
+typedef struct CompilerSymbolMap {
     unsigned arena_kind;
     unsigned match_kind, hash_kind;
     WORD capacity;
     BYTE flags, padding_0f;
-    CompilerEnumEntry **symbols;
+    CompilerSymbolMapEntry **symbols;
     unsigned count;
-} CompilerEnumContext;
-typedef char CompilerEnumContext_extent[sizeof(CompilerEnumContext) == 24 ? 1 : -1];
-typedef char CompilerEnumContext_symbols[offsetof(CompilerEnumContext, symbols) == 16 ? 1 : -1];
+} CompilerSymbolMap;
+typedef char CompilerSymbolMap_extent[sizeof(CompilerSymbolMap) == 24 ? 1 : -1];
+typedef char CompilerSymbolMap_symbols[offsetof(CompilerSymbolMap, symbols) == 16 ? 1 : -1];
 #ifdef __cplusplus
 typedef int (RECON_THISCALL CompilerTypeShape::*CompilerTypeShapePredicate)(void);
 #endif

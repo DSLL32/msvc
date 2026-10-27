@@ -228,16 +228,16 @@ extern void *__cdecl create_enum_context(unsigned, unsigned, unsigned, unsigned,
 static int enum_context_write_extent(void)
 {
     struct { unsigned before; BYTE storage[64]; unsigned after; } owner;
-    CompilerEnumContext *context;
+    CompilerSymbolMap *context;
     unsigned i;
     memset(&owner, 0xa6, sizeof(owner));
     c1_bss.arenas[0].cursor = owner.storage;
     c1_bss.arenas[0].committed_limit = owner.storage + sizeof(owner.storage);
-    context = (CompilerEnumContext *)create_enum_context(4, 0, 53, 91, 1, 0);
+    context = (CompilerSymbolMap *)create_enum_context(4, 0, 53, 91, 1, 0);
     if ((BYTE *)context != owner.storage || c1_bss.arenas[0].cursor != owner.storage + 40 ||
         context->arena_kind || context->hash_kind != 53 || context->match_kind != 91 ||
         context->capacity != 4 || context->flags != 0xa5 || context->padding_0f != 0xa6 ||
-        context->symbols != (CompilerEnumEntry **)(owner.storage + 24) || context->count ||
+        context->symbols != (CompilerSymbolMapEntry **)(owner.storage + 24) || context->count ||
         owner.before != 0xa6a6a6a6 || owner.after != 0xa6a6a6a6) return 0;
     for (i = 24; i < sizeof(owner.storage); ++i) if (owner.storage[i] != 0xa6) return 0;
     return 1;

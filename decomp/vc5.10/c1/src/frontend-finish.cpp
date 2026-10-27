@@ -123,9 +123,9 @@ extern "C" void __cdecl prepare_initializer_frame(CompilerIrSymbol *symbol)
     CompilerType *type;
     unsigned bytes;
     if (++c1_data.initializer_depth >= 32) compiler_fatal(54);
-    if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > 3) {
+    if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
-        recon_unsupported("initializer frame beyond encountered first four records");
+        recon_unsupported("initializer frame beyond encountered records0..5");
 #else
         __asm { int 3 }
 #endif
@@ -405,7 +405,7 @@ extern "C" int __cdecl advance_initializer_frame(CompilerParserNode *value)
             /* A pop may refer back to record0; wider previous records remain
              * outside the encountered view. The negative cursor is retained
              * as an address only and is not dereferenced on this return. */
-            if (c1_data.initializer_depth > 3) {
+            if (c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
                 recon_unsupported("incomplete aggregate initializer frame pop");
 #else
@@ -425,12 +425,12 @@ extern "C" int __cdecl advance_initializer_frame(CompilerParserNode *value)
         prepare_initializer_frame(member);
         c1_bss.initializer_frame->flags |= 0x80;
         if (!(symbol->kind >= 1 && symbol->kind <= 14 && symbol->kind != 5 &&
-              symbol->binding.name == c1_data.builtin_names.unnamed && (symbol->qualifier_flags & 8)))
+              symbol->binding.name == c1_data.builtin_names.alignment_member && (symbol->qualifier_flags & 8)))
             symbol = c1_bss.initializer_frame->symbol;
     }
     members = (CompilerRecordMembers *)symbol->kind4_context;
     if (symbol->kind >= 1 && symbol->kind <= 14 && symbol->kind != 5 &&
-        symbol->binding.name == c1_data.builtin_names.unnamed && (symbol->qualifier_flags & 8))
+        symbol->binding.name == c1_data.builtin_names.alignment_member && (symbol->qualifier_flags & 8))
         binding = symbol->binding.next;
     else binding = members->first;
     binding = next_initializer_member(NULL, binding);
@@ -482,7 +482,7 @@ extern "C" CompilerSymbolBinding *__cdecl next_initializer_member(CompilerIrSymb
     for (; binding; binding = binding->next) {
         symbol = (CompilerIrSymbol *)((BYTE *)binding - 8);
         if (symbol->kind < 1 || symbol->kind > 14 || symbol->kind == 5 ||
-            symbol->binding.name != c1_data.builtin_names.unnamed) return binding;
+            symbol->binding.name != c1_data.builtin_names.alignment_member) return binding;
         if (!(symbol->qualifier_flags & 0x18)) {
             if (c1_bss.initializer_bitfield_active) {
                 c1_bss.integer_work_value = (__int64)c1_bss.initializer_bitfield_value;
@@ -508,7 +508,14 @@ extern "C" void __cdecl flush_initializer_bitfield(CompilerIrSymbol *symbol)
         c1_bss.initializer_bytes += bytes;
     }
 }
-extern "C" void __cdecl write_initializer_member_padding(CompilerIrSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl write_initializer_member_padding(CompilerIrSymbol *symbol)
+{
+    c1_bss.integer_work_value = (__int64)(int)symbol->symbol_value;
+    if (c1_data.lexer_flags & 0x100000)
+        c1_bss.initializer_bytes += symbol->symbol_value;
+    else
+        write_initializer_padding(NULL);
+}
 extern "C" {
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *);
 int __cdecl prepare_initializer_value(CompilerParserNode *);
@@ -764,7 +771,7 @@ extern "C" int __cdecl finish_initializer_value(void)
     int nesting;
 examine_frame:
     if (c1_data.initializer_depth < 0) return 0;
-    if (c1_data.initializer_depth > 3) {
+    if (c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
         recon_unsupported("initializer completion beyond encountered frame records");
 #else
@@ -847,7 +854,7 @@ examine_frame:
             binding = binding->next;
             member = (CompilerIrSymbol *)((BYTE *)binding - 8);
             if (member->kind >= 1 && member->kind <= 14 && member->kind != 5 &&
-                member->binding.name == c1_data.builtin_names.unnamed) {
+                member->binding.name == c1_data.builtin_names.alignment_member) {
                 if (member->qualifier_flags & 8) ++nesting;
                 else if (member->qualifier_flags & 0x10) --nesting;
             }
@@ -944,7 +951,7 @@ extern "C" void __cdecl finish_initializer_element(void)
 {
     unsigned padding;
     if (c1_data.initializer_depth < 0) return;
-    if (c1_data.initializer_depth > 3) {
+    if (c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
         recon_unsupported("element completion beyond encountered initializer frames");
 #else
@@ -971,7 +978,7 @@ extern "C" unsigned __cdecl collect_initializer_remainder(void)
 {
     unsigned count = 0;
     if (c1_data.initializer_depth < 0) return 0;
-    if (c1_data.initializer_depth > 3) {
+    if (c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
         recon_unsupported("initializer remainder beyond encountered frame records");
 #else
@@ -984,7 +991,7 @@ extern "C" unsigned __cdecl collect_initializer_remainder(void)
         finish_initializer_value();
         /* The original rereads the cursor without checking its depth. The
          * preceding raw slot has no semantic contract in this projection. */
-        if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > 3) {
+        if (c1_data.initializer_depth < 0 || c1_data.initializer_depth > C1_INITIALIZER_LAST) {
 #ifdef __linux__
             recon_unsupported("initializer remainder reads an unmodeled preceding frame");
 #else
