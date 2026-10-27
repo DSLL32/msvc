@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Compiler lifetime normal/action/handler ABI residuals; Rust owns CFGs."""
+"""Compiler lifetime and SEH role ABI residuals; Rust owns CFGs."""
 import argparse
 import hashlib
 import json
@@ -40,6 +40,58 @@ def verify(report, images):
         verify_dumper_file(facts, side, image)
         verify_dumper_file(facts, side, image, members=True)
         verify_short_import(facts, side, image)
+        verify_omf_seh(facts, side, image)
+
+
+def verify_omf_seh(facts, side, image):
+    """Keep the OMF converter's normal RET8 separate from its SEH filter RET0."""
+    identity=facts['inputs']['images'][side]
+    assert identity['original_file_sha256']==hashlib.sha256(image.read_bytes()).hexdigest()
+    owner=facts['functions']['_convert_omf_file@8'][side]
+    start=owner['record']['start']
+    instructions={row['address']:bytes.fromhex(row['bytes_hex']) for row in owner['instructions']}
+    memory={at+i:byte for at,data in instructions.items() for i,byte in enumerate(data)}
+    def code(at,count):
+        return bytes(memory[at+i] for i in range(count))
+    raw=code(start,15)
+    assert raw[:6]==bytes.fromhex('558bec6aff68') and raw[10]==0x68
+    scope=struct.unpack_from('<I',raw,6)[0]
+    registration=struct.unpack_from('<I',raw,11)[0]
+    assert qualified_import(image,identity,registration)==[('msvcrt.dll','_except_handler3')]
+    previous,filter_at,handler=struct.unpack('<3I',contextual_bytes(image,scope,12))
+    assert previous==0xffffffff
+    assert set(owner['effective_roots'])=={start,filter_at,handler}
+    returns=[(at,data) for at,data in instructions.items() if data[:1] in (b'\xc2',b'\xc3')]
+    filters=[(at,data) for at,data in returns if filter_at<=at<handler]
+    normal=[(at,data) for at,data in returns if not filter_at<=at<handler]
+    assert len(filters)==1 and filters[0][1]==b'\xc3'
+    assert len(normal)==(2 if side=='original' else 1)
+    assert all(data==bytes.fromhex('c20800') for _,data in normal)
+    epilogue=bytes.fromhex('8b4df064890d000000005f5e5b8be55dc20800')
+    for at,data in normal:
+        assert code(at+len(data)-len(epilogue),len(epilogue))==epilogue
+    assert code(handler,12)==bytes.fromhex('8b65e8c745fcffffffff32c0')
+    # The filter reads the same BYTE passthrough flag and computes logical NOT;
+    # its compiler-local RET0 is not the public two-argument function return.
+    filter_code=code(filter_at,handler-filter_at)
+    if side=='original':
+        assert len(filter_code)==14 and filter_code[:4]==bytes.fromhex('33c08a0d')
+        assert filter_code[8:]==bytes.fromhex('84c90f94c0c3')
+        assert struct.unpack_from('<I',filter_code,4)[0]==0x47f158
+    else:
+        assert len(filter_code)==16 and filter_code[:4]==bytes.fromhex('33d28a15')
+        assert filter_code[8:]==bytes.fromhex('8bc2f7d81bc040c3')
+    setjmp_calls=[]
+    for at,data in instructions.items():
+        if data[:1]==b'\xe8':
+            target=at+5+struct.unpack_from('<i',data,1)[0]
+            if contextual_bytes(image,target,2)==bytes.fromhex('ff25') and qualified_import(image,identity,target)==[('msvcrt.dll','_setjmp3')]:
+                setjmp_calls.append(at)
+    assert len(setjmp_calls)==1
+    arguments=code(setjmp_calls[0]-12,12)
+    assert arguments[0]==0x68 and arguments[5:7]==bytes.fromhex('6a02') and arguments[7]==0x68
+    unwind=struct.unpack_from('<I',arguments,1)[0]
+    assert qualified_import(image,identity,unwind)==[('msvcrt.dll','_seh_longjmp_unwind')]
 
 
 def verify_owner(facts, side, image, name, cleanup_name, argument_bytes,
@@ -392,4 +444,4 @@ if __name__ == '__main__':
         print('PASS '+options.owner+': normal caller cleanup, allocation-bound failed-new RET0 action and qualified handler')
     else:
         verify(report, images)
-        print('PASS eight C++ owners: symbol RET24, definition RET8, import conversion RET28, converted member RET32, COMDAT report RET0 dumper file RET4 archive members RET8 and short import RET8; distinct cleanup roles and qualified handlers')
+        print('PASS eight C++ owners and OMF SEH owner: distinct normal/action/handler roles, OMF normal RET8/filter RET0 and qualified runtime handlers')

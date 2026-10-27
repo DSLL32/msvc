@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-644 application functions / 243,147 original code bytes are reconstructed
-(58.62% of the 414,810-byte whole `.text` extent, which includes CRT and text
-data). Thirteen shipped CRT/import boundaries add no application credit.
+681 application functions / 252,116 original code bytes are reconstructed
+(60.78% of the 414,810-byte whole `.text` extent, which includes CRT and text
+data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-164 entries whose body extents remain unknown; this is not a complete non-CRT
+178 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -1061,3 +1061,64 @@ comparison is not included in that timing. The single parallel case-end
 regression, unit, original-build and full graph/RET/EH batch passed in 5.48 s:
 41 cached cases, 657 graph vertices, 642 scoped return contracts and eight
 EH-owner checks. These are incremental measurements.
+
+
+`cases/0043-omf-conversion` completes genuine flat32 OMF-to-COFF conversion and
+an ordinary executable link. The shipped Watcom assembler produced the unchanged
+233-byte OMF input: separate code/data segments, public symbols, a data pointer
+and real FIXUPP records. Its source, producer command and thirteen valid record
+checksums are retained in scratch. LINK's embedded converter runs directly; no
+external converter response is replayed. The final image is 4,096 bytes and its
+map is 730 bytes. This qualifies serialization/linking, not execution of the
+input code.
+
+Thirty-seven whole bodies / 8,969 original code bytes recover conversion entry,
+record dispatch and byte/WORD/DWORD/index readers, names, SEGDEF/group/public
+records, actual hash nodes, growable section/symbol/string buffers, FIXUPP parsing,
+second-pass relocation emission, COFF writing and cleanup. The two hash tables
+retain distinct 24-byte named-symbol and 16-byte symbol/displacement nodes.
+One-based logical segment IDs and zero-based output section arrays remain
+separate. The auxiliary-index table at 478a78 is distinct from record length
+478a74; an apparent negative-base overlap was rejected before implementation.
+The shared identifier separately matches the original stack probe to shipped
+`MSVCRT.LIB` `__chkstk`, with zero application credit.
+
+The index getter returns the actual AX WORD consumed or ignored by the recovered
+callers; its upper EAX bits are unspecified volatile carry, not a zero guarantee
+or uninitialized-storage defect. Still-pending wider-looking callers must close
+their actual consumption before use. Section creation instead preserves its
+full physical DWORD result: stored characteristics in the upper half and section
+ordinal in AX, narrowed only at the real consumers. Current input qualifies its
+ordinary small indices, two segments, public names and direct target fixups.
+Other record types, nonzero target-offset interning, line data, malformed input,
+weak/comment alternatives and exceptional recovery remain unvisited or named
+pending entries as applicable.
+
+The genuine Win32 `__try` plus caller-frame `setjmp` emits the period compiler's
+`_setjmp3`/SEH-unwind imports and actual scope table. Full rooted graph checks
+retain the compiler filter/handler; a bounded residual separately proves normal
+RET8 and filter RET0 rather than using their union as public ABI proof. Native
+uses its real host `jmp_buf` in the same source frame and does not claim Windows
+SEH exception behavior. Eight earlier C++ cleanup owners retain their distinct
+normal/action/handler checks.
+
+The original and native create independent real `lnk` temporary names and carry
+them unchanged through open/conversion/delete. Earlier partial comparisons fail
+honestly while those names remain live; final cleanup leaves only the expected
+EXE/map inventory. No pathname is seeded or masked. Durable raw original,
+native and untouched master artifacts match everywhere except the identified
+PE COFF timestamp at [184,188), COFF/MISC debug-directory timestamps at
+[1540,1544)/[1568,1572), and map timestamp/ctime text at [22,30)/[32,56).
+Those fields derive from the actual image timestamp writer; no other output
+bytes, payload, checksums or inventory rules are relaxed. Raw hashes, exact
+field provenance and labelled comparison derivation remain in scratch.
+
+Final fresh original completion took 984.2 ms with 289 first entries. The explicit
+saved-reference native comparison passed in 15.6 ms (8.7 ms setup, 3.1 ms execution,
+3.8 ms checks); the separate GDB raw-copy diagnostic is excluded. The single
+parallel case-end regression/unit/original-build batch passed all 42 cached
+cases. Its first full audit exposed missing ownership of rebuilt inline switch
+tables; declaring the exact six compiler-generated `.text` data spans required
+no source or oracle change. The corrected static gate passed in 4.65 s with
+694 graph vertices, 679 scoped return contracts and nine distinct EH/SEH owner
+checks. Regression/unit results were retained without repeating the campaign.

@@ -5751,5 +5751,177 @@
       },
       "basis": "Actual original caches FindClose401030 in EBX at45c406 and FindNextFileA401034 in EDI at45c415. The identified ordinary stdcall allocation and SDK WINAPI enumeration calls preserve those nonvolatile registers on normal return. Original cached close sites45c43c/45c47f and next site45c472 are distinct from direct first site45c44b. No enumeration/error behavior, provider body or nonlocal return is inferred from ABI."
     }
+  ],
+  "omf_conversion_ordinary_abi": [
+    {
+      "owner": "_convert_omf_file@8",
+      "normal_return_preservation": {
+        "_read_omf_module@4": [
+          "edi"
+        ],
+        "_write_omf_coff": [
+          "ebx"
+        ],
+        "msvcrt.dll!fclose": [
+          "ebx",
+          "edi"
+        ]
+      },
+      "basis": "Original415174 caches fopen IAT401128 in EDI; calls41517a/4151b7. Original4151a3 caches fclose IAT401124 in EBX; calls4151a9/4151e0. Ordinary cdecl fclose preserves EBX/EDI. Whole read_omf_module4148f0..414baa saves EBX/EBP/ESI/EDI and restores all before RET4 at414ba7; whole write_omf_coff414c60..415119 saves/restores ordinary nonvolatiles on its normal C3 exit. Their current counterparts are genuine named traps with the same declared ordinary stdcall1/cdecl0 ABI; no body or exceptional/nonlocal-return behavior is inferred from this finite contract."
+    },
+    {
+      "owner": "_read_omf_module@4",
+      "normal_return_preservation": {
+        "_read_omf_word": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_byte": [
+          "ebp",
+          "edi"
+        ],
+        "_omf_error": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_extdefs@8": [
+          "ebp",
+          "edi"
+        ],
+        "_remember_omf_fixup_position@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_fixupp": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_pubdefs@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_ledata": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_lidata": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_comdefs@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_lpubdefs@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_comment@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_segdef": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_linnum": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_grpdef": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_theadr": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_modend": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_lnames@4": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_lheadr": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_comdat": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_alias": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_bakpat": [
+          "ebp",
+          "edi"
+        ],
+        "_read_omf_linsym": [
+          "ebp",
+          "edi"
+        ],
+        "_finish_omf_record": [
+          "ebp",
+          "edi"
+        ],
+        "msvcrt.dll!getc": [
+          "ebp",
+          "edi"
+        ],
+        "msvcrt.dll!ftell": [
+          "ebp",
+          "edi"
+        ]
+      },
+      "basis": "Actual reader4148f0 caches getc IAT401114 in EDI at4149d9 and ftell IAT401110 in EBP at4149f8. Cached sites are4149e3/414b57(getc),414a60(ftell); loop joins keep both live across the real ordinary record-handler calls. All identified function declarations use ordinary cdecl or stdcall and preserve EBP/EDI on normal return; pending counterparts remain named entry traps. This is finite normal-return calling-convention evidence only, not handler implementation, nonlocal recovery or provider behavior."
+    },
+    {
+      "owner": "_finish_omf_external_symbols",
+      "normal_return_preservation": {
+        "_append_omf_symbol@20": [
+          "ebp"
+        ]
+      },
+      "basis": "Actual original412777 caches identified sprintf IAT401240 in EBP, called4127b2 and retained through loop across ordinary stdcall5 append_omf_symbol412280..4123b8 at4127d5. Its recovered declaration and normal-return body preserve EBP; existing documented cdecl sprintf contract preserves EBP. No nonlocal-return or provider implementation claim."
+    },
+    {
+      "owner": "_replay_omf_fixups",
+      "normal_return_preservation": {
+        "_read_omf_word": [
+          "ebx",
+          "edi"
+        ],
+        "_read_omf_fixupp": [
+          "ebx",
+          "edi"
+        ],
+        "_omf_error": [
+          "ebx",
+          "edi"
+        ],
+        "msvcrt.dll!fseek": [
+          "ebx",
+          "edi"
+        ],
+        "msvcrt.dll!getc": [
+          "ebx",
+          "edi"
+        ]
+      },
+      "basis": "Actual original414830 caches fseek IAT40110c in EDI and414837 caches getc IAT401114 in EBX; calls414849/414855 are retained across the ordinary read_word/read_fixupp/release loop. Identified ordinary cdecl/stdcall signatures preserve these nonvolatiles on normal return. No nonlocal-return or provider implementation claim."
+    },
+    {
+      "owner": "_write_omf_coff",
+      "normal_return_preservation": {
+        "msvcrt.dll!fwrite": [
+          "edi"
+        ]
+      },
+      "basis": "Actual original415090 caches identified fwrite IAT40111c in EDI; actual calls4150a0 and4150ca. Ordinary public cdecl fwrite preserves nonvolatile EDI on normal return. This is finite calling-convention evidence, with no provider-body/nonlocal-return claim."
+    }
   ]
 }

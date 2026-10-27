@@ -50,7 +50,14 @@ WORD __stdcall detect_input_machine(LinkContext *context,InputArgument *argument
 }
 void __stdcall convert_omf_input(InputArgument *argument,WORD *machine)
 {
-    __asm { int 3 }
+    FileRecord *record;
+    close_argument_file(current_input_file,1);
+    convert_editor_omf_argument(argument);
+    current_input_file=open_argument_file(argument->original_name,0x8000,0);
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,machine,2);
+    else buffered_read(record,machine,2);
 }
 void __stdcall convert_input_object(LinkContext *context,InputArgument *argument,WORD *machine)
 {

@@ -23,6 +23,8 @@ DWORD __stdcall byte_swap_dword(DWORD);
 OutputModule *__stdcall read_object_file(InputArgument *,LinkContext *,OutputLibrary *);
 void __stdcall check_input_machine(LinkContext *,InputArgument *);
 WORD __stdcall detect_input_machine(LinkContext *,InputArgument *);
+BYTE __stdcall convert_omf_file(const char *,const char *);
+void __stdcall convert_editor_omf_argument(InputArgument *);
 void __stdcall convert_omf_input(InputArgument *,WORD *);
 void __stdcall convert_input_object(LinkContext *,InputArgument *,WORD *);
 void __stdcall initialize_machine(LinkContext *);

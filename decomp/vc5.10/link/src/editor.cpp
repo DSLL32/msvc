@@ -25,7 +25,17 @@ void *__stdcall allocate_link_memory(unsigned,unsigned);
 void __cdecl close_files(void);
 void __cdecl cleanup_pdb(void);
 void __cdecl editor_usage(void) { __asm { int 3 } }
-void __stdcall convert_editor_omf_argument(InputArgument *) { __asm { int 3 } }
+void __stdcall convert_editor_omf_argument(InputArgument *argument)
+{
+    char *temporary=_tempnam(NULL,"lnk");
+    if(!temporary)link_fatal(NULL,1104,"TEMPFILE");
+    argument->original_name=duplicate_argument(temporary);
+    close_argument_file(open_argument_file(argument->original_name,0x8302,0x180),1);
+    free(temporary);
+    if(!convert_omf_file(argument->name,argument->original_name))
+        link_fatal(argument->name,1123);
+    link_warning(argument->name,4033);
+}
 void __cdecl check_editor_input_files(void)
 {
     InputArgument *argument=ordinary_files.first;
