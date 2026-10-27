@@ -303,3 +303,42 @@ unsigned long WritePharData( unsigned long file_pos )
     }
     return file->file_loc - file_pos;
 }
+
+void WritePharSimple( unsigned long start )
+{
+    simple_header header;
+    unsigned long file_size, header_size, extra, temp;
+
+    if( FmtData.type & 0x1000 ) {
+        QSeek( Root->outfile->handle, start + sizeof(header), Root->outfile->fname );
+        extra = start + sizeof(header) + WritePharRelocs();
+        header_size = (extra + 15) & ~15UL;
+        PadLoad( header_size - extra );
+    } else {
+        QSeek( Root->outfile->handle, start + sizeof(header) + 2, Root->outfile->fname );
+        header_size = sizeof(header) + 2;
+    }
+    file_size = header_size + WritePharData( start + header_size );
+    WriteDBI();
+    header.signature = (FmtData.type & 0x0400) ? 0x504d : 0x514d;
+    header.mod_size = file_size % 512;
+    header.file_size = (file_size + 511) / 512;
+    header.num_relocs = Root->relocs;
+    header.hdr_size = header_size / 16;
+    extra = MemorySize() - file_size + header_size + 0xfff;
+    temp = FmtData.u.phar.mindata + extra;
+    if( temp < FmtData.u.phar.mindata ) temp = 0xffffffffUL;
+    header.min_data = temp >> 12;
+    temp = FmtData.u.phar.maxdata + extra;
+    if( temp < FmtData.u.phar.maxdata ) temp = 0xffffffffUL;
+    header.max_data = temp >> 12;
+    header.ESP = StackAddr.off;
+    header.checksum = 0;
+    header.EIP = StartInfo.off;
+    header.reloc_offset = 0x1e;
+    header.overlay_num = 0;
+    header.always_one = (header_size >> 20) + 1;
+    QSeek( Root->outfile->handle, start, Root->outfile->fname );
+    WriteLoad( &header, sizeof(header) );
+    if( FmtData.type & 0x0400 ) PadLoad( 2 );
+}

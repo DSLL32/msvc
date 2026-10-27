@@ -1,5 +1,5 @@
-WLINK 10.0a has eighteen completed native regression cases. The acceptance ledger
-contains **1,074 application functions / 124,382 unique original code bytes**.
+WLINK 10.0a has nineteen completed native regression cases. The acceptance ledger
+contains **1,076 application functions / 124,782 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -41,6 +41,8 @@ The seventeenth links dynamic DOS overlays with external section files, automati
 sections, explicit area size, indirect-call policy and forced vectors.
 The eighteenth complements it with standard short overlay vectors, fixed library
 placement and an explicit NOVECTOR symbol.
+The nineteenth emits Phar Lap REX with a DOS stub, flat offset relocations,
+data/BSS, stack, min/max memory settings and Watcom debug information.
 
 | Case | Result |
 | --- | --- |
@@ -62,6 +64,7 @@ placement and an explicit NOVECTOR symbol.
 | `0016-cpp-vf` | Exit 0; exact 253-byte stdout, empty stderr, 46,257-byte PE DLL and 60,582-byte map |
 | `0017-dynamic-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 10,395-byte MZ, 48/32-byte overlays and 9,126-byte map |
 | `0018-short-overlay` | Exit 0; exact 254-byte stdout, empty stderr, 8,223-byte MZ and 9,063-byte map |
+| `0019-pharlap-rex` | Exit 0; exact 261-byte stdout, empty stderr, 27,811-byte REX image and 3,070-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -89,7 +92,7 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,078 source-ready identities, their actual graph,
+The complete audit passes for 1,080 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
@@ -334,3 +337,24 @@ The clock-derived replay reused that capture and took **30.001 ms**, split
 **647.404 ms**, reusing genuine prior objects/archive/manager. Producer inputs,
 raw outputs and diagnostics remain under scratch wlink-short-overlay; the case
 contains only source and capture data.
+
+
+The Phar Lap REX case matches 498 first entries and every image byte, including
+the real 30-byte MQ header, relocation list, captured DOS stub and debug records.
+Only six map clock digit fields are excluded. The packed header keeps the old
+page-count/remainder fields, memory limits, entry/stack offsets and relocation
+position. Its actual start/header-size arithmetic is preserved. REX remains
+distinct from the earlier extended and segmented formats; the writer's MP simple
+branch is source-ready but this invocation selects MQ. The rejected first
+baseline reused selector relocations from a segmented object; the successful
+input instead uses the existing genuine flat-model object, and the failed
+input/output remains separately retained.
+
+The final parallel build/regression/unit/audit batch took **4.070 s**. All nineteen
+cases and 1,080 source-ready graph/ABI identities pass. The 38 native regression
+runs took **17.706–58.463 ms**. The genuine final capture command took
+**1,257.190 ms** (owned target **1,245.823 ms**); its native pair took **29.311 ms**.
+The clock-derived replay reused that capture and took **34.469 ms**, split
+**16.152 / 6.200 / 12.118 ms** for setup/execution/checks. The clean baseline took
+**223.787 ms**, reusing genuine objects/archive/stub. Authoring files, failed
+baseline and raw artifacts remain in scratch wlink-pharlap-rex; case data is flat.

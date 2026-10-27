@@ -31,6 +31,15 @@
 #ifndef WLINK_EXEPHAR_H
 #define WLINK_EXEPHAR_H
 #pragma pack(1)
+typedef struct simple_header {
+    unsigned short signature, mod_size, file_size, num_relocs;
+    unsigned short hdr_size, min_data, max_data;
+    unsigned long ESP;
+    unsigned short checksum;
+    unsigned long EIP;
+    unsigned short reloc_offset, overlay_num, always_one;
+} simple_header;
+typedef char old_simple_header_is_30[(sizeof(simple_header) == 30) ? 1 : -1];
 typedef struct extended_header {
     unsigned short     signature;
     unsigned short     format_level;

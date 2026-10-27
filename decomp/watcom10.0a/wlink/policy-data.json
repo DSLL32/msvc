@@ -5386,6 +5386,16 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcRex": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "WritePharSimple": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },

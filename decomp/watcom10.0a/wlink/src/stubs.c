@@ -678,10 +678,10 @@ unsigned char ProcNovDBIReferenced( void ) { TRAP(); return 0; }
 unsigned char ProcQNXExecuteonly( void ) { TRAP(); return 0; }
 
 
-unsigned char ProcRex( void ) { TRAP(); return 0; }
 
 
-void WritePharSimple( unsigned long start ) { TRAP(); }
+
+
 
 
 

@@ -223,3 +223,10 @@ unsigned char ProcFlags( void )
     FmtData.u.phar.params->extender_flags = value;
     return ret;
 }
+
+unsigned char ProcRex( void )
+{
+    Extension = 13;
+    LinkState |= 1;
+    return 1;
+}
