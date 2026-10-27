@@ -6,7 +6,8 @@
 #include "input.h"
 #include "keywords.h"
 #include "global-record.h"
-#pragma intrinsic(memcpy, strlen)
+#include "pragma.h"
+#pragma intrinsic(memcpy, strlen, strcmp)
 #include <recon.h>
 
 /* C1 reads imported _mbctype data at IAT5d094 directly, as scanner.c does;
@@ -131,9 +132,9 @@ comment_finished:
     goto read_character;
 
 dispatch:
-    /* Their full control flow remains below, but conditional-expression state and
-     * recorded #ident payload consumers have not yet been established. */
-    if (directive < PP_ENDIF || directive == PP_IDENT) {
+    /* The later else-state lookup and recorded #ident payload consumers
+     * remain unsupported. Elif enters the genuine conditional skip owner. */
+    if (directive == PP_ELSE || directive == PP_IDENT) {
 #ifdef __linux__
         recon_unsupported("conditional and recorded-ident directive state is not yet modeled");
 #else
@@ -329,9 +330,9 @@ transform_expression:
 push_defined:
     if (!c1_bss.debug_module->Slot28()) compiler_error(73, ".\\p0prepro.c", 595);
     index = push_conditional_state();
-    if (index != 0) {
+    if (index > 1) {
 #ifdef __linux__
-        recon_unsupported("conditional stack slot outside the encountered first state");
+        recon_unsupported("conditional stack slot outside encountered states0/1");
 #else
         __asm { int 3 }
 #endif
@@ -341,9 +342,9 @@ push_defined:
 push_expression:
     if (!c1_bss.debug_module->Slot28()) compiler_error(73, ".\\p0prepro.c", 679);
     index = push_conditional_state();
-    if (index != 0) {
+    if (index > 1) {
 #ifdef __linux__
-        recon_unsupported("conditional stack slot outside the encountered first state");
+        recon_unsupported("conditional stack slot outside encountered states0/1");
 #else
         __asm { int 3 }
 #endif
@@ -416,14 +417,470 @@ extern "C" void __cdecl finish_directive_line(const char *directive)
     discard_input_character();
 }
 
-extern "C" unsigned __cdecl parse_directive_character(unsigned)
-{ __asm { int 3 } return 0; }
+extern "C" int __cdecl splice_input_line(void);
+extern "C" unsigned __cdecl parse_directive_character(unsigned input)
+{
+    BYTE character = (BYTE)input, next;
+    int consumed;
+    for (;;) {
+        if (character == '/') {
+            consumed = 0;
+            next = *c1_bss.source_cursor++;
+            if (c1_data.scanner.classes[next] == SC_SPECIAL)
+                next = (BYTE)resolve_special_character(next);
+            if ((c1_data.options.language_extensions || c1_data.options.preprocess_only) &&
+                next == '/') {
+                c1_data.lexer_flags |= 0x800;
+                skip_line_comment();
+                c1_data.lexer_flags &= ~0x800U;
+                consumed = 1;
+            } else {
+                /* In the strict-language path a second slash is diagnosed
+                 * before consuming the remainder as a line comment. */
+                if (!c1_data.options.language_extensions && !c1_data.options.preprocess_only &&
+                    next == '/') {
+                    next = *c1_bss.source_cursor++;
+                    if (c1_data.scanner.classes[next] == SC_SPECIAL)
+                        next = (BYTE)resolve_special_character(next);
+                    if (next != '*') {
+                        --c1_bss.source_cursor;
+                        report_language_diagnostic(4, 1);
+                        c1_data.lexer_flags |= 0x800;
+                        skip_line_comment();
+                        c1_data.lexer_flags &= ~0x800U;
+                        consumed = 1;
+                    } else {
+                        report_language_diagnostic(4, 179);
+                        c1_data.lexer_flags |= 0x800;
+                        if (c1_bss.options.preserve_comments && !(c1_data.lexer_flags & 0x8000))
+                            skip_preserved_macro_comment();
+                        else skip_macro_block_comment();
+                        c1_data.lexer_flags &= ~0x800U;
+                        return '/';
+                    }
+                } else {
+                    /* Rereading the peek is intentional: special-character
+                     * resolution may have moved the cursor. */
+                    --c1_bss.source_cursor;
+                    next = *c1_bss.source_cursor++;
+                    if (c1_data.scanner.classes[next] == SC_SPECIAL)
+                        next = (BYTE)resolve_special_character(next);
+                    if (next == '*') {
+                        c1_data.lexer_flags |= 0x800;
+                        if (c1_bss.options.preserve_comments && !(c1_data.lexer_flags & 0x8000))
+                            skip_preserved_macro_comment();
+                        else skip_macro_block_comment();
+                        c1_data.lexer_flags &= ~0x800U;
+                        consumed = 1;
+                    } else --c1_bss.source_cursor;
+                }
+            }
+            if (!consumed) return '/';
+        } else if (character == '\\') {
+            if (!splice_input_line()) return '\\';
+        } else if (!character || character == 0x1a) {
+            process_special_character();
+        } else return character;
 
-extern "C" int __cdecl skip_conditional_group(int)
-{ __asm { int 3 } return 0; }
+        do { character = *c1_bss.source_cursor++; }
+        while (c1_data.scanner.classes[character] == SC_SPACE);
+        if (c1_data.scanner.flags[character] & 0x20) return character;
+    }
+}
 
+extern "C" BYTE __cdecl read_skipped_directive(void);
+extern "C" int __cdecl skip_conditional_group(int mode)
+{
+    unsigned depth = 0;
+    BYTE directive;
+    for (;;) {
+        directive = read_skipped_directive();
+        if (directive == PP_IF || directive == PP_IFDEF || directive == PP_IFNDEF) {
+            ++depth;
+        } else if (directive == PP_ENDIF) {
+            if (depth) --depth;
+            else { finish_directive_line("#endif"); return 4; }
+        } else if (directive == PP_ELIF || directive == PP_ELSE) {
+            if (depth) continue;
+            if (mode == 6) { compiler_fatal(22); continue; }
+            if (directive == PP_ELIF) return 2;
+            if (c1_data.options.language_extensions) discard_input_character();
+            else finish_directive_line("#else");
+            return 3;
+        }
+    }
+}
+extern "C" void __cdecl skip_directive_literal(BYTE);
+extern "C" BYTE __cdecl read_skipped_directive(void)
+{
+    unsigned character;
+    c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+scan:
+    do { character = *c1_bss.source_cursor++; }
+    while (!(c1_data.scanner.flags[character] & 0x80));
+    if (!(c1_data.scanner.flags[character] & 0x20)) {
+        while (c1_data.scanner.classes[character] == SC_SPACE)
+            character = *c1_bss.source_cursor++;
+        if (!(c1_data.scanner.flags[character] & 0x20))
+            character = parse_directive_character(character) & 0xff;
+    }
+    if (c1_data.scanner.classes[character] == SC_NEWLINE) {
+        ++c1_bss.current_context.value;
+        if (c1_bss.options.preprocess_stdout) fputc('\n', c1_bss.preprocessor_output);
+        character = *c1_bss.source_cursor++;
+        while (c1_data.scanner.classes[character] == SC_SPACE)
+            character = *c1_bss.source_cursor++;
+        if (!(c1_data.scanner.flags[character] & 0x20))
+            character = parse_directive_character(character) & 0xff;
+        if (character != '#') { --c1_bss.source_cursor; goto scan; }
+        character = *c1_bss.source_cursor++;
+        while (c1_data.scanner.classes[character] == SC_SPACE)
+            character = *c1_bss.source_cursor++;
+        if (!(c1_data.scanner.flags[character] & 0x20))
+            character = parse_directive_character(character) & 0xff;
+        if (!(c1_data.scanner.flags[character] & 1)) {
+            --c1_bss.source_cursor;
+            goto scan;
+        }
+        scan_identifier(character);
+        c1_data.type_arena_kind = c1_data.expression_arena_kind = 3;
+        return classify_preprocessor_directive(c1_data.current_identifier->name);
+    }
+    if (c1_data.scanner.classes[character] == SC_SQUOTE ||
+        c1_data.scanner.classes[character] == SC_DQUOTE)
+        skip_directive_literal((BYTE)character);
+    else if (c1_data.scanner.classes[character] == SC_LEAD)
+        read_multibyte_character();
+    goto scan;
+}
+extern "C" void __cdecl skip_directive_literal(BYTE)
+{ __asm { int 3 } }
+
+/* The conditional evaluator's arena5 values are distinct from ordinary
+ * 24-byte expression nodes. Only their QWORD payload is consumed here. */
+extern "C" CompilerConditionValue *__cdecl parse_condition_expression(void);
 extern "C" __int64 __cdecl read_condition_value(void)
-{ __asm { int 3 } return 0; }
+{
+    c1_data.condition_parentheses = 0;
+    c1_data.condition_token = 136;
+    CompilerConditionValue *expression = parse_condition_expression();
+    if (c1_data.condition_token == 126) {
+        if (!c1_data.condition_parentheses--) compiler_error(12, 40);
+    } else if (c1_data.condition_token != 45)
+        report_language_diagnostic(1, 67, "#if/#elif");
+    if (c1_data.condition_parentheses > 0) compiler_error(12, 41);
+    __int64 value = expression->value;
+    c1_bss.arenas[5].ClearUsed();
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_logical_or(void);
+extern "C" int __cdecl match_condition_token(unsigned);
+extern "C" CompilerConditionValue *__cdecl parse_condition_expression(void)
+{
+    CompilerConditionValue *condition = parse_condition_logical_or();
+    if (!match_condition_token(86)) return condition;
+    CompilerConditionValue *first = parse_condition_logical_or();
+    CompilerConditionValue *second;
+    if (match_condition_token(54)) second = parse_condition_logical_or();
+    else {
+        /* The malformed-colon path carries an unwritten incoming stack word
+         * in the original. It has no supported semantic result here. */
+#ifdef __linux__
+        recon_unsupported("conditional expression without a colon has no recovered result");
+#else
+        __asm { int 3 }
+#endif
+    }
+    return condition->value ? first : second;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_logical_and(void);
+extern "C" CompilerConditionValue *__cdecl fold_condition_binary(unsigned,
+    CompilerConditionValue *, CompilerConditionValue *);
+extern "C" CompilerConditionValue *__cdecl parse_condition_logical_or(void)
+{
+    unsigned saved_skip = c1_bss.literal.condition.skipped;
+    CompilerConditionValue *value = parse_condition_logical_and();
+    while (match_condition_token(79)) {
+        if (value->value) ++c1_bss.literal.condition.skipped;
+        value = fold_condition_binary(79, value, parse_condition_logical_and());
+    }
+    c1_bss.literal.condition.skipped = saved_skip;
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_or(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_logical_and(void)
+{
+    unsigned saved_skip = c1_bss.literal.condition.skipped;
+    CompilerConditionValue *value = parse_condition_bitwise_or();
+    while (match_condition_token(50)) {
+        if (!value->value) ++c1_bss.literal.condition.skipped;
+        value = fold_condition_binary(50, value, parse_condition_bitwise_or());
+    }
+    c1_bss.literal.condition.skipped = saved_skip;
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_xor(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_or(void)
+{
+    CompilerConditionValue *value = parse_condition_bitwise_xor();
+    while (match_condition_token(77))
+        value = fold_condition_binary(77, parse_condition_bitwise_xor(), value);
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_and(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_xor(void)
+{
+    CompilerConditionValue *value = parse_condition_bitwise_and();
+    while (match_condition_token(91))
+        value = fold_condition_binary(91, parse_condition_bitwise_and(), value);
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_equality(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_bitwise_and(void)
+{
+    CompilerConditionValue *value = parse_condition_equality();
+    while (match_condition_token(49))
+        value = fold_condition_binary(49, parse_condition_equality(), value);
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_relational(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_equality(void)
+{
+    CompilerConditionValue *value = parse_condition_relational();
+    if (match_condition_token(59))
+        return fold_condition_binary(59, parse_condition_relational(), value);
+    if (match_condition_token(76))
+        return fold_condition_binary(76, parse_condition_relational(), value);
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_shift(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_relational(void)
+{
+    CompilerConditionValue *value = parse_condition_shift();
+    if (match_condition_token(68))
+        return fold_condition_binary(68, value, parse_condition_shift());
+    if (match_condition_token(62))
+        return fold_condition_binary(62, value, parse_condition_shift());
+    if (match_condition_token(69))
+        return fold_condition_binary(69, value, parse_condition_shift());
+    if (match_condition_token(63))
+        return fold_condition_binary(63, value, parse_condition_shift());
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_additive(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_shift(void)
+{
+    CompilerConditionValue *value = parse_condition_additive();
+    if (match_condition_token(88))
+        return fold_condition_binary(88, value, parse_condition_additive());
+    if (match_condition_token(67))
+        return fold_condition_binary(67, value, parse_condition_additive());
+    return value;
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_multiplicative(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_additive(void)
+{
+    CompilerConditionValue *value = parse_condition_multiplicative();
+    for (;;) {
+        if (match_condition_token(81))
+            value = fold_condition_binary(81, value, parse_condition_multiplicative());
+        else if (match_condition_token(70))
+            value = fold_condition_binary(70, value, parse_condition_multiplicative());
+        /* The original retries plus at this join before returning. */
+        else if (match_condition_token(81))
+            value = fold_condition_binary(81, value, parse_condition_multiplicative());
+        else return value;
+    }
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_unary(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_multiplicative(void)
+{
+    CompilerConditionValue *value = parse_condition_unary();
+    for (;;) {
+        if (match_condition_token(74))
+            value = fold_condition_binary(74, value, parse_condition_unary());
+        else if (match_condition_token(57))
+            value = fold_condition_binary(57, value, parse_condition_unary());
+        else if (match_condition_token(72))
+            value = fold_condition_binary(72, value, parse_condition_unary());
+        else return value;
+    }
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_primary(void);
+extern "C" CompilerConditionValue *__cdecl parse_condition_unary(void)
+{
+    if (match_condition_token(60))
+        return fold_condition_binary(60, parse_condition_unary(), NULL);
+    if (match_condition_token(89))
+        return fold_condition_binary(89, parse_condition_unary(), NULL);
+    if (match_condition_token(81))
+        return fold_condition_binary(134, parse_condition_unary(), NULL);
+    if (match_condition_token(70))
+        return fold_condition_binary(90, parse_condition_unary(), NULL);
+    return parse_condition_primary();
+}
+extern "C" CompilerConditionValue *__cdecl parse_condition_primary(void)
+{
+    if (match_condition_token(118)) {
+        ++c1_data.condition_parentheses;
+        CompilerConditionValue *value = parse_condition_expression();
+        if (!match_condition_token(126)) compiler_error(12, 41);
+        --c1_data.condition_parentheses;
+        return value;
+    }
+    if (!match_condition_token(101)) compiler_fatal(17);
+    CompilerArena *arena = &c1_bss.arenas[5];
+    CompilerConditionValue *value = (CompilerConditionValue *)arena->cursor;
+    arena->cursor += 16;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    /* Preserve the actual16-byte transfer, including the unmodeled six-byte
+     * gap. Only flags and the QWORD value have semantic consumers here. */
+    memcpy(value, &c1_bss.literal, 16);
+    return value;
+}
+extern "C" const signed char c1_primitive_widths[16];
+#define CONDITION_WIDTH(f) (((f) & 0x340) || !((f) & 0xfff0) ? \
+    (int)c1_primitive_widths[(f) & 15] : (int)((f) & 15))
+extern "C" CompilerConditionValue *__cdecl fold_condition_binary(unsigned operation,
+    CompilerConditionValue *first, CompilerConditionValue *second)
+{
+    unsigned first_unsigned = first->flags & 0x4000;
+    int unsigned_values = first_unsigned || (second && (second->flags & 0x4000));
+    int width = CONDITION_WIDTH(first->flags);
+    if (second && width < CONDITION_WIDTH(second->flags))
+        width = CONDITION_WIDTH(second->flags);
+    if (width == c1_primitive_widths[1]) unsigned_values = 0;
+    unsigned count;
+    switch ((BYTE)operation) {
+    case 79:
+        first->value = first->value || second->value;
+        unsigned_values = 0;
+        break;
+    case 50:
+        first->value = first->value && second->value;
+        unsigned_values = 0;
+        break;
+    case 49: first->value &= second->value; break;
+    case 77: first->value |= second->value; break;
+    case 91: first->value ^= second->value; break;
+    case 59:
+        first->value = first->value == second->value;
+        unsigned_values = 0;
+        break;
+    case 76:
+        first->value = first->value != second->value;
+        unsigned_values = 0;
+        break;
+    case 68:
+        first->value = unsigned_values ? (unsigned __int64)first->value < (unsigned __int64)second->value :
+            first->value < second->value;
+        unsigned_values = 0;
+        break;
+    case 62:
+        first->value = unsigned_values ? (unsigned __int64)first->value > (unsigned __int64)second->value :
+            first->value > second->value;
+        unsigned_values = 0;
+        break;
+    case 69:
+        first->value = unsigned_values ? (unsigned __int64)first->value <= (unsigned __int64)second->value :
+            first->value <= second->value;
+        unsigned_values = 0;
+        break;
+    case 63:
+        first->value = unsigned_values ? (unsigned __int64)first->value >= (unsigned __int64)second->value :
+            first->value >= second->value;
+        unsigned_values = 0;
+        break;
+    case 67:
+        unsigned_values = first_unsigned || (!c1_data.options.language_extensions &&
+            c1_data.options.unsigned_char && (first->flags & 0x2fcf) == 0x41 &&
+            !(first->flags & 0x8000));
+        count = (BYTE)second->value;
+        first->value = count >= 64 ? 0 : (unsigned __int64)first->value << count;
+        break;
+    case 88:
+        unsigned_values = first_unsigned || (!c1_data.options.language_extensions &&
+            c1_data.options.unsigned_char && (first->flags & 0x2fcf) == 0x41 &&
+            !(first->flags & 0x8000));
+        count = (BYTE)second->value;
+        if (unsigned_values)
+            first->value = count >= 64 ? 0 : (unsigned __int64)first->value >> count;
+        else first->value = count >= 64 ? (first->value < 0 ? -1 : 0) : first->value >> count;
+        break;
+    case 81: first->value = (unsigned __int64)first->value + (unsigned __int64)second->value; break;
+    case 70: first->value = (unsigned __int64)first->value - (unsigned __int64)second->value; break;
+    case 74: first->value = (unsigned __int64)first->value * (unsigned __int64)second->value; break;
+    case 57:
+    case 72:
+        if (!second->value) {
+            if (!c1_bss.literal.condition.skipped) compiler_warning(124);
+            break;
+        }
+        if (!unsigned_values && first->value == (-(__int64)0x7fffffffffffffff - 1) &&
+            second->value == -1) {
+            /* This signed-overflow domain has not been qualified. */
+#ifdef __linux__
+            recon_unsupported("conditional signed division overflow is not yet qualified");
+#else
+            __asm { int 3 }
+#endif
+        }
+        if ((BYTE)operation == 57) {
+            if (unsigned_values) first->value = (unsigned __int64)first->value / (unsigned __int64)second->value;
+            else first->value /= second->value;
+        } else {
+            if (unsigned_values) first->value = (unsigned __int64)first->value % (unsigned __int64)second->value;
+            else first->value %= second->value;
+        }
+        break;
+    case 60:
+        first->value = !first->value;
+        unsigned_values = 0;
+        break;
+    case 89: first->value = ~first->value; break;
+    case 90: first->value = -(unsigned __int64)first->value; break;
+    }
+    first->flags = unsigned_values ? 0x4044 : 0x44;
+    return first;
+}
+#undef CONDITION_WIDTH
+extern "C" int __cdecl expand_defined_operator(CompilerNameEntry *);
+extern "C" int __cdecl match_condition_token(unsigned expected)
+{
+    BYTE kind, category;
+    CompilerParserToken *token;
+    if (c1_data.condition_token == 45) return 0;
+    if (c1_data.condition_token != 136) {
+        if (c1_data.condition_token != (BYTE)expected) return 0;
+        c1_data.condition_token = 136;
+        return 1;
+    }
+    token = c1_bss.current_context.ReadToken();
+    kind = token->kind;
+    if (kind != 6 && kind != 45 && kind != 50 && kind != 59 && kind != 101) {
+#ifdef __linux__
+        recon_unsupported("conditional token classification cell is not yet recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    category = c1_expression_classes.indexed[kind];
+    if (category == 6) {
+        c1_bss.literal.condition.value = expand_defined_operator(token->value.name);
+        c1_bss.literal.condition.flags = 0x63;
+    } else if (category == 101) {
+        c1_bss.literal.condition.flags = token->value.typed_constant.type->flags;
+        if (!(c1_bss.literal.condition.flags & 0x40)) compiler_fatal(17);
+        c1_bss.literal.condition.value = token->value.typed_constant.value;
+    } else {
+        if ((BYTE)expected == kind) return 1;
+        c1_data.condition_token = kind;
+        return 0;
+    }
+    if ((BYTE)expected == 101) return 1;
+    c1_data.condition_token = 101;
+    return 0;
+}
 
 extern "C" unsigned __cdecl push_conditional_state(void)
 {
@@ -593,8 +1050,119 @@ extern "C" CompilerParserToken *__cdecl open_include_file(const char *name, unsi
 extern "C" CompilerParserToken * __cdecl read_line_directive(void)
 { __asm { int 3 } return 0; }
 
-extern "C" CompilerParserToken * __cdecl read_pragma_directive(void)
-{ __asm { int 3 } return 0; }
+extern "C" CompilerParserToken *__cdecl read_preprocessed_pragma(void);
+extern "C" int __cdecl classify_pragma_name(const char *);
+extern "C" void __cdecl read_include_alias_pragma(void);
+extern "C" int __cdecl finish_recorded_source_tokens(void);
+extern "C" CompilerParserToken *__cdecl expect_directive_token(BYTE);
+extern "C" CompilerParserToken *__cdecl read_pragma_directive(void)
+{
+    CompilerParserToken *token;
+    CompilerRecordedLexer *recording;
+    CompilerContextFrame *frame;
+    CompilerArena *arena;
+    CompilerPool *pool;
+    BYTE *memory;
+    int kind;
+    if (c1_bss.options.preprocess_stdout) return read_preprocessed_pragma();
+    if (c1_bss.function_output_mode) {
+        discard_input_character();
+        return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    }
+    token = c1_bss.current_context.ReadToken();
+    if (token->kind == 45) return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    c1_bss.current_context.saved_frame->stream->Unread((unsigned)token);
+    token = expect_directive_token(6);
+    if (!token) goto discard_line;
+    kind = classify_pragma_name(token->value.name->name);
+    if (kind == PRAGMA_INCLUDE_ALIAS) {
+        read_include_alias_pragma();
+discard_line:
+        finish_recorded_source_tokens();
+        return (CompilerParserToken *)c1_data.predefined_tokens[1];
+    }
+    recording = (CompilerRecordedLexer *)c1_bss.arenas[1].AllocateBytes(64);
+    if (recording) recording = recording->Initialize(1, 0);
+    c1_bss.context.Push((CompilerLexer *)recording, 1, 0, 0, &c1_bss.current_context);
+    arena = &c1_bss.arenas[1];
+    memory = arena->cursor;
+    arena->cursor += 32;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    token = (CompilerParserToken *)memory;
+    if (token) { token->kind = (BYTE)kind; token->value.operation = (BYTE)kind; }
+    c1_bss.context.saved_frame->stream->Trace((unsigned)token);
+    c1_data.lexer_flags = (c1_data.lexer_flags & ~0x2000U) |
+        (kind == PRAGMA_HDRSTOP ? 0x2000 : 0);
+    do {
+        token = c1_bss.current_context.ReadToken();
+        c1_bss.context.saved_frame->stream->Trace((unsigned)token);
+    } while (token->kind != 45);
+    c1_data.lexer_flags &= ~0x2000U;
+    frame = c1_bss.context.saved_frame;
+    if (frame) {
+        recording = (CompilerRecordedLexer *)frame->stream;
+        c1_bss.context.saved_frame = frame->next;
+        c1_bss.context.object = frame->object;
+        c1_bss.context.value = frame->value;
+        if (frame->second) {
+#ifdef __linux__
+            recon_unsupported("pragma recorded-context callback is not yet qualified");
+#else
+            __asm { int 3 }
+#endif
+            ((C1Initializer)frame->second)();
+        }
+    } else recording = NULL;
+    c1_bss.literal.recorded_stream = recording;
+    if (c1_bss.symbol_arena_kind) {
+        arena = &c1_bss.arenas[c1_bss.symbol_arena_kind];
+        memory = arena->cursor;
+        arena->cursor += 32;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    } else {
+        pool = &c1_bss.pools[6];
+        if (pool->remaining < 32) pool->Refill(32);
+        memory = pool->cursor;
+        pool->cursor += 32;
+        pool->remaining -= 32;
+    }
+    token = (CompilerParserToken *)memory;
+    if (token) { token->kind = 0xf2; memcpy(&token->value, &c1_bss.literal, 24); }
+    return token;
+}
+extern "C" CompilerParserToken *__cdecl read_preprocessed_pragma(void)
+{ __asm { int 3 } return NULL; }
+/* Encountered 'p' bucket, original relation indexes25..34. Other buckets
+ * remain unsupported; no default entries are implied for them. */
+static const struct CompilerPragmaName {
+    const char *suffix;
+    CompilerPragma selector;
+} pragma_p_names[] = {
+    { "ush", PRAGMA_PUSH },
+    { "rocname", PRAGMA_PROCNAME },
+    { "op", PRAGMA_POP },
+    { "ointers_to_members", PRAGMA_POINTERS_TO_MEMBERS },
+    { "lmn", PRAGMA_PLMN },
+    { "lmf", PRAGMA_PLMF },
+    { "arameter", PRAGMA_PARAMETER },
+    { "agesize", PRAGMA_PAGESIZE },
+    { "age", PRAGMA_PAGE },
+    { "ack", PRAGMA_PACK }
+};
+extern "C" int __cdecl classify_pragma_name(const char *name)
+{
+    unsigned i;
+    signed char first = (signed char)*name;
+    if (first < '_') return PRAGMA_UNKNOWN;
+    if (first != 'p') { __asm { int 3 } }
+    ++name;
+    for (i = 0; i != sizeof(pragma_p_names) / sizeof(pragma_p_names[0]); ++i)
+        if (strcmp(pragma_p_names[i].suffix, name) == 0)
+            return pragma_p_names[i].selector;
+    return PRAGMA_UNKNOWN;
+}
+extern "C" void __cdecl read_include_alias_pragma(void)
+{ __asm { int 3 } }
 
 extern "C" void __cdecl clear_macro_definition(void)
 { __asm { int 3 } }

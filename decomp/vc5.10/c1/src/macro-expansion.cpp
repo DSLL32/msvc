@@ -4,7 +4,7 @@
 #include "frontend.h"
 #include "scanner.h"
 #include "keywords.h"
-#pragma intrinsic(memcpy, strlen)
+#pragma intrinsic(memcpy, strlen, strcmp)
 #include <recon.h>
 
 extern "C" {
@@ -38,7 +38,7 @@ int __cdecl skip_block_comment(void);
 void __cdecl skip_preserved_macro_comment(void);
 void __cdecl skip_macro_block_comment(void);
 int __cdecl scan_identifier(unsigned);
-void __cdecl expand_defined_operator(CompilerNameEntry *);
+int __cdecl expand_defined_operator(CompilerNameEntry *);
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 void __cdecl compiler_warning(int, ...);
 }
@@ -71,7 +71,7 @@ expand_identifier:
     if (kind < -3) {
         if (c1_bss.browser_filename) c1_data.backend->Slot24(macro);
         push_macro_expansion(macro);
-        if ((unsigned)c1_bss.lexical_skip_mode > 1)
+        if ((unsigned)c1_bss.lexical_skip_mode > 2)
             MACRO_UNSUPPORTED("macro builtin rescan index outside encountered records");
         frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
         frame->active = 1;
@@ -284,7 +284,7 @@ extern "C" int __cdecl macro_is_active(CompilerMacro *macro)
 {
     int index;
     for (index = c1_bss.lexical_skip_mode; index >= 0; --index) {
-        if ((unsigned)index > 1)
+        if ((unsigned)index > 2)
             MACRO_UNSUPPORTED("macro recursion lookup outside encountered records");
         if (c1_bss.macro_expansions[index].macro == macro &&
             c1_bss.macro_expansions[index].active) return 1;
@@ -296,7 +296,7 @@ extern "C" void __cdecl push_macro_expansion(CompilerMacro *macro)
     CompilerMacroExpansionFrame *frame;
     c1_bss.lexical_skip_mode = (int)((unsigned)c1_bss.lexical_skip_mode + 1);
     if ((int)c1_bss.lexical_skip_mode >= 256) compiler_fatal(9);
-    if ((unsigned)c1_bss.lexical_skip_mode > 1)
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro push outside encountered rescan records");
     ++c1_bss.macro_active_count;
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
@@ -313,7 +313,7 @@ extern "C" void __cdecl begin_macro_replacement(void)
     CompilerMacroExpansionFrame *frame;
     CompilerMacroBody *body;
     int parameters;
-    if ((unsigned)c1_bss.lexical_skip_mode > 1)
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro replacement outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     body = frame->macro->body;
@@ -328,7 +328,7 @@ extern "C" int __cdecl finish_macro_replacement(void)
 {
     CompilerMacroExpansionFrame *frame;
     BYTE *out;
-    if ((unsigned)c1_bss.lexical_skip_mode > 1)
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro finish outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     --c1_bss.macro_active_count;
@@ -668,14 +668,109 @@ finish:
         c1_bss.macro_text_cursor = c1_bss.saved_macro_text_cursor;
     }
 }
-extern "C" void __cdecl append_macro_text(const char *) { __asm { int 3 } }
+extern "C" void __cdecl append_macro_text(const char *text)
+{
+    if (!text) return;
+    while (*text) {
+        if (c1_bss.macro_text_cursor >= c1_bss.work_buffers[1].limit)
+            grow_macro_text(c1_bss.macro_text_cursor,
+                c1_bss.work_buffers[1].data, &c1_bss.work_buffers[1].limit);
+        *c1_bss.macro_text_cursor++ = (BYTE)*text++;
+    }
+}
 extern "C" BYTE *__cdecl quote_macro_filename(BYTE *,const char *) { __asm { int 3 } return NULL; }
 extern "C" const char *__cdecl current_macro_line(void) { __asm { int 3 } return NULL; }
-extern "C" const char *__cdecl macro_argument_text(void) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl append_macro_quoted(unsigned,const char *) { __asm { int 3 } }
+extern "C" const char *__cdecl macro_argument_text(void)
+{
+    CompilerMacroExpansionFrame *frame;
+    BYTE *argument;
+    int index;
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
+        MACRO_UNSUPPORTED("macro stringification outside encountered rescan records");
+    frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
+    index = (signed char)*c1_bss.source_cursor++;
+    argument = frame->arguments;
+    if (index > frame->argument_count) return NULL;
+    if (index <= 0)
+        MACRO_UNSUPPORTED("nonpositive stringification parameter is not supported");
+    while (--index) argument += *(short *)argument;
+    return (const char *)argument + 2;
+}
+extern "C" void __cdecl append_macro_quoted(unsigned quote, const char *text)
+{
+    int in_literal = 0;
+    unsigned literal_quote = quote, character, category;
+    if (!text) return;
+    *c1_bss.macro_text_cursor++ = (BYTE)quote;
+    for (;;) {
+        if (c1_bss.macro_text_cursor >= c1_bss.work_buffers[1].limit)
+            grow_macro_text(c1_bss.macro_text_cursor,
+                c1_bss.work_buffers[1].data, &c1_bss.work_buffers[1].limit);
+        character = (BYTE)*text;
+        category = c1_data.scanner.classes[character];
+        if (category == SC_SPECIAL) {
+            if (!character) break;
+            if (character == '\\' && in_literal)
+                *c1_bss.macro_text_cursor++ = (BYTE)character;
+        } else if (category == SC_SQUOTE || category == SC_DQUOTE) {
+            if (category == SC_DQUOTE && (BYTE)quote == '"')
+                *c1_bss.macro_text_cursor++ = '\\';
+            if ((BYTE)quote != '\'') {
+                if (!in_literal) {
+                    in_literal = 1;
+                    literal_quote = character;
+                } else if (character == literal_quote) in_literal = 0;
+            }
+        } else if (category == SC_LEAD) {
+            *c1_bss.macro_text_cursor++ = (BYTE)*text++;
+        } else if (category == 41) {
+            text += 2;
+            continue;
+        }
+        *c1_bss.macro_text_cursor++ = (BYTE)*text++;
+    }
+    *c1_bss.macro_text_cursor++ = (BYTE)quote;
+}
 extern "C" long __cdecl current_source_timestamp(void) { __asm { int 3 } return 0; }
 
-extern "C" void __cdecl expand_defined_operator(CompilerNameEntry *) { __asm { int 3 } }
+extern "C" int __cdecl expand_defined_operator(CompilerNameEntry *identifier)
+{
+    int result = 0, parentheses = 0;
+    unsigned character, category;
+    if (strcmp(identifier->name, "defined")) return 0;
+    if (!skip_macro_whitespace() && !c1_bss.macro_active_count) return 0;
+    if (*c1_bss.source_cursor == '(') {
+        ++c1_bss.source_cursor;
+        parentheses = 1;
+        if (!skip_macro_whitespace() && !c1_bss.macro_active_count) return 0;
+    }
+    character = *c1_bss.source_cursor;
+    if ((int)c1_bss.macro_active_count > 0) {
+        if (c1_data.scanner.classes[character] == 38 ||
+            (c1_data.scanner.flags[character] & 1)) {
+            ++c1_bss.source_cursor;
+            scan_macro_identifier((BYTE)character);
+            result = c1_data.current_identifier->macro != NULL;
+        }
+    } else if (c1_data.scanner.flags[character] & 1) {
+        ++c1_bss.source_cursor;
+        scan_identifier(character);
+        result = c1_data.current_identifier->macro != NULL;
+    } else compiler_warning(parentheses ? 4 : 3);
+
+    category = c1_data.scanner.classes[*c1_bss.source_cursor];
+    if ((category == SC_SPACE || category == SC_SPECIAL) && !skip_macro_whitespace())
+        return result;
+    if (parentheses) {
+        if (*c1_bss.source_cursor == ')') {
+            ++c1_bss.source_cursor;
+            --parentheses;
+        }
+        if (parentheses > 0 && !c1_bss.macro_active_count)
+            report_language_diagnostic(1, 4);
+    }
+    return result;
+}
 
 /* Zero introduces a replacement-stream control byte. The trailing R resumes
  * the genuine source pointer saved by the matching expansion frame. */
@@ -695,7 +790,7 @@ extern "C" unsigned __cdecl process_special_character(void)
     }
     operation = *c1_bss.source_cursor++;
     if (operation == 'A') {
-        if (c1_bss.lexical_skip_mode > 1)
+        if (c1_bss.lexical_skip_mode > 2)
             MACRO_UNSUPPORTED("macro argument replay outside encountered rescan records");
         frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
         copy_macro_argument_range(frame->replacement,c1_bss.macro_text_cursor);
@@ -705,7 +800,7 @@ extern "C" unsigned __cdecl process_special_character(void)
     }
     if (operation == 'D') return finish_macro_replacement() ? 8 : 4;
     if (operation != 'R') return 0;
-    if (c1_bss.lexical_skip_mode > 1)
+    if (c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro source replay outside encountered rescan records");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     c1_bss.source_cursor = frame->source;
@@ -740,7 +835,7 @@ extern "C" void __cdecl finish_macro_argument(void)
     CompilerMacroExpansionFrame *frame;
     BYTE *argument;
     unsigned index;
-    if ((unsigned)c1_bss.lexical_skip_mode > 1)
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro argument frame outside the encountered owners");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     if (frame->argument_count <= frame->argument_index) {
@@ -760,7 +855,7 @@ extern "C" const char *__cdecl resolve_macro_argument(int *mode)
     CompilerMacroExpansionFrame *frame;
     BYTE *argument;
     int index, continues;
-    if ((unsigned)c1_bss.lexical_skip_mode > 1)
+    if ((unsigned)c1_bss.lexical_skip_mode > 2)
         MACRO_UNSUPPORTED("macro parameter frame outside the encountered owners");
     frame = &c1_bss.macro_expansions[c1_bss.lexical_skip_mode];
     index = (signed char)*c1_bss.source_cursor++;

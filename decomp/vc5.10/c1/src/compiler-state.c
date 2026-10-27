@@ -101,11 +101,12 @@ CompilerInitializedState c1_data = {
     0, /* Unevaluated type nesting. */
     9, /* Actual kind7 symbol-cache selector. */
     9, /* Actual kind10 symbol-cache selector. */
-    { { { 0 }, 52, 0, 52, 52, 40, 52, { 0 }, 52, 52, 0, 52, 52, { 0 } } },
+    { { { 0 }, 52, 52, 52, 52, 40, 52, { 0 }, 52, 52, 0, 52, 52, { 0 } } },
     { { { 0 }, NULL, { 0 }, NULL, NULL } }, /* Only heads5/9/10 have known defaults. */
-    { NULL, NULL, NULL }, /* BSS/CONST NULL are semantic; DATA remains representation. */
+    { NULL, NULL, NULL }, /* BSS/CONST/DATA segment defaults are semantic NULL. */
     NULL, /* void_type_list */
-    NULL /* call_context */
+    NULL, /* call_context */
+    1, 0 /* Conditional-expression lookahead and parenthesis depth. */
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

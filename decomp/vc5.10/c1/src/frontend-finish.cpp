@@ -159,7 +159,7 @@ void RECON_THISCALL CompilerIrSymbol::CopyInitializerFrom(CompilerIrSymbol *sour
     CompilerRecordMembers *link;
     CompilerPool *pool;
     unsigned kind = source->kind;
-    if (kind != 10 && kind != 4 && kind != 3) {
+    if (kind != 10 && kind != 4 && kind != 3 && kind != 2) {
 #ifdef __linux__
         recon_unsupported("initializer symbol copy kind is not yet supported");
 #else
@@ -495,7 +495,19 @@ extern "C" CompilerSymbolBinding *__cdecl next_initializer_member(CompilerIrSymb
     }
     return binding;
 }
-extern "C" void __cdecl flush_initializer_bitfield(CompilerIrSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl write_initializer_padding(CompilerIrSymbol *);
+extern "C" const signed char c1_primitive_widths[16];
+extern "C" void __cdecl flush_initializer_bitfield(CompilerIrSymbol *symbol)
+{
+    unsigned flags, bytes;
+    write_initializer_padding(symbol);
+    if (!(c1_data.lexer_flags & 0x100000)) {
+        flags = symbol->value_type->flags;
+        bytes = ((flags & 0x340) || !(flags & ~15U)) ?
+            (unsigned)(int)c1_primitive_widths[flags & 15] : flags & 15;
+        c1_bss.initializer_bytes += bytes;
+    }
+}
 extern "C" void __cdecl write_initializer_member_padding(CompilerIrSymbol *) { __asm { int 3 } }
 extern "C" {
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *);
@@ -508,7 +520,7 @@ int __cdecl finish_initializer_value(void);
 WORD __cdecl get_initializer_string_length(CompilerIrSymbol *, CompilerParserNode *);
 void __cdecl write_runtime_initializer_value(CompilerIrSymbol *, CompilerParserNode *);
 void __cdecl finish_runtime_bitfield(CompilerParserNode *);
-void __cdecl write_initializer_padding(int);
+void __cdecl write_initializer_padding(CompilerIrSymbol *);
 CompilerType *__cdecl decay_initializer_array(CompilerParserNode *);
 int __cdecl convert_initializer_float_to_long(const BYTE *, int *);
 unsigned __cdecl global_type_size(CompilerType *);
@@ -839,7 +851,41 @@ extern "C" WORD __cdecl get_initializer_string_length(CompilerIrSymbol *symbol, 
 }
 extern "C" void __cdecl write_runtime_initializer_value(CompilerIrSymbol *, CompilerParserNode *) { __asm { int 3 } }
 extern "C" void __cdecl finish_runtime_bitfield(CompilerParserNode *) { __asm { int 3 } }
-extern "C" void __cdecl write_initializer_padding(int) { __asm { int 3 } }
+extern "C" CompilerParserNode *__cdecl make_typed_constant(CompilerType *, const void *, unsigned);
+extern "C" CompilerParserNode *__cdecl take_expression_address(CompilerParserNode *);
+extern "C" CompilerParserNode *__cdecl make_binary_expression(BYTE, CompilerParserNode *, CompilerParserNode *);
+extern "C" void __cdecl write_anonymous_runtime_initializer(void);
+/* RVA5756c is source-only until the runtime-initializer producer is reached. */
+static int runtime_initializer_pending;
+extern "C" void __cdecl write_initializer_padding(CompilerIrSymbol *symbol)
+{
+    CompilerParserNode *value;
+    if (!(c1_data.lexer_flags & 0x100000)) {
+        value = make_typed_constant(c1_data.builtin_types.type_0063,
+            &c1_bss.integer_work_value, c1_data.expression_arena_kind);
+        write_initializer_bytes(symbol, value, &c1_bss.output_buffers[4]);
+        if (!symbol) c1_bss.initializer_bytes += (unsigned)c1_bss.integer_work_value;
+    } else {
+        if (!symbol) { write_anonymous_runtime_initializer(); return; }
+        value = make_typed_constant(c1_data.builtin_types.type_0063,
+            &c1_bss.integer_work_value, c1_data.expression_arena_kind);
+        if (c1_bss.function_cleanup_context) {
+            value = make_binary_expression(77, take_expression_address(
+                make_label_expression((CompilerIrSymbol *)c1_bss.function_cleanup_context, 0)), value);
+            write_runtime_initializer_value(symbol, value);
+            /* The genuine pending writer is reached before this later,
+             * still-unmodeled runtime completion flag. */
+#ifdef __linux__
+            recon_unsupported("runtime initializer completion flag is not yet modeled");
+#else
+            __asm { int 3 }
+#endif
+            runtime_initializer_pending = 1;
+        } else write_runtime_initializer_value(symbol, value);
+    }
+}
+extern "C" void __cdecl write_anonymous_runtime_initializer(void)
+{ __asm { int 3 } }
 extern "C" CompilerType *__cdecl replace_function_parameters(CompilerType *, unsigned, WORD, unsigned *);
 extern "C" CompilerType *__cdecl decay_initializer_array(CompilerParserNode *value)
 {

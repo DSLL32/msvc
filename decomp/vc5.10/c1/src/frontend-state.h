@@ -23,9 +23,21 @@ struct CompilerNameEntry;
 /* BYTE column63c78. Only indirection61 and integer101 are semantic;
  * gap storage is representation and must not be indexed. */
 typedef union CompilerExpressionClasses {
-    struct { BYTE unmodeled_00[6]; BYTE symbol; BYTE unmodeled_07[54]; BYTE indirection; BYTE unmodeled_3e[39]; BYTE integer; BYTE unmodeled_66[10]; BYTE call_argument; } known;
+    struct {
+        BYTE unmodeled_00[6], symbol;
+        BYTE unmodeled_07[38], end_of_line; /* kind45, RVA63ca5 ->1 */
+        BYTE unmodeled_2e[4], logical_and; /* kind50, RVA63caa ->50 */
+        BYTE unmodeled_33[8], equality; /* kind59, RVA63cb3 ->110 */
+        BYTE unmodeled_3c[1], indirection;
+        BYTE unmodeled_3e[3], subscript; /* kind65, RVA63cb9 ->65 */
+        BYTE unmodeled_42[35], integer;
+        BYTE unmodeled_66[10], call_argument;
+    } known;
     BYTE indexed[1];
 } CompilerExpressionClasses;
+#ifdef __cplusplus
+typedef char ExpressionSubscriptClassOffset[offsetof(CompilerExpressionClasses, known.subscript) == 65 ? 1 : -1];
+#endif
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -62,6 +74,7 @@ typedef struct CompilerType {
     struct CompilerType *RECON_THISCALL FunctionResult(void);
     struct CompilerType *RECON_THISCALL DecayFunction(void);
     struct CompilerType *RECON_THISCALL DecayArray(void);
+    struct CompilerType *RECON_THISCALL AddressType(unsigned);
     struct CompilerType *RECON_THISCALL WithShapeFlags(unsigned);
     struct CompilerType *RECON_THISCALL WithFunctionConvention(unsigned);
 #endif
@@ -144,7 +157,8 @@ typedef struct CompilerIrSymbol {
             union {
                 int integer_value;
                 int enum_base_width;
-                struct { BYTE parameter_kind, bit_width, unmodeled_26[2]; };
+                struct { union { BYTE parameter_kind, bit_offset; };
+                         BYTE bit_width, unmodeled_26[2]; };
             };
             union { unsigned alternate_size; struct CompilerIrSymbol *initializer_symbol; };
             union {
@@ -334,6 +348,13 @@ typedef struct CompilerStringValue {
 } CompilerStringValue;
 typedef char CompilerStringValue_size[sizeof(CompilerStringValue) == 8 ? 1 : -1];
 typedef char CompilerStringValue_flags[offsetof(CompilerStringValue, flags) == 6 ? 1 : -1];
+/* Ten-byte x87 extended number followed by the compiler's precision tag.
+ * This explicit representation is independent of host long-double padding. */
+typedef struct InitializerExtendedReal {
+    DWORD significand_low, significand_high;
+    WORD exponent, precision;
+} InitializerExtendedReal;
+typedef char InitializerExtendedReal_size[sizeof(InitializerExtendedReal) == 12 ? 1 : -1];
 typedef union CompilerParserValue {
     void *pointer; /* Pragma text/scalar union, original first DWORD. */
     struct CompilerDeclarator *declarator;
@@ -356,6 +377,7 @@ typedef union CompilerParserValue {
     CompilerParserNode *node;
     struct { struct CompilerDeclarator *declarator; struct CompilerIrSymbol *symbol; } declarator_symbol;
     struct { CompilerType *type; unsigned unmodeled_04; __int64 value; } typed_constant;
+    struct { CompilerType *type; unsigned unmodeled_04; InitializerExtendedReal *value; } real_constant;
     struct { const char *text; unsigned length; } string;
     CompilerStringValue string_attributes; /* Quoted-token WORD fields at+4/+6. */
 #endif

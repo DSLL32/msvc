@@ -50,6 +50,16 @@ CompilerPackingFrame *RECON_THISCALL CompilerPacking::Push(void)
     return frame;
 }
 
+void RECON_THISCALL CompilerPacking::Pop(void)
+{
+    if (this && active) {
+        CompilerPackingFrame *frame = active;
+        active = frame->previous;
+        frame->previous = free_frames;
+        free_frames = frame;
+    }
+}
+
 /* Both paths leave the acquired frame in EAX. A zero alignment inherits
  * the active frame's alignment before the new frame becomes active. */
 extern "C" CompilerPackingFrame *__cdecl push_packing(unsigned alignment,

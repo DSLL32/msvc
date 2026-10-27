@@ -4,6 +4,16 @@
 #include "c1.h"
 #include <recon.h>
 
+/* Six intervening bytes retain storage only; conditional arithmetic consumes
+ * the WORD type flags and QWORD value in the authentic16-byte arena record. */
+typedef struct CompilerConditionValue {
+    WORD flags;
+    BYTE unmodeled_02[6];
+    __int64 value;
+} CompilerConditionValue;
+typedef char CompilerConditionValue_payload[offsetof(CompilerConditionValue, value) == 8 ? 1 : -1];
+typedef char CompilerConditionValue_extent[sizeof(CompilerConditionValue) == 16 ? 1 : -1];
+
 /* One partial 32-byte prototype object. Only these two bytes are defined by
  * this initializer. The intervening layout bytes and allocation tail remain
  * UNMODELED: no initialization, copies or semantic reads are permitted. */
@@ -27,7 +37,7 @@ typedef struct CompilerMacro {
     CompilerMacroBody *body;
 } CompilerMacro;
 /* Rescan stack records have an authentic24-byte stride and256-entry bound.
- * The current projection exposes only the first two encountered records. */
+ * The current projection exposes only the first three encountered records. */
 typedef struct CompilerMacroExpansionFrame {
     BYTE *source, *arguments, *replacement;
     CompilerMacro *macro;

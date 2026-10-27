@@ -3,6 +3,7 @@
 #include "keywords.h"
 #include "frontend.h"
 #include "global-record.h"
+#include "packing.h"
 #include <recon.h>
 
 extern "C" int __cdecl create_input(int, CompilerInput **, CompilerTextInput **);
@@ -1090,6 +1091,10 @@ extern "C" int c1_test_initializer_copy_extent(void)
     source.kind = 3;
     destination.symbol.CopyInitializerFrom(&source, 1);
     if (memcmp(&source, &destination.symbol, 52)) return 0;
+    source.kind = 2;
+    destination.symbol.CopyInitializerFrom(&source, 1);
+    if (memcmp(&source, &destination.symbol, 52) || destination.before != 0xa5a5a5a5U ||
+        destination.after != 0xa5a5a5a5U) return 0;
     DWORD storage[8];
     CompilerRecordMembers original;
     CompilerSymbolBinding first, last;
@@ -1251,4 +1256,202 @@ extern "C" int c1_test_parser_label_link_extent(void)
         storage[0] == 0xa5a5a5a5U && storage[3] == 0xa5a5a5a5U &&
         storage[4] == 0xa5a5a5a5U && storage[5] == 0xa5a5a5a5U &&
         c1_bss.arenas[4].cursor == (BYTE *)(storage + 3);
+}
+
+extern "C" void __cdecl layout_bitfield_member(CompilerIrSymbol *, WORD);
+extern "C" int c1_test_packed_bitfields(void)
+{
+    CompilerPackingFrame packing_frame = { NULL, 1, NULL };
+    CompilerPacking packing = { &packing_frame, NULL };
+    CompilerRecordDefinition *frame = &c1_bss.record_definitions[0];
+    CompilerIrSymbol record, fields[3];
+    CompilerRecordMembers members;
+    struct CompilerNameEntry names[3];
+    CompilerType type;
+    unsigned i;
+    memset(&record, 0, sizeof(record)); memset(&members, 0, sizeof(members));
+    memset(&type, 0, sizeof(type)); memset(names, 0, sizeof(names));
+    memset(fields, 0xa5, sizeof(fields)); memset(frame, 0, sizeof(*frame));
+    type.flags = 0x4063;
+    record.kind4_context = &members;
+    frame->symbol = &record; frame->flags = 1; frame->alignment = 1;
+    frame->unmodeled_16[0] = 0x5a; frame->unmodeled_16[1] = 0x3c;
+    c1_constant_diagnostic_mode = 0;
+    c1_data.options.packing_stack = &packing;
+    for (i = 0; i < 3; ++i) {
+        fields[i].binding.name = &names[i]; fields[i].value_type = &type;
+        fields[i].bit_width = i == 0 ? 3 : i == 1 ? 5 : 8;
+        layout_bitfield_member(&fields[i], 0x4063);
+        if (fields[i].symbol_value || fields[i].unmodeled_26[0] != 0xa5 ||
+            fields[i].unmodeled_26[1] != 0xa5) return 0;
+    }
+    return fields[0].bit_offset == 0 && fields[1].bit_offset == 3 &&
+        fields[2].bit_offset == 8 && frame->initialized_14 == 16 &&
+        frame->byte_size == 0 && frame->bitfield_type_flags == 0x4063 &&
+        members.first == &fields[0].binding && members.last == &fields[2].binding &&
+        fields[0].binding.next == &fields[1].binding &&
+        fields[1].binding.next == &fields[2].binding && !fields[2].binding.next &&
+        frame->unmodeled_16[0] == 0x5a && frame->unmodeled_16[1] == 0x3c;
+}
+
+extern "C" int __cdecl check_extended_range(void);
+extern "C" int __cdecl classify_literal_bits(unsigned, const void *, const void *);
+extern "C" void __cdecl store_extended_real(void);
+extern "C" InitializerExtendedReal *__cdecl allocate_extended_constant(InitializerExtendedReal, unsigned);
+extern "C" int c1_test_extended_range_boundaries(void)
+{
+    struct RangeCase { DWORD low, high; WORD exponent; int outside, negative; } cases[] = {
+        {0,0xa0000000U,0x3fff,0,0}, {0,0xa0000000U,0xbfff,0,1},
+        {0,0,0,0,0}, {0,0,0x8000,0,0},
+        {~1025U,~0U,0x43fe,0,0}, {~1024U,~0U,0x43fe,0,0},
+        {~1023U,~0U,0x43fe,1,0}, {~1023U,~0U,0xc3fe,1,1},
+        {~0U,~0U,0x7ffe,1,0}
+    };
+    InitializerExtendedReal limit = {~1024U,~0U,0x43fe,0xa5a5};
+    unsigned index;
+    for (index = 0; index < sizeof(cases)/sizeof(cases[0]); ++index) {
+        InitializerExtendedReal value, returned;
+        WORD before, after_call, after_pop;
+        int outside;
+        value.significand_low = cases[index].low;
+        value.significand_high = cases[index].high;
+        value.exponent = cases[index].exponent;
+        value.precision = 0xa5a5;
+        memset(&returned, 0x5a, sizeof(returned));
+        memset(&c1_real_range_scratch, 0xa5, sizeof(c1_real_range_scratch));
+        __asm {
+            fstsw before
+            fld tbyte ptr value
+            fld tbyte ptr limit
+            call check_extended_range
+            mov outside, eax
+            fstsw after_call
+            fstp tbyte ptr returned
+            fstsw after_pop
+        }
+        if (outside != cases[index].outside ||
+            returned.significand_low != value.significand_low ||
+            returned.significand_high != value.significand_high ||
+            returned.exponent != value.exponent || returned.precision != 0x5a5a ||
+            c1_real_range_scratch.negative != (unsigned)cases[index].negative ||
+            c1_real_range_scratch.unmodeled_tail[0] != 0xa5 ||
+            c1_real_range_scratch.unmodeled_tail[1] != 0xa5 ||
+            ((after_call >> 11) & 7) != (((before >> 11) - 1) & 7) ||
+            ((after_pop ^ before) & 0x3800) ||
+            !!(c1_real_range_scratch.status & 0x100) != cases[index].outside ||
+            ((c1_real_range_scratch.status ^ after_call) & 0x7f00)) return 0;
+    }
+    {
+        struct { DWORD before; InitializerExtendedReal value; DWORD after; } owned;
+        InitializerExtendedReal value = {0,0xa0000000U,0xbfff,0xa5a5};
+        InitializerExtendedReal *destination = &owned.value, *receiver;
+        WORD before, after;
+        memset(&owned, 0x5a, sizeof(owned));
+        __asm {
+            fstsw before
+            fld tbyte ptr value
+            mov esi, destination
+            call store_extended_real
+            mov receiver, esi
+            fstsw after
+        }
+        if (receiver != destination || owned.before != 0x5a5a5a5aU ||
+            owned.after != 0x5a5a5a5aU || owned.value.precision != 0x5a5a ||
+            owned.value.significand_low != value.significand_low ||
+            owned.value.significand_high != value.significand_high ||
+            owned.value.exponent != value.exponent || ((after ^ before) & 0x3800)) return 0;
+    }
+    {
+        DWORD storage[5];
+        InitializerExtendedReal value = {0x12345678,0xa0000000U,0xbfff,0xa5a5};
+        InitializerExtendedReal saved = value;
+        InitializerExtendedReal *stored;
+        memset(storage, 0x5a, sizeof(storage));
+        c1_bss.arenas[4].cursor = (BYTE *)(storage + 1);
+        c1_bss.arenas[4].committed_limit = (BYTE *)(storage + 4);
+        stored = allocate_extended_constant(value, 4);
+        if (stored != (InitializerExtendedReal *)(storage + 1) ||
+            c1_bss.arenas[4].cursor != (BYTE *)(storage + 4) ||
+            c1_bss.arenas[4].committed_limit != (BYTE *)(storage + 4) ||
+            storage[0] != 0x5a5a5a5aU || storage[4] != 0x5a5a5a5aU ||
+            memcmp(stored, &saved, 12) || memcmp(&value, &saved, 12)) return 0;
+    }
+    {
+        InitializerExtendedReal values[] = {
+            {0,0,0,4}, {0,0,0x8000,8},
+            {0,0x80000000U,0x3fff,8}, {0,0xa0000000U,0x3fff,8},
+            {0,0xa0000000U,0xbfff,8}
+        };
+        unsigned first, second, operation;
+        /* Signed zeros compare equal; all other pairs have ordinary signed
+         * numeric order. Check every relation-mask combination and stack TOP. */
+        int rank[] = {0,0,1,2,-1};
+        for (first = 0; first < 5; ++first) for (second = 0; second < 5; ++second) {
+            InitializerExtendedReal left = values[first], right = values[second];
+            unsigned relation = rank[first] == rank[second] ? 1 : rank[first] > rank[second] ? 2 : 4;
+            for (operation = 0; operation < 8; ++operation) {
+                WORD before, after;
+                __asm { fstsw before }
+                memset(&c1_real_range_scratch, 0xa5, sizeof(c1_real_range_scratch));
+                int result = classify_literal_bits(operation, &left, &right);
+                __asm { fstsw after }
+                if (result != !!(operation & relation) || ((after ^ before) & 0x3800) ||
+                    (c1_real_range_scratch.status & 0x4500) !=
+                        (relation == 1 ? 0x4000 : relation == 4 ? 0x100 : 0) ||
+                    c1_real_range_scratch.negative != 0xa5a5a5a5U ||
+                    c1_real_range_scratch.unmodeled_tail[0] != 0xa5 ||
+                    c1_real_range_scratch.unmodeled_tail[1] != 0xa5 ||
+                    memcmp(&left, &values[first], 12) || memcmp(&right, &values[second], 12)) return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+extern "C" CompilerIrSymbol *__cdecl make_statement_label(CompilerNameEntry *);
+extern "C" CompilerIrSymbol *__cdecl find_statement_label(CompilerNameEntry *);
+extern "C" CompilerParserNode *__cdecl make_symbol_node(BYTE, CompilerIrSymbol *, CompilerType *);
+extern "C" int c1_test_statement_label_storage(void)
+{
+    DWORD storage[15];
+    BYTE expected[sizeof(storage)];
+    CompilerNameEntry name, other;
+    CompilerType integer_type;
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)(storage + 1);
+    memset(storage, 0xa5, sizeof(storage));
+    memcpy(expected, storage, sizeof(storage));
+    memset(&integer_type, 0, sizeof(integer_type)); integer_type.flags = 0x63;
+    c1_data.builtin_types.type_0063 = &integer_type;
+    c1_data.record_sizes.known.global_symbol_bytes = 52;
+    c1_bss.arenas[2].cursor = (BYTE *)symbol;
+    c1_bss.arenas[2].committed_limit = (BYTE *)(storage + 14);
+    if (make_statement_label(&name) != symbol) return 0;
+    if (symbol->kind != 9 || symbol->binding.name != &name || symbol->binding.next ||
+        symbol->value_type != &integer_type || symbol->symbol_value ||
+        c1_bss.arenas[2].cursor != (BYTE *)(storage + 14)) return 0;
+    ((CompilerIrSymbol *)(expected + 4))->kind = 9;
+    ((CompilerIrSymbol *)(expected + 4))->binding.name = &name;
+    ((CompilerIrSymbol *)(expected + 4))->binding.next = NULL;
+    ((CompilerIrSymbol *)(expected + 4))->value_type = &integer_type;
+    ((CompilerIrSymbol *)(expected + 4))->symbol_value = 0;
+    if (memcmp(storage, expected, sizeof(storage))) return 0;
+    {
+        DWORD node_storage[8], node_expected[8];
+        CompilerParserNode *node = (CompilerParserNode *)(node_storage + 1);
+        CompilerParserNode *expected_node = (CompilerParserNode *)(node_expected + 1);
+        memset(node_storage, 0x5a, sizeof(node_storage));
+        memcpy(node_expected, node_storage, sizeof(node_storage));
+        c1_data.expression_arena_kind = 4;
+        c1_bss.arenas[4].cursor = (BYTE *)node;
+        c1_bss.arenas[4].committed_limit = (BYTE *)(node_storage + 7);
+        expected_node->kind = 6; expected_node->flags = 4;
+        expected_node->symbol = symbol; expected_node->type = NULL;
+        if (make_symbol_node(6, symbol, NULL) != node ||
+            c1_bss.arenas[4].cursor != (BYTE *)(node_storage + 7) ||
+            memcmp(node_storage, node_expected, sizeof(node_storage))) return 0;
+    }
+    c1_data.label_symbols = symbol;
+    c1_bss.parser_early_result = 0;
+    return find_statement_label(&name) == symbol && !find_statement_label(&other) &&
+        !memcmp(storage, expected, sizeof(storage));
 }

@@ -3,16 +3,16 @@
 `binary.c` is the function/export registry for the original
 `toolchains/5.10/bin/C1.DLL` (SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`).
-The reconstruction contains 542 application functions / 159,932 code bytes and
-5,885 bytes of owned text data. Application code is 49.62% of the original
+The reconstruction contains 612 application functions / 179,276 code bytes and
+6,876 bytes of owned text data. Application code is 55.63% of the original
 322,288-byte text extent; that denominator includes runtime code and text data,
 and is not a classified application-only denominator. Ten original CRT/support
 owners remain separate, without application credit. MSVCRT.LIB is
 an import archive here; shared identification reports zero static CRT matches.
 
-All three cached cases complete natively: DLL attach/export lookup/detach, the
-minimal C compilation `int main () { return 0; }`, and the language workload
-below. The minimal invocation forwards the actual
+All four cached cases complete natively: DLL attach/export lookup/detach, the
+minimal C compilation `int main () { return 0; }`, the language workload
+below, and the declarations workload described next. The minimal invocation forwards the actual
 11 arguments to the three-argument stdcall `_InvokeCompilerPass@12` export with
 BOOL 1. It exits zero and matches all four original outputs: `minimalex` (1,187
 bytes), `minimalgl` (51), `minimalin` (3), and `minimalsy` (13), including normal
@@ -29,6 +29,25 @@ all four artifacts: `languageex` (1,728 bytes), `languagegl` (172), `languagein`
 explicit final reference capture took 1,068.472 ms. The case adds 23 focused
 tests. Retained raw artifacts and intermediate failures are in scratch
 `language-case-20261026/`, outside the checkout.
+
+The declarations case combines conditional branches, token pasting and
+stringification, packed bitfields, record/union initialization, adjacent escaped
+narrow strings, wide strings, double constants, do/goto control flow, casts,
+member access and `sizeof`. Both executions exit zero with 595 first entries
+and exact artifacts: `declarationsex` (1,685 bytes), `declarationsgl` (215),
+`declarationsin` (111), and `declarationssy` (205). The final reference capture
+took 1,336.283 ms; the matching native run took 21.185 ms. Six focused tests
+cover conditional arithmetic, promotions, dirty bitfield/label storage,
+adjacent literal ownership and finite extended-precision edges/status. Raw
+artifacts and preserved intermediate failures remain in scratch
+`declarations-case-20261026/`.
+
+The original extended-precision boundary uses ten-byte x87 values that VC5
+cannot express with its ordinary `long double`. Tiny documented assembly
+primitives transfer the actual implicit x87/register inputs and status; finite
+sign/range decisions remain readable C. Noncanonical and nonfinite domains
+remain unsupported. Compiler support routines retain original-only CRT
+classification, with no native bodies or application credit.
 
 `make -j4 check unit` builds one native i386 `.build/libbinary.so`, discovers all
 numbered cases and checks their cached original invocations. The minimal case
@@ -62,7 +81,7 @@ has one outlined ECX receiver method and eight real callback prefixes, preservin
 the original tail/fallthrough graph. Its explicit `Destroy` spelling keeps the
 containing BSS a trivial C storage owner.
 
-The completed case exercises a bounded domain. Larger readable parser, lexer,
+The completed cases exercise bounded domains. Larger readable parser, lexer,
 IR writer, PCH, debug and recorded-input bodies include unexercised branches;
 completion does not establish every option, grammar reduction or operand shape.
 Unrecovered initialized fields, partial token/symbol payloads and object gaps

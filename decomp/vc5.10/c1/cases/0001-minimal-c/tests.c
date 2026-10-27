@@ -375,6 +375,7 @@ static int type_arena_snapshot(void)
         c1_bss.source_cursor || c1_data.type_arena_kind != 3 ||
         c1_data.declaration_symbol_cache_index != 9 ||
         c1_data.record_sizes.known.declaration_symbol_bytes != 52 ||
+        c1_data.record_sizes.known.bitfield_symbol_bytes != 52 ||
         c1_data.record_sizes.known.intrinsic_symbol_bytes != 52 ||
         c1_data.record_sizes.known.global_symbol_bytes != 52 ||
         c1_data.record_sizes.known.abstract_symbol_bytes != 52 ||
@@ -403,6 +404,7 @@ static int type_arena_snapshot(void)
     c1_data.type_arena_kind = 2;
     c1_data.declaration_symbol_cache_index = 13;
     c1_data.record_sizes.known.declaration_symbol_bytes = 47;
+    c1_data.record_sizes.known.bitfield_symbol_bytes = 49;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 37;
     c1_data.record_sizes.known.global_symbol_bytes = 41;
     c1_data.record_sizes.known.abstract_symbol_bytes = 43;
@@ -454,6 +456,7 @@ static int type_arena_snapshot(void)
         saved->emit_global_locations != 37 || saved->type_arena_kind != 2 ||
         saved->declaration_symbol_cache_index != 13 ||
         saved->record_sizes.known.declaration_symbol_bytes != 47 ||
+        saved->record_sizes.known.bitfield_symbol_bytes != 49 ||
         saved->record_sizes.known.intrinsic_symbol_bytes != 37 ||
         saved->record_sizes.known.global_symbol_bytes != 41 ||
         saved->record_sizes.known.abstract_symbol_bytes != 43 ||
@@ -469,7 +472,7 @@ static int type_arena_snapshot(void)
     /* Owned representation sentinels are not original table defaults.
      * Restore must not transfer any of these17 unknown slots. */
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 3 || i == 4 || i == 5 || i == 6 ||
+        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
             i == 9 || i == 10 || i == 12 || i == 13) continue;
         saved->record_sizes.indexed[i] = 0xa5000000 + i;
         c1_data.record_sizes.indexed[i] = 0x5a000000 + i;
@@ -559,6 +562,7 @@ static int type_arena_snapshot(void)
     saved->first_call = 0;
     c1_data.declaration_symbol_cache_index = 17;
     c1_data.record_sizes.known.declaration_symbol_bytes = 73;
+    c1_data.record_sizes.known.bitfield_symbol_bytes = 79;
     c1_data.record_sizes.known.intrinsic_symbol_bytes = 61;
     c1_data.record_sizes.known.global_symbol_bytes = 67;
     c1_data.record_sizes.known.abstract_symbol_bytes = 71;
@@ -577,7 +581,7 @@ static int type_arena_snapshot(void)
         if (saved->symbol_cache.known.unmodeled_00[i] != 0xa5 ||
             c1_data.symbol_cache.known.unmodeled_00[i] != 0x5a) return 0;
     for (i = 0; i < 26; ++i) {
-        if (i == 1 || i == 3 || i == 4 || i == 5 || i == 6 ||
+        if (i == 1 || i == 2 || i == 3 || i == 4 || i == 5 || i == 6 ||
             i == 9 || i == 10 || i == 12 || i == 13) continue;
         if (c1_data.record_sizes.indexed[i] != 0x5a000000 + i ||
             saved->record_sizes.indexed[i] != 0xa5000000 + i) return 0;
@@ -625,6 +629,7 @@ static int type_arena_snapshot(void)
         c1_data.type_arena_kind == 2 && c1_bss.saved_data == saved &&
         c1_data.declaration_symbol_cache_index == 13 && saved->declaration_symbol_cache_index == 13 &&
         c1_data.record_sizes.known.declaration_symbol_bytes == 47 &&
+        c1_data.record_sizes.known.bitfield_symbol_bytes == 49 && saved->record_sizes.known.bitfield_symbol_bytes == 49 &&
         saved->record_sizes.known.declaration_symbol_bytes == 47 &&
         c1_data.record_sizes.known.intrinsic_symbol_bytes == 37 &&
         c1_data.record_sizes.known.global_symbol_bytes == 41 &&

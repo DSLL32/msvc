@@ -14,6 +14,7 @@ typedef struct CompilerPacking {
     CompilerPackingFrame *free_frames;
 #ifdef __cplusplus
     CompilerPackingFrame *RECON_THISCALL Push(void);
+    void RECON_THISCALL Pop(void);
 #endif
 } CompilerPacking;
 #ifdef __cplusplus

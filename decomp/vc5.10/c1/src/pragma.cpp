@@ -1,12 +1,13 @@
 /* C1 pragma directives and compiler-generated source-control records.
  * The wider directive state is source-only. Its entry guard traps in both
- * builds before unmodeled values are consumed; only marker45 is supported. */
+ * builds before unmodeled values are consumed. */
 #include <locale.h>
 #include <string.h>
 #include "frontend.h"
 #include "keywords.h"
 #include "global-record.h"
 #include "pragma.h"
+#include "packing.h"
 #pragma intrinsic(strcmp)
 #include <recon.h>
 
@@ -93,7 +94,8 @@ extern "C" CompilerParserToken *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(c1_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != 45 && (code != 44 || !token->value.context.object)) {
+    if (code != PRAGMA_PACK && code != 45 &&
+        (code != 44 || !token->value.context.object)) {
 #ifdef __linux__
         recon_unsupported("pragma dispatcher: unsupported source marker or missing owner");
 #else
@@ -483,4 +485,93 @@ extern "C" void __cdecl read_pragma_identifier_list(void (__cdecl *)(CompilerNam
 extern "C" void __cdecl mark_function_nonintrinsic(CompilerNameEntry *) { __asm { int 3 } }
 extern "C" void __cdecl mark_function_intrinsic(CompilerNameEntry *) { __asm { int 3 } }
 extern "C" void __cdecl assign_allocated_text_segment(CompilerNameEntry *) { __asm { int 3 } }
-extern "C" void __cdecl process_pack_pragma(void) { __asm { int 3 } }
+extern "C" unsigned __cdecl normalize_packing_alignment(unsigned);
+extern "C" void __cdecl pop_packing(unsigned, const void *);
+extern "C" void __cdecl process_pack_pragma(void)
+{
+    CompilerParserToken *token;
+    const char *name;
+    const void *tag = NULL;
+    unsigned alignment = 0;
+    int operation = 0;
+    if (!expect_directive_token(118)) return;
+    token = PRAGMA_CONTEXT.ReadToken();
+    if (token->kind == 6) {
+        name = token->value.name->name;
+        if (strcmp(name, "push") == 0) operation = 1;
+        else if (strcmp(name, "pop") == 0) operation = 2;
+        else { report_language_diagnostic(1, 79, 6); return; }
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 126) goto apply;
+        PRAGMA_UNREAD(token);
+        if (!expect_directive_token(55)) return;
+        token = PRAGMA_CONTEXT.ReadToken();
+        if (token->kind == 6) {
+            tag = token->value.name;
+            token = PRAGMA_CONTEXT.ReadToken();
+            if (token->kind == 126) goto apply;
+            PRAGMA_UNREAD(token);
+            if (!expect_directive_token(55)) return;
+            token = expect_directive_token(101);
+            if (!token) return;
+        }
+    } else if (token->kind == 126) {
+        alignment = c1_data.options.packing_alignment;
+        if (alignment == (unsigned)-1) alignment = 8;
+        goto apply;
+    } else if (token->kind != 101) {
+        PRAGMA_UNREAD(token);
+        expect_directive_token(126);
+        return;
+    }
+    if (token->kind == 101) {
+        alignment = normalize_packing_alignment((unsigned)token->value.typed_constant.value);
+        if (!expect_directive_token(126)) return;
+    }
+apply:
+    if (operation == 1) push_packing(alignment, tag);
+    else if (operation == 2) pop_packing(alignment, tag);
+    else {
+        CompilerPackingFrame *frame = c1_data.options.packing_stack->active;
+        frame->alignment = normalize_packing_alignment(alignment);
+    }
+}
+extern "C" unsigned __cdecl normalize_packing_alignment(unsigned alignment)
+{
+    if (alignment == 1 || alignment == 2 || alignment == 4 ||
+        alignment == 8 || alignment == 16) return alignment;
+    report_language_diagnostic(1, 86);
+    return c1_data.options.packing_stack->active->alignment;
+}
+extern "C" void __cdecl pop_packing(unsigned alignment, const void *tag)
+{
+    CompilerPacking *stack = c1_data.options.packing_stack;
+    CompilerPackingFrame *frame = stack->active;
+    if (!frame->previous || !frame->previous->previous) {
+        report_language_diagnostic(3, 161);
+        if (!alignment) {
+            alignment = c1_data.options.packing_alignment;
+            if (alignment == (unsigned)-1) alignment = 8;
+        }
+        goto apply;
+    }
+    stack->Pop();
+    while (frame->tag != tag) {
+        if (!tag) {
+            report_language_diagnostic(3, 159, frame->tag);
+            break;
+        }
+        if (!frame->previous) {
+            report_language_diagnostic(3, 160, tag);
+            if (!alignment) {
+                alignment = c1_data.options.packing_alignment;
+                if (alignment == (unsigned)-1) alignment = 8;
+            }
+            break;
+        }
+        frame = stack->active;
+        stack->Pop();
+    }
+apply:
+    if (alignment) frame->alignment = alignment;
+}

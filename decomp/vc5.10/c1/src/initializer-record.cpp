@@ -1,16 +1,8 @@
 #include <string.h>
+#include <float.h>
 #include "frontend.h"
 #pragma intrinsic(memcpy)
 #include <recon.h>
-
-/* Original compiler real constants use an explicit extended representation,
- * independent of either compiler's spelling of long double. Its two tail
- * bytes remain opaque and are never given an invented value. */
-struct InitializerExtendedReal {
-    DWORD significand_low, significand_high;
-    WORD exponent, unmodeled_tail;
-};
-typedef char InitializerExtendedReal_size[sizeof(InitializerExtendedReal) == 12 ? 1 : -1];
 
 extern "C" {
 void __cdecl write_initializer_symbol(CompilerIrSymbol *, CompilerParserNode *, CompilerOutputBuffer *);
@@ -26,9 +18,18 @@ unsigned __cdecl global_array_element_size(CompilerIrSymbol *);
 unsigned __cdecl get_initializer_storage_size(int);
 void __cdecl write_initializer_integer(const unsigned __int64 *, unsigned, CompilerOutputBuffer *);
 const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *, unsigned, int);
-int __cdecl parse_initializer_real(const char *, InitializerExtendedReal *);
+int __stdcall parse_initializer_real(const char *, InitializerExtendedReal *);
 int __cdecl initializer_real_to_double(const InitializerExtendedReal *, double *);
 int __cdecl initializer_real_to_float(const InitializerExtendedReal *, float *);
+int __cdecl initializer_double_to_real(const double *, InitializerExtendedReal *);
+int __cdecl initializer_float_to_real(const float *, InitializerExtendedReal *);
+/* Implicit x87 formals: ST(0)=positive limit, ST(1)=value. The helper
+ * consumes the limit, retains the value and returns the range predicate. */
+int __cdecl check_extended_range(void);
+/* Implicit ESI destination and ST(0) number; consumes one x87 stack value. */
+void __cdecl store_extended_real(void);
+/* Private MSVCRT entry: writes the ten-byte number, not the precision tag. */
+int __cdecl _atoldbl(InitializerExtendedReal *, const char *);
 int __cdecl convert_initializer_float_to_long(const BYTE *, int *);
 int __cdecl initializer_real_to_integer(const InitializerExtendedReal *, unsigned __int64 *);
 void __cdecl compiler_warning(int, ...);
@@ -217,7 +218,7 @@ extern "C" void __cdecl write_initializer_bytes(CompilerIrSymbol *symbol,
                     __asm { int 3 }
 #endif
                     if (INIT_RESERVE(11)) { memcpy(output->cursor, &real, 10); output->cursor += 10; }
-                    if (INIT_RESERVE(3)) { *(WORD *)output->cursor = real.unmodeled_tail; output->cursor += 2; }
+                    if (INIT_RESERVE(3)) { *(WORD *)output->cursor = real.precision; output->cursor += 2; }
                 }
             } else {
                 if (!integer_value) {
@@ -343,8 +344,152 @@ extern "C" void __cdecl write_initializer_integer(const unsigned __int64 *value,
     }
 }
 extern "C" const char *__cdecl format_initializer_integer(const unsigned __int64 *, char *, unsigned, int) { __asm { int 3 } return NULL; }
-extern "C" int __cdecl parse_initializer_real(const char *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
-extern "C" int __cdecl initializer_real_to_double(const InitializerExtendedReal *, double *) { __asm { int 3 } return 0; }
+extern "C" int __stdcall parse_initializer_real(const char *text, InitializerExtendedReal *output)
+{
+    InitializerExtendedReal parsed;
+    const char *last;
+    double real64;
+    float real32;
+    _atoldbl(&parsed, text);
+    output->significand_low = parsed.significand_low;
+    output->significand_high = parsed.significand_high;
+    output->exponent = parsed.exponent;
+    if (!*text) {
+#ifdef __linux__
+        recon_unsupported("empty floating spelling has no supported final-character span");
+#else
+        __asm { int 3 }
+#endif
+    }
+    last = text;
+    while (last[1]) ++last;
+    if (((BYTE)*last & 0xdf) == 'L') {
+        if (initializer_real_to_double(output, &real64)) {
+            output->precision = 8;
+            return 1;
+        }
+        initializer_double_to_real(&real64, output);
+        output->precision = 8;
+    } else if (((BYTE)*last & 0xdf) == 'F') {
+        output->precision = 4;
+        if (initializer_real_to_float(output, &real32)) return 1;
+        initializer_float_to_real(&real32, output);
+    } else {
+        output->precision = 8;
+        if (initializer_real_to_double(output, &real64)) return 1;
+        initializer_double_to_real(&real64, output);
+    }
+    return 0;
+}
+extern "C" int __cdecl initializer_double_to_real(const double *value, InitializerExtendedReal *output)
+{
+    /* Preserve the original load-before-tag-store ordering for overlapping
+     * views. The outlined store's implicit ESI/ST0 ABI cannot be spelled in C. */
+    __asm {
+        mov edi, value
+        fld qword ptr [edi]
+    }
+    output->precision = 8;
+    __asm {
+        mov esi, output
+        call store_extended_real
+    }
+    return 0;
+}
+extern "C" void __cdecl store_extended_real(void)
+{
+    /* The complete operation is this irreducible ten-byte transfer from
+     * ST0 to the incoming ESI destination; there is no C formal or result. */
+    __asm {
+        fstp tbyte ptr [esi]
+        fwait
+    }
+}
+extern "C" int __cdecl initializer_float_to_real(const float *, InitializerExtendedReal *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl initializer_real_to_double(const InitializerExtendedReal *value, double *output)
+{
+    /* VC5's C long double is only64 bits. Inline assembly is required at
+     * this ten-byte boundary and the genuine x87-register helper call.
+     * The limit lies one extended ulp below DBL_MAX plus half a binary64
+     * ulp, so rounding remains finite. Only the ten meaningful bytes are
+     * read; the C structure's trailing alignment padding is not a number. */
+    static const struct {
+        DWORD significand_low, significand_high;
+        WORD exponent;
+    } maximum = { ~1024U, ~0U, 0x3fff + DBL_MAX_EXP - 1 };
+    int outside;
+    __asm {
+        mov esi, value
+        fld tbyte ptr [esi]
+        fld tbyte ptr maximum
+        call check_extended_range
+        mov outside, eax
+    }
+    if (!outside) {
+        __asm {
+            mov edi, output
+            fstp qword ptr [edi]
+            fwait
+        }
+    }
+    return outside;
+}
+/* Shared scratch starts at RVA5c030. These two fields are written before
+ * use here; the final two bytes retain storage only and are not cleared. */
+CompilerRealRangeScratch c1_real_range_scratch;
+
+extern "C" int __cdecl check_extended_range(void)
+{
+    InitializerExtendedReal limit, value;
+    unsigned exponent, limit_exponent;
+    WORD status;
+    int outside;
+    /* The actual ABI supplies limit/value in the x87 stack. These stores
+     * transfer only each ten-byte number, leaving precision words untouched. */
+    __asm {
+        fstp tbyte ptr limit
+        fstp tbyte ptr value
+    }
+    exponent = value.exponent & 0x7fff;
+    limit_exponent = limit.exponent & 0x7fff;
+    /* Canonical finite normals and signed zero are the established domain.
+     * Nonfinite, denormal and noncanonical encodings remain unsupported. */
+    if (exponent == 0x7fff ||
+        (exponent ? !(value.significand_high & 0x80000000U) :
+            (value.significand_low || value.significand_high)) ||
+        (limit.exponent & 0x8000) || !limit_exponent || limit_exponent == 0x7fff ||
+        !(limit.significand_high & 0x80000000U)) {
+#ifdef __linux__
+        recon_unsupported("extended range comparison outside canonical finite operands");
+#else
+        __asm { int 3 }
+#endif
+    }
+    c1_real_range_scratch.negative = (value.exponent & 0x8000) &&
+        (exponent || value.significand_low || value.significand_high);
+    outside = exponent > limit_exponent ||
+        (exponent == limit_exponent &&
+         (value.significand_high > limit.significand_high ||
+          (value.significand_high == limit.significand_high &&
+           value.significand_low > limit.significand_low)));
+    /* Reproduce the comparison's architectural status and leave the original
+     * signed value on ST(0), above any untouched caller stack entries. The
+     * C relation above supplies the EAX result independently of flag encoding. */
+    __asm {
+        fld tbyte ptr value
+        ftst
+    }
+    if (c1_real_range_scratch.negative) { __asm { fchs } }
+    __asm {
+        fld tbyte ptr limit
+        fcomp st(1)
+        fstsw status
+        fwait
+    }
+    c1_real_range_scratch.status = status;
+    if (c1_real_range_scratch.negative) { __asm { fchs } }
+    return outside;
+}
 extern "C" int __cdecl initializer_real_to_float(const InitializerExtendedReal *, float *) { __asm { int 3 } return 0; }
 extern "C" int __cdecl initializer_real_to_integer(const InitializerExtendedReal *, unsigned __int64 *) { __asm { int 3 } return 0; }
 

@@ -448,7 +448,8 @@ extern "C" void __cdecl write_ir_operand(int kind, const CompilerIntegerConstant
     type = node->type;
 #ifdef RECON_NATIVE_TEST
     if ((mode != 1 && mode != 2) ||
-        (!type->shape && !(type->flags & 0x40)) ||
+        (!type->shape && !(type->flags & 0x40) &&
+         !(type->flags == 0x107 && !(type->attributes & ~0x100U))) ||
         (type->shape && (type->shape->flags & 7) != 1))
         recon_unsupported("IR operand type or mode is not yet modeled");
 #endif

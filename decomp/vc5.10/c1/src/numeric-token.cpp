@@ -194,7 +194,7 @@ unsigned char __cdecl read_numeric_character(void)
 unsigned __int64 __cdecl parse_integer_digits(const char *text, int length, int base)
 {
     if (length < 1 || length > 10 || text[length] ||
-        (base != 8 && base != 10) || c1_data.internal_zb_value != 4) {
+        (base != 8 && base != 10 && base != 16) || c1_data.internal_zb_value != 4) {
 #ifdef __linux__
         recon_unsupported("integer spelling is outside the recovered ordinary-width domain");
 #else
@@ -202,7 +202,11 @@ unsigned __int64 __cdecl parse_integer_digits(const char *text, int length, int 
 #endif
     }
     for (int checked = 0; checked < length; ++checked) {
-        if (text[checked] < '0' || text[checked] >= '0' + base) {
+        unsigned character = (BYTE)text[checked];
+        unsigned letter = character & 0xdf;
+        int digit = character >= '0' && character <= '9' ? character - '0' :
+            letter >= 'A' && letter <= 'F' ? letter - ('A' - 10) : -1;
+        if (digit < 0 || digit >= base) {
 #ifdef __linux__
             recon_unsupported("integer digit spelling is outside the recovered radix domain");
 #else
@@ -269,7 +273,13 @@ CompilerType *__cdecl select_based_literal_type(unsigned __int64 *value)
                                             c1_data.builtin_types.type_004c;
     return c1_data.builtin_types.type_4044;
 }
-CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
+CompilerType *__cdecl select_signed_wide_literal_type(unsigned __int64 *value)
+{
+    if (*value <= 0x7fffffff) return c1_data.builtin_types.type_0044;
+    if (c1_data.internal_bm_flags || (*value > 0xffffffff && c1_data.internal_zb_value > 4))
+        return select_extended_integer_type(value);
+    return c1_data.builtin_types.type_4044;
+}
 CompilerType *__cdecl select_unsigned_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
 CompilerType *__cdecl select_unsigned_wide_literal_type(unsigned __int64 *) { __asm { int 3 } return NULL; }
 CompilerType *__cdecl select_sized_literal_type(int) { __asm { int 3 } return NULL; }

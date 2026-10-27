@@ -47,10 +47,24 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         if (original.context) original.flags |= 0x1000000;
         else original.flags &= ~0x1000000;
     } else original.SetContext(NULL);
-    if ((original.flags != 0x20 && original.flags != 7 && !(original.flags == 3 && symbol->kind == 10)) ||
-        original.context || (symbol->kind != 10 && symbol->kind != 3 && symbol->kind != 11 &&
-        !(symbol->kind == 12 && declarator && declarator->resolved_type == c1_data.builtin_types.type_0080)) ||
-        !declarator || (declarator->flags & 1) || !declarator->resolved_type) {
+    if (!(symbol->kind == 13 && !original.flags && !original.context &&
+          declarator && !(declarator->flags & 1) &&
+          (declarator->resolved_type == c1_data.builtin_types.type_0063 ||
+           (declarator->resolved_type && !declarator->resolved_type->shape &&
+            (declarator->resolved_type->flags == 0x402 || declarator->resolved_type->flags == 0x404) &&
+            !(declarator->resolved_type->attributes & ~0x100U) &&
+            declarator->resolved_type->symbol_owner && declarator->resolved_type->symbol_owner->kind == 4 &&
+            (declarator->resolved_type->symbol_owner->flags & 1)))) &&
+        ((original.flags != 0x20 && original.flags != 7 && !(original.flags == 3 && symbol->kind == 10)) ||
+        original.context || (symbol->kind != 10 && symbol->kind != 2 && symbol->kind != 3 && symbol->kind != 11 &&
+        !(symbol->kind == 12 && declarator && declarator->resolved_type &&
+          (declarator->resolved_type == c1_data.builtin_types.type_0080 ||
+           declarator->resolved_type == c1_data.builtin_types.type_4063_first ||
+           (declarator->resolved_type->shape && (declarator->resolved_type->shape->flags & 7) == 1 &&
+            declarator->resolved_type->flags == 0x402 && declarator->resolved_type->attributes == 0x100 &&
+            declarator->resolved_type->symbol_owner && declarator->resolved_type->symbol_owner->kind == 4 &&
+            (declarator->resolved_type->symbol_owner->flags & 1))))) ||
+        !declarator || (declarator->flags & 1) || !declarator->resolved_type)) {
 #ifdef __linux__
         recon_unsupported("symbol declaration context or declarator domain is not yet modeled");
 #else
@@ -75,11 +89,16 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
         storage_class = flags & 7;
         validate_declaration_type(symbol, storage_class == 7);
 #ifdef RECON_NATIVE_TEST
-        if (!(symbol->kind == 10 && original.flags == 3 && type->flags == 0x61 &&
+        if (!(symbol->kind == 13 && !original.flags &&
+              (type == c1_data.builtin_types.type_0063 ||
+               (!type->shape && (type->flags == 0x402 || type->flags == 0x404) &&
+                !(type->attributes & ~0x100U) && type->symbol_owner &&
+                type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)))) &&
+            !(symbol->kind == 10 && original.flags == 3 && (type->flags == 0x61 || type->flags == 0x4062) &&
               type->attributes == 0x100 && type->shape && type->shape->flags == 2 &&
               !type->shape->base && !type->shape->value) &&
             !(symbol->kind == 10 && original.flags == 3 &&
-              type == c1_data.builtin_types.type_0063) &&
+              (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_0107)) &&
             !(symbol->kind == 10 && original.flags == 3 && type->shape &&
               (type->shape->flags & 7) == 2 && type->flags == 0x402 && !(type->attributes & ~0x100U) &&
               type->symbol_owner && type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
@@ -90,12 +109,21 @@ extern "C" void __cdecl declare_symbol(CompilerDeclarator *declarator,
               type->attributes == 0x100 && type->symbol_owner &&
               type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
             symbol->kind != 7 && symbol->kind != 11 &&
-            !(symbol->kind == 12 && type == c1_data.builtin_types.type_0080) && !((symbol->kind == 10 && storage_class == 7 ||
-            symbol->kind == 3 && original.flags == 0x20) &&
+            !(symbol->kind == 12 && (type == c1_data.builtin_types.type_0080 ||
+              type == c1_data.builtin_types.type_4063_first ||
+              (type->shape && (type->shape->flags & 7) == 1 && type->flags == 0x402 &&
+               type->attributes == 0x100 && type->symbol_owner && type->symbol_owner->kind == 4 &&
+               (type->symbol_owner->flags & 1)))) && !((symbol->kind == 10 &&
+            (storage_class == 7 || ((original.flags == 0x20 || original.flags == 3) && !type->shape &&
+             !type->attributes && type->flags == 0x404)) ||
+            (symbol->kind == 2 || symbol->kind == 3) && original.flags == 0x20) &&
             (type == c1_data.builtin_types.type_0063 ||
-             (symbol->kind == 3 && type == c1_data.builtin_types.type_4063_first) ||
-             (symbol->kind == 10 && storage_class == 7 && !type->shape &&
-              type->flags == 0x402 && type->symbol_owner && (type->symbol_owner->flags & 1)))))
+             ((symbol->kind == 2 || symbol->kind == 3) && type == c1_data.builtin_types.type_4063_first) ||
+             (symbol->kind == 3 && !type->shape && !type->attributes && (type->flags == 0x4062 || type->flags == 0x64)) ||
+             (symbol->kind == 3 && !type->attributes && type->flags == 0x4061 &&
+              type->shape && type->shape->flags == 2 && !type->shape->base && type->shape->value) ||
+             (symbol->kind == 10 && (storage_class == 7 || original.flags == 0x20 || original.flags == 3) && !type->shape &&
+              (type->flags == 0x402 || type->flags == 0x404) && type->symbol_owner && (type->symbol_owner->flags & 1)))))
             recon_unsupported("nonfunction declaration after type validation is not yet modeled");
 #endif
         if (!type->shape && storage_class != 7) {
@@ -225,7 +253,7 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
     if ((flags & 7) == 1) flags |= 0x1000;
     if (declarator->flags & 8)
         prepare_function_declarator(symbol, declarator);
-    if ((symbol->kind != 1 && !((symbol->kind == 3 || symbol->kind == 11) && flags == 0x20)) ||
+    if ((symbol->kind != 1 && !((symbol->kind == 2 || symbol->kind == 3 || symbol->kind == 11) && flags == 0x20)) ||
         (flags != 0x20 && flags != 7 && flags != 3) || context) {
 #ifdef __linux__
         recon_unsupported("declaration publication flags or symbol alternative is not yet modeled");
@@ -242,12 +270,13 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
     } else symbol->SetDeclarationContext(NULL);
     declare_symbol(declarator, symbol);
 #ifdef RECON_NATIVE_TEST
-    if (!(symbol->kind == 10 && flags == 3 && symbol->value_type->flags == 0x61 &&
+    if (!(symbol->kind == 10 && flags == 3 && (symbol->value_type->flags == 0x61 || symbol->value_type->flags == 0x4062) &&
           symbol->value_type->attributes == 0x100 && symbol->value_type->shape &&
           symbol->value_type->shape->flags == 2 && !symbol->value_type->shape->base &&
           !symbol->value_type->shape->value) &&
         !(symbol->kind == 10 && flags == 3 &&
-          symbol->value_type == c1_data.builtin_types.type_0063) &&
+          (symbol->value_type == c1_data.builtin_types.type_0063 ||
+           symbol->value_type == c1_data.builtin_types.type_0107)) &&
         !(symbol->kind == 10 && flags == 3 && symbol->value_type->shape &&
           (symbol->value_type->shape->flags & 7) == 2 && symbol->value_type->flags == 0x402 &&
           !(symbol->value_type->attributes & ~0x100U) && symbol->value_type->symbol_owner &&
@@ -260,12 +289,19 @@ extern "C" CompilerIrSymbol *__cdecl declare_declarator(
           symbol->value_type->attributes == 0x100 && symbol->value_type->symbol_owner &&
           symbol->value_type->symbol_owner->kind == 4 &&
           (symbol->value_type->symbol_owner->flags & 1)) &&
-        symbol->kind != 7 && symbol->kind != 11 && !((symbol->kind == 10 && flags == 7 ||
-        symbol->kind == 3 && flags == 0x20) &&
+        symbol->kind != 7 && symbol->kind != 11 && !((symbol->kind == 10 &&
+        (flags == 7 || ((flags == 0x20 || flags == 3) && !symbol->value_type->shape &&
+         !symbol->value_type->attributes && symbol->value_type->flags == 0x404)) ||
+        (symbol->kind == 2 || symbol->kind == 3) && flags == 0x20) &&
         (symbol->value_type == c1_data.builtin_types.type_0063 ||
-         (symbol->kind == 3 && symbol->value_type == c1_data.builtin_types.type_4063_first) ||
-         (symbol->kind == 10 && flags == 7 && !symbol->value_type->shape &&
-          symbol->value_type->flags == 0x402 && symbol->value_type->symbol_owner &&
+         ((symbol->kind == 2 || symbol->kind == 3) && symbol->value_type == c1_data.builtin_types.type_4063_first) ||
+         (symbol->kind == 3 && !symbol->value_type->shape && !symbol->value_type->attributes &&
+          (symbol->value_type->flags == 0x4062 || symbol->value_type->flags == 0x64)) ||
+         (symbol->kind == 3 && !symbol->value_type->attributes && symbol->value_type->flags == 0x4061 &&
+          symbol->value_type->shape && symbol->value_type->shape->flags == 2 &&
+          !symbol->value_type->shape->base && symbol->value_type->shape->value) ||
+         (symbol->kind == 10 && (flags == 7 || flags == 0x20 || flags == 3) && !symbol->value_type->shape &&
+          (symbol->value_type->flags == 0x402 || symbol->value_type->flags == 0x404) && symbol->value_type->symbol_owner &&
           (symbol->value_type->symbol_owner->flags & 1)))))
         recon_unsupported("nonfunction declaration publication is not yet modeled");
 #endif
@@ -580,9 +616,16 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
     CompilerType *type = symbol->value_type;
     CompilerTypeShape *shape = type->shape;
 #ifdef RECON_NATIVE_TEST
-    if (symbol->kind == 12 && !typedef_name && type == c1_data.builtin_types.type_0080) {
+    if (symbol->kind == 13 && !typedef_name &&
+        (type == c1_data.builtin_types.type_0063 ||
+         (!shape && (type->flags == 0x402 || type->flags == 0x404) &&
+          !(type->attributes & ~0x100U) && type->symbol_owner &&
+          type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)))) {
+        /* Reached abstract int and complete record/union type names retain
+         * their established type; no object storage or array rewrite. */
+    } else if (symbol->kind == 12 && !typedef_name && type == c1_data.builtin_types.type_0080) {
         /* An unnamed void parameter retains the already interned scalar type. */
-    } else if (symbol->kind == 11) {
+    } else if (symbol->kind == 11 || symbol->kind == 12) {
         if (typedef_name || !(type == c1_data.builtin_types.type_4063_first ||
             (shape && (shape->flags & 7) == 1 && type->flags == 0x402 &&
              type->attributes == 0x100 && type->symbol_owner && type->symbol_owner->kind == 4 &&
@@ -595,24 +638,33 @@ extern "C" void __cdecl validate_declaration_type(CompilerIrSymbol *symbol, int 
         /* The local complete-record pointer retains the same known type,
          * just as the parameter pointer above; no array/function rewrite. */
     } else if (symbol->kind == 10 && !typedef_name && shape && shape->flags == 2 &&
-        !shape->base && !shape->value && type->flags == 0x61 && type->attributes == 0x100) {
-        /* The reached const-char array has an omitted bound; the real branch
+        !shape->base && !shape->value && (type->flags == 0x61 || type->flags == 0x4062) && type->attributes == 0x100) {
+        /* The reached const-char/ushort arrays have omitted bounds; the real branch
          * below marks that bound for completion by the string initializer. */
     } else if (symbol->kind == 10 && !typedef_name && !shape &&
-        (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_4063_first)) {
-        /* Ordinary signed/unsigned int declarations retain their primitive type. */
+        (type == c1_data.builtin_types.type_0063 || type == c1_data.builtin_types.type_4063_first ||
+         type == c1_data.builtin_types.type_0107)) {
+        /* Reached scalar declarations retain their interned primitive type. */
     } else if (symbol->kind == 10 && !typedef_name && shape &&
         (shape->flags & 7) == 2 && type->flags == 0x402 && !(type->attributes & ~0x100U) &&
         type->symbol_owner && type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) {
         /* Current complete record-array domain. Its qualifier bit is updated
          * by the genuine array branch below. */
-    } else if ((symbol->kind != 10 && !(symbol->kind == 3 && !typedef_name &&
+    } else if (symbol->kind == 10 && !typedef_name && !shape && !type->attributes && type->flags == 0x404 &&
+               type->symbol_owner && type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) {
+        /* An initialized complete union retains its established tag owner. */
+    } else if (symbol->kind == 3 && !typedef_name && !shape && !type->attributes && (type->flags == 0x4062 || type->flags == 0x64)) {
+        /* The reached ushort/long record members retain their primitive types. */
+    } else if (symbol->kind == 3 && !typedef_name && !type->attributes && type->flags == 0x4061 &&
+               shape && shape->flags == 2 && !shape->base && shape->value) {
+        /* A complete unsigned-char member array needs no type rewrite. */
+    } else if ((symbol->kind != 10 && !((symbol->kind == 2 || symbol->kind == 3) && !typedef_name &&
           (type == c1_data.builtin_types.type_0063 ||
-             (symbol->kind == 3 && type == c1_data.builtin_types.type_4063_first)))) ||
+             ((symbol->kind == 2 || symbol->kind == 3) && type == c1_data.builtin_types.type_4063_first)))) ||
         ((!shape || (shape->flags & 7) != 4) &&
-         !((typedef_name || symbol->kind == 3) && (type == c1_data.builtin_types.type_0063 ||
-             (symbol->kind == 3 && type == c1_data.builtin_types.type_4063_first) ||
-             (typedef_name && !shape && type->flags == 0x402 && type->symbol_owner &&
+         !((typedef_name || symbol->kind == 2 || symbol->kind == 3) && (type == c1_data.builtin_types.type_0063 ||
+             ((symbol->kind == 2 || symbol->kind == 3) && type == c1_data.builtin_types.type_4063_first) ||
+             ((typedef_name || symbol->kind == 10) && !shape && (type->flags == 0x402 || type->flags == 0x404) && type->symbol_owner &&
               (type->symbol_owner->flags & 1))))))
         recon_unsupported("nonfunction declaration type domain is not yet modeled");
 #endif
@@ -993,6 +1045,10 @@ extern "C" void __cdecl finalize_declared_symbol(CompilerIrSymbol *symbol)
         !(storage == 4 && symbol->kind == 10 && !symbol->function_flags &&
           (symbol->value_type == c1_data.builtin_types.type_0063 ||
            symbol->value_type == c1_data.builtin_types.type_4063_first ||
+           (!symbol->value_type->shape && !symbol->value_type->attributes &&
+            (symbol->value_type->flags == 0x402 || symbol->value_type->flags == 0x404) &&
+            symbol->value_type->symbol_owner && symbol->value_type->symbol_owner->kind == 4 &&
+            (symbol->value_type->symbol_owner->flags & 1)) ||
            (symbol->value_type->shape && (symbol->value_type->shape->flags & 7) == 1 &&
             symbol->value_type->flags == 0x402 && symbol->value_type->attributes == 0x100 &&
             symbol->value_type->symbol_owner && symbol->value_type->symbol_owner->kind == 4 &&
@@ -1017,13 +1073,6 @@ extern "C" void __cdecl finalize_declared_symbol(CompilerIrSymbol *symbol)
                 }
             } else if (symbol->function_flags & 2) symbol->SetDeclarationContext(NULL);
         } else {
-            if (symbol->declaration_flags & 4) {
-#ifdef __linux__
-                recon_unsupported("initialized DATA segment default is not yet modeled");
-#else
-                __asm { int 3 }
-#endif
-            }
             assign_symbol_segment(symbol, (symbol->declaration_flags & 4) ?
                 declaration_reference_defaults.definition : declaration_reference_defaults.fallback);
         }

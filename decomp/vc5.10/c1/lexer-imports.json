@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "Lexer::Read cached EDI import, normal-return ABI only; no provider-body or runtime coverage claim.",
+  "scope": "Lexer::Read and skipped-directive scanner cached EDI imports, normal-return ABI only; no provider-body or runtime coverage claim.",
   "target": {
     "path": "toolchains/5.10/bin/C1.DLL",
     "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
@@ -45,7 +45,11 @@
     "CompilerContextBuffer::Initialize",
     "CompilerContextState::Push",
     "CompilerPlainInput::Mark",
-    "CompilerRecordedInput::Mark"
+    "CompilerRecordedInput::Mark",
+    "_parse_directive_character",
+    "_read_multibyte_character",
+    "_skip_directive_literal",
+    "_classify_preprocessor_directive"
   ],
   "imports": [
     {
@@ -104,5 +108,21 @@
       }
     ],
     "basis": "The identified ordinary Microsoft i386 cdecl/thiscall declarations preserve ESI on normal return. Only calls followed by a possible cached fputc use need this premise; no target/value or runtime availability is inferred."
+  },
+  "skipped_directive_scanner": {
+    "owner": "_read_skipped_directive",
+    "cached_import": {
+      "dll": "msvcrt.dll",
+      "name": "fputc"
+    },
+    "original_load_rva": 37932,
+    "original_call_rva": 177833,
+    "callee_declarations": {
+      "_parse_directive_character": "unsigned __cdecl parse_directive_character(unsigned);",
+      "_read_multibyte_character": "unsigned char __cdecl read_multibyte_character(void);",
+      "_skip_directive_literal": "void __cdecl skip_directive_literal(unsigned char);",
+      "_classify_preprocessor_directive": "unsigned char __cdecl classify_preprocessor_directive(const char *);"
+    },
+    "abi": "Microsoft i386 cdecl normal-return EDI preservation; no private convention, body or nonlocal-return claim."
   }
 }

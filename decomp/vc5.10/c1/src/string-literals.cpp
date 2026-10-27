@@ -4,17 +4,28 @@
 #include <recon.h>
 #pragma intrinsic(memcpy)
 
+typedef char StringNode_length_offset[
+    offsetof(CompilerParserNode, string_length) - offsetof(CompilerParserNode, text) ==
+    offsetof(CompilerStringValue, length) ? 1 : -1];
+typedef char StringNode_flags_offset[
+    offsetof(CompilerParserNode, string_flags) - offsetof(CompilerParserNode, text) ==
+    offsetof(CompilerStringValue, flags) ? 1 : -1];
+
 extern "C" {
 BYTE *__cdecl ensure_quoted_cursor(BYTE *);
 BYTE *__cdecl convert_quoted_chunk(BYTE *, int, unsigned);
 void __cdecl copy_numeric_spelling(CompilerValue *, const char *, unsigned, unsigned);
 void __cdecl normalize_quoted_literal(CompilerStringValue *);
 unsigned __cdecl process_special_character(void);
+unsigned __cdecl process_trigraph(void);
 unsigned __cdecl resolve_special_character(unsigned);
+int __cdecl splice_input_line(void);
+int __cdecl numeric_digit_value(unsigned);
 unsigned __cdecl read_escaped_character(unsigned, int);
 unsigned char __cdecl read_multibyte_character(void);
 void __cdecl compiler_warning(int, ...);
 void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
+extern const signed char c1_primitive_widths[16];
 }
 
 /* RVA1fa2b. The incoming length is consumed as a WORD; ordinary multi-byte
@@ -177,4 +188,113 @@ extern "C" BYTE *__cdecl convert_quoted_chunk(BYTE *chunk, int wide, unsigned co
     return chunk + 2;
 }
 extern "C" void __cdecl normalize_quoted_literal(CompilerStringValue *) { __asm { int 3 } }
-extern "C" unsigned __cdecl read_escaped_character(unsigned, int) { __asm { int 3 } return 0; }
+extern "C" void __cdecl append_literal_text(CompilerStringValue *first,
+    const CompilerStringValue *second)
+{
+    int prefix = first->length - ((first->flags & 1) ? 2 : c1_primitive_widths[1]);
+    unsigned second_length = second->length;
+    unsigned length = prefix + second_length;
+    unsigned arena_kind;
+    CompilerArena *arena;
+    BYTE *text;
+    if ((first->flags ^ second->flags) & 1) compiler_warning(308);
+    first->length = (WORD)length;
+    if (first->flags & 2) {
+        *(char *)first->text = 'P';
+        normalize_quoted_literal(first);
+    }
+    arena_kind = c1_data.expression_arena_kind == 3 ? 0 : c1_data.expression_arena_kind;
+    if (arena_kind >= 6) {
+#ifdef __linux__
+        recon_unsupported("adjacent literal arena exceeds the encountered owners");
+#else
+        __asm { int 3 }
+#endif
+    }
+    arena = &c1_bss.arenas[arena_kind];
+    text = arena->cursor;
+    arena->cursor += (first->length + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    memcpy(text, first->text, prefix);
+    first->text = (const char *)text;
+    memcpy(text + prefix, second->text, second_length);
+}
+extern "C" unsigned __cdecl read_escaped_character(unsigned character, int wide)
+{
+    unsigned value, count, next, special;
+    character &= 255;
+classify_escape:
+    if (c1_data.scanner.flags[character] & 8) {
+        value = numeric_digit_value(character);
+        count = 1;
+        next = *c1_bss.source_cursor++;
+        if (c1_data.scanner.classes[next] == SC_SPECIAL)
+            next = resolve_special_character(next) & 255;
+        while (count < 3 && (c1_data.scanner.flags[next] & 8)) {
+            value = value * 8 + numeric_digit_value(next);
+            ++count;
+            next = *c1_bss.source_cursor++;
+            if (c1_data.scanner.classes[next] == SC_SPECIAL)
+                next = resolve_special_character(next) & 255;
+        }
+        if (!c1_bss.options.preprocess_stdout) {
+            if (!wide && value != (BYTE)value) compiler_warning(22, value);
+            else if (value != (WORD)value) compiler_warning(188, value);
+            if (c1_data.scanner.classes[next] == SC_DIGIT)
+                report_language_diagnostic(4, 125);
+        }
+numeric_result:
+        --c1_bss.source_cursor;
+        return wide ? (WORD)value : (WORD)(signed char)(BYTE)value;
+    }
+    switch (character) {
+    case '"': case '\'': return (WORD)character;
+    case '\\':
+        if (!splice_input_line()) return (WORD)character;
+        goto next_escape;
+    case '?':
+        special = process_trigraph();
+        if (!(special & ~0x40U)) return (WORD)character;
+next_escape:
+        character = *c1_bss.source_cursor++;
+        if (c1_data.scanner.classes[character] == SC_SPECIAL)
+            character = resolve_special_character(character) & 255;
+        goto classify_escape;
+    case 'a': return '\a';
+    case 'b': return '\b';
+    case 'f': return '\f';
+    case 'n': return '\n';
+    case 'r': return '\r';
+    case 't': return '\t';
+    case 'v': return '\v';
+    case 'x':
+        value = 0;
+        next = *c1_bss.source_cursor++;
+        if (c1_data.scanner.classes[next] == SC_SPECIAL)
+            next = resolve_special_character(next) & 255;
+        if (!(c1_data.scanner.flags[next] & 2)) compiler_warning(153);
+        else {
+            do {
+                value = (value << 4) + numeric_digit_value(next);
+                next = *c1_bss.source_cursor++;
+                if (c1_data.scanner.classes[next] == SC_SPECIAL)
+                    next = resolve_special_character(next) & 255;
+            } while (c1_data.scanner.flags[next] & 2);
+        }
+        if (!wide && value != (BYTE)value) compiler_warning(22, value);
+        else if (value != (WORD)value) compiler_warning(188, value);
+        goto numeric_result;
+    }
+    if (c1_data.scanner.classes[character] == SC_LEAD) {
+        next = *c1_bss.source_cursor++;
+        while (!next) {
+            process_special_character();
+            next = *c1_bss.source_cursor++;
+        }
+        value = (character << 8) | next;
+        report_language_diagnostic(1, 129, value);
+        return (WORD)value;
+    }
+    report_language_diagnostic(1, 129, (int)(signed char)character);
+    return (WORD)character;
+}

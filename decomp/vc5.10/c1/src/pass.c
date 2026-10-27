@@ -16,6 +16,7 @@ int __cdecl initialize_compiler_pass(void)
         /* Typed projection only: unknown size slots/cache heads are never transferred. */
         memcpy(saved, &c1_data, offsetof(CompilerInitializedState, record_sizes));
         saved->record_sizes.known.declaration_symbol_bytes = c1_data.record_sizes.known.declaration_symbol_bytes;
+        saved->record_sizes.known.bitfield_symbol_bytes = c1_data.record_sizes.known.bitfield_symbol_bytes;
         saved->record_sizes.known.member_symbol_bytes = c1_data.record_sizes.known.member_symbol_bytes;
         saved->record_sizes.known.tag_symbol_bytes = c1_data.record_sizes.known.tag_symbol_bytes;
         saved->record_sizes.known.enumerator_symbol_bytes = c1_data.record_sizes.known.enumerator_symbol_bytes;
@@ -29,13 +30,17 @@ int __cdecl initialize_compiler_pass(void)
         saved->symbol_cache.known.head5 = c1_data.symbol_cache.known.head5;
         saved->segment_defaults.fallback = c1_data.segment_defaults.fallback;
         saved->segment_defaults.type_context = c1_data.segment_defaults.type_context;
+        saved->segment_defaults.definition = c1_data.segment_defaults.definition;
         saved->void_type_list = c1_data.void_type_list;
         saved->call_context = c1_data.call_context;
+        saved->condition_token = c1_data.condition_token;
+        saved->condition_parentheses = c1_data.condition_parentheses;
         c1_reuse_state = 0;
     } else {
         saved = c1_bss.saved_data;
         memcpy(&c1_data, saved, offsetof(CompilerInitializedState, record_sizes));
         c1_data.record_sizes.known.declaration_symbol_bytes = saved->record_sizes.known.declaration_symbol_bytes;
+        c1_data.record_sizes.known.bitfield_symbol_bytes = saved->record_sizes.known.bitfield_symbol_bytes;
         c1_data.record_sizes.known.member_symbol_bytes = saved->record_sizes.known.member_symbol_bytes;
         c1_data.record_sizes.known.tag_symbol_bytes = saved->record_sizes.known.tag_symbol_bytes;
         c1_data.record_sizes.known.enumerator_symbol_bytes = saved->record_sizes.known.enumerator_symbol_bytes;
@@ -49,8 +54,11 @@ int __cdecl initialize_compiler_pass(void)
         c1_data.symbol_cache.known.head5 = saved->symbol_cache.known.head5;
         c1_data.segment_defaults.fallback = saved->segment_defaults.fallback;
         c1_data.segment_defaults.type_context = saved->segment_defaults.type_context;
+        c1_data.segment_defaults.definition = saved->segment_defaults.definition;
         c1_data.void_type_list = saved->void_type_list;
         c1_data.call_context = saved->call_context;
+        c1_data.condition_token = saved->condition_token;
+        c1_data.condition_parentheses = saved->condition_parentheses;
         memset(&c1_bss, 0, sizeof(c1_bss));
         c1_bss.saved_data = saved;
         c1_reuse_state = !c1_pass_mode;
