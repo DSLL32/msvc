@@ -17,7 +17,6 @@ extern "C" void __stdcall write_mac_incremental_table(LinkContext *context,DWORD
 extern "C" void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacDebugSections(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacRuntimeSections(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PrepareNativeRelocations(void) { __asm { int 3 } }
 extern "C" DWORD __stdcall mips_code_padding(Contribution *contribution) { __asm { int 3 } return 0; }
 extern "C" void __stdcall add_alpha_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
@@ -25,8 +24,6 @@ extern "C" void __stdcall initialize_relocation_padding(void *state,DWORD pages,
 
 extern "C" void __cdecl update_gp_bounds(void) { __asm { int 3 } }
 
-void RECON_THISCALL LinkContext::CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacJumpTables(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::ResolveMacImports(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::ResolveMacExports(void) { __asm { int 3 } }

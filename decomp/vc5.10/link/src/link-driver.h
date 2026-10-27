@@ -7,6 +7,8 @@
 #include "full-link.h"
 #include <recon.h>
 
+struct SectionNumberReference;
+
 /* The context is a PE header plus linker options. Unread fields retain their
  * discovered extent until their users are reconstructed. */
 typedef struct LinkOptions {
@@ -176,12 +178,14 @@ struct LinkContext {
     void RECON_THISCALL ApplySectionAttributes(void);
     void RECON_THISCALL ResolveLocalImports(Contribution **contribution,IncludeSymbol **aliases);
     void RECON_THISCALL ResolveUndefined(void);
-    void RECON_THISCALL CollectRelocationSymbols(DWORD *first_count,void **first,DWORD *second_count,void **second);
+    void RECON_THISCALL CollectRelocationSymbols(Contribution **section_numbers,
+        SectionNumberReference **sections,Contribution **image_base,IncludeSymbol **base_symbol);
     void RECON_THISCALL FinalizeOrder(void);
     void RECON_THISCALL FinishNativeSections(void);
     void RECON_THISCALL WriteBaseRelocations(void);
     void RECON_THISCALL WriteVxdRelocations(void);
-    void RECON_THISCALL WriteRelocationSymbols(DWORD first_count,void **first,DWORD second_count,void **second);
+    void RECON_THISCALL WriteRelocationSymbols(Contribution *section_numbers,
+        SectionNumberReference **sections,Contribution *image_base,IncludeSymbol **base_symbol);
     void RECON_THISCALL WriteLocalImports(Contribution *contribution,IncludeSymbol **aliases);
     void RECON_THISCALL EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset);
     void RECON_THISCALL FinishImage(void);

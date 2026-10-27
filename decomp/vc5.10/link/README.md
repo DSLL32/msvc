@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-638 application functions / 240,603 original code bytes are reconstructed
-(58.00% of the 414,810-byte whole `.text` extent, which includes CRT and text
+641 application functions / 242,198 original code bytes are reconstructed
+(58.39% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-169 entries whose body extents remain unknown; this is not a complete non-CRT
+166 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-nine cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-651-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 630 ordinary application bodies and six CRT bodies. Seven import
+654-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 633 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -980,3 +980,43 @@ regression, unit, original-build and full graph/RET/EH batch passed in 5.35 s:
 EH-owner checks. Failed declaration builds and strict narrow extent/import/RET
 checks remain in scratch, alongside raw master/progress artifacts and producer
 source/objects. These are incremental measurements.
+
+The native-driver serialization case links two original-compiled x86 objects
+with `/driver:uponly /subsystem:native`, code/data pointers, COFF debug and a map.
+The entry also consumes the linker's authentic `_ImageBase_` and section-number
+symbols for `.text` and `.data`. Both executions exit 0 with 262 first entries,
+a 4,096-byte SYS image and a 1,207-byte map. This establishes file serialization;
+the generated driver is never loaded or executed and makes no kernel-runtime
+claim.
+
+Three whole bodies / 1,595 original code bytes recover synthetic-symbol
+collection, native section preparation and symbol-value serialization. The
+collector's four physical arguments are contribution/list outputs, correcting
+provisional count/opaque names without changing thiscall or RET16. Section
+references use the actual two separate eight-byte allocations and preserve
+lookup/fallback order. The writer emits real section indices and image base,
+updates symbol values, releases both list forms and appends the actual base
+relocation. INIT/PAGE/discardable section logic is retained; the input does not
+claim all dormant section-name, debug-fixup or other-machine domains. Their
+pending callees remain genuine traps. The narrow import check corrected a
+provisional `_strnicmp` to the actual case-sensitive `strncmp` before execution.
+
+Only the COFF timestamp DWORD, two debug-directory timestamp copies and map
+hex/ctime fields differ. The raw PE checksum changes deterministically with
+those clocks. Original, master and native complete raw-image checksums were
+independently verified. A native output checker validates the untouched raw
+checksum and exact fields, preserves an ephemeral raw copy, then transforms only
+the post-exit comparison view: three clock DWORDs become zero and the checksum
+is recomputed. The normalized complete image SHA matches; the checksum is never
+masked. A focused corrupted-payload check rejects before transformation. Generic
+full file/inventory assertions remain active. Durable qualifying raw native
+bytes were saved separately through the existing GDB exit-group copy route;
+the callback's supervisor-root copy is explicitly not durable evidence.
+
+The final original took 1,655.1 ms. The fresh GDB qualification took 196.0 ms
+including debugger execution. Ordinary native replay took 18.7 ms (11.0 ms
+setup, 2.5 ms execution, 5.2 ms checks). The single parallel regression/unit/original-build and
+full graph/RET/EH batch passed in 5.54 s: 40 cached cases, 654 graph vertices,
+639 scoped return contracts and eight EH-owner checks. Raw masters, both authored
+input versions, failed hash/static/build results and finite clock/checksum
+receipts remain in scratch. These are incremental measurements.

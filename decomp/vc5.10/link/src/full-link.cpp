@@ -94,8 +94,9 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 {
     IncludeSymbol *include=includes, *next_include, *aliases;
     Contribution *local_imports, *previous_incremental;
-    DWORD first_relocation_count, second_relocation_count;
-    void *first_relocations, *second_relocations;
+    Contribution *section_number_data,*image_base_data;
+    SectionNumberReference *section_number_symbols;
+    IncludeSymbol *image_base_symbol;
     DWORD directory_size, index, extra_size, header_size, section_headers_offset;
     DWORD image_rva, file_offset, line_count, line_offset, first_line_offset;
     DWORD original_debug_offset, debug_start, debug_end, upper;
@@ -208,8 +209,8 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
     ResolveLocalImports(&local_imports,&aliases);
     ResolveUndefined();
     if (options.retain_relocations)
-        CollectRelocationSymbols(&first_relocation_count,&first_relocations,
-                                 &second_relocation_count,&second_relocations);
+        CollectRelocationSymbols(&section_number_data,&section_number_symbols,
+                                 &image_base_data,&image_base_symbol);
     symbols->SortSymbols();
     if (undefined_symbols && !(options.force & 1))
         link_fatal(output_file_name,1120,undefined_symbols);
@@ -507,8 +508,8 @@ sections_ready:
     PassTwo();
     WriteLocalImports(local_imports,&aliases);
     if (options.retain_relocations)
-        WriteRelocationSymbols(first_relocation_count,&first_relocations,
-                               second_relocation_count,&second_relocations);
+        WriteRelocationSymbols(section_number_data,&section_number_symbols,
+                               image_base_data,&image_base_symbol);
     current_phase[0]=0;
     auxiliary->FinishOutput(this);
     if (!mac_target) FinishNativeSections();

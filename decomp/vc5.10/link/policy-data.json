@@ -4482,11 +4482,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 137152
+              "offset": 139056
             },
             {
               "rebuilt_symbol": "_process_module_symbols@24",
-              "offset": 137163
+              "offset": 139067
             }
           ]
         }
@@ -4841,11 +4841,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 226368
+              "offset": 228272
             },
             {
               "rebuilt_symbol": "_process_definition_file@8",
-              "offset": 226379
+              "offset": 228283
             }
           ]
         },
@@ -7739,11 +7739,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 165024
+              "offset": 166928
             },
             {
               "rebuilt_symbol": "_dump_file@4",
-              "offset": 165035
+              "offset": 166939
             }
           ]
         }
@@ -8216,11 +8216,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 164064
+              "offset": 165968
             },
             {
               "rebuilt_symbol": "_dump_archive_members@8",
-              "offset": 164075
+              "offset": 165979
             }
           ]
         }
@@ -13683,11 +13683,11 @@
           "roots": [
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 166016
+              "offset": 167920
             },
             {
               "rebuilt_symbol": "_dump_short_import@8",
-              "offset": 166024
+              "offset": 167928
             }
           ],
           "text_data": [
@@ -19625,6 +19625,21 @@
         "expected_cleanup": [
           4
         ]
+      },
+      "LinkContext::CollectRelocationSymbols": {
+        "expected_cleanup": [
+          16
+        ]
+      },
+      "LinkContext::PrepareNativeRelocations": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "LinkContext::WriteRelocationSymbols": {
+        "expected_cleanup": [
+          16
+        ]
       }
     }
   },
@@ -19634,21 +19649,21 @@
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 137152
+            "offset": 139056
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 137163
+            "offset": 139067
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 137163
+            "offset": 139067
           },
           {
             "rebuilt_symbol": "_process_module_symbols@24",
-            "offset": 137173
+            "offset": 139077
           }
         ]
       ]
@@ -19658,21 +19673,21 @@
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 226368
+            "offset": 228272
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 226379
+            "offset": 228283
           }
         ],
         [
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 226379
+            "offset": 228283
           },
           {
             "rebuilt_symbol": "_process_definition_file@8",
-            "offset": 226389
+            "offset": 228293
           }
         ]
       ]
@@ -19754,21 +19769,21 @@
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 165024
+            "offset": 166928
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 165035
+            "offset": 166939
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 165035
+            "offset": 166939
           },
           {
             "rebuilt_symbol": "_dump_file@4",
-            "offset": 165045
+            "offset": 166949
           }
         ]
       ]
@@ -19778,21 +19793,21 @@
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 164064
+            "offset": 165968
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 164075
+            "offset": 165979
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 164075
+            "offset": 165979
           },
           {
             "rebuilt_symbol": "_dump_archive_members@8",
-            "offset": 164085
+            "offset": 165989
           }
         ]
       ]
@@ -19802,21 +19817,21 @@
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 166016
+            "offset": 167920
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 166024
+            "offset": 167928
           }
         ],
         [
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 166024
+            "offset": 167928
           },
           {
             "rebuilt_symbol": "_dump_short_import@8",
-            "offset": 166034
+            "offset": 167938
           }
         ]
       ]
