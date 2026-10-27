@@ -1,8 +1,10 @@
-WLINK 10.0a has forty completed paired CLI cases and one source-backed native
-resource-unit case. The acceptance ledger contains **1,199 application functions /
-133,977 unique original code bytes**: **1,176 / 131,579 bytes** have paired CLI
-evidence, and **23 / 2,398 bytes** have source/static/native-unit qualification
-only. The latter are not claimed as observed original CLI execution.
+WLINK 10.0a has forty completed paired CLI cases and two source-backed native
+unit cases. The acceptance ledger contains **1,214 application functions /
+135,114 unique original code bytes**. Paired CLI evidence covers **1,176 /
+131,579 bytes**; **38** further functions have source/static/native-unit
+qualification only, owning **3,536 bytes**. Those add **3,535** unique bytes
+because PermShrink shares one genuine RET with an already qualified CLI body.
+Unit-only evidence is not claimed as observed original CLI execution.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -117,6 +119,7 @@ with manual data/explicit stack and a non-DLL LX virtual-device image.
 | `0039-os2-fullscreen` | Exit 0; exact 246-byte stdout, empty stderr, 615-byte image and 2,983-byte map |
 | `0040-os2-virtual-device` | Exit 0; exact 262-byte stdout, empty stderr, 1,644-byte image and 3,325-byte map |
 | `0041-resource-units` | Native-only typed resource assertions; no original execution/oracle claim |
+| `0042-cache-spill-units` | Native-only cache/dictionary/spill ownership assertions; no original execution/oracle claim |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -144,14 +147,16 @@ Unknown callers remain guarded. Finite CRT restoration retains explicit older
 library variants. Native nonlocal jump support is limited to value 1 in a live
 Spawn context, without SEH unwinding or expired contexts.
 
-The complete audit passes for 1,203 source-ready identities, their actual graph,
+The complete audit passes for 1,219 source-ready identities, their actual graph,
 references, ownership and extents, returning-function cleanup and the separate
 main-to-exit endpoint. Shared code counts once. SetBreak, ODBISectCleanup,
 EndTime and RefGroup have explicitly seeded first-entry exclusions. The latter three are
 statically qualified empty shared entries excluded from the acceptance count;
 no observed separate invocation is claimed. The source-ready base_32_num sibling
 shares a genuine terminal suffix with base_10_num, but its own primary body has
-not executed and is also excluded from acceptance. The original first-node AddAddrInfo
+not executed and is also excluded from acceptance. The genuine TempFileOpen
+wrapper is source-ready but remains unaccepted because the spill unit uses an
+already-open owned file and does not execute its first-open branch. The original first-node AddAddrInfo
 sentinel read is preserved on Win32; its documented native-only deterministic
 zero choice is limited to the observed invalid sentinel control read.
 
@@ -796,7 +801,7 @@ ResReadString. Their ordinary CLI reach is not established by these native tests
 The shared resource declarations now live in src/resource.h with exact original
 packed owners, rather than duplicating private layouts in test glue. The actual
 inline strlen instruction sequence required the period compiler's strlen
-intrinsic setting; the initial extra-call audit failure remains in scratch.
+intrinsic setting; the initial extra-call audit finding is recorded in scratch.
 
 Final full build/regression/unit/audit took **1.878 s**; all forty CLI cases and the
 resource DIRECT case pass, including four focused valid-file/state tests and
@@ -809,3 +814,45 @@ its four-test run **19.567 ms** (**8.819 / 6.605 / 4.143 ms**). No new original
 application invocation or Wine fixture was used. Commands, static analysis and
 explicit split acceptance ledger remain in scratch wlink-resource-units; the
 case contains only case.c, direct.c and capture.bin.
+
+
+The cache/spill unit family adds fifteen unit-only App identities: CacheRelease,
+FreeUpMemory, SwapOutVirt, SwapOutRelocs, SpillAlloc, SpillWrite, SpillRead,
+QDelete, DumpObjCache, DiscardDicts, PermShrink, SpillRelocList, SpillSections,
+SpillAreas and MakeTempName. The actual non-paging SwapOutVirt is only a three-
+byte false return, not the later released virtual pager. The original call graph,
+TmpFSize sector alignment, real file cursor effects and relocation ownership
+transitions are preserved. PermShrink uses the existing exact shared-epilogue
+rule for ShrinkBlock's C3; that physical byte contributes no second coverage byte.
+The five tests use genuine PermAlloc-owned empty or exactly-full 16,384-byte
+arenas with no resize, AllocFileEntry/CacheOpen/CacheRead-created object cache,
+a typed malloc-owned OMF dictionary vector/chunk, a pre-opened owned spill file,
+and a typed nested overlay section/relocation tree. Assertions check zero reclaim
+where appropriate, preserved arena bytes, cache/dictionary pointer clearing,
+512-byte allocation token alignment, complete roundtrip bytes and canaries,
+relocation spill flags/token/size, repeated exhaustion, and real close/deletion.
+No allocator/fd limit or allocation failure is injected, and no stale pointer is
+used across a possibly moving resize.
+
+SpillAlloc's actual first-open logic is inlined, unlike the newer OpenTempFile
+helper, so no synthetic helper edge is introduced. Its real 13-byte TempFileOpen
+wrapper remains source-ready/unaccepted; env/collision/first-open/error behavior,
+successful arena shrinking and unknown allocation/resize outcomes are outside
+this unit's qualification. Only the finite public remove_ trampoline identity is
+added for static graph naming, correlated with the shipped remove member and
+initial remove.c; no CRT instructions are restored or counted. Current tests use
+the already supported real native successful deletion of an owned relative file.
+The first relocation unit failed because a new source mask misread the actual
+16-bit LinkState location; correction to its genuine 0x40 format-decided flag
+then passed native-only tests. Failed results and GDB diagnostics remain in scratch.
+
+The initial necessary native/period build took **3.397 s**; the state-width
+correction build **1.141 s** and scoped sixteen-function graph/ABI check
+**386.440 ms**. Five corrected native tests took **19.702 ms**, split
+**7.341 / 8.420 / 3.941 ms** for setup/execution/checks. The final full
+build/regression/unit/audit took **2.025 s**, with forty CLI cases, both unit
+cases and all 1,219 source-ready graph/ABI identities passing. The 84 native
+invocations took **16.486–56.239 ms**. No original application run or Wine
+fixture was needed. Authoring/analysis/diagnostics and the exact union ledger
+remain in scratch wlink-cache-spill-units; the case contains only case.c,
+direct.c and capture.bin.

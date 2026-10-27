@@ -60,3 +60,18 @@ void *LnkReAlloc( void *memory, unsigned size )
         }
     }
 }
+
+extern unsigned char DumpObjCache( void );
+extern unsigned char DiscardDicts( void );
+extern unsigned char PermShrink( void );
+unsigned char CacheRelease( void )
+{
+    unsigned char freed;
+    freed = DumpObjCache();
+    if( !freed ) freed = DiscardDicts();
+    return freed;
+}
+unsigned char FreeUpMemory( void )
+{
+    return PermShrink() || CacheRelease() || SwapOutVirt() || SwapOutRelocs();
+}

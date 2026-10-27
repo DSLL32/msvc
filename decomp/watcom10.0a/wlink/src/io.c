@@ -272,3 +272,13 @@ int QOpenR( char *name )
     LnkMsg( 0x3408, "12", name, strerror(errno) );
     return -1;
 }
+
+int TempFileOpen( char *name )
+{
+    return NSOpen( name, O_RDWR );
+}
+void QDelete( char *name )
+{
+    if( remove( name ) == -1 && errno != ENOENT )
+        LnkMsg( 0x330a, "12", name, strerror( errno ) );
+}

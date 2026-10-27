@@ -31,6 +31,7 @@
 
 #include <string.h>
 #include "cmdline.h"
+#include "reloc.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
@@ -73,13 +74,7 @@ void FreeRelocInfo( void )
     }
 }
 
-#pragma pack(1)
-struct reloc_info {
-    struct reloc_info *next;
-    unsigned short sizeleft;
-    union { void *addr; unsigned long spill; } loc;
-};
-#pragma pack()
+
 
 unsigned char FreeRelocList( reloc_info *list )
 {
@@ -326,4 +321,58 @@ void QNXLinearReloc( group_entry *group, void *data )
 void FloatReloc( void *data )
 {
     DoWriteReloc( &FloatFixups, data, 6 );
+}
+
+unsigned char SpillRelocList( reloc_info *list )
+{
+    unsigned long spill;
+    for( ; list != 0; list = list->next ) {
+        if( !(list->sizeleft & 0x8000) ) {
+            spill = SpillAlloc( 512 );
+            SpillWrite( spill, 0, list->loc.addr, 512 - list->sizeleft );
+            _LnkFree( list->loc.addr );
+            list->loc.spill = spill;
+            list->sizeleft |= 0x8000;
+            return 1;
+        }
+    }
+    return 0;
+}
+unsigned char SpillAreas( ovl_area * );
+unsigned char SpillSections( section *sect )
+{
+    for( ; sect != 0; sect = sect->next_sect ) {
+        if( SpillRelocList( sect->reloclist ) ) return 1;
+        if( SpillAreas( sect->areas ) ) return 1;
+    }
+    return 0;
+}
+unsigned char SpillAreas( ovl_area *area )
+{
+    for( ; area != 0; area = area->next ) {
+        if( SpillSections( area->sections ) ) return 1;
+    }
+    return 0;
+}
+unsigned char SwapOutRelocs( void )
+{
+    group_entry *group;
+    if( !(LinkState & 0x40) ) return 0;
+    if( FmtData.type & 0x16 ) {
+        for( group = Groups; group != 0; group = group->next_group ) {
+            if( TraverseOS2RelocList( group, SpillRelocList ) ) return 1;
+        }
+    } else if( FmtData.type & 0x4209 ) {
+        for( group = Groups; group != 0; group = group->next_group ) {
+            if( SpillRelocList( group->grp_relocs ) ) return 1;
+        }
+    } else {
+        if( SpillRelocList( Root->reloclist ) ) return 1;
+        if( SpillAreas( Root->areas ) ) return 1;
+    }
+    if( FmtData.type & 0x4200 ) {
+        if( SpillRelocList( FloatFixups ) ) return 1;
+        return SpillRelocList( Root->reloclist );
+    }
+    return 0;
 }

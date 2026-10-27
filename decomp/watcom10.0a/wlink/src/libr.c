@@ -279,3 +279,18 @@ unsigned short OMFCompName( char *name, char *buff, unsigned short index )
         return *(unsigned short *)(buff + len);
     return 0;
 }
+
+/* This old build supports only its actual OMF dictionary owner. */
+unsigned char DiscardDicts( void )
+{
+    omf_dict_entry *dict;
+    file_list *file;
+    dict = 0;
+    for( file = ObjLibFiles; file != 0; file = file->next_file ) {
+        if( file->u.dict != 0 && file->u.dict->cache != 0 ) dict = file->u.dict;
+    }
+    if( dict == 0 ) return 0;
+    FreeDictCache( dict->cache, (dict->pages / 64) + 1 );
+    dict->cache = 0;
+    return 1;
+}

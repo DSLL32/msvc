@@ -59,3 +59,9 @@ unsigned long AllocStg( unsigned long size )
     VMemBlocks = ptr;
     return (unsigned long)ptr->mem;
 }
+
+/* The actual1994 non-paging configuration has no later virtual pager. */
+unsigned char SwapOutVirt( void )
+{
+    return 0;
+}

@@ -6011,6 +6011,86 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "CacheRelease": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "FreeUpMemory": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SwapOutVirt": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SwapOutRelocs": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillAlloc": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillWrite": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillRead": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "QDelete": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DumpObjCache": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DiscardDicts": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "PermShrink": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillRelocList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillSections": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SpillAreas": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "MakeTempName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "TempFileOpen": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -6341,6 +6421,16 @@
       "original": {
         "start": 4290033,
         "bytes_hex": "595bc3"
+      }
+    },
+    {
+      "owners": [
+        "ShrinkBlock",
+        "PermShrink"
+      ],
+      "original": {
+        "start": 4337454,
+        "bytes_hex": "c3"
       }
     }
   ],

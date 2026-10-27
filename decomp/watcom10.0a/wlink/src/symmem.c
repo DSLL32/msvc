@@ -149,3 +149,11 @@ void *Pass1Alloc( unsigned size )
 {
     return AllocBlock( size, &Pass1Blocks );
 }
+
+unsigned char PermShrink( void )
+{
+    unsigned char freed;
+    freed = ShrinkBlock( &PermBlocks );
+    if( !freed ) freed = ShrinkBlock( &Pass1Blocks );
+    return freed;
+}

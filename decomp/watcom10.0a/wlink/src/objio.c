@@ -195,3 +195,14 @@ unsigned char CleanCachedHandles( void )
     file->handle = -1;
     return 1;
 }
+
+unsigned char DumpObjCache( void )
+{
+    infilelist *file;
+    for( file = CachedFiles; file != 0; file = file->next ) {
+        if( CurrMod == 0 || CurrMod->f.source == 0 || CurrMod->f.source->file != file ) {
+            if( FreeCacheBlocks( file, 1 ) ) return 1;
+        }
+    }
+    return 0;
+}

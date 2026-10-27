@@ -20,7 +20,7 @@ void reconstruction_trap( void );
 #define TRAP() __asm__ __volatile__( "int3" )
 #endif
 
-void QDelete( char *name ) { name = name; TRAP(); }
+
 
 void TrapBreak( int value ) { value = value; TRAP(); }
 void ExecSystem( char *name ) { TRAP(); }
@@ -46,7 +46,6 @@ void ExecSystem( char *name ) { TRAP(); }
 
 
 
-void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned size ) { TRAP(); }
 
 
 
@@ -56,7 +55,8 @@ void SpillRead( unsigned long loc, unsigned long off, void *buffer, unsigned siz
 
 
 
-unsigned char FreeUpMemory( void ) { TRAP(); return 0; }
+
+
 
 
 
@@ -424,9 +424,6 @@ void ORLPass2( void ) { TRAP(); }
 
 
 
-void SpillWrite( unsigned long spill, unsigned long off, void *data, unsigned size ) { TRAP(); }
-
-unsigned long SpillAlloc( unsigned size ) { TRAP(); return 0; }
 
 
 
@@ -475,9 +472,12 @@ unsigned long SpillAlloc( unsigned size ) { TRAP(); return 0; }
 
 
 
-unsigned char CacheRelease( void ) { TRAP(); return 0; }
-unsigned char SwapOutVirt( void ) { TRAP(); return 0; }
-unsigned char SwapOutRelocs( void ) { TRAP(); return 0; }
+
+
+
+
+
+
 
 
 
