@@ -1976,5 +1976,7 @@ and normal binary bytes, initial cursor0 and independent descriptor ownership.
 Native success LastError clearing comes from the existing backend; original
 per-call error values are unmeasured. Focused two-argument and unused-third-arg
 controls cover raw read/write, independent cursors, close, unchanged tails and
-retained readonly/create domains. WLINK residual-unit adoption is pending;
-this is source/static/native-unit support, not original-runtime equivalence.
+retained readonly/create domains. WLINK's real existing-file native units pass
+(three groups19.877ms; direct TempFileOpen19.541ms), with source/DSO binding and
+owned close/reopen checks. This is source/static/native-unit support, not
+original-runtime equivalence.
