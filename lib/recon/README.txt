@@ -1993,10 +1993,12 @@ C++ typing/alias tests and NULL/invalid/owned-pointer and empty/live-x87 denial
 controls pass; ordinary cold-path consumer adoption remains pending. No PDB
 validation or adjusted-division success/private-runtime equivalence is claimed.
 
-Watcom bare strerror has a target-only char*(int) boundary for reached errno1:
+Watcom bare strerror has a TU-selected char*(int) boundary for reached errno1
+under RECON_WATCOM_STRERROR_ENOENT (nested under the Watcom profile):
 it returns the stable exact text "No such file or directory" from the actual
 old target table. Other numbers/profiles deny125, while SHIM_IMPL and default
-host strerror remain unchanged. The caller consumes only NUL-terminated text;
+host strerror remain unchanged, as do unselected Watcom callers. The caller
+consumes only NUL-terminated text;
 original pointer identity and writable table storage are unclaimed. No host
 errno-number translation or allocation occurs; independent errors and semantic
 FP are retained. Focused typing/exact/repeat/isolation/denial controls pass;

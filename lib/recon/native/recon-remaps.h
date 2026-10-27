@@ -554,7 +554,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef EMFILE
 #define EMFILE 11
 #define open recon_watcom_open
+#ifdef RECON_WATCOM_STRERROR_ENOENT
 #define strerror recon_watcom_strerror
+#endif
 #define lseek recon_watcom_lseek
 #define tell recon_watcom_tell
 #define setmode recon_watcom_setmode

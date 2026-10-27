@@ -5,16 +5,16 @@
 #include <recon.h>
 int main(int argc,char **argv)
 {
-#if !defined(TEST_SHIM) && defined(RECON_CRT_PROFILE_WATCOM_100A)
+#if !defined(TEST_SHIM) && !defined(TEST_UNSELECTED) && defined(RECON_CRT_PROFILE_WATCOM_100A)
     char *first,*again;int row;unsigned short cw,sw,after_cw,after_sw;
     int *host_errno=__errno_location();
 #endif
-#if defined(TEST_SHIM) || !defined(RECON_CRT_PROFILE_WATCOM_100A)
+#if defined(TEST_SHIM) || defined(TEST_UNSELECTED) || !defined(RECON_CRT_PROFILE_WATCOM_100A)
 #ifdef strerror
 #error The host/default strerror spelling must remain unmapped.
 #endif
     (void)argc;(void)argv;assert(strerror!=recon_watcom_strerror);
-#ifndef TEST_SHIM
+#if !defined(TEST_SHIM) && !defined(TEST_UNSELECTED)
     recon_watcom_strerror(1);return 42;
 #else
     return 0;

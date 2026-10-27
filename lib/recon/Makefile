@@ -1113,10 +1113,12 @@ cold-vc5-imports-check: build/cold-vc5-imports-probe build/cold-vc5-imports-gene
 
 .PHONY: watcom-strerror-check
 build/watcom-strerror-probe: tests/watcom-strerror-probe.c $(SOURCES) $(HEADERS) | build
-	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_WATCOM_STRERROR_ENOENT $< $(SOURCES) -o $@
 build/watcom-strerror-generic: tests/watcom-strerror-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 build/watcom-strerror-shim: tests/watcom-strerror-probe.c $(SOURCES) $(HEADERS) | build
-	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DTEST_SHIM $< $(SOURCES) -o $@
-watcom-strerror-check: build/watcom-strerror-probe build/watcom-strerror-generic build/watcom-strerror-shim
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_WATCOM_STRERROR_ENOENT -DTEST_SHIM $< $(SOURCES) -o $@
+build/watcom-strerror-unselected: tests/watcom-strerror-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DTEST_UNSELECTED $< $(SOURCES) -o $@
+watcom-strerror-check: build/watcom-strerror-probe build/watcom-strerror-generic build/watcom-strerror-shim build/watcom-strerror-unselected
 	$(PYTHON) tests/check-watcom-strerror.py $^
