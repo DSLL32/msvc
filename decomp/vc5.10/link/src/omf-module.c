@@ -121,3 +121,16 @@ void __cdecl read_omf_linnum(void)
         }
     }
 }
+
+void __cdecl read_omf_linsym(void)
+{
+    read_omf_byte(); /* flags */
+    read_omf_index(); /* public-name index */
+    /* The original consumes these COMDAT line pairs without retaining them.
+     * Ordinary LINNUM records use the separate line-buffer/list path. */
+    while(omf_record_length>1) {
+        read_omf_word();
+        if(omf_record_is32)read_omf_dword();
+        else read_omf_word();
+    }
+}

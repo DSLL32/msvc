@@ -5,10 +5,10 @@ void __cdecl omf_error(const char * a0,...) { __asm { int 3 } }
 void __cdecl read_omf_lidata(void) { __asm { int 3 } }
 
 void __cdecl read_omf_lheadr(void) { __asm { int 3 } }
-void __stdcall append_omf_section_data(DWORD section,DWORD offset,const void *bytes,DWORD count) { __asm { int 3 } }
+
 void __cdecl read_omf_alias(void) { __asm { int 3 } }
 void __cdecl read_omf_bakpat(void) { __asm { int 3 } }
-void __cdecl read_omf_linsym(void) { __asm { int 3 } }
+
 
 
 

@@ -257,3 +257,12 @@ void __cdecl read_omf_comdat(void)
     if(omf_name_kinds[(SHORT)name_index]==(DWORD)-1)
         omf_name_kinds[(SHORT)name_index]=symbol;
 }
+
+void __stdcall append_omf_section_data(DWORD section,DWORD offset,
+    const void *bytes,DWORD count)
+{
+    SHORT index=(SHORT)section;
+    omf_output_sections[index-1].SizeOfRawData+=count;
+    omf_initialized_data_size+=count;
+    write_omf_section_data(section,offset,bytes,count);
+}
