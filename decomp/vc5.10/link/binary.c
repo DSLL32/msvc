@@ -3,6 +3,7 @@
 #include <recon.h>
 
 static const ReconFunction functions[] = {
+    {"_next_wildcard_file@4",0x5c400,(const ReconExtent[]){{0x5c400,0x5c4a4}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"next_wildcard_file",NULL,NULL,0,NULL},
     {"DefinitionBuffer::ReserveConverted",0x3c570,(const ReconExtent[]){{0x3c570,0x3c5a6}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"_ZN17DefinitionStorageIhE7ReserveEi",NULL,NULL,0,"?Reserve@?$DefinitionStorage@E@@QAEHH@Z"},
     {"_record_incremental_entry@16",0x51390,(const ReconExtent[]){{0x51390,0x51391}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"record_incremental_entry",NULL,NULL,0,NULL},
     {"LibrarianContext::EmitExportSymbols",0x1b080,(const ReconExtent[]){{0x1b080,0x1b226}},1,(const ReconExtent[]){{0x2d78,0x2d8c}},1,RECON_APP,RECON_IMPLEMENTED,"_ZN16LibrarianContext17EmitExportSymbolsEi",NULL,NULL,0,"?EmitExportSymbols@LibrarianContext@@QAEXH@Z"},
@@ -70,7 +71,7 @@ static const ReconFunction functions[] = {
     {"_read_librarian_objects@4",0x10580,(const ReconExtent[]){{0x10580,0x105dc}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"read_librarian_objects",NULL,NULL,0,NULL},
     {"_load_librarian_library@8",0x3b540,(const ReconExtent[]){{0x3b540,0x3b80a}},1,(const ReconExtent[]){{0x771c,0x772a}},1,RECON_APP,RECON_IMPLEMENTED,"load_librarian_library",NULL,NULL,0,NULL},
     {"_list_librarian_members@4",0x3b150,(const ReconExtent[]){{0x3b150,0x3b151}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"list_librarian_members",NULL,NULL,0,NULL},
-    {"_extract_librarian_member@4",0x3b200,(const ReconExtent[]){{0x3b200,0x3b201}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"extract_librarian_member",NULL,NULL,0,NULL},
+    {"_extract_librarian_member@4",0x3b200,(const ReconExtent[]){{0x3b200,0x3b53f}},1,(const ReconExtent[]){{0x770c,0x771a},{0x66c4,0x66c8}},2,RECON_APP,RECON_IMPLEMENTED,"extract_librarian_member",NULL,NULL,0,NULL},
     {"_remove_librarian_member@8",0x3b810,(const ReconExtent[]){{0x3b810,0x3b8da}},1,(const ReconExtent[]){{0x772c,0x773a}},1,RECON_APP,RECON_IMPLEMENTED,"remove_librarian_member",NULL,NULL,0,NULL},
     {"LibrarianContext::Release",0xef40,(const ReconExtent[]){{0xef40,0xef41}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"_ZN16LibrarianContext7ReleaseEv",NULL,NULL,0,"?Release@LibrarianContext@@QAEXXZ"},
     {"_free_librarian_inputs@4",0xee70,(const ReconExtent[]){{0xee70,0xef31}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"free_librarian_inputs",NULL,NULL,0,NULL},
@@ -363,7 +364,7 @@ static const ReconFunction functions[] = {
     {"_read_response_file@4",0x5c980,(const ReconExtent[]){{0x5c980,0x5ca9c}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"read_response_file",NULL,NULL,0,NULL},
     {"_parse_argument@8",0x5c780,(const ReconExtent[]){{0x5c780,0x5c8b1}},1,(const ReconExtent[]){{0x9208,0x920b},{0x9200,0x9205}},2,RECON_APP,RECON_IMPLEMENTED,"parse_argument",NULL,NULL,0,NULL},
     {"_is_libpath@4",0x5c750,(const ReconExtent[]){{0x5c750,0x5c77d}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"is_libpath",NULL,NULL,0,NULL},
-    {"_expand_wildcards@4",0x5c4b0,(const ReconExtent[]){{0x5c4b0,0x5c4b1}},1,NULL,0,RECON_APP,RECON_UNIMPLEMENTED,"expand_wildcards",NULL,NULL,0,NULL},
+    {"_expand_wildcards@4",0x5c4b0,(const ReconExtent[]){{0x5c4b0,0x5c524}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"expand_wildcards",NULL,NULL,0,NULL},
     {"_canonicalize_argument@8",0x5c650,(const ReconExtent[]){{0x5c650,0x5c74f}},1,(const ReconExtent[]){{0x91fc,0x9200}},1,RECON_APP,RECON_IMPLEMENTED,"canonicalize_argument",NULL,NULL,0,NULL},
     {"_open_argument_file@12",0xb7f0,(const ReconExtent[]){{0xb7f0,0xb870}},1,NULL,0,RECON_APP,RECON_IMPLEMENTED,"open_argument_file",NULL,NULL,0,NULL},
     {"_is_archive@8",0x5cd40,(const ReconExtent[]){{0x5cd40,0x5cdf9}},1,(const ReconExtent[]){{0x2e68,0x2e70}},1,RECON_APP,RECON_IMPLEMENTED,"is_archive",NULL,NULL,0,NULL},

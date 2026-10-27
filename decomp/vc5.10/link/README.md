@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-633 application functions / 238,978 original code bytes are reconstructed
-(57.61% of the 414,810-byte whole `.text` extent, which includes CRT and text
+636 application functions / 240,089 original code bytes are reconstructed
+(57.88% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-172 entries whose body extents remain unknown; this is not a complete non-CRT
+170 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-seven cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-eight cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-646-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 625 ordinary application bodies and six CRT bodies. Seven import
+649-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 628 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -60,7 +60,7 @@ justified lifetime/operation TUs use special optimization and instrumentation
 settings, with one physical cleanup owner and actual Win32 EH actions.
 
 The completed workloads cover ordinary x86, nonincremental, no-PDB output.
-Unreached Mac, PDB, callback, packed CodeView and further librarian edit/extract domains retain
+Unreached Mac, PDB, callback, packed CodeView and further librarian listing/edit domains retain
 named traps or explicit native qualification guards. The diagnostic current_phase
 owner supports the observed 41-byte prefix, with guards before copies and
 concatenations; its original full capacity is unknown. Physical DWORD flag
@@ -914,3 +914,41 @@ original-build and full graph/RET/EH batch passed in 5.30 s: 37 cases, 646 graph
 vertices, 631 scoped return contracts and eight distinct EH-owner checks.
 The resource-setup failure, failed declaration builds, allocator graph failure
 and unchanged raw references remain in scratch. These are incremental timings.
+
+The archive-extraction case expands a single ordinary `upda*.lib` match and
+extracts the unchanged long-name `replacement-long-object.obj` from the original
+replacement archive. Both executions exit 0 with 83 application first entries
+and exactly the archived 1,155 payload bytes, excluding the archive's alignment
+padding. Streams, complete input/output inventory and object bytes match the
+untouched master without normalization. Its earlier 82-entry master predates
+registration of the newly discovered enumeration helper; that raw trace remains
+historical rather than relabeled as the later complete catalog.
+
+Three whole bodies / 1,111 code bytes recover wildcard argument expansion,
+the separate Win32 enumeration helper and archive extraction. The helper keeps
+one persistent 580-byte allocation whose consumed SDK ANSI find-data prefix is
+320 bytes, with filename at offset 44. Only attributes and the name alias are
+consumed; excess allocation is unobserved. It returns actual directory entries
+to its own skip loop, retains the real search handle across argument parsing
+and closes it on exhaustion. Shared FindFirst/Next/Close support uses independent
+real directory handles and the existing DOS matcher; it adds no application
+credit or captured directory replay. This input qualifies one ASCII regular-file
+match, not multi-match ordering, short-name or general filesystem equivalence.
+
+The extractor scans real archive headers and long names, uses the genuine
+`_mbsicmp` comparison, derives its default output basename and copies through
+the actual mapped destination. The original's success path frees its library
+indexes, closes the files and calls `exit(0)`; it does not return to the librarian
+caller. Its normal missing-member RET4 and buffered-copy branches remain
+unvisited. Narrow import/extent checks corrected a provisional `_stricmp` name
+before new execution. Finite ordinary stdcall/WinAPI nonvolatile contracts retain
+the actual cached import sites, with zero opaque calls; no provider-body campaign
+or behavioral claim follows from those ABI facts.
+
+The final original took 1,265.7 ms; fresh native comparison took 18.5 ms
+(12.2 ms setup, 3.2 ms execution, 3.0 ms checks). The single parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 6.14 s:
+38 cases, 649 graph vertices, 634 scoped return contracts and eight distinct
+EH-owner checks. All raw references, original-produced archive/member identity,
+pre-support frontiers and failed static checks remain in scratch. These are
+incremental measurements.

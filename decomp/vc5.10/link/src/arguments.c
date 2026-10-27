@@ -208,7 +208,46 @@ int __stdcall is_libpath(const char *text)
     return _mbsnbicmp((const unsigned char *)text,(const unsigned char *)prefix,
                       strlen(prefix))==0;
 }
-void __stdcall expand_wildcards(const char *text) { __asm { int 3 } }
+/* The Win32 enumeration child is a separate real application entry. */
+static WIN32_FIND_DATAA *wildcard_data; /* Original494814; pointer owner only. */
+static HANDLE wildcard_handle;         /* Original4948b0. */
+char *__stdcall next_wildcard_file(const char *pattern)
+{
+    if(pattern) {
+        /* Original request is580 bytes; only the320-byte ANSI result is used. */
+        if(!wildcard_data)wildcard_data=(WIN32_FIND_DATAA *)allocate_memory(0x244);
+        if(wildcard_handle) {
+            FindClose(wildcard_handle);
+            wildcard_handle=NULL;
+        }
+        wildcard_handle=FindFirstFileA(pattern,wildcard_data);
+        if(wildcard_handle==INVALID_HANDLE_VALUE) {
+            wildcard_handle=NULL;
+            return NULL;
+        }
+    } else {
+next:
+        if(!FindNextFileA(wildcard_handle,wildcard_data)) {
+            FindClose(wildcard_handle);
+            wildcard_handle=NULL;
+            return NULL;
+        }
+    }
+    if(wildcard_data->dwFileAttributes&FILE_ATTRIBUTE_DIRECTORY)goto next;
+    return wildcard_data->cFileName;
+}
+void __stdcall expand_wildcards(const char *text)
+{
+    char drive[4],directory[256],path[260];
+    char *name;
+    _splitpath(text,drive,directory,NULL,NULL);
+    name=next_wildcard_file(text);
+    while(name) {
+        _makepath(path,drive,directory,name,NULL);
+        parse_argument(path,1);
+        name=next_wildcard_file(NULL);
+    }
+}
 unsigned char __stdcall search_library_paths(const char *,char *);
 char *__stdcall canonicalize_argument(const char *text,const char *extension)
 {

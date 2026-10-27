@@ -5715,5 +5715,41 @@
       ]
     },
     "basis": "Public cdecl int _access(const char*,int) and int _unlink(const char*) preserve x86 nonvolatile ESI on normal return. Actual target caches IAT401270 (_unlink) in ESI at4301c8 and calls it at4301d8/430202, spanning actual _access4301ef. No provider-body audit or error/success semantics are added."
-  }
+  },
+  "archive_extract_ordinary_abi": [
+    {
+      "owner": "_expand_wildcards@4",
+      "normal_return_preservation": {
+        "_parse_argument@8": [
+          "esi"
+        ],
+        "_next_wildcard_file@4": [
+          "esi"
+        ]
+      },
+      "basis": "Actual target caches the identified _makepath IAT4010dc in ESI at45c4e0, uses45c4fb, then calls ordinary stdcall parse_argument(const char*,BYTE) and next_wildcard_file(const char*) before the loop returns to that cached call. The x86 original-compiler stdcall ABI preserves ESI on normal return. The genuine enumeration helper explicitly saves/restores ESI through all three RET4 paths. At the expansion-only prerequisite it remained a genuine native named trap/implementation0. Its later whole-body qualification is separate; this contract claims only normal-return ESI preservation, not nonlocal-return behavior."
+    },
+    {
+      "owner": "_next_wildcard_file@4",
+      "normal_return_preservation": {
+        "_allocate_memory@4": [
+          "ebx",
+          "edi"
+        ],
+        "kernel32.dll!FindClose": [
+          "ebx",
+          "edi"
+        ],
+        "kernel32.dll!FindFirstFileA": [
+          "ebx",
+          "edi"
+        ],
+        "kernel32.dll!FindNextFileA": [
+          "ebx",
+          "edi"
+        ]
+      },
+      "basis": "Actual original caches FindClose401030 in EBX at45c406 and FindNextFileA401034 in EDI at45c415. The identified ordinary stdcall allocation and SDK WINAPI enumeration calls preserve those nonvolatile registers on normal return. Original cached close sites45c43c/45c47f and next site45c472 are distinct from direct first site45c44b. No enumeration/error behavior, provider body or nonlocal return is inferred from ABI."
+    }
+  ]
 }

@@ -31,7 +31,6 @@ void RECON_THISCALL LibrarianContext::EmitImportDebugRelocations(LibrarianImport
 extern "C" {
 void __cdecl librarian_usage(void) { __asm { int 3 } }
 void __stdcall list_librarian_members(OutputLibrary *) { __asm { int 3 } }
-void __stdcall extract_librarian_member(LinkContext *) { __asm { int 3 } }
 void __stdcall free_librarian_inputs(LinkPointerList *list)
 {
     LibraryEnumerator libraries;
