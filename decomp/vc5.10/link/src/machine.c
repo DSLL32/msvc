@@ -135,7 +135,48 @@ BYTE __stdcall classify_x86_relocation(Contribution *contribution,WORD type,DWOR
     return 0;
 }
 void __stdcall initialize_mips_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
-void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
+BYTE __stdcall classify_alpha_relocation(Contribution *contribution,WORD type,DWORD mode,BYTE vxd)
+{
+    switch(type) {
+    case IMAGE_REL_ALPHA_ABSOLUTE:
+        return 1;
+    case IMAGE_REL_ALPHA_PAIR:
+        if((BYTE)mode)link_contribution_fatal(contribution,1187,"PAIR");
+        return 1;
+    case IMAGE_REL_ALPHA_MATCH:
+        if((BYTE)mode)link_contribution_fatal(contribution,1187,"MATCH");
+        return 1;
+    case IMAGE_REL_ALPHA_REFLONG: case IMAGE_REL_ALPHA_REFQUAD:
+    case IMAGE_REL_ALPHA_GPREL32: case IMAGE_REL_ALPHA_LITERAL:
+    case IMAGE_REL_ALPHA_LITUSE: case IMAGE_REL_ALPHA_BRADDR:
+    case IMAGE_REL_ALPHA_HINT: case IMAGE_REL_ALPHA_INLINE_REFLONG:
+    case IMAGE_REL_ALPHA_REFHI: case IMAGE_REL_ALPHA_REFLO:
+    case IMAGE_REL_ALPHA_SECTION: case IMAGE_REL_ALPHA_SECREL:
+    case IMAGE_REL_ALPHA_REFLONGNB: case IMAGE_REL_ALPHA_SECRELLO:
+    case IMAGE_REL_ALPHA_SECRELHI:
+        return 0;
+    }
+    link_contribution_fatal(contribution,1190,(unsigned)type);
+    return 0;
+}
+void __stdcall process_alpha_relocations(Contribution *,IMAGE_RELOCATION *,DWORD,BYTE *,IMAGE_SYMBOL *,LinkContext *,DWORD *);
+void __stdcall initialize_alpha_backend(LinkContext *context,BYTE *incremental_supported)
+{
+    *incremental_supported=1;
+    if(!(context->specified_switches & 1))context->optional_header.SectionAlignment=0x2000;
+    process_relocations=process_alpha_relocations;
+    classify_relocation=classify_alpha_relocation;
+    if(context->options.rom) {
+        small_section_alignment=1;
+        context->file_header.SizeOfOptionalHeader=0x38;
+        if(!context->optional_header.BaseOfCode)
+            context->optional_header.BaseOfCode=context->optional_header.ImageBase;
+        context->optional_header.ImageBase=0;
+    } else if(context->optional_header.SectionAlignment<0x2000) {
+        small_section_alignment=1;
+        context->optional_header.FileAlignment=context->optional_header.SectionAlignment;
+    }
+}
 void __stdcall initialize_sh_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_mac_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }
 void __stdcall initialize_ppc_backend(LinkContext *context,BYTE *incremental_supported) { __asm { int 3 } }

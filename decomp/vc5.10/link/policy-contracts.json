@@ -5419,5 +5419,17 @@
       },
       "basis": "Identified public cdecl _itoa and existing strncpy signatures preserve ESI. File/statistics calls use their actual ordinary stdcall/cdecl ABI and preserve ESI across the later cached short-name copy. Finite normal-return facts only; no provider-byte campaign or pending body credit."
     }
+  ],
+  "alpha_resource_case_ordinary_abi": [
+    {
+      "owner": "_read_alpha_relocations@24",
+      "cached_import": "mspdb50.dll!SigForPbCb IAT401294 in EDI at40a6e9; sites40a7b8/40a7c4/40a7d7/40a87a/40a886",
+      "normal_return_preservation": {
+        "_classify_alpha_relocation@16": [
+          "edi"
+        ]
+      },
+      "basis": "Actual stdcall four-slot classifier returns RET16; complete original409a10..409a92 own instructions do not write EDI, and its only callee is the existing ordinary caller-cleaned contribution-fatal boundary. Native pending counterpart remains a named trap, no body or error-domain credit. Existing SigForPbCb, symbol-name, strncpy, reference-record and fatal ordinary EDI contracts are reused."
+    }
   ]
 }

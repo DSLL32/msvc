@@ -1,7 +1,7 @@
 # VC5.10 LINK
 
-515 application functions / 179,776 original code bytes are reconstructed
-(43.34% of the 414,810-byte whole `.text` extent, which includes CRT and text
+521 application functions / 183,871 original code bytes are reconstructed
+(44.33% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 41 pending bodies with known extents totaling 4,624 bytes and
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all twenty cached native cases and their narrow checks;
+`make -j4 check unit` runs all twenty-one cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-528-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 510 ordinary application bodies and six CRT bodies. Seven import
+534-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 516 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The five genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -406,3 +406,36 @@ The unaccepted mapper remains a named entry trap with implementation 0; its
 whole source draft, authored inputs, raw pairs and blocked-case snapshot remain
 in scratch. No collision was seeded or emulated, and these prefixes make no
 incremental-completion claim.
+
+
+The Alpha resource-only DLL case uses a genuine original RC/CVTRES-produced
+Alpha COFF object with English/German string tables, version information and
+a named binary resource. Both sides exit 0 with 248 application first entries
+and matching 2,560-byte DLL and 406-byte map. The final masked reference also
+matches the separately retained untouched master outside the same clock fields.
+Only the DLL COFF TimeDateStamp DWORD at PE+8 and the map's corresponding eight
+hexadecimal digits and 24-character ctime text are normalized. Resource trees,
+UTF-16 strings, payloads, fixups, padding, lengths and complete inventory remain
+strict. Raw artifacts and failed clock-only comparisons stay in scratch.
+
+Six whole bodies / 4,095 original code bytes recover Alpha backend setup,
+relocation classification/sizing/application, section data sizing and code-range
+sizing. Existing section, contribution, incremental-code and GP owners are reused.
+The actual reader retains five cached SigForPbCb sites under finite ordinary EDI
+preservation contracts. Seven-slot fixup calls retain RET28; code-range sizing
+retains its receiver, three stack slots and RET12. The pending branch-target,
+auxiliary-fixup and diagnostic children remain named entry traps with zero body
+credit. This workload exercises resource REFLONGNB serialization, not Alpha
+instruction execution, GP-relative code, large-image branch islands, ROM output
+or incremental linking. The original branch helper consumes only the low BYTE
+of its physical absolute-state DWORD; no equality of the caller's unwritten
+upper scratch bytes is claimed.
+
+The ordinary resource producer used the original RC source retained in case.h;
+failed /nologo and dummy-header-only guarded-input attempts remain excluded.
+The genuine completion original took 1,273.4 ms. Its corrected native comparison
+took 17.3 ms (10.2 ms setup, 3.8 ms execution, 3.2 ms checks). The single case-end
+parallel cached regression/unit/original-build/full-audit batch passed in 3.71 s,
+covering twenty-one fixtures, the 534-vertex graph, 522 return contracts and the
+five existing C++ EH-owner checks. These are incremental timings; the batch is
+not an isolated audit or clean-build measurement.

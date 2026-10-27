@@ -16,7 +16,7 @@ extern BYTE no_base_relocations,large_alpha_image,large_ppc_image;
 extern OutputModule *output_module;
 extern OutputSection *relocation_section;
 extern ContributionGroup *mac_procedure_group;
-extern Contribution *mac_data,*mac_toc;
+extern Contribution *mac_data,*mac_toc,*incremental_code;
 /* Original 47ef88: indexed only by contributions belonging to output_module. */
 Contribution **output_contribution_map;
 DWORD __stdcall align_section_size(DWORD,DWORD);
@@ -365,6 +365,64 @@ void RECON_THISCALL LinkContext::WriteSections(DWORD *line_offset)
         }
     }
     end_section_enumerator(&enumerator);
+}
+
+DWORD RECON_THISCALL LinkContext::RangeCodeBytes(DWORD start,DWORD limit,Contribution **last)
+{
+    SectionEnumerator sections_enum;
+    GroupEnumerator groups;
+    GroupContributionEnumerator contributions;
+    Contribution *previous=NULL,*boundary=NULL;
+    DWORD result=0;
+    if(last)*last=NULL;
+    initialize_section_enumerator(&sections_enum,&sections);
+    while(next_output_section(&sections_enum)) {
+        OutputSection *section=sections_enum.current;
+        DWORD address,bytes,aligned,padding;
+        if((section->characteristics & 0x1e0)!=IMAGE_SCN_CNT_CODE ||
+           strcmp(section->name,".text"))continue;
+        address=start;
+        bytes=0;
+        initialize_group_enumerator(&groups,section);
+        while(next_contribution_group(&groups)) {
+            ContributionGroup *group=groups.current;
+            aligned=address & ~(DWORD)(group->alignment-1);
+            if(aligned!=address)aligned+=group->alignment;
+            padding=aligned-address;
+            address+=padding;
+            bytes+=padding;
+            initialize_group_contributions(&contributions,group);
+            while(next_group_contribution(&contributions)) {
+                Contribution *contribution=contributions.current;
+                Contribution *before=previous;
+                previous=contribution;
+                padding=contribution->raw_size ?
+                    align_section_size(address,contribution->characteristics)-address : 0;
+                address+=padding+contribution->raw_size;
+                bytes+=padding+contribution->raw_size;
+                if(limit && !boundary && incremental_code &&
+                   limit>=incremental_code->raw_size && bytes>=limit-incremental_code->raw_size)
+                    boundary=before;
+            }
+        }
+        result=ROUND_UP(section->raw_size+bytes,optional_header.FileAlignment);
+    }
+    if(last && boundary)*last=boundary;
+    return result;
+}
+
+extern "C" DWORD __stdcall section_data_size(OutputSection *section)
+{
+    GroupEnumerator groups;
+    GroupContributionEnumerator contributions;
+    DWORD size=0;
+    initialize_group_enumerator(&groups,section);
+    while(next_contribution_group(&groups)) {
+        initialize_group_contributions(&contributions,groups.current);
+        while(next_group_contribution(&contributions))
+            size+=contributions.current->raw_size;
+    }
+    return size;
 }
 
 extern "C" void __stdcall count_section_lines(LinkOptions *options,OutputSection *section)

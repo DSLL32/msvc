@@ -1,7 +1,6 @@
 /* Named original boundaries. Each body stays an INT3 until reconstructed. */
 #include "full-link-functions.h"
 #include <recon.h>
-DWORD RECON_THISCALL LinkContext::RangeCodeBytes(DWORD start,DWORD limit,Contribution **last) { __asm { int 3 } return 0; }
 extern "C" void __cdecl finish_alpha_branches(void) { __asm { int 3 } }
 extern "C" unsigned __stdcall buffered_read(FileRecord *file,void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
 extern "C" unsigned __stdcall buffered_write(FileRecord *file,const void *buffer,unsigned bytes) { __asm { int 3 } return 0; }
@@ -21,7 +20,6 @@ extern "C" void __stdcall allocate_mac_incremental_table(DWORD count,BYTE fixed)
 void RECON_THISCALL LinkContext::PrepareMacDebugSections(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacRuntimeSections(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareNativeRelocations(void) { __asm { int 3 } }
-extern "C" DWORD __stdcall section_data_size(OutputSection *section) { __asm { int 3 } return 0; }
 extern "C" DWORD __stdcall mips_code_padding(Contribution *contribution) { __asm { int 3 } return 0; }
 extern "C" void __stdcall add_alpha_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }
 extern "C" void __stdcall add_ppc_branch_island(Contribution *last,DWORD rva,DWORD count) { __asm { int 3 } }

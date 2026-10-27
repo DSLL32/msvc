@@ -39,6 +39,7 @@ typedef struct LinkAuxiliaryData {
     void *auxiliary_records;
     DWORD procedure_padding,procedure_record_size;
 #ifdef __cplusplus
+    BYTE RECON_THISCALL RecordFixup(DWORD,WORD,Contribution *,DWORD,SHORT);
     void RECON_THISCALL SetProcedureSize(WORD machine,DWORD bytes);
     BYTE RECON_THISCALL PrepareOutput(void);
     BYTE RECON_THISCALL WriteProcedures(WORD,void *,Contribution *);
