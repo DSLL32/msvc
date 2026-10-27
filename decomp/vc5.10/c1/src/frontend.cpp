@@ -462,7 +462,7 @@ extern "C" void __cdecl preprocess_translation_unit(void)
 }
 extern "C" void __cdecl finish_parser(int result) { __asm { int 3 } }
 extern "C" void __cdecl finish_parser_tables(void) { __asm { int 3 } }
-extern "C" void __cdecl compiler_warning(int code, ...) { __asm { int 3 } }
+
 void RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } }
 int RECON_THISCALL CompilerOutputBuffer::Close(void)
 {

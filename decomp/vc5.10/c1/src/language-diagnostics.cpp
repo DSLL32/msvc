@@ -64,7 +64,9 @@ extern "C" void __cdecl report_language_diagnostic(unsigned level, unsigned numb
 }
 extern "C" const char *__stdcall get_diagnostic_message(unsigned number)
 {
-    if (number != C1_TEXT_FASTCALL_STACK_CHECK && number != C1_TEXT_ILLEGAL_INITIALIZATION) {
+    if (number != C1_TEXT_FASTCALL_STACK_CHECK && number != C1_TEXT_ILLEGAL_INITIALIZATION &&
+        number != C1_TEXT_SYNTAX_ERROR_TOKEN && number != C1_TEXT_MEMBER_NOT_FOUND &&
+        number != C1_TEXT_TOO_FEW_ARGUMENTS && number != C1_TEXT_INCOMPATIBLE_TYPES) {
 #ifdef __linux__
         recon_unsupported("language diagnostic resource is not reconstructed");
 #else
@@ -174,4 +176,24 @@ extern "C" void __cdecl compiler_warning_v(unsigned number, va_list arguments)
     if (++c1_bss.parser_early_result > 100) compiler_error(3, 100);
     if (c1_bss.debug_module && !c1_bss.debug_module->Slot44())
         compiler_error(73, ".\\error.c", 198);
+}
+
+/* Source-only DWORD at5f34c. Suppression-mode count ownership/default has not
+ * been qualified; stop before its read/write in either build. */
+static int unmodeled_suppressed_diagnostic_count;
+extern "C" void __cdecl compiler_warning(int code, ...)
+{
+    va_list arguments;
+    if (c1_data.parser_flags & 0x20000) {
+#ifdef __linux__
+        recon_unsupported("suppressed diagnostic counter is not yet modeled");
+#else
+        __asm { int 3 }
+#endif
+        ++unmodeled_suppressed_diagnostic_count;
+        return;
+    }
+    va_start(arguments, code);
+    compiler_warning_v(code, arguments);
+    va_end(arguments);
 }

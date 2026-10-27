@@ -91,4 +91,8 @@ BEGIN
     C1_TEXT_MEMORY_RELEASE_NOTE                              "Note: non-fatal system error releasing memory (%d)\n"
     C1_TEXT_ILLEGAL_INITIALIZATION "illegal initialization"
     C1_TEXT_FASTCALL_STACK_CHECK "__fastcall with stack checking is inefficient"
+    C1_TEXT_SYNTAX_ERROR_TOKEN                                "syntax error : '%$*'"
+    C1_TEXT_MEMBER_NOT_FOUND "'%$*' : is not a member of '%$S'"
+    C1_TEXT_TOO_FEW_ARGUMENTS "'%$*' : too few actual parameters"
+    C1_TEXT_INCOMPATIBLE_TYPES "'%$L' : incompatible types"
 END

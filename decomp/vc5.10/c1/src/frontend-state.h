@@ -40,6 +40,7 @@ typedef union CompilerExpressionClasses {
         BYTE unmodeled_71[3], assignment; /* kind116, RVA63cec ->116 */
         BYTE unmodeled_75[1], left_parenthesis; /* kind118 ->118 */
         BYTE unmodeled_77[7], right_parenthesis; /* kind126 ->126 */
+        BYTE semicolon; /* kind127 ->127 */
     } known;
     BYTE indexed[1];
 } CompilerExpressionClasses;
@@ -490,7 +491,8 @@ typedef union CompilerParserValue {
     struct CompilerParameterDescription *parameters;
     CompilerParserNode *node;
     struct { struct CompilerDeclarator *declarator; struct CompilerIrSymbol *symbol; } declarator_symbol;
-    struct { CompilerType *type; unsigned unmodeled_04; __int64 value; } typed_constant;
+    struct { CompilerType *type; unsigned unmodeled_04;
+             union { __int64 value; struct { unsigned low, high; }; }; } typed_constant;
     struct { CompilerType *type; unsigned unmodeled_04; InitializerExtendedReal *value; } real_constant;
     struct { const char *text; unsigned length; } string;
     CompilerStringValue string_attributes; /* Quoted-token WORD fields at+4/+6. */

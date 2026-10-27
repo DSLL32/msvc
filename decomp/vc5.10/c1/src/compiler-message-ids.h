@@ -94,5 +94,9 @@
 #define C1_TEXT_FASTCALL_STACK_CHECK 4124
 
 #define C1_COMPILER_MESSAGE_COUNT 87
+#define C1_TEXT_SYNTAX_ERROR_TOKEN                                2059
+#define C1_TEXT_MEMBER_NOT_FOUND 2039
+#define C1_TEXT_TOO_FEW_ARGUMENTS 2198
+#define C1_TEXT_INCOMPATIBLE_TYPES 2115
 #include <recon.h>
 #endif

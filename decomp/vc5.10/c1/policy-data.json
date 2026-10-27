@@ -6073,21 +6073,21 @@
             [
               {
                 "rebuilt_symbol": "_format_buffer_v",
-                "offset": 1709
+                "offset": 1768
               },
               {
                 "rebuilt_symbol": "_format_buffer_v",
-                "offset": 1834
+                "offset": 1893
               }
             ],
             [
               {
                 "rebuilt_symbol": "_format_buffer_v",
-                "offset": 1834
+                "offset": 1893
               },
               {
                 "rebuilt_symbol": "_format_buffer_v",
-                "offset": 1932
+                "offset": 1991
               }
             ]
           ],
@@ -6136,7 +6136,7 @@
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1327
+                  "offset": 1388
                 }
               ]
             },
@@ -6172,7 +6172,7 @@
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1104
+                  "offset": 1165
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
@@ -6180,19 +6180,19 @@
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1160
+                  "offset": 1221
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1250
+                  "offset": 1311
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1283
+                  "offset": 1344
                 },
                 {
                   "rebuilt_symbol": "_format_buffer_v",
-                  "offset": 1306
+                  "offset": 1367
                 }
               ]
             }
@@ -7674,6 +7674,63 @@
                 {
                   "rebuilt_symbol": "_skip_preserved_macro_comment",
                   "offset": 103
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "_report_parser_error": {
+        "original": {
+          "switches": {
+            "274985733": [
+              274985740,
+              274985740,
+              274985751,
+              274985797,
+              274985852
+            ]
+          }
+        },
+        "rebuilt": {
+          "text_data": [
+            [
+              {
+                "rebuilt_symbol": "_report_parser_error",
+                "offset": 272
+              },
+              {
+                "rebuilt_symbol": "_report_parser_error",
+                "offset": 324
+              }
+            ]
+          ],
+          "switches": [
+            {
+              "site": {
+                "rebuilt_symbol": "_report_parser_error",
+                "offset": 121
+              },
+              "targets": [
+                {
+                  "rebuilt_symbol": "_report_parser_error",
+                  "offset": 128
+                },
+                {
+                  "rebuilt_symbol": "_report_parser_error",
+                  "offset": 128
+                },
+                {
+                  "rebuilt_symbol": "_report_parser_error",
+                  "offset": 140
+                },
+                {
+                  "rebuilt_symbol": "_report_parser_error",
+                  "offset": 187
+                },
+                {
+                  "rebuilt_symbol": "_report_parser_error",
+                  "offset": 243
                 }
               ]
             }

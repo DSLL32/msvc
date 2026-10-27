@@ -591,6 +591,7 @@ read_action:
         case 132:
         case 135:
         case 136:
+        case 134: /* Error-statement recovery enters the genuine ClearRecovery child. */
         case 138: /* Expression statement consumes its established expression node. */
         case 137:
         case 139:
@@ -6450,6 +6451,12 @@ void __cdecl check_constant_conversion(unsigned, CompilerParserNode *, CompilerT
     !(d)->attributes && !((s)->attributes & ~0x10U) && !(d)->shape && !(s)->shape && \
     (d)->symbol_owner && (d)->symbol_owner == (s)->symbol_owner && \
     (d)->symbol_owner->kind == 4 && ((d)->symbol_owner->flags & 1))
+/* This known incompatible alternative takes the real C2115 path before any
+ * structured conversion. Only the complete record's established owner is read. */
+#define RECORD_TO_INT_DIAGNOSTIC(d,s) (!(d)->shape && (d)->flags == 0x63 && \
+    !(d)->attributes && !(d)->auxiliary && !(s)->shape && (s)->flags == 0x402 && \
+    !((s)->attributes & ~0x110U) && (s)->symbol_owner && \
+    (s)->symbol_owner->kind == 4 && ((s)->symbol_owner->flags & 1))
 int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
     CompilerParserNode *value)
 {
@@ -6466,6 +6473,7 @@ int __cdecl convert_expression_to_type(unsigned operation, CompilerType *type,
         !((operation == 125 || operation == 112) && type == value->type && !type->shape &&
           type->flags == 0x402 && !type->attributes && type->symbol_owner &&
           type->symbol_owner->kind == 4 && (type->symbol_owner->flags & 1)) &&
+        !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(type, value->type)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(type, value->type)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(type, value->type)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(type, value->type)) &&
@@ -6540,6 +6548,7 @@ int __cdecl check_assignment_types(unsigned operation, CompilerType *destination
           (destination->flags == 0x106 || destination->flags == 0x107) &&
           (source->flags == 0x106 || source->flags == 0x107) &&
           !(destination->attributes & ~0x100U) && !(source->attributes & ~0x110U)) &&
+        !(operation == 116 && RECORD_TO_INT_DIAGNOSTIC(destination, source)) &&
         !(operation == 116 && CDECL_CALLBACK_ASSIGNMENT(destination, source)) &&
         !(operation == 112 && VOLATILE_SHORT_ARGUMENT(destination, source)) &&
         !(operation == 112 && CONST_INT_ARRAY_ARGUMENT(destination, source)) &&
@@ -6878,7 +6887,7 @@ int __cdecl returns_local_address(CompilerParserNode *value)
     return 0;
 }
 /* Encountered semantic cells of shared BYTE column63c78; gaps remain unmodeled. */
-CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126 } };
+CompilerExpressionClasses c1_expression_classes = { { {0}, 6, 7, {0}, 1, {0}, 50, {0}, 52, {0}, 110, 60, 61, 124, {0}, 65, {0}, 128, 124, {0}, 70, {0}, 74, {0}, 79, {0}, 81, {0}, 131, {0}, 101, {0}, 112, {0}, 116, {0}, 118, {0}, 126, 127 } };
 CompilerParserNode *__cdecl strip_value_wrappers(CompilerParserNode *value)
 {
     for (;;) {
@@ -7920,7 +7929,44 @@ void __cdecl report_expected_parser_token(CompilerParserToken *, int) { __asm { 
 /* RVA3f281 */
 CompilerParserValue * __cdecl make_recovery_parser_value(CompilerParserValue *, int) { __asm { int 3 } return 0; }
 /* RVA3f2c2 */
-void __cdecl report_parser_error(const char *) { __asm { int 3 } }
+CompilerParserToken *__cdecl current_parser_lookahead(void)
+{
+    return c1_data.active_parser->lookahead;
+}
+void __cdecl report_parser_error(const char *message)
+{
+    CompilerParserToken *token;
+    if (parser_flags & 0x200) return;
+    if (*message == 'y') compiler_fatal(26);
+    token = current_parser_lookahead();
+    if (token->kind != 6 && token->kind != 127) {
+#ifdef __linux__
+        recon_unsupported("parser diagnostic token classification is not yet recovered");
+#else
+        __asm { int 3 }
+#endif
+    }
+    switch (c1_expression_classes.indexed[token->kind]) {
+    case 0: case 5:
+        compiler_fatal(4);
+        break;
+    case 6:
+        if (current_parser_lookahead()->value.name)
+            compiler_warning(61, current_parser_lookahead()->value.name);
+        else compiler_warning(132);
+        break;
+    case 31:
+        /* These actual incoming token words are only diagnostic operands;
+         * their wider literal roles remain behind the classification guard. */
+        if (current_parser_lookahead()->value.typed_constant.high)
+            compiler_warning(226, current_parser_lookahead()->value.typed_constant.high);
+        else compiler_warning(62, current_parser_lookahead()->value.typed_constant.low);
+        break;
+    default:
+        compiler_warning(59, 76, current_parser_lookahead()->kind);
+        break;
+    }
+}
 /* RVA3f393 */
 void __cdecl skip_declaration_tokens(void) { __asm { int 3 } }
 /* RVA3f3ff */
@@ -8038,7 +8084,10 @@ void RECON_THISCALL CompilerTranslationUnit::EnterParameterScope(int value)
     }
     RegisterScope(scope);
 }
-void RECON_THISCALL CompilerParser::ClearRecovery(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerParser::ClearRecovery(void)
+{
+    recovery_shifts = 0;
+}
 
 /* New direct children remain genuine pending boundaries. */
 extern "C" CompilerParserToken *__cdecl process_special_token(CompilerParserToken *);

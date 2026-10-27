@@ -379,13 +379,16 @@ extern "C" int __cdecl format_buffer_v(char *buffer, const char *format,
                     break;
                 case 'L':
                     code = (BYTE)va_arg(arguments, int);
-                    /* Original indexes diagnostic names at RVA638a0. No
-                     * selector/name relation is recovered at this frontier. */
+                    /* Encountered relations at638a0: semicolon127 and initializing116.
+                     * Other token-name cells remain unsupported before lookup. */
+                    if (code != 127 && code != 116) {
 #ifdef __linux__
-                    recon_unsupported("unmodeled diagnostic token-name column");
+                        recon_unsupported("unmodeled diagnostic token-name column");
 #else
-                    __asm { int 3 }
+                        __asm { int 3 }
 #endif
+                    }
+                    fragment = code == 127 ? ";" : "initializing";
                     break;
                 case 'M':
                     code = va_arg(arguments, unsigned);

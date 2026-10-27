@@ -42,15 +42,20 @@ int c1_minimal_setup(void)
  recon_controlfp(0x10000, 0x30000);
  return 1;
 }
-int c1_messages_setup(void)
+int c1_named_messages_setup(const char *name)
 {
  const char *assets = recon_case_assets();
  int length;
  if (!assets) return 0;
  length = snprintf(compiler_resource_asset,sizeof(compiler_resource_asset),
-                   "%s/compiler-messages.rmr",assets);
+                   "%s/%s",assets,name);
  if (length < 0 || (unsigned)length >= sizeof(compiler_resource_asset)) return 0;
  return c1_minimal_setup();
+}
+
+int c1_messages_setup(void)
+{
+ return c1_named_messages_setup("compiler-messages.rmr");
 }
 
 int c1_minimal_invoke(int argc, char **argv)
