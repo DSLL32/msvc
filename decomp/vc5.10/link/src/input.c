@@ -87,6 +87,26 @@ DWORD __stdcall read_big_endian_dword(int file)
     buffered_read(record,&value,4);
     return byte_swap_dword(value);
 }
+#pragma intrinsic(memcpy)
+void __stdcall swap_byte_order(void *data,DWORD bytes)
+{
+    BYTE *position=(BYTE *)data,temporary[4];
+    DWORD count,i;
+    while(bytes) {
+        count=bytes<4?bytes:4;
+        memcpy(temporary,position,count);
+        for(i=0;i<count;++i)position[count-i-1]=temporary[i];
+        position+=count;
+        bytes-=count;
+    }
+}
+
+WORD __stdcall byte_swap_word(WORD value)
+{
+    /* The original defines AX only; every recovered caller consumes that WORD. */
+    return (WORD)((value<<8)|(value>>8));
+}
+
 DWORD __stdcall byte_swap_dword(DWORD value)
 {
     union { DWORD value; BYTE byte[4]; } result;

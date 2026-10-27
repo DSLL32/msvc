@@ -1114,7 +1114,6 @@ void __stdcall dump_base_reloc_block(IMAGE_BASE_RELOCATION *block,const void *en
     }
 }
 void __stdcall dump_separate_pdata(const void *,DWORD) { __asm { int 3 } }
-void __stdcall dump_mppc_loader(const void *) { __asm { int 3 } }
 void __stdcall dump_rom_relocations(IMAGE_SECTION_HEADER *,DWORD,const void *,DWORD) { __asm { int 3 } }
 
 void __stdcall dump_line_numbers(DWORD count)

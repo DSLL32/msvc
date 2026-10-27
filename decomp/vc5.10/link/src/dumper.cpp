@@ -470,7 +470,6 @@ void __stdcall dump_separate_debug_file(const char *name)
 /* The original recognizes NE, but only emits its unsupported-format warning. */
 void __stdcall dump_ne_file(const char *name) { link_warning(NULL,4095,name); }
 void __stdcall dump_unknown_file(const char *name) { __asm { int 3 } }
-void __stdcall dump_pef_file(void *image) { __asm { int 3 } }
 BYTE __stdcall is_supported_coff_file(const char *name,const IMAGE_FILE_HEADER *header)
 {
     /* The dumper accepts the same encountered machine numbers as the input

@@ -6047,5 +6047,58 @@
         "basis": "Identified ordinary void stdcall(DumperSectionState*,const char*,DWORD)/RET12 guarantees nonvolatile EBX on normal return; existing EBP fact retained. No callback/provider behavior is granted."
       }
     ]
+  },
+  "pef_byte_order_ordinary_abi": {
+    "owner": "_dump_pef_relocation_headers@8",
+    "cache": "Original424683 caches fprintf in EBP, reused at4246ea across the identified byte-order helpers.",
+    "facts": [
+      {
+        "target": "_byte_swap_word@4",
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Actual45d870..45d885 is WORD stdcall(WORD)/RET4, no EBP write or nested call. Only low WORD input/result are consumed; upper EAX is unspecified carry, never an equality claim. Body remains unimplemented until genuine matching entry progression."
+      },
+      {
+        "target": "_byte_swap_dword@4",
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Identified ordinary DWORD stdcall(DWORD)/RET4 preserves nonvolatile EBP on normal return; already qualified byte-order body."
+      }
+    ]
+  },
+  "pef_relocation_ordinary_abi": {
+    "owner": "_dump_pef_relocations@8",
+    "cache": "Original423a53 caches fprintf in EDI, reused through the ordinary byte-order helper calls in the section/instruction loops.",
+    "facts": [
+      {
+        "target": "_byte_swap_word@4",
+        "preserves": [
+          "edi"
+        ],
+        "basis": "Identified ordinary x86 stdcall byte-order helper; nonvolatile EDI is preserved on normal return. No callback, provider implementation or nonlocal-return claim."
+      },
+      {
+        "target": "_swap_byte_order@8",
+        "preserves": [
+          "edi"
+        ],
+        "basis": "Identified ordinary x86 stdcall byte-order helper; nonvolatile EDI is preserved on normal return. No callback, provider implementation or nonlocal-return claim."
+      }
+    ]
+  },
+  "pef_hash_ordinary_abi": {
+    "owner": "_dump_pef_hash_slots@8",
+    "cache": "Original424724 caches fprintf in EBP across swap_byte_order42475b.",
+    "facts": [
+      {
+        "target": "_swap_byte_order@8",
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Identified ordinary void stdcall(void*,DWORD)/RET8 preserves nonvolatile EBP on normal return."
+      }
+    ]
   }
 }

@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-706 application functions / 258,722 original code bytes are reconstructed
-(62.37% of the 414,810-byte whole `.text` extent, which includes CRT and text
+720 application functions / 263,415 original code bytes are reconstructed
+(63.50% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-161 entries whose body extents remain unknown; this is not a complete non-CRT
+160 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-nine cached native cases and their narrow checks;
+`make -j4 check unit` runs all fifty cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-719-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 698 ordinary application bodies and six CRT bodies. Seven import
+733-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 712 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1364,3 +1364,33 @@ no reference was launched after that failed build.
 One parallel case-end regression/unit/original-build and full graph/RET/EH
 batch passed in 5.50 s: 49 cached cases, 719 graph vertices, 704 scoped return
 contracts and nine distinct EH/SEH checks. These are incremental measurements.
+
+The PEF inspection case uses a transparent Apple-format PowerPC container with
+four sections, two declared import libraries/symbols, three hashed exports and
+three bounded relocation instructions. Construction follows the frozen Apple
+PEF structures, hash rules and relocation grammar; independent checks bind all
+section/table spans, export lookup and relocation destinations. This is format
+inspection: the code is never executed, imports are not invoked, and no CFM
+loader, external provider or disassembler behavior is claimed.
+
+Both runs exit 0 after 91 application first entries with exactly matching
+4,548-byte output and no normalization. The untouched full original master and
+corrected-mask completion have identical capture payloads. This includes the
+original reverse export-name walk and its trailing partial string: the source
+retains the name-length-only offset advance. The actual first-export-name DWORD
+is initialized once and retained across files. Current observations cover the
+CODE, DATA and imported-symbol relocation runs; native guards stop a future
+repeat before reading any history slot the original has not yet written.
+Other relocation branches remain source/static evidence, and the distinct
+MPPC relocation decoder remains a genuine pending trap.
+
+This case adds fourteen whole bodies / 4,693 code bytes: container/section and
+loader inspection, import and relocation tables, hash/export/string traversal,
+and the encountered byte-order helpers. The WORD helper defines only the
+consumed low WORD, with no upper-EAX equality claim. Native completion took
+18.924 ms (12.298 ms setup, 3.178 ms execution, 3.447 ms checks); its original
+reference took 1,437.195 ms. The case-end batch first stopped on a stale witness
+hash after 2.845 s. Correcting that metadata and running only the remaining
+cached cases plus full audit took 4.925 s. All fifty cached cases, unit checks,
+original build, 733 graph vertices, 718 scoped RET bodies and the existing nine
+EH/SEH owners passed; completed checks were not repeated for the metadata fix.

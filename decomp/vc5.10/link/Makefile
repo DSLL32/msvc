@@ -12,6 +12,7 @@ BINARY_SOURCES += src/comdat-fold.cpp src/import-sections.c src/incremental-imag
 BINARY_SOURCES += src/section-layout.cpp src/pass-two.cpp src/output-symbols.cpp src/debug-output.cpp
 BINARY_SOURCES += src/definition-file-stubs.c
 BINARY_SOURCES += src/dumper-pdata.cpp
+BINARY_SOURCES += src/dumper-pef.cpp
 BINARY_SOURCES += src/native-relocations.cpp
 BINARY_SOURCES += src/omf-conversion.c src/omf-records.c src/omf-record-stubs.c src/omf-symbols.c src/omf-input.c src/omf-module.c src/omf-names.c src/omf-segments.c src/omf-fixups.c
 BINARY_SOURCES += src/weak-symbols.cpp
