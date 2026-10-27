@@ -28,7 +28,40 @@ BYTE __stdcall same_librarian_export(StringNode *,const char *,const char *,DWOR
 const char *__stdcall display_symbol_name(const char *,BYTE);
 void __cdecl link_unresolved_error(const char *,unsigned,...);
 }
-#pragma intrinsic(strlen,strcpy)
+#pragma intrinsic(strlen,strcpy,strcmp)
+extern "C" BYTE __stdcall same_librarian_export(StringNode *symbol,const char *name,
+    const char *internal,DWORD noname,DWORD type,DWORD ordinal,
+    DWORD from_command_line,DWORD decorate,DWORD private_export)
+{
+    DWORD flags=0x401;
+    BYTE same;
+    char *copy,*storage;
+    if(type==1)flags=0x409;
+    else if(type==2)flags=0x2401;
+    if((BYTE)from_command_line && !strchr(name,'@'))flags|=0x10;
+    if((BYTE)noname)flags|=0x8000;
+    if((BYTE)private_export)flags|=0x100000;
+    if(internal && strchr(internal,'.'))flags|=0x200;
+    same=(BYTE)(flags==symbol->flags);
+    if(same && (BYTE)private_export)same=(BYTE)(symbol->input_flags==0);
+    if(!same || symbol->symbol.Value!=ordinal)return 0;
+    if(internal && symbol->diagnostic_name) {
+        if(strchr(internal,'.')) {
+            /* The original keeps this duplicate forwarding-name allocation. */
+            copy=duplicate_argument(internal);
+            return (BYTE)(strcmp(symbol->diagnostic_name,copy)==0);
+        }
+        storage=(char *)allocate_memory(strlen(internal)+2);
+        copy=storage;
+        if((BYTE)decorate && *internal!='?' && *internal!='@')*copy++='_';
+        strcpy(copy,internal);
+        same=(BYTE)(strcmp(storage,symbol->diagnostic_name)==0);
+        release_memory(storage);
+        return same;
+    }
+    return (BYTE)(!internal && !symbol->diagnostic_name);
+}
+
 extern "C" void __stdcall define_librarian_export(const char *name,const char *internal,
     DWORD noname,DWORD type,DWORD ordinal,const char *file,DWORD from_command_line,
     LinkContext *image,DWORD decorate,DWORD private_export)

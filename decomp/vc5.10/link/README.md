@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-629 application functions / 236,927 original code bytes are reconstructed
-(57.12% of the 414,810-byte whole `.text` extent, which includes CRT and text
+632 application functions / 237,983 original code bytes are reconstructed
+(57.37% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-176 entries whose body extents remain unknown; this is not a complete non-CRT
+173 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all thirty-five cached native cases and their narrow checks;
+`make -j4 check unit` runs all thirty-six cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-642-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 622 ordinary application bodies and six CRT bodies. Seven import
+645-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 625 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The seven genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -852,3 +852,35 @@ and full graph/RET/EH batch passed in 4.27 s: 35 cases, 642 graph vertices,
 628 scoped return contracts and seven distinct EH-owner checks. Raw references,
 failed timestamp comparisons and earlier compiled input variants remain in
 scratch. These are incremental measurements.
+
+The large-export case builds one import library from 3,200 DEF exports with
+sparse odd ordinals, internal aliases, data and NONAME entries, private records
+and four identical repeated declarations. Two misplaced PRIVATE tokens produce
+the original warning 4017; they are retained as ignored syntax, not claimed as
+private exports. The encountered warning strings use the ordinary identity-bound
+resource path. The original and reconstruction both exit 0 with 179 application
+first entries, a 1,670,986-byte archive containing 3,181 members and a 359,344-byte
+EXP object. Complete index, member, symbol, relocation, padding, stream and file
+inventory comparisons match the separately retained untouched master.
+
+Three whole bodies / 1,056 code bytes recover linear-hash bucket splitting,
+identical-export comparison and mapped-file growth beyond the initial 512 KiB.
+The split retains chain order while moving entries into the new bucket and
+preserves the real key callback and allocation edges. Duplicate comparison keeps
+physical DWORD transports and consumed flag bytes distinct. Mapping growth
+unmaps the actual old view, doubles or raises its extent, then uses the existing
+file-extension/remapping path. Directory exhaustion, duplicate forwarding-name
+comparison and mapping failure branches remain outside this observed domain.
+
+Raw artifacts differ only in the two EXP COFF/export-directory timestamp DWORDs,
+the 3,181 archive Date digit fields and 3,179 contained COFF timestamp DWORDs.
+The derived reference binds the untouched capture/report and all raw files;
+every other byte is strict. Missing warning resources and earlier clock-only
+failed comparisons remain in scratch, alongside the separate GDB raw-file
+diagnostic. No additional original was run for the resource-only harness fix.
+
+The final original took 1,197.3 ms; fresh native comparison took 502.6 ms
+(23.2 ms setup, 451.6 ms execution, 27.8 ms checks). The single parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 4.31 s:
+36 cases, 645 graph vertices, 631 scoped return contracts and seven distinct
+EH-owner checks. These are incremental measurements.

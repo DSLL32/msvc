@@ -64,10 +64,20 @@ unsigned __stdcall mapped_write(FileRecord *record,const void *buffer,unsigned b
     record->file_size=(LONG)((DWORD)record->file_size+bytes);
     return bytes;
 }
+BYTE __stdcall initialize_file_mapping(FileRecord *,BYTE,DWORD *);
 BYTE __stdcall resize_file_mapping(FileRecord *record,LONG minimum,DWORD *error)
 {
-    __asm { int 3 }
-    return 0;
+    LONG size;
+    if(!UnmapViewOfFile(record->view)) {
+        *error=GetLastError();
+        CloseHandle(record->file);
+        record->file=NULL;
+        return 0;
+    }
+    size=(LONG)((DWORD)record->mapping_size*2);
+    if(minimum>size)size=minimum;
+    record->mapping_size=size;
+    return (BYTE)(initialize_file_mapping(record,1,error)!=0);
 }
 int __stdcall set_mapped_file_length(FileRecord *record,LONG length)
 {

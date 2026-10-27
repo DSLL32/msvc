@@ -98,7 +98,67 @@ HashEntry *__stdcall lookup_hash(const char *name,HashState *state,BYTE create,
     ++state->entries;
     return entry;
 }
-void __stdcall grow_hash(HashState *state,const void *strings) { __asm { int 3 } }
+WORD __stdcall get_hash_flags(HashState *);
+void __stdcall set_hash_flags(HashState *,WORD);
+/* Split one bucket of the linear hash, retaining chain order on both sides. */
+void __stdcall grow_hash(HashState *state,const void *strings)
+{
+    DWORD split=state->split_bucket;
+    DWORD added=split+state->base_buckets;
+    DWORD old_index=split%state->initial_buckets;
+    DWORD new_index=added%state->initial_buckets;
+    void **old_block,**new_block;
+    HashEntry *entry,*previous=NULL,*tail=NULL,*next;
+    HashEntry **old_bucket,**new_bucket;
+    const signed char *name;
+    DWORD hash,previous_hash,character,bucket;
+    if(added>=state->directory_capacity*state->initial_buckets) {
+        set_hash_flags(state,(WORD)(get_hash_flags(state)|1));
+        return;
+    }
+    ++state->reserved10;
+    old_block=state->directory[split/state->initial_buckets];
+    if(!new_index) {
+        state->directory[added/state->initial_buckets]=(void **)hash_allocate(
+            state,&state->directory_arena,1,4);
+        state->directory[added/state->initial_buckets][0]=hash_allocate(
+            state,&state->bucket_arena,state->initial_buckets,4);
+    }
+    new_block=state->directory[added/state->initial_buckets];
+    ++state->split_bucket;
+    if(state->split_bucket==state->base_buckets) {
+        state->base_buckets*=2;
+        state->split_bucket=0;
+    }
+    ++state->bucket_count;
+    old_bucket=(HashEntry **)old_block[0]+old_index;
+    new_bucket=(HashEntry **)new_block[0]+new_index;
+    entry=*old_bucket;
+    *new_bucket=NULL;
+    while(entry) {
+        name=(const signed char *)state->key_name(entry->value,strings);
+        hash=0;
+        while(*name) {
+            character=(DWORD)(LONG)*name++;
+            previous_hash=(hash>>1)^hash;
+            hash+=character<<18;
+            hash+=character+previous_hash;
+        }
+        hash%=0x1eca9d3b;
+        bucket=hash%state->base_buckets;
+        if(bucket<state->split_bucket)bucket=hash%(state->base_buckets*2);
+        next=entry->next;
+        if(bucket==added) {
+            if(tail)tail->next=entry;
+            else *new_bucket=entry;
+            if(previous)previous->next=next;
+            else *old_bucket=next;
+            tail=entry;
+            tail->next=NULL;
+        } else previous=entry;
+        entry=next;
+    }
+}
 
 extern BYTE incremental_enabled;
 void __stdcall release_memory(void *);
