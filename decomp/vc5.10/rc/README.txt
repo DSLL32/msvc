@@ -7,7 +7,7 @@ bytes); the unreached 3-byte math helper is still an INT3 stub. Import extents
 and all CRT classifications award no application reconstruction credit.
 
 make -j4 native-bin       ordinary native RC with statically bundled RCDLL
-make -j4 check unit       native-only replay of three existing public invocations
+make -j4 check unit       three library invocations plus installed no-argument smoke
 make -j4 original audit   original5.10 compiler plus common Rust graph/ABI audit
 
 One O0/debug i386 .build/libbinary.so is shared by numbered case libraries.
@@ -69,3 +69,19 @@ physical RCDLL or extracted message companion is needed. This does not expand
 RCDLL's reconstructed domain: the extra missing-file probe traps on its still
 unencountered message 1110. The three numbered RC fixtures continue to verify
 their original strict dependency-response contracts independently.
+
+The no-argument packaging regression (0003-no-arguments) executes the installed
+ELF with no arguments or environment. It compares all 69 stdout bytes and empty
+stderr to the genuine untouched-original RC invocation. The original DWORD exit
+status is 1; the host separately checks the POSIX low byte. Its capture assets
+contain those original oracles; the source identifies their original IO capture
+SHA256. The original IO report remains separate from this native DIRECT host
+smoke: it claims neither an original DIRECT invocation nor a child entry trace.
+An order-only Make prerequisite refreshes the installed executable before it runs.
+
+The fix is the one actually consumed RCDLL message-table row 1107. RC's entry,
+App bodies and CRT are unchanged. No no-argument captured-DLL library tuple was
+invented: its original callback/argv boundary recording is unavailable. The three
+existing RC library cases remain strict replays; RCDLL separately exercises the
+same argc1 path through its existing real-library host and normal DLL teardown.
+Application coverage remains two functions and 277 original code bytes.

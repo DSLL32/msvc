@@ -55,3 +55,11 @@ original: win32
 audit: check-import-data
 check-import-data: $(ORIGINAL_OUTPUT) $(RECON_REGISTRY)
 	python3 harness/check-import-data.py
+
+# This host smoke executes the real installed ELF; library cases keep their
+# separately captured dependency contracts. Preserve the shared Make jobserver.
+.PHONY: noargs-installed-executable
+noargs-installed-executable:
+	+$(MAKE) -C .. native-bin-rc
+cases/0003-no-arguments/.build/case.so: | noargs-installed-executable
+cases/0003-no-arguments/.build/direct.c.o: NATIVE_CPPFLAGS += -DRC_CANONICAL_EXE='"$(abspath ../build/native/bin/RC.EXE)"'
