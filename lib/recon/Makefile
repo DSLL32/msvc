@@ -1172,3 +1172,9 @@ build/win32-find-files-types.o: tests/win32-find-files-types.cpp $(HEADERS) | bu
 	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
 win32-find-files-check: build/win32-find-files-probe build/win32-find-files-generic build/win32-find-files-types.o
 	$(PYTHON) tests/check-win32-find-files.py build/win32-find-files-probe build/win32-find-files-generic
+
+.PHONY: tempnam510-prefix-check
+build/tempnam510-prefix-probe: tests/tempnam510-prefix-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+tempnam510-prefix-check: build/tempnam510-prefix-probe
+	$(PYTHON) tests/check-tempnam510-prefix.py $<

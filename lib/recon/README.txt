@@ -1625,9 +1625,11 @@ deny125. Other binaries keep their prior mapping and maxima; no automatic NT
 variant change is implied. WASM's ordinary get_module_name path plus a separate
 actual-state diagnostic establish ModuleInfo.name="transfor" for transform.asm.
 
-The explicit MSVCRT510 _tempnam branch admits the APSTUDIO internal-file role:
-bound target CRT TMP=".", NULL directory, RCX1 through RCX4 prefixes, and default
-C locale. It returns an allocated current-directory name using a local mutable
+The explicit MSVCRT510 _tempnam branch uses bound target CRT TMP=".", NULL
+directory and default C locale, with NULL/empty or full safe ASCII leaf prefixes
+up to247 bytes. Shipped MSVCRT copies the entire optional prefix and bounds
+its directory length + prefix length + 12 by MAX_PATH; for TMP="." this gives247.
+No five-byte truncation or caller-prefix allowlist is imposed. It returns an allocated current-directory name using a local mutable
 native template and a genuine missing-leaf check, without creating or reserving
 a file. Host TMP and RECON_MKTEMP controls do not supply this target namespace.
 The caller owns the result and performs real open/close/remove operations;
@@ -1635,7 +1637,9 @@ generated spelling and original success error state are unmeasured. Other
 profiles and the existing libc100 variant retain their behavior. Focused native
 four-stream lifecycle controls complete cleanup. Subsequent ordinary APSTUDIO
 completion also matches the full RES and strict inventory with no temporary-file
-leaks. Generated names and original per-call state remain unmeasured.
+leaks. Ordinary prefix boundary/invalid-leaf controls and real owned-file
+write/reopen/remove checks pass; LINK's new OMF caller adoption is pending.
+Generated names and original per-call state remain unmeasured.
 
 Registered message4506/lang409 has a separate explicit510 fixed-template branch
 for the Mac cursor warning. Its inserts are an ANSI filename, signed32 line and
