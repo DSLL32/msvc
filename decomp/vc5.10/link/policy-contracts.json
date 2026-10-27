@@ -5923,5 +5923,116 @@
       },
       "basis": "Actual original415090 caches identified fwrite IAT40111c in EDI; actual calls4150a0 and4150ca. Ordinary public cdecl fwrite preserves nonvolatile EDI on normal return. This is finite calling-convention evidence, with no provider-body/nonlocal-return claim."
     }
-  ]
+  ],
+  "dumper_separate_debug_ordinary_abi": {
+    "owner": "_dump_separate_debug_file@4",
+    "scope": "Only ordinary normal-return EDI preservation for the actual cached msvcrt.dll!fprintf IAT401178 loaded at42d4a3. No provider implementation or exceptional/nonlocal-return claim.",
+    "facts": [
+      {
+        "target": "_dumper_machine_name@4",
+        "preserves": [
+          "edi"
+        ],
+        "basis": "Actual CALL42d4f2 precedes cached CALL EDI42d50e. Existing qualified const char* stdcall(DWORD) /RET4 has ordinary nonvolatile EDI ABI."
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "ctime"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "basis": "Actual identified public cdecl char* ctime(const time_t*) CALL[401190]42d552 precedes cached CALL EDI42d56b. Shipped5.10 TIME.H declaration and ordinary x86 cdecl preserve EDI."
+      },
+      {
+        "target": "_dump_section_header@8",
+        "preserves": [
+          "edi"
+        ],
+        "basis": "Actual ordinary stdcall(DWORD,IMAGE_SECTION_HEADER*) /RET8 CALL42d627 occurs in the section loop before cached CALL EDI42d6a7/42d715 on the joined subsequent paths. Existing qualified signature and normal-return ABI preserve EDI."
+      }
+    ]
+  },
+  "dumper_separate_finder_ordinary_abi": {
+    "owner": "_find_separate_dumper_debug@16",
+    "cache": "Actual425720 loads msvcrt.dll!_fsopen IAT40118c into EBP; cached calls425731/425882. Only ordinary normal-return nonvolatile EBP preservation is claimed, no API/provider implementation or exceptional behavior.",
+    "facts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_fsopen"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Identified public cdecl FILE* _fsopen(const char*,const char*,int), including reuse after the first425731 call."
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fclose"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Identified public cdecl int fclose(FILE*), actual425766/4258a8 before the joined cached retry."
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "getenv"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Identified public cdecl char* getenv(const char*), actual425853 before425882."
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "SearchPathA"
+          }
+        },
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Actual identified public DWORD WINAPI SearchPathA(LPCSTR,LPCSTR,LPCSTR,DWORD,LPSTR,LPSTR*), six arguments at425870; ordinary x86 stdcall nonvolatile EBP."
+      },
+      {
+        "target": "_read_separate_dumper_debug@12",
+        "preserves": [
+          "ebp"
+        ],
+        "basis": "Actual42574d/42589e BOOL stdcall(FILE*,DWORD,IMAGE_DEBUG_DIRECTORY*)/RET12; ordinary ABI preserves EBP. This contract was established at the earlier pending prerequisite; the reader is now separately qualified by the completed separate-debug case."
+      }
+    ]
+  },
+  "dumper_separate_reader_ordinary_abi": {
+    "owner": "_read_separate_dumper_debug@12",
+    "cache": "Actual4255e9 loads msvcrt.dll!fread IAT401108 into EBX; calls4255fb/425684 reuse it through fseek425650 and the directory loop.",
+    "facts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fread"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "basis": "Identified public cdecl size_t fread(void*,size_t,size_t,FILE*) preserves nonvolatile EBX on ordinary return. Existing fseek EBX contract remains unchanged. No provider implementation or nonlocal-return claim."
+      }
+    ]
+  }
 }

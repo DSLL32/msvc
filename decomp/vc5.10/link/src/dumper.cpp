@@ -10,6 +10,8 @@
 #include "pass-one.h"
 #include "full-link-functions.h"
 #include "dumper.h"
+#include "input.h"
+#include "memory.h"
 #include <recon.h>
 
 extern "C" {
@@ -24,8 +26,70 @@ void *__stdcall allocate_link_memory(unsigned,unsigned);
 void __cdecl close_files(void);
 void __cdecl cleanup_pdb(void);
 void __cdecl dumper_usage(void) { __asm { int 3 } }
-BOOL __stdcall read_separate_dumper_debug(FILE *,DWORD,IMAGE_DEBUG_DIRECTORY *) { __asm { int 3 } return FALSE; }
-FILE *__stdcall find_separate_dumper_debug(const char *,DWORD,char *,IMAGE_DEBUG_DIRECTORY *) { __asm { int 3 } return NULL; }
+BOOL __stdcall read_separate_dumper_debug(FILE *file,DWORD timestamp,
+    IMAGE_DEBUG_DIRECTORY *debug)
+{
+    IMAGE_SEPARATE_DEBUG_HEADER header;
+    DWORD count;
+    if(fread(&header,sizeof(header),1,file)!=1)return FALSE;
+    if(header.Signature!=IMAGE_SEPARATE_DEBUG_SIGNATURE)return FALSE;
+    if(header.TimeDateStamp!=timestamp)return FALSE;
+    if(!fseek(file,header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER)+
+        header.ExportedNamesSize,SEEK_CUR)) {
+        count=header.DebugDirectorySize/sizeof(*debug);
+        while(count--) {
+            if(fread(debug,sizeof(*debug),1,file)!=1)break;
+            if(debug->Type==IMAGE_DEBUG_TYPE_CODEVIEW)return TRUE;
+        }
+    }
+    /* A valid separate header without CodeView is still a successful read.
+     * The original clears only Type, including after a failed directory read. */
+    debug->Type=0;
+    return TRUE;
+}
+#pragma intrinsic(strcpy,strcat,strlen)
+FILE *__stdcall find_separate_dumper_debug(const char *name,DWORD timestamp,
+    char *output,IMAGE_DEBUG_DIRECTORY *debug)
+{
+    static const char *paths[]={"_NT_ALT_SYMBOL_PATH","_NT_SYMBOL_PATH","SystemRoot"};
+    char drive[4],directory[256],basename[256],extension[256],candidate[MAX_PATH];
+    FILE *file;
+    char *path;
+    unsigned i;
+    _splitpath(name,drive,directory,basename,extension);
+#ifdef __linux__
+    /* The reached caller provides its real MAX_PATH separate-name owner. */
+    if(strlen(drive)+strlen(directory)+strlen(basename)+4>=MAX_PATH) { __asm { int 3 } }
+#endif
+    _makepath(output,drive,directory,basename,".dbg");
+    file=_fsopen(output,"rb",_SH_DENYWR);
+    if(file) {
+        if(read_separate_dumper_debug(file,timestamp,debug))return file;
+        fclose(file);
+    }
+#ifdef __linux__
+    /* Preserve the original extension+1 expression. Only a nonempty extension
+     * and a complete bounded fallback name are supported before it is read. */
+    if(!*extension || strlen(extension+1)+strlen(basename)+13>=sizeof(candidate)) { __asm { int 3 } }
+#endif
+    strcpy(candidate,"symbols\\");
+    strcat(candidate,extension+1);
+    strcat(candidate,"\\");
+    strcat(candidate,basename);
+    strcat(candidate,".dbg");
+    for(i=0;i<sizeof(paths)/sizeof(*paths);++i) {
+        path=getenv(paths[i]);
+        if(path && SearchPathA(path,candidate,NULL,MAX_PATH,output,NULL)) {
+            file=_fsopen(output,"rb",_SH_DENYWR);
+            if(file) {
+                if(read_separate_dumper_debug(file,timestamp,debug))return file;
+                fclose(file);
+            }
+        }
+    }
+    return NULL;
+}
+
 PDB *__stdcall find_embedded_dumper_pdb(const char *,const char *,DWORD,DWORD) { __asm { int 3 } return NULL; }
 #pragma intrinsic(strcpy,strlen)
 BOOL __stdcall load_dumper_debug(const char *name,LONG *error,char *error_text,char *debug_name,
@@ -233,7 +297,155 @@ void __stdcall dump_archive(const char *name)
     dump_archive_members(library,name);
     dump_archive_export_names();
 }
-void __stdcall dump_separate_debug_file(const char *name) { __asm { int 3 } }
+IMAGE_SYMBOL *__stdcall read_module_symbols(DWORD,DWORD,BYTE);
+void __stdcall read_dumper_strings(const char *);
+void __stdcall load_separate_coff_debug(DWORD offset,const char *name)
+{
+    IMAGE_COFF_SYMBOLS_HEADER header;
+    DWORD error=0;
+    FileRecord *record;
+    if(!offset)return;
+    seek_file(current_input_file,offset,FILE_BEGIN,&error);
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,&header,sizeof(header));
+    else buffered_read(record,&header,sizeof(header));
+    dumper_context->file_header.NumberOfSymbols=header.NumberOfSymbols;
+    dumper_context->file_header.PointerToSymbolTable=offset+header.LvaToFirstSymbol;
+    read_dumper_strings(name);
+    default_phase="ReadSymbolTable";
+    dump_symbols=read_module_symbols(archive_member_offset+
+        dumper_context->file_header.PointerToSymbolTable,
+        dumper_context->file_header.NumberOfSymbols,0);
+}
+void __stdcall dump_section_header(DWORD,IMAGE_SECTION_HEADER *);
+const char *__stdcall dumper_machine_name(DWORD);
+void __stdcall dump_debug_directory(IMAGE_DEBUG_DIRECTORY *);
+void __stdcall dump_fpo(DumperSectionState *,DWORD,DWORD);
+void __stdcall dump_debug_pdata(DWORD,DWORD) { __asm { int 3 } }
+void __stdcall dump_debug_omap(DumperSectionState *,DWORD,DWORD,DWORD);
+void __stdcall dump_debug_fixups(DumperSectionState *,DWORD,DWORD);
+void __stdcall release_module_symbols(void *);
+void __stdcall release_module_strings(void *);
+
+#pragma intrinsic(memset)
+void __stdcall dump_separate_debug_file(const char *name)
+{
+    IMAGE_SEPARATE_DEBUG_HEADER header;
+    IMAGE_DEBUG_DIRECTORY directory;
+    DumperSectionState state;
+    FileRecord *record;
+    WORD section;
+    DWORD count,coff=0,fpo_bytes=0,pdata_bytes=0,fixup_bytes=0;
+    DWORD to_bytes=0,from_bytes=0;
+    DWORD fpo_offset,pdata_offset,fixup_offset,to_offset,from_offset;
+    char *exports,*scan,*date;
+    memset(&state,0,sizeof(state));
+    default_phase="DumpDebugFile";
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,&header,sizeof(header));
+    else buffered_read(record,&header,sizeof(header));
+    dump_section_headers=(IMAGE_SECTION_HEADER *)allocate_memory(
+        header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER));
+    if(file_access_statistics)record_file_access();
+    record=file_slots[current_input_file];
+    if(record->flags&8)mapped_read(record,dump_section_headers,
+        header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER));
+    else buffered_read(record,dump_section_headers,
+        header.NumberOfSections*sizeof(IMAGE_SECTION_HEADER));
+    if(dumper_context->options.dump_headers) {
+        fprintf(map_output,"%8hX signature\n",header.Signature);
+        fprintf(map_output,"%8hX flags\n",header.Flags);
+        fprintf(map_output,"%8hX machine (%s)\n",header.Machine,dumper_machine_name(header.Machine));
+        fprintf(map_output,"%8hX characteristics\n",header.Characteristics);
+        fprintf(map_output,"%8lX time date stamp",header.TimeDateStamp);
+        date=header.TimeDateStamp?ctime((const time_t *)&header.TimeDateStamp):NULL;
+        if(date)fprintf(map_output," %s",date);
+        else fputc('\n',map_output);
+        fprintf(map_output,"%8X checksum of image\n",header.CheckSum);
+        fprintf(map_output,"%8X base of image\n",header.ImageBase);
+        fprintf(map_output,"%8X size of image\n",header.SizeOfImage);
+        fprintf(map_output,"%8X number of sections\n",header.NumberOfSections);
+        if(header.ExportedNamesSize)
+            fprintf(map_output,"%8X size of exported names table\n",header.ExportedNamesSize);
+        fprintf(map_output,"%8X size of debug directories\n",header.DebugDirectorySize);
+        for(section=1;(DWORD)section<=header.NumberOfSections;++section)
+            dump_section_header(section,dump_section_headers+section-1);
+    }
+    if(header.ExportedNamesSize) {
+        exports=(char *)allocate_memory(header.ExportedNamesSize);
+        if(file_access_statistics)record_file_access();
+        record=file_slots[current_input_file];
+        if(record->flags&8)mapped_read(record,exports,header.ExportedNamesSize);
+        else buffered_read(record,exports,header.ExportedNamesSize);
+        if(dumper_context->options.dump_exports) {
+            fprintf(map_output,"\nExported Names:  %8lX bytes\n",header.ExportedNamesSize);
+            for(scan=exports;*scan;) {
+                fprintf(map_output,"\t%s\n",scan);
+                while(*scan++) {}
+            }
+        }
+        release_memory(exports);
+    }
+    count=header.DebugDirectorySize/sizeof(directory);
+    if(dumper_context->options.dump_headers)
+        fprintf(map_output,"\n\nDebug Directories(%d)\n        Type       Size     Address  Pointer\n\n",count);
+    while(count--) {
+        if(file_access_statistics)record_file_access();
+        record=file_slots[current_input_file];
+        if(record->flags&8)mapped_read(record,&directory,sizeof(directory));
+        else buffered_read(record,&directory,sizeof(directory));
+        if(dumper_context->options.dump_headers)dump_debug_directory(&directory);
+        switch(directory.Type) {
+        case IMAGE_DEBUG_TYPE_COFF:coff=directory.PointerToRawData;break;
+        case IMAGE_DEBUG_TYPE_FPO:
+            fpo_bytes=directory.SizeOfData;fpo_offset=directory.PointerToRawData;break;
+        case IMAGE_DEBUG_TYPE_EXCEPTION:
+            pdata_bytes=directory.SizeOfData;pdata_offset=directory.PointerToRawData;break;
+        case IMAGE_DEBUG_TYPE_FIXUP:
+            fixup_bytes=directory.SizeOfData;fixup_offset=directory.PointerToRawData;break;
+        case IMAGE_DEBUG_TYPE_OMAP_TO_SRC:
+            to_bytes=directory.SizeOfData;to_offset=directory.PointerToRawData;break;
+        case IMAGE_DEBUG_TYPE_OMAP_FROM_SRC:
+            from_bytes=directory.SizeOfData;from_offset=directory.PointerToRawData;break;
+        }
+    }
+    if(dumper_context->options.dump_map || dumper_context->options.dump_symbols) {
+        load_separate_coff_debug(coff,name);
+        if(dumper_context->options.dump_symbols)dump_coff_symbols();
+        else dump_coff_map();
+    }
+    if(dumper_context->options.dump_pdata && pdata_bytes) {
+        load_separate_coff_debug(coff,name);
+        dump_debug_pdata(pdata_offset,pdata_bytes);
+    }
+    if(dumper_context->options.dump_omap_to && to_bytes) {
+        load_separate_coff_debug(coff,name);
+        dump_debug_omap(&state,to_offset,to_bytes,1);
+    }
+    if(dumper_context->options.dump_omap_from && from_bytes) {
+        load_separate_coff_debug(coff,name);
+        dump_debug_omap(&state,from_offset,from_bytes,0);
+    }
+    if(dumper_context->options.dump_fixups && fixup_bytes) {
+        load_separate_coff_debug(coff,name);
+        dump_debug_fixups(&state,fixup_offset,fixup_bytes);
+    }
+    if(dumper_context->options.dump_fpo && fpo_bytes) {
+        load_separate_coff_debug(coff,name);
+        dump_fpo(&state,fpo_offset,fpo_bytes);
+    }
+    if(dump_symbols) {
+        release_module_symbols(dump_symbols);
+        dump_symbols=NULL;
+    }
+    if(dump_strings_owned) {
+        release_module_strings(dump_string_table);
+        dump_strings_owned=0;
+    }
+}
+
 
 /* The original recognizes NE, but only emits its unsupported-format warning. */
 void __stdcall dump_ne_file(const char *name) { link_warning(NULL,4095,name); }

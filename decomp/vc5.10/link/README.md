@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-694 application functions / 254,810 original code bytes are reconstructed
-(61.43% of the 414,810-byte whole `.text` extent, which includes CRT and text
+698 application functions / 257,208 original code bytes are reconstructed
+(62.01% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
-registry has 38 pending bodies with known extents totaling 4,066 bytes and
-170 entries whose body extents remain unknown; this is not a complete non-CRT
+registry has 39 pending bodies with known extents totaling 4,273 bytes and
+167 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty-five cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-six cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-707-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 686 ordinary application bodies and six CRT bodies. Seven import
+711-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 690 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1228,4 +1228,37 @@ One parallel case-end regression/unit/original-build and full graph/RET/EH
 batch passed in 5.36 s: 45 cached cases, 707 graph vertices, 692 scoped return
 contracts and nine distinct EH/SEH owner checks. Raw masters, producer sources
 and objects, narrow ABI gates and partial temp/clock-only failed comparisons
+remain in scratch. These are incremental measurements.
+
+
+`cases/0047-separate-debug` completes `/dump /all` inspection of a paired
+stripped PE and separate DBG file. The inputs are transparently authored from
+the shipped SDK structures and a genuine retained COFF debug payload. Matching
+machine, section headers, timestamps, image size/alignment, checksum, debug
+flags and file offsets are validated before capture; the 670-byte original
+symbol/line payload is unchanged. This is format-authored input, not REBASE
+output. The earlier genuine REBASE error 120/no-DBG attempts remain separate.
+No input code or provider success is claimed.
+
+Four whole bodies / 2,398 original code bytes recover separate-debug dumping,
+COFF symbol loading, same-directory/symbol-path finding and directory reading.
+The reader preserves the original distinction between an invalid header and a
+valid header without CodeView: the latter succeeds and clears only the output
+Type. Both authored inputs naturally take the same-directory COFF-only route;
+SearchPath fallback, PDB lookup and other debug payloads remain unvisited or
+named pending traps. The file-based pending exception dumper remains distinct
+from the existing memory-record dumper. Ordinary finite EDI/EBP/EBX ABI facts
+resolve the actual cached imports without granting helper/provider behavior.
+
+Original and native exit 0 with 107 matching application first entries and
+31,222 identical stdout bytes. Complete final inputs, streams and inventory also
+equal the untouched master without normalization. The master's historical
+106-entry trace predates the newly identified COFF loader; it is retained as-is.
+The fresh original took 1,781.7 ms. Native comparison passed in 21.1 ms
+(12.6 ms setup, 5.0 ms execution, 3.5 ms checks).
+
+One parallel case-end regression/unit/original-build and full graph/RET/EH
+batch passed in 7.06 s: 46 cached cases, 711 graph vertices, 696 scoped return
+contracts and nine distinct EH/SEH owner checks. Construction inputs, raw
+masters, fresh pairs, failed narrow gates and exact build/source identities
 remain in scratch. These are incremental measurements.
