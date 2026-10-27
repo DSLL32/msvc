@@ -1,5 +1,5 @@
-WLINK 10.0a has twenty-four completed native regression cases. The acceptance ledger
-contains **1,120 application functions / 127,934 unique original code bytes**.
+WLINK 10.0a has twenty-five completed native regression cases. The acceptance ledger
+contains **1,139 application functions / 129,831 unique original code bytes**.
 The initial help case is followed by a substantial NT console link with two
 OMF objects, a static archive, imported functions, an exported symbol, cross-module
 data and relocations, embedded Watcom debug information, and a verbose map.
@@ -53,6 +53,8 @@ The twenty-third reads WLIB export-command text, including quoted/renamed and
 anonymous exports, with NE segment boundaries, alignment and relocation checks.
 The twenty-fourth combines compiler-generated OMF export definitions and iterated
 data, a WLIB import-definition member, DWARF and POSIX PE subsystem metadata.
+The twenty-fifth combines explicitly format-authored virtual-table metadata, nested
+iterated COMDATs, additive backpatches and legacy debug names in a NetWare NAM.
 
 | Case | Result |
 | --- | --- |
@@ -80,6 +82,7 @@ data, a WLIB import-definition member, DWARF and POSIX PE subsystem metadata.
 | `0022-novell-shared` | Exit 0; exact 255-byte stdout, empty stderr, 3,276-byte LAN image and 3,066-byte map |
 | `0023-wlib-exports` | Exit 0; exact 483-byte stdout, empty stderr, 935-byte NE DLL and 3,730-byte map |
 | `0024-omf-directives` | Exit 0; exact 253-byte stdout, empty stderr, 10,369-byte PE DLL and 3,276-byte map |
+| `0025-omf-records` | Exit 0; exact 255-byte stdout, empty stderr, 2,232-byte NAM and 3,860-byte map |
 
 The NT case compares every output byte except the identified four-byte COFF
 timestamp and date/time digits in the map header. Its 552 first entries match.
@@ -515,3 +518,39 @@ its actual failure and the earlier unresolved-symbol baseline remain retained
 in scratch wlink-omf-directives with all authoring inputs/raw artifacts. No
 original was repeated to diagnose or fix the DWARF mismatch. The numbered case
 contains only source and capture data.
+
+
+The OMF-record case matches 567 first entries and complete output. Its supplement
+is explicitly format-authored, not represented as compiler output: 22 checksummed
+records describe real code/data publics, table/method relocations, conditional
+virtual-table metadata, nested iterated implicit COMDAT data and segment/named
+additive backpatches. Genuine USE32 startup objects and an archive complete the
+NAM link. The original output contains the independently calculated patched
+DWORD 0x12132526 at file offset 482 and the exact 20-byte nested expansion with
+its named DWORD addition at offset 522. Nineteen additional application bodies
+are qualified, including recursive length counting, conditional graph edges,
+implicit COMDAT naming/grouping/restoration and backpatch storage. The existing
+qualified base36 conversion supplies COMDAT_SEG names; no shared edit was needed.
+The table/reference helpers retain their real shared terminal C3 and distinct
+identities, counting that instruction only once. Unreached alternative virtual
+list generation/weak-definition bodies remain trapped.
+
+Complete-output comparison exposed an original debug-output defect. Its module
+region reserves 131 bytes, but four structurally complete name records consume
+126; the remaining five malloc-backed bytes are emitted unwritten. Both builds
+now zero only the bounded unused module tail before emission. Comparison excludes
+only the actual original tail1792..1797, in addition to the six established map
+clock fields and outer VeRsIoN# year/month/day DWORDs224..236. Every complete name,
+record, index, header, executable/relocation byte and patched data byte is strict.
+No allocator tuning or diagnostic original was used; retained original/raw data
+verified the native correction.
+
+The final parallel build/regression/unit/audit batch took **1.586 s**. All
+twenty-five cases and 1,143 source-ready graph/ABI identities pass; 50 native
+regression runs took **18.022–58.513 ms**. The final genuine capture command took
+**3,041.557 ms** (owned target **1,612.559 ms**); corrected native replay reused it
+and took **29.610 ms**, split **18.980 / 3.648 / 6.981 ms** for setup/execution/checks.
+The clean supported original baseline took **591.340 ms**. The explicit generator,
+field manifest, semantic patch assertions, source review, failed comparison and
+raw artifacts remain in scratch wlink-omf-records. The numbered case contains only
+source and capture data.

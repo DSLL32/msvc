@@ -36,11 +36,12 @@
 */
 
 #include <string.h>
+#include <stdlib.h>
 #include "cmdline.h"
 #include <recon.h>
 
 #ifdef __WATCOMC__
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen,memcpy)
 #endif
 
 /* This older two-pass writer saves segdata records directly, before the
@@ -436,4 +437,118 @@ void RestoreComdat( symbol *sym, segdata *seg )
         sym->addr.seg = seg->u.leader->seg_addr.seg;
         sym->p.leader = seg->u.leader;
     }
+}
+
+unsigned long CalcLIDataLength( void )
+{
+    unsigned long total;
+    unsigned char *buff;
+
+    total = 0;
+    buff = ObjBuff;
+    while( buff < EOObjRec ) total += CountIDBlock( &buff );
+    return total;
+}
+
+unsigned long CountIDBlock( unsigned char **buffptr )
+{
+    unsigned long repeat, size;
+    unsigned short count;
+    unsigned char *buff;
+
+    buff = *buffptr;
+    if( ObjFormat & 2 ) {
+        repeat = *(unsigned long *)buff;
+        buff += 4;
+    } else {
+        repeat = *(unsigned short *)buff;
+        buff += 2;
+    }
+    count = *(unsigned short *)buff;
+    buff += 2;
+    if( count == 0 ) {
+        repeat *= *buff;
+        buff += *buff + 1;
+    } else {
+        size = 0;
+        while( count > 0 ) {
+            size += CountIDBlock( &buff );
+            --count;
+        }
+        repeat *= size;
+    }
+    *buffptr = buff;
+    return repeat;
+}
+
+/* The 1994 linker groups implicit COMDAT allocations into four classes. */
+static seg_leader *CDatSegments[4];
+static const char *CDatClassNames[] = { "CODE", "FAR_DATA", "CODE", "DATA" };
+seg_leader *AddToLinkerComdat( symbol *sym )
+{
+    segdata *sdata;
+    seg_leader *leader;
+    section *sect;
+    unsigned long seglen, off;
+    unsigned char alloc, align;
+
+    sdata = sym->p.seg;
+    alloc = (sdata->flags >> 5) & 3;
+    align = sdata->acbp >> 5;
+    leader = CDatSegments[alloc];
+    if( leader == 0 ) {
+        sdata->u.name = GetNewName();
+        sym->addr.off = 0;
+    } else {
+        seglen = CAlign( leader->saved_size, align ) + sdata->length;
+        if( seglen > 0xffffUL && align <= 1 ) {
+            sdata->u.name = GetNewName();
+            sym->addr.off = 0;
+        } else {
+            sdata->u.name = leader->segname;
+            sym->addr.off = seglen - sdata->length;
+        }
+    }
+    if( !(FmtData.type & 0x80) || !(alloc & 1) ) sect = Root;
+    else sect = NonSect;
+    sdata->cl.entry = FindClass( Root, (char *)CDatClassNames[alloc], alloc > 1 );
+    leader = AddSegment( sdata, 0, sect, &off );
+    CDatSegments[alloc] = leader;
+    sym->p.leader = leader;
+    sym->u.value = off | 0x40000000UL;
+    return leader;
+}
+
+/* Mutable original-style name prefix; base36 uint32 needs at most seven
+ * digits and NUL in the nine bytes after the ten-character prefix. */
+static unsigned long CDatSegNum;
+static char CDatSegName[19] = "COMDAT_SEG";
+list_of_names *GetNewName( void )
+{
+    list_of_names *lname;
+    unsigned len;
+
+    ++CDatSegNum;
+    ultoa( CDatSegNum, CDatSegName + 10, 36 );
+    len = strlen( CDatSegName );
+    lname = PermAlloc( sizeof(*lname) + len );
+    memcpy( lname->name, CDatSegName, len + 1 );
+    return lname;
+}
+
+void RestoreLinkerComdat( symbol *sym )
+{
+    segdata *saved;
+    seg_leader *leader;
+    segnode node;
+    unsigned long off;
+    unsigned char alloc;
+
+    saved = sym->u.comdat;
+    leader = sym->p.leader;
+    alloc = (saved->flags >> 5) & 3;
+    saved->u.name = leader->segname;
+    saved->cl.entry = FindClass( leader->section,
+        (char *)CDatClassNames[alloc], alloc > 1 );
+    AddSegment( saved, &node, leader->section, &off );
 }

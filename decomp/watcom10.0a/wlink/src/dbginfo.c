@@ -37,6 +37,8 @@
 
 #ifdef __WATCOMC__
 #pragma intrinsic(memcpy,strlen)
+void reconstruction_trap( void );
+#pragma aux reconstruction_trap = 0xcc;
 #endif
 
 
@@ -848,9 +850,25 @@ void WriteDBISecs( section *sect )
 {
     debug_info *dptr;
     sectheader header;
+    unsigned char *tail, *end;
 
     dptr = sect->dbg_info;
     if( dptr != 0 ) {
+        /* The original can overreserve its module-name region, then emit
+         * the unwritten malloc tail. Give only that output padding a
+         * deterministic zero value in both reconstructed builds. */
+        if( dptr->mod.curr < dptr->mod.init
+            || dptr->mod.curr - dptr->mod.init > dptr->mod.size
+            || dptr->mod.size > 0xffffffffUL - dptr->mod.init ) {
+#ifdef __WATCOMC__
+            reconstruction_trap();
+#else
+            __asm__ __volatile__( "int3" );
+#endif
+        }
+        tail = (unsigned char *)dptr->mod.curr;
+        end = (unsigned char *)(dptr->mod.init + dptr->mod.size);
+        while( tail < end ) *tail++ = 0;
         header.section_size = dptr->addr.start + dptr->addr.size;
         header.mod_offset = dptr->mod.start;
         header.gbl_offset = dptr->global.start;

@@ -793,3 +793,60 @@ void OMFProcAlias( void )
         ObjBuff += targetlen;
     }
 }
+
+void ProcVFTableRecord( unsigned char ispure )
+{
+    extnode *ext;
+    symbol *sym;
+
+    if( !(LinkFlags & 0x10000000UL) ) return;
+    ext = FindNode( ExtNodes, GetIdx() );
+    sym = ext->entry;
+    ext->flags |= 0x1000;
+    ext = FindNode( ExtNodes, GetIdx() );
+    /* The old reader uses the live ObjBuff list, before vflistrtns existed. */
+    DefineVFTableRecord( sym, ext->entry, ispure );
+}
+
+unsigned char *GetVFListStart( void )
+{
+    return ObjBuff;
+}
+
+unsigned char EndOfVFList( void )
+{
+    return ObjBuff >= EOObjRec;
+}
+
+char *GetVFListName( void )
+{
+    list_of_names *lname;
+
+    lname = FindName( GetIdx() );
+    return lname->name;
+}
+
+extern symbol *FindISymbol( char * );
+void ProcVFReference( void )
+{
+    extnode *ext;
+    segnode *seg;
+    symbol *sym;
+    list_of_names *lname;
+
+    if( !(LinkFlags & 0x10000000UL) ) return;
+    ext = FindNode( ExtNodes, GetIdx() );
+    if( LinkFlags & 0x10000UL ) {
+        if( *ObjBuff == 0 ) {
+            ++ObjBuff;
+            lname = FindName( GetIdx() );
+            sym = FindISymbol( lname->name );
+            if( sym == 0 ) sym = MakeWeakExtdef( lname->name, 0 );
+            DefineVFReference( sym, ext->entry, 1 );
+        } else {
+            seg = FindNode( SegNodes, GetIdx() );
+            DefineVFReference( seg, ext->entry, 0 );
+        }
+    }
+    if( !(ext->entry->info & 0x1000) ) ext->entry->info |= 0x2000;
+}

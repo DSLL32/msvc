@@ -588,3 +588,90 @@ void DefineLazyExtdef( symbol *sym, symbol *def, unsigned char isweak )
         }
     }
 }
+
+void DefineVFTableRecord( symbol *sym, symbol *def, unsigned char ispure )
+{
+    symbol **symlist, **startlist, **oldlist;
+    unsigned kind;
+
+    if( sym->info & 0x1000 ) {
+        if( (LinkFlags & 0x10000UL) && !(sym->info & 0x8000) ) {
+            GetVFList( def, sym, 0 );
+            sym->e.def = def;
+            sym->info |= 0x8000;
+            DataRef( def );
+        }
+        return;
+    }
+    kind = sym->info & 15;
+    if( kind == 6 || kind <= 3 ) return;
+    if( kind >= 10 ) {
+        if( (kind == 11) != ispure ) LnkMsg( 0xf291, "S", sym );
+        symlist = GetVFList( def, 0, 1 );
+        if( symlist == 0 ) {
+            if( !CheckVFList( sym ) ) LnkMsg( 0xf28d, "S", sym );
+        } else {
+            startlist = symlist;
+            oldlist = sym->e.def;
+            for( ;; ) {
+                if( *oldlist != *symlist ) {
+                    LnkMsg( 0xf28d, "S", sym );
+                    break;
+                }
+                if( *oldlist == 0 ) break;
+                ++oldlist;
+                ++symlist;
+            }
+            _LnkFree( startlist );
+        }
+    } else if( kind >= 7 || !(sym->info & 0x20) ) {
+        DefineVirtualFunction( sym, def, ispure );
+    }
+}
+
+extern symbol *FindISymbol( char * );
+symbol **GetVFList( symbol *defsym, symbol *mainsym, unsigned char generate )
+{
+    symbol **liststart, **symlist;
+    symbol *condsym;
+    unsigned char *bufstart;
+    char *name;
+    unsigned count;
+
+    liststart = 0;
+    bufstart = GetVFListStart();
+    count = 2;
+    while( !EndOfVFList() ) {
+        name = GetVFListName();
+        condsym = FindISymbol( name );
+        if( condsym == 0 ) {
+            condsym = MakeWeakExtdef( name, defsym );
+        } else if( (condsym->info & 0x1000) && (condsym->info & 15) > 3 ) {
+            generate = 0;
+            if( mainsym == 0 ) break;
+        }
+        if( (LinkFlags & 0x10000UL) && mainsym != 0 )
+            AddSymEdge( condsym, mainsym );
+        ++count;
+    }
+    if( generate ) {
+        symlist = ChkLAlloc( sizeof(symbol *) * count );
+        liststart = symlist;
+        *symlist++ = defsym;
+        SetVFListStart( bufstart );
+        while( !EndOfVFList() ) {
+            name = GetVFListName();
+            *symlist++ = FindISymbol( name );
+        }
+        *symlist = 0;
+    }
+    return liststart;
+}
+
+extern void AddEdge( segdata *, symbol * );
+void DefineVFReference( void *src, symbol *targ, unsigned char issym )
+{
+    if( issym ) AddSymEdge( src, targ );
+    else if( ((segnode *)src)->info & 0x0100 )
+        AddEdge( ((segnode *)src)->entry, targ );
+}

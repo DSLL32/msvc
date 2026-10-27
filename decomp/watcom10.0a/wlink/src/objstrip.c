@@ -212,3 +212,18 @@ void VectorReference( unsigned index )
     ext = FindNode( ExtNodes, (unsigned short)index );
     IndirectCall( ext->entry );
 }
+
+void AddSymEdge( symbol *src, symbol *targ )
+{
+    edgelist *edge;
+
+    if( src->info & 0x1000 ) {
+        if( src->info & 0x10 ) AddEdge( src->p.seg, targ );
+    } else {
+        edge = AllocEdge();
+        edge->u.sym = targ;
+        edge->flags |= 1;
+        edge->next = src->p.edges;
+        src->p.edges = edge;
+    }
+}

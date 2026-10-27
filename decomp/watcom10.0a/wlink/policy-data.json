@@ -5616,6 +5616,101 @@
         "expected_cleanup": [
           0
         ]
+      },
+      "ProcNAM": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CalcLIDataLength": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "CountIDBlock": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVFTableRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineVFTableRecord": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetVFList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetVFListStart": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "EndOfVFList": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetVFListName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddSymEdge": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcVFReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DefineVFReference": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "DBIComment": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "AddToLinkerComdat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "GetNewName": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcBackpatch": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "SaveBakPat": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "ProcNamedBackpatch": {
+        "expected_cleanup": [
+          0
+        ]
+      },
+      "RestoreLinkerComdat": {
+        "expected_cleanup": [
+          0
+        ]
       }
     }
   },
@@ -5916,6 +6011,16 @@
       "original": {
         "start": 4314483,
         "bytes_hex": "83c4085d5f5e5a595bc3"
+      }
+    },
+    {
+      "owners": [
+        "DefineVFTableRecord",
+        "DefineVFReference"
+      ],
+      "original": {
+        "start": 4320850,
+        "bytes_hex": "c3"
       }
     }
   ],

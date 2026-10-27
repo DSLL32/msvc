@@ -303,3 +303,10 @@ unsigned char ProcSharelib( void )
     FmtData.u.nov.sharednlm = FileName( Token.this, Token.len, 8, 0 );
     return 1;
 }
+
+unsigned char ProcNAM( void )
+{
+    Extension = 11;
+    FmtData.u.nov.moduletype = 3;
+    return 1;
+}

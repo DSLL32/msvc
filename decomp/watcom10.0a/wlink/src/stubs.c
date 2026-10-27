@@ -353,10 +353,7 @@ void ProcExportKeyword( void ) { TRAP(); }
 void ProcImportKeyword( void ) { TRAP(); }
 
 
-void DBIComment( void ) { TRAP(); }
 
-void ProcVFTableRecord( unsigned char ispure ) { TRAP(); }
-void ProcVFReference( void ) { TRAP(); }
 
 
 
@@ -410,8 +407,6 @@ void ORLPass2( void ) { TRAP(); }
 
 
 
-void ProcBackpatch( void ) { TRAP(); }
-void ProcNamedBackpatch( void ) { TRAP(); }
 
 
 
@@ -466,7 +461,6 @@ int CmpLn386( const void *a, const void *b ) { TRAP(); return 0; }
 int CmpLn286( const void *a, const void *b ) { TRAP(); return 0; }
 
 
-void RestoreLinkerComdat( symbol *sym ) { TRAP(); }
 
 
 
@@ -501,7 +495,6 @@ void RestoreLinkerComdat( symbol *sym ) { TRAP(); }
 
 
 
-unsigned long CalcLIDataLength( void ) { TRAP(); return 0; }
 
 
 
@@ -509,7 +502,6 @@ unsigned long CalcLIDataLength( void ) { TRAP(); return 0; }
 
 
 
-seg_leader *AddToLinkerComdat( symbol *sym ) { sym=sym;TRAP();return 0; }
 
 
 unsigned char CacheRelease( void ) { TRAP(); return 0; }
@@ -656,7 +648,6 @@ void OpenOvlFile( outfilelist *file ) { TRAP(); }
 
 unsigned char ProcDSK( void ) { TRAP(); return 0; }
 
-unsigned char ProcNAM( void ) { TRAP(); return 0; }
 
 
 
@@ -685,3 +676,14 @@ unsigned char ProcELFDLL( void ) { TRAP(); return 0; }
 
 
 unsigned char ProcPENoRelocs( void ) { TRAP(); return 0; }
+
+
+
+void DefineVirtualFunction( symbol *sym, symbol *defsym, unsigned char ispure ) { TRAP(); }
+
+
+void SetVFListStart( unsigned char *start ) { TRAP(); }
+
+
+
+symbol *MakeWeakExtdef( char *name, symbol *defsym ) { TRAP(); return 0; }

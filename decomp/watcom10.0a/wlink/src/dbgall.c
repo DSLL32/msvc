@@ -32,6 +32,9 @@
 #include <string.h>
 #include "cmdline.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(memcpy)
+#endif
 
 void DBISectCleanup( section *sect )
 {
@@ -352,4 +355,13 @@ void DBIAddModLines( unsigned count )
 void DBISectInit( section *sect )
 {
     if( LinkFlags & 0x4000 ) ODBIInit( sect );
+}
+
+void DBIComment( void )
+{
+    if( LinkFlags & 0x4021 ) {
+        DBIModNameLen = EOObjRec - ObjBuff;
+        DBIModName = ChkLAlloc( DBIModNameLen );
+        memcpy( DBIModName, ObjBuff, DBIModNameLen );
+    }
 }

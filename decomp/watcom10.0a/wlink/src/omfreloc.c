@@ -29,9 +29,13 @@
 *
 ****************************************************************************/
 
+#include <string.h>
 #include "cmdline.h"
 #include "fixup.h"
 #include <recon.h>
+#ifdef __WATCOMC__
+#pragma intrinsic(memcpy)
+#endif
 
 /* The1994 pass-one parser records strip-code and overlay references only;
  * relocation application is a separate pass-two routine. */
@@ -424,4 +428,49 @@ fixup_ref *FindFixupThread( fixup_ref *list, unsigned char index )
 {
     while( list != 0 && (unsigned char)(list->flags >> 16) != index ) list = list->next;
     return list;
+}
+
+void ProcBackpatch( void )
+{
+    segnode *seg;
+    unsigned char type;
+
+    seg = FindNode( SegNodes, GetIdx() );
+    if( !(seg->info & 0x80) ) {
+        type = *ObjBuff++;
+        SaveBakPat( seg, type );
+    }
+}
+
+extern unsigned char *GetObjAddr( segnode * );
+void SaveBakPat( segnode *seg, unsigned char type )
+{
+    bakpat *pat;
+    unsigned len;
+
+    len = EOObjRec - ObjBuff;
+    pat = ChkLAlloc( sizeof(*pat) - 1 + len );
+    pat->size = len;
+    pat->addr = GetObjAddr( seg );
+    pat->type = type;
+    pat->is32 = (ObjFormat & 3) != 0;
+    memcpy( pat->data, ObjBuff, len );
+    LinkList( &BakPats, pat );
+}
+
+void ProcNamedBackpatch( void )
+{
+    unsigned char type;
+    list_of_names *lname;
+    symbol *sym;
+    segnode seg;
+
+    type = *ObjBuff++;
+    lname = FindName( GetIdx() );
+    sym = RefISymbol( lname->name );
+    if( (sym->info & 14) == 2 && !(sym->info & 0x10) ) {
+        seg.entry = sym->p.leader;
+        seg.offset = sym->u.comdat->a.saved_addr;
+        SaveBakPat( &seg, type );
+    }
 }
