@@ -629,9 +629,48 @@ static char *target_environment(const char *path)
 }
 /* Preserve the exact already-built launch input, not an inferred child/CRT
  * environment. A declared saved input must compare before any target launch. */
+static void environment_record_io(const char *operation, DWORD error,
+                                  DWORD expected, DWORD actual)
+{
+    fprintf(stderr, "original OS environment %s failed: win32=%lu expected_bytes=%lu actual_bytes=%lu\n",
+            operation, error, expected, actual);
+}
+static void environment_record_entry(const char *label, const char *bytes,
+                                     DWORD size, DWORD offset)
+{
+    DWORD start = 0, end, i, name;
+    char text[129];
+    for (i = 0; i < offset && i < size; ++i)
+        if (!bytes[i]) start = i + 1;
+    end = start;
+    while (end < size && bytes[end]) ++end;
+    name = start < size && bytes[start]
+        ? (DWORD)original_environment_name_size(bytes + start) : 0;
+    for (i = 0; i < name && i < sizeof(text) - 1; ++i)
+        text[i] = bytes[start + i] >= 32 && bytes[start + i] <= 126
+            ? bytes[start + i] : '?';
+    text[i] = 0;
+    fprintf(stderr, " %s_name=%s %s_name_bytes=%lu %s_entry_bytes=%lu",
+            label, name ? text : "<end>", label, name, label, end - start);
+}
+static void environment_record_difference(const char *expected, DWORD expected_size,
+                                          const char *actual, DWORD actual_size)
+{
+    DWORD offset = 0;
+    while (offset < expected_size && offset < actual_size &&
+           expected[offset] == actual[offset]) ++offset;
+    fprintf(stderr, "original OS environment mismatch: expected_bytes=%lu actual_bytes=%lu first_offset=%lu",
+            expected_size, actual_size, offset);
+    if (original_environment_valid(expected, expected_size, 0) &&
+        original_environment_valid(actual, actual_size, 0)) {
+        environment_record_entry("expected", expected, expected_size, offset);
+        environment_record_entry("actual", actual, actual_size, offset);
+    }
+    fputc('\n', stderr);
+}
 static int record_process_environment(const char *path, const char *environment)
 {
-    DWORD size = 0, expected_size, got = 0, open_error;
+    DWORD size = 0, expected_size, got = 0, open_error, saved_error;
     HANDLE file;
     char *expected_path, *bytes;
     int ok;
@@ -639,9 +678,13 @@ static int record_process_environment(const char *path, const char *environment)
            (environment[size] || environment[size + 1])) ++size;
     size += 2;
     if (size > ORIGINAL_ENVIRONMENT_LIMIT ||
-        !original_environment_valid(environment, size, 0)) return 0;
+        !original_environment_valid(environment, size, 0)) {
+        environment_record_io("actual-block-validation", 0, 0, size); return 0;
+    }
     expected_path = malloc(strlen(path) + 10);
-    if (!expected_path) return 0;
+    if (!expected_path) {
+        environment_record_io("expected-path-allocation", 0, 0, 0); return 0;
+    }
     strcpy(expected_path, path); strcat(expected_path, ".expected");
     file = CreateFileA(expected_path, GENERIC_READ, FILE_SHARE_READ, NULL,
                        OPEN_EXISTING, 0, NULL);
@@ -650,21 +693,42 @@ static int record_process_environment(const char *path, const char *environment)
     if (file != INVALID_HANDLE_VALUE)
     {
         expected_size = GetFileSize(file, NULL);
-        if (expected_size != size) { CloseHandle(file); return 0; }
-        bytes = malloc(size);
-        if (!bytes) { CloseHandle(file); return 0; }
-        ok = ReadFile(file, bytes, size, &got, NULL) && got == size &&
-             !memcmp(bytes, environment, size);
-        CloseHandle(file); free(bytes);
+        saved_error = expected_size == INVALID_FILE_SIZE ? GetLastError() : 0;
+        if (expected_size == INVALID_FILE_SIZE || expected_size > ORIGINAL_ENVIRONMENT_LIMIT) {
+            CloseHandle(file);
+            environment_record_io("expected-size", saved_error, size, expected_size); return 0;
+        }
+        bytes = malloc(expected_size ? expected_size : 1);
+        if (!bytes) {
+            CloseHandle(file);
+            environment_record_io("expected-allocation", 0, expected_size, 0); return 0;
+        }
+        ok = ReadFile(file, bytes, expected_size, &got, NULL);
+        saved_error = ok ? 0 : GetLastError();
+        CloseHandle(file);
+        if (!ok || got != expected_size) {
+            free(bytes);
+            environment_record_io("expected-read", saved_error, expected_size, got); return 0;
+        }
+        ok = expected_size == size && !memcmp(bytes, environment, size);
+        if (!ok) environment_record_difference(bytes, expected_size, environment, size);
+        free(bytes);
         if (!ok) return 0;
     }
-    else if (open_error != ERROR_FILE_NOT_FOUND) return 0;
+    else if (open_error != ERROR_FILE_NOT_FOUND) {
+        environment_record_io("expected-open", open_error, 0, 0); return 0;
+    }
     file = CreateFileA(path, GENERIC_WRITE, 0, NULL, CREATE_NEW, 0, NULL);
-    if (file == INVALID_HANDLE_VALUE) return 0;
+    if (file == INVALID_HANDLE_VALUE) {
+        saved_error = GetLastError();
+        environment_record_io("receipt-create", saved_error, size, 0); return 0;
+    }
     got = 0;
-    ok = WriteFile(file, environment, size, &got, NULL) && got == size;
+    ok = WriteFile(file, environment, size, &got, NULL);
+    saved_error = ok ? 0 : GetLastError();
     CloseHandle(file);
-    return ok;
+    if (!ok || got != size) environment_record_io("receipt-write", saved_error, size, got);
+    return ok && got == size;
 }
 int main(int argc, char **argv)
 {
