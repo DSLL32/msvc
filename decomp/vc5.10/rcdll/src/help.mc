@@ -109,3 +109,8 @@ MessageId=20101
 Language=English
 RC terminated by user
 .
+
+MessageId=1107
+Language=English
+RC : fatal error RC1107 : invalid usage; use RC /? for Help
+.
