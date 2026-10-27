@@ -5,6 +5,7 @@
 
 /* The actual recorded-input allocation is64 bytes. Only its written header,
  * context buffers and active bit are interpreted; no tail/default claim. */
+struct ParserTokenView;
 struct CompilerRecordedLexer : CompilerTokenStream {
     void *initial_object;
     unsigned initial_value;
@@ -25,6 +26,8 @@ struct CompilerRecordedLexer : CompilerTokenStream {
     /* Outlined constructor-shaped entry1dbdb, actual thiscall/RET8. */
     CompilerRecordedLexer *RECON_THISCALL Initialize(unsigned, BYTE);
     CompilerRecordedLexer *RECON_THISCALL CopyFrom(const CompilerRecordedLexer *);
+    ParserTokenView *RECON_THISCALL RecordUntil(unsigned, unsigned); /*37d1a, RET8*/
+    void RECON_THISCALL RecordAssembly(void); /*80c72, RET0*/
     RECON_FORCEINLINE CompilerRecordedLexer(const CompilerRecordedLexer *source) {
         initial_object = source->initial_object; initial_value = source->initial_value;
         current_object = source->current_object; current_value = source->current_value;

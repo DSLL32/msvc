@@ -53,6 +53,12 @@ struct ParserAccess {
 };
 union ParserIndirectName { CompilerNameEntry *name; CompilerSymbol *symbol; };
 struct ParserPointerPair { void *first, *second; };
+/* KindDB's marker payload is a distinct8-byte record. The wider saved
+ * parameter-scope record has a different producer and layout. */
+struct CompilerRecordedParameterState {
+    CompilerParameterSet *parameters;
+    unsigned kind;
+};
 typedef CompilerNumericLiteral ParserLiteralView;
 /* Saved parser-value arm selected by recorded token kind0x65. Actual
  * stores are type at+0, kind at+8, value at+c. This is not the declaration
@@ -82,6 +88,7 @@ union ParserSemanticView {
     ParserDeferredRecord *deferred;
     ParserDeferredList *deferred_list;
     ParserSavedParameters *saved_parameters;
+    CompilerRecordedParameterState *recorded_parameters;
     ParserDeclarationValue declaration_value;
     ParserDeclarationView declaration;
     CompilerDeclaratorQualifiers qualifiers;

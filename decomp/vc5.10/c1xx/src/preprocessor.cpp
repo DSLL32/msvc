@@ -610,7 +610,7 @@ extern "C" int __cdecl begin_first_line_forced_include(void)
     return 0;
 }
 extern "C" int __cdecl open_forced_source(const char *, unsigned); /*28915*/
-extern "C" ParserTokenView *__cdecl record_source_location(unsigned); /*28a24*/
+extern "C" ParserTokenView *__cdecl record_source_location(const void *); /*28a24*/
 extern "C" int __cdecl process_forced_source_input(void)
 {
     const char *name;
@@ -627,7 +627,7 @@ extern "C" int __cdecl process_forced_source_input(void)
         ++frontend_bss.forced_include_index;
         frontend_bss.default_source_name = name;
         if (open_forced_source(name, 0) <= -1) continue;
-        if (frontend_bss.quoted_skip_mode) return 1;
+        if (frontend_bss.options.preprocess_stdout) return 1;
         arena = &frontend_bss.arenas[4]; /* original C6580 */
         saved = (CompilerSymbolArenaFrame *)arena->cursor;
         arena->cursor += 8;
@@ -662,10 +662,6 @@ extern "C" int __cdecl process_forced_source_input(void)
     }
     return 0;
 }
-extern "C" int __cdecl open_forced_source(const char *, unsigned)
-{ __asm { int 3 } return 0; }
-extern "C" ParserTokenView *__cdecl record_source_location(unsigned)
-{ __asm { int 3 } return NULL; }
 
 extern "C" {
 CompilerBackend *__cdecl acquire_initial_backend(void);

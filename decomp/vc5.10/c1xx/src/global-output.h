@@ -10,6 +10,47 @@ struct CompilerGlobalOption {
     unsigned kind;
     const BYTE *value;
 };
+/* The class-detail count and sorted link vector form this same8-byte
+ * subobject. The lookup method receives its address, not the class header. */
+struct CompilerMemberNameIndex {
+    unsigned count;
+    CompilerSymbolLink **items;
+    CompilerSymbolLink *RECON_THISCALL Find(CompilerNameEntry *); /*1128b, RET4*/
+};
+struct InheritedMemberRecord {
+    union {
+        CompilerSymbolLink *member;
+        CompilerVector *members; /* flags bit2 selects the vector form */
+    };
+    BYTE unmodeled_04_0b[8];
+    BYTE flags;
+    BYTE unmodeled_0d_0f[3];
+};
+struct ClassMemberFunctionTable {
+    unsigned kind;
+    CompilerRuntimeFunction *function;
+    BYTE unmodeled_08_0f[8];
+    int count;
+    int capacity;
+    InheritedMemberRecord *records;
+    unsigned storage_bytes;
+    BYTE unmodeled_20_2f[16];
+    void *merge_value;
+    CompilerVector *merge_targets;
+    BYTE unmodeled_38_3b[4];
+    CompilerRuntimeFunction *secondary_function;
+    unsigned secondary_function_state;
+};
+
+/* Shared borrowed group view. The class-binding collector consumes only
+ * its first symbol; the existing function grouping fields retain their roles. */
+struct InheritedMemberGroup {
+    CompilerSymbol *symbol;
+    BYTE unmodeled_04_13[16];
+    CompilerVector *functions[2];
+    BYTE unmodeled_1c_1f[4];
+    unsigned secondary_state;
+};
 /* Shared partial view of the actual class-detail owner. Only encountered
  * fields are named; opaque gaps retain storage without interpretation. This
  * is not its allocation extent, an initializer, or a whole-object contract. */
@@ -18,8 +59,13 @@ struct CompilerGlobalClassDetail {
     CompilerVector *member_groups[2]; /* +8/+c, arena5 vector owners */
     CompilerVector *additional_members; /* +10 */
     BYTE unmodeled_14_1f[12];
-    unsigned member_count; /* +20, indexed member lookup owner */
-    CompilerSymbolLink **member_index; /* +24, sorted borrowed member links */
+    union {
+        struct {
+            unsigned member_count; /* +20, indexed member lookup owner */
+            CompilerSymbolLink **member_index; /* +24, sorted borrowed member links */
+        };
+        CompilerMemberNameIndex member_names;
+    };
     void *declaration_reference; /* +28 */
     WORD scope_number; /* +2c */
     BYTE unmodeled_2e_2f[2];
@@ -63,16 +109,20 @@ struct CompilerGlobalSymbolView {
         CompilerNameEntry *alternate_name;
         CompilerGlobalClassDetail *class_detail;
         unsigned symbol_value;
+        int member_offset; /* same+20, constructor member-layout consumer */
     };
     union {
         int integer_value;
+        struct CompilerHashTable *lookup_table; /* same+24, class-name lookup variant */
         BYTE parameter_kind;
         WORD declaration_scope_number;
         struct { BYTE scope_depth, depth, unmodeled_26_27[2]; } reference_position;
+        struct { BYTE first, second, unmodeled_26_27[2]; } member_selection; /* kind2 inputs to node36 */
     }; /* same original+24 owner; label/reference variants consume BYTE+24/+25 */
     union {
         unsigned alternate_size; /* original+28 */
         CompilerSymbol *pending_initializer; /* same+28, translation-unit pending-symbol variant */
+        CompilerExpression *reference_expression; /* same+28, kind22 expression consumer11df9 */
         struct { WORD alternate_low; BYTE builtin_operation, function_class; };
     };
     BYTE builtin_flags; /* original+2c, function variant */
@@ -94,6 +144,7 @@ struct CompilerSourceFile {
 typedef char CompilerSourceFile_size[(sizeof(CompilerSourceFile) == 20 &&
     offsetof(CompilerSourceFile, reference_flags) == 8 &&
     offsetof(CompilerSourceFile, record_index) == 12) ? 1 : -1];
+typedef char CompilerConstructorMemberOffset[offsetof(CompilerGlobalSymbolView, member_offset) == 0x20 ? 1 : -1];
 typedef char CompilerReferencePosition_offset[(
     offsetof(CompilerGlobalSymbolView, reference_position.depth) == 0x25) ? 1 : -1];
 #endif

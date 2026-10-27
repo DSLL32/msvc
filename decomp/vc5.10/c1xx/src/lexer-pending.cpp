@@ -6,14 +6,11 @@
 extern "C" unsigned __cdecl read_unspliced_character(void) { __asm { int 3 } return (unsigned)0; }
 extern "C" int __cdecl skip_line_comment(void) { __asm { int 3 } return (int)0; }
 extern "C" int __cdecl skip_block_comment(void) { __asm { int 3 } return (int)0; }
-extern "C" unsigned __cdecl process_special_character(void) { __asm { int 3 } return (unsigned)0; }
-extern "C" unsigned __cdecl process_trigraph(void) { __asm { int 3 } return (unsigned)0; }
 extern "C" void __cdecl discard_input_character(void) { __asm { int 3 } }
 extern "C" int __cdecl splice_input_line(void) { __asm { int 3 } return (int)0; }
 extern "C" unsigned __cdecl resolve_special_character(unsigned) { __asm { int 3 } return (unsigned)0; }
 extern "C" void __cdecl copy_quoted_literal(unsigned, int) { __asm { int 3 } }
 extern "C" ParserTokenView * __cdecl make_character_constant(unsigned, const void *, unsigned) { __asm { int 3 } return (ParserTokenView *)0; }
-extern "C" int __cdecl expand_macro(struct CompilerMacro *) { __asm { int 3 } return (int)0; }
 extern "C" unsigned __cdecl collect_floating_token(char *) { __asm { int 3 } return (unsigned)0; }
 extern "C" ParserTokenView * __cdecl scan_floating_token(char *) { __asm { int 3 } return (ParserTokenView *)0; }
 extern "C" int __cdecl finish_forced_include(void) { __asm { int 3 } return (int)0; }
@@ -21,18 +18,11 @@ unsigned RECON_THISCALL CompilerRecordedLexer::Peek(void) { __asm { int 3 } retu
 
 extern "C" int __cdecl skip_newline_comment(void) { __asm { int 3 } return 0; }
 
-extern "C" void __cdecl finish_directive_line(const char *) { __asm { int 3 } }
 extern "C" unsigned __cdecl read_directive_character(unsigned) { __asm { int 3 } return 0; }
-extern "C" int __cdecl skip_conditional_group(int) { __asm { int 3 } return 0; }
-extern "C" int __cdecl push_conditional_state(void) { __asm { int 3 } return 0; }
-extern "C" __int64 __cdecl evaluate_preprocessor_condition(void) { __asm { int 3 } return 0; }
 extern "C" void __cdecl begin_conditional_replay(void) { __asm { int 3 } }
 extern "C" int __cdecl read_conditional_replay(void) { __asm { int 3 } return 0; }
 extern "C" int __cdecl record_conditional_value(short) { __asm { int 3 } return 0; }
-extern "C" void __cdecl process_define_directive(int) { __asm { int 3 } }
 extern "C" ParserTokenView *__cdecl process_line_directive(void) { __asm { int 3 } return NULL; }
-extern "C" char *__cdecl parse_include_directive(int, unsigned *) { __asm { int 3 } return NULL; }
-extern "C" ParserTokenView *__cdecl include_directive_file(const char *, unsigned) { __asm { int 3 } return NULL; }
 extern "C" char *__cdecl parse_import_directive(char **, unsigned *) { __asm { int 3 } return NULL; }
 extern "C" char *__cdecl resolve_import_directive(const char *, const char *, unsigned) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl process_undef_directive(void) { __asm { int 3 } }

@@ -62,6 +62,9 @@ typedef struct CompilerType {
     CompilerType *RECON_THISCALL StripOuterShape(void);
     CompilerType *RECON_THISCALL ConvertArray(unsigned);
     CompilerType *RECON_THISCALL RemoveFunction(void);
+    CompilerType *RECON_THISCALL RemoveFunctionQualifier(void); /*40334*/
+    CompilerType *RECON_THISCALL AddressType(unsigned); /*14e84 RET4*/
+    CompilerType *RECON_THISCALL BindMemberScope(struct CompilerSymbol *); /*149c7 RET4*/
     CompilerType *RECON_THISCALL StripArrayDimensions(void);
     CompilerType *RECON_THISCALL StripQualifiers(void);
     CompilerType *RECON_THISCALL WithShape(CompilerTypeShape *); /*2335f*/

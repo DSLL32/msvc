@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "scope": "C1XX Lexer::Read cached fputc EDI and process_source_newline cached fputc ESI normal-return ABI only; no preprocessing/provider success or nonlocal-return claim.",
+  "scope": "C1XX character and skipped-directive scanners cached fputc EDI, plus source-newline cached fputc ESI: documented normal-return calling-convention facts only; no preprocessing/provider success or nonlocal-return claim.",
   "target": {
     "path": "toolchains/5.10/bin/C1XX.DLL",
     "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
@@ -210,6 +210,44 @@
       "preserves": [
         "edi"
       ]
+    },
+    {
+      "name": "_read_directive_character",
+      "original_rva": 130260,
+      "caller_sites": [
+        "0x1f1f4",
+        "0x1f371",
+        "0x627fa"
+      ],
+      "convention": "cdecl",
+      "signature": "unsigned read_directive_character(unsigned), low-byte input/result",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_skip_directive_literal",
+      "original_rva": 271689,
+      "caller_sites": [
+        "0x1f48c"
+      ],
+      "convention": "cdecl",
+      "signature": "void skip_directive_literal(unsigned), low-byte input; caller ADD ESP,4",
+      "preserves": [
+        "edi"
+      ]
+    },
+    {
+      "name": "_advance_multibyte_source",
+      "original_rva": 534400,
+      "caller_sites": [
+        "0x62811"
+      ],
+      "convention": "cdecl",
+      "signature": "BYTE advance_multibyte_source(void)",
+      "preserves": [
+        "edi"
+      ]
     }
   ],
   "imports": [
@@ -379,5 +417,15 @@
         "esi"
       ]
     }
+  },
+  "skipped_directive_caller": {
+    "name": "_scan_skipped_directive",
+    "entry_rva": 127357,
+    "cached_import_load_rva": 127449,
+    "IAT_rva": 823672,
+    "calls": [
+      "0x627e9"
+    ],
+    "scope": "EDI load persists across the three listed ordinary cdecl children and already identified scan_identifier/fputc normal returns."
   }
 }

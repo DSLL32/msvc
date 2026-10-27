@@ -16,7 +16,9 @@ BYTE __cdecl advance_multibyte_source(void);
 void __cdecl copy_numeric_spelling(ParserSemanticView *, const char *, unsigned, unsigned);
 }
 
-/* The quoted arm shares the actual BA8C8 saved-value owner. The WORD fields
+/* C0978 is the existing -E/preprocess_stdout cell; its secondary quoted
+ * conversion role does not own a separate flag.
+ * The quoted arm shares the actual BA8C8 saved-value owner. The WORD fields
  * at+4/+6 are distinct from the numeric literal arm. CD564 points into the
  * existing2048-byte token-text workspace; no second spelling buffer is owned. */
 extern "C" void __cdecl scan_quoted_literal(int wide, unsigned quote)
@@ -28,7 +30,7 @@ extern "C" void __cdecl scan_quoted_literal(int wide, unsigned quote)
     int escaped_characters = 0;
     literal->text = out;
     literal->flags = (WORD)((literal->flags ^ ((wide ^ literal->flags) & 1)) & ~2);
-    if (frontend_bss.quoted_skip_mode) wide = 0;
+    if (frontend_bss.options.preprocess_stdout) wide = 0;
     for (;;) {
         chunk = out;
         character = *frontend_bss.source_cursor++;
@@ -38,7 +40,7 @@ extern "C" void __cdecl scan_quoted_literal(int wide, unsigned quote)
             special = process_special_character();
             if (special & ~0x50U) continue;
             if (!(special & 0x10) || (frontend_data.compiler_flags & 0x2000) ||
-                frontend_bss.quoted_skip_mode) break;
+                frontend_bss.options.preprocess_stdout) break;
             next = *frontend_bss.source_cursor++;
             if (!frontend_data.scanner.classes[next])
                 next = resolve_special_character(next) & 0xff;
@@ -54,7 +56,7 @@ extern "C" void __cdecl scan_quoted_literal(int wide, unsigned quote)
             break;
         case SC_NEWLINE:
             --frontend_bss.source_cursor;
-            if (!frontend_bss.quoted_skip_mode) compiler_warning(1);
+            if (!frontend_bss.options.preprocess_stdout) compiler_warning(1);
             /* The preceding byte is outside the known owner when an empty
              * unterminated literal begins at the workspace base. */
             if (out == (BYTE *)compiler_token_text) { __asm { int 3 } }

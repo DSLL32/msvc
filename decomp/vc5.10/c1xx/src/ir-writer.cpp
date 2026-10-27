@@ -2,6 +2,7 @@
 #include "frontend-init.h"
 #include "ir.h"
 #include "global-output.h"
+#include "pointer-array.h"
 #include <recon.h>
 
 /* Each opcode selects a sequence of operand encodings. The original table's
@@ -594,7 +595,30 @@ extern "C" unsigned __cdecl get_symbol_index(CompilerSymbol *input)
     if (symbol->emission_state & ~7U) return symbol->emission_state >> 3;
     return external_symbol_index(symbol);
 }
-extern "C" void __cdecl normalize_symbol(CompilerSymbol *symbol) { __asm { int 3 } }
+extern "C" void __cdecl complete_expression_class(CompilerSymbol *, unsigned); /*32406*/
+/* 18a15..18a86: walk the existing enclosing-symbol chain before output. */
+extern "C" void __cdecl normalize_symbol(CompilerSymbol *symbol)
+{
+    CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+    int index = (short)symbol->declaration_qualifiers;
+    if (index < 0 || index >= table->count) { __asm { int 3 } }
+    CompilerSymbol *scope = (CompilerSymbol *)table->items[index];
+    while (scope) {
+        scope->definition_flags &= ~8;
+        if (scope->kind == 4) {
+            CompilerGlobalClassDetail *detail = ((CompilerGlobalSymbolView *)scope)->class_detail;
+            if ((detail->completion_flags & 1) && !(detail->template_flags & 1)) {
+                complete_expression_class(scope, 0);
+                if (!(symbol->definition_flags & 4) && !(symbol->scope_flags & 1))
+                    frontend_bss.debug_module->Slot6c();
+            }
+        }
+        index = (short)scope->declaration_qualifiers;
+        table = frontend_data.frontend_pointer_table;
+        if (index < 0 || index >= table->count) { __asm { int 3 } }
+        scope = (CompilerSymbol *)table->items[index];
+    }
+}
 extern "C" CompilerSymbol *__cdecl get_template_symbol(CompilerSymbol *symbol) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl resolve_generated_symbol(CompilerSymbol *symbol) { __asm { int 3 } return NULL; }
 extern "C" CompilerSymbol *__cdecl get_import_symbol(CompilerSymbol *symbol) { __asm { int 3 } return NULL; }

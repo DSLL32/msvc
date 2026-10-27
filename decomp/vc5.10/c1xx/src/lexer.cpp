@@ -9,6 +9,7 @@
 #include "parser-state.h"
 #include "keywords.h"
 #include "lexer.h"
+#include "includes.h"
 #include <recon.h>
 #pragma intrinsic(memcpy, memcmp, strcmp)
 
@@ -112,8 +113,8 @@ unsigned RECON_THISCALL CompilerLexer::Read(void)
         /* Encountered lexical domains, including the NUL refill boundary.
          * Wider special characters stop before their pending consumers. */
         if (dispatch != SC_NEWLINE && dispatch != SC_IDENTIFIER && dispatch != SC_SPACE &&
-            dispatch != SC_LPAREN && dispatch != SC_RPAREN && dispatch != SC_COMMA && dispatch != SC_COLON &&
-            dispatch != SC_LBRACKET && dispatch != SC_RBRACKET &&
+            dispatch != SC_PLUS && dispatch != SC_LPAREN && dispatch != SC_RPAREN && dispatch != SC_COMMA && dispatch != SC_COLON &&
+            dispatch != SC_LBRACKET && dispatch != SC_RBRACKET && dispatch != SC_GREATER && dispatch != SC_EQUAL &&
             dispatch != SC_DIGIT && dispatch != SC_DOT && dispatch != SC_AMP && dispatch != SC_DQUOTE && dispatch != SC_STAR && dispatch != SC_LBRACE && dispatch != SC_RBRACE && dispatch != SC_SEMICOLON &&
             !(dispatch == SC_SPECIAL && character == 0))
             recon_unsupported("lexer: character/payload domain pending");
@@ -514,14 +515,8 @@ finish_marker:
     return token;
 }
 
-/* Preprocessor directive dispatch. The 2,048 conditional-state slots are
- * bounded by push_conditional_state's actual limit. This original-only owner
- * is source coverage, not a native table/default projection. */
-#ifndef RECON_NATIVE_TEST
-static int conditional_states[2048]; /* ba920, DWORD rows */
-#else
-#define conditional_states ((int *)(recon_unsupported("directive: conditional-state storage pending"),0))
-#endif
+/* The bounded DWORD conditional stack has one BSS/reset owner. */
+#define conditional_states frontend_bss.conditional_states
 
 enum CompilerDirective {
     PP_IF, PP_ELIF, PP_ELSE, PP_ENDIF, PP_IFDEF, PP_IFNDEF, PP_DEFINE,
@@ -615,10 +610,17 @@ select_arenas:
     else arena_kind = (frontend_data.source_mode_flags & 1) ? 4 : 5;
     frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = arena_kind;
     directive = (BYTE)lookup_preprocessor_directive(name);
+    /* Include dispatch reaches its genuine parser before filename state is
+     * consumed. Other unfinished directive domains remain unsupported. */
+    if (directive != PP_PRAGMA && directive != PP_INCLUDE &&
+        directive != PP_IFDEF && directive != PP_IFNDEF && directive != PP_DEFINE &&
+        directive != PP_IF && directive != PP_ELSE) {
 #ifdef RECON_NATIVE_TEST
-    if (directive != PP_PRAGMA)
         recon_unsupported("directive: conditional/recorded-token domains pending");
+#else
+        __asm { int 3 }
 #endif
+    }
 dispatch_directive:
     switch (directive) {
     case PP_IFDEF:
@@ -654,7 +656,8 @@ replay_defined:
         if (!frontend_bss.debug_module->Slot28())
             report_compiler_diagnostic(73, ".\\p0prepro.c", 0x253);
         conditional_state = condition ? 1 : 3;
-        conditional_states[push_conditional_state()] = conditional_state;
+        skipped = push_conditional_state();
+        conditional_states[skipped] = conditional_state;
         goto done;
 
     case PP_IF:
@@ -704,7 +707,7 @@ replay_condition:
             report_compiler_error(19);
         if (!frontend_bss.debug_module->Slot2c())
             report_compiler_diagnostic(73, ".\\p0prepro.c", 0x2ea);
-        finish_directive_line("#else");
+        finish_directive_line(compiler_directive_else);
         skip_conditional_group(6);
         if (!frontend_data.options.preprocess_no_lines) begin_line_output();
         goto done;
@@ -713,7 +716,7 @@ replay_condition:
             report_compiler_diagnostic(73, ".\\p0prepro.c", 0x2f2);
         if (frontend_data.conditional_depth-- < 0) report_compiler_error(20);
         if (!frontend_data.options.preprocess_no_lines) begin_line_output();
-        if (!frontend_data.options.language_extensions) finish_directive_line("#endif");
+        if (!frontend_data.options.language_extensions) finish_directive_line(compiler_directive_endif);
         else discard_input_character();
         goto done;
     case PP_DEFINE:
@@ -1432,3 +1435,124 @@ extern "C" unsigned __cdecl make_arena_token(unsigned arena_kind)
     memcpy(&token->value, &LEXER_SAVED_STORAGE, 40);
     return (unsigned)token;
 }
+
+extern "C" int __cdecl push_conditional_state(void)
+{
+    frontend_data.conditional_depth = (int)((unsigned)frontend_data.conditional_depth + 1);
+    if ((unsigned)frontend_data.conditional_depth >= 2048)
+        report_compiler_diagnostic(52, 2048);
+    return frontend_data.conditional_depth;
+}
+
+/* Scan whole skipped groups while retaining only the nesting depth and the
+ * actual terminating directive. The character scanner is a separate owner. */
+extern "C" BYTE __cdecl scan_skipped_directive(void); /*1f17d*/
+extern "C" int __cdecl skip_conditional_group(int mode)
+{
+    unsigned depth = 0;
+    BYTE directive, terminator = PP_UNKNOWN;
+    ParserTokenView *token;
+    for (;;) {
+        directive = scan_skipped_directive();
+        switch (directive) {
+        case PP_IF:
+        case PP_IFDEF:
+        case PP_IFNDEF:
+            ++depth;
+            break;
+        case PP_ELSE:
+            terminator = PP_ELSE;
+            /* Fall through: nested alternatives do not end this group. */
+        case PP_ELIF:
+            if (depth) { terminator = PP_UNKNOWN; break; }
+            if (mode == 6) {
+                report_compiler_error(22);
+                break;
+            }
+            if (terminator != PP_ELSE) return 2;
+            if (frontend_data.options.language_extensions) discard_input_character();
+            else finish_directive_line(compiler_directive_else);
+            return 3;
+        case PP_ENDIF:
+            if (depth) { --depth; break; }
+            finish_directive_line(compiler_directive_endif);
+            return 4;
+        case PP_PRAGMA:
+            if (mode == 8) {
+                token = ((ParserFrontendContextView *)&frontend_bss.saved_context_stack)->ReadToken();
+                if (token && token->kind == 6 &&
+                    lookup_pragma_name(((CompilerNameEntry *)token->value.pointer)->name) == PRAGMA_IMPLEMENTATION_KEY)
+                    return 7;
+            }
+            break;
+        default:
+            break;
+        }
+    }
+}
+/* The scanner's three whitespace spans have the same real slow character
+ * reader. Macro expansion keeps them inline, as in the original owner. */
+#define SKIPPED_FIRST_CHARACTER(c) do { \
+    (c) = *frontend_bss.source_cursor++; \
+    if (!(frontend_data.scanner.flags[(c)] & 0x20)) { \
+        while (frontend_data.scanner.classes[(c)] == SC_SPACE) \
+            (c) = *frontend_bss.source_cursor++; \
+        if (!(frontend_data.scanner.flags[(c)] & 0x20)) \
+            (c) = (BYTE)read_directive_character(c); \
+    } \
+} while (0)
+#define SKIPPED_SELECT_ARENA() do { \
+    if ((frontend_data.compiler_mode_flags & 0x32000000) || \
+        ((frontend_data.compiler_mode_flags & 0x40000000) && \
+         !(frontend_data.source_mode_flags & 8) && !(LEXER_FLAGS & 0x200)) || \
+        (frontend_data.source_mode_flags & 0x10) || \
+        ((frontend_data.compiler_mode_flags & 0x04000000) && !(LEXER_FLAGS & 0x8000))) \
+        frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 0; \
+    else frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = \
+        (frontend_data.source_mode_flags & 1) ? 4 : 5; \
+} while (0)
+extern "C" void __cdecl skip_directive_literal(unsigned); /*42549, low BYTE*/
+extern "C" BYTE __cdecl scan_skipped_directive(void)
+{
+    BYTE character;
+    unsigned dispatch;
+    SKIPPED_SELECT_ARENA();
+    for (;;) {
+        /* Ordinary text cannot start a directive. The flag includes each
+         * newline, quote and lead byte that needs the outlined paths. */
+        do { character = *frontend_bss.source_cursor++; }
+        while (!(frontend_data.scanner.flags[character] & 0x80));
+        --frontend_bss.source_cursor;
+        SKIPPED_FIRST_CHARACTER(character);
+        dispatch = frontend_data.scanner.classes[character];
+        switch (dispatch) {
+        case SC_NEWLINE:
+            ++frontend_bss.saved_context_stack.position;
+            if (frontend_bss.options.preprocess_stdout)
+                fputc('\n', frontend_bss.preprocessor_output);
+            SKIPPED_FIRST_CHARACTER(character);
+            if (character == '#') {
+                SKIPPED_FIRST_CHARACTER(character);
+                if (frontend_data.scanner.flags[character] & 1) {
+                    scan_identifier(character);
+                    SKIPPED_SELECT_ARENA();
+                    return lookup_preprocessor_directive(frontend_data.current_identifier->name);
+                }
+            }
+            --frontend_bss.source_cursor;
+            break;
+        case SC_DQUOTE:
+        case SC_SQUOTE:
+            skip_directive_literal(character);
+            break;
+        case SC_LEAD:
+            advance_multibyte_source();
+            break;
+        default:
+            break;
+        }
+    }
+}
+extern "C" void __cdecl skip_directive_literal(unsigned) { __asm { int 3 } }
+#undef SKIPPED_SELECT_ARENA
+#undef SKIPPED_FIRST_CHARACTER

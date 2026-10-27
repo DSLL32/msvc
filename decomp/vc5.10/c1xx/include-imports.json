@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "kind": "Finite cached-CRT nonvolatile contracts for include path selection and alias lookup",
+  "target": {
+    "path": "toolchains/5.10/bin/C1XX.DLL",
+    "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9"
+  },
+  "caller": {
+    "name": "_open_forced_source",
+    "code": [
+      [
+        166165,
+        166413
+      ],
+      [
+        426543,
+        426698
+      ]
+    ],
+    "cached_target": "msvcrt.dll!strchr",
+    "register": "esi",
+    "load_rva": 166240,
+    "call_rvas": [
+      166252,
+      166273
+    ]
+  },
+  "contract": {
+    "signature": "char *__cdecl strchr(const char *, int);",
+    "sdk_path": "toolchains/5.10/include/STRING.H",
+    "sdk_line": 140,
+    "sdk_sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024"
+  },
+  "preserves": [
+    "esi"
+  ],
+  "basis": "The identified ordinary Microsoft i386 cdecl contract preserves ESI on normal return. The two actual indirect calls use this same imported target. This states no provider body or include-path runtime coverage.",
+  "alias_lookup": {
+    "caller": "CompilerIncludeAliases::Find",
+    "code": [
+      [
+        166413,
+        166436
+      ],
+      [
+        426698,
+        426767
+      ]
+    ],
+    "import": "msvcrt.dll!_stricmp",
+    "signature": "int __cdecl _stricmp(const char *,const char *);",
+    "sdk_path": "toolchains/5.10/include/STRING.H",
+    "sdk_line": 142,
+    "sdk_sha256": "648d0cb8654603fce563639e18930a9e92714e0f3b33a294396689af78c19024",
+    "cached_register": "ebx",
+    "load_rva": 426706,
+    "call_rva": 426717,
+    "preserves": [
+      "ebx"
+    ],
+    "basis": "Identified normal i386 cdecl return preserves EBX across the alias-chain backedge; no alias-record execution or provider body claim."
+  }
+}

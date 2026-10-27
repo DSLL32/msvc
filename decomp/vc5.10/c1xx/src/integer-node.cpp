@@ -28,18 +28,12 @@ extern "C" CompilerExpression *__cdecl allocate_integer_constant(int value)
 
 /* The comparer consumes the x87 ten-byte value at these static owners.
  * Original classification/tail bytes beyond that prefix are not represented. */
-struct CompilerExtendedConstant {
-    DWORD significand_low, significand_high;
-    WORD sign_exponent;
-};
-typedef char CompilerExtendedConstant_prefix[
-    offsetof(CompilerExtendedConstant, sign_exponent) == 8 ? 1 : -1];
+extern const CompilerExtendedConstant compiler_extended_zero = { 0, 0, 0 }; /*cd5a0*/
 extern "C" int __cdecl compare_extended_constants(unsigned,
     const CompilerExtendedConstant *, const CompilerExtendedConstant *); /*5025c*/
 extern "C" CompilerExpression *__cdecl make_typed_constant(
     CompilerType *type, const void *value, unsigned arena_kind)
 {
-    static const CompilerExtendedConstant zero = { 0, 0, 0 }; /* original cd5a0 */
     static const CompilerExtendedConstant one = { 0, 0x80000000, 0x3fff }; /* cd5b0 */
     CompilerArena *arena;
     CompilerExpression *constant;
@@ -59,7 +53,7 @@ extern "C" CompilerExpression *__cdecl make_typed_constant(
         } else if (constant->value.integer == 1) constant->constant_flags |= 1;
     } else if (type->flags & 0x100) {
         constant->value.pointer = *(void *const *)value;
-        if (!compare_extended_constants(6, (const CompilerExtendedConstant *)constant->value.pointer, &zero)) {
+        if (!compare_extended_constants(6, (const CompilerExtendedConstant *)constant->value.pointer, &compiler_extended_zero)) {
             constant->flags = 0x83;
             constant->constant_flags |= 1;
         } else if (!compare_extended_constants(6, (const CompilerExtendedConstant *)constant->value.pointer, &one))

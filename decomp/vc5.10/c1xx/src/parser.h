@@ -46,6 +46,7 @@ struct CompilerParser {
     void RECON_THISCALL Finish(void);
     int RECON_THISCALL Recover(void);
     void RECON_THISCALL ClearRecovery(void);
+    void RECON_THISCALL SetLookahead(ParserTokenView *); /*38402, RET4*/
 };
 #ifndef RECON_NATIVE_TEST
 typedef char CompilerParser_original_allocation[(sizeof(CompilerParser) == 45080 && offsetof(CompilerParser, values) == 24 && offsetof(CompilerParser, states) == 40984) ? 1 : -1];

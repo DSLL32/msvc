@@ -458,7 +458,6 @@ void RECON_THISCALL CompilerTranslationUnit::Finish(void)
     }
     write_global_ir_record(10, NULL);
 }
-extern "C" CompilerSymbol *__cdecl prepare_pending_initializer(CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl query_generated_output(unsigned, CompilerGeneratedSpan *) { __asm { int 3 } }
 int RECON_THISCALL CompilerDependency::Finish(int success) { __asm { int 3 } return 0; }
 int RECON_THISCALL OutputBuffer::Close(void)

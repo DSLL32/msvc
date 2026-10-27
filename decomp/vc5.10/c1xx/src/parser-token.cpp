@@ -10,6 +10,7 @@
 #include "declaration.h"
 #include "lexer.h"
 #include "pointer-array.h"
+#include "hash-table.h"
 #include "packing.h"
 #include <recon.h>
 #pragma intrinsic(memcpy, memset, memcmp)
@@ -33,9 +34,9 @@ extern "C" ParserTokenView *__cdecl get_next_token(void)
     unsigned token_class;
     int depth;
 #ifdef RECON_NATIVE_TEST
-    /* Current builtin typedef/separator tokens and kind17 type specifier.
-     * Kind17 dispatches directly to the genuine pending type reader. */
-    if (token->kind != 12 && token->kind != 117 && token->kind != 118 && token->kind != 126 && token->kind != 22 && token->kind != 74 && token->kind != 17 && token->kind != 16 && token->kind != 25 && token->kind != 37 && token->kind != 106 && token->kind != 65 && token->kind != 122 && token->kind != 6 && token->kind != 127 && token->kind != 123 && token->kind != 36 && token->kind != 10 && token->kind != 7 && token->kind != 130 && token->kind != 55 && token->kind != 49 && token->kind != 21 && token->kind != 151 && token->kind != 140 && token->kind != 141 && token->kind != 28 && token->kind != 101 && token->kind != 125 && token->kind != 109)
+    /* Encountered token domains, including the const declaration qualifier
+     * whose type-method consumer retains its genuine pending entry. */
+    if (token->kind != 80 && token->kind != 207 && token->kind != 219 && token->kind != 81 && token->kind != 182 && token->kind != 54 && token->kind != 27 && token->kind != 52 && token->kind != 47 && token->kind != 12 && token->kind != 117 && token->kind != 118 && token->kind != 126 && token->kind != 22 && token->kind != 74 && token->kind != 17 && token->kind != 16 && token->kind != 25 && token->kind != 37 && token->kind != 106 && token->kind != 65 && token->kind != 122 && token->kind != 6 && token->kind != 127 && token->kind != 123 && token->kind != 36 && token->kind != 10 && token->kind != 7 && token->kind != 130 && token->kind != 55 && token->kind != 49 && token->kind != 21 && token->kind != 151 && token->kind != 140 && token->kind != 141 && token->kind != 28 && token->kind != 101 && token->kind != 125 && token->kind != 109)
         recon_unsupported("parser token: declaration-classification domain pending");
 #endif
 read_token_class:
@@ -743,7 +744,63 @@ void RECON_THISCALL CompilerDeclarationParser::Finish(void)
 {
 }
 extern "C" int __cdecl keep_declaration_scope(unsigned) { __asm { int 3 } return 0; }
-extern "C" void __cdecl complete_declaration_reference(ParserTokenView *) { __asm { int 3 } }
+extern "C" void __cdecl complete_declaration_reference(ParserTokenView *token)
+{
+    ParserDeclarationView *declaration = &((ParserDeclarationToken *)token)->value;
+    CompilerType *type = declaration->type;
+    CompilerSymbol *symbol;
+    CompilerNameEntry *name;
+    unsigned flags = type->flags;
+    int index;
+    if (!(flags & 0x9c0) && !type->shape) {
+        if (frontend_data.declaration_context_index >= 0) {
+            index = (short)type->auxiliary;
+            if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            symbol = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+            token->kind = 0xdf;
+            TOKEN_SEMANTIC(token).name = ((CompilerNamedSymbol *)symbol)->link.name;
+            return;
+        }
+        symbol = declaration->object;
+        if (symbol->definition_flags & 0x60) {
+            complete_deferred_declaration(token, type);
+            return;
+        }
+        if (frontend_data.declaration_classification_depth == 1 && token->kind == 0xaa &&
+            !(frontend_data.compiler_mode_flags & 0x100) &&
+            !(declaration_control_row(DECL_DEPTH)->flags & 2)) {
+            discard_deferred_declaration(token);
+            return;
+        }
+        if ((flags & 0x2fdf) == 0x12 || (flags & 0x2fdf) == 0x11)
+            name = ((CompilerNamedSymbol *)symbol)->link.name;
+        else {
+            index = (short)type->auxiliary;
+            if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            symbol = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+            name = ((CompilerNamedSymbol *)symbol)->link.name;
+        }
+        token->kind = 0xdf;
+        TOKEN_SEMANTIC(token).name = name;
+        declaration_control_row(DECL_DEPTH)->flags |= 2;
+        return;
+    }
+    if (!(declaration_control_row(DECL_DEPTH)->flags & 3)) {
+        if (token->kind == 0xaa && (LEXER_FLAGS & 0x40000000)) {
+            LEXER_FLAGS &= ~0x40000000U;
+            TOKEN_STREAM->Unread((unsigned)token);
+            classify_parser_declaration(1);
+        } else discard_deferred_declaration(token);
+        return;
+    }
+    symbol = declaration->object;
+    if (!symbol) {
+        complete_deferred_declaration(token, type);
+        return;
+    }
+    token->kind = 0xdf;
+    TOKEN_SEMANTIC(token).name = ((CompilerNamedSymbol *)symbol)->link.name;
+}
 extern "C" void __cdecl report_declaration_syntax(unsigned) { __asm { int 3 } }
 extern "C" ParserTokenView *__cdecl parse_declaration_body(ParserTokenView *token)
 {
@@ -1208,8 +1265,9 @@ extern "C" ParserRecordedContext *__cdecl parse_recorded_declaration(ParserToken
     /* MakeToken's ordinary declaration result has the same typed callback
      * representation regardless of the following lexical token. Body and
      * saved-row consumers retain their own guards below. */
-    if (!result || !((result->kind == 0x22 && reader.token->kind == 0x22) ||
-        result->kind == 0x24))
+    if (!result || !(((result->kind == 0x22 || result->kind == 0x23) &&
+        reader.token->kind == result->kind) || result->kind == 0x24 ||
+        (result == reader.token && result->kind == 47)))
         recon_unsupported("declaration reader: wider semantic result pending");
 #endif
     depth = DECL_DEPTH;
@@ -2309,15 +2367,9 @@ extern "C" void __cdecl publish_tag_symbol(CompilerSymbol *symbol)
 }
 
 extern "C" CompilerSymbol *__cdecl resolve_tag_definition(CompilerSymbol *, WORD);
-/* Source-only enum state shares the existing parser owners. The enum path
- * stops in both builds until the underlying-kind source and class row are
- * supported; it has no new native storage or reset/default claim. */
-#ifndef __linux__
-static signed char default_enum_underlying_kind = 4; /* original cf003 */
-#else
-#define default_enum_underlying_kind (*(signed char *)(recon_unsupported("tag completion: enum underlying kind"),0))
-#endif
-struct ParserEnumDefinitionView { int underlying_kind; };
+/* CF003 is element3 of the existing primitive byte-size table, not a
+ * separate enum setting. The enum shares detail+0's size cell. */
+struct ParserEnumDefinitionView { int underlying_bytes; };
 extern "C" CompilerSymbol *__cdecl complete_tag_symbol(CompilerSymbol *input, WORD flags)
 {
     CompilerSymbol *symbol = resolve_tag_definition(input, flags);
@@ -2325,7 +2377,7 @@ extern "C" CompilerSymbol *__cdecl complete_tag_symbol(CompilerSymbol *input, WO
     ParserDefinitionClassView *detail;
     int index;
 #ifdef __linux__
-    if (symbol && (symbol->kind != 4 || flags == 0x200))
+    if (symbol && symbol->kind != 4)
         recon_unsupported("tag completion: wider returned tag definition pending");
 #endif
     if (!symbol || (symbol->scope_flags & 4)) return symbol;
@@ -2336,17 +2388,14 @@ extern "C" CompilerSymbol *__cdecl complete_tag_symbol(CompilerSymbol *input, WO
     detail->context_flags = (detail->context_flags & ~2) |
         (frontend_data.declaration_context_index >= 0 ? 2 : 0);
     if (flags == 0x200) {
-#ifdef __linux__
-        recon_unsupported("tag completion: enum owner domain pending");
-#else
-        __asm { int 3 }
-#endif
         index = frontend_data.declaration_context_index;
-        if (index >= 0) view->definition_flags = (view->definition_flags & ~3) |
-            (((ParserClassAccessRow *)class_scopes)[index].access_flags & 3);
-        else view->definition_flags |= 3;
+        if (index >= 0) {
+            if (index >= 16) { __asm { int 3 } }
+            view->definition_flags = (view->definition_flags & ~3) |
+                (frontend_bss.class_scope_rows[index].access_flags & 3);
+        } else view->definition_flags |= 3;
         enumerator_value = -1;
-        ((ParserEnumDefinitionView *)view->class_detail)->underlying_kind = default_enum_underlying_kind;
+        ((ParserEnumDefinitionView *)view->class_detail)->underlying_bytes = compiler_primitive_type_bytes[3];
         view->definition_flags |= 4;
         current_enum_type = view->type;
         current_declaration_symbol = symbol;
@@ -2431,7 +2480,7 @@ extern "C" CompilerType *__cdecl declaration_symbol_type(CompilerSymbol *input)
     CompilerType *type;
     unsigned references;
 #ifdef __linux__
-    if (symbol->kind != 4 && symbol->kind != 10)
+    if (symbol->kind != 4 && symbol->kind != 10 && symbol->kind != 0x12)
         recon_unsupported("declaration symbol type: other symbol variant pending");
 #endif
     if (symbol->kind == 0x12) {
@@ -2440,6 +2489,10 @@ extern "C" CompilerType *__cdecl declaration_symbol_type(CompilerSymbol *input)
     }
     if (symbol->kind == 0x18)
         symbol = *(CompilerSymbol **)((CompilerIrSymbol *)symbol)->payload;
+#ifdef __linux__
+    if (symbol->kind != 4 && symbol->kind != 10)
+        recon_unsupported("declaration symbol type: resolved symbol variant pending");
+#endif
     view = (CompilerGlobalSymbolView *)symbol;
     type = view->type;
     if (symbol->kind == 4) return get_tag_type(symbol);
@@ -2585,11 +2638,11 @@ ParserTokenView *RECON_THISCALL ParserDeclarationReader::MakeToken(unsigned kind
 extern "C" void __fastcall copy_token_value(ParserSemanticView *destination, ParserTokenView *token)
 {
 #ifdef __linux__
-    if (token->kind == 0x22 || token->kind == 0x24) {
+    if (token->kind == 0x22 || token->kind == 0x23 || token->kind == 0x24) {
         ParserDeclarationView *value = &((ParserDeclarationToken *)token)->value;
         memcpy(destination, value, 36);
         destination->declaration.callback = value->callback;
-    } else if (token->kind == 117 || token->kind == 118 || token->kind == 126 || token->kind == 74 || token->kind == 65 || token->kind == 122 || token->kind == 6 || token->kind == 127 || token->kind == 123 || token->kind == 37 || token->kind == 106 || token->kind == 7 || token->kind == 130 || token->kind == 55 || token->kind == 49 || token->kind == 142 || token->kind == 101 || token->kind == 125 || token->kind == 5) {
+    } else if (token->kind == 80 || token->kind == 81 || token->kind == 54 || token->kind == 207 || token->kind == 219 || token->kind == 47 || token->kind == 0xb6 || token->kind == 0xdf || token->kind == 52 || token->kind == 117 || token->kind == 118 || token->kind == 126 || token->kind == 74 || token->kind == 65 || token->kind == 122 || token->kind == 6 || token->kind == 127 || token->kind == 123 || token->kind == 37 || token->kind == 106 || token->kind == 7 || token->kind == 130 || token->kind == 55 || token->kind == 49 || token->kind == 142 || token->kind == 101 || token->kind == 125 || token->kind == 5) {
         /* These ordinary tokens retain their complete opaque40-byte storage;
          * no declaration callback is read or synthesized for this arm. */
         memcpy(destination, &token->value, 40);
@@ -3295,7 +3348,7 @@ ordinary_token:
 
 /* Qualified-name reader, including dependent template and destructor syntax. */
 extern "C" WORD __cdecl classify_template_type(CompilerType *, unsigned, unsigned);
-extern "C" CompilerSymbolBinding *__cdecl make_symbol_binding(void *, void *, CompilerSymbol *);
+extern "C" CompilerSymbolBinding *__cdecl make_symbol_binding(CompilerSymbolBinding *, CompilerSymbolBindingOwner *, CompilerSymbol *);
 extern "C" CompilerSymbolBinding *__cdecl extend_qualified_binding(CompilerSymbolBinding *, CompilerNameEntry *, unsigned, unsigned);
 extern "C" CompilerSymbol *__cdecl materialize_qualified_binding(CompilerSymbolBinding *, CompilerNameEntry *, unsigned);
 extern "C" void __cdecl read_dependent_template_id(ParserTokenView **, CompilerSymbol *, unsigned);
@@ -4657,36 +4710,6 @@ extern "C" void __cdecl classify_inherited_member(CompilerSymbol *, CompilerClas
 extern "C" CompilerSymbol *__cdecl create_special_member(CompilerSymbol *, unsigned) { __asm { int 3 } return NULL; }
 /* Borrowed group views on the inherited-member path. The untouched header
  * and record tails are storage only, with no default or allocation claim. */
-struct InheritedMemberRecord {
-    union {
-        CompilerSymbolLink *member;
-        CompilerVector *members; /* flags bit2 selects the vector form */
-    };
-    BYTE unmodeled_04_0b[8];
-    BYTE flags;
-    BYTE unmodeled_0d_0f[3];
-};
-struct ClassMemberFunctionTable {
-    unsigned kind;
-    CompilerRuntimeFunction *function;
-    BYTE unmodeled_08_0f[8];
-    int count;
-    int capacity;
-    InheritedMemberRecord *records;
-    unsigned storage_bytes;
-    BYTE unmodeled_20_2f[16];
-    void *merge_value;
-    CompilerVector *merge_targets;
-    BYTE unmodeled_38_3b[4];
-    CompilerRuntimeFunction *secondary_function;
-    unsigned secondary_function_state;
-};
-struct InheritedMemberGroup {
-    BYTE unmodeled_00_13[20];
-    CompilerVector *functions[2];
-    BYTE unmodeled_1c_1f[4];
-    unsigned secondary_state;
-};
 struct InheritedMemberCursor {
     CompilerVector *vector;
     short index;
@@ -4762,7 +4785,12 @@ next_base:;
     }
     return found;
 }
-CompilerClassMemberIterator *RECON_THISCALL CompilerClassMemberIterator::InitializeBinding(CompilerClassBinding *) { __asm { int 3 } return NULL; }
+CompilerClassMemberIterator *RECON_THISCALL CompilerClassMemberIterator::InitializeBinding(CompilerClassBinding *binding)
+{
+    chain = binding ? binding->members : NULL;
+    valid = chain != NULL;
+    return this;
+}
 extern "C" int __cdecl next_inherited_member_group(InheritedMemberCursor *cursor)
 {
     if (!cursor->vector || cursor->index >= cursor->vector->count) return 0;
@@ -5644,8 +5672,72 @@ extern "C" void __cdecl finalize_class_offsets(CompilerSymbol *input)
         }
     }
 }
-extern "C" CompilerSymbol *__cdecl find_class_member_by_name(CompilerSymbol *, CompilerNameEntry *) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl prepare_class_constructor(CompilerSymbol *, CompilerRuntimeFunction *) { __asm { int 3 } }
+extern "C" CompilerSymbol *__cdecl find_class_member_by_name(CompilerSymbol *input, CompilerNameEntry *name)
+{
+    CompilerGlobalSymbolView *symbol = (CompilerGlobalSymbolView *)input;
+    CompilerGlobalClassDetail *detail = symbol->class_detail;
+    CompilerSymbolLink *found = NULL;
+    if (detail->member_index) found = detail->member_names.Find(name);
+    else {
+        CompilerClassMemberIterator members;
+        members.InitializeBinding(((CompilerKind4Symbol *)input)->class_binding);
+        members.entry = NULL;
+        members.owner = &((CompilerNamedSymbol *)input)->link;
+        members.current = members.valid ? members.chain : NULL;
+        members.mode = 0;
+        while ((members.entry = members.current) != NULL) {
+            members.current = members.AdvanceChain() ? members.chain : NULL;
+            if (members.MatchesMode() && members.entry->name == name) {
+                found = members.entry;
+                break;
+            }
+        }
+    }
+    if (!found) return NULL;
+    CompilerSymbol *result = (CompilerSymbol *)((BYTE *)found - 8);
+    return result->kind == 17 || result->kind == 8 ? result : NULL;
+}
+/* 1128b..112e2, 5a56e..5a583. FinalizeClassMetadata creates this
+ * nonempty index in the same unsigned name-address order. */
+CompilerSymbolLink *RECON_THISCALL CompilerMemberNameIndex::Find(CompilerNameEntry *name)
+{
+    int low = 0, high = count - 1;
+    int middle;
+    unsigned sought = (unsigned)name, candidate;
+    if (sought > (unsigned)items[high]->name || sought < (unsigned)items[0]->name)
+        return NULL;
+    do {
+        middle = (unsigned)(high + low) >> 1;
+        candidate = (unsigned)items[middle]->name;
+        if (sought < candidate) high = middle - 1;
+        else low = middle + 1;
+        if (candidate == sought) break;
+    } while (low <= high);
+    if (candidate != sought) return NULL;
+    CompilerSymbolLink *entry = items[middle];
+    CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+    if (symbol->definition_flags & 0x40)
+        entry = &((CompilerNamedSymbol *)instantiate_tag_definition(symbol))->link;
+    return entry;
+}
+extern "C" CompilerHashTable *__cdecl get_constructor_alias_table(void);
+extern "C" void __cdecl prepare_class_constructor(CompilerSymbol *owner, CompilerRuntimeFunction *source)
+{
+    CompilerRuntimeFunction *generated = (CompilerRuntimeFunction *)
+        create_implicit_special_member(owner, 10, 1, 0);
+    if ((source->member_flags & 0x0c) && !(generated->member_flags & 0x0c)) {
+        generated->member_flags = (generated->member_flags & ~4) | (source->member_flags & 4);
+        generated->member_flags = (generated->member_flags & ~8) | (source->member_flags & 8);
+        if (generated->member_flags & 4) emit_implicit_function(generated);
+    }
+    insert_hash_entry(get_constructor_alias_table(), source, generated);
+}
+extern "C" CompilerHashTable *__cdecl get_constructor_alias_table(void)
+{
+    if (!frontend_data.constructor_aliases)
+        frontend_data.constructor_aliases = create_hash_table(31, 0, 0, 0, 1, 1);
+    return frontend_data.constructor_aliases;
+}
 extern "C" void __cdecl complete_class_constructor(CompilerSymbol *, CompilerRuntimeFunction *) { __asm { int 3 } }
 extern "C" void __cdecl prepare_secondary_class_constructor(CompilerSymbol *, CompilerRuntimeFunction *) { __asm { int 3 } }
 extern "C" void __cdecl finalize_class_destructor(CompilerSymbol *, CompilerSymbol *); /*35ec9*/
@@ -6298,3 +6390,787 @@ int RECON_THISCALL ParserDeclarationReader::ReadQualifier(void)
         (WORD)parser_token_semantic_codes[kind]);
     return 0;
 }
+
+/* Kind5 has its own40-byte allocation. The opaque DWORD between the common
+ * header and low32-bit enumerator value is retained without interpretation. */
+struct CompilerEnumeratorSymbol : CompilerIrSymbol {
+    BYTE unmodeled_20_23[4];
+    int value;
+};
+typedef char CompilerEnumeratorSymbol_layout[(sizeof(CompilerEnumeratorSymbol) == 40 &&
+    offsetof(CompilerEnumeratorSymbol, value) == 36) ? 1 : -1];
+extern "C" CompilerSymbol *__cdecl recycle_symbol(unsigned, CompilerNameEntry *, unsigned);
+extern "C" void __cdecl add_enumerator(CompilerNameEntry *name, CompilerType *type, __int64 value)
+{
+    CompilerIrSymbol *symbol;
+    CompilerSymbol *previous;
+    CompilerScopeLookup *found;
+    CompilerScopeMatch *selected, *merged = NULL;
+    CompilerArena *arena;
+    CompilerHashTable *members;
+    BYTE *memory;
+    unsigned arena_kind = 0, width;
+    union { __int64 whole; struct { unsigned low; int high; } words; } integer;
+    int index;
+    if (!type) return;
+    integer.whole = value;
+    if (name->flags & 0x02000000) {
+        selected = frontend_data.translation_unit->LookupName(name, 0x20);
+        compiler_warning(0x3a2, selected ? selected->symbol : NULL, current_declaration_symbol);
+        return;
+    }
+    if ((int)frontend_bss.parser_context_depth <= 0 || (LEXER_FLAGS & 0x20000)) {
+        if (frontend_bss.declaration_scope_mode && frontend_data.declaration_context_index < 0 &&
+            !(frontend_data.compiler_mode_flags & 0x10000000) &&
+            (!(frontend_data.compiler_mode_flags & 0x40000000) ||
+             (frontend_data.source_mode_flags & 8) || (LEXER_FLAGS & 0x200)) &&
+            !(frontend_data.source_mode_flags & 0x50)) arena_kind = 4;
+    }
+    symbol = (CompilerIrSymbol *)recycle_symbol(5, name, arena_kind);
+    if (!symbol) {
+        arena = &frontend_bss.arenas[arena_kind];
+        memory = arena->Allocate((frontend_data.symbol_record_bytes[5] + 3) & ~3U);
+        symbol = memory ? (CompilerIrSymbol *)((CompilerSymbol *)memory)->Initialize(5, name, arena_kind) : NULL;
+    }
+    symbol->type = type;
+    if ((LEXER_FLAGS & 0x20000) || frontend_data.pch_separate_debug ||
+        (current_declaration_symbol->scope_flags & 1)) symbol->definition_flags &= ~8;
+    else symbol->definition_flags |= 8;
+    found = frontend_data.translation_unit->current->Find(symbol->link.name, 0);
+    if (found) {
+        selected = found->Select(1);
+        if (selected) {
+            previous = merge_scoped_declaration(selected->symbol, symbol, 0);
+            if (previous) {
+                merged = (CompilerScopeMatch *)frontend_bss.arenas[5].Allocate(12);
+                if (merged) merged = merged->Initialize(previous, NULL);
+            }
+        }
+    } else {
+        previous = merge_scoped_declaration(NULL, symbol, 0);
+        if (previous) {
+            merged = (CompilerScopeMatch *)frontend_bss.arenas[5].Allocate(12);
+            if (merged) merged = merged->Initialize(previous, NULL);
+        }
+    }
+    previous = merged ? merged->symbol : NULL;
+    if (previous) {
+        compiler_warning(0x155, previous);
+        symbol = (CompilerIrSymbol *)previous;
+    } else {
+        if (is_special_member_name(symbol->link.name)) compiler_warning(0x1ca, symbol);
+        else frontend_data.translation_unit->current->Insert(symbol);
+    }
+    members = ((ParserEnumSymbolView *)current_declaration_symbol)->members;
+    if (!members) return;
+    insert_hash_entry(members, name, symbol);
+    if (!(symbol->encoded_index & 0xffffff)) {
+        if (frontend_data.next_symbol_record_id >= 0x7fffffff) report_compiler_error(0x37);
+        symbol->encoded_index = (symbol->encoded_index & 0xff000000U) |
+            (frontend_data.next_symbol_record_id++ & 0xffffff);
+    }
+    width = value < (-2147483647 - 1) || value > 2147483647 ? 8 : 4;
+    if ((int)width > compiler_primitive_type_bytes[3] &&
+        integer.words.high != 0)
+        report_language_diagnostic(frontend_data.options.language_extensions ? 3 : 1, 0x155, symbol);
+    if (symbol->kind != 5 || frontend_data.symbol_record_bytes[5] < 40) { __asm { int 3 } }
+    ((CompilerEnumeratorSymbol *)symbol)->value = (int)integer.words.low;
+    enumerator_value = value;
+    index = frontend_data.declaration_context_index;
+    if (index >= 0) {
+        if (index >= 16) { __asm { int 3 } }
+        symbol->definition_flags = (symbol->definition_flags & ~3) |
+            (frontend_bss.class_scope_rows[index].access_flags & 3);
+    }
+    if (frontend_bss.browser_filename &&
+        (!frontend_bss.declaration_scope_mode || publish_browser_local))
+        frontend_data.backend->Slot20(symbol);
+}
+
+extern "C" CompilerType *__cdecl current_enumerator_type(void)
+{
+    CompilerType *type = current_enum_type;
+    CompilerPointerArray *owners = frontend_data.frontend_pointer_table;
+    CompilerSymbol *owner;
+    int index;
+    if (!type || !owners) { __asm { int 3 } }
+    index = (short)type->auxiliary;
+    if (index < 0 || index >= owners->count) { __asm { int 3 } }
+    owner = (CompilerSymbol *)owners->items[index];
+    if (!(owner->scope_flags & 1) && frontend_bss.browser_filename &&
+        (!frontend_bss.declaration_scope_mode || publish_browser_local))
+        frontend_data.backend->Slot08();
+    /* Browser callbacks may change the active enum; this is a fresh load. */
+    return current_enum_type;
+}
+
+extern "C" int __cdecl scan_recorded_declaration_body(void);
+extern "C" ParserTokenView *__cdecl prepare_deferred_declaration_token(void);
+extern "C" void __cdecl begin_declaration_scope(void)
+{
+    record_declaration_body(NULL);
+    LEXER_FLAGS |= 0x08000008;
+    if (!scan_recorded_declaration_body()) {
+        frontend_data.compiler_mode_flags &= ~0x08000000U;
+        frontend_data.source_mode_flags |= 0x10;
+        frontend_data.tagged_type_arena_index = 0;
+        frontend_data.constant_arena_index = 0;
+        return;
+    }
+    ParserTokenView *token = prepare_deferred_declaration_token();
+    TOKEN_STREAM->Unread((unsigned)token);
+}
+
+/* Look ahead in a copied recorded stream. The original cursor is restored
+ * on every return; only literal tokens deliberately rewritten in shared
+ * storage survive the temporary context. */
+extern "C" int __cdecl scan_recorded_declaration_body(void)
+{
+    CompilerRecordedLexer *lexer;
+    ParserTokenView *token;
+    CompilerNameEntry *name;
+    CompilerSymbol *symbol;
+    FrontendContextFrame *frame;
+    FrontendContextPopCallback callback;
+    int parentheses = 0, brackets = 0, found = 0, before_separator = 1;
+    unsigned kind;
+    lexer = (CompilerRecordedLexer *)frontend_bss.arenas[5].Allocate(64);
+    if (lexer) lexer = lexer->CopyFrom((CompilerRecordedLexer *)frontend_bss.saved_context_stack.top->object);
+    frontend_bss.saved_context_stack.Push(lexer, 5, 0, NULL, &frontend_bss.saved_context_stack);
+    while (!found && parentheses >= 0) {
+        token = TOKEN_CONTEXT.ReadToken();
+        kind = token->kind;
+        if (kind >= PARSER_TOKEN_KIND_COUNT) { __asm { int 3 } }
+        if (parser_token_classes[kind] == 0x65) {
+            /* Numeric-token production supplies the compatible literal arm:
+             * type at+0, opaque DWORD+4 and QWORD value at+8. */
+            saved_parser_value.expression = make_typed_constant(
+                TOKEN_SEMANTIC(token).literal.type,
+                PARSER_LITERAL_DATA(TOKEN_SEMANTIC(token)), 0);
+            token->kind = 0xb6;
+            memcpy(&token->value, &saved_parser_value, 40);
+            continue;
+        }
+        switch (kind) {
+        case 1: case 244:
+            parentheses = -1;
+            break;
+        case 6: case 223: case 234:
+            if (before_separator) {
+                name = kind == 234 ? TOKEN_SEMANTIC(token).indirect_name->name : TOKEN_SEMANTIC(token).name;
+                symbol = find_declared_member(name);
+                if (!symbol || symbol->kind != 5) found = 1;
+            }
+            break;
+        case 30: case 150: case 152: case 170:
+            if (before_separator) found = 1;
+            break;
+        case 52:
+            before_separator = 1;
+            break;
+        case 55:
+            if (!parentheses && !brackets) before_separator = 0;
+            break;
+        case 65:
+            ++brackets;
+            break;
+        case 118:
+            ++parentheses;
+            break;
+        case 122:
+            --brackets;
+            break;
+        case 126:
+            --parentheses;
+            break;
+        default:
+            break;
+        }
+    }
+    frame = frontend_bss.saved_context_stack.top;
+    if (frame) {
+        frontend_bss.saved_context_stack.top = frame->previous;
+        frontend_bss.saved_context_stack.origin = frame->saved_origin;
+        frontend_bss.saved_context_stack.position = frame->saved_position;
+        callback = frame->callback;
+        if (callback) callback();
+    }
+    return found;
+}
+
+int RECON_THISCALL ParserFrontendContextView::HasSourceMark(void)
+{
+    return ((CompilerRecordedLexer *)top->object)->active;
+}
+
+extern "C" BYTE *__cdecl allocate_parser_record(unsigned bytes, unsigned arena_kind)
+{
+    CompilerArena *arena;
+    BYTE *memory;
+    if (arena_kind >= 9) { __asm { int 3 } }
+    arena = &frontend_bss.arenas[arena_kind];
+    memory = arena->cursor;
+    arena->cursor += (bytes + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    return memory;
+}
+
+extern "C" void __cdecl finish_deferred_input(void)
+{
+    unsigned flags = frontend_data.compiler_mode_flags;
+    unsigned mode = frontend_data.source_mode_flags;
+    unsigned compiler_flags = frontend_data.compiler_flags;
+    if ((flags & 0x32000000) ||
+        ((flags & 0x40000000) && !(mode & 8) && !(compiler_flags & 0x200)) ||
+        (mode & 0x10) || ((flags & 0x4000000) && !(compiler_flags & 0x8000))) {
+        frontend_data.tagged_type_arena_index = 0;
+        frontend_data.constant_arena_index = 0;
+    } else {
+        frontend_data.tagged_type_arena_index = 5;
+        frontend_data.constant_arena_index = 5;
+        if (mode & 1) {
+            frontend_data.tagged_type_arena_index = 4;
+            frontend_data.constant_arena_index = 4;
+        }
+    }
+}
+
+extern "C" int __cdecl merge_default_declaration_context(CompilerDeclarationContext *, CompilerDeclarationContext);
+extern "C" CompilerDeclaration *__cdecl default_declaration(const CompilerDeclarationContext *context)
+{
+    ParserDeclarationView *declaration = declaration_spec_row(DECL_DEPTH);
+    declaration->type = frontend_data.builtin_types.type_0063;
+    memset(&declaration->context, 0, 28);
+    declaration->context.class_flags |= 0x30;
+    if (context) merge_default_declaration_context(&declaration->context, *context);
+    declaration_control_row(DECL_DEPTH)->flags |= 1;
+    return declaration_spec_row(DECL_DEPTH);
+}
+
+extern "C" {
+ParserTokenView *__cdecl current_declaration_lookahead(void);
+void __cdecl prepare_function_source(CompilerSymbol *);
+void __cdecl record_function_definition(CompilerSymbol *, CompilerTokenStream *, unsigned);
+void __cdecl set_declaration_lookahead(ParserTokenView *);
+unsigned __cdecl make_arena_token(unsigned);
+unsigned __cdecl debug_function_name(CompilerNameEntry *, CompilerGlobalSymbolView *);
+}
+extern "C" void __cdecl process_merged_declaration(CompilerSymbol *input, unsigned allow_missing_body)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    ParserTokenView *lookahead, *last;
+    CompilerRecordedLexer *stream;
+    CompilerSymbolArenaFrame *saved;
+    CompilerArena *arena;
+    FrontendContextStack *stack;
+    ParserClassDefinitionLink *class_link;
+    ParserDeferredDefinition *definition;
+    unsigned arena_kind, options, debug_result = 0;
+    BYTE *memory;
+    if (input->scope_flags & 4) {
+        frontend_data.compiler_mode_flags &= ~0x01000000U;
+        return;
+    }
+    if (frontend_data.compiler_mode_flags & 0x01000000) {
+        if (!(frontend_data.source_mode_flags & 0x100008))
+            ((CompilerMemberQueue *)&frontend_bss.pending_member_queue)->Add(input);
+        frontend_data.compiler_mode_flags &= ~0x01000000U;
+    }
+    if (frontend_data.source_mode_flags & 0x200040) return;
+    if (!current_declaration_lookahead())
+        set_declaration_lookahead(TOKEN_CONTEXT.ReadToken());
+    lookahead = current_declaration_lookahead();
+    switch (lookahead->kind) {
+    case 52:
+        return;
+    case 55: case 127:
+        if (frontend_bss.current_function && frontend_data.declaration_context_index >= 0 &&
+            !(symbol->function_flags & 4) && !allow_missing_body)
+            compiler_warning(0x257, input);
+        return;
+    case 54: case 117:
+        break;
+    default:
+        compiler_warning(0x3b, 0x4c, lookahead->kind);
+        return;
+    }
+    if (frontend_data.source_mode_flags & 0x100000) {
+        process_external_recovery(lookahead->kind == 54);
+        TOKEN_CONTEXT.ReadToken();
+        input->definition_flags |= 4;
+        set_declaration_lookahead(parser_semicolon);
+        return;
+    }
+    if (!frontend_bss.current_function) symbol->function_flags |= 1;
+    else if (frontend_data.declaration_context_index < 0) compiler_warning(0x259, input);
+    else symbol->function_flags &= ~1U;
+    prepare_function_source(input);
+    TOKEN_STREAM->Unread((unsigned)lookahead);
+    if (frontend_data.source_mode_flags & 8) {
+        arena_kind = 0;
+        arena = &frontend_bss.arenas[0];
+        memory = arena->cursor;
+        arena->cursor += 64;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        stream = (CompilerRecordedLexer *)memory;
+        if (stream) new(stream) CompilerRecordedLexer(frontend_bss.saved_context_stack.origin,
+            frontend_bss.saved_context_stack.position, 0);
+        memory = arena->cursor;
+        arena->cursor += 8;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        saved = (CompilerSymbolArenaFrame *)memory;
+        if (saved) {
+            saved->kind = frontend_bss.symbol_arena_kind;
+            saved->previous = frontend_bss.saved_symbol_arenas;
+        }
+        frontend_bss.saved_symbol_arenas = saved;
+        frontend_bss.symbol_arena_kind = 0;
+    } else {
+        /* The original bit arithmetic selects arena2 or3. */
+        arena_kind = (frontend_data.compiler_mode_flags & 0x40000000) ? 2 : 3;
+        arena = &frontend_bss.arenas[arena_kind];
+        memory = arena->cursor;
+        arena->cursor += 8;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        saved = (CompilerSymbolArenaFrame *)memory;
+        if (saved) {
+            saved->kind = frontend_bss.symbol_arena_kind;
+            saved->previous = frontend_bss.saved_symbol_arenas;
+        }
+        frontend_bss.saved_symbol_arenas = saved;
+        frontend_bss.symbol_arena_kind = arena_kind;
+        stack = &frontend_bss.nested_context_stacks[arena_kind];
+        if (!stack->top) {
+            stream = (CompilerRecordedLexer *)arena->Allocate(64);
+            if (stream) stream = stream->Initialize(arena_kind, 0);
+            stack->Push(stream, arena_kind, 0, NULL, &frontend_bss.saved_context_stack);
+        }
+        stream = (CompilerRecordedLexer *)stack->top->object;
+    }
+    stream->Trace(make_arena_token(arena_kind));
+    record_function_definition(input, stream, arena_kind);
+    if (symbol->function_flags & 4)
+        input->declaration_qualifiers = member_class_row().symbol->class_detail->scope_number;
+    if (input->kind != 7 && input->kind != 8) compiler_warning(0x3f, input);
+    options = ((input->type_flags & 0x10) && lookahead->kind == 54) ? 0x242 : 0x2c2;
+    if (((CompilerRecordedLexer *)frontend_bss.saved_context_stack.top->object)->active) {
+        if (!frontend_bss.debug_module->Slot8c(frontend_bss.saved_context_stack.position,
+                frontend_bss.lexical_skip_mode))
+            report_compiler_diagnostic(0x49, ".\\funcs.c", 0x9e7);
+    }
+    last = stream->RecordUntil(options, 1);
+    if (((CompilerRecordedLexer *)frontend_bss.saved_context_stack.top->object)->active) {
+        if (!frontend_bss.debug_module->Slot90(frontend_bss.saved_context_stack.position,
+                frontend_bss.lexical_skip_mode, &debug_result))
+            report_compiler_diagnostic(0x49, ".\\funcs.c", 0x9ef);
+    }
+    if (frontend_data.options.incremental_rebuild && debug_result) {
+        CompilerGlobalSymbolView *owner = member_class_row().symbol;
+        unsigned name = debug_function_name(symbol->link.name, owner);
+        if (!frontend_bss.debug_module->Slot94((unsigned)owner->class_detail->declaration_reference, name))
+            report_compiler_diagnostic(0x49, ".\\funcs.c", 0x9f8);
+    }
+    if (last->kind != 123)
+        compiler_warning((frontend_data.compiler_mode_flags & 0x40000000) ? 0x3c2 : 0x3c9, last->kind);
+    if (frontend_data.compiler_mode_flags & 0x40000000)
+        stream->Trace((unsigned)parser_end_marker);
+    saved = frontend_bss.saved_symbol_arenas;
+    frontend_bss.symbol_arena_kind = saved->kind;
+    frontend_bss.saved_symbol_arenas = saved->previous;
+    if (frontend_data.source_mode_flags & 8) {
+        CompilerSymbol *owner = (CompilerSymbol *)member_class_row().symbol;
+        class_link = *frontend_data.class_definition_head;
+        while (class_link && class_link->symbol != owner) class_link = class_link->next;
+        if (!class_link) { __asm { int 3 } }
+        memory = frontend_bss.arenas[0].cursor;
+        frontend_bss.arenas[0].cursor += 12;
+        if (frontend_bss.arenas[0].cursor > frontend_bss.arenas[0].committed_limit)
+            frontend_bss.arenas[0].CommitExtent();
+        definition = (ParserDeferredDefinition *)memory;
+        if (definition) {
+            definition->symbol = symbol;
+            definition->stream = stream;
+            definition->next = class_link->definitions;
+        }
+        class_link->definitions = definition;
+    }
+    set_declaration_lookahead(parser_semicolon);
+}
+
+extern "C" void __cdecl set_declaration_lookahead(ParserTokenView *token)
+{
+    frontend_data.active_parser->SetLookahead(token);
+}
+
+extern "C" void __cdecl prepare_function_source(CompilerSymbol *symbol)
+{
+    int was_defined;
+    if (!frontend_bss.browser_filename) return;
+    if (frontend_bss.declaration_scope_mode && !publish_browser_local) return;
+    if (member_class_row().symbol->scope_flags & 1) return;
+    was_defined = (symbol->definition_flags >> 2) & 1;
+    symbol->definition_flags |= 4;
+    frontend_data.backend->Slot20(symbol);
+    if (!was_defined) symbol->definition_flags &= ~4;
+}
+
+struct CompilerRecordedDeclarationState {
+    DWORD cleanup[3];
+    DWORD reset_value;
+    CompilerRecordedParameterState parameter_state;
+};
+extern "C" void __cdecl set_function_parameters(CompilerRecordedParameterState *state)
+{
+    if (frontend_data.compiler_flags & 0x20) select_code_segment(1);
+    frontend_bss.current_parameters = state->parameters;
+    frontend_bss.current_parameter_kind = state->kind;
+    frontend_data.compiler_flags |= 0x300;
+}
+typedef char CompilerRecordedDeclarationState_layout[(sizeof(CompilerRecordedParameterState) == 8 &&
+    sizeof(CompilerRecordedDeclarationState) == 24 &&
+    offsetof(CompilerRecordedDeclarationState, parameter_state) == 16) ? 1 : -1];
+extern "C" void __cdecl record_function_definition(CompilerSymbol *input,
+        CompilerTokenStream *stream, unsigned arena_kind)
+{
+    CompilerArena *arena;
+    ParserTokenView *token;
+    CompilerSymbol *copy = input;
+    CompilerRecordedParameterState *parameters;
+    CompilerRecordedDeclarationState *declaration;
+    BYTE *memory;
+    unsigned bytes, kind;
+    if (arena_kind >= 9) { __asm { int 3 } }
+    arena = &frontend_bss.arenas[arena_kind];
+    if (!(frontend_data.compiler_mode_flags & 0x40000000)) {
+        parameters = (CompilerRecordedParameterState *)arena->cursor;
+        arena->cursor += 8;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        saved_parser_value.pointer = parameters;
+        parameters->parameters = frontend_bss.current_parameters;
+        parameters->kind = frontend_bss.current_parameter_kind;
+        if (arena_kind) {
+            token = (ParserTokenView *)arena->cursor;
+            arena->cursor += 48;
+            if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        } else token = (ParserTokenView *)frontend_bss.pools[7].Allocate(48);
+        if (token) {
+            token->kind = 0xdb;
+            memcpy(&token->value, &saved_parser_value, 40);
+        }
+    } else {
+        declaration = (CompilerRecordedDeclarationState *)arena->cursor;
+        arena->cursor += 24;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        saved_parser_value.pointer = declaration;
+        declaration->cleanup[0] = frontend_data.declaration_cleanup_state[0];
+        declaration->cleanup[1] = frontend_data.declaration_cleanup_state[1];
+        declaration->cleanup[2] = frontend_data.declaration_cleanup_state[2];
+        declaration->reset_value = 0;
+        declaration->parameter_state.parameters = frontend_bss.current_parameters;
+        declaration->parameter_state.kind = frontend_bss.current_parameter_kind;
+        memory = arena_kind ? arena->Allocate(48) : frontend_bss.pools[7].Allocate(48);
+        token = (ParserTokenView *)memory;
+        if (token) {
+            token->kind = 0xd0;
+            memcpy(&token->value, &saved_parser_value, 40);
+        }
+    }
+    stream->Trace((unsigned)token);
+    if (frontend_bss.current_function) {
+        copy = (CompilerSymbol *)frontend_bss.arenas[0].cursor;
+        frontend_bss.arenas[0].cursor += 48;
+        if (frontend_bss.arenas[0].cursor > frontend_bss.arenas[0].committed_limit)
+            frontend_bss.arenas[0].CommitExtent();
+        if (copy) {
+            kind = input->kind;
+            if (kind >= 26 || frontend_data.symbol_record_bytes[kind] > 48) { __asm { int 3 } }
+            bytes = frontend_data.symbol_record_bytes[kind];
+            /* Symbol records have compatible plain-pointer storage; opaque
+             * record bytes are retained, without assigning them defaults. */
+            memcpy(copy, input, bytes);
+            CompilerSymbolLink *link = &((CompilerNamedSymbol *)copy)->link;
+            const CompilerSymbolLink *original = &((CompilerNamedSymbol *)input)->link;
+            if (kind == 4) {
+                link->CopyClassLink(original, copy);
+                link->SetClassContext(((CompilerKind4Symbol *)input)->class_binding);
+            } else if (kind == 16 || kind == 17) link->CopySmallLink(original, copy);
+            else {
+                link->name = original->name;
+                link->next = NULL;
+            }
+        }
+    }
+    memory = arena_kind ? arena->Allocate(48) : frontend_bss.pools[7].Allocate(48);
+    token = (ParserTokenView *)memory;
+    if (token) {
+        token->kind = 0xcf;
+        token->value.pointer = copy;
+    }
+    stream->Trace((unsigned)token);
+}
+
+/* Delimiter marks are actual12-byte arena4 allocations. Their source pair
+ * shares the established origin/position prefix of FrontendContextStack;
+ * FileName reads only that prefix, not a context-frame pointer. */
+struct CompilerRecordedDelimiter {
+    CompilerRecordedDelimiter *previous;
+    FrontendSourcePosition source;
+};
+typedef char CompilerRecordedDelimiter_layout[(sizeof(CompilerRecordedDelimiter) == 12 &&
+    offsetof(CompilerRecordedDelimiter, source) == 4) ? 1 : -1];
+extern "C" const char *__cdecl get_compiler_message(unsigned);
+#define RECORDED_DELIMITER_MESSAGE(mark, diagnostic, message) \
+    diagnostic(0x3be, get_compiler_message(message), \
+        ((FrontendContextStack *)&(mark)->source)->FileName(), (mark)->source.position)
+#define RECORDED_UNCLOSED_DELIMITER(mark, message) \
+    report_compiler_diagnostic(0x4b, get_compiler_message(message), \
+        ((FrontendContextStack *)&(mark)->source)->FileName(), (mark)->source.position)
+
+ParserTokenView *RECON_THISCALL CompilerRecordedLexer::RecordUntil(unsigned stops,
+        unsigned include_terminal)
+{
+    CompilerRecordedDelimiter *parentheses = NULL, *braces = NULL;
+    CompilerRecordedDelimiter *brackets = NULL, *angles = NULL, *mark;
+    int saw_parenthesis = 0, saw_brace = 0, saw_bracket = 0, saw_angle = 0;
+    int parenthesis_count = 0, brace_count = 0, bracket_count = 0, angle_count = 0;
+    int done = 0, previous_identifier = 0, copy_tokens = 0;
+    ParserTokenView *token = NULL, *copy;
+    CompilerRecordedLexer *source;
+    CompilerSymbol *bound, *last_class, *candidate;
+    CompilerSymbolBindingOwner *chain, *owner;
+    unsigned flags, mode, options, kind, arena;
+
+    frontend_data.compiler_mode_flags |= 0x04000000;
+    flags = frontend_data.compiler_mode_flags;
+    mode = frontend_data.source_mode_flags;
+    options = frontend_data.compiler_flags;
+    if ((flags & 0x32000000) ||
+        ((flags & 0x40000000) && !(mode & 8) && !(options & 0x200)) ||
+        (mode & 0x10) || ((flags & 0x04000000) && !(options & 0x8000))) {
+        frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 0;
+    } else {
+        frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 5;
+        if (mode & 1)
+            frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 4;
+    }
+    source = (CompilerRecordedLexer *)frontend_bss.saved_context_stack.top->object;
+    if (!source->active && arena_kind < source->arena_kind) copy_tokens = 1;
+    Trace(make_arena_token(arena_kind));
+    for (;;) {
+        if (done && !parentheses && !braces && !brackets) break;
+        token = TOKEN_CONTEXT.ReadToken();
+        kind = token->kind;
+        /* The prototype-pointer owner is established only for kinds1..244. */
+        if (kind == 0 || kind >= 245) { __asm { int 3 } }
+        if (!frontend_data.canonical_token_records[kind - 1] && copy_tokens) {
+#ifdef __linux__
+            /* A declaration callback has a wider native representation.
+             * This ordinary48-byte token copy does not reinterpret that arm. */
+            if (kind == 0x22 || kind == 0x23 || kind == 0x24 || kind == 0xaa)
+                recon_unsupported("recorded delimiter scan: declaration token copy pending");
+#endif
+            copy = (ParserTokenView *)allocate_token_storage(48, frontend_bss.symbol_arena_kind);
+            if (copy) memcpy(copy, token, 48);
+            token = copy;
+        }
+        switch (token->kind) {
+        case 117:
+            if ((stops & 1) && !braces) done = 1;
+            else {
+                mark = (CompilerRecordedDelimiter *)frontend_bss.arenas[4].Allocate(12);
+                if (mark) {
+                    mark->previous = braces;
+                    mark->source.origin = frontend_bss.saved_context_stack.origin;
+                    mark->source.position = frontend_bss.saved_context_stack.position;
+                }
+                braces = mark;
+                saw_brace = 1;
+                ++brace_count;
+            }
+            break;
+        case 123:
+            if (braces) {
+                braces = braces->previous;
+                --brace_count;
+                if (braces) goto clear_other_delimiters;
+            }
+            if ((stops & 2) && (include_terminal ? saw_brace : !saw_brace)) done = 1;
+            saw_brace = 0;
+clear_other_delimiters:
+            if (parentheses) {
+                RECORDED_DELIMITER_MESSAGE(parentheses, compiler_warning, 0x169);
+                parentheses = NULL;
+                parenthesis_count = 0;
+            }
+            saw_parenthesis = 0;
+            if (brackets) {
+                RECORDED_DELIMITER_MESSAGE(brackets, compiler_warning, 0x16a);
+                brackets = NULL;
+                bracket_count = 0;
+            }
+            saw_bracket = 0;
+            break;
+        case 118:
+            if ((stops & 4) && !parentheses && !braces && !brackets) done = 1;
+            else {
+                mark = (CompilerRecordedDelimiter *)frontend_bss.arenas[4].Allocate(12);
+                if (mark) {
+                    mark->previous = parentheses;
+                    mark->source.origin = frontend_bss.saved_context_stack.origin;
+                    mark->source.position = frontend_bss.saved_context_stack.position;
+                }
+                parentheses = mark;
+                saw_parenthesis = 1;
+                ++parenthesis_count;
+            }
+            break;
+        case 126:
+            if (parentheses) {
+                parentheses = parentheses->previous;
+                --parenthesis_count;
+                if (parentheses) break;
+            }
+            if ((stops & 8) && !braces && !brackets &&
+                (include_terminal ? saw_parenthesis : !saw_parenthesis)) done = 1;
+            saw_parenthesis = 0;
+            break;
+        case 65:
+            if ((stops & 0x10) && !brackets && !parentheses && !braces) done = 1;
+            else {
+                mark = (CompilerRecordedDelimiter *)frontend_bss.arenas[4].Allocate(12);
+                if (mark) {
+                    mark->previous = brackets;
+                    mark->source.origin = frontend_bss.saved_context_stack.origin;
+                    mark->source.position = frontend_bss.saved_context_stack.position;
+                }
+                brackets = mark;
+                saw_bracket = 1;
+                ++bracket_count;
+            }
+            break;
+        case 122:
+            if (brackets) {
+                brackets = brackets->previous;
+                --bracket_count;
+                if (brackets) break;
+            }
+            if ((stops & 0x20) && !parentheses && !braces &&
+                (include_terminal ? saw_bracket : !saw_bracket)) done = 1;
+            saw_bracket = 0;
+            break;
+        case 68:
+            if (frontend_data.compiler_mode_flags & 0x10000000) {
+                mark = (CompilerRecordedDelimiter *)frontend_bss.arenas[4].Allocate(12);
+                if (mark) {
+                    mark->previous = angles;
+                    mark->source.origin = frontend_bss.saved_context_stack.origin;
+                    mark->source.position = frontend_bss.saved_context_stack.position;
+                }
+                angles = mark;
+                saw_angle = 1;
+                ++angle_count;
+            }
+            break;
+        case 62:
+            if (frontend_data.compiler_mode_flags & 0x10000000) {
+                if (angles) {
+                    angles = angles->previous;
+                    --angle_count;
+                    if (angles) break;
+                }
+                if ((stops & 0x400) && (include_terminal ? saw_angle : !saw_angle)) done = 1;
+                saw_angle = 0;
+            }
+            break;
+        case 127:
+            if ((stops & 0x40) && !braces && !parentheses) done = 1;
+            if (brackets) {
+                RECORDED_DELIMITER_MESSAGE(brackets, compiler_warning, 0x16a);
+                brackets = NULL;
+                bracket_count = 0;
+            }
+            saw_bracket = 0;
+            break;
+        case 54: case 55:
+            if ((stops & (token->kind == 54 ? 0x100 : 0x80)) &&
+                !braces && !parentheses && !brackets && !angles) done = 1;
+            break;
+        case 52:
+            if ((stops & 0x200) && !braces && !parentheses && !brackets && !previous_identifier)
+                done = 1;
+            break;
+        case 150:
+            bound = TOKEN_SEMANTIC(token).indirect_name->symbol;
+            chain = ((CompilerBoundSymbol *)bound)->binding->owner;
+            last_class = NULL;
+            if (bound->scope_flags & 0x40)
+                Trace((unsigned)frontend_data.canonical_token_records[148]);
+            for (;;) {
+                candidate = NULL;
+                for (owner = chain; owner; owner = owner->inner) {
+                    if (owner->symbol->kind == 4) {
+                        if (owner->symbol == last_class) break;
+                        candidate = owner->symbol;
+                    }
+                }
+                arena = frontend_bss.symbol_arena_kind;
+                if (arena >= 9) { __asm { int 3 } }
+                copy = (ParserTokenView *)(arena ? frontend_bss.arenas[arena].Allocate(48) :
+                    frontend_bss.pools[7].Allocate(48));
+                if (copy) {
+                    copy->kind = 6;
+                    copy->value.pointer = ((CompilerNamedSymbol *)(candidate ? candidate : chain->symbol))->link.name;
+                }
+                Trace((unsigned)copy);
+                if (!candidate) break;
+                Trace((unsigned)frontend_data.canonical_token_records[148]);
+                last_class = candidate;
+            }
+            continue;
+        case 42:
+            Trace((unsigned)token);
+            frontend_data.compiler_flags |= 0x200000;
+            RecordAssembly();
+            frontend_data.compiler_flags &= ~0x200000U;
+            continue;
+        }
+        previous_identifier = token->kind == 151;
+        if (!done || include_terminal) Trace((unsigned)token);
+        else TOKEN_STREAM->Unread((unsigned)token);
+        if (done) {
+            if (parentheses) {
+                RECORDED_DELIMITER_MESSAGE(parentheses, compiler_warning, 0x169);
+                parentheses = NULL; saw_parenthesis = 0; parenthesis_count = 0;
+            }
+            if (braces) {
+                RECORDED_DELIMITER_MESSAGE(braces, compiler_warning, 0x168);
+                braces = NULL; saw_brace = 0; brace_count = 0;
+            }
+            if (brackets) {
+                RECORDED_DELIMITER_MESSAGE(brackets, compiler_warning, 0x16a);
+                brackets = NULL; saw_bracket = 0; bracket_count = 0;
+            }
+        } else if (token->kind == 109) break;
+    }
+    Trace(make_arena_token(arena_kind));
+    frontend_data.compiler_mode_flags &= ~0x04000000U;
+    flags = frontend_data.compiler_mode_flags;
+    mode = frontend_data.source_mode_flags;
+    options = frontend_data.compiler_flags;
+    if ((flags & 0x32000000) ||
+        ((flags & 0x40000000) && !(mode & 8) && !(options & 0x200)) ||
+        (mode & 0x10) || ((flags & 0x04000000) && !(options & 0x8000))) {
+        frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 0;
+    } else {
+        frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 5;
+        if (mode & 1)
+            frontend_data.tagged_type_arena_index = frontend_data.constant_arena_index = 4;
+    }
+    if (angle_count > 0) { RECORDED_UNCLOSED_DELIMITER(angles, 0x16c); }
+    if (bracket_count > 0) { RECORDED_UNCLOSED_DELIMITER(brackets, 0x16a); }
+    if (parenthesis_count > 0) { RECORDED_UNCLOSED_DELIMITER(parentheses, 0x169); }
+    if (brace_count > 0) { RECORDED_UNCLOSED_DELIMITER(braces, 0x168); }
+    return token;
+}
+#undef RECORDED_DELIMITER_MESSAGE
+#undef RECORDED_UNCLOSED_DELIMITER

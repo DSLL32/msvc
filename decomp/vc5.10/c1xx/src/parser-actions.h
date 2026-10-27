@@ -266,7 +266,7 @@ void __cdecl select_parser_arena(unsigned); /*7363*/
 /* Declaration and scope actions. Opaque payloads remain borrowed. */
 CompilerSymbol *__cdecl lookup_builtin(CompilerNameEntry *); /*968d existing*/
 CompilerDeclaration *__cdecl current_declaration(void); /*d7ce*/
-CompilerDeclaration *__cdecl default_declaration(unsigned); /*21a97*/
+CompilerDeclaration *__cdecl default_declaration(const CompilerDeclarationContext *); /*21a97*/
 CompilerSymbol *__cdecl declare_builtin(CompilerDeclaration *, CompilerSymbol *, CompilerDeclarator *); /*a1f5 existing*/
 CompilerSymbol *__cdecl merge_symbol_declaration(CompilerDeclaration *, CompilerSymbol *, CompilerDeclarator *); /*a4eb existing*/
 CompilerSymbol *__cdecl declare_symbol(CompilerDeclaration *, CompilerSymbol *, CompilerDeclarator *); /*19920*/
@@ -285,8 +285,8 @@ void __cdecl process_external_recovery(unsigned); /*4ddd2*/
 void __cdecl process_external_initializer(void); /*4141*/
 void __cdecl finish_external_initializer(void); /*5962*/
 void __cdecl begin_function_definition(void *); /*359b7*/
-void __cdecl set_function_parameters(CompilerParameterDescription *); /*35e45*/
-void *__cdecl begin_function_body(CompilerSymbol *); /*22308*/
+void __cdecl set_function_parameters(CompilerRecordedParameterState *); /*35e45*/
+CompilerSymbol *__cdecl begin_function_body(CompilerSymbol *); /*22308*/
 void __cdecl pop_declaration_context(void); /*42072*/
 void __cdecl process_declared_type(void *, CompilerDeclaration *); /*4d66e*/
 void __cdecl process_function_type(void *, void *); /*4e35c*/
@@ -369,7 +369,7 @@ CompilerType *__cdecl reference_expression_type(CompilerExpression *); /*3d3d1*/
 CompilerExpression *__cdecl append_expression_list(CompilerExpression *, CompilerExpression *, unsigned); /*12057*/
 CompilerExpression *__cdecl resolve_parser_expression(CompilerExpression *); /*79f0*/
 void __cdecl require_integral_constant(CompilerExpression *); /*45e2f, Run ignores EAX*/
-CompilerExpression *__cdecl expand_initializer_expression(unsigned, CompilerExpression *, unsigned); /*9fe00*/
+CompilerExpression *__cdecl expand_initializer_expression(unsigned, CompilerExpression *, CompilerExpression *); /*9fe00*/
 CompilerExpression *__cdecl instantiate_parser_expression(CompilerExpression *, unsigned); /*1a2d8*/
 void __cdecl check_initializer_type(CompilerExpression *, CompilerType *); /*21b2e*/
 CompilerExpression *__cdecl make_typed_expression(unsigned, CompilerType *, CompilerExpression *, unsigned); /*11ee0*/
@@ -385,7 +385,7 @@ CompilerExpression *__cdecl make_binary_expression(unsigned, CompilerExpression 
 CompilerExpression *__cdecl make_parser_extension_expression(void); /*ada58*/
 CompilerExpression *__cdecl make_parser_extension_operand(CompilerExpression *); /*adaa7*/
 CompilerExpression *__cdecl convert_assignment_operand(CompilerType *, CompilerExpression *); /*15a3f*/
-void __cdecl diagnose_parser_operand(unsigned, CompilerExpression *); /*8afa4, Run ignores result*/
+CompilerExpression *__cdecl diagnose_parser_operand(unsigned, CompilerExpression *); /*8afa4, Run ignores result*/
 CompilerExpression *__cdecl make_conditional_expression(CompilerExpression *, CompilerExpression *, CompilerExpression *); /*2ccaa*/
 CompilerExpression *__cdecl make_parser_comparison(CompilerExpression *, CompilerExpression *); /*8e7b6*/
 CompilerExpression *__cdecl make_call_expression(unsigned, CompilerExpression *, CompilerExpression *); /*15805*/
@@ -396,7 +396,7 @@ CompilerExpression *__cdecl make_member_pointer_expression(CompilerExpression *)
 CompilerExpression *__cdecl make_sizeof_expression(CompilerExpression *); /*444ee*/
 CompilerExpression *__cdecl make_sizeof_type(CompilerType *); /*2c3c5*/
 CompilerExpression *__cdecl recover_new_expression(void); /*8e143*/
-CompilerExpression *__cdecl make_subscript_expression(CompilerExpression *, CompilerExpression *); /*16611*/
+CompilerExpression *__cdecl resolve_function_call(CompilerExpression *, CompilerExpression *); /*16611*/
 CompilerExpression *__cdecl make_unary_parser_extension(unsigned, CompilerExpression *); /*a9ac9*/
 CompilerExpression *__cdecl prepare_call_argument_types(CompilerDeclaration *, CompilerDeclaration *); /*12ba6*/
 CompilerExpression *__cdecl make_cpp_cast_expression(CompilerExpression *); /*8b4ce*/
@@ -405,7 +405,7 @@ CompilerExpression *__cdecl make_cpp_query_expression(CompilerExpression *); /*a
 CompilerExpression *__cdecl make_cpp_query_type(CompilerDeclaration *, CompilerDeclaration *); /*a0716*/
 CompilerExpression *__cdecl make_typed_constant(CompilerType *, const void *, unsigned); /*78e0*/
 CompilerExpression *__cdecl make_cast_expression(unsigned, CompilerExpression *); /*10239*/
-CompilerExpression *__cdecl make_allocation_expression(unsigned, void *, void *); /*1ad7f*/
+CompilerExpression *__cdecl make_member_access_expression(unsigned, CompilerExpression *, CompilerExpression *); /*1ad7f*/
 CompilerExpression *__cdecl make_array_allocation_expression(unsigned, void *, void *); /*89279*/
 CompilerExpression *__cdecl make_qualified_allocation_expression(unsigned, void *, CompilerDeclaration *, CompilerDeclaration *); /*8922b*/
 CompilerExpression *__cdecl lookup_name_expression(CompilerNameEntry *); /*11b98*/

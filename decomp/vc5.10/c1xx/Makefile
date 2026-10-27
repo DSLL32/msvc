@@ -12,7 +12,10 @@ BINARY_APP_SOURCES = src/dllmain.c src/exports.c src/frontend.c \
  src/option-matcher.c src/checksum.c src/scanner.c \
  src/pools.cpp src/pch.cpp src/arenas.cpp src/vectors.cpp src/path.c src/packing.cpp src/driver.cpp src/frontend-init.cpp src/input.cpp src/browser.cpp src/token-init.cpp src/keywords.cpp src/pointer-array.cpp src/expression-output.cpp src/output-file.cpp src/integer-node.cpp src/ir-writer.cpp src/output-grow.cpp src/preprocessor.cpp src/global-output.cpp src/token-names.cpp
 BINARY_APP_SOURCES += src/declaration.cpp src/debug-init.cpp src/parser-grammar.cpp src/parser.cpp src/parser-pending.cpp src/parser-token.cpp src/lexer.cpp src/lexer-pending.cpp src/builtin-source.cpp src/diagnostics.cpp src/numeric-token.cpp src/pragma.cpp
-BINARY_APP_SOURCES += src/function-resolution.cpp src/declaration-grammar.cpp src/string-literals.cpp src/context-record.cpp
+BINARY_APP_SOURCES += src/function-resolution.cpp src/declaration-grammar.cpp src/string-literals.cpp src/context-record.cpp src/includes.cpp src/macros.cpp
+BINARY_APP_SOURCES += src/conditional.cpp
+BINARY_APP_SOURCES += src/lexer-special.cpp
+BINARY_APP_SOURCES += src/initializer-output.cpp src/hash-table.cpp
 BINARY_SOURCES = $(BINARY_CRT_SOURCES) $(BINARY_APP_SOURCES)
 BINARY_HARNESS_SOURCES = harness/lifecycle.c harness/minimal.c harness/input-checks.cpp harness/output-checks.cpp harness/global-output-checks.cpp
 BINARY_SUPPORT_SOURCES = $(BINARY_HARNESS_SOURCES) $(addprefix $(RECON)/src/,compat.c crt.c decimal.c entry.c process.c trace.c win32.c)
@@ -38,7 +41,7 @@ RECON_METADATA_REBUILT_MAP = $(ORIGINAL_MAP)
 RECON_AUDIT_IDENTIFY_RUNTIME = 1
 RECON_RUNTIME_INPUTS = $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
 RECON_RUNTIME_FLAGS = --library $(ORIGINAL_TOOLCHAIN_ROOT)/lib/MSVCRT.LIB
-RECON_AUDIT_FLAGS = -q --discovery cfg --original ../../../toolchains/5.10/bin/C1XX.DLL \
+RECON_AUDIT_FLAGS = -q --check-callbacks --discovery cfg --original ../../../toolchains/5.10/bin/C1XX.DLL \
  --rebuilt $(ORIGINAL_OUTPUT) --map $(ORIGINAL_MAP) \
  --export-instructions --check-imports --resolve-register-imports --check-references \
  --check-ownership --check-extents --include-evidenced-runtime --check-accepted-extents

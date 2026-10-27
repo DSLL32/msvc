@@ -89,7 +89,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.conversion_evaluation_mode = -79;
     frontend_data.nested_cleanup_depth = 0x93ab80;
     frontend_data.parameter_cleanup_active = -80;
-    frontend_bss.block_output_entries = (struct CompilerBlockOutputEntry *)&frontend_data;
+    frontend_bss.block_output_entries = (CompilerWorkLink *)&frontend_data;
     frontend_data.function_output_head = (struct CompilerFunctionOutputBlock *)&frontend_data;
     frontend_data.function_output_tail = (struct CompilerFunctionOutputBlock *)&frontend_bss;
     frontend_data.function_output_index = 0x7408;
@@ -143,7 +143,7 @@ int c1xx_test_exception_counters(void)
     frontend_data.symbol_reference_depths[2] = 0x73a3;
     frontend_data.cleanup_capture_head = (struct CompilerCleanupCapture *)&frontend_bss;
     frontend_data.parameter_work_states = (struct CompilerExpressionWorkStateRow *)&frontend_bss;
-    frontend_bss.parameter_source_state = 0x93ab78;
+    frontend_bss.initializer_context.source_state = 0x93ab78;
     frontend_bss.control_text_count = 0x93;
     frontend_bss.control_byte = 0x94;
     frontend_bss.control_short = -394;
@@ -187,7 +187,7 @@ int c1xx_test_exception_counters(void)
     frontend_bss.processing_pending_parser_input = 0x193a;
     frontend_bss.pending_parser_work = 0x7319;
     frontend_bss.qualified_lookup_recursion = 0x1937;
-    frontend_bss.quoted_skip_mode = 0x1937;
+    frontend_bss.options.preprocess_stdout = 0x1937;
     frontend_bss.lexical_skip_mode = -0x315;
     frontend_data.secondary_translation_symbols = (CompilerVector *)&frontend_bss;
     frontend_data.deferred_input_depth = 0x197a;
@@ -369,7 +369,7 @@ int c1xx_test_exception_counters(void)
         frontend_data.expression_target_active || frontend_data.assignment_target_active ||
         frontend_data.force_statement_check || frontend_data.parameter_work_high_index != 0xffffffff ||
         frontend_data.cleanup_capture_stack || frontend_data.expression_cleanup_stack ||
-        frontend_bss.parameter_source_state ||
+        frontend_bss.initializer_context.source_state ||
         frontend_bss.control_text_count || frontend_bss.control_byte || frontend_bss.control_short) return 0;
     if (frontend_data.function_result_type || frontend_data.default_code_segment || frontend_bss.function_return_class || frontend_bss.current_parser_expression || frontend_bss.current_case_label || frontend_bss.return_cleanup_state || frontend_bss.function_output_state ||
         frontend_data.disable_inline_records || frontend_data.auto_inline != 1 || frontend_data.function_reference_counter != 0x3fffff ||
@@ -386,7 +386,7 @@ int c1xx_test_exception_counters(void)
         for (i = 0; i < sizeof(frontend_bss.declaration_specs); ++i) if (bytes[i]) return 0;
     }
     if (frontend_bss.declaration_nesting || frontend_bss.pending_member_queue || frontend_bss.pending_member_error_count || frontend_data.class_layout_reference || frontend_data.declaration_lookup_owner) return 0;
-    if (frontend_bss.quoted_skip_mode || frontend_bss.lexical_skip_mode || frontend_bss.qualified_lookup_recursion || frontend_bss.processing_pending_parser_input || frontend_bss.pending_parser_work ||
+    if (frontend_bss.options.preprocess_stdout || frontend_bss.lexical_skip_mode || frontend_bss.qualified_lookup_recursion || frontend_bss.processing_pending_parser_input || frontend_bss.pending_parser_work ||
         frontend_data.active_declaration_parser ||
         frontend_data.secondary_translation_symbols || frontend_data.deferred_input_depth ||
         frontend_data.pending_declarations || frontend_data.parser_input_end_state ||

@@ -22,7 +22,7 @@ struct CompilerBackend {
     virtual void RECON_THISCALL Slot18(void) = 0;
     virtual void RECON_THISCALL Slot1c(unsigned) = 0;
     virtual void RECON_THISCALL Slot20(CompilerSymbol *) = 0;
-    virtual void RECON_THISCALL Slot24(unsigned) = 0;
+    virtual void RECON_THISCALL Slot24(struct CompilerMacro *) = 0;
     virtual void RECON_THISCALL Slot28(struct CompilerMacro *) = 0;
     virtual void RECON_THISCALL Slot2c(void) = 0;
     virtual void RECON_THISCALL Slot30(unsigned) = 0;
@@ -185,11 +185,15 @@ struct PDB {
 };
 struct CompilerHashTable;
 struct CompilerTranslationUnit {
+    CompilerScopeTable *RECON_THISCALL EnclosingNonParameterScope(void); /*9a31a*/
     CompilerScopeTable *RECON_THISCALL CurrentScope(void); /*e008 physical alias*/
     void RECON_THISCALL BeginParameterScope(CompilerParameterSet *); /*d7f3*/
     CompilerScopeTable *RECON_THISCALL SetEnclosingClass(CompilerSymbol *, unsigned); /*1defd RET8*/
     void RECON_THISCALL ActivateClassScope(CompilerScopeTable *); /*d858 RET4*/
     void RECON_THISCALL SelectScopeSymbol(CompilerSymbol *); /*1e6fb RET4*/
+    void RECON_THISCALL SelectClassSymbol(CompilerSymbol *); /*1e720 RET4*/
+    void RECON_THISCALL EnterClassScope(CompilerSymbol *, CompilerNameEntry *, unsigned); /*216f5 RET12*/
+    void RECON_THISCALL SelectNamespaceSymbol(CompilerSymbol *); /*9a438 RET4*/
     void RECON_THISCALL InsertCurrentScope(CompilerSymbol *); /*244c0*/
     CompilerSymbol *RECON_THISCALL CreateFunctionGroup(CompilerSymbol *, CompilerSymbol *); /*2b4ef*/
     CompilerSymbolLink **RECON_THISCALL FindFunctionBindingSlot(CompilerSymbolLink *, unsigned); /*2b6bb*/
@@ -199,14 +203,14 @@ struct CompilerTranslationUnit {
     CompilerScopeTable *RECON_THISCALL CreateClassScope(unsigned, unsigned, CompilerSymbol *); /*1df55 RET12*/
     CompilerScopeTable *RECON_THISCALL FileScope(void); /*7bea*/
     void RECON_THISCALL InsertDeferredTag(CompilerSymbol *); /*88b59*/
-    void *RECON_THISCALL PrepareAllocation(unsigned, void *, unsigned); /*1b0cf*/
+    CompilerExpression *RECON_THISCALL PrepareAllocation(unsigned, CompilerExpression *, unsigned); /*1b0cf*/
     CompilerScope *root; CompilerScopeTable *current;         /* original +0/+4 */
     CompilerScopeTable *scopes[128];            /* +8; only slot0 written here */
     BYTE depth;                            /* +208; d86e bounds it by 128 */
     CompilerSavedLookup *saved_lookup;    /* +20c */
     CompilerSymbol *retired_scopes;        /* +210, qualified lookup symbol, not a scope table */
     CompilerSymbolLink *deferred_symbols; /* +214 */
-    struct CompilerTypeAlias *type_aliases; /* +218 */
+    struct CompilerPointerArray *type_aliases; /* +218 */
     BYTE lookup_context;                   /* +21c: 1 initially, later diagnostic tag */
     int suppress_lookup_errors;           /* +220 */
     int lookup_override;                  /* +224 */
@@ -254,11 +258,13 @@ struct CompilerDependency {
     void RECON_THISCALL SetSourceName(const char *);
     int RECON_THISCALL Finish(int success);
     void RECON_THISCALL RecordSource(const char *, int, int);
+    int RECON_THISCALL LookupClassName(CompilerSymbol *, CompilerNameEntry *); /*9b554 RET8*/
     void RECON_THISCALL RecordClass(CompilerSymbol *); /*9b456 RET4*/
     int RECON_THISCALL CompleteClass(CompilerSymbol *); /*9b898 RET4*/
     int RECON_THISCALL QuerySource(void **);
     int RECON_THISCALL RestoreSource(void); /*28b48*/
     void RECON_THISCALL RecordMember(CompilerSymbol *); /*9b647 RET4*/
+    void RECON_THISCALL RecordMacroScope(struct CompilerGlobalSymbolView *); /*9b7ff RET4*/
 };
 
 
@@ -312,17 +318,28 @@ struct CompilerDeclaration {
     CompilerDeclarationContext context; /* original+0..1b, same context type */
     CompilerType *type; /* original +1c */
 };
-/* Parsed parameter entries become a doubly linked argument chain. These
- * views expose only the actual pointer stores; other payload stays opaque. */
+/* These are views of the existing24-byte expression-list node and20-byte
+ * deferred item, not separate allocations. Linking uses their real offsets;
+ * the other header fields remain untouched and uninterpreted by this view. */
 struct CompilerParameterLink {
+    BYTE unmodeled_00_07[8];
     CompilerParameterLink *previous; /* original +8, first.previous is tail */
-    CompilerParameterLink *next;     /* original +14 */
+    BYTE unmodeled_0c_0f[4];
     void *value;                    /* original+10, only presence is tested */
+    CompilerParameterLink *next;     /* original +14 */
 };
 struct CompilerParameterEntry {
+    BYTE unmodeled_00_03[4]; /* real deferred vptr, never copied by this view */
     CompilerParameterEntry *next; /* original +4 */
+    BYTE unmodeled_08_0f[8];
     CompilerParameterLink *parameter; /* original +10 */
 };
+typedef char CompilerParameterList_view_offsets[(
+    offsetof(CompilerParameterLink, previous) == 8 &&
+    offsetof(CompilerParameterLink, value) == 16 &&
+    offsetof(CompilerParameterLink, next) == 20 && sizeof(CompilerParameterLink) == 24 &&
+    offsetof(CompilerParameterEntry, next) == 4 &&
+    offsetof(CompilerParameterEntry, parameter) == 16 && sizeof(CompilerParameterEntry) == 20) ? 1 : -1];
 struct CompilerParameterContext {
     CompilerParameterEntry *head; /* original +0 */
 };
@@ -343,8 +360,16 @@ struct CompilerTypedSymbol : CompilerNamedSymbol {
  * native compact view starts it after count, without a placeholder field. */
 struct CompilerParameterTypes {
     unsigned count;
+#ifndef __linux__
+    BYTE unmodeled_04_07[4]; /* actual Win32 header word, preserved but uninterpreted */
+#endif
     CompilerType *types[1];
 };
+#ifdef __linux__
+typedef char CompilerParameterTypes_offset[offsetof(CompilerParameterTypes, types) == 4 ? 1 : -1];
+#else
+typedef char CompilerParameterTypes_offset[offsetof(CompilerParameterTypes, types) == 8 ? 1 : -1];
+#endif
 struct CompilerTypeSequence {
     CompilerTypeSequence *next;
     CompilerParameterTypes parameters;

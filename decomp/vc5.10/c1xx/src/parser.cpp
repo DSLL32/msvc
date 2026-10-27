@@ -23,15 +23,11 @@ ParserSemanticView * parser_saved_value_top;
 int label_stack_count;
 int initializer_started = 0;
 ParserDeclarationView parser_special_qualifiers;
-CompilerSymbol * current_declaration_symbol = NULL;
-CompilerType * current_enum_type = NULL;
-__int64 enumerator_value = -1;
 ParserLabelStack * continue_labels;
 ParserLabelStack * break_labels;
 ParserLabelStack * loop_labels;
 ParserLabelStack * switch_labels;
 ParserLabelStack * default_labels;
-void * allocation_context = NULL;
 #endif
 
 #define parser_context_depth frontend_bss.parser_context_depth
@@ -178,6 +174,40 @@ read_action:
     case 191: case 193: case 248: case 210: case 250: case 229: case 226:
     case 218: case 211: case 217: case 215: case 208: case 209: case 190:
     case 341: case 342: case 192: case 264: case 202: case 403: case 371: case 343:
+    /* Initializer actions use the existing symbol/expression arms; the
+     * declarator arm consumes the two pointers produced by196. */
+    case 179: case 182: case 219: case 30:
+    /* The recorded function marker carries the established symbol pointer
+     * directly to the genuine pending body initializer. */
+    case 31: case 32:
+    /* These recovered initializer reductions only set established global
+     * bits or the bounded declaration-control row's existing flag. */
+    case 34: case 39: case 41: case 43:
+    /* Argument and constructor-initializer lists retain the established
+     * expression pointer arm and pass it to the real list helpers. */
+    case 36: case 37: case 51: case 52: case 421: case 422: case 447: case 423: case 424:
+    /* The ordinary constructor initializer reads a name and its expression
+     * list; no declaration callback representation is transferred. */
+    case 35: case 40:
+    /* Identifier and operator-name records pass their established name
+     * pointer to the real pending expression lookup. */
+    case 413: case 415:
+    /* Binary addition reads the established expression pointers and the
+     * canonical operator token DWORD; no declaration value is transferred. */
+    case 362:
+    /* Allocation preparation updates the known declaration-control flags
+     * and passes the existing pointer/token arms to the genuine child. */
+    case 388: case 389: case 390: case 391: case 409:
+    /* Function-body completion reads the existing symbol arm and the
+     * grounded function-class/type/operation bytes; it copies no value. */
+    case 156:
+    /* The enum declaration carries the same typed callback arm; the real
+     * OwnerSymbol child precedes later completion/browser consumers. */
+    case 134:
+    /* Grounded enum type, flag and scalar-value reductions. */
+    case 124: case 132: case 133: case 147: case 148: case 223: case 224:
+    /* Actual31530 writes only BYTE1; no wider semantic bytes are read. */
+    case 450:
     /* Recovered family assigns only the known pointer arm to NULL. */
     case 33: case 49: case 213: case 266: case 324: case 344: case 445:
         break;
@@ -398,7 +428,7 @@ case 28:
     break;
 case 30:
     frontend_data.source_mode_flags |= 2;
-    set_function_parameters(R(0).parameter_description); /*35e45*/
+    set_function_parameters(R(0).recorded_parameters); /*35e45*/
     break;
 case 31:
 case 32:
@@ -984,6 +1014,9 @@ case 146:
     break;
 case 147:
     if (frontend_data.source_mode_flags & 0x00100000) {
+#ifdef __linux__
+        recon_unsupported("enum replay: recorded value representation pending");
+#endif
         parser_token = recover_parser_construct(P_CONTEXT.ReadToken(),
             0x7b, 0x37, 1);
         P_CONTEXT.UnreadToken(parser_token);
@@ -1465,6 +1498,8 @@ case 219:
             mark_parser_expression(R(0).expression), 2); /*21b51*/
         memory = allocate_parser_record(20, 0);
         deferred = memory ? ((ParserDeferredListItem *)memory)->Initialize(expression_list, 0, 1) : NULL;
+        /* Only the two encountered BF4B4/BF4B8 owners are modeled. */
+        if (parser_context_depth < 1 || parser_context_depth > 2) { __asm { int 3 } }
         if (deferred_contexts[parser_context_depth - 1])
             deferred_contexts[parser_context_depth - 1]->Prepend(deferred);
         else {
@@ -2220,13 +2255,13 @@ case 389:
             }
             RESULT.expression = expression;
             frontend_data.compiler_mode_flags &= ~0x00800000U;
-        } else RESULT.expression = make_subscript_expression(expression, R(0).expression); /*16611*/
+        } else RESULT.expression = resolve_function_call(expression, R(0).expression); /*16611*/
     } else RESULT.expression = expression;
     allocation_operator = 1;
     break;
 case 390:
     allocation_context = frontend_data.translation_unit->PrepareAllocation(
-        R(0).token_kind, R(-1).pointer, 0); /*1b0cf actualthiscall3*/
+        R(0).token_kind, R(-1).expression, 0); /*1b0cf actualthiscall3*/
     allocation_operator = R(0).token_kind;
     break;
 case 391:
@@ -2310,7 +2345,7 @@ case 407:
     if (parser_context_depth > 0) --parser_context_depth;
     break;
 case 409:
-    RESULT.expression = make_allocation_expression(allocation_operator, allocation_context, R(0).pointer); /*1ad7f*/
+    RESULT.expression = make_member_access_expression(allocation_operator, (CompilerExpression *)allocation_context, R(0).expression); /*1ad7f*/
     break;
 case 410:
     RESULT.expression = make_array_allocation_expression(allocation_operator, allocation_context, R(0).pointer); /*89279*/
@@ -2542,4 +2577,9 @@ finished:
     parser_production = saved_production;
     parser_lookahead = saved_lookahead;
     return parser_result;
+}
+
+void RECON_THISCALL CompilerParser::SetLookahead(ParserTokenView *token)
+{
+    parser_lookahead = token;
 }

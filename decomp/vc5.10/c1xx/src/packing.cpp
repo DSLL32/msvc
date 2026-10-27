@@ -76,7 +76,9 @@ extern "C" PackingFrame *push_packing(unsigned alignment, void *identifier)
 
 extern "C" PackingFrame *clear_packing_frame(PackingFrame *frame)
 {
-    __asm { int 3 }
+    frame->previous = NULL;
+    frame->alignment = 0;
+    frame->identifier = NULL;
     return frame;
 }
 

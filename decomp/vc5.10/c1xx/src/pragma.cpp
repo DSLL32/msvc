@@ -16,7 +16,6 @@ struct PragmaSourceState {
     unsigned init_segment_blocked;      /* cc6a0, predicate-only use */
     unsigned init_segment_kind;         /* ccb54, actual initial1 */
     CompilerNameEntry *init_segment_name;      /* cc604 */
-    unsigned pch_stop_seen;             /* cd4d4; cd4d8 uses the existing frontend_data owner */
     WORD pch_header_status;             /* cd858, actual initialffff */
     const char *optimization_text;      /* c06d4 */
     int optimization_enabled;          /* bf488 */
@@ -24,7 +23,7 @@ struct PragmaSourceState {
 };
 #ifndef RECON_NATIVE_TEST
 static PragmaSourceState pragma_state = {
-    NULL, 0, 1, NULL, 0, 0xffff,
+    NULL, 0, 1, NULL, 0xffff,
     NULL, 0, 0x03fff800, 0x037eb800
 };
 #else
@@ -96,7 +95,7 @@ extern "C" ParserTokenView *__cdecl dispatch_recorded_pragma(void)
     PRAGMA_ASSERT(frontend_bss.debug_module->Slota4(), 0x410);
     token = PRAGMA_CONTEXT.ReadToken();
     code = token->kind;
-    if (code != PRAGMA_PACK && code != PRAGMA_WARNING && code != 45) {
+    if (code != PRAGMA_PACK && code != PRAGMA_WARNING && code != 44 && code != 45) {
 #ifdef __linux__
         recon_unsupported("pragma dispatcher: unqualified directive domain");
 #else
@@ -158,7 +157,7 @@ extern "C" ParserTokenView *__cdecl dispatch_recorded_pragma(void)
         PRAGMA_UNREAD(token);
         emit_context_transition(2); emit_context_transition(1);
         if (position > 0 && frontend_bss.browser_filename) frontend_data.backend->Slot14(position);
-        if (position == 1 && pragma_state.pch_stop_seen && !frontend_data.pch_reference_output_mode) {
+        if (position == 1 && frontend_data.pch_creation_name_seen && !frontend_data.pch_reference_output_mode) {
             prepare_expression_input(frontend_data.options.pch_create_file);
             return (ParserTokenView *)frontend_data.canonical_token_records[3];
         }

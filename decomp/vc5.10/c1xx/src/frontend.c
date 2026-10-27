@@ -226,7 +226,19 @@ FrontendData frontend_data = {
     0 /* omit external names, cd6e8 */,
     1, 0, /* name formatting mode/sequence, cd5e4/cd5e8 */
     0, NULL, /* option-footer count/text, ccb78/cd4d0 */
-    0, 0, 0, NULL /* PCH cleanup flags and shared hdrstop output */
+    0, 0, 0, NULL, /* PCH cleanup flags and shared hdrstop output */
+    0 /* include PCH-create name seen, cd4d4 */,
+    1, 0 /* conditional lookahead and parenthesis depth, cc208/cc20c */,
+    { NULL, NULL, NULL } /* shared segment references, cc6c4/cc6c8/cc6cc */,
+    { 0, 0, 0 } /* initializer reset DWORDs, cd5f4/cd5f8/cd5fc */,
+    0 /* initializer context count, ce0a0 */,
+    NULL /* deferred initializer header symbol, cd598 */,
+    NULL, -1, /* current enum type/value, cc428 / cd558 */
+    0 /* qualified binding arena, ce104 */,
+    NULL /* lazy constructor alias table, cc6e4 */,
+    0, 0 /* member initializer depth/state, ce0a4/ce0a8 */,
+    0xffffffffUL /* saved binding arena, ce108 */,
+    NULL /* member expression context, cd590 */
 };
 FrontendBss frontend_bss;
 int restore_mode;
@@ -246,6 +258,7 @@ int initialize_compiler_pass(void)
         frontend_data = *saved;
         frontend_bss.saved_state = NULL;
         frontend_bss.cleanup_count = 0;
+        memset(frontend_bss.conditional_states, 0, sizeof(frontend_bss.conditional_states));
         frontend_bss.error_count = 0;
         frontend_bss.suppress_parser_codegen = 0;
         frontend_bss.declaration_nesting = 0;
@@ -256,7 +269,6 @@ int initialize_compiler_pass(void)
         frontend_bss.processing_pending_parser_input = 0;
         frontend_bss.pending_parser_work = 0;
         frontend_bss.qualified_lookup_recursion = 0;
-        frontend_bss.quoted_skip_mode = 0;
         frontend_bss.lexical_skip_mode = 0;
         memset(&frontend_bss.declaration_token_value, 0, sizeof(frontend_bss.declaration_token_value));
         frontend_bss.tag_novtordisp = 0;
@@ -311,6 +323,22 @@ int initialize_compiler_pass(void)
         frontend_bss.current_parameter_kind = 0;
         memset(frontend_bss.parser_qualification_scopes, 0, sizeof(frontend_bss.parser_qualification_scopes));
         frontend_bss.current_macro_text = NULL;
+        frontend_bss.macro_parameter_count = 0;
+        frontend_bss.conditional_suppression = 0;
+        frontend_bss.macro_input_mode = 0;
+        frontend_bss.macro_whitespace_pending = 0;
+        frontend_bss.macro_source_position = frontend_bss.macro_token_prefix = 0;
+        frontend_bss.saved_macro_token_cursor = NULL;
+        memset(frontend_bss.macro_expansion_frames, 0, sizeof(frontend_bss.macro_expansion_frames));
+        memset(frontend_bss.macro_timestamp, 0, sizeof(frontend_bss.macro_timestamp));
+        frontend_bss.suppress_macro_end_notification = 0;
+        frontend_bss.initializer_pending_state = 0;
+        frontend_bss.initializing_symbol = NULL;
+        frontend_bss.initializer_value_state = 0;
+        frontend_bss.initializer_saved_value_state = 0;
+        frontend_bss.initializer_zero_bytes = 0;
+        frontend_bss.initializer_end_label = NULL;
+        memset(&frontend_bss.conditional_value, 0, sizeof(frontend_bss.conditional_value));
         frontend_bss.macro_token_cursor = frontend_bss.macro_text_cursor = NULL;
         frontend_bss.saved_macro_text_cursor = NULL;
         frontend_bss.forced_include_index = 0;
@@ -324,9 +352,18 @@ int initialize_compiler_pass(void)
         frontend_bss.ir_line_delta = 0;
         frontend_bss.current_ir_symbol = NULL;
         frontend_bss.current_function = NULL;
+        frontend_bss.last_extracted_type_payload = NULL;
+        frontend_bss.access_diagnostic_symbol = NULL;
+        frontend_bss.access_diagnostic_base_code = 0;
+        frontend_bss.access_diagnostic_owner = NULL;
+        frontend_bss.access_diagnostic_base = NULL;
+        frontend_bss.access_diagnostic_ambiguous = 0;
+        frontend_bss.access_diagnostic_code = 0;
+        frontend_bss.initializer_access_mode = 0;
         frontend_bss.function_return_class = NULL;
         frontend_bss.current_parser_expression = NULL;
         frontend_bss.current_case_label = NULL;
+        frontend_bss.current_declaration = NULL;
         frontend_bss.return_cleanup_state = 0;
         memset(frontend_bss.function_reset_state, 0, sizeof(frontend_bss.function_reset_state));
         frontend_bss.function_body_state = 0;
@@ -347,7 +384,13 @@ int initialize_compiler_pass(void)
         frontend_bss.control_byte = 0;
         frontend_bss.control_short = 0;
         frontend_bss.expression_work_recovery_mode = 0;
-        frontend_bss.parameter_source_state = 0;
+        frontend_bss.initializer_context.head = NULL;
+        frontend_bss.initializer_context.symbol = NULL;
+        frontend_bss.initializer_context.source_state = 0;
+        frontend_bss.initializer_context.state_index = 0;
+        frontend_bss.initializer_context.constructor_state_index = 0;
+        frontend_bss.initializer_context.cleanup_pending_count = 0;
+        frontend_bss.initializer_context.last_cleanup_state_index = 0;
         frontend_bss.function_source_position = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;

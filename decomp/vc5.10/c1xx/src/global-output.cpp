@@ -140,13 +140,38 @@ extern "C" void __cdecl write_global_ir_record(unsigned opcode, CompilerSymbol *
         !(symbol->reference_flags & 1) && !(symbol->template_flags & 1) &&
         !(symbol->type_flags & 0x10) && (symbol->storage_class & 7) != 7 &&
         !frontend_data.include_pch_reference_counts;
+    /* Opcode1's reached local-int form consumes only the common32-byte
+     * symbol prefix and the canonical primitive type, with no symbol tail. */
+    int local_integer_domain = symbol && opcode == 1 && symbol->kind == 11 &&
+        symbol->type == frontend_data.builtin_types.type_0063 && !symbol->type->shape &&
+        (symbol->storage_class & 7) == 4 && !symbol->attributes && !symbol->qualifiers &&
+        !symbol->member_flags && !symbol->reference_flags &&
+        !(symbol->scope_flags & 0x84) && !frontend_data.options.debug_info &&
+        !frontend_data.include_pch_reference_counts;
+    /* The reached this parameter borrows the existing pointer shape and
+     * indexed class owner. Its calling-convention attribute may be 0x100;
+     * opcode1 reads no parameter-specific tail. */
+    int this_parameter_domain = symbol && opcode == 1 && symbol->kind == 11 &&
+        symbol->name == frontend_data.builtin_names.this_parameter &&
+        (symbol->storage_class & 7) == 5 && !symbol->attributes && !symbol->qualifiers &&
+        !symbol->member_flags && !symbol->reference_flags && !(symbol->scope_flags & 0x84) &&
+        symbol->type && symbol->type->flags == 0x402 &&
+        !(symbol->type->attributes & ~0x100U) &&
+        symbol->type->shape && symbol->type->shape->flags == 1 &&
+        symbol->type->shape->attributes == 0x100 && !symbol->type->shape->base &&
+        !symbol->type->shape->payload.value &&
+        (short)symbol->type->auxiliary >= 0 && frontend_data.frontend_pointer_table &&
+        (short)symbol->type->auxiliary < frontend_data.frontend_pointer_table->count &&
+        GLOBAL_TYPE_OWNER(symbol->type) && GLOBAL_TYPE_OWNER(symbol->type)->kind == 4 &&
+        GLOBAL_TYPE_OWNER(symbol->type)->class_detail &&
+        !frontend_data.options.debug_info && !frontend_data.include_pch_reference_counts;
     /* Storage-class7 declarations become opcode11, which is suppressed
      * before formatting when debug information is disabled. */
     int suppressed_typedef_domain = symbol && symbol->kind == 10 &&
         (symbol->storage_class & 7) == 7 && !frontend_data.options.debug_info &&
         symbol->type;
     if (!frontend_data.option_c9il ||
-        (symbol ? (!label_domain && !function_domain && !suppressed_typedef_domain) :
+        (symbol ? (!label_domain && !function_domain && !local_integer_domain && !this_parameter_domain && !suppressed_typedef_domain) :
                   (opcode != 17 && opcode != 18 && opcode != 6 && opcode != 13 &&
                    !(opcode == 10 && !frontend_data.options.debug_info))) ||
         (opcode == 17 && frontend_bss.global_output_active))
@@ -1358,7 +1383,19 @@ extern "C" CompilerTypeShape *__cdecl skip_array_function_shapes(CompilerTypeSha
 }
 extern "C" int __cdecl is_extended_pointer_type(CompilerType *type) { __asm { int 3 } return 0; }
 extern "C" CompilerGlobalSymbolView *__cdecl get_symbol_context(CompilerGlobalSymbolView *symbol, CompilerGlobalSymbolView **owner) { __asm { int 3 } return NULL; }
-unsigned RECON_THISCALL CompilerType::GetCallingConvention(void) { __asm { int 3 } return 0; }
+unsigned RECON_THISCALL CompilerType::GetCallingConvention(void)
+{
+    CompilerTypeShape *selected = shape;
+    if (selected) selected = selected->Find(&CompilerTypeShape::IsNotArray);
+    return (selected ? selected->attributes : attributes) & 0x1f00;
+}
+CompilerSymbol *RECON_THISCALL CompilerType::OwnerSymbol(void)
+{
+    int index = (short)auxiliary;
+    CompilerPointerArray *owners = frontend_data.frontend_pointer_table;
+    if (!owners || index < 0 || index >= owners->count) { __asm { int 3 } }
+    return (CompilerSymbol *)owners->items[index];
+}
 unsigned RECON_THISCALL CompilerSourceFile::OutputIndex(void)
 {
     if (frontend_data.option_c9il) return record_index & 0xffffff;
@@ -1415,8 +1452,32 @@ int RECON_THISCALL CompilerSymbol::SuppressGlobalReference(void)
     return kind == 16 || kind == 17 || kind == 25;
 }
 int RECON_THISCALL CompilerSymbol::IsNamed(void) { __asm { int 3 } return 0; }
-int RECON_THISCALL CompilerClassMemberIterator::AdvanceChain(void) { __asm { int 3 } return 0; }
-int RECON_THISCALL CompilerClassMemberIterator::MatchesMode(void) { __asm { int 3 } return 0; }
+int RECON_THISCALL CompilerClassMemberIterator::AdvanceChain(void)
+{
+    if (!chain) return 0;
+    chain = chain->next;
+    return chain != NULL;
+}
+int RECON_THISCALL CompilerClassMemberIterator::MatchesMode(void)
+{
+    CompilerSymbol *symbol;
+    switch (mode) {
+    case 0: return 1;
+    case 1:
+        symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        return (symbol->kind == 3 || symbol->kind == 2) && !(symbol->scope_flags & 1);
+    case 2:
+        symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        return symbol->kind == 17 || symbol->kind == 8;
+    case 3:
+        symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        return symbol->kind == 4;
+    case 5:
+        symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        return (symbol->kind == 17 || symbol->kind == 8) && (symbol->type_flags & 0x40);
+    default: return 0;
+    }
+}
 
 extern "C" int __cdecl can_defer_global_reference(CompilerSymbol *); /*33e04*/
 void RECON_THISCALL CompilerScope::Check(void)

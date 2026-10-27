@@ -10,6 +10,7 @@
 #include "diagnostics.h"
 #include "pragma.h"
 #include "parser-actions.h"
+#include "parser-grammar.h"
 #include "lexer.h"
 #pragma intrinsic(memcpy, memset)
 #include <recon.h>
@@ -32,6 +33,7 @@ int publish_browser_local; /* c0838 */
 
 extern "C" {
 CompilerSymbol *__cdecl resolve_symbol_reference(CompilerSymbol *);
+int __cdecl is_scope_declaration(CompilerSymbol *);
 CompilerDeclarationMetadata *__cdecl get_declaration_metadata(CompilerSymbol *);
 CompilerFunctionContext *__cdecl get_declaration_function_context(CompilerSymbol *);
 CompilerDeclarationAttachment *__cdecl get_declaration_attachment(CompilerSymbol *);
@@ -65,7 +67,7 @@ void __cdecl report_language_diagnostic(unsigned, unsigned, ...);
 extern "C" {
 void __cdecl combine_symbol_declaration(CompilerSymbol *, CompilerSymbol *);
 void __cdecl process_external_recovery(unsigned);
-void __cdecl append_implicit_parameter(unsigned, CompilerParameterSet **, CompilerNameEntry *, CompilerType *); /*21787*/
+CompilerSymbol *__cdecl append_implicit_parameter(unsigned, CompilerParameterSet **, CompilerNameEntry *, CompilerType *); /*21787*/
 CompilerSymbol *__cdecl prepare_function_definition(CompilerSymbol *); /*404c*/
 void __cdecl recover_function_declaration(void); /*89832*/
 ParserTokenView *__cdecl current_declaration_lookahead(void); /*29469*/
@@ -270,8 +272,227 @@ return_class_ready:
     return frontend_bss.current_function;
 }
 
-void RECON_THISCALL CompilerTranslationUnit::MarkDefinitionScopes(void) { __asm { int 3 } }
-extern "C" void __cdecl append_implicit_parameter(unsigned, CompilerParameterSet **, CompilerNameEntry *, CompilerType *) { __asm { int 3 } }
+extern "C" CompilerSymbol *__cdecl begin_function_body(CompilerSymbol *input)
+{
+    CompilerRuntimeFunction *symbol = (CompilerRuntimeFunction *)input;
+    CompilerTranslationUnit *unit;
+    CompilerArena *arena;
+    CompilerSavedLookup *saved;
+    CompilerGlobalSymbolView *owner, *return_class, *instance;
+    CompilerGlobalClassDetail *detail;
+    CompilerType *type;
+    int index;
+    if (symbol->kind != 7 && symbol->kind != 8) return input;
+    frontend_data.compiler_flags = (frontend_data.compiler_flags & ~0x01000000U) | 0x40000300;
+    frontend_data.compiler_mode_flags &= ~2U;
+    frontend_bss.declaration_nesting = 1;
+    unit = frontend_data.translation_unit;
+    arena = &frontend_bss.arenas[8];
+    saved = (CompilerSavedLookup *)arena->cursor;
+    arena->cursor += 36;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    if (saved) saved = saved->Initialize(unit, unit->saved_lookup, 0);
+    unit->saved_lookup = saved;
+    if (symbol->declaration_qualifiers) {
+        index = (short)symbol->declaration_qualifiers;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        frontend_data.declaration_lookup_owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        frontend_data.translation_unit->SelectScopeSymbol(frontend_data.declaration_lookup_owner);
+        frontend_data.translation_unit->MarkDefinitionScopes();
+    }
+    symbol->definition_flags = (symbol->definition_flags & ~8U) | 4;
+    validate_function_declaration(input, 1);
+    symbol->attributes = (symbol->attributes & ~0x10) | 0x80;
+    if (symbol->linkage_flags & 1) {
+        type = get_function_return_type(symbol->type);
+        if (get_type_classification(type) & 0x80) {
+            index = (short)type->auxiliary;
+            if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            return_class = (CompilerGlobalSymbolView *)frontend_data.frontend_pointer_table->items[index];
+        } else return_class = NULL;
+        detail = return_class->class_detail;
+        if ((detail->completion_flags & 1) && !(detail->template_flags & 1) &&
+            !(return_class->definition_flags & 4) && !(detail->completion_flags & 4)) {
+            index = frontend_data.declaration_context_index;
+            if (index >= 0) {
+                if (index >= 16) { __asm { int 3 } }
+                if (frontend_bss.class_scope_rows[index].symbol->name == return_class->name)
+                    goto return_class_ready;
+            }
+            if (!(return_class->scope_flags & 4) && !(frontend_data.source_mode_flags & 0x200020)) {
+                instance = (CompilerGlobalSymbolView *)instantiate_declaration_class((CompilerSymbol *)return_class);
+                if (instance->class_detail->completion_flags & 8)
+                    merge_declaration_classes((CompilerSymbol *)instance, (CompilerSymbol *)return_class);
+            }
+        }
+return_class_ready:
+        if (!(return_class->definition_flags & 4)) compiler_warning(0x1b, return_class);
+        frontend_bss.function_return_class = qualify_type((CompilerSymbol *)return_class, 0, 0);
+        append_implicit_parameter(0, &frontend_bss.current_parameters,
+            frontend_data.builtin_names.return_udt, frontend_bss.function_return_class);
+    }
+    if (symbol->type_flags & 4) {
+        if (symbol->type_flags & 0x10) {
+            index = (short)symbol->declaration_qualifiers;
+            if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            owner = (CompilerGlobalSymbolView *)frontend_data.frontend_pointer_table->items[index];
+            if (owner->class_detail->context_flags & 0x10)
+                append_implicit_parameter(1, &frontend_bss.current_parameters,
+                    frontend_data.builtin_names.initialize_virtual_bases, frontend_data.builtin_types.type_4063_first);
+        }
+        if (symbol->builtin_flags & 1)
+            append_implicit_parameter(0, &frontend_bss.current_parameters,
+                frontend_data.builtin_names.this_parameter, symbol->type->shape->payload.function->type);
+        if (symbol->type_flags & 0x70) frontend_data.compiler_flags |= 0x01000000;
+        else frontend_data.compiler_flags &= ~0x01000000U;
+    }
+    if (frontend_data.default_code_segment) set_function_segment(input, frontend_data.default_code_segment);
+    frontend_bss.current_function = prepare_function_definition(input);
+    frontend_bss.active_parameters = frontend_bss.current_parameters;
+    frontend_bss.active_parameter_kind = frontend_bss.current_parameter_kind;
+    --frontend_bss.declaration_nesting;
+    if (frontend_bss.parser_context_depth >= 60) { __asm { int 3 } }
+    frontend_bss.declaration_controls[frontend_bss.parser_context_depth].flags &= ~3;
+    return input;
+}
+
+void RECON_THISCALL CompilerTranslationUnit::SelectScopeSymbol(CompilerSymbol *symbol)
+{
+    /* The original reloads the active TU for either dispatch; its incoming
+     * receiver is not used as the called method's receiver. */
+    if (symbol->kind == 15) return;
+    if (symbol->kind == 4) frontend_data.translation_unit->SelectClassSymbol(symbol);
+    else if (symbol->kind == 23) frontend_data.translation_unit->SelectNamespaceSymbol(symbol);
+}
+
+void RECON_THISCALL CompilerTranslationUnit::SelectClassSymbol(CompilerSymbol *symbol)
+{
+    CompilerSymbol *enclosing = NULL;
+    int index;
+    if (!current->level && CurrentDeclarationOwner() == symbol) return;
+    if (current->level == 0xff && ((CompilerClassScope *)current)->symbol == symbol) return;
+    if (symbol->declaration_qualifiers) {
+        index = (short)symbol->declaration_qualifiers;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        enclosing = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        SelectScopeSymbol(enclosing);
+    }
+    if (symbol->kind == 7 || symbol->kind == 8 || symbol->kind == 6) return;
+    EnterClassScope(symbol, ((CompilerNamedSymbol *)symbol)->link.name, enclosing == NULL);
+}
+
+void RECON_THISCALL CompilerTranslationUnit::EnterClassScope(CompilerSymbol *symbol,
+        CompilerNameEntry *name, unsigned outermost)
+{
+    int forced = 0, index;
+    CompilerScopeTable *scope;
+    if (!symbol) return;
+    if (symbol->kind == 15) {
+        CompilerClassMemberSymbol *member = (CompilerClassMemberSymbol *)symbol;
+        if (member->flags & 2) return;
+        index = member->owner_index;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        symbol = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        forced = 1;
+    } else if (!is_scope_declaration(symbol)) return;
+    scope = SetEnclosingClass(symbol, outermost ? 0xfc : 0xfe);
+    if (scope && (forced || ((CompilerNamedSymbol *)symbol)->link.name == name))
+        ((CompilerClassScope *)scope)->reset_value = 1;
+}
+
+void RECON_THISCALL CompilerTranslationUnit::MarkDefinitionScopes(void)
+{
+    CompilerScopeTable *scope = current;
+    unsigned first = 1;
+    while (scope != root) {
+        if (scope->level == 0xfd) break;
+        if (scope->level >= 0xfb) {
+            ((CompilerClassScope *)scope)->reset_value = first;
+            first = 0;
+            scope->level = 0xff;
+        }
+        scope = scope->next;
+    }
+}
+extern "C" CompilerSymbol *__cdecl make_parameter_symbol(CompilerNameEntry *, CompilerType *);
+extern "C" CompilerSymbol *__cdecl make_parameter_sentinel(void);
+extern "C" CompilerSymbol *__cdecl append_implicit_parameter(unsigned append,
+        CompilerParameterSet **parameters, CompilerNameEntry *name, CompilerType *type)
+{
+    CompilerSymbol *symbol = make_parameter_symbol(name, type);
+    CompilerParameterSet *set;
+    CompilerSymbolLink *link;
+    CompilerArena *arena;
+    CompilerPool *pool;
+    BYTE *memory;
+    unsigned arena_index;
+    if (!*parameters) {
+        arena_index = (frontend_data.declaration_context_index < 0) + 3;
+        if (!arena_index && frontend_data.free_parameter_sets) {
+            set = frontend_data.free_parameter_sets;
+            frontend_data.free_parameter_sets = set->next_free;
+            set->arena_index = 0;
+            set->head = set->tail = NULL;
+        } else {
+            if (arena_index) {
+                arena = &frontend_bss.arenas[arena_index];
+                memory = arena->cursor;
+                arena->cursor += 12;
+                if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+            } else {
+                pool = &frontend_bss.pools[8]; /* actual c0b00 */
+                if (pool->remaining < 12) pool->Refill(12);
+                memory = pool->cursor;
+                pool->cursor += 12;
+                pool->remaining -= 12;
+            }
+            set = (CompilerParameterSet *)memory;
+            if (set) {
+                set->arena_index = arena_index;
+                set->head = set->tail = NULL;
+            }
+        }
+        *parameters = set;
+    }
+    set = *parameters;
+    link = &((CompilerNamedSymbol *)symbol)->link;
+    if (!append) {
+        if (link) {
+            link->name = link->name;
+            link->next = set->head;
+            ((CompilerParameterSymbol *)symbol)->previous_parameter = NULL;
+        }
+        if (!set->head) set->head = set->tail = link;
+        else {
+            if (!frontend_data.parameter_sentinel)
+                frontend_data.parameter_sentinel = make_parameter_sentinel();
+            if ((CompilerSymbol *)((BYTE *)set->head - 8) == frontend_data.parameter_sentinel)
+                set->head = set->tail = link;
+            else {
+                ((CompilerParameterSymbol *)((BYTE *)set->head - 8))->previous_parameter = link;
+                set->head = link;
+            }
+        }
+    } else {
+        if (link) {
+            link->name = link->name;
+            link->next = NULL;
+            ((CompilerParameterSymbol *)symbol)->previous_parameter = set->tail;
+        }
+        if (!set->tail) set->head = set->tail = link;
+        else {
+            if (!frontend_data.parameter_sentinel)
+                frontend_data.parameter_sentinel = make_parameter_sentinel();
+            if ((CompilerSymbol *)((BYTE *)set->tail - 8) == frontend_data.parameter_sentinel)
+                set->head = set->tail = link;
+            else {
+                set->tail->next = link;
+                set->tail = link;
+            }
+        }
+    }
+    return symbol;
+}
 extern "C" void __cdecl reset_function_reference_counter(void); /*4128*/
 extern "C" void __cdecl reset_function_locations(void); /*4133*/
 extern "C" CompilerSymbol *__cdecl make_unnamed_function(void); /*47e24*/
@@ -311,7 +532,7 @@ extern "C" void __cdecl reset_function_locations(void)
 }
 extern "C" CompilerSymbol *__cdecl make_unnamed_function(void) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl recover_function_declaration(void) { __asm { int 3 } }
-extern "C" ParserTokenView *__cdecl current_declaration_lookahead(void) { __asm { int 3 } return NULL; }
+extern "C" ParserTokenView *__cdecl current_declaration_lookahead(void) { return frontend_bss.parser_lookahead; }
 extern "C" void __cdecl set_function_segment(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } }
 
 extern "C" {
@@ -386,10 +607,12 @@ extern "C" void __cdecl process_external_initializer(void)
 }
 extern "C" {
 void __cdecl initialize_function_code(unsigned); /*4417*/
-CompilerExpression *__cdecl make_implicit_this_expression(unsigned); /*21862*/
+CompilerExpression *__cdecl make_implicit_this_expression(CompilerSymbol *); /*21862*/
+int __cdecl can_reference_symbol(CompilerSymbol *);
 CompilerExpression *__cdecl make_ir_binary_node(unsigned, CompilerExpression *, CompilerExpression *); /*48df*/
 void __cdecl emit_ir_expression(CompilerExpression *); /*48fb*/
 void __cdecl emit_parameter_declaration(CompilerSymbol *); /*218fd*/
+CompilerWorkLink *__cdecl prepend_work_link(CompilerWorkLink **, unsigned);
 }
 extern "C" void __cdecl begin_function_output(void)
 {
@@ -471,13 +694,51 @@ extern "C" void __cdecl initialize_function_code(unsigned mode)
     }
 }
 void RECON_THISCALL OutputBuffer::FlushAlternate(void) { __asm { int 3 } }
-extern "C" CompilerExpression *__cdecl make_implicit_this_expression(unsigned) { __asm { int 3 } return NULL; }
+/* 21862..218fd, 6518d..651ff. Hidden return parameters can precede the
+ * real this parameter; its existing name identity distinguishes it. */
+extern "C" CompilerExpression *__cdecl make_implicit_this_expression(CompilerSymbol *parameter)
+{
+    if (!parameter) {
+        CompilerParameterSet *parameters = frontend_bss.active_parameters;
+        if (parameters) {
+            CompilerSymbolLink *link = parameters->head;
+            parameter = (CompilerSymbol *)((BYTE *)link - 8);
+            if (((CompilerTypedSymbol *)parameter)->type == frontend_data.builtin_types.type_0080) {
+                link = link->next;
+                parameter = link ? (CompilerSymbol *)((BYTE *)link - 8) : NULL;
+            }
+            if (parameter && ((CompilerNamedSymbol *)parameter)->link.name !=
+                frontend_data.builtin_names.this_parameter) parameter = NULL;
+        }
+        if (!parameter) {
+            CompilerIrSymbol *function = (CompilerIrSymbol *)frontend_bss.current_function;
+            if (!(function->type_flags & 4)) compiler_warning(0x2a1, function);
+            else compiler_warning((function->storage_class & 7) == 3 ? 0x29f : 0x2a0, function);
+            return NULL;
+        }
+    }
+    CompilerExpression *expression = make_unary_expression(0xa6, symbol_expression(parameter, 0));
+    CompilerType *type = ((CompilerIrSymbol *)frontend_bss.current_function)->type;
+    expression->type = type->shape->payload.function->type;
+    if (!can_reference_symbol(parameter)) return NULL;
+    expression->flags |= 0x20;
+    return expression;
+}
 extern "C" CompilerExpression *__cdecl make_ir_binary_node(unsigned code,
     CompilerExpression *first, CompilerExpression *second)
 {
     return make_binary_node(code, first, second, first->type);
 }
-extern "C" void __cdecl emit_parameter_declaration(CompilerSymbol *) { __asm { int 3 } }
+/* 218fd..2194d: output the parameter, then push its symbol/level pair
+ * onto the existing alternating block-output work stack. */
+extern "C" void __cdecl emit_parameter_declaration(CompilerSymbol *symbol)
+{
+    write_ir_record(0x2a, symbol_expression(symbol, 0));
+    prepend_work_link(&frontend_bss.block_output_entries, 4);
+    frontend_bss.block_output_entries->value.symbol = symbol;
+    prepend_work_link(&frontend_bss.block_output_entries, 4);
+    frontend_bss.block_output_entries->value.level = 1;
+}
 extern "C" int __cdecl initialize_debug_function_output(unsigned, unsigned) { __asm { int 3 } return 0; }
 extern "C" void __cdecl initialize_function_browser_output(void) { __asm { int 3 } }
 extern "C" unsigned __cdecl function_parameter_bytes(CompilerParameterSet *) { __asm { int 3 } return 0; }
@@ -884,7 +1145,41 @@ CompilerType *RECON_THISCALL CompilerType::WithCallingConvention(unsigned) { __a
 extern "C" CompilerDeclarationMetadata *__cdecl get_declaration_metadata(CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" CompilerFunctionContext *__cdecl get_declaration_function_context(CompilerSymbol *) { __asm { int 3 } return NULL; }
 extern "C" CompilerDeclarationAttachment *__cdecl get_declaration_attachment(CompilerSymbol *) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl check_qualified_declaration(CompilerSymbol *) { __asm { int 3 } }
+extern "C" int __cdecl can_assign_bound_member(CompilerSymbol *);
+extern "C" const char *__cdecl access_diagnostic_kind(CompilerSymbol *);
+extern "C" const char *__cdecl access_diagnostic_name(BYTE);
+extern "C" void __cdecl check_qualified_declaration(CompilerSymbol *input)
+{
+    const char *kind;
+    const char *access;
+    if (!input || (frontend_data.source_mode_flags & 0x300000)) return;
+    if (can_assign_bound_member(input)) return;
+    kind = access_diagnostic_kind(frontend_bss.access_diagnostic_symbol);
+    if (!frontend_bss.access_diagnostic_owner) {
+        if (frontend_data.compiler_mode_flags & 1)
+            report_language_diagnostic(3, 0xf1, frontend_bss.access_diagnostic_symbol);
+        else compiler_warning(0xf1, frontend_bss.access_diagnostic_symbol);
+        return;
+    }
+    access = access_diagnostic_name(frontend_bss.access_diagnostic_code);
+    if (!frontend_bss.access_diagnostic_base) {
+        unsigned diagnostic = 0xf8 + (frontend_bss.access_diagnostic_ambiguous != 0);
+        if (frontend_data.compiler_mode_flags & 1)
+            report_language_diagnostic(3, diagnostic, frontend_bss.access_diagnostic_symbol,
+                access, kind, frontend_bss.access_diagnostic_owner);
+        else compiler_warning(diagnostic, frontend_bss.access_diagnostic_symbol,
+                access, kind, frontend_bss.access_diagnostic_owner);
+    } else {
+        access = access_diagnostic_name(frontend_bss.access_diagnostic_base_code);
+        if (frontend_data.compiler_mode_flags & 1)
+            report_language_diagnostic(3, 0xf7, frontend_bss.access_diagnostic_symbol,
+                frontend_bss.access_diagnostic_owner, access, frontend_bss.access_diagnostic_base);
+        else compiler_warning(0xf7, frontend_bss.access_diagnostic_symbol,
+                frontend_bss.access_diagnostic_owner, access, frontend_bss.access_diagnostic_base);
+    }
+}
+extern "C" const char *__cdecl access_diagnostic_kind(CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" const char *__cdecl access_diagnostic_name(BYTE) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl validate_declaration_type(CompilerSymbol *input, int is_typedef)
 {
     CompilerGlobalSymbolView *symbol = (CompilerGlobalSymbolView *)input;
@@ -896,7 +1191,7 @@ extern "C" void __cdecl validate_declaration_type(CompilerSymbol *input, int is_
           (input->kind == 3 && (!shape || (shape->flags & 0x77) == 4 ||
                               (shape->flags & 0x77) == 1 || (shape->flags & 0x77) == 2 ||
                               (shape->flags & 0x77) == 3)) ||
-          (input->kind == 11 && shape && ((shape->flags & 0x77) == 0x40 ||
+          (input->kind == 11 && (!shape || (shape->flags & 0x77) == 0x40 ||
                                         (shape->flags & 0x77) == 1)) ||
           (input->kind == 12 && (!shape || (shape->flags & 0x77) == 1 ||
                                (shape->flags & 0x77) == 3 || (shape->flags & 0x77) == 0x40))))
@@ -1000,9 +1295,7 @@ extern "C" CompilerSymbol *__cdecl declare_builtin(CompilerDeclaration *declarat
     /* A merged class consumes only its common header before returning.
      * The other reached variants retain their original owner. */
     if (!(symbol && symbol->kind == 4) &&
-        (symbol != (CompilerGlobalSymbolView *)input || !(symbol->kind == 7 ||
-        (symbol->kind == 10 && (symbol->storage_class & 7) == 7 &&
-         (symbol->definition_flags & 0x10)))))
+        (symbol != (CompilerGlobalSymbolView *)input || !(symbol->kind == 7 || symbol->kind == 10)))
         recon_unsupported("symbol publication: unmodeled merged declaration");
 #endif
     if (special_scope) frontend_data.translation_unit->SetScopeMode(1);
@@ -1110,7 +1403,12 @@ extern "C" CompilerSymbol *__cdecl check_symbol_definition(CompilerSymbol *input
     if ((detail->generated_member_flags & 0x1a) == 0x1a && (detail->declaration_flags & 1)) return NULL;
     return (CompilerSymbol *)owner;
 }
-extern "C" int __cdecl is_function_specialization(CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl is_function_specialization(CompilerSymbol *input)
+{
+    if (!input) return 0;
+    CompilerTypeShape *shape = ((CompilerIrSymbol *)input)->type->shape;
+    return shape && (shape->flags & 0x40) ? 1 : 0;
+}
 extern "C" void __cdecl record_local_declaration(CompilerSymbol *) { __asm { int 3 } }
 extern "C" CompilerTypeShape *__cdecl strip_declaration_shape(CompilerTypeShape *);
 extern "C" void __cdecl validate_function_declaration(CompilerSymbol *input, unsigned check_member)
@@ -1130,7 +1428,7 @@ extern "C" void __cdecl validate_function_declaration(CompilerSymbol *input, uns
     if (operation == 1) return;
     if (check_member && member) return;
 #ifdef RECON_NATIVE_TEST
-    if (operation != 0x34 && operation != 0x8c && operation != 0x8d)
+    if (operation != 0x34 && operation != 0x51 && operation != 0x8c && operation != 0x8d)
         recon_unsupported("function validation: other operator-specific owners remain unmodeled");
 #endif
     switch (operation) {
@@ -1274,9 +1572,6 @@ extern "C" CompilerTypeShape *__cdecl strip_declaration_shape(CompilerTypeShape 
     return shape && (shape->flags & 0x40) ? shape->base : shape;
 }
 
-#ifndef RECON_NATIVE_TEST
-DeclarationReferenceDefaults declaration_reference_defaults;
-#endif
 extern "C" {
 void __cdecl apply_declaration_reference(CompilerSymbol *, CompilerSymbol *);
 void __cdecl check_global_declaration(CompilerSymbol *);
@@ -1289,10 +1584,13 @@ extern "C" void __cdecl emit_symbol_definition(CompilerSymbol *input)
     CompilerType *type;
     unsigned classification;
     if (symbol->definition_flags & 0x10) return;
-#ifdef RECON_NATIVE_TEST
-    recon_unsupported("symbol emission: unmodeled non-typedef domain");
-#endif
     classification = symbol->storage_class & 7;
+#ifdef RECON_NATIVE_TEST
+    /* The reached variable path uses only the common header before its
+     * calling-convention query. Wider reference owners remain pending. */
+    if (symbol->kind != 10 || classification < 1 || classification > 3)
+        recon_unsupported("symbol emission: unmodeled non-typedef domain");
+#endif
     switch (classification) {
     case 1:
         if (!(symbol->attributes & 4)) return;
@@ -1333,9 +1631,123 @@ extern "C" void __cdecl emit_symbol_definition(CompilerSymbol *input)
     }
     compiler_warning(0x85, input);
 }
-extern "C" void __cdecl apply_declaration_reference(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } }
-extern "C" void __cdecl check_global_declaration(CompilerSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl apply_declaration_reference(CompilerSymbol *input, CompilerSymbol *reference)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    if (reference) {
+        if (!(symbol->reference_flags & 1) || (symbol->reference_flags & 2)) {
+            set_declaration_reference(input, reference);
+            symbol->reference_flags |= 2;
+        }
+    } else if (symbol->reference_flags & 2) {
+        symbol->reference_flags &= ~1;
+    }
+}
+extern "C" int __cdecl check_global_type_completion(CompilerType *);
+extern "C" void __cdecl defer_global_declaration(CompilerSymbol *);
+extern "C" void __cdecl check_global_declaration(CompilerSymbol *input)
+{
+    if (frontend_bss.error_count || (input->scope_flags & 4) ||
+        frontend_bss.declaration_scope_mode) return;
+    if (!check_symbol_definition(input)) return;
+    CompilerType *type = ((CompilerIrSymbol *)input)->type;
+    if (check_global_type_completion(type)) {
+        CompilerGlobalSymbolView *owner = DECL_OWNER(type);
+        if (!(owner->class_detail->generated_member_flags & 0x10))
+            defer_global_declaration(input);
+    } else {
+        compiler_warning(0x106, input);
+        input->scope_flags |= 4;
+    }
+}
+extern "C" int __cdecl check_global_type_completion(CompilerType *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl defer_global_declaration(CompilerSymbol *) { __asm { int 3 } }
 extern "C" int __cdecl check_type_declaration_attribute(CompilerType *) { __asm { int 3 } return 0; }
+extern "C" CompilerSymbol *__cdecl prepare_pending_initializer(CompilerSymbol *);
+extern "C" void __cdecl record_initializer_context(CompilerSymbol *);
+extern "C" CompilerSymbol *__cdecl prepare_pending_initializer(CompilerSymbol *input)
+{
+    frontend_bss.initializer_pending_state = 0;
+    frontend_data.compiler_flags &= ~0x40000U;
+    if (frontend_bss.declaration_scope_mode &&
+        (((CompilerIrSymbol *)input)->storage_class & 7) >= 4 &&
+        (((CompilerIrSymbol *)input)->storage_class & 7) <= 6)
+        frontend_data.compiler_flags |= 0x100000;
+    else frontend_data.compiler_flags &= ~0x100000U;
+    record_initializer_context(input);
+    frontend_bss.initializing_symbol = input;
+    frontend_bss.initializer_value_state = 0;
+    frontend_data.initializer_reset_values[0] = 0;
+    frontend_data.initializer_reset_values[1] = 0;
+    frontend_data.initializer_reset_values[2] = 0;
+    return input;
+}
+extern "C" CompilerWorkLink *__cdecl prepend_work_link(CompilerWorkLink **, unsigned);
+extern "C" void __cdecl record_initializer_context(CompilerSymbol *input)
+{
+    ++frontend_data.initializer_context_count;
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    CompilerType *type = symbol->type;
+    if (!type->shape || (type->shape->flags & 0x77) != 2) return;
+    unsigned storage = symbol->storage_class & 7;
+    if (storage >= 1 && storage <= 3) return;
+    if (!DECL_OWNER(type)) return;
+    frontend_bss.initializer_context.symbol = input;
+    frontend_bss.initializer_context.state_index = frontend_data.parameter_work_index;
+    CompilerWorkLink *link = prepend_work_link(&frontend_bss.initializer_context.head, 4);
+    link->value.kind = frontend_data.parameter_work_kind;
+    frontend_data.parameter_work_kind = 7;
+}
+/* 165aa..165db: allocate one eight-byte link, retaining its untouched payload. */
+extern "C" CompilerWorkLink *__cdecl prepend_work_link(CompilerWorkLink **head, unsigned index)
+{
+    if (index >= 9) { __asm { int 3 } }
+    CompilerArena *arena = &frontend_bss.arenas[index];
+    CompilerWorkLink *link = (CompilerWorkLink *)arena->cursor;
+    arena->cursor += 8;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    link->next = *head;
+    *head = link;
+    return link;
+}
+extern "C" CompilerSymbol *__cdecl prepare_symbol_initializer(CompilerSymbol *input)
+{
+    if (frontend_bss.suppress_parser_codegen) return input;
+    if (!input) return NULL;
+    if (input->scope_flags & 4) return input;
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    unsigned storage = symbol->storage_class & 7;
+    if (storage == 7) {
+        compiler_warning(0x47, input);
+        return NULL;
+    }
+    if (storage == 1) {
+        if (frontend_bss.declaration_scope_mode) compiler_warning(0xcd, input);
+        symbol->storage_class = (symbol->storage_class & ~7) | 2;
+    }
+    if (symbol->member_flags & 8) frontend_data.source_mode_flags |= 0x800;
+    return prepare_pending_initializer(input);
+}
+extern "C" void __cdecl begin_symbol_initializer(CompilerSymbol *input)
+{
+    frontend_data.expression_target = input;
+    if (!input) {
+        frontend_data.expression_target_active = 0;
+        return;
+    }
+    int active = is_function_specialization(input);
+    frontend_data.expression_target_active = 1;
+    if (!active) frontend_data.expression_target_active = 0;
+}
+extern "C" void __cdecl initialize_symbol_value(CompilerSymbol *, CompilerExpression *);
+extern "C" void __cdecl initialize_symbol(CompilerSymbol *input, CompilerExpression *expression)
+{
+    initialize_symbol_value(input, expression);
+    if (frontend_data.source_mode_flags & 0x800) {
+        frontend_data.source_mode_flags &= ~0x800U;
+        input->attributes &= ~4;
+    }
+}
 void RECON_THISCALL CompilerTranslationUnit::SetScopeMode(unsigned mode)
 {
     BYTE level = current->level;
@@ -1785,7 +2197,9 @@ extern "C" CompilerSymbol *__cdecl merge_scoped_declaration(CompilerSymbol *prev
     unsigned kind = symbol->kind;
     if (frontend_data.compiler_mode_flags & 0x10000000) return NULL;
 #ifdef RECON_NATIVE_TEST
-    if (!((kind == 7 || kind == 8) || (!previous && kind == 11) ||
+    /* A first kind10 declaration consumes only its common header/type here;
+     * the calling-convention query retains the next pending method. */
+    if (!((kind == 7 || kind == 8) || (!previous && (kind == 11 || kind == 10 || kind == 5)) ||
         (!previous && kind == 4 && !(symbol->storage_class & 0x20)) ||
         (kind == 10 && (symbol->storage_class & 7) == 7 && !(symbol->storage_class & 0x20) &&
         ((!previous) ||
@@ -2173,8 +2587,8 @@ CompilerScopeMatch *RECON_THISCALL CompilerScopeLookup::MergeFunctionMatches(voi
 /* Existing extended scope owner. The current root has no next scope and
  * never reads this source-only tail; no32-byte root allocation is enlarged. */
 struct DeclarationOwnerScope : CompilerScope { CompilerSymbol *declaration_owner; /* original+20 */ };
-extern "C" CompilerTypeAlias *__cdecl initialize_type_aliases(void);
-extern "C" CompilerTypeAlias *__cdecl apply_type_aliases(CompilerTypeAlias *, CompilerSymbol *);
+extern "C" CompilerPointerArray *__cdecl initialize_type_aliases(void);
+extern "C" CompilerPointerArray *__cdecl apply_type_aliases(CompilerPointerArray *, CompilerSymbol *);
 extern "C" int __cdecl matches_scope_lookup_mode(CompilerSymbolLink *, unsigned);
 extern "C" CompilerSymbolLink *__cdecl resolve_scope_lookup_link(CompilerSymbolLink *);
 CompilerScopeLookup *RECON_THISCALL CompilerScope::Lookup(CompilerNameEntry *name,
@@ -2257,8 +2671,8 @@ CompilerScopeLookup *RECON_THISCALL CompilerScope::Lookup(CompilerNameEntry *nam
     result->head = result->tail = match;
     return result;
 }
-extern "C" CompilerTypeAlias *__cdecl initialize_type_aliases(void) { __asm { int 3 } return NULL; }
-extern "C" CompilerTypeAlias *__cdecl apply_type_aliases(CompilerTypeAlias *, CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" CompilerPointerArray *__cdecl initialize_type_aliases(void) { __asm { int 3 } return NULL; }
+extern "C" CompilerPointerArray *__cdecl apply_type_aliases(CompilerPointerArray *, CompilerSymbol *) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerTranslationUnit::ApplyNamespaceAliases(CompilerSymbol *) { __asm { int 3 } }
 CompilerScopeLookup *RECON_THISCALL CompilerAuxiliaryScope::Lookup(CompilerNameEntry *name,
     unsigned mode, unsigned *search_state)
@@ -2418,7 +2832,7 @@ CompilerScopeMatch *RECON_THISCALL CompilerTranslationUnit::LookupName(CompilerN
     return result;
 }
 extern "C" CompilerSymbolBinding *__cdecl lookup_class_binding(CompilerSymbol *, CompilerNameEntry *, unsigned);
-extern "C" CompilerSymbolBinding *__cdecl make_symbol_binding(void *, void *, CompilerSymbol *);
+extern "C" CompilerSymbolBinding *__cdecl make_symbol_binding(CompilerSymbolBinding *, CompilerSymbolBindingOwner *, CompilerSymbol *);
 extern "C" const char *__cdecl format_encoded_symbol_name(void *, int);
 CompilerSymbol *RECON_THISCALL CompilerTranslationUnit::LookupScopeName(CompilerSymbol *input,
     CompilerNameEntry *name, unsigned mode, unsigned diagnostic)
@@ -2588,14 +3002,17 @@ make_reference:
     if (diagnosed) result->scope_flags |= 4;
     return result;
 }
-/* The search context is a genuine five-DWORD local object. Its two zero
- * stores are retained without inferring the later collector's meanings. */
+/* The five-DWORD search context holds two initially empty inherited-class
+ * sets and the caller's collection of matching declarations. */
 struct CompilerClassBindingSearch {
     CompilerNameEntry *name;
-    unsigned mode, reset_08, reset_0c;
+    unsigned mode;
+    CompilerHashTable *seen_classes, *secondary_classes;
     CompilerVector *matches;
 };
 typedef char CompilerClassBindingSearch_layout[(sizeof(CompilerClassBindingSearch) == 20 &&
+    offsetof(CompilerClassBindingSearch, seen_classes) == 8 &&
+    offsetof(CompilerClassBindingSearch, secondary_classes) == 12 &&
     offsetof(CompilerClassBindingSearch, matches) == 16) ? 1 : -1];
 extern "C" void __cdecl select_temporary_symbol_arena(unsigned);
 extern "C" void __cdecl restore_temporary_symbol_arena(void);
@@ -2613,7 +3030,7 @@ extern "C" CompilerSymbolBinding *__cdecl lookup_class_binding(CompilerSymbol *s
             (frontend_data.compiler_mode_flags & 0x40000000) ||
             (frontend_data.source_mode_flags & 0x10) ? 3 : 5);
         search.name = name; search.mode = mode;
-        search.reset_08 = search.reset_0c = 0;
+        search.seen_classes = search.secondary_classes = NULL;
         search.matches = new_option_vector(1, 5);
         binding = collect_class_bindings(make_symbol_binding(NULL, NULL, symbol), &search);
         finish_class_bindings(binding, search.matches);
@@ -2629,8 +3046,143 @@ extern "C" CompilerSymbolBinding *__cdecl lookup_class_binding(CompilerSymbol *s
     }
     return NULL;
 }
-extern "C" CompilerSymbolBinding *__cdecl collect_class_bindings(CompilerSymbolBinding *, CompilerClassBindingSearch *) { __asm { int 3 } return NULL; }
-extern "C" void __cdecl finish_class_bindings(CompilerSymbolBinding *, CompilerVector *) { __asm { int 3 } }
+extern "C" void *__cdecl lookup_hash_value(CompilerHashTable *, const void *);
+extern "C" int __cdecl accept_class_binding(CompilerSymbol *, CompilerVector *);
+extern "C" CompilerHashTable *__cdecl create_hash_table(unsigned, unsigned, unsigned, unsigned, int, int);
+extern "C" void __cdecl append_option_vector(CompilerVector *, void *);
+/* 10e8d..1128b, 5a509..5a56e. Collect the class's own declaration,
+ * then search its inherited class links without revisiting virtual bases. */
+extern "C" CompilerSymbolBinding *__cdecl collect_class_bindings(
+    CompilerSymbolBinding *binding, CompilerClassBindingSearch *search)
+{
+    CompilerSymbol *input = binding->owner->symbol;
+    CompilerGlobalSymbolView *owner = (CompilerGlobalSymbolView *)input;
+    CompilerSymbolBinding *result = NULL, *found;
+    CompilerSymbolLink *entry = NULL;
+    CompilerVector *additional;
+    short index;
+    if ((input->definition_flags & 0x10) && (((CompilerIrSymbol *)input)->type->flags & 0x200)) {
+        CompilerSymbol *value = (CompilerSymbol *)lookup_hash_value(owner->lookup_table, search->name);
+        return value ? make_symbol_binding(NULL, binding->owner, value) : NULL;
+    }
+    if (input->kind != 4 && input->kind != 23) {
+        CompilerClassMemberSymbol *member = (CompilerClassMemberSymbol *)input;
+        if (member->flags & 2) return NULL;
+        int slot = member->owner_index;
+        CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+        if (slot < 0 || slot >= table->count) { __asm { int 3 } }
+        input = (CompilerSymbol *)table->items[slot];
+        owner = (CompilerGlobalSymbolView *)input;
+    }
+    if (frontend_data.options.incremental_rebuild &&
+        ((ClassDependencyRecordsView *)frontend_data.dependency->records)->record_members)
+        frontend_data.dependency->LookupClassName(input, search->name);
+    if (owner->class_detail->member_index) entry = owner->class_detail->member_names.Find(search->name);
+    else {
+        CompilerClassMemberIterator members;
+        members.Initialize(&((CompilerNamedSymbol *)input)->link, 0);
+        while (members.Next()) {
+            if (members.entry->name == search->name) { entry = members.entry; break; }
+        }
+    }
+    if (entry) {
+        CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        if (matches_scope_lookup_mode(entry, search->mode) && accept_class_binding(symbol, search->matches)) {
+            append_option_vector(search->matches, symbol);
+            additional = owner->class_detail->additional_members;
+            index = 0;
+            while (additional && index < additional->count) {
+                CompilerSymbol *related = ((InheritedMemberGroup *)additional->items[index++])->symbol;
+                if (!search->seen_classes) {
+                    search->seen_classes = create_hash_table(4, 5, 0, 0, 1, 1);
+                    search->secondary_classes = create_hash_table(4, 5, 0, 0, 1, 1);
+                }
+                insert_hash_entry(search->seen_classes, related, (void *)1);
+                insert_hash_entry(search->secondary_classes, related, (void *)1);
+            }
+            return make_symbol_binding(NULL, binding->owner, find_bound_declaration(symbol, NULL));
+        }
+    }
+    if (search->name == frontend_data.builtin_names.assignment_operator) return NULL;
+    if (!(input->definition_flags & 4) && (frontend_data.compiler_flags & 2)) return NULL;
+    CompilerKind4Symbol *class_owner = (CompilerKind4Symbol *)input;
+    CompilerClassMemberIterator bases;
+    bases.InitializeHead(class_owner->class_binding ? class_owner->class_binding->members : NULL);
+    bases.entry = NULL;
+    bases.current = bases.valid ? bases.chain : NULL;
+    bases.owner = &class_owner->link;
+    bases.mode = 4;
+    for (;;) {
+        entry = bases.current;
+        bases.entry = entry;
+        bases.current = bases.current && bases.current->next ? bases.current->next : NULL;
+        if (!entry) break;
+        CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)entry - 8);
+        if (symbol->kind == 3 && (entry->name == frontend_data.builtin_names.vbptr ||
+            entry->name == frontend_data.builtin_names.vfptr)) continue;
+        if (symbol->kind != 15) break;
+        CompilerClassMemberSymbol *base = (CompilerClassMemberSymbol *)symbol;
+        if ((frontend_data.source_mode_flags & 0x100000) && (base->flags & 2)) continue;
+        if (base->flags & 1) {
+            if (search->mode & 4) continue;
+            if (!search->seen_classes) {
+                search->seen_classes = create_hash_table(4, 5, 0, 0, 1, 1);
+                search->secondary_classes = create_hash_table(4, 5, 0, 0, 1, 1);
+            }
+            int slot = base->owner_index;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (slot < 0 || slot >= table->count) { __asm { int 3 } }
+            CompilerSymbol *target = (CompilerSymbol *)table->items[slot];
+            if (lookup_hash_value(search->seen_classes, target) == (void *)1) continue;
+            insert_hash_entry(search->seen_classes, target, (void *)1);
+        }
+        found = collect_class_bindings(make_symbol_binding(NULL, binding->owner, symbol), search);
+        if (found) {
+            if (!result) result = found;
+            else {
+                result->last->next = found->owner;
+                result->last = found->last;
+            }
+            if (search->mode & 8) return result;
+        }
+    }
+    return result;
+}
+extern "C" void *__cdecl lookup_hash_value(CompilerHashTable *, const void *) { __asm { int 3 } return NULL; }
+/* 1898f..18a15, 5e23c..5e26e. Virtual-base declarations collapse to
+ * one result; class-scope and deferred definitions reject repeated owners. */
+extern "C" int __cdecl accept_class_binding(CompilerSymbol *symbol, CompilerVector *matches)
+{
+    short index = 0;
+    if (symbol->kind == 15 && (((CompilerClassMemberSymbol *)symbol)->flags & 1)) {
+        while (matches && index < matches->count) {
+            CompilerSymbol *other = (CompilerSymbol *)matches->items[index++];
+            if (other->kind == 15 && (((CompilerClassMemberSymbol *)other)->flags & 1)) return 0;
+        }
+    } else if (is_class_scope_symbol(symbol) || (symbol->definition_flags & 0x10)) {
+        while (matches && index < matches->count)
+            if (matches->items[index++] == symbol) return 0;
+    }
+    return 1;
+}
+int RECON_THISCALL CompilerDependency::LookupClassName(CompilerSymbol *, CompilerNameEntry *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl is_shadowed_class_binding(CompilerSymbolBindingOwner *, CompilerVector *);
+/* 112e2..112fe, 5a583..5a5c7: unlink filtered alternatives and preserve
+ * the final surviving owner as the list's tail. */
+extern "C" void __cdecl finish_class_bindings(CompilerSymbolBinding *binding, CompilerVector *matches)
+{
+    if (!binding || binding->owner == binding->last || !matches) return;
+    CompilerSymbolBindingOwner **cursor = &binding->owner;
+    while (*cursor) {
+        if (is_shadowed_class_binding(*cursor, matches))
+            *cursor = (*cursor)->next;
+        else {
+            binding->last = *cursor;
+            cursor = &(*cursor)->next;
+        }
+    }
+}
+extern "C" int __cdecl is_shadowed_class_binding(CompilerSymbolBindingOwner *, CompilerVector *) { __asm { int 3 } return 0; }
 extern "C" void __cdecl record_class_name_reference(CompilerSymbol *, CompilerNameEntry *) { __asm { int 3 } }
 
 CompilerScopeLookup *RECON_THISCALL CompilerClassScope::Lookup(CompilerNameEntry *name,
@@ -2826,11 +3378,9 @@ extern "C" void __cdecl bind_type_declaration(CompilerFunctionType *function, Co
 extern "C" void __cdecl bind_parameter_declarations(CompilerParameterLink *link, unsigned count,
     CompilerFunctionType *function, unsigned index, CompilerSymbol *symbol)
 {
-#ifdef RECON_NATIVE_TEST
-    /* Actual current calls contain no named nodes. A later nonempty list
-     * must establish its value writer/owner before this predicate is used. */
-    if (count) recon_unsupported("parameter binding: unmodeled nonempty value list");
-#endif
+    /* The reached deferred-item payload is the existing expression-list
+     * node. Append writes its first operand at+10; this consumer tests only
+     * presence and follows the previous links established by the linker. */
     int missing = 0;
     while (count) {
         link = link->previous;
@@ -2994,7 +3544,15 @@ RECON_THISCALL CompilerMemberVariantIterator::CompilerMemberVariantIterator(Comp
         else chain = ((CompilerMemberGroupSymbol *)symbol)->variants;
     }
 }
-void RECON_THISCALL CompilerMemberVariantIterator::SetLink(CompilerSymbolLink *) { __asm { int 3 } }
+void RECON_THISCALL CompilerMemberVariantIterator::SetLink(CompilerSymbolLink *link)
+{
+    current = NULL;
+    source = link;
+    CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)link - 8);
+    if (symbol->kind == 7 || symbol->kind == 8 || symbol->kind == 6 || symbol->kind == 24)
+        chain = link;
+    else chain = ((CompilerMemberGroupSymbol *)symbol)->variants;
+}
 int RECON_THISCALL CompilerMemberVariantIterator::Next(void)
 {
     if (!source || !chain) return 0;
@@ -3056,8 +3614,21 @@ extern "C" void __cdecl process_declaration_specifiers(CompilerDeclaration *decl
     }
 }
 
-int RECON_THISCALL CompilerMemberVariantIterator::IsPrimary(void) { __asm { int 3 } return 0; }
-CompilerSymbol *RECON_THISCALL CompilerMemberVariantIterator::GetSymbol(void) { __asm { int 3 } return NULL; }
+int RECON_THISCALL CompilerMemberVariantIterator::IsPrimary(void)
+{
+    CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)current - 8);
+    if (symbol->kind == 24) {
+        CompilerAliasTarget *target = ((CompilerAliasSymbol *)symbol)->target;
+        if (target->selected) return 0;
+        symbol = target->symbol;
+    }
+    return (((CompilerRuntimeFunction *)symbol)->linkage_flags & 0x40) == 0;
+}
+CompilerSymbol *RECON_THISCALL CompilerMemberVariantIterator::GetSymbol(void)
+{
+    CompilerSymbol *symbol = (CompilerSymbol *)((BYTE *)current - 8);
+    return symbol->kind == 24 ? ((CompilerAliasSymbol *)symbol)->target->symbol : symbol;
+}
 
 int RECON_THISCALL CompilerAuxiliaryScope::HasBuckets(void)
 {
@@ -3490,7 +4061,7 @@ extern "C" void __cdecl emit_parameter_output(CompilerSymbol *input, unsigned fl
     expression = make_parameter_operation((CompilerSymbol *)owner, expression, 3, 1, 0);
     expression = make_parameter_statement(0, expression, (CompilerSymbol *)owner);
     emit_statement_expression(expression);
-    frame.source_state = frontend_bss.parameter_source_state;
+    frame.source_state = frontend_bss.initializer_context.source_state;
     frame.parameter_flags = (frame.parameter_flags & ~1U) | (flags & 1);
     frame.state_index = frontend_data.parameter_work_index;
     frame.active = 1;
@@ -3503,13 +4074,13 @@ extern "C" void __cdecl emit_parameter_output(CompilerSymbol *input, unsigned fl
     frontend_data.parameter_work_states[frontend_data.parameter_work_index].active = 1;
     push_expression_work(&frame, 32);
 }
-extern "C" CompilerExpression *__cdecl prepare_parameter_expression(CompilerExpression *, unsigned) { __asm { int 3 } return NULL; }
+
 extern "C" CompilerExpression *__cdecl make_parameter_operation(CompilerSymbol *, CompilerExpression *, unsigned, unsigned, unsigned) { __asm { int 3 } return NULL; }
 extern "C" CompilerExpression *__cdecl make_parameter_statement(unsigned, CompilerExpression *, CompilerSymbol *) { __asm { int 3 } return NULL; }
 
 extern "C" {
 void __cdecl begin_nested_block(void); /*51db*/
-void __cdecl emit_member_initializers(CompilerSymbol *, CompilerExpression *); /*2277c*/
+int __cdecl emit_member_initializers(CompilerSymbol *, CompilerExpression *); /*2277c*/
 void __cdecl emit_destructor_body(CompilerSymbol *); /*2306d*/
 void __cdecl emit_deleting_destructor_body(CompilerSymbol *); /*3eb4e*/
 void __cdecl emit_vector_deleting_destructor_body(CompilerSymbol *); /*b4174*/
@@ -3584,7 +4155,465 @@ extern "C" void __cdecl begin_nested_block(void)
         frontend_data.saved_expression_work_nodes = NULL;
     }
 }
-extern "C" void __cdecl emit_member_initializers(CompilerSymbol *, CompilerExpression *) { __asm { int 3 } }
+extern "C" {
+unsigned __cdecl constructor_this_qualifiers(CompilerSymbol *); /*22add*/
+void __cdecl begin_member_initializers(void); /*22af6*/
+void __cdecl prepare_virtual_base_initializers(CompilerSymbol *); /*22554*/
+void __cdecl finish_member_initializers(void); /*22c99*/
+void __cdecl emit_constructor_cleanup(CompilerSymbol *, unsigned); /*22659*/
+CompilerExpression *__cdecl take_member_initializer(CompilerExpression **, CompilerSymbol *); /*22b3f*/
+int __cdecl query_initializer_mode(void); /*1b288*/
+void __cdecl set_initializer_mode(unsigned); /*23333*/
+void __cdecl emit_virtual_base_initializers(CompilerSymbol *, CompilerExpression **, unsigned); /*4782d*/
+CompilerExpression *__cdecl make_base_initializer(CompilerSymbol *, unsigned, int); /*22db4*/
+int __cdecl initialize_member_expression(int, CompilerType *, CompilerExpression *, CompilerSymbol *); /*3235b*/
+void __cdecl emit_copy_member_initializer(CompilerSymbol *, CompilerSymbol *, CompilerExpression *, int, unsigned, unsigned); /*89a9b*/
+void __cdecl emit_special_member_initializer(CompilerSymbol *, int, CompilerExpression *, unsigned); /*899d6*/
+CompilerExpression *__cdecl make_return_object_call(unsigned, CompilerSymbol *, CompilerExpression *, CompilerExpression *, unsigned, unsigned, unsigned);
+}
+
+/* 2277c..22add, 65c83..65e08. Explicit initializers are removed from
+ * their expression chain as the real class/member order is traversed. */
+extern "C" int __cdecl emit_member_initializers(CompilerSymbol *input,
+    CompilerExpression *initializers)
+{
+    CompilerGlobalSymbolView *owner = (CompilerGlobalSymbolView *)input;
+    unsigned qualifiers = constructor_this_qualifiers(frontend_bss.current_function);
+    CompilerSymbolLink *link;
+    CompilerGlobalSymbolView *member, *scope;
+    CompilerExpression *arguments, *target, *operation;
+    CompilerType *type;
+    CompilerTypeShape *shape;
+    CompilerPointerArray *table;
+    int offset, is_member, index, missing, mode;
+    begin_member_initializers();
+    prepare_virtual_base_initializers(input);
+    if (owner->class_detail->context_flags & 0x10) {
+        mode = query_initializer_mode();
+        if (!mode) set_initializer_mode(1);
+        emit_virtual_base_initializers(input, &initializers, qualifiers);
+        if (!mode) set_initializer_mode(0);
+    }
+    CompilerClassBinding *binding = ((CompilerKind4Symbol *)input)->class_binding;
+    for (link = binding ? binding->members : NULL; link; link = link->next) {
+        member = (CompilerGlobalSymbolView *)((BYTE *)link - 8);
+        if (member->kind == 17 || member->kind == 8 || (member->reference_flags & 0x80) ||
+            member->name == frontend_data.builtin_names.alignment_member ||
+            is_class_scope_symbol((CompilerSymbol *)member) || (member->definition_flags & 0x10) ||
+            member->kind == 5 || member->kind == 24) continue;
+        if (member->kind == 15) {
+            CompilerClassMemberSymbol *base = (CompilerClassMemberSymbol *)member;
+            if (base->flags & 1) continue;
+            index = base->owner_index;
+            table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            scope = (CompilerGlobalSymbolView *)table->items[index];
+            offset = base->base_offset;
+            is_member = 0;
+        } else {
+            scope = enclosing_declaration_class((CompilerSymbol *)member);
+            offset = member->member_offset;
+            if (scope) is_member = 1;
+        }
+        arguments = take_member_initializer(&initializers, (CompilerSymbol *)member);
+        if (arguments) {
+            if (member->kind == 3 && member->type->shape &&
+                (member->type->shape->flags & 0x77) == 2 &&
+                (!scope || (scope->type_flags & 0x10))) {
+                CompilerRuntimeFunction *function = (CompilerRuntimeFunction *)frontend_bss.current_function;
+                if (!((function->builtin_flags & 0x20) && (function->scope_flags & 1)))
+                    compiler_warning(0x218, input, member);
+                else if (scope && (member->definition_flags & 0x80))
+                    emit_copy_member_initializer((CompilerSymbol *)member, (CompilerSymbol *)scope,
+                        arguments, offset, 1, qualifiers);
+                else emit_special_member_initializer((CompilerSymbol *)member, offset, arguments, qualifiers);
+                continue;
+            }
+            if (!scope) {
+                arguments = check_statement_expression(arguments, 1);
+                begin_symbol_initializer((CompilerSymbol *)member);
+                frontend_data.assignment_target_active = 1;
+                if (!initialize_member_expression(offset, member->type, arguments, (CompilerSymbol *)member))
+                    compiler_warning(0x1b7, member);
+                frontend_data.assignment_target_active = 0;
+                frontend_data.expression_target = NULL;
+                frontend_data.expression_target_active = 0;
+            } else if (!(scope->type_flags & 0x10)) compiler_warning(0x21e, member);
+            else {
+                if (!is_member) set_initializer_mode(1);
+                target = make_base_initializer((CompilerSymbol *)scope, qualifiers, offset);
+                operation = make_return_object_call(0, (CompilerSymbol *)scope,
+                    target, arguments, 0, is_member, 1);
+                operation = check_statement_expression(operation, 0);
+                if (operation) emit_statement_expression(operation);
+                set_initializer_mode(0);
+            }
+            continue;
+        }
+        if (scope) {
+            type = qualify_type((CompilerSymbol *)scope, qualifiers, 0);
+            if (!is_complete_declaration_type(type)) {
+                compiler_warning(0x200, scope);
+                continue;
+            }
+            if (member->definition_flags & 0x80) {
+                emit_copy_member_initializer((CompilerSymbol *)member, (CompilerSymbol *)scope,
+                    NULL, offset, 0, qualifiers);
+                continue;
+            }
+            if (!is_member) set_initializer_mode(1);
+            target = make_base_initializer((CompilerSymbol *)scope, qualifiers, offset);
+            operation = make_return_object_call(0, (CompilerSymbol *)scope,
+                target, NULL, 0, is_member, 1);
+            operation = check_statement_expression(operation, 0);
+            if (operation && !(operation->kind == 0x3d && operation->value.operands.first == target))
+                emit_statement_expression(operation);
+            set_initializer_mode(0);
+            continue;
+        }
+        type = member->type;
+        shape = type->shape;
+        missing = 0;
+        if (shape) {
+            if ((member->definition_flags & 0x80) && (type->attributes & 0x100)) {
+                compiler_warning(0x1b7, member);
+                continue;
+            }
+            if (((shape->attributes & 0x100) && !(shape->flags & 3)) || (shape->flags & 0x40))
+                missing = 1;
+        } else if (type->attributes & 0x100) missing = 1;
+        if (missing) compiler_warning(0x2f6, member);
+    }
+    finish_member_initializers();
+    for (operation = initializers; operation; operation = operation->value.operands.second) {
+        CompilerNameEntry *name = ((CompilerNamedSymbol *)operation->value.operands.first->
+            value.operands.first->value.symbol)->link.name;
+        binding = ((CompilerKind4Symbol *)input)->class_binding;
+        member = NULL;
+        for (link = binding ? binding->members : NULL; link; link = link->next) {
+            if (link->name == name) {
+                member = (CompilerGlobalSymbolView *)((BYTE *)link - 8);
+                break;
+            }
+        }
+        if (!member) compiler_warning(0x266, input, name);
+        else if (member->kind == 17 || member->kind == 8 || member->kind == 4)
+            compiler_warning(0x1b4, name);
+        else if (is_class_scope_symbol((CompilerSymbol *)member)) compiler_warning(0x1b6, name);
+        else compiler_warning(0x1b5, name);
+    }
+    if (!(owner->class_detail->declaration_flags & 0x80)) {
+        CompilerRuntimeFunction *function = (CompilerRuntimeFunction *)frontend_bss.current_function;
+        mode = 1;
+        if ((function->builtin_flags & 0x20) && (owner->class_detail->inherited_member_flags & 4)) mode = 0;
+        else if ((function->builtin_flags & 0x10) && (owner->class_detail->inherited_member_flags & 2)) mode = 0;
+        emit_constructor_cleanup(input, mode);
+    }
+    return 1;
+}
+
+/* 22add..22af6: the constructor's return pointer carries this qualifiers. */
+extern "C" unsigned __cdecl constructor_this_qualifiers(CompilerSymbol *function)
+{
+    CompilerType *type = ((CompilerIrSymbol *)function)->type;
+    return type->shape->payload.function->type->shape->attributes & 3;
+}
+/* 22af6..22b3f: save the prior work kind for this initializer level. */
+extern "C" void __cdecl begin_member_initializers(void)
+{
+    unsigned depth = frontend_data.member_initializer_depth + 1;
+    frontend_data.member_initializer_state = 0;
+    frontend_data.member_initializer_depth = depth;
+    prepend_work_link(&frontend_bss.initializer_context.head, 4);
+    frontend_bss.initializer_context.head->value.kind = frontend_data.parameter_work_kind;
+    frontend_data.parameter_work_kind = 2;
+    frontend_bss.initializer_context.constructor_state_index = frontend_data.parameter_work_index;
+}
+extern "C" void __cdecl prepare_constructor_layout(CompilerSymbol *);
+/* 22554..225ab, 65bc7..65be0. Queue classes whose member phase is
+ * deferred, then require the active debug module's object-model support. */
+extern "C" void __cdecl prepare_virtual_base_initializers(CompilerSymbol *input)
+{
+    CompilerGlobalSymbolView *owner = (CompilerGlobalSymbolView *)input;
+    if (owner->class_detail->member_phase_flags & 0xc0) {
+        if (!frontend_data.completion_declarations)
+            frontend_data.completion_declarations = new_pointer_array(1);
+        frontend_data.completion_declarations =
+            apply_type_aliases(frontend_data.completion_declarations, input);
+    }
+    prepare_constructor_layout(input);
+    if (!frontend_bss.debug_module->Slot68())
+        report_compiler_diagnostic(0x49, ".\\objmodel.c", 0xb87);
+}
+extern "C" void __cdecl ensure_special_member_declaration(CompilerSymbol *, CompilerNameEntry *);
+/* 225ab..225cc, 65be0..65bf5: deleting destructors required by the class. */
+extern "C" void __cdecl prepare_constructor_layout(CompilerSymbol *input)
+{
+    ensure_special_member_declaration(input, frontend_data.builtin_names.deleting_destructor);
+    if (((CompilerGlobalSymbolView *)input)->member_flags & 4)
+        ensure_special_member_declaration(input, frontend_data.builtin_names.vector_deleting_destructor);
+}
+extern "C" CompilerSymbol *__cdecl find_class_member_by_name(CompilerSymbol *, CompilerNameEntry *);
+extern "C" void __cdecl emit_implicit_function(CompilerSymbol *);
+/* 225cc..22659, 65bf5..65c4c. A single function and an overload group
+ * share the named link; alias entries borrow the real function symbol. */
+extern "C" void __cdecl ensure_special_member_declaration(CompilerSymbol *input,
+    CompilerNameEntry *name)
+{
+    CompilerSymbol *found = find_class_member_by_name(input, name);
+    CompilerSymbolLink *current;
+    int single;
+    if (!found) return;
+    single = found->kind == 7 || found->kind == 8 ||
+        found->kind == 6 || found->kind == 24;
+    current = single ? &((CompilerNamedSymbol *)found)->link :
+        ((CompilerSmallSymbol *)found)->variants;
+    while (current) {
+        CompilerSymbolLink *entry = current;
+        current = single ? NULL : current->next;
+        CompilerSymbol *raw = (CompilerSymbol *)((BYTE *)entry - 8);
+        CompilerSymbol *symbol = raw->kind == 24 ?
+            ((CompilerAliasSymbol *)raw)->target->symbol : raw;
+        if (((CompilerGlobalSymbolView *)symbol)->symbol_flags & 2) {
+            emit_implicit_function(symbol);
+            if (((CompilerGlobalSymbolView *)input)->member_flags & 4) {
+                symbol = raw->kind == 24 ?
+                    ((CompilerAliasSymbol *)raw)->target->symbol : raw;
+                ((CompilerGlobalSymbolView *)symbol)->symbol_flags |= 0x80;
+            }
+        }
+    }
+}
+extern "C" void __cdecl pop_block_output(CompilerWorkLink **);
+/* 22c99..22d35. Restore the saved work kind and mark only live
+ * cleanup rows created after the constructor's saved state index. */
+extern "C" void __cdecl finish_member_initializers(void)
+{
+    CompilerInitializerContext *context = &frontend_bss.initializer_context;
+    int saved = (int)context->constructor_state_index;
+    int current = (int)frontend_data.parameter_work_index;
+    --frontend_data.member_initializer_depth;
+    if (current != saved) {
+        context->cleanup_pending_count = 0;
+        for (int index = current; index > saved; --index) {
+            if (index < 0 || !frontend_data.parameter_work_states ||
+                (unsigned)index >= frontend_data.parameter_work_capacity) { __asm { int 3 } }
+            CompilerExpressionWorkStateRow *row = &frontend_data.parameter_work_states[index];
+            if (row->active == 2 && !row->cleanup_mark) {
+                row->cleanup_mark = 1;
+                ++context->cleanup_pending_count;
+                context->last_cleanup_state_index = index;
+            }
+        }
+        frontend_data.parameter_work_index = context->constructor_state_index;
+    }
+    frontend_data.parameter_work_kind = context->head->value.kind;
+    pop_block_output(&context->head);
+}
+extern "C" void __cdecl emit_member_group_cleanup(CompilerSymbol *, unsigned, unsigned);
+extern "C" void __cdecl emit_additional_member_cleanup(CompilerSymbol *, unsigned);
+/* 22659..2267b: the primary group precedes the additional member groups. */
+extern "C" void __cdecl emit_constructor_cleanup(CompilerSymbol *owner, unsigned mode)
+{
+    emit_member_group_cleanup(owner, 0, 0);
+    emit_additional_member_cleanup(owner, mode);
+}
+extern "C" CompilerExpression *__cdecl make_member_cleanup_target(ClassMemberFunctionTable *, CompilerSymbol *);
+extern "C" void __cdecl emit_member_cleanup_call(CompilerExpression *, CompilerExpression *);
+extern "C" int __cdecl member_group_offset(ClassMemberFunctionTable *);
+/* 2267b..22746: the same per-class function groups are traversed before
+ * their inherited counterparts. Only the two recovered group columns may be read. */
+extern "C" void __cdecl emit_member_group_cleanup(CompilerSymbol *input, unsigned group, unsigned mode)
+{
+    if (group >= 2) { __asm { int 3 } }
+    CompilerGlobalClassDetail *detail = ((CompilerGlobalSymbolView *)input)->class_detail;
+    CompilerVector *members = detail->member_groups[group];
+    CompilerVector *additional = detail->additional_members;
+    short member_index = 0, additional_index = 0;
+    for (;;) {
+        if (members && member_index < members->count) {
+            ClassMemberFunctionTable *table = (ClassMemberFunctionTable *)members->items[member_index++];
+            CompilerExpression *function = symbol_expression(table->function, group == 0 || group == 2 ? 1 : 0);
+            if (!mode) {
+                CompilerExpression *target = make_member_cleanup_target(table, input);
+                emit_member_cleanup_call(target, function);
+            } else {
+                CompilerType *type = function->type;
+                int offset = member_group_offset(table);
+                initialize_member_expression(offset, type, function, NULL);
+            }
+            continue;
+        }
+        if (!additional || additional_index >= additional->count) return;
+        InheritedMemberGroup *inherited = (InheritedMemberGroup *)additional->items[additional_index++];
+        members = inherited->functions[group];
+        member_index = 0;
+    }
+}
+extern "C" CompilerExpression *__cdecl make_member_cleanup_target(ClassMemberFunctionTable *, CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl emit_member_cleanup_call(CompilerExpression *, CompilerExpression *) { __asm { int 3 } }
+extern "C" int __cdecl member_group_offset(ClassMemberFunctionTable *) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl make_additional_member_value(CompilerSymbol *, InheritedMemberGroup *);
+extern "C" CompilerExpression *__cdecl make_additional_cleanup_target(CompilerSymbol *, InheritedMemberGroup *);
+/* 22746..2277c, 65c4c..65c83. Only groups with their recorded
+ * secondary state produce an additional cleanup expression. */
+extern "C" void __cdecl emit_additional_member_cleanup(CompilerSymbol *owner, unsigned mode)
+{
+    CompilerVector *groups = ((CompilerGlobalSymbolView *)owner)->class_detail->additional_members;
+    short index = 0;
+    while (groups && index < groups->count) {
+        InheritedMemberGroup *group = (InheritedMemberGroup *)groups->items[index++];
+        if (group->secondary_state) {
+            CompilerExpression *value;
+            if (mode) value = make_additional_member_value(owner, group);
+            else value = (CompilerExpression *)make_integer_constant(0);
+            CompilerExpression *target = make_additional_cleanup_target(owner, group);
+            emit_member_cleanup_call(target, value);
+        }
+    }
+}
+extern "C" CompilerExpression *__cdecl make_additional_member_value(CompilerSymbol *, InheritedMemberGroup *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl make_additional_cleanup_target(CompilerSymbol *, InheritedMemberGroup *) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl replay_initializer_context(void *, unsigned);
+/* 22b3f..22c51, 65e08..65ed4. Remove only the matching initializer;
+ * an optional BB wrapper supplies its separately recorded context tree. */
+extern "C" CompilerExpression *__cdecl take_member_initializer(
+    CompilerExpression **cursor, CompilerSymbol *member)
+{
+    CompilerExpression *result = NULL;
+    void *context = NULL;
+    while (*cursor) {
+        CompilerExpression *expression = (*cursor)->value.operands.first;
+        void *current_context = NULL;
+        int matched = 0, hidden = 0;
+        if (expression && expression->kind == 0xbb) {
+            current_context = expression->value.operands.second;
+            expression = expression->value.operands.first;
+        }
+        CompilerSymbol *symbol = expression->value.operands.first->value.symbol;
+        if (symbol->kind == 18) {
+            if (member->kind == 15) {
+                int index = ((CompilerClassMemberSymbol *)member)->owner_index;
+                CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+                if (index < 0 || index >= table->count) { __asm { int 3 } }
+                CompilerGlobalSymbolView *base = (CompilerGlobalSymbolView *)table->items[index];
+                if (base) {
+                    CompilerSymbol *target = ((CompilerBoundSymbol *)symbol)->binding->owner->symbol;
+                    if (!((base->record_index ^
+                        ((CompilerGlobalSymbolView *)target)->record_index) & 0xffffff)) matched = 1;
+                }
+            }
+        } else if (((CompilerNamedSymbol *)symbol)->link.name == ((CompilerNamedSymbol *)member)->link.name) {
+            matched = 1;
+        } else {
+            CompilerNameEntry *name = ((CompilerNamedSymbol *)symbol)->link.name;
+            if (!(((CompilerGlobalSymbolView *)symbol)->storage_class & 7)) {
+                CompilerScopeMatch *match = frontend_data.translation_unit->FindHiddenName(name);
+                symbol = match ? match->symbol : NULL;
+                hidden = match && match->scope && match->scope->level == 0xfa;
+            }
+            if (symbol) {
+                if (symbol->kind == 18) symbol = ((CompilerBoundSymbol *)symbol)->binding->owner->symbol;
+                if ((((CompilerGlobalSymbolView *)symbol)->storage_class & 7) == 7) {
+                    CompilerType *type = ((CompilerIrSymbol *)symbol)->type;
+                    int index = (short)type->auxiliary;
+                    CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+                    if (index < 0 || index >= table->count) { __asm { int 3 } }
+                    CompilerSymbol *owner = (CompilerSymbol *)table->items[index];
+                    if (owner && type->shape && owner->kind == 4 &&
+                        ((CompilerNamedSymbol *)owner)->link.name == ((CompilerNamedSymbol *)member)->link.name) {
+                        matched = 1;
+                        if (!hidden) report_language_diagnostic(4, 0x61, 0x53, symbol, 0x53, owner);
+                    }
+                }
+            }
+        }
+        if (matched) {
+            *cursor = (*cursor)->value.operands.second;
+            result = expression->value.operands.second;
+            context = current_context;
+            break;
+        }
+        cursor = &(*cursor)->value.operands.second;
+    }
+    if (!frontend_bss.suppress_parser_codegen && context)
+        replay_initializer_context(context, 0);
+    return result;
+}
+extern "C" void __cdecl replay_initializer_context(void *, unsigned) { __asm { int 3 } }
+extern "C" int __cdecl query_initializer_mode(void)
+{
+    return frontend_bss.initializer_access_mode;
+}
+extern "C" void __cdecl set_initializer_mode(unsigned) { __asm { int 3 } }
+extern "C" void __cdecl emit_virtual_base_initializers(CompilerSymbol *, CompilerExpression **, unsigned) { __asm { int 3 } }
+extern "C" CompilerExpression *__cdecl make_base_initializer(CompilerSymbol *, unsigned, int) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl assign_symbol_expression(CompilerExpression *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl make_this_pointer_expression(CompilerSymbol *);
+extern "C" CompilerType *__cdecl make_member_address_type(CompilerType *, unsigned);
+extern "C" int __cdecl requires_array_initializer_diagnostic(CompilerExpression *);
+/* 3235b..323ea, 6d838..6d89c. Form the member address with the this
+ * pointer's qualifiers, then perform the real assignment conversion. */
+extern "C" int __cdecl initialize_member_expression(int offset, CompilerType *type,
+    CompilerExpression *expression, CompilerSymbol *member)
+{
+    if (type->shape && (type->shape->flags & 0x40) && requires_array_initializer_diagnostic(expression)) {
+        compiler_warning(0x162, member);
+        return 0;
+    }
+    CompilerExpression *object = make_this_pointer_expression(NULL);
+    CompilerType *address_type = make_member_address_type(type, object->type->shape->attributes & 3);
+    CompilerExpression *displacement = (CompilerExpression *)make_integer_constant(offset);
+    object = make_binary_node(0x53, object, displacement, address_type);
+    if (member && member->kind == 2) {
+        CompilerGlobalSymbolView *field = (CompilerGlobalSymbolView *)member;
+        CompilerExpression *second = (CompilerExpression *)make_integer_constant(field->member_selection.second);
+        CompilerExpression *first = (CompilerExpression *)make_integer_constant(field->member_selection.first);
+        CompilerExpression *selection = make_ir_binary_node(0x36, first, second);
+        object = make_ir_binary_node(0x35, object, selection);
+    }
+    /* The encountered CF298 rows46/96 are list-class60; the explicitly
+     * recovered leaf rows below are not. No other row gets a default. */
+    if (expression->kind == 0x2e || expression->kind == 0x60) {
+        if (!expression->value.operands.second) expression = expression->value.operands.first;
+    } else if (expression->kind != 6 && expression->kind != 7 && expression->kind != 61 &&
+        expression->kind != 93 && expression->kind != 100 && expression->kind != 166 &&
+        expression->kind != 199) { __asm { int 3 } }
+    return assign_symbol_expression(object, expression);
+}
+extern "C" int __cdecl this_pointer_adjustment(CompilerSymbol *);
+/* 2194d..219a2, 651ff..65201. Apply a thunk's this displacement only
+ * when the current function's existing flags select that representation. */
+extern "C" CompilerExpression *__cdecl make_this_pointer_expression(CompilerSymbol *parameter)
+{
+    CompilerExpression *expression = make_implicit_this_expression(parameter);
+    if (!expression) return NULL;
+    int offset = 0;
+    CompilerRuntimeFunction *function = (CompilerRuntimeFunction *)frontend_bss.current_function;
+    if (function->queue_flags & 0x10) offset = this_pointer_adjustment(function);
+    if (offset) {
+        CompilerExpression *displacement = (CompilerExpression *)make_integer_constant(offset);
+        expression = make_ir_binary_node(0x46, expression, displacement);
+        expression->flags |= 0x20;
+    }
+    return expression;
+}
+extern "C" int __cdecl this_pointer_adjustment(CompilerSymbol *) { __asm { int 3 } return 0; }
+/* 1b4ff..1b51b, 5fe8d..5febd. Preserve the original type unless a
+ * missing low qualifier requires its existing scratch/interner path. */
+extern "C" CompilerType *__cdecl make_member_address_type(CompilerType *type, unsigned qualifiers)
+{
+    if ((~type->attributes & qualifiers) & 3) {
+        CompilerType *scratch = make_parser_type_scratch(type);
+        scratch->attributes ^= (WORD)((qualifiers ^ scratch->attributes) & 3);
+        type = intern_type(scratch);
+        --frontend_bss.type_scratch_index;
+    }
+    return type;
+}
+extern "C" int __cdecl requires_array_initializer_diagnostic(CompilerExpression *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl emit_copy_member_initializer(CompilerSymbol *, CompilerSymbol *, CompilerExpression *, int, unsigned, unsigned) { __asm { int 3 } }
+extern "C" void __cdecl emit_special_member_initializer(CompilerSymbol *, int, CompilerExpression *, unsigned) { __asm { int 3 } }
 extern "C" void __cdecl emit_destructor_body(CompilerSymbol *) { __asm { int 3 } }
 extern "C" void __cdecl emit_deleting_destructor_body(CompilerSymbol *) { __asm { int 3 } }
 extern "C" void __cdecl emit_vector_deleting_destructor_body(CompilerSymbol *) { __asm { int 3 } }
@@ -3604,7 +4633,7 @@ extern "C" void __cdecl prepare_return_statement(void)
 extern "C" {
 int __cdecl return_expression_needs_warning(CompilerExpression *); /*15b04*/
 CompilerExpression *__cdecl prepare_return_cleanup(CompilerExpression *, unsigned); /*16a0d*/
-CompilerExpression *__cdecl make_return_object_call(unsigned, CompilerSymbol *, CompilerExpression *, CompilerExpression *, unsigned, unsigned); /*20e8f*/
+CompilerExpression *__cdecl make_return_object_call(unsigned, CompilerSymbol *, CompilerExpression *, CompilerExpression *, unsigned, unsigned, unsigned); /*20e8f*/
 CompilerExpression *__cdecl materialize_return_value(CompilerType *, CompilerExpression *); /*86726*/
 void __cdecl ensure_return_scope(void); /*48030*/
 void __cdecl emit_ir_expression(CompilerExpression *);
@@ -3695,7 +4724,7 @@ extern "C" void __cdecl emit_return_statement(CompilerExpression *expression, un
         owner = (CompilerGlobalSymbolView *)frontend_data.frontend_pointer_table->items[
             (short)frontend_data.function_result_type->auxiliary];
         operation = make_return_object_call(0, (CompilerSymbol *)owner, expression,
-            append_expression_list(NULL, converted, 2), 1, 1);
+            append_expression_list(NULL, converted, 2), 0, 1, 1);
         if (!operation) {
             compiler_warning(0x229, frontend_data.function_result_type);
             goto finished;
@@ -4139,8 +5168,24 @@ extern "C" void __cdecl inspect_expression_cleanup(CompilerExpression *expressio
 extern "C" unsigned __cdecl allocate_temporary_id(void) { __asm { int 3 } return 0; }
 extern "C" CompilerExpression *__cdecl make_temporary_expression(unsigned, CompilerType *) { __asm { int 3 } return NULL; }
 extern "C" CompilerExpression *__cdecl make_result_binary_node(unsigned, CompilerExpression *, CompilerExpression *) { __asm { int 3 } return NULL; }
-extern "C" CompilerExpression *__cdecl convert_return_temporary(CompilerExpression *) { __asm { int 3 } return NULL; }
-extern "C" CompilerExpression *__cdecl make_return_object_call(unsigned, CompilerSymbol *, CompilerExpression *, CompilerExpression *, unsigned, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl make_immediate_expression(unsigned, CompilerType *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl qualify_reference_expression(CompilerExpression *); /*867db*/
+/* 161e7..16258, 5d298..5d2a9: attach the conversion node and recompute
+ * its low constant bit before applying reference-shape qualification. */
+extern "C" CompilerExpression *__cdecl convert_return_temporary(CompilerExpression *input)
+{
+    if (!input) return NULL;
+    CompilerExpression *result = make_immediate_expression(0x3d, input->type, input);
+    CompilerType *type = result->type;
+    unsigned constant = !type->shape && (type->flags & 0x2fdf) == 0x40;
+    result->constant_flags = (result->constant_flags & ~1) | constant;
+    if (type && type->shape && (BYTE(type->shape->flags) & 0x77) == 1 &&
+        (BYTE(type->shape->attributes) & 3)) return qualify_reference_expression(result);
+    return result;
+}
+extern "C" CompilerExpression *__cdecl qualify_reference_expression(CompilerExpression *)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl make_return_object_call(unsigned, CompilerSymbol *, CompilerExpression *, CompilerExpression *, unsigned, unsigned, unsigned) { __asm { int 3 } return NULL; }
 extern "C" CompilerExpression *__cdecl materialize_return_value(CompilerType *, CompilerExpression *) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl ensure_return_scope(void) { __asm { int 3 } }
 
@@ -4232,16 +5277,20 @@ struct CompilerTypeConversion {
     CompilerExpression *input;
     CompilerType *source_type, *target_type;
     unsigned source_rank, target_rank, state;
-    typedef CompilerExpression *(RECON_THISCALL CompilerTypeConversion::*Builder)(unsigned);
+    typedef CompilerExpression *(RECON_THISCALL CompilerTypeConversion::*Builder)(CompilerExpression *);
     Builder build, build_constant;
     BYTE unmodeled_28_2b[4];
     unsigned diagnostic;
     unsigned auxiliary_diagnostic; /* original+30, diagnostic context consumed by Build */
     BYTE unmodeled_34_3b[8];
     unsigned complexity;
-    BYTE unmodeled_40_53[20];
+    BYTE unmodeled_40_47[8];
+    CompilerSymbol *context_symbol; /* original+48, borrowed diagnostic context */
+    unsigned context_kind; /* original+4c */
+    BYTE unmodeled_50_53[4];
     unsigned flags;
     RECON_THISCALL CompilerTypeConversion(unsigned, unsigned, CompilerExpression *, CompilerType *); /*11fba*/
+    RECON_THISCALL CompilerTypeConversion(unsigned, CompilerExpression *, CompilerType *); /*158fa*/
     void RECON_THISCALL Analyze(void); /*1131b*/
     void RECON_THISCALL AnalyzeIntegral(void); /*113b2, pending*/
     void RECON_THISCALL AnalyzeIntegralPointer(void); /*1452b, pending*/
@@ -4278,12 +5327,14 @@ struct CompilerTypeConversion {
     void RECON_THISCALL AnalyzeFromPrimitive10(void); /*9f7ef, pending*/
 
     int RECON_THISCALL IsValid(void); /*114f8*/
-    CompilerExpression *RECON_THISCALL Build(unsigned); /*11502*/
-    CompilerExpression *RECON_THISCALL BuildScalar(unsigned); /*15b8f*/
-    CompilerExpression *RECON_THISCALL BuildScalarConstant(unsigned); /*11540*/
-    CompilerExpression *RECON_THISCALL BuildNullPointer(unsigned); /*1c208*/
+    CompilerExpression *RECON_THISCALL Build(CompilerExpression *); /*11502*/
+    CompilerExpression *RECON_THISCALL BuildScalar(CompilerExpression *);
+    CompilerExpression *RECON_THISCALL BuildScalarValue(CompilerExpression *); /*16258 RET4*/ /*15b8f*/
+    CompilerExpression *RECON_THISCALL BuildScalarConstant(CompilerExpression *); /*11540*/
+    CompilerExpression *RECON_THISCALL BuildNullPointer(CompilerExpression *); /*1c208*/
     int RECON_THISCALL ShouldCheckConstant(void); /*1167e*/
-    CompilerExpression *RECON_THISCALL WrapResult(unsigned, CompilerExpression *); /*1ba31*/
+    CompilerExpression *RECON_THISCALL WrapResult(CompilerExpression *, CompilerExpression *); /*1ba31*/
+    void RECON_THISCALL SetContext(unsigned, CompilerSymbol *); /*1b723*/
     void RECON_THISCALL Report(unsigned); /*9fc19*/
 };
 typedef char CompilerTypeConversion_prefix[(offsetof(CompilerTypeConversion, mode) == 4 &&
@@ -4295,17 +5346,389 @@ typedef char CompilerTypeConversion_prefix[(offsetof(CompilerTypeConversion, mod
 typedef char CompilerTypeConversion_layout[(sizeof(CompilerTypeConversion) == 96 &&
     sizeof(CompilerTypeConversion::Builder) == 8 && offsetof(CompilerTypeConversion, build_constant) == 0x28 &&
     offsetof(CompilerTypeConversion, diagnostic) == 0x34 && offsetof(CompilerTypeConversion, auxiliary_diagnostic) == 0x38 && offsetof(CompilerTypeConversion, complexity) == 0x44 &&
+    offsetof(CompilerTypeConversion, context_symbol) == 0x50 && offsetof(CompilerTypeConversion, context_kind) == 0x54 &&
     offsetof(CompilerTypeConversion, flags) == 0x5c) ? 1 : -1];
 #else
 typedef char CompilerTypeConversion_layout[(sizeof(CompilerTypeConversion) == 88 &&
     sizeof(CompilerTypeConversion::Builder) == 4 && offsetof(CompilerTypeConversion, build_constant) == 0x24 &&
     offsetof(CompilerTypeConversion, diagnostic) == 0x2c && offsetof(CompilerTypeConversion, auxiliary_diagnostic) == 0x30 && offsetof(CompilerTypeConversion, complexity) == 0x3c &&
+    offsetof(CompilerTypeConversion, context_symbol) == 0x48 && offsetof(CompilerTypeConversion, context_kind) == 0x4c &&
     offsetof(CompilerTypeConversion, flags) == 0x54) ? 1 : -1];
 #endif
 extern "C" {
 unsigned __cdecl conversion_complexity(CompilerType *, CompilerExpression *); /*9dd3b*/
 CompilerExpression *__cdecl evaluate_typed_conversion(unsigned, CompilerType *, CompilerExpression *); /*9e0bb*/
 void __cdecl reconcile_typed_conversion(unsigned, CompilerExpression *, CompilerExpression *, CompilerType *); /*9fc73*/
+}
+extern "C" {
+CompilerExpression *__cdecl resolve_constant_reference(CompilerExpression *);
+CompilerExpression *__cdecl coerce_symbol_initializer(CompilerSymbol *, CompilerExpression *); /*1c07a*/
+int __cdecl classify_symbol_initializer(CompilerSymbol *, CompilerExpression *); /*1c1b4*/
+int __cdecl can_inline_initializer(CompilerSymbol *); /*1c040*/
+CompilerExpression *__cdecl symbol_expression(CompilerSymbol *, unsigned);
+int __cdecl assign_symbol_expression(CompilerExpression *, CompilerExpression *); /*1b938*/
+void __cdecl finish_initializer_reference(CompilerSymbol *); /*1c103*/
+void __cdecl emit_local_initializer(CompilerSymbol *, CompilerExpression *); /*42ee7*/
+unsigned __cdecl record_constant_initializer(CompilerSymbol *, CompilerExpression *); /*48b45*/
+int __cdecl prepare_static_initializer(CompilerSymbol *, CompilerExpression **); /*2d4bc*/
+void __cdecl begin_static_initializer(CompilerSymbol *); /*42fae*/
+CompilerExpression *__cdecl unwrap_return_expression(CompilerExpression *);
+void __cdecl annotate_initializer(CompilerSymbol *, CompilerExpression *, OutputBuffer *); /*1ce35*/
+void __cdecl initialize_runtime_reference(CompilerSymbol *, CompilerExpression *); /*8be55*/
+unsigned __cdecl calculate_initializer_size(CompilerSymbol *, CompilerExpression *); /*48abd*/
+void __cdecl emit_initializer_reserve(unsigned); /*48bce*/
+}
+
+extern "C" void __cdecl initialize_symbol_value(CompilerSymbol *input, CompilerExpression *expression)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    CompilerExpression *value;
+    CompilerType *type;
+    int classified;
+    if (!input || (input->scope_flags & 4)) return;
+    if (expression && expression->kind == 0xee)
+        expression = expand_initializer_expression(0x74, expression, 0);
+    if (check_symbol_definition(input)) {
+        emit_local_initializer(input, expression);
+        return;
+    }
+    if (!expression) return;
+    expression = resolve_constant_reference(expression);
+    if (expression->kind >= PARSER_TOKEN_KIND_COUNT) { __asm { int 3 } }
+    if (parser_token_classes[expression->kind] == 0x60) {
+        if (expression->value.operands.second) compiler_warning(0x4e);
+        expression = expression->value.operands.first;
+    }
+    expression = coerce_symbol_initializer(input, expression);
+    if (!expression) return;
+    classified = classify_symbol_initializer(input, expression);
+    if (classified)
+        expression->value.counted_control.count = (WORD)record_constant_initializer(input, expression);
+    if (!(frontend_data.compiler_flags & 0x100000)) {
+        if (!prepare_static_initializer(input, &expression)) {
+            if (symbol->member_flags & 2) {
+                compiler_warning(0x1e2, input);
+                return;
+            }
+            begin_static_initializer(input);
+            frontend_bss.initializer_pending_state = 1;
+            frontend_bss.initializer_saved_value_state = frontend_bss.initializer_value_state;
+        }
+    }
+    if (frontend_data.compiler_flags & 0x100000) {
+        if (can_inline_initializer(input)) goto assign_value;
+    }
+    type = symbol->type;
+    if (type->shape) {
+        if ((input->qualifiers & 4) && !classified) {
+            if (expression->kind == 7 && !type->shape->base) {
+                int permitted;
+                if (expression->value.control.flags & 1)
+                    permitted = (type->flags & 0x2fdf) == 0x41;
+                else permitted = (type->flags & 0xefdf) == 0x4042;
+                if (permitted) { compiler_warning(0x35, input); return; }
+            }
+            compiler_warning(0x4b, input);
+            return;
+        }
+    } else if (type->flags & 0x400) {
+        if (frontend_data.compiler_flags & 0x100000) {
+            input->attributes &= ~4;
+            goto assign_value;
+        }
+        compiler_warning(0x4a, input, type);
+        return;
+    }
+    value = unwrap_return_expression(expression);
+    if (frontend_data.compiler_flags & 0x100000)
+        initialize_runtime_reference(input, expression);
+    else annotate_initializer(input, value, &frontend_bss.output_buffers[4]); /* C0840 */
+    if (!(frontend_data.compiler_flags & 0x100000) &&
+        !classify_symbol_initializer(input, value)) {
+        CompilerTypeConversion conversion(0x74, expression, symbol->type);
+        if (!conversion.IsValid()) conversion.Report(1);
+    } else {
+        frontend_bss.initializer_zero_bytes = calculate_initializer_size(input, value);
+        if (frontend_bss.initializer_zero_bytes) emit_initializer_reserve(0);
+    }
+    finish_initializer_reference(input);
+    return;
+assign_value:
+    assign_symbol_expression(symbol_expression(input, 0), expression);
+    finish_initializer_reference(input);
+}
+extern "C" CompilerExpression *__cdecl coerce_symbol_initializer(CompilerSymbol *input, CompilerExpression *expression)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    if (expression && (expression->flags & 7) == 3) {
+        CompilerType *type = symbol->type;
+        CompilerTypeShape *shape = type->shape;
+        int keep_value = shape ? (!shape->base && (shape->flags & 1) &&
+            (shape->attributes & 0x100)) : ((type->flags & 0x240) && (type->attributes & 0x100));
+        if (keep_value) {
+            ((CompilerStoredConstantSymbol *)input)->value.integer = expression->value.integer;
+            input->qualifiers |= 0x40;
+        }
+    }
+    if (expression && !(expression->flags & 7) && expression->kind == 0x98) {
+        compiler_warning(0x113, expression->value.pointer);
+        return NULL;
+    }
+    CompilerExpression *result = convert_assignment_operand(symbol->type, expression);
+    return result ? result : diagnose_parser_operand(0x74, expression);
+}
+extern "C" int __cdecl classify_symbol_initializer(CompilerSymbol *input, CompilerExpression *expression)
+{
+    if (!expression || expression->kind != 7 || !(input->qualifiers & 4)) return 0;
+    CompilerType *type = ((CompilerIrSymbol *)input)->type;
+    unsigned literal_kind = expression->value.control.flags & 1;
+    if ((type->flags & 0x2fdf) != 0x41 + literal_kind) return 0;
+    return type->shape->base == NULL;
+}
+extern "C" int __cdecl can_inline_initializer(CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl make_scalar_comparison(unsigned, CompilerExpression *, CompilerExpression *);
+extern "C" int __cdecl report_assignment_conversion(unsigned, unsigned, unsigned, CompilerType *, CompilerType *);
+/* 1b938..1ba31, 60304..603ac. Retain the assignment conversion's
+ * actual success result; temporary cleanup is conditional on current state. */
+extern "C" int __cdecl assign_symbol_expression(CompilerExpression *target,
+    CompilerExpression *expression)
+{
+    if (!target || !expression) return 0;
+    CompilerType *target_type = target->type;
+    CompilerType *source_type = expression->type;
+    CompilerTypeShape *target_shape = target_type ? target_type->shape : NULL;
+    CompilerTypeShape *source_shape = source_type ? source_type->shape : NULL;
+    if ((target_shape && (target_shape->flags & 0x77) == 1 && (target_shape->attributes & 3)) ||
+        (source_shape && (source_shape->flags & 0x77) == 1 && (source_shape->attributes & 3))) {
+        unsigned complexity = conversion_complexity(target_type, expression);
+        if (complexity >= 0x400) {
+            if (report_assignment_conversion(0x74, 2, complexity, target_type, source_type)) return 0;
+            if (target_type && source_type) compiler_warning(0x1b8, 0x74, source_type, target_type);
+            else compiler_warning(0x250, target_type);
+            return 0;
+        }
+        expression = evaluate_typed_conversion(0x74, target_type, expression);
+        expression = convert_typed_expression(target_type, expression);
+        if (!expression) return 0;
+        target = convert_return_temporary(target);
+        expression = make_scalar_comparison(0x74, target, expression);
+    } else {
+        CompilerTypeConversion conversion((frontend_data.source_mode_flags & 0x80000) ? 2 : 1,
+            0x74, expression, target_type);
+        if (!conversion.IsValid()) { conversion.Report(1); return 0; }
+        if (target->kind == 6) conversion.SetContext(3, target->value.symbol);
+        else conversion.SetContext(6, NULL);
+        expression = conversion.Build(target);
+    }
+    if (frontend_data.force_statement_check || frontend_data.expression_target)
+        expression = check_statement_expression(expression, 2);
+    emit_statement_expression(expression);
+    return 1;
+}
+extern "C" int __cdecl report_assignment_conversion(unsigned, unsigned, unsigned, CompilerType *, CompilerType *) { __asm { int 3 } return 0; }
+extern "C" {
+void __cdecl finish_initializer_context(void); /*1bc97*/
+void __cdecl finish_static_initializer(void); /*2d305*/
+void __cdecl record_dynamic_initializer(CompilerSymbol *); /*47c59*/
+void __cdecl emit_label(CompilerExpression *);
+}
+extern "C" void __cdecl finish_initializer_reference(CompilerSymbol *input)
+{
+    if (frontend_bss.initializer_pending_state) {
+        frontend_bss.initializer_zero_bytes = (unsigned)(frontend_bss.initializer_value_state -
+            frontend_bss.initializer_saved_value_state);
+        if (frontend_bss.initializer_zero_bytes) {
+            frontend_data.compiler_flags &= ~0x100000U;
+            emit_initializer_reserve(0);
+            frontend_data.compiler_flags |= 0x100000;
+            frontend_bss.initializer_value_state -= (unsigned)frontend_bss.initializer_zero_bytes;
+        } else if (!frontend_bss.initializer_value_state) input->attributes &= ~4;
+    }
+    if ((frontend_data.compiler_flags & 0x20000) && !(frontend_data.compiler_flags & 0x20) &&
+        (((CompilerIrSymbol *)input)->storage_class & 7) == 3 &&
+        (frontend_data.compiler_flags & 0x100000)) record_dynamic_initializer(input);
+    if (frontend_bss.initializer_end_label) {
+        emit_label(frontend_bss.initializer_end_label);
+        frontend_bss.initializer_end_label = NULL;
+    }
+    frontend_data.last_initializer_symbol = NULL;
+    if (frontend_data.source_mode_flags & 0x4000) {
+        frontend_data.backend->Slot08();
+        frontend_data.source_mode_flags &= ~0x4000U;
+    }
+    if (!(frontend_data.compiler_flags & 0x100000) || (frontend_data.compiler_flags & 0x40000))
+        finish_static_initializer();
+    finish_initializer_context();
+}
+extern "C" void __cdecl pop_block_output(CompilerWorkLink **); /*17f95*/
+extern "C" void __cdecl finish_initializer_context(void)
+{
+    --frontend_data.initializer_context_count;
+    if (frontend_bss.initializer_context.symbol) {
+        frontend_bss.initializer_context.source_state = frontend_bss.initializer_context.state_index;
+        frontend_data.parameter_work_kind = frontend_bss.initializer_context.head->value.kind;
+        pop_block_output(&frontend_bss.initializer_context.head);
+        frontend_bss.initializer_context.symbol = NULL;
+    }
+}
+extern "C" void __cdecl emit_cleanup_expression(CompilerExpression *);
+extern "C" void __cdecl finish_symbol_initializer(CompilerSymbol *untyped)
+{
+    CompilerIrSymbol *input = (CompilerIrSymbol *)untyped;
+    CompilerParameterWorkInput frame;
+    CompilerGlobalSymbolView *owner;
+    CompilerExpression *expression;
+    unsigned classification, storage;
+    int index;
+    memset(&frame, 0, sizeof(frame));
+    frame.kind = 14;
+    if (frontend_data.expression_work_reset_pending) return;
+    if (input) {
+        frame.flags = (BYTE)((input->attributes >> 2) & 1);
+        classification = get_type_classification(input->type);
+        if (classification & 0x82) {
+            owner = (CompilerGlobalSymbolView *)DECL_OWNER(input->type);
+            if ((input->attributes & 4) || !(owner->class_detail->generated_member_flags & 2))
+                frame.flags |= 1;
+            if (!(owner->type_flags & 0x20)) {
+                compiler_warning(0x106, input);
+                frame.flags &= ~2;
+            } else if (owner->class_detail->generated_member_flags & 0x10) {
+                frame.flags &= ~2;
+            } else {
+                storage = input->storage_class & 7;
+                if (storage < 4 || storage > 6) frame.flags &= ~2;
+                else {
+                    frame.flags |= 2;
+                    if (frontend_bss.initializer_cleanup_owner == (CompilerSymbol *)owner) {
+                        expression = make_resolved_symbol_expression(input, 0);
+                        expression = prepare_parameter_expression(expression, 4);
+                        make_parameter_operation((CompilerSymbol *)owner, expression, 3, 1, 0);
+                    } else if (!frontend_bss.error_count) {
+                        frame.state_index = frontend_data.parameter_work_index;
+                        frame.source_state = frontend_bss.initializer_context.source_state;
+                        frame.active = 1;
+                        if (classification & 2) {
+                            index = (int)frontend_data.parameter_work_index;
+                            while (index > (int)frontend_bss.initializer_context.source_state) {
+                                if (!frontend_data.parameter_work_states || index < 0 ||
+                                    (unsigned)index >= frontend_data.parameter_work_capacity) { __asm { int 3 } }
+                                if (frontend_data.parameter_work_states[index].active == 7)
+                                    frontend_data.parameter_work_states[index].active = 1;
+                                --index;
+                            }
+                            frame.active = 0;
+                        }
+                    }
+                    frontend_bss.initializer_cleanup_owner = NULL;
+                }
+            }
+        } else frame.flags &= ~2;
+    }
+    if (frontend_data.expression_work_nodes && frontend_data.expression_work_nodes->kind == 13)
+        emit_cleanup_expression(check_statement_expression(NULL, 2));
+    if (frame.flags & 3) {
+        frame.symbol = input;
+        push_expression_work(&frame, 32);
+    }
+    frontend_data.expression_target = NULL;
+    frontend_data.expression_target_active = 0;
+    frontend_data.force_statement_check = 0;
+}
+extern "C" void __cdecl finish_static_initializer(void)
+{
+    if (frontend_data.source_mode_flags & 0x800) return;
+    OutputBuffer *output = &frontend_bss.output_buffers[4]; /* original C0840 */
+    int room = output->cursor + 2 <= output->data + output->capacity ? 1 : output->Grow(2);
+    output->ok &= room;
+    if (output->ok) *output->cursor++ = 7;
+}
+extern "C" void __cdecl record_dynamic_initializer(CompilerSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl emit_local_initializer(CompilerSymbol *, CompilerExpression *) { __asm { int 3 } }
+extern "C" unsigned __cdecl record_constant_initializer(CompilerSymbol *, CompilerExpression *) { __asm { int 3 } return 0; }
+extern "C" int __cdecl decode_static_initializer(CompilerExpression *, CompilerSymbol **, unsigned *);
+extern "C" int __cdecl prepare_static_initializer(CompilerSymbol *input, CompilerExpression **expression)
+{
+    CompilerIrSymbol *symbol = (CompilerIrSymbol *)input;
+    CompilerExpression *source = unwrap_return_expression(*expression), *destination, *value;
+    CompilerSymbol *reference = NULL;
+    unsigned offset = 0;
+    int special = 0;
+    if ((source->flags & 7) == 5) {
+        special = 1;
+        if (input->kind >= 1 && input->kind <= 14 && input->kind != 5 && symbol->type) {
+            int index = (short)symbol->type->auxiliary;
+            if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+            CompilerSymbol *owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+            if (owner && (owner->type_flags & 0x10)) special = 0;
+        }
+    }
+    CompilerTypeConversion conversion(0x74, *expression, symbol->type);
+    if (!classify_symbol_initializer(input, source) && conversion.IsValid()) {
+        destination = symbol_expression(input, 0);
+        if (destination->kind == 6 && ((*expression)->flags & 7) == 3 &&
+            destination->type && destination->type->shape && (destination->type->shape->flags & 0x40)) {
+            conversion.SetContext(3, destination->value.symbol);
+            *expression = conversion.Build(destination);
+        } else *expression = conversion.Build(NULL);
+    } else if (special) *expression = source;
+    value = *expression;
+    if (!value) return 0;
+    if (value->type != symbol->type) {
+        CompilerTypeShape *shape = symbol->type->shape;
+        if (shape) {
+            if (shape->flags & 0x30) return 0;
+            if (shape->flags & 0x40) return 0;
+            if ((shape->flags & 1) && (shape->attributes & 3) == 3 &&
+                ((CompilerIrSymbol *)shape->payload.symbol)->type->shape && !(value->flags & 0x80)) {
+                if ((value->flags & 7) != 3 || (value->type->flags & 0x2fdf) != 0x63) return 0;
+            }
+        }
+    }
+    if (special || (value->flags & 7) == 3) return 1;
+    if (!decode_static_initializer(value, &reference, &offset)) return 0;
+    if (!reference) return 1;
+    CompilerIrSymbol *base = (CompilerIrSymbol *)reference;
+    if (base->kind == 14 && (base->encoded_index & 0xffffff) == 6) return 0;
+    if ((base->reference_flags & 1) && resolve_symbol_reference(reference)->kind != 14) return 0;
+    if ((base->storage_class & 7) == 4) {
+        if (input->kind == 3 || input->kind == 2 || (symbol->storage_class & 7) == 3) return 0;
+    }
+    if ((base->member_flags & 2) && base->kind != 7 && base->kind != 8) return 0;
+    return !(base->member_flags & 8);
+}
+extern "C" int __cdecl decode_static_initializer(CompilerExpression *, CompilerSymbol **, unsigned *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl begin_static_initializer(CompilerSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl initialize_runtime_reference(CompilerSymbol *, CompilerExpression *) { __asm { int 3 } }
+extern "C" unsigned __cdecl calculate_initializer_size(CompilerSymbol *, CompilerExpression *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl emit_initializer_reserve(unsigned) { __asm { int 3 } }
+RECON_THISCALL CompilerTypeConversion::CompilerTypeConversion(unsigned operation,
+    CompilerExpression *expression, CompilerType *target)
+{
+    code = (BYTE)operation;
+    switch (code) {
+    case 0x64: mode = 4; break;
+    case 0x74: mode = 1; break;
+    case 0xce: mode = 6; break;
+    case 0xdc: mode = 7; break;
+    case 0xe3: mode = 8; break;
+    case 0xe4: mode = 9; break;
+    default: mode = 2; break;
+    }
+    input = expression;
+    source_type = expression ? expression->type : NULL;
+    target_type = target;
+    source_rank = target_rank = state = 0;
+    build = build_constant = NULL;
+    memset(unmodeled_28_2b, 0, sizeof(unmodeled_28_2b));
+    diagnostic = auxiliary_diagnostic = 0;
+    memset(unmodeled_34_3b, 0, sizeof(unmodeled_34_3b));
+    complexity = 0;
+    memset(unmodeled_40_47, 0, sizeof(unmodeled_40_47));
+    context_symbol = NULL; context_kind = 0;
+    memset(unmodeled_50_53, 0, sizeof(unmodeled_50_53));
+    flags = 0;
+    Analyze();
 }
 extern "C" CompilerExpression *__cdecl make_typed_expression(unsigned code, CompilerType *target,
     CompilerExpression *expression, unsigned mode)
@@ -4355,7 +5778,9 @@ RECON_THISCALL CompilerTypeConversion::CompilerTypeConversion(unsigned options, 
     auxiliary_diagnostic = 0;
     memset(unmodeled_34_3b, 0, sizeof(unmodeled_34_3b));
     complexity = 0;
-    memset(unmodeled_40_53, 0, sizeof(unmodeled_40_53));
+    memset(unmodeled_40_47, 0, sizeof(unmodeled_40_47));
+    context_symbol = NULL; context_kind = 0;
+    memset(unmodeled_50_53, 0, sizeof(unmodeled_50_53));
     flags = ((options & 0x200) >> 4) | ((options & 0x120) == 0x120 ? 0x10 : 0) |
         ((options & 0xe0) >> 4);
     Analyze();
@@ -4496,14 +5921,14 @@ void RECON_THISCALL CompilerTypeConversion::Analyze(void)
 int RECON_THISCALL CompilerTypeConversion::IsValid(void) { return -(int)(flags & 1); }
 extern "C" int __cdecl should_report_diagnostic(unsigned, unsigned);
 extern "C" void __cdecl print_diagnostic_auxiliary(unsigned, ...);
-CompilerExpression *RECON_THISCALL CompilerTypeConversion::Build(unsigned mode)
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::Build(CompilerExpression *destination)
 {
     if (auxiliary_diagnostic && should_report_diagnostic(4, 0xef)) {
         report_language_diagnostic(4, 0xef, (unsigned)code, source_type, target_type);
         print_diagnostic_auxiliary(auxiliary_diagnostic);
     }
-    if (build_constant != 0 && (input->flags & 7) == 3) return (this->*build_constant)(mode);
-    return (this->*build)(mode);
+    if (build_constant != 0 && (input->flags & 7) == 3) return (this->*build_constant)(destination);
+    return (this->*build)(destination);
 }
 void RECON_THISCALL CompilerTypeConversion::Report(unsigned) { __asm { int 3 } }
 extern "C" unsigned __cdecl conversion_complexity(CompilerType *, CompilerExpression *) { __asm { int 3 } return 0; }
@@ -4556,12 +5981,52 @@ ordinary_conversion:
 }
 #undef CONVERSION_WIDTH
 extern "C" int __cdecl is_null_pointer_constant(CompilerExpression *) { __asm { int 3 } return 0; }
-CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalar(unsigned) { __asm { int 3 } return NULL; }
+/* 15b8f..15c4c, 5d0f6..5d14b: constant values take the existing
+ * constant builder; other scalar conversions retain width-loss diagnostics. */
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalar(CompilerExpression *destination)
+{
+    CompilerExpression *resolved = resolve_constant_reference(input);
+    if ((resolved->flags & 7) == 3) {
+        input = resolved;
+        return BuildScalarConstant(destination);
+    }
+    if (ShouldCheckConstant()) {
+        WORD source = source_type->flags, target = target_type->flags;
+        unsigned target_bytes, source_bytes;
+        if ((target & 0x340) || !(target & 0x2fd0))
+            target_bytes = (int)compiler_primitive_type_bytes[target & 15];
+        else target_bytes = target & 15;
+        if ((source & 0x340) || !(source & 0x2fd0))
+            source_bytes = (int)compiler_primitive_type_bytes[source & 15];
+        else source_bytes = source & 15;
+        if (target_bytes < source_bytes) {
+            unsigned severity;
+            if ((source & 0x6f) == 0x63 || (!source_type->shape && (source & 0x200))) severity = 4;
+            else severity = 3;
+            report_language_diagnostic(severity, 0xf4, (unsigned)code, source_type, target_type);
+        }
+    }
+    return BuildScalarValue(destination);
+}
+/* 16258..162d9, 5d2a9..5d2ba. Preserve same-type expressions unless
+ * the explicit mode/boolean case requires a conversion node. */
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalarValue(CompilerExpression *destination)
+{
+    CompilerExpression *result = input;
+    if ((input->flags & 7) == 3) input->type = target_type;
+    else if (target_type != source_type || (frontend_data.compiler_mode_flags & 1)) {
+        result = make_immediate_expression(0x64, target_type, input);
+        result->constant_flags = (result->constant_flags & ~1U) | (input->constant_flags & 1);
+    } else if (!target_type->shape && (target_type->flags & 0x2fdf) == 0x40 && code == 0x60) {
+        result = make_immediate_expression(0x64, target_type, input);
+    }
+    return destination ? WrapResult(destination, result) : result;
+}
 extern "C" {
 __int64 __cdecl convert_constant_value(BYTE, CompilerExpression *, unsigned, unsigned, WORD); /*1171e*/
 int __cdecl constant_conversion_overflows(WORD, WORD, WORD, __int64); /*11a63*/
 }
-CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalarConstant(unsigned result_mode)
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalarConstant(CompilerExpression *destination)
 {
     WORD source, target, unsigned_source;
     unsigned width;
@@ -4587,7 +6052,7 @@ CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildScalarConstant(u
     input->value.integer = convert_constant_value(code, input, 0, 0, target_type->flags);
     input->type = target_type;
     if (frontend_data.compiler_mode_flags & 1) input->flags &= 0x7f;
-    if (result_mode) return WrapResult(result_mode, input);
+    if (destination) return WrapResult(destination, input);
     return input;
 }
 int RECON_THISCALL CompilerTypeConversion::ShouldCheckConstant(void)
@@ -4596,7 +6061,30 @@ int RECON_THISCALL CompilerTypeConversion::ShouldCheckConstant(void)
     return code == 0x34 || code == 0x3a || code == 0x47 || code == 0x4b ||
         code == 0x52 || code == 0x60 || code == 0x74 || code == 0x7d;
 }
-CompilerExpression *RECON_THISCALL CompilerTypeConversion::WrapResult(unsigned, CompilerExpression *) { __asm { int 3 } return NULL; }
+/* 1ba31..1ba56, 603ac..60406. Class destinations use the authentic
+ * seven-slot object call; scalar destinations use the typed assignment node. */
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::WrapResult(
+    CompilerExpression *destination, CompilerExpression *value)
+{
+    if (target_rank != 6) return make_binary_node(0x34, destination, value, target_type);
+    unsigned mode = 1;
+    if (context_symbol) {
+        unsigned storage = ((CompilerIrSymbol *)context_symbol)->storage_class & 7;
+        if (storage < 4 || storage > 6) mode = 0;
+    }
+    int index = (short)target_type->auxiliary;
+    CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+    if (index < 0 || index >= table->count) { __asm { int 3 } }
+    CompilerSymbol *owner = (CompilerSymbol *)table->items[index];
+    CompilerExpression *arguments = append_expression_list(NULL, value, 2);
+    return make_return_object_call(0, owner, destination, arguments, 0, 1, mode);
+}
+/* 1b723..1b734: two fields of the existing conversion owner, RET8. */
+void RECON_THISCALL CompilerTypeConversion::SetContext(unsigned kind, CompilerSymbol *symbol)
+{
+    context_symbol = symbol;
+    context_kind = kind;
+}
 /* Width calculation shared with the existing primitive-size consumers. */
 #define CONSTANT_WIDTH(f) (((f) & 0x340) || !((f) & 0xfff0) ? \
     (int)compiler_primitive_type_bytes[(f) & 15] : (int)((f) & 15))
@@ -4678,7 +6166,7 @@ extern "C" int __cdecl constant_conversion_overflows(WORD bytes, WORD target_uns
     }
     return value > (__int64)upper || value < (__int64)lower;
 }
-CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildNullPointer(unsigned) { __asm { int 3 } return NULL; }
+CompilerExpression *RECON_THISCALL CompilerTypeConversion::BuildNullPointer(CompilerExpression *) { __asm { int 3 } return NULL; }
 void RECON_THISCALL CompilerTypeConversion::AnalyzeIntegralPointer(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerTypeConversion::AnalyzeReference(void) { __asm { int 3 } }
 void RECON_THISCALL CompilerTypeConversion::AnalyzeRecord(void) { __asm { int 3 } }
@@ -4836,13 +6324,6 @@ extern "C" void __cdecl emit_cleanup_expression(CompilerExpression *expression)
     inspect_expression_cleanup(expression);
     emit_statement_expression(expression);
 }
-/* A view of the reached stack nodes, not an allocation-size assertion.
- * Level and symbol occupy the same payload cell on alternating nodes. */
-struct CompilerBlockOutputEntry {
-    CompilerBlockOutputEntry *next;
-    union { unsigned level; CompilerSymbol *symbol; } value;
-};
-extern "C" void __cdecl pop_block_output(CompilerBlockOutputEntry **); /*17f95*/
 extern "C" void __cdecl finish_block_cleanup(void)
 {
     if (frontend_bss.suppress_parser_codegen) return;
@@ -4854,7 +6335,12 @@ extern "C" void __cdecl finish_block_cleanup(void)
         pop_block_output(&frontend_bss.block_output_entries);
     }
 }
-extern "C" void __cdecl pop_block_output(CompilerBlockOutputEntry **) { __asm { int 3 } }
+/* 17f95..17fa0: the one generic list-pop owner shared by block and
+ * constructor work. The removed arena-owned link is not freed. */
+extern "C" void __cdecl pop_block_output(CompilerWorkLink **head)
+{
+    *head = (*head)->next;
+}
 extern "C" void __cdecl emit_function_epilogue(void)
 {
     CompilerSymbol *function = frontend_bss.current_function;
@@ -5220,7 +6706,7 @@ extern "C" void __cdecl finish_function_references(CompilerSymbol *input)
     unsigned index, record_index, kind;
     int available;
     BYTE *memory;
-    if (frontend_bss.error_count || frontend_bss.quoted_skip_mode ||
+    if (frontend_bss.error_count || frontend_bss.options.preprocess_stdout ||
         frontend_bss.suppress_parser_codegen || !function) return;
     /* The non-IL branch writes only kind's low BYTE before a genuine
      * external full-DWORD consumer. Its upper bytes remain unresolved;
@@ -5238,7 +6724,7 @@ extern "C" void __cdecl finish_function_references(CompilerSymbol *input)
         else record_index = external_symbol_index(current);
         buffer->WriteReferenceIndex((int)record_index);
     }
-    if (!frontend_bss.quoted_skip_mode && !frontend_bss.suppress_parser_codegen) {
+    if (!frontend_bss.options.preprocess_stdout && !frontend_bss.suppress_parser_codegen) {
         if (frontend_data.option_c9il) {
             frontend_bss.output_buffers[1].Flush();
             frontend_bss.output_buffers[3].Flush();
@@ -5313,7 +6799,33 @@ void RECON_THISCALL OutputBuffer::CopyFrom(OutputBuffer *) { __asm { int 3 } }
 
 extern "C" void __cdecl finish_function_locations(void)
 { frontend_data.function_output_location_state = 0; }
-extern "C" void __cdecl complete_constructor(CompilerSymbol *) { __asm { int 3 } }
+extern "C" void __cdecl finish_constructor_work(void);
+/* 22d35..22d6a: a successful constructor returns its actual this value. */
+extern "C" void __cdecl complete_constructor(CompilerSymbol *owner)
+{
+    if (!owner) return;
+    finish_constructor_work();
+    emit_function_epilogue();
+    CompilerExpression *value = make_this_pointer_expression(NULL);
+    emit_ir_expression(value);
+    write_ir_record(0x41, value);
+}
+extern "C" CompilerExpression *__cdecl make_constructor_cleanup_expression(unsigned, unsigned, unsigned, unsigned);
+/* 22d6a..22db4. The c6cf8 clear uses its existing cleanup/initializer
+ * union owner; it is not another field in the context projection. */
+extern "C" void __cdecl finish_constructor_work(void)
+{
+    CompilerInitializerContext *context = &frontend_bss.initializer_context;
+    if ((int)context->cleanup_pending_count > 0) {
+        CompilerExpression *expression = make_constructor_cleanup_expression(0xc8,
+            context->cleanup_pending_count, context->last_cleanup_state_index, 0);
+        emit_cleanup_expression(expression);
+        context->cleanup_pending_count = 0;
+    }
+    frontend_bss.return_cleanup_state = 0;
+    frontend_data.member_initializer_state = 1;
+}
+extern "C" CompilerExpression *__cdecl make_constructor_cleanup_expression(unsigned, unsigned, unsigned, unsigned) { __asm { int 3 } return NULL; }
 extern "C" void __cdecl complete_destructor(CompilerSymbol *) { __asm { int 3 } }
 extern "C" void __cdecl complete_vbase_destructor(CompilerSymbol *) { __asm { int 3 } }
 extern "C" void __cdecl clear_function_output_state(void)
@@ -5538,4 +7050,3239 @@ extern "C" void __cdecl set_function_output_context(DWORD context)
     function_output_owner->strings->GetText(context, &frontend_bss.global_string_record);
     write_global_ir_record(22, NULL);
     frontend_data.last_output_context = context;
+}
+
+/* Both allocations come from the selected monotonic compiler arena. The
+ * original leaves a fresh header and the node's next pointer untouched;
+ * initial committed pages and ResetStorage provide their zeroed storage. */
+extern "C" CompilerSymbolBinding *__cdecl make_symbol_binding(
+        CompilerSymbolBinding *binding, CompilerSymbolBindingOwner *inner,
+        CompilerSymbol *symbol)
+{
+    CompilerArena *arena;
+    CompilerSymbolBindingOwner *entry;
+    unsigned index;
+    if (!binding) {
+        index = frontend_data.binding_arena_index;
+        if (index >= 9) { __asm { int 3 } }
+        arena = &frontend_bss.arenas[index];
+        binding = (CompilerSymbolBinding *)arena->cursor;
+        arena->cursor += sizeof(CompilerSymbolBinding);
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    }
+    index = frontend_data.binding_arena_index;
+    if (index >= 9) { __asm { int 3 } }
+    arena = &frontend_bss.arenas[index];
+    entry = (CompilerSymbolBindingOwner *)arena->cursor;
+    arena->cursor += sizeof(CompilerSymbolBindingOwner);
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    entry->symbol = symbol;
+    entry->inner = inner;
+    if (!binding->owner)
+        binding->owner = entry;
+    else
+        binding->last->next = entry;
+    binding->last = entry;
+    return binding;
+}
+
+extern "C" void __cdecl prepare_declaration_lookup(void)
+{
+    if (!frontend_data.parser_classification_state) {
+        CompilerExpressionWork frame;
+        memset(&frame, 0, sizeof(frame));
+        frame.kind = 62;
+        push_expression_work(&frame, 16);
+    }
+}
+
+/* The check is shared by repeated visits to the same expression. The
+ * original allocator leaves this pointer untouched; do not invent an
+ * initialization or interpret the separate opaque DWORD at+c. */
+extern "C" void __cdecl check_initializer_type(CompilerExpression *expression,
+        CompilerType *type)
+{
+    if (!expression->initializer_check)
+        expression->initializer_check = make_binary_node(0x60, expression, NULL, type);
+}
+
+extern "C" {
+CompilerWorkLink *__cdecl collect_pending_expression_work(void);
+void __cdecl collect_expression_reference_work(CompilerWorkLink **, CompilerExpression *);
+void __cdecl collect_expression_cleanup_work(CompilerWorkLink **, CompilerExpression *, unsigned);
+CompilerExpression *__cdecl attach_pending_expression_work(CompilerExpression *, CompilerWorkLink *);
+CompilerExpression *__cdecl attach_expression_reference_work(CompilerExpression *, CompilerWorkLink *);
+CompilerExpression *__cdecl attach_expression_cleanup_work(CompilerExpression *, CompilerWorkLink *);
+}
+extern "C" CompilerExpression *__cdecl mark_parser_expression(CompilerExpression *expression)
+{
+    CompilerWorkLink *references = NULL, *cleanups = NULL, *pending;
+    if (!expression) return NULL;
+    if (frontend_data.expression_work_reset_pending) return expression;
+    pending = collect_pending_expression_work();
+    if (pending) expression = attach_pending_expression_work(expression, pending);
+    collect_expression_reference_work(&references, expression);
+    if (references) expression = attach_expression_reference_work(expression, references);
+    collect_expression_cleanup_work(&cleanups, expression, 0);
+    if (cleanups) expression = attach_expression_cleanup_work(expression, cleanups);
+    return expression;
+}
+
+/* Kind13 has a payload at+10 and two signed values encoded as integer
+ * expression nodes from+18/+1c. Its untouched DWORD+14 is retained storage. */
+struct CompilerPendingExpressionWork : CompilerExpressionWork {
+    CompilerExpression *expression;
+    BYTE unmodeled_14_17[4];
+    int first_value, second_value;
+};
+typedef char CompilerPendingExpressionWork_layout[(sizeof(CompilerPendingExpressionWork) == 32 &&
+    offsetof(CompilerPendingExpressionWork, expression) == 16 &&
+    offsetof(CompilerPendingExpressionWork, first_value) == 24 &&
+    offsetof(CompilerPendingExpressionWork, second_value) == 28) ? 1 : -1];
+extern "C" void *__cdecl make_integer_constant(int);
+#define ALLOCATE_PENDING_LINK(result) do { \
+    CompilerArena *link_arena = &frontend_bss.arenas[(frontend_data.source_mode_flags & 0x10) ? 0 : 4]; \
+    result = (CompilerWorkLink *)link_arena->cursor; \
+    link_arena->cursor += 8; \
+    if (link_arena->cursor > link_arena->committed_limit) link_arena->CommitExtent(); \
+} while (0)
+extern "C" CompilerWorkLink *__cdecl collect_pending_expression_work(void)
+{
+    CompilerWorkLink *head = NULL, *outer, *first, *second, *third;
+    CompilerExpressionWork *node;
+    CompilerPendingExpressionWork *frame;
+    if (frontend_data.expression_work_reset_pending) return NULL;
+    node = frontend_data.expression_work_nodes;
+    while (node && node->kind == 13) {
+        if (node->flags & 3) break;
+        /* The established work allocator's class0 has only16 bytes. */
+        if ((node->flags >> 6) == 0) { __asm { int 3 } }
+        frame = (CompilerPendingExpressionWork *)node;
+        ALLOCATE_PENDING_LINK(outer);
+        outer->next = head;
+        ALLOCATE_PENDING_LINK(first);
+        first->value.payload = make_integer_constant(frame->first_value);
+        ALLOCATE_PENDING_LINK(second);
+        first->next = second;
+        second->value.payload = make_integer_constant(frame->second_value);
+        ALLOCATE_PENDING_LINK(third);
+        second->next = third;
+        third->value.payload = frame->expression;
+        /* The final next field is untouched by the original. */
+        outer->value.payload = first;
+        head = outer;
+        pop_expression_work();
+        node = frontend_data.expression_work_nodes;
+    }
+    if (node && node->kind == 62) pop_expression_work();
+    return head;
+}
+#undef ALLOCATE_PENDING_LINK
+
+/* Expression class4/opcode9c uses its +4 pointer as a key owner. This
+ * borrowed view exposes only the DWORD consumed at+10; it asserts no
+ * allocation size, default or interpretation for the preceding bytes. */
+struct CompilerExpressionReferenceKey {
+    BYTE unmodeled_00_0f[16];
+    DWORD key;
+};
+#define ALLOCATE_REFERENCE_LINK(result) do { \
+    CompilerArena *link_arena = &frontend_bss.arenas[(frontend_data.source_mode_flags & 0x10) ? 0 : 4]; \
+    result = (CompilerWorkLink *)link_arena->cursor; \
+    link_arena->cursor += 8; \
+    if (link_arena->cursor > link_arena->committed_limit) link_arena->CommitExtent(); \
+} while (0)
+extern "C" void __cdecl collect_expression_reference_work(CompilerWorkLink **head,
+        CompilerExpression *expression)
+{
+    CompilerWorkLink *outer, *inner, *item;
+    CompilerExpression *previous;
+    unsigned category;
+    while (expression) {
+        category = expression->flags & 7;
+        if (category == 2) {
+            collect_expression_reference_work(head, expression->value.operands.first);
+            expression = expression->value.operands.second;
+            continue;
+        }
+        if (category == 1) {
+            expression = expression->value.operands.first;
+            continue;
+        }
+        if (category == 7) {
+            if (expression->kind < 0xbb || expression->kind > 0xbc) return;
+            for (outer = (CompilerWorkLink *)expression->value.operands.second;
+                 outer; outer = outer->next)
+                for (inner = (CompilerWorkLink *)outer->value.payload;
+                     inner; inner = inner->next)
+                    collect_expression_reference_work(head, (CompilerExpression *)inner->value.payload);
+            expression = expression->value.operands.first;
+            continue;
+        }
+        if (category != 4 || expression->kind != 0x9c) return;
+        outer = *head;
+        while (outer) {
+            inner = (CompilerWorkLink *)outer->value.payload;
+            previous = (CompilerExpression *)inner->value.payload;
+            if (((CompilerExpressionReferenceKey *)previous->type)->key == expression->value.words.low)
+                break;
+            outer = outer->next;
+        }
+        if (!outer) {
+            ALLOCATE_REFERENCE_LINK(outer);
+            outer->next = *head;
+            *head = outer;
+            outer->value.payload = NULL;
+        }
+        ALLOCATE_REFERENCE_LINK(item);
+        item->value.payload = expression;
+        item->next = (CompilerWorkLink *)outer->value.payload;
+        outer->value.payload = item;
+        return;
+    }
+}
+#undef ALLOCATE_REFERENCE_LINK
+
+extern "C" CompilerWorkLink *__cdecl prepend_expression_work_link(CompilerWorkLink **, void *);
+extern "C" void __cdecl collect_expression_cleanup_work(CompilerWorkLink **head,
+        CompilerExpression *expression, unsigned preserve_state)
+{
+    CompilerWorkLink *outer, *inner;
+    CompilerExpression *first;
+    CompilerExpressionWorkStateRow *row;
+    unsigned category, index;
+    WORD count;
+    while (expression) {
+        category = expression->flags & 7;
+        if (category == 2) {
+            if (expression->kind == 0xc7) {
+                prepend_expression_work_link(head, expression);
+                if (!preserve_state) {
+                    first = expression->value.operands.first;
+                    index = first->value.counted_control.index;
+                    if (!frontend_data.parameter_work_states || index >= frontend_data.parameter_work_capacity) { __asm { int 3 } }
+                    row = &frontend_data.parameter_work_states[index];
+                    count = first->value.counted_control.count & 0xfff;
+                    first->value.counted_control.count = (WORD)(count |
+                        (row->active == 1 ? 0x4000 : (WORD)row->active << 12));
+                    first = expression->value.operands.first;
+                    if ((first->value.counted_control.count & 0xf000) == 0x4000) {
+                        index = first->value.counted_control.index;
+                        if (!frontend_data.parameter_work_states || index >= frontend_data.parameter_work_capacity) { __asm { int 3 } }
+                        frontend_data.parameter_work_states[index].cleanup_mark = 1;
+                    }
+                }
+            } else collect_expression_cleanup_work(head, expression->value.operands.first, preserve_state);
+            expression = expression->value.operands.second;
+            continue;
+        }
+        if (category == 1) {
+            expression = expression->value.operands.first;
+            continue;
+        }
+        if (category == 7) {
+            if (expression->kind < 0xbb || expression->kind > 0xbd) continue;
+            if (expression->kind != 0xbd)
+                for (outer = (CompilerWorkLink *)expression->value.operands.second;
+                     outer; outer = outer->next)
+                    for (inner = (CompilerWorkLink *)outer->value.payload;
+                         inner; inner = inner->next)
+                        collect_expression_cleanup_work(head, (CompilerExpression *)inner->value.payload, preserve_state);
+            expression = expression->value.operands.first;
+            continue;
+        }
+        if (category || (expression->kind != 0xc8 && expression->kind != 0xc9)) return;
+        prepend_expression_work_link(head, expression);
+        if (!preserve_state) {
+            index = expression->value.counted_control.index;
+            if (!frontend_data.parameter_work_states || index >= frontend_data.parameter_work_capacity) { __asm { int 3 } }
+            count = (WORD)frontend_data.parameter_work_states[index].active;
+            expression->value.counted_control.count = (WORD)((expression->value.counted_control.count & 0xfff) |
+                (count << 12));
+        }
+        return;
+    }
+}
+
+extern "C" CompilerExpression *__cdecl expand_initializer_expression(unsigned, CompilerExpression *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl append_expression_list(CompilerExpression *previous,
+        CompilerExpression *expression, unsigned mode)
+{
+    CompilerExpression *result;
+    CompilerType *type;
+    if (expression && expression->kind == 0xee)
+        expression = expand_initializer_expression(0x74, expression, 0);
+    expression = resolve_parser_expression(expression);
+    type = mode == 1 ? frontend_data.builtin_types.type_0000 :
+        expression ? expression->type : NULL;
+    result = make_binary_node(0x60, expression, previous, type);
+    if (expression && (expression->flags & 8)) result->flags |= 8;
+    if (!previous) result->list_next = result;
+    else {
+        result->list_next = previous->list_next;
+        previous->list_next = result;
+    }
+    if (expression) expression->list_next = result;
+    return result;
+}
+
+typedef char ParserDeferredListItem_layout[(sizeof(ParserDeferredListItem) == 20 &&
+    offsetof(ParserDeferredListItem, flags) == 12 &&
+    offsetof(ParserDeferredListItem, payload) == 16) ? 1 : -1];
+ParserDeferredListItem *RECON_THISCALL ParserDeferredListItem::Initialize(
+        CompilerExpression *expression, unsigned deferred, unsigned preserve)
+{
+    flags = (flags & 0xf8) | 1 | ((deferred & 1) << 2);
+    next = previous = NULL;
+    new(this) ParserDeferredListItem;
+    payload = preserve ? expression : instantiate_parser_expression(expression, 0);
+    return this;
+}
+
+typedef char ParserDeferredList_layout[(sizeof(ParserDeferredList) == 12 &&
+    offsetof(ParserDeferredList, tail) == 4 && offsetof(ParserDeferredList, flags) == 8) ? 1 : -1];
+ParserDeferredList *RECON_THISCALL ParserDeferredList::Initialize(ParserDeferredRecord *record)
+{
+    head = tail = record;
+    flags = (flags & ~1U) | ((record->flags >> 3) & 1);
+    return this;
+}
+
+void RECON_THISCALL ParserDeferredList::Prepend(ParserDeferredRecord *record)
+{
+    record->next = head;
+    head->previous = record;
+    head = record;
+    if (record->flags & 8) flags |= 1;
+}
+
+CompilerNameEntry *RECON_THISCALL CompilerSymbol::Name(void)
+{
+    return ((CompilerNamedSymbol *)this)->link.name;
+}
+
+/* 11b98..11bf9, 5a9d0..5aa6f: resolve an unqualified expression name,
+ * retaining the lookup result's binding owner for dependent names. */
+extern "C" CompilerSymbol *__cdecl recover_unresolved_name(CompilerNameEntry *);
+extern "C" CompilerExpression *__cdecl make_most_derived_expression(void);
+extern "C" CompilerSymbol *__cdecl declare_external_symbol(CompilerNameEntry *, unsigned);
+extern "C" CompilerExpression *__cdecl lookup_name_expression(CompilerNameEntry *name)
+{
+    CompilerScopeMatch *match = frontend_data.translation_unit->LookupName(name, 0x133);
+    CompilerSymbol *symbol = match ? match->symbol : NULL;
+    if (!symbol) {
+        if (name == frontend_data.builtin_names.most_derived_parameter)
+            return make_most_derived_expression();
+        symbol = recover_unresolved_name(name);
+        if (!symbol) symbol = declare_external_symbol(name, 0);
+    }
+    if (symbol->definition_flags & 0x20) {
+        int instantiate = (symbol->definition_flags & 0x10) != 0;
+        CompilerSymbol *function = frontend_bss.current_function;
+        if (!instantiate && function && (function->type_flags & 4)) {
+            int index = (short)function->declaration_qualifiers;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            CompilerNamedSymbol *owner = (CompilerNamedSymbol *)table->items[index];
+            instantiate = owner->link.name == name;
+        }
+        if (instantiate) instantiate_tag_definition(symbol);
+    }
+    if (symbol->kind == 18) {
+        CompilerSymbolBindingOwner *owner = ((CompilerBoundSymbol *)symbol)->binding->owner;
+        CompilerSymbol *scope = owner->symbol;
+        if (scope->kind == 15) {
+            int index = ((CompilerClassMemberSymbol *)scope)->owner_index;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            owner->symbol = (CompilerSymbol *)table->items[index];
+        }
+    }
+    if (symbol->kind == 23) {
+        compiler_warning(0x372, symbol);
+        return NULL;
+    }
+    return make_symbol_expression(symbol);
+}
+extern "C" CompilerSymbol *__cdecl recover_unresolved_name(CompilerNameEntry *)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl make_most_derived_expression(void)
+{ __asm { int 3 } return NULL; }
+
+/* 11bf9..11c18, 5aa6f..5aab2: notify the browser before constructing
+ * the expression. Constant/overload symbols have no browser reference. */
+extern "C" CompilerExpression *__cdecl make_symbol_expression(CompilerSymbol *symbol)
+{
+    if (frontend_bss.browser_filename) {
+        int publish = 1;
+        if (frontend_bss.external_declaration_mode) {
+            /* The browser-local selector has no encountered writer/default. */
+            __asm { int 3 }
+            publish = publish_browser_local;
+        }
+        if (publish && symbol->kind != 16 && symbol->kind != 17 && symbol->kind != 25)
+            frontend_data.backend->Slot1c((unsigned)symbol);
+    }
+    return make_resolved_symbol_expression(symbol, 0);
+}
+
+extern "C" {
+int __cdecl can_reference_symbol(CompilerSymbol *); /*16100*/
+CompilerExpression *__cdecl check_symbol_expression(CompilerSymbol *, CompilerExpression *); /*16176*/
+CompilerExpression *__cdecl make_dependent_name_expression(CompilerSymbol *, CompilerSymbol *); /*21c7f*/
+CompilerExpression *__cdecl make_enumerator_expression(CompilerSymbol *); /*208eb*/
+void __cdecl complete_expression_class(CompilerSymbol *, unsigned); /*32406*/
+CompilerGlobalSymbolView *__cdecl get_symbol_context(CompilerGlobalSymbolView *, CompilerGlobalSymbolView **);
+}
+
+/* 11c18..11ee0, 5aab2..5ab8a. The original name and its selected binding
+ * remain distinct: a qualified expression may retain the former even when
+ * its ordinary symbol/type tests use the latter. */
+extern "C" CompilerExpression *__cdecl make_resolved_symbol_expression(
+    CompilerSymbol *original, unsigned mode)
+{
+    CompilerSymbol *selected, *scope;
+    CompilerBoundSymbol *bound;
+    CompilerExpression *expression;
+    CompilerType *type;
+    CompilerPointerArray *table;
+    int index;
+restart:
+    bound = NULL;
+    if (original->kind == 18) {
+        bound = (CompilerBoundSymbol *)original;
+        if (!bound->binding) return NULL;
+        selected = bound->binding->owner->symbol;
+    } else selected = original;
+    if (selected->kind == 24)
+        selected = ((CompilerAliasSymbol *)selected)->target->symbol;
+
+    switch (selected->kind) {
+    case 23:
+        compiler_warning(0x372, selected);
+        return NULL;
+    case 22:
+        expression = ((CompilerGlobalSymbolView *)selected)->reference_expression;
+        return expression ? instantiate_parser_expression(expression, 0) : NULL;
+    case 5:
+        if (frontend_data.translation_unit->opaque_lookup_state)
+            return symbol_expression(original, 0);
+        check_qualified_declaration(bound);
+        if (original->type_flags & 0x80)
+            return make_dependent_name_expression(original, selected);
+        return make_enumerator_expression(selected);
+    case 16: case 7: case 6: case 25:
+        return symbol_expression(selected, 0);
+    case 17: case 8:
+        if (mode) break;
+        /* A plain overload name follows the same bound-name resolution
+         * as a class/type name. */
+    case 2: case 3:
+        if (frontend_data.translation_unit->opaque_lookup_state)
+            return symbol_expression(original, 0);
+        if (!is_class_scope_symbol(selected)) {
+            if (!can_reference_symbol(selected)) return (CompilerExpression *)bound;
+            if ((original->type_flags & 0x80) && !(selected->type_flags & 0x10))
+                return make_dependent_name_expression(original, selected);
+            return original->kind == 18 ? symbol_expression(original, 0) : NULL;
+        }
+        check_qualified_declaration(bound);
+        scope = bound->binding->owner->scope->symbol;
+        if (scope->kind == 15) {
+            index = ((CompilerClassMemberSymbol *)scope)->owner_index;
+            table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            scope = (CompilerSymbol *)table->items[index];
+        }
+        if (!(selected->definition_flags & 4)) {
+            CompilerGlobalClassDetail *detail = ((CompilerGlobalSymbolView *)scope)->class_detail;
+            if ((detail->completion_flags & 1) && !(detail->template_flags & 1))
+                complete_expression_class(scope, 0);
+        }
+        original = resolve_generated_symbol(selected);
+        mode = 0;
+        goto restart;
+    }
+    if (selected->definition_flags & 0x10) return symbol_expression(original, 0);
+    if (selected->kind == 10 && (selected->qualifiers & 0x10)) {
+        CompilerGlobalSymbolView *context;
+        CompilerGlobalSymbolView *member = get_symbol_context(
+            (CompilerGlobalSymbolView *)selected, &context);
+        if (!can_reference_symbol(selected)) return (CompilerExpression *)member;
+        index = ((CompilerAliasSymbol *)member)->target->owner_index;
+        table = frontend_data.frontend_pointer_table;
+        if (index < 0 || index >= table->count) { __asm { int 3 } }
+        CompilerSymbol *owner = (CompilerSymbol *)table->items[index];
+        CompilerSymbol *lookup = frontend_data.translation_unit->LookupScopeName(
+            owner, context->name, 2, 0);
+        CompilerExpression *left = symbol_expression(lookup, 0);
+        CompilerExpression *right = make_resolved_symbol_expression((CompilerSymbol *)member, 0);
+        return make_member_access_expression(0x50, right, left);
+    }
+    if (!can_reference_symbol(selected)) return NULL;
+    expression = symbol_expression(selected,
+        selected->kind == 7 || selected->kind == 8 || selected->kind == 6);
+    if (!expression) return NULL;
+    if (selected->kind == 7 || selected->kind == 8 || selected->kind == 6) {
+        type = ((CompilerIrSymbol *)selected)->type;
+        if (!type || !type->shape) return NULL;
+        expression->type = make_assignment_function_type(type, 0xb,
+            (BYTE)type->shape->attributes & 0x73, 0);
+        return expression;
+    }
+    if ((selected->qualifiers & 4) && selected->kind != 11 &&
+        selected->kind != 12 && selected->kind != 22) return expression;
+    if (expression->kind == 0x98) return expression;
+    return check_symbol_expression(selected, expression);
+}
+/* 16100..16176, 5d218..5d28f: restricted-expression visibility. */
+extern "C" int __cdecl can_reference_symbol(CompilerSymbol *symbol)
+{
+    unsigned flags = frontend_data.source_mode_flags;
+    if (!(flags & 0x10)) return 1;
+    if (frontend_bss.external_declaration_mode == 0xfa &&
+        (symbol->qualifiers & 0x40)) return 1;
+    unsigned kind = symbol->kind;
+    if (kind == 16 || kind == 7 || kind == 6 || kind == 17 || kind == 8 || kind == 25)
+        return 1;
+    if (kind == 24) {
+        unsigned selected = ((CompilerAliasSymbol *)symbol)->target->symbol->kind;
+        if (selected == 16 || selected == 7 || selected == 6 ||
+            selected == 17 || selected == 8 || selected == 25) return 1;
+    }
+    if (kind == 2 || kind == 3) {
+        compiler_warning(0x288, symbol);
+        return 0;
+    }
+    if (!(flags & 0x100000)) {
+        unsigned storage = ((CompilerIrSymbol *)symbol)->storage_class & 7;
+        if (storage >= 4 && storage <= 6) {
+            compiler_warning(0x24b, symbol);
+            return 0;
+        }
+    }
+    return 1;
+}
+/* 16176..161e7, 5d28f..5d298: retain constant qualification and
+ * propagate the symbol's failed-reference state after temporary conversion. */
+extern "C" CompilerExpression *__cdecl check_symbol_expression(
+    CompilerSymbol *symbol, CompilerExpression *input)
+{
+    CompilerExpression *expression = convert_return_temporary(input);
+    if (symbol->qualifiers & 0x40) {
+        CompilerExpression *value = resolve_constant_reference(expression);
+        if ((value->flags & 7) == 3 && !value->type->shape &&
+            (value->type->flags & 0x240)) expression->constant_flags |= 1;
+    }
+    if (is_function_specialization(symbol)) expression = make_cast_expression(0x3d, expression);
+    if (symbol->scope_flags & 4) expression->flags |= 8;
+    return expression;
+}
+/* 21c7f..21d58, 6568f..6571d. Keep the selected name distinct from
+ * its original binding, including the singleton-binding result annotation. */
+extern "C" CompilerExpression *__cdecl make_dependent_name_expression(
+    CompilerSymbol *original, CompilerSymbol *selected)
+{
+    if (selected->kind == 5) {
+        check_qualified_declaration(original);
+        return make_enumerator_expression(selected);
+    }
+    CompilerRuntimeFunction *function = (CompilerRuntimeFunction *)frontend_bss.current_function;
+    if (!function) {
+        if (selected->kind == 17 || selected->kind == 8) return symbol_expression(original, 0);
+        compiler_warning(0x28e, selected);
+        return NULL;
+    }
+    if (function->builtin_flags & 1) {
+        CompilerExpression *object = make_this_pointer_expression(NULL);
+        CompilerExpression *member = symbol_expression(original, 0);
+        CompilerExpression *result = make_member_access_expression(0x53, object, member);
+        if (result->kind == 0x3d && original->kind == 18) {
+            CompilerSymbolBindingOwner *next = ((CompilerBoundSymbol *)original)->binding->owner->next;
+            if (next && next == next->next) result->value.name_binding.symbol = original;
+        } else if (result->kind == 0x53 && original->kind == 18) {
+            CompilerSymbolBindingOwner *binding = ((CompilerBoundSymbol *)original)->binding->owner;
+            if (binding->symbol->kind == 17 || binding->symbol->kind == 8) {
+                CompilerSymbolBindingOwner *next = binding->next;
+                if (next && next == next->next)
+                    result->value.operands.second->value.name_binding.symbol = original;
+            }
+        }
+        return result;
+    }
+    if (!(function->type_flags & 4)) {
+        if (selected->kind == 17 || selected->kind == 8) return symbol_expression(original, 0);
+        compiler_warning(0x146, function, original);
+        return recover_new_expression();
+    }
+    if (selected->kind != 3 || original->kind == 18) return symbol_expression(original, 0);
+    compiler_warning(0x255, selected);
+    return recover_new_expression();
+}
+extern "C" CompilerExpression *__cdecl make_enumerator_expression(CompilerSymbol *)
+{ __asm { int 3 } return NULL; }
+extern "C" void __cdecl complete_expression_class(CompilerSymbol *, unsigned)
+{ __asm { int 3 } }
+
+/* 10187..101c8: the one-operand node stores only kind, flags, operand and
+ * type. The remaining expression storage is neither cleared nor interpreted. */
+extern "C" CompilerExpression *__cdecl make_immediate_expression(unsigned kind,
+    CompilerType *type, CompilerExpression *operand)
+{
+    CompilerArena *arena = &frontend_bss.arenas[frontend_data.constant_arena_index];
+    CompilerExpression *expression = (CompilerExpression *)arena->cursor;
+    arena->cursor += 24;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    expression->kind = (BYTE)kind;
+    expression->flags = 1;
+    expression->value.operands.first = operand;
+    expression->type = type;
+    return expression;
+}
+
+extern "C" CompilerExpression *__cdecl attach_parser_expression_work(CompilerExpression *, CompilerWorkLink *); /*8e66d*/
+/* 3220e..32257, 6d7ce..6d7e5: append the constructor initializer to
+ * its cyclic expression chain, retaining pending work on that element. */
+extern "C" CompilerExpression *__cdecl append_parser_expression(
+    CompilerExpression *list, CompilerExpression *element)
+{
+    if (!element) return list;
+    CompilerWorkLink *work = collect_pending_expression_work();
+    if (work) element = attach_parser_expression_work(element, work);
+    CompilerExpression *link = make_binary_node(0x60, element, list, NULL);
+    if (!list) link->list_next = link;
+    else {
+        link->list_next = list->list_next;
+        list->list_next = link;
+    }
+    element->list_next = link;
+    return link;
+}
+extern "C" CompilerExpression *__cdecl attach_parser_expression_work(CompilerExpression *, CompilerWorkLink *)
+{ __asm { int 3 } return NULL; }
+
+extern "C" CompilerExpression *__cdecl resolve_overloaded_operator(unsigned,
+    CompilerExpression *, CompilerExpression *, unsigned, unsigned, unsigned *); /*14f0c*/
+/* 15738..15805, 5cd86..5cdd8: overloadable unary operator preparation. */
+extern "C" CompilerExpression *__cdecl make_unary_expression(unsigned operation,
+    CompilerExpression *operand)
+{
+    if (!operand) return NULL;
+    if (operand->kind == 0xee) {
+        operand = expand_initializer_expression(operation, operand, 0);
+        if (!operand) return NULL;
+    }
+    if (operand->kind == 0x98) {
+        compiler_warning(0x113, operand->value.symbol);
+        return NULL;
+    }
+    int overloadable = 0;
+    CompilerType *type = operand->type;
+    if (type && ((type->flags & 0x600) ||
+        (type->flags & 0x2fdf) == 0x12 || (type->flags & 0x2fdf) == 0x11)) {
+        CompilerTypeShape *shape = type->shape;
+        overloadable = !shape || ((shape->flags & 0x40) && !shape->base);
+    }
+    if (overloadable) {
+        unsigned restore_mode = frontend_data.compiler_mode_flags & 4;
+        if (restore_mode) frontend_data.compiler_mode_flags &= ~4U;
+        unsigned failed = 0;
+        CompilerExpression *result = resolve_overloaded_operator(operation, operand, NULL, 1, 1, &failed);
+        if (restore_mode) frontend_data.compiler_mode_flags |= 4;
+        if (result) return result;
+        if (failed) return NULL;
+    }
+    return make_cast_expression(operation, operand);
+}
+extern "C" CompilerExpression *__cdecl resolve_overloaded_operator(unsigned,
+    CompilerExpression *, CompilerExpression *, unsigned, unsigned, unsigned *)
+{ __asm { int 3 } return NULL; }
+
+extern "C" {
+int __cdecl check_unary_operand(unsigned, unsigned, CompilerExpression *, CompilerExpression *); /*101c8*/
+int __cdecl is_identity_unary_conversion(unsigned, WORD); /*12ccd*/
+CompilerType *__cdecl dereference_expression_type(CompilerType *); /*12cdb*/
+CompilerExpression *__cdecl make_scalar_comparison(unsigned, CompilerExpression *, CompilerExpression *); /*12ff1*/
+CompilerType *__cdecl adjust_reference_type(CompilerType *, unsigned); /*3fef0*/
+CompilerExpression *__cdecl promote_scalar_expression(CompilerExpression *); /*1ed9f*/
+CompilerType *__cdecl replace_function_parameters(CompilerType *, unsigned, WORD, const void *); /*2d6b2*/
+int __cdecl subtract_extended_constants(const CompilerExtendedConstant *,
+    const CompilerExtendedConstant *, CompilerExtendedConstant *); /*a1a37*/
+void *__cdecl copy_extended_constant(const void *, unsigned); /*4b150*/
+}
+
+/* 10239..10701, 59b12..59fad. These are the actual unary operation
+ * groups. The original default is defective: its ordinary uninitialized
+ * integer local flows to common folding without a writer. */
+extern "C" CompilerExpression *__cdecl make_cast_expression(unsigned operation,
+    CompilerExpression *value)
+{
+    CompilerExpression *result, *right;
+    CompilerSymbol *symbol, *selected;
+    CompilerBoundSymbol *bound;
+    CompilerType *type;
+    CompilerTypeShape *shape;
+    WORD shape_flags, flags;
+    unsigned width, shift;
+    unsigned __int64 bits;
+    CompilerExtendedConstant floating;
+    if (!value) return NULL;
+    if (!value->type) {
+        if ((BYTE)operation == 0x76) return value;
+        if (value->kind == 0x31) {
+            compiler_warning(0xab, (BYTE)operation);
+            return value;
+        }
+        if (value->kind == 0x50 || value->kind == 0x53 ||
+            value->kind == 0x92 || value->kind == 0x93) {
+            right = value->value.operands.second;
+            if ((BYTE)operation == 0x31 && right && right->kind == 6 && right->value.symbol) {
+                selected = right->value.symbol;
+                if (selected->kind == 18)
+                    selected = ((CompilerBoundSymbol *)selected)->binding->owner->symbol;
+                if (can_resolve_assignment_symbol(selected, 1)) {
+                    selected = resolve_assignment_symbol(selected, 1);
+                    if ((((CompilerIrSymbol *)selected)->storage_class & 7) == 3) {
+                        if (frontend_data.compiler_mode_flags & 4) return value;
+                        right->value.symbol = selected;
+                        right->type = ((CompilerIrSymbol *)selected)->type;
+                        value->type = right->type;
+                        goto typed_value;
+                    }
+                }
+            }
+            if (value->kind == 0x92 || value->kind == 0x93)
+                compiler_warning(0x12a, (BYTE)operation);
+            else compiler_warning(0x114, 0x4c, (BYTE)operation);
+            return NULL;
+        }
+        symbol = value->value.symbol;
+        bound = symbol->kind == 18 ? (CompilerBoundSymbol *)symbol : NULL;
+        selected = bound ? bound->binding->owner->symbol : symbol;
+        if (selected->kind == 3) {
+            if ((BYTE)operation == 0x31) return make_member_pointer_expression((CompilerExpression *)symbol);
+            compiler_warning(0xab, (BYTE)operation);
+            return NULL;
+        }
+        if (selected->kind == 2) {
+            compiler_warning(0x87, selected);
+            return NULL;
+        }
+        if (selected->type_flags & 0x30) {
+            compiler_warning(0x115, selected);
+            return NULL;
+        }
+        if (!can_resolve_assignment_symbol(selected, 1)) {
+            if ((BYTE)operation == 0x31) return make_immediate_expression(0x31, NULL, value);
+            compiler_warning(0xf4, selected);
+            return NULL;
+        }
+        if ((selected->kind == 17 || selected->kind == 8) && (BYTE)operation == 0x31) {
+            bound->binding->owner->symbol = resolve_assignment_symbol(selected, 1);
+            return make_member_pointer_expression((CompilerExpression *)bound);
+        }
+        selected = resolve_assignment_symbol(selected, 1);
+        value->value.symbol = selected;
+        value->type = ((CompilerIrSymbol *)selected)->type;
+    }
+typed_value:
+    type = value->type;
+    shape = type->shape;
+    shape_flags = shape ? shape->flags : 0;
+    result = make_immediate_expression(operation, type, value);
+    if (!check_unary_operand(operation, 1, NULL, value)) return NULL;
+    switch ((BYTE)operation) {
+    case 0x31:
+        return prepare_parameter_expression(value, 12);
+    case 0x3d: case 0xa6:
+        if (is_identity_unary_conversion(operation, shape_flags))
+            return result->value.operands.first;
+        if ((shape_flags & 0x77) == 3 || (shape_flags & 0x44) == 0x44) {
+            if (shape_flags & 8) return value;
+            value->type = adjust_reference_type(value->type, 1);
+            return value;
+        }
+        if ((shape_flags & 0x77) == 1 || (shape_flags & 0x40)) {
+            result->type = dereference_expression_type(value->type);
+            type = result->type;
+            shape = type->shape;
+            if (!shape) {
+                if ((type->flags & 0x2fdf) == 0x80) {
+                    compiler_warning(0x64);
+                    result = result->value.operands.first;
+                }
+            } else if ((shape->flags & 0x77) == 2) {
+                value->flags |= 0x20;
+                WORD qualifiers = (shape->attributes & 0x1f00) |
+                    ((BYTE)value->type->shape->attributes & 0x73);
+                value->type = replace_function_parameters(type, 2, qualifiers, &shape->payload);
+                return value;
+            } else if ((shape->flags & 0x77) == 1 && (BYTE(shape->attributes) & 3))
+                return qualify_reference_expression(result);
+        } else if ((shape_flags & 0x77) == 2)
+            return make_scalar_comparison(0x41, value, (CompilerExpression *)make_integer_constant(0));
+        else if ((shape_flags & 0x77) == 4) return value;
+        else {
+            compiler_warning(0x64);
+            result = result->value.operands.first;
+        }
+        if ((value->flags & 7) == 4 && value->kind == 6 &&
+            (result->flags & 7) == 1 && result->kind == 0x3d) {
+            right = result->value.operands.first;
+            if ((right->flags & 7) == 4 && right->kind == 6) right->flags &= ~0x20;
+        }
+        return result;
+    case 0x5a:
+        if (shape_flags || !(value->type->flags & 0x340)) {
+            compiler_warning(0xab, 0x5a);
+            return result;
+        }
+        if (!value->type->shape && (value->type->flags & 0x2fdf) == 0x40)
+            report_language_diagnostic(1, 0x324, value->type);
+        value = promote_scalar_expression(value);
+        result->type = value->type;
+        flags = value->type->flags;
+        if ((flags & 0x4000) || (frontend_data.options.unsigned_char &&
+            (flags & 0x2fdf) == 0x41 && !(flags & 0x8000)))
+            report_language_diagnostic(2, 0x92);
+        value = resolve_constant_reference(value);
+        if ((value->flags & 7) != 3) return result;
+        flags = value->type->flags;
+        if (flags & 0x100) {
+            if (subtract_extended_constants(&compiler_extended_zero,
+                (const CompilerExtendedConstant *)value->value.pointer, &floating))
+                report_language_diagnostic(2, 0x38);
+            value->value.pointer = copy_extended_constant(&floating, frontend_data.constant_arena_index);
+            return value;
+        }
+        bits = 0 - (unsigned __int64)value->value.integer;
+        if (!(flags & 0x4000)) {
+            width = ((flags & 0x340) || !(flags & 0xfff0)) ?
+                (unsigned)(int)compiler_primitive_type_bytes[flags & 15] : flags & 15;
+            if (width > 8) { __asm { int 3 } }
+            if (!width) bits = 0;
+            else {
+                shift = (8 - width) * 8;
+                bits = (__int64)(bits << shift) >> shift;
+            }
+        }
+        break;
+    case 0x3c:
+        if (!(value->type->flags & 0x340) && !(shape_flags & 3)) {
+            compiler_warning(0xab, 0x3c);
+            return result;
+        }
+        result->type = frontend_data.builtin_types.type_0060;
+        result->constant_flags |= 1;
+        value = resolve_constant_reference(value);
+        if ((value->flags & 7) != 3) return result;
+        if (!(value->type->flags & 0x240) && !(shape_flags & 1)) {
+            result = make_scalar_comparison(0x3b, value, (CompilerExpression *)make_integer_constant(0));
+            result->constant_flags |= 1;
+            return result;
+        }
+        bits = !value->value.integer;
+        break;
+    case 0x59:
+        if (!(value->type->flags & 0x240) || shape_flags) {
+            compiler_warning(0xab, 0x59);
+            return result;
+        }
+        if (!value->type->shape && (value->type->flags & 0x2fdf) == 0x40)
+            report_language_diagnostic(1, 0x324, value->type);
+        value = promote_scalar_expression(value);
+        result->type = value->type;
+        value = resolve_constant_reference(value);
+        if ((value->flags & 7) != 3) return result;
+        bits = ~(unsigned __int64)value->value.integer;
+        break;
+    case 0x76:
+        if (!(result->type->flags & 0x100)) return value;
+        value = resolve_constant_reference(value);
+        if ((value->flags & 7) == 3 || shape_flags) return value;
+        return result;
+    case 0x86:
+        if (!(shape_flags & 1) && (shape_flags || !(value->type->flags & 0x340)))
+            compiler_warning(0xab, 0x86);
+        value = promote_scalar_expression(value);
+        result->type = value->type;
+        value = resolve_constant_reference(value);
+        if ((value->flags & 7) != 3) return result->type == value->type ? value : result;
+        if (!shape_flags && (value->type->flags & 0x100)) return value;
+        bits = value->value.integer;
+        break;
+    default:
+        /* Original defect: bits is uninitialized on this path. The Win32
+         * build retains that source behavior. Native private stack/compiler
+         * representation is unqualified, so stop before reading it. */
+#ifdef __linux__
+        recon_unsupported("unary default: unqualified private stack value");
+#else
+        break;
+#endif
+    }
+    flags = value->type->flags;
+    if (!(flags & 0x80) && ((flags & 0x4000) || (__int64)bits > 0)) {
+        width = ((flags & 0x340) || !(flags & 0xfff0)) ?
+            (unsigned)(int)compiler_primitive_type_bytes[flags & 15] : flags & 15;
+        if (width > 8) { __asm { int 3 } }
+        if (!width) bits = 0;
+        else {
+            shift = (8 - width) * 8;
+            bits = (bits << shift) >> shift;
+        }
+    }
+    if (frontend_data.source_mode_flags & 8) value = instantiate_parser_expression(value, 5);
+    value->value.integer = bits;
+    value->type = result->type;
+    return value;
+}
+
+extern "C" int __cdecl permits_incomplete_operand(unsigned, unsigned, unsigned); /*21db9*/
+/* 101c8..10239, 59ae6..59b12: classification is computed for each
+ * supplied operand before deciding whether the operator permits it. */
+extern "C" int __cdecl check_unary_operand(unsigned operation, unsigned arity,
+    CompilerExpression *left, CompilerExpression *right)
+{
+    unsigned incomplete_left = left ? get_type_classification(left->type) & 0x80 : 0;
+    unsigned incomplete_right = right ? get_type_classification(right->type) & 0x80 : 0;
+    if (!incomplete_left && !incomplete_right) return 1;
+    if (permits_incomplete_operand(operation, arity, incomplete_left)) return 1;
+    compiler_warning(0x58, (BYTE)operation, incomplete_left ? left->type : right->type);
+    return 0;
+}
+extern "C" int __cdecl permits_incomplete_operand(unsigned, unsigned, unsigned)
+{ __asm { int 3 } return 0; }
+/* 12ccd..12cdb, 5b30c..5b329: invalid qualifier forms retain the
+ * original operand after reporting the operator byte. */
+extern "C" int __cdecl is_identity_unary_conversion(unsigned operation, WORD flags)
+{
+    if (!(flags & 0x30)) return 0;
+    compiler_warning(0xab, (BYTE)operation);
+    return 1;
+}
+/* 12cdb..12d26, 5b329..5b33b: retain the extracted payload pointer,
+ * then merge the shape's low qualifiers into the stripped, interned type. */
+extern "C" CompilerType *__cdecl dereference_expression_type(CompilerType *type)
+{
+    WORD qualifiers = type->shape->attributes & 3;
+    if (qualifiers == 1) compiler_warning(0xd6);
+    frontend_bss.last_extracted_type_payload = type->shape->payload.type;
+    CompilerType *result = get_function_return_type(type);
+    result->attributes = (result->attributes & ~3) | qualifiers;
+    return intern_type(result);
+}
+extern "C" void __cdecl balance_binary_operands(CompilerExpression **, CompilerExpression **);
+extern "C" int __cdecl check_void_binary_operands(CompilerExpression *, CompilerExpression *, unsigned);
+extern "C" CompilerExpression *__cdecl convert_binary_operand(CompilerType *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl check_assignment_destination(CompilerExpression *);
+extern "C" CompilerExpression *__cdecl prepare_assignment_target(CompilerExpression *, unsigned);
+extern "C" CompilerExpression *__cdecl make_boolean_binary_expression(unsigned, CompilerExpression *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl convert_pointer_operand(unsigned, CompilerType *, CompilerExpression *);
+extern "C" unsigned __cdecl serialize_type_reference(CompilerType *);
+extern "C" CompilerType *__cdecl common_arithmetic_type(unsigned, CompilerType *, CompilerType *);
+extern "C" CompilerExpression *__cdecl simplify_binary_expression(CompilerExpression *, CompilerExpression *, CompilerExpression *);
+extern "C" int __cdecl invalid_pointer_arithmetic(CompilerExpression *);
+extern "C" void __cdecl check_pointer_difference(unsigned, CompilerExpression *, CompilerExpression *);
+extern "C" CompilerExpression *__cdecl resolve_class_pointer_difference(CompilerExpression *, CompilerExpression *, CompilerExpression *);
+extern "C" void __cdecl diagnose_binary_operand(unsigned, unsigned);
+extern "C" CompilerExpression *__cdecl build_member_pointer_operator(CompilerExpression *);
+
+/* The compressed original dispatch columns are expressed as logical operator
+ * groups. These macros inspect existing typed owners and introduce no calls. */
+#define BINARY_VOID(t) (!(t)->shape && (((t)->flags & 0x2fdf) == 0x40))
+#define BINARY_SHAPE(t) ((t)->shape ? (t)->shape->flags : 0)
+#define BINARY_BAD_POINTER(f) ((((f) & 0x77) == 3) || (((f) & 0x44) == 0x44))
+extern "C" CompilerExpression *__cdecl make_scalar_comparison(unsigned operation,
+    CompilerExpression *left, CompilerExpression *right)
+{
+    CompilerExpression *result, *temporary;
+    CompilerType *type, *left_type, *right_type;
+    WORD left_shape, right_shape, qualifiers;
+    unsigned code = (BYTE)operation, size, shift;
+    int special_constant = 0, swapped = 0, preserve_left = 0;
+    if (right->kind == 0xee) {
+        right = expand_initializer_expression(operation, right, NULL);
+        if (!right) return NULL;
+    }
+    if (left->kind == 0xee) {
+        switch (code) {
+        case 0x33: case 0x34: case 0x38: case 0x3a:
+        case 0x40: case 0x41: case 0x42: case 0x47:
+        case 0x49: case 0x4b: case 0x4e: case 0x52:
+        case 0x54: case 0x55: case 0x57: case 0x5c:
+            return expand_initializer_expression(operation, left, right);
+        default:
+            left = expand_initializer_expression(operation, left, NULL);
+            if (!left) return NULL;
+        }
+    }
+    /* CF298 classes34/61/74 preserve the left operand's binding form. */
+    switch (code) {
+    case 0x33: case 0x34: case 0x3a: case 0x42: case 0x47:
+    case 0x49: case 0x4b: case 0x4e: case 0x52: case 0x57: case 0x5c:
+    case 0x61: case 0x74:
+        preserve_left = 1;
+    }
+    if (!left->type) {
+        if (preserve_left) {
+            left = resolve_parser_expression(left);
+            if (!(left->flags & 8)) compiler_warning(0x293, code);
+            return NULL;
+        }
+        temporary = convert_assignment_operand(right->type, left);
+        if (!temporary) {
+            if (!right->type) diagnose_parser_operand(operation, left);
+            return NULL;
+        }
+        left = temporary;
+    }
+    if (!preserve_left) left = resolve_constant_reference(left);
+    if (!right->type) {
+        temporary = convert_assignment_operand(left->type, right);
+        if (!temporary) {
+            diagnose_parser_operand(operation, right);
+            return NULL;
+        }
+        right = temporary;
+    }
+    if (BINARY_VOID(left->type) || BINARY_VOID(right->type))
+        special_constant = check_void_binary_operands(left, right, operation);
+
+    switch (code) {
+    case 0x32: case 0x34: case 0x36: case 0x37: case 0x38: case 0x40:
+    case 0x4f: case 0x50: case 0x53: case 0x54: case 0x55: case 0x56:
+    case 0x73: case 0x74: case 0x83: case 0x92: case 0x93: case 0x94: case 0xee:
+        goto make_node;
+    case 0x33: case 0x3a: case 0x42: case 0x47: case 0x49:
+    case 0x4b: case 0x4e: case 0x52: case 0x57: case 0x5c: case 0x61:
+        switch (code) {
+        case 0x33: case 0x49: case 0x4e: case 0x5c:
+            if (left->type->flags & 0x100) {
+                right = promote_scalar_expression(right);
+                goto make_node;
+            }
+            if (right->type->Matches(left->type, 0) && BINARY_VOID(right->type))
+                goto make_node;
+        }
+        right = convert_binary_operand(left->type, right);
+        goto make_node;
+    case 0x41:
+        right = promote_scalar_expression(right);
+        goto make_node;
+    }
+    switch (code) {
+    case 0x31:
+        if ((left->constant_flags | right->constant_flags) & 1) special_constant = 1;
+        /* fall through: shifts and integral operators promote operands. */
+    case 0x48: case 0x4d: case 0x5b:
+        if (left->type->flags & 0x100) {
+            right = promote_scalar_expression(right);
+            goto make_node;
+        }
+        if (right->type->flags & 0x100) {
+            left = promote_scalar_expression(left);
+            goto make_node;
+        }
+        break;
+    case 0x56:
+        left = promote_scalar_expression(left);
+        right = promote_scalar_expression(right);
+        goto make_node;
+    }
+    balance_binary_operands(&left, &right);
+make_node:
+    result = make_binary_node(operation, left, right, NULL);
+    result->constant_flags = (result->constant_flags & ~1) | (special_constant & 1);
+    if (!check_unary_operand(operation, 2, left, right)) return NULL;
+    switch (code) {
+    case 0x38: case 0x40: case 0x54: case 0x55:
+        if (BINARY_VOID(left->type))
+            return make_boolean_binary_expression(operation, left, NULL);
+        result->type = left->type;
+        if (!result->type) return NULL;
+        if (result->type->shape && is_identity_unary_conversion(operation, result->type->shape->flags))
+            return NULL;
+        if ((left->type->flags & 0x200) && !left->type->shape) compiler_warning(0x7e, code);
+        temporary = prepare_assignment_target(left, 1);
+        if (!temporary) {
+            compiler_warning(0x69, code);
+            return result;
+        }
+        result->value.operands.first = temporary;
+        left_shape = BINARY_SHAPE(result->type);
+        if (!left_shape) {
+            result->value.operands.second = convert_pointer_operand(operation, result->type, right);
+            return result;
+        }
+        if ((left_shape & 0x77) == 1) {
+            size = serialize_type_reference(result->type);
+            frontend_bss.initializer_zero_bytes = size;
+            __int64 limit = (__int64)~(~(unsigned __int64)0 <<
+                (compiler_primitive_type_bytes[3] * 8 - 1));
+            type = (__int64)frontend_bss.initializer_zero_bytes <= limit ?
+                frontend_data.builtin_types.type_0063 : frontend_data.builtin_types.type_0044;
+            result->value.operands.second = make_typed_constant(type,
+                &frontend_bss.initializer_zero_bytes, frontend_data.constant_arena_index);
+        } else if (BINARY_BAD_POINTER(left_shape)) compiler_warning(0xab, code);
+        if (result->type->shape->attributes & 3) return qualify_reference_expression(result);
+        return result;
+
+    case 0x51: /* addition, including pointer plus integral offset */
+        if (left->type && left->type->shape && (left->type->shape->flags & 0x77) == 2)
+            left->type = reference_expression_type(left);
+        if (right->type && right->type->shape && (right->type->shape->flags & 0x77) == 2)
+            right->type = reference_expression_type(right);
+        result->type = common_arithmetic_type(operation, left->type, right->type);
+        if (!result->type) return NULL;
+        left_shape = BINARY_SHAPE(left->type);
+        right_shape = BINARY_SHAPE(right->type);
+        if (invalid_pointer_arithmetic(result)) return NULL;
+        if (!(left_shape & 3)) {
+            if (right_shape & 3) {
+                result->value.operands.first = right;
+                result->value.operands.second = left;
+                temporary = left; left = right; right = temporary;
+                result->type = left->type;
+                qualifiers = left_shape; left_shape = right_shape; right_shape = qualifiers;
+                swapped = 1;
+            } else {
+                if (((left->type->flags & 0x80) && !left_shape) ||
+                    ((right->type->flags & 0x80) && !right_shape)) compiler_warning(0xba, code);
+                return simplify_binary_expression(result, left, right);
+            }
+        }
+        if (BINARY_BAD_POINTER(left_shape)) {
+            diagnose_binary_operand(operation, swapped ? 2 : 1);
+            return NULL;
+        }
+        if (right_shape & 3) { compiler_warning(0x6e); return NULL; }
+        if (!(right->type->flags & 0x240)) { compiler_warning(0x6f); return NULL; }
+        frontend_bss.initializer_zero_bytes = serialize_type_reference(left->type);
+        temporary = make_typed_constant(frontend_data.builtin_types.type_0044,
+            &frontend_bss.initializer_zero_bytes, frontend_data.constant_arena_index);
+        result->value.operands.second = make_scalar_comparison(0x4a, right, temporary);
+        return result;
+
+    case 0x46: /* subtraction and pointer difference */
+        if (left->type && left->type->shape && (left->type->shape->flags & 0x77) == 2)
+            left->type = reference_expression_type(left);
+        if (right->type && right->type->shape && (right->type->shape->flags & 0x77) == 2)
+            right->type = reference_expression_type(right);
+        result->type = common_arithmetic_type(operation, left->type, right->type);
+        if (!result->type) return NULL;
+        if (invalid_pointer_arithmetic(result)) return NULL;
+        left_type = left->type; right_type = right->type;
+        left_shape = BINARY_SHAPE(left_type); right_shape = BINARY_SHAPE(right_type);
+        if (left_shape && (left_shape & 0x77) <= 2) {
+            size = serialize_type_reference(left_type);
+            if (right_shape && (right_shape & 0x77) <= 2) {
+                if ((left->type->flags & 0x400) && (right->type->flags & 0x400)) {
+                    result = resolve_class_pointer_difference(result, left, right);
+                    if (!result) return NULL;
+                    left = result->value.operands.first;
+                    right = result->value.operands.second;
+                    size = serialize_type_reference(left->type);
+                }
+                check_pointer_difference(0x46, left, right);
+                result->type = frontend_data.builtin_types.type_0063;
+                result = simplify_binary_expression(result, left, right);
+                if (size == 1) return result;
+                if (!(size & (size - 1))) {
+                    size >>= 2;
+                    shift = 1;
+                    while (size) { ++shift; size >>= 1; }
+                    return make_scalar_comparison(0x58, result,
+                        (CompilerExpression *)make_integer_constant(shift));
+                }
+                return make_scalar_comparison(0x39, result,
+                    (CompilerExpression *)make_integer_constant(size));
+            }
+            if (BINARY_BAD_POINTER(right_shape)) { diagnose_binary_operand(operation, 2); return NULL; }
+            if (!(right_type->flags & 0x240)) { compiler_warning(0x70); return result; }
+            frontend_bss.initializer_zero_bytes = (__int64)(int)size;
+            temporary = make_typed_constant(frontend_data.builtin_types.type_0044,
+                &frontend_bss.initializer_zero_bytes, frontend_data.constant_arena_index);
+            result->value.operands.second = make_scalar_comparison(0x4a, right, temporary);
+            return result;
+        }
+        if (BINARY_BAD_POINTER(left_shape)) { diagnose_binary_operand(operation, 1); return NULL; }
+        if (right_shape & 3) { compiler_warning(0x71); return NULL; }
+        if (((left_type->flags & 0x80) && !left_shape) ||
+            ((right_type->flags & 0x80) && !right_shape)) compiler_warning(0xba, code);
+        return simplify_binary_expression(result, left, right);
+
+    case 0x43: case 0x58:
+        result->value.operands.first = left;
+        result->type = left->type;
+        goto finish_numeric;
+    case 0x31: case 0x39: case 0x48: case 0x4a: case 0x4d: case 0x5b:
+        result->type = common_arithmetic_type(operation, left->type, right->type);
+finish_numeric:
+        if (!result->type) return NULL;
+        return simplify_binary_expression(check_assignment_destination(result), left, right);
+
+    case 0x33: case 0x3a: case 0x42: case 0x47: case 0x49:
+    case 0x4b: case 0x4e: case 0x52: case 0x57: case 0x5c:
+        if (BINARY_VOID(left->type)) return make_boolean_binary_expression(operation, left, right);
+        /* fall through: assignment retains the real left type and target. */
+    case 0x34: case 0x74:
+        result = check_assignment_destination(result);
+        if (!result) return NULL;
+        result->type = left->type;
+        result->value.operands.first = prepare_assignment_target(left, code != 0x74);
+        if (!result->value.operands.first) {
+            compiler_warning(0x6a, code);
+            return result;
+        }
+        if (result->type->shape && (result->type->shape->attributes & 3)) {
+            if (code == 0x74 || code == 0x34)
+                result->value.operands.second = materialize_return_value(result->type, result->value.operands.second);
+            return qualify_reference_expression(result);
+        }
+        return result;
+
+    case 0x41: /* indexing */
+        if (left->type && left->type->shape && (left->type->shape->flags & 0x77) == 2)
+            left->type = reference_expression_type(left);
+        if (right->type && right->type->shape && (right->type->shape->flags & 0x77) == 2)
+            right->type = reference_expression_type(right);
+        result->type = common_arithmetic_type(operation, left->type, NULL);
+        if (!result->type) return NULL;
+        left_shape = BINARY_SHAPE(left->type); right_shape = BINARY_SHAPE(right->type);
+        if (!left_shape || (left_shape & 0x77) > 2) {
+            if (!right_shape || (right_shape & 0x77) > 2) { compiler_warning(0x6d); return result; }
+            result->value.operands.first = right;
+            result->value.operands.second = left;
+            temporary = left; left = right; right = temporary;
+            result->type = left->type;
+            right_shape = left_shape;
+        }
+        if ((left->type->shape->attributes & 3) == 1) { compiler_warning(0xd6); return result; }
+        if (right_shape) { compiler_warning(0x6b); return result; }
+        if (!(right->type->flags & 0x240)) { compiler_warning(0x6c); return result; }
+        frontend_bss.initializer_zero_bytes = serialize_type_reference(left->type);
+        temporary = make_typed_constant(frontend_data.builtin_types.type_0044,
+            &frontend_bss.initializer_zero_bytes, frontend_data.constant_arena_index);
+        right = make_scalar_comparison(0x4a, right, temporary);
+        result->value.operands.second = right;
+        right = resolve_constant_reference(right);
+        if ((right->flags & 7) == 3 && left->kind == 0x41 &&
+            (left->value.operands.second->flags & 7) == 3) {
+            result->value.operands.first = left->value.operands.first;
+            right->value.integer = (__int64)((unsigned __int64)right->value.integer +
+                (unsigned __int64)left->value.operands.second->value.integer);
+        }
+        qualifiers = left->type->shape->attributes & 0x1f00;
+        result->type = intern_type(get_function_return_type(left->type));
+        if (right->type->shape && (right->type->shape->flags & 0x77) == 2 && qualifiers) {
+            type = result->type;
+            if (type->shape) {
+                if (qualifiers != (type->shape->attributes & 0x1f00)) {
+                    unsigned payload = type->shape->payload.value;
+                    result->type = replace_function_parameters(type, type->shape->flags,
+                        type->shape->attributes | qualifiers, &payload);
+                }
+            } else type->attributes |= qualifiers;
+        }
+        if (!result->type->shape || (result->type->shape->flags & 0x77) != 2)
+            return convert_return_temporary(result);
+        return result;
+
+    case 0x3b: case 0x3e: case 0x3f: case 0x44: case 0x45: case 0x4c:
+        if ((left->flags & 7) == 5 || (right->flags & 7) == 5)
+            report_language_diagnostic(4, 0x82, code);
+        /* fall through: comparisons and logical operators produce bool. */
+    case 0x32: case 0x4f:
+        result = check_assignment_destination(result);
+        if (!result) return NULL;
+        result->type = frontend_data.builtin_types.type_0060;
+        result = simplify_binary_expression(result, left, right);
+        result->constant_flags |= 1;
+        return result;
+    case 0x37: case 0x56:
+        result->type = right->type;
+        if (right->flags & 0x80) result->flags |= 0x80;
+        if (result->type && result->type->shape && (result->type->shape->flags & 0x77) == 2)
+            result->type = reference_expression_type(result);
+        return result;
+    case 0x92: case 0x93:
+        type = left->type;
+        if (!(type->flags & 0x400) || (code == 0x92 && type->shape) ||
+            (code == 0x93 && (!type->shape || (type->shape->flags & 0x77) != 1 || type->shape->base))) {
+            diagnose_binary_operand(operation, 1);
+            return NULL;
+        }
+        if (right->type->shape && (right->type->shape->flags & 0x30))
+            return build_member_pointer_operator(result);
+        diagnose_binary_operand(operation, 2);
+        return NULL;
+    default:
+        return result;
+    }
+}
+#undef BINARY_BAD_POINTER
+#undef BINARY_SHAPE
+#undef BINARY_VOID
+extern "C" CompilerType *__cdecl select_binary_conversion_type(CompilerType *, CompilerExpression **);
+extern "C" void __cdecl balance_binary_operands(CompilerExpression **left, CompilerExpression **right)
+{
+    CompilerType *type;
+    if (*right) {
+        if (!(*right)->type) *right = NULL;
+        else if (!(*right)->type->shape) {
+            type = select_binary_conversion_type((*left)->type, right);
+            if (type) *right = make_typed_expression(0x64, type, *right, 0);
+        }
+    }
+    if (*left) {
+        if (!(*left)->type) *left = NULL;
+        else if (!(*left)->type->shape) {
+            type = select_binary_conversion_type((*right)->type, left);
+            if (type) *left = make_typed_expression(0x64, type, *left, 0);
+        }
+    }
+}
+/* CF000 supplies the established primitive widths. Encoded nonprimitive
+ * widths use their low nibble directly; no additional type-table data is read. */
+#define BINARY_TYPE_WIDTH(f) (((f) & 0x340) || !((f) & 0xfff0) ? \
+    (int)compiler_primitive_type_bytes[(f) & 15] : (int)((f) & 15))
+extern "C" CompilerType *__cdecl select_binary_conversion_type(CompilerType *context,
+    CompilerExpression **operand)
+{
+    CompilerExpression *value = *operand;
+    WORD flags = value->type->flags;
+    WORD context_flags;
+    int width, context_width;
+    int int_width = compiler_primitive_type_bytes[3];
+    if (flags & 0x240) {
+        context_flags = context->flags;
+        if ((context_flags & 0x240) || context->shape) {
+            context_width = context->shape ? int_width : BINARY_TYPE_WIDTH(context_flags);
+            width = BINARY_TYPE_WIDTH(flags);
+            if (context_width <= int_width && width < int_width)
+                return frontend_data.builtin_types.type_0063;
+            if (context_width > width) return context;
+            if ((flags & 0x200) || (flags & 0x2fff) == 0x60)
+                return frontend_data.builtin_types.type_0063;
+            return NULL;
+        }
+        width = BINARY_TYPE_WIDTH(flags);
+        if (context_flags & 0x100) {
+            if (width < int_width)
+                *operand = make_typed_expression(0x64, frontend_data.builtin_types.type_0063, value, 0);
+            return context;
+        }
+        return width < int_width ? frontend_data.builtin_types.type_0063 : NULL;
+    }
+    if ((flags & 0x100) && (context->flags & 0x100)) {
+        context_width = BINARY_TYPE_WIDTH(context->flags);
+        width = BINARY_TYPE_WIDTH(flags);
+        if (context_width > width) return context;
+    }
+    return NULL;
+}
+#undef BINARY_TYPE_WIDTH
+
+extern "C" int __cdecl check_void_binary_operands(CompilerExpression *, CompilerExpression *, unsigned) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl convert_binary_operand(CompilerType *, CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl check_assignment_destination(CompilerExpression *) { __asm { int 3 } return NULL; }
+
+extern "C" CompilerExpression *__cdecl make_boolean_binary_expression(unsigned, CompilerExpression *, CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl convert_pointer_operand(unsigned, CompilerType *, CompilerExpression *) { __asm { int 3 } return NULL; }
+#define ARITHMETIC_TYPE_WIDTH(f) (((f) & 0x340) || !((f) & 0xfff0) ? \
+    (int)compiler_primitive_type_bytes[(f) & 15] : (int)((f) & 15))
+extern "C" CompilerType *__cdecl common_arithmetic_type(unsigned,
+    CompilerType *left, CompilerType *right)
+{
+    CompilerType *selected = left;
+    int left_width, right_width;
+    if (!left) selected = right;
+    else if (right) {
+        if (left->shape) {
+            if (right->shape && (right->flags & 0x80)) selected = right;
+        } else if (right->shape) selected = right;
+        else if (left->flags & 0x100) {
+            if (right->flags & 0x100) {
+                left_width = ARITHMETIC_TYPE_WIDTH(left->flags);
+                right_width = ARITHMETIC_TYPE_WIDTH(right->flags);
+                if (left_width < right_width) selected = right;
+            }
+        } else if (right->flags & 0x100) selected = right;
+        else if ((left->flags & 0x240) && (right->flags & 0x240)) {
+            left_width = ARITHMETIC_TYPE_WIDTH(left->flags);
+            right_width = ARITHMETIC_TYPE_WIDTH(right->flags);
+            if (left_width == right_width) selected = (left->flags & 0x4000) ? left : right;
+            else selected = left_width > right_width ? left : right;
+        }
+    }
+    if (selected->GetCallingConvention() & 0xf00) selected = selected->StripQualifiers();
+    return selected;
+}
+#undef ARITHMETIC_TYPE_WIDTH
+extern "C" char *__cdecl format_integer64(const __int64 *, char *, int, int);
+extern "C" int __cdecl compare_extended_constants(unsigned, const CompilerExtendedConstant *, const CompilerExtendedConstant *);
+extern "C" int __stdcall parse_extended_constant(const char *, CompilerExtendedConstant *);
+extern "C" CompilerExpression *__cdecl fold_extended_binary_expression(CompilerExpression *, const CompilerExtendedConstant *, const CompilerExtendedConstant *);
+extern "C" int __cdecl integer_difference_out_of_range(__int64, unsigned __int64, WORD, WORD);
+extern "C" int __cdecl integer_product_out_of_range(__int64, unsigned __int64, WORD, WORD);
+extern "C" int __cdecl validate_member_offset(__int64, __int64, WORD, WORD);
+
+/* Control-flow source seed: C1 fold_binary_expression. This owner retains
+ * C1XX's two reference resolutions, type masks and unsigned-char predicate. */
+extern "C" CompilerExpression *__cdecl simplify_binary_expression(CompilerExpression *node,
+    CompilerExpression *left, CompilerExpression *right)
+{
+    WORD left_flags = left->type->flags, right_flags = right->type->flags;
+    unsigned operation;
+    CompilerType *result_type = NULL;
+    int left_width, right_width, width, unsigned_values, wide_result = 0;
+    unsigned __int64 first, second, value;
+    BYTE left_real[12], right_real[12];
+    char integer_text[32];
+    if (!node) return NULL;
+    operation = node->kind;
+    left = resolve_constant_reference(left);
+    if ((left->flags & 7) != 3) return node;
+    right = resolve_constant_reference(right);
+    first = ((unsigned __int64)left->value.words.high << 32) | left->value.words.low;
+    if ((right->flags & 7) != 3) {
+        if (operation != 50 && operation != 79) return node;
+        if (left_flags & 0x100) {
+            /* Preserve the complete extended value, including its precision. */
+            memcpy(left_real, left->value.pointer, 12);
+            value = (__int64)compare_extended_constants(6, (const CompilerExtendedConstant *)left_real,
+                &compiler_extended_zero);
+        } else value = first != 0;
+        unsigned_values = (left_flags & 0x4000) ||
+            (frontend_data.options.unsigned_char &&
+             (left_flags & 0x2fdf) == 0x41 && !(left_flags & 0x8000));
+        /* Preserve this dispatch's actual predicate and carried truth value. */
+        if (!((operation == 50) ^ (value != 0))) return node;
+        frontend_bss.initializer_zero_bytes = value;
+        return make_typed_constant(unsigned_values ? frontend_data.builtin_types.type_4063_first :
+            frontend_data.builtin_types.type_0063, &frontend_bss.initializer_zero_bytes,
+            frontend_data.constant_arena_index);
+    }
+    second = ((unsigned __int64)right->value.words.high << 32) | right->value.words.low;
+    if ((left_flags | right_flags) & 0x100) {
+        /* Real pending format/parse/fold children bound the floating domain.
+         * Copy the existing extended object without interpreting its tail. */
+        if (left_flags & 0x100) memcpy(left_real, left->value.pointer, 12);
+        else if (parse_extended_constant(format_integer64((const __int64 *)&first, integer_text, 10,
+            left_flags & 0x4000), (CompilerExtendedConstant *)left_real))
+            report_language_diagnostic(2, 56);
+        if (right_flags & 0x100) memcpy(right_real, right->value.pointer, 12);
+        else if (parse_extended_constant(format_integer64((const __int64 *)&second, integer_text, 10,
+            right_flags & 0x4000), (CompilerExtendedConstant *)right_real))
+            report_language_diagnostic(2, 56);
+        return fold_extended_binary_expression(node,
+            (const CompilerExtendedConstant *)left_real, (const CompilerExtendedConstant *)right_real);
+    }
+    left_width = ((left_flags & 0x340) || !(left_flags & 0xfff0)) ?
+        compiler_primitive_type_bytes[left_flags & 15] : left_flags & 15;
+    right_width = ((right_flags & 0x340) || !(right_flags & 0xfff0)) ?
+        compiler_primitive_type_bytes[right_flags & 15] : right_flags & 15;
+    if (left->type->shape || right->type->shape) {
+        unsigned_values = 1;
+        WORD flags = node->type->flags;
+        width = ((flags & 0x340) || !(flags & 0xfff0)) ?
+            compiler_primitive_type_bytes[flags & 15] : flags & 15;
+    } else if (left_width == right_width) {
+        unsigned_values = left_width == 1 ? 0 : ((left_flags | right_flags) & 0x4000) != 0;
+        width = left_width < compiler_primitive_type_bytes[3] ? compiler_primitive_type_bytes[3] : left_width;
+    } else if (left_width > right_width) {
+        unsigned_values = left_flags & 0x4000;
+        width = left_width;
+    } else {
+        unsigned_values = right_flags & 0x4000;
+        width = right_width;
+    }
+    if (width == compiler_primitive_type_bytes[4] &&
+        ((left_width && (left_flags & 0x6f) != 0x63) ||
+         (right_width && (right_flags & 0x6f) != 0x63))) wide_result = 1;
+    if (operation == 50 || operation == 67 || operation == 79 || operation == 88) {
+        if (left_width <= compiler_primitive_type_bytes[3]) {
+            left->value.words.high = unsigned_values ? 0 : ((int)left->value.words.low < 0 ? ~0U : 0);
+            first = ((unsigned __int64)left->value.words.high << 32) | left->value.words.low;
+        }
+    } else if (unsigned_values && !left->type->shape && !right->type->shape &&
+        (((left_flags & 0x4000) == 0 && (__int64)first < 0 &&
+          (!frontend_data.options.unsigned_char ||
+           ((left_flags & 0x2fdf) == 0x41 && (left_flags & 0x8000)))) ||
+         ((right_flags & 0x4000) == 0 && (__int64)second < 0 &&
+          (!frontend_data.options.unsigned_char ||
+           ((right_flags & 0x2fdf) == 0x41 && (right_flags & 0x8000))))) &&
+        operation != 49 && operation != 77 && operation != 91)
+        report_language_diagnostic(2, 308);
+    if (left_width <= compiler_primitive_type_bytes[3]) {
+        left->value.words.high = unsigned_values ? 0 : ((int)left->value.words.low < 0 ? ~0U : 0);
+        first = ((unsigned __int64)left->value.words.high << 32) | left->value.words.low;
+    }
+    if (right_width <= compiler_primitive_type_bytes[3]) {
+        right->value.words.high = unsigned_values ? 0 : ((int)right->value.words.low < 0 ? ~0U : 0);
+        second = ((unsigned __int64)right->value.words.high << 32) | right->value.words.low;
+    }
+    switch (operation) {
+    case 49: value = first & second; break;
+    case 50: value = first && second; goto boolean_result;
+    case 57:
+        if (!second) { right->flags = 0x40; return right; }
+        value = unsigned_values ? first / second : (__int64)first / (__int64)second;
+        break;
+    case 59: value = first == second; goto boolean_result;
+    case 62:
+        value = unsigned_values ? first > second : (__int64)first > (__int64)second;
+        goto boolean_result;
+    case 63:
+        value = unsigned_values ? first >= second : (__int64)first >= (__int64)second;
+        goto boolean_result;
+    case 67: {
+        unsigned count = (BYTE)right->value.words.low; /* original helper consumes CL */
+        value = count >= 64 ? 0 : first << count;
+        result_type = node->type;
+        break;
+    }
+    case 68:
+        value = unsigned_values ? first < second : (__int64)first < (__int64)second;
+        goto boolean_result;
+    case 69:
+        value = unsigned_values ? first <= second : (__int64)first <= (__int64)second;
+        goto boolean_result;
+    case 70:
+        value = first - second;
+        if (integer_difference_out_of_range((__int64)first, second,
+            (WORD)unsigned_values, (WORD)width))
+            report_language_diagnostic(2, 307, operation);
+        break;
+    case 72:
+        if (!second) { right->flags = 0x40; return right; }
+        value = unsigned_values ? first % second : (__int64)first % (__int64)second;
+        break;
+    case 74:
+        value = first * second;
+        if (integer_product_out_of_range((__int64)first, second,
+            (WORD)unsigned_values, (WORD)width))
+            report_language_diagnostic(2, 307, operation);
+        break;
+    case 76: value = first != second; goto boolean_result;
+    case 77: value = first | second; break;
+    case 79: value = first || second; goto boolean_result;
+    case 81: case 83:
+        value = first + second;
+        if (validate_member_offset((__int64)first, second,
+            (WORD)unsigned_values, (WORD)width))
+            report_language_diagnostic(2, 307, operation);
+        break;
+    case 88: {
+        unsigned count = (BYTE)right->value.words.low; /* original helper consumes CL */
+        if (unsigned_values) value = count >= 64 ? 0 : first >> count;
+        else value = count >= 64 ? ((__int64)first < 0 ? (unsigned __int64)-1 : 0) :
+            (__int64)first >> count;
+        result_type = node->type;
+        break;
+    }
+    case 91: value = first ^ second; break;
+    default: return node;
+    }
+    goto finish_integer;
+boolean_result:
+    result_type = frontend_data.builtin_types.type_0063;
+    unsigned_values = 0;
+finish_integer:
+    if ((operation == 81 || operation == 70) && node->type->shape &&
+        (node->type->shape->flags & 1)) {
+        left->value.words.low = (unsigned)value;
+        left->value.words.high = (unsigned)(value >> 32);
+        return left;
+    }
+    if (result_type) {
+        WORD flags = result_type->flags;
+        width = ((flags & 0x340) || !(flags & 0xfff0)) ?
+            compiler_primitive_type_bytes[flags & 15] : flags & 15;
+    }
+    if (width == 8) {
+        frontend_bss.initializer_zero_bytes = value;
+        return make_typed_constant(unsigned_values ? frontend_data.builtin_types.type_404c :
+            frontend_data.builtin_types.type_004c, &frontend_bss.initializer_zero_bytes,
+            frontend_data.constant_arena_index);
+    }
+    value = unsigned_values ? (unsigned)value : (__int64)(int)value;
+    if (result_type)
+        wide_result = width == compiler_primitive_type_bytes[4] && (result_type->flags & 0x6f) != 0x63;
+    if (compiler_primitive_type_bytes[3] == compiler_primitive_type_bytes[2] && !wide_result)
+        value = unsigned_values ? (WORD)value : (__int64)(short)value;
+    frontend_bss.initializer_zero_bytes = value;
+    CompilerType *type = wide_result ?
+        (unsigned_values ? frontend_data.builtin_types.type_4044 : frontend_data.builtin_types.type_0044) :
+        (unsigned_values ? frontend_data.builtin_types.type_4063_first : frontend_data.builtin_types.type_0063);
+    return make_typed_constant(type, &frontend_bss.initializer_zero_bytes, frontend_data.constant_arena_index);
+}
+extern "C" int __stdcall parse_extended_constant(const char *, CompilerExtendedConstant *) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl fold_extended_binary_expression(CompilerExpression *, const CompilerExtendedConstant *, const CompilerExtendedConstant *) { __asm { int 3 } return NULL; }
+extern "C" int __cdecl integer_difference_out_of_range(__int64, unsigned __int64, WORD, WORD) { __asm { int 3 } return 0; }
+extern "C" int __cdecl integer_product_out_of_range(__int64, unsigned __int64, WORD, WORD) { __asm { int 3 } return 0; }
+
+extern "C" int __cdecl invalid_pointer_arithmetic(CompilerExpression *expression)
+{
+    int invalid = 0;
+    CompilerTypeShape *shape = expression->value.operands.first->type->shape;
+    if (shape && (shape->flags & 0x30)) {
+        diagnose_binary_operand(expression->kind, 1);
+        invalid = 1;
+    }
+    shape = expression->value.operands.second->type->shape;
+    if (shape && (shape->flags & 0x30)) {
+        diagnose_binary_operand(expression->kind, 2);
+        invalid = 1;
+    }
+    return invalid;
+}
+extern "C" void __cdecl check_pointer_difference(unsigned, CompilerExpression *, CompilerExpression *) { __asm { int 3 } }
+extern "C" CompilerExpression *__cdecl resolve_class_pointer_difference(CompilerExpression *, CompilerExpression *, CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl diagnose_binary_operand(unsigned, unsigned) { __asm { int 3 } }
+extern "C" CompilerExpression *__cdecl build_member_pointer_operator(CompilerExpression *) { __asm { int 3 } return NULL; }
+
+extern "C" CompilerType *__cdecl adjust_reference_type(CompilerType *, unsigned)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl promote_scalar_expression(CompilerExpression *)
+{ __asm { int 3 } return NULL; }
+extern "C" CompilerType *__cdecl replace_function_parameters(CompilerType *, unsigned, WORD, const void *)
+{ __asm { int 3 } return NULL; }
+extern "C" int __cdecl subtract_extended_constants(const CompilerExtendedConstant *,
+    const CompilerExtendedConstant *, CompilerExtendedConstant *)
+{ __asm { int 3 } return 0; }
+extern "C" void *__cdecl copy_extended_constant(const void *, unsigned)
+{ __asm { int 3 } return NULL; }
+
+/* 3252d..3255b: lookup without producing the ordinary missing-name error. */
+CompilerScopeMatch *RECON_THISCALL CompilerTranslationUnit::FindHiddenName(CompilerNameEntry *name)
+{
+    int saved = suppress_lookup_errors;
+    suppress_lookup_errors = 1;
+    CompilerScopeMatch *result = LookupName(name, 0x132);
+    suppress_lookup_errors = saved;
+    return result;
+}
+
+/* 10e63..10e78. One saved selector, not a nested arena stack. */
+extern "C" void __cdecl select_temporary_symbol_arena(unsigned index)
+{
+    frontend_data.saved_binding_arena_index = frontend_data.binding_arena_index;
+    frontend_data.binding_arena_index = index;
+}
+
+/* 10e78..10e8d: consume the one saved selector and restore its sentinel. */
+extern "C" void __cdecl restore_temporary_symbol_arena(void)
+{
+    unsigned saved = frontend_data.saved_binding_arena_index;
+    frontend_data.saved_binding_arena_index = 0xffffffffUL;
+    frontend_data.binding_arena_index = saved;
+}
+
+/* Kind13's captured payload is transferred as20 bytes. Only its leading
+ * pointer is tested here; the following16 bytes retain their representation. */
+struct CompilerStatementWorkInput : CompilerExpressionWork {
+    void *payload;
+    BYTE retained_tail[16];
+};
+typedef char CompilerStatementWorkInput_layout[(
+    sizeof(CompilerStatementWorkInput) == 36 &&
+    offsetof(CompilerStatementWorkInput, payload) == 16) ? 1 : -1];
+extern "C" int __cdecl statement_needs_temporary(unsigned);
+/* 181d2..183d9, 5de46..5df7a. Resolve statement temporaries and unwind
+ * the expression work markers, retaining the final captured cleanup payload. */
+extern "C" CompilerExpression *__cdecl check_statement_expression(
+    CompilerExpression *expression, unsigned mode)
+{
+    jmp_buf recovery;
+    CompilerExpression *volatile saved_result;
+    CompilerExpressionWork *current;
+    CompilerExpressionWork temporary_frame;
+    CompilerStatementWorkInput captured;
+    CompilerExpression *converted, *one, *value;
+    CompilerType *type;
+    unsigned temporary;
+    if (frontend_bss.expression_work_recovery_mode && !frontend_data.expression_work_recovery) {
+        if (frontend_data.expression_work_reset_pending) return expression;
+        saved_result = expression;
+        frontend_data.expression_work_recovery = recovery;
+        if (_setjmp3(recovery, 0)) {
+            frontend_data.expression_work_recovery = NULL;
+            return saved_result;
+        }
+    }
+    if (frontend_data.expression_work_reset_pending || frontend_data.parser_classification_state)
+        goto return_expression;
+    current = frontend_data.expression_work_nodes;
+    if (!current || (current->kind != 13 && current->kind != 62)) goto return_expression;
+    memset(&captured, 0, sizeof(captured));
+    captured.kind = 13;
+    captured.flags = 3;
+    captured.payload = NULL;
+    if (expression && statement_needs_temporary(mode) && !expression->type) {
+        converted = convert_assignment_operand(frontend_data.builtin_types.tagged_0080, expression);
+        if (!converted) converted = diagnose_parser_operand(expression->kind, expression);
+        expression = converted;
+        memset(&temporary_frame, 0, sizeof(temporary_frame));
+        temporary_frame.kind = 12;
+        push_expression_work(&temporary_frame, 16);
+        one = (CompilerExpression *)make_integer_constant(1);
+        converted = build_expression_cleanup(expression);
+        converted = make_binary_expression(0x37, converted, one);
+        if (converted) expression = converted;
+    } else if (expression && statement_needs_temporary(mode) &&
+        !(expression->type->flags == 0x80 && expression->type->shape)) {
+        type = expression->type;
+        temporary = allocate_temporary_id();
+        value = make_temporary_expression(temporary, type);
+        expression = make_ir_binary_node(0x34, value, expression);
+        memset(&temporary_frame, 0, sizeof(temporary_frame));
+        temporary_frame.kind = 12;
+        push_expression_work(&temporary_frame, 16);
+        expression = build_expression_cleanup(expression);
+        value = make_temporary_expression(temporary, type);
+        value = convert_return_temporary(value);
+        expression = make_binary_node(0x37, expression, value, type);
+    } else {
+        memset(&temporary_frame, 0, sizeof(temporary_frame));
+        temporary_frame.kind = 12;
+        push_expression_work(&temporary_frame, 16);
+        expression = build_expression_cleanup(expression);
+    }
+    pop_expression_work();
+    if (++frontend_data.nested_cleanup_depth) {
+        do {
+            current = frontend_data.expression_work_nodes;
+            while (current && current->kind == 13) {
+                if (current->flags & 1) {
+                    if ((current->flags >> 6) < 2) { __asm { int 3 } }
+                    memcpy(&captured.payload, (BYTE *)current + 16, 20);
+                }
+                pop_expression_work();
+                current = frontend_data.expression_work_nodes;
+            }
+            --frontend_data.nested_cleanup_depth;
+            if (!(mode & 2) || !current || current->kind != 62) break;
+            pop_expression_work();
+        } while (frontend_data.nested_cleanup_depth);
+    }
+    if (captured.payload) push_expression_work(&captured, 36);
+    inspect_expression_cleanup(expression);
+return_expression:
+    if (frontend_data.expression_work_recovery == recovery)
+        frontend_data.expression_work_recovery = NULL;
+    return expression;
+}
+extern "C" int __cdecl statement_needs_temporary(unsigned) { __asm { int 3 } return 0; }
+
+extern "C" CompilerExpression *__cdecl unwrap_statement_operand(CompilerExpression *);
+/* 183d9..18419, 5df7a..5e01b. Typed statements emit their context,
+ * expression and terminator; unresolved function names use the real resolver. */
+extern "C" void __cdecl emit_statement_expression(CompilerExpression *expression)
+{
+    if (frontend_bss.error_count) return;
+    if (!expression || expression->type) {
+        emit_context_transition(0x24);
+        emit_ir_expression(expression);
+        write_ir_record(0x4b, NULL);
+        return;
+    }
+    CompilerExpression *operand = unwrap_statement_operand(expression);
+    CompilerSymbol *symbol = NULL;
+    if (operand->kind == 0x53) {
+        CompilerExpression *name = operand->value.operands.second->value.operands.first;
+        CompilerSymbolBinding *binding = (CompilerSymbolBinding *)name->value.pointer;
+        symbol = binding->owner->symbol;
+    } else if (operand->kind == 6) symbol = operand->value.symbol;
+    if (!symbol) return;
+    unsigned kind = symbol->kind;
+    if (kind == 24) kind = ((CompilerAliasSymbol *)symbol)->target->symbol->kind;
+    if (kind != 16 && kind != 7 && kind != 6 && kind != 17 && kind != 8 && kind != 25) return;
+    if (!can_resolve_assignment_symbol(symbol, 1))
+        compiler_warning(0x238, (unsigned)operand->kind, symbol);
+}
+extern "C" CompilerExpression *__cdecl unwrap_statement_operand(CompilerExpression *) { __asm { int 3 } return NULL; }
+
+extern "C" {
+WORD __cdecl member_object_qualifiers(CompilerType *);
+CompilerExpression *__cdecl resolve_member_expression(unsigned, CompilerExpression *, CompilerSymbol *, unsigned, CompilerType *);
+CompilerExpression *__cdecl prepare_member_object(CompilerExpression *);
+int __cdecl can_discard_member_object(CompilerExpression *);
+}
+/* 1ad7f..1b040, 5f9f1..5fbda. Resolve the named member against a
+ * pointer/object expression, retaining aliases and the original name binding. */
+extern "C" CompilerExpression *__cdecl make_member_access_expression(unsigned operation,
+    CompilerExpression *object, CompilerExpression *member)
+{
+    CompilerTranslationUnit *unit = frontend_data.translation_unit;
+    CompilerExpression *initial_object = object, *result, *selection;
+    CompilerSymbol *reference, *selected, *field;
+    CompilerGlobalSymbolView *field_view;
+    CompilerType *object_type, *result_type;
+    CompilerTypeShape *shape;
+    unsigned preserve = 0, reference_mode = 0;
+    WORD qualifiers;
+    unit->suppress_lookup_errors = 0;
+    unit->retired_scopes = NULL;
+    unit->lookup_context = 1;
+    unit->opaque_lookup_state = 0;
+    if (!member || !object) return NULL;
+    object_type = object->type;
+    if (member->kind == 0x3d) {
+        CompilerSymbol *base = member->value.operands.first->value.symbol;
+        if (base->kind == 15) {
+            int index = (short)object_type->auxiliary;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            compiler_warning(0x27, 0x53, base, table->items[index]);
+        }
+        return NULL;
+    }
+    if (member->kind != 6) {
+        compiler_warning((BYTE)operation == 0x53 ? 0x111 : 0x112, (unsigned)member->kind);
+        return NULL;
+    }
+    reference = member->value.symbol;
+    selected = reference;
+    if (selected->kind == 18) selected = ((CompilerBoundSymbol *)selected)->binding->owner->symbol;
+    field = selected->kind == 24 ? ((CompilerAliasSymbol *)selected)->target->symbol : selected;
+    field_view = (CompilerGlobalSymbolView *)field;
+    if (is_class_scope_symbol(field)) {
+        check_qualified_declaration(reference);
+        result = make_resolved_symbol_expression(resolve_generated_symbol(field), 0);
+        if (!can_discard_member_object(object)) result = make_result_binary_node(0x37, object, result);
+        return result;
+    }
+    if (field->kind == 5) {
+        check_qualified_declaration(reference);
+        return make_enumerator_expression(field);
+    }
+    shape = object_type->shape;
+    if ((BYTE)operation == 0x53) {
+        if (!shape) { compiler_warning(0xe8, 0x53, reference, object_type); return NULL; }
+        if (shape->base || !(shape->flags & 0x43)) {
+            compiler_warning(0xe3, ((CompilerNamedSymbol *)selected)->link.name);
+            return NULL;
+        }
+    } else if (shape) {
+        if (shape->flags & 0x40) reference_mode = 1;
+        else if ((shape->flags & 3) && !shape->base)
+            compiler_warning(0xe7, 0x53, reference, object_type);
+        else compiler_warning(0xe4, ((CompilerNamedSymbol *)selected)->link.name);
+    } else {
+        preserve = object->flags & 0x20;
+        object = prepare_member_object(object);
+        if (object->kind == 0x34 && object->type && !object->type->shape) preserve = 1;
+    }
+    if (!(object->flags & 7) && object->kind == 0x98) {
+        compiler_warning(0x113, object->value.pointer);
+        return NULL;
+    }
+    if (field->kind == 17 || field->kind == 8) {
+        unsigned arena_index = frontend_data.constant_arena_index; /* actual CD88C */
+        if (arena_index >= 9) { __asm { int 3 } }
+        CompilerArena *arena = &frontend_bss.arenas[arena_index];
+        result = (CompilerExpression *)arena->cursor;
+        arena->cursor += 24;
+        if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+        result->flags = 2;
+        if ((BYTE)operation == 0x50) {
+            operation = 0x53;
+            if (!reference_mode) object = prepare_parameter_expression(initial_object, 2);
+        }
+        result->kind = (BYTE)operation;
+        result->value.operands.first = object;
+        member->value.symbol = reference;
+        result->value.operands.second = member;
+        return result;
+    }
+    qualifiers = member_object_qualifiers(object_type);
+    if (field_view->reference_flags & 4) qualifiers &= 0xfeff;
+    result = resolve_member_expression(1, object, reference, 1, object->type);
+    /* EE retains the carried object type for the following qualifier path. */
+    result_type = object_type;
+    if (result->kind != 0xee) {
+        unsigned inherited = (BYTE)operation == 0x53 ?
+            object_type->shape->attributes & 3 : object_type->attributes & 3;
+        result_type = make_member_address_type(((CompilerIrSymbol *)field)->type, inherited);
+        result->type = result_type;
+    }
+    if (qualifiers) result->type = result_type->ApplyTypeQualifiers(qualifiers);
+    if (field->qualifiers & 4) return result;
+    if (field->kind == 2) {
+        CompilerExpression *second = (CompilerExpression *)make_integer_constant(field_view->member_selection.second);
+        CompilerExpression *first = (CompilerExpression *)make_integer_constant(field_view->member_selection.first);
+        selection = make_ir_binary_node(0x36, first, second);
+        result = make_ir_binary_node(0x35, result, selection);
+        if (qualifiers) {
+            CompilerType *scratch = make_parser_type_scratch(result->type);
+            scratch->attributes |= qualifiers;
+            result->type = intern_type(scratch);
+            --frontend_bss.type_scratch_index;
+        }
+    }
+    if (result->kind != 0xee) result = check_symbol_expression(field, result);
+    if (preserve) result->flags |= 0x20;
+    return result;
+}
+extern "C" CompilerTypeShape *__cdecl find_function_type_shape(CompilerType *);
+/* 1b4d7..1b4ff, 5fe82..5fe8d. A retained base shape supplies the
+ * qualifier word; otherwise it comes from the type itself. */
+extern "C" WORD __cdecl member_object_qualifiers(CompilerType *type)
+{
+    CompilerTypeShape *shape = find_function_type_shape(type);
+    return (WORD)((shape && shape->base ? shape->base->attributes : type->attributes) & 0x1f00);
+}
+extern "C" int __cdecl can_assign_bound_member(CompilerSymbol *);
+extern "C" CompilerExpression *__cdecl build_bound_member_expression(unsigned, CompilerExpression *, CompilerSymbolBindingOwner *, unsigned, CompilerType *);
+/* 1b040..1b0a4, 5fbda..5fc1a. CF298 rows1/100/206 establish the
+ * supported operation classes; other rows are not assigned a default. */
+extern "C" CompilerExpression *__cdecl resolve_member_expression(unsigned operation,
+    CompilerExpression *object, CompilerSymbol *name, unsigned mode, CompilerType *type)
+{
+    unsigned kind = (BYTE)operation;
+    if ((kind != 1 && kind != 100 && kind != 206) || !name || name->kind != 18) { __asm { int 3 } }
+    CompilerSymbolBindingOwner *binding = ((CompilerBoundSymbol *)name)->binding->owner;
+    if (kind == 1) check_qualified_declaration(name);
+    else if (!can_assign_bound_member(name)) {
+        if (kind == 206 || !(frontend_data.compiler_mode_flags & 1))
+            compiler_warning(0xf3, kind, object->type, type);
+        else report_language_diagnostic(3, 0xf3, kind, object->type, type);
+    }
+    return build_bound_member_expression(operation, object, binding, mode, type);
+}
+extern "C" void __cdecl reset_access_diagnostic(void);
+extern "C" void __cdecl prepare_access_diagnostic(BYTE, CompilerSymbol *, CompilerSymbol *);
+extern "C" int __cdecl is_friend_of_class(CompilerSymbol *, CompilerSymbol *);
+extern "C" BYTE __cdecl combine_member_access(BYTE, BYTE);
+extern "C" CompilerSymbolBindingOwner *__cdecl find_virtual_binding_owner(CompilerSymbolBindingOwner *);
+extern "C" BYTE __cdecl virtual_binding_access(CompilerSymbol *, CompilerSymbol *);
+extern "C" void __cdecl set_access_diagnostic(CompilerSymbol *, CompilerSymbol *, BYTE, BYTE, CompilerSymbol *);
+extern "C" CompilerSymbol *__cdecl current_declarator_context(void);
+extern "C" int __cdecl can_assign_bound_member(CompilerSymbol *input)
+{
+    CompilerTranslationUnit *unit = frontend_data.translation_unit;
+    CompilerSymbol *scope_class = NULL, *current_class, *target, *symbol, *owner;
+    CompilerSymbol *first_class = NULL, *previous_symbol = NULL;
+    CompilerSymbolBindingOwner *binding;
+    int depth = 1, first_restricted_depth = 0;
+    int unrestricted = 0, friend_path = 0, first_restricted_friend = 0;
+    int friend_context = 0, last_virtual_self = 0;
+    BYTE access, required, inherited_access, previous_access = 0;
+    if (input->scope_flags & 1) return 1;
+    if (unit->current->level >= 0xfb) {
+        if (unit->current->level < 0xfb)
+            report_compiler_diagnostic(1, "symtable.inl", 0xba7);
+        scope_class = ((CompilerClassScope *)unit->current)->symbol;
+    }
+    if (frontend_data.declaration_context_index >= 0)
+        current_class = current_declarator_context();
+    else if (frontend_bss.current_function && frontend_bss.current_function->kind == 8) {
+        int index = (short)frontend_bss.current_function->declaration_qualifiers;
+        CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+        if (index < 0 || index >= table->count) { __asm { int 3 } }
+        current_class = (CompilerSymbol *)table->items[index];
+    } else if (unit->current->level == 1) {
+        CompilerScopeTable *outer = unit->EnclosingNonParameterScope();
+        current_class = outer->level < 0xfb ? NULL :
+            ((CompilerClassScope *)unit->EnclosingNonParameterScope())->symbol;
+    } else current_class = NULL;
+
+    binding = ((CompilerBoundSymbol *)input)->binding->owner;
+    reset_access_diagnostic();
+    target = binding->symbol;
+    if (scope_class) {
+        unsigned index = frontend_bss.parser_context_depth;
+        if (index >= 60) { __asm { int 3 } }
+        if (input == frontend_bss.parser_qualification_scopes[index] && target == scope_class)
+            return 1;
+    }
+    if (input->type_flags & 0x80) {
+        CompilerGlobalSymbolView *value = (CompilerGlobalSymbolView *)target;
+        unrestricted = (value->storage_class & 7) == 3 || target->kind == 5 ||
+            (target->definition_flags & 0x10);
+        if (unrestricted && target->kind == 4 && target == scope_class) return 1;
+        required = 1;
+    } else required = 0;
+    if (!required) required = query_initializer_mode() ? 2 : 3;
+    access = target->kind == 15 ? 3 : target->definition_flags & 3;
+    binding = binding->inner;
+    if (!binding) return 1;
+
+    for (;;) {
+        symbol = binding->symbol;
+        if (symbol->kind == 10 && ((((CompilerIrSymbol *)symbol)->storage_class & 7) == 7)) {
+            CompilerType *type = ((CompilerIrSymbol *)symbol)->type;
+            if (!(get_type_classification(type) & 0x80)) {
+                compiler_warning(0x28d, 0x53, symbol);
+                return 0;
+            }
+            int index = (short)type->auxiliary;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            symbol = (CompilerSymbol *)table->items[index];
+        }
+        if (symbol->kind == 22) return 1;
+        if (symbol->kind == 4 || symbol->kind == 23) owner = symbol;
+        else if (symbol->kind == 15) {
+            CompilerClassMemberSymbol *base = (CompilerClassMemberSymbol *)symbol;
+            if (base->flags & 2) return 1;
+            int index = base->owner_index;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            owner = (CompilerSymbol *)table->items[index];
+        } else {
+            /* Other record kinds have no recovered class-owner interpretation. */
+            __asm { int 3 }
+            return 0;
+        }
+        if (owner->kind == 23) return 1;
+        if (!first_class) {
+            first_class = owner;
+            prepare_access_diagnostic(access, target, owner);
+        }
+        if (unrestricted && binding == binding->next) {
+            if (owner == first_class) return 1;
+            return access > 1;
+        }
+        if (owner == scope_class) required = 1;
+        if (((CompilerGlobalSymbolView *)owner)->class_detail->context_flags & 0x40) {
+            friend_context = 0;
+            if (scope_class) friend_context = is_friend_of_class(scope_class, owner);
+            if (!friend_context && current_class)
+                friend_context = is_friend_of_class(current_class, owner);
+            if (!friend_context && frontend_bss.current_function)
+                friend_context = is_friend_of_class(frontend_bss.current_function, owner);
+            if (friend_context) {
+                if (owner == first_class) friend_path = 1;
+                required = 1;
+            }
+        }
+        if (symbol == current_class) required = 1;
+        if (!binding->inner) {
+            if (friend_path && first_restricted_depth &&
+                first_restricted_depth >= (int)(depth - 1) && first_restricted_friend == 1)
+                return 1;
+            if (last_virtual_self) return previous_access >= 2;
+            return access >= required;
+        }
+        if (symbol->kind == 15) {
+            CompilerClassMemberSymbol *base = (CompilerClassMemberSymbol *)symbol;
+            last_virtual_self = owner == scope_class;
+            if (base->flags & 1) {
+                binding = find_virtual_binding_owner(binding);
+                int index = base->owner_index;
+                CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+                if (index < 0 || index >= table->count) { __asm { int 3 } }
+                inherited_access = virtual_binding_access((CompilerSymbol *)table->items[index],
+                    binding->inner->symbol);
+                frontend_bss.access_diagnostic_ambiguous = 1;
+            } else inherited_access = symbol->definition_flags & 3;
+        } else {
+            last_virtual_self = 0;
+            inherited_access = symbol->definition_flags & 3;
+            if (!inherited_access) inherited_access = 3;
+        }
+        if ((inherited_access == 1 || inherited_access == 2) && !first_restricted_depth) {
+            first_restricted_depth = depth;
+            first_restricted_friend = friend_context;
+        }
+        previous_access = access;
+        access = combine_member_access(access, inherited_access);
+        if (previous_access > access && access < required) {
+            BYTE previous_code = previous_symbol ? previous_symbol->definition_flags & 3 : 0;
+            set_access_diagnostic(target, symbol, previous_code, inherited_access, previous_symbol);
+        }
+        previous_symbol = symbol;
+        binding = binding->inner;
+        ++depth;
+        if (!binding) return 1;
+    }
+}
+extern "C" void __cdecl reset_access_diagnostic(void)
+{
+    frontend_bss.access_diagnostic_owner = NULL;
+    frontend_bss.access_diagnostic_ambiguous = 0;
+}
+extern "C" void __cdecl prepare_access_diagnostic(BYTE access, CompilerSymbol *symbol, CompilerSymbol *owner)
+{
+    frontend_bss.access_diagnostic_owner = owner;
+    frontend_bss.access_diagnostic_symbol = symbol;
+    frontend_bss.access_diagnostic_code = access;
+}
+extern "C" int __cdecl is_friend_of_class(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" BYTE __cdecl combine_member_access(BYTE, BYTE) { __asm { int 3 } return 0; }
+extern "C" CompilerSymbolBindingOwner *__cdecl find_virtual_binding_owner(CompilerSymbolBindingOwner *) { __asm { int 3 } return NULL; }
+extern "C" BYTE __cdecl virtual_binding_access(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" void __cdecl set_access_diagnostic(CompilerSymbol *, CompilerSymbol *, BYTE, BYTE, CompilerSymbol *) { __asm { int 3 } }
+CompilerScopeTable *RECON_THISCALL CompilerTranslationUnit::EnclosingNonParameterScope(void) { __asm { int 3 } return NULL; }
+
+extern "C" CompilerSymbol *__cdecl prepare_qualified_symbol(CompilerSymbol *, unsigned);
+extern "C" CompilerSymbolBindingOwner *__cdecl join_member_bindings(CompilerSymbolBindingOwner *, CompilerSymbolBindingOwner *);
+extern "C" CompilerExpression *__cdecl offset_member_expression(CompilerExpression *, int, CompilerType *);
+extern "C" CompilerExpression *__cdecl offset_member_pointer(CompilerExpression *, int, CompilerType *);
+extern "C" CompilerExpression *__cdecl build_virtual_member_expression(unsigned, CompilerExpression *, CompilerSymbolBindingOwner *, CompilerType *, int);
+extern "C" CompilerExpression *__cdecl convert_member_symbol(unsigned, CompilerSymbol *);
+extern "C" CompilerExpression *__cdecl build_bound_member_expression(unsigned operation,
+    CompilerExpression *object, CompilerSymbolBindingOwner *binding, unsigned mode, CompilerType *type)
+{
+    CompilerSymbol *symbol;
+    int offset = 0;
+    if (binding->symbol->kind == 24) {
+        CompilerSymbol *qualified = ((CompilerAliasSymbol *)binding->symbol)->target->qualified_symbol;
+        CompilerSymbolBindingOwner *alias = ((CompilerBoundSymbol *)qualified)->binding->owner;
+        CompilerSymbolBindingOwner *alias_last = alias, *last = binding;
+        CompilerSymbolBindingOwner *inner = binding->inner;
+        while (alias_last->inner) alias_last = alias_last->inner;
+        while (last->inner) last = last->inner;
+        if (alias_last->symbol == last->symbol) binding = alias;
+        else {
+            CompilerSymbol *prepared = prepare_qualified_symbol(qualified, 5);
+            binding = join_member_bindings(((CompilerBoundSymbol *)prepared)->binding->owner, inner);
+        }
+    }
+    symbol = binding->symbol;
+    if (symbol->kind == 3 && (((CompilerIrSymbol *)symbol)->reference_flags & 0x80))
+        return make_ir_binary_node(0xee, object, convert_member_symbol(6, symbol));
+    if (symbol->kind == 3 || symbol->kind == 2) {
+        offset = ((CompilerGlobalSymbolView *)symbol)->member_offset;
+        binding = binding->inner;
+    } else if (symbol->kind == 17 || symbol->kind == 8 || symbol->kind == 4 || symbol->kind == 7)
+        binding = binding->inner;
+    while (binding && binding->symbol->kind == 15) {
+        CompilerClassMemberSymbol *base = (CompilerClassMemberSymbol *)binding->symbol;
+        if (base->flags & 1)
+            return build_virtual_member_expression(operation, object, binding, type, offset);
+        offset += base->base_offset;
+        binding = binding->inner;
+    }
+    /* CF298's encountered operation classes:1 is ordinary object access;
+     *100 and206 share the member-pointer class100. Other rows stay unknown. */
+    unsigned code = (BYTE)operation;
+    if (code == 100 || code == 206) {
+        if (!mode) offset = -offset;
+        return offset_member_pointer(object, offset, type);
+    }
+    if (code != 1) { __asm { int 3 } }
+    return offset_member_expression(object, offset, type);
+}
+extern "C" CompilerSymbolBindingOwner *__cdecl join_member_bindings(CompilerSymbolBindingOwner *, CompilerSymbolBindingOwner *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl offset_member_expression(CompilerExpression *object,
+    int offset, CompilerType *type)
+{
+    CompilerExpression *value = (CompilerExpression *)make_integer_constant(offset);
+    return make_binary_node(0x53, object, value, type);
+}
+extern "C" CompilerExpression *__cdecl offset_member_pointer(CompilerExpression *, int, CompilerType *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl build_virtual_member_expression(unsigned, CompilerExpression *, CompilerSymbolBindingOwner *, CompilerType *, int) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl convert_member_symbol(unsigned, CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl prepare_member_object(CompilerExpression *expression)
+{
+    while (expression->kind == 0x64 || expression->kind == 0x76)
+        expression = expression->value.operands.first;
+    if (expression->kind == 0x37) {
+        expression->value.operands.second = prepare_member_object(expression->value.operands.second);
+        expression->type = expression->value.operands.second->type;
+        return expression;
+    }
+    return prepare_parameter_expression(expression, 2);
+}
+extern "C" int __cdecl can_discard_member_object(CompilerExpression *) { __asm { int 3 } return 0; }
+
+extern "C" int __cdecl has_class_assignment(CompilerType *);
+extern "C" CompilerExpression *__cdecl make_binary_expression(unsigned operation,
+    CompilerExpression *left, CompilerExpression *right)
+{
+    if (left && left->kind == 0xee) {
+        switch ((BYTE)operation) {
+        case 0x33: case 0x34: case 0x38: case 0x3a:
+        case 0x40: case 0x41: case 0x42: case 0x47:
+        case 0x49: case 0x4b: case 0x4e: case 0x52:
+        case 0x54: case 0x55: case 0x57: case 0x5c:
+            return expand_initializer_expression(operation, left, right);
+        default:
+            left = expand_initializer_expression(operation, left, NULL);
+            if (!left) return NULL;
+        }
+    }
+    if (right && right->kind == 0xee) {
+        right = expand_initializer_expression(operation, right, NULL);
+        if (!right) return NULL;
+    }
+    if (!left || !right) {
+        if ((BYTE)operation == 0x32 || (BYTE)operation == 0x4f)
+            finish_deferred_declaration();
+        return NULL;
+    }
+    if (left->kind == 0x98) {
+        compiler_warning(0x113, left->value.symbol);
+        return NULL;
+    }
+    if (right->kind == 0x98) {
+        compiler_warning(0x113, right->value.symbol);
+        return NULL;
+    }
+    int left_class = 0, right_class = 0;
+    CompilerType *type = left->type;
+    if (type && ((type->flags & 0x600) || (type->flags & 0x2fdf) == 0x12 ||
+        (type->flags & 0x2fdf) == 0x11))
+        left_class = !type->shape || ((type->shape->flags & 0x40) && !type->shape->base);
+    right = resolve_constant_reference(right);
+    if (!left_class && right && right->type) {
+        type = right->type;
+        if ((type->flags & 0x600) || (type->flags & 0x2fdf) == 0x12 ||
+            (type->flags & 0x2fdf) == 0x11)
+            right_class = !type->shape || ((type->shape->flags & 0x40) && !type->shape->base);
+    }
+    if (left_class || right_class) {
+        unsigned failed = 0;
+        CompilerExpression *result = resolve_overloaded_operator(operation, left, right,
+            left_class, 1, &failed);
+        if (result) {
+            if (((BYTE)operation == 0x32 || (BYTE)operation == 0x4f) &&
+                result->kind != 0x32 && result->kind != 0x4f)
+                finish_deferred_declaration();
+            /* CF390's complete boolean membership for classes27/28 is
+             * precisely expression kinds32/4f; no other column is needed. */
+            return result;
+        }
+        if ((BYTE)operation == 0x34 && left_class && !(left->type->flags & 0x200)) {
+            int index = (short)left->type->auxiliary;
+            CompilerPointerArray *table = frontend_data.frontend_pointer_table;
+            if (index < 0 || index >= table->count) { __asm { int 3 } }
+            CompilerSymbol *owner = (CompilerSymbol *)table->items[index];
+            if (!has_class_assignment(left->type)) compiler_warning(0x246, owner);
+            return NULL;
+        }
+        if (failed) return NULL;
+    }
+    if ((BYTE)operation == 0x32 || (BYTE)operation == 0x4f)
+        right = check_statement_expression(right, 3);
+    return make_scalar_comparison(operation, left, right);
+}
+extern "C" int __cdecl has_class_assignment(CompilerType *) { __asm { int 3 } return 0; }
+
+/* 1b0cf..1b18e, 5fc1a..5fdb9: prepare the qualified member-lookup
+ * context, retaining the original expression when no overload replaces it. */
+CompilerExpression *RECON_THISCALL CompilerTranslationUnit::PrepareAllocation(
+    unsigned operation, CompilerExpression *expression, unsigned mode)
+{
+    CompilerType *type;
+    CompilerSymbol *owner, *instantiated;
+    CompilerGlobalClassDetail *detail;
+    CompilerExpression *replacement;
+    ParserTokenView *first, *second, *third, *fourth;
+    ParserFrontendContextView *context =
+        (ParserFrontendContextView *)&frontend_bss.saved_context_stack;
+    unsigned rewritten;
+    int index;
+    if (expression && expression->kind == 0xee)
+        expression = expand_initializer_expression(1, expression, NULL);
+    opaque_lookup_state = 1;
+    lookup_context = (BYTE)operation;
+    suppress_lookup_errors = 0;
+    if (!expression) return NULL;
+    type = expression->type;
+    if (!type) return NULL;
+    if (!(type->flags & 0x400)) {
+        first = context->ReadToken();
+        if (!first) return NULL;
+        if (first->kind == 6) {
+            second = context->ReadToken();
+            if (second) {
+                if (second->kind == 0x95) {
+                    third = context->ReadToken();
+                    if (third) {
+                        if (third->kind == 0x59) {
+                            fourth = context->ReadToken();
+                            if (fourth) {
+                                if (fourth->kind == 6) {
+                                    opaque_lookup_state = 0;
+                                    lookup_context = 1;
+                                }
+                                ((CompilerTokenStream *)frontend_bss.saved_context_stack.top->object)->Unread((unsigned)fourth);
+                            }
+                        }
+                        ((CompilerTokenStream *)frontend_bss.saved_context_stack.top->object)->Unread((unsigned)third);
+                    }
+                }
+                ((CompilerTokenStream *)frontend_bss.saved_context_stack.top->object)->Unread((unsigned)second);
+            }
+        }
+        ((CompilerTokenStream *)frontend_bss.saved_context_stack.top->object)->Unread((unsigned)first);
+        return NULL;
+    }
+    index = (short)type->auxiliary;
+    if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+    owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+    detail = ((CompilerGlobalSymbolView *)owner)->class_detail;
+    if ((detail->completion_flags & 1) && !(detail->template_flags & 1) &&
+        !(owner->definition_flags & 4) && !(detail->completion_flags & 4)) {
+        index = frontend_data.declaration_context_index;
+        if (index >= 16) { __asm { int 3 } }
+        if ((index < 0 || frontend_bss.class_scope_rows[index].symbol->name !=
+                ((CompilerNamedSymbol *)owner)->link.name) &&
+            !(owner->scope_flags & 4) && !(frontend_data.source_mode_flags & 0x200020)) {
+            instantiated = instantiate_declaration_class(owner);
+            if (((CompilerGlobalSymbolView *)instantiated)->class_detail->completion_flags & 8)
+                merge_declaration_classes(instantiated, owner);
+        }
+    }
+    if (!(owner->definition_flags & 4)) {
+        if (!frontend_bss.current_parser_expression)
+            compiler_warning(0x1b, owner);
+        return NULL;
+    }
+    if (!mode && operation == 0x53 && (get_type_classification(expression->type) & 0x80)) {
+        rewritten = 0;
+        replacement = resolve_overloaded_operator(0x53, expression, NULL, 1, 1, &rewritten);
+        if (replacement) {
+            if (rewritten) return replacement;
+            replacement = PrepareAllocation(0x53, replacement, 0);
+            if (replacement) return replacement;
+        }
+    }
+    retired_scopes = owner;
+    return expression;
+}
+
+extern "C" int __cdecl requires_member_address(CompilerExpression *);
+extern "C" CompilerExpression *__cdecl make_member_pointer_address(CompilerExpression *);
+extern "C" CompilerSymbol *__cdecl find_address_symbol(CompilerExpression *);
+extern "C" CompilerExpression *__cdecl find_address_reference(CompilerExpression *);
+/* The C1 convert_unary_operand body is a readability seed. This C++ owner
+ * retains its extra member-address helpers, function modifier and flags. */
+extern "C" CompilerExpression *__cdecl prepare_parameter_expression(
+    CompilerExpression *expression, unsigned mode)
+{
+    CompilerType *type;
+    CompilerTypeShape *shape;
+    CompilerExpression *result;
+    CompilerSymbol *symbol;
+    WORD shape_flags;
+    if ((expression->flags & 7) == 3) {
+        compiler_warning(0x65, 0x31);
+        return expression;
+    }
+    type = expression->type;
+    if (!type) return make_cast_expression(0x31, expression);
+    shape = type->shape;
+    if (shape && (shape->flags & 0x77) == 4) {
+        if (mode & 0x10) type = type->RemoveFunctionQualifier();
+        type = type->RemoveFunction();
+    }
+    shape = type->shape;
+    if (shape && (shape->flags & 0x77) == 3 && (shape->flags & 8)) {
+        expression->type = adjust_reference_type(type, 2);
+        return expression;
+    }
+    if (requires_member_address(expression))
+        return make_member_pointer_address(expression);
+    shape = expression->type->shape;
+    shape_flags = shape ? shape->flags : 0;
+    result = prepare_assignment_target(expression, mode);
+    if (!result) {
+        unsigned kind = shape_flags & 0x77;
+        if (kind == 2) {
+            if ((expression->flags & 7) == 5) return expression;
+            result = expression;
+        } else if (kind == 3 || kind == 0x44) {
+            if (shape_flags & 0x400) compiler_warning(0x66, 0x31);
+            return expression;
+        } else {
+            if (mode & 2) return expression;
+            compiler_warning(0x66, 0x31);
+            return NULL;
+        }
+    }
+    if ((result->flags & 7) == 4 && result->kind != 0x9c) {
+        symbol = result->value.symbol;
+        if (mode & 4) symbol->qualifiers |= 8;
+        unsigned storage = ((CompilerIrSymbol *)symbol)->storage_class & 7;
+        if (storage >= 5 && storage <= 6)
+            ((CompilerIrSymbol *)symbol)->storage_class =
+                (((CompilerIrSymbol *)symbol)->storage_class & ~7U) | 4;
+    } else {
+        if (result->kind == 0x35 && (mode & 4)) compiler_warning(0x68, 0x31);
+        if (result->kind == 0x53 && (result->value.operands.first->flags & 7) == 3) {
+            CompilerExpression *constant = result->value.operands.first;
+            result = result->value.operands.second;
+            result->value.integer = (unsigned __int64)result->value.integer +
+                (unsigned __int64)constant->value.integer;
+        } else {
+            symbol = find_address_symbol(result);
+            if (symbol) symbol->qualifiers |= 8;
+            else if (!find_address_reference(result) && (frontend_data.compiler_flags & 4)) {
+                shape = result->type ? result->type->shape : NULL;
+                if (result->kind != 0x70 || !shape || !(shape->flags & 0x41)) {
+                    compiler_warning(0x66, 0x31);
+                    return NULL;
+                }
+            }
+        }
+    }
+    result->type = type->AddressType(0);
+    if (frontend_data.compiler_flags & 4) result->flags |= 0x20;
+    return result;
+}
+
+extern "C" int __cdecl requires_member_address(CompilerExpression *expression)
+{
+    if (expression->kind != 0x46) return 0;
+    expression = expression->value.operands.first;
+    if (expression->kind != 0x3d) return 0;
+    expression = expression->value.operands.first;
+    if (expression->kind != 6) return 0;
+    CompilerSymbol *symbol = expression->value.symbol;
+    if (((CompilerNamedSymbol *)symbol)->link.name != frontend_data.builtin_names.this_parameter)
+        return 0;
+    CompilerGlobalSymbolView *function = (CompilerGlobalSymbolView *)frontend_bss.current_function;
+    return function && (function->kind == 7 || function->kind == 8) &&
+        (function->builtin_flags & 1) && (function->queue_flags & 0x10) ? 1 : 0;
+}
+extern "C" CompilerExpression *__cdecl make_member_pointer_address(CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl find_address_symbol(CompilerExpression *expression)
+{
+    for (;;) {
+        switch (expression->kind) {
+        case 6: return expression->value.symbol;
+        case 54:
+            expression = expression->type == expression->value.operands.second->type ?
+                expression->value.operands.second : expression->value.operands.first;
+            break;
+        case 65: case 80: case 93:
+            expression = expression->value.operands.first;
+            break;
+        default: return NULL;
+        }
+    }
+}
+extern "C" CompilerExpression *__cdecl find_address_reference(CompilerExpression *expression)
+{
+    for (;;) {
+        switch (expression->kind) {
+        case 6: case 100: return expression;
+        case 54:
+            expression = expression->type == expression->value.operands.second->type ?
+                expression->value.operands.second : expression->value.operands.first;
+            break;
+        case 65: case 80: case 118:
+            expression = expression->value.operands.first;
+            break;
+        case 83: return expression->value.operands.first;
+        case 93:
+            expression = expression->value.operands.first;
+            if (expression->kind == 61) expression = expression->value.operands.first;
+            break;
+        default: return NULL;
+        }
+    }
+}
+CompilerType *RECON_THISCALL CompilerType::RemoveFunctionQualifier(void) { __asm { int 3 } return NULL; }
+CompilerType *RECON_THISCALL CompilerType::AddressType(unsigned attributes)
+{
+    CompilerTypeShape address;
+    CompilerType description;
+    memset(&address, 0, sizeof(address));
+    if (shape && (shape->flags & 0x77) == 4 && !(shape->flags & 0x2000)) {
+        address.flags = 3;
+        address.attributes = (WORD)((shape->attributes & 0x70) | attributes);
+    } else {
+        address.flags = 1;
+        address.attributes = (WORD)attributes;
+    }
+    address.base = shape;
+    /* Preserve the complete16-byte source type, including its opaque cache. */
+    memcpy(&description, this, 16);
+    description.shape = intern_type_shape(&address);
+    description.attributes &= ~0x70U;
+    return intern_type(&description);
+}
+
+extern "C" CompilerExpression *__cdecl prepare_assignment_value(CompilerExpression *);
+extern "C" CompilerExpression *__cdecl prepare_conditional_lvalue(CompilerExpression *, unsigned);
+extern "C" CompilerExpression *__cdecl prepare_control_lvalue(CompilerExpression *, unsigned);
+extern "C" CompilerExpression *__cdecl prepare_comma_lvalue(CompilerExpression *, unsigned);
+extern "C" CompilerExpression *__cdecl find_address_reference(CompilerExpression *);
+/* The encountered classification61 column contains precisely the two
+ * indirection kinds. This is its semantic predicate, not an image table. */
+#define INDIRECT_LVALUE(e) ((e)->kind == 61 || (e)->kind == 166)
+extern "C" CompilerExpression *__cdecl prepare_assignment_target(
+    CompilerExpression *expression, unsigned mode)
+{
+    CompilerExpression *reference, *inner;
+    CompilerType *type;
+    CompilerSymbol *owner;
+    int preserve = 0;
+    unsigned constant;
+    if (!expression) return NULL;
+    if (expression->flags & 0x20) {
+        switch (mode & 10) {
+        case 0: return NULL;
+        case 2: break;
+        case 8:
+            type = expression->type;
+            if (type->shape || !(type->flags & 0x400) ||
+                (short)type->auxiliary < 0 || !frontend_data.options.language_extensions)
+                return NULL;
+            report_language_diagnostic(4, 0xee);
+            break;
+        default:
+            report_compiler_diagnostic(1, ".\\trees.c", 0x18e1);
+            break;
+        }
+    }
+    while (expression->kind == 0x76) expression = expression->value.operands.first;
+    if (expression->kind == 0x64) {
+        if (!frontend_data.options.language_extensions) return NULL;
+        for (;;) {
+            inner = expression->value.operands.first;
+            if (expression->type->StripQualifiers() != inner->type->StripQualifiers())
+                return NULL;
+            inner->type = expression->type;
+            expression = inner;
+            if (expression->kind != 0x64) break;
+        }
+        if (mode & 1) report_language_diagnostic(4, 0xd5);
+        if ((expression->flags & 7) == 4)
+            expression->value.symbol->qualifiers |= 8;
+        else {
+            reference = find_address_reference(INDIRECT_LVALUE(expression) ?
+                expression->value.operands.first : expression);
+            if (reference && (reference->flags & 7) == 4)
+                reference->value.symbol->qualifiers |= 8;
+        }
+    }
+    if (expression->kind == 0x5d) expression = expression->value.operands.first;
+    if (expression->kind == 0x5e) return NULL;
+    if (expression->kind >= PARSER_TOKEN_KIND_COUNT) { __asm { int 3 } }
+    if (INDIRECT_LVALUE(expression)) goto type_properties;
+    type = expression->type;
+    if (!type) return NULL;
+    switch (expression->kind) {
+    case 51: case 52: case 58: case 66: case 71: case 73: case 75:
+    case 78: case 82: case 84: case 85: case 87: case 92: case 116:
+        expression = prepare_assignment_value(expression);
+        break;
+    case 55:
+        expression = prepare_comma_lvalue(expression, mode & 2);
+        break;
+    case 86:
+        expression = prepare_conditional_lvalue(expression, mode & 2);
+        break;
+    case 199:
+        expression = prepare_control_lvalue(expression, mode & 2);
+        break;
+    default:
+        if (!type->shape || !(type->shape->flags & 0x40)) return NULL;
+        break;
+    }
+    if (!expression) return NULL;
+    preserve = 1;
+type_properties:
+    type = expression->type;
+    constant = (get_function_calling_convention(type) >> 8) & 1;
+    if ((type->flags & 0x400) && !type->shape) {
+        int index = (short)type->auxiliary;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        constant |= (((CompilerGlobalSymbolView *)owner)->class_detail->declaration_flags >> 4) & 1;
+    }
+    if (!preserve) expression = expression->value.operands.first;
+    if (expression->kind == 0x50) {
+        inner = expression->value.operands.first;
+        if (inner->kind == 0x70 && !inner->type->shape) return NULL;
+    }
+    if ((mode & 1) && constant) compiler_warning(0xa6);
+    return expression;
+}
+#undef INDIRECT_LVALUE
+
+extern "C" CompilerExpression *__cdecl prepare_assignment_value(CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl prepare_conditional_lvalue(CompilerExpression *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl prepare_control_lvalue(CompilerExpression *, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl prepare_comma_lvalue(CompilerExpression *, unsigned) { __asm { int 3 } return NULL; }
+
+/* The resolver's returned view exposes the consumed symbol alternatives,
+ * candidate link and forwarded context. Allocation and gaps remain unmodeled. */
+struct CompilerCallSelection {
+    CompilerSymbol *ordinary, *selected;
+    unsigned mode; /* +8 */
+    CompilerType **parameter_start, **parameter_cursor; /* +c/+10 */
+    BYTE unmodeled_14_17[4];
+    CompilerType *member_type; /* +18, conditional writer only */
+    CompilerCallSelection *next, *previous; /* +1c/+20 */
+    CompilerTypeConversion *conversions; /* +24 */
+    BYTE unmodeled_28_37[16];
+    unsigned completion_context; /* +38, forwarded without interpretation */
+    BYTE flags; /* +3c, constructor preserves bits and sets bit1 */
+    BYTE unmodeled_3d_3f[3];
+    RECON_THISCALL CompilerCallSelection(CompilerSymbol *, unsigned, CompilerType *,
+        CompilerTypeConversion *, CompilerCallSelection *);
+};
+typedef char CompilerCallSelection_layout[(sizeof(CompilerCallSelection) == 64 &&
+    offsetof(CompilerCallSelection, mode) == 8 &&
+    offsetof(CompilerCallSelection, parameter_start) == 12 &&
+    offsetof(CompilerCallSelection, parameter_cursor) == 16 &&
+    offsetof(CompilerCallSelection, member_type) == 24 &&
+    offsetof(CompilerCallSelection, next) == 28 &&
+    offsetof(CompilerCallSelection, previous) == 32 &&
+    offsetof(CompilerCallSelection, conversions) == 36 &&
+    offsetof(CompilerCallSelection, flags) == 60 &&
+    offsetof(CompilerCallSelection, completion_context) == 56) ? 1 : -1];
+extern "C" {
+int __cdecl count_call_arguments(CompilerExpression *);
+int __cdecl member_call_qualification(CompilerExpression *);
+CompilerCallSelection *__cdecl select_call_overload(CompilerSymbol *, CompilerExpression *,
+    CompilerExpression *, int, unsigned, unsigned);
+void __cdecl bind_selected_call(CompilerSymbol *, CompilerSymbol *);
+CompilerExpression *__cdecl make_selected_call(CompilerSymbol *, CompilerExpression *,
+    CompilerExpression *, int, CompilerSymbol *);
+int __cdecl is_class_call_candidate(CompilerExpression *);
+CompilerExpression *__cdecl prepare_call_prefix(CompilerExpression *, CompilerExpression **);
+unsigned __cdecl check_call_signature(CompilerType *, CompilerTypeShape *, CompilerExpression *, int);
+CompilerExpression *__cdecl convert_call_arguments(unsigned, const void *, CompilerExpression *, int);
+CompilerExpression *__cdecl finish_call_expression(CompilerExpression *, unsigned, unsigned);
+CompilerExpression *__cdecl make_call_result_temporary(CompilerType *, CompilerExpression *);
+void __cdecl finish_call_result_temporary(CompilerExpression *, CompilerType *);
+}
+/* 16611..169e5, 5d415..5d6e1. Resolve named/member calls, overloaded
+ * operator(), constructor conversions and calls through function pointers. */
+extern "C" CompilerExpression *__cdecl resolve_function_call(
+    CompilerExpression *expression, CompilerExpression *arguments)
+{
+    CompilerExpression *object = NULL, *prefix = NULL, *result, *single = NULL;
+    CompilerSymbol *bound = NULL, *function, *initial_function, *callee;
+    CompilerType *type, *original_type, *return_type;
+    CompilerTypeShape *shape;
+    CompilerCallSelection *selection;
+    unsigned qualification = 0;
+    int count, preserve_binding;
+    WORD shape_flags;
+    if (!expression) return NULL;
+    if (expression->kind == 0x98) {
+        type = expression->type;
+        if ((type->flags & 0x2fdf) == 0x12) return NULL;
+        if (!arguments) {
+            if (type->shape || !(type->flags & 0x400) || (short)type->auxiliary < 0)
+                single = (CompilerExpression *)make_integer_constant(0);
+        } else switch (arguments->flags & 7) {
+        case 0: single = arguments; break;
+        case 1: single = arguments->value.operands.first; break;
+        case 2:
+            if (!arguments->value.operands.second) single = arguments->value.operands.first;
+            break;
+        }
+        if (!(get_type_classification(type) & 0x80)) {
+            compiler_warning(0x234, type);
+            return NULL;
+        }
+        if (single) {
+            frontend_data.compiler_flags |= 1;
+            single->list_next = NULL;
+            CompilerTypeConversion conversion(5, 0x64, single, type);
+            result = NULL;
+            if (conversion.IsValid()) result = conversion.Build(result);
+            else conversion.Report(1);
+            frontend_data.compiler_flags &= ~1U;
+            return result;
+        }
+        if (!is_class_call_candidate(expression)) return NULL;
+    } else if (get_type_classification(expression->type) & 0x80) {
+        int index = (short)expression->type->auxiliary;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        CompilerSymbol *owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        bound = frontend_data.translation_unit->LookupScopeName(owner, frontend_data.call_identifier, 2, 0);
+        if (bound) {
+            count = count_call_arguments(arguments);
+            if (count < 0) return NULL;
+            object = prepare_parameter_expression(expression, 6);
+            callee = ((CompilerBoundSymbol *)bound)->binding->owner->symbol;
+            selection = select_call_overload(callee, object, arguments, count, 0, 1);
+            if (selection) {
+                function = selection->selected ? selection->selected : selection->ordinary;
+                bind_selected_call(bound, function);
+                return make_selected_call(function, object, arguments, count, NULL);
+            }
+        }
+    }
+count_arguments:
+    count = count_call_arguments(arguments);
+    if (count < 0) return NULL;
+classify_designator:
+    if (expression->kind == 6) {
+        qualification = (unsigned)expression->value.operands.second;
+        initial_function = expression->value.symbol;
+        function = initial_function;
+        if (function->kind == 18) {
+            bound = function;
+            function = ((CompilerBoundSymbol *)function)->binding->owner->symbol;
+        }
+        switch (function->kind) {
+        case 6: case 7: case 8: case 16: case 17: case 25:
+            break;
+        case 24: {
+            CompilerSymbol *head = ((CompilerAliasSymbol *)function)->target->symbol;
+            if (head->kind != 6 && head->kind != 7 && head->kind != 8 &&
+                head->kind != 16 && head->kind != 17 && head->kind != 25) {
+                /* The original repeats this same alias-head predicate. */
+                compiler_warning(0x40);
+                return NULL;
+            }
+            break;
+        }
+        default:
+            compiler_warning(0x40);
+            return NULL;
+        }
+        if (((CompilerNamedSymbol *)function)->link.name == frontend_data.builtin_names.setjmp_name ||
+            ((CompilerNamedSymbol *)function)->link.name == frontend_data.builtin_names.catch_name) {
+            if (((CompilerGlobalSymbolView *)frontend_bss.current_function)->member_flags & 1)
+                compiler_warning(0x1ea, 0x53, function);
+            else report_language_diagnostic(4, 0x263, function);
+            frontend_bss.current_function->qualifiers |= 2;
+        }
+    } else if (expression->kind == 0x53) {
+        qualification = member_call_qualification(expression);
+        object = expression->value.operands.first;
+        expression = expression->value.operands.second;
+        if (expression->kind != 6) {
+            compiler_warning(0x40);
+            return NULL;
+        }
+        initial_function = expression->value.symbol;
+        bound = initial_function;
+        function = ((CompilerBoundSymbol *)initial_function)->binding->owner->symbol;
+    } else {
+        prefix = NULL;
+        if (expression->kind == 0x93) expression = prepare_call_prefix(expression, &prefix);
+        type = original_type = expression->type;
+        if (!type) {
+            expression = expression->value.operands.first;
+            count = count_call_arguments(arguments);
+            if (count < 0) return NULL;
+            goto classify_designator;
+        }
+        shape = type->shape;
+        shape_flags = shape ? shape->flags : 0;
+        if (shape && ((shape_flags & 0x77) == 3 || (shape_flags & 0x44) == 0x44 ||
+            ((shape_flags & 0x20) && (expression->kind == 0x99 || expression->kind == 0x9a)))) {
+            type = get_function_return_type(type);
+            shape = type->shape;
+            shape_flags = shape->flags;
+        }
+        if ((shape_flags & 0x77) != 4) {
+            compiler_warning(0x40);
+            return NULL;
+        }
+        if (check_call_signature(original_type, shape, arguments, count) & 0x2000)
+            return NULL;
+        return_type = get_function_return_type(type);
+        result = convert_call_arguments(0, shape->payload.function, arguments, count);
+        result = make_binary_node(0x70, expression, result, return_type);
+        if (prefix) result = make_result_binary_node(0x37, prefix, result);
+        return finish_call_expression(result, 0, shape_flags);
+    }
+    preserve_binding = (initial_function->type_flags & 8) != 0;
+    initial_function->type_flags &= ~8U;
+    selection = select_call_overload(function, object, arguments, count, qualification, 1);
+    if (!selection) return NULL;
+    function = selection->selected ? selection->selected : selection->ordinary;
+    if (bound && function) bind_selected_call(bound, function);
+    if ((function->type_flags & 4) && !object && (function->type_flags & 0x10)) {
+        CompilerType *function_result = ((CompilerIrSymbol *)function)->type->shape->payload.function->type;
+        return_type = get_function_return_type(function_result);
+        result = make_temporary_expression(allocate_temporary_id(), return_type);
+        result = make_call_result_temporary(function_result, result);
+        CompilerExpression *call = make_return_object_call((unsigned)function, NULL,
+            result, arguments, 0, 1, 1);
+        finish_call_result_temporary(result, return_type);
+        call->flags |= 0x20;
+        return call;
+    }
+    return make_selected_call(function, object, arguments, count,
+        preserve_binding ? initial_function : NULL);
+}
+
+extern "C" int __cdecl count_call_arguments(CompilerExpression *arguments)
+{
+    unsigned count = 0;
+    while (arguments) {
+        ++count;
+        if (arguments->flags & 8) return -1;
+        if ((arguments->flags & 7) != 2) break;
+        arguments = arguments->value.operands.second;
+    }
+    return (int)count;
+}
+extern "C" int __cdecl member_call_qualification(CompilerExpression *) { __asm { int 3 } return 0; }
+
+extern "C" void __cdecl bind_selected_call(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } }
+extern "C" CompilerExpression *__cdecl make_selected_call(CompilerSymbol *, CompilerExpression *, CompilerExpression *, int, CompilerSymbol *) { __asm { int 3 } return NULL; }
+extern "C" CompilerSymbol *__cdecl find_class_constructor(CompilerSymbol *);
+extern "C" CompilerSymbol *__cdecl make_class_constructor_reference(CompilerSymbol *, CompilerSymbol *);
+extern "C" int __cdecl is_class_call_candidate(CompilerExpression *expression)
+{
+    CompilerSymbol *owner = expression->value.symbol, *instantiated, *constructor;
+    CompilerBoundSymbol *bound = NULL;
+    if (owner->kind == 18) {
+        bound = (CompilerBoundSymbol *)owner;
+        owner = bound->binding->owner->symbol;
+    }
+    if ((((CompilerIrSymbol *)owner)->storage_class & 7) == 7 &&
+        (get_type_classification(((CompilerIrSymbol *)owner)->type) & 0x80)) {
+        int index = (short)((CompilerIrSymbol *)owner)->type->auxiliary;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+    }
+    CompilerGlobalClassDetail *detail = ((CompilerGlobalSymbolView *)owner)->class_detail;
+    if ((detail->completion_flags & 1) && !(detail->template_flags & 1) &&
+        !(owner->definition_flags & 4) && !(detail->completion_flags & 4)) {
+        int index = frontend_data.declaration_context_index;
+        if (index >= 16) { __asm { int 3 } }
+        if ((index < 0 || frontend_bss.class_scope_rows[index].symbol->name !=
+                ((CompilerNamedSymbol *)owner)->link.name) &&
+            !(owner->scope_flags & 4) && !(frontend_data.source_mode_flags & 0x200020)) {
+            instantiated = instantiate_declaration_class(owner);
+            if (((CompilerGlobalSymbolView *)instantiated)->class_detail->completion_flags & 8)
+                merge_declaration_classes(instantiated, owner);
+        }
+    }
+    if (!(owner->type_flags & 0x10)) {
+        compiler_warning(0x202, owner);
+        return 0;
+    }
+    if (((CompilerGlobalSymbolView *)owner)->class_detail->context_flags & 0x80) {
+        diagnose_member_declaration(owner);
+        return 0;
+    }
+    expression->kind = 6;
+    constructor = find_class_constructor(owner);
+    if (bound) {
+        bound->binding = make_symbol_binding(NULL, bound->binding->owner, constructor);
+        return 1;
+    }
+    expression->value.symbol = make_class_constructor_reference(owner, constructor);
+    return 1;
+}
+extern "C" CompilerExpression *__cdecl prepare_call_prefix(CompilerExpression *, CompilerExpression **) { __asm { int 3 } return NULL; }
+extern "C" unsigned __cdecl check_call_signature(CompilerType *, CompilerTypeShape *, CompilerExpression *, int) { __asm { int 3 } return 0; }
+extern "C" CompilerExpression *__cdecl convert_call_arguments(unsigned, const void *, CompilerExpression *, int) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl finish_call_expression(CompilerExpression *, unsigned, unsigned) { __asm { int 3 } return NULL; }
+extern "C" CompilerExpression *__cdecl make_call_result_temporary(CompilerType *, CompilerExpression *) { __asm { int 3 } return NULL; }
+extern "C" void __cdecl finish_call_result_temporary(CompilerExpression *, CompilerType *) { __asm { int 3 } }
+
+extern "C" CompilerSymbol *__cdecl find_class_constructor(CompilerSymbol *input)
+{
+    CompilerClassBinding *binding = ((CompilerKind4Symbol *)input)->class_binding;
+    CompilerClassMemberIterator members;
+    members.InitializeHead(binding ? binding->members : NULL);
+    members.reset_value = 0;
+    members.current = members.valid ? members.chain : NULL;
+    members.owner = &((CompilerNamedSymbol *)input)->link;
+    members.mode = 2;
+    /* This owner contains the original inlined mode2 iteration. */
+    while (members.current) {
+        members.entry = members.current;
+        if (members.chain) members.chain = members.chain->next;
+        members.current = members.chain;
+        CompilerSymbol *member = (CompilerSymbol *)((BYTE *)members.entry - 8);
+        if ((member->kind == 17 || member->kind == 8) && (member->type_flags & 0x10))
+            return member;
+    }
+    return NULL;
+}
+extern "C" CompilerSymbol *__cdecl make_class_constructor_reference(CompilerSymbol *, CompilerSymbol *) { __asm { int 3 } return NULL; }
+
+/* The wrapper owns76 bytes of stack storage. Constructor-consumed fields
+ * are typed below; unencountered portions remain uninterpreted. */
+struct CompilerOverloadResolution {
+    CompilerSymbol *function; /* +0 */
+    void *template_arguments; /* +4, borrowed cursor domain */
+    unsigned candidate_count, remaining_candidates; /* +8/+c */
+    unsigned argument_count; /* +10, includes the implicit object */
+    CompilerCallSelection *candidates, *current_candidate; /* +14/+18 */
+    CompilerCallSelection *last_candidate; /* +1c */
+    CompilerTypeConversion *conversions; /* +20, storage follows candidate rows */
+    unsigned constructed_candidates, conversion_count; /* +24/+28 */
+    unsigned phase_argument, phase_candidates; /* +2c/+30, prepared diagnostic phase */
+    BYTE flags; /* +34 */
+    BYTE unmodeled_35_37[3];
+    unsigned resolution_limit; /* +38, initialized10; wider role pending */
+    unsigned failed; /* +3c */
+    BYTE lookup_mode; /* +40, only the low incoming BYTE is stored */
+    BYTE unmodeled_41_43[3];
+    CompilerExpression *arguments; /* +44, borrowed argument list */
+    unsigned qualification; /* +48 */
+    typedef CompilerCallSelection *(RECON_THISCALL CompilerOverloadResolution::*FailureHandler)(void);
+    RECON_THISCALL CompilerOverloadResolution(CompilerSymbol *, CompilerExpression *, int, unsigned, unsigned);
+    CompilerOverloadResolution *RECON_THISCALL Initialize(CompilerSymbol *, int, unsigned, unsigned);
+    void RECON_THISCALL SetDiagnosticSymbol(CompilerSymbol *);
+    void RECON_THISCALL InitializeCandidates(void);
+    void RECON_THISCALL CollectFunctions(CompilerSymbol *, unsigned);
+    void RECON_THISCALL CollectMemberFunctions(CompilerSymbol *, unsigned);
+    void RECON_THISCALL AddCandidate(CompilerSymbol *, unsigned);
+    void RECON_THISCALL FinishTemplates(void);
+    void RECON_THISCALL PrepareDiagnostics(unsigned, unsigned);
+    int RECON_THISCALL RejectCandidate(CompilerCallSelection *, CompilerExpression *);
+    void RECON_THISCALL ReportRejected(CompilerCallSelection *, CompilerExpression *);
+    int RECON_THISCALL CollectArguments(CompilerExpression *);
+    int RECON_THISCALL BindObject(CompilerExpression *);
+    CompilerCallSelection *RECON_THISCALL Select(void);
+    CompilerCallSelection *RECON_THISCALL Diagnose(unsigned, FailureHandler);
+    CompilerCallSelection *RECON_THISCALL NoMatch(void);
+};
+typedef char CompilerOverloadResolution_layout[(sizeof(CompilerOverloadResolution) == 76 &&
+    offsetof(CompilerOverloadResolution, function) == 0 &&
+    offsetof(CompilerOverloadResolution, template_arguments) == 4 &&
+    offsetof(CompilerOverloadResolution, candidate_count) == 8 &&
+    offsetof(CompilerOverloadResolution, remaining_candidates) == 12 &&
+    offsetof(CompilerOverloadResolution, argument_count) == 16 &&
+    offsetof(CompilerOverloadResolution, candidates) == 20 &&
+    offsetof(CompilerOverloadResolution, current_candidate) == 24 &&
+    offsetof(CompilerOverloadResolution, last_candidate) == 28 &&
+    offsetof(CompilerOverloadResolution, conversions) == 32 &&
+    offsetof(CompilerOverloadResolution, constructed_candidates) == 36 &&
+    offsetof(CompilerOverloadResolution, conversion_count) == 40 &&
+    offsetof(CompilerOverloadResolution, flags) == 52 &&
+    offsetof(CompilerOverloadResolution, failed) == 60 &&
+    offsetof(CompilerOverloadResolution, arguments) == 68 &&
+    offsetof(CompilerOverloadResolution, qualification) == 72) ? 1 : -1];
+extern "C" CompilerCallSelection *__cdecl select_call_overload(CompilerSymbol *input,
+    CompilerExpression *object, CompilerExpression *arguments, int count,
+    unsigned qualification, unsigned mode)
+{
+    CompilerCallSelection *selection;
+    CompilerGlobalSymbolView *function;
+    if (count < 0) return NULL;
+    CompilerOverloadResolution resolution(input, arguments, count, qualification, mode);
+    if (resolution.failed) return NULL;
+    if (!resolution.CollectArguments(arguments)) return NULL;
+    if (!resolution.BindObject(object)) return NULL;
+    selection = resolution.Select();
+    if (!selection) selection = resolution.Diagnose(0, &CompilerOverloadResolution::NoMatch);
+    if (!selection) return NULL;
+    function = (CompilerGlobalSymbolView *)selection->ordinary;
+    if ((function->linkage_flags & 0x40) && !(function->definition_flags & 4) && !(mode & 8)) {
+        if (!frontend_bss.debug_module->Slot6c())
+            report_compiler_diagnostic(73, "..\\Cxx\\dymto.c", 0x19e1);
+        complete_expression_class((CompilerSymbol *)function, selection->completion_context);
+    } else if (selection->selected)
+        function = (CompilerGlobalSymbolView *)selection->selected;
+    if ((mode & 1) && frontend_bss.browser_filename)
+        frontend_data.backend->Slot1c((unsigned)function);
+    return selection;
+}
+
+extern "C" int __cdecl check_function_argument_count(CompilerTypeShape *, unsigned);
+int RECON_THISCALL CompilerOverloadResolution::CollectArguments(CompilerExpression *arguments)
+{
+    PrepareDiagnostics(1, 0);
+    CompilerCallSelection *candidate = current_candidate;
+    while (candidate) {
+        if (candidate->flags & 4) break;
+        unsigned count = argument_count;
+        if (candidate->flags & 2) --count;
+        int match = check_function_argument_count(
+            ((CompilerIrSymbol *)candidate->ordinary)->type->shape, count);
+        if (match >= 0 && match <= 1) {
+            if (RejectCandidate(candidate, arguments)) return 0;
+        } else if (match == 3) candidate->flags |= 0x10;
+        candidate = candidate->next;
+    }
+    return 1;
+}
+extern "C" int __cdecl check_function_argument_count(CompilerTypeShape *shape, unsigned count)
+{
+    if (shape->flags & 0x4000) return count ? 0 : 2;
+    CompilerFunctionType *function = shape->payload.function;
+    unsigned expected = function->parameters->count;
+    int variadic = (shape->flags & 0x8000) != 0;
+    if (variadic) --expected;
+    if (count == expected) return 2;
+    if (count > expected) return variadic ? 3 : 0;
+    return count + function->symbol_count < expected ? 1 : 2;
+}
+int RECON_THISCALL CompilerOverloadResolution::BindObject(CompilerExpression *) { __asm { int 3 } return 0; }
+CompilerCallSelection *RECON_THISCALL CompilerOverloadResolution::Select(void) { __asm { int 3 } return NULL; }
+CompilerCallSelection *RECON_THISCALL CompilerOverloadResolution::Diagnose(unsigned, FailureHandler) { __asm { int 3 } return NULL; }
+CompilerCallSelection *RECON_THISCALL CompilerOverloadResolution::NoMatch(void) { __asm { int 3 } return NULL; }
+
+extern "C" {
+int __cdecl is_member_function_group(CompilerSymbol *);
+unsigned __cdecl count_function_candidates(CompilerSymbol *);
+void __cdecl initialize_pending_declaration_cursor(PendingDeclarationCursor *, void *);
+int __cdecl next_pending_declaration(PendingDeclarationCursor *);
+void __cdecl finish_overload_templates(void *);
+}
+RECON_THISCALL CompilerOverloadResolution::CompilerOverloadResolution(
+    CompilerSymbol *input, CompilerExpression *arguments, int count,
+    unsigned qualification, unsigned mode)
+{
+    Initialize(input, count, 1, mode);
+    this->arguments = arguments;
+    this->qualification = qualification;
+    if (function->kind == 8 || function->kind == 17 ||
+        (function->kind == 24 && is_member_function_group(((CompilerAliasSymbol *)function)->target->symbol)))
+        ++argument_count;
+    if ((((CompilerNamedSymbol *)function)->link.name->flags >> 27) & 1)
+        SetDiagnosticSymbol(function);
+    candidate_count = count_function_candidates(function);
+    if (template_arguments) {
+        PendingDeclarationCursor cursor;
+        initialize_pending_declaration_cursor(&cursor, template_arguments);
+        while (next_pending_declaration(&cursor)) ++candidate_count;
+    }
+    if (!candidate_count) {
+        failed = 1;
+        DeferredAction *action = frontend_bss.deferred_action_head;
+        if (action && (flags & 1)) {
+            if (frontend_bss.deferred_action_depth <= 0) {
+                do { action->Execute(); action = action->next; } while (action);
+            }
+            frontend_bss.deferred_action_tail = NULL;
+            frontend_bss.deferred_action_head = NULL;
+        }
+        return;
+    }
+    InitializeCandidates();
+    CollectFunctions(function, 0);
+    if (template_arguments) {
+        FinishTemplates();
+        finish_overload_templates(template_arguments);
+    }
+    remaining_candidates = candidate_count;
+    current_candidate = candidates;
+    if (flags & 4) {
+        PrepareDiagnostics(0, 0);
+        CompilerCallSelection *candidate = current_candidate;
+        while (candidate) {
+            if (((CompilerIrSymbol *)candidate->ordinary)->reference_flags & 8) {
+                if (RejectCandidate(candidate, 0)) {
+                    failed = 1;
+                    return;
+                }
+            }
+            candidate = candidate->next;
+        }
+    }
+    frontend_bss.deferred_action_tail = NULL;
+    frontend_bss.deferred_action_head = NULL;
+}
+
+extern "C" int __cdecl is_member_function_group(CompilerSymbol *) { __asm { int 3 } return 0; }
+extern "C" unsigned __cdecl count_function_candidates(CompilerSymbol *input)
+{
+    if (input->kind == 7 || input->kind == 8 || input->kind == 6)
+        return (((CompilerGlobalSymbolView *)input)->linkage_flags & 0xe0) == 0;
+    if (input->kind == 24) {
+        CompilerAliasTarget *alias = ((CompilerAliasSymbol *)input)->target;
+        if (alias->selected) return 0;
+        return (((CompilerGlobalSymbolView *)alias->symbol)->linkage_flags & 0xe0) == 0;
+    }
+    unsigned count = 0;
+    if (input->kind == 25) {
+        CompilerOverloadLink *link = ((CompilerOverloadSymbol *)input)->group->head;
+        do {
+            count += count_function_candidates(link->symbol);
+            link = link->next;
+        } while (link);
+        return count;
+    }
+    /* Other symbol variants do not establish this member-chain payload. */
+    if (input->kind != 16 && input->kind != 17) { __asm { int 3 } }
+    CompilerSymbolLink *cursor = &((CompilerNamedSymbol *)input)->link;
+    if (!input->IsFunction() && input->kind != 24)
+        cursor = ((CompilerMemberGroupSymbol *)input)->variants;
+    while (cursor) {
+        CompilerSymbolLink *link = cursor;
+        if (input->IsFunction() || input->kind == 24) cursor = NULL;
+        else cursor = cursor->next;
+        CompilerSymbol *member = (CompilerSymbol *)((BYTE *)link - 8);
+        if (member->kind == 7 || member->kind == 8 || member->kind == 6) {
+            if (!(((CompilerGlobalSymbolView *)member)->linkage_flags & 0xe0)) ++count;
+        } else if (member->kind == 24) {
+            CompilerAliasTarget *alias = ((CompilerAliasSymbol *)member)->target;
+            if (!alias->selected &&
+                !(((CompilerGlobalSymbolView *)alias->symbol)->linkage_flags & 0xe0)) ++count;
+        }
+    }
+    return count;
+}
+extern "C" void __cdecl finish_overload_templates(void *) { __asm { int 3 } }
+CompilerOverloadResolution *RECON_THISCALL CompilerOverloadResolution::Initialize(
+    CompilerSymbol *input, int count, unsigned lookup_mode, unsigned flags)
+{
+    function = input;
+    template_arguments = NULL;
+    candidate_count = 0;
+    argument_count = count;
+    last_candidate = NULL;
+    constructed_candidates = 0;
+    conversion_count = 0;
+    failed = 0;
+    this->flags = (BYTE)flags;
+    resolution_limit = 10;
+    this->lookup_mode = (BYTE)lookup_mode;
+    return this;
+}
+void RECON_THISCALL CompilerOverloadResolution::SetDiagnosticSymbol(CompilerSymbol *) { __asm { int 3 } }
+void RECON_THISCALL CompilerOverloadResolution::InitializeCandidates(void)
+{
+    CompilerArena *arena = &frontend_bss.arenas[5];
+    BYTE *storage = arena->cursor;
+    /* Original rows are64 bytes, followed by88-byte conversion records.
+     * Native uses the same real types with its natural member pointers. */
+    unsigned bytes = candidate_count *
+        (sizeof(CompilerCallSelection) + argument_count * sizeof(CompilerTypeConversion));
+    arena->cursor += (bytes + 3) & ~3U;
+    if (arena->cursor > arena->committed_limit) arena->CommitExtent();
+    candidates = (CompilerCallSelection *)storage;
+    conversions = (CompilerTypeConversion *)(storage + candidate_count * sizeof(CompilerCallSelection));
+}
+extern "C" int __cdecl is_free_function_group(CompilerSymbol *);
+#define DIRECT_CALLABLE(node) ((node)->kind == 7 || (node)->kind == 6 || \
+    ((node)->kind == 24 && is_free_function_group(((CompilerAliasSymbol *)(node))->target->symbol)) || \
+    (node)->kind == 8 || \
+    ((node)->kind == 24 && is_member_function_group(((CompilerAliasSymbol *)(node))->target->symbol)))
+void RECON_THISCALL CompilerOverloadResolution::CollectFunctions(CompilerSymbol *input, unsigned mode)
+{
+    if (!function) function = input;
+    if (DIRECT_CALLABLE(input)) {
+        CompilerSymbol *actual = input->kind == 24 ? ((CompilerAliasSymbol *)input)->target->symbol : input;
+        if (!(((CompilerGlobalSymbolView *)actual)->linkage_flags & 0xe0))
+            AddCandidate(input, mode);
+        return;
+    }
+    if (input->kind != 25) {
+        CollectMemberFunctions(input, mode);
+        return;
+    }
+    CompilerOverloadLink *link = ((CompilerOverloadSymbol *)input)->group->head;
+    do {
+        CompilerSymbol *member = link->symbol;
+        if (DIRECT_CALLABLE(member)) {
+            if (member->kind == 24 && ((CompilerAliasSymbol *)member)->target->selected) {
+                link = link->next;
+                continue;
+            }
+            /* In this list arm the original tests the alias record itself. */
+            if (!(((CompilerGlobalSymbolView *)member)->linkage_flags & 0xe0))
+                AddCandidate(member, mode);
+        } else CollectMemberFunctions(member, mode);
+        link = link->next;
+    } while (link);
+}
+#undef DIRECT_CALLABLE
+void RECON_THISCALL CompilerOverloadResolution::FinishTemplates(void) { __asm { int 3 } }
+void RECON_THISCALL CompilerOverloadResolution::PrepareDiagnostics(unsigned phase, unsigned argument)
+{
+    resolution_limit = phase;
+    switch (phase) {
+    case 0: case 3: break;
+    case 4: case 5:
+        if (phase_candidates) break;
+        /* Fall through to refresh the remaining-candidate count. */
+    default:
+        phase_candidates = remaining_candidates;
+        break;
+    }
+    if ((int)phase >= 3 && (int)phase <= 5) phase_argument = argument;
+}
+int RECON_THISCALL CompilerOverloadResolution::RejectCandidate(CompilerCallSelection *candidate,
+    CompilerExpression *argument)
+{
+    candidate->flags |= 0x40;
+    if (current_candidate == candidate) current_candidate = candidate->next;
+    if (candidate->next) candidate->next->previous = candidate->previous;
+    if (candidate->previous) candidate->previous->next = candidate->next;
+    if (!(candidate->flags & 0x80)) --remaining_candidates;
+    if (remaining_candidates) return 0;
+    ReportRejected(candidate, argument);
+    return 1;
+}
+void RECON_THISCALL CompilerOverloadResolution::ReportRejected(CompilerCallSelection *, CompilerExpression *) { __asm { int 3 } }
+
+extern "C" int __cdecl is_free_function_group(CompilerSymbol *) { __asm { int 3 } return 0; }
+void RECON_THISCALL CompilerOverloadResolution::CollectMemberFunctions(
+    CompilerSymbol *input, unsigned mode)
+{
+    CompilerSymbolLink *root = &((CompilerNamedSymbol *)input)->link;
+    CompilerSymbolLink *cursor = root;
+    if (input->kind != 7 && input->kind != 8 && input->kind != 6 && input->kind != 24) {
+        if (input->kind != 16 && input->kind != 17) { __asm { int 3 } }
+        cursor = ((CompilerMemberGroupSymbol *)input)->variants;
+    }
+    while (root && cursor) {
+        CompilerSymbolLink *link = cursor;
+        if (input->kind == 7 || input->kind == 8 || input->kind == 6 || input->kind == 24)
+            cursor = NULL;
+        else cursor = cursor->next;
+        CompilerSymbol *member = (CompilerSymbol *)((BYTE *)link - 8);
+        CompilerSymbol *actual = member;
+        if (member->kind == 24) {
+            CompilerAliasTarget *alias = ((CompilerAliasSymbol *)member)->target;
+            if (alias->selected) continue;
+            actual = alias->symbol;
+        } else if (member->kind != 6 && member->kind != 7 && member->kind != 8) {
+            /* Other member records do not establish the extended flag byte. */
+            __asm { int 3 }
+        }
+        if (!(((CompilerGlobalSymbolView *)actual)->linkage_flags & 0xe0))
+            AddCandidate(member, mode);
+    }
+}
+void RECON_THISCALL CompilerOverloadResolution::AddCandidate(CompilerSymbol *input, unsigned mode)
+{
+    CompilerType *member_type = NULL;
+    if (input->kind == 24 && is_member_function_group(((CompilerAliasSymbol *)input)->target->symbol)) {
+        CompilerAliasTarget *alias = ((CompilerAliasSymbol *)input)->target;
+        int index = alias->owner_index;
+        if (index < 0 || index >= frontend_data.frontend_pointer_table->count) { __asm { int 3 } }
+        CompilerSymbol *owner = (CompilerSymbol *)frontend_data.frontend_pointer_table->items[index];
+        member_type = ((CompilerIrSymbol *)alias->symbol)->type->BindMemberScope(owner);
+    }
+    if (constructed_candidates >= candidate_count) { __asm { int 3 } }
+    CompilerCallSelection *candidate = candidates + constructed_candidates++;
+    if (candidate)
+        last_candidate = new(candidate) CompilerCallSelection(input, mode, member_type,
+            conversions + conversion_count, last_candidate);
+    else last_candidate = NULL;
+    conversion_count += argument_count;
+}
+
+RECON_THISCALL CompilerCallSelection::CompilerCallSelection(CompilerSymbol *input, unsigned mode,
+    CompilerType *member_type, CompilerTypeConversion *conversions, CompilerCallSelection *previous)
+{
+    ordinary = input->kind == 24 ? ((CompilerAliasSymbol *)input)->target->symbol : input;
+    selected = input->kind == 24 ? input : NULL;
+    CompilerParameterTypes *parameters =
+        ((CompilerIrSymbol *)ordinary)->type->shape->payload.function->parameters;
+    this->mode = mode;
+    parameter_start = parameter_cursor = parameters->types;
+    this->conversions = conversions;
+    if (ordinary->type_flags & 4) {
+        flags |= 2;
+        if ((((CompilerIrSymbol *)ordinary)->storage_class & 7) != 3)
+            this->member_type = member_type ? member_type :
+                ((CompilerIrSymbol *)ordinary)->type->BindMemberScope(NULL);
+    }
+    if (previous) {
+        this->previous = previous;
+        previous->next = this;
+    }
+}
+CompilerType *RECON_THISCALL CompilerType::BindMemberScope(CompilerSymbol *owner)
+{
+    CompilerTypeShape member_scope;
+    CompilerType description;
+    memset(&member_scope, 0, sizeof(member_scope));
+    member_scope.flags = 0x40;
+    /* The function shape borrows the complete underlying type record. */
+    memcpy(&description, shape->payload.type, 16);
+    if (owner)
+        description.auxiliary = ((CompilerGlobalSymbolView *)owner)->class_detail->scope_number;
+    description.shape = intern_type_shape(&member_scope);
+    return intern_type(&description);
 }

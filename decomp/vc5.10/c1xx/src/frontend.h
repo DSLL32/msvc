@@ -29,6 +29,14 @@ typedef struct TypeRankMapping {
  * at BF700. Both BYTE roles are distinct from the semantic-value rows. */
 typedef struct ParserDeclarationControl { BYTE flags, secondary_flags; } ParserDeclarationControl;
 
+/* Pragma segment selection and declaration emission share these three
+ * initialized-NULL pointers in the saved CC000..CE148 data span. */
+typedef struct DeclarationReferenceDefaults {
+    struct CompilerSymbol *fallback;     /* cc6c4: BSS segment */
+    struct CompilerSymbol *type_context; /* cc6c8: CONST segment */
+    struct CompilerSymbol *definition;   /* cc6cc: DATA segment */
+} DeclarationReferenceDefaults;
+
 typedef struct FrontendData {
     int first_invocation;
     TypeRankMapping primitive_type_ranks[8];
@@ -179,7 +187,7 @@ typedef struct FrontendData {
     int parser_return_value; /* cc3bc, initialized0; actual LR Run result stores/return */
     struct CompilerVector *compilation_completion_items; /* ccb20, initializedNULL; callback walk */
     void *compilation_pair_tables[2]; /* cc5c0/cc5c4, initializedNULL; pair-cursor owners */
-    void *completion_declarations; /* cc6b4, initializedNULL; distinct iterator owner */
+    struct CompilerPointerArray *completion_declarations; /* cc6b4, initializedNULL; distinct iterator owner */
     int include_pch_reference_counts; /* cd4ec, initialized0; restored row flag */
     DWORD last_output_context; /* cd6ec, initialized0; last non-IL context emitted */
     unsigned omit_external_names; /* cd6e8, initialized0; binding writer saves/restores */
@@ -189,6 +197,21 @@ typedef struct FrontendData {
     const char *global_option_string; /* cd4d0, initializedNULL; borrowed footer text */
     int pch_preprocessed_file, pch_header_file, pch_files_cleaned; /* cd878/87c/880, initialized0 */
     void *pch_stop_owner; /* cd4cc, initializedNULL; hdrstop output and cleanup filename */
+    unsigned pch_creation_name_seen; /* cd4d4, initial0; shared include/hdrstop flag */
+    BYTE conditional_token; /* cc208, initialized1; one-token expression lookahead */
+    int conditional_parentheses; /* cc20c, initialized0 */
+    DeclarationReferenceDefaults declaration_references;
+    DWORD initializer_reset_values[3]; /* cd5f4/cd5f8/cd5fc, initialized0; preparation clears */
+    unsigned initializer_context_count; /* ce0a0, initialized0; context recorder increments */
+    struct CompilerSymbol *last_initializer_symbol; /* cd598, initializedNULL; deferred header */
+    struct CompilerType *enumeration_type; /* cc428, initializedNULL */
+    __int64 enumeration_value; /* cd558/cd55c, initialized -1 */
+    unsigned binding_arena_index; /* ce104, initialized0; temporary selector10e63/10e78 */
+    struct CompilerHashTable *constructor_aliases; /* cc6e4, initializedNULL; lazy source/closure map */
+    unsigned member_initializer_depth; /* ce0a4, initialized0; begin22af6 increments */
+    unsigned member_initializer_state; /* ce0a8, initialized0; begin22b03 clears */
+    unsigned saved_binding_arena_index; /* ce108, initializedffffffff; selector saves ce104 */
+    struct CompilerExpression *member_expression_context; /* cd590, initializedNULL; Run390/406 */
 } FrontendData;
 
 /* Push allocates and writes this complete24-byte linked frame. The source
@@ -252,6 +275,26 @@ typedef struct CompilerNumericLiteral {
     BYTE opaque_04_07[4];
     __int64 value;
 } CompilerNumericLiteral;
+/* The separate preprocessor evaluator copies this whole16-byte record.
+ * Bytes2..7 are preserved storage, not semantic fields. */
+typedef struct CompilerConditionalValue {
+    WORD type_code;
+    BYTE unmodeled_02_07[6];
+    __int64 integer;
+} CompilerConditionalValue;
+typedef char CompilerConditionalValue_layout[(sizeof(CompilerConditionalValue) == 16 &&
+    offsetof(CompilerConditionalValue, integer) == 8) ? 1 : -1];
+/* The macro push producer bounds256 rows and writes these fields at the
+ * actual24-byte stride. The two untouched bytes are retained storage. */
+typedef struct CompilerMacroExpansionFrame {
+    BYTE *source, *tokens, *text;
+    struct CompilerMacro *macro;
+    BYTE token_prefix, reset_byte;
+    BYTE unmodeled_12_13[2];
+    int disabled;
+} CompilerMacroExpansionFrame;
+typedef char CompilerMacroExpansionFrame_layout[(sizeof(CompilerMacroExpansionFrame) == 24 &&
+    offsetof(CompilerMacroExpansionFrame, disabled) == 20) ? 1 : -1];
 /* Encountered semantic variants only; other original semantic bytes are unmodeled. */
 typedef union TokenValue {
     FrontendSourcePosition source; /* context-marker payload, original BA8C8 first8B */
@@ -385,6 +428,36 @@ typedef struct PendingGroupList {
 #endif
 } PendingGroupList;
 
+/* Shared eight-byte list node. Initializer kind and alternating block-output
+ * level/symbol are roles of the same payload cell. */
+typedef struct CompilerWorkLink {
+    struct CompilerWorkLink *next;
+    union { void *payload; unsigned kind, level; struct CompilerSymbol *symbol; } value;
+} CompilerWorkLink;
+typedef char CompilerWorkLink_layout[(sizeof(CompilerWorkLink) == 8 &&
+    offsetof(CompilerWorkLink, value) == 4) ? 1 : -1];
+/* Partial view at C6CD0. The intervening storage remains opaque; the
+ * source-state cell at +10 is the existing parameter_source_state owner. */
+typedef struct CompilerInitializerContext {
+    CompilerWorkLink *head;
+    BYTE unmodeled_04_07[4];
+    struct CompilerSymbol *symbol;
+    BYTE unmodeled_0c_0f[4];
+    DWORD source_state;
+    BYTE unmodeled_14_17[4];
+    unsigned state_index; /* original+18, C6CE8 */
+    unsigned constructor_state_index; /* original+1c, C6CEC; separate saved index */
+    unsigned cleanup_pending_count; /* original+20, C6CF0 */
+    unsigned last_cleanup_state_index; /* original+24, C6CF4 */
+} CompilerInitializerContext;
+typedef char CompilerInitializerContext_offsets[(
+    offsetof(CompilerInitializerContext, symbol) == 8 &&
+    offsetof(CompilerInitializerContext, source_state) == 16 &&
+    offsetof(CompilerInitializerContext, state_index) == 24 &&
+    offsetof(CompilerInitializerContext, constructor_state_index) == 28 &&
+    offsetof(CompilerInitializerContext, cleanup_pending_count) == 32 &&
+    offsetof(CompilerInitializerContext, last_cleanup_state_index) == 36) ? 1 : -1];
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -465,7 +538,7 @@ typedef struct FrontendBss {
     BYTE control_byte; /* c0b70, BSS0; opcode23 scalar */
     short control_short; /* c0580, BSS0; opcode24 scalar */
     int expression_work_recovery_mode; /* bf220, BSS0; nonzero permits nested recovery */
-    DWORD parameter_source_state; /* c6ce0, BSS0; copied uninterpreted into work frame */
+    CompilerInitializerContext initializer_context; /* c6cd0, BSS-zero known fields */
     union { unsigned function_source_position, nonil_type_index; }; /* c06d0, one BSS cell */
     int expression_seek_result; /* c5388, zero; same shared IO result also written by buffer close */
     unsigned symbol_arena_kind; /* ba910, BSS0; global initialization selects4 */
@@ -494,7 +567,7 @@ typedef struct FrontendBss {
     char *macro_date, *macro_time; /* c0a10/c0804, BSSNULL */
     BYTE *source_cursor; /* c0980, BSSNULL */
     BYTE declaration_scope_mode; /* c0adc, BSS0; scope-dependent arena choice */
-    struct CompilerBlockOutputEntry *block_output_entries; /* c057c, loader-zero; alternating level/symbol stack */
+    CompilerWorkLink *block_output_entries; /* c057c, loader-zero; alternating level/symbol stack */
     BYTE external_declaration_mode; /* c06c8, BSS0; root/current publication selector */
     struct CompilerParameterSet *current_parameters; /* c0af0, BSSNULL, borrowed description head */
     unsigned current_parameter_kind; /* bf208, BSS0, description kind or forced5 */
@@ -518,14 +591,45 @@ typedef struct FrontendBss {
     unsigned pending_parser_work; /* c33e8, loader-zero; only pending/nonpending meaning */
     unsigned qualified_lookup_recursion; /* ce10c, loader-zero; guards fallback name lookup */
     TokenValue declaration_token_value; /* c6d00..c6d28, separate opaque40-byte semantic storage */
-    int quoted_skip_mode; /* c0978, loader-zero; changes quoted conversion mode only */
-    int lexical_skip_mode; /* c07f0, loader-zero; skipped source input */
+    union { int lexical_skip_mode, macro_expansion_depth; }; /* c07f0, loader-zero; one depth owner */
     struct CompilerExpression *current_case_label; /* bf490, BSSNULL; Run325 clears it */
-    unsigned return_cleanup_state; /* c6cf8, BSS0; only encountered clear meaning */
+    struct CompilerSymbol *current_declaration; /* c06dc, BSSNULL; enum/declaration publication */
+    union {
+        unsigned return_cleanup_state;
+        struct CompilerSymbol *initializer_cleanup_owner;
+    }; /* c6cf8, one BSS-zero cell; cleanup clear and initializer owner roles */
     DWORD name_format_state; /* c30a8, reset-only meaning established */
     DWORD name_format_reset_values[2]; /* c1870/c1874, actual zero stores */
     char *symbol_name_cursor; /* c1878, borrowed cursor into the buffer */
     char symbol_name_buffer[2048]; /* c18a8..c20a8, mutable formatting workspace; no initial payload claim */
+    /* BA920: push_conditional_state bounds 2,048 DWORD rows. Restore clears
+     * this entire span within original BSS B9000..C869C. */
+    int conditional_states[2048];
+    int macro_parameter_count; /* b9034, BSS0; signed replacement parameter selector */
+    int conditional_suppression; /* b9018, BSS0; short-circuited expression depth */
+    CompilerConditionalValue conditional_value; /* b9008..b9018, copied token value */
+    int macro_input_mode; /* b9030, BSS0; raw/encoded identifier selection */
+    int macro_whitespace_pending; /* b9024, BSS0; whitespace collector flag */
+    unsigned macro_source_position; /* b903c, BSS0; saved expansion line */
+    unsigned macro_token_prefix; /* b9048, BSS0; lowBYTE saved in frame */
+    BYTE *saved_macro_token_cursor; /* b904c, BSSNULL */
+    CompilerMacroExpansionFrame macro_expansion_frames[256]; /* b9050..ba850 */
+    char macro_timestamp[25]; /* c00d8..c00f1; actual25-byte time-text transfer */
+    int suppress_macro_end_notification; /* befc4, BSS0; one-shot browser suppression */
+    DWORD initializer_pending_state; /* c30c8, BSS0; preparation clears before child */
+    struct CompilerSymbol *initializing_symbol; /* c30d0, BSSNULL; borrowed prepared symbol */
+    DWORD initializer_value_state; /* c30b0, BSS0; preparation clears after child */
+    DWORD initializer_saved_value_state; /* c30cc, BSS0; fallback saves C30B0 */
+    unsigned __int64 initializer_zero_bytes; /* c0570/c0574, BSS0; sized initializer span */
+    struct CompilerExpression *initializer_end_label; /* c30b8, BSSNULL; optional emitted label */
+    void *last_extracted_type_payload; /* c06c0, loader-zero; borrowed shape payload, writer12cfc */
+    struct CompilerSymbol *access_diagnostic_symbol; /* bf1d8, BSSNULL; writer891b7 */
+    BYTE access_diagnostic_base_code; /* bf1dc, BSS0; writer891b7 lowBYTE */
+    struct CompilerSymbol *access_diagnostic_owner; /* bf1e0, BSSNULL; reset1b0a4 */
+    struct CompilerSymbol *access_diagnostic_base; /* bf1e4, BSSNULL; writer891b7 */
+    DWORD access_diagnostic_ambiguous; /* bf1e8, BSS0; reset1b0a4/set18e8b */
+    BYTE access_diagnostic_code; /* bf1f0, BSS0; writer891b7 lowBYTE */
+    DWORD initializer_access_mode; /* bf1ec, BSS0; writer23333 / getter1b288 */
 } FrontendBss;
 
 #ifdef __cplusplus

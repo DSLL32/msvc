@@ -56,9 +56,9 @@
       "native_target": "_ZN13CompilerLexer5TraceEj"
     },
     {
-      "win32_alias": "?Slot24@CompilerNullBrowser@@UAEXI@Z",
+      "win32_alias": "?Slot24@CompilerNullBrowser@@UAEXPAUCompilerMacro@@@Z",
       "win32_target": "?Trace@CompilerLexer@@UAEXI@Z",
-      "native_alias": "_ZN19CompilerNullBrowser6Slot24Ej",
+      "native_alias": "_ZN19CompilerNullBrowser6Slot24EP13CompilerMacro",
       "native_target": "_ZN13CompilerLexer5TraceEj"
     },
     {

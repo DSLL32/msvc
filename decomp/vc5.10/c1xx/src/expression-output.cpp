@@ -46,10 +46,14 @@ extern "C" void __cdecl prepare_expression_input(const char *name) { __asm { int
  * remain semantic frontiers, not implicit zero rows in a larger table. */
 struct ExpressionEmissionKind { BYTE kind, flags; unsigned record; };
 static const ExpressionEmissionKind expression_emission_kinds[] = {
-    { 6, 0x2c, 38 }, { 7, 0xa5, 51 }, { 61, 0xe5, 48 },
+    { 6, 0x2c, 38 }, { 7, 0xa5, 51 },
+    { 52, 0x65, 50 }, /* assignment */
+    { 61, 0xe5, 48 }, { 81, 0x56, 2 }, /* addition */
+    { 83, 0x65, 39 }, /* member address */
     { 93, 0xa5, 104 }, { 100, 0xa5, 44 }, { 101, 0x2d, 51 },
     { 108, 0xa5, 70 }, { 112, 0xa5, 62 }, { 119, 0xa5, 64 },
     { 132, 0xac, 60 }, { 153, 0x25, 153 }, { 157, 0xa5, 157 },
+    { 166, 0x65, 90 }, /* implicit-this dereference: CF816 / CF628 */
     { 199, 0xa5, 92 }, { 200, 0xa5, 93 }, { 201, 0xa5, 94 }
 };
 /* This is a partial view, not the case-range allocation size. */
@@ -62,7 +66,7 @@ extern "C" {
 CompilerExpression *__cdecl prepare_ir_expression(CompilerExpression *); /*2bd4b*/
 int __cdecl emit_special_ir_expression(CompilerExpression *); /*44153*/
 unsigned __cdecl expression_control_kind(CompilerExpression *); /*21408*/
-CompilerExpression *__cdecl make_immediate_expression(unsigned, CompilerType *, unsigned); /*10187*/
+CompilerExpression *__cdecl make_immediate_expression(unsigned, CompilerType *, CompilerExpression *); /*10187*/
 CompilerExpression *__cdecl make_sized_integer_constant(__int64, int); /*5df6*/
 CompilerExpression *__cdecl resolve_constant_reference(CompilerExpression *); /*7a5d*/
 }

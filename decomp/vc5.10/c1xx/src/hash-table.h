@@ -3,7 +3,14 @@
 #include "c1xx.h"
 #include <recon.h>
 
-struct CompilerHashEntry;
+/* Insertion owns all three fields of this12-byte chained entry. Keys and
+ * values remain borrowed; callbacks establish their pointee domains. */
+struct CompilerHashEntry {
+    const void *key;
+    void *value;
+    CompilerHashEntry *next;
+};
+typedef char CompilerHashEntry_size[sizeof(CompilerHashEntry) == 12 ? 1 : -1];
 /* Original 24-byte generic hash-table header. Hash/comparison selectors
  * index the distinct callback families at cf110/cf0d0. The two mode bits
  * are known stores; their broader API interpretation remains pending. */
@@ -18,4 +25,5 @@ struct CompilerHashTable {
     unsigned entry_count;             /* +14; insertion increments it */
 };
 typedef char CompilerHashTable_size[sizeof(CompilerHashTable) == 24 ? 1 : -1];
+extern "C" CompilerHashEntry *__cdecl insert_hash_entry(CompilerHashTable *, const void *, void *);
 #endif

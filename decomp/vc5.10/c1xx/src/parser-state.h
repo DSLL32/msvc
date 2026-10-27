@@ -9,6 +9,9 @@
  * claim. Existing contextual cells below are aliases, never duplicate owners. */
 extern char compiler_token_text[2048];
 #define parser_result frontend_data.parser_return_value
+#define current_declaration_symbol frontend_bss.current_declaration
+#define current_enum_type frontend_data.enumeration_type
+#define enumerator_value frontend_data.enumeration_value
 extern "C" void __cdecl process_version_literal(struct CompilerVersionRecord *);
 #ifndef RECON_NATIVE_TEST
 extern int parser_saved_state;
@@ -18,15 +21,11 @@ extern ParserSemanticView * parser_saved_value_top;
 extern int label_stack_count;
 extern int initializer_started;
 extern ParserDeclarationView parser_special_qualifiers;
-extern CompilerSymbol * current_declaration_symbol;
-extern CompilerType * current_enum_type;
-extern __int64 enumerator_value;
 extern ParserLabelStack * continue_labels;
 extern ParserLabelStack * break_labels;
 extern ParserLabelStack * loop_labels;
 extern ParserLabelStack * switch_labels;
 extern ParserLabelStack * default_labels;
-extern void * allocation_context;
 #else
 #define parser_saved_state (*(int *)(recon_unsupported("parser: source-only parser_saved_state"),0))
 #define parser_recovery_action (*(int *)(recon_unsupported("parser: source-only parser_recovery_action"),0))
@@ -35,15 +34,11 @@ extern void * allocation_context;
 #define label_stack_count (*(int *)(recon_unsupported("parser: source-only label_stack_count"),0))
 #define initializer_started (*(int *)(recon_unsupported("parser: source-only initializer_started"),0))
 #define parser_special_qualifiers (*(ParserDeclarationView *)(recon_unsupported("parser: source-only parser_special_qualifiers"),0))
-#define current_declaration_symbol (*(CompilerSymbol * *)(recon_unsupported("parser: source-only current_declaration_symbol"),0))
-#define current_enum_type (*(CompilerType * *)(recon_unsupported("parser: source-only current_enum_type"),0))
-#define enumerator_value (*(__int64 *)(recon_unsupported("parser: source-only enumerator_value"),0))
 #define continue_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only continue_labels"),0))
 #define break_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only break_labels"),0))
 #define loop_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only loop_labels"),0))
 #define switch_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only switch_labels"),0))
 #define default_labels (*(ParserLabelStack * *)(recon_unsupported("parser: source-only default_labels"),0))
-#define allocation_context (*(void * *)(recon_unsupported("parser: source-only allocation_context"),0))
 #endif
 /* The one actual BA8C8 owner. Native has honest44B capacity; literal
  * copies stay40B and declaration token/by-value transfers remain guarded. */
@@ -54,6 +49,7 @@ extern void * allocation_context;
 #define suppress_parser_codegen frontend_bss.suppress_parser_codegen
 #define declaration_nesting frontend_bss.declaration_nesting
 #define allocation_operator frontend_data.allocation_operator
+#define allocation_context frontend_data.member_expression_context
 /* Encountered BF778/BF7A0/BF7C8 rows have actual declaration values. Each original
  * row has40 bytes; its native typed member pointer requires44. Other rows
  * stop before address calculation; the complete stack capacity is unclaimed. */

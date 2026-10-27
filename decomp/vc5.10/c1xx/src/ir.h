@@ -14,6 +14,8 @@ struct CompilerSymbolLink {
     CompilerNameEntry *name;
     CompilerSymbolLink *next;
     void RECON_THISCALL SetClassContext(CompilerClassBinding *); /*8653f, receiver is symbol+8*/
+    CompilerSymbolLink *RECON_THISCALL CopyClassLink(const CompilerSymbolLink *, CompilerSymbol *); /*8abd7 RET8*/
+    CompilerSymbolLink *RECON_THISCALL CopySmallLink(const CompilerSymbolLink *, CompilerSymbol *); /*8abeb RET8*/
 };
 /* The common BYTE header applies to short namespace records too. The
  * natural alignment gap before the name is not a modeled field. */
@@ -67,7 +69,7 @@ struct CompilerClassBinding {
  * selection flag are consumed; gaps and allocation extent stay unmodeled. */
 struct CompilerAliasTarget {
     CompilerSymbol *symbol;
-    BYTE unmodeled_04_07[4];
+    CompilerSymbol *qualified_symbol; /* original+4, bound-member alias consumer */
     short owner_index;
     BYTE unmodeled_0a_0b[2];
     unsigned selected;
@@ -111,7 +113,7 @@ struct CompilerClassMemberIterator {
 /* Kind15 owns24 bytes. Only the completion consumer's fields are named;
  * the final byte has no initialization or equality claim. */
 struct CompilerClassMemberSymbol : CompilerNamedSymbol {
-    CompilerSymbol *resolved;
+    union { CompilerSymbol *resolved; int base_offset; }; /* same+10, layout/emission role */
     short owner_index;
     BYTE flags, unmodeled_17;
 };
@@ -119,6 +121,7 @@ typedef char CompilerClassMembers_layout[(sizeof(CompilerClassBinding) == 12 &&
     sizeof(CompilerClassMemberIterator) == 24 &&
     sizeof(CompilerClassMemberSymbol) == 24 &&
     offsetof(CompilerClassMemberSymbol, resolved) == 0x10 &&
+    offsetof(CompilerClassMemberSymbol, base_offset) == 0x10 &&
     offsetof(CompilerClassMemberSymbol, owner_index) == 0x14 &&
     offsetof(CompilerClassMemberSymbol, flags) == 0x16) ? 1 : -1];
 struct CompilerKind4Symbol : CompilerNamedSymbol {
@@ -214,6 +217,8 @@ struct CompilerSymbolBinding {
     CompilerSymbolBindingOwner *last;  /* original +4, same alternative-list owner */
 };
 typedef char CompilerSymbolBinding_offsets[(
+    sizeof(CompilerSymbolBinding) == 8 &&
+    sizeof(CompilerSymbolBindingOwner) == 12 &&
     offsetof(CompilerSymbolBindingScope, symbol) == 8 &&
     offsetof(CompilerSymbolBindingOwner, scope) == 0 &&
     offsetof(CompilerSymbolBindingOwner, named_scope) == 8) ? 1 : -1];
@@ -246,7 +251,7 @@ struct CompilerParameterWorkInput : CompilerExpressionWork {
 /* Partial16-byte row; allocator2132d owns16*capacity bytes. The opaque
  * fields have no default or semantic-equality claim. */
 struct CompilerExpressionWorkStateRow {
-    BYTE unmodeled_00_03[4];
+    DWORD cleanup_mark; /* original+0, collector writes1; no initial-value claim */
     DWORD active;
     BYTE unmodeled_08_0f[8];
 };
@@ -270,11 +275,13 @@ struct CompilerExpression {
     BYTE kind, flags;                  /* original +0/+1 */
     BYTE constant_flags;               /* +2, typed-constant zero/one bit0 */
     CompilerType *type;                /* original +4 */
-    BYTE unmodeled_08_0f[8];
+    union { CompilerExpression *initializer_check, *list_next; }; /* same original+8 cell */
+    BYTE unmodeled_0c_0f[4];
     union Value {
         __int64 integer;              /* original +10..17 */
         struct Words { DWORD low, high; } words;
         struct Operands { CompilerExpression *first, *second; } operands;
+        struct NameBinding { CompilerExpression *first; CompilerSymbol *symbol; } name_binding; /* same+10/+14, bound-name result */
         CompilerSymbol *symbol;
         CompilerString *string;
         const BYTE *bytes;
@@ -286,7 +293,16 @@ struct CompilerExpression {
     } value;
     /* The natural+3 gap and opaque+8..f bytes remain uninterpreted. */
 };
-typedef char CompilerExpression_offsets[(offsetof(CompilerExpression, type) == 4 && offsetof(CompilerExpression, value) == 16 && sizeof(CompilerExpression) == 24) ? 1 : -1];
+typedef char CompilerExpression_offsets[(offsetof(CompilerExpression, type) == 4 && offsetof(CompilerExpression, initializer_check) == 8 && offsetof(CompilerExpression, value) == 16 && sizeof(CompilerExpression) == 24) ? 1 : -1];
+/* Shared x87 constant prefix at the existing static owners. Bytes after
+ * the ten-byte representation are not compared or interpreted. */
+struct CompilerExtendedConstant {
+    DWORD significand_low, significand_high;
+    WORD sign_exponent;
+};
+typedef char CompilerExtendedConstant_prefix[
+    offsetof(CompilerExtendedConstant, sign_exponent) == 8 ? 1 : -1];
+extern const CompilerExtendedConstant compiler_extended_zero; /*cd5a0*/
 struct CompilerString {
     void RECON_THISCALL GetReferences(unsigned *, unsigned *, unsigned *);
 };
