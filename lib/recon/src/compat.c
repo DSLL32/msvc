@@ -57,11 +57,6 @@ int __cdecl recon_mspdb_NameMap_open(struct PDB *database,int writable,struct Na
 
 /* Cold VC5 imports: linkability only. Neither implicit x87 operands nor PDB
  * input/output pointers are inspected; successful provider behavior is absent. */
-/* SDK typing only until a real multibyte-length input domain is qualified. */
-size_t __cdecl recon_mbstrlen(const char *text)
-{
-    (void)text;recon_unsupported("unreviewed _mbstrlen");return 0;
-}
 void __cdecl recon_adj_fdiv_r(void)
 {
     recon_unsupported("unreviewed MSVCRT _adj_fdiv_r");

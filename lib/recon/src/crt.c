@@ -2807,6 +2807,28 @@ static void ascii_encountered_locale_scope(void)
 #endif
     recon_unsupported("ASCII API unreviewed codepage/locale/profile");
 }
+/* The encountered diagnostic owner supplies a readable2048-byte local span.
+ * For ASCII in the validated SBCS state, character and byte counts coincide.
+ * The bound/wrap checks do not establish allocation ownership. */
+size_t __cdecl recon_mbstrlen(const char *text)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    size_t length;unsigned char value;
+    if((uintptr_t)text<4096 || (uintptr_t)text>UINTPTR_MAX-2048)
+        recon_unsupported("_mbstrlen caller-readable ASCII span");
+    if(recon_mb_codepage_gate || recon_mb_cur_max!=1)
+        recon_unsupported("_mbstrlen multibyte gate/width");
+    ascii_encountered_locale_scope();
+    for(length=0;length<2048;++length) {
+        value=(unsigned char)text[length];
+        if(!value)return length;
+        if(value>=128)recon_unsupported("_mbstrlen nonASCII input");
+    }
+    recon_unsupported("_mbstrlen missing bounded terminator");return 0;
+#else
+    (void)text;recon_unsupported("unreviewed _mbstrlen");return 0;
+#endif
+}
 #ifdef RECON_CRT_PROFILE_MSVCRT_510
 /* Reached isolated CP1252/SBCS ASCII conversion. Caller owns the one readable
  * source byte and any two writable output bytes; span checks do not prove that. */

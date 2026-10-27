@@ -1188,3 +1188,11 @@ build/cold-mbstrlen-types.o: tests/cold-mbstrlen-types.cpp $(HEADERS) | build
 	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -DRECON_CRT_PROFILE_MSVCRT_510 -c $< -o $@
 cold-mbstrlen-check: build/cold-mbstrlen-probe build/cold-mbstrlen-generic build/cold-mbstrlen-types.o
 	$(PYTHON) tests/check-cold-mbstrlen.py build/cold-mbstrlen-probe build/cold-mbstrlen-generic
+
+.PHONY: mbstrlen-ascii-check
+build/mbstrlen-ascii-probe: tests/mbstrlen-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/mbstrlen-ascii-generic: tests/mbstrlen-ascii-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mbstrlen-ascii-check: build/mbstrlen-ascii-probe build/mbstrlen-ascii-generic
+	$(PYTHON) tests/check-mbstrlen-ascii.py $^

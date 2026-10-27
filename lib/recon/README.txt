@@ -2088,8 +2088,14 @@ completes83 entries (18.494ms), with no normalization; directory/restart/error
 branches remain source/static plus focused controls for that input.
 
 The MSVCRT _mbstrlen SDK surface is size_t __cdecl(const char *). Its explicit
-MSVCRT_510 original-name remap currently denies125 without reading the pointer,
-locale or multibyte state; no strlen substitution or character-count behavior is
-granted. Other profiles and SHIM_IMPL retain their prior original-name binding.
-Focused C/C++ typing and NULL/invalid/owned-buffer denial controls cover the cold
-boundary; C1's later diagnostic call/input remains pending.
+MSVCRT_510 remap counts ASCII bytes before NUL in a caller-readable span of at
+most2048 bytes including NUL. It reuses the existing default-C/encountered1252
+locale/table validator with MBgate0 and MBmax1; no new codepage table or host
+conversion state is introduced. NonASCII/null/wrapped/unterminated/unknownstate
+inputs deny125. Caller ownership is a precondition, not inferred from pointer
+arithmetic. The implementation writes no input/state and preserves errors/FP.
+Other profiles and SHIM_IMPL retain their prior original-name binding; the helper
+still denies other profiles. C/C++ typing, generic ASCII/empty/boundary/readonly
+input, state/error/semantic-FP and finite-denial controls pass. C1's saved382-entry
+ordinary diagnostic-emitter adoption remains pending; original per-call/private
+state is unmeasured and no provider-body credit is claimed.
