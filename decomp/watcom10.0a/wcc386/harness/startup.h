@@ -1,7 +1,7 @@
 #ifndef WCC_NATIVE_STARTUP_H
 #define WCC_NATIVE_STARTUP_H
 #include <stddef.h>
-/* Test-only native equivalent of the five qualified original startup owners.
+/* Native equivalent of the five qualified original startup owners.
  * None of these helpers is a reconstructed application function. */
 #pragma pack(push,1)
 typedef struct WccFile {
@@ -43,5 +43,7 @@ typedef struct WccStartup {
     char **argv;
 } WccStartup;
 extern WccStartup wcc_startup;
+int wcc_startup_run(const char *, char **, int (*)(void));
+/* Fixture-only IO adapter; excluded from canonical native-bin. */
 int wcc_native_startup(int argc, char **argv);
 #endif

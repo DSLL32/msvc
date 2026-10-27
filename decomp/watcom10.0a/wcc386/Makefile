@@ -4,7 +4,12 @@ NATIVE_CC = gcc
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -I$(RECON)/include -I$(RECON)/native -Isrc -Iharness
 NATIVE_CFLAGS = -std=gnu89
 BINARY_SOURCES = $(sort $(wildcard src/*.c crt/*.c))
-BINARY_SUPPORT_SOURCES = harness/startup.c $(wildcard $(RECON)/src/*.c)
+BINARY_SUPPORT_SOURCES = harness/startup.c harness/startup-runtime.c $(wildcard $(RECON)/src/*.c)
+# Canonical host selects genuine startup and one shared runtime, excluding
+# binary.c, case adapters, fixture entry interception and provider metadata.
+RECON_ENTRY_SOURCES = $(BINARY_SOURCES)
+RECON_ENTRY_SUPPORT_SOURCES = harness/startup-runtime.c $(addprefix $(RECON)/src/,compat.c crt.c decimal.c process.c trace.c win32.c)
+NATIVE_BIN_ENTRY_CPPFLAGS += -DRECON_NATIVE_ENTRY_PROTOCOL_V1
 
 ORIGINAL_TOOLCHAIN = watcom10.0a
 ORIGINAL_SOURCES = $(BINARY_SOURCES)
