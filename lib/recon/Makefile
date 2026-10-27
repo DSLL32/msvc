@@ -1150,3 +1150,15 @@ build/cold-ole-uninitialize-types.o: tests/cold-ole-uninitialize-types.cpp $(HEA
 	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
 cold-ole-uninitialize-check: build/cold-ole-uninitialize-probe build/cold-ole-uninitialize-generic build/cold-ole-uninitialize-types.o
 	$(PYTHON) tests/check-cold-ole-uninitialize.py build/cold-ole-uninitialize-probe build/cold-ole-uninitialize-generic
+
+.PHONY: msvcrt-ctime-check
+build/msvcrt-ctime-probe: tests/msvcrt-ctime-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/msvcrt-ctime-generic: tests/msvcrt-ctime-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/msvcrt-ctime-watcom: tests/msvcrt-ctime-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A $< $(SOURCES) -o $@
+build/msvcrt-ctime-shim: tests/msvcrt-ctime-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 -DTEST_SHIM $< $(SOURCES) -o $@
+msvcrt-ctime-check: build/msvcrt-ctime-probe build/msvcrt-ctime-generic build/msvcrt-ctime-watcom build/msvcrt-ctime-shim
+	$(PYTHON) tests/check-msvcrt-ctime.py $^

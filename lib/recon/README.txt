@@ -2045,3 +2045,15 @@ and a direct native remap to unconditional125. The cold body has no COM state,
 cleanup, provider routing or successful return behavior. Focused C/C++ typing
 and terminal-denial controls cover this declaration-only support; C1XX's actual
 zero COM-initialized flag keeps the import unvisited. No COM cleanup is claimed.
+
+Explicit MSVCRT_510 ctime uses the existing native host calendar/TZ policy and
+corrects the Microsoft two-digit day spelling (Jan 01, not the host's Jan  1).
+It returns a per-thread 26-byte static buffer including newline/NUL, overwritten
+on the next successful call; cross-API asctime/localtime buffer aliasing and
+historical Windows timezone/DST equivalence remain unclaimed. Negative signed32
+timestamps return NULL without changing errors, matching shipped localtime's
+early rejection; NULL/wrapped input and unknown host layouts remain denied.
+Other profiles and SHIM_IMPL retain the existing host ctime spelling. Independent
+host/target errno, DOS error and LastError are preserved around native conversion.
+Focused formatting/bounds/error/profile checks cover the change; LINK's saved
+architecture-dump caller adoption is pending.

@@ -2358,6 +2358,37 @@ WEAK int recon_toupper(int c) { return toupper(c); }
 WEAK int recon_tolower(int c) { return tolower(c); }
 WEAK void recon_tzset(void) { tzset(); recon_timezone=timezone; recon_daylight=daylight; }
 WEAK int recon_isindst(struct tm *tm) { return tm->tm_isdst>0; }
+/* MSVCRT's asctime path writes two decimal day digits. Keep the established
+ * native host calendar/TZ policy; do not expose its space-padded day spelling.
+ * Returned storage is per-thread and overwritten by the next successful call;
+ * sharing that storage with other calendar APIs is not qualified here. */
+char *__cdecl recon_ctime(const time_t *clock)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    static __thread char result[26];
+    char text[26];int saved_errno=errno,*target_errno=recon_errno();
+    int saved_target=*target_errno;unsigned long saved_dos=recon_doserrno;
+    DWORD saved_error=recon_GetLastError();
+    typedef char TimeWidth[sizeof(time_t)==4?1:-1];
+    (void)sizeof(TimeWidth);
+    if(!clock || (uintptr_t)clock>UINTPTR_MAX-sizeof(*clock))
+        recon_unsupported("ctime input span");
+    /* The shipped localtime returns NULL for negative signed32 timestamps. */
+    if(*clock<0)return NULL;
+    if(!ctime_r(clock,text) || text[24]!='\n' || text[25] ||
+       text[3]!=' ' || text[7]!=' ' || text[10]!=' ' ||
+       text[13]!=':' || text[16]!=':' || text[19]!=' ' ||
+       (text[8]!=' ' && (text[8]<'0' || text[8]>'3')) ||
+       text[9]<'0' || text[9]>'9')
+        recon_unsupported("ctime native calendar result");
+    if(text[8]==' ')text[8]='0';
+    memcpy(result,text,sizeof(result));
+    errno=saved_errno;*target_errno=saved_target;recon_doserrno=saved_dos;
+    recon_SetLastError(saved_error);return result;
+#else
+    (void)clock;recon_unsupported("ctime explicit MSVCRT510 profile");return NULL;
+#endif
+}
 time_t recon_time(time_t *out)
 {
     const char *fixed=getenv("RECON_FIXED_TIME"); time_t value=fixed?(time_t)strtoll(fixed,NULL,10):time(NULL);

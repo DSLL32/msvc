@@ -414,6 +414,7 @@ int recon_spawnv(int,const char *,const char *const *);
 int recon_spawnl(int,const char *,const char *,...);
 int recon_spawnlp(int,const char *,const char *,...);
 int recon_cenvarg(const char *const *,const char *const *,char **,char **,const char *);
+char *__cdecl recon_ctime(const time_t *);
 time_t recon_time(time_t *);
 void recon_assert(void *,void *,unsigned);
 void recon_exit(int);
@@ -698,6 +699,9 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define fileno recon_fileno
 #define remove recon_remove
 #define rename recon_rename
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+#define ctime recon_ctime
+#endif
 #define time(...) recon_time(__VA_ARGS__)
 #define _onexit recon_onexit
 #define __dllonexit recon_dllonexit
