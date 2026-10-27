@@ -20,7 +20,7 @@ extern char *current_module_strings,short_symbol_name[9];
 extern StringNode **current_module_symbols;
 extern BYTE incremental_enabled,incremental_reuse,mac_target,verbose_link;
 BYTE undefined_list_changed;
-extern DWORD undefined_symbols,local_symbol_count;
+extern DWORD weak_external_count,local_symbol_count;
 extern int selected_tool_kind;
 IMAGE_SYMBOL *__stdcall next_coff_symbol(IMAGE_SYMBOL **);
 void __stdcall mark_symbol_bit(DWORD *,DWORD);
@@ -92,7 +92,7 @@ void __stdcall process_module_symbols(LinkContext *context,OutputModule *module,
         }
         if(!created && (symbol->flags & 0xc0) && raw->StorageClass!=0x69) {
             symbol->flags &= ~0xc0U;
-            --undefined_symbols;
+            --weak_external_count;
             undefined_list_changed=1;
         }
         if(created) {

@@ -38,7 +38,9 @@ ComdatRoot *comdat_roots;
 MacResource *mac_resource_list;
 DWORD undefined_symbols, local_symbol_count, coff_string_size, fixup_count;
 DWORD emitted_symbol_count, coff_symbol_offset, codeview_offset;
-DWORD gp_base, gp_limit, incremental_weak_symbols;
+DWORD gp_base, gp_limit;
+/* Original 47f080: the weak collector writes the same count read here. */
+DWORD weak_external_count;
 BYTE duplicate_symbols, mac_target, large_alpha_image, large_ppc_image;
 BYTE file_access_statistics;
 int output_file;
@@ -557,7 +559,7 @@ sections_ready:
     if (options.checksum_enabled && !*pack_requested) UpdateChecksum();
     if (incremental_enabled && count_hash_symbols(symbols->hash.state) &&
         (emit_symbol_class(2,&options) || emit_symbol_class(0x44,&options)) &&
-        incremental_weak_symbols) adjust_incremental_symbols(this);
+        weak_external_count) adjust_incremental_symbols(this);
     finish_symbol_tables();
     close_argument_file(output_file,1);
     if (pdb_enabled) {

@@ -22,7 +22,7 @@ extern const char *output_file_name,*entry_point_name,*definition_file;
 extern char *repro_directory;
 extern char current_phase[41];
 extern StringNode *entry_symbol;
-extern DWORD undefined_symbols;
+extern DWORD weak_external_count;
 extern WORD warning_level;
 extern int output_file;
 extern InputArguments mac_resources;
@@ -60,7 +60,7 @@ void RECON_THISCALL LinkContext::PassOne(void)
     }
     current_phase[0]=0;
     check_input_modules(this,command_line_library);
-    if (undefined_symbols) resolve_weak_externals(this,0x40);
+    if (weak_external_count) resolve_weak_externals(this,0x40);
     if (mac_target && (selected_tool_kind==1 || selected_tool_kind==2)) {
         if (specified_switches & 0x4000) symbols->Lookup(mac_initializer_name,NULL);
         if (specified_switches & 0x10000) symbols->Lookup(mac_terminator_name,NULL);
@@ -100,9 +100,9 @@ void RECON_THISCALL LinkContext::PassOne(void)
     if (warning_level>1) warn_unused_libraries((OutputLibrary *)pointer_list.first);
     if (arch_data_ignored) link_warning(NULL,4106,".arch","INCREMENTAL");
     if (selected_tool_kind==1) warn_missing_default_libraries(&pointer_list);
-    if (undefined_symbols) {
+    if (weak_external_count) {
         resolve_weak_externals(this,0x4080);
-        if (undefined_symbols) resolve_weak_externals(this,0x40);
+        if (weak_external_count) resolve_weak_externals(this,0x40);
     }
     if (selected_tool_kind==1) {
         initialize_library_enumerator(&libraries,(OutputLibrary *)pointer_list.first);
@@ -191,7 +191,6 @@ void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,Outpu
     }
     close_argument_file(current_input_file,0);
 }
-extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }
 extern "C" OutputLibrary *__stdcall load_next_default_library(LinkPointerList *list);
 extern "C" void __stdcall ensure_library_loaded(LinkContext *context,OutputLibrary *library)
 {

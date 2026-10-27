@@ -221,7 +221,7 @@ struct StringNode {
     DWORD reserved28;
     const char *diagnostic_name;
     union { DWORD flags; BYTE flag_byte; };
-    WORD attributes;
+    WORD attributes,reserved36;
 };
 typedef struct SectionList {
     OutputSection *first, **last;
@@ -279,6 +279,7 @@ typedef char SymbolInputFlagsAt12[(offsetof(StringNode,input_flags)==0x12)?1:-1]
 typedef char SymbolUndefinedLinks[(offsetof(StringNode,undefined_previous)==0x1c &&
     offsetof(StringNode,undefined_next)==0x20 && offsetof(StringNode,auxiliary)==0x24)?1:-1];
 typedef char SymbolAttributesAt34[(offsetof(StringNode,attributes)==0x34)?1:-1];
+typedef char SymbolReservedAt36[(offsetof(StringNode,reserved36)==0x36)?1:-1];
 typedef char SymbolFlagsAt30[(offsetof(StringNode,flags)==0x30)?1:-1];
 
 #endif

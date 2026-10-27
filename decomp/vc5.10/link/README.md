@@ -1,11 +1,11 @@
 # VC5.10 LINK
 
-641 application functions / 242,198 original code bytes are reconstructed
-(58.39% of the 414,810-byte whole `.text` extent, which includes CRT and text
+644 application functions / 243,147 original code bytes are reconstructed
+(58.62% of the 414,810-byte whole `.text` extent, which includes CRT and text
 data). Thirteen shipped CRT/import boundaries add no application credit.
 `binary.c` is the sole function, status and extent registry. The remaining
 registry has 38 pending bodies with known extents totaling 4,066 bytes and
-166 entries whose body extents remain unknown; this is not a complete non-CRT
+164 entries whose body extents remain unknown; this is not a complete non-CRT
 denominator.
 
 The `/help`, Win32 hello, DLL/DEF, standalone import-library and ordinary
@@ -37,7 +37,7 @@ completion reference retains raw artifacts in scratch. The earlier EXE reference
 retains a full SHA with a documented single-DWORD timestamp derivation, rather
 than claimed raw artifact bytes.
 
-`make -j4 check unit` runs all forty cached native cases and their narrow checks;
+`make -j4 check unit` runs all forty-one cached native cases and their narrow checks;
 fixtures never invoke Wine. The genuine DLL completion native replay took
 58.7 ms (25.5 ms setup, 22.0 ms execution, 11.2 ms checks). The final parallel
 regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
@@ -45,8 +45,8 @@ regression/unit batch took 0.45 s; the successful full graph/RET/EH audit took
 closeout measurements, not clean-build timings.
 
 `make -j4 win32 audit` verifies original-compiler compatibility and the full
-654-vertex graph, imports, references, ownership and extents. Scoped return
-checks cover 633 ordinary application bodies and six CRT bodies. Seven import
+657-vertex graph, imports, references, ownership and extents. Scoped return
+checks cover 636 ordinary application bodies and six CRT bodies. Seven import
 thunks remain in the graph without body-return claims. The eight genuine C++
 lifetime owners retain separate normal-return, cleanup-action and qualified
 frame-handler checks. Ordinary cached imports retain finite calling-convention
@@ -1020,3 +1020,44 @@ full graph/RET/EH batch passed in 5.54 s: 40 cached cases, 654 graph vertices,
 639 scoped return contracts and eight EH-owner checks. Raw masters, both authored
 input versions, failed hash/static/build results and finite clock/checksum
 receipts remain in scratch. These are incremental measurements.
+
+The polymorphic C++ case links two genuine original-compiled translation units,
+a real virtual table and the shipped MSVCRT import library. The original compiler
+emits a class-105 vector-deleting destructor weak external whose actual fallback
+is the scalar-deleting destructor, with library search mode 2. No COFF symbol,
+alias, dependency reply or provider body is fabricated. The fixture links and
+inspects the resulting files; it does not execute the input DLL or its destructor.
+Both sides exit 0 with 317 first entries, a 4,096-byte DLL and a 1,841-byte map.
+Only the exact COFF/debug timestamp DWORDs and map hex/ctime text are normalized.
+All import records, virtual-table pointers, code/data, symbols, padding and full
+inventory otherwise match the untouched master. Its earlier 316-entry raw trace
+predates registration of the newly discovered insertion helper and remains
+historical evidence rather than relabeled.
+
+Three whole bodies / 949 code bytes recover the eight-argument weak-external
+collector, default insertion/update and masked resolution. The collector reads
+the real auxiliary index/search prefix, temporarily seeks to its referenced COFF
+symbol and restores the original cursor. The twelve-byte default record shares
+its already-known cleanup owner. This input qualifies ordinary search-2 weak
+resolution; alias/no-library alternatives, malformed records, copied-input bases,
+Mac attributes and incremental branches remain unvisited. The field at symbol
++0x36 is preserved as a copy-only WORD with no inferred Mac meaning. The separate
+weak-default lookup body remains a named pending trap because it was not reached.
+A narrow graph check corrected the malformed-record diagnostic to its actual
+fatal callee before execution.
+
+The first post-insertion native pair exposed an older counter identity error.
+Original 47f080 is the weak-external count: the collector, two retirement writers,
+PassOne's resolver gates and FullLink's incremental condition use one source
+object. The general unresolved count at 47ef48 remains separate. Earlier zero-only
+observations did not distinguish them. Correcting only these actual readers and
+writers makes the unchanged reference reach the real resolver; it adds no credit,
+reset, synthetic state or historical replay. The failed pair and exact original
+operand witnesses remain in scratch, alongside the corrected source/symbol binding.
+
+Final original completion took 1,846.3 ms; fresh native comparison took 20.5 ms
+(12.3 ms setup, 4.4 ms execution, 3.8 ms checks). The separate GDB raw-file
+comparison is not included in that timing. The single parallel case-end
+regression, unit, original-build and full graph/RET/EH batch passed in 5.48 s:
+41 cached cases, 657 graph vertices, 642 scoped return contracts and eight
+EH-owner checks. These are incremental measurements.

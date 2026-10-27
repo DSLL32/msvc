@@ -8,6 +8,7 @@
 #include "full-link-functions.h"
 #include "sections.h"
 #include "options.h"
+#include "weak-symbols.h"
 #include <recon.h>
 
 extern void *__stdcall allocate_link_memory(unsigned,unsigned);
@@ -200,7 +201,6 @@ void __stdcall set_symbol_defined(StringNode *symbol,BYTE defined,StringTable *t
 /* Private exported MSVCRT entry used by the imported-destructor diagnostic. */
 extern char *__cdecl __unDName(char *,const char *,int,
     void *(__cdecl *)(size_t),void (__cdecl *)(void *),unsigned short);
-extern DWORD undefined_symbols;
 extern char short_symbol_name[9];
 void __stdcall define_input_symbol(StringNode *symbol,Contribution *contribution,
     DWORD value,SHORT section,WORD type,DWORD flags,OutputModule *module,StringTable *table)
@@ -212,7 +212,7 @@ void __stdcall define_input_symbol(StringNode *symbol,Contribution *contribution
     if (symbol->flags & 0x40c0) {
         symbol->flags &= ~0x40c0U;
         symbol->symbol.StorageClass=IMAGE_SYM_CLASS_EXTERNAL;
-        --undefined_symbols;
+        --weak_external_count;
     }
     symbol->symbol.Value=value;
     symbol->symbol.SectionNumber=section;
@@ -276,13 +276,6 @@ void __stdcall remember_common_symbol(CommonSymbol **list,StringNode *symbol)
     *list=entry;
 }
 
-/* Original47f02c is the head of12-byte weak-external/default records.
- * Its insertion and lookup bodies remain pending; cleanup owns this head. */
-typedef struct WeakDefault {
-    StringNode *symbol,*default_symbol;
-    struct WeakDefault *next;
-} WeakDefault;
-typedef char WeakDefaultSize[(sizeof(WeakDefault)==12)?1:-1];
 WeakDefault *weak_defaults;
 void __cdecl finish_symbol_tables(void)
 {
